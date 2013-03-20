@@ -1,0 +1,22 @@
+Markers
+===========
+
+Adding marker files to this directory will have the following effects:
+
+enable_jpda - Will enable the JPDA socket based transport on the java virtual
+              machine running the JBoss AS 7 application server. This enables
+              you to remotely debug code running inside the JBoss AS 7
+              application server.
+
+skip_maven_build - Maven build step will be skipped
+
+force_clean_build - Will start the build process by removing all non 
+essential Maven dependencies.  Any current dependencies specified in 
+your pom.xml file will then be re-downloaded.
+
+hot_deploy - Will prevent a JBoss container restart during build/deployment.
+             Newly build archives will be re-deployed automatically by the
+             JBoss HDScanner component.
+             
+java7 - Will run JBoss AS7 with Java7 if present. If no marker is present then the 
+			baseline Java version will be used (currently Java6)

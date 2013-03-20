@@ -1,0 +1,3 @@
+Place your jboss-as7 modules in this directory. This directory is added to the
+module path of the jboss-as7 server associated with your application. It has the
+same structure as the jboss-as7/modules directory.

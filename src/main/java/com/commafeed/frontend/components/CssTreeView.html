@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:panel>
+		<div class="css-treeview">
+			<ul>
+				<li wicket:id="tree"></li>
+			</ul>
+		</div>
+		<wicket:fragment wicket:id="node">
+			<input type="checkbox" wicket:id="checkbox" />
+			<label wicket:id="label">
+				<span wicket:id="content"></span>
+			</label>
+			<ul>
+				<li wicket:id="node"></li>
+			</ul>
+		</wicket:fragment>
+		<wicket:fragment wicket:id="leaf">
+			<a wicket:id="link"></a>
+		</wicket:fragment>
+	</wicket:panel>
+</body>
+</html>

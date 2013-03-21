@@ -16,6 +16,7 @@ import org.apache.wicket.model.IModel;
 
 import com.commafeed.frontend.references.csstree.CssTreeViewReference;
 
+@SuppressWarnings("serial")
 public abstract class CssTreeView<T, V> extends Panel {
 
 	private ITreeProvider<T, V> provider;

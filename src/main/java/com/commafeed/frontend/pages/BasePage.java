@@ -9,6 +9,7 @@ import com.commafeed.frontend.components.auth.Role;
 import de.agilecoders.wicket.Bootstrap;
 
 @AuthorizeInstantiation(Role.USER)
+@SuppressWarnings("serial")
 public abstract class BasePage extends WebPage {
 
 	@Override

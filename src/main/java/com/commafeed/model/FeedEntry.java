@@ -14,6 +14,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "FEEDENTRIES")
+@SuppressWarnings("serial")
 public class FeedEntry implements Serializable {
 
 	@Id

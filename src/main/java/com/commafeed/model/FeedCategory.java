@@ -17,6 +17,7 @@ import com.google.common.collect.Sets;
 
 @Entity
 @Table(name = "FEEDCATEGORIES")
+@SuppressWarnings("serial")
 public class FeedCategory implements Serializable {
 
 	@Id

@@ -13,6 +13,8 @@ import com.google.common.reflect.TypeToken;
 import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
 
+
+@SuppressWarnings("serial")
 public abstract class GenericDAO<T, K> {
 
 	private TypeToken<T> type = new TypeToken<T>(getClass()) {

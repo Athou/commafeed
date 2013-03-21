@@ -25,6 +25,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
+@SuppressWarnings("serial")
 public class FeedViewPage extends BasePage {
 
 	@Inject

@@ -11,6 +11,7 @@ import com.commafeed.backend.dao.UserService;
 import com.commafeed.frontend.components.auth.Role;
 import com.commafeed.model.User;
 
+@SuppressWarnings("serial")
 public class CommaFeedSession extends AuthenticatedWebSession {
 
 	@Inject

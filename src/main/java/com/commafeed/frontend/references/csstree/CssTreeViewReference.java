@@ -8,6 +8,7 @@ import org.apache.wicket.request.resource.CssResourceReference;
  * http://experiments.wemakesites.net/css3-treeview.html
  * 
  */
+@SuppressWarnings("serial")
 public class CssTreeViewReference extends CssResourceReference {
 	private static CssTreeViewReference instance = new CssTreeViewReference();
 

@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "FEEDENTRYSTATUSES")
+@SuppressWarnings("serial")
 public class FeedEntryStatus implements Serializable {
 
 	@Id

@@ -5,6 +5,9 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.commafeed.backend.dao.FeedCategoryService;
 import com.commafeed.backend.dao.FeedService;
 import com.commafeed.backend.dao.FeedSubscriptionService;
@@ -18,6 +21,8 @@ import com.commafeed.model.User;
 @Startup
 @Singleton
 public class StartupBean {
+
+	private static Logger log = LoggerFactory.getLogger(StartupBean.class);
 
 	@Inject
 	FeedService feedService;
@@ -38,6 +43,7 @@ public class StartupBean {
 	private void init() {
 
 		if (userService.getCount() == 0) {
+			log.info("Populating database with default values");
 			User user = new User();
 			byte[] salt = encryptionService.generateSalt();
 			user.setName("admin");

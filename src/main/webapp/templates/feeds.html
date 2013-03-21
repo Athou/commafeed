@@ -1,0 +1,14 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span2" ng-controller="CategoryTreeCtrl">
+			<div class="css-treeview">
+				<ul>
+					<li ng-repeat="node in root.children">
+						<category node="node" feed-click="feedClicked(id)" category-click="categoryClicked(id)" selected-type="selectedType" selected-id="selectedId"></category>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="span10" ng-controller="FeedListCtrl"></div>
+	</div>
+</div>

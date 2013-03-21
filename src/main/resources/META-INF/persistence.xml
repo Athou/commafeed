@@ -5,7 +5,7 @@
         http://java.sun.com/xml/ns/persistence
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="primary">
-		<jta-data-source>java:/jdbc/commafeedDS</jta-data-source>
+		<jta-data-source>${jpa.datasource.name}</jta-data-source>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="false" />

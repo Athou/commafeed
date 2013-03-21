@@ -1,0 +1,12 @@
+<span> <input type="checkbox" checked="checked" /> 
+	<label ng-click="categoryClick({id: node.id})"
+		   ng-class="{selected: (node.id == selectedId && selectedType == 'category')}">{{node.name}}
+	</label>
+	<ul>
+		<li ng-repeat="feed in node.feeds">
+			<a ng-click="feedClick({id: feed.id})"
+			   ng-class="{selected: (feed.id == selectedId && selectedType == 'feed')}">{{feed.name}}
+			</a>
+		</li>
+	</ul>
+</span>

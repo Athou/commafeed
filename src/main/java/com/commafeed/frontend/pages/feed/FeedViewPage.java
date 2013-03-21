@@ -7,8 +7,8 @@ import javax.inject.Inject;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
 import com.commafeed.backend.dao.FeedCategoryService;
@@ -20,6 +20,7 @@ import com.commafeed.frontend.pages.BasePage;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.commafeed.frontend.utils.stateless.StatelessAjaxLink;
 import com.commafeed.model.FeedCategory;
+import com.commafeed.model.FeedEntryStatus;
 import com.commafeed.model.FeedSubscription;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -36,7 +37,7 @@ public class FeedViewPage extends BasePage {
 
 	public FeedViewPage() {
 		add(newTree("tree"));
-		add(new Label("entries", Model.of("")));
+		add(newFeedsPanel("entries"));
 	}
 
 	private Component newTree(String markupId) {
@@ -112,5 +113,17 @@ public class FeedViewPage extends BasePage {
 				}.setBody(Model.of(model.getObject().getTitle()));
 			}
 		};
+	}
+
+	private Component newFeedsPanel(String markupId) {
+
+		new LoadableDetachableModel<List<FeedEntryStatus>>() {
+			@Override
+			protected List<FeedEntryStatus> load() {
+
+				return null;
+			}
+		};
+		return null;
 	}
 }

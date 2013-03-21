@@ -28,7 +28,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.frontend.components.auth.LoginPage;
-import com.commafeed.frontend.pages.feed.FeedViewPage;
+import com.commafeed.frontend.pages.feed.FeedSubscriptionsPage;
+import com.commafeed.frontend.pages.home.HomePage;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
 
 import de.agilecoders.wicket.Bootstrap;
@@ -44,7 +45,7 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		super.init();
 
 		mountPage("login", LoginPage.class);
-		mountPage("feeds", FeedViewPage.class);
+		mountPage("/subscriptions/all", FeedSubscriptionsPage.class);
 
 		setupInjection();
 
@@ -84,7 +85,7 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 
 	@Override
 	public Class<? extends Page> getHomePage() {
-		return FeedViewPage.class;
+		return HomePage.class;
 	}
 
 	protected void setupInjection() {

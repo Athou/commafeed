@@ -45,12 +45,25 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http) {
 
 	$scope.entries = [ {
 		id : '1',
-		title : '',
-		content : '',
-		date : '',
-		feed : '',
-		url : '',
+		title : 'my title',
+		content : 'my content',
+		date : 'my date',
+		feed : 'my feed',
+		url : 'my url',
+		read : false,
+		starred : false,
+	}, {
+		id : '1',
+		title : 'my title',
+		content : 'my content',
+		date : 'my date',
+		feed : 'my feed',
+		url : 'my url',
 		read : false,
 		starred : false,
 	} ];
+
+	$scope.markAsRead = function(entry) {
+		entry.read = true;
+	};
 });

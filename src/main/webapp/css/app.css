@@ -1,3 +1,11 @@
 .css-treeview .selected {
 	font-weight: bold;
 }
+
+.css-treeview a {
+	cursor: pointer;
+}
+
+.accordion-heading .unread {
+	font-weight: bold;
+}

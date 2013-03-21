@@ -9,6 +9,22 @@
 				</ul>
 			</div>
 		</div>
-		<div class="span10" ng-controller="FeedListCtrl"></div>
+		<div class="span10" ng-controller="FeedListCtrl">
+			<div class="accordion" id="feed-accordion">
+				<div class="accordion-group" ng-repeat="entry in entries">
+					<div class="accordion-heading">
+						<a class="accordion-toggle" data-toggle="collapse" ng-click="markAsRead(entry)" ng-class="{unread: entry.read == false}"
+							data-parent="#feed-accordion" href="{{'#feed-body' + $index}}">
+							{{entry.title}}
+						</a>
+					</div>
+					<div id="{{'feed-body' + $index}}" class="accordion-body collapse">
+						<div class="accordion-inner">{{entry.content}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
 	</div>
 </div>

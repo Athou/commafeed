@@ -4,7 +4,6 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.apache.wicket.Application;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -28,13 +27,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.frontend.components.auth.LoginPage;
-import com.commafeed.frontend.pages.feed.FeedSubscriptionsPage;
+import com.commafeed.frontend.components.auth.LogoutPage;
 import com.commafeed.frontend.pages.home.HomePage;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
-
-import de.agilecoders.wicket.Bootstrap;
-import de.agilecoders.wicket.settings.BootstrapSettings;
-import de.agilecoders.wicket.webjars.util.WicketWebjars;
 
 public class CommaFeedApplication extends AuthenticatedWebApplication {
 
@@ -45,7 +40,8 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		super.init();
 
 		mountPage("login", LoginPage.class);
-		mountPage("/subscriptions/all", FeedSubscriptionsPage.class);
+		mountPage("logout", LogoutPage.class);
+		mountPage("error", DisplayExceptionPage.class);
 
 		setupInjection();
 
@@ -75,12 +71,7 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 						new DisplayExceptionPage(ex)), policy);
 			}
 		});
-		mountPage("/error", DisplayExceptionPage.class);
 
-		BootstrapSettings settings = new BootstrapSettings();
-		Bootstrap.install(Application.get(), settings);
-
-		WicketWebjars.install(this);
 	}
 
 	@Override

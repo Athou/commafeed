@@ -4,7 +4,7 @@
 			<div class="css-treeview">
 				<ul>
 					<li ng-repeat="node in root.children">
-						<category node="node" feed-click="feedClicked(id)" category-click="categoryClicked(id)" selected-type="selectedType" selected-id="selectedId"></category>
+						<category node="node" feed-click="feedClicked(id)" category-click="categoryClicked(id)" selected-type="selectedType" selected-id="selectedId" format-category-name="formatCategoryName(category)"></category>
 					</li>
 				</ul>
 			</div>

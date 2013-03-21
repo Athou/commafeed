@@ -12,14 +12,16 @@ module.controller('CategoryTreeCtrl',
 					name : "News",
 					feeds : [ {
 						id : "2",
-						name : "Cyanide & Happiness"
+						name : "Cyanide & Happiness",
+						unread : 34
 					} ],
 					children : [ {
 						id : "2",
 						name : "Comics",
 						feeds : [ {
 							id : "1",
-							name : "Dilbert"
+							name : "Dilbert",
+							unread : 4
 						} ]
 					} ]
 				}, {
@@ -27,10 +29,34 @@ module.controller('CategoryTreeCtrl',
 					name : "Blogs",
 					feeds : [ {
 						id : "3",
-						name : "Engadget"
+						name : "Engadget",
+						unread : 0
 					} ]
 				} ]
 			};
+
+			var unreadCount = function(category) {
+				var count = 0;
+				console.log(category)
+				for ( var child in category.children) {
+					count = count + unreadCount(child);
+				}
+				for ( var feed in category.feeds) {
+					if (feed.unread) {
+						count = count + feed.unread;
+					}
+				}
+				return count;
+			}
+
+			$scope.formatCategoryName = function(category) {
+				var count = unreadCount(category);
+				var label = category.name;
+				if (count > 0) {
+					label = label + " (" + count + ")";
+				}
+				return label;
+			}
 
 			$scope.feedClicked = function(id) {
 				$location.path('/feeds/view/feed/' + id);

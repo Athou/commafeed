@@ -11,11 +11,13 @@ import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,11 +39,14 @@ public class FeedFetcher {
 		Feed feed = null;
 
 		HttpClient httpclient = new DefaultHttpClient();
+		HttpProtocolParams.setContentCharset(httpclient.getParams(), "UTF-8");
+
 		try {
 			HttpGet httpget = new HttpGet(feedUrl);
-			ResponseHandler<String> responseHandler = new BasicResponseHandler();
-			String responseBody = httpclient.execute(httpget, responseHandler);
-			feed = parser.parse(feedUrl, responseBody);
+			HttpResponse response = httpclient.execute(httpget);
+			HttpEntity entity = response.getEntity();
+			String content = EntityUtils.toString(entity, "UTF-8");
+			feed = parser.parse(feedUrl, content);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

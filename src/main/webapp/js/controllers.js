@@ -55,27 +55,25 @@ module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
 		$location.path('/feeds/view/category/' + id);
 	};
 
-	var markAsRead = function(children, entry, read) {
-		for ( var i = 0; i < children.length; i++) {
-			var child = children[i];
-			if (child.children) {
-				markAsRead(child.children, entry, read);
+	var markAsRead = function(node, entry, read) {
+		if (node.children) {
+			for ( var i = 0; i < node.children.length; i++) {
+				markAsRead(node.children[i], entry, read);
 			}
-			if (child.feeds) {
-				for ( var j = 0; j < child.feeds.length; j++) {
-					var feed = child.feeds[j];
-					if (feed.id == entry.feedId) {
-						var c = read ? -1 : 1;
-						feed.unread = feed.unread + c;
-					}
+		}
+		if (node.feeds) {
+			for ( var i = 0; i < node.feeds.length; i++) {
+				var feed = node.feeds[i];
+				if (feed.id == entry.feedId) {
+					var c = read ? -1 : 1;
+					feed.unread = feed.unread + c;
 				}
 			}
 		}
 	};
 
 	$scope.$on('markAsRead', function(event, args) {
-		console.log(args.entry)
-		markAsRead($scope.root.children, args.entry, args.read)
+		markAsRead($scope.root, args.entry, args.read)
 	});
 });
 

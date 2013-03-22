@@ -50,14 +50,10 @@ module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
 	}
 
 	$scope.feedClicked = function(id) {
-		$scope.selectedType = 'feed';
-		$scope.selectedId = id;
 		$location.path('/feeds/view/feed/' + id);
 	};
 
 	$scope.categoryClicked = function(id) {
-		$scope.selectedType = 'category';
-		$scope.selectedId = id;
 		$location.path('/feeds/view/category/' + id);
 	};
 

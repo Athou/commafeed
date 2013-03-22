@@ -52,8 +52,15 @@ public class StartupBean {
 					salt));
 			userService.save(user);
 
-			Feed feed = new Feed("http://feed.dilbert.com/dilbert/daily_strip");
-			feedService.save(feed);
+			Feed dilbert = new Feed(
+					"http://feed.dilbert.com/dilbert/daily_strip");
+			feedService.save(dilbert);
+
+			Feed engadget = new Feed("http://www.engadget.com/rss.xml");
+			feedService.save(engadget);
+			
+			Feed frandroid = new Feed("http://feeds.feedburner.com/frandroid");
+			feedService.save(frandroid);
 
 			FeedCategory newsCategory = new FeedCategory();
 			newsCategory.setName("News");
@@ -66,12 +73,31 @@ public class StartupBean {
 			comicsCategory.setParent(newsCategory);
 			feedCategoryService.save(comicsCategory);
 
+			FeedCategory techCategory = new FeedCategory();
+			techCategory.setName("Tech");
+			techCategory.setUser(user);
+			techCategory.setParent(newsCategory);
+			feedCategoryService.save(techCategory);
+
 			FeedSubscription sub = new FeedSubscription();
 			sub.setCategory(comicsCategory);
-			sub.setFeed(feed);
+			sub.setFeed(dilbert);
 			sub.setTitle("Dilbert - Strips");
 			sub.setUser(user);
 			feedSubscriptionService.save(sub);
+
+			FeedSubscription sub2 = new FeedSubscription();
+			sub2.setCategory(techCategory);
+			sub2.setFeed(engadget);
+			sub2.setTitle("Engadget");
+			sub2.setUser(user);
+			feedSubscriptionService.save(sub2);
+			
+			FeedSubscription sub3 = new FeedSubscription();
+			sub3.setFeed(frandroid);
+			sub3.setTitle("Frandroid");
+			sub3.setUser(user);
+			feedSubscriptionService.save(sub3);
 
 		}
 

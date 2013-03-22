@@ -12,36 +12,7 @@ module.controller('CategoryTreeCtrl',
 			$scope.selectedType = $routeParams._type;
 			$scope.selectedId = $routeParams._id;
 			
-			$scope.root2 = CategoryService.get();
-
-			$scope.root = {
-				children : [ {
-					id : "1",
-					name : "News",
-					feeds : [ {
-						id : "2",
-						name : "Cyanide & Happiness",
-						unread : 34
-					} ],
-					children : [ {
-						id : "2",
-						name : "Comics",
-						feeds : [ {
-							id : "1",
-							name : "Dilbert",
-							unread : 4
-						} ]
-					} ]
-				}, {
-					id : '3',
-					name : "Blogs",
-					feeds : [ {
-						id : "3",
-						name : "Engadget",
-						unread : 0
-					} ]
-				} ]
-			};
+			$scope.root = CategoryService.get();
 
 			var unreadCount = function(category) {
 				var count = 0;

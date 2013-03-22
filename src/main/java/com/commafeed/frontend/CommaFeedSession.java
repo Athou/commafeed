@@ -45,7 +45,7 @@ public class CommaFeedSession extends AuthenticatedWebSession {
 	@Override
 	public boolean authenticate(String userName, String password) {
 		User user = userService.login(userName, password);
-		setUser(user);
+		this.user = user;
 		return user != null;
 	}
 

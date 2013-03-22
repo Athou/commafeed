@@ -1,37 +1,20 @@
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="span2" ng-controller="CategoryTreeCtrl">
-			<div class="css-treeview">
-				<ul>
-					<category node="root" feed-click="feedClicked(id)"
-						category-click="categoryClicked(id)" selected-type="selectedType"
-						selected-id="selectedId"
-						format-category-name="formatCategoryName(category)"
-						format-feed-name="formatFeedName(feed)"> </category>
-				</ul>
+<div ng-controller="FeedListCtrl">
+	<span>{{entryList.name}}</span><span
+		ng-show="selectedType == 'category'"> &#187;</span>
+	<div class="accordion" id="feed-accordion">
+		<div class="accordion-group" ng-repeat="entry in entryList.entries">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse"
+					ng-click="markAsRead(entry)"
+					ng-class="{unread: entry.read == false}"
+					data-parent="#feed-accordion" href="{{'#feed-body' + $index}}">
+					<span ng-show="selectedType == 'category'">{{entry.feedName}}
+						- </span>{{entry.title}} <span class="pull-right">{{entry.date}}</span>
+				</a>
+			</div>
+			<div id="{{'feed-body' + $index}}" class="accordion-body collapse">
+				<div class="accordion-inner" ng-bind-html="entry.content"></div>
 			</div>
 		</div>
-		<div class="span10" ng-controller="FeedListCtrl">
-			<span>{{entryList.name}}</span><span
-				ng-show="selectedType == 'category'"> &#187;</span>
-			<div class="accordion" id="feed-accordion">
-				<div class="accordion-group" ng-repeat="entry in entryList.entries">
-					<div class="accordion-heading">
-						<a class="accordion-toggle" data-toggle="collapse"
-							ng-click="markAsRead(entry)"
-							ng-class="{unread: entry.read == false}"
-							data-parent="#feed-accordion" href="{{'#feed-body' + $index}}">
-							<span ng-show="selectedType == 'category'">{{entry.feedName}}
-								- </span>{{entry.title}} <span class="pull-right">{{entry.date}}</span>
-						</a>
-					</div>
-					<div id="{{'feed-body' + $index}}" class="accordion-body collapse">
-						<div class="accordion-inner" ng-bind-html="entry.content"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
 	</div>
 </div>

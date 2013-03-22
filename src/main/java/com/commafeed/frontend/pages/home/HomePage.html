@@ -9,7 +9,24 @@
 </head>
 <body>
 	<div ng-app="commafeed">
-		<ng:view></ng:view>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span2" ng-controller="CategoryTreeCtrl">
+					<div class="css-treeview">
+						<ul>
+							<category node="root" feed-click="feedClicked(id)"
+								category-click="categoryClicked(id)" selected-type="selectedType"
+								selected-id="selectedId"
+								format-category-name="formatCategoryName(category)"
+								format-feed-name="formatFeedName(feed)"> </category>
+						</ul>
+					</div>
+				</div>
+				<div class="span10">
+					<ng:view></ng:view>
+				</div>
+			</div>
+		</div>
 	</div>
 	
 	 <script src="vendor/jquery/jquery-1.9.1.min.js"></script>

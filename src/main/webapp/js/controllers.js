@@ -9,8 +9,10 @@ module.run(function($rootScope) {
 module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
 		CategoryService) {
 
-	$scope.selectedType = $routeParams._type;
-	$scope.selectedId = $routeParams._id;
+	$scope.$on('$routeChangeSuccess', function() {
+		$scope.selectedType = $routeParams._type;
+		$scope.selectedId = $routeParams._id;
+	});
 
 	$scope.root = CategoryService.get();
 
@@ -48,10 +50,14 @@ module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
 	}
 
 	$scope.feedClicked = function(id) {
+		$scope.selectedType = 'feed';
+		$scope.selectedId = id;
 		$location.path('/feeds/view/feed/' + id);
 	};
 
 	$scope.categoryClicked = function(id) {
+		$scope.selectedType = 'category';
+		$scope.selectedId = id;
 		$location.path('/feeds/view/category/' + id);
 	};
 

@@ -30,7 +30,7 @@ public class FeedSubscriptionService extends GenericDAO<FeedSubscription, Long> 
 		EasyCriteria<FeedSubscription> criteria = EasyCriteriaFactory
 				.createQueryCriteria(em, getType());
 		criteria.andEquals("user", user);
-		criteria.andEquals("category", null);
+		criteria.andIsNull("category");
 		return criteria.getResultList();
 
 	}

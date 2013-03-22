@@ -10,9 +10,10 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import com.commafeed.backend.dao.FeedCategoryService;
 import com.commafeed.backend.dao.FeedEntryService;
 import com.commafeed.backend.dao.FeedSubscriptionService;
+import com.commafeed.frontend.rest.model.Category;
+import com.commafeed.frontend.rest.model.Subscription;
 import com.commafeed.model.FeedCategory;
 import com.commafeed.model.FeedSubscription;
-import com.google.common.collect.Lists;
 
 @SuppressWarnings("serial")
 public class FeedSubscriptionsREST extends JSONPage {
@@ -28,7 +29,6 @@ public class FeedSubscriptionsREST extends JSONPage {
 
 	public FeedSubscriptionsREST(PageParameters pageParameters) {
 		super(pageParameters);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -36,6 +36,8 @@ public class FeedSubscriptionsREST extends JSONPage {
 		List<FeedCategory> categories = feedCategoryService.findAll(getUser());
 		Category root = new Category();
 		addChildren(categories, root);
+		root.setId("all");
+		root.setName("All");
 		for (FeedSubscription subscription : feedSubscriptionService
 				.findWithoutCategories(getUser())) {
 			Subscription sub = new Subscription();
@@ -53,9 +55,10 @@ public class FeedSubscriptionsREST extends JSONPage {
 		for (FeedCategory category : categories) {
 			if ((category.getParent() == null && current.getId() == null)
 					|| (category.getParent() != null && (ObjectUtils.equals(
-							category.getParent().getId(), current.getId())))) {
+							String.valueOf(category.getParent().getId()),
+							current.getId())))) {
 				Category child = new Category();
-				child.setId(category.getId());
+				child.setId(String.valueOf(category.getId()));
 				child.setName(category.getName());
 				addChildren(categories, child);
 				for (FeedSubscription subscription : category
@@ -72,76 +75,4 @@ public class FeedSubscriptionsREST extends JSONPage {
 			}
 		}
 	}
-
-	public static class Category {
-		private Long id;
-		private String name;
-		private List<Category> children = Lists.newArrayList();
-		private List<Subscription> feeds = Lists.newArrayList();
-
-		public Long getId() {
-			return id;
-		}
-
-		public void setId(Long id) {
-			this.id = id;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public List<Category> getChildren() {
-			return children;
-		}
-
-		public void setChildren(List<Category> children) {
-			this.children = children;
-		}
-
-		public List<Subscription> getFeeds() {
-			return feeds;
-		}
-
-		public void setFeeds(List<Subscription> feeds) {
-			this.feeds = feeds;
-		}
-
-	}
-
-	public static class Subscription {
-		private Long id;
-		private String name;
-		private int unread;
-
-		public Long getId() {
-			return id;
-		}
-
-		public void setId(Long id) {
-			this.id = id;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public int getUnread() {
-			return unread;
-		}
-
-		public void setUnread(int unread) {
-			this.unread = unread;
-		}
-
-	}
-
 }

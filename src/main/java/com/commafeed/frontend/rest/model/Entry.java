@@ -1,10 +1,12 @@
 package com.commafeed.frontend.rest.model;
 
+import java.util.Date;
+
 public class Entry {
 	private String id;
 	private String title;
 	private String content;
-	private String date;
+	private Date date;
 	private String feedId;
 	private String feedName;
 	private String url;
@@ -35,11 +37,11 @@ public class Entry {
 		this.content = content;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

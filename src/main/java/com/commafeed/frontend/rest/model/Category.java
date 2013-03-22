@@ -2,20 +2,19 @@ package com.commafeed.frontend.rest.model;
 
 import java.util.List;
 
-import com.commafeed.frontend.rest.FeedSubscriptionsREST.Subscription;
 import com.google.common.collect.Lists;
 
 public class Category {
-	private Long id;
+	private String id;
 	private String name;
 	private List<Category> children = Lists.newArrayList();
 	private List<Subscription> feeds = Lists.newArrayList();
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

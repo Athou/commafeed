@@ -37,12 +37,14 @@ module.controller('CategoryTreeCtrl',
 
 			var unreadCount = function(category) {
 				var count = 0;
-				console.log(category)
-				for ( var child in category.children) {
-					count = count + unreadCount(child);
+				if (category.children) {
+					for ( var i = 0; i < category.children.length; i++) {
+						count = count + unreadCount(category.children[i]);
+					}
 				}
-				for ( var feed in category.feeds) {
-					if (feed.unread) {
+				if (category.feeds) {
+					for ( var i = 0; i < category.feeds.length; i++) {
+						var feed = category.feeds[i];
 						count = count + feed.unread;
 					}
 				}
@@ -54,6 +56,15 @@ module.controller('CategoryTreeCtrl',
 				var label = category.name;
 				if (count > 0) {
 					label = label + " (" + count + ")";
+				}
+				return label;
+			}
+
+			$scope.formatFeedName = function(feed) {
+				console.log('cc')
+				var label = feed.name;
+				if (feed.unread > 0) {
+					label = label + " (" + feed.unread + ")";
 				}
 				return label;
 			}

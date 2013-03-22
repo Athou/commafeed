@@ -5,7 +5,7 @@
 	<ul>
 		<li ng-repeat="feed in node.feeds">
 			<a ng-click="feedClick({id: feed.id})"
-			   ng-class="{selected: (feed.id == selectedId && selectedType == 'feed')}">{{feed.name}}
+			   ng-class="{selected: (feed.id == selectedId && selectedType == 'feed')}">{{formatFeedName({feed:feed})}}
 			</a>
 		</li>
 	</ul>

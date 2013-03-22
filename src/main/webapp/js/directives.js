@@ -8,7 +8,8 @@ module.directive('category', function($compile) {
 			selectedId: '=',
 			feedClick: '&',
 			categoryClick: '&',
-			formatCategoryName: '&' 
+			formatCategoryName: '&',
+			formatFeedName: '&'
 		},
 		restrict : 'E',
 		replace: true,
@@ -16,7 +17,10 @@ module.directive('category', function($compile) {
 		link: function(scope, element) {
             if (scope.node.children) {
                 var ul = element.find('ul');
-                ul.prepend('<category ng-repeat="child in node.children" node="child" feed-click="feedClick({id:id})" category-click="categoryClick({id:id})" selected-type="selectedType" selected-id="selectedId" format-category-name="formatCategoryName({category:category})"></category>');
+                ul.prepend('<category ng-repeat="child in node.children" node="child" feed-click="feedClick({id:id})" \
+                		category-click="categoryClick({id:id})" selected-type="selectedType" selected-id="selectedId" \
+                		format-category-name="formatCategoryName({category:category})" format-feed-name="formatFeedName({feed:feed})">\
+                		</category>');
                 $compile(ul.contents())(scope);
             }
 	     }

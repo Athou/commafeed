@@ -101,6 +101,7 @@
 					<tomeeVersion>1.6.0-SNAPSHOT</tomeeVersion>
 					<tomeeClassifier>plus</tomeeClassifier>
 					<tomeeHttpPort>8082</tomeeHttpPort>
+					<args>-Xmx1024m -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled -XX:+CMSPermGenSweepingEnabled</args>
 					<reloadOnUpdate>true</reloadOnUpdate>
 					<synchronization>
 						<updateInterval>1</updateInterval>

@@ -6,8 +6,14 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.SystemUtils;
+
 import com.commafeed.model.Feed;
 import com.commafeed.model.FeedEntry;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
@@ -31,8 +37,7 @@ public class FeedParser {
 				FeedEntry entry = new FeedEntry();
 				entry.setGuid(item.getUri());
 				entry.setTitle(item.getTitle());
-				entry.setContent(item.getDescription() == null ? null : item
-						.getDescription().getValue());
+				entry.setContent(getContent(item));
 				entry.setUrl(item.getLink());
 				entry.setUpdated(item.getUpdatedDate() != null ? item
 						.getUpdatedDate() : item.getPublishedDate());
@@ -46,4 +51,20 @@ public class FeedParser {
 		return feed;
 	}
 
+	@SuppressWarnings("unchecked")
+	private String getContent(SyndEntry item) {
+		String content = null;
+		if (item.getContents().isEmpty()) {
+			content = item.getDescription() == null ? null : item
+					.getDescription().getValue();
+		} else {
+			content = StringUtils.join(Collections2.transform(
+					item.getContents(), new Function<SyndContent, String>() {
+						public String apply(SyndContent content) {
+							return content.getValue();
+						}
+					}), SystemUtils.LINE_SEPARATOR);
+		}
+		return content;
+	}
 }

@@ -1,6 +1,7 @@
 #log files
 commafeed.log
 derby.log
+data
 
 # Maven build directory
 target

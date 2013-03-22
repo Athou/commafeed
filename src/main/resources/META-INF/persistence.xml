@@ -7,6 +7,7 @@
 	<persistence-unit name="primary">
 		<jta-data-source>${jpa.datasource.name}</jta-data-source>
 		<properties>
+		    <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="false" />
 			<property name="toplink.ddl-generation" value="drop-and-create-tables"/>

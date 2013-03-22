@@ -10,10 +10,56 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jpa.datasource.name>jdbc/commafeedDS</jpa.datasource.name>
+		<jpa.datasource.name>java:openejb/Resource/My DataSource</jpa.datasource.name>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>apache.releases</id>
+			<url>http://repository.apache.org/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>apache.snapshots</id>
+			<url>http://repository.apache.org/content/groups/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>apache.releases</id>
+			<url>http://repository.apache.org/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>apache.snapshots</id>
+			<url>http://repository.apache.org/content/groups/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<build>
+		<finalName>commafeed</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -45,6 +91,28 @@
 				<version>2.1.1</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.openejb.maven</groupId>
+				<artifactId>tomee-maven-plugin</artifactId>
+				<version>1.6.0-SNAPSHOT</version>
+				<configuration>
+					<tomeeVersion>1.6.0-SNAPSHOT</tomeeVersion>
+					<tomeeClassifier>plus</tomeeClassifier>
+					<tomeeHttpPort>8082</tomeeHttpPort>
+					<reloadOnUpdate>true</reloadOnUpdate>
+					<synchronization>
+						<updateInterval>1</updateInterval>
+						<extensions>
+							<extension>.class</extension>
+						</extensions>
+						<updateOnlyExtensions>
+							<updateOnlyExtension>.html</updateOnlyExtension>
+							<updateOnlyExtension>.js</updateOnlyExtension>
+							<updateOnlyExtension>.css</updateOnlyExtension>
+						</updateOnlyExtensions>
+					</synchronization>
 				</configuration>
 			</plugin>
 			<plugin>

@@ -5,15 +5,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.commafeed.backend.dao.FeedCategoryService;
 import com.commafeed.backend.dao.FeedEntryService;
 import com.commafeed.backend.dao.FeedSubscriptionService;
-import com.commafeed.frontend.CommaFeedSession;
-import com.commafeed.frontend.pages.JSONPage;
 import com.commafeed.model.FeedCategory;
 import com.commafeed.model.FeedSubscription;
-import com.commafeed.model.User;
 import com.google.common.collect.Lists;
 
 @SuppressWarnings("serial")
@@ -28,19 +26,23 @@ public class FeedSubscriptionsREST extends JSONPage {
 	@Inject
 	FeedEntryService feedEntryService;
 
+	public FeedSubscriptionsREST(PageParameters pageParameters) {
+		super(pageParameters);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
-	protected Object getObject() {
-		User user = CommaFeedSession.get().getUser();
-		List<FeedCategory> categories = feedCategoryService.findAll(user);
+	protected Object getObject(PageParameters parameters) {
+		List<FeedCategory> categories = feedCategoryService.findAll(getUser());
 		Category root = new Category();
 		addChildren(categories, root);
 		for (FeedSubscription subscription : feedSubscriptionService
-				.findWithoutCategories(user)) {
+				.findWithoutCategories(getUser())) {
 			Subscription sub = new Subscription();
 			sub.setId(subscription.getId());
 			sub.setName(subscription.getTitle());
 			int size = feedEntryService.getUnreadEntries(
-					subscription.getFeed(), user).size();
+					subscription.getFeed(), getUser()).size();
 			sub.setUnread(size);
 			root.getFeeds().add(sub);
 		}
@@ -62,8 +64,7 @@ public class FeedSubscriptionsREST extends JSONPage {
 					sub.setId(subscription.getId());
 					sub.setName(subscription.getTitle());
 					int size = feedEntryService.getUnreadEntries(
-							subscription.getFeed(),
-							CommaFeedSession.get().getUser()).size();
+							subscription.getFeed(), getUser()).size();
 					sub.setUnread(size);
 					child.getFeeds().add(sub);
 				}

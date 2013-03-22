@@ -1,7 +1,8 @@
-#log files
+#runtime files
 commafeed.log
 derby.log
-data
+data/
+java_pid*
 
 # Maven build directory
 target

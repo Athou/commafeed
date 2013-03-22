@@ -23,7 +23,7 @@
 						</a>
 					</div>
 					<div id="{{'feed-body' + $index}}" class="accordion-body collapse">
-						<div class="accordion-inner">{{entry.content}}</div>
+						<div class="accordion-inner" ng-bind-html="entry.content"></div>
 					</div>
 				</div>
 			</div>

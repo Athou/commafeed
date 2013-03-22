@@ -61,7 +61,6 @@ module.controller('CategoryTreeCtrl',
 			}
 
 			$scope.formatFeedName = function(feed) {
-				console.log('cc')
 				var label = feed.name;
 				if (feed.unread > 0) {
 					label = label + " (" + feed.unread + ")";

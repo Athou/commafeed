@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang.ObjectUtils;
 
 import com.commafeed.backend.dao.FeedCategoryService;
+import com.commafeed.backend.dao.FeedEntryService;
 import com.commafeed.backend.dao.FeedSubscriptionService;
 import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.pages.JSONPage;
@@ -25,12 +26,14 @@ public class FeedSubscriptionsREST extends JSONPage {
 	@Inject
 	FeedCategoryService FeedCategoryService;
 
+	@Inject
+	FeedEntryService feedEntryService;
+
+	User user = CommaFeedSession.get().getUser();
+
 	@Override
 	protected Object getObject() {
-
-		User user = CommaFeedSession.get().getUser();
 		List<FeedCategory> categories = FeedCategoryService.findAll(user);
-
 		Category root = new Category();
 		addChildren(categories, root);
 		for (FeedSubscription subscription : feedSubscriptionService
@@ -39,7 +42,10 @@ public class FeedSubscriptionsREST extends JSONPage {
 			Subscription sub = new Subscription();
 			sub.setId(subscription.getId());
 			sub.setName(subscription.getTitle());
-			sub.setUnread(77);
+			int size = feedEntryService.getUnreadEntries(
+					subscription.getFeed(), user).size();
+			sub.setUnread(size);
+			root.getFeeds().add(sub);
 		}
 		return root;
 	}
@@ -58,7 +64,10 @@ public class FeedSubscriptionsREST extends JSONPage {
 					Subscription sub = new Subscription();
 					sub.setId(subscription.getId());
 					sub.setName(subscription.getTitle());
-					sub.setUnread(77);
+					int size = feedEntryService.getUnreadEntries(
+							subscription.getFeed(), user).size();
+					sub.setUnread(size);
+					child.getFeeds().add(sub);
 				}
 				current.getChildren().add(child);
 			}

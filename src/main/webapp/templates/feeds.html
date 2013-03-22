@@ -13,12 +13,13 @@
 			</div>
 		</div>
 		<div class="span10" ng-controller="FeedListCtrl">
+			<span>{{entryList.name}}</span><span ng-show="selectedType == 'category'">&#187;</span>
 			<div class="accordion" id="feed-accordion">
-				<div class="accordion-group" ng-repeat="entry in entries">
+				<div class="accordion-group" ng-repeat="entry in entryList.entries">
 					<div class="accordion-heading">
 						<a class="accordion-toggle" data-toggle="collapse" ng-click="markAsRead(entry)" ng-class="{unread: entry.read == false}"
 							data-parent="#feed-accordion" href="{{'#feed-body' + $index}}">
-							{{entry.title}}
+							<span ng-show="selectedType == 'category'">{{entry.feedName}} - </span>{{entry.title}}
 						</a>
 					</div>
 					<div id="{{'feed-body' + $index}}" class="accordion-body collapse">

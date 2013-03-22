@@ -1,10 +1,18 @@
 var module = angular.module('commafeed.controllers', []);
 
+module.run(function($rootScope) {
+	$rootScope.$on('emitMarkAsRead', function(event, args) {
+		$rootScope.$broadcast('markAsRead', args);
+	});
+});
+
 module.controller('CategoryTreeCtrl',
-		function($scope, $routeParams, $location) {
+		function($scope, $routeParams, $location, CategoryService) {
 
 			$scope.selectedType = $routeParams._type;
 			$scope.selectedId = $routeParams._id;
+			
+			$scope.root2 = CategoryService.get();
 
 			$scope.root = {
 				children : [ {
@@ -75,31 +83,70 @@ module.controller('CategoryTreeCtrl',
 			$scope.categoryClicked = function(id) {
 				$location.path('/feeds/view/category/' + id);
 			};
+
+			var markAsRead = function(children, entry, read) {
+				for ( var i = 0; i < children.length; i++) {
+					var child = children[i];
+					if (child.children) {
+						markAsRead(child.children, entry, read);
+					}
+					if (child.feeds) {
+						for ( var j = 0; j < child.feeds.length; j++) {
+							var feed = child.feeds[j];
+							console.log(entry.feedId)
+							if (feed.id == entry.feedId) {
+								var c = read ? -1 : 1;
+								console.log(c)
+								feed.unread = feed.unread + c;
+							}
+						}
+					}
+				}
+			};
+
+			$scope.$on('markAsRead', function(event, args) {
+				markAsRead($scope.root.children, args.entry, args.read)
+			});
 		});
 
 module.controller('FeedListCtrl', function($scope, $routeParams, $http) {
 
-	$scope.entries = [ {
-		id : '1',
-		title : 'my title',
-		content : 'my content',
-		date : 'my date',
-		feed : 'my feed',
-		url : 'my url',
-		read : false,
-		starred : false,
-	}, {
-		id : '1',
-		title : 'my title',
-		content : 'my content',
-		date : 'my date',
-		feed : 'my feed',
-		url : 'my url',
-		read : false,
-		starred : false,
-	} ];
+	$scope.selectedType = $routeParams._type;
+	$scope.selectedId = $routeParams._id;
+
+	$scope.entryList = {
+		name : 'aaa',
+		entries : [ {
+			id : '1',
+			title : 'my title',
+			content : 'my content',
+			date : 'my date',
+			feedId : '1',
+			feedName : 'my feed',
+			url : 'my url',
+			read : false,
+			starred : false,
+		}, {
+			id : '2',
+			title : 'my other title',
+			content : 'my other content',
+			date : 'my other date',
+			feedId : '2',
+			feedName : 'my other feed',
+			url : 'my other url',
+			read : false,
+			starred : false,
+		} ]
+	};
 
 	$scope.markAsRead = function(entry) {
+		var read = entry.read;
 		entry.read = true;
+		if (entry.read != read) {
+			$scope.$emit('emitMarkAsRead', {
+				entry : entry,
+				read : true
+			});
+		}
 	};
 });

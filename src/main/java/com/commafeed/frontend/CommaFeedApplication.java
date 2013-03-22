@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import com.commafeed.frontend.components.auth.LoginPage;
 import com.commafeed.frontend.components.auth.LogoutPage;
 import com.commafeed.frontend.pages.home.HomePage;
+import com.commafeed.frontend.rest.FeedSubscriptionsREST;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
 
 public class CommaFeedApplication extends AuthenticatedWebApplication {
@@ -42,6 +43,8 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		mountPage("login", LoginPage.class);
 		mountPage("logout", LogoutPage.class);
 		mountPage("error", DisplayExceptionPage.class);
+		
+		mountPage("subscriptions", FeedSubscriptionsREST.class);
 
 		setupInjection();
 

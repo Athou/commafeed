@@ -62,8 +62,8 @@ public class FeedEntriesREST extends JSONPage {
 			entries.getEntries().addAll(buildEntries(subscription));
 
 		} else {
-			FeedCategory feedCategory = feedCategoryService.findById("all"
-					.equals(id) ? null : Long.valueOf(id));
+			FeedCategory feedCategory = "all".equals(id) ? null
+					: feedCategoryService.findById(Long.valueOf(id));
 			Collection<FeedSubscription> subscriptions = "all".equals(id) ? feedSubscriptionService
 					.findAll(getUser()) : feedSubscriptionService
 					.findWithCategory(getUser(), feedCategory);

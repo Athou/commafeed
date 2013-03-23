@@ -89,17 +89,16 @@
 		<subsystem xmlns="urn:jboss:domain:configadmin:1.0" />
 		<subsystem xmlns="urn:jboss:domain:datasources:1.1">
 			<datasources>
-				<datasource jndi-name="java:jboss/datasources/MysqlDS" enabled="${mysql.enabled}" use-java-context="true" pool-name="MysqlDS">
-                    <connection-url>jdbc:mysql://${env.OPENSHIFT_DB_HOST}:${env.OPENSHIFT_DB_PORT}/${env.OPENSHIFT_APP_NAME}</connection-url>
-                    <driver>mysql</driver>
-                    <security>
-                      <user-name>${env.OPENSHIFT_DB_USERNAME}</user-name>
-                      <password>${env.OPENSHIFT_DB_PASSWORD}</password>
-                    </security>
-                    <validation>
-                      <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
-                	</validation>
-                </datasource>
+				<datasource jndi-name="java:jboss/datasources/MysqlDS"
+					enabled="${mysql.enabled}" use-java-context="true" pool-name="MysqlDS">
+					<connection-url>jdbc:mysql://${env.OPENSHIFT_MYSQL_DB_HOST}:${env.OPENSHIFT_MYSQL_DB_PORT}/${env.OPENSHIFT_APP_NAME}
+					</connection-url>
+					<driver>mysql</driver>
+					<security>
+						<user-name>${env.OPENSHIFT_MYSQL_DB_USERNAME}</user-name>
+						<password>${env.OPENSHIFT_MYSQL_DB_PASSWORD}</password>
+					</security>
+				</datasource>
 				<datasource jndi-name="java:/jdbc/commafeedDS"
 					enabled="${postgresql.enabled}" use-java-context="true" pool-name="PostgreSQLDS"
 					use-ccm="true">

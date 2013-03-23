@@ -236,7 +236,7 @@
 		<profile>
 			<id>openshift</id>
 			<properties>
-				<jpa.datasource.name>java:/jdbc/commafeedDS</jpa.datasource.name>
+				<jpa.datasource.name>java:jboss/datasources/MysqlDS</jpa.datasource.name>
 			</properties>
 			<build>
 				<finalName>commafeed</finalName>

@@ -22,5 +22,8 @@ Hosting an application on OpenShift is free.
 Local development
 -----------------
 
-CHeckout the code and use maven to build and start a local TomEE instance : `mvn clean package tomee:run` and access `http://localhost:8082`. 
-Any change to the source code will be applied immediatly.
+Checkout the code and use maven to build and start a local TomEE instance.
+
+ `mvn clean package tomee:run`
+
+The application is online at `http://localhost:8082`. Any change to the source code will be applied immediatly.

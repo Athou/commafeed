@@ -99,33 +99,10 @@
 						<password>${env.OPENSHIFT_MYSQL_DB_PASSWORD}</password>
 					</security>
 				</datasource>
-				<datasource jndi-name="java:/jdbc/commafeedDS"
-					enabled="${postgresql.enabled}" use-java-context="true" pool-name="PostgreSQLDS"
-					use-ccm="true">
-					<connection-url>jdbc:postgresql://${env.OPENSHIFT_POSTGRESQL_DB_HOST}:${env.OPENSHIFT_POSTGRESQL_DB_PORT}/${env.OPENSHIFT_APP_NAME}
-					</connection-url>
-					<driver>postgresql</driver>
-					<security>
-						<user-name>${env.OPENSHIFT_POSTGRESQL_DB_USERNAME}</user-name>
-						<password>${env.OPENSHIFT_POSTGRESQL_DB_PASSWORD}</password>
-					</security>
-					<validation>
-                    	<check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
-                    	<background-validation>true</background-validation>
-                	</validation>
-                	<pool>
-						<flush-strategy>IdleConnections</flush-strategy>
-						<allow-multiple-users/>
-					</pool>
-				</datasource>
 				<drivers>
 					<driver name="mysql" module="com.mysql.jdbc">
                         <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
                     </driver>
-					<driver name="postgresql" module="org.postgresql.jdbc">
-						<xa-datasource-class>org.postgresql.xa.PGXADataSource
-						</xa-datasource-class>
-					</driver>
 				</drivers>
 			</datasources>
 		</subsystem>

@@ -10,8 +10,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.wicket.Application;
 import org.apache.wicket.ThreadContext;
+import org.apache.wicket.authentication.IAuthenticationStrategy;
 import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.protocol.http.servlet.ServletWebResponse;
 import org.apache.wicket.request.cycle.RequestCycle;
@@ -20,7 +20,10 @@ import com.commafeed.backend.dao.FeedCategoryService;
 import com.commafeed.backend.dao.FeedEntryService;
 import com.commafeed.backend.dao.FeedEntryStatusService;
 import com.commafeed.backend.dao.FeedSubscriptionService;
+import com.commafeed.backend.dao.UserService;
+import com.commafeed.backend.dao.UserSettingsService;
 import com.commafeed.backend.model.User;
+import com.commafeed.frontend.CommaFeedApplication;
 import com.commafeed.frontend.CommaFeedSession;
 
 @Produces(MediaType.APPLICATION_JSON)
@@ -44,19 +47,33 @@ public abstract class AbstractREST {
 	@Inject
 	FeedEntryStatusService feedEntryStatusService;
 
+	@Inject
+	UserService userService;
+
+	@Inject
+	UserSettingsService userSettingsService;
+
 	@PostConstruct
 	public void init() {
+		CommaFeedApplication app = CommaFeedApplication.get();
 		ServletWebRequest swreq = new ServletWebRequest(request, "");
 		ServletWebResponse swresp = new ServletWebResponse(swreq, response);
-		RequestCycle cycle = Application.get()
-				.createRequestCycle(swreq, swresp);
+		RequestCycle cycle = app.createRequestCycle(swreq, swresp);
 		ThreadContext.setRequestCycle(cycle);
-		Application.get().fetchCreateAndSetSession(
-				Application.get().createRequestCycle(swreq, swresp));
+		CommaFeedSession session = (CommaFeedSession) app
+				.fetchCreateAndSetSession(cycle);
+
+		IAuthenticationStrategy authenticationStrategy = app
+				.getSecuritySettings().getAuthenticationStrategy();
+		String[] data = authenticationStrategy.load();
+		if (data != null && data.length > 1) {
+			session.signIn(data[0], data[1]);
+		}
 
 		if (getUser() == null) {
 			throw new WebApplicationException(Response.Status.UNAUTHORIZED);
 		}
+
 	}
 
 	protected User getUser() {

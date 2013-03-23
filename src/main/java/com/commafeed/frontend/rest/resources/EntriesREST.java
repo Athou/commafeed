@@ -70,8 +70,8 @@ public class EntriesREST extends AbstractREST {
 			feedEntries = feedEntryService.getUnreadEntries(
 					subscription.getFeed(), getUser());
 		} else {
-			feedEntries = feedEntryService.getAllEntries(
-					subscription.getFeed());
+			feedEntries = feedEntryService
+					.getAllEntries(subscription.getFeed());
 		}
 
 		List<Entry> entries = Lists.newArrayList();
@@ -118,11 +118,7 @@ public class EntriesREST extends AbstractREST {
 				status.setEntry(entry);
 			}
 			status.setRead(read);
-			if (status.getId() == null) {
-				feedEntryStatusService.save(status);
-			} else {
-				feedEntryStatusService.update(status);
-			}
+			feedEntryStatusService.saveOrUpdate(status);
 		}
 	}
 

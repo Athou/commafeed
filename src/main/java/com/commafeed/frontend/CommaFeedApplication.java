@@ -4,6 +4,7 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.apache.wicket.Application;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -103,6 +104,11 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 	@Override
 	protected Class<? extends AbstractAuthenticatedWebSession> getWebSessionClass() {
 		return CommaFeedSession.class;
+	}
+
+	public static CommaFeedApplication get() {
+
+		return (CommaFeedApplication) Application.get();
 	}
 
 }

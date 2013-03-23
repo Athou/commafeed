@@ -21,7 +21,7 @@ public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus, Long> {
 
 		FeedEntryStatus status = null;
 		try {
-			criteria.getSingleResult();
+			status = criteria.getSingleResult();
 		} catch (NoResultException e) {
 			status = null;
 		}

@@ -10,13 +10,15 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.reflect.TypeToken;
 import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
 
 @SuppressWarnings("serial")
-public abstract class GenericDAO<T, K> implements Serializable {
+public abstract class GenericDAO<T, K> implements
+		Serializable {
 
 	private TypeToken<T> type = new TypeToken<T>(getClass()) {
 	};
@@ -38,6 +40,14 @@ public abstract class GenericDAO<T, K> implements Serializable {
 	public void update(T... objects) {
 		for (Object object : objects) {
 			em.merge(object);
+		}
+	}
+
+	public void saveOrUpdate(AbstractModel m) {
+		if (m.getId() == null) {
+			em.persist(m);
+		} else {
+			em.merge(m);
 		}
 	}
 

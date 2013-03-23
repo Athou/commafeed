@@ -12,9 +12,9 @@ import com.commafeed.frontend.rest.model.Subscription;
 import com.commafeed.model.FeedCategory;
 import com.commafeed.model.FeedSubscription;
 
+@Path("subscriptions")
 public class SubscriptionsREST extends AbstractREST {
 
-	@Path("subscriptions")
 	@GET
 	public Category getSubscriptions() {
 		Category root = new Category();

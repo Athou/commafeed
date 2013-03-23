@@ -12,6 +12,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
+
 @Entity
 @Table(name = "FEEDENTRIES")
 @SuppressWarnings("serial")
@@ -36,6 +39,15 @@ public class FeedEntry implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updated;
 
+	public String getContent() {
+		return StringUtils.newStringUtf8(Base64.decodeBase64(content));
+	}
+
+	public void setContent(String content) {
+		this.content = Base64.encodeBase64String(StringUtils
+				.getBytesUtf8(content));
+	}
+
 	public String getGuid() {
 		return guid;
 	}
@@ -50,14 +62,6 @@ public class FeedEntry implements Serializable {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 	public String getUrl() {

@@ -8,6 +8,8 @@ import javax.ejb.Stateless;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import com.commafeed.model.Feed;
 import com.commafeed.model.FeedEntry;
@@ -65,6 +67,13 @@ public class FeedParser {
 						}
 					}), SystemUtils.LINE_SEPARATOR);
 		}
+		content = handleContent(content);
 		return content;
+	}
+
+	private String handleContent(String content) {
+		Document doc = Jsoup.parse(content);
+		doc.select("a").attr("target", "_blank");
+		return doc.outerHtml();
 	}
 }

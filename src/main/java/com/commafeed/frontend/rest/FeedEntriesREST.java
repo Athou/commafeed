@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.commafeed.backend.dao.FeedCategoryService;
@@ -78,7 +79,7 @@ public class FeedEntriesREST extends JSONPage {
 
 			@Override
 			public int compare(Entry e1, Entry e2) {
-				return e2.getDate().compareTo(e1.getDate());
+				return ObjectUtils.compare(e2.getDate(), e1.getDate());
 			}
 		});
 		return entries;

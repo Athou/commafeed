@@ -8,10 +8,10 @@ import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang.ObjectUtils;
 
+import com.commafeed.backend.model.FeedCategory;
+import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.User;
 import com.commafeed.frontend.utils.ModelFactory.MF;
-import com.commafeed.model.FeedCategory;
-import com.commafeed.model.FeedSubscription;
-import com.commafeed.model.User;
 import com.google.common.collect.Lists;
 import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;

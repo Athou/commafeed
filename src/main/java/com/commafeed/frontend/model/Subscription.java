@@ -1,4 +1,4 @@
-package com.commafeed.frontend.rest.model;
+package com.commafeed.frontend.model;
 
 import java.io.Serializable;
 

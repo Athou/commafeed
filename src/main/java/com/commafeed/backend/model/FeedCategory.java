@@ -1,4 +1,4 @@
-package com.commafeed.model;
+package com.commafeed.backend.model;
 
 import java.util.Set;
 

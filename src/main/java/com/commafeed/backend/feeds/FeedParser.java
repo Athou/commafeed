@@ -11,8 +11,8 @@ import org.apache.commons.lang.SystemUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import com.commafeed.model.Feed;
-import com.commafeed.model.FeedEntry;
+import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.FeedEntry;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.sun.syndication.feed.synd.SyndContent;

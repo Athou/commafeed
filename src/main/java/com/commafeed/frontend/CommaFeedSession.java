@@ -8,8 +8,8 @@ import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
 
 import com.commafeed.backend.dao.UserService;
-import com.commafeed.frontend.components.auth.Role;
-import com.commafeed.model.User;
+import com.commafeed.backend.model.User;
+import com.commafeed.frontend.pages.auth.Role;
 
 @SuppressWarnings("serial")
 public class CommaFeedSession extends AuthenticatedWebSession {

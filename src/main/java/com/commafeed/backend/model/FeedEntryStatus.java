@@ -1,4 +1,4 @@
-package com.commafeed.model;
+package com.commafeed.backend.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

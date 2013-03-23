@@ -1,4 +1,4 @@
-package com.commafeed.frontend.components.auth;
+package com.commafeed.frontend.pages;
 
 import org.apache.wicket.markup.html.WebPage;
 

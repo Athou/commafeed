@@ -1,4 +1,4 @@
-package com.commafeed.frontend.rest;
+package com.commafeed.frontend.rest.resources;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ import javax.ws.rs.Path;
 
 import org.apache.commons.lang.ObjectUtils;
 
-import com.commafeed.frontend.rest.model.Category;
-import com.commafeed.frontend.rest.model.Subscription;
-import com.commafeed.model.FeedCategory;
-import com.commafeed.model.FeedSubscription;
+import com.commafeed.backend.model.FeedCategory;
+import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.frontend.model.Category;
+import com.commafeed.frontend.model.Subscription;
 
 @Path("subscriptions")
 public class SubscriptionsREST extends AbstractREST {

@@ -12,11 +12,11 @@ import com.commafeed.backend.dao.FeedCategoryService;
 import com.commafeed.backend.dao.FeedService;
 import com.commafeed.backend.dao.FeedSubscriptionService;
 import com.commafeed.backend.dao.UserService;
+import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.FeedCategory;
+import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.User;
 import com.commafeed.backend.security.PasswordEncryptionService;
-import com.commafeed.model.Feed;
-import com.commafeed.model.FeedCategory;
-import com.commafeed.model.FeedSubscription;
-import com.commafeed.model.User;
 
 @Startup
 @Singleton

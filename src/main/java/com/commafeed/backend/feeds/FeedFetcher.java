@@ -21,7 +21,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.commafeed.model.Feed;
+import com.commafeed.backend.model.Feed;
 
 @Singleton
 public class FeedFetcher {

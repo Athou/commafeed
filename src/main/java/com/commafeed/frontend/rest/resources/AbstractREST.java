@@ -1,4 +1,4 @@
-package com.commafeed.frontend.rest;
+package com.commafeed.frontend.rest.resources;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -18,8 +18,8 @@ import com.commafeed.backend.dao.FeedCategoryService;
 import com.commafeed.backend.dao.FeedEntryService;
 import com.commafeed.backend.dao.FeedEntryStatusService;
 import com.commafeed.backend.dao.FeedSubscriptionService;
+import com.commafeed.backend.model.User;
 import com.commafeed.frontend.CommaFeedSession;
-import com.commafeed.model.User;
 
 @Produces(MediaType.APPLICATION_JSON)
 public abstract class AbstractREST {

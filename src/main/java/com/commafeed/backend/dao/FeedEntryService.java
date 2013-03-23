@@ -8,10 +8,10 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 
+import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.User;
 import com.commafeed.frontend.utils.ModelFactory.MF;
-import com.commafeed.model.Feed;
-import com.commafeed.model.FeedEntry;
-import com.commafeed.model.User;
 import com.google.common.collect.Iterables;
 
 @Stateless

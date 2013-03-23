@@ -26,9 +26,9 @@ import org.apache.wicket.request.cycle.RequestCycle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.commafeed.frontend.components.auth.LoginPage;
-import com.commafeed.frontend.components.auth.LogoutPage;
-import com.commafeed.frontend.pages.home.HomePage;
+import com.commafeed.frontend.pages.HomePage;
+import com.commafeed.frontend.pages.LoginPage;
+import com.commafeed.frontend.pages.LogoutPage;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
 
 public class CommaFeedApplication extends AuthenticatedWebApplication {

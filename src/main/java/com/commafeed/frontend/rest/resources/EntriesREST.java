@@ -1,4 +1,4 @@
-package com.commafeed.frontend.rest;
+package com.commafeed.frontend.rest.resources;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -11,13 +11,13 @@ import javax.ws.rs.PathParam;
 
 import org.apache.commons.lang.ObjectUtils;
 
-import com.commafeed.frontend.rest.model.Entries;
-import com.commafeed.frontend.rest.model.Entry;
+import com.commafeed.backend.model.FeedCategory;
+import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryStatus;
+import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.frontend.model.Entries;
+import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.utils.ModelFactory.MF;
-import com.commafeed.model.FeedCategory;
-import com.commafeed.model.FeedEntry;
-import com.commafeed.model.FeedEntryStatus;
-import com.commafeed.model.FeedSubscription;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 

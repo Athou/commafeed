@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 import com.commafeed.backend.dao.FeedEntryService;
 import com.commafeed.backend.dao.FeedService;
-import com.commafeed.model.Feed;
+import com.commafeed.backend.model.Feed;
 import com.google.common.collect.Lists;
 
 @Singleton

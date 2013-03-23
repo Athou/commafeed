@@ -5,9 +5,9 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.commafeed.backend.model.User;
 import com.commafeed.backend.security.PasswordEncryptionService;
 import com.commafeed.frontend.utils.ModelFactory.MF;
-import com.commafeed.model.User;
 import com.google.common.collect.Iterables;
 
 @Stateless

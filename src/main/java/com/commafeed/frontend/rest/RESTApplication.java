@@ -5,6 +5,8 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+import com.commafeed.frontend.rest.resources.EntriesREST;
+import com.commafeed.frontend.rest.resources.SubscriptionsREST;
 import com.google.common.collect.Sets;
 
 @ApplicationPath("/rest")

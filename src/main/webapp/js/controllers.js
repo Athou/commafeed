@@ -81,23 +81,26 @@ module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
 });
 
 module.controller('FeedListCtrl', function($scope, $routeParams, $http,
-		EntryService) {
+		EntryService, SettingsService) {
 
 	$scope.selectedType = $routeParams._type;
 	$scope.selectedId = $routeParams._id;
 
-	$scope.readType = 'all';
+	$scope.settings = SettingsService.settings;
+	$scope.$watch('settings.readingMode', function() {
+		$scope.refreshList();
+	});
 
 	$scope.refreshList = function() {
-		$scope.entryList = EntryService.get({
-			_type : $scope.selectedType,
-			_id : $scope.selectedId,
-			_readtype : $scope.readType
-		});
+		if ($scope.settings.readingMode) {
+			$scope.entryList = EntryService.get({
+				_type : $scope.selectedType,
+				_id : $scope.selectedId,
+				_readtype : $scope.settings.readingMode
+			});
+		}
 	};
 
-	$scope.refreshList();
-	
 	$scope.mark = function(entry, read) {
 		if (entry.read != read) {
 			entry.read = read;

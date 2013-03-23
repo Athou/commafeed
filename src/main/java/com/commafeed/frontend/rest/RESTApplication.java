@@ -16,7 +16,7 @@ public class RESTApplication extends Application {
 	@Override
 	public Set<Class<?>> getClasses() {
 		Set<Class<?>> set = Sets.newHashSet();
-		set.add(JSONMessageBodyWriter.class);
+		set.add(JSONMessageBodyReaderWriter.class);
 
 		set.add(SubscriptionsREST.class);
 		set.add(EntriesREST.class);

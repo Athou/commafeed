@@ -3,6 +3,8 @@ package com.commafeed.frontend.rest.resources;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
@@ -14,15 +16,19 @@ public class SettingsREST extends AbstractREST {
 	@Path("get")
 	@GET
 	public Settings get() {
-		UserSettings settings = userSettingsService.findByUser(getUser());
 		Settings s = new Settings();
-		s.setReadingMode(settings.getReadingMode().name().toLowerCase());
+		UserSettings settings = userSettingsService.findByUser(getUser());
+		if (settings != null) {
+			s.setReadingMode(settings.getReadingMode().name());
+		} else {
+			s.setReadingMode(ReadingMode.unread.name());
+		}
 		return s;
 	}
 
 	@Path("save")
 	@POST
-	public void save(Settings settings) {
+	public Response save(Settings settings) {
 		UserSettings s = userSettingsService.findByUser(getUser());
 		if (s == null) {
 			s = new UserSettings();
@@ -30,6 +36,7 @@ public class SettingsREST extends AbstractREST {
 		}
 		s.setReadingMode(ReadingMode.valueOf(settings.getReadingMode()));
 		userSettingsService.saveOrUpdate(s);
+		return Response.ok(Status.OK).build();
 
 	}
 }

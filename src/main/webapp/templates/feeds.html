@@ -1,14 +1,5 @@
 <div ng-controller="FeedListCtrl">
-
-
-	<div class="toolbar">
-	    <div class="btn-group" data-toggle="buttons-radio">
-	        <button type="button" class="btn" ng-model="readType" btn-radio="'all'" ng-click="refreshList()">All</button>
-	        <button type="button" class="btn" ng-model="readType" btn-radio="'unread'" ng-click="refreshList()">Unread only</button>
-	    </div>
-	</div>
-
-
+{{readType}}
 	<span>{{entryList.name}}</span><span
 		ng-show="selectedType == 'category'"> &#187;</span>
 	<div class="accordion" id="feed-accordion">

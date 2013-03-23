@@ -2,13 +2,7 @@ var module = angular.module('commafeed.services', [ 'ngResource' ]);
 
 module.factory('CategoryService', [ '$resource', '$http',
 		function($resource, $http) {
-			var actions = {
-				'get' : {
-					method : 'GET'
-				}
-			};
-			res = $resource('rest/subscriptions', {}, actions);
-			return res;
+			return $resource('rest/subscriptions');
 		} ]);
 
 module.factory('EntryService', [
@@ -16,7 +10,7 @@ module.factory('EntryService', [
 		'$http',
 		function($resource, $http) {
 			var actions = {
-				'get' : {
+				get : {
 					method : 'GET',
 					params : {
 						_method : 'get'
@@ -33,3 +27,12 @@ module.factory('EntryService', [
 					actions);
 			return res;
 		} ]);
+
+module.service('SettingsService', function($resource) {
+	var s = {}
+	s.settings = $resource('rest/settings/get').get();
+	s.save = function() {
+		$resource('rest/settings/save').save(s.settings);
+	};
+	return s;
+});

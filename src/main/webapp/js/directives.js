@@ -24,3 +24,20 @@ module.directive('category', function($compile) {
 	     }
 	};
 });
+
+module.directive('toolbar', function(SettingsService) {
+	return {
+		scope : {},
+		restrict : 'E',
+		replace : true,
+		templateUrl : 'directives/toolbar.html',
+		controller : function($scope, SettingsService) {
+			$scope.settings = SettingsService.settings;
+		},
+		link : function($scope, element) {
+			element.find('button').bind('click', function() {
+				SettingsService.save();
+			});
+		}
+	};
+});

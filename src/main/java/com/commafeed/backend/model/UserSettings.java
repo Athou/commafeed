@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -12,10 +13,11 @@ import javax.persistence.Table;
 public class UserSettings extends AbstractModel {
 
 	public enum ReadingMode {
-		ALL, UNREAD
+		all, unread
 	}
 
 	@Column(name = "user_id")
+	@OneToOne
 	private User user;
 
 	@Enumerated(EnumType.STRING)

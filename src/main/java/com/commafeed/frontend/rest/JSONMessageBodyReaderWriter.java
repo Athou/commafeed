@@ -1,6 +1,7 @@
 package com.commafeed.frontend.rest;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -8,11 +9,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
@@ -28,10 +31,18 @@ import com.google.gson.JsonSerializer;
 
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
-public class JSONMessageBodyWriter implements MessageBodyWriter<Object> {
+@Consumes(MediaType.APPLICATION_JSON)
+public class JSONMessageBodyReaderWriter implements MessageBodyWriter<Object>,
+		MessageBodyReader<Object> {
 
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType,
+			Annotation[] annotations, MediaType mediaType) {
+		return true;
+	}
+
+	@Override
+	public boolean isReadable(Class<?> type, Type genericType,
 			Annotation[] annotations, MediaType mediaType) {
 		return true;
 	}
@@ -50,11 +61,23 @@ public class JSONMessageBodyWriter implements MessageBodyWriter<Object> {
 			WebApplicationException {
 		httpHeaders.putSingle(HttpHeaders.CONTENT_TYPE, mediaType.toString()
 				+ ";charset=UTF-8");
+		IOUtils.write(getGson().toJson(t), entityStream, "UTF-8");
 
+	}
+
+	@Override
+	public Object readFrom(Class<Object> type, Type genericType,
+			Annotation[] annotations, MediaType mediaType,
+			MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
+			throws IOException, WebApplicationException {
+		String json = IOUtils.toString(entityStream, "UTF-8");
+		return getGson().fromJson(json, type);
+	}
+
+	private Gson getGson() {
 		Gson gson = new GsonBuilder().registerTypeAdapter(Date.class,
 				new DateSerializer()).create();
-		IOUtils.write(gson.toJson(t), entityStream, "UTF-8");
-
+		return gson;
 	}
 
 	private static class DateSerializer implements JsonSerializer<Date> {

@@ -1,28 +1,19 @@
 package com.commafeed.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "USERSETTINGS")
 @SuppressWarnings("serial")
-public class UserSettings implements Serializable {
+public class UserSettings extends AbstractModel {
 
 	public enum ReadingMode {
 		ALL, UNREAD
 	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
 
 	@Column(name = "user_id")
 	private User user;
@@ -36,14 +27,6 @@ public class UserSettings implements Serializable {
 
 	public void setReadingMode(ReadingMode readingMode) {
 		this.readingMode = readingMode;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public User getUser() {

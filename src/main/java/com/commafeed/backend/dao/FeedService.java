@@ -5,6 +5,6 @@ import javax.ejb.Stateless;
 import com.commafeed.model.Feed;
 
 @Stateless
-public class FeedService extends GenericDAO<Feed, String> {
+public class FeedService extends GenericDAO<Feed, Long> {
 
 }

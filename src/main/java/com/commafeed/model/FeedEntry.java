@@ -1,11 +1,9 @@
 package com.commafeed.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -15,9 +13,8 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "FEEDENTRIES")
 @SuppressWarnings("serial")
-public class FeedEntry implements Serializable {
+public class FeedEntry extends AbstractModel {
 
-	@Id
 	@Column(length = 2048)
 	private String guid;
 

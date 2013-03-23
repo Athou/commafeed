@@ -109,7 +109,7 @@ public class FeedEntriesREST extends JSONPage {
 
 	private Entry buildEntry(FeedEntry feedEntry) {
 		Entry entry = new Entry();
-		entry.setId(feedEntry.getGuid());
+		entry.setId(String.valueOf(feedEntry.getId()));
 		entry.setTitle(feedEntry.getTitle());
 		entry.setContent(feedEntry.getContent());
 		entry.setDate(feedEntry.getUpdated());

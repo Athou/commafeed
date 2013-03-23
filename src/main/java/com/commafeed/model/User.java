@@ -1,22 +1,13 @@
 package com.commafeed.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "USERS")
 @SuppressWarnings("serial")
-public class User implements Serializable {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+public class User extends AbstractModel {
 
 	@Column(length = 32)
 	private String name;
@@ -41,14 +32,6 @@ public class User implements Serializable {
 
 	public void setPassword(byte[] password) {
 		this.password = password;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public byte[] getSalt() {

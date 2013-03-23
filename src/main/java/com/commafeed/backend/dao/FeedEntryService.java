@@ -8,20 +8,26 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 
+import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.commafeed.model.Feed;
 import com.commafeed.model.FeedEntry;
 import com.commafeed.model.User;
+import com.google.common.collect.Iterables;
 
 @Stateless
-public class FeedEntryService extends GenericDAO<FeedEntry, String> {
+public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 
 	@Inject
 	FeedService feedService;
 
 	public void updateEntries(String url, Collection<FeedEntry> entries) {
-		Feed feed = feedService.findById(url);
+		Feed feed = Iterables.getFirst(
+				feedService.findByField(MF.i(MF.p(Feed.class).getUrl()), url),
+				null);
 		for (FeedEntry entry : entries) {
-			FeedEntry existing = findById(entry.getGuid());
+			FeedEntry existing = Iterables.getFirst(
+					findByField(MF.i(MF.p(getType()).getGuid()),
+							entry.getGuid()), null);
 			if (existing == null) {
 				entry.setFeed(feed);
 				save(entry);

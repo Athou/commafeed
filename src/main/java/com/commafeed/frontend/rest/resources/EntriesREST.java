@@ -30,11 +30,13 @@ public class EntriesREST extends AbstractREST {
 			@PathParam("id") String id, @PathParam("readType") String readType) {
 
 		Entries entries = new Entries();
+		boolean unreadOnly = "unread".equals(readType);
+
 		if ("feed".equals(type)) {
 			FeedSubscription subscription = feedSubscriptionService
 					.findById(Long.valueOf(id));
 			entries.setName(subscription.getTitle());
-			entries.getEntries().addAll(buildEntries(subscription));
+			entries.getEntries().addAll(buildEntries(subscription, unreadOnly));
 
 		} else {
 			FeedCategory feedCategory = "all".equals(id) ? null
@@ -45,7 +47,8 @@ public class EntriesREST extends AbstractREST {
 
 			entries.setName("all".equals(id) ? "All" : feedCategory.getName());
 			for (FeedSubscription subscription : subscriptions) {
-				entries.getEntries().addAll(buildEntries(subscription));
+				entries.getEntries().addAll(
+						buildEntries(subscription, unreadOnly));
 			}
 		}
 
@@ -59,9 +62,17 @@ public class EntriesREST extends AbstractREST {
 		return entries;
 	}
 
-	private List<Entry> buildEntries(FeedSubscription subscription) {
-		List<FeedEntry> feedEntries = feedEntryService.getUnreadEntries(
-				subscription.getFeed(), getUser());
+	private List<Entry> buildEntries(FeedSubscription subscription,
+			boolean unreadOnly) {
+		List<FeedEntry> feedEntries = null;
+
+		if (unreadOnly) {
+			feedEntries = feedEntryService.getUnreadEntries(
+					subscription.getFeed(), getUser());
+		} else {
+			feedEntries = feedEntryService.getAllEntries(
+					subscription.getFeed());
+		}
 
 		List<Entry> entries = Lists.newArrayList();
 		for (FeedEntry feedEntry : feedEntries) {

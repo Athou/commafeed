@@ -46,12 +46,11 @@ public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 		return typedQuery.getResultList();
 	}
 	
-	public List<FeedEntry> getAllEntries(Feed feed, User user) {
+	public List<FeedEntry> getAllEntries(Feed feed) {
 		String query = "select e from FeedEntry e where e.feed=:feed";
 		TypedQuery<FeedEntry> typedQuery = em.createQuery(query,
 				FeedEntry.class);
 		typedQuery.setParameter("feed", feed);
-		typedQuery.setParameter("user", user);
 		return typedQuery.getResultList();
 	}
 

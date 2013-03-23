@@ -1,8 +1,10 @@
 package com.commafeed.frontend.rest.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Entry {
+public class Entry implements Serializable {
+
 	private String id;
 	private String title;
 	private String content;

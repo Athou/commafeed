@@ -72,7 +72,7 @@ public class FeedParser {
 	}
 
 	private String handleContent(String content) {
-		Document doc = Jsoup.parse(content);
+		Document doc = Jsoup.parse(content, "UTF-8");
 		doc.select("a").attr("target", "_blank");
 		return doc.outerHtml();
 	}

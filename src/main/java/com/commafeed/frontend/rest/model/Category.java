@@ -1,10 +1,12 @@
 package com.commafeed.frontend.rest.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-public class Category {
+public class Category implements Serializable {
+	
 	private String id;
 	private String name;
 	private List<Category> children = Lists.newArrayList();

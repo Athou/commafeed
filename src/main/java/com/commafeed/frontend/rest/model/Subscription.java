@@ -1,6 +1,9 @@
 package com.commafeed.frontend.rest.model;
 
-public class Subscription {
+import java.io.Serializable;
+
+public class Subscription implements Serializable {
+
 	private Long id;
 	private String name;
 	private int unread;

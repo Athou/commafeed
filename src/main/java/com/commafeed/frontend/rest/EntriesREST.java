@@ -5,15 +5,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import com.commafeed.backend.dao.FeedCategoryService;
-import com.commafeed.backend.dao.FeedEntryService;
-import com.commafeed.backend.dao.FeedEntryStatusService;
-import com.commafeed.backend.dao.FeedSubscriptionService;
 import com.commafeed.frontend.rest.model.Entries;
 import com.commafeed.frontend.rest.model.Entry;
 import com.commafeed.frontend.utils.ModelFactory.MF;
@@ -24,36 +21,13 @@ import com.commafeed.model.FeedSubscription;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
-public class FeedEntriesREST extends JSONPage {
+@Path("entries")
+public class EntriesREST extends AbstractREST {
 
-	public static final String PARAM_TYPE = "type";
-	public static final String PARAM_ID = "id";
-	public static final String PARAM_READTYPE = "readtype";
-
-	@Inject
-	FeedEntryService feedEntryService;
-
-	@Inject
-	FeedEntryStatusService feedEntryStatusService;
-
-	@Inject
-	FeedSubscriptionService feedSubscriptionService;
-
-	@Inject
-	FeedCategoryService feedCategoryService;
-
-	public FeedEntriesREST(PageParameters pageParameters) {
-		super(pageParameters);
-	}
-
-	@Override
-	protected Object getObject(PageParameters parameters) {
-
-		String type = parameters.get(PARAM_TYPE).toString();
-		String id = parameters.get(PARAM_ID).toString();
-
-		@SuppressWarnings("unused")
-		String readType = parameters.get(PARAM_READTYPE).toString();
+	@Path("get/{type}/{id}/{readType}")
+	@GET
+	public Entries getEntries(@PathParam("type") String type,
+			@PathParam("id") String id, @PathParam("readType") String readType) {
 
 		Entries entries = new Entries();
 		if ("feed".equals(type)) {

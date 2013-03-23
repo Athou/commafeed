@@ -2,42 +2,29 @@ package com.commafeed.frontend.rest;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import com.commafeed.backend.dao.FeedCategoryService;
-import com.commafeed.backend.dao.FeedEntryService;
-import com.commafeed.backend.dao.FeedSubscriptionService;
 import com.commafeed.frontend.rest.model.Category;
 import com.commafeed.frontend.rest.model.Subscription;
 import com.commafeed.model.FeedCategory;
 import com.commafeed.model.FeedSubscription;
 
-@SuppressWarnings("serial")
-public class FeedSubscriptionsREST extends JSONPage {
+public class SubscriptionsREST extends AbstractREST {
 
-	@Inject
-	FeedSubscriptionService feedSubscriptionService;
-
-	@Inject
-	FeedCategoryService feedCategoryService;
-
-	@Inject
-	FeedEntryService feedEntryService;
-
-	public FeedSubscriptionsREST(PageParameters pageParameters) {
-		super(pageParameters);
-	}
-
-	@Override
-	protected Object getObject(PageParameters parameters) {
-		List<FeedCategory> categories = feedCategoryService.findAll(getUser());
+	@Path("subscriptions")
+	@GET
+	public Category getSubscriptions() {
 		Category root = new Category();
+
+		List<FeedCategory> categories = feedCategoryService.findAll(getUser());
 		addChildren(categories, root);
+
 		root.setId("all");
 		root.setName("All");
+
 		for (FeedSubscription subscription : feedSubscriptionService
 				.findWithoutCategories(getUser())) {
 			Subscription sub = new Subscription();
@@ -75,4 +62,5 @@ public class FeedSubscriptionsREST extends JSONPage {
 			}
 		}
 	}
+
 }

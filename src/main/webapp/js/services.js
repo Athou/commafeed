@@ -7,7 +7,7 @@ module.factory('CategoryService', [ '$resource', '$http',
 					method : 'GET'
 				}
 			}
-			res = $resource('subscriptions', {}, actions);
+			res = $resource('rest/subscriptions', {}, actions);
 			return res
 		} ]);
 
@@ -17,12 +17,10 @@ module.factory('EntryService', [ '$resource', '$http',
 				'getUnread' : {
 					method : 'GET',
 					params : {
-						_type : 'category',
-						_id : '1',
-						_readtype : 'unread',
+						_method : 'get'
 					}
 				}
 			}
-			res = $resource('entries/:_type/:_id/:_readtype', {}, actions);
+			res = $resource('rest/entries/:_method/:_type/:_id/:_readtype', {}, actions);
 			return res
 		} ]);

@@ -1,8 +1,9 @@
 var module = angular.module('commafeed.controllers', []);
 
 module.run(function($rootScope) {
-	$rootScope.$on('emitMarkAsRead', function(event, args) {
-		$rootScope.$broadcast('markAsRead', args);
+	$rootScope.$on('emitMark', function(event, args) {
+		// args.entry - the entry
+		$rootScope.$broadcast('mark', args);
 	});
 });
 
@@ -57,25 +58,25 @@ module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
 		$location.path('/feeds/view/category/' + id);
 	};
 
-	var markAsRead = function(node, entry, read) {
+	var mark = function(node, entry) {
 		if (node.children) {
 			for ( var i = 0; i < node.children.length; i++) {
-				markAsRead(node.children[i], entry, read);
+				mark(node.children[i], entry);
 			}
 		}
 		if (node.feeds) {
 			for ( var i = 0; i < node.feeds.length; i++) {
 				var feed = node.feeds[i];
 				if (feed.id == entry.feedId) {
-					var c = read ? -1 : 1;
+					var c = entry.read ? -1 : 1;
 					feed.unread = feed.unread + c;
 				}
 			}
 		}
 	};
 
-	$scope.$on('markAsRead', function(event, args) {
-		markAsRead($scope.root, args.entry, args.read)
+	$scope.$on('mark', function(event, args) {
+		mark($scope.root, args.entry)
 	});
 });
 
@@ -85,44 +86,22 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 	$scope.selectedType = $routeParams._type;
 	$scope.selectedId = $routeParams._id;
 
-	$scope.entryList = EntryService.getUnread({
+	$scope.entryList = EntryService.get({
 		_type : $scope.selectedType,
 		_id : $scope.selectedId,
 		_readtype : 'unread'
 	})
 
-	$scope.entryList2 = {
-		name : 'aaa',
-		entries : [ {
-			id : '1',
-			title : 'my title',
-			content : 'my content',
-			date : 'my date',
-			feedId : '1',
-			feedName : 'my feed',
-			url : 'my url',
-			read : false,
-			starred : false,
-		}, {
-			id : '2',
-			title : 'my other title',
-			content : 'my other content',
-			date : 'my other date',
-			feedId : '2',
-			feedName : 'my other feed',
-			url : 'my other url',
-			read : false,
-			starred : false,
-		} ]
-	};
-
-	$scope.markAsRead = function(entry) {
-		var read = entry.read;
-		entry.read = true;
+	$scope.mark = function(entry, read) {
 		if (entry.read != read) {
-			$scope.$emit('emitMarkAsRead', {
-				entry : entry,
-				read : true
+			entry.read = read;
+			$scope.$emit('emitMark', {
+				entry : entry
+			});
+			EntryService.mark({
+				_type : 'entry',
+				_id : entry.id,
+				_readtype : read
 			});
 		}
 	};

@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.reflect.TypeToken;
 import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
@@ -86,6 +87,10 @@ public abstract class GenericDAO<T, K> implements Serializable {
 	@SuppressWarnings("unchecked")
 	protected Class<T> getType() {
 		return (Class<T>) type.getRawType();
+	}
+
+	protected T proxy() {
+		return MF.p(getType());
 	}
 
 }

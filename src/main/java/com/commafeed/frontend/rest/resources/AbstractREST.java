@@ -5,8 +5,10 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.wicket.Application;
 import org.apache.wicket.ThreadContext;
@@ -51,6 +53,10 @@ public abstract class AbstractREST {
 		ThreadContext.setRequestCycle(cycle);
 		Application.get().fetchCreateAndSetSession(
 				Application.get().createRequestCycle(swreq, swresp));
+
+		if (getUser() == null) {
+			throw new WebApplicationException(Response.Status.UNAUTHORIZED);
+		}
 	}
 
 	protected User getUser() {

@@ -93,4 +93,26 @@ public class EntriesREST extends AbstractREST {
 		return entry;
 	}
 
+	@Path("mark/{type}/{id}/{read}")
+	@GET
+	public void mark(@PathParam("type") String type,
+			@PathParam("id") String id, @PathParam("read") boolean read) {
+		if ("entry".equals(type)) {
+			FeedEntry entry = feedEntryService.findById(Long.valueOf(id));
+			FeedEntryStatus status = feedEntryStatusService.getStatus(
+					getUser(), entry);
+			if (status == null) {
+				status = new FeedEntryStatus();
+				status.setUser(getUser());
+				status.setEntry(entry);
+			}
+			status.setRead(read);
+			if (status.getId() == null) {
+				feedEntryStatusService.save(status);
+			} else {
+				feedEntryStatusService.update(status);
+			}
+		}
+	}
+
 }

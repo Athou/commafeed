@@ -5,7 +5,7 @@
 		<div class="accordion-group" ng-repeat="entry in entryList.entries">
 			<div class="accordion-heading">
 				<a class="accordion-toggle" data-toggle="collapse"
-					ng-click="markAsRead(entry)"
+					ng-click="mark(entry, true)"
 					ng-class="{unread: entry.read == false}"
 					data-parent="#feed-accordion" href="{{'#feed-body' + $index}}">
 					<span ng-show="selectedType == 'category'">{{entry.feedName}}

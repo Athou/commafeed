@@ -7,7 +7,7 @@ module.run(function($rootScope) {
 	});
 });
 
-module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
+module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location, $route,
 		SubscriptionService) {
 
 	$scope.$on('$routeChangeSuccess', function() {
@@ -51,11 +51,19 @@ module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
 	}
 
 	$scope.feedClicked = function(id) {
-		$location.path('/feeds/view/feed/' + id);
+		if($scope.selectedType == 'feed' && id == $scope.selectedId) {
+			$route.reload();
+		} else {
+			$location.path('/feeds/view/feed/' + id);
+		}
 	};
 
 	$scope.categoryClicked = function(id) {
-		$location.path('/feeds/view/category/' + id);
+		if($scope.selectedType == 'category' && id == $scope.selectedId) {
+			$route.reload();
+		} else {
+			$location.path('/feeds/view/category/' + id);	
+		}
 	};
 
 	var mark = function(node, entry) {

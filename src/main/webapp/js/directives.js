@@ -1,5 +1,40 @@
 var module = angular.module('commafeed.directives', []);
 
+module.directive('subscribe', function() {
+	return {
+		scope : {},
+		restrict : 'E',
+		replace : true,
+		templateUrl : 'directives/subscribe.html',
+		controller : function($scope, SubscriptionService) {
+			$scope.opts = {
+				backdropFade : true,
+				dialogFade : true
+			};
+			
+		    $scope.isOpen = false;
+		    $scope.sub = {};
+		    
+			$scope.SubscriptionService = SubscriptionService;
+
+			$scope.open = function() {
+				$scope.sub = {};
+				$scope.isOpen = true;
+			};
+
+			$scope.close = function() {
+				$scope.isOpen = false;
+			};
+			
+			$scope.save = function() {
+				SubscriptionService.subscribe($scope.sub, function() {
+					$scope.close();
+				});
+			};
+		}
+	};
+});
+
 module.directive('category', function($compile) {
 	return {
 		scope: {

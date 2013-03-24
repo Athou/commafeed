@@ -1,0 +1,35 @@
+<div>
+	<button class="btn" ng-click="open()">Subscribe</button>
+	<div modal="isOpen" close="close()" options="opts">
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="close()">&times;</button>
+			<h4>Subscribe</h4>
+		</div>
+		<div class="modal-body form-horizontal">
+			<div class="control-group">
+				<label class="control-label">Feed URL</label>
+				<div class="controls">
+					<input type="text" ng-model="sub.url" placeholder="http://example.com/feed" class="input-block-level"></input>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Feed Name</label>
+				<div class="controls">
+					<input type="text" ng-model="sub.title" class="input-block-level"></input>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Category</label>
+				<div class="controls">
+					<select ui-select2 ng-model="sub.categoryId" class="input-block-level">
+						<option ng-repeat="cat in SubscriptionService.flatCategories" value="{{cat.id}}">{{cat.name}}</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
+			<button class="btn btn-primary ok" ng-click="save()">Save</button>
+		</div>
+	</div>
+</div>

@@ -1,8 +1,63 @@
 var module = angular.module('commafeed.services', [ 'ngResource' ]);
 
-module.factory('CategoryService', [ '$resource', '$http',
+module.factory('SubscriptionService', [ '$resource', '$http',
 		function($resource, $http) {
-			return $resource('rest/subscriptions');
+	
+		    var flatten = function(category, parentName, array) {
+		    	if(!array) array = [];
+				array.push({
+					id : category.id,
+					name : category.name + (parentName ? (' (in ' + parentName + ')') : '')
+				});
+				if (category.children) {
+					for ( var i = 0; i < category.children.length; i++) {
+						flatten(category.children[i], category.name, array);
+					}
+				}
+				return array;
+			}
+			var actions = {
+				get : {
+					method : 'GET',
+					params : {
+						_method : ''
+					}
+				},
+				subscribe : {
+					method : 'POST',
+					params : {
+						_method : 'subscribe'
+					}
+				},
+				unsubscribe : {
+					method : 'GET',
+					params : {
+						_method : 'unsubscribe'
+					}
+				}
+			};
+			var s = {};
+			s.subscriptions = {};
+			s.flatCategories = {};
+			
+			var res = $resource('rest/subscriptions/:_method', {}, actions);
+			s.init = function() {
+				s.subscriptions = res.get(function(){
+					s.flatCategories = flatten(s.subscriptions);
+				});
+			};
+			s.subscribe = function(sub) {
+				res.subscribe(sub);
+				s.init();
+			};
+			s.unsubscribe = function(id) {
+				res.unsubscribe({
+					id : id
+				});
+				s.init();
+			};
+			s.init();
+			return s;
 		} ]);
 
 module.factory('EntryService', [

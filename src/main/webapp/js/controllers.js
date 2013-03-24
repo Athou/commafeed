@@ -8,14 +8,14 @@ module.run(function($rootScope) {
 });
 
 module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
-		CategoryService) {
+		SubscriptionService) {
 
 	$scope.$on('$routeChangeSuccess', function() {
 		$scope.selectedType = $routeParams._type;
 		$scope.selectedId = $routeParams._id;
 	});
 
-	$scope.root = CategoryService.get();
+	$scope.SubscriptionService = SubscriptionService;
 
 	var unreadCount = function(category) {
 		var count = 0;
@@ -76,7 +76,7 @@ module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
 	};
 
 	$scope.$on('mark', function(event, args) {
-		mark($scope.root, args.entry)
+		mark($scope.SubscriptionService.subscriptions, args.entry)
 	});
 });
 

@@ -5,16 +5,18 @@
 	<link href="vendor/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
 	<link href="vendor/angular-ui/angular-ui.min.css" rel="stylesheet">
 	<link href="vendor/csstreeview/css3-treeview.css" rel="stylesheet">
+	<link href="vendor/select2/select2.css" rel="stylesheet">
 	<link href="css/app.css" rel="stylesheet">
 </head>
 <body>
 	<div ng-app="commafeed">
 		<div class="container-fluid">
 			<div class="row-fluid">
-				<div class="span2" ng-controller="CategoryTreeCtrl">
-					<div class="css-treeview">
+				<div class="span2">
+					<subscribe></subscribe>
+					<div class="css-treeview" ng-controller="CategoryTreeCtrl">
 						<ul>
-							<category node="root" feed-click="feedClicked(id)"
+							<category node="SubscriptionService.subscriptions" feed-click="feedClicked(id)"
 								category-click="categoryClicked(id)" selected-type="selectedType"
 								selected-id="selectedId"
 								format-category-name="formatCategoryName(category)"
@@ -32,6 +34,7 @@
 	
 	 <script src="vendor/jquery/jquery-1.9.1.min.js"></script>
 	 <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	 <script src="vendor/select2/select2.min.js"></script>
 	 <script src="vendor/angular/angular.min.js"></script>
 	 <script src="vendor/angular/angular-resource.min.js"></script>
 	 <script src="vendor/angular/angular-sanitize.min.js"></script>

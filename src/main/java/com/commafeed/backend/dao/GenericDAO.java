@@ -56,7 +56,7 @@ public abstract class GenericDAO<T, K> implements
 		em.remove(object);
 	}
 
-	public void deleteById(Object id) {
+	public void deleteById(K id) {
 		Object ref = em.getReference(getType(), id);
 		em.remove(ref);
 	}

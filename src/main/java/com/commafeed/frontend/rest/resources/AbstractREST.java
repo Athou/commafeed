@@ -20,6 +20,7 @@ import org.apache.wicket.request.cycle.RequestCycle;
 import com.commafeed.backend.dao.FeedCategoryService;
 import com.commafeed.backend.dao.FeedEntryService;
 import com.commafeed.backend.dao.FeedEntryStatusService;
+import com.commafeed.backend.dao.FeedService;
 import com.commafeed.backend.dao.FeedSubscriptionService;
 import com.commafeed.backend.dao.UserService;
 import com.commafeed.backend.dao.UserSettingsService;
@@ -36,6 +37,9 @@ public abstract class AbstractREST {
 
 	@Context
 	HttpServletResponse response;
+
+	@Inject
+	FeedService feedService;
 
 	@Inject
 	FeedSubscriptionService feedSubscriptionService;

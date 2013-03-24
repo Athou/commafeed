@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response.Status;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.frontend.model.Settings;
+import com.google.common.base.Preconditions;
 
 @Path("settings")
 public class SettingsREST extends AbstractREST {
@@ -29,6 +30,8 @@ public class SettingsREST extends AbstractREST {
 	@Path("save")
 	@POST
 	public Response save(Settings settings) {
+		Preconditions.checkNotNull(settings);
+		
 		UserSettings s = userSettingsService.findByUser(getUser());
 		if (s == null) {
 			s = new UserSettings();

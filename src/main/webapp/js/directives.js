@@ -56,6 +56,21 @@ module.directive('category', function($compile) {
             		format-category-name="formatCategoryName({category:category})" format-feed-name="formatFeedName({feed:feed})">\
             		</category>');
             $compile(ul.contents())(scope);
+	     },
+	     controller: function($scope, $dialog, SubscriptionService) {
+	    	 $scope.unsubscribe = function(subscription) {
+				var title = 'Unsubscribe';
+			    var msg = 'Unsubscribe from ' + subscription.name + ' ?';
+			    var btns = [{result:'cancel', label: 'Cancel'}, {result:'ok', label: 'OK', cssClass: 'btn-primary'}];
+			    
+				$dialog.messageBox(title, msg, btns)
+			      .open()
+			      .then(function(result){
+			    	  if(result == 'ok'){
+			    		  SubscriptionService.unsubscribe(subscription.id);
+			    	  }
+			    });
+	    	 }
 	     }
 	};
 });

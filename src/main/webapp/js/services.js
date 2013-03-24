@@ -46,14 +46,14 @@ module.factory('SubscriptionService', [ '$resource', '$http',
 					s.flatCategories = flatten(s.subscriptions);
 				});
 			};
-			s.subscribe = function(sub) {
-				res.subscribe(sub);
+			s.subscribe = function(sub, callback) {
+				res.subscribe(sub, callback);
 				s.init();
 			};
-			s.unsubscribe = function(id) {
+			s.unsubscribe = function(id, callback) {
 				res.unsubscribe({
 					id : id
-				});
+				}, callback);
 				s.init();
 			};
 			s.init();

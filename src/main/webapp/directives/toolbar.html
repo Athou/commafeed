@@ -1,11 +1,11 @@
 <div class="toolbar">
 
 	<span>Reading Mode </span>	
-	<div class="btn-group" data-toggle="buttons-radio">
+	<div class="btn-group read-mode" data-toggle="buttons-radio">
 		<button type="button" class="btn" ng-model="settings.readingMode" btn-radio="'unread'">Unread</button>
 		<button type="button" class="btn" ng-model="settings.readingMode" btn-radio="'all'">All</button>
 	</div>
 	
-	<button type="button" class="btn"><i class="icon icon-refresh"></i> Refresh</button>
+	<button type="button" class="btn" ng-click="refresh()"><i class="icon icon-refresh"></i> Refresh</button>
 	<button type="button" class="btn"><i class="icon icon-ok"></i> Mark all as read</button>
 </div>

@@ -81,11 +81,14 @@ module.directive('toolbar', function(SettingsService) {
 		restrict : 'E',
 		replace : true,
 		templateUrl : 'directives/toolbar.html',
-		controller : function($scope, SettingsService) {
+		controller : function($scope, $route, SettingsService) {
 			$scope.settings = SettingsService.settings;
+			$scope.refresh = function() {
+				$route.reload();
+			}
 		},
 		link : function($scope, element) {
-			element.find('button').bind('click', function() {
+			element.find('.read-mode button').bind('click', function() {
 				SettingsService.save();
 			});
 		}

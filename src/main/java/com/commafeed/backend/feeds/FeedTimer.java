@@ -50,9 +50,8 @@ public class FeedTimer {
 				feedEntryService
 						.updateEntries(feed.getUrl(), feed.getEntries());
 			} catch (Exception e) {
-				log.info(
-						"Unable to refresh feed " + key + " : "
-								+ e.getMessage(), e);
+				log.info("Unable to refresh feed " + key + " : "
+						+ e.getMessage());
 
 				Feed feed = feeds.get(key);
 				feed.setLastUpdated(Calendar.getInstance().getTime());

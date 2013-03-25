@@ -102,15 +102,45 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 		$scope.refreshList();
 	});
 
+	
+	$scope.offset = 0;
+	$scope.limit = 10;
+	$scope.busy = false;
+	$scope.hasMore = true;
+	
 	$scope.refreshList = function() {
 		if ($scope.settings.readingMode) {
 			$scope.entryList = EntryService.get({
 				_type : $scope.selectedType,
 				_id : $scope.selectedId,
-				_readtype : $scope.settings.readingMode
+				_readtype : $scope.settings.readingMode,
+				offset : $scope.offset,
+				limit : 30
 			});
 		}
 	};
+	
+	$scope.loadMoreEntries = function() {
+		if ($scope.busy || !$scope.hasMore)
+			return;
+		if (!$scope.settings.readingMode) 
+			return;
+		$scope.busy = true;
+		EntryService.get({
+			_type : $scope.selectedType,
+			_id : $scope.selectedId,
+			_readtype : $scope.settings.readingMode,
+			offset : $scope.offset,
+			limit : $scope.limit
+		}, function(data) {
+			for ( var i = 0; i < data.entries.length; i++) {
+				$scope.entryList.entries.push(data.entries[i]);
+			}
+			$scope.offset = $scope.offset + data.entries.length;
+			$scope.busy = false;
+			$scope.hasMore = data.entries.length == $scope.limit;
+		});
+	}
 
 	$scope.mark = function(entry, read) {
 		if (entry.read != read) {

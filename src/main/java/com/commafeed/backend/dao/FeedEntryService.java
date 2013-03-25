@@ -39,21 +39,39 @@ public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 		em.merge(feed);
 	}
 
-	public List<FeedEntry> getUnreadEntries(Feed feed, User user) {
+	private TypedQuery<FeedEntry> unreadQuery(Feed feed, User user) {
 		String query = "select e from FeedEntry e where e.feed=:feed and not exists (select s from FeedEntryStatus s where s.entry = e and s.user =:user and s.read = true)";
 		TypedQuery<FeedEntry> typedQuery = em.createQuery(query,
 				FeedEntry.class);
 		typedQuery.setParameter("feed", feed);
 		typedQuery.setParameter("user", user);
-		return typedQuery.getResultList();
+		return typedQuery;
 	}
 
-	public List<FeedEntry> getAllEntries(Feed feed) {
+	public List<FeedEntry> getUnreadEntries(Feed feed, User user) {
+		return unreadQuery(feed, user).getResultList();
+	}
+
+	public List<FeedEntry> getUnreadEntries(Feed feed, User user, int offset,
+			int limit) {
+		return unreadQuery(feed, user).setFirstResult(offset)
+				.setMaxResults(limit).getResultList();
+	}
+
+	private TypedQuery<FeedEntry> allQuery(Feed feed) {
 		String query = "select e from FeedEntry e where e.feed=:feed";
 		TypedQuery<FeedEntry> typedQuery = em.createQuery(query,
 				FeedEntry.class);
 		typedQuery.setParameter("feed", feed);
-		return typedQuery.getResultList();
+		return typedQuery;
 	}
 
+	public List<FeedEntry> getAllEntries(Feed feed) {
+		return allQuery(feed).getResultList();
+	}
+
+	public List<FeedEntry> getAllEntries(Feed feed, int offset, int limit) {
+		return allQuery(feed).setFirstResult(offset).setMaxResults(limit)
+				.getResultList();
+	}
 }

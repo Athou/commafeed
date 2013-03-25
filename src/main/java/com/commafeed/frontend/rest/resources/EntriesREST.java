@@ -5,9 +5,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 
 import org.apache.commons.lang.ObjectUtils;
 
@@ -27,7 +29,9 @@ public class EntriesREST extends AbstractREST {
 	@Path("get/{type}/{id}/{readType}")
 	@GET
 	public Entries getEntries(@PathParam("type") String type,
-			@PathParam("id") String id, @PathParam("readType") String readType) {
+			@PathParam("id") String id, @PathParam("readType") String readType,
+			@DefaultValue("0") @QueryParam("offset") int offset,
+			@DefaultValue("-1") @QueryParam("limit") int limit) {
 
 		Entries entries = new Entries();
 		boolean unreadOnly = "unread".equals(readType);
@@ -36,7 +40,8 @@ public class EntriesREST extends AbstractREST {
 			FeedSubscription subscription = feedSubscriptionService.findById(
 					getUser(), Long.valueOf(id));
 			entries.setName(subscription.getTitle());
-			entries.getEntries().addAll(buildEntries(subscription, unreadOnly));
+			entries.getEntries().addAll(
+					buildEntries(subscription, offset, limit, unreadOnly));
 
 		} else {
 			FeedCategory feedCategory = "all".equals(id) ? null
@@ -48,7 +53,7 @@ public class EntriesREST extends AbstractREST {
 			entries.setName("all".equals(id) ? "All" : feedCategory.getName());
 			for (FeedSubscription subscription : subscriptions) {
 				entries.getEntries().addAll(
-						buildEntries(subscription, unreadOnly));
+						buildEntries(subscription, offset, limit, unreadOnly));
 			}
 		}
 
@@ -59,19 +64,27 @@ public class EntriesREST extends AbstractREST {
 				return ObjectUtils.compare(e2.getDate(), e1.getDate());
 			}
 		});
+
+		int lastIndex = entries.getEntries().size()
+				- (entries.getEntries().isEmpty() ? 0 : 1);
+		int from = Math.min(lastIndex, offset);
+		int to = limit == -1 ? lastIndex : Math.min(lastIndex, offset + limit);
+
+		List<Entry> subList = entries.getEntries().subList(from, to);
+		entries.setEntries(Lists.newArrayList(subList));
 		return entries;
 	}
 
-	private List<Entry> buildEntries(FeedSubscription subscription,
-			boolean unreadOnly) {
+	private List<Entry> buildEntries(FeedSubscription subscription, int offset,
+			int limit, boolean unreadOnly) {
 		List<FeedEntry> feedEntries = null;
 
 		if (unreadOnly) {
 			feedEntries = feedEntryService.getUnreadEntries(
-					subscription.getFeed(), getUser());
+					subscription.getFeed(), getUser(), offset, limit);
 		} else {
-			feedEntries = feedEntryService
-					.getAllEntries(subscription.getFeed());
+			feedEntries = feedEntryService.getAllEntries(
+					subscription.getFeed(), offset, limit);
 		}
 
 		List<Entry> entries = Lists.newArrayList();

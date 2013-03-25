@@ -20,23 +20,39 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.utils.ModelFactory.MF;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 @Path("entries")
 public class EntriesREST extends AbstractREST {
 
-	@Path("get/{type}/{id}/{readType}")
+	private static final String ALL = "all";
+
+	public enum Type {
+		category, feed;
+	}
+
+	public enum ReadType {
+		all, unread;
+	}
+
+	@Path("get")
 	@GET
-	public Entries getEntries(@PathParam("type") String type,
-			@PathParam("id") String id, @PathParam("readType") String readType,
+	public Entries getEntries(@QueryParam("type") Type type,
+			@QueryParam("id") String id,
+			@QueryParam("readType") ReadType readType,
 			@DefaultValue("0") @QueryParam("offset") int offset,
 			@DefaultValue("-1") @QueryParam("limit") int limit) {
 
-		Entries entries = new Entries();
-		boolean unreadOnly = "unread".equals(readType);
+		Preconditions.checkNotNull(type);
+		Preconditions.checkNotNull(id);
+		Preconditions.checkNotNull(readType);
 
-		if ("feed".equals(type)) {
+		Entries entries = new Entries();
+		boolean unreadOnly = readType == ReadType.unread;
+
+		if (type == Type.feed) {
 			FeedSubscription subscription = feedSubscriptionService.findById(
 					getUser(), Long.valueOf(id));
 			entries.setName(subscription.getTitle());
@@ -44,13 +60,13 @@ public class EntriesREST extends AbstractREST {
 					buildEntries(subscription, offset, limit, unreadOnly));
 
 		} else {
-			FeedCategory feedCategory = "all".equals(id) ? null
+			FeedCategory feedCategory = ALL.equals(id) ? null
 					: feedCategoryService.findById(getUser(), Long.valueOf(id));
-			Collection<FeedSubscription> subscriptions = "all".equals(id) ? feedSubscriptionService
+			Collection<FeedSubscription> subscriptions = ALL.equals(id) ? feedSubscriptionService
 					.findAll(getUser()) : feedSubscriptionService
 					.findWithCategory(getUser(), feedCategory);
 
-			entries.setName("all".equals(id) ? "All" : feedCategory.getName());
+			entries.setName(ALL.equals(id) ? ALL : feedCategory.getName());
 			for (FeedSubscription subscription : subscriptions) {
 				entries.getEntries().addAll(
 						buildEntries(subscription, offset, limit, unreadOnly));
@@ -67,11 +83,9 @@ public class EntriesREST extends AbstractREST {
 
 		if (limit > -1) {
 			int size = entries.getEntries().size();
-			System.out.println(size);
 			int to = Math.min(size, limit);
 			List<Entry> subList = entries.getEntries().subList(0, to);
 			entries.setEntries(Lists.newArrayList(subList));
-			System.out.println(entries.getEntries().size());
 		}
 		return entries;
 	}

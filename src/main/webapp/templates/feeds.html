@@ -2,8 +2,8 @@
 {{readType}}
 	<span>{{entryList.name}}</span><span
 		ng-show="selectedType == 'category'"> &#187;</span>
-	<div id="feed-accordion" infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
-		<div ng-repeat="entry in entryList.entries">
+	<div class="accordion" id="feed-accordion" infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
+		<div ng-repeat="entry in entryList.entries" class="entry">
 			<div class="entry-heading">
 				<a class="accordion-toggle" data-toggle="collapse"
 					ng-click="mark(entry, true)"

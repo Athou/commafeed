@@ -104,29 +104,34 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 
 	$scope.limit = 10;
 	$scope.busy = false;
+	$scope.hasMore = true;
 	
 	$scope.refreshList = function() {
 		if ($scope.settings.readingMode) {
 			$scope.entryList = EntryService.get({
-				_type : $scope.selectedType,
-				_id : $scope.selectedId,
-				_readtype : $scope.settings.readingMode,
+				type : $scope.selectedType,
+				id : $scope.selectedId,
+				readType : $scope.settings.readingMode,
 				offset : 0,
-				limit : $scope.limit
+				limit : 30
 			});
 		}
 	};
 	
 	$scope.loadMoreEntries = function() {
+		if(!$scope.hasMore)
+			return;
+		if (!$scope.entryList || !$scope.entryList.entries)
+			return;
 		if ($scope.busy)
 			return;
 		if (!$scope.settings.readingMode) 
 			return;
 		$scope.busy = true;
 		EntryService.get({
-			_type : $scope.selectedType,
-			_id : $scope.selectedId,
-			_readtype : $scope.settings.readingMode,
+			type : $scope.selectedType,
+			id : $scope.selectedId,
+			readType : $scope.settings.readingMode,
 			offset : $scope.entryList.entries.length,
 			limit : $scope.limit
 		}, function(data) {
@@ -135,9 +140,8 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 			for ( var i = 0; i < entries.length; i++) {
 				$scope.entryList.entries.push(entries[i]);
 			}
-			console.log(entries.length)
-			console.log($scope.limit)
 			$scope.busy = false;
+			$scope.hasMore = entries.length == $scope.limit
 		});
 	}
 

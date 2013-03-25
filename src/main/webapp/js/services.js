@@ -78,7 +78,7 @@ module.factory('EntryService', [
 					}
 				}
 			};
-			res = $resource('rest/entries/:_method/:_type/:_id/:_readtype', {},
+			res = $resource('rest/entries/:_method', {},
 					actions);
 			return res;
 		} ]);

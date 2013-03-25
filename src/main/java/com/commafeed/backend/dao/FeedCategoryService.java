@@ -5,6 +5,8 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 
+import org.apache.commons.lang.ObjectUtils;
+
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.utils.ModelFactory.MF;
@@ -43,5 +45,20 @@ public class FeedCategoryService extends GenericDAO<FeedCategory, Long> {
 			category = null;
 		}
 		return category;
+	}
+
+	public boolean isChild(FeedCategory child, FeedCategory parent) {
+		if (parent == null) {
+			return true;
+		}
+		boolean isChild = false;
+		while (child != null) {
+			if (ObjectUtils.equals(child.getId(), parent.getId())) {
+				isChild = true;
+				break;
+			}
+			child = child.getParent();
+		}
+		return isChild;
 	}
 }

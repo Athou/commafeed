@@ -94,8 +94,8 @@ public class SubscriptionsREST extends AbstractREST {
 			sub.setId(subscription.getId());
 			sub.setName(subscription.getTitle());
 			sub.setMessage(subscription.getFeed().getMessage());
-			int size = feedEntryService.getUnreadEntries(
-					subscription.getFeed(), getUser()).size();
+			int size = feedEntryService.getEntries(subscription.getFeed(),
+					getUser(), false).size();
 			sub.setUnread(size);
 			root.getFeeds().add(sub);
 		}
@@ -118,8 +118,8 @@ public class SubscriptionsREST extends AbstractREST {
 					sub.setId(subscription.getId());
 					sub.setName(subscription.getTitle());
 					sub.setMessage(subscription.getFeed().getMessage());
-					int size = feedEntryService.getUnreadEntries(
-							subscription.getFeed(), getUser()).size();
+					int size = feedEntryService.getEntries(
+							subscription.getFeed(), getUser(), false).size();
 					sub.setUnread(size);
 					child.getFeeds().add(sub);
 				}

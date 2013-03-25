@@ -19,9 +19,7 @@ import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
-import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 @Path("entries")
@@ -92,30 +90,27 @@ public class EntriesREST extends AbstractREST {
 
 	private List<Entry> buildEntries(FeedSubscription subscription, int offset,
 			int limit, boolean unreadOnly) {
-		List<FeedEntry> feedEntries = null;
+		List<Entry> entries = Lists.newArrayList();
 
-		if (unreadOnly) {
-			feedEntries = feedEntryService.getUnreadEntries(
-					subscription.getFeed(), getUser(), offset, limit);
-		} else {
-			feedEntries = feedEntryService.getAllEntries(
-					subscription.getFeed(), offset, limit);
+		if (!unreadOnly) {
+			List<FeedEntry> unreadEntries = feedEntryService.getEntries(
+					subscription.getFeed(), getUser(), true, offset, limit);
+			for (FeedEntry feedEntry : unreadEntries) {
+				Entry entry = buildEntry(feedEntry);
+				entry.setFeedName(subscription.getTitle());
+				entry.setFeedId(String.valueOf(subscription.getId()));
+				entry.setRead(true);
+				entries.add(entry);
+			}
 		}
 
-		List<Entry> entries = Lists.newArrayList();
-		for (FeedEntry feedEntry : feedEntries) {
-
-			List<FeedEntryStatus> feedEntryStatus = feedEntryStatusService
-					.findByField(MF.i(MF.p(FeedEntryStatus.class).getEntry()),
-							feedEntry);
-
+		List<FeedEntry> readEntries = feedEntryService.getEntries(
+				subscription.getFeed(), getUser(), false, offset, limit);
+		for (FeedEntry feedEntry : readEntries) {
 			Entry entry = buildEntry(feedEntry);
 			entry.setFeedName(subscription.getTitle());
 			entry.setFeedId(String.valueOf(subscription.getId()));
-			entry.setRead(feedEntryStatus.isEmpty() ? false : Iterables
-					.getFirst(feedEntryStatus, null).isRead());
-			entry.setStarred(feedEntryStatus.isEmpty() ? false : Iterables
-					.getFirst(feedEntryStatus, null).isStarred());
+			entry.setRead(false);
 			entries.add(entry);
 		}
 		return entries;
@@ -144,14 +139,14 @@ public class EntriesREST extends AbstractREST {
 			FeedEntry entry = feedEntryService.findById(Long.valueOf(id));
 			markEntry(entry, read);
 		} else if (type == Type.feed) {
-			List<FeedEntry> entries = null;
+			List<FeedEntry> entries = Lists.newArrayList();
 			Feed feed = feedSubscriptionService.findById(Long.valueOf(id))
 					.getFeed();
 			if (read) {
-				entries = feedEntryService.getUnreadEntries(feed, getUser());
-			} else {
-				entries = feedEntryService.getAllEntries(feed);
+				entries.addAll(feedEntryService.getEntries(feed, getUser(),
+						false));
 			}
+			entries.addAll(feedEntryService.getEntries(feed, getUser(), true));
 			for (FeedEntry entry : entries) {
 				markEntry(entry, read);
 			}

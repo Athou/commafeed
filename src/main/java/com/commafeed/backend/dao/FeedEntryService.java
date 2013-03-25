@@ -39,39 +39,28 @@ public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 		em.merge(feed);
 	}
 
-	private TypedQuery<FeedEntry> unreadQuery(Feed feed, User user) {
-		String query = "select e from FeedEntry e where e.feed =:feed and not exists (select s from FeedEntryStatus s where s.entry = e and s.user =:user and s.read = true)";
-		TypedQuery<FeedEntry> typedQuery = em.createQuery(query,
+	public List<FeedEntry> getEntries(Feed feed, User user, boolean read) {
+		return getEntries(feed, user, read, -1, -1);
+	}
+
+	public List<FeedEntry> getEntries(Feed feed, User user, boolean read,
+			int offset, int limit) {
+		String queryName = null;
+		if (read) {
+			queryName = "Entry.readByFeed";
+		} else {
+			queryName = "Entry.unreadByFeed";
+		}
+		TypedQuery<FeedEntry> query = em.createNamedQuery(queryName,
 				FeedEntry.class);
-		typedQuery.setParameter("feed", feed);
-		typedQuery.setParameter("user", user);
-		return typedQuery;
-	}
-
-	public List<FeedEntry> getUnreadEntries(Feed feed, User user) {
-		return unreadQuery(feed, user).getResultList();
-	}
-
-	public List<FeedEntry> getUnreadEntries(Feed feed, User user, int offset,
-			int limit) {
-		return unreadQuery(feed, user).setFirstResult(offset)
-				.setMaxResults(limit).getResultList();
-	}
-
-	private TypedQuery<FeedEntry> allQuery(Feed feed) {
-		String query = "select e from FeedEntry e where e.feed=:feed";
-		TypedQuery<FeedEntry> typedQuery = em.createQuery(query,
-				FeedEntry.class);
-		typedQuery.setParameter("feed", feed);
-		return typedQuery;
-	}
-
-	public List<FeedEntry> getAllEntries(Feed feed) {
-		return allQuery(feed).getResultList();
-	}
-
-	public List<FeedEntry> getAllEntries(Feed feed, int offset, int limit) {
-		return allQuery(feed).setFirstResult(offset).setMaxResults(limit)
-				.getResultList();
+		query.setParameter("feed", feed);
+		query.setParameter("user", user);
+		if (offset > -1) {
+			query.setFirstResult(offset);
+		}
+		if (limit > -1) {
+			query.setMaxResults(limit);
+		}
+		return query.getResultList();
 	}
 }

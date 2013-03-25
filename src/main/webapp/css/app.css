@@ -1,13 +1,6 @@
+/* tree*/
 .sidebar-nav-fixed {
-    padding: 9px 0;
-    position:fixed;
-    left:20px;
-    top:60px;
-    width:250px;
-}
-
-.row-fluid > .span-fixed-sidebar {
-    margin-left: 290px;
+	overflow: hidden;
 }
 
 .css-treeview {
@@ -31,6 +24,24 @@
 .css-treeview a:hover {
 	cursor: pointer;
 	color: black;
+}
+
+/* entry list*/
+.entry {
+	border-bottom: 1px solid #CCCCCC;
+}
+
+.entry:hover {
+	background-color: #EBEBEB;
+}
+
+.entry a {
+	color: black;
+	display: block;
+}
+
+.entry a:hover {
+	text-decoration: none;
 }
 
 .entry-heading .unread {

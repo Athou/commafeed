@@ -65,13 +65,14 @@ public class EntriesREST extends AbstractREST {
 			}
 		});
 
-		int lastIndex = entries.getEntries().size()
-				- (entries.getEntries().isEmpty() ? 0 : 1);
-		int from = Math.min(lastIndex, offset);
-		int to = limit == -1 ? lastIndex : Math.min(lastIndex, offset + limit);
-
-		List<Entry> subList = entries.getEntries().subList(from, to);
-		entries.setEntries(Lists.newArrayList(subList));
+		if (limit > -1) {
+			int size = entries.getEntries().size();
+			System.out.println(size);
+			int to = Math.min(size, limit);
+			List<Entry> subList = entries.getEntries().subList(0, to);
+			entries.setEntries(Lists.newArrayList(subList));
+			System.out.println(entries.getEntries().size());
+		}
 		return entries;
 	}
 

@@ -102,11 +102,8 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 		$scope.refreshList();
 	});
 
-	
-	$scope.offset = 0;
 	$scope.limit = 10;
 	$scope.busy = false;
-	$scope.hasMore = true;
 	
 	$scope.refreshList = function() {
 		if ($scope.settings.readingMode) {
@@ -114,14 +111,14 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 				_type : $scope.selectedType,
 				_id : $scope.selectedId,
 				_readtype : $scope.settings.readingMode,
-				offset : $scope.offset,
-				limit : 30
+				offset : 0,
+				limit : $scope.limit
 			});
 		}
 	};
 	
 	$scope.loadMoreEntries = function() {
-		if ($scope.busy || !$scope.hasMore)
+		if ($scope.busy)
 			return;
 		if (!$scope.settings.readingMode) 
 			return;
@@ -130,15 +127,17 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 			_type : $scope.selectedType,
 			_id : $scope.selectedId,
 			_readtype : $scope.settings.readingMode,
-			offset : $scope.offset,
+			offset : $scope.entryList.entries.length,
 			limit : $scope.limit
 		}, function(data) {
-			for ( var i = 0; i < data.entries.length; i++) {
-				$scope.entryList.entries.push(data.entries[i]);
+			console.log(data)
+			var entries = data.entries
+			for ( var i = 0; i < entries.length; i++) {
+				$scope.entryList.entries.push(entries[i]);
 			}
-			$scope.offset = $scope.offset + data.entries.length;
+			console.log(entries.length)
+			console.log($scope.limit)
 			$scope.busy = false;
-			$scope.hasMore = data.entries.length == $scope.limit;
 		});
 	}
 

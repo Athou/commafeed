@@ -1,11 +1,38 @@
+.sidebar-nav-fixed {
+    padding: 9px 0;
+    position:fixed;
+    left:20px;
+    top:60px;
+    width:250px;
+}
+
+.row-fluid > .span-fixed-sidebar {
+    margin-left: 290px;
+}
+
+.css-treeview {
+	font-size: inherit;
+	white-space: nowrap;
+}
+
 .css-treeview .selected {
+	color: #d14836;
+}
+
+.css-treeview .unread {
 	font-weight: bold;
 }
 
 .css-treeview a {
 	cursor: pointer;
+	color: black;
 }
 
-.accordion-heading .unread {
+.css-treeview a:hover {
+	cursor: pointer;
+	color: black;
+}
+
+.entry-heading .unread {
 	font-weight: bold;
 }

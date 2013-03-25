@@ -6,6 +6,15 @@
 		<button type="button" class="btn" ng-model="settings.readingMode" btn-radio="'all'">All</button>
 	</div>
 	
-	<button type="button" class="btn" ng-click="refresh()"><i class="icon icon-refresh"></i> Refresh</button>
-	<button type="button" class="btn"><i class="icon icon-ok"></i> Mark all as read</button>
+	<button type="button" class="btn" ng-click="refresh()"><i class="icon-refresh"></i> Refresh</button>
+	<button type="button" class="btn"><i class="icon-ok"></i> Mark all as read</button>
+
+	<div class="btn-group pull-right">
+		<a class="btn dropdown-toggle" data-toggle="dropdown" href="settings"><i class="icon-cog"></i><span class="caret"></span></a>
+		<ul class="dropdown-menu">
+			<li><a href="settings"><i class="icon-wrench"></i> Settings</a></li>
+			<li class="divider"></li>
+			<li><a href="logout"><i class="icon-user"></i> Logout</a></li>
+		</ul>
+	</div>
 </div>

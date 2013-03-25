@@ -2,9 +2,9 @@
 {{readType}}
 	<span>{{entryList.name}}</span><span
 		ng-show="selectedType == 'category'"> &#187;</span>
-	<div class="accordion" id="feed-accordion" infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
-		<div class="accordion-group" ng-repeat="entry in entryList.entries">
-			<div class="accordion-heading">
+	<div id="feed-accordion" infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
+		<div ng-repeat="entry in entryList.entries">
+			<div class="entry-heading">
 				<a class="accordion-toggle" data-toggle="collapse"
 					ng-click="mark(entry, true)"
 					ng-class="{unread: entry.read == false}"
@@ -13,8 +13,15 @@
 						- </span>{{entry.title}} <span class="pull-right">{{entry.date}}</span>
 				</a>
 			</div>
-			<div id="{{'feed-body' + $index}}" class="accordion-body collapse">
-				<div class="accordion-inner" ng-bind-html="entry.content"></div>
+			<div id="{{'feed-body' + $index}}" class="collapse">
+				<div>
+					<div>
+						<h4>
+							<a href="{{entry.url}}" target="_blank">{{entry.title}}</a>
+						</h4>
+					</div>	
+					<div ng-bind-html="entry.content"></div>
+				</div>
 			</div>
 		</div>
 		<div ng-show="busy">Loading data...</div>

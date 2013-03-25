@@ -31,39 +31,39 @@
 	border-bottom: 1px solid #CCCCCC;
 }
 
-.no-entries {
+#feed-accordion .no-entries {
 	text-align: center;
 	font-weight: bold;
 	margin-top: 80px;
 }
 
-.entry .entry-heading a {
+#feed-accordion .entry .entry-heading a {
 	padding: 6px 0px;
 	background-color: #EBEBEB;
 }
 
-.entry .entry-heading a.collapsed {
+#feed-accordion .entry .entry-heading a.collapsed {
 	background-color: #FFF;
 }
 
-.entry .entry-heading a.collapsed:hover {
+#feed-accordion .entry .entry-heading a.collapsed:hover {
 	background-color: #EBEBEB;
 }
 
-.entry .entry-heading a  ~.collapsed {
+#feed-accordion .entry .entry-heading a  ~.collapsed {
 	background-color: #EBEBEB;
 	padding: 6px 0px;
 }
 
-.entry a {
+#feed-accordion .entry .entry-heading a {
 	color: black;
 	display: block;
 }
 
-.entry a:hover {
+#feed-accordion .entry .entry-heading a:hover {
 	text-decoration: none;
 }
 
-.entry-heading .unread {
+#feed-accordion .entry .entry-heading .unread {
 	font-weight: bold;
 }

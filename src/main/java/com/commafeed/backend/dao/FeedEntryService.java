@@ -8,11 +8,14 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 @Stateless
 @SuppressWarnings("serial")
@@ -25,18 +28,37 @@ public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 		Feed feed = Iterables.getFirst(
 				feedService.findByField(MF.i(MF.p(Feed.class).getUrl()), url),
 				null);
+		List<String> guids = Lists.newArrayList();
 		for (FeedEntry entry : entries) {
-			FeedEntry existing = Iterables.getFirst(
-					findByField(MF.i(MF.p(getType()).getGuid()),
-							entry.getGuid()), null);
-			if (existing == null) {
+			guids.add(entry.getGuid());
+		}
+
+		List<FeedEntry> existingEntries = getByGuids(guids);
+		for (FeedEntry entry : entries) {
+			boolean found = false;
+			for (FeedEntry existingEntry : existingEntries) {
+				if (StringUtils
+						.equals(entry.getGuid(), existingEntry.getGuid())) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
 				entry.setFeed(feed);
 				save(entry);
 			}
 		}
+
 		feed.setLastUpdated(Calendar.getInstance().getTime());
 		feed.setMessage(null);
-		em.merge(feed);
+		feedService.update(feed);
+	}
+
+	public List<FeedEntry> getByGuids(List<String> guids) {
+		TypedQuery<FeedEntry> query = em.createNamedQuery("Entry.byGuids",
+				FeedEntry.class);
+		query.setParameter("guids", guids);
+		return query.getResultList();
 	}
 
 	public List<FeedEntry> getEntries(Feed feed, User user, boolean read) {

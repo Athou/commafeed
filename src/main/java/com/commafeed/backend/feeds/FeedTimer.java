@@ -3,6 +3,7 @@ package com.commafeed.backend.feeds;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
@@ -46,7 +47,7 @@ public class FeedTimer {
 		for (String key : futures.keySet()) {
 			Future<Feed> future = futures.get(key);
 			try {
-				Feed feed = future.get();
+				Feed feed = future.get(1, TimeUnit.MINUTES);
 				feedEntryService
 						.updateEntries(feed.getUrl(), feed.getEntries());
 			} catch (Exception e) {

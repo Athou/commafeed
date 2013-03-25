@@ -8,11 +8,11 @@ import java.util.List;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
 import org.apache.commons.lang.ObjectUtils;
 
+import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
@@ -30,7 +30,7 @@ public class EntriesREST extends AbstractREST {
 	private static final String ALL = "all";
 
 	public enum Type {
-		category, feed;
+		category, feed, entry;
 	}
 
 	public enum ReadType {
@@ -132,22 +132,42 @@ public class EntriesREST extends AbstractREST {
 		return entry;
 	}
 
-	@Path("mark/{type}/{id}/{read}")
+	@Path("mark")
 	@GET
-	public void mark(@PathParam("type") String type,
-			@PathParam("id") String id, @PathParam("read") boolean read) {
-		if ("entry".equals(type)) {
+	public void mark(@QueryParam("type") Type type,
+			@QueryParam("id") String id, @QueryParam("read") boolean read) {
+		Preconditions.checkNotNull(type);
+		Preconditions.checkNotNull(id);
+		Preconditions.checkNotNull(read);
+
+		if (type == Type.entry) {
 			FeedEntry entry = feedEntryService.findById(Long.valueOf(id));
-			FeedEntryStatus status = feedEntryStatusService.getStatus(
-					getUser(), entry);
-			if (status == null) {
-				status = new FeedEntryStatus();
-				status.setUser(getUser());
-				status.setEntry(entry);
+			markEntry(entry, read);
+		} else if (type == Type.feed) {
+			List<FeedEntry> entries = null;
+			Feed feed = feedSubscriptionService.findById(Long.valueOf(id))
+					.getFeed();
+			if (read) {
+				entries = feedEntryService.getUnreadEntries(feed, getUser());
+			} else {
+				entries = feedEntryService.getAllEntries(feed);
 			}
-			status.setRead(read);
-			feedEntryStatusService.saveOrUpdate(status);
+			for (FeedEntry entry : entries) {
+				markEntry(entry, read);
+			}
 		}
+	}
+
+	private void markEntry(FeedEntry entry, boolean read) {
+		FeedEntryStatus status = feedEntryStatusService.getStatus(getUser(),
+				entry);
+		if (status == null) {
+			status = new FeedEntryStatus();
+			status.setUser(getUser());
+			status.setEntry(entry);
+		}
+		status.setRead(read);
+		feedEntryStatusService.saveOrUpdate(status);
 	}
 
 }

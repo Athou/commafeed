@@ -27,12 +27,32 @@
 }
 
 /* entry list*/
-.entry {
+#feed-accordion .entry {
 	border-bottom: 1px solid #CCCCCC;
 }
 
-.entry:hover {
+.no-entries {
+	text-align: center;
+	font-weight: bold;
+	margin-top: 80px;
+}
+
+.entry .entry-heading a {
+	padding: 6px 0px;
 	background-color: #EBEBEB;
+}
+
+.entry .entry-heading a.collapsed {
+	background-color: #FFF;
+}
+
+.entry .entry-heading a.collapsed:hover {
+	background-color: #EBEBEB;
+}
+
+.entry .entry-heading a  ~.collapsed {
+	background-color: #EBEBEB;
+	padding: 6px 0px;
 }
 
 .entry a {

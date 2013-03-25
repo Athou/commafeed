@@ -2,10 +2,10 @@
 {{readType}}
 	<span>{{entryList.name}}</span><span
 		ng-show="selectedType == 'category'"> &#187;</span>
-	<div class="accordion" id="feed-accordion" infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
+	<div id="feed-accordion" infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
 		<div ng-repeat="entry in entryList.entries" class="entry">
 			<div class="entry-heading">
-				<a class="accordion-toggle" data-toggle="collapse"
+				<a class="accordion-toggle collapsed" data-toggle="collapse"
 					ng-click="mark(entry, true)"
 					ng-class="{unread: entry.read == false}"
 					data-parent="#feed-accordion" href="{{'#feed-body' + $index}}">
@@ -24,6 +24,7 @@
 				</div>
 			</div>
 		</div>
+		<div class="no-entries" ng-show="entryList.entries.length == 0">"{{entryList.name}}" has no unread items.</div>
 		<div ng-show="busy">Loading data...</div>
 	</div>
 </div>

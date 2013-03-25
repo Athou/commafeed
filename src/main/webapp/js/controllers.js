@@ -152,9 +152,9 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 				entry : entry
 			});
 			EntryService.mark({
-				_type : 'entry',
-				_id : entry.id,
-				_readtype : read
+				type : 'entry',
+				id : entry.id,
+				read : read
 			});
 		}
 	};

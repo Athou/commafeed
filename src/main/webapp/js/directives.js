@@ -89,7 +89,7 @@ module.directive('category', function($compile) {
 	};
 });
 
-module.directive('toolbar', function(SettingsService) {
+module.directive('toolbar', function($routeParams, $route, SettingsService, EntryService, SubscriptionService) {
 	return {
 		scope : {},
 		restrict : 'E',
@@ -99,6 +99,17 @@ module.directive('toolbar', function(SettingsService) {
 			$scope.settings = SettingsService.settings;
 			$scope.refresh = function() {
 				$route.reload();
+			},
+			$scope.markAllAsRead = function() {
+				EntryService.mark({
+					type: 	$routeParams._type,
+					id: $routeParams._id,
+					read: true,
+				}, function() {
+					SubscriptionService.init(function() {
+						$route.reload();
+					});
+				});
 			}
 		},
 		link : function($scope, element) {

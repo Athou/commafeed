@@ -40,7 +40,7 @@ public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 	}
 
 	private TypedQuery<FeedEntry> unreadQuery(Feed feed, User user) {
-		String query = "select e from FeedEntry e where e.feed=:feed and not exists (select s from FeedEntryStatus s where s.entry = e and s.user =:user and s.read = true)";
+		String query = "select e from FeedEntry e where e.feed =:feed and not exists (select s from FeedEntryStatus s where s.entry = e and s.user =:user and s.read = true)";
 		TypedQuery<FeedEntry> typedQuery = em.createQuery(query,
 				FeedEntry.class);
 		typedQuery.setParameter("feed", feed);

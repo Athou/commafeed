@@ -48,7 +48,7 @@ public class FeedFetcher {
 			String content = EntityUtils.toString(entity, "UTF-8");
 			feed = parser.parse(feedUrl, content);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(e.getMessage(), e);
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}

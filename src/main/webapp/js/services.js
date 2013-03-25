@@ -44,7 +44,8 @@ module.factory('SubscriptionService', [ '$resource', '$http',
 			s.init = function(callback) {
 				s.subscriptions = res.get(function(data) {
 					s.flatCategories = flatten(s.subscriptions);
-					callback(data);
+					if(callback)
+						callback(data);
 				});
 			};
 			s.subscribe = function(sub, callback) {

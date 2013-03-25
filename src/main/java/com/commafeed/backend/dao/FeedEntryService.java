@@ -15,6 +15,7 @@ import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Iterables;
 
 @Stateless
+@SuppressWarnings("serial")
 public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 
 	@Inject
@@ -34,6 +35,7 @@ public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 			}
 		}
 		feed.setLastUpdated(Calendar.getInstance().getTime());
+		feed.setMessage(null);
 		em.merge(feed);
 	}
 
@@ -45,7 +47,7 @@ public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 		typedQuery.setParameter("user", user);
 		return typedQuery.getResultList();
 	}
-	
+
 	public List<FeedEntry> getAllEntries(Feed feed) {
 		String query = "select e from FeedEntry e where e.feed=:feed";
 		TypedQuery<FeedEntry> typedQuery = em.createQuery(query,

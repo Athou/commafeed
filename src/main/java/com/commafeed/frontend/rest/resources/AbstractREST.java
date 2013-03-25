@@ -24,6 +24,7 @@ import com.commafeed.backend.dao.FeedService;
 import com.commafeed.backend.dao.FeedSubscriptionService;
 import com.commafeed.backend.dao.UserService;
 import com.commafeed.backend.dao.UserSettingsService;
+import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.CommaFeedApplication;
 import com.commafeed.frontend.CommaFeedSession;
@@ -58,6 +59,9 @@ public abstract class AbstractREST {
 
 	@Inject
 	UserSettingsService userSettingsService;
+
+	@Inject
+	OPMLImporter opmlImporter;
 
 	@PostConstruct
 	public void init() {

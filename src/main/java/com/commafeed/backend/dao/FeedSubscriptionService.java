@@ -8,19 +8,36 @@ import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang.ObjectUtils;
 
+import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.utils.ModelFactory.MF;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
 
 @Stateless
+@SuppressWarnings("serial")
 public class FeedSubscriptionService extends GenericDAO<FeedSubscription, Long> {
 
 	@Inject
 	FeedCategoryService feedCategoryService;
+
+	public FeedSubscription findById(User user, Long id) {
+		EasyCriteria<FeedSubscription> criteria = createCriteria();
+		criteria.andEquals(MF.i(proxy().getUser()), user);
+		criteria.andEquals(MF.i(proxy().getId()), id);
+		return Iterables.getFirst(criteria.getResultList(), null);
+	}
+
+	public FeedSubscription findByFeed(User user, Feed feed) {
+		EasyCriteria<FeedSubscription> criteria = createCriteria();
+		criteria.andEquals(MF.i(proxy().getUser()), user);
+		criteria.andEquals(MF.i(proxy().getFeed()), feed);
+		return Iterables.getFirst(criteria.getResultList(), null);
+	}
 
 	public List<FeedSubscription> findAll(User user) {
 		return findByField(MF.i(MF.p(FeedCategory.class).getUser()), user);

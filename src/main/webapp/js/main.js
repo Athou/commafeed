@@ -1,6 +1,6 @@
-var app = angular
-		.module('commafeed', [ 'ui', 'ui.bootstrap', 'commafeed.directives',
-				'commafeed.controllers', 'commafeed.services', 'ngSanitize' ]);
+var app = angular.module('commafeed', [ 'ui', 'ui.bootstrap',
+		'commafeed.directives', 'commafeed.controllers', 'commafeed.services',
+		'ngSanitize', 'ngUpload' ]);
 
 app.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/feeds/view/:_type/:_id', {

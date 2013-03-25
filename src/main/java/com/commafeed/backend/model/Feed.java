@@ -24,6 +24,9 @@ public class Feed extends AbstractModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdated;
 
+	@Column(length = 1024)
+	private String message;
+
 	@OneToMany(mappedBy = "feed", fetch = FetchType.EAGER)
 	private Set<FeedEntry> entries = Sets.newHashSet();
 
@@ -57,6 +60,14 @@ public class Feed extends AbstractModel {
 
 	public void setEntries(Set<FeedEntry> entries) {
 		this.entries = entries;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }

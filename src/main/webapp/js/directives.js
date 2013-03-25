@@ -1,6 +1,6 @@
 var module = angular.module('commafeed.directives', []);
 
-module.directive('subscribe', function() {
+module.directive('subscribe', function(SubscriptionService) {
 	return {
 		scope : {},
 		restrict : 'E',
@@ -13,6 +13,7 @@ module.directive('subscribe', function() {
 			};
 			
 		    $scope.isOpen = false;
+		    $scope.isOpenImport = false;
 		    $scope.sub = {};
 		    
 			$scope.SubscriptionService = SubscriptionService;
@@ -30,6 +31,19 @@ module.directive('subscribe', function() {
 				SubscriptionService.subscribe($scope.sub, function() {
 					$scope.close();
 				});
+			};
+			
+			$scope.openImport = function() {
+				$scope.isOpenImport = true;
+			};
+
+			$scope.closeImport = function() {
+				$scope.isOpenImport = false;
+			};
+			
+			$scope.uploadComplete = function(contents, completed) {
+				SubscriptionService.init();
+				$scope.closeImport();
 			};
 		}
 	};

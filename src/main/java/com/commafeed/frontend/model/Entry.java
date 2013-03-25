@@ -3,6 +3,7 @@ package com.commafeed.frontend.model;
 import java.io.Serializable;
 import java.util.Date;
 
+@SuppressWarnings("serial")
 public class Entry implements Serializable {
 
 	private String id;

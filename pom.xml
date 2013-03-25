@@ -119,6 +119,11 @@
 			<version>2.6</version>
 		</dependency>
 		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		<dependency>
 			<groupId>com.googlecode.lambdaj</groupId>
 			<artifactId>lambdaj</artifactId>
 			<version>2.3.3</version>
@@ -134,6 +139,12 @@
 			<artifactId>rome</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.rometools</groupId>
+			<artifactId>rome-opml</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -171,7 +182,6 @@
 			<artifactId>wicket-cdi</artifactId>
 			<version>6.6.0</version>
 		</dependency>
-
 	</dependencies>
 
 	<profiles>

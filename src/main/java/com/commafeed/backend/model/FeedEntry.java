@@ -21,7 +21,7 @@ public class FeedEntry extends AbstractModel {
 	@ManyToOne
 	private Feed feed;
 
-	@Column(length = 256)
+	@Column(length = 2048)
 	private String title;
 
 	@Lob

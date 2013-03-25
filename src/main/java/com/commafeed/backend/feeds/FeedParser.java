@@ -47,8 +47,9 @@ public class FeedParser {
 				feed.getEntries().add(entry);
 			}
 		} catch (Exception e) {
-			throw new FeedException("Could not parse feed : " + e.getMessage(),
-					e);
+			throw new FeedException(String.format(
+					"Could not parse feed from %s : %s", feedUrl,
+					e.getMessage()), e);
 		}
 		return feed;
 	}

@@ -9,6 +9,7 @@ import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Iterables;
 
 @Stateless
+@SuppressWarnings("serial")
 public class FeedService extends GenericDAO<Feed, Long> {
 
 	public Feed findByUrl(String url) {

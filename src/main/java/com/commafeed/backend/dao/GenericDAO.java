@@ -98,6 +98,10 @@ public abstract class GenericDAO<T, K> implements
 	protected Class<T> getType() {
 		return (Class<T>) type.getRawType();
 	}
+	
+	public EasyCriteria<T> createCriteria(){
+		return EasyCriteriaFactory.createQueryCriteria(em, getType());
+	}
 
 	protected T proxy() {
 		return MF.p(getType());

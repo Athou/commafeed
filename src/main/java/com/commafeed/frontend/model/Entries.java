@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+@SuppressWarnings("serial")
 public class Entries implements Serializable {
 	private String name;
 	private List<Entry> entries = Lists.newArrayList();

@@ -33,14 +33,14 @@ public class EntriesREST extends AbstractREST {
 		boolean unreadOnly = "unread".equals(readType);
 
 		if ("feed".equals(type)) {
-			FeedSubscription subscription = feedSubscriptionService
-					.findById(Long.valueOf(id));
+			FeedSubscription subscription = feedSubscriptionService.findById(
+					getUser(), Long.valueOf(id));
 			entries.setName(subscription.getTitle());
 			entries.getEntries().addAll(buildEntries(subscription, unreadOnly));
 
 		} else {
 			FeedCategory feedCategory = "all".equals(id) ? null
-					: feedCategoryService.findById(Long.valueOf(id));
+					: feedCategoryService.findById(getUser(), Long.valueOf(id));
 			Collection<FeedSubscription> subscriptions = "all".equals(id) ? feedSubscriptionService
 					.findAll(getUser()) : feedSubscriptionService
 					.findWithCategory(getUser(), feedCategory);

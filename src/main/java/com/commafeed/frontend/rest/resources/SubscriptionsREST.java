@@ -2,11 +2,18 @@ package com.commafeed.frontend.rest.resources;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ObjectUtils;
 
 import com.commafeed.backend.model.Feed;
@@ -50,6 +57,27 @@ public class SubscriptionsREST extends AbstractREST {
 		feedSubscriptionService.deleteById(subscriptionId);
 	}
 
+	@POST
+	@Path("import")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@SuppressWarnings("unchecked")
+	public void importOpml() {
+		try {
+			FileItemFactory factory = new DiskFileItemFactory(1000000, null);
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			List<FileItem> items = upload.parseRequest(request);
+			for (FileItem item : items) {
+				if ("file".equals(item.getFieldName())) {
+					opmlImporter.importOpml(getUser(),
+							IOUtils.toString(item.getInputStream(), "UTF-8"));
+					break;
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
+	}
+
 	@GET
 	public Category getSubscriptions() {
 		Category root = new Category();
@@ -65,6 +93,7 @@ public class SubscriptionsREST extends AbstractREST {
 			Subscription sub = new Subscription();
 			sub.setId(subscription.getId());
 			sub.setName(subscription.getTitle());
+			sub.setMessage(subscription.getFeed().getMessage());
 			int size = feedEntryService.getUnreadEntries(
 					subscription.getFeed(), getUser()).size();
 			sub.setUnread(size);
@@ -88,6 +117,7 @@ public class SubscriptionsREST extends AbstractREST {
 					Subscription sub = new Subscription();
 					sub.setId(subscription.getId());
 					sub.setName(subscription.getTitle());
+					sub.setMessage(subscription.getFeed().getMessage());
 					int size = feedEntryService.getUnreadEntries(
 							subscription.getFeed(), getUser()).size();
 					sub.setUnread(size);

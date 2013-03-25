@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+@SuppressWarnings("serial")
 public class Category implements Serializable {
 	
 	private String id;

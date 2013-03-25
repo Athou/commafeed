@@ -44,6 +44,9 @@ module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location, 
 
 	$scope.formatFeedName = function(feed) {
 		var label = feed.name;
+		if (feed.message) {
+			label = "!!! " + label;
+		}
 		if (feed.unread > 0) {
 			label = label + " (" + feed.unread + ")";
 		}

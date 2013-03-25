@@ -11,6 +11,7 @@ import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
 
 @Stateless
+@SuppressWarnings("serial")
 public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus, Long> {
 
 	public FeedEntryStatus getStatus(User user, FeedEntry entry) {

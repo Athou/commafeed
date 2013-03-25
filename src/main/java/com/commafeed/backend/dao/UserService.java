@@ -11,6 +11,7 @@ import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Iterables;
 
 @Stateless
+@SuppressWarnings("serial")
 public class UserService extends GenericDAO<User, Long> {
 
 	@Inject

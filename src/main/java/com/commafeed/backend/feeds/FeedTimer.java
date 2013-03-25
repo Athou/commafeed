@@ -1,19 +1,25 @@
 package com.commafeed.backend.feeds;
 
-import java.util.List;
+import java.util.Calendar;
+import java.util.Map;
 import java.util.concurrent.Future;
 
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.commafeed.backend.dao.FeedEntryService;
 import com.commafeed.backend.dao.FeedService;
 import com.commafeed.backend.model.Feed;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @Singleton
 public class FeedTimer {
+
+	private static Logger log = LoggerFactory.getLogger(FeedTimer.class);
 
 	@Inject
 	FeedService feedService;
@@ -26,21 +32,32 @@ public class FeedTimer {
 
 	@Schedule(hour = "*", minute = "*", persistent = false)
 	private void timeout() {
-		List<Feed> feeds = feedService.findAll();
-
-		List<Future<Feed>> futures = Lists.newArrayList();
-		for (Feed feed : feeds) {
-			Future<Feed> future = fetcher.fetch(feed.getUrl());
-			futures.add(future);
+		Map<String, Feed> feeds = Maps.newHashMap();
+		for (Feed feed : feedService.findAll()) {
+			feeds.put(feed.getUrl(), feed);
 		}
 
-		for (Future<Feed> future : futures) {
+		Map<String, Future<Feed>> futures = Maps.newHashMap();
+		for (Feed feed : feeds.values()) {
+			Future<Feed> future = fetcher.fetch(feed.getUrl());
+			futures.put(feed.getUrl(), future);
+		}
+
+		for (String key : futures.keySet()) {
+			Future<Feed> future = futures.get(key);
 			try {
 				Feed feed = future.get();
 				feedEntryService
 						.updateEntries(feed.getUrl(), feed.getEntries());
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.info(
+						"Unable to refresh feed " + key + " : "
+								+ e.getMessage(), e);
+
+				Feed feed = feeds.get(key);
+				feed.setLastUpdated(Calendar.getInstance().getTime());
+				feed.setMessage("Unable to refresh feed: " + e.getMessage());
+				feedService.update(feed);
 			}
 		}
 	}

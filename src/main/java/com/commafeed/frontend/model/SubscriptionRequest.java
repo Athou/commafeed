@@ -2,6 +2,7 @@ package com.commafeed.frontend.model;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class SubscriptionRequest implements Serializable {
 
 	private String url;

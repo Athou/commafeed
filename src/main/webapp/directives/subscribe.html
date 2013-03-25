@@ -1,5 +1,16 @@
 <div>
-	<button class="btn" ng-click="open()">Subscribe</button>
+	<div class="btn-group">
+		<button class="btn" ng-click="open()">Subscribe</button>
+		<button class="btn dropdown-toggle" data-toggle="dropdown">
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			<li>
+				<a ng-click="open()">Subscribe</a>
+			</li>
+			<li><a ng-click="openImport()">Import</a></li>
+		</ul>
+	</div>
 	<div modal="isOpen" close="close()" options="opts">
 		<div class="modal-header">
 			<button type="button" class="close" ng-click="close()">&times;</button>
@@ -31,5 +42,28 @@
 			<button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
 			<button class="btn btn-primary ok" ng-click="save()">Save</button>
 		</div>
+	</div>
+	<div modal="isOpenImport" close="closeImport()" options="opts">
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="closeImport()">&times;</button>
+			<h4>Import</h4>
+		</div>
+		<form ng-upload class="form-horizontal" action="rest/subscriptions/import">
+			<div class="modal-body">
+				<div class="control-group">
+					<span>Select the subscriptions.xml file you got from the zip file on google.com/takeout</span>
+				</div>
+				<div class="control-group">
+					<label class="control-label">XML File</label>
+					<div class="controls">
+						<input type="file" name="file"></input>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-warning cancel" ng-click="closeImport()">Cancel</button>
+				<button class="btn btn-primary ok" type="submit" upload-submit="uploadComplete(contents, completed)">Import</button>
+			</div>
+		</form>
 	</div>
 </div>

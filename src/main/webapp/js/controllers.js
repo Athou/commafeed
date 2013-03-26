@@ -102,7 +102,7 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 		$scope.refreshList();
 	});
 
-	$scope.limit = 10;
+	$scope.limit = 20;
 	$scope.busy = false;
 	$scope.hasMore = true;
 	

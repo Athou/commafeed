@@ -1,16 +1,12 @@
 package com.commafeed.frontend.rest.resources;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
-
-import org.apache.commons.lang.ObjectUtils;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
@@ -19,8 +15,10 @@ import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @Path("entries")
 public class EntriesREST extends AbstractREST {
@@ -58,33 +56,28 @@ public class EntriesREST extends AbstractREST {
 					buildEntries(subscription, offset, limit, unreadOnly));
 
 		} else {
-			FeedCategory feedCategory = ALL.equals(id) ? null
-					: feedCategoryService.findById(getUser(), Long.valueOf(id));
-			Collection<FeedSubscription> subscriptions = ALL.equals(id) ? feedSubscriptionService
-					.findAll(getUser()) : feedSubscriptionService
-					.findWithCategory(getUser(), feedCategory);
+			FeedCategory feedCategory = null;
+			if (!ALL.equals(id)) {
+				feedCategory = new FeedCategory();
+				feedCategory.setId(Long.valueOf(id));
+			}
+			List<FeedCategory> childrenCategories = feedCategoryService
+					.findAllChildrenCategories(getUser(), feedCategory);
+
+			Map<Long, FeedSubscription> subMapping = Maps.uniqueIndex(
+					feedSubscriptionService.findAll(getUser()),
+					new Function<FeedSubscription, Long>() {
+						public Long apply(FeedSubscription sub) {
+							return sub.getFeed().getId();
+						}
+					});
 
 			entries.setName(ALL.equals(id) ? ALL : feedCategory.getName());
-			for (FeedSubscription subscription : subscriptions) {
-				entries.getEntries().addAll(
-						buildEntries(subscription, offset, limit, unreadOnly));
-			}
+			entries.getEntries().addAll(
+					buildEntries(childrenCategories, subMapping, offset, limit,
+							unreadOnly));
 		}
 
-		Collections.sort(entries.getEntries(), new Comparator<Entry>() {
-
-			@Override
-			public int compare(Entry e1, Entry e2) {
-				return ObjectUtils.compare(e2.getDate(), e1.getDate());
-			}
-		});
-
-		if (limit > -1) {
-			int size = entries.getEntries().size();
-			int to = Math.min(size, limit);
-			List<Entry> subList = entries.getEntries().subList(0, to);
-			entries.setEntries(Lists.newArrayList(subList));
-		}
 		return entries;
 	}
 
@@ -96,22 +89,39 @@ public class EntriesREST extends AbstractREST {
 			List<FeedEntry> unreadEntries = feedEntryService.getEntries(
 					subscription.getFeed(), getUser(), true, offset, limit);
 			for (FeedEntry feedEntry : unreadEntries) {
-				Entry entry = buildEntry(feedEntry);
-				entry.setFeedName(subscription.getTitle());
-				entry.setFeedId(String.valueOf(subscription.getId()));
-				entry.setRead(true);
-				entries.add(entry);
+				entries.add(populateEntry(buildEntry(feedEntry), subscription,
+						true));
 			}
 		}
 
 		List<FeedEntry> readEntries = feedEntryService.getEntries(
 				subscription.getFeed(), getUser(), false, offset, limit);
 		for (FeedEntry feedEntry : readEntries) {
-			Entry entry = buildEntry(feedEntry);
-			entry.setFeedName(subscription.getTitle());
-			entry.setFeedId(String.valueOf(subscription.getId()));
-			entry.setRead(false);
-			entries.add(entry);
+			entries.add(populateEntry(buildEntry(feedEntry), subscription,
+					false));
+		}
+		return entries;
+	}
+
+	private List<Entry> buildEntries(List<FeedCategory> categories,
+			Map<Long, FeedSubscription> subMapping, int offset, int limit,
+			boolean unreadOnly) {
+		List<Entry> entries = Lists.newArrayList();
+
+		if (!unreadOnly) {
+			List<FeedEntry> unreadEntries = feedEntryService.getEntries(
+					categories, getUser(), true, offset, limit);
+			for (FeedEntry feedEntry : unreadEntries) {
+				entries.add(populateEntry(buildEntry(feedEntry),
+						subMapping.get(feedEntry.getFeed().getId()), true));
+			}
+		}
+
+		List<FeedEntry> readEntries = feedEntryService.getEntries(categories,
+				getUser(), false, offset, limit);
+		for (FeedEntry feedEntry : readEntries) {
+			entries.add(populateEntry(buildEntry(feedEntry),
+					subMapping.get(feedEntry.getFeed().getId()), false));
 		}
 		return entries;
 	}
@@ -124,6 +134,13 @@ public class EntriesREST extends AbstractREST {
 		entry.setDate(feedEntry.getUpdated());
 		entry.setUrl(feedEntry.getUrl());
 
+		return entry;
+	}
+
+	private Entry populateEntry(Entry entry, FeedSubscription sub, boolean read) {
+		entry.setFeedName(sub.getTitle());
+		entry.setFeedId(String.valueOf(sub.getId()));
+		entry.setRead(read);
 		return entry;
 	}
 

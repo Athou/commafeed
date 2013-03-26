@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.utils.ModelFactory.MF;
@@ -76,6 +77,32 @@ public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 		TypedQuery<FeedEntry> query = em.createNamedQuery(queryName,
 				FeedEntry.class);
 		query.setParameter("feed", feed);
+		query.setParameter("user", user);
+		if (offset > -1) {
+			query.setFirstResult(offset);
+		}
+		if (limit > -1) {
+			query.setMaxResults(limit);
+		}
+		return query.getResultList();
+	}
+
+	public List<FeedEntry> getEntries(List<FeedCategory> categories, User user,
+			boolean read) {
+		return getEntries(categories, user, read, -1, -1);
+	}
+
+	public List<FeedEntry> getEntries(List<FeedCategory> categories, User user,
+			boolean read, int offset, int limit) {
+		String queryName = null;
+		if (read) {
+			queryName = "Entry.readByCategories";
+		} else {
+			queryName = "Entry.unreadByCategories";
+		}
+		TypedQuery<FeedEntry> query = em.createNamedQuery(queryName,
+				FeedEntry.class);
+		query.setParameter("categories", categories);
 		query.setParameter("user", user);
 		if (offset > -1) {
 			query.setFirstResult(offset);

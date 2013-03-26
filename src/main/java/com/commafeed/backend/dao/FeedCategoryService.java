@@ -11,6 +11,7 @@ import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.uaihebert.model.EasyCriteria;
 
 @Stateless
@@ -45,6 +46,18 @@ public class FeedCategoryService extends GenericDAO<FeedCategory, Long> {
 			category = null;
 		}
 		return category;
+	}
+
+	public List<FeedCategory> findAllChildrenCategories(User user,
+			FeedCategory parent) {
+		List<FeedCategory> list = Lists.newArrayList();
+		List<FeedCategory> all = findAll(user);
+		for (FeedCategory cat : all) {
+			if (isChild(cat, parent)) {
+				list.add(cat);
+			}
+		}
+		return list;
 	}
 
 	public boolean isChild(FeedCategory child, FeedCategory parent) {

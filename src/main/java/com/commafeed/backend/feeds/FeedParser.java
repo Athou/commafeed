@@ -8,10 +8,6 @@ import javax.ejb.Stateless;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
-import org.htmlcleaner.CleanerProperties;
-import org.htmlcleaner.HtmlCleaner;
-import org.htmlcleaner.SimpleHtmlSerializer;
-import org.htmlcleaner.TagNode;
 import org.jsoup.Jsoup;
 
 import com.commafeed.backend.model.Feed;
@@ -50,6 +46,7 @@ public class FeedParser {
 				feed.getEntries().add(entry);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new FeedException(String.format(
 					"Could not parse feed from %s : %s", feedUrl,
 					e.getMessage()), e);
@@ -76,15 +73,8 @@ public class FeedParser {
 	}
 
 	private String balanceTags(String xml) throws Exception {
-		HtmlCleaner cleaner = new HtmlCleaner();
-		CleanerProperties props = cleaner.getProperties();
-		props.setOmitXmlDeclaration(true);
-		TagNode node = cleaner.clean(xml);
-		SimpleHtmlSerializer serializer = new SimpleHtmlSerializer(
-				cleaner.getProperties());
-		String result = serializer.getAsString(node);
-		result = StringUtils.trim(xml);
-		return result;
+		// TODO close tags
+		return xml;
 	}
 
 	private String handleContent(String content) {

@@ -4,9 +4,6 @@
 	</label>
 	<ul>
 		<li ng-repeat="feed in node.feeds">
-			<a ng-click="feedClick({id: feed.id})"
-			   ng-class="{selected: (feed.id == selectedId && selectedType == 'feed'), unread: feed.unread }">{{formatFeedName({feed:feed})}}
-			</a>
 			<div class="dropdown pull-right">
 				<a dropdown-toggle class="pull-right feed-menu-icon"><i class="icon icon-chevron-down"></i> </a>
 				<ul class="dropdown-menu">
@@ -15,6 +12,9 @@
 				    </li>
 			  	</ul>
 		  	</div>
+		  	<a ng-click="feedClick({id: feed.id})" class="feed-link"
+			   ng-class="{selected: (feed.id == selectedId && selectedType == 'feed'), unread: feed.unread }">{{formatFeedName({feed:feed})}}
+			</a>
 		</li>
 	</ul>
 </li>

@@ -4,7 +4,14 @@
 }
 
 .css-treeview {
-	font-size: inherit;
+	font-family: inherit;
+	font-size: 11px;
+	white-space: nowrap;
+}
+
+.css-treeview label,.css-treeview a,.css-treeview label::before {
+	font-family: inherit;
+	font-size: 11px;
 	white-space: nowrap;
 }
 
@@ -19,6 +26,9 @@
 .css-treeview a {
 	cursor: pointer;
 	color: black;
+	display: block;
+	overflow-hidden;
+	text-overflow: ellipsis;
 }
 
 .css-treeview a:hover {
@@ -57,7 +67,7 @@
 	background-color: #EBEBEB;
 }
 
-#feed-accordion a.accordion-toggle  {
+#feed-accordion a.accordion-toggle {
 	color: black;
 	display: block;
 	padding: 0px;

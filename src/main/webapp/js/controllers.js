@@ -158,4 +158,9 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 			});
 		}
 	};
+	
+	$scope.toggle = function(entry) {
+		$scope.current = entry;
+		$scope.mark(entry, true);
+	}
 });

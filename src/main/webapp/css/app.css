@@ -45,28 +45,28 @@
 	margin-top: 80px;
 }
 
-#feed-accordion .entry .entry-heading a {
+#feed-accordion .entry-heading {
 	padding: 6px 0px;
+}
+
+#feed-accordion .entry-heading.open {
 	background-color: #EBEBEB;
 }
 
-#feed-accordion .entry .entry-heading a.collapsed {
-	background-color: #FFF;
-}
-
-#feed-accordion .entry .entry-heading a.collapsed:hover {
+#feed-accordion .entry-heading.closed:hover {
 	background-color: #EBEBEB;
 }
 
-#feed-accordion .entry .entry-heading a {
+#feed-accordion a.accordion-toggle  {
 	color: black;
 	display: block;
+	padding: 0px;
 }
 
-#feed-accordion .entry .entry-heading a:hover {
+#feed-accordion a.accordion-toggle:hover {
 	text-decoration: none;
 }
 
-#feed-accordion .entry .entry-heading .unread {
+#feed-accordion a.accordion-toggle .unread {
 	font-weight: bold;
 }

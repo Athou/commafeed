@@ -3,17 +3,14 @@
 	<span>{{entryList.name}}</span><span
 		ng-show="selectedType == 'category'"> &#187;</span>
 	<div id="feed-accordion" infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
-		<div ng-repeat="entry in entryList.entries" class="entry accordion-group">
-			<div class="entry-heading">
-				<a class="accordion-toggle collapsed" data-toggle="collapse"
-					ng-click="mark(entry, true)"
-					ng-class="{unread: entry.read == false}"
-					data-parent="#feed-accordion" href="{{'#feed-body' + $index}}">
-					<span ng-show="selectedType == 'category'">{{entry.feedName}}
-						- </span>{{entry.title}} <span class="pull-right">{{entry.date}}</span>
-				</a>
-			</div>
-			<div id="{{'feed-body' + $index}}" class="collapse">
+		<accordion close-others="true">
+			<accordion-group ng-repeat="entry in entryList.entries" class="entry">
+				<accordion-heading>
+					<div class="entry-heading" ng-click="toggle(entry)" ng-class="{unread: entry.read == false, open: current == entry, closed: current != entry}">
+						<span ng-show="selectedType == 'category'">{{entry.feedName}}
+							- </span>{{entry.title}} <span class="pull-right">{{entry.date}}</span>
+					</div>
+				</accordion-heading>
 				<div>
 					<div>
 						<h4>
@@ -22,8 +19,8 @@
 					</div>	
 					<div ng-bind-html="entry.content"></div>
 				</div>
-			</div>
-		</div>
+			</accordion-group>
+		</accordion>
 		<div class="no-entries" ng-show="entryList.entries.length == 0">"{{entryList.name}}" has no unread items.</div>
 		<div ng-show="busy">Loading data...</div>
 	</div>

@@ -118,7 +118,7 @@ public class SubscriptionsREST extends AbstractREST {
 				sub.setName(subscription.getTitle());
 				sub.setMessage(subscription.getFeed().getMessage());
 				int size = feedEntryService.getEntries(subscription.getFeed(),
-						getUser(), false).size();
+						getUser(), true).size();
 				sub.setUnread(size);
 				category.getFeeds().add(sub);
 			}

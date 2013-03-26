@@ -1,15 +1,19 @@
 package com.commafeed.backend.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.apache.commons.codec.binary.StringUtils;
 
 @Entity
 @Table(name = "FEEDENTRIES")
@@ -26,13 +30,16 @@ public class FeedEntry extends AbstractModel {
 	private String title;
 
 	@Lob
-	private String content;
+	private byte[] content;
 
 	@Column(length = 2048)
 	private String url;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updated;
+
+	@OneToMany(mappedBy = "entry")
+	private Set<FeedEntryStatus> statuses;
 
 	public String getGuid() {
 		return guid;
@@ -51,11 +58,11 @@ public class FeedEntry extends AbstractModel {
 	}
 
 	public String getContent() {
-		return content;
+		return StringUtils.newStringUtf8(content);
 	}
 
 	public void setContent(String content) {
-		this.content = content;
+		this.content = StringUtils.getBytesUtf8(content);
 	}
 
 	public String getUrl() {
@@ -80,6 +87,14 @@ public class FeedEntry extends AbstractModel {
 
 	public void setFeed(Feed feed) {
 		this.feed = feed;
+	}
+
+	public Set<FeedEntryStatus> getStatuses() {
+		return statuses;
+	}
+
+	public void setStatuses(Set<FeedEntryStatus> statuses) {
+		this.statuses = statuses;
 	}
 
 }

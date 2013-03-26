@@ -13,6 +13,7 @@ import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.extended.FeedEntryWithStatus;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.google.common.base.Function;
@@ -85,21 +86,12 @@ public class EntriesREST extends AbstractREST {
 			int limit, boolean unreadOnly) {
 		List<Entry> entries = Lists.newArrayList();
 
-		if (!unreadOnly) {
-			List<FeedEntry> unreadEntries = feedEntryService.getEntries(
-					subscription.getFeed(), getUser(), true, offset, limit);
-			for (FeedEntry feedEntry : unreadEntries) {
-				entries.add(populateEntry(buildEntry(feedEntry), subscription,
-						true));
-			}
+		List<FeedEntryWithStatus> unreadEntries = feedEntryService.getEntries(
+				subscription.getFeed(), getUser(), unreadOnly, offset, limit);
+		for (FeedEntryWithStatus feedEntry : unreadEntries) {
+			entries.add(populateEntry(buildEntry(feedEntry), subscription));
 		}
 
-		List<FeedEntry> readEntries = feedEntryService.getEntries(
-				subscription.getFeed(), getUser(), false, offset, limit);
-		for (FeedEntry feedEntry : readEntries) {
-			entries.add(populateEntry(buildEntry(feedEntry), subscription,
-					false));
-		}
 		return entries;
 	}
 
@@ -108,39 +100,35 @@ public class EntriesREST extends AbstractREST {
 			boolean unreadOnly) {
 		List<Entry> entries = Lists.newArrayList();
 
-		if (!unreadOnly) {
-			List<FeedEntry> unreadEntries = feedEntryService.getEntries(
-					categories, getUser(), true, offset, limit);
-			for (FeedEntry feedEntry : unreadEntries) {
-				entries.add(populateEntry(buildEntry(feedEntry),
-						subMapping.get(feedEntry.getFeed().getId()), true));
-			}
+		List<FeedEntryWithStatus> unreadEntries = feedEntryService.getEntries(
+				categories, getUser(), unreadOnly, offset, limit);
+		for (FeedEntryWithStatus feedEntry : unreadEntries) {
+			entries.add(populateEntry(buildEntry(feedEntry),
+					subMapping.get(feedEntry.getEntry().getFeed().getId())));
 		}
 
-		List<FeedEntry> readEntries = feedEntryService.getEntries(categories,
-				getUser(), false, offset, limit);
-		for (FeedEntry feedEntry : readEntries) {
-			entries.add(populateEntry(buildEntry(feedEntry),
-					subMapping.get(feedEntry.getFeed().getId()), false));
-		}
 		return entries;
 	}
 
-	private Entry buildEntry(FeedEntry feedEntry) {
+	private Entry buildEntry(FeedEntryWithStatus feedEntryWithStatus) {
 		Entry entry = new Entry();
+
+		FeedEntry feedEntry = feedEntryWithStatus.getEntry();
 		entry.setId(String.valueOf(feedEntry.getId()));
 		entry.setTitle(feedEntry.getTitle());
 		entry.setContent(feedEntry.getContent());
 		entry.setDate(feedEntry.getUpdated());
 		entry.setUrl(feedEntry.getUrl());
 
+		FeedEntryStatus status = feedEntryWithStatus.getStatus();
+		entry.setRead(status == null ? false : status.isRead());
+
 		return entry;
 	}
 
-	private Entry populateEntry(Entry entry, FeedSubscription sub, boolean read) {
+	private Entry populateEntry(Entry entry, FeedSubscription sub) {
 		entry.setFeedName(sub.getTitle());
 		entry.setFeedId(String.valueOf(sub.getId()));
-		entry.setRead(read);
 		return entry;
 	}
 
@@ -156,16 +144,14 @@ public class EntriesREST extends AbstractREST {
 			FeedEntry entry = feedEntryService.findById(Long.valueOf(id));
 			markEntry(entry, read);
 		} else if (type == Type.feed) {
-			List<FeedEntry> entries = Lists.newArrayList();
 			Feed feed = feedSubscriptionService.findById(Long.valueOf(id))
 					.getFeed();
 			if (read) {
-				entries.addAll(feedEntryService.getEntries(feed, getUser(),
-						false));
-			}
-			entries.addAll(feedEntryService.getEntries(feed, getUser(), true));
-			for (FeedEntry entry : entries) {
-				markEntry(entry, read);
+				List<FeedEntryWithStatus> entries = feedEntryService
+						.getEntries(feed, getUser(), false);
+				for (FeedEntryWithStatus entry : entries) {
+					markEntry(entry.getEntry(), true);
+				}
 			}
 		}
 	}

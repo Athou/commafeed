@@ -9,16 +9,16 @@
 		<query>select e from FeedEntry e where e.guid in (:guids) order by e.updated desc</query>
 	</named-query>
 	<named-query name="Entry.unreadByFeed">
-		<query>select e from FeedEntry e where e.feed=:feed and not exists (select s from FeedEntryStatus s where s.entry = e and s.user =:user and s.read=true) order by e.updated desc</query>
+		<query>select e, s from FeedEntry e LEFT JOIN e.statuses s WITH (s.user.id=:userId) where e.feed=:feed and not exists (select s2 from FeedEntryStatus s2 where s2.entry=e and s2.user.id=:userId and s2.read=true) order by e.updated desc</query>
 	</named-query>
-	<named-query name="Entry.readByFeed">
-		<query>select e from FeedEntry e where e.feed=:feed and exists (select s from FeedEntryStatus s where s.entry = e and s.user =:user and s.read=true) order by e.updated desc</query>
+	<named-query name="Entry.allByFeed">
+		<query>select e, s from FeedEntry e LEFT JOIN e.statuses s WITH (s.user.id=:userId) where e.feed=:feed order by e.updated desc</query>
 	</named-query>
 	
 	<named-query name="Entry.unreadByCategories">
-		<query>select e from FeedEntry e where exists (select s from FeedSubscription s where s.user=:user and s.feed = e.feed and s.category in (:categories) ) and not exists (select s from FeedEntryStatus s where s.entry = e and s.user =:user and s.read=true) order by e.updated desc</query>
+		<query>select e, s from FeedEntry e LEFT JOIN e.statuses s WITH (s.user.id=:userId) where exists (select s2 from FeedSubscription s2 where s2.user=:user and s2.feed = e.feed and s2.category in (:categories) ) and not exists (select s3 from FeedEntryStatus s3 where s3.entry = e and s3.user =:user and s3.read=true) order by e.updated desc</query>
 	</named-query>
-	<named-query name="Entry.readByCategories">
-		<query>select e from FeedEntry e where exists (select s from FeedSubscription s where s.user=:user and s.feed = e.feed and s.category in (:categories) ) and exists (select s from FeedEntryStatus s where s.entry = e and s.user =:user and s.read=true) order by e.updated desc</query>
+	<named-query name="Entry.allByCategories">
+		<query>select e, s from FeedEntry e LEFT JOIN e.statuses s WITH (s.user.id=:userId) where exists (select s2 from FeedSubscription s2 where s2.user=:user and s2.feed = e.feed and s2.category in (:categories) )  order by e.updated desc</query>
 	</named-query>
 </entity-mappings>

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang.StringUtils;
@@ -13,7 +14,9 @@ import org.apache.commons.lang.StringUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.model.extended.FeedEntryWithStatus;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -62,47 +65,48 @@ public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 		return query.getResultList();
 	}
 
-	public List<FeedEntry> getEntries(Feed feed, User user, boolean read) {
-		return getEntries(feed, user, read, -1, -1);
+	public List<FeedEntryWithStatus> getEntries(Feed feed, User user,
+			boolean unreadOnly) {
+		return getEntries(feed, user, unreadOnly, -1, -1);
 	}
 
-	public List<FeedEntry> getEntries(Feed feed, User user, boolean read,
-			int offset, int limit) {
+	public List<FeedEntryWithStatus> getEntries(Feed feed, User user,
+			boolean unreadOnly, int offset, int limit) {
 		String queryName = null;
-		if (read) {
-			queryName = "Entry.readByFeed";
-		} else {
+		if (unreadOnly) {
 			queryName = "Entry.unreadByFeed";
-		}
-		TypedQuery<FeedEntry> query = em.createNamedQuery(queryName,
-				FeedEntry.class);
-		query.setParameter("feed", feed);
-		query.setParameter("user", user);
-		if (offset > -1) {
-			query.setFirstResult(offset);
-		}
-		if (limit > -1) {
-			query.setMaxResults(limit);
-		}
-		return query.getResultList();
-	}
-
-	public List<FeedEntry> getEntries(List<FeedCategory> categories, User user,
-			boolean read) {
-		return getEntries(categories, user, read, -1, -1);
-	}
-
-	public List<FeedEntry> getEntries(List<FeedCategory> categories, User user,
-			boolean read, int offset, int limit) {
-		String queryName = null;
-		if (read) {
-			queryName = "Entry.readByCategories";
 		} else {
-			queryName = "Entry.unreadByCategories";
+			queryName = "Entry.allByFeed";
 		}
-		TypedQuery<FeedEntry> query = em.createNamedQuery(queryName,
-				FeedEntry.class);
+		Query query = em.createNamedQuery(queryName);
+		query.setParameter("feed", feed);
+		query.setParameter("userId", user.getId());
+		if (offset > -1) {
+			query.setFirstResult(offset);
+		}
+		if (limit > -1) {
+			query.setMaxResults(limit);
+		}
+
+		return buildList(query.getResultList());
+	}
+
+	public List<FeedEntryWithStatus> getEntries(List<FeedCategory> categories, User user,
+			boolean unreadOnly) {
+		return getEntries(categories, user, unreadOnly, -1, -1);
+	}
+
+	public List<FeedEntryWithStatus> getEntries(List<FeedCategory> categories, User user,
+			boolean unreadOnly, int offset, int limit) {
+		String queryName = null;
+		if (unreadOnly) {
+			queryName = "Entry.unreadByCategories";
+		} else {
+			queryName = "Entry.allByCategories";
+		}
+		Query query = em.createNamedQuery(queryName);
 		query.setParameter("categories", categories);
+		query.setParameter("userId", user.getId());
 		query.setParameter("user", user);
 		if (offset > -1) {
 			query.setFirstResult(offset);
@@ -110,6 +114,18 @@ public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 		if (limit > -1) {
 			query.setMaxResults(limit);
 		}
-		return query.getResultList();
+		return buildList(query.getResultList());
+	}
+	
+	@SuppressWarnings("rawtypes")
+	private List<FeedEntryWithStatus> buildList(List list){
+		List<FeedEntryWithStatus> result = Lists.newArrayList();
+		for (Object object :list) {
+			Object[] array = (Object[]) object;
+			FeedEntry entry = (FeedEntry) array[0];
+			FeedEntryStatus status = (FeedEntryStatus) array[1];
+			result.add(new FeedEntryWithStatus(entry, status));
+		}
+		return result;
 	}
 }

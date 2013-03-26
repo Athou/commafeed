@@ -8,8 +8,11 @@ import javax.ejb.Stateless;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.htmlcleaner.CleanerProperties;
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.SimpleHtmlSerializer;
+import org.htmlcleaner.TagNode;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
@@ -26,12 +29,12 @@ public class FeedParser {
 
 	@SuppressWarnings("unchecked")
 	public Feed parse(String feedUrl, String xml) throws FeedException {
-
 		Feed feed = new Feed();
 		feed.setUrl(feedUrl);
 		feed.setLastUpdated(Calendar.getInstance().getTime());
 
 		try {
+			xml = balanceTags(xml);
 			SyndFeed rss = new SyndFeedInput().build(new StringReader(xml));
 
 			List<SyndEntry> items = rss.getEntries();
@@ -72,8 +75,20 @@ public class FeedParser {
 		return content;
 	}
 
+	private String balanceTags(String xml) throws Exception {
+		HtmlCleaner cleaner = new HtmlCleaner();
+		CleanerProperties props = cleaner.getProperties();
+		props.setOmitXmlDeclaration(true);
+		TagNode node = cleaner.clean(xml);
+		SimpleHtmlSerializer serializer = new SimpleHtmlSerializer(
+				cleaner.getProperties());
+		String result = serializer.getAsString(node);
+		result = StringUtils.trim(xml);
+		return result;
+	}
+
 	private String handleContent(String content) {
-		Document doc = Jsoup.parse(content, "UTF-8");
+		org.jsoup.nodes.Document doc = Jsoup.parse(content, "UTF-8");
 		doc.select("a").attr("target", "_blank");
 		return doc.outerHtml();
 	}

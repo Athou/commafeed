@@ -2,6 +2,7 @@ package com.commafeed.backend.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -10,10 +11,10 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 public class FeedSubscription extends AbstractModel {
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Feed feed;
 
 	@Column(length = 128)

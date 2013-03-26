@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -18,7 +19,7 @@ public class FeedEntry extends AbstractModel {
 	@Column(length = 2048)
 	private String guid;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Feed feed;
 
 	@Column(length = 2048)

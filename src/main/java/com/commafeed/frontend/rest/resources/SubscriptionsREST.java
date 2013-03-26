@@ -80,52 +80,50 @@ public class SubscriptionsREST extends AbstractREST {
 
 	@GET
 	public Category getSubscriptions() {
-		Category root = new Category();
 
 		List<FeedCategory> categories = feedCategoryService.findAll(getUser());
-		addChildren(categories, root);
+		List<FeedSubscription> subscriptions = feedSubscriptionService
+				.findAll(getUser());
 
+		Category root = buildCategory(null, categories, subscriptions);
 		root.setId("all");
 		root.setName("All");
 
-		for (FeedSubscription subscription : feedSubscriptionService
-				.findWithoutCategories(getUser())) {
-			Subscription sub = new Subscription();
-			sub.setId(subscription.getId());
-			sub.setName(subscription.getTitle());
-			sub.setMessage(subscription.getFeed().getMessage());
-			int size = feedEntryService.getEntries(subscription.getFeed(),
-					getUser(), false).size();
-			sub.setUnread(size);
-			root.getFeeds().add(sub);
-		}
 		return root;
 	}
 
-	private void addChildren(List<FeedCategory> categories, Category current) {
-		for (FeedCategory category : categories) {
-			if ((category.getParent() == null && current.getId() == null)
-					|| (category.getParent() != null && (ObjectUtils.equals(
-							String.valueOf(category.getParent().getId()),
-							current.getId())))) {
-				Category child = new Category();
-				child.setId(String.valueOf(category.getId()));
-				child.setName(category.getName());
-				addChildren(categories, child);
-				for (FeedSubscription subscription : category
-						.getSubscriptions()) {
-					Subscription sub = new Subscription();
-					sub.setId(subscription.getId());
-					sub.setName(subscription.getTitle());
-					sub.setMessage(subscription.getFeed().getMessage());
-					int size = feedEntryService.getEntries(
-							subscription.getFeed(), getUser(), false).size();
-					sub.setUnread(size);
-					child.getFeeds().add(sub);
-				}
-				current.getChildren().add(child);
+	Category buildCategory(Long id, List<FeedCategory> categories,
+			List<FeedSubscription> subscriptions) {
+		Category category = new Category();
+		category.setId(String.valueOf(id));
+
+		for (FeedCategory c : categories) {
+			if ((id == null && c.getParent() == null)
+					|| (c.getParent() != null && ObjectUtils.equals(c
+							.getParent().getId(), id))) {
+				Category child = buildCategory(c.getId(), categories,
+						subscriptions);
+				child.setId(String.valueOf(c.getId()));
+				child.setName(c.getName());
+				category.getChildren().add(child);
 			}
 		}
+
+		for (FeedSubscription subscription : subscriptions) {
+			if ((id == null && subscription.getCategory() == null)
+					|| (subscription.getCategory() != null && ObjectUtils
+							.equals(subscription.getCategory().getId(), id))) {
+				Subscription sub = new Subscription();
+				sub.setId(subscription.getId());
+				sub.setName(subscription.getTitle());
+				sub.setMessage(subscription.getFeed().getMessage());
+				int size = feedEntryService.getEntries(subscription.getFeed(),
+						getUser(), false).size();
+				sub.setUnread(size);
+				category.getFeeds().add(sub);
+			}
+		}
+		return category;
 	}
 
 }

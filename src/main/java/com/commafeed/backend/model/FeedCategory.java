@@ -4,7 +4,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -25,8 +24,8 @@ public class FeedCategory extends AbstractModel {
 	@ManyToOne
 	private FeedCategory parent;
 
-	@OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
-	private Set<FeedSubscription> subscriptions = Sets.newHashSet();
+	@OneToMany(mappedBy = "category")
+	private Set<FeedSubscription> subscriptions;
 
 	public String getName() {
 		return name;
@@ -53,6 +52,9 @@ public class FeedCategory extends AbstractModel {
 	}
 
 	public Set<FeedSubscription> getSubscriptions() {
+		if (subscriptions == null) {
+			return Sets.newHashSet();
+		}
 		return subscriptions;
 	}
 

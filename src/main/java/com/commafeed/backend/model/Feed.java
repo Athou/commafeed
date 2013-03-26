@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,7 +26,7 @@ public class Feed extends AbstractModel {
 	@Column(length = 1024)
 	private String message;
 
-	@OneToMany(mappedBy = "feed", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "feed")
 	private Set<FeedEntry> entries = Sets.newHashSet();
 
 	public Feed() {

@@ -9,29 +9,8 @@
 	<link href="css/app.css" rel="stylesheet">
 </head>
 <body>
-	<div ng-app="commafeed">
-		<div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span2">
-					<subscribe></subscribe>
-					<div class="css-treeview" ng-controller="CategoryTreeCtrl">
-						<ul>
-							<category node="SubscriptionService.subscriptions" feed-click="feedClicked(id)"
-								category-click="categoryClicked(id)" selected-type="selectedType"
-								selected-id="selectedId"
-								format-category-name="formatCategoryName(category)"
-								format-feed-name="formatFeedName(feed)"> </category>
-						</ul>
-					</div>
-				</div>
-				<div class="span10">
-					<toolbar></toolbar>
-					<ng:view></ng:view>
-				</div>
-			</div>
-		</div>
-	</div>
 	
+	 Placeholder
 	 <script src="vendor/jquery/jquery-1.9.1.min.js"></script>
 	 <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	 <script src="vendor/select2/select2.min.js"></script>
@@ -42,9 +21,5 @@
 	 <script src="vendor/angular-infinite-scroll/ng-infinite-scroll.min.js"></script>
 	 <script src="vendor/angular-ui/angular-ui.min.js"></script>
 	 <script src="vendor/angular-ui-bootstrap/ui-bootstrap-tpls-0.2.0.min.js"></script>
-	 <script src="js/main.js"></script>
-	 <script src="js/controllers.js"></script>
-	 <script src="js/directives.js"></script>
-	 <script src="js/services.js"></script>
 </body>
 </html>

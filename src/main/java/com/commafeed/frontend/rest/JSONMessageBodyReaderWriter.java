@@ -2,7 +2,9 @@ package com.commafeed.frontend.rest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
@@ -19,7 +21,6 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.time.DateUtils;
 
 import com.google.gson.Gson;
@@ -34,6 +35,10 @@ import com.google.gson.JsonSerializer;
 @Consumes(MediaType.APPLICATION_JSON)
 public class JSONMessageBodyReaderWriter implements MessageBodyWriter<Object>,
 		MessageBodyReader<Object> {
+
+	private static final String UTF_8 = "UTF-8";
+
+	private Gson gson;
 
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType,
@@ -61,8 +66,18 @@ public class JSONMessageBodyReaderWriter implements MessageBodyWriter<Object>,
 			WebApplicationException {
 		httpHeaders.putSingle(HttpHeaders.CONTENT_TYPE, mediaType.toString()
 				+ ";charset=UTF-8");
-		IOUtils.write(getGson().toJson(t), entityStream, "UTF-8");
-
+		OutputStreamWriter writer = new OutputStreamWriter(entityStream, UTF_8);
+		try {
+			Type jsonType;
+			if (type.equals(genericType)) {
+				jsonType = type;
+			} else {
+				jsonType = genericType;
+			}
+			getGson().toJson(t, jsonType, writer);
+		} finally {
+			writer.close();
+		}
 	}
 
 	@Override
@@ -70,13 +85,26 @@ public class JSONMessageBodyReaderWriter implements MessageBodyWriter<Object>,
 			Annotation[] annotations, MediaType mediaType,
 			MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
 			throws IOException, WebApplicationException {
-		String json = IOUtils.toString(entityStream, "UTF-8");
-		return getGson().fromJson(json, type);
+		InputStreamReader streamReader = new InputStreamReader(entityStream,
+				UTF_8);
+		try {
+			Type jsonType;
+			if (type.equals(genericType)) {
+				jsonType = type;
+			} else {
+				jsonType = genericType;
+			}
+			return getGson().fromJson(streamReader, jsonType);
+		} finally {
+			streamReader.close();
+		}
 	}
 
 	private Gson getGson() {
-		Gson gson = new GsonBuilder().registerTypeAdapter(Date.class,
-				new DateSerializer()).create();
+		if (gson == null) {
+			gson = new GsonBuilder().registerTypeAdapter(Date.class,
+					new DateSerializer()).create();
+		}
 		return gson;
 	}
 

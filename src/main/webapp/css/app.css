@@ -27,6 +27,14 @@
 }
 
 /* entry list*/
+#feed-accordion .accordion-group {
+	margin-bottom: 0px;
+	border: none;
+	-webkit-border-radius: none;
+	-moz-border-radius: none;
+	border-radius: 0px;
+}
+
 #feed-accordion .entry {
 	border-bottom: 1px solid #CCCCCC;
 }
@@ -48,11 +56,6 @@
 
 #feed-accordion .entry .entry-heading a.collapsed:hover {
 	background-color: #EBEBEB;
-}
-
-#feed-accordion .entry .entry-heading a  ~.collapsed {
-	background-color: #EBEBEB;
-	padding: 6px 0px;
 }
 
 #feed-accordion .entry .entry-heading a {

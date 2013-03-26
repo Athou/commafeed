@@ -8,6 +8,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -29,7 +31,7 @@ public class SubscriptionsREST extends AbstractREST {
 
 	@POST
 	@Path("subscribe")
-	public void subscribe(SubscriptionRequest req) {
+	public Response subscribe(SubscriptionRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getTitle());
 		Preconditions.checkNotNull(req.getUrl());
@@ -48,20 +50,21 @@ public class SubscriptionsREST extends AbstractREST {
 		sub.setTitle(req.getTitle());
 		sub.setUser(getUser());
 		feedSubscriptionService.save(sub);
-
+		return Response.ok(Status.OK).build();
 	}
 
 	@GET
 	@Path("unsubscribe")
-	public void unsubscribe(@QueryParam("id") Long subscriptionId) {
+	public Response unsubscribe(@QueryParam("id") Long subscriptionId) {
 		feedSubscriptionService.deleteById(subscriptionId);
+		return Response.ok(Status.OK).build();
 	}
 
 	@POST
 	@Path("import")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@SuppressWarnings("unchecked")
-	public void importOpml() {
+	public Response importOpml() {
 		try {
 			FileItemFactory factory = new DiskFileItemFactory(1000000, null);
 			ServletFileUpload upload = new ServletFileUpload(factory);
@@ -76,6 +79,7 @@ public class SubscriptionsREST extends AbstractREST {
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
+		return Response.ok(Status.OK).build();
 	}
 
 	@GET

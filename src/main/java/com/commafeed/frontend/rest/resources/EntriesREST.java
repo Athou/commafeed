@@ -7,6 +7,8 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
@@ -134,7 +136,7 @@ public class EntriesREST extends AbstractREST {
 
 	@Path("mark")
 	@GET
-	public void mark(@QueryParam("type") Type type,
+	public Response mark(@QueryParam("type") Type type,
 			@QueryParam("id") String id, @QueryParam("read") boolean read) {
 		Preconditions.checkNotNull(type);
 		Preconditions.checkNotNull(id);
@@ -154,6 +156,7 @@ public class EntriesREST extends AbstractREST {
 				}
 			}
 		}
+		return Response.ok(Status.OK).build();
 	}
 
 	private void markEntry(FeedEntry entry, boolean read) {

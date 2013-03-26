@@ -1,7 +1,6 @@
 package com.commafeed.frontend.rest;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -68,20 +67,16 @@ public class JSONMessageBodyReaderWriter implements MessageBodyWriter<Object>,
 			WebApplicationException {
 		httpHeaders.putSingle(HttpHeaders.CONTENT_TYPE, mediaType.toString()
 				+ ";charset=UTF-8");
-		OutputStreamWriter writer = new OutputStreamWriter(
-				new BufferedOutputStream(entityStream), UTF_8);
+		OutputStreamWriter writer = new OutputStreamWriter(entityStream, UTF_8);
 
-		try {
-			Type jsonType;
-			if (type.equals(genericType)) {
-				jsonType = type;
-			} else {
-				jsonType = genericType;
-			}
-			getGson().toJson(t, jsonType, writer);
-		} finally {
-			writer.close();
+		Type jsonType;
+		if (type.equals(genericType)) {
+			jsonType = type;
+		} else {
+			jsonType = genericType;
 		}
+		getGson().toJson(t, jsonType, writer);
+		writer.flush();
 	}
 
 	@Override
@@ -91,17 +86,13 @@ public class JSONMessageBodyReaderWriter implements MessageBodyWriter<Object>,
 			throws IOException, WebApplicationException {
 		InputStreamReader reader = new InputStreamReader(
 				new BufferedInputStream(entityStream), UTF_8);
-		try {
-			Type jsonType;
-			if (type.equals(genericType)) {
-				jsonType = type;
-			} else {
-				jsonType = genericType;
-			}
-			return getGson().fromJson(reader, jsonType);
-		} finally {
-			reader.close();
+		Type jsonType;
+		if (type.equals(genericType)) {
+			jsonType = type;
+		} else {
+			jsonType = genericType;
 		}
+		return getGson().fromJson(reader, jsonType);
 	}
 
 	private Gson getGson() {

@@ -18,6 +18,9 @@ import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.util.io.IOUtils;
 import org.apache.wicket.util.template.PackageTextTemplate;
 
+import de.agilecoders.wicket.webjars.request.resource.WebjarsCssResourceReference;
+import de.agilecoders.wicket.webjars.request.resource.WebjarsJavaScriptResourceReference;
+
 public class WicketUtils {
 
 	public static void loadJQuery(IHeaderResponse response) {
@@ -29,6 +32,12 @@ public class WicketUtils {
 		return JavaScriptHeaderItem
 				.forReference(new JavaScriptResourceReference(klass, klass
 						.getSimpleName() + ".js"));
+	}
+
+	public static JavaScriptHeaderItem buildJavaScriptWebJarHeaderItem(
+			String name) {
+		return JavaScriptHeaderItem
+				.forReference(new WebjarsJavaScriptResourceReference(name));
 	}
 
 	public static void loadJS(IHeaderResponse response, Class<?> klass) {
@@ -50,9 +59,18 @@ public class WicketUtils {
 		response.render(result);
 	}
 
+	public static void loadWebJarJS(IHeaderResponse response, String name) {
+		response.render(buildJavaScriptWebJarHeaderItem(name));
+	}
+
 	public static CssHeaderItem buildCssHeaderItem(Class<?> klass) {
 		return CssHeaderItem.forReference(new CssResourceReference(klass, klass
 				.getSimpleName() + ".css"));
+	}
+
+	public static CssHeaderItem buildCssWebJarHeaderItem(String name) {
+		return CssHeaderItem
+				.forReference(new WebjarsCssResourceReference(name));
 	}
 
 	public static void loadCSS(IHeaderResponse response, Class<?> klass) {
@@ -72,6 +90,10 @@ public class WicketUtils {
 			IOUtils.closeQuietly(template);
 		}
 		response.render(result);
+	}
+
+	public static void loadWebJarCSS(IHeaderResponse response, String name) {
+		response.render(buildCssWebJarHeaderItem(name));
 	}
 
 	public static HttpServletRequest getHttpServletRequest() {

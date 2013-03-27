@@ -1,5 +1,9 @@
 package com.commafeed.frontend;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.jar.JarFile;
+
 import javax.enterprise.inject.spi.BeanManager;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -24,6 +28,11 @@ import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
 import org.apache.wicket.request.cycle.RequestCycle;
+import org.jboss.vfs.VirtualFile;
+import org.reflections.ReflectionsException;
+import org.reflections.vfs.SystemDir;
+import org.reflections.vfs.Vfs;
+import org.reflections.vfs.ZipDir;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +41,9 @@ import com.commafeed.frontend.pages.LoginPage;
 import com.commafeed.frontend.pages.LogoutPage;
 import com.commafeed.frontend.pages.SettingsPage;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
+
+import de.agilecoders.wicket.Bootstrap;
+import de.agilecoders.wicket.settings.BootstrapSettings;
 
 public class CommaFeedApplication extends AuthenticatedWebApplication {
 
@@ -74,7 +86,7 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 						new DisplayExceptionPage(ex)), policy);
 			}
 		});
-
+		Bootstrap.install(Application.get(), new BootstrapSettings());
 	}
 
 	@Override
@@ -111,6 +123,56 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 	public static CommaFeedApplication get() {
 
 		return (CommaFeedApplication) Application.get();
+	}
+
+	/**
+	 * Reflections fix for JbossAS7
+	 * 
+	 * https://code.google.com/p/reflections/wiki/JBossIntegration
+	 */
+	static {
+
+		Vfs.addDefaultURLTypes(new Vfs.UrlType() {
+			public boolean matches(URL url) {
+				return url.getProtocol().equals("vfs");
+			}
+
+			public Vfs.Dir createDir(URL url) {
+				VirtualFile content;
+				try {
+					content = (VirtualFile) url.openConnection().getContent();
+				} catch (Throwable e) {
+					throw new ReflectionsException(
+							"could not open url connection as VirtualFile ["
+									+ url + "]", e);
+				}
+
+				Vfs.Dir dir = null;
+				try {
+					dir = createDir(new java.io.File(content.getPhysicalFile()
+							.getParentFile(), content.getName()));
+				} catch (IOException e) { /* continue */
+				}
+				if (dir == null) {
+					try {
+						dir = createDir(content.getPhysicalFile());
+					} catch (IOException e) { /* continue */
+					}
+				}
+				return dir;
+			}
+
+			Vfs.Dir createDir(java.io.File file) {
+				try {
+					return file.exists() && file.canRead() ? file.isDirectory() ? new SystemDir(
+							file) : new ZipDir(new JarFile(file))
+							: null;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+		});
 	}
 
 }

@@ -267,7 +267,7 @@
 			<id>openshift</id>
 			<properties>
 				<jpa.datasource.name>java:jboss/datasources/MysqlDS</jpa.datasource.name>
-				<jpa.show_sql>true</jpa.show_sql>
+				<jpa.show_sql>false</jpa.show_sql>
 			</properties>
 			<build>
 				<finalName>commafeed</finalName>

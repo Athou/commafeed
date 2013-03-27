@@ -62,6 +62,8 @@
 }
 
 #feed-accordion .collapse {
+	-webkit-transition: none;
+	-moz-transition: none;
 	transition: none;
 }
 

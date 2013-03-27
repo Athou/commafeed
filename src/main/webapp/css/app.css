@@ -22,7 +22,7 @@
 
 .css-treeview .error {
 	color: red;
-	font-style:italic;
+	font-style: italic;
 }
 
 .css-treeview label,.css-treeview a,.css-treeview label::before {
@@ -59,6 +59,10 @@
 
 .entrylist-header h3 {
 	margin: 5px 0px 5px 0px;
+}
+
+#feed-accordion .collapse {
+	transition: none;
 }
 
 #feed-accordion .accordion-group {

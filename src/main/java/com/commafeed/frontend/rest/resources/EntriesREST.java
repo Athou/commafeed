@@ -149,13 +149,26 @@ public class EntriesREST extends AbstractREST {
 		} else if (type == Type.feed) {
 			Feed feed = feedSubscriptionService.findById(Long.valueOf(id))
 					.getFeed();
-			if (read) {
-				List<FeedEntryWithStatus> entries = feedEntryService
-						.getEntries(feed, getUser(), false);
-				for (FeedEntryWithStatus entry : entries) {
-					markEntry(entry.getEntry(), true);
-				}
+			List<FeedEntryWithStatus> entries = feedEntryService.getEntries(
+					feed, getUser(), false);
+			for (FeedEntryWithStatus entry : entries) {
+				markEntry(entry, read);
 			}
+		} else if (type == Type.category) {
+			FeedCategory feedCategory = null;
+			if (!ALL.equals(id)) {
+				feedCategory = feedCategoryService.findById(getUser(),
+						Long.valueOf(id));
+			}
+			List<FeedCategory> childrenCategories = feedCategoryService
+					.findAllChildrenCategories(getUser(), feedCategory);
+
+			List<FeedEntryWithStatus> entries = feedEntryService.getEntries(
+					childrenCategories, getUser(), false);
+			for (FeedEntryWithStatus entry : entries) {
+				markEntry(entry, true);
+			}
+
 		}
 		return Response.ok(Status.OK).build();
 	}
@@ -167,6 +180,17 @@ public class EntriesREST extends AbstractREST {
 			status = new FeedEntryStatus();
 			status.setUser(getUser());
 			status.setEntry(entry);
+		}
+		status.setRead(read);
+		feedEntryStatusService.saveOrUpdate(status);
+	}
+
+	private void markEntry(FeedEntryWithStatus entryWithStatus, boolean read) {
+		FeedEntryStatus status = entryWithStatus.getStatus();
+		if (status == null) {
+			status = new FeedEntryStatus();
+			status.setUser(getUser());
+			status.setEntry(entryWithStatus.getEntry());
 		}
 		status.setRead(read);
 		feedEntryStatusService.saveOrUpdate(status);

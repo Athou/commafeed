@@ -11,11 +11,11 @@ module.directive('subscribe', function(SubscriptionService) {
 				backdropFade : true,
 				dialogFade : true
 			};
-			
-		    $scope.isOpen = false;
-		    $scope.isOpenImport = false;
-		    $scope.sub = {};
-		    
+
+			$scope.isOpen = false;
+			$scope.isOpenImport = false;
+			$scope.sub = {};
+
 			$scope.SubscriptionService = SubscriptionService;
 
 			$scope.open = function() {
@@ -26,13 +26,12 @@ module.directive('subscribe', function(SubscriptionService) {
 			$scope.close = function() {
 				$scope.isOpen = false;
 			};
-			
+
 			$scope.save = function() {
-				SubscriptionService.subscribe($scope.sub, function() {
-					$scope.close();
-				});
+				SubscriptionService.subscribe($scope.sub);
+				$scope.close();
 			};
-			
+
 			$scope.openImport = function() {
 				$scope.isOpenImport = true;
 			};
@@ -40,7 +39,7 @@ module.directive('subscribe', function(SubscriptionService) {
 			$scope.closeImport = function() {
 				$scope.isOpenImport = false;
 			};
-			
+
 			$scope.uploadComplete = function(contents, completed) {
 				SubscriptionService.init();
 				$scope.closeImport();
@@ -51,45 +50,53 @@ module.directive('subscribe', function(SubscriptionService) {
 
 module.directive('category', function($compile) {
 	return {
-		scope: {
-			node: '=',
-			selectedType: '=',
-			selectedId: '=',
-			feedClick: '&',
-			categoryClick: '&',
-			formatCategoryName: '&',
-			formatFeedName: '&'
+		scope : {
+			node : '=',
+			selectedType : '=',
+			selectedId : '=',
+			feedClick : '&',
+			categoryClick : '&',
+			formatCategoryName : '&',
+			formatFeedName : '&'
 		},
 		restrict : 'E',
-		replace: true,
-		templateUrl: 'directives/category.html',
-		link: function(scope, element) {
-            var ul = element.find('ul');
+		replace : true,
+		templateUrl : 'directives/category.html',
+		link : function(scope, element) {
+			var ul = element.find('ul');
             ul.prepend('<category ng-repeat="child in node.children" node="child" feed-click="feedClick({id:id})" \
             		category-click="categoryClick({id:id})" selected-type="selectedType" selected-id="selectedId" \
             		format-category-name="formatCategoryName({category:category})" format-feed-name="formatFeedName({feed:feed})">\
             		</category>');
-            $compile(ul.contents())(scope);
-	     },
-	     controller: function($scope, $dialog, SubscriptionService) {
-	    	 $scope.unsubscribe = function(subscription) {
+			$compile(ul.contents())(scope);
+		},
+		controller : function($scope, $dialog, SubscriptionService) {
+			$scope.unsubscribe = function(subscription) {
 				var title = 'Unsubscribe';
-			    var msg = 'Unsubscribe from ' + subscription.name + ' ?';
-			    var btns = [{result:'cancel', label: 'Cancel'}, {result:'ok', label: 'OK', cssClass: 'btn-primary'}];
-			    
-				$dialog.messageBox(title, msg, btns)
-			      .open()
-			      .then(function(result){
-			    	  if(result == 'ok'){
-			    		  SubscriptionService.unsubscribe(subscription.id);
-			    	  }
-			    });
-	    	 }
-	     }
+				var msg = 'Unsubscribe from ' + subscription.name + ' ?';
+				var btns = [ {
+					result : 'cancel',
+					label : 'Cancel'
+				}, {
+					result : 'ok',
+					label : 'OK',
+					cssClass : 'btn-primary'
+				} ];
+
+				$dialog.messageBox(title, msg, btns).open().then(
+						function(result) {
+							if (result == 'ok') {
+								SubscriptionService
+										.unsubscribe(subscription.id);
+							}
+						});
+			}
+		}
 	};
 });
 
-module.directive('toolbar', function($routeParams, $route, SettingsService, EntryService, SubscriptionService) {
+module.directive('toolbar', function($routeParams, $route, SettingsService,
+		EntryService, SubscriptionService) {
 	return {
 		scope : {},
 		restrict : 'E',
@@ -99,12 +106,12 @@ module.directive('toolbar', function($routeParams, $route, SettingsService, Entr
 			$scope.settings = SettingsService.settings;
 			$scope.refresh = function() {
 				$route.reload();
-			},
+			};
 			$scope.markAllAsRead = function() {
 				EntryService.mark({
-					type: 	$routeParams._type,
-					id: $routeParams._id,
-					read: true,
+					type : $routeParams._type,
+					id : $routeParams._id,
+					read : true,
 				}, function() {
 					SubscriptionService.init(function() {
 						$route.reload();

@@ -1,7 +1,8 @@
 <div ng-controller="FeedListCtrl">
-{{readType}}
-	<span>{{entryList.name}}</span><span
-		ng-show="selectedType == 'category'"> &#187;</span>
+
+<div class="entrylist-header">
+	<h3><span>{{entryList.name}}</span><span ng-show="entryList.name && selectedType == 'category'"> &#187;</span></h3>
+</div>
 	<div id="feed-accordion" infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
 		<accordion close-others="true">
 			<accordion-group ng-repeat="entry in entryList.entries" class="entry">

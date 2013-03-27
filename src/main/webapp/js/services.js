@@ -1,13 +1,17 @@
 var module = angular.module('commafeed.services', [ 'ngResource' ]);
 
-module.factory('SubscriptionService', [ '$resource', '$http',
+module.factory('SubscriptionService', [
+		'$resource',
+		'$http',
 		function($resource, $http) {
-	
-		    var flatten = function(category, parentName, array) {
-		    	if(!array) array = [];
+
+			var flatten = function(category, parentName, array) {
+				if (!array)
+					array = [];
 				array.push({
 					id : category.id,
-					name : category.name + (parentName ? (' (in ' + parentName + ')') : '')
+					name : category.name
+							+ (parentName ? (' (in ' + parentName + ')') : '')
 				});
 				if (category.children) {
 					for ( var i = 0; i < category.children.length; i++) {
@@ -39,32 +43,52 @@ module.factory('SubscriptionService', [ '$resource', '$http',
 			var s = {};
 			s.subscriptions = {};
 			s.flatCategories = {};
-			
+
 			var res = $resource('rest/subscriptions/:_method', {}, actions);
 			s.init = function(callback) {
 				s.subscriptions = res.get(function(data) {
 					s.flatCategories = flatten(s.subscriptions);
-					if(callback)
+					if (callback)
 						callback(data);
 				});
 			};
 			s.subscribe = function(sub, callback) {
-				res.subscribe(sub, callback);
-				s.init();
+				res.subscribe(sub, function(data){
+					s.init();
+					if(callback) callback(data);
+				});
 			};
-			s.unsubscribe = function(id, callback) {
+
+			var removeSubscription = function(node, subId) {
+				if (node.children) {
+					$.each(node.children, function(k, v) {
+						removeSubscription(v, subId);
+					});
+				}
+				if (node.feeds) {
+					var foundAtIndex = -1;
+					$.each(node.feeds, function(k, v) {
+						if (v.id == subId) {
+							foundAtIndex = k;
+						}
+					});
+					if (foundAtIndex > -1) {
+						node.feeds.splice(foundAtIndex, 1);
+					}
+				}
+
+			}
+			s.unsubscribe = function(id) {
+				removeSubscription(s.subscriptions, id);
 				res.unsubscribe({
 					id : id
-				}, callback);
-				s.init();
+				});
 			};
 			s.init();
 			return s;
 		} ]);
 
-module.factory('EntryService', [
-		'$resource',
-		'$http',
+module.factory('EntryService', [ '$resource', '$http',
 		function($resource, $http) {
 			var actions = {
 				get : {
@@ -80,8 +104,7 @@ module.factory('EntryService', [
 					}
 				}
 			};
-			res = $resource('rest/entries/:_method', {},
-					actions);
+			res = $resource('rest/entries/:_method', {}, actions);
 			return res;
 		} ]);
 

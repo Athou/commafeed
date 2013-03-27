@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:wicket="http://wicket.apache.org">
 <head>
+	<title>CommaFeed</title>
 	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="vendor/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
 	<link href="vendor/angular-ui/angular-ui.min.css" rel="stylesheet">
@@ -9,7 +10,7 @@
 	<link href="css/app.css" rel="stylesheet">
 </head>
 <body>
-	<div ng-app="commafeed">
+	<div ng-app="commafeed" class="main">
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div class="span2">
@@ -27,7 +28,7 @@
 					</div>
 				</div>
 				<div class="span10">
-					<toolbar></toolbar>
+					<toolbar class="pull-right"></toolbar>
 					<ng:view></ng:view>
 				</div>
 			</div>

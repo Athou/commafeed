@@ -1,12 +1,21 @@
+.main {
+	margin-top: 10px;
+}
+
 /* tree*/
 .sidebar-nav-fixed {
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 .css-treeview {
 	font-family: inherit;
 	font-size: 11px;
 	white-space: nowrap;
+}
+
+.css-treeview .error {
+	color: red;
+	font-style:italic;
 }
 
 .css-treeview label,.css-treeview a,.css-treeview label::before {
@@ -26,7 +35,8 @@
 .css-treeview a {
 	cursor: pointer;
 	color: black;
-	display: block; overflow-hidden;
+	display: block;
+	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
@@ -36,6 +46,14 @@
 }
 
 /* entry list*/
+.entrylist-header {
+	border-bottom: 1px solid #eee;
+}
+
+.entrylist-header h3 {
+	margin: 0px 0px 5px 0px;
+}
+
 #feed-accordion .accordion-group {
 	margin-bottom: 0px;
 	border: none;

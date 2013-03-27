@@ -9,7 +9,7 @@
 		<jta-data-source>${jpa.datasource.name}</jta-data-source>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
-			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.show_sql" value="${jpa.show_sql}" />
 		</properties>
 	</persistence-unit>
 </persistence>

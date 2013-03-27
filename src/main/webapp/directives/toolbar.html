@@ -1,19 +1,22 @@
 <div>
-	<div class="pull-left" spinner shown="loading"></div>
-	<div class="btn-group read-mode" data-toggle="buttons-radio">
-		<button type="button" class="btn" ng-model="settings.readingMode" btn-radio="'unread'">Unread</button>
-		<button type="button" class="btn" ng-model="settings.readingMode" btn-radio="'all'">All</button>
+	<div class="pull-right" spinner shown="loading"></div>
+	<div>
+		<div class="btn-group read-mode" data-toggle="buttons-radio">
+			<button type="button" class="btn" ng-model="settings.readingMode" btn-radio="'unread'">Unread</button>
+			<button type="button" class="btn" ng-model="settings.readingMode" btn-radio="'all'">All</button>
+		</div>
+		
+		<button type="button" class="btn" ng-click="refresh()"><i class="icon-refresh"></i> Refresh</button>
+		<button type="button" class="btn" ng-click="markAllAsRead()"><i class="icon-ok"></i> Mark all as read</button>
+	
+		<div class="btn-group">
+			<a class="btn dropdown-toggle" data-toggle="dropdown" href="settings"><i class="icon-cog"></i><span class="caret"></span></a>
+			<ul class="dropdown-menu pull-right">
+				<li><a href="settings"><i class="icon-wrench"></i> Settings</a></li>
+				<li class="divider"></li>
+				<li><a href="logout"><i class="icon-user"></i> Logout</a></li>
+			</ul>
+		</div>
 	</div>
 	
-	<button type="button" class="btn" ng-click="refresh()"><i class="icon-refresh"></i> Refresh</button>
-	<button type="button" class="btn" ng-click="markAllAsRead()"><i class="icon-ok"></i> Mark all as read</button>
-
-	<div class="btn-group">
-		<a class="btn dropdown-toggle" data-toggle="dropdown" href="settings"><i class="icon-cog"></i><span class="caret"></span></a>
-		<ul class="dropdown-menu pull-right">
-			<li><a href="settings"><i class="icon-wrench"></i> Settings</a></li>
-			<li class="divider"></li>
-			<li><a href="logout"><i class="icon-user"></i> Logout</a></li>
-		</ul>
-	</div>
 </div>

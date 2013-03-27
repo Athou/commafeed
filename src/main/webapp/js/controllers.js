@@ -155,7 +155,13 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 		}
 	};
 	
+	$scope.isOpen = false
 	$scope.toggle = function(entry) {
+		if ($scope.current != entry) {
+			$scope.isOpen = true;
+		} else {
+			$scope.isOpen = !$scope.isOpen;
+		}
 		$scope.current = entry;
 		$scope.mark(entry, true);
 	}

@@ -19,7 +19,7 @@
 							<a href="{{entry.url}}" target="_blank">{{entry.title}}</a>
 						</h4>
 					</div>	
-					<div ng-bind-html="entry.content"></div>
+					<div ng-bind-html-unsafe="entry.content" ui-if="isOpen && current == entry"></div>
 				</div>
 			</accordion-group>
 		</accordion>

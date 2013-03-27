@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
@@ -71,8 +72,14 @@ public class FeedParser {
 	}
 
 	private String handleContent(String content) {
-		org.jsoup.nodes.Document doc = Jsoup.parse(content, "UTF-8");
-		doc.select("a").attr("target", "_blank");
-		return doc.outerHtml();
+		Whitelist whitelist = Whitelist.relaxed();
+		whitelist.addEnforcedAttribute("a", "target", "_blank");
+
+		// TODO evaluate potential security issues
+		whitelist.addTags("iframe");
+		whitelist.addAttributes("iframe", "src", "height", "width",
+				"allowfullscreen", "frameborder");
+
+		return Jsoup.clean(content, whitelist);
 	}
 }

@@ -3,7 +3,7 @@ package com.commafeed.backend.feeds;
 import java.io.StringReader;
 import java.util.List;
 
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
@@ -20,7 +20,7 @@ import com.sun.syndication.feed.opml.Outline;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.WireFeedInput;
 
-@Singleton
+@Stateless
 public class OPMLImporter {
 
 	@Inject

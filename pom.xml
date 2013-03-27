@@ -210,7 +210,7 @@
 			<repositories>
 				<repository>
 					<id>apache.releases</id>
-					<url>https://repository.apache.org/content/groups/public/</url>
+					<url>http://repository.apache.org/content/groups/public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -220,7 +220,7 @@
 				</repository>
 				<repository>
 					<id>apache.snapshots</id>
-					<url>https://repository.apache.org/content/groups/snapshots/</url>
+					<url>http://repository.apache.org/content/groups/snapshots/</url>
 					<releases>
 						<enabled>false</enabled>
 					</releases>
@@ -242,7 +242,7 @@
 			<pluginRepositories>
 				<pluginRepository>
 					<id>apache.releases</id>
-					<url>https://repository.apache.org/content/groups/public/</url>
+					<url>http://repository.apache.org/content/groups/public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -252,7 +252,7 @@
 				</pluginRepository>
 				<pluginRepository>
 					<id>apache.snapshots</id>
-					<url>https://repository.apache.org/content/groups/snapshots/</url>
+					<url>http://repository.apache.org/content/groups/snapshots/</url>
 					<releases>
 						<enabled>false</enabled>
 					</releases>

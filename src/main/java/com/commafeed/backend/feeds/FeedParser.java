@@ -30,7 +30,6 @@ public class FeedParser {
 		feed.setLastUpdated(Calendar.getInstance().getTime());
 
 		try {
-			xml = balanceTags(xml);
 			SyndFeed rss = new SyndFeedInput().build(new StringReader(xml));
 
 			List<SyndEntry> items = rss.getEntries();
@@ -46,7 +45,6 @@ public class FeedParser {
 				feed.getEntries().add(entry);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new FeedException(String.format(
 					"Could not parse feed from %s : %s", feedUrl,
 					e.getMessage()), e);
@@ -70,11 +68,6 @@ public class FeedParser {
 		}
 		content = handleContent(content);
 		return content;
-	}
-
-	private String balanceTags(String xml) throws Exception {
-		// TODO close tags
-		return xml;
 	}
 
 	private String handleContent(String content) {

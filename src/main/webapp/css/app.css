@@ -26,8 +26,7 @@
 .css-treeview a {
 	cursor: pointer;
 	color: black;
-	display: block;
-	overflow-hidden;
+	display: block; overflow-hidden;
 	text-overflow: ellipsis;
 }
 
@@ -55,6 +54,10 @@
 	margin-top: 80px;
 }
 
+#feed-accordion .accordion-inner {
+	padding: 0px;
+}
+
 #feed-accordion .entry-heading {
 	padding: 6px 0px;
 }
@@ -79,4 +82,8 @@
 
 #feed-accordion a.accordion-toggle .unread {
 	font-weight: bold;
+}
+
+#feed-accordion .entry-body h4 {
+	margin-top: 5px;
 }

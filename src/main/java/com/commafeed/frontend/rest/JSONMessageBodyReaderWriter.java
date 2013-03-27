@@ -68,14 +68,7 @@ public class JSONMessageBodyReaderWriter implements MessageBodyWriter<Object>,
 		httpHeaders.putSingle(HttpHeaders.CONTENT_TYPE, mediaType.toString()
 				+ ";charset=UTF-8");
 		OutputStreamWriter writer = new OutputStreamWriter(entityStream, UTF_8);
-
-		Type jsonType;
-		if (type.equals(genericType)) {
-			jsonType = type;
-		} else {
-			jsonType = genericType;
-		}
-		getGson().toJson(t, jsonType, writer);
+		getGson().toJson(t, type, writer);
 		writer.flush();
 	}
 
@@ -86,13 +79,7 @@ public class JSONMessageBodyReaderWriter implements MessageBodyWriter<Object>,
 			throws IOException, WebApplicationException {
 		InputStreamReader reader = new InputStreamReader(
 				new BufferedInputStream(entityStream), UTF_8);
-		Type jsonType;
-		if (type.equals(genericType)) {
-			jsonType = type;
-		} else {
-			jsonType = genericType;
-		}
-		return getGson().fromJson(reader, jsonType);
+		return getGson().fromJson(reader, type);
 	}
 
 	private Gson getGson() {

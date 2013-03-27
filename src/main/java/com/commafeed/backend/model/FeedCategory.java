@@ -24,6 +24,9 @@ public class FeedCategory extends AbstractModel {
 	@ManyToOne
 	private FeedCategory parent;
 
+	@OneToMany(mappedBy = "parent")
+	private Set<FeedCategory> children;
+
 	@OneToMany(mappedBy = "category")
 	private Set<FeedSubscription> subscriptions;
 
@@ -60,6 +63,14 @@ public class FeedCategory extends AbstractModel {
 
 	public void setSubscriptions(Set<FeedSubscription> subscriptions) {
 		this.subscriptions = subscriptions;
+	}
+
+	public Set<FeedCategory> getChildren() {
+		return children;
+	}
+
+	public void setChildren(Set<FeedCategory> children) {
+		this.children = children;
 	}
 
 }

@@ -17,8 +17,7 @@ import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
 
 @SuppressWarnings("serial")
-public abstract class GenericDAO<T, K> implements
-		Serializable {
+public abstract class GenericDAO<T, K> implements Serializable {
 
 	private TypeToken<T> type = new TypeToken<T>(getClass()) {
 	};
@@ -88,8 +87,7 @@ public abstract class GenericDAO<T, K> implements
 	}
 
 	public List<T> findByField(String field, Object value) {
-		EasyCriteria<T> criteria = EasyCriteriaFactory.createQueryCriteria(em,
-				getType());
+		EasyCriteria<T> criteria = createCriteria();
 		criteria.andEquals(field, value);
 		return criteria.getResultList();
 	}
@@ -98,8 +96,8 @@ public abstract class GenericDAO<T, K> implements
 	protected Class<T> getType() {
 		return (Class<T>) type.getRawType();
 	}
-	
-	public EasyCriteria<T> createCriteria(){
+
+	public EasyCriteria<T> createCriteria() {
 		return EasyCriteriaFactory.createQueryCriteria(em, getType());
 	}
 

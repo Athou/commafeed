@@ -61,13 +61,15 @@ public class EntriesREST extends AbstractREST {
 		} else {
 			FeedCategory feedCategory = null;
 			if (!ALL.equals(id)) {
-				feedCategory = feedCategoryService.findById(getUser(), Long.valueOf(id));
+				feedCategory = feedCategoryService.findById(getUser(),
+						Long.valueOf(id));
 			}
 			List<FeedCategory> childrenCategories = feedCategoryService
 					.findAllChildrenCategories(getUser(), feedCategory);
 
-			Map<Long, FeedSubscription> subMapping = Maps.uniqueIndex(
-					feedSubscriptionService.findAll(getUser()),
+			List<FeedSubscription> subs = feedSubscriptionService
+					.findAll(getUser());
+			Map<Long, FeedSubscription> subMapping = Maps.uniqueIndex(subs,
 					new Function<FeedSubscription, Long>() {
 						public Long apply(FeedSubscription sub) {
 							return sub.getFeed().getId();
@@ -104,8 +106,8 @@ public class EntriesREST extends AbstractREST {
 		List<FeedEntryWithStatus> unreadEntries = feedEntryService.getEntries(
 				categories, getUser(), unreadOnly, offset, limit);
 		for (FeedEntryWithStatus feedEntry : unreadEntries) {
-			entries.add(populateEntry(buildEntry(feedEntry),
-					subMapping.get(feedEntry.getEntry().getFeed().getId())));
+			Long id = feedEntry.getEntry().getFeed().getId();
+			entries.add(populateEntry(buildEntry(feedEntry), subMapping.get(id)));
 		}
 
 		return entries;

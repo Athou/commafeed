@@ -29,6 +29,9 @@ public class Feed extends AbstractModel {
 	@OneToMany(mappedBy = "feed")
 	private Set<FeedEntry> entries = Sets.newHashSet();
 
+	@OneToMany(mappedBy = "feed")
+	private Set<FeedSubscription> subscriptions;
+
 	public Feed() {
 
 	}
@@ -67,6 +70,14 @@ public class Feed extends AbstractModel {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public Set<FeedSubscription> getSubscriptions() {
+		return subscriptions;
+	}
+
+	public void setSubscriptions(Set<FeedSubscription> subscriptions) {
+		this.subscriptions = subscriptions;
 	}
 
 }

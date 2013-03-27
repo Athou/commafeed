@@ -132,7 +132,6 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 			offset : $scope.entryList.entries.length,
 			limit : $scope.limit
 		}, function(data) {
-			console.log(data)
 			var entries = data.entries
 			for ( var i = 0; i < entries.length; i++) {
 				$scope.entryList.entries.push(entries[i]);

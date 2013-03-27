@@ -5,7 +5,7 @@
 	<ul>
 		<li ng-repeat="feed in node.feeds">
 			<div class="dropdown pull-right">
-				<a dropdown-toggle class="pull-right feed-menu-icon"><i class="icon icon-chevron-down" ng-class="error: feed.message"></i> </a>
+				<a dropdown-toggle class="pull-right feed-menu-icon"><i class="icon icon-chevron-down" ng-class="{error: feed.message}"></i> </a>
 				<ul class="dropdown-menu">
 				    <li>
 				    	<a ng-click="unsubscribe(feed)">Unsubscribe</a>

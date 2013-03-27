@@ -61,8 +61,7 @@ public class EntriesREST extends AbstractREST {
 		} else {
 			FeedCategory feedCategory = null;
 			if (!ALL.equals(id)) {
-				feedCategory = new FeedCategory();
-				feedCategory.setId(Long.valueOf(id));
+				feedCategory = feedCategoryService.findById(getUser(), Long.valueOf(id));
 			}
 			List<FeedCategory> childrenCategories = feedCategoryService
 					.findAllChildrenCategories(getUser(), feedCategory);
@@ -75,7 +74,7 @@ public class EntriesREST extends AbstractREST {
 						}
 					});
 
-			entries.setName(ALL.equals(id) ? ALL : feedCategory.getName());
+			entries.setName(ALL.equals(id) ? "All" : feedCategory.getName());
 			entries.getEntries().addAll(
 					buildEntries(childrenCategories, subMapping, offset, limit,
 							unreadOnly));

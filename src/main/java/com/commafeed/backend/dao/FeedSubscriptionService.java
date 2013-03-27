@@ -6,7 +6,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.utils.ModelFactory.MF;
@@ -36,14 +35,14 @@ public class FeedSubscriptionService extends GenericDAO<FeedSubscription, Long> 
 	}
 
 	public List<FeedSubscription> findAll(User user) {
-		return findByField(MF.i(MF.p(FeedCategory.class).getUser()), user);
+		return findByField(MF.i(proxy().getUser()), user);
 	}
 
 	public List<FeedSubscription> findWithoutCategories(User user) {
 		EasyCriteria<FeedSubscription> criteria = EasyCriteriaFactory
 				.createQueryCriteria(em, getType());
-		criteria.andEquals("user", user);
-		criteria.andIsNull("category");
+		criteria.andEquals(MF.i(proxy().getUser()), user);
+		criteria.andIsNull(MF.i(proxy().getCategory()));
 		return criteria.getResultList();
 
 	}

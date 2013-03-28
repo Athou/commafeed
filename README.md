@@ -26,4 +26,4 @@ Checkout the code and use maven to build and start a local TomEE instance.
 
  `mvn clean package tomee:run`
 
-The application is online at [http://localhost:8082](http://localhost:8082). Any change to the source code will be applied immediatly.
+The application is online at [http://localhost:8082/commafeed](http://localhost:8082/commafeed). Any change to the source code will be applied immediatly.

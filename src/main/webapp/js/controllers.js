@@ -154,10 +154,16 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
 
 	$scope.isOpen = false;
 	$scope.entryClicked = function(entry, event) {
-		$scope.mark(entry, true);
-		if (!event.ctrlKey && event.which != 2) {
-			event.preventDefault();
-			event.stopPropagation();
+		if (!entry.read) {
+			$scope.mark(entry, true);
+		}
+		if (!event || (!event.ctrlKey && event.which != 2)) {
+			if (event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+			console.log($scope.current)
+			console.log(entry)
 			if ($scope.current != entry) {
 				$scope.isOpen = true;
 			} else {
@@ -166,4 +172,50 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
 			$scope.current = entry;
 		}
 	}
+
+	var openNextEntry = function() {
+		var entry = null;
+		if ($scope.current) {
+			var index;
+			for ( var i = 0; i < $scope.entries.length; i++) {
+				if ($scope.current == $scope.entries[i]) {
+					index = i;
+					break;
+				}
+			}
+			index = index + 1;
+			if (index < $scope.entries.length) {
+				entry = $scope.entries[index];
+			}
+		} else if ($scope.entries.length > 0) {
+			entry = $scope.entries[0];
+		}
+		if (entry) {
+			$scope.entryClicked(entry);
+		}
+	};
+
+	var openPreviousEntry = function() {
+		var entry = null;
+		if ($scope.current) {
+			var index;
+			for ( var i = 0; i < $scope.entries.length; i++) {
+				if ($scope.current == $scope.entries[i]) {
+					index = i;
+					break;
+				}
+			}
+			index = index - 1;
+			if (index >= 0) {
+				entry = $scope.entries[index];
+			}
+		}
+		if (entry) {
+			$scope.entryClicked(entry);
+		}
+	};
+
+	Mousetrap.bind('space', openNextEntry);
+	Mousetrap.bind('j', openNextEntry);
+	Mousetrap.bind('k', openPreviousEntry);
 });

@@ -118,8 +118,10 @@ module.factory('EntryService', [ '$resource', '$http',
 module.service('SettingsService', function($resource) {
 	var s = {}
 	s.settings = {};
-	s.settings.readMode = 'unread';
-	s.settings = $resource('rest/settings/get').get();
+	s.settings.readingMode = 'unread';
+	$resource('rest/settings/get').get(function(data) {
+		s.settings.readingMode = data.readingMode;
+	});
 	s.save = function() {
 		$resource('rest/settings/save').save(s.settings);
 	};

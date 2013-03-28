@@ -104,15 +104,13 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 	$scope.hasMore = true;
 
 	$scope.refreshList = function() {
-		if ($scope.settings.readingMode) {
-			$scope.entryList = EntryService.get({
-				type : $scope.selectedType,
-				id : $scope.selectedId,
-				readType : $scope.settings.readingMode,
-				offset : 0,
-				limit : 30
-			});
-		}
+		$scope.entryList = EntryService.get({
+			type : $scope.selectedType,
+			id : $scope.selectedId,
+			readType : $scope.settings.readingMode,
+			offset : 0,
+			limit : 30
+		});
 	};
 
 	$scope.loadMoreEntries = function() {
@@ -121,8 +119,6 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 		if (!$scope.entryList || !$scope.entryList.entries)
 			return;
 		if ($scope.busy)
-			return;
-		if (!$scope.settings.readingMode)
 			return;
 		$scope.busy = true;
 		EntryService.get({

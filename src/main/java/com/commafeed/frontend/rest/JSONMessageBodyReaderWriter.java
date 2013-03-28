@@ -67,6 +67,8 @@ public class JSONMessageBodyReaderWriter implements MessageBodyWriter<Object>,
 			WebApplicationException {
 		httpHeaders.putSingle(HttpHeaders.CONTENT_TYPE, mediaType.toString()
 				+ ";charset=UTF-8");
+		httpHeaders.putSingle(HttpHeaders.CACHE_CONTROL, "no-cache");
+		httpHeaders.putSingle("Pragma", "no-cache");
 		OutputStreamWriter writer = new OutputStreamWriter(entityStream, UTF_8);
 		getGson().toJson(t, type, writer);
 		writer.flush();

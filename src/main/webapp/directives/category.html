@@ -1,4 +1,4 @@
-<li> <input type="checkbox" checked="checked" /> 
+<li> <input type="checkbox" ng-model="node.expanded" ng-click="toggleCategory(node)" /> 
 	<label ng-click="categoryClick({id: node.id})"
 		   ng-class="{selected: (node.id == selectedId && selectedType == 'category')}">{{formatCategoryName({category:node})}}
 	</label>

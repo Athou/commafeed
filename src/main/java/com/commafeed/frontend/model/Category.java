@@ -7,11 +7,12 @@ import com.google.common.collect.Lists;
 
 @SuppressWarnings("serial")
 public class Category implements Serializable {
-	
+
 	private String id;
 	private String name;
 	private List<Category> children = Lists.newArrayList();
 	private List<Subscription> feeds = Lists.newArrayList();
+	private boolean expanded;
 
 	public String getId() {
 		return id;
@@ -45,4 +46,11 @@ public class Category implements Serializable {
 		this.feeds = feeds;
 	}
 
+	public boolean isExpanded() {
+		return expanded;
+	}
+
+	public void setExpanded(boolean expanded) {
+		this.expanded = expanded;
+	}
 }

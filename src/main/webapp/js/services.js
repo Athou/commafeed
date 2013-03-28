@@ -38,6 +38,12 @@ module.factory('SubscriptionService', [
 					params : {
 						_method : 'unsubscribe'
 					}
+				},
+				collapse : {
+					method : 'GET',
+					params : {
+						_method : 'collapse'
+					}
 				}
 			};
 			var s = {};
@@ -84,6 +90,7 @@ module.factory('SubscriptionService', [
 					id : id
 				});
 			};
+			s.collapse = res.collapse;
 			s.init();
 			return s;
 		} ]);

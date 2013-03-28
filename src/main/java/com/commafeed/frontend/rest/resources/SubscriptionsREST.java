@@ -60,6 +60,20 @@ public class SubscriptionsREST extends AbstractREST {
 		return Response.ok(Status.OK).build();
 	}
 
+	@GET
+	@Path("collapse")
+	public Response collapse(@QueryParam("id") String id,
+			@QueryParam("collapse") boolean collapse) {
+		Preconditions.checkNotNull(id);
+		if (!"all".equals(id)) {
+			FeedCategory category = feedCategoryService.findById(getUser(),
+					Long.valueOf(id));
+			category.setCollapsed(collapse);
+			feedCategoryService.update(category);
+		}
+		return Response.ok(Status.OK).build();
+	}
+
 	@POST
 	@Path("import")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -100,6 +114,7 @@ public class SubscriptionsREST extends AbstractREST {
 			List<FeedSubscription> subscriptions) {
 		Category category = new Category();
 		category.setId(String.valueOf(id));
+		category.setExpanded(true);
 
 		for (FeedCategory c : categories) {
 			if ((id == null && c.getParent() == null)
@@ -109,6 +124,7 @@ public class SubscriptionsREST extends AbstractREST {
 						subscriptions);
 				child.setId(String.valueOf(c.getId()));
 				child.setName(c.getName());
+				child.setExpanded(!c.isCollapsed());
 				category.getChildren().add(child);
 			}
 		}

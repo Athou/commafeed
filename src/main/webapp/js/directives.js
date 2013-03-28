@@ -90,7 +90,15 @@ module.directive('category', function($compile) {
 										.unsubscribe(subscription.id);
 							}
 						});
-			}
+			};
+
+			$scope.toggleCategory = function(category) {
+				console.log(category.expanded)
+				SubscriptionService.collapse({
+					id : category.id,
+					collapse : !category.expanded
+				});
+			};
 		}
 	};
 });

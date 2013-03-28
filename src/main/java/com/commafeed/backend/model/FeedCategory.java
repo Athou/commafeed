@@ -30,6 +30,8 @@ public class FeedCategory extends AbstractModel {
 	@OneToMany(mappedBy = "category")
 	private Set<FeedSubscription> subscriptions;
 
+	private boolean collapsed;
+
 	public String getName() {
 		return name;
 	}
@@ -71,6 +73,14 @@ public class FeedCategory extends AbstractModel {
 
 	public void setChildren(Set<FeedCategory> children) {
 		this.children = children;
+	}
+
+	public boolean isCollapsed() {
+		return collapsed;
+	}
+
+	public void setCollapsed(boolean collapsed) {
+		this.collapsed = collapsed;
 	}
 
 }

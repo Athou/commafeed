@@ -2,8 +2,8 @@
 	<div class="pull-right" spinner shown="loading"></div>
 	<div>
 		<div class="btn-group read-mode" data-toggle="buttons-radio">
-			<button type="button" class="btn" ng-model="settings.readingMode" btn-radio="'unread'">Unread</button>
-			<button type="button" class="btn" ng-model="settings.readingMode" btn-radio="'all'">All</button>
+			<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'unread'">Unread</button>
+			<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'all'">All</button>
 		</div>
 		
 		<button type="button" class="btn" ng-click="refresh()"><i class="icon-refresh"></i> Refresh</button>

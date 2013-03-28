@@ -93,7 +93,6 @@ module.directive('category', function($compile) {
 			};
 
 			$scope.toggleCategory = function(category) {
-				console.log(category.expanded)
 				SubscriptionService.collapse({
 					id : category.id,
 					collapse : !category.expanded
@@ -111,17 +110,17 @@ module.directive('toolbar', function($routeParams, $route, SettingsService,
 		replace : true,
 		templateUrl : 'directives/toolbar.html',
 		controller : function($scope, $route, $http, SettingsService) {
-			
+
 			function totalActiveAjaxRequests() {
 				return ($http.pendingRequests.length + $.active);
 			}
-			
+
 			$scope.loading = true;
-			$scope.$watch(totalActiveAjaxRequests, function () {
+			$scope.$watch(totalActiveAjaxRequests, function() {
 				$scope.loading = !(totalActiveAjaxRequests() === 0);
-	        });
-			
-			$scope.settings = SettingsService.settings;
+			});
+
+			$scope.settingsService = SettingsService;
 			$scope.refresh = function() {
 				$route.reload();
 			};

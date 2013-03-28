@@ -1,11 +1,11 @@
 <div ng-controller="FeedListCtrl">
 
 	<div class="entrylist-header">
-		<h3><span>{{entryList.name}}&nbsp;</span><span ng-show="entryList.name && selectedType == 'category'"> &#187;</span></h3>
+		<h3 ui-if="name"><span>{{name}}&nbsp;</span><span ng-show="name && selectedType == 'category'"> &#187;</span></h3>
 	</div>
 	
-	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy" infinite-scroll-distance="1" id="feed-accordion">
-		<div ng-repeat="entry in entryList.entries" class="entry">
+	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode" infinite-scroll-distance="1" id="feed-accordion">
+		<div ng-repeat="entry in entries" class="entry">
 			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="entryClicked(entry, $event)" 
 				ng-class="{open: current == entry, closed: current != entry}">
 				<span ui-if="selectedType == 'category'" class="feed-name">{{entry.feedName}}</span>
@@ -15,13 +15,12 @@
 			<div class="entry-body" ui-if="isOpen && current == entry">
 				<div>
 					<h4>
-						<a href="{{entry.url}}" target="_blank">{{entry.title}}</a>
+						<a href="{{entry.url}}" target="_blank" ng-bind-html-unsafe="entry.title"></a>
 					</h4>
 				</div>	
 				<div ng-bind-html-unsafe="entry.content"></div>
 			</div>
 		</div>
-		<div class="no-entries" ng-show="entryList.entries.length == 0">"{{entryList.name}}" has no unread items.</div>
-		<div ng-show="busy">Loading data...</div>
+		<div class="no-entries" ng-show="entries.length == 0 && !busy">"{{name}}" has no unread items.</div>
 	</div>
 </div>

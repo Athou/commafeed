@@ -88,52 +88,53 @@ module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
 	});
 });
 
-module.controller('FeedListCtrl', function($scope, $routeParams, $http,
-		EntryService, SettingsService) {
+module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
+		$window, EntryService, SettingsService) {
 
 	$scope.selectedType = $routeParams._type;
 	$scope.selectedId = $routeParams._id;
 
-	$scope.settings = SettingsService.settings;
-	$scope.$watch('settings.readingMode', function() {
-		$scope.refreshList();
+	$scope.name = null;
+	$scope.entries = [];
+
+	$scope.settingsService = SettingsService;
+	$scope.$watch('settingsService.settings.readingMode', function(newValue,
+			oldValue) {
+		if (newValue && oldValue && newValue != oldValue) {
+			$route.reload();
+		}
 	});
 
-	$scope.limit = 20;
+	$scope.limit = 10;
 	$scope.busy = false;
 	$scope.hasMore = true;
-
-	$scope.refreshList = function() {
-		$scope.entryList = EntryService.get({
-			type : $scope.selectedType,
-			id : $scope.selectedId,
-			readType : $scope.settings.readingMode,
-			offset : 0,
-			limit : 30
-		});
-	};
 
 	$scope.loadMoreEntries = function() {
 		if (!$scope.hasMore)
 			return;
-		if (!$scope.entryList || !$scope.entryList.entries)
-			return;
 		if ($scope.busy)
 			return;
 		$scope.busy = true;
+
+		var limit = $scope.limit;
+		if ($scope.entries.length == 0) {
+			$window = angular.element($window);
+			limit = $window.height() / 33;
+			limit = parseInt(limit) + 5;
+		}
 		EntryService.get({
 			type : $scope.selectedType,
 			id : $scope.selectedId,
-			readType : $scope.settings.readingMode,
-			offset : $scope.entryList.entries.length,
-			limit : $scope.limit
+			readType : $scope.settingsService.settings.readingMode,
+			offset : $scope.entries.length,
+			limit : limit
 		}, function(data) {
-			var entries = data.entries
-			for ( var i = 0; i < entries.length; i++) {
-				$scope.entryList.entries.push(entries[i]);
+			for ( var i = 0; i < data.entries.length; i++) {
+				$scope.entries.push(data.entries[i]);
 			}
+			$scope.name = data.name;
 			$scope.busy = false;
-			$scope.hasMore = entries.length == $scope.limit
+			$scope.hasMore = data.entries.length == limit
 		});
 	}
 
@@ -153,7 +154,6 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 
 	$scope.isOpen = false;
 	$scope.entryClicked = function(entry, event) {
-		console.log('click !')
 		$scope.mark(entry, true);
 		if (!event.ctrlKey && event.which != 2) {
 			event.preventDefault();

@@ -59,9 +59,10 @@ module.factory('SubscriptionService', [
 				});
 			};
 			s.subscribe = function(sub, callback) {
-				res.subscribe(sub, function(data){
+				res.subscribe(sub, function(data) {
 					s.init();
-					if(callback) callback(data);
+					if (callback)
+						callback(data);
 				});
 			};
 
@@ -118,9 +119,8 @@ module.factory('EntryService', [ '$resource', '$http',
 module.service('SettingsService', function($resource) {
 	var s = {}
 	s.settings = {};
-	s.settings.readingMode = 'unread';
 	$resource('rest/settings/get').get(function(data) {
-		s.settings.readingMode = data.readingMode;
+		s.settings = data;
 	});
 	s.save = function() {
 		$resource('rest/settings/save').save(s.settings);

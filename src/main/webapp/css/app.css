@@ -11,10 +11,11 @@
 
 /* tree*/
 .sidebar-nav-fixed {
-	overflow-x: hidden;
+	overflow: visible;
 }
 
 .css-treeview {
+	margin-top: 15px;
 	font-family: inherit;
 	font-size: 11px;
 	white-space: nowrap;
@@ -23,6 +24,12 @@
 .css-treeview .error {
 	color: red;
 	font-style: italic;
+}
+
+.css-treeview label {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
 }
 
 .css-treeview label,.css-treeview a,.css-treeview label::before {
@@ -78,6 +85,14 @@
 	cursor: pointer;
 }
 
+#feed-accordion .entry-heading .feed-name {
+	color: #555;
+	width: 150px;
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
 #feed-accordion a.entry-heading:hover {
 	text-decoration: none;
 }
@@ -90,7 +105,7 @@
 	background-color: #EBEBEB;
 }
 
-#feed-accordion .entry-heading.unread {
+#feed-accordion .entry-heading .unread {
 	font-weight: bold;
 }
 

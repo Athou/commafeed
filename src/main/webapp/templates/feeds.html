@@ -6,9 +6,11 @@
 	
 	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy" infinite-scroll-distance="1" id="feed-accordion">
 		<div ng-repeat="entry in entryList.entries" class="entry">
-			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="entryClicked(entry, $event)" ng-class="{unread: entry.read == false, open: current == entry, closed: current != entry}">
-				<span ng-show="selectedType == 'category'">{{entry.feedName}}
-					- </span>{{entry.title}} <span class="pull-right">{{entry.date}}</span>
+			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="entryClicked(entry, $event)" 
+				ng-class="{open: current == entry, closed: current != entry}">
+				<span ui-if="selectedType == 'category'" class="feed-name">{{entry.feedName}}</span>
+				<span class="entry-name" ng-class="{unread: entry.read == false}" ng-bind-html-unsafe="entry.title"></span>
+				<span class="pull-right">{{entry.date}}</span>
 			</a>
 			<div class="entry-body" ui-if="isOpen && current == entry">
 				<div>

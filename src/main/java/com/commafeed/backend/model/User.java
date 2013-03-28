@@ -1,8 +1,14 @@
 package com.commafeed.backend.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.google.common.collect.Sets;
 
 @Entity
 @Table(name = "USERS")
@@ -17,6 +23,9 @@ public class User extends AbstractModel {
 
 	@Column(length = 8)
 	private byte[] salt;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+	private Set<UserRole> roles = Sets.newHashSet();
 
 	public String getName() {
 		return name;
@@ -40,6 +49,14 @@ public class User extends AbstractModel {
 
 	public void setSalt(byte[] salt) {
 		this.salt = salt;
+	}
+
+	public Set<UserRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<UserRole> roles) {
+		this.roles = roles;
 	}
 
 }

@@ -1,7 +1,12 @@
 package com.commafeed.frontend.rest.resources;
 
+import java.lang.reflect.Method;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -9,7 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.wicket.ThreadContext;
 import org.apache.wicket.authentication.IAuthenticationStrategy;
@@ -22,15 +27,19 @@ import com.commafeed.backend.dao.FeedEntryService;
 import com.commafeed.backend.dao.FeedEntryStatusService;
 import com.commafeed.backend.dao.FeedService;
 import com.commafeed.backend.dao.FeedSubscriptionService;
+import com.commafeed.backend.dao.UserRoleService;
 import com.commafeed.backend.dao.UserService;
 import com.commafeed.backend.dao.UserSettingsService;
 import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.security.Role;
 import com.commafeed.frontend.CommaFeedApplication;
 import com.commafeed.frontend.CommaFeedSession;
+import com.commafeed.frontend.rest.SecurityCheck;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@SecurityCheck(Role.USER)
 public abstract class AbstractREST {
 
 	@Context
@@ -61,6 +70,9 @@ public abstract class AbstractREST {
 	UserSettingsService userSettingsService;
 
 	@Inject
+	UserRoleService userRoleService;
+
+	@Inject
 	OPMLImporter opmlImporter;
 
 	@PostConstruct
@@ -80,14 +92,46 @@ public abstract class AbstractREST {
 			session.signIn(data[0], data[1]);
 		}
 
-		if (getUser() == null) {
-			throw new WebApplicationException(Response.Status.UNAUTHORIZED);
-		}
-
 	}
 
 	protected User getUser() {
 		return CommaFeedSession.get().getUser();
+	}
+
+	@AroundInvoke
+	public Object checkSecurity(InvocationContext context) throws Exception {
+		User user = getUser();
+		if (user == null) {
+			throw new WebApplicationException(Status.UNAUTHORIZED);
+		}
+
+		boolean allowed = false;
+		Method method = context.getMethod();
+
+		if (method.isAnnotationPresent(SecurityCheck.class)) {
+			allowed = checkRole(user, method.getAnnotation(SecurityCheck.class));
+		} else if (method.getDeclaringClass().isAnnotationPresent(
+				SecurityCheck.class)) {
+			allowed = checkRole(
+					user,
+					method.getDeclaringClass().getAnnotation(
+							SecurityCheck.class));
+		}
+		if (!allowed) {
+			throw new WebApplicationException(Status.FORBIDDEN);
+		}
+
+		return context.proceed();
+	}
+
+	private boolean checkRole(User user, SecurityCheck annotation) {
+		List<String> roles = userRoleService.getRoles(user);
+		for (String role : annotation.value()) {
+			if (!roles.contains(role)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

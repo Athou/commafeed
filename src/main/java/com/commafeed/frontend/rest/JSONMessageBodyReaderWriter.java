@@ -32,7 +32,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 @Provider
-@Produces(MediaType.APPLICATION_JSON)
+@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
 @Consumes(MediaType.APPLICATION_JSON)
 public class JSONMessageBodyReaderWriter implements MessageBodyWriter<Object>,
 		MessageBodyReader<Object> {

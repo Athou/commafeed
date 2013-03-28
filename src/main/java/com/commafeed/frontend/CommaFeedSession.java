@@ -9,7 +9,7 @@ import org.apache.wicket.request.Request;
 
 import com.commafeed.backend.dao.UserService;
 import com.commafeed.backend.model.User;
-import com.commafeed.frontend.pages.auth.Role;
+import com.commafeed.backend.security.Role;
 
 @SuppressWarnings("serial")
 public class CommaFeedSession extends AuthenticatedWebSession {

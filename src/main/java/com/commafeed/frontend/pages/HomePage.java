@@ -5,7 +5,7 @@ import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 
-import com.commafeed.frontend.pages.auth.Role;
+import com.commafeed.backend.security.Role;
 import com.commafeed.frontend.references.angular.AngularReference;
 import com.commafeed.frontend.references.angular.AngularResourceReference;
 import com.commafeed.frontend.references.angular.AngularSanitizeReference;

@@ -16,7 +16,9 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.security.PasswordEncryptionService;
+import com.commafeed.backend.security.Role;
 
 @Startup
 @Singleton
@@ -48,6 +50,8 @@ public class StartupBean {
 			User user = new User();
 			byte[] salt = encryptionService.generateSalt();
 			user.setName("admin");
+			user.getRoles().add(new UserRole(user, Role.ADMIN));
+			user.getRoles().add(new UserRole(user, Role.USER));
 			user.setSalt(salt);
 			user.setPassword(encryptionService.getEncryptedPassword("admin",
 					salt));
@@ -56,6 +60,7 @@ public class StartupBean {
 			User testUser = new User();
 			byte[] saltTest = encryptionService.generateSalt();
 			testUser.setName("test");
+			testUser.getRoles().add(new UserRole(testUser, Role.USER));
 			testUser.setSalt(saltTest);
 			testUser.setPassword(encryptionService.getEncryptedPassword("test",
 					saltTest));

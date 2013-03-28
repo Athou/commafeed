@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.wicket.ThreadContext;
@@ -102,7 +103,9 @@ public abstract class AbstractREST {
 	public Object checkSecurity(InvocationContext context) throws Exception {
 		User user = getUser();
 		if (user == null) {
-			throw new WebApplicationException(Status.UNAUTHORIZED);
+			throw new WebApplicationException(Response
+					.status(Status.UNAUTHORIZED)
+					.entity("You need to be authenticated to do this.").build());
 		}
 
 		boolean allowed = false;
@@ -118,7 +121,8 @@ public abstract class AbstractREST {
 							SecurityCheck.class));
 		}
 		if (!allowed) {
-			throw new WebApplicationException(Status.FORBIDDEN);
+			throw new WebApplicationException(Response.status(Status.FORBIDDEN)
+					.entity("You are not authorized to do this.").build());
 		}
 
 		return context.proceed();

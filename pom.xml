@@ -54,7 +54,7 @@
 				<artifactId>tomee-maven-plugin</artifactId>
 				<version>1.6.0-SNAPSHOT</version>
 				<configuration>
-					<tomeeVersion>1.6.0-SNAPSHOT</tomeeVersion>
+					<tomeeVersion>1.5.2-SNAPSHOT</tomeeVersion>
 					<tomeeClassifier>plus</tomeeClassifier>
 					<tomeeHttpPort>8082</tomeeHttpPort>
 					<args>-Xmx1024m -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled</args>

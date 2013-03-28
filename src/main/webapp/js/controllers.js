@@ -7,8 +7,8 @@ module.run(function($rootScope) {
 	});
 });
 
-module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location, $route,
-		SubscriptionService) {
+module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
+		$route, SubscriptionService) {
 
 	$scope.$on('$routeChangeSuccess', function() {
 		$scope.selectedType = $routeParams._type;
@@ -51,7 +51,7 @@ module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location, 
 	}
 
 	$scope.feedClicked = function(id) {
-		if($scope.selectedType == 'feed' && id == $scope.selectedId) {
+		if ($scope.selectedType == 'feed' && id == $scope.selectedId) {
 			$route.reload();
 		} else {
 			$location.path('/feeds/view/feed/' + id);
@@ -59,10 +59,10 @@ module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location, 
 	};
 
 	$scope.categoryClicked = function(id) {
-		if($scope.selectedType == 'category' && id == $scope.selectedId) {
+		if ($scope.selectedType == 'category' && id == $scope.selectedId) {
 			$route.reload();
 		} else {
-			$location.path('/feeds/view/category/' + id);	
+			$location.path('/feeds/view/category/' + id);
 		}
 	};
 
@@ -102,7 +102,7 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 	$scope.limit = 20;
 	$scope.busy = false;
 	$scope.hasMore = true;
-	
+
 	$scope.refreshList = function() {
 		if ($scope.settings.readingMode) {
 			$scope.entryList = EntryService.get({
@@ -114,15 +114,15 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 			});
 		}
 	};
-	
+
 	$scope.loadMoreEntries = function() {
-		if(!$scope.hasMore)
+		if (!$scope.hasMore)
 			return;
 		if (!$scope.entryList || !$scope.entryList.entries)
 			return;
 		if ($scope.busy)
 			return;
-		if (!$scope.settings.readingMode) 
+		if (!$scope.settings.readingMode)
 			return;
 		$scope.busy = true;
 		EntryService.get({
@@ -154,15 +154,20 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http,
 			});
 		}
 	};
-	
-	$scope.isOpen = false
-	$scope.toggle = function(entry) {
-		if ($scope.current != entry) {
-			$scope.isOpen = true;
-		} else {
-			$scope.isOpen = !$scope.isOpen;
-		}
-		$scope.current = entry;
+
+	$scope.isOpen = false;
+	$scope.entryClicked = function(entry, event) {
+		console.log('click !')
 		$scope.mark(entry, true);
+		if (!event.ctrlKey && event.which != 2) {
+			event.preventDefault();
+			event.stopPropagation();
+			if ($scope.current != entry) {
+				$scope.isOpen = true;
+			} else {
+				$scope.isOpen = !$scope.isOpen;
+			}
+			$scope.current = entry;
+		}
 	}
 });

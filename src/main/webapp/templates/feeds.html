@@ -4,25 +4,21 @@
 		<h3><span>{{entryList.name}}&nbsp;</span><span ng-show="entryList.name && selectedType == 'category'"> &#187;</span></h3>
 	</div>
 	
-	<div id="feed-accordion" infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
-		<accordion close-others="true">
-			<accordion-group ng-repeat="entry in entryList.entries" class="entry">
-				<accordion-heading>
-					<div class="entry-heading" ng-click="toggle(entry)" ng-class="{unread: entry.read == false, open: current == entry, closed: current != entry}">
-						<span ng-show="selectedType == 'category'">{{entry.feedName}}
-							- </span>{{entry.title}} <span class="pull-right">{{entry.date}}</span>
-					</div>
-				</accordion-heading>
-				<div class="entry-body">
-					<div>
-						<h4>
-							<a href="{{entry.url}}" target="_blank">{{entry.title}}</a>
-						</h4>
-					</div>	
-					<div ng-bind-html-unsafe="entry.content" ui-if="isOpen && current == entry"></div>
-				</div>
-			</accordion-group>
-		</accordion>
+	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy" infinite-scroll-distance="1" id="feed-accordion">
+		<div ng-repeat="entry in entryList.entries" class="entry">
+			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="entryClicked(entry, $event)" ng-class="{unread: entry.read == false, open: current == entry, closed: current != entry}">
+				<span ng-show="selectedType == 'category'">{{entry.feedName}}
+					- </span>{{entry.title}} <span class="pull-right">{{entry.date}}</span>
+			</a>
+			<div class="entry-body" ui-if="isOpen && current == entry">
+				<div>
+					<h4>
+						<a href="{{entry.url}}" target="_blank">{{entry.title}}</a>
+					</h4>
+				</div>	
+				<div ng-bind-html-unsafe="entry.content"></div>
+			</div>
+		</div>
 		<div class="no-entries" ng-show="entryList.entries.length == 0">"{{entryList.name}}" has no unread items.</div>
 		<div ng-show="busy">Loading data...</div>
 	</div>

@@ -59,13 +59,6 @@ public class EntriesREST extends AbstractREST {
 					buildEntries(subscription, offset, limit, unreadOnly));
 
 		} else {
-			FeedCategory feedCategory = null;
-			if (!ALL.equals(id)) {
-				feedCategory = feedCategoryService.findById(getUser(),
-						Long.valueOf(id));
-			}
-			List<FeedCategory> childrenCategories = feedCategoryService
-					.findAllChildrenCategories(getUser(), feedCategory);
 
 			List<FeedSubscription> subs = feedSubscriptionService
 					.findAll(getUser());
@@ -76,10 +69,36 @@ public class EntriesREST extends AbstractREST {
 						}
 					});
 
-			entries.setName(ALL.equals(id) ? "All" : feedCategory.getName());
-			entries.getEntries().addAll(
-					buildEntries(childrenCategories, subMapping, offset, limit,
-							unreadOnly));
+			if (ALL.equals(id)) {
+				entries.setName("All");
+				entries.getEntries().addAll(
+						buildEntries(subMapping, offset, limit, unreadOnly));
+			} else {
+				FeedCategory feedCategory = feedCategoryService.findById(
+						getUser(), Long.valueOf(id));
+				List<FeedCategory> childrenCategories = feedCategoryService
+						.findAllChildrenCategories(getUser(), feedCategory);
+				entries.getEntries().addAll(
+						buildEntries(childrenCategories, subMapping, offset,
+								limit, unreadOnly));
+				entries.setName(feedCategory.getName());
+
+			}
+
+		}
+
+		return entries;
+	}
+
+	private List<Entry> buildEntries(Map<Long, FeedSubscription> subMapping,
+			int offset, int limit, boolean unreadOnly) {
+		List<Entry> entries = Lists.newArrayList();
+
+		List<FeedEntryWithStatus> unreadEntries = feedEntryService.getEntries(
+				getUser(), unreadOnly, offset, limit);
+		for (FeedEntryWithStatus feedEntry : unreadEntries) {
+			Long id = feedEntry.getEntry().getFeed().getId();
+			entries.add(populateEntry(buildEntry(feedEntry), subMapping.get(id)));
 		}
 
 		return entries;
@@ -155,16 +174,20 @@ public class EntriesREST extends AbstractREST {
 				markEntry(entry, read);
 			}
 		} else if (type == Type.category) {
-			FeedCategory feedCategory = null;
-			if (!ALL.equals(id)) {
-				feedCategory = feedCategoryService.findById(getUser(),
-						Long.valueOf(id));
-			}
-			List<FeedCategory> childrenCategories = feedCategoryService
-					.findAllChildrenCategories(getUser(), feedCategory);
+			List<FeedEntryWithStatus> entries = null;
 
-			List<FeedEntryWithStatus> entries = feedEntryService.getEntries(
-					childrenCategories, getUser(), false);
+			if (ALL.equals(id)) {
+				entries = feedEntryService.getEntries(getUser(), false);
+			} else {
+				FeedCategory feedCategory = feedCategoryService.findById(
+						getUser(), Long.valueOf(id));
+				List<FeedCategory> childrenCategories = feedCategoryService
+						.findAllChildrenCategories(getUser(), feedCategory);
+
+				entries = feedEntryService.getEntries(childrenCategories,
+						getUser(), false);
+			}
+
 			for (FeedEntryWithStatus entry : entries) {
 				markEntry(entry, true);
 			}

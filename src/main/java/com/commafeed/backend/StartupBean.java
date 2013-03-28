@@ -44,6 +44,7 @@ public class StartupBean {
 
 		if (userService.getCount() == 0) {
 			log.info("Populating database with default values");
+
 			User user = new User();
 			byte[] salt = encryptionService.generateSalt();
 			user.setName("admin");
@@ -52,13 +53,21 @@ public class StartupBean {
 					salt));
 			userService.save(user);
 
+			User testUser = new User();
+			byte[] saltTest = encryptionService.generateSalt();
+			testUser.setName("test");
+			testUser.setSalt(saltTest);
+			testUser.setPassword(encryptionService.getEncryptedPassword("test",
+					saltTest));
+			userService.save(testUser);
+
 			Feed dilbert = new Feed(
 					"http://feed.dilbert.com/dilbert/daily_strip");
 			feedService.save(dilbert);
 
 			Feed engadget = new Feed("http://www.engadget.com/rss.xml");
 			feedService.save(engadget);
-			
+
 			Feed frandroid = new Feed("http://feeds.feedburner.com/frandroid");
 			feedService.save(frandroid);
 
@@ -92,7 +101,7 @@ public class StartupBean {
 			sub2.setTitle("Engadget");
 			sub2.setUser(user);
 			feedSubscriptionService.save(sub2);
-			
+
 			FeedSubscription sub3 = new FeedSubscription();
 			sub3.setFeed(frandroid);
 			sub3.setTitle("Frandroid");

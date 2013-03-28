@@ -65,6 +65,30 @@ public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 		return query.getResultList();
 	}
 
+	public List<FeedEntryWithStatus> getEntries(User user, boolean unreadOnly) {
+		return getEntries(user, unreadOnly, -1, -1);
+	}
+
+	public List<FeedEntryWithStatus> getEntries(User user, boolean unreadOnly,
+			int offset, int limit) {
+		String queryName = null;
+		if (unreadOnly) {
+			queryName = "Entry.unread";
+		} else {
+			queryName = "Entry.all";
+		}
+		Query query = em.createNamedQuery(queryName);
+		query.setParameter("userId", user.getId());
+		query.setParameter("user", user);
+		if (offset > -1) {
+			query.setFirstResult(offset);
+		}
+		if (limit > -1) {
+			query.setMaxResults(limit);
+		}
+		return buildList(query.getResultList());
+	}
+
 	public List<FeedEntryWithStatus> getEntries(Feed feed, User user,
 			boolean unreadOnly) {
 		return getEntries(feed, user, unreadOnly, -1, -1);
@@ -91,13 +115,13 @@ public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 		return buildList(query.getResultList());
 	}
 
-	public List<FeedEntryWithStatus> getEntries(List<FeedCategory> categories, User user,
-			boolean unreadOnly) {
+	public List<FeedEntryWithStatus> getEntries(List<FeedCategory> categories,
+			User user, boolean unreadOnly) {
 		return getEntries(categories, user, unreadOnly, -1, -1);
 	}
 
-	public List<FeedEntryWithStatus> getEntries(List<FeedCategory> categories, User user,
-			boolean unreadOnly, int offset, int limit) {
+	public List<FeedEntryWithStatus> getEntries(List<FeedCategory> categories,
+			User user, boolean unreadOnly, int offset, int limit) {
 		String queryName = null;
 		if (unreadOnly) {
 			queryName = "Entry.unreadByCategories";
@@ -116,11 +140,11 @@ public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
 		}
 		return buildList(query.getResultList());
 	}
-	
+
 	@SuppressWarnings("rawtypes")
-	private List<FeedEntryWithStatus> buildList(List list){
+	private List<FeedEntryWithStatus> buildList(List list) {
 		List<FeedEntryWithStatus> result = Lists.newArrayList();
-		for (Object object :list) {
+		for (Object object : list) {
 			Object[] array = (Object[]) object;
 			FeedEntry entry = (FeedEntry) array[0];
 			FeedEntryStatus status = (FeedEntryStatus) array[1];

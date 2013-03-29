@@ -5,29 +5,8 @@
 </head>
 <body>
 	<div ng-app="commafeed" id="main" class="main">
-		<div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span2 sidebar-nav-fixed">
-					<subscribe></subscribe>
-					<div class="css-treeview" ng-controller="CategoryTreeCtrl">
-						<ul>
-							<category node="SubscriptionService.subscriptions" feed-click="feedClicked(id)"
-								category-click="categoryClicked(id)" selected-type="selectedType"
-								selected-id="selectedId"
-								format-category-name="formatCategoryName(category)"
-								format-feed-name="formatFeedName(feed)"> </category>
-						</ul>
-					</div>
-				</div>
-				<div class="span10">
-					<div class="toolbar">
-						<toolbar></toolbar>
-					</div>
-					<div class="entryList">
-						<ng:view></ng:view>
-					</div>
-				</div>
-			</div>
+		<div ui-view>
+			
 		</div>
 	</div>
 </body>

@@ -5,14 +5,17 @@ module.run(function($rootScope) {
 		// args.entry - the entry
 		$rootScope.$broadcast('mark', args);
 	});
+	$rootScope.$on('emitReload', function(event, args) {
+		$rootScope.$broadcast('reload');
+	});
 });
 
-module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
-		$route, SubscriptionService) {
+module.controller('CategoryTreeCtrl', function($scope, $stateParams, $location,
+		$state, $route, SubscriptionService) {
 
-	$scope.$on('$routeChangeSuccess', function() {
-		$scope.selectedType = $routeParams._type;
-		$scope.selectedId = $routeParams._id;
+	$scope.$on('$stateChangeSuccess', function() {
+		$scope.selectedType = $stateParams._type;
+		$scope.selectedId = $stateParams._id;
 	});
 
 	$scope.SubscriptionService = SubscriptionService;
@@ -52,17 +55,23 @@ module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
 
 	$scope.feedClicked = function(id) {
 		if ($scope.selectedType == 'feed' && id == $scope.selectedId) {
-			$route.reload();
+			$scope.$emit('emitReload');
 		} else {
-			$location.path('/feeds/view/feed/' + id);
+			$state.transitionTo('feeds.view', {
+				_type : 'feed',
+				_id : id
+			});
 		}
 	};
 
 	$scope.categoryClicked = function(id) {
 		if ($scope.selectedType == 'category' && id == $scope.selectedId) {
-			$route.reload();
+			$scope.$emit('emitReload');
 		} else {
-			$location.path('/feeds/view/category/' + id);
+			$state.transitionTo('feeds.view', {
+				_type : 'category',
+				_id : id
+			});
 		}
 	};
 
@@ -88,11 +97,11 @@ module.controller('CategoryTreeCtrl', function($scope, $routeParams, $location,
 	});
 });
 
-module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
+module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 		$window, EntryService, SettingsService) {
 
-	$scope.selectedType = $routeParams._type;
-	$scope.selectedId = $routeParams._id;
+	$scope.selectedType = $stateParams._type;
+	$scope.selectedId = $stateParams._id;
 
 	$scope.name = null;
 	$scope.entries = [];
@@ -101,7 +110,7 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
 	$scope.$watch('settingsService.settings.readingMode', function(newValue,
 			oldValue) {
 		if (newValue && oldValue && newValue != oldValue) {
-			$route.reload();
+			$scope.$emit('emitReload');
 		}
 	});
 
@@ -219,7 +228,7 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
 			openNextEntry(e);
 		})
 	});
-	
+
 	Mousetrap.bind('shift+space', function(e) {
 		$scope.$apply(function() {
 			openPreviousEntry(e);
@@ -229,5 +238,13 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
 		$scope.$apply(function() {
 			openPreviousEntry(e);
 		})
+	});
+	
+	$scope.$on('reload', function(event, args) {
+		$scope.name = null;
+		$scope.entries = [];
+		$scope.busy = false;
+		$scope.hasMore = true;
+		$scope.loadMoreEntries();
 	});
 });

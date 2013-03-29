@@ -1,12 +1,28 @@
-var app = angular.module('commafeed', [ 'ui', 'ui.bootstrap',
-		'commafeed.directives', 'commafeed.controllers', 'commafeed.services',
+var app = angular.module('commafeed', [ 'ui', 'ui.bootstrap', 'ui.state',
+		'commafeed.directives', 'commafeed.controllers', 'commafeed.services', 
 		'ngSanitize', 'ngUpload', 'infinite-scroll' ]);
 
-app.config([ '$routeProvider', function($routeProvider) {
-	$routeProvider.when('/feeds/view/:_type/:_id', {
-		templateUrl : 'templates/feeds.html'
+app.config(function($urlRouterProvider, $stateProvider) {
+	$stateProvider.state('feeds', {
+		abstract: true,
+		url: '/feeds',
+		templateUrl: 'templates/feeds.html'
 	});
-	$routeProvider.otherwise({
-		redirectTo : '/feeds/view/category/all'
+	$stateProvider.state('feeds.view', {
+		url: '/view/:_type/:_id',
+		templateUrl : 'templates/feeds.view.html'
 	});
-} ]);
+	
+	$stateProvider.state('admin', {
+		abstract: true,
+		url: '/admin',
+		templateUrl: 'templates/admin.html'
+	});
+	$stateProvider.state('admin.users', {
+		url: '/users',
+		templateUrl : 'templates/admin.users.html'
+	});
+	
+	$urlRouterProvider.when('/', '/feeds/view/category/all');
+	$urlRouterProvider.when('/admin', '/admin/users');
+});

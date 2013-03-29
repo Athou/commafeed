@@ -122,8 +122,8 @@ module.directive('category', function($compile) {
 	};
 });
 
-module.directive('toolbar', function($routeParams, $route, SettingsService,
-		EntryService, SubscriptionService) {
+module.directive('toolbar', function($stateParams, $route, $location, 
+		SettingsService, EntryService, SubscriptionService) {
 	return {
 		scope : {},
 		restrict : 'E',
@@ -142,19 +142,22 @@ module.directive('toolbar', function($routeParams, $route, SettingsService,
 
 			$scope.settingsService = SettingsService;
 			$scope.refresh = function() {
-				$route.reload();
+				$scope.$emit('emitReload');
 			};
 			$scope.markAllAsRead = function() {
 				EntryService.mark({
-					type : $routeParams._type,
-					id : $routeParams._id,
+					type : $stateParams._type,
+					id : $stateParams._id,
 					read : true,
 				}, function() {
 					SubscriptionService.init(function() {
-						$route.reload();
+						$scope.$emit('emitReload');
 					});
 				});
-			}
+			};
+			$scope.toAdmin = function() {
+				$location.path('admin');
+			};
 		},
 		link : function($scope, element) {
 			element.find('.read-mode button').bind('click', function() {

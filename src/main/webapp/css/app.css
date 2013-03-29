@@ -64,11 +64,6 @@
 	text-overflow: ellipsis;
 }
 
-.css-treeview a:hover {
-	cursor: pointer;
-	color: black;
-}
-
 /* entry list*/
 .entrylist-header {
 	border-bottom: 1px solid #eee;

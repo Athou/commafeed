@@ -20,7 +20,6 @@ app.config(function($routeProvider, $stateProvider, $urlRouterProvider) {
 	});
 	$stateProvider.state('admin.users', {
 		url : '/users',
-		controller : 'ManageUsersCtrl',
 		templateUrl : 'templates/admin.users.html'
 	});
 

@@ -138,3 +138,8 @@
 #feed-accordion .entry-body h4 {
 	margin-top: 5px;
 }
+
+/* admin */
+.admin .users-table {
+	height: 400px;
+}

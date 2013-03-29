@@ -1,16 +1,13 @@
 package com.commafeed.frontend.model;
 
 import java.io.Serializable;
-import java.util.Set;
-
-import com.google.common.collect.Sets;
 
 @SuppressWarnings("serial")
 public class UserModel implements Serializable {
 
 	private String name;
-	private Set<String> roles = Sets.newHashSet();
 	private boolean enabled;
+	private boolean admin;
 
 	public String getName() {
 		return name;
@@ -20,12 +17,12 @@ public class UserModel implements Serializable {
 		this.name = name;
 	}
 
-	public Set<String> getRoles() {
-		return roles;
+	public boolean isAdmin() {
+		return admin;
 	}
 
-	public void setRoles(Set<String> roles) {
-		this.roles = roles;
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 
 	public boolean isEnabled() {

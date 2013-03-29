@@ -112,11 +112,11 @@ module.factory('EntryService', [ '$resource', '$http',
 					}
 				}
 			};
-			res = $resource('rest/entries/:_method', {}, actions);
+			var res = $resource('rest/entries/:_method', {}, actions);
 			return res;
 		} ]);
 
-module.service('SettingsService', function($resource) {
+module.factory('SettingsService', function($resource) {
 	var s = {}
 	s.settings = {};
 	$resource('rest/settings/get').get(function(data) {
@@ -128,16 +128,16 @@ module.service('SettingsService', function($resource) {
 	return s;
 });
 
-module.service('AdminUsersService', function($resource) {
+module.factory('AdminUsersService', function($resource) {
 	var actions = {
 		get : {
 			method : 'GET',
 			params : {
 				_method : 'get'
 			},
-			isArray : true
+			isArray: true
 		}
 	};
-	var res = $resource('rest/admin/:_method', {}, actions);
+	var res = $resource('rest/admin/users/:_method', {}, actions);
 	return res;
-})
+});

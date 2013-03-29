@@ -31,7 +31,9 @@ public class AdminUsersREST extends AbstractREST {
 				userModel.setEnabled(!user.isDisabled());
 				users.put(key, userModel);
 			}
-			userModel.getRoles().add(role.getRole());
+			if (Role.ADMIN.equals(role.getRole())) {
+				userModel.setAdmin(true);
+			}
 		}
 		return users.values();
 	}

@@ -16,31 +16,36 @@
 			<button type="button" class="close" ng-click="close()">&times;</button>
 			<h4>Subscribe</h4>
 		</div>
-		<div class="modal-body form-horizontal">
-			<div class="control-group">
-				<label class="control-label">Feed URL</label>
-				<div class="controls">
-					<input type="text" ng-model="sub.url" placeholder="http://example.com/feed" class="input-block-level"></input>
+		<form name="subscribeForm" class="form-horizontal" ng-submit="save()">
+			<div class="modal-body">
+				<div class="control-group" ng-class="{error : !subscribeForm.url.$valid}">
+					<label class="control-label">Feed URL</label>
+					<div class="controls">
+						<input type="text" name="url" ng-model="sub.url" placeholder="http://example.com/feed" class="input-block-level" required></input>
+						<span class="help-block" ng-show="!subscribeForm.url.$valid">Required</span>
+					</div>
+				</div>
+				<div class="control-group" ng-class="{error : !subscribeForm.title.$valid}">
+					<label class="control-label">Feed Name</label>
+					<div class="controls">
+						<input type="text" name="title" ng-model="sub.title" class="input-block-level" required></input>
+						<span class="help-block" ng-show="!subscribeForm.title.$valid">Required</span>
+					</div>
+				</div>
+				<div class="control-group" ng-class="{error : !subscribeForm.category.$valid}">
+					<label class="control-label">Category</label>
+					<div class="controls">
+						<select name="category" ng-model="sub.categoryId" class="input-block-level" required>
+							<option ng-repeat="cat in SubscriptionService.flatCategories" value="{{cat.id}}">{{cat.name}}</option>
+						</select>
+						<span class="help-block" ng-show="!subscribeForm.category.$valid">Required</span>
+					</div>
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label">Feed Name</label>
-				<div class="controls">
-					<input type="text" ng-model="sub.title" class="input-block-level"></input>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Category</label>
-				<div class="controls">
-					<select ui-select2 ng-model="sub.categoryId" class="input-block-level">
-						<option ng-repeat="cat in SubscriptionService.flatCategories" value="{{cat.id}}">{{cat.name}}</option>
-					</select>
-				</div>
-			</div>
-		</div>
+		</form>
 		<div class="modal-footer">
 			<button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
-			<button class="btn btn-primary ok" ng-click="save()">Save</button>
+			<button class="btn btn-primary ok" type="submit">Save</button>
 		</div>
 	</div>
 	<div modal="isOpenImport" close="closeImport()" options="opts">

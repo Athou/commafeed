@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -27,7 +28,10 @@ public class User extends AbstractModel {
 	@Column(length = 8, nullable = false)
 	private byte[] salt;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+	@Column(nullable = false)
+	private boolean disabled;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Set<UserRole> roles = Sets.newHashSet();
 
 	public String getName() {
@@ -60,6 +64,14 @@ public class User extends AbstractModel {
 
 	public void setRoles(Set<UserRole> roles) {
 		this.roles = roles;
+	}
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
 	}
 
 }

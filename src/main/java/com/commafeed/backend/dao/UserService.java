@@ -20,7 +20,7 @@ public class UserService extends GenericDAO<User, Long> {
 	public User login(String name, String password) {
 		List<User> users = findByField(MF.i(MF.p(User.class).getName()), name);
 		User user = Iterables.getFirst(users, null);
-		if (user != null) {
+		if (user != null && !user.isDisabled()) {
 			boolean authenticated = encryptionService.authenticate(password,
 					user.getPassword(), user.getSalt());
 			if (authenticated) {

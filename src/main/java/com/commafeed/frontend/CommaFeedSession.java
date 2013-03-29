@@ -7,9 +7,9 @@ import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
 
+import com.commafeed.backend.dao.UserRoleService;
 import com.commafeed.backend.dao.UserService;
 import com.commafeed.backend.model.User;
-import com.commafeed.backend.security.Role;
 
 @SuppressWarnings("serial")
 public class CommaFeedSession extends AuthenticatedWebSession {
@@ -17,7 +17,11 @@ public class CommaFeedSession extends AuthenticatedWebSession {
 	@Inject
 	UserService userService;
 
+	@Inject
+	UserRoleService userRoleService;
+
 	private User user;
+	private Roles roles = new Roles();
 
 	public CommaFeedSession(Request request) {
 		super(request);
@@ -37,15 +41,20 @@ public class CommaFeedSession extends AuthenticatedWebSession {
 
 	@Override
 	public Roles getRoles() {
-		// TODO change this
-		return isSignedIn() ? new Roles(new String[] { Role.USER, Role.ADMIN })
-				: new Roles();
+		return roles;
 	}
 
 	@Override
 	public boolean authenticate(String userName, String password) {
 		User user = userService.login(userName, password);
-		this.user = user;
+		if (user == null) {
+			this.user = null;
+			this.roles = new Roles();
+		} else {
+			this.user = user;
+			this.roles = new Roles(userRoleService.getRoles(user).toArray(
+					new String[0]));
+		}
 		return user != null;
 	}
 

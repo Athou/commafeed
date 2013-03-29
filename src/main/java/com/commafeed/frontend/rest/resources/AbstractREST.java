@@ -1,7 +1,7 @@
 package com.commafeed.frontend.rest.resources;
 
 import java.lang.reflect.Method;
-import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -129,7 +129,7 @@ public abstract class AbstractREST {
 	}
 
 	private boolean checkRole(User user, SecurityCheck annotation) {
-		List<String> roles = userRoleService.getRoles(user);
+		Set<String> roles = userRoleService.getRoles(user);
 		for (String role : annotation.value()) {
 			if (!roles.contains(role)) {
 				return false;

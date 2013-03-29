@@ -78,6 +78,20 @@ public abstract class GenericDAO<T, K> implements Serializable {
 		return criteria.getResultList();
 	}
 
+	public List<T> findAll(int startIndex, int count, String orderBy,
+			boolean asc) {
+		EasyCriteria<T> criteria = EasyCriteriaFactory.createQueryCriteria(em,
+				getType());
+		criteria.setMaxResults(count);
+		criteria.setFirstResult(startIndex);
+		if (asc) {
+			criteria.orderByAsc(orderBy);
+		} else {
+			criteria.orderByDesc(orderBy);
+		}
+		return criteria.getResultList();
+	}
+
 	public long getCount() {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Long> query = builder.createQuery(Long.class);

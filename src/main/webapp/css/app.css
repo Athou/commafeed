@@ -79,18 +79,35 @@
 }
 
 #feed-accordion .entry-heading {
+	height: 20px;
 	padding: 6px 0px;
 	display: block;
 	color: black;
 	cursor: pointer;
+	padding: 6px 0px;
 }
 
 #feed-accordion .entry-heading .feed-name {
 	color: #555;
-	width: 150px;
-	display: inline-block;
+	display: block;
 	overflow: hidden;
 	white-space: nowrap;
+	position: absolute;
+}
+
+#feed-accordion .entry-heading .entry-name {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin-left: 150px;
+	margin-right: 100px;
+}
+
+#feed-accordion .entry-heading .entry-date {
+	display: block;
+	position: absolute;
+	right: 20px;
 }
 
 #feed-accordion a.entry-heading:hover {

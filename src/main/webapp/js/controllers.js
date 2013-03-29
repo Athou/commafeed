@@ -219,6 +219,12 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
 			openNextEntry(e);
 		})
 	});
+	
+	Mousetrap.bind('shift+space', function(e) {
+		$scope.$apply(function() {
+			openPreviousEntry(e);
+		})
+	});
 	Mousetrap.bind('k', function(e) {
 		$scope.$apply(function() {
 			openPreviousEntry(e);

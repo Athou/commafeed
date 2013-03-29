@@ -9,8 +9,10 @@ module.directive('scrollTo', function() {
 		link : function(scope, element, attrs) {
 			scope.$watch(attrs.scrollTo, function(value) {
 				if (value) {
+					var offset = parseInt(attrs.scrollToOffset, 10);
+					var scrollTop = $(element).offset().top + offset;
 					$('html, body').animate({
-						scrollTop : $(element).offset().top + 'px'
+						scrollTop : scrollTop
 					}, 0);
 				}
 			});
@@ -183,7 +185,7 @@ module.directive('spinner', function() {
 				shadow : false, // Whether to render a shadow
 				hwaccel : true, // Whether to use hardware acceleration
 				zIndex : 2e9, // The z-index (defaults to 2000000000)
-				top : 50, // Top position relative to parent in px
+				top : 'auto', // Top position relative to parent in px
 				left : 'auto' // Left position relative to parent in px
 			};
 			var spinner = new Spinner(opts);

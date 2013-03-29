@@ -1,17 +1,26 @@
-.main {
-	margin-top: 10px;
+.main .spinner {
+	display: inline-block;
+	margin-left: 11px;
+	top: -4px;
 }
 
-.main .spinner {
-	width: 50px;
-	height: 50px;
-	top: 14px;
-	left: 20px;
+.toolbar {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	width: 100%;
+	z-index: 10;
+	position: fixed;
+	background-color: #FFF;
+	width: 100%;
+}
+
+.entryList {
+	padding-top: 50px;
 }
 
 /* tree*/
 .sidebar-nav-fixed {
-	overflow: visible;
+	margin-top: 10px;
 }
 
 .css-treeview {
@@ -30,6 +39,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: block;
+	margin: 3px 0px 3px;
 }
 
 .css-treeview label,.css-treeview a,.css-treeview label::before {
@@ -65,7 +75,7 @@
 }
 
 .entrylist-header h3 {
-	margin: 5px 0px 5px 0px;
+	margin: 0;
 }
 
 #feed-accordion .entry {
@@ -93,6 +103,7 @@
 	overflow: hidden;
 	white-space: nowrap;
 	position: absolute;
+	width: 145px;
 }
 
 #feed-accordion .entry-heading .entry-name {
@@ -100,8 +111,11 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	margin-left: 150px;
 	margin-right: 100px;
+}
+
+#feed-accordion .entry-heading .entry-name.shrink {
+	margin-left: 150px;
 }
 
 #feed-accordion .entry-heading .entry-date {

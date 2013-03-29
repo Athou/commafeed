@@ -1,5 +1,23 @@
 var module = angular.module('commafeed.directives', []);
 
+module.directive('scrollTo', function() {
+	return {
+		restrict : 'A',
+		controller : function($scope, $element, $attrs) {
+
+		},
+		link : function(scope, element, attrs) {
+			scope.$watch(attrs.scrollTo, function(value) {
+				if (value) {
+					$('html, body').animate({
+						scrollTop : $(element).offset().top + 'px'
+					}, 'fast');
+				}
+			});
+		}
+	};
+});
+
 module.directive('subscribe', function(SubscriptionService) {
 	return {
 		scope : {},

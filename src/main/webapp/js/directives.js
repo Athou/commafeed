@@ -11,7 +11,7 @@ module.directive('scrollTo', function() {
 				if (value) {
 					$('html, body').animate({
 						scrollTop : $(element).offset().top + 'px'
-					}, 'fast');
+					}, 0);
 				}
 			});
 		}

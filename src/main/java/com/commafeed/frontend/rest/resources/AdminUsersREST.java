@@ -14,10 +14,10 @@ import com.commafeed.frontend.rest.SecurityCheck;
 import com.google.common.collect.Maps;
 
 @SecurityCheck(Role.ADMIN)
-@Path("admin")
-public class AdminREST extends AbstractREST {
+@Path("admin/users")
+public class AdminUsersREST extends AbstractREST {
 
-	@Path("users/get")
+	@Path("get")
 	@GET
 	public Collection<UserModel> getUsers() {
 		Map<Long, UserModel> users = Maps.newHashMap();

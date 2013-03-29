@@ -14,6 +14,7 @@ import com.commafeed.frontend.references.angularuibootstrap.AngularUIBootstrapRe
 import com.commafeed.frontend.references.angularuistate.AngularUIStateReference;
 import com.commafeed.frontend.references.csstreeview.CssTreeViewReference;
 import com.commafeed.frontend.references.mousetrap.MouseTrapReference;
+import com.commafeed.frontend.references.nggrid.NGGridReference;
 import com.commafeed.frontend.references.nginfinitescroll.NGInfiniteScrollReference;
 import com.commafeed.frontend.references.ngupload.NGUploadReference;
 import com.commafeed.frontend.references.select2.Select2Reference;
@@ -37,6 +38,7 @@ public class HomePage extends BasePage {
 		Select2Reference.renderHead(response);
 		SpinJSReference.renderHead(response);
 		MouseTrapReference.renderHead(response);
+		NGGridReference.renderHead(response);
 
 		CssTreeViewReference.renderHead(response);
 

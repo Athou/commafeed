@@ -140,7 +140,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 		}, function(data) {
 			for ( var i = 0; i < data.entries.length; i++) {
 				$scope.entries.push(data.entries[i]);
-			}
+			};
 			$scope.name = data.name;
 			$scope.busy = false;
 			$scope.hasMore = data.entries.length == limit
@@ -239,7 +239,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			openPreviousEntry(e);
 		})
 	});
-	
+
 	$scope.$on('reload', function(event, args) {
 		$scope.name = null;
 		$scope.entries = [];
@@ -247,4 +247,11 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 		$scope.hasMore = true;
 		$scope.loadMoreEntries();
 	});
+});
+
+module.controller('ManageUsersCtrl', function($scope, AdminUsersService) {
+	$scope.users = AdminUsersService.get();
+	$scope.gridOptions = {
+		data : 'users'
+	};
 });

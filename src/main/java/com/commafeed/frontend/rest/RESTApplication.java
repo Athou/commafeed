@@ -5,7 +5,7 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import com.commafeed.frontend.rest.resources.AdminREST;
+import com.commafeed.frontend.rest.resources.AdminUsersREST;
 import com.commafeed.frontend.rest.resources.EntriesREST;
 import com.commafeed.frontend.rest.resources.SettingsREST;
 import com.commafeed.frontend.rest.resources.SubscriptionsREST;
@@ -22,7 +22,7 @@ public class RESTApplication extends Application {
 		set.add(SubscriptionsREST.class);
 		set.add(EntriesREST.class);
 		set.add(SettingsREST.class);
-		set.add(AdminREST.class);
+		set.add(AdminUsersREST.class);
 		return set;
 	}
 }

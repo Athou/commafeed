@@ -1,6 +1,6 @@
 var app = angular.module('commafeed', [ 'ui', 'ui.bootstrap', 'ui.state',
 		'commafeed.directives', 'commafeed.controllers', 'commafeed.services',
-		'ngSanitize', 'ngUpload', 'infinite-scroll' ]);
+		'ngSanitize', 'ngUpload', 'infinite-scroll', 'ngGrid' ]);
 
 app.config(function($routeProvider, $stateProvider, $urlRouterProvider) {
 	$stateProvider.state('feeds', {
@@ -20,6 +20,7 @@ app.config(function($routeProvider, $stateProvider, $urlRouterProvider) {
 	});
 	$stateProvider.state('admin.users', {
 		url : '/users',
+		controller : 'ManageUsersCtrl',
 		templateUrl : 'templates/admin.users.html'
 	});
 

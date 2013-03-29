@@ -127,3 +127,17 @@ module.service('SettingsService', function($resource) {
 	};
 	return s;
 });
+
+module.service('AdminUsersService', function($resource) {
+	var actions = {
+		get : {
+			method : 'GET',
+			params : {
+				_method : 'get'
+			},
+			isArray : true
+		}
+	};
+	var res = $resource('rest/admin/:_method', {}, actions);
+	return res;
+})

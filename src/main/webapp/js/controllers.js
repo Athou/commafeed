@@ -154,18 +154,16 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
 
 	$scope.isOpen = false;
 	$scope.entryClicked = function(entry, event) {
-		if (!entry.read) {
-			$scope.mark(entry, true);
-		}
+		$scope.mark(entry, true);
 		if (!event.ctrlKey && event.which != 2) {
-			event.preventDefault();
-			event.stopPropagation();
 			if ($scope.current != entry) {
 				$scope.isOpen = true;
 			} else {
 				$scope.isOpen = !$scope.isOpen;
 			}
 			$scope.current = entry;
+			event.preventDefault();
+			event.stopPropagation();
 		}
 	}
 
@@ -212,12 +210,18 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
 	};
 
 	Mousetrap.bind('space', function(e) {
-		openNextEntry(e);
+		$scope.$apply(function() {
+			openNextEntry(e);
+		})
 	});
 	Mousetrap.bind('j', function(e) {
-		openNextEntry(e);
+		$scope.$apply(function() {
+			openNextEntry(e);
+		})
 	});
 	Mousetrap.bind('k', function(e) {
-		openPreviousEntry(e);
+		$scope.$apply(function() {
+			openPreviousEntry(e);
+		})
 	});
 });

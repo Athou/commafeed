@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -15,10 +16,11 @@ import com.google.common.collect.Sets;
 @SuppressWarnings("serial")
 public class FeedCategory extends AbstractModel {
 
-	@Column(length = 128)
+	@Column(length = 128, nullable = false)
 	private String name;
 
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private User user;
 
 	@ManyToOne

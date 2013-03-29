@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -13,16 +14,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.apache.commons.codec.binary.StringUtils;
+import org.hibernate.annotations.Index;
 
 @Entity
 @Table(name = "FEEDENTRIES")
 @SuppressWarnings("serial")
 public class FeedEntry extends AbstractModel {
 
-	@Column(length = 2048)
+	@Column(length = 2048, nullable = false, unique = true)
+	@Index(name = "guid_index")
 	private String guid;
 
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private Feed feed;
 
 	@Column(length = 2048)
@@ -35,6 +39,7 @@ public class FeedEntry extends AbstractModel {
 	private String url;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Index(name = "updated_index")
 	private Date updated;
 
 	@OneToMany(mappedBy = "entry")

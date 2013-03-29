@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 import com.google.common.collect.Sets;
 
 @Entity
@@ -15,13 +17,14 @@ import com.google.common.collect.Sets;
 @SuppressWarnings("serial")
 public class User extends AbstractModel {
 
-	@Column(length = 32)
+	@Column(length = 32, nullable = false, unique = true)
+	@Index(name = "username_index")
 	private String name;
 
-	@Column(length = 256)
+	@Column(length = 256, nullable = false)
 	private byte[] password;
 
-	@Column(length = 8)
+	@Column(length = 8, nullable = false)
 	private byte[] salt;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)

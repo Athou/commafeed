@@ -75,11 +75,10 @@ public class OPMLImporter {
 				sub = new FeedSubscription();
 				sub.setFeed(feed);
 				sub.setUser(user);
-				feedSubscriptionService.save(sub);
 			}
 			sub.setCategory(parent);
 			sub.setTitle(outline.getText());
-			feedSubscriptionService.update(sub);
+			feedSubscriptionService.saveOrUpdate(sub);
 		}
 	}
 }

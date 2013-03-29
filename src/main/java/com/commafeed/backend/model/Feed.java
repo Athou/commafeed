@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Index;
+
 import com.google.common.collect.Sets;
 
 @Entity
@@ -17,7 +19,8 @@ import com.google.common.collect.Sets;
 @SuppressWarnings("serial")
 public class Feed extends AbstractModel {
 
-	@Column(length = 2048)
+	@Column(length = 2048, nullable = false, unique = true)
+	@Index(name = "feed_index")
 	private String url;
 
 	@Temporal(TemporalType.TIMESTAMP)

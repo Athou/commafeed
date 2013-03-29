@@ -2,6 +2,7 @@ package com.commafeed.backend.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -11,9 +12,11 @@ import javax.persistence.Table;
 public class FeedEntryStatus extends AbstractModel {
 
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private User user;
 
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private FeedEntry entry;
 
 	@Column(name = "read_status")

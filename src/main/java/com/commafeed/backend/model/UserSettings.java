@@ -1,5 +1,6 @@
 package com.commafeed.backend.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,10 +18,11 @@ public class UserSettings extends AbstractModel {
 	}
 
 	@OneToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private ReadingMode readingMode;
 
 	public ReadingMode getReadingMode() {

@@ -12,10 +12,10 @@ import javax.persistence.Table;
 public class UserRole extends AbstractModel {
 
 	@OneToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	@Column(name = "roleName")
+	@Column(name = "roleName", nullable = false)
 	private String role;
 
 	public UserRole() {

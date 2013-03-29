@@ -157,13 +157,9 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
 		if (!entry.read) {
 			$scope.mark(entry, true);
 		}
-		if (!event || (!event.ctrlKey && event.which != 2)) {
-			if (event) {
-				event.preventDefault();
-				event.stopPropagation();
-			}
-			console.log($scope.current)
-			console.log(entry)
+		if (!event.ctrlKey && event.which != 2) {
+			event.preventDefault();
+			event.stopPropagation();
 			if ($scope.current != entry) {
 				$scope.isOpen = true;
 			} else {
@@ -173,7 +169,7 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
 		}
 	}
 
-	var openNextEntry = function() {
+	var openNextEntry = function(event) {
 		var entry = null;
 		if ($scope.current) {
 			var index;
@@ -191,11 +187,11 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
 			entry = $scope.entries[0];
 		}
 		if (entry) {
-			$scope.entryClicked(entry);
+			$scope.entryClicked(entry, event);
 		}
 	};
 
-	var openPreviousEntry = function() {
+	var openPreviousEntry = function(event) {
 		var entry = null;
 		if ($scope.current) {
 			var index;
@@ -211,11 +207,17 @@ module.controller('FeedListCtrl', function($scope, $routeParams, $http, $route,
 			}
 		}
 		if (entry) {
-			$scope.entryClicked(entry);
+			$scope.entryClicked(entry, event);
 		}
 	};
 
-	Mousetrap.bind('space', openNextEntry);
-	Mousetrap.bind('j', openNextEntry);
-	Mousetrap.bind('k', openPreviousEntry);
+	Mousetrap.bind('space', function(e) {
+		openNextEntry(e);
+	});
+	Mousetrap.bind('j', function(e) {
+		openNextEntry(e);
+	});
+	Mousetrap.bind('k', function(e) {
+		openPreviousEntry(e);
+	});
 });

@@ -1,7 +1,7 @@
 <div ng-controller="FeedListCtrl">
 
-	<div class="entrylist-header">
-		<h3 ui-if="name"><span>{{name}}&nbsp;</span><span ng-show="name && selectedType == 'category'"> &#187;</span></h3>
+	<div class="entrylist-header" ui-if="name">
+		<h3><span>{{name}}&nbsp;</span><span ng-show="name && selectedType == 'category'"> &#187;</span></h3>
 	</div>
 	
 	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode" infinite-scroll-distance="1" id="feed-accordion">

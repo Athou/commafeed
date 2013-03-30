@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,6 +13,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.security.Role;
@@ -113,11 +113,14 @@ public class AdminUsersREST extends AbstractREST {
 	}
 
 	@Path("delete")
-	@DELETE
+	@GET
 	public Response delete(@QueryParam("id") Long id) {
 		User user = userService.findById(id);
 		if (user == null) {
 			return Response.status(Status.NOT_FOUND).build();
+		}
+		if (StartupBean.ADMIN_NAME.equals(user.getName())) {
+			return Response.status(Status.FORBIDDEN).build();
 		}
 		feedEntryStatusService.delete(feedEntryStatusService.findAll(user));
 		feedSubscriptionService.delete(feedSubscriptionService.findAll(user));

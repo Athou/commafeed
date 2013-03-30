@@ -150,7 +150,7 @@ module.factory('AdminUsersService', function($resource) {
 			}
 		},
 		delete : {
-			method : 'DELETE',
+			method : 'GET',
 			params : {
 				_method : 'delete'
 			}

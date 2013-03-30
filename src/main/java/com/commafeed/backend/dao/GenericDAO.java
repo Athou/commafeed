@@ -52,8 +52,10 @@ public abstract class GenericDAO<T extends AbstractModel> implements
 	}
 
 	public void delete(T object) {
-		object = em.merge(object);
-		em.remove(object);
+		if (object != null) {
+			object = em.merge(object);
+			em.remove(object);
+		}
 	}
 
 	public void delete(List<T> objects) {
@@ -64,7 +66,9 @@ public abstract class GenericDAO<T extends AbstractModel> implements
 
 	public void deleteById(Long id) {
 		Object ref = em.getReference(getType(), id);
-		em.remove(ref);
+		if (ref != null) {
+			em.remove(ref);
+		}
 	}
 
 	public T findById(Long id) {

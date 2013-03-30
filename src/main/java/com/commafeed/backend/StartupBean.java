@@ -26,6 +26,7 @@ import com.commafeed.backend.security.Role;
 public class StartupBean {
 
 	private static Logger log = LoggerFactory.getLogger(StartupBean.class);
+	public static final String ADMIN_NAME = "admin";
 
 	@Inject
 	FeedService feedService;
@@ -48,7 +49,7 @@ public class StartupBean {
 		if (userService.getCount() == 0) {
 			log.info("Populating database with default values");
 
-			User user = userService.register("admin", "admin",
+			User user = userService.register(ADMIN_NAME, "admin",
 					Arrays.asList(Role.ADMIN, Role.USER));
 			userService.register("test", "test", Arrays.asList(Role.USER));
 

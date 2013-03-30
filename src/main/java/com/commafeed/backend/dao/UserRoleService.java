@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
+import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Sets;
 
@@ -18,8 +19,8 @@ public class UserRoleService extends GenericDAO<UserRole> {
 		return findByField(MF.i(MF.p(UserRole.class).getUser()), user);
 	}
 
-	public Set<String> getRoles(User user) {
-		Set<String> list = Sets.newHashSet();
+	public Set<Role> getRoles(User user) {
+		Set<Role> list = Sets.newHashSet();
 		for (UserRole role : findByField(MF.i(proxy().getUser()), user)) {
 			list.add(role.getRole());
 		}

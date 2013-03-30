@@ -277,7 +277,7 @@ module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
 		AdminUsersService) {
 	$scope.user = $stateParams._id ? AdminUsersService.get({
 		id : $stateParams._id
-	}) : {};
+	}) : {enabled: true};
 	$scope.alerts = [];
 	$scope.closeAlert = function(index) {
 		$scope.alerts.splice(index, 1);

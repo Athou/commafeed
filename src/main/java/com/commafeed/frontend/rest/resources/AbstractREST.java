@@ -33,11 +33,11 @@ import com.commafeed.backend.dao.UserService;
 import com.commafeed.backend.dao.UserSettingsService;
 import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.security.PasswordEncryptionService;
-import com.commafeed.backend.security.Role;
 import com.commafeed.frontend.CommaFeedApplication;
 import com.commafeed.frontend.CommaFeedSession;
-import com.commafeed.frontend.rest.SecurityCheck;
+import com.commafeed.frontend.SecurityCheck;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -133,11 +133,9 @@ public abstract class AbstractREST {
 	}
 
 	private boolean checkRole(User user, SecurityCheck annotation) {
-		Set<String> roles = userRoleService.getRoles(user);
-		for (String role : annotation.value()) {
-			if (!roles.contains(role)) {
-				return false;
-			}
+		Set<Role> roles = userRoleService.getRoles(user);
+		if (!roles.contains(annotation.value())) {
+			return false;
 		}
 		return true;
 	}

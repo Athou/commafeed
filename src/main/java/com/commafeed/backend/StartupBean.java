@@ -18,8 +18,8 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.security.PasswordEncryptionService;
-import com.commafeed.backend.security.Role;
 
 @Startup
 @Singleton

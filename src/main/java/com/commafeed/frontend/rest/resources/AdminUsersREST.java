@@ -16,9 +16,9 @@ import org.apache.commons.lang.StringUtils;
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
-import com.commafeed.backend.security.Role;
+import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
-import com.commafeed.frontend.rest.SecurityCheck;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -37,7 +37,7 @@ public class AdminUsersREST extends AbstractREST {
 		if (id == null) {
 			Preconditions.checkNotNull(userModel.getPassword());
 
-			Set<String> roles = Sets.newHashSet(Role.USER);
+			Set<Role> roles = Sets.newHashSet(Role.USER);
 			if (userModel.isAdmin()) {
 				roles.add(Role.ADMIN);
 			}
@@ -63,12 +63,12 @@ public class AdminUsersREST extends AbstractREST {
 			user.setDisabled(!userModel.isEnabled());
 			userService.update(user);
 
-			Set<String> roles = userRoleService.getRoles(user);
+			Set<Role> roles = userRoleService.getRoles(user);
 			if (userModel.isAdmin() && !roles.contains(Role.ADMIN)) {
 				userRoleService.save(new UserRole(user, Role.ADMIN));
 			} else if (!userModel.isAdmin() && roles.contains(Role.ADMIN)) {
 				for (UserRole userRole : userRoleService.findAll(user)) {
-					if (Role.ADMIN.equals(userRole.getRole())) {
+					if (userRole.getRole() == Role.ADMIN) {
 						userRoleService.delete(userRole);
 					}
 				}
@@ -88,7 +88,7 @@ public class AdminUsersREST extends AbstractREST {
 		userModel.setName(user.getName());
 		userModel.setEnabled(!user.isDisabled());
 		for (UserRole role : userRoleService.findAll(user)) {
-			if (Role.ADMIN.equals(role.getRole())) {
+			if (role.getRole() == Role.ADMIN) {
 				userModel.setAdmin(true);
 			}
 		}
@@ -110,7 +110,7 @@ public class AdminUsersREST extends AbstractREST {
 				userModel.setEnabled(!user.isDisabled());
 				users.put(key, userModel);
 			}
-			if (Role.ADMIN.equals(role.getRole())) {
+			if (role.getRole() == Role.ADMIN) {
 				userModel.setAdmin(true);
 			}
 		}

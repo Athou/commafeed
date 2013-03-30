@@ -1,4 +1,4 @@
-package com.commafeed.frontend.rest;
+package com.commafeed.frontend;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -8,6 +8,8 @@ import java.lang.annotation.Target;
 
 import javax.enterprise.util.Nonbinding;
 import javax.interceptor.InterceptorBinding;
+
+import com.commafeed.backend.model.UserRole.Role;
 
 @Inherited
 @InterceptorBinding
@@ -19,5 +21,5 @@ public @interface SecurityCheck {
 	 * Roles needed.
 	 */
 	@Nonbinding
-	String[] value() default {};
+	Role value() default Role.USER;
 }

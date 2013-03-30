@@ -2,6 +2,8 @@ package com.commafeed.backend.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -11,18 +13,23 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 public class UserRole extends AbstractModel {
 
+	public static enum Role {
+		USER, ADMIN
+	}
+
 	@OneToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	@Column(name = "roleName", nullable = false)
-	private String role;
+	@Enumerated(EnumType.STRING)
+	private Role role;
 
 	public UserRole() {
 
 	}
 
-	public UserRole(User user, String role) {
+	public UserRole(User user, Role role) {
 		this.user = user;
 		this.role = role;
 	}
@@ -35,11 +42,11 @@ public class UserRole extends AbstractModel {
 		this.user = user;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

@@ -8,8 +8,8 @@ import javax.inject.Inject;
 
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
+import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.security.PasswordEncryptionService;
-import com.commafeed.backend.security.Role;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Iterables;
 
@@ -34,7 +34,7 @@ public class UserService extends GenericDAO<User> {
 		return null;
 	}
 
-	public User register(String name, String password, Collection<String> roles) {
+	public User register(String name, String password, Collection<Role> roles) {
 		List<User> users = findByField(MF.i(proxy().getName()), name);
 		if (!users.isEmpty()) {
 			return null;
@@ -45,7 +45,7 @@ public class UserService extends GenericDAO<User> {
 		user.setSalt(salt);
 		user.setPassword(encryptionService.getEncryptedPassword(password, salt));
 		user.getRoles().add(new UserRole(user, Role.USER));
-		for (String role : roles) {
+		for (Role role : roles) {
 			user.getRoles().add(new UserRole(user, role));
 			user.getRoles().add(new UserRole(user, role));
 		}

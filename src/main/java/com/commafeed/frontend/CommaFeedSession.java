@@ -1,5 +1,7 @@
 package com.commafeed.frontend;
 
+import java.util.Set;
+
 import javax.inject.Inject;
 
 import org.apache.wicket.Session;
@@ -10,6 +12,8 @@ import org.apache.wicket.request.Request;
 import com.commafeed.backend.dao.UserRoleService;
 import com.commafeed.backend.dao.UserService;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.model.UserRole.Role;
+import com.google.common.collect.Sets;
 
 @SuppressWarnings("serial")
 public class CommaFeedSession extends AuthenticatedWebSession {
@@ -51,9 +55,13 @@ public class CommaFeedSession extends AuthenticatedWebSession {
 			this.user = null;
 			this.roles = new Roles();
 		} else {
+
+			Set<String> roleSet = Sets.newHashSet();
+			for (Role role : userRoleService.getRoles(user)) {
+				roleSet.add(role.name());
+			}
 			this.user = user;
-			this.roles = new Roles(userRoleService.getRoles(user).toArray(
-					new String[0]));
+			this.roles = new Roles(roleSet.toArray(new String[0]));
 		}
 		return user != null;
 	}

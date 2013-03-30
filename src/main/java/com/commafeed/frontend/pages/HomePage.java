@@ -1,11 +1,11 @@
 package com.commafeed.frontend.pages;
 
-import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 
-import com.commafeed.backend.security.Role;
+import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.references.angular.AngularReference;
 import com.commafeed.frontend.references.angular.AngularResourceReference;
 import com.commafeed.frontend.references.angular.AngularSanitizeReference;
@@ -21,7 +21,7 @@ import com.commafeed.frontend.references.select2.Select2Reference;
 import com.commafeed.frontend.references.spinjs.SpinJSReference;
 
 @SuppressWarnings("serial")
-@AuthorizeInstantiation(Role.USER)
+@SecurityCheck(Role.USER)
 public class HomePage extends BasePage {
 
 	@Override

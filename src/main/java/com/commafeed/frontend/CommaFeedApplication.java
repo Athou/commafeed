@@ -9,14 +9,15 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.apache.wicket.Application;
+import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.authorization.Action;
+import org.apache.wicket.authorization.IAuthorizationStrategy;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
-import org.apache.wicket.authroles.authorization.strategies.role.IRoleCheckingStrategy;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
-import org.apache.wicket.authroles.authorization.strategies.role.annotations.AnnotationsRoleAuthorizationStrategy;
 import org.apache.wicket.cdi.CdiConfiguration;
 import org.apache.wicket.cdi.ConversationPropagation;
 import org.apache.wicket.core.request.handler.PageProvider;
@@ -26,6 +27,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
+import org.apache.wicket.request.component.IRequestableComponent;
 import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.jboss.vfs.VirtualFile;
@@ -39,7 +41,6 @@ import org.slf4j.LoggerFactory;
 import com.commafeed.frontend.pages.HomePage;
 import com.commafeed.frontend.pages.LoginPage;
 import com.commafeed.frontend.pages.LogoutPage;
-import com.commafeed.frontend.pages.SettingsPage;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
 
 import de.agilecoders.wicket.Bootstrap;
@@ -56,7 +57,6 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		mountPage("login", LoginPage.class);
 		mountPage("logout", LogoutPage.class);
 		mountPage("error", DisplayExceptionPage.class);
-		mountPage("settings", SettingsPage.class);
 
 		setupInjection();
 
@@ -65,14 +65,31 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
 
 		getSecuritySettings().setAuthorizationStrategy(
-				new AnnotationsRoleAuthorizationStrategy(
-						new IRoleCheckingStrategy() {
-							@Override
-							public boolean hasAnyRole(Roles roles) {
-								return CommaFeedSession.get().getRoles()
-										.hasAnyRole(roles);
-							}
-						}));
+				new IAuthorizationStrategy() {
+
+					@Override
+					public <T extends IRequestableComponent> boolean isInstantiationAuthorized(
+							Class<T> componentClass) {
+						boolean authorized = true;
+
+						boolean restricted = componentClass
+								.isAnnotationPresent(SecurityCheck.class);
+						if (restricted) {
+							SecurityCheck annotation = componentClass
+									.getAnnotation(SecurityCheck.class);
+							Roles roles = CommaFeedSession.get().getRoles();
+							authorized = roles.hasAnyRole(new Roles(annotation
+									.value().name()));
+						}
+						return authorized;
+					}
+
+					@Override
+					public boolean isActionAuthorized(Component component,
+							Action action) {
+						return true;
+					}
+				});
 
 		getRequestCycleListeners().add(new AbstractRequestCycleListener() {
 			@Override

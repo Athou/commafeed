@@ -23,7 +23,7 @@ import com.google.common.collect.Lists;
 
 @Stateless
 @SuppressWarnings("serial")
-public class FeedEntryService extends GenericDAO<FeedEntry, Long> {
+public class FeedEntryService extends GenericDAO<FeedEntry> {
 
 	@Inject
 	FeedService feedService;

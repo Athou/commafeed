@@ -15,7 +15,7 @@ import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 @SuppressWarnings("serial")
-public class FeedSubscriptionService extends GenericDAO<FeedSubscription, Long> {
+public class FeedSubscriptionService extends GenericDAO<FeedSubscription> {
 
 	@Inject
 	FeedCategoryService feedCategoryService;

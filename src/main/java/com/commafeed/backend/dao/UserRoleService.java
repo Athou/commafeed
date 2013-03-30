@@ -12,7 +12,7 @@ import com.google.common.collect.Sets;
 
 @SuppressWarnings("serial")
 @Stateless
-public class UserRoleService extends GenericDAO<UserRole, Long> {
+public class UserRoleService extends GenericDAO<UserRole> {
 
 	public List<UserRole> findAll(User user) {
 		return findByField(MF.i(MF.p(UserRole.class).getUser()), user);

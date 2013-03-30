@@ -17,7 +17,8 @@ import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
 
 @SuppressWarnings("serial")
-public abstract class GenericDAO<T, K> implements Serializable {
+public abstract class GenericDAO<T extends AbstractModel> implements
+		Serializable {
 
 	private TypeToken<T> type = new TypeToken<T>(getClass()) {
 	};
@@ -55,12 +56,18 @@ public abstract class GenericDAO<T, K> implements Serializable {
 		em.remove(object);
 	}
 
-	public void deleteById(K id) {
+	public void delete(List<T> objects) {
+		for (T object : objects) {
+			delete(object);
+		}
+	}
+
+	public void deleteById(Long id) {
 		Object ref = em.getReference(getType(), id);
 		em.remove(ref);
 	}
 
-	public T findById(K id) {
+	public T findById(Long id) {
 		T t = em.find(getType(), id);
 		return t;
 	}

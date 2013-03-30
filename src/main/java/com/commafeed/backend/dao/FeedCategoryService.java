@@ -16,7 +16,7 @@ import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 @SuppressWarnings("serial")
-public class FeedCategoryService extends GenericDAO<FeedCategory, Long> {
+public class FeedCategoryService extends GenericDAO<FeedCategory> {
 
 	public List<FeedCategory> findAll(User user) {
 		return findByField(MF.i(MF.p(FeedCategory.class).getUser()), user);

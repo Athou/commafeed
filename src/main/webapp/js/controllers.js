@@ -292,4 +292,9 @@ module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
 			});
 		});
 	};
+	$scope.delete = function() {
+		AdminUsersService.delete({id: $scope.user.id}, function() {
+			$state.transitionTo('admin.userlist');
+		});
+	};
 });

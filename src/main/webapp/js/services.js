@@ -148,6 +148,12 @@ module.factory('AdminUsersService', function($resource) {
 			params : {
 				_method : 'save'
 			}
+		},
+		delete : {
+			method : 'DELETE',
+			params : {
+				_method : 'delete'
+			}
 		}
 	};
 	var res = $resource('rest/admin/users/:_method', {}, actions);

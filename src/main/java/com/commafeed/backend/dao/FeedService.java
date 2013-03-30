@@ -10,7 +10,7 @@ import com.google.common.collect.Iterables;
 
 @Stateless
 @SuppressWarnings("serial")
-public class FeedService extends GenericDAO<Feed, Long> {
+public class FeedService extends GenericDAO<Feed> {
 
 	public Feed findByUrl(String url) {
 		List<Feed> feeds = findByField(MF.i(proxy().getUrl()), url);

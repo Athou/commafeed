@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -109,5 +110,22 @@ public class AdminUsersREST extends AbstractREST {
 			}
 		}
 		return users.values();
+	}
+
+	@Path("delete")
+	@DELETE
+	public Response delete(@QueryParam("id") Long id) {
+		User user = userService.findById(id);
+		if (user == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		feedEntryStatusService.delete(feedEntryStatusService.findAll(user));
+		feedSubscriptionService.delete(feedSubscriptionService.findAll(user));
+		feedCategoryService.delete(feedCategoryService.findAll(user));
+		userSettingsService.delete(userSettingsService.findByUser(user));
+		userRoleService.delete(userRoleService.findAll(user));
+		userService.delete(user);
+
+		return Response.ok().build();
 	}
 }

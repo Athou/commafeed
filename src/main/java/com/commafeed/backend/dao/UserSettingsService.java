@@ -11,7 +11,7 @@ import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 @SuppressWarnings("serial")
-public class UserSettingsService extends GenericDAO<UserSettings, Long> {
+public class UserSettingsService extends GenericDAO<UserSettings> {
 
 	public UserSettings findByUser(User user) {
 

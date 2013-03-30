@@ -1,12 +1,15 @@
 package com.commafeed.backend.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.security.PasswordEncryptionService;
+import com.commafeed.backend.security.Role;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Iterables;
 
@@ -29,5 +32,24 @@ public class UserService extends GenericDAO<User, Long> {
 		}
 
 		return null;
+	}
+
+	public User register(String name, String password, Collection<String> roles) {
+		List<User> users = findByField(MF.i(proxy().getName()), name);
+		if (!users.isEmpty()) {
+			return null;
+		}
+		User user = new User();
+		byte[] salt = encryptionService.generateSalt();
+		user.setName(name);
+		user.setSalt(salt);
+		user.setPassword(encryptionService.getEncryptedPassword(password, salt));
+		user.getRoles().add(new UserRole(user, Role.USER));
+		for (String role : roles) {
+			user.getRoles().add(new UserRole(user, role));
+			user.getRoles().add(new UserRole(user, role));
+		}
+		save(user);
+		return user;
 	}
 }

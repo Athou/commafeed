@@ -1,5 +1,7 @@
 package com.commafeed.backend;
 
+import java.util.Arrays;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -16,7 +18,6 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
-import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.security.PasswordEncryptionService;
 import com.commafeed.backend.security.Role;
 
@@ -47,24 +48,9 @@ public class StartupBean {
 		if (userService.getCount() == 0) {
 			log.info("Populating database with default values");
 
-			User user = new User();
-			byte[] salt = encryptionService.generateSalt();
-			user.setName("admin");
-			user.getRoles().add(new UserRole(user, Role.ADMIN));
-			user.getRoles().add(new UserRole(user, Role.USER));
-			user.setSalt(salt);
-			user.setPassword(encryptionService.getEncryptedPassword("admin",
-					salt));
-			userService.save(user);
-
-			User testUser = new User();
-			byte[] saltTest = encryptionService.generateSalt();
-			testUser.setName("test");
-			testUser.getRoles().add(new UserRole(testUser, Role.USER));
-			testUser.setSalt(saltTest);
-			testUser.setPassword(encryptionService.getEncryptedPassword("test",
-					saltTest));
-			userService.save(testUser);
+			User user = userService.register("admin", "admin",
+					Arrays.asList(Role.ADMIN, Role.USER));
+			userService.register("test", "test", Arrays.asList(Role.USER));
 
 			Feed dilbert = new Feed(
 					"http://feed.dilbert.com/dilbert/daily_strip");

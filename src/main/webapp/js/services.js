@@ -134,8 +134,20 @@ module.factory('AdminUsersService', function($resource) {
 			method : 'GET',
 			params : {
 				_method : 'get'
+			}
+		},
+		getAll : {
+			method : 'GET',
+			params : {
+				_method : 'getAll'
 			},
-			isArray: true
+			isArray : true
+		},
+		save : {
+			method : 'POST',
+			params : {
+				_method : 'save'
+			}
 		}
 	};
 	var res = $resource('rest/admin/users/:_method', {}, actions);

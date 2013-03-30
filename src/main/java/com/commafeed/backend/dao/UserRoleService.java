@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Stateless;
@@ -12,6 +13,10 @@ import com.google.common.collect.Sets;
 @SuppressWarnings("serial")
 @Stateless
 public class UserRoleService extends GenericDAO<UserRole, Long> {
+
+	public List<UserRole> findAll(User user) {
+		return findByField(MF.i(MF.p(UserRole.class).getUser()), user);
+	}
 
 	public Set<String> getRoles(User user) {
 		Set<String> list = Sets.newHashSet();

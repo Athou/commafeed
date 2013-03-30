@@ -33,6 +33,7 @@ import com.commafeed.backend.dao.UserService;
 import com.commafeed.backend.dao.UserSettingsService;
 import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.security.PasswordEncryptionService;
 import com.commafeed.backend.security.Role;
 import com.commafeed.frontend.CommaFeedApplication;
 import com.commafeed.frontend.CommaFeedSession;
@@ -75,6 +76,9 @@ public abstract class AbstractREST {
 
 	@Inject
 	OPMLImporter opmlImporter;
+
+	@Inject
+	PasswordEncryptionService encryptionService;
 
 	@PostConstruct
 	public void init() {

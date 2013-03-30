@@ -140,7 +140,8 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 		}, function(data) {
 			for ( var i = 0; i < data.entries.length; i++) {
 				$scope.entries.push(data.entries[i]);
-			};
+			}
+			;
 			$scope.name = data.name;
 			$scope.busy = false;
 			$scope.hasMore = data.entries.length == limit
@@ -249,9 +250,46 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 	});
 });
 
-module.controller('ManageUsersCtrl', function($scope, AdminUsersService) {
-	$scope.users = AdminUsersService.get();
-	$scope.gridOptions = {
-		data : 'users'
+module.controller('ManageUsersCtrl',
+		function($scope, $state, AdminUsersService) {
+			$scope.users = AdminUsersService.getAll();
+			$scope.selection = [];
+			$scope.gridOptions = {
+				data : 'users',
+				selectedItems : $scope.selection,
+				multiSelect : false,
+				afterSelectionChange : function(item) {
+					$state.transitionTo('admin.useredit', {
+						_id : item.entity.id
+					});
+				}
+			};
+
+			$scope.addUser = function() {
+				$state.transitionTo('admin.useradd');
+			};
+		});
+
+module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
+		AdminUsersService) {
+	$scope.user = $stateParams._id ? AdminUsersService.get({
+		id : $stateParams._id
+	}) : {};
+	$scope.alerts = [];
+	$scope.closeAlert = function(index) {
+		$scope.alerts.splice(index, 1);
+	};
+
+	$scope.cancel = function(){
+		$state.transitionTo('admin.userlist');
+	}
+	$scope.save = function() {
+		AdminUsersService.save($scope.user, function() {
+			$state.transitionTo('admin.userlist');
+		}, function(data) {
+			$scope.alerts.push({
+				msg : data.data
+			});
+		});
 	};
 });

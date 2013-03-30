@@ -1,0 +1,45 @@
+<div class="row">
+	<div class="page-header">
+		<h1>Add user</h1>
+	</div>
+
+	<alert ng-repeat="alert in alerts" type="alert.type"
+		close="closeAlert($index)">{{alert.msg}}</alert>
+
+	<form name="userAddForm" class="form-horizontal" ng-submit="save()">
+		<div class="control-group"
+			ng-class="{error : !userAddForm.name.$valid}">
+			<label class="control-label" for="name">User name</label>
+			<div class="controls">
+				<input type="text" id="name" name="name" ng-model="user.name"
+					required />
+			</div>
+		</div>
+		<div class="control-group"
+			ng-class="{error : !userAddForm.password.$valid}">
+			<label class="control-label" for="password">Password</label>
+			<div class="controls">
+				<input type="password" id="password" name="password"
+					ng-model="user.password" required />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="admin">Admin</label>
+			<div class="controls">
+				<input type="checkbox" name="admin" ng-model="user.admin" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="enabled">Enabled</label>
+			<div class="controls">
+				<input type="checkbox" name="enabled" ng-model="user.enabled" />
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<button type="button" class="btn" ng-click="cancel()">Cancel</button>
+				<button type="submit" class="btn btn-primary">Save</button>
+			</div>
+		</div>
+	</form>
+</div>

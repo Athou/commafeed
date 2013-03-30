@@ -10,7 +10,8 @@ app.config(function($routeProvider, $stateProvider, $urlRouterProvider) {
 	});
 	$stateProvider.state('feeds.view', {
 		url : '/view/:_type/:_id',
-		templateUrl : 'templates/feeds.view.html'
+		templateUrl : 'templates/feeds.view.html',
+		controller : 'FeedListCtrl'
 	});
 
 	$stateProvider.state('admin', {
@@ -18,13 +19,24 @@ app.config(function($routeProvider, $stateProvider, $urlRouterProvider) {
 		url : '/admin',
 		templateUrl : 'templates/admin.html'
 	});
-	$stateProvider.state('admin.users', {
-		url : '/users',
-		templateUrl : 'templates/admin.users.html'
+	$stateProvider.state('admin.userlist', {
+		url : '/user/list',
+		templateUrl : 'templates/admin.userlist.html',
+		controller : 'ManageUsersCtrl'
+	});
+	$stateProvider.state('admin.useradd', {
+		url : '/user/add',
+		templateUrl : 'templates/admin.useradd.html',
+		controller : 'ManageUserCtrl'
+	});
+	$stateProvider.state('admin.useredit', {
+		url : '/user/edit/:_id',
+		templateUrl : 'templates/admin.useredit.html',
+		controller : 'ManageUserCtrl'
 	});
 
 	$urlRouterProvider.when('/', '/feeds/view/category/all');
-	$urlRouterProvider.when('/admin', '/admin/users');
+	$urlRouterProvider.when('/admin', '/admin/user/list');
 	$urlRouterProvider.otherwise('/');
 
 });

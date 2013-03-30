@@ -3,7 +3,10 @@
 		<h1>Manage users</h1>
 	</div>
 
-	<div ng-controller="ManageUsersCtrl">
+	<div>
+		<div class="button-bar">
+			<button class="btn" ng-click="addUser()">Add user</button>
+		</div>
 		<div class="users-table" ng-grid="gridOptions"></div>
 	</div>
 </div>

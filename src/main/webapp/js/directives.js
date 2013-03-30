@@ -1,5 +1,16 @@
 var module = angular.module('commafeed.directives', []);
 
+app.directive('ngBlur', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, elm, attrs) {
+            elm.bind('blur', function() {
+                scope.$apply(attrs.ngBlur);
+            });
+        }
+    };        
+});
+
 module.directive('scrollTo', function() {
 	return {
 		restrict : 'A',
@@ -45,6 +56,19 @@ module.directive('subscribe', function(SubscriptionService) {
 
 			$scope.close = function() {
 				$scope.isOpen = false;
+			};
+			
+
+			$scope.urlChanged = function() {
+				if ($scope.sub.url && !$scope.sub.title) {
+					$scope.sub.title = 'Loading';
+					SubscriptionService.fetch({
+						url : $scope.sub.url
+					}, function(data) {
+						console.log(data)
+						$scope.sub.title = data.title;
+					});
+				}
 			};
 
 			$scope.save = function() {

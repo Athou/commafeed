@@ -32,7 +32,7 @@ public class FeedParser {
 
 		try {
 			SyndFeed rss = new SyndFeedInput().build(new StringReader(xml));
-
+			feed.setTitle(rss.getTitle());
 			List<SyndEntry> items = rss.getEntries();
 			for (SyndEntry item : items) {
 				FeedEntry entry = new FeedEntry();

@@ -66,12 +66,17 @@ public class JSONMessageBodyReaderWriter implements MessageBodyWriter<Object>,
 			OutputStream entityStream) throws IOException,
 			WebApplicationException {
 		httpHeaders.putSingle(HttpHeaders.CONTENT_TYPE, mediaType.toString()
-				+ ";charset=UTF-8");
+				+ ";charset=" + UTF_8);
 		httpHeaders.putSingle(HttpHeaders.CACHE_CONTROL, "no-cache");
 		httpHeaders.putSingle("Pragma", "no-cache");
-		OutputStreamWriter writer = new OutputStreamWriter(entityStream, UTF_8);
-		getGson().toJson(t, type, writer);
-		writer.flush();
+		if (type == String.class) {
+			entityStream.write(t.toString().getBytes(UTF_8));
+		} else {
+			OutputStreamWriter writer = new OutputStreamWriter(entityStream,
+					UTF_8);
+			getGson().toJson(t, type, writer);
+			writer.flush();
+		}
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
 
@@ -22,6 +23,9 @@ public class Feed extends AbstractModel {
 	@Column(length = 2048, nullable = false, unique = true)
 	@Index(name = "feed_index")
 	private String url;
+
+	@Transient
+	private String title;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdated;
@@ -81,6 +85,14 @@ public class Feed extends AbstractModel {
 
 	public void setSubscriptions(Set<FeedSubscription> subscriptions) {
 		this.subscriptions = subscriptions;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 }

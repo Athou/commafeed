@@ -21,6 +21,12 @@ module.factory('SubscriptionService', [
 				return array;
 			}
 			var actions = {
+				fetch : {
+					method : 'GET',
+					params : {
+						_method : 'fetch'
+					}
+				},
 				get : {
 					method : 'GET',
 					params : {
@@ -58,6 +64,7 @@ module.factory('SubscriptionService', [
 						callback(data);
 				});
 			};
+			s.fetch = res.fetch;
 			s.subscribe = function(sub, callback) {
 				res.subscribe(sub, function(data) {
 					s.init();

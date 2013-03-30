@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -25,9 +26,25 @@ import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.SubscriptionRequest;
 import com.google.common.base.Preconditions;
+import com.sun.syndication.io.FeedException;
 
 @Path("subscriptions")
 public class SubscriptionsREST extends AbstractREST {
+
+	@GET
+	@Path("fetch")
+	public Feed fetchFeed(@QueryParam("url") String url) {
+		Preconditions.checkNotNull(url);
+		Feed feed = null;
+		try {
+			feed = feedFetcher.fetch(url);
+		} catch (FeedException e) {
+			throw new WebApplicationException(Response
+					.status(Status.INTERNAL_SERVER_ERROR)
+					.entity(e.getMessage()).build());
+		}
+		return feed;
+	}
 
 	@POST
 	@Path("subscribe")

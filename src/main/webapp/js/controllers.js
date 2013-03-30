@@ -251,7 +251,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 });
 
 module.controller('ManageUsersCtrl',
-		function($scope, $state, AdminUsersService) {
+		function($scope, $state, $location, AdminUsersService) {
 			$scope.users = AdminUsersService.getAll();
 			$scope.selection = [];
 			$scope.gridOptions = {
@@ -268,6 +268,9 @@ module.controller('ManageUsersCtrl',
 			$scope.addUser = function() {
 				$state.transitionTo('admin.useradd');
 			};
+			$scope.back = function() {
+				$location.path('/');
+			};
 		});
 
 module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
@@ -279,6 +282,12 @@ module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
 	$scope.closeAlert = function(index) {
 		$scope.alerts.splice(index, 1);
 	};
+	var alertFunction = function(data) {
+		$scope.alerts.push({
+			msg : data.data,
+			type: 'error'
+		});
+	};
 
 	$scope.cancel = function(){
 		$state.transitionTo('admin.userlist');
@@ -286,15 +295,11 @@ module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
 	$scope.save = function() {
 		AdminUsersService.save($scope.user, function() {
 			$state.transitionTo('admin.userlist');
-		}, function(data) {
-			$scope.alerts.push({
-				msg : data.data
-			});
-		});
+		}, alertFunction);
 	};
 	$scope.delete = function() {
 		AdminUsersService.delete({id: $scope.user.id}, function() {
 			$state.transitionTo('admin.userlist');
-		});
+		},alertFunction);
 	};
 });

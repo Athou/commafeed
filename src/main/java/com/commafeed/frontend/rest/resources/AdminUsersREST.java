@@ -50,6 +50,11 @@ public class AdminUsersREST extends AbstractREST {
 			}
 		} else {
 			User user = userService.findById(id);
+			if (StartupBean.ADMIN_NAME.equals(user.getName())
+					&& !userModel.isEnabled()) {
+				return Response.status(Status.FORBIDDEN)
+						.entity("You cannot disable the admin user.").build();
+			}
 			user.setName(userModel.getName());
 			if (StringUtils.isNotBlank(userModel.getPassword())) {
 				user.setPassword(encryptionService.getEncryptedPassword(
@@ -120,7 +125,8 @@ public class AdminUsersREST extends AbstractREST {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		if (StartupBean.ADMIN_NAME.equals(user.getName())) {
-			return Response.status(Status.FORBIDDEN).build();
+			return Response.status(Status.FORBIDDEN)
+					.entity("You cannot delete the admin user.").build();
 		}
 		feedEntryStatusService.delete(feedEntryStatusService.findAll(user));
 		feedSubscriptionService.delete(feedSubscriptionService.findAll(user));

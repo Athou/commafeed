@@ -119,13 +119,11 @@ public class SubscriptionsREST extends AbstractREST {
 	@POST
 	@Path("import")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@SuppressWarnings("unchecked")
 	public Response importOpml() {
 		try {
 			FileItemFactory factory = new DiskFileItemFactory(1000000, null);
 			ServletFileUpload upload = new ServletFileUpload(factory);
-			List<FileItem> items = upload.parseRequest(request);
-			for (FileItem item : items) {
+			for (FileItem item : upload.parseRequest(request)) {
 				if ("file".equals(item.getFieldName())) {
 					opmlImporter.importOpml(getUser(),
 							IOUtils.toString(item.getInputStream(), "UTF-8"));
@@ -133,7 +131,9 @@ public class SubscriptionsREST extends AbstractREST {
 				}
 			}
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage(), e);
+			throw new WebApplicationException(Response
+					.status(Status.INTERNAL_SERVER_ERROR)
+					.entity(e.getMessage()).build());
 		}
 		return Response.ok(Status.OK).build();
 	}

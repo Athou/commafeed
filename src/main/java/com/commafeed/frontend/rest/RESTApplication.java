@@ -7,6 +7,7 @@ import javax.ws.rs.core.Application;
 
 import com.commafeed.frontend.rest.resources.AdminUsersREST;
 import com.commafeed.frontend.rest.resources.EntriesREST;
+import com.commafeed.frontend.rest.resources.SessionREST;
 import com.commafeed.frontend.rest.resources.SettingsREST;
 import com.commafeed.frontend.rest.resources.SubscriptionsREST;
 import com.google.common.collect.Sets;
@@ -23,6 +24,7 @@ public class RESTApplication extends Application {
 		set.add(EntriesREST.class);
 		set.add(SettingsREST.class);
 		set.add(AdminUsersREST.class);
+		set.add(SessionREST.class);
 		return set;
 	}
 }

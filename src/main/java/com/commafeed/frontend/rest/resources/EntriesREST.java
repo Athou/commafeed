@@ -26,7 +26,7 @@ import com.google.common.collect.Maps;
 @Path("entries")
 public class EntriesREST extends AbstractREST {
 
-	private static final String ALL = "all";
+	public static final String ALL = "all";
 
 	public enum Type {
 		category, feed, entry;

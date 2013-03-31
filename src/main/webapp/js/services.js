@@ -1,9 +1,10 @@
 var module = angular.module('commafeed.services', [ 'ngResource' ]);
 
-module.factory('SubscriptionService', [
-		'$resource',
-		'$http',
-		function($resource, $http) {
+module.factory('SessionService', function($resource){
+	return $resource('rest/session/get');
+});
+
+module.factory('SubscriptionService', function($resource, $http) {
 
 			var flatten = function(category, parentName, array) {
 				if (!array)
@@ -49,6 +50,18 @@ module.factory('SubscriptionService', [
 					method : 'GET',
 					params : {
 						_method : 'collapse'
+					}
+				},
+				addCategory : {
+					method : 'GET',
+					params : {
+						_method : 'addCategory'
+					}
+				},
+				deleteCategory : {
+					method : 'GET',
+					params : {
+						_method : 'deleteCategory'
 					}
 				}
 			};
@@ -98,12 +111,19 @@ module.factory('SubscriptionService', [
 					id : id
 				});
 			};
+			s.addCategory = function(cat, callback) {
+				res.addCategory(cat, function(data) {
+					s.init();
+					if (callback)
+						callback(data);
+				});
+			};
 			s.collapse = res.collapse;
 			s.init();
 			return s;
-		} ]);
+		});
 
-module.factory('EntryService', [ '$resource', '$http',
+module.factory('EntryService',
 		function($resource, $http) {
 			var actions = {
 				get : {
@@ -121,7 +141,7 @@ module.factory('EntryService', [ '$resource', '$http',
 			};
 			var res = $resource('rest/entries/:_method', {}, actions);
 			return res;
-		} ]);
+		});
 
 module.factory('SettingsService', function($resource) {
 	var s = {}

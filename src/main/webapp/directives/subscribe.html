@@ -9,6 +9,7 @@
 				<a ng-click="open()">Subscribe</a>
 			</li>
 			<li><a ng-click="openImport()">Import</a></li>
+			<li><a ng-click="openCategory()">New category</a></li>
 		</ul>
 	</div>
 	<div modal="isOpen" close="close()" options="opts">
@@ -44,7 +45,7 @@
 			</div>
 		</form>
 		<div class="modal-footer">
-			<button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
+			<button class="btn cancel" ng-click="close()">Cancel</button>
 			<button class="btn btn-primary ok" type="submit">Save</button>
 		</div>
 	</div>
@@ -66,8 +67,38 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-warning cancel" ng-click="closeImport()">Cancel</button>
+				<button type="button" class="btn cancel" ng-click="closeImport()">Cancel</button>
 				<button class="btn btn-primary ok" type="submit" upload-submit="uploadComplete(contents, completed)">Import</button>
+			</div>
+		</form>
+	</div>
+	<div modal="isOpenCategory" close="closeCategory()" options="opts">
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="closeCategory()">&times;</button>
+			<h4>New category</h4>
+		</div>
+		<form name="categoryForm" class="form-horizontal" ng-submit="saveCategory()">
+			<div class="modal-body">
+				<div class="control-group" ng-class="{error : !categoryForm.name.$valid}">
+					<label class="control-label">Name</label>
+					<div class="controls">
+						<input type="text" name="name" ng-model="cat.name" required></input>
+						<span class="help-block" ng-show="!categoryForm.name.$valid">Required</span>
+					</div>
+				</div>
+				<div class="control-group" ng-class="{error : !categoryForm.category.$valid}">
+					<label class="control-label">Category</label>
+					<div class="controls">
+						<select name="category" ng-model="cat.parentId" class="input-block-level" required>
+							<option ng-repeat="cat in SubscriptionService.flatCategories" value="{{cat.id}}">{{cat.name}}</option>
+						</select>
+						<span class="help-block" ng-show="!categoryForm.category.$valid">Required</span>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn cancel" ng-click="closeCategory()">Cancel</button>
+				<button class="btn btn-primary ok" type="submit">Save</button>
 			</div>
 		</form>
 	</div>

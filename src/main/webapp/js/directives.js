@@ -88,6 +88,22 @@ module.directive('subscribe', function(SubscriptionService) {
 				SubscriptionService.init();
 				$scope.closeImport();
 			};
+			
+			$scope.cat = {};
+			
+			$scope.openCategory= function(){
+				$scope.isOpenCategory = true;
+				$scope.cat = {};
+			};
+			
+			$scope.closeCategory= function(){
+				$scope.isOpenCategory = false;
+			};
+			
+			$scope.saveCategory = function() {
+				SubscriptionService.addCategory($scope.cat);
+				$scope.closeCategory();
+			};
 		}
 	};
 });
@@ -147,7 +163,7 @@ module.directive('category', function($compile) {
 });
 
 module.directive('toolbar', function($stateParams, $route, $location, 
-		SettingsService, EntryService, SubscriptionService) {
+		SettingsService, EntryService, SubscriptionService, SessionService) {
 	return {
 		scope : {},
 		restrict : 'E',
@@ -158,6 +174,8 @@ module.directive('toolbar', function($stateParams, $route, $location,
 			function totalActiveAjaxRequests() {
 				return ($http.pendingRequests.length + $.active);
 			}
+			
+			$scope.session = SessionService.get();
 
 			$scope.loading = true;
 			$scope.$watch(totalActiveAjaxRequests, function() {

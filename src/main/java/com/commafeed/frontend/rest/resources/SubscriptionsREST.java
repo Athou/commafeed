@@ -91,6 +91,30 @@ public class SubscriptionsREST extends AbstractREST {
 		return Response.ok(Status.OK).build();
 	}
 
+	@Path("addCategory")
+	@GET
+	public Response addCategory(@QueryParam("name") String name,
+			@QueryParam("parentId") String parentId) {
+		Preconditions.checkNotNull(name);
+
+		FeedCategory cat = new FeedCategory();
+		cat.setName(name);
+		cat.setUser(getUser());
+		if (parentId != null && !EntriesREST.ALL.equals(parentId)) {
+			FeedCategory parent = new FeedCategory();
+			parent.setId(Long.valueOf(parentId));
+			cat.setParent(parent);
+		}
+		feedCategoryService.save(cat);
+		return Response.ok().build();
+	}
+
+	@GET
+	@Path("deleteCategory")
+	public Response deleteCategory(@QueryParam("id") Long id) {
+		return Response.ok().build();
+	}
+
 	@POST
 	@Path("import")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)

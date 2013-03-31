@@ -21,7 +21,7 @@ import org.hibernate.annotations.Index;
 @SuppressWarnings("serial")
 public class FeedEntry extends AbstractModel {
 
-	@Column(length = 2048, nullable = false, unique = true)
+	@Column(length = 2048, nullable = false)
 	private String guid;
 
 	@ManyToOne

@@ -18,7 +18,7 @@ import com.google.common.collect.Sets;
 @SuppressWarnings("serial")
 public class Feed extends AbstractModel {
 
-	@Column(length = 2048, nullable = false, unique = true)
+	@Column(length = 2048, nullable = false)
 	private String url;
 
 	@Transient

@@ -54,9 +54,11 @@ public class EntriesREST extends AbstractREST {
 		if (type == Type.feed) {
 			FeedSubscription subscription = feedSubscriptionService.findById(
 					getUser(), Long.valueOf(id));
-			entries.setName(subscription.getTitle());
-			entries.getEntries().addAll(
-					buildEntries(subscription, offset, limit, unreadOnly));
+			if (subscription != null) {
+				entries.setName(subscription.getTitle());
+				entries.getEntries().addAll(
+						buildEntries(subscription, offset, limit, unreadOnly));
+			}
 
 		} else {
 
@@ -76,13 +78,14 @@ public class EntriesREST extends AbstractREST {
 			} else {
 				FeedCategory feedCategory = feedCategoryService.findById(
 						getUser(), Long.valueOf(id));
-				List<FeedCategory> childrenCategories = feedCategoryService
-						.findAllChildrenCategories(getUser(), feedCategory);
-				entries.getEntries().addAll(
-						buildEntries(childrenCategories, subMapping, offset,
-								limit, unreadOnly));
-				entries.setName(feedCategory.getName());
-
+				if (feedCategory != null) {
+					List<FeedCategory> childrenCategories = feedCategoryService
+							.findAllChildrenCategories(getUser(), feedCategory);
+					entries.getEntries().addAll(
+							buildEntries(childrenCategories, subMapping,
+									offset, limit, unreadOnly));
+					entries.setName(feedCategory.getName());
+				}
 			}
 
 		}

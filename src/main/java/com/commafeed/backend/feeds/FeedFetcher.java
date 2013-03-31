@@ -43,13 +43,7 @@ public class FeedFetcher {
 			HttpResponse response = httpclient.execute(httpget);
 			HttpEntity entity = response.getEntity();
 			String content = EntityUtils.toString(entity, "UTF-8");
-
-			String extractedUrl = extractFeedUrl(content);
-			if (extractedUrl != null) {
-				feed = fetch(extractedUrl);
-			} else {
-				feed = parser.parse(feedUrl, content);
-			}
+			feed = parser.parse(feedUrl, content);
 		} catch (Exception e) {
 			throw new FeedException(e.getMessage(), e);
 		} finally {
@@ -58,7 +52,7 @@ public class FeedFetcher {
 		return feed;
 	}
 
-	private String extractFeedUrl(String html) {
+	public String extractFeedUrl(String html) {
 		String foundUrl = null;
 
 		Document doc = Jsoup.parse(html);

@@ -293,6 +293,7 @@ module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
 		$state.transitionTo('admin.userlist');
 	}
 	$scope.save = function() {
+		$scope.alerts.splice(0, $scope.alerts.length);
 		AdminUsersService.save($scope.user, function() {
 			$state.transitionTo('admin.userlist');
 		}, alertFunction);

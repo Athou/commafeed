@@ -67,6 +67,12 @@ public class AdminUsersREST extends AbstractREST {
 			if (userModel.isAdmin() && !roles.contains(Role.ADMIN)) {
 				userRoleService.save(new UserRole(user, Role.ADMIN));
 			} else if (!userModel.isAdmin() && roles.contains(Role.ADMIN)) {
+				if (StartupBean.ADMIN_NAME.equals(user.getName())) {
+					return Response
+							.status(Status.FORBIDDEN)
+							.entity("You cannot remove the admin role from the admin user.")
+							.build();
+				}
 				for (UserRole userRole : userRoleService.findAll(user)) {
 					if (userRole.getRole() == Role.ADMIN) {
 						userRoleService.delete(userRole);

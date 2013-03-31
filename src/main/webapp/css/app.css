@@ -11,7 +11,6 @@
 	z-index: 10;
 	position: fixed;
 	background-color: #FFF;
-	width: 100%;
 }
 
 .entryList {
@@ -85,11 +84,10 @@
 
 #feed-accordion .entry-heading {
 	height: 20px;
-	padding: 6px 0px;
 	display: block;
 	color: black;
 	cursor: pointer;
-	padding: 6px 0px;
+	margin: 6px 0px;
 }
 
 #feed-accordion .entry-heading .feed-name {
@@ -109,7 +107,7 @@
 	margin-right: 100px;
 }
 
-#feed-accordion .entry-heading .entry-name.shrink {
+#feed-accordion .entry-heading .entry-name .shrink {
 	margin-left: 150px;
 }
 
@@ -123,11 +121,11 @@
 	text-decoration: none;
 }
 
-#feed-accordion .entry-heading.open {
+#feed-accordion .entry-heading .open {
 	background-color: #EBEBEB;
 }
 
-#feed-accordion .entry-heading.closed:hover {
+#feed-accordion .entry-heading .closed :hover {
 	background-color: #EBEBEB;
 }
 

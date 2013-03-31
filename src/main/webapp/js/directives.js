@@ -123,10 +123,11 @@ module.directive('category', function($compile) {
 		templateUrl : 'directives/category.html',
 		link : function(scope, element) {
 			var ul = element.find('ul');
-            ul.prepend('<category ng-repeat="child in node.children" node="child" feed-click="feedClick({id:id})" \
-            		category-click="categoryClick({id:id})" selected-type="selectedType" selected-id="selectedId" \
-            		format-category-name="formatCategoryName({category:category})" format-feed-name="formatFeedName({feed:feed})">\
-            		</category>');
+			var html = '<category ng-repeat="child in node.children" node="child" feed-click="feedClick({id:id})" ';
+			html = html + 'category-click="categoryClick({id:id})" selected-type="selectedType" selected-id="selectedId" ';
+			html = html + 'format-category-name="formatCategoryName({category:category})" format-feed-name="formatFeedName({feed:feed})"> ';
+			html = html + '</category>';
+			ul.prepend(html);
 			$compile(ul.contents())(scope);
 		},
 		controller : function($scope, $dialog, SubscriptionService) {
@@ -178,7 +179,7 @@ module.directive('toolbar', function($stateParams, $route, $location,
 
 			$scope.loading = true;
 			$scope.$watch(totalActiveAjaxRequests, function() {
-				$scope.loading = !(totalActiveAjaxRequests() === 0);
+				$scope.loading = (totalActiveAjaxRequests() !== 0);
 			});
 
 			$scope.settingsService = SettingsService;
@@ -189,7 +190,7 @@ module.directive('toolbar', function($stateParams, $route, $location,
 				EntryService.mark({
 					type : $stateParams._type,
 					id : $stateParams._id,
-					read : true,
+					read : true
 				}, function() {
 					SubscriptionService.init(function() {
 						$scope.$emit('emitReload');
@@ -211,7 +212,7 @@ module.directive('toolbar', function($stateParams, $route, $location,
 module.directive('spinner', function() {
 	return {
 		scope : {
-			shown : '=',
+			shown : '='
 		},
 		restrict : 'A',
 		link : function($scope, element) {
@@ -242,5 +243,5 @@ module.directive('spinner', function() {
 				}
 			});
 		}
-	}
+	};
 });

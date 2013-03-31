@@ -22,36 +22,37 @@ module.controller('CategoryTreeCtrl', function($scope, $stateParams, $location,
 
 	var unreadCount = function(category) {
 		var count = 0;
+		var i;
 		if (category.children) {
-			for ( var i = 0; i < category.children.length; i++) {
+			for (i = 0; i < category.children.length; i++) {
 				count = count + unreadCount(category.children[i]);
 			}
 		}
 		if (category.feeds) {
-			for ( var i = 0; i < category.feeds.length; i++) {
+			for (i = 0; i < category.feeds.length; i++) {
 				var feed = category.feeds[i];
 				count = count + feed.unread;
 			}
 		}
 		return count;
-	}
+	};
 
 	$scope.formatCategoryName = function(category) {
 		var count = unreadCount(category);
 		var label = category.name;
 		if (count > 0) {
-			label = label + " (" + count + ")";
+			label = label + ' (' + count + ')';
 		}
 		return label;
-	}
+	};
 
 	$scope.formatFeedName = function(feed) {
 		var label = feed.name;
 		if (feed.unread > 0) {
-			label = label + " (" + feed.unread + ")";
+			label = label + ' (' + feed.unread + ')';
 		}
 		return label;
-	}
+	};
 
 	$scope.feedClicked = function(id) {
 		if ($scope.selectedType == 'feed' && id == $scope.selectedId) {
@@ -76,13 +77,14 @@ module.controller('CategoryTreeCtrl', function($scope, $stateParams, $location,
 	};
 
 	var mark = function(node, entry) {
+		var i;
 		if (node.children) {
-			for ( var i = 0; i < node.children.length; i++) {
+			for (i = 0; i < node.children.length; i++) {
 				mark(node.children[i], entry);
 			}
 		}
 		if (node.feeds) {
-			for ( var i = 0; i < node.feeds.length; i++) {
+			for (i = 0; i < node.feeds.length; i++) {
 				var feed = node.feeds[i];
 				if (feed.id == entry.feedId) {
 					var c = entry.read ? -1 : 1;
@@ -93,7 +95,7 @@ module.controller('CategoryTreeCtrl', function($scope, $stateParams, $location,
 	};
 
 	$scope.$on('mark', function(event, args) {
-		mark($scope.SubscriptionService.subscriptions, args.entry)
+		mark($scope.SubscriptionService.subscriptions, args.entry);
 	});
 });
 
@@ -126,10 +128,10 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 		$scope.busy = true;
 
 		var limit = $scope.limit;
-		if ($scope.entries.length == 0) {
+		if ($scope.entries.length === 0) {
 			$window = angular.element($window);
 			limit = $window.height() / 33;
-			limit = parseInt(limit) + 5;
+			limit = parseInt(limit, 10) + 5;
 		}
 		EntryService.get({
 			type : $scope.selectedType,
@@ -141,12 +143,11 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			for ( var i = 0; i < data.entries.length; i++) {
 				$scope.entries.push(data.entries[i]);
 			}
-			;
 			$scope.name = data.name;
 			$scope.busy = false;
-			$scope.hasMore = data.entries.length == limit
+			$scope.hasMore = data.entries.length == limit;
 		});
-	}
+	};
 
 	$scope.mark = function(entry, read) {
 		if (entry.read != read) {
@@ -175,7 +176,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			event.preventDefault();
 			event.stopPropagation();
 		}
-	}
+	};
 
 	var openNextEntry = function(event) {
 		var entry = null;
@@ -222,23 +223,23 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 	Mousetrap.bind('space', function(e) {
 		$scope.$apply(function() {
 			openNextEntry(e);
-		})
+		});
 	});
 	Mousetrap.bind('j', function(e) {
 		$scope.$apply(function() {
 			openNextEntry(e);
-		})
+		});
 	});
 
 	Mousetrap.bind('shift+space', function(e) {
 		$scope.$apply(function() {
 			openPreviousEntry(e);
-		})
+		});
 	});
 	Mousetrap.bind('k', function(e) {
 		$scope.$apply(function() {
 			openPreviousEntry(e);
-		})
+		});
 	});
 
 	$scope.$on('reload', function(event, args) {
@@ -291,15 +292,15 @@ module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
 
 	$scope.cancel = function(){
 		$state.transitionTo('admin.userlist');
-	}
+	};
 	$scope.save = function() {
 		$scope.alerts.splice(0, $scope.alerts.length);
 		AdminUsersService.save($scope.user, function() {
 			$state.transitionTo('admin.userlist');
 		}, alertFunction);
 	};
-	$scope.delete = function() {
-		AdminUsersService.delete({id: $scope.user.id}, function() {
+	$scope.remove = function() {
+		AdminUsersService.remove({id: $scope.user.id}, function() {
 			$state.transitionTo('admin.userlist');
 		},alertFunction);
 	};

@@ -50,6 +50,33 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>ro.isdc.wro4j</groupId>
+				<artifactId>wro4j-maven-plugin</artifactId>
+				<version>1.6.3</version>
+				<executions>
+					<execution>
+						<id>js</id>
+						<phase>test</phase>
+						<goals>
+							<goal>jshint</goal>
+						</goals>
+						<configuration>
+							<options>indent,devel,noarg,quotmark</options>
+						</configuration>
+					</execution>
+					<execution>
+						<id>css</id>
+						<phase>test</phase>
+						<goals>
+							<goal>csslint</goal>
+						</goals>
+						<configuration>
+							<options>box-model,display-property-grouping,duplicate-properties,adjoining-classes,compatible-vendor-prefixes,vendor-prefix</options>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.openejb.maven</groupId>
 				<artifactId>tomee-maven-plugin</artifactId>
 				<version>1.6.0-SNAPSHOT</version>

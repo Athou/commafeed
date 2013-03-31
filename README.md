@@ -1,4 +1,4 @@
-CommaFeed 
+CommaFeed [![Build Status](https://buildhive.cloudbees.com/job/Athou/job/commafeed/badge/icon)](https://buildhive.cloudbees.com/job/Athou/job/commafeed/)
 =========
 Google Reader inspired self-hosted RSS reader, based on Wicket and AngularJS.
 

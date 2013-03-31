@@ -61,7 +61,7 @@ module.directive('subscribe', function(SubscriptionService) {
 
 			$scope.urlChanged = function() {
 				if ($scope.sub.url && !$scope.sub.title) {
-					$scope.sub.title = 'Loading';
+					$scope.sub.title = 'Loading...';
 					SubscriptionService.fetch({
 						url : $scope.sub.url
 					}, function(data) {

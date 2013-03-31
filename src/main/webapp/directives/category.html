@@ -7,6 +7,9 @@
 			<div class="dropdown pull-right" ng-show="hovered==feed">
 				<a dropdown-toggle class="pull-right feed-menu-icon"><i class="icon icon-chevron-down" ng-class="{error: feed.message}"></i> </a>
 				<ul class="dropdown-menu">
+					<li>
+				    	<a ng-click="edit(feed)">Edit</a>
+				    </li>
 				    <li>
 				    	<a ng-click="unsubscribe(feed)">Unsubscribe</a>
 				    </li>

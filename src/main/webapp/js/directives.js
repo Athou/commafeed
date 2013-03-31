@@ -65,7 +65,6 @@ module.directive('subscribe', function(SubscriptionService) {
 					SubscriptionService.fetch({
 						url : $scope.sub.url
 					}, function(data) {
-						console.log(data)
 						$scope.sub.title = data.title;
 					});
 				}

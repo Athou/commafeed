@@ -11,6 +11,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,13 +43,33 @@ public class FeedFetcher {
 			HttpResponse response = httpclient.execute(httpget);
 			HttpEntity entity = response.getEntity();
 			String content = EntityUtils.toString(entity, "UTF-8");
-			feed = parser.parse(feedUrl, content);
+
+			String extractedUrl = extractFeedUrl(content);
+			if (extractedUrl != null) {
+				feed = fetch(extractedUrl);
+			} else {
+				feed = parser.parse(feedUrl, content);
+			}
 		} catch (Exception e) {
 			throw new FeedException(e.getMessage(), e);
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}
 		return feed;
+	}
+
+	private String extractFeedUrl(String html) {
+		Document doc = Jsoup.parse(html);
+		Elements rss = doc.select("link[type=application/rss+xml]");
+		Elements atom = doc.select("link[type=application/atom+xml]");
+
+		if (rss.size() > 0) {
+			return rss.get(0).attr("abs:href").toString();
+		} else if (atom.size() > 0) {
+			return atom.get(0).attr("abs:href").toString();
+		} else {
+			return null;
+		}
 	}
 
 }

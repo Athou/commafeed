@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 @SuppressWarnings("serial")
 public class Entries implements Serializable {
 	private String name;
+	private String message;
 	private List<Entry> entries = Lists.newArrayList();
 
 	public String getName() {
@@ -24,6 +25,14 @@ public class Entries implements Serializable {
 
 	public void setEntries(List<Entry> entries) {
 		this.entries = entries;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }

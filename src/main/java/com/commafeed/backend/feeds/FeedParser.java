@@ -27,11 +27,11 @@ public class FeedParser {
 	@SuppressWarnings("unchecked")
 	public Feed parse(String feedUrl, String xml) throws FeedException {
 		Feed feed = new Feed();
-		feed.setUrl(feedUrl);
 		feed.setLastUpdated(Calendar.getInstance().getTime());
 
 		try {
 			SyndFeed rss = new SyndFeedInput().build(new StringReader(xml));
+			feed.setUrl(rss.getLink() != null ? rss.getLink() : feedUrl);
 			feed.setTitle(rss.getTitle());
 			List<SyndEntry> items = rss.getEntries();
 			for (SyndEntry item : items) {

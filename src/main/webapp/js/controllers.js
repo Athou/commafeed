@@ -106,6 +106,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 	$scope.selectedId = $stateParams._id;
 
 	$scope.name = null;
+	$scope.message = null;
 	$scope.entries = [];
 
 	$scope.settingsService = SettingsService;
@@ -144,6 +145,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 				$scope.entries.push(data.entries[i]);
 			}
 			$scope.name = data.name;
+			$scope.message = data.message;
 			$scope.busy = false;
 			$scope.hasMore = data.entries.length == limit;
 		});

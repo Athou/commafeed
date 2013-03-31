@@ -22,6 +22,7 @@
 				<div ng-bind-html-unsafe="entry.content"></div>
 			</div>
 		</div>
-		<div class="no-entries" ng-show="entries.length.name && entries.length == 0 && !busy">"{{name}}" has no unread items.</div>
+		<div class="no-entries" ng-show="!message && name && entries.length == 0 && !busy">"{{name}}" has no unread items.</div>
+		<div ng-show="message">Error while loading this feed : {{message}}</div>
 	</div>
 </div>

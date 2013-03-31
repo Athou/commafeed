@@ -56,6 +56,7 @@ public class EntriesREST extends AbstractREST {
 					getUser(), Long.valueOf(id));
 			if (subscription != null) {
 				entries.setName(subscription.getTitle());
+				entries.setMessage(subscription.getFeed().getMessage());
 				entries.getEntries().addAll(
 						buildEntries(subscription, offset, limit, unreadOnly));
 			}

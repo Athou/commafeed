@@ -3,9 +3,9 @@
 		   ng-class="{selected: (node.id == selectedId && selectedType == 'category')}">{{formatCategoryName({category:node})}}
 	</label>
 	<ul>
-		<li ng-repeat="feed in node.feeds" ng-mouseenter="hovered=feed" ng-mouseleave="hovered=null">
+		<li ng-repeat="feed in node.feeds" ng-mouseenter="hovered=feed" ng-mouseleave="hovered=null" ng-class="{error: feed.message}">
 			<div class="dropdown pull-right" ng-show="hovered==feed">
-				<a dropdown-toggle class="pull-right feed-menu-icon"><i class="icon icon-chevron-down" ng-class="{error: feed.message}"></i> </a>
+				<a dropdown-toggle class="pull-right feed-menu-icon"><i class="icon icon-chevron-down"></i> </a>
 				<ul class="dropdown-menu">
 					<li>
 				    	<a ng-click="edit(feed)">Edit</a>

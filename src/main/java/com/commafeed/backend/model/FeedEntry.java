@@ -22,7 +22,6 @@ import org.hibernate.annotations.Index;
 public class FeedEntry extends AbstractModel {
 
 	@Column(length = 2048, nullable = false, unique = true)
-	@Index(name = "guid_index")
 	private String guid;
 
 	@ManyToOne

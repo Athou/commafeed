@@ -112,6 +112,7 @@ public class SubscriptionsREST extends AbstractREST {
 	@GET
 	@Path("deleteCategory")
 	public Response deleteCategory(@QueryParam("id") Long id) {
+		feedCategoryService.deleteById(id);
 		return Response.ok().build();
 	}
 

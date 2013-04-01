@@ -25,6 +25,7 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.SubscriptionRequest;
+import com.commafeed.frontend.rest.resources.EntriesREST.Type;
 import com.google.common.base.Preconditions;
 import com.sun.syndication.io.FeedException;
 
@@ -79,11 +80,28 @@ public class SubscriptionsREST extends AbstractREST {
 	}
 
 	@GET
+	@Path("rename")
+	public Response rename(@QueryParam("type") Type type,
+			@QueryParam("id") Long id, @QueryParam("name") String name) {
+		if (type == Type.feed) {
+			FeedSubscription subscription = feedSubscriptionService.findById(
+					getUser(), id);
+			subscription.setTitle(name);
+			feedSubscriptionService.update(subscription);
+		} else if (type == Type.category) {
+			FeedCategory category = feedCategoryService.findById(getUser(), id);
+			category.setName(name);
+			feedCategoryService.update(category);
+		}
+		return Response.ok(Status.OK).build();
+	}
+
+	@GET
 	@Path("collapse")
 	public Response collapse(@QueryParam("id") String id,
 			@QueryParam("collapse") boolean collapse) {
 		Preconditions.checkNotNull(id);
-		if (!"all".equals(id)) {
+		if (EntriesREST.ALL.equals(id)) {
 			FeedCategory category = feedCategoryService.findById(getUser(),
 					Long.valueOf(id));
 			category.setCollapsed(collapse);

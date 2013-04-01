@@ -49,6 +49,12 @@ module.factory('SubscriptionService', function($resource, $http) {
 				_method : 'unsubscribe'
 			}
 		},
+		rename : {
+			method : 'GET',
+			params : {
+				_method : 'rename'
+			}
+		},
 		collapse : {
 			method : 'GET',
 			params : {
@@ -81,6 +87,7 @@ module.factory('SubscriptionService', function($resource, $http) {
 		});
 	};
 	s.fetch = res.fetch;
+	s.rename = res.rename;
 	s.subscribe = function(sub, callback) {
 		res.subscribe(sub, function(data) {
 			s.init();

@@ -1,14 +1,14 @@
 var module = angular.module('commafeed.directives', []);
 
 app.directive('ngBlur', function() {
-    return {
-        restrict: 'A',
-        link: function(scope, elm, attrs) {
-            elm.bind('blur', function() {
-                scope.$apply(attrs.ngBlur);
-            });
-        }
-    };        
+	return {
+		restrict : 'A',
+		link : function(scope, elm, attrs) {
+			elm.bind('blur', function() {
+				scope.$apply(attrs.ngBlur);
+			});
+		}
+	};
 });
 
 module.directive('scrollTo', function() {
@@ -57,7 +57,6 @@ module.directive('subscribe', function(SubscriptionService) {
 			$scope.close = function() {
 				$scope.isOpen = false;
 			};
-			
 
 			$scope.urlChanged = function() {
 				if ($scope.sub.url && !$scope.sub.title) {
@@ -87,18 +86,18 @@ module.directive('subscribe', function(SubscriptionService) {
 				SubscriptionService.init();
 				$scope.closeImport();
 			};
-			
+
 			$scope.cat = {};
-			
-			$scope.openCategory= function(){
+
+			$scope.openCategory = function() {
 				$scope.isOpenCategory = true;
 				$scope.cat = {};
 			};
-			
-			$scope.closeCategory= function(){
+
+			$scope.closeCategory = function() {
 				$scope.isOpenCategory = false;
 			};
-			
+
 			$scope.saveCategory = function() {
 				SubscriptionService.addCategory($scope.cat);
 				$scope.closeCategory();
@@ -152,6 +151,18 @@ module.directive('category', function($compile) {
 						});
 			};
 
+			$scope.rename = function(feed) {
+				var name = window.prompt("Rename feed : ", feed.name);
+				if (name && name != feed.name) {
+					feed.name = name;
+					SubscriptionService.rename({
+						type : 'feed',
+						id : feed.id,
+						name : name
+					});
+				}
+			}
+
 			$scope.toggleCategory = function(category) {
 				SubscriptionService.collapse({
 					id : category.id,
@@ -162,7 +173,7 @@ module.directive('category', function($compile) {
 	};
 });
 
-module.directive('toolbar', function($stateParams, $route, $location, 
+module.directive('toolbar', function($stateParams, $route, $location,
 		SettingsService, EntryService, SubscriptionService, SessionService) {
 	return {
 		scope : {},
@@ -174,7 +185,7 @@ module.directive('toolbar', function($stateParams, $route, $location,
 			function totalActiveAjaxRequests() {
 				return ($http.pendingRequests.length + $.active);
 			}
-			
+
 			$scope.session = SessionService.get();
 
 			$scope.loading = true;

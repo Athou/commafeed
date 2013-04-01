@@ -4,6 +4,10 @@
 	top: -4px;
 }
 
+.main .dropdown-menu a {
+	cursor: pointer;
+}
+
 .toolbar {
 	padding-top: 10px;
 	padding-bottom: 10px;

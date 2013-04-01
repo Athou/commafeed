@@ -45,10 +45,11 @@ public class FeedFetcher {
 			String content = EntityUtils.toString(entity, "UTF-8");
 			String extractedUrl = extractFeedUrl(content);
 			if (extractedUrl != null) {
-				httpget = new HttpGet(feedUrl);
+				httpget = new HttpGet(extractedUrl);
 				response = httpclient.execute(httpget);
 				entity = response.getEntity();
 				content = EntityUtils.toString(entity, "UTF-8");
+				feedUrl = extractedUrl;
 			}
 			feed = parser.parse(feedUrl, content);
 		} catch (Exception e) {

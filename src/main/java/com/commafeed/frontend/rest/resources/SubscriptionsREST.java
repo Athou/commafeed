@@ -53,18 +53,11 @@ public class SubscriptionsREST extends AbstractREST {
 		Preconditions.checkNotNull(req.getTitle());
 		Preconditions.checkNotNull(req.getUrl());
 
-		Feed fetchedFeed = null;
-		try {
-			fetchedFeed = feedFetcher.fetch(req.getUrl());
-		} catch (FeedException e) {
-			return Response.status(Status.NOT_FOUND).entity(e.getMessage())
-					.build();
-		}
-
+		Feed fetchedFeed = fetchFeed(req.getUrl());
 		Feed feed = feedService.findByUrl(fetchedFeed.getUrl());
 		if (feed == null) {
 			feed = new Feed();
-			feed.setUrl(req.getUrl());
+			feed.setUrl(fetchedFeed.getUrl());
 			feedService.save(feed);
 		}
 

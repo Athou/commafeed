@@ -31,7 +31,7 @@ public class FeedParser {
 
 		try {
 			SyndFeed rss = new SyndFeedInput().build(new StringReader(xml));
-			feed.setUrl(rss.getLink() != null ? rss.getLink() : feedUrl);
+			feed.setUrl(feedUrl);
 			feed.setTitle(rss.getTitle());
 			List<SyndEntry> items = rss.getEntries();
 			for (SyndEntry item : items) {

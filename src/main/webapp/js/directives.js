@@ -152,7 +152,7 @@ module.directive('category', function($compile) {
 			};
 
 			$scope.rename = function(feed) {
-				var name = window.prompt("Rename feed : ", feed.name);
+				var name = window.prompt('Rename feed : ', feed.name);
 				if (name && name != feed.name) {
 					feed.name = name;
 					SubscriptionService.rename({
@@ -161,7 +161,7 @@ module.directive('category', function($compile) {
 						name : name
 					});
 				}
-			}
+			};
 
 			$scope.toggleCategory = function(category) {
 				SubscriptionService.collapse({

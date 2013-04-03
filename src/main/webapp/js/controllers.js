@@ -110,6 +110,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;
+	$scope.keywords = $stateParams._keywords;
 
 	$scope.name = null;
 	$scope.message = null;
@@ -140,13 +141,8 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			limit = $window.height() / 33;
 			limit = parseInt(limit, 10) + 5;
 		}
-		EntryService.get({
-			type : $scope.selectedType,
-			id : $scope.selectedId,
-			readType : $scope.settingsService.settings.readingMode,
-			offset : $scope.entries.length,
-			limit : limit
-		}, function(data) {
+
+		var callback = function(data) {
 			for ( var i = 0; i < data.entries.length; i++) {
 				$scope.entries.push(data.entries[i]);
 			}
@@ -154,7 +150,22 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			$scope.message = data.message;
 			$scope.busy = false;
 			$scope.hasMore = data.entries.length == limit;
-		});
+		};
+		if (!$scope.keywords) {
+			EntryService.get({
+				type : $scope.selectedType,
+				id : $scope.selectedId,
+				readType : $scope.settingsService.settings.readingMode,
+				offset : $scope.entries.length,
+				limit : limit
+			}, callback);
+		} else {
+			EntryService.search({
+				keywords : $scope.keywords,
+				offset : $scope.entries.length,
+				limit : limit
+			}, callback);
+		}
 	};
 
 	$scope.mark = function(entry, read) {
@@ -282,8 +293,8 @@ module.controller('ManageUsersCtrl', function($scope, $state, $location,
 	};
 });
 
-module.controller('ManageUserCtrl', function($scope, $state, $stateParams, $dialog,
-		AdminUsersService) {
+module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
+		$dialog, AdminUsersService) {
 	$scope.user = $stateParams._id ? AdminUsersService.get({
 		id : $stateParams._id
 	}) : {

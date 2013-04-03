@@ -1,24 +1,28 @@
 <div>
-	
-	<div>
-		<div class="btn-group read-mode" data-toggle="buttons-radio">
-			<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'unread'">Unread</button>
-			<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'all'">All</button>
-		</div>
+	<div class="form-horizontal">
+		<span ui-if="showButtons()">
+			<div class="btn-group read-mode" data-toggle="buttons-radio">
+				<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'unread'">Unread</button>
+				<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'all'">All</button>
+			</div>
+			
+			<button type="button" class="btn" ng-click="refresh()"><i class="icon-refresh"></i> Refresh</button>
+			<button type="button" class="btn" ng-click="markAllAsRead()"><i class="icon-ok"></i> Mark all as read</button>
 		
-		<button type="button" class="btn" ng-click="refresh()"><i class="icon-refresh"></i> Refresh</button>
-		<button type="button" class="btn" ng-click="markAllAsRead()"><i class="icon-ok"></i> Mark all as read</button>
-	
-		<div class="btn-group">
-			<a class="btn dropdown-toggle" data-toggle="dropdown" href="settings"><i class="icon-cog"></i> {{session.name}} <span class="caret"></span></a>
-			<ul class="dropdown-menu pull-right">
-				<li><a href="settings"><i class="icon-wrench"></i> Settings</a></li>
-				<li ng-show="session.admin"><a ng-click="toAdmin()"><i class="icon-edit"></i> Admin</a></li>
-				<li class="divider"></li>
-				<li><a href="logout"><i class="icon-user"></i> Logout</a></li>
-			</ul>
-		</div>
+			<div class="btn-group">
+				<a class="btn dropdown-toggle" data-toggle="dropdown" href="settings"><i class="icon-cog"></i> {{session.name}} <span class="caret"></span></a>
+				<ul class="dropdown-menu pull-right">
+					<li><a href="settings"><i class="icon-wrench"></i> Settings</a></li>
+					<li ng-show="session.admin"><a ng-click="toAdmin()"><i class="icon-edit"></i> Admin</a></li>
+					<li class="divider"></li>
+					<li><a href="logout"><i class="icon-user"></i> Logout</a></li>
+				</ul>
+			</div>
+		</span>
+		<form ng-submit="search()" class="input-append">
+			<input type="text" ng-model="keywords"></input>
+			<button class="btn" type="submit"><i class="icon-search"></i></button>
+		</form>
 		<div spinner shown="loading"></div>
 	</div>
-	
 </div>

@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.apache.commons.codec.binary.StringUtils;
 import org.hibernate.annotations.Index;
 
 @Entity
@@ -32,7 +31,8 @@ public class FeedEntry extends AbstractModel {
 	private String title;
 
 	@Lob
-	private byte[] content;
+	@Column(length = Integer.MAX_VALUE)
+	private String content;
 
 	@Column(length = 2048)
 	private String url;
@@ -61,11 +61,11 @@ public class FeedEntry extends AbstractModel {
 	}
 
 	public String getContent() {
-		return StringUtils.newStringUtf8(content);
+		return content;
 	}
 
 	public void setContent(String content) {
-		this.content = StringUtils.getBytesUtf8(content);
+		this.content = content;
 	}
 
 	public String getUrl() {

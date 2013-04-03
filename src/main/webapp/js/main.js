@@ -13,6 +13,11 @@ app.config(function($routeProvider, $stateProvider, $urlRouterProvider) {
 		templateUrl : 'templates/feeds.view.html',
 		controller : 'FeedListCtrl'
 	});
+	$stateProvider.state('feeds.search', {
+		url : '/search/:_keywords',
+		templateUrl : 'templates/feeds.view.html',
+		controller : 'FeedListCtrl'
+	});
 
 	$stateProvider.state('admin', {
 		abstract : true,

@@ -10,6 +10,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
@@ -221,6 +223,35 @@ public class EntriesREST extends AbstractREST {
 		}
 		status.setRead(read);
 		feedEntryStatusService.saveOrUpdate(status);
+	}
+
+	@Path("search")
+	@GET
+	public Entries searchEntries(@QueryParam("keywords") String keywords) {
+		Preconditions.checkArgument(StringUtils.length(keywords) >= 3);
+
+		Entries entries = new Entries();
+
+		List<FeedSubscription> subs = feedSubscriptionService
+				.findAll(getUser());
+		Map<Long, FeedSubscription> subMapping = Maps.uniqueIndex(subs,
+				new Function<FeedSubscription, Long>() {
+					public Long apply(FeedSubscription sub) {
+						return sub.getFeed().getId();
+					}
+				});
+
+		List<Entry> list = Lists.newArrayList();
+		List<FeedEntryWithStatus> entriesWithStatus = feedEntryService
+				.getEntriesByKeywords(getUser(), keywords);
+		for (FeedEntryWithStatus feedEntry : entriesWithStatus) {
+			Long id = feedEntry.getEntry().getFeed().getId();
+			list.add(populateEntry(buildEntry(feedEntry), subMapping.get(id)));
+		}
+
+		entries.setName("Search for : " + keywords);
+		entries.getEntries().addAll(list);
+		return entries;
 	}
 
 }

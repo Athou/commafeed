@@ -65,6 +65,29 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 		return query.getResultList();
 	}
 
+	public List<FeedEntryWithStatus> getEntriesByKeywords(User user,
+			String keywords) {
+		return getEntriesByKeywords(user, keywords, -1, -1);
+	}
+
+	public List<FeedEntryWithStatus> getEntriesByKeywords(User user,
+			String keywords, int offset, int limit) {
+		Query query = em.createNamedQuery("Entry.allByKeywords");
+		query.setParameter("userId", user.getId());
+		query.setParameter("user", user);
+
+		String joinedKeywords = StringUtils.join(
+				keywords.toLowerCase().split(" "), "%");
+		query.setParameter("keywords", "%" + joinedKeywords + "%");
+		if (offset > -1) {
+			query.setFirstResult(offset);
+		}
+		if (limit > -1) {
+			query.setMaxResults(limit);
+		}
+		return buildList(query.getResultList());
+	}
+
 	public List<FeedEntryWithStatus> getEntries(User user, boolean unreadOnly) {
 		return getEntries(user, unreadOnly, -1, -1);
 	}

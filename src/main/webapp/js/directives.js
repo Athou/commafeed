@@ -173,7 +173,7 @@ module.directive('category', function($compile) {
 	};
 });
 
-module.directive('toolbar', function($stateParams, $route, $location,
+module.directive('toolbar', function($state, $stateParams, $route, $location,
 		SettingsService, EntryService, SubscriptionService, SessionService) {
 	return {
 		scope : {},
@@ -208,6 +208,21 @@ module.directive('toolbar', function($stateParams, $route, $location,
 					});
 				});
 			};
+
+			$scope.keywords = $stateParams._keywords;
+			$scope.search = function() {
+				if ($scope.keywords == $stateParams._keywords) {
+					$scope.refresh();
+				} else {
+					$state.transitionTo('feeds.search', {
+						_keywords : $scope.keywords
+					});
+				}
+			};
+			$scope.showButtons = function() {
+				return !$stateParams._keywords;
+			}
+
 			$scope.toAdmin = function() {
 				$location.path('admin');
 			};

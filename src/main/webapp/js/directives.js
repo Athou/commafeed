@@ -221,7 +221,7 @@ module.directive('toolbar', function($state, $stateParams, $route, $location,
 			};
 			$scope.showButtons = function() {
 				return !$stateParams._keywords;
-			}
+			};
 
 			$scope.toAdmin = function() {
 				$location.path('admin');

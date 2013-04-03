@@ -31,6 +31,6 @@
 	</named-query>
 	
 	<named-query name="Entry.allByKeywords">
-		<query>select e, s from FeedEntry e LEFT JOIN e.statuses s WITH (s.user.id=:userId) where exists (select s2 from FeedSubscription s2 where s2.user=:user and s2.feed = e.feed) and lower(e.content) like :keywords order by e.updated desc</query>
+		<query>select e, s from FeedEntry e LEFT JOIN e.statuses s WITH (s.user.id=:userId) where exists (select s2 from FeedSubscription s2 where s2.user=:user and s2.feed = e.feed) and (lower(e.content) like :keywords or lower(e.title) like :keywords) order by e.updated desc</query>
 	</named-query>
 </entity-mappings>

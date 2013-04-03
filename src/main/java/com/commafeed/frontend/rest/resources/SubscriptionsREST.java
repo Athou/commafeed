@@ -1,5 +1,7 @@
 package com.commafeed.frontend.rest.resources;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -101,7 +103,7 @@ public class SubscriptionsREST extends AbstractREST {
 	public Response collapse(@QueryParam("id") String id,
 			@QueryParam("collapse") boolean collapse) {
 		Preconditions.checkNotNull(id);
-		if (EntriesREST.ALL.equals(id)) {
+		if (!EntriesREST.ALL.equals(id)) {
 			FeedCategory category = feedCategoryService.findById(getUser(),
 					Long.valueOf(id));
 			category.setCollapsed(collapse);
@@ -189,6 +191,12 @@ public class SubscriptionsREST extends AbstractREST {
 				category.getChildren().add(child);
 			}
 		}
+		Collections.sort(category.getChildren(), new Comparator<Category>() {
+			@Override
+			public int compare(Category o1, Category o2) {
+				return ObjectUtils.compare(o1.getName(), o2.getName());
+			}
+		});
 
 		for (FeedSubscription subscription : subscriptions) {
 			if ((id == null && subscription.getCategory() == null)
@@ -204,6 +212,12 @@ public class SubscriptionsREST extends AbstractREST {
 				category.getFeeds().add(sub);
 			}
 		}
+		Collections.sort(category.getFeeds(), new Comparator<Subscription>() {
+			@Override
+			public int compare(Subscription o1, Subscription o2) {
+				return ObjectUtils.compare(o1.getName(), o2.getName());
+			}
+		});
 		return category;
 	}
 

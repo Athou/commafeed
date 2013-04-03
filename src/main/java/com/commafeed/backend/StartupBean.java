@@ -1,6 +1,7 @@
 package com.commafeed.backend;
 
 import java.util.Arrays;
+import java.util.Calendar;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -43,9 +44,11 @@ public class StartupBean {
 	@Inject
 	PasswordEncryptionService encryptionService;
 
+	private long startupTime;
+
 	@PostConstruct
 	private void init() {
-
+		startupTime = Calendar.getInstance().getTimeInMillis();
 		if (userService.getCount() == 0) {
 			log.info("Populating database with default values");
 
@@ -102,6 +105,10 @@ public class StartupBean {
 
 		}
 
+	}
+
+	public long getStartupTime() {
+		return startupTime;
 	}
 
 }

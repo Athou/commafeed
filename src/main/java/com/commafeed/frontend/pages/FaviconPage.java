@@ -3,20 +3,27 @@ package com.commafeed.frontend.pages;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.impl.cookie.DateUtils;
 import org.apache.wicket.request.IRequestCycle;
 import org.apache.wicket.request.IRequestHandler;
+import org.apache.wicket.request.http.WebResponse;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.util.time.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter;
+import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.frontend.SecurityCheck;
+import com.google.common.net.HttpHeaders;
 
 @SuppressWarnings("serial")
 @SecurityCheck(Role.USER)
@@ -28,6 +35,9 @@ public class FaviconPage extends BasePage {
 	@Inject
 	HttpGetter getter;
 
+	@Inject
+	StartupBean starupBean;
+
 	public FaviconPage(PageParameters params) {
 		final String url = params.get("url").toString();
 		getRequestCycle().scheduleRequestHandlerAfterCurrent(
@@ -35,7 +45,17 @@ public class FaviconPage extends BasePage {
 
 					@Override
 					public void respond(IRequestCycle requestCycle) {
-						requestCycle.getResponse().write(getImage(url));
+						WebResponse response = (WebResponse) requestCycle
+								.getResponse();
+						response.setLastModifiedTime(Time.millis(starupBean
+								.getStartupTime()));
+
+						long expiresAfter = TimeUnit.DAYS.toMillis(7);
+						response.setHeader(
+								HttpHeaders.EXPIRES,
+								DateUtils.formatDate(new Date(starupBean
+										.getStartupTime() + expiresAfter)));
+						response.write(getImage(url));
 					}
 
 					@Override

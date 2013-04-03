@@ -194,6 +194,12 @@ module.directive('toolbar', function($state, $stateParams, $route, $location,
 			});
 
 			$scope.settingsService = SettingsService;
+			$scope.$watch('settingsService.settings.readingMode', function(newValue,
+					oldValue) {
+				if (newValue && oldValue && newValue != oldValue) {
+					SettingsService.save();
+				}
+			});
 			$scope.refresh = function() {
 				$scope.$emit('emitReload');
 			};

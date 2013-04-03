@@ -10,13 +10,19 @@ module.run(function($rootScope) {
 	});
 });
 
-module.controller('CategoryTreeCtrl', function($scope, $stateParams, $location,
+module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams, $location,
 		$state, $route, SubscriptionService) {
 
 	$scope.$on('$stateChangeSuccess', function() {
 		$scope.selectedType = $stateParams._type;
 		$scope.selectedId = $stateParams._id;
 	});
+
+	$timeout(function refreshTree() {
+		SubscriptionService.init(function() {
+			$timeout(refreshTree, 30000);
+		});
+	}, 30000);
 
 	$scope.SubscriptionService = SubscriptionService;
 
@@ -253,34 +259,36 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 	});
 });
 
-module.controller('ManageUsersCtrl',
-		function($scope, $state, $location, AdminUsersService) {
-			$scope.users = AdminUsersService.getAll();
-			$scope.selection = [];
-			$scope.gridOptions = {
-				data : 'users',
-				selectedItems : $scope.selection,
-				multiSelect : false,
-				afterSelectionChange : function(item) {
-					$state.transitionTo('admin.useredit', {
-						_id : item.entity.id
-					});
-				}
-			};
+module.controller('ManageUsersCtrl', function($scope, $state, $location,
+		AdminUsersService) {
+	$scope.users = AdminUsersService.getAll();
+	$scope.selection = [];
+	$scope.gridOptions = {
+		data : 'users',
+		selectedItems : $scope.selection,
+		multiSelect : false,
+		afterSelectionChange : function(item) {
+			$state.transitionTo('admin.useredit', {
+				_id : item.entity.id
+			});
+		}
+	};
 
-			$scope.addUser = function() {
-				$state.transitionTo('admin.useradd');
-			};
-			$scope.back = function() {
-				$location.path('/');
-			};
-		});
+	$scope.addUser = function() {
+		$state.transitionTo('admin.useradd');
+	};
+	$scope.back = function() {
+		$location.path('/');
+	};
+});
 
 module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
 		AdminUsersService) {
 	$scope.user = $stateParams._id ? AdminUsersService.get({
 		id : $stateParams._id
-	}) : {enabled: true};
+	}) : {
+		enabled : true
+	};
 	$scope.alerts = [];
 	$scope.closeAlert = function(index) {
 		$scope.alerts.splice(index, 1);
@@ -288,11 +296,11 @@ module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
 	var alertFunction = function(data) {
 		$scope.alerts.push({
 			msg : data.data,
-			type: 'error'
+			type : 'error'
 		});
 	};
 
-	$scope.cancel = function(){
+	$scope.cancel = function() {
 		$state.transitionTo('admin.userlist');
 	};
 	$scope.save = function() {
@@ -302,8 +310,10 @@ module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
 		}, alertFunction);
 	};
 	$scope.remove = function() {
-		AdminUsersService.remove({id: $scope.user.id}, function() {
+		AdminUsersService.remove({
+			id : $scope.user.id
+		}, function() {
 			$state.transitionTo('admin.userlist');
-		},alertFunction);
+		}, alertFunction);
 	};
 });

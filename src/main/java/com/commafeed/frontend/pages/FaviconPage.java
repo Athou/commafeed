@@ -49,7 +49,7 @@ public class FaviconPage extends BasePage {
 								.getResponse();
 						response.setLastModifiedTime(Time.millis(starupBean
 								.getStartupTime()));
-
+						response.setContentType("image/x-icon");
 						long expiresAfter = TimeUnit.DAYS.toMillis(7);
 						response.setHeader(
 								HttpHeaders.EXPIRES,

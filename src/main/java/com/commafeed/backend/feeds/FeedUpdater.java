@@ -38,6 +38,10 @@ public class FeedUpdater {
 
 		try {
 			Feed fetchedFeed = fetcher.fetch(feed.getUrl());
+			if (feed.getLink() == null) {
+				feed.setLink(fetchedFeed.getLink());
+				feedService.update(feed);
+			}
 			feedEntryService.updateEntries(feed.getUrl(),
 					fetchedFeed.getEntries());
 		} catch (Exception e) {

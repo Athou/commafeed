@@ -59,13 +59,12 @@ public class SubscriptionsREST extends AbstractREST {
 		Feed fetchedFeed = fetchFeed(req.getUrl());
 		Feed feed = feedService.findByUrl(fetchedFeed.getUrl());
 		if (feed == null) {
-			feed = new Feed();
-			feed.setUrl(fetchedFeed.getUrl());
+			feed = fetchedFeed;
 			feedService.save(feed);
 		}
 
 		FeedSubscription sub = new FeedSubscription();
-		sub.setCategory("all".equals(req.getCategoryId()) ? null
+		sub.setCategory(EntriesREST.ALL.equals(req.getCategoryId()) ? null
 				: feedCategoryService.findById(Long.valueOf(req.getCategoryId())));
 		sub.setFeed(feed);
 		sub.setTitle(req.getTitle());
@@ -206,6 +205,7 @@ public class SubscriptionsREST extends AbstractREST {
 				sub.setId(subscription.getId());
 				sub.setName(subscription.getTitle());
 				sub.setMessage(subscription.getFeed().getMessage());
+				sub.setFeedUrl(subscription.getFeed().getLink());
 				int size = feedEntryService.getEntries(subscription.getFeed(),
 						getUser(), true).size();
 				sub.setUnread(size);
@@ -220,5 +220,4 @@ public class SubscriptionsREST extends AbstractREST {
 		});
 		return category;
 	}
-
 }

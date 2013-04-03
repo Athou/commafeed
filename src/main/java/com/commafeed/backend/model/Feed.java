@@ -24,6 +24,9 @@ public class Feed extends AbstractModel {
 	@Transient
 	private String title;
 
+	@Column(length = 2048)
+	private String link;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdated;
 
@@ -90,6 +93,14 @@ public class Feed extends AbstractModel {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 
 }

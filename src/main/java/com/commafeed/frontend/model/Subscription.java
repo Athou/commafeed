@@ -8,6 +8,7 @@ public class Subscription implements Serializable {
 	private Long id;
 	private String name;
 	private String message;
+	private String feedUrl;
 	private int unread;
 
 	public Long getId() {
@@ -40,6 +41,14 @@ public class Subscription implements Serializable {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getFeedUrl() {
+		return feedUrl;
+	}
+
+	public void setFeedUrl(String feedUrl) {
+		this.feedUrl = feedUrl;
 	}
 
 }

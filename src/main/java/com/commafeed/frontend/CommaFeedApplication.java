@@ -38,6 +38,7 @@ import org.reflections.vfs.ZipDir;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.frontend.pages.FaviconPage;
 import com.commafeed.frontend.pages.HomePage;
 import com.commafeed.frontend.pages.LoginPage;
 import com.commafeed.frontend.pages.LogoutPage;
@@ -57,6 +58,7 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		mountPage("login", LoginPage.class);
 		mountPage("logout", LogoutPage.class);
 		mountPage("error", DisplayExceptionPage.class);
+		mountPage("favicon", FaviconPage.class);
 
 		setupInjection();
 

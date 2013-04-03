@@ -80,7 +80,8 @@ module.factory('SubscriptionService', function($resource, $http) {
 
 	var res = $resource('rest/subscriptions/:_method', {}, actions);
 	s.init = function(callback) {
-		s.subscriptions = res.get(function(data) {
+		res.get(function(data) {
+			s.subscriptions = data;
 			s.flatCategories = flatten(s.subscriptions);
 			if (callback)
 				callback(data);

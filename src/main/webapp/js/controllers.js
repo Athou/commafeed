@@ -10,8 +10,8 @@ module.run(function($rootScope) {
 	});
 });
 
-module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams, $location,
-		$state, $route, SubscriptionService) {
+module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
+		$location, $state, $route, SubscriptionService) {
 
 	$scope.$on('$stateChangeSuccess', function() {
 		$scope.selectedType = $stateParams._type;
@@ -282,7 +282,7 @@ module.controller('ManageUsersCtrl', function($scope, $state, $location,
 	};
 });
 
-module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
+module.controller('ManageUserCtrl', function($scope, $state, $stateParams, $dialog,
 		AdminUsersService) {
 	$scope.user = $stateParams._id ? AdminUsersService.get({
 		id : $stateParams._id
@@ -310,10 +310,25 @@ module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
 		}, alertFunction);
 	};
 	$scope.remove = function() {
-		AdminUsersService.remove({
-			id : $scope.user.id
-		}, function() {
-			$state.transitionTo('admin.userlist');
-		}, alertFunction);
+		var title = 'Delete user';
+		var msg = 'Delete user ' + $scope.user.name + ' ?';
+		var btns = [ {
+			result : 'cancel',
+			label : 'Cancel'
+		}, {
+			result : 'ok',
+			label : 'OK',
+			cssClass : 'btn-primary'
+		} ];
+
+		$dialog.messageBox(title, msg, btns).open().then(function(result) {
+			if (result == 'ok') {
+				AdminUsersService.remove({
+					id : $scope.user.id
+				}, function() {
+					$state.transitionTo('admin.userlist');
+				}, alertFunction);
+			}
+		});
 	};
 });

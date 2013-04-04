@@ -379,5 +379,32 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>jelastic</id>
+			<properties>
+				<jpa.datasource.name>java:openejb/Resource/MySQL</jpa.datasource.name>
+				<jpa.show_sql>false</jpa.show_sql>
+			</properties>
+			<build>
+				<finalName>commafeed</finalName>
+				<plugins>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.14</version>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.3</version>
+						<configuration>
+							<outputDirectory>deployments</outputDirectory>
+							<warName>ROOT</warName>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 </project>

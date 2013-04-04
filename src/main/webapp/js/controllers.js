@@ -346,6 +346,9 @@ module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
 
 module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
 	$scope.settingsService = SettingsService;
+	$scope.$watch('settingsService.settings', function(value) {
+		$scope.settings = angular.copy(value);
+	});
 	$scope.codeMirrorConfig = {
 		mode : 'css',
 		lineNumbers : true
@@ -356,8 +359,9 @@ module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
 		});
 	};
 	$scope.save = function() {
+		SettingsService.settings = $scope.settings;
 		SettingsService.save(function() {
-			$location.path('/');
+			window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
 		});
 	};
 });

@@ -39,6 +39,12 @@ app.config(function($routeProvider, $stateProvider, $urlRouterProvider) {
 		templateUrl : 'templates/admin.useredit.html',
 		controller : 'ManageUserCtrl'
 	});
+	
+	$stateProvider.state('settings', {
+		url : '/settings',
+		templateUrl : 'templates/settings.html',
+		controller : 'SettingsCtrl'
+	});
 
 	$urlRouterProvider.when('/', '/feeds/view/category/all');
 	$urlRouterProvider.when('/admin', '/admin/user/list');

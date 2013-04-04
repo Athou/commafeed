@@ -232,6 +232,9 @@ module.directive('toolbar', function($state, $stateParams, $route, $location,
 			$scope.toAdmin = function() {
 				$location.path('admin');
 			};
+			$scope.toSettings = function() {
+				$location.path('settings');
+			};
 		},
 		link : function($scope, element) {
 			element.find('.read-mode button').bind('click', function() {

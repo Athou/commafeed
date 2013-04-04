@@ -343,3 +343,21 @@ module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
 		});
 	};
 });
+
+module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
+	$scope.settingsService = SettingsService;
+	$scope.codeMirrorConfig = {
+		mode : 'css',
+		lineNumbers : true
+	};
+	$scope.cancel = function() {
+		SettingsService.init(function() {
+			$location.path('/');
+		});
+	};
+	$scope.save = function() {
+		SettingsService.save(function() {
+			$location.path('/');
+		});
+	};
+});

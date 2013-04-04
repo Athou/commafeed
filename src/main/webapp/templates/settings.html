@@ -1,0 +1,28 @@
+<div class="container settings">
+	<div class="page-header">
+		<h1>Settings</h1>
+	</div>
+	<div class="row">
+		<div class="span2">
+			<ul class="nav nav-pills nav-stacked">
+				<li class="active"><a href="#general" data-toggle="pill">General</a></li>
+				<li><a href="#custom-css" data-toggle="pill" ng-click="refreshCodemirror=!refreshCodemirror">Custom CSS</a></li>
+			</ul>
+		</div>
+		<div class="span10">
+			<div class="tab-content">
+				<div class="tab-pane active" id="general" style="height: 500px">
+					Placeholder for general settings
+				</div>
+				<div class="tab-pane" id="custom-css">
+					<textarea ui-codemirror="codeMirrorConfig" ng-model="settingsService.settings.customCss" ui-refresh="refreshCodemirror">
+					</textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-actions">
+		<button type="button" class="btn btn-primary" ng-click="save()">Save</button>
+		<button type="button" class="btn" ng-click="cancel()">Cancel</button>
+	</div>
+</div>

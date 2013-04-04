@@ -162,12 +162,22 @@ module.factory('EntryService', function($resource, $http) {
 module.factory('SettingsService', function($resource) {
 	var s = {};
 	s.settings = {};
-	$resource('rest/settings/get').get(function(data) {
-		s.settings = data;
-	});
-	s.save = function() {
-		$resource('rest/settings/save').save(s.settings);
+	s.save = function(callback) {
+		$resource('rest/settings/save').save(s.settings, function(data) {
+			if (callback) {
+				callback(data);
+			}
+		});
 	};
+	s.init = function(callback) {
+		$resource('rest/settings/get').get(function(data) {
+			s.settings = data;
+			if (callback) {
+				callback(data);
+			}
+		});
+	};
+	s.init();
 	return s;
 });
 

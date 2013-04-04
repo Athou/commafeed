@@ -1,17 +1,24 @@
 package com.commafeed.frontend.pages;
 
+import javax.inject.Inject;
+
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 
+import com.commafeed.backend.dao.UserSettingsService;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.model.UserSettings;
+import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.SecurityCheck;
+import com.commafeed.frontend.references.UserCustomCssReference;
 import com.commafeed.frontend.references.angular.AngularReference;
 import com.commafeed.frontend.references.angular.AngularResourceReference;
 import com.commafeed.frontend.references.angular.AngularSanitizeReference;
 import com.commafeed.frontend.references.angularui.AngularUIReference;
 import com.commafeed.frontend.references.angularuibootstrap.AngularUIBootstrapReference;
 import com.commafeed.frontend.references.angularuistate.AngularUIStateReference;
+import com.commafeed.frontend.references.codemirror.CodeMirrorCssReference;
 import com.commafeed.frontend.references.csstreeview.CssTreeViewReference;
 import com.commafeed.frontend.references.mousetrap.MouseTrapReference;
 import com.commafeed.frontend.references.nggrid.NGGridReference;
@@ -23,6 +30,9 @@ import com.commafeed.frontend.references.spinjs.SpinJSReference;
 @SuppressWarnings("serial")
 @SecurityCheck(Role.USER)
 public class HomePage extends BasePage {
+
+	@Inject
+	UserSettingsService settingsService;
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
@@ -39,6 +49,7 @@ public class HomePage extends BasePage {
 		SpinJSReference.renderHead(response);
 		MouseTrapReference.renderHead(response);
 		NGGridReference.renderHead(response);
+		CodeMirrorCssReference.renderHead(response);
 
 		CssTreeViewReference.renderHead(response);
 
@@ -48,5 +59,16 @@ public class HomePage extends BasePage {
 		response.render(JavaScriptHeaderItem.forUrl("js/services.js"));
 
 		response.render(CssHeaderItem.forUrl("css/app.css"));
+
+		response.render(CssHeaderItem
+				.forReference(new UserCustomCssReference() {
+					@Override
+					protected String getCss() {
+						UserSettings settings = settingsService
+								.findByUser(CommaFeedSession.get().getUser());
+						return settings == null ? null : settings
+								.getCustomCss();
+					}
+				}));
 	}
 }

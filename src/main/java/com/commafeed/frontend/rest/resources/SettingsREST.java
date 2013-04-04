@@ -21,6 +21,7 @@ public class SettingsREST extends AbstractREST {
 		UserSettings settings = userSettingsService.findByUser(getUser());
 		if (settings != null) {
 			s.setReadingMode(settings.getReadingMode().name());
+			s.setCustomCss(settings.getCustomCss());
 		} else {
 			s.setReadingMode(ReadingMode.unread.name());
 		}
@@ -38,6 +39,7 @@ public class SettingsREST extends AbstractREST {
 			s.setUser(getUser());
 		}
 		s.setReadingMode(ReadingMode.valueOf(settings.getReadingMode()));
+		s.setCustomCss(settings.getCustomCss());
 		userSettingsService.saveOrUpdate(s);
 		return Response.ok(Status.OK).build();
 

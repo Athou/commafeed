@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,6 +26,10 @@ public class UserSettings extends AbstractModel {
 	@Column(nullable = false)
 	private ReadingMode readingMode;
 
+	@Lob
+	@Column(length = Integer.MAX_VALUE)
+	private String customCss;
+
 	public ReadingMode getReadingMode() {
 		return readingMode;
 	}
@@ -39,6 +44,14 @@ public class UserSettings extends AbstractModel {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getCustomCss() {
+		return customCss;
+	}
+
+	public void setCustomCss(String customCss) {
+		this.customCss = customCss;
 	}
 
 }

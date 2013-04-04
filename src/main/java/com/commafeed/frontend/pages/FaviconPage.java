@@ -36,7 +36,7 @@ public class FaviconPage extends BasePage {
 	HttpGetter getter;
 
 	@Inject
-	StartupBean starupBean;
+	StartupBean startupBean;
 
 	public FaviconPage(PageParameters params) {
 		final String url = params.get("url").toString();
@@ -47,13 +47,13 @@ public class FaviconPage extends BasePage {
 					public void respond(IRequestCycle requestCycle) {
 						WebResponse response = (WebResponse) requestCycle
 								.getResponse();
-						response.setLastModifiedTime(Time.millis(starupBean
+						response.setLastModifiedTime(Time.millis(startupBean
 								.getStartupTime()));
 						response.setContentType("image/x-icon");
 						long expiresAfter = TimeUnit.DAYS.toMillis(7);
 						response.setHeader(
 								HttpHeaders.EXPIRES,
-								DateUtils.formatDate(new Date(starupBean
+								DateUtils.formatDate(new Date(startupBean
 										.getStartupTime() + expiresAfter)));
 						response.write(getImage(url));
 					}

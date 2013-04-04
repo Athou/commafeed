@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.commafeed.backend.dao.UserSettingsService;
 import com.commafeed.backend.model.UserRole.Role;
@@ -60,8 +61,8 @@ public class HomePage extends BasePage {
 
 		response.render(CssHeaderItem.forUrl("css/app.css"));
 
-		response.render(CssHeaderItem
-				.forReference(new UserCustomCssReference() {
+		response.render(CssHeaderItem.forReference(
+				new UserCustomCssReference() {
 					@Override
 					protected String getCss() {
 						UserSettings settings = settingsService
@@ -69,6 +70,7 @@ public class HomePage extends BasePage {
 						return settings == null ? null : settings
 								.getCustomCss();
 					}
-				}));
+				}, new PageParameters().add("_t", System.currentTimeMillis()),
+				null));
 	}
 }

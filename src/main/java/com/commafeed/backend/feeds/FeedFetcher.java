@@ -1,6 +1,5 @@
 package com.commafeed.backend.feeds;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.jsoup.Jsoup;
@@ -13,7 +12,6 @@ import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.model.Feed;
 import com.sun.syndication.io.FeedException;
 
-@Stateless
 public class FeedFetcher {
 
 	private static Logger log = LoggerFactory.getLogger(FeedFetcher.class);

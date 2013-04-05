@@ -1,5 +1,7 @@
 package com.commafeed.backend.feeds;
 
+import javax.ejb.Lock;
+import javax.ejb.LockType;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
@@ -17,6 +19,7 @@ public class FeedTimer {
 	FeedUpdater updater;
 
 	@Schedule(hour = "*", minute = "*", persistent = false)
+	@Lock(LockType.READ)
 	private void timeout() {
 		for (Feed feed : feedService.findAll()) {
 			updater.update(feed);

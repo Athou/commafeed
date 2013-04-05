@@ -4,8 +4,6 @@ import java.io.StringReader;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.ejb.Stateless;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.jsoup.Jsoup;
@@ -21,7 +19,6 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 
-@Stateless
 public class FeedParser {
 
 	@SuppressWarnings("unchecked")

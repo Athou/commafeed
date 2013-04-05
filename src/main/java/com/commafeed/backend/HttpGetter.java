@@ -1,7 +1,5 @@
 package com.commafeed.backend;
 
-import javax.ejb.Stateless;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -11,7 +9,6 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 
-@Stateless
 public class HttpGetter {
 
 	public String get(String url) throws Exception {

@@ -2,19 +2,10 @@
 	<div class="row-fluid">
 		<div class="span2 sidebar-nav-fixed">
 			<div ng-include="'templates/_subscribe.html'"></div>
-			<div class="css-treeview" ng-controller="CategoryTreeCtrl">
-				<ul>
-					<category node="SubscriptionService.subscriptions"
-						feed-click="feedClicked(id)" category-click="categoryClicked(id)"
-						selected-type="selectedType" selected-id="selectedId"
-						format-category-name="formatCategoryName(category)"
-						format-feed-name="formatFeedName(feed)"> </category>
-				</ul>
-			</div>
+			<div ng-include="'templates/_tree.html'"></div>
 		</div>
 		<div class="span10">
-			<div class="toolbar" ng-include="'templates/_toolbar.html'">
-			</div>
+			<div class="toolbar" ng-include="'templates/_toolbar.html'"></div>
 			<div class="entryList">
 				<div ui-view></div>
 			</div>

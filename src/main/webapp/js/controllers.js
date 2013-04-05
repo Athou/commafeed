@@ -10,6 +10,74 @@ module.run(function($rootScope) {
 	});
 });
 
+module.controller('SubscribeCtrl', function($scope, SubscriptionService) {
+
+	$scope.opts = {
+		backdropFade : true,
+		dialogFade : true
+	};
+
+	$scope.isOpen = false;
+	$scope.isOpenImport = false;
+	$scope.sub = {};
+
+	$scope.SubscriptionService = SubscriptionService;
+
+	$scope.open = function() {
+		$scope.sub = {};
+		$scope.isOpen = true;
+	};
+
+	$scope.close = function() {
+		$scope.isOpen = false;
+	};
+
+	$scope.urlChanged = function() {
+		if ($scope.sub.url && !$scope.sub.title) {
+			$scope.sub.title = 'Loading...';
+			SubscriptionService.fetch({
+				url : $scope.sub.url
+			}, function(data) {
+				$scope.sub.title = data.title;
+			});
+		}
+	};
+
+	$scope.save = function() {
+		SubscriptionService.subscribe($scope.sub);
+		$scope.close();
+	};
+
+	$scope.openImport = function() {
+		$scope.isOpenImport = true;
+	};
+
+	$scope.closeImport = function() {
+		$scope.isOpenImport = false;
+	};
+
+	$scope.uploadComplete = function(contents, completed) {
+		SubscriptionService.init();
+		$scope.closeImport();
+	};
+
+	$scope.cat = {};
+
+	$scope.openCategory = function() {
+		$scope.isOpenCategory = true;
+		$scope.cat = {};
+	};
+
+	$scope.closeCategory = function() {
+		$scope.isOpenCategory = false;
+	};
+
+	$scope.saveCategory = function() {
+		SubscriptionService.addCategory($scope.cat);
+		$scope.closeCategory();
+	};
+});
+
 module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 		$location, $state, $route, SubscriptionService) {
 
@@ -103,6 +171,65 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 	$scope.$on('mark', function(event, args) {
 		mark($scope.SubscriptionService.subscriptions, args.entry);
 	});
+});
+
+module.controller('ToolbarCtrl', function($scope, $http, $state, $stateParams,
+		$route, $location, SettingsService, EntryService, SubscriptionService,
+		SessionService) {
+
+	function totalActiveAjaxRequests() {
+		return ($http.pendingRequests.length + $.active);
+	}
+
+	$scope.session = SessionService.get();
+
+	$scope.loading = true;
+	$scope.$watch(totalActiveAjaxRequests, function() {
+		$scope.loading = (totalActiveAjaxRequests() !== 0);
+	});
+
+	$scope.settingsService = SettingsService;
+	$scope.$watch('settingsService.settings.readingMode', function(newValue,
+			oldValue) {
+		if (newValue && oldValue && newValue != oldValue) {
+			SettingsService.save();
+		}
+	});
+	$scope.refresh = function() {
+		$scope.$emit('emitReload');
+	};
+	$scope.markAllAsRead = function() {
+		EntryService.mark({
+			type : $stateParams._type,
+			id : $stateParams._id,
+			read : true
+		}, function() {
+			SubscriptionService.init(function() {
+				$scope.$emit('emitReload');
+			});
+		});
+	};
+
+	$scope.keywords = $stateParams._keywords;
+	$scope.search = function() {
+		if ($scope.keywords == $stateParams._keywords) {
+			$scope.refresh();
+		} else {
+			$state.transitionTo('feeds.search', {
+				_keywords : $scope.keywords
+			});
+		}
+	};
+	$scope.showButtons = function() {
+		return !$stateParams._keywords;
+	};
+
+	$scope.toAdmin = function() {
+		$location.path('admin');
+	};
+	$scope.toSettings = function() {
+		$location.path('settings');
+	};
 });
 
 module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
@@ -361,7 +488,8 @@ module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
 	$scope.save = function() {
 		SettingsService.settings = $scope.settings;
 		SettingsService.save(function() {
-			window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
+			window.location.href = window.location.href.substring(0,
+					window.location.href.lastIndexOf('#'));
 		});
 	};
 });

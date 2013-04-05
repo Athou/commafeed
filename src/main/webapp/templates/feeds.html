@@ -1,7 +1,7 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span2 sidebar-nav-fixed">
-			<subscribe></subscribe>
+			<div ng-include="'templates/_subscribe.html'"></div>
 			<div class="css-treeview" ng-controller="CategoryTreeCtrl">
 				<ul>
 					<category node="SubscriptionService.subscriptions"
@@ -13,8 +13,7 @@
 			</div>
 		</div>
 		<div class="span10">
-			<div class="toolbar">
-				<toolbar></toolbar>
+			<div class="toolbar" ng-include="'templates/_toolbar.html'">
 			</div>
 			<div class="entryList">
 				<div ui-view></div>

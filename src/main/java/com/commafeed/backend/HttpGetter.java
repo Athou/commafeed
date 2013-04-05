@@ -4,8 +4,11 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.params.CookiePolicy;
+import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 
@@ -19,10 +22,11 @@ public class HttpGetter {
 		byte[] content = null;
 
 		HttpClient httpclient = new DefaultHttpClient();
-		HttpProtocolParams.setContentCharset(httpclient.getParams(), "UTF-8");
-		HttpConnectionParams
-				.setConnectionTimeout(httpclient.getParams(), 15000);
-		HttpConnectionParams.setSoTimeout(httpclient.getParams(), 15000);
+		HttpParams params = httpclient.getParams();
+		HttpClientParams.setCookiePolicy(params, CookiePolicy.IGNORE_COOKIES);
+		HttpProtocolParams.setContentCharset(params, "UTF-8");
+		HttpConnectionParams.setConnectionTimeout(params, 5000);
+		HttpConnectionParams.setSoTimeout(params, 5000);
 
 		try {
 			HttpGet httpget = new HttpGet(url);

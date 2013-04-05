@@ -27,10 +27,10 @@ public class FeedFetcher {
 		Feed feed = null;
 
 		try {
-			String content = getter.get(feedUrl);
-			String extractedUrl = extractFeedUrl(content);
+			byte[] content = getter.getBinary(feedUrl);
+			String extractedUrl = extractFeedUrl(new String(content, "UTF-8"));
 			if (extractedUrl != null) {
-				content = getter.get(extractedUrl);
+				content = getter.getBinary(extractedUrl);
 				feedUrl = extractedUrl;
 			}
 			feed = parser.parse(feedUrl, content);

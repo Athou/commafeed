@@ -1,6 +1,6 @@
 package com.commafeed.backend.feeds;
 
-import java.io.StringReader;
+import java.io.ByteArrayInputStream;
 import java.util.Calendar;
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import org.xml.sax.InputSource;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
@@ -22,12 +23,13 @@ import com.sun.syndication.io.SyndFeedInput;
 public class FeedParser {
 
 	@SuppressWarnings("unchecked")
-	public Feed parse(String feedUrl, String xml) throws FeedException {
+	public Feed parse(String feedUrl, byte[] xml) throws FeedException {
 		Feed feed = new Feed();
 		feed.setLastUpdated(Calendar.getInstance().getTime());
 
 		try {
-			SyndFeed rss = new SyndFeedInput().build(new StringReader(xml));
+			SyndFeed rss = new SyndFeedInput().build(new InputSource(
+					new ByteArrayInputStream(xml)));
 			feed.setUrl(feedUrl);
 			feed.setTitle(rss.getTitle());
 			feed.setLink(rss.getLink());
@@ -70,14 +72,17 @@ public class FeedParser {
 	}
 
 	private String handleContent(String content) {
-		Whitelist whitelist = Whitelist.relaxed();
-		whitelist.addEnforcedAttribute("a", "target", "_blank");
+		if (StringUtils.isNotBlank(content)) {
+			Whitelist whitelist = Whitelist.relaxed();
+			whitelist.addEnforcedAttribute("a", "target", "_blank");
 
-		// TODO evaluate potential security issues
-		whitelist.addTags("iframe");
-		whitelist.addAttributes("iframe", "src", "height", "width",
-				"allowfullscreen", "frameborder");
+			// TODO evaluate potential security issues
+			whitelist.addTags("iframe");
+			whitelist.addAttributes("iframe", "src", "height", "width",
+					"allowfullscreen", "frameborder");
 
-		return Jsoup.clean(content, whitelist);
+			content = Jsoup.clean(content, whitelist);
+		}
+		return content;
 	}
 }

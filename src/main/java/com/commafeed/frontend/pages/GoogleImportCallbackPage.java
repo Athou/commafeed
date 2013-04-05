@@ -28,16 +28,17 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 @SuppressWarnings("serial")
 public class GoogleImportCallbackPage extends WebPage {
 
+	private static final String TOKEN_URL = "https://accounts.google.com/o/oauth2/token";
+	private static final String EXPORT_URL = "https://www.google.com/reader/subscriptions/export";
+
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
 	@Inject
 	OPMLImporter importer;
+
 	@Inject
 	UserService userService;
-
-	private static final String TOKEN_URL = "https://accounts.google.com/o/oauth2/token";
-	private static final String EXPORT_URL = "https://www.google.com/reader/subscriptions/export";
 
 	public static String getCallbackUrl() {
 		RequestCycle cycle = RequestCycle.get();

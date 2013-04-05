@@ -3,9 +3,12 @@ package com.commafeed.frontend.utils.exception;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+
+import de.agilecoders.wicket.Bootstrap;
 
 public class DisplayExceptionPage extends WebPage {
 
@@ -34,6 +37,11 @@ public class DisplayExceptionPage extends WebPage {
 			t = t.getCause();
 		}
 		return t;
+	}
+
+	@Override
+	public void renderHead(IHeaderResponse response) {
+		Bootstrap.renderHead(response);
 	}
 
 }

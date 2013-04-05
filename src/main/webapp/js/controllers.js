@@ -493,3 +493,17 @@ module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
 		});
 	};
 });
+
+module.controller('ManageSettingsCtrl', function($scope, $location, AdminSettingsService) {
+	
+	$scope.settings = AdminSettingsService.get();
+	
+	$scope.cancel = function() {
+		$location.path('/');
+	};
+	$scope.save = function() {
+		AdminSettingsService.save({}, $scope.settings, function() {
+			$location.path('/');
+		});
+	};
+});

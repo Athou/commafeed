@@ -1,0 +1,47 @@
+<div class="row">
+	<div class="page-header">
+		<h1>Application settings</h1>
+	</div>
+
+	<div>
+		<form name="settingsForm" class="form-horizontal" ng-submit="save()">
+			<div class="control-group">
+				<label class="control-label" for="publicUrl">Public URL</label>
+				<div class="controls">
+					<input type="text" id="publicUrl" name="publicUrl"
+						ng-model="settings.publicUrl" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="allowRegistrations">Allow
+					registrations</label>
+				<div class="controls">
+					<input type="checkbox" id="allowRegistrations"
+						name="allowRegistrations" ng-model="settings.allowRegistrations" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="googleClientId">Google
+					client ID</label>
+				<div class="controls">
+					<input type="text" name="googleClientId"
+						ng-model="settings.googleClientId" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="googleClientSecret">Google
+					client secret</label>
+				<div class="controls">
+					<input type="text" name="googleClientSecret"
+						ng-model="settings.googleClientSecret" />
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<button type="button" class="btn" ng-click="cancel()">Cancel</button>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

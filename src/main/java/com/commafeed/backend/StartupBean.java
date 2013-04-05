@@ -11,10 +11,12 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.dao.ApplicationSettingsService;
 import com.commafeed.backend.dao.FeedCategoryService;
 import com.commafeed.backend.dao.FeedService;
 import com.commafeed.backend.dao.FeedSubscriptionService;
 import com.commafeed.backend.dao.UserService;
+import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
@@ -44,6 +46,9 @@ public class StartupBean {
 	@Inject
 	PasswordEncryptionService encryptionService;
 
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
+
 	private long startupTime;
 
 	@PostConstruct
@@ -51,6 +56,8 @@ public class StartupBean {
 		startupTime = Calendar.getInstance().getTimeInMillis();
 		if (userService.getCount() == 0) {
 			log.info("Populating database with default values");
+
+			applicationSettingsService.save(new ApplicationSettings());
 
 			User user = userService.register(ADMIN_NAME, "admin",
 					Arrays.asList(Role.ADMIN, Role.USER));

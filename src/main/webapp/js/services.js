@@ -212,3 +212,22 @@ module.factory('AdminUsersService', function($resource) {
 	var res = $resource('rest/admin/users/:_method', {}, actions);
 	return res;
 });
+
+module.factory('AdminSettingsService', function($resource) {
+	var actions = {
+		get : {
+			method : 'GET',
+			params : {
+				_method : 'get'
+			}
+		},
+		save : {
+			method : 'POST',
+			params : {
+				_method : 'save'
+			}
+		}
+	};
+	var res = $resource('rest/admin/settings/:_method', {}, actions);
+	return res;
+});

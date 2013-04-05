@@ -39,6 +39,11 @@ app.config(function($routeProvider, $stateProvider, $urlRouterProvider) {
 		templateUrl : 'templates/admin.useredit.html',
 		controller : 'ManageUserCtrl'
 	});
+	$stateProvider.state('admin.settings', {
+		url : '/settings',
+		templateUrl : 'templates/admin.settings.html',
+		controller : 'ManageSettingsCtrl'
+	});
 	
 	$stateProvider.state('settings', {
 		url : '/settings',

@@ -39,6 +39,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.frontend.pages.FaviconPage;
+import com.commafeed.frontend.pages.GoogleImportCallbackPage;
+import com.commafeed.frontend.pages.GoogleImportRedirectPage;
 import com.commafeed.frontend.pages.HomePage;
 import com.commafeed.frontend.pages.LoginPage;
 import com.commafeed.frontend.pages.LogoutPage;
@@ -59,6 +61,8 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		mountPage("logout", LogoutPage.class);
 		mountPage("error", DisplayExceptionPage.class);
 		mountPage("favicon", FaviconPage.class);
+		mountPage("google/import/redirect", GoogleImportRedirectPage.class);
+		mountPage("google/import/callback", GoogleImportCallbackPage.class);
 
 		setupInjection();
 

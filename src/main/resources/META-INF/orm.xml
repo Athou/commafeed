@@ -23,6 +23,9 @@
 	<named-query name="Entry.unreadByFeed">
 		<query>select e, s from FeedEntry e LEFT JOIN e.statuses s WITH (s.user.id=:userId) where e.feed=:feed and not exists (select s2 from FeedEntryStatus s2 where s2.entry=e and s2.user.id=:userId and s2.read=true) order by e.updated desc</query>
 	</named-query>
+	<named-query name="Entry.unreadByFeedCount">
+		<query>select count(e) from FeedEntry e LEFT JOIN e.statuses s WITH (s.user.id=:userId) where e.feed=:feed and not exists (select s2 from FeedEntryStatus s2 where s2.entry=e and s2.user.id=:userId and s2.read=true)</query>
+	</named-query>
 	<named-query name="Entry.allByFeed">
 		<query>select e, s from FeedEntry e LEFT JOIN e.statuses s WITH (s.user.id=:userId) where e.feed=:feed order by e.updated desc</query>
 	</named-query>

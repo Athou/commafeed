@@ -112,6 +112,14 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 		return buildList(query.getResultList());
 	}
 
+	public Long getUnreadCount(Feed feed, User user) {
+		TypedQuery<Long> query = em.createNamedQuery("Entry.unreadByFeedCount",
+				Long.class);
+		query.setParameter("feed", feed);
+		query.setParameter("userId", user.getId());
+		return query.getSingleResult();
+	}
+
 	public List<FeedEntryWithStatus> getEntries(Feed feed, User user,
 			boolean unreadOnly) {
 		return getEntries(feed, user, unreadOnly, -1, -1);

@@ -9,7 +9,7 @@ public class Subscription implements Serializable {
 	private String name;
 	private String message;
 	private String feedUrl;
-	private int unread;
+	private long unread;
 
 	public Long getId() {
 		return id;
@@ -27,11 +27,11 @@ public class Subscription implements Serializable {
 		this.name = name;
 	}
 
-	public int getUnread() {
+	public long getUnread() {
 		return unread;
 	}
 
-	public void setUnread(int unread) {
+	public void setUnread(long unread) {
 		this.unread = unread;
 	}
 

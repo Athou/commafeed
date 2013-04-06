@@ -79,7 +79,7 @@ module.controller('SubscribeCtrl', function($scope, SubscriptionService) {
 });
 
 module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
-		$location, $state, $route, SubscriptionService) {
+		$window, $location, $state, $route, SubscriptionService) {
 
 	$scope.$on('$stateChangeSuccess', function() {
 		$scope.selectedType = $stateParams._type;
@@ -110,6 +110,18 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 		}
 		return count;
 	};
+	
+	var rootUnreadCount = function() {
+		return unreadCount($scope.SubscriptionService.subscriptions)
+	};
+	
+	$scope.$watch(rootUnreadCount, function(value) {
+		var label = 'CommaFeed';
+		if (value > 0) {
+			label += ' (' + value + ')';
+		}
+		$window.document.title = label; 
+	});
 
 	$scope.formatCategoryName = function(category) {
 		var count = unreadCount(category);
@@ -494,10 +506,11 @@ module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
 	};
 });
 
-module.controller('ManageSettingsCtrl', function($scope, $location, AdminSettingsService) {
-	
+module.controller('ManageSettingsCtrl', function($scope, $location,
+		AdminSettingsService) {
+
 	$scope.settings = AdminSettingsService.get();
-	
+
 	$scope.cancel = function() {
 		$location.path('/');
 	};

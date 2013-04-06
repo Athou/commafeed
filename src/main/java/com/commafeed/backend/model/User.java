@@ -21,7 +21,8 @@ public class User extends AbstractModel {
 	@Index(name = "username_index")
 	private String name;
 
-	@Column(length = 256)
+	@Column(length = 255, unique = true)
+	@Index(name = "useremail_index")
 	private String email;
 
 	@Column(length = 256, nullable = false)

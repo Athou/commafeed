@@ -112,7 +112,7 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 	};
 	
 	var rootUnreadCount = function() {
-		return unreadCount($scope.SubscriptionService.subscriptions)
+		return unreadCount($scope.SubscriptionService.subscriptions);
 	};
 	
 	$scope.$watch(rootUnreadCount, function(value) {

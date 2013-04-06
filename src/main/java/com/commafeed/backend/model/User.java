@@ -77,4 +77,12 @@ public class User extends AbstractModel {
 		this.disabled = disabled;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 }

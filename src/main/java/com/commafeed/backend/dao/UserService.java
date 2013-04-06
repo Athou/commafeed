@@ -19,7 +19,7 @@ public class UserService extends GenericDAO<User> {
 	@Inject
 	PasswordEncryptionService encryptionService;
 
-	private User findByName(String name) {
+	public User findByName(String name) {
 		TypedQuery<User> query = em.createNamedQuery("User.byName", User.class);
 		query.setParameter("name", name.toLowerCase());
 
@@ -46,12 +46,18 @@ public class UserService extends GenericDAO<User> {
 	}
 
 	public User register(String name, String password, Collection<Role> roles) {
+		return register(name, password, null, roles);
+	}
+
+	public User register(String name, String password, String email,
+			Collection<Role> roles) {
 		if (findByName(name) != null) {
 			return null;
 		}
 		User user = new User();
 		byte[] salt = encryptionService.generateSalt();
 		user.setName(name);
+		user.setEmail(email);
 		user.setSalt(salt);
 		user.setPassword(encryptionService.getEncryptedPassword(password, salt));
 		user.getRoles().add(new UserRole(user, Role.USER));

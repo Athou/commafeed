@@ -42,7 +42,7 @@ import com.commafeed.frontend.pages.FaviconPage;
 import com.commafeed.frontend.pages.GoogleImportCallbackPage;
 import com.commafeed.frontend.pages.GoogleImportRedirectPage;
 import com.commafeed.frontend.pages.HomePage;
-import com.commafeed.frontend.pages.LoginPage;
+import com.commafeed.frontend.pages.WelcomePage;
 import com.commafeed.frontend.pages.LogoutPage;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
 
@@ -57,7 +57,7 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 	protected void init() {
 		super.init();
 
-		mountPage("login", LoginPage.class);
+		mountPage("welcome", WelcomePage.class);
 		mountPage("logout", LogoutPage.class);
 		mountPage("error", DisplayExceptionPage.class);
 		mountPage("favicon", FaviconPage.class);
@@ -135,7 +135,7 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 
 	@Override
 	protected Class<? extends WebPage> getSignInPageClass() {
-		return LoginPage.class;
+		return WelcomePage.class;
 	}
 
 	@Override

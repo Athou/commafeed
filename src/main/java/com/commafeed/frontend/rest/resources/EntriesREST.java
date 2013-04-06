@@ -172,32 +172,40 @@ public class EntriesREST extends AbstractREST {
 			FeedEntry entry = feedEntryService.findById(Long.valueOf(id));
 			markEntry(entry, read);
 		} else if (type == Type.feed) {
-			Feed feed = feedSubscriptionService.findById(Long.valueOf(id))
-					.getFeed();
-			List<FeedEntryWithStatus> entries = feedEntryService.getEntries(
-					feed, getUser(), false);
-			for (FeedEntryWithStatus entry : entries) {
-				markEntry(entry, read);
+			if (read) {
+				Feed feed = feedSubscriptionService.findById(Long.valueOf(id))
+						.getFeed();
+				List<FeedEntryWithStatus> entries = feedEntryService
+						.getEntries(feed, getUser(), true);
+				for (FeedEntryWithStatus entry : entries) {
+					markEntry(entry, read);
+				}
+			} else {
+				return Response.status(Status.FORBIDDEN)
+						.entity("Operation not supported").build();
 			}
 		} else if (type == Type.category) {
-			List<FeedEntryWithStatus> entries = null;
+			if (read) {
+				List<FeedEntryWithStatus> entries = null;
 
-			if (ALL.equals(id)) {
-				entries = feedEntryService.getEntries(getUser(), false);
+				if (ALL.equals(id)) {
+					entries = feedEntryService.getEntries(getUser(), true);
+				} else {
+					FeedCategory feedCategory = feedCategoryService.findById(
+							getUser(), Long.valueOf(id));
+					List<FeedCategory> childrenCategories = feedCategoryService
+							.findAllChildrenCategories(getUser(), feedCategory);
+
+					entries = feedEntryService.getEntries(childrenCategories,
+							getUser(), true);
+				}
+				for (FeedEntryWithStatus entry : entries) {
+					markEntry(entry, read);
+				}
 			} else {
-				FeedCategory feedCategory = feedCategoryService.findById(
-						getUser(), Long.valueOf(id));
-				List<FeedCategory> childrenCategories = feedCategoryService
-						.findAllChildrenCategories(getUser(), feedCategory);
-
-				entries = feedEntryService.getEntries(childrenCategories,
-						getUser(), false);
+				return Response.status(Status.FORBIDDEN)
+						.entity("Operation not supported").build();
 			}
-
-			for (FeedEntryWithStatus entry : entries) {
-				markEntry(entry, true);
-			}
-
 		}
 		return Response.ok(Status.OK).build();
 	}

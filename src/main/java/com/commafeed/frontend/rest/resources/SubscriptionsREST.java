@@ -206,6 +206,7 @@ public class SubscriptionsREST extends AbstractREST {
 				sub.setName(subscription.getTitle());
 				sub.setMessage(subscription.getFeed().getMessage());
 				sub.setFeedUrl(subscription.getFeed().getLink());
+				// TODO use count instead of retrieving everything here
 				int size = feedEntryService.getEntries(subscription.getFeed(),
 						getUser(), true).size();
 				sub.setUnread(size);

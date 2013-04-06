@@ -28,6 +28,8 @@ import com.commafeed.frontend.references.ngupload.NGUploadReference;
 import com.commafeed.frontend.references.select2.Select2Reference;
 import com.commafeed.frontend.references.spinjs.SpinJSReference;
 
+import de.agilecoders.wicket.markup.html.bootstrap.extensions.icon.OpenWebIconsCssReference;
+
 @SuppressWarnings("serial")
 @SecurityCheck(Role.USER)
 public class HomePage extends BasePage {
@@ -53,6 +55,8 @@ public class HomePage extends BasePage {
 		CodeMirrorCssReference.renderHead(response);
 
 		CssTreeViewReference.renderHead(response);
+		response.render(CssHeaderItem.forReference(OpenWebIconsCssReference
+				.instance()));
 
 		response.render(JavaScriptHeaderItem.forUrl("js/main.js"));
 		response.render(JavaScriptHeaderItem.forUrl("js/controllers.js"));

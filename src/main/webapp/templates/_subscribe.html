@@ -1,15 +1,12 @@
 <div ng-controller="SubscribeCtrl">
 	<div class="btn-group">
-		<button class="btn" ng-click="open()">Subscribe</button>
+		<button class="btn" ng-click="open()"><span class="icon-feed-simple"></span> Subscribe</button>
 		<button class="btn dropdown-toggle" data-toggle="dropdown">
 			<span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu">
-			<li>
-				<a ng-click="open()">Subscribe</a>
-			</li>
-			<li><a ng-click="openImport()">Import</a></li>
-			<li><a ng-click="openCategory()">New category</a></li>
+			<li><a ng-click="openImport()"><i class="icon-arrow-down"></i> Import</a></li>
+			<li><a ng-click="openCategory()"><i class="icon-plus"></i> Add a category</a></li>
 		</ul>
 	</div>
 	<div modal="isOpen" close="close()" options="opts">
@@ -57,8 +54,13 @@
 		<form ng-upload class="form-horizontal" action="rest/subscriptions/import">
 			<div class="modal-body">
 				<div class="control-group">
-					<div>Download subscriptions.xml from <a target="_blank" href="https://www.google.com/reader/subscriptions/export">here</a>.</div>
-					<div>Alternatively, let me import your feeds from your <a href="google/import/redirect">Google Reader account</a>.</div>
+					<div>Let me import your feeds from your 
+						<a href="google/import/redirect">						
+							<img src="images/google_reader_icon.png" width="16px" height="16px"/> 
+							Google Reader account
+						</a>.
+					</div>
+					<div>Alternatively, upload your subscriptions.xml file (download it from <a target="_blank" href="https://www.google.com/reader/subscriptions/export">here)</a>.</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">XML File</label>

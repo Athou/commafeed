@@ -4,6 +4,10 @@
 	xsi:schemaLocation="
         http://java.sun.com/xml/ns/persistence/orm
         http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
+        
+    <named-query name="User.byName">
+    	<query>select u FROM User u WHERE lower(u.name)=:name</query>
+    </named-query>
 
 	<named-query name="Entry.byGuids">
 		<query>select e from FeedEntry e where e.guid in (:guids) order by e.updated desc</query>

@@ -1,17 +1,16 @@
 package com.commafeed.backend.dao;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.security.PasswordEncryptionService;
-import com.commafeed.frontend.utils.ModelFactory.MF;
-import com.google.common.collect.Iterables;
 
 @Stateless
 @SuppressWarnings("serial")
@@ -20,9 +19,21 @@ public class UserService extends GenericDAO<User> {
 	@Inject
 	PasswordEncryptionService encryptionService;
 
+	private User findByName(String name) {
+		TypedQuery<User> query = em.createNamedQuery("User.byName", User.class);
+		query.setParameter("name", name.toLowerCase());
+
+		User user = null;
+		try {
+			user = query.getSingleResult();
+		} catch (NoResultException e) {
+			user = null;
+		}
+		return user;
+	}
+
 	public User login(String name, String password) {
-		List<User> users = findByField(MF.i(MF.p(User.class).getName()), name);
-		User user = Iterables.getFirst(users, null);
+		User user = findByName(name);
 		if (user != null && !user.isDisabled()) {
 			boolean authenticated = encryptionService.authenticate(password,
 					user.getPassword(), user.getSalt());
@@ -35,8 +46,7 @@ public class UserService extends GenericDAO<User> {
 	}
 
 	public User register(String name, String password, Collection<Role> roles) {
-		List<User> users = findByField(MF.i(proxy().getName()), name);
-		if (!users.isEmpty()) {
+		if (findByName(name) != null) {
 			return null;
 		}
 		User user = new User();

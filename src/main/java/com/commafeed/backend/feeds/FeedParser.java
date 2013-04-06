@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document.OutputSettings;
+import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.safety.Whitelist;
 import org.xml.sax.InputSource;
 
@@ -28,8 +30,14 @@ public class FeedParser {
 		feed.setLastUpdated(Calendar.getInstance().getTime());
 
 		try {
-			SyndFeed rss = new SyndFeedInput().build(new InputSource(
-					new ByteArrayInputStream(xml)));
+			InputSource source = new InputSource(new ByteArrayInputStream(xml));
+			if (new String(xml).split(SystemUtils.LINE_SEPARATOR)[0]
+					.toUpperCase().contains("ISO-8859-1")) {
+				// they probably use word, we need to handle curly quotes and
+				// other word special characters
+				source.setEncoding("windows-1252");
+			}
+			SyndFeed rss = new SyndFeedInput().build(source);
 			feed.setUrl(feedUrl);
 			feed.setTitle(rss.getTitle());
 			feed.setLink(rss.getLink());
@@ -38,7 +46,7 @@ public class FeedParser {
 				FeedEntry entry = new FeedEntry();
 				entry.setGuid(item.getUri());
 				entry.setTitle(handleContent(item.getTitle()));
-				entry.setContent(getContent(item));
+				entry.setContent(handleContent(getContent(item)));
 				entry.setUrl(item.getLink());
 				entry.setUpdated(item.getUpdatedDate() != null ? item
 						.getUpdatedDate() : item.getPublishedDate());
@@ -67,7 +75,6 @@ public class FeedParser {
 						}
 					}), SystemUtils.LINE_SEPARATOR);
 		}
-		content = handleContent(content);
 		return content;
 	}
 
@@ -81,7 +88,8 @@ public class FeedParser {
 			whitelist.addAttributes("iframe", "src", "height", "width",
 					"allowfullscreen", "frameborder");
 
-			content = Jsoup.clean(content, whitelist);
+			content = Jsoup.clean(content, "", whitelist,
+					new OutputSettings().escapeMode(EscapeMode.extended));
 		}
 		return content;
 	}

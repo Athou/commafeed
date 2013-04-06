@@ -22,7 +22,6 @@ public class User extends AbstractModel {
 	private String name;
 
 	@Column(length = 256, unique = true)
-	@Index(name = "useremail_index")
 	private String email;
 
 	@Column(length = 256, nullable = false)

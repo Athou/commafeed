@@ -3,6 +3,7 @@ package com.commafeed.backend.dao;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -21,6 +22,7 @@ import com.commafeed.backend.model.extended.FeedEntryWithStatus;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 @Stateless
 @SuppressWarnings("serial")
@@ -188,13 +190,14 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 
 	@SuppressWarnings("rawtypes")
 	private List<FeedEntryWithStatus> buildList(List list) {
-		List<FeedEntryWithStatus> result = Lists.newArrayList();
+		Set<FeedEntryWithStatus> result = Sets.newLinkedHashSet();
 		for (Object object : list) {
 			Object[] array = (Object[]) object;
 			FeedEntry entry = (FeedEntry) array[0];
 			FeedEntryStatus status = (FeedEntryStatus) array[1];
-			result.add(new FeedEntryWithStatus(entry, status));
+			FeedEntryWithStatus fews = new FeedEntryWithStatus(entry, status);
+			result.add(fews);
 		}
-		return result;
+		return Lists.newArrayList(result);
 	}
 }

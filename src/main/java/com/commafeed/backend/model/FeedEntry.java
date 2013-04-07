@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
@@ -27,7 +26,7 @@ public class FeedEntry extends AbstractModel {
 	@Column(length = 2048, nullable = false)
 	private String guid;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(name = "FEED_FEEDENTRIES", joinColumns = { @JoinColumn(name = "FEED_ID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "FEEDENTRY_ID", nullable = false, updatable = false) })
 	private Set<Feed> feeds = Sets.newHashSet();
 

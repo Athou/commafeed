@@ -323,16 +323,20 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 
 	$scope.isOpen = false;
 	$scope.entryClicked = function(entry, event) {
-		$scope.mark(entry, true);
 		if (!event.ctrlKey && event.which != 2) {
 			if ($scope.current != entry) {
 				$scope.isOpen = true;
 			} else {
 				$scope.isOpen = !$scope.isOpen;
 			}
+			if($scope.isOpen) {
+				$scope.mark(entry, true);
+			}
 			$scope.current = entry;
 			event.preventDefault();
 			event.stopPropagation();
+		} else {
+			$scope.mark(entry, true);
 		}
 	};
 

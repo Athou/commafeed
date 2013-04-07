@@ -20,6 +20,12 @@
 					</h4>
 				</div>	
 				<div ng-bind-html-unsafe="entry.content"></div>
+				<div class="entry-buttons form-horizontal">
+					<label class="checkbox">
+						<input type="checkbox" value="{{!entry.read}}" ng-click="mark(entry, !entry.read)"></input>
+						Keep unread
+					</label>
+				</div>
 			</div>
 		</div>
 		<div class="no-entries" ng-show="!message && name && entries.length == 0 && !busy">"{{name}}" has no unread items.</div>

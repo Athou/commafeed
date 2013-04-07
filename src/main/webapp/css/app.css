@@ -141,6 +141,16 @@
 	margin-top: 5px;
 }
 
+#feed-accordion .entry-buttons {
+	background-color: #fafafa;
+	padding: 3px 0px;
+	border-top: 1px solid #ebebeb;
+}
+
+#feed-accordion .entry-buttons label{
+	margin-bottom: 0px
+}
+
 /* admin */
 .admin .users-table {
 	height: 400px;

@@ -11,21 +11,31 @@ app.directive('ngBlur', function() {
 	};
 });
 
-module.directive('scrollTo', function() {
+module.directive('scrollTo', function($timeout) {
 	return {
 		restrict : 'A',
-		controller : function($scope, $element, $attrs) {
-
-		},
 		link : function(scope, element, attrs) {
 			scope.$watch(attrs.scrollTo, function(value) {
-				if (value) {
-					var offset = parseInt(attrs.scrollToOffset, 10);
-					var scrollTop = $(element).offset().top + offset;
-					$('html, body').animate({
-						scrollTop : scrollTop
-					}, 0);
-				}
+				if (!value) 
+					return;
+				$timeout(function() {
+					var docTop = $(window).scrollTop();
+				    var docBottom = docTop + $(window).height();
+				    
+				    var elemTop = $(element).offset().top;
+				    var elemBottom = elemTop + $(element).height();
+				    
+				    if ((elemTop > docTop) && (elemBottom < docBottom)) {
+				    	// element is entirely visible
+				    	return;
+				    } else {
+				    	var offset = parseInt(attrs.scrollToOffset, 10);
+				    	 var scrollTop = $(element).offset().top + offset;
+				    	 $('html, body').animate({
+				    		 scrollTop : scrollTop
+				    	 }, 0);
+				    }
+				});
 			});
 		}
 	};

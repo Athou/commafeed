@@ -56,9 +56,9 @@
 			<plugin>
 				<groupId>org.apache.openejb.maven</groupId>
 				<artifactId>tomee-maven-plugin</artifactId>
-				<version>1.6.0-SNAPSHOT</version>
+				<version>1.5.2</version>
 				<configuration>
-					<tomeeVersion>1.5.2-SNAPSHOT</tomeeVersion>
+					<tomeeVersion>1.5.2</tomeeVersion>
 					<tomeeClassifier>plus</tomeeClassifier>
 					<tomeeHttpPort>8082</tomeeHttpPort>
 					<args>-Xmx1024m -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled</args>
@@ -284,26 +284,6 @@
 			</activation>
 			<repositories>
 				<repository>
-					<id>apache.releases</id>
-					<url>http://repository.apache.org/content/groups/public/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>apache.snapshots</id>
-					<url>http://repository.apache.org/content/groups/snapshots/</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-				<repository>
 					<id>hsqldb.snapshots</id>
 					<url>http://www.hsqldb.org/repos/</url>
 					<releases>
@@ -314,28 +294,6 @@
 					</snapshots>
 				</repository>
 			</repositories>
-			<pluginRepositories>
-				<pluginRepository>
-					<id>apache.releases</id>
-					<url>http://repository.apache.org/content/groups/public/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>apache.snapshots</id>
-					<url>http://repository.apache.org/content/groups/snapshots/</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</pluginRepository>
-			</pluginRepositories>
 			<build>
 				<plugins>
 					<plugin>

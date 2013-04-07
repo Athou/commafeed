@@ -19,6 +19,7 @@ import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 import org.apache.wicket.validation.validator.StringValidator;
 
+import com.commafeed.backend.dao.ApplicationSettingsService;
 import com.commafeed.backend.dao.UserService;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
@@ -31,6 +32,9 @@ public class RegisterPanel extends Panel {
 	@Inject
 	UserService userService;
 
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
+
 	public RegisterPanel(String markupId) {
 		super(markupId);
 
@@ -40,12 +44,14 @@ public class RegisterPanel extends Panel {
 				"form", model) {
 			@Override
 			protected void onSubmit() {
-				RegistrationRequest req = getModelObject();
-				userService.register(req.getName(), req.getPassword(),
-						Arrays.asList(Role.USER));
-				IAuthenticationStrategy strategy = getApplication()
-						.getSecuritySettings().getAuthenticationStrategy();
-				strategy.save(req.getName(), req.getPassword());
+				if (applicationSettingsService.get().isAllowRegistrations()) {
+					RegistrationRequest req = getModelObject();
+					userService.register(req.getName(), req.getPassword(),
+							Arrays.asList(Role.USER));
+					IAuthenticationStrategy strategy = getApplication()
+							.getSecuritySettings().getAuthenticationStrategy();
+					strategy.save(req.getName(), req.getPassword());
+				}
 				setResponsePage(getApplication().getHomePage());
 			}
 		};

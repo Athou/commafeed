@@ -103,8 +103,14 @@ public class EntriesREST extends AbstractREST {
 		List<FeedEntryWithStatus> unreadEntries = feedEntryService.getEntries(
 				getUser(), unreadOnly, offset, limit);
 		for (FeedEntryWithStatus feedEntry : unreadEntries) {
-			Long id = feedEntry.getEntry().getFeed().getId();
-			entries.add(populateEntry(buildEntry(feedEntry), subMapping.get(id)));
+			FeedSubscription sub = null;
+			for (Feed feed : feedEntry.getEntry().getFeeds()) {
+				sub = subMapping.get(feed.getId());
+				if (sub != null) {
+					break;
+				}
+			}
+			entries.add(populateEntry(buildEntry(feedEntry), sub));
 		}
 
 		return entries;
@@ -131,8 +137,14 @@ public class EntriesREST extends AbstractREST {
 		List<FeedEntryWithStatus> unreadEntries = feedEntryService.getEntries(
 				categories, getUser(), unreadOnly, offset, limit);
 		for (FeedEntryWithStatus feedEntry : unreadEntries) {
-			Long id = feedEntry.getEntry().getFeed().getId();
-			entries.add(populateEntry(buildEntry(feedEntry), subMapping.get(id)));
+			FeedSubscription sub = null;
+			for (Feed feed : feedEntry.getEntry().getFeeds()) {
+				sub = subMapping.get(feed.getId());
+				if (sub != null) {
+					break;
+				}
+			}
+			entries.add(populateEntry(buildEntry(feedEntry), sub));
 		}
 
 		return entries;
@@ -253,8 +265,14 @@ public class EntriesREST extends AbstractREST {
 		List<FeedEntryWithStatus> entriesWithStatus = feedEntryService
 				.getEntriesByKeywords(getUser(), keywords);
 		for (FeedEntryWithStatus feedEntry : entriesWithStatus) {
-			Long id = feedEntry.getEntry().getFeed().getId();
-			list.add(populateEntry(buildEntry(feedEntry), subMapping.get(id)));
+			FeedSubscription sub = null;
+			for (Feed feed : feedEntry.getEntry().getFeeds()) {
+				sub = subMapping.get(feed.getId());
+				if (sub != null) {
+					break;
+				}
+			}
+			list.add(populateEntry(buildEntry(feedEntry), sub));
 		}
 
 		entries.setName("Search for : " + keywords);

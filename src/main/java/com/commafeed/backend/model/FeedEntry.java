@@ -5,15 +5,19 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Index;
+
+import com.google.api.client.util.Sets;
 
 @Entity
 @Table(name = "FEEDENTRIES")
@@ -23,9 +27,9 @@ public class FeedEntry extends AbstractModel {
 	@Column(length = 2048, nullable = false)
 	private String guid;
 
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private Feed feed;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "FEED_FEEDENTRIES", joinColumns = { @JoinColumn(name = "FEED_ID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "FEEDENTRY_ID", nullable = false, updatable = false) })
+	private Set<Feed> feeds = Sets.newHashSet();
 
 	@Column(length = 2048)
 	private String title;
@@ -84,12 +88,12 @@ public class FeedEntry extends AbstractModel {
 		this.updated = updated;
 	}
 
-	public Feed getFeed() {
-		return feed;
+	public Set<Feed> getFeeds() {
+		return feeds;
 	}
 
-	public void setFeed(Feed feed) {
-		this.feed = feed;
+	public void setFeeds(Set<Feed> feeds) {
+		this.feeds = feeds;
 	}
 
 	public Set<FeedEntryStatus> getStatuses() {

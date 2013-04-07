@@ -20,21 +20,21 @@ module.directive('scrollTo', function($timeout) {
 					return;
 				$timeout(function() {
 					var docTop = $(window).scrollTop();
-				    var docBottom = docTop + $(window).height();
-				    
-				    var elemTop = $(element).offset().top;
-				    var elemBottom = elemTop + $(element).height();
-				    
-				    if ((elemTop > docTop) && (elemBottom < docBottom)) {
-				    	// element is entirely visible
-				    	return;
-				    } else {
-				    	var offset = parseInt(attrs.scrollToOffset, 10);
-				    	 var scrollTop = $(element).offset().top + offset;
-				    	 $('html, body').animate({
-				    		 scrollTop : scrollTop
-				    	 }, 0);
-				    }
+					var docBottom = docTop + $(window).height();
+
+					var elemTop = $(element).offset().top;
+					var elemBottom = elemTop + $(element).height();
+
+					if ((elemTop > docTop) && (elemBottom < docBottom)) {
+						// element is entirely visible
+						return;
+					} else {
+						var offset = parseInt(attrs.scrollToOffset, 10);
+						var scrollTop = $(element).offset().top + offset;
+						$('html, body').animate({
+							scrollTop : scrollTop
+						}, 0);
+					}
 				});
 			});
 		}

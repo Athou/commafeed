@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.model.Feed;
@@ -39,17 +40,30 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 
 		List<FeedEntry> existingEntries = getByGuids(guids);
 		for (FeedEntry entry : entries) {
-			boolean found = false;
+			FeedEntry foundEntry = null;
 			for (FeedEntry existingEntry : existingEntries) {
 				if (StringUtils
 						.equals(entry.getGuid(), existingEntry.getGuid())) {
-					found = true;
+					foundEntry = existingEntry;
 					break;
 				}
 			}
-			if (!found) {
-				entry.setFeed(feed);
+			if (foundEntry == null) {
+				entry.getFeeds().add(feed);
 				save(entry);
+			} else {
+				boolean foundFeed = false;
+				for (Feed existingFeed : foundEntry.getFeeds()) {
+					if (ObjectUtils.equals(existingFeed.getId(), feed.getId())) {
+						foundFeed = true;
+						break;
+					}
+				}
+
+				if (!foundFeed) {
+					foundEntry.getFeeds().add(feed);
+					update(foundEntry);
+				}
 			}
 		}
 

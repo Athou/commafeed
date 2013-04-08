@@ -52,7 +52,7 @@ app.config(function($routeProvider, $stateProvider, $urlRouterProvider) {
 	});
 
 	$urlRouterProvider.when('/', '/feeds/view/category/all');
-	$urlRouterProvider.when('/admin', '/admin/user/list');
+	$urlRouterProvider.when('/admin', '/admin/settings');
 	$urlRouterProvider.otherwise('/');
 
 });

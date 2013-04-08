@@ -1,29 +1,25 @@
 package com.commafeed.frontend.rest.resources;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
-import com.commafeed.backend.model.extended.FeedEntryWithStatus;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
-import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 @Path("entries")
 public class EntriesREST extends AbstractREST {
@@ -59,34 +55,37 @@ public class EntriesREST extends AbstractREST {
 			if (subscription != null) {
 				entries.setName(subscription.getTitle());
 				entries.setMessage(subscription.getFeed().getMessage());
-				entries.getEntries().addAll(
-						buildEntries(subscription, offset, limit, unreadOnly));
+
+				List<FeedEntryStatus> unreadEntries = feedEntryStatusService
+						.getStatuses(subscription.getFeed(), getUser(),
+								unreadOnly, offset, limit);
+				for (FeedEntryStatus status : unreadEntries) {
+					entries.getEntries().add(buildEntry(status));
+				}
 			}
 
 		} else {
 
-			List<FeedSubscription> subs = feedSubscriptionService
-					.findAll(getUser());
-			Map<Long, FeedSubscription> subMapping = Maps.uniqueIndex(subs,
-					new Function<FeedSubscription, Long>() {
-						public Long apply(FeedSubscription sub) {
-							return sub.getFeed().getId();
-						}
-					});
-
 			if (ALL.equals(id)) {
 				entries.setName("All");
-				entries.getEntries().addAll(
-						buildEntries(subMapping, offset, limit, unreadOnly));
+				List<FeedEntryStatus> unreadEntries = feedEntryStatusService
+						.getStatuses(getUser(), unreadOnly, offset, limit);
+				for (FeedEntryStatus status : unreadEntries) {
+					entries.getEntries().add(buildEntry(status));
+				}
+
 			} else {
 				FeedCategory feedCategory = feedCategoryService.findById(
 						getUser(), Long.valueOf(id));
 				if (feedCategory != null) {
 					List<FeedCategory> childrenCategories = feedCategoryService
 							.findAllChildrenCategories(getUser(), feedCategory);
-					entries.getEntries().addAll(
-							buildEntries(childrenCategories, subMapping,
-									offset, limit, unreadOnly));
+					List<FeedEntryStatus> unreadEntries = feedEntryStatusService
+							.getStatuses(childrenCategories, getUser(),
+									unreadOnly, offset, limit);
+					for (FeedEntryStatus status : unreadEntries) {
+						entries.getEntries().add(buildEntry(status));
+					}
 					entries.setName(feedCategory.getName());
 				}
 			}
@@ -96,79 +95,21 @@ public class EntriesREST extends AbstractREST {
 		return entries;
 	}
 
-	private List<Entry> buildEntries(Map<Long, FeedSubscription> subMapping,
-			int offset, int limit, boolean unreadOnly) {
-		List<Entry> entries = Lists.newArrayList();
-
-		List<FeedEntryWithStatus> unreadEntries = feedEntryService.getEntries(
-				getUser(), unreadOnly, offset, limit);
-		for (FeedEntryWithStatus feedEntry : unreadEntries) {
-			FeedSubscription sub = null;
-			for (Feed feed : feedEntry.getEntry().getFeeds()) {
-				sub = subMapping.get(feed.getId());
-				if (sub != null) {
-					break;
-				}
-			}
-			entries.add(populateEntry(buildEntry(feedEntry), sub));
-		}
-
-		return entries;
-	}
-
-	private List<Entry> buildEntries(FeedSubscription subscription, int offset,
-			int limit, boolean unreadOnly) {
-		List<Entry> entries = Lists.newArrayList();
-
-		List<FeedEntryWithStatus> unreadEntries = feedEntryService.getEntries(
-				subscription.getFeed(), getUser(), unreadOnly, offset, limit);
-		for (FeedEntryWithStatus feedEntry : unreadEntries) {
-			entries.add(populateEntry(buildEntry(feedEntry), subscription));
-		}
-
-		return entries;
-	}
-
-	private List<Entry> buildEntries(List<FeedCategory> categories,
-			Map<Long, FeedSubscription> subMapping, int offset, int limit,
-			boolean unreadOnly) {
-		List<Entry> entries = Lists.newArrayList();
-
-		List<FeedEntryWithStatus> unreadEntries = feedEntryService.getEntries(
-				categories, getUser(), unreadOnly, offset, limit);
-		for (FeedEntryWithStatus feedEntry : unreadEntries) {
-			FeedSubscription sub = null;
-			for (Feed feed : feedEntry.getEntry().getFeeds()) {
-				sub = subMapping.get(feed.getId());
-				if (sub != null) {
-					break;
-				}
-			}
-			entries.add(populateEntry(buildEntry(feedEntry), sub));
-		}
-
-		return entries;
-	}
-
-	private Entry buildEntry(FeedEntryWithStatus feedEntryWithStatus) {
+	private Entry buildEntry(FeedEntryStatus status) {
 		Entry entry = new Entry();
 
-		FeedEntry feedEntry = feedEntryWithStatus.getEntry();
-		entry.setId(String.valueOf(feedEntry.getId()));
+		FeedEntry feedEntry = status.getEntry();
+		entry.setId(String.valueOf(status.getId()));
 		entry.setTitle(feedEntry.getTitle());
 		entry.setContent(feedEntry.getContent());
 		entry.setDate(feedEntry.getUpdated());
 		entry.setUrl(feedEntry.getUrl());
 
-		FeedEntryStatus status = feedEntryWithStatus.getStatus();
-		entry.setRead(status == null ? false : status.isRead());
+		entry.setRead(status.isRead());
 
-		return entry;
-	}
+		entry.setFeedName(status.getSubscription().getTitle());
+		entry.setFeedId(String.valueOf(status.getSubscription().getId()));
 
-	private Entry populateEntry(Entry entry, FeedSubscription sub) {
-		entry.setFeedName(sub.getTitle());
-		entry.setFeedId(String.valueOf(sub.getId()));
 		return entry;
 	}
 
@@ -181,68 +122,38 @@ public class EntriesREST extends AbstractREST {
 		Preconditions.checkNotNull(read);
 
 		if (type == Type.entry) {
-			FeedEntry entry = feedEntryService.findById(Long.valueOf(id));
-			markEntry(entry, read);
+			FeedEntryStatus status = feedEntryStatusService.findById(getUser(),
+					Long.valueOf(id));
+			status.setRead(read);
+			feedEntryStatusService.update(status);
 		} else if (type == Type.feed) {
 			if (read) {
-				Feed feed = feedSubscriptionService.findById(Long.valueOf(id))
-						.getFeed();
-				List<FeedEntryWithStatus> entries = feedEntryService
-						.getEntries(feed, getUser(), true);
-				for (FeedEntryWithStatus entry : entries) {
-					markEntry(entry, read);
-				}
+				FeedSubscription subscription = feedSubscriptionService
+						.findById(getUser(), Long.valueOf(id));
+				feedEntryStatusService.markFeedEntries(getUser(),
+						subscription.getFeed());
 			} else {
-				return Response.status(Status.FORBIDDEN)
-						.entity("Operation not supported").build();
+				throw new WebApplicationException(Response.status(
+						Status.INTERNAL_SERVER_ERROR).build());
 			}
 		} else if (type == Type.category) {
 			if (read) {
-				List<FeedEntryWithStatus> entries = null;
-
 				if (ALL.equals(id)) {
-					entries = feedEntryService.getEntries(getUser(), true);
+					feedEntryStatusService.markAllEntries(getUser());
 				} else {
-					FeedCategory feedCategory = feedCategoryService.findById(
-							getUser(), Long.valueOf(id));
-					List<FeedCategory> childrenCategories = feedCategoryService
-							.findAllChildrenCategories(getUser(), feedCategory);
-
-					entries = feedEntryService.getEntries(childrenCategories,
-							getUser(), true);
-				}
-				for (FeedEntryWithStatus entry : entries) {
-					markEntry(entry, read);
+					List<FeedCategory> categories = feedCategoryService
+							.findAllChildrenCategories(getUser(),
+									feedCategoryService.findById(getUser(),
+											Long.valueOf(id)));
+					feedEntryStatusService.markCategoryEntries(getUser(),
+							categories);
 				}
 			} else {
-				return Response.status(Status.FORBIDDEN)
-						.entity("Operation not supported").build();
+				throw new WebApplicationException(Response.status(
+						Status.INTERNAL_SERVER_ERROR).build());
 			}
 		}
 		return Response.ok(Status.OK).build();
-	}
-
-	private void markEntry(FeedEntry entry, boolean read) {
-		FeedEntryStatus status = feedEntryStatusService.getStatus(getUser(),
-				entry);
-		if (status == null) {
-			status = new FeedEntryStatus();
-			status.setUser(getUser());
-			status.setEntry(entry);
-		}
-		status.setRead(read);
-		feedEntryStatusService.saveOrUpdate(status);
-	}
-
-	private void markEntry(FeedEntryWithStatus entryWithStatus, boolean read) {
-		FeedEntryStatus status = entryWithStatus.getStatus();
-		if (status == null) {
-			status = new FeedEntryStatus();
-			status.setUser(getUser());
-			status.setEntry(entryWithStatus.getEntry());
-		}
-		status.setRead(read);
-		feedEntryStatusService.saveOrUpdate(status);
 	}
 
 	@Path("search")
@@ -252,27 +163,11 @@ public class EntriesREST extends AbstractREST {
 
 		Entries entries = new Entries();
 
-		List<FeedSubscription> subs = feedSubscriptionService
-				.findAll(getUser());
-		Map<Long, FeedSubscription> subMapping = Maps.uniqueIndex(subs,
-				new Function<FeedSubscription, Long>() {
-					public Long apply(FeedSubscription sub) {
-						return sub.getFeed().getId();
-					}
-				});
-
 		List<Entry> list = Lists.newArrayList();
-		List<FeedEntryWithStatus> entriesWithStatus = feedEntryService
-				.getEntriesByKeywords(getUser(), keywords);
-		for (FeedEntryWithStatus feedEntry : entriesWithStatus) {
-			FeedSubscription sub = null;
-			for (Feed feed : feedEntry.getEntry().getFeeds()) {
-				sub = subMapping.get(feed.getId());
-				if (sub != null) {
-					break;
-				}
-			}
-			list.add(populateEntry(buildEntry(feedEntry), sub));
+		List<FeedEntryStatus> entriesStatus = feedEntryStatusService
+				.getStatusesByKeywords(getUser(), keywords);
+		for (FeedEntryStatus status : entriesStatus) {
+			list.add(buildEntry(status));
 		}
 
 		entries.setName("Search for : " + keywords);

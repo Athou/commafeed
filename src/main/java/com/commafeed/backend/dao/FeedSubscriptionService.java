@@ -41,7 +41,13 @@ public class FeedSubscriptionService extends GenericDAO<FeedSubscription> {
 	}
 
 	public List<FeedSubscription> findAll(User user) {
-		return findByField(MF.i(proxy().getUser()), user);
+		EasyCriteria<FeedSubscription> criteria = createCriteria();
+		criteria.andEquals(MF.i(proxy().getUser()), user);
+		
+		criteria.innerJoinFetch(MF.i(proxy().getFeed()));
+		criteria.innerJoinFetch(MF.i(proxy().getUser()));
+		criteria.leftJoinFetch(MF.i(proxy().getCategory()));
+		return criteria.getResultList();
 	}
 
 	public List<FeedSubscription> findWithoutCategories(User user) {

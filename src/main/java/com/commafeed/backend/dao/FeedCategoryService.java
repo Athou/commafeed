@@ -19,7 +19,11 @@ import com.uaihebert.model.EasyCriteria;
 public class FeedCategoryService extends GenericDAO<FeedCategory> {
 
 	public List<FeedCategory> findAll(User user) {
-		return findByField(MF.i(MF.p(FeedCategory.class).getUser()), user);
+		EasyCriteria<FeedCategory> criteria = createCriteria();
+		criteria.andEquals(MF.i(proxy().getUser()), user);
+
+		criteria.innerJoinFetch(MF.i(proxy().getUser()));
+		return criteria.getResultList();
 	}
 
 	public FeedCategory findById(User user, Long id) {

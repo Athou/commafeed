@@ -134,7 +134,8 @@ public class AdminUsersREST extends AbstractREST {
 			return Response.status(Status.FORBIDDEN)
 					.entity("You cannot delete the admin user.").build();
 		}
-		feedEntryStatusService.delete(feedEntryStatusService.findAll(user));
+		feedEntryStatusService.delete(feedEntryStatusService.getStatuses(user,
+				false));
 		feedSubscriptionService.delete(feedSubscriptionService.findAll(user));
 		feedCategoryService.delete(feedCategoryService.findAll(user));
 		userSettingsService.delete(userSettingsService.findByUser(user));

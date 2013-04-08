@@ -13,7 +13,7 @@ public class FeedEntryStatus extends AbstractModel {
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private User user;
+	private FeedSubscription subscription;
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
@@ -23,12 +23,12 @@ public class FeedEntryStatus extends AbstractModel {
 	private boolean read;
 	private boolean starred;
 
-	public User getUser() {
-		return user;
+	public FeedSubscription getSubscription() {
+		return subscription;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setSubscription(FeedSubscription subscription) {
+		this.subscription = subscription;
 	}
 
 	public FeedEntry getEntry() {

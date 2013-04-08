@@ -1,7 +1,6 @@
 package com.commafeed.frontend.rest.resources;
 
 import java.lang.reflect.Method;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -19,6 +18,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.wicket.ThreadContext;
 import org.apache.wicket.authentication.IAuthenticationStrategy;
+import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.protocol.http.servlet.ServletWebResponse;
 import org.apache.wicket.request.cycle.RequestCycle;
@@ -94,11 +94,13 @@ public abstract class AbstractREST {
 		CommaFeedSession session = (CommaFeedSession) app
 				.fetchCreateAndSetSession(cycle);
 
-		IAuthenticationStrategy authenticationStrategy = app
-				.getSecuritySettings().getAuthenticationStrategy();
-		String[] data = authenticationStrategy.load();
-		if (data != null && data.length > 1) {
-			session.signIn(data[0], data[1]);
+		if (session.getUser() == null) {
+			IAuthenticationStrategy authenticationStrategy = app
+					.getSecuritySettings().getAuthenticationStrategy();
+			String[] data = authenticationStrategy.load();
+			if (data != null && data.length > 1) {
+				session.signIn(data[0], data[1]);
+			}
 		}
 
 	}
@@ -137,11 +139,10 @@ public abstract class AbstractREST {
 	}
 
 	private boolean checkRole(User user, SecurityCheck annotation) {
-		Set<Role> roles = userRoleService.getRoles(user);
-		if (!roles.contains(annotation.value())) {
-			return false;
-		}
-		return true;
+		Roles roles = CommaFeedSession.get().getRoles();
+		boolean authorized = roles.hasAnyRole(new Roles(annotation.value()
+				.name()));
+		return authorized;
 	}
 
 }

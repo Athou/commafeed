@@ -3,6 +3,7 @@ package com.commafeed.frontend.rest.resources;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -164,16 +165,19 @@ public class SubscriptionsREST extends AbstractREST {
 		List<FeedCategory> categories = feedCategoryService.findAll(getUser());
 		List<FeedSubscription> subscriptions = feedSubscriptionService
 				.findAll(getUser());
+		Map<Long, Long> unreadCount = feedEntryStatusService
+				.getUnreadCount(getUser());
 
-		Category root = buildCategory(null, categories, subscriptions);
+		Category root = buildCategory(null, categories, subscriptions,
+				unreadCount);
 		root.setId("all");
 		root.setName("All");
 
 		return root;
 	}
 
-	Category buildCategory(Long id, List<FeedCategory> categories,
-			List<FeedSubscription> subscriptions) {
+	private Category buildCategory(Long id, List<FeedCategory> categories,
+			List<FeedSubscription> subscriptions, Map<Long, Long> unreadCount) {
 		Category category = new Category();
 		category.setId(String.valueOf(id));
 		category.setExpanded(true);
@@ -183,7 +187,7 @@ public class SubscriptionsREST extends AbstractREST {
 					|| (c.getParent() != null && ObjectUtils.equals(c
 							.getParent().getId(), id))) {
 				Category child = buildCategory(c.getId(), categories,
-						subscriptions);
+						subscriptions, unreadCount);
 				child.setId(String.valueOf(c.getId()));
 				child.setName(c.getName());
 				child.setExpanded(!c.isCollapsed());
@@ -206,9 +210,8 @@ public class SubscriptionsREST extends AbstractREST {
 				sub.setName(subscription.getTitle());
 				sub.setMessage(subscription.getFeed().getMessage());
 				sub.setFeedUrl(subscription.getFeed().getLink());
-				long size = feedEntryService.getUnreadCount(
-						subscription.getFeed(), getUser());
-				sub.setUnread(size);
+				Long size = unreadCount.get(subscription.getId());
+				sub.setUnread(size == null ? 0 : size);
 				category.getFeeds().add(sub);
 			}
 		}

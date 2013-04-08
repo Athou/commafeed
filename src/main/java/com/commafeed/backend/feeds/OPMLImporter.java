@@ -10,9 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import com.commafeed.backend.dao.FeedCategoryService;
 import com.commafeed.backend.dao.FeedService;
 import com.commafeed.backend.dao.FeedSubscriptionService;
-import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
-import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.sun.syndication.feed.opml.Opml;
 import com.sun.syndication.feed.opml.Outline;
@@ -60,23 +58,9 @@ public class OPMLImporter {
 				handleOutline(user, child, category);
 			}
 		} else {
-			Feed feed = feedService.findByUrl(outline.getXmlUrl());
-			if (feed == null) {
-				feed = new Feed();
-				feed.setUrl(outline.getXmlUrl());
-				feedService.save(feed);
-			}
 
-			FeedSubscription sub = feedSubscriptionService.findByFeed(user,
-					feed);
-			if (sub == null) {
-				sub = new FeedSubscription();
-				sub.setFeed(feed);
-				sub.setUser(user);
-			}
-			sub.setCategory(parent);
-			sub.setTitle(outline.getText());
-			feedSubscriptionService.saveOrUpdate(sub);
+			feedSubscriptionService.subscribe(user, outline.getXmlUrl(),
+					outline.getText(), parent);
 		}
 	}
 }

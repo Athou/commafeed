@@ -38,6 +38,12 @@ public abstract class GenericDAO<T extends AbstractModel> implements
 		em.persist(object);
 	}
 
+	public void save(List<T> objects) {
+		for (Object object : objects) {
+			em.persist(object);
+		}
+	}
+
 	public void update(List<T> objects) {
 		for (Object object : objects) {
 			em.merge(object);

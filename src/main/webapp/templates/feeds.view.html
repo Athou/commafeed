@@ -23,7 +23,7 @@
 				<div ng-bind-html-unsafe="entry.content"></div>
 				<div class="entry-buttons form-horizontal">
 					<label class="checkbox">
-						<input type="checkbox" value="{{!entry.read}}" ng-click="mark(entry, !entry.read)"></input>
+						<input type="checkbox" ng-checked="!entry.read" ng-click="mark(entry, !entry.read)"></input>
 						Keep unread
 					</label>
 				</div>

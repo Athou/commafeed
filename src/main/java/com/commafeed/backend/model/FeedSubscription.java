@@ -1,9 +1,13 @@
 package com.commafeed.backend.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -24,6 +28,9 @@ public class FeedSubscription extends AbstractModel {
 
 	@ManyToOne
 	private FeedCategory category;
+
+	@OneToMany(mappedBy = "subscription", cascade = CascadeType.REMOVE)
+	private Set<FeedEntryStatus> statuses;
 
 	public Feed getFeed() {
 		return feed;
@@ -55,6 +62,14 @@ public class FeedSubscription extends AbstractModel {
 
 	public void setCategory(FeedCategory category) {
 		this.category = category;
+	}
+
+	public Set<FeedEntryStatus> getStatuses() {
+		return statuses;
+	}
+
+	public void setStatuses(Set<FeedEntryStatus> statuses) {
+		this.statuses = statuses;
 	}
 
 }

@@ -30,6 +30,8 @@ public class HttpGetter {
 
 		try {
 			HttpGet httpget = new HttpGet(url);
+			httpget.addHeader("Pragma", "No-cache");
+			httpget.addHeader("Cache-Control", "no-cache");
 			HttpResponse response = httpclient.execute(httpget);
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {

@@ -27,6 +27,12 @@ public class FeedSubscriptionService extends GenericDAO<FeedSubscription> {
 		return Iterables.getFirst(criteria.getResultList(), null);
 	}
 
+	public List<FeedSubscription> findByFeed(Feed feed) {
+		EasyCriteria<FeedSubscription> criteria = createCriteria();
+		criteria.andEquals(MF.i(proxy().getFeed()), feed);
+		return criteria.getResultList();
+	}
+
 	public FeedSubscription findByFeed(User user, Feed feed) {
 		EasyCriteria<FeedSubscription> criteria = createCriteria();
 		criteria.andEquals(MF.i(proxy().getUser()), user);

@@ -17,6 +17,7 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
+import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.extended.FeedEntryWithStatus;
 import com.commafeed.frontend.utils.ModelFactory.MF;
@@ -30,6 +31,9 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 
 	@Inject
 	FeedService feedService;
+
+	@Inject
+	FeedSubscriptionService feedSubscriptionService;
 
 	public void updateEntries(String url, Collection<FeedEntry> entries) {
 		Feed feed = Iterables.getFirst(
@@ -51,7 +55,7 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 				}
 			}
 			if (foundEntry == null) {
-				entry.getFeeds().add(feed);
+				addFeedToEntry(entry, feed);
 				save(entry);
 			} else {
 				boolean foundFeed = false;
@@ -63,7 +67,7 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 				}
 
 				if (!foundFeed) {
-					foundEntry.getFeeds().add(feed);
+					addFeedToEntry(foundEntry, feed);
 					update(foundEntry);
 				}
 			}
@@ -72,6 +76,19 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 		feed.setLastUpdated(Calendar.getInstance().getTime());
 		feed.setMessage(null);
 		feedService.update(feed);
+	}
+
+	private void addFeedToEntry(FeedEntry entry, Feed feed) {
+		entry.getFeeds().add(feed);
+		List<FeedSubscription> subscriptions = feedSubscriptionService
+				.findByFeed(feed);
+		for (FeedSubscription sub : subscriptions) {
+			FeedEntryStatus status = new FeedEntryStatus();
+			status.setEntry(entry);
+			status.setUser(sub.getUser());
+			em.persist(status);
+		}
+
 	}
 
 	public List<FeedEntry> getByGuids(List<String> guids) {

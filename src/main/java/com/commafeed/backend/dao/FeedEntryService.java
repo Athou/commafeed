@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +36,8 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 			guids.add(entry.getGuid());
 		}
 
-		List<FeedEntry> existingEntries = getByGuids(guids);
+		List<FeedEntry> existingEntries = guids.isEmpty() ? new ArrayList<FeedEntry>()
+				: getByGuids(guids);
 		for (FeedEntry entry : entries) {
 			FeedEntry foundEntry = null;
 			for (FeedEntry existingEntry : existingEntries) {

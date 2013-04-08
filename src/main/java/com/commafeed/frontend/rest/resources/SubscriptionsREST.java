@@ -39,11 +39,13 @@ public class SubscriptionsREST extends AbstractREST {
 	@Path("fetch")
 	public Feed fetchFeed(@QueryParam("url") String url) {
 		Preconditions.checkNotNull(url);
+
+		url = prependHttp(url);
 		Feed feed = null;
 		try {
 			feed = feedFetcher.fetch(url);
 		} catch (FeedException e) {
-			throw new WebApplicationException(Response
+			throw new WebApplicationException(e, Response
 					.status(Status.INTERNAL_SERVER_ERROR)
 					.entity(e.getMessage()).build());
 		}
@@ -57,7 +59,9 @@ public class SubscriptionsREST extends AbstractREST {
 		Preconditions.checkNotNull(req.getTitle());
 		Preconditions.checkNotNull(req.getUrl());
 
-		Feed fetchedFeed = fetchFeed(req.getUrl());
+		String url = prependHttp(req.getUrl());
+
+		Feed fetchedFeed = fetchFeed(url);
 		Feed feed = feedService.findByUrl(fetchedFeed.getUrl());
 		if (feed == null) {
 			feed = fetchedFeed;
@@ -72,6 +76,13 @@ public class SubscriptionsREST extends AbstractREST {
 		sub.setUser(getUser());
 		feedSubscriptionService.save(sub);
 		return Response.ok(Status.OK).build();
+	}
+
+	private String prependHttp(String url) {
+		if (!url.startsWith("http")) {
+			url = "http://" + url;
+		}
+		return url;
 	}
 
 	@GET

@@ -9,10 +9,6 @@
     	<query>select u FROM User u WHERE lower(u.name)=:name</query>
     </named-query>
 
-	<named-query name="Entry.byGuids">
-		<query>select DISTINCT e from FeedEntry e JOIN FETCH e.feeds where e.guid in (:guids)</query>
-	</named-query>
-	
 	<named-query name="EntryStatus.byId">
 		<query>select s from FeedEntryStatus s where s.subscription.user=:user and s.id=:id</query>
 	</named-query>

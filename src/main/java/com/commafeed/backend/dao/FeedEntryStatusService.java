@@ -14,9 +14,12 @@ import org.apache.commons.lang.StringUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
+import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
+import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.api.client.util.Lists;
 import com.google.api.client.util.Maps;
+import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 @SuppressWarnings("serial")
@@ -26,14 +29,19 @@ public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus> {
 	FeedCategoryService feedCategoryService;
 
 	public FeedEntryStatus findById(User user, Long id) {
-		TypedQuery<FeedEntryStatus> query = em.createNamedQuery(
-				"EntryStatus.byId", FeedEntryStatus.class);
-		query.setParameter("user", user);
-		query.setParameter("id", id);
+
+		EasyCriteria<FeedEntryStatus> criteria = createCriteria();
+		criteria.andEquals(MF.i(proxy().getId()), id);
+
+		criteria.innerJoinFetch(MF.i(proxy().getSubscription()));
+		criteria.innerJoinFetch(MF.i(proxy().getEntry()));
+
+		criteria.andJoinEquals(MF.i(proxy().getSubscription()),
+				MF.i(MF.p(FeedSubscription.class).getUser()), user);
 
 		FeedEntryStatus status = null;
 		try {
-			status = query.getSingleResult();
+			status = criteria.getSingleResult();
 		} catch (NoResultException e) {
 			status = null;
 		}

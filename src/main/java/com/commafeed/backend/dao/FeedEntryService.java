@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -15,7 +14,9 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Lists;
+import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 @SuppressWarnings("serial")
@@ -81,10 +82,11 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 	}
 
 	public List<FeedEntry> getByGuids(List<String> guids) {
-		TypedQuery<FeedEntry> query = em.createNamedQuery("Entry.byGuids",
-				FeedEntry.class);
-		query.setParameter("guids", guids);
-		return query.getResultList();
+		EasyCriteria<FeedEntry> criteria = createCriteria();
+		criteria.setDistinctTrue();
+		criteria.andStringIn(MF.i(proxy().getGuid()), guids);
+		criteria.leftJoinFetch(MF.i(proxy().getFeeds()));
+		return criteria.getResultList();
 	}
 
 }

@@ -17,7 +17,9 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
 import com.sun.syndication.feed.synd.SyndContent;
+import com.sun.syndication.feed.synd.SyndEnclosure;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
@@ -50,6 +52,13 @@ public class FeedParser {
 				entry.setContent(handleContent(getContent(item)));
 				entry.setUrl(item.getLink());
 				entry.setUpdated(getUpdateDate(item));
+
+				SyndEnclosure enclosure = (SyndEnclosure) Iterables.getFirst(
+						item.getEnclosures(), null);
+				if (enclosure != null) {
+					entry.setEnclosureUrl(enclosure.getUrl());
+					entry.setEnclosureType(enclosure.getType());
+				}
 
 				feed.getEntries().add(entry);
 			}

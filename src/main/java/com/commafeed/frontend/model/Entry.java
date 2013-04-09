@@ -9,6 +9,8 @@ public class Entry implements Serializable {
 	private String id;
 	private String title;
 	private String content;
+	private String enclosureUrl;
+	private String enclosureType;
 	private Date date;
 	private String feedId;
 	private String feedName;
@@ -95,6 +97,22 @@ public class Entry implements Serializable {
 
 	public void setFeedUrl(String feedUrl) {
 		this.feedUrl = feedUrl;
+	}
+
+	public String getEnclosureUrl() {
+		return enclosureUrl;
+	}
+
+	public void setEnclosureUrl(String enclosureUrl) {
+		this.enclosureUrl = enclosureUrl;
+	}
+
+	public String getEnclosureType() {
+		return enclosureType;
+	}
+
+	public void setEnclosureType(String enclosureType) {
+		this.enclosureType = enclosureType;
 	}
 
 }

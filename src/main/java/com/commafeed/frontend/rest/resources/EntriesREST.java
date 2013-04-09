@@ -105,6 +105,8 @@ public class EntriesREST extends AbstractREST {
 		entry.setId(String.valueOf(status.getId()));
 		entry.setTitle(feedEntry.getTitle());
 		entry.setContent(feedEntry.getContent());
+		entry.setEnclosureUrl(status.getEntry().getEnclosureUrl());
+		entry.setEnclosureType(status.getEntry().getEnclosureType());
 		entry.setDate(feedEntry.getUpdated());
 		entry.setUrl(feedEntry.getUrl());
 

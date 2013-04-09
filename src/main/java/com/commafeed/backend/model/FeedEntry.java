@@ -38,6 +38,12 @@ public class FeedEntry extends AbstractModel {
 	private String content;
 
 	@Column(length = 2048)
+	private String enclosureUrl;
+
+	@Column(length = 255)
+	private String enclosureType;
+
+	@Column(length = 2048)
 	private String url;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -113,6 +119,22 @@ public class FeedEntry extends AbstractModel {
 
 	public void setInserted(Date inserted) {
 		this.inserted = inserted;
+	}
+
+	public String getEnclosureUrl() {
+		return enclosureUrl;
+	}
+
+	public void setEnclosureUrl(String enclosureUrl) {
+		this.enclosureUrl = enclosureUrl;
+	}
+
+	public String getEnclosureType() {
+		return enclosureType;
+	}
+
+	public void setEnclosureType(String enclosureType) {
+		this.enclosureType = enclosureType;
 	}
 
 }

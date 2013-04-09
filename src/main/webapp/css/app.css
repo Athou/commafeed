@@ -24,6 +24,10 @@
 /* tree*/
 .sidebar-nav-fixed {
 	margin-top: 10px;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	overflow: auto;
 }
 
 .css-treeview {

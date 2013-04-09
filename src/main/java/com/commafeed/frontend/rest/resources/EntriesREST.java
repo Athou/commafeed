@@ -112,6 +112,7 @@ public class EntriesREST extends AbstractREST {
 
 		entry.setFeedName(status.getSubscription().getTitle());
 		entry.setFeedId(String.valueOf(status.getSubscription().getId()));
+		entry.setFeedUrl(status.getSubscription().getFeed().getLink());
 
 		return entry;
 	}

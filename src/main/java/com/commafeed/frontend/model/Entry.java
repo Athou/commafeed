@@ -12,6 +12,7 @@ public class Entry implements Serializable {
 	private Date date;
 	private String feedId;
 	private String feedName;
+	private String feedUrl;
 	private String url;
 	private boolean read;
 	private boolean starred;
@@ -86,6 +87,14 @@ public class Entry implements Serializable {
 
 	public void setStarred(boolean starred) {
 		this.starred = starred;
+	}
+
+	public String getFeedUrl() {
+		return feedUrl;
+	}
+
+	public void setFeedUrl(String feedUrl) {
+		this.feedUrl = feedUrl;
 	}
 
 }

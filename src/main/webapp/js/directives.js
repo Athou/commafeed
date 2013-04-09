@@ -8,7 +8,7 @@ module.directive('favicon', function() {
 		},
 		replace : true,
 		template : '<img ng-src="favicon?url={{url}}" width="16" height="16"></img>'
-	}
+	};
 });
 
 module.directive('ngBlur', function() {

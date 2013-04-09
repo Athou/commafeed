@@ -101,6 +101,7 @@
 	white-space: nowrap;
 	position: absolute;
 	width: 145px;
+	text-overflow: ellipsis;
 }
 
 #feed-accordion .entry-heading .entry-name {
@@ -147,7 +148,7 @@
 	border-top: 1px solid #ebebeb;
 }
 
-#feed-accordion .entry-buttons label{
+#feed-accordion .entry-buttons label {
 	margin-bottom: 0px
 }
 

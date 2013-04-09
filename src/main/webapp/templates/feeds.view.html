@@ -9,9 +9,12 @@
 		<div ng-repeat="entry in entries" class="entry" scroll-to="isOpen && current == entry" scroll-to-offset="-58">
 			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="entryClicked(entry, $event)" 
 				ng-class="{open: current == entry, closed: current != entry}">
-				<span ui-if="keywords || selectedType == 'category'" class="feed-name">{{entry.feedName}}</span>
+				<span class="feed-name">
+					<favicon url="entry.feedUrl" />
+					{{entry.feedName}}
+				</span>
 				<span class="entry-date">{{entry.date}}</span>
-				<span class="entry-name" ng-class="{unread: entry.read == false, shrink: keywords || selectedType == 'category'}" ng-bind-html-unsafe="entry.title"></span>
+				<span class="entry-name" ng-class="{unread: entry.read == false, shrink: true}" ng-bind-html-unsafe="entry.title"></span>
 				
 			</a>
 			<div class="entry-body" ui-if="isOpen && current == entry">

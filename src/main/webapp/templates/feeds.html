@@ -1,10 +1,12 @@
 <div class="container-fluid">
 	<div class="row-fluid">
-		<div class="span2 sidebar-nav-fixed">
-			<div ng-include="'templates/_subscribe.html'"></div>
-			<div ng-include="'templates/_tree.html'"></div>
+		<div class="span2">
+			<div class="sidebar-nav-fixed">
+				<div ng-include="'templates/_subscribe.html'"></div>
+				<div ng-include="'templates/_tree.html'"></div>
+			</div>
 		</div>
-		<div class="span10 offset2">
+		<div class="span10">
 			<div class="toolbar" ng-include="'templates/_toolbar.html'"></div>
 			<div class="entryList">
 				<div ui-view></div>

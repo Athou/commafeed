@@ -90,7 +90,7 @@
 					</div>
 				</div>
 				<div class="control-group" ng-class="{error : !categoryForm.category.$valid}">
-					<label class="control-label">Category</label>
+					<label class="control-label">Parent</label>
 					<div class="controls">
 						<select name="category" ng-model="cat.parentId" class="input-block-level" required>
 							<option ng-repeat="cat in SubscriptionService.flatCategories" value="{{cat.id}}">{{cat.name}}</option>

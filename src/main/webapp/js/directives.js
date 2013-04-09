@@ -1,6 +1,17 @@
 var module = angular.module('commafeed.directives', []);
 
-app.directive('ngBlur', function() {
+module.directive('favicon', function() {
+	return {
+		restrict : 'E',
+		scope : {
+			url : '='
+		},
+		replace : true,
+		template : '<img ng-src="favicon?url={{url}}" width="16" height="16"></img>'
+	}
+});
+
+module.directive('ngBlur', function() {
 	return {
 		restrict : 'A',
 		link : function(scope, elm, attrs) {

@@ -17,7 +17,7 @@
 		  	</div>
 		  	<a ng-click="feedClick({id: feed.id})" class="feed-link"
 			   ng-class="{selected: (feed.id == selectedId && selectedType == 'feed'), unread: feed.unread }">
-			   <img ng-src="favicon?url={{feed.feedUrl}}" width="16" height="16"></img>
+			   <favicon url="feed.feedUrl" />
 			   {{formatFeedName({feed:feed})}}
 			</a>
 		</li>

@@ -57,32 +57,32 @@ public class PasswordEncryptionService {
 		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations,
 				derivedKeyLength);
 
-		SecretKey key = null;
+		byte[] bytes = null;
 		try {
 			SecretKeyFactory f = SecretKeyFactory.getInstance(algorithm);
-			key = f.generateSecret(spec);
+			SecretKey key = f.generateSecret(spec);
+			bytes = key.getEncoded();
 		} catch (Exception e) {
 			// should never happen
 			log.error(e.getMessage(), e);
 		}
-
-		return key.getEncoded();
+		return bytes;
 	}
 
 	public byte[] generateSalt() {
 		// VERY important to use SecureRandom instead of just Random
-		SecureRandom random = null;
+
+		byte[] salt = null;
 		try {
-			random = SecureRandom.getInstance("SHA1PRNG");
+			SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+
+			// Generate a 8 byte (64 bit) salt as recommended by RSA PKCS5
+			salt = new byte[8];
+			random.nextBytes(salt);
 		} catch (NoSuchAlgorithmException e) {
 			// should never happen
 			log.error(e.getMessage(), e);
 		}
-
-		// Generate a 8 byte (64 bit) salt as recommended by RSA PKCS5
-		byte[] salt = new byte[8];
-		random.nextBytes(salt);
-
 		return salt;
 	}
 

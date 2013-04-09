@@ -8,6 +8,11 @@
 	cursor: pointer;
 }
 
+.favicon {
+	width: 16px;
+	height: 16px;
+}
+
 .toolbar {
 	padding-top: 10px;
 	padding-bottom: 10px;

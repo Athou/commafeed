@@ -7,7 +7,7 @@ module.directive('favicon', function() {
 			url : '='
 		},
 		replace : true,
-		template : '<img ng-src="favicon?url={{url}}" width="16" height="16"></img>'
+		template : '<img ng-src="favicon?url={{url}}" class="favicon"></img>'
 	};
 });
 

@@ -97,7 +97,7 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 		SubscriptionService.init(function() {
 			$timeout(refreshTree, 15000);
 		});
-	}, 30000);
+	}, 15000);
 
 	$scope.SubscriptionService = SubscriptionService;
 

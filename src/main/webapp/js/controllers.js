@@ -33,8 +33,9 @@ module.controller('SubscribeCtrl', function($scope, SubscriptionService) {
 	};
 
 	$scope.urlChanged = function() {
-		if ($scope.sub.url && !$scope.sub.title) {
-			$scope.sub.title = 'Loading...';
+		var msg = 'Loading...';
+		if ($scope.sub.url && (!$scope.sub.title || $scope.sub.title == msg)) {
+			$scope.sub.title = msg;
 			SubscriptionService.fetch({
 				url : $scope.sub.url
 			}, function(data) {

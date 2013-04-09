@@ -33,9 +33,8 @@ public class FeedUpdater {
 
 	@Asynchronous
 	@Lock(LockType.READ)
-	@AccessTimeout(value = 15, unit = TimeUnit.SECONDS)
+	@AccessTimeout(value = 4, unit = TimeUnit.SECONDS)
 	public void update(Feed feed) {
-
 		try {
 			Feed fetchedFeed = fetcher.fetch(feed.getUrl());
 			if (feed.getLink() == null) {
@@ -44,12 +43,16 @@ public class FeedUpdater {
 			}
 			feedEntryService.updateEntries(feed.getUrl(),
 					fetchedFeed.getEntries());
+
+			feed.setMessage(null);
+			feed.setErrorCount(0);
 		} catch (Exception e) {
 			log.info("Unable to refresh feed " + feed.getUrl() + " : "
 					+ e.getMessage());
-			feed.setLastUpdated(Calendar.getInstance().getTime());
 			feed.setMessage("Unable to refresh feed: " + e.getMessage());
 			feed.setErrorCount(feed.getErrorCount() + 1);
+		} finally {
+			feed.setLastUpdated(Calendar.getInstance().getTime());
 			feedService.update(feed);
 		}
 	}

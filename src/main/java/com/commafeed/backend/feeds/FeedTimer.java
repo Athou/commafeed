@@ -1,5 +1,7 @@
 package com.commafeed.backend.feeds;
 
+import java.util.List;
+
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Schedule;
@@ -18,10 +20,13 @@ public class FeedTimer {
 	@Inject
 	FeedUpdater updater;
 
-	@Schedule(hour = "*", minute = "*", persistent = false)
+	// every five seconds
+	@Schedule(hour = "*", minute = "*", second = "*/5", persistent = false)
 	@Lock(LockType.READ)
 	private void timeout() {
-		for (Feed feed : feedService.findAll()) {
+		double count = feedService.getCount() * 5d / 60d;
+		List<Feed> feeds = feedService.findNextUpdatable((int) count);
+		for (Feed feed : feeds) {
 			updater.update(feed);
 		}
 	}

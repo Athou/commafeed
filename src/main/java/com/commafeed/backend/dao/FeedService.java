@@ -13,6 +13,13 @@ import com.uaihebert.model.EasyCriteria;
 @SuppressWarnings("serial")
 public class FeedService extends GenericDAO<Feed> {
 
+	public List<Feed> findNextUpdatable(int count) {
+		EasyCriteria<Feed> criteria = createCriteria();
+		criteria.orderByAsc(MF.i(proxy().getLastUpdated()));
+		criteria.setMaxResults(count);
+		return criteria.getResultList();
+	}
+
 	public Feed findByUrl(String url) {
 		List<Feed> feeds = findByField(MF.i(proxy().getUrl()), url);
 		return Iterables.getFirst(feeds, null);

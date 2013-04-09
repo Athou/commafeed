@@ -25,8 +25,8 @@ public class HttpGetter {
 		HttpParams params = httpclient.getParams();
 		HttpClientParams.setCookiePolicy(params, CookiePolicy.IGNORE_COOKIES);
 		HttpProtocolParams.setContentCharset(params, "UTF-8");
-		HttpConnectionParams.setConnectionTimeout(params, 5000);
-		HttpConnectionParams.setSoTimeout(params, 5000);
+		HttpConnectionParams.setConnectionTimeout(params, 4000);
+		HttpConnectionParams.setSoTimeout(params, 4000);
 
 		try {
 			HttpGet httpget = new HttpGet(url);

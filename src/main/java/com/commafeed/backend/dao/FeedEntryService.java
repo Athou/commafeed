@@ -64,11 +64,6 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 				}
 			}
 		}
-
-		feed.setLastUpdated(Calendar.getInstance().getTime());
-		feed.setMessage(null);
-		feed.setErrorCount(0);
-		feedService.update(feed);
 	}
 
 	private void addFeedToEntry(FeedEntry entry, Feed feed) {

@@ -55,6 +55,7 @@ public class EntriesREST extends AbstractREST {
 			if (subscription != null) {
 				entries.setName(subscription.getTitle());
 				entries.setMessage(subscription.getFeed().getMessage());
+				entries.setErrorCount(subscription.getFeed().getErrorCount());
 
 				List<FeedEntryStatus> unreadEntries = feedEntryStatusService
 						.getStatuses(subscription.getFeed(), getUser(),

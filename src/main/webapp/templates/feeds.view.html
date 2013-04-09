@@ -5,7 +5,7 @@
 	</div>
 	
 	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode" infinite-scroll-distance="1" id="feed-accordion">
-		<div ng-show="message">Error while loading this feed : {{message}}</div>
+		<div ng-show="message && errorCount > 10">Error while loading this feed : {{message}}</div>
 		<div ng-repeat="entry in entries" class="entry" scroll-to="isOpen && current == entry" scroll-to-offset="-58">
 			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="entryClicked(entry, $event)" 
 				ng-class="{open: current == entry, closed: current != entry}">
@@ -29,6 +29,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="no-entries" ng-show="!message && name && entries.length == 0 && !busy">"{{name}}" has no unread items.</div>
+		<div class="no-entries" ng-show="name && entries.length == 0 && !busy">"{{name}}" has no unread items.</div>
 	</div>
 </div>

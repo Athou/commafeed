@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 public class Entries implements Serializable {
 	private String name;
 	private String message;
+	private int errorCount;
 	private List<Entry> entries = Lists.newArrayList();
 
 	public String getName() {
@@ -33,6 +34,14 @@ public class Entries implements Serializable {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public int getErrorCount() {
+		return errorCount;
+	}
+
+	public void setErrorCount(int errorCount) {
+		this.errorCount = errorCount;
 	}
 
 }

@@ -49,6 +49,7 @@ public class FeedUpdater {
 					+ e.getMessage());
 			feed.setLastUpdated(Calendar.getInstance().getTime());
 			feed.setMessage("Unable to refresh feed: " + e.getMessage());
+			feed.setErrorCount(feed.getErrorCount() + 1);
 			feedService.update(feed);
 		}
 	}

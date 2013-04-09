@@ -253,6 +253,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 
 	$scope.name = null;
 	$scope.message = null;
+	$scope.errorCount = 0;
 	$scope.entries = [];
 
 	$scope.settingsService = SettingsService;
@@ -287,6 +288,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			}
 			$scope.name = data.name;
 			$scope.message = data.message;
+			$scope.errorCount = data.errorCount;
 			$scope.busy = false;
 			$scope.hasMore = data.entries.length == limit;
 		};
@@ -407,6 +409,8 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 	$scope.$on('reload', function(event, args) {
 		$scope.name = null;
 		$scope.entries = [];
+		$scope.message = null;
+		$scope.errorCount = 0;
 		$scope.busy = false;
 		$scope.hasMore = true;
 		$scope.loadMoreEntries();

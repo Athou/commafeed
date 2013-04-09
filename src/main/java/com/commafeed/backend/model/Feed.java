@@ -34,6 +34,8 @@ public class Feed extends AbstractModel {
 	@Column(length = 1024)
 	private String message;
 
+	private int errorCount;
+
 	@ManyToMany(mappedBy = "feeds")
 	private Set<FeedEntry> entries = Sets.newHashSet();
 
@@ -102,6 +104,14 @@ public class Feed extends AbstractModel {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	public int getErrorCount() {
+		return errorCount;
+	}
+
+	public void setErrorCount(int errorCount) {
+		this.errorCount = errorCount;
 	}
 
 }

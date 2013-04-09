@@ -213,6 +213,7 @@ public class SubscriptionsREST extends AbstractREST {
 				sub.setId(subscription.getId());
 				sub.setName(subscription.getTitle());
 				sub.setMessage(subscription.getFeed().getMessage());
+				sub.setErrorCount(subscription.getFeed().getErrorCount());
 				sub.setFeedUrl(subscription.getFeed().getLink());
 				Long size = unreadCount.get(subscription.getId());
 				sub.setUnread(size == null ? 0 : size);

@@ -95,12 +95,12 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 
 	$scope.SubscriptionService = SubscriptionService;
 
-	var unreadCount = function(category) {
+	$scope.unreadCount = function(category) {
 		var count = 0;
 		var i;
 		if (category.children) {
 			for (i = 0; i < category.children.length; i++) {
-				count = count + unreadCount(category.children[i]);
+				count = count + $scope.unreadCount(category.children[i]);
 			}
 		}
 		if (category.feeds) {
@@ -113,7 +113,7 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 	};
 	
 	var rootUnreadCount = function() {
-		return unreadCount($scope.SubscriptionService.subscriptions);
+		return $scope.unreadCount($scope.SubscriptionService.subscriptions);
 	};
 	
 	$scope.$watch(rootUnreadCount, function(value) {
@@ -125,7 +125,7 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 	});
 
 	$scope.formatCategoryName = function(category) {
-		var count = unreadCount(category);
+		var count = $scope.unreadCount(category);
 		var label = category.name;
 		if (count > 0) {
 			label = label + ' (' + count + ')';

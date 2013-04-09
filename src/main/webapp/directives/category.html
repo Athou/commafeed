@@ -1,6 +1,6 @@
 <li> <input type="checkbox" ng-model="node.expanded" ng-click="toggleCategory(node)" /> 
 	<label ng-click="categoryClick({id: node.id})"
-		   ng-class="{selected: (node.id == selectedId && selectedType == 'category')}">{{formatCategoryName({category:node})}}
+		   ng-class="{selected: (node.id == selectedId && selectedType == 'category'), unread: unreadCount({category:node})}">{{formatCategoryName({category:node})}}
 	</label>
 	<ul>
 		<li ng-repeat="feed in node.feeds" ng-mouseenter="hovered=feed" ng-mouseleave="hovered=null" ng-class="{error: feed.message && feed.errorCount > 10}">

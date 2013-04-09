@@ -49,6 +49,7 @@ module.directive('category', function($compile) {
 			selectedId : '=',
 			feedClick : '&',
 			categoryClick : '&',
+			unreadCount : '&',
 			formatCategoryName : '&',
 			formatFeedName : '&'
 		},
@@ -59,7 +60,8 @@ module.directive('category', function($compile) {
 			var ul = element.find('ul');
 			var html = '<category ng-repeat="child in node.children" node="child" feed-click="feedClick({id:id})" ';
 			html = html + 'category-click="categoryClick({id:id})" selected-type="selectedType" selected-id="selectedId" ';
-			html = html + 'format-category-name="formatCategoryName({category:category})" format-feed-name="formatFeedName({feed:feed})"> ';
+			html = html + 'format-category-name="formatCategoryName({category:category})" format-feed-name="formatFeedName({feed:feed})" ';
+			html = html + 'unread-count="unreadCount({category:category})">';
 			html = html + '</category>';
 			ul.prepend(html);
 			$compile(ul.contents())(scope);

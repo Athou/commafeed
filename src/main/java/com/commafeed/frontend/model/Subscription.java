@@ -8,6 +8,7 @@ public class Subscription implements Serializable {
 	private Long id;
 	private String name;
 	private String message;
+	private int errorCount;
 	private String feedUrl;
 	private long unread;
 
@@ -49,6 +50,14 @@ public class Subscription implements Serializable {
 
 	public void setFeedUrl(String feedUrl) {
 		this.feedUrl = feedUrl;
+	}
+
+	public int getErrorCount() {
+		return errorCount;
+	}
+
+	public void setErrorCount(int errorCount) {
+		this.errorCount = errorCount;
 	}
 
 }

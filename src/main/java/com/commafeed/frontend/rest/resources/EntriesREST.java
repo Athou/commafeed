@@ -1,5 +1,7 @@
 package com.commafeed.frontend.rest.resources;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.DefaultValue;
@@ -92,7 +94,7 @@ public class EntriesREST extends AbstractREST {
 			}
 
 		}
-
+		entries.setTimestamp(Calendar.getInstance().getTimeInMillis());
 		return entries;
 	}
 
@@ -117,10 +119,14 @@ public class EntriesREST extends AbstractREST {
 	@Path("mark")
 	@GET
 	public Response mark(@QueryParam("type") Type type,
-			@QueryParam("id") String id, @QueryParam("read") boolean read) {
+			@QueryParam("id") String id, @QueryParam("read") boolean read,
+			@QueryParam("olderThan") Long olderThanTimestamp) {
 		Preconditions.checkNotNull(type);
 		Preconditions.checkNotNull(id);
 		Preconditions.checkNotNull(read);
+
+		Date olderThan = olderThanTimestamp == null ? null : new Date(
+				olderThanTimestamp);
 
 		if (type == Type.entry) {
 			FeedEntryStatus status = feedEntryStatusService.findById(getUser(),
@@ -132,7 +138,7 @@ public class EntriesREST extends AbstractREST {
 				FeedSubscription subscription = feedSubscriptionService
 						.findById(getUser(), Long.valueOf(id));
 				feedEntryStatusService.markFeedEntries(getUser(),
-						subscription.getFeed());
+						subscription.getFeed(), olderThan);
 			} else {
 				throw new WebApplicationException(Response.status(
 						Status.INTERNAL_SERVER_ERROR).build());
@@ -140,14 +146,14 @@ public class EntriesREST extends AbstractREST {
 		} else if (type == Type.category) {
 			if (read) {
 				if (ALL.equals(id)) {
-					feedEntryStatusService.markAllEntries(getUser());
+					feedEntryStatusService.markAllEntries(getUser(), olderThan);
 				} else {
 					List<FeedCategory> categories = feedCategoryService
 							.findAllChildrenCategories(getUser(),
 									feedCategoryService.findById(getUser(),
 											Long.valueOf(id)));
 					feedEntryStatusService.markCategoryEntries(getUser(),
-							categories);
+							categories, olderThan);
 				}
 			} else {
 				throw new WebApplicationException(Response.status(

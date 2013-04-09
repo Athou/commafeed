@@ -41,6 +41,10 @@ public class FeedEntry extends AbstractModel {
 	private String url;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Index(name = "inserted_index")
+	private Date inserted;
+
+	@Temporal(TemporalType.TIMESTAMP)
 	@Index(name = "updated_index")
 	private Date updated;
 
@@ -101,6 +105,14 @@ public class FeedEntry extends AbstractModel {
 
 	public void setStatuses(Set<FeedEntryStatus> statuses) {
 		this.statuses = statuses;
+	}
+
+	public Date getInserted() {
+		return inserted;
+	}
+
+	public void setInserted(Date inserted) {
+		this.inserted = inserted;
 	}
 
 }

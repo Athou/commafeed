@@ -48,6 +48,7 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 				}
 			}
 			if (foundEntry == null) {
+				entry.setInserted(Calendar.getInstance().getTime());
 				addFeedToEntry(entry, feed);
 			} else {
 				boolean foundFeed = false;

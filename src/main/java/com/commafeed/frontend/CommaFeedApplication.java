@@ -42,8 +42,9 @@ import com.commafeed.frontend.pages.FaviconPage;
 import com.commafeed.frontend.pages.GoogleImportCallbackPage;
 import com.commafeed.frontend.pages.GoogleImportRedirectPage;
 import com.commafeed.frontend.pages.HomePage;
-import com.commafeed.frontend.pages.WelcomePage;
 import com.commafeed.frontend.pages.LogoutPage;
+import com.commafeed.frontend.pages.TestRssPage;
+import com.commafeed.frontend.pages.WelcomePage;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
 
 import de.agilecoders.wicket.Bootstrap;
@@ -63,6 +64,8 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		mountPage("favicon", FaviconPage.class);
 		mountPage("google/import/redirect", GoogleImportRedirectPage.class);
 		mountPage("google/import/callback", GoogleImportCallbackPage.class);
+
+		mountPage("testfeed", TestRssPage.class);
 
 		setupInjection();
 

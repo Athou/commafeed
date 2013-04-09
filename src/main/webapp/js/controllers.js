@@ -5,6 +5,12 @@ module.run(function($rootScope) {
 		// args.entry - the entry
 		$rootScope.$broadcast('mark', args);
 	});
+	$rootScope.$on('emitMarkAll', function(event, args) {
+		// args.type
+		// args.id
+		// args.read
+		$rootScope.$broadcast('markAll', args);
+	});
 	$rootScope.$on('emitReload', function(event, args) {
 		$rootScope.$broadcast('reload');
 	});
@@ -212,14 +218,10 @@ module.controller('ToolbarCtrl', function($scope, $http, $state, $stateParams,
 		$scope.$emit('emitReload');
 	};
 	$scope.markAllAsRead = function() {
-		EntryService.mark({
+		$scope.$emit('emitMarkAll', {
 			type : $stateParams._type,
 			id : $stateParams._id,
 			read : true
-		}, function() {
-			SubscriptionService.init(function() {
-				$scope.$emit('emitReload');
-			});
 		});
 	};
 
@@ -246,7 +248,7 @@ module.controller('ToolbarCtrl', function($scope, $http, $state, $stateParams,
 });
 
 module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
-		$window, EntryService, SettingsService) {
+		$window, EntryService, SettingsService, SubscriptionService) {
 
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;
@@ -255,6 +257,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 	$scope.name = null;
 	$scope.message = null;
 	$scope.errorCount = 0;
+	$scope.timestamp = 0;
 	$scope.entries = [];
 
 	$scope.settingsService = SettingsService;
@@ -290,6 +293,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			$scope.name = data.name;
 			$scope.message = data.message;
 			$scope.errorCount = data.errorCount;
+			$scope.timestamp = data.timestamp;
 			$scope.busy = false;
 			$scope.hasMore = data.entries.length == limit;
 		};
@@ -406,12 +410,26 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			openPreviousEntry(e);
 		});
 	});
+	
+	$scope.$on('markAll', function(event, args) {
+		EntryService.mark({
+			type : $scope.selectedType,
+			id : $scope.selectedId,
+			olderThan : $scope.timestamp,
+			read : true
+		}, function() {
+			SubscriptionService.init(function() {
+				$scope.$emit('emitReload');
+			});
+		});
+	});
 
 	$scope.$on('reload', function(event, args) {
 		$scope.name = null;
 		$scope.entries = [];
 		$scope.message = null;
 		$scope.errorCount = 0;
+		$scope.timestamp = 0;
 		$scope.busy = false;
 		$scope.hasMore = true;
 		$scope.loadMoreEntries();

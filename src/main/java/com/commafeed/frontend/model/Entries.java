@@ -10,6 +10,7 @@ public class Entries implements Serializable {
 	private String name;
 	private String message;
 	private int errorCount;
+	private long timestamp;
 	private List<Entry> entries = Lists.newArrayList();
 
 	public String getName() {
@@ -42,6 +43,14 @@ public class Entries implements Serializable {
 
 	public void setErrorCount(int errorCount) {
 		this.errorCount = errorCount;
+	}
+
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
 	}
 
 }

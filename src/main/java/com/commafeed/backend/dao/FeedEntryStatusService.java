@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -152,27 +153,33 @@ public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus> {
 		return query.getResultList();
 	}
 
-	public void markFeedEntries(User user, Feed feed) {
+	public void markFeedEntries(User user, Feed feed, Date olderThan) {
 		List<FeedEntryStatus> statuses = getStatuses(feed, user, true);
-		update(markList(statuses));
+		update(markList(statuses, olderThan));
 	}
 
-	public void markCategoryEntries(User user, List<FeedCategory> categories) {
+	public void markCategoryEntries(User user, List<FeedCategory> categories,
+			Date olderThan) {
 		List<FeedEntryStatus> statuses = getStatuses(categories, user, true);
-		update(markList(statuses));
+		update(markList(statuses, olderThan));
 	}
 
-	public void markAllEntries(User user) {
+	public void markAllEntries(User user, Date olderThan) {
 		List<FeedEntryStatus> statuses = getStatuses(user, true);
-		update(markList(statuses));
+		update(markList(statuses, olderThan));
 	}
 
-	private List<FeedEntryStatus> markList(List<FeedEntryStatus> statuses) {
+	private List<FeedEntryStatus> markList(List<FeedEntryStatus> statuses,
+			Date olderThan) {
 		List<FeedEntryStatus> list = Lists.newArrayList();
 		for (FeedEntryStatus status : statuses) {
 			if (!status.isRead()) {
-				status.setRead(true);
-				list.add(status);
+				Date inserted = status.getEntry().getInserted();
+				if (olderThan == null || inserted == null
+						|| olderThan.after(inserted)) {
+					status.setRead(true);
+					list.add(status);
+				}
 			}
 		}
 		return list;

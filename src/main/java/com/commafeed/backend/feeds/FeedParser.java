@@ -2,6 +2,7 @@ package com.commafeed.backend.feeds;
 
 import java.io.ByteArrayInputStream;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -48,8 +49,7 @@ public class FeedParser {
 				entry.setTitle(handleContent(item.getTitle()));
 				entry.setContent(handleContent(getContent(item)));
 				entry.setUrl(item.getLink());
-				entry.setUpdated(item.getUpdatedDate() != null ? item
-						.getUpdatedDate() : item.getPublishedDate());
+				entry.setUpdated(getUpdateDate(item));
 
 				feed.getEntries().add(entry);
 			}
@@ -59,6 +59,17 @@ public class FeedParser {
 					e.getMessage()), e);
 		}
 		return feed;
+	}
+
+	private Date getUpdateDate(SyndEntry item) {
+		Date date = item.getUpdatedDate();
+		if (date == null) {
+			date = item.getPublishedDate();
+		}
+		if (date == null) {
+			date = new Date();
+		}
+		return date;
 	}
 
 	@SuppressWarnings("unchecked")

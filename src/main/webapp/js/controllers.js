@@ -192,71 +192,73 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 	});
 });
 
-module.controller('ToolbarCtrl', function($scope, $http, $state, $stateParams,
-		$route, $location, SettingsService, EntryService, SubscriptionService,
-		SessionService) {
+module.controller('ToolbarCtrl',
+		function($scope, $http, $state, $stateParams, $route, $location,
+				SettingsService, EntryService, SubscriptionService,
+				SessionService) {
 
-	function totalActiveAjaxRequests() {
-		return ($http.pendingRequests.length + $.active);
-	}
+			function totalActiveAjaxRequests() {
+				return ($http.pendingRequests.length + $.active);
+			}
 
-	$scope.session = SessionService.get();
+			$scope.session = SessionService.get();
 
-	$scope.loading = true;
-	$scope.$watch(totalActiveAjaxRequests, function() {
-		$scope.loading = (totalActiveAjaxRequests() !== 0);
-	});
-
-	$scope.settingsService = SettingsService;
-	$scope.$watch('settingsService.settings.readingMode', function(newValue,
-			oldValue) {
-		if (newValue && oldValue && newValue != oldValue) {
-			SettingsService.save();
-		}
-	});
-	$scope.$watch('settingsService.settings.readingOrder', function(newValue,
-			oldValue) {
-		if (newValue && oldValue && newValue != oldValue) {
-			SettingsService.save();
-		}
-	});
-	$scope.refresh = function() {
-		$scope.$emit('emitReload');
-	};
-	$scope.markAllAsRead = function() {
-		$scope.$emit('emitMarkAll', {
-			type : $stateParams._type,
-			id : $stateParams._id,
-			read : true
-		});
-	};
-
-	$scope.keywords = $stateParams._keywords;
-	$scope.search = function() {
-		if ($scope.keywords == $stateParams._keywords) {
-			$scope.refresh();
-		} else {
-			$state.transitionTo('feeds.search', {
-				_keywords : $scope.keywords
+			$scope.loading = true;
+			$scope.$watch(totalActiveAjaxRequests, function() {
+				$scope.loading = (totalActiveAjaxRequests() !== 0);
 			});
-		}
-	};
-	$scope.showButtons = function() {
-		return !$stateParams._keywords;
-	};
-	
-	$scope.toggleOrder = function() {
-		var settings = $scope.settingsService.settings;
-		settings.readingOrder = settings.readingOrder == 'asc' ? 'desc' : 'asc'; 
-	};
 
-	$scope.toAdmin = function() {
-		$location.path('admin');
-	};
-	$scope.toSettings = function() {
-		$location.path('settings');
-	};
-});
+			$scope.settingsService = SettingsService;
+			$scope.$watch('settingsService.settings.readingMode', function(
+					newValue, oldValue) {
+				if (newValue && oldValue && newValue != oldValue) {
+					SettingsService.save();
+				}
+			});
+			$scope.$watch('settingsService.settings.readingOrder', function(
+					newValue, oldValue) {
+				if (newValue && oldValue && newValue != oldValue) {
+					SettingsService.save();
+				}
+			});
+			$scope.refresh = function() {
+				$scope.$emit('emitReload');
+			};
+			$scope.markAllAsRead = function() {
+				$scope.$emit('emitMarkAll', {
+					type : $stateParams._type,
+					id : $stateParams._id,
+					read : true
+				});
+			};
+
+			$scope.keywords = $stateParams._keywords;
+			$scope.search = function() {
+				if ($scope.keywords == $stateParams._keywords) {
+					$scope.refresh();
+				} else {
+					$state.transitionTo('feeds.search', {
+						_keywords : $scope.keywords
+					});
+				}
+			};
+			$scope.showButtons = function() {
+				return !$stateParams._keywords;
+			};
+
+			$scope.toggleOrder = function() {
+				var settings = $scope.settingsService.settings;
+				settings.readingOrder = settings.readingOrder == 'asc' ? 'desc'
+						: 'asc';
+			};
+
+			$scope.toAdmin = function() {
+				$location.path('admin');
+			};
+			$scope.toSettings = function() {
+				$location.path('settings');
+			};
+		});
 
 module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 		$window, EntryService, SettingsService, SubscriptionService) {
@@ -473,7 +475,7 @@ module.controller('ManageUsersCtrl', function($scope, $state, $location,
 		$state.transitionTo('admin.useradd');
 	};
 	$scope.back = function() {
-		$location.path('/');
+		$location.path('/admin');
 	};
 });
 
@@ -551,7 +553,7 @@ module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
 	};
 });
 
-module.controller('ManageSettingsCtrl', function($scope, $location,
+module.controller('ManageSettingsCtrl', function($scope, $location, $state,
 		AdminSettingsService) {
 
 	$scope.settings = AdminSettingsService.get();
@@ -563,5 +565,9 @@ module.controller('ManageSettingsCtrl', function($scope, $location,
 		AdminSettingsService.save({}, $scope.settings, function() {
 			$location.path('/');
 		});
+	};
+
+	$scope.toUsers = function() {
+		$state.transitionTo('admin.userlist');
 	};
 });

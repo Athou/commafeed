@@ -27,7 +27,7 @@ module.directive('scrollTo', function($timeout) {
 		restrict : 'A',
 		link : function(scope, element, attrs) {
 			scope.$watch(attrs.scrollTo, function(value) {
-				if (!value) 
+				if (!value)
 					return;
 				$timeout(function() {
 					var docTop = $(window).scrollTop();
@@ -52,6 +52,25 @@ module.directive('scrollTo', function($timeout) {
 	};
 });
 
+module.directive('recursive', function($compile) {
+	return {
+		restrict : 'E',
+		priority : 100000,
+		compile : function(tElement, tAttr) {
+			var contents = tElement.contents().remove();
+			var compiledContents;
+			return function(scope, iElement, iAttr) {
+				if (!compiledContents) {
+					compiledContents = $compile(contents);
+				}
+				iElement.append(compiledContents(scope, function(clone) {
+					return clone;
+				}));
+			};
+		}
+	};
+});
+
 module.directive('category', function($compile) {
 	return {
 		scope : {
@@ -67,16 +86,6 @@ module.directive('category', function($compile) {
 		restrict : 'E',
 		replace : true,
 		templateUrl : 'directives/category.html',
-		link : function(scope, element) {
-			var ul = element.find('ul');
-			var html = '<category ng-repeat="child in node.children" node="child" feed-click="feedClick({id:id})" ';
-			html = html + 'category-click="categoryClick({id:id})" selected-type="selectedType" selected-id="selectedId" ';
-			html = html + 'format-category-name="formatCategoryName({category:category})" format-feed-name="formatFeedName({feed:feed})" ';
-			html = html + 'unread-count="unreadCount({category:category})">';
-			html = html + '</category>';
-			ul.prepend(html);
-			$compile(ul.contents())(scope);
-		},
 		controller : function($scope, $dialog, SubscriptionService) {
 			$scope.unsubscribe = function(subscription) {
 				var title = 'Unsubscribe';

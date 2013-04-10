@@ -117,17 +117,17 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 		}
 		return count;
 	};
-	
+
 	var rootUnreadCount = function() {
 		return $scope.unreadCount($scope.SubscriptionService.subscriptions);
 	};
-	
+
 	$scope.$watch(rootUnreadCount, function(value) {
 		var label = 'CommaFeed';
 		if (value > 0) {
 			label = value + ' - ' + label;
 		}
-		$window.document.title = label; 
+		$window.document.title = label;
 	});
 
 	$scope.formatCategoryName = function(category) {
@@ -349,7 +349,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			} else {
 				$scope.isOpen = !$scope.isOpen;
 			}
-			if($scope.isOpen) {
+			if ($scope.isOpen) {
 				$scope.mark(entry, true);
 			}
 			$scope.current = entry;
@@ -423,7 +423,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			openPreviousEntry(e);
 		});
 	});
-	
+
 	$scope.$on('markAll', function(event, args) {
 		EntryService.mark({
 			type : $scope.selectedType,

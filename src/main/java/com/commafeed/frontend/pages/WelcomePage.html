@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:wicket="http://wicket.apache.org">
 <head>
-	<meta charset="utf-8">
-	<title>CommaFeed</title>
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+<meta charset="utf-8">
+<title>CommaFeed</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 </head>
 <body>
 	<div class="container">
-		<div class="row">
+		<div class="row header">
 			<div class="text-center">
 				<h1>CommaFeed</h1>
 				Bloat-free feed reader.
@@ -15,14 +15,24 @@
 		</div>
 		<div class="row">
 			<div class="span6">
-				<h3>Login</h3>
-				<span wicket:id="login"></span>
+				<div class="well" id="login-panel">
+					<h3>Login</h3>
+					<span wicket:id="login"></span>
+				</div>
 			</div>
 			<div class="span6" wicket:enclosure="register">
-				<h3>Register</h3>
-				<span wicket:id="register"></span>
+				<div class="well" id="register-panel">
+					<h3>Register</h3>
+					<span wicket:id="register"></span>
+				</div>
 			</div>
 		</div>
+
+		<hr />
+		<div class="footer">
+			&copy; CommaFeed - 2013
+		</div>
+
 	</div>
 </body>
 </html>

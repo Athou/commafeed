@@ -8,6 +8,7 @@ public class RegistrationRequest implements Serializable {
 	private String name;
 	private String password;
 	private String email;
+	private boolean googleImport = true;
 
 	public String getName() {
 		return name;
@@ -31,6 +32,14 @@ public class RegistrationRequest implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public boolean isGoogleImport() {
+		return googleImport;
+	}
+
+	public void setGoogleImport(boolean googleImport) {
+		this.googleImport = googleImport;
 	}
 
 }

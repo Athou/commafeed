@@ -7,21 +7,28 @@
 			<div class="control-group">
 				<label class="control-label">User Name</label>
 				<div class="controls">
-					<input type="text" wicket:id="name"></input>
+					<input type="text" wicket:id="name" class="input-block-level"></input>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Password</label>
 				<div class="controls">
-					<input type="password" wicket:id="password"></input>
+					<input type="password" wicket:id="password" class="input-block-level"></input>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Email address (optional)</label>
 				<div class="controls">
-					<input type="email" wicket:id="email"></input>
+					<input type="email" wicket:id="email" class="input-block-level"></input>
 				</div>
 			</div>
+			<p class="help-block">
+				<label class="checkbox">
+					<input wicket:id="import" type="checkbox" />
+					Google Reader import
+				</label> 
+				You'll be able to import later if you want.
+			</p>
 			<div>
 				<input type="submit" class="btn btn-primary" value="Register" />
 			</div>

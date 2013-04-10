@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.apache.wicket.authentication.IAuthenticationStrategy;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.EmailTextField;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
@@ -23,7 +24,9 @@ import com.commafeed.backend.dao.ApplicationSettingsService;
 import com.commafeed.backend.dao.UserService;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.model.RegistrationRequest;
+import com.commafeed.frontend.pages.GoogleImportRedirectPage;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 
 @SuppressWarnings("serial")
@@ -51,8 +54,17 @@ public class RegisterPanel extends Panel {
 					IAuthenticationStrategy strategy = getApplication()
 							.getSecuritySettings().getAuthenticationStrategy();
 					strategy.save(req.getName(), req.getPassword());
+					CommaFeedSession.get().signIn(req.getName(),
+							req.getPassword());
+
+					if (req.isGoogleImport()) {
+						setResponsePage(GoogleImportRedirectPage.class);
+					} else {
+						setResponsePage(getApplication().getHomePage());
+					}
+				} else {
+					setResponsePage(getApplication().getHomePage());
 				}
-				setResponsePage(getApplication().getHomePage());
 			}
 		};
 		add(form);
@@ -77,6 +89,7 @@ public class RegisterPanel extends Panel {
 		form.add(new PasswordTextField("password", MF.m(model, p.getPassword()))
 				.setResetPassword(false).add(StringValidator.minimumLength(6)));
 		form.add(new EmailTextField("email", MF.m(model, p.getEmail())));
+		form.add(new CheckBox("import", MF.m(model, p.isGoogleImport())));
 
 	}
 }

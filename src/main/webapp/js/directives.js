@@ -108,7 +108,7 @@ module.directive('category', function($compile) {
 						});
 			};
 
-			$scope.rename = function(feed) {
+			$scope.renameFeed = function(feed) {
 				var name = window.prompt('Rename feed : ', feed.name);
 				if (name && name != feed.name) {
 					feed.name = name;
@@ -118,6 +118,40 @@ module.directive('category', function($compile) {
 						name : name
 					});
 				}
+			};
+
+			$scope.renameCategory = function(category) {
+				var name = window.prompt('Rename category: ', category.name);
+				if (name && name != category.name) {
+					category.name = name;
+					SubscriptionService.rename({
+						type : 'category',
+						id : category.id,
+						name : name
+					});
+				}
+			};
+
+			$scope.deleteCategory = function(category) {
+				var title = 'Delete category';
+				var msg = 'Delete category ' + category.name + ' ?';
+				var btns = [ {
+					result : 'cancel',
+					label : 'Cancel'
+				}, {
+					result : 'ok',
+					label : 'OK',
+					cssClass : 'btn-primary'
+				} ];
+
+				$dialog.messageBox(title, msg, btns).open().then(
+						function(result) {
+							if (result == 'ok') {
+								SubscriptionService.deleteCategory({
+									id : category.id
+								});
+							}
+						});
 			};
 
 			$scope.toggleCategory = function(category) {

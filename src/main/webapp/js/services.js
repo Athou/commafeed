@@ -129,6 +129,7 @@ module.factory('SubscriptionService', function($resource, $http) {
 				callback(data);
 		});
 	};
+	s.deleteCategory = res.deleteCategory;
 	s.collapse = res.collapse;
 	s.init();
 	return s;

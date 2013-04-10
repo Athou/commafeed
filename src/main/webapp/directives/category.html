@@ -1,10 +1,25 @@
 <li>
-	<span class="icon-fldr" ng-class="{'icon-fldr-closed': !node.expanded, 'icon-fldr-open': node.expanded}" ng-click="toggleCategory(node)"></span>
-	<span ng-click="categoryClick({id: node.id})" class="pointer">
-		<span class="icon-fldr icon-fldr-folder"></span>
-		<span ng-class="{selected: (node.id == selectedId && selectedType == 'category'), unread: unreadCount({category:node})}">{{formatCategoryName({category:node})}}
+	<div ng-mouseenter="hovered=node" ng-mouseleave="hovered=null" class="pointer">
+		<div class="dropdown pull-right">
+			<a dropdown-toggle class="pull-right">
+				<i ng-show="hovered==node" class="icon icon-chevron-down"></i>
+			</a>
+			<ul class="dropdown-menu">
+				<li>
+					<a ng-click="renameCategory(node)">Rename</a>
+				</li>
+				<li>
+					<a ng-click="deleteCategory(node)">Delete</a>
+				</li>
+			</ul>
+		</div>
+		<span class="icon-fldr" ng-class="{'icon-fldr-closed': !node.expanded, 'icon-fldr-open': node.expanded}" ng-click="toggleCategory(node)"></span>
+		<span ng-click="categoryClick({id: node.id})">
+			<span class="icon-fldr icon-fldr-folder"></span>
+			<span ng-class="{selected: (node.id == selectedId && selectedType == 'category'), unread: unreadCount({category:node})}">{{formatCategoryName({category:node})}}
+			</span>
 		</span>
-	</span>
+	</div>
 	<ul ng-show="node.expanded" class="indent">
 		<recursive>
 			<category ng-repeat="child in node.children"
@@ -25,7 +40,7 @@
 				</a>
 				<ul class="dropdown-menu">
 					<li>
-						<a ng-click="rename(feed)">Rename</a>
+						<a ng-click="renameFeed(feed)">Rename</a>
 					</li>
 					<li>
 						<a ng-click="unsubscribe(feed)">Unsubscribe</a>

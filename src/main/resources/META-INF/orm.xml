@@ -8,37 +8,9 @@
     <named-query name="User.byName">
     	<query>select u FROM User u WHERE lower(u.name)=:name</query>
     </named-query>
-
-	<named-query name="EntryStatus.byId">
-		<query>select s from FeedEntryStatus s where s.subscription.user=:user and s.id=:id</query>
-	</named-query>
 	
-	<named-query name="EntryStatus.unread">
-		<query>select s from FeedEntryStatus s where s.subscription.user=:user and s.read=false order by s.entry.updated desc</query>
-	</named-query>
-	<named-query name="EntryStatus.all">
-		<query>select s from FeedEntryStatus s where s.subscription.user=:user order by s.entry.updated desc</query>
-	</named-query>
-	
-	<named-query name="EntryStatus.unreadByFeed">
-		<query>select s from FeedEntryStatus s where s.subscription.user=:user and s.subscription.feed=:feed and s.read=false order by s.entry.updated desc</query>
-	</named-query>
 	<named-query name="EntryStatus.unreadCounts">
 		<query>select s.subscription.id, count(s) from FeedEntryStatus s where s.subscription.user=:user and s.read=false group by s.subscription.id</query>
 	</named-query>
-	<named-query name="EntryStatus.allByFeed">
-		<query>select s from FeedEntryStatus s where s.subscription.user=:user and s.subscription.feed=:feed order by s.entry.updated desc</query>
-	</named-query>
 	
-	<named-query name="EntryStatus.unreadByCategories">
-		<query>select s from FeedEntryStatus s where s.subscription.user=:user and s.subscription.category in (:categories) and s.read=false order by s.entry.updated desc</query>
-	</named-query>
-	<named-query name="EntryStatus.allByCategories">
-		<query>select s from FeedEntryStatus s where s.subscription.user=:user and s.subscription.category in (:categories) order by s.entry.updated desc</query>
-	</named-query>
-	
-	<named-query name="EntryStatus.allByKeywords">
-		<query>select s from FeedEntryStatus s where s.subscription.user=:user and (lower(s.entry.content) like :keywords or lower(s.entry.title) like :keywords) order by s.entry.updated desc</query>
-	</named-query>
-
 </entity-mappings>

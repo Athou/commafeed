@@ -9,13 +9,19 @@ import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
+import com.commafeed.backend.model.FeedEntryStatus_;
+import com.commafeed.backend.model.FeedEntry_;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.api.client.util.Lists;
@@ -56,20 +62,38 @@ public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus> {
 
 	public List<FeedEntryStatus> getStatusesByKeywords(User user,
 			String keywords, int offset, int limit) {
-		TypedQuery<FeedEntryStatus> query = em.createNamedQuery(
-				"EntryStatus.allByKeywords", FeedEntryStatus.class);
-		query.setParameter("user", user);
 
 		String joinedKeywords = StringUtils.join(
 				keywords.toLowerCase().split(" "), "%");
-		query.setParameter("keywords", "%" + joinedKeywords + "%");
+		joinedKeywords = "%" + joinedKeywords + "%";
+
+		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
+		Root<FeedEntryStatus> root = query.from(getType());
+
+		List<Predicate> predicates = Lists.newArrayList();
+		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription)
+				.get(FeedSubscription_.user), user));
+
+		Predicate content = builder.like(
+				builder.lower(root.get(FeedEntryStatus_.entry).get(
+						FeedEntry_.content)), joinedKeywords);
+		Predicate title = builder.like(
+				builder.lower(root.get(FeedEntryStatus_.entry).get(
+						FeedEntry_.title)), joinedKeywords);
+		predicates.add(builder.or(content, title));
+
+		query.where(predicates.toArray(new Predicate[0]));
+		query.orderBy(builder.desc(root.get(FeedEntryStatus_.entry).get(
+				FeedEntry_.updated)));
+
+		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		if (offset > -1) {
-			query.setFirstResult(offset);
+			q.setFirstResult(offset);
 		}
 		if (limit > -1) {
-			query.setMaxResults(limit);
+			q.setMaxResults(limit);
 		}
-		return query.getResultList();
+		return q.getResultList();
 	}
 
 	public List<FeedEntryStatus> getStatuses(User user, boolean unreadOnly) {
@@ -78,18 +102,27 @@ public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus> {
 
 	public List<FeedEntryStatus> getStatuses(User user, boolean unreadOnly,
 			int offset, int limit) {
-		String queryName = unreadOnly ? "EntryStatus.unread"
-				: "EntryStatus.all";
-		TypedQuery<FeedEntryStatus> query = em.createNamedQuery(queryName,
-				FeedEntryStatus.class);
-		query.setParameter("user", user);
+		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
+		Root<FeedEntryStatus> root = query.from(getType());
+
+		List<Predicate> predicates = Lists.newArrayList();
+		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription)
+				.get(FeedSubscription_.user), user));
+		if (unreadOnly) {
+			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
+		}
+		query.where(predicates.toArray(new Predicate[0]));
+		query.orderBy(builder.desc(root.get(FeedEntryStatus_.entry).get(
+				FeedEntry_.updated)));
+
+		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		if (offset > -1) {
-			query.setFirstResult(offset);
+			q.setFirstResult(offset);
 		}
 		if (limit > -1) {
-			query.setMaxResults(limit);
+			q.setMaxResults(limit);
 		}
-		return query.getResultList();
+		return q.getResultList();
 	}
 
 	/**
@@ -115,20 +148,30 @@ public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus> {
 
 	public List<FeedEntryStatus> getStatuses(Feed feed, User user,
 			boolean unreadOnly, int offset, int limit) {
-		String queryName = unreadOnly ? "EntryStatus.unreadByFeed"
-				: "EntryStatus.allByFeed";
-		TypedQuery<FeedEntryStatus> query = em.createNamedQuery(queryName,
-				FeedEntryStatus.class);
-		query.setParameter("feed", feed);
-		query.setParameter("user", user);
+
+		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
+		Root<FeedEntryStatus> root = query.from(getType());
+
+		List<Predicate> predicates = Lists.newArrayList();
+		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription)
+				.get(FeedSubscription_.user), user));
+		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription)
+				.get(FeedSubscription_.feed), feed));
+		if (unreadOnly) {
+			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
+		}
+		query.where(predicates.toArray(new Predicate[0]));
+		query.orderBy(builder.desc(root.get(FeedEntryStatus_.entry).get(
+				FeedEntry_.updated)));
+
+		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		if (offset > -1) {
-			query.setFirstResult(offset);
+			q.setFirstResult(offset);
 		}
 		if (limit > -1) {
-			query.setMaxResults(limit);
+			q.setMaxResults(limit);
 		}
-
-		return query.getResultList();
+		return q.getResultList();
 	}
 
 	public List<FeedEntryStatus> getStatuses(List<FeedCategory> categories,
@@ -138,19 +181,30 @@ public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus> {
 
 	public List<FeedEntryStatus> getStatuses(List<FeedCategory> categories,
 			User user, boolean unreadOnly, int offset, int limit) {
-		String queryName = unreadOnly ? "EntryStatus.unreadByCategories"
-				: "EntryStatus.allByCategories";
-		TypedQuery<FeedEntryStatus> query = em.createNamedQuery(queryName,
-				FeedEntryStatus.class);
-		query.setParameter("categories", categories);
-		query.setParameter("user", user);
+
+		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
+		Root<FeedEntryStatus> root = query.from(getType());
+
+		List<Predicate> predicates = Lists.newArrayList();
+		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription)
+				.get(FeedSubscription_.user), user));
+		predicates.add(root.get(FeedEntryStatus_.subscription)
+				.get(FeedSubscription_.category).in(categories));
+		if (unreadOnly) {
+			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
+		}
+		query.where(predicates.toArray(new Predicate[0]));
+		query.orderBy(builder.desc(root.get(FeedEntryStatus_.entry).get(
+				FeedEntry_.updated)));
+
+		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		if (offset > -1) {
-			query.setFirstResult(offset);
+			q.setFirstResult(offset);
 		}
 		if (limit > -1) {
-			query.setMaxResults(limit);
+			q.setMaxResults(limit);
 		}
-		return query.getResultList();
+		return q.getResultList();
 	}
 
 	public void markFeedEntries(User user, Feed feed, Date olderThan) {

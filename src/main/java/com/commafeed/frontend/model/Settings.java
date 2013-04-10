@@ -6,6 +6,7 @@ import java.io.Serializable;
 public class Settings implements Serializable {
 
 	private String readingMode;
+	private String readingOrder;
 	private String customCss;
 
 	public String getReadingMode() {
@@ -22,6 +23,14 @@ public class Settings implements Serializable {
 
 	public void setCustomCss(String customCss) {
 		this.customCss = customCss;
+	}
+
+	public String getReadingOrder() {
+		return readingOrder;
+	}
+
+	public void setReadingOrder(String readingOrder) {
+		this.readingOrder = readingOrder;
 	}
 
 }

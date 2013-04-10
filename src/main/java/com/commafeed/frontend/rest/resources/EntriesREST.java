@@ -18,6 +18,7 @@ import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.google.common.base.Preconditions;
@@ -42,7 +43,8 @@ public class EntriesREST extends AbstractREST {
 			@QueryParam("id") String id,
 			@QueryParam("readType") ReadType readType,
 			@DefaultValue("0") @QueryParam("offset") int offset,
-			@DefaultValue("-1") @QueryParam("limit") int limit) {
+			@DefaultValue("-1") @QueryParam("limit") int limit,
+			@QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
 
 		Preconditions.checkNotNull(type);
 		Preconditions.checkNotNull(id);
@@ -61,7 +63,7 @@ public class EntriesREST extends AbstractREST {
 
 				List<FeedEntryStatus> unreadEntries = feedEntryStatusService
 						.getStatuses(subscription.getFeed(), getUser(),
-								unreadOnly, offset, limit);
+								unreadOnly, offset, limit, order);
 				for (FeedEntryStatus status : unreadEntries) {
 					entries.getEntries().add(buildEntry(status));
 				}
@@ -72,7 +74,8 @@ public class EntriesREST extends AbstractREST {
 			if (ALL.equals(id)) {
 				entries.setName("All");
 				List<FeedEntryStatus> unreadEntries = feedEntryStatusService
-						.getStatuses(getUser(), unreadOnly, offset, limit);
+						.getStatuses(getUser(), unreadOnly, offset, limit,
+								order);
 				for (FeedEntryStatus status : unreadEntries) {
 					entries.getEntries().add(buildEntry(status));
 				}
@@ -85,7 +88,7 @@ public class EntriesREST extends AbstractREST {
 							.findAllChildrenCategories(getUser(), feedCategory);
 					List<FeedEntryStatus> unreadEntries = feedEntryStatusService
 							.getStatuses(childrenCategories, getUser(),
-									unreadOnly, offset, limit);
+									unreadOnly, offset, limit, order);
 					for (FeedEntryStatus status : unreadEntries) {
 						entries.getEntries().add(buildEntry(status));
 					}

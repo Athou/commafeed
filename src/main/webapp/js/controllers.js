@@ -214,6 +214,12 @@ module.controller('ToolbarCtrl', function($scope, $http, $state, $stateParams,
 			SettingsService.save();
 		}
 	});
+	$scope.$watch('settingsService.settings.readingOrder', function(newValue,
+			oldValue) {
+		if (newValue && oldValue && newValue != oldValue) {
+			SettingsService.save();
+		}
+	});
 	$scope.refresh = function() {
 		$scope.$emit('emitReload');
 	};
@@ -267,6 +273,12 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			$scope.$emit('emitReload');
 		}
 	});
+	$scope.$watch('settingsService.settings.readingOrder', function(newValue,
+			oldValue) {
+		if (newValue && oldValue && newValue != oldValue) {
+			$scope.$emit('emitReload');
+		}
+	});
 
 	$scope.limit = 10;
 	$scope.busy = false;
@@ -302,6 +314,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 				type : $scope.selectedType,
 				id : $scope.selectedId,
 				readType : $scope.settingsService.settings.readingMode,
+				order : $scope.settingsService.settings.readingOrder,
 				offset : $scope.entries.length,
 				limit : limit
 			}, callback);

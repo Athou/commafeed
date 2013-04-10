@@ -18,6 +18,10 @@ public class UserSettings extends AbstractModel {
 		all, unread
 	}
 
+	public enum ReadingOrder {
+		asc, desc
+	}
+
 	@OneToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
@@ -25,6 +29,10 @@ public class UserSettings extends AbstractModel {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private ReadingMode readingMode;
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private ReadingOrder readingOrder;
 
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
@@ -52,6 +60,14 @@ public class UserSettings extends AbstractModel {
 
 	public void setCustomCss(String customCss) {
 		this.customCss = customCss;
+	}
+
+	public ReadingOrder getReadingOrder() {
+		return readingOrder;
+	}
+
+	public void setReadingOrder(ReadingOrder readingOrder) {
+		this.readingOrder = readingOrder;
 	}
 
 }

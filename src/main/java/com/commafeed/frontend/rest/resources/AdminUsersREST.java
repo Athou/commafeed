@@ -17,6 +17,7 @@ import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
 import com.google.common.base.Preconditions;
@@ -135,7 +136,7 @@ public class AdminUsersREST extends AbstractREST {
 					.entity("You cannot delete the admin user.").build();
 		}
 		feedEntryStatusService.delete(feedEntryStatusService.getStatuses(user,
-				false));
+				false, ReadingOrder.desc));
 		feedSubscriptionService.delete(feedSubscriptionService.findAll(user));
 		feedCategoryService.delete(feedCategoryService.findAll(user));
 		userSettingsService.delete(userSettingsService.findByUser(user));

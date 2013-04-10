@@ -1,3 +1,7 @@
+.pointer {
+	cursor: pointer;
+}
+
 .main .spinner {
 	display: inline-block;
 	margin-left: 11px;
@@ -41,6 +45,28 @@
 	font-family: inherit;
 	font-size: 11px;
 	white-space: nowrap;
+}
+
+.css-treeview .indent {
+	margin-left: 22px;
+}
+
+.css-treeview ul {
+	list-style: none;
+	margin-left: 0px;
+}
+
+.css-treeview .icon-fldr {
+	background: url("../images/tree_icons.png") no-repeat;
+	cursor: pointer;
+}
+
+.css-treeview .icon-fldr-open {
+	background-position: 0 -16px;
+}
+
+.css-treeview .icon-fldr-closed {
+	background-position: 0 -32px;
 }
 
 .css-treeview .error {

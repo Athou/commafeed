@@ -1,10 +1,11 @@
 <li>
-	<input type="checkbox" ng-model="node.expanded"
-		ng-click="toggleCategory(node)" />
-	<label ng-click="categoryClick({id: node.id})"
-		ng-class="{selected: (node.id == selectedId && selectedType == 'category'), unread: unreadCount({category:node})}">{{formatCategoryName({category:node})}}
-	</label>
-	<ul>
+	<span class="icon-fldr" ng-class="{'icon-fldr-closed': !node.expanded, 'icon-fldr-open': node.expanded}" ng-click="toggleCategory(node)"></span>
+	<span ng-click="categoryClick({id: node.id})" class="pointer">
+		<span class="icon-fldr icon-fldr-folder" ng-click="toggleCategory(node)"></span>
+		<span ng-class="{selected: (node.id == selectedId && selectedType == 'category'), unread: unreadCount({category:node})}">{{formatCategoryName({category:node})}}
+		</span>
+	</span>
+	<ul ng-show="node.expanded" class="indent">
 		<recursive>
 			<category ng-repeat="child in node.children"
 				node="child" feed-click="feedClick({id:id})"

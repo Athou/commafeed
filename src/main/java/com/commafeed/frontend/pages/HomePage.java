@@ -20,7 +20,6 @@ import com.commafeed.frontend.references.angularui.AngularUIReference;
 import com.commafeed.frontend.references.angularuibootstrap.AngularUIBootstrapReference;
 import com.commafeed.frontend.references.angularuistate.AngularUIStateReference;
 import com.commafeed.frontend.references.codemirror.CodeMirrorCssReference;
-import com.commafeed.frontend.references.csstreeview.CssTreeViewReference;
 import com.commafeed.frontend.references.mousetrap.MouseTrapReference;
 import com.commafeed.frontend.references.nggrid.NGGridReference;
 import com.commafeed.frontend.references.nginfinitescroll.NGInfiniteScrollReference;
@@ -54,7 +53,6 @@ public class HomePage extends BasePage {
 		NGGridReference.renderHead(response);
 		CodeMirrorCssReference.renderHead(response);
 
-		CssTreeViewReference.renderHead(response);
 		response.render(CssHeaderItem.forReference(OpenWebIconsCssReference
 				.instance()));
 

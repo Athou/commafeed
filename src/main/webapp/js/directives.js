@@ -121,6 +121,7 @@ module.directive('category', function($compile) {
 			};
 
 			$scope.toggleCategory = function(category) {
+				category.expanded = !category.expanded;
 				SubscriptionService.collapse({
 					id : category.id,
 					collapse : !category.expanded

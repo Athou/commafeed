@@ -56,6 +56,10 @@
 	margin-left: 0px;
 }
 
+.css-treeview li {
+	line-height: 18px;
+}
+
 .css-treeview .icon-fldr {
 	background: url("../images/tree_icons.png") no-repeat;
 	cursor: pointer;

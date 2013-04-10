@@ -25,10 +25,13 @@ public class FeedService extends GenericDAO<Feed> {
 		return Iterables.getFirst(feeds, null);
 	}
 
-	public Feed getByIdWithEntries(Long feedId) {
+	public Feed getByIdWithEntries(Long feedId, int offset, int limit) {
 		EasyCriteria<Feed> criteria = createCriteria();
 		criteria.andEquals(MF.i(proxy().getId()), feedId);
 		criteria.leftJoinFetch(MF.i(proxy().getEntries()));
+		
+		criteria.setFirstResult(offset);
+		criteria.setMaxResults(limit);
 		return criteria.getSingleResult();
 	}
 }

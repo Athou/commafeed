@@ -38,7 +38,7 @@ public class GoogleImportRedirectPage extends WebPage {
 			builder.addParameter("redirect_uri", redirectUri);
 			builder.addParameter("response_type", "code");
 			builder.addParameter("scope", SCOPE);
-			builder.addParameter("approval_prompt", "auto");
+			builder.addParameter("approval_prompt", "force");
 			builder.addParameter("client_id", clientId);
 			builder.addParameter("state",
 					String.valueOf(CommaFeedSession.get().getUser().getId()));

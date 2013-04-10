@@ -3,6 +3,7 @@ package com.commafeed.frontend.pages;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.Url;
 import org.apache.wicket.request.UrlRenderer;
@@ -59,7 +60,8 @@ public class GoogleImportCallbackPage extends WebPage {
 		String code = responseUrl.getCode();
 
 		if (responseUrl.getError() != null) {
-			throw new DisplayException(responseUrl.getError());
+			// user declined
+			throw new RestartResponseException(getApplication().getHomePage());
 		} else if (code == null) {
 			throw new DisplayException("Missing authorization code");
 		} else {

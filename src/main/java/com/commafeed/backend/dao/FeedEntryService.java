@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -14,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
+import com.commafeed.backend.model.FeedEntry_;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Lists;
@@ -37,7 +41,7 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 		}
 
 		List<FeedEntry> existingEntries = guids.isEmpty() ? new ArrayList<FeedEntry>()
-				: getByGuids(guids);
+				: findByGuids(guids);
 		for (FeedEntry entry : entries) {
 			FeedEntry foundEntry = null;
 			for (FeedEntry existingEntry : existingEntries) {
@@ -80,7 +84,7 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 
 	}
 
-	public List<FeedEntry> getByGuids(List<String> guids) {
+	public List<FeedEntry> findByGuids(List<String> guids) {
 		EasyCriteria<FeedEntry> criteria = createCriteria();
 		criteria.setDistinctTrue();
 		criteria.andStringIn(MF.i(proxy().getGuid()), guids);
@@ -88,4 +92,14 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 		return criteria.getResultList();
 	}
 
+	public List<FeedEntry> findByFeed(Feed feed, int offset, int limit) {
+		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
+		Root<FeedEntry> root = query.from(getType());
+		query.where(builder.isMember(feed, root.get(FeedEntry_.feeds)));
+		query.orderBy(builder.desc(root.get(FeedEntry_.updated)));
+		TypedQuery<FeedEntry> q = em.createQuery(query);
+		q.setFirstResult(offset);
+		q.setMaxResults(limit);
+		return q.getResultList();
+	}
 }

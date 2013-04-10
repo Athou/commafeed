@@ -1,7 +1,6 @@
 package com.commafeed.backend.dao;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -29,6 +28,9 @@ public class FeedSubscriptionService extends GenericDAO<FeedSubscription> {
 	FeedService feedService;
 
 	@Inject
+	FeedEntryService feedEntryService;
+
+	@Inject
 	FeedEntryStatusService feedEntryStatusService;
 
 	public void subscribe(User user, String url, String title,
@@ -42,26 +44,30 @@ public class FeedSubscriptionService extends GenericDAO<FeedSubscription> {
 		}
 
 		FeedSubscription sub = findByFeed(user, feed);
+		boolean newSubscription = false;
 		if (sub == null) {
 			sub = new FeedSubscription();
 			sub.setFeed(feed);
 			sub.setUser(user);
+			newSubscription = true;
 		}
 		sub.setCategory(category);
 		sub.setTitle(title);
 		saveOrUpdate(sub);
 
-		List<FeedEntryStatus> statuses = Lists.newArrayList();
-		Set<FeedEntry> allEntries = feedService
-				.getByIdWithEntries(feed.getId()).getEntries();
-		for (FeedEntry entry : allEntries) {
-			FeedEntryStatus status = new FeedEntryStatus();
-			status.setEntry(entry);
-			status.setRead(true);
-			status.setSubscription(sub);
-			statuses.add(status);
+		if (newSubscription) {
+			List<FeedEntryStatus> statuses = Lists.newArrayList();
+			List<FeedEntry> allEntries = feedEntryService.findByFeed(feed, 0,
+					10);
+			for (FeedEntry entry : allEntries) {
+				FeedEntryStatus status = new FeedEntryStatus();
+				status.setEntry(entry);
+				status.setRead(true);
+				status.setSubscription(sub);
+				statuses.add(status);
+			}
+			feedEntryStatusService.save(statuses);
 		}
-		feedEntryStatusService.save(statuses);
 	}
 
 	public FeedSubscription findById(User user, Long id) {

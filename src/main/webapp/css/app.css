@@ -159,7 +159,8 @@
 }
 
 #feed-accordion .entry-buttons label {
-	margin-bottom: 0px
+	margin-bottom: 0px;
+	font-size: 12px;
 }
 
 /* admin */

@@ -244,6 +244,11 @@ module.controller('ToolbarCtrl', function($scope, $http, $state, $stateParams,
 	$scope.showButtons = function() {
 		return !$stateParams._keywords;
 	};
+	
+	$scope.toggleOrder = function() {
+		var settings = $scope.settingsService.settings;
+		settings.readingOrder = settings.readingOrder == 'asc' ? 'desc' : 'asc'; 
+	};
 
 	$scope.toAdmin = function() {
 		$location.path('admin');

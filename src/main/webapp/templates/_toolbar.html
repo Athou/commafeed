@@ -5,10 +5,10 @@
 				<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'unread'">Unread</button>
 				<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'all'">All</button>
 			</div>
-			<div class="btn-group" data-toggle="buttons-radio">
-				<button type="button" class="btn" ng-model="settingsService.settings.readingOrder" btn-radio="'desc'">Newest</button>
-				<button type="button" class="btn" ng-model="settingsService.settings.readingOrder" btn-radio="'asc'">Oldest</button>
-			</div>
+			
+			<button type="button" class="btn" ng-click="toggleOrder()">
+				<i ng-class="{'icon-arrow-up' : settingsService.settings.readingOrder == 'asc', 'icon-arrow-down': settingsService.settings.readingOrder == 'desc'}"></i>
+			</button>
 			
 			<button type="button" class="btn" ng-click="refresh()"><i class="icon-refresh"></i> Refresh</button>
 			<button type="button" class="btn" ng-click="markAllAsRead()"><i class="icon-ok"></i> Mark all as read</button>

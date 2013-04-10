@@ -149,6 +149,8 @@ module.directive('category', function($compile) {
 							if (result == 'ok') {
 								SubscriptionService.deleteCategory({
 									id : category.id
+								}, function() {
+									SubscriptionService.init();
 								});
 							}
 						});

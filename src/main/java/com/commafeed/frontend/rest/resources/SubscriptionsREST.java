@@ -81,8 +81,14 @@ public class SubscriptionsREST extends AbstractREST {
 	@GET
 	@Path("unsubscribe")
 	public Response unsubscribe(@QueryParam("id") Long subscriptionId) {
-		feedSubscriptionService.deleteById(subscriptionId);
-		return Response.ok(Status.OK).build();
+		FeedSubscription sub = feedSubscriptionService.findById(getUser(),
+				subscriptionId);
+		if (sub != null) {
+			feedSubscriptionService.delete(sub);
+			return Response.ok(Status.OK).build();
+		} else {
+			return Response.status(Status.NOT_FOUND).build();
+		}
 	}
 
 	@GET
@@ -137,8 +143,19 @@ public class SubscriptionsREST extends AbstractREST {
 	@GET
 	@Path("deleteCategory")
 	public Response deleteCategory(@QueryParam("id") Long id) {
-		feedCategoryService.deleteById(id);
-		return Response.ok().build();
+		FeedCategory cat = feedCategoryService.findById(getUser(), id);
+		if (cat != null) {
+			List<FeedSubscription> subs = feedSubscriptionService
+					.findByCategory(getUser(), cat);
+			for (FeedSubscription sub : subs) {
+				sub.setCategory(null);
+			}
+			feedSubscriptionService.update(subs);
+			feedCategoryService.delete(cat);
+			return Response.ok().build();
+		} else {
+			return Response.status(Status.NOT_FOUND).build();
+		}
 	}
 
 	@POST

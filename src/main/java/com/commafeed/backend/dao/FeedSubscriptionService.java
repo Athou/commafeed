@@ -74,6 +74,8 @@ public class FeedSubscriptionService extends GenericDAO<FeedSubscription> {
 		EasyCriteria<FeedSubscription> criteria = createCriteria();
 		criteria.andEquals(MF.i(proxy().getUser()), user);
 		criteria.andEquals(MF.i(proxy().getId()), id);
+		criteria.leftJoinFetch(MF.i(proxy().getFeed()));
+		criteria.leftJoinFetch(MF.i(proxy().getUser()));
 		return Iterables.getFirst(criteria.getResultList(), null);
 	}
 

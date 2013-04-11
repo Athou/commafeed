@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import org.apache.wicket.markup.head.IHeaderResponse;
 
-import com.commafeed.backend.dao.ApplicationSettingsService;
+import com.commafeed.backend.dao.ApplicationSettingsDAO;
 import com.commafeed.frontend.pages.components.LoginPanel;
 import com.commafeed.frontend.pages.components.RegisterPanel;
 import com.commafeed.frontend.utils.WicketUtils;
@@ -13,7 +13,7 @@ import com.commafeed.frontend.utils.WicketUtils;
 public class WelcomePage extends BasePage {
 
 	@Inject
-	ApplicationSettingsService applicationSettingsService;
+	ApplicationSettingsDAO applicationSettingsDAO;
 
 	public WelcomePage() {
 		add(new LoginPanel("login"));
@@ -21,7 +21,7 @@ public class WelcomePage extends BasePage {
 			@Override
 			protected void onConfigure() {
 				super.onConfigure();
-				setVisibilityAllowed(applicationSettingsService.get()
+				setVisibilityAllowed(applicationSettingsDAO.get()
 						.isAllowRegistrations());
 			}
 		});

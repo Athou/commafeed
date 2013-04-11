@@ -12,7 +12,7 @@ import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
 
 @Stateless
-public class ApplicationSettingsService {
+public class ApplicationSettingsDAO {
 
 	@PersistenceContext
 	protected EntityManager em;

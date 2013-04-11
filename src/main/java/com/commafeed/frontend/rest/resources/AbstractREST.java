@@ -23,19 +23,21 @@ import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.protocol.http.servlet.ServletWebResponse;
 import org.apache.wicket.request.cycle.RequestCycle;
 
-import com.commafeed.backend.dao.FeedCategoryService;
-import com.commafeed.backend.dao.FeedEntryService;
-import com.commafeed.backend.dao.FeedEntryStatusService;
-import com.commafeed.backend.dao.FeedService;
-import com.commafeed.backend.dao.FeedSubscriptionService;
-import com.commafeed.backend.dao.UserRoleService;
-import com.commafeed.backend.dao.UserService;
-import com.commafeed.backend.dao.UserSettingsService;
+import com.commafeed.backend.dao.FeedCategoryDAO;
+import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.dao.FeedEntryDAO;
+import com.commafeed.backend.dao.FeedEntryStatusDAO;
+import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.dao.UserDAO;
+import com.commafeed.backend.dao.UserRoleDAO;
+import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.feeds.FeedFetcher;
 import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
-import com.commafeed.backend.security.PasswordEncryptionService;
+import com.commafeed.backend.services.FeedSubscriptionService;
+import com.commafeed.backend.services.PasswordEncryptionService;
+import com.commafeed.backend.services.UserService;
 import com.commafeed.frontend.CommaFeedApplication;
 import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.SecurityCheck;
@@ -52,28 +54,34 @@ public abstract class AbstractREST {
 	HttpServletResponse response;
 
 	@Inject
-	FeedService feedService;
+	FeedDAO feedDAO;
+
+	@Inject
+	FeedSubscriptionDAO feedSubscriptionDAO;
 
 	@Inject
 	FeedSubscriptionService feedSubscriptionService;
 
 	@Inject
-	FeedCategoryService feedCategoryService;
+	FeedCategoryDAO feedCategoryDAO;
 
 	@Inject
-	FeedEntryService feedEntryService;
+	FeedEntryDAO feedEntryDAO;
 
 	@Inject
-	FeedEntryStatusService feedEntryStatusService;
+	FeedEntryStatusDAO feedEntryStatusDAO;
+
+	@Inject
+	UserDAO userDAO;
 
 	@Inject
 	UserService userService;
 
 	@Inject
-	UserSettingsService userSettingsService;
+	UserSettingsDAO userSettingsDAO;
 
 	@Inject
-	UserRoleService userRoleService;
+	UserRoleDAO userRoleDAO;
 
 	@Inject
 	OPMLImporter opmlImporter;

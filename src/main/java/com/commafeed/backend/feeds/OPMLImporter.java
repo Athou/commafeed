@@ -7,11 +7,11 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.commafeed.backend.dao.FeedCategoryService;
-import com.commafeed.backend.dao.FeedService;
-import com.commafeed.backend.dao.FeedSubscriptionService;
+import com.commafeed.backend.dao.FeedCategoryDAO;
+import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.services.FeedSubscriptionService;
 import com.sun.syndication.feed.opml.Opml;
 import com.sun.syndication.feed.opml.Outline;
 import com.sun.syndication.io.FeedException;
@@ -20,13 +20,13 @@ import com.sun.syndication.io.WireFeedInput;
 public class OPMLImporter {
 
 	@Inject
-	FeedService feedService;
+	FeedDAO feedDAO;
 
 	@Inject
 	FeedSubscriptionService feedSubscriptionService;
 
 	@Inject
-	FeedCategoryService feedCategoryService;
+	FeedCategoryDAO feedCategoryDAO;
 
 	@SuppressWarnings("unchecked")
 	public void importOpml(User user, String xml) throws FeedException {
@@ -43,14 +43,14 @@ public class OPMLImporter {
 	private void handleOutline(User user, Outline outline, FeedCategory parent) {
 
 		if (StringUtils.isEmpty(outline.getType())) {
-			FeedCategory category = feedCategoryService.findByName(user,
+			FeedCategory category = feedCategoryDAO.findByName(user,
 					outline.getText(), parent);
 			if (category == null) {
 				category = new FeedCategory();
 				category.setName(outline.getText());
 				category.setParent(parent);
 				category.setUser(user);
-				feedCategoryService.save(category);
+				feedCategoryDAO.save(category);
 			}
 
 			List<Outline> children = outline.getChildren();

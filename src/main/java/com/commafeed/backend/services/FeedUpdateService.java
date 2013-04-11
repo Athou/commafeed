@@ -1,4 +1,4 @@
-package com.commafeed.backend.dao;
+package com.commafeed.backend.services;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,41 +7,44 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.dao.FeedEntryDAO;
+import com.commafeed.backend.dao.FeedEntryStatusDAO;
+import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
-import com.commafeed.backend.model.FeedEntry_;
 import com.commafeed.backend.model.FeedSubscription;
-import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Lists;
-import com.uaihebert.model.EasyCriteria;
 
 @Stateless
-@SuppressWarnings("serial")
-public class FeedEntryService extends GenericDAO<FeedEntry> {
+public class FeedUpdateService {
 
 	@Inject
-	FeedService feedService;
+	FeedDAO feedDAO;
 
 	@Inject
-	FeedSubscriptionService feedSubscriptionService;
+	FeedSubscriptionDAO feedSubscriptionDAO;
+
+	@Inject
+	FeedEntryDAO feedEntryDAO;
+
+	@Inject
+	FeedEntryStatusDAO feedEntryStatusDAO;
 
 	public void updateEntries(String url, Collection<FeedEntry> entries) {
-		Feed feed = feedService.findByUrl(url);
+		Feed feed = feedDAO.findByUrl(url);
 		List<String> guids = Lists.newArrayList();
 		for (FeedEntry entry : entries) {
 			guids.add(entry.getGuid());
 		}
 
 		List<FeedEntry> existingEntries = guids.isEmpty() ? new ArrayList<FeedEntry>()
-				: findByGuids(guids);
+				: feedEntryDAO.findByGuids(guids);
 		for (FeedEntry entry : entries) {
 			FeedEntry foundEntry = null;
 			for (FeedEntry existingEntry : existingEntries) {
@@ -72,34 +75,15 @@ public class FeedEntryService extends GenericDAO<FeedEntry> {
 
 	private void addFeedToEntry(FeedEntry entry, Feed feed) {
 		entry.getFeeds().add(feed);
-		saveOrUpdate(entry);
-		List<FeedSubscription> subscriptions = feedSubscriptionService
+		feedEntryDAO.saveOrUpdate(entry);
+		List<FeedSubscription> subscriptions = feedSubscriptionDAO
 				.findByFeed(feed);
 		for (FeedSubscription sub : subscriptions) {
 			FeedEntryStatus status = new FeedEntryStatus();
 			status.setEntry(entry);
 			status.setSubscription(sub);
-			em.persist(status);
+			feedEntryStatusDAO.save(status);
 		}
 
-	}
-
-	public List<FeedEntry> findByGuids(List<String> guids) {
-		EasyCriteria<FeedEntry> criteria = createCriteria();
-		criteria.setDistinctTrue();
-		criteria.andStringIn(MF.i(proxy().getGuid()), guids);
-		criteria.leftJoinFetch(MF.i(proxy().getFeeds()));
-		return criteria.getResultList();
-	}
-
-	public List<FeedEntry> findByFeed(Feed feed, int offset, int limit) {
-		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
-		Root<FeedEntry> root = query.from(getType());
-		query.where(builder.isMember(feed, root.get(FeedEntry_.feeds)));
-		query.orderBy(builder.desc(root.get(FeedEntry_.updated)));
-		TypedQuery<FeedEntry> q = em.createQuery(query);
-		q.setFirstResult(offset);
-		q.setMaxResults(limit);
-		return q.getResultList();
 	}
 }

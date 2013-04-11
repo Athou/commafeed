@@ -13,13 +13,13 @@ import com.google.common.collect.Sets;
 
 @SuppressWarnings("serial")
 @Stateless
-public class UserRoleService extends GenericDAO<UserRole> {
+public class UserRoleDAO extends GenericDAO<UserRole> {
 
 	public List<UserRole> findAll(User user) {
 		return findByField(MF.i(MF.p(UserRole.class).getUser()), user);
 	}
 
-	public Set<Role> getRoles(User user) {
+	public Set<Role> findRoles(User user) {
 		Set<Role> list = Sets.newHashSet();
 		for (UserRole role : findByField(MF.i(proxy().getUser()), user)) {
 			list.add(role.getRole());

@@ -11,11 +11,11 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.commafeed.backend.dao.ApplicationSettingsService;
-import com.commafeed.backend.dao.FeedCategoryService;
-import com.commafeed.backend.dao.FeedService;
-import com.commafeed.backend.dao.FeedSubscriptionService;
-import com.commafeed.backend.dao.UserService;
+import com.commafeed.backend.dao.ApplicationSettingsDAO;
+import com.commafeed.backend.dao.FeedCategoryDAO;
+import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.feeds.FeedRefreshWorker;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.Feed;
@@ -23,7 +23,8 @@ import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
-import com.commafeed.backend.security.PasswordEncryptionService;
+import com.commafeed.backend.services.PasswordEncryptionService;
+import com.commafeed.backend.services.UserService;
 
 @Startup
 @Singleton
@@ -33,13 +34,16 @@ public class StartupBean {
 	public static final String ADMIN_NAME = "admin";
 
 	@Inject
-	FeedService feedService;
+	FeedDAO feedDAO;
 
 	@Inject
-	FeedCategoryService feedCategoryService;
+	FeedCategoryDAO feedCategoryDAO;
 
 	@Inject
-	FeedSubscriptionService feedSubscriptionService;
+	FeedSubscriptionDAO feedSubscriptionDAO;
+
+	@Inject
+	UserDAO userDAO;
 
 	@Inject
 	UserService userService;
@@ -48,7 +52,7 @@ public class StartupBean {
 	PasswordEncryptionService encryptionService;
 
 	@Inject
-	ApplicationSettingsService applicationSettingsService;
+	ApplicationSettingsDAO applicationSettingsDAO;
 
 	@Inject
 	FeedRefreshWorker worker;
@@ -58,7 +62,7 @@ public class StartupBean {
 	@PostConstruct
 	private void init() {
 		startupTime = Calendar.getInstance().getTimeInMillis();
-		if (userService.getCount() == 0) {
+		if (userDAO.getCount() == 0) {
 			initialData();
 		}
 
@@ -72,57 +76,57 @@ public class StartupBean {
 	private void initialData() {
 		log.info("Populating database with default values");
 
-		applicationSettingsService.save(new ApplicationSettings());
+		applicationSettingsDAO.save(new ApplicationSettings());
 
 		User user = userService.register(ADMIN_NAME, "admin",
 				Arrays.asList(Role.ADMIN, Role.USER));
 		userService.register("test", "test", Arrays.asList(Role.USER));
 
 		Feed dilbert = new Feed("http://feed.dilbert.com/dilbert/daily_strip");
-		feedService.save(dilbert);
+		feedDAO.save(dilbert);
 
 		Feed engadget = new Feed("http://www.engadget.com/rss.xml");
-		feedService.save(engadget);
+		feedDAO.save(engadget);
 
 		Feed frandroid = new Feed("http://feeds.feedburner.com/frandroid");
-		feedService.save(frandroid);
+		feedDAO.save(frandroid);
 
 		FeedCategory newsCategory = new FeedCategory();
 		newsCategory.setName("News");
 		newsCategory.setUser(user);
-		feedCategoryService.save(newsCategory);
+		feedCategoryDAO.save(newsCategory);
 
 		FeedCategory comicsCategory = new FeedCategory();
 		comicsCategory.setName("Comics");
 		comicsCategory.setUser(user);
 		comicsCategory.setParent(newsCategory);
-		feedCategoryService.save(comicsCategory);
+		feedCategoryDAO.save(comicsCategory);
 
 		FeedCategory techCategory = new FeedCategory();
 		techCategory.setName("Tech");
 		techCategory.setUser(user);
 		techCategory.setParent(newsCategory);
-		feedCategoryService.save(techCategory);
+		feedCategoryDAO.save(techCategory);
 
 		FeedSubscription sub = new FeedSubscription();
 		sub.setCategory(comicsCategory);
 		sub.setFeed(dilbert);
 		sub.setTitle("Dilbert - Strips");
 		sub.setUser(user);
-		feedSubscriptionService.save(sub);
+		feedSubscriptionDAO.save(sub);
 
 		FeedSubscription sub2 = new FeedSubscription();
 		sub2.setCategory(techCategory);
 		sub2.setFeed(engadget);
 		sub2.setTitle("Engadget");
 		sub2.setUser(user);
-		feedSubscriptionService.save(sub2);
+		feedSubscriptionDAO.save(sub2);
 
 		FeedSubscription sub3 = new FeedSubscription();
 		sub3.setFeed(frandroid);
 		sub3.setTitle("Frandroid");
 		sub3.setUser(user);
-		feedSubscriptionService.save(sub3);
+		feedSubscriptionDAO.save(sub3);
 	}
 
 	public long getStartupTime() {

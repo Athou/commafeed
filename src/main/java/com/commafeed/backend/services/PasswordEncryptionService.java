@@ -1,4 +1,4 @@
-package com.commafeed.backend.security;
+package com.commafeed.backend.services;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -13,14 +13,14 @@ import javax.ejb.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.commafeed.backend.dao.UserService;
+import com.commafeed.backend.dao.UserDAO;
 
 // http://www.javacodegeeks.com/2012/05/secure-password-storage-donts-dos-and.html
 @Singleton
 public class PasswordEncryptionService {
 
 	private static final Logger log = LoggerFactory
-			.getLogger(UserService.class);
+			.getLogger(UserDAO.class);
 
 	public boolean authenticate(String attemptedPassword,
 			byte[] encryptedPassword, byte[] salt) {

@@ -54,15 +54,15 @@ public class EntriesREST extends AbstractREST {
 		boolean unreadOnly = readType == ReadType.unread;
 
 		if (type == Type.feed) {
-			FeedSubscription subscription = feedSubscriptionService.findById(
+			FeedSubscription subscription = feedSubscriptionDAO.findById(
 					getUser(), Long.valueOf(id));
 			if (subscription != null) {
 				entries.setName(subscription.getTitle());
 				entries.setMessage(subscription.getFeed().getMessage());
 				entries.setErrorCount(subscription.getFeed().getErrorCount());
 
-				List<FeedEntryStatus> unreadEntries = feedEntryStatusService
-						.getStatuses(subscription.getFeed(), getUser(),
+				List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO
+						.findByFeed(subscription.getFeed(), getUser(),
 								unreadOnly, offset, limit, order, true);
 				for (FeedEntryStatus status : unreadEntries) {
 					entries.getEntries().add(buildEntry(status));
@@ -73,21 +73,21 @@ public class EntriesREST extends AbstractREST {
 
 			if (ALL.equals(id)) {
 				entries.setName("All");
-				List<FeedEntryStatus> unreadEntries = feedEntryStatusService
-						.getStatuses(getUser(), unreadOnly, offset, limit,
+				List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO
+						.findAll(getUser(), unreadOnly, offset, limit,
 								order, true);
 				for (FeedEntryStatus status : unreadEntries) {
 					entries.getEntries().add(buildEntry(status));
 				}
 
 			} else {
-				FeedCategory feedCategory = feedCategoryService.findById(
+				FeedCategory feedCategory = feedCategoryDAO.findById(
 						getUser(), Long.valueOf(id));
 				if (feedCategory != null) {
-					List<FeedCategory> childrenCategories = feedCategoryService
+					List<FeedCategory> childrenCategories = feedCategoryDAO
 							.findAllChildrenCategories(getUser(), feedCategory);
-					List<FeedEntryStatus> unreadEntries = feedEntryStatusService
-							.getStatuses(childrenCategories, getUser(),
+					List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO
+							.findByCategories(childrenCategories, getUser(),
 									unreadOnly, offset, limit, order, true);
 					for (FeedEntryStatus status : unreadEntries) {
 						entries.getEntries().add(buildEntry(status));
@@ -136,15 +136,15 @@ public class EntriesREST extends AbstractREST {
 				olderThanTimestamp);
 
 		if (type == Type.entry) {
-			FeedEntryStatus status = feedEntryStatusService.findById(getUser(),
+			FeedEntryStatus status = feedEntryStatusDAO.findById(getUser(),
 					Long.valueOf(id));
 			status.setRead(read);
-			feedEntryStatusService.update(status);
+			feedEntryStatusDAO.update(status);
 		} else if (type == Type.feed) {
 			if (read) {
-				FeedSubscription subscription = feedSubscriptionService
+				FeedSubscription subscription = feedSubscriptionDAO
 						.findById(getUser(), Long.valueOf(id));
-				feedEntryStatusService.markFeedEntries(getUser(),
+				feedEntryStatusDAO.markFeedEntries(getUser(),
 						subscription.getFeed(), olderThan);
 			} else {
 				throw new WebApplicationException(Response.status(
@@ -153,13 +153,13 @@ public class EntriesREST extends AbstractREST {
 		} else if (type == Type.category) {
 			if (read) {
 				if (ALL.equals(id)) {
-					feedEntryStatusService.markAllEntries(getUser(), olderThan);
+					feedEntryStatusDAO.markAllEntries(getUser(), olderThan);
 				} else {
-					List<FeedCategory> categories = feedCategoryService
+					List<FeedCategory> categories = feedCategoryDAO
 							.findAllChildrenCategories(getUser(),
-									feedCategoryService.findById(getUser(),
+									feedCategoryDAO.findById(getUser(),
 											Long.valueOf(id)));
-					feedEntryStatusService.markCategoryEntries(getUser(),
+					feedEntryStatusDAO.markCategoryEntries(getUser(),
 							categories, olderThan);
 				}
 			} else {
@@ -180,8 +180,8 @@ public class EntriesREST extends AbstractREST {
 		Entries entries = new Entries();
 
 		List<Entry> list = Lists.newArrayList();
-		List<FeedEntryStatus> entriesStatus = feedEntryStatusService
-				.getStatusesByKeywords(getUser(), keywords, offset, limit, true);
+		List<FeedEntryStatus> entriesStatus = feedEntryStatusDAO
+				.findByKeywords(getUser(), keywords, offset, limit, true);
 		for (FeedEntryStatus status : entriesStatus) {
 			list.add(buildEntry(status));
 		}

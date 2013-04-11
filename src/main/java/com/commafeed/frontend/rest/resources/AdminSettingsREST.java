@@ -6,7 +6,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import com.commafeed.backend.dao.ApplicationSettingsService;
+import com.commafeed.backend.dao.ApplicationSettingsDAO;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.frontend.SecurityCheck;
@@ -16,18 +16,18 @@ import com.commafeed.frontend.SecurityCheck;
 public class AdminSettingsREST {
 
 	@Inject
-	ApplicationSettingsService applicationSettingsService;
+	ApplicationSettingsDAO applicationSettingsDAO;
 
 	@Path("get")
 	@GET
 	public ApplicationSettings get() {
-		return applicationSettingsService.get();
+		return applicationSettingsDAO.get();
 	}
 
 	@Path("save")
 	@POST
 	public Response save(ApplicationSettings settings) {
-		applicationSettingsService.save(settings);
+		applicationSettingsDAO.save(settings);
 		return Response.ok().build();
 	}
 }

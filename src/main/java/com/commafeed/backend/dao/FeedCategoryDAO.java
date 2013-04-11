@@ -16,7 +16,7 @@ import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 @SuppressWarnings("serial")
-public class FeedCategoryService extends GenericDAO<FeedCategory> {
+public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 
 	public List<FeedCategory> findAll(User user) {
 		EasyCriteria<FeedCategory> criteria = createCriteria();

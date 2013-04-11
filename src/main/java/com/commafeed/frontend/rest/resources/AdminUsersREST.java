@@ -50,7 +50,7 @@ public class AdminUsersREST extends AbstractREST {
 						.entity("User already exists.").build();
 			}
 		} else {
-			User user = userService.findById(id);
+			User user = userDAO.findById(id);
 			if (StartupBean.ADMIN_NAME.equals(user.getName())
 					&& !userModel.isEnabled()) {
 				return Response.status(Status.FORBIDDEN)
@@ -62,11 +62,11 @@ public class AdminUsersREST extends AbstractREST {
 						userModel.getPassword(), user.getSalt()));
 			}
 			user.setDisabled(!userModel.isEnabled());
-			userService.update(user);
+			userDAO.update(user);
 
-			Set<Role> roles = userRoleService.getRoles(user);
+			Set<Role> roles = userRoleDAO.findRoles(user);
 			if (userModel.isAdmin() && !roles.contains(Role.ADMIN)) {
-				userRoleService.save(new UserRole(user, Role.ADMIN));
+				userRoleDAO.save(new UserRole(user, Role.ADMIN));
 			} else if (!userModel.isAdmin() && roles.contains(Role.ADMIN)) {
 				if (StartupBean.ADMIN_NAME.equals(user.getName())) {
 					return Response
@@ -74,9 +74,9 @@ public class AdminUsersREST extends AbstractREST {
 							.entity("You cannot remove the admin role from the admin user.")
 							.build();
 				}
-				for (UserRole userRole : userRoleService.findAll(user)) {
+				for (UserRole userRole : userRoleDAO.findAll(user)) {
 					if (userRole.getRole() == Role.ADMIN) {
-						userRoleService.delete(userRole);
+						userRoleDAO.delete(userRole);
 					}
 				}
 			}
@@ -89,12 +89,12 @@ public class AdminUsersREST extends AbstractREST {
 	@Path("get")
 	@GET
 	public UserModel getUser(@QueryParam("id") Long id) {
-		User user = userService.findById(id);
+		User user = userDAO.findById(id);
 		UserModel userModel = new UserModel();
 		userModel.setId(user.getId());
 		userModel.setName(user.getName());
 		userModel.setEnabled(!user.isDisabled());
-		for (UserRole role : userRoleService.findAll(user)) {
+		for (UserRole role : userRoleDAO.findAll(user)) {
 			if (role.getRole() == Role.ADMIN) {
 				userModel.setAdmin(true);
 			}
@@ -106,7 +106,7 @@ public class AdminUsersREST extends AbstractREST {
 	@GET
 	public Collection<UserModel> getUsers() {
 		Map<Long, UserModel> users = Maps.newHashMap();
-		for (UserRole role : userRoleService.findAll()) {
+		for (UserRole role : userRoleDAO.findAll()) {
 			User user = role.getUser();
 			Long key = user.getId();
 			UserModel userModel = users.get(key);
@@ -127,7 +127,7 @@ public class AdminUsersREST extends AbstractREST {
 	@Path("delete")
 	@GET
 	public Response delete(@QueryParam("id") Long id) {
-		User user = userService.findById(id);
+		User user = userDAO.findById(id);
 		if (user == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -135,13 +135,13 @@ public class AdminUsersREST extends AbstractREST {
 			return Response.status(Status.FORBIDDEN)
 					.entity("You cannot delete the admin user.").build();
 		}
-		feedEntryStatusService.delete(feedEntryStatusService.getStatuses(user,
+		feedEntryStatusDAO.delete(feedEntryStatusDAO.findAll(user,
 				false, ReadingOrder.desc, false));
-		feedSubscriptionService.delete(feedSubscriptionService.findAll(user));
-		feedCategoryService.delete(feedCategoryService.findAll(user));
-		userSettingsService.delete(userSettingsService.findByUser(user));
-		userRoleService.delete(userRoleService.findAll(user));
-		userService.delete(user);
+		feedSubscriptionDAO.delete(feedSubscriptionDAO.findAll(user));
+		feedCategoryDAO.delete(feedCategoryDAO.findAll(user));
+		userSettingsDAO.delete(userSettingsDAO.findByUser(user));
+		userRoleDAO.delete(userRoleDAO.findAll(user));
+		userDAO.delete(user);
 
 		return Response.ok().build();
 	}

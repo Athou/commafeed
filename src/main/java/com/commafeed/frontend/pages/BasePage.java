@@ -5,14 +5,14 @@ import javax.inject.Inject;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
 
-import com.commafeed.backend.dao.FeedCategoryService;
-import com.commafeed.backend.dao.FeedEntryService;
-import com.commafeed.backend.dao.FeedEntryStatusService;
-import com.commafeed.backend.dao.FeedService;
-import com.commafeed.backend.dao.FeedSubscriptionService;
-import com.commafeed.backend.dao.UserRoleService;
-import com.commafeed.backend.dao.UserService;
-import com.commafeed.backend.dao.UserSettingsService;
+import com.commafeed.backend.dao.FeedCategoryDAO;
+import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.dao.FeedEntryDAO;
+import com.commafeed.backend.dao.FeedEntryStatusDAO;
+import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.dao.UserDAO;
+import com.commafeed.backend.dao.UserRoleDAO;
+import com.commafeed.backend.dao.UserSettingsDAO;
 
 import de.agilecoders.wicket.Bootstrap;
 
@@ -20,28 +20,28 @@ import de.agilecoders.wicket.Bootstrap;
 public class BasePage extends WebPage {
 
 	@Inject
-	protected FeedService feedService;
+	protected FeedDAO feedDAO;
 
 	@Inject
-	protected FeedSubscriptionService feedSubscriptionService;
+	protected FeedSubscriptionDAO feedSubscriptionDAO;
 
 	@Inject
-	protected FeedCategoryService feedCategoryService;
+	protected FeedCategoryDAO feedCategoryDAO;
 
 	@Inject
-	protected FeedEntryService feedEntryService;
+	protected FeedEntryDAO feedEntryDAO;
 
 	@Inject
-	protected FeedEntryStatusService feedEntryStatusService;
+	protected FeedEntryStatusDAO feedEntryStatusDAO;
 
 	@Inject
-	protected UserService userService;
+	protected UserDAO userDAO;
 
 	@Inject
-	protected UserSettingsService userSettingsService;
+	protected UserSettingsDAO userSettingsDAO;
 
 	@Inject
-	protected UserRoleService userRoleService;
+	protected UserRoleDAO userRoleDAO;
 
 	@Override
 	public void renderHead(IHeaderResponse response) {

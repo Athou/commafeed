@@ -20,10 +20,11 @@ import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 import org.apache.wicket.validation.validator.StringValidator;
 
-import com.commafeed.backend.dao.ApplicationSettingsService;
-import com.commafeed.backend.dao.UserService;
+import com.commafeed.backend.dao.ApplicationSettingsDAO;
+import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.services.UserService;
 import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.model.RegistrationRequest;
 import com.commafeed.frontend.pages.GoogleImportRedirectPage;
@@ -33,10 +34,13 @@ import com.commafeed.frontend.utils.ModelFactory.MF;
 public class RegisterPanel extends Panel {
 
 	@Inject
+	UserDAO userDAO;
+
+	@Inject
 	UserService userService;
 
 	@Inject
-	ApplicationSettingsService applicationSettingsService;
+	ApplicationSettingsDAO applicationSettingsDAO;
 
 	public RegisterPanel(String markupId) {
 		super(markupId);
@@ -47,7 +51,7 @@ public class RegisterPanel extends Panel {
 				"form", model) {
 			@Override
 			protected void onSubmit() {
-				if (applicationSettingsService.get().isAllowRegistrations()) {
+				if (applicationSettingsDAO.get().isAllowRegistrations()) {
 					RegistrationRequest req = getModelObject();
 					userService.register(req.getName(), req.getPassword(),
 							Arrays.asList(Role.USER));
@@ -79,7 +83,7 @@ public class RegisterPanel extends Panel {
 							public void validate(
 									IValidatable<String> validatable) {
 								String name = validatable.getValue();
-								User user = userService.findByName(name);
+								User user = userDAO.findByName(name);
 								if (user != null) {
 									validatable.error(new ValidationError(
 											"Name is already taken."));

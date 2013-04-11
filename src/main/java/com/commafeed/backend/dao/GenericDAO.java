@@ -7,11 +7,13 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import com.commafeed.backend.model.AbstractModel;
+import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.reflect.TypeToken;
 import com.uaihebert.factory.EasyCriteriaFactory;
@@ -126,6 +128,16 @@ public abstract class GenericDAO<T extends AbstractModel> implements
 		EasyCriteria<T> criteria = createCriteria();
 		criteria.andEquals(field, value);
 		return criteria.getResultList();
+	}
+
+	protected void limit(TypedQuery<FeedEntryStatus> query, int offset,
+			int limit) {
+		if (offset > -1) {
+			query.setFirstResult(offset);
+		}
+		if (limit > -1) {
+			query.setMaxResults(limit);
+		}
 	}
 
 	@SuppressWarnings("unchecked")

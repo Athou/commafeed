@@ -61,7 +61,7 @@ public class SubscriptionsREST extends AbstractREST {
 		String url = prependHttp(req.getUrl());
 
 		FeedCategory category = EntriesREST.ALL.equals(req.getCategoryId()) ? null
-				: feedCategoryService
+				: feedCategoryDAO
 						.findById(Long.valueOf(req.getCategoryId()));
 		Feed fetchedFeed = fetchFeed(url);
 		feedSubscriptionService.subscribe(getUser(), fetchedFeed.getUrl(),
@@ -80,10 +80,10 @@ public class SubscriptionsREST extends AbstractREST {
 	@GET
 	@Path("unsubscribe")
 	public Response unsubscribe(@QueryParam("id") Long subscriptionId) {
-		FeedSubscription sub = feedSubscriptionService.findById(getUser(),
+		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(),
 				subscriptionId);
 		if (sub != null) {
-			feedSubscriptionService.delete(sub);
+			feedSubscriptionDAO.delete(sub);
 			return Response.ok(Status.OK).build();
 		} else {
 			return Response.status(Status.NOT_FOUND).build();
@@ -95,14 +95,14 @@ public class SubscriptionsREST extends AbstractREST {
 	public Response rename(@QueryParam("type") Type type,
 			@QueryParam("id") Long id, @QueryParam("name") String name) {
 		if (type == Type.feed) {
-			FeedSubscription subscription = feedSubscriptionService.findById(
+			FeedSubscription subscription = feedSubscriptionDAO.findById(
 					getUser(), id);
 			subscription.setTitle(name);
-			feedSubscriptionService.update(subscription);
+			feedSubscriptionDAO.update(subscription);
 		} else if (type == Type.category) {
-			FeedCategory category = feedCategoryService.findById(getUser(), id);
+			FeedCategory category = feedCategoryDAO.findById(getUser(), id);
 			category.setName(name);
-			feedCategoryService.update(category);
+			feedCategoryDAO.update(category);
 		}
 		return Response.ok(Status.OK).build();
 	}
@@ -113,10 +113,10 @@ public class SubscriptionsREST extends AbstractREST {
 			@QueryParam("collapse") boolean collapse) {
 		Preconditions.checkNotNull(id);
 		if (!EntriesREST.ALL.equals(id)) {
-			FeedCategory category = feedCategoryService.findById(getUser(),
+			FeedCategory category = feedCategoryDAO.findById(getUser(),
 					Long.valueOf(id));
 			category.setCollapsed(collapse);
-			feedCategoryService.update(category);
+			feedCategoryDAO.update(category);
 		}
 		return Response.ok(Status.OK).build();
 	}
@@ -135,22 +135,22 @@ public class SubscriptionsREST extends AbstractREST {
 			parent.setId(Long.valueOf(parentId));
 			cat.setParent(parent);
 		}
-		feedCategoryService.save(cat);
+		feedCategoryDAO.save(cat);
 		return Response.ok().build();
 	}
 
 	@GET
 	@Path("deleteCategory")
 	public Response deleteCategory(@QueryParam("id") Long id) {
-		FeedCategory cat = feedCategoryService.findById(getUser(), id);
+		FeedCategory cat = feedCategoryDAO.findById(getUser(), id);
 		if (cat != null) {
-			List<FeedSubscription> subs = feedSubscriptionService
+			List<FeedSubscription> subs = feedSubscriptionDAO
 					.findByCategory(getUser(), cat);
 			for (FeedSubscription sub : subs) {
 				sub.setCategory(null);
 			}
-			feedSubscriptionService.update(subs);
-			feedCategoryService.delete(cat);
+			feedSubscriptionDAO.update(subs);
+			feedCategoryDAO.delete(cat);
 			return Response.ok().build();
 		} else {
 			return Response.status(Status.NOT_FOUND).build();
@@ -182,10 +182,10 @@ public class SubscriptionsREST extends AbstractREST {
 	@GET
 	public Category getSubscriptions() {
 
-		List<FeedCategory> categories = feedCategoryService.findAll(getUser());
-		List<FeedSubscription> subscriptions = feedSubscriptionService
+		List<FeedCategory> categories = feedCategoryDAO.findAll(getUser());
+		List<FeedSubscription> subscriptions = feedSubscriptionDAO
 				.findAll(getUser());
-		Map<Long, Long> unreadCount = feedEntryStatusService
+		Map<Long, Long> unreadCount = feedEntryStatusDAO
 				.getUnreadCount(getUser());
 
 		Category root = buildCategory(null, categories, subscriptions,

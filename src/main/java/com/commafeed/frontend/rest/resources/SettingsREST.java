@@ -19,7 +19,7 @@ public class SettingsREST extends AbstractREST {
 	@GET
 	public Settings get() {
 		Settings s = new Settings();
-		UserSettings settings = userSettingsService.findByUser(getUser());
+		UserSettings settings = userSettingsDAO.findByUser(getUser());
 		if (settings != null) {
 			s.setReadingMode(settings.getReadingMode().name());
 			s.setReadingOrder(settings.getReadingOrder().name());
@@ -36,7 +36,7 @@ public class SettingsREST extends AbstractREST {
 	public Response save(Settings settings) {
 		Preconditions.checkNotNull(settings);
 
-		UserSettings s = userSettingsService.findByUser(getUser());
+		UserSettings s = userSettingsDAO.findByUser(getUser());
 		if (s == null) {
 			s = new UserSettings();
 			s.setUser(getUser());
@@ -44,7 +44,7 @@ public class SettingsREST extends AbstractREST {
 		s.setReadingMode(ReadingMode.valueOf(settings.getReadingMode()));
 		s.setReadingOrder(ReadingOrder.valueOf(settings.getReadingOrder()));
 		s.setCustomCss(settings.getCustomCss());
-		userSettingsService.saveOrUpdate(s);
+		userSettingsDAO.saveOrUpdate(s);
 		return Response.ok(Status.OK).build();
 
 	}

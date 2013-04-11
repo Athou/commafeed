@@ -19,7 +19,7 @@ public class SessionREST extends AbstractREST {
 		userModel.setId(user.getId());
 		userModel.setName(user.getName());
 		userModel.setEnabled(!user.isDisabled());
-		for (UserRole role : userRoleService.findAll(user)) {
+		for (UserRole role : userRoleDAO.findAll(user)) {
 			if (role.getRole() == Role.ADMIN) {
 				userModel.setAdmin(true);
 			}

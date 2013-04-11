@@ -22,9 +22,10 @@ import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.commafeed.backend.dao.FeedEntryService;
-import com.commafeed.backend.dao.FeedService;
+import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.services.FeedUpdateService;
 import com.google.common.collect.Iterables;
 
 @Stateless
@@ -40,10 +41,13 @@ public class FeedRefreshWorker {
 	FeedFetcher fetcher;
 
 	@Inject
-	FeedService feedService;
+	FeedDAO feedDAO;
 
 	@Inject
-	FeedEntryService feedEntryService;
+	FeedEntryDAO feedEntryDAO;
+
+	@Inject
+	FeedUpdateService feedUpdateService;
 
 	@Resource
 	private UserTransaction transaction;
@@ -102,13 +106,13 @@ public class FeedRefreshWorker {
 		transaction.begin();
 
 		if (fetchedFeed != null) {
-			feedEntryService.updateEntries(feed.getUrl(),
+			feedUpdateService.updateEntries(feed.getUrl(),
 					fetchedFeed.getEntries());
 			if (feed.getLink() == null) {
 				feed.setLink(fetchedFeed.getLink());
 			}
 		}
-		feedService.update(feed);
+		feedDAO.update(feed);
 
 		transaction.commit();
 
@@ -121,10 +125,10 @@ public class FeedRefreshWorker {
 		Feed feed = null;
 		lock.lock();
 		try {
-			feed = Iterables.getFirst(feedService.findNextUpdatable(1), null);
+			feed = Iterables.getFirst(feedDAO.findNextUpdatable(1), null);
 			if (feed != null) {
 				feed.setLastUpdated(Calendar.getInstance().getTime());
-				feedService.update(feed);
+				feedDAO.update(feed);
 			}
 		} finally {
 			lock.unlock();

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -33,10 +32,7 @@ import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 @SuppressWarnings("serial")
-public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus> {
-
-	@Inject
-	FeedCategoryService feedCategoryService;
+public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public FeedEntryStatus findById(User user, Long id) {
 
@@ -58,7 +54,7 @@ public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus> {
 		return status;
 	}
 
-	public List<FeedEntryStatus> getStatusesByKeywords(User user,
+	public List<FeedEntryStatus> findByKeywords(User user,
 			String keywords, int offset, int limit, boolean includeContent) {
 
 		String joinedKeywords = StringUtils.join(
@@ -93,12 +89,12 @@ public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus> {
 		return q.getResultList();
 	}
 
-	public List<FeedEntryStatus> getStatuses(User user, boolean unreadOnly,
+	public List<FeedEntryStatus> findAll(User user, boolean unreadOnly,
 			ReadingOrder order, boolean includeContent) {
-		return getStatuses(user, unreadOnly, -1, -1, order, includeContent);
+		return findAll(user, unreadOnly, -1, -1, order, includeContent);
 	}
 
-	public List<FeedEntryStatus> getStatuses(User user, boolean unreadOnly,
+	public List<FeedEntryStatus> findAll(User user, boolean unreadOnly,
 			int offset, int limit, ReadingOrder order, boolean includeContent) {
 		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
 		Root<FeedEntryStatus> root = query.from(getType());
@@ -138,13 +134,13 @@ public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus> {
 		return map;
 	}
 
-	public List<FeedEntryStatus> getStatuses(Feed feed, User user,
+	public List<FeedEntryStatus> findByFeed(Feed feed, User user,
 			boolean unreadOnly, ReadingOrder order, boolean includeContent) {
-		return getStatuses(feed, user, unreadOnly, -1, -1, order,
+		return findByFeed(feed, user, unreadOnly, -1, -1, order,
 				includeContent);
 	}
 
-	public List<FeedEntryStatus> getStatuses(Feed feed, User user,
+	public List<FeedEntryStatus> findByFeed(Feed feed, User user,
 			boolean unreadOnly, int offset, int limit, ReadingOrder order,
 			boolean includeContent) {
 
@@ -173,14 +169,14 @@ public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus> {
 		return q.getResultList();
 	}
 
-	public List<FeedEntryStatus> getStatuses(List<FeedCategory> categories,
+	public List<FeedEntryStatus> findByCategories(List<FeedCategory> categories,
 			User user, boolean unreadOnly, ReadingOrder order,
 			boolean includeContent) {
-		return getStatuses(categories, user, unreadOnly, -1, -1, order,
+		return findByCategories(categories, user, unreadOnly, -1, -1, order,
 				includeContent);
 	}
 
-	public List<FeedEntryStatus> getStatuses(List<FeedCategory> categories,
+	public List<FeedEntryStatus> findByCategories(List<FeedCategory> categories,
 			User user, boolean unreadOnly, int offset, int limit,
 			ReadingOrder order, boolean includeContent) {
 
@@ -209,15 +205,6 @@ public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus> {
 		return q.getResultList();
 	}
 
-	private void limit(TypedQuery<FeedEntryStatus> query, int offset, int limit) {
-		if (offset > -1) {
-			query.setFirstResult(offset);
-		}
-		if (limit > -1) {
-			query.setMaxResults(limit);
-		}
-	}
-
 	private void orderBy(CriteriaQuery<FeedEntryStatus> query,
 			Root<FeedEntryStatus> root, ReadingOrder order) {
 		Path<Date> orderPath = root.get(FeedEntryStatus_.entry).get(
@@ -231,20 +218,20 @@ public class FeedEntryStatusService extends GenericDAO<FeedEntryStatus> {
 	}
 
 	public void markFeedEntries(User user, Feed feed, Date olderThan) {
-		List<FeedEntryStatus> statuses = getStatuses(feed, user, true,
+		List<FeedEntryStatus> statuses = findByFeed(feed, user, true,
 				ReadingOrder.desc, false);
 		update(markList(statuses, olderThan));
 	}
 
 	public void markCategoryEntries(User user, List<FeedCategory> categories,
 			Date olderThan) {
-		List<FeedEntryStatus> statuses = getStatuses(categories, user, true,
+		List<FeedEntryStatus> statuses = findByCategories(categories, user, true,
 				ReadingOrder.desc, false);
 		update(markList(statuses, olderThan));
 	}
 
 	public void markAllEntries(User user, Date olderThan) {
-		List<FeedEntryStatus> statuses = getStatuses(user, true,
+		List<FeedEntryStatus> statuses = findAll(user, true,
 				ReadingOrder.desc, false);
 		update(markList(statuses, olderThan));
 	}

@@ -7,7 +7,7 @@ import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import com.commafeed.backend.dao.UserSettingsService;
+import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.frontend.CommaFeedSession;
@@ -34,7 +34,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.extensions.icon.OpenWebIconsC
 public class HomePage extends BasePage {
 
 	@Inject
-	UserSettingsService settingsService;
+	UserSettingsDAO userSettingsDAO;
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
@@ -67,7 +67,7 @@ public class HomePage extends BasePage {
 				new UserCustomCssReference() {
 					@Override
 					protected String getCss() {
-						UserSettings settings = settingsService
+						UserSettings settings = userSettingsDAO
 								.findByUser(CommaFeedSession.get().getUser());
 						return settings == null ? null : settings
 								.getCustomCss();

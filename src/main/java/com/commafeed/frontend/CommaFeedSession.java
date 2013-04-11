@@ -9,10 +9,10 @@ import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
 
-import com.commafeed.backend.dao.UserRoleService;
-import com.commafeed.backend.dao.UserService;
+import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.services.UserService;
 import com.google.common.collect.Sets;
 
 @SuppressWarnings("serial")
@@ -22,7 +22,7 @@ public class CommaFeedSession extends AuthenticatedWebSession {
 	UserService userService;
 
 	@Inject
-	UserRoleService userRoleService;
+	UserRoleDAO userRoleDAO;
 
 	private User user;
 	private Roles roles = new Roles();
@@ -57,7 +57,7 @@ public class CommaFeedSession extends AuthenticatedWebSession {
 		} else {
 
 			Set<String> roleSet = Sets.newHashSet();
-			for (Role role : userRoleService.getRoles(user)) {
+			for (Role role : userRoleDAO.findRoles(user)) {
 				roleSet.add(role.name());
 			}
 			this.user = user;

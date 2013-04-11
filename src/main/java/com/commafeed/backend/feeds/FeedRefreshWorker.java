@@ -54,10 +54,10 @@ public class FeedRefreshWorker {
 			try {
 				Feed feed = getNextFeed();
 				if (feed != null) {
-					System.out.println("refreshing " + feed.getUrl());
+					log.debug("refreshing " + feed.getUrl());
 					update(feed);
 				} else {
-					System.out.println("sleeping");
+					log.debug("sleeping");
 					Thread.sleep(15000);
 				}
 			} catch (Exception e) {
@@ -79,7 +79,6 @@ public class FeedRefreshWorker {
 		try {
 			fetchedFeed = fetcher.fetch(feed.getUrl());
 		} catch (Exception e) {
-			e.printStackTrace();
 			message = "Unable to refresh feed " + feed.getUrl() + " : "
 					+ e.getMessage();
 			log.info(e.getClass().getName() + " " + message);

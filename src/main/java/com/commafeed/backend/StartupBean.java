@@ -63,7 +63,7 @@ public class StartupBean {
 		}
 
 		// 3 threads
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 6; i++) {
 			worker.start();
 		}
 

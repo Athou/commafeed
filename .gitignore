@@ -13,3 +13,4 @@ deployments/ROOT.war
 .classpath
 .settings
 .factorypath
+/target

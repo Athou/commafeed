@@ -15,6 +15,7 @@ import org.xml.sax.InputSource;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
@@ -48,17 +49,19 @@ public class FeedParser {
 			for (SyndEntry item : items) {
 				FeedEntry entry = new FeedEntry();
 				entry.setGuid(item.getUri());
-				entry.setTitle(handleContent(item.getTitle()));
-				entry.setContent(handleContent(getContent(item)));
 				entry.setUrl(item.getLink());
 				entry.setUpdated(getUpdateDate(item));
 
+				FeedEntryContent content = new FeedEntryContent();
+				content.setContent(handleContent(getContent(item)));
+				content.setTitle(handleContent(item.getTitle()));
 				SyndEnclosure enclosure = (SyndEnclosure) Iterables.getFirst(
 						item.getEnclosures(), null);
 				if (enclosure != null) {
-					entry.setEnclosureUrl(enclosure.getUrl());
-					entry.setEnclosureType(enclosure.getType());
+					content.setEnclosureUrl(enclosure.getUrl());
+					content.setEnclosureType(enclosure.getType());
 				}
+				entry.setContent(content);
 
 				feed.getEntries().add(entry);
 			}
@@ -103,7 +106,6 @@ public class FeedParser {
 			Whitelist whitelist = Whitelist.relaxed();
 			whitelist.addEnforcedAttribute("a", "target", "_blank");
 
-			// TODO evaluate potential security issues
 			whitelist.addTags("iframe");
 			whitelist.addAttributes("iframe", "src", "height", "width",
 					"allowfullscreen", "frameborder");

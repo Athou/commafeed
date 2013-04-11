@@ -3,13 +3,15 @@ package com.commafeed.backend.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,18 +32,9 @@ public class FeedEntry extends AbstractModel {
 	@JoinTable(name = "FEED_FEEDENTRIES", joinColumns = { @JoinColumn(name = "FEED_ID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "FEEDENTRY_ID", nullable = false, updatable = false) })
 	private Set<Feed> feeds = Sets.newHashSet();
 
-	@Column(length = 2048)
-	private String title;
-
-	@Lob
-	@Column(length = Integer.MAX_VALUE)
-	private String content;
-
-	@Column(length = 2048)
-	private String enclosureUrl;
-
-	@Column(length = 255)
-	private String enclosureType;
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(nullable = false, updatable = false)
+	private FeedEntryContent content;
 
 	@Column(length = 2048)
 	private String url;
@@ -63,22 +56,6 @@ public class FeedEntry extends AbstractModel {
 
 	public void setGuid(String guid) {
 		this.guid = guid;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 	public String getUrl() {
@@ -121,20 +98,12 @@ public class FeedEntry extends AbstractModel {
 		this.inserted = inserted;
 	}
 
-	public String getEnclosureUrl() {
-		return enclosureUrl;
+	public FeedEntryContent getContent() {
+		return content;
 	}
 
-	public void setEnclosureUrl(String enclosureUrl) {
-		this.enclosureUrl = enclosureUrl;
-	}
-
-	public String getEnclosureType() {
-		return enclosureType;
-	}
-
-	public void setEnclosureType(String enclosureType) {
-		this.enclosureType = enclosureType;
+	public void setContent(FeedEntryContent content) {
+		this.content = content;
 	}
 
 }

@@ -63,7 +63,7 @@ public class EntriesREST extends AbstractREST {
 
 				List<FeedEntryStatus> unreadEntries = feedEntryStatusService
 						.getStatuses(subscription.getFeed(), getUser(),
-								unreadOnly, offset, limit, order);
+								unreadOnly, offset, limit, order, true);
 				for (FeedEntryStatus status : unreadEntries) {
 					entries.getEntries().add(buildEntry(status));
 				}
@@ -75,7 +75,7 @@ public class EntriesREST extends AbstractREST {
 				entries.setName("All");
 				List<FeedEntryStatus> unreadEntries = feedEntryStatusService
 						.getStatuses(getUser(), unreadOnly, offset, limit,
-								order);
+								order, true);
 				for (FeedEntryStatus status : unreadEntries) {
 					entries.getEntries().add(buildEntry(status));
 				}
@@ -88,7 +88,7 @@ public class EntriesREST extends AbstractREST {
 							.findAllChildrenCategories(getUser(), feedCategory);
 					List<FeedEntryStatus> unreadEntries = feedEntryStatusService
 							.getStatuses(childrenCategories, getUser(),
-									unreadOnly, offset, limit, order);
+									unreadOnly, offset, limit, order, true);
 					for (FeedEntryStatus status : unreadEntries) {
 						entries.getEntries().add(buildEntry(status));
 					}
@@ -106,10 +106,11 @@ public class EntriesREST extends AbstractREST {
 
 		FeedEntry feedEntry = status.getEntry();
 		entry.setId(String.valueOf(status.getId()));
-		entry.setTitle(feedEntry.getTitle());
-		entry.setContent(feedEntry.getContent());
-		entry.setEnclosureUrl(status.getEntry().getEnclosureUrl());
-		entry.setEnclosureType(status.getEntry().getEnclosureType());
+		entry.setTitle(feedEntry.getContent().getTitle());
+		entry.setContent(feedEntry.getContent().getContent());
+		entry.setEnclosureUrl(status.getEntry().getContent().getEnclosureUrl());
+		entry.setEnclosureType(status.getEntry().getContent()
+				.getEnclosureType());
 		entry.setDate(feedEntry.getUpdated());
 		entry.setUrl(feedEntry.getUrl());
 
@@ -171,14 +172,16 @@ public class EntriesREST extends AbstractREST {
 
 	@Path("search")
 	@GET
-	public Entries searchEntries(@QueryParam("keywords") String keywords) {
+	public Entries searchEntries(@QueryParam("keywords") String keywords,
+			@DefaultValue("0") @QueryParam("offset") int offset,
+			@DefaultValue("-1") @QueryParam("limit") int limit) {
 		Preconditions.checkArgument(StringUtils.length(keywords) >= 3);
 
 		Entries entries = new Entries();
 
 		List<Entry> list = Lists.newArrayList();
 		List<FeedEntryStatus> entriesStatus = feedEntryStatusService
-				.getStatusesByKeywords(getUser(), keywords);
+				.getStatusesByKeywords(getUser(), keywords, offset, limit, true);
 		for (FeedEntryStatus status : entriesStatus) {
 			list.add(buildEntry(status));
 		}

@@ -36,6 +36,9 @@ public class Feed extends AbstractModel {
 
 	private int errorCount;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date disabledUntil;
+
 	@ManyToMany(mappedBy = "feeds")
 	private Set<FeedEntry> entries = Sets.newHashSet();
 
@@ -112,6 +115,14 @@ public class Feed extends AbstractModel {
 
 	public void setErrorCount(int errorCount) {
 		this.errorCount = errorCount;
+	}
+
+	public Date getDisabledUntil() {
+		return disabledUntil;
+	}
+
+	public void setDisabledUntil(Date disabledUntil) {
+		this.disabledUntil = disabledUntil;
 	}
 
 }

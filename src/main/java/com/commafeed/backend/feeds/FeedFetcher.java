@@ -1,7 +1,11 @@
 package com.commafeed.backend.feeds;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 
+import org.apache.commons.codec.binary.StringUtils;
+import org.apache.http.client.ClientProtocolException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -22,21 +26,19 @@ public class FeedFetcher {
 	@Inject
 	HttpGetter getter;
 
-	public Feed fetch(String feedUrl) throws FeedException {
+	public Feed fetch(String feedUrl) throws FeedException,
+			ClientProtocolException, IOException {
 		log.debug("Fetching feed {}", feedUrl);
 		Feed feed = null;
 
-		try {
-			byte[] content = getter.getBinary(feedUrl);
-			String extractedUrl = extractFeedUrl(new String(content, "UTF-8"));
-			if (extractedUrl != null) {
-				content = getter.getBinary(extractedUrl);
-				feedUrl = extractedUrl;
-			}
-			feed = parser.parse(feedUrl, content);
-		} catch (Exception e) {
-			throw new FeedException(e.getMessage(), e);
+		byte[] content = getter.getBinary(feedUrl);
+		String extractedUrl = extractFeedUrl(StringUtils.newStringUtf8(content));
+		if (extractedUrl != null) {
+			content = getter.getBinary(extractedUrl);
+			feedUrl = extractedUrl;
 		}
+		feed = parser.parse(feedUrl, content);
+
 		return feed;
 	}
 

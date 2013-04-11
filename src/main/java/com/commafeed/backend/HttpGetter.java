@@ -1,7 +1,10 @@
 package com.commafeed.backend;
 
+import java.io.IOException;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.CookiePolicy;
@@ -18,7 +21,8 @@ public class HttpGetter {
 		return new String(getBinary(url), "UTF-8");
 	}
 
-	public byte[] getBinary(String url) throws Exception {
+	public byte[] getBinary(String url) throws ClientProtocolException,
+			IOException {
 		byte[] content = null;
 
 		HttpClient httpclient = new DefaultHttpClient();

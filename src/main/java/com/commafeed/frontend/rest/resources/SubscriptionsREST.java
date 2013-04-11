@@ -30,7 +30,6 @@ import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.SubscriptionRequest;
 import com.commafeed.frontend.rest.resources.EntriesREST.Type;
 import com.google.common.base.Preconditions;
-import com.sun.syndication.io.FeedException;
 
 @Path("subscriptions")
 public class SubscriptionsREST extends AbstractREST {
@@ -44,7 +43,7 @@ public class SubscriptionsREST extends AbstractREST {
 		Feed feed = null;
 		try {
 			feed = feedFetcher.fetch(url);
-		} catch (FeedException e) {
+		} catch (Exception e) {
 			throw new WebApplicationException(e, Response
 					.status(Status.INTERNAL_SERVER_ERROR)
 					.entity(e.getMessage()).build());

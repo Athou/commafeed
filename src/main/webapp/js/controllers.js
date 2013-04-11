@@ -88,6 +88,9 @@ module.controller('SubscribeCtrl', function($scope, SubscriptionService) {
 module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 		$window, $location, $state, $route, SubscriptionService) {
 
+	$scope.selectedType = $stateParams._type;
+	$scope.selectedId = $stateParams._id;
+	
 	$scope.$on('$stateChangeSuccess', function() {
 		$scope.selectedType = $stateParams._type;
 		$scope.selectedId = $stateParams._id;

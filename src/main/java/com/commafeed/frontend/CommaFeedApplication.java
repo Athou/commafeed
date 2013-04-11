@@ -7,12 +7,14 @@ import java.util.jar.JarFile;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.Cookie;
 
 import org.apache.wicket.Application;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.authentication.strategy.DefaultAuthenticationStrategy;
 import org.apache.wicket.authorization.Action;
 import org.apache.wicket.authorization.IAuthorizationStrategy;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
@@ -30,6 +32,7 @@ import org.apache.wicket.request.Response;
 import org.apache.wicket.request.component.IRequestableComponent;
 import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
 import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.util.cookies.CookieUtils;
 import org.jboss.vfs.VirtualFile;
 import org.reflections.ReflectionsException;
 import org.reflections.vfs.SystemDir;
@@ -73,6 +76,26 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		getMarkupSettings().setCompressWhitespace(true);
 		getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
 
+		getSecuritySettings().setAuthenticationStrategy(
+				new DefaultAuthenticationStrategy("LoggedIn") {
+
+					private CookieUtils cookieUtils = null;
+
+					@Override
+					protected CookieUtils getCookieUtils() {
+
+						if (cookieUtils == null) {
+							cookieUtils = new CookieUtils() {
+								@Override
+								protected void initializeCookie(Cookie cookie) {
+									super.initializeCookie(cookie);
+									cookie.setHttpOnly(true);
+								}
+							};
+						}
+						return cookieUtils;
+					}
+				});
 		getSecuritySettings().setAuthorizationStrategy(
 				new IAuthorizationStrategy() {
 

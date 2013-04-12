@@ -23,7 +23,6 @@ import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
-import com.commafeed.backend.services.PasswordEncryptionService;
 import com.commafeed.backend.services.UserService;
 
 @Startup
@@ -49,9 +48,6 @@ public class StartupBean {
 	UserService userService;
 
 	@Inject
-	PasswordEncryptionService encryptionService;
-
-	@Inject
 	ApplicationSettingsDAO applicationSettingsDAO;
 
 	@Inject
@@ -66,8 +62,8 @@ public class StartupBean {
 			initialData();
 		}
 
-		// 3 threads
-		for (int i = 0; i < 6; i++) {
+		ApplicationSettings settings = applicationSettingsDAO.get();
+		for (int i = 0; i < settings.getBackgroundThreads(); i++) {
 			worker.start();
 		}
 

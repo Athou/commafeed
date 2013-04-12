@@ -10,6 +10,7 @@
 
 	<div>
 		<form name="settingsForm" class="form-horizontal" ng-submit="save()">
+			<!-- not needed atm 
 			<div class="control-group">
 				<label class="control-label" for="publicUrl">Public URL</label>
 				<div class="controls">
@@ -17,6 +18,7 @@
 						ng-model="settings.publicUrl" />
 				</div>
 			</div>
+			 -->
 			<div class="control-group">
 				<label class="control-label" for="allowRegistrations">Allow
 					registrations</label>
@@ -40,6 +42,16 @@
 					<input type="text" name="googleClientSecret"
 						ng-model="settings.googleClientSecret" />
 				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="googleClientSecret">Background
+					threads</label>
+				<div class="controls">
+					<input type="number" name="backgroundThreads"
+						ng-model="settings.backgroundThreads" />
+					<span class="help-inline">Requires restart</span>
+				</div>
+
 			</div>
 			<div class="control-group">
 				<div class="controls">

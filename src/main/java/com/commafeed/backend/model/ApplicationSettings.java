@@ -12,6 +12,7 @@ public class ApplicationSettings extends AbstractModel {
 	private boolean allowRegistrations = false;
 	private String googleClientId;
 	private String googleClientSecret;
+	private int backgroundThreads = 3;
 
 	public String getPublicUrl() {
 		return publicUrl;
@@ -43,6 +44,14 @@ public class ApplicationSettings extends AbstractModel {
 
 	public void setGoogleClientSecret(String googleClientSecret) {
 		this.googleClientSecret = googleClientSecret;
+	}
+
+	public int getBackgroundThreads() {
+		return backgroundThreads;
+	}
+
+	public void setBackgroundThreads(int backgroundThreads) {
+		this.backgroundThreads = backgroundThreads;
 	}
 
 }

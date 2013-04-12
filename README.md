@@ -1,6 +1,6 @@
 CommaFeed [![Build Status](https://buildhive.cloudbees.com/job/Athou/job/commafeed/badge/icon)](https://buildhive.cloudbees.com/job/Athou/job/commafeed/)
 =========
-Sources for [CommaFeed](http://www.commafeed.com/).
+Sources for [CommaFeed.com](http://www.commafeed.com/).
 
 Google Reader inspired self-hosted RSS reader, based on JAX-RS, Wicket and AngularJS.
 

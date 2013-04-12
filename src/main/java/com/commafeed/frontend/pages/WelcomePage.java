@@ -3,6 +3,7 @@ package com.commafeed.frontend.pages;
 import javax.inject.Inject;
 
 import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
 import com.commafeed.backend.dao.ApplicationSettingsDAO;
 import com.commafeed.frontend.pages.components.LoginPanel;
@@ -16,6 +17,8 @@ public class WelcomePage extends BasePage {
 	ApplicationSettingsDAO applicationSettingsDAO;
 
 	public WelcomePage() {
+		add(new BookmarkablePageLink<Void>("logo-link", getApplication()
+				.getHomePage()));
 		add(new LoginPanel("login"));
 		add(new RegisterPanel("register") {
 			@Override

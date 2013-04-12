@@ -12,6 +12,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Index;
+
 import com.google.common.collect.Sets;
 
 @Entity
@@ -29,6 +31,7 @@ public class Feed extends AbstractModel {
 	private String link;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Index(name = "lastupdated_index")
 	private Date lastUpdated;
 
 	@Column(length = 1024)
@@ -37,6 +40,7 @@ public class Feed extends AbstractModel {
 	private int errorCount;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Index(name = "disableduntil_index")
 	private Date disabledUntil;
 
 	@ManyToMany(mappedBy = "feeds")

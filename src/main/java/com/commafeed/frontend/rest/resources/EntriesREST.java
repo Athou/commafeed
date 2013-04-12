@@ -74,15 +74,15 @@ public class EntriesREST extends AbstractREST {
 			if (ALL.equals(id)) {
 				entries.setName("All");
 				List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO
-						.findAll(getUser(), unreadOnly, offset, limit,
-								order, true);
+						.findAll(getUser(), unreadOnly, offset, limit, order,
+								true);
 				for (FeedEntryStatus status : unreadEntries) {
 					entries.getEntries().add(buildEntry(status));
 				}
 
 			} else {
-				FeedCategory feedCategory = feedCategoryDAO.findById(
-						getUser(), Long.valueOf(id));
+				FeedCategory feedCategory = feedCategoryDAO.findById(getUser(),
+						Long.valueOf(id));
 				if (feedCategory != null) {
 					List<FeedCategory> childrenCategories = feedCategoryDAO
 							.findAllChildrenCategories(getUser(), feedCategory);
@@ -142,8 +142,8 @@ public class EntriesREST extends AbstractREST {
 			feedEntryStatusDAO.update(status);
 		} else if (type == Type.feed) {
 			if (read) {
-				FeedSubscription subscription = feedSubscriptionDAO
-						.findById(getUser(), Long.valueOf(id));
+				FeedSubscription subscription = feedSubscriptionDAO.findById(
+						getUser(), Long.valueOf(id));
 				feedEntryStatusDAO.markFeedEntries(getUser(),
 						subscription.getFeed(), olderThan);
 			} else {
@@ -156,7 +156,8 @@ public class EntriesREST extends AbstractREST {
 					feedEntryStatusDAO.markAllEntries(getUser(), olderThan);
 				} else {
 					List<FeedCategory> categories = feedCategoryDAO
-							.findAllChildrenCategories(getUser(),
+							.findAllChildrenCategories(
+									getUser(),
 									feedCategoryDAO.findById(getUser(),
 											Long.valueOf(id)));
 					feedEntryStatusDAO.markCategoryEntries(getUser(),

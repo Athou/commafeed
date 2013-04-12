@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
-import com.commafeed.backend.dao.ApplicationSettingsDAO;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.frontend.pages.components.LoginPanel;
 import com.commafeed.frontend.pages.components.RegisterPanel;
 import com.commafeed.frontend.utils.WicketUtils;
@@ -14,7 +14,7 @@ import com.commafeed.frontend.utils.WicketUtils;
 public class WelcomePage extends BasePage {
 
 	@Inject
-	ApplicationSettingsDAO applicationSettingsDAO;
+	ApplicationSettingsService applicationSettingsService;
 
 	public WelcomePage() {
 		add(new BookmarkablePageLink<Void>("logo-link", getApplication()
@@ -24,7 +24,7 @@ public class WelcomePage extends BasePage {
 			@Override
 			protected void onConfigure() {
 				super.onConfigure();
-				setVisibilityAllowed(applicationSettingsDAO.get()
+				setVisibilityAllowed(applicationSettingsService.get()
 						.isAllowRegistrations());
 			}
 		});

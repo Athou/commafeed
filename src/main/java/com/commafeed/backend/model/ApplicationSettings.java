@@ -14,6 +14,12 @@ public class ApplicationSettings extends AbstractModel {
 	private String googleClientSecret;
 	private int backgroundThreads = 3;
 
+	private String smtpHost;
+	private int smtpPort;
+	private boolean smtpTls;
+	private String smtpUserName;
+	private String smtpPassword;
+
 	public String getPublicUrl() {
 		return publicUrl;
 	}
@@ -52,6 +58,46 @@ public class ApplicationSettings extends AbstractModel {
 
 	public void setBackgroundThreads(int backgroundThreads) {
 		this.backgroundThreads = backgroundThreads;
+	}
+
+	public String getSmtpHost() {
+		return smtpHost;
+	}
+
+	public void setSmtpHost(String smtpHost) {
+		this.smtpHost = smtpHost;
+	}
+
+	public int getSmtpPort() {
+		return smtpPort;
+	}
+
+	public void setSmtpPort(int smtpPort) {
+		this.smtpPort = smtpPort;
+	}
+
+	public boolean isSmtpTls() {
+		return smtpTls;
+	}
+
+	public void setSmtpTls(boolean smtpTls) {
+		this.smtpTls = smtpTls;
+	}
+
+	public String getSmtpUserName() {
+		return smtpUserName;
+	}
+
+	public void setSmtpUserName(String smtpUserName) {
+		this.smtpUserName = smtpUserName;
+	}
+
+	public String getSmtpPassword() {
+		return smtpPassword;
+	}
+
+	public void setSmtpPassword(String smtpPassword) {
+		this.smtpPassword = smtpPassword;
 	}
 
 }

@@ -9,8 +9,8 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.flow.RedirectToUrlException;
 import org.jboss.logging.Logger;
 
-import com.commafeed.backend.dao.ApplicationSettingsDAO;
 import com.commafeed.backend.model.ApplicationSettings;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.frontend.CommaFeedSession;
 
 @SuppressWarnings("serial")
@@ -23,11 +23,11 @@ public class GoogleImportRedirectPage extends WebPage {
 	private static final String AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
 
 	@Inject
-	ApplicationSettingsDAO applicationSettingsDAO;
+	ApplicationSettingsService applicationSettingsService;
 
 	public GoogleImportRedirectPage() {
 
-		ApplicationSettings settings = applicationSettingsDAO.get();
+		ApplicationSettings settings = applicationSettingsService.get();
 
 		String clientId = settings.getGoogleClientId();
 

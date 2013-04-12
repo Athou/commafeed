@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.commafeed.backend.dao.ApplicationSettingsDAO;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -23,6 +22,7 @@ import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.UserService;
 
 @Startup
@@ -48,7 +48,7 @@ public class StartupBean {
 	UserService userService;
 
 	@Inject
-	ApplicationSettingsDAO applicationSettingsDAO;
+	ApplicationSettingsService applicationSettingsService;
 
 	@Inject
 	FeedRefreshWorker worker;
@@ -62,7 +62,7 @@ public class StartupBean {
 			initialData();
 		}
 
-		ApplicationSettings settings = applicationSettingsDAO.get();
+		ApplicationSettings settings = applicationSettingsService.get();
 		for (int i = 0; i < settings.getBackgroundThreads(); i++) {
 			worker.start();
 		}
@@ -72,7 +72,7 @@ public class StartupBean {
 	private void initialData() {
 		log.info("Populating database with default values");
 
-		applicationSettingsDAO.save(new ApplicationSettings());
+		applicationSettingsService.save(new ApplicationSettings());
 
 		User user = userService.register(ADMIN_NAME, "admin",
 				Arrays.asList(Role.ADMIN, Role.USER));

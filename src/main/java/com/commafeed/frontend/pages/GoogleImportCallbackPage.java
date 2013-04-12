@@ -10,10 +10,10 @@ import org.apache.wicket.request.UrlRenderer;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import com.commafeed.backend.dao.ApplicationSettingsDAO;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.ApplicationSettings;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.frontend.utils.WicketUtils;
 import com.commafeed.frontend.utils.exception.DisplayException;
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
@@ -33,7 +33,7 @@ public class GoogleImportCallbackPage extends WebPage {
 	private static final String EXPORT_URL = "https://www.google.com/reader/subscriptions/export";
 
 	@Inject
-	ApplicationSettingsDAO applicationSettingsDAO;
+	ApplicationSettingsService applicationSettingsService;
 
 	@Inject
 	OPMLImporter importer;
@@ -65,7 +65,7 @@ public class GoogleImportCallbackPage extends WebPage {
 		} else if (code == null) {
 			throw new DisplayException("Missing authorization code");
 		} else {
-			ApplicationSettings settings = applicationSettingsDAO.get();
+			ApplicationSettings settings = applicationSettingsService.get();
 			String redirectUri = getCallbackUrl();
 			String clientId = settings.getGoogleClientId();
 			String clientSecret = settings.getGoogleClientSecret();
@@ -90,8 +90,7 @@ public class GoogleImportCallbackPage extends WebPage {
 						httpRequest, accessToken);
 				String opml = httpRequest.execute().parseAsString();
 				String state = responseUrl.getState();
-				importer.importOpml(userDAO.findById(Long.valueOf(state)),
-						opml);
+				importer.importOpml(userDAO.findById(Long.valueOf(state)), opml);
 			} catch (Exception e) {
 				throw new DisplayException(e);
 			}

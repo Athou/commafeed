@@ -20,10 +20,10 @@ import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 import org.apache.wicket.validation.validator.StringValidator;
 
-import com.commafeed.backend.dao.ApplicationSettingsDAO;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.UserService;
 import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.model.RegistrationRequest;
@@ -40,7 +40,7 @@ public class RegisterPanel extends Panel {
 	UserService userService;
 
 	@Inject
-	ApplicationSettingsDAO applicationSettingsDAO;
+	ApplicationSettingsService applicationSettingsService;
 
 	public RegisterPanel(String markupId) {
 		super(markupId);
@@ -51,7 +51,7 @@ public class RegisterPanel extends Panel {
 				"form", model) {
 			@Override
 			protected void onSubmit() {
-				if (applicationSettingsDAO.get().isAllowRegistrations()) {
+				if (applicationSettingsService.get().isAllowRegistrations()) {
 					RegistrationRequest req = getModelObject();
 					userService.register(req.getName(), req.getPassword(),
 							Arrays.asList(Role.USER));

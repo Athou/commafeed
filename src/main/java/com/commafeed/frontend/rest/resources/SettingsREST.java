@@ -23,10 +23,12 @@ public class SettingsREST extends AbstractREST {
 		if (settings != null) {
 			s.setReadingMode(settings.getReadingMode().name());
 			s.setReadingOrder(settings.getReadingOrder().name());
+			s.setShowRead(settings.isShowRead());
 			s.setCustomCss(settings.getCustomCss());
 		} else {
 			s.setReadingMode(ReadingMode.unread.name());
 			s.setReadingOrder(ReadingOrder.desc.name());
+			s.setShowRead(true);
 		}
 		return s;
 	}
@@ -43,6 +45,7 @@ public class SettingsREST extends AbstractREST {
 		}
 		s.setReadingMode(ReadingMode.valueOf(settings.getReadingMode()));
 		s.setReadingOrder(ReadingOrder.valueOf(settings.getReadingOrder()));
+		s.setShowRead(settings.isShowRead());
 		s.setCustomCss(settings.getCustomCss());
 		userSettingsDAO.saveOrUpdate(s);
 		return Response.ok(Status.OK).build();

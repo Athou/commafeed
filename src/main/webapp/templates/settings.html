@@ -6,17 +6,31 @@
 		<div class="row">
 			<div class="span2">
 				<ul class="nav nav-pills nav-stacked">
-					<li class="active"><a href="#general" data-toggle="pill">General</a></li>
-					<li><a href="#custom-css" data-toggle="pill" ng-click="refreshCodemirror=!refreshCodemirror">Custom CSS</a></li>
+					<li class="active">
+						<a href="#general" data-toggle="pill">General</a>
+					</li>
+					<li>
+						<a href="#custom-css" data-toggle="pill"
+							ng-click="refreshCodemirror=!refreshCodemirror">Custom CSS</a>
+					</li>
 				</ul>
 			</div>
 			<div class="span10">
 				<div class="tab-content">
-					<div class="tab-pane active" id="general" style="height: 500px">
-						Placeholder for general settings
+					<div class="tab-pane active" id="general">
+						<div class="form-horizontal">
+							<div class="control-group">
+								<label class="checkbox">
+									<input type="checkbox" name="showRead"
+										ng-model="settings.showRead" />
+									Show feeds and categories with no unread entries
+								</label>
+							</div>
+						</div>
 					</div>
 					<div class="tab-pane" id="custom-css">
-						<textarea ui-codemirror="codeMirrorConfig" ng-model="settings.customCss" ui-refresh="refreshCodemirror">
+						<textarea ui-codemirror="codeMirrorConfig"
+							ng-model="settings.customCss" ui-refresh="refreshCodemirror">
 						</textarea>
 					</div>
 				</div>

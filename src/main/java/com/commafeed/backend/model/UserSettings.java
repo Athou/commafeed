@@ -34,6 +34,8 @@ public class UserSettings extends AbstractModel {
 	@Column(nullable = false)
 	private ReadingOrder readingOrder;
 
+	private boolean showRead;
+
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
 	private String customCss;
@@ -68,6 +70,14 @@ public class UserSettings extends AbstractModel {
 
 	public void setReadingOrder(ReadingOrder readingOrder) {
 		this.readingOrder = readingOrder;
+	}
+
+	public boolean isShowRead() {
+		return showRead;
+	}
+
+	public void setShowRead(boolean showRead) {
+		this.showRead = showRead;
 	}
 
 }

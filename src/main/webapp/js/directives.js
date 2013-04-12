@@ -86,7 +86,8 @@ module.directive('category', function($compile) {
 		restrict : 'E',
 		replace : true,
 		templateUrl : 'directives/category.html',
-		controller : function($scope, $dialog, SubscriptionService) {
+		controller : function($scope, $dialog, SubscriptionService, SettingsService) {
+			$scope.settingsService=SettingsService;
 			$scope.unsubscribe = function(subscription) {
 				var title = 'Unsubscribe';
 				var msg = 'Unsubscribe from ' + subscription.name + ' ?';

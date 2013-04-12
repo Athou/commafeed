@@ -90,7 +90,7 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;
-	
+
 	$scope.$on('$stateChangeSuccess', function() {
 		$scope.selectedType = $stateParams._type;
 		$scope.selectedId = $stateParams._id;

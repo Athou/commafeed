@@ -7,6 +7,7 @@ public class Settings implements Serializable {
 
 	private String readingMode;
 	private String readingOrder;
+	private boolean showRead;
 	private String customCss;
 
 	public String getReadingMode() {
@@ -31,6 +32,14 @@ public class Settings implements Serializable {
 
 	public void setReadingOrder(String readingOrder) {
 		this.readingOrder = readingOrder;
+	}
+
+	public boolean isShowRead() {
+		return showRead;
+	}
+
+	public void setShowRead(boolean showRead) {
+		this.showRead = showRead;
 	}
 
 }

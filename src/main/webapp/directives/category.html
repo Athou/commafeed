@@ -22,7 +22,7 @@
 	</div>
 	<ul ng-show="node.expanded" class="indent">
 		<recursive>
-			<category ng-repeat="child in node.children"
+			<category ng-repeat="child in node.children" ng-show="settingsService.settings.showRead == true || unreadCount({category:node}) > 0"
 				node="child" feed-click="feedClick({id:id})"
 				category-click="categoryClick({id:id})" selected-type="selectedType"
 				selected-id="selectedId"
@@ -32,7 +32,7 @@
 			</category> 
 		</recursive>
 		<li ng-repeat="feed in node.feeds" ng-mouseenter="hovered=feed"
-			ng-mouseleave="hovered=null"
+			ng-mouseleave="hovered=null" ng-show="settingsService.settings.showRead == true || feed.unread > 0"
 			ng-class="{error: feed.message && feed.errorCount > 10}">
 			<div class="dropdown pull-right">
 				<a dropdown-toggle class="pull-right">

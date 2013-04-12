@@ -5,10 +5,6 @@
         http://java.sun.com/xml/ns/persistence/orm
         http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
         
-    <named-query name="User.byName">
-    	<query>select u FROM User u WHERE lower(u.name)=:name</query>
-    </named-query>
-	
 	<named-query name="EntryStatus.unreadCounts">
 		<query>select s.subscription.id, count(s) from FeedEntryStatus s where s.subscription.user=:user and s.read=false group by s.subscription.id</query>
 	</named-query>

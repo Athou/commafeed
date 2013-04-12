@@ -8,8 +8,8 @@ import javax.persistence.NoResultException;
 import org.apache.commons.lang.ObjectUtils;
 
 import com.commafeed.backend.model.FeedCategory;
+import com.commafeed.backend.model.FeedCategory_;
 import com.commafeed.backend.model.User;
-import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.uaihebert.model.EasyCriteria;
@@ -20,27 +20,27 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 
 	public List<FeedCategory> findAll(User user) {
 		EasyCriteria<FeedCategory> criteria = createCriteria();
-		criteria.andEquals(MF.i(proxy().getUser()), user);
+		criteria.andEquals(FeedCategory_.user.getName(), user);
 
-		criteria.innerJoinFetch(MF.i(proxy().getUser()));
+		criteria.innerJoinFetch(FeedCategory_.user.getName());
 		return criteria.getResultList();
 	}
 
 	public FeedCategory findById(User user, Long id) {
 		EasyCriteria<FeedCategory> criteria = createCriteria();
-		criteria.andEquals(MF.i(proxy().getUser()), user);
-		criteria.andEquals(MF.i(proxy().getId()), id);
+		criteria.andEquals(FeedCategory_.user.getName(), user);
+		criteria.andEquals(FeedCategory_.id.getName(), id);
 		return Iterables.getFirst(criteria.getResultList(), null);
 	}
 
 	public FeedCategory findByName(User user, String name, FeedCategory parent) {
 		EasyCriteria<FeedCategory> criteria = createCriteria();
-		criteria.andEquals(MF.i(proxy().getUser()), user);
-		criteria.andEquals(MF.i(proxy().getName()), name);
+		criteria.andEquals(FeedCategory_.user.getName(), user);
+		criteria.andEquals(FeedCategory_.name.getName(), name);
 		if (parent == null) {
-			criteria.andIsNull(MF.i(proxy().getParent()));
+			criteria.andIsNull(FeedCategory_.parent.getName());
 		} else {
-			criteria.andEquals(MF.i(proxy().getParent()), parent);
+			criteria.andEquals(FeedCategory_.parent.getName(), parent);
 		}
 
 		FeedCategory category = null;

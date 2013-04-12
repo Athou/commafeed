@@ -7,8 +7,8 @@ import javax.ejb.Stateless;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.User;
-import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Iterables;
 import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
@@ -17,37 +17,35 @@ import com.uaihebert.model.EasyCriteria;
 @SuppressWarnings("serial")
 public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 
-
-
 	public FeedSubscription findById(User user, Long id) {
 		EasyCriteria<FeedSubscription> criteria = createCriteria();
-		criteria.andEquals(MF.i(proxy().getUser()), user);
-		criteria.andEquals(MF.i(proxy().getId()), id);
-		criteria.leftJoinFetch(MF.i(proxy().getFeed()));
-		criteria.leftJoinFetch(MF.i(proxy().getUser()));
+		criteria.andEquals(FeedSubscription_.user.getName(), user);
+		criteria.andEquals(FeedSubscription_.id.getName(), id);
+		criteria.leftJoinFetch(FeedSubscription_.feed.getName());
+		criteria.leftJoinFetch(FeedSubscription_.user.getName());
 		return Iterables.getFirst(criteria.getResultList(), null);
 	}
 
 	public List<FeedSubscription> findByFeed(Feed feed) {
 		EasyCriteria<FeedSubscription> criteria = createCriteria();
-		criteria.andEquals(MF.i(proxy().getFeed()), feed);
+		criteria.andEquals(FeedSubscription_.feed.getName(), feed);
 		return criteria.getResultList();
 	}
 
 	public FeedSubscription findByFeed(User user, Feed feed) {
 		EasyCriteria<FeedSubscription> criteria = createCriteria();
-		criteria.andEquals(MF.i(proxy().getUser()), user);
-		criteria.andEquals(MF.i(proxy().getFeed()), feed);
+		criteria.andEquals(FeedSubscription_.user.getName(), user);
+		criteria.andEquals(FeedSubscription_.feed.getName(), feed);
 		return Iterables.getFirst(criteria.getResultList(), null);
 	}
 
 	public List<FeedSubscription> findAll(User user) {
 		EasyCriteria<FeedSubscription> criteria = createCriteria();
-		criteria.andEquals(MF.i(proxy().getUser()), user);
+		criteria.andEquals(FeedSubscription_.user.getName(), user);
 
-		criteria.innerJoinFetch(MF.i(proxy().getFeed()));
-		criteria.innerJoinFetch(MF.i(proxy().getUser()));
-		criteria.leftJoinFetch(MF.i(proxy().getCategory()));
+		criteria.innerJoinFetch(FeedSubscription_.feed.getName());
+		criteria.innerJoinFetch(FeedSubscription_.user.getName());
+		criteria.leftJoinFetch(FeedSubscription_.category.getName());
 		return criteria.getResultList();
 	}
 
@@ -55,8 +53,8 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 			FeedCategory category) {
 		EasyCriteria<FeedSubscription> criteria = EasyCriteriaFactory
 				.createQueryCriteria(em, getType());
-		criteria.andEquals(MF.i(proxy().getUser()), user);
-		criteria.andEquals(MF.i(proxy().getCategory()), category);
+		criteria.andEquals(FeedSubscription_.user.getName(), user);
+		criteria.andEquals(FeedSubscription_.category.getName(), category);
 		return criteria.getResultList();
 
 	}
@@ -64,8 +62,8 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 	public List<FeedSubscription> findWithoutCategories(User user) {
 		EasyCriteria<FeedSubscription> criteria = EasyCriteriaFactory
 				.createQueryCriteria(em, getType());
-		criteria.andEquals(MF.i(proxy().getUser()), user);
-		criteria.andIsNull(MF.i(proxy().getCategory()));
+		criteria.andEquals(FeedSubscription_.user.getName(), user);
+		criteria.andIsNull(FeedSubscription_.category.getName());
 		return criteria.getResultList();
 
 	}

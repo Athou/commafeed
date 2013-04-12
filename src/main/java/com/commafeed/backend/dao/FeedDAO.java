@@ -14,7 +14,6 @@ import org.apache.commons.lang.time.DateUtils;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.Feed_;
-import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.collect.Iterables;
 import com.uaihebert.model.EasyCriteria;
 
@@ -52,14 +51,14 @@ public class FeedDAO extends GenericDAO<Feed> {
 	}
 
 	public Feed findByUrl(String url) {
-		List<Feed> feeds = findByField(MF.i(proxy().getUrl()), url);
+		List<Feed> feeds = findByField(Feed_.url, url);
 		return Iterables.getFirst(feeds, null);
 	}
 
 	public Feed findByIdWithEntries(Long feedId, int offset, int limit) {
 		EasyCriteria<Feed> criteria = createCriteria();
-		criteria.andEquals(MF.i(proxy().getId()), feedId);
-		criteria.leftJoinFetch(MF.i(proxy().getEntries()));
+		criteria.andEquals(Feed_.id.getName(), feedId);
+		criteria.leftJoinFetch(Feed_.entries.getName());
 
 		criteria.setFirstResult(offset);
 		criteria.setMaxResults(limit);

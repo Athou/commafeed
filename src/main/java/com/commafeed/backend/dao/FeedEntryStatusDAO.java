@@ -21,11 +21,9 @@ import com.commafeed.backend.model.FeedEntryContent_;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryStatus_;
 import com.commafeed.backend.model.FeedEntry_;
-import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
-import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.api.client.util.Lists;
 import com.google.api.client.util.Maps;
 import com.uaihebert.model.EasyCriteria;
@@ -37,13 +35,13 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	public FeedEntryStatus findById(User user, Long id) {
 
 		EasyCriteria<FeedEntryStatus> criteria = createCriteria();
-		criteria.andEquals(MF.i(proxy().getId()), id);
+		criteria.andEquals(FeedEntryStatus_.id.getName(), id);
 
-		criteria.innerJoinFetch(MF.i(proxy().getSubscription()));
-		criteria.innerJoinFetch(MF.i(proxy().getEntry()));
+		criteria.innerJoinFetch(FeedEntryStatus_.subscription.getName());
+		criteria.innerJoinFetch(FeedEntryStatus_.entry.getName());
 
-		criteria.andJoinEquals(MF.i(proxy().getSubscription()),
-				MF.i(MF.p(FeedSubscription.class).getUser()), user);
+		criteria.andJoinEquals(FeedEntryStatus_.subscription.getName(),
+				FeedSubscription_.user.getName(), user);
 
 		FeedEntryStatus status = null;
 		try {
@@ -54,8 +52,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return status;
 	}
 
-	public List<FeedEntryStatus> findByKeywords(User user,
-			String keywords, int offset, int limit, boolean includeContent) {
+	public List<FeedEntryStatus> findByKeywords(User user, String keywords,
+			int offset, int limit, boolean includeContent) {
 
 		String joinedKeywords = StringUtils.join(
 				keywords.toLowerCase().split(" "), "%");
@@ -136,8 +134,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public List<FeedEntryStatus> findByFeed(Feed feed, User user,
 			boolean unreadOnly, ReadingOrder order, boolean includeContent) {
-		return findByFeed(feed, user, unreadOnly, -1, -1, order,
-				includeContent);
+		return findByFeed(feed, user, unreadOnly, -1, -1, order, includeContent);
 	}
 
 	public List<FeedEntryStatus> findByFeed(Feed feed, User user,
@@ -169,16 +166,16 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return q.getResultList();
 	}
 
-	public List<FeedEntryStatus> findByCategories(List<FeedCategory> categories,
-			User user, boolean unreadOnly, ReadingOrder order,
-			boolean includeContent) {
+	public List<FeedEntryStatus> findByCategories(
+			List<FeedCategory> categories, User user, boolean unreadOnly,
+			ReadingOrder order, boolean includeContent) {
 		return findByCategories(categories, user, unreadOnly, -1, -1, order,
 				includeContent);
 	}
 
-	public List<FeedEntryStatus> findByCategories(List<FeedCategory> categories,
-			User user, boolean unreadOnly, int offset, int limit,
-			ReadingOrder order, boolean includeContent) {
+	public List<FeedEntryStatus> findByCategories(
+			List<FeedCategory> categories, User user, boolean unreadOnly,
+			int offset, int limit, ReadingOrder order, boolean includeContent) {
 
 		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
 		Root<FeedEntryStatus> root = query.from(getType());
@@ -225,14 +222,14 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public void markCategoryEntries(User user, List<FeedCategory> categories,
 			Date olderThan) {
-		List<FeedEntryStatus> statuses = findByCategories(categories, user, true,
-				ReadingOrder.desc, false);
+		List<FeedEntryStatus> statuses = findByCategories(categories, user,
+				true, ReadingOrder.desc, false);
 		update(markList(statuses, olderThan));
 	}
 
 	public void markAllEntries(User user, Date olderThan) {
-		List<FeedEntryStatus> statuses = findAll(user, true,
-				ReadingOrder.desc, false);
+		List<FeedEntryStatus> statuses = findAll(user, true, ReadingOrder.desc,
+				false);
 		update(markList(statuses, olderThan));
 	}
 

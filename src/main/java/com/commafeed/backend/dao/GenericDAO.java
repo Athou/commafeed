@@ -11,10 +11,10 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.Attribute;
 
 import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.FeedEntryStatus;
-import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.google.common.reflect.TypeToken;
 import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
@@ -124,9 +124,9 @@ public abstract class GenericDAO<T extends AbstractModel> implements
 		return em.createQuery(query).getSingleResult();
 	}
 
-	public List<T> findByField(String field, Object value) {
+	public <V> List<T> findByField(Attribute<T, V> field, V value) {
 		EasyCriteria<T> criteria = createCriteria();
-		criteria.andEquals(field, value);
+		criteria.andEquals(field.getName(), value);
 		return criteria.getResultList();
 	}
 
@@ -148,9 +148,4 @@ public abstract class GenericDAO<T extends AbstractModel> implements
 	public EasyCriteria<T> createCriteria() {
 		return EasyCriteriaFactory.createQueryCriteria(em, getType());
 	}
-
-	protected T proxy() {
-		return MF.p(getType());
-	}
-
 }

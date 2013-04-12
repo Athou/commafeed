@@ -5,7 +5,7 @@ import javax.persistence.NoResultException;
 
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
-import com.commafeed.frontend.utils.ModelFactory.MF;
+import com.commafeed.backend.model.UserSettings_;
 import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
 
@@ -17,7 +17,7 @@ public class UserSettingsDAO extends GenericDAO<UserSettings> {
 
 		EasyCriteria<UserSettings> criteria = EasyCriteriaFactory
 				.createQueryCriteria(em, getType());
-		criteria.andEquals(MF.i(proxy().getUser()), user);
+		criteria.andEquals(UserSettings_.user.getName(), user);
 
 		UserSettings settings = null;
 		try {

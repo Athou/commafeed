@@ -10,7 +10,6 @@ import javax.persistence.criteria.Root;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntry_;
-import com.commafeed.frontend.utils.ModelFactory.MF;
 import com.uaihebert.model.EasyCriteria;
 
 @Stateless
@@ -20,8 +19,8 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 	public List<FeedEntry> findByGuids(List<String> guids) {
 		EasyCriteria<FeedEntry> criteria = createCriteria();
 		criteria.setDistinctTrue();
-		criteria.andStringIn(MF.i(proxy().getGuid()), guids);
-		criteria.leftJoinFetch(MF.i(proxy().getFeeds()));
+		criteria.andStringIn(FeedEntry_.guid.getName(), guids);
+		criteria.leftJoinFetch(FeedEntry_.feeds.getName());
 		return criteria.getResultList();
 	}
 

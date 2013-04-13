@@ -11,6 +11,8 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -24,6 +26,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.apache.commons.lang.time.DateUtils;
 
+import com.commafeed.frontend.CommaFeedSession;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -107,7 +110,14 @@ public class JSONMessageBodyReaderWriter implements MessageBodyWriter<Object>,
 			Date now = Calendar.getInstance().getTime();
 			String format = DateUtils.isSameDay(now, src) ? TIME_FORMAT
 					: DAY_FORMAT;
-			return new JsonPrimitive(new SimpleDateFormat(format).format(src));
+
+			Locale locale = CommaFeedSession.get().getLocale();
+			Calendar calendar = Calendar.getInstance(locale);
+			TimeZone timeZone = calendar.getTimeZone();
+			SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+			dateFormat.setTimeZone(timeZone);
+
+			return new JsonPrimitive(dateFormat.format(src));
 		}
 	}
 

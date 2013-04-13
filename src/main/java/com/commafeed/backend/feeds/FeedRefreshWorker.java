@@ -2,9 +2,12 @@ package com.commafeed.backend.feeds;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.Future;
 
 import javax.annotation.Resource;
+import javax.ejb.AsyncResult;
 import javax.ejb.Asynchronous;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -46,9 +49,11 @@ public class FeedRefreshWorker {
 	@Resource
 	private UserTransaction transaction;
 
+	private boolean running = true;
+
 	@Asynchronous
-	public void start() {
-		while (true) {
+	public Future<Void> start() {
+		while (running) {
 			try {
 				Feed feed = getNextFeed();
 				if (feed != null) {
@@ -59,9 +64,10 @@ public class FeedRefreshWorker {
 					Thread.sleep(15000);
 				}
 			} catch (Exception e) {
-				log.error(e.getMessage(), e);
+				throw new EJBException(e.getMessage(), e);
 			}
 		}
+		return new AsyncResult<Void>(null);
 	}
 
 	private void update(Feed feed) throws NotSupportedException,
@@ -115,4 +121,5 @@ public class FeedRefreshWorker {
 	private Feed getNextFeed() {
 		return taskGiver.take();
 	}
+
 }

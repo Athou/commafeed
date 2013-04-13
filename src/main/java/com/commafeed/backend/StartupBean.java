@@ -2,8 +2,11 @@ package com.commafeed.backend;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
@@ -24,6 +27,7 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.UserService;
+import com.google.api.client.util.Lists;
 
 @Startup
 @Singleton
@@ -53,6 +57,8 @@ public class StartupBean {
 	@Inject
 	FeedRefreshWorker worker;
 
+	private List<Future<Void>> threads = Lists.newArrayList();
+
 	private long startupTime;
 
 	@PostConstruct
@@ -64,7 +70,8 @@ public class StartupBean {
 
 		ApplicationSettings settings = applicationSettingsService.get();
 		for (int i = 0; i < settings.getBackgroundThreads(); i++) {
-			worker.start();
+			Future<Void> thread = worker.start();
+			threads.add(thread);
 		}
 
 	}
@@ -127,6 +134,13 @@ public class StartupBean {
 
 	public long getStartupTime() {
 		return startupTime;
+	}
+
+	@PreDestroy
+	private void shutdown() {
+		for (Future<Void> future : threads) {
+			future.cancel(true);
+		}
 	}
 
 }

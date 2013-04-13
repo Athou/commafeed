@@ -1,0 +1,36 @@
+<div class="container profile">
+	<div class="page-header">
+		<h1>Profile</h1>
+	</div>
+	{{user}}
+	{{profileForm.$valid}}
+	<form name="profileForm" ng-submit="save()" class="form-horizontal">
+		<div class="control-group">
+			<label class="control-label" for="email">E-mail</label>
+			<div class="controls">
+				<input type="email" id="email" ng-model="user.email" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="password">Change password</label>
+			<div class="controls">
+				<input type="password" name="password" id="password" ng-model="user.password"
+					ng-minlength="6" />
+				<span class="help-inline" ng-show="profileForm.password.$error.minlength">Minimum 6 characters</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="password">Confirm password</label>
+			<div class="controls">
+				<input type="password" name="password_c" id="password_c" ng-model="password_c"
+					ui-validate="'$value==user.password'" ui-validate-watch="'user.password'">
+				<span class="help-inline" ng-show="profileForm.password_c.$error.validator">Passwords do not match</span>
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Save</button>
+			<button type="button" class="btn" ng-click="cancel()">Cancel</button>
+		</div>
+	</form>
+</div>

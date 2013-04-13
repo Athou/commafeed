@@ -261,6 +261,9 @@ module.controller('ToolbarCtrl',
 			$scope.toSettings = function() {
 				$location.path('settings');
 			};
+			$scope.toProfile = function() {
+				$location.path('profile');
+			};
 		});
 
 module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
@@ -553,6 +556,27 @@ module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
 			window.location.href = window.location.href.substring(0,
 					window.location.href.lastIndexOf('#'));
 		});
+	};
+});
+
+module.controller('ProfileCtrl', function($scope, $location, SessionService) {
+	$scope.user = SessionService.get();
+
+	$scope.cancel = function() {
+		$location.path('/');
+	};
+	$scope.save = function() {
+		if (!$scope.profileForm.$valid) {
+			return;
+		}
+		var o = {
+			email : $scope.user.email
+		};
+		if ($scope.user.password == $scope.password_c) {
+			o.password = $scope.user.password;
+		}
+		SessionService.save(o);
+		$location.path('/');
 	};
 });
 

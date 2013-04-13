@@ -50,6 +50,12 @@ app.config(function($routeProvider, $stateProvider, $urlRouterProvider) {
 		templateUrl : 'templates/settings.html',
 		controller : 'SettingsCtrl'
 	});
+	
+	$stateProvider.state('profile', {
+		url : '/profile',
+		templateUrl : 'templates/profile.html',
+		controller : 'ProfileCtrl'
+	});
 
 	$urlRouterProvider.when('/', '/feeds/view/category/all');
 	$urlRouterProvider.when('/admin', '/admin/settings');

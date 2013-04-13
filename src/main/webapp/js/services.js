@@ -1,7 +1,21 @@
 var module = angular.module('commafeed.services', [ 'ngResource' ]);
 
 module.factory('SessionService', function($resource) {
-	return $resource('rest/session/get');
+	var actions = {
+			get : {
+				method : 'GET',
+				params : {
+					_method : 'get'
+				}
+			},
+			save : {
+				method : 'POST',
+				params : {
+					_method : 'save'
+				}
+			}
+		};
+	return $resource('rest/session/:_method', {}, actions);
 });
 
 module.factory('SubscriptionService', function($resource, $http) {

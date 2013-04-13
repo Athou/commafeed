@@ -48,6 +48,9 @@ public class FeedRefreshWorker {
 	@Inject
 	FeedUpdateService feedUpdateService;
 
+	@Inject
+	FeedRefreshTaskGiver taskGiver;
+
 	@Resource
 	private UserTransaction transaction;
 
@@ -117,22 +120,7 @@ public class FeedRefreshWorker {
 
 	}
 
-	private Feed getNextFeed() throws NotSupportedException, SystemException,
-			SecurityException, IllegalStateException, RollbackException,
-			HeuristicMixedException, HeuristicRollbackException {
-
-		Feed feed = null;
-		lock.lock();
-		try {
-			feed = Iterables.getFirst(feedDAO.findNextUpdatable(1), null);
-			if (feed != null) {
-				feed.setLastUpdated(Calendar.getInstance().getTime());
-				feedDAO.update(feed);
-			}
-		} finally {
-			lock.unlock();
-		}
-
-		return feed;
+	private Feed getNextFeed() {
+		return taskGiver.take();
 	}
 }

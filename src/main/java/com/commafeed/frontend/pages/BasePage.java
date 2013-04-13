@@ -3,6 +3,7 @@ package com.commafeed.frontend.pages;
 import javax.inject.Inject;
 
 import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.filter.HeaderResponseContainer;
 import org.apache.wicket.markup.html.WebPage;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -17,7 +18,7 @@ import com.commafeed.backend.dao.UserSettingsDAO;
 import de.agilecoders.wicket.Bootstrap;
 
 @SuppressWarnings("serial")
-public class BasePage extends WebPage {
+public abstract class BasePage extends WebPage {
 
 	@Inject
 	protected FeedDAO feedDAO;
@@ -42,6 +43,10 @@ public class BasePage extends WebPage {
 
 	@Inject
 	protected UserRoleDAO userRoleDAO;
+
+	public BasePage() {
+		add(new HeaderResponseContainer("footer-container", "footer-container"));
+	}
 
 	@Override
 	public void renderHead(IHeaderResponse response) {

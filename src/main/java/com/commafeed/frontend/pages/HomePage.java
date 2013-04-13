@@ -39,6 +39,7 @@ public class HomePage extends BasePage {
 	@Override
 	public void renderHead(IHeaderResponse response) {
 		super.renderHead(response);
+
 		AngularReference.renderHead(response);
 		AngularResourceReference.renderHead(response);
 		AngularSanitizeReference.renderHead(response);

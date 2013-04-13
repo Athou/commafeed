@@ -2,6 +2,7 @@ package com.commafeed.frontend;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.jar.JarFile;
 
 import javax.enterprise.inject.spi.BeanManager;
@@ -32,6 +33,7 @@ import org.apache.wicket.request.Response;
 import org.apache.wicket.request.component.IRequestableComponent;
 import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
 import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.util.cookies.CookieUtils;
 import org.jboss.vfs.VirtualFile;
 import org.reflections.ReflectionsException;
@@ -48,9 +50,28 @@ import com.commafeed.frontend.pages.HomePage;
 import com.commafeed.frontend.pages.LogoutPage;
 import com.commafeed.frontend.pages.TestRssPage;
 import com.commafeed.frontend.pages.WelcomePage;
+import com.commafeed.frontend.references.angular.AngularReference;
+import com.commafeed.frontend.references.angular.AngularResourceReference;
+import com.commafeed.frontend.references.angular.AngularSanitizeReference;
+import com.commafeed.frontend.references.angularui.AngularUIReference;
+import com.commafeed.frontend.references.angularuibootstrap.AngularUIBootstrapReference;
+import com.commafeed.frontend.references.angularuistate.AngularUIStateReference;
+import com.commafeed.frontend.references.codemirror.CodeMirrorCssReference;
+import com.commafeed.frontend.references.codemirror.CodeMirrorReference;
+import com.commafeed.frontend.references.mousetrap.MouseTrapReference;
+import com.commafeed.frontend.references.nggrid.NGGridReference;
+import com.commafeed.frontend.references.nginfinitescroll.NGInfiniteScrollReference;
+import com.commafeed.frontend.references.ngupload.NGUploadReference;
+import com.commafeed.frontend.references.select2.Select2Reference;
+import com.commafeed.frontend.references.spinjs.SpinJSReference;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
+import com.google.api.client.util.Lists;
+import com.google.javascript.jscomp.CompilationLevel;
 
 import de.agilecoders.wicket.Bootstrap;
+import de.agilecoders.wicket.javascript.GoogleClosureJavaScriptCompressor;
+import de.agilecoders.wicket.javascript.YuiCssCompressor;
+import de.agilecoders.wicket.markup.html.RenderJavaScriptToFooterHeaderResponseDecorator;
 import de.agilecoders.wicket.settings.BootstrapSettings;
 
 public class CommaFeedApplication extends AuthenticatedWebApplication {
@@ -71,11 +92,70 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		mountPage("testfeed", TestRssPage.class);
 
 		setupInjection();
+		setupSecurity();
+		setupBootstrap();
+		setupResourceBundles();
 
 		getMarkupSettings().setStripWicketTags(true);
 		getMarkupSettings().setCompressWhitespace(true);
 		getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
 
+		getResourceSettings().setJavaScriptCompressor(
+				new GoogleClosureJavaScriptCompressor(
+						CompilationLevel.SIMPLE_OPTIMIZATIONS));
+		getResourceSettings().setCssCompressor(new YuiCssCompressor());
+
+		getRequestCycleListeners().add(new AbstractRequestCycleListener() {
+			@Override
+			public IRequestHandler onException(RequestCycle cycle, Exception ex) {
+				AjaxRequestTarget target = cycle.find(AjaxRequestTarget.class);
+				// redirect to the error page if ajax request, render error on
+				// current page otherwise
+				RedirectPolicy policy = target == null ? RedirectPolicy.NEVER_REDIRECT
+						: RedirectPolicy.AUTO_REDIRECT;
+				return new RenderPageRequestHandler(new PageProvider(
+						new DisplayExceptionPage(ex)), policy);
+			}
+		});
+	}
+
+	private void setupResourceBundles() {
+
+		List<JavaScriptResourceReference> refs = Lists.newArrayList();
+
+		refs.add((JavaScriptResourceReference) getJavaScriptLibrarySettings()
+				.getJQueryReference());
+		refs.add((JavaScriptResourceReference) Bootstrap.getSettings()
+				.getJsResourceReference());
+
+		refs.add(AngularReference.INSTANCE);
+		refs.add(AngularResourceReference.INSTANCE);
+		refs.add(AngularSanitizeReference.INSTANCE);
+		refs.add(AngularUIReference.INSTANCE);
+		refs.add(AngularUIBootstrapReference.INSTANCE);
+		refs.add(AngularUIStateReference.INSTANCE);
+		refs.add(NGUploadReference.INSTANCE);
+		refs.add(NGInfiniteScrollReference.INSTANCE);
+		refs.add(Select2Reference.INSTANCE);
+		refs.add(SpinJSReference.INSTANCE);
+		refs.add(MouseTrapReference.INSTANCE);
+		refs.add(NGGridReference.INSTANCE);
+		refs.add(CodeMirrorReference.INSTANCE);
+		refs.add(CodeMirrorCssReference.INSTANCE);
+
+		getResourceBundles().addJavaScriptBundle(CommaFeedApplication.class,
+				"libs.js", refs.toArray(new JavaScriptResourceReference[0]));
+
+	}
+
+	private void setupBootstrap() {
+		BootstrapSettings settings = new BootstrapSettings();
+		settings.setJsResourceFilterName("footer-container");
+		Bootstrap.install(this, settings);
+		setHeaderResponseDecorator(new RenderJavaScriptToFooterHeaderResponseDecorator());
+	}
+
+	private void setupSecurity() {
 		getSecuritySettings().setAuthenticationStrategy(
 				new DefaultAuthenticationStrategy("LoggedIn") {
 
@@ -122,20 +202,6 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 						return true;
 					}
 				});
-
-		getRequestCycleListeners().add(new AbstractRequestCycleListener() {
-			@Override
-			public IRequestHandler onException(RequestCycle cycle, Exception ex) {
-				AjaxRequestTarget target = cycle.find(AjaxRequestTarget.class);
-				// redirect to the error page if ajax request, render error on
-				// current page otherwise
-				RedirectPolicy policy = target == null ? RedirectPolicy.NEVER_REDIRECT
-						: RedirectPolicy.AUTO_REDIRECT;
-				return new RenderPageRequestHandler(new PageProvider(
-						new DisplayExceptionPage(ex)), policy);
-			}
-		});
-		Bootstrap.install(Application.get(), new BootstrapSettings());
 	}
 
 	@Override

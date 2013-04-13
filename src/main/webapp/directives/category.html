@@ -2,7 +2,7 @@
 	<div ng-mouseenter="hovered=node" ng-mouseleave="hovered=null" class="pointer">
 		<div class="dropdown pull-right">
 			<a dropdown-toggle class="pull-right">
-				<i ng-show="hovered==node && node.id != 'all'" class="icon icon-chevron-down"></i>
+				<i ng-class="{'icon-chevron-down': hovered==node && node.id != 'all'}" class="icon"></i>
 			</a>
 			<ul class="dropdown-menu">
 				<li>
@@ -36,7 +36,7 @@
 			ng-class="{error: feed.message && feed.errorCount > 10}">
 			<div class="dropdown pull-right">
 				<a dropdown-toggle class="pull-right">
-					<i ng-show="hovered==feed" class="icon icon-chevron-down"></i>
+					<i ng-class="{'icon-chevron-down': hovered==feed}" class="icon"></i>
 				</a>
 				<ul class="dropdown-menu">
 					<li>

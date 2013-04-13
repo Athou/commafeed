@@ -8,6 +8,12 @@
 	top: -4px;
 }
 
+.icon {
+	width: 14px;
+	height: 14px;
+	display: block;
+}
+
 .main .dropdown-menu a {
 	cursor: pointer;
 }
@@ -43,7 +49,7 @@
 .css-treeview {
 	margin-top: 15px;
 	font-family: inherit;
-	font-size: 11px;
+	font-size: 12px;
 	white-space: nowrap;
 }
 
@@ -57,7 +63,7 @@
 }
 
 .css-treeview li {
-	line-height: 18px;
+	line-height: 20px;
 }
 
 .css-treeview .icon-fldr {
@@ -87,7 +93,7 @@
 
 .css-treeview label,.css-treeview a,.css-treeview label::before {
 	font-family: inherit;
-	font-size: 11px;
+	font-size: 12px;
 	white-space: nowrap;
 }
 

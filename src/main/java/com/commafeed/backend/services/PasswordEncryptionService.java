@@ -8,7 +8,6 @@ import java.util.Arrays;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.ejb.Singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +15,9 @@ import org.slf4j.LoggerFactory;
 import com.commafeed.backend.dao.UserDAO;
 
 // http://www.javacodegeeks.com/2012/05/secure-password-storage-donts-dos-and.html
-@Singleton
 public class PasswordEncryptionService {
 
-	private static final Logger log = LoggerFactory
-			.getLogger(UserDAO.class);
+	private static final Logger log = LoggerFactory.getLogger(UserDAO.class);
 
 	public boolean authenticate(String attemptedPassword,
 			byte[] encryptedPassword, byte[] salt) {

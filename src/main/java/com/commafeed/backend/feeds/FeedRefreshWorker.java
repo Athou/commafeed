@@ -6,7 +6,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.annotation.Resource;
 import javax.ejb.Asynchronous;
-import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -65,7 +64,7 @@ public class FeedRefreshWorker {
 					Thread.sleep(15000);
 				}
 			} catch (Exception e) {
-				throw new EJBException(e.getMessage(), e);
+				log.error(e.getMessage(), e);
 			}
 		}
 	}

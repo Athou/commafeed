@@ -553,8 +553,7 @@ module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
 	$scope.save = function() {
 		SettingsService.settings = $scope.settings;
 		SettingsService.save(function() {
-			window.location.href = window.location.href.substring(0,
-					window.location.href.lastIndexOf('#'));
+
 		});
 	};
 });
@@ -570,13 +569,14 @@ module.controller('ProfileCtrl', function($scope, $location, SessionService) {
 			return;
 		}
 		var o = {
-			email : $scope.user.email
+			email : $scope.user.email,
+			password : $scope.user.password
 		};
-		if ($scope.user.password == $scope.password_c) {
-			o.password = $scope.user.password;
-		}
-		SessionService.save(o);
-		$location.path('/');
+
+		SessionService.save(o, function() {
+			$location.path('/');
+		});
+
 	};
 });
 

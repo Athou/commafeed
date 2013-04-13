@@ -2,7 +2,6 @@ package com.commafeed.backend.feeds;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javax.annotation.Resource;
 import javax.ejb.Asynchronous;
@@ -22,10 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.dao.FeedDAO;
-import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.services.FeedUpdateService;
-import com.google.common.collect.Iterables;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
@@ -34,16 +31,11 @@ public class FeedRefreshWorker {
 	private static Logger log = LoggerFactory
 			.getLogger(FeedRefreshWorker.class);
 
-	private static final ReentrantLock lock = new ReentrantLock();
-
 	@Inject
 	FeedFetcher fetcher;
 
 	@Inject
 	FeedDAO feedDAO;
-
-	@Inject
-	FeedEntryDAO feedEntryDAO;
 
 	@Inject
 	FeedUpdateService feedUpdateService;

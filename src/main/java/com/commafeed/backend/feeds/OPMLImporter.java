@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
-import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.services.FeedSubscriptionService;
@@ -18,9 +17,6 @@ import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.WireFeedInput;
 
 public class OPMLImporter {
-
-	@Inject
-	FeedDAO feedDAO;
 
 	@Inject
 	FeedSubscriptionService feedSubscriptionService;

@@ -5,7 +5,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
@@ -20,9 +19,6 @@ import com.google.api.client.util.Lists;
 
 @Stateless
 public class FeedSubscriptionService {
-
-	@Inject
-	FeedCategoryDAO feedCategoryDAO;
 
 	@Inject
 	FeedDAO feedDAO;
@@ -60,8 +56,7 @@ public class FeedSubscriptionService {
 
 		if (newSubscription) {
 			List<FeedEntryStatus> statuses = Lists.newArrayList();
-			List<FeedEntry> allEntries = feedEntryDAO.findByFeed(feed, 0,
-					10);
+			List<FeedEntry> allEntries = feedEntryDAO.findByFeed(feed, 0, 10);
 			for (FeedEntry entry : allEntries) {
 				FeedEntryStatus status = new FeedEntryStatus();
 				status.setEntry(entry);

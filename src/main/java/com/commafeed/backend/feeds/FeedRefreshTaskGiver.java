@@ -1,5 +1,6 @@
 package com.commafeed.backend.feeds;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Queue;
 
@@ -26,7 +27,9 @@ public class FeedRefreshTaskGiver {
 			List<Feed> feeds = feedDAO.findNextUpdatable(30);
 			for (Feed feed : feeds) {
 				queue.add(feed);
+				feed.setLastUpdated(Calendar.getInstance().getTime());
 			}
+			feedDAO.update(feeds);
 		}
 		return queue.poll();
 	}

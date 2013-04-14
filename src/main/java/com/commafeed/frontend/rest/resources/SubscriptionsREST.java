@@ -42,7 +42,7 @@ public class SubscriptionsREST extends AbstractREST {
 		url = prependHttp(url);
 		Feed feed = null;
 		try {
-			feed = feedFetcher.fetch(url);
+			feed = feedFetcher.fetch(url, true);
 		} catch (Exception e) {
 			throw new WebApplicationException(e, Response
 					.status(Status.INTERNAL_SERVER_ERROR)
@@ -59,6 +59,7 @@ public class SubscriptionsREST extends AbstractREST {
 		Preconditions.checkNotNull(req.getUrl());
 
 		String url = prependHttp(req.getUrl());
+		url = fetchFeed(url).getUrl();
 
 		FeedCategory category = EntriesREST.ALL.equals(req.getCategoryId()) ? null
 				: feedCategoryDAO

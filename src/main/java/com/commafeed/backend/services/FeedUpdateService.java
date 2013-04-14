@@ -10,6 +10,10 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document.OutputSettings;
+import org.jsoup.nodes.Entities.EscapeMode;
+import org.jsoup.safety.Whitelist;
 
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
@@ -17,6 +21,7 @@ import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.google.common.collect.Lists;
@@ -54,6 +59,10 @@ public class FeedUpdateService {
 				}
 			}
 			if (foundEntry == null) {
+				FeedEntryContent content = entry.getContent();
+				content.setContent(handleContent(content.getContent()));
+				content.setTitle(handleContent(content.getTitle()));
+
 				entry.setInserted(Calendar.getInstance().getTime());
 				addFeedToEntry(entry, feed);
 			} else {
@@ -84,5 +93,20 @@ public class FeedUpdateService {
 			feedEntryStatusDAO.save(status);
 		}
 
+	}
+
+	private String handleContent(String content) {
+		if (StringUtils.isNotBlank(content)) {
+			Whitelist whitelist = Whitelist.relaxed();
+			whitelist.addEnforcedAttribute("a", "target", "_blank");
+
+			whitelist.addTags("iframe");
+			whitelist.addAttributes("iframe", "src", "height", "width",
+					"allowfullscreen", "frameborder");
+
+			content = Jsoup.clean(content, "", whitelist,
+					new OutputSettings().escapeMode(EscapeMode.extended));
+		}
+		return content;
 	}
 }

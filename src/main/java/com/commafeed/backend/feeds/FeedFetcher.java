@@ -26,16 +26,19 @@ public class FeedFetcher {
 	@Inject
 	HttpGetter getter;
 
-	public Feed fetch(String feedUrl) throws FeedException,
-			ClientProtocolException, IOException {
+	public Feed fetch(String feedUrl, boolean extractFeedUrlFromHtml)
+			throws FeedException, ClientProtocolException, IOException {
 		log.debug("Fetching feed {}", feedUrl);
 		Feed feed = null;
 
 		byte[] content = getter.getBinary(feedUrl);
-		String extractedUrl = extractFeedUrl(StringUtils.newStringUtf8(content));
-		if (extractedUrl != null) {
-			content = getter.getBinary(extractedUrl);
-			feedUrl = extractedUrl;
+		if (extractFeedUrlFromHtml) {
+			String extractedUrl = extractFeedUrl(StringUtils
+					.newStringUtf8(content));
+			if (extractedUrl != null) {
+				content = getter.getBinary(extractedUrl);
+				feedUrl = extractedUrl;
+			}
 		}
 		feed = parser.parse(feedUrl, content);
 

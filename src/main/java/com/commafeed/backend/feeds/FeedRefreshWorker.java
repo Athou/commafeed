@@ -81,7 +81,7 @@ public class FeedRefreshWorker {
 
 		Feed fetchedFeed = null;
 		try {
-			fetchedFeed = fetcher.fetch(feed.getUrl());
+			fetchedFeed = fetcher.fetch(feed.getUrl(), false);
 		} catch (Exception e) {
 			message = "Unable to refresh feed " + feed.getUrl() + " : "
 					+ e.getMessage();

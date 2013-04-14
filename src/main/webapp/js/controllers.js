@@ -46,6 +46,7 @@ module.controller('SubscribeCtrl', function($scope, SubscriptionService) {
 				url : $scope.sub.url
 			}, function(data) {
 				$scope.sub.title = data.title;
+				$scope.sub.url = data.url;
 			});
 		}
 	};

@@ -8,10 +8,6 @@ import java.util.List;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document.OutputSettings;
-import org.jsoup.nodes.Entities.EscapeMode;
-import org.jsoup.safety.Whitelist;
 import org.xml.sax.InputSource;
 
 import com.commafeed.backend.model.Feed;
@@ -28,6 +24,12 @@ import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 
 public class FeedParser {
+
+	private static final Function<SyndContent, String> CONTENT_TO_STRING = new Function<SyndContent, String>() {
+		public String apply(SyndContent content) {
+			return content.getValue();
+		}
+	};
 
 	@SuppressWarnings("unchecked")
 	public Feed parse(String feedUrl, byte[] xml) throws FeedException {
@@ -55,8 +57,8 @@ public class FeedParser {
 				entry.setUpdated(getUpdateDate(item));
 
 				FeedEntryContent content = new FeedEntryContent();
-				content.setContent(handleContent(getContent(item)));
-				content.setTitle(handleContent(item.getTitle()));
+				content.setContent(getContent(item));
+				content.setTitle(item.getTitle());
 				SyndEnclosure enclosure = (SyndEnclosure) Iterables.getFirst(
 						item.getEnclosures(), null);
 				if (enclosure != null) {
@@ -94,27 +96,10 @@ public class FeedParser {
 					.getDescription().getValue();
 		} else {
 			content = StringUtils.join(Collections2.transform(
-					item.getContents(), new Function<SyndContent, String>() {
-						public String apply(SyndContent content) {
-							return content.getValue();
-						}
-					}), SystemUtils.LINE_SEPARATOR);
+					item.getContents(), CONTENT_TO_STRING),
+					SystemUtils.LINE_SEPARATOR);
 		}
 		return content;
 	}
 
-	private String handleContent(String content) {
-		if (StringUtils.isNotBlank(content)) {
-			Whitelist whitelist = Whitelist.relaxed();
-			whitelist.addEnforcedAttribute("a", "target", "_blank");
-
-			whitelist.addTags("iframe");
-			whitelist.addAttributes("iframe", "src", "height", "width",
-					"allowfullscreen", "frameborder");
-
-			content = Jsoup.clean(content, "", whitelist,
-					new OutputSettings().escapeMode(EscapeMode.extended));
-		}
-		return content;
-	}
 }

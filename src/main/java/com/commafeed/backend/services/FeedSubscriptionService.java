@@ -2,7 +2,9 @@ package com.commafeed.backend.services;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
+import javax.ejb.Lock;
+import javax.ejb.LockType;
+import javax.ejb.Singleton;
 import javax.inject.Inject;
 
 import com.commafeed.backend.dao.FeedDAO;
@@ -17,7 +19,7 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.google.api.client.util.Lists;
 
-@Stateless
+@Singleton
 public class FeedSubscriptionService {
 
 	@Inject
@@ -32,6 +34,7 @@ public class FeedSubscriptionService {
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
 
+	@Lock(LockType.WRITE)
 	public void subscribe(User user, String url, String title,
 			FeedCategory category) {
 

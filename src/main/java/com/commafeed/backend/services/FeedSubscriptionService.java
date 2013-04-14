@@ -57,7 +57,7 @@ public class FeedSubscriptionService {
 			newSubscription = true;
 		}
 		sub.setCategory(category);
-		sub.setTitle(title);
+		sub.setTitle(title.substring(0, Math.min(128, title.length())));
 		feedSubscriptionDAO.saveOrUpdate(sub);
 
 		if (newSubscription) {

@@ -47,9 +47,7 @@ public class UserService {
 		user.setEmail(email);
 		user.setSalt(salt);
 		user.setPassword(encryptionService.getEncryptedPassword(password, salt));
-		user.getRoles().add(new UserRole(user, Role.USER));
 		for (Role role : roles) {
-			user.getRoles().add(new UserRole(user, role));
 			user.getRoles().add(new UserRole(user, role));
 		}
 		userDAO.save(user);

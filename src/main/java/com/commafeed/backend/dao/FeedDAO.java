@@ -10,6 +10,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
 import com.commafeed.backend.model.Feed;
@@ -51,8 +53,12 @@ public class FeedDAO extends GenericDAO<Feed> {
 	}
 
 	public Feed findByUrl(String url) {
-		List<Feed> feeds = findByField(Feed_.url, url);
-		return Iterables.getFirst(feeds, null);
+		List<Feed> feeds = findByField(Feed_.urlHash, DigestUtils.sha1Hex(url));
+		Feed feed = Iterables.getFirst(feeds, null);
+		if (feed != null && StringUtils.equals(url, feed.getUrl())) {
+			return feed;
+		}
+		return null;
 	}
 
 	public Feed findByIdWithEntries(Long feedId, int offset, int limit) {

@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.jsoup.Jsoup;
@@ -49,6 +50,7 @@ public class FeedParser {
 			for (SyndEntry item : items) {
 				FeedEntry entry = new FeedEntry();
 				entry.setGuid(item.getUri());
+				entry.setGuidHash(DigestUtils.sha1Hex(item.getUri()));
 				entry.setUrl(item.getLink());
 				entry.setUpdated(getUpdateDate(item));
 

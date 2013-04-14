@@ -28,6 +28,10 @@ public class FeedEntry extends AbstractModel {
 	@Column(length = 2048, nullable = false)
 	private String guid;
 
+	@Column(length = 40, nullable = false)
+	@Index(name = "guidHash_index")
+	private String guidHash;
+
 	@ManyToMany
 	@JoinTable(name = "FEED_FEEDENTRIES", joinColumns = { @JoinColumn(name = "FEED_ID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "FEEDENTRY_ID", nullable = false, updatable = false) })
 	private Set<Feed> feeds = Sets.newHashSet();
@@ -104,6 +108,14 @@ public class FeedEntry extends AbstractModel {
 
 	public void setContent(FeedEntryContent content) {
 		this.content = content;
+	}
+
+	public String getGuidHash() {
+		return guidHash;
+	}
+
+	public void setGuidHash(String guidHash) {
+		this.guidHash = guidHash;
 	}
 
 }

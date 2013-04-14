@@ -21,12 +21,22 @@ import com.google.common.collect.Sets;
 @SuppressWarnings("serial")
 public class Feed extends AbstractModel {
 
+	/**
+	 * The url of the feed
+	 */
 	@Column(length = 2048, nullable = false)
 	private String url;
+
+	@Column(length = 40, nullable = false)
+	@Index(name = "urlHash_index")
+	private String urlHash;
 
 	@Transient
 	private String title;
 
+	/**
+	 * The url of the website, extracted from the feed
+	 */
 	@Column(length = 2048)
 	private String link;
 
@@ -127,6 +137,14 @@ public class Feed extends AbstractModel {
 
 	public void setDisabledUntil(Date disabledUntil) {
 		this.disabledUntil = disabledUntil;
+	}
+
+	public String getUrlHash() {
+		return urlHash;
+	}
+
+	public void setUrlHash(String urlHash) {
+		this.urlHash = urlHash;
 	}
 
 }

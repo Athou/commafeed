@@ -7,6 +7,8 @@ import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
@@ -42,6 +44,7 @@ public class FeedSubscriptionService {
 		if (feed == null) {
 			feed = new Feed();
 			feed.setUrl(url);
+			feed.setUrlHash(DigestUtils.sha1Hex(url));
 			feedDAO.save(feed);
 		}
 

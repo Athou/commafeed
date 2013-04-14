@@ -36,8 +36,7 @@ public class FeedUpdateService {
 	@Inject
 	FeedEntryStatusDAO feedEntryStatusDAO;
 
-	public void updateEntries(String url, Collection<FeedEntry> entries) {
-		Feed feed = feedDAO.findByUrl(url);
+	public void updateEntries(Feed feed, Collection<FeedEntry> entries) {
 		List<String> guids = Lists.newArrayList();
 		for (FeedEntry entry : entries) {
 			guids.add(entry.getGuid());

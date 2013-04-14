@@ -106,8 +106,7 @@ public class FeedRefreshWorker {
 		transaction.begin();
 
 		if (fetchedFeed != null) {
-			feedUpdateService.updateEntries(feed.getUrl(),
-					fetchedFeed.getEntries());
+			feedUpdateService.updateEntries(feed, fetchedFeed.getEntries());
 			if (feed.getLink() == null) {
 				feed.setLink(fetchedFeed.getLink());
 			}

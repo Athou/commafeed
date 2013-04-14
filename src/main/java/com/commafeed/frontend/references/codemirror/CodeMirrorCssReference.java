@@ -5,16 +5,17 @@ import java.util.Arrays;
 import org.apache.wicket.markup.head.HeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.request.Url;
+import org.apache.wicket.request.resource.UrlResourceReference;
 
-import de.agilecoders.wicket.webjars.request.resource.WebjarsJavaScriptResourceReference;
-
-public class CodeMirrorCssReference extends WebjarsJavaScriptResourceReference {
+public class CodeMirrorCssReference extends UrlResourceReference {
 	private static final long serialVersionUID = 1L;
 
 	public static final CodeMirrorCssReference INSTANCE = new CodeMirrorCssReference();
 
 	private CodeMirrorCssReference() {
-		super("/codemirror/current/mode/css/css.js");
+		super(
+				Url.parse("https://cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/css.js"));
 	}
 
 	@Override

@@ -14,8 +14,7 @@ import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
-
-import de.agilecoders.wicket.Bootstrap;
+import com.commafeed.frontend.references.bootstrap.BootstrapReference;
 
 @SuppressWarnings("serial")
 public abstract class BasePage extends WebPage {
@@ -51,6 +50,6 @@ public abstract class BasePage extends WebPage {
 	@Override
 	public void renderHead(IHeaderResponse response) {
 		super.renderHead(response);
-		Bootstrap.renderHead(response);
+		BootstrapReference.renderHead(response);
 	}
 }

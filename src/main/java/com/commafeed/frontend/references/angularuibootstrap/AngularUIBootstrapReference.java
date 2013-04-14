@@ -5,17 +5,18 @@ import java.util.Arrays;
 import org.apache.wicket.markup.head.HeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
-import org.apache.wicket.request.resource.JavaScriptResourceReference;
+import org.apache.wicket.request.Url;
+import org.apache.wicket.request.resource.UrlResourceReference;
 
 import com.commafeed.frontend.references.angular.AngularReference;
 
-public class AngularUIBootstrapReference extends JavaScriptResourceReference {
+public class AngularUIBootstrapReference extends UrlResourceReference {
 	private static final long serialVersionUID = 1L;
 
 	public static final AngularUIBootstrapReference INSTANCE = new AngularUIBootstrapReference();
 
 	private AngularUIBootstrapReference() {
-		super(AngularUIBootstrapReference.class, "ui-bootstrap-tpls-0.2.0.js");
+		super(Url.parse("https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.2.0/ui-bootstrap-tpls.js"));
 	}
 
 	@Override

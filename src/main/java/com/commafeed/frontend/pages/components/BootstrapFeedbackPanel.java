@@ -7,9 +7,8 @@ import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 
+import com.commafeed.frontend.references.bootstrap.BootstrapReference;
 import com.commafeed.frontend.utils.WicketUtils;
-
-import de.agilecoders.wicket.Bootstrap;
 
 @SuppressWarnings("serial")
 public class BootstrapFeedbackPanel extends FeedbackPanel {
@@ -45,7 +44,7 @@ public class BootstrapFeedbackPanel extends FeedbackPanel {
 
 		get("feedbackul").add(new AttributeAppender("class", " unstyled"));
 	}
-	
+
 	@Override
 	protected void onComponentTag(ComponentTag tag) {
 		tag.setName("div");
@@ -55,7 +54,7 @@ public class BootstrapFeedbackPanel extends FeedbackPanel {
 	@Override
 	public void renderHead(IHeaderResponse response) {
 		super.renderHead(response);
-		Bootstrap.renderHead(response);
+		BootstrapReference.renderHead(response);
 		WicketUtils.loadCSS(response, BootstrapFeedbackPanel.class);
 	}
 

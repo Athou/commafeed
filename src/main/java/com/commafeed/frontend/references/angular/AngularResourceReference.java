@@ -5,17 +5,17 @@ import java.util.Arrays;
 import org.apache.wicket.markup.head.HeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.request.Url;
+import org.apache.wicket.request.resource.UrlResourceReference;
 
-import de.agilecoders.wicket.webjars.request.resource.WebjarsJavaScriptResourceReference;
-
-public class AngularResourceReference extends
-		WebjarsJavaScriptResourceReference {
+public class AngularResourceReference extends UrlResourceReference {
 	private static final long serialVersionUID = 1L;
 
 	public static final AngularResourceReference INSTANCE = new AngularResourceReference();
 
 	private AngularResourceReference() {
-		super("/angularjs/current/angular-resource.js");
+		super(
+				Url.parse("https://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular-resource.min.js"));
 	}
 
 	@Override

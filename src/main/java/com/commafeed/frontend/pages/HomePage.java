@@ -24,10 +24,7 @@ import com.commafeed.frontend.references.mousetrap.MouseTrapReference;
 import com.commafeed.frontend.references.nggrid.NGGridReference;
 import com.commafeed.frontend.references.nginfinitescroll.NGInfiniteScrollReference;
 import com.commafeed.frontend.references.ngupload.NGUploadReference;
-import com.commafeed.frontend.references.select2.Select2Reference;
 import com.commafeed.frontend.references.spinjs.SpinJSReference;
-
-import de.agilecoders.wicket.markup.html.bootstrap.extensions.icon.OpenWebIconsCssReference;
 
 @SuppressWarnings("serial")
 @SecurityCheck(Role.USER)
@@ -48,14 +45,10 @@ public class HomePage extends BasePage {
 		AngularUIStateReference.renderHead(response);
 		NGUploadReference.renderHead(response);
 		NGInfiniteScrollReference.renderHead(response);
-		Select2Reference.renderHead(response);
 		SpinJSReference.renderHead(response);
 		MouseTrapReference.renderHead(response);
 		NGGridReference.renderHead(response);
 		CodeMirrorCssReference.renderHead(response);
-
-		response.render(CssHeaderItem.forReference(OpenWebIconsCssReference
-				.instance()));
 
 		response.render(JavaScriptHeaderItem.forUrl("js/main.js"));
 		response.render(JavaScriptHeaderItem.forUrl("js/controllers.js"));

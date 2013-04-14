@@ -8,7 +8,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
-import de.agilecoders.wicket.Bootstrap;
+import com.commafeed.frontend.references.bootstrap.BootstrapReference;
 
 public class DisplayExceptionPage extends WebPage {
 
@@ -41,7 +41,7 @@ public class DisplayExceptionPage extends WebPage {
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
-		Bootstrap.renderHead(response);
+		BootstrapReference.renderHead(response);
 	}
 
 }

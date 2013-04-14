@@ -2,28 +2,28 @@ package com.commafeed.frontend.references.codemirror;
 
 import java.util.Arrays;
 
+import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.HeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.request.Url;
+import org.apache.wicket.request.resource.UrlResourceReference;
 
-import com.commafeed.frontend.utils.WicketUtils;
-
-import de.agilecoders.wicket.webjars.request.resource.WebjarsJavaScriptResourceReference;
-
-public class CodeMirrorReference extends WebjarsJavaScriptResourceReference {
+public class CodeMirrorReference extends UrlResourceReference {
 	private static final long serialVersionUID = 1L;
 
 	public static final CodeMirrorReference INSTANCE = new CodeMirrorReference();
 
 	private CodeMirrorReference() {
-		super("/codemirror/current/lib/codemirror.js");
+		super(
+				Url.parse("https://cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/codemirror.min.js"));
 	}
 
 	@Override
 	public Iterable<? extends HeaderItem> getDependencies() {
 		return Arrays
-				.asList(WicketUtils
-						.buildCssWebJarHeaderItem("/codemirror/current/lib/codemirror.css"));
+				.asList(CssHeaderItem.forReference(new UrlResourceReference(
+						Url.parse("https://cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/codemirror.min.css"))));
 	}
 
 	public static void renderHead(final IHeaderResponse response) {

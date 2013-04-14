@@ -1,10 +1,5 @@
 package com.commafeed.frontend;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-import java.util.jar.JarFile;
-
 import javax.enterprise.inject.spi.BeanManager;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -26,6 +21,9 @@ import org.apache.wicket.cdi.ConversationPropagation;
 import org.apache.wicket.core.request.handler.PageProvider;
 import org.apache.wicket.core.request.handler.RenderPageRequestHandler;
 import org.apache.wicket.core.request.handler.RenderPageRequestHandler.RedirectPolicy;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.filter.JavaScriptFilteredIntoFooterHeaderResponse;
+import org.apache.wicket.markup.html.IHeaderResponseDecorator;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.Request;
@@ -33,13 +31,7 @@ import org.apache.wicket.request.Response;
 import org.apache.wicket.request.component.IRequestableComponent;
 import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
 import org.apache.wicket.request.cycle.RequestCycle;
-import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.util.cookies.CookieUtils;
-import org.jboss.vfs.VirtualFile;
-import org.reflections.ReflectionsException;
-import org.reflections.vfs.SystemDir;
-import org.reflections.vfs.Vfs;
-import org.reflections.vfs.ZipDir;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,29 +42,7 @@ import com.commafeed.frontend.pages.HomePage;
 import com.commafeed.frontend.pages.LogoutPage;
 import com.commafeed.frontend.pages.TestRssPage;
 import com.commafeed.frontend.pages.WelcomePage;
-import com.commafeed.frontend.references.angular.AngularReference;
-import com.commafeed.frontend.references.angular.AngularResourceReference;
-import com.commafeed.frontend.references.angular.AngularSanitizeReference;
-import com.commafeed.frontend.references.angularui.AngularUIReference;
-import com.commafeed.frontend.references.angularuibootstrap.AngularUIBootstrapReference;
-import com.commafeed.frontend.references.angularuistate.AngularUIStateReference;
-import com.commafeed.frontend.references.codemirror.CodeMirrorCssReference;
-import com.commafeed.frontend.references.codemirror.CodeMirrorReference;
-import com.commafeed.frontend.references.mousetrap.MouseTrapReference;
-import com.commafeed.frontend.references.nggrid.NGGridReference;
-import com.commafeed.frontend.references.nginfinitescroll.NGInfiniteScrollReference;
-import com.commafeed.frontend.references.ngupload.NGUploadReference;
-import com.commafeed.frontend.references.select2.Select2Reference;
-import com.commafeed.frontend.references.spinjs.SpinJSReference;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
-import com.google.api.client.util.Lists;
-import com.google.javascript.jscomp.CompilationLevel;
-
-import de.agilecoders.wicket.Bootstrap;
-import de.agilecoders.wicket.javascript.GoogleClosureJavaScriptCompressor;
-import de.agilecoders.wicket.javascript.YuiCssCompressor;
-import de.agilecoders.wicket.markup.html.RenderJavaScriptToFooterHeaderResponseDecorator;
-import de.agilecoders.wicket.settings.BootstrapSettings;
 
 public class CommaFeedApplication extends AuthenticatedWebApplication {
 
@@ -93,17 +63,18 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 
 		setupInjection();
 		setupSecurity();
-		setupBootstrap();
-		setupResourceBundles();
 
 		getMarkupSettings().setStripWicketTags(true);
 		getMarkupSettings().setCompressWhitespace(true);
 		getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
 
-		getResourceSettings().setJavaScriptCompressor(
-				new GoogleClosureJavaScriptCompressor(
-						CompilationLevel.SIMPLE_OPTIMIZATIONS));
-		getResourceSettings().setCssCompressor(new YuiCssCompressor());
+		setHeaderResponseDecorator(new IHeaderResponseDecorator() {
+			@Override
+			public IHeaderResponse decorate(IHeaderResponse response) {
+				return new JavaScriptFilteredIntoFooterHeaderResponse(response,
+						"footer-container");
+			}
+		});
 
 		getRequestCycleListeners().add(new AbstractRequestCycleListener() {
 			@Override
@@ -117,42 +88,6 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 						new DisplayExceptionPage(ex)), policy);
 			}
 		});
-	}
-
-	private void setupResourceBundles() {
-
-		List<JavaScriptResourceReference> refs = Lists.newArrayList();
-
-		refs.add((JavaScriptResourceReference) getJavaScriptLibrarySettings()
-				.getJQueryReference());
-		refs.add((JavaScriptResourceReference) Bootstrap.getSettings()
-				.getJsResourceReference());
-
-		refs.add(AngularReference.INSTANCE);
-		refs.add(AngularResourceReference.INSTANCE);
-		refs.add(AngularSanitizeReference.INSTANCE);
-		refs.add(AngularUIReference.INSTANCE);
-		refs.add(AngularUIBootstrapReference.INSTANCE);
-		refs.add(AngularUIStateReference.INSTANCE);
-		refs.add(NGUploadReference.INSTANCE);
-		refs.add(NGInfiniteScrollReference.INSTANCE);
-		refs.add(Select2Reference.INSTANCE);
-		refs.add(SpinJSReference.INSTANCE);
-		refs.add(MouseTrapReference.INSTANCE);
-		refs.add(NGGridReference.INSTANCE);
-		refs.add(CodeMirrorReference.INSTANCE);
-		refs.add(CodeMirrorCssReference.INSTANCE);
-
-		getResourceBundles().addJavaScriptBundle(CommaFeedApplication.class,
-				"libs.js", refs.toArray(new JavaScriptResourceReference[0]));
-
-	}
-
-	private void setupBootstrap() {
-		BootstrapSettings settings = new BootstrapSettings();
-		settings.setJsResourceFilterName("footer-container");
-		Bootstrap.install(this, settings);
-		setHeaderResponseDecorator(new RenderJavaScriptToFooterHeaderResponseDecorator());
 	}
 
 	private void setupSecurity() {
@@ -239,55 +174,4 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 
 		return (CommaFeedApplication) Application.get();
 	}
-
-	/**
-	 * Reflections fix for JbossAS7
-	 * 
-	 * https://code.google.com/p/reflections/wiki/JBossIntegration
-	 */
-	static {
-
-		Vfs.addDefaultURLTypes(new Vfs.UrlType() {
-			public boolean matches(URL url) {
-				return url.getProtocol().equals("vfs");
-			}
-
-			public Vfs.Dir createDir(URL url) {
-				VirtualFile content;
-				try {
-					content = (VirtualFile) url.openConnection().getContent();
-				} catch (Throwable e) {
-					throw new ReflectionsException(
-							"could not open url connection as VirtualFile ["
-									+ url + "]", e);
-				}
-
-				Vfs.Dir dir = null;
-				try {
-					dir = createDir(new java.io.File(content.getPhysicalFile()
-							.getParentFile(), content.getName()));
-				} catch (IOException e) { /* continue */
-				}
-				if (dir == null) {
-					try {
-						dir = createDir(content.getPhysicalFile());
-					} catch (IOException e) { /* continue */
-					}
-				}
-				return dir;
-			}
-
-			Vfs.Dir createDir(java.io.File file) {
-				try {
-					return file.exists() && file.canRead() ? file.isDirectory() ? new SystemDir(
-							file) : new ZipDir(new JarFile(file))
-							: null;
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				return null;
-			}
-		});
-	}
-
 }

@@ -1,4 +1,4 @@
-package com.commafeed.frontend.references.angularui;
+package com.commafeed.frontend.references.bootstrap;
 
 import java.util.Arrays;
 
@@ -9,16 +9,17 @@ import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.request.Url;
 import org.apache.wicket.request.resource.UrlResourceReference;
 
-import com.commafeed.frontend.references.angular.AngularReference;
+import com.commafeed.frontend.references.jquery.JQueryReference;
 
-public class AngularUIReference extends UrlResourceReference {
+public class BootstrapReference extends UrlResourceReference {
+
 	private static final long serialVersionUID = 1L;
 
-	public static final AngularUIReference INSTANCE = new AngularUIReference();
+	public static final BootstrapReference INSTANCE = new BootstrapReference();
 
-	private AngularUIReference() {
+	public BootstrapReference() {
 		super(
-				Url.parse("https://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"));
+				Url.parse("https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -26,12 +27,15 @@ public class AngularUIReference extends UrlResourceReference {
 	public Iterable<? extends HeaderItem> getDependencies() {
 		return Arrays
 				.asList(JavaScriptHeaderItem
-						.forReference(AngularReference.INSTANCE),
+						.forReference(JQueryReference.INSTANCE),
 						CssHeaderItem.forReference(new UrlResourceReference(
-								Url.parse("https://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.css"))));
+								Url.parse("https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css"))),
+						CssHeaderItem.forReference(new UrlResourceReference(
+								Url.parse("https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css"))));
 	}
 
 	public static void renderHead(final IHeaderResponse response) {
 		response.render(JavaScriptHeaderItem.forReference(INSTANCE));
 	}
+
 }

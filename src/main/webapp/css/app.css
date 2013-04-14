@@ -1,9 +1,3 @@
-@import url(http://weloveiconfonts.com/api/?family=openwebicons);
-
-[class*="openwebicons-"]:before {
-	font-family: 'OpenWeb Icons', sans-serif;
-}
-
 .pointer {
 	cursor: pointer;
 }

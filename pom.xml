@@ -15,6 +15,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jpa.datasource.name>java:openejb/Resource/My DataSource</jpa.datasource.name>
+		<jpa.dialect>org.hibernate.dialect.HSQLDialect</jpa.dialect>
 		<jpa.show_sql>true</jpa.show_sql>
 	</properties>
 
@@ -349,6 +350,7 @@
 			<properties>
 				<jpa.datasource.name>java:jboss/datasources/MysqlDS</jpa.datasource.name>
 				<jpa.show_sql>false</jpa.show_sql>
+				<jpa.dialect>com.commafeed.backend.MySQL5Dialect</jpa.dialect>
 			</properties>
 			<build>
 				<finalName>commafeed</finalName>
@@ -376,6 +378,7 @@
 			<properties>
 				<jpa.datasource.name>java:openejb/Resource/MySQL</jpa.datasource.name>
 				<jpa.show_sql>false</jpa.show_sql>
+				<jpa.dialect>com.commafeed.backend.MySQL5Dialect</jpa.dialect>
 			</properties>
 			<build>
 				<finalName>commafeed</finalName>

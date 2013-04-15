@@ -139,6 +139,22 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.codehaus.enunciate</groupId>
+				<artifactId>maven-enunciate-plugin</artifactId>
+				<version>1.26.2</version>
+				<executions>
+					<execution>
+						<id>package</id>
+						<goals>
+							<goal>assemble</goal>
+						</goals>
+						<configuration>
+							<configFile>${project.basedir}/src/main/enunciate/enunciate.xml</configFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>com.github.searls</groupId>
 				<artifactId>jasmine-maven-plugin</artifactId>
 				<version>1.3.1.0</version>
@@ -287,7 +303,13 @@
 			<artifactId>wicket-cdi</artifactId>
 			<version>6.6.0</version>
 		</dependency>
-	
+
+		<dependency>
+			<groupId>org.codehaus.enunciate</groupId>
+			<artifactId>enunciate-core-annotations</artifactId>
+			<version>1.26.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

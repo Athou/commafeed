@@ -1,0 +1,28 @@
+<enunciate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="
+           http://enunciate.codehaus.org/schemas/enunciate-1.26.xsd">
+	
+	<modules>
+		<disable-rule id="csharp.warnings" />
+		<disable-rule id="c.warnings" />
+		<disable-rule id="obj-c.warnings" />
+		<docs docsDir="api" includeExampleXml="false" includeExampleJson="true"
+			includeDefaultDownloads="false" forceExampleJson="true" defaultNamespace=""
+			disableRestMountpoint="true">
+		</docs>
+		<!-- Disable all the client generation tools -->
+		<basic-app disabled="true" />
+		<c disabled="true" />
+		<csharp disabled="true" />
+		<java-client disabled="true" />
+		<jaxws-client disabled="true" />
+		<jaxws-ri disabled="false" />
+		<jaxws-support disabled="false" />
+		<jersey disabled="true" />
+		<obj-c disabled="true" />
+		<xml disabled="true" />
+		<jaxws disabled="true" />
+		<amf disabled="true" />
+	</modules>
+
+</enunciate>

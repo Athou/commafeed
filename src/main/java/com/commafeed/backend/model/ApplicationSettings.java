@@ -2,13 +2,22 @@ package com.commafeed.backend.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "APPLICATIONSETTINGS")
 @SuppressWarnings("serial")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ApplicationSettings extends AbstractModel {
 
 	private String publicUrl;
+
+	/**
+	 * Wether registrations are open
+	 */
 	private boolean allowRegistrations = false;
 	private String googleClientId;
 	private String googleClientSecret;

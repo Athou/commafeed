@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.enunciate.doc.DocumentationGroup;
 
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
@@ -24,9 +23,12 @@ import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
-@Path("entries")
-@DocumentationGroup("Entries")
+@Path("/entries/")
+@Api(value = "/entries", description = "Operations about entries")
 public class EntriesREST extends AbstractREST {
 
 	public static final String ALL = "all";
@@ -39,9 +41,11 @@ public class EntriesREST extends AbstractREST {
 		all, unread;
 	}
 
-	@Path("get")
+	@Path("/get")
 	@GET
-	public Entries getEntries(@QueryParam("type") Type type,
+	@ApiOperation(value = "Find entry by ID", notes = "Add extra notes here", responseClass = "com.commafeed.frontend.model.Entries")
+	public Entries getEntries(
+			@ApiParam(value = "ID of entry that needs to be fetched", allowableValues = "range[1,5]", required = true) @QueryParam("type") Type type,
 			@QueryParam("id") String id,
 			@QueryParam("readType") ReadType readType,
 			@DefaultValue("0") @QueryParam("offset") int offset,

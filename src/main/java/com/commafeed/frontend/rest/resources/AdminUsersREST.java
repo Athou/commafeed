@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.enunciate.doc.DocumentationGroup;
 
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.model.User;
@@ -27,7 +26,6 @@ import com.google.common.collect.Sets;
 
 @SecurityCheck(Role.ADMIN)
 @Path("admin/users")
-@DocumentationGroup("User Management")
 public class AdminUsersREST extends AbstractREST {
 
 	@Path("save")

@@ -11,15 +11,22 @@ import com.commafeed.frontend.rest.resources.EntriesREST;
 import com.commafeed.frontend.rest.resources.SessionREST;
 import com.commafeed.frontend.rest.resources.SettingsREST;
 import com.commafeed.frontend.rest.resources.SubscriptionsREST;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.google.common.collect.Sets;
+import com.wordnik.swagger.jaxrs.JaxrsApiReader;
 
 @ApplicationPath("/rest")
 public class RESTApplication extends Application {
+	
+	static {
+		JaxrsApiReader.setFormatString("");
+	}
 
 	@Override
 	public Set<Class<?>> getClasses() {
 		Set<Class<?>> set = Sets.newHashSet();
-		set.add(JSONMessageBodyReaderWriter.class);
+		set.add(ApiListingResource.class);
+		set.add(JacksonJsonProvider.class);
 
 		set.add(SubscriptionsREST.class);
 		set.add(EntriesREST.class);

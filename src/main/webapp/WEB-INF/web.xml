@@ -11,8 +11,8 @@
 			<param-value>com.commafeed.frontend.CommaFeedApplication</param-value>
 		</init-param>
 		<init-param>
-            <param-name>configuration</param-name>
-            <param-value>deployment</param-value>
+			<param-name>configuration</param-name>
+			<param-value>deployment</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>

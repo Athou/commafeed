@@ -15,8 +15,9 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.services.UserService;
 import com.google.common.collect.Sets;
 
-@SuppressWarnings("serial")
 public class CommaFeedSession extends AuthenticatedWebSession {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	UserService userService;

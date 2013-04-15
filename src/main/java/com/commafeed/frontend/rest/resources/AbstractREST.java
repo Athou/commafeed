@@ -6,15 +6,19 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
+import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import org.apache.wicket.ThreadContext;
 import org.apache.wicket.authentication.IAuthenticationStrategy;
@@ -41,11 +45,14 @@ import com.commafeed.backend.services.UserService;
 import com.commafeed.frontend.CommaFeedApplication;
 import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.SecurityCheck;
+import com.commafeed.frontend.rest.ApiListingResource.ServletConfigProxy;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.jaxrs.JavaHelp;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @SecurityCheck(Role.USER)
-public abstract class AbstractREST {
+public abstract class AbstractREST extends JavaHelp {
 
 	@Context
 	HttpServletRequest request;
@@ -126,7 +133,7 @@ public abstract class AbstractREST {
 					.entity("You need to be authenticated to do this.").build());
 		}
 
-		boolean allowed = false;
+		boolean allowed = true;
 		Method method = context.getMethod();
 
 		if (method.isAnnotationPresent(SecurityCheck.class)) {
@@ -151,6 +158,14 @@ public abstract class AbstractREST {
 		boolean authorized = roles.hasAnyRole(new Roles(annotation.value()
 				.name()));
 		return authorized;
+	}
+
+	@Override
+	@GET
+	@ApiOperation(value = "Returns information about API parameters", responseClass = "com.wordnik.swagger.core.Documentation")
+	public Response getHelp(@Context ServletConfig sc,
+			@Context HttpHeaders headers, @Context UriInfo uriInfo) {
+		return super.getHelp(new ServletConfigProxy(sc), headers, uriInfo);
 	}
 
 }

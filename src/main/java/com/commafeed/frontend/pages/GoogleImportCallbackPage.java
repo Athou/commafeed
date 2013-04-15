@@ -14,6 +14,7 @@ import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.services.ApplicationSettingsService;
+import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.utils.WicketUtils;
 import com.commafeed.frontend.utils.exception.DisplayException;
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
@@ -89,8 +90,7 @@ public class GoogleImportCallbackPage extends WebPage {
 				BearerToken.authorizationHeaderAccessMethod().intercept(
 						httpRequest, accessToken);
 				String opml = httpRequest.execute().parseAsString();
-				String state = responseUrl.getState();
-				importer.importOpml(userDAO.findById(Long.valueOf(state)), opml);
+				importer.importOpml(CommaFeedSession.get().getUser(), opml);
 			} catch (Exception e) {
 				throw new DisplayException(e);
 			}

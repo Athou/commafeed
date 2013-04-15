@@ -11,7 +11,6 @@ import org.jboss.logging.Logger;
 
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.services.ApplicationSettingsService;
-import com.commafeed.frontend.CommaFeedSession;
 
 @SuppressWarnings("serial")
 public class GoogleImportRedirectPage extends WebPage {
@@ -40,8 +39,6 @@ public class GoogleImportRedirectPage extends WebPage {
 			builder.addParameter("scope", SCOPE);
 			builder.addParameter("approval_prompt", "force");
 			builder.addParameter("client_id", clientId);
-			builder.addParameter("state",
-					String.valueOf(CommaFeedSession.get().getUser().getId()));
 
 			throw new RedirectToUrlException(builder.build().toString());
 		} catch (URISyntaxException e) {

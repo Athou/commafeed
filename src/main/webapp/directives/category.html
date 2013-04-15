@@ -13,9 +13,9 @@
 				</li>
 			</ul>
 		</div>
-		<span class="icon-fldr" ng-class="{'icon-fldr-closed': !node.expanded, 'icon-fldr-open': node.expanded}" ng-click="toggleCategory(node)"></span>
+		<span class="fldr" ng-class="{'fldr-closed': !node.expanded, 'fldr-open': node.expanded}" ng-click="toggleCategory(node)"></span>
 		<span ng-click="categoryClick({id: node.id})">
-			<span class="icon-fldr icon-fldr-folder"></span>
+			<span class="fldr"></span>
 			<span ng-class="{selected: (node.id == selectedId && selectedType == 'category'), unread: unreadCount({category:node})}">{{formatCategoryName({category:node})}}
 			</span>
 		</span>

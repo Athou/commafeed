@@ -66,16 +66,22 @@
 	line-height: 20px;
 }
 
-.css-treeview .icon-fldr {
+.css-treeview .fldr {
 	background: url("../images/tree_icons.png") no-repeat;
 	cursor: pointer;
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	line-height: 14px;
+	vertical-align: text-top;
+	margin-top: 1px;
 }
 
-.css-treeview .icon-fldr-open {
+.css-treeview .fldr-open {
 	background-position: 0 -16px;
 }
 
-.css-treeview .icon-fldr-closed {
+.css-treeview .fldr-closed {
 	background-position: 0 -32px;
 }
 

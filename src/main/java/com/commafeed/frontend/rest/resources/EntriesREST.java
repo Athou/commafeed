@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.enunciate.doc.DocumentationGroup;
 
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
@@ -25,6 +26,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 @Path("entries")
+@DocumentationGroup("Entries")
 public class EntriesREST extends AbstractREST {
 
 	public static final String ALL = "all";

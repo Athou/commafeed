@@ -6,6 +6,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.codehaus.enunciate.doc.DocumentationGroup;
+
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
@@ -13,6 +15,7 @@ import com.commafeed.frontend.model.Settings;
 import com.google.common.base.Preconditions;
 
 @Path("settings")
+@DocumentationGroup("User settings")
 public class SettingsREST extends AbstractREST {
 
 	@Path("get")

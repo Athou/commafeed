@@ -21,6 +21,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ObjectUtils;
+import org.codehaus.enunciate.doc.DocumentationGroup;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
@@ -32,6 +33,7 @@ import com.commafeed.frontend.rest.resources.EntriesREST.Type;
 import com.google.common.base.Preconditions;
 
 @Path("subscriptions")
+@DocumentationGroup("Subscriptions")
 public class SubscriptionsREST extends AbstractREST {
 
 	@GET

@@ -6,6 +6,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.enunciate.doc.DocumentationGroup;
 
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
@@ -14,6 +15,7 @@ import com.commafeed.frontend.model.ProfileModificationRequest;
 import com.commafeed.frontend.model.UserModel;
 
 @Path("session")
+@DocumentationGroup("User settings")
 public class SessionREST extends AbstractREST {
 
 	@Path("get")

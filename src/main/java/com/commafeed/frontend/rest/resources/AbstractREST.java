@@ -39,6 +39,7 @@ import com.commafeed.backend.feeds.FeedFetcher;
 import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedSubscriptionService;
 import com.commafeed.backend.services.PasswordEncryptionService;
 import com.commafeed.backend.services.UserService;
@@ -59,6 +60,9 @@ public abstract class AbstractREST extends JavaHelp {
 
 	@Context
 	HttpServletResponse response;
+
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
 
 	@Inject
 	FeedDAO feedDAO;
@@ -165,7 +169,8 @@ public abstract class AbstractREST extends JavaHelp {
 	@ApiOperation(value = "Returns information about API parameters", responseClass = "com.wordnik.swagger.core.Documentation")
 	public Response getHelp(@Context ServletConfig sc,
 			@Context HttpHeaders headers, @Context UriInfo uriInfo) {
-		return super.getHelp(new ServletConfigProxy(sc), headers, uriInfo);
+		return super.getHelp(new ServletConfigProxy(applicationSettingsService
+				.get().getPublicUrl(), sc), headers, uriInfo);
 	}
 
 }

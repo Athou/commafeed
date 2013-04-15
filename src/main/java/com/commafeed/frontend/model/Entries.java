@@ -8,15 +8,28 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.common.collect.Lists;
+import com.wordnik.swagger.annotations.ApiClass;
+import com.wordnik.swagger.annotations.ApiProperty;
 
 @SuppressWarnings("serial")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@ApiClass("List of entries with some metadata")
 public class Entries implements Serializable {
+
+	@ApiProperty("Name of the feed or the category requested")
 	private String name;
+
+	@ApiProperty("Error or warning message")
 	private String message;
+
+	@ApiProperty("TImes the server tried to refresh the feed and failed")
 	private int errorCount;
+
+	@ApiProperty("List generation Timestamp")
 	private long timestamp;
+
+	@ApiProperty("List of entries")
 	private List<Entry> entries = Lists.newArrayList();
 
 	public String getName() {

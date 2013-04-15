@@ -18,8 +18,15 @@
 
     <script type="text/javascript">
 	$(function () {
+		var url = window.location.href;
+		if (url.indexOf('#')> -1) {
+			url = url.substring(0, url.lastIndexOf('#'));
+		}
+		url = url.substring(0, url.length - 1);
+		url = url.substring(0, url.lastIndexOf('/'));
+		url = url + '/rest/resources';
 	    window.swaggerUi = new SwaggerUi({
-                discoveryUrl:"http://petstore.swagger.wordnik.com/api/api-docs.json",
+                discoveryUrl:url,
                 apiKey:"special-key",
                 dom_id:"swagger-ui-container",
                 supportHeaderParams: false,

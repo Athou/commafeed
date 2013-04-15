@@ -43,14 +43,14 @@ public class EntriesREST extends AbstractREST {
 
 	@Path("/get")
 	@GET
-	@ApiOperation(value = "Find entry by ID", notes = "Add extra notes here", responseClass = "com.commafeed.frontend.model.Entries")
+	@ApiOperation(value = "Get entries", notes = "Get a list of entries matching the query", responseClass = "com.commafeed.frontend.model.Entries")
 	public Entries getEntries(
-			@ApiParam(value = "ID of entry that needs to be fetched", allowableValues = "range[1,5]", required = true) @QueryParam("type") Type type,
-			@QueryParam("id") String id,
-			@QueryParam("readType") ReadType readType,
-			@DefaultValue("0") @QueryParam("offset") int offset,
-			@DefaultValue("-1") @QueryParam("limit") int limit,
-			@QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
+			@ApiParam(value = "Type of query", allowableValues = "category,feed", required = true) @QueryParam("type") Type type,
+			@ApiParam(value = "ID of the category or the feed", required = true) @QueryParam("id") String id,
+			@ApiParam(value = "All entries or only unread ones", allowableValues = "all,unread", required = true) @QueryParam("readType") ReadType readType,
+			@ApiParam(value = "Offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
+			@ApiParam(value = "Limit for paging") @DefaultValue("-1") @QueryParam("limit") int limit,
+			@ApiParam(value = "Ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
 
 		Preconditions.checkNotNull(type);
 		Preconditions.checkNotNull(id);

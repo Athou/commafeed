@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<tomee>
+	<Container id="CommaFeedStateless" type="STATELESS">
+		PoolSize=10
+		StrictPooling=false
+	</Container>
+</tomee>

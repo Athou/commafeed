@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.google.common.collect.Lists;
 
 @Singleton
@@ -19,12 +20,17 @@ public class FeedRefreshTaskGiver {
 	@Inject
 	FeedDAO feedDAO;
 
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
+
 	private Queue<Feed> queue = Lists.newLinkedList();
 
 	@Lock(LockType.WRITE)
 	public Feed take() {
 		if (queue.peek() == null) {
-			List<Feed> feeds = feedDAO.findNextUpdatable(30);
+			List<Feed> feeds = feedDAO
+					.findNextUpdatable(30 * applicationSettingsService.get()
+							.getBackgroundThreads());
 			for (Feed feed : feeds) {
 				queue.add(feed);
 				feed.setLastUpdated(Calendar.getInstance().getTime());

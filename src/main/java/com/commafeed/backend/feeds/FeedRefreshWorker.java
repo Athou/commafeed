@@ -7,7 +7,6 @@ import java.util.concurrent.Future;
 import javax.annotation.Resource;
 import javax.ejb.AsyncResult;
 import javax.ejb.Asynchronous;
-import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -65,7 +64,7 @@ public class FeedRefreshWorker {
 					Thread.sleep(15000);
 				}
 			} catch (Exception e) {
-				throw new EJBException(e.getMessage(), e);
+				log.error(threadName + " : " + e.getMessage(), e);
 			}
 		}
 		return new AsyncResult<Void>(null);

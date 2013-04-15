@@ -14,7 +14,6 @@ import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
 
 @Stateless
-@SuppressWarnings("serial")
 public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 
 	public FeedSubscription findById(User user, Long id) {

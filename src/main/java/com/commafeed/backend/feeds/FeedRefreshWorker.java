@@ -52,7 +52,8 @@ public class FeedRefreshWorker {
 	private boolean running = true;
 
 	@Asynchronous
-	public Future<Void> start() {
+	public Future<Void> start(String threadName) {
+		log.info("{} starting", threadName);
 		while (running) {
 			try {
 				Feed feed = getNextFeed();

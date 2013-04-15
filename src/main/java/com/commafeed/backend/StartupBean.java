@@ -7,6 +7,8 @@ import java.util.concurrent.Future;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.ConcurrencyManagement;
+import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
@@ -27,6 +29,7 @@ import com.google.api.client.util.Lists;
 
 @Startup
 @Singleton
+@ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 public class StartupBean {
 
 	private static Logger log = LoggerFactory.getLogger(StartupBean.class);
@@ -65,8 +68,10 @@ public class StartupBean {
 		}
 
 		ApplicationSettings settings = applicationSettingsService.get();
+		log.info("Starting {} background threads",
+				settings.getBackgroundThreads());
 		for (int i = 0; i < settings.getBackgroundThreads(); i++) {
-			Future<Void> thread = worker.start();
+			Future<Void> thread = worker.start("Thread " + i);
 			threads.add(thread);
 		}
 

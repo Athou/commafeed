@@ -29,7 +29,6 @@ import com.google.api.client.util.Maps;
 import com.uaihebert.model.EasyCriteria;
 
 @Stateless
-@SuppressWarnings("serial")
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public FeedEntryStatus findById(User user, Long id) {

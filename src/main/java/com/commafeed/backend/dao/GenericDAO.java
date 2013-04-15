@@ -1,6 +1,5 @@
 package com.commafeed.backend.dao;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,8 +19,7 @@ import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
 
 @SuppressWarnings("serial")
-public abstract class GenericDAO<T extends AbstractModel> implements
-		Serializable {
+public abstract class GenericDAO<T extends AbstractModel> {
 
 	private TypeToken<T> type = new TypeToken<T>(getClass()) {
 	};

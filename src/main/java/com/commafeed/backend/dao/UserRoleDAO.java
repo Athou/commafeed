@@ -11,7 +11,6 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserRole_;
 import com.google.common.collect.Sets;
 
-@SuppressWarnings("serial")
 @Stateless
 public class UserRoleDAO extends GenericDAO<UserRole> {
 

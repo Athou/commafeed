@@ -16,7 +16,6 @@ import com.google.api.client.util.Lists;
 import com.uaihebert.model.EasyCriteria;
 
 @Stateless
-@SuppressWarnings("serial")
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
 	public List<FeedEntry> findByGuids(List<String> guids) {

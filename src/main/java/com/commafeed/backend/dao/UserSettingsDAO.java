@@ -10,7 +10,6 @@ import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
 
 @Stateless
-@SuppressWarnings("serial")
 public class UserSettingsDAO extends GenericDAO<UserSettings> {
 
 	public UserSettings findByUser(User user) {

@@ -15,7 +15,6 @@ import com.google.common.collect.Lists;
 import com.uaihebert.model.EasyCriteria;
 
 @Stateless
-@SuppressWarnings("serial")
 public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 
 	public List<FeedCategory> findAll(User user) {

@@ -20,7 +20,6 @@ import com.google.common.collect.Iterables;
 import com.uaihebert.model.EasyCriteria;
 
 @Stateless
-@SuppressWarnings("serial")
 public class FeedDAO extends GenericDAO<Feed> {
 
 	public List<Feed> findNextUpdatable(int count) {

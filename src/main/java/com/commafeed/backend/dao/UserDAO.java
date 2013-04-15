@@ -10,7 +10,6 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.User_;
 
 @Stateless
-@SuppressWarnings("serial")
 public class UserDAO extends GenericDAO<User> {
 
 	public User findByName(String name) {

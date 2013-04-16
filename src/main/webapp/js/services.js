@@ -42,63 +42,66 @@ module.factory('SubscriptionService', function($resource, $http) {
 		fetch : {
 			method : 'GET',
 			params : {
-				_method : 'feed/fetch'
-			}
-		},
-		get : {
-			method : 'GET',
-			params : {
-				_method : 'get'
+				_type : 'feed',
+				_method : 'fetch'
 			}
 		},
 		subscribe : {
 			method : 'POST',
 			params : {
-				_method : 'feed/subscribe'
+				_type : 'feed',
+				_method : 'subscribe'
 			}
 		},
 		unsubscribe : {
 			method : 'GET',
 			params : {
-				_method : 'feed/unsubscribe'
+				_type : 'feed',
+				_method : 'unsubscribe'
 			}
 		},
 		rename : {
 			method : 'GET',
 			params : {
-				_method : 'feed/rename'
+				_type : 'feed',
+				_method : 'rename'
 			}
 		},
 		collapse : {
 			method : 'GET',
 			params : {
-				_method : 'category/collapse'
+				_type : 'category',
+				_method : 'collapse'
 			}
 		},
 		addCategory : {
 			method : 'GET',
 			params : {
-				_method : 'category/add'
+				_type : 'category',
+				_method : 'add'
 			}
 		},
 		deleteCategory : {
 			method : 'GET',
 			params : {
-				_method : 'category/delete'
+				_type : 'category',
+				_method : 'delete'
 			}
 		},
 		renameCategory : {
 			method : 'GET',
 			params : {
-				_method : 'category/rename'
+				_type : 'category',
+				_method : 'rename'
 			}
 		}
 	};
 	var s = {};
+	s.get = $resource('rest/subscriptions/get').get;
 	s.subscriptions = {};
 	s.flatCategories = {};
 
-	var res = $resource('rest/subscriptions/:_method', {}, actions);
+	var res = $resource('rest/subscriptions/:_type/:_method', {}, actions);
 	s.init = function(callback) {
 		res.get(function(data) {
 			s.subscriptions = data;

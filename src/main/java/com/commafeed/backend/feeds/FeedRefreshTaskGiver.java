@@ -10,6 +10,7 @@ import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
+import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.model.Feed;
@@ -27,6 +28,9 @@ public class FeedRefreshTaskGiver {
 
 	@Inject
 	StartupBean startupBean;
+
+	@Inject
+	MetricsBean metricsBean;
 
 	private Queue<Feed> queue = Queues.newConcurrentLinkedQueue();
 
@@ -49,6 +53,7 @@ public class FeedRefreshTaskGiver {
 			}
 			feedDAO.update(feeds);
 		}
+		metricsBean.feedRefreshed();
 		return queue.poll();
 	}
 

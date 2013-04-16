@@ -103,7 +103,7 @@ module.factory('SubscriptionService', function($resource, $http) {
 
 	var res = $resource('rest/subscriptions/:_type/:_method', {}, actions);
 	s.init = function(callback) {
-		res.get(function(data) {
+		s.get(function(data) {
 			s.subscriptions = data;
 			s.flatCategories = flatten(s.subscriptions);
 			if (callback)

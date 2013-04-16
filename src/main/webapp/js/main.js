@@ -18,6 +18,10 @@ app.config(function($routeProvider, $stateProvider, $urlRouterProvider) {
 		templateUrl : 'templates/feeds.view.html',
 		controller : 'FeedListCtrl'
 	});
+	$stateProvider.state('feeds.help', {
+		url : '/help',
+		templateUrl : 'templates/feeds.help.html'
+	});
 
 	$stateProvider.state('admin', {
 		abstract : true,

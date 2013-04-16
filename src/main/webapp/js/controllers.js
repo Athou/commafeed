@@ -265,6 +265,9 @@ module.controller('ToolbarCtrl',
 			$scope.toProfile = function() {
 				$location.path('profile');
 			};
+			$scope.toHelp = function() {
+				$state.transitionTo('feeds.help');
+			};
 		});
 
 module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,

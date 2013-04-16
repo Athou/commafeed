@@ -13,7 +13,7 @@
 					<favicon url="entry.feedUrl" />
 					{{entry.feedName}}
 				</span>
-				<span class="entry-date">{{entry.date}}</span>
+				<span class="entry-date">{{entry.date | date: 'yyyy-MM-dd HH:mm'}}</span>
 				<span class="entry-name" ng-class="{unread: entry.read == false, shrink: true}" ng-bind-html-unsafe="entry.title"></span>
 				
 			</a>

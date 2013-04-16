@@ -30,7 +30,7 @@ public class GoogleImportRedirectPage extends WebPage {
 
 		String clientId = settings.getGoogleClientId();
 
-		String redirectUri = GoogleImportCallbackPage.getCallbackUrl();
+		String redirectUri = GoogleImportCallbackPage.getCallbackUrl(settings.getPublicUrl());
 		try {
 			URIBuilder builder = new URIBuilder(AUTH_URL);
 

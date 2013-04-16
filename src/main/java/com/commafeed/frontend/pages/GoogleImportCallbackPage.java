@@ -5,9 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.request.Url;
-import org.apache.wicket.request.UrlRenderer;
-import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.commafeed.backend.dao.UserDAO;
@@ -33,6 +30,8 @@ public class GoogleImportCallbackPage extends WebPage {
 	private static final String TOKEN_URL = "https://accounts.google.com/o/oauth2/token";
 	private static final String EXPORT_URL = "https://www.google.com/reader/subscriptions/export";
 
+	public static final String PAGE_PATH = "google/import/callback";
+
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
@@ -42,11 +41,11 @@ public class GoogleImportCallbackPage extends WebPage {
 	@Inject
 	UserDAO userDAO;
 
-	public static String getCallbackUrl() {
-		RequestCycle cycle = RequestCycle.get();
-		UrlRenderer renderer = cycle.getUrlRenderer();
-		return renderer.renderFullUrl(Url.parse(cycle.urlFor(
-				GoogleImportCallbackPage.class, null).toString()));
+	public static String getCallbackUrl(String publicUrl) {
+		if (publicUrl.endsWith("/")) {
+			publicUrl = publicUrl.substring(0, publicUrl.length() - 1);
+		}
+		return publicUrl + "/" + PAGE_PATH;
 	}
 
 	public GoogleImportCallbackPage(PageParameters params) {
@@ -67,7 +66,7 @@ public class GoogleImportCallbackPage extends WebPage {
 			throw new DisplayException("Missing authorization code");
 		} else {
 			ApplicationSettings settings = applicationSettingsService.get();
-			String redirectUri = getCallbackUrl();
+			String redirectUri = getCallbackUrl(settings.getPublicUrl());
 			String clientId = settings.getGoogleClientId();
 			String clientSecret = settings.getGoogleClientSecret();
 

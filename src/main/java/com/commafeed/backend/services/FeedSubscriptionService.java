@@ -66,7 +66,7 @@ public class FeedSubscriptionService {
 			for (FeedEntry entry : allEntries) {
 				FeedEntryStatus status = new FeedEntryStatus();
 				status.setEntry(entry);
-				status.setRead(true);
+				status.setRead(false);
 				status.setSubscription(sub);
 				statuses.add(status);
 			}

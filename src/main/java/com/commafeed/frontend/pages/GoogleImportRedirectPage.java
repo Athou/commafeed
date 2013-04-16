@@ -39,6 +39,7 @@ public class GoogleImportRedirectPage extends WebPage {
 			builder.addParameter("scope", SCOPE);
 			builder.addParameter("approval_prompt", "force");
 			builder.addParameter("client_id", clientId);
+			builder.addParameter("access_type", "offline");
 
 			throw new RedirectToUrlException(builder.build().toString());
 		} catch (URISyntaxException e) {

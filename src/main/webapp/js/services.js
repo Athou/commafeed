@@ -162,15 +162,10 @@ module.factory('EntryService', function($resource, $http) {
 			params : {
 				_method : 'mark'
 			}
-		},
-		search : {
-			method : 'GET',
-			params : {
-				_method : 'search'
-			}
 		}
 	};
-	var res = $resource('rest/entries/:_method', {}, actions);
+	var res = $resource('rest/entries/:type/:_method', {}, actions);
+	res.search = $resource('rest/entries/search', {}, actions).get;
 	return res;
 });
 

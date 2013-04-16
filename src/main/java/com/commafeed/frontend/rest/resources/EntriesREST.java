@@ -8,7 +8,6 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -28,7 +27,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
 @Path("/entries/")
-@Api(value = "/entries", description = "Operations about entries")
+@Api(value = "/entries", description = "Operations about feed entries")
 public class EntriesREST extends AbstractREST {
 
 	public static final String ALL = "all";
@@ -41,65 +40,78 @@ public class EntriesREST extends AbstractREST {
 		all, unread;
 	}
 
-	@Path("/get")
+	@Path("/feed/get")
 	@GET
-	@ApiOperation(value = "Get entries", notes = "Get a list of entries matching the query", responseClass = "com.commafeed.frontend.model.Entries")
-	public Entries getEntries(
-			@ApiParam(value = "Type of query", allowableValues = "category,feed", required = true) @QueryParam("type") Type type,
-			@ApiParam(value = "ID of the category or the feed", required = true) @QueryParam("id") String id,
-			@ApiParam(value = "All entries or only unread ones", allowableValues = "all,unread", required = true) @QueryParam("readType") ReadType readType,
-			@ApiParam(value = "Offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
-			@ApiParam(value = "Limit for paging") @DefaultValue("-1") @QueryParam("limit") int limit,
-			@ApiParam(value = "Ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
+	@ApiOperation(value = "Get feed entries", notes = "Get a list of feed entries", responseClass = "com.commafeed.frontend.model.Entries")
+	public Entries getFeedEntries(
+			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
+			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @QueryParam("readType") ReadType readType,
+			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
+			@ApiParam(value = "limit for paging") @DefaultValue("-1") @QueryParam("limit") int limit,
+			@ApiParam(value = "entry date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
 
-		Preconditions.checkNotNull(type);
 		Preconditions.checkNotNull(id);
 		Preconditions.checkNotNull(readType);
 
 		Entries entries = new Entries();
 		boolean unreadOnly = readType == ReadType.unread;
 
-		if (type == Type.feed) {
-			FeedSubscription subscription = feedSubscriptionDAO.findById(
-					getUser(), Long.valueOf(id));
-			if (subscription != null) {
-				entries.setName(subscription.getTitle());
-				entries.setMessage(subscription.getFeed().getMessage());
-				entries.setErrorCount(subscription.getFeed().getErrorCount());
+		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
+				Long.valueOf(id));
+		if (subscription != null) {
+			entries.setName(subscription.getTitle());
+			entries.setMessage(subscription.getFeed().getMessage());
+			entries.setErrorCount(subscription.getFeed().getErrorCount());
 
+			List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO
+					.findByFeed(subscription.getFeed(), getUser(), unreadOnly,
+							offset, limit, order, true);
+			for (FeedEntryStatus status : unreadEntries) {
+				entries.getEntries().add(buildEntry(status));
+			}
+		}
+
+		entries.setTimestamp(Calendar.getInstance().getTimeInMillis());
+		return entries;
+	}
+
+	@Path("/category/get")
+	@GET
+	@ApiOperation(value = "Get category entries", notes = "Get a list of category entries", responseClass = "com.commafeed.frontend.model.Entries")
+	public Entries getCategoryEntries(
+			@ApiParam(value = "id of the category, or 'all'", required = true) @QueryParam("id") String id,
+			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @QueryParam("readType") ReadType readType,
+			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
+			@ApiParam(value = "limit for paging") @DefaultValue("-1") @QueryParam("limit") int limit,
+			@ApiParam(value = "entry date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
+
+		Preconditions.checkNotNull(id);
+		Preconditions.checkNotNull(readType);
+
+		Entries entries = new Entries();
+		boolean unreadOnly = readType == ReadType.unread;
+
+		if (ALL.equals(id)) {
+			entries.setName("All");
+			List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO.findAll(
+					getUser(), unreadOnly, offset, limit, order, true);
+			for (FeedEntryStatus status : unreadEntries) {
+				entries.getEntries().add(buildEntry(status));
+			}
+
+		} else {
+			FeedCategory feedCategory = feedCategoryDAO.findById(getUser(),
+					Long.valueOf(id));
+			if (feedCategory != null) {
+				List<FeedCategory> childrenCategories = feedCategoryDAO
+						.findAllChildrenCategories(getUser(), feedCategory);
 				List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO
-						.findByFeed(subscription.getFeed(), getUser(),
+						.findByCategories(childrenCategories, getUser(),
 								unreadOnly, offset, limit, order, true);
 				for (FeedEntryStatus status : unreadEntries) {
 					entries.getEntries().add(buildEntry(status));
 				}
-			}
-
-		} else {
-
-			if (ALL.equals(id)) {
-				entries.setName("All");
-				List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO
-						.findAll(getUser(), unreadOnly, offset, limit, order,
-								true);
-				for (FeedEntryStatus status : unreadEntries) {
-					entries.getEntries().add(buildEntry(status));
-				}
-
-			} else {
-				FeedCategory feedCategory = feedCategoryDAO.findById(getUser(),
-						Long.valueOf(id));
-				if (feedCategory != null) {
-					List<FeedCategory> childrenCategories = feedCategoryDAO
-							.findAllChildrenCategories(getUser(), feedCategory);
-					List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO
-							.findByCategories(childrenCategories, getUser(),
-									unreadOnly, offset, limit, order, true);
-					for (FeedEntryStatus status : unreadEntries) {
-						entries.getEntries().add(buildEntry(status));
-					}
-					entries.setName(feedCategory.getName());
-				}
+				entries.setName(feedCategory.getName());
 			}
 
 		}
@@ -129,59 +141,76 @@ public class EntriesREST extends AbstractREST {
 		return entry;
 	}
 
-	@Path("mark")
+	@Path("/entry/mark")
 	@GET
-	public Response mark(@QueryParam("type") Type type,
-			@QueryParam("id") String id, @QueryParam("read") boolean read,
-			@QueryParam("olderThan") Long olderThanTimestamp) {
-		Preconditions.checkNotNull(type);
+	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
+	public Response markFeedEntry(
+			@ApiParam(value = "entry id", required = true) @QueryParam("id") String id,
+			@ApiParam(value = "read status", required = true) @QueryParam("read") boolean read) {
 		Preconditions.checkNotNull(id);
 		Preconditions.checkNotNull(read);
+
+		FeedEntryStatus status = feedEntryStatusDAO.findById(getUser(),
+				Long.valueOf(id));
+		status.setRead(read);
+		feedEntryStatusDAO.update(status);
+
+		return Response.ok(Status.OK).build();
+	}
+
+	@Path("/feed/mark")
+	@GET
+	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read/unread")
+	public Response markFeedEntries(
+			@ApiParam(value = "feed id", required = true) @QueryParam("id") String id,
+			@ApiParam(value = "only entries older than this, prevent marking an entry that was not retrieved") @QueryParam("olderThan") Long olderThanTimestamp) {
+		Preconditions.checkNotNull(id);
 
 		Date olderThan = olderThanTimestamp == null ? null : new Date(
 				olderThanTimestamp);
 
-		if (type == Type.entry) {
-			FeedEntryStatus status = feedEntryStatusDAO.findById(getUser(),
-					Long.valueOf(id));
-			status.setRead(read);
-			feedEntryStatusDAO.update(status);
-		} else if (type == Type.feed) {
-			if (read) {
-				FeedSubscription subscription = feedSubscriptionDAO.findById(
-						getUser(), Long.valueOf(id));
-				feedEntryStatusDAO.markFeedEntries(getUser(),
-						subscription.getFeed(), olderThan);
-			} else {
-				throw new WebApplicationException(Response.status(
-						Status.INTERNAL_SERVER_ERROR).build());
-			}
-		} else if (type == Type.category) {
-			if (read) {
-				if (ALL.equals(id)) {
-					feedEntryStatusDAO.markAllEntries(getUser(), olderThan);
-				} else {
-					List<FeedCategory> categories = feedCategoryDAO
-							.findAllChildrenCategories(
-									getUser(),
-									feedCategoryDAO.findById(getUser(),
-											Long.valueOf(id)));
-					feedEntryStatusDAO.markCategoryEntries(getUser(),
-							categories, olderThan);
-				}
-			} else {
-				throw new WebApplicationException(Response.status(
-						Status.INTERNAL_SERVER_ERROR).build());
-			}
-		}
+		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
+				Long.valueOf(id));
+		feedEntryStatusDAO.markFeedEntries(getUser(), subscription.getFeed(),
+				olderThan);
+
 		return Response.ok(Status.OK).build();
 	}
 
-	@Path("search")
+	@Path("/category/mark")
 	@GET
-	public Entries searchEntries(@QueryParam("keywords") String keywords,
-			@DefaultValue("0") @QueryParam("offset") int offset,
-			@DefaultValue("-1") @QueryParam("limit") int limit) {
+	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read/unread")
+	public Response markCategoryEntries(
+			@ApiParam(value = "category id, or 'all'", required = true) @QueryParam("id") String id,
+			@ApiParam(value = "only entries older than this, prevent marking an entry that was not retrieved") @QueryParam("olderThan") Long olderThanTimestamp) {
+		Preconditions.checkNotNull(id);
+
+		Date olderThan = olderThanTimestamp == null ? null : new Date(
+				olderThanTimestamp);
+
+		if (ALL.equals(id)) {
+			feedEntryStatusDAO.markAllEntries(getUser(), olderThan);
+		} else {
+			List<FeedCategory> categories = feedCategoryDAO
+					.findAllChildrenCategories(
+							getUser(),
+							feedCategoryDAO.findById(getUser(),
+									Long.valueOf(id)));
+			feedEntryStatusDAO.markCategoryEntries(getUser(), categories,
+					olderThan);
+		}
+
+		return Response.ok(Status.OK).build();
+	}
+
+	@Path("/search")
+	@GET
+	@ApiOperation(value = "Search for entries", notes = "Look through title and content of entries by keywords")
+	public Entries searchEntries(
+			@ApiParam(value = "keywords separated by spaces, 3 characters minimum", required = true) @QueryParam("keywords") String keywords,
+			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
+			@ApiParam(value = "limit for paging") @DefaultValue("-1") @QueryParam("limit") int limit) {
+		keywords = StringUtils.trimToEmpty(keywords);
 		Preconditions.checkArgument(StringUtils.length(keywords) >= 3);
 
 		Entries entries = new Entries();

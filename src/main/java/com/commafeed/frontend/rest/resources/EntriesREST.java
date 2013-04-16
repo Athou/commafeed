@@ -48,7 +48,7 @@ public class EntriesREST extends AbstractREST {
 			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @QueryParam("readType") ReadType readType,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging") @DefaultValue("-1") @QueryParam("limit") int limit,
-			@ApiParam(value = "entry date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
+			@ApiParam(value = "date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
 
 		Preconditions.checkNotNull(id);
 		Preconditions.checkNotNull(readType);
@@ -83,7 +83,7 @@ public class EntriesREST extends AbstractREST {
 			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @QueryParam("readType") ReadType readType,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging") @DefaultValue("-1") @QueryParam("limit") int limit,
-			@ApiParam(value = "entry date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
+			@ApiParam(value = "date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
 
 		Preconditions.checkNotNull(id);
 		Preconditions.checkNotNull(readType);
@@ -179,7 +179,7 @@ public class EntriesREST extends AbstractREST {
 
 	@Path("/category/mark")
 	@GET
-	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read/unread")
+	@ApiOperation(value = "Mark category entries", notes = "Mark feed entries as read/unread")
 	public Response markCategoryEntries(
 			@ApiParam(value = "category id, or 'all'", required = true) @QueryParam("id") String id,
 			@ApiParam(value = "only entries older than this, prevent marking an entry that was not retrieved") @QueryParam("olderThan") Long olderThanTimestamp) {
@@ -205,7 +205,7 @@ public class EntriesREST extends AbstractREST {
 
 	@Path("/search")
 	@GET
-	@ApiOperation(value = "Search for entries", notes = "Look through title and content of entries by keywords")
+	@ApiOperation(value = "Search for entries", notes = "Look through title and content of entries by keywords", responseClass = "com.commafeed.frontend.model.Entries")
 	public Entries searchEntries(
 			@ApiParam(value = "keywords separated by spaces, 3 characters minimum", required = true) @QueryParam("keywords") String keywords,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,

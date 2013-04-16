@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -23,7 +22,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ObjectUtils;
 
-import com.commafeed.backend.feeds.FeedRefreshWorker;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
@@ -32,15 +30,16 @@ import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.SubscriptionRequest;
 import com.commafeed.frontend.rest.resources.EntriesREST.Type;
 import com.google.common.base.Preconditions;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 
-@Path("subscriptions")
+@Path("/subscriptions")
+@Api(value = "/subscriptions", description = "Operations about user feed subscriptions")
 public class SubscriptionsREST extends AbstractREST {
 
-	@Inject
-	FeedRefreshWorker worker;
-
 	@GET
-	@Path("fetch")
+	@Path("/fetch")
+	@ApiOperation(value = "Search for entries", notes = "Look through title and content of entries by keywords", responseClass = "com.commafeed.frontend.model.Entries")
 	public Feed fetchFeed(@QueryParam("url") String url) {
 		Preconditions.checkNotNull(url);
 
@@ -57,7 +56,7 @@ public class SubscriptionsREST extends AbstractREST {
 	}
 
 	@POST
-	@Path("subscribe")
+	@Path("/subscribe")
 	public Response subscribe(SubscriptionRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getTitle());
@@ -69,9 +68,8 @@ public class SubscriptionsREST extends AbstractREST {
 		FeedCategory category = EntriesREST.ALL.equals(req.getCategoryId()) ? null
 				: feedCategoryDAO.findById(Long.valueOf(req.getCategoryId()));
 		Feed fetchedFeed = fetchFeed(url);
-		Feed feed = feedSubscriptionService.subscribe(getUser(),
-				fetchedFeed.getUrl(), req.getTitle(), category);
-		worker.updateAsync(feed);
+		feedSubscriptionService.subscribe(getUser(), fetchedFeed.getUrl(),
+				req.getTitle(), category);
 
 		return Response.ok(Status.OK).build();
 	}
@@ -84,7 +82,7 @@ public class SubscriptionsREST extends AbstractREST {
 	}
 
 	@GET
-	@Path("unsubscribe")
+	@Path("/unsubscribe")
 	public Response unsubscribe(@QueryParam("id") Long subscriptionId) {
 		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(),
 				subscriptionId);
@@ -97,7 +95,7 @@ public class SubscriptionsREST extends AbstractREST {
 	}
 
 	@GET
-	@Path("rename")
+	@Path("/rename")
 	public Response rename(@QueryParam("type") Type type,
 			@QueryParam("id") Long id, @QueryParam("name") String name) {
 		if (type == Type.feed) {
@@ -114,7 +112,7 @@ public class SubscriptionsREST extends AbstractREST {
 	}
 
 	@GET
-	@Path("collapse")
+	@Path("/collapse")
 	public Response collapse(@QueryParam("id") String id,
 			@QueryParam("collapse") boolean collapse) {
 		Preconditions.checkNotNull(id);
@@ -127,7 +125,7 @@ public class SubscriptionsREST extends AbstractREST {
 		return Response.ok(Status.OK).build();
 	}
 
-	@Path("addCategory")
+	@Path("/addCategory")
 	@GET
 	public Response addCategory(@QueryParam("name") String name,
 			@QueryParam("parentId") String parentId) {
@@ -146,7 +144,7 @@ public class SubscriptionsREST extends AbstractREST {
 	}
 
 	@GET
-	@Path("deleteCategory")
+	@Path("/deleteCategory")
 	public Response deleteCategory(@QueryParam("id") Long id) {
 		FeedCategory cat = feedCategoryDAO.findById(getUser(), id);
 		if (cat != null) {
@@ -164,7 +162,7 @@ public class SubscriptionsREST extends AbstractREST {
 	}
 
 	@POST
-	@Path("import")
+	@Path("/import")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response importOpml() {
 		try {

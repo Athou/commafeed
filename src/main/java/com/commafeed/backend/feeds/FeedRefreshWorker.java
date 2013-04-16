@@ -69,15 +69,6 @@ public class FeedRefreshWorker {
 		return new AsyncResult<Void>(null);
 	}
 
-	@Asynchronous
-	public void updateAsync(Feed feed) {
-		try {
-			update(feed);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
-	}
-
 	private void update(Feed feed) throws NotSupportedException,
 			SystemException, SecurityException, IllegalStateException,
 			RollbackException, HeuristicMixedException,

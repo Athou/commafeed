@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.Future;
 
-import javax.annotation.Resource;
 import javax.ejb.AsyncResult;
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
@@ -16,7 +15,6 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
 import org.apache.commons.lang.mutable.MutableBoolean;
 import org.apache.commons.lang.time.DateUtils;
@@ -45,9 +43,6 @@ public class FeedRefreshWorker {
 
 	@Inject
 	FeedRefreshTaskGiver taskGiver;
-
-	@Resource
-	private UserTransaction transaction;
 
 	@Asynchronous
 	public Future<Void> start(MutableBoolean running, String threadName) {
@@ -102,8 +97,6 @@ public class FeedRefreshWorker {
 		feed.setErrorCount(errorCount);
 		feed.setDisabledUntil(disabledUntil);
 
-		transaction.begin();
-
 		if (fetchedFeed != null) {
 			feedUpdateService.updateEntries(feed, fetchedFeed.getEntries());
 			if (feed.getLink() == null) {
@@ -111,8 +104,6 @@ public class FeedRefreshWorker {
 			}
 		}
 		feedDAO.update(feed);
-
-		transaction.commit();
 
 	}
 

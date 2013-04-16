@@ -42,49 +42,55 @@ module.factory('SubscriptionService', function($resource, $http) {
 		fetch : {
 			method : 'GET',
 			params : {
-				_method : 'fetch'
+				_method : 'feed/fetch'
 			}
 		},
 		get : {
 			method : 'GET',
 			params : {
-				_method : ''
+				_method : 'get'
 			}
 		},
 		subscribe : {
 			method : 'POST',
 			params : {
-				_method : 'subscribe'
+				_method : 'feed/subscribe'
 			}
 		},
 		unsubscribe : {
 			method : 'GET',
 			params : {
-				_method : 'unsubscribe'
+				_method : 'feed/unsubscribe'
 			}
 		},
 		rename : {
 			method : 'GET',
 			params : {
-				_method : 'rename'
+				_method : 'feed/rename'
 			}
 		},
 		collapse : {
 			method : 'GET',
 			params : {
-				_method : 'collapse'
+				_method : 'category/collapse'
 			}
 		},
 		addCategory : {
 			method : 'GET',
 			params : {
-				_method : 'addCategory'
+				_method : 'category/add'
 			}
 		},
 		deleteCategory : {
 			method : 'GET',
 			params : {
-				_method : 'deleteCategory'
+				_method : 'category/delete'
+			}
+		},
+		renameCategory : {
+			method : 'GET',
+			params : {
+				_method : 'category/rename'
 			}
 		}
 	};

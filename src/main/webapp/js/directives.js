@@ -114,7 +114,6 @@ module.directive('category', function($compile) {
 				if (name && name != feed.name) {
 					feed.name = name;
 					SubscriptionService.rename({
-						type : 'feed',
 						id : feed.id,
 						name : name
 					});
@@ -125,8 +124,7 @@ module.directive('category', function($compile) {
 				var name = window.prompt('Rename category: ', category.name);
 				if (name && name != category.name) {
 					category.name = name;
-					SubscriptionService.rename({
-						type : 'category',
+					SubscriptionService.renameCategory({
 						id : category.id,
 						name : name
 					});

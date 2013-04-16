@@ -28,18 +28,18 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.SubscriptionRequest;
-import com.commafeed.frontend.rest.resources.EntriesREST.Type;
 import com.google.common.base.Preconditions;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
 @Path("/subscriptions")
 @Api(value = "/subscriptions", description = "Operations about user feed subscriptions")
 public class SubscriptionsREST extends AbstractREST {
 
 	@GET
-	@Path("/fetch")
-	@ApiOperation(value = "Search for entries", notes = "Look through title and content of entries by keywords", responseClass = "com.commafeed.frontend.model.Entries")
+	@Path("/feed/fetch")
+	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", responseClass = "com.commafeed.backend.model.Feed")
 	public Feed fetchFeed(@QueryParam("url") String url) {
 		Preconditions.checkNotNull(url);
 
@@ -56,8 +56,10 @@ public class SubscriptionsREST extends AbstractREST {
 	}
 
 	@POST
-	@Path("/subscribe")
-	public Response subscribe(SubscriptionRequest req) {
+	@Path("/feed/subscribe")
+	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
+	public Response subscribe(
+			@ApiParam(value = "subscription request", required = true) SubscriptionRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getTitle());
 		Preconditions.checkNotNull(req.getUrl());
@@ -82,8 +84,10 @@ public class SubscriptionsREST extends AbstractREST {
 	}
 
 	@GET
-	@Path("/unsubscribe")
-	public Response unsubscribe(@QueryParam("id") Long subscriptionId) {
+	@Path("/feed/unsubscribe")
+	@ApiOperation(value = "Unsubscribe to a feed", notes = "Unsubscribe to a feed")
+	public Response unsubscribe(
+			@ApiParam(value = "subscription id", required = true) @QueryParam("id") Long subscriptionId) {
 		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(),
 				subscriptionId);
 		if (sub != null) {
@@ -95,40 +99,25 @@ public class SubscriptionsREST extends AbstractREST {
 	}
 
 	@GET
-	@Path("/rename")
-	public Response rename(@QueryParam("type") Type type,
-			@QueryParam("id") Long id, @QueryParam("name") String name) {
-		if (type == Type.feed) {
-			FeedSubscription subscription = feedSubscriptionDAO.findById(
-					getUser(), id);
-			subscription.setTitle(name);
-			feedSubscriptionDAO.update(subscription);
-		} else if (type == Type.category) {
-			FeedCategory category = feedCategoryDAO.findById(getUser(), id);
-			category.setName(name);
-			feedCategoryDAO.update(category);
-		}
+	@Path("/feed/rename")
+	@ApiOperation(value = "Rename a subscription", notes = "Rename a feed subscription")
+	public Response rename(
+			@ApiParam(value = "subscription id", required = true) @QueryParam("id") Long id,
+			@ApiParam(value = "new name", required = true) @QueryParam("name") String name) {
+		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
+				id);
+		subscription.setTitle(name);
+		feedSubscriptionDAO.update(subscription);
+
 		return Response.ok(Status.OK).build();
 	}
 
+	@Path("/category/add")
 	@GET
-	@Path("/collapse")
-	public Response collapse(@QueryParam("id") String id,
-			@QueryParam("collapse") boolean collapse) {
-		Preconditions.checkNotNull(id);
-		if (!EntriesREST.ALL.equals(id)) {
-			FeedCategory category = feedCategoryDAO.findById(getUser(),
-					Long.valueOf(id));
-			category.setCollapsed(collapse);
-			feedCategoryDAO.update(category);
-		}
-		return Response.ok(Status.OK).build();
-	}
-
-	@Path("/addCategory")
-	@GET
-	public Response addCategory(@QueryParam("name") String name,
-			@QueryParam("parentId") String parentId) {
+	@ApiOperation(value = "Add a category", notes = "Add a new feed category")
+	public Response addCategory(
+			@ApiParam(value = "new name", required = true) @QueryParam("name") String name,
+			@ApiParam(value = "parent category id, if any") @QueryParam("parentId") String parentId) {
 		Preconditions.checkNotNull(name);
 
 		FeedCategory cat = new FeedCategory();
@@ -144,8 +133,10 @@ public class SubscriptionsREST extends AbstractREST {
 	}
 
 	@GET
-	@Path("/deleteCategory")
-	public Response deleteCategory(@QueryParam("id") Long id) {
+	@Path("/category/delete")
+	@ApiOperation(value = "Delete a category", notes = "Delete an existing feed category")
+	public Response deleteCategory(
+			@ApiParam(value = "category id", required = true) @QueryParam("id") Long id) {
 		FeedCategory cat = feedCategoryDAO.findById(getUser(), id);
 		if (cat != null) {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategory(
@@ -161,9 +152,40 @@ public class SubscriptionsREST extends AbstractREST {
 		}
 	}
 
+	@GET
+	@Path("/category/rename")
+	@ApiOperation(value = "Rename a category", notes = "Rename an existing feed category")
+	public Response renameCategory(
+			@ApiParam(value = "category id", required = true) @QueryParam("id") Long id,
+			@ApiParam(value = "new name", required = true) @QueryParam("name") String name) {
+
+		FeedCategory category = feedCategoryDAO.findById(getUser(), id);
+		category.setName(name);
+		feedCategoryDAO.update(category);
+
+		return Response.ok(Status.OK).build();
+	}
+
+	@GET
+	@Path("/category/collapse")
+	@ApiOperation(value = "Collapse a category", notes = "Save collapsed or expanded status for a category")
+	public Response collapse(
+			@ApiParam(value = "category id", required = true) @QueryParam("id") String id,
+			@ApiParam(value = "true if collapsed", required = true) @QueryParam("collapse") boolean collapse) {
+		Preconditions.checkNotNull(id);
+		if (!EntriesREST.ALL.equals(id)) {
+			FeedCategory category = feedCategoryDAO.findById(getUser(),
+					Long.valueOf(id));
+			category.setCollapsed(collapse);
+			feedCategoryDAO.update(category);
+		}
+		return Response.ok(Status.OK).build();
+	}
+
 	@POST
 	@Path("/import")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@ApiOperation(value = "OPML Import", notes = "Import an OPML file, posted as a FORM with the 'file' name")
 	public Response importOpml() {
 		try {
 			FileItemFactory factory = new DiskFileItemFactory(1000000, null);
@@ -184,6 +206,8 @@ public class SubscriptionsREST extends AbstractREST {
 	}
 
 	@GET
+	@Path("/get")
+	@ApiOperation(value = "Get feed subscriptions", notes = "Get all subscriptions of the user", responseClass = "com.commafeed.frontend.model.Category")
 	public Category getSubscriptions() {
 
 		List<FeedCategory> categories = feedCategoryDAO.findAll(getUser());

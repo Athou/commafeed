@@ -37,7 +37,7 @@ public class FeedSubscriptionService {
 	FeedSubscriptionDAO feedSubscriptionDAO;
 
 	@Lock(LockType.WRITE)
-	public void subscribe(User user, String url, String title,
+	public Feed subscribe(User user, String url, String title,
 			FeedCategory category) {
 
 		Feed feed = feedDAO.findByUrl(url);
@@ -72,5 +72,6 @@ public class FeedSubscriptionService {
 			}
 			feedEntryStatusDAO.save(statuses);
 		}
+		return feed;
 	}
 }

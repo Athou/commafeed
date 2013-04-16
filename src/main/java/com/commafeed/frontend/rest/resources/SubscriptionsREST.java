@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,6 +23,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ObjectUtils;
 
+import com.commafeed.backend.feeds.FeedRefreshWorker;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
@@ -33,6 +35,9 @@ import com.google.common.base.Preconditions;
 
 @Path("subscriptions")
 public class SubscriptionsREST extends AbstractREST {
+
+	@Inject
+	FeedRefreshWorker worker;
 
 	@GET
 	@Path("fetch")
@@ -62,11 +67,11 @@ public class SubscriptionsREST extends AbstractREST {
 		url = fetchFeed(url).getUrl();
 
 		FeedCategory category = EntriesREST.ALL.equals(req.getCategoryId()) ? null
-				: feedCategoryDAO
-						.findById(Long.valueOf(req.getCategoryId()));
+				: feedCategoryDAO.findById(Long.valueOf(req.getCategoryId()));
 		Feed fetchedFeed = fetchFeed(url);
-		feedSubscriptionService.subscribe(getUser(), fetchedFeed.getUrl(),
-				req.getTitle(), category);
+		Feed feed = feedSubscriptionService.subscribe(getUser(),
+				fetchedFeed.getUrl(), req.getTitle(), category);
+		worker.updateAsync(feed);
 
 		return Response.ok(Status.OK).build();
 	}
@@ -145,8 +150,8 @@ public class SubscriptionsREST extends AbstractREST {
 	public Response deleteCategory(@QueryParam("id") Long id) {
 		FeedCategory cat = feedCategoryDAO.findById(getUser(), id);
 		if (cat != null) {
-			List<FeedSubscription> subs = feedSubscriptionDAO
-					.findByCategory(getUser(), cat);
+			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategory(
+					getUser(), cat);
 			for (FeedSubscription sub : subs) {
 				sub.setCategory(null);
 			}

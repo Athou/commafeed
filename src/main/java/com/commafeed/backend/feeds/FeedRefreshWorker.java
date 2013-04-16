@@ -48,8 +48,9 @@ public class FeedRefreshWorker {
 	public Future<Void> start(MutableBoolean running, String threadName) {
 		log.info("{} starting", threadName);
 		while (running.isTrue()) {
+			Feed feed = null;
 			try {
-				Feed feed = getNextFeed();
+				feed = getNextFeed();
 				if (feed != null) {
 					log.debug("refreshing " + feed.getUrl());
 					update(feed);
@@ -58,7 +59,13 @@ public class FeedRefreshWorker {
 					Thread.sleep(15000);
 				}
 			} catch (Exception e) {
-				log.error(threadName + " : " + e.getMessage(), e);
+				String feedUrl = "feed is null";
+				if (feed != null) {
+					feedUrl = feed.getUrl();
+				}
+				log.error(
+						threadName + " (" + feedUrl + ") : " + e.getMessage(),
+						e);
 			}
 		}
 		return new AsyncResult<Void>(null);

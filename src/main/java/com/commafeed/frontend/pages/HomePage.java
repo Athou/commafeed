@@ -19,8 +19,6 @@ import com.commafeed.frontend.references.angular.AngularSanitizeReference;
 import com.commafeed.frontend.references.angularui.AngularUIReference;
 import com.commafeed.frontend.references.angularuibootstrap.AngularUIBootstrapReference;
 import com.commafeed.frontend.references.angularuistate.AngularUIStateReference;
-import com.commafeed.frontend.references.codemirror.CodeMirrorCssReference;
-import com.commafeed.frontend.references.codemirror.CodeMirrorReference;
 import com.commafeed.frontend.references.fontawesome.FontAwesomeReference;
 import com.commafeed.frontend.references.mousetrap.MouseTrapReference;
 import com.commafeed.frontend.references.nggrid.NGGridReference;
@@ -50,8 +48,6 @@ public class HomePage extends BasePage {
 		SpinJSReference.renderHead(response);
 		MouseTrapReference.renderHead(response);
 		NGGridReference.renderHead(response);
-		CodeMirrorReference.renderHead(response);
-		CodeMirrorCssReference.renderHead(response);
 		FontAwesomeReference.renderHead(response);
 
 		response.render(JavaScriptHeaderItem.forUrl("js/main.js"));

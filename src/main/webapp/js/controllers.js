@@ -545,10 +545,7 @@ module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
 	$scope.$watch('settingsService.settings', function(value) {
 		$scope.settings = angular.copy(value);
 	});
-	$scope.codeMirrorConfig = {
-		mode : 'css',
-		lineNumbers : true
-	};
+
 	$scope.cancel = function() {
 		SettingsService.init(function() {
 			$location.path('/');
@@ -557,7 +554,7 @@ module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
 	$scope.save = function() {
 		SettingsService.settings = $scope.settings;
 		SettingsService.save(function() {
-
+			$location.path('/');
 		});
 	};
 });

@@ -13,6 +13,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 
+import org.apache.commons.lang.mutable.MutableBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +61,8 @@ public class StartupBean {
 
 	private long startupTime;
 
+	private MutableBoolean running = new MutableBoolean(true);
+
 	@PostConstruct
 	private void init() {
 		startupTime = Calendar.getInstance().getTimeInMillis();
@@ -71,7 +74,7 @@ public class StartupBean {
 		log.info("Starting {} background threads",
 				settings.getBackgroundThreads());
 		for (int i = 0; i < settings.getBackgroundThreads(); i++) {
-			Future<Void> thread = worker.start("Thread " + i);
+			Future<Void> thread = worker.start(running, "Thread " + i);
 			threads.add(thread);
 		}
 
@@ -89,10 +92,8 @@ public class StartupBean {
 	}
 
 	@PreDestroy
-	private void shutdown() {
-		for (Future<Void> future : threads) {
-			future.cancel(true);
-		}
+	public void shutdown() {
+		running.setValue(false);
 	}
 
 }

@@ -4,11 +4,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Queue;
 
+import javax.annotation.PreDestroy;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
+import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.services.ApplicationSettingsService;
@@ -22,6 +24,9 @@ public class FeedRefreshTaskGiver {
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
+
+	@Inject
+	StartupBean startupBean;
 
 	private Queue<Feed> queue = Lists.newLinkedList();
 
@@ -38,5 +43,10 @@ public class FeedRefreshTaskGiver {
 			feedDAO.update(feeds);
 		}
 		return queue.poll();
+	}
+
+	@PreDestroy
+	public void shutdown() {
+		startupBean.shutdown();
 	}
 }

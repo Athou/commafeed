@@ -18,6 +18,7 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
+import org.apache.commons.lang.mutable.MutableBoolean;
 import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,12 +49,10 @@ public class FeedRefreshWorker {
 	@Resource
 	private UserTransaction transaction;
 
-	private boolean running = true;
-
 	@Asynchronous
-	public Future<Void> start(String threadName) {
+	public Future<Void> start(MutableBoolean running, String threadName) {
 		log.info("{} starting", threadName);
-		while (running) {
+		while (running.isTrue()) {
 			try {
 				Feed feed = getNextFeed();
 				if (feed != null) {
@@ -69,16 +68,16 @@ public class FeedRefreshWorker {
 		}
 		return new AsyncResult<Void>(null);
 	}
-	
+
 	@Asynchronous
-	public void updateAsync(Feed feed){
+	public void updateAsync(Feed feed) {
 		try {
 			update(feed);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
 	}
-	
+
 	private void update(Feed feed) throws NotSupportedException,
 			SystemException, SecurityException, IllegalStateException,
 			RollbackException, HeuristicMixedException,

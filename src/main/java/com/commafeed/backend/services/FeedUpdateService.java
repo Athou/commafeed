@@ -61,7 +61,10 @@ public class FeedUpdateService {
 			if (foundEntry == null) {
 				FeedEntryContent content = entry.getContent();
 				content.setContent(handleContent(content.getContent()));
-				content.setTitle(handleContent(content.getTitle()));
+
+				String title = handleContent(content.getTitle());
+				content.setTitle(title.substring(0,
+						Math.min(2048, title.length())));
 
 				entry.setInserted(Calendar.getInstance().getTime());
 				addFeedToEntry(entry, feed);

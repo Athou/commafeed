@@ -11,12 +11,17 @@ import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.model.Settings;
 import com.google.common.base.Preconditions;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
-@Path("settings")
+@Path("/settings")
+@Api(value = "/settings", description = "Operations about user settings")
 public class SettingsREST extends AbstractREST {
 
-	@Path("get")
+	@Path("/get")
 	@GET
+	@ApiOperation(value = "Retrieve user settings", notes = "Retrieve user settings", responseClass = "com.commafeed.frontend.model.Settings")
 	public Settings get() {
 		Settings s = new Settings();
 		UserSettings settings = userSettingsDAO.findByUser(getUser());
@@ -33,9 +38,10 @@ public class SettingsREST extends AbstractREST {
 		return s;
 	}
 
-	@Path("save")
+	@Path("/save")
 	@POST
-	public Response save(Settings settings) {
+	@ApiOperation(value = "Save user settings", notes = "Save user settings")
+	public Response save(@ApiParam Settings settings) {
 		Preconditions.checkNotNull(settings);
 
 		UserSettings s = userSettingsDAO.findByUser(getUser());

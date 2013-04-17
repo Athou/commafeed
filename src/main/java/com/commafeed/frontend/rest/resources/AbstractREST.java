@@ -6,7 +6,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
-import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -172,17 +171,18 @@ public abstract class AbstractREST {
 
 	@GET
 	@ApiOperation(value = "Returns information about API parameters", responseClass = "com.wordnik.swagger.core.Documentation")
-	public Response getHelp(@Context ServletConfig sc,
-			@Context HttpHeaders headers, @Context UriInfo uriInfo) {
+	public Response getHelp(@Context HttpHeaders headers,
+			@Context UriInfo uriInfo) {
 
 		TypeUtil.addAllowablePackage(Entries.class.getPackage().getName());
 		String apiVersion = ApiListingResource.API_VERSION;
 		String swaggerVersion = SwaggerSpec.version();
 		String basePath = ApiListingResource
 				.getBasePath(applicationSettingsService.get().getPublicUrl());
-		Api api = this.getClass().getAnnotation(Api.class);
+		Api api = getClass().getAnnotation(Api.class);
 		if (api == null) {
-			return Response.status(Status.NOT_FOUND).build();
+			return Response.status(Status.NOT_FOUND)
+					.entity("Api annotation not found").build();
 		}
 		String apiPath = api.value();
 		String apiListingPath = api.value();

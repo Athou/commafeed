@@ -46,14 +46,20 @@ import com.commafeed.backend.services.UserService;
 import com.commafeed.frontend.CommaFeedApplication;
 import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.SecurityCheck;
-import com.commafeed.frontend.rest.ApiListingResource.ServletConfigProxy;
+import com.commafeed.frontend.model.Entries;
+import com.commafeed.frontend.rest.ApiListingResource;
+import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.jaxrs.JavaHelp;
+import com.wordnik.swagger.core.Documentation;
+import com.wordnik.swagger.core.SwaggerSpec;
+import com.wordnik.swagger.core.util.TypeUtil;
+import com.wordnik.swagger.jaxrs.HelpApi;
+import com.wordnik.swagger.jaxrs.JaxrsApiReader;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @SecurityCheck(Role.USER)
-public abstract class AbstractREST extends JavaHelp {
+public abstract class AbstractREST {
 
 	@Context
 	HttpServletRequest request;
@@ -164,13 +170,30 @@ public abstract class AbstractREST extends JavaHelp {
 		return authorized;
 	}
 
-	@Override
 	@GET
 	@ApiOperation(value = "Returns information about API parameters", responseClass = "com.wordnik.swagger.core.Documentation")
 	public Response getHelp(@Context ServletConfig sc,
 			@Context HttpHeaders headers, @Context UriInfo uriInfo) {
-		return super.getHelp(new ServletConfigProxy(applicationSettingsService
-				.get().getPublicUrl(), sc), headers, uriInfo);
-	}
 
+		TypeUtil.addAllowablePackage(Entries.class.getPackage().getName());
+		String apiVersion = ApiListingResource.API_VERSION;
+		String swaggerVersion = SwaggerSpec.version();
+		String basePath = ApiListingResource
+				.getBasePath(applicationSettingsService.get().getPublicUrl());
+		Api api = this.getClass().getAnnotation(Api.class);
+		if (api == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		String apiPath = null;
+		String apiListingPath = api.value();
+
+		Documentation doc = new HelpApi("").filterDocs(JaxrsApiReader.read(
+				getClass(), apiVersion, swaggerVersion, basePath, apiPath),
+				headers, uriInfo, apiListingPath, apiPath);
+
+		doc.setSwaggerVersion(swaggerVersion);
+		doc.setBasePath(basePath);
+		doc.setApiVersion(apiVersion);
+		return Response.ok().entity(doc).build();
+	}
 }

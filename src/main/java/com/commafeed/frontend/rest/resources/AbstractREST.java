@@ -3,6 +3,7 @@ package com.commafeed.frontend.rest.resources;
 import java.lang.reflect.Method;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
@@ -182,28 +183,29 @@ public abstract class AbstractREST {
 		String basePath = ApiListingResource
 				.getBasePath(applicationSettingsService.get().getPublicUrl());
 
-		Api api = null;
+		Class<?> resource = null;
 		String path = prependSlash(uriInfo.getPath());
 		for (Class<?> klass : app.getClasses()) {
-			Api a = klass.getAnnotation(Api.class);
-			if (a != null && a.value() != null
-					&& StringUtils.equals(prependSlash(a.value()), path)) {
-				api = a;
+			Api api = klass.getAnnotation(Api.class);
+			if (api != null && api.value() != null
+					&& StringUtils.equals(prependSlash(api.value()), path)) {
+				resource = klass;
 				break;
 			}
 		}
 
-		if (api == null) {
+		if (resource == null) {
 			return Response
 					.status(Status.NOT_FOUND)
 					.entity("Api annotation not found on class "
 							+ getClass().getName()).build();
 		}
+		Api api = resource.getAnnotation(Api.class);
 		String apiPath = api.value();
 		String apiListingPath = api.value();
 
 		Documentation doc = new HelpApi(null).filterDocs(JaxrsApiReader.read(
-				getClass(), apiVersion, swaggerVersion, basePath, apiPath),
+				resource, apiVersion, swaggerVersion, basePath, apiPath),
 				headers, uriInfo, apiListingPath, apiPath);
 
 		doc.setSwaggerVersion(swaggerVersion);

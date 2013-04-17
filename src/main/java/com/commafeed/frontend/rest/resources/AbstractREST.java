@@ -181,8 +181,10 @@ public abstract class AbstractREST {
 				.getBasePath(applicationSettingsService.get().getPublicUrl());
 		Api api = getClass().getAnnotation(Api.class);
 		if (api == null) {
-			return Response.status(Status.NOT_FOUND)
-					.entity("Api annotation not found").build();
+			return Response
+					.status(Status.NOT_FOUND)
+					.entity("Api annotation not found on class "
+							+ getClass().getName()).build();
 		}
 		String apiPath = api.value();
 		String apiListingPath = api.value();

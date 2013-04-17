@@ -184,10 +184,10 @@ public abstract class AbstractREST {
 		if (api == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		String apiPath = null;
+		String apiPath = api.value();
 		String apiListingPath = api.value();
 
-		Documentation doc = new HelpApi("").filterDocs(JaxrsApiReader.read(
+		Documentation doc = new HelpApi(null).filterDocs(JaxrsApiReader.read(
 				getClass(), apiVersion, swaggerVersion, basePath, apiPath),
 				headers, uriInfo, apiListingPath, apiPath);
 

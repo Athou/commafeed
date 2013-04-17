@@ -41,7 +41,8 @@ public class SubscriptionsREST extends AbstractREST {
 	@GET
 	@Path("/feed/fetch")
 	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", responseClass = "com.commafeed.backend.model.Feed")
-	public Feed fetchFeed(@QueryParam("url") String url) {
+	public Feed fetchFeed(
+			@ApiParam(value = "the feed's url", required = true) @QueryParam("url") String url) {
 		Preconditions.checkNotNull(url);
 		url = StringUtils.trimToEmpty(url);
 		url = prependHttp(url);

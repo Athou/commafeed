@@ -23,14 +23,19 @@ import com.commafeed.frontend.model.UserModel;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
 @SecurityCheck(Role.ADMIN)
-@Path("admin/users")
+@Path("/admin/users")
+@Api(value = "/admin/users", description = "Operations about application users administration")
 public class AdminUsersREST extends AbstractREST {
 
-	@Path("save")
+	@Path("/save")
 	@POST
-	public Response save(UserModel userModel) {
+	@ApiOperation(value = "Manually save or update a user", notes = "Manually save or update a user. If the id is not specified, a new user will be created")
+	public Response save(@ApiParam(required = true) UserModel userModel) {
 		Preconditions.checkNotNull(userModel);
 		Preconditions.checkNotNull(userModel.getName());
 
@@ -86,9 +91,12 @@ public class AdminUsersREST extends AbstractREST {
 
 	}
 
-	@Path("get")
+	@Path("/get")
 	@GET
-	public UserModel getUser(@QueryParam("id") Long id) {
+	@ApiOperation(value = "Get user information", notes = "Get user information", responseClass = "com.commafeed.frontend.model.UserModel")
+	public UserModel getUser(
+			@ApiParam(value = "user id", required = true) @QueryParam("id") Long id) {
+		Preconditions.checkNotNull(id);
 		User user = userDAO.findById(id);
 		UserModel userModel = new UserModel();
 		userModel.setId(user.getId());
@@ -102,8 +110,9 @@ public class AdminUsersREST extends AbstractREST {
 		return userModel;
 	}
 
-	@Path("getAll")
+	@Path("/getAll")
 	@GET
+	@ApiOperation(value = "Get all users", notes = "Get all users", responseClass = "List[com.commafeed.frontend.model.UserModel]")
 	public Collection<UserModel> getUsers() {
 		Map<Long, UserModel> users = Maps.newHashMap();
 		for (UserRole role : userRoleDAO.findAll()) {
@@ -124,9 +133,13 @@ public class AdminUsersREST extends AbstractREST {
 		return users.values();
 	}
 
-	@Path("delete")
+	@Path("/delete")
 	@GET
-	public Response delete(@QueryParam("id") Long id) {
+	@ApiOperation(value = "Delete a user", notes = "Delete a user, and all his subscriptions")
+	public Response delete(
+			@ApiParam(value = "user id", required = true) @QueryParam("id") Long id) {
+		Preconditions.checkNotNull(id);
+
 		User user = userDAO.findById(id);
 		if (user == null) {
 			return Response.status(Status.NOT_FOUND).build();
@@ -135,8 +148,8 @@ public class AdminUsersREST extends AbstractREST {
 			return Response.status(Status.FORBIDDEN)
 					.entity("You cannot delete the admin user.").build();
 		}
-		feedEntryStatusDAO.delete(feedEntryStatusDAO.findAll(user,
-				false, ReadingOrder.desc, false));
+		feedEntryStatusDAO.delete(feedEntryStatusDAO.findAll(user, false,
+				ReadingOrder.desc, false));
 		feedSubscriptionDAO.delete(feedSubscriptionDAO.findAll(user));
 		feedCategoryDAO.delete(feedCategoryDAO.findAll(user));
 		userSettingsDAO.delete(userSettingsDAO.findByUser(user));

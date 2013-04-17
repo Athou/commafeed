@@ -9,7 +9,7 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.frontend.SecurityCheck;
 
 @SecurityCheck(Role.ADMIN)
-@Path("admin/metrics")
+@Path("/admin/metrics")
 public class AdminMetricsREST extends AbstractREST {
 
 	@Inject

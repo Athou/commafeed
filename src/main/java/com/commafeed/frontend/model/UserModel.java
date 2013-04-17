@@ -6,16 +6,31 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiClass;
+import com.wordnik.swagger.annotations.ApiProperty;
+
 @SuppressWarnings("serial")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@ApiClass("User information")
 public class UserModel implements Serializable {
 
+	@ApiProperty(value = "user id", required = true)
 	private Long id;
+
+	@ApiProperty(value = "user name", required = true)
 	private String name;
+
+	@ApiProperty("user email, if any")
 	private String email;
+
+	@ApiProperty(value = "user password, never returned by the api")
 	private String password;
+
+	@ApiProperty(value = "account status")
 	private boolean enabled;
+
+	@ApiProperty(value = "user is admin")
 	private boolean admin;
 
 	public Long getId() {

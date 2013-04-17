@@ -12,6 +12,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.ThreadContext;
 import org.apache.wicket.authentication.IAuthenticationStrategy;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
@@ -171,15 +173,26 @@ public abstract class AbstractREST {
 
 	@GET
 	@ApiOperation(value = "Returns information about API parameters", responseClass = "com.wordnik.swagger.core.Documentation")
-	public Response getHelp(@Context HttpHeaders headers,
-			@Context UriInfo uriInfo) {
+	public Response getHelp(@Context Application app,
+			@Context HttpHeaders headers, @Context UriInfo uriInfo) {
 
 		TypeUtil.addAllowablePackage(Entries.class.getPackage().getName());
 		String apiVersion = ApiListingResource.API_VERSION;
 		String swaggerVersion = SwaggerSpec.version();
 		String basePath = ApiListingResource
 				.getBasePath(applicationSettingsService.get().getPublicUrl());
-		Api api = getClass().getAnnotation(Api.class);
+
+		Api api = null;
+		String path = prependSlash(uriInfo.getPath());
+		for (Class<?> klass : app.getClasses()) {
+			Api a = klass.getAnnotation(Api.class);
+			if (a != null && a.value() != null
+					&& StringUtils.equals(prependSlash(a.value()), path)) {
+				api = a;
+				break;
+			}
+		}
+
 		if (api == null) {
 			return Response
 					.status(Status.NOT_FOUND)
@@ -197,5 +210,12 @@ public abstract class AbstractREST {
 		doc.setBasePath(basePath);
 		doc.setApiVersion(apiVersion);
 		return Response.ok().entity(doc).build();
+	}
+
+	private String prependSlash(String path) {
+		if (!path.startsWith("/")) {
+			path = "/" + path;
+		}
+		return path;
 	}
 }

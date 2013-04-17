@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.StartupBean;
+import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
@@ -28,11 +29,11 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
 @SecurityCheck(Role.ADMIN)
-@Path("/admin/users")
-@Api(value = "/admin/users", description = "Operations about application users administration")
-public class AdminUsersREST extends AbstractREST {
+@Path("/admin")
+@Api(value = "/admin", description = "Operations about application administration")
+public class AdminREST extends AbstractResourceREST {
 
-	@Path("/save")
+	@Path("/users/save")
 	@POST
 	@ApiOperation(value = "Manually save or update a user", notes = "Manually save or update a user. If the id is not specified, a new user will be created")
 	public Response save(@ApiParam(required = true) UserModel userModel) {
@@ -91,7 +92,7 @@ public class AdminUsersREST extends AbstractREST {
 
 	}
 
-	@Path("/get")
+	@Path("/users/get")
 	@GET
 	@ApiOperation(value = "Get user information", notes = "Get user information", responseClass = "com.commafeed.frontend.model.UserModel")
 	public UserModel getUser(
@@ -110,7 +111,7 @@ public class AdminUsersREST extends AbstractREST {
 		return userModel;
 	}
 
-	@Path("/getAll")
+	@Path("/users/getAll")
 	@GET
 	@ApiOperation(value = "Get all users", notes = "Get all users", responseClass = "List[com.commafeed.frontend.model.UserModel]")
 	public Collection<UserModel> getUsers() {
@@ -133,7 +134,7 @@ public class AdminUsersREST extends AbstractREST {
 		return users.values();
 	}
 
-	@Path("/delete")
+	@Path("/users/delete")
 	@GET
 	@ApiOperation(value = "Delete a user", notes = "Delete a user, and all his subscriptions")
 	public Response delete(
@@ -157,5 +158,28 @@ public class AdminUsersREST extends AbstractREST {
 		userDAO.delete(user);
 
 		return Response.ok().build();
+	}
+	
+	@Path("/settings/get")
+	@GET
+	@ApiOperation(value = "Retrieve application settings", notes = "Retrieve application settings", responseClass = "com.commafeed.backend.model.ApplicationSettings")
+	public ApplicationSettings getSettings() {
+		return applicationSettingsService.get();
+	}
+
+	@Path("/settings/save")
+	@POST
+	@ApiOperation(value = "Save application settings", notes = "Save application settings")
+	public void saveSettings(@ApiParam(required = true) ApplicationSettings settings) {
+		Preconditions.checkNotNull(settings);
+		applicationSettingsService.save(settings);
+	}
+	
+
+	@Path("/metrics/get")
+	@GET
+	public int[] getMetrics() {
+		return new int[] { metricsBean.getFeedsRefreshedLastMinute(),
+				metricsBean.getFeedsRefreshedLastHour() };
 	}
 }

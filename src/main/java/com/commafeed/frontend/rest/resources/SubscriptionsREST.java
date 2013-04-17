@@ -36,7 +36,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 @Path("/subscriptions")
 @Api(value = "/subscriptions", description = "Operations about user feed subscriptions")
-public class SubscriptionsREST extends AbstractREST {
+public class SubscriptionsREST extends AbstractResourceREST {
 
 	@GET
 	@Path("/feed/fetch")

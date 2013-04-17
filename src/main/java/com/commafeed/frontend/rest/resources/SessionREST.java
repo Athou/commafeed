@@ -18,7 +18,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 @Path("/session")
 @Api(value = "/session", description = "Operations about user profile")
-public class SessionREST extends AbstractREST {
+public class SessionREST extends AbstractResourceREST {
 
 	@Path("/get")
 	@GET

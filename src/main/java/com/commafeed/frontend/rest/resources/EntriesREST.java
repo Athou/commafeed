@@ -28,7 +28,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 @Path("/entries/")
 @Api(value = "/entries", description = "Operations about feed entries")
-public class EntriesREST extends AbstractREST {
+public class EntriesREST extends AbstractResourceREST {
 
 	public static final String ALL = "all";
 

@@ -9,18 +9,13 @@ import javax.interceptor.InvocationContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.ThreadContext;
 import org.apache.wicket.authentication.IAuthenticationStrategy;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
@@ -28,6 +23,7 @@ import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.protocol.http.servlet.ServletWebResponse;
 import org.apache.wicket.request.cycle.RequestCycle;
 
+import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
@@ -47,21 +43,10 @@ import com.commafeed.backend.services.UserService;
 import com.commafeed.frontend.CommaFeedApplication;
 import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.SecurityCheck;
-import com.commafeed.frontend.model.Entries;
-import com.commafeed.frontend.rest.ApiListingResource;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.core.Documentation;
-import com.wordnik.swagger.core.SwaggerSpec;
-import com.wordnik.swagger.core.util.TypeUtil;
-import com.wordnik.swagger.jaxrs.HelpApi;
-import com.wordnik.swagger.jaxrs.JaxrsApiReader;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@SecurityCheck(Role.USER)
-public abstract class AbstractREST {
-
+public class AbstractREST {
 	@Context
 	HttpServletRequest request;
 
@@ -110,6 +95,9 @@ public abstract class AbstractREST {
 	@Inject
 	FeedFetcher feedFetcher;
 
+	@Inject
+	MetricsBean metricsBean;
+
 	@PostConstruct
 	public void init() {
 		CommaFeedApplication app = CommaFeedApplication.get();
@@ -138,11 +126,6 @@ public abstract class AbstractREST {
 	@AroundInvoke
 	public Object checkSecurity(InvocationContext context) throws Exception {
 		User user = getUser();
-		if (user == null) {
-			throw new WebApplicationException(Response
-					.status(Status.UNAUTHORIZED)
-					.entity("You need to be authenticated to do this.").build());
-		}
 
 		boolean allowed = true;
 		Method method = context.getMethod();
@@ -165,58 +148,13 @@ public abstract class AbstractREST {
 	}
 
 	private boolean checkRole(User user, SecurityCheck annotation) {
+		Role requiredRole = annotation.value();
+		if (requiredRole == Role.NONE) {
+			return true;
+		}
+
 		Roles roles = CommaFeedSession.get().getRoles();
-		boolean authorized = roles.hasAnyRole(new Roles(annotation.value()
-				.name()));
+		boolean authorized = roles.hasAnyRole(new Roles(requiredRole.name()));
 		return authorized;
-	}
-
-	@GET
-	@ApiOperation(value = "Returns information about API parameters", responseClass = "com.wordnik.swagger.core.Documentation")
-	public Response getHelp(@Context Application app,
-			@Context HttpHeaders headers, @Context UriInfo uriInfo) {
-
-		TypeUtil.addAllowablePackage(Entries.class.getPackage().getName());
-		String apiVersion = ApiListingResource.API_VERSION;
-		String swaggerVersion = SwaggerSpec.version();
-		String basePath = ApiListingResource
-				.getBasePath(applicationSettingsService.get().getPublicUrl());
-
-		Class<?> resource = null;
-		String path = prependSlash(uriInfo.getPath());
-		for (Class<?> klass : app.getClasses()) {
-			Api api = klass.getAnnotation(Api.class);
-			if (api != null && api.value() != null
-					&& StringUtils.equals(prependSlash(api.value()), path)) {
-				resource = klass;
-				break;
-			}
-		}
-
-		if (resource == null) {
-			return Response
-					.status(Status.NOT_FOUND)
-					.entity("Api annotation not found on class "
-							+ getClass().getName()).build();
-		}
-		Api api = resource.getAnnotation(Api.class);
-		String apiPath = api.value();
-		String apiListingPath = api.value();
-
-		Documentation doc = new HelpApi(null).filterDocs(JaxrsApiReader.read(
-				resource, apiVersion, swaggerVersion, basePath, apiPath),
-				headers, uriInfo, apiListingPath, apiPath);
-
-		doc.setSwaggerVersion(swaggerVersion);
-		doc.setBasePath(basePath);
-		doc.setApiVersion(apiVersion);
-		return Response.ok().entity(doc).build();
-	}
-
-	private String prependSlash(String path) {
-		if (!path.startsWith("/")) {
-			path = "/" + path;
-		}
-		return path;
 	}
 }

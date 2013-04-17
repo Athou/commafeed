@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class UserRole extends AbstractModel {
 
 	public static enum Role {
-		USER, ADMIN
+		USER, ADMIN, NONE
 	}
 
 	@OneToOne

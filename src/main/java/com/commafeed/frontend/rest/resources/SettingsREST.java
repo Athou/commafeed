@@ -17,7 +17,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 @Path("/settings")
 @Api(value = "/settings", description = "Operations about user settings")
-public class SettingsREST extends AbstractREST {
+public class SettingsREST extends AbstractResourceREST {
 
 	@Path("/get")
 	@GET

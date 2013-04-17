@@ -3,7 +3,6 @@ package com.commafeed.frontend.rest.resources;
 import java.lang.reflect.Method;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;

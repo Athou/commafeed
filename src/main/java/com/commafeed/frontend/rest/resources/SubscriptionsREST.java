@@ -21,6 +21,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
@@ -42,11 +43,11 @@ public class SubscriptionsREST extends AbstractREST {
 	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", responseClass = "com.commafeed.backend.model.Feed")
 	public Feed fetchFeed(@QueryParam("url") String url) {
 		Preconditions.checkNotNull(url);
-
+		url = StringUtils.trimToEmpty(url);
 		url = prependHttp(url);
 		Feed feed = null;
 		try {
-			feed = feedFetcher.fetch(url, true);
+			feed = feedFetcher.fetch(url, true, null, null);
 		} catch (Exception e) {
 			throw new WebApplicationException(e, Response
 					.status(Status.INTERNAL_SERVER_ERROR)

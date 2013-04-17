@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter;
+import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.frontend.SecurityCheck;
@@ -74,7 +75,10 @@ public class FaviconPage extends BasePage {
 
 				String iconUrl = "http://g.etfv.co/"
 						+ URLEncoder.encode(url, "UTF-8") + "?defaulticon=none";
-				img = getter.getBinary(iconUrl);
+				HttpResult result = getter.getBinary(iconUrl);
+				if (result != null) {
+					img = result.getContent();
+				}
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

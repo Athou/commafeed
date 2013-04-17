@@ -53,6 +53,12 @@ public class Feed extends AbstractModel {
 	@Index(name = "disableduntil_index")
 	private Date disabledUntil;
 
+	@Column(length = 64)
+	private String lastModifiedHeader;
+
+	@Column(length = 128)
+	private String etagHeader;
+
 	@ManyToMany(mappedBy = "feeds")
 	private Set<FeedEntry> entries = Sets.newHashSet();
 
@@ -145,6 +151,22 @@ public class Feed extends AbstractModel {
 
 	public void setUrlHash(String urlHash) {
 		this.urlHash = urlHash;
+	}
+
+	public String getLastModifiedHeader() {
+		return lastModifiedHeader;
+	}
+
+	public void setLastModifiedHeader(String lastModifiedHeader) {
+		this.lastModifiedHeader = lastModifiedHeader;
+	}
+
+	public String getEtagHeader() {
+		return etagHeader;
+	}
+
+	public void setEtagHeader(String etagHeader) {
+		this.etagHeader = etagHeader;
 	}
 
 }

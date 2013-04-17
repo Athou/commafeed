@@ -21,6 +21,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.services.FeedUpdateService;
@@ -82,7 +83,10 @@ public class FeedRefreshWorker {
 
 		Feed fetchedFeed = null;
 		try {
-			fetchedFeed = fetcher.fetch(feed.getUrl(), false);
+			fetchedFeed = fetcher.fetch(feed.getUrl(), false,
+					feed.getLastModifiedHeader(), feed.getEtagHeader());
+		} catch (NotModifiedException e) {
+			log.debug("Feed not modified (304) : " + feed.getUrl());
 		} catch (Exception e) {
 			message = "Unable to refresh feed " + feed.getUrl() + " : "
 					+ e.getMessage();
@@ -105,10 +109,10 @@ public class FeedRefreshWorker {
 		feed.setDisabledUntil(disabledUntil);
 
 		if (fetchedFeed != null) {
+			feed.setLink(fetchedFeed.getLink());
+			feed.setLastModifiedHeader(fetchedFeed.getLastModifiedHeader());
+			feed.setEtagHeader(fetchedFeed.getEtagHeader());
 			feedUpdateService.updateEntries(feed, fetchedFeed.getEntries());
-			if (feed.getLink() == null) {
-				feed.setLink(fetchedFeed.getLink());
-			}
 		}
 		feedDAO.update(feed);
 

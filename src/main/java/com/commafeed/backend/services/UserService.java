@@ -1,5 +1,6 @@
 package com.commafeed.backend.services;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import javax.ejb.Stateless;
@@ -25,6 +26,8 @@ public class UserService {
 			boolean authenticated = encryptionService.authenticate(password,
 					user.getPassword(), user.getSalt());
 			if (authenticated) {
+				user.setLastLogin(Calendar.getInstance().getTime());
+				userDAO.update(user);
 				return user;
 			}
 		}

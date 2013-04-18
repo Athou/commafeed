@@ -1,5 +1,6 @@
 package com.commafeed.backend.model;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -7,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Index;
 
@@ -33,6 +36,9 @@ public class User extends AbstractModel {
 
 	@Column(nullable = false)
 	private boolean disabled;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastLogin;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
 	private Set<UserRole> roles = Sets.newHashSet();
@@ -83,6 +89,14 @@ public class User extends AbstractModel {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 
 }

@@ -378,6 +378,13 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			$scope.mark(entry, true);
 		}
 	};
+	
+	$scope.noop = function(event){
+		if (!event.ctrlKey && event.which != 2) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
+	}
 
 	var openNextEntry = function(event) {
 		var entry = null;

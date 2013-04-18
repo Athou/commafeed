@@ -7,7 +7,7 @@
 	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode" infinite-scroll-distance="1" id="feed-accordion">
 		<div ng-show="message && errorCount > 10">Error while loading this feed : {{message}}</div>
 		<div ng-repeat="entry in entries" class="entry" scroll-to="isOpen && current == entry" scroll-to-offset="-58">
-			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="entryClicked(entry, $event)" 
+			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)"
 				ng-class="{open: current == entry, closed: current != entry}">
 				<span class="feed-name">
 					<favicon url="entry.feedUrl" />

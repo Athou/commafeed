@@ -160,7 +160,7 @@ public class EntriesREST extends AbstractResourceREST {
 
 	@Path("/feed/mark")
 	@GET
-	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read/unread")
+	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read")
 	public Response markFeedEntries(
 			@ApiParam(value = "feed id", required = true) @QueryParam("id") String id,
 			@ApiParam(value = "only entries older than this, prevent marking an entry that was not retrieved") @QueryParam("olderThan") Long olderThanTimestamp) {
@@ -179,7 +179,7 @@ public class EntriesREST extends AbstractResourceREST {
 
 	@Path("/category/mark")
 	@GET
-	@ApiOperation(value = "Mark category entries", notes = "Mark feed entries as read/unread")
+	@ApiOperation(value = "Mark category entries", notes = "Mark feed entries as read")
 	public Response markCategoryEntries(
 			@ApiParam(value = "category id, or 'all'", required = true) @QueryParam("id") String id,
 			@ApiParam(value = "only entries older than this, prevent marking an entry that was not retrieved") @QueryParam("olderThan") Long olderThanTimestamp) {

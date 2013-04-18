@@ -1,24 +1,78 @@
 var module = angular.module('commafeed.services', [ 'ngResource' ]);
 
-module.factory('SessionService', function($resource) {
-	var actions = {
-			get : {
-				method : 'GET',
-				params : {
-					_method : 'get'
-				}
-			},
-			save : {
-				method : 'POST',
-				params : {
-					_method : 'save'
-				}
-			}
-		};
-	return $resource('rest/session/:_method', {}, actions);
+module.factory('ProfileService', function($resource) {
+	return $resource('rest/user/profile/');
 });
 
-module.factory('SubscriptionService', function($resource, $http) {
+module.factory('SettingsService', function($resource) {
+	var res = $resource('rest/user/settings');
+
+	var s = {};
+	s.settings = {};
+	s.save = function(callback) {
+		res.save(s.settings, function(data) {
+			if (callback) {
+				callback(data);
+			}
+		});
+	};
+	s.init = function(callback) {
+		res.get(function(data) {
+			s.settings = data;
+			if (callback) {
+				callback(data);
+			}
+		});
+	};
+	s.init();
+	return s;
+});
+
+module.factory('FeedService', function($resource, $http) {
+
+	var actions = {
+		entries : {
+			method : 'GET',
+			params : {
+				_method : 'entries'
+			}
+		},
+		fetch : {
+			method : 'GET',
+			params : {
+				_method : 'fetch'
+			}
+		},
+		mark : {
+			method : 'POST',
+			params : {
+				_method : 'mark'
+			}
+		},
+		subscribe : {
+			method : 'POST',
+			params : {
+				_method : 'subscribe'
+			}
+		},
+		unsubscribe : {
+			method : 'POST',
+			params : {
+				_method : 'unsubscribe'
+			}
+		},
+		rename : {
+			method : 'POST',
+			params : {
+				_method : 'rename'
+			}
+		}
+	};
+	var res = $resource('rest/feed/:_method', {}, actions);
+	return res;
+});
+
+module.factory('CategoryService', function($resource, $http) {
 
 	var flatten = function(category, parentName, array) {
 		if (!array)
@@ -39,131 +93,72 @@ module.factory('SubscriptionService', function($resource, $http) {
 		return array;
 	};
 	var actions = {
-		fetch : {
+		get : {
 			method : 'GET',
 			params : {
-				_type : 'feed',
-				_method : 'fetch'
+				_method : 'get'
 			}
 		},
-		subscribe : {
-			method : 'POST',
+		entries : {
+			method : 'GET',
 			params : {
-				_type : 'feed',
-				_method : 'subscribe'
+				_method : 'entries'
 			}
 		},
-		unsubscribe : {
+		mark : {
 			method : 'POST',
 			params : {
-				_type : 'feed',
-				_method : 'unsubscribe'
+				_method : 'mark'
+			}
+		},
+		add : {
+			method : 'POST',
+			params : {
+				_method : 'add'
+			}
+		},
+		remove : {
+			method : 'POST',
+			params : {
+				_method : 'delete'
 			}
 		},
 		rename : {
 			method : 'POST',
 			params : {
-				_type : 'feed',
 				_method : 'rename'
 			}
 		},
 		collapse : {
 			method : 'POST',
 			params : {
-				_type : 'category',
 				_method : 'collapse'
 			}
-		},
-		addCategory : {
-			method : 'POST',
-			params : {
-				_type : 'category',
-				_method : 'add'
-			}
-		},
-		deleteCategory : {
-			method : 'POST',
-			params : {
-				_type : 'category',
-				_method : 'delete'
-			}
-		},
-		renameCategory : {
-			method : 'POST',
-			params : {
-				_type : 'category',
-				_method : 'rename'
-			}
 		}
 	};
-	var s = {};
-	s.get = $resource('rest/subscriptions/get').get;
-	s.subscriptions = {};
-	s.flatCategories = {};
+	var res = $resource('rest/category/:_method', {}, actions);
+	res.subscriptions = {};
+	res.flatCategories = {};
 
-	var res = $resource('rest/subscriptions/:_type/:_method', {}, actions);
-	s.init = function(callback) {
-		s.get(function(data) {
-			s.subscriptions = data;
-			s.flatCategories = flatten(s.subscriptions);
-			if (callback)
-				callback(data);
-		});
-	};
-	s.fetch = res.fetch;
-	s.rename = res.rename;
-	s.subscribe = function(sub, callback) {
-		res.subscribe(sub, function(data) {
-			s.init();
+	res.init = function(callback) {
+		res.get(function(data) {
+			res.subscriptions = data;
+			res.flatCategories = flatten(data);
 			if (callback)
 				callback(data);
 		});
 	};
 
-	var removeSubscription = function(node, subId) {
-		if (node.children) {
-			$.each(node.children, function(k, v) {
-				removeSubscription(v, subId);
-			});
-		}
-		if (node.feeds) {
-			var foundAtIndex = -1;
-			$.each(node.feeds, function(k, v) {
-				if (v.id == subId) {
-					foundAtIndex = k;
-				}
-			});
-			if (foundAtIndex > -1) {
-				node.feeds.splice(foundAtIndex, 1);
-			}
-		}
-
-	};
-	s.unsubscribe = function(id) {
-		removeSubscription(s.subscriptions, id);
-		res.unsubscribe({
-			id : id
-		});
-	};
-	s.addCategory = function(cat, callback) {
-		res.addCategory(cat, function(data) {
-			s.init();
-			if (callback)
-				callback(data);
-		});
-	};
-	s.deleteCategory = res.deleteCategory;
-	s.collapse = res.collapse;
-	s.init();
-	return s;
+	res.init();
+	return res;
 });
 
 module.factory('EntryService', function($resource, $http) {
 	var actions = {
-		get : {
+		search : {
 			method : 'GET',
 			params : {
-				_method : 'get'
+				_method : 'search'
 			}
 		},
 		mark : {
@@ -173,80 +168,20 @@ module.factory('EntryService', function($resource, $http) {
 			}
 		}
 	};
-	var res = $resource('rest/entries/:type/:_method', {}, actions);
-	res.search = $resource('rest/entries/search', {}, actions).get;
+	var res = $resource('rest/entry/:_method', {}, actions);
 	return res;
 });
 
-module.factory('SettingsService', function($resource) {
-	var s = {};
-	s.settings = {};
-	s.save = function(callback) {
-		$resource('rest/settings/save').save(s.settings, function(data) {
-			if (callback) {
-				callback(data);
-			}
-		});
-	};
-	s.init = function(callback) {
-		$resource('rest/settings/get').get(function(data) {
-			s.settings = data;
-			if (callback) {
-				callback(data);
-			}
-		});
-	};
-	s.init();
-	return s;
-});
-
 module.factory('AdminUsersService', function($resource) {
-	var actions = {
-		get : {
-			method : 'GET',
-			params : {
-				_method : 'get'
-			}
-		},
-		getAll : {
-			method : 'GET',
-			params : {
-				_method : 'getAll'
-			},
-			isArray : true
-		},
-		save : {
-			method : 'POST',
-			params : {
-				_method : 'save'
-			}
-		},
-		remove : {
-			method : 'POST',
-			params : {
-				_method : 'delete'
-			}
-		}
-	};
-	var res = $resource('rest/admin/user/:_method', {}, actions);
+	var res = {};
+	res.get = $resource('rest/admin/user/get/:id').get;
+	res.getAll = $resource('rest/admin/user/getAll').query;
+	res.save = $resource('rest/admin/user/save').save;
+	res.remove = $resource('rest/admin/user/delete').save;
 	return res;
 });
 
 module.factory('AdminSettingsService', function($resource) {
-	var actions = {
-		get : {
-			method : 'GET',
-			params : {
-				_method : 'get'
-			}
-		},
-		save : {
-			method : 'POST',
-			params : {
-				_method : 'save'
-			}
-		}
-	};
-	var res = $resource('rest/admin/settings/:_method', {}, actions);
+	var res = $resource('rest/admin/settings/');
 	return res;
 });

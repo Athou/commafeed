@@ -1,4 +1,4 @@
-package com.commafeed.frontend.model;
+package com.commafeed.frontend.model.request;
 
 import java.io.Serializable;
 
@@ -13,7 +13,7 @@ import com.wordnik.swagger.annotations.ApiProperty;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @ApiClass("Subscription request")
-public class SubscriptionRequest implements Serializable {
+public class SubscribeRequest implements Serializable {
 
 	@ApiProperty(value = "url of the feed", required = true)
 	private String url;

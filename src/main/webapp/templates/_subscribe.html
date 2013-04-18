@@ -34,7 +34,7 @@
 					<label class="control-label">Category</label>
 					<div class="controls">
 						<select name="category" ng-model="sub.categoryId" class="input-block-level" required>
-							<option ng-repeat="cat in SubscriptionService.flatCategories" value="{{cat.id}}">{{cat.name}}</option>
+							<option ng-repeat="cat in CategoryService.flatCategories" value="{{cat.id}}">{{cat.name}}</option>
 						</select>
 						<span class="help-block" ng-show="!subscribeForm.category.$valid">Required</span>
 					</div>
@@ -51,7 +51,7 @@
 			<button type="button" class="close" ng-click="closeImport()">&times;</button>
 			<h4>Import</h4>
 		</div>
-		<form ng-upload class="form-horizontal" action="rest/subscriptions/import">
+		<form ng-upload class="form-horizontal" action="rest/feed/import">
 			<div class="modal-body">
 				<div class="control-group">
 					<div>Let me import your feeds from your 
@@ -93,7 +93,7 @@
 					<label class="control-label">Parent</label>
 					<div class="controls">
 						<select name="category" ng-model="cat.parentId" class="input-block-level" required>
-							<option ng-repeat="cat in SubscriptionService.flatCategories" value="{{cat.id}}">{{cat.name}}</option>
+							<option ng-repeat="cat in CategoryService.flatCategories" value="{{cat.id}}">{{cat.name}}</option>
 						</select>
 						<span class="help-block" ng-show="!categoryForm.category.$valid">Required</span>
 					</div>

@@ -6,23 +6,30 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.commafeed.backend.model.User;
+import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserSettings;
+import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.model.Settings;
+import com.commafeed.frontend.model.UserModel;
+import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.google.common.base.Preconditions;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
-@Path("/settings")
-@Api(value = "/settings", description = "Operations about user settings")
-public class SettingsREST extends AbstractResourceREST {
+@Path("/user")
+@Api(value = "/user", description = "Operations about the user")
+public class UserREST extends AbstractResourceREST {
 
-	@Path("/get")
+	@Path("/settings")
 	@GET
 	@ApiOperation(value = "Retrieve user settings", notes = "Retrieve user settings", responseClass = "com.commafeed.frontend.model.Settings")
-	public Settings get() {
+	public Settings getSettings() {
 		Settings s = new Settings();
 		UserSettings settings = userSettingsDAO.findByUser(getUser());
 		if (settings != null) {
@@ -38,10 +45,10 @@ public class SettingsREST extends AbstractResourceREST {
 		return s;
 	}
 
-	@Path("/save")
+	@Path("/settings")
 	@POST
 	@ApiOperation(value = "Save user settings", notes = "Save user settings")
-	public Response save(@ApiParam Settings settings) {
+	public Response saveSettings(@ApiParam Settings settings) {
 		Preconditions.checkNotNull(settings);
 
 		UserSettings s = userSettingsDAO.findByUser(getUser());
@@ -56,5 +63,39 @@ public class SettingsREST extends AbstractResourceREST {
 		userSettingsDAO.saveOrUpdate(s);
 		return Response.ok(Status.OK).build();
 
+	}
+	
+	@Path("/profile")
+	@GET
+	@ApiOperation(value = "Retrieve user's profile", responseClass = "com.commafeed.frontend.model.UserModel")
+	public UserModel get() {
+		User user = getUser();
+		UserModel userModel = new UserModel();
+		userModel.setId(user.getId());
+		userModel.setName(user.getName());
+		userModel.setEmail(user.getEmail());
+		userModel.setEnabled(!user.isDisabled());
+		for (UserRole role : userRoleDAO.findAll(user)) {
+			if (role.getRole() == Role.ADMIN) {
+				userModel.setAdmin(true);
+			}
+		}
+		return userModel;
+	}
+
+	@Path("/profile")
+	@POST
+	@ApiOperation(value = "Save user's profile")
+	public Response save(
+			@ApiParam(required = true) ProfileModificationRequest request) {
+		User user = getUser();
+		user.setEmail(request.getEmail());
+		if (StringUtils.isNotBlank(request.getPassword())) {
+			byte[] password = encryptionService.getEncryptedPassword(
+					request.getPassword(), user.getSalt());
+			user.setPassword(password);
+		}
+		userDAO.update(user);
+		return Response.ok().build();
 	}
 }

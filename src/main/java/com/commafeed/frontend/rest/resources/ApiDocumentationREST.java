@@ -7,6 +7,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import com.commafeed.frontend.model.Entries;
+import com.commafeed.frontend.model.request.MarkRequest;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.core.Documentation;
@@ -25,6 +26,7 @@ public class ApiDocumentationREST extends AbstractREST {
 	public Response getAllApis(@Context Application app) {
 
 		TypeUtil.addAllowablePackage(Entries.class.getPackage().getName());
+		TypeUtil.addAllowablePackage(MarkRequest.class.getPackage().getName());
 
 		Documentation doc = new Documentation();
 		for (Class<?> resource : app.getClasses()) {

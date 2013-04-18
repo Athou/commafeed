@@ -26,7 +26,7 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.UserService;
 import com.commafeed.frontend.CommaFeedSession;
-import com.commafeed.frontend.model.RegistrationRequest;
+import com.commafeed.frontend.model.request.RegistrationRequest;
 import com.commafeed.frontend.pages.GoogleImportRedirectPage;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 

@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryStatus;
 import com.wordnik.swagger.annotations.ApiClass;
 import com.wordnik.swagger.annotations.ApiProperty;
 
@@ -16,39 +18,61 @@ import com.wordnik.swagger.annotations.ApiProperty;
 @ApiClass("Entry details")
 public class Entry implements Serializable {
 
+	public static Entry build(FeedEntryStatus status) {
+		Entry entry = new Entry();
+
+		FeedEntry feedEntry = status.getEntry();
+		entry.setId(String.valueOf(status.getId()));
+		entry.setTitle(feedEntry.getContent().getTitle());
+		entry.setContent(feedEntry.getContent().getContent());
+		entry.setEnclosureUrl(status.getEntry().getContent().getEnclosureUrl());
+		entry.setEnclosureType(status.getEntry().getContent()
+				.getEnclosureType());
+		entry.setDate(feedEntry.getUpdated());
+		entry.setUrl(feedEntry.getUrl());
+
+		entry.setRead(status.isRead());
+
+		entry.setFeedName(status.getSubscription().getTitle());
+		entry.setFeedId(String.valueOf(status.getSubscription().getId()));
+		entry.setFeedUrl(status.getSubscription().getFeed().getLink());
+
+		return entry;
+	}
+
 	@ApiProperty("entry id")
 	private String id;
-	
+
 	@ApiProperty("entry title")
 	private String title;
-	
+
 	@ApiProperty("entry content")
 	private String content;
-	
+
 	@ApiProperty("entry enclosure url, if any")
 	private String enclosureUrl;
-	
+
 	@ApiProperty("entry enclosure mime type, if any")
 	private String enclosureType;
-	
+
 	@ApiProperty("entry publication date")
 	private Date date;
-	
+
 	@ApiProperty("feed id")
 	private String feedId;
-	
+
 	@ApiProperty("feed name")
 	private String feedName;
-	
+
 	@ApiProperty("feed url")
 	private String feedUrl;
-	
+
 	@ApiProperty("entry url")
 	private String url;
-	
+
 	@ApiProperty("read sttaus")
 	private boolean read;
-	
+
 	@ApiProperty("starred status")
 	private boolean starred;
 

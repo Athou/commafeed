@@ -86,7 +86,7 @@ module.directive('category', function($compile) {
 		restrict : 'E',
 		replace : true,
 		templateUrl : 'directives/category.html',
-		controller : function($scope, $dialog, SubscriptionService,
+		controller : function($scope, $dialog, FeedService, CategoryService,
 				SettingsService) {
 			$scope.settingsService = SettingsService;
 			$scope.unsubscribe = function(subscription) {
@@ -104,8 +104,12 @@ module.directive('category', function($compile) {
 				$dialog.messageBox(title, msg, btns).open().then(
 						function(result) {
 							if (result == 'ok') {
-								SubscriptionService
-										.unsubscribe(subscription.id);
+								var data = {
+									id : subscription.id
+								};
+								FeedService.unsubscribe(data, function() {
+									CategoryService.init();
+								});
 							}
 						});
 			};
@@ -114,7 +118,7 @@ module.directive('category', function($compile) {
 				var name = window.prompt('Rename feed : ', feed.name);
 				if (name && name != feed.name) {
 					feed.name = name;
-					SubscriptionService.rename({
+					FeedService.rename({
 						id : feed.id,
 						name : name
 					});
@@ -125,7 +129,7 @@ module.directive('category', function($compile) {
 				var name = window.prompt('Rename category: ', category.name);
 				if (name && name != category.name) {
 					category.name = name;
-					SubscriptionService.renameCategory({
+					CategoryService.rename({
 						id : category.id,
 						name : name
 					});
@@ -147,10 +151,10 @@ module.directive('category', function($compile) {
 				$dialog.messageBox(title, msg, btns).open().then(
 						function(result) {
 							if (result == 'ok') {
-								SubscriptionService.deleteCategory({
+								CategoryService.remove({
 									id : category.id
 								}, function() {
-									SubscriptionService.init();
+									CategoryService.init();
 								});
 							}
 						});
@@ -158,7 +162,10 @@ module.directive('category', function($compile) {
 
 			$scope.toggleCategory = function(category) {
 				category.expanded = !category.expanded;
-				SubscriptionService.collapse({
+				if (category.id == 'all') {
+					return;
+				}
+				CategoryService.collapse({
 					id : category.id,
 					collapse : !category.expanded
 				});

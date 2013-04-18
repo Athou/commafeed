@@ -1,4 +1,4 @@
-package com.commafeed.frontend.model;
+package com.commafeed.frontend.model.request;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.Entries;
+import com.commafeed.frontend.model.request.MarkRequest;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.core.Documentation;
@@ -31,6 +32,8 @@ public abstract class AbstractResourceREST extends AbstractREST {
 			@Context HttpHeaders headers, @Context UriInfo uriInfo) {
 
 		TypeUtil.addAllowablePackage(Entries.class.getPackage().getName());
+		TypeUtil.addAllowablePackage(MarkRequest.class.getPackage().getName());
+		
 		String apiVersion = ApiDocumentationREST.API_VERSION;
 		String swaggerVersion = SwaggerSpec.version();
 		String basePath = ApiDocumentationREST

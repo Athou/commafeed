@@ -7,7 +7,7 @@ import java.util.Set;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -21,6 +21,7 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
+import com.commafeed.frontend.model.request.IDRequest;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -35,7 +36,7 @@ public class AdminREST extends AbstractResourceREST {
 
 	@Path("/user/save")
 	@POST
-	@ApiOperation(value = "Manually save or update a user", notes = "Manually save or update a user. If the id is not specified, a new user will be created")
+	@ApiOperation(value = "Save or update a user", notes = "Save or update a user. If the id is not specified, a new user will be created")
 	public Response save(@ApiParam(required = true) UserModel userModel) {
 		Preconditions.checkNotNull(userModel);
 		Preconditions.checkNotNull(userModel.getName());
@@ -92,11 +93,11 @@ public class AdminREST extends AbstractResourceREST {
 
 	}
 
-	@Path("/user/get")
+	@Path("/user/get/{id}")
 	@GET
 	@ApiOperation(value = "Get user information", notes = "Get user information", responseClass = "com.commafeed.frontend.model.UserModel")
 	public UserModel getUser(
-			@ApiParam(value = "user id", required = true) @QueryParam("id") Long id) {
+			@ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
 		Preconditions.checkNotNull(id);
 		User user = userDAO.findById(id);
 		UserModel userModel = new UserModel();
@@ -137,11 +138,11 @@ public class AdminREST extends AbstractResourceREST {
 	@Path("/user/delete")
 	@POST
 	@ApiOperation(value = "Delete a user", notes = "Delete a user, and all his subscriptions")
-	public Response delete(
-			@ApiParam(value = "user id", required = true) @QueryParam("id") Long id) {
-		Preconditions.checkNotNull(id);
+	public Response delete(@ApiParam(required = true) IDRequest req) {
+		Preconditions.checkNotNull(req);
+		Preconditions.checkNotNull(req.getId());
 
-		User user = userDAO.findById(id);
+		User user = userDAO.findById(req.getId());
 		if (user == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -159,24 +160,24 @@ public class AdminREST extends AbstractResourceREST {
 
 		return Response.ok().build();
 	}
-	
-	@Path("/settings/get")
+
+	@Path("/settings")
 	@GET
 	@ApiOperation(value = "Retrieve application settings", notes = "Retrieve application settings", responseClass = "com.commafeed.backend.model.ApplicationSettings")
 	public ApplicationSettings getSettings() {
 		return applicationSettingsService.get();
 	}
 
-	@Path("/settings/save")
+	@Path("/settings")
 	@POST
 	@ApiOperation(value = "Save application settings", notes = "Save application settings")
-	public void saveSettings(@ApiParam(required = true) ApplicationSettings settings) {
+	public void saveSettings(
+			@ApiParam(required = true) ApplicationSettings settings) {
 		Preconditions.checkNotNull(settings);
 		applicationSettingsService.save(settings);
 	}
-	
 
-	@Path("/metrics/get")
+	@Path("/metrics")
 	@GET
 	public int[] getMetrics() {
 		return new int[] { metricsBean.getFeedsRefreshedLastMinute(),

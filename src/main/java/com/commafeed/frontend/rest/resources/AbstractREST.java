@@ -37,6 +37,7 @@ import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.services.ApplicationSettingsService;
+import com.commafeed.backend.services.FeedEntryService;
 import com.commafeed.backend.services.FeedSubscriptionService;
 import com.commafeed.backend.services.PasswordEncryptionService;
 import com.commafeed.backend.services.UserService;
@@ -46,7 +47,7 @@ import com.commafeed.frontend.SecurityCheck;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class AbstractREST {
+public abstract class AbstractREST {
 	@Context
 	HttpServletRequest request;
 
@@ -73,6 +74,9 @@ public class AbstractREST {
 
 	@Inject
 	FeedEntryStatusDAO feedEntryStatusDAO;
+	
+	@Inject
+	FeedEntryService feedEntryService;
 
 	@Inject
 	UserDAO userDAO;

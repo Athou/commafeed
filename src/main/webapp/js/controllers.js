@@ -16,7 +16,8 @@ module.run(function($rootScope) {
 	});
 });
 
-module.controller('SubscribeCtrl', function($scope, SubscriptionService) {
+module.controller('SubscribeCtrl', function($scope, FeedService,
+		CategoryService) {
 
 	$scope.opts = {
 		backdropFade : true,
@@ -27,7 +28,7 @@ module.controller('SubscribeCtrl', function($scope, SubscriptionService) {
 	$scope.isOpenImport = false;
 	$scope.sub = {};
 
-	$scope.SubscriptionService = SubscriptionService;
+	$scope.CategoryService = CategoryService;
 
 	$scope.open = function() {
 		$scope.sub = {};
@@ -42,7 +43,7 @@ module.controller('SubscribeCtrl', function($scope, SubscriptionService) {
 		var msg = 'Loading...';
 		if ($scope.sub.url && (!$scope.sub.title || $scope.sub.title == msg)) {
 			$scope.sub.title = msg;
-			SubscriptionService.fetch({
+			FeedService.fetch({
 				url : $scope.sub.url
 			}, function(data) {
 				$scope.sub.title = data.title;
@@ -52,7 +53,9 @@ module.controller('SubscribeCtrl', function($scope, SubscriptionService) {
 	};
 
 	$scope.save = function() {
-		SubscriptionService.subscribe($scope.sub);
+		FeedService.subscribe($scope.sub, function() {
+			CategoryService.init();
+		});
 		$scope.close();
 	};
 
@@ -65,7 +68,7 @@ module.controller('SubscribeCtrl', function($scope, SubscriptionService) {
 	};
 
 	$scope.uploadComplete = function(contents, completed) {
-		SubscriptionService.init();
+		CategoryService.init();
 		$scope.closeImport();
 	};
 
@@ -81,13 +84,13 @@ module.controller('SubscribeCtrl', function($scope, SubscriptionService) {
 	};
 
 	$scope.saveCategory = function() {
-		SubscriptionService.addCategory($scope.cat);
+		CategoryService.add($scope.cat);
 		$scope.closeCategory();
 	};
 });
 
 module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
-		$window, $location, $state, $route, SubscriptionService) {
+		$window, $location, $state, $route, CategoryService) {
 
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;
@@ -98,12 +101,12 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 	});
 
 	$timeout(function refreshTree() {
-		SubscriptionService.init(function() {
+		CategoryService.init(function() {
 			$timeout(refreshTree, 15000);
 		});
 	}, 15000);
 
-	$scope.SubscriptionService = SubscriptionService;
+	$scope.CategoryService = CategoryService;
 
 	$scope.unreadCount = function(category) {
 		var count = 0;
@@ -123,7 +126,7 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 	};
 
 	var rootUnreadCount = function() {
-		return $scope.unreadCount($scope.SubscriptionService.subscriptions);
+		return $scope.unreadCount($scope.CategoryService.subscriptions);
 	};
 
 	$scope.$watch(rootUnreadCount, function(value) {
@@ -192,20 +195,19 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 	};
 
 	$scope.$on('mark', function(event, args) {
-		mark($scope.SubscriptionService.subscriptions, args.entry);
+		mark($scope.CategoryService.subscriptions, args.entry);
 	});
 });
 
 module.controller('ToolbarCtrl',
 		function($scope, $http, $state, $stateParams, $route, $location,
-				SettingsService, EntryService, SubscriptionService,
-				SessionService) {
+				SettingsService, EntryService, ProfileService) {
 
 			function totalActiveAjaxRequests() {
 				return ($http.pendingRequests.length + $.active);
 			}
 
-			$scope.session = SessionService.get();
+			$scope.session = ProfileService.get();
 
 			$scope.loading = true;
 			$scope.$watch(totalActiveAjaxRequests, function() {
@@ -271,7 +273,7 @@ module.controller('ToolbarCtrl',
 		});
 
 module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
-		$window, EntryService, SettingsService, SubscriptionService) {
+		$window, EntryService, SettingsService, FeedService, CategoryService) {
 
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;
@@ -327,8 +329,9 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			$scope.hasMore = data.entries.length == limit;
 		};
 		if (!$scope.keywords) {
-			EntryService.get({
-				type : $scope.selectedType,
+			var service = $scope.selectedType == 'feed' ? FeedService
+					: CategoryService;
+			service.entries({
 				id : $scope.selectedId,
 				readType : $scope.settingsService.settings.readingMode,
 				order : $scope.settingsService.settings.readingOrder,
@@ -351,7 +354,6 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 				entry : entry
 			});
 			EntryService.mark({
-				type : 'entry',
 				id : entry.id,
 				read : read
 			});
@@ -442,13 +444,14 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 	});
 
 	$scope.$on('markAll', function(event, args) {
-		EntryService.mark({
-			type : $scope.selectedType,
+		var service = $scope.selectedType == 'feed' ? FeedService
+				: CategoryService;
+		service.mark({
 			id : $scope.selectedId,
 			olderThan : $scope.timestamp,
 			read : true
 		}, function() {
-			SubscriptionService.init(function() {
+			CategoryService.init(function() {
 				$scope.$emit('emitReload');
 			});
 		});
@@ -559,8 +562,8 @@ module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
 	};
 });
 
-module.controller('ProfileCtrl', function($scope, $location, SessionService) {
-	$scope.user = SessionService.get();
+module.controller('ProfileCtrl', function($scope, $location, ProfileService) {
+	$scope.user = ProfileService.get();
 
 	$scope.cancel = function() {
 		$location.path('/');
@@ -574,7 +577,7 @@ module.controller('ProfileCtrl', function($scope, $location, SessionService) {
 			password : $scope.user.password
 		};
 
-		SessionService.save(o, function() {
+		ProfileService.save(o, function() {
 			$location.path('/');
 		});
 

@@ -384,7 +384,7 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 			event.preventDefault();
 			event.stopPropagation();
 		}
-	}
+	};
 
 	var openNextEntry = function(event) {
 		var entry = null;

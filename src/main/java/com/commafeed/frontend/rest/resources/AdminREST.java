@@ -33,7 +33,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 @Api(value = "/admin", description = "Operations about application administration")
 public class AdminREST extends AbstractResourceREST {
 
-	@Path("/users/save")
+	@Path("/user/save")
 	@POST
 	@ApiOperation(value = "Manually save or update a user", notes = "Manually save or update a user. If the id is not specified, a new user will be created")
 	public Response save(@ApiParam(required = true) UserModel userModel) {
@@ -92,7 +92,7 @@ public class AdminREST extends AbstractResourceREST {
 
 	}
 
-	@Path("/users/get")
+	@Path("/user/get")
 	@GET
 	@ApiOperation(value = "Get user information", notes = "Get user information", responseClass = "com.commafeed.frontend.model.UserModel")
 	public UserModel getUser(
@@ -111,7 +111,7 @@ public class AdminREST extends AbstractResourceREST {
 		return userModel;
 	}
 
-	@Path("/users/getAll")
+	@Path("/user/getAll")
 	@GET
 	@ApiOperation(value = "Get all users", notes = "Get all users", responseClass = "List[com.commafeed.frontend.model.UserModel]")
 	public Collection<UserModel> getUsers() {
@@ -134,7 +134,7 @@ public class AdminREST extends AbstractResourceREST {
 		return users.values();
 	}
 
-	@Path("/users/delete")
+	@Path("/user/delete")
 	@POST
 	@ApiOperation(value = "Delete a user", notes = "Delete a user, and all his subscriptions")
 	public Response delete(

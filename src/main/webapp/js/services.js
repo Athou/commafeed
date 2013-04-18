@@ -228,7 +228,7 @@ module.factory('AdminUsersService', function($resource) {
 			}
 		}
 	};
-	var res = $resource('rest/admin/users/:_method', {}, actions);
+	var res = $resource('rest/admin/user/:_method', {}, actions);
 	return res;
 });
 

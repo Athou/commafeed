@@ -82,10 +82,12 @@ public class FeedRefreshWorker {
 		Date disabledUntil = null;
 
 		Feed fetchedFeed = null;
+		boolean modified = true;
 		try {
 			fetchedFeed = fetcher.fetch(feed.getUrl(), false,
 					feed.getLastModifiedHeader(), feed.getEtagHeader());
 		} catch (NotModifiedException e) {
+			modified = false;
 			log.debug("Feed not modified (304) : " + feed.getUrl());
 		} catch (Exception e) {
 			message = "Unable to refresh feed " + feed.getUrl() + " : "
@@ -104,8 +106,13 @@ public class FeedRefreshWorker {
 			}
 		}
 
-		feed.setMessage(message);
+		if (modified == false && feed.getErrorCount() == 0) {
+			// not modified
+			return;
+		}
+
 		feed.setErrorCount(errorCount);
+		feed.setMessage(message);
 		feed.setDisabledUntil(disabledUntil);
 
 		if (fetchedFeed != null) {

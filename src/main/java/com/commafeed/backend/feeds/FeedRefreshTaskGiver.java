@@ -40,7 +40,7 @@ public class FeedRefreshTaskGiver {
 	public Feed take() {
 		if (queue.peek() == null) {
 			List<Feed> feeds = feedDAO
-					.findNextUpdatable(30 * applicationSettingsService.get()
+					.findNextUpdatable(50 * applicationSettingsService.get()
 							.getBackgroundThreads());
 			for (Feed feed : feeds) {
 				queue.add(feed);

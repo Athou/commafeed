@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
@@ -142,7 +143,7 @@ public class EntriesREST extends AbstractResourceREST {
 	}
 
 	@Path("/entry/mark")
-	@GET
+	@POST
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
 	public Response markFeedEntry(
 			@ApiParam(value = "entry id", required = true) @QueryParam("id") String id,
@@ -159,7 +160,7 @@ public class EntriesREST extends AbstractResourceREST {
 	}
 
 	@Path("/feed/mark")
-	@GET
+	@POST
 	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read")
 	public Response markFeedEntries(
 			@ApiParam(value = "feed id", required = true) @QueryParam("id") String id,
@@ -178,7 +179,7 @@ public class EntriesREST extends AbstractResourceREST {
 	}
 
 	@Path("/category/mark")
-	@GET
+	@POST
 	@ApiOperation(value = "Mark category entries", notes = "Mark feed entries as read")
 	public Response markCategoryEntries(
 			@ApiParam(value = "category id, or 'all'", required = true) @QueryParam("id") String id,

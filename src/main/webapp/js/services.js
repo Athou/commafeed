@@ -54,42 +54,42 @@ module.factory('SubscriptionService', function($resource, $http) {
 			}
 		},
 		unsubscribe : {
-			method : 'GET',
+			method : 'POST',
 			params : {
 				_type : 'feed',
 				_method : 'unsubscribe'
 			}
 		},
 		rename : {
-			method : 'GET',
+			method : 'POST',
 			params : {
 				_type : 'feed',
 				_method : 'rename'
 			}
 		},
 		collapse : {
-			method : 'GET',
+			method : 'POST',
 			params : {
 				_type : 'category',
 				_method : 'collapse'
 			}
 		},
 		addCategory : {
-			method : 'GET',
+			method : 'POST',
 			params : {
 				_type : 'category',
 				_method : 'add'
 			}
 		},
 		deleteCategory : {
-			method : 'GET',
+			method : 'POST',
 			params : {
 				_type : 'category',
 				_method : 'delete'
 			}
 		},
 		renameCategory : {
-			method : 'GET',
+			method : 'POST',
 			params : {
 				_type : 'category',
 				_method : 'rename'
@@ -167,7 +167,7 @@ module.factory('EntryService', function($resource, $http) {
 			}
 		},
 		mark : {
-			method : 'GET',
+			method : 'POST',
 			params : {
 				_method : 'mark'
 			}
@@ -222,7 +222,7 @@ module.factory('AdminUsersService', function($resource) {
 			}
 		},
 		remove : {
-			method : 'GET',
+			method : 'POST',
 			params : {
 				_method : 'delete'
 			}

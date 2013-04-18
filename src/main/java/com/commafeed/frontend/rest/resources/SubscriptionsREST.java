@@ -85,7 +85,7 @@ public class SubscriptionsREST extends AbstractResourceREST {
 		return url;
 	}
 
-	@GET
+	@POST
 	@Path("/feed/unsubscribe")
 	@ApiOperation(value = "Unsubscribe to a feed", notes = "Unsubscribe to a feed")
 	public Response unsubscribe(
@@ -100,7 +100,7 @@ public class SubscriptionsREST extends AbstractResourceREST {
 		}
 	}
 
-	@GET
+	@POST
 	@Path("/feed/rename")
 	@ApiOperation(value = "Rename a subscription", notes = "Rename a feed subscription")
 	public Response rename(
@@ -115,7 +115,7 @@ public class SubscriptionsREST extends AbstractResourceREST {
 	}
 
 	@Path("/category/add")
-	@GET
+	@POST
 	@ApiOperation(value = "Add a category", notes = "Add a new feed category")
 	public Response addCategory(
 			@ApiParam(value = "new name", required = true) @QueryParam("name") String name,
@@ -134,7 +134,7 @@ public class SubscriptionsREST extends AbstractResourceREST {
 		return Response.ok().build();
 	}
 
-	@GET
+	@POST
 	@Path("/category/delete")
 	@ApiOperation(value = "Delete a category", notes = "Delete an existing feed category")
 	public Response deleteCategory(
@@ -154,7 +154,7 @@ public class SubscriptionsREST extends AbstractResourceREST {
 		}
 	}
 
-	@GET
+	@POST
 	@Path("/category/rename")
 	@ApiOperation(value = "Rename a category", notes = "Rename an existing feed category")
 	public Response renameCategory(
@@ -168,7 +168,7 @@ public class SubscriptionsREST extends AbstractResourceREST {
 		return Response.ok(Status.OK).build();
 	}
 
-	@GET
+	@POST
 	@Path("/category/collapse")
 	@ApiOperation(value = "Collapse a category", notes = "Save collapsed or expanded status for a category")
 	public Response collapse(

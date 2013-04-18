@@ -135,7 +135,7 @@ public class AdminREST extends AbstractResourceREST {
 	}
 
 	@Path("/users/delete")
-	@GET
+	@POST
 	@ApiOperation(value = "Delete a user", notes = "Delete a user, and all his subscriptions")
 	public Response delete(
 			@ApiParam(value = "user id", required = true) @QueryParam("id") Long id) {

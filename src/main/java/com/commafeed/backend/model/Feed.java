@@ -81,7 +81,7 @@ public class Feed extends AbstractModel {
 	@Column(length = 64)
 	private String lastModifiedHeader;
 
-	@Column(length = 128)
+	@Column(length = 255)
 	private String etagHeader;
 
 	@ManyToMany(mappedBy = "feeds")

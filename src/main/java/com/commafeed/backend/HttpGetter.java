@@ -14,6 +14,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
@@ -51,6 +52,9 @@ public class HttpGetter {
 		HttpProtocolParams.setContentCharset(params, "UTF-8");
 		HttpConnectionParams.setConnectionTimeout(params, 4000);
 		HttpConnectionParams.setSoTimeout(params, 4000);
+		httpclient
+				.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(
+						0, false));
 
 		try {
 			HttpGet httpget = new HttpGet(url);
@@ -78,26 +82,26 @@ public class HttpGetter {
 			Header lastModifiedHeader = response
 					.getFirstHeader(HttpHeaders.LAST_MODIFIED);
 			Header eTagHeader = response.getFirstHeader(HttpHeaders.ETAG);
-			HttpEntity entity = response.getEntity();
 
 			String lastModifiedResponse = lastModifiedHeader == null ? null
 					: lastModifiedHeader.getValue();
-			String eTagResponse = eTagHeader == null ? null : eTagHeader
-					.getValue();
-
 			if (lastModified != null
 					&& StringUtils.equals(lastModified, lastModifiedResponse)) {
 				throw new NotModifiedException();
 			}
 
+			String eTagResponse = eTagHeader == null ? null : eTagHeader
+					.getValue();
 			if (eTag != null && StringUtils.equals(eTag, eTagResponse)) {
 				throw new NotModifiedException();
 			}
 
+			HttpEntity entity = response.getEntity();
 			byte[] content = null;
 			if (entity != null) {
 				content = EntityUtils.toByteArray(entity);
 			}
+			
 			long duration = System.currentTimeMillis() - start;
 			result = new HttpResult(content, lastModifiedHeader == null ? null
 					: lastModifiedHeader.getValue(), eTagHeader == null ? null

@@ -43,6 +43,7 @@ public class HttpGetter {
 	public HttpResult getBinary(String url, String lastModified, String eTag)
 			throws ClientProtocolException, IOException, NotModifiedException {
 		HttpResult result = null;
+		long start = System.currentTimeMillis();
 
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		HttpParams params = httpclient.getParams();
@@ -97,9 +98,10 @@ public class HttpGetter {
 			if (entity != null) {
 				content = EntityUtils.toByteArray(entity);
 			}
+			long duration = System.currentTimeMillis() - start;
 			result = new HttpResult(content, lastModifiedHeader == null ? null
 					: lastModifiedHeader.getValue(), eTagHeader == null ? null
-					: eTagHeader.getValue());
+					: eTagHeader.getValue(), duration);
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}
@@ -111,11 +113,14 @@ public class HttpGetter {
 		private byte[] content;
 		private String lastModifiedSince;
 		private String eTag;
+		private long duration;
 
-		public HttpResult(byte[] content, String lastModifiedSince, String eTag) {
+		public HttpResult(byte[] content, String lastModifiedSince,
+				String eTag, long duration) {
 			this.content = content;
 			this.lastModifiedSince = lastModifiedSince;
 			this.eTag = eTag;
+			this.duration = duration;
 		}
 
 		public byte[] getContent() {
@@ -128,6 +133,10 @@ public class HttpGetter {
 
 		public String geteTag() {
 			return eTag;
+		}
+
+		public long getDuration() {
+			return duration;
 		}
 
 	}

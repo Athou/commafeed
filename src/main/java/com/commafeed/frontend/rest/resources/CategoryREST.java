@@ -26,6 +26,7 @@ import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.Subscription;
+import com.commafeed.frontend.model.request.AddCategoryRequest;
 import com.commafeed.frontend.model.request.CollapseRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
@@ -116,13 +117,14 @@ public class CategoryREST extends AbstractResourceREST {
 	@POST
 	@ApiOperation(value = "Add a category", notes = "Add a new feed category")
 	public Response addCategory(
-			@ApiParam(value = "new name", required = true) @QueryParam("name") String name,
-			@ApiParam(value = "parent category id, if any") @QueryParam("parentId") String parentId) {
-		Preconditions.checkNotNull(name);
+			@ApiParam(required = true) AddCategoryRequest req) {
+		Preconditions.checkNotNull(req);
+		Preconditions.checkNotNull(req.getName());
 
 		FeedCategory cat = new FeedCategory();
-		cat.setName(name);
+		cat.setName(req.getName());
 		cat.setUser(getUser());
+		String parentId = req.getParentId();
 		if (parentId != null && !ALL.equals(parentId)) {
 			FeedCategory parent = new FeedCategory();
 			parent.setId(Long.valueOf(parentId));

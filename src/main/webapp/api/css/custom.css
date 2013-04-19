@@ -1,0 +1,21 @@
+.signature-container .description span {
+	margin-left: 5px;
+}
+
+.signature-container .description .model-desc {
+	font-weight: bold;
+	color: #000;
+	font-size: 1.1em;
+}
+
+.signature-container .description .class-desc {
+	font-weight: bold;
+	color: #000;
+	font-size: 1.0em;
+	margin-left: 0px;
+}
+
+.signature-container .description ul {
+	margin-left: 20px;
+	list-style: disc;
+}

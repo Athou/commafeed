@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.xml.sax.InputSource;
@@ -38,7 +39,7 @@ public class FeedParser {
 
 		try {
 			InputSource source = new InputSource(new ByteArrayInputStream(xml));
-			if (new String(xml).split(SystemUtils.LINE_SEPARATOR)[0]
+			if (new String(ArrayUtils.subarray(xml, 0, 100)).split(SystemUtils.LINE_SEPARATOR)[0]
 					.toUpperCase().contains("ISO-8859-1")) {
 				// they probably use word, we need to handle curly quotes and
 				// other word special characters

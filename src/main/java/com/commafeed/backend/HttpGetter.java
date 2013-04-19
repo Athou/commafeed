@@ -1,6 +1,17 @@
 package com.commafeed.backend;
 
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.Header;
@@ -9,18 +20,42 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.params.HttpClientParams;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HttpGetter {
+
+	private static Logger log = LoggerFactory.getLogger(HttpGetter.class);
+
+	private static SSLContext SSL_CONTEXT = null;
+	static {
+		try {
+			SSL_CONTEXT = SSLContext.getInstance("TLS");
+			SSL_CONTEXT.init(new KeyManager[0],
+					new TrustManager[] { new DefaultTrustManager() },
+					new SecureRandom());
+		} catch (Exception e) {
+			log.error("Could not configure ssl context");
+		}
+	}
+
+	private static final X509HostnameVerifier VERIFIER = new DefaultHostnameVerifier();
 
 	public HttpResult getBinary(String url) throws ClientProtocolException,
 			IOException, NotModifiedException {
@@ -46,16 +81,7 @@ public class HttpGetter {
 		HttpResult result = null;
 		long start = System.currentTimeMillis();
 
-		DefaultHttpClient httpclient = new DefaultHttpClient();
-		HttpParams params = httpclient.getParams();
-		HttpClientParams.setCookiePolicy(params, CookiePolicy.IGNORE_COOKIES);
-		HttpProtocolParams.setContentCharset(params, "UTF-8");
-		HttpConnectionParams.setConnectionTimeout(params, 4000);
-		HttpConnectionParams.setSoTimeout(params, 4000);
-		httpclient
-				.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(
-						0, false));
-
+		HttpClient client = newClient();
 		try {
 			HttpGet httpget = new HttpGet(url);
 			httpget.addHeader("Pragma", "No-cache");
@@ -70,7 +96,7 @@ public class HttpGetter {
 
 			HttpResponse response = null;
 			try {
-				response = httpclient.execute(httpget);
+				response = client.execute(httpget);
 				if (response.getStatusLine().getStatusCode() == HttpStatus.SC_NOT_MODIFIED) {
 					throw new NotModifiedException();
 				}
@@ -101,13 +127,13 @@ public class HttpGetter {
 			if (entity != null) {
 				content = EntityUtils.toByteArray(entity);
 			}
-			
+
 			long duration = System.currentTimeMillis() - start;
 			result = new HttpResult(content, lastModifiedHeader == null ? null
 					: lastModifiedHeader.getValue(), eTagHeader == null ? null
 					: eTagHeader.getValue(), duration);
 		} finally {
-			httpclient.getConnectionManager().shutdown();
+			client.getConnectionManager().shutdown();
 		}
 		return result;
 	}
@@ -145,8 +171,66 @@ public class HttpGetter {
 
 	}
 
+	private static HttpClient newClient() {
+		DefaultHttpClient client = new DefaultHttpClient();
+
+		SSLSocketFactory ssf = new SSLSocketFactory(SSL_CONTEXT, VERIFIER);
+		ClientConnectionManager ccm = client.getConnectionManager();
+		SchemeRegistry sr = ccm.getSchemeRegistry();
+		sr.register(new Scheme("https", 443, ssf));
+
+		HttpParams params = client.getParams();
+		HttpClientParams.setCookiePolicy(params, CookiePolicy.IGNORE_COOKIES);
+		HttpProtocolParams.setContentCharset(params, "UTF-8");
+		HttpConnectionParams.setConnectionTimeout(params, 4000);
+		HttpConnectionParams.setSoTimeout(params, 4000);
+		client.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(0,
+				false));
+		return client;
+	}
+
 	public static class NotModifiedException extends Exception {
 		private static final long serialVersionUID = 1L;
 
 	}
+
+	private static class DefaultTrustManager implements X509TrustManager {
+		@Override
+		public void checkClientTrusted(X509Certificate[] arg0, String arg1)
+				throws CertificateException {
+		}
+
+		@Override
+		public void checkServerTrusted(X509Certificate[] arg0, String arg1)
+				throws CertificateException {
+		}
+
+		@Override
+		public X509Certificate[] getAcceptedIssuers() {
+			return null;
+		}
+	}
+
+	private static class DefaultHostnameVerifier implements
+			X509HostnameVerifier {
+
+		@Override
+		public void verify(String string, SSLSocket ssls) throws IOException {
+		}
+
+		@Override
+		public void verify(String string, X509Certificate xc)
+				throws SSLException {
+		}
+
+		@Override
+		public void verify(String string, String[] strings, String[] strings1)
+				throws SSLException {
+		}
+
+		@Override
+		public boolean verify(String string, SSLSession ssls) {
+			return true;
+		}
+	};
 }

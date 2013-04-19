@@ -1,6 +1,7 @@
 package com.commafeed.backend.dao;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -38,13 +39,13 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		em.persist(object);
 	}
 
-	public void save(List<T> objects) {
+	public void save(Collection<T> objects) {
 		for (Object object : objects) {
 			em.persist(object);
 		}
 	}
 
-	public void update(List<T> objects) {
+	public void update(Collection<T> objects) {
 		for (Object object : objects) {
 			em.merge(object);
 		}

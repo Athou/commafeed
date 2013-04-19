@@ -86,6 +86,13 @@ public class FeedRefreshWorker {
 		try {
 			fetchedFeed = fetcher.fetch(feed.getUrl(), false,
 					feed.getLastModifiedHeader(), feed.getEtagHeader());
+			if (fetchedFeed.getPublishedDate() != null
+					&& feed.getLastUpdateSuccess() != null
+					&& fetchedFeed.getPublishedDate().before(
+							feed.getLastUpdateSuccess())) {
+				throw new NotModifiedException();
+			}
+			feed.setLastUpdateSuccess(Calendar.getInstance().getTime());
 		} catch (NotModifiedException e) {
 			modified = false;
 			log.debug("Feed not modified (304) : " + feed.getUrl());

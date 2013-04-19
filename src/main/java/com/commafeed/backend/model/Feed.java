@@ -31,8 +31,24 @@ public class Feed extends AbstractModel {
 	@Index(name = "urlHash_index")
 	private String urlHash;
 
+	/**
+	 * title of the feed, used only when fetching, not stored
+	 */
 	@Transient
 	private String title;
+
+	/**
+	 * time it took to fetch the feed, used only when fetching, not stored
+	 */
+	@Transient
+	private long fetchDuration;
+
+	/**
+	 * extracted published date from the feed, used only when fetching, not
+	 * stored
+	 */
+	@Transient
+	private Date publishedDate;
 
 	/**
 	 * The url of the website, extracted from the feed
@@ -40,9 +56,18 @@ public class Feed extends AbstractModel {
 	@Column(length = 2048)
 	private String link;
 
+	/**
+	 * Last time we tried to fetch the feed
+	 */
 	@Temporal(TemporalType.TIMESTAMP)
 	@Index(name = "lastupdated_index")
 	private Date lastUpdated;
+
+	/**
+	 * Last time we successfully refreshed the feed
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastUpdateSuccess;
 
 	@Column(length = 1024)
 	private String message;
@@ -167,6 +192,30 @@ public class Feed extends AbstractModel {
 
 	public void setEtagHeader(String etagHeader) {
 		this.etagHeader = etagHeader;
+	}
+
+	public long getFetchDuration() {
+		return fetchDuration;
+	}
+
+	public void setFetchDuration(long fetchDuration) {
+		this.fetchDuration = fetchDuration;
+	}
+
+	public Date getPublishedDate() {
+		return publishedDate;
+	}
+
+	public void setPublishedDate(Date publishedDate) {
+		this.publishedDate = publishedDate;
+	}
+
+	public Date getLastUpdateSuccess() {
+		return lastUpdateSuccess;
+	}
+
+	public void setLastUpdateSuccess(Date lastUpdateSuccess) {
+		this.lastUpdateSuccess = lastUpdateSuccess;
 	}
 
 }

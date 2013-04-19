@@ -36,16 +36,18 @@ public class FeedFetcher {
 
 		HttpResult result = getter.getBinary(feedUrl, lastModified, eTag);
 		if (extractFeedUrlFromHtml) {
-			String extractedUrl = extractFeedUrl(StringUtils
-					.newStringUtf8(result.getContent()), feedUrl);
+			String extractedUrl = extractFeedUrl(
+					StringUtils.newStringUtf8(result.getContent()), feedUrl);
 			if (org.apache.commons.lang.StringUtils.isNotBlank(extractedUrl)) {
 				result = getter.getBinary(extractedUrl, lastModified, eTag);
 				feedUrl = extractedUrl;
 			}
 		}
 		feed = parser.parse(feedUrl, result.getContent());
+
 		feed.setLastModifiedHeader(result.getLastModifiedSince());
 		feed.setEtagHeader(result.geteTag());
+		feed.setFetchDuration(result.getDuration());
 		return feed;
 	}
 

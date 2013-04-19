@@ -39,8 +39,9 @@ public class FeedParser {
 
 		try {
 			InputSource source = new InputSource(new ByteArrayInputStream(xml));
-			if (new String(ArrayUtils.subarray(xml, 0, 100)).split(SystemUtils.LINE_SEPARATOR)[0]
-					.toUpperCase().contains("ISO-8859-1")) {
+			if (new String(ArrayUtils.subarray(xml, 0, 100))
+					.split(SystemUtils.LINE_SEPARATOR)[0].toUpperCase()
+					.contains("ISO-8859-1")) {
 				// they probably use word, we need to handle curly quotes and
 				// other word special characters
 				source.setEncoding("windows-1252");
@@ -70,6 +71,13 @@ public class FeedParser {
 
 				feed.getEntries().add(entry);
 			}
+			Date publishedDate = rss.getPublishedDate();
+			if (publishedDate == null && !feed.getEntries().isEmpty()) {
+				FeedEntry first = feed.getEntries().iterator().next();
+				publishedDate = first.getUpdated();
+			}
+			feed.setPublishedDate(publishedDate);
+
 		} catch (Exception e) {
 			throw new FeedException(String.format(
 					"Could not parse feed from %s : %s", feedUrl,

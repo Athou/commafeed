@@ -12,6 +12,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -22,6 +23,7 @@ import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.protocol.http.servlet.ServletWebResponse;
 import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.util.crypt.Base64;
 
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -48,6 +50,7 @@ import com.commafeed.frontend.SecurityCheck;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public abstract class AbstractREST {
+
 	@Context
 	HttpServletRequest request;
 
@@ -74,7 +77,7 @@ public abstract class AbstractREST {
 
 	@Inject
 	FeedEntryStatusDAO feedEntryStatusDAO;
-	
+
 	@Inject
 	FeedEntryService feedEntryService;
 
@@ -118,9 +121,18 @@ public abstract class AbstractREST {
 			String[] data = authenticationStrategy.load();
 			if (data != null && data.length > 1) {
 				session.signIn(data[0], data[1]);
+			} else {
+				String value = swreq.getHeader(HttpHeaders.AUTHORIZATION);
+				if (value != null && value.startsWith("Basic ")) {
+					value = value.substring(6);
+					String decoded = new String(Base64.decodeBase64(value));
+					data = decoded.split(":");
+					if (data != null && data.length > 1) {
+						session.signIn(data[0], data[1]);
+					}
+				}
 			}
 		}
-
 	}
 
 	protected User getUser() {
@@ -144,8 +156,18 @@ public abstract class AbstractREST {
 							SecurityCheck.class));
 		}
 		if (!allowed) {
-			throw new WebApplicationException(Response.status(Status.FORBIDDEN)
-					.entity("You are not authorized to do this.").build());
+			if (user == null) {
+				throw new WebApplicationException(Response
+						.status(Status.UNAUTHORIZED)
+						.entity("You are not authorized to do this.")
+						.header(HttpHeaders.WWW_AUTHENTICATE,
+								"Basic realm=\"CommaFeed\"").build());
+			} else {
+				throw new WebApplicationException(Response
+						.status(Status.FORBIDDEN)
+						.entity("You are not authorized to do this.").build());
+			}
+
 		}
 
 		return context.proceed();

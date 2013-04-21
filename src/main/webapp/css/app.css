@@ -32,6 +32,10 @@
 	background-color: #FFF;
 }
 
+.toolbar .donate {
+	display: inline-block;
+}
+
 .entryList {
 	padding-top: 50px;
 }

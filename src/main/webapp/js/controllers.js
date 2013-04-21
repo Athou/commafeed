@@ -270,6 +270,9 @@ module.controller('ToolbarCtrl',
 			$scope.toHelp = function() {
 				$state.transitionTo('feeds.help');
 			};
+			$scope.toDonate = function() {
+				$state.transitionTo('feeds.help');
+			};
 		});
 
 module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,

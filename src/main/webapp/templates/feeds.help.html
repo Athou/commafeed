@@ -5,6 +5,9 @@
 				<a href="#about" data-toggle="pill">About</a>
 			</li>
 			<li>
+				<a href="#api" data-toggle="pill">REST API</a>
+			</li>
+			<li>
 				<a href="#shortcuts" data-toggle="pill">Keyboard shortcuts</a>
 			</li>
 		</ul>
@@ -12,14 +15,26 @@
 	<div class="span10">
 		<div class="tab-content">
 			<div class="tab-pane active" id="about">
-				<h3>CommaFeed</h3>
+				<h3>About</h3>
 				<p>
 					CommaFeed is an open-source project. Sources are hosted on <a href="https://github.com/Athou/commafeed" target="_blank">GitHub</a>.
 				</p>
 				<p>
 					If you encounter an issue, please report it on the <a href="https://github.com/Athou/commafeed/issues" target="_blank">issues page</a> of the GitHub project.
 				</p>
+				<p>
+					If you like this project, please consider a small donation to support the developer and help cover the costs of keeping this website online.
+				</p>
+				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+					<input type="hidden" name="cmd" value="_s-xclick">
+					<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+					">
+					<input type="image" src="https://www.paypalobjects.com/en_US/BE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+					<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+				</form>
 				
+			</div>
+			<div class="tab-pane" id="api">
 				<h3>REST API</h3>
 				<p>
 					CommaFeed is built on top of JAX-RS and AngularJS. As such, a REST API is available.
@@ -29,6 +44,7 @@
 				</p>
 			</div>
 			<div class="tab-pane" id="shortcuts">
+				<h3>Keyboard Shortcuts</h3>
 				<dl class="dl-horizontal">
 					<dt>k, space</dt>
 					<dd>open next entry</dd>

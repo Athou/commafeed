@@ -110,7 +110,7 @@ public class FeedUpdateService {
 					"allowfullscreen", "frameborder");
 
 			content = Jsoup.clean(content, "", whitelist,
-					new OutputSettings().escapeMode(EscapeMode.extended));
+					new OutputSettings().escapeMode(EscapeMode.base));
 		}
 		return content;
 	}

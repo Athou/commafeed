@@ -13,7 +13,7 @@ public class FontAwesomeReference extends UrlResourceReference {
 
 	public FontAwesomeReference() {
 		super(
-				Url.parse("https://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css"));
+				Url.parse("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.0.2/css/font-awesome.min.css"));
 	}
 
 	public static void renderHead(final IHeaderResponse response) {

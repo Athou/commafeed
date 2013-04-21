@@ -19,7 +19,7 @@ public class BootstrapReference extends UrlResourceReference {
 
 	public BootstrapReference() {
 		super(
-				Url.parse("https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"));
+				Url.parse("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js"));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -29,9 +29,9 @@ public class BootstrapReference extends UrlResourceReference {
 				.asList(JavaScriptHeaderItem
 						.forReference(JQueryReference.INSTANCE),
 						CssHeaderItem.forReference(new UrlResourceReference(
-								Url.parse("https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.no-icons.min.css"))),
+								Url.parse("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/css/bootstrap.no-icons.min.css"))),
 						CssHeaderItem.forReference(new UrlResourceReference(
-								Url.parse("https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-responsive.min.css"))));
+								Url.parse("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/css/bootstrap-responsive.min.css"))));
 	}
 
 	public static void renderHead(final IHeaderResponse response) {

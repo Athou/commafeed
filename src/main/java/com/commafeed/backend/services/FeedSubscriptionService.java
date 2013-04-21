@@ -2,14 +2,9 @@ package com.commafeed.backend.services;
 
 import java.util.List;
 
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
-import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -21,11 +16,11 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.google.api.client.util.Lists;
 
-@Singleton
+@Stateless
 public class FeedSubscriptionService {
 
 	@Inject
-	FeedDAO feedDAO;
+	FeedService feedService;
 
 	@Inject
 	FeedEntryDAO feedEntryDAO;
@@ -36,17 +31,10 @@ public class FeedSubscriptionService {
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
 
-	@Lock(LockType.WRITE)
 	public Feed subscribe(User user, String url, String title,
 			FeedCategory category) {
 
-		Feed feed = feedDAO.findByUrl(url);
-		if (feed == null) {
-			feed = new Feed();
-			feed.setUrl(url);
-			feed.setUrlHash(DigestUtils.sha1Hex(url));
-			feedDAO.save(feed);
-		}
+		Feed feed = feedService.findOrCreate(url);
 
 		FeedSubscription sub = feedSubscriptionDAO.findByFeed(user, feed);
 		boolean newSubscription = false;

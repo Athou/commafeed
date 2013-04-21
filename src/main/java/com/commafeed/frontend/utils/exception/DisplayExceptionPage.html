@@ -1,34 +1,27 @@
 <!DOCTYPE html>
-<html lang="en"
-	xmlns:wicket="http://git-wip-us.apache.org/repos/asf/wicket/repo?p=wicket.git;a=blob_plain;f=wicket-core/src/main/resources/META-INF/wicket-1.5.xsd;hb=master">
-<head>
-<meta charset="utf-8">
-<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="vendor/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-<title>Error</title>
-</head>
-
+<html xmlns:wicket="http://wicket.apache.org">
 <body>
-	<div class="container">
-		<div class="page-header">
-			<h1>An unexpected error occured</h1>
+	<wicket:extend>
+		<div class="container">
+			<div class="page-header">
+				<h1>An unexpected error occured</h1>
+			</div>
+	
+			<div class="alert alert-error" style="cursor: pointer"
+				data-toggle="collapse" data-target="#stacktrace">
+				<ul class="feedbackPanel unstyled" style="margin-bottom: 0px;">
+					<li class="feedbackPanelERROR">
+						<span class="feedbackPanelERROR" wicket:id="message"></span>
+					</li>
+				</ul>
+			</div>
+	
+			Go back to the <a href="javascript:window.history.back()">previous page</a> or to the <a wicket:id="homepage">home page.</a>
+	
+			<div id="stacktrace" class="collapse">
+				<pre wicket:id="stacktrace"></pre>
+			</div>
 		</div>
-
-		<div class="alert alert-error" style="cursor: pointer"
-			data-toggle="collapse" data-target="#stacktrace">
-			<ul class="feedbackPanel unstyled" style="margin-bottom: 0px;">
-				<li class="feedbackPanelERROR">
-					<span class="feedbackPanelERROR" wicket:id="message"></span>
-				</li>
-			</ul>
-		</div>
-
-		Go back to the <a href="javascript:window.history.back()">previous page</a> or to the <a wicket:id="homepage">home page.</a>
-
-		<div id="stacktrace" class="collapse">
-			<pre wicket:id="stacktrace"></pre>
-		</div>
-	</div>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	</wicket:extend>
 </body>
 </html>

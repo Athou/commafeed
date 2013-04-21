@@ -4,13 +4,13 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
+import com.commafeed.frontend.pages.BasePage;
 import com.commafeed.frontend.references.bootstrap.BootstrapReference;
 
-public class DisplayExceptionPage extends WebPage {
+public class DisplayExceptionPage extends BasePage {
 
 	private static final long serialVersionUID = 1L;
 

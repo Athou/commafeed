@@ -102,10 +102,10 @@ public class FeedParser {
 
 	private Date validateDate(Date date) {
 		if (date == null) {
-			return null;
+			return new Date();
 		}
 		if (date.before(START) || date.after(END)) {
-			return null;
+			return new Date();
 		}
 		return date;
 	}

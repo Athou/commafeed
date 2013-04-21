@@ -35,6 +35,7 @@ import org.apache.wicket.util.cookies.CookieUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.frontend.pages.DemoLoginPage;
 import com.commafeed.frontend.pages.FaviconPage;
 import com.commafeed.frontend.pages.GoogleImportCallbackPage;
 import com.commafeed.frontend.pages.GoogleImportRedirectPage;
@@ -53,6 +54,7 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		super.init();
 
 		mountPage("welcome", WelcomePage.class);
+		mountPage("demo", DemoLoginPage.class);
 		mountPage("logout", LogoutPage.class);
 		mountPage("error", DisplayExceptionPage.class);
 		mountPage("favicon", FaviconPage.class);

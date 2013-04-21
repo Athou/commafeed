@@ -26,6 +26,9 @@ import com.sun.syndication.io.SyndFeedInput;
 
 public class FeedParser {
 
+	private static final Date START = new Date(0);
+	private static final Date END = new Date(Integer.MAX_VALUE);
+
 	private static final Function<SyndContent, String> CONTENT_TO_STRING = new Function<SyndContent, String>() {
 		public String apply(SyndContent content) {
 			return content.getValue();
@@ -56,7 +59,7 @@ public class FeedParser {
 				entry.setGuid(item.getUri());
 				entry.setGuidHash(DigestUtils.sha1Hex(item.getUri()));
 				entry.setUrl(item.getLink());
-				entry.setUpdated(getUpdateDate(item));
+				entry.setUpdated(validateDate(getUpdateDate(item)));
 
 				FeedEntryContent content = new FeedEntryContent();
 				content.setContent(getContent(item));
@@ -71,7 +74,7 @@ public class FeedParser {
 
 				feed.getEntries().add(entry);
 			}
-			Date publishedDate = rss.getPublishedDate();
+			Date publishedDate = validateDate(rss.getPublishedDate());
 			if (publishedDate == null && !feed.getEntries().isEmpty()) {
 				FeedEntry first = feed.getEntries().iterator().next();
 				publishedDate = first.getUpdated();
@@ -93,6 +96,16 @@ public class FeedParser {
 		}
 		if (date == null) {
 			date = new Date();
+		}
+		return date;
+	}
+
+	private Date validateDate(Date date) {
+		if (date == null) {
+			return null;
+		}
+		if (date.before(START) || date.after(END)) {
+			return null;
 		}
 		return date;
 	}

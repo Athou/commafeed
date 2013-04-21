@@ -431,22 +431,23 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 		}
 	};
 
-	Mousetrap.bind('space', function(e) {
-		$scope.$apply(function() {
-			openNextEntry(e);
-		});
-	});
+
 	Mousetrap.bind('j', function(e) {
 		$scope.$apply(function() {
 			openNextEntry(e);
 		});
 	});
-	Mousetrap.bind('shift+space', function(e) {
+	Mousetrap.bind('k', function(e) {
 		$scope.$apply(function() {
 			openPreviousEntry(e);
 		});
 	});
-	Mousetrap.bind('k', function(e) {
+	Mousetrap.bind('space', function(e) {
+		$scope.$apply(function() {
+			openNextEntry(e);
+		});
+	});
+	Mousetrap.bind('shift+space', function(e) {
 		$scope.$apply(function() {
 			openPreviousEntry(e);
 		});
@@ -474,6 +475,11 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 		if ($scope.current) {
 			window.open($scope.current.url);
 		}
+	});
+	Mousetrap.bind('?', function(e) {
+		$scope.$apply(function() {
+			$scope.shortcutsModal = true;
+		});
 	});
 
 	$scope.$on('markAll', function(event, args) {

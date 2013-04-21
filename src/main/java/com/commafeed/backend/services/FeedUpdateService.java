@@ -102,6 +102,7 @@ public class FeedUpdateService {
 
 	private String handleContent(String content) {
 		if (StringUtils.isNotBlank(content)) {
+			content = trimUnicodeSurrogateCharacters(content);
 			Whitelist whitelist = Whitelist.relaxed();
 			whitelist.addEnforcedAttribute("a", "target", "_blank");
 
@@ -113,5 +114,16 @@ public class FeedUpdateService {
 					new OutputSettings().escapeMode(EscapeMode.base));
 		}
 		return content;
+	}
+
+	private String trimUnicodeSurrogateCharacters(String text) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < text.length(); i++) {
+			char ch = text.charAt(i);
+			if (!Character.isHighSurrogate(ch) && !Character.isLowSurrogate(ch)) {
+				sb.append(ch);
+			}
+		}
+		return sb.toString();
 	}
 }

@@ -81,6 +81,9 @@ public class GoogleImportCallbackPage extends WebPage {
 			tokenRequest.setGrantType("authorization_code");
 
 			try {
+				// potential fix for invalid_grant error, happens if local
+				// system time is ahead of google servers time
+				Thread.sleep(1000);
 				TokenResponse tokenResponse = tokenRequest.execute();
 				String accessToken = tokenResponse.getAccessToken();
 

@@ -3,9 +3,13 @@ package com.commafeed.backend.feeds;
 import java.io.StringReader;
 import java.util.List;
 
+import javax.ejb.Asynchronous;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.model.FeedCategory;
@@ -13,10 +17,12 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.services.FeedSubscriptionService;
 import com.sun.syndication.feed.opml.Opml;
 import com.sun.syndication.feed.opml.Outline;
-import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.WireFeedInput;
 
+@Stateless
 public class OPMLImporter {
+
+	private static Logger log = LoggerFactory.getLogger(OPMLImporter.class);
 
 	@Inject
 	FeedSubscriptionService feedSubscriptionService;
@@ -25,14 +31,20 @@ public class OPMLImporter {
 	FeedCategoryDAO feedCategoryDAO;
 
 	@SuppressWarnings("unchecked")
-	public void importOpml(User user, String xml) throws FeedException {
+	@Asynchronous
+	public void importOpml(User user, String xml) {
 
 		WireFeedInput input = new WireFeedInput();
-		Opml feed = (Opml) input.build(new StringReader(xml));
-		List<Outline> outlines = (List<Outline>) feed.getOutlines();
-		for (Outline outline : outlines) {
-			handleOutline(user, outline, null);
+		try {
+			Opml feed = (Opml) input.build(new StringReader(xml));
+			List<Outline> outlines = (List<Outline>) feed.getOutlines();
+			for (Outline outline : outlines) {
+				handleOutline(user, outline, null);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 		}
+
 	}
 
 	@SuppressWarnings("unchecked")

@@ -34,7 +34,8 @@ import com.google.api.client.util.Lists;
 public class StartupBean {
 
 	private static Logger log = LoggerFactory.getLogger(StartupBean.class);
-	public static final String ADMIN_NAME = "admin";
+	public static final String USERNAME_ADMIN = "admin";
+	public static final String USERNAME_DEMO = "demo";
 
 	@Inject
 	FeedDAO feedDAO;
@@ -83,8 +84,9 @@ public class StartupBean {
 	private void initialData() {
 		log.info("Populating database with default values");
 		applicationSettingsService.save(new ApplicationSettings());
-		userService.register(ADMIN_NAME, "admin",
+		userService.register(USERNAME_ADMIN, "admin",
 				Arrays.asList(Role.ADMIN, Role.USER));
+		userService.register(USERNAME_DEMO, "demo", Arrays.asList(Role.USER));
 	}
 
 	public long getStartupTime() {

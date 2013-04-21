@@ -58,7 +58,7 @@ public class AdminREST extends AbstractResourceREST {
 			}
 		} else {
 			User user = userDAO.findById(id);
-			if (StartupBean.ADMIN_NAME.equals(user.getName())
+			if (StartupBean.USERNAME_ADMIN.equals(user.getName())
 					&& !userModel.isEnabled()) {
 				return Response.status(Status.FORBIDDEN)
 						.entity("You cannot disable the admin user.").build();
@@ -75,7 +75,7 @@ public class AdminREST extends AbstractResourceREST {
 			if (userModel.isAdmin() && !roles.contains(Role.ADMIN)) {
 				userRoleDAO.save(new UserRole(user, Role.ADMIN));
 			} else if (!userModel.isAdmin() && roles.contains(Role.ADMIN)) {
-				if (StartupBean.ADMIN_NAME.equals(user.getName())) {
+				if (StartupBean.USERNAME_ADMIN.equals(user.getName())) {
 					return Response
 							.status(Status.FORBIDDEN)
 							.entity("You cannot remove the admin role from the admin user.")
@@ -146,7 +146,7 @@ public class AdminREST extends AbstractResourceREST {
 		if (user == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		if (StartupBean.ADMIN_NAME.equals(user.getName())) {
+		if (StartupBean.USERNAME_ADMIN.equals(user.getName())) {
 			return Response.status(Status.FORBIDDEN)
 					.entity("You cannot delete the admin user.").build();
 		}

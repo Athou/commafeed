@@ -8,10 +8,11 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
-import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.model.Settings;
@@ -64,7 +65,7 @@ public class UserREST extends AbstractResourceREST {
 		return Response.ok(Status.OK).build();
 
 	}
-	
+
 	@Path("/profile")
 	@GET
 	@ApiOperation(value = "Retrieve user's profile", responseClass = "com.commafeed.frontend.model.UserModel")
@@ -89,6 +90,9 @@ public class UserREST extends AbstractResourceREST {
 	public Response save(
 			@ApiParam(required = true) ProfileModificationRequest request) {
 		User user = getUser();
+		if (StartupBean.USERNAME_DEMO.equals(user.getName())) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
 		user.setEmail(request.getEmail());
 		if (StringUtils.isNotBlank(request.getPassword())) {
 			byte[] password = encryptionService.getEncryptedPassword(

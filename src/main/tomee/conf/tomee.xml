@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <tomee>
+<!-- 
 	<Resource id="MySQL" type="DataSource">
 		JdbcDriver com.mysql.jdbc.Driver
 		JdbcUrl	jdbc:mysql:/localhost/commafeed?useUnicode=true&amp;characterEncoding=UTF-8
@@ -7,6 +8,7 @@
 		Password cf
 		MaxActive 50
 	</Resource>
+ -->
 	<Container id="CommaFeedStateless" type="STATELESS">
 		MaxSize=50
 		PoolSize=50

@@ -19,6 +19,10 @@ public class ApplicationSettings extends AbstractModel {
 	 * Wether registrations are open
 	 */
 	private boolean allowRegistrations = false;
+
+	private String googleAnalyticsTrackingCode;
+	private String googleAnalyticsDomainName;
+
 	private String googleClientId;
 	private String googleClientSecret;
 	private int backgroundThreads = 3;
@@ -107,6 +111,23 @@ public class ApplicationSettings extends AbstractModel {
 
 	public void setSmtpPassword(String smtpPassword) {
 		this.smtpPassword = smtpPassword;
+	}
+
+	public String getGoogleAnalyticsTrackingCode() {
+		return googleAnalyticsTrackingCode;
+	}
+
+	public void setGoogleAnalyticsTrackingCode(
+			String googleAnalyticsTrackingCode) {
+		this.googleAnalyticsTrackingCode = googleAnalyticsTrackingCode;
+	}
+
+	public String getGoogleAnalyticsDomainName() {
+		return googleAnalyticsDomainName;
+	}
+
+	public void setGoogleAnalyticsDomainName(String googleAnalyticsDomainName) {
+		this.googleAnalyticsDomainName = googleAnalyticsDomainName;
 	}
 
 }

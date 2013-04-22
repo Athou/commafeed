@@ -1,13 +1,10 @@
 package com.commafeed.frontend.pages;
 
-import javax.inject.Inject;
-
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.frontend.CommaFeedSession;
@@ -29,9 +26,6 @@ import com.commafeed.frontend.references.spinjs.SpinJSReference;
 @SuppressWarnings("serial")
 @SecurityCheck(Role.USER)
 public class HomePage extends BasePage {
-
-	@Inject
-	UserSettingsDAO userSettingsDAO;
 
 	@Override
 	public void renderHead(IHeaderResponse response) {

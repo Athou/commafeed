@@ -14,3 +14,6 @@ deployments/ROOT.war
 .settings
 .factorypath
 /target
+
+# Sublime
+*.sublime*

@@ -25,6 +25,9 @@ public class FeedUtils {
 	}
 
 	public static String trimUnicodeSurrogateCharacters(String text) {
+		if (StringUtils.isBlank(text)) {
+			return null;
+		}
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < text.length(); i++) {
 			char ch = text.charAt(i);

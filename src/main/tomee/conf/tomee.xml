@@ -5,10 +5,11 @@
 		JdbcUrl	jdbc:mysql:/localhost/commafeed?useUnicode=true&amp;characterEncoding=UTF-8
 		UserName cf
 		Password cf
-		MaxActive 100
+		MaxActive 50
 	</Resource>
 	<Container id="CommaFeedStateless" type="STATELESS">
-		PoolSize=30
-		StrictPooling=false
+		MaxSize=50
+		PoolSize=50
+		StrictPooling=true
 	</Container>
 </tomee>

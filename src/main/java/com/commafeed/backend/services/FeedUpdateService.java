@@ -10,15 +10,12 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document.OutputSettings;
-import org.jsoup.nodes.Entities.EscapeMode;
-import org.jsoup.safety.Whitelist;
 
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
@@ -60,9 +57,9 @@ public class FeedUpdateService {
 			}
 			if (foundEntry == null) {
 				FeedEntryContent content = entry.getContent();
-				content.setContent(handleContent(content.getContent()));
+				content.setContent(FeedUtils.handleContent(content.getContent()));
 
-				String title = handleContent(content.getTitle());
+				String title = FeedUtils.handleContent(content.getTitle());
 				if (title != null) {
 					content.setTitle(title.substring(0,
 							Math.min(2048, title.length())));
@@ -100,30 +97,4 @@ public class FeedUpdateService {
 
 	}
 
-	private String handleContent(String content) {
-		if (StringUtils.isNotBlank(content)) {
-			content = trimUnicodeSurrogateCharacters(content);
-			Whitelist whitelist = Whitelist.relaxed();
-			whitelist.addEnforcedAttribute("a", "target", "_blank");
-
-			whitelist.addTags("iframe");
-			whitelist.addAttributes("iframe", "src", "height", "width",
-					"allowfullscreen", "frameborder");
-
-			content = Jsoup.clean(content, "", whitelist,
-					new OutputSettings().escapeMode(EscapeMode.base));
-		}
-		return content;
-	}
-
-	private String trimUnicodeSurrogateCharacters(String text) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < text.length(); i++) {
-			char ch = text.charAt(i);
-			if (!Character.isHighSurrogate(ch) && !Character.isLowSurrogate(ch)) {
-				sb.append(ch);
-			}
-		}
-		return sb.toString();
-	}
 }

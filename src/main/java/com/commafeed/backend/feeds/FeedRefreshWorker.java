@@ -123,7 +123,8 @@ public class FeedRefreshWorker {
 		feed.setDisabledUntil(disabledUntil);
 
 		if (fetchedFeed != null) {
-			feed.setLink(fetchedFeed.getLink());
+			feed.setLink(FeedUtils.trimUnicodeSurrogateCharacters(fetchedFeed
+					.getLink()));
 			feed.setLastModifiedHeader(fetchedFeed.getLastModifiedHeader());
 			feed.setEtagHeader(fetchedFeed.getEtagHeader());
 			feedUpdateService.updateEntries(feed, fetchedFeed.getEntries());

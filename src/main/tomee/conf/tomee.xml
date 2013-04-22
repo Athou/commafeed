@@ -1,4 +1,14 @@
 <?xml version="1.0"?>
 <tomee>
-
+	<Resource id="MySQL" type="DataSource">
+		JdbcDriver com.mysql.jdbc.Driver
+		JdbcUrl	jdbc:mysql:/localhost/commafeed?useUnicode=true&amp;characterEncoding=UTF-8
+		UserName cf
+		Password cf
+		MaxActive 100
+	</Resource>
+	<Container id="CommaFeedStateless" type="STATELESS">
+		PoolSize=30
+		StrictPooling=false
+	</Container>
 </tomee>

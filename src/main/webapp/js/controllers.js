@@ -1,6 +1,6 @@
 var module = angular.module('commafeed.controllers', []);
 
-module.run(function($rootScope) {
+module.run(['$rootScope', function($rootScope) {
 	$rootScope.$on('emitMark', function(event, args) {
 		// args.entry - the entry
 		$rootScope.$broadcast('mark', args);
@@ -14,7 +14,7 @@ module.run(function($rootScope) {
 	$rootScope.$on('emitReload', function(event, args) {
 		$rootScope.$broadcast('reload');
 	});
-});
+}]);
 
 module.controller('SubscribeCtrl', ['$scope', 'FeedService', 'CategoryService', 
 function($scope, FeedService, CategoryService) {
@@ -90,9 +90,8 @@ function($scope, FeedService, CategoryService) {
 }]);
 
 module.controller('CategoryTreeCtrl', ['$scope', '$timeout', '$stateParams', '$window', 
-									   '$location', '$state', '$route', 'CategoryService',
-function($scope, $timeout, $stateParams,
-		 $window, $location, $state, $route, CategoryService) {
+	'$location', '$state', '$route', 'CategoryService',
+function($scope, $timeout, $stateParams, $window, $location, $state, $route, CategoryService) {
 
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;
@@ -202,7 +201,7 @@ function($scope, $timeout, $stateParams,
 }]);
 
 module.controller('ToolbarCtrl', ['$scope', '$http', '$state', '$stateParams', 
-								  '$route', '$location', 'SettingsService', 'EntryService', 'ProfileService',
+	'$route', '$location', 'SettingsService', 'EntryService', 'ProfileService',
 function($scope, $http, $state, $stateParams, $route, $location,
 		SettingsService, EntryService, ProfileService) {
 
@@ -278,10 +277,9 @@ function($scope, $http, $state, $stateParams, $route, $location,
 	};
 }]);
 
-module.controller('FeedListCtrl', ['$scope', '$stateParams', '$http', '$route',
-								   '$window', 'EntryService', 'SettingsService', 'FeedService', 'CategoryService',
-function($scope, $stateParams, $http, $route,
-		 $window, EntryService, SettingsService, FeedService, CategoryService) {
+module.controller('FeedListCtrl', ['$scope', '$stateParams', '$http', '$route', 
+	'$window', 'EntryService', 'SettingsService', 'FeedService', 'CategoryService',
+function($scope, $stateParams, $http, $route, $window, EntryService, SettingsService, FeedService, CategoryService) {
 
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;

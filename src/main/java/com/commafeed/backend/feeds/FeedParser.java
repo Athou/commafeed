@@ -1,6 +1,7 @@
 package com.commafeed.backend.feeds;
 
 import java.io.ByteArrayInputStream;
+import java.io.StringReader;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -41,14 +42,12 @@ public class FeedParser {
 		feed.setLastUpdated(Calendar.getInstance().getTime());
 
 		try {
-			InputSource source = new InputSource(new ByteArrayInputStream(xml));
-			if (new String(ArrayUtils.subarray(xml, 0, 100))
-					.split(SystemUtils.LINE_SEPARATOR)[0].toUpperCase()
-					.contains("ISO-8859-1")) {
-				// they probably use word, we need to handle curly quotes and
-				// other word special characters
-				source.setEncoding("windows-1252");
-			}
+			String encoding = FeedUtils.guessEncoding(xml);
+			String xmlString = FeedUtils.trimInvalidXmlCharacters(new String(
+					xml, encoding));
+
+			InputSource source = new InputSource(new StringReader(xmlString));
+
 			SyndFeed rss = new SyndFeedInput().build(source);
 			feed.setUrl(feedUrl);
 			feed.setTitle(rss.getTitle());

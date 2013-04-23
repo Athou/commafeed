@@ -238,6 +238,11 @@
 			<artifactId>rome-opml</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.googlecode.juniversalchardet</groupId>
+			<artifactId>juniversalchardet</artifactId>
+			<version>1.0.3</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.google.oauth-client</groupId>

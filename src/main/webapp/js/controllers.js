@@ -511,9 +511,8 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	});
 }]);
 
-module.controller('ManageUsersCtrl', ['$scope', '$state', '$location', 
-function($scope, $state, $location,
-		AdminUsersService) {
+module.controller('ManageUsersCtrl', ['$scope', '$state', '$location', 'AdminUsersService', 
+function($scope, $state, $location,	AdminUsersService) {
 	$scope.users = AdminUsersService.getAll();
 	$scope.selection = [];
 	$scope.gridOptions = {
@@ -536,8 +535,7 @@ function($scope, $state, $location,
 }]);
 
 module.controller('ManageUserCtrl', ['$scope', '$state', '$stateParams', '$dialog', 'AdminUsersService',
-function($scope, $state, $stateParams,
-		$dialog, AdminUsersService) {
+function($scope, $state, $stateParams,	$dialog, AdminUsersService) {
 	$scope.user = $stateParams._id ? AdminUsersService.get({
 		id : $stateParams._id
 	}) : {
@@ -631,8 +629,7 @@ function($scope, $location, ProfileService) {
 }]);
 
 module.controller('ManageSettingsCtrl', ['$scope', '$location', '$state', 'AdminSettingsService',
-function($scope, $location, $state,
-		AdminSettingsService) {
+function($scope, $location, $state,	AdminSettingsService) {
 
 	$scope.settings = AdminSettingsService.get();
 

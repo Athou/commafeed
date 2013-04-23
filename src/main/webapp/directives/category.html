@@ -13,7 +13,7 @@
 				</li>
 			</ul>
 		</div>
-		<span class="fldr" ng-class="{'fldr-closed': !node.expanded, 'fldr-open': node.expanded}" ng-click="toggleCategory(node)">
+		<span class="fldr" ng-click="toggleCategory(node)">
 			<i ng-class="{'icon-caret-right': !node.expanded, 'icon-caret-down': node.expanded}"></i>
 		</span>
 		<span ng-click="categoryClick({id: node.id})">

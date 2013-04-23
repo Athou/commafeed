@@ -2,8 +2,6 @@ package com.commafeed.backend;
 
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
-import java.util.concurrent.Future;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -11,11 +9,15 @@ import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.mutable.MutableBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import scala.actors.threadpool.ExecutorService;
+import scala.actors.threadpool.Executors;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedDAO;
@@ -26,7 +28,6 @@ import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.UserService;
-import com.google.api.client.util.Lists;
 
 @Startup
 @Singleton
@@ -56,12 +57,11 @@ public class StartupBean {
 	ApplicationSettingsService applicationSettingsService;
 
 	@Inject
-	FeedRefreshWorker worker;
-
-	private List<Future<Void>> threads = Lists.newArrayList();
+	Instance<FeedRefreshWorker> workers;
 
 	private long startupTime;
 
+	private ExecutorService executor;
 	private MutableBoolean running = new MutableBoolean(true);
 
 	@PostConstruct
@@ -72,11 +72,19 @@ public class StartupBean {
 		}
 
 		ApplicationSettings settings = applicationSettingsService.get();
-		log.info("Starting {} background threads",
-				settings.getBackgroundThreads());
-		for (int i = 0; i < settings.getBackgroundThreads(); i++) {
-			Future<Void> thread = worker.start(running, "Thread " + i);
-			threads.add(thread);
+		int threads = settings.getBackgroundThreads();
+		log.info("Starting {} background threads", threads);
+
+		executor = Executors.newFixedThreadPool(threads);
+		for (int i = 0; i < threads; i++) {
+			final int threadId = i;
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					FeedRefreshWorker worker = workers.get();
+					worker.start(running, "Thread " + threadId);
+				}
+			});
 		}
 
 	}
@@ -96,6 +104,14 @@ public class StartupBean {
 	@PreDestroy
 	public void shutdown() {
 		running.setValue(false);
+		executor.shutdownNow();
+		while (!executor.isTerminated()) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				log.error("interrupted while waiting for threads to finish.");
+			}
+		}
 	}
 
 }

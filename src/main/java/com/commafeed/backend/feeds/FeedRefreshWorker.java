@@ -2,13 +2,7 @@ package com.commafeed.backend.feeds;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.Future;
 
-import javax.ejb.AsyncResult;
-import javax.ejb.Asynchronous;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -26,8 +20,6 @@ import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.services.FeedUpdateService;
 
-@Stateless
-@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class FeedRefreshWorker {
 
 	private static Logger log = LoggerFactory
@@ -45,8 +37,7 @@ public class FeedRefreshWorker {
 	@Inject
 	FeedRefreshTaskGiver taskGiver;
 
-	@Asynchronous
-	public Future<Void> start(MutableBoolean running, String threadName) {
+	public void start(MutableBoolean running, String threadName) {
 		log.info("{} starting", threadName);
 		while (running.isTrue()) {
 			Feed feed = null;
@@ -59,6 +50,9 @@ public class FeedRefreshWorker {
 					log.debug("sleeping");
 					Thread.sleep(15000);
 				}
+			} catch (InterruptedException e) {
+				log.info(threadName + " interrupted");
+				return;
 			} catch (Exception e) {
 				String feedUrl = "feed is null";
 				if (feed != null) {
@@ -69,7 +63,6 @@ public class FeedRefreshWorker {
 						e);
 			}
 		}
-		return new AsyncResult<Void>(null);
 	}
 
 	private void update(Feed feed) throws NotSupportedException,

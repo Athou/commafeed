@@ -9,9 +9,11 @@
 		MaxActive 50
 	</Resource>
  -->
+ <!-- 
 	<Container id="CommaFeedStateless" type="STATELESS">
 		MaxSize=50
 		PoolSize=50
 		StrictPooling=true
 	</Container>
+ -->
 </tomee>

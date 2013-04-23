@@ -2,7 +2,8 @@ var app = angular.module('commafeed', [ 'ui', 'ui.bootstrap', 'ui.state',
 		'commafeed.directives', 'commafeed.controllers', 'commafeed.services',
 		'ngSanitize', 'ngUpload', 'infinite-scroll', 'ngGrid' ]);
 
-app.config(function($routeProvider, $stateProvider, $urlRouterProvider) {
+app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider',
+function($routeProvider, $stateProvider, $urlRouterProvider) {
 	$stateProvider.state('feeds', {
 		abstract : true,
 		url : '/feeds',
@@ -65,4 +66,4 @@ app.config(function($routeProvider, $stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.when('/admin', '/admin/settings');
 	$urlRouterProvider.otherwise('/');
 
-});
+}]);

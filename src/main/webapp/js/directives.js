@@ -22,7 +22,7 @@ module.directive('ngBlur', function() {
 	};
 });
 
-module.directive('scrollTo', function($timeout) {
+module.directive('scrollTo', ['$timeout', function($timeout) {
 	return {
 		restrict : 'A',
 		link : function(scope, element, attrs) {
@@ -50,9 +50,9 @@ module.directive('scrollTo', function($timeout) {
 			});
 		}
 	};
-});
+}]);
 
-module.directive('recursive', function($compile) {
+module.directive('recursive', ['$compile', function($compile) {
 	return {
 		restrict : 'E',
 		priority : 100000,
@@ -69,9 +69,9 @@ module.directive('recursive', function($compile) {
 			};
 		}
 	};
-});
+}]);
 
-module.directive('category', function($compile) {
+module.directive('category', ['$compile', function($compile) {
 	return {
 		scope : {
 			node : '=',
@@ -172,7 +172,7 @@ module.directive('category', function($compile) {
 			};
 		}
 	};
-});
+}]);
 
 module.directive('spinner', function() {
 	return {

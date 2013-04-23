@@ -2,6 +2,8 @@ package com.commafeed.backend;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -15,9 +17,6 @@ import javax.inject.Inject;
 import org.apache.commons.lang.mutable.MutableBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import scala.actors.threadpool.ExecutorService;
-import scala.actors.threadpool.Executors;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedDAO;

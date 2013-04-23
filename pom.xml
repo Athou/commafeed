@@ -78,8 +78,8 @@
 						</updateOnlyExtensions>
 					</synchronization>
 					<libs>
-						<lib>org.hibernate:hibernate-entitymanager:4.1.10.Final</lib>
-						<lib>org.hibernate:hibernate-core:4.1.10.Final</lib>
+						<lib>org.hibernate:hibernate-entitymanager:4.1.11.Final</lib>
+						<lib>org.hibernate:hibernate-core:4.1.11.Final</lib>
 						<lib>org.hibernate.common:hibernate-commons-annotations:4.0.1.Final</lib>
 						<lib>org.hibernate:hibernate-validator:4.3.1.Final</lib>
 						<lib>org.jboss.logging:jboss-logging:3.1.3.GA</lib>
@@ -167,7 +167,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.1.10.Final</version>
+			<version>4.1.11.Final</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
@@ -258,7 +258,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.2.3</version>
+			<version>4.2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jsoup</groupId>
@@ -280,17 +280,17 @@
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
-			<version>6.6.0</version>
+			<version>6.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-auth-roles</artifactId>
-			<version>6.6.0</version>
+			<version>6.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-cdi</artifactId>
-			<version>6.6.0</version>
+			<version>6.7.0</version>
 		</dependency>
 
 		<dependency>

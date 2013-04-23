@@ -26,7 +26,6 @@ public class FeedUtils {
 
 	public static String handleContent(String content) {
 		if (StringUtils.isNotBlank(content)) {
-			content = trimUnicodeSurrogateCharacters(content);
 			Whitelist whitelist = Whitelist.relaxed();
 			whitelist.addEnforcedAttribute("a", "target", "_blank");
 
@@ -48,21 +47,10 @@ public class FeedUtils {
 		for (int i = 0; i < xml.length(); i++) {
 			char c = xml.charAt(i);
 			if (c >= 20 || c == 0x9 || c == 0xA || c == 0xD) {
-				sb.append(c);
-			}
-		}
-		return sb.toString();
-	}
-
-	public static String trimUnicodeSurrogateCharacters(String text) {
-		if (StringUtils.isBlank(text)) {
-			return null;
-		}
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < text.length(); i++) {
-			char ch = text.charAt(i);
-			if (!Character.isHighSurrogate(ch) && !Character.isLowSurrogate(ch)) {
-				sb.append(ch);
+				if (!Character.isHighSurrogate(c)
+						&& !Character.isLowSurrogate(c)) {
+					sb.append(c);
+				}
 			}
 		}
 		return sb.toString();

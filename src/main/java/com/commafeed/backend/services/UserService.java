@@ -10,6 +10,7 @@ import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
+import com.google.common.base.Preconditions;
 
 @Stateless
 public class UserService {
@@ -21,6 +22,9 @@ public class UserService {
 	PasswordEncryptionService encryptionService;
 
 	public User login(String name, String password) {
+		Preconditions.checkNotNull(name);
+		Preconditions.checkNotNull(password);
+
 		User user = userDAO.findByName(name);
 		if (user != null && !user.isDisabled()) {
 			boolean authenticated = encryptionService.authenticate(password,
@@ -41,6 +45,9 @@ public class UserService {
 
 	public User register(String name, String password, String email,
 			Collection<Role> roles) {
+		Preconditions.checkNotNull(name);
+		Preconditions.checkNotNull(password);
+
 		if (userDAO.findByName(name) != null) {
 			return null;
 		}

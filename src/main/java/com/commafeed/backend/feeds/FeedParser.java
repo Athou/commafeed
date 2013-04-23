@@ -1,13 +1,11 @@
 package com.commafeed.backend.feeds;
 
-import java.io.ByteArrayInputStream;
 import java.io.StringReader;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.xml.sax.InputSource;

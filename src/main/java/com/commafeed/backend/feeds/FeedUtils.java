@@ -46,7 +46,7 @@ public class FeedUtils {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < xml.length(); i++) {
 			char c = xml.charAt(i);
-			if (c >= 20 || c == 0x9 || c == 0xA || c == 0xD) {
+			if (c >= 32 || c == 9 || c == 10 || c == 13) {
 				if (!Character.isHighSurrogate(c)
 						&& !Character.isLowSurrogate(c)) {
 					sb.append(c);

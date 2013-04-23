@@ -630,7 +630,7 @@ function($scope, $location, ProfileService) {
 	};
 }]);
 
-module.controller('ManageSettingsCtrl', ['$scope', '$location', '$state',
+module.controller('ManageSettingsCtrl', ['$scope', '$location', '$state', 'AdminSettingsService',
 function($scope, $location, $state,
 		AdminSettingsService) {
 

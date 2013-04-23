@@ -3,6 +3,7 @@ package com.commafeed.frontend.pages;
 import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import org.apache.wicket.markup.html.WebPage;
@@ -46,6 +47,12 @@ public class TestRssPage extends WebPage {
 			writer.write("Could not get feed information");
 		}
 
+		try {
+			// simulate internet lag
+			Thread.sleep(Math.abs(new Random().nextLong() % 5000));
+		} catch (InterruptedException e) {
+			// do nothing
+		}
 		getRequestCycle().scheduleRequestHandlerAfterCurrent(
 				new TextRequestHandler("text/xml", "UTF-8", writer.toString()));
 	}

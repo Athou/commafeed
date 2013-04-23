@@ -1,10 +1,10 @@
 var module = angular.module('commafeed.services', [ 'ngResource' ]);
 
-module.factory('ProfileService', function($resource) {
+module.factory('ProfileService', ['$resource', function($resource) {
 	return $resource('rest/user/profile/');
-});
+}]);
 
-module.factory('SettingsService', function($resource) {
+module.factory('SettingsService', ['$resource', function($resource) {
 	var res = $resource('rest/user/settings');
 
 	var s = {};
@@ -26,10 +26,10 @@ module.factory('SettingsService', function($resource) {
 	};
 	s.init();
 	return s;
-});
+}]);
 
-module.factory('FeedService', function($resource, $http) {
-
+module.factory('FeedService', ['$resource', '$http', 
+function($resource, $http) {
 	var actions = {
 		entries : {
 			method : 'GET',
@@ -70,10 +70,10 @@ module.factory('FeedService', function($resource, $http) {
 	};
 	var res = $resource('rest/feed/:_method', {}, actions);
 	return res;
-});
+}]);
 
-module.factory('CategoryService', function($resource, $http) {
-
+module.factory('CategoryService', ['$resource', '$http', 
+function($resource, $http) {
 	var flatten = function(category, parentName, array) {
 		if (!array)
 			array = [];
@@ -151,9 +151,10 @@ module.factory('CategoryService', function($resource, $http) {
 
 	res.init();
 	return res;
-});
+}]);
 
-module.factory('EntryService', function($resource, $http) {
+module.factory('EntryService', ['$resource', '$http',
+function($resource, $http) {
 	var actions = {
 		search : {
 			method : 'GET',
@@ -170,18 +171,18 @@ module.factory('EntryService', function($resource, $http) {
 	};
 	var res = $resource('rest/entry/:_method', {}, actions);
 	return res;
-});
+}]);
 
-module.factory('AdminUsersService', function($resource) {
+module.factory('AdminUsersService', ['$resource', function($resource) {
 	var res = {};
 	res.get = $resource('rest/admin/user/get/:id').get;
 	res.getAll = $resource('rest/admin/user/getAll').query;
 	res.save = $resource('rest/admin/user/save').save;
 	res.remove = $resource('rest/admin/user/delete').save;
 	return res;
-});
+}]);
 
-module.factory('AdminSettingsService', function($resource) {
+module.factory('AdminSettingsService', ['$resource', function($resource) {
 	var res = $resource('rest/admin/settings/');
 	return res;
-});
+}]);

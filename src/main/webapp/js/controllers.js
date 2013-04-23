@@ -1,6 +1,6 @@
 var module = angular.module('commafeed.controllers', []);
 
-module.run(function($rootScope) {
+module.run(['$rootScope', function($rootScope) {
 	$rootScope.$on('emitMark', function(event, args) {
 		// args.entry - the entry
 		$rootScope.$broadcast('mark', args);
@@ -14,10 +14,10 @@ module.run(function($rootScope) {
 	$rootScope.$on('emitReload', function(event, args) {
 		$rootScope.$broadcast('reload');
 	});
-});
+}]);
 
-module.controller('SubscribeCtrl', function($scope, FeedService,
-		CategoryService) {
+module.controller('SubscribeCtrl', ['$scope', 'FeedService', 'CategoryService', 
+function($scope, FeedService, CategoryService) {
 
 	$scope.opts = {
 		backdropFade : true,
@@ -87,10 +87,11 @@ module.controller('SubscribeCtrl', function($scope, FeedService,
 		CategoryService.add($scope.cat);
 		$scope.closeCategory();
 	};
-});
+}]);
 
-module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
-		$window, $location, $state, $route, CategoryService) {
+module.controller('CategoryTreeCtrl', ['$scope', '$timeout', '$stateParams', '$window', 
+	'$location', '$state', '$route', 'CategoryService',
+function($scope, $timeout, $stateParams, $window, $location, $state, $route, CategoryService) {
 
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;
@@ -197,86 +198,88 @@ module.controller('CategoryTreeCtrl', function($scope, $timeout, $stateParams,
 	$scope.$on('mark', function(event, args) {
 		mark($scope.CategoryService.subscriptions, args.entry);
 	});
-});
+}]);
 
-module.controller('ToolbarCtrl',
-		function($scope, $http, $state, $stateParams, $route, $location,
-				SettingsService, EntryService, ProfileService) {
+module.controller('ToolbarCtrl', ['$scope', '$http', '$state', '$stateParams', 
+	'$route', '$location', 'SettingsService', 'EntryService', 'ProfileService',
+function($scope, $http, $state, $stateParams, $route, $location,
+		SettingsService, EntryService, ProfileService) {
 
-			function totalActiveAjaxRequests() {
-				return ($http.pendingRequests.length + $.active);
-			}
+	function totalActiveAjaxRequests() {
+		return ($http.pendingRequests.length + $.active);
+	}
 
-			$scope.session = ProfileService.get();
+	$scope.session = ProfileService.get();
 
-			$scope.loading = true;
-			$scope.$watch(totalActiveAjaxRequests, function() {
-				$scope.loading = (totalActiveAjaxRequests() !== 0);
-			});
+	$scope.loading = true;
+	$scope.$watch(totalActiveAjaxRequests, function() {
+		$scope.loading = (totalActiveAjaxRequests() !== 0);
+	});
 
-			$scope.settingsService = SettingsService;
-			$scope.$watch('settingsService.settings.readingMode', function(
-					newValue, oldValue) {
-				if (newValue && oldValue && newValue != oldValue) {
-					SettingsService.save();
-				}
-			});
-			$scope.$watch('settingsService.settings.readingOrder', function(
-					newValue, oldValue) {
-				if (newValue && oldValue && newValue != oldValue) {
-					SettingsService.save();
-				}
-			});
-			$scope.refresh = function() {
-				$scope.$emit('emitReload');
-			};
-			$scope.markAllAsRead = function() {
-				$scope.$emit('emitMarkAll', {
-					type : $stateParams._type,
-					id : $stateParams._id,
-					read : true
-				});
-			};
-
-			$scope.keywords = $stateParams._keywords;
-			$scope.search = function() {
-				if ($scope.keywords == $stateParams._keywords) {
-					$scope.refresh();
-				} else {
-					$state.transitionTo('feeds.search', {
-						_keywords : $scope.keywords
-					});
-				}
-			};
-			$scope.showButtons = function() {
-				return !$stateParams._keywords;
-			};
-
-			$scope.toggleOrder = function() {
-				var settings = $scope.settingsService.settings;
-				settings.readingOrder = settings.readingOrder == 'asc' ? 'desc'
-						: 'asc';
-			};
-
-			$scope.toAdmin = function() {
-				$location.path('admin');
-			};
-			$scope.toSettings = function() {
-				$location.path('settings');
-			};
-			$scope.toProfile = function() {
-				$location.path('profile');
-			};
-			$scope.toHelp = function() {
-				$state.transitionTo('feeds.help');
-			};
-			$scope.toDonate = function() {
-				$state.transitionTo('feeds.help');
-			};
+	$scope.settingsService = SettingsService;
+	$scope.$watch('settingsService.settings.readingMode', function(
+			newValue, oldValue) {
+		if (newValue && oldValue && newValue != oldValue) {
+			SettingsService.save();
+		}
+	});
+	$scope.$watch('settingsService.settings.readingOrder', function(
+			newValue, oldValue) {
+		if (newValue && oldValue && newValue != oldValue) {
+			SettingsService.save();
+		}
+	});
+	$scope.refresh = function() {
+		$scope.$emit('emitReload');
+	};
+	$scope.markAllAsRead = function() {
+		$scope.$emit('emitMarkAll', {
+			type : $stateParams._type,
+			id : $stateParams._id,
+			read : true
 		});
+	};
 
-module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
-		$window, EntryService, SettingsService, FeedService, CategoryService) {
+	$scope.keywords = $stateParams._keywords;
+	$scope.search = function() {
+		if ($scope.keywords == $stateParams._keywords) {
+			$scope.refresh();
+		} else {
+			$state.transitionTo('feeds.search', {
+				_keywords : $scope.keywords
+			});
+		}
+	};
+	$scope.showButtons = function() {
+		return !$stateParams._keywords;
+	};
+
+	$scope.toggleOrder = function() {
+		var settings = $scope.settingsService.settings;
+		settings.readingOrder = settings.readingOrder == 'asc' ? 'desc'
+				: 'asc';
+	};
+
+	$scope.toAdmin = function() {
+		$location.path('admin');
+	};
+	$scope.toSettings = function() {
+		$location.path('settings');
+	};
+	$scope.toProfile = function() {
+		$location.path('profile');
+	};
+	$scope.toHelp = function() {
+		$state.transitionTo('feeds.help');
+	};
+	$scope.toDonate = function() {
+		$state.transitionTo('feeds.help');
+	};
+}]);
+
+module.controller('FeedListCtrl', ['$scope', '$stateParams', '$http', '$route', 
+	'$window', 'EntryService', 'SettingsService', 'FeedService', 'CategoryService',
+function($scope, $stateParams, $http, $route, $window, EntryService, SettingsService, FeedService, CategoryService) {
 
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;
@@ -506,9 +509,10 @@ module.controller('FeedListCtrl', function($scope, $stateParams, $http, $route,
 		$scope.hasMore = true;
 		$scope.loadMoreEntries();
 	});
-});
+}]);
 
-module.controller('ManageUsersCtrl', function($scope, $state, $location,
+module.controller('ManageUsersCtrl', ['$scope', '$state', '$location', 
+function($scope, $state, $location,
 		AdminUsersService) {
 	$scope.users = AdminUsersService.getAll();
 	$scope.selection = [];
@@ -529,9 +533,10 @@ module.controller('ManageUsersCtrl', function($scope, $state, $location,
 	$scope.back = function() {
 		$location.path('/admin');
 	};
-});
+}]);
 
-module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
+module.controller('ManageUserCtrl', ['$scope', '$state', '$stateParams', '$dialog', 'AdminUsersService',
+function($scope, $state, $stateParams,
 		$dialog, AdminUsersService) {
 	$scope.user = $stateParams._id ? AdminUsersService.get({
 		id : $stateParams._id
@@ -580,9 +585,10 @@ module.controller('ManageUserCtrl', function($scope, $state, $stateParams,
 			}
 		});
 	};
-});
+}]);
 
-module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
+module.controller('SettingsCtrl', ['$scope', '$location', 'SettingsService', 
+function($scope, $location, SettingsService) {
 	$scope.settingsService = SettingsService;
 	$scope.$watch('settingsService.settings', function(value) {
 		$scope.settings = angular.copy(value);
@@ -599,9 +605,10 @@ module.controller('SettingsCtrl', function($scope, $location, SettingsService) {
 			$location.path('/');
 		});
 	};
-});
+}]);
 
-module.controller('ProfileCtrl', function($scope, $location, ProfileService) {
+module.controller('ProfileCtrl', ['$scope', '$location', 'ProfileService', 
+function($scope, $location, ProfileService) {
 	$scope.user = ProfileService.get();
 
 	$scope.cancel = function() {
@@ -621,9 +628,10 @@ module.controller('ProfileCtrl', function($scope, $location, ProfileService) {
 		});
 
 	};
-});
+}]);
 
-module.controller('ManageSettingsCtrl', function($scope, $location, $state,
+module.controller('ManageSettingsCtrl', ['$scope', '$location', '$state',
+function($scope, $location, $state,
 		AdminSettingsService) {
 
 	$scope.settings = AdminSettingsService.get();
@@ -640,4 +648,4 @@ module.controller('ManageSettingsCtrl', function($scope, $location, $state,
 	$scope.toUsers = function() {
 		$state.transitionTo('admin.userlist');
 	};
-});
+}]);

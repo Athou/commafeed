@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Queue;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
@@ -27,13 +28,21 @@ public class FeedRefreshTaskGiver {
 	@Inject
 	MetricsBean metricsBean;
 
+	private int backgroundThreads;
 	private Queue<Feed> queue = Queues.newConcurrentLinkedQueue();
+
+	@PostConstruct
+	public void init() {
+		backgroundThreads = applicationSettingsService.get()
+				.getBackgroundThreads();
+	}
 
 	@Lock(LockType.WRITE)
 	public Feed take() {
 		Feed feed = queue.poll();
 		if (feed == null) {
-			List<Feed> feeds = feedDAO.findNextUpdatable(50);
+			int count = Math.min(100, 5 * backgroundThreads);
+			List<Feed> feeds = feedDAO.findNextUpdatable(count);
 			for (Feed f : feeds) {
 				queue.add(f);
 				f.setLastUpdated(Calendar.getInstance().getTime());

@@ -97,12 +97,19 @@ public class HttpGetter {
 			HttpResponse response = null;
 			try {
 				response = client.execute(httpget);
-				if (response.getStatusLine().getStatusCode() == HttpStatus.SC_NOT_MODIFIED) {
+				int code = response.getStatusLine().getStatusCode();
+				if (code == HttpStatus.SC_NOT_MODIFIED) {
 					throw new NotModifiedException();
+				} else if (code >= 300) {
+					throw new HttpResponseException(code,
+							"Server returned HTTP error code " + code);
 				}
+
 			} catch (HttpResponseException e) {
 				if (e.getStatusCode() == HttpStatus.SC_NOT_MODIFIED) {
 					throw new NotModifiedException();
+				} else {
+					throw e;
 				}
 			}
 			Header lastModifiedHeader = response

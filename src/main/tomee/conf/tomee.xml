@@ -9,11 +9,10 @@
 		MaxActive 50
 	</Resource>
  -->
- <!-- 
-	<Container id="CommaFeedStateless" type="STATELESS">
-		MaxSize=50
-		PoolSize=50
-		StrictPooling=true
+	<Container id="CommaFeedMessage" type="MESSAGE">
+		InstanceLimit 5
+		ResourceAdapter=JMSCommaFeedAdapter
 	</Container>
- -->
+	<Resource id="JMSCommaFeedAdapter" type="ActiveMQResourceAdapter">
+	</Resource>
 </tomee>

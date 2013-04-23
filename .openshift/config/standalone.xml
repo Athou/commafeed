@@ -303,8 +303,8 @@
 		</subsystem>
 		<subsystem xmlns="urn:jboss:domain:messaging:1.2">
 			<hornetq-server>
-				<clustered>true</clustered>
-				<persistence-enabled>true</persistence-enabled>
+				<clustered>false</clustered>
+				<persistence-enabled>false</persistence-enabled>
 				<security-enabled>false</security-enabled>
 				<journal-file-size>102400</journal-file-size>
 				<journal-min-files>2</journal-min-files>
@@ -359,6 +359,7 @@
 							<entry name="java:/ConnectionFactory" />
 						</entries>
 					</connection-factory>
+					<!--
 					<connection-factory name="RemoteConnectionFactory">
 						<connectors>
 							<connector-ref connector-name="netty" />
@@ -367,6 +368,7 @@
 							<entry name="java:jboss/exported/jms/RemoteConnectionFactory" />
 						</entries>
 					</connection-factory>
+					-->
 					<pooled-connection-factory name="hornetq-ra">
 						<transaction mode="xa" />
 						<connectors>
@@ -377,6 +379,12 @@
 						</entries>
 					</pooled-connection-factory>
 				</jms-connection-factories>
+				<jms-destinations>
+					<jms-queue name="refreshQueue">
+						<entry name="jms/refreshQueue"/>
+						<entry name="java:jboss/exported/jms/refreshQueue"/>
+					</jms-queue>
+				</jms-destinations>
 			</hornetq-server>
 		</subsystem>
 		<subsystem xmlns="urn:jboss:domain:naming:1.2">

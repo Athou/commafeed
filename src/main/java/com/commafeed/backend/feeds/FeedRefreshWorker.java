@@ -1,9 +1,19 @@
 package com.commafeed.backend.feeds;
 
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.DeliveryMode;
+import javax.jms.JMSException;
+import javax.jms.MessageProducer;
+import javax.jms.ObjectMessage;
+import javax.jms.Queue;
+import javax.jms.Session;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -16,23 +26,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter.NotModifiedException;
-import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.feeds.FeedRefreshUpdater.FeedRefreshTask;
 import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.services.FeedUpdateService;
+import com.commafeed.backend.model.FeedEntry;
 
 public class FeedRefreshWorker {
 
 	private static Logger log = LoggerFactory
 			.getLogger(FeedRefreshWorker.class);
 
+	@Resource(name = "jms/refreshQueue")
+	private Queue queue;
+
+	@Resource
+	private ConnectionFactory connectionFactory;
+
 	@Inject
 	FeedFetcher fetcher;
-
-	@Inject
-	FeedDAO feedDAO;
-
-	@Inject
-	FeedUpdateService feedUpdateService;
 
 	@Inject
 	FeedRefreshTaskGiver taskGiver;
@@ -68,7 +78,7 @@ public class FeedRefreshWorker {
 	private void update(Feed feed) throws NotSupportedException,
 			SystemException, SecurityException, IllegalStateException,
 			RollbackException, HeuristicMixedException,
-			HeuristicRollbackException {
+			HeuristicRollbackException, JMSException {
 
 		String message = null;
 		int errorCount = 0;
@@ -115,14 +125,30 @@ public class FeedRefreshWorker {
 		feed.setMessage(message);
 		feed.setDisabledUntil(disabledUntil);
 
+		Collection<FeedEntry> entries = null;
 		if (fetchedFeed != null) {
 			feed.setLink(fetchedFeed.getLink());
 			feed.setLastModifiedHeader(fetchedFeed.getLastModifiedHeader());
 			feed.setEtagHeader(fetchedFeed.getEtagHeader());
-			feedUpdateService.updateEntries(feed, fetchedFeed.getEntries());
+			entries = fetchedFeed.getEntries();
 		}
-		feedDAO.update(feed);
+		FeedRefreshTask task = new FeedRefreshTask(feed, entries);
+		send(task);
 
+	}
+
+	private void send(FeedRefreshTask task) throws JMSException {
+		Connection connection = connectionFactory.createConnection();
+		connection.start();
+		Session session = connection.createSession(false,
+				Session.AUTO_ACKNOWLEDGE);
+		MessageProducer producer = session.createProducer(queue);
+		producer.setDisableMessageID(true);
+		producer.setDisableMessageTimestamp(true);
+		producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+		ObjectMessage message = session.createObjectMessage(task);
+		producer.send(message);
+		connection.close();
 	}
 
 	private Feed getNextFeed() {

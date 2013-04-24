@@ -22,7 +22,7 @@ module.directive('ngBlur', function() {
 	};
 });
 
-module.directive('scrollTo', ['$timeout', function($timeout) {
+module.directive('scrollTo', [ '$timeout', function($timeout) {
 	return {
 		restrict : 'A',
 		link : function(scope, element, attrs) {
@@ -50,9 +50,9 @@ module.directive('scrollTo', ['$timeout', function($timeout) {
 			});
 		}
 	};
-}]);
+} ]);
 
-module.directive('recursive', ['$compile', function($compile) {
+module.directive('recursive', [ '$compile', function($compile) {
 	return {
 		restrict : 'E',
 		priority : 100000,
@@ -69,21 +69,21 @@ module.directive('recursive', ['$compile', function($compile) {
 			};
 		}
 	};
-}]);
+} ]);
 
-module.directive('category', [function() {
+module.directive('category', [ function() {
 	return {
 		scope : {
 			node : '=',
 			selectedType : '=',
 			selectedId : '=',
-			unreadCount : '&',
+			unreadCount : '&'
 		},
 		restrict : 'E',
 		replace : true,
 		templateUrl : 'directives/category.html',
-		controller : function($scope, $state, $dialog, FeedService, CategoryService,
-				SettingsService) {
+		controller : function($scope, $state, $dialog, FeedService,
+				CategoryService, SettingsService) {
 			$scope.settingsService = SettingsService;
 			$scope.unsubscribe = function(subscription) {
 				var title = 'Unsubscribe';
@@ -109,9 +109,11 @@ module.directive('category', [function() {
 							}
 						});
 			};
-			
+
 			$scope.formatCategoryName = function(category) {
-				var count = $scope.unreadCount({category:category});
+				var count = $scope.unreadCount({
+					category : category
+				});
 				var label = category.name;
 				if (count > 0) {
 					label = label + ' (' + count + ')';
@@ -126,7 +128,7 @@ module.directive('category', [function() {
 				}
 				return label;
 			};
-			
+
 			$scope.feedClicked = function(id) {
 				if ($scope.selectedType == 'feed' && id == $scope.selectedId) {
 					$scope.$emit('emitReload');
@@ -207,7 +209,7 @@ module.directive('category', [function() {
 			};
 		}
 	};
-}]);
+} ]);
 
 module.directive('spinner', function() {
 	return {

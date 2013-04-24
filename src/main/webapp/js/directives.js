@@ -71,22 +71,18 @@ module.directive('recursive', ['$compile', function($compile) {
 	};
 }]);
 
-module.directive('category', ['$compile', function($compile) {
+module.directive('category', [function() {
 	return {
 		scope : {
 			node : '=',
 			selectedType : '=',
 			selectedId : '=',
-			feedClick : '&',
-			categoryClick : '&',
 			unreadCount : '&',
-			formatCategoryName : '&',
-			formatFeedName : '&'
 		},
 		restrict : 'E',
 		replace : true,
 		templateUrl : 'directives/category.html',
-		controller : function($scope, $dialog, FeedService, CategoryService,
+		controller : function($scope, $state, $dialog, FeedService, CategoryService,
 				SettingsService) {
 			$scope.settingsService = SettingsService;
 			$scope.unsubscribe = function(subscription) {
@@ -112,6 +108,45 @@ module.directive('category', ['$compile', function($compile) {
 								});
 							}
 						});
+			};
+			
+			$scope.formatCategoryName = function(category) {
+				var count = $scope.unreadCount({category:category});
+				var label = category.name;
+				if (count > 0) {
+					label = label + ' (' + count + ')';
+				}
+				return label;
+			};
+
+			$scope.formatFeedName = function(feed) {
+				var label = feed.name;
+				if (feed.unread > 0) {
+					label = label + ' (' + feed.unread + ')';
+				}
+				return label;
+			};
+			
+			$scope.feedClicked = function(id) {
+				if ($scope.selectedType == 'feed' && id == $scope.selectedId) {
+					$scope.$emit('emitReload');
+				} else {
+					$state.transitionTo('feeds.view', {
+						_type : 'feed',
+						_id : id
+					});
+				}
+			};
+
+			$scope.categoryClicked = function(id) {
+				if ($scope.selectedType == 'category' && id == $scope.selectedId) {
+					$scope.$emit('emitReload');
+				} else {
+					$state.transitionTo('feeds.view', {
+						_type : 'category',
+						_id : id
+					});
+				}
 			};
 
 			$scope.renameFeed = function(feed) {

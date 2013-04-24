@@ -138,45 +138,6 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 		$window.document.title = label;
 	});
 
-	$scope.formatCategoryName = function(category) {
-		var count = $scope.unreadCount(category);
-		var label = category.name;
-		if (count > 0) {
-			label = label + ' (' + count + ')';
-		}
-		return label;
-	};
-
-	$scope.formatFeedName = function(feed) {
-		var label = feed.name;
-		if (feed.unread > 0) {
-			label = label + ' (' + feed.unread + ')';
-		}
-		return label;
-	};
-
-	$scope.feedClicked = function(id) {
-		if ($scope.selectedType == 'feed' && id == $scope.selectedId) {
-			$scope.$emit('emitReload');
-		} else {
-			$state.transitionTo('feeds.view', {
-				_type : 'feed',
-				_id : id
-			});
-		}
-	};
-
-	$scope.categoryClicked = function(id) {
-		if ($scope.selectedType == 'category' && id == $scope.selectedId) {
-			$scope.$emit('emitReload');
-		} else {
-			$state.transitionTo('feeds.view', {
-				_type : 'category',
-				_id : id
-			});
-		}
-	};
-
 	var mark = function(node, entry) {
 		var i;
 		if (node.children) {

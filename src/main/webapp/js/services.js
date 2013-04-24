@@ -2,10 +2,10 @@ var module = angular.module('commafeed.services', [ 'ngResource' ]);
 
 module.service('AnalyticsService', [ '$state', function($state) {
 	this.track = function(path) {
-		path = path || $state.$current.url.prefix;
 		if (!ga) {
 			return;
 		}
+		path = path || $state.$current.url.prefix;
 		ga('send', 'pageview', {
 			page : path
 		});

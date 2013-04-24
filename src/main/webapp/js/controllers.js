@@ -201,9 +201,9 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 }]);
 
 module.controller('ToolbarCtrl', ['$scope', '$http', '$state', '$stateParams', 
-	'$route', '$location', 'SettingsService', 'EntryService', 'ProfileService',
+	'$route', '$location', 'SettingsService', 'EntryService', 'ProfileService', 'AnalyticsService',
 function($scope, $http, $state, $stateParams, $route, $location,
-		SettingsService, EntryService, ProfileService) {
+		SettingsService, EntryService, ProfileService, AnalyticsService) {
 
 	function totalActiveAjaxRequests() {
 		return ($http.pendingRequests.length + $.active);
@@ -273,6 +273,7 @@ function($scope, $http, $state, $stateParams, $route, $location,
 		$state.transitionTo('feeds.help');
 	};
 	$scope.toDonate = function() {
+		AnalyticsService.track('/donate');
 		$state.transitionTo('feeds.help');
 	};
 }]);
@@ -587,8 +588,11 @@ function($scope, $state, $stateParams,	$dialog, AdminUsersService) {
 	};
 }]);
 
-module.controller('SettingsCtrl', ['$scope', '$location', 'SettingsService', 
-function($scope, $location, SettingsService) {
+module.controller('SettingsCtrl', ['$scope', '$location', 'SettingsService', 'AnalyticsService',
+function($scope, $location, SettingsService, AnalyticsService) {
+	
+	AnalyticsService.track();
+	
 	$scope.settingsService = SettingsService;
 	$scope.$watch('settingsService.settings', function(value) {
 		$scope.settings = angular.copy(value);
@@ -607,8 +611,11 @@ function($scope, $location, SettingsService) {
 	};
 }]);
 
-module.controller('ProfileCtrl', ['$scope', '$location', 'ProfileService', 
-function($scope, $location, ProfileService) {
+module.controller('ProfileCtrl', ['$scope', '$location', 'ProfileService', 'AnalyticsService',
+function($scope, $location, ProfileService, AnalyticsService) {
+	
+	AnalyticsService.track();
+	
 	$scope.user = ProfileService.get();
 
 	$scope.cancel = function() {

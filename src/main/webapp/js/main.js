@@ -4,6 +4,10 @@ var app = angular.module('commafeed', [ 'ui', 'ui.bootstrap', 'ui.state',
 
 app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider',
 function($routeProvider, $stateProvider, $urlRouterProvider) {
+	var trackCtrl = ['AnalyticsService', function(AnalyticsService) {
+		AnalyticsService.track();
+	}];
+	
 	$stateProvider.state('feeds', {
 		abstract : true,
 		url : '/feeds',
@@ -21,7 +25,8 @@ function($routeProvider, $stateProvider, $urlRouterProvider) {
 	});
 	$stateProvider.state('feeds.help', {
 		url : '/help',
-		templateUrl : 'templates/feeds.help.html'
+		templateUrl : 'templates/feeds.help.html',
+		controller: trackCtrl
 	});
 
 	$stateProvider.state('admin', {

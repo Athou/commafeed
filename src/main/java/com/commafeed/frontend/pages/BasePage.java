@@ -68,7 +68,6 @@ public abstract class BasePage extends WebPage {
 		if (StringUtils.isNotBlank(settings.getGoogleAnalyticsTrackingCode())) {
 			Map<String, Object> vars = Maps.newHashMap();
 			vars.put("trackingCode", settings.getGoogleAnalyticsTrackingCode());
-			vars.put("domainName", settings.getGoogleAnalyticsDomainName());
 			response.render(JavaScriptHeaderItem
 					.forReference(new TextTemplateResourceReference(
 							BasePage.class, "analytics.js", Model.ofMap(vars))));

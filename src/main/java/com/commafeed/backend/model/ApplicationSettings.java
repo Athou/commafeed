@@ -21,7 +21,6 @@ public class ApplicationSettings extends AbstractModel {
 	private boolean allowRegistrations = false;
 
 	private String googleAnalyticsTrackingCode;
-	private String googleAnalyticsDomainName;
 
 	private String googleClientId;
 	private String googleClientSecret;
@@ -120,14 +119,6 @@ public class ApplicationSettings extends AbstractModel {
 	public void setGoogleAnalyticsTrackingCode(
 			String googleAnalyticsTrackingCode) {
 		this.googleAnalyticsTrackingCode = googleAnalyticsTrackingCode;
-	}
-
-	public String getGoogleAnalyticsDomainName() {
-		return googleAnalyticsDomainName;
-	}
-
-	public void setGoogleAnalyticsDomainName(String googleAnalyticsDomainName) {
-		this.googleAnalyticsDomainName = googleAnalyticsDomainName;
 	}
 
 }

@@ -278,8 +278,10 @@ function($scope, $http, $state, $stateParams, $route, $location,
 }]);
 
 module.controller('FeedListCtrl', ['$scope', '$stateParams', '$http', '$route', 
-	'$window', 'EntryService', 'SettingsService', 'FeedService', 'CategoryService',
-function($scope, $stateParams, $http, $route, $window, EntryService, SettingsService, FeedService, CategoryService) {
+	'$window', 'EntryService', 'SettingsService', 'FeedService', 'CategoryService', 'AnalyticsService',
+function($scope, $stateParams, $http, $route, $window, EntryService, SettingsService, FeedService, CategoryService, AnalyticsService) {
+	
+	AnalyticsService.track();
 
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;

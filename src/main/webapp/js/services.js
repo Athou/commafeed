@@ -1,5 +1,18 @@
 var module = angular.module('commafeed.services', [ 'ngResource' ]);
 
+module.service('AnalyticsService', [ '$state', function($state) {
+	this.track = function(path) {
+		path = path || $state.$current.url.prefix;
+		if (!ga) {
+			return;
+		}
+		ga('send', 'pageview', {
+			page : path
+		});
+	};
+} ]);
+
+
 module.factory('ProfileService', ['$resource', function($resource) {
 	return $resource('rest/user/profile/');
 }]);

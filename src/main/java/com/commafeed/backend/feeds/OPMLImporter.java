@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
@@ -20,6 +22,7 @@ import com.sun.syndication.feed.opml.Outline;
 import com.sun.syndication.io.WireFeedInput;
 
 @Stateless
+@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class OPMLImporter {
 
 	private static Logger log = LoggerFactory.getLogger(OPMLImporter.class);

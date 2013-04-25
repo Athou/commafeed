@@ -48,9 +48,6 @@ public class FeedSubscriptionService {
 		sub.setTitle(title.substring(0, Math.min(128, title.length())));
 		feedSubscriptionDAO.saveOrUpdate(sub);
 
-		// TODO optimize this request, it takes ages to complete, skipping for
-		// now
-		newSubscription = false;
 		if (newSubscription) {
 			List<FeedEntryStatus> statuses = Lists.newArrayList();
 			List<FeedEntry> allEntries = feedEntryDAO.findByFeed(feed, 0, 10);

@@ -129,7 +129,7 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		return criteria.getResultList();
 	}
 
-	protected void limit(TypedQuery<FeedEntryStatus> query, int offset,
+	protected void limit(TypedQuery<?> query, int offset,
 			int limit) {
 		if (offset > -1) {
 			query.setFirstResult(offset);

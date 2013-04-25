@@ -3,7 +3,7 @@
 <!-- 
 	<Resource id="MySQL" type="DataSource">
 		JdbcDriver com.mysql.jdbc.Driver
-		JdbcUrl	jdbc:mysql:/localhost/commafeed?useUnicode=true&amp;characterEncoding=UTF-8
+		JdbcUrl	jdbc:mysql://localhost/commafeed?useUnicode=true&amp;characterEncoding=UTF-8
 		UserName cf
 		Password cf
 		MaxActive 50

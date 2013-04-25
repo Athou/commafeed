@@ -14,7 +14,6 @@ import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Attribute;
 
 import com.commafeed.backend.model.AbstractModel;
-import com.commafeed.backend.model.FeedEntryStatus;
 import com.google.common.reflect.TypeToken;
 import com.uaihebert.factory.EasyCriteriaFactory;
 import com.uaihebert.model.EasyCriteria;
@@ -55,11 +54,23 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		update(Arrays.asList(objects));
 	}
 
-	public void saveOrUpdate(AbstractModel m) {
-		if (m.getId() == null) {
-			em.persist(m);
-		} else {
-			em.merge(m);
+	public void saveOrUpdate(Collection<? extends AbstractModel> models) {
+		for (AbstractModel model : models) {
+			if (model.getId() == null) {
+				em.persist(model);
+			} else {
+				em.merge(model);
+			}
+		}
+	}
+
+	public void saveOrUpdate(AbstractModel... models) {
+		for (AbstractModel model : models) {
+			if (model.getId() == null) {
+				em.persist(model);
+			} else {
+				em.merge(model);
+			}
 		}
 	}
 
@@ -129,8 +140,7 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		return criteria.getResultList();
 	}
 
-	protected void limit(TypedQuery<?> query, int offset,
-			int limit) {
+	protected void limit(TypedQuery<?> query, int offset, int limit) {
 		if (offset > -1) {
 			query.setFirstResult(offset);
 		}

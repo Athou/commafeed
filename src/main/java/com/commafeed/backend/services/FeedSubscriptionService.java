@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
@@ -30,6 +31,8 @@ public class FeedSubscriptionService {
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
+	
+	@Inject FeedRefreshTaskGiver taskGiver;
 
 	public Feed subscribe(User user, String url, String title,
 			FeedCategory category) {
@@ -60,6 +63,7 @@ public class FeedSubscriptionService {
 			}
 			feedEntryStatusDAO.save(statuses);
 		}
+		taskGiver.add(feed);
 		return feed;
 	}
 }

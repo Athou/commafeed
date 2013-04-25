@@ -38,6 +38,13 @@ public class FeedRefreshTaskGiver {
 	}
 
 	@Lock(LockType.WRITE)
+	public void add(Feed feed) {
+		queue.add(feed);
+		feed.setLastUpdated(Calendar.getInstance().getTime());
+		feedDAO.update(feed);
+	}
+
+	@Lock(LockType.WRITE)
 	public Feed take() {
 		Feed feed = queue.poll();
 		if (feed == null) {

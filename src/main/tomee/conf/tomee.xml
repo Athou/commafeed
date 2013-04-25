@@ -6,12 +6,16 @@
 		JdbcUrl	jdbc:mysql://localhost/commafeed?useUnicode=true&amp;characterEncoding=UTF-8
 		UserName cf
 		Password cf
-		MaxActive 50
+		MaxActive 80
 	</Resource>
  -->
+	<Container id="CommaFeedStateless" type="STATELESS">
+	        PoolSize=50
+	        StrictPooling=false
+	</Container>
 	<Container id="CommaFeedMessage" type="MESSAGE">
-		InstanceLimit 5
-		ResourceAdapter=JMSCommaFeedAdapter
+	        InstanceLimit 50
+	        ResourceAdapter=JMSCommaFeedAdapter
 	</Container>
 	<Resource id="JMSCommaFeedAdapter" type="ActiveMQResourceAdapter">
 	</Resource>

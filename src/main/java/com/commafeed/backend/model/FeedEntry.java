@@ -33,7 +33,7 @@ public class FeedEntry extends AbstractModel {
 	private String guidHash;
 
 	@ManyToMany
-	@JoinTable(name = "FEED_FEEDENTRIES", joinColumns = { @JoinColumn(name = "FEED_ID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "FEEDENTRY_ID", nullable = false, updatable = false) })
+	@JoinTable(name = "FEED_FEEDENTRIES", joinColumns = { @JoinColumn(name = "FEEDENTRY_ID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "FEED_ID", nullable = false, updatable = false) })
 	private Set<Feed> feeds = Sets.newHashSet();
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)

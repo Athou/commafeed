@@ -14,8 +14,6 @@ import javax.transaction.SystemException;
 
 import org.apache.commons.lang.mutable.MutableBoolean;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.http.client.HttpResponseException;
-import org.apache.http.conn.ConnectTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +21,7 @@ import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.services.FeedUpdateService;
+import com.sun.syndication.io.FeedException;
 
 public class FeedRefreshWorker {
 
@@ -93,11 +92,10 @@ public class FeedRefreshWorker {
 		} catch (Exception e) {
 			message = "Unable to refresh feed " + feed.getUrl() + " : "
 					+ e.getMessage();
-			if (e instanceof HttpResponseException
-					|| e instanceof ConnectTimeoutException) {
-				log.debug(e.getClass().getName() + " " + message);
+			if (e instanceof FeedException) {
+				log.warn(e.getClass().getName() + " " + message);
 			} else {
-				log.info(e.getClass().getName() + " " + message);
+				log.debug(e.getClass().getName() + " " + message);
 			}
 
 			errorCount = feed.getErrorCount() + 1;

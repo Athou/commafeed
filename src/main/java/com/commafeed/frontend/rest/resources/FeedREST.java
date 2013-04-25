@@ -22,17 +22,18 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.feeds.FetchedFeed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
+import com.commafeed.frontend.model.FeedInfo;
+import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.RenameRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
-import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.rest.Enums.ReadType;
 import com.google.common.base.Preconditions;
 import com.wordnik.swagger.annotations.Api;
@@ -81,20 +82,25 @@ public class FeedREST extends AbstractResourceREST {
 	@GET
 	@Path("/fetch")
 	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", responseClass = "com.commafeed.backend.model.Feed")
-	public Feed fetchFeed(
+	public FeedInfo fetchFeed(
 			@ApiParam(value = "the feed's url", required = true) @QueryParam("url") String url) {
 		Preconditions.checkNotNull(url);
+
+		FeedInfo info = null;
 		url = StringUtils.trimToEmpty(url);
 		url = prependHttp(url);
-		Feed feed = null;
 		try {
-			feed = feedFetcher.fetch(url, true, null, null).getFeed();
+			FetchedFeed feed = feedFetcher.fetch(url, true, null, null);
+			info = new FeedInfo();
+			info.setUrl(feed.getFeed().getUrl());
+			info.setTitle(feed.getTitle());
+
 		} catch (Exception e) {
 			throw new WebApplicationException(e, Response
 					.status(Status.INTERNAL_SERVER_ERROR)
 					.entity(e.getMessage()).build());
 		}
-		return feed;
+		return info;
 	}
 
 	@Path("/mark")
@@ -130,8 +136,8 @@ public class FeedREST extends AbstractResourceREST {
 
 		FeedCategory category = CategoryREST.ALL.equals(req.getCategoryId()) ? null
 				: feedCategoryDAO.findById(Long.valueOf(req.getCategoryId()));
-		Feed fetchedFeed = fetchFeed(url);
-		feedSubscriptionService.subscribe(getUser(), fetchedFeed.getUrl(),
+		FeedInfo info = fetchFeed(url);
+		feedSubscriptionService.subscribe(getUser(), info.getUrl(),
 				req.getTitle(), category);
 
 		return Response.ok(Status.OK).build();
@@ -147,8 +153,7 @@ public class FeedREST extends AbstractResourceREST {
 	@POST
 	@Path("/unsubscribe")
 	@ApiOperation(value = "Unsubscribe to a feed", notes = "Unsubscribe to a feed")
-	public Response unsubscribe(
-			@ApiParam(required = true) IDRequest req) {
+	public Response unsubscribe(@ApiParam(required = true) IDRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 

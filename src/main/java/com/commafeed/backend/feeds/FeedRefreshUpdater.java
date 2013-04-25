@@ -5,6 +5,8 @@ import java.util.Collection;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -22,6 +24,7 @@ import com.commafeed.backend.services.FeedUpdateService;
 @MessageDriven(name = "FeedRefreshUpdater", activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
 		@ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/refreshQueue") })
+@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class FeedRefreshUpdater implements MessageListener {
 
 	private static Logger log = LoggerFactory
@@ -44,8 +47,9 @@ public class FeedRefreshUpdater implements MessageListener {
 				if (task.getEntries() != null) {
 					feedUpdateService.updateEntries(task.getFeed(),
 							task.getEntries());
+				} else {
+					feedDAO.update(task.getFeed());
 				}
-				feedDAO.update(task.getFeed());
 			} catch (JMSException e) {
 				log.error(e.getMessage(), e);
 			}

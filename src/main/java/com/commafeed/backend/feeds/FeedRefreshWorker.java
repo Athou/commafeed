@@ -22,6 +22,8 @@ import javax.transaction.SystemException;
 
 import org.apache.commons.lang.mutable.MutableBoolean;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,7 +104,12 @@ public class FeedRefreshWorker {
 		} catch (Exception e) {
 			message = "Unable to refresh feed " + feed.getUrl() + " : "
 					+ e.getMessage();
-			log.info(e.getClass().getName() + " " + message);
+			if (e instanceof HttpResponseException
+					|| e instanceof ConnectTimeoutException) {
+				log.debug(e.getClass().getName() + " " + message);
+			} else {
+				log.info(e.getClass().getName() + " " + message);
+			}
 
 			errorCount = feed.getErrorCount() + 1;
 

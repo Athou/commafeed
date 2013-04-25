@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -22,6 +23,7 @@ import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.google.common.collect.Lists;
 
+@Stateless
 public class FeedUpdateService {
 
 	@Inject
@@ -85,6 +87,7 @@ public class FeedUpdateService {
 			}
 		}
 
+		feedDAO.update(feed);
 		feedEntryDAO.saveOrUpdate(entryUpdateList);
 		feedEntryStatusDAO.saveOrUpdate(statusUpdateList);
 

@@ -88,7 +88,7 @@ public class FeedREST extends AbstractResourceREST {
 		url = prependHttp(url);
 		Feed feed = null;
 		try {
-			feed = feedFetcher.fetch(url, true, null, null);
+			feed = feedFetcher.fetch(url, true, null, null).getFeed();
 		} catch (Exception e) {
 			throw new WebApplicationException(e, Response
 					.status(Status.INTERNAL_SERVER_ERROR)

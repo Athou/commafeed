@@ -28,11 +28,11 @@ public class FeedFetcher {
 	@Inject
 	HttpGetter getter;
 
-	public Feed fetch(String feedUrl, boolean extractFeedUrlFromHtml,
+	public FetchedFeed fetch(String feedUrl, boolean extractFeedUrlFromHtml,
 			String lastModified, String eTag) throws FeedException,
 			ClientProtocolException, IOException, NotModifiedException {
 		log.debug("Fetching feed {}", feedUrl);
-		Feed feed = null;
+		FetchedFeed fetchedFeed = null;
 
 		HttpResult result = getter.getBinary(feedUrl, lastModified, eTag);
 		if (extractFeedUrlFromHtml) {
@@ -43,12 +43,12 @@ public class FeedFetcher {
 				feedUrl = extractedUrl;
 			}
 		}
-		feed = parser.parse(feedUrl, result.getContent());
-
+		fetchedFeed = parser.parse(feedUrl, result.getContent());
+		Feed feed = fetchedFeed.getFeed();
 		feed.setLastModifiedHeader(result.getLastModifiedSince());
 		feed.setEtagHeader(result.geteTag());
-		feed.setFetchDuration(result.getDuration());
-		return feed;
+		fetchedFeed.setFetchDuration(result.getDuration());
+		return fetchedFeed;
 	}
 
 	private String extractFeedUrl(String html, String baseUri) {

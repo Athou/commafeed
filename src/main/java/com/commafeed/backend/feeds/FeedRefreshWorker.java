@@ -84,7 +84,7 @@ public class FeedRefreshWorker {
 		int errorCount = 0;
 		Date disabledUntil = null;
 
-		Feed fetchedFeed = null;
+		FetchedFeed fetchedFeed = null;
 		boolean modified = true;
 		try {
 			fetchedFeed = fetcher.fetch(feed.getUrl(), false,
@@ -127,9 +127,10 @@ public class FeedRefreshWorker {
 
 		Collection<FeedEntry> entries = null;
 		if (fetchedFeed != null) {
-			feed.setLink(fetchedFeed.getLink());
-			feed.setLastModifiedHeader(fetchedFeed.getLastModifiedHeader());
-			feed.setEtagHeader(fetchedFeed.getEtagHeader());
+			feed.setLink(fetchedFeed.getFeed().getLink());
+			feed.setLastModifiedHeader(fetchedFeed.getFeed()
+					.getLastModifiedHeader());
+			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());
 			entries = fetchedFeed.getEntries();
 		}
 		FeedRefreshTask task = new FeedRefreshTask(feed, entries);

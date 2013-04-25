@@ -2,6 +2,7 @@ package com.commafeed.backend.feeds;
 
 import java.io.StringReader;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -35,8 +36,10 @@ public class FeedParser {
 	};
 
 	@SuppressWarnings("unchecked")
-	public Feed parse(String feedUrl, byte[] xml) throws FeedException {
-		Feed feed = new Feed();
+	public FetchedFeed parse(String feedUrl, byte[] xml) throws FeedException {
+		FetchedFeed fetchedFeed = new FetchedFeed();
+		Feed feed = fetchedFeed.getFeed();
+		Collection<FeedEntry> entries = fetchedFeed.getEntries();
 		feed.setLastUpdated(Calendar.getInstance().getTime());
 
 		try {
@@ -47,8 +50,8 @@ public class FeedParser {
 			InputSource source = new InputSource(new StringReader(xmlString));
 
 			SyndFeed rss = new SyndFeedInput().build(source);
+			fetchedFeed.setTitle(rss.getTitle());
 			feed.setUrl(feedUrl);
-			feed.setTitle(rss.getTitle());
 			feed.setLink(rss.getLink());
 			List<SyndEntry> items = rss.getEntries();
 			for (SyndEntry item : items) {
@@ -69,21 +72,21 @@ public class FeedParser {
 				}
 				entry.setContent(content);
 
-				feed.getEntries().add(entry);
+				entries.add(entry);
 			}
 			Date publishedDate = validateDate(rss.getPublishedDate());
 			if (publishedDate == null && !feed.getEntries().isEmpty()) {
-				FeedEntry first = feed.getEntries().iterator().next();
+				FeedEntry first = entries.iterator().next();
 				publishedDate = first.getUpdated();
 			}
-			feed.setPublishedDate(publishedDate);
+			fetchedFeed.setPublishedDate(publishedDate);
 
 		} catch (Exception e) {
 			throw new FeedException(String.format(
 					"Could not parse feed from %s : %s", feedUrl,
 					e.getMessage()), e);
 		}
-		return feed;
+		return fetchedFeed;
 	}
 
 	private Date getUpdateDate(SyndEntry item) {

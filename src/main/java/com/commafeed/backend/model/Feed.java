@@ -10,7 +10,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
 
@@ -30,25 +29,6 @@ public class Feed extends AbstractModel {
 	@Column(length = 40, nullable = false)
 	@Index(name = "urlHash_index")
 	private String urlHash;
-
-	/**
-	 * title of the feed, used only when fetching, not stored
-	 */
-	@Transient
-	private String title;
-
-	/**
-	 * time it took to fetch the feed, used only when fetching, not stored
-	 */
-	@Transient
-	private long fetchDuration;
-
-	/**
-	 * extracted published date from the feed, used only when fetching, not
-	 * stored
-	 */
-	@Transient
-	private Date publishedDate;
 
 	/**
 	 * The url of the website, extracted from the feed
@@ -138,14 +118,6 @@ public class Feed extends AbstractModel {
 		this.subscriptions = subscriptions;
 	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 	public String getLink() {
 		return link;
 	}
@@ -192,22 +164,6 @@ public class Feed extends AbstractModel {
 
 	public void setEtagHeader(String etagHeader) {
 		this.etagHeader = etagHeader;
-	}
-
-	public long getFetchDuration() {
-		return fetchDuration;
-	}
-
-	public void setFetchDuration(long fetchDuration) {
-		this.fetchDuration = fetchDuration;
-	}
-
-	public Date getPublishedDate() {
-		return publishedDate;
-	}
-
-	public void setPublishedDate(Date publishedDate) {
-		this.publishedDate = publishedDate;
 	}
 
 	public Date getLastUpdateSuccess() {

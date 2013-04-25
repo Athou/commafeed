@@ -4,16 +4,8 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.DeliveryMode;
 import javax.jms.JMSException;
-import javax.jms.MessageProducer;
-import javax.jms.ObjectMessage;
-import javax.jms.Queue;
-import javax.jms.Session;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -28,20 +20,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter.NotModifiedException;
-import com.commafeed.backend.feeds.FeedRefreshUpdater.FeedRefreshTask;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.services.FeedUpdateService;
 
 public class FeedRefreshWorker {
 
 	private static Logger log = LoggerFactory
 			.getLogger(FeedRefreshWorker.class);
 
-	@Resource(name = "jms/refreshQueue")
-	private Queue queue;
-
-	@Resource
-	private ConnectionFactory connectionFactory;
+	@Inject
+	FeedUpdateService feedUpdateService;
 
 	@Inject
 	FeedFetcher fetcher;
@@ -140,23 +129,8 @@ public class FeedRefreshWorker {
 			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());
 			entries = fetchedFeed.getEntries();
 		}
-		FeedRefreshTask task = new FeedRefreshTask(feed, entries);
-		send(task);
+		feedUpdateService.updateEntries(feed, entries);
 
-	}
-
-	private void send(FeedRefreshTask task) throws JMSException {
-		Connection connection = connectionFactory.createConnection();
-		connection.start();
-		Session session = connection.createSession(false,
-				Session.AUTO_ACKNOWLEDGE);
-		MessageProducer producer = session.createProducer(queue);
-		producer.setDisableMessageID(true);
-		producer.setDisableMessageTimestamp(true);
-		producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-		ObjectMessage message = session.createObjectMessage(task);
-		producer.send(message);
-		connection.close();
 	}
 
 	private Feed getNextFeed() {

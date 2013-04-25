@@ -2,7 +2,7 @@ var module = angular.module('commafeed.services', [ 'ngResource' ]);
 
 module.service('AnalyticsService', [ '$state', function($state) {
 	this.track = function(path) {
-		if (!ga) {
+		if (typeof variable === 'undefined') {
 			return;
 		}
 		path = path || $state.$current.url.prefix;

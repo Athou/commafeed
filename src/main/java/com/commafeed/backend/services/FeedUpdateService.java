@@ -7,8 +7,6 @@ import java.util.List;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -28,7 +26,6 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.google.common.collect.Lists;
 
 @Stateless
-@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class FeedUpdateService {
 
 	@Inject

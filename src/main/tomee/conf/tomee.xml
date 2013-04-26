@@ -3,10 +3,10 @@
 <!-- 
 	<Resource id="MySQL" type="DataSource">
 		JdbcDriver com.mysql.jdbc.Driver
-		JdbcUrl	jdbc:mysql://localhost/commafeed?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true
+        JdbcUrl jdbc:mysql://localhost/commafeed?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;maxReconnects=20
 		UserName cf
 		Password cf
-		MaxActive 40
+		MaxActive 50
 	</Resource>
  -->
 	<Container id="CommaFeedStateless" type="STATELESS">

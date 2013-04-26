@@ -80,7 +80,7 @@ public class FeedUpdateService {
 
 					if (!foundFeed) {
 						foundEntry.getFeeds().add(feed);
-						entryUpdateList.add(entry);
+						entryUpdateList.add(foundEntry);
 					}
 				}
 			}

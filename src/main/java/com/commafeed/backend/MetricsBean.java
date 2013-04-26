@@ -2,8 +2,13 @@ package com.commafeed.backend;
 
 import javax.ejb.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Singleton
 public class MetricsBean {
+
+	private static Logger log = LoggerFactory.getLogger(MetricsBean.class);
 
 	private int feedsRefreshedLastMinute;
 	private int feedsRefreshedThisMinute;
@@ -20,6 +25,7 @@ public class MetricsBean {
 			feedsRefreshedLastMinute = feedsRefreshedThisMinute;
 			feedsRefreshedThisMinute = 0;
 			minuteTimestamp = now;
+			log.info("** feeds per minute: {}", feedsRefreshedLastMinute);
 
 		}
 		feedsRefreshedThisMinute++;

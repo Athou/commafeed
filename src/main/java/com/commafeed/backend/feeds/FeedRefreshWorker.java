@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.services.FeedUpdateService;
 import com.sun.syndication.io.FeedException;
 
 public class FeedRefreshWorker {
@@ -29,7 +28,7 @@ public class FeedRefreshWorker {
 			.getLogger(FeedRefreshWorker.class);
 
 	@Inject
-	FeedUpdateService feedUpdateService;
+	FeedRefreshUpdater feedRefreshUpdater;
 
 	@Inject
 	FeedFetcher fetcher;
@@ -127,7 +126,7 @@ public class FeedRefreshWorker {
 			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());
 			entries = fetchedFeed.getEntries();
 		}
-		feedUpdateService.updateEntries(feed, entries);
+		feedRefreshUpdater.updateEntries(feed, entries);
 
 	}
 

@@ -9,7 +9,7 @@ function($routeProvider, $stateProvider, $urlRouterProvider) {
 	}];
 	
 	$stateProvider.state('feeds', {
-		abstract : true,
+		'abstract' : true,
 		url : '/feeds',
 		templateUrl : 'templates/feeds.html'
 	});
@@ -30,7 +30,7 @@ function($routeProvider, $stateProvider, $urlRouterProvider) {
 	});
 
 	$stateProvider.state('admin', {
-		abstract : true,
+		'abstract' : true,
 		url : '/admin',
 		templateUrl : 'templates/admin.html'
 	});

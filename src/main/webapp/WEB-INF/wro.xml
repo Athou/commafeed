@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <groups xmlns="http://www.isdc.ro/wro">
-	<group name="core">
+
+	<group name="app">
 		<css>/css/*.css</css>
 		<js>/js/*.js</js>
+	</group>
+
+	<group name="all">
+		<js>/vendor/**.js</js>
+		<group-ref>app</group-ref>
 	</group>
 </groups>

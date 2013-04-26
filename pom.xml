@@ -19,6 +19,19 @@
 		<jpa.show_sql>false</jpa.show_sql>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>hsqldb.snapshots</id>
+			<url>http://www.hsqldb.org/repos/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<build>
 		<finalName>commafeed</finalName>
 		<resources>
@@ -63,7 +76,7 @@
 					<tomeeVersion>1.5.2</tomeeVersion>
 					<tomeeClassifier>plus</tomeeClassifier>
 					<tomeeHttpPort>8082</tomeeHttpPort>
-					<args>-Xmx1024m -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled</args>
+					<args>-Xmx1024m -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled -Dwicket.configuration=development</args>
 					<config>${project.basedir}/src/main/tomee/conf</config>
 					<reloadOnUpdate>true</reloadOnUpdate>
 					<synchronization>
@@ -331,18 +344,6 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<repositories>
-				<repository>
-					<id>hsqldb.snapshots</id>
-					<url>http://www.hsqldb.org/repos/</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-			</repositories>
 			<build>
 				<plugins>
 					<plugin>
@@ -357,6 +358,7 @@
 									<goal>jshint</goal>
 								</goals>
 								<configuration>
+									<targetGroups>app</targetGroups>
 									<options>indent,devel,noarg,quotmark</options>
 								</configuration>
 							</execution>
@@ -367,6 +369,7 @@
 									<goal>csslint</goal>
 								</goals>
 								<configuration>
+									<targetGroups>app</targetGroups>
 									<options>display-property-grouping,duplicate-properties,adjoining-classes,compatible-vendor-prefixes,vendor-prefix</options>
 								</configuration>
 							</execution>
@@ -404,11 +407,16 @@
 			</build>
 		</profile>
 		<profile>
-			<id>jelastic</id>
+			<id>mysql</id>
 			<properties>
 				<jpa.datasource.name>java:openejb/Resource/MySQL</jpa.datasource.name>
-				<jpa.show_sql>false</jpa.show_sql>
 				<jpa.dialect>com.commafeed.backend.MySQL5Dialect</jpa.dialect>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<jpa.show_sql>false</jpa.show_sql>
 			</properties>
 			<build>
 				<finalName>commafeed</finalName>
@@ -427,6 +435,24 @@
 							<outputDirectory>deployments</outputDirectory>
 							<warName>ROOT</warName>
 						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>ro.isdc.wro4j</groupId>
+						<artifactId>wro4j-maven-plugin</artifactId>
+						<version>1.6.3</version>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<targetGroups>all</targetGroups>
+									<destinationFolder>${project.build.directory}/static/</destinationFolder>
+									<wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
+								</configuration>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>

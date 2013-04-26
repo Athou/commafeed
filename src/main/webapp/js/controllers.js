@@ -53,6 +53,9 @@ function($scope, FeedService, CategoryService) {
 	};
 
 	$scope.save = function() {
+		if (!$scope.sub.categoryId) {
+			return;
+		}
 		FeedService.subscribe($scope.sub, function() {
 			CategoryService.init();
 		});

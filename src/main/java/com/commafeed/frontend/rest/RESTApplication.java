@@ -10,6 +10,7 @@ import com.commafeed.frontend.rest.resources.ApiDocumentationREST;
 import com.commafeed.frontend.rest.resources.CategoryREST;
 import com.commafeed.frontend.rest.resources.EntryREST;
 import com.commafeed.frontend.rest.resources.FeedREST;
+import com.commafeed.frontend.rest.resources.ServerREST;
 import com.commafeed.frontend.rest.resources.UserREST;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.google.common.collect.Sets;
@@ -31,6 +32,7 @@ public class RESTApplication extends Application {
 		set.add(FeedREST.class);
 		set.add(CategoryREST.class);
 		set.add(UserREST.class);
+		set.add(ServerREST.class);
 		set.add(AdminREST.class);
 
 		set.add(ApiDocumentationREST.class);

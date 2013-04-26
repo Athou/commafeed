@@ -1,5 +1,6 @@
 package com.commafeed.backend.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -31,6 +32,9 @@ public class ApplicationSettings extends AbstractModel {
 	private boolean smtpTls;
 	private String smtpUserName;
 	private String smtpPassword;
+
+	@Column(length = 255)
+	private String announcement;
 
 	public String getPublicUrl() {
 		return publicUrl;
@@ -119,6 +123,14 @@ public class ApplicationSettings extends AbstractModel {
 	public void setGoogleAnalyticsTrackingCode(
 			String googleAnalyticsTrackingCode) {
 		this.googleAnalyticsTrackingCode = googleAnalyticsTrackingCode;
+	}
+
+	public String getAnnouncement() {
+		return announcement;
+	}
+
+	public void setAnnouncement(String announcement) {
+		this.announcement = announcement;
 	}
 
 }

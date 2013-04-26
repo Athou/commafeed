@@ -199,3 +199,8 @@ module.factory('AdminSettingsService', ['$resource', function($resource) {
 	var res = $resource('rest/admin/settings/');
 	return res;
 }]);
+
+module.factory('ServerService', ['$resource', function($resource) {
+	var res =  $resource('rest/server/get');
+	return res;
+}]);

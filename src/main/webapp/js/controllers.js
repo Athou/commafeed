@@ -162,15 +162,16 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 }]);
 
 module.controller('ToolbarCtrl', ['$scope', '$http', '$state', '$stateParams', 
-	'$route', '$location', 'SettingsService', 'EntryService', 'ProfileService', 'AnalyticsService',
+	'$route', '$location', 'SettingsService', 'EntryService', 'ProfileService', 'AnalyticsService', 'ServerService',
 function($scope, $http, $state, $stateParams, $route, $location,
-		SettingsService, EntryService, ProfileService, AnalyticsService) {
+		SettingsService, EntryService, ProfileService, AnalyticsService, ServerService) {
 
 	function totalActiveAjaxRequests() {
 		return ($http.pendingRequests.length + $.active);
 	}
 
 	$scope.session = ProfileService.get();
+	$scope.ServerService = ServerService.get();
 
 	$scope.loading = true;
 	$scope.$watch(totalActiveAjaxRequests, function() {

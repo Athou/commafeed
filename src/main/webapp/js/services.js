@@ -62,6 +62,12 @@ function($resource, $http) {
 				_method : 'mark'
 			}
 		},
+		refresh : {
+			method : 'POST',
+			params : {
+				_method : 'refresh'
+			}
+		},
 		subscribe : {
 			method : 'POST',
 			params : {

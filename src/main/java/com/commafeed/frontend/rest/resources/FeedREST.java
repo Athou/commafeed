@@ -103,6 +103,22 @@ public class FeedREST extends AbstractResourceREST {
 		return info;
 	}
 
+	@Path("/refresh")
+	@POST
+	@ApiOperation(value = "Queue a feed for refresh", notes = "Manually add a feed to the refresh queue")
+	public Response queueForRefresh(@ApiParam(value = "Feed id") IDRequest req) {
+		Preconditions.checkNotNull(req);
+		Preconditions.checkNotNull(req.getId());
+
+		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(),
+				req.getId());
+		if (sub != null) {
+			taskGiver.add(sub.getFeed());
+			return Response.ok(Status.OK).build();
+		}
+		return Response.ok(Status.NOT_FOUND).build();
+	}
+
 	@Path("/mark")
 	@POST
 	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read (unread is not supported)")

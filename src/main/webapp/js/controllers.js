@@ -165,9 +165,9 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 }]);
 
 module.controller('ToolbarCtrl', ['$scope', '$http', '$state', '$stateParams', 
-	'$route', '$location', 'SettingsService', 'EntryService', 'ProfileService', 'AnalyticsService', 'ServerService',
+	'$route', '$location', 'SettingsService', 'EntryService', 'ProfileService', 'AnalyticsService', 'ServerService', 'FeedService',
 function($scope, $http, $state, $stateParams, $route, $location,
-		SettingsService, EntryService, ProfileService, AnalyticsService, ServerService) {
+		SettingsService, EntryService, ProfileService, AnalyticsService, ServerService, FeedService) {
 
 	function totalActiveAjaxRequests() {
 		return ($http.pendingRequests.length + $.active);
@@ -195,7 +195,13 @@ function($scope, $http, $state, $stateParams, $route, $location,
 		}
 	});
 	$scope.refresh = function() {
+		if($stateParams._type == 'feed'){
+			FeedService.refresh({
+				id : $stateParams._id
+			});
+		}
 		$scope.$emit('emitReload');
+		
 	};
 	$scope.markAllAsRead = function() {
 		$scope.$emit('emitMarkAll', {

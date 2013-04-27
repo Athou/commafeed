@@ -97,7 +97,7 @@ public class FeedRefreshWorker {
 			if (feed.getErrorCount() >= retriesBeforeDisable) {
 				int disabledMinutes = 10 * (feed.getErrorCount()
 						- retriesBeforeDisable + 1);
-				disabledMinutes = Math.min(60, disabledMinutes);
+				disabledMinutes = Math.min(60 * 12, disabledMinutes);
 				disabledUntil = DateUtils.addMinutes(Calendar.getInstance()
 						.getTime(), disabledMinutes);
 			}

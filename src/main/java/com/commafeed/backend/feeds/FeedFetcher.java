@@ -43,6 +43,10 @@ public class FeedFetcher {
 				feedUrl = extractedUrl;
 			}
 		}
+		if (result.getContent() == null) {
+			throw new IOException("Feed content is empty.");
+		}
+
 		fetchedFeed = parser.parse(feedUrl, result.getContent());
 		Feed feed = fetchedFeed.getFeed();
 		feed.setLastModifiedHeader(result.getLastModifiedSince());

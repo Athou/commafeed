@@ -9,6 +9,7 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -36,6 +37,8 @@ import com.commafeed.frontend.model.request.RenameRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 import com.commafeed.frontend.rest.Enums.ReadType;
 import com.google.common.base.Preconditions;
+import com.sun.syndication.feed.opml.Opml;
+import com.sun.syndication.io.WireFeedOutput;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -203,7 +206,7 @@ public class FeedREST extends AbstractResourceREST {
 	@POST
 	@Path("/import")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@ApiOperation(value = "OPML Import", notes = "Import an OPML file, posted as a FORM with the 'file' name")
+	@ApiOperation(value = "OPML import", notes = "Import an OPML file, posted as a FORM with the 'file' name")
 	public Response importOpml() {
 		try {
 			FileItemFactory factory = new DiskFileItemFactory(1000000, null);
@@ -221,6 +224,23 @@ public class FeedREST extends AbstractResourceREST {
 					.entity(e.getMessage()).build());
 		}
 		return Response.ok(Status.OK).build();
+	}
+
+	@GET
+	@Path("/export")
+	@Produces(MediaType.APPLICATION_XML)
+	@ApiOperation(value = "OPML export", notes = "Export an OPML file of the user's subscriptions")
+	public Response exportOpml() {
+		Opml opml = opmlExporter.export(getUser());
+		WireFeedOutput output = new WireFeedOutput();
+		String opmlString = null;
+		try {
+			opmlString = output.outputString(opml);
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e)
+					.build();
+		}
+		return Response.ok(opmlString).build();
 	}
 
 }

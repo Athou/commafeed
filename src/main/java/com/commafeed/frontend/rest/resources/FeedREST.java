@@ -213,8 +213,11 @@ public class FeedREST extends AbstractResourceREST {
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			for (FileItem item : upload.parseRequest(request)) {
 				if ("file".equals(item.getFieldName())) {
-					opmlImporter.importOpml(getUser(),
-							IOUtils.toString(item.getInputStream(), "UTF-8"));
+					String opml = IOUtils.toString(item.getInputStream(),
+							"UTF-8");
+					if (StringUtils.isNotBlank(opml)) {
+						opmlImporter.importOpml(getUser(), opml);
+					}
 					break;
 				}
 			}

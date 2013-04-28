@@ -209,7 +209,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.7</version>
+			<version>1.8</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-collections</groupId>
@@ -272,7 +272,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.2.4</version>
+			<version>4.2.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jsoup</groupId>
@@ -315,7 +315,7 @@
 		<dependency>
 			<groupId>com.wordnik</groupId>
 			<artifactId>swagger-jaxrs_2.9.1</artifactId>
-			<version>1.2.2</version>
+			<version>1.2.3</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jersey-server</artifactId>

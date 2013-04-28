@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <groups xmlns="http://www.isdc.ro/wro">
 
+	<group name="lib">
+		<js minimize="false">/vendor/jquery/*.js</js>
+		<js minimize="false">/vendor/bootstrap/*.js</js>
+		<js minimize="false">/vendor/angularjs/*.js</js>
+		<js minimize="false">/vendor/angularui/*.js</js>
+		<js minimize="false">/vendor/angularui-bootstrap/*.js</js>
+		<js minimize="false">/vendor/angularui-state/*.js</js>
+		<js minimize="false">/vendor/mousetrap/*.js</js>
+		<js minimize="false">/vendor/nggrid/*.js</js>
+		<js minimize="false">/vendor/nginfinitescroll/*.js</js>
+		<js minimize="false">/vendor/ngupload/*.js</js>
+		<js minimize="false">/vendor/spinjs/*.js</js>
+		
+		<css minimize="false">/vendor/bootstrap/*.css</css>
+		<css minimize="false">/vendor/angularui/*.css</css>
+		<css minimize="false">/vendor/fontawesome/css/*.css</css>
+		<css minimize="false">/vendor/nggrid/*.css</css>
+	</group>
+
 	<group name="app">
 		<css>/css/*.css</css>
 		<js>/js/*.js</js>
 	</group>
 
 	<group name="all">
-		<js>/vendor/**.js</js>
+		<group-ref>lib</group-ref>
 		<group-ref>app</group-ref>
 	</group>
 </groups>

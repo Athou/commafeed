@@ -3,12 +3,8 @@ package com.commafeed.frontend.pages.components;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.feedback.IFeedbackMessageFilter;
 import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
-
-import com.commafeed.frontend.references.bootstrap.BootstrapReference;
-import com.commafeed.frontend.utils.WicketUtils;
 
 @SuppressWarnings("serial")
 public class BootstrapFeedbackPanel extends FeedbackPanel {
@@ -50,12 +46,4 @@ public class BootstrapFeedbackPanel extends FeedbackPanel {
 		tag.setName("div");
 		super.onComponentTag(tag);
 	}
-
-	@Override
-	public void renderHead(IHeaderResponse response) {
-		super.renderHead(response);
-		BootstrapReference.renderHead(response);
-		WicketUtils.loadCSS(response, BootstrapFeedbackPanel.class);
-	}
-
 }

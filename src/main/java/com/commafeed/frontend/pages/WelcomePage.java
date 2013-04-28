@@ -2,13 +2,11 @@ package com.commafeed.frontend.pages;
 
 import javax.inject.Inject;
 
-import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.frontend.pages.components.LoginPanel;
 import com.commafeed.frontend.pages.components.RegisterPanel;
-import com.commafeed.frontend.utils.WicketUtils;
 
 @SuppressWarnings("serial")
 public class WelcomePage extends BasePage {
@@ -29,12 +27,5 @@ public class WelcomePage extends BasePage {
 						.isAllowRegistrations());
 			}
 		});
-	}
-
-	@Override
-	public void renderHead(IHeaderResponse response) {
-		super.renderHead(response);
-		WicketUtils.loadJS(response, WelcomePage.class);
-		WicketUtils.loadCSS(response, WelcomePage.class);
 	}
 }

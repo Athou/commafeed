@@ -1,5 +1,7 @@
 package com.commafeed.frontend;
 
+import java.util.ResourceBundle;
+
 import javax.enterprise.inject.spi.BeanManager;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -8,6 +10,7 @@ import javax.servlet.http.Cookie;
 import org.apache.wicket.Application;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
+import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.authentication.strategy.DefaultAuthenticationStrategy;
@@ -47,7 +50,16 @@ import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
 
 public class CommaFeedApplication extends AuthenticatedWebApplication {
 
-	private Logger log = LoggerFactory.getLogger(CommaFeedApplication.class);
+	private static Logger log = LoggerFactory
+			.getLogger(CommaFeedApplication.class);
+
+	public CommaFeedApplication() {
+		super();
+		String prod = ResourceBundle.getBundle("application").getString(
+				"production");
+		setConfigurationType(Boolean.valueOf(prod) ? RuntimeConfigurationType.DEPLOYMENT
+				: RuntimeConfigurationType.DEVELOPMENT);
+	}
 
 	@Override
 	protected void init() {

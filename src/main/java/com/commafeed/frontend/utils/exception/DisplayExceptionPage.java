@@ -3,12 +3,10 @@ package com.commafeed.frontend.utils.exception;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
 import com.commafeed.frontend.pages.BasePage;
-import com.commafeed.frontend.references.bootstrap.BootstrapReference;
 
 public class DisplayExceptionPage extends BasePage {
 
@@ -38,10 +36,4 @@ public class DisplayExceptionPage extends BasePage {
 		}
 		return t;
 	}
-
-	@Override
-	public void renderHead(IHeaderResponse response) {
-		BootstrapReference.renderHead(response);
-	}
-
 }

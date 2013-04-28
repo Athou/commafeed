@@ -2,6 +2,14 @@
 	cursor: pointer;
 }
 
+.bs-fb ul {
+	margin-bottom: 0px;
+}
+
+.welcome .header {
+	margin: 20px 0 40px 0;
+}
+
 .main .spinner {
 	display: inline-block;
 	margin-left: 11px;

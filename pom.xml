@@ -14,9 +14,10 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<production>false</production>
+		<jpa.show_sql>false</jpa.show_sql>
 		<jpa.datasource.name>java:openejb/Resource/My DataSource</jpa.datasource.name>
 		<jpa.dialect>org.hibernate.dialect.HSQLDialect</jpa.dialect>
-		<jpa.show_sql>false</jpa.show_sql>
 	</properties>
 
 	<repositories>
@@ -76,7 +77,7 @@
 					<tomeeVersion>1.5.2</tomeeVersion>
 					<tomeeClassifier>plus</tomeeClassifier>
 					<tomeeHttpPort>8082</tomeeHttpPort>
-					<args>-Xmx1024m -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled -Dwicket.configuration=development</args>
+					<args>-Xmx1024m -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled</args>
 					<config>${project.basedir}/src/main/tomee/conf</config>
 					<reloadOnUpdate>true</reloadOnUpdate>
 					<synchronization>
@@ -305,6 +306,11 @@
 			<artifactId>wicket-cdi</artifactId>
 			<version>6.7.0</version>
 		</dependency>
+		<dependency>
+			<groupId>ro.isdc.wro4j</groupId>
+			<artifactId>wro4j-extensions</artifactId>
+			<version>1.6.3</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.wordnik</groupId>
@@ -383,6 +389,7 @@
 			<properties>
 				<jpa.datasource.name>java:jboss/datasources/MysqlDS</jpa.datasource.name>
 				<jpa.show_sql>false</jpa.show_sql>
+				<production>true</production>
 				<jpa.dialect>com.commafeed.backend.MySQL5Dialect</jpa.dialect>
 			</properties>
 			<build>
@@ -406,6 +413,7 @@
 				</plugins>
 			</build>
 		</profile>
+		
 		<profile>
 			<id>mysql</id>
 			<properties>
@@ -416,46 +424,9 @@
 		<profile>
 			<id>prod</id>
 			<properties>
+				<production>true</production>
 				<jpa.show_sql>false</jpa.show_sql>
 			</properties>
-			<build>
-				<finalName>commafeed</finalName>
-				<plugins>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>2.14</version>
-						<configuration>
-							<skip>true</skip>
-						</configuration>
-					</plugin>
-					<plugin>
-						<artifactId>maven-war-plugin</artifactId>
-						<version>2.3</version>
-						<configuration>
-							<outputDirectory>deployments</outputDirectory>
-							<warName>ROOT</warName>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>ro.isdc.wro4j</groupId>
-						<artifactId>wro4j-maven-plugin</artifactId>
-						<version>1.6.3</version>
-						<executions>
-							<execution>
-								<phase>compile</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<targetGroups>all</targetGroups>
-									<destinationFolder>${project.build.directory}/static/</destinationFolder>
-									<wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
 		</profile>
 	</profiles>
 </project>

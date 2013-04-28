@@ -33,6 +33,8 @@ public class ApplicationSettings extends AbstractModel {
 	private String smtpUserName;
 	private String smtpPassword;
 
+	private boolean feedbackButton = true;
+
 	@Column(length = 255)
 	private String announcement;
 
@@ -131,6 +133,14 @@ public class ApplicationSettings extends AbstractModel {
 
 	public void setAnnouncement(String announcement) {
 		this.announcement = announcement;
+	}
+
+	public boolean isFeedbackButton() {
+		return feedbackButton;
+	}
+
+	public void setFeedbackButton(boolean feedbackButton) {
+		this.feedbackButton = feedbackButton;
 	}
 
 }

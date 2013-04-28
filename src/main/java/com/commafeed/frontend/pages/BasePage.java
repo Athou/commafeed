@@ -10,6 +10,7 @@ import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.head.filter.HeaderResponseContainer;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -55,8 +56,18 @@ public abstract class BasePage extends WebPage {
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
+	private ApplicationSettings settings;
+
 	public BasePage() {
+		settings = applicationSettingsService.get();
 		add(new HeaderResponseContainer("footer-container", "footer-container"));
+		add(new WebMarkupContainer("uservoice") {
+			@Override
+			protected void onConfigure() {
+				super.onConfigure();
+				setVisibilityAllowed(settings.isFeedbackButton());
+			}
+		});
 	}
 
 	@Override
@@ -78,11 +89,11 @@ public abstract class BasePage extends WebPage {
 			response.render(CssHeaderItem.forUrl("css/app.css"));
 		}
 
-		final ApplicationSettings settings = applicationSettingsService.get();
 		if (StringUtils.isNotBlank(settings.getGoogleAnalyticsTrackingCode())) {
 			Map<String, Object> vars = Maps.newHashMap();
 			vars.put("trackingCode", settings.getGoogleAnalyticsTrackingCode());
 			WicketUtils.loadJS(response, BasePage.class, "analytics", vars);
 		}
+
 	}
 }

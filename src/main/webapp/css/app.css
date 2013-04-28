@@ -197,6 +197,10 @@
 	margin-top: 5px;
 }
 
+#feed-accordion  .entry-body-content {
+	max-width: 650px;
+}
+
 #feed-accordion .entry-buttons {
 	background-color: #fafafa;
 	padding: 3px 0px;

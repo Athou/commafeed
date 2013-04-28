@@ -22,7 +22,7 @@
 						<a href="{{entry.url}}" target="_blank" ng-bind-html-unsafe="entry.title"></a>
 					</h4>
 				</div>	
-				<div ng-bind-html-unsafe="entry.content"></div>
+				<div ng-bind-html-unsafe="entry.content" class="entry-body-content"></div>
 				<video controls ui-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">
 					<source src="{{entry.enclosureUrl}}" type="{{entry.enclosureType}}" />
 				</video>

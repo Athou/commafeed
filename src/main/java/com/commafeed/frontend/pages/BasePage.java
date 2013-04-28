@@ -80,13 +80,14 @@ public abstract class BasePage extends WebPage {
 		} else {
 			response.render(JavaScriptHeaderItem.forUrl("wro/lib.js"));
 			response.render(CssHeaderItem.forUrl("wro/lib.css"));
+			response.render(CssHeaderItem.forUrl("wro/app.css"));
 
 			response.render(JavaScriptHeaderItem.forUrl("js/welcome.js"));
 			response.render(JavaScriptHeaderItem.forUrl("js/main.js"));
 			response.render(JavaScriptHeaderItem.forUrl("js/controllers.js"));
 			response.render(JavaScriptHeaderItem.forUrl("js/directives.js"));
 			response.render(JavaScriptHeaderItem.forUrl("js/services.js"));
-			response.render(CssHeaderItem.forUrl("css/app.css"));
+
 		}
 
 		if (StringUtils.isNotBlank(settings.getGoogleAnalyticsTrackingCode())) {

@@ -14,7 +14,8 @@ public class WroListener extends WroServletContextListener {
 		boolean prod = Boolean.valueOf(ResourceBundle.getBundle("application")
 				.getString("production"));
 
-		conf.setDisableCache(prod);
+		conf.setResourceWatcherUpdatePeriod(prod ? 0 : 1);
+		conf.setDisableCache(!prod);
 		conf.setDebug(!prod);
 		return conf;
 	}

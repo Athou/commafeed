@@ -82,7 +82,8 @@ module.directive('category', [ function() {
 		restrict : 'E',
 		replace : true,
 		templateUrl : 'directives/category.html',
-		controller : function($scope, $state, $dialog, FeedService,
+		controller : ['$scope', '$state', '$dialog', 'FeedService',
+						'CategoryService', 'SettingsService', function($scope, $state, $dialog, FeedService,
 				CategoryService, SettingsService) {
 			$scope.settingsService = SettingsService;
 			$scope.unsubscribe = function(subscription) {
@@ -207,7 +208,7 @@ module.directive('category', [ function() {
 					collapse : !category.expanded
 				});
 			};
-		}
+		}]
 	};
 } ]);
 

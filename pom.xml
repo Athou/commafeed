@@ -365,7 +365,7 @@
 								</goals>
 								<configuration>
 									<targetGroups>app</targetGroups>
-									<options>indent,devel,noarg,quotmark</options>
+									<options>indent,devel,noarg,quotmark,laxcomma,laxbreak</options>
 								</configuration>
 							</execution>
 							<execution>

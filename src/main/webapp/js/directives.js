@@ -7,7 +7,25 @@ module.directive('favicon', function() {
 			url : '='
 		},
 		replace : true,
-		template : '<img ng-src="favicon?url={{url}}" class="favicon"></img>'
+		template : '<img ng-src="{{iconUrl()}}" class="favicon" onError="this.src=\'images/default_favicon.gif\'"></img>',
+		controller : function($scope) {
+			$scope.iconUrl = function() {
+				var url = $scope.url;
+
+				var current = window.location.href;
+				var baseUrl = current.substring(0, current.lastIndexOf('#'));
+				var defaultIcon = baseUrl + 'images/default_favicon.gif';
+				if (!url) {
+					return defaultIcon;
+				}
+
+				var index = Math.max(url.length, url.lastIndexOf('?'));
+				var iconUrl = 'http://g.etfv.co/';
+				iconUrl += encodeURIComponent(url.substring(0, index));
+				iconUrl += '?defaulticon=none';
+				return iconUrl;
+			};
+		}
 	};
 });
 
@@ -82,133 +100,144 @@ module.directive('category', [ function() {
 		restrict : 'E',
 		replace : true,
 		templateUrl : 'directives/category.html',
-		controller : ['$scope', '$state', '$dialog', 'FeedService',
-						'CategoryService', 'SettingsService', function($scope, $state, $dialog, FeedService,
-				CategoryService, SettingsService) {
-			$scope.settingsService = SettingsService;
-			$scope.unsubscribe = function(subscription) {
-				var title = 'Unsubscribe';
-				var msg = 'Unsubscribe from ' + subscription.name + ' ?';
-				var btns = [ {
-					result : 'cancel',
-					label : 'Cancel'
-				}, {
-					result : 'ok',
-					label : 'OK',
-					cssClass : 'btn-primary'
-				} ];
+		controller : [
+				'$scope',
+				'$state',
+				'$dialog',
+				'FeedService',
+				'CategoryService',
+				'SettingsService',
+				function($scope, $state, $dialog, FeedService, CategoryService,
+						SettingsService) {
+					$scope.settingsService = SettingsService;
+					$scope.unsubscribe = function(subscription) {
+						var title = 'Unsubscribe';
+						var msg = 'Unsubscribe from ' + subscription.name
+								+ ' ?';
+						var btns = [ {
+							result : 'cancel',
+							label : 'Cancel'
+						}, {
+							result : 'ok',
+							label : 'OK',
+							cssClass : 'btn-primary'
+						} ];
 
-				$dialog.messageBox(title, msg, btns).open().then(
-						function(result) {
-							if (result == 'ok') {
-								var data = {
-									id : subscription.id
-								};
-								FeedService.unsubscribe(data, function() {
-									CategoryService.init();
+						$dialog.messageBox(title, msg, btns).open().then(
+								function(result) {
+									if (result == 'ok') {
+										var data = {
+											id : subscription.id
+										};
+										FeedService.unsubscribe(data,
+												function() {
+													CategoryService.init();
+												});
+									}
 								});
-							}
+					};
+
+					$scope.formatCategoryName = function(category) {
+						var count = $scope.unreadCount({
+							category : category
 						});
-			};
+						var label = category.name;
+						if (count > 0) {
+							label = label + ' (' + count + ')';
+						}
+						return label;
+					};
 
-			$scope.formatCategoryName = function(category) {
-				var count = $scope.unreadCount({
-					category : category
-				});
-				var label = category.name;
-				if (count > 0) {
-					label = label + ' (' + count + ')';
-				}
-				return label;
-			};
+					$scope.formatFeedName = function(feed) {
+						var label = feed.name;
+						if (feed.unread > 0) {
+							label = label + ' (' + feed.unread + ')';
+						}
+						return label;
+					};
 
-			$scope.formatFeedName = function(feed) {
-				var label = feed.name;
-				if (feed.unread > 0) {
-					label = label + ' (' + feed.unread + ')';
-				}
-				return label;
-			};
+					$scope.feedClicked = function(id) {
+						if ($scope.selectedType == 'feed'
+								&& id == $scope.selectedId) {
+							$scope.$emit('emitReload');
+						} else {
+							$state.transitionTo('feeds.view', {
+								_type : 'feed',
+								_id : id
+							});
+						}
+					};
 
-			$scope.feedClicked = function(id) {
-				if ($scope.selectedType == 'feed' && id == $scope.selectedId) {
-					$scope.$emit('emitReload');
-				} else {
-					$state.transitionTo('feeds.view', {
-						_type : 'feed',
-						_id : id
-					});
-				}
-			};
+					$scope.categoryClicked = function(id) {
+						if ($scope.selectedType == 'category'
+								&& id == $scope.selectedId) {
+							$scope.$emit('emitReload');
+						} else {
+							$state.transitionTo('feeds.view', {
+								_type : 'category',
+								_id : id
+							});
+						}
+					};
 
-			$scope.categoryClicked = function(id) {
-				if ($scope.selectedType == 'category' && id == $scope.selectedId) {
-					$scope.$emit('emitReload');
-				} else {
-					$state.transitionTo('feeds.view', {
-						_type : 'category',
-						_id : id
-					});
-				}
-			};
+					$scope.renameFeed = function(feed) {
+						var name = window.prompt('Rename feed : ', feed.name);
+						if (name && name != feed.name) {
+							feed.name = name;
+							FeedService.rename({
+								id : feed.id,
+								name : name
+							});
+						}
+					};
 
-			$scope.renameFeed = function(feed) {
-				var name = window.prompt('Rename feed : ', feed.name);
-				if (name && name != feed.name) {
-					feed.name = name;
-					FeedService.rename({
-						id : feed.id,
-						name : name
-					});
-				}
-			};
+					$scope.renameCategory = function(category) {
+						var name = window.prompt('Rename category: ',
+								category.name);
+						if (name && name != category.name) {
+							category.name = name;
+							CategoryService.rename({
+								id : category.id,
+								name : name
+							});
+						}
+					};
 
-			$scope.renameCategory = function(category) {
-				var name = window.prompt('Rename category: ', category.name);
-				if (name && name != category.name) {
-					category.name = name;
-					CategoryService.rename({
-						id : category.id,
-						name : name
-					});
-				}
-			};
+					$scope.deleteCategory = function(category) {
+						var title = 'Delete category';
+						var msg = 'Delete category ' + category.name + ' ?';
+						var btns = [ {
+							result : 'cancel',
+							label : 'Cancel'
+						}, {
+							result : 'ok',
+							label : 'OK',
+							cssClass : 'btn-primary'
+						} ];
 
-			$scope.deleteCategory = function(category) {
-				var title = 'Delete category';
-				var msg = 'Delete category ' + category.name + ' ?';
-				var btns = [ {
-					result : 'cancel',
-					label : 'Cancel'
-				}, {
-					result : 'ok',
-					label : 'OK',
-					cssClass : 'btn-primary'
-				} ];
-
-				$dialog.messageBox(title, msg, btns).open().then(
-						function(result) {
-							if (result == 'ok') {
-								CategoryService.remove({
-									id : category.id
-								}, function() {
-									CategoryService.init();
+						$dialog.messageBox(title, msg, btns).open().then(
+								function(result) {
+									if (result == 'ok') {
+										CategoryService.remove({
+											id : category.id
+										}, function() {
+											CategoryService.init();
+										});
+									}
 								});
-							}
-						});
-			};
+					};
 
-			$scope.toggleCategory = function(category) {
-				category.expanded = !category.expanded;
-				if (category.id == 'all') {
-					return;
-				}
-				CategoryService.collapse({
-					id : category.id,
-					collapse : !category.expanded
-				});
-			};
-		}]
+					$scope.toggleCategory = function(category) {
+						category.expanded = !category.expanded;
+						if (category.id == 'all') {
+							return;
+						}
+						CategoryService.collapse({
+							id : category.id,
+							collapse : !category.expanded
+						});
+					};
+				} ]
 	};
 } ]);
 

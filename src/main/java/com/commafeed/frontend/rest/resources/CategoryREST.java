@@ -42,12 +42,13 @@ import com.wordnik.swagger.annotations.ApiParam;
 public class CategoryREST extends AbstractResourceREST {
 
 	public static final String ALL = "all";
+	public static final String STARRED = "starred";
 
 	@Path("/entries")
 	@GET
 	@ApiOperation(value = "Get category entries", notes = "Get a list of category entries", responseClass = "com.commafeed.frontend.model.Entries")
 	public Entries getCategoryEntries(
-			@ApiParam(value = "id of the category, or 'all'", required = true) @QueryParam("id") String id,
+			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
 			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @QueryParam("readType") ReadType readType,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging") @DefaultValue("-1") @QueryParam("limit") int limit,
@@ -67,6 +68,13 @@ public class CategoryREST extends AbstractResourceREST {
 				entries.getEntries().add(Entry.build(status));
 			}
 
+		} else if (STARRED.equals(id)) {
+			entries.setName("Starred");
+			List<FeedEntryStatus> starred = feedEntryStatusDAO.findStarred(
+					getUser(), offset, limit, order, true);
+			for (FeedEntryStatus status : starred) {
+				entries.getEntries().add(Entry.build(status));
+			}
 		} else {
 			FeedCategory feedCategory = feedCategoryDAO.findById(getUser(),
 					Long.valueOf(id));

@@ -18,4 +18,10 @@ public class FeedEntryService {
 		status.setRead(read);
 		feedEntryStatusDAO.update(status);
 	}
+
+	public void starEntry(User user, Long entryId, boolean starred) {
+		FeedEntryStatus status = feedEntryStatusDAO.findById(user, entryId);
+		status.setStarred(starred);
+		feedEntryStatusDAO.update(status);
+	}
 }

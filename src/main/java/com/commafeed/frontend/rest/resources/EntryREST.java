@@ -16,6 +16,7 @@ import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.request.MarkRequest;
+import com.commafeed.frontend.model.request.StarRequest;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.wordnik.swagger.annotations.Api;
@@ -36,6 +37,20 @@ public class EntryREST extends AbstractResourceREST {
 
 		feedEntryService.markEntry(getUser(), Long.valueOf(req.getId()),
 				req.isRead());
+
+		return Response.ok(Status.OK).build();
+	}
+
+	@Path("/star")
+	@POST
+	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
+	public Response starFeedEntry(
+			@ApiParam(value = "Star Request", required = true) StarRequest req) {
+		Preconditions.checkNotNull(req);
+		Preconditions.checkNotNull(req.getId());
+
+		feedEntryService.starEntry(getUser(), Long.valueOf(req.getId()),
+				req.isStarred());
 
 		return Response.ok(Status.OK).build();
 	}

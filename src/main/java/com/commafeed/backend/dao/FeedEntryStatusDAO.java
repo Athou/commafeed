@@ -86,6 +86,28 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return q.getResultList();
 	}
 
+	public List<FeedEntryStatus> findStarred(User user, int offset, int limit,
+			ReadingOrder order, boolean includeContent) {
+
+		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
+		Root<FeedEntryStatus> root = query.from(getType());
+
+		List<Predicate> predicates = Lists.newArrayList();
+		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription)
+				.get(FeedSubscription_.user), user));
+
+		query.where(builder.equal(root.get(FeedEntryStatus_.starred), true));
+		if (includeContent) {
+			root.fetch(FeedEntryStatus_.entry).fetch(FeedEntry_.content);
+		}
+
+		orderBy(query, root, order);
+
+		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
+		limit(q, offset, limit);
+		return q.getResultList();
+	}
+
 	public List<FeedEntryStatus> findAll(User user, boolean unreadOnly,
 			ReadingOrder order, boolean includeContent) {
 		return findAll(user, unreadOnly, -1, -1, order, includeContent);

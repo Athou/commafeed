@@ -95,8 +95,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		List<Predicate> predicates = Lists.newArrayList();
 		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription)
 				.get(FeedSubscription_.user), user));
-
-		query.where(builder.equal(root.get(FeedEntryStatus_.starred), true));
+		predicates.add(builder.equal(root.get(FeedEntryStatus_.starred), true));
+		query.where(predicates.toArray(new Predicate[0]));
 		if (includeContent) {
 			root.fetch(FeedEntryStatus_.entry).fetch(FeedEntry_.content);
 		}

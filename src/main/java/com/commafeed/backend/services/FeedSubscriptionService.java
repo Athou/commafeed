@@ -31,11 +31,20 @@ public class FeedSubscriptionService {
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
-	
-	@Inject FeedRefreshTaskGiver taskGiver;
+
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
+
+	@Inject
+	FeedRefreshTaskGiver taskGiver;
 
 	public Feed subscribe(User user, String url, String title,
 			FeedCategory category) {
+
+		if (url.startsWith(applicationSettingsService.get().getPublicUrl())) {
+			throw new RuntimeException(
+					"Could not subscribe to a feed from this CommaFeed instance");
+		}
 
 		Feed feed = feedService.findOrCreate(url);
 

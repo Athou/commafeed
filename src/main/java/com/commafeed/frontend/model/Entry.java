@@ -1,6 +1,7 @@
 package com.commafeed.frontend.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -9,6 +10,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
+import com.sun.syndication.feed.synd.SyndContentImpl;
+import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.wordnik.swagger.annotations.ApiClass;
 import com.wordnik.swagger.annotations.ApiProperty;
 
@@ -23,6 +27,7 @@ public class Entry implements Serializable {
 
 		FeedEntry feedEntry = status.getEntry();
 		entry.setId(String.valueOf(status.getId()));
+		entry.setGuid(feedEntry.getGuid());
 		entry.setTitle(feedEntry.getContent().getTitle());
 		entry.setContent(feedEntry.getContent().getContent());
 		entry.setEnclosureUrl(status.getEntry().getContent().getEnclosureUrl());
@@ -40,8 +45,25 @@ public class Entry implements Serializable {
 		return entry;
 	}
 
+	public SyndEntry asRss() {
+		SyndEntry entry = new SyndEntryImpl();
+
+		entry.setUri(getGuid());
+		entry.setTitle(getTitle());
+
+		SyndContentImpl content = new SyndContentImpl();
+		content.setValue(getContent());
+		entry.setContents(Arrays.asList(content));
+		entry.setLink(getUrl());
+		entry.setPublishedDate(getDate());
+		return entry;
+	}
+
 	@ApiProperty("entry id")
 	private String id;
+
+	@ApiProperty("entry guid")
+	private String guid;
 
 	@ApiProperty("entry title")
 	private String title;
@@ -170,6 +192,14 @@ public class Entry implements Serializable {
 
 	public void setEnclosureType(String enclosureType) {
 		this.enclosureType = enclosureType;
+	}
+
+	public String getGuid() {
+		return guid;
+	}
+
+	public void setGuid(String guid) {
+		this.guid = guid;
 	}
 
 }

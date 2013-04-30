@@ -1,5 +1,6 @@
 package com.commafeed.frontend.rest.resources;
 
+import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,12 +12,16 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
@@ -33,6 +38,11 @@ import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.RenameRequest;
 import com.commafeed.frontend.rest.Enums.ReadType;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
+import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.feed.synd.SyndFeedImpl;
+import com.sun.syndication.io.SyndFeedOutput;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -40,6 +50,8 @@ import com.wordnik.swagger.annotations.ApiParam;
 @Path("/category")
 @Api(value = "/category", description = "Operations about user categories")
 public class CategoryREST extends AbstractResourceREST {
+
+	private static Logger log = LoggerFactory.getLogger(CategoryREST.class);
 
 	public static final String ALL = "all";
 	public static final String STARRED = "starred";
@@ -93,6 +105,46 @@ public class CategoryREST extends AbstractResourceREST {
 		}
 		entries.setTimestamp(Calendar.getInstance().getTimeInMillis());
 		return entries;
+	}
+
+	@Path("/entriesAsFeed")
+	@GET
+	@ApiOperation(value = "Get category entries as feed", notes = "Get a feed of category entries")
+	@Produces(MediaType.APPLICATION_XML)
+	public String getCategoryEntriesAsFeed(
+			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id) {
+
+		Preconditions.checkNotNull(id);
+
+		ReadType readType = ReadType.all;
+		ReadingOrder order = ReadingOrder.desc;
+		int offset = 0;
+		int limit = 20;
+
+		Entries entries = getCategoryEntries(id, readType, offset, limit, order);
+
+		SyndFeed feed = new SyndFeedImpl();
+		feed.setFeedType("rss_2.0");
+		feed.setTitle("CommaFeed - " + entries.getName());
+		feed.setDescription("CommaFeed - " + entries.getName());
+		String publicUrl = applicationSettingsService.get().getPublicUrl();
+		feed.setLink(publicUrl);
+
+		List<SyndEntry> children = Lists.newArrayList();
+		for (Entry entry : entries.getEntries()) {
+			children.add(entry.asRss());
+		}
+		feed.setEntries(children);
+
+		SyndFeedOutput output = new SyndFeedOutput();
+		StringWriter writer = new StringWriter();
+		try {
+			output.output(feed, writer);
+		} catch (Exception e) {
+			writer.write("Could not get feed information");
+			log.error(e.getMessage(), e);
+		}
+		return writer.toString();
 	}
 
 	@Path("/mark")

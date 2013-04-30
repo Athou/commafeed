@@ -1,5 +1,6 @@
 package com.commafeed.frontend.rest.resources;
 
+import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,8 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.feeds.FetchedFeed;
 import com.commafeed.backend.model.FeedCategory;
@@ -37,7 +40,12 @@ import com.commafeed.frontend.model.request.RenameRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 import com.commafeed.frontend.rest.Enums.ReadType;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.sun.syndication.feed.opml.Opml;
+import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.feed.synd.SyndFeedImpl;
+import com.sun.syndication.io.SyndFeedOutput;
 import com.sun.syndication.io.WireFeedOutput;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -46,6 +54,8 @@ import com.wordnik.swagger.annotations.ApiParam;
 @Path("/feed")
 @Api(value = "/feed", description = "Operations about feeds")
 public class FeedREST extends AbstractResourceREST {
+
+	private static Logger log = LoggerFactory.getLogger(FeedREST.class);
 
 	@Path("/entries")
 	@GET
@@ -80,6 +90,46 @@ public class FeedREST extends AbstractResourceREST {
 
 		entries.setTimestamp(Calendar.getInstance().getTimeInMillis());
 		return entries;
+	}
+
+	@Path("/entriesAsFeed")
+	@GET
+	@ApiOperation(value = "Get feed entries as a feed", notes = "Get a feed of feed entries")
+	@Produces(MediaType.APPLICATION_XML)
+	public String getFeedEntriesAsFeed(
+			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id) {
+
+		Preconditions.checkNotNull(id);
+
+		ReadType readType = ReadType.all;
+		ReadingOrder order = ReadingOrder.desc;
+		int offset = 0;
+		int limit = 20;
+
+		Entries entries = getFeedEntries(id, readType, offset, limit, order);
+
+		SyndFeed feed = new SyndFeedImpl();
+		feed.setFeedType("rss_2.0");
+		feed.setTitle("CommaFeed - " + entries.getName());
+		feed.setDescription("CommaFeed - " + entries.getName());
+		String publicUrl = applicationSettingsService.get().getPublicUrl();
+		feed.setLink(publicUrl);
+
+		List<SyndEntry> children = Lists.newArrayList();
+		for (Entry entry : entries.getEntries()) {
+			children.add(entry.asRss());
+		}
+		feed.setEntries(children);
+
+		SyndFeedOutput output = new SyndFeedOutput();
+		StringWriter writer = new StringWriter();
+		try {
+			output.output(feed, writer);
+		} catch (Exception e) {
+			writer.write("Could not get feed information");
+			log.error(e.getMessage(), e);
+		}
+		return writer.toString();
 	}
 
 	@GET

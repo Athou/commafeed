@@ -237,11 +237,14 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 	$scope.CategoryService = CategoryService;
 	
 	CategoryService.get(function() {
-		for(var i = 0; i < CategoryService.flatCategories.length; i++){
+		for (var i = 0; i < CategoryService.flatCategories.length; i++) {
 			var cat = CategoryService.flatCategories[i];
 			if (cat.id == $stateParams._id) {
-				$scope.category = angular.copy(cat);
-				$scope.category.name = $scope.category.origName;
+				$scope.category = {
+					id: cat.id,
+					name: cat.orig.name,
+					parentId: cat.orig.parentId,
+				}
 				break;
 			}
 		}

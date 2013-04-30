@@ -104,7 +104,7 @@ function($resource, $http) {
 		array.push({
 			id : category.id,
 			name : name, 
-			origName: category.name
+			orig: category
 		});
 		if (category.children) {
 			for ( var i = 0; i < category.children.length; i++) {

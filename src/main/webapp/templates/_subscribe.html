@@ -33,8 +33,8 @@
 				<div class="control-group" ng-class="{error : !subscribeForm.category.$valid}">
 					<label class="control-label">Category</label>
 					<div class="controls">
-						<select name="category" ng-model="sub.categoryId" class="input-block-level" required>
-							<option ng-repeat="cat in CategoryService.flatCategories" value="{{cat.id}}">{{cat.name}}</option>
+						<select name="category" ng-model="sub.categoryId" class="input-block-level" 
+							ng-options="cat.id as cat.name for cat in CategoryService.flatCategories" required>
 						</select>
 						<span class="help-block" ng-show="!subscribeForm.category.$valid">Required</span>
 					</div>

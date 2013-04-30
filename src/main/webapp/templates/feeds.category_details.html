@@ -14,7 +14,7 @@
 		<div class="control-group" ng-class="{error : !form.category.$valid}">
 			<label class="control-label">Parent category</label>
 			<div class="controls">
-				<select name="category" class="input-block-level" ng-model="cat.parentId" 
+				<select name="category" class="input-block-level" ng-model="category.parentId" 
 					ng-options="cat.id as cat.name for cat in CategoryService.flatCategories">
 				</select>
 				<span class="help-block" ng-show="!form.category.$valid">Required</span>
@@ -24,7 +24,7 @@
 		<div class="control-group">
 			<label class="control-label">Feed URL</label>
 			<div class="controls horizontal-align">
-				<a href="{{'rest/category/entriesAsFeed?id=' + cat.id}}" target="_blank">{{'rest/category/entriesAsFeed?id=' + cat.id}}</a>
+				<a href="{{'rest/category/entriesAsFeed?id=' + category.id}}" target="_blank">{{'rest/category/entriesAsFeed?id=' + category.id}}</a>
 			</div>
 		</div>
 

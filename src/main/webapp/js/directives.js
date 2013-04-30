@@ -95,6 +95,8 @@ module.directive('category', [ function() {
 			node : '=',
 			selectedType : '=',
 			selectedId : '=',
+			showLabel : '=',
+			showChildren : '=',
 			unreadCount : '&'
 		},
 		restrict : 'E',

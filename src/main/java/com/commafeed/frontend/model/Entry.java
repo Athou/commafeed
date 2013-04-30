@@ -37,6 +37,7 @@ public class Entry implements Serializable {
 		entry.setUrl(feedEntry.getUrl());
 
 		entry.setRead(status.isRead());
+		entry.setStarred(status.isStarred());
 
 		entry.setFeedName(status.getSubscription().getTitle());
 		entry.setFeedId(String.valueOf(status.getSubscription().getId()));

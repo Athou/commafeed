@@ -9,6 +9,10 @@
 			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)"
 				ng-class="{open: current == entry, closed: current != entry}">
 				<span class="feed-name">
+					<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
+						<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}"
+							class="pointer"></i>
+					</span>
 					<favicon url="entry.feedUrl" />
 					{{entry.feedName}}
 				</span>

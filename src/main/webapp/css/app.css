@@ -212,6 +212,19 @@
 	font-size: 12px;
 }
 
+#feed-accordion .star {
+	text-decoration: none;
+	padding: 0px 5px;
+}
+
+#feed-accordion .icon-star-yellow {
+	color: gold;
+}
+
+#feed-accordion .icon-star-empty {
+	color: #555;
+}
+
 /* admin */
 .admin .users-table {
 	height: 400px;

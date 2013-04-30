@@ -1,5 +1,5 @@
 <li>
-	<div ng-mouseenter="hovered=node" ng-mouseleave="hovered=null" class="pointer">
+	<div ng-mouseenter="hovered=node" ng-mouseleave="hovered=null" class="pointer" ui-if="showLabel">
 		<div class="dropdown pull-right">
 			<a data-toggle="dropdown" class="pull-right">
 				<i ng-class="{'icon-chevron-down': hovered==node && node.id != 'all'}" class="icon"></i>
@@ -13,19 +13,19 @@
 				</li>
 			</ul>
 		</div>
-		<span class="fldr" ng-click="toggleCategory(node)">
-			<i ng-class="{'icon-caret-right': !node.expanded, 'icon-caret-down': node.expanded}"></i>
+		<span class="fldr">
+			<i ng-class="{'icon-caret-right': !node.expanded, 'icon-caret-down': node.expanded}" ng-click="toggleCategory(node)" ng-show="showChildren"></i>
 		</span>
 		<span ng-click="categoryClicked(node.id)">
 			<span ng-class="{selected: (node.id == selectedId && selectedType == 'category'), unread: unreadCount({category:node})}">{{formatCategoryName(node)}}
 			</span>
 		</span>
 	</div>
-	<ul ng-show="node.expanded" class="indent">
+	<ul ng-show="node.expanded && showChildren" ng-class="{indent: showLabel}">
 		<recursive>
 			<category ng-repeat="child in node.children" ng-show="settingsService.settings.showRead == true || unreadCount({category:node}) > 0"
 				node="child" selected-type="selectedType"
-				selected-id="selectedId"
+				selected-id="selectedId" show-label="true" show-children="true"
 				unread-count="unreadCount({category:category})"> 
 			</category> 
 		</recursive>

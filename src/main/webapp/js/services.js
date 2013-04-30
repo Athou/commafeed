@@ -186,6 +186,12 @@ function($resource, $http) {
 			params : {
 				_method : 'mark'
 			}
+		},
+		star : {
+			method : 'POST',
+			params : {
+				_method : 'star'
+			}
 		}
 	};
 	var res = $resource('rest/entry/:_method', {}, actions);

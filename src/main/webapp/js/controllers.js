@@ -99,6 +99,11 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;
 
+	$scope.starred = {
+		id: 'starred',
+		name: 'Starred'
+	};
+	
 	$scope.$on('$stateChangeSuccess', function() {
 		$scope.selectedType = $stateParams._type;
 		$scope.selectedId = $stateParams._id;
@@ -336,6 +341,18 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			EntryService.mark({
 				id : entry.id,
 				read : read
+			});
+		}
+	};
+	
+	$scope.star = function(entry, star, event) {
+		event.preventDefault();
+		event.stopPropagation();
+		if (entry.starred != star) {
+			entry.starred = star;
+			EntryService.star({
+				id : entry.id,
+				starred : star
 			});
 		}
 	};

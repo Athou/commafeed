@@ -8,7 +8,7 @@ module.directive('favicon', function() {
 		},
 		replace : true,
 		template : '<img ng-src="{{iconUrl()}}" class="favicon" onError="this.src=\'images/default_favicon.gif\'"></img>',
-		controller : function($scope) {
+		controller : ['$scope', function($scope) {
 			$scope.iconUrl = function() {
 				var url = $scope.url;
 
@@ -25,7 +25,7 @@ module.directive('favicon', function() {
 				iconUrl += '?defaulticon=none';
 				return iconUrl;
 			};
-		}
+		}]
 	};
 });
 

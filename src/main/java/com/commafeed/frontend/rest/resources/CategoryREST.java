@@ -32,10 +32,10 @@ import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.request.AddCategoryRequest;
+import com.commafeed.frontend.model.request.CategoryModificationRequest;
 import com.commafeed.frontend.model.request.CollapseRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
-import com.commafeed.frontend.model.request.RenameRequest;
 import com.commafeed.frontend.rest.Enums.ReadType;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -218,9 +218,10 @@ public class CategoryREST extends AbstractResourceREST {
 	}
 
 	@POST
-	@Path("/rename")
+	@Path("/modify")
 	@ApiOperation(value = "Rename a category", notes = "Rename an existing feed category")
-	public Response renameCategory(@ApiParam(required = true) RenameRequest req) {
+	public Response modifyCategory(
+			@ApiParam(required = true) CategoryModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 		Preconditions.checkArgument(StringUtils.isNotBlank(req.getName()));
@@ -228,6 +229,16 @@ public class CategoryREST extends AbstractResourceREST {
 		FeedCategory category = feedCategoryDAO
 				.findById(getUser(), req.getId());
 		category.setName(req.getName());
+
+		FeedCategory parent = null;
+		if (req.getParentId() != null
+				&& !CategoryREST.ALL.equals(req.getParentId())
+				&& !StringUtils.equals(req.getParentId(),
+						String.valueOf(req.getId()))) {
+			parent = feedCategoryDAO.findById(getUser(),
+					Long.valueOf(req.getParentId()));
+		}
+		category.setParent(parent);
 		feedCategoryDAO.update(category);
 
 		return Response.ok(Status.OK).build();
@@ -281,6 +292,9 @@ public class CategoryREST extends AbstractResourceREST {
 						subscriptions, unreadCount);
 				child.setId(String.valueOf(c.getId()));
 				child.setName(c.getName());
+				if (c.getParent() != null && c.getParent().getId() != null) {
+					child.setParentId(String.valueOf(c.getParent().getId()));
+				}
 				child.setExpanded(!c.isCollapsed());
 				category.getChildren().add(child);
 			}
@@ -296,14 +310,9 @@ public class CategoryREST extends AbstractResourceREST {
 			if ((id == null && subscription.getCategory() == null)
 					|| (subscription.getCategory() != null && ObjectUtils
 							.equals(subscription.getCategory().getId(), id))) {
-				Subscription sub = new Subscription();
-				sub.setId(subscription.getId());
-				sub.setName(subscription.getTitle());
-				sub.setMessage(subscription.getFeed().getMessage());
-				sub.setErrorCount(subscription.getFeed().getErrorCount());
-				sub.setFeedUrl(subscription.getFeed().getLink());
 				Long size = unreadCount.get(subscription.getId());
-				sub.setUnread(size == null ? 0 : size);
+				long unread = size == null ? 0 : size;
+				Subscription sub = Subscription.build(subscription, unread);
 				category.getFeeds().add(sub);
 			}
 		}

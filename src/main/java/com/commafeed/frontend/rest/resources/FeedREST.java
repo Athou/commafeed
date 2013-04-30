@@ -10,6 +10,7 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
@@ -34,9 +35,10 @@ import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.FeedInfo;
+import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
-import com.commafeed.frontend.model.request.RenameRequest;
+import com.commafeed.frontend.model.request.FeedModificationRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 import com.commafeed.frontend.rest.Enums.ReadType;
 import com.google.common.base.Preconditions;
@@ -191,6 +193,17 @@ public class FeedREST extends AbstractResourceREST {
 		return Response.ok(Status.OK).build();
 	}
 
+	@GET
+	@Path("/get/{id}")
+	@ApiOperation(value = "", notes = "")
+	public Subscription get(
+			@ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
+
+		Preconditions.checkNotNull(id);
+		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(), id);
+		return Subscription.build(sub, 0);
+	}
+
 	@POST
 	@Path("/subscribe")
 	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
@@ -237,10 +250,10 @@ public class FeedREST extends AbstractResourceREST {
 	}
 
 	@POST
-	@Path("/rename")
-	@ApiOperation(value = "Rename a subscription", notes = "Rename a feed subscription")
-	public Response rename(
-			@ApiParam(value = "subscription id", required = true) RenameRequest req) {
+	@Path("/modify")
+	@ApiOperation(value = "Modify a subscription", notes = "Modify a feed subscription")
+	public Response modify(
+			@ApiParam(value = "subscription id", required = true) FeedModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 		Preconditions.checkNotNull(req.getName());
@@ -248,6 +261,14 @@ public class FeedREST extends AbstractResourceREST {
 		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
 				req.getId());
 		subscription.setTitle(req.getName());
+
+		FeedCategory parent = null;
+		if (req.getCategoryId() != null
+				&& !CategoryREST.ALL.equals(req.getCategoryId())) {
+			parent = feedCategoryDAO.findById(getUser(),
+					Long.valueOf(req.getCategoryId()));
+		}
+		subscription.setCategory(parent);
 		feedSubscriptionDAO.update(subscription);
 
 		return Response.ok(Status.OK).build();

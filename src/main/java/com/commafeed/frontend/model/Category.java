@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 public class Category implements Serializable {
 
 	private String id;
+	private String parentId;
 	private String name;
 	private List<Category> children = Lists.newArrayList();
 	private List<Subscription> feeds = Lists.newArrayList();
@@ -26,6 +27,14 @@ public class Category implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 
 	public String getName() {

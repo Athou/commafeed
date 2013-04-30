@@ -80,14 +80,15 @@ function($resource, $http) {
 				_method : 'unsubscribe'
 			}
 		},
-		rename : {
+		modify : {
 			method : 'POST',
 			params : {
-				_method : 'rename'
+				_method : 'modify'
 			}
 		}
 	};
 	var res = $resource('rest/feed/:_method', {}, actions);
+	res.get = $resource('rest/feed/get/:id').get;
 	return res;
 }]);
 
@@ -102,7 +103,8 @@ function($resource, $http) {
 		}
 		array.push({
 			id : category.id,
-			name : name
+			name : name, 
+			origName: category.name
 		});
 		if (category.children) {
 			for ( var i = 0; i < category.children.length; i++) {
@@ -142,10 +144,10 @@ function($resource, $http) {
 				_method : 'delete'
 			}
 		},
-		rename : {
+		modify : {
 			method : 'POST',
 			params : {
-				_method : 'rename'
+				_method : 'modify'
 			}
 		},
 		collapse : {

@@ -112,32 +112,6 @@ module.directive('category', [ function() {
 				function($scope, $state, $dialog, FeedService, CategoryService,
 						SettingsService) {
 					$scope.settingsService = SettingsService;
-					$scope.unsubscribe = function(subscription) {
-						var title = 'Unsubscribe';
-						var msg = 'Unsubscribe from ' + subscription.name
-								+ ' ?';
-						var btns = [ {
-							result : 'cancel',
-							label : 'Cancel'
-						}, {
-							result : 'ok',
-							label : 'OK',
-							cssClass : 'btn-primary'
-						} ];
-
-						$dialog.messageBox(title, msg, btns).open().then(
-								function(result) {
-									if (result == 'ok') {
-										var data = {
-											id : subscription.id
-										};
-										FeedService.unsubscribe(data,
-												function() {
-													CategoryService.init();
-												});
-									}
-								});
-					};
 
 					$scope.formatCategoryName = function(category) {
 						var count = $scope.unreadCount({
@@ -181,52 +155,17 @@ module.directive('category', [ function() {
 							});
 						}
 					};
-
-					$scope.renameFeed = function(feed) {
-						var name = window.prompt('Rename feed : ', feed.name);
-						if (name && name != feed.name) {
-							feed.name = name;
-							FeedService.rename({
-								id : feed.id,
-								name : name
-							});
-						}
+					
+					$scope.showFeedDetails = function(feed) {
+						$state.transitionTo('feeds.feed_details', {
+							_id: feed.id
+						});
 					};
-
-					$scope.renameCategory = function(category) {
-						var name = window.prompt('Rename category: ',
-								category.name);
-						if (name && name != category.name) {
-							category.name = name;
-							CategoryService.rename({
-								id : category.id,
-								name : name
-							});
-						}
-					};
-
-					$scope.deleteCategory = function(category) {
-						var title = 'Delete category';
-						var msg = 'Delete category ' + category.name + ' ?';
-						var btns = [ {
-							result : 'cancel',
-							label : 'Cancel'
-						}, {
-							result : 'ok',
-							label : 'OK',
-							cssClass : 'btn-primary'
-						} ];
-
-						$dialog.messageBox(title, msg, btns).open().then(
-								function(result) {
-									if (result == 'ok') {
-										CategoryService.remove({
-											id : category.id
-										}, function() {
-											CategoryService.init();
-										});
-									}
-								});
+					
+					$scope.showCategoryDetails = function(category) {
+						$state.transitionTo('feeds.category_details', {
+							_id: category.id
+						});
 					};
 
 					$scope.toggleCategory = function(category) {

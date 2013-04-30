@@ -1,0 +1,38 @@
+<div>
+	<div class="page-header">
+		<h3>Category details</h3>
+	</div>
+	<form name="form" class="form-horizontal" ng-submit="save()">
+		<div class="control-group" ng-class="{error : !form.name.$valid}">
+			<label class="control-label">Name</label>
+			<div class="controls">
+				<input type="text" name="name" ng-model="category.name" class="input-block-level" required></input>
+				<span class="help-block" ng-show="!form.name.$valid">Required</span>
+			</div>
+		</div>
+
+		<div class="control-group" ng-class="{error : !form.category.$valid}">
+			<label class="control-label">Parent category</label>
+			<div class="controls">
+				<select name="category" class="input-block-level" ng-model="cat.parentId" 
+					ng-options="cat.id as cat.name for cat in CategoryService.flatCategories">
+				</select>
+				<span class="help-block" ng-show="!form.category.$valid">Required</span>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">Feed URL</label>
+			<div class="controls horizontal-align">
+				<a href="{{'rest/category/entriesAsFeed?id=' + cat.id}}" target="_blank">{{'rest/category/entriesAsFeed?id=' + cat.id}}</a>
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Save</button>
+			<button type="button" class="btn" ng-click="back()">Cancel</button>
+			<button type="button" class="btn btn-danger" ng-click="unsubscribe()">Unsubscribe</button>
+		</div>
+	</form>
+
+</div>

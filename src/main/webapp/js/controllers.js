@@ -169,6 +169,136 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 	});
 }]);
 
+module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', '$dialog', 
+    function($scope, $state, $stateParams, FeedService, CategoryService, $dialog) {
+	
+	$scope.CategoryService = CategoryService;
+	
+	$scope.sub = FeedService.get({
+		id : $stateParams._id
+	});
+	
+	$scope.back = function() {
+		$state.transitionTo('feeds.view', {
+			_id: $stateParams._id,
+			_type: 'feed'
+		});
+	};
+	
+	$scope.unsubscribe = function() {
+		var sub = $scope.sub;
+		var title = 'Unsubscribe';
+		var msg = 'Unsubscribe from ' + sub.name + ' ?';
+		var btns = [ {
+			result : 'cancel',
+			label : 'Cancel'
+		}, {
+			result : 'ok',
+			label : 'OK',
+			cssClass : 'btn-primary'
+		} ];
+
+		$dialog.messageBox(title, msg, btns).open().then(
+				function(result) {
+					if (result == 'ok') {
+						var data = {
+							id : sub.id
+						};
+						FeedService.unsubscribe(data,
+								function() {
+									CategoryService.init();
+								});
+						$state.transitionTo('feeds.view', {
+							_id: 'all',
+							_type: 'category'
+						});
+					}
+				});
+	};
+	
+	$scope.save = function() {
+		var sub = $scope.sub;
+		FeedService.modify({
+			id : sub.id,
+			name : sub.name,
+			categoryId : sub.categoryId
+		}, function() {
+			CategoryService.init();
+			$state.transitionTo('feeds.view', {
+				_id: 'all',
+				_type: 'category'
+			});
+		});
+	};
+}]);
+
+module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', '$dialog', 
+                                      function($scope, $state, $stateParams, FeedService, CategoryService, $dialog) {
+	$scope.CategoryService = CategoryService;
+	
+	CategoryService.get(function() {
+		for(var i = 0; i < CategoryService.flatCategories.length; i++){
+			var cat = CategoryService.flatCategories[i];
+			if (cat.id == $stateParams._id) {
+				$scope.category = angular.copy(cat);
+				$scope.category.name = $scope.category.origName;
+				break;
+			}
+		}
+	});
+	
+	$scope.back = function() {
+		$state.transitionTo('feeds.view', {
+			_id: $stateParams._id,
+			_type: 'category'
+		});
+	};
+	
+	$scope.deleteCategory = function() {
+		var category = $scope.category;
+		var title = 'Delete category';
+		var msg = 'Delete category ' + category.name + ' ?';
+		var btns = [ {
+			result : 'cancel',
+			label : 'Cancel'
+		}, {
+			result : 'ok',
+			label : 'OK',
+			cssClass : 'btn-primary'
+		} ];
+
+		$dialog.messageBox(title, msg, btns).open().then(
+				function(result) {
+					if (result == 'ok') {
+						CategoryService.remove({
+							id : category.id
+						}, function() {
+							CategoryService.init();
+						});
+						$state.transitionTo('feeds.view', {
+							_id: 'all',
+							_type: 'category'
+						});
+					}
+				});
+	};
+	
+	$scope.save = function() {
+		var cat = $scope.category;
+		CategoryService.modify({
+			id : cat.id,
+			name : cat.name,
+			parentId : cat.parentId
+		}, function() {
+			CategoryService.init();
+			$state.transitionTo('feeds.view', {
+				_id: 'all',
+				_type: 'category'
+			});
+		});
+	};
+}]);
+
 module.controller('ToolbarCtrl', ['$scope', '$http', '$state', '$stateParams', 
 	'$route', '$location', 'SettingsService', 'EntryService', 'ProfileService', 'AnalyticsService', 'ServerService', 'FeedService',
 function($scope, $http, $state, $stateParams, $route, $location,

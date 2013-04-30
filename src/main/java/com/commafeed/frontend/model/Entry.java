@@ -41,7 +41,8 @@ public class Entry implements Serializable {
 
 		entry.setFeedName(status.getSubscription().getTitle());
 		entry.setFeedId(String.valueOf(status.getSubscription().getId()));
-		entry.setFeedUrl(status.getSubscription().getFeed().getLink());
+		entry.setFeedUrl(status.getSubscription().getFeed().getUrl());
+		entry.setFeedLink(status.getSubscription().getFeed().getLink());
 
 		return entry;
 	}
@@ -87,8 +88,11 @@ public class Entry implements Serializable {
 	@ApiProperty("feed name")
 	private String feedName;
 
-	@ApiProperty("feed url")
+	@ApiProperty("this entry's feed url")
 	private String feedUrl;
+
+	@ApiProperty("this entry's website url")
+	private String feedLink;
 
 	@ApiProperty("entry url")
 	private String url;
@@ -201,6 +205,14 @@ public class Entry implements Serializable {
 
 	public void setGuid(String guid) {
 		this.guid = guid;
+	}
+
+	public String getFeedLink() {
+		return feedLink;
+	}
+
+	public void setFeedLink(String feedLink) {
+		this.feedLink = feedLink;
 	}
 
 }

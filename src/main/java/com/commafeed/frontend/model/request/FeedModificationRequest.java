@@ -12,14 +12,17 @@ import com.wordnik.swagger.annotations.ApiProperty;
 @SuppressWarnings("serial")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@ApiClass("Rename Request")
-public class RenameRequest implements Serializable {
+@ApiClass("Feed modification request")
+public class FeedModificationRequest implements Serializable {
 
 	@ApiProperty(value = "id", required = true)
 	private Long id;
 
-	@ApiProperty(value = "mark as read or unread")
+	@ApiProperty(value = "new name")
 	private String name;
+
+	@ApiProperty(value = "new parent category id")
+	private String categoryId;
 
 	public Long getId() {
 		return id;
@@ -35,6 +38,14 @@ public class RenameRequest implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
 
 }

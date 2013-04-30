@@ -23,6 +23,16 @@ function($routeProvider, $stateProvider, $urlRouterProvider) {
 		templateUrl : 'templates/feeds.view.html',
 		controller : 'FeedListCtrl'
 	});
+	$stateProvider.state('feeds.feed_details', {
+		url : '/details/feed/:_id',
+		templateUrl : 'templates/feeds.feed_details.html',
+		controller : 'FeedDetailsCtrl'
+	});
+	$stateProvider.state('feeds.category_details', {
+		url : '/details/category/:_id',
+		templateUrl : 'templates/feeds.category_details.html',
+		controller : 'CategoryDetailsCtrl'
+	});
 	$stateProvider.state('feeds.help', {
 		url : '/help',
 		templateUrl : 'templates/feeds.help.html',

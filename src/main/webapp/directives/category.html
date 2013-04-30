@@ -1,17 +1,9 @@
 <li>
 	<div ng-mouseenter="hovered=node" ng-mouseleave="hovered=null" class="pointer" ui-if="showLabel">
 		<div class="dropdown pull-right">
-			<a data-toggle="dropdown" class="pull-right">
-				<i ng-class="{'icon-chevron-down': hovered==node && node.id != 'all'}" class="icon"></i>
-			</a>
-			<ul class="dropdown-menu">
-				<li>
-					<a ng-click="renameCategory(node)">Rename</a>
-				</li>
-				<li>
-					<a ng-click="deleteCategory(node)">Delete</a>
-				</li>
-			</ul>
+			<div class="pull-right" ng-click="showCategoryDetails(node)">
+				<i ng-class="{'icon-chevron-right': hovered==node}" class="icon"></i>
+			</div>
 		</div>
 		<span class="fldr">
 			<i ng-class="{'icon-caret-right': !node.expanded, 'icon-caret-down': node.expanded}" ng-click="toggleCategory(node)" ng-show="showChildren"></i>
@@ -32,22 +24,12 @@
 		<li ng-repeat="feed in node.feeds" ng-mouseenter="hovered=feed"
 			ng-mouseleave="hovered=null" ng-show="settingsService.settings.showRead == true || feed.unread > 0"
 			ng-class="{error: feed.message && feed.errorCount > 10}">
-			<div class="dropdown pull-right">
-				<a data-toggle="dropdown" class="pull-right">
-					<i ng-class="{'icon-chevron-down': hovered==feed}" class="icon"></i>
-				</a>
-				<ul class="dropdown-menu">
-					<li>
-						<a ng-click="renameFeed(feed)">Rename</a>
-					</li>
-					<li>
-						<a ng-click="unsubscribe(feed)">Unsubscribe</a>
-					</li>
-				</ul>
+			<div class="pull-right" ng-click="showFeedDetails(feed)">
+				<i ng-class="{'icon-chevron-right': hovered==feed}" class="icon pointer"></i>
 			</div>
 			<a ng-click="feedClicked(feed.id)" class="feed-link"
 				ng-class="{selected: (feed.id == selectedId && selectedType == 'feed'), unread: feed.unread }">
-				<favicon url="feed.feedUrl" />
+				<favicon url="feed.feedLink" />
 				{{formatFeedName(feed)}}
 			</a>
 		</li>

@@ -6,6 +6,11 @@
 	margin-bottom: 0px;
 }
 
+.horizontal-align {
+	padding-top: 5px;
+	line-height: 20px
+}
+
 .welcome .header {
 	margin: 20px 0 40px 0;
 }

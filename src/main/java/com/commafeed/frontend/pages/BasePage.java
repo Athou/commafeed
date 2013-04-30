@@ -13,6 +13,7 @@ import org.apache.wicket.markup.head.filter.HeaderResponseContainer;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 
+import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
@@ -31,6 +32,9 @@ public abstract class BasePage extends WebPage {
 
 	@Inject
 	protected FeedDAO feedDAO;
+
+	@Inject
+	StartupBean startupBean;
 
 	@Inject
 	protected FeedSubscriptionDAO feedSubscriptionDAO;
@@ -75,8 +79,10 @@ public abstract class BasePage extends WebPage {
 		super.renderHead(response);
 
 		if (getApplication().getConfigurationType() == RuntimeConfigurationType.DEPLOYMENT) {
-			response.render(JavaScriptHeaderItem.forUrl("wro/all.js"));
-			response.render(CssHeaderItem.forUrl("wro/all.css"));
+			long startupTime = startupBean.getStartupTime();
+			String suffix = "?" + startupTime;
+			response.render(JavaScriptHeaderItem.forUrl("wro/all.js" + suffix));
+			response.render(CssHeaderItem.forUrl("wro/all.css" + suffix));
 		} else {
 			response.render(JavaScriptHeaderItem.forUrl("wro/lib.js"));
 			response.render(CssHeaderItem.forUrl("wro/lib.css"));

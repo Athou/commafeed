@@ -90,7 +90,11 @@ public class StartupBean {
 
 	private void initialData() {
 		log.info("Populating database with default values");
-		applicationSettingsService.save(new ApplicationSettings());
+		
+		ApplicationSettings settings = new ApplicationSettings();
+		settings.setAnnouncement("Set the Public URL in the admin section !");
+		applicationSettingsService.save(settings);
+		
 		userService.register(USERNAME_ADMIN, "admin",
 				Arrays.asList(Role.ADMIN, Role.USER));
 		userService.register(USERNAME_DEMO, "demo", Arrays.asList(Role.USER));

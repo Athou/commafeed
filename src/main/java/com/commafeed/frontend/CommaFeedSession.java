@@ -36,10 +36,6 @@ public class CommaFeedSession extends AuthenticatedWebSession {
 		return user;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public static CommaFeedSession get() {
 		return (CommaFeedSession) Session.get();
 	}
@@ -52,6 +48,11 @@ public class CommaFeedSession extends AuthenticatedWebSession {
 	@Override
 	public boolean authenticate(String userName, String password) {
 		User user = userService.login(userName, password);
+		setUser(user);
+		return user != null;
+	}
+
+	public void setUser(User user) {
 		if (user == null) {
 			this.user = null;
 			this.roles = new Roles();
@@ -64,7 +65,6 @@ public class CommaFeedSession extends AuthenticatedWebSession {
 			this.user = user;
 			this.roles = new Roles(roleSet.toArray(new String[0]));
 		}
-		return user != null;
 	}
 
 }

@@ -1,11 +1,14 @@
 package com.commafeed.frontend.rest.resources;
 
+import java.util.UUID;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.StartupBean;
@@ -78,6 +81,7 @@ public class UserREST extends AbstractResourceREST {
 		userModel.setName(user.getName());
 		userModel.setEmail(user.getEmail());
 		userModel.setEnabled(!user.isDisabled());
+		userModel.setApiKey(user.getApiKey());
 		for (UserRole role : userRoleDAO.findAll(user)) {
 			if (role.getRole() == Role.ADMIN) {
 				userModel.setAdmin(true);
@@ -95,13 +99,24 @@ public class UserREST extends AbstractResourceREST {
 		if (StartupBean.USERNAME_DEMO.equals(user.getName())) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
+
 		user.setEmail(request.getEmail());
 		if (StringUtils.isNotBlank(request.getPassword())) {
 			byte[] password = encryptionService.getEncryptedPassword(
 					request.getPassword(), user.getSalt());
 			user.setPassword(password);
+			user.setApiKey(generateKey(user));
+		}
+		if (request.isNewApiKey()) {
+			user.setApiKey(generateKey(user));
 		}
 		userDAO.update(user);
 		return Response.ok().build();
+	}
+
+	private String generateKey(User user) {
+		byte[] key = encryptionService.getEncryptedPassword(UUID.randomUUID()
+				.toString(), user.getSalt());
+		return DigestUtils.sha1Hex(key);
 	}
 }

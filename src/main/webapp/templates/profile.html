@@ -31,6 +31,21 @@
 				<span class="help-inline" ng-show="profileForm.password_c.$error.validator">Passwords do not match</span>
 			</div>
 		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="password">API key</label>
+			<div class="controls horizontal-align">
+				<span ng-show="user.apiKey">{{user.apiKey}}</span>
+				<span ng-show="!user.apiKey">Not generated yet</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="password">Generate new API key</label>
+			<div class="controls">
+				<input type="checkbox" name="newApiKey" id="newApiKey" ng-model="newApiKey">
+				<span class="help-block">Changing password will generate a new API key</span>
+			</div>
+		</div>
 
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary">Save</button>

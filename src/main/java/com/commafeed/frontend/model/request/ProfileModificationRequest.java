@@ -18,6 +18,9 @@ public class ProfileModificationRequest {
 	@ApiProperty(value = "changes password of the user, if specified")
 	private String password;
 
+	@ApiProperty(value = "generate a new api key")
+	private boolean newApiKey;
+
 	public String getEmail() {
 		return email;
 	}
@@ -32,6 +35,14 @@ public class ProfileModificationRequest {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean isNewApiKey() {
+		return newApiKey;
+	}
+
+	public void setNewApiKey(boolean newApiKey) {
+		this.newApiKey = newApiKey;
 	}
 
 }

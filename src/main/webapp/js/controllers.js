@@ -184,10 +184,11 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 	});
 }]);
 
-module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', '$dialog', 
-    function($scope, $state, $stateParams, FeedService, CategoryService, $dialog) {
+module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', 'ProfileService', '$dialog', 
+    function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService, $dialog) {
 	
 	$scope.CategoryService = CategoryService;
+	$scope.user = ProfileService.get();
 	
 	$scope.sub = FeedService.get({
 		id : $stateParams._id
@@ -250,9 +251,10 @@ module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedS
 	};
 }]);
 
-module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', '$dialog', 
-                                      function($scope, $state, $stateParams, FeedService, CategoryService, $dialog) {
+module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', 'ProfileService', '$dialog', 
+                                      function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService, $dialog) {
 	$scope.CategoryService = CategoryService;
+	$scope.user = ProfileService.get();
 	
 	$scope.isMeta = function() {
 		return parseInt($stateParams._id, 10) != $stateParams._id;
@@ -264,7 +266,7 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 		return elem.id != $scope.category.id;
 	}; 
 	
-	CategoryService.get(function() {
+	CategoryService.init(function() {
 		if ($scope.isMeta()) {
 			$scope.category = {
 				id : $stateParams._id,
@@ -785,7 +787,8 @@ function($scope, $location, ProfileService, AnalyticsService) {
 		}
 		var o = {
 			email : $scope.user.email,
-			password : $scope.user.password
+			password : $scope.user.password,
+			newApiKey : $scope.newApiKey
 		};
 
 		ProfileService.save(o, function() {

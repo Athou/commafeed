@@ -24,7 +24,8 @@
 		<div class="control-group">
 			<label class="control-label">Feed URL</label>
 			<div class="controls horizontal-align">
-				<a href="{{'rest/category/entriesAsFeed?id=' + category.id}}" target="_blank">{{'rest/category/entriesAsFeed?id=' + category.id}}</a>
+				<a ng-show="user.apiKey" href="{{'rest/category/entriesAsFeed?id=' + category.id + '&apiKey=' + user.apiKey}}" target="_blank">link</a>
+				<span ng-show="!user.apiKey">Generate an API key in your profile first.</span>
 			</div>
 		</div>
 

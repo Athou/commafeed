@@ -26,7 +26,9 @@ import org.slf4j.LoggerFactory;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
+import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
@@ -111,6 +113,7 @@ public class CategoryREST extends AbstractResourceREST {
 	@GET
 	@ApiOperation(value = "Get category entries as feed", notes = "Get a feed of category entries")
 	@Produces(MediaType.APPLICATION_XML)
+	@SecurityCheck(value = Role.USER, apiKeyAllowed = true)
 	public String getCategoryEntriesAsFeed(
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id) {
 

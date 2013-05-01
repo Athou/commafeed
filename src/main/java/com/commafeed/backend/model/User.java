@@ -31,6 +31,9 @@ public class User extends AbstractModel {
 	@Column(length = 256, nullable = false)
 	private byte[] password;
 
+	@Column(length = 40, unique = true)
+	private String apiKey;
+
 	@Column(length = 8, nullable = false)
 	private byte[] salt;
 
@@ -97,6 +100,14 @@ public class User extends AbstractModel {
 
 	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
+	}
+
+	public String getApiKey() {
+		return apiKey;
+	}
+
+	public void setApiKey(String apiKey) {
+		this.apiKey = apiKey;
 	}
 
 }

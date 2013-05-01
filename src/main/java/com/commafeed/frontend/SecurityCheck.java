@@ -22,4 +22,7 @@ public @interface SecurityCheck {
 	 */
 	@Nonbinding
 	Role value() default Role.USER;
+
+	@Nonbinding
+	boolean apiKeyAllowed() default false;
 }

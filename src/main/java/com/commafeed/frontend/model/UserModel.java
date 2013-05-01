@@ -24,6 +24,9 @@ public class UserModel implements Serializable {
 	@ApiProperty("user email, if any")
 	private String email;
 
+	@ApiProperty("api key")
+	private String apiKey;
+
 	@ApiProperty(value = "user password, never returned by the api")
 	private String password;
 
@@ -79,6 +82,14 @@ public class UserModel implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getApiKey() {
+		return apiKey;
+	}
+
+	public void setApiKey(String apiKey) {
+		this.apiKey = apiKey;
 	}
 
 }

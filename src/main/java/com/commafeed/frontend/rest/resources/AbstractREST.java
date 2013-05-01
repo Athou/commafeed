@@ -97,7 +97,7 @@ public abstract class AbstractREST {
 
 	@Inject
 	OPMLImporter opmlImporter;
-	
+
 	@Inject
 	OPMLExporter opmlExporter;
 
@@ -124,23 +124,38 @@ public abstract class AbstractREST {
 				.fetchCreateAndSetSession(cycle);
 
 		if (session.getUser() == null) {
-			IAuthenticationStrategy authenticationStrategy = app
-					.getSecuritySettings().getAuthenticationStrategy();
-			String[] data = authenticationStrategy.load();
+			cookieLogin(app, session);
+		}
+		if (session.getUser() == null) {
+			basicHttpLogin(swreq, session);
+		}
+	}
+
+	private void cookieLogin(CommaFeedApplication app, CommaFeedSession session) {
+		IAuthenticationStrategy authenticationStrategy = app
+				.getSecuritySettings().getAuthenticationStrategy();
+		String[] data = authenticationStrategy.load();
+		if (data != null && data.length > 1) {
+			session.signIn(data[0], data[1]);
+		}
+	}
+
+	private void basicHttpLogin(ServletWebRequest req, CommaFeedSession session) {
+		String value = req.getHeader(HttpHeaders.AUTHORIZATION);
+		if (value != null && value.startsWith("Basic ")) {
+			value = value.substring(6);
+			String decoded = new String(Base64.decodeBase64(value));
+			String[] data = decoded.split(":");
 			if (data != null && data.length > 1) {
 				session.signIn(data[0], data[1]);
-			} else {
-				String value = swreq.getHeader(HttpHeaders.AUTHORIZATION);
-				if (value != null && value.startsWith("Basic ")) {
-					value = value.substring(6);
-					String decoded = new String(Base64.decodeBase64(value));
-					data = decoded.split(":");
-					if (data != null && data.length > 1) {
-						session.signIn(data[0], data[1]);
-					}
-				}
 			}
 		}
+	}
+
+	private void apiKeyLogin() {
+		String apiKey = request.getParameter("apiKey");
+		User user = userDAO.findByApiKey(apiKey);
+		CommaFeedSession.get().setUser(user);
 	}
 
 	protected User getUser() {
@@ -149,19 +164,21 @@ public abstract class AbstractREST {
 
 	@AroundInvoke
 	public Object checkSecurity(InvocationContext context) throws Exception {
-		User user = getUser();
-
 		boolean allowed = true;
+		User user = null;
 		Method method = context.getMethod();
+		SecurityCheck check = method.isAnnotationPresent(SecurityCheck.class) ? method
+				.getAnnotation(SecurityCheck.class) : method
+				.getDeclaringClass().getAnnotation(SecurityCheck.class);
 
-		if (method.isAnnotationPresent(SecurityCheck.class)) {
-			allowed = checkRole(user, method.getAnnotation(SecurityCheck.class));
-		} else if (method.getDeclaringClass().isAnnotationPresent(
-				SecurityCheck.class)) {
-			allowed = checkRole(
-					user,
-					method.getDeclaringClass().getAnnotation(
-							SecurityCheck.class));
+		if (check != null) {
+			user = getUser();
+			if (user == null && check.apiKeyAllowed()) {
+				apiKeyLogin();
+				user = getUser();
+			}
+
+			allowed = checkRole(check.value());
 		}
 		if (!allowed) {
 			if (user == null) {
@@ -181,8 +198,7 @@ public abstract class AbstractREST {
 		return context.proceed();
 	}
 
-	private boolean checkRole(User user, SecurityCheck annotation) {
-		Role requiredRole = annotation.value();
+	private boolean checkRole(Role requiredRole) {
 		if (requiredRole == Role.NONE) {
 			return true;
 		}

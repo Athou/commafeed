@@ -19,14 +19,16 @@
 				<div class="control-group" ng-class="{error : !subscribeForm.url.$valid}">
 					<label class="control-label">Feed URL</label>
 					<div class="controls">
-						<input type="text" name="url" ng-model="sub.url" ng-blur="urlChanged()" placeholder="http://example.com/feed" class="input-block-level" required></input>
+						<input type="text" name="url" ng-model="sub.url" ng-blur="urlChanged()" placeholder="http://example.com/feed" 
+							class="input-block-level" required ng-disabled="state=='loading'"></input>
 						<span class="help-block" ng-show="!subscribeForm.url.$valid">Required</span>
 					</div>
 				</div>
 				<div class="control-group" ng-class="{error : !subscribeForm.title.$valid}">
 					<label class="control-label">Feed Name</label>
 					<div class="controls">
-						<input type="text" name="title" ng-model="sub.title" class="input-block-level" required></input>
+						<input type="text" name="title" ng-model="sub.title" 
+							class="input-block-level" required ng-disabled="state=='loading'"></input>
 						<span class="help-block" ng-show="!subscribeForm.title.$valid">Required</span>
 					</div>
 				</div>
@@ -42,7 +44,7 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn cancel" ng-click="close()" type="button">Cancel</button>
-				<button class="btn btn-primary ok" type="submit">Save</button>
+				<button class="btn btn-primary ok" type="submit" ng-disabled="state!='ok'">Save</button>
 			</div>
 		</form>
 	</div>

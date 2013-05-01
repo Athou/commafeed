@@ -41,20 +41,29 @@ function($scope, FeedService, CategoryService) {
 		$scope.isOpen = false;
 	};
 
+	// 'ok', 'loading' or 'failed'
+	$scope.state = 'ok';
 	$scope.urlChanged = function() {
-		var msg = 'Loading...';
-		if ($scope.sub.url && (!$scope.sub.title || $scope.sub.title == msg)) {
-			$scope.sub.title = msg;
+		if ($scope.sub.url) {
+			$scope.state = 'loading';
+			$scope.sub.title = 'Loading...';
 			FeedService.fetch({
 				url : $scope.sub.url
 			}, function(data) {
+				$scope.state = 'ok';
 				$scope.sub.title = data.title;
 				$scope.sub.url = data.url;
+			}, function(data) {
+				$scope.state = 'failed';
+				$scope.sub.title = 'Loading failed. Invalid feed?';
 			});
 		}
 	};
 
 	$scope.save = function() {
+		if ($scope.state != 'ok') {
+			return;
+		}
 		if (!$scope.sub.categoryId) {
 			return;
 		}

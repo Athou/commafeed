@@ -236,7 +236,18 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
                                       function($scope, $state, $stateParams, FeedService, CategoryService, $dialog) {
 	$scope.CategoryService = CategoryService;
 	
+	$scope.isMeta = function() {
+		return parseInt($stateParams._id, 10) != $stateParams._id;
+	};
+	
 	CategoryService.get(function() {
+		if ($scope.isMeta()) {
+			$scope.category = {
+				id : $stateParams._id,
+				name : $stateParams._id,
+			};
+			return;
+		}
 		for (var i = 0; i < CategoryService.flatCategories.length; i++) {
 			var cat = CategoryService.flatCategories[i];
 			if (cat.id == $stateParams._id) {
@@ -244,7 +255,7 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 					id: cat.id,
 					name: cat.orig.name,
 					parentId: cat.orig.parentId
-				}
+				};
 				break;
 			}
 		}

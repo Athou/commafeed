@@ -410,10 +410,10 @@ function($scope, $http, $state, $stateParams, $route, $location,
 		$location.path('admin');
 	};
 	$scope.toSettings = function() {
-		$location.path('settings');
+		$state.transitionTo('feeds.settings');
 	};
 	$scope.toProfile = function() {
-		$location.path('profile');
+		$state.transitionTo('feeds.profile');
 	};
 	$scope.toHelp = function() {
 		$state.transitionTo('feeds.help');

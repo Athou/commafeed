@@ -1,8 +1,14 @@
-<div class="container profile">
+<div class="container-fluid profile">
 	<div class="page-header">
 		<h1>Profile</h1>
 	</div>
 	<form name="profileForm" ng-submit="save()" class="form-horizontal">
+		<div class="control-group">
+			<label class="control-label" for="email">User name</label>
+			<div class="controls horizontal-align">
+				<span>{{user.name}}</span>
+			</div>
+		</div>
 		<div class="control-group">
 			<label class="control-label" for="email">E-mail</label>
 			<div class="controls">

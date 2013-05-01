@@ -39,6 +39,16 @@ app.config([ '$routeProvider', '$stateProvider', '$urlRouterProvider',
 				templateUrl : 'templates/feeds.help.html',
 				controller : trackCtrl
 			});
+			$stateProvider.state('feeds.settings', {
+				url : '/settings',
+				templateUrl : 'templates/settings.html',
+				controller : 'SettingsCtrl'
+			});
+			$stateProvider.state('feeds.profile', {
+				url : '/profile',
+				templateUrl : 'templates/profile.html',
+				controller : 'ProfileCtrl'
+			});
 
 			$stateProvider.state('admin', {
 				'abstract' : true,
@@ -64,18 +74,6 @@ app.config([ '$routeProvider', '$stateProvider', '$urlRouterProvider',
 				url : '/settings',
 				templateUrl : 'templates/admin.settings.html',
 				controller : 'ManageSettingsCtrl'
-			});
-
-			$stateProvider.state('settings', {
-				url : '/settings',
-				templateUrl : 'templates/settings.html',
-				controller : 'SettingsCtrl'
-			});
-
-			$stateProvider.state('profile', {
-				url : '/profile',
-				templateUrl : 'templates/profile.html',
-				controller : 'ProfileCtrl'
 			});
 
 			$urlRouterProvider.when('/', '/feeds/view/category/all');

@@ -31,7 +31,9 @@ function($scope, FeedService, CategoryService) {
 	$scope.CategoryService = CategoryService;
 
 	$scope.open = function() {
-		$scope.sub = {};
+		$scope.sub = {
+			categoryId: 'all'
+		};
 		$scope.isOpen = true;
 	};
 
@@ -79,7 +81,9 @@ function($scope, FeedService, CategoryService) {
 
 	$scope.openCategory = function() {
 		$scope.isOpenCategory = true;
-		$scope.cat = {};
+		$scope.cat = {
+			parentId: 'all'
+		};
 	};
 
 	$scope.closeCategory = function() {

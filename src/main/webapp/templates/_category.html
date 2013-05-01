@@ -2,7 +2,7 @@
 	<div ng-mouseenter="hovered=node" ng-mouseleave="hovered=null" class="pointer" ui-if="showLabel">
 		<div class="dropdown pull-right">
 			<div class="pull-right" ng-click="showCategoryDetails(node)">
-				<i ng-class="{'icon-chevron-right': hovered==node}" class="icon"></i>
+				<i ng-class="{'icon-wrench': hovered==node}" class="icon"></i>
 			</div>
 		</div>
 		<span class="fldr">
@@ -25,7 +25,7 @@
 			ng-mouseleave="hovered=null" ng-show="settingsService.settings.showRead == true || feed.unread > 0"
 			ng-class="{error: feed.message && feed.errorCount > 10}">
 			<div class="pull-right" ng-click="showFeedDetails(feed)">
-				<i ng-class="{'icon-chevron-right': hovered==feed}" class="icon pointer"></i>
+				<i ng-class="{'icon-wrench': hovered==feed}" class="icon pointer"></i>
 			</div>
 			<a ng-click="feedClicked(feed.id)" class="feed-link"
 				ng-class="{selected: (feed.id == selectedId && selectedType == 'feed'), unread: feed.unread }">

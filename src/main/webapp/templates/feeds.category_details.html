@@ -15,7 +15,7 @@
 			<label class="control-label">Parent category</label>
 			<div class="controls">
 				<select name="category" class="input-block-level" ng-model="category.parentId" 
-					ng-options="cat.id as cat.name for cat in CategoryService.flatCategories">
+					ng-options="cat.id as cat.name for cat in CategoryService.flatCategories | filter: filterCurrent">
 				</select>
 				<span class="help-block" ng-show="!form.category.$valid">Required</span>
 			</div>

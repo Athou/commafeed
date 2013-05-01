@@ -176,6 +176,9 @@ module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedS
 	
 	$scope.sub = FeedService.get({
 		id : $stateParams._id
+	}, function(data) {
+		if (!data.categoryId)
+			data.categoryId = 'all';
 	});
 	
 	$scope.back = function() {
@@ -240,6 +243,12 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 		return parseInt($stateParams._id, 10) != $stateParams._id;
 	};
 	
+    $scope.filterCurrent = function(elem) { 
+    	if (!$scope.category) 
+    		return true;
+    	return elem.id != $scope.category.id;
+    }; 
+	
 	CategoryService.get(function() {
 		if ($scope.isMeta()) {
 			$scope.category = {
@@ -259,6 +268,8 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 				break;
 			}
 		}
+		if (!$scope.category.parentId)
+			$scope.category.parentId = 'all';
 	});
 	
 	$scope.back = function() {

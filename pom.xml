@@ -413,7 +413,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<profile>
 			<id>mysql</id>
 			<properties>
@@ -424,9 +424,73 @@
 		<profile>
 			<id>prod</id>
 			<properties>
+				<timestamp>${maven.build.timestamp}</timestamp>
 				<production>true</production>
 				<jpa.show_sql>false</jpa.show_sql>
 			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.gmaven</groupId>
+						<artifactId>gmaven-plugin</artifactId>
+						<version>1.4</version>
+						<dependencies>
+							<dependency>
+								<groupId>commons-io</groupId>
+								<artifactId>commons-io</artifactId>
+								<version>2.4</version>
+							</dependency>
+						</dependencies>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<properties>
+										<source>${basedir}/src/main/webapp/templates</source>
+										<prefix>templates/</prefix>
+										<destination>${basedir}/target/generated-sources/angularjs/all-templates.html</destination>
+									</properties>
+									<scriptpath>
+										<element>${basedir}/src/main/script</element>
+									</scriptpath>
+									<source>
+										def source = project.properties['source'];
+										def prefix =
+										project.properties['prefix'];
+										def dest =
+										project.properties['destination'];
+										new
+										HTMLConcat().concat(source, prefix, dest);
+									</source>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.3</version>
+						<configuration>
+							<webResources>
+								<resource>
+									<directory>target/generated-sources/angularjs/</directory>
+									<targetPath>templates</targetPath>
+								</resource>
+								<resource>
+									<directory>src/main/script/</directory>
+									<includes>
+										<include>*.js</include>
+									</includes>
+									<targetPath>js</targetPath>
+									<filtering>true</filtering>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 </project>

@@ -7,6 +7,7 @@
 		</div>
 		<span class="fldr">
 			<i ng-class="{'icon-caret-right': !node.expanded, 'icon-caret-down': node.expanded}" ng-click="toggleCategory(node)" ng-show="showChildren"></i>
+			<i ng-class="{'icon-star' : node.id == 'starred', 'icon-inbox': node.id == 'all'}" ng-show="!showChildren"></i>
 		</span>
 		<span ng-click="categoryClicked(node.id)">
 			<span ng-class="{selected: (node.id == selectedId && selectedType == 'category'), unread: unreadCount({category:node})}">{{formatCategoryName(node)}}

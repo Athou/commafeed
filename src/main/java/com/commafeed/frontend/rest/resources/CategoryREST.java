@@ -210,6 +210,16 @@ public class CategoryREST extends AbstractResourceREST {
 				sub.setCategory(null);
 			}
 			feedSubscriptionDAO.update(subs);
+			List<FeedCategory> categories = feedCategoryDAO
+					.findAllChildrenCategories(getUser(), cat);
+			for (FeedCategory child : categories) {
+				if (!child.getId().equals(cat.getId())
+						&& child.getParent().getId().equals(cat.getId())) {
+					child.setParent(null);
+				}
+			}
+			feedCategoryDAO.update(categories);
+
 			feedCategoryDAO.delete(cat);
 			return Response.ok().build();
 		} else {

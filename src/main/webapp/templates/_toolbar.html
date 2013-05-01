@@ -14,9 +14,11 @@
 			<button type="button" class="btn" ng-click="markAllAsRead()"><i class="icon-ok"></i> Mark all as read</button>
 		
 			<div class="btn-group">
-				<a class="btn dropdown-toggle" data-toggle="dropdown" href="settings"><i class="icon-cog"></i> {{session.name}} <span class="caret"></span></a>
+				<a class="btn" ng-click="toSettings()"><i class="icon-cog"></i> Settings</a>
+				<button class="btn dropdown-toggle" data-toggle="dropdown">
+					<span class="caret"></span>
+				</button>
 				<ul class="dropdown-menu pull-right">
-					<li><a ng-click="toSettings()"><i class="icon-wrench"></i> Settings</a></li>
 					<li><a ng-click="toProfile()"><i class="icon-user"></i> Profile</a></li>
 					<li ng-show="session.admin"><a ng-click="toAdmin()"><i class="icon-edit"></i> Admin</a></li>
 					<li class="divider"></li>

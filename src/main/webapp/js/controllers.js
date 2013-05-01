@@ -91,7 +91,9 @@ function($scope, FeedService, CategoryService) {
 	};
 
 	$scope.saveCategory = function() {
-		CategoryService.add($scope.cat);
+		CategoryService.add($scope.cat, function() {
+			CategoryService.init();
+		});
 		$scope.closeCategory();
 	};
 }]);

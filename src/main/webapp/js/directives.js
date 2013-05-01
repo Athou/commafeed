@@ -101,7 +101,7 @@ module.directive('category', [ function() {
 		},
 		restrict : 'E',
 		replace : true,
-		templateUrl : 'directives/category.html',
+		templateUrl : 'templates/_category.html',
 		controller : [
 				'$scope',
 				'$state',

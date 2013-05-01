@@ -258,17 +258,17 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 		return parseInt($stateParams._id, 10) != $stateParams._id;
 	};
 	
-    $scope.filterCurrent = function(elem) { 
-    	if (!$scope.category) 
-    		return true;
-    	return elem.id != $scope.category.id;
-    }; 
+	$scope.filterCurrent = function(elem) {
+		if (!$scope.category)
+			return true;
+		return elem.id != $scope.category.id;
+	}; 
 	
 	CategoryService.get(function() {
 		if ($scope.isMeta()) {
 			$scope.category = {
 				id : $stateParams._id,
-				name : $stateParams._id,
+				name : $stateParams._id
 			};
 			return;
 		}

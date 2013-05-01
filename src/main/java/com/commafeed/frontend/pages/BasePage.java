@@ -92,6 +92,7 @@ public abstract class BasePage extends WebPage {
 			response.render(JavaScriptHeaderItem.forUrl("js/main.js"));
 			response.render(JavaScriptHeaderItem.forUrl("js/controllers.js"));
 			response.render(JavaScriptHeaderItem.forUrl("js/directives.js"));
+			response.render(JavaScriptHeaderItem.forUrl("js/filters.js"));
 			response.render(JavaScriptHeaderItem.forUrl("js/services.js"));
 
 		}

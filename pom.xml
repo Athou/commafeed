@@ -376,7 +376,7 @@
 								</goals>
 								<configuration>
 									<targetGroups>app</targetGroups>
-									<options>display-property-grouping,duplicate-properties,adjoining-classes,compatible-vendor-prefixes,vendor-prefix</options>
+									<options>display-property-grouping,duplicate-properties,compatible-vendor-prefixes,vendor-prefix</options>
 								</configuration>
 							</execution>
 						</executions>

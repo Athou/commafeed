@@ -24,6 +24,9 @@ public class Settings implements Serializable {
 	@ApiProperty(value = "user wants category and feeds with no unread entries shown", required = true)
 	private boolean showRead;
 
+	@ApiProperty(value = "user wants social buttons (facebook, twitter, ...) shown", required = true)
+	private boolean socialButtons;
+
 	@ApiProperty(value = "user's custom css for the website")
 	private String customCss;
 
@@ -57,6 +60,14 @@ public class Settings implements Serializable {
 
 	public void setShowRead(boolean showRead) {
 		this.showRead = showRead;
+	}
+
+	public boolean isSocialButtons() {
+		return socialButtons;
+	}
+
+	public void setSocialButtons(boolean socialButtons) {
+		this.socialButtons = socialButtons;
 	}
 
 }

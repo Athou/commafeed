@@ -34,10 +34,25 @@
 					<source src="{{entry.enclosureUrl}}" type="{{entry.enclosureType}}" />
 				</audio>
 				<div class="entry-buttons form-horizontal">
-					<label class="checkbox">
+					<label class="checkbox inline">
 						<input type="checkbox" ng-checked="!entry.read" ng-click="mark(entry, !entry.read)"></input>
 						Keep unread
 					</label>
+					
+					<span class="share-buttons" ui-if="settingsService.settings.socialButtons">
+						<a href="mailto:?subject={{entry.title}}&body={{entry.url}}" popup>
+							<i class="icon-envelope"></i>
+						</a>
+						<a href="http://www.facebook.com/sharer.php?u=={{entry.url|escape}}" popup>
+							<i class="icon-facebook"></i>
+						</a>
+						<a href="http://twitter.com/share?text={{entry.title}}&url={{entry.url|escape}}" popup>
+							<i class="icon-twitter"></i>
+						</a>
+						<a href="https://plus.google.com/share?url={{entry.url|escape}}" popup>
+							<i class="icon-google-plus"></i>
+						</a>
+					</span>
 				</div>
 			</div>
 		</div>

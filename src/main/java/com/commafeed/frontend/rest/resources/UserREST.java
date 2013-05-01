@@ -37,11 +37,13 @@ public class UserREST extends AbstractResourceREST {
 			s.setReadingMode(settings.getReadingMode().name());
 			s.setReadingOrder(settings.getReadingOrder().name());
 			s.setShowRead(settings.isShowRead());
+			s.setSocialButtons(settings.isSocialButtons());
 			s.setCustomCss(settings.getCustomCss());
 		} else {
 			s.setReadingMode(ReadingMode.unread.name());
 			s.setReadingOrder(ReadingOrder.desc.name());
 			s.setShowRead(true);
+			s.setSocialButtons(true);
 		}
 		return s;
 	}

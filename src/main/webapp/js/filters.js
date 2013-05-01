@@ -7,9 +7,13 @@ module.filter('entryDate', function() {
 		var formatted;
 		if (d.date() === now.date() && Math.abs(d.diff(now)) < 86400000) {
 			formatted = d.fromNow();
-	    } else {
-	    	formatted = d.format('YYYY-MM-DD HH:mm');
-	    }
-	    return formatted;
+		} else {
+			formatted = d.format('YYYY-MM-DD HH:mm');
+		}
+		return formatted;
 	};
+});
+
+module.filter('escape', function() {
+	return encodeURIComponent;
 });

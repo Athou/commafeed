@@ -36,6 +36,8 @@ public class UserSettings extends AbstractModel {
 
 	private boolean showRead;
 
+	private boolean socialButtons;
+
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
 	private String customCss;
@@ -78,6 +80,14 @@ public class UserSettings extends AbstractModel {
 
 	public void setShowRead(boolean showRead) {
 		this.showRead = showRead;
+	}
+
+	public boolean isSocialButtons() {
+		return socialButtons;
+	}
+
+	public void setSocialButtons(boolean socialButtons) {
+		this.socialButtons = socialButtons;
 	}
 
 }

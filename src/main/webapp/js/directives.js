@@ -93,6 +93,7 @@ module.directive('category', [ function() {
 	return {
 		scope : {
 			node : '=',
+			level: '=',
 			selectedType : '=',
 			selectedId : '=',
 			showLabel : '=',
@@ -112,6 +113,12 @@ module.directive('category', [ function() {
 				function($scope, $state, $dialog, FeedService, CategoryService,
 						SettingsService) {
 					$scope.settingsService = SettingsService;
+					
+					$scope.getClass = function(level) {
+						if ($scope.showLabel){
+							return 'indent' + level;
+						}
+					};
 
 					$scope.formatCategoryName = function(category) {
 						var count = $scope.unreadCount({

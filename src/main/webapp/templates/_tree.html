@@ -1,13 +1,13 @@
 <div class="css-treeview" ng-controller="CategoryTreeCtrl">
 	<ul>
 		<category node="CategoryService.subscriptions" show-label="true" show-children="false"
-			selected-type="selectedType" selected-id="selectedId"
+			level="0" selected-type="selectedType" selected-id="selectedId"
 			unread-count="unreadCount(category)"> </category>
 		<category node="starred" show-label="true" show-children="false"
-			selected-type="selectedType" selected-id="selectedId"
+			level="0" selected-type="selectedType" selected-id="selectedId"
 			unread-count="unreadCount(category)"> </category>
 		<category node="CategoryService.subscriptions" show-label="false" show-children="true"
-			selected-type="selectedType" selected-id="selectedId"
+			level="0" selected-type="selectedType" selected-id="selectedId"
 			unread-count="unreadCount(category)"> </category>
 	</ul>
 </div>

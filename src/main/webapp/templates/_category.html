@@ -1,5 +1,5 @@
 <li>
-	<div ng-mouseenter="hovered=node" ng-mouseleave="hovered=null" class="pointer" ui-if="showLabel">
+	<div ng-mouseenter="hovered=node" ng-mouseleave="hovered=null" class="pointer tree-item" ui-if="showLabel" ng-class="getClass(level - 1)">
 		<div class="dropdown pull-right">
 			<div class="pull-right" ng-click="showCategoryDetails(node)">
 				<i ng-class="{'icon-wrench': hovered==node}" class="icon"></i>
@@ -14,22 +14,21 @@
 			</span>
 		</span>
 	</div>
-	<ul ng-show="node.expanded && showChildren" ng-class="{indent: showLabel}">
+	<ul ng-show="node.expanded && showChildren">
 		<recursive>
 			<category ng-repeat="child in node.children" ng-show="settingsService.settings.showRead == true || unreadCount({category:node}) > 0"
-				node="child" selected-type="selectedType"
+				node="child" level="level + 1" selected-type="selectedType"
 				selected-id="selectedId" show-label="true" show-children="true"
 				unread-count="unreadCount({category:category})"> 
 			</category> 
 		</recursive>
-		<li ng-repeat="feed in node.feeds" ng-mouseenter="hovered=feed"
-			ng-mouseleave="hovered=null" ng-show="settingsService.settings.showRead == true || feed.unread > 0"
-			ng-class="{error: feed.message && feed.errorCount > 10}">
+		<li ng-repeat="feed in node.feeds" ng-mouseenter="hovered=feed" ng-class="getClass(level)" class="tree-item"
+			ng-mouseleave="hovered=null" ng-show="settingsService.settings.showRead == true || feed.unread > 0">
 			<div class="pull-right" ng-click="showFeedDetails(feed)">
 				<i ng-class="{'icon-wrench': hovered==feed}" class="icon pointer"></i>
 			</div>
 			<a ng-click="feedClicked(feed.id)" class="feed-link"
-				ng-class="{selected: (feed.id == selectedId && selectedType == 'feed'), unread: feed.unread }">
+				ng-class="{error: feed.message && feed.errorCount > 10, selected: (feed.id == selectedId && selectedType == 'feed'), unread: feed.unread }">
 				<favicon url="feed.feedLink" />
 				{{formatFeedName(feed)}}
 			</a>

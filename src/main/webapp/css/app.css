@@ -70,10 +70,6 @@
 	white-space: nowrap;
 }
 
-.css-treeview .indent {
-	margin-left: 22px;
-}
-
 .css-treeview ul {
 	list-style: none;
 	margin-left: 0px;
@@ -125,6 +121,35 @@
 	display: block;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.css-treeview a:hover {
+	text-decoration: none;
+}
+
+.css-treeview li .tree-item:hover {
+	background-color: #EBEBEB;
+	text-decoration: none;
+}
+
+.css-treeview .indent1 {
+	padding-left: 22px;
+}
+
+.css-treeview .indent2 {
+	padding-left: 44px;
+}
+
+.css-treeview .indent3 {
+	padding-left: 66px;
+}
+
+.css-treeview .indent4 {
+	padding-left: 88px;
+}
+
+.css-treeview .indent5 {
+	padding-left: 110px;
 }
 
 /* entry list*/

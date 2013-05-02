@@ -518,8 +518,10 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	};
 	
 	$scope.star = function(entry, star, event) {
-		event.preventDefault();
-		event.stopPropagation();
+		if (event) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
 		if (entry.starred != star) {
 			entry.starred = star;
 			EntryService.star({
@@ -641,6 +643,13 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		if ($scope.current) {
 			window.open($scope.current.url);
 		}
+	});
+	Mousetrap.bind('s', function(e) {
+		$scope.$apply(function() {
+			if ($scope.current) {
+				$scope.star($scope.current, !$scope.current.starred);
+			}
+		});
 	});
 	Mousetrap.bind('?', function(e) {
 		$scope.$apply(function() {

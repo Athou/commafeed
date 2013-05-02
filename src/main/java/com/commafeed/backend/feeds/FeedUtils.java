@@ -44,8 +44,19 @@ public class FeedUtils {
 			return null;
 		}
 		StringBuilder sb = new StringBuilder();
+
+		boolean firstTagFound = false;
 		for (int i = 0; i < xml.length(); i++) {
 			char c = xml.charAt(i);
+
+			if (!firstTagFound) {
+				if (c == '<') {
+					firstTagFound = true;
+				} else {
+					continue;
+				}
+			}
+
 			if (c >= 32 || c == 9 || c == 10 || c == 13) {
 				if (!Character.isHighSurrogate(c)
 						&& !Character.isLowSurrogate(c)) {

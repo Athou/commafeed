@@ -186,7 +186,9 @@ module.directive('category', [ function() {
 						});
 					};
 
-					$scope.toggleCategory = function(category) {
+					$scope.toggleCategory = function(category, event) {
+						event.preventDefault();
+						event.stopPropagation();
 						category.expanded = !category.expanded;
 						if (category.id == 'all') {
 							return;

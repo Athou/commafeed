@@ -30,6 +30,7 @@ import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.conn.ssl.X509HostnameVerifier;
+import org.apache.http.impl.client.DecompressingHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.params.HttpConnectionParams;
@@ -193,7 +194,7 @@ public class HttpGetter {
 		HttpConnectionParams.setSoTimeout(params, 4000);
 		client.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(0,
 				false));
-		return client;
+		return new DecompressingHttpClient(client);
 	}
 
 	public static class NotModifiedException extends Exception {

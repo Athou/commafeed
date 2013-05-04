@@ -269,6 +269,10 @@
 	color: #555;
 }
 
+#feed-accordion.expanded .entry {
+	margin-bottom: 20px;
+}
+
 /* admin */
 .admin .users-table {
 	height: 400px;

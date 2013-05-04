@@ -3,7 +3,8 @@
 		<h3><span>{{name}}&nbsp;</span><span ng-show="name && selectedType == 'category'"> &#187;</span></h3>
 	</div>
 	
-	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode" infinite-scroll-distance="1" id="feed-accordion">
+	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode" infinite-scroll-distance="1" id="feed-accordion"
+		ng-class="{'expanded' : settingsService.settings.viewMode == 'expanded' }">
 		<div ng-show="message && errorCount > 10">Error while loading this feed : {{message}}</div>
 		<div ng-repeat="entry in entries" class="entry" scroll-to="isOpen && current == entry" scroll-to-offset="-58">
 			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)"
@@ -20,7 +21,7 @@
 				<span class="entry-name" ng-class="{unread: entry.read == false, shrink: true}" ng-bind-html-unsafe="entry.title"></span>
 				
 			</a>
-			<div class="entry-body" ui-if="isOpen && current == entry">
+			<div class="entry-body" ui-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)">
 				<div>
 					<h4>
 						<a href="{{entry.url}}" target="_blank" ng-bind-html-unsafe="entry.title"></a>

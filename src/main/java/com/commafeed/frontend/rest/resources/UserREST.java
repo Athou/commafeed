@@ -18,6 +18,7 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
+import com.commafeed.backend.model.UserSettings.ViewMode;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
@@ -39,12 +40,14 @@ public class UserREST extends AbstractResourceREST {
 		if (settings != null) {
 			s.setReadingMode(settings.getReadingMode().name());
 			s.setReadingOrder(settings.getReadingOrder().name());
+			s.setViewMode(settings.getViewMode().name());
 			s.setShowRead(settings.isShowRead());
 			s.setSocialButtons(settings.isSocialButtons());
 			s.setCustomCss(settings.getCustomCss());
 		} else {
 			s.setReadingMode(ReadingMode.unread.name());
 			s.setReadingOrder(ReadingOrder.desc.name());
+			s.setViewMode(ViewMode.title.name());
 			s.setShowRead(true);
 			s.setSocialButtons(true);
 		}
@@ -65,6 +68,7 @@ public class UserREST extends AbstractResourceREST {
 		s.setReadingMode(ReadingMode.valueOf(settings.getReadingMode()));
 		s.setReadingOrder(ReadingOrder.valueOf(settings.getReadingOrder()));
 		s.setShowRead(settings.isShowRead());
+		s.setViewMode(ViewMode.valueOf(settings.getViewMode()));
 		s.setCustomCss(settings.getCustomCss());
 		userSettingsDAO.saveOrUpdate(s);
 		return Response.ok(Status.OK).build();

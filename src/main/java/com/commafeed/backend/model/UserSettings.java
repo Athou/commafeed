@@ -22,6 +22,10 @@ public class UserSettings extends AbstractModel {
 		asc, desc
 	}
 
+	public enum ViewMode {
+		title, expanded
+	}
+
 	@OneToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
@@ -33,6 +37,10 @@ public class UserSettings extends AbstractModel {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private ReadingOrder readingOrder;
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private ViewMode viewMode;
 
 	private boolean showRead;
 
@@ -88,6 +96,14 @@ public class UserSettings extends AbstractModel {
 
 	public void setSocialButtons(boolean socialButtons) {
 		this.socialButtons = socialButtons;
+	}
+
+	public ViewMode getViewMode() {
+		return viewMode;
+	}
+
+	public void setViewMode(ViewMode viewMode) {
+		this.viewMode = viewMode;
 	}
 
 }

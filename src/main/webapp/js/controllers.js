@@ -352,13 +352,13 @@ function($scope, $http, $state, $stateParams, $route, $location,
 
 	$scope.session = ProfileService.get();
 	$scope.ServerService = ServerService.get();
-
+	$scope.settingsService = SettingsService;
+	
 	$scope.loading = true;
 	$scope.$watch(totalActiveAjaxRequests, function() {
 		$scope.loading = (totalActiveAjaxRequests() !== 0);
 	});
-
-	$scope.settingsService = SettingsService;
+	
 	$scope.$watch('settingsService.settings.readingMode', function(
 			newValue, oldValue) {
 		if (newValue && oldValue && newValue != oldValue) {
@@ -366,6 +366,12 @@ function($scope, $http, $state, $stateParams, $route, $location,
 		}
 	});
 	$scope.$watch('settingsService.settings.readingOrder', function(
+			newValue, oldValue) {
+		if (newValue && oldValue && newValue != oldValue) {
+			SettingsService.save();
+		}
+	});
+	$scope.$watch('settingsService.settings.viewMode', function(
 			newValue, oldValue) {
 		if (newValue && oldValue && newValue != oldValue) {
 			SettingsService.save();
@@ -404,10 +410,9 @@ function($scope, $http, $state, $stateParams, $route, $location,
 
 	$scope.toggleOrder = function() {
 		var settings = $scope.settingsService.settings;
-		settings.readingOrder = settings.readingOrder == 'asc' ? 'desc'
-				: 'asc';
+		settings.readingOrder = settings.readingOrder == 'asc' ? 'desc' : 'asc';
 	};
-
+	
 	$scope.toAdmin = function() {
 		$location.path('admin');
 	};

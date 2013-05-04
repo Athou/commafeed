@@ -21,6 +21,9 @@ public class Settings implements Serializable {
 	@ApiProperty(value = "user reads entries in ascending or descending order", allowableValues = "asc,desc", required = true)
 	private String readingOrder;
 
+	@ApiProperty(value = "user viewing mode, either title-only or expande view", allowableValues = "title,expanded", required = true)
+	private String viewMode;
+
 	@ApiProperty(value = "user wants category and feeds with no unread entries shown", required = true)
 	private boolean showRead;
 
@@ -68,6 +71,14 @@ public class Settings implements Serializable {
 
 	public void setSocialButtons(boolean socialButtons) {
 		this.socialButtons = socialButtons;
+	}
+
+	public String getViewMode() {
+		return viewMode;
+	}
+
+	public void setViewMode(String viewMode) {
+		this.viewMode = viewMode;
 	}
 
 }

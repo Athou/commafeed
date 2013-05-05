@@ -310,6 +310,12 @@
 			<groupId>ro.isdc.wro4j</groupId>
 			<artifactId>wro4j-extensions</artifactId>
 			<version>1.6.3</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-log4j12</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

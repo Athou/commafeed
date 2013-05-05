@@ -1,0 +1,99 @@
+
+/* tree*/
+.sidebar-nav-fixed {
+	margin-top: 10px;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	width: 16%;
+	overflow: auto;
+}
+
+.css-treeview {
+	margin-top: 15px;
+	font-family: inherit;
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+.css-treeview ul {
+	list-style: none;
+	margin-left: 0px;
+}
+
+.css-treeview li {
+	line-height: 20px;
+}
+
+.css-treeview .fldr {
+	cursor: pointer;
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	line-height: 14px;
+	vertical-align: text-top;
+	margin-top: 1px;
+}
+
+.css-treeview .error {
+	color: red;
+	font-style: italic;
+}
+
+.css-treeview label {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+	margin: 3px 0px 3px;
+}
+
+.css-treeview label,.css-treeview a,.css-treeview label::before {
+	font-family: inherit;
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+.css-treeview .selected {
+	color: #d14836;
+}
+
+.css-treeview .unread {
+	font-weight: bold;
+}
+
+.css-treeview a {
+	cursor: pointer;
+	color: black;
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.css-treeview a:hover {
+	text-decoration: none;
+}
+
+.css-treeview li .tree-item:hover {
+	background-color: #EBEBEB;
+	text-decoration: none;
+}
+
+.css-treeview .indent1 {
+	padding-left: 22px;
+}
+
+.css-treeview .indent2 {
+	padding-left: 44px;
+}
+
+.css-treeview .indent3 {
+	padding-left: 66px;
+}
+
+.css-treeview .indent4 {
+	padding-left: 88px;
+}
+
+.css-treeview .indent5 {
+	padding-left: 110px;
+}

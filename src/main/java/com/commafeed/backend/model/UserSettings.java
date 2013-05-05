@@ -43,8 +43,9 @@ public class UserSettings extends AbstractModel {
 	private ViewMode viewMode;
 
 	private boolean showRead;
-
+	private boolean scrollMarks;
 	private boolean socialButtons;
+	private boolean test;
 
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
@@ -104,6 +105,22 @@ public class UserSettings extends AbstractModel {
 
 	public void setViewMode(ViewMode viewMode) {
 		this.viewMode = viewMode;
+	}
+
+	public boolean isScrollMarks() {
+		return scrollMarks;
+	}
+
+	public void setScrollMarks(boolean scrollMarks) {
+		this.scrollMarks = scrollMarks;
+	}
+
+	public boolean isTest() {
+		return test;
+	}
+
+	public void setTest(boolean test) {
+		this.test = test;
 	}
 
 }

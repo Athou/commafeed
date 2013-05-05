@@ -127,6 +127,8 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 	$timeout(function refreshTree() {
 		CategoryService.init(function() {
 			$timeout(refreshTree, 15000);
+		}, function() {
+			$timeout(refreshTree, 15000);
 		});
 	}, 15000);
 
@@ -536,10 +538,10 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		}
 	};
 
-	$scope.isOpen = false;
+	$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
 	$scope.entryClicked = function(entry, event) {
 		if (!event.ctrlKey && event.which != 2) {
-			if ($scope.current != entry) {
+			if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {
 				$scope.isOpen = true;
 			} else {
 				$scope.isOpen = !$scope.isOpen;
@@ -604,6 +606,14 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		}
 	};
 
+	$scope.onScroll = function(entry) {
+		if (SettingsService.settings.viewMode == 'expanded'){
+			$scope.current = entry;
+			if(SettingsService.settings.scrollMarks) {
+				$scope.mark(entry, true);
+			}
+		}
+	};
 
 	Mousetrap.bind('j', function(e) {
 		$scope.$apply(function() {

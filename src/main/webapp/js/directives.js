@@ -61,6 +61,53 @@ module.directive('ngBlur', function() {
 });
 
 /**
+ * Fired when the top of the element is not visible anymore
+ */
+module.directive('onScrollMiddle', function () {
+	return {
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+			
+			var w = $(window);
+			var e = $(element);
+			
+			var direction = 'down';
+			
+			var down = function() {
+				var docTop = w.scrollTop();
+				var docMiddle = docTop + w.height() / 2; 
+				var elemTop = e.offset().top;
+				return (elemTop > docMiddle) ? 'below' : 'above';
+			};
+			var up = function() {
+				var docTop = w.scrollTop();
+				var docMiddle = docTop + w.height() / 2; 
+				var elemTop = e.offset().top;
+				var elemBottom = elemTop + e.height();
+				
+				return (elemBottom > docMiddle) ? 'below' : 'above';
+			};
+			
+			if(!w.data.scrollInit){
+				$(window).bind('scroll', function(e) {
+					var direction = e.detail > 0 ? 'down' : 'up';
+					scope.$apply();
+				});
+				w.data.scrollInit = true;
+			}
+			scope.$watch(down, function(value, oldValue) {
+				if(direction == 'down' && value && oldValue && value != oldValue)
+					scope.$eval(attrs.onScrollMiddle);
+			});
+			scope.$watch(up, function(value, oldValue) {
+				if(direction == 'up' && value && oldValue && value != oldValue)
+					scope.$eval(attrs.onScrollMiddle);
+			});
+		}
+	};
+});
+
+/**
  * Scrolls to the element if the value is true
  */
 module.directive('scrollTo', [ '$timeout', function($timeout) {

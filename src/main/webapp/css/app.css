@@ -270,7 +270,12 @@
 }
 
 #feed-accordion.expanded .entry {
-	margin-bottom: 20px;
+	margin-bottom: 50px;
+	border-top: 1px solid #ebebeb;
+}
+
+#feed-accordion.expanded .current {
+	border-left: 1px solid blue;
 }
 
 /* admin */

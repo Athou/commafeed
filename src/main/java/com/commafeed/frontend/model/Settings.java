@@ -30,6 +30,9 @@ public class Settings implements Serializable {
 	@ApiProperty(value = "user wants social buttons (facebook, twitter, ...) shown", required = true)
 	private boolean socialButtons;
 
+	@ApiProperty(value = "In expanded view, scroll through entries mark them as read", required = true)
+	private boolean scrollMarks;
+
 	@ApiProperty(value = "user's custom css for the website")
 	private String customCss;
 
@@ -79,6 +82,14 @@ public class Settings implements Serializable {
 
 	public void setViewMode(String viewMode) {
 		this.viewMode = viewMode;
+	}
+
+	public boolean isScrollMarks() {
+		return scrollMarks;
+	}
+
+	public void setScrollMarks(boolean scrollMarks) {
+		this.scrollMarks = scrollMarks;
 	}
 
 }

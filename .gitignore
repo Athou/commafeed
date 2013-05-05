@@ -17,3 +17,6 @@ deployments/ROOT.war
 
 # Sublime
 *.sublime*
+
+# Macs
+*.DS_Store

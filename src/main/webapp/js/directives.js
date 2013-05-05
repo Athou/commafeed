@@ -1,5 +1,8 @@
 var module = angular.module('commafeed.directives', []);
 
+/**
+ * Open a popup window pointing to the url in the href attribute
+ */
 module.directive('popup', function() {
 	return {
 		link : function(scope, elm, attrs) {
@@ -11,6 +14,9 @@ module.directive('popup', function() {
 	};
 });
 
+/**
+ * Reusable favicon component
+ */
 module.directive('favicon', function() {
 	return {
 		restrict : 'E',
@@ -40,6 +46,9 @@ module.directive('favicon', function() {
 	};
 });
 
+/**
+ * Support for the blur event
+ */
 module.directive('ngBlur', function() {
 	return {
 		restrict : 'A',
@@ -51,6 +60,9 @@ module.directive('ngBlur', function() {
 	};
 });
 
+/**
+ * Scrolls to the element if the value is true
+ */
 module.directive('scrollTo', [ '$timeout', function($timeout) {
 	return {
 		restrict : 'A',
@@ -81,6 +93,32 @@ module.directive('scrollTo', [ '$timeout', function($timeout) {
 	};
 } ]);
 
+/**
+ * Prevent mousewheel scrolling from propagating to the parent when scrollbar reaches top or bottom
+ */
+module.directive('mousewheelScrolling', function() {
+	return {
+		restrict : 'A',
+		link : function(scope, elem, attr) {
+			elem.bind('mousewheel', function(e, d) {
+				var t = $(this);
+				if (d > 0 && t.scrollTop() === 0) {
+					e.preventDefault();
+				} else {
+					if (d < 0
+							&& (t.scrollTop() == t.get(0).scrollHeight
+									- t.innerHeight())) {
+						e.preventDefault();
+					}
+				}
+			});
+		}
+	};
+});
+
+/**
+ * Needed to use recursive directives. Wrap a recursive element with a <recursive> tag
+ */
 module.directive('recursive', [ '$compile', function($compile) {
 	return {
 		restrict : 'E',
@@ -100,6 +138,9 @@ module.directive('recursive', [ '$compile', function($compile) {
 	};
 } ]);
 
+/**
+ * Reusable category component
+ */
 module.directive('category', [ function() {
 	return {
 		scope : {
@@ -202,6 +243,9 @@ module.directive('category', [ function() {
 	};
 } ]);
 
+/**
+ * Reusable spinner component
+ */
 module.directive('spinner', function() {
 	return {
 		scope : {

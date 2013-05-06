@@ -628,16 +628,6 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			openPreviousEntry(e);
 		});
 	});
-	Mousetrap.bind('space', function(e) {
-		$scope.$apply(function() {
-			openNextEntry(e);
-		});
-	});
-	Mousetrap.bind('shift+space', function(e) {
-		$scope.$apply(function() {
-			openPreviousEntry(e);
-		});
-	});
 	Mousetrap.bind('o', function(e) {
 		$scope.$apply(function() {
 			if ($scope.current) {

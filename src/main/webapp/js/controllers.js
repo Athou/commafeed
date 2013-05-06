@@ -464,7 +464,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		}
 	});
 
-	$scope.limit = 10;
+	$scope.limit = SettingsService.settings.viewMode == 'title' ? 10 : 3;
 	$scope.busy = false;
 	$scope.hasMore = true;
 
@@ -478,8 +478,13 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		var limit = $scope.limit;
 		if ($scope.entries.length === 0) {
 			$window = angular.element($window);
-			limit = $window.height() / 33;
-			limit = parseInt(limit, 10) + 5;
+			if (SettingsService.settings.viewMode == 'title') {
+				limit = $window.height() / 33;
+				limit = parseInt(limit, 10) + 5;
+			} else {
+				limit = $window.height() / 97;
+				limit = parseInt(limit, 10) + 1;
+			}
 		}
 
 		var callback = function(data) {

@@ -60,11 +60,12 @@
 		</div>
 		<div class="no-entries" ng-show="name && entries.length == 0 && !busy">"{{name}}" has no unread items.</div>
 		<div modal="shortcutsModal" close="shortcutsModal=false" options="shortcutsOpts">
-		<div class="modal-header">
-			<button type="button" class="close" ng-click="shortcutsModal=false">&times;</button>
-			<h4>Keyboard shortcuts</h4>
+			<div class="modal-header">
+				<button type="button" class="close" ng-click="shortcutsModal=false">&times;</button>
+				<h4>Keyboard shortcuts</h4>
+			</div>
+			<div ng-include="'templates/_shortcuts.html'"></div>
 		</div>
-		<div ng-include="'templates/_shortcuts.html'"></div>
 	</div>
-	</div>
+	<div style="height: 1000px"></div>
 </div>

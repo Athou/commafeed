@@ -6,7 +6,7 @@
 	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode" infinite-scroll-distance="1" id="feed-accordion"
 		ng-class="{'expanded' : settingsService.settings.viewMode == 'expanded' }">
 		<div ng-show="message && errorCount > 10">Error while loading this feed : {{message}}</div>
-		<div ng-repeat="entry in entries" class="entry" scroll-to="isOpen && current == entry" scroll-to-offset="-58" on-scroll-middle="onScroll(entry)" ng-class="{current: current==entry}">
+		<div ng-repeat="entry in entries" class="entry" scroll-to="isOpen && current == entry && settingsService.settings.viewMode != 'expanded" scroll-to-offset="-58" on-scroll-middle="onScroll(entry)" ng-class="{current: current==entry}">
 			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)"
 				ng-class="{open: current == entry, closed: current != entry}">
 				<span class="feed-name">
@@ -22,11 +22,11 @@
 				
 			</a>
 			<div class="entry-body" ui-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)">
-				<div>
-					<h4>
+				<div class="entry-header">
+					<h4 class="entry-title">
 						<a href="{{entry.url}}" target="_blank" ng-bind-html-unsafe="entry.title"></a>
 					</h4>
-				</div>	
+				</div>
 				<div ng-bind-html-unsafe="entry.content" class="entry-body-content"></div>
 				<video controls ui-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">
 					<source src="{{entry.enclosureUrl}}" type="{{entry.enclosureType}}" />

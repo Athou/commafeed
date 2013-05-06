@@ -94,6 +94,7 @@
 
 #feed-accordion .entry-buttons .checkbox.inline {
 	padding-top: 0px;
+	margin-left: 5px;
 }
 
 #feed-accordion .share-buttons a {
@@ -125,11 +126,11 @@
 }
 
 #feed-accordion.expanded .entry {
-	margin-bottom: 50px;
+	margin-bottom: 40px;
 	border-top: 1px solid #ebebeb;
 	border-left: 1px solid transparent;
 }
 
 #feed-accordion.expanded .current {
-	border-left: 1px solid blue;
+	border-left: 1px solid rgb(77, 144, 240);
 }

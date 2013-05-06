@@ -377,6 +377,7 @@ function($scope, $http, $state, $stateParams, $route, $location,
 			newValue, oldValue) {
 		if (newValue && oldValue && newValue != oldValue) {
 			SettingsService.save();
+			$scope.$emit('emitReload');
 		}
 	});
 	$scope.refresh = function() {
@@ -607,7 +608,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	};
 
 	$scope.onScroll = function(entry) {
-		if (SettingsService.settings.viewMode == 'expanded'){
+		if (SettingsService.settings.viewMode == 'expanded') {
 			$scope.current = entry;
 			if(SettingsService.settings.scrollMarks) {
 				$scope.mark(entry, true);

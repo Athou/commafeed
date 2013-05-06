@@ -12,8 +12,8 @@
 	margin: 0;
 }
 
-.entry-body {
-	padding-left: 24px;
+.entry-header, .entry-body-content {
+	padding-left: 25px;
 }
 
 #feed-accordion .entry {
@@ -127,6 +127,7 @@
 #feed-accordion.expanded .entry {
 	margin-bottom: 50px;
 	border-top: 1px solid #ebebeb;
+	border-left: 1px solid transparent;
 }
 
 #feed-accordion.expanded .current {

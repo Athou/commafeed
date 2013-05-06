@@ -25,7 +25,7 @@ public class MetricsBean {
 			feedsRefreshedLastMinute = feedsRefreshedThisMinute;
 			feedsRefreshedThisMinute = 0;
 			minuteTimestamp = now;
-			log.info("** feeds per minute: {}", feedsRefreshedLastMinute);
+			log.debug("** feeds per minute: {}", feedsRefreshedLastMinute);
 
 		}
 		feedsRefreshedThisMinute++;

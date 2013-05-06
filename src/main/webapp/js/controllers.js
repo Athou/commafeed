@@ -541,6 +541,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 
 	$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
 	$scope.entryClicked = function(entry, event) {
+		$scope.navigationMode = 'click';
 		if (!event.ctrlKey && event.which != 2) {
 			if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {
 				$scope.isOpen = true;
@@ -608,6 +609,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	};
 
 	$scope.onScroll = function(entry) {
+		$scope.navigationMode = 'scroll';
 		if (SettingsService.settings.viewMode == 'expanded') {
 			$scope.current = entry;
 			if(SettingsService.settings.scrollMarks) {

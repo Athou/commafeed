@@ -99,11 +99,11 @@ module.directive('onScrollMiddle', function () {
 				w.data.scrollInit = true;
 			}
 			scope.$watch(down, function(value, oldValue) {
-				if(w.data.scrollDirection == 'down' && value && oldValue && value != oldValue)
+				if(w.data.scrollDirection == 'down' && value && oldValue && value != oldValue && value == 'above')
 					scope.$eval(attrs.onScrollMiddle);
 			});
 			scope.$watch(up, function(value, oldValue) {
-				if(w.data.scrollDirection == 'up' && value && oldValue && value != oldValue)
+				if(w.data.scrollDirection == 'up' && value && oldValue && value != oldValue && value == 'below')
 					scope.$eval(attrs.onScrollMiddle);
 			});
 		}

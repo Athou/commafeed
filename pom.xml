@@ -89,6 +89,7 @@
 							<updateOnlyExtension>.html</updateOnlyExtension>
 							<updateOnlyExtension>.js</updateOnlyExtension>
 							<updateOnlyExtension>.css</updateOnlyExtension>
+							<updateOnlyExtension>.scss</updateOnlyExtension>
 						</updateOnlyExtensions>
 					</synchronization>
 					<libs>

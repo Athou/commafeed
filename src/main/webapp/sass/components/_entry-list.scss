@@ -1,0 +1,135 @@
+
+.entryList {
+	padding-top: 50px;
+}
+
+/* entry list*/
+.entrylist-header {
+	border-bottom: 1px solid #eee;
+}
+
+.entrylist-header h3 {
+	margin: 0;
+}
+
+.entry-header, .entry-body-content {
+	padding-left: 25px;
+}
+
+#feed-accordion .entry {
+	border-bottom: 1px solid #CCCCCC;
+}
+
+#feed-accordion .no-entries {
+	text-align: center;
+	font-weight: bold;
+	margin-top: 80px;
+}
+
+#feed-accordion .entry-heading {
+	height: 20px;
+	display: block;
+	color: black;
+	cursor: pointer;
+	padding: 6px 0px;
+}
+
+#feed-accordion .entry-heading .feed-name {
+	color: #555;
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	position: absolute;
+	width: 145px;
+	text-overflow: ellipsis;
+}
+
+#feed-accordion .entry-heading .entry-name {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin-right: 100px;
+}
+
+#feed-accordion .entry-heading .shrink {
+	margin-left: 150px;
+}
+
+#feed-accordion .entry-heading .entry-date {
+	display: block;
+	position: absolute;
+	right: 20px;
+}
+
+#feed-accordion a.entry-heading:hover {
+	text-decoration: none;
+}
+
+#feed-accordion .open {
+	background-color: #EBEBEB;
+}
+
+#feed-accordion .closed:hover {
+	background-color: #EBEBEB;
+}
+
+#feed-accordion .entry-heading .unread {
+	font-weight: bold;
+}
+
+#feed-accordion .entry-body h4 {
+	margin-top: 5px;
+}
+
+#feed-accordion  .entry-body-content {
+	max-width: 650px;
+}
+
+#feed-accordion .entry-buttons {
+	background-color: #fafafa;
+	padding: 3px 0px;
+	border-top: 1px solid #ebebeb;
+}
+
+#feed-accordion .entry-buttons .checkbox.inline {
+	padding-top: 0px;
+}
+
+#feed-accordion .share-buttons a {
+	color: #333333;
+	padding-left: 5px;
+}
+
+#feed-accordion .share-buttons a:hover {
+	text-decoration: none;
+}
+
+#feed-accordion .entry-buttons label {
+	margin-bottom: 0px;
+	font-size: 12px;
+}
+
+#feed-accordion .star {
+	text-decoration: none;
+	padding: 0px 5px;
+}
+
+#feed-accordion .icon-star-yellow {
+	color: gold;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#feed-accordion .icon-star-empty {
+	color: #555;
+}
+
+#feed-accordion.expanded .entry {
+	margin-bottom: 50px;
+	border-top: 1px solid #ebebeb;
+	border-left: 1px solid transparent;
+}
+
+#feed-accordion.expanded .current {
+	border-left: 1px solid blue;
+}

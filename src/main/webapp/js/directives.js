@@ -70,9 +70,8 @@ module.directive('onScrollMiddle', function () {
 			
 			var w = $(window);
 			var e = $(element);
-			
-			var direction = 'down';
-			
+			var d = $(document);
+
 			var down = function() {
 				var docTop = w.scrollTop();
 				var docMiddle = docTop + w.height() / 2; 
@@ -88,19 +87,23 @@ module.directive('onScrollMiddle', function () {
 				return (elemBottom > docMiddle) ? 'below' : 'above';
 			};
 			
+			w.data.scrollPosition = d.scrollTop();
+			w.data.scrollDirection = 'down';
 			if(!w.data.scrollInit){
-				$(window).bind('scroll', function(e) {
-					var direction = e.detail > 0 ? 'down' : 'up';
-					scope.$apply();
+				w.bind('scroll', function(e) {
+					var scroll = d.scrollTop();
+					w.data.scrollDirection = (scroll - w.data.scrollPosition > 0) ? 'down' : 'up';
+			        w.data.scrollPosition = scroll;
+			        scope.$apply();
 				});
 				w.data.scrollInit = true;
 			}
 			scope.$watch(down, function(value, oldValue) {
-				if(direction == 'down' && value && oldValue && value != oldValue)
+				if(w.data.scrollDirection == 'down' && value && oldValue && value != oldValue)
 					scope.$eval(attrs.onScrollMiddle);
 			});
 			scope.$watch(up, function(value, oldValue) {
-				if(direction == 'up' && value && oldValue && value != oldValue)
+				if(w.data.scrollDirection == 'up' && value && oldValue && value != oldValue)
 					scope.$eval(attrs.onScrollMiddle);
 			});
 		}

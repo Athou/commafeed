@@ -93,8 +93,8 @@ module.directive('onScrollMiddle', function () {
 				w.bind('scroll', function(e) {
 					var scroll = d.scrollTop();
 					w.data.scrollDirection = (scroll - w.data.scrollPosition > 0) ? 'down' : 'up';
-			        w.data.scrollPosition = scroll;
-			        scope.$apply();
+					w.data.scrollPosition = scroll;
+					scope.$apply();
 				});
 				w.data.scrollInit = true;
 			}

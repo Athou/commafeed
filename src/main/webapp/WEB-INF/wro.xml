@@ -23,7 +23,7 @@
 	</group>
 
 	<group name="app">
-		<css>/css/*.css</css>
+		<css>/sass/app.scss</css>
 		<js>/js/*.js</js>
 	</group>
 

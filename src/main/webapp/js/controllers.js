@@ -664,6 +664,13 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			}
 		});
 	});
+	Mousetrap.bind('m', function(e) {
+		$scope.$apply(function() {
+			if ($scope.current) {
+				$scope.mark($scope.current, !$scope.current.read);
+			}
+		});
+	});
 	Mousetrap.bind('?', function(e) {
 		$scope.$apply(function() {
 			$scope.shortcutsModal = true;

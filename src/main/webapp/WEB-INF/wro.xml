@@ -19,6 +19,7 @@
 		<css minimize="false">/vendor/bootstrap/*.css</css>
 		<css minimize="false">/vendor/angularui/*.css</css>
 		<css minimize="false">/vendor/fontawesome/css/*.css</css>
+		<css minimize="false">/vendor/zocial/*.css</css>
 		<css minimize="false">/vendor/nggrid/*.css</css>
 	</group>
 

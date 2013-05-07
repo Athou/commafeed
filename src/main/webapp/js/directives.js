@@ -32,7 +32,7 @@ module.directive('favicon', function() {
 				url = url.replace('https://', '');
 				url = url.replace('www.', '');
 				return url.substring(0, 1);
-			}
+			};
 			
 			$scope.iconUrl = function() {
 				var url = $scope.url;
@@ -87,14 +87,14 @@ module.directive('onScrollMiddle', function () {
 			var down = function() {
 				var docTop = w.scrollTop();
 				var elemTop = e.offset().top;
-				var threshold = docTop == 0 ? elemTop - 1 : docTop + w.height() / 3; 
+				var threshold = docTop === 0 ? elemTop - 1 : docTop + w.height() / 3; 
 				return (elemTop > threshold) ? 'below' : 'above';
 			};
 			var up = function() {
 				var docTop = w.scrollTop();
 				var elemTop = e.offset().top;
 				var elemBottom = elemTop + e.height();
-				var threshold = docTop == 0 ? elemBottom - 1 : docTop + w.height() / 3; 
+				var threshold = docTop === 0 ? elemBottom - 1 : docTop + w.height() / 3; 
 				return (elemBottom > threshold) ? 'below' : 'above';
 			};
 			

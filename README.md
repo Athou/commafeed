@@ -36,7 +36,7 @@ To install maven and openjdk on Ubuntu, issue the following commands
     
 Now build the application
 
-	Embedded HSQL database:
+	Embedded HSQL database (not recommended, ok for quick tests):
     mvn clean package tomee:build -Pprod
     
 	External MySQL database:

@@ -59,7 +59,7 @@
 #feed-accordion .entry-heading .entry-date {
 	display: block;
 	position: absolute;
-	right: 20px;
+	right: 30px;
 }
 
 #feed-accordion a.entry-heading:hover {
@@ -127,8 +127,8 @@
 
 #feed-accordion.expanded .entry {
 	margin-bottom: 40px;
-	border-top: 1px solid #ebebeb;
-	border-left: 1px solid transparent;
+	border: 1px solid #ddd;
+	box-shadow: 0 0 4px #e3e5eb;
 }
 
 #feed-accordion.expanded .current {

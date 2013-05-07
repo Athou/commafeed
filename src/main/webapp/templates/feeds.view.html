@@ -36,6 +36,11 @@
 					<source src="{{entry.enclosureUrl}}" type="{{entry.enclosureType}}" />
 				</audio>
 				<div class="entry-buttons form-horizontal">
+				
+					<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
+						<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}"
+							class="pointer"></i>
+					</span>
 					<label class="checkbox inline">
 						<input type="checkbox" ng-checked="!entry.read" ng-click="mark(entry, !entry.read)"></input>
 						Keep unread

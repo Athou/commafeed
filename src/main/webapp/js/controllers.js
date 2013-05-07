@@ -530,6 +530,20 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		}
 	};
 	
+	$scope.markAll = function() {
+		var service = $scope.selectedType == 'feed' ? FeedService
+				: CategoryService;
+		service.mark({
+			id : $scope.selectedId,
+			olderThan : $scope.timestamp,
+			read : true
+		}, function() {
+			CategoryService.init(function() {
+				$scope.$emit('emitReload');
+			});
+		});
+	};
+	
 	$scope.star = function(entry, star, event) {
 		if (event) {
 			event.preventDefault();
@@ -671,6 +685,11 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			}
 		});
 	});
+	Mousetrap.bind('shift+a', function(e) {
+		$scope.$apply(function() {
+			$scope.markAll();
+		});
+	});
 	Mousetrap.bind('?', function(e) {
 		$scope.$apply(function() {
 			$scope.shortcutsModal = true;
@@ -678,17 +697,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	});
 
 	$scope.$on('markAll', function(event, args) {
-		var service = $scope.selectedType == 'feed' ? FeedService
-				: CategoryService;
-		service.mark({
-			id : $scope.selectedId,
-			olderThan : $scope.timestamp,
-			read : true
-		}, function() {
-			CategoryService.init(function() {
-				$scope.$emit('emitReload');
-			});
-		});
+		$scope.markAll();
 	});
 
 	$scope.$on('reload', function(event, args) {

@@ -86,17 +86,16 @@ module.directive('onScrollMiddle', function () {
 
 			var down = function() {
 				var docTop = w.scrollTop();
-				var docMiddle = docTop + w.height() / 2; 
 				var elemTop = e.offset().top;
-				return (elemTop > docMiddle) ? 'below' : 'above';
+				var threshold = docTop == 0 ? elemTop - 1 : docTop + w.height() / 3; 
+				return (elemTop > threshold) ? 'below' : 'above';
 			};
 			var up = function() {
 				var docTop = w.scrollTop();
-				var docMiddle = docTop + w.height() / 2; 
 				var elemTop = e.offset().top;
 				var elemBottom = elemTop + e.height();
-				
-				return (elemBottom > docMiddle) ? 'below' : 'above';
+				var threshold = docTop == 0 ? elemBottom - 1 : docTop + w.height() / 3; 
+				return (elemBottom > threshold) ? 'below' : 'above';
 			};
 			
 			w.data.scrollPosition = d.scrollTop();
@@ -111,11 +110,11 @@ module.directive('onScrollMiddle', function () {
 				w.data.scrollInit = true;
 			}
 			scope.$watch(down, function(value, oldValue) {
-				if(w.data.scrollDirection == 'down' && value && oldValue && value != oldValue && value == 'above')
+				if(w.data.scrollDirection == 'down' && value != oldValue && value == 'above')
 					scope.$eval(attrs.onScrollMiddle);
 			});
 			scope.$watch(up, function(value, oldValue) {
-				if(w.data.scrollDirection == 'up' && value && oldValue && value != oldValue && value == 'below')
+				if(w.data.scrollDirection == 'up' && value != oldValue && value == 'below')
 					scope.$eval(attrs.onScrollMiddle);
 			});
 		}

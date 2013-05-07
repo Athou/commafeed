@@ -26,6 +26,14 @@ module.directive('favicon', function() {
 		replace : true,
 		template : '<img ng-src="{{iconUrl()}}" class="favicon" onError="this.src=\'images/default_favicon.gif\'"></img>',
 		controller : ['$scope', function($scope) {
+			
+			var firstLetterDomain = function(url) {
+				url = url.replace('http://', '');
+				url = url.replace('https://', '');
+				url = url.replace('www.', '');
+				return url.substring(0, 1);
+			}
+			
 			$scope.iconUrl = function() {
 				var url = $scope.url;
 
@@ -35,13 +43,17 @@ module.directive('favicon', function() {
 				if (!url) {
 					return defaultIcon;
 				}
-
+				
+				var prefix = firstLetterDomain(url);
 				var index = Math.max(url.length, url.lastIndexOf('?'));
-				var iconUrl = 'http://g.etfv.co/';
+				
+				var iconUrl = 'http://' + prefix + '.getfavicon.appspot.com/';
 				iconUrl += encodeURIComponent(url.substring(0, index));
 				iconUrl += '?defaulticon=none';
 				return iconUrl;
 			};
+			
+			
 		}]
 	};
 });

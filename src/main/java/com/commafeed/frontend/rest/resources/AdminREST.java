@@ -18,7 +18,6 @@ import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
-import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.IDRequest;
@@ -150,14 +149,7 @@ public class AdminREST extends AbstractResourceREST {
 			return Response.status(Status.FORBIDDEN)
 					.entity("You cannot delete the admin user.").build();
 		}
-		feedEntryStatusDAO.delete(feedEntryStatusDAO.findAll(user, false,
-				ReadingOrder.desc, false));
-		feedSubscriptionDAO.delete(feedSubscriptionDAO.findAll(user));
-		feedCategoryDAO.delete(feedCategoryDAO.findAll(user));
-		userSettingsDAO.delete(userSettingsDAO.findByUser(user));
-		userRoleDAO.delete(userRoleDAO.findAll(user));
-		userDAO.delete(user);
-
+		userService.unregister(user);
 		return Response.ok().build();
 	}
 

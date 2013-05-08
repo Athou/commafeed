@@ -809,8 +809,8 @@ function($scope, $location, SettingsService, AnalyticsService) {
 	};
 }]);
 
-module.controller('ProfileCtrl', ['$scope', '$location', 'ProfileService', 'AnalyticsService',
-function($scope, $location, ProfileService, AnalyticsService) {
+module.controller('ProfileCtrl', ['$scope', '$location', '$dialog', 'ProfileService', 'AnalyticsService',
+function($scope, $location, $dialog, ProfileService, AnalyticsService) {
 	
 	AnalyticsService.track();
 	
@@ -832,7 +832,25 @@ function($scope, $location, ProfileService, AnalyticsService) {
 		ProfileService.save(o, function() {
 			$location.path('/');
 		});
+	};
+	$scope.deleteAccount = function() {
+		var title = 'Delete account';
+		var msg = 'Delete your acount? There\'s no turning back!';
+		var btns = [ {
+			result : 'cancel',
+			label : 'Cancel'
+		}, {
+			result : 'ok',
+			label : 'OK',
+			cssClass : 'btn-primary'
+		} ];
 
+		$dialog.messageBox(title, msg, btns).open().then(function(result) {
+			if (result == 'ok') {
+				ProfileService.deleteAccount();
+				window.location.href = 'logout';
+			}
+		});
 	};
 }]);
 

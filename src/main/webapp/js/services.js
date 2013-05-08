@@ -14,7 +14,9 @@ module.service('AnalyticsService', [ '$state', function($state) {
 
 
 module.factory('ProfileService', ['$resource', function($resource) {
-	return $resource('rest/user/profile/');
+	var res = $resource('rest/user/profile/');
+	res.deleteAccount = $resource('rest/user/profile/deleteAccount').save;
+	return res;
 }]);
 
 module.factory('SettingsService', ['$resource', function($resource) {

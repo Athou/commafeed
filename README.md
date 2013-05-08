@@ -46,6 +46,8 @@ It will generate a zip file at `target/commafeed.zip` with everything you need t
 
 * Create a directory somewhere (e.g. `/opt/commafeed/`) and extract the generated zip inside this directory.
 * Create a directory called `logs` (e.g. `/opt/commafeed/logs`)
+* On Linux, create the file `bin/setenv.sh` and put the following in it : `export JAVA_OPTS="-Xmx1024m -XX:MaxPermSize=256m -XX:+CMSClassUnloadingEnabled"`
+* On Windows, create the file `bin/setenv.bat` and put the following in it : `set JAVA_OPTS="-Xmx1024m -XX:MaxPermSize=256m -XX:+CMSClassUnloadingEnabled"`
 * If you used the MySQL option, create a database in your MySQL instance, then uncomment the `Resource` element from `conf/tomee.xml` and edit the default credentials.
 * If you'd like to change the default port (8082), edit `conf/server.xml` and look for `<Connector port="8082" protocol="HTTP/1.1"`. Change the port to the value you'd like to use.
 * CommaFeed will run on the `/commafeed` context. If you'd like to change the context, go to `webapps` and rename `commafeed.war`. Use the special name `ROOT.war` to deploy to the root context.

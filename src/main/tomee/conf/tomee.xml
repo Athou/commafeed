@@ -9,6 +9,20 @@
 		MaxActive 50
 	</Resource>
  -->
+ 
+ <!-- 
+	<Resource id="PostgreSQL" type="DataSource">
+		JdbcDriver org.postgresql.Driver
+        JdbcUrl jdbc:postgresql://localhost:5432/commafeed
+		UserName cf
+		Password cf
+		MaxActive 50
+	</Resource>
+ -->
+ 
+ 
+ 
+ 
 	<Container id="CommaFeedStateless" type="STATELESS">
 	        PoolSize=50
 	        StrictPooling=false

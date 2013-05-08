@@ -104,6 +104,7 @@
 						<lib>remove:hsqldb</lib>
 						<lib>org.hsqldb:hsqldb:SNAPSHOT</lib>
 						<lib>mysql:mysql-connector-java:5.1.24</lib>
+						<lib>postgresql:postgresql:9.1-901.jdbc4</lib>
 					</libs>
 				</configuration>
 			</plugin>
@@ -426,6 +427,13 @@
 			<properties>
 				<jpa.datasource.name>java:openejb/Resource/MySQL</jpa.datasource.name>
 				<jpa.dialect>com.commafeed.backend.MySQL5Dialect</jpa.dialect>
+			</properties>
+		</profile>
+		<profile>
+			<id>pgsql</id>
+			<properties>
+				<jpa.datasource.name>java:openejb/Resource/PostgreSQL</jpa.datasource.name>
+				<jpa.dialect>org.hibernate.dialect.PostgreSQLDialect</jpa.dialect>
 			</properties>
 		</profile>
 		<profile>

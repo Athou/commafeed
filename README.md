@@ -23,8 +23,7 @@ Hosting an application on OpenShift is free.
 Deployment on your own server
 -----------------------------
 
-For storage, you can either use an embedded HSQLDB database or an external MySQL database.
-Support for other databases is coming soon.
+For storage, you can either use an embedded HSQLDB database or an external MySQL or PostgreSQL database.
 You also need maven (and a Java JDK) installed in order to build the application.
 
 To install maven and openjdk on Ubuntu, issue the following commands

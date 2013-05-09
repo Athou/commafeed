@@ -93,7 +93,9 @@ public class FeedUpdateService {
 	private FeedEntry findEntry(List<FeedEntry> existingEntries, FeedEntry entry) {
 		FeedEntry foundEntry = null;
 		for (FeedEntry existingEntry : existingEntries) {
-			if (StringUtils.equals(entry.getGuid(), existingEntry.getGuid())) {
+			if (StringUtils.equals(entry.getGuid(), existingEntry.getGuid())
+					&& StringUtils.equals(entry.getUrl(),
+							existingEntry.getUrl())) {
 				foundEntry = existingEntry;
 				break;
 			}
@@ -108,7 +110,6 @@ public class FeedUpdateService {
 		}
 		List<FeedEntry> existingEntries = guids.isEmpty() ? new ArrayList<FeedEntry>()
 				: feedEntryDAO.findByGuids(guids);
-
 		return existingEntries;
 	}
 }

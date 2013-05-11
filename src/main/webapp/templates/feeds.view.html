@@ -22,7 +22,7 @@
 				<span class="entry-name" ng-class="{unread: entry.read == false, shrink: true}" ng-bind-html-unsafe="entry.title"></span>
 				
 			</a>
-			<div class="entry-body" ui-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)">
+			<div class="entry-body" ui-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)" ng-mouseup="bodyClicked(entry, $event)">
 				<div class="entry-header">
 					<h4 class="entry-title">
 						<a href="{{entry.url}}" target="_blank" ng-bind-html-unsafe="entry.title"></a>

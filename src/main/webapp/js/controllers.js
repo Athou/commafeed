@@ -578,6 +578,12 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			$scope.mark(entry, true);
 		}
 	};
+	$scope.bodyClicked = function(entry, event) {
+		if (SettingsService.settings.viewMode == 'expanded' && $scope.current != entry) {
+			$scope.entryClicked(entry, event);
+		}
+	};
+
 
 	$scope.noop = function(event) {
 		if (!event.ctrlKey && event.which != 2) {

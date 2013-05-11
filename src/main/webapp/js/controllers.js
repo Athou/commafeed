@@ -108,8 +108,8 @@ function($scope, FeedService, CategoryService) {
 }]);
 
 module.controller('CategoryTreeCtrl', ['$scope', '$timeout', '$stateParams', '$window', 
-	'$location', '$state', '$route', 'CategoryService',
-function($scope, $timeout, $stateParams, $window, $location, $state, $route, CategoryService) {
+	'$location', '$state', '$route', 'CategoryService', 'AnalyticsService',
+function($scope, $timeout, $stateParams, $window, $location, $state, $route, CategoryService, AnalyticsService) {
 
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;
@@ -125,6 +125,7 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 	});
 
 	$timeout(function refreshTree() {
+		AnalyticsService.track();
 		CategoryService.init(function() {
 			$timeout(refreshTree, 15000);
 		}, function() {

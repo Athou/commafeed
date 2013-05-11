@@ -139,7 +139,7 @@ public class FeedREST extends AbstractResourceREST {
 
 	@GET
 	@Path("/fetch")
-	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", responseClass = "com.commafeed.backend.model.Feed")
+	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", responseClass = "com.commafeed.frontend.model.FeedInfo")
 	public FeedInfo fetchFeed(
 			@ApiParam(value = "the feed's url", required = true) @QueryParam("url") String url) {
 		Preconditions.checkNotNull(url);

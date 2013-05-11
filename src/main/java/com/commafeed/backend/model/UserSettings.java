@@ -42,6 +42,9 @@ public class UserSettings extends AbstractModel {
 	@Column(nullable = false)
 	private ViewMode viewMode;
 
+	@Column(length = 4)
+	private String language;
+
 	private boolean showRead;
 	private boolean scrollMarks;
 	private boolean socialButtons;
@@ -113,4 +116,13 @@ public class UserSettings extends AbstractModel {
 	public void setScrollMarks(boolean scrollMarks) {
 		this.scrollMarks = scrollMarks;
 	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
 }

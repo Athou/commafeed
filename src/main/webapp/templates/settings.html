@@ -20,6 +20,14 @@
 					<div class="tab-pane active" id="general">
 						<div class="form-horizontal">
 							<div class="control-group">
+								<label class="control-label">Language</label>
+								<div class="controls">
+									<select name="language" ng-model="settings.language" class="input-block-level" 
+										ng-options="lang.id as lang.label for lang in languages" required>
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
 								<label class="checkbox">
 									<input type="checkbox" name="showRead"
 										ng-model="settings.showRead" />

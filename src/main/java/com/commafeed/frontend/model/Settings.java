@@ -15,6 +15,9 @@ import com.wordnik.swagger.annotations.ApiProperty;
 @ApiClass("User settings")
 public class Settings implements Serializable {
 
+	@ApiProperty(value = "user's preferred language, english if none")
+	private String language;
+
 	@ApiProperty(value = "user reads all entries or unread entries only", allowableValues = "all,unread", required = true)
 	private String readingMode;
 
@@ -90,6 +93,14 @@ public class Settings implements Serializable {
 
 	public void setScrollMarks(boolean scrollMarks) {
 		this.scrollMarks = scrollMarks;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 }

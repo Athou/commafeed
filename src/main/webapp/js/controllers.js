@@ -798,6 +798,15 @@ function($scope, $location, SettingsService, AnalyticsService) {
 	
 	AnalyticsService.track();
 	
+
+	$scope.languages = [ {
+		id : 'en',
+		label : 'English'
+	}, {
+		id : 'fr',
+		label : 'Français'
+	} ];
+	
 	$scope.settingsService = SettingsService;
 	$scope.$watch('settingsService.settings', function(value) {
 		$scope.settings = angular.copy(value);
@@ -811,7 +820,7 @@ function($scope, $location, SettingsService, AnalyticsService) {
 	$scope.save = function() {
 		SettingsService.settings = $scope.settings;
 		SettingsService.save(function() {
-			$location.path('/');
+			window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
 		});
 	};
 }]);

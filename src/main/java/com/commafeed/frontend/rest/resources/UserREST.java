@@ -45,6 +45,7 @@ public class UserREST extends AbstractResourceREST {
 			s.setSocialButtons(settings.isSocialButtons());
 			s.setScrollMarks(settings.isScrollMarks());
 			s.setCustomCss(settings.getCustomCss());
+			s.setLanguage(settings.getLanguage());
 		} else {
 			s.setReadingMode(ReadingMode.unread.name());
 			s.setReadingOrder(ReadingOrder.desc.name());
@@ -52,6 +53,7 @@ public class UserREST extends AbstractResourceREST {
 			s.setShowRead(true);
 			s.setSocialButtons(true);
 			s.setScrollMarks(true);
+			s.setLanguage("en");
 		}
 		return s;
 	}
@@ -74,6 +76,7 @@ public class UserREST extends AbstractResourceREST {
 		s.setScrollMarks(settings.isScrollMarks());
 		s.setCustomCss(settings.getCustomCss());
 		s.setSocialButtons(settings.isSocialButtons());
+		s.setLanguage(settings.getLanguage());
 		userSettingsDAO.saveOrUpdate(s);
 		return Response.ok(Status.OK).build();
 

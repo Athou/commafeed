@@ -5,11 +5,13 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.head.filter.HeaderResponseContainer;
+import org.apache.wicket.markup.html.TransparentWebMarkupContainer;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 
@@ -23,7 +25,10 @@ import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.ApplicationSettings;
+import com.commafeed.backend.model.User;
+import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.services.ApplicationSettingsService;
+import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.utils.WicketUtils;
 import com.google.api.client.util.Maps;
 
@@ -63,6 +68,18 @@ public abstract class BasePage extends WebPage {
 	private ApplicationSettings settings;
 
 	public BasePage() {
+
+		String lang = "en";
+		User user = CommaFeedSession.get().getUser();
+		if (user != null) {
+			UserSettings settings = userSettingsDAO.findByUser(user);
+			lang = settings.getLanguage() == null ? "en" : settings
+					.getLanguage();
+		}
+
+		add(new TransparentWebMarkupContainer("html").add(new AttributeModifier("lang",
+				lang)));
+
 		settings = applicationSettingsService.get();
 		add(new HeaderResponseContainer("footer-container", "footer-container"));
 		add(new WebMarkupContainer("uservoice") {

@@ -3,12 +3,12 @@ package com.commafeed.frontend.utils;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -23,6 +23,8 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.dao.UserSettingsDAO;
+import com.commafeed.backend.model.UserSettings;
 import com.commafeed.frontend.CommaFeedSession;
 
 /**
@@ -34,6 +36,9 @@ public class InternationalizationDevelopmentFilter implements Filter {
 
 	private static Logger log = LoggerFactory
 			.getLogger(InternationalizationDevelopmentFilter.class);
+
+	@Inject
+	UserSettingsDAO userSettingsDAO;
 
 	private boolean production = true;
 
@@ -56,28 +61,25 @@ public class InternationalizationDevelopmentFilter implements Filter {
 			}
 		};
 		chain.doFilter(request, interceptor);
-		Locale locale = CommaFeedSession.get().getLocale();
 
-		byte[] bytes = translate(wrapper.toString(), locale).getBytes();
+		UserSettings settings = userSettingsDAO.findByUser(CommaFeedSession
+				.get().getUser());
+		String lang = settings.getLanguage() == null ? "en" : settings
+				.getLanguage();
+
+		byte[] bytes = translate(wrapper.toString(), lang).getBytes();
 		response.getOutputStream().write(bytes);
 		response.setContentLength(bytes.length);
 		response.getOutputStream().close();
 
 	}
 
-	private String translate(String content, Locale locale) {
+	private String translate(String content, String lang) {
 		Properties props = new Properties();
 		InputStream is = null;
 		try {
-			is = getClass().getResourceAsStream(
-					"/i18n/" + locale.getLanguage() + ".properties");
-			if (is == null) {
-				is = getClass().getResourceAsStream("/i18n/en.properties");
-			}
-			if (is == null) {
-				throw new Exception("Locale file not found for locale "
-						+ locale.getLanguage());
-			}
+			is = getClass()
+					.getResourceAsStream("/i18n/" + lang + ".properties");
 			props.load(is);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

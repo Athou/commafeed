@@ -13,7 +13,8 @@ app.factory('$templateCache', ['$cacheFactory', '$http', '$injector', function($
 			}
 
 			if (!allTplPromise) {
-				allTplPromise = $http.get('templates/all-templates.html?${timestamp}').then(
+				var lang = $('html').attr('lang');
+				allTplPromise = $http.get('templates/all-templates.' + lang + '.html?${timestamp}').then(
 						function(response) {
 							$injector.get('$compile')(response.data);
 							return response;

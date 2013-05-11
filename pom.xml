@@ -467,6 +467,7 @@
 										<source>${basedir}/src/main/webapp/templates</source>
 										<prefix>templates/</prefix>
 										<destination>${basedir}/target/generated-sources/angularjs/all-templates.html</destination>
+										<i18nPath>${basedir}/src/main/resources/i18n/</i18nPath>
 									</properties>
 									<scriptpath>
 										<element>${basedir}/src/main/script</element>
@@ -477,8 +478,11 @@
 										project.properties['prefix'];
 										def dest =
 										project.properties['destination'];
+										def i18n =
+										project.properties['i18nPath'];
 										new
-										HTMLConcat().concat(source, prefix, dest);
+										HTMLConcat().concat(source,
+										prefix, dest, i18n);
 									</source>
 								</configuration>
 							</execution>

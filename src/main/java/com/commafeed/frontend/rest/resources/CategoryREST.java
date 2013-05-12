@@ -33,6 +33,7 @@ import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.Subscription;
+import com.commafeed.frontend.model.UnreadCount;
 import com.commafeed.frontend.model.request.AddCategoryRequest;
 import com.commafeed.frontend.model.request.CategoryModificationRequest;
 import com.commafeed.frontend.model.request.CollapseRequest;
@@ -289,6 +290,19 @@ public class CategoryREST extends AbstractResourceREST {
 		root.setName("All");
 
 		return root;
+	}
+
+	@GET
+	@Path("unreadCount")
+	@ApiOperation(value = "Get unread count for feed subscriptions")
+	public List<UnreadCount> getUnreadCount() {
+		List<UnreadCount> list = Lists.newArrayList();
+		Map<Long, Long> unreadCount = feedEntryStatusDAO
+				.getUnreadCount(getUser());
+		for (Map.Entry<Long, Long> e : unreadCount.entrySet()) {
+			list.add(new UnreadCount(e.getKey(), e.getValue()));
+		}
+		return list;
 	}
 
 	private Category buildCategory(Long id, List<FeedCategory> categories,

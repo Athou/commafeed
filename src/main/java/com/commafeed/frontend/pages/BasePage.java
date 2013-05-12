@@ -73,12 +73,14 @@ public abstract class BasePage extends WebPage {
 		User user = CommaFeedSession.get().getUser();
 		if (user != null) {
 			UserSettings settings = userSettingsDAO.findByUser(user);
-			lang = settings.getLanguage() == null ? "en" : settings
-					.getLanguage();
+			if (settings != null) {
+				lang = settings.getLanguage() == null ? "en" : settings
+						.getLanguage();
+			}
 		}
 
-		add(new TransparentWebMarkupContainer("html").add(new AttributeModifier("lang",
-				lang)));
+		add(new TransparentWebMarkupContainer("html")
+				.add(new AttributeModifier("lang", lang)));
 
 		settings = applicationSettingsService.get();
 		add(new HeaderResponseContainer("footer-container", "footer-container"));

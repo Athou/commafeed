@@ -64,6 +64,10 @@ public class UserREST extends AbstractResourceREST {
 	public Response saveSettings(@ApiParam Settings settings) {
 		Preconditions.checkNotNull(settings);
 
+		if (startupBean.getSupportedLanguages().get(settings.getLanguage()) == null) {
+			settings.setLanguage("en");
+		}
+
 		UserSettings s = userSettingsDAO.findByUser(getUser());
 		if (s == null) {
 			s = new UserSettings();

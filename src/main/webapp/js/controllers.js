@@ -793,19 +793,12 @@ function($scope, $state, $stateParams,	$dialog, AdminUsersService) {
 	};
 }]);
 
-module.controller('SettingsCtrl', ['$scope', '$location', 'SettingsService', 'AnalyticsService',
-function($scope, $location, SettingsService, AnalyticsService) {
+module.controller('SettingsCtrl', ['$scope', '$location', 'SettingsService', 'AnalyticsService', 'ServerService',
+function($scope, $location, SettingsService, AnalyticsService, ServerService) {
 	
 	AnalyticsService.track();
 	
-
-	$scope.languages = [ {
-		id : 'en',
-		label : 'English'
-	}, {
-		id : 'fr',
-		label : 'Français'
-	} ];
+	$scope.ServerService = ServerService.get();
 	
 	$scope.settingsService = SettingsService;
 	$scope.$watch('settingsService.settings', function(value) {

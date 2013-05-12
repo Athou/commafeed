@@ -2,28 +2,28 @@
 	<div class="span2">
 		<ul class="nav nav-pills nav-stacked">
 			<li class="active">
-				<a href="#about" data-toggle="pill">About</a>
+				<a href="#about" data-toggle="pill">${toolbar.about}</a>
 			</li>
 			<li>
-				<a href="#api" data-toggle="pill">REST API</a>
+				<a href="#api" data-toggle="pill">${about.rest_api}</a>
 			</li>
 			<li>
-				<a href="#shortcuts" data-toggle="pill">Keyboard shortcuts</a>
+				<a href="#shortcuts" data-toggle="pill">${about.keyboard_shortcuts}</a>
 			</li>
 		</ul>
 	</div>
 	<div class="span10">
 		<div class="tab-content">
 			<div class="tab-pane active" id="about">
-				<h3>About</h3>
+				<h3>${toolbar.about}</h3>
 				<p>
-					CommaFeed is an open-source project. Sources are hosted on <a href="https://github.com/Athou/commafeed" target="_blank">GitHub</a>.
+					${about.line1_prefix} <a href="https://github.com/Athou/commafeed" target="_blank">GitHub</a> ${about.line1_suffix}
 				</p>
 				<p>
-					If you encounter an issue, please report it on the <a href="https://github.com/Athou/commafeed/issues" target="_blank">issues page</a> of the GitHub project.
+					${about.line2_prefix} <a href="https://github.com/Athou/commafeed/issues" target="_blank">GitHub</a> ${about.line2_suffix}
 				</p>
 				<p>
-					If you like this project, please consider a donation to support the developer and help cover the costs of keeping this website online.
+					${about.line3}
 				</p>
 				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 					<input type="hidden" name="cmd" value="_s-xclick">
@@ -35,16 +35,16 @@
 				
 			</div>
 			<div class="tab-pane" id="api">
-				<h3>REST API</h3>
+				<h3>${about.rest_api}</h3>
 				<p>
-					CommaFeed is built on top of JAX-RS and AngularJS. As such, a REST API is available.
+					${about.rest_api.line1}
 				</p>
 				<p>
-					The documentation about the API is available <a href="api" target="_blank">here</a>.
+					<a href="api" target="_blank">${about.rest_api.link_to_documentation}</a>
 				</p>
 			</div>
 			<div class="tab-pane" id="shortcuts">
-				<h3>Keyboard Shortcuts</h3>
+				<h3>${about.keyboard_shortcuts}</h3>
 				<div ng-include="'templates/_shortcuts.html'"></div>
 			</div>
 		</div>

@@ -1,38 +1,38 @@
 <div>
 	<div class="page-header">
-		<h3>Category details</h3>
+		<h3>${details.category_details}</h3>
 	</div>
 	<form name="form" class="form-horizontal" ng-submit="save()">
 		<div class="control-group" ng-class="{error : !form.name.$valid}" ui-if="!isMeta()">
-			<label class="control-label">Name</label>
+			<label class="control-label">${details.name}</label>
 			<div class="controls">
 				<input type="text" name="name" ng-model="category.name" class="input-block-level" required></input>
-				<span class="help-block" ng-show="!form.name.$valid">Required</span>
+				<span class="help-block" ng-show="!form.name.$valid">${global.required}</span>
 			</div>
 		</div>
 
 		<div class="control-group" ng-class="{error : !form.category.$valid}" ui-if="!isMeta()">
-			<label class="control-label">Parent category</label>
+			<label class="control-label">${details.parent_category}</label>
 			<div class="controls">
 				<select name="category" class="input-block-level" ng-model="category.parentId" 
 					ng-options="cat.id as cat.name for cat in CategoryService.flatCategories | filter: filterCurrent">
 				</select>
-				<span class="help-block" ng-show="!form.category.$valid">Required</span>
+				<span class="help-block" ng-show="!form.category.$valid">${global.required}</span>
 			</div>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">Feed URL</label>
+			<label class="control-label">${details.feed_url}</label>
 			<div class="controls horizontal-align">
 				<a ng-show="user.apiKey" href="{{'rest/category/entriesAsFeed?id=' + category.id + '&apiKey=' + user.apiKey}}" target="_blank">link</a>
-				<span ng-show="!user.apiKey">Generate an API key in your profile first.</span>
+				<span ng-show="!user.apiKey">${details.generate_api_key_first}</span>
 			</div>
 		</div>
 
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary" ui-if="!isMeta()">Save</button>
-			<button type="button" class="btn" ng-click="back()">Cancel</button>
-			<button type="button" class="btn btn-danger" ng-click="deleteCategory()" ui-if="!isMeta()">Delete</button>
+			<button type="submit" class="btn btn-primary" ui-if="!isMeta()">${global.save}</button>
+			<button type="button" class="btn" ng-click="back()">${global.cancel}</button>
+			<button type="button" class="btn btn-danger" ng-click="deleteCategory()" ui-if="!isMeta()">${global.delete}</button>
 		</div>
 	</form>
 

@@ -86,6 +86,7 @@
 							<extension>.class</extension>
 						</extensions>
 						<updateOnlyExtensions>
+							<updateOnlyExtension>.properties</updateOnlyExtension>
 							<updateOnlyExtension>.html</updateOnlyExtension>
 							<updateOnlyExtension>.js</updateOnlyExtension>
 							<updateOnlyExtension>.css</updateOnlyExtension>

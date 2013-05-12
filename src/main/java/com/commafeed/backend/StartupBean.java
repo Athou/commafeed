@@ -1,7 +1,11 @@
 package com.commafeed.backend;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -14,6 +18,7 @@ import javax.ejb.Startup;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.mutable.MutableBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +32,7 @@ import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.UserService;
+import com.google.api.client.util.Maps;
 
 @Startup
 @Singleton
@@ -59,6 +65,7 @@ public class StartupBean {
 	Instance<FeedRefreshWorker> workers;
 
 	private long startupTime;
+	private Map<String, String> supportedLanguages = Maps.newHashMap();
 
 	private ExecutorService executor;
 	private MutableBoolean running = new MutableBoolean(true);
@@ -69,6 +76,8 @@ public class StartupBean {
 		if (userDAO.getCount() == 0) {
 			initialData();
 		}
+
+		initSupportedLanguages();
 
 		ApplicationSettings settings = applicationSettingsService.get();
 		int threads = settings.getBackgroundThreads();
@@ -88,13 +97,30 @@ public class StartupBean {
 
 	}
 
+	private void initSupportedLanguages() {
+		Properties props = new Properties();
+		InputStream is = null;
+		try {
+			is = getClass().getResourceAsStream("/i18n/languages.properties");
+			props.load(new InputStreamReader(is, "UTF-8"));
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		} finally {
+			IOUtils.closeQuietly(is);
+		}
+		for (Object key : props.keySet()) {
+			supportedLanguages.put(key.toString(),
+					props.getProperty(key.toString()));
+		}
+	}
+
 	private void initialData() {
 		log.info("Populating database with default values");
-		
+
 		ApplicationSettings settings = new ApplicationSettings();
 		settings.setAnnouncement("Set the Public URL in the admin section !");
 		applicationSettingsService.save(settings);
-		
+
 		userService.register(USERNAME_ADMIN, "admin",
 				Arrays.asList(Role.ADMIN, Role.USER));
 		userService.register(USERNAME_DEMO, "demo", Arrays.asList(Role.USER));
@@ -102,6 +128,10 @@ public class StartupBean {
 
 	public long getStartupTime() {
 		return startupTime;
+	}
+
+	public Map<String, String> getSupportedLanguages() {
+		return supportedLanguages;
 	}
 
 	@PreDestroy

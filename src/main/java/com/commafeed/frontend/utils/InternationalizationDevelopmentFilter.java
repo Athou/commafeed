@@ -3,6 +3,7 @@ package com.commafeed.frontend.utils;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -67,9 +68,10 @@ public class InternationalizationDevelopmentFilter implements Filter {
 		String lang = settings.getLanguage() == null ? "en" : settings
 				.getLanguage();
 
-		byte[] bytes = translate(wrapper.toString(), lang).getBytes();
-		response.getOutputStream().write(bytes);
+		byte[] bytes = translate(wrapper.toString(), lang).getBytes("UTF-8");
 		response.setContentLength(bytes.length);
+		response.setCharacterEncoding("UTF-8");
+		response.getOutputStream().write(bytes);
 		response.getOutputStream().close();
 
 	}
@@ -80,7 +82,7 @@ public class InternationalizationDevelopmentFilter implements Filter {
 		try {
 			is = getClass()
 					.getResourceAsStream("/i18n/" + lang + ".properties");
-			props.load(is);
+			props.load(new InputStreamReader(is, "UTF-8"));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		} finally {
@@ -98,7 +100,9 @@ public class InternationalizationDevelopmentFilter implements Filter {
 		while (m.find()) {
 			String var = m.group(1);
 			Object replacement = props.get(var);
-			m.appendReplacement(sb, replacement.toString());
+			String replacementValue = replacement == null ? var : replacement
+					.toString();
+			m.appendReplacement(sb, replacementValue);
 		}
 		m.appendTail(sb);
 		return sb.toString();

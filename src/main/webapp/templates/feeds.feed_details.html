@@ -1,51 +1,51 @@
 <div>
 	<div class="page-header">
-		<h3>Feed details</h3>
+		<h3>${details.feed_details}</h3>
 	</div>
 	<form name="form" class="form-horizontal" ng-submit="save()">
 		<div class="control-group">
-			<label class="control-label">URL</label>
+			<label class="control-label">${details.url}</label>
 			<div class="controls horizontal-align">
 				<a href="{{sub.feedUrl}}" target="_blank">{{sub.feedUrl}}</a>
 			</div>
 		</div>
 		<div class="control-group" ng-class="{error : !form.name.$valid}">
-			<label class="control-label">Name</label>
+			<label class="control-label">${details.name}</label>
 			<div class="controls">
 				<input type="text" name="name" ng-model="sub.name" class="input-block-level" required></input>
-				<span class="help-block" ng-show="!form.name.$valid">Required</span>
+				<span class="help-block" ng-show="!form.name.$valid">${global.required}</span>
 			</div>
 		</div>
 
 		<div class="control-group" ng-class="{error : !form.category.$valid}">
-			<label class="control-label">Category</label>
+			<label class="control-label">${details.category}</label>
 			<div class="controls">
 				<select name="category" class="input-block-level" ng-model="sub.categoryId" 
 					ng-options="cat.id as cat.name for cat in CategoryService.flatCategories">
 				</select>
-				<span class="help-block" ng-show="!form.category.$valid">Required</span>
+				<span class="help-block" ng-show="!form.category.$valid">${global.required}</span>
 			</div>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">Last refresh</label>
+			<label class="control-label">${details.last_refresh}</label>
 			<div class="controls horizontal-align">
 				<span>{{sub.lastRefresh|entryDate}}</span>
 			</div>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">Feed URL</label>
+			<label class="control-label">${details.feed_url}</label>
 			<div class="controls horizontal-align">
 				<a ng-show="user.apiKey" href="{{'rest/feed/entriesAsFeed?id=' + sub.id + '&apiKey=' + user.apiKey}}" target="_blank">link</a>
-				<span ng-show="!user.apiKey">Generate an API key in your profile first.</span>
+				<span ng-show="!user.apiKey">${details.generate_api_key_first}</span>
 			</div>
 		</div>
 
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">Save</button>
-			<button type="button" class="btn" ng-click="back()">Cancel</button>
-			<button type="button" class="btn btn-danger" ng-click="unsubscribe()">Unsubscribe</button>
+			<button type="submit" class="btn btn-primary">${global.save}</button>
+			<button type="button" class="btn" ng-click="back()">${global.cancel}</button>
+			<button type="button" class="btn btn-danger" ng-click="unsubscribe()">${details.unsubscribe}</button>
 		</div>
 	</form>
 

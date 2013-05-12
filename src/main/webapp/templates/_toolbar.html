@@ -2,8 +2,8 @@
 	<div class="form-horizontal">
 		<span>
 			<div class="btn-group read-mode" data-toggle="buttons-radio">
-				<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'unread'">Unread</button>
-				<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'all'">All</button>
+				<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'unread'">${toolbar.unread}</button>
+				<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'all'">${toolbar.all}</button>
 			</div>
 			
 			<button type="button" class="btn" ng-click="toggleOrder()">
@@ -16,19 +16,19 @@
 			</div>
 			
 			<button type="button" class="btn" ng-click="refresh()"><i class="icon-refresh"></i> ${toolbar.refresh}</button>
-			<button type="button" class="btn" ng-click="markAllAsRead()"><i class="icon-ok"></i> Mark all as read</button>
+			<button type="button" class="btn" ng-click="markAllAsRead()"><i class="icon-ok"></i> ${toolbar.mark_all_as_read}</button>
 		
 			<div class="btn-group">
-				<a class="btn" ng-click="toSettings()"><i class="icon-cog"></i> Settings</a>
+				<a class="btn" ng-click="toSettings()"><i class="icon-cog"></i> ${toolbar.settings}</a>
 				<button class="btn dropdown-toggle" data-toggle="dropdown">
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu pull-right">
-					<li><a ng-click="toProfile()"><i class="icon-user"></i> Profile</a></li>
-					<li ng-show="session.admin"><a ng-click="toAdmin()"><i class="icon-edit"></i> Admin</a></li>
+					<li><a ng-click="toProfile()"><i class="icon-user"></i> ${toolbar.profile}</a></li>
+					<li ng-show="session.admin"><a ng-click="toAdmin()"><i class="icon-edit"></i> ${toolbar.admin}</a></li>
 					<li class="divider"></li>
-					<li><a ng-click="toHelp()"><i class="icon-question-sign"></i> About</a></li>
-					<li><a href="logout"><i class="icon-off"></i> Logout</a></li>
+					<li><a ng-click="toHelp()"><i class="icon-question-sign"></i> ${toolbar.about}</a></li>
+					<li><a href="logout"><i class="icon-off"></i> ${toolbar.logout}</a></li>
 				</ul>
 			</div>
 		</span>
@@ -37,7 +37,7 @@
 			<button class="btn" type="submit"><i class="icon-search"></i></button>
 		</form>
 		<div class="donate">
-			<button class="btn btn-success" type="button" ng-click="toDonate()">Donate</button>
+			<button class="btn btn-success" type="button" ng-click="toDonate()">${toolbar.donate}</button>
 		</div>
 		<div spinner shown="loading"></div>
 		<span>{{ServerService.announcement}}</span>

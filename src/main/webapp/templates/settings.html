@@ -7,11 +7,11 @@
 			<div class="span2">
 				<ul class="nav nav-pills nav-stacked">
 					<li class="active">
-						<a href="#general" data-toggle="pill">General</a>
+						<a href="#general" data-toggle="pill">${settings.general}</a>
 					</li>
 					<li>
 						<a href="#custom-css" data-toggle="pill"
-							ng-click="refreshCodemirror=!refreshCodemirror">Custom CSS</a>
+							ng-click="refreshCodemirror=!refreshCodemirror">${settings.custom_css}</a>
 					</li>
 				</ul>
 			</div>
@@ -20,10 +20,10 @@
 					<div class="tab-pane active" id="general">
 						<div class="form-horizontal">
 							<div class="control-group">
-								<label class="control-label">Language</label>
+								<label class="control-label">${settings.general.language}</label>
 								<div class="controls">
 									<select name="language" ng-model="settings.language" class="input-block-level" 
-										ng-options="lang.id as lang.label for lang in languages" required>
+										ng-options="id as label for (id,label) in ServerService.supportedLanguages" required>
 									</select>
 								</div>
 							</div>
@@ -31,21 +31,21 @@
 								<label class="checkbox">
 									<input type="checkbox" name="showRead"
 										ng-model="settings.showRead" />
-									Show feeds and categories with no unread entries
+									${settings.general.show_unread}
 								</label>
 							</div>
 							<div class="control-group">
 								<label class="checkbox">
 									<input type="checkbox" name="socialButtons"
 										ng-model="settings.socialButtons" />
-									Show social sharing buttons
+									${settings.general.social_buttons}
 								</label>
 							</div>
 							<div class="control-group">
 								<label class="checkbox">
 									<input type="checkbox" name="scrollMarks"
 										ng-model="settings.scrollMarks" />
-									In expanded view, scrolling through entries mark them as read
+									${settings.general.scroll_marks}
 								</label>
 							</div>
 						</div>
@@ -58,8 +58,8 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">Save</button>
-			<button type="button" class="btn" ng-click="cancel()">Cancel</button>
+			<button type="submit" class="btn btn-primary">${global.save}</button>
+			<button type="button" class="btn" ng-click="cancel()">${global.cancel}</button>
 		</div>
 	</form>
 </div>

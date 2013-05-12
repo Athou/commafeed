@@ -5,7 +5,7 @@
 	
 	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode" infinite-scroll-distance="1" id="feed-accordion"
 		ng-class="{'expanded' : settingsService.settings.viewMode == 'expanded' }">
-		<div ng-show="message && errorCount > 10">Error while loading this feed : {{message}}</div>
+		<div ng-show="message && errorCount > 10">${view.error_while_loading_feed} : {{message}}</div>
 		<div ng-repeat="entry in entries" class="entry" scroll-to="navigationMode == 'click' && isOpen && current == entry" scroll-to-offset="-58" 
 			on-scroll-middle="onScroll(entry)" ng-class="{current: current==entry}">
 			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)"
@@ -69,11 +69,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="no-entries" ng-show="name && entries.length == 0 && !busy">"{{name}}" has no unread items.</div>
+		<div class="no-entries" ng-show="name && entries.length == 0 && !busy">"{{name}}" ${view.no_unread_items}</div>
 		<div modal="shortcutsModal" close="shortcutsModal=false" options="shortcutsOpts">
 			<div class="modal-header">
 				<button type="button" class="close" ng-click="shortcutsModal=false">&times;</button>
-				<h4>Keyboard shortcuts</h4>
+				<h4>${about.keyboard_shortcuts}</h4>
 			</div>
 			<div ng-include="'templates/_shortcuts.html'"></div>
 		</div>

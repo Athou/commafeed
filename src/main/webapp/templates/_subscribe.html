@@ -1,109 +1,109 @@
 <div ng-controller="SubscribeCtrl">
 	<div class="btn-group">
-		<button class="btn" ng-click="open()"><span class="icon-rss"></span> Subscribe</button>
+		<button class="btn" ng-click="open()"><span class="icon-rss"></span> ${tree.subscribe}</button>
 		<button class="btn dropdown-toggle" data-toggle="dropdown">
 			<span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu">
-			<li><a ng-click="openImport()"><i class="icon-arrow-down"></i> Import</a></li>
-			<li><a ng-click="openCategory()"><i class="icon-plus"></i> Add a category</a></li>
+			<li><a ng-click="openImport()"><i class="icon-arrow-down"></i> ${tree.import}</a></li>
+			<li><a ng-click="openCategory()"><i class="icon-plus"></i> ${tree.new_category}</a></li>
 		</ul>
 	</div>
 	<div modal="isOpen" close="close()" options="opts">
 		<div class="modal-header">
 			<button type="button" class="close" ng-click="close()">&times;</button>
-			<h4>Subscribe</h4>
+			<h4>${tree.subscribe}</h4>
 		</div>
 		<form name="subscribeForm" class="form-horizontal" ng-submit="save()">
 			<div class="modal-body">
 				<div class="control-group" ng-class="{error : !subscribeForm.url.$valid}">
-					<label class="control-label">Feed URL</label>
+					<label class="control-label">${subscribe.feed_url}</label>
 					<div class="controls">
 						<input type="text" name="url" ng-model="sub.url" ng-blur="urlChanged()" placeholder="http://example.com/feed" 
 							class="input-block-level" required ng-disabled="state=='loading'"></input>
-						<span class="help-block" ng-show="!subscribeForm.url.$valid">Required</span>
+						<span class="help-block" ng-show="!subscribeForm.url.$valid">${global.required}</span>
 					</div>
 				</div>
 				<div class="control-group" ng-class="{error : !subscribeForm.title.$valid}">
-					<label class="control-label">Feed Name</label>
+					<label class="control-label">${subscribe.feed_name}</label>
 					<div class="controls">
 						<input type="text" name="title" ng-model="sub.title" 
 							class="input-block-level" required ng-disabled="state=='loading'"></input>
-						<span class="help-block" ng-show="!subscribeForm.title.$valid">Required</span>
+						<span class="help-block" ng-show="!subscribeForm.title.$valid">${global.required}</span>
 					</div>
 				</div>
 				<div class="control-group" ng-class="{error : !subscribeForm.category.$valid}">
-					<label class="control-label">Category</label>
+					<label class="control-label">${subscribe.category}</label>
 					<div class="controls">
 						<select name="category" ng-model="sub.categoryId" class="input-block-level" 
 							ng-options="cat.id as cat.name for cat in CategoryService.flatCategories" required>
 						</select>
-						<span class="help-block" ng-show="!subscribeForm.category.$valid">Required</span>
+						<span class="help-block" ng-show="!subscribeForm.category.$valid">${global.required}</span>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button class="btn cancel" ng-click="close()" type="button">Cancel</button>
-				<button class="btn btn-primary ok" type="submit" ng-disabled="state!='ok'">Save</button>
+				<button class="btn cancel" ng-click="close()" type="button">${global.cancel}</button>
+				<button class="btn btn-primary ok" type="submit" ng-disabled="state!='ok'">${global.save}</button>
 			</div>
 		</form>
 	</div>
 	<div modal="isOpenImport" close="closeImport()" options="opts">
 		<div class="modal-header">
 			<button type="button" class="close" ng-click="closeImport()">&times;</button>
-			<h4>Import</h4>
+			<h4>${tree.import}</h4>
 		</div>
 		<form ng-upload class="form-horizontal" action="rest/feed/import">
 			<div class="modal-body">
 				<div class="control-group">
-					<div>Let me import your feeds from your 
+					<div>${import.google_reader_prefix}
 						<a href="google/import/redirect">						
 							<img src="images/google_reader_icon.png" class="favicon" /> 
-							Google Reader account
-						</a>.
+							Google Reader
+						</a>${import.google_reader_suffix}
 					</div>
-					<div>Alternatively, upload your subscriptions.xml file (download it from <a target="_blank" href="https://www.google.com/reader/subscriptions/export">here)</a>.</div>
+					<div>${import.google_download} <a target="_blank" href="https://www.google.com/reader/subscriptions/export">${import.google_download_link}</a></div>
 				</div>
 				<div class="control-group">
-					<label class="control-label">XML File</label>
+					<label class="control-label">${import.xml_file}</label>
 					<div class="controls">
 						<input type="file" name="file"></input>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn cancel" ng-click="closeImport()">Cancel</button>
-				<button class="btn btn-primary ok" type="submit" upload-submit="uploadComplete(contents, completed)">Import</button>
+				<button type="button" class="btn cancel" ng-click="closeImport()">${global.cancel}</button>
+				<button class="btn btn-primary ok" type="submit" upload-submit="uploadComplete(contents, completed)">${tree.import}</button>
 			</div>
 		</form>
 	</div>
 	<div modal="isOpenCategory" close="closeCategory()" options="opts">
 		<div class="modal-header">
 			<button type="button" class="close" ng-click="closeCategory()">&times;</button>
-			<h4>New category</h4>
+			<h4>${tree.new_category}</h4>
 		</div>
 		<form name="categoryForm" class="form-horizontal" ng-submit="saveCategory()">
 			<div class="modal-body">
 				<div class="control-group" ng-class="{error : !categoryForm.name.$valid}">
-					<label class="control-label">Name</label>
+					<label class="control-label">${new_category.name}</label>
 					<div class="controls">
 						<input type="text" name="name" ng-model="cat.name" required></input>
-						<span class="help-block" ng-show="!categoryForm.name.$valid">Required</span>
+						<span class="help-block" ng-show="!categoryForm.name.$valid">${global.required}</span>
 					</div>
 				</div>
 				<div class="control-group" ng-class="{error : !categoryForm.category.$valid}">
-					<label class="control-label">Parent</label>
+					<label class="control-label">${new_category.parent}</label>
 					<div class="controls">
 						<select name="category" ng-model="cat.parentId" class="input-block-level" 
 							ng-options="cat.id as cat.name for cat in CategoryService.flatCategories"required>
 						</select>
-						<span class="help-block" ng-show="!categoryForm.category.$valid">Required</span>
+						<span class="help-block" ng-show="!categoryForm.category.$valid">${global.required}</span>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn cancel" ng-click="closeCategory()">Cancel</button>
-				<button class="btn btn-primary ok" type="submit">Save</button>
+				<button type="button" class="btn cancel" ng-click="closeCategory()">${global.cancel}</button>
+				<button class="btn btn-primary ok" type="submit">${global.save}</button>
 			</div>
 		</form>
 	</div>

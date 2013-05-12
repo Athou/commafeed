@@ -28,13 +28,13 @@ public class HTMLConcat {
 			}
 			sb.append("</div>");
 			String dest = destination.substring(0, destination.lastIndexOf(".")) + "." + i18n.getName().split("\\.")[0] + ".html";
-			FileUtils.writeStringToFile(new File(dest), sb.toString());
+			FileUtils.writeStringToFile(new File(dest), sb.toString(), "UTF-8");
 		}
 	}
 	
 	public String translate(String content, File i18n) {
 		 Properties props = new Properties();
-		 props.load(new FileInputStream(i18n));
+		 props.load(new InputStreamReader(new FileInputStream(i18n), "UTF-8"));
 		 return replace(content, props);
 	}
 	

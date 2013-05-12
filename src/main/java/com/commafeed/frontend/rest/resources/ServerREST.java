@@ -18,6 +18,8 @@ public class ServerREST extends AbstractResourceREST {
 		ServerInfo infos = new ServerInfo();
 		infos.setAnnouncement(applicationSettingsService.get()
 				.getAnnouncement());
+		infos.getSupportedLanguages().putAll(
+				startupBean.getSupportedLanguages());
 		return infos;
 	}
 }

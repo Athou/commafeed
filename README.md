@@ -66,6 +66,15 @@ Checkout the code and use maven to build and start a local TomEE instance.
 
 The application is online at [http://localhost:8082/commafeed](http://localhost:8082/commafeed). Any change to the source code will be applied immediatly.
 
+Translate CommaFeed into your language
+--------------------------------------
+
+Files for internationalization are located [here](https://github.com/Athou/commafeed/tree/master/src/main/resources/i18n).
+
+To add a new language, create a new file in that directory.
+The name of the file should be the two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
+The language has to be referenced in the `languages.properties` file to be picked up.
+
 Copyright and license
 ---------------------
 

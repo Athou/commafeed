@@ -65,8 +65,8 @@ public class InternationalizationDevelopmentFilter implements Filter {
 
 		UserSettings settings = userSettingsDAO.findByUser(CommaFeedSession
 				.get().getUser());
-		String lang = settings.getLanguage() == null ? "en" : settings
-				.getLanguage();
+		String lang = (settings == null || settings.getLanguage() == null) ? "en"
+				: settings.getLanguage();
 
 		byte[] bytes = translate(wrapper.toString(), lang).getBytes("UTF-8");
 		response.setContentLength(bytes.length);

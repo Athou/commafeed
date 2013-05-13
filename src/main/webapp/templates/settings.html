@@ -25,6 +25,11 @@
 									<select name="language" ng-model="settings.language" class="input-block-level" 
 										ng-options="id as label for (id,label) in ServerService.supportedLanguages" required>
 									</select>
+									<span class="help-block">
+										<a href="https://github.com/Athou/commafeed#translate-commafeed-into-your-language" target="_blank">
+											${settings.general.language.contribute}
+										</a>
+									</span>
 								</div>
 							</div>
 							<div class="control-group">

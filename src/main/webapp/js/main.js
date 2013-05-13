@@ -76,7 +76,7 @@ app.config([ '$routeProvider', '$stateProvider', '$urlRouterProvider',
 				controller : 'ManageSettingsCtrl'
 			});
 
-			$urlRouterProvider.when('/', '/feeds/view/category/all');
+			$urlRouterProvider.when('/', '/feeds/help');
 			$urlRouterProvider.when('/admin', '/admin/settings');
 			$urlRouterProvider.otherwise('/');
 

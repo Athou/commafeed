@@ -27,7 +27,6 @@
 					<li><a ng-click="toProfile()"><i class="icon-user"></i> ${toolbar.profile}</a></li>
 					<li ng-show="session.admin"><a ng-click="toAdmin()"><i class="icon-edit"></i> ${toolbar.admin}</a></li>
 					<li class="divider"></li>
-					<li><a ng-click="toHelp()"><i class="icon-question-sign"></i> ${toolbar.about}</a></li>
 					<li><a href="logout"><i class="icon-off"></i> ${toolbar.logout}</a></li>
 				</ul>
 			</div>
@@ -37,7 +36,7 @@
 			<button class="btn" type="submit"><i class="icon-search"></i></button>
 		</form>
 		<div class="donate">
-			<button class="btn btn-success" type="button" ng-click="toDonate()">${toolbar.donate}</button>
+			<button class="btn btn-info" type="button" ng-click="toHelp()"><i class="icon-question-sign"></i> ${toolbar.about}</button>
 		</div>
 		<div spinner shown="loading"></div>
 		<span>{{ServerService.announcement}}</span>

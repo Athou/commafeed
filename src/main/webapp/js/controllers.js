@@ -649,7 +649,17 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			openNextEntry(e);
 		});
 	});
+	Mousetrap.bind('n', function(e) {
+		$scope.$apply(function() {
+			openNextEntry(e);
+		});
+	});
 	Mousetrap.bind('k', function(e) {
+		$scope.$apply(function() {
+			openPreviousEntry(e);
+		});
+	});
+	Mousetrap.bind('p', function(e) {
 		$scope.$apply(function() {
 			openPreviousEntry(e);
 		});

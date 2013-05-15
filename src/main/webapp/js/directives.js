@@ -7,7 +7,7 @@ module.directive('popup', function() {
 	return {
 		link : function(scope, elm, attrs) {
 			elm.bind('click', function(event) {
-				window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+				window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=800');
 				event.preventDefault();
 			});
 		}

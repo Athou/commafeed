@@ -83,7 +83,7 @@ public class StartupBean {
 		int threads = settings.getBackgroundThreads();
 		log.info("Starting {} background threads", threads);
 
-		executor = Executors.newFixedThreadPool(threads);
+		executor = Executors.newFixedThreadPool(Math.max(threads, 1));
 		for (int i = 0; i < threads; i++) {
 			final int threadId = i;
 			executor.execute(new Runnable() {

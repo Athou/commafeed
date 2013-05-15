@@ -21,7 +21,6 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 		criteria.andEquals(FeedSubscription_.user.getName(), user);
 		criteria.andEquals(FeedSubscription_.id.getName(), id);
 		criteria.leftJoinFetch(FeedSubscription_.feed.getName());
-		criteria.leftJoinFetch(FeedSubscription_.user.getName());
 		criteria.leftJoinFetch(FeedSubscription_.category.getName());
 		return Iterables.getFirst(criteria.getResultList(), null);
 	}
@@ -44,7 +43,6 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 		criteria.andEquals(FeedSubscription_.user.getName(), user);
 
 		criteria.innerJoinFetch(FeedSubscription_.feed.getName());
-		criteria.innerJoinFetch(FeedSubscription_.user.getName());
 		criteria.leftJoinFetch(FeedSubscription_.category.getName());
 		return criteria.getResultList();
 	}

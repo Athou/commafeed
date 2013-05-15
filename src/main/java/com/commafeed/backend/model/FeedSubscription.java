@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -15,18 +16,18 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 public class FeedSubscription extends AbstractModel {
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private User user;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private Feed feed;
 
 	@Column(length = 128, nullable = false)
 	private String title;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private FeedCategory category;
 
 	@OneToMany(mappedBy = "subscription", cascade = CascadeType.REMOVE)

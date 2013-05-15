@@ -9,6 +9,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -17,10 +19,13 @@ import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
+import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryContent_;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryStatus_;
 import com.commafeed.backend.model.FeedEntry_;
+import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
@@ -51,8 +56,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return status;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<FeedEntryStatus> findByKeywords(User user, String keywords,
-			int offset, int limit, boolean includeContent) {
+			int offset, int limit) {
 
 		String joinedKeywords = StringUtils.join(
 				keywords.toLowerCase().split(" "), "%");
@@ -62,30 +68,37 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		Root<FeedEntryStatus> root = query.from(getType());
 
 		List<Predicate> predicates = Lists.newArrayList();
-		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription)
-				.get(FeedSubscription_.user), user));
 
-		Predicate content = builder.like(builder.lower(root
-				.get(FeedEntryStatus_.entry).get(FeedEntry_.content)
-				.get(FeedEntryContent_.content)), joinedKeywords);
+		Join<FeedEntryStatus, FeedSubscription> subJoin = root.join(
+				FeedEntryStatus_.subscription, JoinType.LEFT);
+		subJoin.join(FeedSubscription_.category, JoinType.LEFT);
+
+		Join<FeedEntryStatus, FeedEntry> entryJoin = (Join<FeedEntryStatus, FeedEntry>) root
+				.fetch(FeedEntryStatus_.entry, JoinType.LEFT);
+		Join<FeedEntry, FeedEntryContent> contentJoin = (Join<FeedEntry, FeedEntryContent>) entryJoin
+				.fetch(FeedEntry_.content, JoinType.LEFT);
+
+		predicates
+				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
+
+		Predicate content = builder.like(
+				builder.lower(contentJoin.get(FeedEntryContent_.content)),
+				joinedKeywords);
 		Predicate title = builder.like(
-				builder.lower(root.get(FeedEntryStatus_.entry)
-						.get(FeedEntry_.content).get(FeedEntryContent_.title)),
+				builder.lower(contentJoin.get(FeedEntryContent_.title)),
 				joinedKeywords);
 		predicates.add(builder.or(content, title));
-		if (includeContent) {
-			root.fetch(FeedEntryStatus_.entry).fetch(FeedEntry_.content);
-		}
 
 		query.where(predicates.toArray(new Predicate[0]));
 
-		orderBy(query, root, ReadingOrder.desc);
+		orderBy(query, entryJoin, ReadingOrder.desc);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
 		return q.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<FeedEntryStatus> findStarred(User user, int offset, int limit,
 			ReadingOrder order, boolean includeContent) {
 
@@ -93,15 +106,22 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		Root<FeedEntryStatus> root = query.from(getType());
 
 		List<Predicate> predicates = Lists.newArrayList();
-		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription)
-				.get(FeedSubscription_.user), user));
+
+		Join<FeedEntryStatus, FeedSubscription> subJoin = root.join(
+				FeedEntryStatus_.subscription, JoinType.LEFT);
+		subJoin.join(FeedSubscription_.category, JoinType.LEFT);
+		Join<FeedEntryStatus, FeedEntry> entryJoin = (Join<FeedEntryStatus, FeedEntry>) root
+				.fetch(FeedEntryStatus_.entry, JoinType.LEFT);
+
+		predicates
+				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
 		predicates.add(builder.equal(root.get(FeedEntryStatus_.starred), true));
 		query.where(predicates.toArray(new Predicate[0]));
 		if (includeContent) {
-			root.fetch(FeedEntryStatus_.entry).fetch(FeedEntry_.content);
+			entryJoin.fetch(FeedEntry_.content, JoinType.LEFT);
 		}
 
-		orderBy(query, root, order);
+		orderBy(query, entryJoin, order);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
@@ -113,24 +133,32 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return findAll(user, unreadOnly, -1, -1, order, includeContent);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<FeedEntryStatus> findAll(User user, boolean unreadOnly,
 			int offset, int limit, ReadingOrder order, boolean includeContent) {
 		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
 		Root<FeedEntryStatus> root = query.from(getType());
 
 		List<Predicate> predicates = Lists.newArrayList();
-		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription)
-				.get(FeedSubscription_.user), user));
+
+		Join<FeedEntryStatus, FeedSubscription> subJoin = root.join(
+				FeedEntryStatus_.subscription, JoinType.LEFT);
+		subJoin.join(FeedSubscription_.category, JoinType.LEFT);
+		Join<FeedEntryStatus, FeedEntry> entryJoin = (Join<FeedEntryStatus, FeedEntry>) root
+				.fetch(FeedEntryStatus_.entry, JoinType.LEFT);
+
+		predicates
+				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
 		if (unreadOnly) {
 			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
 		}
 
 		if (includeContent) {
-			root.fetch(FeedEntryStatus_.entry).fetch(FeedEntry_.content);
+			entryJoin.fetch(FeedEntry_.content, JoinType.LEFT);
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));
-		orderBy(query, root, order);
+		orderBy(query, entryJoin, order);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
@@ -158,6 +186,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return findByFeed(feed, user, unreadOnly, -1, -1, order, includeContent);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<FeedEntryStatus> findByFeed(Feed feed, User user,
 			boolean unreadOnly, int offset, int limit, ReadingOrder order,
 			boolean includeContent) {
@@ -166,21 +195,28 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		Root<FeedEntryStatus> root = query.from(getType());
 
 		List<Predicate> predicates = Lists.newArrayList();
-		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription)
-				.get(FeedSubscription_.user), user));
-		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription)
-				.get(FeedSubscription_.feed), feed));
+
+		Join<FeedEntryStatus, FeedSubscription> subJoin = root.join(
+				FeedEntryStatus_.subscription, JoinType.LEFT);
+		subJoin.join(FeedSubscription_.category, JoinType.LEFT);
+		Join<FeedEntryStatus, FeedEntry> entryJoin = (Join<FeedEntryStatus, FeedEntry>) root
+				.fetch(FeedEntryStatus_.entry, JoinType.LEFT);
+
+		predicates
+				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
+		predicates
+				.add(builder.equal(subJoin.get(FeedSubscription_.feed), feed));
 		if (unreadOnly) {
 			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
 		}
 
 		if (includeContent) {
-			root.fetch(FeedEntryStatus_.entry).fetch(FeedEntry_.content);
+			entryJoin.fetch(FeedEntry_.content, JoinType.LEFT);
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));
 
-		orderBy(query, root, order);
+		orderBy(query, entryJoin, order);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
@@ -194,6 +230,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 				includeContent);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<FeedEntryStatus> findByCategories(
 			List<FeedCategory> categories, User user, boolean unreadOnly,
 			int offset, int limit, ReadingOrder order, boolean includeContent) {
@@ -202,21 +239,27 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		Root<FeedEntryStatus> root = query.from(getType());
 
 		List<Predicate> predicates = Lists.newArrayList();
-		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription)
-				.get(FeedSubscription_.user), user));
-		predicates.add(root.get(FeedEntryStatus_.subscription)
-				.get(FeedSubscription_.category).in(categories));
+
+		Join<FeedEntryStatus, FeedSubscription> subJoin = root.join(
+				FeedEntryStatus_.subscription, JoinType.LEFT);
+		subJoin.join(FeedSubscription_.category, JoinType.LEFT);
+		Join<FeedEntryStatus, FeedEntry> entryJoin = (Join<FeedEntryStatus, FeedEntry>) root
+				.fetch(FeedEntryStatus_.entry, JoinType.LEFT);
+
+		predicates
+				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
+		predicates.add(subJoin.get(FeedSubscription_.category).in(categories));
 		if (unreadOnly) {
 			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
 		}
 
 		if (includeContent) {
-			root.fetch(FeedEntryStatus_.entry).fetch(FeedEntry_.content);
+			entryJoin.fetch(FeedEntry_.content, JoinType.LEFT);
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));
 
-		orderBy(query, root, order);
+		orderBy(query, entryJoin, order);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
@@ -224,15 +267,13 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	private void orderBy(CriteriaQuery<FeedEntryStatus> query,
-			Root<FeedEntryStatus> root, ReadingOrder order) {
-		Path<Date> orderPath = root.get(FeedEntryStatus_.entry).get(
-				FeedEntry_.updated);
+			Join<FeedEntryStatus, FeedEntry> entryJoin, ReadingOrder order) {
+		Path<Date> orderPath = entryJoin.get(FeedEntry_.updated);
 		if (order == ReadingOrder.asc) {
 			query.orderBy(builder.asc(orderPath));
 		} else {
 			query.orderBy(builder.desc(orderPath));
 		}
-
 	}
 
 	public void markFeedEntries(User user, Feed feed, Date olderThan) {

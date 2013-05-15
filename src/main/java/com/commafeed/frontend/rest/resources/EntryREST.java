@@ -69,7 +69,7 @@ public class EntryREST extends AbstractResourceREST {
 
 		List<Entry> list = Lists.newArrayList();
 		List<FeedEntryStatus> entriesStatus = feedEntryStatusDAO
-				.findByKeywords(getUser(), keywords, offset, limit, true);
+				.findByKeywords(getUser(), keywords, offset, limit);
 		for (FeedEntryStatus status : entriesStatus) {
 			list.add(Entry.build(status));
 		}

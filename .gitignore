@@ -15,6 +15,10 @@ deployments/ROOT.war
 .factorypath
 /target
 
+# IntelliJ Idea files
+.idea
+*.iml
+
 # Sublime
 *.sublime*
 

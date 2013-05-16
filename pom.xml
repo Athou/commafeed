@@ -402,8 +402,6 @@
 			<id>openshift</id>
 			<properties>
 				<jpa.datasource.name>java:jboss/datasources/MysqlDS</jpa.datasource.name>
-				<jpa.show_sql>false</jpa.show_sql>
-				<production>true</production>
 				<jpa.dialect>com.commafeed.backend.MySQL5Dialect</jpa.dialect>
 			</properties>
 			<build>

@@ -3,3 +3,4 @@
 # your application. This script can be used to modify the Maven build
 # arguments for non-CI/Jenkins builds by exporting MAVEN_ARGS. The default
 # is "clean package -Popenshift -DskipTests"
+export MAVEN_ARGS="clean package -Popenshift -Pprod -DskipTests"

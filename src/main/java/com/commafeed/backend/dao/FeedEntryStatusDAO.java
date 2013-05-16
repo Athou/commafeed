@@ -10,7 +10,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -68,13 +67,13 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		List<Predicate> predicates = Lists.newArrayList();
 
 		Join<FeedEntryStatus, FeedSubscription> subJoin = (Join<FeedEntryStatus, FeedSubscription>) root
-				.fetch(FeedEntryStatus_.subscription, JoinType.LEFT);
-		subJoin.fetch(FeedSubscription_.feed, JoinType.LEFT);
+				.fetch(FeedEntryStatus_.subscription);
+		subJoin.fetch(FeedSubscription_.feed);
 
 		Join<FeedEntryStatus, FeedEntry> entryJoin = (Join<FeedEntryStatus, FeedEntry>) root
-				.fetch(FeedEntryStatus_.entry, JoinType.LEFT);
+				.fetch(FeedEntryStatus_.entry);
 		Join<FeedEntry, FeedEntryContent> contentJoin = (Join<FeedEntry, FeedEntryContent>) entryJoin
-				.fetch(FeedEntry_.content, JoinType.LEFT);
+				.fetch(FeedEntry_.content);
 
 		predicates
 				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
@@ -106,17 +105,17 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		List<Predicate> predicates = Lists.newArrayList();
 
 		Join<FeedEntryStatus, FeedSubscription> subJoin = (Join<FeedEntryStatus, FeedSubscription>) root
-				.fetch(FeedEntryStatus_.subscription, JoinType.LEFT);
-		subJoin.fetch(FeedSubscription_.feed, JoinType.LEFT);
+				.fetch(FeedEntryStatus_.subscription);
+		subJoin.fetch(FeedSubscription_.feed);
 		Join<FeedEntryStatus, FeedEntry> entryJoin = (Join<FeedEntryStatus, FeedEntry>) root
-				.fetch(FeedEntryStatus_.entry, JoinType.LEFT);
+				.fetch(FeedEntryStatus_.entry);
 
 		predicates
 				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
 		predicates.add(builder.equal(root.get(FeedEntryStatus_.starred), true));
 		query.where(predicates.toArray(new Predicate[0]));
 		if (includeContent) {
-			entryJoin.fetch(FeedEntry_.content, JoinType.LEFT);
+			entryJoin.fetch(FeedEntry_.content);
 		}
 
 		orderBy(query, entryJoin, order);
@@ -140,10 +139,10 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		List<Predicate> predicates = Lists.newArrayList();
 
 		Join<FeedEntryStatus, FeedSubscription> subJoin = (Join<FeedEntryStatus, FeedSubscription>) root
-				.fetch(FeedEntryStatus_.subscription, JoinType.LEFT);
-		subJoin.fetch(FeedSubscription_.feed, JoinType.LEFT);
+				.fetch(FeedEntryStatus_.subscription);
+		subJoin.fetch(FeedSubscription_.feed);
 		Join<FeedEntryStatus, FeedEntry> entryJoin = (Join<FeedEntryStatus, FeedEntry>) root
-				.fetch(FeedEntryStatus_.entry, JoinType.LEFT);
+				.fetch(FeedEntryStatus_.entry);
 
 		predicates
 				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
@@ -152,7 +151,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 
 		if (includeContent) {
-			entryJoin.fetch(FeedEntry_.content, JoinType.LEFT);
+			entryJoin.fetch(FeedEntry_.content);
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));
@@ -195,10 +194,10 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		List<Predicate> predicates = Lists.newArrayList();
 
 		Join<FeedEntryStatus, FeedSubscription> subJoin = (Join<FeedEntryStatus, FeedSubscription>) root
-				.fetch(FeedEntryStatus_.subscription, JoinType.LEFT);
-		subJoin.fetch(FeedSubscription_.feed, JoinType.LEFT);
+				.fetch(FeedEntryStatus_.subscription);
+		subJoin.fetch(FeedSubscription_.feed);
 		Join<FeedEntryStatus, FeedEntry> entryJoin = (Join<FeedEntryStatus, FeedEntry>) root
-				.fetch(FeedEntryStatus_.entry, JoinType.LEFT);
+				.fetch(FeedEntryStatus_.entry);
 
 		predicates
 				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
@@ -209,7 +208,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 
 		if (includeContent) {
-			entryJoin.fetch(FeedEntry_.content, JoinType.LEFT);
+			entryJoin.fetch(FeedEntry_.content);
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));
@@ -239,10 +238,10 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		List<Predicate> predicates = Lists.newArrayList();
 
 		Join<FeedEntryStatus, FeedSubscription> subJoin = (Join<FeedEntryStatus, FeedSubscription>) root
-				.fetch(FeedEntryStatus_.subscription, JoinType.LEFT);
-		subJoin.fetch(FeedSubscription_.feed, JoinType.LEFT);
+				.fetch(FeedEntryStatus_.subscription);
+		subJoin.fetch(FeedSubscription_.feed);
 		Join<FeedEntryStatus, FeedEntry> entryJoin = (Join<FeedEntryStatus, FeedEntry>) root
-				.fetch(FeedEntryStatus_.entry, JoinType.LEFT);
+				.fetch(FeedEntryStatus_.entry);
 
 		predicates
 				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
@@ -252,7 +251,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 
 		if (includeContent) {
-			entryJoin.fetch(FeedEntry_.content, JoinType.LEFT);
+			entryJoin.fetch(FeedEntry_.content);
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));

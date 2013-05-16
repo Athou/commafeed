@@ -11,10 +11,19 @@ import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.http.WebResponse;
+import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.util.io.IOUtils;
 import org.apache.wicket.util.template.PackageTextTemplate;
 
 public class WicketUtils {
+
+	public static void loadJS(IHeaderResponse response, Class<?> klass,
+			String fileName) {
+		HeaderItem result = JavaScriptHeaderItem
+				.forReference(new JavaScriptResourceReference(klass, fileName
+						+ ".js"));
+		response.render(result);
+	}
 
 	public static void loadJS(IHeaderResponse response, Class<?> klass,
 			String fileName, Map<String, ? extends Object> variables) {

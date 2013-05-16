@@ -13,12 +13,12 @@ Hosting an application on OpenShift is free.
 
 * Create an account on [OpenShift](http://www.openshift.com/).
 * Add an application, select `JBoss Enterprise Application Platform 6.0`.
-* For the`Public URL` set the name you want (e.g. `commafeed`).
-* For the`Source Code` option, click `Change` and set this repository (`https://github.com/Athou/commafeed.git`).
+* For the `Public URL` set the name you want (e.g. `commafeed`).
+* For the `Source Code` option, click `Change` and set this repository (`https://github.com/Athou/commafeed.git`).
 * Click `Create Application`.
 * Click `Add cartridge` and select `MySQL`.
 * Wait a couple of minutes and access your application.
-* The defaut user is `admin` and the password is `admin`.
+* The default user is `admin` and the password is `admin`.
 
 Deployment on your own server
 -----------------------------

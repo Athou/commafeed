@@ -6,6 +6,10 @@ Google Reader inspired self-hosted RSS reader, based on JAX-RS, Wicket and Angul
 
 Deploy on any JavaEE6 container or better yet on OpenShift.
 
+[Chrome extension](https://github.com/Athou/commafeed-chrome)
+
+[Firefox extension](https://github.com/Athou/commafeed-firefox)
+
 Deployment on OpenShift
 -----------------------
 

@@ -778,6 +778,9 @@ function($scope, $state, $location,	AdminUsersService) {
 		data : 'users',
 		selectedItems : $scope.selection,
 		multiSelect : false,
+		showColumnMenu: true,
+		showFilter: true,
+		
 		afterSelectionChange : function(item) {
 			$state.transitionTo('admin.useredit', {
 				_id : item.entity.id

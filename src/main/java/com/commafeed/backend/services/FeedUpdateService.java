@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -35,6 +36,9 @@ public class FeedUpdateService {
 
 	@Inject
 	FeedEntryStatusDAO feedEntryStatusDAO;
+
+	@Inject
+	MetricsBean metricsBean;
 
 	@Lock(LockType.WRITE)
 	public void updateEntries(Feed feed, Collection<FeedEntry> entries) {
@@ -91,6 +95,7 @@ public class FeedUpdateService {
 
 		feedEntryDAO.saveOrUpdate(entryUpdateList);
 		feedEntryStatusDAO.saveOrUpdate(statusUpdateList);
+		metricsBean.feedUpdated();
 	}
 
 	private FeedEntry findEntry(List<FeedEntry> existingEntries, FeedEntry entry) {

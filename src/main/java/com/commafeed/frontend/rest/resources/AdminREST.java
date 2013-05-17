@@ -1,7 +1,5 @@
 package com.commafeed.frontend.rest.resources;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,6 +12,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.commafeed.backend.MetricsBean.Metric;
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.User;
@@ -23,6 +22,7 @@ import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.wordnik.swagger.annotations.Api;
@@ -174,9 +174,9 @@ public class AdminREST extends AbstractResourceREST {
 	@Path("/metrics")
 	@GET
 	public Response getMetrics() {
-		List<Integer> list = Arrays.asList(
-				metricsBean.getFeedsRefreshedLastMinute(),
-				metricsBean.getFeedsRefreshedLastHour());
-		return Response.ok(list).build();
+		Map<String, Metric> map = ImmutableMap.of("lastMinute",
+				metricsBean.getLastMinute(), "lastHour",
+				metricsBean.getLastHour());
+		return Response.ok(map).build();
 	}
 }

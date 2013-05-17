@@ -2,19 +2,14 @@ package com.commafeed.backend;
 
 import javax.ejb.Singleton;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Singleton
 public class MetricsBean {
 
-	private static Logger log = LoggerFactory.getLogger(MetricsBean.class);
+	private Metric lastMinute = new Metric();
+	private Metric thisMinute = new Metric();
 
-	private int feedsRefreshedLastMinute;
-	private int feedsRefreshedThisMinute;
-
-	private int feedsRefreshedLastHour;
-	private int feedsRefreshedThisHour;
+	private Metric lastHour = new Metric();
+	private Metric thisHour = new Metric();
 
 	private long minuteTimestamp;
 	private long hourTimestamp;
@@ -22,28 +17,54 @@ public class MetricsBean {
 	public void feedRefreshed() {
 		long now = System.currentTimeMillis();
 		if (now - minuteTimestamp > 60000) {
-			feedsRefreshedLastMinute = feedsRefreshedThisMinute;
-			feedsRefreshedThisMinute = 0;
+			lastMinute = thisMinute;
+			thisMinute = new Metric();
 			minuteTimestamp = now;
-			log.debug("** feeds per minute: {}", feedsRefreshedLastMinute);
 
 		}
-		feedsRefreshedThisMinute++;
+		thisMinute.feedsRefreshed++;
 
 		if (now - hourTimestamp > 60000 * 60) {
-			feedsRefreshedLastHour = feedsRefreshedThisHour;
-			feedsRefreshedThisHour = 0;
+			lastHour = thisHour;
+			thisHour = new Metric();
 			hourTimestamp = now;
 
 		}
-		feedsRefreshedThisHour++;
+		thisHour.feedsRefreshed++;
 	}
 
-	public int getFeedsRefreshedLastMinute() {
-		return feedsRefreshedLastMinute;
+	public void feedUpdated() {
+		thisHour.feedsRefreshed++;
+		thisMinute.feedsUpdated++;
 	}
 
-	public int getFeedsRefreshedLastHour() {
-		return feedsRefreshedLastHour;
+	public Metric getLastMinute() {
+		return lastMinute;
+	}
+
+	public Metric getLastHour() {
+		return lastHour;
+	}
+
+	public static class Metric {
+		private int feedsRefreshed;
+		private int feedsUpdated;
+
+		public int getFeedsRefreshed() {
+			return feedsRefreshed;
+		}
+
+		public void setFeedsRefreshed(int feedsRefreshed) {
+			this.feedsRefreshed = feedsRefreshed;
+		}
+
+		public int getFeedsUpdated() {
+			return feedsUpdated;
+		}
+
+		public void setFeedsUpdated(int feedsUpdated) {
+			this.feedsUpdated = feedsUpdated;
+		}
+
 	}
 }

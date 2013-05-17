@@ -1,5 +1,21 @@
 var module = angular.module('commafeed.directives', []);
 
+module.directive('focus', [ '$timeout', function($timeout) {
+	return {
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+			scope.$watch(attrs.focus, function(value) {
+				if (!value)
+					return;
+				$timeout(function() {
+					$(element).focus();
+				});
+			});
+		}
+	};
+} ]);
+
+
 /**
  * Open a popup window pointing to the url in the href attribute
  */

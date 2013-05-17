@@ -20,7 +20,7 @@
 					<label class="control-label">${subscribe.feed_url}</label>
 					<div class="controls">
 						<input type="text" name="url" ng-model="sub.url" ng-blur="urlChanged()" placeholder="http://example.com/feed" 
-							class="input-block-level" required ng-disabled="state=='loading'"></input>
+							class="input-block-level" required ng-disabled="state=='loading'" focus="isOpen"></input>
 						<span class="help-block" ng-show="!subscribeForm.url.$valid">${global.required}</span>
 					</div>
 				</div>

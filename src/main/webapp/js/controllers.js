@@ -1,6 +1,12 @@
 var module = angular.module('commafeed.controllers', []);
 
 module.run(['$rootScope', function($rootScope) {
+	$rootScope.$on('emitPreviousEntry', function(event, args) {
+		$rootScope.$broadcast('previousEntry', args);
+	});
+	$rootScope.$on('emitNextEntry', function(event, args) {
+		$rootScope.$broadcast('nextEntry', args);
+	});
 	$rootScope.$on('emitMark', function(event, args) {
 		// args.entry - the entry
 		$rootScope.$broadcast('mark', args);
@@ -381,6 +387,15 @@ function($scope, $http, $state, $stateParams, $route, $location,
 			$scope.$emit('emitReload');
 		}
 	});
+	
+	$scope.previousEntry = function() {
+		$scope.$emit('emitPreviousEntry');
+	};
+	$scope.nextEntry = function() {
+		$scope.$emit('emitNextEntry');
+	};
+	
+	
 	$scope.refresh = function() {
 		if($stateParams._type == 'feed'){
 			FeedService.refresh({
@@ -580,7 +595,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
 	$scope.entryClicked = function(entry, event) {
 		$scope.navigationMode = 'click';
-		if (!event.ctrlKey && event.which != 2) {
+		if (!event || (!event.ctrlKey && event.which != 2)) {
 			if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {
 				$scope.isOpen = true;
 			} else {
@@ -590,8 +605,10 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 				$scope.mark(entry, true);
 			}
 			$scope.current = entry;
-			event.preventDefault();
-			event.stopPropagation();
+			if(event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
 		} else {
 			$scope.mark(entry, true);
 		}
@@ -731,6 +748,12 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		});
 	});
 
+	$scope.$on('previousEntry', function(event, args) {
+		openPreviousEntry();
+	});
+	$scope.$on('nextEntry', function(event, args) {
+		openNextEntry();
+	});
 	$scope.$on('markAll', function(event, args) {
 		$scope.markAll(args.olderThan);
 	});

@@ -60,6 +60,8 @@ It will generate a zip file at `target/commafeed.zip` with everything you need t
 * To start and stop the application, use `bin/startup.sh` and `bin/shutdown.sh` on Linux (you may need to `chmod +x bin/*.sh`) or `bin\startup.bat` and `bin\shutdown.bat` on Windows.
 * To update the application with a newer version, pull the latest changes and use the same command you used to build the complete TomEE package, but without the `tomee:build` part. 
 This will generate the file `target/commafeed.war`. Copy this file to your tomee `webapps/` directory.
+* The application is online at [http://localhost:8082/commafeed](http://localhost:8082/commafeed). Don't forget to set the public URL in the admin settings.
+* The default user is `admin` and the password is `admin`.
 
 Local development
 -----------------
@@ -69,6 +71,7 @@ Checkout the code and use maven to build and start a local TomEE instance.
  `mvn clean package tomee:run`
 
 The application is online at [http://localhost:8082/commafeed](http://localhost:8082/commafeed). Any change to the source code will be applied immediatly.
+The default user is `admin` and the password is `admin`.
 
 Translate CommaFeed into your language
 --------------------------------------

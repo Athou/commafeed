@@ -3,8 +3,34 @@ var app = angular.module('commafeed', [ 'ui', 'ui.bootstrap', 'ui.state',
 		'commafeed.filters', 'ngSanitize', 'ngUpload', 'infinite-scroll',
 		'ngGrid' ]);
 
-app.config([ '$routeProvider', '$stateProvider', '$urlRouterProvider',
-		function($routeProvider, $stateProvider, $urlRouterProvider) {
+app.config([ '$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider',
+		function($routeProvider, $stateProvider, $urlRouterProvider, $httpProvider) {
+	
+			var interceptor = [ '$rootScope', '$q', function(scope, $q) {
+				
+				var success = function (response) {
+					return response;
+				};
+				var error = function (response) {
+					var status = response.status;
+					if (status == 401) {
+						window.location = "logout";
+						return;
+					} else {
+						return $q.reject(response);
+					}
+				};
+				
+				var promise = function(promise) {
+					return promise.then(success, error);
+				};
+		
+				return promise;
+			} ];
+			
+			$httpProvider.responseInterceptors.push(interceptor);
+	
+	
 			var trackCtrl = [ 'AnalyticsService', function(AnalyticsService) {
 				AnalyticsService.track();
 			} ];

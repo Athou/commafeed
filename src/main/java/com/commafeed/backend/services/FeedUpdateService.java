@@ -50,10 +50,13 @@ public class FeedUpdateService {
 			FeedEntry foundEntry = findEntry(existingEntries, entry);
 
 			if (foundEntry == null) {
+				String baseUri = feed.getLink();
 				FeedEntryContent content = entry.getContent();
 
-				content.setContent(FeedUtils.handleContent(content.getContent()));
-				String title = FeedUtils.handleContent(content.getTitle());
+				content.setContent(FeedUtils.handleContent(
+						content.getContent(), baseUri));
+				String title = FeedUtils.handleContent(content.getTitle(),
+						baseUri);
 				if (title != null) {
 					content.setTitle(title.substring(0,
 							Math.min(2048, title.length())));

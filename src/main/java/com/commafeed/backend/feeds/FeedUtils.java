@@ -24,8 +24,9 @@ public class FeedUtils {
 		return encoding;
 	}
 
-	public static String handleContent(String content) {
+	public static String handleContent(String content, String baseUri) {
 		if (StringUtils.isNotBlank(content)) {
+			baseUri = StringUtils.trimToEmpty(baseUri);
 			Whitelist whitelist = Whitelist.relaxed();
 			whitelist.addEnforcedAttribute("a", "target", "_blank");
 
@@ -33,8 +34,9 @@ public class FeedUtils {
 			whitelist.addAttributes("iframe", "src", "height", "width",
 					"allowfullscreen", "frameborder");
 
-			content = Jsoup.clean(content, "", whitelist,
-					new OutputSettings().escapeMode(EscapeMode.base));
+			content = Jsoup.clean(content, baseUri, whitelist,
+					new OutputSettings().escapeMode(EscapeMode.base)
+							.prettyPrint(false));
 		}
 		return content;
 	}

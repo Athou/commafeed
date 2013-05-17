@@ -101,7 +101,7 @@ public class InternationalizationDevelopmentFilter implements Filter {
 			String var = m.group(1);
 			Object replacement = props.get(var);
 			String replacementValue = replacement == null ? var : replacement
-					.toString();
+					.toString().split("#")[0].trim();
 			m.appendReplacement(sb, replacementValue);
 		}
 		m.appendTail(sb);

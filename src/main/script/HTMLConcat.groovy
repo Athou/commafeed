@@ -44,7 +44,7 @@ public class HTMLConcat {
 		while (m.find()) {
 			String var = m.group(1);
 			Object replacement = props.get(var);
-			m.appendReplacement(sb, replacement.toString());
+			m.appendReplacement(sb, replacement == null ? var : replacement.toString().split("#")[0].trim());
 		}
 		m.appendTail(sb);
 		return sb.toString();

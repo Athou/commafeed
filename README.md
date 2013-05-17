@@ -37,6 +37,12 @@ To install maven and openjdk on Ubuntu, issue the following commands
     sudo apt-get install openjdk-7-jdk maven3
     sudo ln -s /usr/bin/mvn3 /usr/bin/mvn
     
+Download the sources (it doesn't matter where, you can delete the directory when you're done).
+If you don't have git you can download the sources as a zip file from [here](https://github.com/Athou/commafeed/archive/master.zip)
+
+    git clone https://github.com/Athou/commafeed.git
+    cd commafeed
+    
 Now build the application
 
 	Embedded HSQL database (not recommended, ok for quick tests but automatic schema updates are not working):

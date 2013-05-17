@@ -27,16 +27,39 @@ public class FeedUtils {
 	public static String handleContent(String content, String baseUri) {
 		if (StringUtils.isNotBlank(content)) {
 			baseUri = StringUtils.trimToEmpty(baseUri);
-			Whitelist whitelist = Whitelist.relaxed();
-			whitelist.addEnforcedAttribute("a", "target", "_blank");
+			Whitelist whitelist = new Whitelist();
+			whitelist.addTags("a", "b", "blockquote", "br", "caption", "cite",
+					"code", "col", "colgroup", "dd", "div", "dl", "dt", "em",
+					"h1", "h2", "h3", "h4", "h5", "h6", "i", "iframe", "img",
+					"li", "ol", "p", "pre", "q", "small", "strike", "strong",
+					"sub", "sup", "table", "tbody", "td", "tfoot", "th",
+					"thead", "tr", "u", "ul");
 
-			whitelist.addTags("iframe");
+			whitelist.addAttributes("a", "href", "title");
+			whitelist.addAttributes("blockquote", "cite");
+			whitelist.addAttributes("col", "span", "width");
+			whitelist.addAttributes("colgroup", "span", "width");
 			whitelist.addAttributes("iframe", "src", "height", "width",
 					"allowfullscreen", "frameborder");
-			
-			whitelist.addAttributes("table", "border", "bordercolor");
-			whitelist.addAttributes("th", "border", "bordercolor");
-			whitelist.addAttributes("td", "border", "bordercolor");
+			whitelist.addAttributes("img", "alt", "height", "src", "title",
+					"width");
+			whitelist.addAttributes("ol", "start", "type");
+			whitelist.addAttributes("q", "cite");
+			whitelist.addAttributes("table", "border", "bordercolor",
+					"summary", "width");
+			whitelist.addAttributes("td", "border", "bordercolor", "abbr",
+					"axis", "colspan", "rowspan", "width");
+			whitelist.addAttributes("th", "border", "bordercolor", "abbr",
+					"axis", "colspan", "rowspan", "scope", "width");
+			whitelist.addAttributes("ul", "type");
+
+			whitelist.addProtocols("a", "href", "ftp", "http", "https",
+					"mailto");
+			whitelist.addProtocols("blockquote", "cite", "http", "https");
+			whitelist.addProtocols("img", "src", "http", "https");
+			whitelist.addProtocols("q", "cite", "http", "https");
+
+			whitelist.addEnforcedAttribute("a", "target", "_blank");
 
 			content = Jsoup.clean(content, baseUri, whitelist,
 					new OutputSettings().escapeMode(EscapeMode.base)

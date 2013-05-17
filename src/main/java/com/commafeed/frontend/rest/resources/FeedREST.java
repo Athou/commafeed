@@ -64,7 +64,7 @@ public class FeedREST extends AbstractResourceREST {
 	@Path("/entries")
 	@GET
 	@ApiOperation(value = "Get feed entries", notes = "Get a list of feed entries", responseClass = "com.commafeed.frontend.model.Entries")
-	public Entries getFeedEntries(
+	public Response getFeedEntries(
 			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
 			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @QueryParam("readType") ReadType readType,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
@@ -93,7 +93,7 @@ public class FeedREST extends AbstractResourceREST {
 		}
 
 		entries.setTimestamp(Calendar.getInstance().getTimeInMillis());
-		return entries;
+		return Response.ok(entries).build();
 	}
 
 	@Path("/entriesAsFeed")
@@ -101,7 +101,7 @@ public class FeedREST extends AbstractResourceREST {
 	@ApiOperation(value = "Get feed entries as a feed", notes = "Get a feed of feed entries")
 	@Produces(MediaType.APPLICATION_XML)
 	@SecurityCheck(value = Role.USER, apiKeyAllowed = true)
-	public String getFeedEntriesAsFeed(
+	public Response getFeedEntriesAsFeed(
 			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id) {
 
 		Preconditions.checkNotNull(id);
@@ -111,7 +111,8 @@ public class FeedREST extends AbstractResourceREST {
 		int offset = 0;
 		int limit = 20;
 
-		Entries entries = getFeedEntries(id, readType, offset, limit, order);
+		Entries entries = (Entries) getFeedEntries(id, readType, offset, limit,
+				order).getEntity();
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("rss_2.0");
@@ -134,13 +135,13 @@ public class FeedREST extends AbstractResourceREST {
 			writer.write("Could not get feed information");
 			log.error(e.getMessage(), e);
 		}
-		return writer.toString();
+		return Response.ok(writer.toString()).build();
 	}
 
 	@GET
 	@Path("/fetch")
 	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", responseClass = "com.commafeed.frontend.model.FeedInfo")
-	public FeedInfo fetchFeed(
+	public Response fetchFeed(
 			@ApiParam(value = "the feed's url", required = true) @QueryParam("url") String url) {
 		Preconditions.checkNotNull(url);
 
@@ -158,7 +159,7 @@ public class FeedREST extends AbstractResourceREST {
 					.status(Status.INTERNAL_SERVER_ERROR)
 					.entity(e.getMessage()).build());
 		}
-		return info;
+		return Response.ok(info).build();
 	}
 
 	@Path("/refresh")
@@ -199,12 +200,12 @@ public class FeedREST extends AbstractResourceREST {
 	@GET
 	@Path("/get/{id}")
 	@ApiOperation(value = "", notes = "")
-	public Subscription get(
+	public Response get(
 			@ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
 		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(), id);
-		return Subscription.build(sub, 0);
+		return Response.ok(Subscription.build(sub, 0)).build();
 	}
 
 	@POST
@@ -217,11 +218,11 @@ public class FeedREST extends AbstractResourceREST {
 		Preconditions.checkNotNull(req.getUrl());
 
 		String url = prependHttp(req.getUrl());
-		url = fetchFeed(url).getUrl();
+		url = ((FeedInfo) fetchFeed(url).getEntity()).getUrl();
 
 		FeedCategory category = CategoryREST.ALL.equals(req.getCategoryId()) ? null
 				: feedCategoryDAO.findById(Long.valueOf(req.getCategoryId()));
-		FeedInfo info = fetchFeed(url);
+		FeedInfo info = (FeedInfo) fetchFeed(url).getEntity();
 		feedSubscriptionService.subscribe(getUser(), info.getUrl(),
 				req.getTitle(), category);
 

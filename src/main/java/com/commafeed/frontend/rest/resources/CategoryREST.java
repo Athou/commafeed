@@ -62,7 +62,7 @@ public class CategoryREST extends AbstractResourceREST {
 	@Path("/entries")
 	@GET
 	@ApiOperation(value = "Get category entries", notes = "Get a list of category entries", responseClass = "com.commafeed.frontend.model.Entries")
-	public Entries getCategoryEntries(
+	public Response getCategoryEntries(
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
 			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @QueryParam("readType") ReadType readType,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
@@ -107,7 +107,7 @@ public class CategoryREST extends AbstractResourceREST {
 
 		}
 		entries.setTimestamp(Calendar.getInstance().getTimeInMillis());
-		return entries;
+		return Response.ok(entries).build();
 	}
 
 	@Path("/entriesAsFeed")
@@ -115,7 +115,7 @@ public class CategoryREST extends AbstractResourceREST {
 	@ApiOperation(value = "Get category entries as feed", notes = "Get a feed of category entries")
 	@Produces(MediaType.APPLICATION_XML)
 	@SecurityCheck(value = Role.USER, apiKeyAllowed = true)
-	public String getCategoryEntriesAsFeed(
+	public Response getCategoryEntriesAsFeed(
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id) {
 
 		Preconditions.checkNotNull(id);
@@ -125,7 +125,7 @@ public class CategoryREST extends AbstractResourceREST {
 		int offset = 0;
 		int limit = 20;
 
-		Entries entries = getCategoryEntries(id, readType, offset, limit, order);
+		Entries entries = (Entries) getCategoryEntries(id, readType, offset, limit, order).getEntity();
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("rss_2.0");
@@ -148,7 +148,7 @@ public class CategoryREST extends AbstractResourceREST {
 			writer.write("Could not get feed information");
 			log.error(e.getMessage(), e);
 		}
-		return writer.toString();
+		return Response.ok(writer.toString()).build();
 	}
 
 	@Path("/mark")
@@ -276,7 +276,7 @@ public class CategoryREST extends AbstractResourceREST {
 	@GET
 	@Path("/get")
 	@ApiOperation(value = "Get feed categories", notes = "Get all categories and subscriptions of the user", responseClass = "com.commafeed.frontend.model.Category")
-	public Category getSubscriptions() {
+	public Response getSubscriptions() {
 
 		List<FeedCategory> categories = feedCategoryDAO.findAll(getUser());
 		List<FeedSubscription> subscriptions = feedSubscriptionDAO
@@ -289,20 +289,20 @@ public class CategoryREST extends AbstractResourceREST {
 		root.setId("all");
 		root.setName("All");
 
-		return root;
+		return Response.ok(root).build();
 	}
 
 	@GET
 	@Path("/unreadCount")
-	@ApiOperation(value = "Get unread count for feed subscriptions")
-	public List<UnreadCount> getUnreadCount() {
+	@ApiOperation(value = "Get unread count for feed subscriptions", responseClass="List[com.commafeed.frontend.model.UnreadCount]")
+	public Response getUnreadCount() {
 		List<UnreadCount> list = Lists.newArrayList();
 		Map<Long, Long> unreadCount = feedEntryStatusDAO
 				.getUnreadCount(getUser());
 		for (Map.Entry<Long, Long> e : unreadCount.entrySet()) {
 			list.add(new UnreadCount(e.getKey(), e.getValue()));
 		}
-		return list;
+		return Response.ok(list).build();
 	}
 
 	private Category buildCategory(Long id, List<FeedCategory> categories,

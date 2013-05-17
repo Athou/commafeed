@@ -34,7 +34,7 @@ public class UserREST extends AbstractResourceREST {
 	@Path("/settings")
 	@GET
 	@ApiOperation(value = "Retrieve user settings", notes = "Retrieve user settings", responseClass = "com.commafeed.frontend.model.Settings")
-	public Settings getSettings() {
+	public Response getSettings() {
 		Settings s = new Settings();
 		UserSettings settings = userSettingsDAO.findByUser(getUser());
 		if (settings != null) {
@@ -55,7 +55,7 @@ public class UserREST extends AbstractResourceREST {
 			s.setScrollMarks(true);
 			s.setLanguage("en");
 		}
-		return s;
+		return Response.ok(s).build();
 	}
 
 	@Path("/settings")
@@ -89,7 +89,7 @@ public class UserREST extends AbstractResourceREST {
 	@Path("/profile")
 	@GET
 	@ApiOperation(value = "Retrieve user's profile", responseClass = "com.commafeed.frontend.model.UserModel")
-	public UserModel get() {
+	public Response get() {
 		User user = getUser();
 		UserModel userModel = new UserModel();
 		userModel.setId(user.getId());
@@ -102,7 +102,7 @@ public class UserREST extends AbstractResourceREST {
 				userModel.setAdmin(true);
 			}
 		}
-		return userModel;
+		return Response.ok(userModel).build();
 	}
 
 	@Path("/profile")

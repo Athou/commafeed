@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -186,15 +185,11 @@ public abstract class AbstractREST {
 		}
 		if (!allowed) {
 			if (user == null) {
-				throw new WebApplicationException(Response
-						.status(Status.UNAUTHORIZED)
-						.entity("You are not authorized to do this.")
-						.header(HttpHeaders.WWW_AUTHENTICATE,
-								"Basic realm=\"CommaFeed\"").build());
+				return Response.status(Status.UNAUTHORIZED)
+						.entity("You are not authorized to do this.").build();
 			} else {
-				throw new WebApplicationException(Response
-						.status(Status.FORBIDDEN)
-						.entity("You are not authorized to do this.").build());
+				return Response.status(Status.FORBIDDEN)
+						.entity("You are not authorized to do this.").build();
 			}
 
 		}

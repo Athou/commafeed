@@ -1,6 +1,7 @@
 package com.commafeed.frontend.rest.resources;
 
-import java.util.Collection;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -95,7 +96,7 @@ public class AdminREST extends AbstractResourceREST {
 	@Path("/user/get/{id}")
 	@GET
 	@ApiOperation(value = "Get user information", notes = "Get user information", responseClass = "com.commafeed.frontend.model.UserModel")
-	public UserModel getUser(
+	public Response getUser(
 			@ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
 		Preconditions.checkNotNull(id);
 		User user = userDAO.findById(id);
@@ -108,13 +109,13 @@ public class AdminREST extends AbstractResourceREST {
 				userModel.setAdmin(true);
 			}
 		}
-		return userModel;
+		return Response.ok(userModel).build();
 	}
 
 	@Path("/user/getAll")
 	@GET
 	@ApiOperation(value = "Get all users", notes = "Get all users", responseClass = "List[com.commafeed.frontend.model.UserModel]")
-	public Collection<UserModel> getUsers() {
+	public Response getUsers() {
 		Map<Long, UserModel> users = Maps.newHashMap();
 		for (UserRole role : userRoleDAO.findAll()) {
 			User user = role.getUser();
@@ -131,7 +132,7 @@ public class AdminREST extends AbstractResourceREST {
 				userModel.setAdmin(true);
 			}
 		}
-		return users.values();
+		return Response.ok(users.values()).build();
 	}
 
 	@Path("/user/delete")
@@ -156,23 +157,26 @@ public class AdminREST extends AbstractResourceREST {
 	@Path("/settings")
 	@GET
 	@ApiOperation(value = "Retrieve application settings", notes = "Retrieve application settings", responseClass = "com.commafeed.backend.model.ApplicationSettings")
-	public ApplicationSettings getSettings() {
-		return applicationSettingsService.get();
+	public Response getSettings() {
+		return Response.ok(applicationSettingsService.get()).build();
 	}
 
 	@Path("/settings")
 	@POST
 	@ApiOperation(value = "Save application settings", notes = "Save application settings")
-	public void saveSettings(
+	public Response saveSettings(
 			@ApiParam(required = true) ApplicationSettings settings) {
 		Preconditions.checkNotNull(settings);
 		applicationSettingsService.save(settings);
+		return Response.ok().build();
 	}
 
 	@Path("/metrics")
 	@GET
-	public int[] getMetrics() {
-		return new int[] { metricsBean.getFeedsRefreshedLastMinute(),
-				metricsBean.getFeedsRefreshedLastHour() };
+	public Response getMetrics() {
+		List<Integer> list = Arrays.asList(
+				metricsBean.getFeedsRefreshedLastMinute(),
+				metricsBean.getFeedsRefreshedLastHour());
+		return Response.ok(list).build();
 	}
 }

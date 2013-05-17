@@ -58,7 +58,7 @@ public class EntryREST extends AbstractResourceREST {
 	@Path("/search")
 	@GET
 	@ApiOperation(value = "Search for entries", notes = "Look through title and content of entries by keywords", responseClass = "com.commafeed.frontend.model.Entries")
-	public Entries searchEntries(
+	public Response searchEntries(
 			@ApiParam(value = "keywords separated by spaces, 3 characters minimum", required = true) @QueryParam("keywords") String keywords,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging") @DefaultValue("-1") @QueryParam("limit") int limit) {
@@ -76,7 +76,7 @@ public class EntryREST extends AbstractResourceREST {
 
 		entries.setName("Search for : " + keywords);
 		entries.getEntries().addAll(list);
-		return entries;
+		return Response.ok(entries).build();
 	}
 
 }

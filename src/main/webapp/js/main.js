@@ -14,7 +14,7 @@ app.config([ '$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpPro
 				var error = function (response) {
 					var status = response.status;
 					if (status == 401) {
-						window.location = "logout";
+						window.location = 'logout';
 						return;
 					} else {
 						return $q.reject(response);

@@ -33,6 +33,10 @@ public class FeedUtils {
 			whitelist.addTags("iframe");
 			whitelist.addAttributes("iframe", "src", "height", "width",
 					"allowfullscreen", "frameborder");
+			
+			whitelist.addAttributes("table", "border", "bordercolor");
+			whitelist.addAttributes("th", "border", "bordercolor");
+			whitelist.addAttributes("td", "border", "bordercolor");
 
 			content = Jsoup.clean(content, baseUri, whitelist,
 					new OutputSettings().escapeMode(EscapeMode.base)

@@ -293,7 +293,7 @@ public class CategoryREST extends AbstractResourceREST {
 	}
 
 	@GET
-	@Path("unreadCount")
+	@Path("/unreadCount")
 	@ApiOperation(value = "Get unread count for feed subscriptions")
 	public List<UnreadCount> getUnreadCount() {
 		List<UnreadCount> list = Lists.newArrayList();

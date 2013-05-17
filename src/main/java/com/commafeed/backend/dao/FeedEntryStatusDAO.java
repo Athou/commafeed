@@ -116,15 +116,12 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
 		predicates.add(builder.equal(root.get(FeedEntryStatus_.starred), true));
 		query.where(predicates.toArray(new Predicate[0]));
-		if (includeContent) {
-			entryJoin.fetch(FeedEntry_.content, JoinType.LEFT);
-		}
 
 		orderBy(query, entryJoin, order);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
-		return q.getResultList();
+		return lazyLoadContent(includeContent, q.getResultList());
 	}
 
 	public List<FeedEntryStatus> findAll(User user, boolean unreadOnly,
@@ -152,32 +149,12 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
 		}
 
-		if (includeContent) {
-			entryJoin.fetch(FeedEntry_.content, JoinType.LEFT);
-		}
-
 		query.where(predicates.toArray(new Predicate[0]));
 		orderBy(query, entryJoin, order);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
-		return q.getResultList();
-	}
-
-	/**
-	 * Map between subscriptionId and unread count
-	 */
-	@SuppressWarnings("rawtypes")
-	public Map<Long, Long> getUnreadCount(User user) {
-		Map<Long, Long> map = Maps.newHashMap();
-		Query query = em.createNamedQuery("EntryStatus.unreadCounts");
-		query.setParameter("user", user);
-		List resultList = query.getResultList();
-		for (Object o : resultList) {
-			Object[] array = (Object[]) o;
-			map.put((Long) array[0], (Long) array[1]);
-		}
-		return map;
+		return lazyLoadContent(includeContent, q.getResultList());
 	}
 
 	public List<FeedEntryStatus> findByFeed(Feed feed, User user,
@@ -209,17 +186,13 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
 		}
 
-		if (includeContent) {
-			entryJoin.fetch(FeedEntry_.content, JoinType.LEFT);
-		}
-
 		query.where(predicates.toArray(new Predicate[0]));
 
 		orderBy(query, entryJoin, order);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
-		return q.getResultList();
+		return lazyLoadContent(includeContent, q.getResultList());
 	}
 
 	public List<FeedEntryStatus> findByCategories(
@@ -252,17 +225,39 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
 		}
 
-		if (includeContent) {
-			entryJoin.fetch(FeedEntry_.content, JoinType.LEFT);
-		}
-
 		query.where(predicates.toArray(new Predicate[0]));
 
 		orderBy(query, entryJoin, order);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
-		return q.getResultList();
+		return lazyLoadContent(includeContent, q.getResultList());
+	}
+
+	/**
+	 * Map between subscriptionId and unread count
+	 */
+	@SuppressWarnings("rawtypes")
+	public Map<Long, Long> getUnreadCount(User user) {
+		Map<Long, Long> map = Maps.newHashMap();
+		Query query = em.createNamedQuery("EntryStatus.unreadCounts");
+		query.setParameter("user", user);
+		List resultList = query.getResultList();
+		for (Object o : resultList) {
+			Object[] array = (Object[]) o;
+			map.put((Long) array[0], (Long) array[1]);
+		}
+		return map;
+	}
+
+	private List<FeedEntryStatus> lazyLoadContent(boolean includeContent,
+			List<FeedEntryStatus> results) {
+		if (includeContent) {
+			for (FeedEntryStatus status : results) {
+				status.getEntry().getContent().getContent();
+			}
+		}
+		return results;
 	}
 
 	private void orderBy(CriteriaQuery<FeedEntryStatus> query,

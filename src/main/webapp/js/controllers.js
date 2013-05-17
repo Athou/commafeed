@@ -390,12 +390,30 @@ function($scope, $http, $state, $stateParams, $route, $location,
 		$scope.$emit('emitReload');
 		
 	};
-	$scope.markAllAsRead = function() {
+	
+	var markAll = function(olderThan) {
 		$scope.$emit('emitMarkAll', {
 			type : $stateParams._type,
 			id : $stateParams._id,
+			olderThan: olderThan,
 			read : true
 		});
+	};
+	
+	$scope.markAllAsRead = function() {
+		markAll();
+	};
+	
+	$scope.markAllDay = function() {
+		markAll(new Date().getTime() - 86400000);
+	};
+	
+	$scope.markAllWeek = function() {
+		markAll(new Date().getTime() - 604800000);
+	};
+	
+	$scope.markAllTwoWeeks = function() {
+		markAll(new Date().getTime() - 1209600000);
 	};
 
 	$scope.keywords = $stateParams._keywords;
@@ -531,12 +549,12 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		}
 	};
 	
-	$scope.markAll = function() {
+	$scope.markAll = function(olderThan) {
 		var service = $scope.selectedType == 'feed' ? FeedService
 				: CategoryService;
 		service.mark({
 			id : $scope.selectedId,
-			olderThan : $scope.timestamp,
+			olderThan : olderThan || $scope.timestamp,
 			read : true
 		}, function() {
 			CategoryService.init(function() {
@@ -714,7 +732,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	});
 
 	$scope.$on('markAll', function(event, args) {
-		$scope.markAll();
+		$scope.markAll(args.olderThan);
 	});
 
 	$scope.$on('reload', function(event, args) {

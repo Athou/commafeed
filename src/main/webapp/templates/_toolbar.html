@@ -6,20 +6,31 @@
 				<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'all'">${toolbar.all}</button>
 			</div>
 			
-			<button type="button" class="btn" ng-click="toggleOrder()">
+			<a type="button" class="btn" ng-click="toggleOrder()" title="${toolbar.sort_by_asc_desc}">
 				<i ng-class="{'icon-arrow-up' : settingsService.settings.readingOrder == 'asc', 'icon-arrow-down': settingsService.settings.readingOrder == 'desc'}"></i>
-			</button>
+			</a>
 			
 			<div class="btn-group" data-toggle="buttons-radio">
-				<button type="button" class="btn" ng-model="settingsService.settings.viewMode" btn-radio="'title'"><i class="icon-list"></i></button>
-				<button type="button" class="btn" ng-model="settingsService.settings.viewMode" btn-radio="'expanded'"><i class="icon-th-list"></i></button>
+				<a type="button" class="btn" ng-model="settingsService.settings.viewMode" btn-radio="'title'" title="Titles only"><i class="icon-list"></i></a>
+				<a type="button" class="btn" ng-model="settingsService.settings.viewMode" btn-radio="'expanded'" title="Expanded view"><i class="icon-th-list"></i></a>
 			</div>
 			
-			<button type="button" class="btn" ng-click="refresh()"><i class="icon-refresh"></i> ${toolbar.refresh}</button>
-			<button type="button" class="btn" ng-click="markAllAsRead()"><i class="icon-ok"></i> ${toolbar.mark_all_as_read}</button>
-		
+			<a type="button" class="btn" ng-click="refresh()" title="${toolbar.refresh}"><i class="icon-refresh"></i></a>
+			
 			<div class="btn-group">
-				<a class="btn" ng-click="toSettings()"><i class="icon-cog"></i> ${toolbar.settings}</a>
+				<a type="button" class="btn" ng-click="markAllAsRead()" title="${toolbar.mark_all_as_read}"><i class="icon-check"></i></a>
+				<button class="btn dropdown-toggle" data-toggle="dropdown">
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu pull-right">
+					<li><a ng-click="markAllDay()">${toolbar.mark_all_older_day}</a></li>
+					<li><a ng-click="markAllWeek()">${toolbar.mark_all_older_week}</a></li>
+					<li><a ng-click="markAllTwoWeeks()">${toolbar.mark_all_older_two_weeks}</a></li>
+				</ul>
+			</div>
+			
+			<div class="btn-group">
+				<a class="btn" ng-click="toSettings()" title="${toolbar.settings}"><i class="icon-cog"></i></a>
 				<button class="btn dropdown-toggle" data-toggle="dropdown">
 					<span class="caret"></span>
 				</button>

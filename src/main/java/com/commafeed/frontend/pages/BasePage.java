@@ -100,8 +100,8 @@ public abstract class BasePage extends WebPage {
 		if (getApplication().getConfigurationType() == RuntimeConfigurationType.DEPLOYMENT) {
 			long startupTime = startupBean.getStartupTime();
 			String suffix = "?" + startupTime;
-			response.render(JavaScriptHeaderItem.forUrl("wro/all.js" + suffix));
-			response.render(CssHeaderItem.forUrl("wro/all.css" + suffix));
+			response.render(JavaScriptHeaderItem.forUrl("static/all.js" + suffix));
+			response.render(CssHeaderItem.forUrl("static/all.css" + suffix));
 		} else {
 			response.render(JavaScriptHeaderItem.forUrl("wro/lib.js"));
 			response.render(CssHeaderItem.forUrl("wro/lib.css"));

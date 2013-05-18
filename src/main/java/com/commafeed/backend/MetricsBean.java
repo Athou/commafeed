@@ -33,12 +33,15 @@ public class MetricsBean {
 		thisHour.feedsRefreshed++;
 	}
 
-	public void feedUpdated(int entriesCount) {
+	public void feedUpdated(int entriesCount, int statusesCount) {
 		thisHour.feedsUpdated++;
 		thisMinute.feedsUpdated++;
 
 		thisHour.entriesInserted += entriesCount;
 		thisMinute.entriesInserted += entriesCount;
+		
+		thisHour.statusesInserted += statusesCount;
+		thisMinute.statusesInserted += statusesCount;
 	}
 
 	public Metric getLastMinute() {
@@ -53,6 +56,7 @@ public class MetricsBean {
 		private int feedsRefreshed;
 		private int feedsUpdated;
 		private int entriesInserted;
+		private int statusesInserted;
 
 		public int getFeedsRefreshed() {
 			return feedsRefreshed;
@@ -76,6 +80,14 @@ public class MetricsBean {
 
 		public void setEntriesInserted(int entriesInserted) {
 			this.entriesInserted = entriesInserted;
+		}
+
+		public int getStatusesInserted() {
+			return statusesInserted;
+		}
+
+		public void setStatusesInserted(int statusesInserted) {
+			this.statusesInserted = statusesInserted;
 		}
 
 	}

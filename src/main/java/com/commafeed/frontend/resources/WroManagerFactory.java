@@ -15,6 +15,7 @@ public class WroManagerFactory extends ConfigurableWroManagerFactory {
 	protected void contributePreProcessors(Map<String, ResourcePreProcessor> map) {
 		map.put("sassOnlyProcessor", new SassOnlyProcessor());
 		map.put("sassImport", new SassImportProcessor());
+		map.put("timestamp", new TimestampProcessor());
 	}
 
 }

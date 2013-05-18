@@ -507,14 +507,6 @@
 									<directory>target/generated-sources/wro4j/</directory>
 									<targetPath>static</targetPath>
 								</resource>
-								<resource>
-									<directory>src/main/script/</directory>
-									<includes>
-										<include>*.js</include>
-									</includes>
-									<targetPath>js</targetPath>
-									<filtering>true</filtering>
-								</resource>
 							</webResources>
 						</configuration>
 					</plugin>

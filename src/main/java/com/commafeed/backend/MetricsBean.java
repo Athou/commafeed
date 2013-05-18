@@ -34,7 +34,7 @@ public class MetricsBean {
 	}
 
 	public void feedUpdated(int entriesCount) {
-		thisHour.feedsRefreshed++;
+		thisHour.feedsUpdated++;
 		thisMinute.feedsUpdated++;
 
 		thisHour.entriesInserted += entriesCount;

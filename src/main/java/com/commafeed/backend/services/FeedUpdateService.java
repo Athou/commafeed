@@ -95,7 +95,7 @@ public class FeedUpdateService {
 
 		feedEntryDAO.saveOrUpdate(entryUpdateList);
 		feedEntryStatusDAO.saveOrUpdate(statusUpdateList);
-		metricsBean.feedUpdated();
+		metricsBean.feedUpdated(entryUpdateList.size());
 	}
 
 	private FeedEntry findEntry(List<FeedEntry> existingEntries, FeedEntry entry) {

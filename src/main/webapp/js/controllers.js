@@ -935,3 +935,14 @@ function($scope, $location, $state,	AdminSettingsService) {
 		$state.transitionTo('admin.userlist');
 	};
 }]);
+
+module.controller('FooterController', [ '$scope', '$location', '$state',
+		'AdminSettingsService',
+function($scope, $location, $state, AdminSettingsService) {
+
+	var baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
+	var hostname = window.location.hostname;
+	$scope.subToMeUrl = baseUrl + 'rest/feed/subscribe?url={feed}';
+	$scope.subToMeName = hostname.indexOf('www.commafeed.com') !== -1 ? 'CommaFeed' : 'CommaFeed (' + hostname + ')';
+
+} ]);

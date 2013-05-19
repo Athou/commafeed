@@ -1,6 +1,7 @@
 package com.commafeed.frontend.rest.resources;
 
 import java.io.StringWriter;
+import java.net.URI;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -227,6 +228,29 @@ public class FeedREST extends AbstractResourceREST {
 				req.getTitle(), category);
 
 		return Response.ok(Status.OK).build();
+	}
+
+	@GET
+	@Path("/subscribe")
+	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
+	public Response subscribe(
+			@ApiParam(value = "feed url", required = true) @QueryParam("url") String url) {
+
+		try {
+			Preconditions.checkNotNull(url);
+
+			url = prependHttp(url);
+			url = ((FeedInfo) fetchFeed(url).getEntity()).getUrl();
+
+			FeedInfo info = (FeedInfo) fetchFeed(url).getEntity();
+			feedSubscriptionService.subscribe(getUser(), info.getUrl(),
+					info.getTitle(), null);
+		} catch (Exception e) {
+			log.info("Could not subscribe to url {} : {}", url, e.getMessage());
+		}
+		return Response.temporaryRedirect(
+				URI.create(applicationSettingsService.get().getPublicUrl()))
+				.build();
 	}
 
 	private String prependHttp(String url) {

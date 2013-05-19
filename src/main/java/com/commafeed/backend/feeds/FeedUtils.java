@@ -1,11 +1,16 @@
 package com.commafeed.backend.feeds;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document.OutputSettings;
 import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.safety.Whitelist;
 import org.mozilla.universalchardet.UniversalDetector;
+
+import com.commafeed.backend.model.FeedEntry;
 
 public class FeedUtils {
 
@@ -94,5 +99,15 @@ public class FeedUtils {
 			}
 		}
 		return sb.toString();
+	}
+
+	public static long average(List<FeedEntry> entries) {
+		SummaryStatistics stats = new SummaryStatistics();
+		for (int i = 0; i < entries.size() - 1; i++) {
+			long diff = Math.abs(entries.get(i).getUpdated().getTime()
+					- entries.get(i + 1).getUpdated().getTime());
+			stats.addValue(diff);
+		}
+		return (long) stats.getMean();
 	}
 }

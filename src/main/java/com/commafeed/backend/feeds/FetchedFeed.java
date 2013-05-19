@@ -1,7 +1,7 @@
 package com.commafeed.backend.feeds;
 
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
@@ -10,7 +10,7 @@ import com.google.api.client.util.Lists;
 public class FetchedFeed {
 
 	private Feed feed = new Feed();
-	private Collection<FeedEntry> entries = Lists.newArrayList();
+	private List<FeedEntry> entries = Lists.newArrayList();
 
 	private String title;
 	private long fetchDuration;
@@ -24,11 +24,11 @@ public class FetchedFeed {
 		this.feed = feed;
 	}
 
-	public Collection<FeedEntry> getEntries() {
+	public List<FeedEntry> getEntries() {
 		return entries;
 	}
 
-	public void setEntries(Collection<FeedEntry> entries) {
+	public void setEntries(List<FeedEntry> entries) {
 		this.entries = entries;
 	}
 

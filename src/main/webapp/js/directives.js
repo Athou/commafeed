@@ -246,7 +246,7 @@ module.directive('category', [ function() {
 					
 					$scope.categoryLabel = function(category) {
 						return $scope.showLabel !== true ? $scope.showLabel : category.name;
-					}
+					};
 
 					$scope.categoryCountLabel = function(category) {
 						var count = $scope.unreadCount({

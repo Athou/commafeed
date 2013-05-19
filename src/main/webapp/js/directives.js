@@ -243,22 +243,26 @@ module.directive('category', [ function() {
 							return 'indent' + level;
 						}
 					};
+					
+					$scope.categoryLabel = function(category) {
+						return $scope.showLabel !== true ? $scope.showLabel : category.name;
+					}
 
-					$scope.formatCategoryName = function(category) {
+					$scope.categoryCountLabel = function(category) {
 						var count = $scope.unreadCount({
 							category : category
 						});
-						var label = category.name;
+						var label = '';
 						if (count > 0) {
-							label = label + ' (' + count + ')';
+							label = '(' + count + ')';
 						}
 						return label;
 					};
 
-					$scope.formatFeedName = function(feed) {
-						var label = feed.name;
+					$scope.feedCountLabel = function(feed) {
+						var label = '';
 						if (feed.unread > 0) {
-							label = label + ' (' + feed.unread + ')';
+							label = '(' + feed.unread + ')';
 						}
 						return label;
 					};

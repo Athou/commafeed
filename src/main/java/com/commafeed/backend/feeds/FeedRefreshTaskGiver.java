@@ -1,6 +1,7 @@
 package com.commafeed.backend.feeds;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Queue;
 
@@ -9,6 +10,8 @@ import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+
+import org.apache.commons.lang3.time.DateUtils;
 
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedDAO;
@@ -39,6 +42,14 @@ public class FeedRefreshTaskGiver {
 
 	@Lock(LockType.WRITE)
 	public void add(Feed feed) {
+		Date now = Calendar.getInstance().getTime();
+		Date tenMinutesAgo = DateUtils.addMinutes(now, -10);
+		if (feed.getLastUpdated() == null
+				|| feed.getLastUpdated().before(tenMinutesAgo)) {
+			feed.setEtagHeader(null);
+			feed.setLastModifiedHeader(null);
+		}
+
 		queue.add(feed);
 		feed.setLastUpdated(Calendar.getInstance().getTime());
 		feedDAO.update(feed);

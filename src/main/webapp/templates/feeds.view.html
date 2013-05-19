@@ -28,13 +28,18 @@
 						<a href="{{entry.url}}" target="_blank" ng-bind-html-unsafe="entry.title"></a>
 					</h4>
 				</div>
-				<div ng-bind-html-unsafe="entry.content" class="entry-body-content"></div>
-				<video controls ui-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">
-					<source src="{{entry.enclosureUrl}}" type="{{entry.enclosureType}}" />
-				</video>
-				<audio controls ui-if="entry.enclosureType && entry.enclosureType.indexOf('audio') == 0">
-					<source src="{{entry.enclosureUrl}}" type="{{entry.enclosureType}}" />
-				</audio>
+				<div class="entry-body-content">
+					<div ng-bind-html-unsafe="entry.content"></div>
+					<video controls ui-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">
+						<source src="{{entry.enclosureUrl}}" type="{{entry.enclosureType}}" />
+					</video>
+					<audio controls ui-if="entry.enclosureType && entry.enclosureType.indexOf('audio') == 0">
+						<source src="{{entry.enclosureUrl}}" type="{{entry.enclosureType}}" />
+					</audio>
+					<a href="{{entry.enclosureUrl}}" target="_blank" ui-if="entry.enclosureType" download>
+						${global.download}
+					</a>
+				</div>
 				<div class="entry-buttons form-horizontal">
 				
 					<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">

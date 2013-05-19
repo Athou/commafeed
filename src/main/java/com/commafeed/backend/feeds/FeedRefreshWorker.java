@@ -86,7 +86,7 @@ public class FeedRefreshWorker {
 			message = "Unable to refresh feed " + feed.getUrl() + " : "
 					+ e.getMessage();
 			if (e instanceof FeedException) {
-				log.warn(e.getClass().getName() + " " + message);
+				log.debug(e.getClass().getName() + " " + message);
 			} else {
 				log.debug(e.getClass().getName() + " " + message);
 			}

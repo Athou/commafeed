@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
 
@@ -43,11 +44,11 @@ public class FeedEntry extends AbstractModel {
 	@Column(length = 2048)
 	private String url;
 
-	@Column(length = 128)
+	//@Column(length = 128)
+	@Transient
 	private String author;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Index(name = "inserted_index")
 	private Date inserted;
 
 	@Temporal(TemporalType.TIMESTAMP)

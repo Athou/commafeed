@@ -43,7 +43,7 @@ import com.commafeed.frontend.pages.GoogleImportCallbackPage;
 import com.commafeed.frontend.pages.GoogleImportRedirectPage;
 import com.commafeed.frontend.pages.HomePage;
 import com.commafeed.frontend.pages.LogoutPage;
-import com.commafeed.frontend.pages.TestRssPage;
+import com.commafeed.frontend.pages.NextUnreadRedirectPage;
 import com.commafeed.frontend.pages.WelcomePage;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
 
@@ -72,7 +72,7 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		mountPage(GoogleImportCallbackPage.PAGE_PATH,
 				GoogleImportCallbackPage.class);
 
-		mountPage("testfeed", TestRssPage.class);
+		mountPage("next", NextUnreadRedirectPage.class);
 
 		setupInjection();
 		setupSecurity();

@@ -936,6 +936,16 @@ function($scope, $location, $state,	AdminSettingsService) {
 	};
 }]);
 
+module.controller('HelpController', [ '$scope', 'CategoryService',
+		'AnalyticsService',
+function($scope, CategoryService, AnalyticsService) {
+
+	AnalyticsService.track();
+	$scope.CategoryService = CategoryService;
+	$scope.categoryId = 'all';
+
+} ]);
+
 module.controller('FooterController', [ '$scope', function($scope) {
 	
 	var baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
@@ -943,4 +953,4 @@ module.controller('FooterController', [ '$scope', function($scope) {
 	$scope.subToMeUrl = baseUrl + 'rest/feed/subscribe?url={feed}';
 	$scope.subToMeName = hostname.indexOf('www.commafeed.com') !== -1 ? 'CommaFeed' : 'CommaFeed (' + hostname + ')';
 
-} ]);
+}]);

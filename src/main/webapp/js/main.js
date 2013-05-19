@@ -30,11 +30,6 @@ app.config([ '$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpPro
 			
 			$httpProvider.responseInterceptors.push(interceptor);
 	
-	
-			var trackCtrl = [ 'AnalyticsService', function(AnalyticsService) {
-				AnalyticsService.track();
-			} ];
-
 			$stateProvider.state('feeds', {
 				'abstract' : true,
 				url : '/feeds',
@@ -63,7 +58,7 @@ app.config([ '$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpPro
 			$stateProvider.state('feeds.help', {
 				url : '/help',
 				templateUrl : 'templates/feeds.help.html',
-				controller : trackCtrl
+				controller : 'HelpController'
 			});
 			$stateProvider.state('feeds.settings', {
 				url : '/settings',

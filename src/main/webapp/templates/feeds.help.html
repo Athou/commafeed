@@ -1,4 +1,4 @@
-<div class="row-fluid">
+<div class="row-fluid help">
 	<div class="span6">
 		<h4><i class="icon-question-sign"></i> ${toolbar.about}</h4>
 		<p>
@@ -22,13 +22,23 @@
 		
 		<h4><i class="icon-puzzle-piece"></i> ${about.goodies}</h4>
 		<p>
-			${about.goodies.subscribe_url}: <a href="rest/feed/subscribe?url=FEED_URL_HERE" target="_blank">rest/feed/subscribe?url=FEED_URL_HERE</a>
-		</p>
-		<p>
 			<a href="https://chrome.google.com/webstore/detail/commafeed/bpbfpjiciblcfeganojjkfapnllbhdga" target="_blank">${about.goodies.chrome_extension}</a>
 		</p>
 		<p>
 			<a href="https://addons.mozilla.org/en-US/firefox/addon/commafeed/" target="_blank">${about.goodies.firefox_extension}</a>
+		</p>
+		<p>
+			${about.goodies.subscribe_url}: <a href="rest/feed/subscribe?url=FEED_URL_HERE" target="_blank">rest/feed/subscribe?url=FEED_URL_HERE</a>
+		</p>
+		<p>
+			${about.goodies.subscribe_bookmarklet}: <a href="https://www.subtome.com/settings.html" target="_blank">SubToMe</a>
+		</p>
+		<p>
+			${about.goodies.next_unread_bookmarklet}: ${subscribe.category} 
+			<select ng-model="categoryId" ng-options="cat.id as cat.name for cat in CategoryService.flatCategories"
+				class="category-select">
+			</select> 
+			<a href="next?category={{categoryId}}" target="_blank">${global.link}</a>
 		</p>
 		
 		<h4><i class="icon-globe"></i> ${about.translation}</h4>

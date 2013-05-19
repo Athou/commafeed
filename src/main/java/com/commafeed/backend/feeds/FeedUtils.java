@@ -23,7 +23,8 @@ public class FeedUtils {
 		detector.reset();
 		if (encoding == null) {
 			encoding = DEFAULT_ENCODING;
-		} else if (encoding.equalsIgnoreCase("ISO-8859-1")) {
+		} else if (encoding.equalsIgnoreCase("ISO-8859-1")
+				|| encoding.equalsIgnoreCase("ISO-8859-2")) {
 			encoding = "windows-1252";
 		}
 		return encoding;

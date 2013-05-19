@@ -30,6 +30,7 @@ public class Entry implements Serializable {
 		entry.setGuid(feedEntry.getGuid());
 		entry.setTitle(feedEntry.getContent().getTitle());
 		entry.setContent(feedEntry.getContent().getContent());
+		entry.setAuthor(feedEntry.getAuthor());
 		entry.setEnclosureUrl(status.getEntry().getContent().getEnclosureUrl());
 		entry.setEnclosureType(status.getEntry().getContent()
 				.getEnclosureType());
@@ -72,6 +73,9 @@ public class Entry implements Serializable {
 
 	@ApiProperty("entry content")
 	private String content;
+
+	@ApiProperty("entry author")
+	private String author;
 
 	@ApiProperty("entry enclosure url, if any")
 	private String enclosureUrl;
@@ -213,6 +217,14 @@ public class Entry implements Serializable {
 
 	public void setFeedLink(String feedLink) {
 		this.feedLink = feedLink;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 }

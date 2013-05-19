@@ -65,6 +65,11 @@ public class FeedUpdateService {
 					content.setTitle(title.substring(0,
 							Math.min(2048, title.length())));
 				}
+				String author = entry.getAuthor();
+				if (author != null) {
+					entry.setAuthor(author.substring(0,
+							Math.min(128, author.length())));
+				}
 
 				entry.setInserted(Calendar.getInstance().getTime());
 				entry.getFeeds().add(feed);

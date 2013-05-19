@@ -43,6 +43,9 @@ public class FeedEntry extends AbstractModel {
 	@Column(length = 2048)
 	private String url;
 
+	@Column(length = 128)
+	private String author;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Index(name = "inserted_index")
 	private Date inserted;
@@ -116,6 +119,14 @@ public class FeedEntry extends AbstractModel {
 
 	public void setGuidHash(String guidHash) {
 		this.guidHash = guidHash;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 }

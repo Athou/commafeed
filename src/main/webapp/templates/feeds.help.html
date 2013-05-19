@@ -1,6 +1,6 @@
 <div class="row-fluid">
 	<div class="span6">
-		<h3>${toolbar.about}</h3>
+		<h4><i class="icon-question-sign"></i> ${toolbar.about}</h4>
 		<p>
 			${about.line1_prefix} <a href="https://github.com/Athou/commafeed" target="_blank">GitHub</a> ${about.line1_suffix}
 		</p>
@@ -8,7 +8,7 @@
 			${about.line2_prefix} <a href="https://github.com/Athou/commafeed/issues" target="_blank">GitHub</a> ${about.line2_suffix}
 		</p>
 		
-		<h3>${toolbar.donate}</h3>
+		<h4><i class="icon-money"></i> ${toolbar.donate}</h4>
 		<p>
 			${about.line3}
 		</p>
@@ -20,7 +20,7 @@
 			<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 		</form>
 		
-		<h3>${about.goodies}</h3>
+		<h4><i class="icon-puzzle-piece"></i> ${about.goodies}</h4>
 		<p>
 			${about.goodies.subscribe_url}: <a href="rest/feed/subscribe?url=FEED_URL_HERE" target="_blank">rest/feed/subscribe?url=FEED_URL_HERE</a>
 		</p>
@@ -31,7 +31,7 @@
 			<a href="https://addons.mozilla.org/en-US/firefox/addon/commafeed/" target="_blank">${about.goodies.firefox_extension}</a>
 		</p>
 		
-		<h3>${about.translation}</h3>
+		<h4><i class="icon-globe"></i> ${about.translation}</h4>
 		<p>
 			${about.translation.message}
 		</p>
@@ -41,7 +41,7 @@
 			</a>
 		</p>
 		
-		<h3>${about.rest_api}</h3>
+		<h4><i class="icon-rocket"></i> ${about.rest_api}</h4>
 		<p>
 			${about.rest_api.line1}
 		</p>
@@ -49,11 +49,11 @@
 			<a href="api" target="_blank">${about.rest_api.link_to_documentation}</a>
 		</p>
 		
-		<h3>${about.keyboard_shortcuts}</h3>
+		<h4><i class="icon-keyboard"></i> ${about.keyboard_shortcuts}</h4>
 		<div ng-include="'templates/_shortcuts.html'"></div>
 	</div>
 	<div class="span6">
-		<h3>${about.announcements}</h3>
+		<h4><i class="icon-info-sign"></i> ${about.announcements}</h4>
 		<a class="twitter-timeline" href="https://twitter.com/CommaFeed" data-widget-id="333897786657480704">Tweets by @CommaFeed</a>
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 	</div>

@@ -1,14 +1,11 @@
 package com.commafeed.frontend.rest.resources;
 
-import java.util.UUID;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.StartupBean;
@@ -120,10 +117,10 @@ public class UserREST extends AbstractResourceREST {
 			byte[] password = encryptionService.getEncryptedPassword(
 					request.getPassword(), user.getSalt());
 			user.setPassword(password);
-			user.setApiKey(generateKey(user));
+			user.setApiKey(userService.generateApiKey(user));
 		}
 		if (request.isNewApiKey()) {
-			user.setApiKey(generateKey(user));
+			user.setApiKey(userService.generateApiKey(user));
 		}
 		userDAO.update(user);
 		return Response.ok().build();
@@ -139,11 +136,5 @@ public class UserREST extends AbstractResourceREST {
 		}
 		userService.unregister(getUser());
 		return Response.ok().build();
-	}
-
-	private String generateKey(User user) {
-		byte[] key = encryptionService.getEncryptedPassword(UUID.randomUUID()
-				.toString(), user.getSalt());
-		return DigestUtils.sha1Hex(key);
 	}
 }

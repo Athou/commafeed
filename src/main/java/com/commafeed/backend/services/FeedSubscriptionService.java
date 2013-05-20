@@ -20,8 +20,10 @@ import com.google.api.client.util.Lists;
 
 @Stateless
 public class FeedSubscriptionService {
+
+	@SuppressWarnings("serial")
 	@ApplicationException
-	public class FeedSubscriptionException extends RuntimeException {
+	public static class FeedSubscriptionException extends RuntimeException {
 		public FeedSubscriptionException(String msg) {
 			super(msg);
 		}
@@ -51,10 +53,10 @@ public class FeedSubscriptionService {
 		final String pubUrl = applicationSettingsService.get().getPublicUrl();
 		if (pubUrl == null) {
 			throw new FeedSubscriptionException(
-				"Public URL of this CommaFeed is unset");
+					"Public URL of this CommaFeed is unset");
 		}
 		if (url.startsWith(pubUrl)) {
-			throw new RuntimeException(
+			throw new FeedSubscriptionException(
 					"Could not subscribe to a feed from this CommaFeed instance");
 		}
 

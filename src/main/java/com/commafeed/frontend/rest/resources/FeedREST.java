@@ -226,12 +226,13 @@ public class FeedREST extends AbstractResourceREST {
 		FeedInfo info = (FeedInfo) fetchFeed(url).getEntity();
 		try {
 			feedSubscriptionService.subscribe(getUser(), info.getUrl(),
-				req.getTitle(), category);
+					req.getTitle(), category);
 		} catch (Exception e) {
 			log.info("Failed to subscribe to URL {}: {}", url, e.getMessage());
-			return Response.status(Status.SERVICE_UNAVAILABLE).entity(
-				"Failed to subscribe to URL " + url + ": " + e.getMessage()
-			).build();
+			return Response
+					.status(Status.SERVICE_UNAVAILABLE)
+					.entity("Failed to subscribe to URL " + url + ": "
+							+ e.getMessage()).build();
 		}
 		return Response.ok(Status.OK).build();
 	}

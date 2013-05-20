@@ -2,9 +2,12 @@ package com.commafeed.backend.services;
 
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.UUID;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+
+import org.apache.commons.codec.digest.DigestUtils;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
@@ -93,5 +96,11 @@ public class UserService {
 		userSettingsDAO.delete(userSettingsDAO.findByUser(user));
 		userRoleDAO.delete(userRoleDAO.findAll(user));
 		userDAO.delete(user);
+	}
+
+	public String generateApiKey(User user) {
+		byte[] key = encryptionService.getEncryptedPassword(UUID.randomUUID()
+				.toString(), user.getSalt());
+		return DigestUtils.sha1Hex(key);
 	}
 }

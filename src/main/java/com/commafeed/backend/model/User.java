@@ -43,6 +43,12 @@ public class User extends AbstractModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLogin;
 
+	@Column(length = 40)
+	private String recoverPasswordToken;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date recoverPasswordTokenDate;
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
 	private Set<UserRole> roles = Sets.newHashSet();
 
@@ -108,6 +114,22 @@ public class User extends AbstractModel {
 
 	public void setApiKey(String apiKey) {
 		this.apiKey = apiKey;
+	}
+
+	public String getRecoverPasswordToken() {
+		return recoverPasswordToken;
+	}
+
+	public void setRecoverPasswordToken(String recoverPasswordToken) {
+		this.recoverPasswordToken = recoverPasswordToken;
+	}
+
+	public Date getRecoverPasswordTokenDate() {
+		return recoverPasswordTokenDate;
+	}
+
+	public void setRecoverPasswordTokenDate(Date recoverPasswordTokenDate) {
+		this.recoverPasswordTokenDate = recoverPasswordTokenDate;
 	}
 
 }

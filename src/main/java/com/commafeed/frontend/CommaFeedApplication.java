@@ -44,6 +44,8 @@ import com.commafeed.frontend.pages.GoogleImportRedirectPage;
 import com.commafeed.frontend.pages.HomePage;
 import com.commafeed.frontend.pages.LogoutPage;
 import com.commafeed.frontend.pages.NextUnreadRedirectPage;
+import com.commafeed.frontend.pages.PasswordRecoveryCallbackPage;
+import com.commafeed.frontend.pages.PasswordRecoveryPage;
 import com.commafeed.frontend.pages.WelcomePage;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
 
@@ -66,8 +68,13 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 
 		mountPage("welcome", WelcomePage.class);
 		mountPage("demo", DemoLoginPage.class);
+		
+		mountPage("recover", PasswordRecoveryPage.class);
+		mountPage("recover2", PasswordRecoveryCallbackPage.class);
+		
 		mountPage("logout", LogoutPage.class);
 		mountPage("error", DisplayExceptionPage.class);
+		
 		mountPage("google/import/redirect", GoogleImportRedirectPage.class);
 		mountPage(GoogleImportCallbackPage.PAGE_PATH,
 				GoogleImportCallbackPage.class);

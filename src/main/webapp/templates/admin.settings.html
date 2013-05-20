@@ -10,66 +10,107 @@
 
 	<div>
 		<form name="settingsForm" class="form-horizontal" ng-submit="save()">
-			<div class="control-group">
-				<label class="control-label" for="publicUrl">Public URL</label>
-				<div class="controls">
-					<input type="text" id="publicUrl" name="publicUrl"
-						ng-model="settings.publicUrl" />
+			<div class="row-fluid">
+				<div class="span6">
+					<div class="control-group">
+						<label class="control-label" for="publicUrl">Public URL</label>
+						<div class="controls">
+							<input type="text" id="publicUrl" name="publicUrl"
+								ng-model="settings.publicUrl" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="allowRegistrations">Allow
+							registrations</label>
+						<div class="controls">
+							<input type="checkbox" id="allowRegistrations"
+								name="allowRegistrations" ng-model="settings.allowRegistrations" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="feedbackButton">Feedback
+							button</label>
+						<div class="controls">
+							<input type="checkbox" id="feedbackButton" name="feedbackButton"
+								ng-model="settings.feedbackButton" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="googleClientId">Google
+							client ID</label>
+						<div class="controls">
+							<input type="text" name="googleClientId"
+								ng-model="settings.googleClientId" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="googleClientSecret">Google
+							client secret</label>
+						<div class="controls">
+							<input type="text" name="googleClientSecret"
+								ng-model="settings.googleClientSecret" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="googleAnalyticsTrackingCode">Google
+							Analytics tracking code</label>
+						<div class="controls">
+							<input type="text" name="googleAnalyticsTrackingCode"
+								ng-model="settings.googleAnalyticsTrackingCode" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="googleClientSecret">Background
+							threads</label>
+						<div class="controls">
+							<input type="number" name="backgroundThreads"
+								ng-model="settings.backgroundThreads" />
+							<span class="help-inline">Requires restart</span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="announcement">Announcement</label>
+						<div class="controls">
+							<input type="text" name="announcement"
+								ng-model="settings.announcement" />
+						</div>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="allowRegistrations">Allow
-					registrations</label>
-				<div class="controls">
-					<input type="checkbox" id="allowRegistrations"
-						name="allowRegistrations" ng-model="settings.allowRegistrations" />
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="feedbackButton">Feedback button</label>
-				<div class="controls">
-					<input type="checkbox" id="feedbackButton"
-						name="feedbackButton" ng-model="settings.feedbackButton" />
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="googleClientId">Google
-					client ID</label>
-				<div class="controls">
-					<input type="text" name="googleClientId"
-						ng-model="settings.googleClientId" />
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="googleClientSecret">Google
-					client secret</label>
-				<div class="controls">
-					<input type="text" name="googleClientSecret"
-						ng-model="settings.googleClientSecret" />
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="googleAnalyticsTrackingCode">Google
-					Analytics tracking code</label>
-				<div class="controls">
-					<input type="text" name="googleAnalyticsTrackingCode"
-						ng-model="settings.googleAnalyticsTrackingCode" />
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="googleClientSecret">Background
-					threads</label>
-				<div class="controls">
-					<input type="number" name="backgroundThreads"
-						ng-model="settings.backgroundThreads" />
-					<span class="help-inline">Requires restart</span>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="announcement">Announcement</label>
-				<div class="controls">
-					<input type="text" name="announcement"
-						ng-model="settings.announcement" />
+				<div class="span6">
+					<div class="control-group">
+						<label class="control-label" for="announcement">SMTP Host</label>
+						<div class="controls">
+							<input type="text" name="smtpHost" ng-model="settings.smtpHost" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="announcement">SMTP Port</label>
+						<div class="controls">
+							<input type="text" name="smtpPort" ng-model="settings.smtpPort" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="smtpTls">SMTP TLS </label>
+						<div class="controls">
+							<input type="checkbox" name="smtpTls" ng-model="settings.smtpTls" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="smtpUserName">SMTP
+							Username</label>
+						<div class="controls">
+							<input type="text" name="smtpUserName"
+								ng-model="settings.smtpUserName" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="smtpPassword">SMTP
+							Password</label>
+						<div class="controls">
+							<input type="password" name="smtpPassword"
+								ng-model="settings.smtpPassword" />
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="control-group">

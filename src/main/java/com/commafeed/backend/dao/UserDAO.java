@@ -44,4 +44,19 @@ public class UserDAO extends GenericDAO<User> {
 		return user;
 	}
 
+	public User findByEmail(String email) {
+		CriteriaQuery<User> query = builder.createQuery(getType());
+		Root<User> root = query.from(getType());
+		query.where(builder.equal(root.get(User_.email), email));
+		TypedQuery<User> q = em.createQuery(query);
+
+		User user = null;
+		try {
+			user = q.getSingleResult();
+		} catch (NoResultException e) {
+			user = null;
+		}
+		return user;
+	}
+
 }

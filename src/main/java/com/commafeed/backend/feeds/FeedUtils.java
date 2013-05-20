@@ -1,8 +1,13 @@
 package com.commafeed.backend.feeds;
 
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document.OutputSettings;
@@ -11,6 +16,7 @@ import org.jsoup.safety.Whitelist;
 import org.mozilla.universalchardet.UniversalDetector;
 
 import com.commafeed.backend.model.FeedEntry;
+import com.google.api.client.util.Lists;
 
 public class FeedUtils {
 
@@ -102,11 +108,62 @@ public class FeedUtils {
 		return sb.toString();
 	}
 
+	/**
+	 * Whene there was an error fetching the feed
+	 * 
+	 */
+	public static Date calculateDisabledDate(int errorCount) {
+		Date now = Calendar.getInstance().getTime();
+		int retriesBeforeDisable = 3;
+
+		if (errorCount >= retriesBeforeDisable) {
+			int disabledMinutes = 10 * (errorCount - retriesBeforeDisable + 1);
+			disabledMinutes = Math.min(60 * 12, disabledMinutes);
+			return DateUtils.addMinutes(now, disabledMinutes);
+		}
+		return null;
+	}
+
+	/**
+	 * When the feed was refreshed successfully
+	 */
+	public static Date calculateDisabledDate(FetchedFeed feed) {
+		Date now = Calendar.getInstance().getTime();
+		Date publishedDate = feed.getPublishedDate();
+
+		if (publishedDate.before(DateUtils.addMonths(now, -1))) {
+			// older tahn a month, recheck in 24 hours
+			return DateUtils.addHours(now, 24);
+		} else if (publishedDate.before(DateUtils.addDays(now, -14))) {
+			// older than two weekds, recheck in 12 hours
+			return DateUtils.addHours(now, 12);
+		} else if (publishedDate.before(DateUtils.addDays(now, -7))) {
+			// older than a week, recheck in 6 hours
+			return DateUtils.addHours(now, 6);
+		} else if (CollectionUtils.isNotEmpty(feed.getEntries())) {
+			//
+			long average = average(feed.getEntries());
+			return new Date(Math.min(DateUtils.addHours(now, 6).getTime(),
+					now.getTime() + average / 3));
+		} else {
+			return null;
+		}
+	}
+
 	public static long average(List<FeedEntry> entries) {
+		List<Long> timestamps = Lists.newArrayList();
+		int i = 0;
+		for (FeedEntry entry : entries) {
+			timestamps.add(entry.getUpdated().getTime());
+			i++;
+			if (i >= 10)
+				break;
+		}
+		Collections.sort(timestamps);
+
 		SummaryStatistics stats = new SummaryStatistics();
-		for (int i = 0; i < entries.size() - 1; i++) {
-			long diff = Math.abs(entries.get(i).getUpdated().getTime()
-					- entries.get(i + 1).getUpdated().getTime());
+		for (i = 0; i < timestamps.size() - 1; i++) {
+			long diff = Math.abs(timestamps.get(i) - timestamps.get(i + 1));
 			stats.addValue(diff);
 		}
 		return (long) stats.getMean();

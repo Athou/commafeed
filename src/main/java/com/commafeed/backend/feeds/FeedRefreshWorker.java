@@ -13,7 +13,6 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
 import org.apache.commons.lang.mutable.MutableBoolean;
-import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,19 +68,33 @@ public class FeedRefreshWorker {
 			RollbackException, HeuristicMixedException,
 			HeuristicRollbackException, JMSException {
 
+		FetchedFeed fetchedFeed = null;
+		Collection<FeedEntry> entries = null;
+
 		String message = null;
 		int errorCount = 0;
 		Date disabledUntil = null;
 
-		FetchedFeed fetchedFeed = null;
-		boolean modified = true;
 		try {
 			fetchedFeed = fetcher.fetch(feed.getUrl(), false,
 					feed.getLastModifiedHeader(), feed.getEtagHeader());
+
+			// stops here if NotModifiedException is thrown
+			entries = fetchedFeed.getEntries();
+			disabledUntil = FeedUtils.calculateDisabledDate(fetchedFeed);
+
 			feed.setLastUpdateSuccess(Calendar.getInstance().getTime());
+			feed.setLink(fetchedFeed.getFeed().getLink());
+			feed.setLastModifiedHeader(fetchedFeed.getFeed()
+					.getLastModifiedHeader());
+			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());
+
 		} catch (NotModifiedException e) {
-			modified = false;
 			log.debug("Feed not modified (304) : " + feed.getUrl());
+			if (feed.getErrorCount() == 0) {
+				// not modified and had no error before, do nothing
+				return;
+			}
 		} catch (Exception e) {
 			message = "Unable to refresh feed " + feed.getUrl() + " : "
 					+ e.getMessage();
@@ -92,34 +105,13 @@ public class FeedRefreshWorker {
 			}
 
 			errorCount = feed.getErrorCount() + 1;
-
-			int retriesBeforeDisable = 3;
-			if (feed.getErrorCount() >= retriesBeforeDisable) {
-				int disabledMinutes = 10 * (feed.getErrorCount()
-						- retriesBeforeDisable + 1);
-				disabledMinutes = Math.min(60 * 12, disabledMinutes);
-				disabledUntil = DateUtils.addMinutes(Calendar.getInstance()
-						.getTime(), disabledMinutes);
-			}
-		}
-
-		if (modified == false && feed.getErrorCount() == 0) {
-			// not modified
-			return;
+			disabledUntil = FeedUtils.calculateDisabledDate(errorCount);
 		}
 
 		feed.setErrorCount(errorCount);
 		feed.setMessage(message);
 		feed.setDisabledUntil(disabledUntil);
-
-		Collection<FeedEntry> entries = null;
-		if (fetchedFeed != null) {
-			feed.setLink(fetchedFeed.getFeed().getLink());
-			feed.setLastModifiedHeader(fetchedFeed.getFeed()
-					.getLastModifiedHeader());
-			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());
-			entries = fetchedFeed.getEntries();
-		}
+		log.info(feed.getUrl() + " disabledUntil " + disabledUntil);
 		feedRefreshUpdater.updateEntries(feed, entries);
 
 	}

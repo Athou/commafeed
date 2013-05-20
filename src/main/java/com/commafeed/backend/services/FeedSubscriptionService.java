@@ -41,7 +41,11 @@ public class FeedSubscriptionService {
 	public Feed subscribe(User user, String url, String title,
 			FeedCategory category) {
 
-		if (url.startsWith(applicationSettingsService.get().getPublicUrl())) {
+		final String pubUrl = applicationSettingsService.get().getPublicUrl();
+		if (pubUrl == null) {
+			throw new RuntimeException("Public URL of this CommaFeed is unset");
+		}
+		if (url.startsWith(pubUrl)) {
 			throw new RuntimeException(
 					"Could not subscribe to a feed from this CommaFeed instance");
 		}

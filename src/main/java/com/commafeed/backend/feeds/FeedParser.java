@@ -135,7 +135,8 @@ public class FeedParser {
 	private String findHub(SyndFeed feed) {
 		for (SyndLink l : (List<SyndLink>) feed.getLinks()) {
 			if ("hub".equalsIgnoreCase(l.getRel())) {
-				log.info("found hub {} for feed {}", l.getHref(), feed.getLink());
+				log.debug("found hub {} for feed {}", l.getHref(),
+						feed.getLink());
 				return l.getHref();
 			}
 		}
@@ -146,7 +147,8 @@ public class FeedParser {
 	private String findSelf(SyndFeed feed) {
 		for (SyndLink l : (List<SyndLink>) feed.getLinks()) {
 			if ("self".equalsIgnoreCase(l.getRel())) {
-				log.info("found self {} for feed {}", l.getHref(), feed.getLink());
+				log.debug("found self {} for feed {}", l.getHref(),
+						feed.getLink());
 				return l.getHref();
 			}
 		}

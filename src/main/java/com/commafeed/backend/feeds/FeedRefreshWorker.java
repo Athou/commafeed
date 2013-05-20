@@ -123,9 +123,8 @@ public class FeedRefreshWorker {
 	private void handlePubSub(Feed feed, FetchedFeed fetchedFeed) {
 		String hub = fetchedFeed.getHub();
 		String topic = fetchedFeed.getTopic();
-		log.info("Checking for pubsub infos for {}", feed.getUrl());
 		if (hub != null && topic != null) {
-			log.info("feed {} has pubsub info: {}", feed.getUrl(), topic);
+			log.debug("feed {} has pubsub info: {}", feed.getUrl(), topic);
 			FeedPushInfo info = feed.getPushInfo();
 			if (info == null) {
 				info = new FeedPushInfo();

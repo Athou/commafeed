@@ -117,9 +117,9 @@ public class FeedUtils {
 		int retriesBeforeDisable = 3;
 
 		if (errorCount >= retriesBeforeDisable) {
-			int disabledMinutes = 10 * (errorCount - retriesBeforeDisable + 1);
-			disabledMinutes = Math.min(60 * 12, disabledMinutes);
-			return DateUtils.addMinutes(now, disabledMinutes);
+			int disabledHours = errorCount - retriesBeforeDisable + 1;
+			disabledHours = Math.min(24, disabledHours);
+			return DateUtils.addHours(now, disabledHours);
 		}
 		return null;
 	}

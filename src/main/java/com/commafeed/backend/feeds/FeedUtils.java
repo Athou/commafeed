@@ -112,7 +112,7 @@ public class FeedUtils {
 	 * When there was an error fetching the feed
 	 * 
 	 */
-	public static Date calculateDisabledDate(int errorCount) {
+	public static Date buildDisabledUntil(int errorCount) {
 		Date now = Calendar.getInstance().getTime();
 		int retriesBeforeDisable = 3;
 
@@ -127,7 +127,7 @@ public class FeedUtils {
 	/**
 	 * When the feed was refreshed successfully
 	 */
-	public static Date calculateDisabledDate(FetchedFeed feed) {
+	public static Date buildDisabledUntil(FetchedFeed feed) {
 		Date now = Calendar.getInstance().getTime();
 		Date publishedDate = feed.getPublishedDate();
 
@@ -135,22 +135,22 @@ public class FeedUtils {
 			// older tahn a month, recheck in 24 hours
 			return DateUtils.addHours(now, 24);
 		} else if (publishedDate.before(DateUtils.addDays(now, -14))) {
-			// older than two weekds, recheck in 12 hours
+			// older than two weeks, recheck in 12 hours
 			return DateUtils.addHours(now, 12);
 		} else if (publishedDate.before(DateUtils.addDays(now, -7))) {
 			// older than a week, recheck in 6 hours
 			return DateUtils.addHours(now, 6);
 		} else if (CollectionUtils.isNotEmpty(feed.getEntries())) {
-			//
-			long average = average(feed.getEntries());
+			long average = averageTimeBetweenEntries(feed.getEntries());
 			return new Date(Math.min(DateUtils.addHours(now, 6).getTime(),
 					now.getTime() + average / 3));
 		} else {
-			return null;
+			// no entries in the feed, recheck in 24 hours
+			return DateUtils.addHours(now, 24);
 		}
 	}
 
-	public static long average(List<FeedEntry> entries) {
+	public static long averageTimeBetweenEntries(List<FeedEntry> entries) {
 		List<Long> timestamps = Lists.newArrayList();
 		int i = 0;
 		for (FeedEntry entry : entries) {
@@ -160,6 +160,7 @@ public class FeedUtils {
 				break;
 		}
 		Collections.sort(timestamps);
+		Collections.reverse(timestamps);
 
 		SummaryStatistics stats = new SummaryStatistics();
 		for (i = 0; i < timestamps.size() - 1; i++) {

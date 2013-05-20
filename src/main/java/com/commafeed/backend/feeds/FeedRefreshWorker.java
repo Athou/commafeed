@@ -79,9 +79,10 @@ public class FeedRefreshWorker {
 			fetchedFeed = fetcher.fetch(feed.getUrl(), false,
 					feed.getLastModifiedHeader(), feed.getEtagHeader());
 
-			// stops here if NotModifiedException is thrown
+			// stops here if NotModifiedException or any other exception is
+			// thrown
 			entries = fetchedFeed.getEntries();
-			disabledUntil = FeedUtils.calculateDisabledDate(fetchedFeed);
+			disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed);
 
 			feed.setLastUpdateSuccess(Calendar.getInstance().getTime());
 			feed.setLink(fetchedFeed.getFeed().getLink());
@@ -105,13 +106,14 @@ public class FeedRefreshWorker {
 			}
 
 			errorCount = feed.getErrorCount() + 1;
-			disabledUntil = FeedUtils.calculateDisabledDate(errorCount);
+			disabledUntil = FeedUtils.buildDisabledUntil(errorCount);
 		}
 
 		feed.setErrorCount(errorCount);
 		feed.setMessage(message);
 		feed.setDisabledUntil(disabledUntil);
 		log.info(feed.getUrl() + " disabledUntil " + disabledUntil);
+
 		feedRefreshUpdater.updateEntries(feed, entries);
 
 	}

@@ -75,8 +75,11 @@ function($scope, FeedService, CategoryService) {
 		}
 		FeedService.subscribe($scope.sub, function() {
 			CategoryService.init();
+			$scope.close();
+		}, function(data) {
+			$scope.state = 'failed';
+			$scope.sub.title = 'ERROR: ' + data.data;
 		});
-		$scope.close();
 	};
 
 	$scope.openImport = function() {

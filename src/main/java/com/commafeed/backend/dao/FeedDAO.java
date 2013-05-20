@@ -32,8 +32,8 @@ public class FeedDAO extends GenericDAO<Feed> {
 				.get(Feed_.subscriptions));
 
 		Predicate neverUpdated = builder.isNull(root.get(Feed_.lastUpdated));
-		Predicate updatedMoreThanOneMinuteAgo = builder.lessThan(
-				root.get(Feed_.lastUpdated), DateUtils.addMinutes(now, -1));
+		Predicate updatedBeforeThreshold = builder.lessThan(
+				root.get(Feed_.lastUpdated), DateUtils.addMinutes(now, -10));
 
 		Predicate disabledDateIsNull = builder.isNull(root
 				.get(Feed_.disabledUntil));
@@ -41,7 +41,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 				root.get(Feed_.disabledUntil), now);
 
 		query.where(hasSubscriptions,
-				builder.or(neverUpdated, updatedMoreThanOneMinuteAgo),
+				builder.or(neverUpdated, updatedBeforeThreshold),
 				builder.or(disabledDateIsNull, disabledDateIsInPast));
 		query.orderBy(builder.asc(root.get(Feed_.lastUpdated)));
 

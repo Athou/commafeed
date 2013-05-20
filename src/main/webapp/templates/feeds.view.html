@@ -36,6 +36,9 @@
 					<audio controls ui-if="entry.enclosureType && entry.enclosureType.indexOf('audio') == 0">
 						<source src="{{entry.enclosureUrl}}" type="{{entry.enclosureType}}" />
 					</audio>
+					<div ui-if="entry.enclosureType && entry.enclosureType.indexOf('image') == 0">
+						<img ng-src="{{entry.enclosureUrl}}" />
+					</div>
 					<a href="{{entry.enclosureUrl}}" target="_blank" ui-if="entry.enclosureType" download>
 						${global.download}
 					</a>

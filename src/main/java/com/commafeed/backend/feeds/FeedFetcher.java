@@ -61,12 +61,12 @@ public class FeedFetcher {
 		Document doc = Jsoup.parse(html, baseUri);
 		String root = doc.children().get(0).tagName();
 		if ("html".equals(root)) {
-			Elements rss = doc.select("link[type=application/rss+xml]");
 			Elements atom = doc.select("link[type=application/atom+xml]");
-			if (!rss.isEmpty()) {
-				foundUrl = rss.get(0).attr("abs:href").toString();
-			} else if (!atom.isEmpty()) {
+			Elements rss = doc.select("link[type=application/rss+xml]");
+			if (!atom.isEmpty()) {
 				foundUrl = atom.get(0).attr("abs:href").toString();
+			} else if (!rss.isEmpty()) {
+				foundUrl = rss.get(0).attr("abs:href").toString();
 			}
 		}
 		return foundUrl;

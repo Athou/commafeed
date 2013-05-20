@@ -8,6 +8,8 @@ import java.util.List;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 
 import com.commafeed.backend.model.Feed;
@@ -20,10 +22,13 @@ import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndEnclosure;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.feed.synd.SyndLink;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 
 public class FeedParser {
+
+	private static Logger log = LoggerFactory.getLogger(FeedParser.class);
 
 	private static final Date START = new Date(0);
 	private static final Date END = new Date(1000l * Integer.MAX_VALUE);
@@ -50,6 +55,8 @@ public class FeedParser {
 
 			SyndFeed rss = new SyndFeedInput().build(source);
 			fetchedFeed.setTitle(rss.getTitle());
+			fetchedFeed.setHub(findHub(rss));
+			fetchedFeed.setTopic(findSelf(rss));
 			feed.setUrl(feedUrl);
 			feed.setLink(rss.getLink());
 			List<SyndEntry> items = rss.getEntries();
@@ -122,6 +129,28 @@ public class FeedParser {
 					SystemUtils.LINE_SEPARATOR);
 		}
 		return content;
+	}
+
+	@SuppressWarnings("unchecked")
+	private String findHub(SyndFeed feed) {
+		for (SyndLink l : (List<SyndLink>) feed.getLinks()) {
+			if ("hub".equalsIgnoreCase(l.getRel())) {
+				log.info("found hub {} for feed {}", l.getHref(), feed.getLink());
+				return l.getHref();
+			}
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	private String findSelf(SyndFeed feed) {
+		for (SyndLink l : (List<SyndLink>) feed.getLinks()) {
+			if ("self".equalsIgnoreCase(l.getRel())) {
+				log.info("found self {} for feed {}", l.getHref(), feed.getLink());
+				return l.getHref();
+			}
+		}
+		return null;
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -25,6 +26,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 	public List<Feed> findNextUpdatable(int count) {
 		CriteriaQuery<Feed> query = builder.createQuery(getType());
 		Root<Feed> root = query.from(getType());
+		root.fetch(Feed_.pushInfo, JoinType.LEFT);
 
 		Date now = Calendar.getInstance().getTime();
 

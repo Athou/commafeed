@@ -125,6 +125,7 @@ public class AdminREST extends AbstractResourceREST {
 				userModel = new UserModel();
 				userModel.setId(user.getId());
 				userModel.setName(user.getName());
+				userModel.setEmail(user.getEmail());
 				userModel.setEnabled(!user.isDisabled());
 				users.put(key, userModel);
 			}

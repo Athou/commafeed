@@ -10,6 +10,7 @@ import com.commafeed.frontend.rest.resources.ApiDocumentationREST;
 import com.commafeed.frontend.rest.resources.CategoryREST;
 import com.commafeed.frontend.rest.resources.EntryREST;
 import com.commafeed.frontend.rest.resources.FeedREST;
+import com.commafeed.frontend.rest.resources.PubSubHubbubCallbackREST;
 import com.commafeed.frontend.rest.resources.ServerREST;
 import com.commafeed.frontend.rest.resources.UserREST;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
@@ -36,6 +37,7 @@ public class RESTApplication extends Application {
 		set.add(AdminREST.class);
 
 		set.add(ApiDocumentationREST.class);
+		set.add(PubSubHubbubCallbackREST.class);
 
 		return set;
 	}

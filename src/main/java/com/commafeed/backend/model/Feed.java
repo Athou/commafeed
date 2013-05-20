@@ -3,10 +3,13 @@ package com.commafeed.backend.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -63,6 +66,10 @@ public class Feed extends AbstractModel {
 
 	@Column(length = 255)
 	private String etagHeader;
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "feed", cascade = {
+			CascadeType.PERSIST, CascadeType.MERGE })
+	private FeedPushInfo pushInfo;
 
 	@ManyToMany(mappedBy = "feeds")
 	private Set<FeedEntry> entries = Sets.newHashSet();
@@ -172,6 +179,14 @@ public class Feed extends AbstractModel {
 
 	public void setLastUpdateSuccess(Date lastUpdateSuccess) {
 		this.lastUpdateSuccess = lastUpdateSuccess;
+	}
+
+	public FeedPushInfo getPushInfo() {
+		return pushInfo;
+	}
+
+	public void setPushInfo(FeedPushInfo pushInfo) {
+		this.pushInfo = pushInfo;
 	}
 
 }

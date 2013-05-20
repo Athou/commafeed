@@ -16,6 +16,16 @@ public class FetchedFeed {
 	private long fetchDuration;
 	private Date publishedDate;
 
+	/**
+	 * pubsubhubbub hub url
+	 */
+	private String hub;
+
+	/**
+	 * pubsubhubbub topic
+	 */
+	private String topic;
+
 	public Feed getFeed() {
 		return feed;
 	}
@@ -54,6 +64,22 @@ public class FetchedFeed {
 
 	public void setPublishedDate(Date publishedDate) {
 		this.publishedDate = publishedDate;
+	}
+
+	public String getHub() {
+		return hub;
+	}
+
+	public void setHub(String hub) {
+		this.hub = hub;
+	}
+
+	public String getTopic() {
+		return topic;
+	}
+
+	public void setTopic(String topic) {
+		this.topic = topic;
 	}
 
 }

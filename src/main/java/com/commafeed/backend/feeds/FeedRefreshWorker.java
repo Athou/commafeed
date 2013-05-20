@@ -13,12 +13,14 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
 import org.apache.commons.lang.mutable.MutableBoolean;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedPushInfo;
 import com.sun.syndication.io.FeedException;
 
 public class FeedRefreshWorker {
@@ -78,7 +80,6 @@ public class FeedRefreshWorker {
 		try {
 			fetchedFeed = fetcher.fetch(feed.getUrl(), false,
 					feed.getLastModifiedHeader(), feed.getEtagHeader());
-
 			// stops here if NotModifiedException or any other exception is
 			// thrown
 			entries = fetchedFeed.getEntries();
@@ -89,6 +90,8 @@ public class FeedRefreshWorker {
 			feed.setLastModifiedHeader(fetchedFeed.getFeed()
 					.getLastModifiedHeader());
 			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());
+
+			handlePubSub(feed, fetchedFeed);
 
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified (304) : " + feed.getUrl());
@@ -112,10 +115,30 @@ public class FeedRefreshWorker {
 		feed.setErrorCount(errorCount);
 		feed.setMessage(message);
 		feed.setDisabledUntil(disabledUntil);
-		log.info(feed.getUrl() + " disabledUntil " + disabledUntil);
 
 		feedRefreshUpdater.updateEntries(feed, entries);
 
+	}
+
+	private void handlePubSub(Feed feed, FetchedFeed fetchedFeed) {
+		String hub = fetchedFeed.getHub();
+		String topic = fetchedFeed.getTopic();
+		log.info("Checking for pubsub infos for {}", feed.getUrl());
+		if (hub != null && topic != null) {
+			log.info("feed {} has pubsub info: {}", feed.getUrl(), topic);
+			FeedPushInfo info = feed.getPushInfo();
+			if (info == null) {
+				info = new FeedPushInfo();
+			}
+			if (!StringUtils.equals(hub, info.getHub())
+					|| !StringUtils.equals(topic, info.getTopic())) {
+				info.setHub(hub);
+				info.setTopic(topic);
+				info.setFeed(feed);
+				info.setActive(false);
+			}
+			feed.setPushInfo(info);
+		}
 	}
 
 	private Feed getNextFeed() {

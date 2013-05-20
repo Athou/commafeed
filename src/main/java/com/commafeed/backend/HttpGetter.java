@@ -179,7 +179,7 @@ public class HttpGetter {
 
 	}
 
-	private static HttpClient newClient() {
+	public static HttpClient newClient() {
 		DefaultHttpClient client = new DefaultHttpClient();
 
 		SSLSocketFactory ssf = new SSLSocketFactory(SSL_CONTEXT, VERIFIER);

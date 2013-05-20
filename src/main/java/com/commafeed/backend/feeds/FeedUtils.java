@@ -131,7 +131,10 @@ public class FeedUtils {
 		Date now = Calendar.getInstance().getTime();
 		Date publishedDate = feed.getPublishedDate();
 
-		if (publishedDate.before(DateUtils.addMonths(now, -1))) {
+		if (publishedDate == null) {
+			// feed with no entries, recheck in 24 hours
+			return DateUtils.addHours(now, 24);
+		} else if (publishedDate.before(DateUtils.addMonths(now, -1))) {
 			// older tahn a month, recheck in 24 hours
 			return DateUtils.addHours(now, 24);
 		} else if (publishedDate.before(DateUtils.addDays(now, -14))) {
@@ -141,16 +144,28 @@ public class FeedUtils {
 			// older than a week, recheck in 6 hours
 			return DateUtils.addHours(now, 6);
 		} else if (CollectionUtils.isNotEmpty(feed.getEntries())) {
+			// use average time between entries to decide when to refresh next
 			long average = averageTimeBetweenEntries(feed.getEntries());
 			return new Date(Math.min(DateUtils.addHours(now, 6).getTime(),
 					now.getTime() + average / 3));
 		} else {
-			// no entries in the feed, recheck in 24 hours
+			// unknown case, recheck in 24 hours
 			return DateUtils.addHours(now, 24);
 		}
 	}
 
 	public static long averageTimeBetweenEntries(List<FeedEntry> entries) {
+		List<Long> timestamps = getSortedTimestamps(entries);
+
+		SummaryStatistics stats = new SummaryStatistics();
+		for (int i = 0; i < timestamps.size() - 1; i++) {
+			long diff = Math.abs(timestamps.get(i) - timestamps.get(i + 1));
+			stats.addValue(diff);
+		}
+		return (long) stats.getMean();
+	}
+
+	public static List<Long> getSortedTimestamps(List<FeedEntry> entries) {
 		List<Long> timestamps = Lists.newArrayList();
 		int i = 0;
 		for (FeedEntry entry : entries) {
@@ -161,12 +176,6 @@ public class FeedUtils {
 		}
 		Collections.sort(timestamps);
 		Collections.reverse(timestamps);
-
-		SummaryStatistics stats = new SummaryStatistics();
-		for (i = 0; i < timestamps.size() - 1; i++) {
-			long diff = Math.abs(timestamps.get(i) - timestamps.get(i + 1));
-			stats.addValue(diff);
-		}
-		return (long) stats.getMean();
+		return timestamps;
 	}
 }

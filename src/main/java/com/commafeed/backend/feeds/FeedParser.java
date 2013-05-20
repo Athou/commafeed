@@ -2,7 +2,6 @@ package com.commafeed.backend.feeds;
 
 import java.io.StringReader;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class FeedParser {
 	public FetchedFeed parse(String feedUrl, byte[] xml) throws FeedException {
 		FetchedFeed fetchedFeed = new FetchedFeed();
 		Feed feed = fetchedFeed.getFeed();
-		Collection<FeedEntry> entries = fetchedFeed.getEntries();
+		List<FeedEntry> entries = fetchedFeed.getEntries();
 		feed.setLastUpdated(Calendar.getInstance().getTime());
 
 		try {
@@ -75,10 +74,10 @@ public class FeedParser {
 
 				entries.add(entry);
 			}
-			Date publishedDate = validateDate(rss.getPublishedDate());
-			if (publishedDate == null && !feed.getEntries().isEmpty()) {
-				FeedEntry first = entries.iterator().next();
-				publishedDate = first.getUpdated();
+			Date publishedDate = null;
+			if (!entries.isEmpty()) {
+				Long timestamp = FeedUtils.getSortedTimestamps(entries).get(0);
+				publishedDate = new Date(timestamp);
 			}
 			fetchedFeed.setPublishedDate(publishedDate);
 

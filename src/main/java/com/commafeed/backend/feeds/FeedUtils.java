@@ -109,7 +109,7 @@ public class FeedUtils {
 	}
 
 	/**
-	 * Whene there was an error fetching the feed
+	 * When there was an error fetching the feed
 	 * 
 	 */
 	public static Date calculateDisabledDate(int errorCount) {

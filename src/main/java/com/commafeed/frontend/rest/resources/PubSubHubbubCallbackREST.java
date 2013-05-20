@@ -82,7 +82,6 @@ public class PubSubHubbubCallbackREST {
 		log.info("content callback received");
 		try {
 			byte[] bytes = IOUtils.toByteArray(request.getInputStream());
-			log.info(new String(bytes));
 			FetchedFeed fetchedFeed = parser.parse(null, bytes);
 			String topic = fetchedFeed.getTopic();
 			if (topic != null) {

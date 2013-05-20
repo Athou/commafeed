@@ -85,8 +85,11 @@ public class HttpGetter {
 		HttpClient client = newClient();
 		try {
 			HttpGet httpget = new HttpGet(url);
-			httpget.addHeader("Pragma", "No-cache");
-			httpget.addHeader("Cache-Control", "no-cache");
+			httpget.addHeader(HttpHeaders.PRAGMA, "No-cache");
+			httpget.addHeader(HttpHeaders.CACHE_CONTROL, "no-cache");
+			httpget.addHeader(
+					HttpHeaders.USER_AGENT,
+					"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1468.0 Safari/537.36");
 
 			if (lastModified != null) {
 				httpget.addHeader(HttpHeaders.IF_MODIFIED_SINCE, lastModified);

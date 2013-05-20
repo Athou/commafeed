@@ -3,6 +3,7 @@ package com.commafeed.backend.services;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.ejb.ApplicationException;
 import javax.inject.Inject;
 
 import com.commafeed.backend.dao.FeedEntryDAO;
@@ -19,6 +20,12 @@ import com.google.api.client.util.Lists;
 
 @Stateless
 public class FeedSubscriptionService {
+	@ApplicationException
+	public class FeedSubscriptionException extends RuntimeException {
+		public FeedSubscriptionException(String msg) {
+			super(msg);
+		}
+	}
 
 	@Inject
 	FeedService feedService;
@@ -41,7 +48,12 @@ public class FeedSubscriptionService {
 	public Feed subscribe(User user, String url, String title,
 			FeedCategory category) {
 
-		if (url.startsWith(applicationSettingsService.get().getPublicUrl())) {
+		final String pubUrl = applicationSettingsService.get().getPublicUrl();
+		if (pubUrl == null) {
+			throw new FeedSubscriptionException(
+				"Public URL of this CommaFeed is unset");
+		}
+		if (url.startsWith(pubUrl)) {
 			throw new RuntimeException(
 					"Could not subscribe to a feed from this CommaFeed instance");
 		}

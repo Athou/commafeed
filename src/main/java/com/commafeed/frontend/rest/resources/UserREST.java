@@ -108,6 +108,15 @@ public class UserREST extends AbstractResourceREST {
 	public Response save(
 			@ApiParam(required = true) ProfileModificationRequest request) {
 		User user = getUser();
+
+		Preconditions.checkArgument(StringUtils.isBlank(request.getPassword())
+				|| request.getPassword().length() >= 6);
+		if (StringUtils.isNotBlank(request.getEmail())) {
+			User u = userDAO.findByEmail(request.getEmail());
+			Preconditions.checkArgument(u == null
+					|| user.getId().equals(u.getId()));
+		}
+
 		if (StartupBean.USERNAME_DEMO.equals(user.getName())) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}

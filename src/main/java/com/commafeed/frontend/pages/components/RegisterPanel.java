@@ -98,7 +98,18 @@ public class RegisterPanel extends Panel {
 			protected String getInputType() {
 				return "email";
 			}
-		}.add(RfcCompliantEmailAddressValidator.getInstance()));
+		}.add(RfcCompliantEmailAddressValidator.getInstance()).add(
+				new IValidator<String>() {
+					@Override
+					public void validate(IValidatable<String> validatable) {
+						String email = validatable.getValue();
+						User user = userDAO.findByEmail(email);
+						if (user != null) {
+							validatable.error(new ValidationError(
+									"Email is already taken."));
+						}
+					}
+				}));
 		form.add(new CheckBox("import", MF.m(model, p.isGoogleImport())));
 
 	}

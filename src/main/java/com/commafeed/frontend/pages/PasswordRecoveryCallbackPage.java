@@ -66,7 +66,7 @@ public class PasswordRecoveryCallbackPage extends BasePage {
 					userDAO.update(user);
 					info("Password saved.");
 				} else {
-					error("Password do not match");
+					error("Passwords do not match.");
 				}
 			}
 		};

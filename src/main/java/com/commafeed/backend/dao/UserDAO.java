@@ -6,6 +6,8 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.User_;
 
@@ -45,6 +47,9 @@ public class UserDAO extends GenericDAO<User> {
 	}
 
 	public User findByEmail(String email) {
+		if (StringUtils.isBlank(email)) {
+			return null;
+		}
 		CriteriaQuery<User> query = builder.createQuery(getType());
 		Root<User> root = query.from(getType());
 		query.where(builder.equal(root.get(User_.email), email));

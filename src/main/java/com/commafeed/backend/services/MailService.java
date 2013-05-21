@@ -34,12 +34,6 @@ public class MailService implements Serializable {
 		final String username = settings.getSmtpUserName();
 		final String password = settings.getSmtpPassword();
 
-		log.info(username);
-		log.info(password);
-		log.info("" + settings.isSmtpTls());
-		log.info(settings.getSmtpHost());
-		log.info("" + settings.getSmtpPort());
-
 		String dest = user.getEmail();
 
 		Properties props = new Properties();
@@ -59,7 +53,7 @@ public class MailService implements Serializable {
 		message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(dest));
 		message.setSubject("CommaFeed - " + subject);
-		message.setText(content);
+		message.setContent(content, "text/html; charset=utf-8");
 
 		Transport.send(message);
 

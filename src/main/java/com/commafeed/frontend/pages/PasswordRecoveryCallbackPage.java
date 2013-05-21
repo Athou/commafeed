@@ -61,6 +61,8 @@ public class PasswordRecoveryCallbackPage extends BasePage {
 							passwd, user.getSalt());
 					user.setPassword(password);
 					user.setApiKey(userService.generateApiKey(user));
+					user.setRecoverPasswordToken(null);
+					user.setRecoverPasswordTokenDate(null);
 					userDAO.update(user);
 					info("Password saved.");
 				} else {

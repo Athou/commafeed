@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.UUID;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.wicket.extensions.validation.validator.RfcCompliantEmailAddressValidator;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -65,7 +66,25 @@ public class PasswordRecoveryPage extends BasePage {
 		form.add(new BookmarkablePageLink<Void>("cancel", HomePage.class));
 	}
 
-	private String buildEmailContent(User user) {
-		return "cc";
+	private String buildEmailContent(User user) throws Exception {
+
+		String publicUrl = applicationSettingsService.get().getPublicUrl();
+		if (publicUrl.endsWith("/")) {
+			publicUrl = publicUrl.substring(0, publicUrl.length() - 1);
+		}
+		publicUrl += "/recover2";
+
+		return String
+				.format("You asked for password recovery, <a href='%s'>follow this link</a> to change your password. Ignore this if you didn't request a password recovery.",
+						callbackUrl(user, publicUrl));
+	}
+
+	private String callbackUrl(User user, String publicUrl) throws Exception {
+		return new URIBuilder(publicUrl)
+				.addParameter(PasswordRecoveryCallbackPage.PARAM_EMAIL,
+						user.getEmail())
+				.addParameter(PasswordRecoveryCallbackPage.PARAM_TOKEN,
+						user.getRecoverPasswordToken()).build().toURL()
+				.toString();
 	}
 }

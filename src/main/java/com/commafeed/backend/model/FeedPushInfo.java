@@ -3,6 +3,7 @@ package com.commafeed.backend.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -13,7 +14,7 @@ import org.hibernate.annotations.Index;
 @SuppressWarnings("serial")
 public class FeedPushInfo extends AbstractModel {
 
-	@Column(unique = true)
+	@JoinColumn(unique = true)
 	@OneToOne(fetch = FetchType.LAZY)
 	private Feed feed;
 

@@ -43,9 +43,10 @@ public class FeedRefreshTaskGiver {
 	@Lock(LockType.WRITE)
 	public void add(Feed feed) {
 		Date now = Calendar.getInstance().getTime();
-		Date tenMinutesAgo = DateUtils.addMinutes(now, -10);
+		boolean heavyLoad = applicationSettingsService.get().isHeavyLoad();
+		Date threshold = DateUtils.addMinutes(now, heavyLoad ? -10 : -1);
 		if (feed.getLastUpdated() == null
-				|| feed.getLastUpdated().before(tenMinutesAgo)) {
+				|| feed.getLastUpdated().before(threshold)) {
 			feed.setEtagHeader(null);
 			feed.setLastModifiedHeader(null);
 		}

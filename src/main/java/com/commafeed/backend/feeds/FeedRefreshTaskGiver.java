@@ -32,6 +32,8 @@ public class FeedRefreshTaskGiver {
 	MetricsBean metricsBean;
 
 	private int backgroundThreads;
+
+	private Queue<Feed> addQueue = Queues.newConcurrentLinkedQueue();
 	private Queue<Feed> queue = Queues.newConcurrentLinkedQueue();
 
 	@PostConstruct
@@ -51,9 +53,7 @@ public class FeedRefreshTaskGiver {
 			feed.setLastModifiedHeader(null);
 		}
 
-		queue.add(feed);
-		feed.setLastUpdated(Calendar.getInstance().getTime());
-		feedDAO.update(feed);
+		addQueue.add(feed);
 	}
 
 	@Lock(LockType.WRITE)
@@ -62,6 +62,12 @@ public class FeedRefreshTaskGiver {
 		if (feed == null) {
 			int count = Math.min(100, 5 * backgroundThreads);
 			List<Feed> feeds = feedDAO.findNextUpdatable(count);
+
+			int addQueueSize = queue.size();
+			for (int i = 0; i < addQueueSize; i++) {
+				feeds.add(addQueue.poll());
+			}
+
 			for (Feed f : feeds) {
 				queue.add(f);
 				f.setLastUpdated(Calendar.getInstance().getTime());

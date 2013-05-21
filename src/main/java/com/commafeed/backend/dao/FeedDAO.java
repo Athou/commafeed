@@ -7,7 +7,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -16,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.model.Feed_;
 import com.google.common.collect.Iterables;
 import com.uaihebert.model.EasyCriteria;
@@ -26,7 +26,6 @@ public class FeedDAO extends GenericDAO<Feed> {
 	public List<Feed> findNextUpdatable(int count) {
 		CriteriaQuery<Feed> query = builder.createQuery(getType());
 		Root<Feed> root = query.from(getType());
-		root.fetch(Feed_.pushInfo, JoinType.LEFT);
 
 		Date now = Calendar.getInstance().getTime();
 
@@ -49,8 +48,15 @@ public class FeedDAO extends GenericDAO<Feed> {
 
 		TypedQuery<Feed> q = em.createQuery(query);
 		q.setMaxResults(count);
-
-		return q.getResultList();
+		
+		List<Feed> feeds = q.getResultList();
+		for (Feed feed : feeds) {
+			FeedPushInfo info = feed.getPushInfo();
+			if (info != null) {
+				info.getTopic();
+			}
+		}
+		return feeds;
 	}
 
 	public Feed findByUrl(String url) {

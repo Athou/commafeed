@@ -25,6 +25,7 @@ public class ApplicationSettings extends AbstractModel {
 	private boolean smtpTls;
 	private String smtpUserName;
 	private String smtpPassword;
+	private boolean heavyLoad;
 	private boolean pubsubhubbub;
 	private boolean feedbackButton = true;
 
@@ -142,6 +143,14 @@ public class ApplicationSettings extends AbstractModel {
 
 	public void setPubsubhubbub(boolean pubsubhubbub) {
 		this.pubsubhubbub = pubsubhubbub;
+	}
+
+	public boolean isHeavyLoad() {
+		return heavyLoad;
+	}
+
+	public void setHeavyLoad(boolean heavyLoad) {
+		this.heavyLoad = heavyLoad;
 	}
 
 }

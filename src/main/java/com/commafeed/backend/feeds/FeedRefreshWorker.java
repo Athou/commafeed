@@ -21,6 +21,7 @@ import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedPushInfo;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.sun.syndication.io.FeedException;
 
 public class FeedRefreshWorker {
@@ -36,6 +37,9 @@ public class FeedRefreshWorker {
 
 	@Inject
 	FeedRefreshTaskGiver taskGiver;
+
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
 
 	public void start(MutableBoolean running, String threadName) {
 		log.info("{} starting", threadName);
@@ -83,7 +87,9 @@ public class FeedRefreshWorker {
 			// stops here if NotModifiedException or any other exception is
 			// thrown
 			entries = fetchedFeed.getEntries();
-			disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed);
+			if (applicationSettingsService.get().isHeavyLoad()) {
+				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed);
+			}
 
 			feed.setLastUpdateSuccess(Calendar.getInstance().getTime());
 			feed.setLink(fetchedFeed.getFeed().getLink());

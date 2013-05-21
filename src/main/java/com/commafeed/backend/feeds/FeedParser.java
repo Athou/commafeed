@@ -8,6 +8,8 @@ import java.util.List;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.jdom.Element;
+import org.jdom.Namespace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
@@ -23,12 +25,17 @@ import com.sun.syndication.feed.synd.SyndEnclosure;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.feed.synd.SyndLink;
+import com.sun.syndication.feed.synd.SyndLinkImpl;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 
 public class FeedParser {
 
 	private static Logger log = LoggerFactory.getLogger(FeedParser.class);
+
+	private static final String ATOM_10_URI = "http://www.w3.org/2005/Atom";
+	private static final Namespace ATOM_10_NS = Namespace
+			.getNamespace(ATOM_10_URI);
 
 	private static final Date START = new Date(0);
 	private static final Date END = new Date(1000l * Integer.MAX_VALUE);
@@ -52,8 +59,9 @@ public class FeedParser {
 					xml, encoding));
 
 			InputSource source = new InputSource(new StringReader(xmlString));
-
 			SyndFeed rss = new SyndFeedInput().build(source);
+			handleForeignMarkup(rss);
+
 			fetchedFeed.setTitle(rss.getTitle());
 			fetchedFeed.setHub(findHub(rss));
 			fetchedFeed.setTopic(findSelf(rss));
@@ -94,6 +102,33 @@ public class FeedParser {
 					e.getMessage()), e);
 		}
 		return fetchedFeed;
+	}
+
+	/**
+	 * Adds atom links for rss feeds
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void handleForeignMarkup(SyndFeed feed) {
+		Object foreignMarkup = feed.getForeignMarkup();
+		if (foreignMarkup == null) {
+			return;
+		}
+		if (foreignMarkup instanceof List) {
+			List elements = (List) foreignMarkup;
+			for (Object object : elements) {
+				if (object instanceof Element) {
+					Element element = (Element) object;
+					if ("link".equals(element.getName())
+							&& ATOM_10_NS.equals(element.getNamespace())) {
+						SyndLink link = new SyndLinkImpl();
+						link.setRel(element.getAttributeValue("rel"));
+						link.setHref(element.getAttributeValue("href"));
+						feed.getLinks().add(link);
+					}
+				}
+			}
+		}
+
 	}
 
 	private Date getUpdateDate(SyndEntry item) {

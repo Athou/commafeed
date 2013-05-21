@@ -139,13 +139,7 @@ public class FeedREST extends AbstractResourceREST {
 		return Response.ok(writer.toString()).build();
 	}
 
-	@GET
-	@Path("/fetch")
-	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", responseClass = "com.commafeed.frontend.model.FeedInfo")
-	public Response fetchFeed(
-			@ApiParam(value = "the feed's url", required = true) @QueryParam("url") String url) {
-		Preconditions.checkNotNull(url);
-
+	private FeedInfo fetchFeedInternal(String url) {
 		FeedInfo info = null;
 		url = StringUtils.trimToEmpty(url);
 		url = prependHttp(url);
@@ -159,6 +153,23 @@ public class FeedREST extends AbstractResourceREST {
 			throw new WebApplicationException(e, Response
 					.status(Status.INTERNAL_SERVER_ERROR)
 					.entity(e.getMessage()).build());
+		}
+		return info;
+	}
+
+	@GET
+	@Path("/fetch")
+	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", responseClass = "com.commafeed.frontend.model.FeedInfo")
+	public Response fetchFeed(
+			@ApiParam(value = "the feed's url", required = true) @QueryParam("url") String url) {
+		Preconditions.checkNotNull(url);
+
+		FeedInfo info = null;
+		try {
+			info = fetchFeedInternal(url);
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR)
+					.entity(e.getMessage()).build();
 		}
 		return Response.ok(info).build();
 	}
@@ -219,12 +230,13 @@ public class FeedREST extends AbstractResourceREST {
 		Preconditions.checkNotNull(req.getUrl());
 
 		String url = prependHttp(req.getUrl());
-		url = ((FeedInfo) fetchFeed(url).getEntity()).getUrl();
-
-		FeedCategory category = CategoryREST.ALL.equals(req.getCategoryId()) ? null
-				: feedCategoryDAO.findById(Long.valueOf(req.getCategoryId()));
-		FeedInfo info = (FeedInfo) fetchFeed(url).getEntity();
 		try {
+			url = fetchFeedInternal(url).getUrl();
+
+			FeedCategory category = CategoryREST.ALL
+					.equals(req.getCategoryId()) ? null : feedCategoryDAO
+					.findById(Long.valueOf(req.getCategoryId()));
+			FeedInfo info = fetchFeedInternal(url);
 			feedSubscriptionService.subscribe(getUser(), info.getUrl(),
 					req.getTitle(), category);
 		} catch (Exception e) {
@@ -247,9 +259,9 @@ public class FeedREST extends AbstractResourceREST {
 			Preconditions.checkNotNull(url);
 
 			url = prependHttp(url);
-			url = ((FeedInfo) fetchFeed(url).getEntity()).getUrl();
+			url = fetchFeedInternal(url).getUrl();
 
-			FeedInfo info = (FeedInfo) fetchFeed(url).getEntity();
+			FeedInfo info = fetchFeedInternal(url);
 			feedSubscriptionService.subscribe(getUser(), info.getUrl(),
 					info.getTitle(), null);
 		} catch (Exception e) {

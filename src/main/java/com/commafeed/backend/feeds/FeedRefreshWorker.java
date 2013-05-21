@@ -43,6 +43,14 @@ public class FeedRefreshWorker {
 
 	public void start(MutableBoolean running, String threadName) {
 		log.info("{} starting", threadName);
+		
+		try {
+			// sleeping for one minute before starting, let everything settle
+			Thread.sleep(60000);
+		} catch (InterruptedException e) {
+			log.error(threadName + e.getMessage(), e);
+		}
+
 		while (running.isTrue()) {
 			Feed feed = null;
 			try {

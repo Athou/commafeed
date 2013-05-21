@@ -61,7 +61,7 @@ public class SubscriptionHandler {
 			HttpResponse response = client.execute(post);
 
 			int code = response.getStatusLine().getStatusCode();
-			if (code != 204 && code != 202) {
+			if (code != 204 && code != 202 && code != 200) {
 				throw new Exception("Unexpected response code: " + code + " "
 						+ response.getStatusLine().getReasonPhrase());
 			}

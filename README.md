@@ -35,7 +35,11 @@ To install maven and openjdk on Ubuntu, issue the following commands
     sudo add-apt-repository ppa:natecarlson/maven3
     sudo apt-get update
     sudo apt-get install openjdk-7-jdk maven3
+    
+    Not required but if you don't, use 'mvn3' instead of 'mvn' for the rest of the instructions.
     sudo ln -s /usr/bin/mvn3 /usr/bin/mvn
+    
+On Windows and other operating systems, just download maven 3.x from the [official site](http://maven.apache.org/), extract it somewhere and add the `bin` directory to your `PATH` environment variable.
     
 Download the sources (it doesn't matter where, you can delete the directory when you're done).
 If you don't have git you can download the sources as a zip file from [here](https://github.com/Athou/commafeed/archive/master.zip)

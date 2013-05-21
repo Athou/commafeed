@@ -13,6 +13,7 @@ import org.hibernate.annotations.Index;
 @SuppressWarnings("serial")
 public class FeedPushInfo extends AbstractModel {
 
+	@Column(unique = true)
 	@OneToOne(fetch = FetchType.LAZY)
 	private Feed feed;
 

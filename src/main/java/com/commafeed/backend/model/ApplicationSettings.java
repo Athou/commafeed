@@ -15,24 +15,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ApplicationSettings extends AbstractModel {
 
 	private String publicUrl;
-
-	/**
-	 * Wether registrations are open
-	 */
 	private boolean allowRegistrations = false;
-
 	private String googleAnalyticsTrackingCode;
-
 	private String googleClientId;
 	private String googleClientSecret;
 	private int backgroundThreads = 3;
-
 	private String smtpHost;
 	private int smtpPort;
 	private boolean smtpTls;
 	private String smtpUserName;
 	private String smtpPassword;
-
+	private boolean pubsubhubbub;
 	private boolean feedbackButton = true;
 
 	@Column(length = 255)
@@ -141,6 +134,14 @@ public class ApplicationSettings extends AbstractModel {
 
 	public void setFeedbackButton(boolean feedbackButton) {
 		this.feedbackButton = feedbackButton;
+	}
+
+	public boolean isPubsubhubbub() {
+		return pubsubhubbub;
+	}
+
+	public void setPubsubhubbub(boolean pubsubhubbub) {
+		this.pubsubhubbub = pubsubhubbub;
 	}
 
 }

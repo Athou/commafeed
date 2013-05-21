@@ -15,6 +15,7 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.pubsubhubbub.SubscriptionHandler;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedUpdateService;
 
 @Stateless
@@ -32,13 +33,18 @@ public class FeedRefreshUpdater {
 	@Inject
 	FeedDAO feedDAO;
 
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
+
 	@Asynchronous
 	public void updateEntries(Feed feed, Collection<FeedEntry> entries) {
 		if (CollectionUtils.isNotEmpty(entries)) {
 			feedUpdateService.updateEntries(feed, entries);
 		}
 		feedDAO.update(feed);
-		handlePubSub(feed);
+		if (applicationSettingsService.get().isPubsubhubbub()) {
+			handlePubSub(feed);
+		}
 	}
 
 	private void handlePubSub(Feed feed) {

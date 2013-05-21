@@ -38,7 +38,7 @@ public class SubscriptionHandler {
 			publicUrl = publicUrl.substring(0, publicUrl.length() - 1);
 		}
 
-		log.info("sending new pubsub subscription to {} for {}", hub, topic);
+		log.debug("sending new pubsub subscription to {} for {}", hub, topic);
 
 		HttpPost post = new HttpPost(hub);
 		List<NameValuePair> nvp = Lists.newArrayList();
@@ -65,7 +65,7 @@ public class SubscriptionHandler {
 				throw new Exception("Unexpected response code: " + code + " "
 						+ response.getStatusLine().getReasonPhrase());
 			}
-			log.info("subscribed to {} for {}", hub, topic);
+			log.debug("subscribed to {} for {}", hub, topic);
 		} catch (Exception e) {
 			log.error("Could not subscribe to {} for {} : {}", hub, topic,
 					e.getMessage(), e);

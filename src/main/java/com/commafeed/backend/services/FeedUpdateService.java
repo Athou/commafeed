@@ -19,10 +19,8 @@ import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
-import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.google.common.collect.Lists;
@@ -57,23 +55,6 @@ public class FeedUpdateService {
 			FeedEntry foundEntry = findEntry(existingEntries, entry);
 
 			if (foundEntry == null) {
-				String baseUri = feed.getLink();
-				FeedEntryContent content = entry.getContent();
-
-				content.setContent(FeedUtils.handleContent(
-						content.getContent(), baseUri));
-				String title = FeedUtils.handleContent(content.getTitle(),
-						baseUri);
-				if (title != null) {
-					content.setTitle(title.substring(0,
-							Math.min(2048, title.length())));
-				}
-				String author = entry.getAuthor();
-				if (author != null) {
-					entry.setAuthor(author.substring(0,
-							Math.min(128, author.length())));
-				}
-
 				entry.setInserted(Calendar.getInstance().getTime());
 				entry.getFeeds().add(feed);
 				entryUpdateList.add(entry);

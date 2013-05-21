@@ -2,10 +2,6 @@ package com.commafeed.backend.pubsubhubbub;
 
 import java.util.List;
 
-import javax.ejb.Asynchronous;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 
@@ -25,8 +21,6 @@ import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.google.common.collect.Lists;
 
-@Stateless
-@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class SubscriptionHandler {
 
 	private static Logger log = LoggerFactory
@@ -35,7 +29,6 @@ public class SubscriptionHandler {
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
-	@Asynchronous
 	public void subscribe(Feed feed) {
 		FeedPushInfo info = feed.getPushInfo();
 		String hub = info.getHub();

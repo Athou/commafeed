@@ -13,11 +13,13 @@ import com.commafeed.backend.model.FeedPushInfo_;
 @Stateless
 public class FeedPushInfoDAO extends GenericDAO<FeedPushInfo> {
 
-	public List<FeedPushInfo> findByTopic(String topic) {
+	public List<FeedPushInfo> findByTopic(String topic, boolean includeFeed) {
 
 		CriteriaQuery<FeedPushInfo> query = builder.createQuery(getType());
 		Root<FeedPushInfo> root = query.from(getType());
-		root.fetch(FeedPushInfo_.feed);
+		if (includeFeed) {
+			root.fetch(FeedPushInfo_.feed);
+		}
 		query.where(builder.equal(root.get(FeedPushInfo_.topic), topic));
 
 		TypedQuery<FeedPushInfo> q = em.createQuery(query);

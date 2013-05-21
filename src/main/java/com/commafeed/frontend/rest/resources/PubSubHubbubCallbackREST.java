@@ -59,12 +59,11 @@ public class PubSubHubbubCallbackREST {
 
 		log.info("confirmation callback received for {}", topic);
 
-		List<FeedPushInfo> infos = feedPushInfoDAO.findByTopic(topic);
+		List<FeedPushInfo> infos = feedPushInfoDAO.findByTopic(topic, false);
 
 		if (infos.isEmpty() == false) {
 			for (FeedPushInfo info : infos) {
-				log.info("activated push notifications for {}", info.getFeed()
-						.getUrl());
+				log.info("activated push notifications for {}", info.getTopic());
 				info.setActive(true);
 			}
 			feedPushInfoDAO.update(infos);
@@ -85,7 +84,8 @@ public class PubSubHubbubCallbackREST {
 			String topic = fetchedFeed.getTopic();
 			if (topic != null) {
 				log.info("content callback received for {}", topic);
-				List<FeedPushInfo> infos = feedPushInfoDAO.findByTopic(topic);
+				List<FeedPushInfo> infos = feedPushInfoDAO.findByTopic(topic,
+						true);
 				for (FeedPushInfo info : infos) {
 					Feed feed = info.getFeed();
 					log.info("pushing content to queue for {}", feed.getUrl());

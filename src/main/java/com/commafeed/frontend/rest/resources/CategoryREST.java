@@ -69,11 +69,13 @@ public class CategoryREST extends AbstractResourceREST {
 			@ApiParam(value = "limit for paging") @DefaultValue("-1") @QueryParam("limit") int limit,
 			@ApiParam(value = "date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
 
-		Preconditions.checkNotNull(id);
 		Preconditions.checkNotNull(readType);
 
 		Entries entries = new Entries();
 		boolean unreadOnly = readType == ReadType.unread;
+		if (StringUtils.isBlank(id)) {
+			id = ALL;
+		}
 
 		if (ALL.equals(id)) {
 			entries.setName("All");
@@ -125,7 +127,8 @@ public class CategoryREST extends AbstractResourceREST {
 		int offset = 0;
 		int limit = 20;
 
-		Entries entries = (Entries) getCategoryEntries(id, readType, offset, limit, order).getEntity();
+		Entries entries = (Entries) getCategoryEntries(id, readType, offset,
+				limit, order).getEntity();
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("rss_2.0");
@@ -294,7 +297,7 @@ public class CategoryREST extends AbstractResourceREST {
 
 	@GET
 	@Path("/unreadCount")
-	@ApiOperation(value = "Get unread count for feed subscriptions", responseClass="List[com.commafeed.frontend.model.UnreadCount]")
+	@ApiOperation(value = "Get unread count for feed subscriptions", responseClass = "List[com.commafeed.frontend.model.UnreadCount]")
 	public Response getUnreadCount() {
 		List<UnreadCount> list = Lists.newArrayList();
 		Map<Long, Long> unreadCount = feedEntryStatusDAO

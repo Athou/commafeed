@@ -47,10 +47,15 @@ public class FeedRefreshUpdater {
 		}
 	}
 
-	private void handlePubSub(Feed feed) {
+	private void handlePubSub(final Feed feed) {
 		FeedPushInfo info = feed.getPushInfo();
 		if (info != null && info.isActive() == false) {
-			handler.subscribe(feed);
+			new Thread() {
+				@Override
+				public void run() {
+					handler.subscribe(feed);
+				}
+			}.start();
 		}
 	}
 

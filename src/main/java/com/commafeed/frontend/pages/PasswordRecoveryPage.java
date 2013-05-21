@@ -41,8 +41,7 @@ public class PasswordRecoveryPage extends BasePage {
 						user.setRecoverPasswordTokenDate(Calendar.getInstance()
 								.getTime());
 						userDAO.update(user);
-						mailService.sendMail(user,
-								"CommaFeed - Password recovery",
+						mailService.sendMail(user, "Password recovery",
 								buildEmailContent(user));
 						info("Email sent.");
 					} catch (Exception e) {

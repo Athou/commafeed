@@ -59,6 +59,8 @@ public class SubscriptionHandler {
 
 		HttpClient client = HttpGetter.newClient();
 		try {
+			// make sure the feed push infos have been updated to the database
+			Thread.sleep(1000);
 			post.setEntity(new UrlEncodedFormEntity(nvp));
 			HttpResponse response = client.execute(post);
 

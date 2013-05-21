@@ -1,29 +1,30 @@
 package com.commafeed.backend.feeds;
 
 import java.util.Collection;
+import java.util.List;
 
-import javax.ejb.Asynchronous;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.LockMap;
 import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedPushInfo;
+import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.pubsubhubbub.SubscriptionHandler;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedUpdateService;
 
-@Stateless
 public class FeedRefreshUpdater {
 
 	protected static Logger log = LoggerFactory
 			.getLogger(FeedRefreshUpdater.class);
+
+	private static LockMap<String> lockMap = new LockMap<String>();
 
 	@Inject
 	FeedUpdateService feedUpdateService;
@@ -32,38 +33,36 @@ public class FeedRefreshUpdater {
 	SubscriptionHandler handler;
 
 	@Inject
+	FeedRefreshTaskGiver taskGiver;
+
+	@Inject
 	FeedDAO feedDAO;
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
-	@Asynchronous
-	public void updateEntries(Feed feed, Collection<FeedEntry> entries) {
-		if (CollectionUtils.isNotEmpty(entries)) {
+	@Inject
+	FeedSubscriptionDAO feedSubscriptionDAO;
+
+	public void updateFeed(Feed feed, Collection<FeedEntry> entries) {
+		taskGiver.giveBack(feed);
+		if (entries != null) {
+			List<FeedSubscription> subscriptions = feedSubscriptionDAO
+					.findByFeed(feed);
 			for (FeedEntry entry : entries) {
-				handleEntry(feed, entry);
+				updateEntry(feed, entry, subscriptions);
 			}
-			feedUpdateService.updateEntries(feed, entries);
 		}
-		feedDAO.update(feed);
+
 		if (applicationSettingsService.get().isPubsubhubbub()) {
 			handlePubSub(feed);
 		}
 	}
 
-	private void handleEntry(Feed feed, FeedEntry entry) {
-		String baseUri = feed.getLink();
-		FeedEntryContent content = entry.getContent();
-
-		content.setContent(FeedUtils.handleContent(content.getContent(),
-				baseUri));
-		String title = FeedUtils.handleContent(content.getTitle(), baseUri);
-		if (title != null) {
-			content.setTitle(title.substring(0, Math.min(2048, title.length())));
-		}
-		String author = entry.getAuthor();
-		if (author != null) {
-			entry.setAuthor(author.substring(0, Math.min(128, author.length())));
+	private void updateEntry(Feed feed, FeedEntry entry,
+			List<FeedSubscription> subscriptions) {
+		synchronized (lockMap.get(entry.getGuid())) {
+			feedUpdateService.updateEntry(feed, entry, subscriptions);
 		}
 	}
 

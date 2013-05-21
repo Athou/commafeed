@@ -1,15 +1,10 @@
 package com.commafeed.backend.services;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Set;
 
-import javax.ejb.AccessTimeout;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -19,13 +14,15 @@ import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.google.common.collect.Lists;
 
-@Singleton
+@Stateless
 public class FeedUpdateService {
 
 	@Inject
@@ -40,74 +37,76 @@ public class FeedUpdateService {
 	@Inject
 	MetricsBean metricsBean;
 
-	@Lock(LockType.WRITE)
-	@AccessTimeout(value = 5, unit = TimeUnit.MINUTES)
-	public void updateEntries(Feed feed, Collection<FeedEntry> entries) {
+	public void updateEntry(Feed feed, FeedEntry entry,
+			List<FeedSubscription> subscriptions) {
 
-		List<FeedEntry> existingEntries = getExistingEntries(entries);
-		List<FeedSubscription> subscriptions = feedSubscriptionDAO
-				.findByFeed(feed);
+		FeedEntry foundEntry = findEntry(
+				feedEntryDAO.findByGuid(entry.getGuid()), entry);
 
-		List<FeedEntry> entryUpdateList = Lists.newArrayList();
-		List<FeedEntryStatus> statusUpdateList = Lists.newArrayList();
-		for (FeedEntry entry : entries) {
+		if (foundEntry == null) {
+			handleEntry(feed, entry);
+			entry.setInserted(Calendar.getInstance().getTime());
+			entry.getFeeds().add(feed);
 
-			FeedEntry foundEntry = findEntry(existingEntries, entry);
+			foundEntry = entry;
+		} else {
 
-			if (foundEntry == null) {
-				entry.setInserted(Calendar.getInstance().getTime());
-				entry.getFeeds().add(feed);
-				entryUpdateList.add(entry);
-			} else {
-				boolean foundFeed = false;
-				for (Feed existingFeed : foundEntry.getFeeds()) {
-					if (ObjectUtils.equals(existingFeed.getId(), feed.getId())) {
-						foundFeed = true;
-						break;
-					}
-				}
-
-				if (!foundFeed) {
-					foundEntry.getFeeds().add(feed);
-					entryUpdateList.add(foundEntry);
-				}
+			if (!findFeed(foundEntry.getFeeds(), feed)) {
+				foundEntry.getFeeds().add(feed);
 			}
 		}
-		for (FeedEntry entry : entryUpdateList) {
+
+		if (foundEntry != null) {
+			List<FeedEntryStatus> statusUpdateList = Lists.newArrayList();
 			for (FeedSubscription sub : subscriptions) {
 				FeedEntryStatus status = new FeedEntryStatus();
-				status.setEntry(entry);
+				status.setEntry(foundEntry);
 				status.setSubscription(sub);
 				statusUpdateList.add(status);
 			}
+			feedEntryDAO.saveOrUpdate(foundEntry);
+			feedEntryStatusDAO.saveOrUpdate(statusUpdateList);
+			metricsBean.entryUpdated(statusUpdateList.size());
 		}
-
-		feedEntryDAO.saveOrUpdate(entryUpdateList);
-		feedEntryStatusDAO.saveOrUpdate(statusUpdateList);
-		metricsBean
-				.feedUpdated(entryUpdateList.size(), statusUpdateList.size());
 	}
 
 	private FeedEntry findEntry(List<FeedEntry> existingEntries, FeedEntry entry) {
-		FeedEntry foundEntry = null;
-		for (FeedEntry existingEntry : existingEntries) {
-			if (StringUtils.equals(entry.getGuid(), existingEntry.getGuid())
-					&& StringUtils.equals(entry.getUrl(),
-							existingEntry.getUrl())) {
-				foundEntry = existingEntry;
+		FeedEntry found = null;
+		for (FeedEntry existing : existingEntries) {
+			if (StringUtils.equals(entry.getGuid(), existing.getGuid())
+					&& StringUtils.equals(entry.getUrl(), existing.getUrl())) {
+				found = existing;
 				break;
 			}
 		}
-		return foundEntry;
+		return found;
 	}
 
-	private List<FeedEntry> getExistingEntries(Collection<FeedEntry> entries) {
-		List<String> guids = Lists.newArrayList();
-		for (FeedEntry entry : entries) {
-			guids.add(entry.getGuid());
+	private boolean findFeed(Set<Feed> feeds, Feed feed) {
+		boolean found = false;
+		for (Feed existingFeed : feeds) {
+			if (ObjectUtils.equals(existingFeed.getId(), feed.getId())) {
+				found = true;
+				break;
+			}
 		}
-		List<FeedEntry> existingEntries = guids.isEmpty() ? new ArrayList<FeedEntry>()
-				: feedEntryDAO.findByGuids(guids);
-		return existingEntries;
+		return found;
 	}
+
+	private void handleEntry(Feed feed, FeedEntry entry) {
+		String baseUri = feed.getLink();
+		FeedEntryContent content = entry.getContent();
+
+		content.setContent(FeedUtils.handleContent(content.getContent(),
+				baseUri));
+		String title = FeedUtils.handleContent(content.getTitle(), baseUri);
+		if (title != null) {
+			content.setTitle(title.substring(0, Math.min(2048, title.length())));
+		}
+		String author = entry.getAuthor();
+		if (author != null) {
+			entry.setAuthor(author.substring(0, Math.min(128, author.length())));
+		}
+	}
+
 }

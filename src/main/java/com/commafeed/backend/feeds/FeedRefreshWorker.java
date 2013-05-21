@@ -5,12 +5,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.inject.Inject;
-import javax.jms.JMSException;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 
 import org.apache.commons.lang.mutable.MutableBoolean;
 import org.apache.commons.lang3.StringUtils;
@@ -77,10 +71,7 @@ public class FeedRefreshWorker {
 		}
 	}
 
-	private void update(Feed feed) throws NotSupportedException,
-			SystemException, SecurityException, IllegalStateException,
-			RollbackException, HeuristicMixedException,
-			HeuristicRollbackException, JMSException {
+	private void update(Feed feed) {
 
 		FetchedFeed fetchedFeed = null;
 		Collection<FeedEntry> entries = null;
@@ -130,7 +121,7 @@ public class FeedRefreshWorker {
 		feed.setMessage(message);
 		feed.setDisabledUntil(disabledUntil);
 
-		feedRefreshUpdater.updateEntries(feed, entries);
+		feedRefreshUpdater.updateFeed(feed, entries);
 
 	}
 

@@ -642,85 +642,62 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		}
 	};
 
-	var openNextEntry = function(event) {
-		var entry = null;
-		if ($scope.current) {
-			var index;
-			for ( var i = 0; i < $scope.entries.length; i++) {
-				if ($scope.current == $scope.entries[i]) {
-					index = i;
-					break;
-				}
+	var _currentIndex = function() {
+		if (!$scope.current) {
+			return -1;
+		}
+		for (var i = 0; i < $scope.entries.length; i++) {
+			if ($scope.current == $scope.entries[i]) {
+				return i;
 			}
+		}
+		return -1;
+	};
+
+	var _getNextEntry = function() {
+		var index = _currentIndex();
+		if (index >= 0) {
 			index = index + 1;
 			if (index < $scope.entries.length) {
-				entry = $scope.entries[index];
+				return $scope.entries[index];
 			}
 		} else if ($scope.entries.length > 0) {
-			entry = $scope.entries[0];
+			return $scope.entries[0];
 		}
+		return null;
+	};
+
+	var _getPreviousEntry = function() {
+		var index = _currentIndex();
+		if (index >= 1) {
+			return $scope.entries[index - 1];
+		}
+		return null;
+	};
+
+	var openNextEntry = function(event) {
+		var entry = _getNextEntry();
 		if (entry) {
 			$scope.entryClicked(entry, event);
 		}
 	};
 
 	var openPreviousEntry = function(event) {
-		var entry = null;
-		if ($scope.current) {
-			var index;
-			for ( var i = 0; i < $scope.entries.length; i++) {
-				if ($scope.current == $scope.entries[i]) {
-					index = i;
-					break;
-				}
-			}
-			index = index - 1;
-			if (index >= 0) {
-				entry = $scope.entries[index];
-			}
-		}
+		var entry = _getPreviousEntry();
 		if (entry) {
 			$scope.entryClicked(entry, event);
 		}
 	};
 
 	var focusNextEntry = function(event) {
-		var entry = null;
-		if ($scope.current) {
-			var index;
-			for ( var i = 0; i < $scope.entries.length; i++) {
-				if ($scope.current == $scope.entries[i]) {
-					index = i;
-					break;
-				}
-			}
-			index = index + 1;
-			if (index < $scope.entries.length) {
-				entry = $scope.entries[index];
-			}
-		} else if ($scope.entries.length > 0) {
-			entry = $scope.entries[0];
-		}
+		var entry = _getNextEntry();
 		if (entry) {
 			$scope.current = entry;
 		}
 	};
 
 	var focusPreviousEntry = function(event) {
-		var entry = null;
-		if ($scope.current) {
-			var index;
-			for ( var i = 0; i < $scope.entries.length; i++) {
-				if ($scope.current == $scope.entries[i]) {
-					index = i;
-					break;
-				}
-			}
-			index = index - 1;
-			if (index >= 0) {
-				entry = $scope.entries[index];
-			}
-		}
+		var entry = _getPreviousEntry();
 		if (entry) {
 			$scope.current = entry;
 		}

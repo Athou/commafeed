@@ -270,6 +270,9 @@ public class CategoryREST extends AbstractResourceREST {
 
 		FeedCategory category = feedCategoryDAO.findById(getUser(),
 				Long.valueOf(req.getId()));
+		if (category == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
 		category.setCollapsed(req.isCollapse());
 		feedCategoryDAO.update(category);
 

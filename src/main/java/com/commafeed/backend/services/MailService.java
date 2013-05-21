@@ -21,7 +21,7 @@ import com.commafeed.backend.model.User;
 @SuppressWarnings("serial")
 public class MailService implements Serializable {
 
-	private static Logger log = LoggerFactory.getLogger(MailService.class);
+	protected static Logger log = LoggerFactory.getLogger(MailService.class);
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;

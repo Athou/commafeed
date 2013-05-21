@@ -67,7 +67,8 @@ public class SubscriptionHandler {
 			}
 			log.info("subscribed to {} for {}", hub, topic);
 		} catch (Exception e) {
-			log.error("Could not subscribe to pubsub: " + e.getMessage(), e);
+			log.error("Could not subscribe to {} for {} : {}", hub, topic,
+					e.getMessage(), e);
 		} finally {
 			client.getConnectionManager().shutdown();
 		}

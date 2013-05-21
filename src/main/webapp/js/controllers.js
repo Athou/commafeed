@@ -7,6 +7,12 @@ module.run(['$rootScope', function($rootScope) {
 	$rootScope.$on('emitNextEntry', function(event, args) {
 		$rootScope.$broadcast('nextEntry', args);
 	});
+	$rootScope.$on('emitFocusPreviousEntry', function(event, args) {
+		$rootScope.$broadcast('focusPreviousEntry', args);
+	});
+	$rootScope.$on('emitFocusNextEntry', function(event, args) {
+		$rootScope.$broadcast('focusNextEntry', args);
+	});
 	$rootScope.$on('emitMark', function(event, args) {
 		// args.entry - the entry
 		$rootScope.$broadcast('mark', args);
@@ -397,8 +403,14 @@ function($scope, $http, $state, $stateParams, $route, $location,
 	$scope.nextEntry = function() {
 		$scope.$emit('emitNextEntry');
 	};
-	
-	
+
+	$scope.focusPreviousEntry = function() {
+		$scope.$emit('emitFocusPreviousEntry');
+	};
+	$scope.focusNextEntry = function() {
+		$scope.$emit('emitFocusNextEntry');
+	};
+
 	$scope.refresh = function() {
 		if($stateParams._type == 'feed'){
 			FeedService.refresh({
@@ -672,6 +684,48 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		}
 	};
 
+	var focusNextEntry = function(event) {
+		var entry = null;
+		if ($scope.current) {
+			var index;
+			for ( var i = 0; i < $scope.entries.length; i++) {
+				if ($scope.current == $scope.entries[i]) {
+					index = i;
+					break;
+				}
+			}
+			index = index + 1;
+			if (index < $scope.entries.length) {
+				entry = $scope.entries[index];
+			}
+		} else if ($scope.entries.length > 0) {
+			entry = $scope.entries[0];
+		}
+		if (entry) {
+			$scope.current = entry;
+		}
+	};
+
+	var focusPreviousEntry = function(event) {
+		var entry = null;
+		if ($scope.current) {
+			var index;
+			for ( var i = 0; i < $scope.entries.length; i++) {
+				if ($scope.current == $scope.entries[i]) {
+					index = i;
+					break;
+				}
+			}
+			index = index - 1;
+			if (index >= 0) {
+				entry = $scope.entries[index];
+			}
+		}
+		if (entry) {
+			$scope.current = entry;
+		}
+	};
+
 	$scope.onScroll = function(entry) {
 		$scope.navigationMode = 'scroll';
 		if (SettingsService.settings.viewMode == 'expanded') {
@@ -689,7 +743,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	});
 	Mousetrap.bind('n', function(e) {
 		$scope.$apply(function() {
-			openNextEntry(e);
+			focusNextEntry(e);
 		});
 	});
 	Mousetrap.bind('k', function(e) {
@@ -699,7 +753,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	});
 	Mousetrap.bind('p', function(e) {
 		$scope.$apply(function() {
-			openPreviousEntry(e);
+			focusPreviousEntry(e);
 		});
 	});
 	Mousetrap.bind('o', function(e) {
@@ -756,6 +810,12 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	});
 	$scope.$on('nextEntry', function(event, args) {
 		openNextEntry();
+	});
+	$scope.$on('focusPreviousEntry', function(event, args) {
+		focusPreviousEntry();
+	});
+	$scope.$on('focusNextEntry', function(event, args) {
+		focusNextEntry();
 	});
 	$scope.$on('markAll', function(event, args) {
 		$scope.markAll(args.olderThan);

@@ -10,6 +10,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.ApplicationSettings;
+import com.commafeed.backend.model.User;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.utils.WicketUtils;
@@ -92,7 +93,10 @@ public class GoogleImportCallbackPage extends WebPage {
 				BearerToken.authorizationHeaderAccessMethod().intercept(
 						httpRequest, accessToken);
 				String opml = httpRequest.execute().parseAsString();
-				importer.importOpml(CommaFeedSession.get().getUser(), opml);
+				User user = CommaFeedSession.get().getUser();
+				if (user != null) {
+					importer.importOpml(CommaFeedSession.get().getUser(), opml);
+				}
 			} catch (Exception e) {
 				throw new DisplayException(e);
 			}

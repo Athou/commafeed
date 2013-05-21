@@ -3,6 +3,9 @@ package com.commafeed.backend.pubsubhubbub;
 import java.util.List;
 
 import javax.ejb.Asynchronous;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 
@@ -22,6 +25,8 @@ import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.google.common.collect.Lists;
 
+@Stateless
+@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class SubscriptionHandler {
 
 	private static Logger log = LoggerFactory
@@ -59,8 +64,6 @@ public class SubscriptionHandler {
 
 		HttpClient client = HttpGetter.newClient();
 		try {
-			// make sure the feed push infos have been updated to the database
-			Thread.sleep(1000);
 			post.setEntity(new UrlEncodedFormEntity(nvp));
 			HttpResponse response = client.execute(post);
 

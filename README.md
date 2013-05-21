@@ -35,7 +35,6 @@ To install maven and openjdk on Ubuntu, issue the following commands
     sudo add-apt-repository ppa:natecarlson/maven3
     sudo apt-get update
     sudo apt-get install openjdk-7-jdk maven3
-    sudo ln -s /usr/bin/mvn3 /usr/bin/mvn
     
 Download the sources (it doesn't matter where, you can delete the directory when you're done).
 If you don't have git you can download the sources as a zip file from [here](https://github.com/Athou/commafeed/archive/master.zip)
@@ -46,13 +45,13 @@ If you don't have git you can download the sources as a zip file from [here](htt
 Now build the application
 
 	Embedded HSQL database (not recommended, ok for quick tests but automatic schema updates are not working):
-    mvn clean package tomee:build -Pprod
+    mvn3 clean package tomee:build -Pprod
     
 	External MySQL database:
-    mvn clean package tomee:build -Pprod -Pmysql
+    mvn3 clean package tomee:build -Pprod -Pmysql
     
     External PostgreSQL database:
-    mvn clean package tomee:build -Pprod -Ppgsql
+    mvn3 clean package tomee:build -Pprod -Ppgsql
     
 It will generate a zip file at `target/commafeed.zip` with everything you need to run the application.
 
@@ -74,7 +73,7 @@ Local development
 
 Checkout the code and use maven to build and start a local TomEE instance.
 
- `mvn clean package tomee:run`
+ `mvn3 clean package tomee:run`
 
 The application is online at [http://localhost:8082/commafeed](http://localhost:8082/commafeed). Any change to the source code will be applied immediatly.
 The default user is `admin` and the password is `admin`.
@@ -88,7 +87,7 @@ To add a new language, create a new file in that directory.
 The name of the file should be the two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
 The language has to be referenced in the `languages.properties` file to be picked up.
 
-When adding new translations, add them in en.properties then run `mvn -e groovy:execute -Pi18n`. It will parse the english file and add placeholders in the other translation files. 
+When adding new translations, add them in en.properties then run `mvn3 -e groovy:execute -Pi18n`. It will parse the english file and add placeholders in the other translation files. 
 
 Copyright and license
 ---------------------

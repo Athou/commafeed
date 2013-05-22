@@ -57,7 +57,10 @@ public class FeedParser {
 			String encoding = FeedUtils.guessEncoding(xml);
 			String xmlString = FeedUtils.trimInvalidXmlCharacters(new String(
 					xml, encoding));
-
+			if (xmlString == null) {
+				throw new FeedException("Input string is null for url "
+						+ feedUrl);
+			}
 			InputSource source = new InputSource(new StringReader(xmlString));
 			SyndFeed rss = new SyndFeedInput().build(source);
 			handleForeignMarkup(rss);

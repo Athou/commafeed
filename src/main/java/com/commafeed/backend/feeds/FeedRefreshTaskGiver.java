@@ -85,6 +85,7 @@ public class FeedRefreshTaskGiver {
 	}
 
 	public void giveBack(Feed feed) {
+		metricsBean.feedUpdated();
 		giveBackQueue.add(feed);
 	}
 

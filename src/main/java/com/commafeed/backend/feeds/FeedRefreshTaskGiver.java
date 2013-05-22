@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Queue;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.ejb.Singleton;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -34,7 +32,8 @@ public class FeedRefreshTaskGiver {
 	private int backgroundThreads;
 
 	private Queue<Feed> addQueue = Queues.newConcurrentLinkedQueue();
-	private Queue<Feed> queue = Queues.newConcurrentLinkedQueue();
+	private Queue<Feed> takeQueue = Queues.newConcurrentLinkedQueue();
+	private Queue<Feed> giveBackQueue = Queues.newConcurrentLinkedQueue();
 
 	@PostConstruct
 	public void init() {
@@ -42,7 +41,6 @@ public class FeedRefreshTaskGiver {
 				.getBackgroundThreads();
 	}
 
-	@Lock(LockType.WRITE)
 	public void add(Feed feed) {
 		Date now = Calendar.getInstance().getTime();
 		boolean heavyLoad = applicationSettingsService.get().isHeavyLoad();
@@ -52,31 +50,40 @@ public class FeedRefreshTaskGiver {
 			feed.setEtagHeader(null);
 			feed.setLastModifiedHeader(null);
 		}
-
 		addQueue.add(feed);
 	}
 
-	@Lock(LockType.WRITE)
-	public Feed take() {
-		Feed feed = queue.poll();
+	public synchronized Feed take() {
+		Feed feed = takeQueue.poll();
 		if (feed == null) {
 			int count = Math.min(100, 5 * backgroundThreads);
 			List<Feed> feeds = feedDAO.findNextUpdatable(count);
 
-			int addQueueSize = queue.size();
-			for (int i = 0; i < addQueueSize; i++) {
+			int size = addQueue.size();
+			for (int i = 0; i < size; i++) {
 				feeds.add(addQueue.poll());
 			}
 
 			for (Feed f : feeds) {
-				queue.add(f);
+				takeQueue.add(f);
 				f.setLastUpdated(Calendar.getInstance().getTime());
 			}
+
+			size = giveBackQueue.size();
+			for (int i = 0; i < size; i++) {
+				feeds.add(giveBackQueue.poll());
+			}
+
 			feedDAO.update(feeds);
-			feed = queue.poll();
+
+			feed = takeQueue.poll();
 		}
 		metricsBean.feedRefreshed();
 		return feed;
+	}
+
+	public void giveBack(Feed feed) {
+		giveBackQueue.add(feed);
 	}
 
 }

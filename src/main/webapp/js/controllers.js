@@ -513,7 +513,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		}
 	});
 
-	$scope.limit = SettingsService.settings.viewMode == 'title' ? 10 : 3;
+	$scope.limit = SettingsService.settings.viewMode == 'title' ? 10 : 5;
 	$scope.busy = false;
 	$scope.hasMore = true;
 

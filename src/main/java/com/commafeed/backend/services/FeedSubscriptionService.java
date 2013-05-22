@@ -2,7 +2,6 @@ package com.commafeed.backend.services;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.ejb.ApplicationException;
 import javax.inject.Inject;
 
@@ -18,7 +17,6 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.google.api.client.util.Lists;
 
-@Stateless
 public class FeedSubscriptionService {
 
 	@SuppressWarnings("serial")
@@ -53,7 +51,7 @@ public class FeedSubscriptionService {
 		final String pubUrl = applicationSettingsService.get().getPublicUrl();
 		if (pubUrl == null) {
 			throw new FeedSubscriptionException(
-					"Public URL of this CommaFeed is unset");
+					"Public URL of this CommaFeed instance is not set");
 		}
 		if (url.startsWith(pubUrl)) {
 			throw new FeedSubscriptionException(

@@ -70,7 +70,7 @@ public class PubSubHubbubCallbackREST {
 			feedPushInfoDAO.update(infos);
 			return Response.ok(challenge).build();
 		} else {
-			log.info("rejecting callback: no push info for {}", topic);
+			log.debug("rejecting callback: no push info for {}", topic);
 			return Response.status(Status.NOT_FOUND).build();
 		}
 	}
@@ -94,7 +94,7 @@ public class PubSubHubbubCallbackREST {
 				}
 			}
 		} catch (Exception e) {
-			log.error("Could not parse pubsub callback: " + e.getMessage(), e);
+			log.debug("Could not parse pubsub callback: " + e.getMessage(), e);
 		}
 		return Response.ok().build();
 	}

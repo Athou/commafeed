@@ -48,6 +48,11 @@ public class MetricsBean {
 		thisMinute.statusesInserted += statusesCount;
 	}
 
+	public void threadWaited() {
+		thisHour.threadWaited++;
+		thisMinute.threadWaited++;
+	}
+
 	public Metric getLastMinute() {
 		return lastMinute;
 	}
@@ -61,6 +66,7 @@ public class MetricsBean {
 		private int feedsUpdated;
 		private int entriesInserted;
 		private int statusesInserted;
+		private int threadWaited;
 
 		public int getFeedsRefreshed() {
 			return feedsRefreshed;
@@ -92,6 +98,14 @@ public class MetricsBean {
 
 		public void setStatusesInserted(int statusesInserted) {
 			this.statusesInserted = statusesInserted;
+		}
+
+		public int getThreadWaited() {
+			return threadWaited;
+		}
+
+		public void setThreadWaited(int threadWaited) {
+			this.threadWaited = threadWaited;
 		}
 
 	}

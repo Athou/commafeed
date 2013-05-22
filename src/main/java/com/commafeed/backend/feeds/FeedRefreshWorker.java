@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
@@ -39,6 +40,9 @@ public class FeedRefreshWorker {
 	@Inject
 	FeedPushInfoService feedPushInfoService;
 
+	@Inject
+	MetricsBean metricsBean;
+
 	public void start(MutableBoolean running, String threadName) {
 		log.info("{} starting", threadName);
 
@@ -58,6 +62,7 @@ public class FeedRefreshWorker {
 					update(feed);
 				} else {
 					log.debug("sleeping");
+					metricsBean.threadWaited();
 					Thread.sleep(15000);
 				}
 			} catch (InterruptedException e) {

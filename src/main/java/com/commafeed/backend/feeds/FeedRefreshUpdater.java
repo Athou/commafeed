@@ -47,7 +47,6 @@ public class FeedRefreshUpdater {
 	FeedSubscriptionDAO feedSubscriptionDAO;
 
 	public void updateFeed(Feed feed, Collection<FeedEntry> entries) {
-		taskGiver.giveBack(feed);
 		if (entries != null) {
 			List<FeedSubscription> subscriptions = feedSubscriptionDAO
 					.findByFeed(feed);
@@ -59,6 +58,7 @@ public class FeedRefreshUpdater {
 		if (applicationSettingsService.get().isPubsubhubbub()) {
 			handlePubSub(feed);
 		}
+		taskGiver.giveBack(feed);
 	}
 
 	private void updateEntry(Feed feed, FeedEntry entry,

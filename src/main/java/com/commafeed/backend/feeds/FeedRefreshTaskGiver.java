@@ -78,7 +78,9 @@ public class FeedRefreshTaskGiver {
 
 			feed = takeQueue.poll();
 		}
-		metricsBean.feedRefreshed();
+		if (feed != null) {
+			metricsBean.feedRefreshed();
+		}
 		return feed;
 	}
 

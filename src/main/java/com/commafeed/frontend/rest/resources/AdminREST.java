@@ -68,6 +68,7 @@ public class AdminREST extends AbstractResourceREST {
 				user.setPassword(encryptionService.getEncryptedPassword(
 						userModel.getPassword(), user.getSalt()));
 			}
+			user.setEmail(userModel.getEmail());
 			user.setDisabled(!userModel.isEnabled());
 			userDAO.update(user);
 

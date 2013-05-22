@@ -15,7 +15,7 @@
 			</span>
 		</div>
 	</div>
-	<ul ui-if="node.expanded && showChildren">
+	<ul ng-show="node.expanded && showChildren">
 		<recursive>
 			<category ng-repeat="child in node.children" ng-show="settingsService.settings.showRead == true || unreadCount({category:node}) > 0"
 				node="child" level="level + 1" selected-type="selectedType"

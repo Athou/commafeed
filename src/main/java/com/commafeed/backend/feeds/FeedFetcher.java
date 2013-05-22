@@ -50,7 +50,8 @@ public class FeedFetcher {
 		fetchedFeed = parser.parse(feedUrl, result.getContent());
 		Feed feed = fetchedFeed.getFeed();
 		feed.setLastModifiedHeader(result.getLastModifiedSince());
-		feed.setEtagHeader(result.geteTag());
+		feed.setEtagHeader(org.apache.commons.lang.StringUtils.substring(
+				result.geteTag(), 0, 255));
 		fetchedFeed.setFetchDuration(result.getDuration());
 		return fetchedFeed;
 	}

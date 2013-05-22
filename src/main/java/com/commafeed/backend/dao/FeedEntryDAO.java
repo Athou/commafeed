@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
 
@@ -14,7 +15,6 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntry_;
 import com.commafeed.backend.model.Feed_;
-import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
@@ -22,12 +22,12 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 	public List<FeedEntry> findByGuid(String guid) {
 		String hash = DigestUtils.sha1Hex(guid);
 
-		EasyCriteria<FeedEntry> criteria = createCriteria();
-		criteria.setDistinctTrue();
-		criteria.andEquals(FeedEntry_.guidHash.getName(), hash);
-		criteria.leftJoinFetch(FeedEntry_.feeds.getName());
-
-		return criteria.getResultList();
+		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
+		Root<FeedEntry> root = query.from(getType());
+		query.where(builder.equal(root.get(FeedEntry_.guidHash), hash));
+		root.fetch(FeedEntry_.feeds, JoinType.LEFT);
+		TypedQuery<FeedEntry> q = em.createQuery(query);
+		return q.getResultList();
 	}
 
 	public List<FeedEntry> findByFeed(Feed feed, int offset, int limit) {

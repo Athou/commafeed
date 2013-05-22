@@ -5,12 +5,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.inject.Inject;
-import javax.jms.JMSException;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 
 import org.apache.commons.lang.mutable.MutableBoolean;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +16,7 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.services.ApplicationSettingsService;
+import com.commafeed.backend.services.FeedPushInfoService;
 import com.sun.syndication.io.FeedException;
 
 public class FeedRefreshWorker {
@@ -40,6 +35,9 @@ public class FeedRefreshWorker {
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
+
+	@Inject
+	FeedPushInfoService feedPushInfoService;
 
 	public void start(MutableBoolean running, String threadName) {
 		log.info("{} starting", threadName);
@@ -77,10 +75,7 @@ public class FeedRefreshWorker {
 		}
 	}
 
-	private void update(Feed feed) throws NotSupportedException,
-			SystemException, SecurityException, IllegalStateException,
-			RollbackException, HeuristicMixedException,
-			HeuristicRollbackException, JMSException {
+	private void update(Feed feed) {
 
 		FetchedFeed fetchedFeed = null;
 		Collection<FeedEntry> entries = null;
@@ -130,7 +125,7 @@ public class FeedRefreshWorker {
 		feed.setMessage(message);
 		feed.setDisabledUntil(disabledUntil);
 
-		feedRefreshUpdater.updateEntries(feed, entries);
+		feedRefreshUpdater.updateFeed(feed, entries);
 
 	}
 
@@ -141,7 +136,7 @@ public class FeedRefreshWorker {
 			log.debug("feed {} has pubsub info: {}", feed.getUrl(), topic);
 			FeedPushInfo info = feed.getPushInfo();
 			if (info == null) {
-				info = new FeedPushInfo();
+				info = feedPushInfoService.findOrCreate(feed, hub, topic);
 			}
 			if (!StringUtils.equals(hub, info.getHub())
 					|| !StringUtils.equals(topic, info.getTopic())) {

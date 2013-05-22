@@ -1,5 +1,14 @@
 <?xml version="1.0"?>
 <tomee>
+
+	<Resource id="My DataSource" type="DataSource">
+	    jdbcDriver = org.hsqldb.jdbcDriver
+	    jdbcUrl = jdbc:hsqldb:file:data/hsqldb;hsqldb.tx=mvcc
+	    UserName = sa
+	    Password = 
+	    MaxActive = 50
+	</Resource>
+
 <!-- 
 	<Resource id="MySQL" type="DataSource">
 		JdbcDriver com.mysql.jdbc.Driver

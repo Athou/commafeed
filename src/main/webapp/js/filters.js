@@ -1,7 +1,11 @@
 var module = angular.module('commafeed.filters', []);
 
 module.filter('entryDate', function() {
-	return function(timestamp) {
+	return function(timestamp, defaultValue) {
+		if (!timestamp) {
+			return defaultValue;
+		}
+		
 		var d = moment(timestamp);
 		var now = moment();
 		var formatted;

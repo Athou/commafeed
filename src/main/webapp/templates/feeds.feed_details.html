@@ -33,6 +33,13 @@
 				<span>{{sub.lastRefresh|entryDate}}</span>
 			</div>
 		</div>
+		
+		<div class="control-group">
+			<label class="control-label">${details.next_refresh}</label>
+			<div class="controls horizontal-align">
+				<span>{{sub.nextRefresh|entryDate:'${details.queued_for_refresh}' }}</span>
+			</div>
+		</div>
 
 		<div class="control-group">
 			<label class="control-label">${details.feed_url}</label>

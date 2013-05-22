@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.wordnik.swagger.annotations.ApiClass;
@@ -21,14 +22,16 @@ public class Subscription implements Serializable {
 	public static Subscription build(FeedSubscription subscription,
 			long unreadCount) {
 		FeedCategory category = subscription.getCategory();
+		Feed feed = subscription.getFeed();
 		Subscription sub = new Subscription();
 		sub.setId(subscription.getId());
 		sub.setName(subscription.getTitle());
-		sub.setMessage(subscription.getFeed().getMessage());
-		sub.setErrorCount(subscription.getFeed().getErrorCount());
-		sub.setFeedUrl(subscription.getFeed().getUrl());
-		sub.setFeedLink(subscription.getFeed().getLink());
-		sub.setLastRefresh(subscription.getFeed().getLastUpdated());
+		sub.setMessage(feed.getMessage());
+		sub.setErrorCount(feed.getErrorCount());
+		sub.setFeedUrl(feed.getUrl());
+		sub.setFeedLink(feed.getLink());
+		sub.setLastRefresh(feed.getLastUpdated());
+		sub.setNextRefresh(feed.getDisabledUntil());
 		sub.setUnread(unreadCount);
 		sub.setCategoryId(category == null ? null : String.valueOf(category
 				.getId()));
@@ -49,6 +52,9 @@ public class Subscription implements Serializable {
 
 	@ApiProperty(value = "last time the feed was refreshed", required = true)
 	private Date lastRefresh;
+
+	@ApiProperty(value = "next time the feed refresh is planned", required = true)
+	private Date nextRefresh;
 
 	@ApiProperty(value = "this subscription's feed url", required = true)
 	private String feedUrl;
@@ -132,6 +138,14 @@ public class Subscription implements Serializable {
 
 	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public Date getNextRefresh() {
+		return nextRefresh;
+	}
+
+	public void setNextRefresh(Date nextRefresh) {
+		this.nextRefresh = nextRefresh;
 	}
 
 }

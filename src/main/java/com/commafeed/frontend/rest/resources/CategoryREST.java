@@ -167,6 +167,8 @@ public class CategoryREST extends AbstractResourceREST {
 
 		if (ALL.equals(req.getId())) {
 			feedEntryStatusDAO.markAllEntries(getUser(), olderThan);
+		} else if (STARRED.equals(req.getId())) {
+			feedEntryStatusDAO.markStarredEntries(getUser(), olderThan);
 		} else {
 			List<FeedCategory> categories = feedCategoryDAO
 					.findAllChildrenCategories(

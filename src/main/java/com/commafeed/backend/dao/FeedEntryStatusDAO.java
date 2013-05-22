@@ -96,6 +96,11 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return q.getResultList();
 	}
 
+	public List<FeedEntryStatus> findStarred(User user,
+			ReadingOrder order, boolean includeContent) {
+		return findStarred(user, -1, -1, order, includeContent);
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<FeedEntryStatus> findStarred(User user, int offset, int limit,
 			ReadingOrder order, boolean includeContent) {
@@ -280,6 +285,13 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			Date olderThan) {
 		List<FeedEntryStatus> statuses = findByCategories(categories, user,
 				true, ReadingOrder.desc, false);
+		update(markList(statuses, olderThan));
+	}
+
+	public void markStarredEntries(User user, Date olderThan) {
+		List<FeedEntryStatus> statuses = findStarred(user, 
+ ReadingOrder.desc,
+				false);
 		update(markList(statuses, olderThan));
 	}
 

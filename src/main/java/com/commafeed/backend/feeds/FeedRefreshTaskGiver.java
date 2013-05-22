@@ -56,7 +56,7 @@ public class FeedRefreshTaskGiver {
 	public synchronized Feed take() {
 		Feed feed = takeQueue.poll();
 		if (feed == null) {
-			int count = 5 * backgroundThreads;
+			int count = 3 * backgroundThreads;
 			List<Feed> feeds = feedDAO.findNextUpdatable(count);
 
 			int size = addQueue.size();

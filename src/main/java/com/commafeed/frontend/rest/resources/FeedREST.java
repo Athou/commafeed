@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.feeds.FetchedFeed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
@@ -326,6 +327,10 @@ public class FeedREST extends AbstractResourceREST {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@ApiOperation(value = "OPML import", notes = "Import an OPML file, posted as a FORM with the 'file' name")
 	public Response importOpml() {
+		if (StartupBean.USERNAME_DEMO.equals(getUser().getName())) {
+			return Response.status(Status.UNAUTHORIZED)
+					.entity("Import is disabled for the demo account").build();
+		}
 		try {
 			FileItemFactory factory = new DiskFileItemFactory(1000000, null);
 			ServletFileUpload upload = new ServletFileUpload(factory);

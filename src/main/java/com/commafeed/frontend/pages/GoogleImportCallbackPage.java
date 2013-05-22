@@ -7,6 +7,7 @@ import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.ApplicationSettings;
@@ -95,6 +96,10 @@ public class GoogleImportCallbackPage extends WebPage {
 				String opml = httpRequest.execute().parseAsString();
 				User user = CommaFeedSession.get().getUser();
 				if (user != null) {
+					if (StartupBean.USERNAME_DEMO.equals(user.getName())) {
+						throw new DisplayException(
+								"Import is disabled for the demo account");
+					}
 					importer.importOpml(CommaFeedSession.get().getUser(), opml);
 				}
 			} catch (Exception e) {

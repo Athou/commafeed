@@ -94,7 +94,7 @@ public class PubSubHubbubCallbackREST {
 				}
 			}
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+			log.error("Could not parse pubsub callback: " + e.getMessage(), e);
 		}
 		return Response.ok().build();
 	}

@@ -43,28 +43,30 @@ public class FeedUpdateService {
 		FeedEntry foundEntry = findEntry(
 				feedEntryDAO.findByGuid(entry.getGuid()), entry);
 
+		FeedEntry update = null;
 		if (foundEntry == null) {
 			handleEntry(feed, entry);
 			entry.setInserted(Calendar.getInstance().getTime());
 			entry.getFeeds().add(feed);
 
-			foundEntry = entry;
+			update = entry;
 		} else {
 
 			if (!findFeed(foundEntry.getFeeds(), feed)) {
 				foundEntry.getFeeds().add(feed);
+				update = foundEntry;
 			}
 		}
 
-		if (foundEntry != null) {
+		if (update != null) {
 			List<FeedEntryStatus> statusUpdateList = Lists.newArrayList();
 			for (FeedSubscription sub : subscriptions) {
 				FeedEntryStatus status = new FeedEntryStatus();
-				status.setEntry(foundEntry);
+				status.setEntry(update);
 				status.setSubscription(sub);
 				statusUpdateList.add(status);
 			}
-			feedEntryDAO.saveOrUpdate(foundEntry);
+			feedEntryDAO.saveOrUpdate(update);
 			feedEntryStatusDAO.saveOrUpdate(statusUpdateList);
 			metricsBean.entryUpdated(statusUpdateList.size());
 		}

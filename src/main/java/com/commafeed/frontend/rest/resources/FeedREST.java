@@ -218,6 +218,9 @@ public class FeedREST extends AbstractResourceREST {
 
 		Preconditions.checkNotNull(id);
 		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(), id);
+		if (sub == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
 		return Response.ok(Subscription.build(sub, 0)).build();
 	}
 

@@ -135,7 +135,7 @@ public class FeedUtils {
 			// feed with no entries, recheck in 24 hours
 			return DateUtils.addHours(now, 24);
 		} else if (publishedDate.before(DateUtils.addMonths(now, -1))) {
-			// older tahn a month, recheck in 24 hours
+			// older than a month, recheck in 24 hours
 			return DateUtils.addHours(now, 24);
 		} else if (publishedDate.before(DateUtils.addDays(now, -14))) {
 			// older than two weeks, recheck in 12 hours

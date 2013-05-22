@@ -12,6 +12,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +64,8 @@ public class SubscriptionHandler {
 			int code = response.getStatusLine().getStatusCode();
 			if (code != 204 && code != 202 && code != 200) {
 				throw new Exception("Unexpected response code: " + code + " "
-						+ response.getStatusLine().getReasonPhrase());
+						+ response.getStatusLine().getReasonPhrase() + " - "
+						+ EntityUtils.toString(response.getEntity()));
 			}
 			log.debug("subscribed to {} for {}", hub, topic);
 		} catch (Exception e) {

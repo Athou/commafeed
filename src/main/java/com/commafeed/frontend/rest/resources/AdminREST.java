@@ -104,6 +104,7 @@ public class AdminREST extends AbstractResourceREST {
 		UserModel userModel = new UserModel();
 		userModel.setId(user.getId());
 		userModel.setName(user.getName());
+		userModel.setEmail(user.getEmail());
 		userModel.setEnabled(!user.isDisabled());
 		for (UserRole role : userRoleDAO.findAll(user)) {
 			if (role.getRole() == Role.ADMIN) {

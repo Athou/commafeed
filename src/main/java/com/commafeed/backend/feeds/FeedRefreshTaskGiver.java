@@ -59,17 +59,23 @@ public class FeedRefreshTaskGiver {
 			int count = Math.min(100, 5 * backgroundThreads);
 			List<Feed> feeds = feedDAO.findNextUpdatable(count);
 
-			feeds.addAll(addQueue);
+			int size = addQueue.size();
+			for (int i = 0; i < size; i++) {
+				feeds.add(addQueue.poll());
+			}
 
 			for (Feed f : feeds) {
 				takeQueue.add(f);
 				f.setLastUpdated(Calendar.getInstance().getTime());
 			}
 
-			feeds.addAll(giveBackQueue);
+			size = giveBackQueue.size();
+			for (int i = 0; i < size; i++) {
+				feeds.add(giveBackQueue.poll());
+			}
 
 			feedDAO.update(feeds);
-			
+
 			feed = takeQueue.poll();
 		}
 		metricsBean.feedRefreshed();

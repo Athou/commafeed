@@ -89,7 +89,7 @@ public class PubSubHubbubCallbackREST {
 						true);
 				for (FeedPushInfo info : infos) {
 					Feed feed = info.getFeed();
-					log.info("pushing content to queue for {}", feed.getUrl());
+					log.debug("pushing content to queue for {}", feed.getUrl());
 					taskGiver.add(feed);
 				}
 			}

@@ -62,8 +62,8 @@ public class FeedRefreshUpdater {
 		pool.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy() {
 			@Override
 			public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
-				super.rejectedExecution(r, e);
 				log.info("Thread queue full, executing in own thread.");
+				super.rejectedExecution(r, e);
 			}
 		});
 	}

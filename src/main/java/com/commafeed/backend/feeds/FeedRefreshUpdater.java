@@ -2,7 +2,8 @@ package com.commafeed.backend.feeds;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -59,13 +60,17 @@ public class FeedRefreshUpdater {
 		int threads = Math.max(settings.getDatabaseUpdateThreads(), 1);
 		log.info("Creating database pool with {} threads", threads);
 		pool = new ThreadPoolExecutor(threads, threads, 0,
-				TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(
+				TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(
 						100 * threads));
-		pool.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy() {
+		pool.setRejectedExecutionHandler(new RejectedExecutionHandler() {
 			@Override
 			public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
-				log.debug("Thread queue full, executing in own thread.");
-				super.rejectedExecution(r, e);
+				log.info("Thread queue full, waiting...");
+				try {
+					e.getQueue().put(r);
+				} catch (InterruptedException e1) {
+					log.error("Interrupted while waiting for queue.", e);
+				}
 			}
 		});
 	}

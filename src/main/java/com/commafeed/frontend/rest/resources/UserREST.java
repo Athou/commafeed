@@ -121,7 +121,7 @@ public class UserREST extends AbstractResourceREST {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 
-		user.setEmail(request.getEmail());
+		user.setEmail(StringUtils.trimToNull(request.getEmail()));
 		if (StringUtils.isNotBlank(request.getPassword())) {
 			byte[] password = encryptionService.getEncryptedPassword(
 					request.getPassword(), user.getSalt());

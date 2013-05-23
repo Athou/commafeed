@@ -59,7 +59,8 @@ public class FeedRefreshUpdater {
 		int threads = Math.max(settings.getDatabaseUpdateThreads(), 1);
 		log.info("Creating database pool with {} threads", threads);
 		pool = new ThreadPoolExecutor(threads, threads, 0,
-				TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+				TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(
+						100 * threads));
 		pool.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy() {
 			@Override
 			public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {

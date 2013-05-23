@@ -98,17 +98,12 @@ public class FeedUpdateService {
 	private void handleEntry(Feed feed, FeedEntry entry) {
 		String baseUri = feed.getLink();
 		FeedEntryContent content = entry.getContent();
-
+		content.setEnclosureUrl(FeedUtils.truncate(content.getEnclosureUrl(),
+				2048));
 		content.setContent(FeedUtils.handleContent(content.getContent(),
 				baseUri));
 		String title = FeedUtils.handleContent(content.getTitle(), baseUri);
-		if (title != null) {
-			content.setTitle(title.substring(0, Math.min(2048, title.length())));
-		}
-		String author = entry.getAuthor();
-		if (author != null) {
-			entry.setAuthor(author.substring(0, Math.min(128, author.length())));
-		}
+		content.setTitle(FeedUtils.truncate(title, 2048));
+		entry.setAuthor(FeedUtils.truncate(entry.getAuthor(), 128));
 	}
-
 }

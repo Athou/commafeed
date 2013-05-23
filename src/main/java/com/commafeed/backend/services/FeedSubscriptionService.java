@@ -9,6 +9,7 @@ import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
@@ -69,7 +70,7 @@ public class FeedSubscriptionService {
 			newSubscription = true;
 		}
 		sub.setCategory(category);
-		sub.setTitle(title.substring(0, Math.min(128, title.length())));
+		sub.setTitle(FeedUtils.truncate(title, 128));
 		feedSubscriptionDAO.saveOrUpdate(sub);
 
 		if (newSubscription) {

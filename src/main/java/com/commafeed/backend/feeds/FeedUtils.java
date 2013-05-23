@@ -20,6 +20,13 @@ import com.google.api.client.util.Lists;
 
 public class FeedUtils {
 
+	public static String truncate(String string, int length) {
+		if (string != null) {
+			string = string.substring(0, Math.min(length, string.length()));
+		}
+		return string;
+	}
+
 	public static String guessEncoding(byte[] bytes) {
 		String DEFAULT_ENCODING = "UTF-8";
 		UniversalDetector detector = new UniversalDetector(null);

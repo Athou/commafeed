@@ -20,6 +20,7 @@ public class ApplicationSettings extends AbstractModel {
 	private String googleClientId;
 	private String googleClientSecret;
 	private int backgroundThreads = 3;
+	private int databaseUpdateThreads = 1;
 	private String smtpHost;
 	private int smtpPort;
 	private boolean smtpTls;
@@ -151,6 +152,14 @@ public class ApplicationSettings extends AbstractModel {
 
 	public void setHeavyLoad(boolean heavyLoad) {
 		this.heavyLoad = heavyLoad;
+	}
+
+	public int getDatabaseUpdateThreads() {
+		return databaseUpdateThreads;
+	}
+
+	public void setDatabaseUpdateThreads(int databaseUpdateThreads) {
+		this.databaseUpdateThreads = databaseUpdateThreads;
 	}
 
 }

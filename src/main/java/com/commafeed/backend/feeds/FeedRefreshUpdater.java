@@ -56,7 +56,7 @@ public class FeedRefreshUpdater {
 	@PostConstruct
 	public void init() {
 		ApplicationSettings settings = applicationSettingsService.get();
-		int threads = Math.max(settings.getBackgroundThreads(), 1);
+		int threads = Math.max(settings.getDatabaseUpdateThreads(), 1);
 		pool = new ThreadPoolExecutor(threads, threads, 0,
 				TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
 		pool.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy() {

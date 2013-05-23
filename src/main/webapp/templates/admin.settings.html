@@ -60,11 +60,20 @@
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label" for="googleClientSecret">Background
+						<label class="control-label" for="googleClientSecret">Background HTTP
 							threads</label>
 						<div class="controls">
 							<input type="number" name="backgroundThreads"
 								ng-model="settings.backgroundThreads" />
+							<span class="help-inline">Requires restart</span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="databaseUpdateThreads">Database update 
+							threads</label>
+						<div class="controls">
+							<input type="number" name="databaseUpdateThreads"
+								ng-model="settings.databaseUpdateThreads" />
 							<span class="help-inline">Requires restart</span>
 						</div>
 					</div>

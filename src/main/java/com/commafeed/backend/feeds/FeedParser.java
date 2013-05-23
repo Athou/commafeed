@@ -75,7 +75,7 @@ public class FeedParser {
 				FeedEntry entry = new FeedEntry();
 				entry.setGuid(item.getUri());
 				entry.setGuidHash(DigestUtils.sha1Hex(item.getUri()));
-				entry.setUrl(item.getLink());
+				entry.setUrl(FeedUtils.truncate(item.getLink(), 2048));
 				entry.setUpdated(validateDate(getUpdateDate(item)));
 				entry.setAuthor(item.getAuthor());
 

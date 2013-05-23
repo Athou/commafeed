@@ -28,7 +28,7 @@ Deployment on your own server
 -----------------------------
 
 For storage, you can either use an embedded HSQLDB database or an external MySQL or PostgreSQL database.
-You also need maven (and a Java JDK) installed in order to build the application.
+You also need Maven 3.x (and a Java JDK) installed in order to build the application.
 
 To install maven and openjdk on Ubuntu, issue the following commands
 
@@ -62,8 +62,8 @@ It will generate a zip file at `target/commafeed.zip` with everything you need t
 
 * Create a directory somewhere (e.g. `/opt/commafeed/`) and extract the generated zip inside this directory.
 * Create a directory called `logs` (e.g. `/opt/commafeed/logs`)
-* On Linux, create the file `bin/setenv.sh` and put the following in it : `export JAVA_OPTS="-Xmx1024m -XX:MaxPermSize=256m -XX:+CMSClassUnloadingEnabled"`
-* On Windows, create the file `bin/setenv.bat` and put the following in it : `set JAVA_OPTS=-Xmx1024m -XX:MaxPermSize=256m -XX:+CMSClassUnloadingEnabled`
+* On Linux, create the file `bin/setenv.sh` and put the following in it : `export JAVA_OPTS="-Xmx1024m -XX:MaxPermSize=256m -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC"`
+* On Windows, create the file `bin/setenv.bat` and put the following in it : `set JAVA_OPTS=-Xmx1024m -XX:MaxPermSize=256m -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC`
 * If you don't use the embedded database, create a database in your external database instance, then uncomment the `Resource` element corresponding to the database engine you use from `conf/tomee.xml` and edit the default credentials.
 * If you'd like to change the default port (8082), edit `conf/server.xml` and look for `<Connector port="8082" protocol="HTTP/1.1"`. Change the port to the value you'd like to use.
 * CommaFeed will run on the `/commafeed` context. If you'd like to change the context, go to `webapps` and rename `commafeed.war`. Use the special name `ROOT.war` to deploy to the root context.

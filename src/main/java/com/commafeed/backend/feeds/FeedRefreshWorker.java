@@ -137,6 +137,13 @@ public class FeedRefreshWorker {
 		String hub = fetchedFeed.getHub();
 		String topic = fetchedFeed.getTopic();
 		if (hub != null && topic != null) {
+			if (hub.contains("hubbub.api.typepad.com")) {
+				// that hub does not exist anymore
+				return;
+			}
+			if (topic.startsWith("www.")) {
+				topic = "http://" + topic;
+			}
 			log.debug("feed {} has pubsub info: {}", feed.getUrl(), topic);
 			FeedPushInfo info = feed.getPushInfo();
 			if (info == null) {

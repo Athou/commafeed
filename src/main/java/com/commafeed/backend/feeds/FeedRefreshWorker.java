@@ -7,12 +7,11 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.mutable.MutableBoolean;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
+import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedPushInfo;
@@ -142,13 +141,6 @@ public class FeedRefreshWorker {
 			FeedPushInfo info = feed.getPushInfo();
 			if (info == null) {
 				info = feedPushInfoService.findOrCreate(feed, hub, topic);
-			}
-			if (!StringUtils.equals(hub, info.getHub())
-					|| !StringUtils.equals(topic, info.getTopic())) {
-				info.setHub(hub);
-				info.setTopic(topic);
-				info.setFeed(feed);
-				info.setActive(false);
 			}
 			feed.setPushInfo(info);
 		}

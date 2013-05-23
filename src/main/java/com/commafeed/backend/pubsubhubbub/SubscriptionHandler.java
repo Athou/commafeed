@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -17,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter;
+import com.commafeed.backend.dao.FeedPushInfoDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.services.ApplicationSettingsService;
@@ -29,6 +31,9 @@ public class SubscriptionHandler {
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
+
+	@Inject
+	FeedPushInfoDAO feedPushInfoDAO;
 
 	public void subscribe(Feed feed) {
 		FeedPushInfo info = feed.getPushInfo();
@@ -63,9 +68,20 @@ public class SubscriptionHandler {
 
 			int code = response.getStatusLine().getStatusCode();
 			if (code != 204 && code != 202 && code != 200) {
-				throw new Exception("Unexpected response code: " + code + " "
-						+ response.getStatusLine().getReasonPhrase() + " - "
-						+ EntityUtils.toString(response.getEntity()));
+				String message = EntityUtils.toString(response.getEntity());
+				String pushpressError = " is value is not allowed.  You may only subscribe to";
+				if (code == 400
+						&& StringUtils.contains(message, pushpressError)) {
+					String[] tokens = message.split(" ");
+					info.setTopic(tokens[tokens.length - 1]);
+					feedPushInfoDAO.update(info);
+					log.debug("handled pushpress subfeed {} : {}", topic,
+							info.getTopic());
+				} else {
+					throw new Exception("Unexpected response code: " + code
+							+ " " + response.getStatusLine().getReasonPhrase()
+							+ " - " + message);
+				}
 			}
 			log.debug("subscribed to {} for {}", hub, topic);
 		} catch (Exception e) {

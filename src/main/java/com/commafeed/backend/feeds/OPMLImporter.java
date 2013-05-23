@@ -58,7 +58,7 @@ public class OPMLImporter {
 					outline.getText(), parent);
 			if (category == null) {
 				category = new FeedCategory();
-				category.setName(outline.getText());
+				category.setName(FeedUtils.truncate(outline.getText(), 128));
 				category.setParent(parent);
 				category.setUser(user);
 				feedCategoryDAO.save(category);

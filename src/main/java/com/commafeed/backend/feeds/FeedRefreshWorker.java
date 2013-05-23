@@ -143,6 +143,10 @@ public class FeedRefreshWorker {
 			}
 			if (topic.startsWith("www.")) {
 				topic = "http://" + topic;
+			} else if (topic.startsWith("feed://")) {
+				topic = "http://" + topic.substring(7);
+			} else if (topic.startsWith("http") == false) {
+				topic = "http://" + topic;
 			}
 			log.debug("feed {} has pubsub info: {}", feed.getUrl(), topic);
 			FeedPushInfo info = feed.getPushInfo();

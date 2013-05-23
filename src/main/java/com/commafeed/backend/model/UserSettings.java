@@ -28,7 +28,7 @@ public class UserSettings extends AbstractModel {
 	}
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id", nullable = false, unique = true)
 	private User user;
 
 	@Enumerated(EnumType.STRING)

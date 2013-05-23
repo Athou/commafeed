@@ -15,13 +15,17 @@ public class FeedEntryService {
 
 	public void markEntry(User user, Long entryId, boolean read) {
 		FeedEntryStatus status = feedEntryStatusDAO.findById(user, entryId);
-		status.setRead(read);
-		feedEntryStatusDAO.update(status);
+		if (status != null) {
+			status.setRead(read);
+			feedEntryStatusDAO.update(status);
+		}
 	}
 
 	public void starEntry(User user, Long entryId, boolean starred) {
 		FeedEntryStatus status = feedEntryStatusDAO.findById(user, entryId);
-		status.setStarred(starred);
-		feedEntryStatusDAO.update(status);
+		if (status != null) {
+			status.setStarred(starred);
+			feedEntryStatusDAO.update(status);
+		}
 	}
 }

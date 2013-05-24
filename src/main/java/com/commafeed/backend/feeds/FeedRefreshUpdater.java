@@ -78,6 +78,17 @@ public class FeedRefreshUpdater {
 		});
 	}
 
+	public void shutdown() {
+		pool.shutdownNow();
+		while (!pool.isTerminated()) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				log.error("interrupted while waiting for threads to finish.");
+			}
+		}
+	}
+
 	public void updateFeed(Feed feed, Collection<FeedEntry> entries) {
 		pool.execute(new Task(feed, entries));
 	}

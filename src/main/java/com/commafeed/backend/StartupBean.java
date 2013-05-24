@@ -27,6 +27,7 @@ import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UserDAO;
+import com.commafeed.backend.feeds.FeedRefreshUpdater;
 import com.commafeed.backend.feeds.FeedRefreshWorker;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.UserRole.Role;
@@ -60,6 +61,9 @@ public class StartupBean {
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
+
+	@Inject
+	FeedRefreshUpdater feedRefreshUpdater;
 
 	@Inject
 	Instance<FeedRefreshWorker> workers;
@@ -145,6 +149,7 @@ public class StartupBean {
 				log.error("interrupted while waiting for threads to finish.");
 			}
 		}
+		feedRefreshUpdater.shutdown();
 	}
 
 }

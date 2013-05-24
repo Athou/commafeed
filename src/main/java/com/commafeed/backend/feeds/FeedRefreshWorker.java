@@ -14,6 +14,7 @@ import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedPushInfoService;
@@ -104,6 +105,9 @@ public class FeedRefreshWorker {
 					.getLastModifiedHeader());
 			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());
 
+			for (FeedEntry entry : entries) {
+				handleEntry(feed, entry);
+			}
 			handlePubSub(feed, fetchedFeed);
 
 		} catch (NotModifiedException e) {
@@ -131,6 +135,18 @@ public class FeedRefreshWorker {
 
 		feedRefreshUpdater.updateFeed(feed, entries);
 
+	}
+
+	private void handleEntry(Feed feed, FeedEntry entry) {
+		String baseUri = feed.getLink();
+		FeedEntryContent content = entry.getContent();
+		content.setEnclosureUrl(FeedUtils.truncate(content.getEnclosureUrl(),
+				2048));
+		content.setContent(FeedUtils.handleContent(content.getContent(),
+				baseUri));
+		String title = FeedUtils.handleContent(content.getTitle(), baseUri);
+		content.setTitle(FeedUtils.truncate(title, 2048));
+		entry.setAuthor(FeedUtils.truncate(entry.getAuthor(), 128));
 	}
 
 	private void handlePubSub(Feed feed, FetchedFeed fetchedFeed) {

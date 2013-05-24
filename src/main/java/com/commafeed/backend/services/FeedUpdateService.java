@@ -14,10 +14,8 @@ import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
-import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.google.common.collect.Lists;
@@ -45,13 +43,11 @@ public class FeedUpdateService {
 
 		FeedEntry update = null;
 		if (foundEntry == null) {
-			handleEntry(feed, entry);
 			entry.setInserted(Calendar.getInstance().getTime());
 			entry.getFeeds().add(feed);
 
 			update = entry;
 		} else {
-
 			if (!findFeed(foundEntry.getFeeds(), feed)) {
 				foundEntry.getFeeds().add(feed);
 				update = foundEntry;
@@ -95,15 +91,4 @@ public class FeedUpdateService {
 		return found;
 	}
 
-	private void handleEntry(Feed feed, FeedEntry entry) {
-		String baseUri = feed.getLink();
-		FeedEntryContent content = entry.getContent();
-		content.setEnclosureUrl(FeedUtils.truncate(content.getEnclosureUrl(),
-				2048));
-		content.setContent(FeedUtils.handleContent(content.getContent(),
-				baseUri));
-		String title = FeedUtils.handleContent(content.getTitle(), baseUri);
-		content.setTitle(FeedUtils.truncate(title, 2048));
-		entry.setAuthor(FeedUtils.truncate(entry.getAuthor(), 128));
-	}
 }

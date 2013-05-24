@@ -34,7 +34,7 @@ public class Subscription implements Serializable {
 		sub.setFeedLink(feed.getLink());
 		sub.setLastRefresh(feed.getLastUpdated());
 		sub.setNextRefresh((feed.getDisabledUntil() != null && feed
-				.getDisabledUntil().before(now)) ? now : feed
+				.getDisabledUntil().before(now)) ? null : feed
 				.getDisabledUntil());
 		sub.setUnread(unreadCount);
 		sub.setCategoryId(category == null ? null : String.valueOf(category
@@ -57,7 +57,7 @@ public class Subscription implements Serializable {
 	@ApiProperty(value = "last time the feed was refreshed", required = true)
 	private Date lastRefresh;
 
-	@ApiProperty(value = "next time the feed refresh is planned", required = true)
+	@ApiProperty(value = "next time the feed refresh is planned, null if refresh is already queued", required = true)
 	private Date nextRefresh;
 
 	@ApiProperty(value = "this subscription's feed url", required = true)

@@ -20,6 +20,8 @@ import com.google.common.collect.Sets;
 
 @Entity
 @Table(name = "FEEDS")
+@org.hibernate.annotations.Table(appliesTo = "FEEDS", indexes = { @Index(name = "disabled_lastupdated_index", columnNames = {
+		"disabledUntil", "lastUpdated" }), })
 @SuppressWarnings("serial")
 public class Feed extends AbstractModel {
 

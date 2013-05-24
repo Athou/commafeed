@@ -46,8 +46,9 @@ public class UserService {
 	PasswordEncryptionService encryptionService;
 
 	public User login(String name, String password) {
-		Preconditions.checkNotNull(name);
-		Preconditions.checkNotNull(password);
+		if (name == null || password == null) {
+			return null;
+		}
 
 		User user = userDAO.findByName(name);
 		if (user != null && !user.isDisabled()) {

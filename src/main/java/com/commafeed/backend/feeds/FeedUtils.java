@@ -134,9 +134,9 @@ public class FeedUtils {
 	/**
 	 * When the feed was refreshed successfully
 	 */
-	public static Date buildDisabledUntil(FetchedFeed feed) {
+	public static Date buildDisabledUntil(Date publishedDate,
+			List<FeedEntry> entries) {
 		Date now = Calendar.getInstance().getTime();
-		Date publishedDate = feed.getPublishedDate();
 
 		if (publishedDate == null) {
 			// feed with no entries, recheck in 24 hours
@@ -150,9 +150,9 @@ public class FeedUtils {
 		} else if (publishedDate.before(DateUtils.addDays(now, -7))) {
 			// older than a week, recheck in 6 hours
 			return DateUtils.addHours(now, 6);
-		} else if (CollectionUtils.isNotEmpty(feed.getEntries())) {
+		} else if (CollectionUtils.isNotEmpty(entries)) {
 			// use average time between entries to decide when to refresh next
-			long average = averageTimeBetweenEntries(feed.getEntries());
+			long average = averageTimeBetweenEntries(entries);
 			return new Date(Math.min(DateUtils.addHours(now, 6).getTime(),
 					now.getTime() + average / 3));
 		} else {

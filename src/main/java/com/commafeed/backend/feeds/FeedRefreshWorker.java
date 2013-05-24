@@ -1,8 +1,8 @@
 package com.commafeed.backend.feeds;
 
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.MetricsBean;
+import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
@@ -42,6 +43,9 @@ public class FeedRefreshWorker {
 
 	@Inject
 	MetricsBean metricsBean;
+
+	@Inject
+	FeedEntryDAO feedEntryDAO;
 
 	public void start(MutableBoolean running, String threadName) {
 		log.info("{} starting", threadName);
@@ -83,7 +87,7 @@ public class FeedRefreshWorker {
 	private void update(Feed feed) {
 
 		FetchedFeed fetchedFeed = null;
-		Collection<FeedEntry> entries = null;
+		List<FeedEntry> entries = null;
 
 		String message = null;
 		int errorCount = 0;
@@ -96,7 +100,8 @@ public class FeedRefreshWorker {
 			// thrown
 			entries = fetchedFeed.getEntries();
 			if (applicationSettingsService.get().isHeavyLoad()) {
-				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed);
+				disabledUntil = FeedUtils.buildDisabledUntil(
+						fetchedFeed.getPublishedDate(), entries);
 			}
 
 			feed.setLastUpdateSuccess(Calendar.getInstance().getTime());
@@ -112,10 +117,13 @@ public class FeedRefreshWorker {
 
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified (304) : " + feed.getUrl());
-			if (feed.getErrorCount() == 0) {
-				// not modified and had no error before, do nothing
-				return;
+			List<FeedEntry> feedEntries = feedEntryDAO.findByFeed(feed, 0, 10);
+			Date publishedDate = null;
+			if (feedEntries.size() > 0) {
+				publishedDate = feedEntries.get(0).getInserted();
 			}
+			feed.setDisabledUntil(FeedUtils.buildDisabledUntil(publishedDate,
+					feedEntries));
 		} catch (Exception e) {
 			message = "Unable to refresh feed " + feed.getUrl() + " : "
 					+ e.getMessage();

@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.commafeed.backend.MetricsBean.Metric;
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.User;
@@ -177,9 +176,10 @@ public class AdminREST extends AbstractResourceREST {
 	@Path("/metrics")
 	@GET
 	public Response getMetrics() {
-		Map<String, Metric> map = ImmutableMap.of("lastMinute",
+		Map<String, ? extends Object> map = ImmutableMap.of("lastMinute",
 				metricsBean.getLastMinute(), "lastHour",
-				metricsBean.getLastHour());
+				metricsBean.getLastHour(), "backlog",
+				feedDAO.getUpdatableCount());
 		return Response.ok(map).build();
 	}
 }

@@ -23,10 +23,7 @@ import com.uaihebert.model.EasyCriteria;
 @Stateless
 public class FeedDAO extends GenericDAO<Feed> {
 
-	public List<Feed> findNextUpdatable(int count) {
-		CriteriaQuery<Feed> query = builder.createQuery(getType());
-		Root<Feed> root = query.from(getType());
-
+	private Predicate[] getUpdatablePredicates(Root<Feed> root) {
 		Date now = Calendar.getInstance().getTime();
 
 		Predicate hasSubscriptions = builder.isNotEmpty(root
@@ -41,14 +38,32 @@ public class FeedDAO extends GenericDAO<Feed> {
 		Predicate disabledDateIsInPast = builder.lessThan(
 				root.get(Feed_.disabledUntil), now);
 
-		query.where(hasSubscriptions,
+		return new Predicate[] { hasSubscriptions,
 				builder.or(neverUpdated, updatedBeforeThreshold),
-				builder.or(disabledDateIsNull, disabledDateIsInPast));
+				builder.or(disabledDateIsNull, disabledDateIsInPast) };
+	}
+
+	public Long getUpdatableCount() {
+		CriteriaQuery<Long> query = builder.createQuery(Long.class);
+		Root<Feed> root = query.from(getType());
+
+		query.select(builder.count(root));
+		query.where(getUpdatablePredicates(root));
+
+		TypedQuery<Long> q = em.createQuery(query);
+		return q.getSingleResult();
+	}
+
+	public List<Feed> findNextUpdatable(int count) {
+		CriteriaQuery<Feed> query = builder.createQuery(getType());
+		Root<Feed> root = query.from(getType());
+
+		query.where(getUpdatablePredicates(root));
 		query.orderBy(builder.asc(root.get(Feed_.lastUpdated)));
 
 		TypedQuery<Feed> q = em.createQuery(query);
 		q.setMaxResults(count);
-		
+
 		List<Feed> feeds = q.getResultList();
 		for (Feed feed : feeds) {
 			FeedPushInfo info = feed.getPushInfo();

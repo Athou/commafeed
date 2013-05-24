@@ -14,7 +14,6 @@ import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.commafeed.backend.LockMap;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.ApplicationSettings;
@@ -26,13 +25,17 @@ import com.commafeed.backend.pubsubhubbub.SubscriptionHandler;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedUpdateService;
 
+import de.jkeylockmanager.manager.KeyLockManager;
+import de.jkeylockmanager.manager.KeyLockManagers;
+import de.jkeylockmanager.manager.LockCallback;
+
 @Singleton
 public class FeedRefreshUpdater {
 
 	protected static Logger log = LoggerFactory
 			.getLogger(FeedRefreshUpdater.class);
 
-	private static LockMap<String> lockMap = new LockMap<String>();
+	private static final KeyLockManager lockManager = KeyLockManagers.newLock();
 
 	@Inject
 	FeedUpdateService feedUpdateService;
@@ -107,11 +110,14 @@ public class FeedRefreshUpdater {
 
 	}
 
-	private void updateEntry(Feed feed, FeedEntry entry,
-			List<FeedSubscription> subscriptions) {
-		synchronized (lockMap.get(entry.getGuid())) {
-			feedUpdateService.updateEntry(feed, entry, subscriptions);
-		}
+	private void updateEntry(final Feed feed, final FeedEntry entry,
+			final List<FeedSubscription> subscriptions) {
+		lockManager.executeLocked(entry.getGuid(), new LockCallback() {
+			@Override
+			public void doInLock() throws Exception {
+				feedUpdateService.updateEntry(feed, entry, subscriptions);
+			}
+		});
 	}
 
 	private void handlePubSub(final Feed feed) {

@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -78,6 +79,7 @@ public class FeedRefreshUpdater {
 		});
 	}
 
+	@PreDestroy
 	public void shutdown() {
 		pool.shutdownNow();
 		while (!pool.isTerminated()) {

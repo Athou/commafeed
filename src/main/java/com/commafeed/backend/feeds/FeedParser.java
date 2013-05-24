@@ -73,19 +73,23 @@ public class FeedParser {
 			List<SyndEntry> items = rss.getEntries();
 			for (SyndEntry item : items) {
 				FeedEntry entry = new FeedEntry();
+
 				entry.setGuid(item.getUri());
 				entry.setGuidHash(DigestUtils.sha1Hex(item.getUri()));
 				entry.setUrl(FeedUtils.truncate(item.getLink(), 2048));
 				entry.setUpdated(validateDate(getUpdateDate(item)));
-				entry.setAuthor(item.getAuthor());
+				entry.setAuthor(FeedUtils.truncate(item.getAuthor(), 128));
 
 				FeedEntryContent content = new FeedEntryContent();
-				content.setContent(getContent(item));
-				content.setTitle(item.getTitle());
+				content.setContent(FeedUtils.handleContent(getContent(item),
+						feed.getLink()));
+				content.setTitle(FeedUtils.truncate(FeedUtils.handleContent(
+						item.getTitle(), feed.getLink()), 2048));
 				SyndEnclosure enclosure = (SyndEnclosure) Iterables.getFirst(
 						item.getEnclosures(), null);
 				if (enclosure != null) {
-					content.setEnclosureUrl(enclosure.getUrl());
+					content.setEnclosureUrl(FeedUtils.truncate(
+							enclosure.getUrl(), 2048));
 					content.setEnclosureType(enclosure.getType());
 				}
 				entry.setContent(content);

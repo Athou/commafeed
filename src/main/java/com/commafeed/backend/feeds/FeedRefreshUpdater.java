@@ -68,7 +68,7 @@ public class FeedRefreshUpdater {
 		pool.setRejectedExecutionHandler(new RejectedExecutionHandler() {
 			@Override
 			public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
-				log.info("Thread queue full, waiting...");
+				log.debug("Thread queue full, waiting...");
 				try {
 					e.getQueue().put(r);
 				} catch (InterruptedException e1) {

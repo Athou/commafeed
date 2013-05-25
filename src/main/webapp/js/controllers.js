@@ -759,6 +759,19 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			window.open($scope.current.url);
 		}
 	});
+	Mousetrap.bind('b', function(e) {
+		if ($scope.current) {
+			var url = $scope.current.url;
+			var a = document.createElement('a');
+			a.href = url;
+			var evt = document
+					.createEvent('MouseEvents');
+			evt.initMouseEvent('click', true, true,
+					window, 0, 0, 0, 0, 0, true, false,
+					false, false, 0, null);
+			a.dispatchEvent(evt);
+		}
+	});
 	Mousetrap.bind('s', function(e) {
 		$scope.$apply(function() {
 			if ($scope.current) {

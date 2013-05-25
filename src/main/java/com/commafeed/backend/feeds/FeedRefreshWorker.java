@@ -120,6 +120,8 @@ public class FeedRefreshWorker {
 			}
 			feed.setDisabledUntil(FeedUtils.buildDisabledUntil(publishedDate,
 					feedEntries));
+			taskGiver.giveBack(feed);
+			return;
 		} catch (Exception e) {
 			message = "Unable to refresh feed " + feed.getUrl() + " : "
 					+ e.getMessage();

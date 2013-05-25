@@ -213,7 +213,7 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 			}
 		}
 		return a;
-	}
+	};
 	
 	var getCurrentIndex = function (id, type, flat) {
 		var index = -1;
@@ -225,7 +225,7 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 			}
 		}
 		return index;
-	}
+	};
 	
 	var openNextNode = function() {
 		var f = flat();
@@ -237,7 +237,7 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 				_id : f[current][0]
 			});
 		}
-	}
+	};
 	
 	var openPreviousNode = function() {
 		var f = flat();
@@ -249,7 +249,7 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 				_id : f[current][0]
 			});
 		}
-	}
+	};
 	
 	Mousetrap.bind('shift+j', function(e) {
 		$scope.$apply(function() {

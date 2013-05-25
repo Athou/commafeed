@@ -510,7 +510,7 @@
 						<configuration>
 							<targetGroups>all</targetGroups>
 							<wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
-							<destinationFolder>${basedir}/target/generated-sources/wro4j/</destinationFolder>
+							<destinationFolder>${project.build.directory}/${project.build.finalName}/static/</destinationFolder>
 						</configuration>
 					</plugin>
 					<plugin>
@@ -521,10 +521,6 @@
 								<resource>
 									<directory>target/generated-sources/angularjs/</directory>
 									<targetPath>templates</targetPath>
-								</resource>
-								<resource>
-									<directory>target/generated-sources/wro4j/</directory>
-									<targetPath>static</targetPath>
 								</resource>
 							</webResources>
 						</configuration>

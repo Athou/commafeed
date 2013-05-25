@@ -196,6 +196,82 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 			}
 		}
 	};
+	
+	var flat = function() {
+		var a = [];
+		a.push([ 'all', 'category' ]);
+		a.push([ 'starred', 'category' ]);
+		for ( var i = 1; i < CategoryService.flatCategories.length; i++) {
+			var cat = CategoryService.flatCategories[i];
+			a.push([ cat.id, 'category' ]);
+			
+			var feeds = cat.orig.feeds;
+			if (feeds) {
+				for ( var j = 0; j < feeds.length; j++) {
+					a.push([ feeds[j].id, 'feed' ]);
+				}
+			}
+		}
+		return a;
+	}
+	
+	var getCurrentIndex = function (id, type, flat) {
+		var index = -1;
+		for ( var i = 0; i < flat.length; i++) {
+			var node = flat[i];
+			if (node[0] == id && node[1] == type) {
+				index = i;
+				break;
+			}
+		}
+		return index;
+	}
+	
+	var openNextNode = function() {
+		var f = flat();
+		var current = getCurrentIndex($scope.selectedId, $scope.selectedType, f);
+		current++;
+		if(current < f.length) {
+			$state.transitionTo('feeds.view', {
+				_type : f[current][1],
+				_id : f[current][0]
+			});
+		}
+	}
+	
+	var openPreviousNode = function() {
+		var f = flat();
+		var current = getCurrentIndex($scope.selectedId, $scope.selectedType, f);
+		current--;
+		if(current >= 0) {
+			$state.transitionTo('feeds.view', {
+				_type : f[current][1],
+				_id : f[current][0]
+			});
+		}
+	}
+	
+	Mousetrap.bind('shift+j', function(e) {
+		$scope.$apply(function() {
+			openNextNode();
+		});
+	});
+	Mousetrap.bind('shift+n', function(e) {
+		$scope.$apply(function() {
+			openNextNode();
+		});
+	});
+	
+	Mousetrap.bind('shift+p', function(e) {
+		$scope.$apply(function() {
+			openPreviousNode();
+		});
+	});
+	Mousetrap.bind('shift+k', function(e) {
+		$scope.$apply(function() {
+			openPreviousNode();
+		});
+	});
 
 	$scope.$on('mark', function(event, args) {
 		mark($scope.CategoryService.subscriptions, args.entry);

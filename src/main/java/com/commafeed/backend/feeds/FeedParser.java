@@ -74,7 +74,7 @@ public class FeedParser {
 			for (SyndEntry item : items) {
 				FeedEntry entry = new FeedEntry();
 
-				entry.setGuid(item.getUri());
+				entry.setGuid(FeedUtils.truncate(item.getUri(), 2048));
 				entry.setGuidHash(DigestUtils.sha1Hex(item.getUri()));
 				entry.setUrl(FeedUtils.truncate(item.getLink(), 2048));
 				entry.setUpdated(validateDate(getUpdateDate(item)));

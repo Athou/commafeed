@@ -59,6 +59,9 @@ public class OPMLImporter {
 			if (category == null) {
 				category = new FeedCategory();
 				category.setName(FeedUtils.truncate(outline.getText(), 128));
+				if (StringUtils.isBlank(category.getName())) {
+					category.setName("Unnamed category");
+				}
 				category.setParent(parent);
 				category.setUser(user);
 				feedCategoryDAO.save(category);
@@ -69,9 +72,12 @@ public class OPMLImporter {
 				handleOutline(user, child, category);
 			}
 		} else {
-
-			feedSubscriptionService.subscribe(user, outline.getXmlUrl(),
-					outline.getText(), parent);
+			String title = outline.getText();
+			if (StringUtils.isBlank(title)) {
+				title = "Unnamed subscription";
+			}
+			feedSubscriptionService.subscribe(user, outline.getXmlUrl(), title,
+					parent);
 		}
 	}
 }

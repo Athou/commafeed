@@ -950,7 +950,7 @@ function($scope, $location, $dialog, ProfileService, AnalyticsService) {
 
 		$dialog.messageBox(title, msg, btns).open().then(function(result) {
 			if (result == 'ok') {
-				ProfileService.deleteAccount();
+				ProfileService.deleteAccount({});
 				window.location.href = 'logout';
 			}
 		});

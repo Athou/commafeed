@@ -15,6 +15,7 @@ import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.ApplicationSettings;
@@ -52,6 +53,9 @@ public class FeedRefreshUpdater {
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
+	
+	@Inject
+	MetricsBean metricsBean;
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
@@ -118,6 +122,7 @@ public class FeedRefreshUpdater {
 			if (applicationSettingsService.get().isPubsubhubbub()) {
 				handlePubSub(feed);
 			}
+			metricsBean.feedUpdated();
 			taskGiver.giveBack(feed);
 		}
 

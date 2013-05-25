@@ -692,6 +692,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	var focusNextEntry = function(event) {
 		var entry = _getNextEntry();
 		if (entry) {
+			$scope.navigationMode = 'click';
 			$scope.current = entry;
 		}
 	};
@@ -699,6 +700,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	var focusPreviousEntry = function(event) {
 		var entry = _getPreviousEntry();
 		if (entry) {
+			$scope.navigationMode = 'click';
 			$scope.current = entry;
 		}
 	};

@@ -26,7 +26,7 @@
 		
 		<div class="btn-group hidden-desktop">
 			<button type="button" class="btn" ng-click="MobileService.toggleRightMenu()">
-				<i class="icon-wrench"></i>
+				<i ng-class="{'icon-double-angle-right' : !MobileService.rightMenu, 'icon-double-angle-left': MobileService.rightMenu}"></i>
 			</button>
 		</div>
 	
@@ -65,7 +65,8 @@
 					<button class="btn" type="submit"><i class="icon-search"></i></button>
 				</form>
 				<div class="btn-group donate">
-					<button class="btn btn-success" type="button" ng-click="toHelp()"><i class="icon-question-sign"></i> ${toolbar.about} / ${toolbar.donate}</button>
+					<button class="btn btn-success" type="button" ng-click="toHelp()"><i class="icon-question-sign"></i>
+					{{ MobileService.mobile ? ' ' : '${toolbar.about} / ${toolbar.donate}' }}</button>
 				</div>
 				
 			</div>

@@ -13,10 +13,14 @@ module.service('AnalyticsService', [ '$state', function($state) {
 } ]);
 
 module.service('MobileService', [ '$state', function($state) {
+	this.leftMenu = false;
+	this.rightMenu = false;
 	this.toggleLeftMenu = function() {
+		this.leftMenu = !this.leftMenu;
 		$('body').toggleClass('left-menu-active');
 	};
 	this.toggleRightMenu = function() {
+		this.rightMenu = !this.rightMenu;
 		$('body').toggleClass('right-menu-active');
 	};
 	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;

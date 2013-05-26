@@ -15,10 +15,10 @@ module.service('AnalyticsService', [ '$state', function($state) {
 module.service('MobileService', [ '$state', function($state) {
 	this.toggleLeftMenu = function() {
 		$('body').toggleClass('left-menu-active');
-	}
+	};
 	this.toggleRightMenu = function() {
 		$('body').toggleClass('right-menu-active');
-	}
+	};
 	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 	this.mobile = width < 979;
 }]);

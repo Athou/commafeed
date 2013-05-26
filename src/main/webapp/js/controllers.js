@@ -844,7 +844,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 					.createEvent('MouseEvents');
 			evt.initMouseEvent('click', true, true,
 					window, 0, 0, 0, 0, 0, true, false,
-					false, false, 0, null);
+					false, true, 0, null);
 			a.dispatchEvent(evt);
 		}
 	});

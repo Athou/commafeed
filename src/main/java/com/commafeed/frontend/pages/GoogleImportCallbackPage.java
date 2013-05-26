@@ -9,6 +9,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.dao.UserDAO;
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.User;
@@ -44,10 +45,7 @@ public class GoogleImportCallbackPage extends WebPage {
 	UserDAO userDAO;
 
 	public static String getCallbackUrl(String publicUrl) {
-		if (publicUrl.endsWith("/")) {
-			publicUrl = publicUrl.substring(0, publicUrl.length() - 1);
-		}
-		return publicUrl + "/" + PAGE_PATH;
+		return FeedUtils.removeTrailingSlash(publicUrl) + "/" + PAGE_PATH;
 	}
 
 	public GoogleImportCallbackPage(PageParameters params) {

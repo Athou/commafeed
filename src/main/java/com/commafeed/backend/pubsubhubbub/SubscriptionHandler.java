@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.dao.FeedPushInfoDAO;
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.services.ApplicationSettingsService;
@@ -39,10 +40,9 @@ public class SubscriptionHandler {
 		FeedPushInfo info = feed.getPushInfo();
 		String hub = info.getHub();
 		String topic = info.getTopic();
-		String publicUrl = applicationSettingsService.get().getPublicUrl();
-		if (publicUrl.endsWith("/")) {
-			publicUrl = publicUrl.substring(0, publicUrl.length() - 1);
-		}
+		String publicUrl = FeedUtils
+				.removeTrailingSlash(applicationSettingsService.get()
+						.getPublicUrl());
 
 		log.debug("sending new pubsub subscription to {} for {}", hub, topic);
 

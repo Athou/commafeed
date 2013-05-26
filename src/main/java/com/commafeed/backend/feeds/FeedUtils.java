@@ -185,4 +185,23 @@ public class FeedUtils {
 		Collections.reverse(timestamps);
 		return timestamps;
 	}
+
+	public static String removeTrailingSlash(String url) {
+		if (url.endsWith("/")) {
+			url = url.substring(0, url.length() - 1);
+		}
+		return url;
+	}
+
+	public static String toAbsoluteUrl(String url, String baseUrl) {
+		if (baseUrl == null || url == null || url.startsWith("http")) {
+			return url;
+		}
+
+		if (url.startsWith("/") == false) {
+			url = "/" + url;
+		}
+
+		return baseUrl + url;
+	}
 }

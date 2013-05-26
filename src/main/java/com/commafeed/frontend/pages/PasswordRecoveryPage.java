@@ -14,6 +14,7 @@ import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.pages.components.BootstrapFeedbackPanel;
 
@@ -67,10 +68,9 @@ public class PasswordRecoveryPage extends BasePage {
 
 	private String buildEmailContent(User user) throws Exception {
 
-		String publicUrl = applicationSettingsService.get().getPublicUrl();
-		if (publicUrl.endsWith("/")) {
-			publicUrl = publicUrl.substring(0, publicUrl.length() - 1);
-		}
+		String publicUrl = FeedUtils
+				.removeTrailingSlash(applicationSettingsService.get()
+						.getPublicUrl());
 		publicUrl += "/recover2";
 
 		return String

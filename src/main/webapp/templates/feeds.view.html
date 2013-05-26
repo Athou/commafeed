@@ -10,7 +10,7 @@
 			on-scroll-middle="onScroll(entry)" ng-class="{current: current==entry}">
 			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)"
 				ng-class="{open: current == entry, closed: current != entry}">
-				<span class="feed-name">
+				<span class="feed-name visible-desktop">
 					<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
 						<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}"
 							class="pointer"></i>
@@ -18,7 +18,7 @@
 					<favicon url="entry.feedLink" />
 					{{entry.feedName}}
 				</span>
-				<span class="entry-date">{{entry.date | entryDate}}</span>
+				<span class="entry-date visible-desktop">{{entry.date | entryDate}}</span>
 				<span class="entry-name" ng-class="{unread: entry.read == false, shrink: true}" ng-bind-html-unsafe="entry.title"></span>
 				
 			</a>

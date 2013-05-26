@@ -231,8 +231,9 @@ module.directive('category', [ function() {
 				'FeedService',
 				'CategoryService',
 				'SettingsService',
+				'MobileService',
 				function($scope, $state, $dialog, FeedService, CategoryService,
-						SettingsService) {
+						SettingsService, MobileService) {
 					$scope.settingsService = SettingsService;
 					
 					$scope.getClass = function(level) {
@@ -265,6 +266,7 @@ module.directive('category', [ function() {
 					};
 
 					$scope.feedClicked = function(id) {
+						MobileService.toggleLeftMenu();
 						if ($scope.selectedType == 'feed'
 								&& id == $scope.selectedId) {
 							$scope.$emit('emitReload');
@@ -277,6 +279,7 @@ module.directive('category', [ function() {
 					};
 
 					$scope.categoryClicked = function(id) {
+						MobileService.toggleLeftMenu();
 						if ($scope.selectedType == 'category'
 								&& id == $scope.selectedId) {
 							$scope.$emit('emitReload');

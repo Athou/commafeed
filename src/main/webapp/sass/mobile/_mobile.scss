@@ -1,0 +1,45 @@
+@media ( max-width : 979px) {
+	body {
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+	.container-fluid {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.left-menu {
+		display: none !important;
+	}
+	.toolbar .hidden-desktop.btn-group {
+		display: inline-block !important;
+	}
+	.main-content {
+		display: block !important;
+		float: none !important;
+		width: 100% !important;
+		margin-left: 0 !important;
+	}
+	#feed-accordion .entry-heading .shrink {
+		margin-left: 0;
+	}
+	#feed-accordion .entry-heading .entry-name {
+		margin-right: 0;
+	}
+	body.left-menu-active .left-menu {
+		display: block !important;
+		width: 100%;
+	}
+	body.left-menu-active .sidebar-nav-fixed {
+		width: 100%;
+	}
+	body.left-menu-active .main-content {
+		display: none !important;
+	}
+	body.right-menu-active .toolbar .actions {
+		margin-top: 5px;
+		margin-left: 0;
+	}
+	body.right-menu-active .toolbar .actions .visible-desktop {
+		display: inherit !important;
+	}
+}

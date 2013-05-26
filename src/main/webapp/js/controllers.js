@@ -28,8 +28,8 @@ module.run(['$rootScope', function($rootScope) {
 	});
 }]);
 
-module.controller('SubscribeCtrl', ['$scope', 'FeedService', 'CategoryService', 
-function($scope, FeedService, CategoryService) {
+module.controller('SubscribeCtrl', ['$scope', 'FeedService', 'CategoryService', 'MobileService',
+function($scope, FeedService, CategoryService, MobileService) {
 
 	$scope.opts = {
 		backdropFade : true,
@@ -41,6 +41,7 @@ function($scope, FeedService, CategoryService) {
 	$scope.sub = {};
 
 	$scope.CategoryService = CategoryService;
+	$scope.MobileService = MobileService;
 
 	$scope.open = function() {
 		$scope.sub = {
@@ -436,9 +437,9 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 }]);
 
 module.controller('ToolbarCtrl', ['$scope', '$http', '$state', '$stateParams', 
-	'$route', '$location', 'SettingsService', 'EntryService', 'ProfileService', 'AnalyticsService', 'ServerService', 'FeedService',
+	'$route', '$location', 'SettingsService', 'EntryService', 'ProfileService', 'AnalyticsService', 'ServerService', 'FeedService', 'MobileService',
 function($scope, $http, $state, $stateParams, $route, $location,
-		SettingsService, EntryService, ProfileService, AnalyticsService, ServerService, FeedService) {
+		SettingsService, EntryService, ProfileService, AnalyticsService, ServerService, FeedService, MobileService) {
 
 	function totalActiveAjaxRequests() {
 		return ($http.pendingRequests.length + $.active);
@@ -447,6 +448,7 @@ function($scope, $http, $state, $stateParams, $route, $location,
 	$scope.session = ProfileService.get();
 	$scope.ServerService = ServerService.get();
 	$scope.settingsService = SettingsService;
+	$scope.MobileService = MobileService;
 	
 	$scope.loading = true;
 	$scope.$watch(totalActiveAjaxRequests, function() {

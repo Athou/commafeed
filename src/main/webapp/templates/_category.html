@@ -1,8 +1,8 @@
 <li>
-	<div ng-mouseenter="hovered=node" ng-mouseleave="hovered=null" class="pointer tree-item" ui-if="showLabel" ng-class="getClass(level - 1)">
+	<div class="pointer tree-item" ui-if="showLabel" ng-class="getClass(level - 1)">
 		<div class="dropdown pull-right">
 			<div class="pull-right" ng-click="showCategoryDetails(node)">
-				<i ng-class="{'icon-wrench': hovered==node}" class="config"></i>
+				<i class="icon-wrench config pointer"></i>
 			</div>
 		</div>
 		<div ng-click="categoryClicked(node.id)">
@@ -23,10 +23,10 @@
 				unread-count="unreadCount({category:category})"> 
 			</category> 
 		</recursive>
-		<li ng-repeat="feed in node.feeds" ng-mouseenter="hovered=feed" ng-class="getClass(level)" class="tree-item"
-			ng-mouseleave="hovered=null" ng-show="settingsService.settings.showRead == true || feed.unread > 0">
+		<li ng-repeat="feed in node.feeds" ng-class="getClass(level)" class="tree-item"
+			ng-show="settingsService.settings.showRead == true || feed.unread > 0">
 			<div class="pull-right" ng-click="showFeedDetails(feed)">
-				<i ng-class="{'icon-wrench': hovered==feed}" class="config pointer"></i>
+				<i class="icon-wrench config pointer"></i>
 			</div>
 			<a ng-click="feedClicked(feed.id)" class="feed-link"
 				ng-class="{error: feed.message && feed.errorCount > 10, selected: (feed.id == selectedId && selectedType == 'feed'), unread: feed.unread }">

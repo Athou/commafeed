@@ -15,10 +15,6 @@
 	white-space: nowrap;
 }
 
-.css-treeview .config {
-	padding-top: 3px;
-}
-
 .css-treeview ul {
 	list-style: none;
 	margin-left: 0px;
@@ -79,6 +75,17 @@
 .css-treeview li .tree-item:hover {
 	background-color: #EBEBEB;
 	text-decoration: none;
+}
+
+.css-treeview .config {
+	display: none;
+}
+
+.css-treeview .tree-item:hover .config {
+	display: block;
+	padding-top: 3px;
+	width: 16px;
+	height: 16px;
 }
 
 .css-treeview .indent1 {

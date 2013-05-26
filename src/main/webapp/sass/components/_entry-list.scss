@@ -1,4 +1,3 @@
-
 .entryList {
 	padding-top: 50px;
 }
@@ -10,6 +9,10 @@
 
 .entrylist-header h3 {
 	margin: 0;
+}
+
+.expanded .entry-header,.expanded .entry-body-content {
+	padding-left: 25px;
 }
 
 #feed-accordion .entry {

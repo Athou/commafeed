@@ -1,4 +1,4 @@
-<div>
+<div ng-class="{expanded: settingsService.settings.viewMode == 'expanded'}">
 	<div class="entrylist-header" ui-if="name">
 		<h3><span>{{name}}&nbsp;</span><span ng-show="name && selectedType == 'category'"> &#187;</span></h3>
 	</div>

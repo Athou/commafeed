@@ -95,11 +95,11 @@ module.directive('onScrollMiddle', function () {
 				});
 				w.data.scrollInit = true;
 			}
-			scope.$watch(down, function(value, oldValue) {
+			scope.$watch(down, function downCallback(value, oldValue) {
 				if(w.data.scrollDirection == 'down' && value != oldValue && value == 'above')
 					scope.$eval(attrs.onScrollMiddle);
 			});
-			scope.$watch(up, function(value, oldValue) {
+			scope.$watch(up, function upCallback(value, oldValue) {
 				if(w.data.scrollDirection == 'up' && value != oldValue && value == 'below')
 					scope.$eval(attrs.onScrollMiddle);
 			});

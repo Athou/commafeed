@@ -40,29 +40,7 @@ module.directive('favicon', function() {
 			url : '='
 		},
 		replace : true,
-		template : '<img ng-src="{{iconUrl()}}" class="favicon" onError="this.src=\'images/default_favicon.gif\'"></img>',
-		controller : ['$scope', function($scope) {
-			
-			$scope.iconUrl = function() {
-				var url = $scope.url;
-
-				var current = window.location.href;
-				var baseUrl = current.substring(0, current.lastIndexOf('#'));
-				var defaultIcon = baseUrl + 'images/default_favicon.gif';
-				if (!url) {
-					return defaultIcon;
-				}
-				
-				var index = Math.max(url.length, url.lastIndexOf('?'));
-				
-				var iconUrl = '//getfavicon.appspot.com/';
-				iconUrl += encodeURIComponent(url.substring(0, index));
-				iconUrl += '?defaulticon=none';
-				return iconUrl;
-			};
-			
-			
-		}]
+		template : '<img ng-src="{{url}}" class="favicon" onError="this.src=\'images/default_favicon.gif\'"></img>'
 	};
 });
 

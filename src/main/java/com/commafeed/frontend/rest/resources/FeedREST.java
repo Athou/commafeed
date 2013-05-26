@@ -75,6 +75,8 @@ public class FeedREST extends AbstractResourceREST {
 
 		Preconditions.checkNotNull(id);
 		Preconditions.checkNotNull(readType);
+		
+		limit = Math.min(limit, 50);
 
 		Entries entries = new Entries();
 		boolean unreadOnly = readType == ReadType.unread;
@@ -90,7 +92,9 @@ public class FeedREST extends AbstractResourceREST {
 					.findByFeed(subscription.getFeed(), getUser(), unreadOnly,
 							offset, limit, order, true);
 			for (FeedEntryStatus status : unreadEntries) {
-				entries.getEntries().add(Entry.build(status));
+				entries.getEntries().add(
+						Entry.build(status, applicationSettingsService.get()
+								.getPublicUrl()));
 			}
 		}
 
@@ -221,7 +225,9 @@ public class FeedREST extends AbstractResourceREST {
 		if (sub == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		return Response.ok(Subscription.build(sub, 0)).build();
+		return Response.ok(
+				Subscription.build(sub, applicationSettingsService.get()
+						.getPublicUrl(), 0)).build();
 	}
 
 	@POST

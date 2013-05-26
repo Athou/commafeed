@@ -70,6 +70,7 @@ public class CategoryREST extends AbstractResourceREST {
 			@ApiParam(value = "date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
 
 		Preconditions.checkNotNull(readType);
+		limit = Math.min(limit, 50);
 
 		Entries entries = new Entries();
 		boolean unreadOnly = readType == ReadType.unread;
@@ -82,7 +83,9 @@ public class CategoryREST extends AbstractResourceREST {
 			List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO.findAll(
 					getUser(), unreadOnly, offset, limit, order, true);
 			for (FeedEntryStatus status : unreadEntries) {
-				entries.getEntries().add(Entry.build(status));
+				entries.getEntries().add(
+						Entry.build(status, applicationSettingsService.get()
+								.getPublicUrl()));
 			}
 
 		} else if (STARRED.equals(id)) {
@@ -90,7 +93,9 @@ public class CategoryREST extends AbstractResourceREST {
 			List<FeedEntryStatus> starred = feedEntryStatusDAO.findStarred(
 					getUser(), offset, limit, order, true);
 			for (FeedEntryStatus status : starred) {
-				entries.getEntries().add(Entry.build(status));
+				entries.getEntries().add(
+						Entry.build(status, applicationSettingsService.get()
+								.getPublicUrl()));
 			}
 		} else {
 			FeedCategory feedCategory = feedCategoryDAO.findById(getUser(),
@@ -102,7 +107,9 @@ public class CategoryREST extends AbstractResourceREST {
 						.findByCategories(childrenCategories, getUser(),
 								unreadOnly, offset, limit, order, true);
 				for (FeedEntryStatus status : unreadEntries) {
-					entries.getEntries().add(Entry.build(status));
+					entries.getEntries().add(
+							Entry.build(status, applicationSettingsService
+									.get().getPublicUrl()));
 				}
 				entries.setName(feedCategory.getName());
 			}
@@ -347,7 +354,9 @@ public class CategoryREST extends AbstractResourceREST {
 							.equals(subscription.getCategory().getId(), id))) {
 				Long size = unreadCount.get(subscription.getId());
 				long unread = size == null ? 0 : size;
-				Subscription sub = Subscription.build(subscription, unread);
+				Subscription sub = Subscription
+						.build(subscription, applicationSettingsService.get()
+								.getPublicUrl(), unread);
 				category.getFeeds().add(sub);
 			}
 		}

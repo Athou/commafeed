@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.sun.syndication.feed.synd.SyndContentImpl;
@@ -22,7 +23,7 @@ import com.wordnik.swagger.annotations.ApiProperty;
 @ApiClass("Entry details")
 public class Entry implements Serializable {
 
-	public static Entry build(FeedEntryStatus status) {
+	public static Entry build(FeedEntryStatus status, String publicUrl) {
 		Entry entry = new Entry();
 
 		FeedEntry feedEntry = status.getEntry();
@@ -44,6 +45,8 @@ public class Entry implements Serializable {
 		entry.setFeedId(String.valueOf(status.getSubscription().getId()));
 		entry.setFeedUrl(status.getSubscription().getFeed().getUrl());
 		entry.setFeedLink(status.getSubscription().getFeed().getLink());
+		entry.setIconUrl(FeedUtils.getFaviconUrl(status.getSubscription()
+				.getFeed().getLink(), publicUrl));
 
 		return entry;
 	}
@@ -97,6 +100,9 @@ public class Entry implements Serializable {
 
 	@ApiProperty("this entry's website url")
 	private String feedLink;
+
+	@ApiProperty(value = "The favicon url to use for this feed")
+	private String iconUrl;
 
 	@ApiProperty("entry url")
 	private String url;
@@ -225,6 +231,14 @@ public class Entry implements Serializable {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public String getIconUrl() {
+		return iconUrl;
+	}
+
+	public void setIconUrl(String iconUrl) {
+		this.iconUrl = iconUrl;
 	}
 
 }

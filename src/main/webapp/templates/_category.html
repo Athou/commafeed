@@ -30,7 +30,7 @@
 			</div>
 			<a ng-click="feedClicked(feed.id)" class="feed-link"
 				ng-class="{error: feed.message && feed.errorCount > 10, selected: (feed.id == selectedId && selectedType == 'feed'), unread: feed.unread }">
-				<favicon url="feed.feedLink" />
+				<favicon url="feed.iconUrl" />
 				{{feed.name}} {{feedCountLabel(feed)}}
 			</a>
 		</li>

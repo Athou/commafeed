@@ -1,5 +1,7 @@
 package com.commafeed.backend.feeds;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -14,11 +16,15 @@ import org.jsoup.nodes.Document.OutputSettings;
 import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.safety.Whitelist;
 import org.mozilla.universalchardet.UniversalDetector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.model.FeedEntry;
 import com.google.api.client.util.Lists;
 
 public class FeedUtils {
+
+	protected static Logger log = LoggerFactory.getLogger(FeedUtils.class);
 
 	public static String truncate(String string, int length) {
 		if (string != null) {
@@ -203,5 +209,27 @@ public class FeedUtils {
 		}
 
 		return baseUrl + url;
+	}
+
+	public static String getFaviconUrl(String url, String publicUrl) {
+
+		String defaultIcon = removeTrailingSlash(publicUrl)
+				+ "/images/default_favicon.gif";
+		if (StringUtils.isBlank(url)) {
+			return defaultIcon;
+		}
+
+		int index = Math.max(url.length(), url.lastIndexOf('?'));
+
+		StringBuilder iconUrl = new StringBuilder(
+				"https://getfavicon.appspot.com/");
+		try {
+			iconUrl.append(URLEncoder.encode(url.substring(0, index), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// never happens
+			log.error(e.getMessage(), e);
+		}
+		iconUrl.append("?defaulticon=none");
+		return iconUrl.toString();
 	}
 }

@@ -63,6 +63,7 @@ public class EntryREST extends AbstractResourceREST {
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging") @DefaultValue("-1") @QueryParam("limit") int limit) {
 		keywords = StringUtils.trimToEmpty(keywords);
+		limit = Math.min(limit, 50);
 		Preconditions.checkArgument(StringUtils.length(keywords) >= 3);
 
 		Entries entries = new Entries();
@@ -71,7 +72,8 @@ public class EntryREST extends AbstractResourceREST {
 		List<FeedEntryStatus> entriesStatus = feedEntryStatusDAO
 				.findByKeywords(getUser(), keywords, offset, limit);
 		for (FeedEntryStatus status : entriesStatus) {
-			list.add(Entry.build(status));
+			list.add(Entry.build(status, applicationSettingsService.get()
+					.getPublicUrl()));
 		}
 
 		entries.setName("Search for : " + keywords);

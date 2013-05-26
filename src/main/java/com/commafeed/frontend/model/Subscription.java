@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
@@ -21,7 +22,7 @@ import com.wordnik.swagger.annotations.ApiProperty;
 public class Subscription implements Serializable {
 
 	public static Subscription build(FeedSubscription subscription,
-			long unreadCount) {
+			String publicUrl, long unreadCount) {
 		Date now = Calendar.getInstance().getTime();
 		FeedCategory category = subscription.getCategory();
 		Feed feed = subscription.getFeed();
@@ -32,6 +33,7 @@ public class Subscription implements Serializable {
 		sub.setErrorCount(feed.getErrorCount());
 		sub.setFeedUrl(feed.getUrl());
 		sub.setFeedLink(feed.getLink());
+		sub.setIconUrl(FeedUtils.getFaviconUrl(feed.getLink(), publicUrl));
 		sub.setLastRefresh(feed.getLastUpdated());
 		sub.setNextRefresh((feed.getDisabledUntil() != null && feed
 				.getDisabledUntil().before(now)) ? null : feed
@@ -65,6 +67,9 @@ public class Subscription implements Serializable {
 
 	@ApiProperty(value = "this subscription's website url", required = true)
 	private String feedLink;
+
+	@ApiProperty(value = "The favicon url to use for this feed")
+	private String iconUrl;
 
 	@ApiProperty(value = "unread count", required = true)
 	private long unread;
@@ -150,6 +155,14 @@ public class Subscription implements Serializable {
 
 	public void setNextRefresh(Date nextRefresh) {
 		this.nextRefresh = nextRefresh;
+	}
+
+	public String getIconUrl() {
+		return iconUrl;
+	}
+
+	public void setIconUrl(String iconUrl) {
+		this.iconUrl = iconUrl;
 	}
 
 }

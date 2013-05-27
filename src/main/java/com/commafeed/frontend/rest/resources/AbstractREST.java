@@ -36,6 +36,7 @@ import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.feeds.FeedFetcher;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
+import com.commafeed.backend.feeds.FeedRefreshUpdater;
 import com.commafeed.backend.feeds.OPMLExporter;
 import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.User;
@@ -115,6 +116,9 @@ public abstract class AbstractREST {
 
 	@Inject
 	FeedRefreshTaskGiver taskGiver;
+
+	@Inject
+	FeedRefreshUpdater feedRefreshUpdater;
 
 	@PostConstruct
 	public void init() {

@@ -3,6 +3,7 @@ package com.commafeed.backend.feeds;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -57,6 +58,7 @@ public class FeedRefreshUpdater {
 	FeedSubscriptionDAO feedSubscriptionDAO;
 
 	private ThreadPoolExecutor pool;
+	private BlockingQueue<Runnable> queue;
 	private Striped<Lock> locks;
 
 	@PostConstruct
@@ -66,8 +68,8 @@ public class FeedRefreshUpdater {
 		log.info("Creating database pool with {} threads", threads);
 		locks = Striped.lock(threads);
 		pool = new ThreadPoolExecutor(threads, threads, 0,
-				TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(
-						100 * threads));
+				TimeUnit.MILLISECONDS,
+				queue = new ArrayBlockingQueue<Runnable>(100 * threads));
 		pool.setRejectedExecutionHandler(new RejectedExecutionHandler() {
 			@Override
 			public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
@@ -147,6 +149,10 @@ public class FeedRefreshUpdater {
 				}
 			}.start();
 		}
+	}
+
+	public int getQueueSize() {
+		return queue.size();
 	}
 
 }

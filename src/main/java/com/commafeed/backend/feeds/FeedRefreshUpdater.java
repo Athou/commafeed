@@ -135,7 +135,7 @@ public class FeedRefreshUpdater {
 
 	private boolean updateEntry(final Feed feed, final FeedEntry entry,
 			final List<FeedSubscription> subscriptions) {
-		String key = StringUtils.trimToEmpty(entry.getUrl());
+		String key = StringUtils.trimToEmpty(entry.getGuid() + entry.getUrl());
 		Lock lock = locks.get(key);
 		boolean locked = false;
 		try {

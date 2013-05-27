@@ -179,7 +179,8 @@ public class AdminREST extends AbstractResourceREST {
 		Map<String, ? extends Object> map = ImmutableMap.of("lastMinute",
 				metricsBean.getLastMinute(), "lastHour",
 				metricsBean.getLastHour(), "backlog",
-				feedDAO.getUpdatableCount());
+				feedDAO.getUpdatableCount(), "queue",
+				feedRefreshUpdater.getQueueSize());
 		return Response.ok(map).build();
 	}
 }

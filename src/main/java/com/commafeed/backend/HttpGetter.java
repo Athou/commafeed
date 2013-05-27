@@ -33,6 +33,7 @@ import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.impl.client.DecompressingHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
+import org.apache.http.impl.client.SystemDefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
@@ -182,7 +183,7 @@ public class HttpGetter {
 	}
 
 	public static HttpClient newClient() {
-		DefaultHttpClient client = new DefaultHttpClient();
+		DefaultHttpClient client = new SystemDefaultHttpClient();
 
 		SSLSocketFactory ssf = new SSLSocketFactory(SSL_CONTEXT, VERIFIER);
 		ClientConnectionManager ccm = client.getConnectionManager();

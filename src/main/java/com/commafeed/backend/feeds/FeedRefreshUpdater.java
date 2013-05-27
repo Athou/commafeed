@@ -14,6 +14,7 @@ import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -134,7 +135,7 @@ public class FeedRefreshUpdater {
 
 	private boolean updateEntry(final Feed feed, final FeedEntry entry,
 			final List<FeedSubscription> subscriptions) {
-		String key = entry.getUrl();
+		String key = StringUtils.trimToEmpty(entry.getUrl());
 		Lock lock = locks.get(key);
 		boolean locked = false;
 		try {

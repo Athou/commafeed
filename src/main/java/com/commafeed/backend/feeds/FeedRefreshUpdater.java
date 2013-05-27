@@ -131,9 +131,12 @@ public class FeedRefreshUpdater {
 	private void updateEntry(final Feed feed, final FeedEntry entry,
 			final List<FeedSubscription> subscriptions) {
 		Lock lock = locks.get(entry.getGuid());
-		lock.lock();
 		try {
+			lock.tryLock(1, TimeUnit.MINUTES);
 			feedUpdateService.updateEntry(feed, entry, subscriptions);
+		} catch (InterruptedException e) {
+			log.error("interrupted while waiting for lock: " + e.getMessage(),
+					e);
 		} finally {
 			lock.unlock();
 		}

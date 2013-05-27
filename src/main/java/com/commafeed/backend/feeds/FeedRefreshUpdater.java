@@ -135,8 +135,8 @@ public class FeedRefreshUpdater {
 			lock.tryLock(1, TimeUnit.MINUTES);
 			feedUpdateService.updateEntry(feed, entry, subscriptions);
 		} catch (InterruptedException e) {
-			log.error("interrupted while waiting for lock: " + e.getMessage(),
-					e);
+			log.error("interrupted while waiting for lock for " + feed.getUrl()
+					+ " : " + e.getMessage(), e);
 		} finally {
 			lock.unlock();
 		}

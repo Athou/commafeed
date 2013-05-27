@@ -86,6 +86,7 @@ public class HttpGetter {
 		HttpClient client = newClient();
 		try {
 			HttpGet httpget = new HttpGet(url);
+			httpget.addHeader(HttpHeaders.ACCEPT_LANGUAGE, "en");
 			httpget.addHeader(HttpHeaders.PRAGMA, "No-cache");
 			httpget.addHeader(HttpHeaders.CACHE_CONTROL, "no-cache");
 			httpget.addHeader(HttpHeaders.USER_AGENT,

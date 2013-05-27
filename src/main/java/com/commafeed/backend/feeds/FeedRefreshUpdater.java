@@ -66,7 +66,7 @@ public class FeedRefreshUpdater {
 		ApplicationSettings settings = applicationSettingsService.get();
 		int threads = Math.max(settings.getDatabaseUpdateThreads(), 1);
 		log.info("Creating database pool with {} threads", threads);
-		locks = Striped.lock(threads);
+		locks = Striped.lazyWeakLock(threads);
 		pool = new ThreadPoolExecutor(threads, threads, 0,
 				TimeUnit.MILLISECONDS,
 				queue = new ArrayBlockingQueue<Runnable>(100 * threads));

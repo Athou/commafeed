@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="FeedCtrl">
 	<div class="row-fluid">
 		<div class="span2 left-menu">
 			<div class="sidebar-nav-fixed" mousewheel-scrolling>
@@ -11,6 +11,37 @@
 			<div class="entryList">
 				<div ui-view></div>
 			</div>
+		</div>
+	</div>
+	<div
+		modal="feedSearchModal"
+		close="feedSearchModal=false"
+		options="{dialogClass: 'modal item-filter-dialog'}"
+		>
+		<div class="modal-header">
+			<button
+				type="button"
+				class="close"
+				ng-click="feedSearchModal=false"
+				>&times;</button>
+			<h4><input
+				ng-model="feedFilter"
+				style="width: 90%"
+				placeholder="${feedsearch.hint}"
+				autofocus=""
+				></h4>
+			<small>${feedsearch.help}</small>
+		</div>
+		<div class="modal-body">
+			<strong>${feedsearch.result_prefix}</strong>
+				<span ng-repeat="feed in CategoryService.feeds | filter:feedFilter | limitTo:40">
+					<a
+						style="font-size: large; margin: 10px;"
+						ng-click="goToFeed(feed.id)"
+						>
+						<favicon url="feed.iconUrl" />&nbsp;{{feed.name}}
+					</a> &bull;
+				</span>
 		</div>
 	</div>
 	<div ng-include="'templates/_footer.html'"></div>

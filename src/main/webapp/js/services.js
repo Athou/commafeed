@@ -131,6 +131,27 @@ function($resource, $http) {
 		}
 		return array;
 	};
+	var traverse = function(fn, category, parentName) {
+		var subs = [];
+		fn(category, parentName);
+		var children = category.children;
+		for ( var c = 0; c < children.length; c++) {
+			traverse(fn, children[c], category.name);
+		}
+		return subs;
+	};
+	var flatfeeds = function(category) {
+		// TODO: This is a bit silly: We flatten the hierarchical list of
+		// subscriptions which was build from the flat list of subscriptions
+		// in CategoryREST.getSubscriptions(). It would be nice to have
+		// direct access to feedSubscriptionDAO.findAll().
+		var subs = [];
+		var cb = function(category) {
+			subs.push.apply(subs, category.feeds);
+		};
+		traverse(cb, category);
+		return subs;
+	};
 	var actions = {
 		get : {
 			method : 'GET',
@@ -178,11 +199,13 @@ function($resource, $http) {
 	var res = $resource('rest/category/:_method', {}, actions);
 	res.subscriptions = {};
 	res.flatCategories = {};
+	res.feeds = [];
 
 	res.init = function(callback) {
 		res.get(function(data) {
 			res.subscriptions = data;
 			res.flatCategories = flatten(data);
+			res.feeds = flatfeeds(data);
 			if (callback)
 				callback(data);
 		});

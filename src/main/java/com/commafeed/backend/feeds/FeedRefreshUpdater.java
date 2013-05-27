@@ -138,7 +138,12 @@ public class FeedRefreshUpdater {
 		boolean locked = false;
 		try {
 			locked = lock.tryLock(1, TimeUnit.MINUTES);
-			feedUpdateService.updateEntry(feed, entry, subscriptions);
+			if (locked) {
+				feedUpdateService.updateEntry(feed, entry, subscriptions);
+			} else {
+				log.error("lock timeout for " + feed.getUrl() + " - "
+						+ entry.getGuid());
+			}
 		} catch (InterruptedException e) {
 			log.error("interrupted while waiting for lock for " + feed.getUrl()
 					+ " : " + e.getMessage(), e);

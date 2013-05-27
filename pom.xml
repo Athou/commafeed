@@ -31,16 +31,6 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-		<repository>
-			<id>jklm.releases</id>
-			<url>http://mvn.jkeylockmanager.de</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
 	</repositories>
 
 	<build>
@@ -243,11 +233,6 @@
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>de.jkeylockmanager</groupId>
-			<artifactId>jkeylockmanager</artifactId>
-			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>

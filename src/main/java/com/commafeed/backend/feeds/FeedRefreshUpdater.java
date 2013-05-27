@@ -6,6 +6,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -26,18 +27,13 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.pubsubhubbub.SubscriptionHandler;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedUpdateService;
-
-import de.jkeylockmanager.manager.KeyLockManager;
-import de.jkeylockmanager.manager.KeyLockManagers;
-import de.jkeylockmanager.manager.LockCallback;
+import com.google.common.util.concurrent.Striped;
 
 @Singleton
 public class FeedRefreshUpdater {
 
 	protected static Logger log = LoggerFactory
 			.getLogger(FeedRefreshUpdater.class);
-
-	private static final KeyLockManager lockManager = KeyLockManagers.newLock();
 
 	@Inject
 	FeedUpdateService feedUpdateService;
@@ -53,7 +49,7 @@ public class FeedRefreshUpdater {
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
-	
+
 	@Inject
 	MetricsBean metricsBean;
 
@@ -61,12 +57,14 @@ public class FeedRefreshUpdater {
 	FeedSubscriptionDAO feedSubscriptionDAO;
 
 	private ThreadPoolExecutor pool;
+	private Striped<Lock> locks;
 
 	@PostConstruct
 	public void init() {
 		ApplicationSettings settings = applicationSettingsService.get();
 		int threads = Math.max(settings.getDatabaseUpdateThreads(), 1);
 		log.info("Creating database pool with {} threads", threads);
+		locks = Striped.lock(threads);
 		pool = new ThreadPoolExecutor(threads, threads, 0,
 				TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(
 						100 * threads));
@@ -130,12 +128,13 @@ public class FeedRefreshUpdater {
 
 	private void updateEntry(final Feed feed, final FeedEntry entry,
 			final List<FeedSubscription> subscriptions) {
-		lockManager.executeLocked(entry.getGuid(), new LockCallback() {
-			@Override
-			public void doInLock() throws Exception {
-				feedUpdateService.updateEntry(feed, entry, subscriptions);
-			}
-		});
+		Lock lock = locks.get(entry.getGuid());
+		lock.lock();
+		try {
+			feedUpdateService.updateEntry(feed, entry, subscriptions);
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	private void handlePubSub(final Feed feed) {

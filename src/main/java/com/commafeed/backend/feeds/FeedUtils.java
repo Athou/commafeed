@@ -131,7 +131,7 @@ public class FeedUtils {
 
 		if (errorCount >= retriesBeforeDisable) {
 			int disabledHours = errorCount - retriesBeforeDisable + 1;
-			disabledHours = Math.min(24, disabledHours);
+			disabledHours = Math.min(24 * 7, disabledHours);
 			return DateUtils.addHours(now, disabledHours);
 		}
 		return null;

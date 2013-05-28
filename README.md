@@ -97,7 +97,7 @@ When adding new translations, add them in en.properties then run `mvn -e groovy:
 Themes
 ---------------------
 
-To create a theme, create a new file called _<theme>.scss in `src/main/webapp/sass/themes/`. Your styles should be wrapped in a `#theme-<theme>` element.
+To create a theme, create a new file  `src/main/webapp/sass/themes/_<theme>.scss`. Your styles should be wrapped in a `#theme-<theme>` element.
 
 Don't forget to reference your theme in `src/main/webapp/sass/app.scss` and in `src/main/webapp/js/controllers.js` (look for `$scope.themes`).
 

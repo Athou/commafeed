@@ -55,8 +55,13 @@
 						</div>
 					</div>
 					<div class="tab-pane" ng-class="{active: tab == 'css'}">
-						<textarea ng-model="settings.customCss" class="input-block-level" rows="20">
-						</textarea>
+						<div>
+							<select ng-model="settings.theme" ng-options="theme for theme in themes"></select>
+						</div>
+						<div>
+							<textarea ng-model="settings.customCss" class="input-block-level" rows="20">
+							</textarea>
+						</div>
 					</div>
 				</div>
 			</div>

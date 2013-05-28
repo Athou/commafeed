@@ -41,6 +41,7 @@ public class UserREST extends AbstractResourceREST {
 			s.setShowRead(settings.isShowRead());
 			s.setSocialButtons(settings.isSocialButtons());
 			s.setScrollMarks(settings.isScrollMarks());
+			s.setTheme(settings.getTheme());
 			s.setCustomCss(settings.getCustomCss());
 			s.setLanguage(settings.getLanguage());
 		} else {
@@ -48,6 +49,7 @@ public class UserREST extends AbstractResourceREST {
 			s.setReadingOrder(ReadingOrder.desc.name());
 			s.setViewMode(ViewMode.title.name());
 			s.setShowRead(true);
+			s.setTheme("default");
 			s.setSocialButtons(true);
 			s.setScrollMarks(true);
 			s.setLanguage("en");
@@ -75,6 +77,7 @@ public class UserREST extends AbstractResourceREST {
 		s.setShowRead(settings.isShowRead());
 		s.setViewMode(ViewMode.valueOf(settings.getViewMode()));
 		s.setScrollMarks(settings.isScrollMarks());
+		s.setTheme(settings.getTheme());
 		s.setCustomCss(settings.getCustomCss());
 		s.setSocialButtons(settings.isSocialButtons());
 		s.setLanguage(settings.getLanguage());

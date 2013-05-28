@@ -62,7 +62,7 @@ public abstract class BasePage extends WebPage {
 
 	@Inject
 	protected UserRoleDAO userRoleDAO;
-	
+
 	@Inject
 	MailService mailService;
 
@@ -74,17 +74,20 @@ public abstract class BasePage extends WebPage {
 	public BasePage() {
 
 		String lang = "en";
+		String theme = "default";
 		User user = CommaFeedSession.get().getUser();
 		if (user != null) {
 			UserSettings settings = userSettingsDAO.findByUser(user);
 			if (settings != null) {
 				lang = settings.getLanguage() == null ? "en" : settings
 						.getLanguage();
+				theme = settings.getTheme() == null ? "default" : settings
+						.getTheme();
 			}
 		}
 
-		add(new TransparentWebMarkupContainer("html")
-				.add(new AttributeModifier("lang", lang)));
+		add(new TransparentWebMarkupContainer("html").setMarkupId(
+				"theme-" + theme).add(new AttributeModifier("lang", lang)));
 
 		settings = applicationSettingsService.get();
 		add(new HeaderResponseContainer("footer-container", "footer-container"));
@@ -104,7 +107,8 @@ public abstract class BasePage extends WebPage {
 		if (getApplication().getConfigurationType() == RuntimeConfigurationType.DEPLOYMENT) {
 			long startupTime = startupBean.getStartupTime();
 			String suffix = "?" + startupTime;
-			response.render(JavaScriptHeaderItem.forUrl("static/all.js" + suffix));
+			response.render(JavaScriptHeaderItem.forUrl("static/all.js"
+					+ suffix));
 			response.render(CssHeaderItem.forUrl("static/all.css" + suffix));
 		} else {
 			response.render(JavaScriptHeaderItem.forUrl("wro/lib.js"));

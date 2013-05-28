@@ -50,6 +50,9 @@ public class UserSettings extends AbstractModel {
 	private boolean scrollMarks;
 	private boolean socialButtons;
 
+	@Column(length = 32)
+	private String theme;
+
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
 	private String customCss;
@@ -124,6 +127,14 @@ public class UserSettings extends AbstractModel {
 
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+
+	public String getTheme() {
+		return theme;
+	}
+
+	public void setTheme(String theme) {
+		this.theme = theme;
 	}
 
 }

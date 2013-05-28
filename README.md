@@ -94,6 +94,16 @@ The language has to be referenced in the `languages.properties` file to be picke
 
 When adding new translations, add them in en.properties then run `mvn -e groovy:execute -Pi18n`. It will parse the english file and add placeholders in the other translation files. 
 
+Themes
+---------------------
+
+To create a theme, create a new file called _<theme>.scss in `src/main/webapp/sass/themes/`. Your styles should be wrapped in a `#theme-<theme>` element.
+
+Don't forget to reference your theme in `src/main/webapp/sass/app.scss` and in `src/main/webapp/js/controllers.js` (look for `$scope.themes`).
+
+See _test.scss for an example.
+
+
 Copyright and license
 ---------------------
 

@@ -36,6 +36,9 @@ public class Settings implements Serializable {
 	@ApiProperty(value = "In expanded view, scroll through entries mark them as read", required = true)
 	private boolean scrollMarks;
 
+	@ApiProperty(value = "user's selected theme")
+	private String theme;
+
 	@ApiProperty(value = "user's custom css for the website")
 	private String customCss;
 
@@ -101,6 +104,14 @@ public class Settings implements Serializable {
 
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+
+	public String getTheme() {
+		return theme;
+	}
+
+	public void setTheme(String theme) {
+		this.theme = theme;
 	}
 
 }

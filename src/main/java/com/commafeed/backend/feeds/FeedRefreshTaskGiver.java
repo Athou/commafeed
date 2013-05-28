@@ -3,6 +3,7 @@ package com.commafeed.backend.feeds;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +16,7 @@ import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.services.ApplicationSettingsService;
+import com.google.api.client.util.Maps;
 import com.google.common.collect.Queues;
 
 @Singleton
@@ -56,6 +58,8 @@ public class FeedRefreshTaskGiver {
 	public synchronized Feed take() {
 		Feed feed = takeQueue.poll();
 		if (feed == null) {
+			Date now = Calendar.getInstance().getTime();
+
 			int count = 3 * backgroundThreads;
 			List<Feed> feeds = feedDAO.findNextUpdatable(count);
 
@@ -64,17 +68,21 @@ public class FeedRefreshTaskGiver {
 				feeds.add(addQueue.poll());
 			}
 
+			Map<Long, Feed> map = Maps.newHashMap();
 			for (Feed f : feeds) {
-				takeQueue.add(f);
-				f.setLastUpdated(Calendar.getInstance().getTime());
+				f.setLastUpdated(now);
+				map.put(f.getId(), f);
 			}
+			takeQueue.addAll(map.values());
 
 			size = giveBackQueue.size();
 			for (int i = 0; i < size; i++) {
-				feeds.add(giveBackQueue.poll());
+				Feed f = giveBackQueue.poll();
+				f.setLastUpdated(now);
+				map.put(f.getId(), f);
 			}
 
-			feedDAO.update(feeds);
+			feedDAO.update(map.values());
 
 			feed = takeQueue.poll();
 		}

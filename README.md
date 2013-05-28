@@ -68,7 +68,7 @@ It will generate a zip file at `target/commafeed.zip` with everything you need t
 * If you'd like to change the default port (8082), edit `conf/server.xml` and look for `<Connector port="8082" protocol="HTTP/1.1"`. Change the port to the value you'd like to use.
 * CommaFeed will run on the `/commafeed` context. If you'd like to change the context, go to `webapps` and rename `commafeed.war`. Use the special name `ROOT.war` to deploy to the root context.
 * To start and stop the application, use `bin/startup.sh` and `bin/shutdown.sh` on Linux (you may need to `chmod +x bin/*.sh`) or `bin\startup.bat` and `bin\shutdown.bat` on Windows.
-* To update the application with a newer version, pull the latest changes and use the same command you used to build the complete TomEE package, but without the `tomee:build` part. 
+* To update the application with a newer version, pull the latest changes and use the same command you used to build the complete TomEE package, but without the `tomee:build` part (keep `-Pprod -P<database>`). 
 This will generate the file `target/commafeed.war`. Copy this file to your tomee `webapps/` directory.
 * The application is online at [http://localhost:8082/commafeed](http://localhost:8082/commafeed). Don't forget to set the public URL in the admin settings.
 * The default user is `admin` and the password is `admin`.

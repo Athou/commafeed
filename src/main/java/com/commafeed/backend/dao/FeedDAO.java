@@ -18,12 +18,13 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.model.Feed_;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 public class FeedDAO extends GenericDAO<Feed> {
 
-	private Predicate[] getUpdatablePredicates(Root<Feed> root) {
+	private List<Predicate> getUpdatablePredicates(Root<Feed> root) {
 		Date now = Calendar.getInstance().getTime();
 
 		Predicate hasSubscriptions = builder.isNotEmpty(root
@@ -38,9 +39,9 @@ public class FeedDAO extends GenericDAO<Feed> {
 		Predicate disabledDateIsInPast = builder.lessThan(
 				root.get(Feed_.disabledUntil), now);
 
-		return new Predicate[] { hasSubscriptions,
+		return Lists.newArrayList(hasSubscriptions,
 				builder.or(neverUpdated, updatedBeforeThreshold),
-				builder.or(disabledDateIsNull, disabledDateIsInPast) };
+				builder.or(disabledDateIsNull, disabledDateIsInPast));
 	}
 
 	public Long getUpdatableCount() {
@@ -48,7 +49,10 @@ public class FeedDAO extends GenericDAO<Feed> {
 		Root<Feed> root = query.from(getType());
 
 		query.select(builder.count(root));
-		query.where(getUpdatablePredicates(root));
+
+		List<Predicate> preds = getUpdatablePredicates(root);
+		preds.add(builder.lessThanOrEqualTo(root.get(Feed_.errorCount), 10));
+		query.where(preds.toArray(new Predicate[0]));
 
 		TypedQuery<Long> q = em.createQuery(query);
 		return q.getSingleResult();
@@ -58,7 +62,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 		CriteriaQuery<Feed> query = builder.createQuery(getType());
 		Root<Feed> root = query.from(getType());
 
-		query.where(getUpdatablePredicates(root));
+		query.where(getUpdatablePredicates(root).toArray(new Predicate[0]));
 		query.orderBy(builder.asc(root.get(Feed_.lastUpdated)));
 
 		TypedQuery<Feed> q = em.createQuery(query);

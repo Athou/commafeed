@@ -14,6 +14,7 @@ import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,10 +67,10 @@ public class FeedRefreshUpdater {
 		ApplicationSettings settings = applicationSettingsService.get();
 		int threads = Math.max(settings.getDatabaseUpdateThreads(), 1);
 		log.info("Creating database pool with {} threads", threads);
-		locks = Striped.lazyWeakLock(threads);
+		locks = Striped.lazyWeakLock(threads * 1000);
 		pool = new ThreadPoolExecutor(threads, threads, 0,
 				TimeUnit.MILLISECONDS,
-				queue = new ArrayBlockingQueue<Runnable>(100 * threads));
+				queue = new ArrayBlockingQueue<Runnable>(500 * threads));
 		pool.setRejectedExecutionHandler(new RejectedExecutionHandler() {
 			@Override
 			public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
@@ -111,16 +112,20 @@ public class FeedRefreshUpdater {
 
 		@Override
 		public void run() {
+			boolean ok = true;
 			if (entries != null) {
 				List<FeedSubscription> subscriptions = feedSubscriptionDAO
 						.findByFeed(feed);
 				for (FeedEntry entry : entries) {
-					updateEntry(feed, entry, subscriptions);
+					ok &= updateEntry(feed, entry, subscriptions);
 				}
 			}
 
 			if (applicationSettingsService.get().isPubsubhubbub()) {
 				handlePubSub(feed);
+			}
+			if (!ok) {
+				feed.setDisabledUntil(null);
 			}
 			metricsBean.feedUpdated();
 			taskGiver.giveBack(feed);
@@ -128,18 +133,27 @@ public class FeedRefreshUpdater {
 
 	}
 
-	private void updateEntry(final Feed feed, final FeedEntry entry,
+	private boolean updateEntry(final Feed feed, final FeedEntry entry,
 			final List<FeedSubscription> subscriptions) {
-		Lock lock = locks.get(entry.getGuid());
+		String key = StringUtils.trimToEmpty(entry.getGuid() + entry.getUrl());
+		Lock lock = locks.get(key);
+		boolean locked = false;
 		try {
-			lock.tryLock(1, TimeUnit.MINUTES);
-			feedUpdateService.updateEntry(feed, entry, subscriptions);
+			locked = lock.tryLock(1, TimeUnit.MINUTES);
+			if (locked) {
+				feedUpdateService.updateEntry(feed, entry, subscriptions);
+			} else {
+				log.error("lock timeout for " + feed.getUrl() + " - " + key);
+			}
 		} catch (InterruptedException e) {
 			log.error("interrupted while waiting for lock for " + feed.getUrl()
 					+ " : " + e.getMessage(), e);
 		} finally {
-			lock.unlock();
+			if (locked) {
+				lock.unlock();
+			}
 		}
+		return locked;
 	}
 
 	private void handlePubSub(final Feed feed) {

@@ -85,19 +85,15 @@ public class FeedRefreshWorker {
 
 	private void update(Feed feed) {
 
-		FetchedFeed fetchedFeed = null;
-		List<FeedEntry> entries = null;
-
-		String message = null;
-		int errorCount = 0;
-		Date disabledUntil = null;
 
 		try {
-			fetchedFeed = fetcher.fetch(feed.getUrl(), false,
+			FetchedFeed fetchedFeed = fetcher.fetch(feed.getUrl(), false,
 					feed.getLastModifiedHeader(), feed.getEtagHeader());
 			// stops here if NotModifiedException or any other exception is
 			// thrown
-			entries = fetchedFeed.getEntries();
+			List<FeedEntry> entries = fetchedFeed.getEntries();
+
+			Date disabledUntil = null;
 			if (applicationSettingsService.get().isHeavyLoad()) {
 				disabledUntil = FeedUtils.buildDisabledUntil(
 						fetchedFeed.getPublishedDate(), entries);
@@ -109,7 +105,12 @@ public class FeedRefreshWorker {
 					.getLastModifiedHeader());
 			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());
 
+			feed.setErrorCount(0);
+			feed.setMessage(null);
+			feed.setDisabledUntil(disabledUntil);
+
 			handlePubSub(feed, fetchedFeed);
+			feedRefreshUpdater.updateFeed(feed, entries);
 
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified (304) : " + feed.getUrl());
@@ -121,9 +122,8 @@ public class FeedRefreshWorker {
 			feed.setDisabledUntil(FeedUtils.buildDisabledUntil(publishedDate,
 					feedEntries));
 			taskGiver.giveBack(feed);
-			return;
 		} catch (Exception e) {
-			message = "Unable to refresh feed " + feed.getUrl() + " : "
+			String message = "Unable to refresh feed " + feed.getUrl() + " : "
 					+ e.getMessage();
 			if (e instanceof FeedException) {
 				log.debug(e.getClass().getName() + " " + message);
@@ -131,16 +131,13 @@ public class FeedRefreshWorker {
 				log.debug(e.getClass().getName() + " " + message);
 			}
 
-			errorCount = feed.getErrorCount() + 1;
-			disabledUntil = FeedUtils.buildDisabledUntil(errorCount);
+			feed.setErrorCount(feed.getErrorCount() + 1);
+			feed.setMessage(message);
+			feed.setDisabledUntil(FeedUtils.buildDisabledUntil(feed
+					.getErrorCount()));
+
+			taskGiver.giveBack(feed);
 		}
-
-		feed.setErrorCount(errorCount);
-		feed.setMessage(message);
-		feed.setDisabledUntil(disabledUntil);
-
-		feedRefreshUpdater.updateFeed(feed, entries);
-
 	}
 
 	private void handlePubSub(Feed feed, FetchedFeed fetchedFeed) {

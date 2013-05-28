@@ -37,7 +37,7 @@
 	        StrictPooling=false
 	</Container>
 	<Container id="CommaFeedMessage" type="MESSAGE">
-	        InstanceLimit 50
+	        InstanceLimi=50
 	        ResourceAdapter=JMSCommaFeedAdapter
 	</Container>
 	<Resource id="JMSCommaFeedAdapter" type="ActiveMQResourceAdapter">

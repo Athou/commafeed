@@ -1,6 +1,14 @@
 <div ng-class="{expanded: settingsService.settings.viewMode == 'expanded'}">
 	<div class="entrylist-header" ui-if="name">
-		<h3><span>{{name}}&nbsp;</span><span ng-show="name && selectedType == 'category'"> &#187;</span></h3>
+		<h3>
+			<span ng-switch on="selectedId">
+				<span ng-switch-when="all">${tree.all}</span>
+				<span ng-switch-when="starred">${tree.starred}</span>
+				<span ng-switch-default>{{name}}</span>
+			</span>
+			&nbsp;
+			<span ng-show="name && selectedType == 'category'"> &#187;</span>
+		</h3>
 	</div>
 	
 	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode" infinite-scroll-distance="1" id="feed-accordion"

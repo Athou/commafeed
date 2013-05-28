@@ -74,8 +74,16 @@ public class FeedParser {
 			for (SyndEntry item : items) {
 				FeedEntry entry = new FeedEntry();
 
-				entry.setGuid(FeedUtils.truncate(item.getUri(), 2048));
-				entry.setGuidHash(DigestUtils.sha1Hex(item.getUri()));
+				String guid = item.getUri();
+				if (StringUtils.isBlank(guid)) {
+					guid = item.getLink();
+				}
+				if (StringUtils.isBlank(guid)) {
+					// no guid and no link, skip entry
+					continue;
+				}
+				entry.setGuid(FeedUtils.truncate(guid, 2048));
+				entry.setGuidHash(DigestUtils.sha1Hex(guid));
 				entry.setUrl(FeedUtils.truncate(
 						FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink()),
 						2048));

@@ -27,7 +27,7 @@ public class OPMLExporter {
 	@SuppressWarnings("unchecked")
 	public Opml export(User user) {
 		Opml opml = new Opml();
-		opml.setFeedType("opml_1.0");
+		opml.setFeedType("opml_1.1");
 		opml.setTitle(String.format("%s subscriptions in CommaFeed",
 				user.getName()));
 		opml.setCreated(Calendar.getInstance().getTime());

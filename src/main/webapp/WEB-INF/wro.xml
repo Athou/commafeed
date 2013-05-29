@@ -12,7 +12,6 @@
 		<js minimize="false">/vendor/mousetrap/*.js</js>
 		<js minimize="false">/vendor/nggrid/*.js</js>
 		<js minimize="false">/vendor/nginfinitescroll/*.js</js>
-		<js minimize="false">/vendor/ngupload/*.js</js>
 		<js minimize="false">/vendor/spinjs/*.js</js>
 		<js minimize="false">/vendor/momentjs/*.js</js>
 		

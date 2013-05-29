@@ -61,7 +61,7 @@
 			<button type="button" class="close" ng-click="closeImport()">&times;</button>
 			<h4>${tree.import}</h4>
 		</div>
-		<form ng-upload class="form-horizontal" action="rest/feed/import">
+		<form class="form-horizontal" action="rest/feed/import" method="post" enctype="multipart/form-data">
 			<div class="modal-body">
 				<div class="control-group">
 					<div>${import.google_reader_prefix}
@@ -81,7 +81,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn cancel" ng-click="closeImport()">${global.cancel}</button>
-				<button class="btn btn-primary ok" type="submit" upload-submit="uploadComplete(contents, completed)">${tree.import}</button>
+				<button class="btn btn-primary ok" type="submit">${tree.import}</button>
 			</div>
 		</form>
 	</div>

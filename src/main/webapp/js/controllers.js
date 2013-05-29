@@ -97,11 +97,6 @@ function($scope, FeedService, CategoryService, MobileService) {
 		$scope.isOpenImport = false;
 	};
 
-	$scope.uploadComplete = function(contents, completed) {
-		CategoryService.init();
-		$scope.closeImport();
-	};
-
 	$scope.cat = {};
 
 	$scope.openCategory = function() {

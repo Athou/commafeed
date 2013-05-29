@@ -91,10 +91,8 @@ public class FeedParser {
 				entry.setAuthor(FeedUtils.truncate(item.getAuthor(), 128));
 
 				FeedEntryContent content = new FeedEntryContent();
-				content.setContent(FeedUtils.handleContent(getContent(item),
-						feed.getLink()));
-				content.setTitle(FeedUtils.truncate(FeedUtils.handleContent(
-						item.getTitle(), feed.getLink()), 2048));
+				content.setContent(getContent(item));
+				content.setTitle(item.getTitle());
 				SyndEnclosure enclosure = (SyndEnclosure) Iterables.getFirst(
 						item.getEnclosures(), null);
 				if (enclosure != null) {

@@ -14,8 +14,10 @@ import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.google.common.collect.Lists;
@@ -43,6 +45,13 @@ public class FeedUpdateService {
 
 		FeedEntry update = null;
 		if (foundEntry == null) {
+			FeedEntryContent content = entry.getContent();
+			content.setTitle(FeedUtils.truncate(
+					FeedUtils.handleContent(content.getTitle(), feed.getLink()),
+					2048));
+			content.setContent(FeedUtils.handleContent(content.getContent(),
+					feed.getLink()));
+
 			entry.setInserted(Calendar.getInstance().getTime());
 			entry.getFeeds().add(feed);
 

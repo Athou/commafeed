@@ -725,33 +725,34 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		}
 	};
 
-	var _currentIndex = function() {
-		if (!$scope.current) {
-			return -1;
-		}
-		for (var i = 0; i < $scope.entries.length; i++) {
-			if ($scope.current == $scope.entries[i]) {
-				return i;
+	var getCurrentIndex = function() {
+		var index = -1;
+		if ($scope.current) {
+			for (var i = 0; i < $scope.entries.length; i++) {
+				if ($scope.current == $scope.entries[i]) {
+					index = i;
+					break;
+				}
 			}
 		}
-		return -1;
+		return index;
 	};
 
-	var _getNextEntry = function() {
-		var index = _currentIndex();
+	var getNextEntry = function() {
+		var index = getCurrentIndex();
 		if (index >= 0) {
 			index = index + 1;
 			if (index < $scope.entries.length) {
 				return $scope.entries[index];
-			}
+			} 
 		} else if ($scope.entries.length > 0) {
 			return $scope.entries[0];
 		}
 		return null;
 	};
 
-	var _getPreviousEntry = function() {
-		var index = _currentIndex();
+	var getPreviousEntry = function() {
+		var index = getCurrentIndex();
 		if (index >= 1) {
 			return $scope.entries[index - 1];
 		}
@@ -759,21 +760,21 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	};
 
 	var openNextEntry = function(event) {
-		var entry = _getNextEntry();
+		var entry = getNextEntry();
 		if (entry) {
 			$scope.entryClicked(entry, event);
 		}
 	};
 
 	var openPreviousEntry = function(event) {
-		var entry = _getPreviousEntry();
+		var entry = getPreviousEntry();
 		if (entry) {
 			$scope.entryClicked(entry, event);
 		}
 	};
 
 	var focusNextEntry = function(event) {
-		var entry = _getNextEntry();
+		var entry = getNextEntry();
 		if (entry) {
 			$scope.navigationMode = 'click';
 			$scope.current = entry;
@@ -781,7 +782,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	};
 
 	var focusPreviousEntry = function(event) {
-		var entry = _getPreviousEntry();
+		var entry = getPreviousEntry();
 		if (entry) {
 			$scope.navigationMode = 'click';
 			$scope.current = entry;

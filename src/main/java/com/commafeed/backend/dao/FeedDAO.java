@@ -49,10 +49,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 		Root<Feed> root = query.from(getType());
 
 		query.select(builder.count(root));
-
-		List<Predicate> preds = getUpdatablePredicates(root);
-		preds.add(builder.lessThanOrEqualTo(root.get(Feed_.errorCount), 10));
-		query.where(preds.toArray(new Predicate[0]));
+		query.where(getUpdatablePredicates(root).toArray(new Predicate[0]));
 
 		TypedQuery<Long> q = em.createQuery(query);
 		return q.getSingleResult();

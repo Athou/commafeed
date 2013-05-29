@@ -65,13 +65,14 @@
 					<button class="btn" type="submit"><i class="icon-search"></i></button>
 				</form>
 				<div class="btn-group donate">
-					<button class="btn btn-success" type="button" ng-click="toHelp()"><i class="icon-question-sign"></i>
-					{{ MobileService.mobile ? ' ' : '${toolbar.about} / ${toolbar.donate}' }}</button>
+					<button class="btn btn-success" type="button" ng-click="toHelp()">
+						<i class="icon-question-sign"></i>
+					</button>
 				</div>
 				
 			</div>
 		</div>
 		<div spinner shown="loading"></div>
-		<span class="hidden-phone hidden-tablet">{{ServerService.announcement}}</span>
+		<span class="hidden-phone hidden-tablet" ng-bind-html-unsafe="ServerService.announcement"></span>
 	</div>
 </div>

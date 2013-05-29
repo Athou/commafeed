@@ -66,11 +66,12 @@ public class CategoryREST extends AbstractResourceREST {
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
 			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @QueryParam("readType") ReadType readType,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
-			@ApiParam(value = "limit for paging") @DefaultValue("-1") @QueryParam("limit") int limit,
+			@ApiParam(value = "limit for paging, default 20, maximum 50") @DefaultValue("20") @QueryParam("limit") int limit,
 			@ApiParam(value = "date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
 
 		Preconditions.checkNotNull(readType);
 		limit = Math.min(limit, 50);
+		limit = Math.max(0, limit);
 
 		Entries entries = new Entries();
 		boolean unreadOnly = readType == ReadType.unread;

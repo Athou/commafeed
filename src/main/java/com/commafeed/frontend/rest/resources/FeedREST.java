@@ -335,6 +335,7 @@ public class FeedREST extends AbstractResourceREST {
 	@POST
 	@Path("/import")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "OPML import", notes = "Import an OPML file, posted as a FORM with the 'file' name")
 	public Response importOpml() {
 		if (StartupBean.USERNAME_DEMO.equals(getUser().getName())) {

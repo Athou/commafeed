@@ -10,7 +10,7 @@
 						<a ng-click="tab = 'general'">${settings.general}</a>
 					</li>
 					<li ng-class="{active: tab == 'css'}" class="pointer">
-						<a ng-click="tab = 'css'">${settings.custom_css}</a>
+						<a ng-click="tab = 'css'">${settings.appearance}</a>
 					</li>
 				</ul>
 			</div>
@@ -56,9 +56,16 @@
 					</div>
 					<div class="tab-pane" ng-class="{active: tab == 'css'}">
 						<div>
+							<label>${settings.theme}</label>
 							<select ng-model="settings.theme" ng-options="theme for theme in themes"></select>
+							<span class="help-block">
+								<a href="https://github.com/Athou/commafeed#themes" target="_blank">
+									${settings.submit_your_theme}
+								</a>
+							</span>
 						</div>
 						<div>
+							<label>${settings.custom_css}</label>
 							<textarea ng-model="settings.customCss" class="input-block-level" rows="20">
 							</textarea>
 						</div>

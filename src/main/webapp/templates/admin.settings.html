@@ -15,7 +15,7 @@
 					<div class="control-group">
 						<label class="control-label" for="publicUrl">Public URL</label>
 						<div class="controls">
-							<input type="text" id="publicUrl" name="publicUrl"
+							<input type="text" id="publicUrl" name="publicUrl" class="input-block-level"
 								ng-model="settings.publicUrl" />
 						</div>
 					</div>
@@ -23,7 +23,7 @@
 						<label class="control-label" for="allowRegistrations">Allow
 							registrations</label>
 						<div class="controls">
-							<input type="checkbox" id="allowRegistrations"
+							<input type="checkbox" id="allowRegistrations" class="input-block-level"
 								name="allowRegistrations" ng-model="settings.allowRegistrations" />
 						</div>
 					</div>
@@ -32,14 +32,14 @@
 							button</label>
 						<div class="controls">
 							<input type="checkbox" id="feedbackButton" name="feedbackButton"
-								ng-model="settings.feedbackButton" />
+								class="input-block-level" ng-model="settings.feedbackButton" />
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="googleClientId">Google
 							client ID</label>
 						<div class="controls">
-							<input type="text" name="googleClientId"
+							<input type="text" name="googleClientId" class="input-block-level"
 								ng-model="settings.googleClientId" />
 						</div>
 					</div>
@@ -47,7 +47,7 @@
 						<label class="control-label" for="googleClientSecret">Google
 							client secret</label>
 						<div class="controls">
-							<input type="text" name="googleClientSecret"
+							<input type="text" name="googleClientSecret" class="input-block-level"
 								ng-model="settings.googleClientSecret" />
 						</div>
 					</div>
@@ -55,7 +55,7 @@
 						<label class="control-label" for="googleAnalyticsTrackingCode">Google
 							Analytics tracking code</label>
 						<div class="controls">
-							<input type="text" name="googleAnalyticsTrackingCode"
+							<input type="text" name="googleAnalyticsTrackingCode" class="input-block-level"
 								ng-model="settings.googleAnalyticsTrackingCode" />
 						</div>
 					</div>
@@ -63,7 +63,7 @@
 						<label class="control-label" for="googleClientSecret">Background HTTP
 							threads</label>
 						<div class="controls">
-							<input type="number" name="backgroundThreads"
+							<input type="number" name="backgroundThreads" class="input-block-level"
 								ng-model="settings.backgroundThreads" />
 							<span class="help-inline">Requires restart</span>
 						</div>
@@ -72,7 +72,7 @@
 						<label class="control-label" for="databaseUpdateThreads">Database update 
 							threads</label>
 						<div class="controls">
-							<input type="number" name="databaseUpdateThreads"
+							<input type="number" name="databaseUpdateThreads" class="input-block-level"
 								ng-model="settings.databaseUpdateThreads" />
 							<span class="help-inline">Requires restart</span>
 						</div>
@@ -80,8 +80,9 @@
 					<div class="control-group">
 						<label class="control-label" for="announcement">Announcement</label>
 						<div class="controls">
-							<input type="text" name="announcement"
-								ng-model="settings.announcement" />
+							<textarea name="announcement" rows="10" class="input-block-level"
+								ng-model="settings.announcement">
+							</textarea>
 						</div>
 					</div>
 				</div>
@@ -89,26 +90,29 @@
 					<div class="control-group">
 						<label class="control-label" for="announcement">SMTP Host</label>
 						<div class="controls">
-							<input type="text" name="smtpHost" ng-model="settings.smtpHost" />
+							<input type="text" name="smtpHost" class="input-block-level" 
+								ng-model="settings.smtpHost" />
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="announcement">SMTP Port</label>
 						<div class="controls">
-							<input type="text" name="smtpPort" ng-model="settings.smtpPort" />
+							<input type="text" name="smtpPort" class="input-block-level" 
+								ng-model="settings.smtpPort" />
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="smtpTls">SMTP TLS </label>
 						<div class="controls">
-							<input type="checkbox" name="smtpTls" ng-model="settings.smtpTls" />
+							<input type="checkbox" name="smtpTls" class="input-block-level" 
+								ng-model="settings.smtpTls" />
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="smtpUserName">SMTP
 							Username</label>
 						<div class="controls">
-							<input type="text" name="smtpUserName"
+							<input type="text" name="smtpUserName" class="input-block-level"
 								ng-model="settings.smtpUserName" />
 						</div>
 					</div>
@@ -116,7 +120,7 @@
 						<label class="control-label" for="smtpPassword">SMTP
 							Password</label>
 						<div class="controls">
-							<input type="password" name="smtpPassword"
+							<input type="password" name="smtpPassword" class="input-block-level"
 								ng-model="settings.smtpPassword" />
 						</div>
 					</div>

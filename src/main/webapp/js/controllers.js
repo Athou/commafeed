@@ -687,6 +687,11 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 
 	$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
 	$scope.entryClicked = function(entry, event) {
+		if (event && event.which === 3) {
+			// right click
+			return;
+		}
+		
 		$scope.navigationMode = 'click';
 		if (!event || (!event.ctrlKey && event.which != 2)) {
 			if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {

@@ -71,12 +71,16 @@ module.directive('onScrollMiddle', function () {
 			var d = $(document);
 
 			var down = function() {
+				if (w.data.scrollDirection != 'down')
+					return;
 				var docTop = w.scrollTop();
 				var elemTop = e.offset().top;
 				var threshold = docTop === 0 ? elemTop - 1 : docTop + w.height() / 3; 
 				return (elemTop > threshold) ? 'below' : 'above';
 			};
 			var up = function() {
+				if (w.data.scrollDirection != 'up')
+					return;
 				var docTop = w.scrollTop();
 				var elemTop = e.offset().top;
 				var elemBottom = elemTop + e.height();
@@ -96,11 +100,11 @@ module.directive('onScrollMiddle', function () {
 				w.data.scrollInit = true;
 			}
 			scope.$watch(down, function downCallback(value, oldValue) {
-				if(w.data.scrollDirection == 'down' && value != oldValue && value == 'above')
+				if(value && value != oldValue && value == 'above')
 					scope.$eval(attrs.onScrollMiddle);
 			});
 			scope.$watch(up, function upCallback(value, oldValue) {
-				if(w.data.scrollDirection == 'up' && value != oldValue && value == 'below')
+				if(value && value != oldValue && value == 'below')
 					scope.$eval(attrs.onScrollMiddle);
 			});
 		}

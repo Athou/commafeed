@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
@@ -15,7 +15,7 @@ import org.hibernate.annotations.Index;
 public class FeedPushInfo extends AbstractModel {
 
 	@JoinColumn(unique = true)
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Feed feed;
 
 	@Column(length = 2048, nullable = false)

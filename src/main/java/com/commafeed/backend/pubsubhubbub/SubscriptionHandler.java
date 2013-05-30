@@ -23,6 +23,7 @@ import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.services.ApplicationSettingsService;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 public class SubscriptionHandler {
@@ -37,7 +38,7 @@ public class SubscriptionHandler {
 	FeedPushInfoDAO feedPushInfoDAO;
 
 	public void subscribe(Feed feed) {
-		FeedPushInfo info = feed.getPushInfo();
+		FeedPushInfo info = Iterables.getFirst(feed.getPushInfo(), null);
 		String hub = info.getHub();
 		String topic = info.getTopic();
 		String publicUrl = FeedUtils

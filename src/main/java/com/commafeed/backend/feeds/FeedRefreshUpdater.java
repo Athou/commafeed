@@ -14,7 +14,6 @@ import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,7 +118,8 @@ public class FeedRefreshUpdater {
 		@Override
 		public void run() {
 			boolean ok = true;
-			if (CollectionUtils.isNotEmpty(entries) && hasWork()) {
+			filterOldEntries();
+			if (entries.isEmpty() == false) {
 				List<FeedSubscription> subscriptions = feedSubscriptionDAO
 						.findByFeed(feed);
 				for (FeedEntry entry : entries) {
@@ -137,26 +137,30 @@ public class FeedRefreshUpdater {
 			taskGiver.giveBack(feed);
 		}
 
-		private boolean hasWork() {
-			boolean hasWork = false;
+		private void filterOldEntries() {
+			List<FeedEntry> keep = Lists.newArrayList();
 
-			List<String> guids = Lists.newArrayList();
-			for (FeedEntry entry : entries) {
-				guids.add(entry.getGuid());
-			}
+			if (entries != null) {
+				List<String> guids = Lists.newArrayList();
+				for (FeedEntry entry : entries) {
+					guids.add(entry.getGuid());
+				}
 
-			List<FeedEntry> existingEntries = feedEntryDAO.findByGuids(guids);
-			for (FeedEntry entry : entries) {
-				FeedEntry foundEntry = FeedUtils.findEntry(existingEntries,
-						entry);
-				if (foundEntry == null
-						|| FeedUtils.findFeed(foundEntry.getFeeds(), feed) == null) {
-					hasWork = true;
-					break;
+				List<FeedEntry> existingEntries = feedEntryDAO
+						.findByGuids(guids);
+
+				for (FeedEntry entry : entries) {
+					FeedEntry found = FeedUtils.findEntry(existingEntries,
+							entry);
+					if (found == null
+							|| FeedUtils.findFeed(found.getFeeds(), feed) == null) {
+						keep.add(entry);
+					}
 				}
 			}
-			return hasWork;
+			entries = keep;
 		}
+
 	}
 
 	private boolean updateEntry(final Feed feed, final FeedEntry entry,

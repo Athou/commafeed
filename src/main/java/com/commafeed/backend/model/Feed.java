@@ -3,7 +3,6 @@ package com.commafeed.backend.model;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -69,8 +68,7 @@ public class Feed extends AbstractModel {
 	@Column(length = 255)
 	private String etagHeader;
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "feed", cascade = {
-			CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "feed")
 	private FeedPushInfo pushInfo;
 
 	@ManyToMany(mappedBy = "feeds")

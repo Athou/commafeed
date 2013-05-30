@@ -29,7 +29,6 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.pubsubhubbub.SubscriptionHandler;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedUpdateService;
-import com.google.common.collect.Iterables;
 import com.google.common.util.concurrent.Striped;
 
 @Singleton
@@ -158,7 +157,7 @@ public class FeedRefreshUpdater {
 	}
 
 	private void handlePubSub(final Feed feed) {
-		FeedPushInfo info = Iterables.getFirst(feed.getPushInfo(), null);
+		FeedPushInfo info = feed.getPushInfo();
 		if (info != null && info.isActive() == false) {
 			new Thread() {
 				@Override

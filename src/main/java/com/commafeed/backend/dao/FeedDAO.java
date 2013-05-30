@@ -67,7 +67,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 
 		List<Feed> feeds = q.getResultList();
 		for (Feed feed : feeds) {
-			FeedPushInfo info = Iterables.getFirst(feed.getPushInfo(), null);
+			FeedPushInfo info = feed.getPushInfo();
 			if (info != null) {
 				info.getTopic();
 			}

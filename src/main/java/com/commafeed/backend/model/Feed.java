@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -68,11 +69,9 @@ public class Feed extends AbstractModel {
 	@Column(length = 255)
 	private String etagHeader;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "feed", cascade = {
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "feed", cascade = {
 			CascadeType.PERSIST, CascadeType.MERGE })
-	// use a onetomany relationship for push info to avoid hibernate automatic
-	// lazy loading of onetoone optional relationships
-	private Set<FeedPushInfo> pushInfo;
+	private FeedPushInfo pushInfo;
 
 	@ManyToMany(mappedBy = "feeds")
 	private Set<FeedEntry> entries = Sets.newHashSet();
@@ -184,11 +183,11 @@ public class Feed extends AbstractModel {
 		this.lastUpdateSuccess = lastUpdateSuccess;
 	}
 
-	public Set<FeedPushInfo> getPushInfo() {
+	public FeedPushInfo getPushInfo() {
 		return pushInfo;
 	}
 
-	public void setPushInfo(Set<FeedPushInfo> pushInfo) {
+	public void setPushInfo(FeedPushInfo pushInfo) {
 		this.pushInfo = pushInfo;
 	}
 

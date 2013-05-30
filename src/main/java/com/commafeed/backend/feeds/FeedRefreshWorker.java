@@ -18,7 +18,6 @@ import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedPushInfoService;
-import com.google.common.collect.Iterables;
 import com.sun.syndication.io.FeedException;
 
 public class FeedRefreshWorker {
@@ -85,6 +84,7 @@ public class FeedRefreshWorker {
 	}
 
 	private void update(Feed feed) {
+
 
 		try {
 			FetchedFeed fetchedFeed = fetcher.fetch(feed.getUrl(), false,
@@ -156,11 +156,11 @@ public class FeedRefreshWorker {
 				topic = "http://" + topic;
 			}
 			log.debug("feed {} has pubsub info: {}", feed.getUrl(), topic);
-			FeedPushInfo info = Iterables.getFirst(feed.getPushInfo(), null);
+			FeedPushInfo info = feed.getPushInfo();
 			if (info == null) {
 				info = feedPushInfoService.findOrCreate(feed, hub, topic);
-				feed.getPushInfo().add(info);
 			}
+			feed.setPushInfo(info);
 		}
 	}
 

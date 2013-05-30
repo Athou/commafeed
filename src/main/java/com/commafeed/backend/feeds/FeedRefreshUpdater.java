@@ -138,9 +138,10 @@ public class FeedRefreshUpdater {
 		}
 
 		private void filterOldEntries() {
-			List<FeedEntry> keep = Lists.newArrayList();
 
-			if (entries != null) {
+			if (entries != null && entries.size() <= 50) {
+				List<FeedEntry> keep = Lists.newArrayList();
+
 				List<String> guids = Lists.newArrayList();
 				for (FeedEntry entry : entries) {
 					guids.add(entry.getGuid());
@@ -157,10 +158,9 @@ public class FeedRefreshUpdater {
 						keep.add(entry);
 					}
 				}
+				entries = keep;
 			}
-			entries = keep;
 		}
-
 	}
 
 	private boolean updateEntry(final Feed feed, final FeedEntry entry,

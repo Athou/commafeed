@@ -57,39 +57,44 @@ public class FeedRefreshTaskGiver {
 
 	public synchronized Feed take() {
 		Feed feed = takeQueue.poll();
+
 		if (feed == null) {
-			Date now = Calendar.getInstance().getTime();
-
-			int count = 3 * backgroundThreads;
-			List<Feed> feeds = feedDAO.findNextUpdatable(count);
-
-			int size = addQueue.size();
-			for (int i = 0; i < size; i++) {
-				feeds.add(addQueue.poll());
-			}
-
-			Map<Long, Feed> map = Maps.newHashMap();
-			for (Feed f : feeds) {
-				f.setLastUpdated(now);
-				map.put(f.getId(), f);
-			}
-			takeQueue.addAll(map.values());
-
-			size = giveBackQueue.size();
-			for (int i = 0; i < size; i++) {
-				Feed f = giveBackQueue.poll();
-				f.setLastUpdated(now);
-				map.put(f.getId(), f);
-			}
-
-			feedDAO.update(map.values());
-
+			refill();
 			feed = takeQueue.poll();
 		}
+
 		if (feed != null) {
 			metricsBean.feedRefreshed();
 		}
 		return feed;
+	}
+
+	private void refill() {
+		Date now = Calendar.getInstance().getTime();
+
+		int count = 2 * backgroundThreads;
+		List<Feed> feeds = feedDAO.findNextUpdatable(count);
+
+		int size = addQueue.size();
+		for (int i = 0; i < size; i++) {
+			feeds.add(addQueue.poll());
+		}
+
+		Map<Long, Feed> map = Maps.newHashMap();
+		for (Feed f : feeds) {
+			f.setLastUpdated(now);
+			map.put(f.getId(), f);
+		}
+		takeQueue.addAll(map.values());
+
+		size = giveBackQueue.size();
+		for (int i = 0; i < size; i++) {
+			Feed f = giveBackQueue.poll();
+			f.setLastUpdated(now);
+			map.put(f.getId(), f);
+		}
+
+		feedDAO.update(map.values());
 	}
 
 	public void giveBack(Feed feed) {

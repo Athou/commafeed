@@ -72,7 +72,7 @@ public class FeedRefreshTaskGiver {
 	private void refill() {
 		Date now = Calendar.getInstance().getTime();
 
-		int count = 2 * backgroundThreads;
+		int count = 3 * backgroundThreads;
 		List<Feed> feeds = feedDAO.findNextUpdatable(count);
 
 		int size = addQueue.size();

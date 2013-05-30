@@ -186,8 +186,9 @@ public class FeedUtils {
 		} else if (CollectionUtils.isNotEmpty(entries)) {
 			// use average time between entries to decide when to refresh next
 			long average = averageTimeBetweenEntries(entries);
+			int factor = 2;
 			return new Date(Math.min(DateUtils.addHours(now, 6).getTime(),
-					now.getTime() + average / 3));
+					now.getTime() + average / factor));
 		} else {
 			// unknown case, recheck in 24 hours
 			return DateUtils.addHours(now, 24);

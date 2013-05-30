@@ -139,7 +139,7 @@ public class FeedRefreshUpdater {
 
 		private void filterOldEntries() {
 
-			if (entries != null && entries.size() <= 50) {
+			if (entries != null && entries.size() > 0 && entries.size() <= 50) {
 				List<FeedEntry> keep = Lists.newArrayList();
 
 				List<String> guids = Lists.newArrayList();

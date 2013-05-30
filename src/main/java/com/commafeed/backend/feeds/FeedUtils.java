@@ -207,12 +207,8 @@ public class FeedUtils {
 
 	public static List<Long> getSortedTimestamps(List<FeedEntry> entries) {
 		List<Long> timestamps = Lists.newArrayList();
-		int i = 0;
 		for (FeedEntry entry : entries) {
 			timestamps.add(entry.getUpdated().getTime());
-			i++;
-			if (i >= 10)
-				break;
 		}
 		Collections.sort(timestamps);
 		Collections.reverse(timestamps);

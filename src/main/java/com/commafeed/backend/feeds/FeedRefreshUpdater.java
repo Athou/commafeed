@@ -14,12 +14,14 @@ import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.Feed;
@@ -29,6 +31,7 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.pubsubhubbub.SubscriptionHandler;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedUpdateService;
+import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Striped;
 
 @Singleton
@@ -57,6 +60,9 @@ public class FeedRefreshUpdater {
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
+
+	@Inject
+	FeedEntryDAO feedEntryDAO;
 
 	private ThreadPoolExecutor pool;
 	private BlockingQueue<Runnable> queue;
@@ -113,7 +119,7 @@ public class FeedRefreshUpdater {
 		@Override
 		public void run() {
 			boolean ok = true;
-			if (entries != null) {
+			if (CollectionUtils.isNotEmpty(entries) && hasWork()) {
 				List<FeedSubscription> subscriptions = feedSubscriptionDAO
 						.findByFeed(feed);
 				for (FeedEntry entry : entries) {
@@ -131,6 +137,26 @@ public class FeedRefreshUpdater {
 			taskGiver.giveBack(feed);
 		}
 
+		private boolean hasWork() {
+			boolean hasWork = false;
+
+			List<String> guids = Lists.newArrayList();
+			for (FeedEntry entry : entries) {
+				guids.add(entry.getGuid());
+			}
+
+			List<FeedEntry> existingEntries = feedEntryDAO.findByGuids(guids);
+			for (FeedEntry entry : entries) {
+				FeedEntry foundEntry = FeedUtils.findEntry(existingEntries,
+						entry);
+				if (foundEntry == null
+						|| FeedUtils.findFeed(foundEntry.getFeeds(), feed) == null) {
+					hasWork = true;
+					break;
+				}
+			}
+			return hasWork;
+		}
 	}
 
 	private boolean updateEntry(final Feed feed, final FeedEntry entry,

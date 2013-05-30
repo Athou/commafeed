@@ -3,11 +3,13 @@ package com.commafeed.backend.feeds;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
@@ -19,6 +21,7 @@ import org.mozilla.universalchardet.UniversalDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.google.api.client.util.Lists;
 
@@ -91,6 +94,30 @@ public class FeedUtils {
 							.prettyPrint(false));
 		}
 		return content;
+	}
+
+	public static FeedEntry findEntry(Collection<FeedEntry> list,
+			FeedEntry entry) {
+		FeedEntry found = null;
+		for (FeedEntry e : list) {
+			if (StringUtils.equals(entry.getGuid(), e.getGuid())
+					&& StringUtils.equals(entry.getUrl(), e.getUrl())) {
+				found = e;
+				break;
+			}
+		}
+		return found;
+	}
+
+	public static Feed findFeed(Collection<Feed> list, Feed feed) {
+		Feed found = null;
+		for (Feed f : list) {
+			if (ObjectUtils.equals(feed.getId(), f.getId())) {
+				found = f;
+				break;
+			}
+		}
+		return found;
 	}
 
 	public static String trimInvalidXmlCharacters(String xml) {

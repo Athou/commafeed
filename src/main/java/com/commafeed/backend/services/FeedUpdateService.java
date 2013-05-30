@@ -2,13 +2,9 @@ package com.commafeed.backend.services;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedEntryDAO;
@@ -40,7 +36,7 @@ public class FeedUpdateService {
 	public void updateEntry(Feed feed, FeedEntry entry,
 			List<FeedSubscription> subscriptions) {
 
-		FeedEntry foundEntry = findEntry(
+		FeedEntry foundEntry = FeedUtils.findEntry(
 				feedEntryDAO.findByGuid(entry.getGuid()), entry);
 
 		FeedEntry update = null;
@@ -56,11 +52,9 @@ public class FeedUpdateService {
 			entry.getFeeds().add(feed);
 
 			update = entry;
-		} else {
-			if (!findFeed(foundEntry.getFeeds(), feed)) {
-				foundEntry.getFeeds().add(feed);
-				update = foundEntry;
-			}
+		} else if (FeedUtils.findFeed(foundEntry.getFeeds(), feed) == null) {
+			foundEntry.getFeeds().add(feed);
+			update = foundEntry;
 		}
 
 		if (update != null) {
@@ -75,29 +69,6 @@ public class FeedUpdateService {
 			feedEntryStatusDAO.saveOrUpdate(statusUpdateList);
 			metricsBean.entryUpdated(statusUpdateList.size());
 		}
-	}
-
-	private FeedEntry findEntry(List<FeedEntry> existingEntries, FeedEntry entry) {
-		FeedEntry found = null;
-		for (FeedEntry existing : existingEntries) {
-			if (StringUtils.equals(entry.getGuid(), existing.getGuid())
-					&& StringUtils.equals(entry.getUrl(), existing.getUrl())) {
-				found = existing;
-				break;
-			}
-		}
-		return found;
-	}
-
-	private boolean findFeed(Set<Feed> feeds, Feed feed) {
-		boolean found = false;
-		for (Feed existingFeed : feeds) {
-			if (ObjectUtils.equals(existingFeed.getId(), feed.getId())) {
-				found = true;
-				break;
-			}
-		}
-		return found;
 	}
 
 }

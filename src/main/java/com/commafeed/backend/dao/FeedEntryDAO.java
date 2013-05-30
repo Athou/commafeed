@@ -15,6 +15,7 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntry_;
 import com.commafeed.backend.model.Feed_;
+import com.google.common.collect.Lists;
 
 @Stateless
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
@@ -25,6 +26,20 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
 		Root<FeedEntry> root = query.from(getType());
 		query.where(builder.equal(root.get(FeedEntry_.guidHash), hash));
+		root.fetch(FeedEntry_.feeds, JoinType.LEFT);
+		TypedQuery<FeedEntry> q = em.createQuery(query);
+		return q.getResultList();
+	}
+
+	public List<FeedEntry> findByGuids(List<String> guids) {
+		List<String> hashes = Lists.newArrayList();
+		for (String guid : guids) {
+			hashes.add(DigestUtils.sha1Hex(guid));
+		}
+
+		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
+		Root<FeedEntry> root = query.from(getType());
+		query.where(root.get(FeedEntry_.guidHash).in(hashes));
 		root.fetch(FeedEntry_.feeds, JoinType.LEFT);
 		TypedQuery<FeedEntry> q = em.createQuery(query);
 		return q.getResultList();

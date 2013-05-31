@@ -4,16 +4,22 @@ Sources for [CommaFeed.com](http://www.commafeed.com/).
 
 Google Reader inspired self-hosted RSS reader, based on JAX-RS, Wicket and AngularJS.
 
-Deploy on any JavaEE6 container or better yet on OpenShift.
+Deploy on your own server (using TomEE, a lightweight JavaEE6 container based on Tomcat) or even in the cloud for free on OpenShift.
 
 [Chrome extension](https://github.com/Athou/commafeed-chrome)
 
 [Firefox extension](https://github.com/Athou/commafeed-firefox)
 
+[Opera extension](https://github.com/Athou/commafeed-opera)
+
+[Safari extension](https://github.com/Athou/commafeed-safari)
+
 Deployment on OpenShift
 -----------------------
 
-Hosting an application on OpenShift is free.
+Hosting an application on OpenShift is free. 
+At the moment those instructions are not working because the application takes too long to build on OpenShift and causes a timeout. 
+See [here](http://jasonwryan.com/blog/2013/05/25/greader/) for an alternative method.
 
 * Create an account on [OpenShift](http://www.openshift.com/).
 * Add an application, select `JBoss Enterprise Application Platform 6.0`.

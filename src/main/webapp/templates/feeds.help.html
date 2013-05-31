@@ -83,14 +83,16 @@
 	</div>
 	<div class="span6">
 		<div class="about-module">
+			<h4><i class="icon-keyboard"></i> ${about.keyboard_shortcuts}</h4>
+			<div ng-include="'templates/_shortcuts.html'"></div>
+		</div>
+		
+		<div class="about-module">
 			<h4><i class="icon-info-sign"></i> ${about.announcements}</h4>
 			<a class="twitter-timeline" href="https://twitter.com/CommaFeed" data-widget-id="333897786657480704">Tweets by @CommaFeed</a>
 			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 		</div>
 		
-		<div class="about-module">
-			<h4><i class="icon-keyboard"></i> ${about.keyboard_shortcuts}</h4>
-			<div ng-include="'templates/_shortcuts.html'"></div>
-		</div>
+
 	</div>
 </div>

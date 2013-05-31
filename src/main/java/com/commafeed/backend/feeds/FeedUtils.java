@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.google.api.client.util.Lists;
+import com.google.gwt.i18n.client.HasDirection.Direction;
+import com.google.gwt.i18n.shared.BidiUtils;
 
 public class FeedUtils {
 
@@ -118,6 +120,12 @@ public class FeedUtils {
 			}
 		}
 		return found;
+	}
+
+	public static boolean isRTL(FeedEntry entry) {
+		String content = entry.getContent().getContent();
+		Direction direction = BidiUtils.get().estimateDirection(content, true);
+		return direction == Direction.RTL;
 	}
 
 	public static String trimInvalidXmlCharacters(String xml) {

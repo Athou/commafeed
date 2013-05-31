@@ -27,10 +27,11 @@
 					{{entry.feedName}}
 				</span>
 				<span class="entry-date visible-desktop">{{entry.date | entryDate}}</span>
-				<span class="entry-name" ng-class="{unread: entry.read == false, shrink: true}" ng-bind-html-unsafe="entry.title"></span>
+				<span class="entry-name" ng-class="{unread: entry.read == false, shrink: true, rtl: entry.rtl}" ng-bind-html-unsafe="entry.title"></span>
 				
 			</a>
-			<div class="entry-body" ui-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)" ng-mouseup="bodyClicked(entry, $event)">
+			<div class="entry-body" ui-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)" ng-mouseup="bodyClicked(entry, $event)"
+				ng-class="{rtl: entry.rtl}">
 				<div class="entry-header">
 					<h4 class="entry-title">
 						<a href="{{entry.url}}" target="_blank" ng-bind-html-unsafe="entry.title"></a>

@@ -31,6 +31,7 @@ public class Entry implements Serializable {
 		entry.setGuid(feedEntry.getGuid());
 		entry.setTitle(feedEntry.getContent().getTitle());
 		entry.setContent(feedEntry.getContent().getContent());
+		entry.setRtl(FeedUtils.isRTL(feedEntry));
 		entry.setAuthor(feedEntry.getAuthor());
 		entry.setEnclosureUrl(status.getEntry().getContent().getEnclosureUrl());
 		entry.setEnclosureType(status.getEntry().getContent()
@@ -76,6 +77,9 @@ public class Entry implements Serializable {
 
 	@ApiProperty("entry content")
 	private String content;
+
+	@ApiProperty("wether entry content and title are rtl")
+	private boolean rtl;
 
 	@ApiProperty("entry author")
 	private String author;
@@ -239,6 +243,14 @@ public class Entry implements Serializable {
 
 	public void setIconUrl(String iconUrl) {
 		this.iconUrl = iconUrl;
+	}
+
+	public boolean isRtl() {
+		return rtl;
+	}
+
+	public void setRtl(boolean rtl) {
+		this.rtl = rtl;
 	}
 
 }

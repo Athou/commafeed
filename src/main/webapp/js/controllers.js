@@ -556,6 +556,26 @@ function($scope, $http, $state, $stateParams, $route, $location,
 	};
 }]);
 
+module.controller('FeedCtrl', ['$scope', '$state', 'CategoryService',
+function($scope, $state, CategoryService) {
+	$scope.CategoryService = CategoryService;
+	$scope.feedSearchModal = false;
+
+	$scope.goToFeed = function(id) {
+		$state.transitionTo('feeds.view', {_type : 'feed', _id : id});
+		$scope.feedSearchModal=false;
+		$scope.feedFilter='';
+	};
+
+	Mousetrap.bind('g u', function(e) {
+		$scope.$apply(function() {
+			$scope.feedSearchModal = true;
+		});
+		return false;
+	});
+
+}]);
+
 module.controller('FeedListCtrl', ['$scope', '$stateParams', '$http', '$route', 
 	'$window', 'EntryService', 'SettingsService', 'FeedService', 'CategoryService', 'AnalyticsService',
 function($scope, $stateParams, $http, $route, $window, EntryService, SettingsService, FeedService, CategoryService, AnalyticsService) {

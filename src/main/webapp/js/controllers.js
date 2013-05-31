@@ -48,7 +48,7 @@ function($scope, FeedService, CategoryService, MobileService) {
 	
 	$scope.search = function() {
 		$scope.$emit('emitFeedSearch');
-	}
+	};
 
 	$scope.open = function() {
 		$scope.sub = {
@@ -593,7 +593,7 @@ function($scope, $state, $filter, $timeout, CategoryService) {
 			}
 		}
 		return index;
-	}
+	};
 	
 	$scope.focusPrevious = function(e) {
 		var index = getCurrentIndex();
@@ -622,7 +622,7 @@ function($scope, $state, $filter, $timeout, CategoryService) {
 			return;
 		}
 		$scope.goToFeed($scope.focus.id);
-	}
+	};
 
 	$scope.goToFeed = function(id) {		
 		$scope.close();

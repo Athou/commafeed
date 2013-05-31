@@ -124,10 +124,16 @@ public class FeedUtils {
 
 	public static boolean isRTL(FeedEntry entry) {
 		String content = entry.getContent().getContent();
+
+		if (StringUtils.isBlank(content)) {
+			return false;
+		}
+
 		String text = Jsoup.parse(content).text();
 		if (StringUtils.isBlank(text)) {
 			return false;
 		}
+
 		Direction direction = BidiUtils.get().estimateDirection(text);
 		return direction == Direction.RTL;
 	}

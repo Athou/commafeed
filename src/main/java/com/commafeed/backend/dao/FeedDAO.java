@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -15,7 +16,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
 import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.model.Feed_;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -50,6 +50,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 
 		query.select(builder.count(root));
 		query.where(getUpdatablePredicates(root).toArray(new Predicate[0]));
+		root.fetch(Feed_.pushInfo, JoinType.LEFT);
 
 		TypedQuery<Long> q = em.createQuery(query);
 		return q.getSingleResult();
@@ -60,19 +61,14 @@ public class FeedDAO extends GenericDAO<Feed> {
 		Root<Feed> root = query.from(getType());
 
 		query.where(getUpdatablePredicates(root).toArray(new Predicate[0]));
+		root.fetch(Feed_.pushInfo, JoinType.LEFT);
+
 		query.orderBy(builder.asc(root.get(Feed_.lastUpdated)));
 
 		TypedQuery<Feed> q = em.createQuery(query);
 		q.setMaxResults(count);
 
-		List<Feed> feeds = q.getResultList();
-		for (Feed feed : feeds) {
-			FeedPushInfo info = feed.getPushInfo();
-			if (info != null) {
-				info.getTopic();
-			}
-		}
-		return feeds;
+		return q.getResultList();
 	}
 
 	public Feed findByUrl(String url) {

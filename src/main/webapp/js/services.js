@@ -112,44 +112,42 @@ function($resource, $http) {
 
 module.factory('CategoryService', ['$resource', '$http', 
 function($resource, $http) {
-	var flatten = function(category, parentName, array) {
-		if (!array)
-			array = [];
-		var name = category.name;
-		if (parentName) {
-			name += (' (in ' + parentName + ')');
-		}
-		array.push({
-			id : category.id,
-			name : name, 
-			orig: category
-		});
-		if (category.children) {
-			for ( var i = 0; i < category.children.length; i++) {
-				flatten(category.children[i], category.name, array);
+	
+	var traverse = function(callback, category, parentName) {
+		callback(category, parentName);
+		var children = category.children;
+		if (children) {
+			for ( var c = 0; c < children.length; c++) {
+				traverse(callback, children[c], category.name);
 			}
 		}
+	};
+	
+	// flatten categories
+	var flatten = function(category) {
+		var array = [];
+		var callback = function(category, parentName) {
+			var name = category.name;
+			if (parentName) {
+				name += (' (in ' + parentName + ')');
+			}
+			array.push({
+				id : category.id,
+				name : name, 
+				orig: category
+			});
+		};
+		traverse(callback, category);
 		return array;
 	};
-	var traverse = function(fn, category, parentName) {
-		var subs = [];
-		fn(category, parentName);
-		var children = category.children;
-		for ( var c = 0; c < children.length; c++) {
-			traverse(fn, children[c], category.name);
-		}
-		return subs;
-	};
+
+	// flatten feeds
 	var flatfeeds = function(category) {
-		// TODO: This is a bit silly: We flatten the hierarchical list of
-		// subscriptions which was build from the flat list of subscriptions
-		// in CategoryREST.getSubscriptions(). It would be nice to have
-		// direct access to feedSubscriptionDAO.findAll().
 		var subs = [];
-		var cb = function(category) {
+		var callback = function(category) {
 			subs.push.apply(subs, category.feeds);
 		};
-		traverse(cb, category);
+		traverse(callback, category);
 		return subs;
 	};
 	var actions = {

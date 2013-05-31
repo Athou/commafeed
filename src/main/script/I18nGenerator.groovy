@@ -38,6 +38,9 @@ public class I18nGenerator {
 					}
 				} else {
 					newLines.add(null);
+					if (StringUtils.isNotBlank(langLine)) {
+						j--;
+					}
 				}
 				j++;
 			}

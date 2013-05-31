@@ -1,0 +1,27 @@
+<div ng-controller="FeedSearchCtrl">
+	<div modal="feedSearchModal" close="close()"
+		options="{dialogClass: 'modal feed-search-dialog'}">
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="close()">&times;</button>
+			<h4>
+				<input ng-model="filter" class="filter-input" 
+					ui-keydown="{'up': 'focusPrevious($event)', 'down': 'focusNext($event)', 'enter': 'openFocused()' }"
+					placeholder="${feedsearch.hint}" focus="feedSearchModal">
+			</h4>
+			<small>${feedsearch.help}</small>
+		</div>
+		<div class="modal-body">
+			<strong>${feedsearch.result_prefix}</strong>
+			<span
+				ng-repeat="feed in (filtered = (CategoryService.feeds | filter:{name: filter} | limitTo:40))">
+				<span ng-class="{block: filter, focus: focus.id == feed.id}" class="feed-link">
+					<a class=" pointer" ng-click="goToFeed(feed.id)">
+						<favicon url="feed.iconUrl" />
+						&nbsp;{{feed.name}}
+					</a>
+					<span ng-show="!filter && !$last">&bull;</span>
+				</span>
+			</span>
+		</div>
+	</div>
+</div>

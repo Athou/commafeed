@@ -26,6 +26,9 @@ module.run(['$rootScope', function($rootScope) {
 	$rootScope.$on('emitReload', function(event, args) {
 		$rootScope.$broadcast('reload');
 	});
+	$rootScope.$on('emitFeedSearch', function(event, args) {
+		$rootScope.$broadcast('feedSearch');
+	});
 }]);
 
 module.controller('SubscribeCtrl', ['$scope', 'FeedService', 'CategoryService', 'MobileService',
@@ -42,6 +45,10 @@ function($scope, FeedService, CategoryService, MobileService) {
 
 	$scope.CategoryService = CategoryService;
 	$scope.MobileService = MobileService;
+	
+	$scope.search = function() {
+		$scope.$emit('emitFeedSearch');
+	}
 
 	$scope.open = function() {
 		$scope.sub = {
@@ -556,22 +563,94 @@ function($scope, $http, $state, $stateParams, $route, $location,
 	};
 }]);
 
-module.controller('FeedCtrl', ['$scope', '$state', 'CategoryService',
-function($scope, $state, CategoryService) {
-	$scope.CategoryService = CategoryService;
+module.controller('FeedSearchCtrl', ['$scope', '$state', '$filter', '$timeout', 'CategoryService',
+function($scope, $state, $filter, $timeout, CategoryService) {
 	$scope.feedSearchModal = false;
+	$scope.filter = null;
+	$scope.focus = null;
+	$scope.CategoryService = CategoryService;
+	
+	$scope.$watch('filter', function() {
+		$timeout(function() {
+			if ($scope.filtered){
+				$scope.focus = $scope.filtered[0];
+			}
+		}, 0);
+	});
+	
+	var getCurrentIndex = function() {
+		var index = -1;
+		
+		if(!$scope.focus) {
+			return index;
+		}
+		
+		var filtered = $scope.filtered;
+		for (var i = 0; i < filtered.length; i++) {
+			if ($scope.focus.id == filtered[i].id) {
+				index = i;
+				break;
+			}
+		}
+		return index;
+	}
+	
+	$scope.focusPrevious = function(e) {
+		var index = getCurrentIndex();
+		if (index === 0) {
+			return;
+		} 
+		$scope.focus = $scope.filtered[index - 1];
+		
+		e.stopPropagation();
+		e.preventDefault();
+	};
+	
+	$scope.focusNext = function(e) {
+		var index = getCurrentIndex();
+		if (index == ($scope.filtered.length - 1)) {
+			return;
+		} 
+		$scope.focus = $scope.filtered[index + 1];
+		
+		e.stopPropagation();
+		e.preventDefault();
+	};
+	
+	$scope.openFocused = function() {
+		if (!$scope.focus) {
+			return;
+		}
+		$scope.goToFeed($scope.focus.id);
+	}
 
-	$scope.goToFeed = function(id) {
-		$state.transitionTo('feeds.view', {_type : 'feed', _id : id});
-		$scope.feedSearchModal=false;
-		$scope.feedFilter='';
+	$scope.goToFeed = function(id) {		
+		$scope.close();
+		$state.transitionTo('feeds.view', {
+			_type : 'feed', 
+			_id : id
+			}
+		);
+	};
+	
+	$scope.open = function() {
+		$scope.filter = null;
+		$scope.feedSearchModal = true;
+	};
+	
+	$scope.close = function() {
+		$scope.feedSearchModal = false;
 	};
 
 	Mousetrap.bind('g u', function(e) {
 		$scope.$apply(function() {
-			$scope.feedSearchModal = true;
+			$scope.open();
 		});
 		return false;
+	});
+	
+	$scope.$on('feedSearch', function() {
+		$scope.open();
 	});
 
 }]);

@@ -1,6 +1,22 @@
 /* feed search dialog */
-.item-filter-dialog .modal-body {
+.feed-search-dialog .modal-body {
 	overflow: hidden;
+}
+
+.feed-search-dialog .filter-input {
+	width: 90%;
+}
+
+.feed-search-dialog .feed-link {
+	font-size: large; 
+}
+
+.feed-search-dialog a:hover {
+	text-decoration: none;
+}
+
+.feed-search-dialog .focus a {
+	color: black;
 }
 
 /* tree*/

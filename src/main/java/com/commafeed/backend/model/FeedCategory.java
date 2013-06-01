@@ -35,6 +35,8 @@ public class FeedCategory extends AbstractModel {
 
 	private boolean collapsed;
 
+	private Integer position;
+
 	public String getName() {
 		return name;
 	}
@@ -84,6 +86,14 @@ public class FeedCategory extends AbstractModel {
 
 	public void setCollapsed(boolean collapsed) {
 		this.collapsed = collapsed;
+	}
+
+	public Integer getPosition() {
+		return position;
+	}
+
+	public void setPosition(Integer position) {
+		this.position = position;
 	}
 
 }

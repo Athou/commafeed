@@ -15,34 +15,44 @@ module.directive('focus', [ '$timeout', function($timeout) {
 	};
 } ]);
 
-
 /**
  * Open a popup window pointing to the url in the href attribute
  */
-module.directive('popup', function() {
-	return {
-		link : function(scope, elm, attrs) {
-			elm.bind('click', function(event) {
-				window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=800');
-				event.preventDefault();
-			});
-		}
-	};
-});
+module
+		.directive(
+				'popup',
+				function() {
+					return {
+						link : function(scope, elm, attrs) {
+							elm
+									.bind(
+											'click',
+											function(event) {
+												window
+														.open(this.href, '',
+																'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=800');
+												event.preventDefault();
+											});
+						}
+					};
+				});
 
 /**
  * Reusable favicon component
  */
-module.directive('favicon', function() {
-	return {
-		restrict : 'E',
-		scope : {
-			url : '='
-		},
-		replace : true,
-		template : '<img ng-src="{{url}}" class="favicon" onError="this.src=\'images/default_favicon.gif\'"></img>'
-	};
-});
+module
+		.directive(
+				'favicon',
+				function() {
+					return {
+						restrict : 'E',
+						scope : {
+							url : '='
+						},
+						replace : true,
+						template : '<img ng-src="{{url}}" class="favicon" onError="this.src=\'images/default_favicon.gif\'"></img>'
+					};
+				});
 
 /**
  * Support for the blur event
@@ -61,11 +71,11 @@ module.directive('ngBlur', function() {
 /**
  * Fired when the top of the element is not visible anymore
  */
-module.directive('onScrollMiddle', function () {
+module.directive('onScrollMiddle', function() {
 	return {
 		restrict : 'A',
 		link : function(scope, element, attrs) {
-			
+
 			var w = $(window);
 			var e = $(element);
 			var d = $(document);
@@ -75,7 +85,8 @@ module.directive('onScrollMiddle', function () {
 					return;
 				var docTop = w.scrollTop();
 				var elemTop = e.offset().top;
-				var threshold = docTop === 0 ? elemTop - 1 : docTop + w.height() / 3; 
+				var threshold = docTop === 0 ? elemTop - 1 : docTop
+						+ w.height() / 3;
 				return (elemTop > threshold) ? 'below' : 'above';
 			};
 			var up = function() {
@@ -84,27 +95,31 @@ module.directive('onScrollMiddle', function () {
 				var docTop = w.scrollTop();
 				var elemTop = e.offset().top;
 				var elemBottom = elemTop + e.height();
-				var threshold = docTop === 0 ? elemBottom - 1 : docTop + w.height() / 3; 
+				var threshold = docTop === 0 ? elemBottom - 1 : docTop
+						+ w.height() / 3;
 				return (elemBottom > threshold) ? 'below' : 'above';
 			};
-			
+
 			w.data.scrollPosition = d.scrollTop();
 			w.data.scrollDirection = 'down';
-			if(!w.data.scrollInit){
-				w.bind('scroll', function(e) {
-					var scroll = d.scrollTop();
-					w.data.scrollDirection = (scroll - w.data.scrollPosition > 0) ? 'down' : 'up';
-					w.data.scrollPosition = scroll;
-					scope.$apply();
-				});
+			if (!w.data.scrollInit) {
+				w.bind('scroll',
+						function(e) {
+							var scroll = d.scrollTop();
+							w.data.scrollDirection = (scroll
+									- w.data.scrollPosition > 0) ? 'down'
+									: 'up';
+							w.data.scrollPosition = scroll;
+							scope.$apply();
+						});
 				w.data.scrollInit = true;
 			}
 			scope.$watch(down, function downCallback(value, oldValue) {
-				if(value && value != oldValue && value == 'above')
+				if (value && value != oldValue && value == 'above')
 					scope.$eval(attrs.onScrollMiddle);
 			});
 			scope.$watch(up, function upCallback(value, oldValue) {
-				if(value && value != oldValue && value == 'below')
+				if (value && value != oldValue && value == 'below')
 					scope.$eval(attrs.onScrollMiddle);
 			});
 		}
@@ -145,7 +160,8 @@ module.directive('scrollTo', [ '$timeout', function($timeout) {
 } ]);
 
 /**
- * Prevent mousewheel scrolling from propagating to the parent when scrollbar reaches top or bottom
+ * Prevent mousewheel scrolling from propagating to the parent when scrollbar
+ * reaches top or bottom
  */
 module.directive('mousewheelScrolling', function() {
 	return {
@@ -168,7 +184,8 @@ module.directive('mousewheelScrolling', function() {
 });
 
 /**
- * Needed to use recursive directives. Wrap a recursive element with a <recursive> tag
+ * Needed to use recursive directives. Wrap a recursive element with a
+ * <recursive> tag
  */
 module.directive('recursive', [ '$compile', function($compile) {
 	return {
@@ -196,7 +213,7 @@ module.directive('category', [ function() {
 	return {
 		scope : {
 			node : '=',
-			level: '=',
+			level : '=',
 			selectedType : '=',
 			selectedId : '=',
 			showLabel : '=',
@@ -217,15 +234,16 @@ module.directive('category', [ function() {
 				function($scope, $state, $dialog, FeedService, CategoryService,
 						SettingsService, MobileService) {
 					$scope.settingsService = SettingsService;
-					
+
 					$scope.getClass = function(level) {
-						if ($scope.showLabel){
+						if ($scope.showLabel) {
 							return 'indent' + level;
 						}
 					};
-					
+
 					$scope.categoryLabel = function(category) {
-						return $scope.showLabel !== true ? $scope.showLabel : category.name;
+						return $scope.showLabel !== true ? $scope.showLabel
+								: category.name;
 					};
 
 					$scope.categoryCountLabel = function(category) {
@@ -272,16 +290,16 @@ module.directive('category', [ function() {
 							});
 						}
 					};
-					
+
 					$scope.showFeedDetails = function(feed) {
 						$state.transitionTo('feeds.feed_details', {
-							_id: feed.id
+							_id : feed.id
 						});
 					};
-					
+
 					$scope.showCategoryDetails = function(category) {
 						$state.transitionTo('feeds.category_details', {
-							_id: category.id
+							_id : category.id
 						});
 					};
 
@@ -335,6 +353,42 @@ module.directive('spinner', function() {
 					element.append(spinner.el);
 				} else {
 					spinner.stop();
+				}
+			});
+		}
+	};
+});
+
+module.directive('draggable', function() {
+	return {
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+			element.draggable({
+				revert: true
+			}).data('source', scope.$eval(attrs.draggable));
+		}
+	};
+});
+
+module.directive('droppable', function($compile) {
+	return {
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+			element.droppable({
+				tolerance: 'pointer',
+				over: function(event, ui) {
+					console.log(scope.$eval(attrs.droppable));
+				},
+				drop : function(event, ui) {
+					var draggable = angular.element(ui.draggable);
+					
+					
+					var index = draggable.data('index');
+					var source = draggable.data('source');
+					
+					console.log(source)
+
+					scope.$apply();
 				}
 			});
 		}

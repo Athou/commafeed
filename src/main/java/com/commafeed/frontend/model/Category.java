@@ -8,18 +8,35 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.common.collect.Lists;
+import com.wordnik.swagger.annotations.ApiClass;
+import com.wordnik.swagger.annotations.ApiProperty;
 
 @SuppressWarnings("serial")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@ApiClass("Entry details")
 public class Category implements Serializable {
 
+	@ApiProperty("category id")
 	private String id;
+
+	@ApiProperty("parent category id")
 	private String parentId;
+
+	@ApiProperty("category id")
 	private String name;
+
+	@ApiProperty("category children categories")
 	private List<Category> children = Lists.newArrayList();
+
+	@ApiProperty("category feeds")
 	private List<Subscription> feeds = Lists.newArrayList();
+
+	@ApiProperty("wether the category is expanded or collapsed")
 	private boolean expanded;
+
+	@ApiProperty("position of the category in the list")
+	private Integer position;
 
 	public String getId() {
 		return id;
@@ -68,4 +85,13 @@ public class Category implements Serializable {
 	public void setExpanded(boolean expanded) {
 		this.expanded = expanded;
 	}
+
+	public Integer getPosition() {
+		return position;
+	}
+
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
+
 }

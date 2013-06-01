@@ -29,6 +29,7 @@ public class Subscription implements Serializable {
 		Subscription sub = new Subscription();
 		sub.setId(subscription.getId());
 		sub.setName(subscription.getTitle());
+		sub.setPosition(subscription.getPosition());
 		sub.setMessage(feed.getMessage());
 		sub.setErrorCount(feed.getErrorCount());
 		sub.setFeedUrl(feed.getUrl());
@@ -76,6 +77,9 @@ public class Subscription implements Serializable {
 
 	@ApiProperty(value = "category id")
 	private String categoryId;
+
+	@ApiProperty("position of the subscription's in the list")
+	private Integer position;
 
 	public Long getId() {
 		return id;
@@ -163,6 +167,14 @@ public class Subscription implements Serializable {
 
 	public void setIconUrl(String iconUrl) {
 		this.iconUrl = iconUrl;
+	}
+
+	public Integer getPosition() {
+		return position;
+	}
+
+	public void setPosition(Integer position) {
+		this.position = position;
 	}
 
 }

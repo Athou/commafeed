@@ -5,6 +5,8 @@ import java.util.List;
 import javax.ejb.ApplicationException;
 import javax.inject.Inject;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -50,7 +52,7 @@ public class FeedSubscriptionService {
 			FeedCategory category) {
 
 		final String pubUrl = applicationSettingsService.get().getPublicUrl();
-		if (pubUrl == null) {
+		if (StringUtils.isBlank(pubUrl)) {
 			throw new FeedSubscriptionException(
 					"Public URL of this CommaFeed instance is not set");
 		}

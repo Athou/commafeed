@@ -337,6 +337,14 @@ public class FeedREST extends AbstractResourceREST {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@ApiOperation(value = "OPML import", notes = "Import an OPML file, posted as a FORM with the 'file' name")
 	public Response importOpml() {
+
+		String publicUrl = applicationSettingsService.get().getPublicUrl();
+		if (StringUtils.isBlank(publicUrl)) {
+			throw new WebApplicationException(Response
+					.status(Status.INTERNAL_SERVER_ERROR)
+					.entity("Set the public URL in the admin section.").build());
+		}
+
 		if (StartupBean.USERNAME_DEMO.equals(getUser().getName())) {
 			return Response.status(Status.UNAUTHORIZED)
 					.entity("Import is disabled for the demo account").build();

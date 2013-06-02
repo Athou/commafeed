@@ -144,6 +144,7 @@ h3 small{font-size:14px;}
 h4 small{font-size:14px;}
 .page-header{padding-bottom:9px;margin:20px 0 30px;border-bottom:1px solid #eeeeee;}
 ul,ol{padding:0;margin:0 0 10px 25px;}
+.rtl ul, .rtl ol{padding:0;margin:0 25px 10px 0px;}
 ul ul,ul ol,ol ol,ol ul{margin-bottom:0;}
 li{line-height:20px;}
 ul.unstyled,ol.unstyled{margin-left:0;list-style:none;}

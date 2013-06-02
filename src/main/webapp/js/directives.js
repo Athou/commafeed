@@ -364,6 +364,8 @@ module.directive('draggable', function() {
 		restrict : 'A',
 		link : function(scope, element, attrs) {
 			element.draggable({
+				revert: 'invalid',
+				helper: 'clone',
 				axis: 'y'
 			}).data('source', scope.$eval(attrs.draggable));
 		}
@@ -384,6 +386,10 @@ module.directive('droppable', [ 'CategoryService', 'FeedService', function(Categ
 					
 					var source = draggable.data('source');
 					var target = scope.$eval(attrs.droppable);
+					
+					if (angular.equals(source, target)) {
+						return;
+					}
 					
 					var data = {
 						id: source.id,

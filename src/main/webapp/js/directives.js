@@ -364,13 +364,13 @@ module.directive('draggable', function() {
 		restrict : 'A',
 		link : function(scope, element, attrs) {
 			element.draggable({
-				revert: true
+				axis: 'y'
 			}).data('source', scope.$eval(attrs.draggable));
 		}
 	};
 });
 
-module.directive('droppable', function($compile) {
+module.directive('droppable', [ 'CategoryService', 'FeedService', function(CategoryService, FeedService) {
 	return {
 		restrict : 'A',
 		link : function(scope, element, attrs) {
@@ -382,15 +382,50 @@ module.directive('droppable', function($compile) {
 				drop : function(event, ui) {
 					var draggable = angular.element(ui.draggable);
 					
-					
-					var index = draggable.data('index');
 					var source = draggable.data('source');
+					var target = scope.$eval(attrs.droppable);
 					
-					console.log(source)
+					var data = {
+						id: source.id,
+						name: source.name
+					};
+					
+					if (source.children) {
+						// source is a category
 
+						if (target.children) {
+							// target is a category
+							data.parentId = target.id;
+							data.position = 0;
+						} else {
+							// target is a feed
+							data.parentId = target.categoryId;
+						}
+						
+						CategoryService.modify(data, function() {
+							CategoryService.init();
+						});
+					} else {
+						// source is a feed
+						
+						if (target.children) {
+							// target is a category
+							data.categoryId = target.id;
+							data.position = 0;
+						} else {
+							// target is a feed
+							data.categoryId = target.categoryId;
+							data.position = target.position;
+						}
+						
+						FeedService.modify(data, function() {
+							CategoryService.init();
+						});
+					}
+					
 					scope.$apply();
 				}
 			});
 		}
 	};
-});
+}]);

@@ -15,6 +15,10 @@
 	padding-left: 25px;
 }
 
+.rtl .entry-header, .rtl .entry-body-content, .rtl.entry-name {
+	direction: rtl;
+}
+
 #feed-accordion .entry {
 	border-bottom: 1px solid #CCCCCC;
 }
@@ -83,6 +87,10 @@
 
 #feed-accordion .entry-body img {
 	display: block;
+}
+
+#feed-accordion  .entry-header {
+	max-width: 650px;
 }
 
 #feed-accordion  .entry-body-content {

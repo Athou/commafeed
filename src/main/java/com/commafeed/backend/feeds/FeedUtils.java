@@ -127,13 +127,17 @@ public class FeedUtils {
 	}
 
 	public static boolean isRTL(FeedEntry entry) {
-		String content = entry.getContent().getContent();
+		String text = entry.getContent().getContent();
 
-		if (StringUtils.isBlank(content)) {
+		if (StringUtils.isBlank(text)) {
+			text = entry.getContent().getTitle();
+		}
+
+		if (StringUtils.isBlank(text)) {
 			return false;
 		}
 
-		String text = Jsoup.parse(content).text();
+		text = Jsoup.parse(text).text();
 		if (StringUtils.isBlank(text)) {
 			return false;
 		}

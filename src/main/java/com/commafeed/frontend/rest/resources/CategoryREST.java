@@ -266,6 +266,31 @@ public class CategoryREST extends AbstractResourceREST {
 					Long.valueOf(req.getParentId()));
 		}
 		category.setParent(parent);
+
+		if (req.getPosition() != null) {
+			List<FeedCategory> categories = feedCategoryDAO.findByParent(
+					getUser(), parent);
+			int existingIndex = -1;
+			for (int i = 0; i < categories.size(); i++) {
+				if (ObjectUtils.equals(categories.get(i).getId(),
+						category.getId())) {
+					existingIndex = i;
+				}
+			}
+			if (existingIndex != -1) {
+				categories.remove(existingIndex);
+			}
+
+			categories.add(Math.min(req.getPosition(), categories.size()),
+					category);
+			for (int i = 0; i < categories.size(); i++) {
+				categories.get(i).setPosition(i);
+			}
+			feedCategoryDAO.update(categories);
+		} else {
+			feedCategoryDAO.update(category);
+		}
+
 		feedCategoryDAO.update(category);
 
 		return Response.ok(Status.OK).build();

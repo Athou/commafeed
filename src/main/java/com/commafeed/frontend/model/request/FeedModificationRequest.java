@@ -24,6 +24,9 @@ public class FeedModificationRequest implements Serializable {
 	@ApiProperty(value = "new parent category id")
 	private String categoryId;
 
+	@ApiProperty(value = "new display position, null if not changed")
+	private Integer position;
+
 	public Long getId() {
 		return id;
 	}
@@ -46,6 +49,14 @@ public class FeedModificationRequest implements Serializable {
 
 	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public Integer getPosition() {
+		return position;
+	}
+
+	public void setPosition(Integer position) {
+		this.position = position;
 	}
 
 }

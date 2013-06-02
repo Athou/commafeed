@@ -15,8 +15,13 @@
 	padding-left: 25px;
 }
 
-.rtl .entry-header, .rtl .entry-body-content, .rtl.entry-name {
+.rtl .entry-header,.rtl .entry-body-content,.rtl.entry-name {
 	direction: rtl;
+}
+
+.rtl ul,.rtl ol {
+	padding: 0;
+	margin: 0 25px 10px 0px;
 }
 
 #feed-accordion .entry {

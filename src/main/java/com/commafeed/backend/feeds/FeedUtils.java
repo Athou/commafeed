@@ -65,10 +65,10 @@ public class FeedUtils {
 					"sub", "sup", "table", "tbody", "td", "tfoot", "th",
 					"thead", "tr", "u", "ul");
 
-            whitelist.addAttributes("div", "dir");
-            whitelist.addAttributes("pre", "dir");
-            whitelist.addAttributes("code", "dir");
-            whitelist.addAttributes("table", "dir");
+			whitelist.addAttributes("div", "dir");
+			whitelist.addAttributes("pre", "dir");
+			whitelist.addAttributes("code", "dir");
+			whitelist.addAttributes("table", "dir");
 			whitelist.addAttributes("a", "href", "title");
 			whitelist.addAttributes("blockquote", "cite");
 			whitelist.addAttributes("col", "span", "width");

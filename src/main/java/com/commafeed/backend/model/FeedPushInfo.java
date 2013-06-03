@@ -1,11 +1,15 @@
 package com.commafeed.backend.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Index;
 
@@ -25,7 +29,8 @@ public class FeedPushInfo extends AbstractModel {
 	@Column(length = 2048, nullable = false)
 	private String hub;
 
-	private boolean active;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastPing;
 
 	public String getTopic() {
 		return topic;
@@ -51,12 +56,12 @@ public class FeedPushInfo extends AbstractModel {
 		this.hub = hub;
 	}
 
-	public boolean isActive() {
-		return active;
+	public Date getLastPing() {
+		return lastPing;
 	}
 
-	public void setActive(boolean active) {
-		this.active = active;
+	public void setLastPing(Date lastPing) {
+		this.lastPing = lastPing;
 	}
 
 }

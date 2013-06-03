@@ -1,5 +1,6 @@
 package com.commafeed.frontend.rest.resources;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -65,7 +66,7 @@ public class PubSubHubbubCallbackREST {
 			for (FeedPushInfo info : infos) {
 				log.debug("activated push notifications for {}",
 						info.getTopic());
-				info.setActive(true);
+				info.setLastPing(Calendar.getInstance().getTime());
 			}
 			feedPushInfoDAO.update(infos);
 			return Response.ok(challenge).build();

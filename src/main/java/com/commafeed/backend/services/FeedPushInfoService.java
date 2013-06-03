@@ -29,7 +29,6 @@ public class FeedPushInfoService {
 			info.setFeed(feed);
 			info.setHub(hub);
 			info.setTopic(topic);
-			info.setActive(false);
 			feedPushInfoDAO.save(info);
 		} else {
 			info = infos.get(0);

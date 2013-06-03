@@ -1,6 +1,8 @@
 package com.commafeed.backend.feeds;
 
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -15,6 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -188,13 +191,17 @@ public class FeedRefreshUpdater {
 
 	private void handlePubSub(final Feed feed) {
 		FeedPushInfo info = feed.getPushInfo();
-		if (info != null && info.isActive() == false) {
-			new Thread() {
-				@Override
-				public void run() {
-					handler.subscribe(feed);
-				}
-			}.start();
+		if (info != null) {
+			Date lastPing = info.getLastPing();
+			Date now = Calendar.getInstance().getTime();
+			if (lastPing == null || lastPing.before(DateUtils.addDays(now, -3))) {
+				new Thread() {
+					@Override
+					public void run() {
+						handler.subscribe(feed);
+					}
+				}.start();
+			}
 		}
 	}
 

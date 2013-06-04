@@ -103,15 +103,15 @@ module.directive('onScrollMiddle', function() {
 			w.data.scrollPosition = d.scrollTop();
 			w.data.scrollDirection = 'down';
 			if (!w.data.scrollInit) {
-				w.bind('scroll',
-						function(e) {
-							var scroll = d.scrollTop();
-							w.data.scrollDirection = (scroll
-									- w.data.scrollPosition > 0) ? 'down'
-									: 'up';
-							w.data.scrollPosition = scroll;
-							scope.$apply();
-						});
+				var onScroll = function(e) {
+					var scroll = d.scrollTop();
+					w.data.scrollDirection = (scroll
+							- w.data.scrollPosition > 0) ? 'down'
+							: 'up';
+					w.data.scrollPosition = scroll;
+					scope.$apply();
+				};
+				w.bind('scroll', _.throttle(onScroll, 500));
 				w.data.scrollInit = true;
 			}
 			scope.$watch(down, function downCallback(value, oldValue) {

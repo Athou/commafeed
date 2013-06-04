@@ -21,7 +21,7 @@
 			</div>
 		</div>
 		
-		<div class="control-group">
+		<div class="control-group" ui-if="!isMeta()">
 			<label class="control-label">${details.position}</label>
 			<div class="controls">
 				<input type="number" min="0" ng-model="category.position" />

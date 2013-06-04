@@ -201,6 +201,7 @@ public class CategoryREST extends AbstractResourceREST {
 		FeedCategory cat = new FeedCategory();
 		cat.setName(req.getName());
 		cat.setUser(getUser());
+		cat.setPosition(0);
 		String parentId = req.getParentId();
 		if (parentId != null && !ALL.equals(parentId)) {
 			FeedCategory parent = new FeedCategory();

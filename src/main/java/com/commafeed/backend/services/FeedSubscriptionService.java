@@ -72,6 +72,7 @@ public class FeedSubscriptionService {
 			newSubscription = true;
 		}
 		sub.setCategory(category);
+		sub.setPosition(0);
 		sub.setTitle(FeedUtils.truncate(title, 128));
 		feedSubscriptionDAO.saveOrUpdate(sub);
 

@@ -28,6 +28,13 @@
 		</div>
 
 		<div class="control-group">
+			<label class="control-label">${details.position}</label>
+			<div class="controls">
+				<input type="number" min="0" ng-model="sub.position" />
+			</div>
+		</div>
+
+		<div class="control-group">
 			<label class="control-label">${details.last_refresh}</label>
 			<div class="controls horizontal-align">
 				<span>{{sub.lastRefresh|entryDate}}</span>

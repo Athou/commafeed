@@ -54,7 +54,12 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 	public List<FeedCategory> findByParent(User user, FeedCategory parent) {
 		EasyCriteria<FeedCategory> criteria = createCriteria();
 		criteria.andEquals(FeedCategory_.user.getName(), user);
-		criteria.andEquals(FeedCategory_.parent.getName(), parent);
+		if (parent == null) {
+			criteria.andIsNull(FeedCategory_.parent.getName());
+		} else {
+			criteria.andEquals(FeedCategory_.parent.getName(), parent);
+		}
+
 		return criteria.getResultList();
 	}
 

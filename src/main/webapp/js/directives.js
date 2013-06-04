@@ -398,7 +398,10 @@ module.directive('droppable', [ 'CategoryService', 'FeedService', function(Categ
 					
 					if (source.children) {
 						// source is a category
-
+						
+						/*
+						 * TODO better handling of category dragging
+						 * 
 						if (target.children) {
 							// target is a category
 							data.parentId = target.id;
@@ -411,6 +414,7 @@ module.directive('droppable', [ 'CategoryService', 'FeedService', function(Categ
 						CategoryService.modify(data, function() {
 							CategoryService.init();
 						});
+						*/
 					} else {
 						// source is a feed
 						

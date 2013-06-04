@@ -81,8 +81,6 @@ module.directive('onScrollMiddle', function() {
 			var d = $(document);
 
 			var down = function() {
-				if (w.data.scrollDirection != 'down')
-					return;
 				var docTop = w.scrollTop();
 				var elemTop = e.offset().top;
 				var threshold = docTop === 0 ? elemTop - 1 : docTop
@@ -90,8 +88,6 @@ module.directive('onScrollMiddle', function() {
 				return (elemTop > threshold) ? 'below' : 'above';
 			};
 			var up = function() {
-				if (w.data.scrollDirection != 'up')
-					return;
 				var docTop = w.scrollTop();
 				var elemTop = e.offset().top;
 				var elemBottom = elemTop + e.height();
@@ -100,9 +96,10 @@ module.directive('onScrollMiddle', function() {
 				return (elemBottom > threshold) ? 'below' : 'above';
 			};
 
-			w.data.scrollPosition = d.scrollTop();
-			w.data.scrollDirection = 'down';
 			if (!w.data.scrollInit) {
+				w.data.scrollPosition = d.scrollTop();
+				w.data.scrollDirection = 'down';
+				
 				var onScroll = function(e) {
 					var scroll = d.scrollTop();
 					w.data.scrollDirection = (scroll
@@ -115,11 +112,11 @@ module.directive('onScrollMiddle', function() {
 				w.data.scrollInit = true;
 			}
 			scope.$watch(down, function downCallback(value, oldValue) {
-				if (value && value != oldValue && value == 'above')
+				if (value != oldValue && value == 'above')
 					scope.$eval(attrs.onScrollMiddle);
 			});
 			scope.$watch(up, function upCallback(value, oldValue) {
-				if (value && value != oldValue && value == 'below')
+				if (value != oldValue && value == 'below')
 					scope.$eval(attrs.onScrollMiddle);
 			});
 		}

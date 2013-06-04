@@ -378,6 +378,7 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 				$scope.category = {
 					id: cat.id,
 					name: cat.orig.name,
+					position: cat.orig.position,
 					parentId: cat.orig.parentId
 				};
 				break;

@@ -337,6 +337,7 @@ module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedS
 		FeedService.modify({
 			id : sub.id,
 			name : sub.name,
+			position: sub.position,
 			categoryId : sub.categoryId
 		}, function() {
 			CategoryService.init();
@@ -427,6 +428,7 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 		CategoryService.modify({
 			id : cat.id,
 			name : cat.name,
+			position: cat.position,
 			parentId : cat.parentId
 		}, function() {
 			CategoryService.init();

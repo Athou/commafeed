@@ -14,10 +14,10 @@
 	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode" infinite-scroll-distance="1" id="feed-accordion"
 		ng-class="{'expanded' : settingsService.settings.viewMode == 'expanded' }">
 		<div ng-show="message && errorCount > 10">${view.error_while_loading_feed} : {{message}}</div>
-		<div ng-repeat="entry in entries" class="entry" scroll-to="navigationMode == 'click' && current == entry" scroll-to-offset="-58" 
-			on-scroll-middle="onScroll(entry)" ng-class="{current: current==entry}">
-			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)"
-				ng-class="{open: current == entry, closed: current != entry}">
+		<div ng-repeat="entry in entries" class="entry" scroll-to="navigationMode == 'click' && current == entry" 
+			scroll-to-offset="-58" on-scroll-middle="onScroll(entry)" 
+			ng-class="{unread: entry.read == false, current: current==entry, open: isOpen, closed: !isOpen}">
+			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)">
 				<span class="feed-name visible-desktop">
 					<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
 						<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}"
@@ -27,7 +27,7 @@
 					{{entry.feedName}}
 				</span>
 				<span class="entry-date visible-desktop">{{entry.date | entryDate}}</span>
-				<span class="entry-name" ng-class="{unread: entry.read == false, shrink: true, rtl: entry.rtl}" ng-bind-html-unsafe="entry.title"></span>
+				<span class="entry-name" ng-class="{shrink: true, rtl: entry.rtl}" ng-bind-html-unsafe="entry.title"></span>
 				
 			</a>
 			<div class="entry-body" ui-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)" ng-mouseup="bodyClicked(entry, $event)"

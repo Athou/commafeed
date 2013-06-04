@@ -140,16 +140,12 @@ module.directive('scrollTo', [ '$timeout', function($timeout) {
 					var elemTop = $(element).offset().top;
 					var elemBottom = elemTop + $(element).height();
 
-					if ((elemTop > docTop) && (elemBottom < docBottom)) {
-						// element is entirely visible
-						return;
-					} else {
-						var offset = parseInt(attrs.scrollToOffset, 10);
-						var scrollTop = $(element).offset().top + offset;
-						$('html, body').animate({
-							scrollTop : scrollTop
-						}, 0);
-					}
+					var offset = parseInt(attrs.scrollToOffset, 10);
+					var scrollTop = $(element).offset().top + offset;
+					$('html, body').animate({
+						scrollTop : scrollTop
+					}, 0);
+					
 				});
 			});
 		}

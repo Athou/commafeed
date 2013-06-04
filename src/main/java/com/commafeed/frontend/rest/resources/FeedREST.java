@@ -24,6 +24,7 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -327,7 +328,29 @@ public class FeedREST extends AbstractResourceREST {
 					Long.valueOf(req.getCategoryId()));
 		}
 		subscription.setCategory(parent);
-		feedSubscriptionDAO.update(subscription);
+
+		if (req.getPosition() != null) {
+			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategory(
+					getUser(), parent);
+			int existingIndex = -1;
+			for (int i = 0; i < subs.size(); i++) {
+				if (ObjectUtils.equals(subs.get(i).getId(),
+						subscription.getId())) {
+					existingIndex = i;
+				}
+			}
+			if (existingIndex != -1) {
+				subs.remove(existingIndex);
+			}
+
+			subs.add(Math.min(req.getPosition(), subs.size()), subscription);
+			for (int i = 0; i < subs.size(); i++) {
+				subs.get(i).setPosition(i);
+			}
+			feedSubscriptionDAO.update(subs);
+		} else {
+			feedSubscriptionDAO.update(subscription);
+		}
 
 		return Response.ok(Status.OK).build();
 	}

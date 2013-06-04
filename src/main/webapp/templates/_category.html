@@ -1,5 +1,5 @@
 <li>
-	<div class="pointer tree-item" ui-if="showLabel" ng-class="getClass(level - 1)">
+	<div class="pointer tree-item" ui-if="showLabel" ng-class="getClass(level - 1)" droppable="node">
 		<div class="dropdown pull-right">
 			<div class="pull-right" ng-click="showCategoryDetails(node)">
 				<i class="icon-wrench config pointer"></i>
@@ -11,7 +11,7 @@
 				<i ng-class="{'icon-star' : node.id == 'starred', 'icon-inbox': node.id == 'all'}" ng-show="!showChildren"></i>
 			</span>
 			<span ng-class="{selected: (node.id == selectedId && selectedType == 'category'), unread: unreadCount({category:node})}">
-			{{categoryLabel(node)}} {{categoryCountLabel(node)}}
+				{{categoryLabel(node)}} {{categoryCountLabel(node)}}
 			</span>
 		</div>
 	</div>
@@ -23,7 +23,7 @@
 				unread-count="unreadCount({category:category})"> 
 			</category> 
 		</recursive>
-		<li ng-repeat="feed in node.feeds" ng-class="getClass(level)" class="tree-item"
+		<li ng-repeat="feed in node.feeds" ng-class="getClass(level)" class="tree-item" draggable="feed" droppable="feed"
 			ng-show="settingsService.settings.showRead == true || feed.unread > 0">
 			<div class="pull-right" ng-click="showFeedDetails(feed)">
 				<i class="icon-wrench config pointer"></i>

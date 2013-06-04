@@ -3,6 +3,8 @@
 
 	<group name="lib">
 		<js minimize="false">/vendor/jquery/*.js</js>
+		<js minimize="false">/vendor/lodash/*.js</js>
+		<js minimize="false">/vendor/jqueryui/*.js</js>
 		<js minimize="false">/vendor/jquery-mousewheel/*.js</js>
 		<js minimize="false">/vendor/bootstrap/*.js</js>
 		<js minimize="false">/vendor/angularjs/*.js</js>

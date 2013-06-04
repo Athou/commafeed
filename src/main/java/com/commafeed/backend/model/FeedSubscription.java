@@ -33,6 +33,8 @@ public class FeedSubscription extends AbstractModel {
 	@OneToMany(mappedBy = "subscription", cascade = CascadeType.REMOVE)
 	private Set<FeedEntryStatus> statuses;
 
+	private Integer position;
+
 	public Feed getFeed() {
 		return feed;
 	}
@@ -71,6 +73,14 @@ public class FeedSubscription extends AbstractModel {
 
 	public void setStatuses(Set<FeedEntryStatus> statuses) {
 		this.statuses = statuses;
+	}
+
+	public Integer getPosition() {
+		return position;
+	}
+
+	public void setPosition(Integer position) {
+		this.position = position;
 	}
 
 }

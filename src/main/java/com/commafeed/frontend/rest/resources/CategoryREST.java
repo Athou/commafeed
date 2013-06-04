@@ -266,6 +266,31 @@ public class CategoryREST extends AbstractResourceREST {
 					Long.valueOf(req.getParentId()));
 		}
 		category.setParent(parent);
+
+		if (req.getPosition() != null) {
+			List<FeedCategory> categories = feedCategoryDAO.findByParent(
+					getUser(), parent);
+			int existingIndex = -1;
+			for (int i = 0; i < categories.size(); i++) {
+				if (ObjectUtils.equals(categories.get(i).getId(),
+						category.getId())) {
+					existingIndex = i;
+				}
+			}
+			if (existingIndex != -1) {
+				categories.remove(existingIndex);
+			}
+
+			categories.add(Math.min(req.getPosition(), categories.size()),
+					category);
+			for (int i = 0; i < categories.size(); i++) {
+				categories.get(i).setPosition(i);
+			}
+			feedCategoryDAO.update(categories);
+		} else {
+			feedCategoryDAO.update(category);
+		}
+
 		feedCategoryDAO.update(category);
 
 		return Response.ok(Status.OK).build();
@@ -290,6 +315,19 @@ public class CategoryREST extends AbstractResourceREST {
 	}
 
 	@GET
+	@Path("/unreadCount")
+	@ApiOperation(value = "Get unread count for feed subscriptions", responseClass = "List[com.commafeed.frontend.model.UnreadCount]")
+	public Response getUnreadCount() {
+		List<UnreadCount> list = Lists.newArrayList();
+		Map<Long, Long> unreadCount = feedEntryStatusDAO
+				.getUnreadCount(getUser());
+		for (Map.Entry<Long, Long> e : unreadCount.entrySet()) {
+			list.add(new UnreadCount(e.getKey(), e.getValue()));
+		}
+		return Response.ok(list).build();
+	}
+
+	@GET
 	@Path("/get")
 	@ApiOperation(value = "Get feed categories", notes = "Get all categories and subscriptions of the user", responseClass = "com.commafeed.frontend.model.Category")
 	public Response getSubscriptions() {
@@ -308,19 +346,6 @@ public class CategoryREST extends AbstractResourceREST {
 		return Response.ok(root).build();
 	}
 
-	@GET
-	@Path("/unreadCount")
-	@ApiOperation(value = "Get unread count for feed subscriptions", responseClass = "List[com.commafeed.frontend.model.UnreadCount]")
-	public Response getUnreadCount() {
-		List<UnreadCount> list = Lists.newArrayList();
-		Map<Long, Long> unreadCount = feedEntryStatusDAO
-				.getUnreadCount(getUser());
-		for (Map.Entry<Long, Long> e : unreadCount.entrySet()) {
-			list.add(new UnreadCount(e.getKey(), e.getValue()));
-		}
-		return Response.ok(list).build();
-	}
-
 	private Category buildCategory(Long id, List<FeedCategory> categories,
 			List<FeedSubscription> subscriptions, Map<Long, Long> unreadCount) {
 		Category category = new Category();
@@ -335,6 +360,7 @@ public class CategoryREST extends AbstractResourceREST {
 						subscriptions, unreadCount);
 				child.setId(String.valueOf(c.getId()));
 				child.setName(c.getName());
+				child.setPosition(c.getPosition());
 				if (c.getParent() != null && c.getParent().getId() != null) {
 					child.setParentId(String.valueOf(c.getParent().getId()));
 				}
@@ -345,7 +371,7 @@ public class CategoryREST extends AbstractResourceREST {
 		Collections.sort(category.getChildren(), new Comparator<Category>() {
 			@Override
 			public int compare(Category o1, Category o2) {
-				return ObjectUtils.compare(o1.getName(), o2.getName());
+				return ObjectUtils.compare(o1.getPosition(), o2.getPosition());
 			}
 		});
 
@@ -364,7 +390,7 @@ public class CategoryREST extends AbstractResourceREST {
 		Collections.sort(category.getFeeds(), new Comparator<Subscription>() {
 			@Override
 			public int compare(Subscription o1, Subscription o2) {
-				return ObjectUtils.compare(o1.getName(), o2.getName());
+				return ObjectUtils.compare(o1.getPosition(), o2.getPosition());
 			}
 		});
 		return category;

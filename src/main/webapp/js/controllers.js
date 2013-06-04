@@ -145,9 +145,9 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 	$timeout(function refreshTree() {
 		AnalyticsService.track();
 		CategoryService.init(function() {
-			$timeout(refreshTree, 15000);
+			$timeout(refreshTree, 30000);
 		}, function() {
-			$timeout(refreshTree, 15000);
+			$timeout(refreshTree, 30000);
 		});
 	}, 15000);
 

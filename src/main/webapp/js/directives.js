@@ -379,7 +379,7 @@ module.directive('droppable', [ 'CategoryService', 'FeedService', function(Categ
 			element.droppable({
 				tolerance: 'pointer',
 				over: function(event, ui) {
-					console.log(scope.$eval(attrs.droppable));
+					
 				},
 				drop : function(event, ui) {
 					var draggable = angular.element(ui.draggable);

@@ -3,6 +3,8 @@ package com.commafeed.frontend.rest.resources;
 import java.io.StringWriter;
 import java.net.URI;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -332,6 +334,13 @@ public class FeedREST extends AbstractResourceREST {
 		if (req.getPosition() != null) {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategory(
 					getUser(), parent);
+			Collections.sort(subs, new Comparator<FeedSubscription>() {
+				@Override
+				public int compare(FeedSubscription o1, FeedSubscription o2) {
+					return ObjectUtils.compare(o1.getPosition(), o2.getPosition());
+				}
+			});
+			
 			int existingIndex = -1;
 			for (int i = 0; i < subs.size(); i++) {
 				if (ObjectUtils.equals(subs.get(i).getId(),

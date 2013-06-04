@@ -270,6 +270,13 @@ public class CategoryREST extends AbstractResourceREST {
 		if (req.getPosition() != null) {
 			List<FeedCategory> categories = feedCategoryDAO.findByParent(
 					getUser(), parent);
+			Collections.sort(categories, new Comparator<FeedCategory>() {
+				@Override
+				public int compare(FeedCategory o1, FeedCategory o2) {
+					return ObjectUtils.compare(o1.getPosition(), o2.getPosition());
+				}
+			});
+			
 			int existingIndex = -1;
 			for (int i = 0; i < categories.size(); i++) {
 				if (ObjectUtils.equals(categories.get(i).getId(),

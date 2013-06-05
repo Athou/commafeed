@@ -794,7 +794,8 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		} else {
 			$scope.mark(entry, true);
 		}
-	}
+	};
+	
 	$scope.entryClicked = function(entry, event) {
 		$scope.navigationMode = 'click';
 		openEntry(entry, event);

@@ -295,7 +295,7 @@ public class FeedREST extends AbstractResourceREST {
 
 	@POST
 	@Path("/unsubscribe")
-	@ApiOperation(value = "Unsubscribe to a feed", notes = "Unsubscribe to a feed")
+	@ApiOperation(value = "Unsubscribe from a feed", notes = "Unsubscribe from a feed")
 	public Response unsubscribe(@ApiParam(required = true) IDRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());

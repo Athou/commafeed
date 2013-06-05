@@ -124,7 +124,8 @@ module.directive('onScrollMiddle', function() {
 });
 
 /**
- * Scrolls to the element if the value is true
+ * Scrolls to the element if the value is true and the attribute is not fully visible, 
+ * unless the attribute scroll-to-force is true
  */
 module.directive('scrollTo', [ '$timeout', function($timeout) {
 	return {
@@ -133,6 +134,9 @@ module.directive('scrollTo', [ '$timeout', function($timeout) {
 			scope.$watch(attrs.scrollTo, function(value) {
 				if (!value)
 					return;
+				var force = scope.$eval(attrs.scrollToForce);
+				
+				// timeout here to execute after dom update
 				$timeout(function() {
 					var docTop = $(window).scrollTop();
 					var docBottom = docTop + $(window).height();
@@ -140,12 +144,16 @@ module.directive('scrollTo', [ '$timeout', function($timeout) {
 					var elemTop = $(element).offset().top;
 					var elemBottom = elemTop + $(element).height();
 
-					var offset = parseInt(attrs.scrollToOffset, 10);
-					var scrollTop = $(element).offset().top + offset;
-					$('html, body').animate({
-						scrollTop : scrollTop
-					}, 0);
-					
+					if (!force && (elemTop > docTop) && (elemBottom < docBottom)) {
+						 // element is entirely visible
+						 return;
+		           } else {
+						var offset = parseInt(attrs.scrollToOffset, 10);
+						var scrollTop = $(element).offset().top + offset;
+						$('html, body').animate({
+							scrollTop : scrollTop
+						}, 0);
+					}
 				});
 			});
 		}

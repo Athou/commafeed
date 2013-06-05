@@ -15,7 +15,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<production>false</production>
-		<jpa.show_sql>false</jpa.show_sql>
+		<jpa.show_sql>true</jpa.show_sql>
 		<jpa.datasource.name>java:openejb/Resource/My DataSource</jpa.datasource.name>
 		<jpa.dialect>org.hibernate.dialect.HSQLDialect</jpa.dialect>
 	</properties>
@@ -129,7 +129,7 @@
 							<processors>
 								<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
 							</processors>
-							<outputDirectory>target/metamodel</outputDirectory>
+							<outputDirectory>target/generated-sources/metamodel</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -140,25 +140,6 @@
 						<version>1.2.0.Final</version>
 					</dependency>
 				</dependencies>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.8</version>
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>target/metamodel</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

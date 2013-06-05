@@ -18,10 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter;
-import com.commafeed.backend.dao.FeedPushInfoDAO;
+import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.google.common.collect.Lists;
 
@@ -34,12 +33,11 @@ public class SubscriptionHandler {
 	ApplicationSettingsService applicationSettingsService;
 
 	@Inject
-	FeedPushInfoDAO feedPushInfoDAO;
+	FeedDAO feedDAO;
 
 	public void subscribe(Feed feed) {
-		FeedPushInfo info = feed.getPushInfo();
-		String hub = info.getHub();
-		String topic = info.getTopic();
+		String hub = feed.getPushHub();
+		String topic = feed.getPushTopic();
 		String publicUrl = FeedUtils
 				.removeTrailingSlash(applicationSettingsService.get()
 						.getPublicUrl());
@@ -73,10 +71,10 @@ public class SubscriptionHandler {
 				if (code == 400
 						&& StringUtils.contains(message, pushpressError)) {
 					String[] tokens = message.split(" ");
-					info.setTopic(tokens[tokens.length - 1]);
-					feedPushInfoDAO.update(info);
+					feed.setPushTopic(tokens[tokens.length - 1]);
+					feedDAO.update(feed);
 					log.debug("handled pushpress subfeed {} : {}", topic,
-							info.getTopic());
+							feed.getPushTopic());
 				} else {
 					throw new Exception("Unexpected response code: " + code
 							+ " " + response.getStatusLine().getReasonPhrase()

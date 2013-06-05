@@ -15,9 +15,7 @@ import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.services.ApplicationSettingsService;
-import com.commafeed.backend.services.FeedPushInfoService;
 import com.sun.syndication.io.FeedException;
 
 public class FeedRefreshWorker {
@@ -36,9 +34,6 @@ public class FeedRefreshWorker {
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
-
-	@Inject
-	FeedPushInfoService feedPushInfoService;
 
 	@Inject
 	MetricsBean metricsBean;
@@ -166,11 +161,8 @@ public class FeedRefreshWorker {
 				topic = "http://" + topic;
 			}
 			log.debug("feed {} has pubsub info: {}", feed.getUrl(), topic);
-			FeedPushInfo info = feed.getPushInfo();
-			if (info == null) {
-				info = feedPushInfoService.findOrCreate(feed, hub, topic);
-			}
-			feed.setPushInfo(info);
+			feed.setPushHub(hub);
+			feed.setPushTopic(topic);
 		}
 	}
 

@@ -28,7 +28,6 @@ import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.pubsubhubbub.SubscriptionHandler;
 import com.commafeed.backend.services.ApplicationSettingsService;
@@ -163,9 +162,8 @@ public class FeedRefreshUpdater {
 	}
 
 	private void handlePubSub(final Feed feed) {
-		FeedPushInfo info = feed.getPushInfo();
-		if (info != null) {
-			Date lastPing = info.getLastPing();
+		if (feed.getPushHub() != null && feed.getPushTopic() != null) {
+			Date lastPing = feed.getPushLastPing();
 			Date now = Calendar.getInstance().getTime();
 			if (lastPing == null || lastPing.before(DateUtils.addDays(now, -3))) {
 				new Thread() {

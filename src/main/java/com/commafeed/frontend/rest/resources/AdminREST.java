@@ -21,7 +21,6 @@ import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.wordnik.swagger.annotations.Api;
@@ -176,11 +175,13 @@ public class AdminREST extends AbstractResourceREST {
 	@Path("/metrics")
 	@GET
 	public Response getMetrics() {
-		Map<String, ? extends Object> map = ImmutableMap.of("lastMinute",
-				metricsBean.getLastMinute(), "lastHour",
-				metricsBean.getLastHour(), "backlog",
-				feedDAO.getUpdatableCount(), "queue",
-				feedRefreshUpdater.getQueueSize());
+		Map<String, Object> map = Maps.newLinkedHashMap();
+		map.put("lastMinute", metricsBean.getLastMinute());
+		map.put("lastHour", metricsBean.getLastHour());
+		map.put("backlog", feedDAO.getUpdatableCount());
+		map.put("queue", feedRefreshUpdater.getQueueSize());
+		map.put("cache", metricsBean.getCacheStats());
+		
 		return Response.ok(map).build();
 	}
 }

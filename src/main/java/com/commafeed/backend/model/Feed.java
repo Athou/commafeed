@@ -3,6 +3,7 @@ package com.commafeed.backend.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 
 import com.google.common.collect.Sets;
@@ -22,6 +25,8 @@ import com.google.common.collect.Sets;
 @org.hibernate.annotations.Table(appliesTo = "FEEDS", indexes = { @Index(name = "disabled_lastupdated_index", columnNames = {
 		"disabledUntil", "lastUpdated" }), })
 @SuppressWarnings("serial")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Feed extends AbstractModel {
 
 	/**

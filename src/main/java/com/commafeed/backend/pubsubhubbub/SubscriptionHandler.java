@@ -85,8 +85,8 @@ public class SubscriptionHandler {
 			}
 			log.debug("subscribed to {} for {}", hub, topic);
 		} catch (Exception e) {
-			log.error("Could not subscribe to {} for {} : {}", hub, topic,
-					e.getMessage(), e);
+			log.error("Could not subscribe to {} for {} : " + e.getMessage(),
+					hub, topic);
 		} finally {
 			client.getConnectionManager().shutdown();
 		}

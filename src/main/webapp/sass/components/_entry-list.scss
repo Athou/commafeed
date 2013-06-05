@@ -44,7 +44,6 @@
 }
 
 #feed-accordion .unread .entry-heading {
-	font-weight: bold;
 	background-color: #fff;
 }
 
@@ -54,7 +53,6 @@
 
 #feed-accordion .entry-heading .feed-name {
 	color: #555;
-	font-weight: normal;
 	display: block;
 	overflow: hidden;
 	white-space: nowrap;
@@ -69,6 +67,10 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	margin-right: 125px;
+}
+
+#feed-accordion .unread .entry-heading .entry-name {
+	font-weight: bold;
 }
 
 #feed-accordion .entry-heading .shrink {

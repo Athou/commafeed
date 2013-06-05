@@ -145,9 +145,9 @@ module.directive('scrollTo', [ '$timeout', function($timeout) {
 					var elemBottom = elemTop + $(element).height();
 
 					if (!force && (elemTop > docTop) && (elemBottom < docBottom)) {
-						 // element is entirely visible
-						 return;
-		           } else {
+						// element is entirely visible
+						return;
+					} else {
 						var offset = parseInt(attrs.scrollToOffset, 10);
 						var scrollTop = $(element).offset().top + offset;
 						$('html, body').animate({

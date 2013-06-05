@@ -317,11 +317,13 @@ public class FeedREST extends AbstractResourceREST {
 			@ApiParam(value = "subscription id", required = true) FeedModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
-		Preconditions.checkNotNull(req.getName());
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
 				req.getId());
-		subscription.setTitle(req.getName());
+
+		if (StringUtils.isNotBlank(req.getName())) {
+			subscription.setTitle(req.getName());
+		}
 
 		FeedCategory parent = null;
 		if (req.getCategoryId() != null
@@ -337,10 +339,11 @@ public class FeedREST extends AbstractResourceREST {
 			Collections.sort(subs, new Comparator<FeedSubscription>() {
 				@Override
 				public int compare(FeedSubscription o1, FeedSubscription o2) {
-					return ObjectUtils.compare(o1.getPosition(), o2.getPosition());
+					return ObjectUtils.compare(o1.getPosition(),
+							o2.getPosition());
 				}
 			});
-			
+
 			int existingIndex = -1;
 			for (int i = 0; i < subs.size(); i++) {
 				if (ObjectUtils.equals(subs.get(i).getId(),

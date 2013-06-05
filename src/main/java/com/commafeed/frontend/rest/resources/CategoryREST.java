@@ -252,11 +252,13 @@ public class CategoryREST extends AbstractResourceREST {
 			@ApiParam(required = true) CategoryModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
-		Preconditions.checkArgument(StringUtils.isNotBlank(req.getName()));
 
 		FeedCategory category = feedCategoryDAO
 				.findById(getUser(), req.getId());
-		category.setName(req.getName());
+
+		if (StringUtils.isNotBlank(req.getName())) {
+			category.setName(req.getName());
+		}
 
 		FeedCategory parent = null;
 		if (req.getParentId() != null
@@ -274,10 +276,11 @@ public class CategoryREST extends AbstractResourceREST {
 			Collections.sort(categories, new Comparator<FeedCategory>() {
 				@Override
 				public int compare(FeedCategory o1, FeedCategory o2) {
-					return ObjectUtils.compare(o1.getPosition(), o2.getPosition());
+					return ObjectUtils.compare(o1.getPosition(),
+							o2.getPosition());
 				}
 			});
-			
+
 			int existingIndex = -1;
 			for (int i = 0; i < categories.size(); i++) {
 				if (ObjectUtils.equals(categories.get(i).getId(),

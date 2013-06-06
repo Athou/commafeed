@@ -3,10 +3,12 @@ package com.commafeed.frontend.rest.resources;
 import java.util.Map;
 import java.util.Set;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -174,14 +176,17 @@ public class AdminREST extends AbstractResourceREST {
 
 	@Path("/metrics")
 	@GET
-	public Response getMetrics() {
+	public Response getMetrics(
+			@QueryParam("backlog") @DefaultValue("false") boolean backlog) {
 		Map<String, Object> map = Maps.newLinkedHashMap();
 		map.put("lastMinute", metricsBean.getLastMinute());
 		map.put("lastHour", metricsBean.getLastHour());
-		map.put("backlog", feedDAO.getUpdatableCount());
+		if (backlog) {
+			map.put("backlog", feedDAO.getUpdatableCount());
+		}
 		map.put("queue", feedRefreshUpdater.getQueueSize());
 		map.put("cache", metricsBean.getCacheStats());
-		
+
 		return Response.ok(map).build();
 	}
 }

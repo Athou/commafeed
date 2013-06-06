@@ -109,15 +109,13 @@ public class FeedRefreshWorker {
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified (304) : " + feed.getUrl());
 
-			feed.setErrorCount(0);
-			feed.setMessage(null);
-
 			Date disabledUntil = null;
 			if (applicationSettingsService.get().isHeavyLoad()) {
 
 				Date lastUpdateSuccess = feed.getLastUpdateSuccess();
 				Date lastDisabledUntil = feed.getDisabledUntil();
-				if (lastUpdateSuccess != null && lastDisabledUntil != null
+				if (feed.getErrorCount() == 0 && lastUpdateSuccess != null
+						&& lastDisabledUntil != null
 						&& lastUpdateSuccess.before(lastDisabledUntil)) {
 					long millis = now.getTime() + lastDisabledUntil.getTime()
 							- lastUpdateSuccess.getTime();
@@ -134,6 +132,8 @@ public class FeedRefreshWorker {
 							feedEntries);
 				}
 			}
+			feed.setErrorCount(0);
+			feed.setMessage(null);
 			feed.setDisabledUntil(disabledUntil);
 
 			taskGiver.giveBack(feed);

@@ -40,6 +40,16 @@
 	color: black;
 	cursor: pointer;
 	padding: 6px 0px;
+	background-color: #ebebeb;
+}
+
+#feed-accordion .unread .entry-heading {
+	font-weight: bold;
+	background-color: #fff;
+}
+
+#feed-accordion .current.closed .entry-heading {
+	background-color: #ffc;
 }
 
 #feed-accordion .entry-heading .feed-name {
@@ -72,18 +82,6 @@
 
 #feed-accordion a.entry-heading:hover {
 	text-decoration: none;
-}
-
-#feed-accordion .open {
-	background-color: #EBEBEB;
-}
-
-#feed-accordion .closed:hover {
-	background-color: #EBEBEB;
-}
-
-#feed-accordion .entry-heading .unread {
-	font-weight: bold;
 }
 
 #feed-accordion .entry-body h4 {

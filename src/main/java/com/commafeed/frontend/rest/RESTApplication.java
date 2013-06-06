@@ -13,7 +13,6 @@ import com.commafeed.frontend.rest.resources.FeedREST;
 import com.commafeed.frontend.rest.resources.PubSubHubbubCallbackREST;
 import com.commafeed.frontend.rest.resources.ServerREST;
 import com.commafeed.frontend.rest.resources.UserREST;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.google.common.collect.Sets;
 import com.wordnik.swagger.jaxrs.JaxrsApiReader;
 
@@ -27,7 +26,7 @@ public class RESTApplication extends Application {
 	@Override
 	public Set<Class<?>> getClasses() {
 		Set<Class<?>> set = Sets.newHashSet();
-		set.add(JacksonJsonProvider.class);
+		set.add(JsonProvider.class);
 
 		set.add(EntryREST.class);
 		set.add(FeedREST.class);

@@ -1,6 +1,7 @@
 package com.commafeed.backend.feeds;
 
 import java.io.StringReader;
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -92,7 +93,7 @@ public class FeedParser {
 
 				FeedEntryContent content = new FeedEntryContent();
 				content.setContent(getContent(item));
-				content.setTitle(item.getTitle());
+				content.setTitle(getTitle(item));
 				SyndEnclosure enclosure = (SyndEnclosure) Iterables.getFirst(
 						item.getEnclosures(), null);
 				if (enclosure != null) {
@@ -179,6 +180,19 @@ public class FeedParser {
 					SystemUtils.LINE_SEPARATOR);
 		}
 		return content;
+	}
+
+	private String getTitle(SyndEntry item) {
+		String title = item.getTitle();
+		if (StringUtils.isBlank(title)) {
+			Date date = item.getPublishedDate();
+			if (date != null) {
+				title = DateFormat.getInstance().format(date);
+			} else {
+				title = "(no title)";
+			}
+		}
+		return title;
 	}
 
 	@SuppressWarnings("unchecked")

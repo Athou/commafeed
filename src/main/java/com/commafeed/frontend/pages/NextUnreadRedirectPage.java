@@ -42,7 +42,7 @@ public class NextUnreadRedirectPage extends WebPage {
 		if (StringUtils.isBlank(categoryId)
 				|| CategoryREST.ALL.equals(categoryId)) {
 			statuses = feedEntryStatusDAO.findAll(user, true, 0, 1,
-					ReadingOrder.desc, false);
+					ReadingOrder.desc, true);
 		} else {
 			FeedCategory category = feedCategoryDAO.findById(user,
 					Long.valueOf(categoryId));

@@ -85,7 +85,6 @@ public class FeedRefreshWorker {
 
 	private void update(Feed feed) {
 
-
 		try {
 			FetchedFeed fetchedFeed = fetcher.fetch(feed.getUrl(), false,
 					feed.getLastModifiedHeader(), feed.getEtagHeader());
@@ -114,13 +113,24 @@ public class FeedRefreshWorker {
 
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified (304) : " + feed.getUrl());
-			List<FeedEntry> feedEntries = feedEntryDAO.findByFeed(feed, 0, 10);
-			Date publishedDate = null;
-			if (feedEntries.size() > 0) {
-				publishedDate = feedEntries.get(0).getInserted();
+
+			feed.setErrorCount(0);
+			feed.setMessage(null);
+
+			Date disabledUntil = null;
+			if (applicationSettingsService.get().isHeavyLoad()) {
+				List<FeedEntry> feedEntries = feedEntryDAO.findByFeed(feed, 0,
+						10);
+
+				Date publishedDate = null;
+				if (feedEntries.size() > 0) {
+					publishedDate = feedEntries.get(0).getInserted();
+				}
+				disabledUntil = FeedUtils.buildDisabledUntil(publishedDate,
+						feedEntries);
 			}
-			feed.setDisabledUntil(FeedUtils.buildDisabledUntil(publishedDate,
-					feedEntries));
+			feed.setDisabledUntil(disabledUntil);
+
 			taskGiver.giveBack(feed);
 		} catch (Exception e) {
 			String message = "Unable to refresh feed " + feed.getUrl() + " : "

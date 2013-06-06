@@ -20,6 +20,7 @@ public class UserRoleDAO extends GenericDAO<UserRole> {
 	public List<UserRole> findAll() {
 		EasyCriteria<UserRole> criteria = EasyCriteriaFactory
 				.createQueryCriteria(em, getType());
+		criteria.setDistinctTrue();
 		criteria.leftJoinFetch(UserRole_.user.getName());
 		return criteria.getResultList();
 	}

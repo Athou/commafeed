@@ -17,7 +17,7 @@ public class FeedEntryService {
 		FeedEntryStatus status = feedEntryStatusDAO.findById(user, entryId);
 		if (status != null) {
 			status.setRead(read);
-			feedEntryStatusDAO.update(status);
+			feedEntryStatusDAO.saveOrUpdate(status);
 		}
 	}
 
@@ -25,7 +25,7 @@ public class FeedEntryService {
 		FeedEntryStatus status = feedEntryStatusDAO.findById(user, entryId);
 		if (status != null) {
 			status.setStarred(starred);
-			feedEntryStatusDAO.update(status);
+			feedEntryStatusDAO.saveOrUpdate(status);
 		}
 	}
 }

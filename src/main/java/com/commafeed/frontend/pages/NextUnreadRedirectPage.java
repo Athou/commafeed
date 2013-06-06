@@ -60,7 +60,7 @@ public class NextUnreadRedirectPage extends WebPage {
 			FeedEntryStatus status = Iterables.getFirst(statuses, null);
 			String url = status.getEntry().getUrl();
 			status.setRead(true);
-			feedEntryStatusDAO.update(status);
+			feedEntryStatusDAO.saveOrUpdate(status);
 			throw new RedirectToUrlException(url);
 		}
 	}

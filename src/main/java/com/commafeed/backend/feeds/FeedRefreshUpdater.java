@@ -28,12 +28,10 @@ import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.pubsubhubbub.SubscriptionHandler;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedUpdateService;
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Striped;
 
 @Singleton
@@ -121,7 +119,6 @@ public class FeedRefreshUpdater {
 		@Override
 		public void run() {
 			boolean ok = true;
-			filterOldEntries();
 			if (entries.isEmpty() == false) {
 				List<FeedSubscription> subscriptions = feedSubscriptionDAO
 						.findByFeed(feed);
@@ -138,31 +135,6 @@ public class FeedRefreshUpdater {
 			}
 			metricsBean.feedUpdated();
 			taskGiver.giveBack(feed);
-		}
-
-		private void filterOldEntries() {
-
-			if (entries != null && entries.size() > 0 && entries.size() <= 50) {
-				List<FeedEntry> keep = Lists.newArrayList();
-
-				List<String> guids = Lists.newArrayList();
-				for (FeedEntry entry : entries) {
-					guids.add(entry.getGuid());
-				}
-
-				List<FeedEntry> existingEntries = feedEntryDAO
-						.findByGuids(guids);
-
-				for (FeedEntry entry : entries) {
-					FeedEntry found = FeedUtils.findEntry(existingEntries,
-							entry);
-					if (found == null
-							|| FeedUtils.findFeed(found.getFeeds(), feed) == null) {
-						keep.add(entry);
-					}
-				}
-				entries = keep;
-			}
 		}
 	}
 
@@ -190,9 +162,8 @@ public class FeedRefreshUpdater {
 	}
 
 	private void handlePubSub(final Feed feed) {
-		FeedPushInfo info = feed.getPushInfo();
-		if (info != null) {
-			Date lastPing = info.getLastPing();
+		if (feed.getPushHub() != null && feed.getPushTopic() != null) {
+			Date lastPing = feed.getPushLastPing();
 			Date now = Calendar.getInstance().getTime();
 			if (lastPing == null || lastPing.before(DateUtils.addDays(now, -3))) {
 				new Thread() {

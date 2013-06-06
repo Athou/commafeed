@@ -208,7 +208,7 @@ public class CategoryREST extends AbstractResourceREST {
 			parent.setId(Long.valueOf(parentId));
 			cat.setParent(parent);
 		}
-		feedCategoryDAO.save(cat);
+		feedCategoryDAO.saveOrUpdate(cat);
 		return Response.ok().build();
 	}
 
@@ -227,7 +227,7 @@ public class CategoryREST extends AbstractResourceREST {
 			for (FeedSubscription sub : subs) {
 				sub.setCategory(null);
 			}
-			feedSubscriptionDAO.update(subs);
+			feedSubscriptionDAO.saveOrUpdate(subs);
 			List<FeedCategory> categories = feedCategoryDAO
 					.findAllChildrenCategories(getUser(), cat);
 			for (FeedCategory child : categories) {
@@ -236,7 +236,7 @@ public class CategoryREST extends AbstractResourceREST {
 					child.setParent(null);
 				}
 			}
-			feedCategoryDAO.update(categories);
+			feedCategoryDAO.saveOrUpdate(categories);
 
 			feedCategoryDAO.delete(cat);
 			return Response.ok().build();
@@ -252,11 +252,13 @@ public class CategoryREST extends AbstractResourceREST {
 			@ApiParam(required = true) CategoryModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
-		Preconditions.checkArgument(StringUtils.isNotBlank(req.getName()));
 
 		FeedCategory category = feedCategoryDAO
 				.findById(getUser(), req.getId());
-		category.setName(req.getName());
+
+		if (StringUtils.isNotBlank(req.getName())) {
+			category.setName(req.getName());
+		}
 
 		FeedCategory parent = null;
 		if (req.getParentId() != null
@@ -274,10 +276,11 @@ public class CategoryREST extends AbstractResourceREST {
 			Collections.sort(categories, new Comparator<FeedCategory>() {
 				@Override
 				public int compare(FeedCategory o1, FeedCategory o2) {
-					return ObjectUtils.compare(o1.getPosition(), o2.getPosition());
+					return ObjectUtils.compare(o1.getPosition(),
+							o2.getPosition());
 				}
 			});
-			
+
 			int existingIndex = -1;
 			for (int i = 0; i < categories.size(); i++) {
 				if (ObjectUtils.equals(categories.get(i).getId(),
@@ -294,12 +297,12 @@ public class CategoryREST extends AbstractResourceREST {
 			for (int i = 0; i < categories.size(); i++) {
 				categories.get(i).setPosition(i);
 			}
-			feedCategoryDAO.update(categories);
+			feedCategoryDAO.saveOrUpdate(categories);
 		} else {
-			feedCategoryDAO.update(category);
+			feedCategoryDAO.saveOrUpdate(category);
 		}
 
-		feedCategoryDAO.update(category);
+		feedCategoryDAO.saveOrUpdate(category);
 
 		return Response.ok(Status.OK).build();
 	}
@@ -317,7 +320,7 @@ public class CategoryREST extends AbstractResourceREST {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		category.setCollapsed(req.isCollapse());
-		feedCategoryDAO.update(category);
+		feedCategoryDAO.saveOrUpdate(category);
 
 		return Response.ok(Status.OK).build();
 	}

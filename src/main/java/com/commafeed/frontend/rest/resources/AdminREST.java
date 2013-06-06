@@ -3,10 +3,12 @@ package com.commafeed.frontend.rest.resources;
 import java.util.Map;
 import java.util.Set;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -21,7 +23,6 @@ import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.wordnik.swagger.annotations.Api;
@@ -69,11 +70,11 @@ public class AdminREST extends AbstractResourceREST {
 			}
 			user.setEmail(userModel.getEmail());
 			user.setDisabled(!userModel.isEnabled());
-			userDAO.update(user);
+			userDAO.saveOrUpdate(user);
 
 			Set<Role> roles = userRoleDAO.findRoles(user);
 			if (userModel.isAdmin() && !roles.contains(Role.ADMIN)) {
-				userRoleDAO.save(new UserRole(user, Role.ADMIN));
+				userRoleDAO.saveOrUpdate(new UserRole(user, Role.ADMIN));
 			} else if (!userModel.isAdmin() && roles.contains(Role.ADMIN)) {
 				if (StartupBean.USERNAME_ADMIN.equals(user.getName())) {
 					return Response
@@ -175,12 +176,17 @@ public class AdminREST extends AbstractResourceREST {
 
 	@Path("/metrics")
 	@GET
-	public Response getMetrics() {
-		Map<String, ? extends Object> map = ImmutableMap.of("lastMinute",
-				metricsBean.getLastMinute(), "lastHour",
-				metricsBean.getLastHour(), "backlog",
-				feedDAO.getUpdatableCount(), "queue",
-				feedRefreshUpdater.getQueueSize());
+	public Response getMetrics(
+			@QueryParam("backlog") @DefaultValue("false") boolean backlog) {
+		Map<String, Object> map = Maps.newLinkedHashMap();
+		map.put("lastMinute", metricsBean.getLastMinute());
+		map.put("lastHour", metricsBean.getLastHour());
+		if (backlog) {
+			map.put("backlog", feedDAO.getUpdatableCount());
+		}
+		map.put("queue", feedRefreshUpdater.getQueueSize());
+		map.put("cache", metricsBean.getCacheStats());
+
 		return Response.ok(map).build();
 	}
 }

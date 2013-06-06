@@ -56,7 +56,7 @@ public class UserService {
 					user.getPassword(), user.getSalt());
 			if (authenticated) {
 				user.setLastLogin(Calendar.getInstance().getTime());
-				userDAO.update(user);
+				userDAO.saveOrUpdate(user);
 				return user;
 			}
 		}
@@ -85,7 +85,7 @@ public class UserService {
 		for (Role role : roles) {
 			user.getRoles().add(new UserRole(user, role));
 		}
-		userDAO.save(user);
+		userDAO.saveOrUpdate(user);
 		return user;
 	}
 

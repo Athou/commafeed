@@ -269,26 +269,26 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	public void markFeedEntries(User user, Feed feed, Date olderThan) {
 		List<FeedEntryStatus> statuses = findByFeed(feed, user, true,
 				ReadingOrder.desc, false);
-		update(markList(statuses, olderThan));
+		saveOrUpdate(markList(statuses, olderThan));
 	}
 
 	public void markCategoryEntries(User user, List<FeedCategory> categories,
 			Date olderThan) {
 		List<FeedEntryStatus> statuses = findByCategories(categories, user,
 				true, ReadingOrder.desc, false);
-		update(markList(statuses, olderThan));
+		saveOrUpdate(markList(statuses, olderThan));
 	}
 
 	public void markStarredEntries(User user, Date olderThan) {
 		List<FeedEntryStatus> statuses = findStarred(user, ReadingOrder.desc,
 				false);
-		update(markList(statuses, olderThan));
+		saveOrUpdate(markList(statuses, olderThan));
 	}
 
 	public void markAllEntries(User user, Date olderThan) {
 		List<FeedEntryStatus> statuses = findAll(user, true, ReadingOrder.desc,
 				false);
-		update(markList(statuses, olderThan));
+		saveOrUpdate(markList(statuses, olderThan));
 	}
 
 	private List<FeedEntryStatus> markList(List<FeedEntryStatus> statuses,

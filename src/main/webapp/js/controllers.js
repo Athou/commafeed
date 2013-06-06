@@ -7,12 +7,6 @@ module.run(['$rootScope', function($rootScope) {
 	$rootScope.$on('emitNextEntry', function(event, args) {
 		$rootScope.$broadcast('nextEntry', args);
 	});
-	$rootScope.$on('emitFocusPreviousEntry', function(event, args) {
-		$rootScope.$broadcast('focusPreviousEntry', args);
-	});
-	$rootScope.$on('emitFocusNextEntry', function(event, args) {
-		$rootScope.$broadcast('focusNextEntry', args);
-	});
 	$rootScope.$on('emitMark', function(event, args) {
 		// args.entry - the entry
 		$rootScope.$broadcast('mark', args);
@@ -487,13 +481,6 @@ function($scope, $http, $state, $stateParams, $route, $location,
 		$scope.$emit('emitNextEntry');
 	};
 
-	$scope.focusPreviousEntry = function() {
-		$scope.$emit('emitFocusPreviousEntry');
-	};
-	$scope.focusNextEntry = function() {
-		$scope.$emit('emitFocusNextEntry');
-	};
-
 	$scope.refresh = function() {
 		if($stateParams._type == 'feed'){
 			FeedService.refresh({
@@ -783,13 +770,13 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	};
 
 	$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
-	$scope.entryClicked = function(entry, event) {
+	
+	var openEntry = function(entry, event) {
 		if (event && event.which === 3) {
 			// right click
 			return;
 		}
 		
-		$scope.navigationMode = 'click';
 		if (!event || (!event.ctrlKey && event.which != 2)) {
 			if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {
 				$scope.isOpen = true;
@@ -800,7 +787,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 				$scope.mark(entry, true);
 			}
 			$scope.current = entry;
-			if(event) {
+			if (event) {
 				event.preventDefault();
 				event.stopPropagation();
 			}
@@ -808,12 +795,17 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			$scope.mark(entry, true);
 		}
 	};
+	
+	$scope.entryClicked = function(entry, event) {
+		$scope.navigationMode = 'click';
+		openEntry(entry, event);
+	};
+	
 	$scope.bodyClicked = function(entry, event) {
 		if (SettingsService.settings.viewMode == 'expanded' && $scope.current != entry) {
 			$scope.entryClicked(entry, event);
 		}
 	};
-
 
 	$scope.noop = function(event) {
 		if (!event.ctrlKey && event.which != 2) {
@@ -859,21 +851,20 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	var openNextEntry = function(event) {
 		var entry = getNextEntry();
 		if (entry) {
-			$scope.entryClicked(entry, event);
+			openEntry(entry, event);
 		}
 	};
 
 	var openPreviousEntry = function(event) {
 		var entry = getPreviousEntry();
 		if (entry) {
-			$scope.entryClicked(entry, event);
+			openEntry(entry, event);
 		}
 	};
 
 	var focusNextEntry = function(event) {
 		var entry = getNextEntry();
 		if (entry) {
-			$scope.navigationMode = 'click';
 			$scope.current = entry;
 		}
 	};
@@ -881,7 +872,6 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	var focusPreviousEntry = function(event) {
 		var entry = getPreviousEntry();
 		if (entry) {
-			$scope.navigationMode = 'click';
 			$scope.current = entry;
 		}
 	};
@@ -898,35 +888,41 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 
 	Mousetrap.bind('j', function(e) {
 		$scope.$apply(function() {
+			$scope.navigationMode = 'keyboard';
 			openNextEntry(e);
 		});
 	});
 	Mousetrap.bind('n', function(e) {
 		$scope.$apply(function() {
+			$scope.navigationMode = 'keyboard';
 			focusNextEntry(e);
 		});
 	});
 	Mousetrap.bind('k', function(e) {
 		$scope.$apply(function() {
+			$scope.navigationMode = 'keyboard';
 			openPreviousEntry(e);
 		});
 	});
 	Mousetrap.bind('p', function(e) {
 		$scope.$apply(function() {
+			$scope.navigationMode = 'keyboard';
 			focusPreviousEntry(e);
 		});
 	});
 	Mousetrap.bind('o', function(e) {
 		$scope.$apply(function() {
+			$scope.navigationMode = 'keyboard';
 			if ($scope.current) {
-				$scope.entryClicked($scope.current, e);
+				openEntry($scope.current, e);
 			}
 		});
 	});
 	Mousetrap.bind('enter', function(e) {
 		$scope.$apply(function() {
+			$scope.navigationMode = 'keyboard';
 			if ($scope.current) {
-				$scope.entryClicked($scope.current, e);
+				openEntry($scope.current, e);
 			}
 		});
 	});
@@ -979,16 +975,12 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	});
 
 	$scope.$on('previousEntry', function(event, args) {
+		$scope.navigationMode = 'keyboard';
 		openPreviousEntry();
 	});
 	$scope.$on('nextEntry', function(event, args) {
+		$scope.navigationMode = 'keyboard';
 		openNextEntry();
-	});
-	$scope.$on('focusPreviousEntry', function(event, args) {
-		focusPreviousEntry();
-	});
-	$scope.$on('focusNextEntry', function(event, args) {
-		focusNextEntry();
 	});
 	$scope.$on('markAll', function(event, args) {
 		$scope.markAll(args.olderThan);

@@ -86,7 +86,7 @@ public class FeedSubscriptionService {
 				status.setSubscription(sub);
 				statuses.add(status);
 			}
-			feedEntryStatusDAO.save(statuses);
+			feedEntryStatusDAO.saveOrUpdate(statuses);
 		}
 		taskGiver.add(feed);
 		return feed;

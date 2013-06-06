@@ -3,16 +3,17 @@ package com.commafeed.backend.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 
 import com.google.common.collect.Sets;
@@ -22,6 +23,8 @@ import com.google.common.collect.Sets;
 @org.hibernate.annotations.Table(appliesTo = "FEEDS", indexes = { @Index(name = "disabled_lastupdated_index", columnNames = {
 		"disabledUntil", "lastUpdated" }), })
 @SuppressWarnings("serial")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Feed extends AbstractModel {
 
 	/**
@@ -68,14 +71,21 @@ public class Feed extends AbstractModel {
 	@Column(length = 255)
 	private String etagHeader;
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "feed")
-	private FeedPushInfo pushInfo;
-
 	@ManyToMany(mappedBy = "feeds")
 	private Set<FeedEntry> entries = Sets.newHashSet();
 
 	@OneToMany(mappedBy = "feed")
 	private Set<FeedSubscription> subscriptions;
+
+	@Column(length = 2048)
+	private String pushHub;
+
+	@Column(length = 2048)
+	@Index(name = "topic_index")
+	private String pushTopic;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date pushLastPing;
 
 	public Feed() {
 
@@ -181,12 +191,28 @@ public class Feed extends AbstractModel {
 		this.lastUpdateSuccess = lastUpdateSuccess;
 	}
 
-	public FeedPushInfo getPushInfo() {
-		return pushInfo;
+	public String getPushHub() {
+		return pushHub;
 	}
 
-	public void setPushInfo(FeedPushInfo pushInfo) {
-		this.pushInfo = pushInfo;
+	public void setPushHub(String pushHub) {
+		this.pushHub = pushHub;
+	}
+
+	public String getPushTopic() {
+		return pushTopic;
+	}
+
+	public void setPushTopic(String pushTopic) {
+		this.pushTopic = pushTopic;
+	}
+
+	public Date getPushLastPing() {
+		return pushLastPing;
+	}
+
+	public void setPushLastPing(Date pushLastPing) {
+		this.pushLastPing = pushLastPing;
 	}
 
 }

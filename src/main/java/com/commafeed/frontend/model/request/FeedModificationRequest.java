@@ -18,7 +18,7 @@ public class FeedModificationRequest implements Serializable {
 	@ApiProperty(value = "id", required = true)
 	private Long id;
 
-	@ApiProperty(value = "new name")
+	@ApiProperty(value = "new name, null if not changed")
 	private String name;
 
 	@ApiProperty(value = "new parent category id")

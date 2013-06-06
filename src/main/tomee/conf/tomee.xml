@@ -12,7 +12,7 @@
 <!-- 
 	<Resource id="MySQL" type="DataSource">
 		JdbcDriver com.mysql.jdbc.Driver
-        JdbcUrl jdbc:mysql://localhost/commafeed?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;maxReconnects=20
+        JdbcUrl jdbc:mysql://localhost/commafeed?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;maxReconnects=20&amp;rewriteBatchedStatements=true
 		UserName cf
 		Password cf
 		MaxActive 50

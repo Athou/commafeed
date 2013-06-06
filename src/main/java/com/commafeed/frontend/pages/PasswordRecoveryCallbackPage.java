@@ -63,7 +63,7 @@ public class PasswordRecoveryCallbackPage extends BasePage {
 					user.setApiKey(userService.generateApiKey(user));
 					user.setRecoverPasswordToken(null);
 					user.setRecoverPasswordTokenDate(null);
-					userDAO.update(user);
+					userDAO.saveOrUpdate(user);
 					info("Password saved.");
 				} else {
 					error("Passwords do not match.");

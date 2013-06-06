@@ -21,12 +21,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.commafeed.backend.dao.FeedPushInfoDAO;
+import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.feeds.FeedParser;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
 import com.commafeed.backend.feeds.FetchedFeed;
 import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.model.FeedPushInfo;
 import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 
 @Path("/push")
@@ -39,7 +38,7 @@ public class PubSubHubbubCallbackREST {
 	HttpServletRequest request;
 
 	@Inject
-	FeedPushInfoDAO feedPushInfoDAO;
+	FeedDAO feedDAO;
 
 	@Inject
 	FeedParser parser;
@@ -60,15 +59,15 @@ public class PubSubHubbubCallbackREST {
 
 		log.debug("confirmation callback received for {}", topic);
 
-		List<FeedPushInfo> infos = feedPushInfoDAO.findByTopic(topic, false);
+		List<Feed> feeds = feedDAO.findByTopic(topic);
 
-		if (infos.isEmpty() == false) {
-			for (FeedPushInfo info : infos) {
+		if (feeds.isEmpty()) {
+			for (Feed feed : feeds) {
 				log.debug("activated push notifications for {}",
-						info.getTopic());
-				info.setLastPing(Calendar.getInstance().getTime());
+						feed.getPushTopic());
+				feed.setPushLastPing(Calendar.getInstance().getTime());
 			}
-			feedPushInfoDAO.update(infos);
+			feedDAO.saveOrUpdate(feeds);
 			return Response.ok(challenge).build();
 		} else {
 			log.debug("rejecting callback: no push info for {}", topic);
@@ -86,10 +85,8 @@ public class PubSubHubbubCallbackREST {
 			String topic = fetchedFeed.getTopic();
 			if (topic != null) {
 				log.debug("content callback received for {}", topic);
-				List<FeedPushInfo> infos = feedPushInfoDAO.findByTopic(topic,
-						true);
-				for (FeedPushInfo info : infos) {
-					Feed feed = info.getFeed();
+				List<Feed> feeds = feedDAO.findByTopic(topic);
+				for (Feed feed : feeds) {
 					log.debug("pushing content to queue for {}", feed.getUrl());
 					taskGiver.add(feed);
 				}

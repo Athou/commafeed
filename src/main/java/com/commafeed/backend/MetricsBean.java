@@ -1,9 +1,19 @@
 package com.commafeed.backend;
 
 import javax.ejb.Singleton;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.ejb.EntityManagerImpl;
+import org.hibernate.stat.Statistics;
 
 @Singleton
 public class MetricsBean {
+
+	@PersistenceContext
+	EntityManager em;
 
 	private Metric lastMinute = new Metric();
 	private Metric thisMinute = new Metric();
@@ -59,6 +69,14 @@ public class MetricsBean {
 
 	public Metric getLastHour() {
 		return lastHour;
+	}
+
+	public String getCacheStats() {
+		EntityManagerImpl impl = (EntityManagerImpl) em.getDelegate();
+		Session session = impl.getSession();
+		SessionFactory sessionFactory = session.getSessionFactory();
+		Statistics statistics = sessionFactory.getStatistics();
+		return statistics.toString();
 	}
 
 	public static class Metric {

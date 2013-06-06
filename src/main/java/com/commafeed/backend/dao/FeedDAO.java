@@ -7,7 +7,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -60,7 +59,6 @@ public class FeedDAO extends GenericDAO<Feed> {
 		Root<Feed> root = query.from(getType());
 
 		query.where(getUpdatablePredicates(root).toArray(new Predicate[0]));
-		root.fetch(Feed_.pushInfo, JoinType.LEFT);
 
 		query.orderBy(builder.asc(root.get(Feed_.lastUpdated)));
 
@@ -87,5 +85,9 @@ public class FeedDAO extends GenericDAO<Feed> {
 		criteria.setFirstResult(offset);
 		criteria.setMaxResults(limit);
 		return criteria.getSingleResult();
+	}
+
+	public List<Feed> findByTopic(String topic) {
+		return findByField(Feed_.pushTopic, topic);
 	}
 }

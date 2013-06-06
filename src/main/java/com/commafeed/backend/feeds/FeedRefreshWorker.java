@@ -15,9 +15,7 @@ import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedPushInfo;
 import com.commafeed.backend.services.ApplicationSettingsService;
-import com.commafeed.backend.services.FeedPushInfoService;
 import com.sun.syndication.io.FeedException;
 
 public class FeedRefreshWorker {
@@ -36,9 +34,6 @@ public class FeedRefreshWorker {
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
-
-	@Inject
-	FeedPushInfoService feedPushInfoService;
 
 	@Inject
 	MetricsBean metricsBean;
@@ -84,7 +79,7 @@ public class FeedRefreshWorker {
 	}
 
 	private void update(Feed feed) {
-
+		Date now = Calendar.getInstance().getTime();
 		try {
 			FetchedFeed fetchedFeed = fetcher.fetch(feed.getUrl(), false,
 					feed.getLastModifiedHeader(), feed.getEtagHeader());
@@ -98,7 +93,7 @@ public class FeedRefreshWorker {
 						fetchedFeed.getPublishedDate(), entries);
 			}
 
-			feed.setLastUpdateSuccess(Calendar.getInstance().getTime());
+			feed.setLastUpdateSuccess(now);
 			feed.setLink(fetchedFeed.getFeed().getLink());
 			feed.setLastModifiedHeader(fetchedFeed.getFeed()
 					.getLastModifiedHeader());
@@ -114,21 +109,31 @@ public class FeedRefreshWorker {
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified (304) : " + feed.getUrl());
 
-			feed.setErrorCount(0);
-			feed.setMessage(null);
-
 			Date disabledUntil = null;
 			if (applicationSettingsService.get().isHeavyLoad()) {
-				List<FeedEntry> feedEntries = feedEntryDAO.findByFeed(feed, 0,
-						10);
 
-				Date publishedDate = null;
-				if (feedEntries.size() > 0) {
-					publishedDate = feedEntries.get(0).getInserted();
+				Date lastUpdateSuccess = feed.getLastUpdateSuccess();
+				Date lastDisabledUntil = feed.getDisabledUntil();
+				if (feed.getErrorCount() == 0 && lastUpdateSuccess != null
+						&& lastDisabledUntil != null
+						&& lastUpdateSuccess.before(lastDisabledUntil)) {
+					long millis = now.getTime() + lastDisabledUntil.getTime()
+							- lastUpdateSuccess.getTime();
+					disabledUntil = new Date(millis);
+				} else {
+					List<FeedEntry> feedEntries = feedEntryDAO.findByFeed(feed,
+							0, 10);
+
+					Date publishedDate = null;
+					if (feedEntries.size() > 0) {
+						publishedDate = feedEntries.get(0).getInserted();
+					}
+					disabledUntil = FeedUtils.buildDisabledUntil(publishedDate,
+							feedEntries);
 				}
-				disabledUntil = FeedUtils.buildDisabledUntil(publishedDate,
-						feedEntries);
 			}
+			feed.setErrorCount(0);
+			feed.setMessage(null);
 			feed.setDisabledUntil(disabledUntil);
 
 			taskGiver.giveBack(feed);
@@ -166,11 +171,8 @@ public class FeedRefreshWorker {
 				topic = "http://" + topic;
 			}
 			log.debug("feed {} has pubsub info: {}", feed.getUrl(), topic);
-			FeedPushInfo info = feed.getPushInfo();
-			if (info == null) {
-				info = feedPushInfoService.findOrCreate(feed, hub, topic);
-			}
-			feed.setPushInfo(info);
+			feed.setPushHub(hub);
+			feed.setPushTopic(topic);
 		}
 	}
 

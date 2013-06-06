@@ -10,7 +10,11 @@
 		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
+
+			<property name="format_sql" value="true" />
+			<property name="use_sql_comments" value="true" />
 			<property name="hibernate.show_sql" value="${jpa.show_sql}" />
+
 			<property name="hibernate.dialect" value="${jpa.dialect}" />
 			<property name="hibernate.default_batch_fetch_size" value="100" />
 

@@ -13,6 +13,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Attribute;
 
+import org.hibernate.Session;
+import org.hibernate.ejb.EntityManagerImpl;
+
 import com.commafeed.backend.model.AbstractModel;
 import com.google.common.reflect.TypeToken;
 import com.uaihebert.factory.EasyCriteriaFactory;
@@ -36,12 +39,10 @@ public abstract class GenericDAO<T extends AbstractModel> {
 
 	public void saveOrUpdate(Collection<? extends AbstractModel> models) {
 		int i = 0;
+		EntityManagerImpl impl = (EntityManagerImpl) em.getDelegate();
+		Session session = impl.getSession();
 		for (AbstractModel model : models) {
-			if (model.getId() == null) {
-				em.persist(model);
-			} else {
-				em.merge(model);
-			}
+			session.saveOrUpdate(model);
 
 			if (i % 20 == 0) {
 				em.flush();

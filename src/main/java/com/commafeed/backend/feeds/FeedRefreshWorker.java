@@ -79,7 +79,7 @@ public class FeedRefreshWorker {
 	}
 
 	private void update(Feed feed) {
-
+		Date now = Calendar.getInstance().getTime();
 		try {
 			FetchedFeed fetchedFeed = fetcher.fetch(feed.getUrl(), false,
 					feed.getLastModifiedHeader(), feed.getEtagHeader());
@@ -93,7 +93,7 @@ public class FeedRefreshWorker {
 						fetchedFeed.getPublishedDate(), entries);
 			}
 
-			feed.setLastUpdateSuccess(Calendar.getInstance().getTime());
+			feed.setLastUpdateSuccess(now);
 			feed.setLink(fetchedFeed.getFeed().getLink());
 			feed.setLastModifiedHeader(fetchedFeed.getFeed()
 					.getLastModifiedHeader());
@@ -114,15 +114,25 @@ public class FeedRefreshWorker {
 
 			Date disabledUntil = null;
 			if (applicationSettingsService.get().isHeavyLoad()) {
-				List<FeedEntry> feedEntries = feedEntryDAO.findByFeed(feed, 0,
-						10);
 
-				Date publishedDate = null;
-				if (feedEntries.size() > 0) {
-					publishedDate = feedEntries.get(0).getInserted();
+				Date lastUpdateSuccess = feed.getLastUpdateSuccess();
+				Date lastDisabledUntil = feed.getDisabledUntil();
+				if (lastUpdateSuccess != null && lastDisabledUntil != null
+						&& lastUpdateSuccess.before(lastDisabledUntil)) {
+					long millis = now.getTime() + lastDisabledUntil.getTime()
+							- lastUpdateSuccess.getTime();
+					disabledUntil = new Date(millis);
+				} else {
+					List<FeedEntry> feedEntries = feedEntryDAO.findByFeed(feed,
+							0, 10);
+
+					Date publishedDate = null;
+					if (feedEntries.size() > 0) {
+						publishedDate = feedEntries.get(0).getInserted();
+					}
+					disabledUntil = FeedUtils.buildDisabledUntil(publishedDate,
+							feedEntries);
 				}
-				disabledUntil = FeedUtils.buildDisabledUntil(publishedDate,
-						feedEntries);
 			}
 			feed.setDisabledUntil(disabledUntil);
 

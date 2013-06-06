@@ -94,7 +94,7 @@ public class FeedRefreshTaskGiver {
 			map.put(f.getId(), f);
 		}
 
-		feedDAO.update(map.values());
+		feedDAO.saveOrUpdate(map.values());
 	}
 
 	public void giveBack(Feed feed) {

@@ -64,7 +64,7 @@ public class OPMLImporter {
 				}
 				category.setParent(parent);
 				category.setUser(user);
-				feedCategoryDAO.save(category);
+				feedCategoryDAO.saveOrUpdate(category);
 			}
 
 			List<Outline> children = outline.getChildren();

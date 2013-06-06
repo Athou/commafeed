@@ -68,11 +68,11 @@ public class AdminREST extends AbstractResourceREST {
 			}
 			user.setEmail(userModel.getEmail());
 			user.setDisabled(!userModel.isEnabled());
-			userDAO.update(user);
+			userDAO.saveOrUpdate(user);
 
 			Set<Role> roles = userRoleDAO.findRoles(user);
 			if (userModel.isAdmin() && !roles.contains(Role.ADMIN)) {
-				userRoleDAO.save(new UserRole(user, Role.ADMIN));
+				userRoleDAO.saveOrUpdate(new UserRole(user, Role.ADMIN));
 			} else if (!userModel.isAdmin() && roles.contains(Role.ADMIN)) {
 				if (StartupBean.USERNAME_ADMIN.equals(user.getName())) {
 					return Response

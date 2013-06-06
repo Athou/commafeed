@@ -134,7 +134,7 @@ public class UserREST extends AbstractResourceREST {
 		if (request.isNewApiKey()) {
 			user.setApiKey(userService.generateApiKey(user));
 		}
-		userDAO.update(user);
+		userDAO.saveOrUpdate(user);
 		return Response.ok().build();
 	}
 

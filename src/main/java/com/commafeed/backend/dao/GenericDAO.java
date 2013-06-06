@@ -34,44 +34,24 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		builder = em.getCriteriaBuilder();
 	}
 
-	public void save(T object) {
-		em.persist(object);
-	}
-
-	public void save(Collection<T> objects) {
-		for (Object object : objects) {
-			em.persist(object);
-		}
-	}
-
-	public void update(Collection<T> objects) {
-		for (Object object : objects) {
-			em.merge(object);
-		}
-	}
-
-	public void update(T... objects) {
-		update(Arrays.asList(objects));
-	}
-
 	public void saveOrUpdate(Collection<? extends AbstractModel> models) {
+		int i = 0;
 		for (AbstractModel model : models) {
 			if (model.getId() == null) {
 				em.persist(model);
 			} else {
 				em.merge(model);
 			}
+
+			if (i % 20 == 0) {
+				em.flush();
+			}
+			i++;
 		}
 	}
 
 	public void saveOrUpdate(AbstractModel... models) {
-		for (AbstractModel model : models) {
-			if (model.getId() == null) {
-				em.persist(model);
-			} else {
-				em.merge(model);
-			}
-		}
+		saveOrUpdate(Arrays.asList(models));
 	}
 
 	public void delete(T object) {

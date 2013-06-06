@@ -359,9 +359,9 @@ public class FeedREST extends AbstractResourceREST {
 			for (int i = 0; i < subs.size(); i++) {
 				subs.get(i).setPosition(i);
 			}
-			feedSubscriptionDAO.update(subs);
+			feedSubscriptionDAO.saveOrUpdate(subs);
 		} else {
-			feedSubscriptionDAO.update(subscription);
+			feedSubscriptionDAO.saveOrUpdate(subscription);
 		}
 
 		return Response.ok(Status.OK).build();

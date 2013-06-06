@@ -208,7 +208,7 @@ public class CategoryREST extends AbstractResourceREST {
 			parent.setId(Long.valueOf(parentId));
 			cat.setParent(parent);
 		}
-		feedCategoryDAO.save(cat);
+		feedCategoryDAO.saveOrUpdate(cat);
 		return Response.ok().build();
 	}
 
@@ -227,7 +227,7 @@ public class CategoryREST extends AbstractResourceREST {
 			for (FeedSubscription sub : subs) {
 				sub.setCategory(null);
 			}
-			feedSubscriptionDAO.update(subs);
+			feedSubscriptionDAO.saveOrUpdate(subs);
 			List<FeedCategory> categories = feedCategoryDAO
 					.findAllChildrenCategories(getUser(), cat);
 			for (FeedCategory child : categories) {
@@ -236,7 +236,7 @@ public class CategoryREST extends AbstractResourceREST {
 					child.setParent(null);
 				}
 			}
-			feedCategoryDAO.update(categories);
+			feedCategoryDAO.saveOrUpdate(categories);
 
 			feedCategoryDAO.delete(cat);
 			return Response.ok().build();
@@ -297,12 +297,12 @@ public class CategoryREST extends AbstractResourceREST {
 			for (int i = 0; i < categories.size(); i++) {
 				categories.get(i).setPosition(i);
 			}
-			feedCategoryDAO.update(categories);
+			feedCategoryDAO.saveOrUpdate(categories);
 		} else {
-			feedCategoryDAO.update(category);
+			feedCategoryDAO.saveOrUpdate(category);
 		}
 
-		feedCategoryDAO.update(category);
+		feedCategoryDAO.saveOrUpdate(category);
 
 		return Response.ok(Status.OK).build();
 	}
@@ -320,7 +320,7 @@ public class CategoryREST extends AbstractResourceREST {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		category.setCollapsed(req.isCollapse());
-		feedCategoryDAO.update(category);
+		feedCategoryDAO.saveOrUpdate(category);
 
 		return Response.ok(Status.OK).build();
 	}

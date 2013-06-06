@@ -23,7 +23,7 @@ public class FeedService {
 			feed = new Feed();
 			feed.setUrl(url);
 			feed.setUrlHash(DigestUtils.sha1Hex(url));
-			feedDAO.save(feed);
+			feedDAO.saveOrUpdate(feed);
 		}
 		return feed;
 	}

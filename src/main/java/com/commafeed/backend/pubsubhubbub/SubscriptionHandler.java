@@ -72,7 +72,7 @@ public class SubscriptionHandler {
 						&& StringUtils.contains(message, pushpressError)) {
 					String[] tokens = message.split(" ");
 					feed.setPushTopic(tokens[tokens.length - 1]);
-					feedDAO.update(feed);
+					feedDAO.saveOrUpdate(feed);
 					log.debug("handled pushpress subfeed {} : {}", topic,
 							feed.getPushTopic());
 				} else {

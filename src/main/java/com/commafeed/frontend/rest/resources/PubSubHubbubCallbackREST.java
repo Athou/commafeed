@@ -67,7 +67,7 @@ public class PubSubHubbubCallbackREST {
 						feed.getPushTopic());
 				feed.setPushLastPing(Calendar.getInstance().getTime());
 			}
-			feedDAO.update(feeds);
+			feedDAO.saveOrUpdate(feeds);
 			return Response.ok(challenge).build();
 		} else {
 			log.debug("rejecting callback: no push info for {}", topic);

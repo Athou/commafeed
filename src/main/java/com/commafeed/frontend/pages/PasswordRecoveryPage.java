@@ -41,7 +41,7 @@ public class PasswordRecoveryPage extends BasePage {
 								.randomUUID().toString()));
 						user.setRecoverPasswordTokenDate(Calendar.getInstance()
 								.getTime());
-						userDAO.update(user);
+						userDAO.saveOrUpdate(user);
 						mailService.sendMail(user, "Password recovery",
 								buildEmailContent(user));
 						info("Email sent.");

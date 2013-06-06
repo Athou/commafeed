@@ -38,7 +38,7 @@ public abstract class GenericDAO<T extends AbstractModel> {
 	}
 
 	public void saveOrUpdate(Collection<? extends AbstractModel> models) {
-		int i = 0;
+		int i = 1;
 		EntityManagerImpl impl = (EntityManagerImpl) em.getDelegate();
 		Session session = impl.getSession();
 		for (AbstractModel model : models) {

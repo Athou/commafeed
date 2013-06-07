@@ -21,7 +21,7 @@
 	</properties>
 
 	<repositories>
-		
+
 		<repository>
 			<id>hsqldb.snapshots</id>
 			<url>http://www.hsqldb.org/repos/</url>
@@ -283,9 +283,15 @@
 			<artifactId>wicket-core</artifactId>
 			<version>6.8.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-auth-roles</artifactId>
+			<version>6.8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-extensions</artifactId>
 			<version>6.8.0</version>
 		</dependency>
 		<dependency>

@@ -3,7 +3,6 @@ package com.commafeed.backend.model;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +17,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 
 import com.google.api.client.util.Sets;
@@ -27,8 +24,6 @@ import com.google.api.client.util.Sets;
 @Entity
 @Table(name = "FEEDENTRIES")
 @SuppressWarnings("serial")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class FeedEntry extends AbstractModel {
 
 	@Column(length = 2048, nullable = false)

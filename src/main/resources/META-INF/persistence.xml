@@ -22,12 +22,6 @@
 			<property name="hibernate.order_inserts" value="true" />
 			<property name="hibernate.order_updates" value="true" />
 
-			<property name="hibernate.cache.region.factory_class"
-				value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory" />
-
-			<property name="hibernate.cache.use_second_level_cache"
-				value="true" />
-			<property name="hibernate.cache.use_query_cache" value="true" />
 			<property name="hibernate.generate_statistics" value="true" />
 		</properties>
 	</persistence-unit>

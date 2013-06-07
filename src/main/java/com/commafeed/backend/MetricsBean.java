@@ -6,7 +6,6 @@ import javax.persistence.PersistenceContext;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.ejb.EntityManagerImpl;
 import org.hibernate.stat.Statistics;
 
 @Singleton
@@ -72,8 +71,7 @@ public class MetricsBean {
 	}
 
 	public String getCacheStats() {
-		EntityManagerImpl impl = (EntityManagerImpl) em.getDelegate();
-		Session session = impl.getSession();
+		Session session = em.unwrap(Session.class);
 		SessionFactory sessionFactory = session.getSessionFactory();
 		Statistics statistics = sessionFactory.getStatistics();
 		return statistics.toString();

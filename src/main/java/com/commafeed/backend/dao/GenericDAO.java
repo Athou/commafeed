@@ -14,7 +14,6 @@ import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Attribute;
 
 import org.hibernate.Session;
-import org.hibernate.ejb.EntityManagerImpl;
 
 import com.commafeed.backend.model.AbstractModel;
 import com.google.common.reflect.TypeToken;
@@ -39,8 +38,7 @@ public abstract class GenericDAO<T extends AbstractModel> {
 
 	public void saveOrUpdate(Collection<? extends AbstractModel> models) {
 		int i = 1;
-		EntityManagerImpl impl = (EntityManagerImpl) em.getDelegate();
-		Session session = impl.getSession();
+		Session session = em.unwrap(Session.class);
 		for (AbstractModel model : models) {
 			session.saveOrUpdate(model);
 

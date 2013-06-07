@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.services.ApplicationSettingsService;
@@ -33,7 +34,7 @@ public class SubscriptionHandler {
 	ApplicationSettingsService applicationSettingsService;
 
 	@Inject
-	FeedDAO feedDAO;
+	FeedRefreshTaskGiver taskGiver;
 
 	public void subscribe(Feed feed) {
 
@@ -80,7 +81,7 @@ public class SubscriptionHandler {
 						&& StringUtils.contains(message, pushpressError)) {
 					String[] tokens = message.split(" ");
 					feed.setPushTopic(tokens[tokens.length - 1]);
-					feedDAO.saveOrUpdate(feed);
+					taskGiver.giveBack(feed);
 					log.debug("handled pushpress subfeed {} : {}", topic,
 							feed.getPushTopic());
 				} else {

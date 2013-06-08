@@ -17,8 +17,6 @@ import org.hibernate.Session;
 
 import com.commafeed.backend.model.AbstractModel;
 import com.google.common.reflect.TypeToken;
-import com.uaihebert.factory.EasyCriteriaFactory;
-import com.uaihebert.model.EasyCriteria;
 
 @SuppressWarnings("serial")
 public abstract class GenericDAO<T extends AbstractModel> {
@@ -73,30 +71,36 @@ public abstract class GenericDAO<T extends AbstractModel> {
 	}
 
 	public List<T> findAll() {
-		return EasyCriteriaFactory.createQueryCriteria(em, getType())
-				.getResultList();
+		CriteriaQuery<T> query = builder.createQuery(getType());
+		query.from(getType());
+		return em.createQuery(query).getResultList();
 	}
 
 	public List<T> findAll(int startIndex, int count) {
-		EasyCriteria<T> criteria = EasyCriteriaFactory.createQueryCriteria(em,
-				getType());
-		criteria.setMaxResults(count);
-		criteria.setFirstResult(startIndex);
-		return criteria.getResultList();
+		CriteriaQuery<T> query = builder.createQuery(getType());
+		query.from(getType());
+		TypedQuery<T> q = em.createQuery(query);
+		q.setMaxResults(count);
+		q.setFirstResult(startIndex);
+		return q.getResultList();
 	}
 
 	public List<T> findAll(int startIndex, int count, String orderBy,
 			boolean asc) {
-		EasyCriteria<T> criteria = EasyCriteriaFactory.createQueryCriteria(em,
-				getType());
-		criteria.setMaxResults(count);
-		criteria.setFirstResult(startIndex);
+
+		CriteriaQuery<T> query = builder.createQuery(getType());
+		Root<T> root = query.from(getType());
+
 		if (asc) {
-			criteria.orderByAsc(orderBy);
+			query.orderBy(builder.asc(root.get(orderBy)));
 		} else {
-			criteria.orderByDesc(orderBy);
+			query.orderBy(builder.desc(root.get(orderBy)));
 		}
-		return criteria.getResultList();
+
+		TypedQuery<T> q = em.createQuery(query);
+		q.setMaxResults(count);
+		q.setFirstResult(startIndex);
+		return q.getResultList();
 	}
 
 	public long getCount() {
@@ -107,10 +111,12 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		return em.createQuery(query).getSingleResult();
 	}
 
-	public <V> List<T> findByField(Attribute<T, V> field, V value) {
-		EasyCriteria<T> criteria = createCriteria();
-		criteria.andEquals(field.getName(), value);
-		return criteria.getResultList();
+	protected <V> List<T> findByField(Attribute<T, V> field, V value) {
+		CriteriaQuery<T> query = builder.createQuery(getType());
+		Root<T> root = query.from(getType());
+
+		query.where(builder.equal(root.get(field.getName()), value));
+		return em.createQuery(query).getResultList();
 	}
 
 	protected void limit(TypedQuery<?> query, int offset, int limit) {
@@ -125,9 +131,5 @@ public abstract class GenericDAO<T extends AbstractModel> {
 	@SuppressWarnings("unchecked")
 	protected Class<T> getType() {
 		return (Class<T>) type.getRawType();
-	}
-
-	public EasyCriteria<T> createCriteria() {
-		return EasyCriteriaFactory.createQueryCriteria(em, getType());
 	}
 }

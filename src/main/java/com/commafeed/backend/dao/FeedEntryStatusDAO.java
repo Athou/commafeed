@@ -31,23 +31,27 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.google.api.client.util.Lists;
 import com.google.api.client.util.Maps;
-import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
+	@SuppressWarnings("unchecked")
 	public FeedEntryStatus findById(User user, Long id) {
 
-		EasyCriteria<FeedEntryStatus> criteria = createCriteria();
-		criteria.andEquals(FeedEntryStatus_.id.getName(), id);
+		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
+		Root<FeedEntryStatus> root = query.from(getType());
 
-		criteria.innerJoinFetch(FeedEntryStatus_.subscription.getName());
-		criteria.andJoinEquals(FeedEntryStatus_.subscription.getName(),
-				FeedSubscription_.user.getName(), user);
+		Join<FeedEntryStatus, FeedSubscription> join = (Join<FeedEntryStatus, FeedSubscription>) root
+				.fetch(FeedEntryStatus_.subscription);
+
+		Predicate p1 = builder.equal(root.get(FeedEntryStatus_.id), id);
+		Predicate p2 = builder.equal(join.get(FeedSubscription_.user), user);
+
+		query.where(p1, p2);
 
 		FeedEntryStatus status = null;
 		try {
-			status = criteria.getSingleResult();
+			status = em.createQuery(query).getSingleResult();
 		} catch (NoResultException e) {
 			status = null;
 		}

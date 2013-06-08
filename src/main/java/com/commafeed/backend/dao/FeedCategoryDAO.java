@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.ObjectUtils;
 
@@ -12,39 +15,54 @@ import com.commafeed.backend.model.FeedCategory_;
 import com.commafeed.backend.model.User;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 
 	public List<FeedCategory> findAll(User user) {
-		EasyCriteria<FeedCategory> criteria = createCriteria();
-		criteria.andEquals(FeedCategory_.user.getName(), user);
 
-		criteria.innerJoinFetch(FeedCategory_.user.getName());
-		return criteria.getResultList();
+		CriteriaQuery<FeedCategory> query = builder.createQuery(getType());
+		Root<FeedCategory> root = query.from(getType());
+
+		query.where(builder.equal(root.get(FeedCategory_.user), user));
+		root.fetch(FeedCategory_.user.getName());
+
+		return em.createQuery(query).getResultList();
 	}
 
 	public FeedCategory findById(User user, Long id) {
-		EasyCriteria<FeedCategory> criteria = createCriteria();
-		criteria.andEquals(FeedCategory_.user.getName(), user);
-		criteria.andEquals(FeedCategory_.id.getName(), id);
-		return Iterables.getFirst(criteria.getResultList(), null);
+		CriteriaQuery<FeedCategory> query = builder.createQuery(getType());
+		Root<FeedCategory> root = query.from(getType());
+
+		Predicate p1 = builder.equal(root.get(FeedCategory_.user), user);
+		Predicate p2 = builder.equal(root.get(FeedCategory_.id), id);
+
+		query.where(p1, p2);
+
+		return Iterables.getFirst(em.createQuery(query).getResultList(), null);
 	}
 
 	public FeedCategory findByName(User user, String name, FeedCategory parent) {
-		EasyCriteria<FeedCategory> criteria = createCriteria();
-		criteria.andEquals(FeedCategory_.user.getName(), user);
-		criteria.andEquals(FeedCategory_.name.getName(), name);
+		CriteriaQuery<FeedCategory> query = builder.createQuery(getType());
+		Root<FeedCategory> root = query.from(getType());
+
+		List<Predicate> predicates = Lists.newArrayList();
+
+		predicates.add(builder.equal(root.get(FeedCategory_.user), user));
+		predicates.add(builder.equal(root.get(FeedCategory_.name), name));
+
 		if (parent == null) {
-			criteria.andIsNull(FeedCategory_.parent.getName());
+			predicates.add(builder.isNull(root.get(FeedCategory_.parent)));
 		} else {
-			criteria.andEquals(FeedCategory_.parent.getName(), parent);
+			predicates
+					.add(builder.equal(root.get(FeedCategory_.parent), parent));
 		}
+
+		query.where(predicates.toArray(new Predicate[0]));
 
 		FeedCategory category = null;
 		try {
-			category = criteria.getSingleResult();
+			category = em.createQuery(query).getSingleResult();
 		} catch (NoResultException e) {
 			category = null;
 		}
@@ -52,15 +70,22 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 	}
 
 	public List<FeedCategory> findByParent(User user, FeedCategory parent) {
-		EasyCriteria<FeedCategory> criteria = createCriteria();
-		criteria.andEquals(FeedCategory_.user.getName(), user);
+		CriteriaQuery<FeedCategory> query = builder.createQuery(getType());
+		Root<FeedCategory> root = query.from(getType());
+
+		List<Predicate> predicates = Lists.newArrayList();
+
+		predicates.add(builder.equal(root.get(FeedCategory_.user), user));
 		if (parent == null) {
-			criteria.andIsNull(FeedCategory_.parent.getName());
+			predicates.add(builder.isNull(root.get(FeedCategory_.parent)));
 		} else {
-			criteria.andEquals(FeedCategory_.parent.getName(), parent);
+			predicates
+					.add(builder.equal(root.get(FeedCategory_.parent), parent));
 		}
 
-		return criteria.getResultList();
+		query.where(predicates.toArray(new Predicate[0]));
+
+		return em.createQuery(query).getResultList();
 	}
 
 	public List<FeedCategory> findAllChildrenCategories(User user,

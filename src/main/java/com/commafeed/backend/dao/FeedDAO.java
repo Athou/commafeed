@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -18,7 +19,6 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.Feed_;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 public class FeedDAO extends GenericDAO<Feed> {
@@ -78,13 +78,15 @@ public class FeedDAO extends GenericDAO<Feed> {
 	}
 
 	public Feed findByIdWithEntries(Long feedId, int offset, int limit) {
-		EasyCriteria<Feed> criteria = createCriteria();
-		criteria.andEquals(Feed_.id.getName(), feedId);
-		criteria.leftJoinFetch(Feed_.entries.getName());
+		CriteriaQuery<Feed> query = builder.createQuery(getType());
+		Root<Feed> root = query.from(getType());
 
-		criteria.setFirstResult(offset);
-		criteria.setMaxResults(limit);
-		return criteria.getSingleResult();
+		query.where(builder.equal(root.get(Feed_.id), feedId));
+		root.fetch(Feed_.entries, JoinType.LEFT);
+
+		TypedQuery<Feed> q = em.createQuery(query);
+		limit(q, offset, limit);
+		return q.getSingleResult();
 	}
 
 	public List<Feed> findByTopic(String topic) {

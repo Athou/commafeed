@@ -55,7 +55,8 @@ public class FeedFetcher {
 				&& fetchedFeed.getFeed().getLastPublishedDate() != null
 				&& lastPublishedDate.getTime() == fetchedFeed.getFeed()
 						.getLastPublishedDate().getTime()) {
-			log.info("using publishedDate!");
+			log.info("publishedDate not modified: {}", fetchedFeed.getFeed()
+					.getUrl());
 			throw new NotModifiedException();
 		}
 

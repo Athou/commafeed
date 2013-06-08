@@ -707,7 +707,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			$scope.errorCount = data.errorCount;
 			$scope.timestamp = data.timestamp;
 			$scope.busy = false;
-			$scope.hasMore = data.entries.length == limit;
+			$scope.hasMore = data.hasMore;
 		};
 		if (!$scope.keywords) {
 			var service = $scope.selectedType == 'feed' ? FeedService
@@ -933,11 +933,14 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	});
 	Mousetrap.bind('v', function(e) {
 		if ($scope.current) {
+			$scope.mark($scope.current, true);
 			window.open($scope.current.url);
 		}
 	});
 	Mousetrap.bind('b', function(e) {
 		if ($scope.current) {
+			$scope.mark($scope.current, true);
+			
 			var url = $scope.current.url;
 			var a = document.createElement('a');
 			a.href = url;

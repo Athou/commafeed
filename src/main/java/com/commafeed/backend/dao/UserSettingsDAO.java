@@ -2,25 +2,26 @@ package com.commafeed.backend.dao;
 
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings_;
-import com.uaihebert.factory.EasyCriteriaFactory;
-import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 public class UserSettingsDAO extends GenericDAO<UserSettings> {
 
 	public UserSettings findByUser(User user) {
 
-		EasyCriteria<UserSettings> criteria = EasyCriteriaFactory
-				.createQueryCriteria(em, getType());
-		criteria.andEquals(UserSettings_.user.getName(), user);
+		CriteriaQuery<UserSettings> query = builder.createQuery(getType());
+		Root<UserSettings> root = query.from(getType());
+
+		query.where(builder.equal(root.get(UserSettings_.user), user));
 
 		UserSettings settings = null;
 		try {
-			settings = criteria.getSingleResult();
+			settings = em.createQuery(query).getSingleResult();
 		} catch (NoResultException e) {
 			settings = null;
 		}

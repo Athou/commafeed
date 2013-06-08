@@ -37,6 +37,7 @@ public class Entry implements Serializable {
 		entry.setEnclosureType(status.getEntry().getContent()
 				.getEnclosureType());
 		entry.setDate(feedEntry.getUpdated());
+		entry.setInsertedDate(feedEntry.getInserted());
 		entry.setUrl(feedEntry.getUrl());
 
 		entry.setRead(status.isRead());
@@ -92,6 +93,9 @@ public class Entry implements Serializable {
 
 	@ApiProperty("entry publication date")
 	private Date date;
+
+	@ApiProperty("entry insertion date in the database")
+	private Date insertedDate;
 
 	@ApiProperty("feed id")
 	private String feedId;
@@ -251,6 +255,14 @@ public class Entry implements Serializable {
 
 	public void setRtl(boolean rtl) {
 		this.rtl = rtl;
+	}
+
+	public Date getInsertedDate() {
+		return insertedDate;
+	}
+
+	public void setInsertedDate(Date insertedDate) {
+		this.insertedDate = insertedDate;
 	}
 
 }

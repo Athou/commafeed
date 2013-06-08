@@ -26,8 +26,11 @@ public class Entries implements Serializable {
 	@ApiProperty("times the server tried to refresh the feed and failed")
 	private int errorCount;
 
-	@ApiProperty("list generation Timestamp")
+	@ApiProperty("list generation timestamp")
 	private long timestamp;
+
+	@ApiProperty("if the query has more elements")
+	private boolean hasMore;
 
 	@ApiProperty("list of entries")
 	private List<Entry> entries = Lists.newArrayList();
@@ -70,6 +73,14 @@ public class Entries implements Serializable {
 
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public boolean isHasMore() {
+		return hasMore;
+	}
+
+	public void setHasMore(boolean hasMore) {
+		this.hasMore = hasMore;
 	}
 
 }

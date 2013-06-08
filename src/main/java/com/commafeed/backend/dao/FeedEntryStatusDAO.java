@@ -31,23 +31,27 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.google.api.client.util.Lists;
 import com.google.api.client.util.Maps;
-import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
+	@SuppressWarnings("unchecked")
 	public FeedEntryStatus findById(User user, Long id) {
 
-		EasyCriteria<FeedEntryStatus> criteria = createCriteria();
-		criteria.andEquals(FeedEntryStatus_.id.getName(), id);
+		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
+		Root<FeedEntryStatus> root = query.from(getType());
 
-		criteria.innerJoinFetch(FeedEntryStatus_.subscription.getName());
-		criteria.andJoinEquals(FeedEntryStatus_.subscription.getName(),
-				FeedSubscription_.user.getName(), user);
+		Join<FeedEntryStatus, FeedSubscription> join = (Join<FeedEntryStatus, FeedSubscription>) root
+				.fetch(FeedEntryStatus_.subscription);
+
+		Predicate p1 = builder.equal(root.get(FeedEntryStatus_.id), id);
+		Predicate p2 = builder.equal(join.get(FeedSubscription_.user), user);
+
+		query.where(p1, p2);
 
 		FeedEntryStatus status = null;
 		try {
-			status = criteria.getSingleResult();
+			status = em.createQuery(query).getSingleResult();
 		} catch (NoResultException e) {
 			status = null;
 		}
@@ -96,11 +100,11 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public List<FeedEntryStatus> findStarred(User user, ReadingOrder order,
 			boolean includeContent) {
-		return findStarred(user, -1, -1, order, includeContent);
+		return findStarred(user, null, -1, -1, order, includeContent);
 	}
 
-	public List<FeedEntryStatus> findStarred(User user, int offset, int limit,
-			ReadingOrder order, boolean includeContent) {
+	public List<FeedEntryStatus> findStarred(User user, Date newerThan,
+			int offset, int limit, ReadingOrder order, boolean includeContent) {
 
 		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
 		Root<FeedEntryStatus> root = query.from(getType());
@@ -118,6 +122,11 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		predicates.add(builder.equal(root.get(FeedEntryStatus_.starred), true));
 		query.where(predicates.toArray(new Predicate[0]));
 
+		if (newerThan != null) {
+			predicates.add(builder.greaterThanOrEqualTo(
+					entryJoin.get(FeedEntry_.inserted), newerThan));
+		}
+
 		orderBy(query, entryJoin, order);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
@@ -127,11 +136,12 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public List<FeedEntryStatus> findAll(User user, boolean unreadOnly,
 			ReadingOrder order, boolean includeContent) {
-		return findAll(user, unreadOnly, -1, -1, order, includeContent);
+		return findAll(user, unreadOnly, null, -1, -1, order, includeContent);
 	}
 
 	public List<FeedEntryStatus> findAll(User user, boolean unreadOnly,
-			int offset, int limit, ReadingOrder order, boolean includeContent) {
+			Date newerThan, int offset, int limit, ReadingOrder order,
+			boolean includeContent) {
 		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
 		Root<FeedEntryStatus> root = query.from(getType());
 
@@ -148,6 +158,11 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
 		}
 
+		if (newerThan != null) {
+			predicates.add(builder.greaterThanOrEqualTo(
+					entryJoin.get(FeedEntry_.inserted), newerThan));
+		}
+
 		query.where(predicates.toArray(new Predicate[0]));
 		orderBy(query, entryJoin, order);
 
@@ -158,12 +173,13 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public List<FeedEntryStatus> findByFeed(Feed feed, User user,
 			boolean unreadOnly, ReadingOrder order, boolean includeContent) {
-		return findByFeed(feed, user, unreadOnly, -1, -1, order, includeContent);
+		return findByFeed(feed, user, unreadOnly, null, -1, -1, order,
+				includeContent);
 	}
 
 	public List<FeedEntryStatus> findByFeed(Feed feed, User user,
-			boolean unreadOnly, int offset, int limit, ReadingOrder order,
-			boolean includeContent) {
+			boolean unreadOnly, Date newerThan, int offset, int limit,
+			ReadingOrder order, boolean includeContent) {
 
 		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
 		Root<FeedEntryStatus> root = query.from(getType());
@@ -183,6 +199,11 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
 		}
 
+		if (newerThan != null) {
+			predicates.add(builder.greaterThanOrEqualTo(
+					entryJoin.get(FeedEntry_.inserted), newerThan));
+		}
+
 		query.where(predicates.toArray(new Predicate[0]));
 
 		orderBy(query, entryJoin, order);
@@ -195,13 +216,14 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	public List<FeedEntryStatus> findByCategories(
 			List<FeedCategory> categories, User user, boolean unreadOnly,
 			ReadingOrder order, boolean includeContent) {
-		return findByCategories(categories, user, unreadOnly, -1, -1, order,
-				includeContent);
+		return findByCategories(categories, user, unreadOnly, null, -1, -1,
+				order, includeContent);
 	}
 
 	public List<FeedEntryStatus> findByCategories(
 			List<FeedCategory> categories, User user, boolean unreadOnly,
-			int offset, int limit, ReadingOrder order, boolean includeContent) {
+			Date newerThan, int offset, int limit, ReadingOrder order,
+			boolean includeContent) {
 
 		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
 		Root<FeedEntryStatus> root = query.from(getType());
@@ -218,6 +240,11 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		predicates.add(subJoin.get(FeedSubscription_.category).in(categories));
 		if (unreadOnly) {
 			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
+		}
+
+		if (newerThan != null) {
+			predicates.add(builder.greaterThanOrEqualTo(
+					entryJoin.get(FeedEntry_.inserted), newerThan));
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));

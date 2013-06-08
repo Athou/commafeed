@@ -65,6 +65,7 @@ public class CategoryREST extends AbstractResourceREST {
 	public Response getCategoryEntries(
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
 			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @QueryParam("readType") ReadType readType,
+			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging, default 20, maximum 50") @DefaultValue("20") @QueryParam("limit") int limit,
 			@ApiParam(value = "date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
@@ -78,11 +79,15 @@ public class CategoryREST extends AbstractResourceREST {
 		if (StringUtils.isBlank(id)) {
 			id = ALL;
 		}
+		
+		Date newerThanDate = newerThan == null ? null : new Date(
+				Long.valueOf(newerThan));
 
 		if (ALL.equals(id)) {
 			entries.setName("All");
 			List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO.findAll(
-					getUser(), unreadOnly, offset, limit, order, true);
+					getUser(), unreadOnly, newerThanDate, offset, limit + 1, order,
+					true);
 			for (FeedEntryStatus status : unreadEntries) {
 				entries.getEntries().add(
 						Entry.build(status, applicationSettingsService.get()
@@ -92,7 +97,7 @@ public class CategoryREST extends AbstractResourceREST {
 		} else if (STARRED.equals(id)) {
 			entries.setName("Starred");
 			List<FeedEntryStatus> starred = feedEntryStatusDAO.findStarred(
-					getUser(), offset, limit, order, true);
+					getUser(), newerThanDate, offset, limit + 1, order, true);
 			for (FeedEntryStatus status : starred) {
 				entries.getEntries().add(
 						Entry.build(status, applicationSettingsService.get()
@@ -106,7 +111,8 @@ public class CategoryREST extends AbstractResourceREST {
 						.findAllChildrenCategories(getUser(), feedCategory);
 				List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO
 						.findByCategories(childrenCategories, getUser(),
-								unreadOnly, offset, limit, order, true);
+								unreadOnly, newerThanDate, offset, limit + 1,
+								order, true);
 				for (FeedEntryStatus status : unreadEntries) {
 					entries.getEntries().add(
 							Entry.build(status, applicationSettingsService
@@ -116,6 +122,13 @@ public class CategoryREST extends AbstractResourceREST {
 			}
 
 		}
+
+		boolean hasMore = entries.getEntries().size() > limit;
+		if (hasMore) {
+			entries.setHasMore(true);
+			entries.getEntries().remove(entries.getEntries().size() - 1);
+		}
+
 		entries.setTimestamp(Calendar.getInstance().getTimeInMillis());
 		return Response.ok(entries).build();
 	}
@@ -135,8 +148,8 @@ public class CategoryREST extends AbstractResourceREST {
 		int offset = 0;
 		int limit = 20;
 
-		Entries entries = (Entries) getCategoryEntries(id, readType, offset,
-				limit, order).getEntity();
+		Entries entries = (Entries) getCategoryEntries(id, readType, null,
+				offset, limit, order).getEntity();
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("rss_2.0");

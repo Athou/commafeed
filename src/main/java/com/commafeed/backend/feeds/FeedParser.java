@@ -72,7 +72,6 @@ public class FeedParser {
 			fetchedFeed.setTopic(findSelf(rss));
 			feed.setUrl(feedUrl);
 			feed.setLink(rss.getLink());
-			feed.setLastPublishedDate(validateDate(rss.getPublishedDate()));
 			List<SyndEntry> items = rss.getEntries();
 			for (SyndEntry item : items) {
 				FeedEntry entry = new FeedEntry();
@@ -90,7 +89,7 @@ public class FeedParser {
 				entry.setUrl(FeedUtils.truncate(
 						FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink()),
 						2048));
-				entry.setUpdated(validateDate(getUpdateDate(item)));
+				entry.setUpdated(validateDate(getEntryUpdateDate(item)));
 				entry.setAuthor(FeedUtils.truncate(item.getAuthor(), 128));
 
 				FeedEntryContent content = new FeedEntryContent();
@@ -108,9 +107,15 @@ public class FeedParser {
 				entries.add(entry);
 			}
 			Date lastEntryDate = null;
+
 			if (!entries.isEmpty()) {
-				Long timestamp = FeedUtils.getSortedTimestamps(entries).get(0);
+				List<Long> sortedTimestamps = FeedUtils
+						.getSortedTimestamps(entries);
+				Long timestamp = sortedTimestamps.get(0);
 				lastEntryDate = new Date(timestamp);
+
+				feed.setLastPublishedDate(getFeedPublishedDate(
+						validateDate(rss.getPublishedDate()), entries));
 			}
 			fetchedFeed.setLastEntryDate(lastEntryDate);
 
@@ -146,10 +151,19 @@ public class FeedParser {
 				}
 			}
 		}
-
 	}
 
-	private Date getUpdateDate(SyndEntry item) {
+	private Date getFeedPublishedDate(Date publishedDate,
+			List<FeedEntry> entries) {
+		for (FeedEntry entry : entries) {
+			if (entry.getUpdated().getTime() > publishedDate.getTime()) {
+				publishedDate = entry.getUpdated();
+			}
+		}
+		return publishedDate;
+	}
+
+	private Date getEntryUpdateDate(SyndEntry item) {
 		Date date = item.getUpdatedDate();
 		if (date == null) {
 			date = item.getPublishedDate();

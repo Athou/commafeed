@@ -61,7 +61,7 @@ public class PubSubHubbubCallbackREST {
 
 		List<Feed> feeds = feedDAO.findByTopic(topic);
 
-		if (feeds.isEmpty()) {
+		if (feeds.isEmpty() == false) {
 			for (Feed feed : feeds) {
 				log.debug("activated push notifications for {}",
 						feed.getPushTopic());

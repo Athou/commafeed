@@ -88,7 +88,6 @@ public class FeedREST extends AbstractResourceREST {
 
 		Date newerThanDate = newerThan == null ? null : new Date(
 				Long.valueOf(newerThan));
-		System.out.println(newerThanDate);
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
 				Long.valueOf(id));

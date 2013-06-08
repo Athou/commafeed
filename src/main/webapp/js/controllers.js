@@ -933,11 +933,14 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	});
 	Mousetrap.bind('v', function(e) {
 		if ($scope.current) {
+			$scope.mark($scope.current, true);
 			window.open($scope.current.url);
 		}
 	});
 	Mousetrap.bind('b', function(e) {
 		if ($scope.current) {
+			$scope.mark($scope.current, true);
+			
 			var url = $scope.current.url;
 			var a = document.createElement('a');
 			a.href = url;

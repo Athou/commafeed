@@ -482,11 +482,6 @@ function($scope, $http, $state, $stateParams, $route, $location,
 	};
 
 	$scope.refresh = function() {
-		if($stateParams._type == 'feed'){
-			FeedService.refresh({
-				id : $stateParams._id
-			});
-		}
 		$scope.$emit('emitReload');
 		
 	};
@@ -998,6 +993,12 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		$scope.busy = false;
 		$scope.hasMore = true;
 		$scope.loadMoreEntries();
+		
+		if ($scope.selectedType == 'feed'){
+			FeedService.refresh({
+				id : $stateParams._id
+			});
+		}
 	});
 }]);
 

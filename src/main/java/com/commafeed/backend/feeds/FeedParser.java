@@ -107,16 +107,15 @@ public class FeedParser {
 				entries.add(entry);
 			}
 			Date lastEntryDate = null;
-
+			Date publishedDate = validateDate(rss.getPublishedDate());
 			if (!entries.isEmpty()) {
 				List<Long> sortedTimestamps = FeedUtils
 						.getSortedTimestamps(entries);
 				Long timestamp = sortedTimestamps.get(0);
 				lastEntryDate = new Date(timestamp);
-
-				feed.setLastPublishedDate(getFeedPublishedDate(
-						validateDate(rss.getPublishedDate()), entries));
+				publishedDate = getFeedPublishedDate(publishedDate, entries);
 			}
+			feed.setLastPublishedDate(publishedDate);
 			fetchedFeed.setLastEntryDate(lastEntryDate);
 
 		} catch (Exception e) {

@@ -6,13 +6,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.TableGenerator;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
 public abstract class AbstractModel implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "gen")
+	@TableGenerator(name = "gen", allocationSize = 1000)
 	private Long id;
 
 	public Long getId() {

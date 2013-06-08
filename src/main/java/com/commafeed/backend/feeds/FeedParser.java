@@ -160,11 +160,16 @@ public class FeedParser {
 	}
 
 	private Date validateDate(Date date) {
+		Date now = Calendar.getInstance().getTime();
 		if (date == null) {
-			return new Date();
+			return now;
 		}
 		if (date.before(START) || date.after(END)) {
-			return new Date();
+			return now;
+		}
+
+		if (date.after(now)) {
+			return now;
 		}
 		return date;
 	}

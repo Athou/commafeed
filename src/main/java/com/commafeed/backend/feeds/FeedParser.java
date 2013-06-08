@@ -71,6 +71,7 @@ public class FeedParser {
 			fetchedFeed.setTopic(findSelf(rss));
 			feed.setUrl(feedUrl);
 			feed.setLink(rss.getLink());
+			feed.setLastPublishedDate(rss.getPublishedDate());
 			List<SyndEntry> items = rss.getEntries();
 			for (SyndEntry item : items) {
 				FeedEntry entry = new FeedEntry();
@@ -105,12 +106,12 @@ public class FeedParser {
 
 				entries.add(entry);
 			}
-			Date publishedDate = null;
+			Date lastEntryDate = null;
 			if (!entries.isEmpty()) {
 				Long timestamp = FeedUtils.getSortedTimestamps(entries).get(0);
-				publishedDate = new Date(timestamp);
+				lastEntryDate = new Date(timestamp);
 			}
-			fetchedFeed.setPublishedDate(publishedDate);
+			fetchedFeed.setLastEntryDate(lastEntryDate);
 
 		} catch (Exception e) {
 			throw new FeedException(String.format(

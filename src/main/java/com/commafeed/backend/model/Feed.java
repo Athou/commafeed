@@ -46,6 +46,12 @@ public class Feed extends AbstractModel {
 	private Date lastUpdated;
 
 	/**
+	 * Last publishedDate value in the feed
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastPublishedDate;
+
+	/**
 	 * Last time we successfully refreshed the feed
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
@@ -208,6 +214,14 @@ public class Feed extends AbstractModel {
 
 	public void setPushLastPing(Date pushLastPing) {
 		this.pushLastPing = pushLastPing;
+	}
+
+	public Date getLastPublishedDate() {
+		return lastPublishedDate;
+	}
+
+	public void setLastPublishedDate(Date lastPublishedDate) {
+		this.lastPublishedDate = lastPublishedDate;
 	}
 
 }

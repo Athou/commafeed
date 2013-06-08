@@ -1,6 +1,7 @@
 package com.commafeed.backend.feeds;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -29,8 +30,9 @@ public class FeedFetcher {
 	HttpGetter getter;
 
 	public FetchedFeed fetch(String feedUrl, boolean extractFeedUrlFromHtml,
-			String lastModified, String eTag) throws FeedException,
-			ClientProtocolException, IOException, NotModifiedException {
+			String lastModified, String eTag, Date lastPublishedDate)
+			throws FeedException, ClientProtocolException, IOException,
+			NotModifiedException {
 		log.debug("Fetching feed {}", feedUrl);
 		FetchedFeed fetchedFeed = null;
 
@@ -48,6 +50,15 @@ public class FeedFetcher {
 		}
 
 		fetchedFeed = parser.parse(feedUrl, result.getContent());
+
+		if (lastPublishedDate != null
+				&& fetchedFeed.getFeed().getLastPublishedDate() != null
+				&& lastPublishedDate.getTime() == fetchedFeed.getFeed()
+						.getLastPublishedDate().getTime()) {
+			log.info("using publishedDate!");
+			throw new NotModifiedException();
+		}
+
 		Feed feed = fetchedFeed.getFeed();
 		feed.setLastModifiedHeader(result.getLastModifiedSince());
 		feed.setEtagHeader(FeedUtils.truncate(result.geteTag(), 255));

@@ -82,7 +82,8 @@ public class FeedRefreshWorker {
 		Date now = Calendar.getInstance().getTime();
 		try {
 			FetchedFeed fetchedFeed = fetcher.fetch(feed.getUrl(), false,
-					feed.getLastModifiedHeader(), feed.getEtagHeader());
+					feed.getLastModifiedHeader(), feed.getEtagHeader(),
+					feed.getLastPublishedDate());
 			// stops here if NotModifiedException or any other exception is
 			// thrown
 			List<FeedEntry> entries = fetchedFeed.getEntries();
@@ -90,7 +91,7 @@ public class FeedRefreshWorker {
 			Date disabledUntil = null;
 			if (applicationSettingsService.get().isHeavyLoad()) {
 				disabledUntil = FeedUtils.buildDisabledUntil(
-						fetchedFeed.getPublishedDate(), entries);
+						fetchedFeed.getLastEntryDate(), entries);
 			}
 
 			feed.setLastUpdateSuccess(now);
@@ -98,6 +99,8 @@ public class FeedRefreshWorker {
 			feed.setLastModifiedHeader(fetchedFeed.getFeed()
 					.getLastModifiedHeader());
 			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());
+			feed.setLastPublishedDate(fetchedFeed.getFeed()
+					.getLastPublishedDate());
 
 			feed.setErrorCount(0);
 			feed.setMessage(null);

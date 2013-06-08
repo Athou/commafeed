@@ -71,7 +71,7 @@ public class FeedParser {
 			fetchedFeed.setTopic(findSelf(rss));
 			feed.setUrl(feedUrl);
 			feed.setLink(rss.getLink());
-			feed.setLastPublishedDate(rss.getPublishedDate());
+			feed.setLastPublishedDate(validateDate(rss.getPublishedDate()));
 			List<SyndEntry> items = rss.getEntries();
 			for (SyndEntry item : items) {
 				FeedEntry entry = new FeedEntry();

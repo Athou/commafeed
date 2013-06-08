@@ -707,7 +707,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			$scope.errorCount = data.errorCount;
 			$scope.timestamp = data.timestamp;
 			$scope.busy = false;
-			$scope.hasMore = data.entries.length == limit;
+			$scope.hasMore = data.hasMore;
 		};
 		if (!$scope.keywords) {
 			var service = $scope.selectedType == 'feed' ? FeedService

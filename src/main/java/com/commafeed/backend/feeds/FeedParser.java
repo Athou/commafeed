@@ -38,8 +38,9 @@ public class FeedParser {
 	private static final Namespace ATOM_10_NS = Namespace
 			.getNamespace(ATOM_10_URI);
 
-	private static final Date START = new Date(0);
-	private static final Date END = new Date(1000l * Integer.MAX_VALUE);
+	private static final Date START = new Date(86400000);
+	private static final Date END = new Date(
+			1000l * Integer.MAX_VALUE - 86400000);
 
 	private static final Function<SyndContent, String> CONTENT_TO_STRING = new Function<SyndContent, String>() {
 		public String apply(SyndContent content) {

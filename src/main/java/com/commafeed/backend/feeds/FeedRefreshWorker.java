@@ -83,7 +83,7 @@ public class FeedRefreshWorker {
 		try {
 			FetchedFeed fetchedFeed = fetcher.fetch(feed.getUrl(), false,
 					feed.getLastModifiedHeader(), feed.getEtagHeader(),
-					feed.getLastPublishedDate());
+					feed.getLastPublishedDate(), feed.getLastContentHash());
 			// stops here if NotModifiedException or any other exception is
 			// thrown
 			List<FeedEntry> entries = fetchedFeed.getEntries();
@@ -99,6 +99,7 @@ public class FeedRefreshWorker {
 			feed.setLastModifiedHeader(fetchedFeed.getFeed()
 					.getLastModifiedHeader());
 			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());
+			feed.setLastContentHash(fetchedFeed.getFeed().getLastContentHash());
 			feed.setLastPublishedDate(fetchedFeed.getFeed()
 					.getLastPublishedDate());
 
@@ -144,9 +145,9 @@ public class FeedRefreshWorker {
 			String message = "Unable to refresh feed " + feed.getUrl() + " : "
 					+ e.getMessage();
 			if (e instanceof FeedException) {
-				log.debug(e.getClass().getName() + " " + message);
+				log.debug(e.getClass().getName() + " " + message, e);
 			} else {
-				log.debug(e.getClass().getName() + " " + message);
+				log.debug(e.getClass().getName() + " " + message, e);
 			}
 
 			feed.setErrorCount(feed.getErrorCount() + 1);

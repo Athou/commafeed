@@ -72,10 +72,12 @@ public class StartupBean {
 
 	@PostConstruct
 	private void init() {
+
 		startupTime = Calendar.getInstance().getTimeInMillis();
 		if (userDAO.getCount() == 0) {
 			initialData();
 		}
+		applicationSettingsService.applyLogLevel();
 
 		initSupportedLanguages();
 

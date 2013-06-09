@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.client.ClientProtocolException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,9 +31,9 @@ public class FeedFetcher {
 	HttpGetter getter;
 
 	public FetchedFeed fetch(String feedUrl, boolean extractFeedUrlFromHtml,
-			String lastModified, String eTag, Date lastPublishedDate)
-			throws FeedException, ClientProtocolException, IOException,
-			NotModifiedException {
+			String lastModified, String eTag, Date lastPublishedDate,
+			String lastContentHash) throws FeedException,
+			ClientProtocolException, IOException, NotModifiedException {
 		log.debug("Fetching feed {}", feedUrl);
 		FetchedFeed fetchedFeed = null;
 
@@ -45,24 +46,33 @@ public class FeedFetcher {
 				feedUrl = extractedUrl;
 			}
 		}
-		if (result.getContent() == null) {
+		byte[] content = result.getContent();
+
+		if (content == null) {
 			throw new IOException("Feed content is empty.");
 		}
 
-		fetchedFeed = parser.parse(feedUrl, result.getContent());
+		String hash = DigestUtils.sha1Hex(content);
+		if (lastContentHash != null && hash != null
+				&& lastContentHash.equals(hash)) {
+			log.debug("content hash not modified: {}", feedUrl);
+			throw new NotModifiedException();
+		}
+
+		fetchedFeed = parser.parse(feedUrl, content);
 
 		if (lastPublishedDate != null
 				&& fetchedFeed.getFeed().getLastPublishedDate() != null
 				&& lastPublishedDate.getTime() == fetchedFeed.getFeed()
 						.getLastPublishedDate().getTime()) {
-			log.debug("publishedDate not modified: {}", fetchedFeed.getFeed()
-					.getUrl());
+			log.debug("publishedDate not modified: {}", feedUrl);
 			throw new NotModifiedException();
 		}
 
 		Feed feed = fetchedFeed.getFeed();
 		feed.setLastModifiedHeader(result.getLastModifiedSince());
 		feed.setEtagHeader(FeedUtils.truncate(result.geteTag(), 255));
+		feed.setLastContentHash(hash);
 		fetchedFeed.setFetchDuration(result.getDuration());
 		return fetchedFeed;
 	}

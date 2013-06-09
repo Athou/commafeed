@@ -763,52 +763,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			});
 		}
 	};
-
-	$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
 	
-	var openEntry = function(entry, event) {
-		if (event && event.which === 3) {
-			// right click
-			return;
-		}
-		
-		if (!event || (!event.ctrlKey && event.which != 2)) {
-			if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {
-				$scope.isOpen = true;
-			} else {
-				$scope.isOpen = !$scope.isOpen;
-			}
-			if ($scope.isOpen) {
-				$scope.mark(entry, true);
-			}
-			$scope.current = entry;
-			if (event) {
-				event.preventDefault();
-				event.stopPropagation();
-			}
-		} else {
-			$scope.mark(entry, true);
-		}
-	};
-	
-	$scope.entryClicked = function(entry, event) {
-		$scope.navigationMode = 'click';
-		openEntry(entry, event);
-	};
-	
-	$scope.bodyClicked = function(entry, event) {
-		if (SettingsService.settings.viewMode == 'expanded' && $scope.current != entry) {
-			$scope.entryClicked(entry, event);
-		}
-	};
-
-	$scope.noop = function(event) {
-		if (!event.ctrlKey && event.which != 2) {
-			event.preventDefault();
-			event.stopPropagation();
-		}
-	};
-
 	var getCurrentIndex = function() {
 		var index = -1;
 		if ($scope.current) {
@@ -868,6 +823,56 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		var entry = getPreviousEntry();
 		if (entry) {
 			$scope.current = entry;
+		}
+	};
+
+	$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
+	
+	var openEntry = function(entry, event) {
+		
+		if (event && event.which === 3) {
+			// right click
+			return;
+		}
+		
+		if (!event || (!event.ctrlKey && event.which != 2)) {
+			if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {
+				$scope.isOpen = true;
+			} else {
+				$scope.isOpen = !$scope.isOpen;
+			}
+			if ($scope.isOpen) {
+				$scope.mark(entry, true);
+			}
+			$scope.current = entry;
+			if (event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		} else {
+			$scope.mark(entry, true);
+		}
+		
+		if (getCurrentIndex() == $scope.entries.length - 1) {
+			$scope.loadMoreEntries();	
+		}
+	};
+	
+	$scope.entryClicked = function(entry, event) {
+		$scope.navigationMode = 'click';
+		openEntry(entry, event);
+	};
+	
+	$scope.bodyClicked = function(entry, event) {
+		if (SettingsService.settings.viewMode == 'expanded' && $scope.current != entry) {
+			$scope.entryClicked(entry, event);
+		}
+	};
+
+	$scope.noop = function(event) {
+		if (!event.ctrlKey && event.which != 2) {
+			event.preventDefault();
+			event.stopPropagation();
 		}
 	};
 

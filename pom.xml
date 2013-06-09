@@ -415,6 +415,11 @@
 		</profile>
 		<profile>
 			<id>prod</id>
+			<activation>
+				<property>
+					<name>skipTests</name>
+				</property>
+			</activation>
 			<properties>
 				<timestamp>${maven.build.timestamp}</timestamp>
 				<production>true</production>

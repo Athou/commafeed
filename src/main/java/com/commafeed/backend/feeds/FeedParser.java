@@ -107,7 +107,8 @@ public class FeedParser {
 				entries.add(entry);
 			}
 			Date lastEntryDate = null;
-			Date publishedDate = validateDate(rss.getPublishedDate());
+			Date publishedDate = rss.getPublishedDate() == null ? null
+					: validateDate(rss.getPublishedDate());
 			if (!entries.isEmpty()) {
 				List<Long> sortedTimestamps = FeedUtils
 						.getSortedTimestamps(entries);
@@ -154,6 +155,10 @@ public class FeedParser {
 
 	private Date getFeedPublishedDate(Date publishedDate,
 			List<FeedEntry> entries) {
+		if (publishedDate == null) {
+			return null;
+		}
+		
 		for (FeedEntry entry : entries) {
 			if (entry.getUpdated().getTime() > publishedDate.getTime()) {
 				publishedDate = entry.getUpdated();

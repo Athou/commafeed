@@ -137,6 +137,13 @@
 							<input type="checkbox" name="pubsubhubbub" ng-model="settings.pubsubhubbub" />
 						</div>
 					</div>
+					<div class="control-group">
+						<label class="control-label" for="logLevel">Logging level</label>
+						<div class="controls">
+							<select name="logLevel" ng-model="settings.logLevel" ng-options="level for level in ['DEBUG', 'INFO', 'WARN', 'ERROR']">
+							</select>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="control-group">

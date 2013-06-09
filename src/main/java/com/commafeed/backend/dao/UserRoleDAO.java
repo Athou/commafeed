@@ -4,25 +4,28 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Stateless;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
 
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserRole_;
 import com.google.common.collect.Sets;
-import com.uaihebert.factory.EasyCriteriaFactory;
-import com.uaihebert.model.EasyCriteria;
 
 @Stateless
 public class UserRoleDAO extends GenericDAO<UserRole> {
 
 	@Override
 	public List<UserRole> findAll() {
-		EasyCriteria<UserRole> criteria = EasyCriteriaFactory
-				.createQueryCriteria(em, getType());
-		criteria.setDistinctTrue();
-		criteria.leftJoinFetch(UserRole_.user.getName());
-		return criteria.getResultList();
+		CriteriaQuery<UserRole> query = builder.createQuery(getType());
+		Root<UserRole> root = query.from(getType());
+		query.distinct(true);
+
+		root.fetch(UserRole_.user, JoinType.LEFT);
+
+		return em.createQuery(query).getResultList();
 	}
 
 	public List<UserRole> findAll(User user) {

@@ -10,6 +10,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.hibernate.Hibernate;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
@@ -25,12 +26,16 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
 		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
 		Root<FeedEntry> root = query.from(getType());
-		
+
 		query.distinct(true);
 		query.where(builder.equal(root.get(FeedEntry_.guidHash), hash));
-		root.fetch(FeedEntry_.feeds, JoinType.LEFT);
+
 		TypedQuery<FeedEntry> q = em.createQuery(query);
-		return q.getResultList();
+		List<FeedEntry> list = q.getResultList();
+		for (FeedEntry entry : list) {
+			Hibernate.initialize(entry.getFeeds());
+		}
+		return list;
 	}
 
 	public List<FeedEntry> findByGuids(List<String> guids) {
@@ -41,19 +46,24 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
 		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
 		Root<FeedEntry> root = query.from(getType());
-		
+
 		query.distinct(true);
 		query.where(root.get(FeedEntry_.guidHash).in(hashes));
 		root.fetch(FeedEntry_.feeds, JoinType.LEFT);
+
 		TypedQuery<FeedEntry> q = em.createQuery(query);
-		return q.getResultList();
+		List<FeedEntry> list = q.getResultList();
+		for (FeedEntry entry : list) {
+			Hibernate.initialize(entry.getFeeds());
+		}
+		return list;
 	}
 
 	public List<FeedEntry> findByFeed(Feed feed, int offset, int limit) {
 		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
 		Root<FeedEntry> root = query.from(getType());
 		SetJoin<FeedEntry, Feed> feedsJoin = root.join(FeedEntry_.feeds);
-		
+
 		query.distinct(true);
 		query.where(builder.equal(feedsJoin.get(Feed_.id), feed.getId()));
 		query.orderBy(builder.desc(root.get(FeedEntry_.updated)));

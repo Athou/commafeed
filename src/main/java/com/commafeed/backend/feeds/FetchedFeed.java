@@ -14,7 +14,7 @@ public class FetchedFeed {
 
 	private String title;
 	private long fetchDuration;
-	private Date publishedDate;
+	private Date lastEntryDate;
 
 	/**
 	 * pubsubhubbub hub url
@@ -58,14 +58,6 @@ public class FetchedFeed {
 		this.fetchDuration = fetchDuration;
 	}
 
-	public Date getPublishedDate() {
-		return publishedDate;
-	}
-
-	public void setPublishedDate(Date publishedDate) {
-		this.publishedDate = publishedDate;
-	}
-
 	public String getHub() {
 		return hub;
 	}
@@ -80,6 +72,14 @@ public class FetchedFeed {
 
 	public void setTopic(String topic) {
 		this.topic = topic;
+	}
+
+	public Date getLastEntryDate() {
+		return lastEntryDate;
+	}
+
+	public void setLastEntryDate(Date lastEntryDate) {
+		this.lastEntryDate = lastEntryDate;
 	}
 
 }

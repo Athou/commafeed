@@ -72,6 +72,7 @@ public class FeedREST extends AbstractResourceREST {
 	public Response getFeedEntries(
 			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
 			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @QueryParam("readType") ReadType readType,
+			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging, default 20, maximum 50") @DefaultValue("20") @QueryParam("limit") int limit,
 			@ApiParam(value = "date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
@@ -85,6 +86,9 @@ public class FeedREST extends AbstractResourceREST {
 		Entries entries = new Entries();
 		boolean unreadOnly = readType == ReadType.unread;
 
+		Date newerThanDate = newerThan == null ? null : new Date(
+				Long.valueOf(newerThan));
+
 		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
 				Long.valueOf(id));
 		if (subscription != null) {
@@ -94,11 +98,17 @@ public class FeedREST extends AbstractResourceREST {
 
 			List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO
 					.findByFeed(subscription.getFeed(), getUser(), unreadOnly,
-							offset, limit, order, true);
+							newerThanDate, offset, limit + 1, order, true);
 			for (FeedEntryStatus status : unreadEntries) {
 				entries.getEntries().add(
 						Entry.build(status, applicationSettingsService.get()
 								.getPublicUrl()));
+			}
+
+			boolean hasMore = entries.getEntries().size() > limit;
+			if (hasMore) {
+				entries.setHasMore(true);
+				entries.getEntries().remove(entries.getEntries().size() - 1);
 			}
 		}
 
@@ -121,8 +131,8 @@ public class FeedREST extends AbstractResourceREST {
 		int offset = 0;
 		int limit = 20;
 
-		Entries entries = (Entries) getFeedEntries(id, readType, offset, limit,
-				order).getEntity();
+		Entries entries = (Entries) getFeedEntries(id, readType, null, offset,
+				limit, order).getEntity();
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("rss_2.0");
@@ -153,7 +163,7 @@ public class FeedREST extends AbstractResourceREST {
 		url = StringUtils.trimToEmpty(url);
 		url = prependHttp(url);
 		try {
-			FetchedFeed feed = feedFetcher.fetch(url, true, null, null);
+			FetchedFeed feed = feedFetcher.fetch(url, true, null, null, null);
 			info = new FeedInfo();
 			info.setUrl(feed.getFeed().getUrl());
 			info.setTitle(feed.getTitle());

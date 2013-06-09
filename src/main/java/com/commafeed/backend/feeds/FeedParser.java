@@ -38,8 +38,9 @@ public class FeedParser {
 	private static final Namespace ATOM_10_NS = Namespace
 			.getNamespace(ATOM_10_URI);
 
-	private static final Date START = new Date(0);
-	private static final Date END = new Date(1000l * Integer.MAX_VALUE);
+	private static final Date START = new Date(86400000);
+	private static final Date END = new Date(
+			1000l * Integer.MAX_VALUE - 86400000);
 
 	private static final Function<SyndContent, String> CONTENT_TO_STRING = new Function<SyndContent, String>() {
 		public String apply(SyndContent content) {
@@ -88,7 +89,7 @@ public class FeedParser {
 				entry.setUrl(FeedUtils.truncate(
 						FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink()),
 						2048));
-				entry.setUpdated(validateDate(getUpdateDate(item)));
+				entry.setUpdated(validateDate(getEntryUpdateDate(item)));
 				entry.setAuthor(FeedUtils.truncate(item.getAuthor(), 128));
 
 				FeedEntryContent content = new FeedEntryContent();
@@ -105,12 +106,18 @@ public class FeedParser {
 
 				entries.add(entry);
 			}
-			Date publishedDate = null;
+			Date lastEntryDate = null;
+			Date publishedDate = rss.getPublishedDate() == null ? null
+					: validateDate(rss.getPublishedDate());
 			if (!entries.isEmpty()) {
-				Long timestamp = FeedUtils.getSortedTimestamps(entries).get(0);
-				publishedDate = new Date(timestamp);
+				List<Long> sortedTimestamps = FeedUtils
+						.getSortedTimestamps(entries);
+				Long timestamp = sortedTimestamps.get(0);
+				lastEntryDate = new Date(timestamp);
+				publishedDate = getFeedPublishedDate(publishedDate, entries);
 			}
-			fetchedFeed.setPublishedDate(publishedDate);
+			feed.setLastPublishedDate(publishedDate);
+			fetchedFeed.setLastEntryDate(lastEntryDate);
 
 		} catch (Exception e) {
 			throw new FeedException(String.format(
@@ -144,10 +151,23 @@ public class FeedParser {
 				}
 			}
 		}
-
 	}
 
-	private Date getUpdateDate(SyndEntry item) {
+	private Date getFeedPublishedDate(Date publishedDate,
+			List<FeedEntry> entries) {
+		if (publishedDate == null) {
+			return null;
+		}
+		
+		for (FeedEntry entry : entries) {
+			if (entry.getUpdated().getTime() > publishedDate.getTime()) {
+				publishedDate = entry.getUpdated();
+			}
+		}
+		return publishedDate;
+	}
+
+	private Date getEntryUpdateDate(SyndEntry item) {
 		Date date = item.getUpdatedDate();
 		if (date == null) {
 			date = item.getPublishedDate();
@@ -159,11 +179,16 @@ public class FeedParser {
 	}
 
 	private Date validateDate(Date date) {
+		Date now = Calendar.getInstance().getTime();
 		if (date == null) {
-			return new Date();
+			return now;
 		}
 		if (date.before(START) || date.after(END)) {
-			return new Date();
+			return now;
+		}
+
+		if (date.after(now)) {
+			return now;
 		}
 		return date;
 	}

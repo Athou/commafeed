@@ -73,7 +73,7 @@ public class FeedRefreshUpdater {
 		ApplicationSettings settings = applicationSettingsService.get();
 		int threads = Math.max(settings.getDatabaseUpdateThreads(), 1);
 		log.info("Creating database pool with {} threads", threads);
-		locks = Striped.lazyWeakLock(threads * 1000);
+		locks = Striped.lazyWeakLock(threads * 100000);
 		pool = new ThreadPoolExecutor(threads, threads, 0,
 				TimeUnit.MILLISECONDS,
 				queue = new ArrayBlockingQueue<Runnable>(500 * threads));
@@ -140,6 +140,8 @@ public class FeedRefreshUpdater {
 
 	private boolean updateEntry(final Feed feed, final FeedEntry entry,
 			final List<FeedSubscription> subscriptions) {
+		boolean success = false;
+
 		String key = StringUtils.trimToEmpty(entry.getGuid() + entry.getUrl());
 		Lock lock = locks.get(key);
 		boolean locked = false;
@@ -147,6 +149,7 @@ public class FeedRefreshUpdater {
 			locked = lock.tryLock(1, TimeUnit.MINUTES);
 			if (locked) {
 				feedUpdateService.updateEntry(feed, entry, subscriptions);
+				success = true;
 			} else {
 				log.error("lock timeout for " + feed.getUrl() + " - " + key);
 			}
@@ -158,7 +161,7 @@ public class FeedRefreshUpdater {
 				lock.unlock();
 			}
 		}
-		return locked;
+		return success;
 	}
 
 	private void handlePubSub(final Feed feed) {

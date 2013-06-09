@@ -482,11 +482,6 @@ function($scope, $http, $state, $stateParams, $route, $location,
 	};
 
 	$scope.refresh = function() {
-		if($stateParams._type == 'feed'){
-			FeedService.refresh({
-				id : $stateParams._id
-			});
-		}
 		$scope.$emit('emitReload');
 		
 	};
@@ -707,7 +702,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			$scope.errorCount = data.errorCount;
 			$scope.timestamp = data.timestamp;
 			$scope.busy = false;
-			$scope.hasMore = data.entries.length == limit;
+			$scope.hasMore = data.hasMore;
 		};
 		if (!$scope.keywords) {
 			var service = $scope.selectedType == 'feed' ? FeedService
@@ -768,52 +763,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			});
 		}
 	};
-
-	$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
 	
-	var openEntry = function(entry, event) {
-		if (event && event.which === 3) {
-			// right click
-			return;
-		}
-		
-		if (!event || (!event.ctrlKey && event.which != 2)) {
-			if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {
-				$scope.isOpen = true;
-			} else {
-				$scope.isOpen = !$scope.isOpen;
-			}
-			if ($scope.isOpen) {
-				$scope.mark(entry, true);
-			}
-			$scope.current = entry;
-			if (event) {
-				event.preventDefault();
-				event.stopPropagation();
-			}
-		} else {
-			$scope.mark(entry, true);
-		}
-	};
-	
-	$scope.entryClicked = function(entry, event) {
-		$scope.navigationMode = 'click';
-		openEntry(entry, event);
-	};
-	
-	$scope.bodyClicked = function(entry, event) {
-		if (SettingsService.settings.viewMode == 'expanded' && $scope.current != entry) {
-			$scope.entryClicked(entry, event);
-		}
-	};
-
-	$scope.noop = function(event) {
-		if (!event.ctrlKey && event.which != 2) {
-			event.preventDefault();
-			event.stopPropagation();
-		}
-	};
-
 	var getCurrentIndex = function() {
 		var index = -1;
 		if ($scope.current) {
@@ -876,6 +826,56 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		}
 	};
 
+	$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
+	
+	var openEntry = function(entry, event) {
+		
+		if (event && event.which === 3) {
+			// right click
+			return;
+		}
+		
+		if (!event || (!event.ctrlKey && event.which != 2)) {
+			if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {
+				$scope.isOpen = true;
+			} else {
+				$scope.isOpen = !$scope.isOpen;
+			}
+			if ($scope.isOpen) {
+				$scope.mark(entry, true);
+			}
+			$scope.current = entry;
+			if (event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		} else {
+			$scope.mark(entry, true);
+		}
+		
+		if (getCurrentIndex() == $scope.entries.length - 1) {
+			$scope.loadMoreEntries();	
+		}
+	};
+	
+	$scope.entryClicked = function(entry, event) {
+		$scope.navigationMode = 'click';
+		openEntry(entry, event);
+	};
+	
+	$scope.bodyClicked = function(entry, event) {
+		if (SettingsService.settings.viewMode == 'expanded' && $scope.current != entry) {
+			$scope.entryClicked(entry, event);
+		}
+	};
+
+	$scope.noop = function(event) {
+		if (!event.ctrlKey && event.which != 2) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
+	};
+
 	$scope.onScroll = function(entry) {
 		$scope.navigationMode = 'scroll';
 		if (SettingsService.settings.viewMode == 'expanded') {
@@ -933,11 +933,14 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	});
 	Mousetrap.bind('v', function(e) {
 		if ($scope.current) {
+			$scope.mark($scope.current, true);
 			window.open($scope.current.url);
 		}
 	});
 	Mousetrap.bind('b', function(e) {
 		if ($scope.current) {
+			$scope.mark($scope.current, true);
+			
 			var url = $scope.current.url;
 			var a = document.createElement('a');
 			a.href = url;
@@ -995,6 +998,12 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		$scope.busy = false;
 		$scope.hasMore = true;
 		$scope.loadMoreEntries();
+		
+		if ($scope.selectedType == 'feed'){
+			FeedService.refresh({
+				id : $stateParams._id
+			});
+		}
 	});
 }]);
 

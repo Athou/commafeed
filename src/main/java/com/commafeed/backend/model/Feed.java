@@ -3,7 +3,6 @@ package com.commafeed.backend.model;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -12,8 +11,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 
 import com.google.common.collect.Sets;
@@ -23,8 +20,6 @@ import com.google.common.collect.Sets;
 @org.hibernate.annotations.Table(appliesTo = "FEEDS", indexes = { @Index(name = "disabled_lastupdated_index", columnNames = {
 		"disabledUntil", "lastUpdated" }), })
 @SuppressWarnings("serial")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Feed extends AbstractModel {
 
 	/**
@@ -49,6 +44,12 @@ public class Feed extends AbstractModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Index(name = "lastupdated_index")
 	private Date lastUpdated;
+
+	/**
+	 * Last publishedDate value in the feed
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastPublishedDate;
 
 	/**
 	 * Last time we successfully refreshed the feed
@@ -213,6 +214,14 @@ public class Feed extends AbstractModel {
 
 	public void setPushLastPing(Date pushLastPing) {
 		this.pushLastPing = pushLastPing;
+	}
+
+	public Date getLastPublishedDate() {
+		return lastPublishedDate;
+	}
+
+	public void setLastPublishedDate(Date lastPublishedDate) {
+		this.lastPublishedDate = lastPublishedDate;
 	}
 
 }

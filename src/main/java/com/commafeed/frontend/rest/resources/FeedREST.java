@@ -163,7 +163,8 @@ public class FeedREST extends AbstractResourceREST {
 		url = StringUtils.trimToEmpty(url);
 		url = prependHttp(url);
 		try {
-			FetchedFeed feed = feedFetcher.fetch(url, true, null, null, null);
+			FetchedFeed feed = feedFetcher.fetch(url, true, null, null, null,
+					null);
 			info = new FeedInfo();
 			info.setUrl(feed.getFeed().getUrl());
 			info.setTitle(feed.getTitle());

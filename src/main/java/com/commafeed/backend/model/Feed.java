@@ -72,6 +72,9 @@ public class Feed extends AbstractModel {
 	@Column(length = 255)
 	private String etagHeader;
 
+	@Column(length = 40)
+	private String lastContentHash;
+
 	@ManyToMany(mappedBy = "feeds")
 	private Set<FeedEntry> entries = Sets.newHashSet();
 
@@ -222,6 +225,14 @@ public class Feed extends AbstractModel {
 
 	public void setLastPublishedDate(Date lastPublishedDate) {
 		this.lastPublishedDate = lastPublishedDate;
+	}
+
+	public String getLastContentHash() {
+		return lastContentHash;
+	}
+
+	public void setLastContentHash(String lastContentHash) {
+		this.lastContentHash = lastContentHash;
 	}
 
 }

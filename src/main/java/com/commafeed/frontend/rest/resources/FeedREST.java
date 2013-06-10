@@ -1,7 +1,9 @@
 package com.commafeed.frontend.rest.resources;
 
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,8 +19,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.fileupload.FileItem;
@@ -48,6 +52,7 @@ import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 import com.commafeed.frontend.rest.Enums.ReadType;
+import com.commafeed.frontend.utils.FetchFavicon;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.sun.syndication.feed.opml.Opml;
@@ -243,6 +248,30 @@ public class FeedREST extends AbstractResourceREST {
 		return Response.ok(
 				Subscription.build(sub, applicationSettingsService.get()
 						.getPublicUrl(), 0)).build();
+	}
+
+	@GET
+	@Path("/favicon")
+	@ApiOperation(value = "Fetch feed icon", notes = "Fetch icon of a feed")
+	public Response favicon(@QueryParam("url") String path) {
+		try {
+			path = URLDecoder.decode(path, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		byte[] icon = new FetchFavicon().get(path);
+		ResponseBuilder reponse = Response.ok(icon, "image/x-icon");
+
+		CacheControl cacheControl = new CacheControl();
+		cacheControl.setMaxAge(2592000);
+		cacheControl.setPrivate(false);
+		reponse.cacheControl(cacheControl); // trying to replicate "public, max-age=2592000"
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MONTH, 1);
+		reponse.expires(calendar.getTime());
+
+		return reponse.build();
 	}
 
 	@POST

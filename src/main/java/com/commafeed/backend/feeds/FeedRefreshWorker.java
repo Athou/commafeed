@@ -90,8 +90,9 @@ public class FeedRefreshWorker {
 
 			Date disabledUntil = null;
 			if (applicationSettingsService.get().isHeavyLoad()) {
-				disabledUntil = FeedUtils.buildDisabledUntil(
-						fetchedFeed.getLastEntryDate(), entries);
+				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed
+						.getFeed().getLastEntryDate(), fetchedFeed.getFeed()
+						.getAverageEntryInterval());
 			}
 
 			feed.setLastUpdateSuccess(now);
@@ -102,12 +103,14 @@ public class FeedRefreshWorker {
 			feed.setLastContentHash(fetchedFeed.getFeed().getLastContentHash());
 			feed.setLastPublishedDate(fetchedFeed.getFeed()
 					.getLastPublishedDate());
+			feed.setAverageEntryInterval(fetchedFeed.getFeed()
+					.getAverageEntryInterval());
 
 			feed.setErrorCount(0);
 			feed.setMessage(null);
 			feed.setDisabledUntil(disabledUntil);
 
-			handlePubSub(feed, fetchedFeed);
+			handlePubSub(feed);
 			feedRefreshUpdater.updateFeed(feed, entries);
 
 		} catch (NotModifiedException e) {
@@ -115,26 +118,9 @@ public class FeedRefreshWorker {
 
 			Date disabledUntil = null;
 			if (applicationSettingsService.get().isHeavyLoad()) {
-
-				Date lastUpdateSuccess = feed.getLastUpdateSuccess();
-				Date lastDisabledUntil = feed.getDisabledUntil();
-				if (feed.getErrorCount() == 0 && lastUpdateSuccess != null
-						&& lastDisabledUntil != null
-						&& lastUpdateSuccess.before(lastDisabledUntil)) {
-					long millis = now.getTime() + lastDisabledUntil.getTime()
-							- lastUpdateSuccess.getTime();
-					disabledUntil = new Date(millis);
-				} else {
-					List<FeedEntry> feedEntries = feedEntryDAO.findByFeed(feed,
-							0, 10);
-
-					Date publishedDate = null;
-					if (feedEntries.size() > 0) {
-						publishedDate = feedEntries.get(0).getInserted();
-					}
-					disabledUntil = FeedUtils.buildDisabledUntil(publishedDate,
-							feedEntries);
-				}
+				disabledUntil = FeedUtils
+						.buildDisabledUntil(feed.getLastEntryDate(),
+								feed.getAverageEntryInterval());
 			}
 			feed.setErrorCount(0);
 			feed.setMessage(null);
@@ -159,9 +145,9 @@ public class FeedRefreshWorker {
 		}
 	}
 
-	private void handlePubSub(Feed feed, FetchedFeed fetchedFeed) {
-		String hub = fetchedFeed.getHub();
-		String topic = fetchedFeed.getTopic();
+	private void handlePubSub(Feed feed) {
+		String hub = feed.getPushHub();
+		String topic = feed.getPushTopic();
 		if (hub != null && topic != null) {
 			if (hub.contains("hubbub.api.typepad.com")) {
 				// that hub does not exist anymore

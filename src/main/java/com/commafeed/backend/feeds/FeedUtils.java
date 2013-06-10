@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -194,7 +193,7 @@ public class FeedUtils {
 	 * When the feed was refreshed successfully
 	 */
 	public static Date buildDisabledUntil(Date publishedDate,
-			List<FeedEntry> entries) {
+			Long averageEntryInterval) {
 		Date now = Calendar.getInstance().getTime();
 
 		if (publishedDate == null) {
@@ -209,19 +208,22 @@ public class FeedUtils {
 		} else if (publishedDate.before(DateUtils.addDays(now, -7))) {
 			// older than a week, recheck in 6 hours
 			return DateUtils.addHours(now, 6);
-		} else if (CollectionUtils.isNotEmpty(entries)) {
+		} else if (averageEntryInterval != null) {
 			// use average time between entries to decide when to refresh next
-			long average = averageTimeBetweenEntries(entries);
 			int factor = 2;
 			return new Date(Math.min(DateUtils.addHours(now, 6).getTime(),
-					now.getTime() + average / factor));
+					now.getTime() + averageEntryInterval / factor));
 		} else {
 			// unknown case, recheck in 24 hours
 			return DateUtils.addHours(now, 24);
 		}
 	}
 
-	public static long averageTimeBetweenEntries(List<FeedEntry> entries) {
+	public static Long averageTimeBetweenEntries(List<FeedEntry> entries) {
+		if (entries.isEmpty() || entries.size() == 1) {
+			return null;
+		}
+
 		List<Long> timestamps = getSortedTimestamps(entries);
 
 		SummaryStatistics stats = new SummaryStatistics();

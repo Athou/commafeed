@@ -68,8 +68,8 @@ public class FeedParser {
 			handleForeignMarkup(rss);
 
 			fetchedFeed.setTitle(rss.getTitle());
-			fetchedFeed.setHub(findHub(rss));
-			fetchedFeed.setTopic(findSelf(rss));
+			feed.setPushHub(findHub(rss));
+			feed.setPushTopic(findSelf(rss));
 			feed.setUrl(feedUrl);
 			feed.setLink(rss.getLink());
 			List<SyndEntry> items = rss.getEntries();
@@ -117,7 +117,9 @@ public class FeedParser {
 				publishedDate = getFeedPublishedDate(publishedDate, entries);
 			}
 			feed.setLastPublishedDate(publishedDate);
-			fetchedFeed.setLastEntryDate(lastEntryDate);
+			feed.setAverageEntryInterval(FeedUtils
+					.averageTimeBetweenEntries(entries));
+			feed.setLastEntryDate(lastEntryDate);
 
 		} catch (Exception e) {
 			throw new FeedException(String.format(
@@ -158,7 +160,7 @@ public class FeedParser {
 		if (publishedDate == null) {
 			return null;
 		}
-		
+
 		for (FeedEntry entry : entries) {
 			if (entry.getUpdated().getTime() > publishedDate.getTime()) {
 				publishedDate = entry.getUpdated();

@@ -52,26 +52,55 @@ public class Feed extends AbstractModel {
 	private Date lastPublishedDate;
 
 	/**
+	 * date of the last entry of the feed
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastEntryDate;
+
+	/**
 	 * Last time we successfully refreshed the feed
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdateSuccess;
 
+	/**
+	 * error message while retrieving the feed
+	 */
 	@Column(length = 1024)
 	private String message;
 
+	/**
+	 * times we failed to retrieve the feed
+	 */
 	private int errorCount;
 
+	/**
+	 * feed refresh is disabled until this date
+	 */
 	@Temporal(TemporalType.TIMESTAMP)
 	@Index(name = "disableduntil_index")
 	private Date disabledUntil;
 
+	/**
+	 * http header returned by the feed
+	 */
 	@Column(length = 64)
 	private String lastModifiedHeader;
 
+	/**
+	 * http header returned by the feed
+	 */
 	@Column(length = 255)
 	private String etagHeader;
 
+	/**
+	 * average time between entries in the feed
+	 */
+	private Long averageEntryInterval;
+
+	/**
+	 * last hash of the content of the feed xml
+	 */
 	@Column(length = 40)
 	private String lastContentHash;
 
@@ -81,13 +110,22 @@ public class Feed extends AbstractModel {
 	@OneToMany(mappedBy = "feed")
 	private Set<FeedSubscription> subscriptions;
 
+	/**
+	 * detected hub for pubsubhubbub
+	 */
 	@Column(length = 2048)
 	private String pushHub;
 
+	/**
+	 * detected topic for pubsubhubbub
+	 */
 	@Column(length = 2048)
 	@Index(name = "topic_index")
 	private String pushTopic;
 
+	/**
+	 * last time we subscribed for that topic on that hub
+	 */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date pushLastPing;
 
@@ -233,6 +271,22 @@ public class Feed extends AbstractModel {
 
 	public void setLastContentHash(String lastContentHash) {
 		this.lastContentHash = lastContentHash;
+	}
+
+	public Long getAverageEntryInterval() {
+		return averageEntryInterval;
+	}
+
+	public void setAverageEntryInterval(Long averageEntryInterval) {
+		this.averageEntryInterval = averageEntryInterval;
+	}
+
+	public Date getLastEntryDate() {
+		return lastEntryDate;
+	}
+
+	public void setLastEntryDate(Date lastEntryDate) {
+		this.lastEntryDate = lastEntryDate;
 	}
 
 }

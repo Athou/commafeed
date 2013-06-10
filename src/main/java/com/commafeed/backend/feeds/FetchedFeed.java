@@ -1,6 +1,5 @@
 package com.commafeed.backend.feeds;
 
-import java.util.Date;
 import java.util.List;
 
 import com.commafeed.backend.model.Feed;
@@ -14,17 +13,6 @@ public class FetchedFeed {
 
 	private String title;
 	private long fetchDuration;
-	private Date lastEntryDate;
-
-	/**
-	 * pubsubhubbub hub url
-	 */
-	private String hub;
-
-	/**
-	 * pubsubhubbub topic
-	 */
-	private String topic;
 
 	public Feed getFeed() {
 		return feed;
@@ -57,29 +45,4 @@ public class FetchedFeed {
 	public void setFetchDuration(long fetchDuration) {
 		this.fetchDuration = fetchDuration;
 	}
-
-	public String getHub() {
-		return hub;
-	}
-
-	public void setHub(String hub) {
-		this.hub = hub;
-	}
-
-	public String getTopic() {
-		return topic;
-	}
-
-	public void setTopic(String topic) {
-		this.topic = topic;
-	}
-
-	public Date getLastEntryDate() {
-		return lastEntryDate;
-	}
-
-	public void setLastEntryDate(Date lastEntryDate) {
-		this.lastEntryDate = lastEntryDate;
-	}
-
 }

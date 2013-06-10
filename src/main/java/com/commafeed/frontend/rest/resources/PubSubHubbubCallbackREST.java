@@ -82,7 +82,7 @@ public class PubSubHubbubCallbackREST {
 		try {
 			byte[] bytes = IOUtils.toByteArray(request.getInputStream());
 			FetchedFeed fetchedFeed = parser.parse(null, bytes);
-			String topic = fetchedFeed.getTopic();
+			String topic = fetchedFeed.getFeed().getPushTopic();
 			if (topic != null) {
 				log.debug("content callback received for {}", topic);
 				List<Feed> feeds = feedDAO.findByTopic(topic);

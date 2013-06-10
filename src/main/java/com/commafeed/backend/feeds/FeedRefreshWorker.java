@@ -105,6 +105,7 @@ public class FeedRefreshWorker {
 					.getLastPublishedDate());
 			feed.setAverageEntryInterval(fetchedFeed.getFeed()
 					.getAverageEntryInterval());
+			feed.setLastEntryDate(fetchedFeed.getFeed().getLastEntryDate());
 
 			feed.setErrorCount(0);
 			feed.setMessage(null);

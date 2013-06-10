@@ -110,7 +110,7 @@ public class FeedRefreshWorker {
 			feed.setMessage(null);
 			feed.setDisabledUntil(disabledUntil);
 
-			handlePubSub(feed);
+			handlePubSub(feed, fetchedFeed.getFeed());
 			feedRefreshUpdater.updateFeed(feed, entries);
 
 		} catch (NotModifiedException e) {
@@ -145,9 +145,9 @@ public class FeedRefreshWorker {
 		}
 	}
 
-	private void handlePubSub(Feed feed) {
-		String hub = feed.getPushHub();
-		String topic = feed.getPushTopic();
+	private void handlePubSub(Feed feed, Feed fetchedFeed) {
+		String hub = fetchedFeed.getPushHub();
+		String topic = fetchedFeed.getPushTopic();
 		if (hub != null && topic != null) {
 			if (hub.contains("hubbub.api.typepad.com")) {
 				// that hub does not exist anymore

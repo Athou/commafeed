@@ -96,10 +96,16 @@ module.directive('onScrollMiddle', function() {
 				return (elemBottom > threshold) ? 'below' : 'above';
 			};
 
+<<<<<<< HEAD
+			w.data.scrollPosition = d.scrollTop();
+			w.data.scrollDirection = 'down';
+			if (!w.data.scrollInit) {
+=======
 			if (!w.data.scrollInit) {
 				w.data.scrollPosition = d.scrollTop();
 				w.data.scrollDirection = 'down';
 				
+>>>>>>> b99a7fb14adb403b03bb4939c9690073578ca657
 				var onScroll = function(e) {
 					var scroll = d.scrollTop();
 					w.data.scrollDirection = (scroll
@@ -112,11 +118,19 @@ module.directive('onScrollMiddle', function() {
 				w.data.scrollInit = true;
 			}
 			scope.$watch(down, function downCallback(value, oldValue) {
+<<<<<<< HEAD
+				if (value && value != oldValue && value == 'above')
+					scope.$eval(attrs.onScrollMiddle);
+			});
+			scope.$watch(up, function upCallback(value, oldValue) {
+				if (value && value != oldValue && value == 'below')
+=======
 				if (value != oldValue && value == 'above')
 					scope.$eval(attrs.onScrollMiddle);
 			});
 			scope.$watch(up, function upCallback(value, oldValue) {
 				if (value != oldValue && value == 'below')
+>>>>>>> b99a7fb14adb403b03bb4939c9690073578ca657
 					scope.$eval(attrs.onScrollMiddle);
 			});
 		}

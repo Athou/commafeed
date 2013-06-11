@@ -250,9 +250,10 @@ public class FeedREST extends AbstractResourceREST {
 	}
 
 	@GET
-	@Path("/favicon")
-	@ApiOperation(value = "Fetch a feed's icon", notes = "Fetch icon of a feed")
-	public Response getFavicon(@QueryParam("id") Long id) {
+	@Path("/favicon/{id}")
+	@ApiOperation(value = "Fetch a feed's icon", notes = "Fetch a feed's icon")
+	public Response getFavicon(
+			@ApiParam(value = "subscription id") @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
 		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
@@ -277,7 +278,7 @@ public class FeedREST extends AbstractResourceREST {
 
 		CacheControl cacheControl = new CacheControl();
 		cacheControl.setMaxAge(2592000);
-		cacheControl.setPrivate(false);
+		cacheControl.setPrivate(true);
 		// trying to replicate "public, max-age=2592000"
 		builder.cacheControl(cacheControl);
 

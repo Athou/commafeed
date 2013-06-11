@@ -264,7 +264,7 @@ public class FeedUtils {
 
 	public static String getFaviconUrl(FeedSubscription subscription,
 			String publicUrl) {
-		return removeTrailingSlash(publicUrl) + "/rest/feed/favicon?id="
+		return removeTrailingSlash(publicUrl) + "/rest/feed/favicon/"
 				+ subscription.getId();
 	}
 }

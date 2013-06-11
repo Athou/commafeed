@@ -39,7 +39,7 @@ public class FaviconFetcher {
 	public byte[] fetch(String url) {
 
 		if (url == null) {
-			log.info("url is null");
+			log.debug("url is null");
 			return null;
 		}
 
@@ -69,7 +69,7 @@ public class FaviconFetcher {
 
 		try {
 			url = FeedUtils.removeTrailingSlash(url) + "/favicon.ico";
-			log.info("getting root icon at {}", url);
+			log.debug("getting root icon at {}", url);
 			HttpResult result = getter.getBinary(url);
 			bytes = result.getContent();
 			contentType = result.getContentType();
@@ -95,18 +95,18 @@ public class FaviconFetcher {
 		}
 
 		if (ICON_MIMETYPE_BLACKLIST.contains(contentType)) {
-			log.info("Content-Type {} is blacklisted", contentType);
+			log.debug("Content-Type {} is blacklisted", contentType);
 			return false;
 		}
 
 		if (length < MIN_ICON_LENGTH) {
-			log.info("Length {} below MIN_ICON_LENGTH {}", length,
+			log.debug("Length {} below MIN_ICON_LENGTH {}", length,
 					MIN_ICON_LENGTH);
 			return false;
 		}
 
 		if (length > MAX_ICON_LENGTH) {
-			log.info("Length {} greater than MAX_ICON_LENGTH {}", length,
+			log.debug("Length {} greater than MAX_ICON_LENGTH {}", length,
 					MAX_ICON_LENGTH);
 			return false;
 		}
@@ -121,7 +121,7 @@ public class FaviconFetcher {
 			HttpResult result = getter.getBinary(url);
 			doc = Jsoup.parse(new String(result.getContent()), url);
 		} catch (Exception e) {
-			log.info("Failed to retrieve page to find icon");
+			log.debug("Failed to retrieve page to find icon");
 			return null;
 		}
 
@@ -129,17 +129,17 @@ public class FaviconFetcher {
 				.select("link[rel~=(?i)^(shortcut|icon|shortcut icon)$]");
 
 		if (icons.isEmpty()) {
-			log.info("No icon found in page {}", url);
+			log.debug("No icon found in page {}", url);
 			return null;
 		}
 
 		String href = icons.get(0).attr("abs:href");
 		if (StringUtils.isBlank(href)) {
-			log.info("No icon found in page");
+			log.debug("No icon found in page");
 			return null;
 		}
 
-		log.info("Found unconfirmed iconInPage at {}", href);
+		log.debug("Found unconfirmed iconInPage at {}", href);
 
 		byte[] bytes = null;
 		String contentType = null;
@@ -148,12 +148,12 @@ public class FaviconFetcher {
 			bytes = result.getContent();
 			contentType = result.getContentType();
 		} catch (Exception e) {
-			log.info("Failed to retrieve icon found in page {}", href);
+			log.debug("Failed to retrieve icon found in page {}", href);
 			return null;
 		}
 
 		if (!isValidIconResponse(bytes, contentType)) {
-			log.info("Invalid icon found for {}", href);
+			log.debug("Invalid icon found for {}", href);
 			return null;
 		}
 

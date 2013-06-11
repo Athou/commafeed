@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="athou" id="init">
+		<preConditions onFail="MARK_RAN" onFailMessage="Existing database, skipping initial schema setup">
+			<not>
+				<tableExists tableName="APPLICATIONSETTINGS" />
+			</not>
+		</preConditions>
+		<createTable tableName="APPLICATIONSETTINGS">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="allowRegistrations" type="BIT">
+				<constraints nullable="false" />
+			</column>
+			<column name="backgroundThreads" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="googleClientId" type="VARCHAR(255)" />
+			<column name="googleClientSecret" type="VARCHAR(255)" />
+			<column name="publicUrl" type="VARCHAR(255)" />
+			<column name="smtpHost" type="VARCHAR(255)" />
+			<column name="smtpPassword" type="VARCHAR(255)" />
+			<column name="smtpPort" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="smtpTls" type="BIT">
+				<constraints nullable="false" />
+			</column>
+			<column name="smtpUserName" type="VARCHAR(255)" />
+			<column name="googleAnalyticsDomainName" type="VARCHAR(255)" />
+			<column name="googleAnalyticsTrackingCode" type="VARCHAR(255)" />
+			<column name="announcement" type="VARCHAR(255)" />
+			<column name="feedbackButton" type="BIT">
+				<constraints nullable="false" />
+			</column>
+			<column name="heavyLoad" type="BIT">
+				<constraints nullable="false" />
+			</column>
+			<column name="pubsubhubbub" type="BIT">
+				<constraints nullable="false" />
+			</column>
+			<column name="databaseUpdateThreads" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="logLevel" type="VARCHAR(255)" />
+		</createTable>
+
+		<createTable tableName="FEED_FEEDENTRIES">
+			<column name="FEEDENTRY_ID" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="FEED_ID" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="FEEDCATEGORIES">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="collapsed" type="BIT">
+				<constraints nullable="false" />
+			</column>
+			<column name="name" type="VARCHAR(128)">
+				<constraints nullable="false" />
+			</column>
+			<column name="parent_id" type="BIGINT" />
+			<column name="user_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="position" type="INT" />
+		</createTable>
+
+		<createTable tableName="FEEDENTRIES">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="guid" type="VARCHAR(2048)">
+				<constraints nullable="false" />
+			</column>
+			<column name="guidHash" type="VARCHAR(40)">
+				<constraints nullable="false" />
+			</column>
+			<column name="inserted" type="DATETIME" />
+			<column name="updated" type="DATETIME" />
+			<column name="url" type="VARCHAR(2048)" />
+			<column name="content_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="FEEDENTRYCONTENTS">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="content" type="CLOB" />
+			<column name="enclosureType" type="VARCHAR(255)" />
+			<column name="enclosureUrl" type="VARCHAR(2048)" />
+			<column name="title" type="VARCHAR(2048)" />
+		</createTable>
+
+		<createTable tableName="FEEDENTRYSTATUSES">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="read_status" type="BIT" />
+			<column name="starred" type="BIT">
+				<constraints nullable="false" />
+			</column>
+			<column name="entry_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="subscription_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="FEEDS">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="disabledUntil" type="DATETIME" />
+			<column name="errorCount" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="lastUpdated" type="DATETIME" />
+			<column name="link" type="CLOB" />
+			<column name="message" type="CLOB" />
+			<column name="url" type="CLOB">
+				<constraints nullable="false" />
+			</column>
+			<column name="urlHash" type="VARCHAR(40)">
+				<constraints nullable="false" />
+			</column>
+			<column name="etagHeader" type="VARCHAR(255)" />
+			<column name="lastModifiedHeader" type="VARCHAR(64)" />
+			<column name="lastUpdateSuccess" type="DATETIME" />
+			<column name="pushHub" type="VARCHAR(2048)" />
+			<column name="pushTopic" type="VARCHAR(2048)" />
+			<column name="pushLastPing" type="DATETIME" />
+			<column name="lastPublishedDate" type="DATETIME" />
+			<column name="lastContentHash" type="VARCHAR(40)" />
+			<column name="averageEntryInterval" type="BIGINT" />
+			<column name="lastEntryDate" type="DATETIME" />
+		</createTable>
+
+		<createTable tableName="FEEDSUBSCRIPTIONS">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="title" type="VARCHAR(128)">
+				<constraints nullable="false" />
+			</column>
+			<column name="category_id" type="BIGINT" />
+			<column name="feed_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="user_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="position" type="INT" />
+		</createTable>
+
+		<createTable tableName="hibernate_sequences">
+			<column name="sequence_name" type="VARCHAR(255)" />
+			<column name="sequence_next_hi_value" type="INT" />
+		</createTable>
+
+		<createTable tableName="USERROLES">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="roleName" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="user_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="USERS">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="disabled" type="BIT">
+				<constraints nullable="false" />
+			</column>
+			<column name="email" type="VARCHAR(255)" />
+			<column name="name" type="VARCHAR(32)">
+				<constraints nullable="false" />
+			</column>
+			<column name="password" type="BLOB">
+				<constraints nullable="false" />
+			</column>
+			<column name="salt" type="BLOB">
+				<constraints nullable="false" />
+			</column>
+			<column name="lastLogin" type="DATETIME" />
+			<column name="apiKey" type="VARCHAR(40)" />
+			<column name="recoverPasswordToken" type="VARCHAR(40)" />
+			<column name="recoverPasswordTokenDate" type="DATETIME" />
+		</createTable>
+
+		<createTable tableName="USERSETTINGS">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="customCss" type="CLOB" />
+			<column name="readingMode" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="readingOrder" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="showRead" type="BIT">
+				<constraints nullable="false" />
+			</column>
+			<column name="user_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="socialButtons" type="BIT">
+				<constraints nullable="false" />
+			</column>
+			<column name="scrollMarks" type="BIT">
+				<constraints nullable="false" />
+			</column>
+			<column name="viewMode" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="language" type="VARCHAR(4)" />
+			<column name="theme" type="VARCHAR(32)" />
+		</createTable>
+
+		<addPrimaryKey columnNames="FEEDENTRY_ID, FEED_ID"
+			tableName="FEED_FEEDENTRIES" />
+
+		<addForeignKeyConstraint baseColumnNames="FEED_ID"
+			baseTableName="FEED_FEEDENTRIES" constraintName="FKE50C03F13BFA4D81"
+			referencedColumnNames="id" referencedTableName="FEEDS" />
+
+		<addForeignKeyConstraint baseColumnNames="FEEDENTRY_ID"
+			baseTableName="FEED_FEEDENTRIES" constraintName="FKE50C03F1F21BCF3"
+			referencedColumnNames="id" referencedTableName="FEEDENTRIES" />
+
+		<addForeignKeyConstraint baseColumnNames="parent_id"
+			baseTableName="FEEDCATEGORIES" constraintName="FK15C8223AD60EB13"
+			referencedColumnNames="id" referencedTableName="FEEDCATEGORIES" />
+
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="FEEDCATEGORIES" constraintName="FK15C8223A6D690261"
+			referencedColumnNames="id" referencedTableName="USERS" />
+
+		<addForeignKeyConstraint baseColumnNames="content_id"
+			baseTableName="FEEDENTRIES" constraintName="FKE8844512A0FBD10D"
+			referencedColumnNames="id" referencedTableName="FEEDENTRYCONTENTS" />
+
+		<addForeignKeyConstraint baseColumnNames="entry_id"
+			baseTableName="FEEDENTRYSTATUSES" constraintName="FKD6DCE994F46A5555"
+			referencedColumnNames="id" referencedTableName="FEEDENTRIES" />
+
+		<addForeignKeyConstraint baseColumnNames="subscription_id"
+			baseTableName="FEEDENTRYSTATUSES" constraintName="FKD6DCE994E181535F"
+			referencedColumnNames="id" referencedTableName="FEEDSUBSCRIPTIONS" />
+
+		<addForeignKeyConstraint baseColumnNames="category_id"
+			baseTableName="FEEDSUBSCRIPTIONS" constraintName="FK420395F8EDA2E63F"
+			referencedColumnNames="id" referencedTableName="FEEDCATEGORIES" />
+
+		<addForeignKeyConstraint baseColumnNames="feed_id"
+			baseTableName="FEEDSUBSCRIPTIONS" constraintName="FK420395F83BFA4D81"
+			referencedColumnNames="id" referencedTableName="FEEDS" />
+
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="FEEDSUBSCRIPTIONS" constraintName="FK420395F86D690261"
+			referencedColumnNames="id" referencedTableName="USERS" />
+
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="USERROLES" constraintName="FKBB5E59B26D690261"
+			referencedColumnNames="id" referencedTableName="USERS" />
+
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="USERSETTINGS" constraintName="FKAE0194EE6D690261"
+			referencedColumnNames="id" referencedTableName="USERS" />
+
+		<createIndex indexName="guidHash_index" tableName="FEEDENTRIES"
+			unique="false">
+			<column name="guidHash" />
+		</createIndex>
+
+		<createIndex indexName="updated_index" tableName="FEEDENTRIES"
+			unique="false">
+			<column name="updated" />
+		</createIndex>
+
+		<createIndex indexName="subscription_id" tableName="FEEDENTRYSTATUSES"
+			unique="false">
+			<column name="subscription_id" />
+			<column name="read_status" />
+		</createIndex>
+
+		<createIndex indexName="disabled_lastupdated_index"
+			tableName="FEEDS" unique="false">
+			<column name="disabledUntil" />
+			<column name="lastUpdated" />
+		</createIndex>
+
+		<createIndex indexName="disableduntil_index" tableName="FEEDS"
+			unique="false">
+			<column name="disabledUntil" />
+		</createIndex>
+
+		<createIndex indexName="lastupdated_index" tableName="FEEDS"
+			unique="false">
+			<column name="lastUpdated" />
+		</createIndex>
+
+		<createIndex indexName="topic_index" tableName="FEEDS"
+			unique="false">
+			<column name="pushTopic" />
+		</createIndex>
+
+		<createIndex indexName="urlHash_index" tableName="FEEDS"
+			unique="false">
+			<column name="urlHash" />
+		</createIndex>
+
+		<createIndex indexName="useremail_index" tableName="USERS"
+			unique="true">
+			<column name="email" />
+		</createIndex>
+
+		<createIndex indexName="username_index" tableName="USERS"
+			unique="true">
+			<column name="name" />
+		</createIndex>
+	</changeSet>
+</databaseChangeLog>

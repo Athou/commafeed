@@ -68,6 +68,10 @@ public class FaviconFetcher {
 	}
 
 	boolean isValidIconResponse(byte[] content, String contentType) {
+		if (content == null) {
+			return false;
+		}
+
 		long length = content.length;
 
 		if (!contentType.isEmpty()) {

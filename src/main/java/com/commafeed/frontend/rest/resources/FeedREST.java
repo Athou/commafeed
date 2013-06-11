@@ -18,7 +18,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.CacheControl;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -31,13 +30,13 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.impl.cookie.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.feeds.FetchedFeed;
+import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
@@ -253,8 +252,16 @@ public class FeedREST extends AbstractResourceREST {
 	@GET
 	@Path("/favicon")
 	@ApiOperation(value = "Fetch a feed's icon", notes = "Fetch icon of a feed")
-	public Response getFavicon(@QueryParam("url") String url) {
+	public Response getFavicon(@QueryParam("id") Long id) {
 
+		Preconditions.checkNotNull(id);
+		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
+				id);
+		if (subscription == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		Feed feed = subscription.getFeed();
+		String url = feed.getLink() != null ? feed.getLink() : feed.getUrl();
 		byte[] icon = faviconFetcher.fetch(url);
 
 		ResponseBuilder builder = null;

@@ -1,7 +1,5 @@
 package com.commafeed.backend.feeds;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedSubscription;
 import com.google.api.client.util.Lists;
 import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.i18n.shared.BidiUtils;
@@ -263,25 +262,9 @@ public class FeedUtils {
 		return baseUrl + url;
 	}
 
-	public static String getFaviconUrl(String url, String publicUrl) {
-
-		String defaultIcon = removeTrailingSlash(publicUrl)
-				+ "/images/default_favicon.gif";
-		if (StringUtils.isBlank(url)) {
-			return defaultIcon;
-		}
-
-		int index = Math.max(url.length(), url.lastIndexOf('?'));
-
-		StringBuilder iconUrl = new StringBuilder(
-				"https://getfavicon.appspot.com/");
-		try {
-			iconUrl.append(URLEncoder.encode(url.substring(0, index), "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			// never happens
-			log.error(e.getMessage(), e);
-		}
-		iconUrl.append("?defaulticon=none");
-		return iconUrl.toString();
+	public static String getFaviconUrl(FeedSubscription subscription,
+			String publicUrl) {
+		return removeTrailingSlash(publicUrl) + "/rest/feed/favicon?id="
+				+ subscription.getId();
 	}
 }

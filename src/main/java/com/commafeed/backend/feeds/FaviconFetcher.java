@@ -36,29 +36,45 @@ public class FaviconFetcher {
 	@Inject
 	HttpGetter getter;
 
-	public byte[] fetch(String targetPath) {
-		byte[] icon = getIconAtRoot(targetPath);
+	public byte[] fetch(String url) {
+
+		if (url == null) {
+			log.info("url is null");
+			return null;
+		}
+
+		int doubleSlash = url.indexOf("//");
+		if (doubleSlash == -1) {
+			doubleSlash = 0;
+		} else {
+			doubleSlash += 2;
+		}
+		int firstSlash = url.indexOf('/', doubleSlash);
+		if (firstSlash != -1) {
+			url = url.substring(0, firstSlash);
+		}
+
+		byte[] icon = getIconAtRoot(url);
 
 		if (icon == null) {
-			icon = getIconInPage(targetPath);
+			icon = getIconInPage(url);
 		}
 
 		return icon;
 	}
 
-	private byte[] getIconAtRoot(String targetPath) {
+	private byte[] getIconAtRoot(String url) {
 		byte[] bytes = null;
 		String contentType = null;
 
 		try {
-			String url = FeedUtils.removeTrailingSlash(targetPath)
-					+ "/favicon.ico";
-			log.debug("getting root icon at {}", url);
+			url = FeedUtils.removeTrailingSlash(url) + "/favicon.ico";
+			log.info("getting root icon at {}", url);
 			HttpResult result = getter.getBinary(url);
 			bytes = result.getContent();
 			contentType = result.getContentType();
 		} catch (Exception e) {
-			log.info("Failed to retrieve iconAtRoot: " + e.getMessage(), e);
+			log.debug("Failed to retrieve iconAtRoot: " + e.getMessage(), e);
 		}
 
 		if (!isValidIconResponse(bytes, contentType)) {
@@ -74,7 +90,7 @@ public class FaviconFetcher {
 
 		long length = content.length;
 
-		if (!contentType.isEmpty()) {
+		if (StringUtils.isNotBlank(contentType)) {
 			contentType = contentType.split(";")[0];
 		}
 
@@ -98,13 +114,12 @@ public class FaviconFetcher {
 		return true;
 	}
 
-	private byte[] getIconInPage(String targetPath) {
-		log.info("iconInPage, trying " + targetPath);
+	private byte[] getIconInPage(String url) {
 
-		Document doc;
+		Document doc = null;
 		try {
-			HttpResult result = getter.getBinary(targetPath);
-			doc = Jsoup.parse(new String(result.getContent()), targetPath);
+			HttpResult result = getter.getBinary(url);
+			doc = Jsoup.parse(new String(result.getContent()), url);
 		} catch (Exception e) {
 			log.info("Failed to retrieve page to find icon");
 			return null;
@@ -114,7 +129,7 @@ public class FaviconFetcher {
 				.select("link[rel~=(?i)^(shortcut|icon|shortcut icon)$]");
 
 		if (icons.isEmpty()) {
-			log.info("No icon found in page");
+			log.info("No icon found in page {}", url);
 			return null;
 		}
 

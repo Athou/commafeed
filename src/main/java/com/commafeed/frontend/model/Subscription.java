@@ -34,7 +34,7 @@ public class Subscription implements Serializable {
 		sub.setErrorCount(feed.getErrorCount());
 		sub.setFeedUrl(feed.getUrl());
 		sub.setFeedLink(feed.getLink());
-		sub.setIconUrl(FeedUtils.getFaviconUrl(feed.getLink(), publicUrl));
+		sub.setIconUrl(FeedUtils.getFaviconUrl(subscription, publicUrl));
 		sub.setLastRefresh(feed.getLastUpdated());
 		sub.setNextRefresh((feed.getDisabledUntil() != null && feed
 				.getDisabledUntil().before(now)) ? null : feed

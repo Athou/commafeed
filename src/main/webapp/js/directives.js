@@ -50,7 +50,7 @@ module
 							url : '='
 						},
 						replace : true,
-						template : '<img ng-src="{{url}}" class="favicon" onError="this.src=\'images/default_favicon.gif\'"></img>'
+						template : '<img ng-src="{{url}}" class="favicon"></img>'
 					};
 				});
 

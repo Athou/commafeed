@@ -47,8 +47,8 @@ public class Entry implements Serializable {
 		entry.setFeedId(String.valueOf(status.getSubscription().getId()));
 		entry.setFeedUrl(status.getSubscription().getFeed().getUrl());
 		entry.setFeedLink(status.getSubscription().getFeed().getLink());
-		entry.setIconUrl(FeedUtils.getFaviconUrl(status.getSubscription()
-				.getFeed().getLink(), publicUrl));
+		entry.setIconUrl(FeedUtils.getFaviconUrl(status.getSubscription(),
+				publicUrl));
 
 		return entry;
 	}

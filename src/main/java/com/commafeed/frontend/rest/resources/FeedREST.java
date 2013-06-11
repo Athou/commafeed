@@ -1,9 +1,7 @@
 package com.commafeed.frontend.rest.resources;
 
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLDecoder;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,6 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.CacheControl;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -32,10 +31,12 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.impl.cookie.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.StartupBean;
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.feeds.FetchedFeed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
@@ -52,7 +53,6 @@ import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 import com.commafeed.frontend.rest.Enums.ReadType;
-import com.commafeed.frontend.utils.FetchFavicon;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.sun.syndication.feed.opml.Opml;
@@ -252,26 +252,34 @@ public class FeedREST extends AbstractResourceREST {
 
 	@GET
 	@Path("/favicon")
-	@ApiOperation(value = "Fetch feed icon", notes = "Fetch icon of a feed")
-	public Response favicon(@QueryParam("url") String path) {
-		try {
-			path = URLDecoder.decode(path, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+	@ApiOperation(value = "Fetch a feed's icon", notes = "Fetch icon of a feed")
+	public Response getFavicon(@QueryParam("url") String url) {
+
+		byte[] icon = faviconFetcher.fetch(url);
+
+		ResponseBuilder builder = null;
+		if (icon == null) {
+			String baseUrl = FeedUtils
+					.removeTrailingSlash(applicationSettingsService.get()
+							.getPublicUrl());
+			builder = Response.status(Status.MOVED_PERMANENTLY).location(
+					URI.create(baseUrl + "/images/default_favicon.gif"));
+		} else {
+			builder = Response.ok(icon, "image/x-icon");
 		}
-		byte[] icon = new FetchFavicon().get(path);
-		ResponseBuilder reponse = Response.ok(icon, "image/x-icon");
 
 		CacheControl cacheControl = new CacheControl();
 		cacheControl.setMaxAge(2592000);
 		cacheControl.setPrivate(false);
-		reponse.cacheControl(cacheControl); // trying to replicate "public, max-age=2592000"
+		// trying to replicate "public, max-age=2592000"
+		builder.cacheControl(cacheControl);
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.MONTH, 1);
-		reponse.expires(calendar.getTime());
+		builder.expires(calendar.getTime());
+		builder.lastModified(new Date(startupBean.getStartupTime()));
 
-		return reponse.build();
+		return builder.build();
 	}
 
 	@POST

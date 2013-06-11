@@ -34,6 +34,7 @@ import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
+import com.commafeed.backend.feeds.FaviconFetcher;
 import com.commafeed.backend.feeds.FeedFetcher;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
 import com.commafeed.backend.feeds.FeedRefreshUpdater;
@@ -119,6 +120,9 @@ public abstract class AbstractREST {
 
 	@Inject
 	FeedRefreshUpdater feedRefreshUpdater;
+
+	@Inject
+	FaviconFetcher faviconFetcher;
 
 	@PostConstruct
 	public void init() {

@@ -141,7 +141,9 @@ public class HttpGetter {
 			}
 
 			long duration = System.currentTimeMillis() - start;
-			result = new HttpResult(content, lastModifiedHeader == null ? null
+			Header contentType = entity.getContentType();
+			result = new HttpResult(content, contentType == null ? null
+					: contentType.getValue(), lastModifiedHeader == null ? null
 					: lastModifiedHeader.getValue(), eTagHeader == null ? null
 					: eTagHeader.getValue(), duration);
 		} finally {
@@ -153,13 +155,15 @@ public class HttpGetter {
 	public static class HttpResult {
 
 		private byte[] content;
+		private String contentType;
 		private String lastModifiedSince;
 		private String eTag;
 		private long duration;
 
-		public HttpResult(byte[] content, String lastModifiedSince,
-				String eTag, long duration) {
+		public HttpResult(byte[] content, String contentType,
+				String lastModifiedSince, String eTag, long duration) {
 			this.content = content;
+			this.contentType = contentType;
 			this.lastModifiedSince = lastModifiedSince;
 			this.eTag = eTag;
 			this.duration = duration;
@@ -167,6 +171,10 @@ public class HttpGetter {
 
 		public byte[] getContent() {
 			return content;
+		}
+
+		public String getContentType() {
+			return contentType;
 		}
 
 		public String getLastModifiedSince() {

@@ -95,6 +95,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
+		setTimeout(q);
 		return lazyLoadContent(true, q.getResultList());
 	}
 
@@ -131,6 +132,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
+		setTimeout(q);
 		return lazyLoadContent(includeContent, q.getResultList());
 	}
 
@@ -168,6 +170,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
+		setTimeout(q);
 		return lazyLoadContent(includeContent, q.getResultList());
 	}
 
@@ -210,6 +213,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
+		setTimeout(q);
 		return lazyLoadContent(includeContent, q.getResultList());
 	}
 
@@ -253,6 +257,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
+		setTimeout(q);
 		return lazyLoadContent(includeContent, q.getResultList());
 	}
 
@@ -291,6 +296,10 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		} else {
 			query.orderBy(builder.desc(orderPath));
 		}
+	}
+
+	private void setTimeout(Query query) {
+		query.setHint("javax.persistence.query.timeout", 20000);
 	}
 
 	public void markFeedEntries(User user, Feed feed, Date olderThan) {

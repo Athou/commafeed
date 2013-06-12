@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="athou" id="drop-fes-index">
+		<preConditions onFail="MARK_RAN" onFailMessage="index not found, skip drop index">
+			<indexExists tableName="FEEDENTRYSTATUSES" indexName="subscription_id" />
+		</preConditions>
+		<dropIndex tableName="FEEDENTRYSTATUSES" indexName="subscription_id" />
+	</changeSet>
+
+	<changeSet author="athou" id="recreate-fes-index">
+		<preConditions onFail="MARK_RAN" onFailMessage="index already exists">
+			<not>
+				<indexExists tableName="FEEDENTRYSTATUSES" indexName="sub_entry_read_index" />
+			</not>
+		</preConditions>
+		<createIndex indexName="sub_entry_read_index" tableName="FEEDENTRYSTATUSES"
+			unique="false">
+			<column name="subscription_id" />
+			<column name="entry_id" />
+			<column name="read_status" />
+		</createIndex>
+	</changeSet>
+
+
+</databaseChangeLog>

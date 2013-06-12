@@ -4,12 +4,10 @@
 	xsi:schemaLocation="
         http://java.sun.com/xml/ns/persistence
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-	<persistence-unit name="primary">
+	<persistence-unit name="primary" transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>${jpa.datasource.name}</jta-data-source>
-		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 		<properties>
-			<property name="hibernate.hbm2ddl.auto" value="update" />
 
 			<property name="format_sql" value="true" />
 			<property name="use_sql_comments" value="true" />

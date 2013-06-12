@@ -27,14 +27,10 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
 		Root<FeedEntry> root = query.from(getType());
 
-		query.distinct(true);
 		query.where(builder.equal(root.get(FeedEntry_.guidHash), hash));
 
 		TypedQuery<FeedEntry> q = em.createQuery(query);
 		List<FeedEntry> list = q.getResultList();
-		for (FeedEntry entry : list) {
-			Hibernate.initialize(entry.getFeeds());
-		}
 		return list;
 	}
 

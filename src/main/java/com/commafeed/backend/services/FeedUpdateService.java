@@ -6,6 +6,8 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.hibernate.Hibernate;
+
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
@@ -52,9 +54,12 @@ public class FeedUpdateService {
 			entry.getFeeds().add(feed);
 
 			update = entry;
-		} else if (FeedUtils.findFeed(foundEntry.getFeeds(), feed) == null) {
-			foundEntry.getFeeds().add(feed);
-			update = foundEntry;
+		} else {
+			Hibernate.initialize(foundEntry.getFeeds());
+			if (FeedUtils.findFeed(foundEntry.getFeeds(), feed) == null) {
+				foundEntry.getFeeds().add(feed);
+				update = foundEntry;
+			}
 		}
 
 		if (update != null) {

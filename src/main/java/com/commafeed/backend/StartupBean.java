@@ -44,6 +44,9 @@ public class StartupBean {
 	public static final String USERNAME_DEMO = "demo";
 
 	@Inject
+	DatabaseUpdater databaseUpdater;
+
+	@Inject
 	FeedDAO feedDAO;
 
 	@Inject
@@ -74,6 +77,8 @@ public class StartupBean {
 	private void init() {
 
 		startupTime = Calendar.getInstance().getTimeInMillis();
+		databaseUpdater.update();
+
 		if (userDAO.getCount() == 0) {
 			initialData();
 		}
@@ -148,5 +153,4 @@ public class StartupBean {
 			}
 		}
 	}
-
 }

@@ -24,5 +24,168 @@
 		</createIndex>
 	</changeSet>
 
+	<changeSet author="athou" id="drop-sequences">
+		<preConditions onFail="MARK_RAN" onFailMessage="table does not exist">
+			<tableExists tableName="hibernate_sequences" />
+		</preConditions>
+		<dropTable tableName="hibernate_sequences" />
+	</changeSet>
+
+	<changeSet author="athou" id="recreate-sequences">
+		<preConditions onFail="MARK_RAN" onFailMessage="table already exists">
+			<not>
+				<tableExists tableName="hibernate_sequences" />
+			</not>
+		</preConditions>
+		<createTable tableName="hibernate_sequences">
+			<column name="sequence_name" type="VARCHAR(255)" />
+			<column name="sequence_next_hi_value" type="INT" />
+		</createTable>
+		<sql>insert into hibernate_sequences(sequence_name, sequence_next_hi_value) select 'APPLICATIONSETTINGS', COALESCE(ceil(max(id) / 1000 + 2), 1) from APPLICATIONSETTINGS</sql>
+		<sql>insert into hibernate_sequences(sequence_name, sequence_next_hi_value) select 'FEEDCATEGORIES', COALESCE(ceil(max(id) / 1000 + 2), 1) from FEEDCATEGORIES</sql>
+		<sql>insert into hibernate_sequences(sequence_name, sequence_next_hi_value) select 'FEEDENTRIES', COALESCE(ceil(max(id) / 1000 + 2), 1) from FEEDENTRIES</sql>
+		<sql>insert into hibernate_sequences(sequence_name, sequence_next_hi_value) select 'FEEDENTRYCONTENTS', COALESCE(ceil(max(id) / 1000 + 2), 1) from FEEDENTRYCONTENTS</sql>
+		<sql>insert into hibernate_sequences(sequence_name, sequence_next_hi_value) select 'FEEDENTRYSTATUSES', COALESCE(ceil(max(id) / 1000 + 2), 1) from FEEDENTRYSTATUSES</sql>
+		<sql>insert into hibernate_sequences(sequence_name, sequence_next_hi_value) select 'FEEDS', COALESCE(ceil(max(id) / 1000 + 2), 1) from FEEDS</sql>
+		<sql>insert into hibernate_sequences(sequence_name, sequence_next_hi_value) select 'FEEDSUBSCRIPTIONS', COALESCE(ceil(max(id) / 1000 + 2), 1) from FEEDSUBSCRIPTIONS</sql>
+		<sql>insert into hibernate_sequences(sequence_name, sequence_next_hi_value) select 'USERROLES', COALESCE(ceil(max(id) / 1000 + 2), 1) from USERROLES</sql>
+		<sql>insert into hibernate_sequences(sequence_name, sequence_next_hi_value) select 'USERS', COALESCE(ceil(max(id) / 1000 + 2), 1) from USERS</sql>
+		<sql>insert into hibernate_sequences(sequence_name, sequence_next_hi_value) select 'USERSETTINGS', COALESCE(ceil(max(id) / 1000 + 2), 1) from USERSETTINGS</sql>
+	</changeSet>
+
+	<changeSet author="athou" id="add-log-level">
+		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
+			<not>
+				<columnExists tableName="APPLICATIONSETTINGS"
+					columnName="logLevel" />
+			</not>
+		</preConditions>
+		<addColumn tableName="APPLICATIONSETTINGS">
+			<column name="logLevel" type="VARCHAR(255)" />
+		</addColumn>
+	</changeSet>
+	
+	<changeSet author="athou" id="add-push-hub">
+		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
+			<not>
+				<columnExists tableName="FEEDS"
+					columnName="pushHub" />
+			</not>
+		</preConditions>
+		<addColumn tableName="FEEDS">
+			<column name="pushHub" type="VARCHAR(2048)" />
+		</addColumn>
+	</changeSet>
+	
+	<changeSet author="athou" id="add-push-topic">
+		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
+			<not>
+				<columnExists tableName="FEEDS"
+					columnName="pushTopic" />
+			</not>
+		</preConditions>
+		<addColumn tableName="FEEDS">
+			<column name="pushTopic" type="VARCHAR(2048)" />
+		</addColumn>
+	</changeSet>
+	
+	<changeSet author="athou" id="add-push-lastping">
+		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
+			<not>
+				<columnExists tableName="FEEDS"
+					columnName="pushLastPing" />
+			</not>
+		</preConditions>
+		<addColumn tableName="FEEDS">
+			<column name="pushLastPing" type="DATETIME" />
+		</addColumn>
+	</changeSet>
+				
+	<changeSet author="athou" id="add-lastpublished">
+		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
+			<not>
+				<columnExists tableName="FEEDS"
+					columnName="lastPublishedDate" />
+			</not>
+		</preConditions>
+		<addColumn tableName="FEEDS">
+			<column name="lastPublishedDate" type="DATETIME" />
+		</addColumn>
+	</changeSet>			
+			
+	<changeSet author="athou" id="add-lastcontenthash">
+		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
+			<not>
+				<columnExists tableName="FEEDS"
+					columnName="lastContentHash" />
+			</not>
+		</preConditions>
+		<addColumn tableName="FEEDS">
+			<column name="lastContentHash" type="VARCHAR(40)" />
+		</addColumn>
+	</changeSet>	
+	
+	<changeSet author="athou" id="add-lastinterval">
+		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
+			<not>
+				<columnExists tableName="FEEDS"
+					columnName="averageEntryInterval" />
+			</not>
+		</preConditions>
+		<addColumn tableName="FEEDS">
+			<column name="averageEntryInterval" type="BIGINT" />
+		</addColumn>
+	</changeSet>		
+			
+	<changeSet author="athou" id="add-lastentrydate">
+		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
+			<not>
+				<columnExists tableName="FEEDS"
+					columnName="lastEntryDate" />
+			</not>
+		</preConditions>
+		<addColumn tableName="FEEDS">
+			<column name="lastEntryDate" type="DATETIME" />
+		</addColumn>
+	</changeSet>
+	
+	<changeSet author="athou" id="add-cat-position">
+		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
+			<not>
+				<columnExists tableName="FEEDCATEGORIES"
+					columnName="position" />
+			</not>
+		</preConditions>
+		<addColumn tableName="FEEDCATEGORIES">
+			<column name="position" type="INT" />
+		</addColumn>
+	</changeSet>
+	
+	<changeSet author="athou" id="add-sub-position">
+		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
+			<not>
+				<columnExists tableName="FEEDSUBSCRIPTIONS"
+					columnName="position" />
+			</not>
+		</preConditions>
+		<addColumn tableName="FEEDSUBSCRIPTIONS">
+			<column name="position" type="INT" />
+		</addColumn>
+	</changeSet>
+	
+	<changeSet author="athou" id="drop-sequence">
+		<preConditions onFail="MARK_RAN" onFailMessage="table does not exist">
+			<tableExists tableName="hibernate_sequence" />
+		</preConditions>
+		<dropTable tableName="hibernate_sequence" />
+	</changeSet>
+	
+	<changeSet author="athou" id="drop-old-pushinfos">
+		<preConditions onFail="MARK_RAN" onFailMessage="table does not exist">
+			<tableExists tableName="FEEDPUSHINFOS" />
+		</preConditions>
+		<dropTable tableName="FEEDPUSHINFOS" />
+	</changeSet>
+			
 
 </databaseChangeLog>

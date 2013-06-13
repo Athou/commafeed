@@ -15,8 +15,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 
-import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
@@ -173,15 +173,16 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return lazyLoadContent(includeContent, q.getResultList());
 	}
 
-	public List<FeedEntryStatus> findByFeed(Feed feed, User user,
-			boolean unreadOnly, ReadingOrder order, boolean includeContent) {
-		return findByFeed(feed, user, unreadOnly, null, -1, -1, order,
-				includeContent);
+	public List<FeedEntryStatus> findBySubscription(
+			FeedSubscription subscription, boolean unreadOnly,
+			ReadingOrder order, boolean includeContent) {
+		return findBySubscription(subscription, unreadOnly, null, -1, -1,
+				order, includeContent);
 	}
 
-	public List<FeedEntryStatus> findByFeed(Feed feed, User user,
-			boolean unreadOnly, Date newerThan, int offset, int limit,
-			ReadingOrder order, boolean includeContent) {
+	public List<FeedEntryStatus> findBySubscription(
+			FeedSubscription subscription, boolean unreadOnly, Date newerThan,
+			int offset, int limit, ReadingOrder order, boolean includeContent) {
 
 		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
 		Root<FeedEntryStatus> root = query.from(getType());
@@ -190,13 +191,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		Join<FeedEntryStatus, FeedEntry> entryJoin = root
 				.join(FeedEntryStatus_.entry);
-		Join<FeedEntryStatus, FeedSubscription> subJoin = root
-				.join(FeedEntryStatus_.subscription);
 
-		predicates
-				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
-		predicates
-				.add(builder.equal(subJoin.get(FeedSubscription_.feed), feed));
+		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription),
+				subscription));
 		if (unreadOnly) {
 			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
 		}
@@ -280,8 +277,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			List<FeedEntryStatus> results) {
 		if (includeContent) {
 			for (FeedEntryStatus status : results) {
-				status.getSubscription().getFeed().getUrl();
-				status.getEntry().getContent().getContent();
+				Hibernate.initialize(status.getSubscription().getFeed());
+				Hibernate.initialize(status.getEntry().getContent());
 			}
 		}
 		return results;
@@ -301,8 +298,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		query.setHint("javax.persistence.query.timeout", 20000);
 	}
 
-	public void markFeedEntries(User user, Feed feed, Date olderThan) {
-		List<FeedEntryStatus> statuses = findByFeed(feed, user, true,
+	public void markSubscriptionEntries(FeedSubscription subscription,
+			Date olderThan) {
+		List<FeedEntryStatus> statuses = findBySubscription(subscription, true,
 				ReadingOrder.desc, false);
 		saveOrUpdate(markList(statuses, olderThan));
 	}

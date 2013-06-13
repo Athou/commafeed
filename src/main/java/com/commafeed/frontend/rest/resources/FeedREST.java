@@ -101,7 +101,7 @@ public class FeedREST extends AbstractResourceREST {
 			entries.setErrorCount(subscription.getFeed().getErrorCount());
 
 			List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO
-					.findByFeed(subscription.getFeed(), getUser(), unreadOnly,
+					.findBySubscription(subscription, unreadOnly,
 							newerThanDate, offset, limit + 1, order, true);
 			for (FeedEntryStatus status : unreadEntries) {
 				entries.getEntries().add(
@@ -227,8 +227,9 @@ public class FeedREST extends AbstractResourceREST {
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
 				Long.valueOf(req.getId()));
-		feedEntryStatusDAO.markFeedEntries(getUser(), subscription.getFeed(),
-				olderThan);
+		if (subscription != null) {
+			feedEntryStatusDAO.markSubscriptionEntries(subscription, olderThan);
+		}
 
 		return Response.ok(Status.OK).build();
 	}

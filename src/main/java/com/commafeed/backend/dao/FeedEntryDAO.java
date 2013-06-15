@@ -60,7 +60,6 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		Root<FeedEntry> root = query.from(getType());
 		SetJoin<FeedEntry, Feed> feedsJoin = root.join(FeedEntry_.feeds);
 
-		query.distinct(true);
 		query.where(builder.equal(feedsJoin.get(Feed_.id), feed.getId()));
 		query.orderBy(builder.desc(root.get(FeedEntry_.updated)));
 		TypedQuery<FeedEntry> q = em.createQuery(query);

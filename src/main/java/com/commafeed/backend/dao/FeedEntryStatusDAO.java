@@ -237,7 +237,16 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		predicates
 				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
-		predicates.add(subJoin.get(FeedSubscription_.category).in(categories));
+
+		if (categories.size() == 1) {
+			predicates.add(builder.equal(subJoin
+					.get(FeedSubscription_.category), categories.iterator()
+					.next()));
+		} else {
+			predicates.add(subJoin.get(FeedSubscription_.category).in(
+					categories));
+		}
+
 		if (unreadOnly) {
 			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
 		}

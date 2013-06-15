@@ -830,27 +830,19 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	
 	var openEntry = function(entry, event) {
 		
-		if (event && event.which === 3) {
-			// right click
-			return;
-		}
-		
-		if (!event || (!event.ctrlKey && event.which != 2)) {
-			if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {
-				$scope.isOpen = true;
-			} else {
-				$scope.isOpen = !$scope.isOpen;
-			}
-			if ($scope.isOpen) {
-				$scope.mark(entry, true);
-			}
-			$scope.current = entry;
-			if (event) {
-				event.preventDefault();
-				event.stopPropagation();
-			}
+		if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {
+			$scope.isOpen = true;
 		} else {
+			$scope.isOpen = !$scope.isOpen;
+		}
+		if ($scope.isOpen) {
 			$scope.mark(entry, true);
+		}
+		$scope.current = entry;
+		
+		if (event) {
+			event.preventDefault();
+			event.stopPropagation();
 		}
 		
 		if (getCurrentIndex() == $scope.entries.length - 1) {
@@ -859,8 +851,17 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	};
 	
 	$scope.entryClicked = function(entry, event) {
-		$scope.navigationMode = 'click';
-		openEntry(entry, event);
+		
+		if (event && event.which === 3) {
+			// right click
+			return;
+		}
+		if (!event || (!event.ctrlKey && event.which != 2)) {
+			$scope.navigationMode = 'click';
+			openEntry(entry, event);
+		} else {
+			$scope.mark(entry, true);
+		}
 	};
 	
 	$scope.bodyClicked = function(entry, event) {

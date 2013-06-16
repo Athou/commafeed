@@ -211,6 +211,10 @@
 		
 	<changeSet author="athou" id="rename-lang">
 		<renameColumn tableName="USERSETTINGS" oldColumnName="language" newColumnName="user_lang" columnDataType="VARCHAR(4)" />
+	</changeSet>
+	
+	<changeSet author="athou" id="norwegian-migration">
+		<sql>update USERSETTINGS set user_lang='nb' where user_lang='no'</sql>
 	</changeSet>		
 
 </databaseChangeLog>

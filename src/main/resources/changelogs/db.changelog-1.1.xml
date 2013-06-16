@@ -208,6 +208,9 @@
 			<column name="inserted"></column>
 		</createIndex>
 	</changeSet>	
-			
+		
+	<changeSet author="athou" id="rename-lang">
+		<renameColumn tableName="USERSETTINGS" oldColumnName="language" newColumnName="user_lang" />
+	</changeSet>		
 
 </databaseChangeLog>

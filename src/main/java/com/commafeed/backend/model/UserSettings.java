@@ -43,7 +43,7 @@ public class UserSettings extends AbstractModel {
 	@Column(nullable = false)
 	private ViewMode viewMode;
 
-	@Column(length = 4)
+	@Column(name = "user_lang", length = 4)
 	private String language;
 
 	private boolean showRead;

@@ -47,6 +47,10 @@
 	background-color: #fff;
 }
 
+#feed-accordion .unread .entry-heading:hover {
+	background-color: #ebebeb;
+}
+
 #feed-accordion .current.closed .entry-heading {
 	background-color: #ffc;
 }

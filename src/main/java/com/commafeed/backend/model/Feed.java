@@ -11,14 +11,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Index;
-
 import com.google.common.collect.Sets;
 
 @Entity
 @Table(name = "FEEDS")
-@org.hibernate.annotations.Table(appliesTo = "FEEDS", indexes = { @Index(name = "disabled_lastupdated_index", columnNames = {
-		"disabledUntil", "lastUpdated" }), })
 @SuppressWarnings("serial")
 public class Feed extends AbstractModel {
 
@@ -29,7 +25,6 @@ public class Feed extends AbstractModel {
 	private String url;
 
 	@Column(length = 40, nullable = false)
-	@Index(name = "urlHash_index")
 	private String urlHash;
 
 	/**
@@ -42,7 +37,6 @@ public class Feed extends AbstractModel {
 	 * Last time we tried to fetch the feed
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Index(name = "lastupdated_index")
 	private Date lastUpdated;
 
 	/**
@@ -78,7 +72,6 @@ public class Feed extends AbstractModel {
 	 * feed refresh is disabled until this date
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Index(name = "disableduntil_index")
 	private Date disabledUntil;
 
 	/**
@@ -120,8 +113,10 @@ public class Feed extends AbstractModel {
 	 * detected topic for pubsubhubbub
 	 */
 	@Column(length = 2048)
-	@Index(name = "topic_index")
 	private String pushTopic;
+
+	@Column(name = "push_topic_hash", length = 2048)
+	private String pushTopicHash;
 
 	/**
 	 * last time we subscribed for that topic on that hub
@@ -287,6 +282,14 @@ public class Feed extends AbstractModel {
 
 	public void setLastEntryDate(Date lastEntryDate) {
 		this.lastEntryDate = lastEntryDate;
+	}
+
+	public String getPushTopicHash() {
+		return pushTopicHash;
+	}
+
+	public void setPushTopicHash(String pushTopicHash) {
+		this.pushTopicHash = pushTopicHash;
 	}
 
 }

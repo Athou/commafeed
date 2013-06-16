@@ -2,6 +2,7 @@ package com.commafeed.frontend.rest.resources;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -189,4 +190,12 @@ public class AdminREST extends AbstractResourceREST {
 
 		return Response.ok(map).build();
 	}
+
+	@Path("/cleanup")
+	@GET
+	public Response cleanup() {
+		cleaner.cleanOlderThan(30, TimeUnit.DAYS);
+		return Response.ok("ok").build();
+	}
+
 }

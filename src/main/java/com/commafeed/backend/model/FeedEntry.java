@@ -15,9 +15,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
-import org.hibernate.annotations.Index;
 
 import com.google.api.client.util.Sets;
 
@@ -30,7 +27,6 @@ public class FeedEntry extends AbstractModel {
 	private String guid;
 
 	@Column(length = 40, nullable = false)
-	@Index(name = "guidHash_index")
 	private String guidHash;
 
 	@ManyToMany
@@ -44,15 +40,13 @@ public class FeedEntry extends AbstractModel {
 	@Column(length = 2048)
 	private String url;
 
-	//@Column(length = 128)
-	@Transient
+	@Column(name = "author", length = 128)
 	private String author;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date inserted;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Index(name = "updated_index")
 	private Date updated;
 
 	@OneToMany(mappedBy = "entry")

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.mutable.MutableBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -164,6 +165,7 @@ public class FeedRefreshWorker {
 			log.debug("feed {} has pubsub info: {}", feed.getUrl(), topic);
 			feed.setPushHub(hub);
 			feed.setPushTopic(topic);
+			feed.setPushTopicHash(DigestUtils.sha1Hex(topic));
 		}
 	}
 

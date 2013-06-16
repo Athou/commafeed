@@ -11,8 +11,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Index;
-
 import com.google.common.collect.Sets;
 
 @Entity
@@ -21,11 +19,9 @@ import com.google.common.collect.Sets;
 public class User extends AbstractModel {
 
 	@Column(length = 32, nullable = false, unique = true)
-	@Index(name = "username_index")
 	private String name;
 
 	@Column(length = 255, unique = true)
-	@Index(name = "useremail_index")
 	private String email;
 
 	@Column(length = 256, nullable = false)

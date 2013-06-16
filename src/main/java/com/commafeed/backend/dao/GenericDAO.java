@@ -50,15 +50,15 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		saveOrUpdate(Arrays.asList(models));
 	}
 
-	public void delete(T object) {
+	public void delete(AbstractModel object) {
 		if (object != null) {
 			object = em.merge(object);
 			em.remove(object);
 		}
 	}
 
-	public void delete(List<T> objects) {
-		for (T object : objects) {
+	public void delete(Collection<? extends AbstractModel> objects) {
+		for (AbstractModel object : objects) {
 			delete(object);
 		}
 	}

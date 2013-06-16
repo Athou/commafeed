@@ -186,6 +186,28 @@
 		</preConditions>
 		<dropTable tableName="FEEDPUSHINFOS" />
 	</changeSet>
+	
+	<changeSet author="athou" id="add-topic-hash">
+		<addColumn tableName="FEEDS">
+			<column name="push_topic_hash" type="VARCHAR(40)" />
+		</addColumn>
+		
+		<createIndex tableName="FEEDS" indexName="push_topic_hash_index">
+			<column name="push_topic_hash"></column>
+		</createIndex>
+	</changeSet>
+
+	<changeSet author="athou" id="add-author">
+		<addColumn tableName="FEEDENTRIES">
+			<column name="author" type="VARCHAR(128)" />
+		</addColumn>
+	</changeSet>	
+
+	<changeSet author="athou" id="add-inserted-index">
+		<createIndex tableName="FEEDENTRIES" indexName="inserted_index">
+			<column name="inserted"></column>
+		</createIndex>
+	</changeSet>	
 			
 
 </databaseChangeLog>

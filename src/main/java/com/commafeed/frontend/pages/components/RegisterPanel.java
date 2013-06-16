@@ -12,7 +12,6 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
-import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -93,7 +92,7 @@ public class RegisterPanel extends Panel {
 						}));
 		form.add(new PasswordTextField("password", MF.m(model, p.getPassword()))
 				.setResetPassword(false).add(StringValidator.minimumLength(6)));
-		form.add(new TextField<String>("email", MF.m(model, p.getEmail())) {
+		form.add(new RequiredTextField<String>("email", MF.m(model, p.getEmail())) {
 			@Override
 			protected String getInputType() {
 				return "email";

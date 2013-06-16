@@ -74,8 +74,8 @@ public class PasswordRecoveryPage extends BasePage {
 		publicUrl += "/recover2";
 
 		return String
-				.format("You asked for password recovery, <a href='%s'>follow this link</a> to change your password. Ignore this if you didn't request a password recovery.",
-						callbackUrl(user, publicUrl));
+				.format("You asked for password recovery for account '%s', <a href='%s'>follow this link</a> to change your password. Ignore this if you didn't request a password recovery.",
+						user.getName(), callbackUrl(user, publicUrl));
 	}
 
 	private String callbackUrl(User user, String publicUrl) throws Exception {

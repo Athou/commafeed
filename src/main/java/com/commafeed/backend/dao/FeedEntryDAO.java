@@ -66,7 +66,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
 		List<FeedEntry> list = q.getResultList();
 		int deleted = list.size();
-		em.remove(list);
+		delete(list);
 		return deleted;
 	}
 

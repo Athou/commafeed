@@ -1,5 +1,8 @@
 package com.commafeed.backend.feeds;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,12 +14,17 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Document.OutputSettings;
+import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Entities.EscapeMode;
+import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Whitelist;
 import org.mozilla.universalchardet.UniversalDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.css.sac.InputSource;
+import org.w3c.dom.css.CSSStyleDeclaration;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
@@ -24,10 +32,15 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.google.api.client.util.Lists;
 import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.i18n.shared.BidiUtils;
+import com.steadystate.css.parser.CSSOMParser;
 
 public class FeedUtils {
 
 	protected static Logger log = LoggerFactory.getLogger(FeedUtils.class);
+	private static final List<String> ALLOWED_IFRAME_CSS_RULES = Arrays.asList(
+			"height", "width", "border");
+	private static final char[] DISALLOWED_IFRAME_CSS_RULE_CHARACTERS = new char[] {
+			'(', ')' };
 
 	public static String truncate(String string, int length) {
 		if (string != null) {
@@ -72,7 +85,7 @@ public class FeedUtils {
 			whitelist.addAttributes("col", "span", "width");
 			whitelist.addAttributes("colgroup", "span", "width");
 			whitelist.addAttributes("iframe", "src", "height", "width",
-					"allowfullscreen", "frameborder");
+					"allowfullscreen", "frameborder", "style");
 			whitelist.addAttributes("img", "alt", "height", "src", "title",
 					"width");
 			whitelist.addAttributes("ol", "start", "type");
@@ -93,11 +106,50 @@ public class FeedUtils {
 
 			whitelist.addEnforcedAttribute("a", "target", "_blank");
 
-			content = Jsoup.clean(content, baseUri, whitelist,
-					new OutputSettings().escapeMode(EscapeMode.base)
-							.prettyPrint(false));
+			Document dirty = Jsoup.parseBodyFragment(content, baseUri);
+			Cleaner cleaner = new Cleaner(whitelist);
+			Document clean = cleaner.clean(dirty);
+
+			for (Element e : clean.select("iframe[style]")) {
+				String style = e.attr("style");
+				String escaped = escapeIFrameCss(style);
+				e.attr("style", escaped);
+			}
+
+			clean.outputSettings(new OutputSettings().escapeMode(
+					EscapeMode.base).prettyPrint(false));
+			content = clean.body().html();
+
 		}
 		return content;
+	}
+
+	public static String escapeIFrameCss(String orig) {
+		List<String> rules = Lists.newArrayList();
+		CSSOMParser parser = new CSSOMParser();
+		try {
+			CSSStyleDeclaration decl = parser
+					.parseStyleDeclaration(new InputSource(new StringReader(
+							orig)));
+
+			for (int i = 0; i < decl.getLength(); i++) {
+				String property = decl.item(i);
+				String value = decl.getPropertyValue(property);
+				if (StringUtils.isBlank(property) || StringUtils.isBlank(value)) {
+					continue;
+				}
+
+				if (ALLOWED_IFRAME_CSS_RULES.contains(property)
+						&& StringUtils.containsNone(value,
+								DISALLOWED_IFRAME_CSS_RULE_CHARACTERS)) {
+					rules.add(property + ":" + decl.getPropertyValue(property)
+							+ ";");
+				}
+			}
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		}
+		return StringUtils.join(rules, "");
 	}
 
 	public static FeedEntry findEntry(Collection<FeedEntry> list,
@@ -267,4 +319,5 @@ public class FeedUtils {
 		return removeTrailingSlash(publicUrl) + "/rest/feed/favicon/"
 				+ subscription.getId();
 	}
+
 }

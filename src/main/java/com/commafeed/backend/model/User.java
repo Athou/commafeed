@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -45,8 +47,12 @@ public class User extends AbstractModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date recoverPasswordTokenDate;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST,
+			CascadeType.REMOVE })
 	private Set<UserRole> roles = Sets.newHashSet();
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private Set<FeedSubscription> subscriptions;
 
 	public String getName() {
 		return name;
@@ -126,6 +132,14 @@ public class User extends AbstractModel {
 
 	public void setRecoverPasswordTokenDate(Date recoverPasswordTokenDate) {
 		this.recoverPasswordTokenDate = recoverPasswordTokenDate;
+	}
+
+	public Set<FeedSubscription> getSubscriptions() {
+		return subscriptions;
+	}
+
+	public void setSubscriptions(Set<FeedSubscription> subscriptions) {
+		this.subscriptions = subscriptions;
 	}
 
 }

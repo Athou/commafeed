@@ -11,14 +11,11 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
-import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UserDAO;
-import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
-import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.google.common.base.Preconditions;
 
 @Stateless
@@ -31,16 +28,10 @@ public class UserService {
 	FeedEntryStatusDAO feedEntryStatusDAO;
 
 	@Inject
-	FeedSubscriptionDAO feedSubscriptionDAO;
-
-	@Inject
 	FeedCategoryDAO feedCategoryDAO;
 
 	@Inject
 	UserSettingsDAO userSettingsDAO;
-
-	@Inject
-	UserRoleDAO userRoleDAO;
 
 	@Inject
 	PasswordEncryptionService encryptionService;
@@ -90,12 +81,8 @@ public class UserService {
 	}
 
 	public void unregister(User user) {
-		feedEntryStatusDAO.delete(feedEntryStatusDAO.findAll(user, false,
-				ReadingOrder.desc, false));
-		feedSubscriptionDAO.delete(feedSubscriptionDAO.findAll(user));
 		feedCategoryDAO.delete(feedCategoryDAO.findAll(user));
 		userSettingsDAO.delete(userSettingsDAO.findByUser(user));
-		userRoleDAO.delete(userRoleDAO.findAll(user));
 		userDAO.delete(user);
 	}
 

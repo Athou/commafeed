@@ -20,10 +20,18 @@ public class DatabaseCleaner {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MINUTE, -1 * (int) unit.toMinutes(value));
 
-		List<FeedEntry> entries = feedEntryDAO.findByInserted(cal.getTime());
-		for (FeedEntry entry : entries) {
-			feedEntryDAO.delete(entry.getStatuses());
-		}
-		feedEntryDAO.delete(entries);
+		int deleted = -1;
+		do {
+			List<FeedEntry> entries = feedEntryDAO.findByInserted(
+					cal.getTime(), 1000);
+			deleted = entries.size();
+
+			for (FeedEntry entry : entries) {
+				feedEntryDAO.delete(entry.getStatuses());
+			}
+			feedEntryDAO.delete(entries);
+
+		} while (deleted != 0);
+
 	}
 }

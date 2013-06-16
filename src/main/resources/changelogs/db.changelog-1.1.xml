@@ -210,7 +210,7 @@
 	</changeSet>	
 		
 	<changeSet author="athou" id="rename-lang">
-		<renameColumn tableName="USERSETTINGS" oldColumnName="language" newColumnName="user_lang" />
+		<renameColumn tableName="USERSETTINGS" oldColumnName="language" newColumnName="user_lang" columnDataType="VARCHAR(4)" />
 	</changeSet>		
 
 </databaseChangeLog>

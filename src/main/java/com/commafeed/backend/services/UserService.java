@@ -71,6 +71,7 @@ public class UserService {
 		byte[] salt = encryptionService.generateSalt();
 		user.setName(name);
 		user.setEmail(email);
+		user.setCreated(Calendar.getInstance().getTime());
 		user.setSalt(salt);
 		user.setPassword(encryptionService.getEncryptedPassword(password, salt));
 		for (Role role : roles) {

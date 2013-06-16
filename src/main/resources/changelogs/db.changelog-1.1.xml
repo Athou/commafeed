@@ -215,6 +215,13 @@
 	
 	<changeSet author="athou" id="norwegian-migration">
 		<sql>update USERSETTINGS set user_lang='nb' where user_lang='no'</sql>
+	</changeSet>
+	
+	<changeSet author="athou" id="add-user-created">
+		<addColumn tableName="USERS">
+		    <column name="created" type="DATETIME" />
+		</addColumn>
+		<sql>update USERS set created = lastLogin</sql>
 	</changeSet>		
 
 </databaseChangeLog>

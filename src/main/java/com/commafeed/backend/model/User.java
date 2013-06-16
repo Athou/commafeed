@@ -41,6 +41,9 @@ public class User extends AbstractModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLogin;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date created;
+
 	@Column(length = 40)
 	private String recoverPasswordToken;
 
@@ -51,7 +54,7 @@ public class User extends AbstractModel {
 			CascadeType.REMOVE })
 	private Set<UserRole> roles = Sets.newHashSet();
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<FeedSubscription> subscriptions;
 
 	public String getName() {
@@ -140,6 +143,14 @@ public class User extends AbstractModel {
 
 	public void setSubscriptions(Set<FeedSubscription> subscriptions) {
 		this.subscriptions = subscriptions;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 
 }

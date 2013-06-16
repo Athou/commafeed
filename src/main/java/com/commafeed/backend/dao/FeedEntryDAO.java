@@ -59,7 +59,6 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 	public List<FeedEntry> findByInserted(Date olderThan, int max) {
 		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
 		Root<FeedEntry> root = query.from(getType());
-		root.fetch(FeedEntry_.statuses, JoinType.LEFT);
 
 		query.where(builder.lessThan(root.get(FeedEntry_.inserted), olderThan));
 		TypedQuery<FeedEntry> q = em.createQuery(query);

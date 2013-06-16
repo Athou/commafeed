@@ -23,7 +23,7 @@ public class DatabaseCleaner {
 		int deleted = -1;
 		do {
 			List<FeedEntry> entries = feedEntryDAO.findByInserted(
-					cal.getTime(), 1000);
+					cal.getTime(), 100);
 			deleted = entries.size();
 
 			for (FeedEntry entry : entries) {

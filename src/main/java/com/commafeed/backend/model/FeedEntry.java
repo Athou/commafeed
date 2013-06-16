@@ -49,7 +49,7 @@ public class FeedEntry extends AbstractModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updated;
 
-	@OneToMany(mappedBy = "entry")
+	@OneToMany(mappedBy = "entry", cascade = CascadeType.REMOVE)
 	private Set<FeedEntryStatus> statuses;
 
 	public String getGuid() {

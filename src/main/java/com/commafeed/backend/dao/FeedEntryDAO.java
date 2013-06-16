@@ -56,14 +56,18 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		return list;
 	}
 
-	public List<FeedEntry> findByInserted(Date olderThan, int max) {
+	public int delete(Date olderThan, int max) {
 		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
 		Root<FeedEntry> root = query.from(getType());
-
 		query.where(builder.lessThan(root.get(FeedEntry_.inserted), olderThan));
+
 		TypedQuery<FeedEntry> q = em.createQuery(query);
 		q.setMaxResults(max);
-		return q.getResultList();
+
+		List<FeedEntry> list = q.getResultList();
+		int deleted = list.size();
+		em.remove(list);
+		return deleted;
 	}
 
 	public List<FeedEntry> findByFeed(Feed feed, int offset, int limit) {

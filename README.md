@@ -55,7 +55,7 @@ If you don't have git you can download the sources as a zip file from [here](htt
     
 Now build the application
 
-	Embedded HSQL database (not recommended, ok for quick tests but automatic schema updates are not working):
+	Embedded HSQL database
     mvn clean package tomee:build -Pprod
     
 	External MySQL database:

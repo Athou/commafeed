@@ -307,10 +307,30 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		query.setHint("javax.persistence.query.timeout", 20000);
 	}
 
-	public int delete(Date olderThan) {
-		Query query = em.createNamedQuery("EntryStatus.deleteOlderThan");
-		query.setParameter("olderThan", olderThan);
-		int deleted = query.executeUpdate();
+	public int delete(Date olderThan, int max) {
+		CriteriaQuery<Long> query = builder.createQuery(Long.class);
+		Root<FeedEntryStatus> root = query.from(getType());
+		query.select(root.get(FeedEntryStatus_.id));
+
+		Join<FeedEntryStatus, FeedEntry> entryJoin = root
+				.join(FeedEntryStatus_.entry);
+
+		Predicate p1 = builder.lessThan(entryJoin.get(FeedEntry_.inserted),
+				olderThan);
+		Predicate p2 = builder.isFalse(root.get(FeedEntryStatus_.starred));
+
+		query.where(p1, p2);
+
+		TypedQuery<Long> q = em.createQuery(query);
+		q.setMaxResults(max);
+		List<Long> ids = q.getResultList();
+
+		int deleted = 0;
+		if (ids.isEmpty() == false) {
+			Query deleteQuery = em.createNamedQuery("EntryStatus.deleteByIds");
+			deleteQuery.setParameter("ids", ids);
+			deleted = deleteQuery.executeUpdate();
+		}
 		return deleted;
 	}
 

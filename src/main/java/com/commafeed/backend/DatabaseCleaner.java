@@ -12,11 +12,16 @@ public class DatabaseCleaner {
 	@Inject
 	FeedEntryStatusDAO feedEntryStatusDAO;
 
-	public int cleanOlderThan(long value, TimeUnit unit) {
+	public long cleanOlderThan(long value, TimeUnit unit) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MINUTE, -1 * (int) unit.toMinutes(value));
 
-		return feedEntryStatusDAO.delete(cal.getTime());
-
+		long total = 0;
+		int deleted = -1;
+		do {
+			deleted = feedEntryStatusDAO.delete(cal.getTime(), 100);
+			total += deleted;
+		} while (deleted != 0);
+		return total;
 	}
 }

@@ -295,11 +295,13 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	private void orderBy(CriteriaQuery<FeedEntryStatus> query,
 			Join<FeedEntryStatus, FeedEntry> entryJoin, ReadingOrder order) {
-		Path<Date> orderPath = entryJoin.get(FeedEntry_.updated);
-		if (order == ReadingOrder.asc) {
-			query.orderBy(builder.asc(orderPath));
-		} else {
-			query.orderBy(builder.desc(orderPath));
+		if (order != null) {
+			Path<Date> orderPath = entryJoin.get(FeedEntry_.updated);
+			if (order == ReadingOrder.asc) {
+				query.orderBy(builder.asc(orderPath));
+			} else {
+				query.orderBy(builder.desc(orderPath));
+			}
 		}
 	}
 
@@ -337,26 +339,24 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	public void markSubscriptionEntries(FeedSubscription subscription,
 			Date olderThan) {
 		List<FeedEntryStatus> statuses = findBySubscription(subscription, true,
-				ReadingOrder.desc, false);
+				null, false);
 		saveOrUpdate(markList(statuses, olderThan));
 	}
 
 	public void markCategoryEntries(User user, List<FeedCategory> categories,
 			Date olderThan) {
 		List<FeedEntryStatus> statuses = findByCategories(categories, user,
-				true, ReadingOrder.desc, false);
+				true, null, false);
 		saveOrUpdate(markList(statuses, olderThan));
 	}
 
 	public void markStarredEntries(User user, Date olderThan) {
-		List<FeedEntryStatus> statuses = findStarred(user, ReadingOrder.desc,
-				false);
+		List<FeedEntryStatus> statuses = findStarred(user, null, false);
 		saveOrUpdate(markList(statuses, olderThan));
 	}
 
 	public void markAllEntries(User user, Date olderThan) {
-		List<FeedEntryStatus> statuses = findAll(user, true, ReadingOrder.desc,
-				false);
+		List<FeedEntryStatus> statuses = findAll(user, true, null, false);
 		saveOrUpdate(markList(statuses, olderThan));
 	}
 

@@ -18,6 +18,7 @@ import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.model.UserSettings.ViewMode;
+import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
@@ -144,6 +145,7 @@ public class UserREST extends AbstractResourceREST {
 	@Path("/register")
 	@POST
 	@ApiOperation(value = "Register a new account")
+	@SecurityCheck(Role.NONE)
 	public Response register(@ApiParam(required = true) RegistrationRequest req) {
 		try {
 			userService.register(req.getName(), req.getPassword(),

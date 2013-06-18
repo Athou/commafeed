@@ -22,6 +22,7 @@ public class RegistrationRequest implements Serializable {
 	@ApiProperty(value = "email address for password recovery", required = true)
 	private String email;
 
+	@ApiProperty(value = "not used through the api", required = false)
 	private boolean googleImport = true;
 
 	public String getName() {

@@ -10,7 +10,7 @@
 	</named-query>
 	
 	<named-query name="EntryStatus.deleteOlderThan">
-		<query>delete from FeedEntryStatus s where s in (select s2 from FeedEntryStatus s2 where s2.starred = false and s2.entry.inserted &lt; :olderThan)</query>
+		<query>delete from FeedEntryStatus s where s.id in (select s2.id from FeedEntryStatus s2 where s2.starred = false and s2.entry.inserted &lt; :olderThan)</query>
 	</named-query>
 	
 </entity-mappings>

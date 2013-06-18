@@ -54,7 +54,8 @@ public class RegisterPanel extends Panel {
 				if (applicationSettingsService.get().isAllowRegistrations()) {
 					RegistrationRequest req = getModelObject();
 					userService.register(req.getName(), req.getPassword(),
-							Arrays.asList(Role.USER));
+							req.getEmail(), Arrays.asList(Role.USER));
+
 					IAuthenticationStrategy strategy = getApplication()
 							.getSecuritySettings().getAuthenticationStrategy();
 					strategy.save(req.getName(), req.getPassword());
@@ -92,7 +93,8 @@ public class RegisterPanel extends Panel {
 						}));
 		form.add(new PasswordTextField("password", MF.m(model, p.getPassword()))
 				.setResetPassword(false).add(StringValidator.minimumLength(6)));
-		form.add(new RequiredTextField<String>("email", MF.m(model, p.getEmail())) {
+		form.add(new RequiredTextField<String>("email", MF.m(model,
+				p.getEmail())) {
 			@Override
 			protected String getInputType() {
 				return "email";

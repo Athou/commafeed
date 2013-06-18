@@ -52,7 +52,7 @@ public class AdminREST extends AbstractResourceREST {
 			}
 
 			User user = userService.register(userModel.getName(),
-					userModel.getPassword(), roles);
+					userModel.getPassword(), userModel.getEmail(), roles);
 			if (user == null) {
 				return Response.status(Status.CONFLICT)
 						.entity("User already exists.").build();

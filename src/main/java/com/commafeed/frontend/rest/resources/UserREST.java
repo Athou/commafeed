@@ -1,5 +1,7 @@
 package com.commafeed.frontend.rest.resources;
 
+import java.util.Arrays;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -19,6 +21,7 @@ import com.commafeed.backend.model.UserSettings.ViewMode;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
+import com.commafeed.frontend.model.request.RegistrationRequest;
 import com.google.common.base.Preconditions;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -136,6 +139,21 @@ public class UserREST extends AbstractResourceREST {
 		}
 		userDAO.saveOrUpdate(user);
 		return Response.ok().build();
+	}
+
+	@Path("/register")
+	@POST
+	@ApiOperation(value = "Register a new account")
+	public Response register(@ApiParam(required = true) RegistrationRequest req) {
+		try {
+			userService.register(req.getName(), req.getPassword(),
+					req.getEmail(), Arrays.asList(Role.USER));
+			return Response.ok().build();
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR)
+					.entity(e.getMessage()).build();
+		}
+
 	}
 
 	@Path("/profile/deleteAccount")

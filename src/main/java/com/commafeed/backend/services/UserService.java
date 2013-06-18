@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
@@ -36,6 +37,9 @@ public class UserService {
 	@Inject
 	PasswordEncryptionService encryptionService;
 
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
+
 	public User login(String name, String password) {
 		if (name == null || password == null) {
 			return null;
@@ -55,18 +59,35 @@ public class UserService {
 		return null;
 	}
 
-	public User register(String name, String password, Collection<Role> roles) {
-		return register(name, password, null, roles);
+	public User register(String name, String password, String email,
+			Collection<Role> roles) {
+		return register(name, password, email, roles, false);
 	}
 
 	public User register(String name, String password, String email,
-			Collection<Role> roles) {
+			Collection<Role> roles, boolean forceRegistration) {
+
+		Preconditions.checkState(forceRegistration
+				|| applicationSettingsService.get().isAllowRegistrations(),
+				"Registrations are closed on this CommaFeed instance");
 		Preconditions.checkNotNull(name);
+		Preconditions.checkNotNull(email);
 		Preconditions.checkNotNull(password);
 
-		if (userDAO.findByName(name) != null) {
-			return null;
-		}
+		Preconditions.checkArgument(StringUtils.length(name) >= 3,
+				"Name too short (3 characters minimum)");
+		Preconditions.checkArgument(StringUtils.length(name) <= 32,
+				"Name too long (32 characters maximum)");
+		Preconditions.checkArgument(
+				forceRegistration || StringUtils.length(password) >= 6,
+				"Password too short (6 characters maximum)");
+		Preconditions.checkArgument(StringUtils.contains(email, "@"),
+				"Invalid email address");
+		Preconditions.checkArgument(userDAO.findByName(name) == null,
+				"Name already taken");
+		Preconditions.checkArgument(userDAO.findByEmail(email) == null,
+				"Email already taken");
+
 		User user = new User();
 		byte[] salt = encryptionService.generateSalt();
 		user.setName(name);

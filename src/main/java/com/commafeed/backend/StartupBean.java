@@ -128,9 +128,15 @@ public class StartupBean {
 		settings.setAnnouncement("Set the Public URL in the admin section !");
 		applicationSettingsService.save(settings);
 
-		userService.register(USERNAME_ADMIN, "admin",
-				Arrays.asList(Role.ADMIN, Role.USER));
-		userService.register(USERNAME_DEMO, "demo", Arrays.asList(Role.USER));
+		try {
+			userService.register(USERNAME_ADMIN, "admin",
+					"admin@commafeed.com",
+					Arrays.asList(Role.ADMIN, Role.USER), true);
+			userService.register(USERNAME_DEMO, "demo", "demo@commafeed.com",
+					Arrays.asList(Role.USER), true);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
 	}
 
 	public long getStartupTime() {

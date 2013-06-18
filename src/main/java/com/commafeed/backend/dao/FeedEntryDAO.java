@@ -1,6 +1,5 @@
 package com.commafeed.backend.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -54,20 +53,6 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 			Hibernate.initialize(entry.getFeeds());
 		}
 		return list;
-	}
-
-	public int delete(Date olderThan, int max) {
-		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
-		Root<FeedEntry> root = query.from(getType());
-		query.where(builder.lessThan(root.get(FeedEntry_.inserted), olderThan));
-
-		TypedQuery<FeedEntry> q = em.createQuery(query);
-		q.setMaxResults(max);
-
-		List<FeedEntry> list = q.getResultList();
-		int deleted = list.size();
-		delete(list);
-		return deleted;
 	}
 
 	public List<FeedEntry> findByFeed(Feed feed, int offset, int limit) {

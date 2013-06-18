@@ -5,12 +5,12 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import com.commafeed.backend.dao.FeedEntryDAO;
+import com.commafeed.backend.dao.FeedEntryStatusDAO;
 
 public class DatabaseCleaner {
 
 	@Inject
-	FeedEntryDAO feedEntryDAO;
+	FeedEntryStatusDAO feedEntryStatusDAO;
 
 	public void cleanOlderThan(long value, TimeUnit unit) {
 		Calendar cal = Calendar.getInstance();
@@ -18,7 +18,7 @@ public class DatabaseCleaner {
 
 		int deleted = -1;
 		do {
-			deleted = feedEntryDAO.delete(cal.getTime(), 1000);
+			deleted = feedEntryStatusDAO.delete(cal.getTime(), 1000);
 		} while (deleted != 0);
 
 	}

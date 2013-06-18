@@ -307,6 +307,27 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		query.setHint("javax.persistence.query.timeout", 20000);
 	}
 
+	public int delete(Date olderThan, int max) {
+		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
+		Root<FeedEntryStatus> root = query.from(getType());
+		Join<FeedEntryStatus, FeedEntry> entryJoin = root
+				.join(FeedEntryStatus_.entry);
+
+		Predicate p1 = builder.lessThan(entryJoin.get(FeedEntry_.inserted),
+				olderThan);
+		Predicate p2 = builder.isFalse(root.get(FeedEntryStatus_.starred));
+
+		query.where(p1, p2);
+
+		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
+		q.setMaxResults(max);
+
+		List<FeedEntryStatus> list = q.getResultList();
+		int deleted = list.size();
+		delete(list);
+		return deleted;
+	}
+
 	public void markSubscriptionEntries(FeedSubscription subscription,
 			Date olderThan) {
 		List<FeedEntryStatus> statuses = findBySubscription(subscription, true,

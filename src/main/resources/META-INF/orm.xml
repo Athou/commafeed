@@ -9,4 +9,8 @@
 		<query>select sub.id, count(s) from FeedEntryStatus s LEFT JOIN s.subscription sub where sub.user=:user and s.read=false group by sub.id</query>
 	</named-query>
 	
+	<named-query name="EntryStatus.deleteOlderThan">
+		<query>delete from FeedEntryStatus s where s in (select s2 from FeedEntryStatus s2 where s2.starred = false and s2.entry.inserted &lt; :olderThan)</query>
+	</named-query>
+	
 </entity-mappings>

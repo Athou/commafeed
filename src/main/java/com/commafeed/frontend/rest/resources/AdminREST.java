@@ -194,8 +194,8 @@ public class AdminREST extends AbstractResourceREST {
 	@Path("/cleanup")
 	@GET
 	public Response cleanup() {
-		cleaner.cleanOlderThan(30, TimeUnit.DAYS);
-		return Response.ok("ok").build();
+		int deleted = cleaner.cleanOlderThan(30, TimeUnit.DAYS);
+		return Response.ok("ok: " + deleted).build();
 	}
 
 }

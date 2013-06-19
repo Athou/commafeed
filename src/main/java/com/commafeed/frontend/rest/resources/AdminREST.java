@@ -130,6 +130,8 @@ public class AdminREST extends AbstractResourceREST {
 				userModel.setName(user.getName());
 				userModel.setEmail(user.getEmail());
 				userModel.setEnabled(!user.isDisabled());
+				userModel.setCreated(user.getCreated());
+				userModel.setLastLogin(user.getLastLogin());
 				users.put(key, userModel);
 			}
 			if (role.getRole() == Role.ADMIN) {

@@ -1,6 +1,7 @@
 package com.commafeed.frontend.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -32,6 +33,12 @@ public class UserModel implements Serializable {
 
 	@ApiProperty(value = "account status")
 	private boolean enabled;
+
+	@ApiProperty(value = "account creation date")
+	private Date created;
+
+	@ApiProperty(value = "last login date")
+	private Date lastLogin;
 
 	@ApiProperty(value = "user is admin")
 	private boolean admin;
@@ -90,6 +97,22 @@ public class UserModel implements Serializable {
 
 	public void setApiKey(String apiKey) {
 		this.apiKey = apiKey;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 
 }

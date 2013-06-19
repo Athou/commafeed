@@ -26,9 +26,9 @@ public class DatabaseCleaner {
 		do {
 			deleted = feedEntryDAO.delete(cal.getTime(), 100);
 			total += deleted;
-			log.info("removed {} statuses", total);
+			log.info("removed {} entries", total);
 		} while (deleted != 0);
-		log.info("cleanup done: {}", total);
+		log.info("cleanup done: {} entries deleted", total);
 		return total;
 	}
 }

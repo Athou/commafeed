@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -49,7 +50,25 @@ public class FeedUtils {
 		return string;
 	}
 
+	/**
+	 * Detect feed encoding by using the declared encoding in the xml processing
+	 * instruction and by detecting the characters used in the feed
+	 * 
+	 */
 	public static String guessEncoding(byte[] bytes) {
+		String extracted = extractDeclaredEncoding(bytes);
+		if (StringUtils.startsWithIgnoreCase(extracted, "iso-8859-")) {
+			if (StringUtils.endsWith(extracted, "1") == false) {
+				return extracted;
+			}
+		}
+		return detectEncoding(bytes);
+	}
+
+	/**
+	 * Detect encoding by analyzing characters in the array
+	 */
+	public static String detectEncoding(byte[] bytes) {
 		String DEFAULT_ENCODING = "UTF-8";
 		UniversalDetector detector = new UniversalDetector(null);
 		detector.handleData(bytes, 0, bytes.length);
@@ -58,10 +77,28 @@ public class FeedUtils {
 		detector.reset();
 		if (encoding == null) {
 			encoding = DEFAULT_ENCODING;
-		} else if (encoding.equalsIgnoreCase("ISO-8859-1")
-				|| encoding.equalsIgnoreCase("ISO-8859-2")) {
+		} else if (encoding.equalsIgnoreCase("ISO-8859-1")) {
 			encoding = "windows-1252";
 		}
+		return encoding;
+	}
+
+	/**
+	 * Extract the declared encoding from the xml
+	 */
+	public static String extractDeclaredEncoding(byte[] bytes) {
+		int index = ArrayUtils.indexOf(bytes, (byte) '>');
+		if (index == -1) {
+			return null;
+		}
+
+		String pi = new String(ArrayUtils.subarray(bytes, 0, index + 1));
+		index = StringUtils.indexOf(pi, "encoding=\"");
+		if (index == -1) {
+			return null;
+		}
+		String encoding = pi.substring(index + 10, pi.length());
+		encoding = encoding.substring(0, encoding.indexOf('"'));
 		return encoding;
 	}
 

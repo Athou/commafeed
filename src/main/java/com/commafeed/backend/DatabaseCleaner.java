@@ -8,14 +8,14 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.commafeed.backend.dao.FeedEntryStatusDAO;
+import com.commafeed.backend.dao.FeedEntryDAO;
 
 public class DatabaseCleaner {
 
 	private static Logger log = LoggerFactory.getLogger(DatabaseCleaner.class);
 
 	@Inject
-	FeedEntryStatusDAO feedEntryStatusDAO;
+	FeedEntryDAO feedEntryDAO;
 
 	public long cleanOlderThan(long value, TimeUnit unit) {
 		Calendar cal = Calendar.getInstance();
@@ -24,7 +24,7 @@ public class DatabaseCleaner {
 		long total = 0;
 		int deleted = -1;
 		do {
-			deleted = feedEntryStatusDAO.delete(cal.getTime(), 100);
+			deleted = feedEntryDAO.delete(cal.getTime(), 100);
 			total += deleted;
 			log.info("removed {} statuses", total);
 		} while (deleted != 0);

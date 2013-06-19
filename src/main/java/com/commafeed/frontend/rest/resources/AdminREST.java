@@ -195,9 +195,13 @@ public class AdminREST extends AbstractResourceREST {
 
 	@Path("/cleanup")
 	@GET
-	public Response cleanup() {
-		long deleted = cleaner.cleanOlderThan(30, TimeUnit.DAYS);
-		return Response.ok("ok: " + deleted).build();
+	public Response cleanup(@QueryParam("days") @DefaultValue("30") int days) {
+		Map<String, Long> map = Maps.newHashMap();
+		map.put("feeds_without_subscriptions",
+				cleaner.cleanFeedsWithoutSubscriptions());
+		map.put("old entries",
+				cleaner.cleanEntriesOlderThan(days, TimeUnit.DAYS));
+		return Response.ok(map).build();
 	}
 
 }

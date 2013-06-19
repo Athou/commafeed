@@ -10,12 +10,15 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.SetJoin;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.Feed_;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -91,5 +94,23 @@ public class FeedDAO extends GenericDAO<Feed> {
 
 	public List<Feed> findByTopic(String topic) {
 		return findByField(Feed_.pushTopicHash, DigestUtils.sha1Hex(topic));
+	}
+
+	public int deleteWithoutSubscriptions(int max) {
+		CriteriaQuery<Feed> query = builder.createQuery(getType());
+		Root<Feed> root = query.from(getType());
+
+		SetJoin<Feed, FeedSubscription> join = root.join(Feed_.subscriptions,
+				JoinType.LEFT);
+		query.where(builder.isNull(join.get(FeedSubscription_.id)));
+
+		TypedQuery<Feed> q = em.createQuery(query);
+		q.setMaxResults(max);
+
+		List<Feed> list = q.getResultList();
+		int deleted = list.size();
+		delete(list);
+		return deleted;
+
 	}
 }

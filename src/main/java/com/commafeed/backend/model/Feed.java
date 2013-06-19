@@ -3,6 +3,7 @@ package com.commafeed.backend.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -97,7 +98,7 @@ public class Feed extends AbstractModel {
 	@Column(length = 40)
 	private String lastContentHash;
 
-	@ManyToMany(mappedBy = "feeds")
+	@ManyToMany(mappedBy = "feeds", cascade = CascadeType.REMOVE)
 	private Set<FeedEntry> entries = Sets.newHashSet();
 
 	@OneToMany(mappedBy = "feed")

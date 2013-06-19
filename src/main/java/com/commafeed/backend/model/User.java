@@ -3,6 +3,7 @@ package com.commafeed.backend.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,11 +13,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.google.common.collect.Sets;
 
 @Entity
 @Table(name = "USERS")
 @SuppressWarnings("serial")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class User extends AbstractModel {
 
 	@Column(length = 32, nullable = false, unique = true)

@@ -18,6 +18,7 @@
 		<jpa.show_sql>false</jpa.show_sql>
 		<jpa.datasource.name>java:openejb/Resource/My DataSource</jpa.datasource.name>
 		<jpa.dialect>org.hibernate.dialect.HSQLDialect</jpa.dialect>
+		<jpa.cache>false</jpa.cache>
 	</properties>
 
 	<repositories>
@@ -108,6 +109,16 @@
 						<lib>org.hsqldb:hsqldb:SNAPSHOT</lib>
 						<lib>mysql:mysql-connector-java:5.1.24</lib>
 						<lib>postgresql:postgresql:9.1-901.jdbc4</lib>
+
+						<lib>org.infinispan:infinispan-core:5.1.4.FINAL</lib>
+						<lib>org.hibernate:hibernate-infinispan:4.1.11.Final</lib>
+						<lib>org.jgroups:jgroups:3.0.9.Final</lib>
+						<lib>org.jboss.marshalling:jboss-marshalling-river:1.3.11.GA</lib>
+						<lib>org.jboss.marshalling:jboss-marshalling:1.3.11.GA</lib>
+						<lib>org.codehaus.woodstox:woodstox-core-asl:4.1.1</lib>
+						<lib>org.codehaus.woodstox:stax2-api:3.1.1</lib>
+						<lib>org.rhq.helpers:rhq-pluginAnnotations:3.0.4</lib>
+						<lib>org.jboss.logmanager:jboss-logmanager:1.2.2.GA</lib>
 					</libs>
 				</configuration>
 			</plugin>
@@ -409,6 +420,12 @@
 			</build>
 		</profile>
 
+		<profile>
+			<id>cache</id>
+			<properties>
+				<jpa.cache>true</jpa.cache>
+			</properties>
+		</profile>
 		<profile>
 			<id>mysql</id>
 			<properties>

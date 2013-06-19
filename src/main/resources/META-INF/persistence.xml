@@ -7,6 +7,7 @@
 	<persistence-unit name="primary" transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>${jpa.datasource.name}</jta-data-source>
+		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 		<properties>
 
 			<property name="format_sql" value="true" />
@@ -21,6 +22,28 @@
 			<property name="hibernate.order_updates" value="true" />
 
 			<property name="hibernate.generate_statistics" value="true" />
+
+			<property name="hibernate.cache.use_second_level_cache"
+				value="${jpa.cache}" />
+			<property name="hibernate.cache.use_query_cache" value="false" />
+
+			<property name="hibernate.cache.region.factory_class"
+				value="org.hibernate.cache.infinispan.InfinispanRegionFactory" />
+			<property name="hibernate.cache.infinispan.statistics"
+				value="true" />
+
+			<property name="hibernate.cache.infinispan.entity.eviction.strategy"
+				value="LRU" />
+			<property
+				name="hibernate.cache.infinispan.entity.eviction.wake_up_interval"
+				value="2000" />
+			<property name="hibernate.cache.infinispan.entity.eviction.max_entries"
+				value="100000" />
+			<property name="hibernate.cache.infinispan.entity.expiration.lifespan"
+				value="60000" />
+			<property name="hibernate.cache.infinispan.entity.expiration.max_idle"
+				value="30000" />
+
 		</properties>
 	</persistence-unit>
 </persistence>

@@ -2,6 +2,7 @@ package com.commafeed.backend.model;
 
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,11 +11,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.google.common.collect.Sets;
 
 @Entity
 @Table(name = "FEEDCATEGORIES")
 @SuppressWarnings("serial")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class FeedCategory extends AbstractModel {
 
 	@Column(length = 128, nullable = false)

@@ -7,16 +7,22 @@ import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Selection;
+import javax.persistence.criteria.SetJoin;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
@@ -26,13 +32,18 @@ import com.commafeed.backend.model.FeedEntryStatus_;
 import com.commafeed.backend.model.FeedEntry_;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.FeedSubscription_;
+import com.commafeed.backend.model.Feed_;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.google.api.client.util.Lists;
 import com.google.api.client.util.Maps;
+import com.google.common.collect.Iterables;
 
 @Stateless
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
+
+	private static Logger log = LoggerFactory
+			.getLogger(FeedEntryStatusDAO.class);
 
 	@SuppressWarnings("unchecked")
 	public FeedEntryStatus findById(User user, Long id) {
@@ -55,6 +66,21 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			status = null;
 		}
 		return status;
+	}
+
+	public FeedEntryStatus findByEntry(FeedEntry entry, FeedSubscription sub) {
+
+		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
+		Root<FeedEntryStatus> root = query.from(getType());
+
+		Predicate p1 = builder.equal(root.get(FeedEntryStatus_.entry), entry);
+		Predicate p2 = builder.equal(root.get(FeedEntryStatus_.subscription),
+				sub);
+
+		query.where(p1, p2);
+
+		List<FeedEntryStatus> statuses = em.createQuery(query).getResultList();
+		return Iterables.getFirst(statuses, null);
 	}
 
 	public List<FeedEntryStatus> findByKeywords(User user, String keywords,
@@ -135,14 +161,63 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return lazyLoadContent(includeContent, q.getResultList());
 	}
 
-	public List<FeedEntryStatus> findAll(User user, boolean unreadOnly,
-			ReadingOrder order, boolean includeContent) {
-		return findAll(user, unreadOnly, null, -1, -1, order, includeContent);
+	public List<FeedEntryStatus> findAll(User user, Date newerThan, int offset,
+			int limit, ReadingOrder order, boolean includeContent) {
+		log.info("new findAll");
+
+		CriteriaQuery<Tuple> query = builder.createTupleQuery();
+		Root<FeedEntry> root = query.from(FeedEntry.class);
+
+		SetJoin<FeedEntry, Feed> feedJoin = root.join(FeedEntry_.feeds);
+		SetJoin<Feed, FeedSubscription> subJoin = feedJoin
+				.join(Feed_.subscriptions);
+
+		Selection<FeedEntry> entryAlias = root.alias("entry");
+		Selection<FeedSubscription> subAlias = subJoin.alias("subscription");
+		query.multiselect(entryAlias, subAlias);
+
+		List<Predicate> predicates = Lists.newArrayList();
+
+		predicates
+				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
+
+		if (newerThan != null) {
+			predicates.add(builder.greaterThanOrEqualTo(
+					root.get(FeedEntry_.inserted), newerThan));
+		}
+
+		query.where(predicates.toArray(new Predicate[0]));
+		orderBy(query, root, order);
+
+		TypedQuery<Tuple> q = em.createQuery(query);
+		limit(q, offset, limit);
+		setTimeout(q);
+
+		List<Tuple> list = q.getResultList();
+		List<FeedEntryStatus> results = Lists.newArrayList();
+		for (Tuple tuple : list) {
+			FeedEntry entry = tuple.get(entryAlias);
+			FeedSubscription subscription = tuple.get(subAlias);
+
+			FeedEntryStatus status = findByEntry(entry, subscription);
+			if (status == null) {
+				status = new FeedEntryStatus();
+				status.setEntry(entry);
+				status.setSubscription(subscription);
+			}
+			results.add(status);
+		}
+
+		return lazyLoadContent(includeContent, results);
 	}
 
-	public List<FeedEntryStatus> findAll(User user, boolean unreadOnly,
-			Date newerThan, int offset, int limit, ReadingOrder order,
+	public List<FeedEntryStatus> findAllUnread(User user, ReadingOrder order,
 			boolean includeContent) {
+		return findAllUnread(user, null, -1, -1, order, includeContent);
+	}
+
+	public List<FeedEntryStatus> findAllUnread(User user, Date newerThan,
+			int offset, int limit, ReadingOrder order, boolean includeContent) {
 		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
 		Root<FeedEntryStatus> root = query.from(getType());
 
@@ -155,9 +230,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		predicates
 				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
-		if (unreadOnly) {
-			predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
-		}
+		predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
 
 		if (newerThan != null) {
 			predicates.add(builder.greaterThanOrEqualTo(
@@ -293,8 +366,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return results;
 	}
 
-	private void orderBy(CriteriaQuery<FeedEntryStatus> query,
-			Join<FeedEntryStatus, FeedEntry> entryJoin, ReadingOrder order) {
+	private void orderBy(CriteriaQuery<?> query, Path<FeedEntry> entryJoin,
+			ReadingOrder order) {
 		if (order != null) {
 			Path<Date> orderPath = entryJoin.get(FeedEntry_.updated);
 			if (order == ReadingOrder.asc) {
@@ -329,7 +402,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	public void markAllEntries(User user, Date olderThan) {
-		List<FeedEntryStatus> statuses = findAll(user, true, null, false);
+		List<FeedEntryStatus> statuses = findAllUnread(user, null, false);
 		saveOrUpdate(markList(statuses, olderThan));
 	}
 

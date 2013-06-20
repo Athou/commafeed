@@ -114,11 +114,17 @@ public class CategoryREST extends AbstractResourceREST {
 			if (feedCategory != null) {
 				List<FeedCategory> childrenCategories = feedCategoryDAO
 						.findAllChildrenCategories(getUser(), feedCategory);
-				List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO
-						.findByCategories(childrenCategories, getUser(),
-								unreadOnly, newerThanDate, offset, limit + 1,
-								order, true);
-				for (FeedEntryStatus status : unreadEntries) {
+				List<FeedEntryStatus> list = null;
+				if (unreadOnly) {
+					list = feedEntryStatusDAO.findUnreadByCategories(
+							childrenCategories, newerThanDate, offset,
+							limit + 1, order, true);
+				} else {
+					list = feedEntryStatusDAO.findByCategories(
+							childrenCategories, newerThanDate, offset,
+							limit + 1, order, true);
+				}
+				for (FeedEntryStatus status : list) {
 					entries.getEntries().add(
 							Entry.build(status, applicationSettingsService
 									.get().getPublicUrl()));

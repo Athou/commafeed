@@ -49,8 +49,8 @@ public class NextUnreadRedirectPage extends WebPage {
 			if (category != null) {
 				List<FeedCategory> children = feedCategoryDAO
 						.findAllChildrenCategories(user, category);
-				statuses = feedEntryStatusDAO.findByCategories(children, user,
-						true, null, 0, 1, ReadingOrder.desc, false);
+				statuses = feedEntryStatusDAO.findUnreadByCategories(children,
+						null, 0, 1, ReadingOrder.desc, false);
 			}
 		}
 

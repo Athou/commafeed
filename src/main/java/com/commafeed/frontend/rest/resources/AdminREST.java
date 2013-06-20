@@ -193,12 +193,20 @@ public class AdminREST extends AbstractResourceREST {
 		return Response.ok(map).build();
 	}
 
-	@Path("/cleanup")
+	@Path("/cleanup/feeds")
 	@GET
-	public Response cleanup(@QueryParam("days") @DefaultValue("30") int days) {
+	public Response cleanupFeeds() {
 		Map<String, Long> map = Maps.newHashMap();
 		map.put("feeds_without_subscriptions",
 				cleaner.cleanFeedsWithoutSubscriptions());
+		return Response.ok(map).build();
+	}
+
+	@Path("/cleanup/entries")
+	@GET
+	public Response cleanupEntries(
+			@QueryParam("days") @DefaultValue("30") int days) {
+		Map<String, Long> map = Maps.newHashMap();
 		map.put("old entries",
 				cleaner.cleanEntriesOlderThan(days, TimeUnit.DAYS));
 		return Response.ok(map).build();

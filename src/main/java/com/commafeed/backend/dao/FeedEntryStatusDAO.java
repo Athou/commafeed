@@ -42,7 +42,7 @@ import com.google.common.collect.Iterables;
 @Stateless
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
-	private static Logger log = LoggerFactory
+	protected static Logger log = LoggerFactory
 			.getLogger(FeedEntryStatusDAO.class);
 
 	@SuppressWarnings("unchecked")
@@ -301,7 +301,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			FeedSubscription subscription, Date newerThan, int offset,
 			int limit, ReadingOrder order, boolean includeContent) {
 
-		log.info("findUnreadBySubscription");
 		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
 		Root<FeedEntryStatus> root = query.from(getType());
 

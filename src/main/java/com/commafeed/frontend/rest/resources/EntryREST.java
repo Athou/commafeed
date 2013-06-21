@@ -34,9 +34,10 @@ public class EntryREST extends AbstractResourceREST {
 			@ApiParam(value = "Mark Request", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
+		Preconditions.checkNotNull(req.getFeedId());
 
 		feedEntryService.markEntry(getUser(), Long.valueOf(req.getId()),
-				req.isRead());
+				req.getFeedId(), req.isRead());
 
 		return Response.ok(Status.OK).build();
 	}
@@ -48,9 +49,10 @@ public class EntryREST extends AbstractResourceREST {
 			@ApiParam(value = "Star Request", required = true) StarRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
+		Preconditions.checkNotNull(req.getFeedId());
 
 		feedEntryService.starEntry(getUser(), Long.valueOf(req.getId()),
-				req.isStarred());
+				req.getFeedId(), req.isStarred());
 
 		return Response.ok(Status.OK).build();
 	}

@@ -731,6 +731,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			});
 			EntryService.mark({
 				id : entry.id,
+				feedId : entry.feedId,
 				read : read
 			});
 		}
@@ -759,6 +760,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			entry.starred = star;
 			EntryService.star({
 				id : entry.id,
+				feedId : entry.feedId,
 				starred : star
 			});
 		}

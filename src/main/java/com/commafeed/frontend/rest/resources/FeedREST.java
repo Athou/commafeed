@@ -100,10 +100,17 @@ public class FeedREST extends AbstractResourceREST {
 			entries.setMessage(subscription.getFeed().getMessage());
 			entries.setErrorCount(subscription.getFeed().getErrorCount());
 
-			List<FeedEntryStatus> unreadEntries = feedEntryStatusDAO
-					.findBySubscription(subscription, unreadOnly,
-							newerThanDate, offset, limit + 1, order, true);
-			for (FeedEntryStatus status : unreadEntries) {
+			List<FeedEntryStatus> list = null;
+			if (unreadOnly) {
+				list = feedEntryStatusDAO.findUnreadBySubscription(
+						subscription, newerThanDate, offset, limit + 1, order,
+						true);
+			} else {
+				list = feedEntryStatusDAO.findBySubscription(subscription,
+						newerThanDate, offset, limit + 1, order, true);
+			}
+
+			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(
 						Entry.build(status, applicationSettingsService.get()
 								.getPublicUrl()));
@@ -202,16 +209,20 @@ public class FeedREST extends AbstractResourceREST {
 	@POST
 	@ApiOperation(value = "Queue a feed for refresh", notes = "Manually add a feed to the refresh queue")
 	public Response queueForRefresh(@ApiParam(value = "Feed id") IDRequest req) {
-		Preconditions.checkNotNull(req);
-		Preconditions.checkNotNull(req.getId());
+		// TODO evaluate if this is needed
+		
+		// Preconditions.checkNotNull(req);
+		// Preconditions.checkNotNull(req.getId());
+		//
+		// FeedSubscription sub = feedSubscriptionDAO.findById(getUser(),
+		// req.getId());
+		// if (sub != null) {
+		// taskGiver.add(sub.getFeed());
+		// return Response.ok(Status.OK).build();
+		// }
+		// return Response.ok(Status.NOT_FOUND).build();
 
-		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(),
-				req.getId());
-		if (sub != null) {
-			taskGiver.add(sub.getFeed());
-			return Response.ok(Status.OK).build();
-		}
-		return Response.ok(Status.NOT_FOUND).build();
+		return Response.ok("Disabled for now").build();
 	}
 
 	@Path("/mark")

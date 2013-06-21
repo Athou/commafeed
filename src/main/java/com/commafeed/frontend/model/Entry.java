@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
+import com.commafeed.backend.model.FeedSubscription;
 import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
@@ -27,28 +28,28 @@ public class Entry implements Serializable {
 		Entry entry = new Entry();
 
 		FeedEntry feedEntry = status.getEntry();
-		entry.setId(String.valueOf(status.getId()));
+		FeedSubscription sub = status.getSubscription();
+
+		entry.setRead(status.isRead());
+		entry.setStarred(status.isStarred());
+
+		entry.setId(String.valueOf(feedEntry.getId()));
 		entry.setGuid(feedEntry.getGuid());
 		entry.setTitle(feedEntry.getContent().getTitle());
 		entry.setContent(feedEntry.getContent().getContent());
 		entry.setRtl(FeedUtils.isRTL(feedEntry));
 		entry.setAuthor(feedEntry.getAuthor());
-		entry.setEnclosureUrl(status.getEntry().getContent().getEnclosureUrl());
-		entry.setEnclosureType(status.getEntry().getContent()
-				.getEnclosureType());
+		entry.setEnclosureUrl(feedEntry.getContent().getEnclosureUrl());
+		entry.setEnclosureType(feedEntry.getContent().getEnclosureType());
 		entry.setDate(feedEntry.getUpdated());
 		entry.setInsertedDate(feedEntry.getInserted());
 		entry.setUrl(feedEntry.getUrl());
 
-		entry.setRead(status.isRead());
-		entry.setStarred(status.isStarred());
-
-		entry.setFeedName(status.getSubscription().getTitle());
-		entry.setFeedId(String.valueOf(status.getSubscription().getId()));
-		entry.setFeedUrl(status.getSubscription().getFeed().getUrl());
-		entry.setFeedLink(status.getSubscription().getFeed().getLink());
-		entry.setIconUrl(FeedUtils.getFaviconUrl(status.getSubscription(),
-				publicUrl));
+		entry.setFeedName(sub.getTitle());
+		entry.setFeedId(String.valueOf(sub.getId()));
+		entry.setFeedUrl(sub.getFeed().getUrl());
+		entry.setFeedLink(sub.getFeed().getLink());
+		entry.setIconUrl(FeedUtils.getFaviconUrl(sub, publicUrl));
 
 		return entry;
 	}

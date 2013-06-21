@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.persistence.criteria.SetJoin;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
@@ -35,9 +36,10 @@ import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.Feed_;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
-import com.google.api.client.util.Lists;
-import com.google.api.client.util.Maps;
+import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @Stateless
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
@@ -81,6 +83,45 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		List<FeedEntryStatus> statuses = em.createQuery(query).getResultList();
 		return Iterables.getFirst(statuses, null);
+	}
+
+	public List<FeedEntryStatus> findByEntries(List<FeedEntry> entries,
+			FeedSubscription sub) {
+		List<FeedEntryStatus> results = Lists.newArrayList();
+
+		if (CollectionUtils.isEmpty(entries)) {
+			return results;
+		}
+		
+		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
+		Root<FeedEntryStatus> root = query.from(getType());
+
+		Predicate p1 = root.get(FeedEntryStatus_.entry).in(entries);
+		Predicate p2 = builder.equal(root.get(FeedEntryStatus_.subscription),
+				sub);
+
+		query.where(p1, p2);
+
+		Map<Long, FeedEntryStatus> existing = Maps.uniqueIndex(
+				em.createQuery(query).getResultList(),
+				new Function<FeedEntryStatus, Long>() {
+					@Override
+					public Long apply(FeedEntryStatus input) {
+						return input.getEntry().getId();
+					}
+				});
+
+		for (FeedEntry entry : entries) {
+			FeedEntryStatus s = existing.get(entry.getId());
+			if (s == null) {
+				s = new FeedEntryStatus();
+				s.setEntry(entry);
+				s.setSubscription(sub);
+				s.setRead(true);
+			}
+			results.add(s);
+		}
+		return results;
 	}
 
 	public List<FeedEntryStatus> findByKeywords(User user, String keywords,
@@ -275,19 +316,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		setTimeout(q);
 
 		List<FeedEntry> list = q.getResultList();
-		List<FeedEntryStatus> results = Lists.newArrayList();
-		for (FeedEntry entry : list) {
-			FeedEntryStatus status = findByEntry(entry, subscription);
-			if (status == null) {
-				status = new FeedEntryStatus();
-				status.setEntry(entry);
-				status.setSubscription(subscription);
-				status.setRead(true);
-			}
-			results.add(status);
-		}
-
-		return lazyLoadContent(includeContent, results);
+		return lazyLoadContent(includeContent,
+				findByEntries(list, subscription));
 	}
 
 	public List<FeedEntryStatus> findUnreadBySubscription(

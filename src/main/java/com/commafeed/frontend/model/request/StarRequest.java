@@ -18,6 +18,9 @@ public class StarRequest implements Serializable {
 	@ApiProperty(value = "id", required = true)
 	private String id;
 
+	@ApiProperty(value = "feed id", required = true)
+	private Long feedId;
+
 	@ApiProperty(value = "starred or not")
 	private boolean starred;
 
@@ -35,6 +38,14 @@ public class StarRequest implements Serializable {
 
 	public void setStarred(boolean starred) {
 		this.starred = starred;
+	}
+
+	public Long getFeedId() {
+		return feedId;
+	}
+
+	public void setFeedId(Long feedId) {
+		this.feedId = feedId;
 	}
 
 }

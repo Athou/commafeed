@@ -126,27 +126,29 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public List<FeedEntryStatus> findByKeywords(User user, String keywords,
 			int offset, int limit) {
-
+		
 		String joinedKeywords = StringUtils.join(
 				keywords.toLowerCase().split(" "), "%");
 		joinedKeywords = "%" + joinedKeywords + "%";
+		
+		CriteriaQuery<Tuple> query = builder.createTupleQuery();
+		Root<FeedEntry> root = query.from(FeedEntry.class);
 
-		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
-		Root<FeedEntryStatus> root = query.from(getType());
+		SetJoin<FeedEntry, Feed> feedJoin = root.join(FeedEntry_.feeds);
+		SetJoin<Feed, FeedSubscription> subJoin = feedJoin
+				.join(Feed_.subscriptions);
+		Join<FeedEntry, FeedEntryContent> contentJoin = root
+				.join(FeedEntry_.content);
+
+		Selection<FeedEntry> entryAlias = root.alias("entry");
+		Selection<FeedSubscription> subAlias = subJoin.alias("subscription");
+		query.multiselect(entryAlias, subAlias);
 
 		List<Predicate> predicates = Lists.newArrayList();
 
-		Join<FeedEntryStatus, FeedEntry> entryJoin = root
-				.join(FeedEntryStatus_.entry);
-		Join<FeedEntryStatus, FeedSubscription> subJoin = root
-				.join(FeedEntryStatus_.subscription);
-
-		Join<FeedEntry, FeedEntryContent> contentJoin = entryJoin
-				.join(FeedEntry_.content);
-
 		predicates
 				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
-
+		
 		Predicate content = builder.like(
 				builder.lower(contentJoin.get(FeedEntryContent_.content)),
 				joinedKeywords);
@@ -156,13 +158,29 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		predicates.add(builder.or(content, title));
 
 		query.where(predicates.toArray(new Predicate[0]));
+		orderBy(query, root, ReadingOrder.desc);
 
-		orderBy(query, entryJoin, ReadingOrder.desc);
-
-		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
+		TypedQuery<Tuple> q = em.createQuery(query);
 		limit(q, offset, limit);
 		setTimeout(q);
-		return lazyLoadContent(true, q.getResultList());
+
+		List<Tuple> list = q.getResultList();
+		List<FeedEntryStatus> results = Lists.newArrayList();
+		for (Tuple tuple : list) {
+			FeedEntry entry = tuple.get(entryAlias);
+			FeedSubscription subscription = tuple.get(subAlias);
+
+			FeedEntryStatus status = findByEntry(entry, subscription);
+			if (status == null) {
+				status = new FeedEntryStatus();
+				status.setEntry(entry);
+				status.setRead(true);
+				status.setSubscription(subscription);
+			}
+			results.add(status);
+		}
+
+		return lazyLoadContent(true, results);
 	}
 
 	public List<FeedEntryStatus> findStarred(User user, ReadingOrder order,

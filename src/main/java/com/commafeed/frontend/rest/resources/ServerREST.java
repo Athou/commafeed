@@ -34,6 +34,10 @@ public class ServerREST extends AbstractResourceREST {
 	@ApiOperation(value = "proxy image")
 	@Produces("image/png")
 	public Response get(@QueryParam("u") String url) {
+		if (!applicationSettingsService.get().isImageProxyEnabled()) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		
 		url = FeedUtils.imageProxyDecoder(url);
 		try {
 			HttpResult result = httpGetter.getBinary(url);

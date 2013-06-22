@@ -75,7 +75,19 @@ public class FeedRefreshUpdater {
 		locks = Striped.lazyWeakLock(threads * 100000);
 		pool = new ThreadPoolExecutor(threads, threads, 0,
 				TimeUnit.MILLISECONDS,
-				queue = new LinkedBlockingDeque<Runnable>(500 * threads));
+				queue = new LinkedBlockingDeque<Runnable>(500 * threads) {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public boolean offer(Runnable r) {
+						Task task = (Task) r;
+						if (task.getFeed().isUrgent()) {
+							return offerFirst(r);
+						} else {
+							return offerLast(r);
+						}
+					}
+				});
 		pool.setRejectedExecutionHandler(new RejectedExecutionHandler() {
 			@Override
 			public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {

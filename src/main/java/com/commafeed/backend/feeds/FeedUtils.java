@@ -370,17 +370,13 @@ public class FeedUtils {
 			return content;
 		}
 
-		log.info("cc");
 		Document doc = Jsoup.parse(content);
 		Elements elements = doc.select("img");
-		log.info("{}", elements.size());
 		for (Element element : elements) {
 			String href = element.attr("src");
-			log.info(href);
 			if (href != null) {
 				String proxy = removeTrailingSlash(publicUrl) + "/rest/server/proxy?u="
 						+ imageProxyEncoder(href);
-				log.info(proxy);
 				element.attr("src", proxy);
 			}
 		}

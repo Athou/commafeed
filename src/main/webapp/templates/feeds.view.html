@@ -35,8 +35,13 @@
 				<div class="entry-header">
 					<h4 class="entry-title">
 						<a href="{{entry.url}}" target="_blank" ng-bind-html-unsafe="entry.title"></a>
+						<span class="entry-author" ui-if="entry.author">
+							<span class="entry-author-prefix">${view.entry_author}</span>
+							<span class="entry-author-name">{{entry.author}}</span>
+						</span>
 					</h4>
 				</div>
+
 				<div class="entry-body-content">
 					<div ng-bind-html-unsafe="entry.content"></div>
 					<video controls ui-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">

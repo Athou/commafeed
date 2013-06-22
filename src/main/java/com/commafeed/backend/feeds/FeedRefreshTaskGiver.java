@@ -49,10 +49,8 @@ public class FeedRefreshTaskGiver {
 		Date threshold = DateUtils.addMinutes(now, heavyLoad ? -10 : -1);
 		if (feed.getLastUpdated() == null
 				|| feed.getLastUpdated().before(threshold)) {
-			feed.setEtagHeader(null);
-			feed.setLastModifiedHeader(null);
+			addQueue.add(feed);
 		}
-		addQueue.add(feed);
 	}
 
 	public synchronized Feed take() {
@@ -77,10 +75,10 @@ public class FeedRefreshTaskGiver {
 
 		int size = addQueue.size();
 		for (int i = 0; i < size; i++) {
-			feeds.add(addQueue.poll());
+			feeds.add(0, addQueue.poll());
 		}
 
-		Map<Long, Feed> map = Maps.newHashMap();
+		Map<Long, Feed> map = Maps.newLinkedHashMap();
 		for (Feed f : feeds) {
 			f.setLastUpdated(now);
 			map.put(f.getId(), f);

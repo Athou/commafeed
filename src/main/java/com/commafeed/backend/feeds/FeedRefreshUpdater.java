@@ -4,8 +4,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -65,8 +64,8 @@ public class FeedRefreshUpdater {
 	FeedEntryDAO feedEntryDAO;
 
 	private ThreadPoolExecutor pool;
-	private BlockingQueue<Runnable> queue;
 	private Striped<Lock> locks;
+	private LinkedBlockingDeque<Runnable> queue;
 
 	@PostConstruct
 	public void init() {
@@ -76,15 +75,20 @@ public class FeedRefreshUpdater {
 		locks = Striped.lazyWeakLock(threads * 100000);
 		pool = new ThreadPoolExecutor(threads, threads, 0,
 				TimeUnit.MILLISECONDS,
-				queue = new ArrayBlockingQueue<Runnable>(500 * threads));
+				queue = new LinkedBlockingDeque<Runnable>(500 * threads));
 		pool.setRejectedExecutionHandler(new RejectedExecutionHandler() {
 			@Override
 			public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
 				log.debug("Thread queue full, waiting...");
 				try {
-					e.getQueue().put(r);
+					Task task = (Task) r;
+					if (task.getFeed().isUrgent()) {
+						queue.putFirst(r);
+					} else {
+						queue.put(r);
+					}
 				} catch (InterruptedException e1) {
-					log.error("Interrupted while waiting for queue.", e);
+					log.error("Interrupted while waiting for queue.", e1);
 				}
 			}
 		});
@@ -135,6 +139,10 @@ public class FeedRefreshUpdater {
 			}
 			metricsBean.feedUpdated();
 			taskGiver.giveBack(feed);
+		}
+
+		public Feed getFeed() {
+			return feed;
 		}
 	}
 

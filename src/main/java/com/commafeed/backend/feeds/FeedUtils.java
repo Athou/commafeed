@@ -340,6 +340,7 @@ public class FeedUtils {
 	}
 
 	public static String toAbsoluteUrl(String url, String baseUrl) {
+		url = StringUtils.trimToNull(StringUtils.normalizeSpace(url));
 		if (baseUrl == null || url == null || url.startsWith("http")) {
 			return url;
 		}

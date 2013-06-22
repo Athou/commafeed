@@ -471,6 +471,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		Map<Long, Long> map = Maps.newHashMap();
 		Query query = em.createNamedQuery("EntryStatus.unreadCounts");
 		query.setParameter("user", user);
+		setTimeout(query);
 		List resultList = query.getResultList();
 		for (Object o : resultList) {
 			Object[] array = (Object[]) o;

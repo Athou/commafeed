@@ -138,6 +138,12 @@
 						</div>
 					</div>
 					<div class="control-group">
+						<label class="control-label" for="imageProxyEnabled">Proxy entry images</label>
+						<div class="controls">
+							<input type="checkbox" name="imageProxyEnabled" ng-model="settings.imageProxyEnabled" />
+						</div>
+					</div>
+					<div class="control-group">
 						<label class="control-label" for="logLevel">Logging level</label>
 						<div class="controls">
 							<select name="logLevel" ng-model="settings.logLevel" ng-options="level for level in ['DEBUG', 'INFO', 'WARN', 'ERROR']">

@@ -2,8 +2,13 @@ package com.commafeed.frontend.rest.resources;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import com.commafeed.backend.HttpGetter.HttpResult;
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.frontend.model.ServerInfo;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -22,5 +27,20 @@ public class ServerREST extends AbstractResourceREST {
 		infos.getSupportedLanguages().putAll(
 				startupBean.getSupportedLanguages());
 		return Response.ok(infos).build();
+	}
+
+	@Path("/proxy")
+	@GET
+	@ApiOperation(value = "proxy image")
+	@Produces("image/png")
+	public Response get(@QueryParam("u") String url) {
+		url = FeedUtils.imageProxyDecoder(url);
+		try {
+			HttpResult result = httpGetter.getBinary(url);
+			return Response.ok(result.getContent()).build();
+		} catch (Exception e) {
+			return Response.status(Status.SERVICE_UNAVAILABLE)
+					.entity(e.getMessage()).build();
+		}
 	}
 }

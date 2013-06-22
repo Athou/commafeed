@@ -25,6 +25,7 @@ import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.util.crypt.Base64;
 
 import com.commafeed.backend.DatabaseCleaner;
+import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -127,6 +128,9 @@ public abstract class AbstractREST {
 
 	@Inject
 	DatabaseCleaner cleaner;
+
+	@Inject
+	HttpGetter httpGetter;
 
 	@PostConstruct
 	public void init() {

@@ -21,6 +21,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Whitelist;
+import org.jsoup.select.Elements;
 import org.mozilla.universalchardet.UniversalDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
+import com.google.api.client.util.Base64;
 import com.google.api.client.util.Lists;
 import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.i18n.shared.BidiUtils;
@@ -38,6 +40,7 @@ import com.steadystate.css.parser.CSSOMParser;
 public class FeedUtils {
 
 	protected static Logger log = LoggerFactory.getLogger(FeedUtils.class);
+	
 	private static final List<String> ALLOWED_IFRAME_CSS_RULES = Arrays.asList(
 			"height", "width", "border");
 	private static final char[] DISALLOWED_IFRAME_CSS_RULE_CHARACTERS = new char[] {
@@ -356,6 +359,59 @@ public class FeedUtils {
 			String publicUrl) {
 		return removeTrailingSlash(publicUrl) + "/rest/feed/favicon/"
 				+ subscription.getId();
+	}
+
+	public static String proxyImages(String content, String publicUrl,
+			boolean proxyImages) {
+		if (!proxyImages) {
+			return content;
+		}
+		if (StringUtils.isBlank(content)) {
+			return content;
+		}
+
+		log.info("cc");
+		Document doc = Jsoup.parse(content);
+		Elements elements = doc.select("img");
+		log.info("{}", elements.size());
+		for (Element element : elements) {
+			String href = element.attr("src");
+			log.info(href);
+			if (href != null) {
+				String proxy = removeTrailingSlash(publicUrl) + "/rest/server/proxy?u="
+						+ imageProxyEncoder(href);
+				log.info(proxy);
+				element.attr("src", proxy);
+			}
+		}
+
+		return doc.body().html();
+	}
+
+	public static String rot13(String msg) {
+		StringBuilder message = new StringBuilder();
+
+		for (char c : msg.toCharArray()) {
+			if (c >= 'a' && c <= 'm')
+				c += 13;
+			else if (c >= 'n' && c <= 'z')
+				c -= 13;
+			else if (c >= 'A' && c <= 'M')
+				c += 13;
+			else if (c >= 'N' && c <= 'Z')
+				c -= 13;
+			message.append(c);
+		}
+
+		return message.toString();
+	}
+
+	public static String imageProxyEncoder(String url) {
+		return Base64.encodeBase64String(rot13(url).getBytes());
+	}
+
+	public static String imageProxyDecoder(String code) {
+		return rot13(new String(Base64.decodeBase64(code)));
 	}
 
 }

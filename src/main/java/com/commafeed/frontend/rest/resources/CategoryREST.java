@@ -96,7 +96,8 @@ public class CategoryREST extends AbstractResourceREST {
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(
 						Entry.build(status, applicationSettingsService.get()
-								.getPublicUrl()));
+								.getPublicUrl(), applicationSettingsService
+								.get().isImageProxyEnabled()));
 			}
 
 		} else if (STARRED.equals(id)) {
@@ -106,7 +107,8 @@ public class CategoryREST extends AbstractResourceREST {
 			for (FeedEntryStatus status : starred) {
 				entries.getEntries().add(
 						Entry.build(status, applicationSettingsService.get()
-								.getPublicUrl()));
+								.getPublicUrl(), applicationSettingsService
+								.get().isImageProxyEnabled()));
 			}
 		} else {
 			FeedCategory feedCategory = feedCategoryDAO.findById(getUser(),
@@ -127,7 +129,9 @@ public class CategoryREST extends AbstractResourceREST {
 				for (FeedEntryStatus status : list) {
 					entries.getEntries().add(
 							Entry.build(status, applicationSettingsService
-									.get().getPublicUrl()));
+									.get().getPublicUrl(),
+									applicationSettingsService.get()
+											.isImageProxyEnabled()));
 				}
 				entries.setName(feedCategory.getName());
 			}

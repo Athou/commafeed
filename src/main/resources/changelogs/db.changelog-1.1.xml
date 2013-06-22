@@ -222,6 +222,13 @@
 		    <column name="created" type="DATETIME" />
 		</addColumn>
 		<sql>update USERS set created = lastLogin</sql>
-	</changeSet>		
+	</changeSet>	
+		
+	<changeSet author="athou" id="add-proxy-setting">
+		<addColumn tableName="APPLICATIONSETTINGS">
+		    <column name="imageProxyEnabled" type="BIT" />
+		</addColumn>
+		<sql>update APPLICATIONSETTINGS set imageProxyEnabled=false</sql>
+	</changeSet>
 
 </databaseChangeLog>

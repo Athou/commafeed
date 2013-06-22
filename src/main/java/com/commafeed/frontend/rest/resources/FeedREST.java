@@ -113,7 +113,8 @@ public class FeedREST extends AbstractResourceREST {
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(
 						Entry.build(status, applicationSettingsService.get()
-								.getPublicUrl()));
+								.getPublicUrl(), applicationSettingsService
+								.get().isImageProxyEnabled()));
 			}
 
 			boolean hasMore = entries.getEntries().size() > limit;

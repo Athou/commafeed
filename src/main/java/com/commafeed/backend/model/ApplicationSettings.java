@@ -32,6 +32,7 @@ public class ApplicationSettings extends AbstractModel {
 	private boolean pubsubhubbub;
 	private boolean feedbackButton = true;
 	private String logLevel = Level.INFO.toString();
+	private boolean imageProxyEnabled;
 
 	@Column(length = 255)
 	private String announcement;
@@ -171,6 +172,14 @@ public class ApplicationSettings extends AbstractModel {
 
 	public void setLogLevel(String logLevel) {
 		this.logLevel = logLevel;
+	}
+
+	public boolean isImageProxyEnabled() {
+		return imageProxyEnabled;
+	}
+
+	public void setImageProxyEnabled(boolean imageProxyEnabled) {
+		this.imageProxyEnabled = imageProxyEnabled;
 	}
 
 }

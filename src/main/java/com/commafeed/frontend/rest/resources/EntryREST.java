@@ -75,7 +75,8 @@ public class EntryREST extends AbstractResourceREST {
 				.findByKeywords(getUser(), keywords, offset, limit);
 		for (FeedEntryStatus status : entriesStatus) {
 			list.add(Entry.build(status, applicationSettingsService.get()
-					.getPublicUrl()));
+					.getPublicUrl(), applicationSettingsService.get()
+					.isImageProxyEnabled()));
 		}
 
 		entries.setName("Search for : " + keywords);

@@ -75,7 +75,7 @@ public class FeedREST extends AbstractResourceREST {
 	@ApiOperation(value = "Get feed entries", notes = "Get a list of feed entries", responseClass = "com.commafeed.frontend.model.Entries")
 	public Response getFeedEntries(
 			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
-			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @QueryParam("readType") ReadType readType,
+			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("unread") @QueryParam("readType") ReadType readType,
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging, default 20, maximum 50") @DefaultValue("20") @QueryParam("limit") int limit,

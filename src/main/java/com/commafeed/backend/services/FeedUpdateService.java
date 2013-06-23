@@ -6,10 +6,9 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.hibernate.Hibernate;
-
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedEntryDAO;
+import com.commafeed.backend.dao.FeedEntryDAO.EntryWithFeed;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.feeds.FeedUtils;
@@ -38,11 +37,11 @@ public class FeedUpdateService {
 	public void updateEntry(Feed feed, FeedEntry entry,
 			List<FeedSubscription> subscriptions) {
 
-		FeedEntry foundEntry = FeedUtils.findEntry(
-				feedEntryDAO.findByGuid(entry.getGuid()), entry);
+		EntryWithFeed existing = feedEntryDAO.findExisting(entry.getGuid(),
+				entry.getUrl(), feed.getId());
 
 		FeedEntry update = null;
-		if (foundEntry == null) {
+		if (existing == null) {
 			FeedEntryContent content = entry.getContent();
 			content.setTitle(FeedUtils.truncate(
 					FeedUtils.handleContent(content.getTitle(), feed.getLink()),
@@ -54,12 +53,9 @@ public class FeedUpdateService {
 			entry.getFeeds().add(feed);
 
 			update = entry;
-		} else {
-			Hibernate.initialize(foundEntry.getFeeds());
-			if (FeedUtils.findFeed(foundEntry.getFeeds(), feed) == null) {
-				foundEntry.getFeeds().add(feed);
-				update = foundEntry;
-			}
+		} else if (existing.feed == null) {
+			existing.entry.getFeeds().add(feed);
+			update = existing.entry;
 		}
 
 		if (update != null) {

@@ -10,6 +10,8 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
@@ -19,6 +21,9 @@ import com.google.common.collect.Iterables;
 
 @Stateless
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
+
+	protected static final Logger log = LoggerFactory
+			.getLogger(FeedEntryDAO.class);
 
 	public static class EntryWithFeed {
 		public FeedEntry entry;
@@ -38,9 +43,18 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		q.setParameter("url", url);
 		q.setParameter("feedId", feedId);
 
-		List<EntryWithFeed> resultList = q.getResultList();
-		EntryWithFeed ewf = Iterables.getFirst(resultList, null);
-		return ewf;
+		EntryWithFeed result = null;
+		List<EntryWithFeed> list = q.getResultList();
+		for (EntryWithFeed ewf : list) {
+			if (ewf.entry != null && ewf.feed != null) {
+				result = ewf;
+				break;
+			}
+		}
+		if (result == null) {
+			result = Iterables.getFirst(list, null);
+		}
+		return result;
 	}
 
 	public List<FeedEntry> findByFeed(Feed feed, int offset, int limit) {

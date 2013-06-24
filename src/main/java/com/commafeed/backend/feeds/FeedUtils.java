@@ -40,7 +40,7 @@ import com.steadystate.css.parser.CSSOMParser;
 public class FeedUtils {
 
 	protected static Logger log = LoggerFactory.getLogger(FeedUtils.class);
-	
+
 	private static final List<String> ALLOWED_IFRAME_CSS_RULES = Arrays.asList(
 			"height", "width", "border");
 	private static final char[] DISALLOWED_IFRAME_CSS_RULE_CHARACTERS = new char[] {
@@ -105,7 +105,8 @@ public class FeedUtils {
 		return encoding;
 	}
 
-	public static String handleContent(String content, String baseUri) {
+	public static String handleContent(String content, String baseUri,
+			boolean keepTextOnly) {
 		if (StringUtils.isNotBlank(content)) {
 			baseUri = StringUtils.trimToEmpty(baseUri);
 			Whitelist whitelist = new Whitelist();
@@ -158,8 +159,12 @@ public class FeedUtils {
 
 			clean.outputSettings(new OutputSettings().escapeMode(
 					EscapeMode.base).prettyPrint(false));
-			content = clean.body().html();
-
+			Element body = clean.body();
+			if (keepTextOnly) {
+				content = body.text();
+			} else {
+				content = body.html();
+			}
 		}
 		return content;
 	}
@@ -375,8 +380,8 @@ public class FeedUtils {
 		for (Element element : elements) {
 			String href = element.attr("src");
 			if (href != null) {
-				String proxy = removeTrailingSlash(publicUrl) + "/rest/server/proxy?u="
-						+ imageProxyEncoder(href);
+				String proxy = removeTrailingSlash(publicUrl)
+						+ "/rest/server/proxy?u=" + imageProxyEncoder(href);
 				element.attr("src", proxy);
 			}
 		}

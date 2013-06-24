@@ -39,7 +39,10 @@ public class UserREST extends AbstractResourceREST {
 		Settings s = new Settings();
 		UserSettings settings = userSettingsDAO.findByUser(getUser());
 		if (settings != null) {
-			s.setReadingMode(settings.getReadingMode().name());
+			// force unread for the moment
+			// s.setReadingMode(settings.getReadingMode().name());
+			s.setReadingMode(ReadingMode.unread.name());
+			
 			s.setReadingOrder(settings.getReadingOrder().name());
 			s.setViewMode(settings.getViewMode().name());
 			s.setShowRead(settings.isShowRead());

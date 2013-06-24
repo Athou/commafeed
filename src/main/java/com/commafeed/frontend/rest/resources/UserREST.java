@@ -128,7 +128,7 @@ public class UserREST extends AbstractResourceREST {
 		}
 
 		if (StartupBean.USERNAME_DEMO.equals(user.getName())) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.FORBIDDEN).build();
 		}
 
 		user.setEmail(StringUtils.trimToNull(request.getEmail()));
@@ -167,7 +167,7 @@ public class UserREST extends AbstractResourceREST {
 	public Response delete() {
 		if (StartupBean.USERNAME_ADMIN.equals(getUser().getName())
 				|| StartupBean.USERNAME_DEMO.equals(getUser().getName())) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.FORBIDDEN).build();
 		}
 		userService.unregister(getUser());
 		return Response.ok().build();

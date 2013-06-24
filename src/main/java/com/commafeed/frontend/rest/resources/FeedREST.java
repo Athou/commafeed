@@ -450,7 +450,7 @@ public class FeedREST extends AbstractResourceREST {
 		}
 
 		if (StartupBean.USERNAME_DEMO.equals(getUser().getName())) {
-			return Response.status(Status.UNAUTHORIZED)
+			return Response.status(Status.FORBIDDEN)
 					.entity("Import is disabled for the demo account").build();
 		}
 		try {

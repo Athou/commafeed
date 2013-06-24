@@ -35,7 +35,7 @@ public class ServerREST extends AbstractResourceREST {
 	@Produces("image/png")
 	public Response get(@QueryParam("u") String url) {
 		if (!applicationSettingsService.get().isImageProxyEnabled()) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.FORBIDDEN).build();
 		}
 		
 		url = FeedUtils.imageProxyDecoder(url);

@@ -1,7 +1,7 @@
 package com.commafeed.backend.services;
 
-import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.ejb.Stateless;
@@ -50,7 +50,7 @@ public class UserService {
 			boolean authenticated = encryptionService.authenticate(password,
 					user.getPassword(), user.getSalt());
 			if (authenticated) {
-				user.setLastLogin(Calendar.getInstance().getTime());
+				user.setLastLogin(new Date());
 				userDAO.saveOrUpdate(user);
 				return user;
 			}
@@ -98,7 +98,7 @@ public class UserService {
 		byte[] salt = encryptionService.generateSalt();
 		user.setName(name);
 		user.setEmail(email);
-		user.setCreated(Calendar.getInstance().getTime());
+		user.setCreated(new Date());
 		user.setSalt(salt);
 		user.setPassword(encryptionService.getEncryptedPassword(password, salt));
 		for (Role role : roles) {

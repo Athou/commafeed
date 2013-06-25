@@ -1,7 +1,6 @@
 package com.commafeed.frontend.rest.resources;
 
 import java.io.StringWriter;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -144,7 +143,7 @@ public class CategoryREST extends AbstractResourceREST {
 			entries.getEntries().remove(entries.getEntries().size() - 1);
 		}
 
-		entries.setTimestamp(Calendar.getInstance().getTimeInMillis());
+		entries.setTimestamp(System.currentTimeMillis());
 		return Response.ok(entries).build();
 	}
 

@@ -3,7 +3,6 @@ package com.commafeed.frontend.resources;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.util.Calendar;
 
 import org.apache.commons.io.IOUtils;
 
@@ -15,8 +14,7 @@ import ro.isdc.wro.model.resource.processor.ResourcePreProcessor;
 @SupportedResourceType(ResourceType.JS)
 public class TimestampProcessor implements ResourcePreProcessor {
 
-	private static final String NOW = ""
-			+ Calendar.getInstance().getTimeInMillis();
+	private static final String NOW = "" + System.currentTimeMillis();
 
 	@Override
 	public void process(Resource resource, Reader reader, Writer writer)

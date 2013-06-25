@@ -1,6 +1,5 @@
 package com.commafeed.backend.feeds;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -80,7 +79,7 @@ public class FeedRefreshWorker {
 	}
 
 	private void update(Feed feed) {
-		Date now = Calendar.getInstance().getTime();
+		Date now = new Date();
 		try {
 			FetchedFeed fetchedFeed = fetcher.fetch(feed.getUrl(), false,
 					feed.getLastModifiedHeader(), feed.getEtagHeader(),

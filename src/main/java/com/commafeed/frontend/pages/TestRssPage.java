@@ -1,7 +1,7 @@
 package com.commafeed.frontend.pages;
 
 import java.io.StringWriter;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -34,7 +34,7 @@ public class TestRssPage extends WebPage {
 			entry.setUri(uuid);
 			entry.setTitle(uuid);
 			entry.setLink("http://www.example.com/" + uuid);
-			entry.setPublishedDate(Calendar.getInstance().getTime());
+			entry.setPublishedDate(new Date());
 			entries.add(entry);
 		}
 		feed.setEntries(entries);

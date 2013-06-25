@@ -1,6 +1,5 @@
 package com.commafeed.backend.dao;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +26,7 @@ import com.google.common.collect.Lists;
 public class FeedDAO extends GenericDAO<Feed> {
 
 	private List<Predicate> getUpdatablePredicates(Root<Feed> root) {
-		Date now = Calendar.getInstance().getTime();
+		Date now = new Date();
 
 		Predicate hasSubscriptions = builder.isNotEmpty(root
 				.get(Feed_.subscriptions));

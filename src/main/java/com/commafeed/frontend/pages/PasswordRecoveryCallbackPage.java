@@ -1,6 +1,6 @@
 package com.commafeed.frontend.pages;
 
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -45,7 +45,7 @@ public class PasswordRecoveryCallbackPage extends BasePage {
 			throw new DisplayException("invalid token");
 		}
 		if (user.getRecoverPasswordTokenDate().before(
-				DateUtils.addDays(Calendar.getInstance().getTime(), -2))) {
+				DateUtils.addDays(new Date(), -2))) {
 			throw new DisplayException("token expired");
 		}
 

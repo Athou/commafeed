@@ -1,7 +1,6 @@
 package com.commafeed.frontend.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -23,7 +22,7 @@ public class Subscription implements Serializable {
 
 	public static Subscription build(FeedSubscription subscription,
 			String publicUrl, long unreadCount) {
-		Date now = Calendar.getInstance().getTime();
+		Date now = new Date();
 		FeedCategory category = subscription.getCategory();
 		Feed feed = subscription.getFeed();
 		Subscription sub = new Subscription();

@@ -3,7 +3,6 @@ package com.commafeed.backend;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -76,7 +75,7 @@ public class StartupBean {
 	@PostConstruct
 	private void init() {
 
-		startupTime = Calendar.getInstance().getTimeInMillis();
+		startupTime = System.currentTimeMillis();
 		databaseUpdater.update();
 
 		if (userDAO.getCount() == 0) {

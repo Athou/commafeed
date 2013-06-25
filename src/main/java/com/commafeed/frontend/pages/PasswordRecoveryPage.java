@@ -1,6 +1,6 @@
 package com.commafeed.frontend.pages;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -39,8 +39,7 @@ public class PasswordRecoveryPage extends BasePage {
 					try {
 						user.setRecoverPasswordToken(DigestUtils.sha1Hex(UUID
 								.randomUUID().toString()));
-						user.setRecoverPasswordTokenDate(Calendar.getInstance()
-								.getTime());
+						user.setRecoverPasswordTokenDate(new Date());
 						userDAO.saveOrUpdate(user);
 						mailService.sendMail(user, "Password recovery",
 								buildEmailContent(user));

@@ -1,6 +1,6 @@
 package com.commafeed.backend.services;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -48,7 +48,7 @@ public class FeedUpdateService {
 			content.setContent(FeedUtils.handleContent(content.getContent(),
 					feed.getLink(), false));
 
-			entry.setInserted(Calendar.getInstance().getTime());
+			entry.setInserted(new Date());
 			entry.getFeeds().add(feed);
 
 			update = entry;

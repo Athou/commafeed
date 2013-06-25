@@ -1,6 +1,5 @@
 package com.commafeed.backend.feeds;
 
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -187,7 +186,7 @@ public class FeedRefreshUpdater {
 	private void handlePubSub(final Feed feed) {
 		if (feed.getPushHub() != null && feed.getPushTopic() != null) {
 			Date lastPing = feed.getPushLastPing();
-			Date now = Calendar.getInstance().getTime();
+			Date now = new Date();
 			if (lastPing == null || lastPing.before(DateUtils.addDays(now, -3))) {
 				new Thread() {
 					@Override

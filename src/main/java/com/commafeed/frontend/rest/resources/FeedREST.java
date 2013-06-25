@@ -124,7 +124,7 @@ public class FeedREST extends AbstractResourceREST {
 			}
 		}
 
-		entries.setTimestamp(Calendar.getInstance().getTimeInMillis());
+		entries.setTimestamp(System.currentTimeMillis());
 		return Response.ok(entries).build();
 	}
 

@@ -2,7 +2,6 @@ package com.commafeed.backend.feeds;
 
 import java.io.StringReader;
 import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class FeedParser {
 		FetchedFeed fetchedFeed = new FetchedFeed();
 		Feed feed = fetchedFeed.getFeed();
 		List<FeedEntry> entries = fetchedFeed.getEntries();
-		feed.setLastUpdated(Calendar.getInstance().getTime());
+		feed.setLastUpdated(new Date());
 
 		try {
 			String encoding = FeedUtils.guessEncoding(xml);
@@ -186,7 +185,7 @@ public class FeedParser {
 	}
 
 	private Date validateDate(Date date) {
-		Date now = Calendar.getInstance().getTime();
+		Date now = new Date();
 		if (date == null) {
 			return now;
 		}

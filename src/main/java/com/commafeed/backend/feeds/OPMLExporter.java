@@ -1,6 +1,6 @@
 package com.commafeed.backend.feeds;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -30,7 +30,7 @@ public class OPMLExporter {
 		opml.setFeedType("opml_1.1");
 		opml.setTitle(String.format("%s subscriptions in CommaFeed",
 				user.getName()));
-		opml.setCreated(Calendar.getInstance().getTime());
+		opml.setCreated(new Date());
 
 		List<FeedCategory> categories = feedCategoryDAO.findAll(user);
 		List<FeedSubscription> subscriptions = feedSubscriptionDAO

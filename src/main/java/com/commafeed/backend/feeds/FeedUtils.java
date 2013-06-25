@@ -3,7 +3,6 @@ package com.commafeed.backend.feeds;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -274,7 +273,7 @@ public class FeedUtils {
 	 * 
 	 */
 	public static Date buildDisabledUntil(int errorCount) {
-		Date now = Calendar.getInstance().getTime();
+		Date now = new Date();
 		int retriesBeforeDisable = 3;
 
 		if (errorCount >= retriesBeforeDisable) {
@@ -290,7 +289,7 @@ public class FeedUtils {
 	 */
 	public static Date buildDisabledUntil(Date publishedDate,
 			Long averageEntryInterval) {
-		Date now = Calendar.getInstance().getTime();
+		Date now = new Date();
 
 		if (publishedDate == null) {
 			// feed with no entries, recheck in 24 hours

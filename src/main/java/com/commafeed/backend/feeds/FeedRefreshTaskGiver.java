@@ -1,6 +1,5 @@
 package com.commafeed.backend.feeds;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +43,7 @@ public class FeedRefreshTaskGiver {
 	}
 
 	public void add(Feed feed) {
-		Date now = Calendar.getInstance().getTime();
+		Date now = new Date();
 		boolean heavyLoad = applicationSettingsService.get().isHeavyLoad();
 		Date threshold = DateUtils.addMinutes(now, heavyLoad ? -10 : -1);
 		if (feed.getLastUpdated() == null
@@ -68,7 +67,7 @@ public class FeedRefreshTaskGiver {
 	}
 
 	private void refill() {
-		Date now = Calendar.getInstance().getTime();
+		Date now = new Date();
 
 		int count = 3 * backgroundThreads;
 		List<Feed> feeds = feedDAO.findNextUpdatable(count);

@@ -802,20 +802,22 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 
 	var openNextEntry = function(event) {
 		var entry = getNextEntry();
-		if (entry) {
-			openEntry(entry, event);
-		}
+		openEntry(entry, event);
 	};
 
 	var openPreviousEntry = function(event) {
 		var entry = getPreviousEntry();
-		if (entry) {
-			openEntry(entry, event);
-		}
+		openEntry(entry, event);
 	};
 
 	var focusNextEntry = function(event) {
 		var entry = getNextEntry();
+		
+		if (event) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
+		
 		if (entry) {
 			$scope.current = entry;
 		}
@@ -823,6 +825,12 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 
 	var focusPreviousEntry = function(event) {
 		var entry = getPreviousEntry();
+	
+		if (event) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
+		
 		if (entry) {
 			$scope.current = entry;
 		}
@@ -831,6 +839,15 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
 	
 	var openEntry = function(entry, event) {
+		
+		if (event) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
+		
+		if (!entry) {
+			return;
+		}
 		
 		if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {
 			$scope.isOpen = true;
@@ -841,12 +858,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			$scope.mark(entry, true);
 		}
 		$scope.current = entry;
-		
-		if (event) {
-			event.preventDefault();
-			event.stopPropagation();
-		}
-		
+			
 		if (getCurrentIndex() == $scope.entries.length - 1) {
 			$scope.loadMoreEntries();	
 		}

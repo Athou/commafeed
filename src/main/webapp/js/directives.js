@@ -79,20 +79,20 @@ module.directive('onScrollMiddle', function() {
 			var w = $(window);
 			var e = $(element);
 			var d = $(document);
+			
+			var offset = parseInt(attrs.onScrollMiddleOffset, 10);
 
 			var down = function() {
 				var docTop = w.scrollTop();
 				var elemTop = e.offset().top;
-				var threshold = docTop === 0 ? elemTop - 1 : docTop
-						+ w.height() / 3;
+				var threshold = docTop === 0 ? elemTop - 1 : docTop + offset;
 				return (elemTop > threshold) ? 'below' : 'above';
 			};
 			var up = function() {
 				var docTop = w.scrollTop();
 				var elemTop = e.offset().top;
 				var elemBottom = elemTop + e.height();
-				var threshold = docTop === 0 ? elemBottom - 1 : docTop
-						+ w.height() / 3;
+				var threshold = docTop === 0 ? elemBottom - 1 : docTop + offset;
 				return (elemBottom > threshold) ? 'below' : 'above';
 			};
 

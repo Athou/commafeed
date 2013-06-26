@@ -104,16 +104,19 @@
 	font-weight: normal;
 }
 
-#feed-accordion .entry-body img {
-	display: block;
-}
-
 #feed-accordion  .entry-body-content {
 	max-width: 650px;
 	color: black;
+	padding-bottom: 10px;
+}
+
+#feed-accordion .entry-enclosure {
+	clear: both;
+	padding-top: 10px;
 }
 
 #feed-accordion .entry-buttons {
+	clear: both;
 	background-color: #fafafa;
 	padding: 3px 0px;
 	border-top: 1px solid #ebebeb;

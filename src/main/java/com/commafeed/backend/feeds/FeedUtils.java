@@ -126,8 +126,8 @@ public class FeedUtils {
 			whitelist.addAttributes("colgroup", "span", "width");
 			whitelist.addAttributes("iframe", "src", "height", "width",
 					"allowfullscreen", "frameborder", "style");
-			whitelist.addAttributes("img", "alt", "height", "src", "title",
-					"width");
+			whitelist.addAttributes("img", "align", "alt", "height", "src",
+					"title", "width");
 			whitelist.addAttributes("ol", "start", "type");
 			whitelist.addAttributes("q", "cite");
 			whitelist.addAttributes("table", "border", "bordercolor",

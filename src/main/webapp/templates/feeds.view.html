@@ -14,10 +14,10 @@
 	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode" infinite-scroll-distance="1" id="feed-accordion"
 		ng-class="{'expanded' : settingsService.settings.viewMode == 'expanded' }">
 		<div ng-show="message && errorCount > 10">${view.error_while_loading_feed} : {{message}}</div>
-		<div ng-repeat="entry in entries" class="entry" 
+		<div ng-repeat="entry in entries" class="entry entry-font-size-{{font_size}}"
 			scroll-to="navigationMode != 'scroll' && current == entry" scroll-to-force="navigationMode == 'keyboard'" scroll-to-offset="-50" 
 			on-scroll-middle="onScroll(entry)" on-scroll-middle-offset="50"  
-			ng-class="{unread: entry.read == false, current: current==entry, open: isOpen, closed: !isOpen}">
+			ng-class="{unread: entry.read == false, current: current==entry, open: isOpen, closed: !isOpen }">
 			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)">
 				<span class="feed-name visible-desktop">
 					<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
@@ -34,13 +34,13 @@
 			<div class="entry-body" ui-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)" ng-mouseup="bodyClicked(entry, $event)"
 				ng-class="{rtl: entry.rtl}">
 				<div class="entry-header">
-					<h4 class="entry-title">
+					<div class="entry-title">
 						<a href="{{entry.url}}" target="_blank" ng-bind-html-unsafe="entry.title"></a>
 						<span class="entry-author" ui-if="entry.author">
 							<span class="entry-author-prefix">${view.entry_author}</span>
 							<span class="entry-author-name">{{entry.author}}</span>
 						</span>
-					</h4>
+					</div>
 				</div>
 
 				<div class="entry-body-content">

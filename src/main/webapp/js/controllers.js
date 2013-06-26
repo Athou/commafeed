@@ -655,6 +655,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	$scope.errorCount = 0;
 	$scope.timestamp = 0;
 	$scope.entries = [];
+	$scope.font_size = 0;
 
 	$scope.settingsService = SettingsService;
 	$scope.$watch('settingsService.settings.readingMode', function(newValue,
@@ -900,7 +901,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			}
 		}
 	};
-
+	
 	Mousetrap.bind('j', function(e) {
 		$scope.$apply(function() {
 			$scope.navigationMode = 'keyboard';
@@ -986,6 +987,19 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			$scope.markAll();
 		});
 	});
+	
+	Mousetrap.bind('+', function(e) {
+		$scope.$apply(function() {
+			$scope.font_size = Math.min($scope.font_size + 1, 5); 
+		});
+	});	
+	
+	Mousetrap.bind('-', function(e) {
+		$scope.$apply(function() {
+			$scope.font_size = Math.max($scope.font_size - 1, 0); 
+		});
+	});	
+	
 	Mousetrap.bind('?', function(e) {
 		$scope.$apply(function() {
 			$scope.shortcutsModal = true;

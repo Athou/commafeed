@@ -208,6 +208,13 @@ function($resource, $http) {
 				callback(data);
 		});
 	};
+	res.refresh = function(callback) {
+		res.get(function(data) {
+			_.merge(res.subscriptions, data);
+			if (callback)
+				callback(data);
+		});
+	};
 
 	res.init();
 	return res;

@@ -138,7 +138,7 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 
 	$timeout(function refreshTree() {
 		AnalyticsService.track();
-		CategoryService.init(function() {
+		CategoryService.refresh(function() {
 			$timeout(refreshTree, 30000);
 		}, function() {
 			$timeout(refreshTree, 30000);
@@ -746,7 +746,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			olderThan : olderThan || $scope.timestamp,
 			read : true
 		}, function() {
-			CategoryService.init(function() {
+			CategoryService.refresh(function() {
 				$scope.$emit('emitReload');
 			});
 		});

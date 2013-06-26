@@ -10,8 +10,14 @@
 				<i ng-class="{'icon-caret-right': !node.expanded, 'icon-caret-down': node.expanded}" ng-click="toggleCategory(node, $event)" ng-show="showChildren"></i>
 				<i ng-class="{'icon-star' : node.id == 'starred', 'icon-inbox': node.id == 'all'}" ng-show="!showChildren"></i>
 			</span>
-			<span ng-class="{selected: (node.id == selectedId && selectedType == 'category'), unread: unreadCount({category:node})}">
-				{{categoryLabel(node)}} &lrm;{{categoryCountLabel(node)}}
+			<span ng-class="{selected: (node.id == selectedId && selectedType == 'category')}">
+				<span ng-class="{unread: unreadCount({category:node})}">
+					{{categoryLabel(node)}}
+				</span>
+				&lrm;
+				<span class="unread-counter">
+					{{categoryCountLabel(node)}}
+				</span>
 			</span>
 		</div>
 	</div>
@@ -29,9 +35,15 @@
 				<i class="icon-wrench config pointer"></i>
 			</div>
 			<a ng-click="feedClicked(feed.id)" class="feed-link"
-				ng-class="{error: feed.message && feed.errorCount > 10, selected: (feed.id == selectedId && selectedType == 'feed'), unread: feed.unread }">
+				ng-class="{error: feed.message && feed.errorCount > 10, selected: (feed.id == selectedId && selectedType == 'feed') }">
 				<favicon url="feed.iconUrl" />
-				{{feed.name}} &lrm;{{feedCountLabel(feed)}}
+				<span ng-class="{unread: feed.unread}">
+					{{feed.name}}
+				</span> 
+				&lrm;
+				<span class="unread-counter">
+					{{feedCountLabel(feed)}}
+				</span>
 			</a>
 		</li>
 	</ul>

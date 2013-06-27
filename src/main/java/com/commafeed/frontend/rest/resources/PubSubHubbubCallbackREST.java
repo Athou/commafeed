@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.feeds.FeedParser;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
@@ -50,6 +51,9 @@ public class PubSubHubbubCallbackREST {
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
+	@Inject
+	MetricsBean metricsBean;
+
 	@Path("/callback")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
@@ -58,8 +62,9 @@ public class PubSubHubbubCallbackREST {
 			@QueryParam("hub.challenge") String challenge,
 			@QueryParam("hub.lease_seconds") String leaseSeconds,
 			@QueryParam("hub.verify_token") String verifyToken) {
-		Preconditions.checkState(applicationSettingsService.get().isPubsubhubbub());
-		
+		Preconditions.checkState(applicationSettingsService.get()
+				.isPubsubhubbub());
+
 		Preconditions.checkArgument(StringUtils.isNotEmpty(topic));
 		Preconditions.checkArgument("subscribe".equals(mode));
 
@@ -85,7 +90,8 @@ public class PubSubHubbubCallbackREST {
 	@POST
 	@Consumes({ MediaType.APPLICATION_ATOM_XML, "application/rss+xml" })
 	public Response callback() {
-		Preconditions.checkState(applicationSettingsService.get().isPubsubhubbub());
+		Preconditions.checkState(applicationSettingsService.get()
+				.isPubsubhubbub());
 		try {
 			byte[] bytes = IOUtils.toByteArray(request.getInputStream());
 			FetchedFeed fetchedFeed = parser.parse(null, bytes);
@@ -97,6 +103,7 @@ public class PubSubHubbubCallbackREST {
 					log.debug("pushing content to queue for {}", feed.getUrl());
 					taskGiver.add(feed);
 				}
+				metricsBean.pushReceived(feeds.size());
 			}
 		} catch (Exception e) {
 			log.error("Could not parse pubsub callback: " + e.getMessage());

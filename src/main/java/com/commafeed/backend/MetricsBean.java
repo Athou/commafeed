@@ -57,6 +57,15 @@ public class MetricsBean {
 		thisMinute.statusesInserted += statusesCount;
 	}
 
+	public void pushReceived(int feedCount) {
+
+		thisHour.pushNotificationsReceived++;
+		thisMinute.pushNotificationsReceived++;
+
+		thisHour.pushFeedsQueued += feedCount;
+		thisMinute.pushFeedsQueued += feedCount;
+	}
+
 	public void threadWaited() {
 		thisHour.threadWaited++;
 		thisMinute.threadWaited++;
@@ -83,6 +92,8 @@ public class MetricsBean {
 		private int entriesInserted;
 		private int statusesInserted;
 		private int threadWaited;
+		private int pushNotificationsReceived;
+		private int pushFeedsQueued;
 
 		public int getFeedsRefreshed() {
 			return feedsRefreshed;
@@ -122,6 +133,22 @@ public class MetricsBean {
 
 		public void setThreadWaited(int threadWaited) {
 			this.threadWaited = threadWaited;
+		}
+
+		public int getPushNotificationsReceived() {
+			return pushNotificationsReceived;
+		}
+
+		public void setPushNotificationsReceived(int pushNotificationsReceived) {
+			this.pushNotificationsReceived = pushNotificationsReceived;
+		}
+
+		public int getPushFeedsQueued() {
+			return pushFeedsQueued;
+		}
+
+		public void setPushFeedsQueued(int pushFeedsQueued) {
+			this.pushFeedsQueued = pushFeedsQueued;
 		}
 
 	}

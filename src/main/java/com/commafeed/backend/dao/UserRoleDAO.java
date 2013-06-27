@@ -12,6 +12,7 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserRole_;
+import com.commafeed.backend.model.User_;
 import com.google.common.collect.Sets;
 
 @Stateless
@@ -29,12 +30,17 @@ public class UserRoleDAO extends GenericDAO<UserRole> {
 	}
 
 	public List<UserRole> findAll(User user) {
-		return findByField(UserRole_.user, user);
+		CriteriaQuery<UserRole> query = builder.createQuery(getType());
+		Root<UserRole> root = query.from(getType());
+
+		query.where(builder.equal(root.get(UserRole_.user).get(User_.id),
+				user.getId()));
+		return cache(em.createQuery(query)).getResultList();
 	}
 
 	public Set<Role> findRoles(User user) {
 		Set<Role> list = Sets.newHashSet();
-		for (UserRole role : findByField(UserRole_.user, user)) {
+		for (UserRole role : findAll(user)) {
 			list.add(role.getRole());
 		}
 		return list;

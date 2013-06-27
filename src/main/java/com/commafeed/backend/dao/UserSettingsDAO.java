@@ -8,6 +8,7 @@ import javax.persistence.criteria.Root;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings_;
+import com.commafeed.backend.model.User_;
 
 @Stateless
 public class UserSettingsDAO extends GenericDAO<UserSettings> {
@@ -17,11 +18,12 @@ public class UserSettingsDAO extends GenericDAO<UserSettings> {
 		CriteriaQuery<UserSettings> query = builder.createQuery(getType());
 		Root<UserSettings> root = query.from(getType());
 
-		query.where(builder.equal(root.get(UserSettings_.user), user));
+		query.where(builder.equal(root.get(UserSettings_.user).get(User_.id),
+				user.getId()));
 
 		UserSettings settings = null;
 		try {
-			settings = em.createQuery(query).getSingleResult();
+			settings = cache(em.createQuery(query)).getSingleResult();
 		} catch (NoResultException e) {
 			settings = null;
 		}

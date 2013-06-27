@@ -614,8 +614,7 @@ function($scope, $state, $filter, $timeout, CategoryService) {
 		$state.transitionTo('feeds.view', {
 			_type : 'feed', 
 			_id : id
-			}
-		);
+		});
 	};
 	
 	$scope.open = function() {

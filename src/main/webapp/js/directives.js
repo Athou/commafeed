@@ -225,98 +225,99 @@ module.directive('category', [ function() {
 		replace : true,
 		templateUrl : 'templates/_category.html',
 		controller : [
-				'$scope',
-				'$state',
-				'$dialog',
-				'FeedService',
-				'CategoryService',
-				'SettingsService',
-				'MobileService',
-				function($scope, $state, $dialog, FeedService, CategoryService,
-						SettingsService, MobileService) {
-					$scope.settingsService = SettingsService;
+			'$scope',
+			'$state',
+			'$dialog',
+			'FeedService',
+			'CategoryService',
+			'SettingsService',
+			'MobileService',
+			function($scope, $state, $dialog, FeedService, CategoryService,
+					SettingsService, MobileService) {
+				$scope.settingsService = SettingsService;
 
-					$scope.getClass = function(level) {
-						if ($scope.showLabel) {
-							return 'indent' + level;
-						}
-					};
+				$scope.getClass = function(level) {
+					if ($scope.showLabel) {
+						return 'indent' + level;
+					}
+				};
 
-					$scope.categoryLabel = function(category) {
-						return $scope.showLabel !== true ? $scope.showLabel
-								: category.name;
-					};
+				$scope.categoryLabel = function(category) {
+					return $scope.showLabel !== true ? $scope.showLabel
+							: category.name;
+				};
 
-					$scope.categoryCountLabel = function(category) {
-						var count = $scope.unreadCount({
-							category : category
+				$scope.categoryCountLabel = function(category) {
+					var count = $scope.unreadCount({
+						category : category
+					});
+					var label = '';
+					if (count > 0) {
+						label = '(' + count + ')';
+					}
+					return label;
+				};
+
+				$scope.feedCountLabel = function(feed) {
+					var label = '';
+					if (feed.unread > 0) {
+						label = '(' + feed.unread + ')';
+					}
+					return label;
+				};
+
+				$scope.feedClicked = function(id) {
+					MobileService.toggleLeftMenu();
+					if ($scope.selectedType == 'feed'
+							&& id == $scope.selectedId) {
+						$scope.$emit('emitReload');
+					} else {
+						$state.transitionTo('feeds.view', {
+							_type : 'feed',
+							_id : id
 						});
-						var label = '';
-						if (count > 0) {
-							label = '(' + count + ')';
-						}
-						return label;
-					};
+					}
+				};
 
-					$scope.feedCountLabel = function(feed) {
-						var label = '';
-						if (feed.unread > 0) {
-							label = '(' + feed.unread + ')';
-						}
-						return label;
-					};
-
-					$scope.feedClicked = function(id) {
-						MobileService.toggleLeftMenu();
-						if ($scope.selectedType == 'feed'
-								&& id == $scope.selectedId) {
-							$scope.$emit('emitReload');
-						} else {
-							$state.transitionTo('feeds.view', {
-								_type : 'feed',
-								_id : id
-							});
-						}
-					};
-
-					$scope.categoryClicked = function(id) {
-						MobileService.toggleLeftMenu();
-						if ($scope.selectedType == 'category'
-								&& id == $scope.selectedId) {
-							$scope.$emit('emitReload');
-						} else {
-							$state.transitionTo('feeds.view', {
-								_type : 'category',
-								_id : id
-							});
-						}
-					};
-
-					$scope.showFeedDetails = function(feed) {
-						$state.transitionTo('feeds.feed_details', {
-							_id : feed.id
+				$scope.categoryClicked = function(id) {
+					MobileService.toggleLeftMenu();
+					if ($scope.selectedType == 'category'
+							&& id == $scope.selectedId) {
+						$scope.$emit('emitReload');
+					} else {
+						$state.transitionTo('feeds.view', {
+							_type : 'category',
+							_id : id
 						});
-					};
+					}
+				};
 
-					$scope.showCategoryDetails = function(category) {
-						$state.transitionTo('feeds.category_details', {
-							_id : category.id
-						});
-					};
+				$scope.showFeedDetails = function(feed) {
+					$state.transitionTo('feeds.feed_details', {
+						_id : feed.id
+					});
+				};
 
-					$scope.toggleCategory = function(category, event) {
-						event.preventDefault();
-						event.stopPropagation();
-						category.expanded = !category.expanded;
-						if (category.id == 'all') {
-							return;
-						}
-						CategoryService.collapse({
-							id : category.id,
-							collapse : !category.expanded
-						});
-					};
-				} ]
+				$scope.showCategoryDetails = function(category) {
+					$state.transitionTo('feeds.category_details', {
+						_id : category.id
+					});
+				};
+
+				$scope.toggleCategory = function(category, event) {
+					event.preventDefault();
+					event.stopPropagation();
+					category.expanded = !category.expanded;
+					if (category.id == 'all') {
+						return;
+					}
+					CategoryService.collapse({
+						id : category.id,
+						collapse : !category.expanded
+					});
+				};
+			}
+		]
 	};
 } ]);
 
@@ -373,70 +374,54 @@ module.directive('draggable', function() {
 	};
 });
 
-module.directive('droppable', [ 'CategoryService', 'FeedService', function(CategoryService, FeedService) {
-	return {
-		restrict : 'A',
-		link : function(scope, element, attrs) {
-			element.droppable({
-				tolerance: 'pointer',
-				over: function(event, ui) {
-					
-				},
-				drop : function(event, ui) {
-					var draggable = angular.element(ui.draggable);
-					
-					var source = draggable.data('source');
-					var target = scope.$eval(attrs.droppable);
-					
-					if (angular.equals(source, target)) {
-						return;
-					}
-					
-					var data = {
-						id: source.id,
-						name: source.name
-					};
-					
-					if (source.children) {
-						// source is a category
-						
-						/*
-						 * TODO better handling of category dragging
-						 * 
-						if (target.children) {
-							// target is a category
-							data.parentId = target.id;
-							data.position = 0;
-						} else {
-							// target is a feed
-							data.parentId = target.categoryId;
+module.directive('droppable', [ 'CategoryService', 'FeedService',
+		function(CategoryService, FeedService) {
+			return {
+				restrict : 'A',
+				link : function(scope, element, attrs) {
+					element.droppable({
+						tolerance : 'pointer',
+						over : function(event, ui) {
+
+						},
+						drop : function(event, ui) {
+							var draggable = angular.element(ui.draggable);
+
+							var source = draggable.data('source');
+							var target = scope.$eval(attrs.droppable);
+
+							if (angular.equals(source, target)) {
+								return;
+							}
+
+							var data = {
+								id : source.id,
+								name : source.name
+							};
+
+							if (source.children) {
+								// source is a category
+
+							} else {
+								// source is a feed
+
+								if (target.children) {
+									// target is a category
+									data.categoryId = target.id;
+									data.position = 0;
+								} else {
+									// target is a feed
+									data.categoryId = target.categoryId;
+									data.position = target.position;
+								}
+
+								FeedService.modify(data, function() {
+									CategoryService.init();
+								});
+							}
+							scope.$apply();
 						}
-						
-						CategoryService.modify(data, function() {
-							CategoryService.init();
-						});
-						*/
-					} else {
-						// source is a feed
-						
-						if (target.children) {
-							// target is a category
-							data.categoryId = target.id;
-							data.position = 0;
-						} else {
-							// target is a feed
-							data.categoryId = target.categoryId;
-							data.position = target.position;
-						}
-						
-						FeedService.modify(data, function() {
-							CategoryService.init();
-						});
-					}
-					
-					scope.$apply();
+					});
 				}
-			});
-		}
-	};
-}]);
+			};
+		} ]);

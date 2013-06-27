@@ -25,7 +25,7 @@
 
 			<property name="hibernate.cache.use_second_level_cache"
 				value="${jpa.cache}" />
-			<property name="hibernate.cache.use_query_cache" value="false" />
+			<property name="hibernate.cache.use_query_cache" value="${jpa.cache}" />
 
 			<property name="hibernate.cache.region.factory_class"
 				value="org.hibernate.cache.infinispan.InfinispanRegionFactory" />

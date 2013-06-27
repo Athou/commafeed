@@ -13,9 +13,11 @@ import javax.sql.DataSource;
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
+import liquibase.database.core.PostgresDatabase;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import liquibase.resource.ResourceAccessor;
+import liquibase.structure.DatabaseObject;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
@@ -37,10 +39,21 @@ public class DatabaseUpdater {
 				DataSource dataSource = (DataSource) context
 						.lookup(datasourceName);
 				connection = dataSource.getConnection();
+				JdbcConnection jdbcConnection = new JdbcConnection(connection);
 
 				Database database = DatabaseFactory.getInstance()
 						.findCorrectDatabaseImplementation(
-								new JdbcConnection(connection));
+								jdbcConnection);
+
+				if (database instanceof PostgresDatabase) {
+					database = new PostgresDatabase() {
+						@Override
+						public String escapeObjectName(String objectName, Class<? extends DatabaseObject> objectType) {
+							return objectName;
+						}
+					};
+					database.setConnection(jdbcConnection);
+				}
 
 				Liquibase liq = new Liquibase(
 						"changelogs/db.changelog-master.xml", accessor,

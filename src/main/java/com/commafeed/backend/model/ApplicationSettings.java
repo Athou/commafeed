@@ -33,6 +33,7 @@ public class ApplicationSettings extends AbstractModel {
 	private boolean feedbackButton = true;
 	private String logLevel = Level.INFO.toString();
 	private boolean imageProxyEnabled;
+	private int queryTimeout;
 
 	@Column(length = 255)
 	private String announcement;
@@ -180,6 +181,14 @@ public class ApplicationSettings extends AbstractModel {
 
 	public void setImageProxyEnabled(boolean imageProxyEnabled) {
 		this.imageProxyEnabled = imageProxyEnabled;
+	}
+
+	public int getQueryTimeout() {
+		return queryTimeout;
+	}
+
+	public void setQueryTimeout(int queryTimeout) {
+		this.queryTimeout = queryTimeout;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
@@ -36,6 +37,7 @@ import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.Feed_;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -46,6 +48,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	protected static Logger log = LoggerFactory
 			.getLogger(FeedEntryStatusDAO.class);
+
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
 
 	@SuppressWarnings("unchecked")
 	public FeedEntryStatus findById(User user, Long id) {
@@ -92,7 +97,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		if (CollectionUtils.isEmpty(entries)) {
 			return results;
 		}
-		
+
 		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
 		Root<FeedEntryStatus> root = query.from(getType());
 
@@ -126,11 +131,11 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public List<FeedEntryStatus> findByKeywords(User user, String keywords,
 			int offset, int limit) {
-		
+
 		String joinedKeywords = StringUtils.join(
 				keywords.toLowerCase().split(" "), "%");
 		joinedKeywords = "%" + joinedKeywords + "%";
-		
+
 		CriteriaQuery<Tuple> query = builder.createTupleQuery();
 		Root<FeedEntry> root = query.from(FeedEntry.class);
 
@@ -148,7 +153,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		predicates
 				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
-		
+
 		Predicate content = builder.like(
 				builder.lower(contentJoin.get(FeedEntryContent_.content)),
 				joinedKeywords);
@@ -522,7 +527,10 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	private void setTimeout(Query query) {
-		query.setHint("javax.persistence.query.timeout", 20000);
+		int queryTimeout = applicationSettingsService.get().getQueryTimeout();
+		if (queryTimeout > 0) {
+			query.setHint("javax.persistence.query.timeout", queryTimeout);
+		}
 	}
 
 	public void markSubscriptionEntries(FeedSubscription subscription,

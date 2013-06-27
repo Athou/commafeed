@@ -218,17 +218,28 @@
 	</changeSet>
 	
 	<changeSet author="athou" id="add-user-created">
+		<validCheckSum>3:b1bbf8d559ac25b785751704f2d24a91</validCheckSum>
 		<addColumn tableName="USERS">
 		    <column name="created" type="DATETIME" />
 		</addColumn>
-		<sql>update USERS set created = lastLogin</sql>
 	</changeSet>	
 		
 	<changeSet author="athou" id="add-proxy-setting">
 		<addColumn tableName="APPLICATIONSETTINGS">
 		    <column name="imageProxyEnabled" type="BIT" />
 		</addColumn>
-		<sql>update APPLICATIONSETTINGS set imageProxyEnabled=false</sql>
+		<update tableName="APPLICATIONSETTINGS">
+			<column name="imageProxyEnabled" valueBoolean="false"></column>
+		</update>	
+	</changeSet>
+	
+	<changeSet author="athou" id="add-query-timeout-setting">
+		<addColumn tableName="APPLICATIONSETTINGS">
+		    <column name="queryTimeout" type="INT" />
+		</addColumn>
+		<update tableName="APPLICATIONSETTINGS">
+			<column name="queryTimeout" valueNumeric="0"></column>
+		</update>	
 	</changeSet>
 
 </databaseChangeLog>

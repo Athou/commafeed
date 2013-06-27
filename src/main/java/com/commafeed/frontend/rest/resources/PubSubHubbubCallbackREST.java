@@ -26,6 +26,7 @@ import com.commafeed.backend.feeds.FeedParser;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
 import com.commafeed.backend.feeds.FetchedFeed;
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 
 @Path("/push")
@@ -46,6 +47,9 @@ public class PubSubHubbubCallbackREST {
 	@Inject
 	FeedRefreshTaskGiver taskGiver;
 
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
+
 	@Path("/callback")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
@@ -54,6 +58,8 @@ public class PubSubHubbubCallbackREST {
 			@QueryParam("hub.challenge") String challenge,
 			@QueryParam("hub.lease_seconds") String leaseSeconds,
 			@QueryParam("hub.verify_token") String verifyToken) {
+		Preconditions.checkState(applicationSettingsService.get().isPubsubhubbub());
+		
 		Preconditions.checkArgument(StringUtils.isNotEmpty(topic));
 		Preconditions.checkArgument("subscribe".equals(mode));
 
@@ -79,6 +85,7 @@ public class PubSubHubbubCallbackREST {
 	@POST
 	@Consumes({ MediaType.APPLICATION_ATOM_XML, "application/rss+xml" })
 	public Response callback() {
+		Preconditions.checkState(applicationSettingsService.get().isPubsubhubbub());
 		try {
 			byte[] bytes = IOUtils.toByteArray(request.getInputStream());
 			FetchedFeed fetchedFeed = parser.parse(null, bytes);

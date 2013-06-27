@@ -202,8 +202,8 @@ public class HttpGetter {
 		HttpParams params = client.getParams();
 		HttpClientParams.setCookiePolicy(params, CookiePolicy.IGNORE_COOKIES);
 		HttpProtocolParams.setContentCharset(params, "UTF-8");
-		HttpConnectionParams.setConnectionTimeout(params, 4000);
-		HttpConnectionParams.setSoTimeout(params, 4000);
+		HttpConnectionParams.setConnectionTimeout(params, 20000);
+		HttpConnectionParams.setSoTimeout(params, 20000);
 		client.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(0,
 				false));
 		return new DecompressingHttpClient(client);

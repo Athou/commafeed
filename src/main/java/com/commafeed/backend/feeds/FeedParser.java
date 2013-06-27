@@ -94,7 +94,7 @@ public class FeedParser {
 						FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink()),
 						2048));
 				entry.setUpdated(validateDate(getEntryUpdateDate(item)));
-				entry.setAuthor(FeedUtils.truncate(item.getAuthor(), 128));
+				entry.setAuthor(item.getAuthor());
 
 				FeedEntryContent content = new FeedEntryContent();
 				content.setContent(getContent(item));

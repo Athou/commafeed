@@ -42,6 +42,8 @@ public class FeedUpdateService {
 
 		FeedEntry update = null;
 		if (existing == null) {
+			entry.setAuthor(FeedUtils.truncate(FeedUtils.handleContent(
+					entry.getAuthor(), feed.getLink(), true), 128));
 			FeedEntryContent content = entry.getContent();
 			content.setTitle(FeedUtils.truncate(FeedUtils.handleContent(
 					content.getTitle(), feed.getLink(), true), 2048));
@@ -70,5 +72,4 @@ public class FeedUpdateService {
 			metricsBean.entryUpdated(statusUpdateList.size());
 		}
 	}
-
 }

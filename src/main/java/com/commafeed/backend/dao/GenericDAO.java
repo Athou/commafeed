@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Attribute;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.commafeed.backend.model.AbstractModel;
@@ -117,20 +118,39 @@ public abstract class GenericDAO<T extends AbstractModel> {
 	}
 
 	protected <V> List<T> findByField(Attribute<T, V> field, V value) {
+		return findByField(field, value, false);
+	}
+
+	protected <V> List<T> findByField(Attribute<T, V> field, V value,
+			boolean cache) {
 		CriteriaQuery<T> query = builder.createQuery(getType());
 		Root<T> root = query.from(getType());
 
 		query.where(builder.equal(root.get(field.getName()), value));
+		TypedQuery<T> q = em.createQuery(query);
+		if (cache) {
+			cache(q);
+		}
 		return em.createQuery(query).getResultList();
 	}
 
-	protected void limit(TypedQuery<?> query, int offset, int limit) {
+	protected <Q> void limit(TypedQuery<Q> query, int offset, int limit) {
 		if (offset > -1) {
 			query.setFirstResult(offset);
 		}
 		if (limit > -1) {
 			query.setMaxResults(limit);
 		}
+	}
+
+	protected <Q> TypedQuery<Q> readOnly(TypedQuery<Q> query) {
+		query.unwrap(Query.class).setReadOnly(true);
+		return query;
+	}
+
+	protected <Q> TypedQuery<Q> cache(TypedQuery<Q> query) {
+		query.unwrap(Query.class).setCacheable(true);
+		return query;
 	}
 
 	@SuppressWarnings("unchecked")

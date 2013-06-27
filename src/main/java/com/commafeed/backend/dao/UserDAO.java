@@ -21,7 +21,8 @@ public class UserDAO extends GenericDAO<User> {
 		query.where(builder.equal(builder.lower(root.get(User_.name)),
 				name.toLowerCase()));
 		TypedQuery<User> q = em.createQuery(query);
-
+		cache(q);
+		
 		User user = null;
 		try {
 			user = q.getSingleResult();
@@ -36,7 +37,8 @@ public class UserDAO extends GenericDAO<User> {
 		Root<User> root = query.from(getType());
 		query.where(builder.equal(root.get(User_.apiKey), key));
 		TypedQuery<User> q = em.createQuery(query);
-
+		cache(q);
+		
 		User user = null;
 		try {
 			user = q.getSingleResult();

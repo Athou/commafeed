@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
@@ -50,12 +51,18 @@ public class UserService {
 			boolean authenticated = encryptionService.authenticate(password,
 					user.getPassword(), user.getSalt());
 			if (authenticated) {
-				user.setLastLogin(new Date());
-				userDAO.saveOrUpdate(user);
+				Date lastLogin = user.getLastLogin();
+				Date now = new Date();
+				// only update lastLogin field every hour in order to not
+				// invalidate the cache everytime someone logs in
+				if (lastLogin == null
+						|| lastLogin.before(DateUtils.addHours(now, -1))) {
+					user.setLastLogin(now);
+					userDAO.saveOrUpdate(user);
+				}
 				return user;
 			}
 		}
-
 		return null;
 	}
 

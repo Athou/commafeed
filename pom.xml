@@ -334,7 +334,7 @@
 		<dependency>
 			<groupId>ro.isdc.wro4j</groupId>
 			<artifactId>wro4j-extensions</artifactId>
-			<version>1.7.0</version>
+			<version>1.6.3</version>
 		</dependency>
 
 		<dependency>
@@ -380,7 +380,7 @@
 					<plugin>
 						<groupId>ro.isdc.wro4j</groupId>
 						<artifactId>wro4j-maven-plugin</artifactId>
-						<version>1.7.0</version>
+						<version>1.6.3</version>
 						<executions>
 							<execution>
 								<id>js</id>
@@ -517,7 +517,7 @@
 					<plugin>
 						<groupId>ro.isdc.wro4j</groupId>
 						<artifactId>wro4j-maven-plugin</artifactId>
-						<version>1.7.0</version>
+						<version>1.6.3</version>
 						<executions>
 							<execution>
 								<goals>

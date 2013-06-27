@@ -8,11 +8,16 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.Hibernate;
+
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
+import com.commafeed.backend.model.FeedCategory_;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.FeedSubscription_;
+import com.commafeed.backend.model.Feed_;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.model.User_;
 import com.google.common.collect.Iterables;
 
 @Stateless
@@ -22,7 +27,8 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 		CriteriaQuery<FeedSubscription> query = builder.createQuery(getType());
 		Root<FeedSubscription> root = query.from(getType());
 
-		Predicate p1 = builder.equal(root.get(FeedSubscription_.user), user);
+		Predicate p1 = builder.equal(
+				root.get(FeedSubscription_.user).get(User_.id), user.getId());
 		Predicate p2 = builder.equal(root.get(FeedSubscription_.id), id);
 
 		root.fetch(FeedSubscription_.feed, JoinType.LEFT);
@@ -30,11 +36,22 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 
 		query.where(p1, p2);
 
-		return Iterables.getFirst(em.createQuery(query).getResultList(), null);
+		FeedSubscription sub = Iterables.getFirst(cache(em.createQuery(query))
+				.getResultList(), null);
+		initRelations(sub);
+		return sub;
 	}
 
 	public List<FeedSubscription> findByFeed(Feed feed) {
-		return findByField(FeedSubscription_.feed, feed);
+		CriteriaQuery<FeedSubscription> query = builder.createQuery(getType());
+		Root<FeedSubscription> root = query.from(getType());
+
+		query.where(builder.equal(root.get(FeedSubscription_.feed)
+				.get(Feed_.id), feed.getId()));
+		List<FeedSubscription> list = cache(em.createQuery(query))
+				.getResultList();
+		initRelations(list);
+		return list;
 	}
 
 	public FeedSubscription findByFeed(User user, Feed feed) {
@@ -42,15 +59,20 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 		CriteriaQuery<FeedSubscription> query = builder.createQuery(getType());
 		Root<FeedSubscription> root = query.from(getType());
 
-		Predicate p1 = builder.equal(root.get(FeedSubscription_.user), user);
-		Predicate p2 = builder.equal(root.get(FeedSubscription_.feed), feed);
+		Predicate p1 = builder.equal(
+				root.get(FeedSubscription_.user).get(User_.id), user.getId());
+		Predicate p2 = builder.equal(
+				root.get(FeedSubscription_.feed).get(Feed_.id), feed.getId());
 
 		root.fetch(FeedSubscription_.feed, JoinType.LEFT);
 		root.fetch(FeedSubscription_.category, JoinType.LEFT);
 
 		query.where(p1, p2);
 
-		return Iterables.getFirst(em.createQuery(query).getResultList(), null);
+		FeedSubscription sub = Iterables.getFirst(cache(em.createQuery(query))
+				.getResultList(), null);
+		initRelations(sub);
+		return sub;
 	}
 
 	public List<FeedSubscription> findAll(User user) {
@@ -61,9 +83,13 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 		root.fetch(FeedSubscription_.feed, JoinType.LEFT);
 		root.fetch(FeedSubscription_.category, JoinType.LEFT);
 
-		query.where(builder.equal(root.get(FeedSubscription_.user), user));
+		query.where(builder.equal(root.get(FeedSubscription_.user)
+				.get(User_.id), user.getId()));
 
-		return em.createQuery(query).getResultList();
+		List<FeedSubscription> list = cache(em.createQuery(query))
+				.getResultList();
+		initRelations(list);
+		return list;
 	}
 
 	public List<FeedSubscription> findByCategory(User user,
@@ -72,25 +98,30 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 		CriteriaQuery<FeedSubscription> query = builder.createQuery(getType());
 		Root<FeedSubscription> root = query.from(getType());
 
-		Predicate p1 = builder.equal(root.get(FeedSubscription_.user), user);
-		Predicate p2 = builder.equal(root.get(FeedSubscription_.category),
-				category);
+		Predicate p1 = builder.equal(
+				root.get(FeedSubscription_.user).get(User_.id), user.getId());
+		Predicate p2 = builder.equal(
+				root.get(FeedSubscription_.category).get(FeedCategory_.id),
+				category.getId());
 
 		query.where(p1, p2);
 
-		return em.createQuery(query).getResultList();
+		List<FeedSubscription> list = cache(em.createQuery(query))
+				.getResultList();
+		initRelations(list);
+		return list;
 	}
 
-	public List<FeedSubscription> findWithoutCategories(User user) {
+	private void initRelations(List<FeedSubscription> list) {
+		for (FeedSubscription sub : list) {
+			initRelations(sub);
+		}
+	}
 
-		CriteriaQuery<FeedSubscription> query = builder.createQuery(getType());
-		Root<FeedSubscription> root = query.from(getType());
-
-		Predicate p1 = builder.equal(root.get(FeedSubscription_.user), user);
-		Predicate p2 = builder.isNull(root.get(FeedSubscription_.category));
-
-		query.where(p1, p2);
-
-		return em.createQuery(query).getResultList();
+	private void initRelations(FeedSubscription sub) {
+		if (sub != null) {
+			Hibernate.initialize(sub.getFeed());
+			Hibernate.initialize(sub.getCategory());
+		}
 	}
 }

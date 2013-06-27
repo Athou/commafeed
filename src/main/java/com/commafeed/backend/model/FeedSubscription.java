@@ -24,16 +24,19 @@ public class FeedSubscription extends AbstractModel {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
+	@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
+	@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 	private Feed feed;
 
 	@Column(length = 128, nullable = false)
 	private String title;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 	private FeedCategory category;
 
 	@OneToMany(mappedBy = "subscription", cascade = CascadeType.REMOVE)

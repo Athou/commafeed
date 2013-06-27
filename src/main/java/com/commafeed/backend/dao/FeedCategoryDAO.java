@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -13,33 +14,38 @@ import org.apache.commons.lang.ObjectUtils;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedCategory_;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.model.User_;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 @Stateless
 public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 
+	@SuppressWarnings("unchecked")
 	public List<FeedCategory> findAll(User user) {
 
 		CriteriaQuery<FeedCategory> query = builder.createQuery(getType());
 		Root<FeedCategory> root = query.from(getType());
+		Join<FeedCategory, User> userJoin = (Join<FeedCategory, User>) root
+				.fetch(FeedCategory_.user);
 
-		query.where(builder.equal(root.get(FeedCategory_.user), user));
-		root.fetch(FeedCategory_.user.getName());
+		query.where(builder.equal(userJoin.get(User_.id), user.getId()));
 
-		return em.createQuery(query).getResultList();
+		return cache(em.createQuery(query)).getResultList();
 	}
 
 	public FeedCategory findById(User user, Long id) {
 		CriteriaQuery<FeedCategory> query = builder.createQuery(getType());
 		Root<FeedCategory> root = query.from(getType());
 
-		Predicate p1 = builder.equal(root.get(FeedCategory_.user), user);
+		Predicate p1 = builder.equal(
+				root.get(FeedCategory_.user).get(User_.id), user.getId());
 		Predicate p2 = builder.equal(root.get(FeedCategory_.id), id);
 
 		query.where(p1, p2);
 
-		return Iterables.getFirst(em.createQuery(query).getResultList(), null);
+		return Iterables.getFirst(cache(em.createQuery(query)).getResultList(),
+				null);
 	}
 
 	public FeedCategory findByName(User user, String name, FeedCategory parent) {

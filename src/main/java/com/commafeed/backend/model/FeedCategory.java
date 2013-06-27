@@ -28,9 +28,11 @@ public class FeedCategory extends AbstractModel {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
+	@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 	private FeedCategory parent;
 
 	@OneToMany(mappedBy = "parent")

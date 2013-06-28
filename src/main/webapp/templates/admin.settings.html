@@ -146,8 +146,16 @@
 					<div class="control-group">
 						<label class="control-label" for="logLevel">Logging level</label>
 						<div class="controls">
-							<select name="logLevel" ng-model="settings.logLevel" ng-options="level for level in ['DEBUG', 'INFO', 'WARN', 'ERROR']">
+							<select name="logLevel" ng-model="settings.logLevel" class="input-block-level"
+								ng-options="level for level in ['DEBUG', 'INFO', 'WARN', 'ERROR']">
 							</select>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="logLevel">Database query timeout (ms)</label>
+						<div class="controls">
+							<input type="number" name="queryTimeout" class="input-block-level"
+								ng-model="settings.queryTimeout" />
 						</div>
 					</div>
 				</div>

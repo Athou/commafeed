@@ -18,41 +18,32 @@ module.directive('focus', [ '$timeout', function($timeout) {
 /**
  * Open a popup window pointing to the url in the href attribute
  */
-module
-		.directive(
-				'popup',
-				function() {
-					return {
-						link : function(scope, elm, attrs) {
-							elm
-									.bind(
-											'click',
-											function(event) {
-												window
-														.open(this.href, '',
-																'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=800');
-												event.preventDefault();
-											});
-						}
-					};
-				});
+module.directive('popup', function() {
+	var opts = 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=800';
+	return {
+		link : function(scope, elm, attrs) {
+			elm.bind('click', function(event) {
+				window.open(this.href, '', opts);
+				event.preventDefault();
+			});
+		}
+	};
+});
 
 /**
  * Reusable favicon component
  */
-module
-		.directive(
-				'favicon',
-				function() {
-					return {
-						restrict : 'E',
-						scope : {
-							url : '='
-						},
-						replace : true,
-						template : '<img ng-src="{{url}}" class="favicon"></img>'
-					};
-				});
+module.directive('favicon', function() {
+	var tpl = '<img ng-src="{{url}}" class="favicon"></img>';
+	return {
+		restrict : 'E',
+		scope : {
+			url : '='
+		},
+		replace : true,
+		template : tpl
+	};
+});
 
 /**
  * Support for the blur event

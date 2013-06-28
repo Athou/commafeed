@@ -172,11 +172,13 @@ public class FeedRefreshUpdater {
 			locked = lock.tryLock(1, TimeUnit.MINUTES);
 			if (locked) {
 				if (!cache.hasFeedEntry(feed, entry)) {
-					log.info("cache miss for {}", entry.getUrl());
+					log.debug("cache miss for {}", entry.getUrl());
 					feedUpdateService.updateEntry(feed, entry, subscriptions);
 					cache.putFeedEntry(feed, entry);
+					metricsBean.entryCacheMiss();
 				} else {
-					log.info("cache hit for {}", entry.getUrl());
+					log.debug("cache hit for {}", entry.getUrl());
+					metricsBean.entryCacheHit();
 				}
 				success = true;
 			} else {

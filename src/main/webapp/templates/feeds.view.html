@@ -106,5 +106,5 @@
 			<div ng-include="'templates/_shortcuts.html'"></div>
 		</div>
 	</div>
-	<div style="height: 1000px" ui-if="settingsService.settings.viewMode == 'expanded'"></div>
+	<div style="height: 1000px" ui-if="settingsService.settings.viewMode == 'expanded' && entries.length != 0"></div>
 </div>

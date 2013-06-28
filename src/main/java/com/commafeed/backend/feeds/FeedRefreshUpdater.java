@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.MetricsBean;
+import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -61,6 +62,9 @@ public class FeedRefreshUpdater {
 
 	@Inject
 	FeedEntryDAO feedEntryDAO;
+
+	@Inject
+	CacheService cache;
 
 	private ThreadPoolExecutor pool;
 	private Striped<Lock> locks;
@@ -167,7 +171,13 @@ public class FeedRefreshUpdater {
 		try {
 			locked = lock.tryLock(1, TimeUnit.MINUTES);
 			if (locked) {
-				feedUpdateService.updateEntry(feed, entry, subscriptions);
+				if (!cache.hasFeedEntry(feed, entry)) {
+					log.info("cache miss for {}", entry.getUrl());
+					feedUpdateService.updateEntry(feed, entry, subscriptions);
+					cache.putFeedEntry(feed, entry);
+				} else {
+					log.info("cache hit for {}", entry.getUrl());
+				}
 				success = true;
 			} else {
 				log.error("lock timeout for " + feed.getUrl() + " - " + key);

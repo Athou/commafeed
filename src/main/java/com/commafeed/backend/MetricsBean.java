@@ -1,6 +1,8 @@
 package com.commafeed.backend;
 
 import javax.ejb.Singleton;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -23,7 +25,8 @@ public class MetricsBean {
 	private long minuteTimestamp;
 	private long hourTimestamp;
 
-	public void feedRefreshed() {
+	@AroundInvoke
+	private Object roll(InvocationContext context) throws Exception {
 		long now = System.currentTimeMillis();
 		if (now - minuteTimestamp > 60000) {
 			lastMinute = thisMinute;
@@ -31,7 +34,6 @@ public class MetricsBean {
 			minuteTimestamp = now;
 
 		}
-		thisMinute.feedsRefreshed++;
 
 		if (now - hourTimestamp > 60000 * 60) {
 			lastHour = thisHour;
@@ -39,6 +41,11 @@ public class MetricsBean {
 			hourTimestamp = now;
 
 		}
+		return context.proceed();
+	}
+
+	public void feedRefreshed() {
+		thisMinute.feedsRefreshed++;
 		thisHour.feedsRefreshed++;
 	}
 

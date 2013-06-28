@@ -219,12 +219,14 @@
 	
 	<changeSet author="athou" id="add-user-created">
 		<validCheckSum>3:b1bbf8d559ac25b785751704f2d24a91</validCheckSum>
+		<validCheckSum>7:5bd8b28aadce012b56f003539ce99957</validCheckSum>
 		<addColumn tableName="USERS">
 		    <column name="created" type="DATETIME" />
 		</addColumn>
 	</changeSet>	
 		
 	<changeSet author="athou" id="add-proxy-setting">
+		<validCheckSum>7:ffca06665d2dc182bd3cb718e62e98f0</validCheckSum>
 		<addColumn tableName="APPLICATIONSETTINGS">
 		    <column name="imageProxyEnabled" type="BIT" />
 		</addColumn>

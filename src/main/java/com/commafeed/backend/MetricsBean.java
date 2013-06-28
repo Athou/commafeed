@@ -170,5 +170,21 @@ public class MetricsBean {
 			this.pushFeedsQueued = pushFeedsQueued;
 		}
 
+		public int getEntryCacheHit() {
+			return entryCacheHit;
+		}
+
+		public void setEntryCacheHit(int entryCacheHit) {
+			this.entryCacheHit = entryCacheHit;
+		}
+
+		public int getEntryCacheMiss() {
+			return entryCacheMiss;
+		}
+
+		public void setEntryCacheMiss(int entryCacheMiss) {
+			this.entryCacheMiss = entryCacheMiss;
+		}
+
 	}
 }

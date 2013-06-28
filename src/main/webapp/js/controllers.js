@@ -999,6 +999,63 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		});
 	});	
 	
+	Mousetrap.bind('space', function(e) {
+		if (!$scope.current) {
+			$scope.$apply(function() {
+				$scope.navigationMode = 'keyboard';
+				openNextEntry(e);
+			});	
+		} else if (!$scope.isOpen) {
+			$scope.$apply(function() {
+				$scope.navigationMode = 'keyboard';
+				if ($scope.current) {
+					openEntry($scope.current, e);
+				}
+			});
+		} else {
+			var docTop = $(window).scrollTop();
+			var docBottom = docTop + $(window).height();
+
+			var elem = $('#entry_' + $scope.current.id);
+			var elemTop = elem.offset().top;
+			var elemBottom = elemTop + elem.height();
+			
+			var bottomVisible = elemBottom < docBottom;
+			if (bottomVisible) {
+				$scope.$apply(function() {
+					$scope.navigationMode = 'keyboard';
+					openNextEntry(e);
+				});	
+			}
+		}
+	});
+	
+	Mousetrap.bind('shift+space', function(e) {
+		if (!$scope.current) {
+			return;
+		} else if (!$scope.isOpen) {
+			$scope.$apply(function() {
+				$scope.navigationMode = 'keyboard';
+				if ($scope.current) {
+					openEntry($scope.current, e);
+				}
+			});
+		} else {
+			var docTop = $(window).scrollTop();
+
+			var elem = $('#entry_' + $scope.current.id);
+			var elemTop = elem.offset().top;
+			
+			var topVisible = elemTop > docTop;
+			if (topVisible) {
+				$scope.$apply(function() {
+					$scope.navigationMode = 'keyboard';
+					openPreviousEntry(e);
+				});	
+			}
+		}
+	});
+	
 	Mousetrap.bind('?', function(e) {
 		$scope.$apply(function() {
 			$scope.shortcutsModal = true;

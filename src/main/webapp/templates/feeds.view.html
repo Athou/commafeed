@@ -14,7 +14,7 @@
 	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode" infinite-scroll-distance="1" id="feed-accordion"
 		ng-class="{'expanded' : settingsService.settings.viewMode == 'expanded' }">
 		<div ng-show="message && errorCount > 10">${view.error_while_loading_feed} : {{message}}</div>
-		<div ng-repeat="entry in entries" class="entry entry-font-size-{{font_size}}"
+		<div ng-repeat="entry in entries" class="entry entry-font-size-{{font_size}}" id="entry_{{entry.id}}"
 			scroll-to="navigationMode != 'scroll' && current == entry" scroll-to-force="navigationMode == 'keyboard'" scroll-to-offset="-50" 
 			on-scroll-middle="onScroll(entry)" on-scroll-middle-offset="50"  
 			ng-class="{unread: entry.read == false, current: current==entry, open: isOpen, closed: !isOpen }">

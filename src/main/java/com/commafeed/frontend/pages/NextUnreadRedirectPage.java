@@ -50,7 +50,7 @@ public class NextUnreadRedirectPage extends WebPage {
 				List<FeedCategory> children = feedCategoryDAO
 						.findAllChildrenCategories(user, category);
 				statuses = feedEntryStatusDAO.findUnreadByCategories(children,
-						null, 0, 1, ReadingOrder.desc, false);
+						null, 0, 1, ReadingOrder.desc, true);
 			}
 		}
 

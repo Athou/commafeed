@@ -100,9 +100,16 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 
 		Predicate p1 = builder.equal(
 				root.get(FeedSubscription_.user).get(User_.id), user.getId());
-		Predicate p2 = builder.equal(
-				root.get(FeedSubscription_.category).get(FeedCategory_.id),
-				category.getId());
+		Predicate p2 = null;
+		if (category == null) {
+			p2 = builder.isNull(
+					root.get(FeedSubscription_.category));
+		} else {
+			p2 = builder.equal(
+					root.get(FeedSubscription_.category).get(FeedCategory_.id),
+					category.getId());
+
+		}
 
 		query.where(p1, p2);
 

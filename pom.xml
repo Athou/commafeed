@@ -70,14 +70,14 @@
 				<version>2.3</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<webResources>
+					<webResources combine.children="append">
 						<resource>
 							<directory>${basedir}/src/main/webapp/WEB-INF</directory>
 							<targetPath>WEB-INF</targetPath>
 							<filtering>true</filtering>
 							<includes>
-    							<include>**/beans.xml</include>
-    						</includes>
+								<include>**/beans.xml</include>
+							</includes>
 						</resource>
 					</webResources>
 				</configuration>
@@ -561,6 +561,9 @@
 								<resource>
 									<directory>target/generated-sources/angularjs/</directory>
 									<targetPath>templates</targetPath>
+									<includes>
+										<include>**/*.html</include>
+									</includes>
 								</resource>
 							</webResources>
 						</configuration>

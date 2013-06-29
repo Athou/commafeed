@@ -36,11 +36,10 @@
 }
 
 #feed-accordion .entry-heading {
-	height: 20px;
-	display: block;
-	color: black;
-	cursor: pointer;
-	padding: 6px 0px;
+	background-color: #ebebeb;
+}
+
+#feed-accordion .unread .entry-heading:hover {
 	background-color: #ebebeb;
 }
 
@@ -48,12 +47,16 @@
 	background-color: #fff;
 }
 
-#feed-accordion .unread .entry-heading:hover {
-	background-color: #ebebeb;
-}
-
 #feed-accordion .current.closed .entry-heading {
 	background-color: #ffc;
+}
+
+#feed-accordion .entry-heading-link {
+	color: inherit;
+	height: 20px;
+	display: block;
+	cursor: pointer;
+	padding: 6px 0px;
 }
 
 #feed-accordion .entry-heading .feed-name {
@@ -71,7 +74,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	margin-right: 125px;
+	margin-right: 110px;
 }
 
 #feed-accordion .unread .entry-heading .entry-name {
@@ -87,7 +90,18 @@
 	float: right;
 }
 
-#feed-accordion a.entry-heading:hover {
+#feed-accordion a.entry-heading-link:hover {
+	text-decoration: none;
+}
+
+#feed-accordion .entry-external-link {
+	position: absolute;
+	right: 25px;
+	margin-top: -25px;
+	color: inherit;
+}
+
+#feed-accordion .entry-external-link:hover {
 	text-decoration: none;
 }
 

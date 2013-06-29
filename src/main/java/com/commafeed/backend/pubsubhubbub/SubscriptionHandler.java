@@ -68,7 +68,7 @@ public class SubscriptionHandler {
 		post.setHeader(HttpHeaders.CONTENT_TYPE,
 				MediaType.APPLICATION_FORM_URLENCODED);
 
-		HttpClient client = HttpGetter.newClient();
+		HttpClient client = HttpGetter.newClient(20000);
 		try {
 			post.setEntity(new UrlEncodedFormEntity(nvp));
 			HttpResponse response = client.execute(post);

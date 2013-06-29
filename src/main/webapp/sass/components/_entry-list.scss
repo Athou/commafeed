@@ -1,3 +1,8 @@
+.full-screen .main-content {
+	width: 100%;
+	margin-left: 0;
+}
+
 .entryList {
 	overflow: auto;
 	padding-right: 10px;
@@ -122,6 +127,10 @@
 	max-width: 650px;
 	color: black;
 	padding-bottom: 10px;
+}
+
+.full-screen #feed-accordion  .entry-body-content {
+	max-width: 100%;	
 }
 
 #feed-accordion .entry-enclosure {

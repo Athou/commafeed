@@ -645,6 +645,14 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	
 	AnalyticsService.track();
 
+	var maximizeEntryListOnResize = function(){
+		$('.entryList').css({ 'height': $($window).height() - ( $('.toolbar').height() || 50 ) });
+	};
+
+	$($window).resize(maximizeEntryListOnResize);
+	maximizeEntryListOnResize();
+
+
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;
 	$scope.keywords = $stateParams._keywords;
@@ -683,12 +691,12 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 
 		var limit = $scope.limit;
 		if ($scope.entries.length === 0) {
-			$window = angular.element($window);
+			var theEntryList = $('.entryList');
 			if (SettingsService.settings.viewMode == 'title') {
-				limit = $window.height() / 33;
+				limit = theEntryList.height() / 33;
 				limit = parseInt(limit, 10) + 5;
 			} else {
-				limit = $window.height() / 97;
+				limit = theEntryList.height() / 97;
 				limit = parseInt(limit, 10) + 1;
 			}
 		}
@@ -1013,8 +1021,8 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 				}
 			});
 		} else {
-			var docTop = $(window).scrollTop();
-			var docBottom = docTop + $(window).height();
+			var docTop = $('.entryList').scrollTop();
+			var docBottom = docTop + $('.entryList').height();
 
 			var elem = $('#entry_' + $scope.current.id);
 			var elemTop = elem.offset().top;

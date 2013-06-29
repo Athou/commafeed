@@ -67,7 +67,7 @@ module.directive('onScrollMiddle', function() {
 		restrict : 'A',
 		link : function(scope, element, attrs) {
 
-			var w = $(window);
+			var w = $('.entryList');
 			var e = $(element);
 			var d = $(document);
 			

@@ -10,6 +10,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedDAO;
@@ -20,6 +22,8 @@ import com.google.common.collect.Queues;
 
 @Singleton
 public class FeedRefreshTaskGiver {
+
+	protected static final Logger log = LoggerFactory.getLogger(FeedRefreshTaskGiver.class);
 
 	@Inject
 	FeedDAO feedDAO;

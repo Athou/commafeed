@@ -18,6 +18,15 @@
 
 .expanded .entry-header,.expanded .entry-body-content {
 	padding-left: 25px;
+	padding-right: 25px;
+}
+
+.expanded .entry-header {
+	max-width: 650px;
+}
+
+.full-screen .expanded .entry-header {
+	max-width: 100%;
 }
 
 .rtl .entry-header,.rtl .entry-body-content,.rtl.entry-name {
@@ -78,7 +87,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	margin-right: 110px;
+	margin-right: 150px;
 }
 
 #feed-accordion .unread .entry-heading .entry-name {

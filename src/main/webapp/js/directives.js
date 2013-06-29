@@ -359,6 +359,7 @@ module.directive('draggable', function() {
 			element.draggable({
 				revert: 'invalid',
 				helper: 'clone',
+				distance: 10,
 				axis: 'y'
 			}).data('source', scope.$eval(attrs.draggable));
 		}

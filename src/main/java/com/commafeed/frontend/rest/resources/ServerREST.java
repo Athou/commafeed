@@ -40,7 +40,7 @@ public class ServerREST extends AbstractResourceREST {
 		
 		url = FeedUtils.imageProxyDecoder(url);
 		try {
-			HttpResult result = httpGetter.getBinary(url);
+			HttpResult result = httpGetter.getBinary(url, 20000);
 			return Response.ok(result.getContent()).build();
 		} catch (Exception e) {
 			return Response.status(Status.SERVICE_UNAVAILABLE)

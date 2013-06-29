@@ -25,6 +25,7 @@ public class FaviconFetcher {
 
 	private static long MIN_ICON_LENGTH = 100;
 	private static long MAX_ICON_LENGTH = 20000;
+	private static int TIMEOUT = 4000;
 
 	protected static List<String> ICON_MIMETYPES = Arrays.asList(
 			"image/x-icon", "image/vnd.microsoft.icon", "image/ico",
@@ -70,7 +71,7 @@ public class FaviconFetcher {
 		try {
 			url = FeedUtils.removeTrailingSlash(url) + "/favicon.ico";
 			log.debug("getting root icon at {}", url);
-			HttpResult result = getter.getBinary(url);
+			HttpResult result = getter.getBinary(url, TIMEOUT);
 			bytes = result.getContent();
 			contentType = result.getContentType();
 		} catch (Exception e) {
@@ -118,7 +119,7 @@ public class FaviconFetcher {
 
 		Document doc = null;
 		try {
-			HttpResult result = getter.getBinary(url);
+			HttpResult result = getter.getBinary(url, TIMEOUT);
 			doc = Jsoup.parse(new String(result.getContent()), url);
 		} catch (Exception e) {
 			log.debug("Failed to retrieve page to find icon");
@@ -144,7 +145,7 @@ public class FaviconFetcher {
 		byte[] bytes = null;
 		String contentType = null;
 		try {
-			HttpResult result = getter.getBinary(href);
+			HttpResult result = getter.getBinary(href, TIMEOUT);
 			bytes = result.getContent();
 			contentType = result.getContentType();
 		} catch (Exception e) {

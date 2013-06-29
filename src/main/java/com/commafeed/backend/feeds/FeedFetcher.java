@@ -37,12 +37,13 @@ public class FeedFetcher {
 		log.debug("Fetching feed {}", feedUrl);
 		FetchedFeed fetchedFeed = null;
 
-		HttpResult result = getter.getBinary(feedUrl, lastModified, eTag);
+		int timeout = 20000;
+		HttpResult result = getter.getBinary(feedUrl, lastModified, eTag, timeout);
 		if (extractFeedUrlFromHtml) {
 			String extractedUrl = extractFeedUrl(
 					StringUtils.newStringUtf8(result.getContent()), feedUrl);
 			if (org.apache.commons.lang.StringUtils.isNotBlank(extractedUrl)) {
-				result = getter.getBinary(extractedUrl, lastModified, eTag);
+				result = getter.getBinary(extractedUrl, lastModified, eTag, timeout);
 				feedUrl = extractedUrl;
 			}
 		}

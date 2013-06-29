@@ -59,9 +59,9 @@ public class HttpGetter {
 
 	private static final X509HostnameVerifier VERIFIER = new DefaultHostnameVerifier();
 
-	public HttpResult getBinary(String url) throws ClientProtocolException,
+	public HttpResult getBinary(String url, int timeout) throws ClientProtocolException,
 			IOException, NotModifiedException {
-		return getBinary(url, null, null);
+		return getBinary(url, null, null, timeout);
 	}
 
 	/**
@@ -78,12 +78,12 @@ public class HttpGetter {
 	 * @throws NotModifiedException
 	 *             if the url hasn't changed since we asked for it last time
 	 */
-	public HttpResult getBinary(String url, String lastModified, String eTag)
+	public HttpResult getBinary(String url, String lastModified, String eTag, int timeout)
 			throws ClientProtocolException, IOException, NotModifiedException {
 		HttpResult result = null;
 		long start = System.currentTimeMillis();
 
-		HttpClient client = newClient();
+		HttpClient client = newClient(timeout);
 		try {
 			HttpGet httpget = new HttpGet(url);
 			httpget.addHeader(HttpHeaders.ACCEPT_LANGUAGE, "en");
@@ -191,7 +191,7 @@ public class HttpGetter {
 
 	}
 
-	public static HttpClient newClient() {
+	public static HttpClient newClient(int timeout) {
 		DefaultHttpClient client = new SystemDefaultHttpClient();
 
 		SSLSocketFactory ssf = new SSLSocketFactory(SSL_CONTEXT, VERIFIER);
@@ -202,8 +202,8 @@ public class HttpGetter {
 		HttpParams params = client.getParams();
 		HttpClientParams.setCookiePolicy(params, CookiePolicy.IGNORE_COOKIES);
 		HttpProtocolParams.setContentCharset(params, "UTF-8");
-		HttpConnectionParams.setConnectionTimeout(params, 20000);
-		HttpConnectionParams.setSoTimeout(params, 20000);
+		HttpConnectionParams.setConnectionTimeout(params, timeout);
+		HttpConnectionParams.setSoTimeout(params, timeout);
 		client.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(0,
 				false));
 		return new DecompressingHttpClient(client);

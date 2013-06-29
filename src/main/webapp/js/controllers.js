@@ -1056,6 +1056,10 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		}
 	});
 	
+	Mousetrap.bind('f', function(e) {
+		$('body').toggleClass('full-screen');
+	});
+	
 	Mousetrap.bind('?', function(e) {
 		$scope.$apply(function() {
 			$scope.shortcutsModal = true;

@@ -19,16 +19,20 @@
 }
 
 /*hovered item*/
-.entry-heading:hover{box-shadow: inset 0 0 40px 0px lime}
+.entry-heading:hover{box-shadow: inset 0 0 40px 0px lime !important;}
 /*hovered tree item*/
-.css-treeview li .tree-item:hover{box-shadow: inset 0px 0px 20px 0px hsla(7,63%,52%,1)}
+/*.css-treeview li .tree-item:hover{box-shadow: inset 0 0 20px 0px hsla(7,63%,52%,1) !important;}*/
+.css-treeview li .tree-item:hover{box-shadow: inset 0 0 20px 0px lime !important;}
+/*highlight current selected tree item*/
+.css-treeview li .tree-item .selected{box-shadow: inset 0 0 20px 0px lime !important;}
 
 .css-treeview .indent1{padding-left:10px}
 .css-treeview .indent2{padding-left:20px}
 .css-treeview .indent3{padding-left:30px}
 .css-treeview .indent4{padding-left:40px}
 .css-treeview .indent5{padding-left:50px}
-  body {
+
+body {
 		background-color: black;
 	}	
 }

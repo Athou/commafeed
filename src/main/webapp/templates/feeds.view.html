@@ -18,19 +18,23 @@
 			scroll-to="navigationMode != 'scroll' && current == entry" scroll-to-force="navigationMode == 'keyboard'" scroll-to-offset="-50" 
 			on-scroll-middle="onScroll(entry)" on-scroll-middle-offset="50"  
 			ng-class="{unread: entry.read == false, current: current==entry, open: isOpen, closed: !isOpen }">
-			<a href="{{entry.url}}" target="_blank" class="entry-heading" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)">
-				<span class="feed-name visible-desktop">
-					<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
-						<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}"
-							class="pointer"></i>
+			<div class="entry-heading">
+				<a href="{{entry.url}}" target="_blank" class="entry-heading-link" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)">
+					<span class="feed-name visible-desktop">
+						<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
+							<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}"
+								class="pointer"></i>
+						</span>
+						<favicon url="entry.iconUrl" />
+						{{entry.feedName}}
 					</span>
-					<favicon url="entry.iconUrl" />
-					{{entry.feedName}}
-				</span>
-				<span class="entry-date visible-desktop">{{entry.date | entryDate}}</span>
-				<span class="entry-name" ng-class="{shrink: true, rtl: entry.rtl}" ng-bind-html-unsafe="entry.title"></span>
-				
-			</a>
+					<span class="entry-date visible-desktop">{{entry.date | entryDate}}</span>
+					<span class="entry-name" ng-class="{shrink: true, rtl: entry.rtl}" ng-bind-html-unsafe="entry.title"></span>
+				</a>
+				<a href="{{entry.url}}" target="_blank" class="entry-external-link" ng-click="mark(entry, true)">
+					<i class="icon-external-link"></i>
+				</a>
+			</div>
 			<div class="entry-body" ui-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)" ng-mouseup="bodyClicked(entry, $event)"
 				ng-class="{rtl: entry.rtl}">
 				<div class="entry-header">

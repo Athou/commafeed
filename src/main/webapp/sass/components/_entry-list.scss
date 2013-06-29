@@ -62,6 +62,7 @@
 	display: block;
 	cursor: pointer;
 	padding: 6px 0px;
+    margin-right: 25px;
 }
 
 #feed-accordion .entry-heading .feed-name {
@@ -100,10 +101,10 @@
 }
 
 #feed-accordion .entry-external-link {
-	position: absolute;
-	right: 25px;
+    float: right;
 	margin-top: -25px;
 	color: inherit;
+    margin-right: 5px;
 }
 
 #feed-accordion .entry-external-link:hover {

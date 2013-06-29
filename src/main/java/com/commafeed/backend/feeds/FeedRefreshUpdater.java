@@ -31,6 +31,7 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.pubsubhubbub.SubscriptionHandler;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedUpdateService;
+import com.google.api.client.util.Lists;
 import com.google.common.util.concurrent.Striped;
 
 @Singleton
@@ -141,9 +142,21 @@ public class FeedRefreshUpdater {
 			if (entries.isEmpty() == false) {
 				List<FeedSubscription> subscriptions = feedSubscriptionDAO
 						.findByFeed(feed);
+				List<String> lastEntries = cache.getLastEntries(feed);
+				List<String> currentEntries = Lists.newArrayList();
 				for (FeedEntry entry : entries) {
-					ok &= updateEntry(feed, entry, subscriptions);
+					String cacheKey = cache.buildKey(feed, entry);
+					if (!lastEntries.contains(cacheKey)) {
+						log.debug("cache miss for {}", entry.getUrl());
+						ok &= updateEntry(feed, entry, subscriptions);
+						metricsBean.entryCacheMiss();
+					} else {
+						log.debug("cache hit for {}", entry.getUrl());
+						metricsBean.entryCacheHit();
+					}
+					currentEntries.add(cacheKey);
 				}
+				cache.setLastEntries(feed, currentEntries);
 			}
 
 			if (applicationSettingsService.get().isPubsubhubbub()) {
@@ -171,15 +184,7 @@ public class FeedRefreshUpdater {
 		try {
 			locked = lock.tryLock(1, TimeUnit.MINUTES);
 			if (locked) {
-				if (!cache.hasFeedEntry(feed, entry)) {
-					log.debug("cache miss for {}", entry.getUrl());
-					feedUpdateService.updateEntry(feed, entry, subscriptions);
-					cache.putFeedEntry(feed, entry);
-					metricsBean.entryCacheMiss();
-				} else {
-					log.debug("cache hit for {}", entry.getUrl());
-					metricsBean.entryCacheHit();
-				}
+				feedUpdateService.updateEntry(feed, entry, subscriptions);
 				success = true;
 			} else {
 				log.error("lock timeout for " + feed.getUrl() + " - " + key);

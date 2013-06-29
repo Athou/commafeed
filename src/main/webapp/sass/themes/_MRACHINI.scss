@@ -1,0 +1,34 @@
+#theme-MRACHINI {
+/*transitional hightlighting*/
+.entry-title > a.ng-binding:link, .entry-body-content > div.ng-binding a:link{
+	-moz-transition: background-color 1s ease-in 0s;
+	-webkit-transition: background-color 1s ease-in 0s;
+	-o-transition: background-color 1s ease-in 0s;
+}
+.entry-title > a.ng-binding:hover, .entry-body-content > div.ng-binding a:hover{
+	background-color: lime;
+	-moz-transition: background-color 1s ease-out 0s;
+	-webkit-transition: background-color 1s ease-out 0s;
+	-o-transition: background-color 1s ease-out 0s;
+}
+.entry-title > a.ng-binding:active, .entry-body-content > div.ng-binding a:active{
+	background-color: lime;
+	-moz-transition: none;
+	-webkit-transition: none;
+	-o-transition: none;
+}
+
+/*hovered item*/
+.entry-heading:hover{box-shadow: inset 0 0 40px 0px lime !important;}
+/*hovered tree item*/
+/*.css-treeview li .tree-item:hover{box-shadow: inset 0 0 20px 0px hsla(7,63%,52%,1) !important;}*/
+.css-treeview li .tree-item:hover{box-shadow: inset 0 0 20px 0px lime !important;}
+/*highlight current selected tree item*/
+.css-treeview li .tree-item .selected{box-shadow: inset 0 0 20px 0px lime !important;}
+
+.css-treeview .indent1{padding-left:10px}
+.css-treeview .indent2{padding-left:20px}
+.css-treeview .indent3{padding-left:30px}
+.css-treeview .indent4{padding-left:40px}
+.css-treeview .indent5{padding-left:50px}
+}

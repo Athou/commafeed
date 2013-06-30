@@ -40,6 +40,7 @@ import com.commafeed.backend.feeds.FaviconFetcher;
 import com.commafeed.backend.feeds.FeedFetcher;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
 import com.commafeed.backend.feeds.FeedRefreshUpdater;
+import com.commafeed.backend.feeds.FeedRefreshWorker;
 import com.commafeed.backend.feeds.OPMLExporter;
 import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.User;
@@ -119,6 +120,9 @@ public abstract class AbstractREST {
 
 	@Inject
 	FeedRefreshTaskGiver taskGiver;
+
+	@Inject
+	FeedRefreshWorker feedRefreshWorker;
 
 	@Inject
 	FeedRefreshUpdater feedRefreshUpdater;

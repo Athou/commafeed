@@ -3,21 +3,26 @@ package com.commafeed.backend.feeds;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.mutable.MutableBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedEntryDAO;
+import com.commafeed.backend.feeds.FeedRefreshExecutor.Task;
+import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.sun.syndication.io.FeedException;
 
+@ApplicationScoped
 public class FeedRefreshWorker {
 
 	private static Logger log = LoggerFactory
@@ -41,40 +46,45 @@ public class FeedRefreshWorker {
 	@Inject
 	FeedEntryDAO feedEntryDAO;
 
-	public void start(MutableBoolean running, String threadName) {
-		log.info("{} starting", threadName);
+	private FeedRefreshExecutor pool;
 
-		try {
-			// sleeping before starting, let everything settle
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			log.error(threadName + e.getMessage(), e);
+	@PostConstruct
+	private void init() {
+		ApplicationSettings settings = applicationSettingsService.get();
+		int threads = settings.getBackgroundThreads();
+		log.info("Creating refresh worker pool with {} threads", threads);
+		pool = new FeedRefreshExecutor("FeedRefreshUpdater", threads, 20 * threads);
+	}
+
+	@PreDestroy
+	public void shutdown() {
+		pool.shutdown();
+	}
+
+	public void updateFeed(Feed feed) {
+		pool.execute(new FeedTask(feed));
+	}
+	
+	public int getQueueSize(){
+		return pool.getQueueSize();
+	}
+
+	private class FeedTask implements Task {
+
+		private Feed feed;
+
+		public FeedTask(Feed feed) {
+			this.feed = feed;
 		}
 
-		while (running.isTrue()) {
-			Feed feed = null;
-			try {
-				feed = getNextFeed();
-				if (feed != null) {
-					log.debug("refreshing " + feed.getUrl());
-					update(feed);
-				} else {
-					log.debug("sleeping");
-					metricsBean.threadWaited();
-					Thread.sleep(15000);
-				}
-			} catch (InterruptedException e) {
-				log.info(threadName + " interrupted");
-				return;
-			} catch (Exception e) {
-				String feedUrl = "feed is null";
-				if (feed != null) {
-					feedUrl = feed.getUrl();
-				}
-				log.error(
-						threadName + " (" + feedUrl + ") : " + e.getMessage(),
-						e);
-			}
+		@Override
+		public void run() {
+			update(feed);
+		}
+
+		@Override
+		public boolean isUrgent() {
+			return feed.isUrgent();
 		}
 	}
 
@@ -167,9 +177,4 @@ public class FeedRefreshWorker {
 			feed.setPushTopicHash(DigestUtils.sha1Hex(topic));
 		}
 	}
-
-	private Feed getNextFeed() {
-		return taskGiver.take();
-	}
-
 }

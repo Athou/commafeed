@@ -185,9 +185,10 @@ public class AdminREST extends AbstractResourceREST {
 		map.put("lastMinute", metricsBean.getLastMinute());
 		map.put("lastHour", metricsBean.getLastHour());
 		if (backlog) {
-			map.put("backlog", feedDAO.getUpdatableCount());
+			map.put("backlog", taskGiver.getUpdatableCount());
 		}
-		map.put("queue", feedRefreshUpdater.getQueueSize());
+		map.put("http_queue", feedRefreshWorker.getQueueSize());
+		map.put("database_queue", feedRefreshUpdater.getQueueSize());
 		map.put("cache", metricsBean.getCacheStats());
 
 		return Response.ok(map).build();

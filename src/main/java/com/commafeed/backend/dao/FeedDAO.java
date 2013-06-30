@@ -13,7 +13,6 @@ import javax.persistence.criteria.SetJoin;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
@@ -25,42 +24,41 @@ import com.google.common.collect.Lists;
 @Stateless
 public class FeedDAO extends GenericDAO<Feed> {
 
-	private List<Predicate> getUpdatablePredicates(Root<Feed> root) {
-		Date now = new Date();
+	private List<Predicate> getUpdatablePredicates(Root<Feed> root, Date threshold) {
 
 		Predicate hasSubscriptions = builder.isNotEmpty(root
 				.get(Feed_.subscriptions));
 
 		Predicate neverUpdated = builder.isNull(root.get(Feed_.lastUpdated));
 		Predicate updatedBeforeThreshold = builder.lessThan(
-				root.get(Feed_.lastUpdated), DateUtils.addMinutes(now, -10));
+				root.get(Feed_.lastUpdated), threshold);
 
 		Predicate disabledDateIsNull = builder.isNull(root
 				.get(Feed_.disabledUntil));
 		Predicate disabledDateIsInPast = builder.lessThan(
-				root.get(Feed_.disabledUntil), now);
+				root.get(Feed_.disabledUntil), new Date());
 
 		return Lists.newArrayList(hasSubscriptions,
 				builder.or(neverUpdated, updatedBeforeThreshold),
 				builder.or(disabledDateIsNull, disabledDateIsInPast));
 	}
 
-	public Long getUpdatableCount() {
+	public Long getUpdatableCount(Date threshold) {
 		CriteriaQuery<Long> query = builder.createQuery(Long.class);
 		Root<Feed> root = query.from(getType());
 
 		query.select(builder.count(root));
-		query.where(getUpdatablePredicates(root).toArray(new Predicate[0]));
+		query.where(getUpdatablePredicates(root, threshold).toArray(new Predicate[0]));
 
 		TypedQuery<Long> q = em.createQuery(query);
 		return q.getSingleResult();
 	}
 
-	public List<Feed> findNextUpdatable(int count) {
+	public List<Feed> findNextUpdatable(int count, Date threshold) {
 		CriteriaQuery<Feed> query = builder.createQuery(getType());
 		Root<Feed> root = query.from(getType());
 
-		query.where(getUpdatablePredicates(root).toArray(new Predicate[0]));
+		query.where(getUpdatablePredicates(root, threshold).toArray(new Predicate[0]));
 
 		query.orderBy(builder.asc(root.get(Feed_.lastUpdated)));
 

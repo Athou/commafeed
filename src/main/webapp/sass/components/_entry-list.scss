@@ -78,8 +78,11 @@
 	overflow: hidden;
 	white-space: nowrap;
 	position: absolute;
-	width: 145px;
 	text-overflow: ellipsis;
+}
+
+#feed-accordion .entry-heading .narrow {
+	width: 145px;
 }
 
 #feed-accordion .entry-heading .entry-name {

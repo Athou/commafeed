@@ -4,7 +4,8 @@
 }
 
 .entryList {
-	padding-top: 50px;
+	overflow: auto;
+	padding-right: 10px;
 }
 
 /* entry list*/
@@ -70,6 +71,7 @@
 	display: block;
 	cursor: pointer;
 	padding: 6px 0px;
+	margin-right: 25px;
 }
 
 #feed-accordion .entry-heading .feed-name {
@@ -77,9 +79,9 @@
 	display: block;
 	overflow: hidden;
 	white-space: nowrap;
-	position: absolute;
 	width: 145px;
 	text-overflow: ellipsis;
+	float: left;
 }
 
 #feed-accordion .entry-heading .entry-name {
@@ -100,8 +102,7 @@
 
 #feed-accordion .entry-heading .entry-date {
 	display: block;
-	position: absolute;
-	right: 45px;
+	float: right;
 }
 
 #feed-accordion a.entry-heading-link:hover {
@@ -109,8 +110,8 @@
 }
 
 #feed-accordion .entry-external-link {
-	position: absolute;
-	right: 25px;
+	float: right;
+	margin-right: 5px;
 	margin-top: -25px;
 	color: inherit;
 }
@@ -219,4 +220,9 @@
 
 #feed-accordion .current.entry-font-size-5 {
 	font-size: 19px;
+}
+
+/* to make entry list fit to right */
+.container-fluid {
+	padding-right: 0px;
 }

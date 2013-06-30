@@ -140,14 +140,19 @@ public class FeedRefreshUpdater {
 		public void run() {
 			boolean ok = true;
 			if (entries.isEmpty() == false) {
-				List<FeedSubscription> subscriptions = feedSubscriptionDAO
-						.findByFeed(feed);
+
 				List<String> lastEntries = cache.getLastEntries(feed);
 				List<String> currentEntries = Lists.newArrayList();
+
+				List<FeedSubscription> subscriptions = null;
 				for (FeedEntry entry : entries) {
 					String cacheKey = cache.buildKey(feed, entry);
 					if (!lastEntries.contains(cacheKey)) {
 						log.debug("cache miss for {}", entry.getUrl());
+						if (subscriptions == null) {
+							subscriptions = feedSubscriptionDAO
+									.findByFeed(feed);
+						}
 						ok &= updateEntry(feed, entry, subscriptions);
 						metricsBean.entryCacheMiss();
 					} else {

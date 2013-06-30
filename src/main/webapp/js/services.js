@@ -49,7 +49,7 @@ module.factory('SettingsService', ['$resource', function($resource) {
 	s.init = function(callback) {
 		res.get(function(data) {
 			s.settings = data;
-			moment.lang(s.settings.language || 'en');
+			moment.lang(s.settings.language || 'en', {});
 			if (callback) {
 				callback(data);
 			}

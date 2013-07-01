@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -17,10 +18,14 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntry_;
 import com.commafeed.backend.model.Feed_;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.google.common.collect.Iterables;
 
 @Stateless
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
+
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
 
 	protected static final Logger log = LoggerFactory
 			.getLogger(FeedEntryDAO.class);
@@ -66,6 +71,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		query.orderBy(builder.desc(root.get(FeedEntry_.updated)));
 		TypedQuery<FeedEntry> q = em.createQuery(query);
 		limit(q, offset, limit);
+		setTimeout(q, applicationSettingsService.get().getQueryTimeout());
 		return q.getResultList();
 	}
 

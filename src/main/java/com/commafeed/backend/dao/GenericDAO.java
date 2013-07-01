@@ -152,6 +152,12 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		query.unwrap(Query.class).setCacheable(true);
 		return query;
 	}
+	
+	protected void setTimeout(javax.persistence.Query query, int queryTimeout) {
+		if (queryTimeout > 0) {
+			query.setHint("javax.persistence.query.timeout", queryTimeout);
+		}
+	}
 
 	@SuppressWarnings("unchecked")
 	protected Class<T> getType() {

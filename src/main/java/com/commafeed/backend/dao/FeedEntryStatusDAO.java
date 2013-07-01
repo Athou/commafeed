@@ -526,11 +526,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 	}
 
-	private void setTimeout(Query query) {
-		int queryTimeout = applicationSettingsService.get().getQueryTimeout();
-		if (queryTimeout > 0) {
-			query.setHint("javax.persistence.query.timeout", queryTimeout);
-		}
+	protected void setTimeout(Query query) {
+		setTimeout(query, applicationSettingsService.get().getQueryTimeout());
 	}
 
 	public void markSubscriptionEntries(FeedSubscription subscription,

@@ -34,7 +34,8 @@
 			<div class="pull-right" ng-click="showFeedDetails(feed)">
 				<i class="icon-wrench config pointer"></i>
 			</div>
-			<a ng-click="feedClicked(feed.id)" class="feed-link"
+			<a ng-click="feedClicked(feed.id, $event)" class="feed-link"
+				href="{{feed.feedLink}}" target="_blank"
 				ng-class="{error: feed.message && feed.errorCount > 10, selected: (feed.id == selectedId && selectedType == 'feed') }">
 				<favicon url="feed.iconUrl" />
 				<span ng-class="{unread: feed.unread}">

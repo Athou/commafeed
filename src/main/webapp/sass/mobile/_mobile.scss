@@ -25,6 +25,9 @@
 	#feed-accordion .entry-heading .entry-name {
 		margin-right: 40px;
 	}
+	#feed-accordion .entry-heading .narrow {
+		display: none;
+	}
 	body.left-menu-active .left-menu {
 		display: block !important;
 		width: 100%;

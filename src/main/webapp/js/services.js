@@ -52,6 +52,8 @@ module.factory('SettingsService', ['$resource', function($resource) {
 			var lang = s.settings.language || 'en';
 			if (lang === 'zh') {
 				lang = 'zh-cn';
+			} else if (lang === 'ms') {
+				lang = 'ms-my';
 			}
 			moment.lang(lang, {});
 			if (callback) {

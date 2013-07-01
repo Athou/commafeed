@@ -99,6 +99,7 @@ public class FeedREST extends AbstractResourceREST {
 			entries.setName(subscription.getTitle());
 			entries.setMessage(subscription.getFeed().getMessage());
 			entries.setErrorCount(subscription.getFeed().getErrorCount());
+			entries.setFeedLink(subscription.getFeed().getLink());
 
 			List<FeedEntryStatus> list = null;
 			if (unreadOnly) {

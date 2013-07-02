@@ -10,6 +10,10 @@ body {
 .entryList {
   padding-top: 0!important;
 }
+/* needed for more scroll speed */
+#uvTab {
+  display: none;
+}
 /* Change source-codes in feeds background to white */
 pre {
   background-color: transparent;
@@ -45,5 +49,9 @@ pre {
 }
 .sidebar-nav-fixed:hover {
   overflow-y: auto;
+}
+/* 100% forever */
+.expanded .entry-header, #feed-accordion .entry-body-content {
+  max-width: 100%;
 }
 }

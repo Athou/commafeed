@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
@@ -33,6 +34,9 @@ public class OPMLImporter {
 
 	@Inject
 	FeedCategoryDAO feedCategoryDAO;
+
+	@Inject
+	CacheService cache;
 
 	@SuppressWarnings("unchecked")
 	@Asynchronous
@@ -77,16 +81,17 @@ public class OPMLImporter {
 			if (StringUtils.isBlank(title)) {
 				title = "Unnamed subscription";
 			}
-
 			// make sure we continue with the import process even a feed failed
 			try {
 				feedSubscriptionService.subscribe(user, outline.getXmlUrl(), title,
 						parent);
+
 			} catch (FeedSubscriptionException e) {
 				throw e;
 			} catch (Exception e) {
 				log.error("error while importing {}: {}", outline.getXmlUrl(), e.getMessage());
 			}
 		}
+		cache.invalidateRootCategory(user);
 	}
 }

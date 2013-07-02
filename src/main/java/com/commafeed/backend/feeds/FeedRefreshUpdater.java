@@ -106,7 +106,7 @@ public class FeedRefreshUpdater {
 
 				List<FeedSubscription> subscriptions = null;
 				for (FeedEntry entry : entries) {
-					String cacheKey = cache.buildKey(feed, entry);
+					String cacheKey = cache.buildUniqueEntryKey(feed, entry);
 					if (!lastEntries.contains(cacheKey)) {
 						log.debug("cache miss for {}", entry.getUrl());
 						if (subscriptions == null) {

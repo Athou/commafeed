@@ -23,12 +23,14 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.SecurityCheck;
@@ -70,6 +72,9 @@ public class CategoryREST extends AbstractResourceREST {
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
+
+	@Inject
+	CacheService cache;
 
 	@Path("/entries")
 	@GET
@@ -226,7 +231,7 @@ public class CategoryREST extends AbstractResourceREST {
 			feedEntryStatusDAO.markCategoryEntries(getUser(), categories,
 					olderThan);
 		}
-
+		cache.invalidateRootCategory(getUser());
 		return Response.ok(Status.OK).build();
 	}
 
@@ -249,6 +254,7 @@ public class CategoryREST extends AbstractResourceREST {
 			cat.setParent(parent);
 		}
 		feedCategoryDAO.saveOrUpdate(cat);
+		cache.invalidateRootCategory(getUser());
 		return Response.ok().build();
 	}
 
@@ -279,6 +285,7 @@ public class CategoryREST extends AbstractResourceREST {
 			feedCategoryDAO.saveOrUpdate(categories);
 
 			feedCategoryDAO.delete(cat);
+			cache.invalidateRootCategory(getUser());
 			return Response.ok().build();
 		} else {
 			return Response.status(Status.NOT_FOUND).build();
@@ -343,7 +350,7 @@ public class CategoryREST extends AbstractResourceREST {
 		}
 
 		feedCategoryDAO.saveOrUpdate(category);
-
+		cache.invalidateRootCategory(getUser());
 		return Response.ok(Status.OK).build();
 	}
 
@@ -361,7 +368,7 @@ public class CategoryREST extends AbstractResourceREST {
 		}
 		category.setCollapsed(req.isCollapse());
 		feedCategoryDAO.saveOrUpdate(category);
-
+		cache.invalidateRootCategory(getUser());
 		return Response.ok(Status.OK).build();
 	}
 
@@ -382,18 +389,23 @@ public class CategoryREST extends AbstractResourceREST {
 	@Path("/get")
 	@ApiOperation(value = "Get feed categories", notes = "Get all categories and subscriptions of the user", responseClass = "com.commafeed.frontend.model.Category")
 	public Response getSubscriptions() {
+		User user = getUser();
 
-		List<FeedCategory> categories = feedCategoryDAO.findAll(getUser());
-		List<FeedSubscription> subscriptions = feedSubscriptionDAO
-				.findAll(getUser());
-		Map<Long, Long> unreadCount = feedEntryStatusDAO
-				.getUnreadCount(getUser());
+		Category root = cache.getRootCategory(user);
+		if (root == null) {
+			log.debug("root category cache miss for {}", user.getName());
+			List<FeedCategory> categories = feedCategoryDAO.findAll(user);
+			List<FeedSubscription> subscriptions = feedSubscriptionDAO
+					.findAll(getUser());
+			Map<Long, Long> unreadCount = feedEntryStatusDAO
+					.getUnreadCount(getUser());
 
-		Category root = buildCategory(null, categories, subscriptions,
-				unreadCount);
-		root.setId("all");
-		root.setName("All");
-
+			root = buildCategory(null, categories, subscriptions,
+					unreadCount);
+			root.setId("all");
+			root.setName("All");
+			cache.setRootCategory(user, root);
+		}
 		return Response.ok(root).build();
 	}
 

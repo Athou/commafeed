@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.commafeed.backend.MetricsBean;
+import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryDAO.EntryWithFeed;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
@@ -17,6 +18,7 @@ import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.User;
 import com.google.common.collect.Lists;
 
 @Stateless
@@ -33,6 +35,9 @@ public class FeedUpdateService {
 
 	@Inject
 	MetricsBean metricsBean;
+
+	@Inject
+	CacheService cache;
 
 	public void updateEntry(Feed feed, FeedEntry entry,
 			List<FeedSubscription> subscriptions) {
@@ -61,12 +66,16 @@ public class FeedUpdateService {
 
 		if (update != null) {
 			List<FeedEntryStatus> statusUpdateList = Lists.newArrayList();
+			List<User> users = Lists.newArrayList();
 			for (FeedSubscription sub : subscriptions) {
 				FeedEntryStatus status = new FeedEntryStatus();
 				status.setEntry(update);
 				status.setSubscription(sub);
 				statusUpdateList.add(status);
+
+				users.add(sub.getUser());
 			}
+			cache.invalidateRootCategory(users.toArray(new User[0]));
 			feedEntryDAO.saveOrUpdate(update);
 			feedEntryStatusDAO.saveOrUpdate(statusUpdateList);
 			metricsBean.entryUpdated(statusUpdateList.size());

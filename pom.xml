@@ -19,7 +19,7 @@
 		<jpa.datasource.name>java:openejb/Resource/My DataSource</jpa.datasource.name>
 		<jpa.dialect>org.hibernate.dialect.HSQLDialect</jpa.dialect>
 		<jpa.cache>false</jpa.cache>
-		<cache_service.class>com.commafeed.backend.cache.InMemoryCacheService</cache_service.class>
+		<cache_service.class>com.commafeed.backend.cache.NoopCacheService</cache_service.class>
 	</properties>
 
 	<repositories>

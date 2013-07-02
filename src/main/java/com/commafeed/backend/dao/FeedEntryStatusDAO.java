@@ -20,7 +20,6 @@ import javax.persistence.criteria.SetJoin;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +34,7 @@ import com.commafeed.backend.model.FeedEntry_;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.Feed_;
+import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.services.ApplicationSettingsService;
@@ -507,8 +507,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			List<FeedEntryStatus> results) {
 		if (includeContent) {
 			for (FeedEntryStatus status : results) {
-				Hibernate.initialize(status.getSubscription().getFeed());
-				Hibernate.initialize(status.getEntry().getContent());
+				Models.initialize(status.getSubscription().getFeed());
+				Models.initialize(status.getEntry().getContent());
 			}
 		}
 		return results;

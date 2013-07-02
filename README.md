@@ -36,7 +36,7 @@ Deployment on your own server
 -----------------------------
 
 For storage, you can either use an embedded HSQLDB database or an external MySQL or PostgreSQL database.
-You also need Maven 3.x (and a Java JDK) installed in order to build the application.
+You also need Maven 3.x (and a Java 1.7+ JDK) installed in order to build the application.
 
 To install maven and openjdk on Ubuntu, issue the following commands
 

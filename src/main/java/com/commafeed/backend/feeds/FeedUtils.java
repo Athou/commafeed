@@ -36,6 +36,8 @@ import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.i18n.shared.BidiUtils;
 import com.steadystate.css.parser.CSSOMParser;
 
+import edu.uci.ics.crawler4j.url.URLCanonicalizer;
+
 public class FeedUtils {
 
 	protected static Logger log = LoggerFactory.getLogger(FeedUtils.class);
@@ -83,6 +85,13 @@ public class FeedUtils {
 			encoding = "windows-1252";
 		}
 		return encoding;
+	}
+
+	public static String normalizeURL(String url) {
+		if (url == null) {
+			return null;
+		}
+		return URLCanonicalizer.getCanonicalURL(url);
 	}
 
 	/**

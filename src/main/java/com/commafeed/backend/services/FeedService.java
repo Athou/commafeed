@@ -39,7 +39,7 @@ public class FeedService {
 		return feed;
 	}
 
-	public void mergeFeeds(Feed into, Feed... feeds) {
+	public void mergeFeeds(Feed into, List<Feed> feeds) {
 		for (Feed feed : feeds) {
 			if (into.getId().equals(feed.getId())) {
 				continue;

@@ -1,9 +1,11 @@
 package com.commafeed.frontend.rest.resources;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,12 +19,16 @@ import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.model.ApplicationSettings;
+import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.services.FeedService;
 import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
+import com.commafeed.frontend.model.request.FeedMergeRequest;
 import com.commafeed.frontend.model.request.IDRequest;
+import com.google.api.client.util.Lists;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -34,6 +40,9 @@ import com.wordnik.swagger.annotations.ApiParam;
 @Path("/admin")
 @Api(value = "/admin", description = "Operations about application administration")
 public class AdminREST extends AbstractResourceREST {
+
+	@Inject
+	FeedService feedService;
 
 	@Path("/user/save")
 	@POST
@@ -211,6 +220,21 @@ public class AdminREST extends AbstractResourceREST {
 		map.put("old entries",
 				cleaner.cleanEntriesOlderThan(days, TimeUnit.DAYS));
 		return Response.ok(map).build();
+	}
+
+	@Path("cleanup/merge")
+	@POST
+	public Response mergeFeeds(FeedMergeRequest request) {
+		Feed into = feedDAO.findById(request.getIntoFeedId());
+
+		List<Feed> feeds = Lists.newArrayList();
+		for (Long feedId : request.getFeedIds()) {
+			Feed feed = feedDAO.findById(feedId);
+			feeds.add(feed);
+		}
+
+		feedService.mergeFeeds(into, feeds);
+		return Response.ok().build();
 	}
 
 }

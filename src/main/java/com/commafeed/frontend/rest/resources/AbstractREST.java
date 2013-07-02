@@ -24,32 +24,9 @@ import org.apache.wicket.protocol.http.servlet.ServletWebResponse;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.util.crypt.Base64;
 
-import com.commafeed.backend.DatabaseCleaner;
-import com.commafeed.backend.HttpGetter;
-import com.commafeed.backend.MetricsBean;
-import com.commafeed.backend.StartupBean;
-import com.commafeed.backend.dao.FeedCategoryDAO;
-import com.commafeed.backend.dao.FeedDAO;
-import com.commafeed.backend.dao.FeedEntryDAO;
-import com.commafeed.backend.dao.FeedEntryStatusDAO;
-import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UserDAO;
-import com.commafeed.backend.dao.UserRoleDAO;
-import com.commafeed.backend.dao.UserSettingsDAO;
-import com.commafeed.backend.feeds.FaviconFetcher;
-import com.commafeed.backend.feeds.FeedFetcher;
-import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
-import com.commafeed.backend.feeds.FeedRefreshUpdater;
-import com.commafeed.backend.feeds.FeedRefreshWorker;
-import com.commafeed.backend.feeds.OPMLExporter;
-import com.commafeed.backend.feeds.OPMLImporter;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
-import com.commafeed.backend.services.ApplicationSettingsService;
-import com.commafeed.backend.services.FeedEntryService;
-import com.commafeed.backend.services.FeedSubscriptionService;
-import com.commafeed.backend.services.PasswordEncryptionService;
-import com.commafeed.backend.services.UserService;
 import com.commafeed.frontend.CommaFeedApplication;
 import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.SecurityCheck;
@@ -59,82 +36,13 @@ import com.commafeed.frontend.SecurityCheck;
 public abstract class AbstractREST {
 
 	@Context
-	HttpServletRequest request;
+	private HttpServletRequest request;
 
 	@Context
-	HttpServletResponse response;
+	private HttpServletResponse response;
 
 	@Inject
-	ApplicationSettingsService applicationSettingsService;
-
-	@Inject
-	FeedDAO feedDAO;
-
-	@Inject
-	FeedSubscriptionDAO feedSubscriptionDAO;
-
-	@Inject
-	FeedSubscriptionService feedSubscriptionService;
-
-	@Inject
-	FeedCategoryDAO feedCategoryDAO;
-
-	@Inject
-	FeedEntryDAO feedEntryDAO;
-
-	@Inject
-	FeedEntryStatusDAO feedEntryStatusDAO;
-
-	@Inject
-	FeedEntryService feedEntryService;
-
-	@Inject
-	UserDAO userDAO;
-
-	@Inject
-	UserService userService;
-
-	@Inject
-	StartupBean startupBean;
-
-	@Inject
-	UserSettingsDAO userSettingsDAO;
-
-	@Inject
-	UserRoleDAO userRoleDAO;
-
-	@Inject
-	OPMLImporter opmlImporter;
-
-	@Inject
-	OPMLExporter opmlExporter;
-
-	@Inject
-	PasswordEncryptionService encryptionService;
-
-	@Inject
-	FeedFetcher feedFetcher;
-
-	@Inject
-	MetricsBean metricsBean;
-
-	@Inject
-	FeedRefreshTaskGiver taskGiver;
-
-	@Inject
-	FeedRefreshWorker feedRefreshWorker;
-
-	@Inject
-	FeedRefreshUpdater feedRefreshUpdater;
-
-	@Inject
-	FaviconFetcher faviconFetcher;
-
-	@Inject
-	DatabaseCleaner cleaner;
-
-	@Inject
-	HttpGetter httpGetter;
+	private UserDAO userDAO;
 
 	@PostConstruct
 	public void init() {

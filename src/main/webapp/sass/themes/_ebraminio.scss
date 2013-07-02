@@ -1,33 +1,25 @@
 #theme-ebraminio {
-/* My font setting, a bit specific for Persian but is okay in other languages */
-body {
-  font-family: Tahoma, 'Iranian sans', 'DejaVu Sans', sans-serif;
-}
-/* My scroll speed hack, it is temporary */
-.toolbar {
-  position: relative;
-}
-.entryList {
-  padding-top: 0!important;
-}
-/* needed for more scroll speed */
-#uvTab {
-  display: none;
-}
-/* Change source-codes in feeds background to white */
-pre {
-  background-color: transparent;
-}
-/* Better scrollbar*/
-::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.4);
-}
-::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0.1);
-}
-
-}
-/* 100% forever */
-.expanded .entry-header, #feed-accordion .entry-body-content {
-  max-width: 100%;
+  /* My font setting, a bit specific for Persian but is okay in other languages */
+  body {
+    font-family: Tahoma, 'Iranian sans', 'DejaVu Sans', sans-serif;
+  }
+  /* My scroll speed hack, it is temporary */
+  .toolbar {
+    position: relative;
+  }
+  .entryList {
+    padding-top: 0!important;
+  }
+  /* needed for more scroll speed */
+  #uvTab {
+    display: none;
+  }
+  /* Change source-codes in feeds background to white */
+  pre {
+    background-color: transparent;
+  }
+  /* 100% forever */
+  .expanded .entry-header, #feed-accordion .entry-body-content {
+    max-width: 100%;
+  }
 }

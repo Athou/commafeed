@@ -88,7 +88,7 @@ public class StartupBean {
 		log.info("Populating database with default values");
 
 		ApplicationSettings settings = new ApplicationSettings();
-		settings.setAnnouncement("Set the Public URL in the admin section !");
+		settings.setAnnouncement("Set the Public URL in the admin section!");
 		applicationSettingsService.save(settings);
 
 		try {

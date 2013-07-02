@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,6 +23,9 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.dao.FeedCategoryDAO;
+import com.commafeed.backend.dao.FeedEntryStatusDAO;
+import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
@@ -57,6 +61,15 @@ public class CategoryREST extends AbstractResourceREST {
 
 	public static final String ALL = "all";
 	public static final String STARRED = "starred";
+
+	@Inject
+	FeedEntryStatusDAO feedEntryStatusDAO;
+
+	@Inject
+	FeedCategoryDAO feedCategoryDAO;
+
+	@Inject
+	FeedSubscriptionDAO feedSubscriptionDAO;
 
 	@Path("/entries")
 	@GET

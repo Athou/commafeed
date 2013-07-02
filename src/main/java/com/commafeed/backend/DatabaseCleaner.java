@@ -1,6 +1,7 @@
 package com.commafeed.backend;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -10,6 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
+import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.FeedSubscription;
 
 public class DatabaseCleaner {
 
@@ -20,6 +24,9 @@ public class DatabaseCleaner {
 
 	@Inject
 	FeedEntryDAO feedEntryDAO;
+
+	@Inject
+	FeedSubscriptionDAO feedSubscriptionDAO;
 
 	public long cleanFeedsWithoutSubscriptions() {
 
@@ -47,5 +54,20 @@ public class DatabaseCleaner {
 		} while (deleted != 0);
 		log.info("cleanup done: {} entries deleted", total);
 		return total;
+	}
+
+	public void mergeFeeds(Feed into, List<Feed> feeds) {
+		for (Feed feed : feeds) {
+			if (into.getId().equals(feed.getId())) {
+				continue;
+			}
+			List<FeedSubscription> subs = feedSubscriptionDAO.findByFeed(feed);
+			for (FeedSubscription sub : subs) {
+				sub.setFeed(into);
+			}
+			feedSubscriptionDAO.saveOrUpdate(subs);
+			feedDAO.delete(feed);
+		}
+		feedDAO.saveOrUpdate(into);
 	}
 }

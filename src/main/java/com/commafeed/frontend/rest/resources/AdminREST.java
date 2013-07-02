@@ -17,13 +17,23 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.commafeed.backend.DatabaseCleaner;
+import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.StartupBean;
+import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.dao.UserDAO;
+import com.commafeed.backend.dao.UserRoleDAO;
+import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
+import com.commafeed.backend.feeds.FeedRefreshUpdater;
+import com.commafeed.backend.feeds.FeedRefreshWorker;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.services.FeedService;
+import com.commafeed.backend.services.PasswordEncryptionService;
+import com.commafeed.backend.services.UserService;
 import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.FeedMergeRequest;
@@ -43,6 +53,36 @@ public class AdminREST extends AbstractResourceREST {
 
 	@Inject
 	FeedService feedService;
+
+	@Inject
+	UserService userService;
+
+	@Inject
+	UserDAO userDAO;
+
+	@Inject
+	UserRoleDAO userRoleDAO;
+
+	@Inject
+	FeedDAO feedDAO;
+
+	@Inject
+	MetricsBean metricsBean;
+
+	@Inject
+	DatabaseCleaner cleaner;
+
+	@Inject
+	FeedRefreshWorker feedRefreshWorker;
+
+	@Inject
+	FeedRefreshUpdater feedRefreshUpdater;
+
+	@Inject
+	FeedRefreshTaskGiver taskGiver;
+
+	@Inject
+	PasswordEncryptionService encryptionService;
 
 	@Path("/user/save")
 	@POST
@@ -233,7 +273,7 @@ public class AdminREST extends AbstractResourceREST {
 			feeds.add(feed);
 		}
 
-		feedService.mergeFeeds(into, feeds);
+		cleaner.mergeFeeds(into, feeds);
 		return Response.ok().build();
 	}
 

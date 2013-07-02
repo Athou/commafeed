@@ -1,7 +1,5 @@
 package com.commafeed.backend.services;
 
-import java.util.List;
-
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
@@ -13,7 +11,6 @@ import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.model.FeedSubscription;
 
 @Singleton
 public class FeedService {
@@ -37,21 +34,6 @@ public class FeedService {
 			feedDAO.saveOrUpdate(feed);
 		}
 		return feed;
-	}
-
-	public void mergeFeeds(Feed into, List<Feed> feeds) {
-		for (Feed feed : feeds) {
-			if (into.getId().equals(feed.getId())) {
-				continue;
-			}
-			List<FeedSubscription> subs = feedSubscriptionDAO.findByFeed(feed);
-			for (FeedSubscription sub : subs) {
-				sub.setFeed(into);
-			}
-			feedSubscriptionDAO.saveOrUpdate(subs);
-			feedDAO.delete(feed);
-		}
-		feedDAO.saveOrUpdate(into);
 	}
 
 }

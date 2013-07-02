@@ -2,6 +2,7 @@ package com.commafeed.frontend.rest.resources;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -12,7 +13,9 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.model.FeedEntryStatus;
+import com.commafeed.backend.services.FeedEntryService;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.request.MarkRequest;
@@ -26,6 +29,12 @@ import com.wordnik.swagger.annotations.ApiParam;
 @Path("/entry")
 @Api(value = "/entry", description = "Operations about feed entries")
 public class EntryREST extends AbstractResourceREST {
+
+	@Inject
+	FeedEntryService feedEntryService;
+
+	@Inject
+	FeedEntryStatusDAO feedEntryStatusDAO;
 
 	@Path("/mark")
 	@POST

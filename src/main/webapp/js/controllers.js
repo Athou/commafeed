@@ -646,7 +646,8 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	AnalyticsService.track();
 
 	var maximizeEntryListOnResize = function(){
-		$('.entryList').css({ 'height': $($window).height() - ( $('.toolbar').height() || 50 ) });
+		var toolbarHeight = $('.toolbar').height();
+		$('.entryList').css({ 'height': $($window).height() - (toolbarHeight ? toolbarHeight + 20 : 50) });
 	};
 
 	$($window).resize(maximizeEntryListOnResize);

@@ -48,7 +48,7 @@ public class RedisCacheService extends CacheService {
 			for (String entry : entries) {
 				pipe.sadd(key, entry);
 			}
-			pipe.expire(key, (int) TimeUnit.HOURS.toSeconds(24));
+			pipe.expire(key, (int) TimeUnit.DAYS.toSeconds(7));
 			pipe.sync();
 		} finally {
 			pool.returnResource(jedis);

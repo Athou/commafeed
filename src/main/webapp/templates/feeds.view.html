@@ -4,7 +4,10 @@
 			<span ng-switch on="selectedId">
 				<span ng-switch-when="all">${tree.all}</span>
 				<span ng-switch-when="starred">${tree.starred}</span>
-				<span ng-switch-default>{{name}}</span>
+				<span ng-switch-default>
+					<span ng-hide="feedLink">{{name}}</span>
+					<a ng-show="feedLink" href="{{feedLink}}" target="_blank">{{name}}</a>
+				</span>
 			</span>
 			&nbsp;
 			<span ng-show="name && selectedType == 'category'"> &#187;</span>

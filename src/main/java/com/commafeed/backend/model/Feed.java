@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Cacheable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -111,7 +110,7 @@ public class Feed extends AbstractModel {
 	@Column(length = 40)
 	private String lastContentHash;
 
-	@ManyToMany(mappedBy = "feeds", cascade = CascadeType.REMOVE)
+	@ManyToMany(mappedBy = "feeds")
 	private Set<FeedEntry> entries = Sets.newHashSet();
 
 	@OneToMany(mappedBy = "feed")

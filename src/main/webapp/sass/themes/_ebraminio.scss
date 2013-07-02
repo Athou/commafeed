@@ -43,15 +43,9 @@ pre {
 ::-webkit-scrollbar-track {
   background: rgba(0,0,0,0.1);
 }
-/* Hide feed list scroll when is not hover */
-.sidebar-nav-fixed {
-  overflow: hidden;
-}
-.sidebar-nav-fixed:hover {
-  overflow-y: auto;
+
 }
 /* 100% forever */
 .expanded .entry-header, #feed-accordion .entry-body-content {
   max-width: 100%;
-}
 }

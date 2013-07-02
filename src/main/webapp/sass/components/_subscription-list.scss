@@ -26,7 +26,11 @@
 	top: 0;
 	bottom: 0;
 	width: 16%;
-	overflow: auto;
+	overflow: hidden;
+}
+
+.sidebar-nav-fixed:hover {
+  overflow-y: auto;
 }
 
 .full-screen .left-menu {

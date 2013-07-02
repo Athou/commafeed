@@ -88,8 +88,8 @@ public class FeedUtils {
 	}
 
 	/**
-	 * Normalize the url. The resulting url is not meant to be used but rather
-	 * as a mean to identify a feed and avoid duplicates
+	 * Normalize the url. The resulting url is not meant to be fetched but
+	 * rather used as a mean to identify a feed and avoid duplicates
 	 */
 	public static String normalizeURL(String url) {
 		if (url == null) {

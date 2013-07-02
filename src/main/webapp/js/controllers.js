@@ -703,6 +703,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			$scope.timestamp = data.timestamp;
 			$scope.busy = false;
 			$scope.hasMore = data.hasMore;
+			$scope.feedLink = data.feedLink;
 		};
 		if (!$scope.keywords) {
 			var service = $scope.selectedType == 'feed' ? FeedService

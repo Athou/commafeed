@@ -6,6 +6,8 @@ import javax.ejb.ApplicationException;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
@@ -21,6 +23,8 @@ import com.commafeed.backend.model.User;
 import com.google.api.client.util.Lists;
 
 public class FeedSubscriptionService {
+
+	private static Logger log = LoggerFactory.getLogger(FeedSubscriptionService.class);
 
 	@SuppressWarnings("serial")
 	@ApplicationException
@@ -77,16 +81,20 @@ public class FeedSubscriptionService {
 		feedSubscriptionDAO.saveOrUpdate(sub);
 
 		if (newSubscription) {
-			List<FeedEntryStatus> statuses = Lists.newArrayList();
-			List<FeedEntry> allEntries = feedEntryDAO.findByFeed(feed, 0, 10);
-			for (FeedEntry entry : allEntries) {
-				FeedEntryStatus status = new FeedEntryStatus();
-				status.setEntry(entry);
-				status.setRead(false);
-				status.setSubscription(sub);
-				statuses.add(status);
+			try {
+				List<FeedEntryStatus> statuses = Lists.newArrayList();
+				List<FeedEntry> allEntries = feedEntryDAO.findByFeed(feed, 0, 10);
+				for (FeedEntry entry : allEntries) {
+					FeedEntryStatus status = new FeedEntryStatus();
+					status.setEntry(entry);
+					status.setRead(false);
+					status.setSubscription(sub);
+					statuses.add(status);
+				}
+				feedEntryStatusDAO.saveOrUpdate(statuses);
+			} catch (Exception e) {
+				log.error("could not fetch initial statuses when importing {} : {}", feed.getUrl(), e.getMessage());
 			}
-			feedEntryStatusDAO.saveOrUpdate(statuses);
 		}
 		taskGiver.add(feed);
 		return feed;

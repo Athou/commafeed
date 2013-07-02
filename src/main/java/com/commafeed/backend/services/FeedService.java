@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 
 @Singleton
@@ -20,9 +21,12 @@ public class FeedService {
 	public Feed findOrCreate(String url) {
 		Feed feed = feedDAO.findByUrl(url);
 		if (feed == null) {
+			String normalized = FeedUtils.normalizeURL(url);
 			feed = new Feed();
 			feed.setUrl(url);
 			feed.setUrlHash(DigestUtils.sha1Hex(url));
+			feed.setNormalizedUrl(normalized);
+			feed.setNormalizedUrlHash(DigestUtils.sha1Hex(normalized));
 			feedDAO.saveOrUpdate(feed);
 		}
 		return feed;

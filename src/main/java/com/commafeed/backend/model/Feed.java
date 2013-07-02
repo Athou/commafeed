@@ -34,6 +34,12 @@ public class Feed extends AbstractModel {
 
 	@Column(length = 40, nullable = false)
 	private String urlHash;
+	
+	@Column(length = 2048, nullable = false)
+	private String normalizedUrl;
+	
+	@Column(length = 40, nullable = false)
+	private String normalizedUrlHash;
 
 	/**
 	 * The url of the website, extracted from the feed
@@ -313,6 +319,22 @@ public class Feed extends AbstractModel {
 
 	public void setUrgent(boolean urgent) {
 		this.urgent = urgent;
+	}
+
+	public String getNormalizedUrl() {
+		return normalizedUrl;
+	}
+
+	public void setNormalizedUrl(String normalizedUrl) {
+		this.normalizedUrl = normalizedUrl;
+	}
+
+	public String getNormalizedUrlHash() {
+		return normalizedUrlHash;
+	}
+
+	public void setNormalizedUrlHash(String normalizedUrlHash) {
+		this.normalizedUrlHash = normalizedUrlHash;
 	}
 
 }

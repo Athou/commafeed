@@ -87,11 +87,25 @@ public class FeedUtils {
 		return encoding;
 	}
 
+	/**
+	 * Normalize the url. The resulting url is not meant to be used but rather
+	 * as a mean to identify a feed and avoid duplicates
+	 */
 	public static String normalizeURL(String url) {
 		if (url == null) {
 			return null;
 		}
-		return URLCanonicalizer.getCanonicalURL(url);
+		String normalized = URLCanonicalizer.getCanonicalURL(url);
+		if (normalized == null) {
+			return url;
+		}
+		normalized = normalized.toLowerCase();
+
+		if (normalized.startsWith("https")) {
+			normalized = "http" + normalized.substring(5);
+		}
+		normalized = normalized.replace("feeds2.feedburner.com", "feeds.feedburner.com");
+		return normalized;
 	}
 
 	/**

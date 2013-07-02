@@ -12,6 +12,7 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -158,6 +159,9 @@ public class FeedRefreshTaskGiver {
 	}
 
 	public void giveBack(Feed feed) {
+		String normalized = FeedUtils.normalizeURL(feed.getUrl());
+		feed.setNormalizedUrl(normalized);
+		feed.setNormalizedUrlHash(DigestUtils.sha1Hex(normalized));
 		giveBackQueue.add(feed);
 	}
 

@@ -243,5 +243,18 @@
 			<column name="queryTimeout" valueNumeric="0"></column>
 		</update>	
 	</changeSet>
+	
+	<changeSet author="athou" id="add-normalized-url">
+		<addColumn tableName="FEEDS">
+		    <column name="normalizedUrl" type="VARCHAR(2048)" />
+		</addColumn>
+		<addColumn tableName="FEEDS">
+		    <column name="normalizedUrlHash" type="VARCHAR(40)" />
+		</addColumn>
+		<createIndex indexName="norm_url_hash_index" tableName="FEEDS"
+			unique="false">
+			<column name="normalizedUrlHash" />
+		</createIndex>
+	</changeSet>
 
 </databaseChangeLog>

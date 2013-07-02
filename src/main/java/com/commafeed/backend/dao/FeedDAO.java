@@ -14,6 +14,7 @@ import javax.persistence.criteria.SetJoin;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.FeedSubscription_;
@@ -74,6 +75,14 @@ public class FeedDAO extends GenericDAO<Feed> {
 		if (feed != null && StringUtils.equals(url, feed.getUrl())) {
 			return feed;
 		}
+
+		String normalized = FeedUtils.normalizeURL(url);
+		feeds = findByField(Feed_.normalizedUrlHash, DigestUtils.sha1Hex(normalized));
+		feed = Iterables.getFirst(feeds, null);
+		if (feed != null && StringUtils.equals(normalized, feed.getNormalizedUrl())) {
+			return feed;
+		}
+
 		return null;
 	}
 

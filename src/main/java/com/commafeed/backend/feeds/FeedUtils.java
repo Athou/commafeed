@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.ObjectUtils;
@@ -99,13 +100,32 @@ public class FeedUtils {
 		if (normalized == null) {
 			return url;
 		}
+
+		// convert to lower case, the url probably won't work in some cases
+		// after that but we don't care we just want to compare urls to avoid
+		// duplicates
 		normalized = normalized.toLowerCase();
 
+		// store all urls as http
 		if (normalized.startsWith("https")) {
 			normalized = "http" + normalized.substring(5);
 		}
+
+		// remove the www. part
 		normalized = normalized.replace("//www.", "//");
-		normalized = normalized.replace("feeds2.feedburner.com", "feeds.feedburner.com");
+
+		// feedproxy redirects to feedburner
+		normalized = normalized.replace("feedproxy.google.com",
+				"feeds.feedburner.com");
+
+		// feedburner feeds have a special treatment
+		if (normalized.contains("feedburner.com")) {
+			normalized = normalized.replace("feeds2.feedburner.com",
+					"feeds.feedburner.com");
+			normalized = normalized.split(Pattern.quote("?"))[0];
+			normalized = StringUtils.removeEnd(normalized, "/");
+		}
+
 		return normalized;
 	}
 

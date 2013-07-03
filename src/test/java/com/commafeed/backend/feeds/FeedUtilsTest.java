@@ -18,6 +18,9 @@ public class FeedUtilsTest {
 		
 		String urlc1 = "http://feeds.feedburner.com/Frandroid";
 		String urlc2 = "http://feeds2.feedburner.com/frandroid";
+		String urlc3 = "http://feedproxy.google.com/frandroid";
+		String urlc4 = "http://feeds.feedburner.com/Frandroid/";
+		String urlc5 = "http://feeds.feedburner.com/Frandroid?format=rss";
 
 		Assert.assertEquals(FeedUtils.normalizeURL(urla1), FeedUtils.normalizeURL(urla2));
 		Assert.assertEquals(FeedUtils.normalizeURL(urla1), FeedUtils.normalizeURL(urla3));
@@ -27,6 +30,9 @@ public class FeedUtilsTest {
 		Assert.assertEquals(FeedUtils.normalizeURL(urlb1), FeedUtils.normalizeURL(urlb2));
 		
 		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc2));
+		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc3));
+		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc4));
+		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc5));
 
 	}
 }

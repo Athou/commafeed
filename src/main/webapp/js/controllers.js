@@ -1272,6 +1272,7 @@ function($scope, CategoryService, AnalyticsService) {
 	AnalyticsService.track();
 	$scope.CategoryService = CategoryService;
 	$scope.categoryId = 'all';
+	$scope.order = 'desc';
 
 } ]);
 

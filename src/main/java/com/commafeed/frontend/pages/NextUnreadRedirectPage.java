@@ -38,10 +38,11 @@ public class NextUnreadRedirectPage extends WebPage {
 	public NextUnreadRedirectPage(PageParameters params) {
 		String categoryId = params.get(PARAM_CATEGORYID).toString();
 		String orderParam = params.get(PARAM_READINGORDER).toString();
+		
 		User user = CommaFeedSession.get().getUser();
 		ReadingOrder order = ReadingOrder.desc;
 		
-		if (!StringUtils.isBlank(orderParam) && orderParam.equals("asc")) {
+		if (StringUtils.equals(orderParam, "asc")) {
 			order = ReadingOrder.asc;
 		}
 

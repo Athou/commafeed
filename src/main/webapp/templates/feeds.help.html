@@ -57,9 +57,13 @@
 			<p>
 				${about.goodies.next_unread_bookmarklet}: ${subscribe.category} 
 				<select ng-model="categoryId" ng-options="cat.id as cat.name for cat in CategoryService.flatCategories"
-					class="category-select">
+					class="bookmarklet-select">
 				</select> 
-				<a href="next?category={{categoryId}}" target="_blank">${global.link}</a>
+				<select ng-model="order" class="bookmarklet-select">
+					<option value="desc">${about.goodies.subscribe_bookmarklet_desc}</option>
+					<option value="asc">${about.goodies.subscribe_bookmarklet_asc}</option>
+				</select> 
+				<a href="next?category={{categoryId}}&order={{order}}" target="_blank">${global.link}</a>
 			</p>
 		</div>
 		

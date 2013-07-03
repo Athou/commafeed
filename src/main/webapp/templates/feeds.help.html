@@ -55,15 +55,18 @@
 				${about.goodies.subscribe_bookmarklet}: <a href="https://www.subtome.com/settings.html" target="_blank">SubToMe</a>
 			</p>
 			<p>
-				${about.goodies.next_unread_bookmarklet}: ${subscribe.category} 
+				${about.goodies.next_unread_bookmarklet}:
+				<br />
+				<br />
+				${subscribe.category} 
 				<select ng-model="categoryId" ng-options="cat.id as cat.name for cat in CategoryService.flatCategories"
 					class="bookmarklet-select">
 				</select> 
 				<select ng-model="order" class="bookmarklet-select">
 					<option value="desc">${about.goodies.subscribe_bookmarklet_desc}</option>
 					<option value="asc">${about.goodies.subscribe_bookmarklet_asc}</option>
-				</select> 
-				<a href="next?category={{categoryId}}&order={{order}}" target="_blank">${global.link}</a>
+				</select>
+				<a href="next?category={{categoryId}}&order={{order}}" target="_blank">${global.link}</a>	
 			</p>
 		</div>
 		

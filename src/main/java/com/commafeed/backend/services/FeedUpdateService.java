@@ -75,7 +75,7 @@ public class FeedUpdateService {
 
 				users.add(sub.getUser());
 			}
-			cache.invalidateRootCategory(users.toArray(new User[0]));
+			cache.invalidateUserData(users.toArray(new User[0]));
 			feedEntryDAO.saveOrUpdate(update);
 			feedEntryStatusDAO.saveOrUpdate(statusUpdateList);
 			metricsBean.entryUpdated(statusUpdateList.size());

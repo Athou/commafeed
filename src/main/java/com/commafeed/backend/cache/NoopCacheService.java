@@ -2,6 +2,7 @@ package com.commafeed.backend.cache;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
@@ -34,7 +35,18 @@ public class NoopCacheService extends CacheService {
 	}
 
 	@Override
-	public void invalidateRootCategory(User... users) {
+	public Map<Long, Long> getUnreadCounts(User user) {
+		return null;
+	}
+
+	@Override
+	public void setUnreadCounts(User user, Map<Long, Long> map) {
 
 	}
+
+	@Override
+	public void invalidateUserData(User... users) {
+
+	}
+
 }

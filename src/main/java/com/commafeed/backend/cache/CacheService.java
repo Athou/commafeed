@@ -1,6 +1,7 @@
 package com.commafeed.backend.cache;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -23,7 +24,11 @@ public abstract class CacheService {
 	public abstract Category getRootCategory(User user);
 
 	public abstract void setRootCategory(User user, Category category);
+	
+	public abstract Map<Long, Long> getUnreadCounts(User user);
 
-	public abstract void invalidateRootCategory(User... users);
+	public abstract void setUnreadCounts(User user, Map<Long, Long> map);
+
+	public abstract void invalidateUserData(User... users);
 
 }

@@ -51,7 +51,7 @@ public class EntryREST extends AbstractResourceREST {
 
 		feedEntryService.markEntry(getUser(), Long.valueOf(req.getId()),
 				req.getFeedId(), req.isRead());
-		cache.invalidateRootCategory(getUser());
+		cache.invalidateUserData(getUser());
 		return Response.ok(Status.OK).build();
 	}
 

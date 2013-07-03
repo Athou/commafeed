@@ -292,7 +292,7 @@ public class FeedREST extends AbstractResourceREST {
 		if (subscription != null) {
 			feedEntryStatusDAO.markSubscriptionEntries(subscription, olderThan);
 		}
-		cache.invalidateRootCategory(getUser());
+		cache.invalidateUserData(getUser());
 		return Response.ok(Status.OK).build();
 	}
 
@@ -379,7 +379,7 @@ public class FeedREST extends AbstractResourceREST {
 					.entity("Failed to subscribe to URL " + url + ": "
 							+ e.getMessage()).build();
 		}
-		cache.invalidateRootCategory(getUser());
+		cache.invalidateUserData(getUser());
 		return Response.ok(Status.OK).build();
 	}
 
@@ -424,7 +424,7 @@ public class FeedREST extends AbstractResourceREST {
 				req.getId());
 		if (sub != null) {
 			feedSubscriptionDAO.delete(sub);
-			cache.invalidateRootCategory(getUser());
+			cache.invalidateUserData(getUser());
 			return Response.ok(Status.OK).build();
 		} else {
 			return Response.status(Status.NOT_FOUND).build();
@@ -484,7 +484,7 @@ public class FeedREST extends AbstractResourceREST {
 		} else {
 			feedSubscriptionDAO.saveOrUpdate(subscription);
 		}
-		cache.invalidateRootCategory(getUser());
+		cache.invalidateUserData(getUser());
 		return Response.ok(Status.OK).build();
 	}
 
@@ -523,7 +523,7 @@ public class FeedREST extends AbstractResourceREST {
 					.status(Status.INTERNAL_SERVER_ERROR)
 					.entity(e.getMessage()).build());
 		}
-		cache.invalidateRootCategory(getUser());
+		cache.invalidateUserData(getUser());
 		return Response.temporaryRedirect(
 				URI.create(applicationSettingsService.get().getPublicUrl()))
 				.build();

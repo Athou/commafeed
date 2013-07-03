@@ -198,7 +198,7 @@ public class UserREST extends AbstractResourceREST {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		userService.unregister(getUser());
-		cache.invalidateRootCategory(getUser());
+		cache.invalidateUserData(getUser());
 		return Response.ok().build();
 	}
 }

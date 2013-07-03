@@ -128,14 +128,13 @@ public class HttpGetter {
 			Header eTagHeader = response.getFirstHeader(HttpHeaders.ETAG);
 
 			String lastModifiedResponse = lastModifiedHeader == null ? null
-					: lastModifiedHeader.getValue();
+					: StringUtils.trimToNull(lastModifiedHeader.getValue());
 			if (lastModified != null
 					&& StringUtils.equals(lastModified, lastModifiedResponse)) {
 				throw new NotModifiedException("lastModifiedHeader is the same");
 			}
 
-			String eTagResponse = eTagHeader == null ? null : eTagHeader
-					.getValue();
+			String eTagResponse = eTagHeader == null ? null : StringUtils.trimToNull(eTagHeader.getValue());
 			if (eTag != null && StringUtils.equals(eTag, eTagResponse)) {
 				throw new NotModifiedException("eTagHeader is the same");
 			}
@@ -217,8 +216,8 @@ public class HttpGetter {
 
 	public static class NotModifiedException extends Exception {
 		private static final long serialVersionUID = 1L;
-		
-		public NotModifiedException(String message){
+
+		public NotModifiedException(String message) {
 			super(message);
 		}
 

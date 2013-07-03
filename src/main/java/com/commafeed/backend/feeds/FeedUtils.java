@@ -104,6 +104,7 @@ public class FeedUtils {
 		if (normalized.startsWith("https")) {
 			normalized = "http" + normalized.substring(5);
 		}
+		normalized = normalized.replace("//www.", "//");
 		normalized = normalized.replace("feeds2.feedburner.com", "feeds.feedburner.com");
 		return normalized;
 	}

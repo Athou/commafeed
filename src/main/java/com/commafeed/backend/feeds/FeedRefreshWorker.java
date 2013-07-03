@@ -125,7 +125,7 @@ public class FeedRefreshWorker {
 			feedRefreshUpdater.updateFeed(feed, entries);
 
 		} catch (NotModifiedException e) {
-			log.debug("Feed not modified (304) : " + feed.getUrl());
+			log.debug("Feed not modified : {} - {}", feed.getUrl(), e.getMessage());
 
 			Date disabledUntil = null;
 			if (applicationSettingsService.get().isHeavyLoad()) {

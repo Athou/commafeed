@@ -110,7 +110,7 @@ public class HttpGetter {
 				response = client.execute(httpget);
 				int code = response.getStatusLine().getStatusCode();
 				if (code == HttpStatus.SC_NOT_MODIFIED) {
-					throw new NotModifiedException();
+					throw new NotModifiedException("304 http code");
 				} else if (code >= 300) {
 					throw new HttpResponseException(code,
 							"Server returned HTTP error code " + code);
@@ -118,7 +118,7 @@ public class HttpGetter {
 
 			} catch (HttpResponseException e) {
 				if (e.getStatusCode() == HttpStatus.SC_NOT_MODIFIED) {
-					throw new NotModifiedException();
+					throw new NotModifiedException("304 http code");
 				} else {
 					throw e;
 				}
@@ -131,13 +131,13 @@ public class HttpGetter {
 					: lastModifiedHeader.getValue();
 			if (lastModified != null
 					&& StringUtils.equals(lastModified, lastModifiedResponse)) {
-				throw new NotModifiedException();
+				throw new NotModifiedException("lastModifiedHeader is the same");
 			}
 
 			String eTagResponse = eTagHeader == null ? null : eTagHeader
 					.getValue();
 			if (eTag != null && StringUtils.equals(eTag, eTagResponse)) {
-				throw new NotModifiedException();
+				throw new NotModifiedException("eTagHeader is the same");
 			}
 
 			HttpEntity entity = response.getEntity();
@@ -217,6 +217,10 @@ public class HttpGetter {
 
 	public static class NotModifiedException extends Exception {
 		private static final long serialVersionUID = 1L;
+		
+		public NotModifiedException(String message){
+			super(message);
+		}
 
 	}
 

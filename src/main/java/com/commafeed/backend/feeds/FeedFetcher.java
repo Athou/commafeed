@@ -57,7 +57,7 @@ public class FeedFetcher {
 		if (lastContentHash != null && hash != null
 				&& lastContentHash.equals(hash)) {
 			log.debug("content hash not modified: {}", feedUrl);
-			throw new NotModifiedException();
+			throw new NotModifiedException("content hash not modified");
 		}
 
 		fetchedFeed = parser.parse(feedUrl, content);
@@ -67,7 +67,7 @@ public class FeedFetcher {
 				&& lastPublishedDate.getTime() == fetchedFeed.getFeed()
 						.getLastPublishedDate().getTime()) {
 			log.debug("publishedDate not modified: {}", feedUrl);
-			throw new NotModifiedException();
+			throw new NotModifiedException("publishedDate not modified");
 		}
 
 		Feed feed = fetchedFeed.getFeed();

@@ -98,7 +98,7 @@ public class FeedUtils {
 		}
 		String normalized = URLCanonicalizer.getCanonicalURL(url);
 		if (normalized == null) {
-			return url;
+			normalized = url;
 		}
 
 		// convert to lower case, the url probably won't work in some cases

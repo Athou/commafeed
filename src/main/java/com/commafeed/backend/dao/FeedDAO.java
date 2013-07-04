@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.Feed_;
@@ -25,7 +26,8 @@ import com.google.common.collect.Lists;
 @Stateless
 public class FeedDAO extends GenericDAO<Feed> {
 
-	private List<Predicate> getUpdatablePredicates(Root<Feed> root, Date threshold) {
+	private List<Predicate> getUpdatablePredicates(Root<Feed> root,
+			Date threshold) {
 
 		Predicate neverUpdated = builder.isNull(root.get(Feed_.lastUpdated));
 		Predicate updatedBeforeThreshold = builder.lessThan(
@@ -46,7 +48,8 @@ public class FeedDAO extends GenericDAO<Feed> {
 		Root<Feed> root = query.from(getType());
 
 		query.select(builder.count(root));
-		query.where(getUpdatablePredicates(root, threshold).toArray(new Predicate[0]));
+		query.where(getUpdatablePredicates(root, threshold).toArray(
+				new Predicate[0]));
 
 		TypedQuery<Long> q = em.createQuery(query);
 		return q.getSingleResult();
@@ -56,7 +59,8 @@ public class FeedDAO extends GenericDAO<Feed> {
 		CriteriaQuery<Feed> query = builder.createQuery(getType());
 		Root<Feed> root = query.from(getType());
 
-		query.where(getUpdatablePredicates(root, threshold).toArray(new Predicate[0]));
+		query.where(getUpdatablePredicates(root, threshold).toArray(
+				new Predicate[0]));
 
 		query.orderBy(builder.asc(root.get(Feed_.lastUpdated)));
 
@@ -74,9 +78,11 @@ public class FeedDAO extends GenericDAO<Feed> {
 		}
 
 		String normalized = FeedUtils.normalizeURL(url);
-		feeds = findByField(Feed_.normalizedUrlHash, DigestUtils.sha1Hex(normalized));
+		feeds = findByField(Feed_.normalizedUrlHash,
+				DigestUtils.sha1Hex(normalized));
 		feed = Iterables.getFirst(feeds, null);
-		if (feed != null && StringUtils.equals(normalized, feed.getNormalizedUrl())) {
+		if (feed != null
+				&& StringUtils.equals(normalized, feed.getNormalizedUrl())) {
 			return feed;
 		}
 
@@ -106,13 +112,19 @@ public class FeedDAO extends GenericDAO<Feed> {
 		SetJoin<Feed, FeedSubscription> join = root.join(Feed_.subscriptions,
 				JoinType.LEFT);
 		query.where(builder.isNull(join.get(FeedSubscription_.id)));
-
 		TypedQuery<Feed> q = em.createQuery(query);
 		q.setMaxResults(max);
 
 		List<Feed> list = q.getResultList();
 		int deleted = list.size();
 		for (Feed feed : list) {
+			for (FeedEntry entry : feed.getEntries()) {
+				entry.getFeeds().remove(feed);
+				em.merge(entry);
+				if (entry.getFeeds().isEmpty()) {
+					em.remove(entry);
+				}
+			}
 			feed.getEntries().clear();
 			delete(feed);
 		}

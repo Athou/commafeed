@@ -33,7 +33,7 @@ public class DatabaseCleaner {
 		long total = 0;
 		int deleted = -1;
 		do {
-			deleted = feedDAO.deleteWithoutSubscriptions(100);
+			deleted = feedDAO.deleteWithoutSubscriptions(1);
 			total += deleted;
 			log.info("removed {} feeds without subscriptions", total);
 		} while (deleted != 0);

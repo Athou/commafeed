@@ -3,6 +3,9 @@
   body {
     font-family: Tahoma, 'Iranian sans', 'DejaVu Sans', sans-serif;
   }
+  input, button, select, textarea {
+    font-family: inherit; /* what said above */
+  }
   /* My scroll speed hack, it is temporary */
   .toolbar {
     position: relative;

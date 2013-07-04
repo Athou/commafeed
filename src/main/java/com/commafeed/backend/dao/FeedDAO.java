@@ -1,6 +1,7 @@
 package com.commafeed.backend.dao;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -119,7 +120,13 @@ public class FeedDAO extends GenericDAO<Feed> {
 		int deleted = list.size();
 		for (Feed feed : list) {
 			for (FeedEntry entry : feed.getEntries()) {
-				entry.getFeeds().remove(feed);
+				Iterator<Feed> it = entry.getFeeds().iterator();
+				while (it.hasNext()) {
+					Feed f = it.next();
+					if (f.getId().equals(feed.getId())) {
+						it.remove();
+					}
+				}
 				em.merge(entry);
 			}
 			feed.getEntries().clear();

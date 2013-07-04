@@ -40,6 +40,19 @@ public class DatabaseCleaner {
 		log.info("cleanup done: {} feeds without subscriptions deleted", total);
 		return total;
 	}
+	
+	public long cleanEntriesWithoutFeeds() {
+
+		long total = 0;
+		int deleted = -1;
+		do {
+			deleted = feedEntryDAO.deleteWithoutFeeds(100);
+			total += deleted;
+			log.info("removed {} entries without feeds", total);
+		} while (deleted != 0);
+		log.info("cleanup done: {} entries without feeds deleted", total);
+		return total;
+	}
 
 	public long cleanEntriesOlderThan(long value, TimeUnit unit) {
 		Calendar cal = Calendar.getInstance();

@@ -249,6 +249,8 @@ public class AdminREST extends AbstractResourceREST {
 		Map<String, Long> map = Maps.newHashMap();
 		map.put("feeds_without_subscriptions",
 				cleaner.cleanFeedsWithoutSubscriptions());
+		map.put("entries_without_feeds",
+				cleaner.cleanEntriesWithoutFeeds());
 		return Response.ok(map).build();
 	}
 

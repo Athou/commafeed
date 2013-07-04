@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
 
@@ -84,6 +85,22 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		q.setMaxResults(max);
 		List<FeedEntry> list = q.getResultList();
 
+		int deleted = list.size();
+		delete(list);
+		return deleted;
+	}
+
+	public int deleteWithoutFeeds(int max) {
+		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
+		Root<FeedEntry> root = query.from(getType());
+
+		SetJoin<FeedEntry, Feed> join = root.join(FeedEntry_.feeds,
+				JoinType.LEFT);
+		query.where(builder.isNull(join.get(Feed_.id)));
+		TypedQuery<FeedEntry> q = em.createQuery(query);
+		q.setMaxResults(max);
+
+		List<FeedEntry> list = q.getResultList();
 		int deleted = list.size();
 		delete(list);
 		return deleted;

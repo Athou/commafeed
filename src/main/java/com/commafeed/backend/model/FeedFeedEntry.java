@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,12 +21,12 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class FeedFeedEntry implements Serializable {
 
 	@Id
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "FEED_ID")
 	private Feed feed;
 
 	@Id
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "FEEDENTRY_ID")
 	private FeedEntry entry;
 

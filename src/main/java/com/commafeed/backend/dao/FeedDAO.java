@@ -121,9 +121,6 @@ public class FeedDAO extends GenericDAO<Feed> {
 			for (FeedEntry entry : feed.getEntries()) {
 				entry.getFeeds().remove(feed);
 				em.merge(entry);
-				if (entry.getFeeds().isEmpty()) {
-					em.remove(entry);
-				}
 			}
 			feed.getEntries().clear();
 			delete(feed);

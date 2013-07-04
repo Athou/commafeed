@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.cache.CacheService;
@@ -17,12 +19,16 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
+import com.commafeed.backend.model.FeedFeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.google.common.collect.Lists;
 
 @Stateless
 public class FeedUpdateService {
+	
+	@PersistenceContext
+	protected EntityManager em;
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
@@ -46,6 +52,7 @@ public class FeedUpdateService {
 				entry.getUrl(), feed.getId());
 
 		FeedEntry update = null;
+		FeedFeedEntry ffe = null;
 		if (existing == null) {
 			entry.setAuthor(FeedUtils.truncate(FeedUtils.handleContent(
 					entry.getAuthor(), feed.getLink(), true), 128));
@@ -56,11 +63,11 @@ public class FeedUpdateService {
 					feed.getLink(), false));
 
 			entry.setInserted(new Date());
-			entry.getFeeds().add(feed);
+			ffe = new FeedFeedEntry(feed, entry);
 
 			update = entry;
-		} else if (existing.feed == null) {
-			existing.entry.getFeeds().add(feed);
+		} else if (existing.ffe == null) {
+			ffe = new FeedFeedEntry(feed, existing.entry);
 			update = existing.entry;
 		}
 
@@ -78,6 +85,7 @@ public class FeedUpdateService {
 			cache.invalidateUserData(users.toArray(new User[0]));
 			feedEntryDAO.saveOrUpdate(update);
 			feedEntryStatusDAO.saveOrUpdate(statusUpdateList);
+			em.persist(ffe);
 			metricsBean.entryUpdated(statusUpdateList.size());
 		}
 	}

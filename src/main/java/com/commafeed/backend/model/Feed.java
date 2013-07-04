@@ -4,11 +4,10 @@ import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,8 +15,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import com.google.common.collect.Sets;
 
 @Entity
 @Table(name = "FEEDS")
@@ -111,8 +108,8 @@ public class Feed extends AbstractModel {
 	@Column(length = 40)
 	private String lastContentHash;
 
-	@ManyToMany(mappedBy = "feeds")
-	private Set<FeedEntry> entries = Sets.newHashSet();
+	@OneToMany(mappedBy = "feed", cascade = CascadeType.REMOVE)
+	private Set<FeedFeedEntry> entryRelationships;
 
 	@OneToMany(mappedBy = "feed")
 	private Set<FeedSubscription> subscriptions;
@@ -145,13 +142,6 @@ public class Feed extends AbstractModel {
 	@Transient
 	private boolean urgent;
 
-	@PreRemove
-	private void removeEntriesFromFeed() {
-		for (FeedEntry entry : entries) {
-			entry.getFeeds().remove(this);
-		}
-	}
-
 	public Feed() {
 
 	}
@@ -174,14 +164,6 @@ public class Feed extends AbstractModel {
 
 	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
-	}
-
-	public Set<FeedEntry> getEntries() {
-		return entries;
-	}
-
-	public void setEntries(Set<FeedEntry> entries) {
-		this.entries = entries;
 	}
 
 	public String getMessage() {
@@ -342,6 +324,14 @@ public class Feed extends AbstractModel {
 
 	public void setNormalizedUrlHash(String normalizedUrlHash) {
 		this.normalizedUrlHash = normalizedUrlHash;
+	}
+
+	public Set<FeedFeedEntry> getEntryRelationships() {
+		return entryRelationships;
+	}
+
+	public void setEntryRelationships(Set<FeedFeedEntry> entryRelationships) {
+		this.entryRelationships = entryRelationships;
 	}
 
 }

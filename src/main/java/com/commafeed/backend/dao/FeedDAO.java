@@ -88,18 +88,6 @@ public class FeedDAO extends GenericDAO<Feed> {
 		return null;
 	}
 
-	public Feed findByIdWithEntries(Long feedId, int offset, int limit) {
-		CriteriaQuery<Feed> query = builder.createQuery(getType());
-		Root<Feed> root = query.from(getType());
-
-		query.where(builder.equal(root.get(Feed_.id), feedId));
-		root.fetch(Feed_.entries, JoinType.LEFT);
-
-		TypedQuery<Feed> q = em.createQuery(query);
-		limit(q, offset, limit);
-		return q.getSingleResult();
-	}
-
 	public List<Feed> findByTopic(String topic) {
 		return findByField(Feed_.pushTopicHash, DigestUtils.sha1Hex(topic));
 	}

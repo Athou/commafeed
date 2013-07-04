@@ -9,8 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -19,8 +17,6 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import com.google.api.client.util.Sets;
 
 @Entity
 @Table(name = "FEEDENTRIES")
@@ -35,9 +31,8 @@ public class FeedEntry extends AbstractModel {
 	@Column(length = 40, nullable = false)
 	private String guidHash;
 
-	@ManyToMany
-	@JoinTable(name = "FEED_FEEDENTRIES", joinColumns = { @JoinColumn(name = "FEEDENTRY_ID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "FEED_ID", nullable = false, updatable = false) })
-	private Set<Feed> feeds = Sets.newHashSet();
+	@OneToMany(mappedBy = "entry", cascade = CascadeType.REMOVE)
+	private Set<FeedFeedEntry> feedRelationships;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(nullable = false, updatable = false)
@@ -82,14 +77,6 @@ public class FeedEntry extends AbstractModel {
 		this.updated = updated;
 	}
 
-	public Set<Feed> getFeeds() {
-		return feeds;
-	}
-
-	public void setFeeds(Set<Feed> feeds) {
-		this.feeds = feeds;
-	}
-
 	public Set<FeedEntryStatus> getStatuses() {
 		return statuses;
 	}
@@ -128,6 +115,14 @@ public class FeedEntry extends AbstractModel {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public Set<FeedFeedEntry> getFeedRelationships() {
+		return feedRelationships;
+	}
+
+	public void setFeedRelationships(Set<FeedFeedEntry> feedRelationships) {
+		this.feedRelationships = feedRelationships;
 	}
 
 }

@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,10 +34,10 @@ public class Feed extends AbstractModel {
 
 	@Column(length = 40, nullable = false)
 	private String urlHash;
-	
+
 	@Column(length = 2048, nullable = false)
 	private String normalizedUrl;
-	
+
 	@Column(length = 40, nullable = false)
 	private String normalizedUrlHash;
 
@@ -143,6 +144,13 @@ public class Feed extends AbstractModel {
 	 */
 	@Transient
 	private boolean urgent;
+
+	@PreRemove
+	private void removeEntriesFromFeed() {
+		for (FeedEntry entry : entries) {
+			entry.getFeeds().remove(this);
+		}
+	}
 
 	public Feed() {
 

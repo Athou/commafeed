@@ -53,7 +53,8 @@ public class FeedRefreshWorker {
 		ApplicationSettings settings = applicationSettingsService.get();
 		int threads = settings.getBackgroundThreads();
 		log.info("Creating refresh worker pool with {} threads", threads);
-		pool = new FeedRefreshExecutor("FeedRefreshUpdater", threads, 20 * threads);
+		pool = new FeedRefreshExecutor("FeedRefreshUpdater", threads,
+				20 * threads);
 	}
 
 	@PreDestroy
@@ -64,9 +65,13 @@ public class FeedRefreshWorker {
 	public void updateFeed(Feed feed) {
 		pool.execute(new FeedTask(feed));
 	}
-	
-	public int getQueueSize(){
+
+	public int getQueueSize() {
 		return pool.getQueueSize();
+	}
+
+	public int getActiveCount() {
+		return pool.getActiveCount();
 	}
 
 	private class FeedTask implements Task {
@@ -125,7 +130,8 @@ public class FeedRefreshWorker {
 			feedRefreshUpdater.updateFeed(feed, entries);
 
 		} catch (NotModifiedException e) {
-			log.debug("Feed not modified : {} - {}", feed.getUrl(), e.getMessage());
+			log.debug("Feed not modified : {} - {}", feed.getUrl(),
+					e.getMessage());
 
 			Date disabledUntil = null;
 			if (applicationSettingsService.get().isHeavyLoad()) {

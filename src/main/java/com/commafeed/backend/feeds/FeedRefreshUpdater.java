@@ -185,4 +185,8 @@ public class FeedRefreshUpdater {
 		return pool.getQueueSize();
 	}
 
+	public int getActiveCount() {
+		return pool.getActiveCount();
+	}
+
 }

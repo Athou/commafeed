@@ -17,7 +17,8 @@ public class FeedRefreshExecutor {
 	private ThreadPoolExecutor pool;
 	private LinkedBlockingDeque<Runnable> queue;
 
-	public FeedRefreshExecutor(final String poolName, int threads, int queueCapacity) {
+	public FeedRefreshExecutor(final String poolName, int threads,
+			int queueCapacity) {
 		this.poolName = poolName;
 		pool = new ThreadPoolExecutor(threads, threads, 0,
 				TimeUnit.MILLISECONDS,
@@ -46,7 +47,8 @@ public class FeedRefreshExecutor {
 						queue.put(r);
 					}
 				} catch (InterruptedException e1) {
-					log.error(poolName + " interrupted while waiting for queue.", e1);
+					log.error(poolName
+							+ " interrupted while waiting for queue.", e1);
 				}
 			}
 		});
@@ -60,6 +62,10 @@ public class FeedRefreshExecutor {
 		return queue.size();
 	}
 
+	public int getActiveCount() {
+		return pool.getActiveCount();
+	}
+
 	public static interface Task extends Runnable {
 		boolean isUrgent();
 	}
@@ -70,7 +76,9 @@ public class FeedRefreshExecutor {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				log.error("{} interrupted while waiting for threads to finish.", poolName);
+				log.error(
+						"{} interrupted while waiting for threads to finish.",
+						poolName);
 			}
 		}
 	}

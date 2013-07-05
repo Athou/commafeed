@@ -236,7 +236,9 @@ public class AdminREST extends AbstractResourceREST {
 		if (backlog) {
 			map.put("backlog", taskGiver.getUpdatableCount());
 		}
+		map.put("http_active", feedRefreshWorker.getActiveCount());
 		map.put("http_queue", feedRefreshWorker.getQueueSize());
+		map.put("database_active", feedRefreshUpdater.getActiveCount());
 		map.put("database_queue", feedRefreshUpdater.getQueueSize());
 		map.put("cache", metricsBean.getCacheStats());
 
@@ -249,8 +251,7 @@ public class AdminREST extends AbstractResourceREST {
 		Map<String, Long> map = Maps.newHashMap();
 		map.put("feeds_without_subscriptions",
 				cleaner.cleanFeedsWithoutSubscriptions());
-		map.put("entries_without_feeds",
-				cleaner.cleanEntriesWithoutFeeds());
+		map.put("entries_without_feeds", cleaner.cleanEntriesWithoutFeeds());
 		return Response.ok(map).build();
 	}
 

@@ -134,7 +134,7 @@ public class FeedRefreshTaskGiver {
 	private void refill() {
 		Date now = new Date();
 
-		int count = 3 * backgroundThreads;
+		int count = Math.min(100, 3 * backgroundThreads);
 		List<Feed> feeds = null;
 		if (applicationSettingsService.get().isCrawlingPaused()) {
 			feeds = Lists.newArrayList();

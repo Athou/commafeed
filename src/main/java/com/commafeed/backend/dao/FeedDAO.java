@@ -28,6 +28,9 @@ public class FeedDAO extends GenericDAO<Feed> {
 	private List<Predicate> getUpdatablePredicates(Root<Feed> root,
 			Date threshold) {
 
+		Predicate hasSubscriptions = builder.isNotEmpty(root
+				.get(Feed_.subscriptions));
+
 		Predicate neverUpdated = builder.isNull(root.get(Feed_.lastUpdated));
 		Predicate updatedBeforeThreshold = builder.lessThan(
 				root.get(Feed_.lastUpdated), threshold);
@@ -37,7 +40,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 		Predicate disabledDateIsInPast = builder.lessThan(
 				root.get(Feed_.disabledUntil), new Date());
 
-		return Lists.newArrayList(
+		return Lists.newArrayList(hasSubscriptions,
 				builder.or(neverUpdated, updatedBeforeThreshold),
 				builder.or(disabledDateIsNull, disabledDateIsInPast));
 	}

@@ -22,6 +22,7 @@ import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.google.api.client.util.Maps;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 
 @ApplicationScoped
@@ -134,7 +135,12 @@ public class FeedRefreshTaskGiver {
 		Date now = new Date();
 
 		int count = 3 * backgroundThreads;
-		List<Feed> feeds = feedDAO.findNextUpdatable(count, getThreshold());
+		List<Feed> feeds = null;
+		if (applicationSettingsService.get().isCrawlingPaused()) {
+			feeds = Lists.newArrayList();
+		} else {
+			feeds = feedDAO.findNextUpdatable(count, getThreshold());
+		}
 
 		int size = addQueue.size();
 		for (int i = 0; i < size; i++) {

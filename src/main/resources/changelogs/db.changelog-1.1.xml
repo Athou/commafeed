@@ -256,5 +256,14 @@
 			<column name="normalizedUrlHash" />
 		</createIndex>
 	</changeSet>
+	
+	<changeSet author="athou" id="add-pause-crawling">
+		<addColumn tableName="APPLICATIONSETTINGS">
+		    <column name="crawlingPaused" type="BIT" />
+		</addColumn>
+		<update tableName="APPLICATIONSETTINGS">
+			<column name="crawlingPaused" valueBoolean="false"></column>
+		</update>	
+	</changeSet>
 
 </databaseChangeLog>

@@ -17,4 +17,8 @@
 		<query>delete from FeedEntryStatus s where s.id in :ids</query>
 	</named-query>
 	
+	<named-query name="Feed.deleteEntryRelationships">
+		<query>delete from FeedFeedEntry ffe where ffe.feed.id = :feedId</query>
+	</named-query>
+	
 </entity-mappings>

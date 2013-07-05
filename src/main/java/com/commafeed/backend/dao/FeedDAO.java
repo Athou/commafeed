@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
@@ -107,7 +108,14 @@ public class FeedDAO extends GenericDAO<Feed> {
 
 		List<Feed> list = q.getResultList();
 		int deleted = list.size();
-		delete(list);
+
+		for (Feed feed : list) {
+			Query relationshipDeleteQuery = em
+					.createNamedQuery("Feed.deleteEntryRelationships");
+			relationshipDeleteQuery.setParameter("feedId", feed.getId());
+			relationshipDeleteQuery.executeUpdate();
+			delete(feed);
+		}
 		return deleted;
 
 	}

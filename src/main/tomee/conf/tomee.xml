@@ -30,7 +30,15 @@
  -->
  
  
- 
+ <!--
+	<Resource id="MSSQL" type="DataSource">
+		JdbcDriver com.microsoft.sqlserver.jdbc.SQLServerDriver
+        JdbcUrl jdbc:sqlserver://localhost/commafeed
+		UserName cf
+		Password cf
+		MaxActive 50
+	</Resource>
+-->
  
 	<Container id="CommaFeedStateless" type="STATELESS">
 	        PoolSize=50

@@ -43,6 +43,7 @@ public class FeedUtils {
 
 	protected static Logger log = LoggerFactory.getLogger(FeedUtils.class);
 
+	private static final String ESCAPED_QUESTION_MARK = Pattern.quote("?");
 	private static final List<String> ALLOWED_IFRAME_CSS_RULES = Arrays.asList(
 			"height", "width", "border");
 	private static final char[] DISALLOWED_IFRAME_CSS_RULE_CHARACTERS = new char[] {
@@ -119,10 +120,10 @@ public class FeedUtils {
 				"feeds.feedburner.com");
 
 		// feedburner feeds have a special treatment
-		if (normalized.contains("feedburner.com")) {
+		if (normalized.split(ESCAPED_QUESTION_MARK)[0].contains("feedburner.com")) {
 			normalized = normalized.replace("feeds2.feedburner.com",
 					"feeds.feedburner.com");
-			normalized = normalized.split(Pattern.quote("?"))[0];
+			normalized = normalized.split(ESCAPED_QUESTION_MARK)[0];
 			normalized = StringUtils.removeEnd(normalized, "/");
 		}
 

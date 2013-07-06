@@ -69,6 +69,9 @@ Now build the application
 	External Microsoft SQL Server database:
     mvn clean package tomee:build -Pprod -Pmssql
     
+If you are using SQL Server for the first time (tested with version 2012), you will need to make a small change to src/main/resources/changelogs/db.changelog-1.1.xml
+Just comment or delete the first indicated section and uncomment the second section. 
+    
 It will generate a zip file at `target/commafeed.zip` with everything you need to run the application.
 
 * Create a directory somewhere (e.g. `/opt/commafeed/`) and extract the generated zip inside this directory.

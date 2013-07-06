@@ -66,7 +66,7 @@ Now build the application
 	External PostgreSQL database:
     mvn clean package tomee:build -Pprod -Ppgsql
     
-    	External Microsoft SQL Server database:
+	External Microsoft SQL Server database:
     mvn clean package tomee:build -Pprod -Pmssql
     
 It will generate a zip file at `target/commafeed.zip` with everything you need to run the application.

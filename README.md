@@ -63,8 +63,14 @@ Now build the application
 	External MySQL database:
     mvn clean package tomee:build -Pprod -Pmysql
     
-    External PostgreSQL database:
+	External PostgreSQL database:
     mvn clean package tomee:build -Pprod -Ppgsql
+    
+	External Microsoft SQL Server database:
+    mvn clean package tomee:build -Pprod -Pmssql
+    
+If you are using SQL Server for the first time (tested with version 2012), you will need to make a small change to src/main/resources/changelogs/db.changelog-1.1.xml
+Just comment or delete the first indicated section and uncomment the second section. 
     
 It will generate a zip file at `target/commafeed.zip` with everything you need to run the application.
 

@@ -120,6 +120,7 @@
 						<lib>org.hsqldb:hsqldb:SNAPSHOT</lib>
 						<lib>mysql:mysql-connector-java:5.1.24</lib>
 						<lib>postgresql:postgresql:9.1-901.jdbc4</lib>
+						<lib>mssql:sqljdbc4:4.0</lib>
 
 						<lib>org.infinispan:infinispan-core:5.1.4.FINAL</lib>
 						<lib>org.hibernate:hibernate-infinispan:4.1.11.Final</lib>
@@ -482,6 +483,13 @@
 			<properties>
 				<jpa.datasource.name>java:openejb/Resource/PostgreSQL</jpa.datasource.name>
 				<jpa.dialect>org.hibernate.dialect.PostgreSQLDialect</jpa.dialect>
+			</properties>
+		</profile>
+		<profile>
+			<id>mssql</id>
+			<properties>
+				<jpa.datasource.name>java:openejb/Resource/MSSQL</jpa.datasource.name>
+				<jpa.dialect>org.hibernate.dialect.SQLServerDialect</jpa.dialect>
 			</properties>
 		</profile>
 		<profile>

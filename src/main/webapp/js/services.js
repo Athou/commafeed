@@ -241,6 +241,12 @@ function($resource, $http) {
 				_method : 'mark'
 			}
 		},
+		markMultiple : {
+			method : 'POST',
+			params : {
+				_method : 'markMultiple'
+			}
+		},
 		star : {
 			method : 'POST',
 			params : {

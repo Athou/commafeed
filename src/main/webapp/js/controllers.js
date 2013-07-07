@@ -752,6 +752,29 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 		});
 	};
 	
+	$scope.markUpTo = function(entry) {
+		var entries = [];
+		for (var i = 0; i < $scope.entries.length; i++) {
+			var entry = $scope.entries[i];
+			if (!entry.read) {
+				entries.push({
+					id : entry.id,
+					feedId : entry.feedId,
+					read: true
+				});
+				entry.read = true;
+			}
+			if (entry == $scope.current) {
+				break;
+			}
+		}
+		EntryService.markMultiple({
+			requests : entries
+		}, function() {
+			CategoryService.refresh();
+		});
+	};
+	
 	$scope.star = function(entry, star, event) {
 		if (event) {
 			event.preventDefault();

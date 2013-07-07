@@ -180,6 +180,17 @@
 	font-size: 12px;
 }
 
+#feed-accordion a.mark-up-to {
+	color: #333333;
+	position: absolute;
+	right: 30px;
+}
+
+#feed-accordion a.mark-up-to:hover {
+	text-decoration: none;
+	cursor: pointer;
+}
+
 #feed-accordion .star {
 	text-decoration: none;
 	padding: 0px 5px;

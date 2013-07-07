@@ -20,6 +20,7 @@ import com.commafeed.backend.services.FeedEntryService;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.request.MarkRequest;
+import com.commafeed.frontend.model.request.MultipleMarkRequest;
 import com.commafeed.frontend.model.request.StarRequest;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -52,6 +53,21 @@ public class EntryREST extends AbstractResourceREST {
 		feedEntryService.markEntry(getUser(), Long.valueOf(req.getId()),
 				req.getFeedId(), req.isRead());
 		cache.invalidateUserData(getUser());
+		return Response.ok(Status.OK).build();
+	}
+
+	@Path("/markMultiple")
+	@POST
+	@ApiOperation(value = "Mark multiple feed entries", notes = "Mark feed entries as read/unread")
+	public Response markFeedEntries(
+			@ApiParam(value = "Multiple Mark Request", required = true) MultipleMarkRequest req) {
+		Preconditions.checkNotNull(req);
+		Preconditions.checkNotNull(req.getRequests());
+
+		for (MarkRequest r : req.getRequests()) {
+			markFeedEntry(r);
+		}
+		
 		return Response.ok(Status.OK).build();
 	}
 

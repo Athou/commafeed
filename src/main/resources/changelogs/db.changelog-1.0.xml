@@ -305,7 +305,7 @@
 			<column name="recoverPasswordTokenDate" type="DATETIME" />
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+			<append value=" ENGINE INNODB CHARACTER SET utf8" />
 		</modifySql>
 	</changeSet>
 
@@ -352,6 +352,8 @@
 	<changeSet author="athou" id="add-keys">
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
+				<foreignKeyConstraintExists foreignKeyTableName="FEEDS" 
+					foreignKeyName="FKE50C03F13BFA4D81" />
 				<tableExists tableName="APPLICATIONSETTINGS" />
 			</not>
 		</preConditions>
@@ -410,7 +412,7 @@
 	<changeSet author="athou" id="create-indexes">
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
-				<tableExists tableName="APPLICATIONSETTINGS" />
+				<indexExists tableName="FEEDENTRIES" indexName="updated_index" />
 			</not>
 		</preConditions>
 

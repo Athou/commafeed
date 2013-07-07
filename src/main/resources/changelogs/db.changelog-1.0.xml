@@ -352,8 +352,7 @@
 	<changeSet author="athou" id="add-keys">
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
-				<foreignKeyConstraintExists foreignKeyTableName="FEEDS" 
-					foreignKeyName="FKE50C03F13BFA4D81" />
+				<primaryKeyExists tableName="FEED_FEEDENTRIES" />
 			</not>
 		</preConditions>
 		<addPrimaryKey columnNames="FEEDENTRY_ID, FEED_ID"

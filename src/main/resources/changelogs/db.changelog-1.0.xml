@@ -3,8 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-	<changeSet author="athou" id="init">
-		<preConditions onFail="MARK_RAN" onFailMessage="Existing database, skipping initial schema setup">
+	<changeSet author="athou" id="create-app-settings">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="APPLICATIONSETTINGS" />
 			</not>
@@ -48,7 +48,17 @@
 			</column>
 			<column name="logLevel" type="VARCHAR(255)" />
 		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+		</modifySql>
+	</changeSet>
 
+	<changeSet author="athou" id="create-ffe">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
+			<not>
+				<tableExists tableName="FEED_FEEDENTRIES" />
+			</not>
+		</preConditions>
 		<createTable tableName="FEED_FEEDENTRIES">
 			<column name="FEEDENTRY_ID" type="BIGINT">
 				<constraints nullable="false" />
@@ -57,7 +67,17 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+		</modifySql>
+	</changeSet>
 
+	<changeSet author="athou" id="create-cat">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
+			<not>
+				<tableExists tableName="FEEDCATEGORIES" />
+			</not>
+		</preConditions>
 		<createTable tableName="FEEDCATEGORIES">
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
@@ -74,7 +94,17 @@
 			</column>
 			<column name="position" type="INT" />
 		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+		</modifySql>
+	</changeSet>
 
+	<changeSet author="athou" id="create-entries">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
+			<not>
+				<tableExists tableName="FEEDENTRIES" />
+			</not>
+		</preConditions>
 		<createTable tableName="FEEDENTRIES">
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
@@ -92,7 +122,17 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+		</modifySql>
+	</changeSet>
 
+	<changeSet author="athou" id="create-contents">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
+			<not>
+				<tableExists tableName="FEEDENTRYCONTENTS" />
+			</not>
+		</preConditions>
 		<createTable tableName="FEEDENTRYCONTENTS">
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
@@ -102,7 +142,17 @@
 			<column name="enclosureUrl" type="VARCHAR(2048)" />
 			<column name="title" type="VARCHAR(2048)" />
 		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+		</modifySql>
+	</changeSet>
 
+	<changeSet author="athou" id="create-statuses">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
+			<not>
+				<tableExists tableName="FEEDENTRYSTATUSES" />
+			</not>
+		</preConditions>
 		<createTable tableName="FEEDENTRYSTATUSES">
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
@@ -118,7 +168,17 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+		</modifySql>
+	</changeSet>
 
+	<changeSet author="athou" id="create-feeds">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
+			<not>
+				<tableExists tableName="FEEDS" />
+			</not>
+		</preConditions>
 		<createTable tableName="FEEDS">
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
@@ -147,7 +207,17 @@
 			<column name="averageEntryInterval" type="BIGINT" />
 			<column name="lastEntryDate" type="DATETIME" />
 		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+		</modifySql>
+	</changeSet>
 
+	<changeSet author="athou" id="create-subs">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
+			<not>
+				<tableExists tableName="FEEDSUBSCRIPTIONS" />
+			</not>
+		</preConditions>
 		<createTable tableName="FEEDSUBSCRIPTIONS">
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
@@ -164,12 +234,32 @@
 			</column>
 			<column name="position" type="INT" />
 		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+		</modifySql>
+	</changeSet>
 
+	<changeSet author="athou" id="create-seq">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
+			<not>
+				<tableExists tableName="hibernate_sequences" />
+			</not>
+		</preConditions>
 		<createTable tableName="hibernate_sequences">
 			<column name="sequence_name" type="VARCHAR(255)" />
 			<column name="sequence_next_hi_value" type="INT" />
 		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+		</modifySql>
+	</changeSet>
 
+	<changeSet author="athou" id="create-roles">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
+			<not>
+				<tableExists tableName="USERROLES" />
+			</not>
+		</preConditions>
 		<createTable tableName="USERROLES">
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
@@ -181,7 +271,17 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+		</modifySql>
+	</changeSet>
 
+	<changeSet author="athou" id="create-users">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
+			<not>
+				<tableExists tableName="USERS" />
+			</not>
+		</preConditions>
 		<createTable tableName="USERS">
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
@@ -204,7 +304,17 @@
 			<column name="recoverPasswordToken" type="VARCHAR(40)" />
 			<column name="recoverPasswordTokenDate" type="DATETIME" />
 		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+		</modifySql>
+	</changeSet>
 
+	<changeSet author="athou" id="create-user-settings">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
+			<not>
+				<tableExists tableName="USERSETTINGS" />
+			</not>
+		</preConditions>
 		<createTable tableName="USERSETTINGS">
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
@@ -234,7 +344,17 @@
 			<column name="language" type="VARCHAR(4)" />
 			<column name="theme" type="VARCHAR(32)" />
 		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+		</modifySql>
+	</changeSet>
 
+	<changeSet author="athou" id="add-keys">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
+			<not>
+				<tableExists tableName="APPLICATIONSETTINGS" />
+			</not>
+		</preConditions>
 		<addPrimaryKey columnNames="FEEDENTRY_ID, FEED_ID"
 			tableName="FEED_FEEDENTRIES" />
 
@@ -285,6 +405,14 @@
 		<addForeignKeyConstraint baseColumnNames="user_id"
 			baseTableName="USERSETTINGS" constraintName="FKAE0194EE6D690261"
 			referencedColumnNames="id" referencedTableName="USERS" />
+	</changeSet>
+
+	<changeSet author="athou" id="create-indexes">
+		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
+			<not>
+				<tableExists tableName="APPLICATIONSETTINGS" />
+			</not>
+		</preConditions>
 
 		<createIndex indexName="guidHash_index" tableName="FEEDENTRIES"
 			unique="false">

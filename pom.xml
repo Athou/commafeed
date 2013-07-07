@@ -119,7 +119,7 @@
 						<lib>org.hsqldb:hsqldb:SNAPSHOT</lib>
 						<lib>mysql:mysql-connector-java:5.1.24</lib>
 						<lib>postgresql:postgresql:9.1-901.jdbc4</lib>
-						<lib>net.sourceforge.jtds:jtds:1.3.0</lib>
+						<lib>net.sourceforge.jtds:jtds:1.3.1</lib>
 
 						<lib>org.infinispan:infinispan-core:5.1.4.FINAL</lib>
 						<lib>org.hibernate:hibernate-infinispan:4.1.11.Final</lib>

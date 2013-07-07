@@ -755,16 +755,16 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 	$scope.markUpTo = function(entry) {
 		var entries = [];
 		for (var i = 0; i < $scope.entries.length; i++) {
-			var entry = $scope.entries[i];
-			if (!entry.read) {
+			var e = $scope.entries[i];
+			if (!e.read) {
 				entries.push({
-					id : entry.id,
-					feedId : entry.feedId,
+					id : e.id,
+					feedId : e.feedId,
 					read: true
 				});
-				entry.read = true;
+				e.read = true;
 			}
-			if (entry == $scope.current) {
+			if (e == entry) {
 				break;
 			}
 		}

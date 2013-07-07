@@ -17,7 +17,6 @@
 		<production>false</production>
 		<jpa.show_sql>false</jpa.show_sql>
 		<jpa.datasource.name>java:openejb/Resource/My DataSource</jpa.datasource.name>
-		<jpa.dialect>org.hibernate.dialect.HSQLDialect</jpa.dialect>
 		<jpa.cache>false</jpa.cache>
 		<cache_service.class>com.commafeed.backend.cache.NoopCacheService</cache_service.class>
 	</properties>
@@ -120,6 +119,7 @@
 						<lib>org.hsqldb:hsqldb:SNAPSHOT</lib>
 						<lib>mysql:mysql-connector-java:5.1.24</lib>
 						<lib>postgresql:postgresql:9.1-901.jdbc4</lib>
+						<lib>net.sourceforge.jtds:jtds:1.3.0</lib>
 
 						<lib>org.infinispan:infinispan-core:5.1.4.FINAL</lib>
 						<lib>org.hibernate:hibernate-infinispan:4.1.11.Final</lib>
@@ -434,7 +434,6 @@
 			<id>openshift</id>
 			<properties>
 				<jpa.datasource.name>java:jboss/datasources/MysqlDS</jpa.datasource.name>
-				<jpa.dialect>com.commafeed.backend.MySQL5Dialect</jpa.dialect>
 			</properties>
 			<build>
 				<finalName>commafeed</finalName>
@@ -474,14 +473,18 @@
 			<id>mysql</id>
 			<properties>
 				<jpa.datasource.name>java:openejb/Resource/MySQL</jpa.datasource.name>
-				<jpa.dialect>com.commafeed.backend.MySQL5Dialect</jpa.dialect>
 			</properties>
 		</profile>
 		<profile>
 			<id>pgsql</id>
 			<properties>
 				<jpa.datasource.name>java:openejb/Resource/PostgreSQL</jpa.datasource.name>
-				<jpa.dialect>org.hibernate.dialect.PostgreSQLDialect</jpa.dialect>
+			</properties>
+		</profile>
+		<profile>
+			<id>mssql</id>
+			<properties>
+				<jpa.datasource.name>java:openejb/Resource/MSSQL</jpa.datasource.name>
 			</properties>
 		</profile>
 		<profile>

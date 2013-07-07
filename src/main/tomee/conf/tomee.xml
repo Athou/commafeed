@@ -29,6 +29,15 @@
 	</Resource>
  -->
  
+  <!-- 
+	<Resource id="MSSQL" type="DataSource">
+		JdbcDriver net.sourceforge.jtds.jdbc.Driver
+        JdbcUrl jdbc:jtds:sqlserver://localhost:1433/commafeed;instance=<instanceName, remove if not needed>
+		UserName cf
+		Password cf
+		MaxActive 50
+	</Resource>
+ -->
  
  
  

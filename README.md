@@ -35,7 +35,7 @@ See [here](http://jasonwryan.com/blog/2013/05/25/greader/) for an alternative me
 Deployment on your own server
 -----------------------------
 
-For storage, you can either use an embedded HSQLDB database or an external MySQL or PostgreSQL database.
+For storage, you can either use an embedded HSQLDB database or an external MySQL, PostgreSQL or SQLServer database.
 You also need Maven 3.x (and a Java 1.7+ JDK) installed in order to build the application.
 
 To install maven and openjdk on Ubuntu, issue the following commands
@@ -57,7 +57,7 @@ If you don't have git you can download the sources as a zip file from [here](htt
     
 Now build the application
 
-	Embedded HSQL database
+	Embedded HSQL database:
     mvn clean package tomee:build -Pprod
     
 	External MySQL database:
@@ -65,6 +65,9 @@ Now build the application
     
     External PostgreSQL database:
     mvn clean package tomee:build -Pprod -Ppgsql
+    
+    External Microsoft SQL Server database:
+    mvn clean package tomee:build -Pprod -Pmssql
     
 It will generate a zip file at `target/commafeed.zip` with everything you need to run the application.
 

@@ -136,7 +136,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 
 	}
 
-	public List<FeedCount> findDuplicates(int offset, int limit) {
+	public List<FeedCount> findDuplicates(int offset, int limit, long minCount) {
 		CriteriaQuery<String> query = builder.createQuery(String.class);
 		Root<Feed> root = query.from(getType());
 
@@ -146,7 +146,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 		query.select(hashPath);
 
 		query.groupBy(hashPath);
-		query.having(builder.greaterThan(count, 1l));
+		query.having(builder.greaterThan(count, minCount));
 
 		TypedQuery<String> q = em.createQuery(query);
 		limit(q, offset, limit);

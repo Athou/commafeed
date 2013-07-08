@@ -1210,11 +1210,13 @@ module.controller('ManageDuplicateFeedsCtrl', [
 	
 	$scope.limit = 10;
 	$scope.page = 0;
+	$scope.minCount = 1;
 	$scope.mergeData = {};
 	$scope.refreshData = function() {
 		AdminCleanupService.findDuplicateFeeds({
 			limit : $scope.limit,
-			page : $scope.page
+			page : $scope.page, 
+			minCount: $scope.minCount
 		}, function(data) {
 			$scope.counts = data;
 		});

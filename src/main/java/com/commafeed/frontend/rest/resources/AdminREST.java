@@ -273,8 +273,8 @@ public class AdminREST extends AbstractResourceREST {
 	@GET
 	@ApiOperation(value = "Find duplicate feeds")
 	public Response findDuplicateFeeds(@QueryParam("page") int page,
-			@QueryParam("limit") int limit) {
-		List<FeedCount> list = feedDAO.findDuplicates(limit * page, limit);
+			@QueryParam("limit") int limit, @QueryParam("minCount") long minCount) {
+		List<FeedCount> list = feedDAO.findDuplicates(limit * page, limit, minCount);
 		return Response.ok(list).build();
 	}
 
@@ -294,7 +294,7 @@ public class AdminREST extends AbstractResourceREST {
 			Feed feed = feedDAO.findById(feedId);
 			feeds.add(feed);
 		}
-		
+
 		if (feeds.isEmpty()) {
 			return Response.status(Status.BAD_REQUEST)
 					.entity("'from feeds' empty").build();

@@ -248,7 +248,7 @@ public class AdminREST extends AbstractResourceREST {
 
 	@Path("/cleanup/feeds")
 	@GET
-	@ApiOperation(value = "Feeds cleanup", notes="Delete feeds without subscriptions and entries without feeds")
+	@ApiOperation(value = "Feeds cleanup", notes = "Delete feeds without subscriptions and entries without feeds")
 	public Response cleanupFeeds() {
 		Map<String, Long> map = Maps.newHashMap();
 		map.put("feeds_without_subscriptions",
@@ -259,7 +259,7 @@ public class AdminREST extends AbstractResourceREST {
 
 	@Path("/cleanup/entries")
 	@GET
-	@ApiOperation(value = "Entries cleanup", notes="Delete entries older than given date")
+	@ApiOperation(value = "Entries cleanup", notes = "Delete entries older than given date")
 	public Response cleanupEntries(
 			@QueryParam("days") @DefaultValue("30") int days) {
 		Map<String, Long> map = Maps.newHashMap();
@@ -268,10 +268,10 @@ public class AdminREST extends AbstractResourceREST {
 		return Response.ok(map).build();
 	}
 
-	@Path("cleanup/merge")
+	@Path("/cleanup/merge")
 	@POST
-	@ApiOperation(value = "Merge feeds", notes="Merge feeds together")
-	public Response mergeFeeds(FeedMergeRequest request) {
+	@ApiOperation(value = "Merge feeds", notes = "Merge feeds together")
+	public Response mergeFeeds(@ApiParam(required = true) FeedMergeRequest request) {
 		Feed into = feedDAO.findById(request.getIntoFeedId());
 
 		List<Feed> feeds = Lists.newArrayList();

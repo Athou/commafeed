@@ -1222,8 +1222,24 @@ module.controller('ManageDuplicateFeedsCtrl', [
 		});
 	};
 	
+	$scope.autoMerge = function() {
+		for (var i = 0; i < $scope.counts.length; i++) {
+			var count = $scope.counts[i];
+			if (count.autoMerge) {
+				AdminCleanupService.mergeFeeds({
+					intoFeedId: count.feeds[0].id,
+					feedIds: _.pluck(count.feeds, 'id')
+				}, function() {
+					alert('done!');
+				});
+			}
+		}
+	};
+	
 	$scope.focus = function(count) {
 		$scope.current = count;
+		$scope.mergeData.intoFeedId = count.feeds[0].id;
+		$scope.mergeData.feedIds = _.pluck(count.feeds, 'id');
 	};
 	
 	$scope.merge = function() {

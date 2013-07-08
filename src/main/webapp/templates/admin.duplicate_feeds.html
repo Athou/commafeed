@@ -21,12 +21,13 @@
 	<div ui-if="current">
 		<div>
 			Merge
-			<select ng-model="mergeData.feedIds" size="15" multiple="multiple" 
+			<select ng-model="mergeData.feedIds" size="30" multiple="multiple" class="input-block-level" 
 				ng-options="feed.id as feed.url for feed in current.feeds">
 			</select>
-			
+		</div>
+		<div>
 			Into
-			<select ng-model="mergeData.intoFeedId" ng-options="feed.id as feed.url for feed in current.feeds">
+			<select ng-model="mergeData.intoFeedId" ng-options="feed.id as feed.url for feed in current.feeds" class="input-block-level">
 			</select>
 		</div>
 		<input type="button" class="btn" ng-click="merge()" value="Merge" />

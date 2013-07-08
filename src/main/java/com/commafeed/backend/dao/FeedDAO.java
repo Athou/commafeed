@@ -156,7 +156,14 @@ public class FeedDAO extends GenericDAO<Feed> {
 		for (String hash : normalizedUrlHashes) {
 			FeedCount fc = new FeedCount();
 			fc.normalizedUrlHash = hash;
-			fc.feeds = findByField(Feed_.normalizedUrlHash, hash);
+			fc.feeds = Lists.newArrayList();
+			for (Feed feed : findByField(Feed_.normalizedUrlHash, hash)) {
+				Feed f = new Feed();
+				f.setId(feed.getId());
+				f.setUrl(feed.getUrl());
+				fc.feeds.add(f);
+			}
+			result.add(fc);
 		}
 		return result;
 	}

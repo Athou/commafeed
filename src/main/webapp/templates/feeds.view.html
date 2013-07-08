@@ -46,9 +46,7 @@
 						<div class="entry-subtitle">
 							<span class="entry-source" ui-if="selectedType == 'category'">
 								<span class="entry-source-prefix">${view.entry_source}</span>
-								<a ng-click="goToFeed(entry.feedId)" class="pointer">
-									<span>{{entry.feedName}}</span>
-								</a>
+								<a ng-click="goToFeed(entry.feedId)" class="pointer"><span>{{entry.feedName}}</span></a>
 							</span>
 							<span class="entry-author" ui-if="entry.author">
 								<span class="entry-author-prefix">${view.entry_author}</span>

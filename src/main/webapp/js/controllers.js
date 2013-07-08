@@ -639,9 +639,9 @@ function($scope, $state, $filter, $timeout, CategoryService) {
 
 }]);
 
-module.controller('FeedListCtrl', ['$scope', '$stateParams', '$http', '$route', 
+module.controller('FeedListCtrl', ['$scope', '$stateParams', '$http', '$route', '$state',
 	'$window', 'EntryService', 'SettingsService', 'FeedService', 'CategoryService', 'AnalyticsService',
-function($scope, $stateParams, $http, $route, $window, EntryService, SettingsService, FeedService, CategoryService, AnalyticsService) {
+function($scope, $stateParams, $http, $route, $state, $window, EntryService, SettingsService, FeedService, CategoryService, AnalyticsService) {
 	
 	AnalyticsService.track();
 
@@ -722,6 +722,13 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 				limit : limit
 			}, callback);
 		}
+	};
+	
+	$scope.goToFeed = function(id) {		
+		$state.transitionTo('feeds.view', {
+			_type : 'feed', 
+			_id : id
+		});
 	};
 
 	$scope.mark = function(entry, read) {

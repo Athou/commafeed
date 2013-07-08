@@ -272,6 +272,26 @@ module.factory('AdminSettingsService', ['$resource', function($resource) {
 	return res;
 }]);
 
+module.factory('AdminCleanupService', ['$resource', function($resource) {
+	var actions = {
+		findDuplicateFeeds : {
+			method : 'GET',
+			isArray: true,
+			params : {
+				_method : 'findDuplicateFeeds'
+			}
+		},
+		mergeFeeds : {
+			method : 'POST',
+			params : {
+				_method : 'merge'
+			}
+		},
+	};
+	var res = $resource('rest/admin/cleanup/:_method', {}, actions);
+	return res;
+}]);
+
 module.factory('ServerService', ['$resource', function($resource) {
 	var res =  $resource('rest/server/get');
 	return res;

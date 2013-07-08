@@ -1204,6 +1204,34 @@ function($scope, $state, $stateParams,	$dialog, AdminUsersService) {
 	};
 }]);
 
+module.controller('ManageDuplicateFeedsCtrl', [
+	'$scope', 'AdminCleanupService',
+	function($scope, AdminCleanupService) {
+	
+	$scope.limit = 10;
+	$scope.page = 0;
+	$scope.mergeData = {};
+	$scope.refreshData = function() {
+		AdminCleanupService.findDuplicateFeeds({
+			limit : $scope.limit,
+			page : $scope.page
+		}, function(data) {
+			$scope.counts = data;
+		});
+	};
+	
+	$scope.focus = function(count) {
+		$scope.current = count;
+	};
+	
+	$scope.merge = function() {
+		AdminCleanupService.mergeFeeds($scope.mergeData, function() {
+			alert('done!');
+		});
+	};
+	
+}]);
+
 module.controller('SettingsCtrl', ['$scope', '$location', 'SettingsService', 'AnalyticsService', 'ServerService',
 function($scope, $location, SettingsService, AnalyticsService, ServerService) {
 	

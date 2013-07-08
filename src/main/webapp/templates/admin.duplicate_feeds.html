@@ -1,0 +1,34 @@
+<div class="row">
+	
+	Limit <input type="number" ng-model="limit" />
+	Page <input type="number" ng-model="page" />
+	<input type="button" class="btn" ng-click="refreshData()" value="Refresh" />
+	<table class="table table-condensed table-hover" ui-if="counts">
+		<thead>
+			<tr>
+				<th>url</th>
+				<th>count</h>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="count in counts" ng-click="focus(count)" class="pointer">
+				<td>{{count.normalizedUrlHash}}</td>
+				<td>{{count.feeds.length}}</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div ui-if="current">
+		<div>
+			Merge
+			<select ng-model="mergeData.feedIds" size="15" multiple="multiple" 
+				ng-options="feed.id as feed.url for feed in current.feeds">
+			</select>
+			
+			Into
+			<select ng-model="mergeData.intoFeedId" ng-options="feed.id as feed.url for feed in current.feeds">
+			</select>
+		</div>
+		<input type="button" class="btn" ng-click="merge()" value="Merge" />
+	</div>
+</div>

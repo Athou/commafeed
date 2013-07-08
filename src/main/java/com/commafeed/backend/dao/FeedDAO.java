@@ -7,10 +7,15 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +30,13 @@ import com.google.common.collect.Lists;
 
 @Stateless
 public class FeedDAO extends GenericDAO<Feed> {
+
+	@XmlRootElement
+	@XmlAccessorType(XmlAccessType.FIELD)
+	public static class FeedCount {
+		public String normalizedUrlHash;
+		public List<Feed> feeds;
+	}
 
 	private List<Predicate> getUpdatablePredicates(Root<Feed> root,
 			Date threshold) {
@@ -122,5 +134,30 @@ public class FeedDAO extends GenericDAO<Feed> {
 		}
 		return deleted;
 
+	}
+
+	public List<FeedCount> findDuplicates(int offset, int limit) {
+		CriteriaQuery<String> query = builder.createQuery(String.class);
+		Root<Feed> root = query.from(getType());
+
+		Path<String> hashPath = root.get(Feed_.normalizedUrlHash);
+		Expression<Long> count = builder.count(hashPath);
+
+		query.select(hashPath);
+
+		query.groupBy(hashPath);
+		query.having(builder.greaterThan(count, 1l));
+
+		TypedQuery<String> q = em.createQuery(query);
+		limit(q, offset, limit);
+		List<String> normalizedUrlHashes = q.getResultList();
+
+		List<FeedCount> result = Lists.newArrayList();
+		for (String hash : normalizedUrlHashes) {
+			FeedCount fc = new FeedCount();
+			fc.normalizedUrlHash = hash;
+			fc.feeds = findByField(Feed_.normalizedUrlHash, hash);
+		}
+		return result;
 	}
 }

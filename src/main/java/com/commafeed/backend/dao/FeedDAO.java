@@ -96,6 +96,13 @@ public class FeedDAO extends GenericDAO<Feed> {
 		return findByField(Feed_.pushTopicHash, DigestUtils.sha1Hex(topic));
 	}
 
+	public void deleteRelationships(Feed feed) {
+		Query relationshipDeleteQuery = em
+				.createNamedQuery("Feed.deleteEntryRelationships");
+		relationshipDeleteQuery.setParameter("feedId", feed.getId());
+		relationshipDeleteQuery.executeUpdate();
+	}
+
 	public int deleteWithoutSubscriptions(int max) {
 		CriteriaQuery<Feed> query = builder.createQuery(getType());
 		Root<Feed> root = query.from(getType());
@@ -110,10 +117,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 		int deleted = list.size();
 
 		for (Feed feed : list) {
-			Query relationshipDeleteQuery = em
-					.createNamedQuery("Feed.deleteEntryRelationships");
-			relationshipDeleteQuery.setParameter("feedId", feed.getId());
-			relationshipDeleteQuery.executeUpdate();
+			deleteRelationships(feed);
 			delete(feed);
 		}
 		return deleted;

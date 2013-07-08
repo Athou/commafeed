@@ -79,6 +79,7 @@ public class DatabaseCleaner {
 				sub.setFeed(into);
 			}
 			feedSubscriptionDAO.saveOrUpdate(subs);
+			feedDAO.deleteRelationships(feed);
 			feedDAO.delete(feed);
 		}
 		feedDAO.saveOrUpdate(into);

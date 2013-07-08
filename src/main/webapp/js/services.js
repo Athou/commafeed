@@ -286,7 +286,7 @@ module.factory('AdminCleanupService', ['$resource', function($resource) {
 			params : {
 				_method : 'merge'
 			}
-		},
+		}
 	};
 	var res = $resource('rest/admin/cleanup/:_method', {}, actions);
 	return res;

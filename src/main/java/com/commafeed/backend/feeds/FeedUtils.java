@@ -165,6 +165,7 @@ public class FeedUtils {
 			whitelist.addAttributes("pre", "dir");
 			whitelist.addAttributes("code", "dir");
 			whitelist.addAttributes("table", "dir");
+			whitelist.addAttributes("p", "dir");
 			whitelist.addAttributes("a", "href", "title");
 			whitelist.addAttributes("blockquote", "cite");
 			whitelist.addAttributes("col", "span", "width");

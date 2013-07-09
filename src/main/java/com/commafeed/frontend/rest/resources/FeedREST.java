@@ -307,9 +307,10 @@ public class FeedREST extends AbstractResourceREST {
 		if (sub == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
+		Long unreadCount = feedSubscriptionService.getUnreadCount(getUser()).get(id);
 		return Response.ok(
 				Subscription.build(sub, applicationSettingsService.get()
-						.getPublicUrl(), 0)).build();
+						.getPublicUrl(), unreadCount)).build();
 	}
 
 	@GET

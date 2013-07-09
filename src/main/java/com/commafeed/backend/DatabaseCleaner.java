@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.dao.FeedDAO.FeedCount;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.Feed;
@@ -40,7 +41,7 @@ public class DatabaseCleaner {
 		log.info("cleanup done: {} feeds without subscriptions deleted", total);
 		return total;
 	}
-	
+
 	public long cleanEntriesWithoutFeeds() {
 
 		long total = 0;
@@ -66,6 +67,22 @@ public class DatabaseCleaner {
 			log.info("removed {} entries", total);
 		} while (deleted != 0);
 		log.info("cleanup done: {} entries deleted", total);
+		return total;
+	}
+
+	public long cleanDuplicateFeeds() {
+		long total = 0;
+		int deleted = -1;
+		do {
+			List<FeedCount> fcs = feedDAO.findDuplicates(0, 10, 1);
+			deleted = fcs.size();
+			for (FeedCount fc : fcs) {
+				mergeFeeds(fc.feeds.get(0), fc.feeds);
+			}
+			total += deleted;
+			log.info("merged {} feeds", total);
+		} while (deleted != 0);
+		log.info("cleanup done: {} feeds merged", total);
 		return total;
 	}
 

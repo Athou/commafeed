@@ -304,4 +304,14 @@ public class AdminREST extends AbstractResourceREST {
 		return Response.ok().build();
 	}
 
+	@Path("/cleanup/automerge")
+	@GET
+	@ApiOperation(value = "Automatically merge feeds", notes = "Merge feeds together")
+	public Response autoMergeFeeds() {
+		Map<String, Long> map = Maps.newHashMap();
+		map.put("merged feeds",
+				cleaner.cleanDuplicateFeeds());
+		return Response.ok(map).build();
+	}
+
 }

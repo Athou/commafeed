@@ -27,6 +27,7 @@ import com.google.common.collect.Iterables;
 public class NextUnreadRedirectPage extends WebPage {
 
 	public static final String PARAM_CATEGORYID = "category";
+	public static final String PARAM_READINGORDER = "order";
 
 	@Inject
 	FeedCategoryDAO feedCategoryDAO;
@@ -36,13 +37,20 @@ public class NextUnreadRedirectPage extends WebPage {
 
 	public NextUnreadRedirectPage(PageParameters params) {
 		String categoryId = params.get(PARAM_CATEGORYID).toString();
+		String orderParam = params.get(PARAM_READINGORDER).toString();
+		
 		User user = CommaFeedSession.get().getUser();
+		ReadingOrder order = ReadingOrder.desc;
+		
+		if (StringUtils.equals(orderParam, "asc")) {
+			order = ReadingOrder.asc;
+		}
 
 		List<FeedEntryStatus> statuses = null;
 		if (StringUtils.isBlank(categoryId)
 				|| CategoryREST.ALL.equals(categoryId)) {
 			statuses = feedEntryStatusDAO.findAllUnread(user, null, 0, 1,
-					ReadingOrder.desc, true);
+					order, true);
 		} else {
 			FeedCategory category = feedCategoryDAO.findById(user,
 					Long.valueOf(categoryId));
@@ -50,7 +58,7 @@ public class NextUnreadRedirectPage extends WebPage {
 				List<FeedCategory> children = feedCategoryDAO
 						.findAllChildrenCategories(user, category);
 				statuses = feedEntryStatusDAO.findUnreadByCategories(children,
-						null, 0, 1, ReadingOrder.desc, true);
+						null, 0, 1, order, true);
 			}
 		}
 

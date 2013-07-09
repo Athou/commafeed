@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.ObjectUtils;
@@ -36,10 +37,13 @@ import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.i18n.shared.BidiUtils;
 import com.steadystate.css.parser.CSSOMParser;
 
+import edu.uci.ics.crawler4j.url.URLCanonicalizer;
+
 public class FeedUtils {
 
 	protected static Logger log = LoggerFactory.getLogger(FeedUtils.class);
 
+	private static final String ESCAPED_QUESTION_MARK = Pattern.quote("?");
 	private static final List<String> ALLOWED_IFRAME_CSS_RULES = Arrays.asList(
 			"height", "width", "border");
 	private static final char[] DISALLOWED_IFRAME_CSS_RULE_CHARACTERS = new char[] {
@@ -83,6 +87,47 @@ public class FeedUtils {
 			encoding = "windows-1252";
 		}
 		return encoding;
+	}
+
+	/**
+	 * Normalize the url. The resulting url is not meant to be fetched but
+	 * rather used as a mean to identify a feed and avoid duplicates
+	 */
+	public static String normalizeURL(String url) {
+		if (url == null) {
+			return null;
+		}
+		String normalized = URLCanonicalizer.getCanonicalURL(url);
+		if (normalized == null) {
+			normalized = url;
+		}
+
+		// convert to lower case, the url probably won't work in some cases
+		// after that but we don't care we just want to compare urls to avoid
+		// duplicates
+		normalized = normalized.toLowerCase();
+
+		// store all urls as http
+		if (normalized.startsWith("https")) {
+			normalized = "http" + normalized.substring(5);
+		}
+
+		// remove the www. part
+		normalized = normalized.replace("//www.", "//");
+
+		// feedproxy redirects to feedburner
+		normalized = normalized.replace("feedproxy.google.com",
+				"feeds.feedburner.com");
+
+		// feedburner feeds have a special treatment
+		if (normalized.split(ESCAPED_QUESTION_MARK)[0].contains("feedburner.com")) {
+			normalized = normalized.replace("feeds2.feedburner.com",
+					"feeds.feedburner.com");
+			normalized = normalized.split(ESCAPED_QUESTION_MARK)[0];
+			normalized = StringUtils.removeEnd(normalized, "/");
+		}
+
+		return normalized;
 	}
 
 	/**

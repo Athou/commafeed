@@ -3,16 +3,13 @@ package com.commafeed.backend.feeds;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -24,6 +21,7 @@ import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.feeds.FeedRefreshExecutor.Task;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
@@ -34,7 +32,7 @@ import com.commafeed.backend.services.FeedUpdateService;
 import com.google.api.client.util.Lists;
 import com.google.common.util.concurrent.Striped;
 
-@Singleton
+@ApplicationScoped
 public class FeedRefreshUpdater {
 
 	protected static Logger log = LoggerFactory
@@ -67,71 +65,33 @@ public class FeedRefreshUpdater {
 	@Inject
 	CacheService cache;
 
-	private ThreadPoolExecutor pool;
+	private FeedRefreshExecutor pool;
 	private Striped<Lock> locks;
-	private LinkedBlockingDeque<Runnable> queue;
 
 	@PostConstruct
 	public void init() {
 		ApplicationSettings settings = applicationSettingsService.get();
 		int threads = Math.max(settings.getDatabaseUpdateThreads(), 1);
 		log.info("Creating database pool with {} threads", threads);
+		pool = new FeedRefreshExecutor("FeedRefreshUpdater", threads, 500 * threads);
 		locks = Striped.lazyWeakLock(threads * 100000);
-		pool = new ThreadPoolExecutor(threads, threads, 0,
-				TimeUnit.MILLISECONDS,
-				queue = new LinkedBlockingDeque<Runnable>(500 * threads) {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public boolean offer(Runnable r) {
-						Task task = (Task) r;
-						if (task.getFeed().isUrgent()) {
-							return offerFirst(r);
-						} else {
-							return offerLast(r);
-						}
-					}
-				});
-		pool.setRejectedExecutionHandler(new RejectedExecutionHandler() {
-			@Override
-			public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
-				log.debug("Thread queue full, waiting...");
-				try {
-					Task task = (Task) r;
-					if (task.getFeed().isUrgent()) {
-						queue.putFirst(r);
-					} else {
-						queue.put(r);
-					}
-				} catch (InterruptedException e1) {
-					log.error("Interrupted while waiting for queue.", e1);
-				}
-			}
-		});
 	}
 
 	@PreDestroy
 	public void shutdown() {
-		pool.shutdownNow();
-		while (!pool.isTerminated()) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				log.error("interrupted while waiting for threads to finish.");
-			}
-		}
+		pool.shutdown();
 	}
 
 	public void updateFeed(Feed feed, Collection<FeedEntry> entries) {
-		pool.execute(new Task(feed, entries));
+		pool.execute(new EntryTask(feed, entries));
 	}
 
-	private class Task implements Runnable {
+	private class EntryTask implements Task {
 
 		private Feed feed;
 		private Collection<FeedEntry> entries;
 
-		public Task(Feed feed, Collection<FeedEntry> entries) {
+		public EntryTask(Feed feed, Collection<FeedEntry> entries) {
 			this.feed = feed;
 			this.entries = entries;
 		}
@@ -140,14 +100,19 @@ public class FeedRefreshUpdater {
 		public void run() {
 			boolean ok = true;
 			if (entries.isEmpty() == false) {
-				List<FeedSubscription> subscriptions = feedSubscriptionDAO
-						.findByFeed(feed);
+
 				List<String> lastEntries = cache.getLastEntries(feed);
 				List<String> currentEntries = Lists.newArrayList();
+
+				List<FeedSubscription> subscriptions = null;
 				for (FeedEntry entry : entries) {
-					String cacheKey = cache.buildKey(feed, entry);
+					String cacheKey = cache.buildUniqueEntryKey(feed, entry);
 					if (!lastEntries.contains(cacheKey)) {
 						log.debug("cache miss for {}", entry.getUrl());
+						if (subscriptions == null) {
+							subscriptions = feedSubscriptionDAO
+									.findByFeed(feed);
+						}
 						ok &= updateEntry(feed, entry, subscriptions);
 						metricsBean.entryCacheMiss();
 					} else {
@@ -169,8 +134,9 @@ public class FeedRefreshUpdater {
 			taskGiver.giveBack(feed);
 		}
 
-		public Feed getFeed() {
-			return feed;
+		@Override
+		public boolean isUrgent() {
+			return feed.isUrgent();
 		}
 	}
 
@@ -216,7 +182,11 @@ public class FeedRefreshUpdater {
 	}
 
 	public int getQueueSize() {
-		return queue.size();
+		return pool.getQueueSize();
+	}
+
+	public int getActiveCount() {
+		return pool.getActiveCount();
 	}
 
 }

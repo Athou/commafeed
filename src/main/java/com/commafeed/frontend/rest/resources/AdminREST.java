@@ -1,9 +1,11 @@
 package com.commafeed.frontend.rest.resources;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,15 +17,30 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.commafeed.backend.DatabaseCleaner;
+import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.StartupBean;
+import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.dao.FeedDAO.FeedCount;
+import com.commafeed.backend.dao.UserDAO;
+import com.commafeed.backend.dao.UserRoleDAO;
+import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
+import com.commafeed.backend.feeds.FeedRefreshUpdater;
+import com.commafeed.backend.feeds.FeedRefreshWorker;
 import com.commafeed.backend.model.ApplicationSettings;
+import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.services.FeedService;
+import com.commafeed.backend.services.PasswordEncryptionService;
+import com.commafeed.backend.services.UserService;
 import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
+import com.commafeed.frontend.model.request.FeedMergeRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.wordnik.swagger.annotations.Api;
@@ -34,6 +51,39 @@ import com.wordnik.swagger.annotations.ApiParam;
 @Path("/admin")
 @Api(value = "/admin", description = "Operations about application administration")
 public class AdminREST extends AbstractResourceREST {
+
+	@Inject
+	FeedService feedService;
+
+	@Inject
+	UserService userService;
+
+	@Inject
+	UserDAO userDAO;
+
+	@Inject
+	UserRoleDAO userRoleDAO;
+
+	@Inject
+	FeedDAO feedDAO;
+
+	@Inject
+	MetricsBean metricsBean;
+
+	@Inject
+	DatabaseCleaner cleaner;
+
+	@Inject
+	FeedRefreshWorker feedRefreshWorker;
+
+	@Inject
+	FeedRefreshUpdater feedRefreshUpdater;
+
+	@Inject
+	FeedRefreshTaskGiver taskGiver;
+
+	@Inject
+	PasswordEncryptionService encryptionService;
 
 	@Path("/user/save")
 	@POST
@@ -179,15 +229,19 @@ public class AdminREST extends AbstractResourceREST {
 
 	@Path("/metrics")
 	@GET
+	@ApiOperation(value = "Retrieve server metrics")
 	public Response getMetrics(
 			@QueryParam("backlog") @DefaultValue("false") boolean backlog) {
 		Map<String, Object> map = Maps.newLinkedHashMap();
 		map.put("lastMinute", metricsBean.getLastMinute());
 		map.put("lastHour", metricsBean.getLastHour());
 		if (backlog) {
-			map.put("backlog", feedDAO.getUpdatableCount());
+			map.put("backlog", taskGiver.getUpdatableCount());
 		}
-		map.put("queue", feedRefreshUpdater.getQueueSize());
+		map.put("http_active", feedRefreshWorker.getActiveCount());
+		map.put("http_queue", feedRefreshWorker.getQueueSize());
+		map.put("database_active", feedRefreshUpdater.getActiveCount());
+		map.put("database_queue", feedRefreshUpdater.getQueueSize());
 		map.put("cache", metricsBean.getCacheStats());
 
 		return Response.ok(map).build();
@@ -195,20 +249,68 @@ public class AdminREST extends AbstractResourceREST {
 
 	@Path("/cleanup/feeds")
 	@GET
+	@ApiOperation(value = "Feeds cleanup", notes = "Delete feeds without subscriptions and entries without feeds")
 	public Response cleanupFeeds() {
 		Map<String, Long> map = Maps.newHashMap();
 		map.put("feeds_without_subscriptions",
 				cleaner.cleanFeedsWithoutSubscriptions());
+		map.put("entries_without_feeds", cleaner.cleanEntriesWithoutFeeds());
 		return Response.ok(map).build();
 	}
 
 	@Path("/cleanup/entries")
 	@GET
+	@ApiOperation(value = "Entries cleanup", notes = "Delete entries older than given date")
 	public Response cleanupEntries(
 			@QueryParam("days") @DefaultValue("30") int days) {
 		Map<String, Long> map = Maps.newHashMap();
 		map.put("old entries",
 				cleaner.cleanEntriesOlderThan(days, TimeUnit.DAYS));
+		return Response.ok(map).build();
+	}
+
+	@Path("/cleanup/findDuplicateFeeds")
+	@GET
+	@ApiOperation(value = "Find duplicate feeds")
+	public Response findDuplicateFeeds(@QueryParam("page") int page,
+			@QueryParam("limit") int limit, @QueryParam("minCount") long minCount) {
+		List<FeedCount> list = feedDAO.findDuplicates(limit * page, limit, minCount);
+		return Response.ok(list).build();
+	}
+
+	@Path("/cleanup/merge")
+	@POST
+	@ApiOperation(value = "Merge feeds", notes = "Merge feeds together")
+	public Response mergeFeeds(
+			@ApiParam(required = true) FeedMergeRequest request) {
+		Feed into = feedDAO.findById(request.getIntoFeedId());
+		if (into == null) {
+			return Response.status(Status.BAD_REQUEST)
+					.entity("'into feed' not found").build();
+		}
+
+		List<Feed> feeds = Lists.newArrayList();
+		for (Long feedId : request.getFeedIds()) {
+			Feed feed = feedDAO.findById(feedId);
+			feeds.add(feed);
+		}
+
+		if (feeds.isEmpty()) {
+			return Response.status(Status.BAD_REQUEST)
+					.entity("'from feeds' empty").build();
+		}
+
+		cleaner.mergeFeeds(into, feeds);
+		return Response.ok().build();
+	}
+
+	@Path("/cleanup/automerge")
+	@GET
+	@ApiOperation(value = "Automatically merge feeds", notes = "Merge feeds together")
+	public Response autoMergeFeeds() {
+		Map<String, Long> map = Maps.newHashMap();
+		map.put("merged feeds",
+				cleaner.cleanDuplicateFeeds());
 		return Response.ok(map).build();
 	}
 

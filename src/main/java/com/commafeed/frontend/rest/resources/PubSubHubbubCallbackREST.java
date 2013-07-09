@@ -62,8 +62,10 @@ public class PubSubHubbubCallbackREST {
 			@QueryParam("hub.challenge") String challenge,
 			@QueryParam("hub.lease_seconds") String leaseSeconds,
 			@QueryParam("hub.verify_token") String verifyToken) {
-		Preconditions.checkState(applicationSettingsService.get()
-				.isPubsubhubbub());
+		if (!applicationSettingsService.get()
+				.isPubsubhubbub()) {
+			return Response.status(Status.FORBIDDEN).entity("pubsubhubbub is disabled").build();
+		}
 
 		Preconditions.checkArgument(StringUtils.isNotEmpty(topic));
 		Preconditions.checkArgument("subscribe".equals(mode));
@@ -90,13 +92,15 @@ public class PubSubHubbubCallbackREST {
 	@POST
 	@Consumes({ MediaType.APPLICATION_ATOM_XML, "application/rss+xml" })
 	public Response callback() {
-		Preconditions.checkState(applicationSettingsService.get()
-				.isPubsubhubbub());
+		if (!applicationSettingsService.get()
+				.isPubsubhubbub()) {
+			return Response.status(Status.FORBIDDEN).entity("pubsubhubbub is disabled").build();
+		}
 		try {
 			byte[] bytes = IOUtils.toByteArray(request.getInputStream());
 			FetchedFeed fetchedFeed = parser.parse(null, bytes);
 			String topic = fetchedFeed.getFeed().getPushTopic();
-			if (topic != null) {
+			if (StringUtils.isNotBlank(topic)) {
 				log.debug("content callback received for {}", topic);
 				List<Feed> feeds = feedDAO.findByTopic(topic);
 				for (Feed feed : feeds) {

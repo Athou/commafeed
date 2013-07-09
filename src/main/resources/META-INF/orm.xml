@@ -10,11 +10,15 @@
 	</named-query>
 	
 	<named-query name="EntryStatus.existing">
-		<query>select new com.commafeed.backend.dao.FeedEntryDAO$EntryWithFeed(e, f) FROM FeedEntry e LEFT JOIN e.feeds f WITH f.id = :feedId where e.guidHash = :guidHash and e.url = :url</query>
+		<query>select new com.commafeed.backend.dao.FeedEntryDAO$EntryWithFeed(e, f) FROM FeedEntry e LEFT JOIN e.feedRelationships f WITH f.feed.id = :feedId where e.guidHash = :guidHash and e.url = :url</query>
 	</named-query>
 	
 	<named-query name="EntryStatus.deleteByIds">
 		<query>delete from FeedEntryStatus s where s.id in :ids</query>
+	</named-query>
+	
+	<named-query name="Feed.deleteEntryRelationships">
+		<query>delete from FeedFeedEntry ffe where ffe.feed.id = :feedId</query>
 	</named-query>
 	
 </entity-mappings>

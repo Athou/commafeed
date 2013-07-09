@@ -12,7 +12,7 @@
 <!-- 
 	<Resource id="MySQL" type="DataSource">
 		JdbcDriver com.mysql.jdbc.Driver
-        JdbcUrl jdbc:mysql://localhost/commafeed?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;maxReconnects=20&amp;rewriteBatchedStatements=true
+        JdbcUrl jdbc:mysql://localhost/commafeed?autoReconnect=true&amp;failOverReadOnly=false&amp;maxReconnects=20&amp;rewriteBatchedStatements=true
 		UserName cf
 		Password cf
 		MaxActive 50
@@ -29,6 +29,15 @@
 	</Resource>
  -->
  
+  <!-- 
+	<Resource id="MSSQL" type="DataSource">
+		JdbcDriver net.sourceforge.jtds.jdbc.Driver
+        JdbcUrl jdbc:jtds:sqlserver://localhost:1433/commafeed;instance=<instanceName, remove if not needed>
+		UserName cf
+		Password cf
+		MaxActive 50
+	</Resource>
+ -->
  
  
  

@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import org.apache.wicket.authentication.IAuthenticationStrategy;
 import org.apache.wicket.extensions.validation.validator.RfcCompliantEmailAddressValidator;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
-import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -27,7 +26,6 @@ import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.UserService;
 import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.model.request.RegistrationRequest;
-import com.commafeed.frontend.pages.GoogleImportRedirectPage;
 import com.commafeed.frontend.utils.ModelFactory.MF;
 
 @SuppressWarnings("serial")
@@ -61,15 +59,8 @@ public class RegisterPanel extends Panel {
 					strategy.save(req.getName(), req.getPassword());
 					CommaFeedSession.get().signIn(req.getName(),
 							req.getPassword());
-
-					if (req.isGoogleImport()) {
-						setResponsePage(GoogleImportRedirectPage.class);
-					} else {
-						setResponsePage(getApplication().getHomePage());
-					}
-				} else {
-					setResponsePage(getApplication().getHomePage());
 				}
+				setResponsePage(getApplication().getHomePage());
 			}
 		};
 		add(form);
@@ -111,7 +102,5 @@ public class RegisterPanel extends Panel {
 						}
 					}
 				}));
-		form.add(new CheckBox("import", MF.m(model, p.isGoogleImport())));
-
 	}
 }

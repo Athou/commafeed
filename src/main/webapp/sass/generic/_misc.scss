@@ -60,3 +60,21 @@
 	width: 16px;
 	height: 16px;
 }
+
+.btn,.btn-large,.btn-small,.btn-mini {
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+}
+
+.btn-group>.btn:first-child,.btn-group>.btn-large:first-child {
+	border-top-left-radius: 2px;
+	border-bottom-left-radius: 2px;
+}
+
+.btn-group>.btn:last-child,.btn-group>.btn-large:last-child,.btn-group>.dropdown-toggle
+	{
+	border-top-right-radius: 2px;
+	border-bottom-right-radius: 2px;
+}

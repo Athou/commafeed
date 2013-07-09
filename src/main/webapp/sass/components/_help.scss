@@ -1,4 +1,9 @@
-.help .category-select {
+.help {
+	font-size: 85%;
+	line-height: 15px;
+}
+
+.help .bookmarklet-select {
 	margin: 0;
 	padding: 0;
 	height: auto;
@@ -6,4 +11,13 @@
 
 .help .about-module {
 	margin-bottom: 40px;
+}
+.donate-action {
+	margin-top:20px;
+	
+}
+
+.donate-image {
+	padding-bottom:10px;
+	padding-right:16px;
 }

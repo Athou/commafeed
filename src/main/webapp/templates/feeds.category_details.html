@@ -31,7 +31,7 @@
 		<div class="control-group">
 			<label class="control-label">${details.feed_url}</label>
 			<div class="controls horizontal-align">
-				<a ng-show="user.apiKey" href="{{'rest/category/entriesAsFeed?id=' + category.id + '&apiKey=' + user.apiKey}}" target="_blank">link</a>
+				<a ng-show="user.apiKey" href="{{'rest/category/entriesAsFeed?id=' + category.id + '&apiKey=' + user.apiKey}}" target="_blank">${global.link}</a>
 				<span ng-show="!user.apiKey">${details.generate_api_key_first}</span>
 			</div>
 		</div>

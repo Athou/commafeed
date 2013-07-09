@@ -9,6 +9,12 @@
 				<a href="{{sub.feedUrl}}" target="_blank">{{sub.feedUrl}}</a>
 			</div>
 		</div>
+		<div class="control-group">
+			<label class="control-label">${details.website}</label>
+			<div class="controls horizontal-align">
+				<a href="{{sub.feedLink}}" target="_blank">{{sub.feedLink}}</a>
+			</div>
+		</div>
 		<div class="control-group" ng-class="{error : !form.name.$valid}">
 			<label class="control-label">${details.name}</label>
 			<div class="controls">
@@ -51,7 +57,7 @@
 		<div class="control-group">
 			<label class="control-label">${details.feed_url}</label>
 			<div class="controls horizontal-align">
-				<a ng-show="user.apiKey" href="{{'rest/feed/entriesAsFeed?id=' + sub.id + '&apiKey=' + user.apiKey}}" target="_blank">link</a>
+				<a ng-show="user.apiKey" href="{{'rest/feed/entriesAsFeed?id=' + sub.id + '&apiKey=' + user.apiKey}}" target="_blank">${global.link}</a>
 				<span ng-show="!user.apiKey">${details.generate_api_key_first}</span>
 			</div>
 		</div>

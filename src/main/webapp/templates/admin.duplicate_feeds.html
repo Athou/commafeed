@@ -1,0 +1,39 @@
+<div class="row">
+	
+	Limit <input type="number" ng-model="limit" />
+	Page <input type="number" ng-model="page" />
+	Min. count <input type="number" ng-model="minCount" />
+	<input type="button" class="btn" ng-click="refreshData()" value="Refresh" />
+	<input type="button" class="btn" ng-click="autoMerge()" value="Auto merge selected" />
+	<table class="table table-condensed table-hover" ui-if="counts">
+		<thead>
+			<tr>
+				<th></th>
+				<th>url</th>
+				<th>count</h>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="count in counts" ng-click="focus(count)" class="pointer">
+				<td><input type="checkbox" ng-model="count.autoMerge" /> </td>
+				<td>{{count.feeds[0].url}}</td>
+				<td>{{count.feeds.length}}</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div ui-if="current">
+		<div>
+			Merge
+			<select ng-model="mergeData.feedIds" size="30" multiple="multiple" class="input-block-level" 
+				ng-options="feed.id as feed.url for feed in current.feeds">
+			</select>
+		</div>
+		<div>
+			Into
+			<select ng-model="mergeData.intoFeedId" ng-options="feed.id as feed.url for feed in current.feeds" class="input-block-level">
+			</select>
+		</div>
+		<input type="button" class="btn" ng-click="merge()" value="Merge" />
+	</div>
+</div>

@@ -93,7 +93,7 @@ public class FeedParser {
 				entry.setUrl(FeedUtils.truncate(
 						FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink()),
 						2048));
-				entry.setUpdated(validateDate(getEntryUpdateDate(item)));
+				entry.setUpdated(validateDate(getEntryUpdateDate(item), true));
 				entry.setAuthor(item.getAuthor());
 
 				FeedEntryContent content = new FeedEntryContent();
@@ -111,8 +111,7 @@ public class FeedParser {
 				entries.add(entry);
 			}
 			Date lastEntryDate = null;
-			Date publishedDate = rss.getPublishedDate() == null ? null
-					: validateDate(rss.getPublishedDate());
+			Date publishedDate = validateDate(rss.getPublishedDate(), false);
 			if (!entries.isEmpty()) {
 				List<Long> sortedTimestamps = FeedUtils
 						.getSortedTimestamps(entries);
@@ -120,7 +119,7 @@ public class FeedParser {
 				lastEntryDate = new Date(timestamp);
 				publishedDate = getFeedPublishedDate(publishedDate, entries);
 			}
-			feed.setLastPublishedDate(publishedDate);
+			feed.setLastPublishedDate(validateDate(publishedDate, true));
 			feed.setAverageEntryInterval(FeedUtils
 					.averageTimeBetweenEntries(entries));
 			feed.setLastEntryDate(lastEntryDate);
@@ -161,12 +160,9 @@ public class FeedParser {
 
 	private Date getFeedPublishedDate(Date publishedDate,
 			List<FeedEntry> entries) {
-		if (publishedDate == null) {
-			return null;
-		}
 
 		for (FeedEntry entry : entries) {
-			if (entry.getUpdated().getTime() > publishedDate.getTime()) {
+			if (publishedDate == null || entry.getUpdated().getTime() > publishedDate.getTime()) {
 				publishedDate = entry.getUpdated();
 			}
 		}
@@ -184,10 +180,10 @@ public class FeedParser {
 		return date;
 	}
 
-	private Date validateDate(Date date) {
+	private Date validateDate(Date date, boolean nullToNow) {
 		Date now = new Date();
 		if (date == null) {
-			return now;
+			return nullToNow ? now : null;
 		}
 		if (date.before(START) || date.after(END)) {
 			return now;

@@ -45,6 +45,13 @@ public class HttpGetter {
 
 	private static Logger log = LoggerFactory.getLogger(HttpGetter.class);
 
+	private static final String USER_AGENT = "CommaFeed/1.0 (http://www.commafeed.com)";
+	private static final String ACCEPT_LANGUAGE = "en";
+	private static final String PRAGMA_NO_CACHE = "No-cache";
+	private static final String CACHE_CONTROL_NO_CACHE = "no-cache";
+	private static final String UTF8 = "UTF-8";
+	private static final String HTTPS = "https";
+
 	private static SSLContext SSL_CONTEXT = null;
 	static {
 		try {
@@ -86,11 +93,10 @@ public class HttpGetter {
 		HttpClient client = newClient(timeout);
 		try {
 			HttpGet httpget = new HttpGet(url);
-			httpget.addHeader(HttpHeaders.ACCEPT_LANGUAGE, "en");
-			httpget.addHeader(HttpHeaders.PRAGMA, "No-cache");
-			httpget.addHeader(HttpHeaders.CACHE_CONTROL, "no-cache");
-			httpget.addHeader(HttpHeaders.USER_AGENT,
-					"CommaFeed/1.0 (http://www.commafeed.com)");
+			httpget.addHeader(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE);
+			httpget.addHeader(HttpHeaders.PRAGMA, PRAGMA_NO_CACHE);
+			httpget.addHeader(HttpHeaders.CACHE_CONTROL, CACHE_CONTROL_NO_CACHE);
+			httpget.addHeader(HttpHeaders.USER_AGENT, USER_AGENT);
 
 			if (lastModified != null) {
 				httpget.addHeader(HttpHeaders.IF_MODIFIED_SINCE, lastModified);
@@ -104,7 +110,7 @@ public class HttpGetter {
 				response = client.execute(httpget);
 				int code = response.getStatusLine().getStatusCode();
 				if (code == HttpStatus.SC_NOT_MODIFIED) {
-					throw new NotModifiedException();
+					throw new NotModifiedException("304 http code");
 				} else if (code >= 300) {
 					throw new HttpResponseException(code,
 							"Server returned HTTP error code " + code);
@@ -112,7 +118,7 @@ public class HttpGetter {
 
 			} catch (HttpResponseException e) {
 				if (e.getStatusCode() == HttpStatus.SC_NOT_MODIFIED) {
-					throw new NotModifiedException();
+					throw new NotModifiedException("304 http code");
 				} else {
 					throw e;
 				}
@@ -122,16 +128,15 @@ public class HttpGetter {
 			Header eTagHeader = response.getFirstHeader(HttpHeaders.ETAG);
 
 			String lastModifiedResponse = lastModifiedHeader == null ? null
-					: lastModifiedHeader.getValue();
+					: StringUtils.trimToNull(lastModifiedHeader.getValue());
 			if (lastModified != null
 					&& StringUtils.equals(lastModified, lastModifiedResponse)) {
-				throw new NotModifiedException();
+				throw new NotModifiedException("lastModifiedHeader is the same");
 			}
 
-			String eTagResponse = eTagHeader == null ? null : eTagHeader
-					.getValue();
+			String eTagResponse = eTagHeader == null ? null : StringUtils.trimToNull(eTagHeader.getValue());
 			if (eTag != null && StringUtils.equals(eTag, eTagResponse)) {
-				throw new NotModifiedException();
+				throw new NotModifiedException("eTagHeader is the same");
 			}
 
 			HttpEntity entity = response.getEntity();
@@ -197,11 +202,11 @@ public class HttpGetter {
 		SSLSocketFactory ssf = new SSLSocketFactory(SSL_CONTEXT, VERIFIER);
 		ClientConnectionManager ccm = client.getConnectionManager();
 		SchemeRegistry sr = ccm.getSchemeRegistry();
-		sr.register(new Scheme("https", 443, ssf));
+		sr.register(new Scheme(HTTPS, 443, ssf));
 
 		HttpParams params = client.getParams();
 		HttpClientParams.setCookiePolicy(params, CookiePolicy.IGNORE_COOKIES);
-		HttpProtocolParams.setContentCharset(params, "UTF-8");
+		HttpProtocolParams.setContentCharset(params, UTF8);
 		HttpConnectionParams.setConnectionTimeout(params, timeout);
 		HttpConnectionParams.setSoTimeout(params, timeout);
 		client.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(0,
@@ -211,6 +216,10 @@ public class HttpGetter {
 
 	public static class NotModifiedException extends Exception {
 		private static final long serialVersionUID = 1L;
+
+		public NotModifiedException(String message) {
+			super(message);
+		}
 
 	}
 

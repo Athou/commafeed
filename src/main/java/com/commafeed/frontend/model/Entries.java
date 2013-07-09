@@ -26,6 +26,9 @@ public class Entries implements Serializable {
 	@ApiProperty("times the server tried to refresh the feed and failed")
 	private int errorCount;
 
+	@ApiProperty("URL of the website, extracted from the feed")
+	private String feedLink;
+
 	@ApiProperty("list generation timestamp")
 	private long timestamp;
 
@@ -65,6 +68,14 @@ public class Entries implements Serializable {
 
 	public void setErrorCount(int errorCount) {
 		this.errorCount = errorCount;
+	}
+
+	public String getFeedLink() {
+		return feedLink;
+	}
+
+	public void setFeedLink(String feedLink) {
+		this.feedLink = feedLink;
 	}
 
 	public long getTimestamp() {

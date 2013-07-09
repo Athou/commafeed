@@ -64,15 +64,6 @@
 		<form class="form-horizontal" action="rest/feed/import" method="post" enctype="multipart/form-data">
 			<div class="modal-body">
 				<div class="control-group">
-					<div>${import.google_reader_prefix}
-						<a href="google/import/redirect">						
-							<img src="images/google_reader_icon.png" class="favicon" />
-							Google Reader
-						</a>${import.google_reader_suffix}
-					</div>
-					<div>${import.google_download} <a target="_blank" href="https://www.google.com/reader/subscriptions/export">${import.google_download_link}</a></div>
-				</div>
-				<div class="control-group">
 					<label class="control-label">${import.xml_file}</label>
 					<div class="controls">
 						<input type="file" name="file"></input>

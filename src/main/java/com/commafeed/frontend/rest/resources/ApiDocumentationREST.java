@@ -1,11 +1,13 @@
 package com.commafeed.frontend.rest.resources;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.wordnik.swagger.annotations.Api;
@@ -20,6 +22,9 @@ import com.wordnik.swagger.core.util.TypeUtil;
 public class ApiDocumentationREST extends AbstractREST {
 
 	public static final String API_VERSION = "1.0";
+
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
 
 	@GET
 	@ApiOperation(value = "Returns list of all available api endpoints", responseClass = "List[DocumentationEndPoint]")

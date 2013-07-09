@@ -4,7 +4,10 @@
 			<span ng-switch on="selectedId">
 				<span ng-switch-when="all">${tree.all}</span>
 				<span ng-switch-when="starred">${tree.starred}</span>
-				<span ng-switch-default>{{name}}</span>
+				<span ng-switch-default>
+					<span ng-hide="feedLink">{{name}}</span>
+					<a ng-show="feedLink" href="{{feedLink}}" target="_blank">{{name}}</a>
+				</span>
 			</span>
 			&nbsp;
 			<span ng-show="name && selectedType == 'category'"> &#187;</span>
@@ -20,7 +23,7 @@
 			ng-class="{unread: entry.read == false, current: current==entry, open: isOpen, closed: !isOpen }">
 			<div class="entry-heading">
 				<a href="{{entry.url}}" target="_blank" class="entry-heading-link" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)">
-					<span class="feed-name visible-desktop">
+					<span class="feed-name" ng-class="{narrow: settingsService.settings.viewMode != 'expanded' && !(isOpen && current == entry)}">
 						<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
 							<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}"
 								class="pointer"></i>
@@ -29,7 +32,7 @@
 						{{entry.feedName}}
 					</span>
 					<span class="entry-date visible-desktop">{{entry.date | entryDate}}</span>
-					<span class="entry-name" ng-class="{shrink: true, rtl: entry.rtl}" ng-bind-html-unsafe="entry.title"></span>
+					<span class="entry-name" ui-if="settingsService.settings.viewMode != 'expanded' && !(isOpen && current == entry)" ng-class="{shrink: true, rtl: entry.rtl}" ng-bind-html-unsafe="entry.title"></span>
 				</a>
 				<a href="{{entry.url}}" target="_blank" class="entry-external-link" ng-click="mark(entry, true)">
 					<i class="icon-external-link"></i>
@@ -40,10 +43,16 @@
 				<div class="entry-header">
 					<div class="entry-title">
 						<a href="{{entry.url}}" target="_blank" ng-bind-html-unsafe="entry.title"></a>
-						<span class="entry-author" ui-if="entry.author">
-							<span class="entry-author-prefix">${view.entry_author}</span>
-							<span class="entry-author-name">{{entry.author}}</span>
-						</span>
+						<div class="entry-subtitle">
+							<span class="entry-source" ui-if="selectedType == 'category'">
+								<span class="entry-source-prefix">${view.entry_source}</span>
+								<a ng-click="goToFeed(entry.feedId)" class="pointer"><span>{{entry.feedName}}</span></a>
+							</span>
+							<span class="entry-author" ui-if="entry.author">
+								<span class="entry-author-prefix">${view.entry_author}</span>
+								<span class="entry-author-name">{{entry.author}}</span>
+							</span>
+						</div>
 					</div>
 				</div>
 
@@ -71,7 +80,7 @@
 							class="pointer"></i>
 					</span>
 					<label class="checkbox inline">
-						<input type="checkbox" ng-checked="!entry.read" ng-click="mark(entry, !entry.read)"></input>
+						<input type="checkbox" ng-checked="!entry.read" ng-click="mark(entry, !entry.read)" class="mousetrap"></input>
 						${view.keep_unread}
 					</label>
 					
@@ -98,6 +107,10 @@
 							<i class="icon-buffer"></i>
 						</a>
 					</span>
+					
+					<a ng-click="markUpTo(entry)" class="mark-up-to" title="${view.mark_up_to_here}">
+						<i class="icon-step-forward icon-rotate-90"></i>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -110,5 +123,6 @@
 			<div ng-include="'templates/_shortcuts.html'"></div>
 		</div>
 	</div>
+	<div style="height: 30px" ui-if="settingsService.settings.viewMode != 'expanded' && entries.length != 0"></div>
 	<div style="height: 1000px" ui-if="settingsService.settings.viewMode == 'expanded' && entries.length != 0"></div>
 </div>

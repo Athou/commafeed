@@ -34,6 +34,7 @@ public class ApplicationSettings extends AbstractModel {
 	private String logLevel = Level.INFO.toString();
 	private boolean imageProxyEnabled;
 	private int queryTimeout;
+	private boolean crawlingPaused;
 
 	@Column(length = 255)
 	private String announcement;
@@ -189,6 +190,14 @@ public class ApplicationSettings extends AbstractModel {
 
 	public void setQueryTimeout(int queryTimeout) {
 		this.queryTimeout = queryTimeout;
+	}
+
+	public boolean isCrawlingPaused() {
+		return crawlingPaused;
+	}
+
+	public void setCrawlingPaused(boolean crawlingPaused) {
+		this.crawlingPaused = crawlingPaused;
 	}
 
 }

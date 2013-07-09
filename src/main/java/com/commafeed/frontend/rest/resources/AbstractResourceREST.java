@@ -1,5 +1,6 @@
 package com.commafeed.frontend.rest.resources;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
@@ -11,6 +12,7 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.request.MarkRequest;
@@ -25,6 +27,9 @@ import com.wordnik.swagger.jaxrs.JaxrsApiReader;
 @SecurityCheck(Role.USER)
 public abstract class AbstractResourceREST extends AbstractREST {
 
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
+
 	@GET
 	@SecurityCheck(value = Role.NONE)
 	@ApiOperation(value = "Returns information about API parameters", responseClass = "com.wordnik.swagger.core.Documentation")
@@ -33,7 +38,7 @@ public abstract class AbstractResourceREST extends AbstractREST {
 
 		TypeUtil.addAllowablePackage(Entries.class.getPackage().getName());
 		TypeUtil.addAllowablePackage(MarkRequest.class.getPackage().getName());
-		
+
 		String apiVersion = ApiDocumentationREST.API_VERSION;
 		String swaggerVersion = SwaggerSpec.version();
 		String basePath = ApiDocumentationREST

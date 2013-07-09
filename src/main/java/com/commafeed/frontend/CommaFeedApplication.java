@@ -39,8 +39,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.frontend.pages.DemoLoginPage;
-import com.commafeed.frontend.pages.GoogleImportCallbackPage;
-import com.commafeed.frontend.pages.GoogleImportRedirectPage;
 import com.commafeed.frontend.pages.HomePage;
 import com.commafeed.frontend.pages.LogoutPage;
 import com.commafeed.frontend.pages.NextUnreadRedirectPage;
@@ -75,9 +73,9 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		mountPage("logout", LogoutPage.class);
 		mountPage("error", DisplayExceptionPage.class);
 		
-		mountPage("google/import/redirect", GoogleImportRedirectPage.class);
-		mountPage(GoogleImportCallbackPage.PAGE_PATH,
-				GoogleImportCallbackPage.class);
+//		mountPage("google/import/redirect", GoogleImportRedirectPage.class);
+//		mountPage(GoogleImportCallbackPage.PAGE_PATH,
+//				GoogleImportCallbackPage.class);
 
 		mountPage("next", NextUnreadRedirectPage.class);
 

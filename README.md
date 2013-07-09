@@ -35,8 +35,8 @@ See [here](http://jasonwryan.com/blog/2013/05/25/greader/) for an alternative me
 Deployment on your own server
 -----------------------------
 
-For storage, you can either use an embedded HSQLDB database or an external MySQL or PostgreSQL database.
-You also need Maven 3.x (and a Java JDK) installed in order to build the application.
+For storage, you can either use an embedded HSQLDB database or an external MySQL, PostgreSQL or SQLServer database.
+You also need Maven 3.x (and a Java 1.7+ JDK) installed in order to build the application.
 
 To install maven and openjdk on Ubuntu, issue the following commands
 
@@ -57,7 +57,7 @@ If you don't have git you can download the sources as a zip file from [here](htt
     
 Now build the application
 
-	Embedded HSQL database
+	Embedded HSQL database:
     mvn clean package tomee:build -Pprod
     
 	External MySQL database:
@@ -66,16 +66,18 @@ Now build the application
     External PostgreSQL database:
     mvn clean package tomee:build -Pprod -Ppgsql
     
+    External Microsoft SQL Server database:
+    mvn clean package tomee:build -Pprod -Pmssql
+    
 It will generate a zip file at `target/commafeed.zip` with everything you need to run the application.
 
 * Create a directory somewhere (e.g. `/opt/commafeed/`) and extract the generated zip inside this directory.
 * Create a directory called `logs` (e.g. `/opt/commafeed/logs`)
-* On Linux, create the file `bin/setenv.sh` and put the following in it : `export JAVA_OPTS="-Xmx1024m -XX:MaxPermSize=256m -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC"`
-* On Windows, create the file `bin/setenv.bat` and put the following in it : `set JAVA_OPTS=-Xmx1024m -XX:MaxPermSize=256m -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC`
+* Copy the file `conf/setenv.sh` (Linux) or `conf/setenv.bat` (Windows) to `bin/`
 * If you don't use the embedded database, create a database in your external database instance, then uncomment the `Resource` element corresponding to the database engine you use from `conf/tomee.xml` and edit the default credentials.
 * If you'd like to change the default port (8082), edit `conf/server.xml` and look for `<Connector port="8082" protocol="HTTP/1.1"`. Change the port to the value you'd like to use.
 * CommaFeed will run on the `/commafeed` context. If you'd like to change the context, go to `webapps` and rename `commafeed.war`. Use the special name `ROOT.war` to deploy to the root context.
-* To start and stop the application, use `bin/startup.sh` and `bin/shutdown.sh` on Linux (you may need to `chmod +x bin/*.sh`) or `bin\startup.bat` and `bin\shutdown.bat` on Windows.
+* To start and stop the application, use `bin/startup.sh` and `bin/shutdown.sh` on Linux (you need to `chmod +x bin/*.sh`) or `bin\startup.bat` and `bin\shutdown.bat` on Windows.
 * To update the application with a newer version, pull the latest changes and use the same command you used to build the complete TomEE package, but without the `tomee:build` part (keep `-Pprod -P<database>`). 
 This will generate the file `target/commafeed.war`. Copy this file to your tomee `webapps/` directory.
 * The application is online at [http://localhost:8082/commafeed](http://localhost:8082/commafeed). Don't forget to set the public URL in the admin settings.

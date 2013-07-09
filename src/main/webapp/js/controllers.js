@@ -194,24 +194,6 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 		}
 	};
 	
-	var flat = function() {
-		var a = [];
-		a.push([ 'all', 'category' ]);
-		a.push([ 'starred', 'category' ]);
-		for ( var i = 1; i < CategoryService.flatCategories.length; i++) {
-			var cat = CategoryService.flatCategories[i];
-			a.push([ cat.id, 'category' ]);
-			
-			var feeds = cat.orig.feeds;
-			if (feeds) {
-				for ( var j = 0; j < feeds.length; j++) {
-					a.push([ feeds[j].id, 'feed' ]);
-				}
-			}
-		}
-		return a;
-	};
-	
 	var getCurrentIndex = function (id, type, flat) {
 		var index = -1;
 		for ( var i = 0; i < flat.length; i++) {
@@ -225,7 +207,7 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 	};
 	
 	var openNextNode = function() {
-		var f = flat();
+		var f = CategoryService.flatAll;
 		var current = getCurrentIndex($scope.selectedId, $scope.selectedType, f);
 		current++;
 		if(current < f.length) {
@@ -237,7 +219,7 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 	};
 	
 	var openPreviousNode = function() {
-		var f = flat();
+		var f = CategoryService.flatAll;
 		var current = getCurrentIndex($scope.selectedId, $scope.selectedType, f);
 		current--;
 		if(current >= 0) {
@@ -639,9 +621,9 @@ function($scope, $state, $filter, $timeout, CategoryService) {
 
 }]);
 
-module.controller('FeedListCtrl', ['$scope', '$stateParams', '$http', '$route', 
+module.controller('FeedListCtrl', ['$scope', '$stateParams', '$http', '$route', '$state',
 	'$window', 'EntryService', 'SettingsService', 'FeedService', 'CategoryService', 'AnalyticsService',
-function($scope, $stateParams, $http, $route, $window, EntryService, SettingsService, FeedService, CategoryService, AnalyticsService) {
+function($scope, $stateParams, $http, $route, $state, $window, EntryService, SettingsService, FeedService, CategoryService, AnalyticsService) {
 	
 	AnalyticsService.track();
 
@@ -712,6 +694,7 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			$scope.timestamp = data.timestamp;
 			$scope.busy = false;
 			$scope.hasMore = data.hasMore;
+			$scope.feedLink = data.feedLink;
 		};
 		if (!$scope.keywords) {
 			var service = $scope.selectedType == 'feed' ? FeedService
@@ -730,6 +713,13 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 				limit : limit
 			}, callback);
 		}
+	};
+	
+	$scope.goToFeed = function(id) {		
+		$state.transitionTo('feeds.view', {
+			_type : 'feed', 
+			_id : id
+		});
 	};
 
 	$scope.mark = function(entry, read) {
@@ -757,6 +747,29 @@ function($scope, $stateParams, $http, $route, $window, EntryService, SettingsSer
 			CategoryService.refresh(function() {
 				$scope.$emit('emitReload');
 			});
+		});
+	};
+	
+	$scope.markUpTo = function(entry) {
+		var entries = [];
+		for (var i = 0; i < $scope.entries.length; i++) {
+			var e = $scope.entries[i];
+			if (!e.read) {
+				entries.push({
+					id : e.id,
+					feedId : e.feedId,
+					read: true
+				});
+				e.read = true;
+			}
+			if (e == entry) {
+				break;
+			}
+		}
+		EntryService.markMultiple({
+			requests : entries
+		}, function() {
+			CategoryService.refresh();
 		});
 	};
 	
@@ -1182,6 +1195,53 @@ function($scope, $state, $stateParams,	$dialog, AdminUsersService) {
 	};
 }]);
 
+module.controller('ManageDuplicateFeedsCtrl', [
+	'$scope', 'AdminCleanupService',
+	function($scope, AdminCleanupService) {
+	
+	$scope.limit = 10;
+	$scope.page = 0;
+	$scope.minCount = 1;
+	$scope.mergeData = {};
+	$scope.refreshData = function() {
+		AdminCleanupService.findDuplicateFeeds({
+			limit : $scope.limit,
+			page : $scope.page, 
+			minCount: $scope.minCount
+		}, function(data) {
+			$scope.counts = data;
+		});
+	};
+	
+	$scope.autoMerge = function() {
+		var callback = function() {
+			alert('done!');
+		};
+		for (var i = 0; i < $scope.counts.length; i++) {
+			var count = $scope.counts[i];
+			if (count.autoMerge) {
+				AdminCleanupService.mergeFeeds({
+					intoFeedId: count.feeds[0].id,
+					feedIds: _.pluck(count.feeds, 'id')
+				}, callback);
+			}
+		}
+	};
+	
+	$scope.focus = function(count) {
+		$scope.current = count;
+		$scope.mergeData.intoFeedId = count.feeds[0].id;
+		$scope.mergeData.feedIds = _.pluck(count.feeds, 'id');
+	};
+	
+	$scope.merge = function() {
+		AdminCleanupService.mergeFeeds($scope.mergeData, function() {
+			alert('done!');
+		});
+	};
+	
+}]);
+
 module.controller('SettingsCtrl', ['$scope', '$location', 'SettingsService', 'AnalyticsService', 'ServerService',
 function($scope, $location, SettingsService, AnalyticsService, ServerService) {
 	
@@ -1189,7 +1249,7 @@ function($scope, $location, SettingsService, AnalyticsService, ServerService) {
 	
 	$scope.ServerService = ServerService.get();
 	
-	$scope.themes = ['default','MRACHINI'];
+	$scope.themes = ['default', 'ebraminio', 'MRACHINI'];
 	
 	$scope.settingsService = SettingsService;
 	$scope.$watch('settingsService.settings', function(value) {
@@ -1280,6 +1340,7 @@ function($scope, CategoryService, AnalyticsService) {
 	AnalyticsService.track();
 	$scope.CategoryService = CategoryService;
 	$scope.categoryId = 'all';
+	$scope.order = 'desc';
 
 } ]);
 

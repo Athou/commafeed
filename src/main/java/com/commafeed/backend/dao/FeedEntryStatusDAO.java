@@ -16,11 +16,9 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
-import javax.persistence.criteria.SetJoin;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,9 +30,12 @@ import com.commafeed.backend.model.FeedEntryContent_;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryStatus_;
 import com.commafeed.backend.model.FeedEntry_;
+import com.commafeed.backend.model.FeedFeedEntry;
+import com.commafeed.backend.model.FeedFeedEntry_;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.Feed_;
+import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.services.ApplicationSettingsService;
@@ -139,8 +140,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		CriteriaQuery<Tuple> query = builder.createTupleQuery();
 		Root<FeedEntry> root = query.from(FeedEntry.class);
 
-		SetJoin<FeedEntry, Feed> feedJoin = root.join(FeedEntry_.feeds);
-		SetJoin<Feed, FeedSubscription> subJoin = feedJoin
+		Join<FeedFeedEntry, Feed> feedJoin = root.join(FeedEntry_.feedRelationships).join(FeedFeedEntry_.feed);
+		Join<Feed, FeedSubscription> subJoin = feedJoin
 				.join(Feed_.subscriptions);
 		Join<FeedEntry, FeedEntryContent> contentJoin = root
 				.join(FeedEntry_.content);
@@ -231,8 +232,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		CriteriaQuery<Tuple> query = builder.createTupleQuery();
 		Root<FeedEntry> root = query.from(FeedEntry.class);
 
-		SetJoin<FeedEntry, Feed> feedJoin = root.join(FeedEntry_.feeds);
-		SetJoin<Feed, FeedSubscription> subJoin = feedJoin
+		Join<FeedFeedEntry, Feed> feedJoin = root.join(FeedEntry_.feedRelationships).join(FeedFeedEntry_.feed);
+		Join<Feed, FeedSubscription> subJoin = feedJoin
 				.join(Feed_.subscriptions);
 
 		Selection<FeedEntry> entryAlias = root.alias("entry");
@@ -317,8 +318,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		CriteriaQuery<FeedEntry> query = builder.createQuery(FeedEntry.class);
 		Root<FeedEntry> root = query.from(FeedEntry.class);
 
-		SetJoin<FeedEntry, Feed> feedJoin = root.join(FeedEntry_.feeds);
-		SetJoin<Feed, FeedSubscription> subJoin = feedJoin
+		Join<FeedFeedEntry, Feed> feedJoin = root.join(FeedEntry_.feedRelationships).join(FeedFeedEntry_.feed);
+		Join<Feed, FeedSubscription> subJoin = feedJoin
 				.join(Feed_.subscriptions);
 
 		List<Predicate> predicates = Lists.newArrayList();
@@ -388,8 +389,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		CriteriaQuery<Tuple> query = builder.createTupleQuery();
 		Root<FeedEntry> root = query.from(FeedEntry.class);
 
-		SetJoin<FeedEntry, Feed> feedJoin = root.join(FeedEntry_.feeds);
-		SetJoin<Feed, FeedSubscription> subJoin = feedJoin
+		Join<FeedFeedEntry, Feed> feedJoin = root.join(FeedEntry_.feedRelationships).join(FeedFeedEntry_.feed);
+		Join<Feed, FeedSubscription> subJoin = feedJoin
 				.join(Feed_.subscriptions);
 
 		Selection<FeedEntry> entryAlias = root.alias("entry");
@@ -507,8 +508,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			List<FeedEntryStatus> results) {
 		if (includeContent) {
 			for (FeedEntryStatus status : results) {
-				Hibernate.initialize(status.getSubscription().getFeed());
-				Hibernate.initialize(status.getEntry().getContent());
+				Models.initialize(status.getSubscription().getFeed());
+				Models.initialize(status.getEntry().getContent());
 			}
 		}
 		return results;
@@ -526,11 +527,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 	}
 
-	private void setTimeout(Query query) {
-		int queryTimeout = applicationSettingsService.get().getQueryTimeout();
-		if (queryTimeout > 0) {
-			query.setHint("javax.persistence.query.timeout", queryTimeout);
-		}
+	protected void setTimeout(Query query) {
+		setTimeout(query, applicationSettingsService.get().getQueryTimeout());
 	}
 
 	public void markSubscriptionEntries(FeedSubscription subscription,

@@ -39,8 +39,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.frontend.pages.DemoLoginPage;
-import com.commafeed.frontend.pages.GoogleImportCallbackPage;
-import com.commafeed.frontend.pages.GoogleImportRedirectPage;
 import com.commafeed.frontend.pages.HomePage;
 import com.commafeed.frontend.pages.LogoutPage;
 import com.commafeed.frontend.pages.NextUnreadRedirectPage;

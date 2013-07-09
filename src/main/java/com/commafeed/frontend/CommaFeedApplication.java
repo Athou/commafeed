@@ -75,9 +75,9 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		mountPage("logout", LogoutPage.class);
 		mountPage("error", DisplayExceptionPage.class);
 		
-		mountPage("google/import/redirect", GoogleImportRedirectPage.class);
-		mountPage(GoogleImportCallbackPage.PAGE_PATH,
-				GoogleImportCallbackPage.class);
+//		mountPage("google/import/redirect", GoogleImportRedirectPage.class);
+//		mountPage(GoogleImportCallbackPage.PAGE_PATH,
+//				GoogleImportCallbackPage.class);
 
 		mountPage("next", NextUnreadRedirectPage.class);
 

@@ -194,24 +194,6 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 		}
 	};
 	
-	var flat = function() {
-		var a = [];
-		a.push([ 'all', 'category' ]);
-		a.push([ 'starred', 'category' ]);
-		for ( var i = 1; i < CategoryService.flatCategories.length; i++) {
-			var cat = CategoryService.flatCategories[i];
-			a.push([ cat.id, 'category' ]);
-			
-			var feeds = cat.orig.feeds;
-			if (feeds) {
-				for ( var j = 0; j < feeds.length; j++) {
-					a.push([ feeds[j].id, 'feed' ]);
-				}
-			}
-		}
-		return a;
-	};
-	
 	var getCurrentIndex = function (id, type, flat) {
 		var index = -1;
 		for ( var i = 0; i < flat.length; i++) {
@@ -225,7 +207,7 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 	};
 	
 	var openNextNode = function() {
-		var f = flat();
+		var f = CategoryService.flatAll;
 		var current = getCurrentIndex($scope.selectedId, $scope.selectedType, f);
 		current++;
 		if(current < f.length) {
@@ -237,7 +219,7 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 	};
 	
 	var openPreviousNode = function() {
-		var f = flat();
+		var f = CategoryService.flatAll;
 		var current = getCurrentIndex($scope.selectedId, $scope.selectedType, f);
 		current--;
 		if(current >= 0) {

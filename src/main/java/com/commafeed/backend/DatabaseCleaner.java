@@ -75,7 +75,7 @@ public class DatabaseCleaner {
 		long total = 0;
 		int deleted = -1;
 		do {
-			List<FeedCount> fcs = feedDAO.findDuplicates(0, 10, 1);
+			List<FeedCount> fcs = feedDAO.findDuplicates(0, 1, 1);
 			deleted = fcs.size();
 			for (FeedCount fc : fcs) {
 				Feed into = feedDAO.findById(fc.feeds.get(0).getId());

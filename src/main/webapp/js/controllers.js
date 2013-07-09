@@ -916,7 +916,9 @@ function($scope, $stateParams, $http, $route, $state, $window, EntryService, Set
 	$scope.onScroll = function(entry) {
 		$scope.navigationMode = 'scroll';
 		if (SettingsService.settings.viewMode == 'expanded') {
-			$scope.current = entry;
+			// TODO: it wrongly sets current entry, as entries are within a div
+			// with "overflow: auto", so we need to figure it out manually
+			// $scope.current = entry;
 			if(SettingsService.settings.scrollMarks) {
 				$scope.mark(entry, true);
 			}

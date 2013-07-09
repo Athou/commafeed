@@ -15,6 +15,7 @@ import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
+import com.google.common.collect.Lists;
 
 public class DatabaseCleaner {
 
@@ -77,7 +78,12 @@ public class DatabaseCleaner {
 			List<FeedCount> fcs = feedDAO.findDuplicates(0, 10, 1);
 			deleted = fcs.size();
 			for (FeedCount fc : fcs) {
-				mergeFeeds(fc.feeds.get(0), fc.feeds);
+				Feed into = feedDAO.findById(fc.feeds.get(0).getId());
+				List<Feed> feeds = Lists.newArrayList();
+				for (Feed feed : fc.feeds) {
+					feeds.add(feedDAO.findById(feed.getId()));
+				}
+				mergeFeeds(into, feeds);
 			}
 			total += deleted;
 			log.info("merged {} feeds", total);

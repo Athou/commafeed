@@ -23,6 +23,7 @@ import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.model.UserSettings.ViewMode;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.PasswordEncryptionService;
 import com.commafeed.backend.services.UserService;
 import com.commafeed.frontend.SecurityCheck;
@@ -60,6 +61,9 @@ public class UserREST extends AbstractResourceREST {
 	@Inject
 	CacheService cache;
 
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
+
 	@Path("/settings")
 	@GET
 	@ApiOperation(value = "Retrieve user settings", notes = "Retrieve user settings", responseClass = "com.commafeed.frontend.model.Settings")
@@ -67,9 +71,11 @@ public class UserREST extends AbstractResourceREST {
 		Settings s = new Settings();
 		UserSettings settings = userSettingsDAO.findByUser(getUser());
 		if (settings != null) {
-			// force unread for the moment
-			// s.setReadingMode(settings.getReadingMode().name());
-			s.setReadingMode(ReadingMode.unread.name());
+			if (applicationSettingsService.get().isHeavyLoad()) {
+				s.setReadingMode(ReadingMode.unread.name());
+			} else {
+				s.setReadingMode(settings.getReadingMode().name());
+			}
 
 			s.setReadingOrder(settings.getReadingOrder().name());
 			s.setViewMode(settings.getViewMode().name());

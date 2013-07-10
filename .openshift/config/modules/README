@@ -1,0 +1,18 @@
+Place your JBoss EAP6.0 modules in this directory. This directory is added to the
+module path of the EAP6.0 server associated with your application. It has the
+same structure as the standard EAP6.0 modules directory.
+
+The modules placed in this directory will be added to or override the default modules
+provided by the OpenShift JBoss EAP6.0 cartridge.
+
+Scenarios:
+1) Replace a default module with a new module that contains a bug fix or new feature
+2) Add a module that does not exist in the base OpenShift EAP6.0 cartridge in order to add
+a new component. Typically these new modules will need to be enabled and configured in
+standalone.xml
+
+Unless one of the above scenarios is required there is no need to modify the 
+modules directory.
+
+NOTE: Replacing default modules as in scenario 1 can cause conflicts between modules so
+should be done with caution and adequate testing.

@@ -15,6 +15,7 @@ import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.google.common.collect.Lists;
 
 public class DatabaseCleaner {
@@ -29,6 +30,9 @@ public class DatabaseCleaner {
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
+
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
 
 	public long cleanFeedsWithoutSubscriptions() {
 
@@ -75,7 +79,9 @@ public class DatabaseCleaner {
 		long total = 0;
 		int deleted = -1;
 		do {
-			List<FeedCount> fcs = feedDAO.findDuplicates(0, 10, 1);
+			List<FeedCount> fcs = feedDAO
+					.findDuplicates(0, applicationSettingsService.get()
+							.getDatabaseUpdateThreads(), 1);
 			deleted = fcs.size();
 
 			List<Thread> threads = Lists.newArrayList();

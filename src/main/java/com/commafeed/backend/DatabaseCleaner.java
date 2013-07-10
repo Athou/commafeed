@@ -77,8 +77,10 @@ public class DatabaseCleaner {
 		do {
 			List<FeedCount> fcs = feedDAO.findDuplicates(0, 10, 1);
 			deleted = fcs.size();
+
+			List<Thread> threads = Lists.newArrayList();
 			for (final FeedCount fc : fcs) {
-				new Thread() {
+				Thread thread = new Thread() {
 					public void run() {
 						Feed into = feedDAO.findById(fc.feeds.get(0).getId());
 						List<Feed> feeds = Lists.newArrayList();
@@ -87,7 +89,16 @@ public class DatabaseCleaner {
 						}
 						mergeFeeds(into, feeds);
 					};
-				}.start();
+				};
+				thread.start();
+				threads.add(thread);
+			}
+			for (Thread thread : threads) {
+				try {
+					thread.join();
+				} catch (InterruptedException e) {
+					log.error(e.getMessage(), e);
+				}
 			}
 			total += deleted;
 			log.info("merged {} feeds", total);

@@ -21,6 +21,7 @@ import com.commafeed.backend.DatabaseCleaner;
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.dao.FeedDAO.DuplicateMode;
 import com.commafeed.backend.dao.FeedDAO.FeedCount;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
@@ -272,9 +273,11 @@ public class AdminREST extends AbstractResourceREST {
 	@Path("/cleanup/findDuplicateFeeds")
 	@GET
 	@ApiOperation(value = "Find duplicate feeds")
-	public Response findDuplicateFeeds(@QueryParam("page") int page,
-			@QueryParam("limit") int limit, @QueryParam("minCount") long minCount) {
-		List<FeedCount> list = feedDAO.findDuplicates(limit * page, limit, minCount);
+	public Response findDuplicateFeeds(@QueryParam("mode") DuplicateMode mode,
+			@QueryParam("page") int page, @QueryParam("limit") int limit,
+			@QueryParam("minCount") long minCount) {
+		List<FeedCount> list = feedDAO.findDuplicates(mode, limit * page,
+				limit, minCount);
 		return Response.ok(list).build();
 	}
 
@@ -303,15 +306,4 @@ public class AdminREST extends AbstractResourceREST {
 		cleaner.mergeFeeds(into, feeds);
 		return Response.ok().build();
 	}
-
-	@Path("/cleanup/automerge")
-	@GET
-	@ApiOperation(value = "Automatically merge feeds", notes = "Merge feeds together")
-	public Response autoMergeFeeds() {
-		Map<String, Long> map = Maps.newHashMap();
-		map.put("merged feeds",
-				cleaner.cleanDuplicateFeeds());
-		return Response.ok(map).build();
-	}
-
 }

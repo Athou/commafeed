@@ -1213,9 +1213,11 @@ module.controller('ManageDuplicateFeedsCtrl', [
 	$scope.limit = 10;
 	$scope.page = 0;
 	$scope.minCount = 1;
+	$scope.mode = 'NORMALIZED_URL';
 	$scope.mergeData = {};
 	$scope.refreshData = function() {
 		AdminCleanupService.findDuplicateFeeds({
+			mode: $scope.mode,
 			limit : $scope.limit,
 			page : $scope.page, 
 			minCount: $scope.minCount
@@ -1341,6 +1343,9 @@ function($scope, $location, $state,	AdminSettingsService) {
 
 	$scope.toUsers = function() {
 		$state.transitionTo('admin.userlist');
+	};
+	$scope.toCleanup = function() {
+		$state.transitionTo('admin.duplicate_feeds');
 	};
 }]);
 

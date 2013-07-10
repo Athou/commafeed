@@ -13,6 +13,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
+import javax.persistence.metamodel.SingularAttribute;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,7 +35,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 	@XmlRootElement
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class FeedCount {
-		public String normalizedUrlHash;
+		public String value;
 		public List<Feed> feeds;
 	}
 
@@ -136,28 +137,43 @@ public class FeedDAO extends GenericDAO<Feed> {
 
 	}
 
-	public List<FeedCount> findDuplicates(int offset, int limit, long minCount) {
+	public static enum DuplicateMode {
+		NORMALIZED_URL(Feed_.normalizedUrlHash), LAST_CONTENT(
+				Feed_.lastContentHash), PUSH_TOPIC(Feed_.pushTopicHash);
+		private SingularAttribute<Feed, String> path;
+
+		private DuplicateMode(SingularAttribute<Feed, String> path) {
+			this.path = path;
+		}
+
+		public SingularAttribute<Feed, String> getPath() {
+			return path;
+		}
+	}
+
+	public List<FeedCount> findDuplicates(DuplicateMode mode, int offset,
+			int limit, long minCount) {
 		CriteriaQuery<String> query = builder.createQuery(String.class);
 		Root<Feed> root = query.from(getType());
 
-		Path<String> hashPath = root.get(Feed_.normalizedUrlHash);
-		Expression<Long> count = builder.count(hashPath);
+		Path<String> path = root.get(mode.getPath());
+		Expression<Long> count = builder.count(path);
 
-		query.select(hashPath);
+		query.select(path);
 
-		query.groupBy(hashPath);
+		query.groupBy(path);
 		query.having(builder.greaterThan(count, minCount));
 
 		TypedQuery<String> q = em.createQuery(query);
 		limit(q, offset, limit);
-		List<String> normalizedUrlHashes = q.getResultList();
+		List<String> pathValues = q.getResultList();
 
 		List<FeedCount> result = Lists.newArrayList();
-		for (String hash : normalizedUrlHashes) {
+		for (String pathValue : pathValues) {
 			FeedCount fc = new FeedCount();
-			fc.normalizedUrlHash = hash;
+			fc.value = pathValue;
 			fc.feeds = Lists.newArrayList();
-			for (Feed feed : findByField(Feed_.normalizedUrlHash, hash)) {
+			for (Feed feed : findByField(mode.getPath(), pathValue)) {
 				Feed f = new Feed();
 				f.setId(feed.getId());
 				f.setUrl(feed.getUrl());

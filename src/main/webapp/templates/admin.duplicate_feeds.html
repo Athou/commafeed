@@ -1,10 +1,21 @@
 <div class="row">
 	
+	<div>
 	Limit <input type="number" ng-model="limit" />
 	Page <input type="number" ng-model="page" />
 	Min. count <input type="number" ng-model="minCount" />
-	<input type="button" class="btn" ng-click="refreshData()" value="Refresh" />
-	<input type="button" class="btn" ng-click="autoMerge()" value="Auto merge selected" />
+	</div>
+	<div>
+		Mode
+		<select ng-model="mode">
+			<option value="NORMALIZED_URL">Normalized URLs</option>
+			<option value="LAST_CONTENT">Last content</option>
+			<option value="PUSH_TOPIC">Pubsubhubbub topic URL</option>
+		</select>
+		<input type="button" class="btn" ng-click="refreshData()" value="Refresh" />
+		<input type="button" class="btn" ng-click="autoMerge()" value="Auto merge selected" />
+	</div>
+
 	<table class="table table-condensed table-hover" ui-if="counts">
 		<thead>
 			<tr>

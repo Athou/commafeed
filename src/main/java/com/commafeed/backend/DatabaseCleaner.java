@@ -10,13 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.dao.FeedDAO;
-import com.commafeed.backend.dao.FeedDAO.FeedCount;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.services.ApplicationSettingsService;
-import com.google.common.collect.Lists;
 
 public class DatabaseCleaner {
 
@@ -72,44 +70,6 @@ public class DatabaseCleaner {
 			log.info("removed {} entries", total);
 		} while (deleted != 0);
 		log.info("cleanup done: {} entries deleted", total);
-		return total;
-	}
-
-	public long cleanDuplicateFeeds() {
-		long total = 0;
-		int deleted = -1;
-		do {
-			List<FeedCount> fcs = feedDAO
-					.findDuplicates(0, applicationSettingsService.get()
-							.getDatabaseUpdateThreads(), 1);
-			deleted = fcs.size();
-
-			List<Thread> threads = Lists.newArrayList();
-			for (final FeedCount fc : fcs) {
-				Thread thread = new Thread() {
-					public void run() {
-						Feed into = feedDAO.findById(fc.feeds.get(0).getId());
-						List<Feed> feeds = Lists.newArrayList();
-						for (Feed feed : fc.feeds) {
-							feeds.add(feedDAO.findById(feed.getId()));
-						}
-						mergeFeeds(into, feeds);
-					};
-				};
-				thread.start();
-				threads.add(thread);
-			}
-			for (Thread thread : threads) {
-				try {
-					thread.join();
-				} catch (InterruptedException e) {
-					log.error(e.getMessage(), e);
-				}
-			}
-			total += deleted;
-			log.info("merged {} feeds", total);
-		} while (deleted != 0);
-		log.info("cleanup done: {} feeds merged", total);
 		return total;
 	}
 

@@ -267,5 +267,11 @@
 			<column name="crawlingPaused" valueBoolean="false"></column>
 		</update>	
 	</changeSet>
+	
+	<changeSet author="athou" id="add-content-hash-index">
+		<createIndex tableName="FEEDS" indexName="last_content_hash_index">
+			<column name="lastContentHash"></column>
+		</createIndex>
+	</changeSet>
 
 </databaseChangeLog>

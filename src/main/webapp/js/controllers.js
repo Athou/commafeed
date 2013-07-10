@@ -607,6 +607,26 @@ function($scope, $state, $filter, $timeout, CategoryService) {
 	$scope.close = function() {
 		$scope.feedSearchModal = false;
 	};
+	
+	Mousetrap.bind('g a', function(e) {
+		$scope.$apply(function() {
+			$state.transitionTo('feeds.view', {
+				_type : 'category', 
+				_id : 'all'
+			});
+		});
+		return false;
+	});
+	
+	Mousetrap.bind('g s', function(e) {
+		$scope.$apply(function() {
+			$state.transitionTo('feeds.view', {
+				_type : 'category', 
+				_id : 'starred'
+			});
+		});
+		return false;
+	});
 
 	Mousetrap.bind('g u', function(e) {
 		$scope.$apply(function() {

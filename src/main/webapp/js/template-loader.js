@@ -2,7 +2,7 @@ var app = angular.module('commafeed.services');
 
 app.factory('$templateCache', ['$cacheFactory', '$http', '$injector', function($cacheFactory, $http, $injector) {
 	var cache = $cacheFactory('templates');
-	var allTplPromise;
+	var allTplPromise = null;
 
 	return {
 		get : function(url) {

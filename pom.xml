@@ -18,6 +18,7 @@
 		<jpa.show_sql>false</jpa.show_sql>
 		<jpa.datasource.name>java:openejb/Resource/My DataSource</jpa.datasource.name>
 		<jpa.cache>false</jpa.cache>
+		<jpa.table.encoding>utf8mb4</jpa.table.encoding>
 		<cache_service.class>com.commafeed.backend.cache.NoopCacheService</cache_service.class>
 	</properties>
 
@@ -434,6 +435,7 @@
 			<id>openshift</id>
 			<properties>
 				<jpa.datasource.name>java:jboss/datasources/MysqlDS</jpa.datasource.name>
+				<jpa.table.encoding>utf8</jpa.table.encoding>
 			</properties>
 			<build>
 				<finalName>commafeed</finalName>

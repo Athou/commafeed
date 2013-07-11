@@ -49,7 +49,7 @@
 			<column name="logLevel" type="VARCHAR(255)" />
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+			<append value=" ENGINE INNODB CHARACTER SET ${jpa.table.encoding}" />
 		</modifySql>
 	</changeSet>
 
@@ -68,7 +68,7 @@
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+			<append value=" ENGINE INNODB CHARACTER SET ${jpa.table.encoding}" />
 		</modifySql>
 	</changeSet>
 
@@ -95,7 +95,7 @@
 			<column name="position" type="INT" />
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+			<append value=" ENGINE INNODB CHARACTER SET ${jpa.table.encoding}" />
 		</modifySql>
 	</changeSet>
 
@@ -123,7 +123,7 @@
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+			<append value=" ENGINE INNODB CHARACTER SET ${jpa.table.encoding}" />
 		</modifySql>
 	</changeSet>
 
@@ -143,7 +143,7 @@
 			<column name="title" type="VARCHAR(2048)" />
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+			<append value=" ENGINE INNODB CHARACTER SET ${jpa.table.encoding}" />
 		</modifySql>
 	</changeSet>
 
@@ -169,7 +169,7 @@
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+			<append value=" ENGINE INNODB CHARACTER SET ${jpa.table.encoding}" />
 		</modifySql>
 	</changeSet>
 
@@ -208,7 +208,7 @@
 			<column name="lastEntryDate" type="DATETIME" />
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+			<append value=" ENGINE INNODB CHARACTER SET ${jpa.table.encoding}" />
 		</modifySql>
 	</changeSet>
 
@@ -235,7 +235,7 @@
 			<column name="position" type="INT" />
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+			<append value=" ENGINE INNODB CHARACTER SET ${jpa.table.encoding}" />
 		</modifySql>
 	</changeSet>
 
@@ -250,7 +250,7 @@
 			<column name="sequence_next_hi_value" type="INT" />
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+			<append value=" ENGINE INNODB CHARACTER SET ${jpa.table.encoding}" />
 		</modifySql>
 	</changeSet>
 
@@ -272,7 +272,7 @@
 			</column>
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+			<append value=" ENGINE INNODB CHARACTER SET ${jpa.table.encoding}" />
 		</modifySql>
 	</changeSet>
 
@@ -345,7 +345,7 @@
 			<column name="theme" type="VARCHAR(32)" />
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB CHARACTER SET utf8mb4" />
+			<append value=" ENGINE INNODB CHARACTER SET ${jpa.table.encoding}" />
 		</modifySql>
 	</changeSet>
 

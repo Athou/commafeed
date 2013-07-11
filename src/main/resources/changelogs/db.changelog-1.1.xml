@@ -273,5 +273,11 @@
 			<column name="lastContentHash"></column>
 		</createIndex>
 	</changeSet>
+	
+	<changeSet author="athou" id="create-settings-index">
+		<createIndex tableName="USERSETTINGS" indexName="user_id_index" unique="true">
+			<column name="user_id"></column>
+		</createIndex>
+	</changeSet>
 
 </databaseChangeLog>

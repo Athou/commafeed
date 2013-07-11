@@ -59,14 +59,19 @@ public class OPMLImporter {
 	private void handleOutline(User user, Outline outline, FeedCategory parent) {
 
 		if (StringUtils.isEmpty(outline.getType())) {
-			FeedCategory category = feedCategoryDAO.findByName(user,
-					outline.getText(), parent);
+			String name = FeedUtils.truncate(outline.getText(), 128);
+			if (name == null) {
+				name = FeedUtils.truncate(outline.getTitle(), 128);
+			}
+			FeedCategory category = feedCategoryDAO.findByName(user, name,
+					parent);
 			if (category == null) {
-				category = new FeedCategory();
-				category.setName(FeedUtils.truncate(outline.getText(), 128));
-				if (StringUtils.isBlank(category.getName())) {
-					category.setName("Unnamed category");
+				if (StringUtils.isBlank(name)) {
+					name = "Unnamed category";
 				}
+				
+				category = new FeedCategory();
+				category.setName(name);
 				category.setParent(parent);
 				category.setUser(user);
 				feedCategoryDAO.saveOrUpdate(category);
@@ -77,19 +82,22 @@ public class OPMLImporter {
 				handleOutline(user, child, category);
 			}
 		} else {
-			String title = outline.getText();
-			if (StringUtils.isBlank(title)) {
-				title = "Unnamed subscription";
+			String name = FeedUtils.truncate(outline.getText(), 128);
+			if (name == null) {
+				name = FeedUtils.truncate(outline.getTitle(), 128);
+			}
+			if (StringUtils.isBlank(name)) {
+				name = "Unnamed subscription";
 			}
 			// make sure we continue with the import process even a feed failed
 			try {
-				feedSubscriptionService.subscribe(user, outline.getXmlUrl(), title,
-						parent);
-
+				feedSubscriptionService.subscribe(user, outline.getXmlUrl(),
+						name, parent);
 			} catch (FeedSubscriptionException e) {
 				throw e;
 			} catch (Exception e) {
-				log.error("error while importing {}: {}", outline.getXmlUrl(), e.getMessage());
+				log.error("error while importing {}: {}", outline.getXmlUrl(),
+						e.getMessage());
 			}
 		}
 		cache.invalidateUserData(user);

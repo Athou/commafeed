@@ -101,12 +101,13 @@ public class AdminREST extends AbstractResourceREST {
 			if (userModel.isAdmin()) {
 				roles.add(Role.ADMIN);
 			}
-
-			User user = userService.register(userModel.getName(),
-					userModel.getPassword(), userModel.getEmail(), roles, true);
-			if (user == null) {
-				return Response.status(Status.CONFLICT)
-						.entity("User already exists.").build();
+			try {
+				userService.register(userModel.getName(),
+						userModel.getPassword(), userModel.getEmail(), roles,
+						true);
+			} catch (Exception e) {
+				return Response.status(Status.CONFLICT).entity(e.getMessage())
+						.build();
 			}
 		} else {
 			User user = userDAO.findById(id);

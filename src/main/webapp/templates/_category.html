@@ -11,10 +11,9 @@
 				<i ng-class="{'icon-star' : node.id == 'starred', 'icon-inbox': node.id == 'all'}" ng-show="!showChildren"></i>
 			</span>
 			<span ng-class="{selected: (node.id == selectedId && selectedType == 'category')}">
-				<span ng-class="{unread: unreadCount({category:node})}">
+				<span ng-class="{unread: unreadCount({category:node})}" class="bidi-embed">
 					{{categoryLabel(node)}}
 				</span>
-				&lrm;
 				<span class="unread-counter">
 					{{categoryCountLabel(node)}}
 				</span>
@@ -38,10 +37,9 @@
 				href="{{feed.feedLink}}" target="_blank"
 				ng-class="{error: feed.message && feed.errorCount > 10, selected: (feed.id == selectedId && selectedType == 'feed') }">
 				<favicon url="feed.iconUrl" />
-				<span ng-class="{unread: feed.unread}">
+				<span ng-class="{unread: feed.unread}" class="bidi-embed">
 					{{feed.name}}
-				</span> 
-				&lrm;
+				</span>
 				<span class="unread-counter">
 					{{feedCountLabel(feed)}}
 				</span>

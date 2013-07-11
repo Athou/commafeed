@@ -66,7 +66,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.3</version>
+				<version>2.4</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<webResources combine.children="append">
@@ -447,7 +447,7 @@
 					</plugin>
 					<plugin>
 						<artifactId>maven-war-plugin</artifactId>
-						<version>2.3</version>
+						<version>2.4</version>
 						<configuration>
 							<outputDirectory>deployments</outputDirectory>
 							<warName>ROOT</warName>
@@ -563,7 +563,7 @@
 					</plugin>
 					<plugin>
 						<artifactId>maven-war-plugin</artifactId>
-						<version>2.3</version>
+						<version>2.4</version>
 						<configuration>
 							<webResources>
 								<resource>

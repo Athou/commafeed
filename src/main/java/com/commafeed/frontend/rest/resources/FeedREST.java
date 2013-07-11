@@ -60,6 +60,7 @@ import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.FeedInfo;
 import com.commafeed.frontend.model.Subscription;
+import com.commafeed.frontend.model.request.FeedInfoRequest;
 import com.commafeed.frontend.model.request.FeedModificationRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
@@ -239,16 +240,17 @@ public class FeedREST extends AbstractResourceREST {
 		return info;
 	}
 
-	@GET
+	@POST
 	@Path("/fetch")
 	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", responseClass = "com.commafeed.frontend.model.FeedInfo")
 	public Response fetchFeed(
-			@ApiParam(value = "the feed's url", required = true) @QueryParam("url") String url) {
-		Preconditions.checkNotNull(url);
+			@ApiParam(value = "feed url", required = true) FeedInfoRequest req) {
+		Preconditions.checkNotNull(req);
+		Preconditions.checkNotNull(req.getUrl());
 
 		FeedInfo info = null;
 		try {
-			info = fetchFeedInternal(url);
+			info = fetchFeedInternal(req.getUrl());
 		} catch (Exception e) {
 			return Response.status(Status.INTERNAL_SERVER_ERROR)
 					.entity(e.getMessage()).build();
@@ -307,7 +309,8 @@ public class FeedREST extends AbstractResourceREST {
 		if (sub == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		Long unreadCount = feedSubscriptionService.getUnreadCount(getUser()).get(id);
+		Long unreadCount = feedSubscriptionService.getUnreadCount(getUser())
+				.get(id);
 		if (unreadCount == null) {
 			unreadCount = new Long(0);
 		}

@@ -75,7 +75,7 @@ function($resource, $http) {
 			}
 		},
 		fetch : {
-			method : 'GET',
+			method : 'POST',
 			params : {
 				_method : 'fetch'
 			}

@@ -16,6 +16,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import javax.persistence.criteria.SetJoin;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -318,14 +319,12 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		CriteriaQuery<FeedEntry> query = builder.createQuery(FeedEntry.class);
 		Root<FeedEntry> root = query.from(FeedEntry.class);
 
-		Join<FeedFeedEntry, Feed> feedJoin = root.join(FeedEntry_.feedRelationships).join(FeedFeedEntry_.feed);
-		Join<Feed, FeedSubscription> subJoin = feedJoin
-				.join(Feed_.subscriptions);
+		Join<FeedEntry, FeedFeedEntry> ffeJoin = root.join(FeedEntry_.feedRelationships);
 
 		List<Predicate> predicates = Lists.newArrayList();
 
-		predicates.add(builder.equal(subJoin.get(FeedSubscription_.id),
-				subscription.getId()));
+		predicates.add(builder.equal(ffeJoin.get(FeedFeedEntry_.feed),
+				subscription.getFeed()));
 
 		if (newerThan != null) {
 			predicates.add(builder.greaterThanOrEqualTo(

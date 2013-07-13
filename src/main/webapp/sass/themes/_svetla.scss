@@ -1,0 +1,66 @@
+#svetla {
+/*background color*/
+body, div.form-actions, .toolbar {
+    background:  #E3D4D1;
+}
+
+div.form-actions, div.page-header {
+    border: none;
+}
+
+pre, #feed-accordion .unread .entry-heading {
+    background: transparent;
+}
+
+/*feeds tree*/
+.css-treeview li .tree-item:hover {
+    background:  grey;
+}
+
+/*feeds list*/
+
+#feed-accordion .entry-buttons { /*share panel*/
+    background: transparent;
+    /* uncomment if ---> border: 1px solid black; */
+}
+
+#feed-accordion .entry {
+    border: none;
+}
+
+#feed-accordion .unread .entry-heading:hover {
+    background: grey;
+}
+
+/* readed feed background */
+#feed-accordion .entry-heading {
+    background: #987B77;
+}
+
+ul.dropdown-menu.pull-right li.divider {
+    height: 0px;
+    background: transparent;
+    border-bottom: 0px;
+}
+
+ul.dropdown-menu {
+    background: #E6E6E6;
+}
+
+/**/
+.btn {
+    background: #B8ACA4;
+    border: 1px solid grey;/* ! */
+}
+
+button.btn.dropdown-toggle {
+    background: #7B7672;
+}
+
+button.btn.dropdown-toggle:hover {
+    background: #e6e6e6;
+}
+span.hidden-phone.hidden-tablet.ng-binding {
+    display: none;
+}
+}

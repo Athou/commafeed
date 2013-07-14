@@ -248,6 +248,7 @@
 	</changeSet>
 
 	<changeSet author="athou" id="create-seq">
+		<validCheckSum>7:6d68765b2116ba88680d69c03b3cefd2</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="hibernate_sequences" />

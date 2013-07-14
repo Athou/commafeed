@@ -298,11 +298,18 @@
 		<sql>update FEEDENTRYSTATUSES s SET s.user_id = (select sub.user_id from FEEDSUBSCRIPTIONS sub where sub.id = s.subscription_id)</sql>
 	</changeSet>
 	
-	<changeSet author="athou" id="recreate-fes-index-2">
-		<createIndex indexName="sub_user_entry_read_updated_index" tableName="FEEDENTRYSTATUSES">
+	<changeSet author="athou" id="recreate-fes-index-2">		
+		<createIndex indexName="sub_entry_index" tableName="FEEDENTRYSTATUSES">
 			<column name="subscription_id" />
-			<column name="user_id" />
 			<column name="entry_id" />
+		</createIndex>
+		<createIndex indexName="sub_read_updated_index" tableName="FEEDENTRYSTATUSES">
+			<column name="subscription_id" />
+			<column name="read_status" />
+			<column name="entryUpdated" />
+		</createIndex>
+		<createIndex indexName="user_read_updated_index" tableName="FEEDENTRYSTATUSES">
+			<column name="user_id" />
 			<column name="read_status" />
 			<column name="entryUpdated" />
 		</createIndex>

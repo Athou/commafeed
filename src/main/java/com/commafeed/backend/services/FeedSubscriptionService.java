@@ -93,8 +93,7 @@ public class FeedSubscriptionService {
 				List<FeedEntry> allEntries = feedEntryDAO.findByFeed(feed, 0,
 						10);
 				for (FeedEntry entry : allEntries) {
-					FeedEntryStatus status = new FeedEntryStatus();
-					status.setEntry(entry);
+					FeedEntryStatus status = new FeedEntryStatus(user, sub, entry);
 					status.setRead(false);
 					status.setSubscription(sub);
 					statuses.add(status);

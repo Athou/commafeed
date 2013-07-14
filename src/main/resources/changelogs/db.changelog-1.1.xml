@@ -279,5 +279,44 @@
 			<column name="user_id"></column>
 		</createIndex>
 	</changeSet>
+	
+	<changeSet author="athou" id="denormalize-statuses">
+		<addColumn tableName="FEEDENTRYSTATUSES">
+			<column name="user_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="entryInserted" type="DATETIME" />
+			<column name="entryUpdated" type="DATETIME" />
+		</addColumn>
+	</changeSet>
+	
+	<changeSet author="athou" id="populate-status-dates">
+		<sql>update FEEDENTRYSTATUSES s SET s.entryUpdated = (select e.updated from FEEDENTRIES e where e.id = s.entry_id)</sql>
+	</changeSet>
+	
+	<changeSet author="athou" id="populate-status-users">
+		<sql>update FEEDENTRYSTATUSES s SET s.user_id = (select sub.user_id from FEEDSUBSCRIPTIONS sub where sub.id = s.subscription_id)</sql>
+	</changeSet>
+	
+	<changeSet author="athou" id="recreate-fes-index-2">		
+		<createIndex indexName="sub_entry_index" tableName="FEEDENTRYSTATUSES">
+			<column name="subscription_id" />
+			<column name="entry_id" />
+		</createIndex>
+		<createIndex indexName="sub_read_updated_index" tableName="FEEDENTRYSTATUSES">
+			<column name="subscription_id" />
+			<column name="read_status" />
+			<column name="entryUpdated" />
+		</createIndex>
+		<createIndex indexName="user_read_updated_index" tableName="FEEDENTRYSTATUSES">
+			<column name="user_id" />
+			<column name="read_status" />
+			<column name="entryUpdated" />
+		</createIndex>
+	</changeSet>
+	
+	<changeSet author="athou" id="drop-fes-index-2">
+		<dropIndex tableName="FEEDENTRYSTATUSES" indexName="sub_entry_read_index" />
+	</changeSet>
 
 </databaseChangeLog>

@@ -1,5 +1,7 @@
 package com.commafeed.backend.model;
 
+import java.util.Date;
+
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -29,6 +33,32 @@ public class FeedEntryStatus extends AbstractModel {
 	@Column(name = "read_status")
 	private boolean read;
 	private boolean starred;
+
+	/**
+	 * Denormalization starts here
+	 */
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
+	private User user;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date entryInserted;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date entryUpdated;
+
+	public FeedEntryStatus() {
+
+	}
+
+	public FeedEntryStatus(User user, FeedSubscription subscription, FeedEntry entry) {
+		setUser(user);
+		setSubscription(subscription);
+		setEntry(entry);
+		setEntryInserted(entry.getInserted());
+		setEntryUpdated(entry.getUpdated());
+	}
 
 	public FeedSubscription getSubscription() {
 		return subscription;
@@ -60,6 +90,30 @@ public class FeedEntryStatus extends AbstractModel {
 
 	public void setStarred(boolean starred) {
 		this.starred = starred;
+	}
+
+	public Date getEntryInserted() {
+		return entryInserted;
+	}
+
+	public void setEntryInserted(Date entryInserted) {
+		this.entryInserted = entryInserted;
+	}
+
+	public Date getEntryUpdated() {
+		return entryUpdated;
+	}
+
+	public void setEntryUpdated(Date entryUpdated) {
+		this.entryUpdated = entryUpdated;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

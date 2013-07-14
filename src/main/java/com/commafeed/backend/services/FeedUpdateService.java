@@ -75,12 +75,11 @@ public class FeedUpdateService {
 			List<FeedEntryStatus> statusUpdateList = Lists.newArrayList();
 			List<User> users = Lists.newArrayList();
 			for (FeedSubscription sub : subscriptions) {
-				FeedEntryStatus status = new FeedEntryStatus();
-				status.setEntry(update);
+				User user = sub.getUser();
+				FeedEntryStatus status = new FeedEntryStatus(user, sub, update);
 				status.setSubscription(sub);
 				statusUpdateList.add(status);
-
-				users.add(sub.getUser());
+				users.add(user);
 			}
 			cache.invalidateUserData(users.toArray(new User[0]));
 			feedEntryDAO.saveOrUpdate(update);

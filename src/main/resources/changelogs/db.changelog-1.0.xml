@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
 	<changeSet author="athou" id="create-app-settings">
+		<validCheckSum>7:6d3ad493d25dd9c50067e804efc9ffcc</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="APPLICATIONSETTINGS" />
@@ -54,6 +55,7 @@
 	</changeSet>
 
 	<changeSet author="athou" id="create-ffe">
+		<validCheckSum>7:eccd6b37116ab35ee963aa46152e1ae5</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEED_FEEDENTRIES" />
@@ -73,6 +75,7 @@
 	</changeSet>
 
 	<changeSet author="athou" id="create-cat">
+		<validCheckSum>7:93155e15f0feabe936e1de35711bf85b</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDCATEGORIES" />
@@ -100,6 +103,7 @@
 	</changeSet>
 
 	<changeSet author="athou" id="create-entries">
+		<validCheckSum>7:2d9e82da5573ac551df31a13f3bc40e5</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDENTRIES" />
@@ -128,6 +132,7 @@
 	</changeSet>
 
 	<changeSet author="athou" id="create-contents">
+		<validCheckSum>7:a2d83b0f7d1bf97a7553e94dd6100edf</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDENTRYCONTENTS" />
@@ -148,6 +153,7 @@
 	</changeSet>
 
 	<changeSet author="athou" id="create-statuses">
+		<validCheckSum>7:a9cf194a01c16b937a897aea934f09ae</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDENTRYSTATUSES" />
@@ -174,6 +180,7 @@
 	</changeSet>
 
 	<changeSet author="athou" id="create-feeds">
+		<validCheckSum>7:e3a44d2e0f774dcb4efe36702c8d5f3f</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDS" />
@@ -213,6 +220,7 @@
 	</changeSet>
 
 	<changeSet author="athou" id="create-subs">
+		<validCheckSum>7:36e92eac052c7d2ce0ef75e3ec2cdf8d</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDSUBSCRIPTIONS" />
@@ -250,11 +258,12 @@
 			<column name="sequence_next_hi_value" type="INT" />
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB CHARACTER SET ${jpa.table.encoding}" />
+			<append value=" ENGINE INNODB CHARACTER SET utf8" />
 		</modifySql>
 	</changeSet>
 
 	<changeSet author="athou" id="create-roles">
+		<validCheckSum>7:eefc98cfa1b9bbf51fa6acd7a0d49c1b</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="USERROLES" />
@@ -310,6 +319,7 @@
 	</changeSet>
 
 	<changeSet author="athou" id="create-user-settings">
+		<validCheckSum>7:985d6607a4350e032ea345d9a2f2f0c0</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="USERSETTINGS" />

@@ -281,6 +281,7 @@
 	</changeSet>
 	
 	<changeSet author="athou" id="denormalize-statuses">
+		<validCheckSum>7:c73f70fbcbc8bb30f9629028ec8ddb06</validCheckSum>
 		<addColumn tableName="FEEDENTRYSTATUSES">
 			<column name="user_id" type="BIGINT" defaultValue="1">
 				<constraints nullable="false" />

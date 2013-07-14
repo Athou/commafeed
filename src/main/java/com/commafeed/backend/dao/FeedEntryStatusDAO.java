@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
@@ -16,7 +15,6 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
-import javax.persistence.criteria.SetJoin;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -53,29 +51,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
-
-	@SuppressWarnings("unchecked")
-	public FeedEntryStatus findById(User user, Long id) {
-
-		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
-		Root<FeedEntryStatus> root = query.from(getType());
-
-		Join<FeedEntryStatus, FeedSubscription> join = (Join<FeedEntryStatus, FeedSubscription>) root
-				.fetch(FeedEntryStatus_.subscription);
-
-		Predicate p1 = builder.equal(root.get(FeedEntryStatus_.id), id);
-		Predicate p2 = builder.equal(join.get(FeedSubscription_.user), user);
-
-		query.where(p1, p2);
-
-		FeedEntryStatus status = null;
-		try {
-			status = em.createQuery(query).getSingleResult();
-		} catch (NoResultException e) {
-			status = null;
-		}
-		return status;
-	}
 
 	public FeedEntryStatus findByEntry(FeedEntry entry, FeedSubscription sub) {
 
@@ -121,8 +96,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		for (FeedEntry entry : entries) {
 			FeedEntryStatus s = existing.get(entry.getId());
 			if (s == null) {
-				s = new FeedEntryStatus();
-				s.setEntry(entry);
+				s = new FeedEntryStatus(sub.getUser(), sub, entry);
 				s.setSubscription(sub);
 				s.setRead(true);
 			}
@@ -165,7 +139,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		predicates.add(builder.or(content, title));
 
 		query.where(predicates.toArray(new Predicate[0]));
-		orderBy(query, root, ReadingOrder.desc);
+		orderEntriesBy(query, root, ReadingOrder.desc);
 
 		TypedQuery<Tuple> q = em.createQuery(query);
 		limit(q, offset, limit);
@@ -179,8 +153,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 			FeedEntryStatus status = findByEntry(entry, subscription);
 			if (status == null) {
-				status = new FeedEntryStatus();
-				status.setEntry(entry);
+				status = new FeedEntryStatus(user, subscription, entry);
 				status.setRead(true);
 				status.setSubscription(subscription);
 			}
@@ -203,23 +176,17 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		List<Predicate> predicates = Lists.newArrayList();
 
-		Join<FeedEntryStatus, FeedEntry> entryJoin = root
-				.join(FeedEntryStatus_.entry);
-
-		Join<FeedEntryStatus, FeedSubscription> subJoin = root
-				.join(FeedEntryStatus_.subscription);
-
 		predicates
-				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
+				.add(builder.equal(root.get(FeedEntryStatus_.user), user));
 		predicates.add(builder.equal(root.get(FeedEntryStatus_.starred), true));
 		query.where(predicates.toArray(new Predicate[0]));
 
 		if (newerThan != null) {
 			predicates.add(builder.greaterThanOrEqualTo(
-					entryJoin.get(FeedEntry_.inserted), newerThan));
+					root.get(FeedEntryStatus_.entryInserted), newerThan));
 		}
 
-		orderBy(query, entryJoin, order);
+		orderStatusesBy(query, root, order);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
@@ -252,7 +219,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));
-		orderBy(query, root, order);
+		orderEntriesBy(query, root, order);
 
 		TypedQuery<Tuple> q = em.createQuery(query);
 		limit(q, offset, limit);
@@ -266,8 +233,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 			FeedEntryStatus status = findByEntry(entry, subscription);
 			if (status == null) {
-				status = new FeedEntryStatus();
-				status.setEntry(entry);
+				status = new FeedEntryStatus(user, subscription, entry);
 				status.setRead(true);
 				status.setSubscription(subscription);
 			}
@@ -289,22 +255,17 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		List<Predicate> predicates = Lists.newArrayList();
 
-		Join<FeedEntryStatus, FeedEntry> entryJoin = root
-				.join(FeedEntryStatus_.entry);
-		Join<FeedEntryStatus, FeedSubscription> subJoin = root
-				.join(FeedEntryStatus_.subscription);
-
 		predicates
-				.add(builder.equal(subJoin.get(FeedSubscription_.user), user));
+				.add(builder.equal(root.get(FeedEntryStatus_.user), user));
 		predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
 
 		if (newerThan != null) {
 			predicates.add(builder.greaterThanOrEqualTo(
-					entryJoin.get(FeedEntry_.inserted), newerThan));
+					root.get(FeedEntryStatus_.entryInserted), newerThan));
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));
-		orderBy(query, entryJoin, order);
+		orderStatusesBy(query, root, order);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
@@ -332,7 +293,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));
-		orderBy(query, root, order);
+		orderEntriesBy(query, root, order);
 
 		TypedQuery<FeedEntry> q = em.createQuery(query);
 		limit(q, offset, limit);
@@ -359,21 +320,18 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		List<Predicate> predicates = Lists.newArrayList();
 
-		Join<FeedEntryStatus, FeedEntry> entryJoin = root
-				.join(FeedEntryStatus_.entry);
-
 		predicates.add(builder.equal(root.get(FeedEntryStatus_.subscription),
 				subscription));
 		predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
 
 		if (newerThan != null) {
 			predicates.add(builder.greaterThanOrEqualTo(
-					entryJoin.get(FeedEntry_.inserted), newerThan));
+					root.get(FeedEntryStatus_.entryInserted), newerThan));
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));
 
-		orderBy(query, entryJoin, order);
+		orderStatusesBy(query, root, order);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
@@ -413,7 +371,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));
-		orderBy(query, root, order);
+		orderEntriesBy(query, root, order);
 
 		TypedQuery<Tuple> q = em.createQuery(query);
 		limit(q, offset, limit);
@@ -427,8 +385,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 			FeedEntryStatus status = findByEntry(entry, subscription);
 			if (status == null) {
-				status = new FeedEntryStatus();
-				status.setEntry(entry);
+				status = new FeedEntryStatus(subscription.getUser(), subscription, entry);
 				status.setSubscription(subscription);
 				status.setRead(true);
 			}
@@ -455,8 +412,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		List<Predicate> predicates = Lists.newArrayList();
 
-		Join<FeedEntryStatus, FeedEntry> entryJoin = root
-				.join(FeedEntryStatus_.entry);
 		Join<FeedEntryStatus, FeedSubscription> subJoin = root
 				.join(FeedEntryStatus_.subscription);
 
@@ -473,12 +428,12 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		if (newerThan != null) {
 			predicates.add(builder.greaterThanOrEqualTo(
-					entryJoin.get(FeedEntry_.inserted), newerThan));
+					root.get(FeedEntryStatus_.entryInserted), newerThan));
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));
 
-		orderBy(query, entryJoin, order);
+		orderStatusesBy(query, root, order);
 
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
@@ -514,14 +469,23 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return results;
 	}
 
-	private void orderBy(CriteriaQuery<?> query, Path<FeedEntry> entryJoin,
+	private void orderEntriesBy(CriteriaQuery<?> query, Path<FeedEntry> entryJoin,
+			ReadingOrder order) {
+		orderBy(query, entryJoin.get(FeedEntry_.updated), order);
+	}
+
+	private void orderStatusesBy(CriteriaQuery<?> query, Path<FeedEntryStatus> statusJoin,
+			ReadingOrder order) {
+		orderBy(query, statusJoin.get(FeedEntryStatus_.entryUpdated), order);
+	}
+
+	private void orderBy(CriteriaQuery<?> query, Path<Date> date,
 			ReadingOrder order) {
 		if (order != null) {
-			Path<Date> orderPath = entryJoin.get(FeedEntry_.updated);
 			if (order == ReadingOrder.asc) {
-				query.orderBy(builder.asc(orderPath));
+				query.orderBy(builder.asc(date));
 			} else {
-				query.orderBy(builder.desc(orderPath));
+				query.orderBy(builder.desc(date));
 			}
 		}
 	}

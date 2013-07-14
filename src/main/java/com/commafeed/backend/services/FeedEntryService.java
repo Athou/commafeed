@@ -43,8 +43,7 @@ public class FeedEntryService {
 			}
 		} else {
 			if (status == null) {
-				status = new FeedEntryStatus();
-				status.setEntry(entry);
+				status = new FeedEntryStatus(user, sub, entry);
 				status.setSubscription(sub);
 			}
 			status.setRead(false);
@@ -78,8 +77,7 @@ public class FeedEntryService {
 			}
 		} else {
 			if (status == null) {
-				status = new FeedEntryStatus();
-				status.setEntry(entry);
+				status = new FeedEntryStatus(user, sub, entry);
 				status.setSubscription(sub);
 				status.setRead(true);
 			}

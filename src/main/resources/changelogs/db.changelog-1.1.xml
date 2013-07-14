@@ -282,7 +282,7 @@
 	
 	<changeSet author="athou" id="denormalize-statuses">
 		<addColumn tableName="FEEDENTRYSTATUSES">
-			<column name="user_id" type="BIGINT">
+			<column name="user_id" type="BIGINT" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="entryInserted" type="DATETIME" />

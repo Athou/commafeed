@@ -419,6 +419,7 @@
 	</changeSet>
 
 	<changeSet author="athou" id="create-indexes">
+		<validCheckSum>7:6b97555d8c1a170b1c07d088e068ec95</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<indexExists tableName="FEEDENTRIES" indexName="updated_index" />
@@ -455,11 +456,6 @@
 		<createIndex indexName="lastupdated_index" tableName="FEEDS"
 			unique="false">
 			<column name="lastUpdated" />
-		</createIndex>
-
-		<createIndex indexName="topic_index" tableName="FEEDS"
-			unique="false">
-			<column name="pushTopic" />
 		</createIndex>
 
 		<createIndex indexName="urlHash_index" tableName="FEEDS"

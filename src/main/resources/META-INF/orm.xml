@@ -6,7 +6,7 @@
         http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
         
 	<named-query name="EntryStatus.unreadCounts">
-		<query>select sub.id, count(s) from FeedEntryStatus s LEFT JOIN s.subscription sub where sub.user=:user and s.read=false group by sub.id</query>
+		<query>select s.id, count(s) from FeedEntryStatus s where s.user=:user and s.read=false group by s.id</query>
 	</named-query>
 	
 	<named-query name="EntryStatus.existing">

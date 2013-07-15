@@ -292,10 +292,12 @@
 	</changeSet>
 	
 	<changeSet author="athou" id="populate-status-dates">
+		<validCheckSum>7:d6b5ab6920948b0a84e614870128e2f5</validCheckSum>
 		<sql>update FEEDENTRYSTATUSES SET entryUpdated = (select e.updated from FEEDENTRIES e where e.id = FEEDENTRYSTATUSES.entry_id)</sql>
 	</changeSet>
 	
 	<changeSet author="athou" id="populate-status-users">
+		<validCheckSum>7:4227fdf2e7b9fe8e59544d536a7ee963</validCheckSum>
 		<sql>update FEEDENTRYSTATUSES SET user_id = (select sub.user_id from FEEDSUBSCRIPTIONS sub where sub.id = FEEDENTRYSTATUSES.subscription_id)</sql>
 	</changeSet>
 	

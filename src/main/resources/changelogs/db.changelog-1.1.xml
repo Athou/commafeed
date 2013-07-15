@@ -281,8 +281,9 @@
 	</changeSet>
 	
 	<changeSet author="athou" id="denormalize-statuses">
+		<validCheckSum>7:c73f70fbcbc8bb30f9629028ec8ddb06</validCheckSum>
 		<addColumn tableName="FEEDENTRYSTATUSES">
-			<column name="user_id" type="BIGINT">
+			<column name="user_id" type="BIGINT" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="entryInserted" type="DATETIME" />
@@ -291,11 +292,11 @@
 	</changeSet>
 	
 	<changeSet author="athou" id="populate-status-dates">
-		<sql>update FEEDENTRYSTATUSES s SET s.entryUpdated = (select e.updated from FEEDENTRIES e where e.id = s.entry_id)</sql>
+		<sql>update FEEDENTRYSTATUSES SET entryUpdated = (select e.updated from FEEDENTRIES e where e.id = FEEDENTRYSTATUSES.entry_id)</sql>
 	</changeSet>
 	
 	<changeSet author="athou" id="populate-status-users">
-		<sql>update FEEDENTRYSTATUSES s SET s.user_id = (select sub.user_id from FEEDSUBSCRIPTIONS sub where sub.id = s.subscription_id)</sql>
+		<sql>update FEEDENTRYSTATUSES SET user_id = (select sub.user_id from FEEDSUBSCRIPTIONS sub where sub.id = FEEDENTRYSTATUSES.subscription_id)</sql>
 	</changeSet>
 	
 	<changeSet author="athou" id="recreate-fes-index-2">		

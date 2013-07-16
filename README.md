@@ -6,7 +6,10 @@ Google Reader inspired self-hosted RSS reader, based on JAX-RS, Wicket and Angul
 
 Deploy on your own server (using TomEE, a lightweight JavaEE6 container based on Tomcat) or even in the cloud for free on OpenShift.
 
-[Android app](https://github.com/doomrobo/CommaFeed-Android-Reader)
+Android apps:
+[CommaFeed Reader](https://github.com/doomrobo/CommaFeed-Android-Reader), 
+[cloudfeedlr](https://play.google.com/store/apps/details?id=com.mv.cloudfeedlr)
+
 
 [Chrome extension](https://github.com/Athou/commafeed-chrome)
 

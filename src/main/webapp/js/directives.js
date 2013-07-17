@@ -67,7 +67,7 @@ module.directive('onScrollMiddle', function() {
 		restrict : 'A',
 		link : function(scope, element, attrs) {
 
-			var w = $(window);
+			var w = $('.entryList');
 			var e = $(element);
 			var d = $(document);
 			
@@ -129,8 +129,10 @@ module.directive('scrollTo', [ '$timeout', function($timeout) {
 				
 				// timeout here to execute after dom update
 				$timeout(function() {
-					var docTop = $(window).scrollTop();
-					var docBottom = docTop + $(window).height();
+					var entryList = $('.entryList');
+
+					var docTop = entryList.scrollTop();
+					var docBottom = docTop + entryList.height();
 
 					var elemTop = $(element).offset().top;
 					var elemBottom = elemTop + $(element).height();
@@ -139,11 +141,7 @@ module.directive('scrollTo', [ '$timeout', function($timeout) {
 						// element is entirely visible
 						return;
 					} else {
-						var offset = parseInt(attrs.scrollToOffset, 10);
-						var scrollTop = $(element).offset().top + offset;
-						$('html, body').animate({
-							scrollTop : scrollTop
-						}, 0);
+						element.get(0).scrollIntoView(true);
 					}
 				});
 			});

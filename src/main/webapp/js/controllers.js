@@ -647,6 +647,15 @@ function($scope, $stateParams, $http, $route, $state, $window, EntryService, Set
 	
 	AnalyticsService.track();
 
+	var maximizeEntryListOnResize = function(){
+		var toolbarHeight = $('.toolbar').height();
+		$('.entryList').css({ 'height': $($window).height() - (toolbarHeight ? toolbarHeight + 20 : 50) });
+	};
+
+	$($window).resize(maximizeEntryListOnResize);
+	maximizeEntryListOnResize();
+
+
 	$scope.selectedType = $stateParams._type;
 	$scope.selectedId = $stateParams._id;
 	$scope.keywords = $stateParams._keywords;
@@ -685,12 +694,12 @@ function($scope, $stateParams, $http, $route, $state, $window, EntryService, Set
 
 		var limit = $scope.limit;
 		if ($scope.entries.length === 0) {
-			$window = angular.element($window);
+			var theEntryList = $('.entryList');
 			if (SettingsService.settings.viewMode == 'title') {
-				limit = $window.height() / 33;
+				limit = theEntryList.height() / 33;
 				limit = parseInt(limit, 10) + 5;
 			} else {
-				limit = $window.height() / 97;
+				limit = theEntryList.height() / 97;
 				limit = parseInt(limit, 10) + 1;
 			}
 		}
@@ -927,7 +936,9 @@ function($scope, $stateParams, $http, $route, $state, $window, EntryService, Set
 	$scope.onScroll = function(entry) {
 		$scope.navigationMode = 'scroll';
 		if (SettingsService.settings.viewMode == 'expanded') {
-			$scope.current = entry;
+			// TODO: it wrongly sets current entry, as entries are within a div
+			// with "overflow: auto", so we need to figure it out manually
+			// $scope.current = entry;
 			if(SettingsService.settings.scrollMarks) {
 				$scope.mark(entry, true);
 			}
@@ -1046,8 +1057,8 @@ function($scope, $stateParams, $http, $route, $state, $window, EntryService, Set
 				}
 			});
 		} else {
-			var docTop = $(window).scrollTop();
-			var docBottom = docTop + $(window).height();
+			var docTop = $('.entryList').scrollTop();
+			var docBottom = docTop + $('.entryList').height();
 
 			var elem = $('#entry_' + $scope.current.id);
 			var elemTop = elem.offset().top;

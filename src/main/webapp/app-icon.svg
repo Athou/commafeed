@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 16 16">
-  <rect width="16" height="16" rx="2.2542372" ry="1.8983051" x="-8.8817837e-16" y="0" style="fill:#f88a14" />
-  <path d="m 4.5806952,7.0696203 c 2.3462531,0 3.8275319,1.4812788 3.8275319,3.8275317 0.1049259,1.567391 1.9464529,1.530536 1.9604429,0 0,-3.1283371 -2.6596375,-5.7879749 -5.7879748,-5.7879749 -1.2876338,0.024082 -1.1163277,1.8670152 0,1.9604432 z" style="fill:#ffffff" />
-  <path d="m 4.5806952,4.0822785 c 3.9104216,0 6.8148738,2.9044521 6.8148738,6.8148735 -0.0084,1.392331 1.867616,1.332716 1.960443,0 0,-4.6925057 -4.082811,-8.7753163 -8.7753168,-8.7753163 -1.2966556,0.018598 -1.167232,1.9341127 0,1.9604428 z" style="fill:#ffffff" />
-  <g transform="matrix(1.8035352,0,0,1.8035352,23.14484,3.4162194)">
-    <circle cx="2" cy="6" r="1" transform="translate(-11.966102,-2.1355932)" style="fill:#ffffff" />
-    <path d="m -287.23531,128.17716 c 0,0 -3.17578,27.4663 -39.58757,46.68826 -13.03431,6.88087 -1.20385,3.39557 5.06016,-20.42474 6.26401,-23.82031 34.52741,-26.26352 34.52741,-26.26352 z" transform="scale(0.03125,0.03125)" style="fill:#ffffff" />
-  </g>
+<svg height="512" width="512" viewBox="0 0 6.5625 6.5625" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd">
+ <sodipodi:namedview guidetolerance="10">
+  <sodipodi:guide position="154.17325,117.15254" orientation="0,1"/>
+  <sodipodi:guide position="154.17325,166.44575" orientation="0,1"/>
+  <sodipodi:guide position="154.17325,288.40369" orientation="0,1"/>
+  <sodipodi:guide position="380.44742,392.71992" orientation="0,1"/>
+  <sodipodi:guide position="101.9661,166.44575" orientation="1,0"/>
+  <sodipodi:guide position="276.13119,288.40369" orientation="1,0"/>
+  <sodipodi:guide position="380.44742,165.67871" orientation="1,0"/>
+  <sodipodi:guide position="154.17325,288.40369" orientation="1,0"/>
+  <sodipodi:guide position="154.17325,166.44575" orientation="-0.70710678,0.70710678"/>
+  <sodipodi:guide position="123.21968,135.49218" orientation="1,0"/>
+  <sodipodi:guide position="123.21968,135.49218" orientation="0,1"/>
+ </sodipodi:namedview>
+ <rect fill="#f88a14" rx="0.7" ry="0.7" height="6.5625" width="6.5625"/>
+ <path d="m1.9761,1.5289c2.9002,0,2.9002,2.9101,2.9002,2.9101" fill="none" stroke="#FFF" stroke-linecap="round" stroke-width="0.78125"/>
+ <path d="m1.9688,2.875c1.5705-0.00908,1.5705,1.5639,1.5705,1.5639" fill="none" stroke="#FFF" stroke-linecap="round" stroke-width="0.78125"/>
+ <path d="m2.6503,4.4062c0,0.23366-0.10712,0.47418-0.24663,0.6537-0.1814,0.2333-0.5705,0.5618-0.6913,0.5653,0.0402-0.0662,0.263-0.5654,0.2563-0.5654-0.36423,0-0.6595-0.29265-0.6595-0.65365s0.29527-0.65365,0.6595-0.65365,0.68159,0.29265,0.68159,0.65365z" fill="#FFF"/>
 </svg>

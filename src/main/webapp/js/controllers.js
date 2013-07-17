@@ -234,22 +234,26 @@ function($scope, $timeout, $stateParams, $window, $location, $state, $route, Cat
 		$scope.$apply(function() {
 			openNextNode();
 		});
+		return false;
 	});
 	Mousetrap.bind('shift+n', function(e) {
 		$scope.$apply(function() {
 			openNextNode();
 		});
+		return false;
 	});
 	
 	Mousetrap.bind('shift+p', function(e) {
 		$scope.$apply(function() {
 			openPreviousNode();
 		});
+		return false;
 	});
 	Mousetrap.bind('shift+k', function(e) {
 		$scope.$apply(function() {
 			openPreviousNode();
 		});
+		return false;
 	});
 
 	$scope.$on('mark', function(event, args) {
@@ -939,24 +943,28 @@ function($scope, $stateParams, $http, $route, $state, $window, EntryService, Set
 			$scope.navigationMode = 'keyboard';
 			openNextEntry(e);
 		});
+		return false;
 	});
 	Mousetrap.bind('n', function(e) {
 		$scope.$apply(function() {
 			$scope.navigationMode = 'keyboard';
 			focusNextEntry(e);
 		});
+		return false;
 	});
 	Mousetrap.bind('k', function(e) {
 		$scope.$apply(function() {
 			$scope.navigationMode = 'keyboard';
 			openPreviousEntry(e);
 		});
+		return false;
 	});
 	Mousetrap.bind('p', function(e) {
 		$scope.$apply(function() {
 			$scope.navigationMode = 'keyboard';
 			focusPreviousEntry(e);
 		});
+		return false;
 	});
 	Mousetrap.bind('o', function(e) {
 		$scope.$apply(function() {
@@ -965,6 +973,7 @@ function($scope, $stateParams, $http, $route, $state, $window, EntryService, Set
 				openEntry($scope.current, e);
 			}
 		});
+		return false;
 	});
 	Mousetrap.bind('enter', function(e) {
 		$scope.$apply(function() {
@@ -978,12 +987,14 @@ function($scope, $stateParams, $http, $route, $state, $window, EntryService, Set
 		$scope.$apply(function() {
 			$scope.$emit('emitReload');
 		});
+		return false;
 	});
 	Mousetrap.bind('v', function(e) {
 		if ($scope.current) {
 			$scope.mark($scope.current, true);
 			window.open($scope.current.url);
 		}
+		return false;
 	});
 	Mousetrap.bind('b', function(e) {
 		if ($scope.current) {
@@ -999,6 +1010,7 @@ function($scope, $stateParams, $http, $route, $state, $window, EntryService, Set
 					false, true, 0, null);
 			a.dispatchEvent(evt);
 		}
+		return false;
 	});
 	Mousetrap.bind('s', function(e) {
 		$scope.$apply(function() {
@@ -1006,6 +1018,7 @@ function($scope, $stateParams, $http, $route, $state, $window, EntryService, Set
 				$scope.star($scope.current, !$scope.current.starred);
 			}
 		});
+		return false;
 	});
 	Mousetrap.bind('m', function(e) {
 		$scope.$apply(function() {
@@ -1013,23 +1026,27 @@ function($scope, $stateParams, $http, $route, $state, $window, EntryService, Set
 				$scope.mark($scope.current, !$scope.current.read);
 			}
 		});
+		return false;
 	});
 	Mousetrap.bind('shift+a', function(e) {
 		$scope.$apply(function() {
 			$scope.markAll();
 		});
+		return false;
 	});
 	
 	Mousetrap.bind('+', function(e) {
 		$scope.$apply(function() {
 			$scope.font_size = Math.min($scope.font_size + 1, 5); 
 		});
+		return false;
 	});	
 	
 	Mousetrap.bind('-', function(e) {
 		$scope.$apply(function() {
 			$scope.font_size = Math.max($scope.font_size - 1, 0); 
 		});
+		return false;
 	});	
 	
 	Mousetrap.bind('space', function(e) {
@@ -1091,12 +1108,14 @@ function($scope, $stateParams, $http, $route, $state, $window, EntryService, Set
 	
 	Mousetrap.bind('f', function(e) {
 		$('body').toggleClass('full-screen');
+		return false;
 	});
 	
 	Mousetrap.bind('?', function(e) {
 		$scope.$apply(function() {
 			$scope.shortcutsModal = true;
 		});
+		return false;
 	});
 
 	$scope.$on('previousEntry', function(event, args) {

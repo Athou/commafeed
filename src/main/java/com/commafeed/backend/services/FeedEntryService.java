@@ -3,6 +3,7 @@ package com.commafeed.backend.services;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.FeedEntry;
@@ -18,6 +19,9 @@ public class FeedEntryService {
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
+	
+	@Inject 
+	FeedEntryDAO feedEntryDAO;
 
 	public void markEntry(User user, Long entryId, Long subscriptionId,
 			boolean read) {
@@ -27,8 +31,10 @@ public class FeedEntryService {
 			return;
 		}
 
-		FeedEntry entry = new FeedEntry();
-		entry.setId(entryId);
+		FeedEntry entry = feedEntryDAO.findById(entryId);
+		if (entry == null) {
+			return;
+		}
 
 		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
 
@@ -61,8 +67,10 @@ public class FeedEntryService {
 			return;
 		}
 
-		FeedEntry entry = new FeedEntry();
-		entry.setId(entryId);
+		FeedEntry entry = feedEntryDAO.findById(entryId);
+		if (entry == null) {
+			return;
+		}
 
 		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
 

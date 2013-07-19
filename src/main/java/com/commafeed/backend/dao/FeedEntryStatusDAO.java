@@ -16,6 +16,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,28 +47,28 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	private static final Comparator<FeedEntry> ENTRY_COMPARATOR_DESC = new Comparator<FeedEntry>() {
 		@Override
 		public int compare(FeedEntry o1, FeedEntry o2) {
-			return o2.getUpdated().compareTo(o1.getUpdated());
+			return ObjectUtils.compare(o2.getUpdated(), o1.getUpdated());
 		};
 	};
 
 	private static final Comparator<FeedEntry> ENTRY_COMPARATOR_ASC = new Comparator<FeedEntry>() {
 		@Override
 		public int compare(FeedEntry o1, FeedEntry o2) {
-			return o1.getUpdated().compareTo(o2.getUpdated());
+			return ObjectUtils.compare(o1.getUpdated(), o2.getUpdated());
 		};
 	};
 
 	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_DESC = new Comparator<FeedEntryStatus>() {
 		@Override
 		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
-			return o2.getEntryUpdated().compareTo(o1.getEntryUpdated());
+			return ObjectUtils.compare(o2.getEntryUpdated(), o1.getEntryUpdated());
 		};
 	};
 
 	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = new Comparator<FeedEntryStatus>() {
 		@Override
 		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
-			return o2.getEntryUpdated().compareTo(o1.getEntryUpdated());
+			return ObjectUtils.compare(o1.getEntryUpdated(), o2.getEntryUpdated());
 		};
 	};
 

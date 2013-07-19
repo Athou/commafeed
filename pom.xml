@@ -22,20 +22,6 @@
 		<cache_service.class>com.commafeed.backend.cache.NoopCacheService</cache_service.class>
 	</properties>
 
-	<repositories>
-
-		<repository>
-			<id>hsqldb.snapshots</id>
-			<url>http://www.hsqldb.org/repos/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
 	<build>
 		<finalName>commafeed</finalName>
 		<resources>
@@ -117,7 +103,7 @@
 						<lib>antlr:antlr:2.7.7</lib>
 						<lib>remove:openjpa-</lib>
 						<lib>remove:hsqldb</lib>
-						<lib>org.hsqldb:hsqldb:SNAPSHOT</lib>
+						<lib>org.hsqldb:hsqldb:2.3.0</lib>
 						<lib>mysql:mysql-connector-java:5.1.24</lib>
 						<lib>postgresql:postgresql:9.1-901.jdbc4</lib>
 						<lib>net.sourceforge.jtds:jtds:1.3.1</lib>

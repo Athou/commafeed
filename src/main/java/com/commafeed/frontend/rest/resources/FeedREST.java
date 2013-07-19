@@ -2,6 +2,7 @@ package com.commafeed.frontend.rest.resources;
 
 import java.io.StringWriter;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -153,12 +154,13 @@ public class FeedREST extends AbstractResourceREST {
 
 			List<FeedEntryStatus> list = null;
 			if (unreadOnly) {
-				list = feedEntryStatusDAO.findUnreadBySubscription(
-						subscription, newerThanDate, offset, limit + 1, order,
-						true);
+				list = feedEntryStatusDAO.findUnreadBySubscriptions(
+						Arrays.asList(subscription), newerThanDate, offset,
+						limit + 1, order, true);
 			} else {
-				list = feedEntryStatusDAO.findBySubscription(subscription,
-						newerThanDate, offset, limit + 1, order, true);
+				list = feedEntryStatusDAO.findBySubscriptions(
+						Arrays.asList(subscription), null, newerThanDate,
+						offset, limit + 1, order, true);
 			}
 
 			for (FeedEntryStatus status : list) {
@@ -292,7 +294,8 @@ public class FeedREST extends AbstractResourceREST {
 		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
 				Long.valueOf(req.getId()));
 		if (subscription != null) {
-			feedEntryStatusDAO.markSubscriptionEntries(subscription, olderThan);
+			feedEntryStatusDAO.markSubscriptionEntries(
+					Arrays.asList(subscription), olderThan);
 		}
 		cache.invalidateUserData(getUser());
 		return Response.ok(Status.OK).build();

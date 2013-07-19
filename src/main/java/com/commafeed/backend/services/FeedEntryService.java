@@ -3,6 +3,7 @@ package com.commafeed.backend.services;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.FeedEntry;
@@ -18,6 +19,9 @@ public class FeedEntryService {
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
+	
+	@Inject 
+	FeedEntryDAO feedEntryDAO;
 
 	public void markEntry(User user, Long entryId, Long subscriptionId,
 			boolean read) {
@@ -27,13 +31,15 @@ public class FeedEntryService {
 			return;
 		}
 
-		FeedEntry entry = new FeedEntry();
-		entry.setId(entryId);
+		FeedEntry entry = feedEntryDAO.findById(entryId);
+		if (entry == null) {
+			return;
+		}
 
-		FeedEntryStatus status = feedEntryStatusDAO.findByEntry(entry, sub);
+		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
 
 		if (read) {
-			if (status != null) {
+			if (status.getId() != null) {
 				if (status.isStarred()) {
 					status.setRead(true);
 					feedEntryStatusDAO.saveOrUpdate(status);
@@ -42,7 +48,7 @@ public class FeedEntryService {
 				}
 			}
 		} else {
-			if (status == null) {
+			if (status.getId() == null) {
 				status = new FeedEntryStatus(user, sub, entry);
 				status.setSubscription(sub);
 			}
@@ -61,13 +67,15 @@ public class FeedEntryService {
 			return;
 		}
 
-		FeedEntry entry = new FeedEntry();
-		entry.setId(entryId);
+		FeedEntry entry = feedEntryDAO.findById(entryId);
+		if (entry == null) {
+			return;
+		}
 
-		FeedEntryStatus status = feedEntryStatusDAO.findByEntry(entry, sub);
+		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
 
 		if (!starred) {
-			if (status != null) {
+			if (status.getId() != null) {
 				if (!status.isRead()) {
 					status.setStarred(false);
 					feedEntryStatusDAO.saveOrUpdate(status);
@@ -76,7 +84,7 @@ public class FeedEntryService {
 				}
 			}
 		} else {
-			if (status == null) {
+			if (status.getId() == null) {
 				status = new FeedEntryStatus(user, sub, entry);
 				status.setSubscription(sub);
 				status.setRead(true);

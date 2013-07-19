@@ -102,7 +102,7 @@ app.config([ '$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpPro
 				controller : 'ManageSettingsCtrl'
 			});
 
-			$urlRouterProvider.when('/', '/feeds/help');
+			$urlRouterProvider.when('/', '/feeds/view/category/all');
 			$urlRouterProvider.when('/admin', '/admin/settings');
 			$urlRouterProvider.otherwise('/');
 

@@ -1,6 +1,7 @@
 package com.commafeed.backend.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -30,6 +33,9 @@ public class FeedFeedEntry implements Serializable {
 	@JoinColumn(name = "FEEDENTRY_ID")
 	private FeedEntry entry;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date entryUpdated;
+
 	public FeedFeedEntry() {
 
 	}
@@ -37,6 +43,7 @@ public class FeedFeedEntry implements Serializable {
 	public FeedFeedEntry(Feed feed, FeedEntry entry) {
 		this.feed = feed;
 		this.entry = entry;
+		this.entryUpdated = entry.getUpdated();
 	}
 
 	public Feed getFeed() {
@@ -53,6 +60,14 @@ public class FeedFeedEntry implements Serializable {
 
 	public void setEntry(FeedEntry entry) {
 		this.entry = entry;
+	}
+
+	public Date getEntryUpdated() {
+		return entryUpdated;
+	}
+
+	public void setEntryUpdated(Date entryUpdated) {
+		this.entryUpdated = entryUpdated;
 	}
 
 }

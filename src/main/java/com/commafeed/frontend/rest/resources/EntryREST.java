@@ -15,7 +15,10 @@ import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
+import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.FeedEntryStatus;
+import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.services.FeedEntryService;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
@@ -37,6 +40,9 @@ public class EntryREST extends AbstractResourceREST {
 
 	@Inject
 	FeedEntryStatusDAO feedEntryStatusDAO;
+
+	@Inject
+	FeedSubscriptionDAO feedSubscriptionDAO;
 
 	@Inject
 	CacheService cache;
@@ -67,7 +73,7 @@ public class EntryREST extends AbstractResourceREST {
 		for (MarkRequest r : req.getRequests()) {
 			markFeedEntry(r);
 		}
-		
+
 		return Response.ok(Status.OK).build();
 	}
 
@@ -100,8 +106,10 @@ public class EntryREST extends AbstractResourceREST {
 		Entries entries = new Entries();
 
 		List<Entry> list = Lists.newArrayList();
+		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(getUser());
 		List<FeedEntryStatus> entriesStatus = feedEntryStatusDAO
-				.findByKeywords(getUser(), keywords, offset, limit);
+				.findBySubscriptions(subs, keywords, null, offset, limit,
+						ReadingOrder.desc, true);
 		for (FeedEntryStatus status : entriesStatus) {
 			list.add(Entry.build(status, applicationSettingsService.get()
 					.getPublicUrl(), applicationSettingsService.get()

@@ -30,10 +30,10 @@ public class FeedEntryService {
 		FeedEntry entry = new FeedEntry();
 		entry.setId(entryId);
 
-		FeedEntryStatus status = feedEntryStatusDAO.findByEntry(entry, sub);
+		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
 
 		if (read) {
-			if (status != null) {
+			if (status.getId() != null) {
 				if (status.isStarred()) {
 					status.setRead(true);
 					feedEntryStatusDAO.saveOrUpdate(status);
@@ -42,7 +42,7 @@ public class FeedEntryService {
 				}
 			}
 		} else {
-			if (status == null) {
+			if (status.getId() == null) {
 				status = new FeedEntryStatus(user, sub, entry);
 				status.setSubscription(sub);
 			}
@@ -64,10 +64,10 @@ public class FeedEntryService {
 		FeedEntry entry = new FeedEntry();
 		entry.setId(entryId);
 
-		FeedEntryStatus status = feedEntryStatusDAO.findByEntry(entry, sub);
+		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
 
 		if (!starred) {
-			if (status != null) {
+			if (status.getId() != null) {
 				if (!status.isRead()) {
 					status.setStarred(false);
 					feedEntryStatusDAO.saveOrUpdate(status);
@@ -76,7 +76,7 @@ public class FeedEntryService {
 				}
 			}
 		} else {
-			if (status == null) {
+			if (status.getId() == null) {
 				status = new FeedEntryStatus(user, sub, entry);
 				status.setSubscription(sub);
 				status.setRead(true);

@@ -321,5 +321,22 @@
 	<changeSet author="athou" id="drop-fes-index-2">
 		<dropIndex tableName="FEEDENTRYSTATUSES" indexName="sub_entry_read_index" />
 	</changeSet>
-
+	
+	<changeSet author="athou" id="add-entry-updated-to-ffe">
+		<addColumn tableName="FEED_FEEDENTRIES">
+			<column name="entryUpdated" type="DATETIME"></column>
+		</addColumn>
+	</changeSet>
+	
+	<changeSet author="athou" id="populate-entry-dates">
+		<sql>update FEED_FEEDENTRIES SET entryUpdated = (select e.updated from FEEDENTRIES e where e.id = FEED_FEEDENTRIES.feedentry_id)</sql>
+	</changeSet>
+	
+	<changeSet author="athou" id="create-ffe-entry-updated-index">
+		<createIndex tableName="FEED_FEEDENTRIES" indexName="feed_updated_index">
+			<column name="FEED_ID"></column>
+			<column name="entryUpdated"></column>
+		</createIndex>
+	</changeSet>
+	
 </databaseChangeLog>

@@ -17,7 +17,9 @@ import com.commafeed.backend.model.Feed_;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.User_;
+import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 @Stateless
 public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
@@ -116,6 +118,27 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 				.getResultList();
 		initRelations(list);
 		return list;
+	}
+	
+	public List<FeedSubscription> findByCategories(User user,
+			List<FeedCategory> categories) {
+
+		List<Long> categoryIds = Lists.transform(categories,
+				new Function<FeedCategory, Long>() {
+					@Override
+					public Long apply(FeedCategory input) {
+						return input.getId();
+					}
+				});
+
+		List<FeedSubscription> subscriptions = Lists.newArrayList();
+		for (FeedSubscription sub : findAll(user)) {
+			if (sub.getCategory() != null
+					&& categoryIds.contains(sub.getCategory().getId())) {
+				subscriptions.add(sub);
+			}
+		}
+		return subscriptions;
 	}
 
 	private void initRelations(List<FeedSubscription> list) {

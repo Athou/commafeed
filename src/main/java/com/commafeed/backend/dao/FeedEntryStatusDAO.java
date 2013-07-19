@@ -161,7 +161,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 				predicates.add(builder.or(content, title));
 			}
 
-			if (order != null && !set.isEmpty()) {
+			if (order != null && !set.isEmpty() && set.isFull()) {
 				Predicate filter = null;
 				FeedEntry last = set.last();
 				if (order == ReadingOrder.desc) {
@@ -230,7 +230,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 						root.get(FeedEntryStatus_.entryInserted), newerThan));
 			}
 
-			if (order != null && !set.isEmpty()) {
+			if (order != null && !set.isEmpty() && set.isFull()) {
 				Predicate filter = null;
 				FeedEntryStatus last = set.last();
 				if (order == ReadingOrder.desc) {

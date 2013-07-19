@@ -24,7 +24,7 @@ public class FixedSizeSortedSet<E> extends TreeSet<E> {
 
 	@Override
 	public boolean add(E e) {
-		if (size() == maxSize) {
+		if (isFull()) {
 			E last = last();
 			int comparison = comparator.compare(e, last);
 			if (comparison < 0) {
@@ -49,6 +49,10 @@ public class FixedSizeSortedSet<E> extends TreeSet<E> {
 			success &= add(e);
 		}
 		return success;
+	}
+	
+	public boolean isFull() {
+		return size() == maxSize;
 	}
 
 	@SuppressWarnings("unchecked")

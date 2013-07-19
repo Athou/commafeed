@@ -4,7 +4,7 @@
 
 	<groupId>com.commafeed</groupId>
 	<artifactId>commafeed</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 	<name>CommaFeed</name>
 
@@ -160,6 +160,22 @@
 						<version>1.2.0.Final</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<version>2.1.5</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<generateGitPropertiesFile>false</generateGitPropertiesFile>
+					<failOnNoGitDirectory>false</failOnNoGitDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

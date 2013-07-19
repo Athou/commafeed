@@ -265,6 +265,32 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return lazyLoadContent(includeContent, entries);
 	}
 
+	public List<FeedEntryStatus> findAllUnread(User user, Date newerThan,
+			int offset, int limit, ReadingOrder order, boolean includeContent) {
+
+		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
+		Root<FeedEntryStatus> root = query.from(getType());
+
+		List<Predicate> predicates = Lists.newArrayList();
+
+		predicates.add(builder.equal(root.get(FeedEntryStatus_.user), user));
+		predicates.add(builder.isFalse(root.get(FeedEntryStatus_.read)));
+
+		if (newerThan != null) {
+			predicates.add(builder.greaterThanOrEqualTo(
+					root.get(FeedEntryStatus_.entryInserted), newerThan));
+		}
+
+		query.where(predicates.toArray(new Predicate[0]));
+		orderStatusesBy(query, root, order);
+
+		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
+		limit(q, offset, limit);
+		setTimeout(q);
+
+		return lazyLoadContent(includeContent, q.getResultList());
+	}
+
 	/**
 	 * Map between subscriptionId and unread count
 	 */
@@ -316,6 +342,12 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	protected void setTimeout(Query query) {
 		setTimeout(query, applicationSettingsService.get().getQueryTimeout());
+	}
+
+	public void markAllEntries(User user, Date olderThan) {
+		List<FeedEntryStatus> statuses = findAllUnread(user, null, -1, -1,
+				null, false);
+		markList(statuses, olderThan);
 	}
 
 	public void markSubscriptionEntries(List<FeedSubscription> subscriptions,

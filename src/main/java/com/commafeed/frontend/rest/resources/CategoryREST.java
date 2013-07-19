@@ -110,9 +110,8 @@ public class CategoryREST extends AbstractResourceREST {
 			List<FeedSubscription> subscriptions = feedSubscriptionDAO
 					.findAll(getUser());
 			if (unreadOnly) {
-				list = feedEntryStatusDAO.findUnreadBySubscriptions(
-						subscriptions, newerThanDate, offset, limit + 1, order,
-						true);
+				list = feedEntryStatusDAO.findAllUnread(getUser(),
+						newerThanDate, offset, limit + 1, order, true);
 			} else {
 				list = feedEntryStatusDAO.findBySubscriptions(subscriptions,
 						null, newerThanDate, offset, limit + 1, order, true);
@@ -226,10 +225,7 @@ public class CategoryREST extends AbstractResourceREST {
 				req.getOlderThan());
 
 		if (ALL.equals(req.getId())) {
-			List<FeedSubscription> subscriptions = feedSubscriptionDAO
-					.findAll(getUser());
-			feedEntryStatusDAO
-					.markSubscriptionEntries(subscriptions, olderThan);
+			feedEntryStatusDAO.markAllEntries(getUser(), olderThan);
 		} else if (STARRED.equals(req.getId())) {
 			feedEntryStatusDAO.markStarredEntries(getUser(), olderThan);
 		} else {

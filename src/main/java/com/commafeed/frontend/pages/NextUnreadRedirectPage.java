@@ -54,10 +54,8 @@ public class NextUnreadRedirectPage extends WebPage {
 		List<FeedEntryStatus> statuses = null;
 		if (StringUtils.isBlank(categoryId)
 				|| CategoryREST.ALL.equals(categoryId)) {
-			List<FeedSubscription> subscriptions = feedSubscriptionDAO
-					.findAll(user);
-			statuses = feedEntryStatusDAO.findBySubscriptions(subscriptions,
-					null, null, 0, 1, order, true);
+			statuses = feedEntryStatusDAO.findAllUnread(user, null, 0, 1,
+					order, true);
 		} else {
 			FeedCategory category = feedCategoryDAO.findById(user,
 					Long.valueOf(categoryId));

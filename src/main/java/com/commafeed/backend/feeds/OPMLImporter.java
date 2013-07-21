@@ -41,7 +41,7 @@ public class OPMLImporter {
 	@SuppressWarnings("unchecked")
 	@Asynchronous
 	public void importOpml(User user, String xml) {
-
+		xml = xml.substring(xml.indexOf('<'));
 		WireFeedInput input = new WireFeedInput();
 		try {
 			Opml feed = (Opml) input.build(new StringReader(xml));

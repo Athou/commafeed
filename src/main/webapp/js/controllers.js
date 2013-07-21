@@ -284,7 +284,7 @@ module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedS
 	$scope.unsubscribe = function() {
 		var sub = $scope.sub;
 		var title = 'Unsubscribe';
-		var msg = 'Unsubscribe from ' + sub.name + ' ?';
+		var msg = 'Unsubscribe from ' + sub.name + '?';
 		var btns = [ {
 			result : 'cancel',
 			label : 'Cancel'

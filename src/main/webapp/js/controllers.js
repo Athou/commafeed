@@ -1369,11 +1369,12 @@ function($scope, $location, $state,	AdminSettingsService) {
 }]);
 
 module.controller('HelpController', [ '$scope', 'CategoryService',
-		'AnalyticsService',
-function($scope, CategoryService, AnalyticsService) {
+		'AnalyticsService', 'ServerService',
+function($scope, CategoryService, AnalyticsService, ServerService) {
 
 	AnalyticsService.track();
 	$scope.CategoryService = CategoryService;
+	$scope.infos = ServerService.get();
 	$scope.categoryId = 'all';
 	$scope.order = 'desc';
 

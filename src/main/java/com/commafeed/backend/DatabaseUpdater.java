@@ -1,7 +1,6 @@
 package com.commafeed.backend;
 
 import java.sql.Connection;
-import java.util.ResourceBundle;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
@@ -19,13 +18,15 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 import liquibase.resource.ResourceAccessor;
 import liquibase.structure.DatabaseObject;
 
+import com.commafeed.backend.services.ApplicationPropertiesService;
+
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 public class DatabaseUpdater {
 
 	public void update() {
-		String datasourceName = ResourceBundle.getBundle("application")
-				.getString("datasource");
+		ApplicationPropertiesService properties = ApplicationPropertiesService.get();
+		String datasourceName = properties.getDatasource();
 		try {
 			Context context = null;
 			Connection connection = null;

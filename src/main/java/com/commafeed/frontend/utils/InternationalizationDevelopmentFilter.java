@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.UserSettings;
+import com.commafeed.backend.services.ApplicationPropertiesService;
 import com.commafeed.frontend.CommaFeedSession;
 
 /**
@@ -42,6 +42,17 @@ public class InternationalizationDevelopmentFilter implements Filter {
 	UserSettingsDAO userSettingsDAO;
 
 	private boolean production = true;
+
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		ApplicationPropertiesService properties = ApplicationPropertiesService.get();
+		production = properties.isProduction();
+	}
+
+	@Override
+	public void destroy() {
+		// do nothing
+	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
@@ -106,18 +117,6 @@ public class InternationalizationDevelopmentFilter implements Filter {
 		}
 		m.appendTail(sb);
 		return sb.toString();
-	}
-
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-		String prod = ResourceBundle.getBundle("application").getString(
-				"production");
-		production = Boolean.valueOf(prod);
-	}
-
-	@Override
-	public void destroy() {
-		// do nothing
 	}
 
 	private static class ServletOutputStreamWrapper extends ServletOutputStream {

@@ -17,6 +17,8 @@ import com.wordnik.swagger.annotations.ApiClass;
 public class ServerInfo implements Serializable {
 
 	private String announcement;
+	private String version;
+	private String gitCommit;
 	private Map<String, String> supportedLanguages = Maps.newHashMap();
 
 	public String getAnnouncement() {
@@ -33,6 +35,22 @@ public class ServerInfo implements Serializable {
 
 	public void setSupportedLanguages(Map<String, String> supportedLanguages) {
 		this.supportedLanguages = supportedLanguages;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getGitCommit() {
+		return gitCommit;
+	}
+
+	public void setGitCommit(String gitCommit) {
+		this.gitCommit = gitCommit;
 	}
 
 }

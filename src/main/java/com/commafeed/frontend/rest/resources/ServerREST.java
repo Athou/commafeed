@@ -12,6 +12,7 @@ import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.feeds.FeedUtils;
+import com.commafeed.backend.services.ApplicationPropertiesService;
 import com.commafeed.frontend.model.ServerInfo;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -30,11 +31,15 @@ public class ServerREST extends AbstractResourceREST {
 	@GET
 	@ApiOperation(value = "Get server infos", notes = "Get server infos", responseClass = "com.commafeed.frontend.model.ServerInfo")
 	public Response get() {
+		ApplicationPropertiesService properties = ApplicationPropertiesService.get();
+
 		ServerInfo infos = new ServerInfo();
 		infos.setAnnouncement(applicationSettingsService.get()
 				.getAnnouncement());
 		infos.getSupportedLanguages().putAll(
 				startupBean.getSupportedLanguages());
+		infos.setVersion(properties.getVersion());
+		infos.setGitCommit(properties.getGitCommit());
 		return Response.ok(infos).build();
 	}
 

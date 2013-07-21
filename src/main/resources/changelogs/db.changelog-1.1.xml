@@ -339,4 +339,11 @@
 		</createIndex>
 	</changeSet>
 	
+	<changeSet author="athou" id="create-count-index">
+		<createIndex indexName="user_read_sub_index" tableName="FEEDENTRYSTATUSES">
+			<column name="user_id" />
+			<column name="read_status" />
+			<column name="subscription_id" />
+		</createIndex>
+	</changeSet>
 </databaseChangeLog>

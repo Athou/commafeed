@@ -53,7 +53,7 @@ public class FeedRefreshWorker {
 		ApplicationSettings settings = applicationSettingsService.get();
 		int threads = settings.getBackgroundThreads();
 		log.info("Creating refresh worker pool with {} threads", threads);
-		pool = new FeedRefreshExecutor("FeedRefreshUpdater", threads,
+		pool = new FeedRefreshExecutor("feed-refresh-worker", threads,
 				20 * threads);
 	}
 

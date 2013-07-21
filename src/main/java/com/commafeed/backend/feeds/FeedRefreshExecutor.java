@@ -2,8 +2,10 @@ package com.commafeed.backend.feeds;
 
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,7 @@ public class FeedRefreshExecutor {
 
 	public FeedRefreshExecutor(final String poolName, int threads,
 			int queueCapacity) {
+		log.info("Creating pool {} with {} threads", poolName, threads);
 		this.poolName = poolName;
 		pool = new ThreadPoolExecutor(threads, threads, 0,
 				TimeUnit.MILLISECONDS,
@@ -52,6 +55,7 @@ public class FeedRefreshExecutor {
 				}
 			}
 		});
+		pool.setThreadFactory(new NamedThreadFactory(poolName));
 	}
 
 	public void execute(Task task) {
@@ -80,6 +84,30 @@ public class FeedRefreshExecutor {
 						"{} interrupted while waiting for threads to finish.",
 						poolName);
 			}
+		}
+	}
+	
+	private static class NamedThreadFactory implements ThreadFactory {
+		private final ThreadGroup group;
+		private final AtomicInteger threadNumber = new AtomicInteger(1);
+		private final String namePrefix;
+
+		private NamedThreadFactory(String poolName) {
+			SecurityManager s = System.getSecurityManager();
+			group = (s != null) ? s.getThreadGroup() :
+					Thread.currentThread().getThreadGroup();
+			namePrefix = poolName + "-thread-";
+		}
+
+		public Thread newThread(Runnable r) {
+			Thread t = new Thread(group, r,
+					namePrefix + threadNumber.getAndIncrement(),
+					0);
+			if (t.isDaemon())
+				t.setDaemon(false);
+			if (t.getPriority() != Thread.NORM_PRIORITY)
+				t.setPriority(Thread.NORM_PRIORITY);
+			return t;
 		}
 	}
 }

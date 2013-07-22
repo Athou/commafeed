@@ -19,8 +19,8 @@ public class FeedEntryService {
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
-	
-	@Inject 
+
+	@Inject
 	FeedEntryDAO feedEntryDAO;
 
 	public void markEntry(User user, Long entryId, Long subscriptionId,
@@ -38,24 +38,8 @@ public class FeedEntryService {
 
 		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
 
-		if (read) {
-			if (status.getId() != null) {
-				if (status.isStarred()) {
-					status.setRead(true);
-					feedEntryStatusDAO.saveOrUpdate(status);
-				} else {
-					feedEntryStatusDAO.delete(status);
-				}
-			}
-		} else {
-			if (status.getId() == null) {
-				status = new FeedEntryStatus(user, sub, entry);
-				status.setSubscription(sub);
-			}
-			status.setRead(false);
-			feedEntryStatusDAO.saveOrUpdate(status);
-		}
-
+		status.setRead(read);
+		feedEntryStatusDAO.saveOrUpdate(status);
 	}
 
 	public void starEntry(User user, Long entryId, Long subscriptionId,
@@ -74,23 +58,8 @@ public class FeedEntryService {
 
 		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
 
-		if (!starred) {
-			if (status.getId() != null) {
-				if (!status.isRead()) {
-					status.setStarred(false);
-					feedEntryStatusDAO.saveOrUpdate(status);
-				} else {
-					feedEntryStatusDAO.delete(status);
-				}
-			}
-		} else {
-			if (status.getId() == null) {
-				status = new FeedEntryStatus(user, sub, entry);
-				status.setSubscription(sub);
-				status.setRead(true);
-			}
-			status.setStarred(true);
-			feedEntryStatusDAO.saveOrUpdate(status);
-		}
+		status.setStarred(starred);
+		feedEntryStatusDAO.saveOrUpdate(status);
+
 	}
 }

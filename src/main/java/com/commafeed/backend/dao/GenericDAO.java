@@ -35,8 +35,13 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		builder = em.getCriteriaBuilder();
 	}
 
-	public void saveOrUpdate(Collection<? extends AbstractModel> models) {
+	public Session getSession() {
 		Session session = em.unwrap(Session.class);
+		return session;
+	}
+
+	public void saveOrUpdate(Collection<? extends AbstractModel> models) {
+		Session session = getSession();
 		int i = 1;
 		for (AbstractModel model : models) {
 			session.saveOrUpdate(model);
@@ -152,7 +157,7 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		query.unwrap(Query.class).setCacheable(true);
 		return query;
 	}
-	
+
 	protected void setTimeout(javax.persistence.Query query, int queryTimeout) {
 		if (queryTimeout > 0) {
 			query.setHint("javax.persistence.query.timeout", queryTimeout);

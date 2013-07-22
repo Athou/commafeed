@@ -18,7 +18,6 @@ import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
-import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedFeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
@@ -72,20 +71,13 @@ public class FeedUpdateService {
 		}
 
 		if (update != null) {
-			List<FeedEntryStatus> statusUpdateList = Lists.newArrayList();
 			List<User> users = Lists.newArrayList();
 			for (FeedSubscription sub : subscriptions) {
-				User user = sub.getUser();
-				FeedEntryStatus status = new FeedEntryStatus(user, sub, update);
-				status.setSubscription(sub);
-				statusUpdateList.add(status);
-				users.add(user);
+				users.add(sub.getUser());
 			}
 			cache.invalidateUserData(users.toArray(new User[0]));
 			feedEntryDAO.saveOrUpdate(update);
-			feedEntryStatusDAO.saveOrUpdate(statusUpdateList);
 			em.persist(ffe);
-			metricsBean.entryUpdated(statusUpdateList.size());
 		}
 	}
 }

@@ -113,7 +113,8 @@ public class FeedSubscriptionService {
 		Map<Long, Long> map = cache.getUnreadCounts(user);
 		if (map == null) {
 			log.debug("unread count cache miss for {}", Models.getId(user));
-			map = feedEntryStatusDAO.getUnreadCount(user);
+			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
+			map = feedEntryStatusDAO.getUnreadCount(subs);
 			cache.setUnreadCounts(user, map);
 		}
 		return map;

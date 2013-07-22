@@ -106,16 +106,11 @@ public class CategoryREST extends AbstractResourceREST {
 
 		if (ALL.equals(id)) {
 			entries.setName("All");
-			List<FeedEntryStatus> list = null;
 			List<FeedSubscription> subscriptions = feedSubscriptionDAO
 					.findAll(getUser());
-			if (unreadOnly) {
-				list = feedEntryStatusDAO.findAllUnread(getUser(),
-						newerThanDate, offset, limit + 1, order, true);
-			} else {
-				list = feedEntryStatusDAO.findBySubscriptions(subscriptions,
-						null, newerThanDate, offset, limit + 1, order, true);
-			}
+			List<FeedEntryStatus> list = feedEntryStatusDAO
+					.findBySubscriptions(subscriptions, unreadOnly, null,
+							newerThanDate, offset, limit + 1, order, true);
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(
 						Entry.build(status, applicationSettingsService.get()
@@ -141,14 +136,9 @@ public class CategoryREST extends AbstractResourceREST {
 						.findAllChildrenCategories(getUser(), parent);
 				List<FeedSubscription> subs = feedSubscriptionDAO
 						.findByCategories(getUser(), categories);
-				List<FeedEntryStatus> list = null;
-				if (unreadOnly) {
-					list = feedEntryStatusDAO.findUnreadBySubscriptions(subs,
-							newerThanDate, offset, limit + 1, order, true);
-				} else {
-					list = feedEntryStatusDAO.findBySubscriptions(subs, null,
-							newerThanDate, offset, limit + 1, order, true);
-				}
+				List<FeedEntryStatus> list = feedEntryStatusDAO
+						.findBySubscriptions(subs, unreadOnly, null,
+								newerThanDate, offset, limit + 1, order, true);
 				for (FeedEntryStatus status : list) {
 					entries.getEntries().add(
 							Entry.build(status, applicationSettingsService
@@ -225,7 +215,10 @@ public class CategoryREST extends AbstractResourceREST {
 				req.getOlderThan());
 
 		if (ALL.equals(req.getId())) {
-			feedEntryStatusDAO.markAllEntries(getUser(), olderThan);
+			List<FeedSubscription> subscriptions = feedSubscriptionDAO
+					.findAll(getUser());
+			feedEntryStatusDAO
+					.markSubscriptionEntries(subscriptions, olderThan);
 		} else if (STARRED.equals(req.getId())) {
 			feedEntryStatusDAO.markStarredEntries(getUser(), olderThan);
 		} else {

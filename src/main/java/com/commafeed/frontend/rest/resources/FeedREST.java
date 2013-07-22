@@ -152,16 +152,10 @@ public class FeedREST extends AbstractResourceREST {
 			entries.setErrorCount(subscription.getFeed().getErrorCount());
 			entries.setFeedLink(subscription.getFeed().getLink());
 
-			List<FeedEntryStatus> list = null;
-			if (unreadOnly) {
-				list = feedEntryStatusDAO.findUnreadBySubscriptions(
-						Arrays.asList(subscription), newerThanDate, offset,
-						limit + 1, order, true);
-			} else {
-				list = feedEntryStatusDAO.findBySubscriptions(
-						Arrays.asList(subscription), null, newerThanDate,
-						offset, limit + 1, order, true);
-			}
+			List<FeedEntryStatus> list = feedEntryStatusDAO
+					.findBySubscriptions(Arrays.asList(subscription),
+							unreadOnly, null, newerThanDate, offset, limit + 1,
+							order, true);
 
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(

@@ -54,8 +54,9 @@ public class NextUnreadRedirectPage extends WebPage {
 		List<FeedEntryStatus> statuses = null;
 		if (StringUtils.isBlank(categoryId)
 				|| CategoryREST.ALL.equals(categoryId)) {
-			statuses = feedEntryStatusDAO.findAllUnread(user, null, 0, 1,
-					order, true);
+			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
+			statuses = feedEntryStatusDAO.findBySubscriptions(subs, true, null,
+					null, 0, 1, order, true);
 		} else {
 			FeedCategory category = feedCategoryDAO.findById(user,
 					Long.valueOf(categoryId));
@@ -64,8 +65,8 @@ public class NextUnreadRedirectPage extends WebPage {
 						.findAllChildrenCategories(user, category);
 				List<FeedSubscription> subscriptions = feedSubscriptionDAO
 						.findByCategories(user, children);
-				statuses = feedEntryStatusDAO.findUnreadBySubscriptions(
-						subscriptions, null, 0, 1, order, true);
+				statuses = feedEntryStatusDAO.findBySubscriptions(
+						subscriptions, true, null, null, 0, 1, order, true);
 			}
 		}
 

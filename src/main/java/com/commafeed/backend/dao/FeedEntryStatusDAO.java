@@ -161,12 +161,12 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 				contentJoin.add(or);
 			}
 		}
+		Criteria statusJoin = criteria.createCriteria(
+				FeedEntry_.statuses.getName(), ALIAS_STATUS,
+				JoinType.LEFT_OUTER_JOIN,
+				Restrictions.eq(FeedEntryStatus_.subscription.getName(), sub));
 
 		if (unreadOnly) {
-			Criteria statusJoin = criteria.createCriteria(FeedEntry_.statuses
-					.getName(), ALIAS_STATUS, JoinType.LEFT_OUTER_JOIN,
-					Restrictions.eq(FeedEntryStatus_.subscription.getName(),
-							sub));
 
 			Disjunction or = Restrictions.disjunction();
 			or.add(Restrictions.isNull(FeedEntryStatus_.read.getName()));
@@ -178,7 +178,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 				criteria.add(Restrictions.ge(FeedEntry_.inserted.getName(),
 						unreadThreshold));
 			}
-
 		}
 
 		if (last != null) {

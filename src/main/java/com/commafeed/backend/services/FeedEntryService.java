@@ -37,7 +37,6 @@ public class FeedEntryService {
 		}
 
 		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
-
 		status.setRead(read);
 		feedEntryStatusDAO.saveOrUpdate(status);
 	}
@@ -57,7 +56,6 @@ public class FeedEntryService {
 		}
 
 		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
-
 		status.setStarred(starred);
 		feedEntryStatusDAO.saveOrUpdate(status);
 

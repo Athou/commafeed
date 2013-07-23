@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -50,17 +51,23 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	protected static Logger log = LoggerFactory
 			.getLogger(FeedEntryStatusDAO.class);
 
-	private static final Comparator<FeedEntry> ENTRY_COMPARATOR_DESC = new Comparator<FeedEntry>() {
+	private static final String ALIAS_STATUS = "status";
+	private static final String ALIAS_ENTRY = "entry";
+	private static final String ALIAS_FFE = "ffe";
+
+	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_DESC = new Comparator<FeedEntryStatus>() {
 		@Override
-		public int compare(FeedEntry o1, FeedEntry o2) {
-			return ObjectUtils.compare(o2.getUpdated(), o1.getUpdated());
+		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
+			return ObjectUtils.compare(o2.getEntryUpdated(),
+					o1.getEntryUpdated());
 		};
 	};
 
-	private static final Comparator<FeedEntry> ENTRY_COMPARATOR_ASC = new Comparator<FeedEntry>() {
+	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = new Comparator<FeedEntryStatus>() {
 		@Override
-		public int compare(FeedEntry o1, FeedEntry o2) {
-			return ObjectUtils.compare(o1.getUpdated(), o2.getUpdated());
+		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
+			return ObjectUtils.compare(o1.getEntryUpdated(),
+					o2.getEntryUpdated());
 		};
 	};
 
@@ -80,6 +87,12 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		List<FeedEntryStatus> statuses = em.createQuery(query).getResultList();
 		FeedEntryStatus status = Iterables.getFirst(statuses, null);
+
+		return handleStatus(status, sub, entry);
+	}
+
+	private FeedEntryStatus handleStatus(FeedEntryStatus status,
+			FeedSubscription sub, FeedEntry entry) {
 		if (status == null) {
 			Date unreadThreshold = getUnreadThreshold();
 			boolean read = unreadThreshold == null ? false : entry
@@ -120,13 +133,12 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	private Criteria buildSearchCriteria(FeedSubscription sub,
 			boolean unreadOnly, String keywords, Date newerThan, int offset,
-			int limit, ReadingOrder order, boolean includeContent,
-			FeedEntry last) {
+			int limit, ReadingOrder order, boolean includeContent, Date last) {
 		Criteria criteria = getSession().createCriteria(FeedEntry.class,
-				"entry");
+				ALIAS_ENTRY);
 
 		Criteria ffeJoin = criteria.createCriteria(
-				FeedEntry_.feedRelationships.getName(), "ffe",
+				FeedEntry_.feedRelationships.getName(), ALIAS_FFE,
 				JoinType.INNER_JOIN);
 		ffeJoin.add(Restrictions.eq(FeedFeedEntry_.feed.getName(),
 				sub.getFeed()));
@@ -153,7 +165,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		if (unreadOnly) {
 			Criteria statusJoin = criteria.createCriteria(FeedEntry_.statuses
-					.getName(), "status", JoinType.LEFT_OUTER_JOIN,
+					.getName(), ALIAS_STATUS, JoinType.LEFT_OUTER_JOIN,
 					Restrictions.eq(FeedEntryStatus_.subscription.getName(),
 							sub));
 
@@ -173,12 +185,10 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		if (last != null) {
 			if (order == ReadingOrder.desc) {
 				ffeJoin.add(Restrictions.gt(
-						FeedFeedEntry_.entryUpdated.getName(),
-						last.getUpdated()));
+						FeedFeedEntry_.entryUpdated.getName(), last));
 			} else {
 				ffeJoin.add(Restrictions.lt(
-						FeedFeedEntry_.entryUpdated.getName(),
-						last.getUpdated()));
+						FeedFeedEntry_.entryUpdated.getName(), last));
 			}
 		}
 
@@ -211,38 +221,38 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			ReadingOrder order, boolean includeContent) {
 
 		int capacity = offset + limit;
-		Comparator<FeedEntry> comparator = order == ReadingOrder.desc ? ENTRY_COMPARATOR_DESC
-				: ENTRY_COMPARATOR_ASC;
-		FixedSizeSortedSet<FeedEntry> set = new FixedSizeSortedSet<FeedEntry>(
+		Comparator<FeedEntryStatus> comparator = order == ReadingOrder.desc ? STATUS_COMPARATOR_DESC
+				: STATUS_COMPARATOR_ASC;
+		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<FeedEntryStatus>(
 				capacity < 0 ? Integer.MAX_VALUE : capacity, comparator);
 		for (FeedSubscription sub : subscriptions) {
-			FeedEntry last = (order != null && set.isFull()) ? set.last()
-					: null;
+			Date last = (order != null && set.isFull()) ? set.last()
+					.getEntryUpdated() : null;
 			Criteria criteria = buildSearchCriteria(sub, unreadOnly, keywords,
 					newerThan, -1, limit, order, includeContent, last);
-
-			List<FeedEntry> list = criteria.list();
-			for (FeedEntry entry : list) {
+			criteria.setResultTransformer(CriteriaSpecification.ALIAS_TO_ENTITY_MAP);
+			List<Map<String, Object>> list = criteria.list();
+			for (Map<String, Object> map : list) {
+				FeedEntryStatus status = (FeedEntryStatus) map
+						.get(ALIAS_STATUS);
+				FeedEntry entry = (FeedEntry) map.get(ALIAS_ENTRY);
 				entry.setSubscription(sub);
+
+				status = handleStatus(status, sub, entry);
+
+				status.setEntry(entry);
+				set.add(status);
 			}
-			set.addAll(list);
 		}
 
-		List<FeedEntry> entries = set.asList();
-		int size = entries.size();
+		List<FeedEntryStatus> statuses = set.asList();
+		int size = statuses.size();
 		if (size < offset) {
 			return Lists.newArrayList();
 		}
 
-		entries = entries.subList(Math.max(offset, 0), size);
-
-		List<FeedEntryStatus> results = Lists.newArrayList();
-		for (FeedEntry entry : entries) {
-			FeedSubscription subscription = entry.getSubscription();
-			results.add(getStatus(subscription, entry));
-		}
-
-		return lazyLoadContent(includeContent, results);
+		statuses = statuses.subList(Math.max(offset, 0), size);
+		return lazyLoadContent(includeContent, statuses);
 	}
 
 	private Date getUnreadThreshold() {

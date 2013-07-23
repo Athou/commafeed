@@ -24,6 +24,7 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
 import com.google.api.client.util.Lists;
+import com.google.api.client.util.Maps;
 
 public class FeedSubscriptionService {
 
@@ -93,7 +94,8 @@ public class FeedSubscriptionService {
 				List<FeedEntry> allEntries = feedEntryDAO.findByFeed(feed, 0,
 						10);
 				for (FeedEntry entry : allEntries) {
-					FeedEntryStatus status = new FeedEntryStatus(user, sub, entry);
+					FeedEntryStatus status = new FeedEntryStatus(user, sub,
+							entry);
 					status.setRead(false);
 					status.setSubscription(sub);
 					statuses.add(status);
@@ -114,7 +116,10 @@ public class FeedSubscriptionService {
 		if (map == null) {
 			log.debug("unread count cache miss for {}", Models.getId(user));
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
-			map = feedEntryStatusDAO.getUnreadCount(subs);
+			map = Maps.newHashMap();
+			for (FeedSubscription sub : subs) {
+				map.put(sub.getId(), feedEntryStatusDAO.getUnreadCount(sub));
+			}
 			cache.setUnreadCounts(user, map);
 		}
 		return map;

@@ -41,7 +41,6 @@ import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.services.ApplicationSettingsService;
-import com.google.api.client.util.Maps;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
@@ -276,17 +275,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			count = row.get("count");
 		}
 		return count;
-	}
-
-	/**
-	 * Map between subscriptionId and unread count
-	 */
-	public Map<Long, Long> getUnreadCount(List<FeedSubscription> subscriptions) {
-		Map<Long, Long> map = Maps.newHashMap();
-		for (FeedSubscription sub : subscriptions) {
-			map.put(sub.getId(), getUnreadCount(sub));
-		}
-		return map;
 	}
 
 	private List<FeedEntryStatus> lazyLoadContent(boolean includeContent,

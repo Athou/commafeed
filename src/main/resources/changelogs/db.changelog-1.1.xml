@@ -346,4 +346,13 @@
 			<column name="subscription_id" />
 		</createIndex>
 	</changeSet>
+	
+	<changeSet author="athou" id="add-trim-status-setting">
+		<addColumn tableName="APPLICATIONSETTINGS">
+		    <column name="keepStatusDays" type="INT" />
+		</addColumn>
+		<update tableName="APPLICATIONSETTINGS">
+			<column name="keepStatusDays" valueNumeric="0"></column>
+		</update>	
+	</changeSet>
 </databaseChangeLog>

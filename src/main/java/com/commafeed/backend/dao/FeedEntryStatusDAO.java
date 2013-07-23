@@ -14,10 +14,11 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
@@ -80,8 +81,14 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		List<FeedEntryStatus> statuses = em.createQuery(query).getResultList();
 		FeedEntryStatus status = Iterables.getFirst(statuses, null);
 		if (status == null) {
+			Date unreadThreshold = getUnreadThreshold();
+			boolean read = unreadThreshold == null ? false : entry
+					.getInserted().before(unreadThreshold);
 			status = new FeedEntryStatus(sub.getUser(), sub, entry);
-			status.setRead(false);
+			status.setRead(read);
+			status.setMarkable(!read);
+		} else {
+			status.setMarkable(true);
 		}
 		return status;
 	}
@@ -134,30 +141,33 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 					FeedEntry_.content.getName(), "content",
 					JoinType.INNER_JOIN);
 
-			String joinedKeywords = StringUtils.join(keywords.toLowerCase()
-					.split(" "), "%");
-			joinedKeywords = "%" + joinedKeywords + "%";
-
-			Disjunction or = Restrictions.disjunction();
-			or.add(Restrictions.ilike(FeedEntryContent_.content.getName(),
-					joinedKeywords));
-			or.add(Restrictions.ilike(FeedEntryContent_.title.getName(),
-					joinedKeywords));
-			contentJoin.add(or);
+			for (String keyword : keywords.split(" ")) {
+				Disjunction or = Restrictions.disjunction();
+				or.add(Restrictions.ilike(FeedEntryContent_.content.getName(),
+						keyword, MatchMode.ANYWHERE));
+				or.add(Restrictions.ilike(FeedEntryContent_.title.getName(),
+						keyword, MatchMode.ANYWHERE));
+				contentJoin.add(or);
+			}
 		}
 
 		if (unreadOnly) {
-
 			Criteria statusJoin = criteria.createCriteria(FeedEntry_.statuses
 					.getName(), "status", JoinType.LEFT_OUTER_JOIN,
 					Restrictions.eq(FeedEntryStatus_.subscription.getName(),
 							sub));
 
 			Disjunction or = Restrictions.disjunction();
-			or.add(Restrictions.isNull(FeedEntryStatus_.id.getName()));
+			or.add(Restrictions.isNull(FeedEntryStatus_.read.getName()));
 			or.add(Restrictions.eq(FeedEntryStatus_.read.getName(), false));
-
 			statusJoin.add(or);
+
+			Date unreadThreshold = getUnreadThreshold();
+			if (unreadThreshold != null) {
+				criteria.add(Restrictions.ge(FeedEntry_.inserted.getName(),
+						unreadThreshold));
+			}
+
 		}
 
 		if (last != null) {
@@ -175,11 +185,11 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		if (order != null) {
 			Order o = null;
 			if (order == ReadingOrder.asc) {
-				o = Order.asc(FeedEntry_.updated.getName());
+				o = Order.asc(FeedFeedEntry_.entryUpdated.getName());
 			} else {
-				o = Order.desc(FeedEntry_.updated.getName());
+				o = Order.desc(FeedFeedEntry_.entryUpdated.getName());
 			}
-			criteria.addOrder(o);
+			ffeJoin.addOrder(o);
 		}
 		if (offset > -1) {
 			criteria.setFirstResult(offset);
@@ -233,6 +243,13 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 
 		return lazyLoadContent(includeContent, results);
+	}
+
+	private Date getUnreadThreshold() {
+		int keepStatusDays = applicationSettingsService.get()
+				.getKeepStatusDays();
+		return keepStatusDays > 0 ? DateUtils.addMinutes(new Date(), -1
+				* keepStatusDays) : null;
 	}
 
 	@SuppressWarnings("unchecked")

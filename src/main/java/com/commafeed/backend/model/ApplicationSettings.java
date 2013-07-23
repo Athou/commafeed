@@ -35,6 +35,7 @@ public class ApplicationSettings extends AbstractModel {
 	private boolean imageProxyEnabled;
 	private int queryTimeout;
 	private boolean crawlingPaused;
+	private int keepStatusDays = 0;
 
 	@Column(length = 255)
 	private String announcement;
@@ -198,6 +199,14 @@ public class ApplicationSettings extends AbstractModel {
 
 	public void setCrawlingPaused(boolean crawlingPaused) {
 		this.crawlingPaused = crawlingPaused;
+	}
+
+	public int getKeepStatusDays() {
+		return keepStatusDays;
+	}
+
+	public void setKeepStatusDays(int keepStatusDays) {
+		this.keepStatusDays = keepStatusDays;
 	}
 
 }

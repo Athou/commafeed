@@ -33,6 +33,7 @@ public class Entry implements Serializable {
 
 		entry.setRead(status.isRead());
 		entry.setStarred(status.isStarred());
+		entry.setMarkable(status.isMarkable());
 
 		entry.setId(String.valueOf(feedEntry.getId()));
 		entry.setGuid(feedEntry.getGuid());
@@ -123,6 +124,9 @@ public class Entry implements Serializable {
 
 	@ApiProperty("starred status")
 	private boolean starred;
+
+	@ApiProperty("wether the entry is still markable (old entry statuses are discarded)")
+	private boolean markable;
 
 	public String getId() {
 		return id;
@@ -266,6 +270,14 @@ public class Entry implements Serializable {
 
 	public void setInsertedDate(Date insertedDate) {
 		this.insertedDate = insertedDate;
+	}
+
+	public boolean isMarkable() {
+		return markable;
+	}
+
+	public void setMarkable(boolean markable) {
+		this.markable = markable;
 	}
 
 }

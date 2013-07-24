@@ -31,6 +31,7 @@
 		<createIndex tableName="FEEDENTRYCONTENTS" indexName="content_hash_index">
 			<column name="contentHash" />
 		</createIndex>
+		<dropColumn tableName="FEEDENTRIES" columnName="author"/>
 	</changeSet>
 
 	<changeSet author="athou" id="add-new-index">

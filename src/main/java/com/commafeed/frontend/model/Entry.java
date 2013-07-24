@@ -41,7 +41,7 @@ public class Entry implements Serializable {
 		entry.setContent(FeedUtils.proxyImages(feedEntry.getContent()
 				.getContent(), publicUrl, proxyImages));
 		entry.setRtl(FeedUtils.isRTL(feedEntry));
-		entry.setAuthor(feedEntry.getAuthor());
+		entry.setAuthor(feedEntry.getContent().getAuthor());
 		entry.setEnclosureUrl(feedEntry.getContent().getEnclosureUrl());
 		entry.setEnclosureType(feedEntry.getContent().getEnclosureType());
 		entry.setDate(feedEntry.getUpdated());

@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.jdom.Element;
@@ -89,16 +88,15 @@ public class FeedParser {
 					continue;
 				}
 				entry.setGuid(FeedUtils.truncate(guid, 2048));
-				entry.setGuidHash(DigestUtils.sha1Hex(guid));
 				entry.setUrl(FeedUtils.truncate(
 						FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink()),
 						2048));
 				entry.setUpdated(validateDate(getEntryUpdateDate(item), true));
-				entry.setAuthor(item.getAuthor());
 
 				FeedEntryContent content = new FeedEntryContent();
 				content.setContent(getContent(item));
 				content.setTitle(getTitle(item));
+				content.setAuthor(item.getAuthor());
 				SyndEnclosure enclosure = (SyndEnclosure) Iterables.getFirst(
 						item.getEnclosures(), null);
 				if (enclosure != null) {

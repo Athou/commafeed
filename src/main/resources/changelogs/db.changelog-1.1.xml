@@ -355,4 +355,11 @@
 			<column name="keepStatusDays" valueNumeric="0"></column>
 		</update>	
 	</changeSet>
+	
+	<changeSet author="athou" id="status-cleanup">
+		<delete tableName="FEEDENTRYSTATUSES">
+			<where>read_status = false and starred = false</where>
+		</delete>
+	</changeSet>
+	
 </databaseChangeLog>

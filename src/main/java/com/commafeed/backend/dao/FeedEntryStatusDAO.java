@@ -55,18 +55,16 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_DESC = new Comparator<FeedEntryStatus>() {
 		@Override
 		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
-			int compare = ObjectUtils.compare(o2.getEntryUpdated(),
+			return ObjectUtils.compare(o2.getEntryUpdated(),
 					o1.getEntryUpdated());
-			return compare == 0 ? 1 : compare;
 		};
 	};
 
 	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = new Comparator<FeedEntryStatus>() {
 		@Override
 		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
-			int compare = ObjectUtils.compare(o1.getEntryUpdated(),
+			return ObjectUtils.compare(o1.getEntryUpdated(),
 					o2.getEntryUpdated());
-			return compare == 0 ? 1 : compare;
 		};
 	};
 

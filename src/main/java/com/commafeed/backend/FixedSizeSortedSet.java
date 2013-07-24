@@ -1,15 +1,13 @@
 package com.commafeed.backend;
 
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.TreeSet;
+import java.util.PriorityQueue;
 
-import org.apache.commons.collections.CollectionUtils;
-
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
-public class FixedSizeSortedSet<E> extends TreeSet<E> {
+public class FixedSizeSortedSet<E> extends PriorityQueue<E> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -17,7 +15,7 @@ public class FixedSizeSortedSet<E> extends TreeSet<E> {
 	private final int maxSize;
 
 	public FixedSizeSortedSet(int maxSize, Comparator<? super E> comparator) {
-		super(comparator);
+		super(maxSize, comparator);
 		this.maxSize = maxSize;
 		this.comparator = comparator;
 	}
@@ -38,19 +36,10 @@ public class FixedSizeSortedSet<E> extends TreeSet<E> {
 		}
 	}
 
-	@Override
-	public boolean addAll(Collection<? extends E> c) {
-		if (CollectionUtils.isEmpty(c)) {
-			return false;
-		}
-
-		boolean success = true;
-		for (E e : c) {
-			success &= add(e);
-		}
-		return success;
+	public E last() {
+		return Iterables.getLast(this);
 	}
-	
+
 	public boolean isFull() {
 		return size() == maxSize;
 	}

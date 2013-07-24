@@ -55,13 +55,11 @@ public class MetricsBean {
 
 	}
 
-	public void entryUpdated(int statusesCount) {
+	public void entryInserted() {
 
 		thisHour.entriesInserted++;
 		thisMinute.entriesInserted++;
 
-		thisHour.statusesInserted += statusesCount;
-		thisMinute.statusesInserted += statusesCount;
 	}
 
 	public void entryCacheHit() {
@@ -107,7 +105,6 @@ public class MetricsBean {
 		private int feedsRefreshed;
 		private int feedsUpdated;
 		private int entriesInserted;
-		private int statusesInserted;
 		private int threadWaited;
 		private int pushNotificationsReceived;
 		private int pushFeedsQueued;
@@ -136,14 +133,6 @@ public class MetricsBean {
 
 		public void setEntriesInserted(int entriesInserted) {
 			this.entriesInserted = entriesInserted;
-		}
-
-		public int getStatusesInserted() {
-			return statusesInserted;
-		}
-
-		public void setStatusesInserted(int statusesInserted) {
-			this.statusesInserted = statusesInserted;
 		}
 
 		public int getThreadWaited() {

@@ -71,6 +71,7 @@ public class FeedUpdateService {
 			users.add(user);
 		}
 		feedEntryDAO.saveOrUpdate(entry);
+		metricsBean.entryInserted();
 		cache.invalidateUserData(users.toArray(new User[0]));
 	}
 }

@@ -37,8 +37,10 @@ public class FeedEntryService {
 		}
 
 		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
-		status.setRead(read);
-		feedEntryStatusDAO.saveOrUpdate(status);
+		if (status.isMarkable()) {
+			status.setRead(read);
+			feedEntryStatusDAO.saveOrUpdate(status);
+		}
 	}
 
 	public void starEntry(User user, Long entryId, Long subscriptionId,
@@ -56,8 +58,10 @@ public class FeedEntryService {
 		}
 
 		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
-		status.setStarred(starred);
-		feedEntryStatusDAO.saveOrUpdate(status);
+		if (status.isMarkable()) {
+			status.setStarred(starred);
+			feedEntryStatusDAO.saveOrUpdate(status);
+		}
 
 	}
 }

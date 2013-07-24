@@ -58,10 +58,7 @@ public class FeedEntryService {
 		}
 
 		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
-		if (status.isMarkable()) {
-			status.setStarred(starred);
-			feedEntryStatusDAO.saveOrUpdate(status);
-		}
-
+		status.setStarred(starred);
+		feedEntryStatusDAO.saveOrUpdate(status);
 	}
 }

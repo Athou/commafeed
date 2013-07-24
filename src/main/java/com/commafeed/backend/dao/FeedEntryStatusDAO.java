@@ -35,7 +35,6 @@ import com.commafeed.backend.model.FeedEntryContent_;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryStatus_;
 import com.commafeed.backend.model.FeedEntry_;
-import com.commafeed.backend.model.FeedFeedEntry_;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
@@ -52,7 +51,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	private static final String ALIAS_STATUS = "status";
 	private static final String ALIAS_ENTRY = "entry";
-	private static final String ALIAS_FFE = "ffe";
 
 	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_DESC = new Comparator<FeedEntryStatus>() {
 		@Override
@@ -94,8 +92,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			FeedSubscription sub, FeedEntry entry) {
 		if (status == null) {
 			Date unreadThreshold = getUnreadThreshold();
-			boolean read = unreadThreshold == null ? false : entry
-					.getInserted().before(unreadThreshold);
+			boolean read = unreadThreshold == null ? false : entry.getUpdated()
+					.before(unreadThreshold);
 			status = new FeedEntryStatus(sub.getUser(), sub, entry);
 			status.setRead(read);
 			status.setMarkable(!read);
@@ -127,7 +125,12 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
 		limit(q, offset, limit);
 		setTimeout(q);
-		return lazyLoadContent(includeContent, q.getResultList());
+		List<FeedEntryStatus> statuses = q.getResultList();
+		for (FeedEntryStatus status : statuses) {
+			status = handleStatus(status, status.getSubscription(),
+					status.getEntry());
+		}
+		return lazyLoadContent(includeContent, statuses);
 	}
 
 	private Criteria buildSearchCriteria(FeedSubscription sub,
@@ -136,16 +139,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		Criteria criteria = getSession().createCriteria(FeedEntry.class,
 				ALIAS_ENTRY);
 
-		Criteria ffeJoin = criteria.createCriteria(
-				FeedEntry_.feedRelationships.getName(), ALIAS_FFE,
-				JoinType.INNER_JOIN);
-		ffeJoin.add(Restrictions.eq(FeedFeedEntry_.feed.getName(),
-				sub.getFeed()));
-
-		if (newerThan != null) {
-			criteria.add(Restrictions.ge(FeedEntry_.inserted.getName(),
-					newerThan));
-		}
+		criteria.add(Restrictions.eq(FeedEntry_.feed.getName(), sub.getFeed()));
 
 		if (keywords != null) {
 			Criteria contentJoin = criteria.createCriteria(
@@ -175,29 +169,32 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 			Date unreadThreshold = getUnreadThreshold();
 			if (unreadThreshold != null) {
-				criteria.add(Restrictions.ge(FeedEntry_.inserted.getName(),
+				criteria.add(Restrictions.ge(FeedEntry_.updated.getName(),
 						unreadThreshold));
 			}
 		}
 
+		if (newerThan != null) {
+			criteria.add(Restrictions.ge(FeedEntry_.inserted.getName(),
+					newerThan));
+		}
+
 		if (last != null) {
 			if (order == ReadingOrder.desc) {
-				ffeJoin.add(Restrictions.gt(
-						FeedFeedEntry_.entryUpdated.getName(), last));
+				criteria.add(Restrictions.gt(FeedEntry_.updated.getName(), last));
 			} else {
-				ffeJoin.add(Restrictions.lt(
-						FeedFeedEntry_.entryUpdated.getName(), last));
+				criteria.add(Restrictions.lt(FeedEntry_.updated.getName(), last));
 			}
 		}
 
 		if (order != null) {
 			Order o = null;
 			if (order == ReadingOrder.asc) {
-				o = Order.asc(FeedFeedEntry_.entryUpdated.getName());
+				o = Order.asc(FeedEntry_.updated.getName());
 			} else {
-				o = Order.desc(FeedFeedEntry_.entryUpdated.getName());
+				o = Order.desc(FeedEntry_.updated.getName());
 			}
-			ffeJoin.addOrder(o);
+			criteria.addOrder(o);
 		}
 		if (offset > -1) {
 			criteria.setFirstResult(offset);
@@ -256,7 +253,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	private Date getUnreadThreshold() {
 		int keepStatusDays = applicationSettingsService.get()
 				.getKeepStatusDays();
-		return keepStatusDays > 0 ? DateUtils.addMinutes(new Date(), -1
+		return keepStatusDays > 0 ? DateUtils.addDays(new Date(), -1
 				* keepStatusDays) : null;
 	}
 

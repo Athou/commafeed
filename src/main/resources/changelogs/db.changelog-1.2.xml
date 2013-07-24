@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+	<changeSet author="athou" id="change-entries-model">
+		<dropTable tableName="FEED_FEEDENTRIES" />
+		<delete tableName="FEEDENTRYSTATUSES"></delete>
+		<delete tableName="FEEDENTRIES"></delete>
+		<delete tableName="FEEDENTRYCONTENTS"></delete>
+
+		<addColumn tableName="FEEDENTRIES">
+			<column name="feed_id" type="BIGINT" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+		<addForeignKeyConstraint constraintName="fk_feed_id"
+			baseTableName="FEEDENTRIES" baseColumnNames="feed_id"
+			referencedTableName="FEEDS" referencedColumnNames="id" />
+		<createIndex tableName="FEEDENTRIES" indexName="feed_updated_index">
+			<column name="feed_id" />
+			<column name="updated" />
+		</createIndex>
+	</changeSet>
+
+	<changeSet author="athou" id="add-content-hashes">
+		<addColumn tableName="FEEDENTRYCONTENTS">
+			<column name="author" type="VARCHAR(128)" />
+			<column name="contentHash" type="VARCHAR(40)" />
+		</addColumn>
+		<createIndex tableName="FEEDENTRYCONTENTS" indexName="content_hash_index">
+			<column name="contentHash" />
+		</createIndex>
+	</changeSet>
+
+	<changeSet author="athou" id="add-new-index">
+		<createIndex tableName="FEEDENTRYSTATUSES" indexName="user_entry_index">
+			<column name="user_id" />
+			<column name="entry_id" />
+		</createIndex>
+	</changeSet>
+
+	<changeSet author="athou" id="drop-old-index">
+		<dropIndex tableName="FEEDENTRYSTATUSES" indexName="sub_entry_index" />
+	</changeSet>
+
+	<changeSet author="athou" id="force-feed-refresh">
+		<update tableName="FEEDS">
+			<column name="lastUpdated" valueComputed="null"></column>
+			<column name="lastPublishedDate" valueComputed="null"></column>
+			<column name="lastEntryDate" valueComputed="null"></column>
+			<column name="lastUpdateSuccess" valueComputed="null"></column>
+			<column name="message" valueComputed="null"></column>
+			<column name="errorCount" valueNumeric="0"></column>
+			<column name="disabledUntil" valueComputed="null"></column>
+			<column name="lastModifiedHeader" valueComputed="null"></column>
+			<column name="etagHeader" valueComputed="null"></column>
+			<column name="averageEntryInterval" valueNumeric="null"></column>
+			<column name="lastContentHash" valueComputed="null"></column>
+		</update>
+	</changeSet>
+	
+	<changeSet author="athou" id="revamp-status-indexes">
+		<createIndex tableName="FEEDENTRYSTATUSES" indexName="user_starred_updated">
+			<column name="user_id"></column>
+			<column name="starred"></column>
+			<column name="entryUpdated"></column>
+		</createIndex>
+		
+		<createIndex tableName="FEEDENTRYSTATUSES" indexName="sub_index">
+			<column name="subscription_id"></column>
+		</createIndex>
+
+		<dropIndex tableName="FEEDENTRYSTATUSES" indexName="sub_read_updated_index" />
+		<dropIndex tableName="FEEDENTRYSTATUSES" indexName="user_read_updated_index" />
+		<dropIndex tableName="FEEDENTRYSTATUSES" indexName="user_read_sub_index" />
+		<dropIndex tableName="FEEDENTRYSTATUSES" indexName="user_entry_index" />
+	</changeSet>
+	
+	<changeSet author="athou" id="revamp-entries-indexes">
+		<dropIndex tableName="FEEDENTRIES" indexName="updated_index" />
+		<dropIndex tableName="FEEDENTRIES" indexName="inserted_index" />
+	</changeSet>
+
+</databaseChangeLog>

@@ -256,7 +256,16 @@ public class AdminREST extends AbstractResourceREST {
 		Map<String, Long> map = Maps.newHashMap();
 		map.put("feeds_without_subscriptions",
 				cleaner.cleanFeedsWithoutSubscriptions());
-		map.put("entries_without_feeds", cleaner.cleanEntriesWithoutFeeds());
+		return Response.ok(map).build();
+	}
+	
+	@Path("/cleanup/content")
+	@GET
+	@ApiOperation(value = "Content cleanup", notes = "Delete contents without entries")
+	public Response cleanupContents() {
+		Map<String, Long> map = Maps.newHashMap();
+		map.put("contents_without_entries",
+				cleaner.cleanContentsWithoutEntries());
 		return Response.ok(map).build();
 	}
 

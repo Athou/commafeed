@@ -18,12 +18,9 @@ import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
-import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
-import com.google.api.client.util.Lists;
 import com.google.api.client.util.Maps;
 
 public class FeedSubscriptionService {
@@ -76,37 +73,16 @@ public class FeedSubscriptionService {
 		Feed feed = feedService.findOrCreate(url);
 
 		FeedSubscription sub = feedSubscriptionDAO.findByFeed(user, feed);
-		boolean newSubscription = false;
 		if (sub == null) {
 			sub = new FeedSubscription();
 			sub.setFeed(feed);
 			sub.setUser(user);
-			newSubscription = true;
 		}
 		sub.setCategory(category);
 		sub.setPosition(0);
 		sub.setTitle(FeedUtils.truncate(title, 128));
 		feedSubscriptionDAO.saveOrUpdate(sub);
 
-		if (newSubscription) {
-			try {
-				List<FeedEntryStatus> statuses = Lists.newArrayList();
-				List<FeedEntry> allEntries = feedEntryDAO.findByFeed(feed, 0,
-						10);
-				for (FeedEntry entry : allEntries) {
-					FeedEntryStatus status = new FeedEntryStatus(user, sub,
-							entry);
-					status.setRead(false);
-					status.setSubscription(sub);
-					statuses.add(status);
-				}
-				feedEntryStatusDAO.saveOrUpdate(statuses);
-			} catch (Exception e) {
-				log.error(
-						"could not fetch initial statuses when importing {} : {}",
-						feed.getUrl(), e.getMessage());
-			}
-		}
 		taskGiver.add(feed);
 		return feed;
 	}

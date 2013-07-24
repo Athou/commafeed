@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -107,8 +108,8 @@ public class Feed extends AbstractModel {
 	@Column(length = 40)
 	private String lastContentHash;
 
-	@OneToMany(mappedBy = "feed")
-	private Set<FeedFeedEntry> entryRelationships;
+	@OneToMany(mappedBy = "feed", cascade = CascadeType.REMOVE)
+	private Set<FeedEntry> entries;
 
 	@OneToMany(mappedBy = "feed")
 	private Set<FeedSubscription> subscriptions;
@@ -325,12 +326,12 @@ public class Feed extends AbstractModel {
 		this.normalizedUrlHash = normalizedUrlHash;
 	}
 
-	public Set<FeedFeedEntry> getEntryRelationships() {
-		return entryRelationships;
+	public Set<FeedEntry> getEntries() {
+		return entries;
 	}
 
-	public void setEntryRelationships(Set<FeedFeedEntry> entryRelationships) {
-		this.entryRelationships = entryRelationships;
+	public void setEntries(Set<FeedEntry> entries) {
+		this.entries = entries;
 	}
 
 }

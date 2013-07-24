@@ -224,7 +224,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			Date last = (order != null && set.isFull()) ? set.last()
 					.getEntryUpdated() : null;
 			Criteria criteria = buildSearchCriteria(sub, unreadOnly, keywords,
-					newerThan, -1, limit, order, includeContent, last);
+					newerThan, -1, capacity, order, includeContent, last);
 			criteria.setResultTransformer(CriteriaSpecification.ALIAS_TO_ENTITY_MAP);
 			List<Map<String, Object>> list = criteria.list();
 			for (Map<String, Object> map : list) {

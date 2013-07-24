@@ -17,7 +17,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.commafeed.backend.dao.UserDAO;
+import com.commafeed.backend.dao.ApplicationSettingsDAO;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.UserRole.Role;
@@ -38,7 +38,7 @@ public class StartupBean {
 	DatabaseUpdater databaseUpdater;
 
 	@Inject
-	UserDAO userDAO;
+	ApplicationSettingsDAO applicationSettingsDAO;
 
 	@Inject
 	UserService userService;
@@ -58,7 +58,7 @@ public class StartupBean {
 		startupTime = System.currentTimeMillis();
 		databaseUpdater.update();
 
-		if (userDAO.getCount() == 0) {
+		if (applicationSettingsDAO.getCount() == 0) {
 			initialData();
 		}
 		applicationSettingsService.applyLogLevel();

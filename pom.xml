@@ -15,7 +15,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<production>false</production>
-		<jpa.show_sql>true</jpa.show_sql>
+		<jpa.show_sql>false</jpa.show_sql>
 		<jpa.datasource.name>java:openejb/Resource/My DataSource</jpa.datasource.name>
 		<jpa.cache>false</jpa.cache>
 		<jpa.table.encoding>utf8mb4</jpa.table.encoding>

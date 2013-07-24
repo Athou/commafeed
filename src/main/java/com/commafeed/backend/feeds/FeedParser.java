@@ -204,7 +204,7 @@ public class FeedParser {
 					item.getContents(), CONTENT_TO_STRING),
 					SystemUtils.LINE_SEPARATOR);
 		}
-		return content;
+		return StringUtils.trimToEmpty(content);
 	}
 
 	private String getTitle(SyndEntry item) {

@@ -219,7 +219,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		Comparator<FeedEntryStatus> comparator = order == ReadingOrder.desc ? STATUS_COMPARATOR_DESC
 				: STATUS_COMPARATOR_ASC;
 		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<FeedEntryStatus>(
-				capacity < 0 ? Integer.MAX_VALUE : capacity, comparator);
+				capacity, comparator);
 		for (FeedSubscription sub : subscriptions) {
 			Date last = (order != null && set.isFull()) ? set.last()
 					.getEntryUpdated() : null;

@@ -12,11 +12,11 @@ public class FixedSizeSortedSet<E> extends PriorityQueue<E> {
 	private static final long serialVersionUID = 1L;
 
 	private final Comparator<? super E> comparator;
-	private final int maxSize;
+	private final int capacity;
 
-	public FixedSizeSortedSet(int maxSize, Comparator<? super E> comparator) {
-		super(maxSize, comparator);
-		this.maxSize = maxSize;
+	public FixedSizeSortedSet(int capacity, Comparator<? super E> comparator) {
+		super(Math.max(1, capacity), comparator);
+		this.capacity = capacity < 0 ? Integer.MAX_VALUE : capacity;
 		this.comparator = comparator;
 	}
 
@@ -41,7 +41,7 @@ public class FixedSizeSortedSet<E> extends PriorityQueue<E> {
 	}
 
 	public boolean isFull() {
-		return size() == maxSize;
+		return size() == capacity;
 	}
 
 	@SuppressWarnings("unchecked")

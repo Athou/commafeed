@@ -369,7 +369,7 @@ public class CategoryREST extends AbstractResourceREST {
 
 		Category root = cache.getUserRootCategory(user);
 		if (root == null) {
-			log.debug("cat miss for {}", user.getId());
+			log.debug("tree cache miss for {}", user.getId());
 			List<FeedCategory> categories = feedCategoryDAO.findAll(user);
 			List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
 			Map<Long, Long> unreadCount = feedSubscriptionService.getUnreadCount(user);

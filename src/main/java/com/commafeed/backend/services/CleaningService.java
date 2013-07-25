@@ -28,10 +28,11 @@ public class CleaningService {
 	private void cleanOldStatuses() {
 		Date threshold = applicationSettingsService.get().getUnreadThreshold();
 		if (threshold != null) {
-			log.info("cleaning old statuses");
+			log.info("cleaning old read statuses");
 			Query query = em.createNamedQuery("Statuses.deleteOld");
 			query.setParameter("date", threshold);
-			query.executeUpdate();
+			int deleted = query.executeUpdate();
+			log.info("cleaned {} read statuses", deleted);
 		}
 	}
 }

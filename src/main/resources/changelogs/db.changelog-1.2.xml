@@ -82,5 +82,12 @@
 		<dropIndex tableName="FEEDENTRIES" indexName="updated_index" />
 		<dropIndex tableName="FEEDENTRIES" indexName="inserted_index" />
 	</changeSet>
-
+	
+	<changeSet author="athou" id="add-starred-index-for-cleanup">		
+		<createIndex tableName="FEEDENTRYSTATUSES" indexName="insterted_starred_index">
+			<column name="entryInserted"></column>
+			<column name="starred"></column>
+		</createIndex>
+	</changeSet>
+	
 </databaseChangeLog>

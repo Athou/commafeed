@@ -262,7 +262,7 @@ public class AdminREST extends AbstractResourceREST {
 	@ApiOperation(value = "Entries cleanup", notes = "Delete entries older than given date")
 	public Response cleanupEntries(@QueryParam("days") @DefaultValue("30") int days) {
 		Map<String, Long> map = Maps.newHashMap();
-		map.put("old entries", cleaner.cleanEntriesOlderThan(days, TimeUnit.DAYS));
+		map.put("old_entries", cleaner.cleanEntriesOlderThan(days, TimeUnit.DAYS));
 		return Response.ok(map).build();
 	}
 

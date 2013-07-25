@@ -1,4 +1,4 @@
-package com.commafeed.backend.services;
+package com.commafeed.backend;
 
 import java.util.Date;
 
@@ -7,32 +7,31 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Stateless
-public class CleaningService {
+import com.commafeed.backend.services.ApplicationSettingsService;
 
-	protected final static Logger log = LoggerFactory.getLogger(CleaningService.class);
+@Stateless
+public class ScheduledTasks {
+	protected final static Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
+
+	@Inject
+	DatabaseCleaner cleaner;
 
 	@PersistenceContext
 	EntityManager em;
 
 	// every day at midnight
 	@Schedule(hour = "0", persistent = false)
-	private void cleanOldStatuses() {
+	private void cleanupOldStatuses() {
 		Date threshold = applicationSettingsService.get().getUnreadThreshold();
 		if (threshold != null) {
-			log.info("cleaning old read statuses");
-			Query query = em.createNamedQuery("Statuses.deleteOld");
-			query.setParameter("date", threshold);
-			int deleted = query.executeUpdate();
-			log.info("cleaned {} read statuses", deleted);
+			cleaner.cleanStatusesOlderThan(threshold);
 		}
 	}
 }

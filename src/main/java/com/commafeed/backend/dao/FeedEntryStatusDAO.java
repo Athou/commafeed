@@ -266,4 +266,10 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		setTimeout(query, applicationSettingsService.get().getQueryTimeout());
 	}
 
+	public int deleteOldStatuses(Date olderThan) {
+		Query query = em.createNamedQuery("Statuses.deleteOld");
+		query.setParameter("date", olderThan);
+		return query.executeUpdate();
+	}
+
 }

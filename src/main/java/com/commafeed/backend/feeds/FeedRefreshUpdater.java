@@ -28,6 +28,7 @@ import com.commafeed.backend.feeds.FeedRefreshExecutor.Task;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.pubsubhubbub.SubscriptionHandler;
 import com.commafeed.backend.services.ApplicationSettingsService;
@@ -147,9 +148,10 @@ public class FeedRefreshUpdater {
 		// the same time
 		String key1 = StringUtils.trimToEmpty("" + feed.getId());
 
-		// lock on content hash, make sure we are not updating the same entry
+		// lock on content, make sure we are not updating the same entry
 		// twice at the same time
-		String key2 = DigestUtils.sha1Hex(entry.getContent().getContent());
+		FeedEntryContent content = entry.getContent();
+		String key2 = DigestUtils.sha1Hex(content.getContent() + content.getTitle() + content.getAuthor());
 
 		Iterator<Lock> iterator = locks.bulkGet(Arrays.asList(key1, key2)).iterator();
 		Lock lock1 = iterator.next();

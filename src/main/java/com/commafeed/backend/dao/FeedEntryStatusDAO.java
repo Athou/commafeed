@@ -15,7 +15,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Disjunction;
@@ -91,7 +90,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	private FeedEntryStatus handleStatus(FeedEntryStatus status,
 			FeedSubscription sub, FeedEntry entry) {
 		if (status == null) {
-			Date unreadThreshold = getUnreadThreshold();
+			Date unreadThreshold = applicationSettingsService.get().getUnreadThreshold();
 			boolean read = unreadThreshold == null ? false : entry.getUpdated()
 					.before(unreadThreshold);
 			status = new FeedEntryStatus(sub.getUser(), sub, entry);
@@ -167,7 +166,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			or.add(Restrictions.eq(FeedEntryStatus_.read.getName(), false));
 			statusJoin.add(or);
 
-			Date unreadThreshold = getUnreadThreshold();
+			Date unreadThreshold = applicationSettingsService.get().getUnreadThreshold();
 			if (unreadThreshold != null) {
 				criteria.add(Restrictions.ge(FeedEntry_.updated.getName(),
 						unreadThreshold));
@@ -248,13 +247,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		statuses = statuses.subList(Math.max(offset, 0), size);
 		return lazyLoadContent(includeContent, statuses);
-	}
-
-	private Date getUnreadThreshold() {
-		int keepStatusDays = applicationSettingsService.get()
-				.getKeepStatusDays();
-		return keepStatusDays > 0 ? DateUtils.addDays(new Date(), -1
-				* keepStatusDays) : null;
 	}
 
 	@SuppressWarnings("unchecked")

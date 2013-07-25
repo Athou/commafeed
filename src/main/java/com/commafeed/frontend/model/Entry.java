@@ -24,8 +24,7 @@ import com.wordnik.swagger.annotations.ApiProperty;
 @ApiClass("Entry details")
 public class Entry implements Serializable {
 
-	public static Entry build(FeedEntryStatus status, String publicUrl,
-			boolean proxyImages) {
+	public static Entry build(FeedEntryStatus status, String publicUrl, boolean proxyImages) {
 		Entry entry = new Entry();
 
 		FeedEntry feedEntry = status.getEntry();
@@ -38,8 +37,7 @@ public class Entry implements Serializable {
 		entry.setId(String.valueOf(feedEntry.getId()));
 		entry.setGuid(feedEntry.getGuid());
 		entry.setTitle(feedEntry.getContent().getTitle());
-		entry.setContent(FeedUtils.proxyImages(feedEntry.getContent()
-				.getContent(), publicUrl, proxyImages));
+		entry.setContent(FeedUtils.proxyImages(feedEntry.getContent().getContent(), publicUrl, proxyImages));
 		entry.setRtl(FeedUtils.isRTL(feedEntry));
 		entry.setAuthor(feedEntry.getContent().getAuthor());
 		entry.setEnclosureUrl(feedEntry.getContent().getEnclosureUrl());

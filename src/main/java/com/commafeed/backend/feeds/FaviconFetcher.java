@@ -27,12 +27,9 @@ public class FaviconFetcher {
 	private static long MAX_ICON_LENGTH = 20000;
 	private static int TIMEOUT = 4000;
 
-	protected static List<String> ICON_MIMETYPES = Arrays.asList(
-			"image/x-icon", "image/vnd.microsoft.icon", "image/ico",
-			"image/icon", "text/ico", "application/ico", "image/x-ms-bmp",
-			"image/x-bmp", "image/gif", "image/png", "image/jpeg");
-	private static List<String> ICON_MIMETYPE_BLACKLIST = Arrays.asList(
-			"application/xml", "text/html");
+	protected static List<String> ICON_MIMETYPES = Arrays.asList("image/x-icon", "image/vnd.microsoft.icon", "image/ico", "image/icon",
+			"text/ico", "application/ico", "image/x-ms-bmp", "image/x-bmp", "image/gif", "image/png", "image/jpeg");
+	private static List<String> ICON_MIMETYPE_BLACKLIST = Arrays.asList("application/xml", "text/html");
 
 	@Inject
 	HttpGetter getter;
@@ -101,14 +98,12 @@ public class FaviconFetcher {
 		}
 
 		if (length < MIN_ICON_LENGTH) {
-			log.debug("Length {} below MIN_ICON_LENGTH {}", length,
-					MIN_ICON_LENGTH);
+			log.debug("Length {} below MIN_ICON_LENGTH {}", length, MIN_ICON_LENGTH);
 			return false;
 		}
 
 		if (length > MAX_ICON_LENGTH) {
-			log.debug("Length {} greater than MAX_ICON_LENGTH {}", length,
-					MAX_ICON_LENGTH);
+			log.debug("Length {} greater than MAX_ICON_LENGTH {}", length, MAX_ICON_LENGTH);
 			return false;
 		}
 
@@ -126,8 +121,7 @@ public class FaviconFetcher {
 			return null;
 		}
 
-		Elements icons = doc
-				.select("link[rel~=(?i)^(shortcut|icon|shortcut icon)$]");
+		Elements icons = doc.select("link[rel~=(?i)^(shortcut|icon|shortcut icon)$]");
 
 		if (icons.isEmpty()) {
 			log.debug("No icon found in page {}", url);

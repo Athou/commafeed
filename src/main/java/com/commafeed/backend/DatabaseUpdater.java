@@ -33,18 +33,14 @@ public class DatabaseUpdater {
 			try {
 				Thread currentThread = Thread.currentThread();
 				ClassLoader classLoader = currentThread.getContextClassLoader();
-				ResourceAccessor accessor = new ClassLoaderResourceAccessor(
-						classLoader);
+				ResourceAccessor accessor = new ClassLoaderResourceAccessor(classLoader);
 
 				context = new InitialContext();
-				DataSource dataSource = (DataSource) context
-						.lookup(datasourceName);
+				DataSource dataSource = (DataSource) context.lookup(datasourceName);
 				connection = dataSource.getConnection();
 				JdbcConnection jdbcConnection = new JdbcConnection(connection);
 
-				Database database = DatabaseFactory.getInstance()
-						.findCorrectDatabaseImplementation(
-								jdbcConnection);
+				Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(jdbcConnection);
 
 				if (database instanceof PostgresDatabase) {
 					database = new PostgresDatabase() {
@@ -56,9 +52,7 @@ public class DatabaseUpdater {
 					database.setConnection(jdbcConnection);
 				}
 
-				Liquibase liq = new Liquibase(
-						"changelogs/db.changelog-master.xml", accessor,
-						database);
+				Liquibase liq = new Liquibase("changelogs/db.changelog-master.xml", accessor, database);
 				liq.update("prod");
 			} finally {
 				if (context != null) {

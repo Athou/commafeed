@@ -124,13 +124,15 @@ public class FeedREST extends AbstractResourceREST {
 	@Path("/entries")
 	@GET
 	@ApiOperation(value = "Get feed entries", notes = "Get a list of feed entries", responseClass = "com.commafeed.frontend.model.Entries")
-	public Response getFeedEntries(
-			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
-			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("unread") @QueryParam("readType") ReadType readType,
-			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
-			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
-			@ApiParam(value = "limit for paging, default 20, maximum 50") @DefaultValue("20") @QueryParam("limit") int limit,
-			@ApiParam(value = "date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
+	public Response getFeedEntries(@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id, @ApiParam(
+			value = "all entries or only unread ones",
+			allowableValues = "all,unread",
+			required = true) @DefaultValue("unread") @QueryParam("readType") ReadType readType, @ApiParam(
+			value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
+			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset, @ApiParam(
+					value = "limit for paging, default 20, maximum 50") @DefaultValue("20") @QueryParam("limit") int limit, @ApiParam(
+					value = "date ordering",
+					allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
 
 		Preconditions.checkNotNull(id);
 		Preconditions.checkNotNull(readType);
@@ -141,27 +143,22 @@ public class FeedREST extends AbstractResourceREST {
 		Entries entries = new Entries();
 		boolean unreadOnly = readType == ReadType.unread;
 
-		Date newerThanDate = newerThan == null ? null : new Date(
-				Long.valueOf(newerThan));
+		Date newerThanDate = newerThan == null ? null : new Date(Long.valueOf(newerThan));
 
-		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
-				Long.valueOf(id));
+		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(), Long.valueOf(id));
 		if (subscription != null) {
 			entries.setName(subscription.getTitle());
 			entries.setMessage(subscription.getFeed().getMessage());
 			entries.setErrorCount(subscription.getFeed().getErrorCount());
 			entries.setFeedLink(subscription.getFeed().getLink());
 
-			List<FeedEntryStatus> list = feedEntryStatusDAO
-					.findBySubscriptions(Arrays.asList(subscription),
-							unreadOnly, null, newerThanDate, offset, limit + 1,
-							order, true);
+			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(Arrays.asList(subscription), unreadOnly, null,
+					newerThanDate, offset, limit + 1, order, true);
 
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(
-						Entry.build(status, applicationSettingsService.get()
-								.getPublicUrl(), applicationSettingsService
-								.get().isImageProxyEnabled()));
+						Entry.build(status, applicationSettingsService.get().getPublicUrl(), applicationSettingsService.get()
+								.isImageProxyEnabled()));
 			}
 
 			boolean hasMore = entries.getEntries().size() > limit;
@@ -180,8 +177,7 @@ public class FeedREST extends AbstractResourceREST {
 	@ApiOperation(value = "Get feed entries as a feed", notes = "Get a feed of feed entries")
 	@Produces(MediaType.APPLICATION_XML)
 	@SecurityCheck(value = Role.USER, apiKeyAllowed = true)
-	public Response getFeedEntriesAsFeed(
-			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id) {
+	public Response getFeedEntriesAsFeed(@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id) {
 
 		Preconditions.checkNotNull(id);
 
@@ -190,8 +186,7 @@ public class FeedREST extends AbstractResourceREST {
 		int offset = 0;
 		int limit = 20;
 
-		Entries entries = (Entries) getFeedEntries(id, readType, null, offset,
-				limit, order).getEntity();
+		Entries entries = (Entries) getFeedEntries(id, readType, null, offset, limit, order).getEntity();
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("rss_2.0");
@@ -222,16 +217,13 @@ public class FeedREST extends AbstractResourceREST {
 		url = StringUtils.trimToEmpty(url);
 		url = prependHttp(url);
 		try {
-			FetchedFeed feed = feedFetcher.fetch(url, true, null, null, null,
-					null);
+			FetchedFeed feed = feedFetcher.fetch(url, true, null, null, null, null);
 			info = new FeedInfo();
 			info.setUrl(feed.getFeed().getUrl());
 			info.setTitle(feed.getTitle());
 
 		} catch (Exception e) {
-			throw new WebApplicationException(e, Response
-					.status(Status.INTERNAL_SERVER_ERROR)
-					.entity(e.getMessage()).build());
+			throw new WebApplicationException(e, Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
 		return info;
 	}
@@ -239,8 +231,7 @@ public class FeedREST extends AbstractResourceREST {
 	@POST
 	@Path("/fetch")
 	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", responseClass = "com.commafeed.frontend.model.FeedInfo")
-	public Response fetchFeed(
-			@ApiParam(value = "feed url", required = true) FeedInfoRequest req) {
+	public Response fetchFeed(@ApiParam(value = "feed url", required = true) FeedInfoRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getUrl());
 
@@ -248,8 +239,7 @@ public class FeedREST extends AbstractResourceREST {
 		try {
 			info = fetchFeedInternal(req.getUrl());
 		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR)
-					.entity(e.getMessage()).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 		return Response.ok(info).build();
 	}
@@ -262,8 +252,7 @@ public class FeedREST extends AbstractResourceREST {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
-		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(),
-				req.getId());
+		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(), req.getId());
 		if (sub != null) {
 			Feed feed = sub.getFeed();
 			feed.setUrgent(true);
@@ -277,19 +266,15 @@ public class FeedREST extends AbstractResourceREST {
 	@Path("/mark")
 	@POST
 	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read (unread is not supported)")
-	public Response markFeedEntries(
-			@ApiParam(value = "Mark request") MarkRequest req) {
+	public Response markFeedEntries(@ApiParam(value = "Mark request") MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
-		Date olderThan = req.getOlderThan() == null ? null : new Date(
-				req.getOlderThan());
+		Date olderThan = req.getOlderThan() == null ? null : new Date(req.getOlderThan());
 
-		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
-				Long.valueOf(req.getId()));
+		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(), Long.valueOf(req.getId()));
 		if (subscription != null) {
-			feedEntryStatusDAO.markSubscriptionEntries(
-					Arrays.asList(subscription), olderThan);
+			feedEntryStatusDAO.markSubscriptionEntries(Arrays.asList(subscription), olderThan);
 		}
 		cache.invalidateUserData(getUser());
 		return Response.ok(Status.OK).build();
@@ -298,33 +283,27 @@ public class FeedREST extends AbstractResourceREST {
 	@GET
 	@Path("/get/{id}")
 	@ApiOperation(value = "", notes = "")
-	public Response get(
-			@ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
+	public Response get(@ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
 		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(), id);
 		if (sub == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		Long unreadCount = feedSubscriptionService.getUnreadCount(getUser())
-				.get(id);
+		Long unreadCount = feedSubscriptionService.getUnreadCount(getUser()).get(id);
 		if (unreadCount == null) {
 			unreadCount = new Long(0);
 		}
-		return Response.ok(
-				Subscription.build(sub, applicationSettingsService.get()
-						.getPublicUrl(), unreadCount)).build();
+		return Response.ok(Subscription.build(sub, applicationSettingsService.get().getPublicUrl(), unreadCount)).build();
 	}
 
 	@GET
 	@Path("/favicon/{id}")
 	@ApiOperation(value = "Fetch a feed's icon", notes = "Fetch a feed's icon")
-	public Response getFavicon(
-			@ApiParam(value = "subscription id") @PathParam("id") Long id) {
+	public Response getFavicon(@ApiParam(value = "subscription id") @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
-		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
-				id);
+		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(), id);
 		if (subscription == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -334,11 +313,8 @@ public class FeedREST extends AbstractResourceREST {
 
 		ResponseBuilder builder = null;
 		if (icon == null) {
-			String baseUrl = FeedUtils
-					.removeTrailingSlash(applicationSettingsService.get()
-							.getPublicUrl());
-			builder = Response.status(Status.MOVED_PERMANENTLY).location(
-					URI.create(baseUrl + "/images/default_favicon.gif"));
+			String baseUrl = FeedUtils.removeTrailingSlash(applicationSettingsService.get().getPublicUrl());
+			builder = Response.status(Status.MOVED_PERMANENTLY).location(URI.create(baseUrl + "/images/default_favicon.gif"));
 		} else {
 			builder = Response.ok(icon, "image/x-icon");
 		}
@@ -360,8 +336,7 @@ public class FeedREST extends AbstractResourceREST {
 	@POST
 	@Path("/subscribe")
 	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
-	public Response subscribe(
-			@ApiParam(value = "subscription request", required = true) SubscribeRequest req) {
+	public Response subscribe(@ApiParam(value = "subscription request", required = true) SubscribeRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getTitle());
 		Preconditions.checkNotNull(req.getUrl());
@@ -370,18 +345,13 @@ public class FeedREST extends AbstractResourceREST {
 		try {
 			url = fetchFeedInternal(url).getUrl();
 
-			FeedCategory category = CategoryREST.ALL
-					.equals(req.getCategoryId()) ? null : feedCategoryDAO
-					.findById(Long.valueOf(req.getCategoryId()));
+			FeedCategory category = CategoryREST.ALL.equals(req.getCategoryId()) ? null : feedCategoryDAO.findById(Long.valueOf(req
+					.getCategoryId()));
 			FeedInfo info = fetchFeedInternal(url);
-			feedSubscriptionService.subscribe(getUser(), info.getUrl(),
-					req.getTitle(), category);
+			feedSubscriptionService.subscribe(getUser(), info.getUrl(), req.getTitle(), category);
 		} catch (Exception e) {
 			log.info("Failed to subscribe to URL {}: {}", url, e.getMessage());
-			return Response
-					.status(Status.SERVICE_UNAVAILABLE)
-					.entity("Failed to subscribe to URL " + url + ": "
-							+ e.getMessage()).build();
+			return Response.status(Status.SERVICE_UNAVAILABLE).entity("Failed to subscribe to URL " + url + ": " + e.getMessage()).build();
 		}
 		cache.invalidateUserData(getUser());
 		return Response.ok(Status.OK).build();
@@ -390,8 +360,7 @@ public class FeedREST extends AbstractResourceREST {
 	@GET
 	@Path("/subscribe")
 	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
-	public Response subscribe(
-			@ApiParam(value = "feed url", required = true) @QueryParam("url") String url) {
+	public Response subscribe(@ApiParam(value = "feed url", required = true) @QueryParam("url") String url) {
 
 		try {
 			Preconditions.checkNotNull(url);
@@ -400,14 +369,11 @@ public class FeedREST extends AbstractResourceREST {
 			url = fetchFeedInternal(url).getUrl();
 
 			FeedInfo info = fetchFeedInternal(url);
-			feedSubscriptionService.subscribe(getUser(), info.getUrl(),
-					info.getTitle(), null);
+			feedSubscriptionService.subscribe(getUser(), info.getUrl(), info.getTitle(), null);
 		} catch (Exception e) {
 			log.info("Could not subscribe to url {} : {}", url, e.getMessage());
 		}
-		return Response.temporaryRedirect(
-				URI.create(applicationSettingsService.get().getPublicUrl()))
-				.build();
+		return Response.temporaryRedirect(URI.create(applicationSettingsService.get().getPublicUrl())).build();
 	}
 
 	private String prependHttp(String url) {
@@ -424,8 +390,7 @@ public class FeedREST extends AbstractResourceREST {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
-		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(),
-				req.getId());
+		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(), req.getId());
 		if (sub != null) {
 			feedSubscriptionDAO.delete(sub);
 			cache.invalidateUserData(getUser());
@@ -438,41 +403,34 @@ public class FeedREST extends AbstractResourceREST {
 	@POST
 	@Path("/modify")
 	@ApiOperation(value = "Modify a subscription", notes = "Modify a feed subscription")
-	public Response modify(
-			@ApiParam(value = "subscription id", required = true) FeedModificationRequest req) {
+	public Response modify(@ApiParam(value = "subscription id", required = true) FeedModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
-		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(),
-				req.getId());
+		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(), req.getId());
 
 		if (StringUtils.isNotBlank(req.getName())) {
 			subscription.setTitle(req.getName());
 		}
 
 		FeedCategory parent = null;
-		if (req.getCategoryId() != null
-				&& !CategoryREST.ALL.equals(req.getCategoryId())) {
-			parent = feedCategoryDAO.findById(getUser(),
-					Long.valueOf(req.getCategoryId()));
+		if (req.getCategoryId() != null && !CategoryREST.ALL.equals(req.getCategoryId())) {
+			parent = feedCategoryDAO.findById(getUser(), Long.valueOf(req.getCategoryId()));
 		}
 		subscription.setCategory(parent);
 
 		if (req.getPosition() != null) {
-			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategory(
-					getUser(), parent);
+			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategory(getUser(), parent);
 			Collections.sort(subs, new Comparator<FeedSubscription>() {
 				@Override
 				public int compare(FeedSubscription o1, FeedSubscription o2) {
-					return ObjectUtils.compare(o1.getPosition(),
-							o2.getPosition());
+					return ObjectUtils.compare(o1.getPosition(), o2.getPosition());
 				}
 			});
 
 			int existingIndex = -1;
 			for (int i = 0; i < subs.size(); i++) {
-				if (ObjectUtils.equals(subs.get(i).getId(),
-						subscription.getId())) {
+				if (ObjectUtils.equals(subs.get(i).getId(), subscription.getId())) {
 					existingIndex = i;
 				}
 			}
@@ -500,22 +458,19 @@ public class FeedREST extends AbstractResourceREST {
 
 		String publicUrl = applicationSettingsService.get().getPublicUrl();
 		if (StringUtils.isBlank(publicUrl)) {
-			throw new WebApplicationException(Response
-					.status(Status.INTERNAL_SERVER_ERROR)
+			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR)
 					.entity("Set the public URL in the admin section.").build());
 		}
 
 		if (StartupBean.USERNAME_DEMO.equals(getUser().getName())) {
-			return Response.status(Status.FORBIDDEN)
-					.entity("Import is disabled for the demo account").build();
+			return Response.status(Status.FORBIDDEN).entity("Import is disabled for the demo account").build();
 		}
 		try {
 			FileItemFactory factory = new DiskFileItemFactory(1000000, null);
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			for (FileItem item : upload.parseRequest(request)) {
 				if ("file".equals(item.getFieldName())) {
-					String opml = IOUtils.toString(item.getInputStream(),
-							"UTF-8");
+					String opml = IOUtils.toString(item.getInputStream(), "UTF-8");
 					if (StringUtils.isNotBlank(opml)) {
 						opmlImporter.importOpml(getUser(), opml);
 					}
@@ -523,14 +478,10 @@ public class FeedREST extends AbstractResourceREST {
 				}
 			}
 		} catch (Exception e) {
-			throw new WebApplicationException(Response
-					.status(Status.INTERNAL_SERVER_ERROR)
-					.entity(e.getMessage()).build());
+			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
 		cache.invalidateUserData(getUser());
-		return Response.temporaryRedirect(
-				URI.create(applicationSettingsService.get().getPublicUrl()))
-				.build();
+		return Response.temporaryRedirect(URI.create(applicationSettingsService.get().getPublicUrl())).build();
 	}
 
 	@GET
@@ -544,8 +495,7 @@ public class FeedREST extends AbstractResourceREST {
 		try {
 			opmlString = output.outputString(opml);
 		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e)
-					.build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e).build();
 		}
 		return Response.ok(opmlString).build();
 	}

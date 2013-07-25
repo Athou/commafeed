@@ -79,8 +79,7 @@ public class StartupBean {
 			IOUtils.closeQuietly(is);
 		}
 		for (Object key : props.keySet()) {
-			supportedLanguages.put(key.toString(),
-					props.getProperty(key.toString()));
+			supportedLanguages.put(key.toString(), props.getProperty(key.toString()));
 		}
 	}
 
@@ -92,11 +91,8 @@ public class StartupBean {
 		applicationSettingsService.save(settings);
 
 		try {
-			userService.register(USERNAME_ADMIN, "admin",
-					"admin@commafeed.com",
-					Arrays.asList(Role.ADMIN, Role.USER), true);
-			userService.register(USERNAME_DEMO, "demo", "demo@commafeed.com",
-					Arrays.asList(Role.USER), true);
+			userService.register(USERNAME_ADMIN, "admin", "admin@commafeed.com", Arrays.asList(Role.ADMIN, Role.USER), true);
+			userService.register(USERNAME_DEMO, "demo", "demo@commafeed.com", Arrays.asList(Role.USER), true);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

@@ -136,8 +136,7 @@ public class Feed extends AbstractModel {
 	private Date pushLastPing;
 
 	/**
-	 * Denotes a feed that needs to be refreshed before others. Currently used
-	 * when a feed is queued manually for refresh. Not persisted.
+	 * Denotes a feed that needs to be refreshed before others. Currently used when a feed is queued manually for refresh. Not persisted.
 	 */
 	@Transient
 	private boolean urgent;

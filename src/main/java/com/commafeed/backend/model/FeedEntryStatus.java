@@ -56,8 +56,7 @@ public class FeedEntryStatus extends AbstractModel {
 
 	}
 
-	public FeedEntryStatus(User user, FeedSubscription subscription,
-			FeedEntry entry) {
+	public FeedEntryStatus(User user, FeedSubscription subscription, FeedEntry entry) {
 		setUser(user);
 		setSubscription(subscription);
 		setEntry(entry);

@@ -55,8 +55,7 @@ public class User extends AbstractModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date recoverPasswordTokenDate;
 
-	@OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST,
-			CascadeType.REMOVE })
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
 	private Set<UserRole> roles = Sets.newHashSet();
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

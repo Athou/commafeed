@@ -17,14 +17,13 @@ public abstract class CacheService {
 	public abstract void setLastEntries(Feed feed, List<String> entries);
 
 	public String buildUniqueEntryKey(Feed feed, FeedEntry entry) {
-		return DigestUtils.sha1Hex(entry.getGuid() +
-				entry.getUrl());
+		return DigestUtils.sha1Hex(entry.getGuid() + entry.getUrl());
 	}
 
 	public abstract Category getRootCategory(User user);
 
 	public abstract void setRootCategory(User user, Category category);
-	
+
 	public abstract Map<Long, Long> getUnreadCounts(User user);
 
 	public abstract void setUnreadCounts(User user, Map<Long, Long> map);

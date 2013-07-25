@@ -33,12 +33,10 @@ public class FeedParser {
 	private static Logger log = LoggerFactory.getLogger(FeedParser.class);
 
 	private static final String ATOM_10_URI = "http://www.w3.org/2005/Atom";
-	private static final Namespace ATOM_10_NS = Namespace
-			.getNamespace(ATOM_10_URI);
+	private static final Namespace ATOM_10_NS = Namespace.getNamespace(ATOM_10_URI);
 
 	private static final Date START = new Date(86400000);
-	private static final Date END = new Date(
-			1000l * Integer.MAX_VALUE - 86400000);
+	private static final Date END = new Date(1000l * Integer.MAX_VALUE - 86400000);
 
 	private static final Function<SyndContent, String> CONTENT_TO_STRING = new Function<SyndContent, String>() {
 		public String apply(SyndContent content) {
@@ -55,11 +53,9 @@ public class FeedParser {
 
 		try {
 			String encoding = FeedUtils.guessEncoding(xml);
-			String xmlString = FeedUtils.trimInvalidXmlCharacters(new String(
-					xml, encoding));
+			String xmlString = FeedUtils.trimInvalidXmlCharacters(new String(xml, encoding));
 			if (xmlString == null) {
-				throw new FeedException("Input string is null for url "
-						+ feedUrl);
+				throw new FeedException("Input string is null for url " + feedUrl);
 			}
 			InputSource source = new InputSource(new StringReader(xmlString));
 			SyndFeed rss = new SyndFeedInput().build(source);
@@ -88,20 +84,16 @@ public class FeedParser {
 					continue;
 				}
 				entry.setGuid(FeedUtils.truncate(guid, 2048));
-				entry.setUrl(FeedUtils.truncate(
-						FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink()),
-						2048));
+				entry.setUrl(FeedUtils.truncate(FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink()), 2048));
 				entry.setUpdated(validateDate(getEntryUpdateDate(item), true));
 
 				FeedEntryContent content = new FeedEntryContent();
 				content.setContent(getContent(item));
 				content.setTitle(getTitle(item));
 				content.setAuthor(item.getAuthor());
-				SyndEnclosure enclosure = (SyndEnclosure) Iterables.getFirst(
-						item.getEnclosures(), null);
+				SyndEnclosure enclosure = (SyndEnclosure) Iterables.getFirst(item.getEnclosures(), null);
 				if (enclosure != null) {
-					content.setEnclosureUrl(FeedUtils.truncate(
-							enclosure.getUrl(), 2048));
+					content.setEnclosureUrl(FeedUtils.truncate(enclosure.getUrl(), 2048));
 					content.setEnclosureType(enclosure.getType());
 				}
 				entry.setContent(content);
@@ -111,21 +103,17 @@ public class FeedParser {
 			Date lastEntryDate = null;
 			Date publishedDate = validateDate(rss.getPublishedDate(), false);
 			if (!entries.isEmpty()) {
-				List<Long> sortedTimestamps = FeedUtils
-						.getSortedTimestamps(entries);
+				List<Long> sortedTimestamps = FeedUtils.getSortedTimestamps(entries);
 				Long timestamp = sortedTimestamps.get(0);
 				lastEntryDate = new Date(timestamp);
 				publishedDate = getFeedPublishedDate(publishedDate, entries);
 			}
 			feed.setLastPublishedDate(validateDate(publishedDate, true));
-			feed.setAverageEntryInterval(FeedUtils
-					.averageTimeBetweenEntries(entries));
+			feed.setAverageEntryInterval(FeedUtils.averageTimeBetweenEntries(entries));
 			feed.setLastEntryDate(lastEntryDate);
 
 		} catch (Exception e) {
-			throw new FeedException(String.format(
-					"Could not parse feed from %s : %s", feedUrl,
-					e.getMessage()), e);
+			throw new FeedException(String.format("Could not parse feed from %s : %s", feedUrl, e.getMessage()), e);
 		}
 		return fetchedFeed;
 	}
@@ -144,8 +132,7 @@ public class FeedParser {
 			for (Object object : elements) {
 				if (object instanceof Element) {
 					Element element = (Element) object;
-					if ("link".equals(element.getName())
-							&& ATOM_10_NS.equals(element.getNamespace())) {
+					if ("link".equals(element.getName()) && ATOM_10_NS.equals(element.getNamespace())) {
 						SyndLink link = new SyndLinkImpl();
 						link.setRel(element.getAttributeValue("rel"));
 						link.setHref(element.getAttributeValue("href"));
@@ -156,8 +143,7 @@ public class FeedParser {
 		}
 	}
 
-	private Date getFeedPublishedDate(Date publishedDate,
-			List<FeedEntry> entries) {
+	private Date getFeedPublishedDate(Date publishedDate, List<FeedEntry> entries) {
 
 		for (FeedEntry entry : entries) {
 			if (publishedDate == null || entry.getUpdated().getTime() > publishedDate.getTime()) {
@@ -197,12 +183,9 @@ public class FeedParser {
 	private String getContent(SyndEntry item) {
 		String content = null;
 		if (item.getContents().isEmpty()) {
-			content = item.getDescription() == null ? null : item
-					.getDescription().getValue();
+			content = item.getDescription() == null ? null : item.getDescription().getValue();
 		} else {
-			content = StringUtils.join(Collections2.transform(
-					item.getContents(), CONTENT_TO_STRING),
-					SystemUtils.LINE_SEPARATOR);
+			content = StringUtils.join(Collections2.transform(item.getContents(), CONTENT_TO_STRING), SystemUtils.LINE_SEPARATOR);
 		}
 		return StringUtils.trimToEmpty(content);
 	}
@@ -224,8 +207,7 @@ public class FeedParser {
 	private String findHub(SyndFeed feed) {
 		for (SyndLink l : (List<SyndLink>) feed.getLinks()) {
 			if ("hub".equalsIgnoreCase(l.getRel())) {
-				log.debug("found hub {} for feed {}", l.getHref(),
-						feed.getLink());
+				log.debug("found hub {} for feed {}", l.getHref(), feed.getLink());
 				return l.getHref();
 			}
 		}
@@ -236,8 +218,7 @@ public class FeedParser {
 	private String findSelf(SyndFeed feed) {
 		for (SyndLink l : (List<SyndLink>) feed.getLinks()) {
 			if ("self".equalsIgnoreCase(l.getRel())) {
-				log.debug("found self {} for feed {}", l.getHref(),
-						feed.getLink());
+				log.debug("found self {} for feed {}", l.getHref(), feed.getLink());
 				return l.getHref();
 			}
 		}

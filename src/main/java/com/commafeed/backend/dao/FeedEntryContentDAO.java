@@ -24,22 +24,19 @@ public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 		CriteriaQuery<FeedEntryContent> query = builder.createQuery(getType());
 		Root<FeedEntryContent> root = query.from(getType());
 
-		Predicate p1 = builder.equal(root.get(FeedEntryContent_.contentHash),
-				DigestUtils.sha1Hex(content.getContent()));
+		Predicate p1 = builder.equal(root.get(FeedEntryContent_.contentHash), DigestUtils.sha1Hex(content.getContent()));
 		Predicate p2 = null;
 		if (content.getTitle() == null) {
 			p2 = builder.isNull(root.get(FeedEntryContent_.title));
 		} else {
-			p2 = builder.equal(root.get(FeedEntryContent_.title),
-					content.getTitle());
+			p2 = builder.equal(root.get(FeedEntryContent_.title), content.getTitle());
 		}
 
 		Predicate p3 = null;
 		if (content.getAuthor() == null) {
 			p3 = builder.isNull(root.get(FeedEntryContent_.author));
 		} else {
-			p3 = builder.equal(root.get(FeedEntryContent_.author),
-					content.getAuthor());
+			p3 = builder.equal(root.get(FeedEntryContent_.author), content.getAuthor());
 		}
 
 		query.where(p1, p2, p3);
@@ -52,8 +49,7 @@ public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 		CriteriaQuery<FeedEntryContent> query = builder.createQuery(getType());
 		Root<FeedEntryContent> root = query.from(getType());
 
-		Join<FeedEntryContent, FeedEntry> join = root.join(
-				FeedEntryContent_.entries, JoinType.LEFT);
+		Join<FeedEntryContent, FeedEntry> join = root.join(FeedEntryContent_.entries, JoinType.LEFT);
 		query.where(builder.isNull(join.get(FeedEntry_.id)));
 		TypedQuery<FeedEntryContent> q = em.createQuery(query);
 		q.setMaxResults(max);

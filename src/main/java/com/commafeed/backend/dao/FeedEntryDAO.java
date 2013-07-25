@@ -26,19 +26,16 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
-	protected static final Logger log = LoggerFactory
-			.getLogger(FeedEntryDAO.class);
+	protected static final Logger log = LoggerFactory.getLogger(FeedEntryDAO.class);
 
 	public FeedEntry findExisting(String guid, String url, Long feedId) {
 
 		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
 		Root<FeedEntry> root = query.from(getType());
 
-		Predicate p1 = builder.equal(root.get(FeedEntry_.guidHash),
-				DigestUtils.sha1Hex(guid));
+		Predicate p1 = builder.equal(root.get(FeedEntry_.guidHash), DigestUtils.sha1Hex(guid));
 		Predicate p2 = builder.equal(root.get(FeedEntry_.url), url);
-		Predicate p3 = builder.equal(root.get(FeedEntry_.feed).get(Feed_.id),
-				feedId);
+		Predicate p3 = builder.equal(root.get(FeedEntry_.feed).get(Feed_.id), feedId);
 
 		query.where(p1, p2, p3);
 

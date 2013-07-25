@@ -17,16 +17,12 @@ import org.apache.wicket.util.template.PackageTextTemplate;
 
 public class WicketUtils {
 
-	public static void loadJS(IHeaderResponse response, Class<?> klass,
-			String fileName) {
-		HeaderItem result = JavaScriptHeaderItem
-				.forReference(new JavaScriptResourceReference(klass, fileName
-						+ ".js"));
+	public static void loadJS(IHeaderResponse response, Class<?> klass, String fileName) {
+		HeaderItem result = JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(klass, fileName + ".js"));
 		response.render(result);
 	}
 
-	public static void loadJS(IHeaderResponse response, Class<?> klass,
-			String fileName, Map<String, ? extends Object> variables) {
+	public static void loadJS(IHeaderResponse response, Class<?> klass, String fileName, Map<String, ? extends Object> variables) {
 		HeaderItem result = null;
 		PackageTextTemplate template = null;
 		try {
@@ -40,14 +36,12 @@ public class WicketUtils {
 	}
 
 	public static HttpServletRequest getHttpServletRequest() {
-		ServletWebRequest servletWebRequest = (ServletWebRequest) RequestCycle
-				.get().getRequest();
+		ServletWebRequest servletWebRequest = (ServletWebRequest) RequestCycle.get().getRequest();
 		return servletWebRequest.getContainerRequest();
 	}
 
 	public static HttpServletResponse getHttpServletResponse() {
-		WebResponse webResponse = (WebResponse) RequestCycle.get()
-				.getResponse();
+		WebResponse webResponse = (WebResponse) RequestCycle.get().getResponse();
 		return (HttpServletResponse) webResponse.getContainerResponse();
 	}
 }

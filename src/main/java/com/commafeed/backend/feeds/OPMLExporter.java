@@ -28,13 +28,11 @@ public class OPMLExporter {
 	public Opml export(User user) {
 		Opml opml = new Opml();
 		opml.setFeedType("opml_1.1");
-		opml.setTitle(String.format("%s subscriptions in CommaFeed",
-				user.getName()));
+		opml.setTitle(String.format("%s subscriptions in CommaFeed", user.getName()));
 		opml.setCreated(new Date());
 
 		List<FeedCategory> categories = feedCategoryDAO.findAll(user);
-		List<FeedSubscription> subscriptions = feedSubscriptionDAO
-				.findAll(user);
+		List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
 
 		for (FeedCategory cat : categories) {
 			opml.getOutlines().add(buildCategoryOutline(cat, subscriptions));
@@ -50,20 +48,17 @@ public class OPMLExporter {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Outline buildCategoryOutline(FeedCategory cat,
-			List<FeedSubscription> subscriptions) {
+	private Outline buildCategoryOutline(FeedCategory cat, List<FeedSubscription> subscriptions) {
 		Outline outline = new Outline();
 		outline.setText(cat.getName());
 		outline.setTitle(cat.getName());
 
 		for (FeedCategory child : cat.getChildren()) {
-			outline.getChildren().add(
-					buildCategoryOutline(child, subscriptions));
+			outline.getChildren().add(buildCategoryOutline(child, subscriptions));
 		}
 
 		for (FeedSubscription sub : subscriptions) {
-			if (sub.getCategory() != null
-					&& sub.getCategory().getId().equals(cat.getId())) {
+			if (sub.getCategory() != null && sub.getCategory().getId().equals(cat.getId())) {
 				outline.getChildren().add(buildSubscriptionOutline(sub));
 			}
 		}
@@ -76,11 +71,9 @@ public class OPMLExporter {
 		outline.setText(sub.getTitle());
 		outline.setTitle(sub.getTitle());
 		outline.setType("rss");
-		outline.getAttributes().add(
-				new Attribute("xmlUrl", sub.getFeed().getUrl()));
+		outline.getAttributes().add(new Attribute("xmlUrl", sub.getFeed().getUrl()));
 		if (sub.getFeed().getLink() != null) {
-			outline.getAttributes().add(
-					new Attribute("htmlUrl", sub.getFeed().getLink()));
+			outline.getAttributes().add(new Attribute("htmlUrl", sub.getFeed().getLink()));
 		}
 		return outline;
 	}

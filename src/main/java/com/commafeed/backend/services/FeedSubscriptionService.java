@@ -25,8 +25,7 @@ import com.google.api.client.util.Maps;
 
 public class FeedSubscriptionService {
 
-	private static Logger log = LoggerFactory
-			.getLogger(FeedSubscriptionService.class);
+	private static Logger log = LoggerFactory.getLogger(FeedSubscriptionService.class);
 
 	@SuppressWarnings("serial")
 	@ApplicationException
@@ -57,17 +56,14 @@ public class FeedSubscriptionService {
 	@Inject
 	CacheService cache;
 
-	public Feed subscribe(User user, String url, String title,
-			FeedCategory category) {
+	public Feed subscribe(User user, String url, String title, FeedCategory category) {
 
 		final String pubUrl = applicationSettingsService.get().getPublicUrl();
 		if (StringUtils.isBlank(pubUrl)) {
-			throw new FeedSubscriptionException(
-					"Public URL of this CommaFeed instance is not set");
+			throw new FeedSubscriptionException("Public URL of this CommaFeed instance is not set");
 		}
 		if (url.startsWith(pubUrl)) {
-			throw new FeedSubscriptionException(
-					"Could not subscribe to a feed from this CommaFeed instance");
+			throw new FeedSubscriptionException("Could not subscribe to a feed from this CommaFeed instance");
 		}
 
 		Feed feed = feedService.findOrCreate(url);

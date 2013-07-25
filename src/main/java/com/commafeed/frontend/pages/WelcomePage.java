@@ -15,16 +15,14 @@ public class WelcomePage extends BasePage {
 	ApplicationSettingsService applicationSettingsService;
 
 	public WelcomePage() {
-		add(new BookmarkablePageLink<Void>("logo-link", getApplication()
-				.getHomePage()));
+		add(new BookmarkablePageLink<Void>("logo-link", getApplication().getHomePage()));
 		add(new BookmarkablePageLink<Void>("demo-login", DemoLoginPage.class));
 		add(new LoginPanel("login"));
 		add(new RegisterPanel("register") {
 			@Override
 			protected void onConfigure() {
 				super.onConfigure();
-				setVisibilityAllowed(applicationSettingsService.get()
-						.isAllowRegistrations());
+				setVisibilityAllowed(applicationSettingsService.get().isAllowRegistrations());
 			}
 		});
 	}

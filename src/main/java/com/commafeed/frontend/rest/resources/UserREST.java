@@ -66,7 +66,10 @@ public class UserREST extends AbstractResourceREST {
 
 	@Path("/settings")
 	@GET
-	@ApiOperation(value = "Retrieve user settings", notes = "Retrieve user settings", responseClass = "com.commafeed.frontend.model.Settings")
+	@ApiOperation(
+			value = "Retrieve user settings",
+			notes = "Retrieve user settings",
+			responseClass = "com.commafeed.frontend.model.Settings")
 	public Response getSettings() {
 		Settings s = new Settings();
 		UserSettings settings = userSettingsDAO.findByUser(getUser());
@@ -149,16 +152,13 @@ public class UserREST extends AbstractResourceREST {
 	@Path("/profile")
 	@POST
 	@ApiOperation(value = "Save user's profile")
-	public Response save(
-			@ApiParam(required = true) ProfileModificationRequest request) {
+	public Response save(@ApiParam(required = true) ProfileModificationRequest request) {
 		User user = getUser();
 
-		Preconditions.checkArgument(StringUtils.isBlank(request.getPassword())
-				|| request.getPassword().length() >= 6);
+		Preconditions.checkArgument(StringUtils.isBlank(request.getPassword()) || request.getPassword().length() >= 6);
 		if (StringUtils.isNotBlank(request.getEmail())) {
 			User u = userDAO.findByEmail(request.getEmail());
-			Preconditions.checkArgument(u == null
-					|| user.getId().equals(u.getId()));
+			Preconditions.checkArgument(u == null || user.getId().equals(u.getId()));
 		}
 
 		if (StartupBean.USERNAME_DEMO.equals(user.getName())) {
@@ -167,8 +167,7 @@ public class UserREST extends AbstractResourceREST {
 
 		user.setEmail(StringUtils.trimToNull(request.getEmail()));
 		if (StringUtils.isNotBlank(request.getPassword())) {
-			byte[] password = encryptionService.getEncryptedPassword(
-					request.getPassword(), user.getSalt());
+			byte[] password = encryptionService.getEncryptedPassword(request.getPassword(), user.getSalt());
 			user.setPassword(password);
 			user.setApiKey(userService.generateApiKey(user));
 		}
@@ -185,12 +184,10 @@ public class UserREST extends AbstractResourceREST {
 	@SecurityCheck(Role.NONE)
 	public Response register(@ApiParam(required = true) RegistrationRequest req) {
 		try {
-			userService.register(req.getName(), req.getPassword(),
-					req.getEmail(), Arrays.asList(Role.USER));
+			userService.register(req.getName(), req.getPassword(), req.getEmail(), Arrays.asList(Role.USER));
 			return Response.ok().build();
 		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR)
-					.entity(e.getMessage()).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 
 	}
@@ -199,8 +196,7 @@ public class UserREST extends AbstractResourceREST {
 	@POST
 	@ApiOperation(value = "Delete the user account")
 	public Response delete() {
-		if (StartupBean.USERNAME_ADMIN.equals(getUser().getName())
-				|| StartupBean.USERNAME_DEMO.equals(getUser().getName())) {
+		if (StartupBean.USERNAME_ADMIN.equals(getUser().getName()) || StartupBean.USERNAME_DEMO.equals(getUser().getName())) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		userService.unregister(getUser());

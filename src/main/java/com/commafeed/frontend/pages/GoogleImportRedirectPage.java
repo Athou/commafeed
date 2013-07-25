@@ -15,8 +15,7 @@ import com.commafeed.backend.services.ApplicationSettingsService;
 @SuppressWarnings("serial")
 public class GoogleImportRedirectPage extends WebPage {
 
-	private static Logger log = Logger
-			.getLogger(GoogleImportRedirectPage.class);
+	private static Logger log = Logger.getLogger(GoogleImportRedirectPage.class);
 
 	private static final String SCOPE = "https://www.google.com/reader/subscriptions/export email profile";
 	private static final String AUTH_URL = "https://accounts.google.com/o/oauth2/auth";

@@ -63,13 +63,12 @@ public class OPMLImporter {
 			if (name == null) {
 				name = FeedUtils.truncate(outline.getTitle(), 128);
 			}
-			FeedCategory category = feedCategoryDAO.findByName(user, name,
-					parent);
+			FeedCategory category = feedCategoryDAO.findByName(user, name, parent);
 			if (category == null) {
 				if (StringUtils.isBlank(name)) {
 					name = "Unnamed category";
 				}
-				
+
 				category = new FeedCategory();
 				category.setName(name);
 				category.setParent(parent);
@@ -91,13 +90,11 @@ public class OPMLImporter {
 			}
 			// make sure we continue with the import process even a feed failed
 			try {
-				feedSubscriptionService.subscribe(user, outline.getXmlUrl(),
-						name, parent);
+				feedSubscriptionService.subscribe(user, outline.getXmlUrl(), name, parent);
 			} catch (FeedSubscriptionException e) {
 				throw e;
 			} catch (Exception e) {
-				log.error("error while importing {}: {}", outline.getXmlUrl(),
-						e.getMessage());
+				log.error("error while importing {}: {}", outline.getXmlUrl(), e.getMessage());
 			}
 		}
 		cache.invalidateUserData(user);

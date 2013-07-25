@@ -26,8 +26,7 @@ import com.google.common.collect.Lists;
 
 public class SubscriptionHandler {
 
-	private static Logger log = LoggerFactory
-			.getLogger(SubscriptionHandler.class);
+	private static Logger log = LoggerFactory.getLogger(SubscriptionHandler.class);
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
@@ -47,16 +46,13 @@ public class SubscriptionHandler {
 
 		String hub = feed.getPushHub();
 		String topic = feed.getPushTopic();
-		String publicUrl = FeedUtils
-				.removeTrailingSlash(applicationSettingsService.get()
-						.getPublicUrl());
+		String publicUrl = FeedUtils.removeTrailingSlash(applicationSettingsService.get().getPublicUrl());
 
 		log.debug("sending new pubsub subscription to {} for {}", hub, topic);
 
 		HttpPost post = new HttpPost(hub);
 		List<NameValuePair> nvp = Lists.newArrayList();
-		nvp.add(new BasicNameValuePair("hub.callback", publicUrl
-				+ "/rest/push/callback"));
+		nvp.add(new BasicNameValuePair("hub.callback", publicUrl + "/rest/push/callback"));
 		nvp.add(new BasicNameValuePair("hub.topic", topic));
 		nvp.add(new BasicNameValuePair("hub.mode", "subscribe"));
 		nvp.add(new BasicNameValuePair("hub.verify", "async"));
@@ -65,8 +61,7 @@ public class SubscriptionHandler {
 		nvp.add(new BasicNameValuePair("hub.lease_seconds", ""));
 
 		post.setHeader(HttpHeaders.USER_AGENT, "CommaFeed");
-		post.setHeader(HttpHeaders.CONTENT_TYPE,
-				MediaType.APPLICATION_FORM_URLENCODED);
+		post.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED);
 
 		HttpClient client = HttpGetter.newClient(20000);
 		try {
@@ -77,23 +72,19 @@ public class SubscriptionHandler {
 			if (code != 204 && code != 202 && code != 200) {
 				String message = EntityUtils.toString(response.getEntity());
 				String pushpressError = " is value is not allowed.  You may only subscribe to";
-				if (code == 400
-						&& StringUtils.contains(message, pushpressError)) {
+				if (code == 400 && StringUtils.contains(message, pushpressError)) {
 					String[] tokens = message.split(" ");
 					feed.setPushTopic(tokens[tokens.length - 1]);
 					taskGiver.giveBack(feed);
-					log.debug("handled pushpress subfeed {} : {}", topic,
-							feed.getPushTopic());
+					log.debug("handled pushpress subfeed {} : {}", topic, feed.getPushTopic());
 				} else {
-					throw new Exception("Unexpected response code: " + code
-							+ " " + response.getStatusLine().getReasonPhrase()
-							+ " - " + message);
+					throw new Exception("Unexpected response code: " + code + " " + response.getStatusLine().getReasonPhrase() + " - "
+							+ message);
 				}
 			}
 			log.debug("subscribed to {} for {}", hub, topic);
 		} catch (Exception e) {
-			log.error("Could not subscribe to {} for {} : " + e.getMessage(),
-					hub, topic);
+			log.error("Could not subscribe to {} for {} : " + e.getMessage(), hub, topic);
 		} finally {
 			client.getConnectionManager().shutdown();
 		}

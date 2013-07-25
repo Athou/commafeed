@@ -7,7 +7,7 @@ import ro.isdc.wro.model.resource.processor.ResourcePreProcessor;
 
 /**
  * Runtime solution
- *
+ * 
  */
 public class WroManagerFactory extends ConfigurableWroManagerFactory {
 

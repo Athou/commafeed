@@ -23,10 +23,8 @@ public class FeedEntryService {
 	@Inject
 	FeedEntryDAO feedEntryDAO;
 
-	public void markEntry(User user, Long entryId, Long subscriptionId,
-			boolean read) {
-		FeedSubscription sub = feedSubscriptionDAO.findById(user,
-				subscriptionId);
+	public void markEntry(User user, Long entryId, Long subscriptionId, boolean read) {
+		FeedSubscription sub = feedSubscriptionDAO.findById(user, subscriptionId);
 		if (sub == null) {
 			return;
 		}
@@ -43,11 +41,9 @@ public class FeedEntryService {
 		}
 	}
 
-	public void starEntry(User user, Long entryId, Long subscriptionId,
-			boolean starred) {
+	public void starEntry(User user, Long entryId, Long subscriptionId, boolean starred) {
 
-		FeedSubscription sub = feedSubscriptionDAO.findById(user,
-				subscriptionId);
+		FeedSubscription sub = feedSubscriptionDAO.findById(user, subscriptionId);
 		if (sub == null) {
 			return;
 		}

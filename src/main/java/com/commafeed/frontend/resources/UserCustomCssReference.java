@@ -24,10 +24,8 @@ public abstract class UserCustomCssReference extends ResourceReference {
 				resourceResponse.setTextEncoding("UTF-8");
 				resourceResponse.setWriteCallback(new WriteCallback() {
 					@Override
-					public void writeData(Attributes attributes)
-							throws IOException {
-						attributes.getResponse().write(
-								StringUtils.trimToEmpty(getCss()));
+					public void writeData(Attributes attributes) throws IOException {
+						attributes.getResponse().write(StringUtils.trimToEmpty(getCss()));
 					}
 				});
 				return resourceResponse;

@@ -4,8 +4,7 @@ import org.jdom.Element;
 
 import com.sun.syndication.feed.opml.Opml;
 
-public class OPML11Generator extends
-		com.sun.syndication.io.impl.OPML10Generator {
+public class OPML11Generator extends com.sun.syndication.io.impl.OPML10Generator {
 
 	public OPML11Generator() {
 		super("opml_1.1");

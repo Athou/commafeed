@@ -24,7 +24,9 @@ public class MarkRequest implements Serializable {
 	@ApiProperty(value = "mark as read or unread")
 	private boolean read;
 
-	@ApiProperty(value = "only entries older than this, pass the timestamp you got from the entry list to prevent marking an entry that was not retrieved", required = false)
+	@ApiProperty(
+			value = "only entries older than this, pass the timestamp you got from the entry list to prevent marking an entry that was not retrieved",
+			required = false)
 	private Long olderThan;
 
 	public String getId() {

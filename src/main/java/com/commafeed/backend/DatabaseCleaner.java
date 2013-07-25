@@ -29,7 +29,7 @@ public class DatabaseCleaner {
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
-	
+
 	@Inject
 	FeedEntryContentDAO feedEntryContentDAO;
 

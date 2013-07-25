@@ -38,8 +38,7 @@ import com.google.common.util.concurrent.Striped;
 @ApplicationScoped
 public class FeedRefreshUpdater {
 
-	protected static Logger log = LoggerFactory
-			.getLogger(FeedRefreshUpdater.class);
+	protected static Logger log = LoggerFactory.getLogger(FeedRefreshUpdater.class);
 
 	@Inject
 	FeedUpdateService feedUpdateService;
@@ -75,8 +74,7 @@ public class FeedRefreshUpdater {
 	public void init() {
 		ApplicationSettings settings = applicationSettingsService.get();
 		int threads = Math.max(settings.getDatabaseUpdateThreads(), 1);
-		pool = new FeedRefreshExecutor("feed-refresh-updater", threads,
-				500 * threads);
+		pool = new FeedRefreshExecutor("feed-refresh-updater", threads, 500 * threads);
 		locks = Striped.lazyWeakLock(threads * 100000);
 	}
 
@@ -113,8 +111,7 @@ public class FeedRefreshUpdater {
 					if (!lastEntries.contains(cacheKey)) {
 						log.debug("cache miss for {}", entry.getUrl());
 						if (subscriptions == null) {
-							subscriptions = feedSubscriptionDAO
-									.findByFeed(feed);
+							subscriptions = feedSubscriptionDAO.findByFeed(feed);
 						}
 						ok &= addEntry(feed, entry, subscriptions);
 						metricsBean.entryCacheMiss();
@@ -143,8 +140,7 @@ public class FeedRefreshUpdater {
 		}
 	}
 
-	private boolean addEntry(final Feed feed, final FeedEntry entry,
-			final List<FeedSubscription> subscriptions) {
+	private boolean addEntry(final Feed feed, final FeedEntry entry, final List<FeedSubscription> subscriptions) {
 		boolean success = false;
 
 		// lock on feed, make sure we are not updating the same feed twice at
@@ -155,8 +151,7 @@ public class FeedRefreshUpdater {
 		// twice at the same time
 		String key2 = DigestUtils.sha1Hex(entry.getContent().getContent());
 
-		Iterator<Lock> iterator = locks.bulkGet(Arrays.asList(key1, key2))
-				.iterator();
+		Iterator<Lock> iterator = locks.bulkGet(Arrays.asList(key1, key2)).iterator();
 		Lock lock1 = iterator.next();
 		Lock lock2 = iterator.next();
 		boolean locked1 = false;
@@ -171,8 +166,7 @@ public class FeedRefreshUpdater {
 				log.error("lock timeout for " + feed.getUrl() + " - " + key1);
 			}
 		} catch (InterruptedException e) {
-			log.error("interrupted while waiting for lock for " + feed.getUrl()
-					+ " : " + e.getMessage(), e);
+			log.error("interrupted while waiting for lock for " + feed.getUrl() + " : " + e.getMessage(), e);
 		} finally {
 			if (locked1) {
 				lock1.unlock();

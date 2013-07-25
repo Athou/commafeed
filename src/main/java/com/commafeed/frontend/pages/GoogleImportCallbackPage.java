@@ -55,8 +55,7 @@ public class GoogleImportCallbackPage extends WebPage {
 		if (request.getQueryString() != null) {
 			urlBuffer.append('?').append(request.getQueryString());
 		}
-		AuthorizationCodeResponseUrl responseUrl = new AuthorizationCodeResponseUrl(
-				urlBuffer.toString());
+		AuthorizationCodeResponseUrl responseUrl = new AuthorizationCodeResponseUrl(urlBuffer.toString());
 		String code = responseUrl.getCode();
 
 		if (responseUrl.getError() != null) {
@@ -73,8 +72,8 @@ public class GoogleImportCallbackPage extends WebPage {
 			HttpTransport httpTransport = new NetHttpTransport();
 			JacksonFactory jsonFactory = new JacksonFactory();
 
-			AuthorizationCodeTokenRequest tokenRequest = new AuthorizationCodeTokenRequest(
-					httpTransport, jsonFactory, new GenericUrl(TOKEN_URL), code);
+			AuthorizationCodeTokenRequest tokenRequest = new AuthorizationCodeTokenRequest(httpTransport, jsonFactory, new GenericUrl(
+					TOKEN_URL), code);
 			tokenRequest.setRedirectUri(redirectUri);
 			tokenRequest.put("client_id", clientId);
 			tokenRequest.put("client_secret", clientSecret);
@@ -87,16 +86,13 @@ public class GoogleImportCallbackPage extends WebPage {
 				TokenResponse tokenResponse = tokenRequest.execute();
 				String accessToken = tokenResponse.getAccessToken();
 
-				HttpRequest httpRequest = httpTransport.createRequestFactory()
-						.buildGetRequest(new GenericUrl(EXPORT_URL));
-				BearerToken.authorizationHeaderAccessMethod().intercept(
-						httpRequest, accessToken);
+				HttpRequest httpRequest = httpTransport.createRequestFactory().buildGetRequest(new GenericUrl(EXPORT_URL));
+				BearerToken.authorizationHeaderAccessMethod().intercept(httpRequest, accessToken);
 				String opml = httpRequest.execute().parseAsString();
 				User user = CommaFeedSession.get().getUser();
 				if (user != null) {
 					if (StartupBean.USERNAME_DEMO.equals(user.getName())) {
-						throw new DisplayException(
-								"Import is disabled for the demo account");
+						throw new DisplayException("Import is disabled for the demo account");
 					}
 					importer.importOpml(CommaFeedSession.get().getUser(), opml);
 				}

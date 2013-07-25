@@ -56,9 +56,7 @@ public class HttpGetter {
 	static {
 		try {
 			SSL_CONTEXT = SSLContext.getInstance("TLS");
-			SSL_CONTEXT.init(new KeyManager[0],
-					new TrustManager[] { new DefaultTrustManager() },
-					new SecureRandom());
+			SSL_CONTEXT.init(new KeyManager[0], new TrustManager[] { new DefaultTrustManager() }, new SecureRandom());
 		} catch (Exception e) {
 			log.error("Could not configure ssl context");
 		}
@@ -66,8 +64,7 @@ public class HttpGetter {
 
 	private static final X509HostnameVerifier VERIFIER = new DefaultHostnameVerifier();
 
-	public HttpResult getBinary(String url, int timeout) throws ClientProtocolException,
-			IOException, NotModifiedException {
+	public HttpResult getBinary(String url, int timeout) throws ClientProtocolException, IOException, NotModifiedException {
 		return getBinary(url, null, null, timeout);
 	}
 
@@ -85,8 +82,8 @@ public class HttpGetter {
 	 * @throws NotModifiedException
 	 *             if the url hasn't changed since we asked for it last time
 	 */
-	public HttpResult getBinary(String url, String lastModified, String eTag, int timeout)
-			throws ClientProtocolException, IOException, NotModifiedException {
+	public HttpResult getBinary(String url, String lastModified, String eTag, int timeout) throws ClientProtocolException, IOException,
+			NotModifiedException {
 		HttpResult result = null;
 		long start = System.currentTimeMillis();
 
@@ -112,8 +109,7 @@ public class HttpGetter {
 				if (code == HttpStatus.SC_NOT_MODIFIED) {
 					throw new NotModifiedException("304 http code");
 				} else if (code >= 300) {
-					throw new HttpResponseException(code,
-							"Server returned HTTP error code " + code);
+					throw new HttpResponseException(code, "Server returned HTTP error code " + code);
 				}
 
 			} catch (HttpResponseException e) {
@@ -123,14 +119,11 @@ public class HttpGetter {
 					throw e;
 				}
 			}
-			Header lastModifiedHeader = response
-					.getFirstHeader(HttpHeaders.LAST_MODIFIED);
+			Header lastModifiedHeader = response.getFirstHeader(HttpHeaders.LAST_MODIFIED);
 			Header eTagHeader = response.getFirstHeader(HttpHeaders.ETAG);
 
-			String lastModifiedResponse = lastModifiedHeader == null ? null
-					: StringUtils.trimToNull(lastModifiedHeader.getValue());
-			if (lastModified != null
-					&& StringUtils.equals(lastModified, lastModifiedResponse)) {
+			String lastModifiedResponse = lastModifiedHeader == null ? null : StringUtils.trimToNull(lastModifiedHeader.getValue());
+			if (lastModified != null && StringUtils.equals(lastModified, lastModifiedResponse)) {
 				throw new NotModifiedException("lastModifiedHeader is the same");
 			}
 
@@ -147,10 +140,8 @@ public class HttpGetter {
 
 			long duration = System.currentTimeMillis() - start;
 			Header contentType = entity.getContentType();
-			result = new HttpResult(content, contentType == null ? null
-					: contentType.getValue(), lastModifiedHeader == null ? null
-					: lastModifiedHeader.getValue(), eTagHeader == null ? null
-					: eTagHeader.getValue(), duration);
+			result = new HttpResult(content, contentType == null ? null : contentType.getValue(), lastModifiedHeader == null ? null
+					: lastModifiedHeader.getValue(), eTagHeader == null ? null : eTagHeader.getValue(), duration);
 		} finally {
 			client.getConnectionManager().shutdown();
 		}
@@ -165,8 +156,7 @@ public class HttpGetter {
 		private String eTag;
 		private long duration;
 
-		public HttpResult(byte[] content, String contentType,
-				String lastModifiedSince, String eTag, long duration) {
+		public HttpResult(byte[] content, String contentType, String lastModifiedSince, String eTag, long duration) {
 			this.content = content;
 			this.contentType = contentType;
 			this.lastModifiedSince = lastModifiedSince;
@@ -209,8 +199,7 @@ public class HttpGetter {
 		HttpProtocolParams.setContentCharset(params, UTF8);
 		HttpConnectionParams.setConnectionTimeout(params, timeout);
 		HttpConnectionParams.setSoTimeout(params, timeout);
-		client.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(0,
-				false));
+		client.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(0, false));
 		return new DecompressingHttpClient(client);
 	}
 
@@ -225,13 +214,11 @@ public class HttpGetter {
 
 	private static class DefaultTrustManager implements X509TrustManager {
 		@Override
-		public void checkClientTrusted(X509Certificate[] arg0, String arg1)
-				throws CertificateException {
+		public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
 		}
 
 		@Override
-		public void checkServerTrusted(X509Certificate[] arg0, String arg1)
-				throws CertificateException {
+		public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
 		}
 
 		@Override
@@ -240,21 +227,18 @@ public class HttpGetter {
 		}
 	}
 
-	private static class DefaultHostnameVerifier implements
-			X509HostnameVerifier {
+	private static class DefaultHostnameVerifier implements X509HostnameVerifier {
 
 		@Override
 		public void verify(String string, SSLSocket ssls) throws IOException {
 		}
 
 		@Override
-		public void verify(String string, X509Certificate xc)
-				throws SSLException {
+		public void verify(String string, X509Certificate xc) throws SSLException {
 		}
 
 		@Override
-		public void verify(String string, String[] strings, String[] strings1)
-				throws SSLException {
+		public void verify(String string, String[] strings, String[] strings1) throws SSLException {
 		}
 
 		@Override

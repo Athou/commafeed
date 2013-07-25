@@ -25,8 +25,7 @@ import com.sun.syndication.io.FeedException;
 @ApplicationScoped
 public class FeedRefreshWorker {
 
-	private static Logger log = LoggerFactory
-			.getLogger(FeedRefreshWorker.class);
+	private static Logger log = LoggerFactory.getLogger(FeedRefreshWorker.class);
 
 	@Inject
 	FeedRefreshUpdater feedRefreshUpdater;
@@ -52,8 +51,7 @@ public class FeedRefreshWorker {
 	private void init() {
 		ApplicationSettings settings = applicationSettingsService.get();
 		int threads = settings.getBackgroundThreads();
-		pool = new FeedRefreshExecutor("feed-refresh-worker", threads,
-				20 * threads);
+		pool = new FeedRefreshExecutor("feed-refresh-worker", threads, 20 * threads);
 	}
 
 	@PreDestroy
@@ -95,8 +93,7 @@ public class FeedRefreshWorker {
 	private void update(Feed feed) {
 		Date now = new Date();
 		try {
-			FetchedFeed fetchedFeed = fetcher.fetch(feed.getUrl(), false,
-					feed.getLastModifiedHeader(), feed.getEtagHeader(),
+			FetchedFeed fetchedFeed = fetcher.fetch(feed.getUrl(), false, feed.getLastModifiedHeader(), feed.getEtagHeader(),
 					feed.getLastPublishedDate(), feed.getLastContentHash());
 			// stops here if NotModifiedException or any other exception is
 			// thrown
@@ -104,21 +101,17 @@ public class FeedRefreshWorker {
 
 			Date disabledUntil = null;
 			if (applicationSettingsService.get().isHeavyLoad()) {
-				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed
-						.getFeed().getLastEntryDate(), fetchedFeed.getFeed()
+				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed.getFeed().getLastEntryDate(), fetchedFeed.getFeed()
 						.getAverageEntryInterval());
 			}
 
 			feed.setLastUpdateSuccess(now);
 			feed.setLink(fetchedFeed.getFeed().getLink());
-			feed.setLastModifiedHeader(fetchedFeed.getFeed()
-					.getLastModifiedHeader());
+			feed.setLastModifiedHeader(fetchedFeed.getFeed().getLastModifiedHeader());
 			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());
 			feed.setLastContentHash(fetchedFeed.getFeed().getLastContentHash());
-			feed.setLastPublishedDate(fetchedFeed.getFeed()
-					.getLastPublishedDate());
-			feed.setAverageEntryInterval(fetchedFeed.getFeed()
-					.getAverageEntryInterval());
+			feed.setLastPublishedDate(fetchedFeed.getFeed().getLastPublishedDate());
+			feed.setAverageEntryInterval(fetchedFeed.getFeed().getAverageEntryInterval());
 			feed.setLastEntryDate(fetchedFeed.getFeed().getLastEntryDate());
 
 			feed.setErrorCount(0);
@@ -129,14 +122,11 @@ public class FeedRefreshWorker {
 			feedRefreshUpdater.updateFeed(feed, entries);
 
 		} catch (NotModifiedException e) {
-			log.debug("Feed not modified : {} - {}", feed.getUrl(),
-					e.getMessage());
+			log.debug("Feed not modified : {} - {}", feed.getUrl(), e.getMessage());
 
 			Date disabledUntil = null;
 			if (applicationSettingsService.get().isHeavyLoad()) {
-				disabledUntil = FeedUtils
-						.buildDisabledUntil(feed.getLastEntryDate(),
-								feed.getAverageEntryInterval());
+				disabledUntil = FeedUtils.buildDisabledUntil(feed.getLastEntryDate(), feed.getAverageEntryInterval());
 			}
 			feed.setErrorCount(0);
 			feed.setMessage(null);
@@ -144,8 +134,7 @@ public class FeedRefreshWorker {
 
 			taskGiver.giveBack(feed);
 		} catch (Exception e) {
-			String message = "Unable to refresh feed " + feed.getUrl() + " : "
-					+ e.getMessage();
+			String message = "Unable to refresh feed " + feed.getUrl() + " : " + e.getMessage();
 			if (e instanceof FeedException) {
 				log.debug(e.getClass().getName() + " " + message, e);
 			} else {
@@ -154,8 +143,7 @@ public class FeedRefreshWorker {
 
 			feed.setErrorCount(feed.getErrorCount() + 1);
 			feed.setMessage(message);
-			feed.setDisabledUntil(FeedUtils.buildDisabledUntil(feed
-					.getErrorCount()));
+			feed.setDisabledUntil(FeedUtils.buildDisabledUntil(feed.getErrorCount()));
 
 			taskGiver.giveBack(feed);
 		}

@@ -29,8 +29,7 @@ import com.google.api.client.util.Lists;
 @ApplicationScoped
 public class RedisCacheService extends CacheService {
 
-	private static final Logger log = LoggerFactory
-			.getLogger(RedisCacheService.class);
+	private static final Logger log = LoggerFactory.getLogger(RedisCacheService.class);
 
 	private JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
 	private ObjectMapper mapper = new ObjectMapper();
@@ -113,8 +112,7 @@ public class RedisCacheService extends CacheService {
 			String key = buildRedisUnreadCountKey(user);
 			String json = jedis.get(key);
 			if (json != null) {
-				MapType type = mapper.getTypeFactory().constructMapType(
-						Map.class, Long.class, Long.class);
+				MapType type = mapper.getTypeFactory().constructMapType(Map.class, Long.class, Long.class);
 				map = mapper.readValue(json, type);
 			}
 		} catch (Exception e) {

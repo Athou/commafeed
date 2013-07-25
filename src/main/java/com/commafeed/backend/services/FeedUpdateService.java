@@ -24,7 +24,7 @@ import com.google.common.collect.Lists;
 
 @Stateless
 public class FeedUpdateService {
-	
+
 	@PersistenceContext
 	protected EntityManager em;
 
@@ -42,24 +42,21 @@ public class FeedUpdateService {
 
 	@Inject
 	CacheService cache;
-	
+
 	@Inject
 	FeedEntryContentService feedEntryContentService;
 
 	/**
 	 * this is NOT thread-safe
 	 */
-	public void updateEntry(Feed feed, FeedEntry entry,
-			List<FeedSubscription> subscriptions) {
+	public void updateEntry(Feed feed, FeedEntry entry, List<FeedSubscription> subscriptions) {
 
-		FeedEntry existing = feedEntryDAO.findExisting(entry.getGuid(),
-				entry.getUrl(), feed.getId());
+		FeedEntry existing = feedEntryDAO.findExisting(entry.getGuid(), entry.getUrl(), feed.getId());
 		if (existing != null) {
 			return;
 		}
 
-		FeedEntryContent content = feedEntryContentService.findOrCreate(
-				entry.getContent(), feed.getLink());
+		FeedEntryContent content = feedEntryContentService.findOrCreate(entry.getContent(), feed.getLink());
 		entry.setGuidHash(DigestUtils.sha1Hex(entry.getGuid()));
 		entry.setContent(content);
 		entry.setInserted(new Date());

@@ -18,8 +18,7 @@ public class UserSettingsDAO extends GenericDAO<UserSettings> {
 		CriteriaQuery<UserSettings> query = builder.createQuery(getType());
 		Root<UserSettings> root = query.from(getType());
 
-		query.where(builder.equal(root.get(UserSettings_.user).get(User_.id),
-				user.getId()));
+		query.where(builder.equal(root.get(UserSettings_.user).get(User_.id), user.getId()));
 
 		UserSettings settings = null;
 		try {

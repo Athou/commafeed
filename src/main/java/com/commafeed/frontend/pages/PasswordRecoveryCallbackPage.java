@@ -40,12 +40,10 @@ public class PasswordRecoveryCallbackPage extends BasePage {
 		if (user == null) {
 			throw new DisplayException("email not found");
 		}
-		if (user.getRecoverPasswordToken() == null
-				|| !user.getRecoverPasswordToken().equals(token)) {
+		if (user.getRecoverPasswordToken() == null || !user.getRecoverPasswordToken().equals(token)) {
 			throw new DisplayException("invalid token");
 		}
-		if (user.getRecoverPasswordTokenDate().before(
-				DateUtils.addDays(new Date(), -2))) {
+		if (user.getRecoverPasswordTokenDate().before(DateUtils.addDays(new Date(), -2))) {
 			throw new DisplayException("token expired");
 		}
 
@@ -57,8 +55,7 @@ public class PasswordRecoveryCallbackPage extends BasePage {
 			protected void onSubmit() {
 				String passwd = password.getObject();
 				if (StringUtils.equals(passwd, confirm.getObject())) {
-					byte[] password = encryptionService.getEncryptedPassword(
-							passwd, user.getSalt());
+					byte[] password = encryptionService.getEncryptedPassword(passwd, user.getSalt());
 					user.setPassword(password);
 					user.setApiKey(userService.generateApiKey(user));
 					user.setRecoverPasswordToken(null);
@@ -71,10 +68,8 @@ public class PasswordRecoveryCallbackPage extends BasePage {
 			}
 		};
 		add(form);
-		form.add(new PasswordTextField("password", password).setResetPassword(
-				true).add(StringValidator.minimumLength(6)));
-		form.add(new PasswordTextField("confirm", confirm).setResetPassword(
-				true).add(StringValidator.minimumLength(6)));
+		form.add(new PasswordTextField("password", password).setResetPassword(true).add(StringValidator.minimumLength(6)));
+		form.add(new PasswordTextField("confirm", confirm).setResetPassword(true).add(StringValidator.minimumLength(6)));
 
 		form.add(new BookmarkablePageLink<Void>("cancel", HomePage.class));
 

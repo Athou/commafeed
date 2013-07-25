@@ -96,8 +96,7 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		return q.getResultList();
 	}
 
-	public List<T> findAll(int startIndex, int count, String orderBy,
-			boolean asc) {
+	public List<T> findAll(int startIndex, int count, String orderBy, boolean asc) {
 
 		CriteriaQuery<T> query = builder.createQuery(getType());
 		Root<T> root = query.from(getType());
@@ -126,8 +125,7 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		return findByField(field, value, false);
 	}
 
-	protected <V> List<T> findByField(Attribute<T, V> field, V value,
-			boolean cache) {
+	protected <V> List<T> findByField(Attribute<T, V> field, V value, boolean cache) {
 		CriteriaQuery<T> query = builder.createQuery(getType());
 		Root<T> root = query.from(getType());
 

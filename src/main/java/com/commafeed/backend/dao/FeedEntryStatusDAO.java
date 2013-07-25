@@ -266,28 +266,4 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		setTimeout(query, applicationSettingsService.get().getQueryTimeout());
 	}
 
-	public void markSubscriptionEntries(List<FeedSubscription> subscriptions, Date olderThan) {
-		List<FeedEntryStatus> statuses = findBySubscriptions(subscriptions, true, null, null, -1, -1, null, false);
-		markList(statuses, olderThan);
-	}
-
-	public void markStarredEntries(User user, Date olderThan) {
-		List<FeedEntryStatus> statuses = findStarred(user, null, -1, -1, null, false);
-		markList(statuses, olderThan);
-	}
-
-	private void markList(List<FeedEntryStatus> statuses, Date olderThan) {
-		List<FeedEntryStatus> list = Lists.newArrayList();
-		for (FeedEntryStatus status : statuses) {
-			if (!status.isRead()) {
-				Date inserted = status.getEntry().getInserted();
-				if (olderThan == null || inserted == null || olderThan.after(inserted)) {
-					status.setRead(true);
-					list.add(status);
-				}
-			}
-		}
-		saveOrUpdate(list);
-	}
-
 }

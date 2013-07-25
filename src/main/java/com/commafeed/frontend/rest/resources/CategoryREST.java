@@ -33,6 +33,8 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
+import com.commafeed.backend.services.FeedCategoryService;
+import com.commafeed.backend.services.FeedEntryService;
 import com.commafeed.backend.services.FeedSubscriptionService;
 import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.Category;
@@ -69,6 +71,9 @@ public class CategoryREST extends AbstractResourceREST {
 	FeedEntryStatusDAO feedEntryStatusDAO;
 
 	@Inject
+	FeedEntryService feedEntryService;
+
+	@Inject
 	FeedCategoryDAO feedCategoryDAO;
 
 	@Inject
@@ -76,6 +81,9 @@ public class CategoryREST extends AbstractResourceREST {
 
 	@Inject
 	FeedSubscriptionService feedSubscriptionService;
+
+	@Inject
+	FeedCategoryService feedCategoryService;
 
 	@Inject
 	CacheService cache;
@@ -206,17 +214,16 @@ public class CategoryREST extends AbstractResourceREST {
 		Date olderThan = req.getOlderThan() == null ? null : new Date(req.getOlderThan());
 
 		if (ALL.equals(req.getId())) {
-			List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(getUser());
-			feedEntryStatusDAO.markSubscriptionEntries(subscriptions, olderThan);
+			List<FeedSubscription> subscriptions = feedSubscriptionService.getSubscriptions(getUser());
+			feedEntryService.markSubscriptionEntries(subscriptions, olderThan);
 		} else if (STARRED.equals(req.getId())) {
-			feedEntryStatusDAO.markStarredEntries(getUser(), olderThan);
+			feedEntryService.markStarredEntries(getUser(), olderThan);
 		} else {
 			FeedCategory parent = feedCategoryDAO.findById(getUser(), Long.valueOf(req.getId()));
 			List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(getUser(), parent);
 			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(getUser(), categories);
-			feedEntryStatusDAO.markSubscriptionEntries(subs, olderThan);
+			feedEntryService.markSubscriptionEntries(subs, olderThan);
 		}
-		cache.invalidateUserData(getUser());
 		return Response.ok(Status.OK).build();
 	}
 
@@ -238,7 +245,7 @@ public class CategoryREST extends AbstractResourceREST {
 			cat.setParent(parent);
 		}
 		feedCategoryDAO.saveOrUpdate(cat);
-		cache.invalidateUserData(getUser());
+		cache.invalidateUserCategories(getUser());
 		return Response.ok().build();
 	}
 
@@ -266,7 +273,7 @@ public class CategoryREST extends AbstractResourceREST {
 			feedCategoryDAO.saveOrUpdate(categories);
 
 			feedCategoryDAO.delete(cat);
-			cache.invalidateUserData(getUser());
+			cache.invalidateUserCategories(getUser());
 			return Response.ok().build();
 		} else {
 			return Response.status(Status.NOT_FOUND).build();
@@ -322,7 +329,7 @@ public class CategoryREST extends AbstractResourceREST {
 		}
 
 		feedCategoryDAO.saveOrUpdate(category);
-		cache.invalidateUserData(getUser());
+		cache.invalidateUserCategories(getUser());
 		return Response.ok(Status.OK).build();
 	}
 
@@ -339,7 +346,7 @@ public class CategoryREST extends AbstractResourceREST {
 		}
 		category.setCollapsed(req.isCollapse());
 		feedCategoryDAO.saveOrUpdate(category);
-		cache.invalidateUserData(getUser());
+		cache.invalidateUserCategories(getUser());
 		return Response.ok(Status.OK).build();
 	}
 
@@ -364,18 +371,15 @@ public class CategoryREST extends AbstractResourceREST {
 	public Response getSubscriptions() {
 		User user = getUser();
 
-		Category root = cache.getRootCategory(user);
-		if (root == null) {
-			log.debug("root category cache miss for {}", user.getName());
-			List<FeedCategory> categories = feedCategoryDAO.findAll(user);
-			List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(getUser());
-			Map<Long, Long> unreadCount = feedSubscriptionService.getUnreadCount(getUser());
+		Category root = null;
+		List<FeedCategory> categories = feedCategoryService.getCategories(user);
+		List<FeedSubscription> subscriptions = feedSubscriptionService.getSubscriptions(getUser());
+		Map<Long, Long> unreadCount = feedSubscriptionService.getUnreadCount(getUser());
 
-			root = buildCategory(null, categories, subscriptions, unreadCount);
-			root.setId("all");
-			root.setName("All");
-			cache.setRootCategory(user, root);
-		}
+		root = buildCategory(null, categories, subscriptions, unreadCount);
+		root.setId("all");
+		root.setName("All");
+
 		return Response.ok(root).build();
 	}
 

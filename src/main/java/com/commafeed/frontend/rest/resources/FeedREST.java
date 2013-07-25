@@ -55,6 +55,7 @@ import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
+import com.commafeed.backend.services.FeedEntryService;
 import com.commafeed.backend.services.FeedSubscriptionService;
 import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.Entries;
@@ -96,6 +97,9 @@ public class FeedREST extends AbstractResourceREST {
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
+
+	@Inject
+	FeedEntryService feedEntryService;
 
 	@Inject
 	FeedSubscriptionService feedSubscriptionService;
@@ -274,9 +278,8 @@ public class FeedREST extends AbstractResourceREST {
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(), Long.valueOf(req.getId()));
 		if (subscription != null) {
-			feedEntryStatusDAO.markSubscriptionEntries(Arrays.asList(subscription), olderThan);
+			feedEntryService.markSubscriptionEntries(Arrays.asList(subscription), olderThan);
 		}
-		cache.invalidateUserData(getUser());
 		return Response.ok(Status.OK).build();
 	}
 
@@ -353,7 +356,6 @@ public class FeedREST extends AbstractResourceREST {
 			log.info("Failed to subscribe to URL {}: {}", url, e.getMessage());
 			return Response.status(Status.SERVICE_UNAVAILABLE).entity("Failed to subscribe to URL " + url + ": " + e.getMessage()).build();
 		}
-		cache.invalidateUserData(getUser());
 		return Response.ok(Status.OK).build();
 	}
 
@@ -390,10 +392,8 @@ public class FeedREST extends AbstractResourceREST {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
-		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(), req.getId());
-		if (sub != null) {
-			feedSubscriptionDAO.delete(sub);
-			cache.invalidateUserData(getUser());
+		boolean deleted = feedSubscriptionService.unsubscribe(getUser(), req.getId());
+		if (deleted) {
 			return Response.ok(Status.OK).build();
 		} else {
 			return Response.status(Status.NOT_FOUND).build();
@@ -446,7 +446,7 @@ public class FeedREST extends AbstractResourceREST {
 		} else {
 			feedSubscriptionDAO.saveOrUpdate(subscription);
 		}
-		cache.invalidateUserData(getUser());
+		cache.invalidateUserSubscriptions(getUser());
 		return Response.ok(Status.OK).build();
 	}
 
@@ -480,7 +480,6 @@ public class FeedREST extends AbstractResourceREST {
 		} catch (Exception e) {
 			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
-		cache.invalidateUserData(getUser());
 		return Response.temporaryRedirect(URI.create(applicationSettingsService.get().getPublicUrl())).build();
 	}
 

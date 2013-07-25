@@ -80,20 +80,48 @@ public class FeedSubscriptionService {
 		feedSubscriptionDAO.saveOrUpdate(sub);
 
 		taskGiver.add(feed);
+		cache.invalidateUserSubscriptions(user);
 		return feed;
+	}
+	
+	public boolean unsubscribe(User user, Long subId){
+		FeedSubscription sub = feedSubscriptionDAO.findById(user, subId);
+		if (sub != null) {
+			feedSubscriptionDAO.delete(sub);
+			cache.invalidateUserSubscriptions(user);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public List<FeedSubscription> getSubscriptions(User user) {
+		List<FeedSubscription> list = cache.getUserSubscriptions(user);
+		if (list == null) {
+			log.debug("sub list miss for {}", Models.getId(user));
+			list = feedSubscriptionDAO.findAll(user);
+			cache.setUserSubscriptions(user, list);
+		}
+		return list;
+	}
+
+	public Long getUnreadCount(FeedSubscription sub) {
+		Long count = cache.getUnreadCount(sub);
+		if (count == null) {
+			log.debug("unread count cache miss for {}", Models.getId(sub));
+			count = feedEntryStatusDAO.getUnreadCount(sub);
+			cache.setUnreadCount(sub, count);
+		}
+		return count;
 	}
 
 	public Map<Long, Long> getUnreadCount(User user) {
-		Map<Long, Long> map = cache.getUnreadCounts(user);
-		if (map == null) {
-			log.debug("unread count cache miss for {}", Models.getId(user));
-			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
-			map = Maps.newHashMap();
-			for (FeedSubscription sub : subs) {
-				map.put(sub.getId(), feedEntryStatusDAO.getUnreadCount(sub));
-			}
-			cache.setUnreadCounts(user, map);
+		Map<Long, Long> map = Maps.newHashMap();
+		List<FeedSubscription> subs = getSubscriptions(user);
+		for (FeedSubscription sub : subs) {
+			map.put(sub.getId(), getUnreadCount(sub));
 		}
 		return map;
 	}
+
 }

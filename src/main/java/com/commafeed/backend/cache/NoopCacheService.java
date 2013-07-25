@@ -2,14 +2,14 @@ package com.commafeed.backend.cache;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.FeedCategory;
+import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
-import com.commafeed.frontend.model.Category;
 
 @Alternative
 @ApplicationScoped
@@ -25,27 +25,47 @@ public class NoopCacheService extends CacheService {
 	}
 
 	@Override
-	public Category getRootCategory(User user) {
+	public Long getUnreadCount(FeedSubscription sub) {
 		return null;
 	}
 
 	@Override
-	public void setRootCategory(User user, Category category) {
+	public void setUnreadCount(FeedSubscription sub, Long count) {
 
 	}
 
 	@Override
-	public Map<Long, Long> getUnreadCounts(User user) {
+	public List<FeedCategory> getUserCategories(User user) {
 		return null;
 	}
 
 	@Override
-	public void setUnreadCounts(User user, Map<Long, Long> map) {
+	public void setUserCategories(User user, List<FeedCategory> categories) {
 
 	}
 
 	@Override
-	public void invalidateUserData(User... users) {
+	public void invalidateUserCategories(User user) {
+
+	}
+
+	@Override
+	public List<FeedSubscription> getUserSubscriptions(User user) {
+		return null;
+	}
+
+	@Override
+	public void setUserSubscriptions(User user, List<FeedSubscription> subs) {
+
+	}
+
+	@Override
+	public void invalidateUserSubscriptions(User user) {
+
+	}
+
+	@Override
+	public void invalidateUnreadCount(FeedSubscription... subs) {
 
 	}
 

@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.FeedEntryStatus;
@@ -44,9 +43,6 @@ public class EntryREST extends AbstractResourceREST {
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
 
-	@Inject
-	CacheService cache;
-
 	@Path("/mark")
 	@POST
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
@@ -56,7 +52,6 @@ public class EntryREST extends AbstractResourceREST {
 		Preconditions.checkNotNull(req.getFeedId());
 
 		feedEntryService.markEntry(getUser(), Long.valueOf(req.getId()), req.getFeedId(), req.isRead());
-		cache.invalidateUserData(getUser());
 		return Response.ok(Status.OK).build();
 	}
 

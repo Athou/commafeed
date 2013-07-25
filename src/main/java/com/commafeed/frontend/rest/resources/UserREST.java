@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.StartupBean;
-import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
@@ -57,9 +56,6 @@ public class UserREST extends AbstractResourceREST {
 
 	@Inject
 	PasswordEncryptionService encryptionService;
-
-	@Inject
-	CacheService cache;
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
@@ -200,7 +196,6 @@ public class UserREST extends AbstractResourceREST {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		userService.unregister(getUser());
-		cache.invalidateUserData(getUser());
 		return Response.ok().build();
 	}
 }

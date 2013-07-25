@@ -278,7 +278,7 @@ public class FeedREST extends AbstractResourceREST {
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(getUser(), Long.valueOf(req.getId()));
 		if (subscription != null) {
-			feedEntryService.markSubscriptionEntries(Arrays.asList(subscription), olderThan);
+			feedEntryService.markSubscriptionEntries(getUser(), Arrays.asList(subscription), olderThan);
 		}
 		return Response.ok(Status.OK).build();
 	}
@@ -446,7 +446,7 @@ public class FeedREST extends AbstractResourceREST {
 		} else {
 			feedSubscriptionDAO.saveOrUpdate(subscription);
 		}
-		cache.invalidateUserSubscriptions(getUser());
+		cache.invalidateUserRootCategory(getUser());
 		return Response.ok(Status.OK).build();
 	}
 

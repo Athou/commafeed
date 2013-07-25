@@ -16,13 +16,12 @@ import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Pipeline;
 
 import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
+import com.commafeed.frontend.model.Category;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
 import com.google.api.client.util.Lists;
 
 @Alternative
@@ -31,9 +30,6 @@ public class RedisCacheService extends CacheService {
 
 	private static final Logger log = LoggerFactory.getLogger(RedisCacheService.class);
 	private static ObjectMapper mapper = new ObjectMapper();
-	private static CollectionType TYPE_LIST_CATEGORIES = mapper.getTypeFactory().constructCollectionType(List.class, FeedCategory.class);
-	private static CollectionType TYPE_LIST_SUBSCRIPTIONS = mapper.getTypeFactory().constructCollectionType(List.class,
-			FeedSubscription.class);
 
 	private JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
 
@@ -72,68 +68,32 @@ public class RedisCacheService extends CacheService {
 	}
 
 	@Override
-	public List<FeedCategory> getUserCategories(User user) {
-		List<FeedCategory> cats = null;
+	public Category getUserRootCategory(User user) {
+		Category cat = null;
 		Jedis jedis = pool.getResource();
 		try {
-			String key = buildRedisUserCategoriesKey(user);
+			String key = buildRedisUserRootCategoryKey(user);
 			String json = jedis.get(key);
 			if (json != null) {
-				cats = mapper.readValue(json, TYPE_LIST_CATEGORIES);
+				cat = mapper.readValue(json, Category.class);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		} finally {
 			pool.returnResource(jedis);
 		}
-		return cats;
+		return cat;
 	}
 
 	@Override
-	public void setUserCategories(User user, List<FeedCategory> categories) {
+	public void setUserRootCategory(User user, Category category) {
 		Jedis jedis = pool.getResource();
 		try {
-			String key = buildRedisUserCategoriesKey(user);
+			String key = buildRedisUserRootCategoryKey(user);
 
 			Pipeline pipe = jedis.pipelined();
 			pipe.del(key);
-			pipe.set(key, mapper.writeValueAsString(categories));
-			pipe.expire(key, (int) TimeUnit.MINUTES.toSeconds(30));
-			pipe.sync();
-		} catch (JsonProcessingException e) {
-			log.error(e.getMessage(), e);
-		} finally {
-			pool.returnResource(jedis);
-		}
-	}
-
-	@Override
-	public List<FeedSubscription> getUserSubscriptions(User user) {
-		List<FeedSubscription> subs = null;
-		Jedis jedis = pool.getResource();
-		try {
-			String key = buildRedisUserSubscriptionsKey(user);
-			String json = jedis.get(key);
-			if (json != null) {
-				subs = mapper.readValue(json, TYPE_LIST_SUBSCRIPTIONS);
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		} finally {
-			pool.returnResource(jedis);
-		}
-		return subs;
-	}
-
-	@Override
-	public void setUserSubscriptions(User user, List<FeedSubscription> subs) {
-		Jedis jedis = pool.getResource();
-		try {
-			String key = buildRedisUserSubscriptionsKey(user);
-
-			Pipeline pipe = jedis.pipelined();
-			pipe.del(key);
-			pipe.set(key, mapper.writeValueAsString(subs));
+			pipe.set(key, mapper.writeValueAsString(category));
 			pipe.expire(key, (int) TimeUnit.MINUTES.toSeconds(30));
 			pipe.sync();
 		} catch (JsonProcessingException e) {
@@ -180,22 +140,17 @@ public class RedisCacheService extends CacheService {
 	}
 
 	@Override
-	public void invalidateUserCategories(User user) {
+	public void invalidateUserRootCategory(User... users) {
 		Jedis jedis = pool.getResource();
 		try {
-			String key = buildRedisUserCategoriesKey(user);
-			jedis.del(key);
-		} finally {
-			pool.returnResource(jedis);
-		}
-	}
-
-	@Override
-	public void invalidateUserSubscriptions(User user) {
-		Jedis jedis = pool.getResource();
-		try {
-			String key = buildRedisUserSubscriptionsKey(user);
-			jedis.del(key);
+			Pipeline pipe = jedis.pipelined();
+			if (users != null) {
+				for (User user : users) {
+					String key = buildRedisUserRootCategoryKey(user);
+					pipe.del(key);
+				}
+			}
+			pipe.sync();
 		} finally {
 			pool.returnResource(jedis);
 		}
@@ -222,12 +177,8 @@ public class RedisCacheService extends CacheService {
 		return "f:" + Models.getId(feed);
 	}
 
-	private String buildRedisUserCategoriesKey(User user) {
+	private String buildRedisUserRootCategoryKey(User user) {
 		return "c:" + Models.getId(user);
-	}
-
-	private String buildRedisUserSubscriptionsKey(User user) {
-		return "s:" + Models.getId(user);
 	}
 
 	private String buildRedisUnreadCountKey(FeedSubscription sub) {

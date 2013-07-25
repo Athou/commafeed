@@ -47,6 +47,7 @@ public class FeedEntryService {
 			status.setRead(read);
 			feedEntryStatusDAO.saveOrUpdate(status);
 			cache.invalidateUnreadCount(sub);
+			cache.invalidateUserRootCategory(user);
 		}
 	}
 
@@ -67,10 +68,11 @@ public class FeedEntryService {
 		feedEntryStatusDAO.saveOrUpdate(status);
 	}
 
-	public void markSubscriptionEntries(List<FeedSubscription> subscriptions, Date olderThan) {
+	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Date olderThan) {
 		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(subscriptions, true, null, null, -1, -1, null, false);
 		markList(statuses, olderThan);
 		cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
+		cache.invalidateUserRootCategory(user);
 	}
 
 	public void markStarredEntries(User user, Date olderThan) {

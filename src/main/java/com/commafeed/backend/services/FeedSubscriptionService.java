@@ -80,29 +80,19 @@ public class FeedSubscriptionService {
 		feedSubscriptionDAO.saveOrUpdate(sub);
 
 		taskGiver.add(feed);
-		cache.invalidateUserSubscriptions(user);
+		cache.invalidateUserRootCategory(user);
 		return feed;
 	}
-	
-	public boolean unsubscribe(User user, Long subId){
+
+	public boolean unsubscribe(User user, Long subId) {
 		FeedSubscription sub = feedSubscriptionDAO.findById(user, subId);
 		if (sub != null) {
 			feedSubscriptionDAO.delete(sub);
-			cache.invalidateUserSubscriptions(user);
+			cache.invalidateUserRootCategory(user);
 			return true;
 		} else {
 			return false;
 		}
-	}
-
-	public List<FeedSubscription> getSubscriptions(User user) {
-		List<FeedSubscription> list = cache.getUserSubscriptions(user);
-		if (list == null) {
-			log.debug("sub list miss for {}", Models.getId(user));
-			list = feedSubscriptionDAO.findAll(user);
-			cache.setUserSubscriptions(user, list);
-		}
-		return list;
 	}
 
 	public Long getUnreadCount(FeedSubscription sub) {
@@ -117,7 +107,7 @@ public class FeedSubscriptionService {
 
 	public Map<Long, Long> getUnreadCount(User user) {
 		Map<Long, Long> map = Maps.newHashMap();
-		List<FeedSubscription> subs = getSubscriptions(user);
+		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 		for (FeedSubscription sub : subs) {
 			map.put(sub.getId(), getUnreadCount(sub));
 		}

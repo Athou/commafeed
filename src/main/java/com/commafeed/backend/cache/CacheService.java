@@ -5,10 +5,10 @@ import java.util.List;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
+import com.commafeed.frontend.model.Category;
 
 public abstract class CacheService {
 
@@ -22,18 +22,11 @@ public abstract class CacheService {
 	}
 
 	// user categories
-	public abstract List<FeedCategory> getUserCategories(User user);
+	public abstract Category getUserRootCategory(User user);
 
-	public abstract void setUserCategories(User user, List<FeedCategory> categories);
+	public abstract void setUserRootCategory(User user, Category category);
 
-	public abstract void invalidateUserCategories(User user);
-
-	// subscriptions
-	public abstract List<FeedSubscription> getUserSubscriptions(User user);
-
-	public abstract void setUserSubscriptions(User user, List<FeedSubscription> subs);
-
-	public abstract void invalidateUserSubscriptions(User user);
+	public abstract void invalidateUserRootCategory(User... users);
 
 	// unread count
 	public abstract Long getUnreadCount(FeedSubscription sub);

@@ -7,9 +7,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 
 import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
+import com.commafeed.frontend.model.Category;
 
 @Alternative
 @ApplicationScoped
@@ -35,37 +35,22 @@ public class NoopCacheService extends CacheService {
 	}
 
 	@Override
-	public List<FeedCategory> getUserCategories(User user) {
-		return null;
-	}
-
-	@Override
-	public void setUserCategories(User user, List<FeedCategory> categories) {
-
-	}
-
-	@Override
-	public void invalidateUserCategories(User user) {
-
-	}
-
-	@Override
-	public List<FeedSubscription> getUserSubscriptions(User user) {
-		return null;
-	}
-
-	@Override
-	public void setUserSubscriptions(User user, List<FeedSubscription> subs) {
-
-	}
-
-	@Override
-	public void invalidateUserSubscriptions(User user) {
-
-	}
-
-	@Override
 	public void invalidateUnreadCount(FeedSubscription... subs) {
+
+	}
+
+	@Override
+	public Category getUserRootCategory(User user) {
+		return null;
+	}
+
+	@Override
+	public void setUserRootCategory(User user, Category category) {
+
+	}
+
+	@Override
+	public void invalidateUserRootCategory(User... users) {
 
 	}
 

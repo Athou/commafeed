@@ -97,7 +97,6 @@ public class OPMLImporter {
 				log.error("error while importing {}: {}", outline.getXmlUrl(), e.getMessage());
 			}
 		}
-		cache.invalidateUserCategories(user);
-		cache.invalidateUserSubscriptions(user);
+		cache.invalidateUserRootCategory(user);
 	}
 }

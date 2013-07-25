@@ -70,5 +70,6 @@ public class FeedUpdateService {
 		feedEntryDAO.saveOrUpdate(entry);
 		metricsBean.entryInserted();
 		cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
+		cache.invalidateUserRootCategory(users.toArray(new User[0]));
 	}
 }

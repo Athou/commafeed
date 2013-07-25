@@ -24,7 +24,7 @@ public class CleaningService {
 	EntityManager em;
 
 	// every day at midnight
-	@Schedule(hour = "*", minute = "*", persistent = false)
+	@Schedule(hour = "0", persistent = false)
 	private void cleanOldStatuses() {
 		Date threshold = applicationSettingsService.get().getUnreadThreshold();
 		if (threshold != null) {

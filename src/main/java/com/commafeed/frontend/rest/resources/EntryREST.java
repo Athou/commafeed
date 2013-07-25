@@ -1,5 +1,6 @@
 package com.commafeed.frontend.rest.resources;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -12,6 +13,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
 
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -25,7 +27,6 @@ import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.MultipleMarkRequest;
 import com.commafeed.frontend.model.request.StarRequest;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -98,18 +99,50 @@ public class EntryREST extends AbstractResourceREST {
 
 		Entries entries = new Entries();
 
-		List<Entry> list = Lists.newArrayList();
 		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(getUser());
-		List<FeedEntryStatus> entriesStatus = feedEntryStatusDAO.findBySubscriptions(subs, false, keywords, null, offset, limit,
+		List<FeedEntryStatus> entriesStatus = feedEntryStatusDAO.findBySubscriptions(subs, false, keywords, null, offset, limit + 1,
 				ReadingOrder.desc, true);
 		for (FeedEntryStatus status : entriesStatus) {
-			list.add(Entry.build(status, applicationSettingsService.get().getPublicUrl(), applicationSettingsService.get()
-					.isImageProxyEnabled()));
+			entries.getEntries().add(
+					Entry.build(status, applicationSettingsService.get().getPublicUrl(), applicationSettingsService.get()
+							.isImageProxyEnabled()));
 		}
 
+		boolean hasMore = entries.getEntries().size() > limit;
+		if (hasMore) {
+			entries.setHasMore(true);
+			entries.getEntries().remove(entries.getEntries().size() - 1);
+		}
+
+		removeUnwanted(entries.getEntries(), keywords);
+
 		entries.setName("Search for : " + keywords);
-		entries.getEntries().addAll(list);
+		entries.setTimestamp(System.currentTimeMillis());
 		return Response.ok(entries).build();
+	}
+
+	private void removeUnwanted(List<Entry> entries, String keywords) {
+		Iterator<Entry> it = entries.iterator();
+		while (it.hasNext()) {
+			Entry entry = it.next();
+			boolean keep = true;
+			for (String keyword : keywords.split(" ")) {
+				String content = Jsoup.parse(entry.getContent()).text();
+				if (!StringUtils.contains(content, keyword)) {
+					keep = false;
+					break;
+				}
+
+				String title = Jsoup.parse(entry.getTitle()).text();
+				if (!StringUtils.contains(title, keyword)) {
+					keep = false;
+					break;
+				}
+			}
+			if (!keep) {
+				it.remove();
+			}
+		}
 	}
 
 }

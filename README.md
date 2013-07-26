@@ -16,6 +16,12 @@ Deploy on your own server (using TomEE, a lightweight JavaEE6 container based on
 
 [Safari extension](https://github.com/Athou/commafeed-safari)
 
+Warning - updating from version 1.0.0
+-------------------------------------
+If you're updating from version 1.0.0, feed history will be deleted. See why [here](https://www.commafeed.com/announcement/20130725.html).
+
+The last commit with no data loss has been [tagged](https://github.com/Athou/commafeed/tree/1.0.0). 
+
 Deployment on OpenShift
 -----------------------
 

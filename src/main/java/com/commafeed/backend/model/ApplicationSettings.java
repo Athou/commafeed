@@ -1,5 +1,7 @@
 package com.commafeed.backend.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -7,7 +9,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Level;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "APPLICATIONSETTINGS")
@@ -35,9 +40,18 @@ public class ApplicationSettings extends AbstractModel {
 	private boolean imageProxyEnabled;
 	private int queryTimeout;
 	private boolean crawlingPaused;
+	private int keepStatusDays = 0;
 
 	@Column(length = 255)
 	private String announcement;
+
+	@JsonIgnore
+	public Date getUnreadThreshold() {
+		int keepStatusDays = getKeepStatusDays();
+		return keepStatusDays > 0 ? DateUtils.addDays(new Date(), -1 * keepStatusDays) : null;
+	}
+
+	/* getters and setters below */
 
 	public String getPublicUrl() {
 		return publicUrl;
@@ -123,8 +137,7 @@ public class ApplicationSettings extends AbstractModel {
 		return googleAnalyticsTrackingCode;
 	}
 
-	public void setGoogleAnalyticsTrackingCode(
-			String googleAnalyticsTrackingCode) {
+	public void setGoogleAnalyticsTrackingCode(String googleAnalyticsTrackingCode) {
 		this.googleAnalyticsTrackingCode = googleAnalyticsTrackingCode;
 	}
 
@@ -198,6 +211,14 @@ public class ApplicationSettings extends AbstractModel {
 
 	public void setCrawlingPaused(boolean crawlingPaused) {
 		this.crawlingPaused = crawlingPaused;
+	}
+
+	public int getKeepStatusDays() {
+		return keepStatusDays;
+	}
+
+	public void setKeepStatusDays(int keepStatusDays) {
+		this.keepStatusDays = keepStatusDays;
 	}
 
 }

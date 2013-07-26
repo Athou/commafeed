@@ -10,7 +10,7 @@ import com.google.api.client.util.Maps;
 
 /**
  * Build-time solution
- *
+ * 
  */
 public class WroAdditionalProvider implements ProcessorProvider {
 

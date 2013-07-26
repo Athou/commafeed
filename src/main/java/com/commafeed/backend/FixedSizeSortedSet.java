@@ -1,62 +1,44 @@
 package com.commafeed.backend;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.TreeSet;
 
-import org.apache.commons.collections.CollectionUtils;
+public class FixedSizeSortedSet<E> {
 
-import com.google.common.collect.Lists;
-
-public class FixedSizeSortedSet<E> extends TreeSet<E> {
-
-	private static final long serialVersionUID = 1L;
+	private List<E> inner;
 
 	private final Comparator<? super E> comparator;
-	private final int maxSize;
+	private final int capacity;
 
-	public FixedSizeSortedSet(int maxSize, Comparator<? super E> comparator) {
-		super(comparator);
-		this.maxSize = maxSize;
+	public FixedSizeSortedSet(int capacity, Comparator<? super E> comparator) {
+		this.inner = new ArrayList<E>(Math.max(0, capacity));
+		this.capacity = capacity < 0 ? Integer.MAX_VALUE : capacity;
 		this.comparator = comparator;
 	}
 
-	@Override
-	public boolean add(E e) {
+	public void add(E e) {
+		int position = Math.abs(Collections.binarySearch(inner, e, comparator) + 1);
 		if (isFull()) {
-			E last = last();
-			int comparison = comparator.compare(e, last);
-			if (comparison < 0) {
-				remove(last);
-				return super.add(e);
-			} else {
-				return false;
+			if (position < inner.size()) {
+				inner.remove(inner.size() - 1);
+				inner.add(position, e);
 			}
 		} else {
-			return super.add(e);
+			inner.add(position, e);
 		}
 	}
 
-	@Override
-	public boolean addAll(Collection<? extends E> c) {
-		if (CollectionUtils.isEmpty(c)) {
-			return false;
-		}
-
-		boolean success = true;
-		for (E e : c) {
-			success &= add(e);
-		}
-		return success;
+	public E last() {
+		return inner.get(inner.size() - 1);
 	}
-	
+
 	public boolean isFull() {
-		return size() == maxSize;
+		return inner.size() == capacity;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<E> asList() {
-		return (List<E>) Lists.newArrayList(toArray());
+		return inner;
 	}
 }

@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -33,6 +34,9 @@ public class FeedEntryStatus extends AbstractModel {
 	@Column(name = "read_status")
 	private boolean read;
 	private boolean starred;
+
+	@Transient
+	private boolean markable;
 
 	/**
 	 * Denormalization starts here
@@ -114,6 +118,14 @@ public class FeedEntryStatus extends AbstractModel {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public boolean isMarkable() {
+		return markable;
+	}
+
+	public void setMarkable(boolean markable) {
+		this.markable = markable;
 	}
 
 }

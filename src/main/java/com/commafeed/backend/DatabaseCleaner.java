@@ -1,6 +1,7 @@
 package com.commafeed.backend;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -10,7 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.dao.FeedEntryContentDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
+import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
@@ -30,6 +33,12 @@ public class DatabaseCleaner {
 	FeedSubscriptionDAO feedSubscriptionDAO;
 
 	@Inject
+	FeedEntryContentDAO feedEntryContentDAO;
+
+	@Inject
+	FeedEntryStatusDAO feedEntryStatusDAO;
+
+	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
 	public long cleanFeedsWithoutSubscriptions() {
@@ -45,16 +54,16 @@ public class DatabaseCleaner {
 		return total;
 	}
 
-	public long cleanEntriesWithoutFeeds() {
+	public long cleanContentsWithoutEntries() {
 
 		long total = 0;
 		int deleted = -1;
 		do {
-			deleted = feedEntryDAO.deleteWithoutFeeds(100);
+			deleted = feedEntryContentDAO.deleteWithoutEntries(10);
 			total += deleted;
-			log.info("removed {} entries without feeds", total);
+			log.info("removed {} feeds without subscriptions", total);
 		} while (deleted != 0);
-		log.info("cleanup done: {} entries without feeds deleted", total);
+		log.info("cleanup done: {} feeds without subscriptions deleted", total);
 		return total;
 	}
 
@@ -87,5 +96,11 @@ public class DatabaseCleaner {
 			feedDAO.delete(feed);
 		}
 		feedDAO.saveOrUpdate(into);
+	}
+
+	public void cleanStatusesOlderThan(Date olderThan) {
+		log.info("cleaning old read statuses");
+		int deleted = feedEntryStatusDAO.deleteOldStatuses(olderThan);
+		log.info("cleaned {} read statuses", deleted);
 	}
 }

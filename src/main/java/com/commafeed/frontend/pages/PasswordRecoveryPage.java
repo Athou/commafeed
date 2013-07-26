@@ -21,8 +21,7 @@ import com.commafeed.frontend.pages.components.BootstrapFeedbackPanel;
 @SuppressWarnings("serial")
 public class PasswordRecoveryPage extends BasePage {
 
-	private static Logger log = LoggerFactory
-			.getLogger(PasswordRecoveryPage.class);
+	private static Logger log = LoggerFactory.getLogger(PasswordRecoveryPage.class);
 
 	public PasswordRecoveryPage() {
 
@@ -37,12 +36,10 @@ public class PasswordRecoveryPage extends BasePage {
 					error("Email not found.");
 				} else {
 					try {
-						user.setRecoverPasswordToken(DigestUtils.sha1Hex(UUID
-								.randomUUID().toString()));
+						user.setRecoverPasswordToken(DigestUtils.sha1Hex(UUID.randomUUID().toString()));
 						user.setRecoverPasswordTokenDate(new Date());
 						userDAO.saveOrUpdate(user);
-						mailService.sendMail(user, "Password recovery",
-								buildEmailContent(user));
+						mailService.sendMail(user, "Password recovery", buildEmailContent(user));
 						info("Email sent.");
 					} catch (Exception e) {
 						log.error(e.getMessage(), e);
@@ -67,9 +64,7 @@ public class PasswordRecoveryPage extends BasePage {
 
 	private String buildEmailContent(User user) throws Exception {
 
-		String publicUrl = FeedUtils
-				.removeTrailingSlash(applicationSettingsService.get()
-						.getPublicUrl());
+		String publicUrl = FeedUtils.removeTrailingSlash(applicationSettingsService.get().getPublicUrl());
 		publicUrl += "/recover2";
 
 		return String
@@ -78,11 +73,7 @@ public class PasswordRecoveryPage extends BasePage {
 	}
 
 	private String callbackUrl(User user, String publicUrl) throws Exception {
-		return new URIBuilder(publicUrl)
-				.addParameter(PasswordRecoveryCallbackPage.PARAM_EMAIL,
-						user.getEmail())
-				.addParameter(PasswordRecoveryCallbackPage.PARAM_TOKEN,
-						user.getRecoverPasswordToken()).build().toURL()
-				.toString();
+		return new URIBuilder(publicUrl).addParameter(PasswordRecoveryCallbackPage.PARAM_EMAIL, user.getEmail())
+				.addParameter(PasswordRecoveryCallbackPage.PARAM_TOKEN, user.getRecoverPasswordToken()).build().toURL().toString();
 	}
 }

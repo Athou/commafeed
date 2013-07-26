@@ -14,7 +14,7 @@ import com.wordnik.swagger.annotations.ApiProperty;
 @XmlAccessorType(XmlAccessType.FIELD)
 @ApiClass("Feed information request")
 public class FeedInfoRequest implements Serializable {
-	
+
 	@ApiProperty(value = "feed url", required = true)
 	private String url;
 
@@ -25,7 +25,5 @@ public class FeedInfoRequest implements Serializable {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
-	
 
 }

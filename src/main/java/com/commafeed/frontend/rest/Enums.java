@@ -1,6 +1,5 @@
 package com.commafeed.frontend.rest;
 
-
 public class Enums {
 
 	public enum Type {

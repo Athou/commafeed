@@ -24,8 +24,7 @@ import com.wordnik.swagger.annotations.ApiProperty;
 @ApiClass("Entry details")
 public class Entry implements Serializable {
 
-	public static Entry build(FeedEntryStatus status, String publicUrl,
-			boolean proxyImages) {
+	public static Entry build(FeedEntryStatus status, String publicUrl, boolean proxyImages) {
 		Entry entry = new Entry();
 
 		FeedEntry feedEntry = status.getEntry();
@@ -33,14 +32,14 @@ public class Entry implements Serializable {
 
 		entry.setRead(status.isRead());
 		entry.setStarred(status.isStarred());
+		entry.setMarkable(status.isMarkable());
 
 		entry.setId(String.valueOf(feedEntry.getId()));
 		entry.setGuid(feedEntry.getGuid());
 		entry.setTitle(feedEntry.getContent().getTitle());
-		entry.setContent(FeedUtils.proxyImages(feedEntry.getContent()
-				.getContent(), publicUrl, proxyImages));
+		entry.setContent(FeedUtils.proxyImages(feedEntry.getContent().getContent(), publicUrl, proxyImages));
 		entry.setRtl(FeedUtils.isRTL(feedEntry));
-		entry.setAuthor(feedEntry.getAuthor());
+		entry.setAuthor(feedEntry.getContent().getAuthor());
 		entry.setEnclosureUrl(feedEntry.getContent().getEnclosureUrl());
 		entry.setEnclosureType(feedEntry.getContent().getEnclosureType());
 		entry.setDate(feedEntry.getUpdated());
@@ -123,6 +122,9 @@ public class Entry implements Serializable {
 
 	@ApiProperty("starred status")
 	private boolean starred;
+
+	@ApiProperty("wether the entry is still markable (old entry statuses are discarded)")
+	private boolean markable;
 
 	public String getId() {
 		return id;
@@ -266,6 +268,14 @@ public class Entry implements Serializable {
 
 	public void setInsertedDate(Date insertedDate) {
 		this.insertedDate = insertedDate;
+	}
+
+	public boolean isMarkable() {
+		return markable;
+	}
+
+	public void setMarkable(boolean markable) {
+		this.markable = markable;
 	}
 
 }

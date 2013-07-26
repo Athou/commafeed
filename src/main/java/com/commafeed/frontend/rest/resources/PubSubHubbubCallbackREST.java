@@ -33,8 +33,7 @@ import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 @Path("/push")
 public class PubSubHubbubCallbackREST {
 
-	private static Logger log = LoggerFactory
-			.getLogger(PubSubHubbubCallbackREST.class);
+	private static Logger log = LoggerFactory.getLogger(PubSubHubbubCallbackREST.class);
 
 	@Context
 	HttpServletRequest request;
@@ -57,13 +56,10 @@ public class PubSubHubbubCallbackREST {
 	@Path("/callback")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response verify(@QueryParam("hub.mode") String mode,
-			@QueryParam("hub.topic") String topic,
-			@QueryParam("hub.challenge") String challenge,
-			@QueryParam("hub.lease_seconds") String leaseSeconds,
+	public Response verify(@QueryParam("hub.mode") String mode, @QueryParam("hub.topic") String topic,
+			@QueryParam("hub.challenge") String challenge, @QueryParam("hub.lease_seconds") String leaseSeconds,
 			@QueryParam("hub.verify_token") String verifyToken) {
-		if (!applicationSettingsService.get()
-				.isPubsubhubbub()) {
+		if (!applicationSettingsService.get().isPubsubhubbub()) {
 			return Response.status(Status.FORBIDDEN).entity("pubsubhubbub is disabled").build();
 		}
 
@@ -76,8 +72,7 @@ public class PubSubHubbubCallbackREST {
 
 		if (feeds.isEmpty() == false) {
 			for (Feed feed : feeds) {
-				log.debug("activated push notifications for {}",
-						feed.getPushTopic());
+				log.debug("activated push notifications for {}", feed.getPushTopic());
 				feed.setPushLastPing(new Date());
 			}
 			feedDAO.saveOrUpdate(feeds);
@@ -92,8 +87,7 @@ public class PubSubHubbubCallbackREST {
 	@POST
 	@Consumes({ MediaType.APPLICATION_ATOM_XML, "application/rss+xml" })
 	public Response callback() {
-		if (!applicationSettingsService.get()
-				.isPubsubhubbub()) {
+		if (!applicationSettingsService.get().isPubsubhubbub()) {
 			return Response.status(Status.FORBIDDEN).entity("pubsubhubbub is disabled").build();
 		}
 		try {

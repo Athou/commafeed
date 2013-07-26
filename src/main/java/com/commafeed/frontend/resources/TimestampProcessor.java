@@ -17,8 +17,7 @@ public class TimestampProcessor implements ResourcePreProcessor {
 	private static final String NOW = "" + System.currentTimeMillis();
 
 	@Override
-	public void process(Resource resource, Reader reader, Writer writer)
-			throws IOException {
+	public void process(Resource resource, Reader reader, Writer writer) throws IOException {
 		String content = IOUtils.toString(reader);
 		content = content.replace("${timestamp}", NOW);
 		writer.write(content);

@@ -26,8 +26,7 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 
 		CriteriaQuery<FeedCategory> query = builder.createQuery(getType());
 		Root<FeedCategory> root = query.from(getType());
-		Join<FeedCategory, User> userJoin = (Join<FeedCategory, User>) root
-				.fetch(FeedCategory_.user);
+		Join<FeedCategory, User> userJoin = (Join<FeedCategory, User>) root.fetch(FeedCategory_.user);
 
 		query.where(builder.equal(userJoin.get(User_.id), user.getId()));
 
@@ -38,14 +37,12 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 		CriteriaQuery<FeedCategory> query = builder.createQuery(getType());
 		Root<FeedCategory> root = query.from(getType());
 
-		Predicate p1 = builder.equal(
-				root.get(FeedCategory_.user).get(User_.id), user.getId());
+		Predicate p1 = builder.equal(root.get(FeedCategory_.user).get(User_.id), user.getId());
 		Predicate p2 = builder.equal(root.get(FeedCategory_.id), id);
 
 		query.where(p1, p2);
 
-		return Iterables.getFirst(cache(em.createQuery(query)).getResultList(),
-				null);
+		return Iterables.getFirst(cache(em.createQuery(query)).getResultList(), null);
 	}
 
 	public FeedCategory findByName(User user, String name, FeedCategory parent) {
@@ -60,8 +57,7 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 		if (parent == null) {
 			predicates.add(builder.isNull(root.get(FeedCategory_.parent)));
 		} else {
-			predicates
-					.add(builder.equal(root.get(FeedCategory_.parent), parent));
+			predicates.add(builder.equal(root.get(FeedCategory_.parent), parent));
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));
@@ -85,8 +81,7 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 		if (parent == null) {
 			predicates.add(builder.isNull(root.get(FeedCategory_.parent)));
 		} else {
-			predicates
-					.add(builder.equal(root.get(FeedCategory_.parent), parent));
+			predicates.add(builder.equal(root.get(FeedCategory_.parent), parent));
 		}
 
 		query.where(predicates.toArray(new Predicate[0]));
@@ -94,8 +89,7 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 		return em.createQuery(query).getResultList();
 	}
 
-	public List<FeedCategory> findAllChildrenCategories(User user,
-			FeedCategory parent) {
+	public List<FeedCategory> findAllChildrenCategories(User user, FeedCategory parent) {
 		List<FeedCategory> list = Lists.newArrayList();
 		List<FeedCategory> all = findAll(user);
 		for (FeedCategory cat : all) {

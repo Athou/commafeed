@@ -102,24 +102,18 @@ public class AdminREST extends AbstractResourceREST {
 				roles.add(Role.ADMIN);
 			}
 			try {
-				userService.register(userModel.getName(),
-						userModel.getPassword(), userModel.getEmail(), roles,
-						true);
+				userService.register(userModel.getName(), userModel.getPassword(), userModel.getEmail(), roles, true);
 			} catch (Exception e) {
-				return Response.status(Status.CONFLICT).entity(e.getMessage())
-						.build();
+				return Response.status(Status.CONFLICT).entity(e.getMessage()).build();
 			}
 		} else {
 			User user = userDAO.findById(id);
-			if (StartupBean.USERNAME_ADMIN.equals(user.getName())
-					&& !userModel.isEnabled()) {
-				return Response.status(Status.FORBIDDEN)
-						.entity("You cannot disable the admin user.").build();
+			if (StartupBean.USERNAME_ADMIN.equals(user.getName()) && !userModel.isEnabled()) {
+				return Response.status(Status.FORBIDDEN).entity("You cannot disable the admin user.").build();
 			}
 			user.setName(userModel.getName());
 			if (StringUtils.isNotBlank(userModel.getPassword())) {
-				user.setPassword(encryptionService.getEncryptedPassword(
-						userModel.getPassword(), user.getSalt()));
+				user.setPassword(encryptionService.getEncryptedPassword(userModel.getPassword(), user.getSalt()));
 			}
 			user.setEmail(userModel.getEmail());
 			user.setDisabled(!userModel.isEnabled());
@@ -130,10 +124,7 @@ public class AdminREST extends AbstractResourceREST {
 				userRoleDAO.saveOrUpdate(new UserRole(user, Role.ADMIN));
 			} else if (!userModel.isAdmin() && roles.contains(Role.ADMIN)) {
 				if (StartupBean.USERNAME_ADMIN.equals(user.getName())) {
-					return Response
-							.status(Status.FORBIDDEN)
-							.entity("You cannot remove the admin role from the admin user.")
-							.build();
+					return Response.status(Status.FORBIDDEN).entity("You cannot remove the admin role from the admin user.").build();
 				}
 				for (UserRole userRole : userRoleDAO.findAll(user)) {
 					if (userRole.getRole() == Role.ADMIN) {
@@ -150,8 +141,7 @@ public class AdminREST extends AbstractResourceREST {
 	@Path("/user/get/{id}")
 	@GET
 	@ApiOperation(value = "Get user information", notes = "Get user information", responseClass = "com.commafeed.frontend.model.UserModel")
-	public Response getUser(
-			@ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
+	public Response getUser(@ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
 		Preconditions.checkNotNull(id);
 		User user = userDAO.findById(id);
 		UserModel userModel = new UserModel();
@@ -205,8 +195,7 @@ public class AdminREST extends AbstractResourceREST {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		if (StartupBean.USERNAME_ADMIN.equals(user.getName())) {
-			return Response.status(Status.FORBIDDEN)
-					.entity("You cannot delete the admin user.").build();
+			return Response.status(Status.FORBIDDEN).entity("You cannot delete the admin user.").build();
 		}
 		userService.unregister(user);
 		return Response.ok().build();
@@ -214,7 +203,10 @@ public class AdminREST extends AbstractResourceREST {
 
 	@Path("/settings")
 	@GET
-	@ApiOperation(value = "Retrieve application settings", notes = "Retrieve application settings", responseClass = "com.commafeed.backend.model.ApplicationSettings")
+	@ApiOperation(
+			value = "Retrieve application settings",
+			notes = "Retrieve application settings",
+			responseClass = "com.commafeed.backend.model.ApplicationSettings")
 	public Response getSettings() {
 		return Response.ok(applicationSettingsService.get()).build();
 	}
@@ -222,8 +214,7 @@ public class AdminREST extends AbstractResourceREST {
 	@Path("/settings")
 	@POST
 	@ApiOperation(value = "Save application settings", notes = "Save application settings")
-	public Response saveSettings(
-			@ApiParam(required = true) ApplicationSettings settings) {
+	public Response saveSettings(@ApiParam(required = true) ApplicationSettings settings) {
 		Preconditions.checkNotNull(settings);
 		applicationSettingsService.save(settings);
 		return Response.ok().build();
@@ -232,8 +223,7 @@ public class AdminREST extends AbstractResourceREST {
 	@Path("/metrics")
 	@GET
 	@ApiOperation(value = "Retrieve server metrics")
-	public Response getMetrics(
-			@QueryParam("backlog") @DefaultValue("false") boolean backlog) {
+	public Response getMetrics(@QueryParam("backlog") @DefaultValue("false") boolean backlog) {
 		Map<String, Object> map = Maps.newLinkedHashMap();
 		map.put("lastMinute", metricsBean.getLastMinute());
 		map.put("lastHour", metricsBean.getLastHour());
@@ -254,43 +244,44 @@ public class AdminREST extends AbstractResourceREST {
 	@ApiOperation(value = "Feeds cleanup", notes = "Delete feeds without subscriptions and entries without feeds")
 	public Response cleanupFeeds() {
 		Map<String, Long> map = Maps.newHashMap();
-		map.put("feeds_without_subscriptions",
-				cleaner.cleanFeedsWithoutSubscriptions());
-		map.put("entries_without_feeds", cleaner.cleanEntriesWithoutFeeds());
+		map.put("feeds_without_subscriptions", cleaner.cleanFeedsWithoutSubscriptions());
+		return Response.ok(map).build();
+	}
+
+	@Path("/cleanup/content")
+	@GET
+	@ApiOperation(value = "Content cleanup", notes = "Delete contents without entries")
+	public Response cleanupContents() {
+		Map<String, Long> map = Maps.newHashMap();
+		map.put("contents_without_entries", cleaner.cleanContentsWithoutEntries());
 		return Response.ok(map).build();
 	}
 
 	@Path("/cleanup/entries")
 	@GET
 	@ApiOperation(value = "Entries cleanup", notes = "Delete entries older than given date")
-	public Response cleanupEntries(
-			@QueryParam("days") @DefaultValue("30") int days) {
+	public Response cleanupEntries(@QueryParam("days") @DefaultValue("30") int days) {
 		Map<String, Long> map = Maps.newHashMap();
-		map.put("old entries",
-				cleaner.cleanEntriesOlderThan(days, TimeUnit.DAYS));
+		map.put("old_entries", cleaner.cleanEntriesOlderThan(days, TimeUnit.DAYS));
 		return Response.ok(map).build();
 	}
 
 	@Path("/cleanup/findDuplicateFeeds")
 	@GET
 	@ApiOperation(value = "Find duplicate feeds")
-	public Response findDuplicateFeeds(@QueryParam("mode") DuplicateMode mode,
-			@QueryParam("page") int page, @QueryParam("limit") int limit,
-			@QueryParam("minCount") long minCount) {
-		List<FeedCount> list = feedDAO.findDuplicates(mode, limit * page,
-				limit, minCount);
+	public Response findDuplicateFeeds(@QueryParam("mode") DuplicateMode mode, @QueryParam("page") int page,
+			@QueryParam("limit") int limit, @QueryParam("minCount") long minCount) {
+		List<FeedCount> list = feedDAO.findDuplicates(mode, limit * page, limit, minCount);
 		return Response.ok(list).build();
 	}
 
 	@Path("/cleanup/merge")
 	@POST
 	@ApiOperation(value = "Merge feeds", notes = "Merge feeds together")
-	public Response mergeFeeds(
-			@ApiParam(required = true) FeedMergeRequest request) {
+	public Response mergeFeeds(@ApiParam(required = true) FeedMergeRequest request) {
 		Feed into = feedDAO.findById(request.getIntoFeedId());
 		if (into == null) {
-			return Response.status(Status.BAD_REQUEST)
-					.entity("'into feed' not found").build();
+			return Response.status(Status.BAD_REQUEST).entity("'into feed' not found").build();
 		}
 
 		List<Feed> feeds = Lists.newArrayList();
@@ -300,8 +291,7 @@ public class AdminREST extends AbstractResourceREST {
 		}
 
 		if (feeds.isEmpty()) {
-			return Response.status(Status.BAD_REQUEST)
-					.entity("'from feeds' empty").build();
+			return Response.status(Status.BAD_REQUEST).entity("'from feeds' empty").build();
 		}
 
 		cleaner.mergeFeeds(into, feeds);

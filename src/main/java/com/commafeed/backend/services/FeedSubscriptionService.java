@@ -18,17 +18,14 @@ import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
-import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
-import com.google.api.client.util.Lists;
+import com.google.api.client.util.Maps;
 
 public class FeedSubscriptionService {
 
-	private static Logger log = LoggerFactory
-			.getLogger(FeedSubscriptionService.class);
+	private static Logger log = LoggerFactory.getLogger(FeedSubscriptionService.class);
 
 	@SuppressWarnings("serial")
 	@ApplicationException
@@ -59,63 +56,62 @@ public class FeedSubscriptionService {
 	@Inject
 	CacheService cache;
 
-	public Feed subscribe(User user, String url, String title,
-			FeedCategory category) {
+	public Feed subscribe(User user, String url, String title, FeedCategory category) {
 
 		final String pubUrl = applicationSettingsService.get().getPublicUrl();
 		if (StringUtils.isBlank(pubUrl)) {
-			throw new FeedSubscriptionException(
-					"Public URL of this CommaFeed instance is not set");
+			throw new FeedSubscriptionException("Public URL of this CommaFeed instance is not set");
 		}
 		if (url.startsWith(pubUrl)) {
-			throw new FeedSubscriptionException(
-					"Could not subscribe to a feed from this CommaFeed instance");
+			throw new FeedSubscriptionException("Could not subscribe to a feed from this CommaFeed instance");
 		}
 
 		Feed feed = feedService.findOrCreate(url);
 
 		FeedSubscription sub = feedSubscriptionDAO.findByFeed(user, feed);
-		boolean newSubscription = false;
 		if (sub == null) {
 			sub = new FeedSubscription();
 			sub.setFeed(feed);
 			sub.setUser(user);
-			newSubscription = true;
 		}
 		sub.setCategory(category);
 		sub.setPosition(0);
 		sub.setTitle(FeedUtils.truncate(title, 128));
 		feedSubscriptionDAO.saveOrUpdate(sub);
 
-		if (newSubscription) {
-			try {
-				List<FeedEntryStatus> statuses = Lists.newArrayList();
-				List<FeedEntry> allEntries = feedEntryDAO.findByFeed(feed, 0,
-						10);
-				for (FeedEntry entry : allEntries) {
-					FeedEntryStatus status = new FeedEntryStatus(user, sub, entry);
-					status.setRead(false);
-					status.setSubscription(sub);
-					statuses.add(status);
-				}
-				feedEntryStatusDAO.saveOrUpdate(statuses);
-			} catch (Exception e) {
-				log.error(
-						"could not fetch initial statuses when importing {} : {}",
-						feed.getUrl(), e.getMessage());
-			}
-		}
 		taskGiver.add(feed);
+		cache.invalidateUserRootCategory(user);
 		return feed;
 	}
 
+	public boolean unsubscribe(User user, Long subId) {
+		FeedSubscription sub = feedSubscriptionDAO.findById(user, subId);
+		if (sub != null) {
+			feedSubscriptionDAO.delete(sub);
+			cache.invalidateUserRootCategory(user);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public Long getUnreadCount(FeedSubscription sub) {
+		Long count = cache.getUnreadCount(sub);
+		if (count == null) {
+			log.debug("unread count cache miss for {}", Models.getId(sub));
+			count = feedEntryStatusDAO.getUnreadCount(sub);
+			cache.setUnreadCount(sub, count);
+		}
+		return count;
+	}
+
 	public Map<Long, Long> getUnreadCount(User user) {
-		Map<Long, Long> map = cache.getUnreadCounts(user);
-		if (map == null) {
-			log.debug("unread count cache miss for {}", Models.getId(user));
-			map = feedEntryStatusDAO.getUnreadCount(user);
-			cache.setUnreadCounts(user, map);
+		Map<Long, Long> map = Maps.newHashMap();
+		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
+		for (FeedSubscription sub : subs) {
+			map.put(sub.getId(), getUnreadCount(sub));
 		}
 		return map;
 	}
+
 }

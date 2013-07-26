@@ -40,14 +40,12 @@ public class ApiDocumentationREST extends AbstractREST {
 			}
 			Api api = resource.getAnnotation(Api.class);
 			if (api != null) {
-				doc.addApi(new DocumentationEndPoint(api.value(), api
-						.description()));
+				doc.addApi(new DocumentationEndPoint(api.value(), api.description()));
 			}
 		}
 
 		doc.setSwaggerVersion(SwaggerSpec.version());
-		doc.setBasePath(getBasePath(applicationSettingsService.get()
-				.getPublicUrl()));
+		doc.setBasePath(getBasePath(applicationSettingsService.get().getPublicUrl()));
 		doc.setApiVersion(API_VERSION);
 
 		return Response.ok().entity(doc).build();

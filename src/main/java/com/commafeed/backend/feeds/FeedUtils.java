@@ -41,10 +41,8 @@ public class FeedUtils {
 	protected static Logger log = LoggerFactory.getLogger(FeedUtils.class);
 
 	private static final String ESCAPED_QUESTION_MARK = Pattern.quote("?");
-	private static final List<String> ALLOWED_IFRAME_CSS_RULES = Arrays.asList(
-			"height", "width", "border");
-	private static final char[] DISALLOWED_IFRAME_CSS_RULE_CHARACTERS = new char[] {
-			'(', ')' };
+	private static final List<String> ALLOWED_IFRAME_CSS_RULES = Arrays.asList("height", "width", "border");
+	private static final char[] DISALLOWED_IFRAME_CSS_RULE_CHARACTERS = new char[] { '(', ')' };
 
 	public static String truncate(String string, int length) {
 		if (string != null) {
@@ -54,8 +52,8 @@ public class FeedUtils {
 	}
 
 	/**
-	 * Detect feed encoding by using the declared encoding in the xml processing
-	 * instruction and by detecting the characters used in the feed
+	 * Detect feed encoding by using the declared encoding in the xml processing instruction and by detecting the characters used in the
+	 * feed
 	 * 
 	 */
 	public static String guessEncoding(byte[] bytes) {
@@ -87,8 +85,7 @@ public class FeedUtils {
 	}
 
 	/**
-	 * Normalize the url. The resulting url is not meant to be fetched but
-	 * rather used as a mean to identify a feed and avoid duplicates
+	 * Normalize the url. The resulting url is not meant to be fetched but rather used as a mean to identify a feed and avoid duplicates
 	 */
 	public static String normalizeURL(String url) {
 		if (url == null) {
@@ -113,13 +110,11 @@ public class FeedUtils {
 		normalized = normalized.replace("//www.", "//");
 
 		// feedproxy redirects to feedburner
-		normalized = normalized.replace("feedproxy.google.com",
-				"feeds.feedburner.com");
+		normalized = normalized.replace("feedproxy.google.com", "feeds.feedburner.com");
 
 		// feedburner feeds have a special treatment
 		if (normalized.split(ESCAPED_QUESTION_MARK)[0].contains("feedburner.com")) {
-			normalized = normalized.replace("feeds2.feedburner.com",
-					"feeds.feedburner.com");
+			normalized = normalized.replace("feeds2.feedburner.com", "feeds.feedburner.com");
 			normalized = normalized.split(ESCAPED_QUESTION_MARK)[0];
 			normalized = StringUtils.removeEnd(normalized, "/");
 		}
@@ -146,17 +141,13 @@ public class FeedUtils {
 		return encoding;
 	}
 
-	public static String handleContent(String content, String baseUri,
-			boolean keepTextOnly) {
+	public static String handleContent(String content, String baseUri, boolean keepTextOnly) {
 		if (StringUtils.isNotBlank(content)) {
 			baseUri = StringUtils.trimToEmpty(baseUri);
 			Whitelist whitelist = new Whitelist();
-			whitelist.addTags("a", "b", "blockquote", "br", "caption", "cite",
-					"code", "col", "colgroup", "dd", "div", "dl", "dt", "em",
-					"h1", "h2", "h3", "h4", "h5", "h6", "i", "iframe", "img",
-					"li", "ol", "p", "pre", "q", "small", "strike", "strong",
-					"sub", "sup", "table", "tbody", "td", "tfoot", "th",
-					"thead", "tr", "u", "ul");
+			whitelist.addTags("a", "b", "blockquote", "br", "caption", "cite", "code", "col", "colgroup", "dd", "div", "dl", "dt", "em",
+					"h1", "h2", "h3", "h4", "h5", "h6", "i", "iframe", "img", "li", "ol", "p", "pre", "q", "small", "strike", "strong",
+					"sub", "sup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "u", "ul");
 
 			whitelist.addAttributes("div", "dir");
 			whitelist.addAttributes("pre", "dir");
@@ -167,22 +158,16 @@ public class FeedUtils {
 			whitelist.addAttributes("blockquote", "cite");
 			whitelist.addAttributes("col", "span", "width");
 			whitelist.addAttributes("colgroup", "span", "width");
-			whitelist.addAttributes("iframe", "src", "height", "width",
-					"allowfullscreen", "frameborder", "style");
-			whitelist.addAttributes("img", "align", "alt", "height", "src",
-					"title", "width");
+			whitelist.addAttributes("iframe", "src", "height", "width", "allowfullscreen", "frameborder", "style");
+			whitelist.addAttributes("img", "align", "alt", "height", "src", "title", "width");
 			whitelist.addAttributes("ol", "start", "type");
 			whitelist.addAttributes("q", "cite");
-			whitelist.addAttributes("table", "border", "bordercolor",
-					"summary", "width");
-			whitelist.addAttributes("td", "border", "bordercolor", "abbr",
-					"axis", "colspan", "rowspan", "width");
-			whitelist.addAttributes("th", "border", "bordercolor", "abbr",
-					"axis", "colspan", "rowspan", "scope", "width");
+			whitelist.addAttributes("table", "border", "bordercolor", "summary", "width");
+			whitelist.addAttributes("td", "border", "bordercolor", "abbr", "axis", "colspan", "rowspan", "width");
+			whitelist.addAttributes("th", "border", "bordercolor", "abbr", "axis", "colspan", "rowspan", "scope", "width");
 			whitelist.addAttributes("ul", "type");
 
-			whitelist.addProtocols("a", "href", "ftp", "http", "https",
-					"mailto");
+			whitelist.addProtocols("a", "href", "ftp", "http", "https", "mailto");
 			whitelist.addProtocols("blockquote", "cite", "http", "https");
 			whitelist.addProtocols("img", "src", "http", "https");
 			whitelist.addProtocols("q", "cite", "http", "https");
@@ -199,8 +184,7 @@ public class FeedUtils {
 				e.attr("style", escaped);
 			}
 
-			clean.outputSettings(new OutputSettings().escapeMode(
-					EscapeMode.base).prettyPrint(false));
+			clean.outputSettings(new OutputSettings().escapeMode(EscapeMode.base).prettyPrint(false));
 			Element body = clean.body();
 			if (keepTextOnly) {
 				content = body.text();
@@ -215,9 +199,7 @@ public class FeedUtils {
 		List<String> rules = Lists.newArrayList();
 		CSSOMParser parser = new CSSOMParser();
 		try {
-			CSSStyleDeclaration decl = parser
-					.parseStyleDeclaration(new InputSource(new StringReader(
-							orig)));
+			CSSStyleDeclaration decl = parser.parseStyleDeclaration(new InputSource(new StringReader(orig)));
 
 			for (int i = 0; i < decl.getLength(); i++) {
 				String property = decl.item(i);
@@ -226,11 +208,8 @@ public class FeedUtils {
 					continue;
 				}
 
-				if (ALLOWED_IFRAME_CSS_RULES.contains(property)
-						&& StringUtils.containsNone(value,
-								DISALLOWED_IFRAME_CSS_RULE_CHARACTERS)) {
-					rules.add(property + ":" + decl.getPropertyValue(property)
-							+ ";");
+				if (ALLOWED_IFRAME_CSS_RULES.contains(property) && StringUtils.containsNone(value, DISALLOWED_IFRAME_CSS_RULE_CHARACTERS)) {
+					rules.add(property + ":" + decl.getPropertyValue(property) + ";");
 				}
 			}
 		} catch (IOException e) {
@@ -278,8 +257,7 @@ public class FeedUtils {
 			}
 
 			if (c >= 32 || c == 9 || c == 10 || c == 13) {
-				if (!Character.isHighSurrogate(c)
-						&& !Character.isLowSurrogate(c)) {
+				if (!Character.isHighSurrogate(c) && !Character.isLowSurrogate(c)) {
 					sb.append(c);
 				}
 			}
@@ -306,8 +284,7 @@ public class FeedUtils {
 	/**
 	 * When the feed was refreshed successfully
 	 */
-	public static Date buildDisabledUntil(Date publishedDate,
-			Long averageEntryInterval) {
+	public static Date buildDisabledUntil(Date publishedDate, Long averageEntryInterval) {
 		Date now = new Date();
 
 		if (publishedDate == null) {
@@ -325,8 +302,7 @@ public class FeedUtils {
 		} else if (averageEntryInterval != null) {
 			// use average time between entries to decide when to refresh next
 			int factor = 2;
-			return new Date(Math.min(DateUtils.addHours(now, 6).getTime(),
-					now.getTime() + averageEntryInterval / factor));
+			return new Date(Math.min(DateUtils.addHours(now, 6).getTime(), now.getTime() + averageEntryInterval / factor));
 		} else {
 			// unknown case, recheck in 24 hours
 			return DateUtils.addHours(now, 24);
@@ -378,14 +354,11 @@ public class FeedUtils {
 		return baseUrl + url;
 	}
 
-	public static String getFaviconUrl(FeedSubscription subscription,
-			String publicUrl) {
-		return removeTrailingSlash(publicUrl) + "/rest/feed/favicon/"
-				+ subscription.getId();
+	public static String getFaviconUrl(FeedSubscription subscription, String publicUrl) {
+		return removeTrailingSlash(publicUrl) + "/rest/feed/favicon/" + subscription.getId();
 	}
 
-	public static String proxyImages(String content, String publicUrl,
-			boolean proxyImages) {
+	public static String proxyImages(String content, String publicUrl, boolean proxyImages) {
 		if (!proxyImages) {
 			return content;
 		}
@@ -398,8 +371,7 @@ public class FeedUtils {
 		for (Element element : elements) {
 			String href = element.attr("src");
 			if (href != null) {
-				String proxy = removeTrailingSlash(publicUrl)
-						+ "/rest/server/proxy?u=" + imageProxyEncoder(href);
+				String proxy = removeTrailingSlash(publicUrl) + "/rest/server/proxy?u=" + imageProxyEncoder(href);
 				element.attr("src", proxy);
 			}
 		}

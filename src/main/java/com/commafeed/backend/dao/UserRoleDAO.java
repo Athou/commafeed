@@ -33,8 +33,7 @@ public class UserRoleDAO extends GenericDAO<UserRole> {
 		CriteriaQuery<UserRole> query = builder.createQuery(getType());
 		Root<UserRole> root = query.from(getType());
 
-		query.where(builder.equal(root.get(UserRole_.user).get(User_.id),
-				user.getId()));
+		query.where(builder.equal(root.get(UserRole_.user).get(User_.id), user.getId()));
 		return cache(em.createQuery(query)).getResultList();
 	}
 

@@ -79,7 +79,7 @@
 						<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}"
 							class="pointer"></i>
 					</span>
-					<label class="checkbox inline">
+					<label class="checkbox inline" ui-if="entry.markable">
 						<input type="checkbox" ng-checked="!entry.read" ng-click="mark(entry, !entry.read)" class="mousetrap"></input>
 						${view.keep_unread}
 					</label>

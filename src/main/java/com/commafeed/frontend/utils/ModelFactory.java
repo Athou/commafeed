@@ -38,7 +38,7 @@ public class ModelFactory {
 	 * 
 	 */
 	public static class MF {
-		
+
 		public static <T> String i(T proxiedValue) {
 			return ModelFactory.invokedProperty(proxiedValue);
 		}

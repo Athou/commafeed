@@ -12,8 +12,7 @@ import ro.isdc.wro.model.resource.processor.impl.css.CssImportPreProcessor;
 public class SassImportProcessor extends CssImportPreProcessor {
 
 	@Override
-	protected String doTransform(String cssContent, List<Resource> foundImports)
-			throws IOException {
+	protected String doTransform(String cssContent, List<Resource> foundImports) throws IOException {
 		for (Resource resource : foundImports) {
 			String uri = resource.getUri();
 			int lastSlash = uri.lastIndexOf('/');

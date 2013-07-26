@@ -29,14 +29,12 @@ import com.commafeed.backend.services.ApplicationPropertiesService;
 import com.commafeed.frontend.CommaFeedSession;
 
 /**
- * Replace variables from templates on the fly in dev mode only. In production
- * the substitution is done at build-time.
+ * Replace variables from templates on the fly in dev mode only. In production the substitution is done at build-time.
  * 
  */
 public class InternationalizationDevelopmentFilter implements Filter {
 
-	private static Logger log = LoggerFactory
-			.getLogger(InternationalizationDevelopmentFilter.class);
+	private static Logger log = LoggerFactory.getLogger(InternationalizationDevelopmentFilter.class);
 
 	@Inject
 	UserSettingsDAO userSettingsDAO;
@@ -55,8 +53,7 @@ public class InternationalizationDevelopmentFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
 		if (production) {
 			chain.doFilter(request, response);
@@ -64,8 +61,7 @@ public class InternationalizationDevelopmentFilter implements Filter {
 		}
 
 		final ServletOutputStream wrapper = new ServletOutputStreamWrapper();
-		ServletResponse interceptor = new HttpServletResponseWrapper(
-				(HttpServletResponse) response) {
+		ServletResponse interceptor = new HttpServletResponseWrapper((HttpServletResponse) response) {
 
 			@Override
 			public ServletOutputStream getOutputStream() throws IOException {
@@ -74,10 +70,8 @@ public class InternationalizationDevelopmentFilter implements Filter {
 		};
 		chain.doFilter(request, interceptor);
 
-		UserSettings settings = userSettingsDAO.findByUser(CommaFeedSession
-				.get().getUser());
-		String lang = (settings == null || settings.getLanguage() == null) ? "en"
-				: settings.getLanguage();
+		UserSettings settings = userSettingsDAO.findByUser(CommaFeedSession.get().getUser());
+		String lang = (settings == null || settings.getLanguage() == null) ? "en" : settings.getLanguage();
 
 		byte[] bytes = translate(wrapper.toString(), lang).getBytes("UTF-8");
 		response.setContentLength(bytes.length);
@@ -91,8 +85,7 @@ public class InternationalizationDevelopmentFilter implements Filter {
 		Properties props = new Properties();
 		InputStream is = null;
 		try {
-			is = getClass()
-					.getResourceAsStream("/i18n/" + lang + ".properties");
+			is = getClass().getResourceAsStream("/i18n/" + lang + ".properties");
 			props.load(new InputStreamReader(is, "UTF-8"));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -111,8 +104,7 @@ public class InternationalizationDevelopmentFilter implements Filter {
 		while (m.find()) {
 			String var = m.group(1);
 			Object replacement = props.get(var);
-			String replacementValue = replacement == null ? var : replacement
-					.toString().split("#")[0];
+			String replacementValue = replacement == null ? var : replacement.toString().split("#")[0];
 			m.appendReplacement(sb, replacementValue);
 		}
 		m.appendTail(sb);

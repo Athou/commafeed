@@ -20,8 +20,7 @@ public class DisplayExceptionPage extends BasePage {
 
 		add(new Label("message", t.getMessage()));
 
-		add(new BookmarkablePageLink<Void>("homepage", getApplication()
-				.getHomePage()));
+		add(new BookmarkablePageLink<Void>("homepage", getApplication().getHomePage()));
 
 		StringWriter stringWriter = new StringWriter();
 		t.printStackTrace(new PrintWriter(stringWriter));

@@ -35,8 +35,13 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		builder = em.getCriteriaBuilder();
 	}
 
-	public void saveOrUpdate(Collection<? extends AbstractModel> models) {
+	public Session getSession() {
 		Session session = em.unwrap(Session.class);
+		return session;
+	}
+
+	public void saveOrUpdate(Collection<? extends AbstractModel> models) {
+		Session session = getSession();
 		int i = 1;
 		for (AbstractModel model : models) {
 			session.saveOrUpdate(model);
@@ -91,8 +96,7 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		return q.getResultList();
 	}
 
-	public List<T> findAll(int startIndex, int count, String orderBy,
-			boolean asc) {
+	public List<T> findAll(int startIndex, int count, String orderBy, boolean asc) {
 
 		CriteriaQuery<T> query = builder.createQuery(getType());
 		Root<T> root = query.from(getType());
@@ -121,8 +125,7 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		return findByField(field, value, false);
 	}
 
-	protected <V> List<T> findByField(Attribute<T, V> field, V value,
-			boolean cache) {
+	protected <V> List<T> findByField(Attribute<T, V> field, V value, boolean cache) {
 		CriteriaQuery<T> query = builder.createQuery(getType());
 		Root<T> root = query.from(getType());
 
@@ -152,7 +155,7 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		query.unwrap(Query.class).setCacheable(true);
 		return query;
 	}
-	
+
 	protected void setTimeout(javax.persistence.Query query, int queryTimeout) {
 		if (queryTimeout > 0) {
 			query.setHint("javax.persistence.query.timeout", queryTimeout);

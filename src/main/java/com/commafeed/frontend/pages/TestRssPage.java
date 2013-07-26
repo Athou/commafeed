@@ -3,9 +3,9 @@ package com.commafeed.frontend.pages;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.handler.TextRequestHandler;
 
@@ -49,7 +49,7 @@ public class TestRssPage extends WebPage {
 
 		try {
 			// simulate internet lag
-			Thread.sleep(Math.abs(new Random().nextLong() % 5000));
+			Thread.sleep(Math.abs(RandomUtils.nextLong() % 5000));
 		} catch (InterruptedException e) {
 			// do nothing
 		}

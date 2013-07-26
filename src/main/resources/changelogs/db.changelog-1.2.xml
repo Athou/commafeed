@@ -90,4 +90,15 @@
 		</createIndex>
 	</changeSet>
 	
+	<changeSet author="athou" id="add-title-hashes">
+		<addColumn tableName="FEEDENTRYCONTENTS">
+			<column name="titleHash" type="VARCHAR(40)" />
+		</addColumn>
+		<createIndex tableName="FEEDENTRYCONTENTS" indexName="content_title_index">
+			<column name="contentHash" />
+			<column name="titleHash" />
+		</createIndex>
+		<dropIndex tableName="FEEDENTRYCONTENTS" indexName="content_hash_index" />
+	</changeSet>
+	
 </databaseChangeLog>

@@ -21,6 +21,9 @@ public class FeedEntryContent extends AbstractModel {
 
 	@Column(length = 2048)
 	private String title;
+	
+	@Column(length = 40)
+	private String titleHash;
 
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
@@ -95,6 +98,14 @@ public class FeedEntryContent extends AbstractModel {
 
 	public void setEntries(Set<FeedEntry> entries) {
 		this.entries = entries;
+	}
+
+	public String getTitleHash() {
+		return titleHash;
+	}
+
+	public void setTitleHash(String titleHash) {
+		this.titleHash = titleHash;
 	}
 
 }

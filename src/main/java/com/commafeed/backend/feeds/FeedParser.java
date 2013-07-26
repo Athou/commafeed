@@ -90,7 +90,7 @@ public class FeedParser {
 				FeedEntryContent content = new FeedEntryContent();
 				content.setContent(getContent(item));
 				content.setTitle(getTitle(item));
-				content.setAuthor(item.getAuthor());
+				content.setAuthor(StringUtils.trimToNull(item.getAuthor()));
 				SyndEnclosure enclosure = (SyndEnclosure) Iterables.getFirst(item.getEnclosures(), null);
 				if (enclosure != null) {
 					content.setEnclosureUrl(FeedUtils.truncate(enclosure.getUrl(), 2048));
@@ -187,7 +187,7 @@ public class FeedParser {
 		} else {
 			content = StringUtils.join(Collections2.transform(item.getContents(), CONTENT_TO_STRING), SystemUtils.LINE_SEPARATOR);
 		}
-		return StringUtils.trimToEmpty(content);
+		return StringUtils.trimToNull(content);
 	}
 
 	private String getTitle(SyndEntry item) {
@@ -200,7 +200,7 @@ public class FeedParser {
 				title = "(no title)";
 			}
 		}
-		return title;
+		return StringUtils.trimToNull(title);
 	}
 
 	@SuppressWarnings("unchecked")

@@ -151,7 +151,7 @@ public class FeedRefreshUpdater {
 		// lock on content, make sure we are not updating the same entry
 		// twice at the same time
 		FeedEntryContent content = entry.getContent();
-		String key2 = DigestUtils.sha1Hex(content.getContent() + content.getTitle() + content.getAuthor());
+		String key2 = DigestUtils.sha1Hex(StringUtils.trimToEmpty(content.getContent() + content.getTitle()));
 
 		Iterator<Lock> iterator = locks.bulkGet(Arrays.asList(key1, key2)).iterator();
 		Lock lock1 = iterator.next();

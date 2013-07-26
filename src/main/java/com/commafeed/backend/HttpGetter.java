@@ -134,14 +134,17 @@ public class HttpGetter {
 
 			HttpEntity entity = response.getEntity();
 			byte[] content = null;
+			String contentType = null;
 			if (entity != null) {
 				content = EntityUtils.toByteArray(entity);
+				if (entity.getContentType() != null) {
+					contentType = entity.getContentType().getValue();
+				}
 			}
 
 			long duration = System.currentTimeMillis() - start;
-			Header contentType = entity.getContentType();
-			result = new HttpResult(content, contentType == null ? null : contentType.getValue(), lastModifiedHeader == null ? null
-					: lastModifiedHeader.getValue(), eTagHeader == null ? null : eTagHeader.getValue(), duration);
+			result = new HttpResult(content, contentType, lastModifiedHeader == null ? null : lastModifiedHeader.getValue(),
+					eTagHeader == null ? null : eTagHeader.getValue(), duration);
 		} finally {
 			client.getConnectionManager().shutdown();
 		}

@@ -53,8 +53,7 @@ public class TestRssPage extends WebPage {
 		} catch (InterruptedException e) {
 			// do nothing
 		}
-		getRequestCycle().scheduleRequestHandlerAfterCurrent(
-				new TextRequestHandler("text/xml", "UTF-8", writer.toString()));
+		getRequestCycle().scheduleRequestHandlerAfterCurrent(new TextRequestHandler("text/xml", "UTF-8", writer.toString()));
 	}
 
 }

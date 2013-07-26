@@ -53,8 +53,7 @@ public class PasswordEncryptionService implements Serializable {
 		// http://blog.crackpassword.com/2010/09/smartphone-forensics-cracking-blackberry-backup-passwords/
 		int iterations = 20000;
 
-		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations,
-				derivedKeyLength);
+		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength);
 
 		byte[] bytes = null;
 		try {

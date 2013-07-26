@@ -17,7 +17,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.commafeed.backend.dao.UserDAO;
+import com.commafeed.backend.dao.ApplicationSettingsDAO;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.UserRole.Role;
@@ -38,7 +38,7 @@ public class StartupBean {
 	DatabaseUpdater databaseUpdater;
 
 	@Inject
-	UserDAO userDAO;
+	ApplicationSettingsDAO applicationSettingsDAO;
 
 	@Inject
 	UserService userService;
@@ -58,7 +58,7 @@ public class StartupBean {
 		startupTime = System.currentTimeMillis();
 		databaseUpdater.update();
 
-		if (userDAO.getCount() == 0) {
+		if (applicationSettingsDAO.getCount() == 0) {
 			initialData();
 		}
 		applicationSettingsService.applyLogLevel();
@@ -79,8 +79,7 @@ public class StartupBean {
 			IOUtils.closeQuietly(is);
 		}
 		for (Object key : props.keySet()) {
-			supportedLanguages.put(key.toString(),
-					props.getProperty(key.toString()));
+			supportedLanguages.put(key.toString(), props.getProperty(key.toString()));
 		}
 	}
 
@@ -92,11 +91,8 @@ public class StartupBean {
 		applicationSettingsService.save(settings);
 
 		try {
-			userService.register(USERNAME_ADMIN, "admin",
-					"admin@commafeed.com",
-					Arrays.asList(Role.ADMIN, Role.USER), true);
-			userService.register(USERNAME_DEMO, "demo", "demo@commafeed.com",
-					Arrays.asList(Role.USER), true);
+			userService.register(USERNAME_ADMIN, "admin", "admin@commafeed.com", Arrays.asList(Role.ADMIN, Role.USER), true);
+			userService.register(USERNAME_DEMO, "demo", "demo@commafeed.com", Arrays.asList(Role.USER), true);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

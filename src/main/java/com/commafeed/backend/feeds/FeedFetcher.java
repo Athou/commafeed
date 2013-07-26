@@ -30,18 +30,15 @@ public class FeedFetcher {
 	@Inject
 	HttpGetter getter;
 
-	public FetchedFeed fetch(String feedUrl, boolean extractFeedUrlFromHtml,
-			String lastModified, String eTag, Date lastPublishedDate,
-			String lastContentHash) throws FeedException,
-			ClientProtocolException, IOException, NotModifiedException {
+	public FetchedFeed fetch(String feedUrl, boolean extractFeedUrlFromHtml, String lastModified, String eTag, Date lastPublishedDate,
+			String lastContentHash) throws FeedException, ClientProtocolException, IOException, NotModifiedException {
 		log.debug("Fetching feed {}", feedUrl);
 		FetchedFeed fetchedFeed = null;
 
 		int timeout = 20000;
 		HttpResult result = getter.getBinary(feedUrl, lastModified, eTag, timeout);
 		if (extractFeedUrlFromHtml) {
-			String extractedUrl = extractFeedUrl(
-					StringUtils.newStringUtf8(result.getContent()), feedUrl);
+			String extractedUrl = extractFeedUrl(StringUtils.newStringUtf8(result.getContent()), feedUrl);
 			if (org.apache.commons.lang.StringUtils.isNotBlank(extractedUrl)) {
 				result = getter.getBinary(extractedUrl, lastModified, eTag, timeout);
 				feedUrl = extractedUrl;
@@ -54,18 +51,15 @@ public class FeedFetcher {
 		}
 
 		String hash = DigestUtils.sha1Hex(content);
-		if (lastContentHash != null && hash != null
-				&& lastContentHash.equals(hash)) {
+		if (lastContentHash != null && hash != null && lastContentHash.equals(hash)) {
 			log.debug("content hash not modified: {}", feedUrl);
 			throw new NotModifiedException("content hash not modified");
 		}
 
 		fetchedFeed = parser.parse(feedUrl, content);
 
-		if (lastPublishedDate != null
-				&& fetchedFeed.getFeed().getLastPublishedDate() != null
-				&& lastPublishedDate.getTime() == fetchedFeed.getFeed()
-						.getLastPublishedDate().getTime()) {
+		if (lastPublishedDate != null && fetchedFeed.getFeed().getLastPublishedDate() != null
+				&& lastPublishedDate.getTime() == fetchedFeed.getFeed().getLastPublishedDate().getTime()) {
 			log.debug("publishedDate not modified: {}", feedUrl);
 			throw new NotModifiedException("publishedDate not modified");
 		}

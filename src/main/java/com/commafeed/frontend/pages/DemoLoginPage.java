@@ -16,8 +16,7 @@ public class DemoLoginPage extends WebPage {
 	UserService userService;
 
 	public DemoLoginPage() {
-		CommaFeedSession.get().authenticate(StartupBean.USERNAME_DEMO,
-				StartupBean.USERNAME_DEMO);
+		CommaFeedSession.get().authenticate(StartupBean.USERNAME_DEMO, StartupBean.USERNAME_DEMO);
 		setResponsePage(getApplication().getHomePage());
 	}
 }

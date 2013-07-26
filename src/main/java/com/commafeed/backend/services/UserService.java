@@ -48,15 +48,13 @@ public class UserService {
 
 		User user = userDAO.findByName(name);
 		if (user != null && !user.isDisabled()) {
-			boolean authenticated = encryptionService.authenticate(password,
-					user.getPassword(), user.getSalt());
+			boolean authenticated = encryptionService.authenticate(password, user.getPassword(), user.getSalt());
 			if (authenticated) {
 				Date lastLogin = user.getLastLogin();
 				Date now = new Date();
 				// only update lastLogin field every hour in order to not
 				// invalidate the cache everytime someone logs in
-				if (lastLogin == null
-						|| lastLogin.before(DateUtils.addHours(now, -1))) {
+				if (lastLogin == null || lastLogin.before(DateUtils.addHours(now, -1))) {
 					user.setLastLogin(now);
 					userDAO.saveOrUpdate(user);
 				}
@@ -66,39 +64,30 @@ public class UserService {
 		return null;
 	}
 
-	public User register(String name, String password, String email,
-			Collection<Role> roles) {
+	public User register(String name, String password, String email, Collection<Role> roles) {
 		return register(name, password, email, roles, false);
 	}
 
-	public User register(String name, String password, String email,
-			Collection<Role> roles, boolean forceRegistration) {
+	public User register(String name, String password, String email, Collection<Role> roles, boolean forceRegistration) {
 
 		Preconditions.checkNotNull(name);
-		Preconditions.checkArgument(StringUtils.length(name) <= 32,
-				"Name too long (32 characters maximum)");
+		Preconditions.checkArgument(StringUtils.length(name) <= 32, "Name too long (32 characters maximum)");
 		Preconditions.checkNotNull(password);
 
 		if (!forceRegistration) {
-			Preconditions.checkState(applicationSettingsService.get()
-					.isAllowRegistrations(),
+			Preconditions.checkState(applicationSettingsService.get().isAllowRegistrations(),
 					"Registrations are closed on this CommaFeed instance");
 
 			Preconditions.checkNotNull(email);
-			Preconditions.checkArgument(StringUtils.length(name) >= 3,
-					"Name too short (3 characters minimum)");
-			Preconditions.checkArgument(
-					forceRegistration || StringUtils.length(password) >= 6,
-					"Password too short (6 characters maximum)");
-			Preconditions.checkArgument(StringUtils.contains(email, "@"),
-					"Invalid email address");
+			Preconditions.checkArgument(StringUtils.length(name) >= 3, "Name too short (3 characters minimum)");
+			Preconditions
+					.checkArgument(forceRegistration || StringUtils.length(password) >= 6, "Password too short (6 characters maximum)");
+			Preconditions.checkArgument(StringUtils.contains(email, "@"), "Invalid email address");
 		}
 
-		Preconditions.checkArgument(userDAO.findByName(name) == null,
-				"Name already taken");
+		Preconditions.checkArgument(userDAO.findByName(name) == null, "Name already taken");
 		if (StringUtils.isNotBlank(email)) {
-			Preconditions.checkArgument(userDAO.findByEmail(email) == null,
-					"Email already taken");
+			Preconditions.checkArgument(userDAO.findByEmail(email) == null, "Email already taken");
 		}
 
 		User user = new User();
@@ -122,8 +111,7 @@ public class UserService {
 	}
 
 	public String generateApiKey(User user) {
-		byte[] key = encryptionService.getEncryptedPassword(UUID.randomUUID()
-				.toString(), user.getSalt());
+		byte[] key = encryptionService.getEncryptedPassword(UUID.randomUUID().toString(), user.getSalt());
 		return DigestUtils.sha1Hex(key);
 	}
 }

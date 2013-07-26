@@ -46,7 +46,7 @@ function($scope, FeedService, CategoryService, MobileService) {
 
 	$scope.open = function() {
 		$scope.sub = {
-			categoryId: $scope.sub.categoryId
+			categoryId: $scope.sub.categoryId || 'all'
 		};
 		$scope.isOpen = true;
 	};

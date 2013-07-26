@@ -164,6 +164,14 @@
 						</div>
 					</div>
 					<div class="control-group">
+						<label class="control-label" for="keepStatusDays">Keep read status for (days)</label>
+						<div class="controls">
+							<input type="number" name="keepStatusDays" class="input-block-level"
+								ng-model="settings.keepStatusDays" />
+							<span class="help-inline">0 = keep forever</span>
+						</div>
+					</div>
+					<div class="control-group">
 						<label class="control-label" for="crawlingPaused">Pause crawling</label>
 						<div class="controls">
 							<input type="checkbox" name="crawlingPaused" ng-model="settings.crawlingPaused" />

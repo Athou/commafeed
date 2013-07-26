@@ -51,8 +51,7 @@ public abstract class AbstractREST {
 		ServletWebResponse swresp = new ServletWebResponse(swreq, response);
 		RequestCycle cycle = app.createRequestCycle(swreq, swresp);
 		ThreadContext.setRequestCycle(cycle);
-		CommaFeedSession session = (CommaFeedSession) app
-				.fetchCreateAndSetSession(cycle);
+		CommaFeedSession session = (CommaFeedSession) app.fetchCreateAndSetSession(cycle);
 
 		if (session.getUser() == null) {
 			cookieLogin(app, session);
@@ -63,8 +62,7 @@ public abstract class AbstractREST {
 	}
 
 	private void cookieLogin(CommaFeedApplication app, CommaFeedSession session) {
-		IAuthenticationStrategy authenticationStrategy = app
-				.getSecuritySettings().getAuthenticationStrategy();
+		IAuthenticationStrategy authenticationStrategy = app.getSecuritySettings().getAuthenticationStrategy();
 		String[] data = authenticationStrategy.load();
 		if (data != null && data.length > 1) {
 			session.signIn(data[0], data[1]);
@@ -98,8 +96,7 @@ public abstract class AbstractREST {
 		boolean allowed = true;
 		User user = null;
 		Method method = context.getMethod();
-		SecurityCheck check = method.isAnnotationPresent(SecurityCheck.class) ? method
-				.getAnnotation(SecurityCheck.class) : method
+		SecurityCheck check = method.isAnnotationPresent(SecurityCheck.class) ? method.getAnnotation(SecurityCheck.class) : method
 				.getDeclaringClass().getAnnotation(SecurityCheck.class);
 
 		if (check != null) {
@@ -113,11 +110,9 @@ public abstract class AbstractREST {
 		}
 		if (!allowed) {
 			if (user == null) {
-				return Response.status(Status.UNAUTHORIZED)
-						.entity("You are not authorized to do this.").build();
+				return Response.status(Status.UNAUTHORIZED).entity("You are not authorized to do this.").build();
 			} else {
-				return Response.status(Status.FORBIDDEN)
-						.entity("You are not authorized to do this.").build();
+				return Response.status(Status.FORBIDDEN).entity("You are not authorized to do this.").build();
 			}
 
 		}

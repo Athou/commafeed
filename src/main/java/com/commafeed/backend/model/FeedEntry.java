@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -32,8 +33,8 @@ public class FeedEntry extends AbstractModel {
 	@Column(length = 40, nullable = false)
 	private String guidHash;
 
-	@OneToMany(mappedBy = "entry", cascade = CascadeType.REMOVE)
-	private Set<FeedFeedEntry> feedRelationships;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Feed feed;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(nullable = false, updatable = false)
@@ -41,9 +42,6 @@ public class FeedEntry extends AbstractModel {
 
 	@Column(length = 2048)
 	private String url;
-
-	@Column(name = "author", length = 128)
-	private String author;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date inserted;
@@ -116,20 +114,12 @@ public class FeedEntry extends AbstractModel {
 		this.guidHash = guidHash;
 	}
 
-	public String getAuthor() {
-		return author;
+	public Feed getFeed() {
+		return feed;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public Set<FeedFeedEntry> getFeedRelationships() {
-		return feedRelationships;
-	}
-
-	public void setFeedRelationships(Set<FeedFeedEntry> feedRelationships) {
-		this.feedRelationships = feedRelationships;
+	public void setFeed(Feed feed) {
+		this.feed = feed;
 	}
 
 	public FeedSubscription getSubscription() {

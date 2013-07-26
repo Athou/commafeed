@@ -29,8 +29,7 @@ public class ApplicationSettingsService {
 
 	public ApplicationSettings get() {
 		if (settings == null) {
-			settings = Iterables.getFirst(applicationSettingsDAO.findAll(),
-					null);
+			settings = Iterables.getFirst(applicationSettingsDAO.findAll(), null);
 		}
 		return settings;
 	}

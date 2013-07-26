@@ -34,10 +34,8 @@ public class ServerREST extends AbstractResourceREST {
 		ApplicationPropertiesService properties = ApplicationPropertiesService.get();
 
 		ServerInfo infos = new ServerInfo();
-		infos.setAnnouncement(applicationSettingsService.get()
-				.getAnnouncement());
-		infos.getSupportedLanguages().putAll(
-				startupBean.getSupportedLanguages());
+		infos.setAnnouncement(applicationSettingsService.get().getAnnouncement());
+		infos.getSupportedLanguages().putAll(startupBean.getSupportedLanguages());
 		infos.setVersion(properties.getVersion());
 		infos.setGitCommit(properties.getGitCommit());
 		return Response.ok(infos).build();
@@ -57,8 +55,7 @@ public class ServerREST extends AbstractResourceREST {
 			HttpResult result = httpGetter.getBinary(url, 20000);
 			return Response.ok(result.getContent()).build();
 		} catch (Exception e) {
-			return Response.status(Status.SERVICE_UNAVAILABLE)
-					.entity(e.getMessage()).build();
+			return Response.status(Status.SERVICE_UNAVAILABLE).entity(e.getMessage()).build();
 		}
 	}
 }

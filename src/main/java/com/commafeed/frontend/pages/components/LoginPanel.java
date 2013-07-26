@@ -19,11 +19,9 @@ public class LoginPanel extends SignInPanel {
 
 	public LoginPanel(String id) {
 		super(id);
-		replace(new BootstrapFeedbackPanel("feedback",
-				new ContainerFeedbackMessageFilter(this)));
+		replace(new BootstrapFeedbackPanel("feedback", new ContainerFeedbackMessageFilter(this)));
 		Form<?> form = (Form<?>) get("signInForm");
-		form.add(new BookmarkablePageLink<Void>("recover",
-				PasswordRecoveryPage.class){
+		form.add(new BookmarkablePageLink<Void>("recover", PasswordRecoveryPage.class) {
 			@Override
 			protected void onConfigure() {
 				super.onConfigure();

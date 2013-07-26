@@ -26,8 +26,7 @@ public class RSSRDF10Parser extends RSS10Parser {
 
 		Element rssRoot = document.getRootElement();
 		Namespace defaultNS = rssRoot.getNamespace();
-		List additionalNSs = Lists.newArrayList(rssRoot
-				.getAdditionalNamespaces());
+		List additionalNSs = Lists.newArrayList(rssRoot.getAdditionalNamespaces());
 		List<Element> children = rssRoot.getChildren();
 		if (CollectionUtils.isNotEmpty(children)) {
 			Element child = children.get(0);

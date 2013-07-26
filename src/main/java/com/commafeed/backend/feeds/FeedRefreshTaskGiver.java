@@ -52,8 +52,7 @@ public class FeedRefreshTaskGiver {
 
 	@PostConstruct
 	public void init() {
-		backgroundThreads = applicationSettingsService.get()
-				.getBackgroundThreads();
+		backgroundThreads = applicationSettingsService.get().getBackgroundThreads();
 		executor = Executors.newFixedThreadPool(1);
 	}
 
@@ -125,8 +124,7 @@ public class FeedRefreshTaskGiver {
 
 	public void add(Feed feed) {
 		Date threshold = getThreshold();
-		if (feed.getLastUpdated() == null
-				|| feed.getLastUpdated().before(threshold)) {
+		if (feed.getLastUpdated() == null || feed.getLastUpdated().before(threshold)) {
 			addQueue.add(feed);
 		}
 	}

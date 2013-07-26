@@ -26,8 +26,7 @@ public class MailService implements Serializable {
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
-	public void sendMail(User user, String subject, String content)
-			throws Exception {
+	public void sendMail(User user, String subject, String content) throws Exception {
 
 		ApplicationSettings settings = applicationSettingsService.get();
 
@@ -50,8 +49,7 @@ public class MailService implements Serializable {
 
 		Message message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(username, "CommaFeed"));
-		message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse(dest));
+		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(dest));
 		message.setSubject("CommaFeed - " + subject);
 		message.setContent(content, "text/html; charset=utf-8");
 

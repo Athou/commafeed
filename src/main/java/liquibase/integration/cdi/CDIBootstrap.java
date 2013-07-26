@@ -21,8 +21,7 @@ public class CDIBootstrap implements Extension {
 	void afterBeanDiscovery(@Observes AfterBeanDiscovery abd, BeanManager bm) {
 	}
 
-	void afterDeploymentValidation(@Observes AfterDeploymentValidation event,
-			BeanManager manager) {
+	void afterDeploymentValidation(@Observes AfterDeploymentValidation event, BeanManager manager) {
 	}
 
 	@Produces

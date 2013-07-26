@@ -5,6 +5,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * List wrapper that sorts its elements in the order provided by given comparator and ensure a maximum capacity.
+ * 
+ * 
+ */
 public class FixedSizeSortedSet<E> {
 
 	private List<E> inner;

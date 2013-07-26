@@ -19,6 +19,10 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.services.ApplicationSettingsService;
 
+/**
+ * Contains utility methods for cleaning the database
+ * 
+ */
 public class DatabaseCleaner {
 
 	private static Logger log = LoggerFactory.getLogger(DatabaseCleaner.class);

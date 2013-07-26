@@ -10,6 +10,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Wraps a {@link ThreadPoolExecutor} instance. Blocks when queue is full instead of rejecting the task. Allow priority queueing by using
+ * {@link Task} instead of {@link Runnable}
+ * 
+ */
 public class FeedRefreshExecutor {
 
 	private static Logger log = LoggerFactory.getLogger(FeedRefreshExecutor.class);

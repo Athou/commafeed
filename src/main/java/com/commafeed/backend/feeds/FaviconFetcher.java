@@ -81,7 +81,7 @@ public class FaviconFetcher {
 		return bytes;
 	}
 
-	boolean isValidIconResponse(byte[] content, String contentType) {
+	private boolean isValidIconResponse(byte[] content, String contentType) {
 		if (content == null) {
 			return false;
 		}

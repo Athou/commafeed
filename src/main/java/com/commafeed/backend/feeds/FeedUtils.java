@@ -36,6 +36,10 @@ import com.steadystate.css.parser.CSSOMParser;
 
 import edu.uci.ics.crawler4j.url.URLCanonicalizer;
 
+/**
+ * Utility methods related to feed handling
+ * 
+ */
 public class FeedUtils {
 
 	protected static Logger log = LoggerFactory.getLogger(FeedUtils.class);

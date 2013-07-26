@@ -25,6 +25,10 @@ import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.UserService;
 import com.google.api.client.util.Maps;
 
+/**
+ * Starting point of the application
+ * 
+ */
 @Startup
 @Singleton
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
@@ -56,14 +60,19 @@ public class StartupBean {
 	private void init() {
 
 		startupTime = System.currentTimeMillis();
+
+		// update database schema
 		databaseUpdater.update();
 
 		if (applicationSettingsDAO.getCount() == 0) {
+			// import initial data
 			initialData();
 		}
 		applicationSettingsService.applyLogLevel();
 
 		initSupportedLanguages();
+
+		// start fetching feeds
 		taskGiver.start();
 	}
 
@@ -83,6 +92,9 @@ public class StartupBean {
 		}
 	}
 
+	/**
+	 * create default users
+	 */
 	private void initialData() {
 		log.info("Populating database with default values");
 

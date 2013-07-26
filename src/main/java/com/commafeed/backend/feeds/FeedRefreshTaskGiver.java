@@ -25,6 +25,11 @@ import com.google.api.client.util.Maps;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 
+/**
+ * Infinite loop fetching feeds from the database and queuing them to the {@link FeedRefreshWorker} pool. Also handles feed database updates
+ * at the end of the cycle through {@link #giveBack(Feed)}.
+ * 
+ */
 @ApplicationScoped
 public class FeedRefreshTaskGiver {
 

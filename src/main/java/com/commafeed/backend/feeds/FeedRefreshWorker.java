@@ -22,6 +22,10 @@ import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.sun.syndication.io.FeedException;
 
+/**
+ * Calls {@link FeedFetcher} and handles its outcome
+ * 
+ */
 @ApplicationScoped
 public class FeedRefreshWorker {
 

@@ -18,6 +18,10 @@ import org.slf4j.LoggerFactory;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.User;
 
+/**
+ * Mailing service
+ * 
+ */
 @SuppressWarnings("serial")
 public class MailService implements Serializable {
 

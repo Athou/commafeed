@@ -5,6 +5,10 @@ import org.jdom.Element;
 
 import com.sun.syndication.io.impl.OPML10Parser;
 
+/**
+ * Support for OPML 1.1 parsing
+ * 
+ */
 public class OPML11Parser extends OPML10Parser {
 
 	public OPML11Parser() {

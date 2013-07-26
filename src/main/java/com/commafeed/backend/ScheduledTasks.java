@@ -13,6 +13,10 @@ import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.services.ApplicationSettingsService;
 
+/**
+ * Contains all scheduled tasks
+ * 
+ */
 @Stateless
 public class ScheduledTasks {
 	protected final static Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
@@ -26,7 +30,9 @@ public class ScheduledTasks {
 	@PersistenceContext
 	EntityManager em;
 
-	// every day at midnight
+	/**
+	 * clean old read statuses, runs every day at midnight
+	 */
 	@Schedule(hour = "0", persistent = false)
 	private void cleanupOldStatuses() {
 		Date threshold = applicationSettingsService.get().getUnreadThreshold();

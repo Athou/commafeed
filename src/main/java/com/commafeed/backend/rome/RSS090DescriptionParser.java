@@ -6,6 +6,10 @@ import com.sun.syndication.feed.rss.Description;
 import com.sun.syndication.feed.rss.Item;
 import com.sun.syndication.io.impl.RSS090Parser;
 
+/**
+ * Support description tag for RSS09
+ *
+ */
 public class RSS090DescriptionParser extends RSS090Parser {
 
 	@Override

@@ -22,8 +22,13 @@ import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.services.ApplicationSettingsService;
+import com.commafeed.frontend.rest.resources.PubSubHubbubCallbackREST;
 import com.google.common.collect.Lists;
 
+/**
+ * Sends push subscription requests. Callback is handled by {@link PubSubHubbubCallbackREST}
+ * 
+ */
 public class SubscriptionHandler {
 
 	private static Logger log = LoggerFactory.getLogger(SubscriptionHandler.class);

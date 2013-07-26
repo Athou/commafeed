@@ -20,6 +20,10 @@ import liquibase.structure.DatabaseObject;
 
 import com.commafeed.backend.services.ApplicationPropertiesService;
 
+/**
+ * Executes needed liquibase database schema upgrades
+ * 
+ */
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 public class DatabaseUpdater {

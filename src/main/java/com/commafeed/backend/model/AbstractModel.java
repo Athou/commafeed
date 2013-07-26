@@ -8,6 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.TableGenerator;
 
+/**
+ * Abstract model for all entities, defining id and table generator
+ * 
+ */
 @SuppressWarnings("serial")
 @MappedSuperclass
 public abstract class AbstractModel implements Serializable {

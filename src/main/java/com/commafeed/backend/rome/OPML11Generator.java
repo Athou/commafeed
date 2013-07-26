@@ -4,6 +4,10 @@ import org.jdom.Element;
 
 import com.sun.syndication.feed.opml.Opml;
 
+/**
+ * Add missing title to the generated OPML
+ * 
+ */
 public class OPML11Generator extends com.sun.syndication.io.impl.OPML10Generator {
 
 	public OPML11Generator() {

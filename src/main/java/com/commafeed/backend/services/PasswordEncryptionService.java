@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.dao.UserDAO;
 
-// http://www.javacodegeeks.com/2012/05/secure-password-storage-donts-dos-and.html
+// taken from http://www.javacodegeeks.com/2012/05/secure-password-storage-donts-dos-and.html
 @SuppressWarnings("serial")
 public class PasswordEncryptionService implements Serializable {
 

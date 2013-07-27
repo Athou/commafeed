@@ -35,7 +35,7 @@ public class ScheduledTasks {
 	 */
 	@Schedule(hour = "0", persistent = false)
 	private void cleanupOldStatuses() {
-		Date threshold = applicationSettingsService.get().getUnreadThreshold();
+		Date threshold = applicationSettingsService.getUnreadThreshold();
 		if (threshold != null) {
 			cleaner.cleanStatusesOlderThan(threshold);
 		}

@@ -1,10 +1,12 @@
 package com.commafeed.backend.services;
 
+import java.util.Date;
 import java.util.Enumeration;
 
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -32,6 +34,11 @@ public class ApplicationSettingsService {
 			settings = Iterables.getFirst(applicationSettingsDAO.findAll(), null);
 		}
 		return settings;
+	}
+
+	public Date getUnreadThreshold() {
+		int keepStatusDays = get().getKeepStatusDays();
+		return keepStatusDays > 0 ? DateUtils.addDays(new Date(), -1 * keepStatusDays) : null;
 	}
 
 	@SuppressWarnings("unchecked")

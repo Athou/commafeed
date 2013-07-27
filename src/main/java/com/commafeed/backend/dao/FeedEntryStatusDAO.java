@@ -85,7 +85,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	private FeedEntryStatus handleStatus(FeedEntryStatus status, FeedSubscription sub, FeedEntry entry) {
 		if (status == null) {
-			Date unreadThreshold = applicationSettingsService.get().getUnreadThreshold();
+			Date unreadThreshold = applicationSettingsService.getUnreadThreshold();
 			boolean read = unreadThreshold == null ? false : entry.getUpdated().before(unreadThreshold);
 			status = new FeedEntryStatus(sub.getUser(), sub, entry);
 			status.setRead(read);
@@ -149,7 +149,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			or.add(Restrictions.eq(FeedEntryStatus_.read.getName(), false));
 			statusJoin.add(or);
 
-			Date unreadThreshold = applicationSettingsService.get().getUnreadThreshold();
+			Date unreadThreshold = applicationSettingsService.getUnreadThreshold();
 			if (unreadThreshold != null) {
 				criteria.add(Restrictions.ge(FeedEntry_.updated.getName(), unreadThreshold));
 			}

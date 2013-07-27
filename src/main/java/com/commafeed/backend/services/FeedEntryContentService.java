@@ -21,17 +21,22 @@ public class FeedEntryContentService {
 		
 		String contentHash = DigestUtils.sha1Hex(StringUtils.trimToEmpty(content.getContent()));
 		String titleHash = DigestUtils.sha1Hex(StringUtils.trimToEmpty(content.getTitle()));
-		FeedEntryContent existing = feedEntryContentDAO.findExisting(contentHash, titleHash);
-		if (existing == null) {
+		Long existingId = feedEntryContentDAO.findExisting(contentHash, titleHash);
+		
+		FeedEntryContent result = null;
+		if (existingId == null) {
 			content.setContentHash(contentHash);
 			content.setTitleHash(titleHash);
 
 			content.setAuthor(FeedUtils.truncate(FeedUtils.handleContent(content.getAuthor(), baseUrl, true), 128));
 			content.setTitle(FeedUtils.truncate(FeedUtils.handleContent(content.getTitle(), baseUrl, true), 2048));
 			content.setContent(FeedUtils.handleContent(content.getContent(), baseUrl, false));
-			existing = content;
-			feedEntryContentDAO.saveOrUpdate(existing);
+			result = content;
+			feedEntryContentDAO.saveOrUpdate(result);
+		} else {
+			result = new FeedEntryContent();
+			result.setId(existingId);
 		}
-		return existing;
+		return result;
 	}
 }

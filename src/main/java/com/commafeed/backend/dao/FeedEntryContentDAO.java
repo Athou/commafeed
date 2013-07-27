@@ -17,16 +17,18 @@ import com.google.common.collect.Iterables;
 
 public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 
-	public FeedEntryContent findExisting(String contentHash, String titleHash) {
+	public Long findExisting(String contentHash, String titleHash) {
 
-		CriteriaQuery<FeedEntryContent> query = builder.createQuery(getType());
+		CriteriaQuery<Long> query = builder.createQuery(Long.class);
 		Root<FeedEntryContent> root = query.from(getType());
+		query.select(root.get(FeedEntryContent_.id));
 
 		Predicate p1 = builder.equal(root.get(FeedEntryContent_.contentHash), contentHash);
 		Predicate p2 = builder.equal(root.get(FeedEntryContent_.titleHash), titleHash);
 
 		query.where(p1, p2);
-		TypedQuery<FeedEntryContent> q = em.createQuery(query);
+		TypedQuery<Long> q = em.createQuery(query);
+		limit(q, 0, 1);
 		return Iterables.getFirst(q.getResultList(), null);
 
 	}

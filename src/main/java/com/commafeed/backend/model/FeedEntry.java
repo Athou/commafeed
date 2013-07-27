@@ -36,7 +36,7 @@ public class FeedEntry extends AbstractModel {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Feed feed;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(nullable = false, updatable = false)
 	private FeedEntryContent content;
 

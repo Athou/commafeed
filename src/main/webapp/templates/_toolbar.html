@@ -9,7 +9,15 @@
 		<div class="btn-group">
 			<a type="button" class="btn" ng-click="previousEntry()" title="${toolbar.previous_entry}"><i class="icon-chevron-up"></i></a>
 			<a type="button" class="btn" ng-click="nextEntry()" title="${toolbar.next_entry}"><i class="icon-chevron-down"></i></a>
-			<a type="button" class="btn" ng-click="refresh()" title="${toolbar.refresh}"><i class="icon-refresh"></i></a>
+			<div class="btn-group">
+				<a type="button" class="btn" ng-click="refresh()" title="${toolbar.refresh}"><i class="icon-refresh"></i></a>
+				<button class="btn dropdown-toggle" data-toggle="dropdown">
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu pull-right">
+					<li><a ng-click="refreshAll()">${toolbar.refresh_all}</a></li>
+				</ul>
+			</div>
 		</div>
 		
 		<div class="btn-group">

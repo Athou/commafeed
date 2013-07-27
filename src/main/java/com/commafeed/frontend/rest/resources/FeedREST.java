@@ -248,6 +248,19 @@ public class FeedREST extends AbstractResourceREST {
 		return Response.ok(info).build();
 	}
 
+	@Path("/refreshAll")
+	@GET
+	@ApiOperation(value = "Queue all feeds of the user for refresh", notes = "Manually add all feeds of the user to the refresh queue")
+	public Response queueAllForRefresh() {
+		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(getUser());
+		for (FeedSubscription sub : subs) {
+			Feed feed = sub.getFeed();
+			feed.setUrgent(true);
+			taskGiver.add(feed);
+		}
+		return Response.ok(Status.OK).build();
+	}
+
 	@Path("/refresh")
 	@POST
 	@ApiOperation(value = "Queue a feed for refresh", notes = "Manually add a feed to the refresh queue")
@@ -264,7 +277,6 @@ public class FeedREST extends AbstractResourceREST {
 			return Response.ok(Status.OK).build();
 		}
 		return Response.ok(Status.NOT_FOUND).build();
-
 	}
 
 	@Path("/mark")

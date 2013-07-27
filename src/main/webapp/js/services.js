@@ -92,6 +92,12 @@ function($resource, $http) {
 				_method : 'refresh'
 			}
 		},
+		refreshAll : {
+			method : 'GET',
+			params : {
+				_method : 'refreshAll'
+			}
+		},
 		subscribe : {
 			method : 'POST',
 			params : {

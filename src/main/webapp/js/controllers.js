@@ -18,7 +18,8 @@ module.run(['$rootScope', function($rootScope) {
 		$rootScope.$broadcast('markAll', args);
 	});
 	$rootScope.$on('emitReload', function(event, args) {
-		$rootScope.$broadcast('reload');
+		// args.all
+		$rootScope.$broadcast('reload', args);
 	});
 	$rootScope.$on('emitFeedSearch', function(event, args) {
 		$rootScope.$broadcast('feedSearch');
@@ -469,7 +470,12 @@ function($scope, $http, $state, $stateParams, $route, $location,
 
 	$scope.refresh = function() {
 		$scope.$emit('emitReload');
-		
+	};
+	
+	$scope.refreshAll = function() {
+		$scope.$emit('emitReload', {
+			all : true
+		});
 	};
 	
 	var markAll = function(olderThan) {
@@ -1140,7 +1146,9 @@ function($scope, $stateParams, $http, $route, $state, $window, EntryService, Set
 		$scope.hasMore = true;
 		$scope.loadMoreEntries();
 		
-		if ($scope.selectedType == 'feed'){
+		if (args.all) {
+			FeedService.refreshAll();
+		} else if ($scope.selectedType == 'feed') {
 			FeedService.refresh({
 				id : $stateParams._id
 			});

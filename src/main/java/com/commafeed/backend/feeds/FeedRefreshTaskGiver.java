@@ -129,14 +129,12 @@ public class FeedRefreshTaskGiver {
 
 	public void add(Feed feed) {
 		Date threshold = getThreshold();
-		if (feed.getLastUpdated() == null || feed.getLastUpdated().before(threshold)) {
+		if (feed.getDisabledUntil() == null || feed.getDisabledUntil().before(threshold)) {
 			addQueue.add(feed);
 		}
 	}
 
 	private void refill() {
-		Date now = new Date();
-
 		int count = Math.min(100, 3 * backgroundThreads);
 		List<Feed> feeds = null;
 		if (applicationSettingsService.get().isCrawlingPaused()) {
@@ -152,7 +150,7 @@ public class FeedRefreshTaskGiver {
 
 		Map<Long, Feed> map = Maps.newLinkedHashMap();
 		for (Feed f : feeds) {
-			f.setLastUpdated(now);
+			f.setDisabledUntil(new Date());
 			map.put(f.getId(), f);
 		}
 		takeQueue.addAll(map.values());
@@ -160,7 +158,6 @@ public class FeedRefreshTaskGiver {
 		size = giveBackQueue.size();
 		for (int i = 0; i < size; i++) {
 			Feed f = giveBackQueue.poll();
-			f.setLastUpdated(now);
 			map.put(f.getId(), f);
 		}
 
@@ -171,6 +168,7 @@ public class FeedRefreshTaskGiver {
 		String normalized = FeedUtils.normalizeURL(feed.getUrl());
 		feed.setNormalizedUrl(normalized);
 		feed.setNormalizedUrlHash(DigestUtils.sha1Hex(normalized));
+		feed.setLastUpdated(new Date());
 		giveBackQueue.add(feed);
 	}
 

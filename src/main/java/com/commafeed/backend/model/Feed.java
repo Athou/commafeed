@@ -63,12 +63,6 @@ public class Feed extends AbstractModel {
 	private Date lastEntryDate;
 
 	/**
-	 * Last time we successfully refreshed the feed
-	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastUpdateSuccess;
-
-	/**
 	 * error message while retrieving the feed
 	 */
 	@Column(length = 1024)
@@ -227,14 +221,6 @@ public class Feed extends AbstractModel {
 
 	public void setEtagHeader(String etagHeader) {
 		this.etagHeader = etagHeader;
-	}
-
-	public Date getLastUpdateSuccess() {
-		return lastUpdateSuccess;
-	}
-
-	public void setLastUpdateSuccess(Date lastUpdateSuccess) {
-		this.lastUpdateSuccess = lastUpdateSuccess;
 	}
 
 	public String getPushHub() {

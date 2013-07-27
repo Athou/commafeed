@@ -1,5 +1,7 @@
 package com.commafeed.backend.services;
 
+import java.util.Date;
+
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
@@ -31,6 +33,7 @@ public class FeedService {
 			feed.setUrlHash(DigestUtils.sha1Hex(url));
 			feed.setNormalizedUrl(normalized);
 			feed.setNormalizedUrlHash(DigestUtils.sha1Hex(normalized));
+			feed.setDisabledUntil(new Date(0));
 			feedDAO.saveOrUpdate(feed);
 		}
 		return feed;

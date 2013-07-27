@@ -95,7 +95,6 @@ public class FeedRefreshWorker {
 	}
 
 	private void update(Feed feed) {
-		Date now = new Date();
 		try {
 			FetchedFeed fetchedFeed = fetcher.fetch(feed.getUrl(), false, feed.getLastModifiedHeader(), feed.getEtagHeader(),
 					feed.getLastPublishedDate(), feed.getLastContentHash());
@@ -103,13 +102,12 @@ public class FeedRefreshWorker {
 			// thrown
 			List<FeedEntry> entries = fetchedFeed.getEntries();
 
-			Date disabledUntil = null;
+			Date disabledUntil = new Date();
 			if (applicationSettingsService.get().isHeavyLoad()) {
 				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed.getFeed().getLastEntryDate(), fetchedFeed.getFeed()
 						.getAverageEntryInterval());
 			}
 
-			feed.setLastUpdateSuccess(now);
 			feed.setLink(fetchedFeed.getFeed().getLink());
 			feed.setLastModifiedHeader(fetchedFeed.getFeed().getLastModifiedHeader());
 			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());

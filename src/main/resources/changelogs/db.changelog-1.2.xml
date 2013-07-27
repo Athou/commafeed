@@ -31,7 +31,7 @@
 		<createIndex tableName="FEEDENTRYCONTENTS" indexName="content_hash_index">
 			<column name="contentHash" />
 		</createIndex>
-		<dropColumn tableName="FEEDENTRIES" columnName="author"/>
+		<dropColumn tableName="FEEDENTRIES" columnName="author" />
 	</changeSet>
 
 	<changeSet author="athou" id="add-new-index">
@@ -60,14 +60,14 @@
 			<column name="lastContentHash" valueComputed="null"></column>
 		</update>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="revamp-status-indexes">
 		<createIndex tableName="FEEDENTRYSTATUSES" indexName="user_starred_updated">
 			<column name="user_id"></column>
 			<column name="starred"></column>
 			<column name="entryUpdated"></column>
 		</createIndex>
-		
+
 		<createIndex tableName="FEEDENTRYSTATUSES" indexName="sub_index">
 			<column name="subscription_id"></column>
 		</createIndex>
@@ -77,19 +77,19 @@
 		<dropIndex tableName="FEEDENTRYSTATUSES" indexName="user_read_sub_index" />
 		<dropIndex tableName="FEEDENTRYSTATUSES" indexName="user_entry_index" />
 	</changeSet>
-	
+
 	<changeSet author="athou" id="revamp-entries-indexes">
 		<dropIndex tableName="FEEDENTRIES" indexName="updated_index" />
 		<dropIndex tableName="FEEDENTRIES" indexName="inserted_index" />
 	</changeSet>
-	
-	<changeSet author="athou" id="add-starred-index-for-cleanup">		
+
+	<changeSet author="athou" id="add-starred-index-for-cleanup">
 		<createIndex tableName="FEEDENTRYSTATUSES" indexName="insterted_starred_index">
 			<column name="entryInserted"></column>
 			<column name="starred"></column>
 		</createIndex>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-title-hashes">
 		<addColumn tableName="FEEDENTRYCONTENTS">
 			<column name="titleHash" type="VARCHAR(40)" />
@@ -100,5 +100,10 @@
 		</createIndex>
 		<dropIndex tableName="FEEDENTRYCONTENTS" indexName="content_hash_index" />
 	</changeSet>
-	
+
+	<changeSet author="athou" id="drop-last-update-success">
+		<dropIndex tableName="FEEDS" indexName="disabled_lastupdated_index" />
+		<dropColumn tableName="FEEDS" columnName="lastUpdateSuccess" />
+	</changeSet>
+
 </databaseChangeLog>

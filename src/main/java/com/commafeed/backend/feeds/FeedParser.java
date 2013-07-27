@@ -49,7 +49,6 @@ public class FeedParser {
 		FetchedFeed fetchedFeed = new FetchedFeed();
 		Feed feed = fetchedFeed.getFeed();
 		List<FeedEntry> entries = fetchedFeed.getEntries();
-		feed.setLastUpdated(new Date());
 
 		try {
 			String encoding = FeedUtils.guessEncoding(xml);

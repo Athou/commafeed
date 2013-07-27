@@ -129,7 +129,8 @@ public class FeedRefreshUpdater {
 				handlePubSub(feed);
 			}
 			if (!ok) {
-				feed.setDisabledUntil(null);
+				// requeue asap
+				feed.setDisabledUntil(new Date(0));
 			}
 			metricsBean.feedUpdated();
 			taskGiver.giveBack(feed);

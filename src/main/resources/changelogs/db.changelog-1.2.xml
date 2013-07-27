@@ -103,7 +103,13 @@
 
 	<changeSet author="athou" id="drop-last-update-success">
 		<dropIndex tableName="FEEDS" indexName="disabled_lastupdated_index" />
+		<dropIndex tableName="FEEDS" indexName="lastupdated_index" />
 		<dropColumn tableName="FEEDS" columnName="lastUpdateSuccess" />
+	</changeSet>
+
+	<changeSet author="athou" id="drop-url-hash">
+		<dropIndex tableName="FEEDS" indexName="urlHash_index" />
+		<dropColumn tableName="FEEDS" columnName="urlHash" />
 	</changeSet>
 
 </databaseChangeLog>

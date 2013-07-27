@@ -72,15 +72,10 @@ public class FeedDAO extends GenericDAO<Feed> {
 	}
 
 	public Feed findByUrl(String url) {
-		List<Feed> feeds = findByField(Feed_.urlHash, DigestUtils.sha1Hex(url));
-		Feed feed = Iterables.getFirst(feeds, null);
-		if (feed != null && StringUtils.equals(url, feed.getUrl())) {
-			return feed;
-		}
 
 		String normalized = FeedUtils.normalizeURL(url);
-		feeds = findByField(Feed_.normalizedUrlHash, DigestUtils.sha1Hex(normalized));
-		feed = Iterables.getFirst(feeds, null);
+		List<Feed> feeds = findByField(Feed_.normalizedUrlHash, DigestUtils.sha1Hex(normalized));
+		Feed feed = Iterables.getFirst(feeds, null);
 		if (feed != null && StringUtils.equals(normalized, feed.getNormalizedUrl())) {
 			return feed;
 		}

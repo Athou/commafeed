@@ -29,9 +29,6 @@ public class Feed extends AbstractModel {
 	@Column(length = 2048, nullable = false)
 	private String url;
 
-	@Column(length = 40, nullable = false)
-	private String urlHash;
-
 	@Column(length = 2048, nullable = false)
 	private String normalizedUrl;
 
@@ -197,14 +194,6 @@ public class Feed extends AbstractModel {
 
 	public void setDisabledUntil(Date disabledUntil) {
 		this.disabledUntil = disabledUntil;
-	}
-
-	public String getUrlHash() {
-		return urlHash;
-	}
-
-	public void setUrlHash(String urlHash) {
-		this.urlHash = urlHash;
 	}
 
 	public String getLastModifiedHeader() {

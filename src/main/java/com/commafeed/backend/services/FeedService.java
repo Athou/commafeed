@@ -30,7 +30,6 @@ public class FeedService {
 			String normalized = FeedUtils.normalizeURL(url);
 			feed = new Feed();
 			feed.setUrl(url);
-			feed.setUrlHash(DigestUtils.sha1Hex(url));
 			feed.setNormalizedUrl(normalized);
 			feed.setNormalizedUrlHash(DigestUtils.sha1Hex(normalized));
 			feed.setDisabledUntil(new Date(0));

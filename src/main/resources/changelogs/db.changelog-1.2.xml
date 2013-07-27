@@ -111,5 +111,14 @@
 		<dropIndex tableName="FEEDS" indexName="urlHash_index" />
 		<dropColumn tableName="FEEDS" columnName="urlHash" />
 	</changeSet>
+	
+	<changeSet author="athou" id="create-guid-feed-index">
+		<createIndex tableName="FEEDENTRIES" indexName="guidHash_feed_index">
+			<column name="guidHash" />
+			<column name="feed_id" />
+		</createIndex>
+		<dropIndex tableName="FEEDENTRIES" indexName="guidHash_index" />
+	</changeSet>
+	
 
 </databaseChangeLog>

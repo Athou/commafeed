@@ -51,7 +51,7 @@ public class FeedUpdateService {
 	 */
 	public void updateEntry(Feed feed, FeedEntry entry, List<FeedSubscription> subscriptions) {
 
-		FeedEntry existing = feedEntryDAO.findExisting(entry.getGuid(), entry.getUrl(), feed.getId());
+		Long existing = feedEntryDAO.findExisting(entry.getGuid(), feed.getId());
 		if (existing != null) {
 			return;
 		}

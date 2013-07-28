@@ -37,7 +37,7 @@
 				name="hibernate.cache.infinispan.entity.eviction.wake_up_interval"
 				value="2000" />
 			<property name="hibernate.cache.infinispan.entity.eviction.max_entries"
-				value="100000" />
+				value="10000" />
 			<property name="hibernate.cache.infinispan.entity.expiration.lifespan"
 				value="60000" />
 			<property name="hibernate.cache.infinispan.entity.expiration.max_idle"

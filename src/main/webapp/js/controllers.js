@@ -19,7 +19,7 @@ module.run(['$rootScope', function($rootScope) {
 	});
 	$rootScope.$on('emitReload', function(event, args) {
 		// args.all
-		$rootScope.$broadcast('reload', args);
+		$rootScope.$broadcast('reload', args || {});
 	});
 	$rootScope.$on('emitFeedSearch', function(event, args) {
 		$rootScope.$broadcast('feedSearch');

@@ -1,7 +1,5 @@
 package com.commafeed.frontend;
 
-import java.util.ResourceBundle;
-
 import javax.enterprise.inject.spi.BeanManager;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -38,6 +36,7 @@ import org.apache.wicket.util.cookies.CookieUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commafeed.backend.services.ApplicationPropertiesService;
 import com.commafeed.frontend.pages.DemoLoginPage;
 import com.commafeed.frontend.pages.HomePage;
 import com.commafeed.frontend.pages.LogoutPage;
@@ -53,8 +52,8 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 
 	public CommaFeedApplication() {
 		super();
-		String prod = ResourceBundle.getBundle("application").getString("production");
-		setConfigurationType(Boolean.valueOf(prod) ? RuntimeConfigurationType.DEPLOYMENT : RuntimeConfigurationType.DEVELOPMENT);
+		boolean prod = ApplicationPropertiesService.get().isProduction();
+		setConfigurationType(prod ? RuntimeConfigurationType.DEPLOYMENT : RuntimeConfigurationType.DEVELOPMENT);
 	}
 
 	@Override
@@ -71,8 +70,7 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		mountPage("error", DisplayExceptionPage.class);
 
 		// mountPage("google/import/redirect", GoogleImportRedirectPage.class);
-		// mountPage(GoogleImportCallbackPage.PAGE_PATH,
-		// GoogleImportCallbackPage.class);
+		// mountPage(GoogleImportCallbackPage.PAGE_PATH, GoogleImportCallbackPage.class);
 
 		mountPage("next", NextUnreadRedirectPage.class);
 
@@ -94,8 +92,7 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 			@Override
 			public IRequestHandler onException(RequestCycle cycle, Exception ex) {
 				AjaxRequestTarget target = cycle.find(AjaxRequestTarget.class);
-				// redirect to the error page if ajax request, render error on
-				// current page otherwise
+				// redirect to the error page if ajax request, render error on current page otherwise
 				RedirectPolicy policy = target == null ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
 				return new RenderPageRequestHandler(new PageProvider(new DisplayExceptionPage(ex)), policy);
 			}

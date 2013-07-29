@@ -93,6 +93,7 @@ public class FeedRefreshTaskGiver {
 							worker.updateFeed(feed);
 						} else {
 							log.debug("nothing to do, sleeping for 15s");
+							metricsBean.threadWaited();
 							try {
 								Thread.sleep(15000);
 							} catch (InterruptedException e) {
@@ -107,6 +108,9 @@ public class FeedRefreshTaskGiver {
 		});
 	}
 
+	/**
+	 * take a feed from the refresh queue
+	 */
 	private Feed take() {
 		Feed feed = takeQueue.poll();
 
@@ -127,6 +131,9 @@ public class FeedRefreshTaskGiver {
 		return threshold;
 	}
 
+	/**
+	 * add a feed to the refresh queue
+	 */
 	public void add(Feed feed) {
 		Date threshold = getThreshold();
 		if (feed.getDisabledUntil() == null || feed.getDisabledUntil().before(threshold)) {
@@ -134,8 +141,13 @@ public class FeedRefreshTaskGiver {
 		}
 	}
 
+	/**
+	 * refills the refresh queue and empties the giveBack queue while at it
+	 */
 	private void refill() {
 		int count = Math.min(100, 3 * backgroundThreads);
+
+		// first, get feeds that are up to refresh from the database
 		List<Feed> feeds = null;
 		if (applicationSettingsService.get().isCrawlingPaused()) {
 			feeds = Lists.newArrayList();
@@ -143,27 +155,38 @@ public class FeedRefreshTaskGiver {
 			feeds = feedDAO.findNextUpdatable(count, getThreshold());
 		}
 
+		// then, add to those the feeds we got from the add() method. We add them at the beginning of the list as they probably have a
+		// higher priority
 		int size = addQueue.size();
 		for (int i = 0; i < size; i++) {
 			feeds.add(0, addQueue.poll());
 		}
 
+		// set the disabledDate to now as we use the disabledDate in feedDAO to decide what to refresh next. We also use a map to remove
+		// duplicates.
 		Map<Long, Feed> map = Maps.newLinkedHashMap();
 		for (Feed f : feeds) {
 			f.setDisabledUntil(new Date());
 			map.put(f.getId(), f);
 		}
+
+		// refill the queue
 		takeQueue.addAll(map.values());
 
+		// add feeds from the giveBack queue to the map, overriding duplicates
 		size = giveBackQueue.size();
 		for (int i = 0; i < size; i++) {
 			Feed f = giveBackQueue.poll();
 			map.put(f.getId(), f);
 		}
 
+		// update all feeds in the database
 		feedDAO.saveOrUpdate(map.values());
 	}
 
+	/**
+	 * give a feed back, updating it to the database during the next refill()
+	 */
 	public void giveBack(Feed feed) {
 		String normalized = FeedUtils.normalizeURL(feed.getUrl());
 		feed.setNormalizedUrl(normalized);

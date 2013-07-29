@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,22 +88,36 @@ public class PubSubHubbubCallbackREST {
 	@POST
 	@Consumes({ MediaType.APPLICATION_ATOM_XML, "application/rss+xml" })
 	public Response callback() {
+		
 		if (!applicationSettingsService.get().isPubsubhubbub()) {
 			return Response.status(Status.FORBIDDEN).entity("pubsubhubbub is disabled").build();
 		}
+		
 		try {
 			byte[] bytes = IOUtils.toByteArray(request.getInputStream());
+			
+			if (ArrayUtils.isEmpty(bytes)) {
+				return Response.status(Status.BAD_REQUEST).entity("empty body received").build();
+			}
+			
 			FetchedFeed fetchedFeed = parser.parse(null, bytes);
 			String topic = fetchedFeed.getFeed().getPushTopic();
-			if (StringUtils.isNotBlank(topic)) {
-				log.debug("content callback received for {}", topic);
-				List<Feed> feeds = feedDAO.findByTopic(topic);
-				for (Feed feed : feeds) {
-					log.debug("pushing content to queue for {}", feed.getUrl());
-					taskGiver.add(feed);
-				}
-				metricsBean.pushReceived(feeds.size());
+			if (StringUtils.isBlank(topic)) {
+				return Response.status(Status.BAD_REQUEST).entity("empty topic received").build();
 			}
+
+			log.debug("content callback received for {}", topic);
+			List<Feed> feeds = feedDAO.findByTopic(topic);
+			if (feeds.isEmpty()) {
+				return Response.status(Status.BAD_REQUEST).entity("no feeds found for that topic").build();
+			}
+
+			for (Feed feed : feeds) {
+				log.debug("pushing content to queue for {}", feed.getUrl());
+				taskGiver.add(feed);
+			}
+			metricsBean.pushReceived(feeds.size());
+
 		} catch (Exception e) {
 			log.error("Could not parse pubsub callback: " + e.getMessage());
 		}

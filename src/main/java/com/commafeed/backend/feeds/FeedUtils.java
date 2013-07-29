@@ -288,7 +288,7 @@ public class FeedUtils {
 	/**
 	 * When the feed was refreshed successfully
 	 */
-	public static Date buildDisabledUntil(Date publishedDate, Long averageEntryInterval) {
+	public static Date buildDisabledUntil(Date publishedDate, Long averageEntryInterval, Date defaultRefreshInterval) {
 		Date now = new Date();
 
 		if (publishedDate == null) {
@@ -304,9 +304,16 @@ public class FeedUtils {
 			// older than a week, recheck in 6 hours
 			return DateUtils.addHours(now, 6);
 		} else if (averageEntryInterval != null) {
-			// use average time between entries to decide when to refresh next
+			// use average time between entries to decide when to refresh next, divided by factor
 			int factor = 2;
-			return new Date(Math.min(DateUtils.addHours(now, 6).getTime(), now.getTime() + averageEntryInterval / factor));
+
+			// not more than 6 hours
+			long date = Math.min(DateUtils.addHours(now, 6).getTime(), now.getTime() + averageEntryInterval / factor);
+
+			// not less than default refresh interval
+			date = Math.max(defaultRefreshInterval.getTime(), date);
+
+			return new Date(date);
 		} else {
 			// unknown case, recheck in 24 hours
 			return DateUtils.addHours(now, 24);

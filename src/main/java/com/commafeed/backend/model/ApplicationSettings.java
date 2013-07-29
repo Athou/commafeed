@@ -36,6 +36,7 @@ public class ApplicationSettings extends AbstractModel {
 	private int queryTimeout;
 	private boolean crawlingPaused;
 	private int keepStatusDays = 0;
+	private int refreshIntervalMinutes;
 
 	@Column(length = 255)
 	private String announcement;
@@ -208,6 +209,14 @@ public class ApplicationSettings extends AbstractModel {
 
 	public void setKeepStatusDays(int keepStatusDays) {
 		this.keepStatusDays = keepStatusDays;
+	}
+
+	public int getRefreshIntervalMinutes() {
+		return refreshIntervalMinutes;
+	}
+
+	public void setRefreshIntervalMinutes(int refreshIntervalMinutes) {
+		this.refreshIntervalMinutes = refreshIntervalMinutes;
 	}
 
 }

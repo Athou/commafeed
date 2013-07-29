@@ -9,6 +9,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,6 @@ import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.services.ApplicationSettingsService;
-import com.sun.syndication.io.FeedException;
 
 /**
  * Calls {@link FeedFetcher} and handles its outcome
@@ -95,6 +95,8 @@ public class FeedRefreshWorker {
 	}
 
 	private void update(Feed feed) {
+		int refreshInterval = applicationSettingsService.get().getRefreshIntervalMinutes();
+		Date disabledUntil = DateUtils.addMinutes(new Date(), refreshInterval);
 		try {
 			FetchedFeed fetchedFeed = fetcher.fetch(feed.getUrl(), false, feed.getLastModifiedHeader(), feed.getEtagHeader(),
 					feed.getLastPublishedDate(), feed.getLastContentHash());
@@ -102,10 +104,9 @@ public class FeedRefreshWorker {
 			// thrown
 			List<FeedEntry> entries = fetchedFeed.getEntries();
 
-			Date disabledUntil = new Date();
 			if (applicationSettingsService.get().isHeavyLoad()) {
 				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed.getFeed().getLastEntryDate(), fetchedFeed.getFeed()
-						.getAverageEntryInterval());
+						.getAverageEntryInterval(), disabledUntil);
 			}
 
 			feed.setLink(fetchedFeed.getFeed().getLink());
@@ -126,9 +127,8 @@ public class FeedRefreshWorker {
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified : {} - {}", feed.getUrl(), e.getMessage());
 
-			Date disabledUntil = null;
 			if (applicationSettingsService.get().isHeavyLoad()) {
-				disabledUntil = FeedUtils.buildDisabledUntil(feed.getLastEntryDate(), feed.getAverageEntryInterval());
+				disabledUntil = FeedUtils.buildDisabledUntil(feed.getLastEntryDate(), feed.getAverageEntryInterval(), disabledUntil);
 			}
 			feed.setErrorCount(0);
 			feed.setMessage(null);
@@ -137,11 +137,7 @@ public class FeedRefreshWorker {
 			taskGiver.giveBack(feed);
 		} catch (Exception e) {
 			String message = "Unable to refresh feed " + feed.getUrl() + " : " + e.getMessage();
-			if (e instanceof FeedException) {
-				log.debug(e.getClass().getName() + " " + message, e);
-			} else {
-				log.debug(e.getClass().getName() + " " + message, e);
-			}
+			log.debug(e.getClass().getName() + " " + message, e);
 
 			feed.setErrorCount(feed.getErrorCount() + 1);
 			feed.setMessage(message);

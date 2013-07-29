@@ -38,30 +38,30 @@ public class FeedDAO extends GenericDAO<Feed> {
 		public List<Feed> feeds;
 	}
 
-	private Predicate getUpdatablePredicate(Root<Feed> root, Date threshold) {
+	private Predicate getUpdatablePredicate(Root<Feed> root) {
 
 		Predicate isNull = builder.isNull(root.get(Feed_.disabledUntil));
-		Predicate lessThan = builder.lessThan(root.get(Feed_.disabledUntil), threshold);
+		Predicate lessThan = builder.lessThan(root.get(Feed_.disabledUntil), new Date());
 
 		return builder.or(isNull, lessThan);
 	}
 
-	public Long getUpdatableCount(Date threshold) {
+	public Long getUpdatableCount() {
 		CriteriaQuery<Long> query = builder.createQuery(Long.class);
 		Root<Feed> root = query.from(getType());
 
 		query.select(builder.count(root));
-		query.where(getUpdatablePredicate(root, threshold));
+		query.where(getUpdatablePredicate(root));
 
 		TypedQuery<Long> q = em.createQuery(query);
 		return q.getSingleResult();
 	}
 
-	public List<Feed> findNextUpdatable(int count, Date threshold) {
+	public List<Feed> findNextUpdatable(int count) {
 		CriteriaQuery<Feed> query = builder.createQuery(getType());
 		Root<Feed> root = query.from(getType());
 
-		query.where(getUpdatablePredicate(root, threshold));
+		query.where(getUpdatablePredicate(root));
 		query.orderBy(builder.asc(root.get(Feed_.disabledUntil)));
 
 		TypedQuery<Feed> q = em.createQuery(query);

@@ -120,5 +120,13 @@
 		<dropIndex tableName="FEEDENTRIES" indexName="guidHash_index" />
 	</changeSet>
 	
+	<changeSet author="athou" id="refresh-interval-setting">
+		<addColumn tableName="APPLICATIONSETTINGS">
+			<column name="refreshIntervalMinutes" type="INT"></column>
+		</addColumn>
+		<update tableName="APPLICATIONSETTINGS">
+			<column name="refreshIntervalMinutes" valueNumeric="5"></column>
+		</update>
+	</changeSet>
 
 </databaseChangeLog>

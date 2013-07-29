@@ -122,21 +122,15 @@ public class FeedRefreshTaskGiver {
 	}
 
 	public Long getUpdatableCount() {
-		return feedDAO.getUpdatableCount(getThreshold());
-	}
-
-	private Date getThreshold() {
-		boolean heavyLoad = applicationSettingsService.get().isHeavyLoad();
-		Date threshold = DateUtils.addMinutes(new Date(), heavyLoad ? -15 : -5);
-		return threshold;
+		return feedDAO.getUpdatableCount();
 	}
 
 	/**
 	 * add a feed to the refresh queue
 	 */
 	public void add(Feed feed) {
-		Date threshold = getThreshold();
-		if (feed.getDisabledUntil() == null || feed.getDisabledUntil().before(threshold)) {
+		int refreshInterval = applicationSettingsService.get().getRefreshIntervalMinutes();
+		if (feed.getLastUpdated() == null || feed.getLastUpdated().before(DateUtils.addMinutes(new Date(), -1 * refreshInterval))) {
 			addQueue.add(feed);
 		}
 	}
@@ -152,7 +146,7 @@ public class FeedRefreshTaskGiver {
 		if (applicationSettingsService.get().isCrawlingPaused()) {
 			feeds = Lists.newArrayList();
 		} else {
-			feeds = feedDAO.findNextUpdatable(count, getThreshold());
+			feeds = feedDAO.findNextUpdatable(count);
 		}
 
 		// then, add to those the feeds we got from the add() method. We add them at the beginning of the list as they probably have a

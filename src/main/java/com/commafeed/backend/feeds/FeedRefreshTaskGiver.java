@@ -139,7 +139,7 @@ public class FeedRefreshTaskGiver {
 	 * refills the refresh queue and empties the giveBack queue while at it
 	 */
 	private void refill() {
-		int count = Math.min(100, 3 * backgroundThreads);
+		int count = Math.min(1000, 3 * backgroundThreads);
 
 		// first, get feeds that are up to refresh from the database
 		List<Feed> feeds = null;

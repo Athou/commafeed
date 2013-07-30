@@ -45,9 +45,8 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 		CriteriaQuery<FeedSubscription> query = builder.createQuery(getType());
 		Root<FeedSubscription> root = query.from(getType());
 
-		query.where(builder.equal(root.get(FeedSubscription_.feed).get(Feed_.id), feed.getId()));
+		query.where(builder.equal(root.get(FeedSubscription_.feed), feed));
 		List<FeedSubscription> list = cache(em.createQuery(query)).getResultList();
-		initRelations(list);
 		return list;
 	}
 

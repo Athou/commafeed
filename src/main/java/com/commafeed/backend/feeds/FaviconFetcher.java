@@ -24,7 +24,7 @@ public class FaviconFetcher {
 	private static Logger log = LoggerFactory.getLogger(FeedFetcher.class);
 
 	private static long MIN_ICON_LENGTH = 100;
-	private static long MAX_ICON_LENGTH = 20000;
+	private static long MAX_ICON_LENGTH = 100000;
 	private static int TIMEOUT = 4000;
 
 	protected static List<String> ICON_MIMETYPES = Arrays.asList("image/x-icon", "image/vnd.microsoft.icon", "image/ico", "image/icon",

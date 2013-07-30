@@ -184,7 +184,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 		int timeout = applicationSettingsService.get().getQueryTimeout();
 		if (timeout > 0) {
-			criteria.setTimeout(timeout);
+			// hibernate timeout is in seconds, jpa timeout is in millis
+			criteria.setTimeout(timeout / 1000);
 		}
 		return criteria;
 	}

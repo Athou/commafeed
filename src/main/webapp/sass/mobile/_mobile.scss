@@ -22,11 +22,17 @@
 	#feed-accordion .entry-heading .shrink {
 		margin-left: 0;
 	}
-	#feed-accordion .entry-heading .entry-name {
-		margin-right: 40px;
+	#feed-accordion .feed-name {
+		margin-top: 22px;
 	}
-	#feed-accordion .entry-heading .narrow {
-		display: none;
+	#feed-accordion .entry-external-link {
+		margin-top: -22px;
+	}
+	#feed-accordion .entry-heading-link {
+		height: 40px;
+	}
+	#feed-accordion .entry-heading .entry-date {
+		right: 25px;
 	}
 	body.left-menu-active .left-menu {
 		display: block !important;

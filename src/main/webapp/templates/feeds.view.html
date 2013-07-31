@@ -23,7 +23,7 @@
 			ng-class="{unread: entry.read == false, current: current==entry, open: isOpen, closed: !isOpen }">
 			<div class="entry-heading">
 				<a href="{{entry.url}}" target="_blank" class="entry-heading-link" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)">
-					<span class="feed-name" ng-class="{narrow: settingsService.settings.viewMode != 'expanded' && !(isOpen && current == entry)}">
+					<span class="feed-name">
 						<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
 							<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}"
 								class="pointer"></i>
@@ -31,8 +31,8 @@
 						<favicon url="entry.iconUrl" />
 						{{entry.feedName}}
 					</span>
-					<span class="entry-date visible-desktop">{{entry.date | entryDate}}</span>
-					<span class="entry-name" ui-if="settingsService.settings.viewMode != 'expanded' && !(isOpen && current == entry)" ng-class="{shrink: true, rtl: entry.rtl}" ng-bind-html-unsafe="entry.title"></span>
+					<span class="entry-date">{{entry.date | entryDate}}</span>
+					<span class="entry-name" ng-class="{shrink: true, rtl: entry.rtl}" ng-bind-html-unsafe="entry.title"></span>
 				</a>
 				<a href="{{entry.url}}" target="_blank" class="entry-external-link" ng-click="mark(entry, true)">
 					<i class="icon-external-link"></i>

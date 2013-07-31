@@ -36,7 +36,7 @@ public class ApplicationSettings extends AbstractModel {
 	private int queryTimeout;
 	private boolean crawlingPaused;
 	private int keepStatusDays = 0;
-	private int refreshIntervalMinutes;
+	private int refreshIntervalMinutes = 5;
 
 	@Column(length = 255)
 	private String announcement;

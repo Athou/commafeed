@@ -127,14 +127,9 @@ public class EntryREST extends AbstractResourceREST {
 			Entry entry = it.next();
 			boolean keep = true;
 			for (String keyword : keywords.split(" ")) {
-				String content = Jsoup.parse(entry.getContent()).text();
-				if (!StringUtils.containsIgnoreCase(content, keyword)) {
-					keep = false;
-					break;
-				}
-
 				String title = Jsoup.parse(entry.getTitle()).text();
-				if (!StringUtils.containsIgnoreCase(title, keyword)) {
+				String content = Jsoup.parse(entry.getContent()).text();
+				if (!StringUtils.containsIgnoreCase(content, keyword) && !StringUtils.containsIgnoreCase(title, keyword)) {
 					keep = false;
 					break;
 				}

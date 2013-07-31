@@ -105,9 +105,9 @@ public class FeedParser {
 				List<Long> sortedTimestamps = FeedUtils.getSortedTimestamps(entries);
 				Long timestamp = sortedTimestamps.get(0);
 				lastEntryDate = new Date(timestamp);
-				publishedDate = getFeedPublishedDate(publishedDate, entries);
+				publishedDate = (publishedDate == null || publishedDate.before(lastEntryDate)) ? lastEntryDate : publishedDate;
 			}
-			feed.setLastPublishedDate(validateDate(publishedDate, true));
+			feed.setLastPublishedDate(publishedDate);
 			feed.setAverageEntryInterval(FeedUtils.averageTimeBetweenEntries(entries));
 			feed.setLastEntryDate(lastEntryDate);
 
@@ -140,16 +140,6 @@ public class FeedParser {
 				}
 			}
 		}
-	}
-
-	private Date getFeedPublishedDate(Date publishedDate, List<FeedEntry> entries) {
-
-		for (FeedEntry entry : entries) {
-			if (publishedDate == null || entry.getUpdated().getTime() > publishedDate.getTime()) {
-				publishedDate = entry.getUpdated();
-			}
-		}
-		return publishedDate;
 	}
 
 	private Date getEntryUpdateDate(SyndEntry item) {

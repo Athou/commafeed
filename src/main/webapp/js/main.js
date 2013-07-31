@@ -1,17 +1,15 @@
-var app = angular.module('commafeed', [ 'ui', 'ui.bootstrap', 'ui.state',
-		'commafeed.directives', 'commafeed.controllers', 'commafeed.services',
-		'commafeed.filters', 'ngSanitize', 'infinite-scroll',
-		'ngGrid' ]);
+var app = angular.module('commafeed', ['ui', 'ui.bootstrap', 'ui.state', 'commafeed.directives', 'commafeed.controllers',
+		'commafeed.services', 'commafeed.filters', 'ngSanitize', 'infinite-scroll', 'ngGrid']);
 
-app.config([ '$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider',
+app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider',
 		function($routeProvider, $stateProvider, $urlRouterProvider, $httpProvider) {
-	
-			var interceptor = [ '$rootScope', '$q', function(scope, $q) {
-				
-				var success = function (response) {
+
+			var interceptor = ['$rootScope', '$q', function(scope, $q) {
+
+				var success = function(response) {
 					return response;
 				};
-				var error = function (response) {
+				var error = function(response) {
 					var status = response.status;
 					if (status == 401) {
 						window.location = 'logout';
@@ -20,16 +18,16 @@ app.config([ '$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpPro
 						return $q.reject(response);
 					}
 				};
-				
+
 				var promise = function(promise) {
 					return promise.then(success, error);
 				};
-		
+
 				return promise;
-			} ];
-			
+			}];
+
 			$httpProvider.responseInterceptors.push(interceptor);
-	
+
 			$stateProvider.state('feeds', {
 				'abstract' : true,
 				url : '/feeds',
@@ -106,4 +104,4 @@ app.config([ '$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpPro
 			$urlRouterProvider.when('/admin', '/admin/settings');
 			$urlRouterProvider.otherwise('/');
 
-		} ]);
+		}]);

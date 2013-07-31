@@ -14,11 +14,10 @@ app.factory('$templateCache', ['$cacheFactory', '$http', '$injector', function($
 
 			if (!allTplPromise) {
 				var lang = $('html').attr('lang');
-				allTplPromise = $http.get('templates/all-templates.' + lang + '.html?${timestamp}').then(
-						function(response) {
-							$injector.get('$compile')(response.data);
-							return response;
-						});
+				allTplPromise = $http.get('templates/all-templates.' + lang + '.html?${timestamp}').then(function(response) {
+					$injector.get('$compile')(response.data);
+					return response;
+				});
 			}
 
 			return allTplPromise.then(function(response) {

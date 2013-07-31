@@ -1,6 +1,6 @@
-var module = angular.module('commafeed.services', [ 'ngResource' ]);
+var module = angular.module('commafeed.services', ['ngResource']);
 
-module.service('AnalyticsService', [ '$state', function($state) {
+module.service('AnalyticsService', ['$state', function($state) {
 	this.track = function(path) {
 		if (typeof ga === 'undefined') {
 			return;
@@ -10,9 +10,9 @@ module.service('AnalyticsService', [ '$state', function($state) {
 			page : path
 		});
 	};
-} ]);
+}]);
 
-module.service('MobileService', [ '$state', function($state) {
+module.service('MobileService', ['$state', function($state) {
 	this.leftMenu = false;
 	this.rightMenu = false;
 	this.toggleLeftMenu = function() {
@@ -26,7 +26,6 @@ module.service('MobileService', [ '$state', function($state) {
 	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 	this.mobile = width < 979;
 }]);
-
 
 module.factory('ProfileService', ['$resource', function($resource) {
 	var res = $resource('rest/user/profile/');
@@ -65,8 +64,7 @@ module.factory('SettingsService', ['$resource', function($resource) {
 	return s;
 }]);
 
-module.factory('FeedService', ['$resource', '$http', 
-function($resource, $http) {
+module.factory('FeedService', ['$resource', '$http', function($resource, $http) {
 	var actions = {
 		entries : {
 			method : 'GET',
@@ -122,9 +120,8 @@ function($resource, $http) {
 	return res;
 }]);
 
-module.factory('CategoryService', ['$resource', '$http', 
-function($resource, $http) {
-	
+module.factory('CategoryService', ['$resource', '$http', function($resource, $http) {
+
 	var traverse = function(callback, category, parentName) {
 		callback(category, parentName);
 		var children = category.children;
@@ -134,7 +131,7 @@ function($resource, $http) {
 			}
 		}
 	};
-	
+
 	// flatten categories
 	var flatten = function(category) {
 		var array = [];
@@ -145,8 +142,8 @@ function($resource, $http) {
 			}
 			array.push({
 				id : category.id,
-				name : name, 
-				orig: category
+				name : name,
+				orig : category
 			});
 		};
 		traverse(callback, category);
@@ -162,18 +159,18 @@ function($resource, $http) {
 		traverse(callback, category);
 		return subs;
 	};
-	
+
 	// flatten everything
 	var flatAll = function(category, a) {
-		a.push([ category.id, 'category' ]);
+		a.push([category.id, 'category']);
 		_.each(category.children, function(child) {
 			flatAll(child, a);
 		});
 		_.each(category.feeds, function(feed) {
-			a.push([ feed.id, 'feed' ]);
+			a.push([feed.id, 'feed']);
 		});
 	};
-	
+
 	var actions = {
 		get : {
 			method : 'GET',
@@ -228,7 +225,7 @@ function($resource, $http) {
 			res.subscriptions = data;
 			res.flatCategories = flatten(data);
 			res.feeds = flatFeeds(data);
-			
+
 			res.flatAll = [];
 			flatAll(data, res.flatAll);
 			res.flatAll.splice(1, 0, ['starred', 'category']);
@@ -249,8 +246,7 @@ function($resource, $http) {
 	return res;
 }]);
 
-module.factory('EntryService', ['$resource', '$http',
-function($resource, $http) {
+module.factory('EntryService', ['$resource', '$http', function($resource, $http) {
 	var actions = {
 		search : {
 			method : 'GET',
@@ -299,7 +295,7 @@ module.factory('AdminCleanupService', ['$resource', function($resource) {
 	var actions = {
 		findDuplicateFeeds : {
 			method : 'GET',
-			isArray: true,
+			isArray : true,
 			params : {
 				_method : 'findDuplicateFeeds'
 			}
@@ -316,6 +312,6 @@ module.factory('AdminCleanupService', ['$resource', function($resource) {
 }]);
 
 module.factory('ServerService', ['$resource', function($resource) {
-	var res =  $resource('rest/server/get');
+	var res = $resource('rest/server/get');
 	return res;
 }]);

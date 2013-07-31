@@ -27,370 +27,367 @@ module.run(['$rootScope', function($rootScope) {
 }]);
 
 module.controller('SubscribeCtrl', ['$scope', 'FeedService', 'CategoryService', 'MobileService',
-function($scope, FeedService, CategoryService, MobileService) {
+		function($scope, FeedService, CategoryService, MobileService) {
 
-	$scope.opts = {
-		backdropFade : true,
-		dialogFade : true
-	};
+			$scope.opts = {
+				backdropFade : true,
+				dialogFade : true
+			};
 
-	$scope.isOpen = false;
-	$scope.isOpenImport = false;
-	$scope.sub = {};
+			$scope.isOpen = false;
+			$scope.isOpenImport = false;
+			$scope.sub = {};
 
-	$scope.CategoryService = CategoryService;
-	$scope.MobileService = MobileService;
-	
-	$scope.search = function() {
-		$scope.$emit('emitFeedSearch');
-	};
+			$scope.CategoryService = CategoryService;
+			$scope.MobileService = MobileService;
 
-	$scope.open = function() {
-		$scope.sub = {
-			categoryId: $scope.sub.categoryId || 'all'
-		};
-		$scope.isOpen = true;
-	};
+			$scope.search = function() {
+				$scope.$emit('emitFeedSearch');
+			};
 
-	$scope.close = function() {
-		$scope.isOpen = false;
-	};
+			$scope.open = function() {
+				$scope.sub = {
+					categoryId : $scope.sub.categoryId || 'all'
+				};
+				$scope.isOpen = true;
+			};
 
-	// 'ok', 'loading' or 'failed'
-	$scope.state = 'ok';
-	$scope.urlChanged = function() {
-		if ($scope.sub.url) {
-			$scope.state = 'loading';
-			$scope.sub.title = 'Loading...';
-			FeedService.fetch({
-				url : $scope.sub.url
-			}, function(data) {
-				$scope.state = 'ok';
-				$scope.sub.title = data.title;
-				$scope.sub.url = data.url;
-			}, function(data) {
-				$scope.state = 'failed';
-				$scope.sub.title = 'Loading failed. Invalid feed?';
-			});
-		}
-	};
+			$scope.close = function() {
+				$scope.isOpen = false;
+			};
 
-	$scope.save = function() {
-		if ($scope.state != 'ok') {
-			return;
-		}
-		if (!$scope.sub.categoryId) {
-			return;
-		}
-		FeedService.subscribe($scope.sub, function() {
-			CategoryService.init();
-			$scope.close();
-		}, function(data) {
-			$scope.state = 'failed';
-			$scope.sub.title = 'ERROR: ' + data.data;
-		});
-	};
-
-	$scope.openImport = function() {
-		$scope.isOpenImport = true;
-	};
-
-	$scope.closeImport = function() {
-		$scope.isOpenImport = false;
-	};
-
-	$scope.cat = {};
-
-	$scope.openCategory = function() {
-		$scope.isOpenCategory = true;
-		$scope.cat = {
-			parentId: 'all'
-		};
-	};
-
-	$scope.closeCategory = function() {
-		$scope.isOpenCategory = false;
-	};
-
-	$scope.saveCategory = function() {
-		CategoryService.add($scope.cat, function() {
-			CategoryService.init();
-		});
-		$scope.closeCategory();
-	};
-}]);
-
-module.controller('CategoryTreeCtrl', ['$scope', '$timeout', '$stateParams', '$window', 
-	'$location', '$state', '$route', 'CategoryService', 'AnalyticsService',
-function($scope, $timeout, $stateParams, $window, $location, $state, $route, CategoryService, AnalyticsService) {
-
-	$scope.selectedType = $stateParams._type;
-	$scope.selectedId = $stateParams._id;
-
-	$scope.starred = {
-		id: 'starred',
-		name: 'Starred'
-	};
-	
-	$scope.$on('$stateChangeSuccess', function() {
-		$scope.selectedType = $stateParams._type;
-		$scope.selectedId = $stateParams._id;
-	});
-
-	$timeout(function refreshTree() {
-		AnalyticsService.track();
-		CategoryService.refresh(function() {
-			$timeout(refreshTree, 30000);
-		}, function() {
-			$timeout(refreshTree, 30000);
-		});
-	}, 15000);
-
-	$scope.CategoryService = CategoryService;
-
-	$scope.unreadCount = function(category) {
-		var count = 0;
-		var i;
-		if (category.children) {
-			for (i = 0; i < category.children.length; i++) {
-				count = count + $scope.unreadCount(category.children[i]);
-			}
-		}
-		if (category.feeds) {
-			for (i = 0; i < category.feeds.length; i++) {
-				var feed = category.feeds[i];
-				count = count + feed.unread;
-			}
-		}
-		return count;
-	};
-
-	var rootUnreadCount = function() {
-		return $scope.unreadCount($scope.CategoryService.subscriptions);
-	};
-
-	$scope.$watch(rootUnreadCount, function(value) {
-		var label = 'CommaFeed';
-		if (value > 0) {
-			label = value + ' - ' + label;
-		}
-		$window.document.title = label;
-	});
-
-	var mark = function(node, entry) {
-		var i;
-		if (node.children) {
-			for (i = 0; i < node.children.length; i++) {
-				mark(node.children[i], entry);
-			}
-		}
-		if (node.feeds) {
-			for (i = 0; i < node.feeds.length; i++) {
-				var feed = node.feeds[i];
-				if (feed.id == entry.feedId) {
-					var c = entry.read ? -1 : 1;
-					feed.unread = feed.unread + c;
+			// 'ok', 'loading' or 'failed'
+			$scope.state = 'ok';
+			$scope.urlChanged = function() {
+				if ($scope.sub.url) {
+					$scope.state = 'loading';
+					$scope.sub.title = 'Loading...';
+					FeedService.fetch({
+						url : $scope.sub.url
+					}, function(data) {
+						$scope.state = 'ok';
+						$scope.sub.title = data.title;
+						$scope.sub.url = data.url;
+					}, function(data) {
+						$scope.state = 'failed';
+						$scope.sub.title = 'Loading failed. Invalid feed?';
+					});
 				}
-			}
-		}
-	};
-	
-	var getCurrentIndex = function (id, type, flat) {
-		var index = -1;
-		for ( var i = 0; i < flat.length; i++) {
-			var node = flat[i];
-			if (node[0] == id && node[1] == type) {
-				index = i;
-				break;
-			}
-		}
-		return index;
-	};
-	
-	var openNextNode = function() {
-		var f = CategoryService.flatAll;
-		var current = getCurrentIndex($scope.selectedId, $scope.selectedType, f);
-		current++;
-		if(current < f.length) {
-			$state.transitionTo('feeds.view', {
-				_type : f[current][1],
-				_id : f[current][0]
+			};
+
+			$scope.save = function() {
+				if ($scope.state != 'ok') {
+					return;
+				}
+				if (!$scope.sub.categoryId) {
+					return;
+				}
+				FeedService.subscribe($scope.sub, function() {
+					CategoryService.init();
+					$scope.close();
+				}, function(data) {
+					$scope.state = 'failed';
+					$scope.sub.title = 'ERROR: ' + data.data;
+				});
+			};
+
+			$scope.openImport = function() {
+				$scope.isOpenImport = true;
+			};
+
+			$scope.closeImport = function() {
+				$scope.isOpenImport = false;
+			};
+
+			$scope.cat = {};
+
+			$scope.openCategory = function() {
+				$scope.isOpenCategory = true;
+				$scope.cat = {
+					parentId : 'all'
+				};
+			};
+
+			$scope.closeCategory = function() {
+				$scope.isOpenCategory = false;
+			};
+
+			$scope.saveCategory = function() {
+				CategoryService.add($scope.cat, function() {
+					CategoryService.init();
+				});
+				$scope.closeCategory();
+			};
+		}]);
+
+module.controller('CategoryTreeCtrl', ['$scope', '$timeout', '$stateParams', '$window', '$location', '$state', '$route', 'CategoryService',
+		'AnalyticsService',
+		function($scope, $timeout, $stateParams, $window, $location, $state, $route, CategoryService, AnalyticsService) {
+
+			$scope.selectedType = $stateParams._type;
+			$scope.selectedId = $stateParams._id;
+
+			$scope.starred = {
+				id : 'starred',
+				name : 'Starred'
+			};
+
+			$scope.$on('$stateChangeSuccess', function() {
+				$scope.selectedType = $stateParams._type;
+				$scope.selectedId = $stateParams._id;
 			});
-		}
-	};
-	
-	var openPreviousNode = function() {
-		var f = CategoryService.flatAll;
-		var current = getCurrentIndex($scope.selectedId, $scope.selectedType, f);
-		current--;
-		if(current >= 0) {
-			$state.transitionTo('feeds.view', {
-				_type : f[current][1],
-				_id : f[current][0]
+
+			$timeout(function refreshTree() {
+				AnalyticsService.track();
+				CategoryService.refresh(function() {
+					$timeout(refreshTree, 30000);
+				}, function() {
+					$timeout(refreshTree, 30000);
+				});
+			}, 15000);
+
+			$scope.CategoryService = CategoryService;
+
+			$scope.unreadCount = function(category) {
+				var count = 0;
+				var i;
+				if (category.children) {
+					for (i = 0; i < category.children.length; i++) {
+						count = count + $scope.unreadCount(category.children[i]);
+					}
+				}
+				if (category.feeds) {
+					for (i = 0; i < category.feeds.length; i++) {
+						var feed = category.feeds[i];
+						count = count + feed.unread;
+					}
+				}
+				return count;
+			};
+
+			var rootUnreadCount = function() {
+				return $scope.unreadCount($scope.CategoryService.subscriptions);
+			};
+
+			$scope.$watch(rootUnreadCount, function(value) {
+				var label = 'CommaFeed';
+				if (value > 0) {
+					label = value + ' - ' + label;
+				}
+				$window.document.title = label;
 			});
-		}
-	};
-	
-	Mousetrap.bind('shift+j', function(e) {
-		$scope.$apply(function() {
-			openNextNode();
-		});
-		return false;
-	});
-	Mousetrap.bind('shift+n', function(e) {
-		$scope.$apply(function() {
-			openNextNode();
-		});
-		return false;
-	});
-	
-	Mousetrap.bind('shift+p', function(e) {
-		$scope.$apply(function() {
-			openPreviousNode();
-		});
-		return false;
-	});
-	Mousetrap.bind('shift+k', function(e) {
-		$scope.$apply(function() {
-			openPreviousNode();
-		});
-		return false;
-	});
 
-	$scope.$on('mark', function(event, args) {
-		mark($scope.CategoryService.subscriptions, args.entry);
-	});
-}]);
+			var mark = function(node, entry) {
+				var i;
+				if (node.children) {
+					for (i = 0; i < node.children.length; i++) {
+						mark(node.children[i], entry);
+					}
+				}
+				if (node.feeds) {
+					for (i = 0; i < node.feeds.length; i++) {
+						var feed = node.feeds[i];
+						if (feed.id == entry.feedId) {
+							var c = entry.read ? -1 : 1;
+							feed.unread = feed.unread + c;
+						}
+					}
+				}
+			};
 
-module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', 'ProfileService', '$dialog', 
-    function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService, $dialog) {
-	
-	$scope.CategoryService = CategoryService;
-	$scope.user = ProfileService.get();
-	
-	$scope.sub = FeedService.get({
-		id : $stateParams._id
-	}, function(data) {
-		if (!data.categoryId)
-			data.categoryId = 'all';
-	});
-	
-	$scope.back = function() {
-		$state.transitionTo('feeds.view', {
-			_id: $stateParams._id,
-			_type: 'feed'
-		});
-	};
-	
-	$scope.unsubscribe = function() {
-		var sub = $scope.sub;
-		var title = 'Unsubscribe';
-		var msg = 'Unsubscribe from ' + sub.name + '?';
-		var btns = [ {
-			result : 'cancel',
-			label : 'Cancel'
-		}, {
-			result : 'ok',
-			label : 'OK',
-			cssClass : 'btn-primary'
-		} ];
+			var getCurrentIndex = function(id, type, flat) {
+				var index = -1;
+				for ( var i = 0; i < flat.length; i++) {
+					var node = flat[i];
+					if (node[0] == id && node[1] == type) {
+						index = i;
+						break;
+					}
+				}
+				return index;
+			};
 
-		$dialog.messageBox(title, msg, btns).open().then(
-				function(result) {
+			var openNextNode = function() {
+				var f = CategoryService.flatAll;
+				var current = getCurrentIndex($scope.selectedId, $scope.selectedType, f);
+				current++;
+				if (current < f.length) {
+					$state.transitionTo('feeds.view', {
+						_type : f[current][1],
+						_id : f[current][0]
+					});
+				}
+			};
+
+			var openPreviousNode = function() {
+				var f = CategoryService.flatAll;
+				var current = getCurrentIndex($scope.selectedId, $scope.selectedType, f);
+				current--;
+				if (current >= 0) {
+					$state.transitionTo('feeds.view', {
+						_type : f[current][1],
+						_id : f[current][0]
+					});
+				}
+			};
+
+			Mousetrap.bind('shift+j', function(e) {
+				$scope.$apply(function() {
+					openNextNode();
+				});
+				return false;
+			});
+			Mousetrap.bind('shift+n', function(e) {
+				$scope.$apply(function() {
+					openNextNode();
+				});
+				return false;
+			});
+
+			Mousetrap.bind('shift+p', function(e) {
+				$scope.$apply(function() {
+					openPreviousNode();
+				});
+				return false;
+			});
+			Mousetrap.bind('shift+k', function(e) {
+				$scope.$apply(function() {
+					openPreviousNode();
+				});
+				return false;
+			});
+
+			$scope.$on('mark', function(event, args) {
+				mark($scope.CategoryService.subscriptions, args.entry);
+			});
+		}]);
+
+module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', 'ProfileService', '$dialog',
+		function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService, $dialog) {
+
+			$scope.CategoryService = CategoryService;
+			$scope.user = ProfileService.get();
+
+			$scope.sub = FeedService.get({
+				id : $stateParams._id
+			}, function(data) {
+				if (!data.categoryId)
+					data.categoryId = 'all';
+			});
+
+			$scope.back = function() {
+				$state.transitionTo('feeds.view', {
+					_id : $stateParams._id,
+					_type : 'feed'
+				});
+			};
+
+			$scope.unsubscribe = function() {
+				var sub = $scope.sub;
+				var title = 'Unsubscribe';
+				var msg = 'Unsubscribe from ' + sub.name + '?';
+				var btns = [{
+					result : 'cancel',
+					label : 'Cancel'
+				}, {
+					result : 'ok',
+					label : 'OK',
+					cssClass : 'btn-primary'
+				}];
+
+				$dialog.messageBox(title, msg, btns).open().then(function(result) {
 					if (result == 'ok') {
 						var data = {
 							id : sub.id
 						};
-						FeedService.unsubscribe(data,
-								function() {
-									CategoryService.init();
-								});
+						FeedService.unsubscribe(data, function() {
+							CategoryService.init();
+						});
 						$state.transitionTo('feeds.view', {
-							_id: 'all',
-							_type: 'category'
+							_id : 'all',
+							_type : 'category'
 						});
 					}
 				});
-	};
-	
-	$scope.save = function() {
-		var sub = $scope.sub;
-		FeedService.modify({
-			id : sub.id,
-			name : sub.name,
-			position: sub.position,
-			categoryId : sub.categoryId
-		}, function() {
-			CategoryService.init();
-			$state.transitionTo('feeds.view', {
-				_id: 'all',
-				_type: 'category'
-			});
-		});
-	};
-}]);
-
-module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', 'ProfileService', '$dialog', 
-                                      function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService, $dialog) {
-	$scope.CategoryService = CategoryService;
-	$scope.user = ProfileService.get();
-	
-	$scope.isMeta = function() {
-		return parseInt($stateParams._id, 10) != $stateParams._id;
-	};
-	
-	$scope.filterCurrent = function(elem) {
-		if (!$scope.category)
-			return true;
-		return elem.id != $scope.category.id;
-	}; 
-	
-	CategoryService.init(function() {
-		if ($scope.isMeta()) {
-			$scope.category = {
-				id : $stateParams._id,
-				name : $stateParams._id
 			};
-			return;
-		}
-		for (var i = 0; i < CategoryService.flatCategories.length; i++) {
-			var cat = CategoryService.flatCategories[i];
-			if (cat.id == $stateParams._id) {
-				$scope.category = {
-					id: cat.id,
-					name: cat.orig.name,
-					position: cat.orig.position,
-					parentId: cat.orig.parentId
-				};
-				break;
-			}
-		}
-		if (!$scope.category.parentId)
-			$scope.category.parentId = 'all';
-	});
-	
-	$scope.back = function() {
-		$state.transitionTo('feeds.view', {
-			_id: $stateParams._id,
-			_type: 'category'
-		});
-	};
-	
-	$scope.deleteCategory = function() {
-		var category = $scope.category;
-		var title = 'Delete category';
-		var msg = 'Delete category ' + category.name + ' ?';
-		var btns = [ {
-			result : 'cancel',
-			label : 'Cancel'
-		}, {
-			result : 'ok',
-			label : 'OK',
-			cssClass : 'btn-primary'
-		} ];
 
-		$dialog.messageBox(title, msg, btns).open().then(
-				function(result) {
+			$scope.save = function() {
+				var sub = $scope.sub;
+				FeedService.modify({
+					id : sub.id,
+					name : sub.name,
+					position : sub.position,
+					categoryId : sub.categoryId
+				}, function() {
+					CategoryService.init();
+					$state.transitionTo('feeds.view', {
+						_id : 'all',
+						_type : 'category'
+					});
+				});
+			};
+		}]);
+
+module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', 'ProfileService',
+		'$dialog', function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService, $dialog) {
+			$scope.CategoryService = CategoryService;
+			$scope.user = ProfileService.get();
+
+			$scope.isMeta = function() {
+				return parseInt($stateParams._id, 10) != $stateParams._id;
+			};
+
+			$scope.filterCurrent = function(elem) {
+				if (!$scope.category)
+					return true;
+				return elem.id != $scope.category.id;
+			};
+
+			CategoryService.init(function() {
+				if ($scope.isMeta()) {
+					$scope.category = {
+						id : $stateParams._id,
+						name : $stateParams._id
+					};
+					return;
+				}
+				for ( var i = 0; i < CategoryService.flatCategories.length; i++) {
+					var cat = CategoryService.flatCategories[i];
+					if (cat.id == $stateParams._id) {
+						$scope.category = {
+							id : cat.id,
+							name : cat.orig.name,
+							position : cat.orig.position,
+							parentId : cat.orig.parentId
+						};
+						break;
+					}
+				}
+				if (!$scope.category.parentId)
+					$scope.category.parentId = 'all';
+			});
+
+			$scope.back = function() {
+				$state.transitionTo('feeds.view', {
+					_id : $stateParams._id,
+					_type : 'category'
+				});
+			};
+
+			$scope.deleteCategory = function() {
+				var category = $scope.category;
+				var title = 'Delete category';
+				var msg = 'Delete category ' + category.name + ' ?';
+				var btns = [{
+					result : 'cancel',
+					label : 'Cancel'
+				}, {
+					result : 'ok',
+					label : 'OK',
+					cssClass : 'btn-primary'
+				}];
+
+				$dialog.messageBox(title, msg, btns).open().then(function(result) {
 					if (result == 'ok') {
 						CategoryService.remove({
 							id : category.id
@@ -398,845 +395,856 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 							CategoryService.init();
 						});
 						$state.transitionTo('feeds.view', {
-							_id: 'all',
-							_type: 'category'
+							_id : 'all',
+							_type : 'category'
 						});
 					}
 				});
-	};
-	
-	$scope.save = function() {
-		var cat = $scope.category;
-		CategoryService.modify({
-			id : cat.id,
-			name : cat.name,
-			position: cat.position,
-			parentId : cat.parentId
-		}, function() {
-			CategoryService.init();
-			$state.transitionTo('feeds.view', {
-				_id: 'all',
-				_type: 'category'
+			};
+
+			$scope.save = function() {
+				var cat = $scope.category;
+				CategoryService.modify({
+					id : cat.id,
+					name : cat.name,
+					position : cat.position,
+					parentId : cat.parentId
+				}, function() {
+					CategoryService.init();
+					$state.transitionTo('feeds.view', {
+						_id : 'all',
+						_type : 'category'
+					});
+				});
+			};
+		}]);
+
+module.controller('ToolbarCtrl', [
+		'$scope',
+		'$http',
+		'$state',
+		'$stateParams',
+		'$route',
+		'$location',
+		'SettingsService',
+		'EntryService',
+		'ProfileService',
+		'AnalyticsService',
+		'ServerService',
+		'FeedService',
+		'MobileService',
+		function($scope, $http, $state, $stateParams, $route, $location, SettingsService, EntryService, ProfileService, AnalyticsService,
+				ServerService, FeedService, MobileService) {
+
+			function totalActiveAjaxRequests() {
+				return ($http.pendingRequests.length + $.active);
+			}
+
+			$scope.session = ProfileService.get();
+			$scope.ServerService = ServerService.get();
+			$scope.settingsService = SettingsService;
+			$scope.MobileService = MobileService;
+
+			$scope.loading = true;
+			$scope.$watch(totalActiveAjaxRequests, function() {
+				$scope.loading = (totalActiveAjaxRequests() !== 0);
 			});
-		});
-	};
-}]);
 
-module.controller('ToolbarCtrl', ['$scope', '$http', '$state', '$stateParams', 
-	'$route', '$location', 'SettingsService', 'EntryService', 'ProfileService', 'AnalyticsService', 'ServerService', 'FeedService', 'MobileService',
-function($scope, $http, $state, $stateParams, $route, $location,
-		SettingsService, EntryService, ProfileService, AnalyticsService, ServerService, FeedService, MobileService) {
-
-	function totalActiveAjaxRequests() {
-		return ($http.pendingRequests.length + $.active);
-	}
-
-	$scope.session = ProfileService.get();
-	$scope.ServerService = ServerService.get();
-	$scope.settingsService = SettingsService;
-	$scope.MobileService = MobileService;
-	
-	$scope.loading = true;
-	$scope.$watch(totalActiveAjaxRequests, function() {
-		$scope.loading = (totalActiveAjaxRequests() !== 0);
-	});
-	
-	$scope.$watch('settingsService.settings.readingMode', function(
-			newValue, oldValue) {
-		if (newValue && oldValue && newValue != oldValue) {
-			SettingsService.save();
-		}
-	});
-	$scope.$watch('settingsService.settings.readingOrder', function(
-			newValue, oldValue) {
-		if (newValue && oldValue && newValue != oldValue) {
-			SettingsService.save();
-		}
-	});
-	$scope.$watch('settingsService.settings.viewMode', function(
-			newValue, oldValue) {
-		if (newValue && oldValue && newValue != oldValue) {
-			SettingsService.save();
-			$scope.$emit('emitReload');
-		}
-	});
-	
-	$scope.previousEntry = function() {
-		$scope.$emit('emitPreviousEntry');
-	};
-	$scope.nextEntry = function() {
-		$scope.$emit('emitNextEntry');
-	};
-
-	$scope.refresh = function() {
-		$scope.$emit('emitReload');
-	};
-	
-	$scope.refreshAll = function() {
-		$scope.$emit('emitReload', {
-			all : true
-		});
-	};
-	
-	var markAll = function(olderThan) {
-		$scope.$emit('emitMarkAll', {
-			type : $stateParams._type,
-			id : $stateParams._id,
-			olderThan: olderThan,
-			read : true
-		});
-	};
-	
-	$scope.markAllAsRead = function() {
-		markAll();
-	};
-	
-	$scope.markAllDay = function() {
-		markAll(new Date().getTime() - 86400000);
-	};
-	
-	$scope.markAllWeek = function() {
-		markAll(new Date().getTime() - 604800000);
-	};
-	
-	$scope.markAllTwoWeeks = function() {
-		markAll(new Date().getTime() - 1209600000);
-	};
-
-	$scope.keywords = $stateParams._keywords;
-	$scope.search = function() {
-		if ($scope.keywords == $stateParams._keywords) {
-			$scope.refresh();
-		} else {
-			$state.transitionTo('feeds.search', {
-				_keywords : $scope.keywords
+			$scope.$watch('settingsService.settings.readingMode', function(newValue, oldValue) {
+				if (newValue && oldValue && newValue != oldValue) {
+					SettingsService.save();
+				}
 			});
-		}
-	};
-	$scope.showButtons = function() {
-		return !$stateParams._keywords;
-	};
+			$scope.$watch('settingsService.settings.readingOrder', function(newValue, oldValue) {
+				if (newValue && oldValue && newValue != oldValue) {
+					SettingsService.save();
+				}
+			});
+			$scope.$watch('settingsService.settings.viewMode', function(newValue, oldValue) {
+				if (newValue && oldValue && newValue != oldValue) {
+					SettingsService.save();
+					$scope.$emit('emitReload');
+				}
+			});
 
-	$scope.toggleOrder = function() {
-		var settings = $scope.settingsService.settings;
-		settings.readingOrder = settings.readingOrder == 'asc' ? 'desc' : 'asc';
-	};
-	
-	$scope.toAdmin = function() {
-		$location.path('admin');
-	};
-	$scope.toSettings = function() {
-		$state.transitionTo('feeds.settings');
-	};
-	$scope.toProfile = function() {
-		$state.transitionTo('feeds.profile');
-	};
-	$scope.toHelp = function() {
-		$state.transitionTo('feeds.help');
-	};
-	$scope.toDonate = function() {
-		AnalyticsService.track('/donate');
-		$state.transitionTo('feeds.help');
-	};
-}]);
+			$scope.previousEntry = function() {
+				$scope.$emit('emitPreviousEntry');
+			};
+			$scope.nextEntry = function() {
+				$scope.$emit('emitNextEntry');
+			};
+
+			$scope.refresh = function() {
+				$scope.$emit('emitReload');
+			};
+
+			$scope.refreshAll = function() {
+				$scope.$emit('emitReload', {
+					all : true
+				});
+			};
+
+			var markAll = function(olderThan) {
+				$scope.$emit('emitMarkAll', {
+					type : $stateParams._type,
+					id : $stateParams._id,
+					olderThan : olderThan,
+					read : true
+				});
+			};
+
+			$scope.markAllAsRead = function() {
+				markAll();
+			};
+
+			$scope.markAllDay = function() {
+				markAll(new Date().getTime() - 86400000);
+			};
+
+			$scope.markAllWeek = function() {
+				markAll(new Date().getTime() - 604800000);
+			};
+
+			$scope.markAllTwoWeeks = function() {
+				markAll(new Date().getTime() - 1209600000);
+			};
+
+			$scope.keywords = $stateParams._keywords;
+			$scope.search = function() {
+				if ($scope.keywords == $stateParams._keywords) {
+					$scope.refresh();
+				} else {
+					$state.transitionTo('feeds.search', {
+						_keywords : $scope.keywords
+					});
+				}
+			};
+			$scope.showButtons = function() {
+				return !$stateParams._keywords;
+			};
+
+			$scope.toggleOrder = function() {
+				var settings = $scope.settingsService.settings;
+				settings.readingOrder = settings.readingOrder == 'asc' ? 'desc' : 'asc';
+			};
+
+			$scope.toAdmin = function() {
+				$location.path('admin');
+			};
+			$scope.toSettings = function() {
+				$state.transitionTo('feeds.settings');
+			};
+			$scope.toProfile = function() {
+				$state.transitionTo('feeds.profile');
+			};
+			$scope.toHelp = function() {
+				$state.transitionTo('feeds.help');
+			};
+			$scope.toDonate = function() {
+				AnalyticsService.track('/donate');
+				$state.transitionTo('feeds.help');
+			};
+		}]);
 
 module.controller('FeedSearchCtrl', ['$scope', '$state', '$filter', '$timeout', 'CategoryService',
-function($scope, $state, $filter, $timeout, CategoryService) {
-	$scope.feedSearchModal = false;
-	$scope.filter = null;
-	$scope.focus = null;
-	$scope.CategoryService = CategoryService;
-	
-	$scope.$watch('filter', function() {
-		$timeout(function() {
-			if ($scope.filtered){
-				$scope.focus = $scope.filtered[0];
-			}
-		}, 0);
-	});
-	
-	var getCurrentIndex = function() {
-		var index = -1;
-		
-		if(!$scope.focus) {
-			return index;
-		}
-		
-		var filtered = $scope.filtered;
-		for (var i = 0; i < filtered.length; i++) {
-			if ($scope.focus.id == filtered[i].id) {
-				index = i;
-				break;
-			}
-		}
-		return index;
-	};
-	
-	$scope.focusPrevious = function(e) {
-		var index = getCurrentIndex();
-		if (index === 0) {
-			return;
-		} 
-		$scope.focus = $scope.filtered[index - 1];
-		
-		e.stopPropagation();
-		e.preventDefault();
-	};
-	
-	$scope.focusNext = function(e) {
-		var index = getCurrentIndex();
-		if (index == ($scope.filtered.length - 1)) {
-			return;
-		} 
-		$scope.focus = $scope.filtered[index + 1];
-		
-		e.stopPropagation();
-		e.preventDefault();
-	};
-	
-	$scope.openFocused = function() {
-		if (!$scope.focus) {
-			return;
-		}
-		$scope.goToFeed($scope.focus.id);
-	};
+		function($scope, $state, $filter, $timeout, CategoryService) {
+			$scope.feedSearchModal = false;
+			$scope.filter = null;
+			$scope.focus = null;
+			$scope.CategoryService = CategoryService;
 
-	$scope.goToFeed = function(id) {		
-		$scope.close();
-		$state.transitionTo('feeds.view', {
-			_type : 'feed', 
-			_id : id
-		});
-	};
-	
-	$scope.open = function() {
-		$scope.filter = null;
-		$scope.feedSearchModal = true;
-	};
-	
-	$scope.close = function() {
-		$scope.feedSearchModal = false;
-	};
-	
-	Mousetrap.bind('g a', function(e) {
-		$scope.$apply(function() {
-			$state.transitionTo('feeds.view', {
-				_type : 'category', 
-				_id : 'all'
+			$scope.$watch('filter', function() {
+				$timeout(function() {
+					if ($scope.filtered) {
+						$scope.focus = $scope.filtered[0];
+					}
+				}, 0);
 			});
-		});
-		return false;
-	});
-	
-	Mousetrap.bind('g s', function(e) {
-		$scope.$apply(function() {
-			$state.transitionTo('feeds.view', {
-				_type : 'category', 
-				_id : 'starred'
-			});
-		});
-		return false;
-	});
 
-	Mousetrap.bind('g u', function(e) {
-		$scope.$apply(function() {
-			$scope.open();
-		});
-		return false;
-	});
-	
-	$scope.$on('feedSearch', function() {
-		$scope.open();
-	});
+			var getCurrentIndex = function() {
+				var index = -1;
 
-}]);
+				if (!$scope.focus) {
+					return index;
+				}
 
-module.controller('FeedListCtrl', ['$scope', '$stateParams', '$http', '$route', '$state',
-	'$window', 'EntryService', 'SettingsService', 'FeedService', 'CategoryService', 'AnalyticsService',
-function($scope, $stateParams, $http, $route, $state, $window, EntryService, SettingsService, FeedService, CategoryService, AnalyticsService) {
-	
-	AnalyticsService.track();
+				var filtered = $scope.filtered;
+				for ( var i = 0; i < filtered.length; i++) {
+					if ($scope.focus.id == filtered[i].id) {
+						index = i;
+						break;
+					}
+				}
+				return index;
+			};
 
-	$scope.selectedType = $stateParams._type;
-	$scope.selectedId = $stateParams._id;
-	$scope.keywords = $stateParams._keywords;
+			$scope.focusPrevious = function(e) {
+				var index = getCurrentIndex();
+				if (index === 0) {
+					return;
+				}
+				$scope.focus = $scope.filtered[index - 1];
 
-	$scope.name = null;
-	$scope.message = null;
-	$scope.errorCount = 0;
-	$scope.timestamp = 0;
-	$scope.entries = [];
-	$scope.font_size = 0;
+				e.stopPropagation();
+				e.preventDefault();
+			};
 
-	$scope.settingsService = SettingsService;
-	$scope.$watch('settingsService.settings.readingMode', function(newValue,
-			oldValue) {
-		if (newValue && oldValue && newValue != oldValue) {
-			$scope.$emit('emitReload');
-		}
-	});
-	$scope.$watch('settingsService.settings.readingOrder', function(newValue,
-			oldValue) {
-		if (newValue && oldValue && newValue != oldValue) {
-			$scope.$emit('emitReload');
-		}
-	});
+			$scope.focusNext = function(e) {
+				var index = getCurrentIndex();
+				if (index == ($scope.filtered.length - 1)) {
+					return;
+				}
+				$scope.focus = $scope.filtered[index + 1];
 
-	$scope.limit = SettingsService.settings.viewMode == 'title' ? 10 : 5;
-	$scope.busy = false;
-	$scope.hasMore = true;
+				e.stopPropagation();
+				e.preventDefault();
+			};
 
-	$scope.loadMoreEntries = function() {
-		if (!$scope.hasMore)
-			return;
-		if ($scope.busy)
-			return;
-		$scope.busy = true;
+			$scope.openFocused = function() {
+				if (!$scope.focus) {
+					return;
+				}
+				$scope.goToFeed($scope.focus.id);
+			};
 
-		var limit = $scope.limit;
-		if ($scope.entries.length === 0) {
-			$window = angular.element($window);
-			if (SettingsService.settings.viewMode == 'title') {
-				limit = $window.height() / 33;
-				limit = parseInt(limit, 10) + 5;
-			} else {
-				limit = $window.height() / 97;
-				limit = parseInt(limit, 10) + 1;
-			}
-		}
-
-		var callback = function(data) {
-			for ( var i = 0; i < data.entries.length; i++) {
-				$scope.entries.push(data.entries[i]);
-			}
-			$scope.name = data.name;
-			$scope.message = data.message;
-			$scope.errorCount = data.errorCount;
-			$scope.timestamp = data.timestamp;
-			$scope.busy = false;
-			$scope.hasMore = data.hasMore;
-			$scope.feedLink = data.feedLink;
-		};
-		if (!$scope.keywords) {
-			var service = $scope.selectedType == 'feed' ? FeedService
-					: CategoryService;
-			service.entries({
-				id : $scope.selectedId,
-				readType : $scope.settingsService.settings.readingMode,
-				order : $scope.settingsService.settings.readingOrder,
-				offset : $scope.entries.length,
-				limit : limit
-			}, callback);
-		} else {
-			EntryService.search({
-				keywords : $scope.keywords,
-				offset : $scope.entries.length,
-				limit : limit
-			}, callback);
-		}
-	};
-	
-	$scope.goToFeed = function(id) {		
-		$state.transitionTo('feeds.view', {
-			_type : 'feed', 
-			_id : id
-		});
-	};
-
-	$scope.mark = function(entry, read) {
-		if (entry.read != read) {
-			entry.read = read;
-			$scope.$emit('emitMark', {
-				entry : entry
-			});
-			EntryService.mark({
-				id : entry.id,
-				feedId : entry.feedId,
-				read : read
-			});
-		}
-	};
-	
-	$scope.markAll = function(olderThan) {
-		var service = $scope.selectedType == 'feed' ? FeedService
-				: CategoryService;
-		service.mark({
-			id : $scope.selectedId,
-			olderThan : olderThan || $scope.timestamp,
-			read : true
-		}, function() {
-			CategoryService.refresh(function() {
-				$scope.$emit('emitReload');
-			});
-		});
-	};
-	
-	$scope.markUpTo = function(entry) {
-		var entries = [];
-		for (var i = 0; i < $scope.entries.length; i++) {
-			var e = $scope.entries[i];
-			if (!e.read) {
-				entries.push({
-					id : e.id,
-					feedId : e.feedId,
-					read: true
+			$scope.goToFeed = function(id) {
+				$scope.close();
+				$state.transitionTo('feeds.view', {
+					_type : 'feed',
+					_id : id
 				});
-				e.read = true;
-			}
-			if (e == entry) {
-				break;
-			}
-		}
-		EntryService.markMultiple({
-			requests : entries
-		}, function() {
-			CategoryService.refresh();
-		});
-	};
-	
-	$scope.star = function(entry, star, event) {
-		if (event) {
-			event.preventDefault();
-			event.stopPropagation();
-		}
-		if (entry.starred != star) {
-			entry.starred = star;
-			EntryService.star({
-				id : entry.id,
-				feedId : entry.feedId,
-				starred : star
+			};
+
+			$scope.open = function() {
+				$scope.filter = null;
+				$scope.feedSearchModal = true;
+			};
+
+			$scope.close = function() {
+				$scope.feedSearchModal = false;
+			};
+
+			Mousetrap.bind('g a', function(e) {
+				$scope.$apply(function() {
+					$state.transitionTo('feeds.view', {
+						_type : 'category',
+						_id : 'all'
+					});
+				});
+				return false;
 			});
-		}
-	};
-	
-	var getCurrentIndex = function() {
-		var index = -1;
-		if ($scope.current) {
-			for (var i = 0; i < $scope.entries.length; i++) {
-				if ($scope.current == $scope.entries[i]) {
-					index = i;
-					break;
+
+			Mousetrap.bind('g s', function(e) {
+				$scope.$apply(function() {
+					$state.transitionTo('feeds.view', {
+						_type : 'category',
+						_id : 'starred'
+					});
+				});
+				return false;
+			});
+
+			Mousetrap.bind('g u', function(e) {
+				$scope.$apply(function() {
+					$scope.open();
+				});
+				return false;
+			});
+
+			$scope.$on('feedSearch', function() {
+				$scope.open();
+			});
+
+		}]);
+
+module.controller('FeedListCtrl', [
+		'$scope',
+		'$stateParams',
+		'$http',
+		'$route',
+		'$state',
+		'$window',
+		'EntryService',
+		'SettingsService',
+		'FeedService',
+		'CategoryService',
+		'AnalyticsService',
+		function($scope, $stateParams, $http, $route, $state, $window, EntryService, SettingsService, FeedService, CategoryService,
+				AnalyticsService) {
+
+			AnalyticsService.track();
+
+			$scope.selectedType = $stateParams._type;
+			$scope.selectedId = $stateParams._id;
+			$scope.keywords = $stateParams._keywords;
+
+			$scope.name = null;
+			$scope.message = null;
+			$scope.errorCount = 0;
+			$scope.timestamp = 0;
+			$scope.entries = [];
+			$scope.font_size = 0;
+
+			$scope.settingsService = SettingsService;
+			$scope.$watch('settingsService.settings.readingMode', function(newValue, oldValue) {
+				if (newValue && oldValue && newValue != oldValue) {
+					$scope.$emit('emitReload');
 				}
-			}
-		}
-		return index;
-	};
+			});
+			$scope.$watch('settingsService.settings.readingOrder', function(newValue, oldValue) {
+				if (newValue && oldValue && newValue != oldValue) {
+					$scope.$emit('emitReload');
+				}
+			});
 
-	var getNextEntry = function() {
-		var index = getCurrentIndex();
-		if (index >= 0) {
-			index = index + 1;
-			if (index < $scope.entries.length) {
-				return $scope.entries[index];
-			} 
-		} else if ($scope.entries.length > 0) {
-			return $scope.entries[0];
-		}
-		return null;
-	};
+			$scope.limit = SettingsService.settings.viewMode == 'title' ? 10 : 5;
+			$scope.busy = false;
+			$scope.hasMore = true;
 
-	var getPreviousEntry = function() {
-		var index = getCurrentIndex();
-		if (index >= 1) {
-			return $scope.entries[index - 1];
-		}
-		return null;
-	};
+			$scope.loadMoreEntries = function() {
+				if (!$scope.hasMore)
+					return;
+				if ($scope.busy)
+					return;
+				$scope.busy = true;
 
-	var openNextEntry = function(event) {
-		var entry = getNextEntry();
-		openEntry(entry, event);
-	};
+				var limit = $scope.limit;
+				if ($scope.entries.length === 0) {
+					$window = angular.element($window);
+					if (SettingsService.settings.viewMode == 'title') {
+						limit = $window.height() / 33;
+						limit = parseInt(limit, 10) + 5;
+					} else {
+						limit = $window.height() / 97;
+						limit = parseInt(limit, 10) + 1;
+					}
+				}
 
-	var openPreviousEntry = function(event) {
-		var entry = getPreviousEntry();
-		openEntry(entry, event);
-	};
+				var callback = function(data) {
+					for ( var i = 0; i < data.entries.length; i++) {
+						$scope.entries.push(data.entries[i]);
+					}
+					$scope.name = data.name;
+					$scope.message = data.message;
+					$scope.errorCount = data.errorCount;
+					$scope.timestamp = data.timestamp;
+					$scope.busy = false;
+					$scope.hasMore = data.hasMore;
+					$scope.feedLink = data.feedLink;
+				};
+				if (!$scope.keywords) {
+					var service = $scope.selectedType == 'feed' ? FeedService : CategoryService;
+					service.entries({
+						id : $scope.selectedId,
+						readType : $scope.settingsService.settings.readingMode,
+						order : $scope.settingsService.settings.readingOrder,
+						offset : $scope.entries.length,
+						limit : limit
+					}, callback);
+				} else {
+					EntryService.search({
+						keywords : $scope.keywords,
+						offset : $scope.entries.length,
+						limit : limit
+					}, callback);
+				}
+			};
 
-	var focusNextEntry = function(event) {
-		var entry = getNextEntry();
-		
-		if (event) {
-			event.preventDefault();
-			event.stopPropagation();
-		}
-		
-		if (entry) {
-			$scope.current = entry;
-		}
-	};
+			$scope.goToFeed = function(id) {
+				$state.transitionTo('feeds.view', {
+					_type : 'feed',
+					_id : id
+				});
+			};
 
-	var focusPreviousEntry = function(event) {
-		var entry = getPreviousEntry();
-	
-		if (event) {
-			event.preventDefault();
-			event.stopPropagation();
-		}
-		
-		if (entry) {
-			$scope.current = entry;
-		}
-	};
+			$scope.mark = function(entry, read) {
+				if (entry.read != read) {
+					entry.read = read;
+					$scope.$emit('emitMark', {
+						entry : entry
+					});
+					EntryService.mark({
+						id : entry.id,
+						feedId : entry.feedId,
+						read : read
+					});
+				}
+			};
 
-	$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
-	
-	var openEntry = function(entry, event) {
-		
-		if (event) {
-			event.preventDefault();
-			event.stopPropagation();
-		}
-		
-		if (!entry) {
-			return;
-		}
-		
-		if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {
-			$scope.isOpen = true;
-		} else {
-			$scope.isOpen = !$scope.isOpen;
-		}
-		if ($scope.isOpen) {
-			$scope.mark(entry, true);
-		}
-		$scope.current = entry;
-			
-		if (getCurrentIndex() == $scope.entries.length - 1) {
-			$scope.loadMoreEntries();	
-		}
-	};
-	
-	$scope.entryClicked = function(entry, event) {
-		
-		if (event && event.which === 3) {
-			// right click
-			return;
-		}
-		if (!event || (!event.ctrlKey && event.which != 2)) {
-			$scope.navigationMode = 'click';
-			openEntry(entry, event);
-		} else {
-			$scope.mark(entry, true);
-		}
-	};
-	
-	$scope.bodyClicked = function(entry, event) {
-		if (SettingsService.settings.viewMode == 'expanded' && $scope.current != entry) {
-			$scope.entryClicked(entry, event);
-		}
-	};
+			$scope.markAll = function(olderThan) {
+				var service = $scope.selectedType == 'feed' ? FeedService : CategoryService;
+				service.mark({
+					id : $scope.selectedId,
+					olderThan : olderThan || $scope.timestamp,
+					read : true
+				}, function() {
+					CategoryService.refresh(function() {
+						$scope.$emit('emitReload');
+					});
+				});
+			};
 
-	$scope.noop = function(event) {
-		if (!event.ctrlKey && event.which != 2) {
-			event.preventDefault();
-			event.stopPropagation();
-		}
-	};
+			$scope.markUpTo = function(entry) {
+				var entries = [];
+				for ( var i = 0; i < $scope.entries.length; i++) {
+					var e = $scope.entries[i];
+					if (!e.read) {
+						entries.push({
+							id : e.id,
+							feedId : e.feedId,
+							read : true
+						});
+						e.read = true;
+					}
+					if (e == entry) {
+						break;
+					}
+				}
+				EntryService.markMultiple({
+					requests : entries
+				}, function() {
+					CategoryService.refresh();
+				});
+			};
 
-	$scope.onScroll = function(entry) {
-		$scope.navigationMode = 'scroll';
-		if (SettingsService.settings.viewMode == 'expanded') {
-			$scope.current = entry;
-			if(SettingsService.settings.scrollMarks) {
-				$scope.mark(entry, true);
-			}
-		}
-	};
-	
-	Mousetrap.bind('j', function(e) {
-		$scope.$apply(function() {
-			$scope.navigationMode = 'keyboard';
-			openNextEntry(e);
-		});
-		return false;
-	});
-	Mousetrap.bind('n', function(e) {
-		$scope.$apply(function() {
-			$scope.navigationMode = 'keyboard';
-			focusNextEntry(e);
-		});
-		return false;
-	});
-	Mousetrap.bind('k', function(e) {
-		$scope.$apply(function() {
-			$scope.navigationMode = 'keyboard';
-			openPreviousEntry(e);
-		});
-		return false;
-	});
-	Mousetrap.bind('p', function(e) {
-		$scope.$apply(function() {
-			$scope.navigationMode = 'keyboard';
-			focusPreviousEntry(e);
-		});
-		return false;
-	});
-	Mousetrap.bind('o', function(e) {
-		$scope.$apply(function() {
-			$scope.navigationMode = 'keyboard';
-			if ($scope.current) {
-				openEntry($scope.current, e);
-			}
-		});
-		return false;
-	});
-	Mousetrap.bind('enter', function(e) {
-		$scope.$apply(function() {
-			$scope.navigationMode = 'keyboard';
-			if ($scope.current) {
-				openEntry($scope.current, e);
-			}
-		});
-	});
-	Mousetrap.bind('r', function(e) {
-		$scope.$apply(function() {
-			$scope.$emit('emitReload');
-		});
-		return false;
-	});
-	Mousetrap.bind('v', function(e) {
-		if ($scope.current) {
-			$scope.mark($scope.current, true);
-			window.open($scope.current.url);
-		}
-		return false;
-	});
-	Mousetrap.bind('b', function(e) {
-		if ($scope.current) {
-			$scope.mark($scope.current, true);
-			
-			var url = $scope.current.url;
-			var a = document.createElement('a');
-			a.href = url;
-			var evt = document
-					.createEvent('MouseEvents');
-			evt.initMouseEvent('click', true, true,
-					window, 0, 0, 0, 0, 0, true, false,
-					false, true, 0, null);
-			a.dispatchEvent(evt);
-		}
-		return false;
-	});
-	Mousetrap.bind('s', function(e) {
-		$scope.$apply(function() {
-			if ($scope.current) {
-				$scope.star($scope.current, !$scope.current.starred);
-			}
-		});
-		return false;
-	});
-	Mousetrap.bind('m', function(e) {
-		$scope.$apply(function() {
-			if ($scope.current) {
-				$scope.mark($scope.current, !$scope.current.read);
-			}
-		});
-		return false;
-	});
-	Mousetrap.bind('shift+a', function(e) {
-		$scope.$apply(function() {
-			$scope.markAll();
-		});
-		return false;
-	});
-	
-	Mousetrap.bind('+', function(e) {
-		$scope.$apply(function() {
-			$scope.font_size = Math.min($scope.font_size + 1, 5); 
-		});
-		return false;
-	});	
-	
-	Mousetrap.bind('-', function(e) {
-		$scope.$apply(function() {
-			$scope.font_size = Math.max($scope.font_size - 1, 0); 
-		});
-		return false;
-	});	
-	
-	Mousetrap.bind('space', function(e) {
-		if (!$scope.current) {
-			$scope.$apply(function() {
-				$scope.navigationMode = 'keyboard';
-				openNextEntry(e);
-			});	
-		} else if (!$scope.isOpen) {
-			$scope.$apply(function() {
-				$scope.navigationMode = 'keyboard';
+			$scope.star = function(entry, star, event) {
+				if (event) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				if (entry.starred != star) {
+					entry.starred = star;
+					EntryService.star({
+						id : entry.id,
+						feedId : entry.feedId,
+						starred : star
+					});
+				}
+			};
+
+			var getCurrentIndex = function() {
+				var index = -1;
 				if ($scope.current) {
-					openEntry($scope.current, e);
+					for ( var i = 0; i < $scope.entries.length; i++) {
+						if ($scope.current == $scope.entries[i]) {
+							index = i;
+							break;
+						}
+					}
 				}
-			});
-		} else {
-			var docTop = $(window).scrollTop();
-			var docBottom = docTop + $(window).height();
+				return index;
+			};
 
-			var elem = $('#entry_' + $scope.current.id);
-			var elemTop = elem.offset().top;
-			var elemBottom = elemTop + elem.height();
-			
-			var bottomVisible = elemBottom < docBottom;
-			if (bottomVisible) {
+			var getNextEntry = function() {
+				var index = getCurrentIndex();
+				if (index >= 0) {
+					index = index + 1;
+					if (index < $scope.entries.length) {
+						return $scope.entries[index];
+					}
+				} else if ($scope.entries.length > 0) {
+					return $scope.entries[0];
+				}
+				return null;
+			};
+
+			var getPreviousEntry = function() {
+				var index = getCurrentIndex();
+				if (index >= 1) {
+					return $scope.entries[index - 1];
+				}
+				return null;
+			};
+
+			var openNextEntry = function(event) {
+				var entry = getNextEntry();
+				openEntry(entry, event);
+			};
+
+			var openPreviousEntry = function(event) {
+				var entry = getPreviousEntry();
+				openEntry(entry, event);
+			};
+
+			var focusNextEntry = function(event) {
+				var entry = getNextEntry();
+
+				if (event) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+
+				if (entry) {
+					$scope.current = entry;
+				}
+			};
+
+			var focusPreviousEntry = function(event) {
+				var entry = getPreviousEntry();
+
+				if (event) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+
+				if (entry) {
+					$scope.current = entry;
+				}
+			};
+
+			$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
+
+			var openEntry = function(entry, event) {
+
+				if (event) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+
+				if (!entry) {
+					return;
+				}
+
+				if ($scope.current != entry || SettingsService.settings.viewMode == 'expanded') {
+					$scope.isOpen = true;
+				} else {
+					$scope.isOpen = !$scope.isOpen;
+				}
+				if ($scope.isOpen) {
+					$scope.mark(entry, true);
+				}
+				$scope.current = entry;
+
+				if (getCurrentIndex() == $scope.entries.length - 1) {
+					$scope.loadMoreEntries();
+				}
+			};
+
+			$scope.entryClicked = function(entry, event) {
+
+				if (event && event.which === 3) {
+					// right click
+					return;
+				}
+				if (!event || (!event.ctrlKey && event.which != 2)) {
+					$scope.navigationMode = 'click';
+					openEntry(entry, event);
+				} else {
+					$scope.mark(entry, true);
+				}
+			};
+
+			$scope.bodyClicked = function(entry, event) {
+				if (SettingsService.settings.viewMode == 'expanded' && $scope.current != entry) {
+					$scope.entryClicked(entry, event);
+				}
+			};
+
+			$scope.noop = function(event) {
+				if (!event.ctrlKey && event.which != 2) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			};
+
+			$scope.onScroll = function(entry) {
+				$scope.navigationMode = 'scroll';
+				if (SettingsService.settings.viewMode == 'expanded') {
+					$scope.current = entry;
+					if (SettingsService.settings.scrollMarks) {
+						$scope.mark(entry, true);
+					}
+				}
+			};
+
+			Mousetrap.bind('j', function(e) {
 				$scope.$apply(function() {
 					$scope.navigationMode = 'keyboard';
 					openNextEntry(e);
-				});	
-			}
-		}
-	});
-	
-	Mousetrap.bind('shift+space', function(e) {
-		if (!$scope.current) {
-			return;
-		} else if (!$scope.isOpen) {
-			$scope.$apply(function() {
-				$scope.navigationMode = 'keyboard';
-				if ($scope.current) {
-					openEntry($scope.current, e);
-				}
+				});
+				return false;
 			});
-		} else {
-			var docTop = $(window).scrollTop();
-
-			var elem = $('#entry_' + $scope.current.id);
-			var elemTop = elem.offset().top;
-			
-			var topVisible = elemTop > docTop;
-			if (topVisible) {
+			Mousetrap.bind('n', function(e) {
+				$scope.$apply(function() {
+					$scope.navigationMode = 'keyboard';
+					focusNextEntry(e);
+				});
+				return false;
+			});
+			Mousetrap.bind('k', function(e) {
 				$scope.$apply(function() {
 					$scope.navigationMode = 'keyboard';
 					openPreviousEntry(e);
-				});	
-			}
-		}
-	});
-	
-	Mousetrap.bind('f', function(e) {
-		$('body').toggleClass('full-screen');
-		return false;
-	});
-	
-	Mousetrap.bind('?', function(e) {
-		$scope.$apply(function() {
-			$scope.shortcutsModal = true;
-		});
-		return false;
-	});
-
-	$scope.$on('previousEntry', function(event, args) {
-		$scope.navigationMode = 'keyboard';
-		openPreviousEntry();
-	});
-	$scope.$on('nextEntry', function(event, args) {
-		$scope.navigationMode = 'keyboard';
-		openNextEntry();
-	});
-	$scope.$on('markAll', function(event, args) {
-		$scope.markAll(args.olderThan);
-	});
-
-	$scope.$on('reload', function(event, args) {
-		$scope.name = null;
-		$scope.entries = [];
-		$scope.message = null;
-		$scope.errorCount = 0;
-		$scope.timestamp = 0;
-		$scope.busy = false;
-		$scope.hasMore = true;
-		$scope.loadMoreEntries();
-		
-		if (args.all) {
-			FeedService.refreshAll();
-		} else if ($scope.selectedType == 'feed') {
-			FeedService.refresh({
-				id : $stateParams._id
+				});
+				return false;
 			});
-		}
-	});
-}]);
-
-module.controller('ManageUsersCtrl', ['$scope', '$state', '$location', 'AdminUsersService', 
-function($scope, $state, $location,	AdminUsersService) {
-	$scope.users = AdminUsersService.getAll();
-	$scope.selection = [];
-	$scope.gridOptions = {
-		data : 'users',
-		selectedItems : $scope.selection,
-		multiSelect : false,
-		showColumnMenu: true,
-		showFilter: true,
-		
-		afterSelectionChange : function(item) {
-			$state.transitionTo('admin.useredit', {
-				_id : item.entity.id
+			Mousetrap.bind('p', function(e) {
+				$scope.$apply(function() {
+					$scope.navigationMode = 'keyboard';
+					focusPreviousEntry(e);
+				});
+				return false;
 			});
-		}
-	};
+			Mousetrap.bind('o', function(e) {
+				$scope.$apply(function() {
+					$scope.navigationMode = 'keyboard';
+					if ($scope.current) {
+						openEntry($scope.current, e);
+					}
+				});
+				return false;
+			});
+			Mousetrap.bind('enter', function(e) {
+				$scope.$apply(function() {
+					$scope.navigationMode = 'keyboard';
+					if ($scope.current) {
+						openEntry($scope.current, e);
+					}
+				});
+			});
+			Mousetrap.bind('r', function(e) {
+				$scope.$apply(function() {
+					$scope.$emit('emitReload');
+				});
+				return false;
+			});
+			Mousetrap.bind('v', function(e) {
+				if ($scope.current) {
+					$scope.mark($scope.current, true);
+					window.open($scope.current.url);
+				}
+				return false;
+			});
+			Mousetrap.bind('b', function(e) {
+				if ($scope.current) {
+					$scope.mark($scope.current, true);
 
-	$scope.addUser = function() {
-		$state.transitionTo('admin.useradd');
-	};
-	$scope.back = function() {
-		$location.path('/admin');
-	};
-}]);
+					var url = $scope.current.url;
+					var a = document.createElement('a');
+					a.href = url;
+					var evt = document.createEvent('MouseEvents');
+					evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, true, false, false, true, 0, null);
+					a.dispatchEvent(evt);
+				}
+				return false;
+			});
+			Mousetrap.bind('s', function(e) {
+				$scope.$apply(function() {
+					if ($scope.current) {
+						$scope.star($scope.current, !$scope.current.starred);
+					}
+				});
+				return false;
+			});
+			Mousetrap.bind('m', function(e) {
+				$scope.$apply(function() {
+					if ($scope.current) {
+						$scope.mark($scope.current, !$scope.current.read);
+					}
+				});
+				return false;
+			});
+			Mousetrap.bind('shift+a', function(e) {
+				$scope.$apply(function() {
+					$scope.markAll();
+				});
+				return false;
+			});
+
+			Mousetrap.bind('+', function(e) {
+				$scope.$apply(function() {
+					$scope.font_size = Math.min($scope.font_size + 1, 5);
+				});
+				return false;
+			});
+
+			Mousetrap.bind('-', function(e) {
+				$scope.$apply(function() {
+					$scope.font_size = Math.max($scope.font_size - 1, 0);
+				});
+				return false;
+			});
+
+			Mousetrap.bind('space', function(e) {
+				if (!$scope.current) {
+					$scope.$apply(function() {
+						$scope.navigationMode = 'keyboard';
+						openNextEntry(e);
+					});
+				} else if (!$scope.isOpen) {
+					$scope.$apply(function() {
+						$scope.navigationMode = 'keyboard';
+						if ($scope.current) {
+							openEntry($scope.current, e);
+						}
+					});
+				} else {
+					var docTop = $(window).scrollTop();
+					var docBottom = docTop + $(window).height();
+
+					var elem = $('#entry_' + $scope.current.id);
+					var elemTop = elem.offset().top;
+					var elemBottom = elemTop + elem.height();
+
+					var bottomVisible = elemBottom < docBottom;
+					if (bottomVisible) {
+						$scope.$apply(function() {
+							$scope.navigationMode = 'keyboard';
+							openNextEntry(e);
+						});
+					}
+				}
+			});
+
+			Mousetrap.bind('shift+space', function(e) {
+				if (!$scope.current) {
+					return;
+				} else if (!$scope.isOpen) {
+					$scope.$apply(function() {
+						$scope.navigationMode = 'keyboard';
+						if ($scope.current) {
+							openEntry($scope.current, e);
+						}
+					});
+				} else {
+					var docTop = $(window).scrollTop();
+
+					var elem = $('#entry_' + $scope.current.id);
+					var elemTop = elem.offset().top;
+
+					var topVisible = elemTop > docTop;
+					if (topVisible) {
+						$scope.$apply(function() {
+							$scope.navigationMode = 'keyboard';
+							openPreviousEntry(e);
+						});
+					}
+				}
+			});
+
+			Mousetrap.bind('f', function(e) {
+				$('body').toggleClass('full-screen');
+				return false;
+			});
+
+			Mousetrap.bind('?', function(e) {
+				$scope.$apply(function() {
+					$scope.shortcutsModal = true;
+				});
+				return false;
+			});
+
+			$scope.$on('previousEntry', function(event, args) {
+				$scope.navigationMode = 'keyboard';
+				openPreviousEntry();
+			});
+			$scope.$on('nextEntry', function(event, args) {
+				$scope.navigationMode = 'keyboard';
+				openNextEntry();
+			});
+			$scope.$on('markAll', function(event, args) {
+				$scope.markAll(args.olderThan);
+			});
+
+			$scope.$on('reload', function(event, args) {
+				$scope.name = null;
+				$scope.entries = [];
+				$scope.message = null;
+				$scope.errorCount = 0;
+				$scope.timestamp = 0;
+				$scope.busy = false;
+				$scope.hasMore = true;
+				$scope.loadMoreEntries();
+
+				if (args.all) {
+					FeedService.refreshAll();
+				} else if ($scope.selectedType == 'feed') {
+					FeedService.refresh({
+						id : $stateParams._id
+					});
+				}
+			});
+		}]);
+
+module.controller('ManageUsersCtrl', ['$scope', '$state', '$location', 'AdminUsersService',
+		function($scope, $state, $location, AdminUsersService) {
+			$scope.users = AdminUsersService.getAll();
+			$scope.selection = [];
+			$scope.gridOptions = {
+				data : 'users',
+				selectedItems : $scope.selection,
+				multiSelect : false,
+				showColumnMenu : true,
+				showFilter : true,
+
+				afterSelectionChange : function(item) {
+					$state.transitionTo('admin.useredit', {
+						_id : item.entity.id
+					});
+				}
+			};
+
+			$scope.addUser = function() {
+				$state.transitionTo('admin.useradd');
+			};
+			$scope.back = function() {
+				$location.path('/admin');
+			};
+		}]);
 
 module.controller('ManageUserCtrl', ['$scope', '$state', '$stateParams', '$dialog', 'AdminUsersService',
-function($scope, $state, $stateParams,	$dialog, AdminUsersService) {
-	$scope.user = $stateParams._id ? AdminUsersService.get({
-		id : $stateParams._id
-	}) : {
-		enabled : true
-	};
-	$scope.alerts = [];
-	$scope.closeAlert = function(index) {
-		$scope.alerts.splice(index, 1);
-	};
-	var alertFunction = function(data) {
-		$scope.alerts.push({
-			msg : data.data,
-			type : 'error'
-		});
-	};
+		function($scope, $state, $stateParams, $dialog, AdminUsersService) {
+			$scope.user = $stateParams._id ? AdminUsersService.get({
+				id : $stateParams._id
+			}) : {
+				enabled : true
+			};
+			$scope.alerts = [];
+			$scope.closeAlert = function(index) {
+				$scope.alerts.splice(index, 1);
+			};
+			var alertFunction = function(data) {
+				$scope.alerts.push({
+					msg : data.data,
+					type : 'error'
+				});
+			};
 
-	$scope.cancel = function() {
-		$state.transitionTo('admin.userlist');
-	};
-	$scope.save = function() {
-		$scope.alerts.splice(0, $scope.alerts.length);
-		AdminUsersService.save($scope.user, function() {
-			$state.transitionTo('admin.userlist');
-		}, alertFunction);
-	};
-	$scope.remove = function() {
-		var title = 'Delete user';
-		var msg = 'Delete user ' + $scope.user.name + ' ?';
-		var btns = [ {
-			result : 'cancel',
-			label : 'Cancel'
-		}, {
-			result : 'ok',
-			label : 'OK',
-			cssClass : 'btn-primary'
-		} ];
-
-		$dialog.messageBox(title, msg, btns).open().then(function(result) {
-			if (result == 'ok') {
-				AdminUsersService.remove({
-					id : $scope.user.id
-				}, function() {
+			$scope.cancel = function() {
+				$state.transitionTo('admin.userlist');
+			};
+			$scope.save = function() {
+				$scope.alerts.splice(0, $scope.alerts.length);
+				AdminUsersService.save($scope.user, function() {
 					$state.transitionTo('admin.userlist');
 				}, alertFunction);
-			}
-		});
-	};
-}]);
+			};
+			$scope.remove = function() {
+				var title = 'Delete user';
+				var msg = 'Delete user ' + $scope.user.name + ' ?';
+				var btns = [{
+					result : 'cancel',
+					label : 'Cancel'
+				}, {
+					result : 'ok',
+					label : 'OK',
+					cssClass : 'btn-primary'
+				}];
 
-module.controller('ManageDuplicateFeedsCtrl', [
-	'$scope', 'AdminCleanupService',
-	function($scope, AdminCleanupService) {
-	
+				$dialog.messageBox(title, msg, btns).open().then(function(result) {
+					if (result == 'ok') {
+						AdminUsersService.remove({
+							id : $scope.user.id
+						}, function() {
+							$state.transitionTo('admin.userlist');
+						}, alertFunction);
+					}
+				});
+			};
+		}]);
+
+module.controller('ManageDuplicateFeedsCtrl', ['$scope', 'AdminCleanupService', function($scope, AdminCleanupService) {
+
 	$scope.limit = 10;
 	$scope.page = 0;
 	$scope.minCount = 1;
@@ -1244,152 +1252,151 @@ module.controller('ManageDuplicateFeedsCtrl', [
 	$scope.mergeData = {};
 	$scope.refreshData = function() {
 		AdminCleanupService.findDuplicateFeeds({
-			mode: $scope.mode,
+			mode : $scope.mode,
 			limit : $scope.limit,
-			page : $scope.page, 
-			minCount: $scope.minCount
+			page : $scope.page,
+			minCount : $scope.minCount
 		}, function(data) {
 			$scope.counts = data;
 		});
 	};
-	
+
 	$scope.autoMerge = function() {
 		var callback = function() {
 			alert('done!');
 		};
-		for (var i = 0; i < $scope.counts.length; i++) {
+		for ( var i = 0; i < $scope.counts.length; i++) {
 			var count = $scope.counts[i];
 			if (count.autoMerge) {
 				AdminCleanupService.mergeFeeds({
-					intoFeedId: count.feeds[0].id,
-					feedIds: _.pluck(count.feeds, 'id')
+					intoFeedId : count.feeds[0].id,
+					feedIds : _.pluck(count.feeds, 'id')
 				}, callback);
 			}
 		}
 	};
-	
+
 	$scope.focus = function(count) {
 		$scope.current = count;
 		$scope.mergeData.intoFeedId = count.feeds[0].id;
 		$scope.mergeData.feedIds = _.pluck(count.feeds, 'id');
 	};
-	
+
 	$scope.merge = function() {
 		AdminCleanupService.mergeFeeds($scope.mergeData, function() {
 			alert('done!');
 		});
 	};
-	
+
 }]);
 
 module.controller('SettingsCtrl', ['$scope', '$location', 'SettingsService', 'AnalyticsService', 'ServerService',
-function($scope, $location, SettingsService, AnalyticsService, ServerService) {
-	
-	AnalyticsService.track();
-	
-	$scope.ServerService = ServerService.get();
-	
-	$scope.themes = ['default', 'ebraminio', 'MRACHINI', 'svetla'];
-	
-	$scope.settingsService = SettingsService;
-	$scope.$watch('settingsService.settings', function(value) {
-		$scope.settings = angular.copy(value);
-	});
+		function($scope, $location, SettingsService, AnalyticsService, ServerService) {
 
-	$scope.cancel = function() {
-		SettingsService.init(function() {
-			$location.path('/');
-		});
-	};
-	$scope.save = function() {
-		SettingsService.settings = $scope.settings;
-		SettingsService.save(function() {
-			window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
-		});
-	};
-}]);
+			AnalyticsService.track();
+
+			$scope.ServerService = ServerService.get();
+
+			$scope.themes = ['default', 'ebraminio', 'MRACHINI', 'svetla'];
+
+			$scope.settingsService = SettingsService;
+			$scope.$watch('settingsService.settings', function(value) {
+				$scope.settings = angular.copy(value);
+			});
+
+			$scope.cancel = function() {
+				SettingsService.init(function() {
+					$location.path('/');
+				});
+			};
+			$scope.save = function() {
+				SettingsService.settings = $scope.settings;
+				SettingsService.save(function() {
+					window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
+				});
+			};
+		}]);
 
 module.controller('ProfileCtrl', ['$scope', '$location', '$dialog', 'ProfileService', 'AnalyticsService',
-function($scope, $location, $dialog, ProfileService, AnalyticsService) {
-	
-	AnalyticsService.track();
-	
-	$scope.user = ProfileService.get();
+		function($scope, $location, $dialog, ProfileService, AnalyticsService) {
 
-	$scope.cancel = function() {
-		$location.path('/');
-	};
-	$scope.save = function() {
-		if (!$scope.profileForm.$valid) {
-			return;
-		}
-		var o = {
-			email : $scope.user.email,
-			password : $scope.user.password,
-			newApiKey : $scope.newApiKey
-		};
+			AnalyticsService.track();
 
-		ProfileService.save(o, function() {
-			$location.path('/');
-		});
-	};
-	$scope.deleteAccount = function() {
-		var title = 'Delete account';
-		var msg = 'Delete your acount? There\'s no turning back!';
-		var btns = [ {
-			result : 'cancel',
-			label : 'Cancel'
-		}, {
-			result : 'ok',
-			label : 'OK',
-			cssClass : 'btn-primary'
-		} ];
+			$scope.user = ProfileService.get();
 
-		$dialog.messageBox(title, msg, btns).open().then(function(result) {
-			if (result == 'ok') {
-				ProfileService.deleteAccount({});
-				window.location.href = 'logout';
-			}
-		});
-	};
-}]);
+			$scope.cancel = function() {
+				$location.path('/');
+			};
+			$scope.save = function() {
+				if (!$scope.profileForm.$valid) {
+					return;
+				}
+				var o = {
+					email : $scope.user.email,
+					password : $scope.user.password,
+					newApiKey : $scope.newApiKey
+				};
+
+				ProfileService.save(o, function() {
+					$location.path('/');
+				});
+			};
+			$scope.deleteAccount = function() {
+				var title = 'Delete account';
+				var msg = 'Delete your acount? There\'s no turning back!';
+				var btns = [{
+					result : 'cancel',
+					label : 'Cancel'
+				}, {
+					result : 'ok',
+					label : 'OK',
+					cssClass : 'btn-primary'
+				}];
+
+				$dialog.messageBox(title, msg, btns).open().then(function(result) {
+					if (result == 'ok') {
+						ProfileService.deleteAccount({});
+						window.location.href = 'logout';
+					}
+				});
+			};
+		}]);
 
 module.controller('ManageSettingsCtrl', ['$scope', '$location', '$state', 'AdminSettingsService',
-function($scope, $location, $state,	AdminSettingsService) {
+		function($scope, $location, $state, AdminSettingsService) {
 
-	$scope.settings = AdminSettingsService.get();
+			$scope.settings = AdminSettingsService.get();
 
-	$scope.cancel = function() {
-		$location.path('/');
-	};
-	$scope.save = function() {
-		AdminSettingsService.save({}, $scope.settings, function() {
-			$location.path('/');
-		});
-	};
+			$scope.cancel = function() {
+				$location.path('/');
+			};
+			$scope.save = function() {
+				AdminSettingsService.save({}, $scope.settings, function() {
+					$location.path('/');
+				});
+			};
 
-	$scope.toUsers = function() {
-		$state.transitionTo('admin.userlist');
-	};
-	$scope.toCleanup = function() {
-		$state.transitionTo('admin.duplicate_feeds');
-	};
-}]);
+			$scope.toUsers = function() {
+				$state.transitionTo('admin.userlist');
+			};
+			$scope.toCleanup = function() {
+				$state.transitionTo('admin.duplicate_feeds');
+			};
+		}]);
 
-module.controller('HelpController', [ '$scope', 'CategoryService',
-		'AnalyticsService', 'ServerService',
-function($scope, CategoryService, AnalyticsService, ServerService) {
+module.controller('HelpController', ['$scope', 'CategoryService', 'AnalyticsService', 'ServerService',
+		function($scope, CategoryService, AnalyticsService, ServerService) {
 
-	AnalyticsService.track();
-	$scope.CategoryService = CategoryService;
-	$scope.infos = ServerService.get();
-	$scope.categoryId = 'all';
-	$scope.order = 'desc';
+			AnalyticsService.track();
+			$scope.CategoryService = CategoryService;
+			$scope.infos = ServerService.get();
+			$scope.categoryId = 'all';
+			$scope.order = 'desc';
 
-} ]);
+		}]);
 
-module.controller('FooterController', [ '$scope', function($scope) {
-	
+module.controller('FooterController', ['$scope', function($scope) {
+
 	var baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
 	var hostname = window.location.hostname;
 	$scope.subToMeUrl = baseUrl + 'rest/feed/subscribe?url={feed}';

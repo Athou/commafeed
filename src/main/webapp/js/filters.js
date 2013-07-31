@@ -5,7 +5,7 @@ module.filter('entryDate', function() {
 		if (!timestamp) {
 			return defaultValue;
 		}
-		
+
 		var d = moment(timestamp);
 		var now = moment();
 		var formatted;

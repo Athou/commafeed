@@ -1,6 +1,6 @@
 var module = angular.module('commafeed.directives', []);
 
-module.directive('focus', [ '$timeout', function($timeout) {
+module.directive('focus', ['$timeout', function($timeout) {
 	return {
 		restrict : 'A',
 		link : function(scope, element, attrs) {
@@ -13,7 +13,7 @@ module.directive('focus', [ '$timeout', function($timeout) {
 			});
 		}
 	};
-} ]);
+}]);
 
 /**
  * Open a popup window pointing to the url in the href attribute
@@ -70,7 +70,7 @@ module.directive('onScrollMiddle', function() {
 			var w = $(window);
 			var e = $(element);
 			var d = $(document);
-			
+
 			var offset = parseInt(attrs.onScrollMiddleOffset, 10);
 
 			var down = function() {
@@ -90,12 +90,10 @@ module.directive('onScrollMiddle', function() {
 			if (!w.data.scrollInit) {
 				w.data.scrollPosition = d.scrollTop();
 				w.data.scrollDirection = 'down';
-				
+
 				var onScroll = function(e) {
 					var scroll = d.scrollTop();
-					w.data.scrollDirection = (scroll
-							- w.data.scrollPosition > 0) ? 'down'
-							: 'up';
+					w.data.scrollDirection = (scroll - w.data.scrollPosition > 0) ? 'down' : 'up';
 					w.data.scrollPosition = scroll;
 					scope.$apply();
 				};
@@ -115,10 +113,10 @@ module.directive('onScrollMiddle', function() {
 });
 
 /**
- * Scrolls to the element if the value is true and the attribute is not fully visible, 
- * unless the attribute scroll-to-force is true
+ * Scrolls to the element if the value is true and the attribute is not fully
+ * visible, unless the attribute scroll-to-force is true
  */
-module.directive('scrollTo', [ '$timeout', function($timeout) {
+module.directive('scrollTo', ['$timeout', function($timeout) {
 	return {
 		restrict : 'A',
 		link : function(scope, element, attrs) {
@@ -126,7 +124,7 @@ module.directive('scrollTo', [ '$timeout', function($timeout) {
 				if (!value)
 					return;
 				var force = scope.$eval(attrs.scrollToForce);
-				
+
 				// timeout here to execute after dom update
 				$timeout(function() {
 					var docTop = $(window).scrollTop();
@@ -149,7 +147,7 @@ module.directive('scrollTo', [ '$timeout', function($timeout) {
 			});
 		}
 	};
-} ]);
+}]);
 
 /**
  * Prevent mousewheel scrolling from propagating to the parent when scrollbar
@@ -164,9 +162,7 @@ module.directive('mousewheelScrolling', function() {
 				if (d > 0 && t.scrollTop() === 0) {
 					e.preventDefault();
 				} else {
-					if (d < 0
-							&& (t.scrollTop() == t.get(0).scrollHeight
-									- t.innerHeight())) {
+					if (d < 0 && (t.scrollTop() == t.get(0).scrollHeight - t.innerHeight())) {
 						e.preventDefault();
 					}
 				}
@@ -179,7 +175,7 @@ module.directive('mousewheelScrolling', function() {
  * Needed to use recursive directives. Wrap a recursive element with a
  * <recursive> tag
  */
-module.directive('recursive', [ '$compile', function($compile) {
+module.directive('recursive', ['$compile', function($compile) {
 	return {
 		restrict : 'E',
 		priority : 100000,
@@ -196,12 +192,12 @@ module.directive('recursive', [ '$compile', function($compile) {
 			};
 		}
 	};
-} ]);
+}]);
 
 /**
  * Reusable category component
  */
-module.directive('category', [ function() {
+module.directive('category', [function() {
 	return {
 		scope : {
 			node : '=',
@@ -215,110 +211,98 @@ module.directive('category', [ function() {
 		restrict : 'E',
 		replace : true,
 		templateUrl : 'templates/_category.html',
-		controller : [
-			'$scope',
-			'$state',
-			'$dialog',
-			'FeedService',
-			'CategoryService',
-			'SettingsService',
-			'MobileService',
-			function($scope, $state, $dialog, FeedService, CategoryService,
-					SettingsService, MobileService) {
-				$scope.settingsService = SettingsService;
+		controller : ['$scope', '$state', '$dialog', 'FeedService', 'CategoryService', 'SettingsService', 'MobileService',
+				function($scope, $state, $dialog, FeedService, CategoryService, SettingsService, MobileService) {
+					$scope.settingsService = SettingsService;
 
-				$scope.getClass = function(level) {
-					if ($scope.showLabel) {
-						return 'indent' + level;
-					}
-				};
+					$scope.getClass = function(level) {
+						if ($scope.showLabel) {
+							return 'indent' + level;
+						}
+					};
 
-				$scope.categoryLabel = function(category) {
-					return $scope.showLabel !== true ? $scope.showLabel
-							: category.name;
-				};
+					$scope.categoryLabel = function(category) {
+						return $scope.showLabel !== true ? $scope.showLabel : category.name;
+					};
 
-				$scope.categoryCountLabel = function(category) {
-					var count = $scope.unreadCount({
-						category : category
-					});
-					var label = '';
-					if (count > 0) {
-						label = '(' + count + ')';
-					}
-					return label;
-				};
+					$scope.categoryCountLabel = function(category) {
+						var count = $scope.unreadCount({
+							category : category
+						});
+						var label = '';
+						if (count > 0) {
+							label = '(' + count + ')';
+						}
+						return label;
+					};
 
-				$scope.feedCountLabel = function(feed) {
-					var label = '';
-					if (feed.unread > 0) {
-						label = '(' + feed.unread + ')';
-					}
-					return label;
-				};
+					$scope.feedCountLabel = function(feed) {
+						var label = '';
+						if (feed.unread > 0) {
+							label = '(' + feed.unread + ')';
+						}
+						return label;
+					};
 
-				$scope.feedClicked = function(id, event) {
-					// Could be called by a middle click
-					if (!event || (!event.ctrlKey && event.which == 1)) {
+					$scope.feedClicked = function(id, event) {
+						// Could be called by a middle click
+						if (!event || (!event.ctrlKey && event.which == 1)) {
+							MobileService.toggleLeftMenu();
+							if ($scope.selectedType == 'feed' && id == $scope.selectedId) {
+								$scope.$emit('emitReload');
+							} else {
+								$state.transitionTo('feeds.view', {
+									_type : 'feed',
+									_id : id
+								});
+							}
+
+							if (event) {
+								event.preventDefault();
+								event.stopPropagation();
+							}
+						}
+					};
+
+					$scope.categoryClicked = function(id) {
 						MobileService.toggleLeftMenu();
-						if ($scope.selectedType == 'feed'
-								&& id == $scope.selectedId) {
+						if ($scope.selectedType == 'category' && id == $scope.selectedId) {
 							$scope.$emit('emitReload');
 						} else {
 							$state.transitionTo('feeds.view', {
-								_type : 'feed',
+								_type : 'category',
 								_id : id
 							});
 						}
+					};
 
-						if (event) {
-							event.preventDefault();
-							event.stopPropagation();
-						}
-					}
-				};
-
-				$scope.categoryClicked = function(id) {
-					MobileService.toggleLeftMenu();
-					if ($scope.selectedType == 'category'
-							&& id == $scope.selectedId) {
-						$scope.$emit('emitReload');
-					} else {
-						$state.transitionTo('feeds.view', {
-							_type : 'category',
-							_id : id
+					$scope.showFeedDetails = function(feed) {
+						$state.transitionTo('feeds.feed_details', {
+							_id : feed.id
 						});
-					}
-				};
+					};
 
-				$scope.showFeedDetails = function(feed) {
-					$state.transitionTo('feeds.feed_details', {
-						_id : feed.id
-					});
-				};
+					$scope.showCategoryDetails = function(category) {
+						$state.transitionTo('feeds.category_details', {
+							_id : category.id
+						});
+					};
 
-				$scope.showCategoryDetails = function(category) {
-					$state.transitionTo('feeds.category_details', {
-						_id : category.id
-					});
-				};
-
-				$scope.toggleCategory = function(category, event) {
-					event.preventDefault();
-					event.stopPropagation();
-					category.expanded = !category.expanded;
-					if (category.id == 'all') {
-						return;
-					}
-					CategoryService.collapse({
-						id : category.id,
-						collapse : !category.expanded
-					});
-				};
-			}
-		]
+					$scope.toggleCategory = function(category, event) {
+						event.preventDefault();
+						event.stopPropagation();
+						category.expanded = !category.expanded;
+						if (category.id == 'all') {
+							return;
+						}
+						CategoryService.collapse({
+							id : category.id,
+							collapse : !category.expanded
+						});
+					};
+				}]
 	};
-} ]);
+}]);
 
 /**
  * Reusable spinner component
@@ -365,83 +349,81 @@ module.directive('draggable', function() {
 		restrict : 'A',
 		link : function(scope, element, attrs) {
 			element.draggable({
-				revert: 'invalid',
-				helper: 'clone',
-				distance: 10,
-				axis: 'y'
+				revert : 'invalid',
+				helper : 'clone',
+				distance : 10,
+				axis : 'y'
 			}).data('source', scope.$eval(attrs.draggable));
 		}
 	};
 });
 
-module.directive('droppable', [ 'CategoryService', 'FeedService',
-		function(CategoryService, FeedService) {
-			return {
-				restrict : 'A',
-				link : function(scope, element, attrs) {
-					element.droppable({
-						tolerance : 'pointer',
-						over : function(event, ui) {
+module.directive('droppable', ['CategoryService', 'FeedService', function(CategoryService, FeedService) {
+	return {
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+			element.droppable({
+				tolerance : 'pointer',
+				over : function(event, ui) {
 
-						},
-						drop : function(event, ui) {
-							var draggable = angular.element(ui.draggable);
+				},
+				drop : function(event, ui) {
+					var draggable = angular.element(ui.draggable);
 
-							var source = draggable.data('source');
-							var target = scope.$eval(attrs.droppable);
+					var source = draggable.data('source');
+					var target = scope.$eval(attrs.droppable);
 
-							if (angular.equals(source, target)) {
-								return;
-							}
+					if (angular.equals(source, target)) {
+						return;
+					}
 
-							var data = {
-								id : source.id,
-								name : source.name
-							};
+					var data = {
+						id : source.id,
+						name : source.name
+					};
 
-							if (source.children) {
-								// source is a category
+					if (source.children) {
+						// source is a category
 
-							} else {
-								// source is a feed
+					} else {
+						// source is a feed
 
-								if (target.children) {
-									// target is a category
-									data.categoryId = target.id;
-									data.position = 0;
-								} else {
-									// target is a feed
-									data.categoryId = target.categoryId;
-									data.position = target.position;
-								}
-
-								FeedService.modify(data, function() {
-									CategoryService.init();
-								});
-							}
-							scope.$apply();
+						if (target.children) {
+							// target is a category
+							data.categoryId = target.id;
+							data.position = 0;
+						} else {
+							// target is a feed
+							data.categoryId = target.categoryId;
+							data.position = target.position;
 						}
-					});
-				}
-			};
-		} ]);
 
+						FeedService.modify(data, function() {
+							CategoryService.init();
+						});
+					}
+					scope.$apply();
+				}
+			});
+		}
+	};
+}]);
 
 module.filter('highlight', function() {
 	return function(html, keywords) {
 		if (keywords) {
 			var tokens = keywords.split(' ');
-			for (var i = 0; i < tokens.length; i++) {
-			    var expr = new RegExp(tokens[i], 'gi');
-			    var container = $('<span>').html(html);
-			    var elements = container.find('*').addBack();
-			    var textNodes = elements.not('iframe').contents().not(elements);
-			    textNodes.each(function() {
-			    	var replaced = this.nodeValue.replace(expr, '<span class="highlight-search">$&</span>');
-			    	$('<span>').html(replaced).insertBefore(this);
-			    	$(this).remove();
-			    });
-			    return container.html();
+			for ( var i = 0; i < tokens.length; i++) {
+				var expr = new RegExp(tokens[i], 'gi');
+				var container = $('<span>').html(html);
+				var elements = container.find('*').addBack();
+				var textNodes = elements.not('iframe').contents().not(elements);
+				textNodes.each(function() {
+					var replaced = this.nodeValue.replace(expr, '<span class="highlight-search">$&</span>');
+					$('<span>').html(replaced).insertBefore(this);
+					$(this).remove();
+				});
+				return container.html();
 			}
 		}
 		return html;

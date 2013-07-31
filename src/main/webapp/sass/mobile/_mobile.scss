@@ -21,18 +21,21 @@
 	}
 	#feed-accordion .entry-heading .shrink {
 		margin-left: 0;
+		margin-right: 0;
 	}
 	#feed-accordion .feed-name {
 		margin-top: 22px;
 	}
 	#feed-accordion .entry-external-link {
-		margin-top: -22px;
+		right: 10px;
+		margin-top: -24px;
 	}
 	#feed-accordion .entry-heading-link {
 		height: 40px;
 	}
 	#feed-accordion .entry-heading .entry-date {
-		right: 25px;
+		right: 35px;
+		margin-top: 22px;
 	}
 	body.left-menu-active .left-menu {
 		display: block !important;

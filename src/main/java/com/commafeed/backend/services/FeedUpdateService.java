@@ -24,11 +24,11 @@ public class FeedUpdateService {
 	/**
 	 * this is NOT thread-safe
 	 */
-	public void updateEntry(Feed feed, FeedEntry entry) {
+	public boolean addEntry(Feed feed, FeedEntry entry) {
 
 		Long existing = feedEntryDAO.findExisting(entry.getGuid(), feed.getId());
 		if (existing != null) {
-			return;
+			return false;
 		}
 
 		FeedEntryContent content = feedEntryContentService.findOrCreate(entry.getContent(), feed.getLink());
@@ -38,5 +38,6 @@ public class FeedUpdateService {
 		entry.setFeed(feed);
 
 		feedEntryDAO.saveOrUpdate(entry);
+		return true;
 	}
 }

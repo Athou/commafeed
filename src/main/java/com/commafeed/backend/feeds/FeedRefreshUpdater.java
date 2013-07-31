@@ -13,6 +13,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
@@ -120,9 +121,19 @@ public class FeedRefreshUpdater {
 						log.debug("cache hit for {}", entry.getUrl());
 						metricsBean.entryCacheHit();
 					}
+
 					currentEntries.add(cacheKey);
 				}
 				cache.setLastEntries(feed, currentEntries);
+
+				if (CollectionUtils.isNotEmpty(subscriptions)) {
+					List<User> users = Lists.newArrayList();
+					for (FeedSubscription sub : subscriptions) {
+						users.add(sub.getUser());
+					}
+					cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
+					cache.invalidateUserRootCategory(users.toArray(new User[0]));
+				}
 			}
 
 			if (applicationSettingsService.get().isPubsubhubbub()) {
@@ -163,14 +174,10 @@ public class FeedRefreshUpdater {
 			locked1 = lock1.tryLock(1, TimeUnit.MINUTES);
 			locked2 = lock2.tryLock(1, TimeUnit.MINUTES);
 			if (locked1 && locked2) {
-				feedUpdateService.updateEntry(feed, entry);
-				List<User> users = Lists.newArrayList();
-				for (FeedSubscription sub : subscriptions) {
-					users.add(sub.getUser());
+				boolean inserted = feedUpdateService.addEntry(feed, entry);
+				if (inserted) {
+					metricsBean.entryInserted();
 				}
-				cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
-				cache.invalidateUserRootCategory(users.toArray(new User[0]));
-				metricsBean.entryInserted();
 				success = true;
 			} else {
 				log.error("lock timeout for " + feed.getUrl() + " - " + key1);

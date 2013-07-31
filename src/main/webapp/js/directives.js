@@ -412,9 +412,8 @@ module.directive('droppable', ['CategoryService', 'FeedService', function(Catego
 module.filter('highlight', function() {
 	return function(html, keywords) {
 		if (keywords) {
-			var tokens = keywords.split(' ');
-			for ( var i = 0; i < tokens.length; i++) {
-				var expr = new RegExp(tokens[i], 'gi');
+			var handleKeyword = function(token, html) {
+				var expr = new RegExp(token, 'gi');
 				var container = $('<span>').html(html);
 				var elements = container.find('*').addBack();
 				var textNodes = elements.not('iframe').contents().not(elements);
@@ -424,6 +423,11 @@ module.filter('highlight', function() {
 					$(this).remove();
 				});
 				return container.html();
+			};
+
+			var tokens = keywords.split(' ');
+			for ( var i = 0; i < tokens.length; i++) {
+				html = handleKeyword(tokens[i], html);
 			}
 		}
 		return html;

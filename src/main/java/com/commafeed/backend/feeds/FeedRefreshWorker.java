@@ -14,8 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter.NotModifiedException;
-import com.commafeed.backend.MetricsBean;
-import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.feeds.FeedRefreshExecutor.Task;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.Feed;
@@ -43,12 +41,6 @@ public class FeedRefreshWorker {
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
-	@Inject
-	MetricsBean metricsBean;
-
-	@Inject
-	FeedEntryDAO feedEntryDAO;
-
 	private FeedRefreshExecutor pool;
 
 	@PostConstruct
@@ -63,8 +55,8 @@ public class FeedRefreshWorker {
 		pool.shutdown();
 	}
 
-	public void updateFeed(Feed feed) {
-		pool.execute(new FeedTask(feed));
+	public void updateFeed(FeedRefreshContext context) {
+		pool.execute(new FeedTask(context));
 	}
 
 	public int getQueueSize() {
@@ -77,24 +69,25 @@ public class FeedRefreshWorker {
 
 	private class FeedTask implements Task {
 
-		private Feed feed;
+		private FeedRefreshContext context;
 
-		public FeedTask(Feed feed) {
-			this.feed = feed;
+		public FeedTask(FeedRefreshContext context) {
+			this.context = context;
 		}
 
 		@Override
 		public void run() {
-			update(feed);
+			update(context);
 		}
 
 		@Override
 		public boolean isUrgent() {
-			return feed.isUrgent();
+			return context.isUrgent();
 		}
 	}
 
-	private void update(Feed feed) {
+	private void update(FeedRefreshContext context) {
+		Feed feed = context.getFeed();
 		int refreshInterval = applicationSettingsService.get().getRefreshIntervalMinutes();
 		Date disabledUntil = DateUtils.addMinutes(new Date(), refreshInterval);
 		try {
@@ -122,7 +115,8 @@ public class FeedRefreshWorker {
 			feed.setDisabledUntil(disabledUntil);
 
 			handlePubSub(feed, fetchedFeed.getFeed());
-			feedRefreshUpdater.updateFeed(feed, entries);
+			context.setEntries(entries);
+			feedRefreshUpdater.updateFeed(context);
 
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified : {} - {}", feed.getUrl(), e.getMessage());

@@ -79,7 +79,7 @@ public class FeedSubscriptionService {
 		sub.setTitle(FeedUtils.truncate(title, 128));
 		feedSubscriptionDAO.saveOrUpdate(sub);
 
-		taskGiver.add(feed);
+		taskGiver.add(feed, false);
 		cache.invalidateUserRootCategory(user);
 		return feed;
 	}

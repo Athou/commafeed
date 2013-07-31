@@ -49,8 +49,8 @@ public class FeedRefreshTaskGiver {
 
 	private int backgroundThreads;
 
-	private Queue<Feed> addQueue = Queues.newConcurrentLinkedQueue();
-	private Queue<Feed> takeQueue = Queues.newConcurrentLinkedQueue();
+	private Queue<FeedRefreshContext> addQueue = Queues.newConcurrentLinkedQueue();
+	private Queue<FeedRefreshContext> takeQueue = Queues.newConcurrentLinkedQueue();
 	private Queue<Feed> giveBackQueue = Queues.newConcurrentLinkedQueue();
 
 	private ExecutorService executor;
@@ -87,10 +87,10 @@ public class FeedRefreshTaskGiver {
 			public void run() {
 				while (!executor.isShutdown()) {
 					try {
-						Feed feed = take();
-						if (feed != null) {
+						FeedRefreshContext context = take();
+						if (context != null) {
 							metricsBean.feedRefreshed();
-							worker.updateFeed(feed);
+							worker.updateFeed(context);
 						} else {
 							log.debug("nothing to do, sleeping for 15s");
 							metricsBean.threadWaited();
@@ -111,14 +111,14 @@ public class FeedRefreshTaskGiver {
 	/**
 	 * take a feed from the refresh queue
 	 */
-	private Feed take() {
-		Feed feed = takeQueue.poll();
+	private FeedRefreshContext take() {
+		FeedRefreshContext context = takeQueue.poll();
 
-		if (feed == null) {
+		if (context == null) {
 			refill();
-			feed = takeQueue.poll();
+			context = takeQueue.poll();
 		}
-		return feed;
+		return context;
 	}
 
 	public Long getUpdatableCount() {
@@ -128,10 +128,10 @@ public class FeedRefreshTaskGiver {
 	/**
 	 * add a feed to the refresh queue
 	 */
-	public void add(Feed feed) {
+	public void add(Feed feed, boolean urgent) {
 		int refreshInterval = applicationSettingsService.get().getRefreshIntervalMinutes();
 		if (feed.getLastUpdated() == null || feed.getLastUpdated().before(DateUtils.addMinutes(new Date(), -1 * refreshInterval))) {
-			addQueue.add(feed);
+			addQueue.add(new FeedRefreshContext(feed, urgent));
 		}
 	}
 
@@ -142,26 +142,28 @@ public class FeedRefreshTaskGiver {
 		int count = Math.min(300, 3 * backgroundThreads);
 
 		// first, get feeds that are up to refresh from the database
-		List<Feed> feeds = null;
-		if (applicationSettingsService.get().isCrawlingPaused()) {
-			feeds = Lists.newArrayList();
-		} else {
-			feeds = feedDAO.findNextUpdatable(count);
+		List<FeedRefreshContext> contexts = Lists.newArrayList();
+		if (!applicationSettingsService.get().isCrawlingPaused()) {
+			List<Feed> feeds = feedDAO.findNextUpdatable(count);
+			for (Feed feed : feeds) {
+				contexts.add(new FeedRefreshContext(feed, false));
+			}
 		}
 
 		// then, add to those the feeds we got from the add() method. We add them at the beginning of the list as they probably have a
 		// higher priority
 		int size = addQueue.size();
 		for (int i = 0; i < size; i++) {
-			feeds.add(0, addQueue.poll());
+			contexts.add(0, addQueue.poll());
 		}
 
 		// set the disabledDate to now as we use the disabledDate in feedDAO to decide what to refresh next. We also use a map to remove
 		// duplicates.
-		Map<Long, Feed> map = Maps.newLinkedHashMap();
-		for (Feed f : feeds) {
-			f.setDisabledUntil(new Date());
-			map.put(f.getId(), f);
+		Map<Long, FeedRefreshContext> map = Maps.newLinkedHashMap();
+		for (FeedRefreshContext context : contexts) {
+			Feed feed = context.getFeed();
+			feed.setDisabledUntil(new Date());
+			map.put(feed.getId(), context);
 		}
 
 		// refill the queue
@@ -170,12 +172,16 @@ public class FeedRefreshTaskGiver {
 		// add feeds from the giveBack queue to the map, overriding duplicates
 		size = giveBackQueue.size();
 		for (int i = 0; i < size; i++) {
-			Feed f = giveBackQueue.poll();
-			map.put(f.getId(), f);
+			Feed feed = giveBackQueue.poll();
+			map.put(feed.getId(), new FeedRefreshContext(feed, false));
 		}
 
 		// update all feeds in the database
-		feedDAO.saveOrUpdate(map.values());
+		List<Feed> feeds = Lists.newArrayList();
+		for (FeedRefreshContext context : map.values()) {
+			feeds.add(context.getFeed());
+		}
+		feedDAO.saveOrUpdate(feeds);
 	}
 
 	/**

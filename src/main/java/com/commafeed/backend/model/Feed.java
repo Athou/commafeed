@@ -11,7 +11,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -125,12 +124,6 @@ public class Feed extends AbstractModel {
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date pushLastPing;
-
-	/**
-	 * Denotes a feed that needs to be refreshed before others. Currently used when a feed is queued manually for refresh. Not persisted.
-	 */
-	@Transient
-	private boolean urgent;
 
 	public Feed() {
 
@@ -274,14 +267,6 @@ public class Feed extends AbstractModel {
 
 	public void setPushTopicHash(String pushTopicHash) {
 		this.pushTopicHash = pushTopicHash;
-	}
-
-	public boolean isUrgent() {
-		return urgent;
-	}
-
-	public void setUrgent(boolean urgent) {
-		this.urgent = urgent;
 	}
 
 	public String getNormalizedUrl() {

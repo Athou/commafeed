@@ -1,7 +1,6 @@
 package com.commafeed.backend.feeds;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +29,7 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.User;
 import com.commafeed.backend.pubsubhubbub.SubscriptionHandler;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedUpdateService;
@@ -84,23 +84,23 @@ public class FeedRefreshUpdater {
 		pool.shutdown();
 	}
 
-	public void updateFeed(Feed feed, Collection<FeedEntry> entries) {
-		pool.execute(new EntryTask(feed, entries));
+	public void updateFeed(FeedRefreshContext context) {
+		pool.execute(new EntryTask(context));
 	}
 
 	private class EntryTask implements Task {
 
-		private Feed feed;
-		private Collection<FeedEntry> entries;
+		private FeedRefreshContext context;
 
-		public EntryTask(Feed feed, Collection<FeedEntry> entries) {
-			this.feed = feed;
-			this.entries = entries;
+		public EntryTask(FeedRefreshContext context) {
+			this.context = context;
 		}
 
 		@Override
 		public void run() {
 			boolean ok = true;
+			Feed feed = context.getFeed();
+			List<FeedEntry> entries = context.getEntries();
 			if (entries.isEmpty() == false) {
 
 				List<String> lastEntries = cache.getLastEntries(feed);
@@ -138,7 +138,7 @@ public class FeedRefreshUpdater {
 
 		@Override
 		public boolean isUrgent() {
-			return feed.isUrgent();
+			return context.isUrgent();
 		}
 	}
 
@@ -163,7 +163,14 @@ public class FeedRefreshUpdater {
 			locked1 = lock1.tryLock(1, TimeUnit.MINUTES);
 			locked2 = lock2.tryLock(1, TimeUnit.MINUTES);
 			if (locked1 && locked2) {
-				feedUpdateService.updateEntry(feed, entry, subscriptions);
+				feedUpdateService.updateEntry(feed, entry);
+				List<User> users = Lists.newArrayList();
+				for (FeedSubscription sub : subscriptions) {
+					users.add(sub.getUser());
+				}
+				cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
+				cache.invalidateUserRootCategory(users.toArray(new User[0]));
+				metricsBean.entryInserted();
 				success = true;
 			} else {
 				log.error("lock timeout for " + feed.getUrl() + " - " + key1);

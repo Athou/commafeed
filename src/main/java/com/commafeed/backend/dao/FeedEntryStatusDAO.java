@@ -205,7 +205,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			for (Map<String, Object> map : list) {
 				FeedEntryStatus status = (FeedEntryStatus) map.get(ALIAS_STATUS);
 				FeedEntry entry = (FeedEntry) map.get(ALIAS_ENTRY);
-				entry.setSubscription(sub);
 
 				status = handleStatus(status, sub, entry);
 

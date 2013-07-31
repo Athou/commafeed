@@ -114,7 +114,7 @@ public class PubSubHubbubCallbackREST {
 
 			for (Feed feed : feeds) {
 				log.debug("pushing content to queue for {}", feed.getUrl());
-				taskGiver.add(feed);
+				taskGiver.add(feed, false);
 			}
 			metricsBean.pushReceived(feeds.size());
 

@@ -255,8 +255,7 @@ public class FeedREST extends AbstractResourceREST {
 		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(getUser());
 		for (FeedSubscription sub : subs) {
 			Feed feed = sub.getFeed();
-			feed.setUrgent(true);
-			taskGiver.add(feed);
+			taskGiver.add(feed, true);
 		}
 		return Response.ok(Status.OK).build();
 	}
@@ -272,8 +271,7 @@ public class FeedREST extends AbstractResourceREST {
 		FeedSubscription sub = feedSubscriptionDAO.findById(getUser(), req.getId());
 		if (sub != null) {
 			Feed feed = sub.getFeed();
-			feed.setUrgent(true);
-			taskGiver.add(feed);
+			taskGiver.add(feed, true);
 			return Response.ok(Status.OK).build();
 		}
 		return Response.ok(Status.NOT_FOUND).build();

@@ -22,7 +22,7 @@ import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.Category;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.util.Lists;
+import com.google.common.collect.Lists;
 
 @Alternative
 @ApplicationScoped

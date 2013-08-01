@@ -37,7 +37,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 @Path("/user")
 @Api(value = "/user", description = "Operations about the user")
-public class UserREST extends AbstractResourceREST {
+public class UserREST extends AbstractREST {
 
 	@Inject
 	UserDAO userDAO;

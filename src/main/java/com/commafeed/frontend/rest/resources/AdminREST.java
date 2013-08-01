@@ -33,6 +33,7 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedService;
 import com.commafeed.backend.services.PasswordEncryptionService;
 import com.commafeed.backend.services.UserService;
@@ -51,7 +52,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 @SecurityCheck(Role.ADMIN)
 @Path("/admin")
 @Api(value = "/admin", description = "Operations about application administration")
-public class AdminREST extends AbstractResourceREST {
+public class AdminREST extends AbstractREST {
 
 	@Inject
 	FeedService feedService;
@@ -85,6 +86,9 @@ public class AdminREST extends AbstractResourceREST {
 
 	@Inject
 	PasswordEncryptionService encryptionService;
+
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
 
 	@Path("/user/save")
 	@POST

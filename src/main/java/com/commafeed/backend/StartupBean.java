@@ -23,7 +23,7 @@ import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.UserService;
-import com.google.api.client.util.Maps;
+import com.google.common.collect.Maps;
 
 /**
  * Starting point of the application

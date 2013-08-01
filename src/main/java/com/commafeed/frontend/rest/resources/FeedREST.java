@@ -55,6 +55,7 @@ import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedEntryService;
 import com.commafeed.backend.services.FeedSubscriptionService;
 import com.commafeed.frontend.SecurityCheck;
@@ -82,7 +83,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 @Path("/feed")
 @Api(value = "/feed", description = "Operations about feeds")
-public class FeedREST extends AbstractResourceREST {
+public class FeedREST extends AbstractREST {
 
 	private static Logger log = LoggerFactory.getLogger(FeedREST.class);
 
@@ -124,6 +125,9 @@ public class FeedREST extends AbstractResourceREST {
 
 	@Context
 	private HttpServletRequest request;
+	
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
 
 	@Path("/entries")
 	@GET

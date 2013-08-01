@@ -21,7 +21,7 @@ import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
-import com.google.api.client.util.Maps;
+import com.google.common.collect.Maps;
 
 public class FeedSubscriptionService {
 

@@ -33,6 +33,7 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedEntryService;
 import com.commafeed.backend.services.FeedSubscriptionService;
 import com.commafeed.frontend.SecurityCheck;
@@ -59,7 +60,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 @Path("/category")
 @Api(value = "/category", description = "Operations about user categories")
-public class CategoryREST extends AbstractResourceREST {
+public class CategoryREST extends AbstractREST {
 
 	private static Logger log = LoggerFactory.getLogger(CategoryREST.class);
 
@@ -83,6 +84,9 @@ public class CategoryREST extends AbstractResourceREST {
 
 	@Inject
 	CacheService cache;
+	
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
 
 	@Path("/entries")
 	@GET

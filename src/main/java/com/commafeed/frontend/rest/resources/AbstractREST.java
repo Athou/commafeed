@@ -33,6 +33,7 @@ import com.commafeed.frontend.SecurityCheck;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@SecurityCheck(Role.USER)
 public abstract class AbstractREST {
 
 	@Context

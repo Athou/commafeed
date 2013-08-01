@@ -31,7 +31,7 @@ import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.MailService;
 import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.utils.WicketUtils;
-import com.google.api.client.util.Maps;
+import com.google.common.collect.Maps;
 
 @SuppressWarnings("serial")
 public abstract class BasePage extends WebPage {

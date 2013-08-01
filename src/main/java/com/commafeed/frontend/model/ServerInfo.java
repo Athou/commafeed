@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.google.api.client.util.Maps;
+import com.google.common.collect.Maps;
 import com.wordnik.swagger.annotations.ApiClass;
 
 @SuppressWarnings("serial")

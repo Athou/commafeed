@@ -28,16 +28,18 @@ import com.commafeed.backend.feeds.FeedParser;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
 import com.commafeed.backend.feeds.FetchedFeed;
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.services.ApplicationSettingsService;
-import com.google.api.client.repackaged.com.google.common.base.Preconditions;
+import com.commafeed.frontend.SecurityCheck;
+import com.google.common.base.Preconditions;
 
 @Path("/push")
-public class PubSubHubbubCallbackREST {
+public class PubSubHubbubCallbackREST extends AbstractREST {
 
 	private static Logger log = LoggerFactory.getLogger(PubSubHubbubCallbackREST.class);
-
+	
 	@Context
-	HttpServletRequest request;
+	private HttpServletRequest request;
 
 	@Inject
 	FeedDAO feedDAO;
@@ -57,6 +59,7 @@ public class PubSubHubbubCallbackREST {
 	@Path("/callback")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
+	@SecurityCheck(Role.NONE)
 	public Response verify(@QueryParam("hub.mode") String mode, @QueryParam("hub.topic") String topic,
 			@QueryParam("hub.challenge") String challenge, @QueryParam("hub.lease_seconds") String leaseSeconds,
 			@QueryParam("hub.verify_token") String verifyToken) {
@@ -87,6 +90,7 @@ public class PubSubHubbubCallbackREST {
 	@Path("/callback")
 	@POST
 	@Consumes({ MediaType.APPLICATION_ATOM_XML, "application/rss+xml" })
+	@SecurityCheck(Role.NONE)
 	public Response callback() {
 
 		if (!applicationSettingsService.get().isPubsubhubbub()) {

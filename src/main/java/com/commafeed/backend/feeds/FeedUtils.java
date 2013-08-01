@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -28,8 +29,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
-import com.google.api.client.util.Base64;
-import com.google.api.client.util.Lists;
+import com.google.common.collect.Lists;
 import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.i18n.shared.BidiUtils;
 import com.steadystate.css.parser.CSSOMParser;

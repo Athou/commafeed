@@ -13,19 +13,23 @@ import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.services.ApplicationPropertiesService;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.frontend.model.ServerInfo;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 @Path("/server")
 @Api(value = "/server", description = "Operations about server infos")
-public class ServerREST extends AbstractResourceREST {
+public class ServerREST extends AbstractREST {
 
 	@Inject
 	StartupBean startupBean;
 
 	@Inject
 	HttpGetter httpGetter;
+	
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
 
 	@Path("/get")
 	@GET

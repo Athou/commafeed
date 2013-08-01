@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.google.api.client.util.Lists;
+import com.google.common.collect.Lists;
 
 public class FetchedFeed {
 

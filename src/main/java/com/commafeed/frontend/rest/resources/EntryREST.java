@@ -20,6 +20,7 @@ import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedEntryService;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
@@ -33,7 +34,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 @Path("/entry")
 @Api(value = "/entry", description = "Operations about feed entries")
-public class EntryREST extends AbstractResourceREST {
+public class EntryREST extends AbstractREST {
 
 	@Inject
 	FeedEntryService feedEntryService;
@@ -43,6 +44,9 @@ public class EntryREST extends AbstractResourceREST {
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
+	
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
 
 	@Path("/mark")
 	@POST

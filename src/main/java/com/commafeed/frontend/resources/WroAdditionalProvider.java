@@ -6,7 +6,7 @@ import ro.isdc.wro.model.resource.processor.ResourcePostProcessor;
 import ro.isdc.wro.model.resource.processor.ResourcePreProcessor;
 import ro.isdc.wro.model.resource.processor.support.ProcessorProvider;
 
-import com.google.api.client.util.Maps;
+import com.google.common.collect.Maps;
 
 /**
  * Build-time solution

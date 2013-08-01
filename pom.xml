@@ -237,16 +237,6 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.3</version>
 		</dependency>
-		<dependency>
-			<groupId>com.googlecode.lambdaj</groupId>
-			<artifactId>lambdaj</artifactId>
-			<version>2.3.3</version>
-		</dependency>
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-			<version>2.2</version>
-		</dependency>
 
 		<dependency>
 			<groupId>net.java.dev.rome</groupId>
@@ -289,17 +279,6 @@
 			<groupId>net.sourceforge.cssparser</groupId>
 			<artifactId>cssparser</artifactId>
 			<version>0.9.9</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.oauth-client</groupId>
-			<artifactId>google-oauth-client-servlet</artifactId>
-			<version>1.14.1-beta</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.http-client</groupId>
-			<artifactId>google-http-client-jackson2</artifactId>
-			<version>1.14.1-beta</version>
 		</dependency>
 
 		<dependency>
@@ -358,26 +337,8 @@
 
 		<dependency>
 			<groupId>com.wordnik</groupId>
-			<artifactId>swagger-jaxrs_2.9.1</artifactId>
+			<artifactId>swagger-annotations_2.9.1</artifactId>
 			<version>1.2.5</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>jersey-server</artifactId>
-					<groupId>com.sun.jersey</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jersey-servlet</artifactId>
-					<groupId>com.sun.jersey</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jersey-client</artifactId>
-					<groupId>com.sun.jersey</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jersey-core</artifactId>
-					<groupId>com.sun.jersey</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -510,6 +471,11 @@
 								<artifactId>commons-io</artifactId>
 								<version>2.4</version>
 							</dependency>
+							<dependency>
+								<groupId>com.wordnik</groupId>
+								<artifactId>swagger-jaxrs_2.9.1</artifactId>
+								<version>1.2.5</version>
+							</dependency>
 						</dependencies>
 						<executions>
 							<execution>
@@ -523,6 +489,7 @@
 										<prefix>templates/</prefix>
 										<destination>${basedir}/target/generated-sources/angularjs/all-templates.html</destination>
 										<i18nPath>${basedir}/src/main/resources/i18n/</i18nPath>
+										<doc.path>${basedir}/target/generated-sources/swagger-doc</doc.path>
 									</properties>
 									<scriptpath>
 										<element>${basedir}/src/main/script</element>
@@ -538,6 +505,11 @@
 										new
 										HTMLConcat().concat(source,
 										prefix, dest, i18n);
+
+										def docPath =
+										project.properties['doc.path'];
+										new
+										SwaggerStaticGenerator().generate(docPath);
 									</source>
 								</configuration>
 							</execution>
@@ -570,6 +542,13 @@
 									<targetPath>templates</targetPath>
 									<includes>
 										<include>**/*.html</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>target/generated-sources/swagger-doc/</directory>
+									<targetPath>api/swagger-doc</targetPath>
+									<includes>
+										<include>**/*</include>
 									</includes>
 								</resource>
 							</webResources>

@@ -25,6 +25,10 @@
 		}
 		url = url.substring(0, url.length - 1);
 		url = url.substring(0, url.lastIndexOf('/'));
+		var link = $('#title-base-url-link')
+		link.attr('href', url + '/rest');
+		link.html(link.attr('href'));
+		
 		url = url + '/api/swagger-doc/resources';
 	    window.swaggerUi = new SwaggerUi({
                 discoveryUrl:url,
@@ -73,6 +77,7 @@
 </div>
 
 <h3 style="text-align: center">Authentication is required to access the REST API. Use HTTP Basic Authentication to authenticate yourself.</h3>
+<h3 style="text-align: center">The base URL of the API is <a id="title-base-url-link"></a>.</h3>
 <div id="swagger-ui-container" class="swagger-ui-wrap">
 
 </div>

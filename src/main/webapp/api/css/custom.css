@@ -19,3 +19,7 @@
 	margin-left: 20px;
 	list-style: disc;
 }
+
+.footer {
+	display: none;
+}

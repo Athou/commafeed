@@ -7,11 +7,13 @@ import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
+import javax.persistence.criteria.Subquery;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,6 +27,8 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.Feed_;
+import com.commafeed.backend.model.User;
+import com.commafeed.backend.model.User_;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
@@ -38,30 +42,45 @@ public class FeedDAO extends GenericDAO<Feed> {
 		public List<Feed> feeds;
 	}
 
-	private Predicate getUpdatablePredicate(Root<Feed> root) {
+	private List<Predicate> getUpdatablePredicates(CriteriaQuery<?> query, Root<Feed> root, Date lastLoginThreshold) {
 
+		List<Predicate> preds = Lists.newArrayList();
 		Predicate isNull = builder.isNull(root.get(Feed_.disabledUntil));
 		Predicate lessThan = builder.lessThan(root.get(Feed_.disabledUntil), new Date());
+		preds.add(builder.or(isNull, lessThan));
 
-		return builder.or(isNull, lessThan);
+		if (lastLoginThreshold != null) {
+			Subquery<Long> subquery = query.subquery(Long.class);
+			Root<FeedSubscription> subroot = subquery.from(FeedSubscription.class);
+			subquery.select(builder.count(subroot.get(FeedSubscription_.id)));
+
+			Join<FeedSubscription, User> userJoin = subroot.join(FeedSubscription_.user);
+			Predicate p1 = builder.equal(subroot.get(FeedSubscription_.feed), root);
+			Predicate p2 = builder.greaterThanOrEqualTo(userJoin.get(User_.lastLogin), lastLoginThreshold);
+			subquery.where(p1, p2);
+
+			preds.add(builder.exists(subquery));
+		}
+
+		return preds;
 	}
 
-	public Long getUpdatableCount() {
+	public Long getUpdatableCount(Date lastLoginThreshold) {
 		CriteriaQuery<Long> query = builder.createQuery(Long.class);
 		Root<Feed> root = query.from(getType());
 
 		query.select(builder.count(root));
-		query.where(getUpdatablePredicate(root));
+		query.where(getUpdatablePredicates(query, root, lastLoginThreshold).toArray(new Predicate[0]));
 
 		TypedQuery<Long> q = em.createQuery(query);
 		return q.getSingleResult();
 	}
 
-	public List<Feed> findNextUpdatable(int count) {
+	public List<Feed> findNextUpdatable(int count, Date lastLoginThreshold) {
 		CriteriaQuery<Feed> query = builder.createQuery(getType());
 		Root<Feed> root = query.from(getType());
 
-		query.where(getUpdatablePredicate(root));
+		query.where(getUpdatablePredicates(query, root, lastLoginThreshold).toArray(new Predicate[0]));
 		query.orderBy(builder.asc(root.get(Feed_.disabledUntil)));
 
 		TypedQuery<Feed> q = em.createQuery(query);

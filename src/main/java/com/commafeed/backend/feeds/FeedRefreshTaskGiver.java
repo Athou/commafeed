@@ -122,7 +122,7 @@ public class FeedRefreshTaskGiver {
 	}
 
 	public Long getUpdatableCount() {
-		return feedDAO.getUpdatableCount();
+		return feedDAO.getUpdatableCount(getLastLoginThreshold());
 	}
 
 	/**
@@ -139,12 +139,12 @@ public class FeedRefreshTaskGiver {
 	 * refills the refresh queue and empties the giveBack queue while at it
 	 */
 	private void refill() {
-		int count = Math.min(300, 3 * backgroundThreads);
+		int count = Math.min(100, 3 * backgroundThreads);
 
 		// first, get feeds that are up to refresh from the database
 		List<FeedRefreshContext> contexts = Lists.newArrayList();
 		if (!applicationSettingsService.get().isCrawlingPaused()) {
-			List<Feed> feeds = feedDAO.findNextUpdatable(count);
+			List<Feed> feeds = feedDAO.findNextUpdatable(count, getLastLoginThreshold());
 			for (Feed feed : feeds) {
 				contexts.add(new FeedRefreshContext(feed, false));
 			}
@@ -193,6 +193,14 @@ public class FeedRefreshTaskGiver {
 		feed.setNormalizedUrlHash(DigestUtils.sha1Hex(normalized));
 		feed.setLastUpdated(new Date());
 		giveBackQueue.add(feed);
+	}
+
+	private Date getLastLoginThreshold() {
+		if (applicationSettingsService.get().isHeavyLoad()) {
+			return DateUtils.addDays(new Date(), -30);
+		} else {
+			return null;
+		}
 	}
 
 }

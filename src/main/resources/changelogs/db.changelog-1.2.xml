@@ -128,5 +128,11 @@
 			<column name="refreshIntervalMinutes" valueNumeric="5"></column>
 		</update>
 	</changeSet>
+		
+	<changeSet author="athou" id="add-last-login-index">
+		<createIndex tableName="USERS" indexName="lastlogin_index">
+			<column name="lastLogin" />
+		</createIndex>
+	</changeSet>
 
 </databaseChangeLog>

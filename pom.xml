@@ -65,6 +65,13 @@
 								<include>**/beans.xml</include>
 							</includes>
 						</resource>
+						<resource>
+							<directory>target/generated-sources/api-docs/</directory>
+							<targetPath>api/api-docs</targetPath>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</resource>
 					</webResources>
 				</configuration>
 			</plugin>
@@ -550,13 +557,6 @@
 									<targetPath>templates</targetPath>
 									<includes>
 										<include>**/*.html</include>
-									</includes>
-								</resource>
-								<resource>
-									<directory>target/generated-sources/api-docs/</directory>
-									<targetPath>api/api-docs</targetPath>
-									<includes>
-										<include>**/*</include>
 									</includes>
 								</resource>
 							</webResources>

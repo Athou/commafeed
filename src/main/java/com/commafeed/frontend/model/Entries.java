@@ -35,6 +35,12 @@ public class Entries implements Serializable {
 	@ApiProperty("if the query has more elements")
 	private boolean hasMore;
 
+	@ApiProperty("the requested offset")
+	private int offset;
+
+	@ApiProperty("the requested limit")
+	private int limit;
+
 	@ApiProperty("list of entries")
 	private List<Entry> entries = Lists.newArrayList();
 
@@ -92,6 +98,22 @@ public class Entries implements Serializable {
 
 	public void setHasMore(boolean hasMore) {
 		this.hasMore = hasMore;
+	}
+
+	public int getOffset() {
+		return offset;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
 	}
 
 }

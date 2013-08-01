@@ -145,6 +145,9 @@ public class FeedREST extends AbstractResourceREST {
 		limit = Math.max(0, limit);
 
 		Entries entries = new Entries();
+		entries.setOffset(offset);
+		entries.setLimit(limit);
+
 		boolean unreadOnly = readType == ReadType.unread;
 
 		Date newerThanDate = newerThan == null ? null : new Date(Long.valueOf(newerThan));

@@ -98,7 +98,9 @@ public class EntryREST extends AbstractResourceREST {
 		Preconditions.checkArgument(StringUtils.length(keywords) >= 3);
 
 		Entries entries = new Entries();
-
+		entries.setOffset(offset);
+		entries.setLimit(limit);
+		
 		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(getUser());
 		List<FeedEntryStatus> entriesStatus = feedEntryStatusDAO.findBySubscriptions(subs, false, keywords, null, offset, limit + 1,
 				ReadingOrder.desc, true);

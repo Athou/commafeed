@@ -65,7 +65,7 @@ public class APIGenerator extends AbstractProcessor {
 
 			apiDoc.setSwaggerVersion(swaggerVersion);
 			apiDoc.setApiVersion(apiVersion);
-			write(apiDoc, element);
+			write(apiDoc.getResourcePath(), apiDoc, element);
 
 			doc.addApi(new DocumentationEndPoint(api.value(), api.description()));
 
@@ -73,13 +73,13 @@ public class APIGenerator extends AbstractProcessor {
 		doc.setSwaggerVersion(swaggerVersion);
 		doc.setApiVersion(apiVersion);
 
-		write(doc, null);
+		write(doc.getResourcePath(), doc, null);
 
 		return true;
 	}
 
-	private void write(Documentation doc, Element element) throws Exception {
-		String fileName = doc.getResourcePath() == null ? "resources" : doc.getResourcePath();
+	private void write(String resourcePath, Object doc, Element element) throws Exception {
+		String fileName = StringUtils.defaultString(resourcePath, "resources");
 		fileName = StringUtils.removeStart(fileName, "/");
 
 		FileObject resource = null;

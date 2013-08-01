@@ -32,6 +32,7 @@ import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedEntryService;
@@ -47,7 +48,6 @@ import com.commafeed.frontend.model.request.CategoryModificationRequest;
 import com.commafeed.frontend.model.request.CollapseRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
-import com.commafeed.frontend.rest.Enums.ReadType;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.sun.syndication.feed.synd.SyndEntry;
@@ -98,7 +98,7 @@ public class CategoryREST extends AbstractREST {
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id, @ApiParam(
 					value = "all entries or only unread ones",
 					allowableValues = "all,unread",
-					required = true) @DefaultValue("unread") @QueryParam("readType") ReadType readType, @ApiParam(
+					required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType, @ApiParam(
 					value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset, @ApiParam(
 					value = "limit for paging, default 20, maximum 50") @DefaultValue("20") @QueryParam("limit") int limit, @ApiParam(
@@ -112,7 +112,7 @@ public class CategoryREST extends AbstractREST {
 		Entries entries = new Entries();
 		entries.setOffset(offset);
 		entries.setLimit(limit);
-		boolean unreadOnly = readType == ReadType.unread;
+		boolean unreadOnly = readType == ReadingMode.unread;
 		if (StringUtils.isBlank(id)) {
 			id = ALL;
 		}
@@ -175,7 +175,7 @@ public class CategoryREST extends AbstractREST {
 
 		Preconditions.checkNotNull(id);
 
-		ReadType readType = ReadType.all;
+		ReadingMode readType = ReadingMode.all;
 		ReadingOrder order = ReadingOrder.desc;
 		int offset = 0;
 		int limit = 20;

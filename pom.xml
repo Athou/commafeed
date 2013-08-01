@@ -138,6 +138,19 @@
 							<outputDirectory>target/generated-sources/metamodel</outputDirectory>
 						</configuration>
 					</execution>
+					<execution>
+						<id>doc</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<configuration>
+							<processors>
+								<processor>com.commafeed.frontend.APIGenerator</processor>
+							</processors>
+							<outputDirectory>target/generated-sources/api-docs</outputDirectory>
+						</configuration>
+					</execution>
 				</executions>
 				<dependencies>
 					<dependency>
@@ -340,6 +353,12 @@
 			<artifactId>swagger-annotations_2.9.1</artifactId>
 			<version>1.2.5</version>
 		</dependency>
+		<dependency>
+			<groupId>com.wordnik</groupId>
+			<artifactId>swagger-jaxrs_2.9.1</artifactId>
+			<version>1.2.5</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -471,15 +490,10 @@
 								<artifactId>commons-io</artifactId>
 								<version>2.4</version>
 							</dependency>
-							<dependency>
-								<groupId>com.wordnik</groupId>
-								<artifactId>swagger-jaxrs_2.9.1</artifactId>
-								<version>1.2.5</version>
-							</dependency>
 						</dependencies>
 						<executions>
 							<execution>
-								<phase>generate-sources</phase>
+								<phase>process-classes</phase>
 								<goals>
 									<goal>execute</goal>
 								</goals>
@@ -489,7 +503,6 @@
 										<prefix>templates/</prefix>
 										<destination>${basedir}/target/generated-sources/angularjs/all-templates.html</destination>
 										<i18nPath>${basedir}/src/main/resources/i18n/</i18nPath>
-										<doc.path>${basedir}/target/generated-sources/swagger-doc</doc.path>
 									</properties>
 									<scriptpath>
 										<element>${basedir}/src/main/script</element>
@@ -505,11 +518,6 @@
 										new
 										HTMLConcat().concat(source,
 										prefix, dest, i18n);
-
-										def docPath =
-										project.properties['doc.path'];
-										new
-										SwaggerStaticGenerator().generate(docPath);
 									</source>
 								</configuration>
 							</execution>
@@ -545,8 +553,8 @@
 									</includes>
 								</resource>
 								<resource>
-									<directory>target/generated-sources/swagger-doc/</directory>
-									<targetPath>api/swagger-doc</targetPath>
+									<directory>target/generated-sources/api-docs/</directory>
+									<targetPath>api/api-docs</targetPath>
 									<includes>
 										<include>**/*</include>
 									</includes>

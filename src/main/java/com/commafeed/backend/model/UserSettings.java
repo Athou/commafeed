@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -21,14 +22,17 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class UserSettings extends AbstractModel {
 
+	@XmlRootElement
 	public enum ReadingMode {
 		all, unread
 	}
 
+	@XmlRootElement
 	public enum ReadingOrder {
 		asc, desc
 	}
 
+	@XmlRootElement
 	public enum ViewMode {
 		title, expanded
 	}

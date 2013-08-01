@@ -103,6 +103,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 
 	}
 
+	@XmlRootElement
 	public static enum DuplicateMode {
 		NORMALIZED_URL(Feed_.normalizedUrlHash), LAST_CONTENT(Feed_.lastContentHash), PUSH_TOPIC(Feed_.pushTopicHash);
 		private SingularAttribute<Feed, String> path;

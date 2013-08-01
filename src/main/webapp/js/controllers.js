@@ -721,7 +721,7 @@ module.controller('FeedListCtrl', [
 				}
 
 				var callback = function(data) {
-					if (data.offset == 0) {
+					if (data.offset === 0) {
 						$scope.entries = [];
 					}
 					for ( var i = 0; i < data.entries.length; i++) {

@@ -32,10 +32,9 @@ public class SwaggerStaticGenerator {
 			Api api = resource.getAnnotation(Api.class);
 			if (api != null) {
 				String apiPath = api.value();
-				String apiListingPath = api.value();
 
-				Documentation apiDoc = new HelpApi(null).filterDocs(
-						JaxrsApiReader.read(resource, apiVersion, swaggerVersion, basePath, apiPath), null, null, apiListingPath, apiPath);
+				Documentation apiDoc = JaxrsApiReader.read(resource, apiVersion, swaggerVersion, basePath, apiPath);
+				apiDoc = new HelpApi(null).filterDocs(apiDoc, null, null, null, null);
 
 				apiDoc.setSwaggerVersion(swaggerVersion);
 				apiDoc.setApiVersion(apiVersion);

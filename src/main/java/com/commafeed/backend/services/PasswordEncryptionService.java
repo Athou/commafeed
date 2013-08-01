@@ -21,14 +21,12 @@ public class PasswordEncryptionService implements Serializable {
 
 	private static final Logger log = LoggerFactory.getLogger(UserDAO.class);
 
-	public boolean authenticate(String attemptedPassword,
-			byte[] encryptedPassword, byte[] salt) {
+	public boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt) {
 		// Encrypt the clear-text password using the same salt that was used to
 		// encrypt the original password
 		byte[] encryptedAttemptedPassword = null;
 		try {
-			encryptedAttemptedPassword = getEncryptedPassword(
-					attemptedPassword, salt);
+			encryptedAttemptedPassword = getEncryptedPassword(attemptedPassword, salt);
 		} catch (Exception e) {
 			// should never happen
 			log.error(e.getMessage(), e);

@@ -88,18 +88,18 @@ public class PubSubHubbubCallbackREST {
 	@POST
 	@Consumes({ MediaType.APPLICATION_ATOM_XML, "application/rss+xml" })
 	public Response callback() {
-		
+
 		if (!applicationSettingsService.get().isPubsubhubbub()) {
 			return Response.status(Status.FORBIDDEN).entity("pubsubhubbub is disabled").build();
 		}
-		
+
 		try {
 			byte[] bytes = IOUtils.toByteArray(request.getInputStream());
-			
+
 			if (ArrayUtils.isEmpty(bytes)) {
 				return Response.status(Status.BAD_REQUEST).entity("empty body received").build();
 			}
-			
+
 			FetchedFeed fetchedFeed = parser.parse(null, bytes);
 			String topic = fetchedFeed.getFeed().getPushTopic();
 			if (StringUtils.isBlank(topic)) {

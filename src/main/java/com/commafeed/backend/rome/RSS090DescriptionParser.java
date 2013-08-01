@@ -8,7 +8,7 @@ import com.sun.syndication.io.impl.RSS090Parser;
 
 /**
  * Support description tag for RSS09
- *
+ * 
  */
 public class RSS090DescriptionParser extends RSS090Parser {
 

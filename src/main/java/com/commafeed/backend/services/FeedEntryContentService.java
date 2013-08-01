@@ -18,11 +18,11 @@ public class FeedEntryContentService {
 	 * this is NOT thread-safe
 	 */
 	public FeedEntryContent findOrCreate(FeedEntryContent content, String baseUrl) {
-		
+
 		String contentHash = DigestUtils.sha1Hex(StringUtils.trimToEmpty(content.getContent()));
 		String titleHash = DigestUtils.sha1Hex(StringUtils.trimToEmpty(content.getTitle()));
 		Long existingId = feedEntryContentDAO.findExisting(contentHash, titleHash);
-		
+
 		FeedEntryContent result = null;
 		if (existingId == null) {
 			content.setContentHash(contentHash);

@@ -8,7 +8,7 @@ import com.sun.syndication.feed.synd.impl.ConverterForRSS090;
 
 /**
  * Support description tag for RSS09
- *
+ * 
  */
 public class RSS090DescriptionConverter extends ConverterForRSS090 {
 

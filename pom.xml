@@ -66,6 +66,7 @@
 							</includes>
 						</resource>
 					</webResources>
+					<packagingExcludes>**/APIGenerator.class</packagingExcludes>
 				</configuration>
 			</plugin>
 			<plugin>

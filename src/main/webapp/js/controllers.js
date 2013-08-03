@@ -709,6 +709,9 @@ module.controller('FeedListCtrl', [
 				$scope.busy = true;
 
 				var limit = $scope.limit;
+				var offset = SettingsService.settings.readingMode == 'all' ? $scope.entries.length : _.where($scope.entries, {
+					read : false
+				}).length;
 				if ($scope.entries.length === 0) {
 					$window = angular.element($window);
 					if (SettingsService.settings.viewMode == 'title') {
@@ -741,7 +744,7 @@ module.controller('FeedListCtrl', [
 						id : $scope.selectedId,
 						readType : $scope.settingsService.settings.readingMode,
 						order : $scope.settingsService.settings.readingOrder,
-						offset : $scope.entries.length,
+						offset : offset,
 						limit : limit
 					}, callback);
 				} else {

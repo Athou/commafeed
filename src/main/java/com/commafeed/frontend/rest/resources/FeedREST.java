@@ -234,6 +234,7 @@ public class FeedREST extends AbstractREST {
 			info.setTitle(feed.getTitle());
 
 		} catch (Exception e) {
+			log.debug(e.getMessage(), e);
 			throw new WebApplicationException(e, Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
 		return info;

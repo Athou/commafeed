@@ -36,15 +36,26 @@ public class FeedFetcher {
 		FetchedFeed fetchedFeed = null;
 
 		int timeout = 20000;
+
 		HttpResult result = getter.getBinary(feedUrl, lastModified, eTag, timeout);
-		if (extractFeedUrlFromHtml) {
-			String extractedUrl = extractFeedUrl(StringUtils.newStringUtf8(result.getContent()), feedUrl);
-			if (org.apache.commons.lang.StringUtils.isNotBlank(extractedUrl)) {
-				result = getter.getBinary(extractedUrl, lastModified, eTag, timeout);
-				feedUrl = extractedUrl;
+		byte[] content = result.getContent();
+
+		try {
+			fetchedFeed = parser.parse(feedUrl, content);
+		} catch (FeedException e) {
+			if (extractFeedUrlFromHtml) {
+				String extractedUrl = extractFeedUrl(StringUtils.newStringUtf8(result.getContent()), feedUrl);
+				if (org.apache.commons.lang.StringUtils.isNotBlank(extractedUrl)) {
+					feedUrl = extractedUrl;
+
+					result = getter.getBinary(extractedUrl, lastModified, eTag, timeout);
+					content = result.getContent();
+					fetchedFeed = parser.parse(feedUrl, content);
+				}
+			} else {
+				throw e;
 			}
 		}
-		byte[] content = result.getContent();
 
 		if (content == null) {
 			throw new IOException("Feed content is empty.");
@@ -55,8 +66,6 @@ public class FeedFetcher {
 			log.debug("content hash not modified: {}", feedUrl);
 			throw new NotModifiedException("content hash not modified");
 		}
-
-		fetchedFeed = parser.parse(feedUrl, content);
 
 		if (lastPublishedDate != null && fetchedFeed.getFeed().getLastPublishedDate() != null
 				&& lastPublishedDate.getTime() == fetchedFeed.getFeed().getLastPublishedDate().getTime()) {

@@ -16,7 +16,6 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -200,26 +199,42 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		for (FeedSubscription sub : subscriptions) {
 			Date last = (order != null && set.isFull()) ? set.last().getEntryUpdated() : null;
 			Criteria criteria = buildSearchCriteria(sub, unreadOnly, keywords, newerThan, -1, capacity, order, includeContent, last);
-			criteria.setResultTransformer(CriteriaSpecification.ALIAS_TO_ENTITY_MAP);
+			ProjectionList projection = Projections.projectionList();
+			projection.add(Projections.property("id"), "id");
+			projection.add(Projections.property("updated"), "updated");
+			criteria.setProjection(projection);
+			criteria.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 			List<Map<String, Object>> list = criteria.list();
 			for (Map<String, Object> map : list) {
-				FeedEntryStatus status = (FeedEntryStatus) map.get(ALIAS_STATUS);
-				FeedEntry entry = (FeedEntry) map.get(ALIAS_ENTRY);
+				Long id = (Long) map.get("id");
+				Date updated = (Date) map.get("updated");
 
-				status = handleStatus(status, sub, entry);
+				FeedEntry entry = new FeedEntry();
+				entry.setId(id);
+				entry.setUpdated(updated);
 
+				FeedEntryStatus status = new FeedEntryStatus();
+				status.setEntryUpdated(updated);
 				status.setEntry(entry);
+				status.setSubscription(sub);
+
 				set.add(status);
 			}
 		}
 
-		List<FeedEntryStatus> statuses = set.asList();
-		int size = statuses.size();
+		List<FeedEntryStatus> statusPlaceholders = set.asList();
+		int size = statusPlaceholders.size();
 		if (size < offset) {
 			return Lists.newArrayList();
 		}
 
-		statuses = statuses.subList(Math.max(offset, 0), size);
+		statusPlaceholders = statusPlaceholders.subList(Math.max(offset, 0), size);
+
+		List<FeedEntryStatus> statuses = Lists.newArrayList();
+		for (FeedEntryStatus status : statusPlaceholders) {
+			FeedEntry entry = em.find(FeedEntry.class, status.getEntry().getId());
+			statuses.add(getStatus(status.getSubscription(), entry));
+		}
 		return lazyLoadContent(includeContent, statuses);
 	}
 

@@ -1153,6 +1153,7 @@ module.controller('FeedListCtrl', [
 			});
 
 			$scope.$on('reload', function(event, args) {
+				delete $scope.current;
 				$scope.name = null;
 				$scope.entries = [];
 				$scope.message = null;

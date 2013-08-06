@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
 	<changeSet author="athou" id="change-entries-model">
@@ -14,8 +13,7 @@
 				<constraints nullable="false" />
 			</column>
 		</addColumn>
-		<addForeignKeyConstraint constraintName="fk_feed_id"
-			baseTableName="FEEDENTRIES" baseColumnNames="feed_id"
+		<addForeignKeyConstraint constraintName="fk_feed_id" baseTableName="FEEDENTRIES" baseColumnNames="feed_id"
 			referencedTableName="FEEDS" referencedColumnNames="id" />
 		<createIndex tableName="FEEDENTRIES" indexName="feed_updated_index">
 			<column name="feed_id" />
@@ -111,7 +109,7 @@
 		<dropIndex tableName="FEEDS" indexName="urlHash_index" />
 		<dropColumn tableName="FEEDS" columnName="urlHash" />
 	</changeSet>
-	
+
 	<changeSet author="athou" id="create-guid-feed-index">
 		<createIndex tableName="FEEDENTRIES" indexName="guidHash_feed_index">
 			<column name="guidHash" />
@@ -119,7 +117,7 @@
 		</createIndex>
 		<dropIndex tableName="FEEDENTRIES" indexName="guidHash_index" />
 	</changeSet>
-	
+
 	<changeSet author="athou" id="refresh-interval-setting">
 		<addColumn tableName="APPLICATIONSETTINGS">
 			<column name="refreshIntervalMinutes" type="INT"></column>
@@ -128,11 +126,25 @@
 			<column name="refreshIntervalMinutes" valueNumeric="5"></column>
 		</update>
 	</changeSet>
-		
+
 	<changeSet author="athou" id="add-last-login-index">
 		<createIndex tableName="USERS" indexName="lastlogin_index">
 			<column name="lastLogin" />
 		</createIndex>
+	</changeSet>
+
+	<changeSet author="athou" id="enforce-status-uniqueness">
+		<createIndex tableName="FEEDENTRYSTATUSES" indexName="entry_subscription_id" unique="true">
+			<column name="entry_id" />
+			<column name="subscription_id" />
+		</createIndex>
+	</changeSet>
+
+	<changeSet author="athou" id="drop-previous-index">
+		<preConditions onFail="MARK_RAN" onFailMessage="no index, skipping">
+			<indexExists tableName="FEEDENTRYSTATUSES" indexName="FKD6DCE994F46A5555" />
+		</preConditions>
+		<dropIndex tableName="FEEDENTRYSTATUSES" indexName="FKD6DCE994F46A5555" />
 	</changeSet>
 
 </databaseChangeLog>

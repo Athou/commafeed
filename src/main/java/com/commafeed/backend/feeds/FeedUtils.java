@@ -45,8 +45,10 @@ public class FeedUtils {
 	protected static Logger log = LoggerFactory.getLogger(FeedUtils.class);
 
 	private static final String ESCAPED_QUESTION_MARK = Pattern.quote("?");
+
 	private static final List<String> ALLOWED_IFRAME_CSS_RULES = Arrays.asList("height", "width", "border");
-	private static final char[] DISALLOWED_IFRAME_CSS_RULE_CHARACTERS = new char[] { '(', ')' };
+	private static final List<String> ALLOWED_IMG_CSS_RULES = Arrays.asList("display", "width", "height");
+	private static final char[] FORBIDDEN_CSS_RULE_CHARACTERS = new char[] { '(', ')' };
 
 	public static String truncate(String string, int length) {
 		if (string != null) {
@@ -163,7 +165,7 @@ public class FeedUtils {
 			whitelist.addAttributes("col", "span", "width");
 			whitelist.addAttributes("colgroup", "span", "width");
 			whitelist.addAttributes("iframe", "src", "height", "width", "allowfullscreen", "frameborder", "style");
-			whitelist.addAttributes("img", "align", "alt", "height", "src", "title", "width");
+			whitelist.addAttributes("img", "align", "alt", "height", "src", "title", "width", "style");
 			whitelist.addAttributes("ol", "start", "type");
 			whitelist.addAttributes("q", "cite");
 			whitelist.addAttributes("table", "border", "bordercolor", "summary", "width");
@@ -185,6 +187,12 @@ public class FeedUtils {
 			for (Element e : clean.select("iframe[style]")) {
 				String style = e.attr("style");
 				String escaped = escapeIFrameCss(style);
+				e.attr("style", escaped);
+			}
+
+			for (Element e : clean.select("img[style]")) {
+				String style = e.attr("style");
+				String escaped = escapeImgCss(style);
 				e.attr("style", escaped);
 			}
 
@@ -212,7 +220,30 @@ public class FeedUtils {
 					continue;
 				}
 
-				if (ALLOWED_IFRAME_CSS_RULES.contains(property) && StringUtils.containsNone(value, DISALLOWED_IFRAME_CSS_RULE_CHARACTERS)) {
+				if (ALLOWED_IFRAME_CSS_RULES.contains(property) && StringUtils.containsNone(value, FORBIDDEN_CSS_RULE_CHARACTERS)) {
+					rules.add(property + ":" + decl.getPropertyValue(property) + ";");
+				}
+			}
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		}
+		return StringUtils.join(rules, "");
+	}
+
+	public static String escapeImgCss(String orig) {
+		List<String> rules = Lists.newArrayList();
+		CSSOMParser parser = new CSSOMParser();
+		try {
+			CSSStyleDeclaration decl = parser.parseStyleDeclaration(new InputSource(new StringReader(orig)));
+
+			for (int i = 0; i < decl.getLength(); i++) {
+				String property = decl.item(i);
+				String value = decl.getPropertyValue(property);
+				if (StringUtils.isBlank(property) || StringUtils.isBlank(value)) {
+					continue;
+				}
+
+				if (ALLOWED_IMG_CSS_RULES.contains(property) && StringUtils.containsNone(value, FORBIDDEN_CSS_RULE_CHARACTERS)) {
 					rules.add(property + ":" + decl.getPropertyValue(property) + ";");
 				}
 			}

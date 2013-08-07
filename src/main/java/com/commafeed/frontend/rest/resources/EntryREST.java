@@ -1,29 +1,15 @@
 package com.commafeed.frontend.rest.resources;
 
-import java.util.Iterator;
-import java.util.List;
-
 import javax.inject.Inject;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.commons.lang.StringUtils;
-import org.jsoup.Jsoup;
-
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
-import com.commafeed.backend.model.FeedEntryStatus;
-import com.commafeed.backend.model.FeedSubscription;
-import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedEntryService;
-import com.commafeed.frontend.model.Entries;
-import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.MultipleMarkRequest;
 import com.commafeed.frontend.model.request.StarRequest;
@@ -87,63 +73,6 @@ public class EntryREST extends AbstractREST {
 		return Response.ok(Status.OK).build();
 	}
 
-	@Path("/search")
-	@GET
-	@ApiOperation(
-			value = "Search for entries",
-			notes = "Look through title and content of entries by keywords",
-			responseClass = "com.commafeed.frontend.model.Entries")
-	public Response searchEntries(
-			@ApiParam(value = "keywords separated by spaces, 3 characters minimum", required = true) @QueryParam("keywords") String keywords,
-			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset, @ApiParam(
-					value = "limit for paging") @DefaultValue("-1") @QueryParam("limit") int limit) {
-		keywords = StringUtils.trimToEmpty(keywords);
-		limit = Math.min(limit, 50);
-		Preconditions.checkArgument(StringUtils.length(keywords) >= 3);
 
-		Entries entries = new Entries();
-		entries.setOffset(offset);
-		entries.setLimit(limit);
-		
-		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(getUser());
-		List<FeedEntryStatus> entriesStatus = feedEntryStatusDAO.findBySubscriptions(subs, false, keywords, null, offset, limit + 1,
-				ReadingOrder.desc, true);
-		for (FeedEntryStatus status : entriesStatus) {
-			entries.getEntries().add(
-					Entry.build(status, applicationSettingsService.get().getPublicUrl(), applicationSettingsService.get()
-							.isImageProxyEnabled()));
-		}
-
-		boolean hasMore = entries.getEntries().size() > limit;
-		if (hasMore) {
-			entries.setHasMore(true);
-			entries.getEntries().remove(entries.getEntries().size() - 1);
-		}
-
-		removeUnwanted(entries.getEntries(), keywords);
-
-		entries.setName("Search for : " + keywords);
-		entries.setTimestamp(System.currentTimeMillis());
-		return Response.ok(entries).build();
-	}
-
-	private void removeUnwanted(List<Entry> entries, String keywords) {
-		Iterator<Entry> it = entries.iterator();
-		while (it.hasNext()) {
-			Entry entry = it.next();
-			boolean keep = true;
-			for (String keyword : keywords.split(" ")) {
-				String title = Jsoup.parse(entry.getTitle()).text();
-				String content = Jsoup.parse(entry.getContent()).text();
-				if (!StringUtils.containsIgnoreCase(content, keyword) && !StringUtils.containsIgnoreCase(title, keyword)) {
-					keep = false;
-					break;
-				}
-			}
-			if (!keep) {
-				it.remove();
-			}
-		}
-	}
 
 }

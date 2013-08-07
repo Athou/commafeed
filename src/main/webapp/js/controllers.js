@@ -21,6 +21,10 @@ module.run(['$rootScope', function($rootScope) {
 		// args.all
 		$rootScope.$broadcast('reload', args || {});
 	});
+	$rootScope.$on('emitEntrySearch', function(event, args) {
+		// args.keywords
+		$rootScope.$broadcast('entrySearch', args);
+	});
 	$rootScope.$on('emitFeedSearch', function(event, args) {
 		$rootScope.$broadcast('feedSearch');
 	});
@@ -440,6 +444,7 @@ module.controller('ToolbarCtrl', [
 				return ($http.pendingRequests.length + $.active);
 			}
 
+			$scope.keywords = $location.search().q;
 			$scope.session = ProfileService.get();
 			$scope.ServerService = ServerService.get();
 			$scope.settingsService = SettingsService;
@@ -509,15 +514,11 @@ module.controller('ToolbarCtrl', [
 				markAll(new Date().getTime() - 1209600000);
 			};
 
-			$scope.keywords = $stateParams._keywords;
 			$scope.search = function() {
-				if ($scope.keywords == $stateParams._keywords) {
-					$scope.refresh();
-				} else {
-					$state.transitionTo('feeds.search', {
-						_keywords : $scope.keywords
-					});
-				}
+				$location.search('q', $scope.keywords);
+				$scope.$emit('emitEntrySearch', {
+					keywords : $scope.keywords
+				});
 			};
 			$scope.showButtons = function() {
 				return !$stateParams._keywords;
@@ -664,19 +665,21 @@ module.controller('FeedListCtrl', [
 		'$route',
 		'$state',
 		'$window',
+		'$location',
 		'EntryService',
 		'SettingsService',
 		'FeedService',
 		'CategoryService',
 		'AnalyticsService',
-		function($scope, $stateParams, $http, $route, $state, $window, EntryService, SettingsService, FeedService, CategoryService,
+		function($scope, $stateParams, $http, $route, $state, $window, $location, EntryService, SettingsService, FeedService, CategoryService,
 				AnalyticsService) {
 
 			AnalyticsService.track();
 
+			$scope.keywords = $location.search().q;
+
 			$scope.selectedType = $stateParams._type;
 			$scope.selectedId = $stateParams._id;
-			$scope.keywords = $stateParams._keywords;
 
 			$scope.name = null;
 			$scope.message = null;
@@ -738,22 +741,16 @@ module.controller('FeedListCtrl', [
 					$scope.hasMore = data.hasMore;
 					$scope.feedLink = data.feedLink;
 				};
-				if (!$scope.keywords) {
-					var service = $scope.selectedType == 'feed' ? FeedService : CategoryService;
-					service.entries({
-						id : $scope.selectedId,
-						readType : $scope.settingsService.settings.readingMode,
-						order : $scope.settingsService.settings.readingOrder,
-						offset : offset,
-						limit : limit
-					}, callback);
-				} else {
-					EntryService.search({
-						keywords : $scope.keywords,
-						offset : $scope.entries.length,
-						limit : limit
-					}, callback);
-				}
+
+				var service = $scope.selectedType == 'feed' ? FeedService : CategoryService;
+				service.entries({
+					id : $scope.selectedId,
+					readType : $scope.keywords ? 'all' : $scope.settingsService.settings.readingMode,
+					order : $scope.settingsService.settings.readingOrder,
+					offset : offset,
+					limit : limit,
+					keywords : $scope.keywords
+				}, callback);
 			};
 
 			$scope.goToFeed = function(id) {
@@ -1152,7 +1149,9 @@ module.controller('FeedListCtrl', [
 				$scope.markAll(args.olderThan);
 			});
 
-			$scope.$on('reload', function(event, args) {
+			var reload = function(all, keywords) {
+				$scope.keywords = keywords;
+				$location.search('q', keywords);
 				delete $scope.current;
 				$scope.name = null;
 				$scope.entries = [];
@@ -1163,13 +1162,21 @@ module.controller('FeedListCtrl', [
 				$scope.hasMore = true;
 				$scope.loadMoreEntries();
 
-				if (args.all) {
+				if (all) {
 					FeedService.refreshAll();
 				} else if ($scope.selectedType == 'feed') {
 					FeedService.refresh({
 						id : $stateParams._id
 					});
 				}
+			};
+
+			$scope.$on('entrySearch', function(event, args) {
+				reload(null, args.keywords);
+			});
+
+			$scope.$on('reload', function(event, args) {
+				reload(args.all, null);
 			});
 		}]);
 

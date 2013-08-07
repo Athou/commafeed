@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -29,6 +30,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.frontend.model.Entry;
 import com.google.common.collect.Lists;
 import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.i18n.shared.BidiUtils;
@@ -445,6 +447,29 @@ public class FeedUtils {
 
 	public static String imageProxyDecoder(String code) {
 		return rot13(new String(Base64.decodeBase64(code)));
+	}
+
+	public static void removeUnwantedFromSearch(List<Entry> entries, String keywords) {
+		if (StringUtils.isBlank(keywords)) {
+			return;
+		}
+
+		Iterator<Entry> it = entries.iterator();
+		while (it.hasNext()) {
+			Entry entry = it.next();
+			boolean keep = true;
+			for (String keyword : keywords.split(" ")) {
+				String title = Jsoup.parse(entry.getTitle()).text();
+				String content = Jsoup.parse(entry.getContent()).text();
+				if (!StringUtils.containsIgnoreCase(content, keyword) && !StringUtils.containsIgnoreCase(title, keyword)) {
+					keep = false;
+					break;
+				}
+			}
+			if (!keep) {
+				it.remove();
+			}
+		}
 	}
 
 }

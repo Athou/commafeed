@@ -14,6 +14,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Disjunction;
@@ -131,7 +132,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		if (keywords != null) {
 			Criteria contentJoin = criteria.createCriteria(FeedEntry_.content.getName(), "content", JoinType.INNER_JOIN);
 
-			for (String keyword : keywords.split(" ")) {
+			for (String keyword : StringUtils.split(keywords)) {
 				Disjunction or = Restrictions.disjunction();
 				or.add(Restrictions.ilike(FeedEntryContent_.content.getName(), keyword, MatchMode.ANYWHERE));
 				or.add(Restrictions.ilike(FeedEntryContent_.title.getName(), keyword, MatchMode.ANYWHERE));

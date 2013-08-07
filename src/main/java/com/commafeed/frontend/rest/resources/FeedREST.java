@@ -125,7 +125,7 @@ public class FeedREST extends AbstractREST {
 
 	@Context
 	private HttpServletRequest request;
-	
+
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
@@ -140,10 +140,15 @@ public class FeedREST extends AbstractREST {
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset, @ApiParam(
 					value = "limit for paging, default 20, maximum 50") @DefaultValue("20") @QueryParam("limit") int limit, @ApiParam(
 					value = "date ordering",
-					allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
+					allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order, @ApiParam(
+					value = "keywords separated by spaces, 3 characters minimum",
+					required = true) @QueryParam("keywords") String keywords) {
 
 		Preconditions.checkNotNull(id);
 		Preconditions.checkNotNull(readType);
+		
+		keywords = StringUtils.trimToNull(keywords);
+		Preconditions.checkArgument(keywords == null || StringUtils.length(keywords) >= 3);
 
 		limit = Math.min(limit, 50);
 		limit = Math.max(0, limit);
@@ -163,7 +168,7 @@ public class FeedREST extends AbstractREST {
 			entries.setErrorCount(subscription.getFeed().getErrorCount());
 			entries.setFeedLink(subscription.getFeed().getLink());
 
-			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(Arrays.asList(subscription), unreadOnly, null,
+			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(Arrays.asList(subscription), unreadOnly, keywords,
 					newerThanDate, offset, limit + 1, order, true);
 
 			for (FeedEntryStatus status : list) {
@@ -180,6 +185,7 @@ public class FeedREST extends AbstractREST {
 		}
 
 		entries.setTimestamp(System.currentTimeMillis());
+		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), keywords);
 		return Response.ok(entries).build();
 	}
 
@@ -197,7 +203,7 @@ public class FeedREST extends AbstractREST {
 		int offset = 0;
 		int limit = 20;
 
-		Entries entries = (Entries) getFeedEntries(id, readType, null, offset, limit, order).getEntity();
+		Entries entries = (Entries) getFeedEntries(id, readType, null, offset, limit, order, null).getEntity();
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("rss_2.0");

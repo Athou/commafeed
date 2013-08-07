@@ -27,6 +27,7 @@ import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
@@ -84,7 +85,7 @@ public class CategoryREST extends AbstractREST {
 
 	@Inject
 	CacheService cache;
-	
+
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
@@ -103,9 +104,15 @@ public class CategoryREST extends AbstractREST {
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset, @ApiParam(
 					value = "limit for paging, default 20, maximum 50") @DefaultValue("20") @QueryParam("limit") int limit, @ApiParam(
 					value = "date ordering",
-					allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
+					allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order, @ApiParam(
+					value = "keywords separated by spaces, 3 characters minimum",
+					required = true) @QueryParam("keywords") String keywords) {
 
 		Preconditions.checkNotNull(readType);
+
+		keywords = StringUtils.trimToNull(keywords);
+		Preconditions.checkArgument(keywords == null || StringUtils.length(keywords) >= 3);
+
 		limit = Math.min(limit, 50);
 		limit = Math.max(0, limit);
 
@@ -122,7 +129,7 @@ public class CategoryREST extends AbstractREST {
 		if (ALL.equals(id)) {
 			entries.setName("All");
 			List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(getUser());
-			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(subscriptions, unreadOnly, null, newerThanDate, offset,
+			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(subscriptions, unreadOnly, keywords, newerThanDate, offset,
 					limit + 1, order, true);
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(
@@ -143,7 +150,7 @@ public class CategoryREST extends AbstractREST {
 			if (parent != null) {
 				List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(getUser(), parent);
 				List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(getUser(), categories);
-				List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(subs, unreadOnly, null, newerThanDate, offset,
+				List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(subs, unreadOnly, keywords, newerThanDate, offset,
 						limit + 1, order, true);
 				for (FeedEntryStatus status : list) {
 					entries.getEntries().add(
@@ -162,6 +169,7 @@ public class CategoryREST extends AbstractREST {
 		}
 
 		entries.setTimestamp(System.currentTimeMillis());
+		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), keywords);
 		return Response.ok(entries).build();
 	}
 
@@ -180,7 +188,7 @@ public class CategoryREST extends AbstractREST {
 		int offset = 0;
 		int limit = 20;
 
-		Entries entries = (Entries) getCategoryEntries(id, readType, null, offset, limit, order).getEntity();
+		Entries entries = (Entries) getCategoryEntries(id, readType, null, offset, limit, order, null).getEntity();
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("rss_2.0");

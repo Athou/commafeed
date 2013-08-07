@@ -15,8 +15,6 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
 import javax.persistence.criteria.Subquery;
 import javax.persistence.metamodel.SingularAttribute;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -29,18 +27,12 @@ import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.Feed_;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.User_;
+import com.commafeed.frontend.model.FeedCount;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 @Stateless
 public class FeedDAO extends GenericDAO<Feed> {
-
-	@XmlRootElement
-	@XmlAccessorType(XmlAccessType.FIELD)
-	public static class FeedCount {
-		public String value;
-		public List<Feed> feeds;
-	}
 
 	private List<Predicate> getUpdatablePredicates(CriteriaQuery<?> query, Root<Feed> root, Date lastLoginThreshold) {
 
@@ -154,14 +146,12 @@ public class FeedDAO extends GenericDAO<Feed> {
 
 		List<FeedCount> result = Lists.newArrayList();
 		for (String pathValue : pathValues) {
-			FeedCount fc = new FeedCount();
-			fc.value = pathValue;
-			fc.feeds = Lists.newArrayList();
+			FeedCount fc = new FeedCount(pathValue);
 			for (Feed feed : findByField(mode.getPath(), pathValue)) {
 				Feed f = new Feed();
 				f.setId(feed.getId());
 				f.setUrl(feed.getUrl());
-				fc.feeds.add(f);
+				fc.getFeeds().add(f);
 			}
 			result.add(fc);
 		}

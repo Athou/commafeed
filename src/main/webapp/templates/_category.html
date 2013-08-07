@@ -5,7 +5,7 @@
 				<i class="icon-wrench config pointer"></i>
 			</div>
 		</div>
-		<div ng-click="categoryClicked(node.id)">
+		<div ng-click="categoryClicked(node.id)" ng-dblclick="showCategoryDetails(node)">
 			<span class="fldr">
 				<i ng-class="{'icon-caret-right': !node.expanded, 'icon-caret-down': node.expanded}" ng-click="toggleCategory(node, $event)" ng-show="showChildren"></i>
 				<i ng-class="{'icon-star' : node.id == 'starred', 'icon-inbox': node.id == 'all'}" ng-show="!showChildren"></i>
@@ -33,7 +33,7 @@
 			<div class="pull-right" ng-click="showFeedDetails(feed)">
 				<i class="icon-wrench config pointer"></i>
 			</div>
-			<a ng-click="feedClicked(feed.id, $event)" class="feed-link"
+			<a ng-click="feedClicked(feed.id, $event)" ng-dblclick="showFeedDetails(feed)" class="feed-link"
 				href="{{feed.feedLink}}" target="_blank"
 				ng-class="{error: feed.message && feed.errorCount > 10, selected: (feed.id == selectedId && selectedType == 'feed') }">
 				<favicon url="feed.iconUrl" />

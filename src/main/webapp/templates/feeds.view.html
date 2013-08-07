@@ -9,8 +9,8 @@
 					<a ng-show="feedLink" href="{{feedLink}}" target="_blank">{{name}}</a>
 				</span>
 			</span>
-			&nbsp;
-			<span ng-show="name && selectedType == 'category'"> &#187;</span>
+			<span ng-show="name"> &#187;</span>
+			<span ng-show="keywords">${view.search_for} '{{keywords}}'</span>
 		</h3>
 	</div>
 	
@@ -114,7 +114,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="no-entries" ng-show="name && entries.length == 0 && !busy">"{{name}}" ${view.no_unread_items}</div>
+		<div class="no-entries" ng-show="name && entries.length == 0 && !busy">
+			<span ng-show="keywords">${view.no_search_results}</span>
+			<span ng-hide="keywords">"{{name}}" ${view.no_unread_items}</span>
+		</div>
 		<div modal="shortcutsModal" close="shortcutsModal=false" options="shortcutsOpts">
 			<div class="modal-header">
 				<button type="button" class="close" ng-click="shortcutsModal=false">&times;</button>

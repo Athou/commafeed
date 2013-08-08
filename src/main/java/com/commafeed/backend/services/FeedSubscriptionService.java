@@ -21,6 +21,7 @@ import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
+import com.commafeed.frontend.model.UnreadCount;
 import com.google.common.collect.Maps;
 
 public class FeedSubscriptionService {
@@ -95,8 +96,8 @@ public class FeedSubscriptionService {
 		}
 	}
 
-	public Long getUnreadCount(FeedSubscription sub) {
-		Long count = cache.getUnreadCount(sub);
+	public UnreadCount getUnreadCount(FeedSubscription sub) {
+		UnreadCount count = cache.getUnreadCount(sub);
 		if (count == null) {
 			log.debug("unread count cache miss for {}", Models.getId(sub));
 			count = feedEntryStatusDAO.getUnreadCount(sub);
@@ -105,8 +106,8 @@ public class FeedSubscriptionService {
 		return count;
 	}
 
-	public Map<Long, Long> getUnreadCount(User user) {
-		Map<Long, Long> map = Maps.newHashMap();
+	public Map<Long, UnreadCount> getUnreadCount(User user) {
+		Map<Long, UnreadCount> map = Maps.newHashMap();
 		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 		for (FeedSubscription sub : subs) {
 			map.put(sub.getId(), getUnreadCount(sub));

@@ -64,6 +64,7 @@ import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.FeedInfo;
 import com.commafeed.frontend.model.Subscription;
+import com.commafeed.frontend.model.UnreadCount;
 import com.commafeed.frontend.model.request.FeedInfoRequest;
 import com.commafeed.frontend.model.request.FeedModificationRequest;
 import com.commafeed.frontend.model.request.IDRequest;
@@ -146,7 +147,7 @@ public class FeedREST extends AbstractREST {
 
 		Preconditions.checkNotNull(id);
 		Preconditions.checkNotNull(readType);
-		
+
 		keywords = StringUtils.trimToNull(keywords);
 		Preconditions.checkArgument(keywords == null || StringUtils.length(keywords) >= 3);
 
@@ -317,10 +318,7 @@ public class FeedREST extends AbstractREST {
 		if (sub == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		Long unreadCount = feedSubscriptionService.getUnreadCount(getUser()).get(id);
-		if (unreadCount == null) {
-			unreadCount = new Long(0);
-		}
+		UnreadCount unreadCount = feedSubscriptionService.getUnreadCount(getUser()).get(id);
 		return Response.ok(Subscription.build(sub, applicationSettingsService.get().getPublicUrl(), unreadCount)).build();
 	}
 

@@ -20,7 +20,7 @@ import com.wordnik.swagger.annotations.ApiProperty;
 @ApiClass("User information")
 public class Subscription implements Serializable {
 
-	public static Subscription build(FeedSubscription subscription, String publicUrl, long unreadCount) {
+	public static Subscription build(FeedSubscription subscription, String publicUrl, UnreadCount unreadCount) {
 		Date now = new Date();
 		FeedCategory category = subscription.getCategory();
 		Feed feed = subscription.getFeed();
@@ -35,7 +35,8 @@ public class Subscription implements Serializable {
 		sub.setIconUrl(FeedUtils.getFaviconUrl(subscription, publicUrl));
 		sub.setLastRefresh(feed.getLastUpdated());
 		sub.setNextRefresh((feed.getDisabledUntil() != null && feed.getDisabledUntil().before(now)) ? null : feed.getDisabledUntil());
-		sub.setUnread(unreadCount);
+		sub.setUnread(unreadCount.getUnreadCount());
+		sub.setNewestItemTime(unreadCount.getNewestItemTime());
 		sub.setCategoryId(category == null ? null : String.valueOf(category.getId()));
 		return sub;
 	}
@@ -75,6 +76,9 @@ public class Subscription implements Serializable {
 
 	@ApiProperty("position of the subscription's in the list")
 	private Integer position;
+
+	@ApiProperty("date of the newest item")
+	private Date newestItemTime;
 
 	public Long getId() {
 		return id;
@@ -170,6 +174,14 @@ public class Subscription implements Serializable {
 
 	public void setPosition(Integer position) {
 		this.position = position;
+	}
+
+	public Date getNewestItemTime() {
+		return newestItemTime;
+	}
+
+	public void setNewestItemTime(Date newestItemTime) {
+		this.newestItemTime = newestItemTime;
 	}
 
 }

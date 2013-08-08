@@ -39,6 +39,7 @@ import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.services.ApplicationSettingsService;
+import com.commafeed.frontend.model.UnreadCount;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
@@ -240,18 +241,21 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Long getUnreadCount(FeedSubscription subscription) {
-		Long count = null;
+	public UnreadCount getUnreadCount(FeedSubscription subscription) {
+		UnreadCount uc = null;
 		Criteria criteria = buildSearchCriteria(subscription, true, null, null, -1, -1, null, false, null);
 		ProjectionList projection = Projections.projectionList();
 		projection.add(Projections.rowCount(), "count");
+		projection.add(Projections.max(FeedEntry_.updated.getName()), "updated");
 		criteria.setProjection(projection);
 		criteria.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-		List<Map<String, Long>> list = criteria.list();
-		for (Map<String, Long> row : list) {
-			count = row.get("count");
+		List<Map<String, Object>> list = criteria.list();
+		for (Map<String, Object> row : list) {
+			Long count = (Long) row.get("count");
+			Date updated = (Date) row.get("updated");
+			uc = new UnreadCount(subscription.getId(), count, updated);
 		}
-		return count;
+		return uc;
 	}
 
 	private List<FeedEntryStatus> lazyLoadContent(boolean includeContent, List<FeedEntryStatus> results) {

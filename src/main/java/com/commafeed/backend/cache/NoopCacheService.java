@@ -10,6 +10,7 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.Category;
+import com.commafeed.frontend.model.UnreadCount;
 
 @Alternative
 @ApplicationScoped
@@ -25,12 +26,12 @@ public class NoopCacheService extends CacheService {
 	}
 
 	@Override
-	public Long getUnreadCount(FeedSubscription sub) {
+	public UnreadCount getUnreadCount(FeedSubscription sub) {
 		return null;
 	}
 
 	@Override
-	public void setUnreadCount(FeedSubscription sub, Long count) {
+	public void setUnreadCount(FeedSubscription sub, UnreadCount count) {
 
 	}
 

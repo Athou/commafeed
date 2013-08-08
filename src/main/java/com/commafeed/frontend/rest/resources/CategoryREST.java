@@ -364,12 +364,8 @@ public class CategoryREST extends AbstractREST {
 	@Path("/unreadCount")
 	@ApiOperation(value = "Get unread count for feed subscriptions", responseClass = "List[com.commafeed.frontend.model.UnreadCount]")
 	public Response getUnreadCount() {
-		List<UnreadCount> list = Lists.newArrayList();
-		Map<Long, Long> unreadCount = feedSubscriptionService.getUnreadCount(getUser());
-		for (Map.Entry<Long, Long> e : unreadCount.entrySet()) {
-			list.add(new UnreadCount(e.getKey(), e.getValue()));
-		}
-		return Response.ok(list).build();
+		Map<Long, UnreadCount> unreadCount = feedSubscriptionService.getUnreadCount(getUser());
+		return Response.ok(Lists.newArrayList(unreadCount.values())).build();
 	}
 
 	@GET
@@ -386,7 +382,7 @@ public class CategoryREST extends AbstractREST {
 			log.debug("tree cache miss for {}", user.getId());
 			List<FeedCategory> categories = feedCategoryDAO.findAll(user);
 			List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
-			Map<Long, Long> unreadCount = feedSubscriptionService.getUnreadCount(user);
+			Map<Long, UnreadCount> unreadCount = feedSubscriptionService.getUnreadCount(user);
 
 			root = buildCategory(null, categories, subscriptions, unreadCount);
 			root.setId("all");
@@ -397,7 +393,8 @@ public class CategoryREST extends AbstractREST {
 		return Response.ok(root).build();
 	}
 
-	private Category buildCategory(Long id, List<FeedCategory> categories, List<FeedSubscription> subscriptions, Map<Long, Long> unreadCount) {
+	private Category buildCategory(Long id, List<FeedCategory> categories, List<FeedSubscription> subscriptions,
+			Map<Long, UnreadCount> unreadCount) {
 		Category category = new Category();
 		category.setId(String.valueOf(id));
 		category.setExpanded(true);
@@ -425,9 +422,8 @@ public class CategoryREST extends AbstractREST {
 		for (FeedSubscription subscription : subscriptions) {
 			if ((id == null && subscription.getCategory() == null)
 					|| (subscription.getCategory() != null && ObjectUtils.equals(subscription.getCategory().getId(), id))) {
-				Long size = unreadCount.get(subscription.getId());
-				long unread = size == null ? 0 : size;
-				Subscription sub = Subscription.build(subscription, applicationSettingsService.get().getPublicUrl(), unread);
+				UnreadCount uc = unreadCount.get(subscription.getId());
+				Subscription sub = Subscription.build(subscription, applicationSettingsService.get().getPublicUrl(), uc);
 				category.getFeeds().add(sub);
 			}
 		}

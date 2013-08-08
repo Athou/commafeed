@@ -20,6 +20,7 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.Category;
+import com.commafeed.frontend.model.UnreadCount;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
@@ -104,14 +105,14 @@ public class RedisCacheService extends CacheService {
 	}
 
 	@Override
-	public Long getUnreadCount(FeedSubscription sub) {
-		Long count = null;
+	public UnreadCount getUnreadCount(FeedSubscription sub) {
+		UnreadCount count = null;
 		Jedis jedis = pool.getResource();
 		try {
 			String key = buildRedisUnreadCountKey(sub);
-			String countString = jedis.get(key);
-			if (countString != null) {
-				count = Long.valueOf(countString);
+			String json = jedis.get(key);
+			if (json != null) {
+				count = mapper.readValue(json, UnreadCount.class);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -122,14 +123,14 @@ public class RedisCacheService extends CacheService {
 	}
 
 	@Override
-	public void setUnreadCount(FeedSubscription sub, Long count) {
+	public void setUnreadCount(FeedSubscription sub, UnreadCount count) {
 		Jedis jedis = pool.getResource();
 		try {
 			String key = buildRedisUnreadCountKey(sub);
 
 			Pipeline pipe = jedis.pipelined();
 			pipe.del(key);
-			pipe.set(key, String.valueOf(count));
+			pipe.set(key, mapper.writeValueAsString(count));
 			pipe.expire(key, (int) TimeUnit.MINUTES.toSeconds(30));
 			pipe.sync();
 		} catch (Exception e) {

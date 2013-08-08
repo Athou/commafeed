@@ -9,6 +9,7 @@ import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.Category;
+import com.commafeed.frontend.model.UnreadCount;
 
 public abstract class CacheService {
 
@@ -29,9 +30,9 @@ public abstract class CacheService {
 	public abstract void invalidateUserRootCategory(User... users);
 
 	// unread count
-	public abstract Long getUnreadCount(FeedSubscription sub);
+	public abstract UnreadCount getUnreadCount(FeedSubscription sub);
 
-	public abstract void setUnreadCount(FeedSubscription sub, Long count);
+	public abstract void setUnreadCount(FeedSubscription sub, UnreadCount count);
 
 	public abstract void invalidateUnreadCount(FeedSubscription... subs);
 

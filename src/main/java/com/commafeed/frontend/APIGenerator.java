@@ -1,6 +1,6 @@
 package com.commafeed.frontend;
 
-import java.io.File;
+import java.io.OutputStream;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -13,8 +13,8 @@ import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.wicket.util.io.IOUtils;
 
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.request.MarkRequest;
@@ -89,7 +89,12 @@ public class APIGenerator extends AbstractProcessor {
 			// already processed
 		}
 		if (resource != null) {
-			FileUtils.writeStringToFile(new File(resource.toUri()), new ObjectMapper().writeValueAsString(doc));
+			OutputStream os = resource.openOutputStream();
+			try {
+				IOUtils.write(new ObjectMapper().writeValueAsString(doc), os, "UTF-8");
+			} finally {
+				IOUtils.closeQuietly(os);
+			}
 		}
 
 	}

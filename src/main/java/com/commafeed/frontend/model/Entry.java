@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.sun.syndication.feed.synd.SyndContentImpl;
@@ -29,28 +30,30 @@ public class Entry implements Serializable {
 
 		FeedEntry feedEntry = status.getEntry();
 		FeedSubscription sub = status.getSubscription();
-
-		entry.setRead(status.isRead());
-		entry.setStarred(status.isStarred());
-		entry.setMarkable(status.isMarkable());
+		FeedEntryContent content = feedEntry.getContent();
 
 		entry.setId(String.valueOf(feedEntry.getId()));
 		entry.setGuid(feedEntry.getGuid());
-		entry.setTitle(feedEntry.getContent().getTitle());
-		entry.setContent(FeedUtils.proxyImages(feedEntry.getContent().getContent(), publicUrl, proxyImages));
-		entry.setRtl(FeedUtils.isRTL(feedEntry));
-		entry.setAuthor(feedEntry.getContent().getAuthor());
-		entry.setEnclosureUrl(feedEntry.getContent().getEnclosureUrl());
-		entry.setEnclosureType(feedEntry.getContent().getEnclosureType());
+		entry.setRead(status.isRead());
+		entry.setStarred(status.isStarred());
+		entry.setMarkable(status.isMarkable());
 		entry.setDate(feedEntry.getUpdated());
 		entry.setInsertedDate(feedEntry.getInserted());
 		entry.setUrl(feedEntry.getUrl());
-
 		entry.setFeedName(sub.getTitle());
 		entry.setFeedId(String.valueOf(sub.getId()));
 		entry.setFeedUrl(sub.getFeed().getUrl());
 		entry.setFeedLink(sub.getFeed().getLink());
 		entry.setIconUrl(FeedUtils.getFaviconUrl(sub, publicUrl));
+
+		if (content != null) {
+			entry.setRtl(FeedUtils.isRTL(feedEntry));
+			entry.setTitle(content.getTitle());
+			entry.setContent(FeedUtils.proxyImages(content.getContent(), publicUrl, proxyImages));
+			entry.setAuthor(content.getAuthor());
+			entry.setEnclosureUrl(content.getEnclosureUrl());
+			entry.setEnclosureType(content.getEnclosureType());
+		}
 
 		return entry;
 	}

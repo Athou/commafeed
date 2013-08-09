@@ -125,7 +125,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	private Criteria buildSearchCriteria(FeedSubscription sub, boolean unreadOnly, String keywords, Date newerThan, int offset, int limit,
-			ReadingOrder order, boolean includeContent, Date last) {
+			ReadingOrder order, Date last) {
 		Criteria criteria = getSession().createCriteria(FeedEntry.class, ALIAS_ENTRY);
 
 		criteria.add(Restrictions.eq(FeedEntry_.feed.getName(), sub.getFeed()));
@@ -192,15 +192,14 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<FeedEntryStatus> findBySubscriptions(List<FeedSubscription> subscriptions, boolean unreadOnly, String keywords,
-			Date newerThan, int offset, int limit, ReadingOrder order, boolean includeContent) {
-
+	public List<FeedEntryStatus> findBySubscriptions(List<FeedSubscription> subs, boolean unreadOnly, String keywords, Date newerThan,
+			int offset, int limit, ReadingOrder order, boolean includeContent, boolean onlyIds) {
 		int capacity = offset + limit;
 		Comparator<FeedEntryStatus> comparator = order == ReadingOrder.desc ? STATUS_COMPARATOR_DESC : STATUS_COMPARATOR_ASC;
 		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<FeedEntryStatus>(capacity, comparator);
-		for (FeedSubscription sub : subscriptions) {
+		for (FeedSubscription sub : subs) {
 			Date last = (order != null && set.isFull()) ? set.last().getEntryUpdated() : null;
-			Criteria criteria = buildSearchCriteria(sub, unreadOnly, keywords, newerThan, -1, capacity, order, includeContent, last);
+			Criteria criteria = buildSearchCriteria(sub, unreadOnly, keywords, newerThan, -1, capacity, order, last);
 			ProjectionList projection = Projections.projectionList();
 			projection.add(Projections.property("id"), "id");
 			projection.add(Projections.property("updated"), "updated");
@@ -232,18 +231,21 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		statusPlaceholders = statusPlaceholders.subList(Math.max(offset, 0), size);
 
-		List<FeedEntryStatus> statuses = Lists.newArrayList();
-		for (FeedEntryStatus status : statusPlaceholders) {
-			FeedEntry entry = em.find(FeedEntry.class, status.getEntry().getId());
-			statuses.add(getStatus(status.getSubscription(), entry));
+		if (!onlyIds) {
+			List<FeedEntryStatus> statuses = Lists.newArrayList();
+			for (FeedEntryStatus status : statusPlaceholders) {
+				FeedEntry entry = em.find(FeedEntry.class, status.getEntry().getId());
+				statuses.add(getStatus(status.getSubscription(), entry));
+			}
+			statusPlaceholders = lazyLoadContent(includeContent, statuses);
 		}
-		return lazyLoadContent(includeContent, statuses);
+		return statusPlaceholders;
 	}
 
 	@SuppressWarnings("unchecked")
 	public UnreadCount getUnreadCount(FeedSubscription subscription) {
 		UnreadCount uc = null;
-		Criteria criteria = buildSearchCriteria(subscription, true, null, null, -1, -1, null, false, null);
+		Criteria criteria = buildSearchCriteria(subscription, true, null, null, -1, -1, null, null);
 		ProjectionList projection = Projections.projectionList();
 		projection.add(Projections.rowCount(), "count");
 		projection.add(Projections.max(FeedEntry_.updated.getName()), "updated");

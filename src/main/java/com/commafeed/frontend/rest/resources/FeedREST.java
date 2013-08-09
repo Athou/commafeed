@@ -143,7 +143,8 @@ public class FeedREST extends AbstractREST {
 					value = "date ordering",
 					allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order, @ApiParam(
 					value = "keywords separated by spaces, 3 characters minimum",
-					required = true) @QueryParam("keywords") String keywords) {
+					required = true) @QueryParam("keywords") String keywords,
+			@ApiParam(value = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds) {
 
 		Preconditions.checkNotNull(id);
 		Preconditions.checkNotNull(readType);
@@ -170,7 +171,7 @@ public class FeedREST extends AbstractREST {
 			entries.setFeedLink(subscription.getFeed().getLink());
 
 			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(Arrays.asList(subscription), unreadOnly, keywords,
-					newerThanDate, offset, limit + 1, order, true);
+					newerThanDate, offset, limit + 1, order, true, onlyIds);
 
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(
@@ -204,7 +205,7 @@ public class FeedREST extends AbstractREST {
 		int offset = 0;
 		int limit = 20;
 
-		Entries entries = (Entries) getFeedEntries(id, readType, null, offset, limit, order, null).getEntity();
+		Entries entries = (Entries) getFeedEntries(id, readType, null, offset, limit, order, null, false).getEntity();
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("rss_2.0");

@@ -239,7 +239,7 @@ public class CategoryREST extends AbstractREST {
 
 	@Path("/add")
 	@POST
-	@ApiOperation(value = "Add a category", notes = "Add a new feed category")
+	@ApiOperation(value = "Add a category", notes = "Add a new feed category", responseClass = "java.lang.Long")
 	public Response addCategory(@ApiParam(required = true) AddCategoryRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getName());
@@ -256,7 +256,7 @@ public class CategoryREST extends AbstractREST {
 		}
 		feedCategoryDAO.saveOrUpdate(cat);
 		cache.invalidateUserRootCategory(getUser());
-		return Response.ok().build();
+		return Response.ok(cat.getId()).build();
 	}
 
 	@POST

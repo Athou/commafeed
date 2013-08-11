@@ -8,7 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.TableGenerator;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Abstract model for all entities, defining id and table generator
@@ -16,7 +17,8 @@ import lombok.Data;
  */
 @SuppressWarnings("serial")
 @MappedSuperclass
-@Data
+@Getter
+@Setter
 public abstract class AbstractModel implements Serializable {
 
 	@Id

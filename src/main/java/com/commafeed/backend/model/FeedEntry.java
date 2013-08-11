@@ -16,6 +16,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -24,6 +27,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @SuppressWarnings("serial")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class FeedEntry extends AbstractModel {
 
 	@Column(length = 2048, nullable = false)
@@ -51,67 +56,4 @@ public class FeedEntry extends AbstractModel {
 	@OneToMany(mappedBy = "entry", cascade = CascadeType.REMOVE)
 	private Set<FeedEntryStatus> statuses;
 
-	public String getGuid() {
-		return guid;
-	}
-
-	public void setGuid(String guid) {
-		this.guid = guid;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public Date getUpdated() {
-		return updated;
-	}
-
-	public void setUpdated(Date updated) {
-		this.updated = updated;
-	}
-
-	public Set<FeedEntryStatus> getStatuses() {
-		return statuses;
-	}
-
-	public void setStatuses(Set<FeedEntryStatus> statuses) {
-		this.statuses = statuses;
-	}
-
-	public Date getInserted() {
-		return inserted;
-	}
-
-	public void setInserted(Date inserted) {
-		this.inserted = inserted;
-	}
-
-	public FeedEntryContent getContent() {
-		return content;
-	}
-
-	public void setContent(FeedEntryContent content) {
-		this.content = content;
-	}
-
-	public String getGuidHash() {
-		return guidHash;
-	}
-
-	public void setGuidHash(String guidHash) {
-		this.guidHash = guidHash;
-	}
-
-	public Feed getFeed() {
-		return feed;
-	}
-
-	public void setFeed(Feed feed) {
-		this.feed = feed;
-	}
 }

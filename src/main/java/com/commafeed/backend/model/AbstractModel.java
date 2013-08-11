@@ -8,12 +8,15 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.TableGenerator;
 
+import lombok.Data;
+
 /**
  * Abstract model for all entities, defining id and table generator
  * 
  */
 @SuppressWarnings("serial")
 @MappedSuperclass
+@Data
 public abstract class AbstractModel implements Serializable {
 
 	@Id
@@ -25,13 +28,4 @@ public abstract class AbstractModel implements Serializable {
 			valueColumnName = "sequence_next_hi_value",
 			allocationSize = 1000)
 	private Long id;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 }

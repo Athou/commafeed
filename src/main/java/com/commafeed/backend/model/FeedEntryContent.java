@@ -9,6 +9,9 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -17,6 +20,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @SuppressWarnings("serial")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class FeedEntryContent extends AbstractModel {
 
 	@Column(length = 2048)
@@ -43,69 +48,5 @@ public class FeedEntryContent extends AbstractModel {
 
 	@OneToMany(mappedBy = "content")
 	private Set<FeedEntry> entries;
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public String getEnclosureUrl() {
-		return enclosureUrl;
-	}
-
-	public void setEnclosureUrl(String enclosureUrl) {
-		this.enclosureUrl = enclosureUrl;
-	}
-
-	public String getEnclosureType() {
-		return enclosureType;
-	}
-
-	public void setEnclosureType(String enclosureType) {
-		this.enclosureType = enclosureType;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getContentHash() {
-		return contentHash;
-	}
-
-	public void setContentHash(String contentHash) {
-		this.contentHash = contentHash;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public Set<FeedEntry> getEntries() {
-		return entries;
-	}
-
-	public void setEntries(Set<FeedEntry> entries) {
-		this.entries = entries;
-	}
-
-	public String getTitleHash() {
-		return titleHash;
-	}
-
-	public void setTitleHash(String titleHash) {
-		this.titleHash = titleHash;
-	}
 
 }

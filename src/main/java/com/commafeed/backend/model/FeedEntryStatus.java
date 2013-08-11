@@ -13,6 +13,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -21,6 +24,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @SuppressWarnings("serial")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class FeedEntryStatus extends AbstractModel {
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -62,70 +67,6 @@ public class FeedEntryStatus extends AbstractModel {
 		setEntry(entry);
 		setEntryInserted(entry.getInserted());
 		setEntryUpdated(entry.getUpdated());
-	}
-
-	public FeedSubscription getSubscription() {
-		return subscription;
-	}
-
-	public void setSubscription(FeedSubscription subscription) {
-		this.subscription = subscription;
-	}
-
-	public FeedEntry getEntry() {
-		return entry;
-	}
-
-	public void setEntry(FeedEntry entry) {
-		this.entry = entry;
-	}
-
-	public boolean isRead() {
-		return read;
-	}
-
-	public void setRead(boolean read) {
-		this.read = read;
-	}
-
-	public boolean isStarred() {
-		return starred;
-	}
-
-	public void setStarred(boolean starred) {
-		this.starred = starred;
-	}
-
-	public Date getEntryInserted() {
-		return entryInserted;
-	}
-
-	public void setEntryInserted(Date entryInserted) {
-		this.entryInserted = entryInserted;
-	}
-
-	public Date getEntryUpdated() {
-		return entryUpdated;
-	}
-
-	public void setEntryUpdated(Date entryUpdated) {
-		this.entryUpdated = entryUpdated;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public boolean isMarkable() {
-		return markable;
-	}
-
-	public void setMarkable(boolean markable) {
-		this.markable = markable;
 	}
 
 }

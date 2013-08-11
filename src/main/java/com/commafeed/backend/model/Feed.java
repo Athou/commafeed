@@ -12,6 +12,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -20,6 +23,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @SuppressWarnings("serial")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class Feed extends AbstractModel {
 
 	/**
@@ -132,165 +137,4 @@ public class Feed extends AbstractModel {
 	public Feed(String url) {
 		this.url = url;
 	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public Date getLastUpdated() {
-		return lastUpdated;
-	}
-
-	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public Set<FeedSubscription> getSubscriptions() {
-		return subscriptions;
-	}
-
-	public void setSubscriptions(Set<FeedSubscription> subscriptions) {
-		this.subscriptions = subscriptions;
-	}
-
-	public String getLink() {
-		return link;
-	}
-
-	public void setLink(String link) {
-		this.link = link;
-	}
-
-	public int getErrorCount() {
-		return errorCount;
-	}
-
-	public void setErrorCount(int errorCount) {
-		this.errorCount = errorCount;
-	}
-
-	public Date getDisabledUntil() {
-		return disabledUntil;
-	}
-
-	public void setDisabledUntil(Date disabledUntil) {
-		this.disabledUntil = disabledUntil;
-	}
-
-	public String getLastModifiedHeader() {
-		return lastModifiedHeader;
-	}
-
-	public void setLastModifiedHeader(String lastModifiedHeader) {
-		this.lastModifiedHeader = lastModifiedHeader;
-	}
-
-	public String getEtagHeader() {
-		return etagHeader;
-	}
-
-	public void setEtagHeader(String etagHeader) {
-		this.etagHeader = etagHeader;
-	}
-
-	public String getPushHub() {
-		return pushHub;
-	}
-
-	public void setPushHub(String pushHub) {
-		this.pushHub = pushHub;
-	}
-
-	public String getPushTopic() {
-		return pushTopic;
-	}
-
-	public void setPushTopic(String pushTopic) {
-		this.pushTopic = pushTopic;
-	}
-
-	public Date getPushLastPing() {
-		return pushLastPing;
-	}
-
-	public void setPushLastPing(Date pushLastPing) {
-		this.pushLastPing = pushLastPing;
-	}
-
-	public Date getLastPublishedDate() {
-		return lastPublishedDate;
-	}
-
-	public void setLastPublishedDate(Date lastPublishedDate) {
-		this.lastPublishedDate = lastPublishedDate;
-	}
-
-	public String getLastContentHash() {
-		return lastContentHash;
-	}
-
-	public void setLastContentHash(String lastContentHash) {
-		this.lastContentHash = lastContentHash;
-	}
-
-	public Long getAverageEntryInterval() {
-		return averageEntryInterval;
-	}
-
-	public void setAverageEntryInterval(Long averageEntryInterval) {
-		this.averageEntryInterval = averageEntryInterval;
-	}
-
-	public Date getLastEntryDate() {
-		return lastEntryDate;
-	}
-
-	public void setLastEntryDate(Date lastEntryDate) {
-		this.lastEntryDate = lastEntryDate;
-	}
-
-	public String getPushTopicHash() {
-		return pushTopicHash;
-	}
-
-	public void setPushTopicHash(String pushTopicHash) {
-		this.pushTopicHash = pushTopicHash;
-	}
-
-	public String getNormalizedUrl() {
-		return normalizedUrl;
-	}
-
-	public void setNormalizedUrl(String normalizedUrl) {
-		this.normalizedUrl = normalizedUrl;
-	}
-
-	public String getNormalizedUrlHash() {
-		return normalizedUrlHash;
-	}
-
-	public void setNormalizedUrlHash(String normalizedUrlHash) {
-		this.normalizedUrlHash = normalizedUrlHash;
-	}
-
-	public Set<FeedEntry> getEntries() {
-		return entries;
-	}
-
-	public void setEntries(Set<FeedEntry> entries) {
-		this.entries = entries;
-	}
-
 }

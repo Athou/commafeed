@@ -13,6 +13,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -23,6 +26,8 @@ import com.google.common.collect.Sets;
 @SuppressWarnings("serial")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class User extends AbstractModel {
 
 	@Column(length = 32, nullable = false, unique = true)
@@ -60,101 +65,5 @@ public class User extends AbstractModel {
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<FeedSubscription> subscriptions;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public byte[] getPassword() {
-		return password;
-	}
-
-	public void setPassword(byte[] password) {
-		this.password = password;
-	}
-
-	public byte[] getSalt() {
-		return salt;
-	}
-
-	public void setSalt(byte[] salt) {
-		this.salt = salt;
-	}
-
-	public Set<UserRole> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<UserRole> roles) {
-		this.roles = roles;
-	}
-
-	public boolean isDisabled() {
-		return disabled;
-	}
-
-	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Date getLastLogin() {
-		return lastLogin;
-	}
-
-	public void setLastLogin(Date lastLogin) {
-		this.lastLogin = lastLogin;
-	}
-
-	public String getApiKey() {
-		return apiKey;
-	}
-
-	public void setApiKey(String apiKey) {
-		this.apiKey = apiKey;
-	}
-
-	public String getRecoverPasswordToken() {
-		return recoverPasswordToken;
-	}
-
-	public void setRecoverPasswordToken(String recoverPasswordToken) {
-		this.recoverPasswordToken = recoverPasswordToken;
-	}
-
-	public Date getRecoverPasswordTokenDate() {
-		return recoverPasswordTokenDate;
-	}
-
-	public void setRecoverPasswordTokenDate(Date recoverPasswordTokenDate) {
-		this.recoverPasswordTokenDate = recoverPasswordTokenDate;
-	}
-
-	public Set<FeedSubscription> getSubscriptions() {
-		return subscriptions;
-	}
-
-	public void setSubscriptions(Set<FeedSubscription> subscriptions) {
-		this.subscriptions = subscriptions;
-	}
-
-	public Date getCreated() {
-		return created;
-	}
-
-	public void setCreated(Date created) {
-		this.created = created;
-	}
 
 }

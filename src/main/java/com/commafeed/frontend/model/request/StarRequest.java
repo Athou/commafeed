@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+
 import com.wordnik.swagger.annotations.ApiClass;
 import com.wordnik.swagger.annotations.ApiProperty;
 
@@ -13,6 +15,7 @@ import com.wordnik.swagger.annotations.ApiProperty;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @ApiClass("Star Request")
+@Data
 public class StarRequest implements Serializable {
 
 	@ApiProperty(value = "id", required = true)
@@ -23,29 +26,5 @@ public class StarRequest implements Serializable {
 
 	@ApiProperty(value = "starred or not")
 	private boolean starred;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public boolean isStarred() {
-		return starred;
-	}
-
-	public void setStarred(boolean starred) {
-		this.starred = starred;
-	}
-
-	public Long getFeedId() {
-		return feedId;
-	}
-
-	public void setFeedId(Long feedId) {
-		this.feedId = feedId;
-	}
 
 }

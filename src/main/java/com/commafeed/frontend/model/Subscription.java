@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
@@ -18,6 +20,7 @@ import com.wordnik.swagger.annotations.ApiProperty;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @ApiClass("User information")
+@Data
 public class Subscription implements Serializable {
 
 	public static Subscription build(FeedSubscription subscription, String publicUrl, UnreadCount unreadCount) {
@@ -79,109 +82,5 @@ public class Subscription implements Serializable {
 
 	@ApiProperty("date of the newest item")
 	private Date newestItemTime;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public long getUnread() {
-		return unread;
-	}
-
-	public void setUnread(long unread) {
-		this.unread = unread;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getFeedUrl() {
-		return feedUrl;
-	}
-
-	public void setFeedUrl(String feedUrl) {
-		this.feedUrl = feedUrl;
-	}
-
-	public int getErrorCount() {
-		return errorCount;
-	}
-
-	public void setErrorCount(int errorCount) {
-		this.errorCount = errorCount;
-	}
-
-	public String getFeedLink() {
-		return feedLink;
-	}
-
-	public void setFeedLink(String feedLink) {
-		this.feedLink = feedLink;
-	}
-
-	public Date getLastRefresh() {
-		return lastRefresh;
-	}
-
-	public void setLastRefresh(Date lastRefresh) {
-		this.lastRefresh = lastRefresh;
-	}
-
-	public String getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public Date getNextRefresh() {
-		return nextRefresh;
-	}
-
-	public void setNextRefresh(Date nextRefresh) {
-		this.nextRefresh = nextRefresh;
-	}
-
-	public String getIconUrl() {
-		return iconUrl;
-	}
-
-	public void setIconUrl(String iconUrl) {
-		this.iconUrl = iconUrl;
-	}
-
-	public Integer getPosition() {
-		return position;
-	}
-
-	public void setPosition(Integer position) {
-		this.position = position;
-	}
-
-	public Date getNewestItemTime() {
-		return newestItemTime;
-	}
-
-	public void setNewestItemTime(Date newestItemTime) {
-		this.newestItemTime = newestItemTime;
-	}
 
 }

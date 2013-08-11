@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+
 import com.wordnik.swagger.annotations.ApiClass;
 import com.wordnik.swagger.annotations.ApiProperty;
 
@@ -14,6 +16,7 @@ import com.wordnik.swagger.annotations.ApiProperty;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @ApiClass("Feed merge Request")
+@Data
 public class FeedMergeRequest implements Serializable {
 
 	@ApiProperty(value = "merge into this feed", required = true)
@@ -21,21 +24,5 @@ public class FeedMergeRequest implements Serializable {
 
 	@ApiProperty(value = "id of the feeds to merge", required = true)
 	private List<Long> feedIds;
-
-	public Long getIntoFeedId() {
-		return intoFeedId;
-	}
-
-	public void setIntoFeedId(Long intoFeedId) {
-		this.intoFeedId = intoFeedId;
-	}
-
-	public List<Long> getFeedIds() {
-		return feedIds;
-	}
-
-	public void setFeedIds(List<Long> feedIds) {
-		this.feedIds = feedIds;
-	}
 
 }

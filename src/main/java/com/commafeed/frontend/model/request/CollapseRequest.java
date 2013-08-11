@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+
 import com.wordnik.swagger.annotations.ApiClass;
 import com.wordnik.swagger.annotations.ApiProperty;
 
@@ -13,6 +15,7 @@ import com.wordnik.swagger.annotations.ApiProperty;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @ApiClass("Mark Request")
+@Data
 public class CollapseRequest implements Serializable {
 
 	@ApiProperty(value = "category id", required = true)
@@ -20,21 +23,5 @@ public class CollapseRequest implements Serializable {
 
 	@ApiProperty(value = "collapse", required = true)
 	private boolean collapse;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public boolean isCollapse() {
-		return collapse;
-	}
-
-	public void setCollapse(boolean collapse) {
-		this.collapse = collapse;
-	}
 
 }

@@ -6,11 +6,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+
 import com.wordnik.swagger.annotations.ApiProperty;
 
 @SuppressWarnings("serial")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@Data
 public class RegistrationRequest implements Serializable {
 
 	@ApiProperty(value = "username, between 3 and 32 characters", required = true)
@@ -22,27 +25,4 @@ public class RegistrationRequest implements Serializable {
 	@ApiProperty(value = "email address for password recovery", required = true)
 	private String email;
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 }

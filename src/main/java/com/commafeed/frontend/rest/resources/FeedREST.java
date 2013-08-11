@@ -132,17 +132,15 @@ public class FeedREST extends AbstractREST {
 	@Path("/entries")
 	@GET
 	@ApiOperation(value = "Get feed entries", notes = "Get a list of feed entries", responseClass = "com.commafeed.frontend.model.Entries")
-	public Response getFeedEntries(@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id, @ApiParam(
-			value = "all entries or only unread ones",
-			allowableValues = "all,unread",
-			required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType, @ApiParam(
-			value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
-			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset, @ApiParam(
-					value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit, @ApiParam(
-					value = "date ordering",
-					allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order, @ApiParam(
-					value = "keywords separated by spaces, 3 characters minimum",
-					required = true) @QueryParam("keywords") String keywords,
+	public Response getFeedEntries(
+			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
+			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
+			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
+			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
+			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
+			@ApiParam(value = "date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
+			@ApiParam(
+					value = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
 			@ApiParam(value = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds) {
 
 		Preconditions.checkNotNull(id);

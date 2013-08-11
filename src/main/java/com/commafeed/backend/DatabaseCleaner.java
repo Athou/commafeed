@@ -7,8 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryContentDAO;
@@ -23,9 +22,8 @@ import com.commafeed.backend.services.ApplicationSettingsService;
  * Contains utility methods for cleaning the database
  * 
  */
+@Slf4j
 public class DatabaseCleaner {
-
-	private static Logger log = LoggerFactory.getLogger(DatabaseCleaner.class);
 
 	@Inject
 	FeedDAO feedDAO;

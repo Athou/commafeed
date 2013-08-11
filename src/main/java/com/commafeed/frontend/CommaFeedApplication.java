@@ -5,6 +5,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.Cookie;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.wicket.Application;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
@@ -33,8 +35,6 @@ import org.apache.wicket.request.component.IRequestableComponent;
 import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.util.cookies.CookieUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.services.ApplicationPropertiesService;
 import com.commafeed.frontend.pages.DemoLoginPage;
@@ -46,9 +46,8 @@ import com.commafeed.frontend.pages.PasswordRecoveryPage;
 import com.commafeed.frontend.pages.WelcomePage;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
 
+@Slf4j
 public class CommaFeedApplication extends AuthenticatedWebApplication {
-
-	private static Logger log = LoggerFactory.getLogger(CommaFeedApplication.class);
 
 	public CommaFeedApplication() {
 		super();

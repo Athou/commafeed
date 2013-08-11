@@ -10,16 +10,12 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.commafeed.backend.dao.UserDAO;
+import lombok.extern.slf4j.Slf4j;
 
 // taken from http://www.javacodegeeks.com/2012/05/secure-password-storage-donts-dos-and.html
 @SuppressWarnings("serial")
+@Slf4j
 public class PasswordEncryptionService implements Serializable {
-
-	private static final Logger log = LoggerFactory.getLogger(UserDAO.class);
 
 	public boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt) {
 		// Encrypt the clear-text password using the same salt that was used to

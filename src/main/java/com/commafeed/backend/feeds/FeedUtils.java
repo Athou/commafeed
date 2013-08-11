@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -23,8 +25,6 @@ import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 import org.mozilla.universalchardet.UniversalDetector;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.css.sac.InputSource;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
@@ -42,9 +42,8 @@ import edu.uci.ics.crawler4j.url.URLCanonicalizer;
  * Utility methods related to feed handling
  * 
  */
+@Slf4j
 public class FeedUtils {
-
-	protected static Logger log = LoggerFactory.getLogger(FeedUtils.class);
 
 	private static final String ESCAPED_QUESTION_MARK = Pattern.quote("?");
 

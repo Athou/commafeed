@@ -10,8 +10,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntry_;
@@ -20,8 +18,6 @@ import com.google.common.collect.Iterables;
 
 @Stateless
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
-
-	protected static final Logger log = LoggerFactory.getLogger(FeedEntryDAO.class);
 
 	public Long findExisting(String guid, Long feedId) {
 

@@ -7,9 +7,7 @@ import java.util.concurrent.TimeUnit;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -27,9 +25,9 @@ import com.google.common.collect.Lists;
 
 @Alternative
 @ApplicationScoped
+@Slf4j
 public class RedisCacheService extends CacheService {
 
-	private static final Logger log = LoggerFactory.getLogger(RedisCacheService.class);
 	private static ObjectMapper mapper = new ObjectMapper();
 
 	private JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");

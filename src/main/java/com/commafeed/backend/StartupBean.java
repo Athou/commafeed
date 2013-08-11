@@ -13,9 +13,9 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.dao.ApplicationSettingsDAO;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
@@ -32,9 +32,9 @@ import com.google.common.collect.Maps;
 @Startup
 @Singleton
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
+@Slf4j
 public class StartupBean {
 
-	private static Logger log = LoggerFactory.getLogger(StartupBean.class);
 	public static final String USERNAME_ADMIN = "admin";
 	public static final String USERNAME_DEMO = "demo";
 

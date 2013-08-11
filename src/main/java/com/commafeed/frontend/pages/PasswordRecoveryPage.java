@@ -3,6 +3,8 @@ package com.commafeed.frontend.pages;
 import java.util.Date;
 import java.util.UUID;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.wicket.extensions.validation.validator.RfcCompliantEmailAddressValidator;
@@ -11,17 +13,14 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.pages.components.BootstrapFeedbackPanel;
 
 @SuppressWarnings("serial")
+@Slf4j
 public class PasswordRecoveryPage extends BasePage {
-
-	private static Logger log = LoggerFactory.getLogger(PasswordRecoveryPage.class);
 
 	public PasswordRecoveryPage() {
 

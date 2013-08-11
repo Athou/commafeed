@@ -8,9 +8,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.commafeed.backend.services.ApplicationSettingsService;
 
 /**
@@ -19,7 +16,6 @@ import com.commafeed.backend.services.ApplicationSettingsService;
  */
 @Stateless
 public class ScheduledTasks {
-	protected final static Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;

@@ -18,10 +18,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -61,9 +61,8 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 @Path("/category")
 @Api(value = "/category", description = "Operations about user categories")
+@Slf4j
 public class CategoryREST extends AbstractREST {
-
-	private static Logger log = LoggerFactory.getLogger(CategoryREST.class);
 
 	public static final String ALL = "all";
 	public static final String STARRED = "starred";

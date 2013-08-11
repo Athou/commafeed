@@ -12,10 +12,10 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedDAO;
@@ -31,9 +31,8 @@ import com.google.common.collect.Queues;
  * 
  */
 @ApplicationScoped
+@Slf4j
 public class FeedRefreshTaskGiver {
-
-	protected static final Logger log = LoggerFactory.getLogger(FeedRefreshTaskGiver.class);
 
 	@Inject
 	FeedDAO feedDAO;

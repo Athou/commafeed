@@ -8,10 +8,10 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.feeds.FeedRefreshExecutor.Task;
@@ -25,9 +25,8 @@ import com.commafeed.backend.services.ApplicationSettingsService;
  * 
  */
 @ApplicationScoped
+@Slf4j
 public class FeedRefreshWorker {
-
-	private static Logger log = LoggerFactory.getLogger(FeedRefreshWorker.class);
 
 	@Inject
 	FeedRefreshUpdater feedRefreshUpdater;

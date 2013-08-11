@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -14,8 +16,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
@@ -29,9 +29,8 @@ import com.google.common.collect.Lists;
  * Sends push subscription requests. Callback is handled by {@link PubSubHubbubCallbackREST}
  * 
  */
+@Slf4j
 public class SubscriptionHandler {
-
-	private static Logger log = LoggerFactory.getLogger(SubscriptionHandler.class);
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;

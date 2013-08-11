@@ -5,14 +5,14 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.client.ClientProtocolException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
@@ -20,9 +20,8 @@ import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.model.Feed;
 import com.sun.syndication.io.FeedException;
 
+@Slf4j
 public class FeedFetcher {
-
-	private static Logger log = LoggerFactory.getLogger(FeedFetcher.class);
 
 	@Inject
 	FeedParser parser;

@@ -27,6 +27,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -34,8 +36,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.cache.CacheService;
@@ -84,9 +84,8 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 @Path("/feed")
 @Api(value = "/feed", description = "Operations about feeds")
+@Slf4j
 public class FeedREST extends AbstractREST {
-
-	private static Logger log = LoggerFactory.getLogger(FeedREST.class);
 
 	@Inject
 	StartupBean startupBean;

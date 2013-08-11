@@ -12,12 +12,12 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.cache.CacheService;
@@ -38,9 +38,8 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Striped;
 
 @ApplicationScoped
+@Slf4j
 public class FeedRefreshUpdater {
-
-	protected static Logger log = LoggerFactory.getLogger(FeedRefreshUpdater.class);
 
 	@Inject
 	FeedUpdateService feedUpdateService;

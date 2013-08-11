@@ -19,9 +19,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.UserSettings;
@@ -32,9 +32,8 @@ import com.commafeed.frontend.CommaFeedSession;
  * Replace variables from templates on the fly in dev mode only. In production the substitution is done at build-time.
  * 
  */
+@Slf4j
 public class InternationalizationDevelopmentFilter implements Filter {
-
-	private static Logger log = LoggerFactory.getLogger(InternationalizationDevelopmentFilter.class);
 
 	@Inject
 	UserSettingsDAO userSettingsDAO;

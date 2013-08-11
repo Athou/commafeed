@@ -9,9 +9,9 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -25,9 +25,8 @@ import com.sun.syndication.io.WireFeedInput;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+@Slf4j
 public class OPMLImporter {
-
-	private static Logger log = LoggerFactory.getLogger(OPMLImporter.class);
 
 	@Inject
 	FeedSubscriptionService feedSubscriptionService;

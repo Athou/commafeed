@@ -16,11 +16,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.MetricsBean;
 import com.commafeed.backend.dao.FeedDAO;
@@ -34,10 +34,9 @@ import com.commafeed.frontend.SecurityCheck;
 import com.google.common.base.Preconditions;
 
 @Path("/push")
+@Slf4j
 public class PubSubHubbubCallbackREST extends AbstractREST {
 
-	private static Logger log = LoggerFactory.getLogger(PubSubHubbubCallbackREST.class);
-	
 	@Context
 	private HttpServletRequest request;
 

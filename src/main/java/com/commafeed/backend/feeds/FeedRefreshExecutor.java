@@ -5,17 +5,15 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Wraps a {@link ThreadPoolExecutor} instance. Blocks when queue is full instead of rejecting the task. Allow priority queueing by using
  * {@link Task} instead of {@link Runnable}
  * 
  */
+@Slf4j
 public class FeedRefreshExecutor {
-
-	private static Logger log = LoggerFactory.getLogger(FeedRefreshExecutor.class);
 
 	private String poolName;
 	private ThreadPoolExecutor pool;

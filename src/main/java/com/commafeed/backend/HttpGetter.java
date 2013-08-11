@@ -13,6 +13,8 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -38,16 +40,13 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Smart HTTP getter
  * 
  */
+@Slf4j
 public class HttpGetter {
-
-	private static Logger log = LoggerFactory.getLogger(HttpGetter.class);
 
 	private static final String USER_AGENT = "CommaFeed/1.0 (http://www.commafeed.com)";
 	private static final String ACCEPT_LANGUAGE = "en";

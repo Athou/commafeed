@@ -5,12 +5,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
@@ -19,9 +19,8 @@ import com.commafeed.backend.HttpGetter.HttpResult;
  * Inspired/Ported from https://github.com/potatolondon/getfavicon
  * 
  */
+@Slf4j
 public class FaviconFetcher {
-
-	private static Logger log = LoggerFactory.getLogger(FeedFetcher.class);
 
 	private static long MIN_ICON_LENGTH = 100;
 	private static long MAX_ICON_LENGTH = 100000;

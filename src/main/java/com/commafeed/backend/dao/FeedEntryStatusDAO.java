@@ -25,8 +25,6 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.hibernate.transform.Transformers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.FixedSizeSortedSet;
 import com.commafeed.backend.model.FeedEntry;
@@ -45,8 +43,6 @@ import com.google.common.collect.Lists;
 
 @Stateless
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
-
-	protected static Logger log = LoggerFactory.getLogger(FeedEntryStatusDAO.class);
 
 	private static final String ALIAS_STATUS = "status";
 	private static final String ALIAS_ENTRY = "entry";

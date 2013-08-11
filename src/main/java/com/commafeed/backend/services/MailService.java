@@ -12,9 +12,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.commafeed.backend.model.ApplicationSettings;
 import com.commafeed.backend.model.User;
 
@@ -24,8 +21,6 @@ import com.commafeed.backend.model.User;
  */
 @SuppressWarnings("serial")
 public class MailService implements Serializable {
-
-	protected static Logger log = LoggerFactory.getLogger(MailService.class);
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;

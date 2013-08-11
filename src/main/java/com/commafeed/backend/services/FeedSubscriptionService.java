@@ -6,9 +6,9 @@ import java.util.Map;
 import javax.ejb.ApplicationException;
 import javax.inject.Inject;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedEntryDAO;
@@ -24,9 +24,8 @@ import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.UnreadCount;
 import com.google.common.collect.Maps;
 
+@Slf4j
 public class FeedSubscriptionService {
-
-	private static Logger log = LoggerFactory.getLogger(FeedSubscriptionService.class);
 
 	@SuppressWarnings("serial")
 	@ApplicationException

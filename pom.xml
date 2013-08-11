@@ -336,23 +336,23 @@
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
-			<version>6.8.0</version>
+			<version>6.9.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-auth-roles</artifactId>
-			<version>6.8.0</version>
+			<version>6.9.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-extensions</artifactId>
-			<version>6.8.0</version>
+			<version>6.9.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-cdi</artifactId>
-			<version>6.8.0</version>
+			<version>6.9.1</version>
 		</dependency>
 		<dependency>
 			<groupId>ro.isdc.wro4j</groupId>

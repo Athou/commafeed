@@ -117,7 +117,7 @@ public class UserREST extends AbstractREST {
 		s.setSocialButtons(settings.isSocialButtons());
 		s.setLanguage(settings.getLanguage());
 		userSettingsDAO.saveOrUpdate(s);
-		return Response.ok(Status.OK).build();
+		return Response.ok().build();
 
 	}
 

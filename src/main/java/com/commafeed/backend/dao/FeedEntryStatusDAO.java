@@ -222,24 +222,26 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			}
 		}
 
-		List<FeedEntryStatus> statusPlaceholders = set.asList();
-		int size = statusPlaceholders.size();
+		List<FeedEntryStatus> placeholders = set.asList();
+		int size = placeholders.size();
 		if (size < offset) {
 			return Lists.newArrayList();
 		}
+		placeholders = placeholders.subList(Math.max(offset, 0), size);
 
-		statusPlaceholders = statusPlaceholders.subList(Math.max(offset, 0), size);
-
-		if (!onlyIds) {
-			List<FeedEntryStatus> statuses = Lists.newArrayList();
-			for (FeedEntryStatus status : statusPlaceholders) {
-				Long statusId = status.getId();
-				FeedEntry entry = em.find(FeedEntry.class, status.getEntry().getId());
-				statuses.add(handleStatus(statusId == null ? null : findById(statusId), status.getSubscription(), entry));
+		List<FeedEntryStatus> statuses = null;
+		if (onlyIds) {
+			statuses = placeholders;
+		} else {
+			statuses = Lists.newArrayList();
+			for (FeedEntryStatus placeholder : placeholders) {
+				Long statusId = placeholder.getId();
+				FeedEntry entry = em.find(FeedEntry.class, placeholder.getEntry().getId());
+				statuses.add(handleStatus(statusId == null ? null : findById(statusId), placeholder.getSubscription(), entry));
 			}
-			statusPlaceholders = lazyLoadContent(includeContent, statuses);
+			statuses = lazyLoadContent(includeContent, statuses);
 		}
-		return statusPlaceholders;
+		return statuses;
 	}
 
 	@SuppressWarnings("unchecked")

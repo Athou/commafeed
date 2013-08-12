@@ -40,6 +40,8 @@ public class JsonProvider implements MessageBodyReader<Object>, MessageBodyWrite
 
 		if (type.equals(String.class)) {
 			entityStream.write(value.toString().getBytes(Charsets.UTF_8));
+		} else if (value instanceof byte[]) {
+			entityStream.write((byte[]) value);
 		} else {
 			getMapper().writeValue(entityStream, value);
 		}

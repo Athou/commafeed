@@ -199,18 +199,21 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			ProjectionList projection = Projections.projectionList();
 			projection.add(Projections.property("id"), "id");
 			projection.add(Projections.property("updated"), "updated");
+			projection.add(Projections.property(ALIAS_STATUS + ".id"), "status_id");
 			criteria.setProjection(projection);
 			criteria.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 			List<Map<String, Object>> list = criteria.list();
 			for (Map<String, Object> map : list) {
 				Long id = (Long) map.get("id");
 				Date updated = (Date) map.get("updated");
+				Long statusId = (Long) map.get("status_id");
 
 				FeedEntry entry = new FeedEntry();
 				entry.setId(id);
 				entry.setUpdated(updated);
 
 				FeedEntryStatus status = new FeedEntryStatus();
+				status.setId(statusId);
 				status.setEntryUpdated(updated);
 				status.setEntry(entry);
 				status.setSubscription(sub);
@@ -230,8 +233,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		if (!onlyIds) {
 			List<FeedEntryStatus> statuses = Lists.newArrayList();
 			for (FeedEntryStatus status : statusPlaceholders) {
+				Long statusId = status.getId();
 				FeedEntry entry = em.find(FeedEntry.class, status.getEntry().getId());
-				statuses.add(getStatus(status.getSubscription(), entry));
+				statuses.add(handleStatus(statusId == null ? null : findById(statusId), status.getSubscription(), entry));
 			}
 			statusPlaceholders = lazyLoadContent(includeContent, statuses);
 		}

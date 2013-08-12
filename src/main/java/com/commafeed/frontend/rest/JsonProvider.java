@@ -15,6 +15,7 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.apache.commons.io.Charsets;
 import org.apache.http.HttpHeaders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,7 +38,12 @@ public class JsonProvider implements MessageBodyReader<Object>, MessageBodyWrite
 		httpHeaders.putSingle(HttpHeaders.CACHE_CONTROL, CACHE_CONTROL_VALUE);
 		httpHeaders.putSingle(HttpHeaders.PRAGMA, CACHE_CONTROL_VALUE);
 
-		getMapper().writeValue(entityStream, value);
+		if (type.equals(String.class)) {
+			entityStream.write(value.toString().getBytes(Charsets.UTF_8));
+		} else {
+			getMapper().writeValue(entityStream, value);
+		}
+
 	}
 
 	@Override

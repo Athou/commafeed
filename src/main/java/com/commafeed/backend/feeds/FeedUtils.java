@@ -314,7 +314,7 @@ public class FeedUtils {
 			disabledHours = Math.min(24 * 7, disabledHours);
 			return DateUtils.addHours(now, disabledHours);
 		}
-		return null;
+		return now;
 	}
 
 	/**

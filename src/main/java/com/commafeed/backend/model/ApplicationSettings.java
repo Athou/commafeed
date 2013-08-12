@@ -3,9 +3,6 @@ package com.commafeed.backend.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +12,6 @@ import org.apache.log4j.Level;
 @Entity
 @Table(name = "APPLICATIONSETTINGS")
 @SuppressWarnings("serial")
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @Getter
 @Setter
 public class ApplicationSettings extends AbstractModel {

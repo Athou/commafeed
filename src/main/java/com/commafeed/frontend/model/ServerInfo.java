@@ -3,18 +3,12 @@ package com.commafeed.frontend.model;
 import java.io.Serializable;
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import lombok.Data;
 
 import com.google.common.collect.Maps;
 import com.wordnik.swagger.annotations.ApiClass;
 
 @SuppressWarnings("serial")
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @ApiClass("Server infos")
 @Data
 public class ServerInfo implements Serializable {

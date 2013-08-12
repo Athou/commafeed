@@ -3,17 +3,13 @@ package com.commafeed.frontend.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import lombok.Data;
 
 import com.commafeed.backend.model.Feed;
 import com.google.common.collect.Lists;
+import com.wordnik.swagger.annotations.ApiClass;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@ApiClass("Feed count")
 @Data
 public class FeedCount implements Serializable {
 

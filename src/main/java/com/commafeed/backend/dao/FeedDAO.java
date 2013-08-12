@@ -15,7 +15,6 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
 import javax.persistence.criteria.Subquery;
 import javax.persistence.metamodel.SingularAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -114,7 +113,6 @@ public class FeedDAO extends GenericDAO<Feed> {
 
 	}
 
-	@XmlRootElement
 	public static enum DuplicateMode {
 		NORMALIZED_URL(Feed_.normalizedUrlHash), LAST_CONTENT(Feed_.lastContentHash), PUSH_TOPIC(Feed_.pushTopicHash);
 		private SingularAttribute<Feed, String> path;

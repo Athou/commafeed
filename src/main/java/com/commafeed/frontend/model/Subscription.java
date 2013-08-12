@@ -3,10 +3,6 @@ package com.commafeed.frontend.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import lombok.Data;
 
 import com.commafeed.backend.feeds.FeedUtils;
@@ -17,8 +13,6 @@ import com.wordnik.swagger.annotations.ApiClass;
 import com.wordnik.swagger.annotations.ApiProperty;
 
 @SuppressWarnings("serial")
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @ApiClass("User information")
 @Data
 public class Subscription implements Serializable {

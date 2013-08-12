@@ -10,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,17 +26,14 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Setter
 public class UserSettings extends AbstractModel {
 
-	@XmlRootElement
 	public enum ReadingMode {
 		all, unread
 	}
 
-	@XmlRootElement
 	public enum ReadingOrder {
 		asc, desc
 	}
 
-	@XmlRootElement
 	public enum ViewMode {
 		title, expanded
 	}

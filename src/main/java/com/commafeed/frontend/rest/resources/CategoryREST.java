@@ -105,7 +105,8 @@ public class CategoryREST extends AbstractREST {
 			@ApiParam(value = "date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
 			@ApiParam(
 					value = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
-			@ApiParam(value = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds) {
+			@ApiParam(value = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds,
+			@ApiParam(value = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds) {
 
 		Preconditions.checkNotNull(readType);
 
@@ -125,10 +126,19 @@ public class CategoryREST extends AbstractREST {
 
 		Date newerThanDate = newerThan == null ? null : new Date(Long.valueOf(newerThan));
 
+		List<Long> excludedIds = null;
+		if (excludedSubscriptionIds != null && !"null".equals(excludedSubscriptionIds)) {
+			excludedIds = Lists.newArrayList();
+			for (String excludedId : excludedSubscriptionIds.split(",")) {
+				excludedIds.add(Long.valueOf(excludedId));
+			}
+		}
+
 		if (ALL.equals(id)) {
 			entries.setName("All");
-			List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(getUser());
-			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(subscriptions, unreadOnly, keywords, newerThanDate, offset,
+			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(getUser());
+			removeExcludedSubscriptions(subs, excludedIds);
+			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(subs, unreadOnly, keywords, newerThanDate, offset,
 					limit + 1, order, true, onlyIds);
 
 			for (FeedEntryStatus status : list) {
@@ -150,7 +160,7 @@ public class CategoryREST extends AbstractREST {
 			if (parent != null) {
 				List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(getUser(), parent);
 				List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(getUser(), categories);
-
+				removeExcludedSubscriptions(subs, excludedIds);
 				List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(subs, unreadOnly, keywords, newerThanDate, offset,
 						limit + 1, order, true, onlyIds);
 
@@ -190,7 +200,7 @@ public class CategoryREST extends AbstractREST {
 		int offset = 0;
 		int limit = 20;
 
-		Entries entries = (Entries) getCategoryEntries(id, readType, null, offset, limit, order, null, false).getEntity();
+		Entries entries = (Entries) getCategoryEntries(id, readType, null, offset, limit, order, null, false, null).getEntity();
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("rss_2.0");

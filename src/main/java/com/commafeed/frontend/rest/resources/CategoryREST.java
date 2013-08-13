@@ -127,7 +127,7 @@ public class CategoryREST extends AbstractREST {
 		Date newerThanDate = newerThan == null ? null : new Date(Long.valueOf(newerThan));
 
 		List<Long> excludedIds = null;
-		if (excludedSubscriptionIds != null && !"null".equals(excludedSubscriptionIds)) {
+		if (StringUtils.isNotEmpty(excludedSubscriptionIds)) {
 			excludedIds = Lists.newArrayList();
 			for (String excludedId : excludedSubscriptionIds.split(",")) {
 				excludedIds.add(Long.valueOf(excludedId));

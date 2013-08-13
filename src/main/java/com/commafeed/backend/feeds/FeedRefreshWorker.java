@@ -124,7 +124,7 @@ public class FeedRefreshWorker {
 				disabledUntil = FeedUtils.buildDisabledUntil(feed.getLastEntryDate(), feed.getAverageEntryInterval(), disabledUntil);
 			}
 			feed.setErrorCount(0);
-			feed.setMessage(null);
+			feed.setMessage(e.getMessage());
 			feed.setDisabledUntil(disabledUntil);
 
 			taskGiver.giveBack(feed);

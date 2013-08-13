@@ -42,7 +42,7 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 
 /**
- * Smart HTTP getter
+ * Smart HTTP getter: handles gzip, ssl, last modified and etag headers
  * 
  */
 @Slf4j
@@ -110,14 +110,14 @@ public class HttpGetter {
 				response = client.execute(httpget);
 				int code = response.getStatusLine().getStatusCode();
 				if (code == HttpStatus.SC_NOT_MODIFIED) {
-					throw new NotModifiedException("304 http code");
+					throw new NotModifiedException("'304 - not modified' http code received");
 				} else if (code >= 300) {
 					throw new HttpResponseException(code, "Server returned HTTP error code " + code);
 				}
 
 			} catch (HttpResponseException e) {
 				if (e.getStatusCode() == HttpStatus.SC_NOT_MODIFIED) {
-					throw new NotModifiedException("304 http code");
+					throw new NotModifiedException("'304 - not modified' http code received");
 				} else {
 					throw e;
 				}

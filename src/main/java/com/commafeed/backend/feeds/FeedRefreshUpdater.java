@@ -101,8 +101,9 @@ public class FeedRefreshUpdater {
 			boolean ok = true;
 			Feed feed = context.getFeed();
 			List<FeedEntry> entries = context.getEntries();
-			if (entries.isEmpty() == false) {
-
+			if (entries.isEmpty()) {
+				feed.setMessage("Feed has no entries");
+			} else {
 				List<String> lastEntries = cache.getLastEntries(feed);
 				List<String> currentEntries = Lists.newArrayList();
 
@@ -124,6 +125,10 @@ public class FeedRefreshUpdater {
 					currentEntries.add(cacheKey);
 				}
 				cache.setLastEntries(feed, currentEntries);
+
+				if (subscriptions == null) {
+					feed.setMessage("No new entries found");
+				}
 
 				if (CollectionUtils.isNotEmpty(subscriptions)) {
 					List<User> users = Lists.newArrayList();

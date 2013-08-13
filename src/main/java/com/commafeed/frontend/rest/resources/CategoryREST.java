@@ -234,7 +234,7 @@ public class CategoryREST extends AbstractREST {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(getUser(), categories);
 			feedEntryService.markSubscriptionEntries(getUser(), subs, olderThan);
 		}
-		return Response.ok(Status.OK).build();
+		return Response.ok().build();
 	}
 
 	@Path("/add")
@@ -340,7 +340,7 @@ public class CategoryREST extends AbstractREST {
 
 		feedCategoryDAO.saveOrUpdate(category);
 		cache.invalidateUserRootCategory(getUser());
-		return Response.ok(Status.OK).build();
+		return Response.ok().build();
 	}
 
 	@POST
@@ -357,7 +357,7 @@ public class CategoryREST extends AbstractREST {
 		category.setCollapsed(req.isCollapse());
 		feedCategoryDAO.saveOrUpdate(category);
 		cache.invalidateUserRootCategory(getUser());
-		return Response.ok(Status.OK).build();
+		return Response.ok().build();
 	}
 
 	@GET

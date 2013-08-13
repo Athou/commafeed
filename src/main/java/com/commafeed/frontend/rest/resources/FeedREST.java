@@ -270,7 +270,7 @@ public class FeedREST extends AbstractREST {
 			Feed feed = sub.getFeed();
 			taskGiver.add(feed, true);
 		}
-		return Response.ok(Status.OK).build();
+		return Response.ok().build();
 	}
 
 	@Path("/refresh")
@@ -285,7 +285,7 @@ public class FeedREST extends AbstractREST {
 		if (sub != null) {
 			Feed feed = sub.getFeed();
 			taskGiver.add(feed, true);
-			return Response.ok(Status.OK).build();
+			return Response.ok().build();
 		}
 		return Response.ok(Status.NOT_FOUND).build();
 	}
@@ -303,7 +303,7 @@ public class FeedREST extends AbstractREST {
 		if (subscription != null) {
 			feedEntryService.markSubscriptionEntries(getUser(), Arrays.asList(subscription), olderThan);
 		}
-		return Response.ok(Status.OK).build();
+		return Response.ok().build();
 	}
 
 	@GET
@@ -376,7 +376,7 @@ public class FeedREST extends AbstractREST {
 			log.info("Failed to subscribe to URL {}: {}", url, e.getMessage());
 			return Response.status(Status.SERVICE_UNAVAILABLE).entity("Failed to subscribe to URL " + url + ": " + e.getMessage()).build();
 		}
-		return Response.ok(Status.OK).build();
+		return Response.ok().build();
 	}
 
 	@GET
@@ -414,7 +414,7 @@ public class FeedREST extends AbstractREST {
 
 		boolean deleted = feedSubscriptionService.unsubscribe(getUser(), req.getId());
 		if (deleted) {
-			return Response.ok(Status.OK).build();
+			return Response.ok().build();
 		} else {
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -467,7 +467,7 @@ public class FeedREST extends AbstractREST {
 			feedSubscriptionDAO.saveOrUpdate(subscription);
 		}
 		cache.invalidateUserRootCategory(getUser());
-		return Response.ok(Status.OK).build();
+		return Response.ok().build();
 	}
 
 	@POST

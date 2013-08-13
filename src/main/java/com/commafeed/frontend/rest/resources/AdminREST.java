@@ -138,7 +138,7 @@ public class AdminREST extends AbstractREST {
 			}
 
 		}
-		return Response.ok(Status.OK).entity("OK").build();
+		return Response.ok().build();
 
 	}
 

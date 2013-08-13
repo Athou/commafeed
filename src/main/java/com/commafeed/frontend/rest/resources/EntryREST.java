@@ -4,7 +4,6 @@ import javax.inject.Inject;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -42,7 +41,7 @@ public class EntryREST extends AbstractREST {
 		Preconditions.checkNotNull(req.getId());
 
 		feedEntryService.markEntry(getUser(), Long.valueOf(req.getId()), req.isRead());
-		return Response.ok(Status.OK).build();
+		return Response.ok().build();
 	}
 
 	@Path("/markMultiple")
@@ -56,7 +55,7 @@ public class EntryREST extends AbstractREST {
 			markFeedEntry(r);
 		}
 
-		return Response.ok(Status.OK).build();
+		return Response.ok().build();
 	}
 
 	@Path("/star")
@@ -69,7 +68,7 @@ public class EntryREST extends AbstractREST {
 
 		feedEntryService.starEntry(getUser(), Long.valueOf(req.getId()), req.getFeedId(), req.isStarred());
 
-		return Response.ok(Status.OK).build();
+		return Response.ok().build();
 	}
 
 }

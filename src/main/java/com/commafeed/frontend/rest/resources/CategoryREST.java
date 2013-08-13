@@ -4,6 +4,7 @@ import java.io.StringWriter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import javax.ws.rs.core.Response.Status;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -224,17 +226,31 @@ public class CategoryREST extends AbstractREST {
 		Date olderThan = req.getOlderThan() == null ? null : new Date(req.getOlderThan());
 
 		if (ALL.equals(req.getId())) {
-			List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(getUser());
-			feedEntryService.markSubscriptionEntries(getUser(), subscriptions, olderThan);
+			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(getUser());
+			removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
+			feedEntryService.markSubscriptionEntries(getUser(), subs, olderThan);
 		} else if (STARRED.equals(req.getId())) {
 			feedEntryService.markStarredEntries(getUser(), olderThan);
 		} else {
 			FeedCategory parent = feedCategoryDAO.findById(getUser(), Long.valueOf(req.getId()));
 			List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(getUser(), parent);
 			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(getUser(), categories);
+			removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
 			feedEntryService.markSubscriptionEntries(getUser(), subs, olderThan);
 		}
 		return Response.ok().build();
+	}
+
+	private void removeExcludedSubscriptions(List<FeedSubscription> subs, List<Long> excludedIds) {
+		if (CollectionUtils.isNotEmpty(excludedIds)) {
+			Iterator<FeedSubscription> it = subs.iterator();
+			while (it.hasNext()) {
+				FeedSubscription sub = it.next();
+				if (excludedIds.contains(sub.getId())) {
+					it.remove();
+				}
+			}
+		}
 	}
 
 	@Path("/add")

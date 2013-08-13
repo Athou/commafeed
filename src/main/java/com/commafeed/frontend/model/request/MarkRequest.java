@@ -1,6 +1,7 @@
 package com.commafeed.frontend.model.request;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.Data;
 
@@ -22,5 +23,8 @@ public class MarkRequest implements Serializable {
 			value = "only entries older than this, pass the timestamp you got from the entry list to prevent marking an entry that was not retrieved",
 			required = false)
 	private Long olderThan;
+
+	@ApiProperty(value = "if marking a category or 'all', exclude those subscriptions from the marking", required = false)
+	private List<Long> excludedSubscriptions;
 
 }

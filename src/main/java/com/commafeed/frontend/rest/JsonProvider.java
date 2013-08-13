@@ -15,15 +15,14 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import org.apache.commons.io.Charsets;
 import org.apache.http.HttpHeaders;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Provider
-@Consumes(MediaType.WILDCARD)
-@Produces(MediaType.WILDCARD)
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class JsonProvider implements MessageBodyReader<Object>, MessageBodyWriter<Object> {
 
 	private static final String CONTENT_TYPE_VALUE_SUFFIX = ";charset=UTF-8";
@@ -39,13 +38,7 @@ public class JsonProvider implements MessageBodyReader<Object>, MessageBodyWrite
 		httpHeaders.putSingle(HttpHeaders.CACHE_CONTROL, CACHE_CONTROL_VALUE);
 		httpHeaders.putSingle(HttpHeaders.PRAGMA, CACHE_CONTROL_VALUE);
 
-		if (type.equals(String.class)) {
-			entityStream.write(value.toString().getBytes(Charsets.UTF_8));
-		} else if (value instanceof byte[]) {
-			entityStream.write((byte[]) value);
-		} else {
-			getMapper().writeValue(entityStream, value);
-		}
+		getMapper().writeValue(entityStream, value);
 
 	}
 

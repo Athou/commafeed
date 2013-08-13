@@ -18,6 +18,7 @@ import javax.ws.rs.ext.Provider;
 import org.apache.commons.io.Charsets;
 import org.apache.http.HttpHeaders;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Provider
@@ -28,7 +29,7 @@ public class JsonProvider implements MessageBodyReader<Object>, MessageBodyWrite
 	private static final String CONTENT_TYPE_VALUE_SUFFIX = ";charset=UTF-8";
 	private static final String CACHE_CONTROL_VALUE = "no-cache";
 
-	private static final ObjectMapper MAPPER = new ObjectMapper();
+	private static final ObjectMapper MAPPER = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 	@Override
 	public void writeTo(Object value, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,

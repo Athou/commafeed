@@ -15,9 +15,6 @@ public class MarkRequest implements Serializable {
 	@ApiProperty(value = "entry id, category id, 'all' or 'starred'", required = true)
 	private String id;
 
-	@ApiProperty(value = "feed id, only required when marking an entry")
-	private Long feedId;
-
 	@ApiProperty(value = "mark as read or unread")
 	private boolean read;
 

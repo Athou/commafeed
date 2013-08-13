@@ -30,7 +30,7 @@ public class EntryREST extends AbstractREST {
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
-	
+
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
@@ -40,9 +40,8 @@ public class EntryREST extends AbstractREST {
 	public Response markFeedEntry(@ApiParam(value = "Mark Request", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
-		Preconditions.checkNotNull(req.getFeedId());
 
-		feedEntryService.markEntry(getUser(), Long.valueOf(req.getId()), req.getFeedId(), req.isRead());
+		feedEntryService.markEntry(getUser(), Long.valueOf(req.getId()), req.isRead());
 		return Response.ok(Status.OK).build();
 	}
 
@@ -72,7 +71,5 @@ public class EntryREST extends AbstractREST {
 
 		return Response.ok(Status.OK).build();
 	}
-
-
 
 }

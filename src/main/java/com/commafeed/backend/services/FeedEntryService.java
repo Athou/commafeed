@@ -31,14 +31,15 @@ public class FeedEntryService {
 	@Inject
 	CacheService cache;
 
-	public void markEntry(User user, Long entryId, Long subscriptionId, boolean read) {
-		FeedSubscription sub = feedSubscriptionDAO.findById(user, subscriptionId);
-		if (sub == null) {
-			return;
-		}
+	public void markEntry(User user, Long entryId, boolean read) {
 
 		FeedEntry entry = feedEntryDAO.findById(entryId);
 		if (entry == null) {
+			return;
+		}
+
+		FeedSubscription sub = feedSubscriptionDAO.findByFeed(user, entry.getFeed());
+		if (sub == null) {
 			return;
 		}
 
@@ -69,7 +70,8 @@ public class FeedEntryService {
 	}
 
 	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Date olderThan) {
-		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(subscriptions, true, null, null, -1, -1, null, false, false);
+		List<FeedEntryStatus> statuses = feedEntryStatusDAO
+				.findBySubscriptions(subscriptions, true, null, null, -1, -1, null, false, false);
 		markList(statuses, olderThan);
 		cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
 		cache.invalidateUserRootCategory(user);

@@ -69,7 +69,7 @@
 					<option value="desc">${about.goodies.subscribe_bookmarklet_desc}</option>
 					<option value="asc">${about.goodies.subscribe_bookmarklet_asc}</option>
 				</select>
-				<a href="next?category={{categoryId}}&order={{order}}" target="_blank">${global.link}</a>	
+				<a href="javascript:window.location.href='{{baseUrl}}next?category={{categoryId}}&order={{order}}&t='+new Date().getTime();" target="_blank">${global.link}</a>	
 			</p>
 		</div>
 		

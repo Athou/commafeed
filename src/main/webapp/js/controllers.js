@@ -1406,6 +1406,7 @@ module.controller('HelpController', ['$scope', 'CategoryService', 'AnalyticsServ
 			$scope.infos = ServerService.get();
 			$scope.categoryId = 'all';
 			$scope.order = 'desc';
+			$scope.baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
 
 		}]);
 

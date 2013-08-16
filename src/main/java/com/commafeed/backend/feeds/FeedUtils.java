@@ -69,6 +69,8 @@ public class FeedUtils {
 			if (StringUtils.endsWith(extracted, "1") == false) {
 				return extracted;
 			}
+		} else if (StringUtils.startsWithIgnoreCase(extracted, "windows-")) {
+			return extracted;
 		}
 		return detectEncoding(bytes);
 	}

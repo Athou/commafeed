@@ -671,8 +671,8 @@ module.controller('FeedListCtrl', [
 		'FeedService',
 		'CategoryService',
 		'AnalyticsService',
-		function($scope, $stateParams, $http, $route, $state, $window, $location, EntryService, SettingsService, FeedService, CategoryService,
-				AnalyticsService) {
+		function($scope, $stateParams, $http, $route, $state, $window, $location, EntryService, SettingsService, FeedService,
+				CategoryService, AnalyticsService) {
 
 			AnalyticsService.track();
 
@@ -731,7 +731,12 @@ module.controller('FeedListCtrl', [
 						$scope.entries = [];
 					}
 					for ( var i = 0; i < data.entries.length; i++) {
-						$scope.entries.push(data.entries[i]);
+						var entry = data.entries[i];
+						if (!_.some($scope.entries, {
+							id : entry.id
+						})) {
+							$scope.entries.push(entry);
+						}
 					}
 					$scope.name = data.name;
 					$scope.message = data.message;

@@ -1,14 +1,17 @@
 package com.commafeed.frontend;
 
 import javax.enterprise.inject.spi.BeanManager;
+import javax.inject.Inject;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.Cookie;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Application;
 import org.apache.wicket.Component;
+import org.apache.wicket.IRequestCycleProvider;
 import org.apache.wicket.Page;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.Session;
@@ -20,6 +23,7 @@ import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSessio
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.cdi.CdiConfiguration;
+import org.apache.wicket.cdi.CdiContainer;
 import org.apache.wicket.cdi.ConversationPropagation;
 import org.apache.wicket.core.request.handler.PageProvider;
 import org.apache.wicket.core.request.handler.RenderPageRequestHandler;
@@ -32,12 +36,15 @@ import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.request.Url;
+import org.apache.wicket.request.UrlRenderer;
 import org.apache.wicket.request.component.IRequestableComponent;
 import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
 import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.cycle.RequestCycleContext;
 import org.apache.wicket.util.cookies.CookieUtils;
 
 import com.commafeed.backend.services.ApplicationPropertiesService;
+import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.frontend.pages.DemoLoginPage;
 import com.commafeed.frontend.pages.HomePage;
 import com.commafeed.frontend.pages.LogoutPage;
@@ -51,6 +58,9 @@ import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
 @Slf4j
 public class CommaFeedApplication extends AuthenticatedWebApplication {
 
+	@Inject
+	ApplicationSettingsService applicationSettingsService;
+
 	public CommaFeedApplication() {
 		super();
 		boolean prod = ApplicationPropertiesService.get().isProduction();
@@ -60,6 +70,8 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 	@Override
 	protected void init() {
 		super.init();
+		setupInjection();
+		setupSecurity();
 
 		mountPage("welcome", WelcomePage.class);
 		mountPage("demo", DemoLoginPage.class);
@@ -71,9 +83,6 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		mountPage("error", DisplayExceptionPage.class);
 
 		mountPage("next", NextUnreadRedirectPage.class);
-
-		setupInjection();
-		setupSecurity();
 
 		getMarkupSettings().setStripWicketTags(true);
 		getMarkupSettings().setCompressWhitespace(true);
@@ -93,6 +102,27 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 				// redirect to the error page if ajax request, render error on current page otherwise
 				RedirectPolicy policy = target == null ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
 				return new RenderPageRequestHandler(new PageProvider(new DisplayExceptionPage(ex)), policy);
+			}
+		});
+
+		setRequestCycleProvider(new IRequestCycleProvider() {
+			@Override
+			public RequestCycle get(RequestCycleContext context) {
+				return new RequestCycle(context) {
+					@Override
+					protected UrlRenderer newUrlRenderer() {
+						return new UrlRenderer(getRequest()) {
+							@Override
+							public String renderUrl(Url url) {
+								String publicUrl = applicationSettingsService.get().getPublicUrl();
+								if (StringUtils.isNotBlank(publicUrl)) {
+									url.setProtocol(Url.parse(publicUrl).getProtocol());
+								}
+								return super.renderUrl(url);
+							}
+						};
+					}
+				};
 			}
 		});
 	}
@@ -147,7 +177,8 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 	protected void setupInjection() {
 		try {
 			BeanManager beanManager = (BeanManager) new InitialContext().lookup("java:comp/BeanManager");
-			new CdiConfiguration(beanManager).setPropagation(ConversationPropagation.NONE).configure(this);
+			CdiContainer container = new CdiConfiguration(beanManager).setPropagation(ConversationPropagation.NONE).configure(this);
+			container.getNonContextualManager().inject(this);
 		} catch (NamingException e) {
 			log.warn("Could not locate bean manager. CDI is disabled.");
 		}

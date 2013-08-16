@@ -114,15 +114,12 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 						return new UrlRenderer(getRequest()) {
 							@Override
 							public String renderUrl(Url url) {
+								// override wicket's relative-to-absolute url conversion with what we know is the correct protocol
 								String publicUrl = applicationSettingsService.get().getPublicUrl();
 								if (StringUtils.isNotBlank(publicUrl)) {
 									Url parsed = Url.parse(publicUrl);
-									
-									String protocol = parsed.getProtocol();
-									url.setProtocol(protocol);
-
-									Integer port = parsed.getPort();
-									url.setPort(port != null ? port : StringUtils.equalsIgnoreCase(protocol, "http") ? 80 : 443);
+									url.setProtocol(parsed.getProtocol());
+									url.setPort(parsed.getPort());
 								}
 								return super.renderUrl(url);
 							}

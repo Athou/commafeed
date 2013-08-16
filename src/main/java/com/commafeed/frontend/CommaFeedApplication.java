@@ -116,7 +116,13 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 							public String renderUrl(Url url) {
 								String publicUrl = applicationSettingsService.get().getPublicUrl();
 								if (StringUtils.isNotBlank(publicUrl)) {
-									url.setProtocol(Url.parse(publicUrl).getProtocol());
+									Url parsed = Url.parse(publicUrl);
+									
+									String protocol = parsed.getProtocol();
+									url.setProtocol(protocol);
+
+									Integer port = parsed.getPort();
+									url.setPort(port != null ? port : StringUtils.equalsIgnoreCase(protocol, "http") ? 80 : 443);
 								}
 								return super.renderUrl(url);
 							}

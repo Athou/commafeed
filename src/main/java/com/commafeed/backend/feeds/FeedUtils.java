@@ -211,9 +211,10 @@ public class FeedUtils {
 	}
 
 	public static String escapeIFrameCss(String orig) {
-		List<String> rules = Lists.newArrayList();
+		String rule = "";
 		CSSOMParser parser = new CSSOMParser();
 		try {
+			List<String> rules = Lists.newArrayList();
 			CSSStyleDeclaration decl = parser.parseStyleDeclaration(new InputSource(new StringReader(orig)));
 
 			for (int i = 0; i < decl.getLength(); i++) {
@@ -227,16 +228,18 @@ public class FeedUtils {
 					rules.add(property + ":" + decl.getPropertyValue(property) + ";");
 				}
 			}
-		} catch (IOException e) {
+			rule = StringUtils.join(rules, "");
+		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		return StringUtils.join(rules, "");
+		return rule;
 	}
 
 	public static String escapeImgCss(String orig) {
-		List<String> rules = Lists.newArrayList();
+		String rule = "";
 		CSSOMParser parser = new CSSOMParser();
 		try {
+			List<String> rules = Lists.newArrayList();
 			CSSStyleDeclaration decl = parser.parseStyleDeclaration(new InputSource(new StringReader(orig)));
 
 			for (int i = 0; i < decl.getLength(); i++) {
@@ -250,10 +253,11 @@ public class FeedUtils {
 					rules.add(property + ":" + decl.getPropertyValue(property) + ";");
 				}
 			}
-		} catch (IOException e) {
+			rule = StringUtils.join(rules, "");
+		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		return StringUtils.join(rules, "");
+		return rule;
 	}
 
 	public static boolean isRTL(FeedEntry entry) {

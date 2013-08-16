@@ -44,4 +44,19 @@ public class WicketUtils {
 		WebResponse webResponse = (WebResponse) RequestCycle.get().getResponse();
 		return (HttpServletResponse) webResponse.getContainerResponse();
 	}
+
+	/**
+	 * like wicket's Request.getClientUrl() but returns an absolute url instead of a relative one
+	 */
+	public static String getClientFullUrl() {
+		HttpServletRequest request = getHttpServletRequest();
+		StringBuffer requestURL = request.getRequestURL();
+		String queryString = request.getQueryString();
+
+		if (queryString == null) {
+			return requestURL.toString();
+		} else {
+			return requestURL.append('?').append(queryString).toString();
+		}
+	}
 }

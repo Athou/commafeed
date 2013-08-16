@@ -31,6 +31,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
+import org.apache.wicket.request.Url;
 import org.apache.wicket.request.component.IRequestableComponent;
 import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
 import org.apache.wicket.request.cycle.RequestCycle;
@@ -44,6 +45,7 @@ import com.commafeed.frontend.pages.NextUnreadRedirectPage;
 import com.commafeed.frontend.pages.PasswordRecoveryCallbackPage;
 import com.commafeed.frontend.pages.PasswordRecoveryPage;
 import com.commafeed.frontend.pages.WelcomePage;
+import com.commafeed.frontend.utils.WicketUtils;
 import com.commafeed.frontend.utils.exception.DisplayExceptionPage;
 
 @Slf4j
@@ -149,6 +151,13 @@ public class CommaFeedApplication extends AuthenticatedWebApplication {
 		} catch (NamingException e) {
 			log.warn("Could not locate bean manager. CDI is disabled.");
 		}
+	}
+
+	@Override
+	public void restartResponseAtSignInPage() {
+		// preserve https if it was set
+		RequestCycle.get().getUrlRenderer().setBaseUrl(Url.parse(WicketUtils.getClientFullUrl()));
+		super.restartResponseAtSignInPage();
 	}
 
 	@Override

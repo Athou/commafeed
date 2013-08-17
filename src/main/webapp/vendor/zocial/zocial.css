@@ -39,3 +39,9 @@
 	font-family: 'zocial';
 	content: "\00E5";
 }
+
+.icon-gmail:before {
+	font-style: normal;
+	font-family: 'zocial';
+	content: "m";
+}

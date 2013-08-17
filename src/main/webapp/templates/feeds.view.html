@@ -85,25 +85,28 @@
 					</label>
 					
 					<span class="share-buttons" ui-if="settingsService.settings.socialButtons">
-						<a href="mailto:?subject={{entry.title|escape}}&body={{entry.url|escape}}" popup>
+						<a href="mailto:?subject={{entry.title|escape}}&body={{entry.url|escape}}" title="E-mail" popup>
 							<i class="icon-envelope"></i>
 						</a>
-						<a href="http://www.facebook.com/sharer.php?u=={{entry.url|escape}}" popup>
+						<a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&source=mailto&su={{entry.title|escape}}&body={{entry.url|escape}}" title="Gmail" popup>
+							<i class="icon-gmail"></i>
+						</a>
+						<a href="http://www.facebook.com/sharer.php?u=={{entry.url|escape}}" title="Facebook" popup>
 							<i class="icon-facebook"></i>
 						</a>
-						<a href="http://twitter.com/share?text={{entry.title|escape}}&url={{entry.url|escape}}" popup>
+						<a href="http://twitter.com/share?text={{entry.title|escape}}&url={{entry.url|escape}}" title="Twitter" popup>
 							<i class="icon-twitter"></i>
 						</a>
-						<a href="https://plus.google.com/share?url={{entry.url|escape}}" popup>
+						<a href="https://plus.google.com/share?url={{entry.url|escape}}" title="Google+" popup>
 							<i class="icon-google-plus"></i>
 						</a>
-						<a href="https://getpocket.com/save?url={{entry.url|escape}}&title={{entry.title|escape}}" popup>
+						<a href="https://getpocket.com/save?url={{entry.url|escape}}&title={{entry.title|escape}}" title="Pocket" popup>
 							<i class="icon-pocket"></i>
 						</a>
-						<a href="https://www.instapaper.com/hello2?url={{entry.url|escape}}&title={{entry.title|escape}}" popup>
+						<a href="https://www.instapaper.com/hello2?url={{entry.url|escape}}&title={{entry.title|escape}}" title="Instapaper" popup>
 							<i class="icon-instapaper"></i>
 						</a>
-						<a href="https://bufferapp.com/add?url={{entry.url|escape}}&text={{entry.title|escape}}" popup>
+						<a href="https://bufferapp.com/add?url={{entry.url|escape}}&text={{entry.title|escape}}" title="Buffer" popup>
 							<i class="icon-buffer"></i>
 						</a>
 					</span>

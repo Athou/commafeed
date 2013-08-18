@@ -57,6 +57,7 @@ public class FeedRefreshTaskGiver {
 
 	private Meter feedRefreshed;
 	private Meter threadWaited;
+	private Meter refill;
 
 	@PostConstruct
 	public void init() {
@@ -64,6 +65,7 @@ public class FeedRefreshTaskGiver {
 		executor = Executors.newFixedThreadPool(1);
 		feedRefreshed = metrics.meter(MetricRegistry.name(getClass(), "feedRefreshed"));
 		threadWaited = metrics.meter(MetricRegistry.name(getClass(), "threadWaited"));
+		refill = metrics.meter(MetricRegistry.name(getClass(), "refill"));
 	}
 
 	@PreDestroy
@@ -144,6 +146,7 @@ public class FeedRefreshTaskGiver {
 	 * refills the refresh queue and empties the giveBack queue while at it
 	 */
 	private void refill() {
+		refill.mark();
 		int count = Math.min(100, 3 * backgroundThreads);
 
 		// first, get feeds that are up to refresh from the database

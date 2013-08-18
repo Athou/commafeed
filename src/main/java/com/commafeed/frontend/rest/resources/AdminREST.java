@@ -227,6 +227,7 @@ public class AdminREST extends AbstractREST {
 
 	@Path("/metrics")
 	@GET
+	@PrettyPrint
 	@ApiOperation(value = "Retrieve server metrics")
 	public Response getMetrics() {
 		return Response.ok(metrics).build();

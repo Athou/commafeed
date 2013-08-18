@@ -6,9 +6,11 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
@@ -19,6 +21,7 @@ import org.apache.http.HttpHeaders;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 @Provider
 @Consumes(MediaType.APPLICATION_JSON)
@@ -30,6 +33,9 @@ public class JsonProvider implements MessageBodyReader<Object>, MessageBodyWrite
 
 	private static final ObjectMapper MAPPER = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
+	@Context
+	private HttpServletRequest request;
+
 	@Override
 	public void writeTo(Object value, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
 			MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException {
@@ -38,8 +44,27 @@ public class JsonProvider implements MessageBodyReader<Object>, MessageBodyWrite
 		httpHeaders.putSingle(HttpHeaders.CACHE_CONTROL, CACHE_CONTROL_VALUE);
 		httpHeaders.putSingle(HttpHeaders.PRAGMA, CACHE_CONTROL_VALUE);
 
-		getMapper().writeValue(entityStream, value);
+		ObjectWriter writer = getMapper().writer();
+		if (hasPrettyPrint(annotations)) {
+			writer = writer.withDefaultPrettyPrinter();
+		}
+		writer.writeValue(entityStream, value);
 
+	}
+
+	private boolean hasPrettyPrint(Annotation[] annotations) {
+		boolean prettyPrint = false;
+
+		for (Annotation annotation : annotations) {
+			if (PrettyPrint.class.equals(annotation.annotationType())) {
+				prettyPrint = true;
+				break;
+			}
+		}
+		if (!prettyPrint && request != null) {
+			prettyPrint = Boolean.parseBoolean(request.getParameter("pretty"));
+		}
+		return prettyPrint;
 	}
 
 	@Override

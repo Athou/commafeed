@@ -1,4 +1,4 @@
-package com.commafeed.backend;
+package com.commafeed.backend.startup;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;

@@ -24,6 +24,8 @@ import org.apache.wicket.protocol.http.servlet.ServletWebResponse;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.util.crypt.Base64;
 
+import com.codahale.metrics.Meter;
+import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
@@ -41,6 +43,9 @@ public abstract class AbstractREST {
 
 	@Context
 	private HttpServletResponse response;
+
+	@Inject
+	MetricRegistry metrics;
 
 	@Inject
 	private UserDAO userDAO;
@@ -93,10 +98,14 @@ public abstract class AbstractREST {
 	}
 
 	@AroundInvoke
-	public Object checkSecurity(InvocationContext context) throws Exception {
+	public Object intercept(InvocationContext context) throws Exception {
+		Method method = context.getMethod();
+		handleMetric(method);
+
+		// check security
 		boolean allowed = true;
 		User user = null;
-		Method method = context.getMethod();
+
 		SecurityCheck check = method.isAnnotationPresent(SecurityCheck.class) ? method.getAnnotation(SecurityCheck.class) : method
 				.getDeclaringClass().getAnnotation(SecurityCheck.class);
 
@@ -119,6 +128,11 @@ public abstract class AbstractREST {
 		}
 
 		return context.proceed();
+	}
+
+	private void handleMetric(Method method) {
+		Meter callCount = metrics.meter(MetricRegistry.name(method.getDeclaringClass(), method.getName(), "callCount"));
+		callCount.mark();
 	}
 
 	private boolean checkRole(Role requiredRole) {

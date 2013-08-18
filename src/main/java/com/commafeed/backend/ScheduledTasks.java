@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.commafeed.backend.services.ApplicationSettingsService;
+import com.commafeed.backend.services.DatabaseCleaningService;
 
 /**
  * Contains all scheduled tasks
@@ -21,7 +22,7 @@ public class ScheduledTasks {
 	ApplicationSettingsService applicationSettingsService;
 
 	@Inject
-	DatabaseCleaner cleaner;
+	DatabaseCleaningService cleaner;
 
 	@PersistenceContext
 	EntityManager em;

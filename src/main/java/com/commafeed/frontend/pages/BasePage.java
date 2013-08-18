@@ -15,7 +15,6 @@ import org.apache.wicket.markup.html.TransparentWebMarkupContainer;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 
-import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
@@ -29,6 +28,7 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.MailService;
+import com.commafeed.backend.startup.StartupBean;
 import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.utils.WicketUtils;
 import com.google.common.collect.Maps;

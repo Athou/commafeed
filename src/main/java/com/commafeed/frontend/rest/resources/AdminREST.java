@@ -17,9 +17,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.commafeed.backend.DatabaseCleaner;
-import com.commafeed.backend.MetricsBean;
-import com.commafeed.backend.StartupBean;
+import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedDAO.DuplicateMode;
 import com.commafeed.backend.dao.UserDAO;
@@ -33,14 +31,17 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.services.ApplicationSettingsService;
+import com.commafeed.backend.services.DatabaseCleaningService;
 import com.commafeed.backend.services.FeedService;
 import com.commafeed.backend.services.PasswordEncryptionService;
 import com.commafeed.backend.services.UserService;
+import com.commafeed.backend.startup.StartupBean;
 import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.FeedCount;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.FeedMergeRequest;
 import com.commafeed.frontend.model.request.IDRequest;
+import com.commafeed.frontend.rest.PrettyPrint;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -70,10 +71,10 @@ public class AdminREST extends AbstractREST {
 	FeedDAO feedDAO;
 
 	@Inject
-	MetricsBean metricsBean;
+	MetricRegistry metrics;
 
 	@Inject
-	DatabaseCleaner cleaner;
+	DatabaseCleaningService cleaner;
 
 	@Inject
 	FeedRefreshWorker feedRefreshWorker;
@@ -227,20 +228,8 @@ public class AdminREST extends AbstractREST {
 	@Path("/metrics")
 	@GET
 	@ApiOperation(value = "Retrieve server metrics")
-	public Response getMetrics(@QueryParam("backlog") @DefaultValue("false") boolean backlog) {
-		Map<String, Object> map = Maps.newLinkedHashMap();
-		map.put("lastMinute", metricsBean.getLastMinute());
-		map.put("lastHour", metricsBean.getLastHour());
-		if (backlog) {
-			map.put("backlog", taskGiver.getUpdatableCount());
-		}
-		map.put("http_active", feedRefreshWorker.getActiveCount());
-		map.put("http_queue", feedRefreshWorker.getQueueSize());
-		map.put("database_active", feedRefreshUpdater.getActiveCount());
-		map.put("database_queue", feedRefreshUpdater.getQueueSize());
-		map.put("cache", metricsBean.getCacheStats());
-
-		return Response.ok(map).build();
+	public Response getMetrics() {
+		return Response.ok(metrics).build();
 	}
 
 	@Path("/cleanup/feeds")

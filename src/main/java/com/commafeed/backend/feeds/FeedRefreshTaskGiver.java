@@ -17,7 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.time.DateUtils;
 
-import com.commafeed.backend.MetricsBean;
+import com.codahale.metrics.Meter;
+import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.services.ApplicationSettingsService;
@@ -41,7 +42,7 @@ public class FeedRefreshTaskGiver {
 	ApplicationSettingsService applicationSettingsService;
 
 	@Inject
-	MetricsBean metricsBean;
+	MetricRegistry metrics;
 
 	@Inject
 	FeedRefreshWorker worker;
@@ -54,10 +55,15 @@ public class FeedRefreshTaskGiver {
 
 	private ExecutorService executor;
 
+	private Meter feedRefreshed;
+	private Meter threadWaited;
+
 	@PostConstruct
 	public void init() {
 		backgroundThreads = applicationSettingsService.get().getBackgroundThreads();
 		executor = Executors.newFixedThreadPool(1);
+		feedRefreshed = metrics.meter(MetricRegistry.name(getClass(), "feedRefreshed"));
+		threadWaited = metrics.meter(MetricRegistry.name(getClass(), "threadWaited"));
 	}
 
 	@PreDestroy
@@ -88,11 +94,11 @@ public class FeedRefreshTaskGiver {
 					try {
 						FeedRefreshContext context = take();
 						if (context != null) {
-							metricsBean.feedRefreshed();
+							feedRefreshed.mark();
 							worker.updateFeed(context);
 						} else {
 							log.debug("nothing to do, sleeping for 15s");
-							metricsBean.threadWaited();
+							threadWaited.mark();
 							try {
 								Thread.sleep(15000);
 							} catch (InterruptedException e) {

@@ -4,8 +4,8 @@ import javax.inject.Inject;
 
 import org.apache.wicket.markup.html.WebPage;
 
-import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.services.UserService;
+import com.commafeed.backend.startup.StartupBean;
 import com.commafeed.frontend.CommaFeedSession;
 
 public class DemoLoginPage extends WebPage {

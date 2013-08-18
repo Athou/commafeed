@@ -1,4 +1,4 @@
-package com.commafeed.backend.feeds;
+package com.commafeed.backend.opml;
 
 import java.io.StringReader;
 import java.util.List;
@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
+import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.services.FeedSubscriptionService;

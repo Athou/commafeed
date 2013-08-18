@@ -1,4 +1,4 @@
-package com.commafeed.backend;
+package com.commafeed.backend.services;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -16,14 +16,13 @@ import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
-import com.commafeed.backend.services.ApplicationSettingsService;
 
 /**
  * Contains utility methods for cleaning the database
  * 
  */
 @Slf4j
-public class DatabaseCleaner {
+public class DatabaseCleaningService {
 
 	@Inject
 	FeedDAO feedDAO;

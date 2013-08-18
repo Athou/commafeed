@@ -1,4 +1,4 @@
-package com.commafeed.backend.feeds;
+package com.commafeed.backend.opml;
 
 import java.util.Date;
 import java.util.List;

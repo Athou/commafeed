@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.time.DateUtils;
 
+import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.feeds.FeedRefreshExecutor.Task;
 import com.commafeed.backend.model.ApplicationSettings;
@@ -38,6 +39,9 @@ public class FeedRefreshWorker {
 	FeedRefreshTaskGiver taskGiver;
 
 	@Inject
+	MetricRegistry metrics;
+
+	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
 	private FeedRefreshExecutor pool;
@@ -46,7 +50,7 @@ public class FeedRefreshWorker {
 	private void init() {
 		ApplicationSettings settings = applicationSettingsService.get();
 		int threads = settings.getBackgroundThreads();
-		pool = new FeedRefreshExecutor("feed-refresh-worker", threads, Math.min(20 * threads, 1000));
+		pool = new FeedRefreshExecutor("feed-refresh-worker", threads, Math.min(20 * threads, 1000), metrics);
 	}
 
 	@PreDestroy
@@ -56,14 +60,6 @@ public class FeedRefreshWorker {
 
 	public void updateFeed(FeedRefreshContext context) {
 		pool.execute(new FeedTask(context));
-	}
-
-	public int getQueueSize() {
-		return pool.getQueueSize();
-	}
-
-	public int getActiveCount() {
-		return pool.getActiveCount();
 	}
 
 	private class FeedTask implements Task {

@@ -7,6 +7,9 @@ import java.util.concurrent.TimeUnit;
 
 import lombok.extern.slf4j.Slf4j;
 
+import com.codahale.metrics.Gauge;
+import com.codahale.metrics.MetricRegistry;
+
 /**
  * Wraps a {@link ThreadPoolExecutor} instance. Blocks when queue is full instead of rejecting the task. Allow priority queueing by using
  * {@link Task} instead of {@link Runnable}
@@ -19,7 +22,7 @@ public class FeedRefreshExecutor {
 	private ThreadPoolExecutor pool;
 	private LinkedBlockingDeque<Runnable> queue;
 
-	public FeedRefreshExecutor(final String poolName, int threads, int queueCapacity) {
+	public FeedRefreshExecutor(final String poolName, int threads, int queueCapacity, MetricRegistry metrics) {
 		log.info("Creating pool {} with {} threads", poolName, threads);
 		this.poolName = poolName;
 		pool = new ThreadPoolExecutor(threads, threads, 0, TimeUnit.MILLISECONDS, queue = new LinkedBlockingDeque<Runnable>(queueCapacity) {
@@ -51,18 +54,24 @@ public class FeedRefreshExecutor {
 				}
 			}
 		});
+
+		metrics.register(MetricRegistry.name(getClass(), poolName, "active"), new Gauge<Integer>() {
+			@Override
+			public Integer getValue() {
+				return pool.getActiveCount();
+			}
+		});
+
+		metrics.register(MetricRegistry.name(getClass(), poolName, "pending"), new Gauge<Integer>() {
+			@Override
+			public Integer getValue() {
+				return queue.size();
+			}
+		});
 	}
 
 	public void execute(Task task) {
 		pool.execute(task);
-	}
-
-	public int getQueueSize() {
-		return queue.size();
-	}
-
-	public int getActiveCount() {
-		return pool.getActiveCount();
 	}
 
 	public static interface Task extends Runnable {

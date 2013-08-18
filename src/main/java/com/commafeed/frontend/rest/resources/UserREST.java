@@ -11,7 +11,6 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
@@ -25,6 +24,7 @@ import com.commafeed.backend.model.UserSettings.ViewMode;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.PasswordEncryptionService;
 import com.commafeed.backend.services.UserService;
+import com.commafeed.backend.startup.StartupBean;
 import com.commafeed.frontend.SecurityCheck;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.frontend.model.UserModel;

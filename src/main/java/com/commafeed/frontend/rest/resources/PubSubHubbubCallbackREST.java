@@ -3,6 +3,7 @@ package com.commafeed.frontend.rest.resources;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -22,7 +23,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.commafeed.backend.MetricsBean;
+import com.codahale.metrics.Meter;
+import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.feeds.FeedParser;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
@@ -52,8 +54,13 @@ public class PubSubHubbubCallbackREST extends AbstractREST {
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
-	@Inject
-	MetricsBean metricsBean;
+	private Meter pushReceived;
+
+	@PostConstruct
+	public void initMetrics() {
+		pushReceived = metrics.meter(MetricRegistry.name(getClass(), "pushReceived"));
+
+	}
 
 	@Path("/callback")
 	@GET
@@ -119,7 +126,7 @@ public class PubSubHubbubCallbackREST extends AbstractREST {
 				log.debug("pushing content to queue for {}", feed.getUrl());
 				taskGiver.add(feed, false);
 			}
-			metricsBean.pushReceived(feeds.size());
+			pushReceived.mark();
 
 		} catch (Exception e) {
 			log.error("Could not parse pubsub callback: " + e.getMessage());

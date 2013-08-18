@@ -10,10 +10,10 @@ import javax.ws.rs.core.Response.Status;
 
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
-import com.commafeed.backend.StartupBean;
 import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.services.ApplicationPropertiesService;
 import com.commafeed.backend.services.ApplicationSettingsService;
+import com.commafeed.backend.startup.StartupBean;
 import com.commafeed.frontend.model.ServerInfo;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;

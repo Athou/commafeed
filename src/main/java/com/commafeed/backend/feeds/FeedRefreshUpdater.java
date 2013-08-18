@@ -19,7 +19,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
-import com.commafeed.backend.MetricsBean;
+import com.codahale.metrics.Meter;
+import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
@@ -57,7 +58,7 @@ public class FeedRefreshUpdater {
 	ApplicationSettingsService applicationSettingsService;
 
 	@Inject
-	MetricsBean metricsBean;
+	MetricRegistry metrics;
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
@@ -71,12 +72,22 @@ public class FeedRefreshUpdater {
 	private FeedRefreshExecutor pool;
 	private Striped<Lock> locks;
 
+	private Meter entryCacheMiss;
+	private Meter entryCacheHit;
+	private Meter feedUpdated;
+	private Meter entryInserted;
+
 	@PostConstruct
 	public void init() {
 		ApplicationSettings settings = applicationSettingsService.get();
 		int threads = Math.max(settings.getDatabaseUpdateThreads(), 1);
-		pool = new FeedRefreshExecutor("feed-refresh-updater", threads, Math.min(50 * threads, 1000));
+		pool = new FeedRefreshExecutor("feed-refresh-updater", threads, Math.min(50 * threads, 1000), metrics);
 		locks = Striped.lazyWeakLock(threads * 100000);
+
+		entryCacheMiss = metrics.meter(MetricRegistry.name(getClass(), "entryCacheMiss"));
+		entryCacheHit = metrics.meter(MetricRegistry.name(getClass(), "entryCacheHit"));
+		feedUpdated = metrics.meter(MetricRegistry.name(getClass(), "feedUpdated"));
+		entryInserted = metrics.meter(MetricRegistry.name(getClass(), "entryInserted"));
 	}
 
 	@PreDestroy
@@ -116,10 +127,10 @@ public class FeedRefreshUpdater {
 							subscriptions = feedSubscriptionDAO.findByFeed(feed);
 						}
 						ok &= addEntry(feed, entry, subscriptions);
-						metricsBean.entryCacheMiss();
+						entryCacheMiss.mark();
 					} else {
 						log.debug("cache hit for {}", entry.getUrl());
-						metricsBean.entryCacheHit();
+						entryCacheHit.mark();
 					}
 
 					currentEntries.add(cacheKey);
@@ -147,7 +158,7 @@ public class FeedRefreshUpdater {
 				// requeue asap
 				feed.setDisabledUntil(new Date(0));
 			}
-			metricsBean.feedUpdated();
+			feedUpdated.mark();
 			taskGiver.giveBack(feed);
 		}
 
@@ -180,7 +191,7 @@ public class FeedRefreshUpdater {
 			if (locked1 && locked2) {
 				boolean inserted = feedUpdateService.addEntry(feed, entry);
 				if (inserted) {
-					metricsBean.entryInserted();
+					entryInserted.mark();
 				}
 				success = true;
 			} else {
@@ -213,13 +224,4 @@ public class FeedRefreshUpdater {
 			}
 		}
 	}
-
-	public int getQueueSize() {
-		return pool.getQueueSize();
-	}
-
-	public int getActiveCount() {
-		return pool.getActiveCount();
-	}
-
 }

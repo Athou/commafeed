@@ -10,6 +10,8 @@ import com.commafeed.backend.services.UserService;
 // extend Component in order to benefit from injection 
 public class CommaFeedSessionServices extends Component {
 
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	UserService userService;
 

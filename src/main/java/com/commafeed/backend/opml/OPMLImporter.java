@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.cache.CacheService;
@@ -57,8 +58,8 @@ public class OPMLImporter {
 
 	@SuppressWarnings("unchecked")
 	private void handleOutline(User user, Outline outline, FeedCategory parent) {
-
-		if (StringUtils.isEmpty(outline.getType())) {
+		List<Outline> children = outline.getChildren();
+		if (CollectionUtils.isNotEmpty(children)) {
 			String name = FeedUtils.truncate(outline.getText(), 128);
 			if (name == null) {
 				name = FeedUtils.truncate(outline.getTitle(), 128);
@@ -76,7 +77,6 @@ public class OPMLImporter {
 				feedCategoryDAO.saveOrUpdate(category);
 			}
 
-			List<Outline> children = outline.getChildren();
 			for (Outline child : children) {
 				handleOutline(user, child, category);
 			}
@@ -88,7 +88,7 @@ public class OPMLImporter {
 			if (StringUtils.isBlank(name)) {
 				name = "Unnamed subscription";
 			}
-			// make sure we continue with the import process even a feed failed
+			// make sure we continue with the import process even if a feed failed
 			try {
 				feedSubscriptionService.subscribe(user, outline.getXmlUrl(), name, parent);
 			} catch (FeedSubscriptionException e) {

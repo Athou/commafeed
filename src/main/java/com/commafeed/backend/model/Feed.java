@@ -33,6 +33,12 @@ public class Feed extends AbstractModel {
 	@Column(length = 2048, nullable = false)
 	private String url;
 
+	/**
+	 * cache the url after potential http 30x redirects
+	 */
+	@Column(name = "url_after_redirect", length = 2048, nullable = false)
+	private String urlAfterRedirect;
+
 	@Column(length = 2048, nullable = false)
 	private String normalizedUrl;
 
@@ -130,11 +136,4 @@ public class Feed extends AbstractModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date pushLastPing;
 
-	public Feed() {
-
-	}
-
-	public Feed(String url) {
-		this.url = url;
-	}
 }

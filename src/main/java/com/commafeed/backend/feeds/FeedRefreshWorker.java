@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
@@ -86,17 +88,21 @@ public class FeedRefreshWorker {
 		int refreshInterval = applicationSettingsService.get().getRefreshIntervalMinutes();
 		Date disabledUntil = DateUtils.addMinutes(new Date(), refreshInterval);
 		try {
-			FetchedFeed fetchedFeed = fetcher.fetch(feed.getUrl(), false, feed.getLastModifiedHeader(), feed.getEtagHeader(),
+			String url = ObjectUtils.firstNonNull(feed.getUrlAfterRedirect(), feed.getUrl());
+			FetchedFeed fetchedFeed = fetcher.fetch(url, false, feed.getLastModifiedHeader(), feed.getEtagHeader(),
 					feed.getLastPublishedDate(), feed.getLastContentHash());
-			// stops here if NotModifiedException or any other exception is
-			// thrown
+			// stops here if NotModifiedException or any other exception is thrown
 			List<FeedEntry> entries = fetchedFeed.getEntries();
 
 			if (applicationSettingsService.get().isHeavyLoad()) {
 				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed.getFeed().getLastEntryDate(), fetchedFeed.getFeed()
 						.getAverageEntryInterval(), disabledUntil);
 			}
-
+			String urlAfterRedirect = fetchedFeed.getUrlAfterRedirect();
+			if (StringUtils.equals(url, urlAfterRedirect)) {
+				urlAfterRedirect = null;
+			}
+			feed.setUrlAfterRedirect(urlAfterRedirect);
 			feed.setLink(fetchedFeed.getFeed().getLink());
 			feed.setLastModifiedHeader(fetchedFeed.getFeed().getLastModifiedHeader());
 			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());

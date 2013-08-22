@@ -46,6 +46,7 @@
 	}
 	body.left-menu-active .sidebar-nav-fixed {
 		width: 100%;
+		overflow: auto;
 	}
 	body.left-menu-active .main-content {
 		display: none !important;

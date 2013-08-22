@@ -19,12 +19,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.conn.ClientConnectionManager;
@@ -39,6 +41,9 @@ import org.apache.http.impl.client.SystemDefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.ExecutionContext;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 /**
@@ -93,6 +98,8 @@ public class HttpGetter {
 		HttpClient client = newClient(timeout);
 		try {
 			HttpGet httpget = new HttpGet(url);
+			HttpContext context = new BasicHttpContext();
+
 			httpget.addHeader(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE);
 			httpget.addHeader(HttpHeaders.PRAGMA, PRAGMA_NO_CACHE);
 			httpget.addHeader(HttpHeaders.CACHE_CONTROL, CACHE_CONTROL_NO_CACHE);
@@ -107,7 +114,7 @@ public class HttpGetter {
 
 			HttpResponse response = null;
 			try {
-				response = client.execute(httpget);
+				response = client.execute(httpget, context);
 				int code = response.getStatusLine().getStatusCode();
 				if (code == HttpStatus.SC_NOT_MODIFIED) {
 					throw new NotModifiedException("'304 - not modified' http code received");
@@ -123,15 +130,14 @@ public class HttpGetter {
 				}
 			}
 			Header lastModifiedHeader = response.getFirstHeader(HttpHeaders.LAST_MODIFIED);
-			Header eTagHeader = response.getFirstHeader(HttpHeaders.ETAG);
-
-			String lastModifiedResponse = lastModifiedHeader == null ? null : StringUtils.trimToNull(lastModifiedHeader.getValue());
-			if (lastModified != null && StringUtils.equals(lastModified, lastModifiedResponse)) {
+			String lastModifiedHeaderValue = lastModifiedHeader == null ? null : StringUtils.trimToNull(lastModifiedHeader.getValue());
+			if (lastModifiedHeaderValue != null && StringUtils.equals(lastModified, lastModifiedHeaderValue)) {
 				throw new NotModifiedException("lastModifiedHeader is the same");
 			}
 
-			String eTagResponse = eTagHeader == null ? null : StringUtils.trimToNull(eTagHeader.getValue());
-			if (eTag != null && StringUtils.equals(eTag, eTagResponse)) {
+			Header eTagHeader = response.getFirstHeader(HttpHeaders.ETAG);
+			String eTagHeaderValue = eTagHeader == null ? null : StringUtils.trimToNull(eTagHeader.getValue());
+			if (eTag != null && StringUtils.equals(eTag, eTagHeaderValue)) {
 				throw new NotModifiedException("eTagHeader is the same");
 			}
 
@@ -144,10 +150,12 @@ public class HttpGetter {
 					contentType = entity.getContentType().getValue();
 				}
 			}
+			HttpUriRequest req = (HttpUriRequest) context.getAttribute(ExecutionContext.HTTP_REQUEST);
+			HttpHost host = (HttpHost) context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
+			String urlAfterRedirect = req.getURI().isAbsolute() ? req.getURI().toString() : host.toURI() + req.getURI();
 
 			long duration = System.currentTimeMillis() - start;
-			result = new HttpResult(content, contentType, lastModifiedHeader == null ? null : lastModifiedHeader.getValue(),
-					eTagHeader == null ? null : eTagHeader.getValue(), duration);
+			result = new HttpResult(content, contentType, lastModifiedHeaderValue, eTagHeaderValue, duration, urlAfterRedirect);
 		} finally {
 			client.getConnectionManager().shutdown();
 		}
@@ -161,13 +169,15 @@ public class HttpGetter {
 		private String lastModifiedSince;
 		private String eTag;
 		private long duration;
+		private String urlAfterRedirect;
 
-		public HttpResult(byte[] content, String contentType, String lastModifiedSince, String eTag, long duration) {
+		public HttpResult(byte[] content, String contentType, String lastModifiedSince, String eTag, long duration, String urlAfterRedirect) {
 			this.content = content;
 			this.contentType = contentType;
 			this.lastModifiedSince = lastModifiedSince;
 			this.eTag = eTag;
 			this.duration = duration;
+			this.urlAfterRedirect = urlAfterRedirect;
 		}
 
 		public byte[] getContent() {
@@ -190,6 +200,9 @@ public class HttpGetter {
 			return duration;
 		}
 
+		public String getUrlAfterRedirect() {
+			return urlAfterRedirect;
+		}
 	}
 
 	public static HttpClient newClient(int timeout) {

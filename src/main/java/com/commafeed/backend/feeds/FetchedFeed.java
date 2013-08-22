@@ -12,6 +12,7 @@ public class FetchedFeed {
 	private List<FeedEntry> entries = Lists.newArrayList();
 
 	private String title;
+	private String urlAfterRedirect;
 	private long fetchDuration;
 
 	public Feed getFeed() {
@@ -45,4 +46,13 @@ public class FetchedFeed {
 	public void setFetchDuration(long fetchDuration) {
 		this.fetchDuration = fetchDuration;
 	}
+
+	public String getUrlAfterRedirect() {
+		return urlAfterRedirect;
+	}
+
+	public void setUrlAfterRedirect(String urlAfterRedirect) {
+		this.urlAfterRedirect = urlAfterRedirect;
+	}
+
 }

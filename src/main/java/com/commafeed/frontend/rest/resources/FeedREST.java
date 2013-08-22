@@ -235,7 +235,7 @@ public class FeedREST extends AbstractREST {
 		try {
 			FetchedFeed feed = feedFetcher.fetch(url, true, null, null, null, null);
 			info = new FeedInfo();
-			info.setUrl(feed.getFeed().getUrl());
+			info.setUrl(feed.getUrlAfterRedirect());
 			info.setTitle(feed.getTitle());
 
 		} catch (Exception e) {

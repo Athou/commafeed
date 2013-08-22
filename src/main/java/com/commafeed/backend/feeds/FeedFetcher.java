@@ -77,6 +77,7 @@ public class FeedFetcher {
 		feed.setEtagHeader(FeedUtils.truncate(result.geteTag(), 255));
 		feed.setLastContentHash(hash);
 		fetchedFeed.setFetchDuration(result.getDuration());
+		fetchedFeed.setUrlAfterRedirect(result.getUrlAfterRedirect());
 		return fetchedFeed;
 	}
 

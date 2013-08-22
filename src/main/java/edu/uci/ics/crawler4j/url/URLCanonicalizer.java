@@ -28,6 +28,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * See http://en.wikipedia.org/wiki/URL_normalization for a reference Note: some
  * parts of the code are adapted from: http://stackoverflow.com/a/4057470/405418
@@ -46,7 +48,7 @@ public class URLCanonicalizer {
 			URL canonicalURL = new URL(UrlResolver.resolveUrl(context == null ? "" : context, href));
 			
 			String host = canonicalURL.getHost().toLowerCase();
-			if (host == "") {
+			if (StringUtils.isBlank(host)) {
 				// This is an invalid Url.
 				return null;
 			}

@@ -1416,10 +1416,13 @@ module.controller('HelpController', ['$scope', 'CategoryService', 'AnalyticsServ
 		}]);
 
 module.controller('FooterController', ['$scope', function($scope) {
-
 	var baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
 	var hostname = window.location.hostname;
 	$scope.subToMeUrl = baseUrl + 'rest/feed/subscribe?url={feed}';
 	$scope.subToMeName = hostname.indexOf('www.commafeed.com') !== -1 ? 'CommaFeed' : 'CommaFeed (' + hostname + ')';
 
+}]);
+
+module.controller('MetricsCtrl', ['$scope', 'AdminMetricsService', function($scope, AdminMetricsService) {
+	$scope.metrics = AdminMetricsService.get();
 }]);

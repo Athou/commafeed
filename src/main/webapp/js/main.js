@@ -100,7 +100,12 @@ app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProv
 				templateUrl : 'templates/admin.settings.html',
 				controller : 'ManageSettingsCtrl'
 			});
-
+			$stateProvider.state('admin.metrics', {
+				url : '/metrics',
+				templateUrl : 'templates/admin.metrics.html',
+				controller : 'MetricsCtrl'
+			});
+			
 			$urlRouterProvider.when('/', '/feeds/view/category/all');
 			$urlRouterProvider.when('/admin', '/admin/settings');
 			$urlRouterProvider.otherwise('/');

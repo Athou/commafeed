@@ -291,6 +291,12 @@ module.factory('AdminSettingsService', ['$resource', function($resource) {
 	return res;
 }]);
 
+module.factory('AdminMetricsService', ['$resource', function($resource) {
+	var res = $resource('rest/admin/metrics/');
+	return res;
+}]);
+
+
 module.factory('AdminCleanupService', ['$resource', function($resource) {
 	var actions = {
 		findDuplicateFeeds : {

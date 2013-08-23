@@ -409,27 +409,13 @@ module.directive('droppable', ['CategoryService', 'FeedService', function(Catego
 	};
 }]);
 
-module.filter('highlight', function() {
-	return function(html, keywords) {
-		if (keywords) {
-			var handleKeyword = function(token, html) {
-				var expr = new RegExp(token, 'gi');
-				var container = $('<span>').html(html);
-				var elements = container.find('*').addBack();
-				var textNodes = elements.not('iframe').contents().not(elements);
-				textNodes.each(function() {
-					var replaced = this.nodeValue.replace(expr, '<span class="highlight-search">$&</span>');
-					$('<span>').html(replaced).insertBefore(this);
-					$(this).remove();
-				});
-				return container.html();
-			};
-
-			var tokens = keywords.split(' ');
-			for ( var i = 0; i < tokens.length; i++) {
-				html = handleKeyword(tokens[i], html);
-			}
-		}
-		return html;
+module.directive('metricMeter', function() {
+	return {
+		scope : {
+			metric : '=',
+			label : '='
+		},
+		restrict : 'E',
+		templateUrl : 'templates/_metrics.meter.html'
 	};
 });

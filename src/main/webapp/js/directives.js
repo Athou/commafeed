@@ -419,3 +419,14 @@ module.directive('metricMeter', function() {
 		templateUrl : 'templates/_metrics.meter.html'
 	};
 });
+
+module.directive('metricGauge', function() {
+	return {
+		scope : {
+			metric : '=',
+			label : '='
+		},
+		restrict : 'E',
+		templateUrl : 'templates/_metrics.gauge.html'
+	};
+});

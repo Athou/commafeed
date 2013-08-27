@@ -1,66 +1,109 @@
-#theme-svetla {
-/*background color*/
-body, div.form-actions, .toolbar {
-    background:  #E3D4D1;
-}
+            /*bg color*/
+            body, div.form-actions, .toolbar, .entrylist-header ng-scope {
+                background:  #AFB8BE;
+            }
 
-div.form-actions, div.page-header {
-    border: none;
-}
+            div.form-actions, div.page-header {
+                border: none;
+            }
 
-pre, #feed-accordion .unread .entry-heading {
-    background: transparent;
-}
+            pre, #feed-accordion .unread .entry-heading {
+                background: transparent;
+            }
 
-/*feeds tree*/
-.css-treeview li .tree-item:hover {
-    background:  grey;
-}
+            /*feeds tree*/
+            .css-treeview li .tree-item:hover {
+            }
 
-/*feeds list*/
+            /*feeds list*/
 
-#feed-accordion .entry-buttons { /*share panel*/
-    background: transparent;
-    /* uncomment if ---> border: 1px solid black; */
-}
+            #feed-accordion .entry-buttons { /*share panel*/
+                background: transparent;
+                border:none;
+                /*  ---> border: 1px solid black; */
+            }
 
-#feed-accordion .entry {
-    border: none;
-}
+            #feed-accordion .entry {
+                border: none;
+            }
 
-#feed-accordion .unread .entry-heading:hover {
-    background: grey;
-}
+            #feed-accordion .unread .entry-heading:hover {
+            }
 
-/* readed feed background */
-#feed-accordion .entry-heading {
-    background: #987B77;
-}
+            /* read feed bg */
+            #feed-accordion .entry-heading {
+            }
 
-ul.dropdown-menu.pull-right li.divider {
-    height: 0px;
-    background: transparent;
-    border-bottom: 0px;
-}
+            ul.dropdown-menu.pull-right li.divider {
+                height: 0px;
+                background: transparent;
+                border-bottom: 0px;
+            }
 
-ul.dropdown-menu {
-    background: #E6E6E6;
-}
+            ul.dropdown-menu {
+                background: #E6E6E6;
+                border-radius: 0px 0px 4px 4px;
+                box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.1);
+            }
 
-/**/
-.btn {
-    background: #B8ACA4;
-    border: 1px solid grey;/* ! */
-}
+            /**/
+            .btn, .btn.dropdown-toggle {
+                background: #CFC7BE;
+                border: 1px solid #A7B5BE;
+                border-radius: 0px;
+                box-shadow: none;
+            }
 
-button.btn.dropdown-toggle {
-    background: #7B7672;
-}
+            .btn.dropdown-toggle {
+                /*background: #eae7e3;*/
+            }
 
-button.btn.dropdown-toggle:hover {
-    background: #e6e6e6;
-}
-span.hidden-phone.hidden-tablet.ng-binding {
-    display: none;
-}
-}
+            .btn.active {
+                box-shadow: none;/*!*/
+            }
+
+            button.btn.dropdown-toggle:hover {
+                background: #e6e6e6;
+            }
+            span.hidden-phone.hidden-tablet.ng-binding {
+                display: none;
+            }
+            .entrylist-header ng-scope {
+                border: none;
+            }
+
+            DIV.entrylist-header {
+                border: none;
+            }
+
+            DIV.entry-buttons.form-horizontal {
+                border-color: black;
+            }
+
+            /****************/
+            li.pointer a {
+                border-radius: 0px;
+            }
+
+            li.pointer a {
+                color: black;
+            }
+
+            li.pointer a:hover {
+                background: transparent;
+            }
+
+            .btn-primary:hover {
+                background: #E6E6E6;
+                color: black;
+            }
+
+            .btn-primary:focus {
+                color: black;
+            }
+
+            .btn-primary {
+                color: #323639;  
+                text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
+                box-shadow: none;
+            }

@@ -170,8 +170,9 @@ public class CategoryREST extends AbstractREST {
 									.isImageProxyEnabled()));
 				}
 				entries.setName(parent.getName());
+			} else {
+				return Response.status(Status.NOT_FOUND).entity("<message>category not found</message>").build();
 			}
-
 		}
 
 		boolean hasMore = entries.getEntries().size() > limit;
@@ -200,7 +201,11 @@ public class CategoryREST extends AbstractREST {
 		int offset = 0;
 		int limit = 20;
 
-		Entries entries = (Entries) getCategoryEntries(id, readType, null, offset, limit, order, null, false, null).getEntity();
+		Response response = getCategoryEntries(id, readType, null, offset, limit, order, null, false, null);
+		if (response.getStatus() != Status.OK.getStatusCode()) {
+			return response;
+		}
+		Entries entries = (Entries) response.getEntity();
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("rss_2.0");

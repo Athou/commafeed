@@ -181,6 +181,8 @@ public class FeedREST extends AbstractREST {
 				entries.setHasMore(true);
 				entries.getEntries().remove(entries.getEntries().size() - 1);
 			}
+		} else {
+			return Response.status(Status.NOT_FOUND).entity("<message>feed not found</message>").build();
 		}
 
 		entries.setTimestamp(System.currentTimeMillis());
@@ -202,7 +204,11 @@ public class FeedREST extends AbstractREST {
 		int offset = 0;
 		int limit = 20;
 
-		Entries entries = (Entries) getFeedEntries(id, readType, null, offset, limit, order, null, false).getEntity();
+		Response response = getFeedEntries(id, readType, null, offset, limit, order, null, false);
+		if (response.getStatus() != Status.OK.getStatusCode()) {
+			return response;
+		}
+		Entries entries = (Entries) response.getEntity();
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("rss_2.0");

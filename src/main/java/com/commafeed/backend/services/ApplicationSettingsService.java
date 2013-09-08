@@ -3,7 +3,8 @@ package com.commafeed.backend.services;
 import java.util.Date;
 import java.util.Enumeration;
 
-import javax.ejb.Singleton;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.time.DateUtils;
@@ -15,7 +16,7 @@ import com.commafeed.backend.dao.ApplicationSettingsDAO;
 import com.commafeed.backend.model.ApplicationSettings;
 import com.google.common.collect.Iterables;
 
-@Singleton
+@ApplicationScoped
 public class ApplicationSettingsService {
 
 	@Inject
@@ -23,17 +24,19 @@ public class ApplicationSettingsService {
 
 	private ApplicationSettings settings;
 
-	public void save(ApplicationSettings settings) {
-		this.settings = settings;
-		applicationSettingsDAO.saveOrUpdate(settings);
-		applyLogLevel();
+	@PostConstruct
+	private void init() {
+		settings = Iterables.getFirst(applicationSettingsDAO.findAll(), null);
 	}
 
 	public ApplicationSettings get() {
-		if (settings == null) {
-			settings = Iterables.getFirst(applicationSettingsDAO.findAll(), null);
-		}
 		return settings;
+	}
+
+	public void save(ApplicationSettings settings) {
+		applicationSettingsDAO.saveOrUpdate(settings);
+		this.settings = settings;
+		applyLogLevel();
 	}
 
 	public Date getUnreadThreshold() {

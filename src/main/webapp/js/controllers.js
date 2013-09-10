@@ -665,15 +665,17 @@ module.controller('FeedListCtrl', [
 		'$route',
 		'$state',
 		'$window',
+		'$timeout',
 		'$location',
 		'EntryService',
 		'SettingsService',
 		'FeedService',
 		'CategoryService',
 		'AnalyticsService',
-		function($scope, $stateParams, $http, $route, $state, $window, $location, EntryService, SettingsService, FeedService,
+		function($scope, $stateParams, $http, $route, $state, $window, $timeout, $location, EntryService, SettingsService, FeedService,
 				CategoryService, AnalyticsService) {
 
+			$window = angular.element($window);
 			AnalyticsService.track();
 
 			$scope.keywords = $location.search().q;
@@ -757,6 +759,79 @@ module.controller('FeedListCtrl', [
 					keywords : $scope.keywords
 				}, callback);
 			};
+
+			var watch_scrolling = true;
+			var watch_current = true;
+
+			$scope.$watch('current', function(newValue, oldValue) {
+				if (!watch_current) {
+					return;
+				}
+				if (newValue && newValue !== oldValue) {
+					var force = $scope.navigationMode == 'keyboard';
+
+					// timeout here to execute after dom update
+					$timeout(function() {
+						var docTop = $(window).scrollTop();
+						var docBottom = docTop + $(window).height();
+
+						var elem = $('#entry_' + newValue.id);
+						var elemTop = elem.offset().top;
+						var elemBottom = elemTop + elem.height();
+
+						if (!force && (elemTop > docTop) && (elemBottom < docBottom)) {
+							// element is entirely visible
+							return;
+						} else {
+							var scrollTop = elemTop - $('#toolbar').outerHeight();
+							watch_scrolling = false;
+							$('html, body').animate({
+								scrollTop : scrollTop
+							}, 400, 'swing', function() {
+								watch_scrolling = true;
+							});
+						}
+					});
+				}
+			});
+
+			var scrollHandler = function() {
+				if (!watch_scrolling || _.size($scope.entries) === 0) {
+					return;
+				}
+
+				$scope.navigationMode = 'scroll';
+				if (SettingsService.settings.viewMode == 'expanded') {
+					var w = $(window);
+					var docTop = w.scrollTop();
+
+					var current = null;
+					for ( var i = 0; i < $scope.entries.length; i++) {
+						var entry = $scope.entries[i];
+						var e = $('#entry_' + entry.id);
+						if (e.offset().top + e.height() > docTop + $('#toolbar').outerHeight()) {
+							current = entry;
+							break;
+						}
+					}
+
+					var previous = $scope.current;
+					$scope.current = current;
+					if (previous != current) {
+						if (SettingsService.settings.scrollMarks) {
+							$scope.mark($scope.current, true);
+						}
+						watch_current = false;
+						$scope.$apply();
+						watch_current = true;
+					}
+				}
+			};
+			var scrollListener = _.throttle(scrollHandler, 200);
+			$window.on('scroll', scrollListener);
+			$scope.$on('$destroy', function() {
+				return $window.off('scroll', scrollListener);
+			});
 
 			$scope.goToFeed = function(id) {
 				$state.transitionTo('feeds.view', {
@@ -952,16 +1027,6 @@ module.controller('FeedListCtrl', [
 				if (!event.ctrlKey && event.which != 2) {
 					event.preventDefault();
 					event.stopPropagation();
-				}
-			};
-
-			$scope.onScroll = function(entry) {
-				$scope.navigationMode = 'scroll';
-				if (SettingsService.settings.viewMode == 'expanded') {
-					$scope.current = entry;
-					if (SettingsService.settings.scrollMarks) {
-						$scope.mark(entry, true);
-					}
 				}
 			};
 

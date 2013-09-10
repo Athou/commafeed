@@ -15,6 +15,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.baeldung.live.UrlUnshortenerUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Document.OutputSettings;
@@ -99,7 +100,7 @@ public class FeedUtils {
 		if (url == null) {
 			return null;
 		}
-		String normalized = URLCanonicalizer.getCanonicalURL(url);
+		String normalized = URLCanonicalizer.getCanonicalURL(UrlUnshortenerUtil.expand(url));
 		if (normalized == null) {
 			normalized = url;
 		}

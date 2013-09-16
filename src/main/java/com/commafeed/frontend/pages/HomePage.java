@@ -4,6 +4,7 @@ import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.frontend.CommaFeedSession;
@@ -21,7 +22,11 @@ public class HomePage extends BasePage {
 		response.render(CssHeaderItem.forReference(new UserCustomCssReference() {
 			@Override
 			protected String getCss() {
-				UserSettings settings = userSettingsDAO.findByUser(CommaFeedSession.get().getUser());
+				User user = CommaFeedSession.get().getUser();
+				if (user == null) {
+					return null;
+				}
+				UserSettings settings = userSettingsDAO.findByUser(user);
 				return settings == null ? null : settings.getCustomCss();
 			}
 		}, new PageParameters().add("_t", System.currentTimeMillis()), null));

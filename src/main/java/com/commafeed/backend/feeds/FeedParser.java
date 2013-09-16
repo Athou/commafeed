@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.baeldung.live.UrlUnshortenerUtil;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.xml.sax.InputSource;
@@ -82,7 +83,9 @@ public class FeedParser {
 					continue;
 				}
 				entry.setGuid(FeedUtils.truncate(guid, 2048));
-				entry.setUrl(FeedUtils.truncate(FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink()), 2048));
+				String url = FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink());
+				
+				entry.setUrl(FeedUtils.truncate(UrlUnshortenerUtil.expand(url), 2048));
 				entry.setUpdated(validateDate(getEntryUpdateDate(item), true));
 
 				FeedEntryContent content = new FeedEntryContent();
@@ -91,7 +94,7 @@ public class FeedParser {
 				content.setAuthor(StringUtils.trimToNull(item.getAuthor()));
 				SyndEnclosure enclosure = (SyndEnclosure) Iterables.getFirst(item.getEnclosures(), null);
 				if (enclosure != null) {
-					content.setEnclosureUrl(FeedUtils.truncate(enclosure.getUrl(), 2048));
+					content.setEnclosureUrl(FeedUtils.truncate( UrlUnshortenerUtil.expand(enclosure.getUrl()), 2048));
 					content.setEnclosureType(enclosure.getType());
 				}
 				entry.setContent(content);

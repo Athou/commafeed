@@ -25,6 +25,9 @@ public class FeedUtilsTest {
 		
 		String urld1 = "http://fivefilters.org/content-only/makefulltextfeed.php?url=http://feeds.feedburner.com/Frandroid";
 		String urld2 = "http://fivefilters.org/content-only/makefulltextfeed.php?url=http://feeds2.feedburner.com/Frandroid";
+		
+		String urlShortenedForDesktop = "http://bit.ly/17FZvgN";
+		String urlShortenedForMobile  = "http://bit.ly/189Hprp";
 
 		Assert.assertEquals(FeedUtils.normalizeURL(urla1), FeedUtils.normalizeURL(urla2));
 		Assert.assertEquals(FeedUtils.normalizeURL(urla1), FeedUtils.normalizeURL(urla3));
@@ -37,6 +40,7 @@ public class FeedUtilsTest {
 		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc3));
 		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc4));
 		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc5));
+		Assert.assertEquals(FeedUtils.normalizeURL(urlShortenedForDesktop), FeedUtils.normalizeURL(urlShortenedForDesktop));
 		
 		Assert.assertNotEquals(FeedUtils.normalizeURL(urld1), FeedUtils.normalizeURL(urld2));
 

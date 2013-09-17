@@ -98,9 +98,16 @@ public class DatabaseCleaningService {
 		feedDAO.saveOrUpdate(into);
 	}
 
-	public void cleanStatusesOlderThan(Date olderThan) {
+	public long cleanStatusesOlderThan(Date olderThan) {
 		log.info("cleaning old read statuses");
-		int deleted = feedEntryStatusDAO.deleteOldStatuses(olderThan);
-		log.info("cleaned {} read statuses", deleted);
+		long total = 0;
+		int deleted = -1;
+		do {
+			deleted = feedEntryStatusDAO.deleteOldStatuses(olderThan, 100);
+			total += deleted;
+			log.info("cleaned {} old read statuses", total);
+		} while (deleted != 0);
+		log.info("cleanup done: {} old read statuses deleted", total);
+		return total;
 	}
 }

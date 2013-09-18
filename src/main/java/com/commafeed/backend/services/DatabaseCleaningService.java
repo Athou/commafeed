@@ -1,6 +1,7 @@
 package com.commafeed.backend.services;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +16,7 @@ import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 
 /**
@@ -101,12 +103,15 @@ public class DatabaseCleaningService {
 	public long cleanStatusesOlderThan(Date olderThan) {
 		log.info("cleaning old read statuses");
 		long total = 0;
-		int deleted = -1;
+		List<FeedEntryStatus> list = Collections.emptyList();
 		do {
-			deleted = feedEntryStatusDAO.deleteOldStatuses(olderThan, 100);
-			total += deleted;
-			log.info("cleaned {} old read statuses", total);
-		} while (deleted != 0);
+			list = feedEntryStatusDAO.getOldStatuses(olderThan, 100);
+			if (!list.isEmpty()) {
+				feedEntryStatusDAO.delete(list);
+				total += list.size();
+				log.info("cleaned {} old read statuses", total);
+			}
+		} while (!list.isEmpty());
 		log.info("cleanup done: {} old read statuses deleted", total);
 		return total;
 	}

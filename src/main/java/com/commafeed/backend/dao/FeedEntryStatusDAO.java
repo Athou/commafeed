@@ -290,11 +290,17 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		setTimeout(query, applicationSettingsService.get().getQueryTimeout());
 	}
 
-	public int deleteOldStatuses(Date olderThan, int limit) {
-		Query query = em.createNamedQuery("Statuses.deleteOld");
-		query.setParameter("date", olderThan);
-		query.setMaxResults(limit);
-		return query.executeUpdate();
+	public List<FeedEntryStatus> getOldStatuses(Date olderThan, int limit) {
+		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
+		Root<FeedEntryStatus> root = query.from(getType());
+
+		Predicate p1 = builder.lessThan(root.get(FeedEntryStatus_.entryInserted), olderThan);
+		Predicate p2 = builder.isFalse(root.get(FeedEntryStatus_.starred));
+
+		query.where(p1, p2);
+		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
+		q.setMaxResults(limit);
+		return q.getResultList();
 	}
 
 }

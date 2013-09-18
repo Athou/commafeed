@@ -4,9 +4,9 @@ import java.util.Date;
 
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.DatabaseCleaningService;
@@ -16,6 +16,7 @@ import com.commafeed.backend.services.DatabaseCleaningService;
  * 
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.BEAN)
 public class ScheduledTasks {
 
 	@Inject
@@ -23,9 +24,6 @@ public class ScheduledTasks {
 
 	@Inject
 	DatabaseCleaningService cleaner;
-
-	@PersistenceContext
-	EntityManager em;
 
 	/**
 	 * clean old read statuses, runs every day at midnight

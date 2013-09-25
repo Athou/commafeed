@@ -214,7 +214,7 @@
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
-			<version>2.1.0</version>
+			<version>2.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.liquibase</groupId>
@@ -303,7 +303,7 @@
 		<dependency>
 			<groupId>net.sourceforge.cssparser</groupId>
 			<artifactId>cssparser</artifactId>
-			<version>0.9.9</version>
+			<version>0.9.10</version>
 		</dependency>
 
 		<dependency>
@@ -320,7 +320,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.2.2</version>
+			<version>2.2.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

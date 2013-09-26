@@ -260,8 +260,8 @@
 					<property name="external_addr">${env.OPENSHIFT_GEAR_DNS}</property>
 					<property name="external_port">${env.OPENSHIFT_JBOSSEAP_CLUSTER_PROXY_PORT}
 					</property>
-					<property name="bind_port">7600</property>
-					<property name="bind_addr">${env.OPENSHIFT_INTERNAL_IP}</property>
+					<property name="bind_port">${env.OPENSHIFT_JBOSSEAP_CLUSTER_PORT}</property>
+					<property name="bind_addr">${env.OPENSHIFT_JBOSSEAP_IP}</property>
 				</transport>
 				<protocol type="TCPPING">
 					<property name="timeout">3000</property>
@@ -476,38 +476,38 @@
 
 	<interfaces>
 		<interface name="management">
-			<loopback-address value="${env.OPENSHIFT_INTERNAL_IP}" />
+			<loopback-address value="${env.OPENSHIFT_JBOSSEAP_IP}" />
 		</interface>
 		<interface name="public">
-			<loopback-address value="${env.OPENSHIFT_INTERNAL_IP}" />
+			<loopback-address value="${env.OPENSHIFT_JBOSSEAP_IP}" />
 		</interface>
 		<interface name="unsecure">
 			<!-- Used for IIOP sockets in the standarad configuration. To secure JacORB 
 				you need to setup SSL -->
-			<loopback-address value="${env.OPENSHIFT_INTERNAL_IP}" />
+			<loopback-address value="${env.OPENSHIFT_JBOSSEAP_IP}" />
 		</interface>
 	</interfaces>
 
 	<socket-binding-group name="standard-sockets"
 		default-interface="public" port-offset="0">
 		<socket-binding name="management-native" interface="management"
-			port="9999" />
+			port="${env.OPENSHIFT_JBOSSEAP_MANAGEMENT_NATIVE_PORT}" />
 		<socket-binding name="management-http" interface="management"
-			port="9990" />
+			port="${env.OPENSHIFT_JBOSSEAP_MANAGEMENT_HTTP_PORT}" />
 
-		<socket-binding name="http" port="8080" />
+		<socket-binding name="http" port="${env.OPENSHIFT_JBOSSEAP_HTTP_PORT}" />
 		<socket-binding name="jacorb" interface="unsecure"
 			port="3528" />
 		<socket-binding name="jacorb-ssl" interface="unsecure"
 			port="3529" />
-		<socket-binding name="jgroups-tcp" port="7600" />
-		<socket-binding name="messaging" port="5445" />
+		<socket-binding name="jgroups-tcp" port="${env.OPENSHIFT_JBOSSEAP_CLUSTER_PORT}" />
+		<socket-binding name="messaging" port="${env.OPENSHIFT_JBOSSEAP_MESSAGING_PORT}" />
 		<!--socket-binding name="messaging-group" multicast-address="${jboss.messaging.group.address:231.7.7.7}" 
 			multicast-port="${jboss.messaging.group.port:9876}"/ -->
 		<socket-binding name="messaging-throughput" port="5455" />
 		<socket-binding name="osgi-http" interface="management"
 			port="8090" />
-		<socket-binding name="remoting" port="4447" />
+		<socket-binding name="remoting" port="${env.OPENSHIFT_JBOSSEAP_REMOTING_PORT}" />
 		<socket-binding name="txn-recovery-environment" port="4712" />
 		<socket-binding name="txn-status-manager" port="4713" />
 		<outbound-socket-binding name="mail-smtp">

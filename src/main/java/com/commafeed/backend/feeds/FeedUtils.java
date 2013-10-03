@@ -1,6 +1,8 @@
 package com.commafeed.backend.feeds;
 
 import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -15,6 +17,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.wicket.request.UrlUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Document.OutputSettings;
@@ -389,17 +392,37 @@ public class FeedUtils {
 		return url;
 	}
 
-	public static String toAbsoluteUrl(String url, String baseUrl) {
+	/**
+	 * 
+	 * @param url
+	 *            the url of the entry
+	 * @param feedLink
+	 *            the url of the feed as described in the feed
+	 * @param feedUrl
+	 *            the url of the feed that we used to fetch the feed
+	 * @return an absolute url pointing to the entry
+	 */
+	public static String toAbsoluteUrl(String url, String feedLink, String feedUrl) {
 		url = StringUtils.trimToNull(StringUtils.normalizeSpace(url));
-		if (baseUrl == null || url == null || url.startsWith("http")) {
+		if (url == null || url.startsWith("http")) {
 			return url;
 		}
 
-		if (url.startsWith("/") == false) {
-			url = "/" + url;
+		String baseUrl = (feedLink == null || UrlUtils.isRelative(feedLink)) ? feedUrl : feedLink;
+
+		if (baseUrl == null) {
+			return url;
 		}
 
-		return baseUrl + url;
+		String result = null;
+		try {
+			result = new URL(new URL(baseUrl), url).toString();
+		} catch (MalformedURLException e) {
+			log.debug("could not parse url : " + e.getMessage(), e);
+			result = url;
+		}
+
+		return result;
 	}
 
 	public static String getFaviconUrl(FeedSubscription subscription, String publicUrl) {

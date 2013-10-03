@@ -15,14 +15,13 @@ public class FeedUtilsTest {
 
 		String urlb1 = "http://ftr.fivefilters.org/makefulltextfeed.php?url=http%3A%2F%2Ffeeds.howtogeek.com%2FHowToGeek&max=10&summary=1";
 		String urlb2 = "http://ftr.fivefilters.org/makefulltextfeed.php?url=http://feeds.howtogeek.com/HowToGeek&max=10&summary=1";
-		
+
 		String urlc1 = "http://feeds.feedburner.com/Frandroid";
 		String urlc2 = "http://feeds2.feedburner.com/frandroid";
 		String urlc3 = "http://feedproxy.google.com/frandroid";
 		String urlc4 = "http://feeds.feedburner.com/Frandroid/";
 		String urlc5 = "http://feeds.feedburner.com/Frandroid?format=rss";
-		
-		
+
 		String urld1 = "http://fivefilters.org/content-only/makefulltextfeed.php?url=http://feeds.feedburner.com/Frandroid";
 		String urld2 = "http://fivefilters.org/content-only/makefulltextfeed.php?url=http://feeds2.feedburner.com/Frandroid";
 
@@ -32,14 +31,26 @@ public class FeedUtilsTest {
 		Assert.assertEquals(FeedUtils.normalizeURL(urla1), FeedUtils.normalizeURL(urla5));
 
 		Assert.assertEquals(FeedUtils.normalizeURL(urlb1), FeedUtils.normalizeURL(urlb2));
-		
+
 		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc2));
 		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc3));
 		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc4));
 		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc5));
-		
+
 		Assert.assertNotEquals(FeedUtils.normalizeURL(urld1), FeedUtils.normalizeURL(urld2));
 
 	}
-}
 
+	@Test
+	public void testToAbsoluteUrl() {
+		String expected = "http://a.com/blog/entry/1";
+		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("http://a.com/blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
+		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("http://a.com/blog/entry/1", "http://a.com/feed", "http://a.com/feed"));
+		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("../blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
+		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("../blog/entry/1", "feed.xml", "http://a.com/feed/feed.xml"));
+
+		Assert.assertEquals("http://ergoemacs.org/emacs/elisp_all_about_lines.html",
+				FeedUtils.toAbsoluteUrl("elisp_all_about_lines.html", "blog.xml", "http://ergoemacs.org/emacs/blog.xml"));
+
+	}
+}

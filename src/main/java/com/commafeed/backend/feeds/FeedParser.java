@@ -82,7 +82,7 @@ public class FeedParser {
 					continue;
 				}
 				entry.setGuid(FeedUtils.truncate(guid, 2048));
-				entry.setUrl(FeedUtils.truncate(FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink()), 2048));
+				entry.setUrl(FeedUtils.truncate(FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink(), feed.getUrlAfterRedirect()), 2048));
 				entry.setUpdated(validateDate(getEntryUpdateDate(item), true));
 
 				FeedEntryContent content = new FeedEntryContent();

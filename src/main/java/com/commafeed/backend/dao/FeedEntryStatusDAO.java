@@ -15,7 +15,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
@@ -40,6 +40,7 @@ import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.frontend.model.UnreadCount;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 
 @Stateless
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
@@ -50,16 +51,14 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_DESC = new Comparator<FeedEntryStatus>() {
 		@Override
 		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
-			return ObjectUtils.compare(o2.getEntryUpdated(), o1.getEntryUpdated());
+			CompareToBuilder builder = new CompareToBuilder();
+			builder.append(o2.getEntryUpdated(), o1.getEntryUpdated());
+			builder.append(o2.getId(), o1.getId());
+			return builder.build();
 		};
 	};
 
-	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = new Comparator<FeedEntryStatus>() {
-		@Override
-		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
-			return ObjectUtils.compare(o1.getEntryUpdated(), o2.getEntryUpdated());
-		};
-	};
+	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = Ordering.from(STATUS_COMPARATOR_DESC).reverse();
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
@@ -165,13 +164,11 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 
 		if (order != null) {
-			Order o = null;
 			if (order == ReadingOrder.asc) {
-				o = Order.asc(FeedEntry_.updated.getName());
+				criteria.addOrder(Order.asc(FeedEntry_.updated.getName())).addOrder(Order.asc(FeedEntry_.id.getName()));
 			} else {
-				o = Order.desc(FeedEntry_.updated.getName());
+				criteria.addOrder(Order.desc(FeedEntry_.updated.getName())).addOrder(Order.desc(FeedEntry_.id.getName()));
 			}
-			criteria.addOrder(o);
 		}
 		if (offset > -1) {
 			criteria.setFirstResult(offset);
@@ -273,15 +270,15 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	private void orderStatusesBy(CriteriaQuery<?> query, Path<FeedEntryStatus> statusJoin, ReadingOrder order) {
-		orderBy(query, statusJoin.get(FeedEntryStatus_.entryUpdated), order);
+		orderBy(query, statusJoin.get(FeedEntryStatus_.entryUpdated), statusJoin.get(FeedEntryStatus_.id), order);
 	}
 
-	private void orderBy(CriteriaQuery<?> query, Path<Date> date, ReadingOrder order) {
+	private void orderBy(CriteriaQuery<?> query, Path<Date> date, Path<Long> id, ReadingOrder order) {
 		if (order != null) {
 			if (order == ReadingOrder.asc) {
-				query.orderBy(builder.asc(date));
+				query.orderBy(builder.asc(date), builder.asc(id));
 			} else {
-				query.orderBy(builder.desc(date));
+				query.orderBy(builder.desc(date), builder.desc(id));
 			}
 		}
 	}

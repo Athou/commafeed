@@ -79,6 +79,7 @@ public class UserREST extends AbstractREST {
 			s.setTheme(settings.getTheme());
 			s.setCustomCss(settings.getCustomCss());
 			s.setLanguage(settings.getLanguage());
+			s.setScrollSpeed(settings.getScrollSpeed());
 		} else {
 			s.setReadingMode(ReadingMode.unread.name());
 			s.setReadingOrder(ReadingOrder.desc.name());
@@ -88,6 +89,7 @@ public class UserREST extends AbstractREST {
 			s.setSocialButtons(true);
 			s.setScrollMarks(true);
 			s.setLanguage("en");
+			s.setScrollSpeed(400);
 		}
 		return Response.ok(s).build();
 	}
@@ -116,6 +118,7 @@ public class UserREST extends AbstractREST {
 		s.setCustomCss(settings.getCustomCss());
 		s.setSocialButtons(settings.isSocialButtons());
 		s.setLanguage(settings.getLanguage());
+		s.setScrollSpeed(settings.getScrollSpeed());
 		userSettingsDAO.saveOrUpdate(s);
 		return Response.ok().build();
 

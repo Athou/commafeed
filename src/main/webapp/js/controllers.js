@@ -785,10 +785,11 @@ module.controller('FeedListCtrl', [
 							return;
 						} else {
 							var scrollTop = elemTop - $('#toolbar').outerHeight();
+							var speed = SettingsService.settings.scrollSpeed;
 							watch_scrolling = false;
 							$('html, body').animate({
 								scrollTop : scrollTop
-							}, 400, 'swing', function() {
+							}, speed, 'swing', function() {
 								watch_scrolling = true;
 							});
 						}

@@ -56,6 +56,11 @@
 					</div>
 					<div class="tab-pane" ng-class="{active: tab == 'css'}">
 						<div>
+							<label>${settings.scroll_speed}</label>
+							<input type="number" ng-model="settings.scrollSpeed" min="0" max="1000" />
+							<span class="help-inline">${settings.scroll_speed.help}</span>
+						</div>
+						<div>
 							<label>${settings.theme}</label>
 							<select ng-model="settings.theme" ng-options="theme for theme in themes"></select>
 							<span class="help-block">

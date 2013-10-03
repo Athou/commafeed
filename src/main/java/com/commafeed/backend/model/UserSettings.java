@@ -68,4 +68,7 @@ public class UserSettings extends AbstractModel {
 	@Column(length = Integer.MAX_VALUE)
 	private String customCss;
 
+	@Column(name = "scroll_speed")
+	private int scrollSpeed;
+
 }

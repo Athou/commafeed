@@ -501,6 +501,10 @@ module.controller('ToolbarCtrl', [
 			$scope.markAllAsRead = function() {
 				markAll();
 			};
+			
+			$scope.markAll12Hours = function() {
+				markAll(new Date().getTime() - 43200000);
+			};
 
 			$scope.markAllDay = function() {
 				markAll(new Date().getTime() - 86400000);

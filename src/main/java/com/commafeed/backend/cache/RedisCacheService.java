@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
+
+import org.apache.commons.pool.impl.GenericObjectPool;
 
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
@@ -30,7 +33,14 @@ public class RedisCacheService extends CacheService {
 
 	private static ObjectMapper mapper = new ObjectMapper();
 
-	private JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
+	private JedisPool pool;
+
+	@PostConstruct
+	private void init() {
+		JedisPoolConfig config = new JedisPoolConfig();
+		config.setWhenExhaustedAction(GenericObjectPool.WHEN_EXHAUSTED_GROW);
+		pool = new JedisPool(config, "localhost");
+	}
 
 	@Override
 	public List<String> getLastEntries(Feed feed) {

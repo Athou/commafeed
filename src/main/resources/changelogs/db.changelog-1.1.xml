@@ -357,6 +357,7 @@
 	</changeSet>
 	
 	<changeSet author="athou" id="status-cleanup">
+		<validCheckSum>7:cf40ae235c2d4086c5fa6ac64102c6a9</validCheckSum>
 		<delete tableName="FEEDENTRYSTATUSES">
 			<where>read_status = false and starred = false</where>
 		</delete>

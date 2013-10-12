@@ -81,7 +81,7 @@ This will generate the file `target/commafeed.war`. Copy this file to your tomee
 * The application is online at [http://localhost:8082/commafeed](http://localhost:8082/commafeed). Don't forget to set the public URL in the admin settings.
 * The default user is `admin` and the password is `admin`.
 
-You can use nginix or apache as a proxy http server. Note that when using apache, the `ProxyPreserveHost on` option should be `set in your config file.
+You can use nginx or apache as a proxy http server. Note that when using apache, the `ProxyPreserveHost on` option should be `set in your config file.
 
 Local development
 -----------------

@@ -152,13 +152,6 @@ module.controller('CategoryTreeCtrl', ['$scope', '$timeout', '$stateParams', '$w
 				}
 			}, true);
 
-			$scope.toTag = function(tag) {
-				$state.transitionTo('feeds.view', {
-					_type : 'tag',
-					_id : tag
-				});
-			};
-
 			$scope.$on('$stateChangeSuccess', function() {
 				$scope.selectedType = $stateParams._type;
 				$scope.selectedId = $stateParams._id;
@@ -457,50 +450,6 @@ module.controller('TagDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedSe
 				$state.transitionTo('feeds.view', {
 					_id : $scope.tag,
 					_type : 'tag'
-				});
-			};
-
-			$scope.deleteTag = function() {
-				var category = $scope.category;
-				var title = 'Delete tag';
-				var msg = 'Delete tag ' + tag + ' ?';
-				var btns = [{
-					result : 'cancel',
-					label : 'Cancel'
-				}, {
-					result : 'ok',
-					label : 'OK',
-					cssClass : 'btn-primary'
-				}];
-
-				$dialog.messageBox(title, msg, btns).open().then(function(result) {
-					if (result == 'ok') {
-						CategoryService.remove({
-							id : category.id
-						}, function() {
-							CategoryService.init();
-						});
-						$state.transitionTo('feeds.view', {
-							_id : 'all',
-							_type : 'category'
-						});
-					}
-				});
-			};
-
-			$scope.save = function() {
-				var cat = $scope.category;
-				CategoryService.modify({
-					id : cat.id,
-					name : cat.name,
-					position : cat.position,
-					parentId : cat.parentId
-				}, function() {
-					CategoryService.init();
-					$state.transitionTo('feeds.view', {
-						_id : 'all',
-						_type : 'category'
-					});
 				});
 			};
 		}]);

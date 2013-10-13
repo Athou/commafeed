@@ -3,6 +3,7 @@ package com.commafeed.frontend.model;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -10,7 +11,9 @@ import com.commafeed.backend.feeds.FeedUtils;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
+import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.FeedSubscription;
+import com.google.common.collect.Lists;
 import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
@@ -42,6 +45,12 @@ public class Entry implements Serializable {
 		entry.setFeedUrl(sub.getFeed().getUrl());
 		entry.setFeedLink(sub.getFeed().getLink());
 		entry.setIconUrl(FeedUtils.getFaviconUrl(sub, publicUrl));
+
+		List<String> tags = Lists.newArrayList();
+		for (FeedEntryTag tag : status.getTags()) {
+			tags.add(tag.getName());
+		}
+		entry.setTags(tags);
 
 		if (content != null) {
 			entry.setRtl(FeedUtils.isRTL(feedEntry));
@@ -125,4 +134,7 @@ public class Entry implements Serializable {
 
 	@ApiProperty("wether the entry is still markable (old entry statuses are discarded)")
 	private boolean markable;
+
+	@ApiProperty("tags")
+	private List<String> tags;
 }

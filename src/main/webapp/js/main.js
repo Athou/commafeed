@@ -54,6 +54,11 @@ app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProv
 				templateUrl : 'templates/feeds.category_details.html',
 				controller : 'CategoryDetailsCtrl'
 			});
+			$stateProvider.state('feeds.tag_details', {
+				url : '/details/tag/:_id',
+				templateUrl : 'templates/feeds.tag_details.html',
+				controller : 'TagDetailsCtrl'
+			});
 			$stateProvider.state('feeds.help', {
 				url : '/help',
 				templateUrl : 'templates/feeds.help.html',
@@ -105,7 +110,7 @@ app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProv
 				templateUrl : 'templates/admin.metrics.html',
 				controller : 'MetricsCtrl'
 			});
-			
+
 			$urlRouterProvider.when('/', '/feeds/view/category/all');
 			$urlRouterProvider.when('/admin', '/admin/settings');
 			$urlRouterProvider.otherwise('/');

@@ -43,7 +43,7 @@ public class FeedEntryService {
 			return;
 		}
 
-		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
+		FeedEntryStatus status = feedEntryStatusDAO.getStatus(user, sub, entry);
 		if (status.isMarkable()) {
 			status.setRead(read);
 			feedEntryStatusDAO.saveOrUpdate(status);
@@ -64,14 +64,14 @@ public class FeedEntryService {
 			return;
 		}
 
-		FeedEntryStatus status = feedEntryStatusDAO.getStatus(sub, entry);
+		FeedEntryStatus status = feedEntryStatusDAO.getStatus(user, sub, entry);
 		status.setStarred(starred);
 		feedEntryStatusDAO.saveOrUpdate(status);
 	}
 
 	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Date olderThan) {
-		List<FeedEntryStatus> statuses = feedEntryStatusDAO
-				.findBySubscriptions(subscriptions, true, null, null, -1, -1, null, false, false);
+		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, null, null, -1, -1, null, false,
+				false, null);
 		markList(statuses, olderThan);
 		cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
 		cache.invalidateUserRootCategory(user);

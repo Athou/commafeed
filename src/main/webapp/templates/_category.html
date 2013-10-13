@@ -1,14 +1,14 @@
 <li>
 	<div class="pointer tree-item" ng-if="showLabel" ng-class="getClass(level - 1)" droppable="node">
 		<div class="dropdown pull-right">
-			<div class="pull-right" ng-click="showCategoryDetails(node)">
+			<div class="pull-right" ng-click="showCategoryDetails(node.id, node.isTag)">
 				<i class="icon-wrench config pointer"></i>
 			</div>
 		</div>
-		<div ng-click="categoryClicked(node.id)" ng-dblclick="showCategoryDetails(node)">
+		<div ng-click="categoryClicked(node.id, node.isTag)" ng-dblclick="showCategoryDetails(node.id, node.isTag)">
 			<span class="fldr">
 				<i ng-class="{'icon-caret-right': !node.expanded, 'icon-caret-down': node.expanded}" ng-click="toggleCategory(node, $event)" ng-show="showChildren"></i>
-				<i ng-class="{'icon-star' : node.id == 'starred', 'icon-inbox': node.id == 'all'}" ng-show="!showChildren"></i>
+				<i ng-class="{'icon-star' : node.id == 'starred', 'icon-inbox': node.id == 'all', 'icon-tag' : node.isTag}" ng-show="!showChildren"></i>
 			</span>
 			<span ng-class="{selected: (node.id == selectedId && selectedType == 'category')}">
 				<span ng-class="{unread: unreadCount({category:node})}" class="bidi-embed">

@@ -167,8 +167,8 @@ public class FeedREST extends AbstractREST {
 			entries.setErrorCount(subscription.getFeed().getErrorCount());
 			entries.setFeedLink(subscription.getFeed().getLink());
 
-			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(Arrays.asList(subscription), unreadOnly, keywords,
-					newerThanDate, offset, limit + 1, order, true, onlyIds);
+			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(getUser(), Arrays.asList(subscription), unreadOnly,
+					keywords, newerThanDate, offset, limit + 1, order, true, onlyIds, null);
 
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(

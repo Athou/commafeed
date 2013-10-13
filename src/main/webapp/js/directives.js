@@ -31,6 +31,38 @@ module.directive('popup', function() {
 });
 
 /**
+ * entry tag handling
+ */
+module.directive('tags', function() {
+	return {
+		restrict : 'E',
+		scope : {
+			entry : '='
+		},
+		replace : true,
+		templateUrl : 'templates/_tags.html',
+		controller : ['$scope', 'EntryService', function($scope, EntryService) {
+			$scope.select2Options = {
+				'multiple' : true,
+				'simple_tags' : true,
+				'maximumInputLength' : 40,
+				tags : EntryService.tags
+			};
+
+			$scope.$watch('entry.tags', function(newValue, oldValue) {
+				if (newValue && oldValue && newValue != oldValue) {
+					var data = {
+						entryId : $scope.entry.id,
+						tags : newValue
+					};
+					EntryService.tag(data);
+				}
+			}, true);
+		}]
+	};
+});
+
+/**
  * Reusable favicon component
  */
 module.directive('favicon', function() {
@@ -116,7 +148,8 @@ module.directive('category', [function() {
 			selectedId : '=',
 			showLabel : '=',
 			showChildren : '=',
-			unreadCount : '&'
+			unreadCount : '&',
+			tag : '='
 		},
 		restrict : 'E',
 		replace : true,
@@ -174,13 +207,14 @@ module.directive('category', [function() {
 						}
 					};
 
-					$scope.categoryClicked = function(id) {
+					$scope.categoryClicked = function(id, isTag) {
 						MobileService.toggleLeftMenu();
-						if ($scope.selectedType == 'category' && id == $scope.selectedId) {
+						var type = isTag ? 'tag' : 'category';
+						if ($scope.selectedType == type && id == $scope.selectedId) {
 							$scope.$emit('emitReload');
 						} else {
 							$state.transitionTo('feeds.view', {
-								_type : 'category',
+								_type : type,
 								_id : id
 							});
 						}
@@ -192,10 +226,16 @@ module.directive('category', [function() {
 						});
 					};
 
-					$scope.showCategoryDetails = function(category) {
-						$state.transitionTo('feeds.category_details', {
-							_id : category.id
-						});
+					$scope.showCategoryDetails = function(id, isTag) {
+						if (isTag) {
+							$state.transitionTo('feeds.tag_details', {
+								_id : id
+							});
+						} else {
+							$state.transitionTo('feeds.category_details', {
+								_id : id
+							});
+						}
 					};
 
 					$scope.toggleCategory = function(category, event) {

@@ -106,7 +106,8 @@ public class CategoryREST extends AbstractREST {
 			@ApiParam(
 					value = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
 			@ApiParam(value = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds,
-			@ApiParam(value = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds) {
+			@ApiParam(value = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
+			@ApiParam(value = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {
 
 		Preconditions.checkNotNull(readType);
 
@@ -138,8 +139,8 @@ public class CategoryREST extends AbstractREST {
 			entries.setName("All");
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(getUser());
 			removeExcludedSubscriptions(subs, excludedIds);
-			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(subs, unreadOnly, keywords, newerThanDate, offset,
-					limit + 1, order, true, onlyIds);
+			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(getUser(), subs, unreadOnly, keywords, newerThanDate,
+					offset, limit + 1, order, true, onlyIds, tag);
 
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(
@@ -161,8 +162,8 @@ public class CategoryREST extends AbstractREST {
 				List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(getUser(), parent);
 				List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(getUser(), categories);
 				removeExcludedSubscriptions(subs, excludedIds);
-				List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(subs, unreadOnly, keywords, newerThanDate, offset,
-						limit + 1, order, true, onlyIds);
+				List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(getUser(), subs, unreadOnly, keywords, newerThanDate,
+						offset, limit + 1, order, true, onlyIds, tag);
 
 				for (FeedEntryStatus status : list) {
 					entries.getEntries().add(
@@ -192,7 +193,9 @@ public class CategoryREST extends AbstractREST {
 	@Produces(MediaType.APPLICATION_XML)
 	@SecurityCheck(value = Role.USER, apiKeyAllowed = true)
 	public Response getCategoryEntriesAsFeed(
-			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id) {
+			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id, @ApiParam(
+					value = "tag",
+					required = true) @QueryParam("tag") String tag) {
 
 		Preconditions.checkNotNull(id);
 
@@ -201,7 +204,7 @@ public class CategoryREST extends AbstractREST {
 		int offset = 0;
 		int limit = 20;
 
-		Response response = getCategoryEntries(id, readType, null, offset, limit, order, null, false, null);
+		Response response = getCategoryEntries(id, readType, null, offset, limit, order, null, false, null, tag);
 		if (response.getStatus() != Status.OK.getStatusCode()) {
 			return response;
 		}

@@ -2,6 +2,15 @@
 	cursor: pointer;
 }
 
+.nolink {
+	color: inherit;
+}
+
+.nolink:hover {
+	text-decoration: none;
+	color: inherit;
+}
+
 .block {
 	display: block;
 }

@@ -9,8 +9,39 @@
 	</changeSet>
 	<changeSet author="athou" id="set-default-scroll-speed">
 		<update tableName="USERSETTINGS">
-		    <column name="scroll_speed" valueNumeric="400" />
+			<column name="scroll_speed" valueNumeric="400" />
 		</update>
+	</changeSet>
+
+	<changeSet author="athou" id="create-tags-table">
+		<createTable tableName="FEEDENTRYTAGS">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="entry_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="user_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="name" type="VARCHAR(40)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="fk_entry_id" baseTableName="FEEDENTRYTAGS" baseColumnNames="entry_id"
+			referencedTableName="FEEDENTRIES" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_user_id" baseTableName="FEEDENTRYTAGS" baseColumnNames="user_id"
+			referencedTableName="USERS" referencedColumnNames="id" />
+
+		<createIndex tableName="FEEDENTRYTAGS" indexName="user_entry_index">
+			<column name="user_id" />
+			<column name="entry_id" />
+		</createIndex>
+		<createIndex tableName="FEEDENTRYTAGS" indexName="user_name_index">
+			<column name="user_id" />
+			<column name="name" />
+		</createIndex>
 	</changeSet>
 
 </databaseChangeLog>

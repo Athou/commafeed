@@ -1,17 +1,23 @@
 package com.commafeed.frontend.rest.resources;
 
+import java.util.List;
+
 import javax.inject.Inject;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
+import com.commafeed.backend.dao.FeedEntryTagDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.backend.services.FeedEntryService;
+import com.commafeed.backend.services.FeedEntryTagService;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.MultipleMarkRequest;
 import com.commafeed.frontend.model.request.StarRequest;
+import com.commafeed.frontend.model.request.TagRequest;
 import com.google.common.base.Preconditions;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -29,6 +35,12 @@ public class EntryREST extends AbstractREST {
 
 	@Inject
 	FeedSubscriptionDAO feedSubscriptionDAO;
+
+	@Inject
+	FeedEntryTagDAO feedEntryTagDAO;
+
+	@Inject
+	FeedEntryTagService feedEntryTagService;
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
@@ -67,6 +79,26 @@ public class EntryREST extends AbstractREST {
 		Preconditions.checkNotNull(req.getFeedId());
 
 		feedEntryService.starEntry(getUser(), Long.valueOf(req.getId()), req.getFeedId(), req.isStarred());
+
+		return Response.ok().build();
+	}
+
+	@Path("/tags")
+	@GET
+	@ApiOperation(value = "Get list of tags for the user", notes = "Get list of tags for the user")
+	public Response getTags() {
+		List<String> tags = feedEntryTagDAO.findByUser(getUser());
+		return Response.ok(tags).build();
+	}
+
+	@Path("/tag")
+	@POST
+	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
+	public Response tagFeedEntry(@ApiParam(value = "Tag Request", required = true) TagRequest req) {
+		Preconditions.checkNotNull(req);
+		Preconditions.checkNotNull(req.getEntryId());
+
+		feedEntryTagService.updateTags(getUser(), req.getEntryId(), req.getTags());
 
 		return Response.ok().build();
 	}

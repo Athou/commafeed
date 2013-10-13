@@ -13,9 +13,9 @@
 			<span ng-show="keywords">${view.search_for} '{{keywords}}'</span>
 		</h3>
 	</div>
-	
-	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode" infinite-scroll-distance="1" id="feed-accordion"
-		ng-class="{'expanded' : settingsService.settings.viewMode == 'expanded' }">
+
+	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode"
+		infinite-scroll-distance="1" id="feed-accordion" ng-class="{'expanded' : settingsService.settings.viewMode == 'expanded' }">
 		<div ng-show="message && errorCount > 10">${view.error_while_loading_feed} : {{message}}</div>
 		<div ng-repeat="entry in entries" class="entry entry-font-size-{{font_size}}" id="entry_{{entry.id}}"
 			ng-class="{unread: entry.read == false, current: current==entry, open: isOpen, closed: !isOpen }">
@@ -23,8 +23,7 @@
 				<a href="{{entry.url}}" target="_blank" class="entry-heading-link" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)">
 					<span class="feed-name">
 						<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
-							<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}"
-								class="pointer"></i>
+							<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}" class="pointer"></i>
 						</span>
 						<favicon url="entry.iconUrl" />
 						{{entry.feedName}}
@@ -36,15 +35,17 @@
 					<i class="icon-external-link"></i>
 				</a>
 			</div>
-			<div class="entry-body" ng-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)" ng-mouseup="bodyClicked(entry, $event)"
-				ng-class="{rtl: entry.rtl}">
+			<div class="entry-body" ng-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)"
+				ng-mouseup="bodyClicked(entry, $event)" ng-class="{rtl: entry.rtl}">
 				<div class="entry-header">
 					<div class="entry-title">
 						<a href="{{entry.url}}" target="_blank" ng-bind-html-unsafe="entry.title | highlight:keywords"></a>
 						<div class="entry-subtitle">
 							<span class="entry-source" ng-if="selectedType == 'category'">
 								<span class="entry-source-prefix">${view.entry_source}</span>
-								<a ng-click="goToFeed(entry.feedId)" class="pointer bidi-embed"><span>{{entry.feedName}}</span></a>
+								<a ng-click="goToFeed(entry.feedId)" class="pointer bidi-embed">
+									<span>{{entry.feedName}}</span>
+								</a>
 							</span>
 							<span class="entry-author" ng-if="entry.author">
 								<span class="entry-author-prefix">${view.entry_author}</span>
@@ -66,16 +67,13 @@
 						<div ng-if="entry.enclosureType && entry.enclosureType.indexOf('image') == 0">
 							<img ng-src="{{entry.enclosureUrl}}" />
 						</div>
-						<a href="{{entry.enclosureUrl}}" target="_blank" ng-if="entry.enclosureType" download>
-							${global.download}
-						</a>
+						<a href="{{entry.enclosureUrl}}" target="_blank" ng-if="entry.enclosureType" download> ${global.download} </a>
 					</div>
 				</div>
 				<div class="entry-buttons form-horizontal">
-				
+
 					<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
-						<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}"
-							class="pointer"></i>
+						<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}" class="pointer"></i>
 					</span>
 					<label class="checkbox inline" ng-if="entry.markable">
 						<input type="checkbox" ng-checked="!entry.read" ng-click="mark(entry, !entry.read)" class="mousetrap"></input>
@@ -86,7 +84,8 @@
 						<a href="mailto:?subject={{entry.title|escape}}&body={{entry.url|escape}}" title="E-mail" popup>
 							<i class="icon-envelope"></i>
 						</a>
-						<a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&source=mailto&su={{entry.title|escape}}&body={{entry.url|escape}}" title="Gmail" popup>
+						<a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&source=mailto&su={{entry.title|escape}}&body={{entry.url|escape}}"
+							title="Gmail" popup>
 							<i class="icon-gmail"></i>
 						</a>
 						<a href="http://www.facebook.com/sharer.php?u=={{entry.url|escape}}" title="Facebook" popup>
@@ -108,7 +107,10 @@
 							<i class="icon-buffer"></i>
 						</a>
 					</span>
-					
+
+					<span class="tags-panel">
+						<tags entry="entry"></tags>
+					</span>
 					<a ng-click="markUpTo(entry)" class="mark-up-to" title="${view.mark_up_to_here}">
 						<i class="icon-step-forward icon-rotate-90"></i>
 					</a>

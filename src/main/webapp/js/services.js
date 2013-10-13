@@ -126,7 +126,7 @@ module.factory('CategoryService', ['$resource', '$http', function($resource, $ht
 		callback(category, parentName);
 		var children = category.children;
 		if (children) {
-			for ( var c = 0; c < children.length; c++) {
+			for (var c = 0; c < children.length; c++) {
 				traverse(callback, children[c], category.name);
 			}
 		}
@@ -271,9 +271,29 @@ module.factory('EntryService', ['$resource', '$http', function($resource, $http)
 			params : {
 				_method : 'star'
 			}
+		},
+		tag : {
+			method : 'POST',
+			params : {
+				_method : 'tag'
+			}
 		}
 	};
 	var res = $resource('rest/entry/:_method', {}, actions);
+	res.tags = [];
+	var initTags = function() {
+		$http.get('rest/entry/tags').success(function(data) {
+			res.tags = [];
+			res.tags.push.apply(res.tags, data);
+		});
+	};
+	var oldTag = res.tag;
+	res.tag = function(data) {
+		oldTag(data, function() {
+			initTags();
+		});
+	};
+	initTags();
 	return res;
 }]);
 
@@ -295,7 +315,6 @@ module.factory('AdminMetricsService', ['$resource', function($resource) {
 	var res = $resource('rest/admin/metrics/');
 	return res;
 }]);
-
 
 module.factory('AdminCleanupService', ['$resource', function($resource) {
 	var actions = {

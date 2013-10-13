@@ -143,7 +143,7 @@
 }
 
 .full-screen #feed-accordion  .entry-body-content {
-	max-width: 100%;	
+	max-width: 100%;
 }
 
 #feed-accordion .entry-enclosure {
@@ -170,6 +170,24 @@
 
 #feed-accordion .share-buttons a:hover {
 	text-decoration: none;
+}
+
+#feed-accordion .tags-panel {
+	margin-left: 30px;
+}
+
+#feed-accordion .tags-panel .label{
+	margin-left: 5px;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input {
+	padding: 2px
+}
+
+#feed-accordion .tag-input {
+	margin: 0 0 0 5px;
+	padding: 0;
+	width: 200px;
 }
 
 #feed-accordion .entry-buttons label {

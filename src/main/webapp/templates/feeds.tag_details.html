@@ -1,0 +1,19 @@
+<div>
+	<div class="page-header">
+		<h3>${details.tag_details}</h3>
+	</div>
+	<form name="form" class="form-horizontal" ng-submit="save()">
+		<div class="control-group">
+			<label class="control-label">${details.feed_url}</label>
+			<div class="controls horizontal-align">
+				<a ng-show="user.apiKey" href="{{'rest/category/entriesAsFeed?id=all&tag=' + tag + '&apiKey=' + user.apiKey}}" target="_blank">${global.link}</a>
+				<span ng-show="!user.apiKey">${details.generate_api_key_first}</span>
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="button" class="btn" ng-click="back()">${global.cancel}</button>
+		</div>
+	</form>
+
+</div>

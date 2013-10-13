@@ -125,15 +125,38 @@ module.controller('SubscribeCtrl', ['$scope', 'FeedService', 'CategoryService', 
 		}]);
 
 module.controller('CategoryTreeCtrl', ['$scope', '$timeout', '$stateParams', '$window', '$location', '$state', '$route', 'CategoryService',
-		'AnalyticsService',
-		function($scope, $timeout, $stateParams, $window, $location, $state, $route, CategoryService, AnalyticsService) {
+		'AnalyticsService', 'EntryService',
+		function($scope, $timeout, $stateParams, $window, $location, $state, $route, CategoryService, AnalyticsService, EntryService) {
 
 			$scope.selectedType = $stateParams._type;
 			$scope.selectedId = $stateParams._id;
 
+			$scope.EntryService = EntryService;
+
 			$scope.starred = {
 				id : 'starred',
 				name : 'Starred'
+			};
+
+			$scope.tags = [];
+			$scope.$watch('EntryService.tags', function(newValue, oldValue) {
+				if (newValue) {
+					$scope.tags = [];
+					_.each(newValue, function(e) {
+						$scope.tags.push({
+							id : e,
+							name : e,
+							isTag : true
+						});
+					});
+				}
+			}, true);
+
+			$scope.toTag = function(tag) {
+				$state.transitionTo('feeds.view', {
+					_type : 'tag',
+					_id : tag
+				});
 			};
 
 			$scope.$on('$stateChangeSuccess', function() {
@@ -201,7 +224,7 @@ module.controller('CategoryTreeCtrl', ['$scope', '$timeout', '$stateParams', '$w
 
 			var getCurrentIndex = function(id, type, flat) {
 				var index = -1;
-				for ( var i = 0; i < flat.length; i++) {
+				for (var i = 0; i < flat.length; i++) {
 					var node = flat[i];
 					if (node[0] == id && node[1] == type) {
 						index = i;
@@ -355,7 +378,7 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 					};
 					return;
 				}
-				for ( var i = 0; i < CategoryService.flatCategories.length; i++) {
+				for (var i = 0; i < CategoryService.flatCategories.length; i++) {
 					var cat = CategoryService.flatCategories[i];
 					if (cat.id == $stateParams._id) {
 						$scope.category = {
@@ -382,6 +405,65 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 				var category = $scope.category;
 				var title = 'Delete category';
 				var msg = 'Delete category ' + category.name + ' ?';
+				var btns = [{
+					result : 'cancel',
+					label : 'Cancel'
+				}, {
+					result : 'ok',
+					label : 'OK',
+					cssClass : 'btn-primary'
+				}];
+
+				$dialog.messageBox(title, msg, btns).open().then(function(result) {
+					if (result == 'ok') {
+						CategoryService.remove({
+							id : category.id
+						}, function() {
+							CategoryService.init();
+						});
+						$state.transitionTo('feeds.view', {
+							_id : 'all',
+							_type : 'category'
+						});
+					}
+				});
+			};
+
+			$scope.save = function() {
+				var cat = $scope.category;
+				CategoryService.modify({
+					id : cat.id,
+					name : cat.name,
+					position : cat.position,
+					parentId : cat.parentId
+				}, function() {
+					CategoryService.init();
+					$state.transitionTo('feeds.view', {
+						_id : 'all',
+						_type : 'category'
+					});
+				});
+			};
+		}]);
+
+module.controller('TagDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', 'ProfileService', '$dialog',
+		function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService, $dialog) {
+			$scope.CategoryService = CategoryService;
+			$scope.user = ProfileService.get();
+			
+			$scope.tag = $stateParams._id;
+
+			$scope.back = function() {
+				$state.transitionTo('feeds.view', {
+					_id : $scope.tag,
+					_type : 'tag'
+				});
+			};
+
+			$scope.deleteTag = function() {
+				var category = $scope.category;
+				var title = 'Delete tag';
+				var msg = 'Delete tag ' + tag + ' ?';
 				var btns = [{
 					result : 'cancel',
 					label : 'Cancel'
@@ -501,7 +583,7 @@ module.controller('ToolbarCtrl', [
 			$scope.markAllAsRead = function() {
 				markAll();
 			};
-			
+
 			$scope.markAll12Hours = function() {
 				markAll(new Date().getTime() - 43200000);
 			};
@@ -574,7 +656,7 @@ module.controller('FeedSearchCtrl', ['$scope', '$state', '$filter', '$timeout', 
 				}
 
 				var filtered = $scope.filtered;
-				for ( var i = 0; i < filtered.length; i++) {
+				for (var i = 0; i < filtered.length; i++) {
 					if ($scope.focus.id == filtered[i].id) {
 						index = i;
 						break;
@@ -706,6 +788,12 @@ module.controller('FeedListCtrl', [
 				}
 			});
 
+			$scope.$watch('settingsService.settings.readingOrder', function(newValue, oldValue) {
+				if (newValue && oldValue && newValue != oldValue) {
+					$scope.$emit('emitReload');
+				}
+			});
+
 			$scope.limit = SettingsService.settings.viewMode == 'title' ? 10 : 5;
 			$scope.busy = false;
 			$scope.hasMore = true;
@@ -733,7 +821,7 @@ module.controller('FeedListCtrl', [
 				}
 
 				var callback = function(data) {
-					for ( var i = 0; i < data.entries.length; i++) {
+					for (var i = 0; i < data.entries.length; i++) {
 						var entry = data.entries[i];
 						if (!_.some($scope.entries, {
 							id : entry.id
@@ -750,15 +838,23 @@ module.controller('FeedListCtrl', [
 					$scope.feedLink = data.feedLink;
 				};
 
-				var service = $scope.selectedType == 'feed' ? FeedService : CategoryService;
-				service.entries({
+				var data = {
 					id : $scope.selectedId,
 					readType : $scope.keywords ? 'all' : $scope.settingsService.settings.readingMode,
 					order : $scope.settingsService.settings.readingOrder,
 					offset : offset,
 					limit : limit,
 					keywords : $scope.keywords
-				}, callback);
+				};
+				if ($scope.selectedType == 'feed') {
+					FeedService.entries(data, callback);
+				} else if ($scope.selectedType == 'category') {
+					CategoryService.entries(data, callback);
+				} else if ($scope.selectedType == 'tag') {
+					data.tag = data.id;
+					data.id = 'all';
+					CategoryService.entries(data, callback);
+				}
 			};
 
 			var watch_scrolling = true;
@@ -808,7 +904,7 @@ module.controller('FeedListCtrl', [
 					var docTop = w.scrollTop();
 
 					var current = null;
-					for ( var i = 0; i < $scope.entries.length; i++) {
+					for (var i = 0; i < $scope.entries.length; i++) {
 						var entry = $scope.entries[i];
 						var e = $('#entry_' + entry.id);
 						if (e.offset().top + e.height() > docTop + $('#toolbar').outerHeight()) {
@@ -871,7 +967,7 @@ module.controller('FeedListCtrl', [
 
 			$scope.markUpTo = function(entry) {
 				var entries = [];
-				for ( var i = 0; i < $scope.entries.length; i++) {
+				for (var i = 0; i < $scope.entries.length; i++) {
 					var e = $scope.entries[i];
 					if (!e.read) {
 						entries.push({
@@ -910,7 +1006,7 @@ module.controller('FeedListCtrl', [
 			var getCurrentIndex = function() {
 				var index = -1;
 				if ($scope.current) {
-					for ( var i = 0; i < $scope.entries.length; i++) {
+					for (var i = 0; i < $scope.entries.length; i++) {
 						if ($scope.current == $scope.entries[i]) {
 							index = i;
 							break;
@@ -1351,7 +1447,7 @@ module.controller('ManageDuplicateFeedsCtrl', ['$scope', 'AdminCleanupService', 
 		var callback = function() {
 			alert('done!');
 		};
-		for ( var i = 0; i < $scope.counts.length; i++) {
+		for (var i = 0; i < $scope.counts.length; i++) {
 			var count = $scope.counts[i];
 			if (count.autoMerge) {
 				AdminCleanupService.mergeFeeds({

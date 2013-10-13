@@ -1,6 +1,7 @@
 package com.commafeed.backend.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -42,6 +43,9 @@ public class FeedEntryStatus extends AbstractModel {
 
 	@Transient
 	private boolean markable;
+	
+	@Transient
+	private List<FeedEntryTag> tags;
 
 	/**
 	 * Denormalization starts here

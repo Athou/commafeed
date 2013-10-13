@@ -3,22 +3,24 @@
 
 	<group name="lib">
 		<js minimize="false">/vendor/jquery/*.js</js>
+		<js minimize="false">/vendor/select2/*.js</js>
 		<js minimize="false">/vendor/lodash/*.js</js>
 		<js minimize="false">/vendor/jqueryui/*.js</js>
 		<js minimize="false">/vendor/jquery-mousewheel/*.js</js>
 		<js minimize="false">/vendor/bootstrap/*.js</js>
 		<js minimize="false">/vendor/angularjs/*.js</js>
-		<js minimize="false">/vendor/angularui/*.js</js>
-		<js minimize="false">/vendor/angularui-bootstrap/*.js</js>
-		<js minimize="false">/vendor/angularui-state/*.js</js>
+		<js minimize="false">/vendor/ui-utils/*.js</js>
+		<js minimize="false">/vendor/ui-select2/*.js</js>
+		<js minimize="false">/vendor/ui-bootstrap/*.js</js>
+		<js minimize="false">/vendor/ui-state/*.js</js>
 		<js minimize="false">/vendor/mousetrap/*.js</js>
 		<js minimize="false">/vendor/nggrid/*.js</js>
 		<js minimize="false">/vendor/nginfinitescroll/*.js</js>
 		<js minimize="false">/vendor/spinjs/*.js</js>
 		<js minimize="false">/vendor/momentjs/*.js</js>
 		
+		<css minimize="false">/vendor/select2/*.css</css>
 		<css minimize="false">/vendor/bootstrap/*.css</css>
-		<css minimize="false">/vendor/angularui/*.css</css>
 		<css minimize="false">/vendor/fontawesome/css/*.css</css>
 		<css minimize="false">/vendor/zocial/*.css</css>
 		<css minimize="false">/vendor/nggrid/*.css</css>

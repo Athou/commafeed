@@ -1,4 +1,4 @@
-var app = angular.module('commafeed', ['ui', 'ui.bootstrap', 'ui.state', 'commafeed.directives', 'commafeed.controllers',
+var app = angular.module('commafeed', ['ui.utils', 'ui.bootstrap', 'ui.state', 'ui.select2', 'commafeed.directives', 'commafeed.controllers',
 		'commafeed.services', 'commafeed.filters', 'ngSanitize', 'infinite-scroll', 'ngGrid']);
 
 app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', '$compileProvider',

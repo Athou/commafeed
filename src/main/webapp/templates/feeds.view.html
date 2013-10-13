@@ -1,5 +1,5 @@
 <div ng-class="{expanded: settingsService.settings.viewMode == 'expanded'}">
-	<div class="entrylist-header" ui-if="name">
+	<div class="entrylist-header" ng-if="name">
 		<h3>
 			<span ng-switch on="selectedId">
 				<span ng-switch-when="all">${tree.all}</span>
@@ -36,17 +36,17 @@
 					<i class="icon-external-link"></i>
 				</a>
 			</div>
-			<div class="entry-body" ui-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)" ng-mouseup="bodyClicked(entry, $event)"
+			<div class="entry-body" ng-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)" ng-mouseup="bodyClicked(entry, $event)"
 				ng-class="{rtl: entry.rtl}">
 				<div class="entry-header">
 					<div class="entry-title">
 						<a href="{{entry.url}}" target="_blank" ng-bind-html-unsafe="entry.title | highlight:keywords"></a>
 						<div class="entry-subtitle">
-							<span class="entry-source" ui-if="selectedType == 'category'">
+							<span class="entry-source" ng-if="selectedType == 'category'">
 								<span class="entry-source-prefix">${view.entry_source}</span>
 								<a ng-click="goToFeed(entry.feedId)" class="pointer bidi-embed"><span>{{entry.feedName}}</span></a>
 							</span>
-							<span class="entry-author" ui-if="entry.author">
+							<span class="entry-author" ng-if="entry.author">
 								<span class="entry-author-prefix">${view.entry_author}</span>
 								<span class="entry-author-name">{{entry.author}}</span>
 							</span>
@@ -56,17 +56,17 @@
 
 				<div class="entry-body-content">
 					<div ng-bind-html-unsafe="entry.content | highlight:keywords"></div>
-					<div class="entry-enclosure" ui-if="entry.enclosureType">
-						<video controls ui-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">
+					<div class="entry-enclosure" ng-if="entry.enclosureType">
+						<video controls ng-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">
 							<source src="{{entry.enclosureUrl}}" type="{{entry.enclosureType}}" />
 						</video>
-						<audio controls ui-if="entry.enclosureType && entry.enclosureType.indexOf('audio') == 0">
+						<audio controls ng-if="entry.enclosureType && entry.enclosureType.indexOf('audio') == 0">
 							<source src="{{entry.enclosureUrl}}" type="{{entry.enclosureType}}" />
 						</audio>
-						<div ui-if="entry.enclosureType && entry.enclosureType.indexOf('image') == 0">
+						<div ng-if="entry.enclosureType && entry.enclosureType.indexOf('image') == 0">
 							<img ng-src="{{entry.enclosureUrl}}" />
 						</div>
-						<a href="{{entry.enclosureUrl}}" target="_blank" ui-if="entry.enclosureType" download>
+						<a href="{{entry.enclosureUrl}}" target="_blank" ng-if="entry.enclosureType" download>
 							${global.download}
 						</a>
 					</div>
@@ -77,12 +77,12 @@
 						<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}"
 							class="pointer"></i>
 					</span>
-					<label class="checkbox inline" ui-if="entry.markable">
+					<label class="checkbox inline" ng-if="entry.markable">
 						<input type="checkbox" ng-checked="!entry.read" ng-click="mark(entry, !entry.read)" class="mousetrap"></input>
 						${view.keep_unread}
 					</label>
-					
-					<span class="share-buttons" ui-if="settingsService.settings.socialButtons">
+
+					<span class="share-buttons" ng-if="settingsService.settings.socialButtons">
 						<a href="mailto:?subject={{entry.title|escape}}&body={{entry.url|escape}}" title="E-mail" popup>
 							<i class="icon-envelope"></i>
 						</a>
@@ -127,6 +127,6 @@
 			<div ng-include="'templates/_shortcuts.html'"></div>
 		</div>
 	</div>
-	<div style="height: 30px" ui-if="settingsService.settings.viewMode != 'expanded' && entries.length != 0"></div>
-	<div style="height: 1000px" ui-if="settingsService.settings.viewMode == 'expanded' && entries.length != 0"></div>
+	<div style="height: 30px" ng-if="settingsService.settings.viewMode != 'expanded' && entries.length != 0"></div>
+	<div style="height: 1000px" ng-if="settingsService.settings.viewMode == 'expanded' && entries.length != 0"></div>
 </div>

@@ -3,7 +3,7 @@
 		<h3>${details.category_details}</h3>
 	</div>
 	<form name="form" class="form-horizontal" ng-submit="save()">
-		<div class="control-group" ng-class="{error : !form.name.$valid}" ui-if="!isMeta()">
+		<div class="control-group" ng-class="{error : !form.name.$valid}" ng-if="!isMeta()">
 			<label class="control-label">${details.name}</label>
 			<div class="controls">
 				<input type="text" name="name" ng-model="category.name" class="input-block-level" required></input>
@@ -11,7 +11,7 @@
 			</div>
 		</div>
 
-		<div class="control-group" ng-class="{error : !form.category.$valid}" ui-if="!isMeta()">
+		<div class="control-group" ng-class="{error : !form.category.$valid}" ng-if="!isMeta()">
 			<label class="control-label">${details.parent_category}</label>
 			<div class="controls">
 				<select name="category" class="input-block-level" ng-model="category.parentId" 
@@ -21,7 +21,7 @@
 			</div>
 		</div>
 		
-		<div class="control-group" ui-if="!isMeta()">
+		<div class="control-group" ng-if="!isMeta()">
 			<label class="control-label">${details.position}</label>
 			<div class="controls">
 				<input type="number" min="0" ng-model="category.position" />
@@ -37,9 +37,9 @@
 		</div>
 
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary" ui-if="!isMeta()">${global.save}</button>
+			<button type="submit" class="btn btn-primary" ng-if="!isMeta()">${global.save}</button>
 			<button type="button" class="btn" ng-click="back()">${global.cancel}</button>
-			<button type="button" class="btn btn-danger" ng-click="deleteCategory()" ui-if="!isMeta()">${global.delete}</button>
+			<button type="button" class="btn btn-danger" ng-click="deleteCategory()" ng-if="!isMeta()">${global.delete}</button>
 		</div>
 	</form>
 

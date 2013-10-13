@@ -16,7 +16,7 @@
 		<input type="button" class="btn" ng-click="autoMerge()" value="Auto merge selected" />
 	</div>
 
-	<table class="table table-condensed table-hover" ui-if="counts">
+	<table class="table table-condensed table-hover" ng-if="counts">
 		<thead>
 			<tr>
 				<th></th>
@@ -33,7 +33,7 @@
 		</tbody>
 	</table>
 	
-	<div ui-if="current">
+	<div ng-if="current">
 		<div>
 			Merge
 			<select ng-model="mergeData.feedIds" size="30" multiple="multiple" class="input-block-level" 

@@ -10,7 +10,7 @@
 				<i ng-class="{'icon-caret-right': !node.expanded, 'icon-caret-down': node.expanded}" ng-click="toggleCategory(node, $event)" ng-show="showChildren"></i>
 				<i ng-class="{'icon-star' : node.id == 'starred', 'icon-inbox': node.id == 'all', 'icon-tag' : node.isTag}" ng-show="!showChildren"></i>
 			</span>
-			<span ng-class="{selected: (node.id == selectedId && selectedType == 'category')}">
+			<span ng-class="{selected: (node.id == selectedId && (node.isTag ? selectedType == 'tag' : selectedType == 'category'))}">
 				<span ng-class="{unread: unreadCount({category:node})}" class="bidi-embed">
 					{{categoryLabel(node)}}
 				</span>

@@ -95,11 +95,11 @@ public class FeedSubscriptionService {
 		}
 	}
 
-	public UnreadCount getUnreadCount(FeedSubscription sub) {
+	public UnreadCount getUnreadCount(User user, FeedSubscription sub) {
 		UnreadCount count = cache.getUnreadCount(sub);
 		if (count == null) {
 			log.debug("unread count cache miss for {}", Models.getId(sub));
-			count = feedEntryStatusDAO.getUnreadCount(sub);
+			count = feedEntryStatusDAO.getUnreadCount(user, sub);
 			cache.setUnreadCount(sub, count);
 		}
 		return count;
@@ -109,7 +109,7 @@ public class FeedSubscriptionService {
 		Map<Long, UnreadCount> map = Maps.newHashMap();
 		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 		for (FeedSubscription sub : subs) {
-			map.put(sub.getId(), getUnreadCount(sub));
+			map.put(sub.getId(), getUnreadCount(user, sub));
 		}
 		return map;
 	}

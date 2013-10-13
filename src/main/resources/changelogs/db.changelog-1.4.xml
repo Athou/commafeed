@@ -34,12 +34,9 @@
 		<addForeignKeyConstraint constraintName="fk_user_id" baseTableName="FEEDENTRYTAGS" baseColumnNames="user_id"
 			referencedTableName="USERS" referencedColumnNames="id" />
 
-		<createIndex tableName="FEEDENTRYTAGS" indexName="user_entry_index">
+		<createIndex tableName="FEEDENTRYTAGS" indexName="user_entry_name_index">
 			<column name="user_id" />
 			<column name="entry_id" />
-		</createIndex>
-		<createIndex tableName="FEEDENTRYTAGS" indexName="user_name_index">
-			<column name="user_id" />
 			<column name="name" />
 		</createIndex>
 	</changeSet>

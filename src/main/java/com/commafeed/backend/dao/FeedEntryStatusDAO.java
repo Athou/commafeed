@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -132,7 +133,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return lazyLoadContent(includeContent, statuses);
 	}
 
-	private Criteria buildSearchCriteria(FeedSubscription sub, boolean unreadOnly, String keywords, Date newerThan, int offset, int limit,
+	private Criteria buildSearchCriteria(User user, FeedSubscription sub, boolean unreadOnly, String keywords, Date newerThan, int offset, int limit,
 			ReadingOrder order, Date last, String tag) {
 		Criteria criteria = getSession().createCriteria(FeedEntry.class, ALIAS_ENTRY);
 
@@ -165,8 +166,10 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 
 		if (tag != null) {
-			criteria.createCriteria(FeedEntry_.tags.getName(), ALIAS_TAG, JoinType.INNER_JOIN,
-					Restrictions.eq(FeedEntryTag_.name.getName(), tag));
+			Conjunction and = Restrictions.conjunction();
+			and.add(Restrictions.eq(FeedEntryTag_.user.getName(), user));
+			and.add(Restrictions.eq(FeedEntryTag_.name.getName(), tag));
+			criteria.createCriteria(FeedEntry_.tags.getName(), ALIAS_TAG, JoinType.INNER_JOIN, and);
 		}
 
 		if (newerThan != null) {
@@ -210,7 +213,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<FeedEntryStatus>(capacity, comparator);
 		for (FeedSubscription sub : subs) {
 			Date last = (order != null && set.isFull()) ? set.last().getEntryUpdated() : null;
-			Criteria criteria = buildSearchCriteria(sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag);
+			Criteria criteria = buildSearchCriteria(user, sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag);
 			ProjectionList projection = Projections.projectionList();
 			projection.add(Projections.property("id"), "id");
 			projection.add(Projections.property("updated"), "updated");
@@ -263,9 +266,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public UnreadCount getUnreadCount(FeedSubscription subscription) {
+	public UnreadCount getUnreadCount(User user, FeedSubscription subscription) {
 		UnreadCount uc = null;
-		Criteria criteria = buildSearchCriteria(subscription, true, null, null, -1, -1, null, null, null);
+		Criteria criteria = buildSearchCriteria(user, subscription, true, null, null, -1, -1, null, null, null);
 		ProjectionList projection = Projections.projectionList();
 		projection.add(Projections.rowCount(), "count");
 		projection.add(Projections.max(FeedEntry_.updated.getName()), "updated");

@@ -14,6 +14,7 @@
 	</changeSet>
 
 	<changeSet author="athou" id="create-tags-table">
+		<validCheckSum>7:fdd37bdee09c8fbbcbcd867b05decaae</validCheckSum>
 		<createTable tableName="FEEDENTRYTAGS">
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />

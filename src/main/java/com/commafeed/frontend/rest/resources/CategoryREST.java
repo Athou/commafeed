@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response.Status;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.cache.CacheService;
@@ -136,7 +136,7 @@ public class CategoryREST extends AbstractREST {
 		}
 
 		if (ALL.equals(id)) {
-			entries.setName("All");
+			entries.setName(ObjectUtils.defaultIfNull(tag, "All"));
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(getUser());
 			removeExcludedSubscriptions(subs, excludedIds);
 			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(getUser(), subs, unreadOnly, keywords, newerThanDate,

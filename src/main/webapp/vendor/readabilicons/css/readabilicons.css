@@ -1,0 +1,20 @@
+@font-face {
+	font-family: 'readabilicons';
+	src: url('../fonts/readabilicons-regular.eot'); /* IE9 Compat Modes */
+	src: url('../fonts/readabilicons-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('../fonts/readabilicons-regular.woff') format('woff'), /* Modern Browsers */
+        url('../fonts/readabilicons-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+        url('../fonts/readabilicons-regular.svg#readabiliconsregular') format('svg'); /* Legacy iOS */
+	font-style: normal;
+	font-weight: 400;
+}
+
+.icon-couch::before {
+	content: "\e018";
+	font-family: "readabilicons";
+	-webkit-font-smoothing: antialiased;
+	font-size: 28px;
+	top: 2px;
+	position: relative;
+	line-height: 0px;
+}

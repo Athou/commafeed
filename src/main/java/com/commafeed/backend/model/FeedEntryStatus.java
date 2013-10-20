@@ -20,6 +20,8 @@ import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.google.common.collect.Lists;
+
 @Entity
 @Table(name = "FEEDENTRYSTATUSES")
 @SuppressWarnings("serial")
@@ -45,7 +47,7 @@ public class FeedEntryStatus extends AbstractModel {
 	private boolean markable;
 	
 	@Transient
-	private List<FeedEntryTag> tags;
+	private List<FeedEntryTag> tags = Lists.newArrayList();
 
 	/**
 	 * Denormalization starts here

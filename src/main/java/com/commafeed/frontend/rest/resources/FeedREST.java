@@ -71,6 +71,7 @@ import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.sun.syndication.feed.opml.Opml;
 import com.sun.syndication.feed.synd.SyndEntry;
@@ -262,7 +263,7 @@ public class FeedREST extends AbstractREST {
 		try {
 			info = fetchFeedInternal(req.getUrl());
 		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(Throwables.getStackTraceAsString(Throwables.getRootCause(e))).build();
 		}
 		return Response.ok(info).build();
 	}

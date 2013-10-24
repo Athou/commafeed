@@ -196,16 +196,18 @@ public class FeedREST extends AbstractREST {
 	@ApiOperation(value = "Get feed entries as a feed", notes = "Get a feed of feed entries")
 	@Produces(MediaType.APPLICATION_XML)
 	@SecurityCheck(value = Role.USER, apiKeyAllowed = true)
-	public Response getFeedEntriesAsFeed(@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id) {
+	public Response getFeedEntriesAsFeed(
+			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
+			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
+			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
+			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
+			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
+			@ApiParam(value = "date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
+			@ApiParam(
+					value = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
+			@ApiParam(value = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds) {
 
-		Preconditions.checkNotNull(id);
-
-		ReadingMode readType = ReadingMode.all;
-		ReadingOrder order = ReadingOrder.desc;
-		int offset = 0;
-		int limit = 20;
-
-		Response response = getFeedEntries(id, readType, null, offset, limit, order, null, false);
+		Response response = getFeedEntries(id, readType, newerThan, offset, limit, order, keywords, onlyIds);
 		if (response.getStatus() != Status.OK.getStatusCode()) {
 			return response;
 		}

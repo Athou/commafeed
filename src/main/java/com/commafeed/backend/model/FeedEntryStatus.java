@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,6 +31,7 @@ import com.google.common.collect.Lists;
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Getter
 @Setter
+@NamedQueries(@NamedQuery(name="Statuses.deleteOld", query="delete from FeedEntryStatus s where s.entryInserted < :date and s.starred = false"))
 public class FeedEntryStatus extends AbstractModel {
 
 	@ManyToOne(fetch = FetchType.LAZY)

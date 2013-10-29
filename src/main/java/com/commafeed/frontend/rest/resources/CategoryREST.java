@@ -194,7 +194,7 @@ public class CategoryREST extends AbstractREST {
 	@SecurityCheck(value = Role.USER, apiKeyAllowed = true)
 	public Response getCategoryEntriesAsFeed(
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
-			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
+			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("all") @QueryParam("readType") ReadingMode readType,
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,

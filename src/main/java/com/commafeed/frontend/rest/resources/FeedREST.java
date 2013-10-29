@@ -198,7 +198,7 @@ public class FeedREST extends AbstractREST {
 	@SecurityCheck(value = Role.USER, apiKeyAllowed = true)
 	public Response getFeedEntriesAsFeed(
 			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
-			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
+			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("all") @QueryParam("readType") ReadingMode readType,
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,

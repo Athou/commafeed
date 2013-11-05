@@ -7,44 +7,33 @@ import java.security.cert.X509Certificate;
 
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.Consts;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.params.CookiePolicy;
-import org.apache.http.client.params.HttpClientParams;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.conn.ssl.X509HostnameVerifier;
-import org.apache.http.impl.client.DecompressingHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
-import org.apache.http.impl.client.SystemDefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.ExecutionContext;
-import org.apache.http.protocol.HttpContext;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.config.ConnectionConfig;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.wicket.util.io.IOUtils;
 
 /**
  * Smart HTTP getter: handles gzip, ssl, last modified and etag headers
@@ -57,8 +46,6 @@ public class HttpGetter {
 	private static final String ACCEPT_LANGUAGE = "en";
 	private static final String PRAGMA_NO_CACHE = "No-cache";
 	private static final String CACHE_CONTROL_NO_CACHE = "no-cache";
-	private static final String UTF8 = "UTF-8";
-	private static final String HTTPS = "https";
 
 	private static SSLContext SSL_CONTEXT = null;
 	static {
@@ -69,8 +56,6 @@ public class HttpGetter {
 			log.error("Could not configure ssl context");
 		}
 	}
-
-	private static final X509HostnameVerifier VERIFIER = new DefaultHostnameVerifier();
 
 	public HttpResult getBinary(String url, int timeout) throws ClientProtocolException, IOException, NotModifiedException {
 		return getBinary(url, null, null, timeout);
@@ -95,10 +80,11 @@ public class HttpGetter {
 		HttpResult result = null;
 		long start = System.currentTimeMillis();
 
-		HttpClient client = newClient(timeout);
+		CloseableHttpClient client = newClient(timeout);
+		CloseableHttpResponse response = null;
 		try {
 			HttpGet httpget = new HttpGet(url);
-			HttpContext context = new BasicHttpContext();
+            HttpClientContext context = HttpClientContext.create();
 
 			httpget.addHeader(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE);
 			httpget.addHeader(HttpHeaders.PRAGMA, PRAGMA_NO_CACHE);
@@ -112,7 +98,6 @@ public class HttpGetter {
 				httpget.addHeader(HttpHeaders.IF_NONE_MATCH, eTag);
 			}
 
-			HttpResponse response = null;
 			try {
 				response = client.execute(httpget, context);
 				int code = response.getStatusLine().getStatusCode();
@@ -150,14 +135,15 @@ public class HttpGetter {
 					contentType = entity.getContentType().getValue();
 				}
 			}
-			HttpUriRequest req = (HttpUriRequest) context.getAttribute(ExecutionContext.HTTP_REQUEST);
-			HttpHost host = (HttpHost) context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
+			HttpUriRequest req = (HttpUriRequest) context.getRequest();
+			HttpHost host = context.getTargetHost();
 			String urlAfterRedirect = req.getURI().isAbsolute() ? req.getURI().toString() : host.toURI() + req.getURI();
 
 			long duration = System.currentTimeMillis() - start;
 			result = new HttpResult(content, contentType, lastModifiedHeaderValue, eTagHeaderValue, duration, urlAfterRedirect);
 		} finally {
-			client.getConnectionManager().shutdown();
+			IOUtils.closeQuietly(response);
+			IOUtils.closeQuietly(client);
 		}
 		return result;
 	}
@@ -205,21 +191,24 @@ public class HttpGetter {
 		}
 	}
 
-	public static HttpClient newClient(int timeout) {
-		DefaultHttpClient client = new SystemDefaultHttpClient();
+	public static CloseableHttpClient newClient(int timeout) {
+		HttpClientBuilder builder = HttpClients.custom();
+		builder.useSystemProperties();
+		builder.disableAutomaticRetries();
 
-		SSLSocketFactory ssf = new SSLSocketFactory(SSL_CONTEXT, VERIFIER);
-		ClientConnectionManager ccm = client.getConnectionManager();
-		SchemeRegistry sr = ccm.getSchemeRegistry();
-		sr.register(new Scheme(HTTPS, 443, ssf));
+		builder.setSslcontext(SSL_CONTEXT);
+		builder.setHostnameVerifier(SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
 
-		HttpParams params = client.getParams();
-		HttpClientParams.setCookiePolicy(params, CookiePolicy.IGNORE_COOKIES);
-		HttpProtocolParams.setContentCharset(params, UTF8);
-		HttpConnectionParams.setConnectionTimeout(params, timeout);
-		HttpConnectionParams.setSoTimeout(params, timeout);
-		client.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(0, false));
-		return new DecompressingHttpClient(client);
+		RequestConfig.Builder configBuilder = RequestConfig.custom();
+		configBuilder.setCookieSpec(CookieSpecs.IGNORE_COOKIES);
+		configBuilder.setSocketTimeout(timeout);
+		configBuilder.setConnectTimeout(timeout);
+		configBuilder.setConnectionRequestTimeout(timeout);
+		builder.setDefaultRequestConfig(configBuilder.build());
+
+		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Consts.UTF_8).build());
+
+		return builder.build();
 	}
 
 	public static class NotModifiedException extends Exception {
@@ -245,24 +234,4 @@ public class HttpGetter {
 			return null;
 		}
 	}
-
-	private static class DefaultHostnameVerifier implements X509HostnameVerifier {
-
-		@Override
-		public void verify(String string, SSLSocket ssls) throws IOException {
-		}
-
-		@Override
-		public void verify(String string, X509Certificate xc) throws SSLException {
-		}
-
-		@Override
-		public void verify(String string, String[] strings, String[] strings1) throws SSLException {
-		}
-
-		@Override
-		public boolean verify(String string, SSLSession ssls) {
-			return true;
-		}
-	};
 }

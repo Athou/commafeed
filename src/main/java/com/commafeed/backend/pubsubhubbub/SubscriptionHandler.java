@@ -9,13 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.apache.wicket.util.io.IOUtils;
 
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
@@ -67,10 +68,11 @@ public class SubscriptionHandler {
 		post.setHeader(HttpHeaders.USER_AGENT, "CommaFeed");
 		post.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED);
 
-		HttpClient client = HttpGetter.newClient(20000);
+		CloseableHttpClient client = HttpGetter.newClient(20000);
+		CloseableHttpResponse response = null;
 		try {
 			post.setEntity(new UrlEncodedFormEntity(nvp));
-			HttpResponse response = client.execute(post);
+			response = client.execute(post);
 
 			int code = response.getStatusLine().getStatusCode();
 			if (code != 204 && code != 202 && code != 200) {
@@ -90,7 +92,8 @@ public class SubscriptionHandler {
 		} catch (Exception e) {
 			log.error("Could not subscribe to {} for {} : " + e.getMessage(), hub, topic);
 		} finally {
-			client.getConnectionManager().shutdown();
+			IOUtils.closeQuietly(response);
+			IOUtils.closeQuietly(client);
 		}
 	}
 }

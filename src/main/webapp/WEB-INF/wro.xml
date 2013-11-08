@@ -18,6 +18,7 @@
 		<js minimize="false">/vendor/nginfinitescroll/*.js</js>
 		<js minimize="false">/vendor/spinjs/*.js</js>
 		<js minimize="false">/vendor/momentjs/*.js</js>
+		<js minimize="false">/vendor/devicejs/*.js</js>
 		
 		<css minimize="false">/vendor/select2/*.css</css>
 		<css minimize="false">/vendor/bootstrap/*.css</css>

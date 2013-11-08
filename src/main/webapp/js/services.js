@@ -23,8 +23,7 @@ module.service('MobileService', ['$state', function($state) {
 		this.rightMenu = !this.rightMenu;
 		$('body').toggleClass('right-menu-active');
 	};
-	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-	this.mobile = width < 979;
+	this.mobile = device.mobile() || device.tablet();
 }]);
 
 module.factory('ProfileService', ['$resource', function($resource) {

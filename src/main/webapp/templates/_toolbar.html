@@ -1,6 +1,6 @@
 <div ng-controller="ToolbarCtrl">
 	<div class="form-horizontal">
-		<div class="btn-group hidden-desktop">
+		<div class="btn-group" ng-if="MobileService.mobile">
 			<button type="button" class="btn" ng-click="MobileService.toggleLeftMenu()">
 				<i class="icon-list-alt"></i>
 			</button>
@@ -33,14 +33,14 @@
 			</ul>
 		</div>
 		
-		<div class="btn-group hidden-desktop">
+		<div class="btn-group toolbar-expand" ng-if="MobileService.mobile">
 			<button type="button" class="btn" ng-click="MobileService.toggleRightMenu()">
 				<i ng-class="{'icon-double-angle-right' : !MobileService.rightMenu, 'icon-double-angle-left': MobileService.rightMenu}"></i>
 			</button>
 		</div>
 	
 		<div class="actions btn-group">
-			<div class="visible-desktop">
+			<div ng-if="!MobileService.mobile || MobileService.rightMenu">
 				<div class="btn-group read-mode" data-toggle="buttons-radio">
 					<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'unread'">${toolbar.unread}</button>
 					<button type="button" class="btn" ng-model="settingsService.settings.readingMode" btn-radio="'all'">${toolbar.all}</button>
@@ -69,7 +69,7 @@
 						<li><a href="logout"><i class="icon-off"></i> ${toolbar.logout}</a></li>
 					</ul>
 				</div>
-				<form ng-submit="search()" class="btn-group input-append hidden-phone hidden-tablet">
+				<form ng-submit="search()" class="btn-group input-append" ng-if="!MobileService.mobile">
 					<input type="text" ng-model="keywords"></input>
 					<button class="btn" type="submit"><i class="icon-search"></i></button>
 				</form>
@@ -82,6 +82,6 @@
 			</div>
 		</div>
 		<div spinner shown="loading"></div>
-		<span class="hidden-phone hidden-tablet" ng-bind-html-unsafe="ServerService.announcement"></span>
+		<span ng-if="!MobileService.mobile" ng-bind-html-unsafe="ServerService.announcement"></span>
 	</div>
 </div>

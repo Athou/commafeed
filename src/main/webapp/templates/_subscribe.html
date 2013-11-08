@@ -12,7 +12,7 @@
 	</div>
 	
 	<div class="btn-group">
-		<button type="button" class="btn hidden-desktop" ng-click="MobileService.toggleLeftMenu()">
+		<button type="button" class="btn" ng-click="MobileService.toggleLeftMenu()" ng-if="MobileService.mobile">
 			<i class="icon-remove"></i> ${global.close}
 		</button>
 	</div>

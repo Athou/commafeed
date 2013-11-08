@@ -8,11 +8,11 @@ import com.commafeed.backend.model.FeedEntry;
 public class FeedRefreshContext {
 	private Feed feed;
 	private List<FeedEntry> entries;
-	private boolean isUrgent;
+	private boolean urgent;
 
 	public FeedRefreshContext(Feed feed, boolean isUrgent) {
 		this.feed = feed;
-		this.isUrgent = isUrgent;
+		this.urgent = isUrgent;
 	}
 
 	public Feed getFeed() {
@@ -24,11 +24,11 @@ public class FeedRefreshContext {
 	}
 
 	public boolean isUrgent() {
-		return isUrgent;
+		return urgent;
 	}
 
-	public void setUrgent(boolean isUrgent) {
-		this.isUrgent = isUrgent;
+	public void setUrgent(boolean urgent) {
+		this.urgent = urgent;
 	}
 
 	public List<FeedEntry> getEntries() {

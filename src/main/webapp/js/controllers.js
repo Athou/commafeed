@@ -443,7 +443,7 @@ module.controller('TagDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedSe
 		function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService, $dialog) {
 			$scope.CategoryService = CategoryService;
 			$scope.user = ProfileService.get();
-			
+
 			$scope.tag = $stateParams._id;
 
 			$scope.back = function() {
@@ -1307,6 +1307,30 @@ module.controller('ManageUsersCtrl', ['$scope', '$state', '$location', 'AdminUse
 				multiSelect : false,
 				showColumnMenu : true,
 				showFilter : true,
+				columnDefs : [{
+					field : 'id',
+					displayName : 'ID'
+				}, {
+					field : 'name',
+					displayName : 'Name'
+				}, {
+					field : 'email',
+					cellClass : 'E-Mail'
+				}, {
+					field : 'created',
+					cellClass : 'Created',
+					cellFilter : 'entryDate'
+				}, {
+					field : 'lastLogin',
+					cellClass : 'Last login',
+					cellFilter : 'entryDate'
+				}, {
+					field : 'admin',
+					cellClass : 'Admin'
+				}, {
+					field : 'enabled',
+					cellClass : 'Enabled'
+				}],
 
 				afterSelectionChange : function(item) {
 					$state.transitionTo('admin.useredit', {

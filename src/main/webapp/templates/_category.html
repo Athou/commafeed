@@ -5,7 +5,7 @@
 				<i class="icon-wrench config pointer"></i>
 			</div>
 		</div>
-		<div ng-click="categoryClicked(node.id, node.isTag)" ng-dblclick="showCategoryDetails(node.id, node.isTag)">
+		<div class="category-link" ng-click="categoryClicked(node.id, node.isTag)" ng-dblclick="showCategoryDetails(node.id, node.isTag)">
 			<span class="fldr">
 				<i ng-class="{'icon-caret-right': !node.expanded, 'icon-caret-down': node.expanded}" ng-click="toggleCategory(node, $event)" ng-show="showChildren"></i>
 				<i ng-class="{'icon-star' : node.id == 'starred', 'icon-inbox': node.id == 'all', 'icon-tag' : node.isTag}" ng-show="!showChildren"></i>

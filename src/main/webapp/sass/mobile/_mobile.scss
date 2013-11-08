@@ -10,6 +10,10 @@ html.mobile, html.tablet {
 	.left-menu {
 		display: none !important;
 	}
+	.left-menu .feed-link, .left-menu .category-link {
+		line-height: 30px;
+		font-size: 105%;
+	}
 	.toolbar .toolbar-expand.btn-group {
 		display: inline-block !important;
 	}

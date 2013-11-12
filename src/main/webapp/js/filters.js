@@ -22,9 +22,15 @@ module.filter('escape', function() {
 	return encodeURIComponent;
 });
 
-module.filter('unsafe', ['$sce', function($sce) {
+module.filter('trustHtml', ['$sce', function($sce) {
 	return function(val) {
 		return $sce.trustAsHtml(val);
+	};
+}]);
+
+module.filter('trustUrl', ['$sce', function($sce) {
+	return function(val) {
+		return $sce.trustAsResourceUrl(val);
 	};
 }]);
 

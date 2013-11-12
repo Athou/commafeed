@@ -29,7 +29,7 @@
 						{{entry.feedName}}
 					</span>
 					<span class="entry-date">{{entry.date | entryDate}}</span>
-					<span class="entry-name" ng-class="{shrink: true, rtl: entry.rtl}" ng-bind-html="entry.title | unsafe | highlight:keywords"></span>
+					<span class="entry-name" ng-class="{shrink: true, rtl: entry.rtl}" ng-bind-html="entry.title | trustHtml | highlight:keywords"></span>
 				</a>
 				<a href="{{entry.url}}" target="_blank" class="entry-external-link" ng-click="mark(entry, true)">
 					<i class="icon-external-link"></i>
@@ -39,7 +39,7 @@
 				ng-mouseup="bodyClicked(entry, $event)" ng-class="{rtl: entry.rtl}">
 				<div class="entry-header">
 					<div class="entry-title">
-						<a href="{{entry.url}}" target="_blank" ng-bind-html="entry.title | unsafe | highlight:keywords"></a>
+						<a href="{{entry.url}}" target="_blank" ng-bind-html="entry.title | trustHtml | highlight:keywords"></a>
 						<div class="entry-subtitle">
 							<span class="entry-source" ng-if="selectedType == 'category'">
 								<span class="entry-source-prefix">${view.entry_source}</span>
@@ -56,18 +56,18 @@
 				</div>
 
 				<div class="entry-body-content">
-					<div ng-bind-html="entry.content | unsafe | highlight:keywords"></div>
+					<div ng-bind-html="entry.content | trustHtml | highlight:keywords"></div>
 					<div class="entry-enclosure" ng-if="entry.enclosureType">
 						<video controls ng-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">
-							<source src="{{entry.enclosureUrl}}" type="{{entry.enclosureType}}" />
+							<source ng-src="{{entry.enclosureUrl | trustUrl}}" type="{{entry.enclosureType}}" />
 						</video>
 						<audio controls ng-if="entry.enclosureType && entry.enclosureType.indexOf('audio') == 0">
-							<source src="{{entry.enclosureUrl}}" type="{{entry.enclosureType}}" />
+							<source ng-src="{{entry.enclosureUrl | trustUrl}}" type="{{entry.enclosureType}}" />
 						</audio>
 						<div ng-if="entry.enclosureType && entry.enclosureType.indexOf('image') == 0">
-							<img ng-src="{{entry.enclosureUrl}}" />
+							<img ng-src="{{entry.enclosureUrl | trustUrl}}" />
 						</div>
-						<a href="{{entry.enclosureUrl}}" target="_blank" ng-if="entry.enclosureType" download> ${global.download} </a>
+						<a ng-href="{{entry.enclosureUrl | trustUrl}}" target="_blank" ng-if="entry.enclosureType" download> ${global.download} </a>
 					</div>
 				</div>
 				<div class="entry-buttons form-horizontal">

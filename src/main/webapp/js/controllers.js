@@ -550,9 +550,10 @@ module.controller('ToolbarCtrl', [
 			};
 
 			$scope.search = function() {
-				$location.search('q', $scope.keywords);
+				var keywords = this.keywords;
+				$location.search('q', keywords);
 				$scope.$emit('emitEntrySearch', {
-					keywords : $scope.keywords
+					keywords : keywords
 				});
 			};
 			$scope.showButtons = function() {

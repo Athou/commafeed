@@ -1,5 +1,8 @@
 var module = angular.module('commafeed.filters', []);
 
+/**
+ * smart date formatter
+ */
 module.filter('entryDate', function() {
 	return function(timestamp, defaultValue) {
 		if (!timestamp) {
@@ -18,22 +21,52 @@ module.filter('entryDate', function() {
 	};
 });
 
+/**
+ * rewrites iframes to use https if commafeed uses https
+ */
+module.filter('iframeHttpsRewrite', function() {
+	return function(html) {
+		var result = html;
+		if (location.protocol === 'https:') {
+			var wrapper = $('<div></div>').html(html);
+			$('iframe', wrapper).each(function(i, elem) {
+				var e = $(elem);
+				e.attr('src', e.attr('src').replace(/^http:\/\//i, 'https://'));
+			});
+			result = wrapper.html();
+		}
+		return result;
+	};
+});
+
+/**
+ * escapes the url
+ */
 module.filter('escape', function() {
 	return encodeURIComponent;
 });
 
+/**
+ * returns a trusted html content
+ */
 module.filter('trustHtml', ['$sce', function($sce) {
 	return function(val) {
 		return $sce.trustAsHtml(val);
 	};
 }]);
 
+/**
+ * returns a trusted url
+ */
 module.filter('trustUrl', ['$sce', function($sce) {
 	return function(val) {
 		return $sce.trustAsResourceUrl(val);
 	};
 }]);
 
+/**
+ * add the 'highlight-search' class to text matching keywords
+ */
 module.filter('highlight', function() {
 	return function(html, keywords) {
 		if (keywords) {

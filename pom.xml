@@ -219,7 +219,7 @@
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>3.0.6</version>
+			<version>3.0.7</version>
 		</dependency>
 
 		<dependency>

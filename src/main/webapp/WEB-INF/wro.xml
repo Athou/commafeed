@@ -12,7 +12,7 @@
 		<js minimize="false">/vendor/ui-utils/*.js</js>
 		<js minimize="false">/vendor/ui-select2/*.js</js>
 		<js minimize="false">/vendor/ui-bootstrap/*.js</js>
-		<js minimize="false">/vendor/ui-state/*.js</js>
+		<js minimize="false">/vendor/ui-router/*.js</js>
 		<js minimize="false">/vendor/mousetrap/*.js</js>
 		<js minimize="false">/vendor/nggrid/*.js</js>
 		<js minimize="false">/vendor/nginfinitescroll/*.js</js>

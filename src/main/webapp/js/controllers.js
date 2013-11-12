@@ -1551,11 +1551,13 @@ module.controller('HelpController', ['$scope', 'CategoryService', 'AnalyticsServ
 
 		}]);
 
-module.controller('FooterController', ['$scope', function($scope) {
+module.controller('FooterController', ['$scope', '$sce', function($scope, $sce) {
 	var baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
 	var hostname = window.location.hostname;
-	$scope.subToMeUrl = baseUrl + 'rest/feed/subscribe?url={feed}';
-	$scope.subToMeName = hostname.indexOf('www.commafeed.com') !== -1 ? 'CommaFeed' : 'CommaFeed (' + hostname + ')';
+	var url = baseUrl + 'rest/feed/subscribe?url={feed}';
+	var name = hostname.indexOf('www.commafeed.com') !== -1 ? 'CommaFeed' : 'CommaFeed (' + hostname + ')';
+	var subToMeUrl = 'https://www.subtome.com/register-no-ui.html?name=' + name + '&url=' + url;
+	$scope.subToMeUrl = $sce.trustAsResourceUrl(subToMeUrl);
 
 }]);
 

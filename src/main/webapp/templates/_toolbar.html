@@ -82,6 +82,6 @@
 			</div>
 		</div>
 		<div spinner shown="loading"></div>
-		<span ng-if="!MobileService.mobile" ng-bind-html-unsafe="ServerService.announcement"></span>
+		<span ng-if="!MobileService.mobile" ng-bind-html="ServerService.announcement | unsafe"></span>
 	</div>
 </div>

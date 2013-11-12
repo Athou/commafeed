@@ -1,10 +1,10 @@
-var app = angular.module('commafeed', ['ui.utils', 'ui.bootstrap', 'ui.state', 'ui.select2', 'commafeed.directives', 'commafeed.controllers',
+var app = angular.module('commafeed', ['ngRoute', 'ui.utils', 'ui.bootstrap', 'ui.router', 'ui.select2', 'commafeed.directives', 'commafeed.controllers',
 		'commafeed.services', 'commafeed.filters', 'ngSanitize', 'infinite-scroll', 'ngGrid']);
 
 app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', '$compileProvider',
 		function($routeProvider, $stateProvider, $urlRouterProvider, $httpProvider, $compileProvider) {
 
-			$compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|javascript):/);
+			$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|javascript):/);
 			var interceptor = ['$rootScope', '$q', function(scope, $q) {
 
 				var success = function(response) {

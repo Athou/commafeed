@@ -22,6 +22,12 @@ module.filter('escape', function() {
 	return encodeURIComponent;
 });
 
+module.filter('unsafe', ['$sce', function($sce) {
+	return function(val) {
+		return $sce.trustAsHtml(val);
+	};
+}]);
+
 module.filter('highlight', function() {
 	return function(html, keywords) {
 		if (keywords) {
@@ -39,7 +45,7 @@ module.filter('highlight', function() {
 			};
 
 			var tokens = keywords.split(' ');
-			for ( var i = 0; i < tokens.length; i++) {
+			for (var i = 0; i < tokens.length; i++) {
 				html = handleKeyword(tokens[i], html);
 			}
 		}

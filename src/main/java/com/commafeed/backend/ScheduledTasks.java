@@ -26,13 +26,22 @@ public class ScheduledTasks {
 	DatabaseCleaningService cleaner;
 
 	/**
-	 * clean old read statuses, runs every day at midnight
+	 * clean old read statuses
 	 */
-	@Schedule(hour = "0", persistent = false)
+	@Schedule(hour = "*", persistent = false)
 	private void cleanupOldStatuses() {
 		Date threshold = applicationSettingsService.getUnreadThreshold();
 		if (threshold != null) {
 			cleaner.cleanStatusesOlderThan(threshold);
 		}
+	}
+
+	/**
+	 * clean feeds without subscriptions, then clean contents without entries
+	 */
+	@Schedule(hour = "*", persistent = false)
+	private void cleanFeedsAndContents() {
+		cleaner.cleanFeedsWithoutSubscriptions();
+		cleaner.cleanContentsWithoutEntries();
 	}
 }

@@ -64,9 +64,9 @@ public class DatabaseCleaningService {
 		do {
 			deleted = feedEntryContentDAO.deleteWithoutEntries(10);
 			total += deleted;
-			log.info("removed {} feeds without subscriptions", total);
+			log.info("removed {} entries without feeds", total);
 		} while (deleted != 0);
-		log.info("cleanup done: {} feeds without subscriptions deleted", total);
+		log.info("cleanup done: {} entries without feeds deleted", total);
 		return total;
 	}
 

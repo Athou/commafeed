@@ -107,7 +107,6 @@ public class FeedDAO extends GenericDAO<Feed> {
 
 		List<Feed> list = q.getResultList();
 		int deleted = list.size();
-
 		delete(list);
 		return deleted;
 

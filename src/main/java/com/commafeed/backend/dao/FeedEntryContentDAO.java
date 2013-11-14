@@ -2,6 +2,7 @@ package com.commafeed.backend.dao;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -15,6 +16,7 @@ import com.commafeed.backend.model.FeedEntryContent_;
 import com.commafeed.backend.model.FeedEntry_;
 import com.google.common.collect.Iterables;
 
+@Stateless
 public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 
 	public Long findExisting(String contentHash, String titleHash) {
@@ -44,6 +46,7 @@ public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 
 		List<FeedEntryContent> list = q.getResultList();
 		int deleted = list.size();
+		delete(list);
 		return deleted;
 
 	}

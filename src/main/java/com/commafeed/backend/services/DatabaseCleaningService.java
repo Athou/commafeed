@@ -45,7 +45,7 @@ public class DatabaseCleaningService {
 	ApplicationSettingsService applicationSettingsService;
 
 	public long cleanFeedsWithoutSubscriptions() {
-
+		log.info("cleaning feeds without subscriptions");
 		long total = 0;
 		int deleted = -1;
 		do {
@@ -58,7 +58,7 @@ public class DatabaseCleaningService {
 	}
 
 	public long cleanContentsWithoutEntries() {
-
+		log.info("cleaning contents without entries");
 		long total = 0;
 		int deleted = -1;
 		do {

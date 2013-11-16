@@ -1,6 +1,5 @@
 package com.commafeed.frontend.rest.resources;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -19,14 +18,12 @@ import org.apache.commons.lang.StringUtils;
 
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.dao.FeedDAO;
-import com.commafeed.backend.dao.FeedDAO.DuplicateMode;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.feeds.FeedRefreshTaskGiver;
 import com.commafeed.backend.feeds.FeedRefreshUpdater;
 import com.commafeed.backend.feeds.FeedRefreshWorker;
 import com.commafeed.backend.model.ApplicationSettings;
-import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
@@ -37,13 +34,10 @@ import com.commafeed.backend.services.PasswordEncryptionService;
 import com.commafeed.backend.services.UserService;
 import com.commafeed.backend.startup.StartupBean;
 import com.commafeed.frontend.SecurityCheck;
-import com.commafeed.frontend.model.FeedCount;
 import com.commafeed.frontend.model.UserModel;
-import com.commafeed.frontend.model.request.FeedMergeRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.rest.PrettyPrint;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.wordnik.swagger.annotations.Api;
@@ -258,37 +252,5 @@ public class AdminREST extends AbstractREST {
 		Map<String, Long> map = Maps.newHashMap();
 		map.put("old_entries", cleaner.cleanEntriesOlderThan(days, TimeUnit.DAYS));
 		return Response.ok(map).build();
-	}
-
-	@Path("/cleanup/findDuplicateFeeds")
-	@GET
-	@ApiOperation(value = "Find duplicate feeds")
-	public Response findDuplicateFeeds(@QueryParam("mode") DuplicateMode mode, @QueryParam("page") int page,
-			@QueryParam("limit") int limit, @QueryParam("minCount") long minCount) {
-		List<FeedCount> list = feedDAO.findDuplicates(mode, limit * page, limit, minCount);
-		return Response.ok(list).build();
-	}
-
-	@Path("/cleanup/merge")
-	@POST
-	@ApiOperation(value = "Merge feeds", notes = "Merge feeds together")
-	public Response mergeFeeds(@ApiParam(required = true) FeedMergeRequest request) {
-		Feed into = feedDAO.findById(request.getIntoFeedId());
-		if (into == null) {
-			return Response.status(Status.BAD_REQUEST).entity("'into feed' not found").build();
-		}
-
-		List<Feed> feeds = Lists.newArrayList();
-		for (Long feedId : request.getFeedIds()) {
-			Feed feed = feedDAO.findById(feedId);
-			feeds.add(feed);
-		}
-
-		if (feeds.isEmpty()) {
-			return Response.status(Status.BAD_REQUEST).entity("'from feeds' empty").build();
-		}
-
-		cleaner.mergeFeeds(into, feeds);
-		return Response.ok().build();
 	}
 }

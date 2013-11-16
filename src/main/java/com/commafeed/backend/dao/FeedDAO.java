@@ -6,15 +6,12 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
 import javax.persistence.criteria.Subquery;
-import javax.persistence.metamodel.SingularAttribute;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -26,7 +23,6 @@ import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.Feed_;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.User_;
-import com.commafeed.frontend.model.FeedCount;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
@@ -106,48 +102,5 @@ public class FeedDAO extends GenericDAO<Feed> {
 		q.setMaxResults(max);
 
 		return q.getResultList();
-	}
-
-	public static enum DuplicateMode {
-		NORMALIZED_URL(Feed_.normalizedUrlHash), LAST_CONTENT(Feed_.lastContentHash), PUSH_TOPIC(Feed_.pushTopicHash);
-		private SingularAttribute<Feed, String> path;
-
-		private DuplicateMode(SingularAttribute<Feed, String> path) {
-			this.path = path;
-		}
-
-		public SingularAttribute<Feed, String> getPath() {
-			return path;
-		}
-	}
-
-	public List<FeedCount> findDuplicates(DuplicateMode mode, int offset, int limit, long minCount) {
-		CriteriaQuery<String> query = builder.createQuery(String.class);
-		Root<Feed> root = query.from(getType());
-
-		Path<String> path = root.get(mode.getPath());
-		Expression<Long> count = builder.count(path);
-
-		query.select(path);
-
-		query.groupBy(path);
-		query.having(builder.greaterThan(count, minCount));
-
-		TypedQuery<String> q = em.createQuery(query);
-		limit(q, offset, limit);
-		List<String> pathValues = q.getResultList();
-
-		List<FeedCount> result = Lists.newArrayList();
-		for (String pathValue : pathValues) {
-			FeedCount fc = new FeedCount(pathValue);
-			for (Feed feed : findByField(mode.getPath(), pathValue)) {
-				Feed f = new Feed();
-				f.setId(feed.getId());
-				f.setUrl(feed.getUrl());
-				fc.getFeeds().add(f);
-			}
-			result.add(fc);
-		}
-		return result;
 	}
 }

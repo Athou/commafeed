@@ -11,6 +11,7 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntry_;
 import com.commafeed.backend.model.Feed_;
@@ -34,6 +35,21 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		limit(q, 0, 1);
 		List<Long> list = q.getResultList();
 		return Iterables.getFirst(list, null);
+	}
+
+	public int delete(Feed feed, int max) {
+
+		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
+		Root<FeedEntry> root = query.from(getType());
+
+		query.where(builder.equal(root.get(FeedEntry_.feed), feed));
+		TypedQuery<FeedEntry> q = em.createQuery(query);
+		q.setMaxResults(max);
+
+		List<FeedEntry> list = q.getResultList();
+		int deleted = list.size();
+		delete(list);
+		return deleted;
 	}
 
 	public int delete(Date olderThan, int max) {

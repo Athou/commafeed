@@ -63,10 +63,11 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		}
 	}
 
-	public void delete(Collection<? extends AbstractModel> objects) {
+	public int delete(Collection<? extends AbstractModel> objects) {
 		for (AbstractModel object : objects) {
 			delete(object);
 		}
+		return objects.size();
 	}
 
 	public void deleteById(Long id) {

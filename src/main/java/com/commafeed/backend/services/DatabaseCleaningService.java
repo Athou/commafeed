@@ -44,12 +44,29 @@ public class DatabaseCleaningService {
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
+	public long cleanEntriesForFeedsWithoutSubscriptions() {
+		log.info("cleaning entries for feeds without subscriptions");
+		long total = 0;
+		int deleted = 0;
+		do {
+			deleted = 0;
+			List<Feed> feeds = feedDAO.findWithoutSubscriptions(1);
+			for (Feed feed : feeds) {
+				deleted += feedEntryDAO.delete(feed, 10);
+				total += deleted;
+				log.info("removed {} entries for feeds without subscriptions", total);
+			}
+		} while (deleted != 0);
+		log.info("cleanup done: {} entries for feeds without subscriptions deleted", total);
+		return total;
+	}
+
 	public long cleanFeedsWithoutSubscriptions() {
 		log.info("cleaning feeds without subscriptions");
 		long total = 0;
-		int deleted = -1;
+		int deleted = 0;
 		do {
-			deleted = feedDAO.deleteWithoutSubscriptions(1);
+			deleted = feedDAO.delete(feedDAO.findWithoutSubscriptions(10));
 			total += deleted;
 			log.info("removed {} feeds without subscriptions", total);
 		} while (deleted != 0);
@@ -60,7 +77,7 @@ public class DatabaseCleaningService {
 	public long cleanContentsWithoutEntries() {
 		log.info("cleaning contents without entries");
 		long total = 0;
-		int deleted = -1;
+		int deleted = 0;
 		do {
 			deleted = feedEntryContentDAO.deleteWithoutEntries(10);
 			total += deleted;
@@ -75,7 +92,7 @@ public class DatabaseCleaningService {
 		cal.add(Calendar.MINUTE, -1 * (int) unit.toMinutes(value));
 
 		long total = 0;
-		int deleted = -1;
+		int deleted = 0;
 		do {
 			deleted = feedEntryDAO.delete(cal.getTime(), 100);
 			total += deleted;

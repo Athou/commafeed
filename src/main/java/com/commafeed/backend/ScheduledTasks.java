@@ -41,6 +41,7 @@ public class ScheduledTasks {
 	 */
 	@Schedule(hour = "*", persistent = false)
 	private void cleanFeedsAndContents() {
+		cleaner.cleanEntriesForFeedsWithoutSubscriptions();
 		cleaner.cleanFeedsWithoutSubscriptions();
 		cleaner.cleanContentsWithoutEntries();
 	}

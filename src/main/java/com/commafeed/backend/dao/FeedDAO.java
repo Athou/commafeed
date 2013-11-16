@@ -95,8 +95,8 @@ public class FeedDAO extends GenericDAO<Feed> {
 	public List<Feed> findByTopic(String topic) {
 		return findByField(Feed_.pushTopicHash, DigestUtils.sha1Hex(topic));
 	}
-
-	public int deleteWithoutSubscriptions(int max) {
+	
+	public List<Feed> findWithoutSubscriptions(int max) {
 		CriteriaQuery<Feed> query = builder.createQuery(getType());
 		Root<Feed> root = query.from(getType());
 
@@ -105,11 +105,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 		TypedQuery<Feed> q = em.createQuery(query);
 		q.setMaxResults(max);
 
-		List<Feed> list = q.getResultList();
-		int deleted = list.size();
-		delete(list);
-		return deleted;
-
+		return q.getResultList();
 	}
 
 	public static enum DuplicateMode {

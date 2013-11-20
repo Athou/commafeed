@@ -68,7 +68,7 @@ public class DatabaseCleaningService {
 		long total = 0;
 		int deleted = 0;
 		do {
-			deleted = feedDAO.delete(feedDAO.findWithoutSubscriptions(BATCH_SIZE));
+			deleted = feedDAO.delete(feedDAO.findWithoutSubscriptions(1));
 			total += deleted;
 			log.info("removed {} feeds without subscriptions", total);
 		} while (deleted != 0);

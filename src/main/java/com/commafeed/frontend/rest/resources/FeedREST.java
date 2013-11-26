@@ -274,11 +274,7 @@ public class FeedREST extends AbstractREST {
 	@GET
 	@ApiOperation(value = "Queue all feeds of the user for refresh", notes = "Manually add all feeds of the user to the refresh queue")
 	public Response queueAllForRefresh() {
-		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(getUser());
-		for (FeedSubscription sub : subs) {
-			Feed feed = sub.getFeed();
-			taskGiver.add(feed, true);
-		}
+		feedSubscriptionService.refreshAll(getUser());
 		return Response.ok().build();
 	}
 

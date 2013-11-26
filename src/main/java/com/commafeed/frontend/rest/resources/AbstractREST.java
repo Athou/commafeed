@@ -1,6 +1,8 @@
 package com.commafeed.frontend.rest.resources;
 
 import java.lang.reflect.Method;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -16,6 +18,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.wicket.ThreadContext;
 import org.apache.wicket.authentication.IAuthenticationStrategy;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
@@ -28,6 +32,7 @@ import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
+import com.commafeed.backend.services.FeedSubscriptionService;
 import com.commafeed.frontend.CommaFeedApplication;
 import com.commafeed.frontend.CommaFeedSession;
 import com.commafeed.frontend.SecurityCheck;
@@ -35,6 +40,7 @@ import com.commafeed.frontend.SecurityCheck;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @SecurityCheck(Role.USER)
+@Slf4j
 public abstract class AbstractREST {
 
 	@Context
@@ -48,6 +54,9 @@ public abstract class AbstractREST {
 
 	@Inject
 	private UserDAO userDAO;
+
+	@Inject
+	FeedSubscriptionService feedSubscriptionService;
 
 	@PostConstruct
 	public void init() {
@@ -98,6 +107,8 @@ public abstract class AbstractREST {
 
 	@AroundInvoke
 	public Object intercept(InvocationContext context) throws Exception {
+		startFullRefresh(getUser());
+
 		Method method = context.getMethod();
 
 		// check security
@@ -137,6 +148,19 @@ public abstract class AbstractREST {
 		return result;
 	}
 
+	private void startFullRefresh(User user) {
+		if (user == null)
+			return;
+
+		Date now = new Date();
+		if (user.getLastFullRefresh() == null || (now.getTime() - user.getLastFullRefresh().getTime()) > TimeUnit.MINUTES.toMillis(30)) {
+			log.info("Starting full refresh for {}", user.getName());
+			user.setLastFullRefresh(now);
+			userDAO.saveOrUpdate(user);
+			feedSubscriptionService.refreshAll(user);
+		}
+	}
+
 	private boolean checkRole(Role requiredRole) {
 		if (requiredRole == Role.NONE) {
 			return true;
@@ -146,4 +170,5 @@ public abstract class AbstractREST {
 		boolean authorized = roles.hasAnyRole(new Roles(requiredRole.name()));
 		return authorized;
 	}
+
 }

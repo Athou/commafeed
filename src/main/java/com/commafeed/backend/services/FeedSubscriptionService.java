@@ -95,6 +95,14 @@ public class FeedSubscriptionService {
 		}
 	}
 
+	public void refreshAll(User user) {
+		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
+		for (FeedSubscription sub : subs) {
+			Feed feed = sub.getFeed();
+			taskGiver.add(feed, true);
+		}
+	}
+
 	public UnreadCount getUnreadCount(User user, FeedSubscription sub) {
 		UnreadCount count = cache.getUnreadCount(sub);
 		if (count == null) {

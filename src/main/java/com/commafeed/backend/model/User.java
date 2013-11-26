@@ -32,7 +32,7 @@ public class User extends AbstractModel {
 
 	@Column(length = 32, nullable = false, unique = true)
 	private String name;
-
+	
 	@Column(length = 255, unique = true)
 	private String email;
 
@@ -65,5 +65,9 @@ public class User extends AbstractModel {
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<FeedSubscription> subscriptions;
+
+	@Column(name = "last_full_refresh")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastFullRefresh;
 
 }

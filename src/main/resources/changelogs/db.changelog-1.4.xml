@@ -42,4 +42,10 @@
 		</createIndex>
 	</changeSet>
 
+	<changeSet author="athou" id="add-full-refresh-timestamp">
+		<addColumn tableName="USERS">
+			<column name="last_full_refresh" type="DATETIME" />
+		</addColumn>
+	</changeSet>
+
 </databaseChangeLog>

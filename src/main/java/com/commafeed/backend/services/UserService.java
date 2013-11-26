@@ -3,9 +3,12 @@ package com.commafeed.backend.services;
 import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -21,6 +24,7 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.google.common.base.Preconditions;
 
 @Stateless
+@Slf4j
 public class UserService {
 
 	@Inject
@@ -41,6 +45,9 @@ public class UserService {
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
 
+	@Inject
+	FeedSubscriptionService feedSubscriptionService;
+
 	public User login(String name, String password) {
 		if (name == null || password == null) {
 			return null;
@@ -52,10 +59,20 @@ public class UserService {
 			if (authenticated) {
 				Date lastLogin = user.getLastLogin();
 				Date now = new Date();
+
+				boolean saveUser = false;
 				// only update lastLogin field every hour in order to not
 				// invalidate the cache everytime someone logs in
 				if (lastLogin == null || lastLogin.before(DateUtils.addHours(now, -1))) {
 					user.setLastLogin(now);
+					saveUser = true;
+				}
+				if (user.getLastFullRefresh() == null || user.getLastFullRefresh().before(DateUtils.addMinutes(now, -30))) {
+					user.setLastFullRefresh(now);
+					saveUser = true;
+					feedSubscriptionService.refreshAll(user);
+				}
+				if (saveUser) {
 					userDAO.saveOrUpdate(user);
 				}
 				return user;

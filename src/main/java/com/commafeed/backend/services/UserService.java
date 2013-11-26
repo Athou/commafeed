@@ -3,12 +3,9 @@ package com.commafeed.backend.services;
 import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-
-import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -24,7 +21,6 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.google.common.base.Preconditions;
 
 @Stateless
-@Slf4j
 public class UserService {
 
 	@Inject

@@ -161,7 +161,7 @@ public class FeedRefreshTaskGiver {
 		// then, add to those the feeds we got from the add() method. We add them at the beginning of the list as they probably have a
 		// higher priority
 		int size = addQueue.size();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < Math.min(count, size); i++) {
 			contexts.add(0, addQueue.poll());
 		}
 

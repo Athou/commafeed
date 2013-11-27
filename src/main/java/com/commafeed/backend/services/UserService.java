@@ -63,7 +63,8 @@ public class UserService {
 					user.setLastLogin(now);
 					saveUser = true;
 				}
-				if (user.getLastFullRefresh() == null || user.getLastFullRefresh().before(DateUtils.addMinutes(now, -30))) {
+				if (applicationSettingsService.get().isHeavyLoad()
+						&& (user.getLastFullRefresh() == null || user.getLastFullRefresh().before(DateUtils.addMinutes(now, -30)))) {
 					user.setLastFullRefresh(now);
 					saveUser = true;
 					feedSubscriptionService.refreshAll(user);

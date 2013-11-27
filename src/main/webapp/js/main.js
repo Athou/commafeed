@@ -39,6 +39,21 @@ app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProv
 				templateUrl : 'templates/feeds.view.html',
 				controller : 'FeedListCtrl'
 			});
+			$stateProvider.state('feeds.subscribe', {
+				url : '/subscribe',
+				templateUrl : 'templates/feeds.subscribe.html',
+				controller : 'SubscribeCtrl'
+			});
+			$stateProvider.state('feeds.new_category', {
+				url : '/add_category',
+				templateUrl : 'templates/feeds.new_category.html',
+				controller : 'NewCategoryCtrl'
+			});
+			$stateProvider.state('feeds.import', {
+				url : '/import',
+				templateUrl : 'templates/feeds.import.html',
+				controller : 'ImportCtrl'
+			});
 			$stateProvider.state('feeds.search', {
 				url : '/search/:_keywords',
 				templateUrl : 'templates/feeds.view.html',

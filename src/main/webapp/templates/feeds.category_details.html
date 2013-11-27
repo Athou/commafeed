@@ -3,43 +3,45 @@
 		<h3>${details.category_details}</h3>
 	</div>
 	<form name="form" class="form-horizontal" ng-submit="save()">
-		<div class="control-group" ng-class="{error : !form.name.$valid}" ng-if="!isMeta()">
-			<label class="control-label">${details.name}</label>
-			<div class="controls">
-				<input type="text" name="name" ng-model="category.name" class="input-block-level" required></input>
+		<div class="form-group" ng-class="{error : !form.name.$valid}" ng-if="!isMeta()">
+			<label class="col-sm-2 control-label">${details.name}</label>
+			<div class="col-sm-10">
+				<input type="text" name="name" ng-model="category.name" class="form-control" required></input>
 				<span class="help-block" ng-show="!form.name.$valid">${global.required}</span>
 			</div>
 		</div>
 
-		<div class="control-group" ng-class="{error : !form.category.$valid}" ng-if="!isMeta()">
-			<label class="control-label">${details.parent_category}</label>
-			<div class="controls">
-				<select name="category" class="input-block-level" ng-model="category.parentId" 
+		<div class="form-group" ng-class="{error : !form.category.$valid}" ng-if="!isMeta()">
+			<label class="col-sm-2 control-label">${details.parent_category}</label>
+			<div class="col-sm-10">
+				<select name="category" class="form-control" ng-model="category.parentId"
 					ng-options="cat.id as cat.name for cat in CategoryService.flatCategories | filter: filterCurrent">
 				</select>
 				<span class="help-block" ng-show="!form.category.$valid">${global.required}</span>
 			</div>
 		</div>
-		
-		<div class="control-group" ng-if="!isMeta()">
-			<label class="control-label">${details.position}</label>
-			<div class="controls">
-				<input type="number" min="0" ng-model="category.position" />
+
+		<div class="form-group" ng-if="!isMeta()">
+			<label class="col-sm-2 control-label">${details.position}</label>
+			<div class="col-sm-10">
+				<input type="number" min="0" ng-model="category.position" class="form-control" />
 			</div>
 		</div>
 
-		<div class="control-group">
-			<label class="control-label">${details.feed_url}</label>
-			<div class="controls horizontal-align">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">${details.feed_url}</label>
+			<div class="col-sm-10 checkbox">
 				<a ng-show="user.apiKey" href="{{'rest/category/entriesAsFeed?id=' + category.id + '&apiKey=' + user.apiKey}}" target="_blank">${global.link}</a>
 				<span ng-show="!user.apiKey">${details.generate_api_key_first}</span>
 			</div>
 		</div>
 
-		<div class="form-actions">
-			<button type="submit" class="btn btn-primary" ng-if="!isMeta()">${global.save}</button>
-			<button type="button" class="btn" ng-click="back()">${global.cancel}</button>
-			<button type="button" class="btn btn-danger" ng-click="deleteCategory()" ng-if="!isMeta()">${global.delete}</button>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-primary" ng-if="!isMeta()">${global.save}</button>
+				<button type="button" class="btn btn-danger" ng-click="deleteCategory()" ng-if="!isMeta()">${global.delete}</button>
+				<button type="button" class="btn btn-default" ng-click="back()">${global.cancel}</button>
+			</div>
 		</div>
 	</form>
 

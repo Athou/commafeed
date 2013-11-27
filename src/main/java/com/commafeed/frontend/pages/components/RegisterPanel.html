@@ -4,23 +4,17 @@
 	<wicket:panel>
 		<div wicket:id="feedback"></div>
 		<form wicket:id="form" autocomplete="off">
-			<div class="control-group">
-				<label class="control-label">User Name</label>
-				<div class="controls">
-					<input type="text" wicket:id="name" class="input-block-level"></input>
-				</div>
+			<div class="form-group">
+				<label>User Name</label>
+				<input type="text" wicket:id="name" class="form-control"></input>
 			</div>
-			<div class="control-group">
-				<label class="control-label">Password</label>
-				<div class="controls">
-					<input type="password" wicket:id="password" class="input-block-level"></input>
-				</div>
+			<div class="form-group">
+				<label>Password</label>
+				<input type="password" wicket:id="password" class="form-control"></input>
 			</div>
-			<div class="control-group">
-				<label class="control-label">Email address (used for password recovery only)</label>
-				<div class="controls">
-					<input type="email" wicket:id="email" class="input-block-level"></input>
-				</div>
+			<div class="form-group">
+				<label>Email address (used for password recovery only)</label>
+				<input type="email" wicket:id="email" class="form-control"></input>
 			</div>
 			<div>
 				<input type="submit" class="btn btn-primary" value="Register" />

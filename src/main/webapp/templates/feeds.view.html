@@ -70,15 +70,16 @@
 						<a ng-href="{{entry.enclosureUrl | trustUrl}}" target="_blank" ng-if="entry.enclosureType" download> ${global.download} </a>
 					</div>
 				</div>
-				<div class="entry-buttons form-horizontal">
-
-					<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
+				<div class="entry-buttons form-inline">
+					<div class="form-group star" ng-mouseup="star(entry, !entry.starred, $event)">
 						<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}" class="pointer"></i>
-					</span>
-					<label class="checkbox inline" ng-if="entry.markable">
-						<input type="checkbox" ng-checked="!entry.read" ng-click="mark(entry, !entry.read)" class="mousetrap"></input>
-						${view.keep_unread}
-					</label>
+					</div>
+					<div class="checkbox">
+						<label ng-if="entry.markable">
+							<input type="checkbox" ng-checked="!entry.read" ng-click="mark(entry, !entry.read)" class="mousetrap"></input>
+							${view.keep_unread}
+						</label>
+					</div>
 
 					<span class="share-buttons" ng-if="settingsService.settings.socialButtons">
 						<a href="mailto:?subject={{entry.title|escape}}&body={{entry.url|escape}}" title="E-mail" popup>

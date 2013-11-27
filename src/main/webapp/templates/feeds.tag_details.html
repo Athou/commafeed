@@ -3,16 +3,20 @@
 		<h3>${details.tag_details}</h3>
 	</div>
 	<form name="form" class="form-horizontal" ng-submit="save()">
-		<div class="control-group">
-			<label class="control-label">${details.feed_url}</label>
-			<div class="controls horizontal-align">
-				<a ng-show="user.apiKey" href="{{'rest/category/entriesAsFeed?id=all&tag=' + tag + '&apiKey=' + user.apiKey}}" target="_blank">${global.link}</a>
-				<span ng-show="!user.apiKey">${details.generate_api_key_first}</span>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">${details.feed_url}</label>
+			<div class="col-sm-10">
+				<div class="checkbox">
+					<a ng-show="user.apiKey" href="{{'rest/category/entriesAsFeed?id=all&tag=' + tag + '&apiKey=' + user.apiKey}}" target="_blank">${global.link}</a>
+					<span ng-show="!user.apiKey">${details.generate_api_key_first}</span>
+				</div>
 			</div>
 		</div>
 
-		<div class="form-actions">
-			<button type="button" class="btn" ng-click="back()">${global.cancel}</button>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="button" class="btn btn-default" ng-click="back()">${global.cancel}</button>
+			</div>
 		</div>
 	</form>
 

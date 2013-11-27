@@ -1,15 +1,48 @@
-<div class="css-treeview" ng-controller="CategoryTreeCtrl">
-	<ul>
-		<category node="CategoryService.subscriptions" show-label="'${tree.all}'" show-children="false" level="0" selected-type="selectedType"
-			selected-id="selectedId" unread-count="unreadCount(category)"> </category>
-		<category node="starred" show-label="'${tree.starred}'" show-children="false" level="0" selected-type="selectedType"
-			selected-id="selectedId" unread-count="unreadCount(category)"> </category>
-		<category node="CategoryService.subscriptions" show-label="false" show-children="true" level="0" selected-type="selectedType"
-			selected-id="selectedId" unread-count="unreadCount(category)"> </category>
+<div>
+	<div class="btn-group">
+		<button class="btn btn-default" ui-sref="feeds.subscribe">
+			<span class="icon-rss"></span>
+			${tree.subscribe}
+		</button>
+		<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			<li>
+				<a ui-sref="feeds.new_category">
+					<i class="icon-plus"></i>
+					${tree.new_category}
+				</a>
+			</li>
+			<li>
+				<a ui-sref="feeds.import">
+					<i class="icon-arrow-down"></i>
+					${tree.import}
+				</a>
+			</li>
+		</ul>
+	</div>
 
-		<li ng-repeat="tag in tags | orderBy: 'name'">
-			<category node="tag" show-label="tag.name" show-children="false" level="0" selected-type="selectedType" selected-id="selectedId"
-				unread-count="unreadCount(category)"> </category>
-		</li>
-	</ul>
+	<div class="btn-group">
+		<button type="button" class="btn btn-default" ng-click="MobileService.toggleLeftMenu()" ng-if="MobileService.mobile">
+			<i class="icon-remove"></i>
+			${global.close}
+		</button>
+	</div>
+
+	<div class="css-treeview" ng-controller="CategoryTreeCtrl">
+		<ul>
+			<category node="CategoryService.subscriptions" show-label="'${tree.all}'" show-children="false" level="0" selected-type="selectedType"
+				selected-id="selectedId" unread-count="unreadCount(category)"> </category>
+			<category node="starred" show-label="'${tree.starred}'" show-children="false" level="0" selected-type="selectedType"
+				selected-id="selectedId" unread-count="unreadCount(category)"> </category>
+			<category node="CategoryService.subscriptions" show-label="false" show-children="true" level="0" selected-type="selectedType"
+				selected-id="selectedId" unread-count="unreadCount(category)"> </category>
+
+			<li ng-repeat="tag in tags | orderBy: 'name'">
+				<category node="tag" show-label="tag.name" show-children="false" level="0" selected-type="selectedType" selected-id="selectedId"
+					unread-count="unreadCount(category)"> </category>
+			</li>
+		</ul>
+	</div>
 </div>

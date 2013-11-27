@@ -30,35 +30,15 @@ module.run(['$rootScope', function($rootScope) {
 	});
 }]);
 
-module.controller('SubscribeCtrl', ['$scope', 'FeedService', 'CategoryService', 'MobileService',
-		function($scope, FeedService, CategoryService, MobileService) {
+module.controller('SubscribeCtrl', ['$scope', '$location', 'FeedService', 'CategoryService', 'MobileService',
+		function($scope, $location, FeedService, CategoryService, MobileService) {
 
-			$scope.opts = {
-				backdropFade : true,
-				dialogFade : true
+			$scope.sub = {
+				categoryId : 'all'
 			};
-
-			$scope.isOpen = false;
-			$scope.isOpenImport = false;
-			$scope.sub = {};
 
 			$scope.CategoryService = CategoryService;
 			$scope.MobileService = MobileService;
-
-			$scope.search = function() {
-				$scope.$emit('emitFeedSearch');
-			};
-
-			$scope.open = function() {
-				$scope.sub = {
-					categoryId : $scope.sub.categoryId || 'all'
-				};
-				$scope.isOpen = true;
-			};
-
-			$scope.close = function() {
-				$scope.isOpen = false;
-			};
 
 			// 'ok', 'loading' or 'failed'
 			$scope.state = 'ok';
@@ -88,39 +68,45 @@ module.controller('SubscribeCtrl', ['$scope', 'FeedService', 'CategoryService', 
 				}
 				FeedService.subscribe($scope.sub, function() {
 					CategoryService.init();
-					$scope.close();
+					$location.path('/');
 				}, function(data) {
 					$scope.state = 'failed';
 					$scope.sub.title = 'ERROR: ' + data.data;
 				});
 			};
 
-			$scope.openImport = function() {
-				$scope.isOpenImport = true;
+			$scope.back = function() {
+				$location.path('/');
 			};
+		}]);
 
-			$scope.closeImport = function() {
-				$scope.isOpenImport = false;
-			};
+module.controller('NewCategoryCtrl', ['$scope', '$location', 'FeedService', 'CategoryService', 'MobileService',
+		function($scope, $location, FeedService, CategoryService, MobileService) {
 
-			$scope.cat = {};
+			$scope.CategoryService = CategoryService;
+			$scope.MobileService = MobileService;
 
-			$scope.openCategory = function() {
-				$scope.isOpenCategory = true;
-				$scope.cat = {
-					parentId : 'all'
-				};
-			};
-
-			$scope.closeCategory = function() {
-				$scope.isOpenCategory = false;
+			$scope.cat = {
+				parentId : 'all'
 			};
 
 			$scope.saveCategory = function() {
 				CategoryService.add($scope.cat, function() {
 					CategoryService.init();
 				});
-				$scope.closeCategory();
+				$location.path('/');
+			};
+
+			$scope.back = function() {
+				$location.path('/');
+			};
+		}]);
+
+module.controller('ImportCtrl', ['$scope', '$location', 'FeedService', 'CategoryService', 'MobileService',
+		function($scope, $location, FeedService, CategoryService, MobileService) {
+
+			$scope.back = function() {
+				$location.path('/');
 			};
 		}]);
 

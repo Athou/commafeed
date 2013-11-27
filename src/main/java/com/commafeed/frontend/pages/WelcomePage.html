@@ -3,8 +3,8 @@
 <body>
 	<wicket:extend>
 		<div class="welcome">
-			<div class="container-fluid">
-				<div class="row-fluid header">
+			<div class="container">
+				<div class="row header">
 					<div class="pull-left">
 						<a wicket:id="logo-link">
 							<img src="images/logo_2.png"></img>
@@ -23,14 +23,14 @@
 						</a>
 					</div>
 				</div>
-				<div class="row-fluid">
-					<div class="span6">
+				<div class="row">
+					<div class="col-md-6">
 						<div class="well" id="login-panel">
 							<h3>Login</h3>
 							<span wicket:id="login"></span>
 						</div>
 					</div>
-					<div class="span6" wicket:enclosure="register">
+					<div class="col-md-6" wicket:enclosure="register">
 						<div class="well" id="register-panel">
 							<h3>Register</h3>
 							<span wicket:id="register"></span>
@@ -40,7 +40,7 @@
 
 				<hr />
 				<div class="footer">
-					<div class="row-fluid">
+					<div class="row">
 						<span>
 							&copy;
 							<a href="http://www.commafeed.com" target="_blank">CommaFeed</a>

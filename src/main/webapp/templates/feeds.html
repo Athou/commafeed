@@ -1,13 +1,12 @@
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="span2 left-menu">
+<div class="container-full">
+	<div class="row">
+		<div class="col-xs-2 left-menu">
 			<div class="sidebar-nav-fixed" mousewheel-scrolling>
-				<div ng-include="'templates/_subscribe.html'"></div>
 				<div ng-include="'templates/_tree.html'"></div>
 				<div ng-include="'templates/_feedsearch.html'"></div>
 			</div>
 		</div>
-		<div class="span10 main-content">
+		<div class="col-xs-10 main-content">
 			<div id="toolbar" class="toolbar" ng-include="'templates/_toolbar.html'"></div>
 			<div class="entryList">
 				<div ui-view></div>

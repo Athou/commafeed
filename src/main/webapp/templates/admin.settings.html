@@ -10,182 +10,171 @@
 
 	<div>
 		<form name="settingsForm" class="form-horizontal" ng-submit="save()">
-			<div class="row-fluid">
-				<div class="span6">
-					<div class="control-group">
-						<label class="control-label" for="publicUrl">Public URL</label>
-						<div class="controls">
-							<input type="text" id="publicUrl" name="publicUrl" class="input-block-level"
-								placeholder="http://localhost:8082/commafeed" ng-model="settings.publicUrl" />
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="publicUrl">Public URL</label>
+						<div class="col-sm-9">
+							<input type="text" id="publicUrl" name="publicUrl" class="form-control" placeholder="http://localhost:8082/commafeed"
+								ng-model="settings.publicUrl" />
 							<span class="help-block">The URL in your address bar right now, up to the # (not included)</span>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="allowRegistrations">Allow
-							registrations</label>
-						<div class="controls">
-							<input type="checkbox" id="allowRegistrations" class="input-block-level"
-								name="allowRegistrations" ng-model="settings.allowRegistrations" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="publicUrl">Allow registrations</label>
+						<div class="col-sm-9">
+							<div class="checkbox">
+								<input type="checkbox" id="allowRegistrations" name="allowRegistrations" ng-model="settings.allowRegistrations" />
+							</div>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="feedbackButton">Feedback
-							button</label>
-						<div class="controls">
-							<input type="checkbox" id="feedbackButton" name="feedbackButton"
-								class="input-block-level" ng-model="settings.feedbackButton" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="feedbackButton">Feedback button</label>
+						<div class="col-sm-9">
+							<div class="checkbox">
+								<input type="checkbox" id="feedbackButton" name="feedbackButton" ng-model="settings.feedbackButton" />
+							</div>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="googleClientId">Google
-							client ID</label>
-						<div class="controls">
-							<input type="text" name="googleClientId" class="input-block-level"
-								ng-model="settings.googleClientId" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="googleClientId">Google client ID</label>
+						<div class="col-sm-9">
+							<input type="text" name="googleClientId" class="form-control" ng-model="settings.googleClientId" />
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="googleClientSecret">Google
-							client secret</label>
-						<div class="controls">
-							<input type="text" name="googleClientSecret" class="input-block-level"
-								ng-model="settings.googleClientSecret" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="googleClientSecret">Google client secret</label>
+						<div class="col-sm-9">
+							<input type="text" name="googleClientSecret" class="form-control" ng-model="settings.googleClientSecret" />
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="googleAnalyticsTrackingCode">Google
-							Analytics tracking code</label>
-						<div class="controls">
-							<input type="text" name="googleAnalyticsTrackingCode" class="input-block-level"
-								ng-model="settings.googleAnalyticsTrackingCode" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="googleAnalyticsTrackingCode">Google Analytics tracking code</label>
+						<div class="col-sm-9">
+							<input type="text" name="googleAnalyticsTrackingCode" class="form-control" ng-model="settings.googleAnalyticsTrackingCode" />
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="googleClientSecret">Background HTTP
-							threads</label>
-						<div class="controls">
-							<input type="number" name="backgroundThreads" class="input-block-level"
-								ng-model="settings.backgroundThreads" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="googleClientSecret">Background HTTP threads</label>
+						<div class="col-sm-9">
+							<input type="number" name="backgroundThreads" class="form-control" ng-model="settings.backgroundThreads" />
 							<span class="help-inline">Requires restart</span>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="databaseUpdateThreads">Database update 
-							threads</label>
-						<div class="controls">
-							<input type="number" name="databaseUpdateThreads" class="input-block-level"
-								ng-model="settings.databaseUpdateThreads" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="databaseUpdateThreads">Database update threads</label>
+						<div class="col-sm-9">
+							<input type="number" name="databaseUpdateThreads" class="form-control" ng-model="settings.databaseUpdateThreads" />
 							<span class="help-inline">Requires restart</span>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="announcement">Announcement</label>
-						<div class="controls">
-							<textarea name="announcement" rows="10" class="input-block-level"
-								ng-model="settings.announcement">
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="announcement">Announcement</label>
+						<div class="col-sm-9">
+							<textarea name="announcement" rows="10" class="form-control" ng-model="settings.announcement">
 							</textarea>
 						</div>
 					</div>
 				</div>
-				<div class="span6">
-					<div class="control-group">
-						<label class="control-label" for="announcement">SMTP Host</label>
-						<div class="controls">
-							<input type="text" name="smtpHost" class="input-block-level" 
-								ng-model="settings.smtpHost" />
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="announcement">SMTP Host</label>
+						<div class="col-sm-9">
+							<input type="text" name="smtpHost" class="form-control" ng-model="settings.smtpHost" />
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="announcement">SMTP Port</label>
-						<div class="controls">
-							<input type="text" name="smtpPort" class="input-block-level" 
-								ng-model="settings.smtpPort" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="announcement">SMTP Port</label>
+						<div class="col-sm-9">
+							<input type="text" name="smtpPort" class="form-control" ng-model="settings.smtpPort" />
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="smtpTls">SMTP TLS </label>
-						<div class="controls">
-							<input type="checkbox" name="smtpTls" class="input-block-level" 
-								ng-model="settings.smtpTls" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="smtpTls">SMTP TLS </label>
+						<div class="col-sm-9">
+							<div class="checkbox">
+								<input type="checkbox" name="smtpTls" ng-model="settings.smtpTls" />
+							</div>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="smtpUserName">SMTP
-							Username</label>
-						<div class="controls">
-							<input type="text" name="smtpUserName" class="input-block-level"
-								ng-model="settings.smtpUserName" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="smtpUserName">SMTP Username</label>
+						<div class="col-sm-9">
+							<input type="text" name="smtpUserName" class="form-control" ng-model="settings.smtpUserName" />
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="smtpPassword">SMTP
-							Password</label>
-						<div class="controls">
-							<input type="password" name="smtpPassword" class="input-block-level"
-								ng-model="settings.smtpPassword" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="smtpPassword">SMTP Password</label>
+						<div class="col-sm-9">
+							<input type="password" name="smtpPassword" class="form-control" ng-model="settings.smtpPassword" />
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="heavyLoad">Heavy load</label>
-						<div class="controls">
-							<input type="checkbox" name="heavyLoad" ng-model="settings.heavyLoad" />
-							<span class="help-block">Don't use this unless you know what you're doing!</span>
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="heavyLoad">Heavy load</label>
+						<div class="col-sm-9">
+							<div class="checkbox">
+								<input type="checkbox" name="heavyLoad" ng-model="settings.heavyLoad" />
+								<span class="help-block">Don't use this unless you know what you're doing!</span>
+							</div>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="pubsubhubbub">PubSubHubbub</label>
-						<div class="controls">
-							<input type="checkbox" name="pubsubhubbub" ng-model="settings.pubsubhubbub" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="pubsubhubbub">PubSubHubbub</label>
+						<div class="col-sm-9">
+							<div class="checkbox">
+								<input type="checkbox" name="pubsubhubbub" ng-model="settings.pubsubhubbub" />
+							</div>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="imageProxyEnabled">Proxy entry images</label>
-						<div class="controls">
-							<input type="checkbox" name="imageProxyEnabled" ng-model="settings.imageProxyEnabled" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="imageProxyEnabled">Proxy entry images</label>
+						<div class="col-sm-9">
+							<div class="checkbox">
+								<input type="checkbox" name="imageProxyEnabled" ng-model="settings.imageProxyEnabled" />
+							</div>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="logLevel">Logging level</label>
-						<div class="controls">
-							<select name="logLevel" ng-model="settings.logLevel" class="input-block-level"
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="logLevel">Logging level</label>
+						<div class="col-sm-9">
+							<select name="logLevel" ng-model="settings.logLevel" class="form-control"
 								ng-options="level for level in ['DEBUG', 'INFO', 'WARN', 'ERROR']">
 							</select>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="logLevel">Database query timeout (ms)</label>
-						<div class="controls">
-							<input type="number" name="queryTimeout" class="input-block-level"
-								ng-model="settings.queryTimeout" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="logLevel">Database query timeout (ms)</label>
+						<div class="col-sm-9">
+							<input type="number" name="queryTimeout" class="form-control" ng-model="settings.queryTimeout" />
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="keepStatusDays">Keep read status for (days)</label>
-						<div class="controls">
-							<input type="number" name="keepStatusDays" class="input-block-level"
-								ng-model="settings.keepStatusDays" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="keepStatusDays">Keep read status for (days)</label>
+						<div class="col-sm-9">
+							<input type="number" name="keepStatusDays" class="form-control" ng-model="settings.keepStatusDays" />
 							<span class="help-inline">0 = keep forever</span>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="refreshIntervalMinutes">Refresh feeds every (minutes)</label>
-						<div class="controls">
-							<input type="number" name="refreshIntervalMinutes" class="input-block-level" min="1"
-								ng-model="settings.refreshIntervalMinutes" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="refreshIntervalMinutes">Refresh feeds every (minutes)</label>
+						<div class="col-sm-9">
+							<input type="number" name="refreshIntervalMinutes" class="form-control" min="1" ng-model="settings.refreshIntervalMinutes" />
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="crawlingPaused">Pause crawling</label>
-						<div class="controls">
-							<input type="checkbox" name="crawlingPaused" ng-model="settings.crawlingPaused" />
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="crawlingPaused">Pause crawling</label>
+						<div class="col-sm-9">
+							<div class="checkbox">
+								<input type="checkbox" name="crawlingPaused" ng-model="settings.crawlingPaused" />
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="control-group">
-				<div class="controls">
-					<button type="button" class="btn" ng-click="cancel()">Cancel</button>
+			<div class="row">
+				<div class="text-center form-group">
 					<button type="submit" class="btn btn-primary">Save</button>
+					<button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
 				</div>
 			</div>
 		</form>

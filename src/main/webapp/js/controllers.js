@@ -110,14 +110,26 @@ module.controller('ImportCtrl', ['$scope', '$location', 'FeedService', 'Category
 			};
 		}]);
 
-module.controller('CategoryTreeCtrl', ['$scope', '$timeout', '$stateParams', '$window', '$location', '$state', '$route', 'CategoryService',
-		'AnalyticsService', 'EntryService',
-		function($scope, $timeout, $stateParams, $window, $location, $state, $route, CategoryService, AnalyticsService, EntryService) {
+module.controller('CategoryTreeCtrl', [
+		'$scope',
+		'$timeout',
+		'$stateParams',
+		'$window',
+		'$location',
+		'$state',
+		'$route',
+		'CategoryService',
+		'AnalyticsService',
+		'EntryService',
+		'MobileService',
+		function($scope, $timeout, $stateParams, $window, $location, $state, $route, CategoryService, AnalyticsService, EntryService,
+				MobileService) {
 
 			$scope.selectedType = $stateParams._type;
 			$scope.selectedId = $stateParams._id;
 
 			$scope.EntryService = EntryService;
+			$scope.MobileService = MobileService;
 
 			$scope.starred = {
 				id : 'starred',

@@ -1,4 +1,4 @@
-<div>
+<div ng-controller="CategoryTreeCtrl">
 	<div class="btn-group">
 		<button class="btn btn-default" ui-sref="feeds.subscribe">
 			<span class="icon-rss"></span>
@@ -30,7 +30,7 @@
 		</button>
 	</div>
 
-	<div class="css-treeview" ng-controller="CategoryTreeCtrl">
+	<div class="css-treeview">
 		<ul>
 			<category node="CategoryService.subscriptions" show-label="'${tree.all}'" show-children="false" level="0" selected-type="selectedType"
 				selected-id="selectedId" unread-count="unreadCount(category)"> </category>

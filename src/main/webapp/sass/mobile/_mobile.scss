@@ -3,10 +3,11 @@ html.mobile, html.tablet {
 		padding-left: 5px;
 		padding-right: 5px;
 	}
-	.container-fluid {
+	.container-full {
 		padding-left: 0;
 		padding-right: 0;
 	}
+
 	.left-menu {
 		display: none !important;
 	}
@@ -34,21 +35,25 @@ html.mobile, html.tablet {
 		margin-top: 22px;
 	}
 	#feed-accordion .entry-external-link {
-		right: 10px;
+		right: 15px;
 		margin-top: -24px;
 	}
 	#feed-accordion .entry-heading-link {
-		height: 40px;
+		height: 52px;
 	}
 	#feed-accordion .entry-heading .entry-date {
-		right: 35px;
+		right: 40px;
 		margin-top: 22px;
+	}
+	#feed-accordion .entry-buttons .checkbox, #feed-accordion .entry-buttons .form-group {
+		display: inline-block;
 	}
 	#feed-accordion .tags-panel {
 		display: block;
+		margin-left: 5px;
 	}
 	#feed-accordion a.mark-up-to {
-		right: 15px;
+		right: 20px;
 		margin-top: -18px;
 	}
 	body.left-menu-active .left-menu {

@@ -1,6 +1,6 @@
 <div ng-controller="CategoryTreeCtrl">
 	<div class="btn-group">
-		<button class="btn btn-default" ui-sref="feeds.subscribe">
+		<button class="btn btn-default" ui-sref="feeds.subscribe" ng-click="MobileService.toggleLeftMenu()">
 			<span class="icon-rss"></span>
 			${tree.subscribe}
 		</button>
@@ -9,13 +9,13 @@
 		</button>
 		<ul class="dropdown-menu">
 			<li>
-				<a ui-sref="feeds.new_category">
+				<a ui-sref="feeds.new_category" ng-click="MobileService.toggleLeftMenu()">
 					<i class="icon-plus"></i>
 					${tree.new_category}
 				</a>
 			</li>
 			<li>
-				<a ui-sref="feeds.import">
+				<a ui-sref="feeds.import" ng-click="MobileService.toggleLeftMenu()">
 					<i class="icon-arrow-down"></i>
 					${tree.import}
 				</a>

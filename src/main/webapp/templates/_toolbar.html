@@ -59,9 +59,11 @@
 
 		<div class="actions btn-group">
 			<div ng-if="!MobileService.mobile || MobileService.rightMenu">
-				<div class="btn-group read-mode" data-toggle="buttons-radio">
-					<button type="button" class="btn btn-default" ng-model="settingsService.settings.readingMode" btn-radio="'unread'">${toolbar.unread}</button>
-					<button type="button" class="btn btn-default" ng-model="settingsService.settings.readingMode" btn-radio="'all'">${toolbar.all}</button>
+				<div class="btn-group read-mode">
+					<button type="button" class="btn btn-default" ng-click="settingsService.settings.readingMode = 'unread'"
+						ng-class="{'active': settingsService.settings.readingMode == 'unread'}">${toolbar.unread}</button>
+					<button type="button" class="btn btn-default" ng-click="settingsService.settings.readingMode = 'all'"
+						ng-class="{'active': settingsService.settings.readingMode == 'all'}">${toolbar.all}</button>
 				</div>
 
 				<div class="btn-group">
@@ -71,13 +73,13 @@
 					</a>
 				</div>
 
-				<div class="btn-group" data-toggle="buttons-radio">
-					<a type="button" class="btn btn-default" ng-model="settingsService.settings.viewMode" btn-radio="'title'"
-						title="${toolbar.titles_only}">
+				<div class="btn-group">
+					<a type="button" class="btn btn-default" ng-click="settingsService.settings.viewMode = 'title'"
+						ng-class="{'active': settingsService.settings.viewMode == 'title'}" title="${toolbar.titles_only}">
 						<i class="icon-list"></i>
 					</a>
-					<a type="button" class="btn btn-default" ng-model="settingsService.settings.viewMode" btn-radio="'expanded'"
-						title="${toolbar.expanded_view}">
+					<a type="button" class="btn btn-default" ng-click="settingsService.settings.viewMode = 'expanded'"
+						ng-class="{'active': settingsService.settings.viewMode == 'expanded'}" title="${toolbar.expanded_view}">
 						<i class="icon-th-list"></i>
 					</a>
 				</div>

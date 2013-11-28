@@ -18,8 +18,8 @@
 		<div class="form-group" ng-class="{error : !form.name.$valid}">
 			<label class="col-sm-2 control-label">${details.name}</label>
 			<div class="col-sm-10">
-				<input type="text" name="name" ng-model="sub.name" class="form-control" required></input> <span class="help-block"
-					ng-show="!form.name.$valid">${global.required}</span>
+				<input type="text" name="name" ng-model="sub.name" class="form-control" required></input>
+				<span class="help-block" ng-show="!form.name.$valid">${global.required}</span>
 			</div>
 		</div>
 
@@ -28,7 +28,8 @@
 			<div class="col-sm-10">
 				<select name="category" class="form-control" ng-model="sub.categoryId"
 					ng-options="cat.id as cat.name for cat in CategoryService.flatCategories">
-				</select> <span class="help-block" ng-show="!form.category.$valid">${global.required}</span>
+				</select>
+				<span class="help-block" ng-show="!form.category.$valid">${global.required}</span>
 			</div>
 		</div>
 
@@ -70,8 +71,8 @@
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-primary">${global.save}</button> 
-				<button type="button" class="btn btn-danger" ng-click="unsubscribe()">${details.unsubscribe}</button>
+				<button type="submit" class="btn btn-primary">${global.save}</button>
+				<button type="button" class="btn btn-danger" ng-click="unsubscribe()" confirm-click="${details.unsubscribe_confirmation}">${details.unsubscribe}</button>
 				<button type="button" class="btn btn-default" ng-click="back()">${global.cancel}</button>
 			</div>
 		</div>

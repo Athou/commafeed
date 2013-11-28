@@ -57,7 +57,7 @@
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button type="submit" class="btn btn-primary">${global.save}</button>
-				<button type="button" class="btn btn-danger" ng-click="deleteAccount()">${profile.delete_account}</button>
+				<button type="button" class="btn btn-danger" ng-click="deleteAccount()" confirm-click="${profile.delete_account_confirmation}">${profile.delete_account}</button>
 				<button type="button" class="btn btn-default" ng-click="cancel()">${global.cancel}</button>
 			</div>
 		</div>

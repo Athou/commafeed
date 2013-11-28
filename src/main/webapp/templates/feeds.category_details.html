@@ -39,7 +39,8 @@
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button type="submit" class="btn btn-primary" ng-if="!isMeta()">${global.save}</button>
-				<button type="button" class="btn btn-danger" ng-click="deleteCategory()" ng-if="!isMeta()">${global.delete}</button>
+				<button type="button" class="btn btn-danger" ng-click="deleteCategory()" ng-show="!isMeta()"
+					confirm-click="${details.delete_category_confirmation}">${global.delete}</button>
 				<button type="button" class="btn btn-default" ng-click="back()">${global.cancel}</button>
 			</div>
 		</div>

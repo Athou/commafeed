@@ -15,6 +15,22 @@ module.directive('focus', ['$timeout', function($timeout) {
 	};
 }]);
 
+module.directive('confirmClick', [function() {
+	return {
+		priority : -1,
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+			element.bind('click', function(e) {
+				var message = attrs.confirmClick;
+				if (message && !confirm(message)) {
+					e.stopImmediatePropagation();
+					e.preventDefault();
+				}
+			});
+		}
+	};
+}]);
+
 /**
  * Open a popup window pointing to the url in the href attribute
  */
@@ -154,8 +170,8 @@ module.directive('category', [function() {
 		restrict : 'E',
 		replace : true,
 		templateUrl : 'templates/_category.html',
-		controller : ['$scope', '$state', '$dialog', 'FeedService', 'CategoryService', 'SettingsService', 'MobileService',
-				function($scope, $state, $dialog, FeedService, CategoryService, SettingsService, MobileService) {
+		controller : ['$scope', '$state', 'FeedService', 'CategoryService', 'SettingsService', 'MobileService',
+				function($scope, $state, FeedService, CategoryService, SettingsService, MobileService) {
 					$scope.settingsService = SettingsService;
 
 					$scope.getClass = function(level) {

@@ -268,8 +268,8 @@ module.controller('CategoryTreeCtrl', ['$scope', '$timeout', '$stateParams', '$w
 			});
 		}]);
 
-module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', 'ProfileService', '$dialog',
-		function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService, $dialog) {
+module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', 'ProfileService',
+		function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService) {
 
 			$scope.CategoryService = CategoryService;
 			$scope.user = ProfileService.get();
@@ -290,30 +290,15 @@ module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedS
 
 			$scope.unsubscribe = function() {
 				var sub = $scope.sub;
-				var title = 'Unsubscribe';
-				var msg = 'Unsubscribe from ' + sub.name + '?';
-				var btns = [{
-					result : 'cancel',
-					label : 'Cancel'
-				}, {
-					result : 'ok',
-					label : 'OK',
-					cssClass : 'btn-primary'
-				}];
-
-				$dialog.messageBox(title, msg, btns).open().then(function(result) {
-					if (result == 'ok') {
-						var data = {
-							id : sub.id
-						};
-						FeedService.unsubscribe(data, function() {
-							CategoryService.init();
-						});
-						$state.transitionTo('feeds.view', {
-							_id : 'all',
-							_type : 'category'
-						});
-					}
+				var data = {
+					id : sub.id
+				};
+				FeedService.unsubscribe(data, function() {
+					CategoryService.init();
+				});
+				$state.transitionTo('feeds.view', {
+					_id : 'all',
+					_type : 'category'
 				});
 			};
 
@@ -335,7 +320,7 @@ module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedS
 		}]);
 
 module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', 'ProfileService',
-		'$dialog', function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService, $dialog) {
+		function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService) {
 			$scope.CategoryService = CategoryService;
 			$scope.user = ProfileService.get();
 
@@ -382,29 +367,14 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 
 			$scope.deleteCategory = function() {
 				var category = $scope.category;
-				var title = 'Delete category';
-				var msg = 'Delete category ' + category.name + ' ?';
-				var btns = [{
-					result : 'cancel',
-					label : 'Cancel'
-				}, {
-					result : 'ok',
-					label : 'OK',
-					cssClass : 'btn-primary'
-				}];
-
-				$dialog.messageBox(title, msg, btns).open().then(function(result) {
-					if (result == 'ok') {
-						CategoryService.remove({
-							id : category.id
-						}, function() {
-							CategoryService.init();
-						});
-						$state.transitionTo('feeds.view', {
-							_id : 'all',
-							_type : 'category'
-						});
-					}
+				CategoryService.remove({
+					id : category.id
+				}, function() {
+					CategoryService.init();
+				});
+				$state.transitionTo('feeds.view', {
+					_id : 'all',
+					_type : 'category'
 				});
 			};
 
@@ -425,8 +395,8 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 			};
 		}]);
 
-module.controller('TagDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', 'ProfileService', '$dialog',
-		function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService, $dialog) {
+module.controller('TagDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedService', 'CategoryService', 'ProfileService',
+		function($scope, $state, $stateParams, FeedService, CategoryService, ProfileService) {
 			$scope.CategoryService = CategoryService;
 			$scope.user = ProfileService.get();
 
@@ -1334,8 +1304,8 @@ module.controller('ManageUsersCtrl', ['$scope', '$state', '$location', 'AdminUse
 			};
 		}]);
 
-module.controller('ManageUserCtrl', ['$scope', '$state', '$stateParams', '$dialog', 'AdminUsersService',
-		function($scope, $state, $stateParams, $dialog, AdminUsersService) {
+module.controller('ManageUserCtrl', ['$scope', '$state', '$stateParams', 'AdminUsersService',
+		function($scope, $state, $stateParams, AdminUsersService) {
 			$scope.user = $stateParams._id ? AdminUsersService.get({
 				id : $stateParams._id
 			}) : {
@@ -1362,26 +1332,11 @@ module.controller('ManageUserCtrl', ['$scope', '$state', '$stateParams', '$dialo
 				}, alertFunction);
 			};
 			$scope.remove = function() {
-				var title = 'Delete user';
-				var msg = 'Delete user ' + $scope.user.name + ' ?';
-				var btns = [{
-					result : 'cancel',
-					label : 'Cancel'
-				}, {
-					result : 'ok',
-					label : 'OK',
-					cssClass : 'btn-primary'
-				}];
-
-				$dialog.messageBox(title, msg, btns).open().then(function(result) {
-					if (result == 'ok') {
-						AdminUsersService.remove({
-							id : $scope.user.id
-						}, function() {
-							$state.transitionTo('admin.userlist');
-						}, alertFunction);
-					}
-				});
+				AdminUsersService.remove({
+					id : $scope.user.id
+				}, function() {
+					$state.transitionTo('admin.userlist');
+				}, alertFunction);
 			};
 		}]);
 
@@ -1412,8 +1367,8 @@ module.controller('SettingsCtrl', ['$scope', '$location', 'SettingsService', 'An
 			};
 		}]);
 
-module.controller('ProfileCtrl', ['$scope', '$location', '$dialog', 'ProfileService', 'AnalyticsService',
-		function($scope, $location, $dialog, ProfileService, AnalyticsService) {
+module.controller('ProfileCtrl', ['$scope', '$location', 'ProfileService', 'AnalyticsService',
+		function($scope, $location, ProfileService, AnalyticsService) {
 
 			AnalyticsService.track();
 
@@ -1437,23 +1392,8 @@ module.controller('ProfileCtrl', ['$scope', '$location', '$dialog', 'ProfileServ
 				});
 			};
 			$scope.deleteAccount = function() {
-				var title = 'Delete account';
-				var msg = 'Delete your acount? There\'s no turning back!';
-				var btns = [{
-					result : 'cancel',
-					label : 'Cancel'
-				}, {
-					result : 'ok',
-					label : 'OK',
-					cssClass : 'btn-primary'
-				}];
-
-				$dialog.messageBox(title, msg, btns).open().then(function(result) {
-					if (result == 'ok') {
-						ProfileService.deleteAccount({});
-						window.location.href = 'logout';
-					}
-				});
+				ProfileService.deleteAccount({});
+				window.location.href = 'logout';
 			};
 		}]);
 

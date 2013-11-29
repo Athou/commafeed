@@ -7,7 +7,7 @@
 			<label class="col-sm-2 control-label">${subscribe.feed_url}</label>
 			<div class="col-sm-10">
 				<input type="text" name="url" ng-model="sub.url" ng-blur="urlChanged()" placeholder="http://example.com/feed" class="form-control"
-					required ng-disabled="state=='loading'" focus="isOpen"></input>
+					required ng-disabled="state=='loading'" autofocus></input>
 				<span class="help-block" ng-show="!subscribeForm.url.$valid">${global.required}</span>
 			</div>
 		</div>

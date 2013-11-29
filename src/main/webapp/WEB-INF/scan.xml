@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <scan>
 	<packages>
-		<package>com.commafeed</package>
+		<package>com.commafeed.backend</package>
+		<package>com.commafeed.frontend.rest</package>
 	</packages>
 </scan>

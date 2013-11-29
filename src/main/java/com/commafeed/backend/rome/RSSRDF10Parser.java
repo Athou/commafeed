@@ -2,7 +2,7 @@ package com.commafeed.backend.rome;
 
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;

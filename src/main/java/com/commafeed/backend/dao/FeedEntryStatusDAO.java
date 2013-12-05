@@ -114,11 +114,12 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		predicates.add(builder.equal(root.get(FeedEntryStatus_.user), user));
 		predicates.add(builder.equal(root.get(FeedEntryStatus_.starred), true));
-		query.where(predicates.toArray(new Predicate[0]));
 
 		if (newerThan != null) {
 			predicates.add(builder.greaterThanOrEqualTo(root.get(FeedEntryStatus_.entryInserted), newerThan));
 		}
+		
+		query.where(predicates.toArray(new Predicate[0]));
 
 		orderStatusesBy(query, root, order);
 

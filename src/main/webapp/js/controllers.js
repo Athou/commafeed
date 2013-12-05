@@ -724,7 +724,10 @@ module.controller('FeedListCtrl', [
 				$scope.busy = true;
 
 				var limit = $scope.limit;
-				var offset = SettingsService.settings.readingMode == 'all' ? $scope.entries.length : _.where($scope.entries, {
+
+				var read_shown = SettingsService.settings.readingMode === 'all' || $scope.selectedType === 'tag'
+						|| ($scope.selectedType === 'category' && $scope.selectedId === 'starred');
+				var offset = read_shown ? $scope.entries.length : _.where($scope.entries, {
 					read : false
 				}).length;
 				if ($scope.entries.length === 0) {

@@ -147,22 +147,25 @@ public class FeedRefreshTaskGiver {
 	 */
 	private void refill() {
 		refill.mark();
-		int count = Math.min(100, 3 * backgroundThreads);
 
-		// first, get feeds that are up to refresh from the database
 		List<FeedRefreshContext> contexts = Lists.newArrayList();
-		if (!applicationSettingsService.get().isCrawlingPaused()) {
-			List<Feed> feeds = feedDAO.findNextUpdatable(count, getLastLoginThreshold());
-			for (Feed feed : feeds) {
-				contexts.add(new FeedRefreshContext(feed, false));
-			}
+		int batchSize = Math.min(100, 3 * backgroundThreads);
+
+		// add feeds we got from the add() method
+		int addQueueSize = addQueue.size();
+		for (int i = 0; i < Math.min(batchSize, addQueueSize); i++) {
+			contexts.add(addQueue.poll());
 		}
 
-		// then, add to those the feeds we got from the add() method. We add them at the beginning of the list as they probably have a
-		// higher priority
-		int size = addQueue.size();
-		for (int i = 0; i < Math.min(count, size); i++) {
-			contexts.add(0, addQueue.poll());
+		// add feeds that are up to refresh from the database
+		if (!applicationSettingsService.get().isCrawlingPaused()) {
+			int count = batchSize - contexts.size();
+			if (count > 0) {
+				List<Feed> feeds = feedDAO.findNextUpdatable(count, getLastLoginThreshold());
+				for (Feed feed : feeds) {
+					contexts.add(new FeedRefreshContext(feed, false));
+				}
+			}
 		}
 
 		// set the disabledDate to now as we use the disabledDate in feedDAO to decide what to refresh next. We also use a map to remove
@@ -178,8 +181,8 @@ public class FeedRefreshTaskGiver {
 		takeQueue.addAll(map.values());
 
 		// add feeds from the giveBack queue to the map, overriding duplicates
-		size = giveBackQueue.size();
-		for (int i = 0; i < size; i++) {
+		int giveBackQueueSize = giveBackQueue.size();
+		for (int i = 0; i < giveBackQueueSize; i++) {
 			Feed feed = giveBackQueue.poll();
 			map.put(feed.getId(), new FeedRefreshContext(feed, false));
 		}

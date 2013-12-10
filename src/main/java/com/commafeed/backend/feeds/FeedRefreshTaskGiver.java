@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.time.DateUtils;
 
+import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.dao.FeedDAO;
@@ -66,6 +67,24 @@ public class FeedRefreshTaskGiver {
 		feedRefreshed = metrics.meter(MetricRegistry.name(getClass(), "feedRefreshed"));
 		threadWaited = metrics.meter(MetricRegistry.name(getClass(), "threadWaited"));
 		refill = metrics.meter(MetricRegistry.name(getClass(), "refill"));
+		metrics.register(MetricRegistry.name(getClass(), "addQueue"), new Gauge<Integer>() {
+			@Override
+			public Integer getValue() {
+				return addQueue.size();
+			}
+		});
+		metrics.register(MetricRegistry.name(getClass(), "takeQueue"), new Gauge<Integer>() {
+			@Override
+			public Integer getValue() {
+				return takeQueue.size();
+			}
+		});
+		metrics.register(MetricRegistry.name(getClass(), "giveBackQueue"), new Gauge<Integer>() {
+			@Override
+			public Integer getValue() {
+				return giveBackQueue.size();
+			}
+		});
 	}
 
 	@PreDestroy

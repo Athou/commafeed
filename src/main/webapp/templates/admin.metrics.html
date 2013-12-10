@@ -14,4 +14,11 @@
 		label="'Feed Worker active'"></metric-gauge>
 	<metric-gauge metric="metrics.gauges['com.commafeed.backend.feeds.FeedRefreshExecutor.feed-refresh-worker.pending']"
 		label="'Feed Worker queued'"></metric-gauge>
+		
+	<metric-gauge metric="metrics.gauges['com.commafeed.backend.feeds.FeedRefreshTaskGiver.addQueue']"
+		label="'Task Giver Add Queue'"></metric-gauge>
+	<metric-gauge metric="metrics.gauges['com.commafeed.backend.feeds.FeedRefreshTaskGiver.takeQueue']"
+		label="'Task Giver Take Queue'"></metric-gauge>
+	<metric-gauge metric="metrics.gauges['com.commafeed.backend.feeds.FeedRefreshTaskGiver.giveBackQueue']"
+		label="'Task Giver Give Back Queue'"></metric-gauge>
 </div>

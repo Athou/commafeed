@@ -261,7 +261,7 @@
 					<property name="external_port">${env.OPENSHIFT_JBOSSEAP_CLUSTER_PROXY_PORT}
 					</property>
 					<property name="bind_port">7600</property>
-					<property name="bind_addr">${env.OPENSHIFT_INTERNAL_IP}</property>
+					<property name="bind_addr">${env.OPENSHIFT_JBOSSEAP_IP}</property>
 				</transport>
 				<protocol type="TCPPING">
 					<property name="timeout">3000</property>
@@ -476,15 +476,15 @@
 
 	<interfaces>
 		<interface name="management">
-			<loopback-address value="${env.OPENSHIFT_INTERNAL_IP}" />
+			<loopback-address value="${env.OPENSHIFT_JBOSSEAP_IP}" />
 		</interface>
 		<interface name="public">
-			<loopback-address value="${env.OPENSHIFT_INTERNAL_IP}" />
+			<loopback-address value="${env.OPENSHIFT_JBOSSEAP_IP}" />
 		</interface>
 		<interface name="unsecure">
 			<!-- Used for IIOP sockets in the standarad configuration. To secure JacORB 
 				you need to setup SSL -->
-			<loopback-address value="${env.OPENSHIFT_INTERNAL_IP}" />
+			<loopback-address value="${env.OPENSHIFT_JBOSSEAP_IP}" />
 		</interface>
 	</interfaces>
 

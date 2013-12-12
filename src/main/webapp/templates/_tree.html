@@ -1,4 +1,5 @@
-<div ng-controller="CategoryTreeCtrl">
+<div ng-controller="CategoryTreeCtrl" class="sidebar-nav-fixed" mousewheel-scrolling ui-jq="resizable"
+	ui-options="{handles: 'e', resize: resizeCallback}">
 	<div class="btn-group">
 		<button class="btn btn-default" ui-sref="feeds.subscribe" ng-click="MobileService.toggleLeftMenu()">
 			<span class="icon-rss"></span>

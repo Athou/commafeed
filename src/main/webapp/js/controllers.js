@@ -155,6 +155,10 @@ module.controller('CategoryTreeCtrl', [
 				$scope.selectedId = $stateParams._id;
 			});
 
+			$scope.resizeCallback = function(event, ui) {
+				$('.main-content').css('margin-left', $(ui.element).outerWidth(true) + 'px');
+			};
+
 			$timeout(function refreshTree() {
 				AnalyticsService.track();
 				CategoryService.refresh(function() {
@@ -1216,6 +1220,7 @@ module.controller('FeedListCtrl', [
 
 			Mousetrap.bind('f', function(e) {
 				$('body').toggleClass('full-screen');
+				$('.main-content').css('margin-left', '');
 				return false;
 			});
 

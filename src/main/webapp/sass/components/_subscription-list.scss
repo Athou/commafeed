@@ -22,15 +22,20 @@
 /* tree*/
 .sidebar-nav-fixed {
 	margin-top: 10px;
+	width: 250px;
 	position: fixed;
 	top: 0;
 	bottom: 0;
-	width: 16%;
 	overflow: hidden;
 }
 
 .sidebar-nav-fixed:hover {
 	overflow-y: auto;
+}
+
+.sidebar-nav-fixed .ui-resizable-e {
+	width: 5px;
+	right: 0;
 }
 
 .full-screen .left-menu {
@@ -120,26 +125,27 @@
 .css-treeview .tree-item:hover .config {
 	display: block;
 	padding-top: 3px;
+	margin-right: 5px;
 	width: 16px;
 	height: 16px;
 }
 
 .css-treeview .indent1 {
-	padding-left: 22px;
+	padding-left: 16px;
 }
 
 .css-treeview .indent2 {
-	padding-left: 44px;
+	padding-left: 32px;
 }
 
 .css-treeview .indent3 {
-	padding-left: 66px;
+	padding-left: 48px;
 }
 
 .css-treeview .indent4 {
-	padding-left: 88px;
+	padding-left: 64px;
 }
 
 .css-treeview .indent5 {
-	padding-left: 110px;
+	padding-left: 80px;
 }

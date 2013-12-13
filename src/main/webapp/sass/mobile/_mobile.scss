@@ -4,8 +4,8 @@ html.mobile, html.tablet {
 		padding-right: 0px;
 	}
 	.container-full {
-		padding-left: 0;
-		padding-right: 0;
+		padding-left: 5px;
+		padding-right: 5px;
 	}
 	.row {
 		margin-right: 0;
@@ -27,8 +27,8 @@ html.mobile, html.tablet {
 		float: none !important;
 		width: 100% !important;
 		margin-left: 0 !important;
-		padding-left: 5px;
-		padding-right: 5px;
+		padding-left: 0;
+		padding-right: 0;
 	}
 	#feed-accordion .entry-heading .shrink {
 		margin-left: 0;

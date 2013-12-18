@@ -19,7 +19,7 @@
 		<div ng-show="message && errorCount > 10">${view.error_while_loading_feed} : {{message}}</div>
 		<div ng-repeat="entry in entries" class="entry entry-font-size-{{font_size}}" id="entry_{{entry.id}}"
 			ng-class="{unread: entry.read == false, current: current==entry, open: isOpen, closed: !isOpen }">
-			<div class="entry-heading">
+			<div class="entry-heading" ng-swipe-right="mark(entry, !entry.read)">
 				<a href="{{entry.url}}" target="_blank" class="entry-heading-link" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)">
 					<span class="feed-name">
 						<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">

@@ -50,6 +50,8 @@ public class FeedFetcher {
 					result = getter.getBinary(extractedUrl, lastModified, eTag, timeout);
 					content = result.getContent();
 					fetchedFeed = parser.parse(feedUrl, content);
+				} else {
+					throw e;
 				}
 			} else {
 				throw e;

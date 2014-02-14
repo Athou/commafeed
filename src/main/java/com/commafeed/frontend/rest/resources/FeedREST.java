@@ -265,7 +265,8 @@ public class FeedREST extends AbstractREST {
 		try {
 			info = fetchFeedInternal(req.getUrl());
 		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(Throwables.getStackTraceAsString(Throwables.getRootCause(e))).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(Throwables.getStackTraceAsString(Throwables.getRootCause(e)))
+					.build();
 		}
 		return Response.ok(info).build();
 	}
@@ -373,8 +374,10 @@ public class FeedREST extends AbstractREST {
 		try {
 			url = fetchFeedInternal(url).getUrl();
 
-			FeedCategory category = CategoryREST.ALL.equals(req.getCategoryId()) ? null : feedCategoryDAO.findById(Long.valueOf(req
-					.getCategoryId()));
+			FeedCategory category = null;
+			if (req.getCategoryId() != null && !CategoryREST.ALL.equals(req.getCategoryId())) {
+				category = feedCategoryDAO.findById(Long.valueOf(req.getCategoryId()));
+			}
 			FeedInfo info = fetchFeedInternal(url);
 			feedSubscriptionService.subscribe(getUser(), info.getUrl(), req.getTitle(), category);
 		} catch (Exception e) {

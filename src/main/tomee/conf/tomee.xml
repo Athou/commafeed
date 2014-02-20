@@ -7,7 +7,7 @@
 	    UserName = sa
 	    Password = 
 	    MaxActive = 50
-	    DataSourceCreator dbcp 
+	    DataSourceCreator bonecp 
 	</Resource>
 
 <!-- 
@@ -17,7 +17,7 @@
 		UserName cf
 		Password cf
 		MaxActive 50
-		DataSourceCreator dbcp 
+		DataSourceCreator bonecp 
 	</Resource>
  -->
  
@@ -28,7 +28,7 @@
 		UserName cf
 		Password cf
 		MaxActive 50
-		DataSourceCreator dbcp 
+		DataSourceCreator bonecp 
 	</Resource>
  -->
  
@@ -39,7 +39,7 @@
 		UserName cf
 		Password cf
 		MaxActive 50
-		DataSourceCreator dbcp 
+		DataSourceCreator bonecp 
 	</Resource>
  -->
  

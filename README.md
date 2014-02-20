@@ -41,7 +41,7 @@ To install maven and openjdk on Ubuntu, issue the following commands
     sudo apt-get update
     sudo apt-get install openjdk-7-jdk maven3
     
-    Not required but if you don't, use 'mvn3' instead of 'mvn' for the rest of the instructions.
+    # Not required but if you don't, use 'mvn3' instead of 'mvn' for the rest of the instructions.
     sudo ln -s /usr/bin/mvn3 /usr/bin/mvn
     
 On Windows and other operating systems, just download maven 3.x from the [official site](http://maven.apache.org/), extract it somewhere and add the `bin` directory to your `PATH` environment variable.
@@ -54,16 +54,16 @@ If you don't have git you can download the sources as a zip file from [here](htt
     
 Now build the application
 
-	Embedded HSQL database:
+	# Embedded HSQL database:
     mvn clean package tomee:build -Pprod
     
-	External MySQL database:
+	# External MySQL database:
     mvn clean package tomee:build -Pprod -Pmysql
     
-    External PostgreSQL database:
+    # External PostgreSQL database:
     mvn clean package tomee:build -Pprod -Ppgsql
     
-    External Microsoft SQL Server database:
+    # External Microsoft SQL Server database:
     mvn clean package tomee:build -Pprod -Pmssql
     
 It will generate a zip file at `target/commafeed.zip` with everything you need to run the application.

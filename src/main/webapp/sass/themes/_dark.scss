@@ -1,0 +1,66 @@
+#theme-dark {
+
+.btn {
+  border: 0;
+  outline: 0;
+}
+body {
+  color: #000;
+  background: #526b94;
+}
+body #toolbar {
+  background: #526b94;
+}
+[type='button'],
+[ng-click='toSettings()'],
+button[type='submit']:not(.btn-primary) {
+  background: #bc6d75;
+}
+button[data-toggle='dropdown'] {
+  background: #e6c6c9;
+}
+button[ui-sref*='feed'] {
+  background: #e6c6c9;
+}
+input[ng-model='keywords'] {
+  background: #526b94;
+  margin-top: 1px;
+  height: 32px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+.entry-heading-link {
+  background: #c7cbcc;
+}
+a[ng-click*='goToFeed'] {
+  color: #e6c6c9;
+}
+.entry-body-content a[target='_blank'][href^='http'] {
+  color: #e6c6c9;
+}
+span[ng-class*='unread'][unread] {
+  color: #000;
+}
+a[ng-click*='feedClicked'][selected] {
+  color: #526b94;
+}
+.unread-counter {
+  color: #000 !important;
+}
+div.entry-title a {
+  text-decoration: underline;
+  color: #bc6d75;
+}
+.entry {
+  box-shadow: none !important;
+}
+div.settings a {
+  color: #e6c6c9;
+}
+div.about-module a {
+  color: #e6c6c9;
+}
+}

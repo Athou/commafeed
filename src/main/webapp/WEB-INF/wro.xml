@@ -2,31 +2,50 @@
 <groups xmlns="http://www.isdc.ro/wro">
 
 	<group name="lib">
-		<js minimize="false">/vendor/jquery/*.js</js>
-		<js minimize="false">/vendor/select2/*.js</js>
-		<js minimize="false">/vendor/lodash/*.js</js>
-		<js minimize="false">/vendor/jqueryui/*.js</js>
-		<js minimize="false">/vendor/jquery-mousewheel/*.js</js>
-		<js minimize="false">/vendor/bootstrap/*.js</js>
-		<js minimize="false">/vendor/angularjs/*.js</js>
-		<js minimize="false">/vendor/ui-utils/*.js</js>
-		<js minimize="false">/vendor/ui-select2/*.js</js>
-		<js minimize="false">/vendor/ui-bootstrap/*.js</js>
-		<js minimize="false">/vendor/ui-router/*.js</js>
-		<js minimize="false">/vendor/mousetrap/*.js</js>
-		<js minimize="false">/vendor/nggrid/*.js</js>
-		<js minimize="false">/vendor/nginfinitescroll/*.js</js>
-		<js minimize="false">/vendor/spinjs/*.js</js>
-		<js minimize="false">/vendor/momentjs/*.js</js>
-		<js minimize="false">/vendor/devicejs/*.js</js>
+		<js>webjar:lodash.min.js</js>
+
+		<js>webjar:jquery/1.11.0/jquery.min.js</js>
+		<js>webjar:jquery.mousewheel.js</js>
+
+		<js>/vendor/jqueryui/*.js</js>
+		<css>/vendor/jqueryui/*.css</css>
+
+		<js>/vendor/bootstrap/*.js</js>
+		<css>/vendor/bootstrap/*.css</css>
+
+		<css>/vendor/fontawesome/css/*.css</css>
+
+		<js>/vendor/select2/*.js</js>
+		<css>/vendor/select2/*.css</css>
+
+		<js>webjar:mousetrap.min.js</js>
+
+		<js>/vendor/devicejs/*.js</js>
+
+		<js>webjar:spin.js</js>
+
+		<js>webjar:moment.min.js</js>
+		<js>webjar:langs.min.js</js>
+
+		<js>webjar:angular.min.js</js>
+		<js>webjar:angular-resource.min.js</js>
+		<js>webjar:angular-route.min.js</js>
+		<js>webjar:angular-sanitize.min.js</js>
+		<js>webjar:angular-touch.min.js</js>
+
+		<js>webjar:angular-ui-router.min.js</js>
+		<js>webjar:ui-utils.min.js</js>
+		<js>webjar:ui-select2.js</js>
+		<js>webjar:ui-bootstrap-tpls.min.js</js>
+		<js>/vendor/nginfinitescroll/*.js</js>
+
+		<js>webjar:ng-grid.min.js</js>
+		<css>webjar:ng-grid.min.css</css>
+
+		<css>/vendor/zocial/*.css</css>
+
+		<css>/vendor/readabilicons/css/*.css</css>
 		
-		<css minimize="false">/vendor/jqueryui/*.css</css>
-		<css minimize="false">/vendor/select2/*.css</css>
-		<css minimize="false">/vendor/bootstrap/*.css</css>
-		<css minimize="false">/vendor/fontawesome/css/*.css</css>
-		<css minimize="false">/vendor/zocial/*.css</css>
-		<css minimize="false">/vendor/readabilicons/css/*.css</css>
-		<css minimize="false">/vendor/nggrid/*.css</css>
 	</group>
 
 	<group name="app">

@@ -362,7 +362,7 @@
 		<dependency>
 			<groupId>ro.isdc.wro4j</groupId>
 			<artifactId>wro4j-extensions</artifactId>
-			<version>1.6.3</version>
+			<version>1.7.3</version>
 		</dependency>
 
 		<dependency>
@@ -407,7 +407,7 @@
 					<plugin>
 						<groupId>ro.isdc.wro4j</groupId>
 						<artifactId>wro4j-maven-plugin</artifactId>
-						<version>1.6.3</version>
+						<version>1.7.3</version>
 						<executions>
 							<execution>
 								<id>js</id>
@@ -417,7 +417,7 @@
 								</goals>
 								<configuration>
 									<targetGroups>app</targetGroups>
-									<options>indent,devel,noarg,quotmark,laxcomma,laxbreak</options>
+									<options>devel,noarg,quotmark,laxcomma,laxbreak</options>
 								</configuration>
 							</execution>
 							<execution>
@@ -554,7 +554,7 @@
 					<plugin>
 						<groupId>ro.isdc.wro4j</groupId>
 						<artifactId>wro4j-maven-plugin</artifactId>
-						<version>1.7.2</version>
+						<version>1.7.3</version>
 						<executions>
 							<execution>
 								<goals>

@@ -55,6 +55,7 @@ public class FeedParser {
 			if (xmlString == null) {
 				throw new FeedException("Input string is null for url " + feedUrl);
 			}
+			xmlString = FeedUtils.replaceHtmlEntitiesWithNumericEntities(xmlString);
 			InputSource source = new InputSource(new StringReader(xmlString));
 			SyndFeed rss = new SyndFeedInput().build(source);
 			handleForeignMarkup(rss);

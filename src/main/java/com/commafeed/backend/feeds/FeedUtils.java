@@ -129,6 +129,14 @@ public class FeedUtils {
 		}
 		return encoding;
 	}
+	
+	public static String replaceHtmlEntitiesWithNumericEntities(String source){
+		String result = source;
+		for(String entity : HtmlEntities.NUMERIC_MAPPING.keySet()){
+			result = result.replace(entity, HtmlEntities.NUMERIC_MAPPING.get(entity));
+		}
+		return result;
+	}
 
 	/**
 	 * Normalize the url. The resulting url is not meant to be fetched but rather used as a mean to identify a feed and avoid duplicates

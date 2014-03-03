@@ -400,6 +400,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
 			<artifactId>jquery-mousewheel</artifactId>
 			<version>3.1.9</version>
 		</dependency>

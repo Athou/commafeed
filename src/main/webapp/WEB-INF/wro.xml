@@ -10,8 +10,8 @@
 		<js>/vendor/jqueryui/*.js</js>
 		<css>/vendor/jqueryui/*.css</css>
 
-		<js>/vendor/bootstrap/*.js</js>
-		<css>/vendor/bootstrap/*.css</css>
+		<js>webjar:bootstrap.min.js</js>
+		<css>webjar:bootstrap.min.css</css>
 
 		<css>/vendor/fontawesome/css/*.css</css>
 

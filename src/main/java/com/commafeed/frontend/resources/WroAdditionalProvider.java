@@ -20,6 +20,7 @@ public class WroAdditionalProvider implements ProcessorProvider {
 		map.put("sassOnlyProcessor", new SassOnlyProcessor());
 		map.put("sassImport", new SassImportProcessor());
 		map.put("timestamp", new TimestampProcessor());
+		map.put("cssUrlRewriting", new CustomCssUrlRewritingProcessor());
 		return map;
 	}
 

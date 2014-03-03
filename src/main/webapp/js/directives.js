@@ -69,7 +69,7 @@ module.directive('tags', function() {
 				if (newValue && oldValue && newValue != oldValue) {
 					var data = {
 						entryId : $scope.entry.id,
-						tags : newValue
+						tags : newValue.split(',')
 					};
 					EntryService.tag(data);
 				}

@@ -8,7 +8,7 @@ import com.google.gwt.thirdparty.guava.common.collect.Maps;
 public class HtmlEntities {
 	public static final Map<String, String> NUMERIC_MAPPING = Collections.unmodifiableMap(loadMap());
 
-	private static Map<String, String> loadMap() {
+	private static synchronized Map<String, String> loadMap() {
 		Map<String, String> map = Maps.newLinkedHashMap();
 		map.put("&Aacute;", "&#193;");
 		map.put("&aacute;", "&#225;");

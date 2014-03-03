@@ -62,7 +62,7 @@ public class FeedUtils {
 		return string;
 	}
 
-	private static Whitelist buildWhiteList() {
+	private static synchronized Whitelist buildWhiteList() {
 		Whitelist whitelist = new Whitelist();
 		whitelist.addTags("a", "b", "blockquote", "br", "caption", "cite", "code", "col", "colgroup", "dd", "div", "dl", "dt", "em", "h1",
 				"h2", "h3", "h4", "h5", "h6", "i", "iframe", "img", "li", "ol", "p", "pre", "q", "small", "strike", "strong", "sub", "sup",

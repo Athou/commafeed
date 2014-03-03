@@ -102,7 +102,7 @@ public class FeedRefreshTaskGiver {
 	public void start() {
 		try {
 			// sleeping for a little while, let everything settle
-			Thread.sleep(5000);
+			Thread.sleep(60000);
 		} catch (InterruptedException e) {
 			log.error("interrupted while sleeping");
 		}

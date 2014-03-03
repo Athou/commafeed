@@ -66,11 +66,14 @@ module.directive('tags', function() {
 			};
 
 			$scope.$watch('entry.tags', function(newValue, oldValue) {
-				if (newValue && oldValue && newValue != oldValue) {
+				if (oldValue && newValue != oldValue) {
 					var data = {
 						entryId : $scope.entry.id,
-						tags : newValue.split(',')
+						tags : []
 					};
+					if (newValue) {
+						data.tags = newValue.split(',');
+					}
 					EntryService.tag(data);
 				}
 			}, true);

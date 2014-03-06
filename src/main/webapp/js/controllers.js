@@ -696,6 +696,7 @@ module.controller('FeedListCtrl', [
 			$scope.errorCount = 0;
 			$scope.timestamp = 0;
 			$scope.entries = [];
+			$scope.ignored_read_status = false;
 			$scope.font_size = 0;
 
 			$scope.settingsService = SettingsService;
@@ -729,8 +730,8 @@ module.controller('FeedListCtrl', [
 
 				var limit = $scope.limit;
 
-				var read_shown = SettingsService.settings.readingMode === 'all' || $scope.selectedType === 'tag'
-						|| ($scope.selectedType === 'category' && $scope.selectedId === 'starred');
+				var read_shown = SettingsService.settings.readingMode === 'all' || $scope.ignored_read_status;
+				console.log("read_shown" + read_shown);
 				var offset = read_shown ? $scope.entries.length : _.where($scope.entries, {
 					read : false
 				}).length;
@@ -761,6 +762,8 @@ module.controller('FeedListCtrl', [
 					$scope.busy = false;
 					$scope.hasMore = data.hasMore;
 					$scope.feedLink = data.feedLink;
+					$scope.ignored_read_status = data.ignoredReadStatus;
+					console.log("ignoredReadStatus" + data.ignoredReadStatus);
 				};
 
 				var data = {

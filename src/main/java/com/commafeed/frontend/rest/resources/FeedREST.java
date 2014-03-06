@@ -187,6 +187,7 @@ public class FeedREST extends AbstractREST {
 		}
 
 		entries.setTimestamp(System.currentTimeMillis());
+		entries.setIgnoredReadStatus(keywords != null);
 		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), keywords);
 		return Response.ok(entries).build();
 	}

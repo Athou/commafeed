@@ -731,7 +731,6 @@ module.controller('FeedListCtrl', [
 				var limit = $scope.limit;
 
 				var read_shown = SettingsService.settings.readingMode === 'all' || $scope.ignored_read_status;
-				console.log("read_shown" + read_shown);
 				var offset = read_shown ? $scope.entries.length : _.where($scope.entries, {
 					read : false
 				}).length;
@@ -763,7 +762,6 @@ module.controller('FeedListCtrl', [
 					$scope.hasMore = data.hasMore;
 					$scope.feedLink = data.feedLink;
 					$scope.ignored_read_status = data.ignoredReadStatus;
-					console.log("ignoredReadStatus" + data.ignoredReadStatus);
 				};
 
 				var data = {

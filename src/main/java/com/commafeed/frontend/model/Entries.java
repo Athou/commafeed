@@ -41,7 +41,7 @@ public class Entries implements Serializable {
 	@ApiProperty("list of entries")
 	private List<Entry> entries = Lists.newArrayList();
 
-	@ApiProperty("true if the unread flag was ignored in the request, all entries are returned regardless of their read status")
+	@ApiProperty("if true, the unread flag was ignored in the request, all entries are returned regardless of their read status")
 	private boolean ignoredReadStatus;
 
 }

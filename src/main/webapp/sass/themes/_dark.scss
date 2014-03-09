@@ -20,7 +20,7 @@ button[data-toggle='dropdown'] {
   background: #e6c6c9;
 }
 button[ui-sref*='feed'] {
-  background: #e6c6c9;
+  background: #DEE2E3;
 }
 input[ng-model='keywords'] {
   background: #526b94;
@@ -63,4 +63,27 @@ div.settings a {
 div.about-module a {
   color: #e6c6c9;
 }
+
+/*______________________________________________________ 
+opened feed bg color - changed to grey?*, added padding*/
+div.entry-body.ng-scope {
+background: #D8DADB;
+padding-left: 15px;
+}
+
+/* opened feed link - color changed to default blue */
+div.entry-body.ng-scope a[href^="http"] {
+color: #428BCF;
+}
+
+/* opened feed icon panel  - changed to grey?*/
+#feed-accordion .entry-buttons {
+background-color: transparent;
+}
+
+/* future */
+/*[ng-controller="CategoryTreeCtrl"]{
+display: none;
+} */
+
 }

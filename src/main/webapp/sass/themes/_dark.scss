@@ -1,6 +1,11 @@
 #theme-dark {
 
 .btn {
+  transition: all 400ms linear;
+  -webkit-transition: all 400ms linear;
+  -moz-transition: all 400ms linear;
+  -ms-transition: all 400ms linear;
+  -o-transition: all 400ms linear;
   border: 0;
   outline: 0;
 }
@@ -20,7 +25,7 @@ button[data-toggle='dropdown'] {
   background: #e6c6c9;
 }
 button[ui-sref*='feed'] {
-  background: #e6c6c9;
+  background: #DEE2E3;
 }
 input[ng-model='keywords'] {
   background: #526b94;
@@ -63,4 +68,55 @@ div.settings a {
 div.about-module a {
   color: #e6c6c9;
 }
+
+/* opened feed bg color - changed to grey?*, added padding*/
+div.entry-body.ng-scope {
+  background: #D8DADB;
+  padding-left: 15px;
+}
+
+
+/* opened feed link - color changed to default blue */
+div.entry-body.ng-scope a[href^="http"] {
+  color: #428BCF;
+}
+
+/* opened feed icon panel  - changed to grey?*/
+  #feed-accordion .entry-buttons {
+  /*background-color: transparent;*/
+  background-color: #BC6D75;
+  margin-left: -15px;
+  border: none;
+  padding-left: -15px;
+}
+
+/* future */
+/*[ng-controller="CategoryTreeCtrl"]{
+display: none;
+} */
+
+/*____________________________________ 
+last - transitions - btn -> top, img shadow, tool icon frame */
+
+.ng-scope img {
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.3);
+  -ms-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.3);
+  -o-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.3);
+}
+
+/* left item tree*/
+span[ng-class*='unread'] {
+  transition: all 390ms linear;
+  -webkit-transition: all 390ms linear;
+  -moz-transition: all 390ms linear;
+  -ms-transition: all 390ms linear;
+  -o-transition: all 390ms linear;
+}
+
+.page-header {
+  border: none;
+}
+
 }

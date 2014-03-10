@@ -74,7 +74,7 @@
 					<div class="form-group star" ng-mouseup="star(entry, !entry.starred, $event)">
 						<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}" class="pointer"></i>
 					</div>
-					<div class="checkbox">
+					<div class="checkbox-inline keep-unread">
 						<label ng-if="entry.markable">
 							<input type="checkbox" ng-checked="!entry.read" ng-click="mark(entry, !entry.read)" class="mousetrap"></input>
 							${view.keep_unread}

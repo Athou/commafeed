@@ -1,152 +1,183 @@
 #theme-dark {
 
-.btn {
-  border: 0;
+* {
   outline: 0;
+  text-decoration: none;
 }
-body {
+.btn {
+  border: none;
+}
+.btn-default,
+.btn-primary,
+.btn-success,
+.btn-info,
+.btn-warning,
+.btn-danger {
+  background: none;
+  text-shadow: none;
+  color: #424345;
+}
+.btn-default:active,
+.btn-primary:active,
+.btn-success:active,
+.btn-info:active,
+.btn-warning:active,
+.btn-danger:active,
+.btn-default.active,
+.btn-primary.active,
+.btn-success.active,
+.btn-info.active,
+.btn-warning.active,
+.btn-danger.active {
+  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.15) 0 1px 1px rgba(0,0,0,0.075);
+  -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.15) 0 1px 1px rgba(0,0,0,0.075);
+  -ms-box-shadow: inset 0 1px 0 rgba(255,255,255,0.15) 0 1px 1px rgba(0,0,0,0.075);
+  -o-box-shadow: inset 0 1px 0 rgba(255,255,255,0.15) 0 1px 1px rgba(0,0,0,0.075);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15) 0 1px 1px rgba(0,0,0,0.075);
+  background: #e0e0e0;
+}
+.btn-default {
+  background: #c7cbcc;
+}
+.btn:hover {
+  background: #e0e0e0;
+}
+.dropdown-menu {
+  background: #c7cbcc;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  border: none;
+  color: #424345;
+}
+.dropdown-menu a {
+  color: inherit;
+}
+.dropdown-menu .divider {
+  display: none;
+}
+.btn-primary:hover {
   color: #000;
-  background: #526b94;
 }
-body #toolbar {
-  background: #526b94;
+.btn-primary:active {
+  color: #000;
 }
-[type='button'],
-[ng-click='toSettings()'],
-button[type='submit']:not(.btn-primary) {
-  background: #c7cbcc;
+.btn-primary:active:hover {
+  color: #000;
 }
-button[data-toggle='dropdown'] {
-  background: #d8dadb;
+.btn-default:hover {
+  color: #000;
 }
-button[ui-sref*='feed'] {
-  background: #c7cbcc;
+.btn-default:active {
+  color: #000;
+}
+.btn-default:active:hover {
+  color: #000;
+}
+.btn {
+  -webkit-transition: all 400ms linear;
+  -moz-transition: all 400ms linear;
+  -ms-transition: all 400ms linear;
+  -o-transition: all 400ms linear;
+  transition: all 400ms linear;
 }
 input[ng-model='keywords'] {
-  background: #526b94;
-  height: 32px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-  color: #d8dadb;
+  -webkit-transition: all 400ms linear;
+  -moz-transition: all 400ms linear;
+  -ms-transition: all 400ms linear;
+  -o-transition: all 400ms linear;
+  transition: all 400ms linear;
 }
 input[ng-model='keywords']:focus {
-  background: #d8dadb;
-  color: #000;
-}
-.entry-heading-link {
   background: #c7cbcc;
 }
-a[ng-click*='goToFeed'] {
-  color: #e6c6c9;
+a[ng-click^='tab'] {
+  -webkit-transition: all 390ms linear;
+  -moz-transition: all 390ms linear;
+  -ms-transition: all 390ms linear;
+  -o-transition: all 390ms linear;
+  transition: all 390ms linear;
 }
-.entry-body-content a[target='_blank'][href^='http'] {
-  color: #e6c6c9;
-}
-span[ng-class*='unread'][unread] {
+a[ng-click^='tab']:hover {
   color: #000;
 }
-a[ng-click*='feedClicked'][selected] {
-  color: #526b94;
+.css-treeview li {
+  -webkit-transition: all 150ms linear;
+  -moz-transition: all 150ms linear;
+  -ms-transition: all 150ms linear;
+  -o-transition: all 150ms linear;
+  transition: all 150ms linear;
 }
-.unread-counter {
-  color: #000 !important;
+body {
+  background: #788587;
+  color: #424345;
 }
-div.entry-title a {
-  text-decoration: underline;
-  color: #bc6d75;
+body a {
+  color: #e0e0e0;
 }
-.entry {
-  box-shadow: none !important;
-}
-div.settings a {
-  color: #d8dadb;
+.toolbar {
+  background: #788587;
 }
 .page-header {
   border: none;
 }
-a[ng-click^='tab ='] {
-  color: #d8dadb;
+.entrylist-header {
+  border: none;
 }
-a[ng-click^='tab =']:hover {
-  color: #000;
+.entrylist-header h3,
+.entrylist-header a {
+  margin: 0;
 }
-div.about-module a {
-  color: #d8dadb;
-}
-div.entry-body.ng-scope {
-  background: #d8dadb;
+#feed-accordion .entry-body {
+  background: #c7cbcc;
   padding-left: 15px;
 }
-div.entry-body.ng-scope a[href^='http'] {
-  color: #428bcf;
+#feed-accordion .entry-body a:not([popup]) {
+  color: #a68589;
+}
+#feed-accordion .entry-body a:not([popup]):visited {
+  color: #8d8e8e;
+}
+#feed-accordion .entry-body img {
+  -webkit-box-shadow: 0 0 2px 0 rgba(0,0,0,0.2);
+  -moz-box-shadow: 0 0 2px 0 rgba(0,0,0,0.2);
+  -ms-box-shadow: 0 0 2px 0 rgba(0,0,0,0.2);
+  -o-box-shadow: 0 0 2px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 0 2px 0 rgba(0,0,0,0.2);
+}
+#feed-accordion .highlight-search {
+  background: inherit;
 }
 #feed-accordion .entry-buttons {
-  background: #bc6d75;
+  background: #a68589;
   margin-left: -15px;
   border: none;
 }
-#feed-accordion .entry-body .entry-subtitle {
-  display: inline;
-}
-.main .spinner {
-  margin-left: 25px;
-}
-div#uvTab {
-  visibility: hidden;
-}
-pre {
-  background: transparent;
-}
-.ng-scope img {
-  -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
-  -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
-  -ms-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
-  -o-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
-  box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
-}
-span[ng-class*='unread'] {
-  -webkit-transition: all 390ms linear;
-  -moz-transition: all 390ms linear;
-  -ms-transition: all 390ms linear;
-  -o-transition: all 390ms linear;
-  transition: all 390ms linear;
-}
-.btn {
-  -webkit-transition: all 400ms linear;
-  -moz-transition: all 400ms linear;
-  -ms-transition: all 400ms linear;
-  -o-transition: all 400ms linear;
-  transition: all 400ms linear;
+#feed-accordion.expanded .entry {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+  border: none;
+  margin-bottom: 30px;
 }
 input[ng-model='keywords'] {
-  -webkit-transition: all 400ms linear;
-  -moz-transition: all 400ms linear;
-  -ms-transition: all 400ms linear;
-  -o-transition: all 400ms linear;
-  transition: all 400ms linear;
+  border: none;
+  height: 32px;
+  background: #9ba8aa;
 }
-a[ng-click^='tab ='] {
-  -webkit-transition: all 390ms linear;
-  -moz-transition: all 390ms linear;
-  -ms-transition: all 390ms linear;
-  -o-transition: all 390ms linear;
-  transition: all 390ms linear;
+.css-treeview .unread-counter {
+  color: #000;
+}
+.css-treeview li .tree-item:hover {
+  background: #ebebeb;
+}
+.css-treeview a:hover {
+  font-size: 1.02em;
 }
 
-
-/*______________ 
-original buttons 
-_______________*/
-/*
-[type='button'], [ng-click='toSettings()'], button[type='submit']:not(.btn-primary) {
-  background: #bc6d75;
-}
-button[data-toggle='dropdown'], button[ui-sref*='feed'] { 
-  background: #e6c6c9;
-}
-*/
 
 }

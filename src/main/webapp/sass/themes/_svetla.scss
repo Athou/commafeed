@@ -1,110 +1,208 @@
 #theme-svetla {
-/*bg color*/
-        body, div.form-actions, .toolbar, .entrylist-header ng-scope {
-            background:  #AFB8BE;
-        }
 
-        .form-actions, div.page-header {
-            border: none;
-        }
+* {
+  outline: 0;
+  text-decoration: none;
+}
+.btn {
+  border: none;
+}
+.btn-default,
+.btn-primary,
+.btn-success,
+.btn-info,
+.btn-warning,
+.btn-danger {
+  background: none;
+  text-shadow: none;
+  color: #788587;
+}
+.btn-default:active,
+.btn-primary:active,
+.btn-success:active,
+.btn-info:active,
+.btn-warning:active,
+.btn-danger:active,
+.btn-default.active,
+.btn-primary.active,
+.btn-success.active,
+.btn-info.active,
+.btn-warning.active,
+.btn-danger.active {
+  -webkit-box-shadow: 0 -5px 5px 0 rgba(238,232,213,0.2) inset , 0 5px 5px 0 rgba(238,232,213,0.2) inset;
+  -moz-box-shadow: 0 -5px 5px 0 rgba(238,232,213,0.2) inset , 0 5px 5px 0 rgba(238,232,213,0.2) inset;
+  -ms-box-shadow: 0 -5px 5px 0 rgba(238,232,213,0.2) inset , 0 5px 5px 0 rgba(238,232,213,0.2) inset;
+  -o-box-shadow: 0 -5px 5px 0 rgba(238,232,213,0.2) inset , 0 5px 5px 0 rgba(238,232,213,0.2) inset;
+  box-shadow: 0 -5px 5px 0 rgba(238,232,213,0.2) inset , 0 5px 5px 0 rgba(238,232,213,0.2) inset;
+  background: rgba(238,232,213,0.3);
+  color: #788587;
+}
+.btn-default {
+  background: #eee8d5;
+}
+.btn:hover {
+  background: #93a1a1;
+}
+.dropdown-menu {
+  background: #c7cbcc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  border: none;
+  color: #424345;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+}
+.dropdown-menu a {
+  color: inherit;
+}
+.dropdown-menu .divider {
+  display: none;
+}
+.btn-primary:hover {
+  color: #000;
+}
+.btn-primary:active {
+  color: #000;
+}
+.btn-primary:active:hover {
+  color: #000;
+}
+.btn-default:hover {
+  color: #000;
+}
+.btn-default:active {
+  color: #000;
+}
+.btn-default:active:hover {
+  color: #000;
+}
+.btn {
+  -webkit-transition: all 400ms linear;
+  -moz-transition: all 400ms linear;
+  -ms-transition: all 400ms linear;
+  -o-transition: all 400ms linear;
+  transition: all 400ms linear;
+}
+input[ng-model='keywords'] {
+  -webkit-transition: all 400ms linear;
+  -moz-transition: all 400ms linear;
+  -ms-transition: all 400ms linear;
+  -o-transition: all 400ms linear;
+  transition: all 400ms linear;
+}
+input[ng-model='keywords']:focus {
+  background: #c7cbcc;
+}
+a[ng-click^='tab'] {
+  -webkit-transition: all 390ms linear;
+  -moz-transition: all 390ms linear;
+  -ms-transition: all 390ms linear;
+  -o-transition: all 390ms linear;
+  transition: all 390ms linear;
+}
+a[ng-click^='tab']:hover {
+  color: #000;
+}
+.css-treeview li {
+  -webkit-transition: all 150ms linear;
+  -moz-transition: all 150ms linear;
+  -ms-transition: all 150ms linear;
+  -o-transition: all 150ms linear;
+  transition: all 150ms linear;
+}
+body {
+  background: #fdf6e3;
+  color: #424345;
+}
+body a {
+  color: #788587;
+}
+.toolbar {
+  background: #fdf6e3;
+}
+.page-header {
+  border: none;
+}
+.entrylist-header {
+  border: none;
+}
+.entrylist-header h3,
+.entrylist-header a {
+  margin: 0;
+}
+#feed-accordion .entry {
+  border: none;
+}
+#feed-accordion .unread .entry-heading {
+  background: #fdf6e3;
+}
+#feed-accordion .unread:nth-of-type(2n) .entry-heading {
+  background: rgba(238,232,213,0.7);
+}
+#feed-accordion .entry-heading-link {
+  color: #404141 !important;
+}
+#feed-accordion .entry-body {
+  background: #eee8d5;
+  padding-left: 15px;
+}
+#feed-accordion .entry-body a:not([popup]) {
+  color: #a68589;
+}
+#feed-accordion .entry-body a:not([popup]):visited {
+  color: #8d8e8e;
+}
+#feed-accordion .entry-body img {
+  -webkit-box-shadow: 0 0 2px 0 rgba(0,0,0,0.1);
+  -moz-box-shadow: 0 0 2px 0 rgba(0,0,0,0.1);
+  -ms-box-shadow: 0 0 2px 0 rgba(0,0,0,0.1);
+  -o-box-shadow: 0 0 2px 0 rgba(0,0,0,0.1);
+  box-shadow: 0 0 2px 0 rgba(0,0,0,0.1);
+}
+#feed-accordion .highlight-search {
+  background: inherit;
+}
+#feed-accordion .entry-buttons {
+  background: #a68589;
+  margin-left: -15px;
+  border: none;
+}
+#feed-accordion.expanded .entry {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+  border: none;
+  margin-bottom: 30px;
+}
+input[ng-model='keywords'] {
+  border: none;
+  height: 32px;
+  -webkit-box-shadow: 0 0 2px 1px #eee8d5 inset;
+  -moz-box-shadow: 0 0 2px 1px #eee8d5 inset;
+  -ms-box-shadow: 0 0 2px 1px #eee8d5 inset;
+  -o-box-shadow: 0 0 2px 1px #eee8d5 inset;
+  box-shadow: 0 0 2px 1px #eee8d5 inset;
+}
+.css-treeview .unread-counter {
+  color: #93a1a1;
+}
+.css-treeview li .tree-item:hover {
+  background: #ebebeb;
+}
+.css-treeview a {
+  color: #93a1a1;
+}
+.css-treeview a:hover {
+  font-size: 1.02em;
+}
 
-        pre, #feed-accordion .unread .entry-heading {
-            background: transparent;
-        }
 
-        /*feeds tree*/
-        .css-treeview li .tree-item:hover {
-        }
-
-        /*feeds list*/
-
-        #feed-accordion .entry-buttons { /*share panel*/
-            background: transparent;
-            border:none;
-            /*  ---> border: 1px solid black; */
-        }
-
-        #feed-accordion .entry {
-            border: none;
-        }
-
-        /* read feed bg */
-        #feed-accordion .entry-heading {
-        }
-
-        .dropdown-menu.pull-right li.divider {
-            height: 0px;
-            background: transparent;
-            border-bottom: 0px;
-        }
-
-        .dropdown-menu {
-            background: #E6E6E6;
-            border-radius: 0px 0px 4px 4px;
-            box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.1);
-        }
-
-        /**/
-        .btn, .btn.dropdown-toggle {
-            background: #CFC7BE;
-            border: 1px solid #A7B5BE;
-            border-radius: 0px;
-            box-shadow: none;
-        }
-
-        .btn.dropdown-toggle {
-            /*background: #eae7e3;*/
-        }
-
-        .btn.active {
-            box-shadow: none;/*!*/
-        }
-
-        button.btn.dropdown-toggle:hover {
-            background: #e6e6e6;
-        }
-        span.hidden-phone.hidden-tablet.ng-binding {
-            display: none;
-        }
-        .entrylist-header ng-scope {
-            border: none;
-        }
-
-        .entrylist-header {
-            border: none;
-        }
-
-        .entry-buttons.form-horizontal {
-            border-color: black;
-        }
-
-        /****************/
-        li.pointer a {
-            border-radius: 0px;
-             color: black;
-        }
-
-        li.pointer a:hover {
-            background: transparent;
-        }
-
-        .btn-primary:hover {
-            background: #E6E6E6;
-            color: black;
-        }
-
-        .btn-primary:focus {
-            color: black;
-        }
-
-        .btn-primary {
-            color: #323639;  
-            text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
-            box-shadow: none;
-        }
-
-        #feed-accordion.expanded .entry {
-            box-shadow: none;
-            border-color: #CFC7BE;
-        }
-        }
+}

@@ -34,8 +34,15 @@
 }
 
 .sidebar-nav-fixed .ui-resizable-e {
+	background: rgba(0, 0, 0, 0.05);
 	width: 5px;
 	right: 0;
+	height: 99%;
+}
+
+.sidebar-nav-fixed .ui-resizable-e {
+	background: #5cb85c;
+	width: 7px;
 }
 
 .full-screen .left-menu {

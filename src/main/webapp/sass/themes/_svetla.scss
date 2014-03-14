@@ -116,6 +116,13 @@ a[ng-click^='tab']:hover {
   -o-transition: all 150ms linear;
   transition: all 150ms linear;
 }
+#uvTab {
+  -webkit-transition: all 260ms linear;
+  -moz-transition: all 260ms linear;
+  -ms-transition: all 260ms linear;
+  -o-transition: all 260ms linear;
+  transition: all 260ms linear;
+}
 body {
   background: #fdf6e3;
   color: #424345;
@@ -203,6 +210,13 @@ input[ng-model='keywords'] {
 .css-treeview a:hover {
   font-size: 1.02em;
 }
+#uvTab {
+  margin-bottom: -23px;
+}
+#uvTab:hover {
+  margin-bottom: 0;
+}
+
 
 
 }

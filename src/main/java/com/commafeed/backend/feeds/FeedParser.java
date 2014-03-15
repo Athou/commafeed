@@ -67,10 +67,6 @@ public class FeedParser {
 			feed.setLink(rss.getLink());
 			List<SyndEntry> items = rss.getEntries();
 
-			if (items.isEmpty()) {
-				throw new FeedException("No items in the feed.");
-			}
-
 			for (SyndEntry item : items) {
 				FeedEntry entry = new FeedEntry();
 

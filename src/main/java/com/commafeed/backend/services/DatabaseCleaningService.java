@@ -49,14 +49,13 @@ public class DatabaseCleaningService {
 	public long cleanFeedsWithoutSubscriptions() {
 		log.info("cleaning feeds without subscriptions");
 		long total = 0;
-		long totalEntries = 0;
 		int deleted = 0;
 		do {
 			List<Feed> feeds = feedDAO.findWithoutSubscriptions(1);
-			totalEntries += cleanEntriesForFeedsWithoutSubscriptions(feeds);
+			cleanEntriesForFeedsWithoutSubscriptions(feeds);
 			deleted = feedDAO.delete(feeds);
 			total += deleted;
-			log.info("removed {} feeds without subscriptions ({} entries)", total, totalEntries);
+			log.info("removed {} feeds without subscriptions", total);
 		} while (deleted != 0);
 		log.info("cleanup done: {} feeds without subscriptions deleted", total);
 		return total;
@@ -69,6 +68,7 @@ public class DatabaseCleaningService {
 			do {
 				deleted = feedEntryDAO.delete(feed, BATCH_SIZE);
 				total += deleted;
+				log.info("removed {} entries for feed {}", total, feed.getId());
 			} while (deleted != 0);
 		}
 		return total;

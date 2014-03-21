@@ -2,15 +2,12 @@ package com.commafeed.frontend.rest.resources;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -227,9 +224,18 @@ public class AdminREST extends AbstractREST {
 		return Response.ok(metrics).build();
 	}
 
+	@Path("/cleanup/entries")
+	@GET
+	@ApiOperation(value = "Entries cleanup", notes = "Delete entries without subscriptions")
+	public Response cleanupEntries() {
+		Map<String, Long> map = Maps.newHashMap();
+		map.put("entries_without_subscriptions", cleaner.cleanEntriesWithoutSubscriptions());
+		return Response.ok(map).build();
+	}
+
 	@Path("/cleanup/feeds")
 	@GET
-	@ApiOperation(value = "Feeds cleanup", notes = "Delete feeds without subscriptions and entries without feeds")
+	@ApiOperation(value = "Feeds cleanup", notes = "Delete feeds without subscriptions")
 	public Response cleanupFeeds() {
 		Map<String, Long> map = Maps.newHashMap();
 		map.put("feeds_without_subscriptions", cleaner.cleanFeedsWithoutSubscriptions());
@@ -245,12 +251,4 @@ public class AdminREST extends AbstractREST {
 		return Response.ok(map).build();
 	}
 
-	@Path("/cleanup/entries")
-	@GET
-	@ApiOperation(value = "Entries cleanup", notes = "Delete entries older than given date")
-	public Response cleanupEntries(@QueryParam("days") @DefaultValue("30") int days) {
-		Map<String, Long> map = Maps.newHashMap();
-		map.put("old_entries", cleaner.cleanEntriesOlderThan(days, TimeUnit.DAYS));
-		return Response.ok(map).build();
-	}
 }

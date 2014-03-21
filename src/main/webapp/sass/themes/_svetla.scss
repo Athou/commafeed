@@ -41,7 +41,7 @@
   background: #eee8d5;
 }
 .btn:hover {
-  background: #93a1a1;
+  background: #c4bea6;
 }
 .dropdown-menu {
   background: #c7cbcc;
@@ -151,7 +151,8 @@ body a {
   background: linear-gradient(rgba(238,232,213,0.7), #fdf6e3);
 }
 #feed-accordion .entry-heading-link {
-  color: #c4bea6 !important;
+  color: #786b47 !important;
+  font-style: italic !important;
 }
 #feed-accordion .entry {
   border: none;
@@ -161,6 +162,7 @@ body a {
 }
 #feed-accordion .unread .entry-heading .entry-heading-link {
   color: #404141 !important;
+  font-style: normal !important;
 }
 #feed-accordion .unread:nth-of-type(2n) .entry-heading {
   background: rgba(238,232,213,0.7);
@@ -173,7 +175,7 @@ body a {
   color: #424345;
 }
 #feed-accordion .entry-body a:not([popup]) {
-  color: #366faa;
+  color: #6c6759;
 }
 #feed-accordion .entry-body a:not([popup]):visited {
   color: #8d8e8e;
@@ -181,11 +183,11 @@ body a {
 #feed-accordion .entry-body .entry-title {
   font-size: 1em;
 }
+#feed-accordion .entry-body .entry-title .entry-subtitle {
+  display: inline;
+}
 #feed-accordion .entry-body .entry-title a {
   color: #a7a083;
-}
-#feed-accordion .entry-body block-quote {
-  border-left: solid 5px #749dc8;
 }
 #feed-accordion .entry-body img {
   -webkit-box-shadow: 0 0 2px 0 rgba(0,0,0,0.1);
@@ -220,6 +222,9 @@ input[ng-model='keywords'] {
   -o-box-shadow: 0 0 2px 1px #eee8d5 inset;
   box-shadow: 0 0 2px 1px #eee8d5 inset;
 }
+input[ng-model='keywords']:focus {
+  background: #fff;
+}
 .css-treeview .selected {
   color: #a68589 !important;
 }
@@ -242,9 +247,16 @@ input[ng-model='keywords'] {
   margin-bottom: 0;
 }
 /* stuff */
+#feed-accordion .entry-external-link {
+  position: absolute;
+  right: auto;
+  margin-left: 15px;
+  color: #c4bea6;
+}
 #feed-accordion .entry .entry-heading-link>.feed-name {
   font-size: 0;
   width: 50px;
+  margin-left: 35px;
 }
 #feed-accordion .entry .entry-heading-link>.feed-name .star {
   font-size: 14px;
@@ -253,7 +265,7 @@ input[ng-model='keywords'] {
   margin-top: -10px;
 }
 #feed-accordion .entry .entry-heading-link .entry-name {
-  margin-left: 55px;
+  margin-left: 100px;
 }
 #feed-accordion.expanded .entry .entry-heading-link>.feed-name {
   font-size: 14px;
@@ -269,6 +281,12 @@ input[ng-model='keywords'] {
 #feed-accordion.expanded .entry .entry-heading-link .entry-name {
   margin-left: 40px;
   color: #a68589;
+}
+#feed-accordion.expanded .entry .entry-body .entry-body-content {
+  padding-left: 0;
+}
+#feed-accordion.expanded .entry .entry-body .entry-title {
+  display: none;
 }
 @media only screen and (max-width: 800px) {
   #toolbar {
@@ -308,6 +326,11 @@ input[ng-model='keywords'] {
 .nav-pills li.active a {
   color: #424345 !important;
 }
-
+blockquote {
+  border-left: solid 5px #c4bea6 !important;
+}
+a[href^='http://da.feedsportal.com'] {
+  display: none;
+}
 
 }

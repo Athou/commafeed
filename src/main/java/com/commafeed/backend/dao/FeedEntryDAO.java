@@ -6,14 +6,19 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.SetJoin;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntry_;
+import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.Feed_;
 import com.google.common.collect.Iterables;
 
@@ -35,6 +40,19 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		limit(q, 0, 1);
 		List<Long> list = q.getResultList();
 		return Iterables.getFirst(list, null);
+	}
+
+	public List<FeedEntry> findWithoutSubscriptions(int max) {
+		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
+		Root<FeedEntry> root = query.from(getType());
+
+		Join<FeedEntry, Feed> feedJoin = root.join(FeedEntry_.feed);
+		SetJoin<Feed, FeedSubscription> subJoin = feedJoin.join(Feed_.subscriptions, JoinType.LEFT);
+		query.where(builder.isNull(subJoin.get(FeedSubscription_.id)));
+		TypedQuery<FeedEntry> q = em.createQuery(query);
+		q.setMaxResults(max);
+
+		return q.getResultList();
 	}
 
 	public int delete(Feed feed, int max) {

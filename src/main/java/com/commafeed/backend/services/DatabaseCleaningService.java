@@ -16,6 +16,7 @@ import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 
@@ -45,32 +46,32 @@ public class DatabaseCleaningService {
 
 	@Inject
 	ApplicationSettingsService applicationSettingsService;
+	
+	public long cleanEntriesWithoutSubscriptions() {
+		log.info("cleaning entries without subscriptions");
+		long total = 0;
+		int deleted = 0;
+		do {
+			List<FeedEntry> entries = feedEntryDAO.findWithoutSubscriptions(BATCH_SIZE);
+			deleted = feedEntryDAO.delete(entries);
+			total += deleted;
+			log.info("removed {} entries without subscriptions", total);
+		} while (deleted != 0);
+		log.info("cleanup done: {} entries without subscriptions deleted", total);
+		return total;
+	}
 
 	public long cleanFeedsWithoutSubscriptions() {
 		log.info("cleaning feeds without subscriptions");
 		long total = 0;
 		int deleted = 0;
 		do {
-			List<Feed> feeds = feedDAO.findWithoutSubscriptions(1);
-			cleanEntriesForFeedsWithoutSubscriptions(feeds);
+			List<Feed> feeds = feedDAO.findWithoutSubscriptions(BATCH_SIZE);
 			deleted = feedDAO.delete(feeds);
 			total += deleted;
 			log.info("removed {} feeds without subscriptions", total);
 		} while (deleted != 0);
 		log.info("cleanup done: {} feeds without subscriptions deleted", total);
-		return total;
-	}
-
-	private long cleanEntriesForFeedsWithoutSubscriptions(List<Feed> feeds) {
-		long total = 0;
-		for (Feed feed : feeds) {
-			int deleted = 0;
-			do {
-				deleted = feedEntryDAO.delete(feed, BATCH_SIZE);
-				total += deleted;
-				log.info("removed {} entries for feed {}", total, feed.getId());
-			} while (deleted != 0);
-		}
 		return total;
 	}
 

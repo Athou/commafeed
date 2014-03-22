@@ -4,6 +4,12 @@
   outline: 0;
   text-decoration: none;
 }
+:focus {
+  outline: none !important;
+}
+::-moz-focus-inner {
+  border: 0 !important;
+}
 .btn {
   border: none;
 }
@@ -169,7 +175,7 @@ body a {
 }
 #feed-accordion .entry-body {
   background: #eee8d5;
-  padding: 15px 0 0 15px;
+  padding: 2px 0 0 15px;
 }
 #feed-accordion .entry-body a.nolink.pointer {
   color: #424345;
@@ -185,6 +191,12 @@ body a {
 }
 #feed-accordion .entry-body .entry-title .entry-subtitle {
   display: inline;
+}
+#feed-accordion .entry-body .entry-title .entry-subtitle [class^='entry-author'] {
+  font-style: italic;
+}
+#feed-accordion .entry-body .entry-title .entry-subtitle .entry-source {
+  display: none;
 }
 #feed-accordion .entry-body .entry-title a {
   color: #a7a083;
@@ -211,7 +223,6 @@ body a {
   -o-box-shadow: none;
   box-shadow: none;
   border: none;
-  margin-bottom: 30px;
 }
 input[ng-model='keywords'] {
   border: none;
@@ -259,17 +270,14 @@ input[ng-model='keywords']:focus {
   margin-left: 35px;
 }
 #feed-accordion .entry .entry-heading-link>.feed-name .star {
-  font-size: 14px;
-}
-#feed-accordion .entry .entry-heading-link>.feed-name img {
-  margin-top: -10px;
+  font-size: 1em;
 }
 #feed-accordion .entry .entry-heading-link .entry-name {
   margin-left: 100px;
 }
 #feed-accordion.expanded .entry .entry-heading-link>.feed-name {
-  font-size: 14px;
-  width: initial;
+  font-size: 1em;
+  width: auto;
   float: right;
   display: block;
   position: relative;
@@ -280,7 +288,6 @@ input[ng-model='keywords']:focus {
 }
 #feed-accordion.expanded .entry .entry-heading-link .entry-name {
   margin-left: 40px;
-  color: #a68589;
 }
 #feed-accordion.expanded .entry .entry-body .entry-body-content {
   padding-left: 0;
@@ -320,8 +327,40 @@ input[ng-model='keywords']:focus {
   }
   #feed-accordion.expanded .entry .entry-heading-link .entry-name {
     margin-left: 55px;
-    color: #a68589;
   }
+}
+#feed-accordion:not(.expanded) .current .entry-heading {
+  background: #eee8d5;
+}
+#feed-accordion:not(.expanded) .current .entry-heading .entry-heading-link {
+  color: #a7a083 !important;
+  font-style: normal !important;
+}
+#feed-accordion:not(.expanded) .current .entry-heading .entry-heading-link .feed-name {
+  width: auto !important;
+  font-size: 1em !important;
+  font-style: normal;
+  color: #a7a083;
+}
+#feed-accordion:not(.expanded) .current .entry-heading .entry-heading-link .feed-name img {
+  margin-top: 0;
+}
+#feed-accordion:not(.expanded) .current .entry-heading .entry-heading-link .entry-name {
+  display: none;
+}
+#feed-accordion.expanded .current .entry-heading {
+  background: #eee8d5;
+}
+#feed-accordion.expanded .current .entry-heading .entry-heading-link {
+  color: #a7a083 !important;
+  font-style: normal !important;
+}
+#feed-accordion.expanded .current .entry-heading .entry-heading-link .feed-name {
+  font-style: inherit;
+  color: inherit;
+}
+#feed-accordion.expanded .current .entry-heading .entry-heading-link .entry-name {
+  color: inherit !important;
 }
 .nav-pills li.active a {
   color: #424345 !important;
@@ -330,6 +369,9 @@ blockquote {
   border-left: solid 5px #c4bea6 !important;
 }
 a[href^='http://da.feedsportal.com'] {
+  display: none;
+}
+br {
   display: none;
 }
 

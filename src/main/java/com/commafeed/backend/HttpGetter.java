@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
@@ -15,9 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.Consts;
 import org.apache.http.Header;
+import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpException;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpResponseException;
@@ -32,6 +39,7 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.apache.wicket.util.io.IOUtils;
 
@@ -46,6 +54,27 @@ public class HttpGetter {
 	private static final String ACCEPT_LANGUAGE = "en";
 	private static final String PRAGMA_NO_CACHE = "No-cache";
 	private static final String CACHE_CONTROL_NO_CACHE = "no-cache";
+
+	private static final List<String> ALLOWED_CONTENT_ENCODINGS = Arrays.asList("gzip", "x-gzip", "deflate", "identity");
+	private static final HttpResponseInterceptor REMOVE_INCORRECT_CONTENT_ENCODING = new HttpResponseInterceptor() {
+
+		@Override
+		public void process(HttpResponse response, HttpContext context) throws HttpException, IOException {
+			HttpEntity entity = response.getEntity();
+			if (entity != null && entity.getContentLength() != 0) {
+				Header header = entity.getContentEncoding();
+				if (header != null) {
+					HeaderElement[] codecs = header.getElements();
+					for (final HeaderElement codec : codecs) {
+						String codecName = codec.getName().toLowerCase(Locale.US);
+						if (!ALLOWED_CONTENT_ENCODINGS.contains(codecName)) {
+							response.removeHeader(header);
+						}
+					}
+				}
+			}
+		}
+	};
 
 	private static SSLContext SSL_CONTEXT = null;
 	static {
@@ -84,7 +113,7 @@ public class HttpGetter {
 		CloseableHttpResponse response = null;
 		try {
 			HttpGet httpget = new HttpGet(url);
-            HttpClientContext context = HttpClientContext.create();
+			HttpClientContext context = HttpClientContext.create();
 
 			httpget.addHeader(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE);
 			httpget.addHeader(HttpHeaders.PRAGMA, PRAGMA_NO_CACHE);
@@ -194,6 +223,7 @@ public class HttpGetter {
 	public static CloseableHttpClient newClient(int timeout) {
 		HttpClientBuilder builder = HttpClients.custom();
 		builder.useSystemProperties();
+		builder.addInterceptorFirst(REMOVE_INCORRECT_CONTENT_ENCODING);
 		builder.disableAutomaticRetries();
 
 		builder.setSslcontext(SSL_CONTEXT);

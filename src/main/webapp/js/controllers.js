@@ -52,9 +52,11 @@ module.controller('SubscribeCtrl', ['$scope', '$location', 'FeedService', 'Categ
 						$scope.state = 'ok';
 						$scope.sub.title = data.title;
 						$scope.sub.url = data.url;
+						$scope.stacktrace = null;
 					}, function(data) {
 						$scope.state = 'failed';
 						$scope.sub.title = 'Loading failed. Invalid feed?';
+						$scope.stacktrace = data.data;
 					});
 				}
 			};

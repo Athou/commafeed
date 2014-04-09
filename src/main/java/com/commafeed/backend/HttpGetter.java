@@ -236,7 +236,7 @@ public class HttpGetter {
 		configBuilder.setConnectionRequestTimeout(timeout);
 		builder.setDefaultRequestConfig(configBuilder.build());
 
-		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Consts.UTF_8).build());
+		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Consts.ISO_8859_1).build());
 
 		return builder.build();
 	}

@@ -59,7 +59,6 @@ public class UserSettings extends AbstractModel {
 
 	private boolean showRead;
 	private boolean scrollMarks;
-	private boolean socialButtons;
 
 	@Column(length = 32)
 	private String theme;
@@ -70,5 +69,16 @@ public class UserSettings extends AbstractModel {
 
 	@Column(name = "scroll_speed")
 	private int scrollSpeed;
+	
+	private boolean email;
+	private boolean gmail;
+	private boolean facebook;
+	private boolean twitter;
+	private boolean googleplus;
+	private boolean tumblr;
+	private boolean pocket;
+	private boolean instapaper;
+	private boolean buffer;
+	private boolean readability;
 
 }

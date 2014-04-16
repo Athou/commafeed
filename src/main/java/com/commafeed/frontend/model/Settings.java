@@ -27,9 +27,6 @@ public class Settings implements Serializable {
 	@ApiProperty(value = "user wants category and feeds with no unread entries shown", required = true)
 	private boolean showRead;
 
-	@ApiProperty(value = "user wants social buttons (facebook, twitter, ...) shown", required = true)
-	private boolean socialButtons;
-
 	@ApiProperty(value = "In expanded view, scroll through entries mark them as read", required = true)
 	private boolean scrollMarks;
 
@@ -41,5 +38,16 @@ public class Settings implements Serializable {
 	
 	@ApiProperty(value = "user's preferred scroll speed when navigating between entries")
 	private int scrollSpeed;
+	
+	private boolean email;
+	private boolean gmail;
+	private boolean facebook;
+	private boolean twitter;
+	private boolean googleplus;
+	private boolean tumblr;
+	private boolean pocket;
+	private boolean instapaper;
+	private boolean buffer;
+	private boolean readability;
 
 }

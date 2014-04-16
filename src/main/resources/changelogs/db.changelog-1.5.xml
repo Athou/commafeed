@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<changeSet id="add-detailed-social-options" author="athou">
+		<addColumn tableName="USERSETTINGS">
+			<column name="email" type="BIT"></column>
+		</addColumn>
+		<addColumn tableName="USERSETTINGS">
+			<column name="gmail" type="BIT"></column>
+		</addColumn>
+		<addColumn tableName="USERSETTINGS">
+			<column name="facebook" type="BIT"></column>
+		</addColumn>
+		<addColumn tableName="USERSETTINGS">
+			<column name="twitter" type="BIT"></column>
+		</addColumn>
+		<addColumn tableName="USERSETTINGS">
+			<column name="googleplus" type="BIT"></column>
+		</addColumn>
+		<addColumn tableName="USERSETTINGS">
+			<column name="tumblr" type="BIT"></column>
+		</addColumn>
+		<addColumn tableName="USERSETTINGS">
+			<column name="pocket" type="BIT"></column>
+		</addColumn>
+		<addColumn tableName="USERSETTINGS">
+			<column name="instapaper" type="BIT"></column>
+		</addColumn>
+		<addColumn tableName="USERSETTINGS">
+			<column name="buffer" type="BIT"></column>
+		</addColumn>
+		<addColumn tableName="USERSETTINGS">
+			<column name="readability" type="BIT"></column>
+		</addColumn>
+
+		<dropColumn tableName="USERSETTINGS" columnName="socialButtons" />
+
+		<update tableName="USERSETTINGS">
+			<column name="email" valueBoolean="true"></column>
+			<column name="gmail" valueBoolean="true"></column>
+			<column name="facebook" valueBoolean="true"></column>
+			<column name="twitter" valueBoolean="true"></column>
+			<column name="googleplus" valueBoolean="true"></column>
+			<column name="tumblr" valueBoolean="true"></column>
+			<column name="pocket" valueBoolean="true"></column>
+			<column name="instapaper" valueBoolean="true"></column>
+			<column name="buffer" valueBoolean="true"></column>
+			<column name="readability" valueBoolean="true"></column>
+		</update>
+	</changeSet>
+
+</databaseChangeLog>

@@ -74,7 +74,18 @@ public class UserREST extends AbstractREST {
 			s.setReadingOrder(settings.getReadingOrder().name());
 			s.setViewMode(settings.getViewMode().name());
 			s.setShowRead(settings.isShowRead());
-			s.setSocialButtons(settings.isSocialButtons());
+			
+			s.setEmail(settings.isEmail());
+			s.setGmail(settings.isGmail());
+			s.setFacebook(settings.isFacebook());
+			s.setTwitter(settings.isTwitter());
+			s.setGoogleplus(settings.isGoogleplus());
+			s.setTumblr(settings.isTumblr());
+			s.setPocket(settings.isPocket());
+			s.setInstapaper(settings.isInstapaper());
+			s.setBuffer(settings.isBuffer());
+			s.setReadability(settings.isReadability());
+			
 			s.setScrollMarks(settings.isScrollMarks());
 			s.setTheme(settings.getTheme());
 			s.setCustomCss(settings.getCustomCss());
@@ -86,7 +97,18 @@ public class UserREST extends AbstractREST {
 			s.setViewMode(ViewMode.title.name());
 			s.setShowRead(true);
 			s.setTheme("default");
-			s.setSocialButtons(true);
+			
+			s.setEmail(true);
+			s.setGmail(true);
+			s.setFacebook(true);
+			s.setTwitter(true);
+			s.setGoogleplus(true);
+			s.setTumblr(true);
+			s.setPocket(true);
+			s.setInstapaper(true);
+			s.setBuffer(true);
+			s.setReadability(true);
+			
 			s.setScrollMarks(true);
 			s.setLanguage("en");
 			s.setScrollSpeed(400);
@@ -116,9 +138,20 @@ public class UserREST extends AbstractREST {
 		s.setScrollMarks(settings.isScrollMarks());
 		s.setTheme(settings.getTheme());
 		s.setCustomCss(settings.getCustomCss());
-		s.setSocialButtons(settings.isSocialButtons());
 		s.setLanguage(settings.getLanguage());
 		s.setScrollSpeed(settings.getScrollSpeed());
+		
+		s.setEmail(settings.isEmail());
+		s.setGmail(settings.isGmail());
+		s.setFacebook(settings.isFacebook());
+		s.setTwitter(settings.isTwitter());
+		s.setGoogleplus(settings.isGoogleplus());
+		s.setTumblr(settings.isTumblr());
+		s.setPocket(settings.isPocket());
+		s.setInstapaper(settings.isInstapaper());
+		s.setBuffer(settings.isBuffer());
+		s.setReadability(settings.isReadability());
+		
 		userSettingsDAO.saveOrUpdate(s);
 		return Response.ok().build();
 

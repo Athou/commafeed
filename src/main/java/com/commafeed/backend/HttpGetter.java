@@ -36,6 +36,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.ConnectionConfig;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.HttpEntityWrapper;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
@@ -68,7 +69,12 @@ public class HttpGetter {
 					for (final HeaderElement codec : codecs) {
 						String codecName = codec.getName().toLowerCase(Locale.US);
 						if (!ALLOWED_CONTENT_ENCODINGS.contains(codecName)) {
-							response.removeHeader(header);
+							response.setEntity(new HttpEntityWrapper(entity) {
+								@Override
+								public Header getContentEncoding() {
+									return null;
+								};
+							});
 						}
 					}
 				}

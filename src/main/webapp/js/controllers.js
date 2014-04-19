@@ -196,7 +196,7 @@ module.controller('CategoryTreeCtrl', [
 			$scope.$watch(rootUnreadCount, function(value) {
 				var label = 'CommaFeed';
 				if (value > 0) {
-					label = value + ' - ' + label;
+					label = '(' + value + ') ' + label;
 				}
 				$window.document.title = label;
 			});

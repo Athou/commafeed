@@ -40,6 +40,26 @@ module.filter('iframeHttpsRewrite', function() {
 });
 
 /**
+ * inserts title or alt-text after images, if any
+ */
+module.filter('appendImageTitles', function() {
+	return function(html) {
+		var result = html;
+		var wrapper = $('<div></div>').html(html);
+		$('img', wrapper).each(function(i, elem) {
+			var e = $(elem);
+			var title = e.attr('title') || e.attr('alt');
+			if (title) {
+				var text = $('<span style="font-style: italic;"></span>').text(title);
+				e.after(text);
+			}
+		});
+		result = wrapper.html();
+		return result;
+	};
+});
+
+/**
  * escapes the url
  */
 module.filter('escape', function() {

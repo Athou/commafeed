@@ -682,8 +682,9 @@ module.controller('FeedListCtrl', [
 		'FeedService',
 		'CategoryService',
 		'AnalyticsService',
+		'MobileService',
 		function($scope, $stateParams, $http, $route, $state, $window, $timeout, $location, EntryService, SettingsService, FeedService,
-				CategoryService, AnalyticsService) {
+				CategoryService, AnalyticsService, MobileService) {
 
 			$window = angular.element($window);
 			AnalyticsService.track();
@@ -702,6 +703,7 @@ module.controller('FeedListCtrl', [
 			$scope.font_size = 0;
 
 			$scope.settingsService = SettingsService;
+			$scope.MobileService = MobileService;
 			$scope.$watch('settingsService.settings.readingMode', function(newValue, oldValue) {
 				if (newValue && oldValue && newValue != oldValue) {
 					$scope.$emit('emitReload');

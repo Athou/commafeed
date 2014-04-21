@@ -56,7 +56,9 @@
 				</div>
 
 				<div class="entry-body-content">
-					<div ng-bind-html="entry.content | iframeHttpsRewrite| highlight:keywords | trustHtml"></div>
+					<div ng-if="!MobileService.mobile" ng-bind-html="entry.content | iframeHttpsRewrite| highlight:keywords | trustHtml"></div>
+					<div ng-if="MobileService.mobile" ng-bind-html="entry.content | iframeHttpsRewrite| highlight:keywords | appendImageTitles | trustHtml"></div>
+					
 					<div class="entry-enclosure" ng-if="entry.enclosureType">
 						<video controls ng-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">
 							<source ng-src="{{entry.enclosureUrl | trustUrl}}" type="{{entry.enclosureType}}" />
@@ -92,25 +94,31 @@
 						<a href="http://www.facebook.com/sharer.php?u=={{entry.url|escape}}" title="Facebook" popup ng-if="settingsService.settings.facebook">
 							<i class="icon-facebook"></i>
 						</a>
-						<a href="http://twitter.com/share?text={{entry.title|escape}}&url={{entry.url|escape}}" title="Twitter" popup ng-if="settingsService.settings.twitter">
+						<a href="http://twitter.com/share?text={{entry.title|escape}}&url={{entry.url|escape}}" title="Twitter" popup
+							ng-if="settingsService.settings.twitter">
 							<i class="icon-twitter"></i>
 						</a>
 						<a href="https://plus.google.com/share?url={{entry.url|escape}}" title="Google+" popup ng-if="settingsService.settings.googleplus">
 							<i class="icon-google-plus"></i>
 						</a>
-						<a href="http://www.tumblr.com/share/link?url={{entry.url|escape}}&name={{entry.title|escape}}" title="Tumblr" popup ng-if="settingsService.settings.tumblr">
+						<a href="http://www.tumblr.com/share/link?url={{entry.url|escape}}&name={{entry.title|escape}}" title="Tumblr" popup
+							ng-if="settingsService.settings.tumblr">
 							<i class="icon-tumblr"></i>
 						</a>
-						<a href="https://getpocket.com/save?url={{entry.url|escape}}&title={{entry.title|escape}}" title="Pocket" popup ng-if="settingsService.settings.pocket">
+						<a href="https://getpocket.com/save?url={{entry.url|escape}}&title={{entry.title|escape}}" title="Pocket" popup
+							ng-if="settingsService.settings.pocket">
 							<i class="icon-pocket"></i>
 						</a>
-						<a href="https://www.instapaper.com/hello2?url={{entry.url|escape}}&title={{entry.title|escape}}" title="Instapaper" popup ng-if="settingsService.settings.instapaper">
+						<a href="https://www.instapaper.com/hello2?url={{entry.url|escape}}&title={{entry.title|escape}}" title="Instapaper" popup
+							ng-if="settingsService.settings.instapaper">
 							<i class="icon-instapaper"></i>
 						</a>
-						<a href="https://bufferapp.com/add?url={{entry.url|escape}}&text={{entry.title|escape}}" title="Buffer" popup ng-if="settingsService.settings.buffer">
+						<a href="https://bufferapp.com/add?url={{entry.url|escape}}&text={{entry.title|escape}}" title="Buffer" popup
+							ng-if="settingsService.settings.buffer">
 							<i class="icon-buffer"></i>
 						</a>
-						<a href="http://www.readability.com/save?url={{entry.url|escape}}" title="Readability" popup ng-if="settingsService.settings.readability">
+						<a href="http://www.readability.com/save?url={{entry.url|escape}}" title="Readability" popup
+							ng-if="settingsService.settings.readability">
 							<i class="icon-couch"></i>
 						</a>
 					</span>

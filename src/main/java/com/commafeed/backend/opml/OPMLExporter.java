@@ -34,9 +34,14 @@ public class OPMLExporter {
 		List<FeedCategory> categories = feedCategoryDAO.findAll(user);
 		List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
 
+		// export root categories
 		for (FeedCategory cat : categories) {
-			opml.getOutlines().add(buildCategoryOutline(cat, subscriptions));
+			if (cat.getParent() == null) {
+				opml.getOutlines().add(buildCategoryOutline(cat, subscriptions));
+			}
 		}
+
+		// export root subscriptions
 		for (FeedSubscription sub : subscriptions) {
 			if (sub.getCategory() == null) {
 				opml.getOutlines().add(buildSubscriptionOutline(sub));

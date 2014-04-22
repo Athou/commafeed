@@ -325,12 +325,12 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.3.2</version>
+			<version>2.3.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.6</version>
+			<version>1.7.7</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -362,7 +362,7 @@
 		<dependency>
 			<groupId>ro.isdc.wro4j</groupId>
 			<artifactId>wro4j-extensions</artifactId>
-			<version>1.7.3</version>
+			<version>1.7.5</version>
 		</dependency>
 
 		<dependency>
@@ -446,7 +446,7 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>momentjs</artifactId>
-			<version>2.5.1</version>
+			<version>2.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -483,7 +483,7 @@
 					<plugin>
 						<groupId>ro.isdc.wro4j</groupId>
 						<artifactId>wro4j-maven-plugin</artifactId>
-						<version>1.7.3</version>
+						<version>1.7.5</version>
 						<executions>
 							<execution>
 								<id>js</id>
@@ -630,7 +630,7 @@
 					<plugin>
 						<groupId>ro.isdc.wro4j</groupId>
 						<artifactId>wro4j-maven-plugin</artifactId>
-						<version>1.7.3</version>
+						<version>1.7.5</version>
 						<executions>
 							<execution>
 								<goals>

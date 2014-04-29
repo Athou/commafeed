@@ -6,7 +6,6 @@ app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProv
 		function($routeProvider, $stateProvider, $urlRouterProvider, $httpProvider, $compileProvider, cfpLoadingBarProvider) {
 	
 			cfpLoadingBarProvider.includeSpinner = false;
-			cfpLoadingBarProvider.latencyThreshold = 0;
 
 			$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|javascript):/);
 			var interceptor = ['$rootScope', '$q', function(scope, $q) {

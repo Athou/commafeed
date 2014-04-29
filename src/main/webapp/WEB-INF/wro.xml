@@ -37,7 +37,7 @@
 		<js>webjar:ui-select2.js</js>
 		<js>webjar:ui-bootstrap-tpls.min.js</js>
 		<js>webjar:ng-infinite-scroll.min.js</js>
-		<js>/vendor/angular-loading-bar/loading-bar.0.3.0.min.js</js>
+		<js>/vendor/angular-loading-bar/loading-bar.0.4.0.min.js</js>
 
 		<js>webjar:ng-grid.min.js</js>
 		<css>webjar:ng-grid.min.css</css>

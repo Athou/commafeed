@@ -37,17 +37,16 @@
 		<js>webjar:ui-select2.js</js>
 		<js minimize="false">webjar:ui-bootstrap-tpls.min.js</js>
 		<js minimize="false">webjar:ng-infinite-scroll.min.js</js>
-		<js minimize="false">/vendor/angular-loading-bar/loading-bar.0.4.0.min.js</js>
 
 		<js minimize="false">webjar:ng-grid.min.js</js>
 		<css minimize="false">webjar:ng-grid.min.css</css>
 
+		<js>/vendor/angular-loading-bar/loading-bar.0.4.0.min.js</js>
+		<css minimize="false">/vendor/angular-loading-bar/loading-bar.min.css</css>
+
 		<css>/vendor/zocial/*.css</css>
 
 		<css>/vendor/readabilicons/css/*.css</css>
-		
-		<css minimize="false">/vendor/angular-loading-bar/loading-bar.min.css</css>
-		
 	</group>
 
 	<group name="app">

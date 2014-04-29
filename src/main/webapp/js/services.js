@@ -173,6 +173,7 @@ module.factory('CategoryService', ['$resource', '$http', function($resource, $ht
 	var actions = {
 		get : {
 			method : 'GET',
+			ignoreLoadingBar: true,
 			params : {
 				_method : 'get'
 			}
@@ -255,6 +256,7 @@ module.factory('EntryService', ['$resource', '$http', function($resource, $http)
 		},
 		mark : {
 			method : 'POST',
+			ignoreLoadingBar: true,
 			params : {
 				_method : 'mark'
 			}

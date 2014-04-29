@@ -273,46 +273,6 @@ module.directive('category', [function() {
 	};
 }]);
 
-/**
- * Reusable spinner component
- */
-module.directive('spinner', function() {
-	return {
-		scope : {
-			shown : '='
-		},
-		restrict : 'A',
-		link : function($scope, element) {
-			element.addClass('spinner');
-			var opts = {
-				lines : 11, // The number of lines to draw
-				length : 5, // The length of each line
-				width : 3, // The line thickness
-				radius : 8, // The radius of the inner circle
-				corners : 1, // Corner roundness (0..1)
-				rotate : 0, // The rotation offset
-				color : '#000', // #rgb or #rrggbb
-				speed : 1.3, // Rounds per second
-				trail : 60, // Afterglow percentage
-				shadow : false, // Whether to render a shadow
-				hwaccel : true, // Whether to use hardware acceleration
-				zIndex : 2e9, // The z-index (defaults to 2000000000)
-				top : 'auto', // Top position relative to parent in px
-				left : 'auto' // Left position relative to parent in px
-			};
-			var spinner = new Spinner(opts);
-			$scope.$watch('shown', function(shown) {
-				if (shown) {
-					spinner.spin();
-					element.append(spinner.el);
-				} else {
-					spinner.stop();
-				}
-			});
-		}
-	};
-});
-
 module.directive('draggable', function() {
 	return {
 		restrict : 'A',

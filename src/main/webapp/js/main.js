@@ -1,8 +1,12 @@
-var app = angular.module('commafeed', ['ngRoute', 'ngTouch', 'ui.utils', 'ui.bootstrap', 'ui.router', 'ui.select2', 'commafeed.directives',
-		'commafeed.controllers', 'commafeed.services', 'commafeed.filters', 'ngSanitize', 'infinite-scroll', 'ngGrid']);
+var app = angular.module('commafeed', ['ngRoute', 'ngTouch', 'ngAnimate', 'ui.utils', 'ui.bootstrap', 'ui.router', 'ui.select2',
+		'commafeed.directives', 'commafeed.controllers', 'commafeed.services', 'commafeed.filters', 'ngSanitize', 'infinite-scroll',
+		'ngGrid', 'chieffancypants.loadingBar']);
 
-app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', '$compileProvider',
-		function($routeProvider, $stateProvider, $urlRouterProvider, $httpProvider, $compileProvider) {
+app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', '$compileProvider', 'cfpLoadingBarProvider',
+		function($routeProvider, $stateProvider, $urlRouterProvider, $httpProvider, $compileProvider, cfpLoadingBarProvider) {
+	
+			cfpLoadingBarProvider.includeSpinner = false;
+			cfpLoadingBarProvider.latencyThreshold = 0;
 
 			$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|javascript):/);
 			var interceptor = ['$rootScope', '$q', function(scope, $q) {

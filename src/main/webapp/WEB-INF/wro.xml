@@ -22,8 +22,6 @@
 
 		<js>webjar:device.min.js</js>
 
-		<js>webjar:spin.js</js>
-
 		<js>webjar:moment.min.js</js>
 		<js>webjar:langs.min.js</js>
 
@@ -32,12 +30,14 @@
 		<js>webjar:angular-route.min.js</js>
 		<js>webjar:angular-sanitize.min.js</js>
 		<js>webjar:angular-touch.min.js</js>
+		<js>webjar:angular-animate.min.js</js>
 
 		<js>webjar:angular-ui-router.min.js</js>
 		<js>webjar:ui-utils.min.js</js>
 		<js>webjar:ui-select2.js</js>
 		<js>webjar:ui-bootstrap-tpls.min.js</js>
 		<js>webjar:ng-infinite-scroll.min.js</js>
+		<js>/vendor/angular-loading-bar/loading-bar.0.3.0.min.js</js>
 
 		<js>webjar:ng-grid.min.js</js>
 		<css>webjar:ng-grid.min.css</css>
@@ -45,6 +45,8 @@
 		<css>/vendor/zocial/*.css</css>
 
 		<css>/vendor/readabilicons/css/*.css</css>
+		
+		<css>/vendor/angular-loading-bar/loading-bar.min.css</css>
 		
 	</group>
 

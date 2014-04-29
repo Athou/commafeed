@@ -430,7 +430,6 @@ module.controller('TagDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedSe
 
 module.controller('ToolbarCtrl', [
 		'$scope',
-		'$http',
 		'$state',
 		'$stateParams',
 		'$route',
@@ -442,23 +441,14 @@ module.controller('ToolbarCtrl', [
 		'ServerService',
 		'FeedService',
 		'MobileService',
-		function($scope, $http, $state, $stateParams, $route, $location, SettingsService, EntryService, ProfileService, AnalyticsService,
+		function($scope, $state, $stateParams, $route, $location, SettingsService, EntryService, ProfileService, AnalyticsService,
 				ServerService, FeedService, MobileService) {
-
-			function totalActiveAjaxRequests() {
-				return ($http.pendingRequests.length + $.active);
-			}
 
 			$scope.keywords = $location.search().q;
 			$scope.session = ProfileService.get();
 			$scope.ServerService = ServerService.get();
 			$scope.settingsService = SettingsService;
 			$scope.MobileService = MobileService;
-
-			$scope.loading = true;
-			$scope.$watch(totalActiveAjaxRequests, function() {
-				$scope.loading = (totalActiveAjaxRequests() !== 0);
-			});
 
 			$scope.$watch('settingsService.settings.readingMode', function(newValue, oldValue) {
 				if (newValue && oldValue && newValue != oldValue) {

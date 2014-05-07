@@ -183,7 +183,7 @@ public class CategoryREST extends AbstractREST {
 		}
 
 		entries.setTimestamp(System.currentTimeMillis());
-		entries.setIgnoredReadStatus(keywords != null || tag != null);
+		entries.setIgnoredReadStatus(STARRED.equals(id) || keywords != null || tag != null);
 		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), keywords);
 		return Response.ok(entries).build();
 	}

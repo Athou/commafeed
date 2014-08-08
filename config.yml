@@ -1,5 +1,5 @@
 app:
-  publicUrl: http://localhost:8083/
+  publicUrl: http://localhost:8082/
   allowRegistrations: false
   googleAnalyticsTrackingCode:
   googleClientId:
@@ -38,8 +38,10 @@ database:
 server:
   applicationConnectors:
     - type: http
-      port: 8082
-
+      port: 8083
+  adminConnectors:
+    - type: http
+      port: 8084
 logging:
   level: WARN
   loggers:

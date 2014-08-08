@@ -1,6 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import java.util.Map;
@@ -32,6 +31,7 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.DatabaseCleaningService;
 import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.UserService;
+import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.google.common.base.Preconditions;
@@ -62,7 +62,7 @@ public class AdminREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Save or update a user", notes = "Save or update a user. If the id is not specified, a new user will be created")
-	public Response save(@Auth User user, @ApiParam(required = true) UserModel userModel) {
+	public Response save(@SecurityCheck(Role.ADMIN) User user, @ApiParam(required = true) UserModel userModel) {
 		Preconditions.checkNotNull(userModel);
 		Preconditions.checkNotNull(userModel.getName());
 
@@ -115,7 +115,7 @@ public class AdminREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Get user information", notes = "Get user information", response = UserModel.class)
-	public Response getUser(@Auth User user, @ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
+	public Response getUser(@SecurityCheck(Role.ADMIN) User user, @ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
 		Preconditions.checkNotNull(id);
 		User u = userDAO.findById(id);
 		UserModel userModel = new UserModel();
@@ -135,7 +135,7 @@ public class AdminREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Get all users", notes = "Get all users", response = UserModel.class, responseContainer = "List")
-	public Response getUsers(@Auth User user) {
+	public Response getUsers(@SecurityCheck(Role.ADMIN) User user) {
 		Map<Long, UserModel> users = Maps.newHashMap();
 		for (UserRole role : userRoleDAO.findAll()) {
 			User u = role.getUser();
@@ -162,7 +162,7 @@ public class AdminREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Delete a user", notes = "Delete a user, and all his subscriptions")
-	public Response delete(@Auth User user, @ApiParam(required = true) IDRequest req) {
+	public Response delete(@SecurityCheck(Role.ADMIN) User user, @ApiParam(required = true) IDRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -181,7 +181,7 @@ public class AdminREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Retrieve application settings", notes = "Retrieve application settings", response = ApplicationSettings.class)
-	public Response getSettings(@Auth User user) {
+	public Response getSettings(@SecurityCheck(Role.ADMIN) User user) {
 		return Response.ok(config.getApplicationSettings()).build();
 	}
 
@@ -189,7 +189,7 @@ public class AdminREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Retrieve server metrics")
-	public Response getMetrics(@Auth User user) {
+	public Response getMetrics(@SecurityCheck(Role.ADMIN) User user) {
 		return Response.ok(metrics).build();
 	}
 
@@ -197,7 +197,7 @@ public class AdminREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Entries cleanup", notes = "Delete entries without subscriptions")
-	public Response cleanupEntries(@Auth User user) {
+	public Response cleanupEntries(@SecurityCheck(Role.ADMIN) User user) {
 		Map<String, Long> map = Maps.newHashMap();
 		map.put("entries_without_subscriptions", cleaner.cleanEntriesWithoutSubscriptions());
 		return Response.ok(map).build();
@@ -207,7 +207,7 @@ public class AdminREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Feeds cleanup", notes = "Delete feeds without subscriptions")
-	public Response cleanupFeeds(@Auth User user) {
+	public Response cleanupFeeds(@SecurityCheck(Role.ADMIN) User user) {
 		Map<String, Long> map = Maps.newHashMap();
 		map.put("feeds_without_subscriptions", cleaner.cleanFeedsWithoutSubscriptions());
 		return Response.ok(map).build();
@@ -217,7 +217,7 @@ public class AdminREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Content cleanup", notes = "Delete contents without entries")
-	public Response cleanupContents(@Auth User user) {
+	public Response cleanupContents(@SecurityCheck(Role.ADMIN) User user) {
 		Map<String, Long> map = Maps.newHashMap();
 		map.put("contents_without_entries", cleaner.cleanContentsWithoutEntries());
 		return Response.ok(map).build();

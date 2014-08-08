@@ -17,6 +17,7 @@ import lombok.Setter;
 
 import org.hibernate.annotations.Cascade;
 
+import com.commafeed.backend.model.UserRole.Role;
 import com.google.common.collect.Sets;
 
 @Entity
@@ -67,5 +68,14 @@ public class User extends AbstractModel {
 	@Column(name = "last_full_refresh")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastFullRefresh;
+
+	public boolean hasRole(Role role) {
+		for (UserRole userRole : getRoles()) {
+			if (userRole.getRole() == role) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

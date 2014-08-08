@@ -1,6 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import javax.ws.rs.Consumes;
@@ -20,6 +19,7 @@ import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.ApplicationPropertiesService;
+import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.ServerInfo;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -39,7 +39,7 @@ public class ServerREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Get server infos", notes = "Get server infos", response = ServerInfo.class)
-	public Response get(@Auth User user) {
+	public Response get(@SecurityCheck User user) {
 		ServerInfo infos = new ServerInfo();
 		infos.setAnnouncement(config.getApplicationSettings().getAnnouncement());
 		infos.setVersion(applicationPropertiesService.getVersion());
@@ -52,7 +52,7 @@ public class ServerREST {
 	@UnitOfWork
 	@ApiOperation(value = "proxy image")
 	@Produces("image/png")
-	public Response get(@Auth User user, @QueryParam("u") String url) {
+	public Response get(@SecurityCheck User user, @QueryParam("u") String url) {
 		if (!config.getApplicationSettings().isImageProxyEnabled()) {
 			return Response.status(Status.FORBIDDEN).build();
 		}

@@ -1,6 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import java.util.List;
@@ -19,6 +18,7 @@ import com.commafeed.backend.dao.FeedEntryTagDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedEntryTagService;
+import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.MultipleMarkRequest;
 import com.commafeed.frontend.model.request.StarRequest;
@@ -43,7 +43,7 @@ public class EntryREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
-	public Response markFeedEntry(@Auth User user, @ApiParam(value = "Mark Request", required = true) MarkRequest req) {
+	public Response markFeedEntry(@SecurityCheck User user, @ApiParam(value = "Mark Request", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -55,7 +55,8 @@ public class EntryREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Mark multiple feed entries", notes = "Mark feed entries as read/unread")
-	public Response markFeedEntries(@Auth User user, @ApiParam(value = "Multiple Mark Request", required = true) MultipleMarkRequest req) {
+	public Response markFeedEntries(@SecurityCheck User user,
+			@ApiParam(value = "Multiple Mark Request", required = true) MultipleMarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getRequests());
 
@@ -70,7 +71,7 @@ public class EntryREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
-	public Response starFeedEntry(@Auth User user, @ApiParam(value = "Star Request", required = true) StarRequest req) {
+	public Response starFeedEntry(@SecurityCheck User user, @ApiParam(value = "Star Request", required = true) StarRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 		Preconditions.checkNotNull(req.getFeedId());
@@ -84,7 +85,7 @@ public class EntryREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Get list of tags for the user", notes = "Get list of tags for the user")
-	public Response getTags(@Auth User user) {
+	public Response getTags(@SecurityCheck User user) {
 		List<String> tags = feedEntryTagDAO.findByUser(user);
 		return Response.ok(tags).build();
 	}
@@ -93,7 +94,7 @@ public class EntryREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
-	public Response tagFeedEntry(@Auth User user, @ApiParam(value = "Tag Request", required = true) TagRequest req) {
+	public Response tagFeedEntry(@SecurityCheck User user, @ApiParam(value = "Tag Request", required = true) TagRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getEntryId());
 

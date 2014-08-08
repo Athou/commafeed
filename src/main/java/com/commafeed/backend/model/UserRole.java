@@ -20,7 +20,7 @@ import lombok.Setter;
 public class UserRole extends AbstractModel {
 
 	public static enum Role {
-		USER, ADMIN, NONE
+		USER, ADMIN
 	}
 
 	@OneToOne(fetch = FetchType.LAZY)

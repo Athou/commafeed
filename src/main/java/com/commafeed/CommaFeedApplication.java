@@ -2,9 +2,6 @@ package com.commafeed;
 
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
-import io.dropwizard.auth.CachingAuthenticator;
-import io.dropwizard.auth.basic.BasicAuthProvider;
-import io.dropwizard.auth.basic.BasicCredentials;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
@@ -61,6 +58,7 @@ import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.PubSubService;
 import com.commafeed.backend.service.StartupService;
 import com.commafeed.backend.service.UserService;
+import com.commafeed.frontend.auth.SecurityCheckProvider;
 import com.commafeed.frontend.resource.AdminREST;
 import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.frontend.resource.EntryREST;
@@ -152,9 +150,8 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		FeedRefreshWorker feedWorker = new FeedRefreshWorker(feedUpdater, feedFetcher, queues, config, metrics);
 		FeedRefreshTaskGiver taskGiver = new FeedRefreshTaskGiver(sessionFactory, queues, feedDAO, feedWorker, config, metrics);
 
-		CachingAuthenticator<BasicCredentials, User> cachingAuthenticator = new CachingAuthenticator<BasicCredentials, User>(
-				environment.metrics(), new CommaFeedAuthenticator(userService), config.getAuthenticationCachePolicy());
-		environment.jersey().register(new BasicAuthProvider<User>(cachingAuthenticator, "CommaFeed"));
+		// TODO add caching of credentials somehow
+		environment.jersey().register(new SecurityCheckProvider(userService));
 
 		environment.jersey().setUrlPattern("/rest/*");
 		environment.jersey()

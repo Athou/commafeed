@@ -63,9 +63,9 @@ gulp.task('watch', function() {
 gulp.task('serve', function() {
 	connect.server({
 		root : BUILD_DIR,
-		port : 8083,
+		port : 8082,
 		middleware : function() {
-			return [modRewrite(['^/rest/(.*)$ http://localhost:8082/rest/$1 [P]'])];
+			return [modRewrite(['^/rest/(.*)$ http://localhost:8083/rest/$1 [P]'])];
 		}
 	});
 });

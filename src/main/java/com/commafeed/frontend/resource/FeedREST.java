@@ -1,6 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import java.io.InputStream;
@@ -57,6 +56,7 @@ import com.commafeed.backend.opml.OPMLExporter;
 import com.commafeed.backend.opml.OPMLImporter;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedSubscriptionService;
+import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.FeedInfo;
@@ -107,7 +107,7 @@ public class FeedREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get feed entries", notes = "Get a list of feed entries", response = Entries.class)
 	public Response getFeedEntries(
-			@Auth User user,
+			@SecurityCheck User user,
 			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
 			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
@@ -172,7 +172,7 @@ public class FeedREST {
 	@ApiOperation(value = "Get feed entries as a feed", notes = "Get a feed of feed entries")
 	@Produces(MediaType.APPLICATION_XML)
 	public Response getFeedEntriesAsFeed(
-			@Auth User user,
+			@SecurityCheck(apiKeyAllowed = true) User user,
 			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
 			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("all") @QueryParam("readType") ReadingMode readType,
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
@@ -234,7 +234,7 @@ public class FeedREST {
 	@Path("/fetch")
 	@UnitOfWork
 	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", response = FeedInfo.class)
-	public Response fetchFeed(@Auth User user, @ApiParam(value = "feed url", required = true) FeedInfoRequest req) {
+	public Response fetchFeed(@SecurityCheck User user, @ApiParam(value = "feed url", required = true) FeedInfoRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getUrl());
 
@@ -252,7 +252,7 @@ public class FeedREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Queue all feeds of the user for refresh", notes = "Manually add all feeds of the user to the refresh queue")
-	public Response queueAllForRefresh(@Auth User user) {
+	public Response queueAllForRefresh(@SecurityCheck User user) {
 		feedSubscriptionService.refreshAll(user);
 		return Response.ok().build();
 	}
@@ -261,7 +261,7 @@ public class FeedREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Queue a feed for refresh", notes = "Manually add a feed to the refresh queue")
-	public Response queueForRefresh(@Auth User user, @ApiParam(value = "Feed id") IDRequest req) {
+	public Response queueForRefresh(@SecurityCheck User user, @ApiParam(value = "Feed id") IDRequest req) {
 
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -279,7 +279,7 @@ public class FeedREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read (unread is not supported)")
-	public Response markFeedEntries(@Auth User user, @ApiParam(value = "Mark request") MarkRequest req) {
+	public Response markFeedEntries(@SecurityCheck User user, @ApiParam(value = "Mark request") MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -296,7 +296,7 @@ public class FeedREST {
 	@Path("/get/{id}")
 	@UnitOfWork
 	@ApiOperation(value = "", notes = "")
-	public Response get(@Auth User user, @ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
+	public Response get(@SecurityCheck User user, @ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
 		FeedSubscription sub = feedSubscriptionDAO.findById(user, id);
@@ -311,7 +311,7 @@ public class FeedREST {
 	@Path("/favicon/{id}")
 	@UnitOfWork
 	@ApiOperation(value = "Fetch a feed's icon", notes = "Fetch a feed's icon")
-	public Response getFavicon(@Auth User user, @ApiParam(value = "subscription id") @PathParam("id") Long id) {
+	public Response getFavicon(@SecurityCheck User user, @ApiParam(value = "subscription id") @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, id);
@@ -348,7 +348,7 @@ public class FeedREST {
 	@Path("/subscribe")
 	@UnitOfWork
 	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
-	public Response subscribe(@Auth User user, @ApiParam(value = "subscription request", required = true) SubscribeRequest req) {
+	public Response subscribe(@SecurityCheck User user, @ApiParam(value = "subscription request", required = true) SubscribeRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getTitle());
 		Preconditions.checkNotNull(req.getUrl());
@@ -374,7 +374,7 @@ public class FeedREST {
 	@Path("/subscribe")
 	@UnitOfWork
 	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
-	public Response subscribe(@Auth User user, @ApiParam(value = "feed url", required = true) @QueryParam("url") String url) {
+	public Response subscribe(@SecurityCheck User user, @ApiParam(value = "feed url", required = true) @QueryParam("url") String url) {
 
 		try {
 			Preconditions.checkNotNull(url);
@@ -401,7 +401,7 @@ public class FeedREST {
 	@Path("/unsubscribe")
 	@UnitOfWork
 	@ApiOperation(value = "Unsubscribe from a feed", notes = "Unsubscribe from a feed")
-	public Response unsubscribe(@Auth User user, @ApiParam(required = true) IDRequest req) {
+	public Response unsubscribe(@SecurityCheck User user, @ApiParam(required = true) IDRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -417,7 +417,7 @@ public class FeedREST {
 	@Path("/modify")
 	@UnitOfWork
 	@ApiOperation(value = "Modify a subscription", notes = "Modify a feed subscription")
-	public Response modify(@Auth User user, @ApiParam(value = "subscription id", required = true) FeedModificationRequest req) {
+	public Response modify(@SecurityCheck User user, @ApiParam(value = "subscription id", required = true) FeedModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -469,7 +469,7 @@ public class FeedREST {
 	@UnitOfWork
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@ApiOperation(value = "OPML import", notes = "Import an OPML file, posted as a FORM with the 'file' name")
-	public Response importOpml(@Auth User user, @FormDataParam("file") InputStream input) {
+	public Response importOpml(@SecurityCheck User user, @FormDataParam("file") InputStream input) {
 
 		String publicUrl = config.getApplicationSettings().getPublicUrl();
 		if (StringUtils.isBlank(publicUrl)) {
@@ -495,7 +495,7 @@ public class FeedREST {
 	@UnitOfWork
 	@Produces(MediaType.APPLICATION_XML)
 	@ApiOperation(value = "OPML export", notes = "Export an OPML file of the user's subscriptions")
-	public Response exportOpml(@Auth User user) {
+	public Response exportOpml(@SecurityCheck User user) {
 		Opml opml = opmlExporter.export(user);
 		WireFeedOutput output = new WireFeedOutput();
 		String opmlString = null;

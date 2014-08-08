@@ -1,6 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import java.io.StringWriter;
@@ -43,6 +42,7 @@ import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedSubscriptionService;
+import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
@@ -88,7 +88,7 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get category entries", notes = "Get a list of category entries", response = Entries.class)
 	public Response getCategoryEntries(
-			@Auth User user,
+			@SecurityCheck User user,
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
 			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
@@ -186,7 +186,7 @@ public class CategoryREST {
 	@ApiOperation(value = "Get category entries as feed", notes = "Get a feed of category entries")
 	@Produces(MediaType.APPLICATION_XML)
 	public Response getCategoryEntriesAsFeed(
-			@Auth User user,
+			@SecurityCheck(apiKeyAllowed = true) User user,
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
 			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("all") @QueryParam("readType") ReadingMode readType,
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
@@ -234,7 +234,8 @@ public class CategoryREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Mark category entries", notes = "Mark feed entries of this category as read")
-	public Response markCategoryEntries(@Auth User user, @ApiParam(value = "category id, or 'all'", required = true) MarkRequest req) {
+	public Response markCategoryEntries(@SecurityCheck User user,
+			@ApiParam(value = "category id, or 'all'", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -272,7 +273,7 @@ public class CategoryREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Add a category", notes = "Add a new feed category", response = Long.class)
-	public Response addCategory(@Auth User user, @ApiParam(required = true) AddCategoryRequest req) {
+	public Response addCategory(@SecurityCheck User user, @ApiParam(required = true) AddCategoryRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getName());
 
@@ -295,7 +296,7 @@ public class CategoryREST {
 	@Path("/delete")
 	@UnitOfWork
 	@ApiOperation(value = "Delete a category", notes = "Delete an existing feed category")
-	public Response deleteCategory(@Auth User user, @ApiParam(required = true) IDRequest req) {
+	public Response deleteCategory(@SecurityCheck User user, @ApiParam(required = true) IDRequest req) {
 
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -327,7 +328,7 @@ public class CategoryREST {
 	@Path("/modify")
 	@UnitOfWork
 	@ApiOperation(value = "Rename a category", notes = "Rename an existing feed category")
-	public Response modifyCategory(@Auth User user, @ApiParam(required = true) CategoryModificationRequest req) {
+	public Response modifyCategory(@SecurityCheck User user, @ApiParam(required = true) CategoryModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -381,7 +382,7 @@ public class CategoryREST {
 	@Path("/collapse")
 	@UnitOfWork
 	@ApiOperation(value = "Collapse a category", notes = "Save collapsed or expanded status for a category")
-	public Response collapse(@Auth User user, @ApiParam(required = true) CollapseRequest req) {
+	public Response collapse(@SecurityCheck User user, @ApiParam(required = true) CollapseRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -399,7 +400,7 @@ public class CategoryREST {
 	@Path("/unreadCount")
 	@UnitOfWork
 	@ApiOperation(value = "Get unread count for feed subscriptions", response = UnreadCount.class, responseContainer = "List")
-	public Response getUnreadCount(@Auth User user) {
+	public Response getUnreadCount(@SecurityCheck User user) {
 		Map<Long, UnreadCount> unreadCount = feedSubscriptionService.getUnreadCount(user);
 		return Response.ok(Lists.newArrayList(unreadCount.values())).build();
 	}
@@ -408,7 +409,7 @@ public class CategoryREST {
 	@Path("/get")
 	@UnitOfWork
 	@ApiOperation(value = "Get feed categories", notes = "Get all categories and subscriptions of the user", response = Category.class)
-	public Response getSubscriptions(@Auth User user) {
+	public Response getSubscriptions(@SecurityCheck User user) {
 		Category root = cache.getUserRootCategory(user);
 		if (root == null) {
 			log.debug("tree cache miss for {}", user.getId());

@@ -64,6 +64,18 @@ public class UserService {
 		return null;
 	}
 
+	public User login(String apiKey) {
+		if (apiKey == null) {
+			return null;
+		}
+
+		User user = userDAO.findByApiKey(apiKey);
+		if (user != null && !user.isDisabled()) {
+			return user;
+		}
+		return null;
+	}
+
 	public User register(String name, String password, String email, Collection<Role> roles) {
 		return register(name, password, email, roles, false);
 	}

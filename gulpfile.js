@@ -25,10 +25,11 @@ gulp.task('sass', function() {
 	return gulp.src(SRC_DIR + 'sass/app.scss').pipe(sass()).pipe(gulp.dest(TEMP_DIR + 'css'));
 });
 
-gulp.task('fonts', function() {
-	gulp.src(SRC_DIR + 'lib/font-awesome/font/fontawesome-webfont.*').pipe(gulp.dest(BUILD_DIR + 'font'));
-	gulp.src(SRC_DIR + 'lib/readabilicons/webfont/fonts/readabilicons-*').pipe(gulp.dest(BUILD_DIR + 'font'));
-	return gulp.src(SRC_DIR + 'lib/zocial/css/zocial-regular-*').pipe(gulp.dest(BUILD_DIR + 'font'));
+gulp.task('fonts', ['bower'], function() {
+	var font_awesome = SRC_DIR + 'lib/font-awesome/font/fontawesome-webfont.*';
+	var zocial = SRC_DIR + 'lib/zocial/css/zocial-regular-*';
+	var readabilicons = SRC_DIR + 'lib/readabilicons/webfont/fonts/readabilicons-*';
+	return gulp.src([font_awesome, zocial, readabilicons]).pipe(gulp.dest(BUILD_DIR + 'font'));
 });
 
 gulp.task('template-cache', function() {
@@ -39,7 +40,7 @@ gulp.task('template-cache', function() {
 	return gulp.src(SRC_DIR + 'templates/**/*.html').pipe(templateCache(options)).pipe(gulp.dest(TEMP_DIR + 'js'));
 });
 
-gulp.task('build', ['images', 'sass', 'fonts', 'template-cache'], function() {
+gulp.task('build', ['images', 'sass', 'fonts', 'template-cache', 'bower'], function() {
 	var assets = useref.assets({
 		searchPath : [SRC_DIR, TEMP_DIR]
 	});

@@ -4,21 +4,21 @@ import java.io.Serializable;
 
 import lombok.Data;
 
-import com.wordnik.swagger.annotations.ApiClass;
-import com.wordnik.swagger.annotations.ApiProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
-@ApiClass("Star Request")
+@ApiModel("Star Request")
 @Data
 public class StarRequest implements Serializable {
 
-	@ApiProperty(value = "id", required = true)
+	@ApiModelProperty(value = "id", required = true)
 	private String id;
 
-	@ApiProperty(value = "feed id", required = true)
+	@ApiModelProperty(value = "feed id", required = true)
 	private Long feedId;
 
-	@ApiProperty(value = "starred or not")
+	@ApiModelProperty(value = "starred or not")
 	private boolean starred;
 
 }

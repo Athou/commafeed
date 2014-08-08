@@ -4,18 +4,18 @@ import java.io.Serializable;
 
 import lombok.Data;
 
-import com.wordnik.swagger.annotations.ApiClass;
-import com.wordnik.swagger.annotations.ApiProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
-@ApiClass("Mark Request")
+@ApiModel("Mark Request")
 @Data
 public class CollapseRequest implements Serializable {
 
-	@ApiProperty(value = "category id", required = true)
+	@ApiModelProperty(value = "category id", required = true)
 	private Long id;
 
-	@ApiProperty(value = "collapse", required = true)
+	@ApiModelProperty(value = "collapse", required = true)
 	private boolean collapse;
 
 }

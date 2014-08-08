@@ -3,12 +3,6 @@ package com.commafeed.backend.opml;
 import java.io.StringReader;
 import java.util.List;
 
-import javax.ejb.Asynchronous;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.inject.Inject;
-
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -16,37 +10,36 @@ import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
-import com.commafeed.backend.feeds.FeedUtils;
+import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
-import com.commafeed.backend.services.FeedSubscriptionService;
-import com.commafeed.backend.services.FeedSubscriptionService.FeedSubscriptionException;
+import com.commafeed.backend.service.FeedSubscriptionService;
+import com.commafeed.backend.service.FeedSubscriptionService.FeedSubscriptionException;
 import com.sun.syndication.feed.opml.Opml;
 import com.sun.syndication.feed.opml.Outline;
 import com.sun.syndication.io.WireFeedInput;
 
-@Stateless
-@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 @Slf4j
 public class OPMLImporter {
 
-	@Inject
-	FeedSubscriptionService feedSubscriptionService;
+	private FeedCategoryDAO feedCategoryDAO;
+	private FeedSubscriptionService feedSubscriptionService;
+	private CacheService cache;
 
-	@Inject
-	FeedCategoryDAO feedCategoryDAO;
-
-	@Inject
-	CacheService cache;
+	public OPMLImporter(FeedCategoryDAO feedCategoryDAO, FeedSubscriptionService feedSubscriptionService, CacheService cache) {
+		super();
+		this.feedCategoryDAO = feedCategoryDAO;
+		this.feedSubscriptionService = feedSubscriptionService;
+		this.cache = cache;
+	}
 
 	@SuppressWarnings("unchecked")
-	@Asynchronous
 	public void importOpml(User user, String xml) {
 		xml = xml.substring(xml.indexOf('<'));
 		WireFeedInput input = new WireFeedInput();
 		try {
 			Opml feed = (Opml) input.build(new StringReader(xml));
-			List<Outline> outlines = (List<Outline>) feed.getOutlines();
+			List<Outline> outlines = feed.getOutlines();
 			for (Outline outline : outlines) {
 				handleOutline(user, outline, null);
 			}

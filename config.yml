@@ -1,0 +1,50 @@
+app:
+  publicUrl: http://localhost:8083/
+  allowRegistrations: false
+  googleAnalyticsTrackingCode:
+  googleClientId:
+  googleClientSecret:
+  backgroundThreads: 3
+  databaseUpdateThreads: 1
+  smtpHost:
+  smtpPort:
+  smtpTls: false
+  smtpUserName:
+  smtpPassword:
+  heavyLoad: false
+  pubsubhubbub: false
+  imageProxyEnabled: false
+  queryTimeout: 0
+  crawlingPaused: false
+  keepStatusDays: 0
+  refreshIntervalMinutes: 5
+  announcement:
+
+authenticationCachePolicy: maximumSize=10000, expireAfterAccess=10m
+database:
+  driverClass: org.h2.Driver
+  user: sa
+  password: sa
+  url: jdbc:h2:./target/example
+  properties:
+    charSet: UTF-8
+  # hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    maxWaitForConnection: 1s
+    validationQuery: "/* MyApplication Health Check */ SELECT 1"
+    minSize: 1
+    maxSize: 8
+    checkConnectionWhileIdle: true
+    
+server:
+  applicationConnectors:
+    - type: http
+      port: 8082
+
+logging:
+  level: WARN
+  loggers:
+    com.commafeed: DEBUG
+    liquibase: INFO
+    org.hibernate.SQL: ALL
+  appenders:
+    - type: console

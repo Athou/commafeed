@@ -5,26 +5,26 @@ import java.util.List;
 
 import lombok.Data;
 
-import com.wordnik.swagger.annotations.ApiClass;
-import com.wordnik.swagger.annotations.ApiProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
-@ApiClass("Mark Request")
+@ApiModel("Mark Request")
 @Data
 public class MarkRequest implements Serializable {
 
-	@ApiProperty(value = "entry id, category id, 'all' or 'starred'", required = true)
+	@ApiModelProperty(value = "entry id, category id, 'all' or 'starred'", required = true)
 	private String id;
 
-	@ApiProperty(value = "mark as read or unread")
+	@ApiModelProperty(value = "mark as read or unread")
 	private boolean read;
 
-	@ApiProperty(
+	@ApiModelProperty(
 			value = "only entries older than this, pass the timestamp you got from the entry list to prevent marking an entry that was not retrieved",
 			required = false)
 	private Long olderThan;
 
-	@ApiProperty(value = "if marking a category or 'all', exclude those subscriptions from the marking", required = false)
+	@ApiModelProperty(value = "if marking a category or 'all', exclude those subscriptions from the marking", required = false)
 	private List<Long> excludedSubscriptions;
 
 }

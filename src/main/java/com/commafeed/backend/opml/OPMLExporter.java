@@ -3,8 +3,7 @@ package com.commafeed.backend.opml;
 import java.util.Date;
 import java.util.List;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
+import lombok.AllArgsConstructor;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -15,14 +14,11 @@ import com.sun.syndication.feed.opml.Attribute;
 import com.sun.syndication.feed.opml.Opml;
 import com.sun.syndication.feed.opml.Outline;
 
-@Stateless
+@AllArgsConstructor
 public class OPMLExporter {
 
-	@Inject
-	FeedCategoryDAO feedCategoryDAO;
-
-	@Inject
-	FeedSubscriptionDAO feedSubscriptionDAO;
+	private final FeedCategoryDAO feedCategoryDAO;
+	private final FeedSubscriptionDAO feedSubscriptionDAO;
 
 	@SuppressWarnings("unchecked")
 	public Opml export(User user) {

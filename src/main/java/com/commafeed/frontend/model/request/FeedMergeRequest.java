@@ -5,18 +5,18 @@ import java.util.List;
 
 import lombok.Data;
 
-import com.wordnik.swagger.annotations.ApiClass;
-import com.wordnik.swagger.annotations.ApiProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
-@ApiClass("Feed merge Request")
+@ApiModel("Feed merge Request")
 @Data
 public class FeedMergeRequest implements Serializable {
 
-	@ApiProperty(value = "merge into this feed", required = true)
+	@ApiModelProperty(value = "merge into this feed", required = true)
 	private Long intoFeedId;
 
-	@ApiProperty(value = "id of the feeds to merge", required = true)
+	@ApiModelProperty(value = "id of the feeds to merge", required = true)
 	private List<Long> feedIds;
 
 }

@@ -2,52 +2,34 @@ package com.commafeed.backend.dao;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import org.hibernate.SessionFactory;
 
-import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
-import com.commafeed.backend.model.FeedEntryContent_;
-import com.commafeed.backend.model.FeedEntry_;
+import com.commafeed.backend.model.QFeedEntry;
+import com.commafeed.backend.model.QFeedEntryContent;
 import com.google.common.collect.Iterables;
+import com.mysema.query.types.ConstructorExpression;
 
-@Stateless
 public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 
+	private QFeedEntryContent content = QFeedEntryContent.feedEntryContent;
+
+	public FeedEntryContentDAO(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
+
 	public Long findExisting(String contentHash, String titleHash) {
-
-		CriteriaQuery<Long> query = builder.createQuery(Long.class);
-		Root<FeedEntryContent> root = query.from(getType());
-		query.select(root.get(FeedEntryContent_.id));
-
-		Predicate p1 = builder.equal(root.get(FeedEntryContent_.contentHash), contentHash);
-		Predicate p2 = builder.equal(root.get(FeedEntryContent_.titleHash), titleHash);
-
-		query.where(p1, p2);
-		TypedQuery<Long> q = em.createQuery(query);
-		limit(q, 0, 1);
-		return Iterables.getFirst(q.getResultList(), null);
-
+		List<Long> list = newQuery().from(content).where(content.contentHash.eq(contentHash), content.titleHash.eq(titleHash)).limit(1)
+				.list(ConstructorExpression.create(Long.class, content.id));
+		return Iterables.getFirst(list, null);
 	}
 
 	public int deleteWithoutEntries(int max) {
-		CriteriaQuery<FeedEntryContent> query = builder.createQuery(getType());
-		Root<FeedEntryContent> root = query.from(getType());
-
-		Join<FeedEntryContent, FeedEntry> join = root.join(FeedEntryContent_.entries, JoinType.LEFT);
-		query.where(builder.isNull(join.get(FeedEntry_.id)));
-		TypedQuery<FeedEntryContent> q = em.createQuery(query);
-		q.setMaxResults(max);
-
-		List<FeedEntryContent> list = q.getResultList();
+		QFeedEntry entry = QFeedEntry.feedEntry;
+		List<FeedEntryContent> list = newQuery().from(content).leftJoin(content.entries, entry).where(entry.id.isNull()).limit(max)
+				.list(content);
 		int deleted = list.size();
 		delete(list);
 		return deleted;
-
 	}
 }

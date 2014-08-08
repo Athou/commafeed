@@ -5,10 +5,10 @@ import java.util.Date;
 
 import lombok.Data;
 
-import com.wordnik.swagger.annotations.ApiClass;
+import com.wordnik.swagger.annotations.ApiModel;
 
 @SuppressWarnings("serial")
-@ApiClass("Unread count")
+@ApiModel("Unread count")
 @Data
 public class UnreadCount implements Serializable {
 
@@ -17,7 +17,6 @@ public class UnreadCount implements Serializable {
 	private Date newestItemTime;
 
 	public UnreadCount() {
-
 	}
 
 	public UnreadCount(long feedId, long unreadCount, Date newestItemTime) {

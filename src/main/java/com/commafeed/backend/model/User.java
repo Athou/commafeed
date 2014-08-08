@@ -3,7 +3,6 @@ package com.commafeed.backend.model;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,23 +15,20 @@ import javax.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cascade;
 
 import com.google.common.collect.Sets;
 
 @Entity
 @Table(name = "USERS")
 @SuppressWarnings("serial")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Getter
 @Setter
 public class User extends AbstractModel {
 
 	@Column(length = 32, nullable = false, unique = true)
 	private String name;
-	
+
 	@Column(length = 255, unique = true)
 	private String email;
 
@@ -61,6 +57,8 @@ public class User extends AbstractModel {
 	private Date recoverPasswordTokenDate;
 
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	@Cascade({ org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+			org.hibernate.annotations.CascadeType.REMOVE })
 	private Set<UserRole> roles = Sets.newHashSet();
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

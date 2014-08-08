@@ -6,32 +6,32 @@ import java.util.List;
 import lombok.Data;
 
 import com.google.common.collect.Lists;
-import com.wordnik.swagger.annotations.ApiClass;
-import com.wordnik.swagger.annotations.ApiProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
-@ApiClass("Entry details")
+@ApiModel("Entry details")
 @Data
 public class Category implements Serializable {
 
-	@ApiProperty("category id")
+	@ApiModelProperty("category id")
 	private String id;
 
-	@ApiProperty("parent category id")
+	@ApiModelProperty("parent category id")
 	private String parentId;
 
-	@ApiProperty("category id")
+	@ApiModelProperty("category id")
 	private String name;
 
-	@ApiProperty("category children categories")
+	@ApiModelProperty("category children categories")
 	private List<Category> children = Lists.newArrayList();
 
-	@ApiProperty("category feeds")
+	@ApiModelProperty("category feeds")
 	private List<Subscription> feeds = Lists.newArrayList();
 
-	@ApiProperty("wether the category is expanded or collapsed")
+	@ApiModelProperty("wether the category is expanded or collapsed")
 	private boolean expanded;
 
-	@ApiProperty("position of the category in the list")
+	@ApiModelProperty("position of the category in the list")
 	private Integer position;
 }

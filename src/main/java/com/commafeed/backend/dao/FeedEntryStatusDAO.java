@@ -5,18 +5,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.hibernate.Criteria;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
@@ -27,33 +19,44 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.hibernate.transform.Transformers;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.FixedSizeSortedSet;
 import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedEntryContent_;
 import com.commafeed.backend.model.FeedEntryStatus;
-import com.commafeed.backend.model.FeedEntryStatus_;
 import com.commafeed.backend.model.FeedEntryTag;
-import com.commafeed.backend.model.FeedEntryTag_;
-import com.commafeed.backend.model.FeedEntry_;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
+import com.commafeed.backend.model.QFeedEntry;
+import com.commafeed.backend.model.QFeedEntryContent;
+import com.commafeed.backend.model.QFeedEntryStatus;
+import com.commafeed.backend.model.QFeedEntryTag;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
-import com.commafeed.backend.services.ApplicationSettingsService;
 import com.commafeed.frontend.model.UnreadCount;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.mysema.query.jpa.hibernate.HibernateQuery;
 
-@Stateless
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	private static final String ALIAS_STATUS = "status";
 	private static final String ALIAS_ENTRY = "entry";
 	private static final String ALIAS_TAG = "tag";
 
-	@Inject
-	FeedEntryTagDAO feedEntryTagDAO;
+	private FeedEntryDAO feedEntryDAO;
+	private FeedEntryTagDAO feedEntryTagDAO;
+	private CommaFeedConfiguration config;
+
+	private QFeedEntryStatus status = QFeedEntryStatus.feedEntryStatus;
+
+	public FeedEntryStatusDAO(SessionFactory sessionFactory, FeedEntryDAO feedEntryDAO, FeedEntryTagDAO feedEntryTagDAO,
+			CommaFeedConfiguration config) {
+		super(sessionFactory);
+		this.feedEntryDAO = feedEntryDAO;
+		this.feedEntryTagDAO = feedEntryTagDAO;
+		this.config = config;
+	}
 
 	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_DESC = new Comparator<FeedEntryStatus>() {
 		@Override
@@ -61,34 +64,21 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			CompareToBuilder builder = new CompareToBuilder();
 			builder.append(o2.getEntryUpdated(), o1.getEntryUpdated());
 			builder.append(o2.getId(), o1.getId());
-			return builder.build();
+			return builder.toComparison();
 		};
 	};
 
 	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = Ordering.from(STATUS_COMPARATOR_DESC).reverse();
 
-	@Inject
-	ApplicationSettingsService applicationSettingsService;
-
 	public FeedEntryStatus getStatus(User user, FeedSubscription sub, FeedEntry entry) {
-
-		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
-		Root<FeedEntryStatus> root = query.from(getType());
-
-		Predicate p1 = builder.equal(root.get(FeedEntryStatus_.entry), entry);
-		Predicate p2 = builder.equal(root.get(FeedEntryStatus_.subscription), sub);
-
-		query.where(p1, p2);
-
-		List<FeedEntryStatus> statuses = em.createQuery(query).getResultList();
+		List<FeedEntryStatus> statuses = newQuery().from(status).where(status.entry.eq(entry), status.subscription.eq(sub)).list(status);
 		FeedEntryStatus status = Iterables.getFirst(statuses, null);
-
 		return handleStatus(user, status, sub, entry);
 	}
 
 	private FeedEntryStatus handleStatus(User user, FeedEntryStatus status, FeedSubscription sub, FeedEntry entry) {
 		if (status == null) {
-			Date unreadThreshold = applicationSettingsService.getUnreadThreshold();
+			Date unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
 			boolean read = unreadThreshold == null ? false : entry.getUpdated().before(unreadThreshold);
 			status = new FeedEntryStatus(user, sub, entry);
 			status.setRead(read);
@@ -106,27 +96,20 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	public List<FeedEntryStatus> findStarred(User user, Date newerThan, int offset, int limit, ReadingOrder order, boolean includeContent) {
-
-		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
-		Root<FeedEntryStatus> root = query.from(getType());
-
-		List<Predicate> predicates = Lists.newArrayList();
-
-		predicates.add(builder.equal(root.get(FeedEntryStatus_.user), user));
-		predicates.add(builder.equal(root.get(FeedEntryStatus_.starred), true));
-
+		HibernateQuery query = newQuery().from(status).where(status.user.eq(user), status.starred.isTrue());
 		if (newerThan != null) {
-			predicates.add(builder.greaterThanOrEqualTo(root.get(FeedEntryStatus_.entryInserted), newerThan));
+			query.where(status.entryInserted.gt(newerThan));
 		}
-		
-		query.where(predicates.toArray(new Predicate[0]));
 
-		orderStatusesBy(query, root, order);
+		if (order == ReadingOrder.asc) {
+			query.orderBy(status.entryUpdated.asc(), status.id.asc());
+		} else {
+			query.orderBy(status.entryUpdated.desc(), status.id.desc());
+		}
 
-		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
-		limit(q, offset, limit);
-		setTimeout(q);
-		List<FeedEntryStatus> statuses = q.getResultList();
+		query.offset(offset).limit(limit).setTimeout(config.getApplicationSettings().getQueryTimeout());
+
+		List<FeedEntryStatus> statuses = query.list(status);
 		for (FeedEntryStatus status : statuses) {
 			status = handleStatus(user, status, status.getSubscription(), status.getEntry());
 			status = fetchTags(user, status);
@@ -134,62 +117,66 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return lazyLoadContent(includeContent, statuses);
 	}
 
-	private Criteria buildSearchCriteria(User user, FeedSubscription sub, boolean unreadOnly, String keywords, Date newerThan, int offset, int limit,
-			ReadingOrder order, Date last, String tag) {
-		Criteria criteria = getSession().createCriteria(FeedEntry.class, ALIAS_ENTRY);
+	private Criteria buildSearchCriteria(User user, FeedSubscription sub, boolean unreadOnly, String keywords, Date newerThan, int offset,
+			int limit, ReadingOrder order, Date last, String tag) {
+		QFeedEntry entry = QFeedEntry.feedEntry;
+		QFeedEntryContent content = QFeedEntryContent.feedEntryContent;
+		QFeedEntryStatus status = QFeedEntryStatus.feedEntryStatus;
+		QFeedEntryTag entryTag = QFeedEntryTag.feedEntryTag;
 
-		criteria.add(Restrictions.eq(FeedEntry_.feed.getName(), sub.getFeed()));
+		Criteria criteria = currentSession().createCriteria(FeedEntry.class, ALIAS_ENTRY);
+		criteria.add(Restrictions.eq(entry.feed.getMetadata().getName(), sub.getFeed()));
 
 		if (keywords != null) {
-			Criteria contentJoin = criteria.createCriteria(FeedEntry_.content.getName(), "content", JoinType.INNER_JOIN);
+			Criteria contentJoin = criteria.createCriteria(entry.content.getMetadata().getName(), "content", JoinType.INNER_JOIN);
 
 			for (String keyword : StringUtils.split(keywords)) {
 				Disjunction or = Restrictions.disjunction();
-				or.add(Restrictions.ilike(FeedEntryContent_.content.getName(), keyword, MatchMode.ANYWHERE));
-				or.add(Restrictions.ilike(FeedEntryContent_.title.getName(), keyword, MatchMode.ANYWHERE));
+				or.add(Restrictions.ilike(content.content.getMetadata().getName(), keyword, MatchMode.ANYWHERE));
+				or.add(Restrictions.ilike(content.title.getMetadata().getName(), keyword, MatchMode.ANYWHERE));
 				contentJoin.add(or);
 			}
 		}
-		Criteria statusJoin = criteria.createCriteria(FeedEntry_.statuses.getName(), ALIAS_STATUS, JoinType.LEFT_OUTER_JOIN,
-				Restrictions.eq(FeedEntryStatus_.subscription.getName(), sub));
+		Criteria statusJoin = criteria.createCriteria(entry.statuses.getMetadata().getName(), ALIAS_STATUS, JoinType.LEFT_OUTER_JOIN,
+				Restrictions.eq(status.subscription.getMetadata().getName(), sub));
 
 		if (unreadOnly && tag == null) {
 
 			Disjunction or = Restrictions.disjunction();
-			or.add(Restrictions.isNull(FeedEntryStatus_.read.getName()));
-			or.add(Restrictions.eq(FeedEntryStatus_.read.getName(), false));
+			or.add(Restrictions.isNull(status.read.getMetadata().getName()));
+			or.add(Restrictions.eq(status.read.getMetadata().getName(), false));
 			statusJoin.add(or);
 
-			Date unreadThreshold = applicationSettingsService.getUnreadThreshold();
+			Date unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
 			if (unreadThreshold != null) {
-				criteria.add(Restrictions.ge(FeedEntry_.updated.getName(), unreadThreshold));
+				criteria.add(Restrictions.ge(entry.updated.getMetadata().getName(), unreadThreshold));
 			}
 		}
 
 		if (tag != null) {
 			Conjunction and = Restrictions.conjunction();
-			and.add(Restrictions.eq(FeedEntryTag_.user.getName(), user));
-			and.add(Restrictions.eq(FeedEntryTag_.name.getName(), tag));
-			criteria.createCriteria(FeedEntry_.tags.getName(), ALIAS_TAG, JoinType.INNER_JOIN, and);
+			and.add(Restrictions.eq(entryTag.user.getMetadata().getName(), user));
+			and.add(Restrictions.eq(entryTag.name.getMetadata().getName(), tag));
+			criteria.createCriteria(entry.tags.getMetadata().getName(), ALIAS_TAG, JoinType.INNER_JOIN, and);
 		}
 
 		if (newerThan != null) {
-			criteria.add(Restrictions.ge(FeedEntry_.inserted.getName(), newerThan));
+			criteria.add(Restrictions.ge(entry.inserted.getMetadata().getName(), newerThan));
 		}
 
 		if (last != null) {
 			if (order == ReadingOrder.desc) {
-				criteria.add(Restrictions.gt(FeedEntry_.updated.getName(), last));
+				criteria.add(Restrictions.gt(entry.updated.getMetadata().getName(), last));
 			} else {
-				criteria.add(Restrictions.lt(FeedEntry_.updated.getName(), last));
+				criteria.add(Restrictions.lt(entry.updated.getMetadata().getName(), last));
 			}
 		}
 
 		if (order != null) {
 			if (order == ReadingOrder.asc) {
-				criteria.addOrder(Order.asc(FeedEntry_.updated.getName())).addOrder(Order.asc(FeedEntry_.id.getName()));
+				criteria.addOrder(Order.asc(entry.updated.getMetadata().getName())).addOrder(Order.asc(entry.id.getMetadata().getName()));
 			} else {
-				criteria.addOrder(Order.desc(FeedEntry_.updated.getName())).addOrder(Order.desc(FeedEntry_.id.getName()));
+				criteria.addOrder(Order.desc(entry.updated.getMetadata().getName())).addOrder(Order.desc(entry.id.getMetadata().getName()));
 			}
 		}
 		if (offset > -1) {
@@ -198,7 +185,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		if (limit > -1) {
 			criteria.setMaxResults(limit);
 		}
-		int timeout = applicationSettingsService.get().getQueryTimeout();
+		int timeout = config.getApplicationSettings().getQueryTimeout();
 		if (timeout > 0) {
 			// hibernate timeout is in seconds, jpa timeout is in millis
 			criteria.setTimeout(timeout / 1000);
@@ -255,7 +242,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			statuses = Lists.newArrayList();
 			for (FeedEntryStatus placeholder : placeholders) {
 				Long statusId = placeholder.getId();
-				FeedEntry entry = em.find(FeedEntry.class, placeholder.getEntry().getId());
+				FeedEntry entry = feedEntryDAO.findById(placeholder.getEntry().getId());
 				FeedEntryStatus status = handleStatus(user, statusId == null ? null : findById(statusId), placeholder.getSubscription(),
 						entry);
 				status = fetchTags(user, status);
@@ -272,7 +259,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		Criteria criteria = buildSearchCriteria(user, subscription, true, null, null, -1, -1, null, null, null);
 		ProjectionList projection = Projections.projectionList();
 		projection.add(Projections.rowCount(), "count");
-		projection.add(Projections.max(FeedEntry_.updated.getName()), "updated");
+		projection.add(Projections.max(QFeedEntry.feedEntry.updated.getMetadata().getName()), "updated");
 		criteria.setProjection(projection);
 		criteria.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		List<Map<String, Object>> list = criteria.list();
@@ -294,35 +281,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return results;
 	}
 
-	private void orderStatusesBy(CriteriaQuery<?> query, Path<FeedEntryStatus> statusJoin, ReadingOrder order) {
-		orderBy(query, statusJoin.get(FeedEntryStatus_.entryUpdated), statusJoin.get(FeedEntryStatus_.id), order);
-	}
-
-	private void orderBy(CriteriaQuery<?> query, Path<Date> date, Path<Long> id, ReadingOrder order) {
-		if (order != null) {
-			if (order == ReadingOrder.asc) {
-				query.orderBy(builder.asc(date), builder.asc(id));
-			} else {
-				query.orderBy(builder.desc(date), builder.desc(id));
-			}
-		}
-	}
-
-	protected void setTimeout(Query query) {
-		setTimeout(query, applicationSettingsService.get().getQueryTimeout());
-	}
-
 	public List<FeedEntryStatus> getOldStatuses(Date olderThan, int limit) {
-		CriteriaQuery<FeedEntryStatus> query = builder.createQuery(getType());
-		Root<FeedEntryStatus> root = query.from(getType());
-
-		Predicate p1 = builder.lessThan(root.get(FeedEntryStatus_.entryInserted), olderThan);
-		Predicate p2 = builder.isFalse(root.get(FeedEntryStatus_.starred));
-
-		query.where(p1, p2);
-		TypedQuery<FeedEntryStatus> q = em.createQuery(query);
-		q.setMaxResults(limit);
-		return q.getResultList();
+		return newQuery().from(status).where(status.entryInserted.lt(olderThan), status.starred.isFalse()).limit(limit).list(status);
 	}
 
 }

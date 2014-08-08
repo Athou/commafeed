@@ -5,39 +5,39 @@ import java.util.Date;
 
 import lombok.Data;
 
-import com.wordnik.swagger.annotations.ApiClass;
-import com.wordnik.swagger.annotations.ApiProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
-@ApiClass("User information")
+@ApiModel("User information")
 @Data
 public class UserModel implements Serializable {
 
-	@ApiProperty(value = "user id", required = true)
+	@ApiModelProperty(value = "user id", required = true)
 	private Long id;
 
-	@ApiProperty(value = "user name", required = true)
+	@ApiModelProperty(value = "user name", required = true)
 	private String name;
 
-	@ApiProperty("user email, if any")
+	@ApiModelProperty("user email, if any")
 	private String email;
 
-	@ApiProperty("api key")
+	@ApiModelProperty("api key")
 	private String apiKey;
 
-	@ApiProperty(value = "user password, never returned by the api")
+	@ApiModelProperty(value = "user password, never returned by the api")
 	private String password;
 
-	@ApiProperty(value = "account status")
+	@ApiModelProperty(value = "account status")
 	private boolean enabled;
 
-	@ApiProperty(value = "account creation date")
+	@ApiModelProperty(value = "account creation date")
 	private Date created;
 
-	@ApiProperty(value = "last login date")
+	@ApiModelProperty(value = "last login date")
 	private Date lastLogin;
 
-	@ApiProperty(value = "user is admin")
+	@ApiModelProperty(value = "user is admin")
 	private boolean admin;
 
 }

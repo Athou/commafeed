@@ -7,7 +7,7 @@ import java.util.List;
 
 import lombok.Data;
 
-import com.commafeed.backend.feeds.FeedUtils;
+import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
@@ -17,11 +17,11 @@ import com.google.common.collect.Lists;
 import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
-import com.wordnik.swagger.annotations.ApiClass;
-import com.wordnik.swagger.annotations.ApiProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
-@ApiClass("Entry details")
+@ApiModel("Entry details")
 @Data
 public class Entry implements Serializable {
 
@@ -78,63 +78,63 @@ public class Entry implements Serializable {
 		return entry;
 	}
 
-	@ApiProperty("entry id")
+	@ApiModelProperty("entry id")
 	private String id;
 
-	@ApiProperty("entry guid")
+	@ApiModelProperty("entry guid")
 	private String guid;
 
-	@ApiProperty("entry title")
+	@ApiModelProperty("entry title")
 	private String title;
 
-	@ApiProperty("entry content")
+	@ApiModelProperty("entry content")
 	private String content;
 
-	@ApiProperty("wether entry content and title are rtl")
+	@ApiModelProperty("wether entry content and title are rtl")
 	private boolean rtl;
 
-	@ApiProperty("entry author")
+	@ApiModelProperty("entry author")
 	private String author;
 
-	@ApiProperty("entry enclosure url, if any")
+	@ApiModelProperty("entry enclosure url, if any")
 	private String enclosureUrl;
 
-	@ApiProperty("entry enclosure mime type, if any")
+	@ApiModelProperty("entry enclosure mime type, if any")
 	private String enclosureType;
 
-	@ApiProperty("entry publication date")
+	@ApiModelProperty("entry publication date")
 	private Date date;
 
-	@ApiProperty("entry insertion date in the database")
+	@ApiModelProperty("entry insertion date in the database")
 	private Date insertedDate;
 
-	@ApiProperty("feed id")
+	@ApiModelProperty("feed id")
 	private String feedId;
 
-	@ApiProperty("feed name")
+	@ApiModelProperty("feed name")
 	private String feedName;
 
-	@ApiProperty("this entry's feed url")
+	@ApiModelProperty("this entry's feed url")
 	private String feedUrl;
 
-	@ApiProperty("this entry's website url")
+	@ApiModelProperty("this entry's website url")
 	private String feedLink;
 
-	@ApiProperty(value = "The favicon url to use for this feed")
+	@ApiModelProperty(value = "The favicon url to use for this feed")
 	private String iconUrl;
 
-	@ApiProperty("entry url")
+	@ApiModelProperty("entry url")
 	private String url;
 
-	@ApiProperty("read sttaus")
+	@ApiModelProperty("read sttaus")
 	private boolean read;
 
-	@ApiProperty("starred status")
+	@ApiModelProperty("starred status")
 	private boolean starred;
 
-	@ApiProperty("wether the entry is still markable (old entry statuses are discarded)")
+	@ApiModelProperty("wether the entry is still markable (old entry statuses are discarded)")
 	private boolean markable;
 
-	@ApiProperty("tags")
+	@ApiModelProperty("tags")
 	private List<String> tags;
 }

@@ -1,19 +1,18 @@
-#runtime files
-commafeed.log
-derby.log
-data/
-java_pid*
-
-# Maven build directory
+# build directory
 target
-deployments/ROOT.war
+
+# node
+node
+node_modules
+
+# bower
+src/main/app/lib
 
 # Eclipse files
 .project
 .classpath
 .settings
 .factorypath
-/target
 
 # IntelliJ Idea files
 .idea

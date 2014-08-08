@@ -15,6 +15,7 @@ import javax.net.ssl.X509TrustManager;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.Consts;
 import org.apache.http.Header;
@@ -42,7 +43,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
-import org.apache.wicket.util.io.IOUtils;
 
 /**
  * Smart HTTP getter: handles gzip, ssl, last modified and etag headers

@@ -5,18 +5,18 @@ import java.util.List;
 
 import lombok.Data;
 
-import com.wordnik.swagger.annotations.ApiClass;
-import com.wordnik.swagger.annotations.ApiProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
-@ApiClass("Tag Request")
+@ApiModel("Tag Request")
 @Data
 public class TagRequest implements Serializable {
 
-	@ApiProperty(value = "entry id", required = true)
+	@ApiModelProperty(value = "entry id", required = true)
 	private Long entryId;
 
-	@ApiProperty(value = "tags")
+	@ApiModelProperty(value = "tags")
 	private List<String> tags;
 
 }

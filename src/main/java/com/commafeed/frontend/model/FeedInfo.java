@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 import lombok.Data;
 
-import com.wordnik.swagger.annotations.ApiClass;
+import com.wordnik.swagger.annotations.ApiModel;
 
 @SuppressWarnings("serial")
-@ApiClass("Feed details")
+@ApiModel("Feed details")
 @Data
 public class FeedInfo implements Serializable {
 

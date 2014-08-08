@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+/*!
+	Zocial Butons
+	http://zocial.smcllns.com
+	by Sam Collins (@smcllns)
+	License: http://opensource.org/licenses/mit-license.php
+	
+	You are free to use and modify, as long as you keep this license comment intact or link back to zocial.smcllns.com on your site.
+*/
+
+/* Reference icons from font-files
+** Base 64-encoded version recommended to resolve cross-site font-loading issues
+*/
+@font-face {
+	font-family: 'zocial';
+	src: url('../font/zocial-regular-webfont.eot'),
+		url('../font/zocial-regular-webfont.woff'), url('../font/zocial-regular-webfont.ttf')
+		format('truetype'), url('../font/zocial-regular-webfont.svg#zocialregular')
+		format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.icon-instapaper:before {
+	font-style: normal;
+	font-family: 'zocial';
+	content: "I";
+}
+
+.icon-pocket:before {
+	font-style: normal;
+	font-family: 'zocial';
+	content: "\00E7";
+}
+
+.icon-buffer:before {
+	font-style: normal;
+	font-family: 'zocial';
+	content: "\00E5";
+}
+
+.icon-gmail:before {
+	font-style: normal;
+	font-family: 'zocial';
+	content: "m";
+}

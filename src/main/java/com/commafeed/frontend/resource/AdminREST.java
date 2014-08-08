@@ -139,7 +139,7 @@ public class AdminREST {
 		Map<Long, UserModel> users = Maps.newHashMap();
 		for (UserRole role : userRoleDAO.findAll()) {
 			User u = role.getUser();
-			Long key = user.getId();
+			Long key = u.getId();
 			UserModel userModel = users.get(key);
 			if (userModel == null) {
 				userModel = new UserModel();

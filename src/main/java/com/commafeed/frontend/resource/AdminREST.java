@@ -48,8 +48,6 @@ import com.wordnik.swagger.annotations.ApiParam;
 @AllArgsConstructor
 public class AdminREST {
 
-	// TODO check roles
-
 	private final UserDAO userDAO;
 	private final UserRoleDAO userRoleDAO;
 	private final UserService userService;

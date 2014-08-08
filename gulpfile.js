@@ -21,6 +21,13 @@ gulp.task('images', function() {
 	return gulp.src(SRC_DIR + 'images/**/*').pipe(gulp.dest(BUILD_DIR + 'images'));
 });
 
+gulp.task('favicons', function() {
+	var favicons_png = SRC_DIR + '*.png';
+	var favicons_ico = SRC_DIR + '*.ico';
+	var favicons_svg = SRC_DIR + '*.svg';
+	return gulp.src([favicons_png, favicons_ico, favicons_svg]).pipe(gulp.dest(BUILD_DIR));
+});
+
 gulp.task('sass', function() {
 	return gulp.src(SRC_DIR + 'sass/app.scss').pipe(sass()).pipe(gulp.dest(TEMP_DIR + 'css'));
 });
@@ -40,7 +47,7 @@ gulp.task('template-cache', function() {
 	return gulp.src(SRC_DIR + 'templates/**/*.html').pipe(templateCache(options)).pipe(gulp.dest(TEMP_DIR + 'js'));
 });
 
-gulp.task('build', ['images', 'sass', 'fonts', 'template-cache', 'bower'], function() {
+gulp.task('build', ['images', 'favicons', 'sass', 'fonts', 'template-cache', 'bower'], function() {
 	var assets = useref.assets({
 		searchPath : [SRC_DIR, TEMP_DIR]
 	});

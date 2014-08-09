@@ -17,6 +17,7 @@ import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class UserService {
 	private final PasswordEncryptionService encryptionService;
 	private final CommaFeedConfiguration config;
 
-	public User login(String name, String password) {
+	public Optional<User> login(String name, String password) {
 		if (name == null || password == null) {
 			return null;
 		}
@@ -58,22 +59,22 @@ public class UserService {
 				if (saveUser) {
 					userDAO.saveOrUpdate(user);
 				}
-				return user;
+				return Optional.fromNullable(user);
 			}
 		}
-		return null;
+		return Optional.absent();
 	}
 
-	public User login(String apiKey) {
+	public Optional<User> login(String apiKey) {
 		if (apiKey == null) {
-			return null;
+			return Optional.absent();
 		}
 
 		User user = userDAO.findByApiKey(apiKey);
 		if (user != null && !user.isDisabled()) {
-			return user;
+			return Optional.fromNullable(user);
 		}
-		return null;
+		return Optional.absent();
 	}
 
 	public User register(String name, String password, String email, Collection<Role> roles) {

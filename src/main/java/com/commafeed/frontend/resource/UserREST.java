@@ -1,9 +1,11 @@
 package com.commafeed.frontend.resource;
 
 import io.dropwizard.hibernate.UnitOfWork;
+import io.dropwizard.jersey.sessions.Session;
 
 import java.util.Arrays;
 
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -33,8 +35,10 @@ import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.frontend.model.UserModel;
+import com.commafeed.frontend.model.request.LoginRequest;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.model.request.RegistrationRequest;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -203,7 +207,20 @@ public class UserREST {
 		} catch (Exception e) {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
+	}
 
+	@Path("/login")
+	@POST
+	@UnitOfWork
+	@ApiOperation(value = "Login and create a session")
+	public Response login(@ApiParam(required = true) LoginRequest req, @Session HttpSession session) {
+		Optional<User> user = userService.login(req.getName(), req.getPassword());
+		if (user.isPresent()) {
+			session.setAttribute(CommaFeedApplication.SESSION_USER, user);
+			return Response.ok().build();
+		} else {
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+		}
 	}
 
 	@Path("/profile/deleteAccount")

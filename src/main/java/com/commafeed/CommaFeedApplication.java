@@ -4,6 +4,7 @@ import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
+import io.dropwizard.jersey.sessions.HttpSessionProvider;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -12,6 +13,7 @@ import java.util.Date;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.eclipse.jetty.server.session.SessionHandler;
 import org.hibernate.SessionFactory;
 
 import com.codahale.metrics.MetricRegistry;
@@ -63,6 +65,7 @@ import com.commafeed.backend.service.PubSubService;
 import com.commafeed.backend.service.StartupService;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.auth.SecurityCheckProvider;
+import com.commafeed.frontend.auth.SecurityCheckProvider.SecurityCheckUserServiceProvider;
 import com.commafeed.frontend.resource.AdminREST;
 import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.frontend.resource.EntryREST;
@@ -70,6 +73,7 @@ import com.commafeed.frontend.resource.FeedREST;
 import com.commafeed.frontend.resource.PubSubHubbubCallbackREST;
 import com.commafeed.frontend.resource.ServerREST;
 import com.commafeed.frontend.resource.UserREST;
+import com.commafeed.frontend.servlet.LogoutServlet;
 import com.commafeed.frontend.servlet.NextUnreadServlet;
 
 @Slf4j
@@ -77,6 +81,8 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 	public static final String USERNAME_ADMIN = "admin";
 	public static final String USERNAME_DEMO = "demo";
+
+	public static final String SESSION_USER = "user";
 
 	public static final Date STARTUP_TIME = new Date();
 
@@ -115,6 +121,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 				: new RedisCacheService();
 		log.info("using cache {}", cacheService.getClass());
 
+		// DAOs
 		FeedCategoryDAO feedCategoryDAO = new FeedCategoryDAO(sessionFactory);
 		FeedDAO feedDAO = new FeedDAO(sessionFactory);
 		FeedEntryContentDAO feedEntryContentDAO = new FeedEntryContentDAO(sessionFactory);
@@ -128,6 +135,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 		FeedQueues queues = new FeedQueues(feedDAO, config, metrics);
 
+		// Services
 		ApplicationPropertiesService applicationPropertiesService = new ApplicationPropertiesService();
 		DatabaseCleaningService cleaningService = new DatabaseCleaningService(feedDAO, feedEntryDAO, feedEntryContentDAO,
 				feedEntryStatusDAO, feedSubscriptionDAO);
@@ -144,22 +152,28 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 				config);
 		StartupService startupService = new StartupService(sessionFactory, userDAO, userService);
 
+		// OPML
 		OPMLImporter opmlImporter = new OPMLImporter(feedCategoryDAO, feedSubscriptionService, cacheService);
 		OPMLExporter opmlExporter = new OPMLExporter(feedCategoryDAO, feedSubscriptionDAO);
 
+		// Feed fetching/parsing
 		HttpGetter httpGetter = new HttpGetter();
 		FeedParser feedParser = new FeedParser();
 		FaviconFetcher faviconFetcher = new FaviconFetcher(httpGetter);
-
 		FeedFetcher feedFetcher = new FeedFetcher(feedParser, httpGetter);
 		FeedRefreshUpdater feedUpdater = new FeedRefreshUpdater(sessionFactory, feedUpdateService, pubSubService, queues, config, metrics,
 				feedSubscriptionDAO, cacheService);
 		FeedRefreshWorker feedWorker = new FeedRefreshWorker(feedUpdater, feedFetcher, queues, config, metrics);
 		FeedRefreshTaskGiver taskGiver = new FeedRefreshTaskGiver(sessionFactory, queues, feedDAO, feedWorker, config, metrics);
 
-		// TODO add caching of credentials somehow
-		environment.jersey().register(new SecurityCheckProvider(userService));
+		// Auth/session management
 
+		environment.servlets().setSessionHandler(new SessionHandler());
+		environment.jersey().register(new SecurityCheckUserServiceProvider(userService));
+		environment.jersey().register(SecurityCheckProvider.class);
+		environment.jersey().register(HttpSessionProvider.class);
+
+		// REST resources
 		environment.jersey().setUrlPattern("/rest/*");
 		environment.jersey()
 				.register(new AdminREST(userDAO, userRoleDAO, userService, encryptionService, cleaningService, config, metrics));
@@ -174,18 +188,20 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.jersey().register(new ServerREST(httpGetter, config, applicationPropertiesService));
 		environment.jersey().register(new UserREST(userDAO, userRoleDAO, userSettingsDAO, userService, encryptionService));
 
+		// Servlets
 		NextUnreadServlet nextUnreadServlet = new NextUnreadServlet(feedSubscriptionDAO, feedEntryStatusDAO, feedCategoryDAO, userService,
 				config);
+		LogoutServlet logoutServlet = new LogoutServlet(config);
 		environment.servlets().addServlet("next", nextUnreadServlet).addMapping("/next");
+		environment.servlets().addServlet("logout", logoutServlet).addMapping("/logout");
 
+		// Managed objects
 		environment.lifecycle().manage(startupService);
 		environment.lifecycle().manage(taskGiver);
 		environment.lifecycle().manage(feedWorker);
 		environment.lifecycle().manage(feedUpdater);
 
-		// TODO user registration
-		// TODO user login page
-		// TODO cookie support ?
+		// TODO user login + registration page
 		// TODO translations
 
 	}

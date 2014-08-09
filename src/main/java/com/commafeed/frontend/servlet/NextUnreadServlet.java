@@ -24,6 +24,7 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.resource.CategoryREST;
+import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 
 @SuppressWarnings("serial")
@@ -51,8 +52,8 @@ public class NextUnreadServlet extends HttpServlet {
 			return;
 		}
 
-		User user = userService.login(apiKey);
-		if (user == null) {
+		Optional<User> user = userService.login(apiKey);
+		if (!user.isPresent()) {
 			resp.getWriter().write("unknown user or api key not found");
 			return;
 		}
@@ -65,14 +66,15 @@ public class NextUnreadServlet extends HttpServlet {
 
 		List<FeedEntryStatus> statuses = null;
 		if (StringUtils.isBlank(categoryId) || CategoryREST.ALL.equals(categoryId)) {
-			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
-			statuses = feedEntryStatusDAO.findBySubscriptions(user, subs, true, null, null, 0, 1, order, true, false, null);
+			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user.get());
+			statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subs, true, null, null, 0, 1, order, true, false, null);
 		} else {
-			FeedCategory category = feedCategoryDAO.findById(user, Long.valueOf(categoryId));
+			FeedCategory category = feedCategoryDAO.findById(user.get(), Long.valueOf(categoryId));
 			if (category != null) {
-				List<FeedCategory> children = feedCategoryDAO.findAllChildrenCategories(user, category);
-				List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user, children);
-				statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, null, null, 0, 1, order, true, false, null);
+				List<FeedCategory> children = feedCategoryDAO.findAllChildrenCategories(user.get(), category);
+				List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user.get(), children);
+				statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subscriptions, true, null, null, 0, 1, order, true, false,
+						null);
 			}
 		}
 

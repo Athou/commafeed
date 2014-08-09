@@ -72,7 +72,10 @@ gulp.task('serve', function() {
 		root : BUILD_DIR,
 		port : 8082,
 		middleware : function() {
-			return [modRewrite(['^/rest/(.*)$ http://localhost:8083/rest/$1 [P]'])];
+			var rest = '^/rest/(.*)$ http://localhost:8083/rest/$1 [P]';
+			var next = '^/next(.*)$ http://localhost:8083/next$1 [P]';
+			var logout = '^/logout(.*)$ http://localhost:8083/logout$1 [P]';
+			return [modRewrite([rest, next, logout])];
 		}
 	});
 });

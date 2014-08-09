@@ -8,7 +8,7 @@ app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProv
 			cfpLoadingBarProvider.includeSpinner = false;
 
 			$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|javascript):/);
-			var interceptor = ['$rootScope', '$q', function(scope, $q) {
+			var interceptor = ['$rootScope', '$q', '$injector', function(scope, $q, $injector) {
 
 				var success = function(response) {
 					return response;
@@ -16,7 +16,7 @@ app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProv
 				var error = function(response) {
 					var status = response.status;
 					if (status == 401) {
-						window.location = 'logout';
+						$injector.get('$state').transitionTo('welcome');
 						return;
 					} else {
 						return $q.reject(response);
@@ -122,6 +122,12 @@ app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProv
 				url : '/metrics',
 				templateUrl : 'templates/admin.metrics.html',
 				controller : 'MetricsCtrl'
+			});
+			
+			$stateProvider.state('welcome', {
+				url : '/welcome',
+				templateUrl : 'templates/welcome.html',
+				controller : 'WelcomeCtrl'
 			});
 
 			$urlRouterProvider.when('/', '/feeds/view/category/all');

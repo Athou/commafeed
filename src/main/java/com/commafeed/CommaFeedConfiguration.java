@@ -13,7 +13,6 @@ import lombok.Getter;
 import org.apache.commons.lang.time.DateUtils;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.cache.CacheBuilderSpec;
 
 @Getter
 public class CommaFeedConfiguration extends Configuration {
@@ -26,11 +25,6 @@ public class CommaFeedConfiguration extends Configuration {
 	@NotNull
 	@JsonProperty("database")
 	private DataSourceFactory database = new DataSourceFactory();
-
-	@Valid
-	@NotNull
-	@JsonProperty("authenticationCachePolicy")
-	private CacheBuilderSpec authenticationCachePolicy;
 
 	@Valid
 	@NotNull

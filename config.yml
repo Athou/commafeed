@@ -18,6 +18,7 @@ app:
   crawlingPaused: false
   keepStatusDays: 0
   refreshIntervalMinutes: 5
+  cache: noop
   announcement:
 
 authenticationCachePolicy: maximumSize=10000, expireAfterAccess=10m

@@ -18,6 +18,10 @@ import com.google.common.cache.CacheBuilderSpec;
 @Getter
 public class CommaFeedConfiguration extends Configuration {
 
+	public static enum CacheType {
+		NOOP, REDIS
+	}
+
 	@Valid
 	@NotNull
 	@JsonProperty("database")
@@ -91,6 +95,9 @@ public class CommaFeedConfiguration extends Configuration {
 
 		@JsonProperty
 		private int refreshIntervalMinutes;
+
+		@JsonProperty
+		private CacheType cache;
 
 		@JsonProperty
 		private String announcement;

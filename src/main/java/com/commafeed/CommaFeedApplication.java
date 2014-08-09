@@ -10,12 +10,16 @@ import io.dropwizard.setup.Environment;
 
 import java.util.Date;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.hibernate.SessionFactory;
 
 import com.codahale.metrics.MetricRegistry;
+import com.commafeed.CommaFeedConfiguration.CacheType;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.cache.NoopCacheService;
+import com.commafeed.backend.cache.RedisCacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryContentDAO;
@@ -68,6 +72,7 @@ import com.commafeed.frontend.resource.ServerREST;
 import com.commafeed.frontend.resource.UserREST;
 import com.commafeed.frontend.servlet.NextUnreadServlet;
 
+@Slf4j
 public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 	public static final String USERNAME_ADMIN = "admin";
@@ -106,8 +111,9 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		MetricRegistry metrics = environment.metrics();
 		SessionFactory sessionFactory = hibernateBundle.getSessionFactory();
 
-		// TODO select cache service at runtime from config
-		CacheService cacheService = new NoopCacheService();
+		CacheService cacheService = config.getApplicationSettings().getCache() == CacheType.NOOP ? new NoopCacheService()
+				: new RedisCacheService();
+		log.info("using cache {}", cacheService.getClass());
 
 		FeedCategoryDAO feedCategoryDAO = new FeedCategoryDAO(sessionFactory);
 		FeedDAO feedDAO = new FeedDAO(sessionFactory);

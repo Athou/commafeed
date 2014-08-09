@@ -1,4 +1,6 @@
 var gulp = require('gulp');
+var rev = require('gulp-rev');
+var revReplace = require('gulp-rev-replace');
 var minifyCSS = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var filter = require('gulp-filter');
@@ -53,8 +55,8 @@ gulp.task('build-dev', ['images', 'favicons', 'sass', 'fonts', 'template-cache',
 	});
 	var jsFilter = filter("**/*.js");
 	var cssFilter = filter("**/*.css");
-	return gulp.src([SRC_DIR + 'index.html', TEMP_DIR + 'app.css']).pipe(assets).pipe(assets.restore()).pipe(useref()).pipe(
-			gulp.dest(BUILD_DIR));
+	return gulp.src([SRC_DIR + 'index.html', TEMP_DIR + 'app.css']).pipe(assets).pipe(rev()).pipe(assets.restore()).pipe(useref()).pipe(
+			revReplace()).pipe(gulp.dest(BUILD_DIR));
 });
 
 gulp.task('build', ['images', 'favicons', 'sass', 'fonts', 'template-cache', 'bower'], function() {
@@ -69,7 +71,7 @@ gulp.task('build', ['images', 'favicons', 'sass', 'fonts', 'template-cache', 'bo
 
 	.pipe(jsFilter).pipe(uglify()).pipe(jsFilter.restore())
 
-	.pipe(assets.restore()).pipe(useref()).pipe(gulp.dest(BUILD_DIR));
+	.pipe(rev()).pipe(assets.restore()).pipe(useref()).pipe(revReplace()).pipe(gulp.dest(BUILD_DIR));
 });
 
 gulp.task('watch', function() {

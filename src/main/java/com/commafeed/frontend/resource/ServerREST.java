@@ -39,11 +39,12 @@ public class ServerREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Get server infos", notes = "Get server infos", response = ServerInfo.class)
-	public Response get(@SecurityCheck User user) {
+	public Response get() {
 		ServerInfo infos = new ServerInfo();
 		infos.setAnnouncement(config.getApplicationSettings().getAnnouncement());
 		infos.setVersion(applicationPropertiesService.getVersion());
 		infos.setGitCommit(applicationPropertiesService.getGitCommit());
+		infos.setAllowRegistrations(config.getApplicationSettings().isAllowRegistrations());
 		return Response.ok(infos).build();
 	}
 

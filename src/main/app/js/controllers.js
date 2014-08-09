@@ -1454,3 +1454,32 @@ module.controller('FooterController', ['$scope', '$sce', function($scope, $sce) 
 module.controller('MetricsCtrl', ['$scope', 'AdminMetricsService', function($scope, AdminMetricsService) {
 	$scope.metrics = AdminMetricsService.get();
 }]);
+
+module.controller('WelcomeCtrl', ['$scope', '$location', 'SessionService', 'ServerService', function($scope, $location, SessionService, ServerService) {
+	$scope.ServerService = ServerService.get();
+	$scope.model = {};
+
+	var login = function(model) {
+		var success = function(data) {
+			$location.path('/');
+			$scope.$emit('emitReload');
+		};
+		var error = function(data) {
+			$scope.message = data.data;
+		};
+		SessionService.login({
+			name : model.name,
+			password : model.password
+		}, success, error);
+	}
+	$scope.demoLogin = function() {
+		login({
+			name : 'demo',
+			password : 'demo'
+		});
+	};
+
+	$scope.login = function() {
+		login($scope.model);
+	};
+}]);

@@ -47,6 +47,16 @@ gulp.task('template-cache', function() {
 	return gulp.src(SRC_DIR + 'templates/**/*.html').pipe(templateCache(options)).pipe(gulp.dest(TEMP_DIR + 'js'));
 });
 
+gulp.task('build-dev', ['images', 'favicons', 'sass', 'fonts', 'template-cache', 'bower'], function() {
+	var assets = useref.assets({
+		searchPath : [SRC_DIR, TEMP_DIR]
+	});
+	var jsFilter = filter("**/*.js");
+	var cssFilter = filter("**/*.css");
+	return gulp.src([SRC_DIR + 'index.html', TEMP_DIR + 'app.css']).pipe(assets).pipe(assets.restore()).pipe(useref()).pipe(
+			gulp.dest(BUILD_DIR));
+});
+
 gulp.task('build', ['images', 'favicons', 'sass', 'fonts', 'template-cache', 'bower'], function() {
 	var assets = useref.assets({
 		searchPath : [SRC_DIR, TEMP_DIR]
@@ -63,8 +73,9 @@ gulp.task('build', ['images', 'favicons', 'sass', 'fonts', 'template-cache', 'bo
 });
 
 gulp.task('watch', function() {
-	gulp.watch(SRC_DIR + 'sass/**/*.scss', ['build']);
-	gulp.watch(SRC_DIR + 'js/**/*.js', ['build']);
+	gulp.watch(SRC_DIR + 'sass/**/*.scss', ['build-dev']);
+	gulp.watch(SRC_DIR + 'js/**/*.js', ['build-dev']);
+	gulp.watch(SRC_DIR + 'templates/**/*.html', ['build-dev']);
 });
 
 gulp.task('serve', function() {
@@ -80,5 +91,5 @@ gulp.task('serve', function() {
 	});
 });
 
-gulp.task('dev', ['build', 'watch', 'serve']);
+gulp.task('dev', ['build-dev', 'watch', 'serve']);
 gulp.task('default', ['build']);

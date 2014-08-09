@@ -216,10 +216,10 @@ public class UserREST {
 	public Response login(@ApiParam(required = true) LoginRequest req, @Session HttpSession session) {
 		Optional<User> user = userService.login(req.getName(), req.getPassword());
 		if (user.isPresent()) {
-			session.setAttribute(CommaFeedApplication.SESSION_USER, user);
+			session.setAttribute(CommaFeedApplication.SESSION_USER, user.get());
 			return Response.ok().build();
 		} else {
-			return Response.status(Response.Status.UNAUTHORIZED).build();
+			return Response.status(Response.Status.UNAUTHORIZED).entity("wrong username or password").build();
 		}
 	}
 

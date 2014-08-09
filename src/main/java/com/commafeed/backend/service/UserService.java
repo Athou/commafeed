@@ -33,7 +33,7 @@ public class UserService {
 
 	public Optional<User> login(String name, String password) {
 		if (name == null || password == null) {
-			return null;
+			return Optional.absent();
 		}
 
 		User user = userDAO.findByName(name);

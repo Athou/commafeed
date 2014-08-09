@@ -32,6 +32,13 @@ module.factory('ProfileService', ['$resource', function($resource) {
 	return res;
 }]);
 
+module.factory('SessionService', ['$resource', function($resource) {
+	var res = {};
+	res.login = $resource('rest/user/login').save;
+	res.register = $resource('rest/user/register').save;
+	return res;
+}]);
+
 module.factory('SettingsService', ['$resource', function($resource) {
 	var res = $resource('rest/user/settings');
 

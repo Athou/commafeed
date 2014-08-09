@@ -201,9 +201,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.lifecycle().manage(feedWorker);
 		environment.lifecycle().manage(feedUpdater);
 
-		// TODO user login + registration page
 		// TODO translations
-
 	}
 
 	public static void main(String[] args) throws Exception {

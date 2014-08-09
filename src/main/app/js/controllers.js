@@ -1455,14 +1455,12 @@ module.controller('MetricsCtrl', ['$scope', 'AdminMetricsService', function($sco
 	$scope.metrics = AdminMetricsService.get();
 }]);
 
-module.controller('WelcomeCtrl', ['$scope', '$location', 'SessionService', 'ServerService', function($scope, $location, SessionService, ServerService) {
-	$scope.ServerService = ServerService.get();
+module.controller('LoginCtrl', ['$scope', '$location', 'SessionService', function($scope, $location, SessionService) {
 	$scope.model = {};
 
 	var login = function(model) {
 		var success = function(data) {
 			$location.path('/');
-			$scope.$emit('emitReload');
 		};
 		var error = function(data) {
 			$scope.message = data.data;
@@ -1482,4 +1480,20 @@ module.controller('WelcomeCtrl', ['$scope', '$location', 'SessionService', 'Serv
 	$scope.login = function() {
 		login($scope.model);
 	};
+}]);
+
+module.controller('RegisterCtrl', ['$scope', '$location', 'SessionService', 'ServerService', function($scope, $location, SessionService, ServerService) {
+	$scope.ServerService = ServerService.get();
+	$scope.model = {};
+
+	$scope.register = function() {
+		var success = function(data) {
+			$location.path('/');
+			$scope.$emit('emitReload');
+		};
+		var error = function(data) {
+			$scope.messages = data.data.errors;
+		};
+		SessionService.register($scope.model, success, error);
+	}
 }]);

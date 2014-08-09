@@ -124,8 +124,7 @@ app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProv
 			
 			$stateProvider.state('welcome', {
 				url : '/welcome',
-				templateUrl : 'templates/welcome.html',
-				controller : 'WelcomeCtrl'
+				templateUrl : 'templates/welcome.html'
 			});
 
 			$urlRouterProvider.when('/', '/feeds/view/category/all');

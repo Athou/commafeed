@@ -2,10 +2,14 @@ package com.commafeed.frontend.resource;
 
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.sessions.Session;
+import io.dropwizard.jersey.validation.ValidationErrorMessage;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -40,6 +44,7 @@ import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.model.request.RegistrationRequest;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -200,12 +205,17 @@ public class UserREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Register a new account")
-	public Response register(@ApiParam(required = true) RegistrationRequest req) {
+	public Response register(@Valid @ApiParam(required = true) RegistrationRequest req) {
 		try {
 			userService.register(req.getName(), req.getPassword(), req.getEmail(), Arrays.asList(Role.USER));
 			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+		} catch (final IllegalArgumentException e) {
+			return Response.status(422).entity(new ValidationErrorMessage(Collections.<ConstraintViolation<?>> emptySet()) {
+				@Override
+				public ImmutableList<String> getErrors() {
+					return ImmutableList.of(e.getMessage());
+				}
+			}).build();
 		}
 	}
 

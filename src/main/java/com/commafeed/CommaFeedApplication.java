@@ -66,6 +66,7 @@ import com.commafeed.frontend.resource.FeedREST;
 import com.commafeed.frontend.resource.PubSubHubbubCallbackREST;
 import com.commafeed.frontend.resource.ServerREST;
 import com.commafeed.frontend.resource.UserREST;
+import com.commafeed.frontend.servlet.NextUnreadServlet;
 
 public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
@@ -167,10 +168,20 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.jersey().register(new ServerREST(httpGetter, config, applicationPropertiesService));
 		environment.jersey().register(new UserREST(userDAO, userRoleDAO, userSettingsDAO, userService, encryptionService));
 
+		NextUnreadServlet nextUnreadServlet = new NextUnreadServlet(feedSubscriptionDAO, feedEntryStatusDAO, feedCategoryDAO, userService,
+				config);
+		environment.servlets().addServlet("next", nextUnreadServlet).addMapping("/next");
+
 		environment.lifecycle().manage(startupService);
 		environment.lifecycle().manage(taskGiver);
 		environment.lifecycle().manage(feedWorker);
 		environment.lifecycle().manage(feedUpdater);
+
+		// TODO user registration
+		// TODO user login page
+		// TODO cookie support ?
+		// TODO translations
+
 	}
 
 	public static void main(String[] args) throws Exception {

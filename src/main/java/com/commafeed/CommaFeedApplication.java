@@ -64,6 +64,9 @@ import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.PubSubService;
 import com.commafeed.backend.service.StartupService;
 import com.commafeed.backend.service.UserService;
+import com.commafeed.backend.task.OldStatusesCleanupTask;
+import com.commafeed.backend.task.OrphansCleanupTask;
+import com.commafeed.backend.task.SchedulingService;
 import com.commafeed.frontend.auth.SecurityCheckProvider;
 import com.commafeed.frontend.auth.SecurityCheckProvider.SecurityCheckUserServiceProvider;
 import com.commafeed.frontend.resource.AdminREST;
@@ -194,13 +197,21 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.servlets().addServlet("next", nextUnreadServlet).addMapping("/next");
 		environment.servlets().addServlet("logout", logoutServlet).addMapping("/logout");
 
+		// Tasks
+		SchedulingService schedulingService = new SchedulingService();
+		schedulingService.register(new OldStatusesCleanupTask(sessionFactory, config, cleaningService));
+		schedulingService.register(new OrphansCleanupTask(sessionFactory, cleaningService));
+
 		// Managed objects
 		environment.lifecycle().manage(startupService);
 		environment.lifecycle().manage(taskGiver);
 		environment.lifecycle().manage(feedWorker);
 		environment.lifecycle().manage(feedUpdater);
+		environment.lifecycle().manage(schedulingService);
 
 		// TODO translations
+		// TODO swagger ui
+
 	}
 
 	public static void main(String[] args) throws Exception {

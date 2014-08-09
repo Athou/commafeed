@@ -710,6 +710,11 @@ module.controller('FeedListCtrl', [
 					$scope.$emit('emitReload');
 				}
 			});
+			$scope.$watch('settingsService.settings.theme', function(newValue, oldValue) {
+				if (newValue) {
+					angular.element('html').attr('id', 'theme-' + newValue);
+				}
+			});
 
 			$scope.limit = SettingsService.settings.viewMode == 'title' ? 10 : 5;
 			$scope.busy = false;

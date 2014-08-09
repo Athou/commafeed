@@ -133,6 +133,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		UserSettingsDAO userSettingsDAO = new UserSettingsDAO(sessionFactory);
 		FeedEntryStatusDAO feedEntryStatusDAO = new FeedEntryStatusDAO(sessionFactory, feedEntryDAO, feedEntryTagDAO, config);
 
+		// Queuing system
 		FeedQueues queues = new FeedQueues(feedDAO, config, metrics);
 
 		// Services
@@ -151,8 +152,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		UserService userService = new UserService(feedCategoryDAO, userDAO, userSettingsDAO, feedSubscriptionService, encryptionService,
 				config);
 		StartupService startupService = new StartupService(sessionFactory, userDAO, userService);
-
-		// OPML
 		OPMLImporter opmlImporter = new OPMLImporter(feedCategoryDAO, feedSubscriptionService, cacheService);
 		OPMLExporter opmlExporter = new OPMLExporter(feedCategoryDAO, feedSubscriptionDAO);
 

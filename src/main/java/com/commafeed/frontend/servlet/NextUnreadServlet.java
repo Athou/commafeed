@@ -10,21 +10,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import lombok.RequiredArgsConstructor;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.SessionFactory;
 
+import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
-import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.resource.CategoryREST;
-import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 
 @SuppressWarnings("serial")
@@ -33,58 +33,57 @@ public class NextUnreadServlet extends HttpServlet {
 
 	public static final String PARAM_CATEGORYID = "category";
 	public static final String PARAM_READINGORDER = "order";
-	public static final String PARAM_APIKEY = "apiKey";
 
+	private final SessionFactory sessionFactory;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedCategoryDAO feedCategoryDAO;
-	private final UserService userService;
 	private final CommaFeedConfiguration config;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String categoryId = req.getParameter(PARAM_CATEGORYID);
+		final String categoryId = req.getParameter(PARAM_CATEGORYID);
 		String orderParam = req.getParameter(PARAM_READINGORDER);
-		String apiKey = req.getParameter(PARAM_APIKEY);
 
-		if (apiKey == null) {
-			resp.getWriter().write("api key is required");
+		final User user = (User) req.getSession().getAttribute(CommaFeedApplication.SESSION_USER);
+		if (user == null) {
+			resp.sendRedirect(resp.encodeRedirectURL(config.getApplicationSettings().getPublicUrl()));
 			return;
 		}
 
-		Optional<User> user = userService.login(apiKey);
-		if (!user.isPresent()) {
-			resp.getWriter().write("unknown user or api key not found");
-			return;
-		}
+		final ReadingOrder order = StringUtils.equals(orderParam, "asc") ? ReadingOrder.asc : ReadingOrder.desc;
 
-		ReadingOrder order = ReadingOrder.desc;
-
-		if (StringUtils.equals(orderParam, "asc")) {
-			order = ReadingOrder.asc;
-		}
-
-		List<FeedEntryStatus> statuses = null;
-		if (StringUtils.isBlank(categoryId) || CategoryREST.ALL.equals(categoryId)) {
-			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user.get());
-			statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subs, true, null, null, 0, 1, order, true, false, null);
-		} else {
-			FeedCategory category = feedCategoryDAO.findById(user.get(), Long.valueOf(categoryId));
-			if (category != null) {
-				List<FeedCategory> children = feedCategoryDAO.findAllChildrenCategories(user.get(), category);
-				List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user.get(), children);
-				statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subscriptions, true, null, null, 0, 1, order, true, false,
-						null);
+		FeedEntryStatus status = new UnitOfWork<FeedEntryStatus>(sessionFactory) {
+			@Override
+			protected FeedEntryStatus runInSession() throws Exception {
+				FeedEntryStatus status = null;
+				if (StringUtils.isBlank(categoryId) || CategoryREST.ALL.equals(categoryId)) {
+					List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
+					List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subs, true, null, null, 0, 1, order,
+							true, false, null);
+					status = Iterables.getFirst(statuses, null);
+				} else {
+					FeedCategory category = feedCategoryDAO.findById(user, Long.valueOf(categoryId));
+					if (category != null) {
+						List<FeedCategory> children = feedCategoryDAO.findAllChildrenCategories(user, category);
+						List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user, children);
+						List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, null, null, 0,
+								1, order, true, false, null);
+						status = Iterables.getFirst(statuses, null);
+					}
+				}
+				if (status != null) {
+					status.setRead(true);
+					feedEntryStatusDAO.saveOrUpdate(status);
+				}
+				return status;
 			}
-		}
+		}.run();
 
-		if (CollectionUtils.isEmpty(statuses)) {
+		if (status == null) {
 			resp.sendRedirect(resp.encodeRedirectURL(config.getApplicationSettings().getPublicUrl()));
 		} else {
-			FeedEntryStatus status = Iterables.getFirst(statuses, null);
 			String url = status.getEntry().getUrl();
-			status.setRead(true);
-			feedEntryStatusDAO.saveOrUpdate(status);
 			resp.sendRedirect(resp.encodeRedirectURL(url));
 		}
 	}

@@ -189,8 +189,8 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.jersey().register(new UserREST(userDAO, userRoleDAO, userSettingsDAO, userService, encryptionService));
 
 		// Servlets
-		NextUnreadServlet nextUnreadServlet = new NextUnreadServlet(feedSubscriptionDAO, feedEntryStatusDAO, feedCategoryDAO, userService,
-				config);
+		NextUnreadServlet nextUnreadServlet = new NextUnreadServlet(sessionFactory, feedSubscriptionDAO, feedEntryStatusDAO,
+				feedCategoryDAO, config);
 		LogoutServlet logoutServlet = new LogoutServlet(config);
 		environment.servlets().addServlet("next", nextUnreadServlet).addMapping("/next");
 		environment.servlets().addServlet("logout", logoutServlet).addMapping("/logout");

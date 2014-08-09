@@ -1,6 +1,9 @@
 # build directory
 target
 
+# log files
+log
+
 # node
 node
 node_modules

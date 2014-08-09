@@ -88,9 +88,6 @@ public class CommaFeedConfiguration extends Configuration {
 		private int queryTimeout;
 
 		@JsonProperty
-		private boolean crawlingPaused;
-
-		@JsonProperty
 		private int keepStatusDays;
 
 		@JsonProperty

@@ -96,13 +96,11 @@ public class FeedQueues {
 		}
 
 		// add feeds that are up to refresh from the database
-		if (!config.getApplicationSettings().isCrawlingPaused()) {
-			int count = batchSize - contexts.size();
-			if (count > 0) {
-				List<Feed> feeds = feedDAO.findNextUpdatable(count, getLastLoginThreshold());
-				for (Feed feed : feeds) {
-					contexts.add(new FeedRefreshContext(feed, false));
-				}
+		int count = batchSize - contexts.size();
+		if (count > 0) {
+			List<Feed> feeds = feedDAO.findNextUpdatable(count, getLastLoginThreshold());
+			for (Feed feed : feeds) {
+				contexts.add(new FeedRefreshContext(feed, false));
 			}
 		}
 

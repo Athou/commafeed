@@ -1,6 +1,6 @@
 app:
   publicUrl: http://localhost:8082/
-  allowRegistrations: false
+  allowRegistrations: true
   googleAnalyticsTrackingCode:
   googleClientId:
   googleClientSecret:
@@ -37,20 +37,15 @@ database:
 server:
   applicationConnectors:
     - type: http
-      port: 8082
+      port: 8083
   adminConnectors:
     - type: http
       port: 8084
 logging:
   level: WARN
   loggers:
-    com.commafeed: INFO
+    com.commafeed: DEBUG
+    liquibase: INFO
+    org.hibernate.SQL: ALL
   appenders:
     - type: console
-    - type: file
-      currentLogFilename: log/commafeed.log
-      threshold: ALL
-      archive: true
-      archivedLogFilenamePattern: log/commafeed-%d.log
-      archivedFileCount: 5
-      timeZone: UTC

@@ -48,7 +48,7 @@ Local development
 -----------------
 
 To start the dropwizard backend, use your IDE to run CommaFeedApplication as your main class, and pass `server config.dev.yml` as arguments to the program.
-To start the client-side webserver with watches on assets, run ``gulp dev`. The server is now running on port 8082 and is proxying REST requests to dropwizard on port 8083.
+To start the client-side webserver with watches on assets, run `gulp dev`. The server is now running on port 8082 and is proxying REST requests to dropwizard on port 8083.
 
 
 Translate CommaFeed into your language

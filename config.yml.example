@@ -42,7 +42,7 @@ server:
     - type: http
       port: 8084
 logging:
-  level: WARN
+  level: INFO
   loggers:
     com.commafeed: INFO
   appenders:

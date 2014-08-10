@@ -90,6 +90,7 @@ logging:
     com.commafeed: DEBUG
     liquibase: INFO
     org.hibernate.SQL: ALL
+    org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: WARN
   appenders:
     - type: console
     - type: file

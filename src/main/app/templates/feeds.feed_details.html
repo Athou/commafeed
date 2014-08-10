@@ -1,79 +1,79 @@
 <div>
 	<div class="page-header">
-		<h3>${details.feed_details}</h3>
+		<h3>{{ 'details.feed_details' | translate }}</h3>
 	</div>
 	<form name="form" class="form-horizontal" ng-submit="save()">
 		<div class="form-group">
-			<label class="col-sm-2 control-label">${details.url}</label>
+			<label class="col-sm-2 control-label">{{ 'details.url' | translate }}</label>
 			<div class="col-sm-10 checkbox">
 				<a href="{{sub.feedUrl}}" target="_blank">{{sub.feedUrl}}</a>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-2 control-label">${details.website}</label>
+			<label class="col-sm-2 control-label">{{ 'details.website' | translate }}</label>
 			<div class="col-sm-10 checkbox">
 				<a href="{{sub.feedLink}}" target="_blank">{{sub.feedLink}}</a>
 			</div>
 		</div>
 		<div class="form-group" ng-class="{error : !form.name.$valid}">
-			<label class="col-sm-2 control-label">${details.name}</label>
+			<label class="col-sm-2 control-label">{{ 'details.name' | translate }}</label>
 			<div class="col-sm-10">
 				<input type="text" name="name" ng-model="sub.name" class="form-control" required></input>
-				<span class="help-block" ng-show="!form.name.$valid">${global.required}</span>
+				<span class="help-block" ng-show="!form.name.$valid">{{ 'global.required' | translate }}</span>
 			</div>
 		</div>
 
 		<div class="form-group" ng-class="{error : !form.category.$valid}">
-			<label class="col-sm-2 control-label">${details.category}</label>
+			<label class="col-sm-2 control-label">{{ 'details.category' | translate }}</label>
 			<div class="col-sm-10">
 				<select name="category" class="form-control" ng-model="sub.categoryId"
 					ng-options="cat.id as cat.name for cat in CategoryService.flatCategories">
 				</select>
-				<span class="help-block" ng-show="!form.category.$valid">${global.required}</span>
+				<span class="help-block" ng-show="!form.category.$valid">{{ 'global.required' | translate }}</span>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-2 control-label">${details.position}</label>
+			<label class="col-sm-2 control-label">{{ 'details.position' | translate }}</label>
 			<div class="col-sm-10">
 				<input type="number" min="0" ng-model="sub.position" class="form-control" />
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-2 control-label">${details.last_refresh}</label>
+			<label class="col-sm-2 control-label">{{ 'details.last_refresh' | translate }}</label>
 			<div class="col-sm-10 checkbox">
 				<span>{{sub.lastRefresh|entryDate}}</span>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-2 control-label">${details.next_refresh}</label>
+			<label class="col-sm-2 control-label">{{ 'details.next_refresh' | translate }}</label>
 			<div class="col-sm-10 checkbox">
-				<span>{{sub.nextRefresh|entryDate:"${details.queued_for_refresh}" }}</span>
+				<span>{{sub.nextRefresh|entryDate:('details.queued_for_refresh' | translate) }}</span>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-2 control-label">${details.message}</label>
+			<label class="col-sm-2 control-label">{{ 'details.message' | translate }}</label>
 			<div class="col-sm-10 checkbox">
 				<span>{{sub.message}}</span>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-2 control-label">${details.feed_url}</label>
+			<label class="col-sm-2 control-label">{{ 'details.feed_url' | translate }}</label>
 			<div class="col-sm-10 checkbox">
-				<a ng-show="user.apiKey" href="{{'rest/feed/entriesAsFeed?id=' + sub.id + '&apiKey=' + user.apiKey}}" target="_blank">${global.link}</a>
-				<span ng-show="!user.apiKey">${details.generate_api_key_first}</span>
+				<a ng-show="user.apiKey" href="{{'rest/feed/entriesAsFeed?id=' + sub.id + '&apiKey=' + user.apiKey}}" target="_blank">{{ 'global.link' | translate }}</a>
+				<span ng-show="!user.apiKey">{{ 'details.generate_api_key_first' | translate }}</span>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-primary">${global.save}</button>
-				<button type="button" class="btn btn-danger" ng-click="unsubscribe()" confirm-click="${details.unsubscribe_confirmation}">${details.unsubscribe}</button>
-				<button type="button" class="btn btn-default" ng-click="back()">${global.cancel}</button>
+				<button type="submit" class="btn btn-primary">{{ 'global.save' | translate }}</button>
+				<button type="button" class="btn btn-danger" ng-click="unsubscribe()" confirm-click="'details.unsubscribe_confirmation' | translate">{{ 'details.unsubscribe' | translate }}</button>
+				<button type="button" class="btn btn-default" ng-click="back()">{{ 'global.cancel' | translate }}</button>
 			</div>
 		</div>
 	</form>

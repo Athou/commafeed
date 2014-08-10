@@ -19,6 +19,8 @@
     "angular-ui-select2": "0.0.5",
     "angular-bootstrap": "0.2.0",
     "angular-loading-bar": "0.5.0",
+    "angular-translate": "2.2.0",
+    "angular-translate-loader-static-files": "2.2.0",
     "ngInfiniteScroll": "1.0.0",
     "ng-grid": "2.0.6",
     "mousetrap": "1.4.6",

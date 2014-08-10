@@ -54,13 +54,11 @@ To start the client-side webserver with watches on assets, run ``gulp dev`. The 
 Translate CommaFeed into your language
 --------------------------------------
 
-Files for internationalization are located [here](https://github.com/Athou/commafeed/tree/master/src/main/resources/i18n).
+Files for internationalization are located [here](https://github.com/Athou/commafeed/tree/master/src/main/app/i18n).
 
 To add a new language, create a new file in that directory.
 The name of the file should be the two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
-The language has to be referenced in the `languages.properties` file to be picked up.
-
-When adding new translations, add them in en.properties then run `mvn -e groovy:execute -Pi18n`. It will parse the english file and add placeholders in the other translation files. 
+The language has to be referenced in the `src/main/app/js/i18n.js` file to be picked up.
 
 Themes
 ---------------------

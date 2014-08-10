@@ -1358,12 +1358,12 @@ module.controller('ManageUserCtrl', ['$scope', '$state', '$stateParams', 'AdminU
 			};
 		}]);
 
-module.controller('SettingsCtrl', ['$scope', '$location', 'SettingsService', 'AnalyticsService', 'ServerService',
-		function($scope, $location, SettingsService, AnalyticsService, ServerService) {
+module.controller('SettingsCtrl', ['$scope', '$location', 'SettingsService', 'AnalyticsService', 'LangService',
+		function($scope, $location, SettingsService, AnalyticsService, LangService) {
 
 			AnalyticsService.track();
 
-			$scope.ServerService = ServerService.get();
+			$scope.langs = LangService.langs;
 
 			$scope.themes = ['default', 'bootstrap', 'dark', 'ebraminio', 'MRACHINI', 'svetla', 'third'];
 
@@ -1487,18 +1487,19 @@ module.controller('LoginCtrl', ['$scope', '$location', 'SessionService', functio
 	};
 }]);
 
-module.controller('RegisterCtrl', ['$scope', '$location', 'SessionService', 'ServerService', function($scope, $location, SessionService, ServerService) {
-	$scope.ServerService = ServerService.get();
-	$scope.model = {};
+module.controller('RegisterCtrl', ['$scope', '$location', 'SessionService', 'ServerService',
+		function($scope, $location, SessionService, ServerService) {
+			$scope.ServerService = ServerService.get();
+			$scope.model = {};
 
-	$scope.register = function() {
-		var success = function(data) {
-			$location.path('/');
-			$scope.$emit('emitReload');
-		};
-		var error = function(data) {
-			$scope.messages = data.data.errors;
-		};
-		SessionService.register($scope.model, success, error);
-	}
-}]);
+			$scope.register = function() {
+				var success = function(data) {
+					$location.path('/');
+					$scope.$emit('emitReload');
+				};
+				var error = function(data) {
+					$scope.messages = data.data.errors;
+				};
+				SessionService.register($scope.model, success, error);
+			}
+		}]);

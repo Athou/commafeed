@@ -209,8 +209,8 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.lifecycle().manage(feedUpdater);
 		environment.lifecycle().manage(schedulingService);
 
-		// TODO translations
 		// TODO swagger ui
+		// TODO select2 images
 
 	}
 

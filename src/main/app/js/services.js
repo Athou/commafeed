@@ -39,7 +39,7 @@ module.factory('SessionService', ['$resource', function($resource) {
 	return res;
 }]);
 
-module.factory('SettingsService', ['$resource', function($resource) {
+module.factory('SettingsService', ['$resource', '$translate', function($resource, $translate) {
 	var res = $resource('rest/user/settings');
 
 	var s = {};
@@ -61,6 +61,7 @@ module.factory('SettingsService', ['$resource', function($resource) {
 				lang = 'ms-my';
 			}
 			moment.lang(lang, {});
+			$translate.use(lang);
 			if (callback) {
 				callback(data);
 			}

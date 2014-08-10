@@ -21,7 +21,7 @@ module.directive('confirmClick', [function() {
 		restrict : 'A',
 		link : function(scope, element, attrs) {
 			element.bind('click', function(e) {
-				var message = attrs.confirmClick;
+				var message = scope.$eval(attrs.confirmClick);
 				if (message && !confirm(message)) {
 					e.stopImmediatePropagation();
 					e.preventDefault();

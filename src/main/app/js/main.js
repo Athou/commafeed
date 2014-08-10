@@ -1,10 +1,25 @@
 var app = angular.module('commafeed', ['ngRoute', 'ngTouch', 'ngAnimate', 'ui.utils', 'ui.bootstrap', 'ui.router', 'ui.select2',
-		'commafeed.directives', 'commafeed.controllers', 'commafeed.services', 'commafeed.filters', 'ngSanitize', 'infinite-scroll',
-		'ngGrid', 'chieffancypants.loadingBar']);
+		'commafeed.directives', 'commafeed.controllers', 'commafeed.services', 'commafeed.filters', 'commafeed.i18n', 'ngSanitize',
+		'infinite-scroll', 'ngGrid', 'chieffancypants.loadingBar', 'pascalprecht.translate']);
 
-app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', '$compileProvider', 'cfpLoadingBarProvider',
-		function($routeProvider, $stateProvider, $urlRouterProvider, $httpProvider, $compileProvider, cfpLoadingBarProvider) {
-	
+app.config([
+		'$routeProvider',
+		'$stateProvider',
+		'$urlRouterProvider',
+		'$httpProvider',
+		'$compileProvider',
+		'cfpLoadingBarProvider',
+		'$translateProvider',
+		function($routeProvider, $stateProvider, $urlRouterProvider, $httpProvider, $compileProvider, cfpLoadingBarProvider,
+				$translateProvider) {
+
+			// $translateProvider.useLocalStorage();
+			$translateProvider.useStaticFilesLoader({
+				prefix : '/i18n/',
+				suffix : '.js'
+			});
+			$translateProvider.preferredLanguage('en');
+
 			cfpLoadingBarProvider.includeSpinner = false;
 
 			$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|javascript):/);
@@ -121,7 +136,7 @@ app.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$httpProv
 				templateUrl : 'templates/admin.metrics.html',
 				controller : 'MetricsCtrl'
 			});
-			
+
 			$stateProvider.state('welcome', {
 				url : '/welcome',
 				templateUrl : 'templates/welcome.html'

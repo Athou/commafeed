@@ -1,37 +1,80 @@
+# CommaFeed settings
+# ------------------
 app:
+  # url used to access commafeed
   publicUrl: http://localhost:8082/
+  
+  # wether to allow user registrations
   allowRegistrations: false
+  
+  # put your google analytics tracking code here
   googleAnalyticsTrackingCode:
-  googleClientId:
-  googleClientSecret:
+  
+  # number of http threads
   backgroundThreads: 3
+  
+  # number of database updating threads
   databaseUpdateThreads: 1
+  
+  # settings for sending emails (password recovery)
   smtpHost:
   smtpPort:
   smtpTls: false
   smtpUserName:
   smtpPassword:
+  
+  # wether this commafeed instance has a lot of feeds to refresh
+  # leave this to false in almost all cases
   heavyLoad: false
-  pubsubhubbub: false
-  imageProxyEnabled: false
-  queryTimeout: 0
-  keepStatusDays: 0
+  
+  # minimum amount of time commafeed will wait before refreshing the same feed
   refreshIntervalMinutes: 5
+  
+  # wether to enable pubsub
+  # probably not needed if refreshIntervalMinutes is low
+  pubsubhubbub: false
+  
+  # if enabled, images in feed entries will be proxied through the server instead of accessed directly by the browser
+  # useful if commafeed is usually accessed through a restricting proxy  
+  imageProxyEnabled: false
+  
+  # database query timeout (in milliseconds), 0 to disable
+  queryTimeout: 0
+  
+  # time to keep unread statuses (in days), 0 to disable
+  keepStatusDays: 0
+  
+  # cache service to use, possible values are 'noop' and 'redis'
   cache: noop
+  
+  # announcement string displayed on the main page
   announcement:
+  
+# Database connection
+# -------------------  
+# for MySQL
+# driverClass is com.mysql.jdbc.Driver
+# url is jdbc:mysql://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true
+#
+# for PostgreSQL
+# driverClass is org.postgresql.Driver
+# url is jdbc:postgresql://localhost:5432/commafeed
+#
+# for Microsoft SQL Server
+# driverClass is net.sourceforge.jtds.jdbc.Driver
+# url is jdbc:jtds:sqlserver://localhost:1433/commafeed;instance=<instanceName, remove if not needed>
 
 database:
   driverClass: org.h2.Driver
+  url: jdbc:h2:./target/example
   user: sa
   password: sa
-  url: jdbc:h2:./target/example
   properties:
     charSet: UTF-8
-  # hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
     maxWaitForConnection: 1s
-    validationQuery: "/* MyApplication Health Check */ SELECT 1"
+    validationQuery: "/* CommaFeed Health Check */ SELECT 1"
     minSize: 1
-    maxSize: 8
+    maxSize: 50
     checkConnectionWhileIdle: true
     
 server:
@@ -42,9 +85,11 @@ server:
     - type: http
       port: 8084
 logging:
-  level: INFO
+  level: WARN
   loggers:
     com.commafeed: INFO
+    liquibase: INFO
+    io.dropwizard.server.ServerFactory: INFO
   appenders:
     - type: console
     - type: file

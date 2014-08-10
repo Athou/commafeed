@@ -43,12 +43,6 @@ public class CommaFeedConfiguration extends Configuration {
 		private String googleAnalyticsTrackingCode;
 
 		@JsonProperty
-		private String googleClientId;
-
-		@JsonProperty
-		private String googleClientSecret;
-
-		@JsonProperty
 		private int backgroundThreads;
 
 		@JsonProperty

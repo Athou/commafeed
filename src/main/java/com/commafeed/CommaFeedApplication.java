@@ -210,8 +210,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.lifecycle().manage(schedulingService);
 
 		// TODO swagger ui
-		// TODO select2 images
-
 	}
 
 	public static void main(String[] args) throws Exception {

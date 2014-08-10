@@ -45,6 +45,12 @@ gulp.task('fonts', ['bower'], function() {
 	return gulp.src([font_awesome, zocial, readabilicons]).pipe(gulp.dest(BUILD_DIR + 'font'));
 });
 
+gulp.task('select2', ['bower'], function() {
+	var gif = SRC_DIR + 'lib/select2/*.gif';
+	var png = SRC_DIR + 'lib/select2/*.png';
+	return gulp.src([gif, png]).pipe(gulp.dest(BUILD_DIR + 'css'));
+});
+
 gulp.task('template-cache', function() {
 	var options = {
 		module : 'commafeed.services',
@@ -53,7 +59,7 @@ gulp.task('template-cache', function() {
 	return gulp.src(SRC_DIR + 'templates/**/*.html').pipe(templateCache(options)).pipe(gulp.dest(TEMP_DIR + 'js'));
 });
 
-gulp.task('build-dev', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'template-cache', 'bower'], function() {
+gulp.task('build-dev', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2', 'template-cache', 'bower'], function() {
 	var assets = useref.assets({
 		searchPath : [SRC_DIR, TEMP_DIR]
 	});
@@ -63,7 +69,7 @@ gulp.task('build-dev', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'template
 			revReplace()).pipe(gulp.dest(BUILD_DIR));
 });
 
-gulp.task('build', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'template-cache', 'bower'], function() {
+gulp.task('build', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2', 'template-cache', 'bower'], function() {
 	var assets = useref.assets({
 		searchPath : [SRC_DIR, TEMP_DIR]
 	});

@@ -1465,7 +1465,7 @@ module.controller('LoginCtrl', ['$scope', '$location', 'SessionService', functio
 
 	var login = function(model) {
 		var success = function(data) {
-			$location.path('/');
+			window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
 		};
 		var error = function(data) {
 			$scope.message = data.data;
@@ -1494,8 +1494,7 @@ module.controller('RegisterCtrl', ['$scope', '$location', 'SessionService', 'Ser
 
 			$scope.register = function() {
 				var success = function(data) {
-					$location.path('/');
-					$scope.$emit('emitReload');
+					window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
 				};
 				var error = function(data) {
 					$scope.messages = data.data.errors;

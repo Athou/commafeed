@@ -210,6 +210,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.lifecycle().manage(schedulingService);
 
 		// TODO swagger ui
+		// TODO password recovery
 	}
 
 	public static void main(String[] args) throws Exception {

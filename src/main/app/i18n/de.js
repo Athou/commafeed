@@ -119,7 +119,7 @@
     "generate_new_api_key_info" : "Das Ändern des Passwortes erzeugt einen neuen API Schlüssel",
     "opml_export" : "OPML exportieren",
     "delete_account" : "Konto löschen",
-    "delete_account_confirmation" : "Deine Konto löschen? Es gibt kein Zurück!"
+    "delete_account_confirmation" : "Dein Konto löschen? Es gibt kein Zurück!"
   },
   "about" : {
     "rest_api" : {

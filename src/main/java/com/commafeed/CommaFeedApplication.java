@@ -208,7 +208,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		NextUnreadServlet nextUnreadServlet = new NextUnreadServlet(sessionFactory, feedSubscriptionDAO, feedEntryStatusDAO,
 				feedCategoryDAO, config);
 		LogoutServlet logoutServlet = new LogoutServlet(config);
-		CustomCssServlet customCssServlet = new CustomCssServlet(sessionFactory, userSettingsDAO, config);
+		CustomCssServlet customCssServlet = new CustomCssServlet(sessionFactory, userSettingsDAO);
 		AnalyticsServlet analyticsServlet = new AnalyticsServlet(config);
 		environment.servlets().addServlet("next", nextUnreadServlet).addMapping("/next");
 		environment.servlets().addServlet("logout", logoutServlet).addMapping("/logout");

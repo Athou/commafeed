@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.SessionFactory;
 
 import com.commafeed.CommaFeedApplication;
-import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
@@ -24,13 +23,13 @@ public class CustomCssServlet extends HttpServlet {
 
 	private final SessionFactory sessionFactory;
 	private final UserSettingsDAO userSettingsDAO;
-	private final CommaFeedConfiguration config;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setContentType("text/css");
+
 		final User user = (User) req.getSession().getAttribute(CommaFeedApplication.SESSION_USER);
 		if (user == null) {
-			resp.sendRedirect(resp.encodeRedirectURL(config.getApplicationSettings().getPublicUrl()));
 			return;
 		}
 
@@ -40,8 +39,10 @@ public class CustomCssServlet extends HttpServlet {
 				return userSettingsDAO.findByUser(user);
 			}
 		}.run();
+		if (settings == null) {
+			return;
+		}
 
-		resp.setContentType("text/css");
 		resp.getWriter().write(settings.getCustomCss());
 	}
 }

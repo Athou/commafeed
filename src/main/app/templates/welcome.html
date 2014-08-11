@@ -19,7 +19,7 @@
 		<div class="col-md-6" ng-controller="LoginCtrl">
 			<div class="well" id="login-panel" ng-if="!recovery">
 				<h3>Login</h3>
-				<span class="feedback">{{message}}</span>
+				<div class="feedback alert alert-danger" ng-if="message">{{message}}</div>
 				<form ng-submit="login()">
 					<div class="form-group">
 						<label for="username">User Name</label>
@@ -37,7 +37,7 @@
 			</div>
 			<div class="well" id="recovery-panel" ng-if="recovery">
 				<h3>Password Recovery</h3>
-				<span class="feedback">{{recovery_message}}</span>
+				<div class="feedback alert alert-danger" ng-if="recovery_message">{{recovery_message}}</div>
 				<form ng-submit="recover()">
 					<div class="form-group">
 						<label for="email">Email</label>

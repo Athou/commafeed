@@ -49,5 +49,9 @@
 			<column name="readability" valueBoolean="true"></column>
 		</update>
 	</changeSet>
+	
+	<changeSet id="delete-settings" author="athou">
+		<dropTable tableName="APPLICATIONSETTINGS" />
+	</changeSet>
 
 </databaseChangeLog>

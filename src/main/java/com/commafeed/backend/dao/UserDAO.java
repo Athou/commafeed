@@ -1,68 +1,35 @@
 package com.commafeed.backend.dao;
 
-import javax.ejb.Stateless;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import org.hibernate.SessionFactory;
 
-import org.apache.commons.lang3.StringUtils;
-
+import com.commafeed.backend.model.QUser;
+import com.commafeed.backend.model.QUserRole;
 import com.commafeed.backend.model.User;
-import com.commafeed.backend.model.User_;
 
-@Stateless
 public class UserDAO extends GenericDAO<User> {
 
+	private QUser user = QUser.user;
+
+	public UserDAO(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
+
 	public User findByName(String name) {
-
-		CriteriaQuery<User> query = builder.createQuery(getType());
-		Root<User> root = query.from(getType());
-		query.where(builder.equal(builder.lower(root.get(User_.name)), name.toLowerCase()));
-		TypedQuery<User> q = em.createQuery(query);
-		cache(q);
-
-		User user = null;
-		try {
-			user = q.getSingleResult();
-		} catch (NoResultException e) {
-			user = null;
-		}
-		return user;
+		return newQuery().from(user).where(user.name.equalsIgnoreCase(name)).leftJoin(user.roles, QUserRole.userRole).fetch()
+				.uniqueResult(user);
 	}
 
 	public User findByApiKey(String key) {
-		CriteriaQuery<User> query = builder.createQuery(getType());
-		Root<User> root = query.from(getType());
-		query.where(builder.equal(root.get(User_.apiKey), key));
-		TypedQuery<User> q = em.createQuery(query);
-		cache(q);
-
-		User user = null;
-		try {
-			user = q.getSingleResult();
-		} catch (NoResultException e) {
-			user = null;
-		}
-		return user;
+		return newQuery().from(user).where(user.apiKey.equalsIgnoreCase(key)).leftJoin(user.roles, QUserRole.userRole).fetch()
+				.uniqueResult(user);
 	}
 
 	public User findByEmail(String email) {
-		if (StringUtils.isBlank(email)) {
-			return null;
-		}
-		CriteriaQuery<User> query = builder.createQuery(getType());
-		Root<User> root = query.from(getType());
-		query.where(builder.equal(root.get(User_.email), email));
-		TypedQuery<User> q = em.createQuery(query);
-
-		User user = null;
-		try {
-			user = q.getSingleResult();
-		} catch (NoResultException e) {
-			user = null;
-		}
-		return user;
+		return newQuery().from(user).where(user.email.equalsIgnoreCase(email)).leftJoin(user.roles, QUserRole.userRole).fetch()
+				.uniqueResult(user);
 	}
 
+	public long count() {
+		return newQuery().from(user).count();
+	}
 }

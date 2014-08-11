@@ -1,6 +1,5 @@
 package com.commafeed.backend.model;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,14 +10,9 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 @Entity
 @Table(name = "FEEDENTRYTAGS")
 @SuppressWarnings("serial")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Getter
 @Setter
 public class FeedEntryTag extends AbstractModel {

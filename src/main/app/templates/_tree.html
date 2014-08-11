@@ -1,0 +1,49 @@
+<div ng-controller="CategoryTreeCtrl" class="sidebar-nav-fixed" mousewheel-scrolling ui-jq="resizable"
+	ui-options="{handles: 'e', resize: resizeCallback}">
+	<div class="btn-group">
+		<button class="btn btn-default" ui-sref="feeds.subscribe" ng-click="MobileService.toggleLeftMenu()">
+			<span class="icon-rss"></span>
+			{{ 'tree.subscribe' | translate }}
+		</button>
+		<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			<li>
+				<a ui-sref="feeds.new_category" ng-click="MobileService.toggleLeftMenu()">
+					<i class="icon-plus"></i>
+					{{ 'tree.new_category' | translate }}
+				</a>
+			</li>
+			<li>
+				<a ui-sref="feeds.import" ng-click="MobileService.toggleLeftMenu()">
+					<i class="icon-arrow-down"></i>
+					{{ 'tree.import' | translate }}
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div class="btn-group">
+		<button type="button" class="btn btn-default" ng-click="MobileService.toggleLeftMenu()" ng-if="MobileService.mobile">
+			<i class="icon-remove"></i>
+			{{ 'global.close' | translate }}
+		</button>
+	</div>
+
+	<div class="css-treeview">
+		<ul>
+			<category node="CategoryService.subscriptions" show-label="'tree.all' | translate" show-children="false" level="0" selected-type="selectedType"
+				selected-id="selectedId" unread-count="unreadCount(category)"> </category>
+			<category node="starred" show-label="'tree.starred' | translate" show-children="false" level="0" selected-type="selectedType"
+				selected-id="selectedId" unread-count="unreadCount(category)"> </category>
+			<category node="CategoryService.subscriptions" show-label="false" show-children="true" level="0" selected-type="selectedType"
+				selected-id="selectedId" unread-count="unreadCount(category)"> </category>
+
+			<li ng-repeat="tag in tags | orderBy: 'name'">
+				<category node="tag" show-label="tag.name" show-children="false" level="0" selected-type="selectedType" selected-id="selectedId"
+					unread-count="unreadCount(category)"> </category>
+			</li>
+		</ul>
+	</div>
+</div>

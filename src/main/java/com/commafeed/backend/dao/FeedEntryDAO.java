@@ -3,82 +3,47 @@ package com.commafeed.backend.dao;
 import java.util.Date;
 import java.util.List;
 
-import javax.ejb.Stateless;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.SetJoin;
-
 import org.apache.commons.codec.digest.DigestUtils;
+import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedEntry_;
-import com.commafeed.backend.model.FeedSubscription;
-import com.commafeed.backend.model.FeedSubscription_;
-import com.commafeed.backend.model.Feed_;
+import com.commafeed.backend.model.QFeed;
+import com.commafeed.backend.model.QFeedEntry;
+import com.commafeed.backend.model.QFeedSubscription;
 import com.google.common.collect.Iterables;
+import com.mysema.query.types.ConstructorExpression;
 
-@Stateless
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
-	public Long findExisting(String guid, Long feedId) {
+	private QFeedEntry entry = QFeedEntry.feedEntry;
 
-		CriteriaQuery<Long> query = builder.createQuery(Long.class);
-		Root<FeedEntry> root = query.from(getType());
-		query.select(root.get(FeedEntry_.id));
+	public FeedEntryDAO(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
 
-		Predicate p1 = builder.equal(root.get(FeedEntry_.guidHash), DigestUtils.sha1Hex(guid));
-		Predicate p2 = builder.equal(root.get(FeedEntry_.feed).get(Feed_.id), feedId);
-
-		query.where(p1, p2);
-
-		TypedQuery<Long> q = em.createQuery(query);
-		limit(q, 0, 1);
-		List<Long> list = q.getResultList();
+	public Long findExisting(String guid, Feed feed) {
+		List<Long> list = newQuery().from(entry).where(entry.guidHash.eq(DigestUtils.sha1Hex(guid)), entry.feed.eq(feed)).limit(1)
+				.list(ConstructorExpression.create(Long.class, entry.id));
 		return Iterables.getFirst(list, null);
 	}
 
 	public List<FeedEntry> findWithoutSubscriptions(int max) {
-		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
-		Root<FeedEntry> root = query.from(getType());
-
-		Join<FeedEntry, Feed> feedJoin = root.join(FeedEntry_.feed);
-		SetJoin<Feed, FeedSubscription> subJoin = feedJoin.join(Feed_.subscriptions, JoinType.LEFT);
-		query.where(builder.isNull(subJoin.get(FeedSubscription_.id)));
-		TypedQuery<FeedEntry> q = em.createQuery(query);
-		q.setMaxResults(max);
-
-		return q.getResultList();
+		QFeed feed = QFeed.feed;
+		QFeedSubscription sub = QFeedSubscription.feedSubscription;
+		return newQuery().from(entry).join(entry.feed, feed).leftJoin(feed.subscriptions, sub).where(sub.id.isNull()).limit(max)
+				.list(entry);
 	}
 
 	public int delete(Feed feed, int max) {
-
-		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
-		Root<FeedEntry> root = query.from(getType());
-
-		query.where(builder.equal(root.get(FeedEntry_.feed), feed));
-		TypedQuery<FeedEntry> q = em.createQuery(query);
-		q.setMaxResults(max);
-
-		List<FeedEntry> list = q.getResultList();
+		List<FeedEntry> list = newQuery().from(entry).where(entry.feed.eq(feed)).limit(max).list(entry);
 		int deleted = list.size();
 		delete(list);
 		return deleted;
 	}
 
 	public int delete(Date olderThan, int max) {
-		CriteriaQuery<FeedEntry> query = builder.createQuery(getType());
-		Root<FeedEntry> root = query.from(getType());
-		query.where(builder.lessThan(root.get(FeedEntry_.inserted), olderThan));
-
-		TypedQuery<FeedEntry> q = em.createQuery(query);
-		q.setMaxResults(max);
-		List<FeedEntry> list = q.getResultList();
-
+		List<FeedEntry> list = newQuery().from(entry).where(entry.inserted.lt(olderThan)).limit(max).list(entry);
 		int deleted = list.size();
 		delete(list);
 		return deleted;

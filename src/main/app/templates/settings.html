@@ -1,0 +1,145 @@
+<div class="settings">
+	<div class="page-header">
+		<h1>{{ 'toolbar.settings' | translate }}</h1>
+	</div>
+	<form name="settingsForm" ng-submit="save()">
+		<div class="row">
+			<div class="col-md-2">
+				<ul class="nav nav-pills nav-stacked">
+					<li ng-class="{active: !tab || tab == 'general'}" class="pointer">
+						<a ng-click="tab = 'general'">{{ 'settings.general.value' | translate }}</a>
+					</li>
+					<li ng-class="{active: tab == 'css'}" class="pointer">
+						<a ng-click="tab = 'css'">{{ 'settings.appearance' | translate }}</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-10">
+				<div class="tab-content">
+					<div class="tab-pane" ng-class="{active: !tab || tab == 'general'}">
+						<div class="form-horizontal">
+							<div class="form-group">
+								<label>{{ 'settings.general.language' | translate }}</label>
+								<select name="language" ng-model="settings.language" class="form-control"
+									ng-options="id as label for (id,label) in langs" required>
+								</select>
+								<span class="help-block">
+									<a href="https://github.com/Athou/commafeed#translate-commafeed-into-your-language" target="_blank">
+										{{ 'settings.general.language_contribute' | translate }} </a>
+								</span>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" name="showRead" ng-model="settings.showRead" />
+									{{ 'settings.general.show_unread' | translate }}
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" name="scrollMarks" ng-model="settings.scrollMarks" />
+									{{ 'settings.general.scroll_marks' | translate }}
+								</label>
+							</div>
+							<div>
+								<h4>{{ 'settings.general.social_buttons' | translate }}</h4>
+								<div>
+									<label>
+										<input type="checkbox" name="email" ng-model="settings.email" />
+										<i class="icon-envelope"></i>
+										E-Mail
+									</label>
+								</div>
+								<div>
+									<label>
+										<input type="checkbox" name="gmail" ng-model="settings.gmail" />
+										<i class="icon-gmail"></i>
+										GMail
+									</label>
+								</div>
+								<div>
+									<label>
+										<input type="checkbox" name="facebook" ng-model="settings.facebook" />
+										<i class="icon-facebook"></i>
+										Facebook
+									</label>
+								</div>
+								<div>
+									<label>
+										<input type="checkbox" name="twitter" ng-model="settings.twitter" />
+										<i class="icon-twitter"></i>
+										Twitter
+									</label>
+								</div>
+								<div>
+									<label>
+										<input type="checkbox" name="googleplus" ng-model="settings.googleplus" />
+										<i class="icon-google-plus"></i>
+										Google+
+									</label>
+								</div>
+								<div>
+									<label>
+										<input type="checkbox" name="tumblr" ng-model="settings.tumblr" />
+										<i class="icon-tumblr"></i>
+										Tumblr
+									</label>
+								</div>
+								<div>
+									<label>
+										<input type="checkbox" name="pocket" ng-model="settings.pocket" />
+										<i class="icon-pocket"></i>
+										Pocket
+									</label>
+								</div>
+								<div>
+									<label>
+										<input type="checkbox" name="instapaper" ng-model="settings.instapaper" />
+										<i class="icon-instapaper"></i>
+										Instapaper
+									</label>
+								</div>
+								<div>
+									<label>
+										<input type="checkbox" name="buffer" ng-model="settings.buffer" />
+										<i class="icon-buffer"></i>
+										Buffer
+									</label>
+								</div>
+								<div>
+									<label>
+										<input type="checkbox" name="readability" ng-model="settings.readability" />
+										<i class="icon-couch"></i>
+										Readability
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" ng-class="{active: tab == 'css'}">
+						<div class="form-group">
+							<label>{{ 'settings.scroll_speed' | translate }}</label>
+							<input type="number" ng-model="settings.scrollSpeed" min="0" max="1000" class="form-control" />
+							<span class="help-inline">{{ 'settings.scroll_speed_help' | translate }}</span>
+						</div>
+						<div class="form-group">
+							<label>{{ 'settings.theme' | translate }}</label>
+							<select ng-model="settings.theme" ng-options="theme for theme in themes" class="form-control"></select>
+							<span class="help-block">
+								<a href="https://github.com/Athou/commafeed#themes" target="_blank"> {{ 'settings.submit_your_theme' | translate }} </a>
+							</span>
+						</div>
+						<div class="form-group">
+							<label>{{ 'settings.custom_css' | translate }}</label>
+							<textarea ng-model="settings.customCss" class="form-control" rows="20">
+							</textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">{{ 'global.save' | translate }}</button>
+			<button type="button" class="btn btn-default" ng-click="cancel()">{{ 'global.cancel' | translate }}</button>
+		</div>
+	</form>
+</div>

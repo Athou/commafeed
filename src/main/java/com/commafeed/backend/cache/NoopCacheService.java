@@ -3,17 +3,12 @@ package com.commafeed.backend.cache;
 import java.util.Collections;
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Alternative;
-
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.UnreadCount;
 
-@Alternative
-@ApplicationScoped
 public class NoopCacheService extends CacheService {
 
 	@Override

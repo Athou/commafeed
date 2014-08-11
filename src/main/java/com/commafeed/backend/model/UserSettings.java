@@ -1,6 +1,5 @@
 package com.commafeed.backend.model;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,14 +13,9 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 @Entity
 @Table(name = "USERSETTINGS")
 @SuppressWarnings("serial")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Getter
 @Setter
 public class UserSettings extends AbstractModel {
@@ -69,7 +63,7 @@ public class UserSettings extends AbstractModel {
 
 	@Column(name = "scroll_speed")
 	private int scrollSpeed;
-	
+
 	private boolean email;
 	private boolean gmail;
 	private boolean facebook;

@@ -4,13 +4,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Alternative;
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.pool.impl.GenericObjectPool;
 
-import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -26,8 +23,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 
-@Alternative
-@ApplicationScoped
 @Slf4j
 public class RedisCacheService extends CacheService {
 
@@ -35,8 +30,7 @@ public class RedisCacheService extends CacheService {
 
 	private JedisPool pool;
 
-	@PostConstruct
-	private void init() {
+	public RedisCacheService() {
 		JedisPoolConfig config = new JedisPoolConfig();
 		config.setWhenExhaustedAction(GenericObjectPool.WHEN_EXHAUSTED_GROW);
 		pool = new JedisPool(config, "localhost");

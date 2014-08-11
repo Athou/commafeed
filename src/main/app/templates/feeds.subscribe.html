@@ -1,0 +1,39 @@
+<div>
+	<div class="page-header">
+		<h3>{{ 'tree.subscribe' | translate }}</h3>
+	</div>
+	<form name="subscribeForm" class="form-horizontal" ng-submit="save()">
+		<div class="form-group" ng-class="{error : !subscribeForm.url.$valid}">
+			<label class="col-sm-2 control-label">{{ 'subscribe.feed_url' | translate }}</label>
+			<div class="col-sm-10">
+				<input type="text" name="url" ng-model="sub.url" ng-blur="urlChanged()" placeholder="http://example.com/feed" class="form-control"
+					required ng-disabled="state=='loading'" autofocus></input>
+				<span class="help-block" ng-show="!subscribeForm.url.$valid">{{ 'global.required' | translate }}</span>
+			</div>
+		</div>
+		<div class="form-group" ng-class="{error : !subscribeForm.title.$valid}">
+			<label class="col-sm-2 control-label">{{ 'subscribe.feed_name' | translate }}</label>
+			<div class="col-sm-10">
+				<input type="text" name="title" ng-model="sub.title" class="form-control" required ng-disabled="state=='loading'"></input>
+				<span class="help-block" ng-show="!subscribeForm.title.$valid">{{ 'global.required' | translate }}</span>
+			</div>
+		</div>
+		<div class="form-group" ng-class="{error : !subscribeForm.category.$valid}">
+			<label class="col-sm-2 control-label">{{ 'subscribe.category' | translate }}</label>
+			<div class="col-sm-10">
+				<select name="category" ng-model="sub.categoryId" class="form-control"
+					ng-options="cat.id as cat.name for cat in CategoryService.flatCategories" required>
+				</select>
+				<span class="help-block" ng-show="!subscribeForm.category.$valid">{{ 'global.required' | translate }}</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button class="btn btn-primary ok" type="submit" ng-disabled="state!='ok'">{{ 'global.save' | translate }}</button>
+				<button class="btn btn-default cancel" ng-click="back()" type="button">{{ 'global.cancel' | translate }}</button>
+			</div>
+		</div>
+	</form>
+	
+	<pre ng-if="state == 'failed'">{{stacktrace}}</pre>
+</div>

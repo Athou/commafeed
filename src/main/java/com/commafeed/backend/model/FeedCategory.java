@@ -2,7 +2,6 @@ package com.commafeed.backend.model;
 
 import java.util.Set;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,14 +13,9 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 @Entity
 @Table(name = "FEEDCATEGORIES")
 @SuppressWarnings("serial")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Getter
 @Setter
 public class FeedCategory extends AbstractModel {
@@ -31,11 +25,9 @@ public class FeedCategory extends AbstractModel {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
-	@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 	private FeedCategory parent;
 
 	@OneToMany(mappedBy = "parent")

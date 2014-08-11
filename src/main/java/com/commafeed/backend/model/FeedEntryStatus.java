@@ -3,7 +3,6 @@ package com.commafeed.backend.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,19 +18,16 @@ import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import com.google.common.collect.Lists;
 
 @Entity
 @Table(name = "FEEDENTRYSTATUSES")
 @SuppressWarnings("serial")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Getter
 @Setter
-@NamedQueries(@NamedQuery(name="Statuses.deleteOld", query="delete from FeedEntryStatus s where s.entryInserted < :date and s.starred = false"))
+@NamedQueries(@NamedQuery(
+		name = "Statuses.deleteOld",
+		query = "delete from FeedEntryStatus s where s.entryInserted < :date and s.starred = false"))
 public class FeedEntryStatus extends AbstractModel {
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -48,7 +44,7 @@ public class FeedEntryStatus extends AbstractModel {
 
 	@Transient
 	private boolean markable;
-	
+
 	@Transient
 	private List<FeedEntryTag> tags = Lists.newArrayList();
 

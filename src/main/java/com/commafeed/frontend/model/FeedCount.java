@@ -7,9 +7,9 @@ import lombok.Data;
 
 import com.commafeed.backend.model.Feed;
 import com.google.common.collect.Lists;
-import com.wordnik.swagger.annotations.ApiClass;
+import com.wordnik.swagger.annotations.ApiModel;
 
-@ApiClass("Feed count")
+@ApiModel("Feed count")
 @Data
 public class FeedCount implements Serializable {
 

@@ -3,38 +3,28 @@ package com.commafeed.backend.dao;
 import java.util.List;
 import java.util.Set;
 
-import javax.ejb.Stateless;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Root;
+import org.hibernate.SessionFactory;
 
+import com.commafeed.backend.model.QUserRole;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
-import com.commafeed.backend.model.UserRole_;
-import com.commafeed.backend.model.User_;
 import com.google.common.collect.Sets;
 
-@Stateless
 public class UserRoleDAO extends GenericDAO<UserRole> {
 
-	@Override
+	private QUserRole role = QUserRole.userRole;
+
+	public UserRoleDAO(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
+
 	public List<UserRole> findAll() {
-		CriteriaQuery<UserRole> query = builder.createQuery(getType());
-		Root<UserRole> root = query.from(getType());
-		query.distinct(true);
-
-		root.fetch(UserRole_.user, JoinType.LEFT);
-
-		return em.createQuery(query).getResultList();
+		return newQuery().from(role).leftJoin(role.user).fetch().distinct().list(role);
 	}
 
 	public List<UserRole> findAll(User user) {
-		CriteriaQuery<UserRole> query = builder.createQuery(getType());
-		Root<UserRole> root = query.from(getType());
-
-		query.where(builder.equal(root.get(UserRole_.user).get(User_.id), user.getId()));
-		return cache(em.createQuery(query)).getResultList();
+		return newQuery().from(role).where(role.user.eq(user)).distinct().list(role);
 	}
 
 	public Set<Role> findRoles(User user) {

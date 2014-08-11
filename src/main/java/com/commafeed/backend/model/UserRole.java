@@ -1,6 +1,5 @@
 package com.commafeed.backend.model;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,20 +12,15 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 @Entity
 @Table(name = "USERROLES")
 @SuppressWarnings("serial")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Getter
 @Setter
 public class UserRole extends AbstractModel {
 
 	public static enum Role {
-		USER, ADMIN, NONE
+		USER, ADMIN
 	}
 
 	@OneToOne(fetch = FetchType.LAZY)

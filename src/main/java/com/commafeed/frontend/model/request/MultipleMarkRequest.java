@@ -5,15 +5,15 @@ import java.util.List;
 
 import lombok.Data;
 
-import com.wordnik.swagger.annotations.ApiClass;
-import com.wordnik.swagger.annotations.ApiProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
-@ApiClass("Multiple Mark Request")
+@ApiModel("Multiple Mark Request")
 @Data
 public class MultipleMarkRequest implements Serializable {
 
-	@ApiProperty(value = "list of mark requests", required = true)
+	@ApiModelProperty(value = "list of mark requests", required = true)
 	private List<MarkRequest> requests;
 
 }

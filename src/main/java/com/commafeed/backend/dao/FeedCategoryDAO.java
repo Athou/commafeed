@@ -2,91 +2,50 @@ package com.commafeed.backend.dao;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
-import javax.persistence.NoResultException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 import org.apache.commons.lang.ObjectUtils;
+import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.FeedCategory;
-import com.commafeed.backend.model.FeedCategory_;
+import com.commafeed.backend.model.QFeedCategory;
+import com.commafeed.backend.model.QUser;
 import com.commafeed.backend.model.User;
-import com.commafeed.backend.model.User_;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.mysema.query.types.Predicate;
 
-@Stateless
 public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 
-	@SuppressWarnings("unchecked")
+	private QFeedCategory category = QFeedCategory.feedCategory;
+
+	public FeedCategoryDAO(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
+
 	public List<FeedCategory> findAll(User user) {
-
-		CriteriaQuery<FeedCategory> query = builder.createQuery(getType());
-		Root<FeedCategory> root = query.from(getType());
-		Join<FeedCategory, User> userJoin = (Join<FeedCategory, User>) root.fetch(FeedCategory_.user);
-
-		query.where(builder.equal(userJoin.get(User_.id), user.getId()));
-
-		return cache(em.createQuery(query)).getResultList();
+		return newQuery().from(category).where(category.user.eq(user)).join(category.user, QUser.user).fetch().list(category);
 	}
 
 	public FeedCategory findById(User user, Long id) {
-		CriteriaQuery<FeedCategory> query = builder.createQuery(getType());
-		Root<FeedCategory> root = query.from(getType());
-
-		Predicate p1 = builder.equal(root.get(FeedCategory_.user).get(User_.id), user.getId());
-		Predicate p2 = builder.equal(root.get(FeedCategory_.id), id);
-
-		query.where(p1, p2);
-
-		return Iterables.getFirst(cache(em.createQuery(query)).getResultList(), null);
+		return newQuery().from(category).where(category.user.eq(user), category.id.eq(id)).uniqueResult(category);
 	}
 
 	public FeedCategory findByName(User user, String name, FeedCategory parent) {
-		CriteriaQuery<FeedCategory> query = builder.createQuery(getType());
-		Root<FeedCategory> root = query.from(getType());
-
-		List<Predicate> predicates = Lists.newArrayList();
-
-		predicates.add(builder.equal(root.get(FeedCategory_.user), user));
-		predicates.add(builder.equal(root.get(FeedCategory_.name), name));
-
+		Predicate parentPredicate = null;
 		if (parent == null) {
-			predicates.add(builder.isNull(root.get(FeedCategory_.parent)));
+			parentPredicate = category.parent.isNull();
 		} else {
-			predicates.add(builder.equal(root.get(FeedCategory_.parent), parent));
+			parentPredicate = category.parent.eq(parent);
 		}
-
-		query.where(predicates.toArray(new Predicate[0]));
-
-		FeedCategory category = null;
-		try {
-			category = em.createQuery(query).getSingleResult();
-		} catch (NoResultException e) {
-			category = null;
-		}
-		return category;
+		return newQuery().from(category).where(category.user.eq(user), category.name.eq(name), parentPredicate).uniqueResult(category);
 	}
 
 	public List<FeedCategory> findByParent(User user, FeedCategory parent) {
-		CriteriaQuery<FeedCategory> query = builder.createQuery(getType());
-		Root<FeedCategory> root = query.from(getType());
-
-		List<Predicate> predicates = Lists.newArrayList();
-
-		predicates.add(builder.equal(root.get(FeedCategory_.user), user));
+		Predicate parentPredicate = null;
 		if (parent == null) {
-			predicates.add(builder.isNull(root.get(FeedCategory_.parent)));
+			parentPredicate = category.parent.isNull();
 		} else {
-			predicates.add(builder.equal(root.get(FeedCategory_.parent), parent));
+			parentPredicate = category.parent.eq(parent);
 		}
-
-		query.where(predicates.toArray(new Predicate[0]));
-
-		return em.createQuery(query).getResultList();
+		return newQuery().from(category).where(category.user.eq(user), parentPredicate).list(category);
 	}
 
 	public List<FeedCategory> findAllChildrenCategories(User user, FeedCategory parent) {

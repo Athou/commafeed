@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
 
+	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.commafeed</groupId>
 	<artifactId>commafeed</artifactId>
-	<version>1.5.0-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<version>2.0.0</version>
+	<packaging>jar</packaging>
 	<name>CommaFeed</name>
 
 	<prerequisites>
@@ -14,12 +14,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<production>false</production>
-		<jpa.show_sql>false</jpa.show_sql>
-		<jpa.datasource.name>java:openejb/Resource/My DataSource</jpa.datasource.name>
-		<jpa.cache>false</jpa.cache>
-		<jpa.table.encoding>utf8mb4</jpa.table.encoding>
-		<cache_service.class>com.commafeed.backend.cache.NoopCacheService</cache_service.class>
+		<dropwizard.version>0.7.1</dropwizard.version>
 	</properties>
 
 	<build>
@@ -29,147 +24,16 @@
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 			</resource>
-			<resource>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**/*</include>
-				</includes>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
 		</resources>
-
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<webResources combine.children="append">
-						<resource>
-							<directory>${basedir}/src/main/webapp/WEB-INF</directory>
-							<targetPath>WEB-INF</targetPath>
-							<filtering>true</filtering>
-							<includes>
-								<include>**/beans.xml</include>
-							</includes>
-						</resource>
-						<resource>
-							<directory>target/generated-sources/api-docs/</directory>
-							<targetPath>api/api-docs</targetPath>
-							<includes>
-								<include>**/*</include>
-							</includes>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.openejb.maven</groupId>
-				<artifactId>tomee-maven-plugin</artifactId>
-				<version>1.5.2</version>
-				<configuration>
-					<tomeeVersion>1.6.0</tomeeVersion>
-					<tomeeClassifier>plus</tomeeClassifier>
-					<tomeeHttpPort>8082</tomeeHttpPort>
-					<args>-Xmx1024m -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled</args>
-					<config>${project.basedir}/src/main/tomee/conf</config>
-					<reloadOnUpdate>true</reloadOnUpdate>
-					<synchronization>
-						<updateInterval>1</updateInterval>
-						<extensions>
-							<extension>.class</extension>
-						</extensions>
-						<updateOnlyExtensions>
-							<updateOnlyExtension>.properties</updateOnlyExtension>
-							<updateOnlyExtension>.html</updateOnlyExtension>
-							<updateOnlyExtension>.js</updateOnlyExtension>
-							<updateOnlyExtension>.css</updateOnlyExtension>
-							<updateOnlyExtension>.scss</updateOnlyExtension>
-						</updateOnlyExtensions>
-					</synchronization>
-					<libs>
-						<lib>org.hibernate:hibernate-entitymanager:4.1.11.Final</lib>
-						<lib>org.hibernate:hibernate-core:4.1.11.Final</lib>
-						<lib>org.hibernate.common:hibernate-commons-annotations:4.0.1.Final</lib>
-						<lib>org.hibernate:hibernate-validator:4.3.1.Final</lib>
-						<lib>org.jboss.logging:jboss-logging:3.1.3.GA</lib>
-						<lib>org.javassist:javassist:3.15.0-GA</lib>
-
-						<lib>org.apache.openejb:openejb-bonecp:4.6.0</lib>
-						<lib>com.jolbox:bonecp:0.8.0.RELEASE</lib>
-						<lib>com.google.guava:guava:14.0.1</lib>
-
-						<lib>dom4j:dom4j:1.6.1</lib>
-						<lib>antlr:antlr:2.7.7</lib>
-						<lib>remove:openjpa-</lib>
-						<lib>remove:hsqldb</lib>
-						<lib>org.hsqldb:hsqldb:2.3.0</lib>
-						<lib>mysql:mysql-connector-java:5.1.26</lib>
-						<lib>postgresql:postgresql:9.1-901.jdbc4</lib>
-						<lib>net.sourceforge.jtds:jtds:1.3.1</lib>
-
-						<lib>org.infinispan:infinispan-core:5.1.4.FINAL</lib>
-						<lib>org.hibernate:hibernate-infinispan:4.1.11.Final</lib>
-						<lib>org.jgroups:jgroups:3.0.9.Final</lib>
-						<lib>org.jboss.marshalling:jboss-marshalling-river:1.3.11.GA</lib>
-						<lib>org.jboss.marshalling:jboss-marshalling:1.3.11.GA</lib>
-						<lib>org.codehaus.woodstox:woodstox-core-asl:4.1.1</lib>
-						<lib>org.codehaus.woodstox:stax2-api:3.1.1</lib>
-						<lib>org.rhq.helpers:rhq-pluginAnnotations:3.0.4</lib>
-						<lib>org.jboss.logmanager:jboss-logmanager:1.2.2.GA</lib>
-					</libs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.bsc.maven</groupId>
-				<artifactId>maven-processor-plugin</artifactId>
-				<version>2.2.3</version>
-				<executions>
-					<execution>
-						<id>process</id>
-						<goals>
-							<goal>process</goal>
-						</goals>
-						<phase>generate-sources</phase>
-						<configuration>
-							<processors>
-								<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
-							</processors>
-							<outputDirectory>target/generated-sources/metamodel</outputDirectory>
-						</configuration>
-					</execution>
-					<execution>
-						<id>doc</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>process</goal>
-						</goals>
-						<configuration>
-							<processors>
-								<processor>com.commafeed.frontend.APIGenerator</processor>
-							</processors>
-							<outputDirectory>target/generated-sources/api-docs</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>org.hibernate</groupId>
-						<artifactId>hibernate-jpamodelgen</artifactId>
-						<version>1.3.0.Final</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
@@ -187,6 +51,72 @@
 					<failOnNoGitDirectory>false</failOnNoGitDirectory>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<createDependencyReducedPom>false</createDependencyReducedPom>
+					<filters>
+						<filter>
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>META-INF/*.SF</exclude>
+								<exclude>META-INF/*.DSA</exclude>
+								<exclude>META-INF/*.RSA</exclude>
+							</excludes>
+						</filter>
+					</filters>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.commafeed.CommaFeedApplication</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>0.0.15</version>
+				<executions>
+					<execution>
+						<id>install node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<nodeVersion>v0.10.30</nodeVersion>
+							<npmVersion>1.3.8</npmVersion>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+					<execution>
+						<id>gulp build</id>
+						<goals>
+							<goal>gulp</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -194,58 +124,66 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.12.6</version>
+			<version>1.14.4</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jboss.spec</groupId>
-			<artifactId>jboss-javaee-6.0</artifactId>
-			<version>1.0.0.Final</version>
-			<type>pom</type>
-			<scope>provided</scope>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-core</artifactId>
+			<version>${dropwizard.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.1.11.Final</version>
-			<scope>provided</scope>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-hibernate</artifactId>
+			<version>${dropwizard.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-client</artifactId>
+			<version>${dropwizard.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-migrations</artifactId>
+			<version>${dropwizard.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.federecio</groupId>
+			<artifactId>dropwizard-swagger</artifactId>
+			<version>0.5.1</version>
 			<exclusions>
 				<exclusion>
-					<artifactId>dom4j</artifactId>
-					<groupId>dom4j</groupId>
+					<artifactId>jsr311-api</artifactId>
+					<groupId>javax.ws.rs</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>javassist</artifactId>
+					<groupId>javassist</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-			<version>2.2.1</version>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+			<version>3.4.2</version>
+			<scope>provided</scope>
+			<classifier>hibernate</classifier>
 		</dependency>
 		<dependency>
-			<groupId>org.liquibase</groupId>
-			<artifactId>liquibase-core</artifactId>
-			<version>3.1.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>16.0.1</version>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>3.4.2</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.1</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.9</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.2.1</version>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-multipart</artifactId>
+			<version>1.18.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -253,9 +191,14 @@
 			<version>2.4</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.9</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -263,11 +206,15 @@
 			<version>2.2</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.3.1</version>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.2.1</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.5.2</version>
+		</dependency>
 		<dependency>
 			<groupId>net.java.dev.rome</groupId>
 			<artifactId>rome</artifactId>
@@ -296,6 +243,11 @@
 			<version>1.1.3</version>
 		</dependency>
 		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.7.3</version>
+		</dependency>
+		<dependency>
 			<groupId>com.googlecode.juniversalchardet</groupId>
 			<artifactId>juniversalchardet</artifactId>
 			<version>1.0.3</version>
@@ -303,160 +255,33 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-			<version>2.6.0</version>
+			<version>2.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.cssparser</groupId>
 			<artifactId>cssparser</artifactId>
-			<version>0.9.13</version>
+			<version>0.9.14</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.3.3</version>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.181</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jsoup</groupId>
-			<artifactId>jsoup</artifactId>
-			<version>1.7.3</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.3.3</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.31</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.7</version>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901-1.jdbc4</version>
 		</dependency>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-core</artifactId>
-			<version>6.14.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-auth-roles</artifactId>
-			<version>6.14.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-extensions</artifactId>
-			<version>6.14.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-cdi</artifactId>
-			<version>6.14.0</version>
-		</dependency>
-		<dependency>
-			<groupId>ro.isdc.wro4j</groupId>
-			<artifactId>wro4j-extensions</artifactId>
-			<version>1.7.5</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.wordnik</groupId>
-			<artifactId>swagger-annotations_2.9.1</artifactId>
-			<version>1.2.5</version>
-		</dependency>
-		<dependency>
-			<groupId>com.wordnik</groupId>
-			<artifactId>swagger-jaxrs_2.9.1</artifactId>
-			<version>1.2.5</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.codahale.metrics</groupId>
-			<artifactId>metrics-core</artifactId>
-			<version>3.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.codahale.metrics</groupId>
-			<artifactId>metrics-json</artifactId>
-			<version>3.0.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>lodash</artifactId>
-			<version>2.4.1-3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>1.11.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>3.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery-mousewheel</artifactId>
-			<version>3.1.9</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>angularjs</artifactId>
-			<version>1.2.16</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>angular-ui-router</artifactId>
-			<version>0.2.8-2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>angular-ui-utils</artifactId>
-			<version>0.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>ui-select2</artifactId>
-			<version>0.0.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>angular-ui-bootstrap</artifactId>
-			<version>0.2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>mousetrap</artifactId>
-			<version>1.4.6</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>momentjs</artifactId>
-			<version>2.6.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>ng-grid</artifactId>
-			<version>2.0.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>device.js</artifactId>
-			<version>139f208</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>ngInfiniteScroll</artifactId>
-			<version>1.0.0</version>
+			<groupId>net.sourceforge.jtds</groupId>
+			<artifactId>jtds</artifactId>
+			<version>1.3.1</version>
 		</dependency>
 
 		<dependency>
@@ -466,228 +291,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>default</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>ro.isdc.wro4j</groupId>
-						<artifactId>wro4j-maven-plugin</artifactId>
-						<version>1.7.5</version>
-						<executions>
-							<execution>
-								<id>js</id>
-								<phase>test</phase>
-								<goals>
-									<goal>jshint</goal>
-								</goals>
-								<configuration>
-									<targetGroups>app</targetGroups>
-									<options>devel,noarg,quotmark,laxcomma,laxbreak</options>
-								</configuration>
-							</execution>
-							<execution>
-								<id>css</id>
-								<phase>test</phase>
-								<goals>
-									<goal>csslint</goal>
-								</goals>
-								<configuration>
-									<targetGroups>app</targetGroups>
-									<options>display-property-grouping,duplicate-properties,compatible-vendor-prefixes,vendor-prefix</options>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>openshift</id>
-			<properties>
-				<jpa.datasource.name>java:jboss/datasources/MysqlDS</jpa.datasource.name>
-				<jpa.table.encoding>utf8</jpa.table.encoding>
-			</properties>
-			<build>
-				<finalName>commafeed</finalName>
-				<plugins>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>2.14.1</version>
-						<configuration>
-							<skip>true</skip>
-						</configuration>
-					</plugin>
-					<plugin>
-						<artifactId>maven-war-plugin</artifactId>
-						<version>2.4</version>
-						<configuration>
-							<outputDirectory>deployments</outputDirectory>
-							<warName>ROOT</warName>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<profile>
-			<id>cache</id>
-			<properties>
-				<jpa.cache>true</jpa.cache>
-			</properties>
-		</profile>
-		<profile>
-			<id>redis</id>
-			<properties>
-				<cache_service.class>com.commafeed.backend.cache.RedisCacheService</cache_service.class>
-			</properties>
-		</profile>
-		<profile>
-			<id>mysql</id>
-			<properties>
-				<jpa.datasource.name>java:openejb/Resource/MySQL</jpa.datasource.name>
-			</properties>
-		</profile>
-		<profile>
-			<id>pgsql</id>
-			<properties>
-				<jpa.datasource.name>java:openejb/Resource/PostgreSQL</jpa.datasource.name>
-			</properties>
-		</profile>
-		<profile>
-			<id>mssql</id>
-			<properties>
-				<jpa.datasource.name>java:openejb/Resource/MSSQL</jpa.datasource.name>
-			</properties>
-		</profile>
-		<profile>
-			<id>prod</id>
-			<activation>
-				<property>
-					<name>skipTests</name>
-				</property>
-			</activation>
-			<properties>
-				<timestamp>${maven.build.timestamp}</timestamp>
-				<production>true</production>
-				<jpa.show_sql>false</jpa.show_sql>
-			</properties>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.gmaven</groupId>
-						<artifactId>gmaven-plugin</artifactId>
-						<version>1.5</version>
-						<dependencies>
-							<dependency>
-								<groupId>commons-io</groupId>
-								<artifactId>commons-io</artifactId>
-								<version>2.4</version>
-							</dependency>
-						</dependencies>
-						<executions>
-							<execution>
-								<phase>process-classes</phase>
-								<goals>
-									<goal>execute</goal>
-								</goals>
-								<configuration>
-									<properties>
-										<source>${basedir}/src/main/webapp/templates</source>
-										<prefix>templates/</prefix>
-										<destination>${basedir}/target/generated-sources/angularjs/all-templates.html</destination>
-										<i18nPath>${basedir}/src/main/resources/i18n/</i18nPath>
-									</properties>
-									<scriptpath>
-										<element>${basedir}/src/main/script</element>
-									</scriptpath>
-									<source>
-										def source = project.properties['source'];
-										def prefix =
-										project.properties['prefix'];
-										def dest =
-										project.properties['destination'];
-										def i18n =
-										project.properties['i18nPath'];
-										new
-										HTMLConcat().concat(source,
-										prefix, dest, i18n);
-									</source>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>ro.isdc.wro4j</groupId>
-						<artifactId>wro4j-maven-plugin</artifactId>
-						<version>1.7.5</version>
-						<executions>
-							<execution>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<targetGroups>all</targetGroups>
-							<wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
-							<destinationFolder>${project.build.directory}/${project.build.finalName}/static/</destinationFolder>
-						</configuration>
-					</plugin>
-					<plugin>
-						<artifactId>maven-war-plugin</artifactId>
-						<version>2.4</version>
-						<configuration>
-							<webResources>
-								<resource>
-									<directory>target/generated-sources/angularjs/</directory>
-									<targetPath>templates</targetPath>
-									<includes>
-										<include>**/*.html</include>
-									</includes>
-								</resource>
-							</webResources>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>i18n</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.gmaven</groupId>
-						<artifactId>gmaven-plugin</artifactId>
-						<version>1.5</version>
-						<dependencies>
-							<dependency>
-								<groupId>commons-io</groupId>
-								<artifactId>commons-io</artifactId>
-								<version>2.4</version>
-							</dependency>
-						</dependencies>
-						<configuration>
-							<properties>
-								<dir>${basedir}/src/main/resources/i18n/</dir>
-							</properties>
-							<scriptpath>
-								<element>${basedir}/src/main/script</element>
-							</scriptpath>
-							<source>
-								def dir = project.properties['dir'];
-								new
-								I18nGenerator().generate(dir);
-							</source>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>

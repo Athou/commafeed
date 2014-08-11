@@ -1,7 +1,0 @@
-#!/bin/bash
-# This is a simple bash script and will be sourced prior to building 
-# your application. This script can be used to modify the Maven build
-# arguments for non-CI/Jenkins builds by exporting MAVEN_ARGS. The default
-# is "clean package -Popenshift -DskipTests"
-export MAVEN_ARGS="clean package -Popenshift -Pprod -DskipTests=true"
-export MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=128m -Dmaven.artifact.threads=20"

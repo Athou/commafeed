@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 import lombok.Data;
 
-import com.wordnik.swagger.annotations.ApiClass;
-import com.wordnik.swagger.annotations.ApiProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
-@ApiClass("Feed information request")
+@ApiModel("Feed information request")
 @Data
 public class FeedInfoRequest implements Serializable {
 
-	@ApiProperty(value = "feed url", required = true)
+	@ApiModelProperty(value = "feed url", required = true)
 	private String url;
 
 }

@@ -2,9 +2,7 @@ CommaFeed [![Build Status](https://buildhive.cloudbees.com/job/Athou/job/commafe
 =========
 Sources for [CommaFeed.com](http://www.commafeed.com/).
 
-Google Reader inspired self-hosted RSS reader, based on JAX-RS, Wicket and AngularJS.
-
-Deploy on your own server (using TomEE, a lightweight JavaEE6 container based on Tomcat) or even in the cloud for free on OpenShift.
+Google Reader inspired self-hosted RSS reader, based on Dropwizard and AngularJS.
 
 Related open-source projects
 ----------------------------
@@ -13,26 +11,10 @@ Android apps: [News+ extension](https://github.com/Athou/commafeed-newsplus) - [
 
 Browser extensions: [Chrome](https://github.com/Athou/commafeed-chrome) - [Firefox](https://github.com/Athou/commafeed-firefox) - [Opera](https://github.com/Athou/commafeed-opera) - [Safari](https://github.com/Athou/commafeed-safari)
 
-Deployment on OpenShift
------------------------
-
-Hosting an application on OpenShift is free. 
-At the moment those instructions are not working because the application takes too long to build on OpenShift and causes a timeout. 
-See [here](http://jasonwryan.com/blog/2013/05/25/greader/) for an alternative method.
-
-* Create an account on [OpenShift](http://www.openshift.com/).
-* Add an application, select `JBoss Enterprise Application Platform 6.0`.
-* For the `Public URL` set the name you want (e.g. `commafeed`).
-* For the `Source Code` option, click `Change` and set this repository (`https://github.com/Athou/commafeed.git`).
-* Click `Create Application`.
-* Click `Add cartridge` and select `MySQL`.
-* Wait a couple of minutes and access your application.
-* The default user is `admin` and the password is `admin`.
-
 Deployment on your own server
 -----------------------------
 
-For storage, you can either use an embedded HSQLDB database or an external MySQL, PostgreSQL or SQLServer database.
+For storage, you can either use an embedded H2 database or an external MySQL, PostgreSQL or SQLServer database.
 You also need Maven 3.x (and a Java 1.7+ JDK) installed in order to build the application.
 
 To install maven and openjdk on Ubuntu, issue the following commands
@@ -46,63 +28,37 @@ To install maven and openjdk on Ubuntu, issue the following commands
     
 On Windows and other operating systems, just download maven 3.x from the [official site](http://maven.apache.org/), extract it somewhere and add the `bin` directory to your `PATH` environment variable.
     
-Download the sources (it doesn't matter where, you can delete the directory when you're done).
-If you don't have git you can download the sources as a zip file from [here](https://github.com/Athou/commafeed/archive/master.zip)
+Clone this repository. If you don't have git you can download the sources as a zip file from [here](https://github.com/Athou/commafeed/archive/master.zip)
 
     git clone https://github.com/Athou/commafeed.git
     cd commafeed
     
 Now build the application
 
-	# Embedded HSQL database:
-    mvn clean package tomee:build -Pprod
+    mvn clean package
     
-	# External MySQL database:
-    mvn clean package tomee:build -Pprod -Pmysql
-    
-    # External PostgreSQL database:
-    mvn clean package tomee:build -Pprod -Ppgsql
-    
-    # External Microsoft SQL Server database:
-    mvn clean package tomee:build -Pprod -Pmssql
-    
-It will generate a zip file at `target/commafeed.zip` with everything you need to run the application.
+Copy `config.yml.example` to `config.yml` then edit the file to your liking.
+Issue the following command to run the app, the server will listen by default on ``http://localhost:8082`. The default user is `admin` and the default password is `admin`.
 
-* Create a directory somewhere (e.g. `/opt/commafeed/`) and extract the generated zip inside this directory.
-* Create a directory called `logs` (e.g. `/opt/commafeed/logs`)
-* Copy the file `conf/setenv.sh` (Linux) or `conf/setenv.bat` (Windows) to `bin/`
-* If you don't use the embedded database, create a database in your external database instance, then uncomment the `Resource` element corresponding to the database engine you use from `conf/tomee.xml` and edit the default credentials.
-* If you'd like to change the default port (8082), edit `conf/server.xml` and look for `<Connector port="8082" protocol="HTTP/1.1"`. Change the port to the value you'd like to use.
-* CommaFeed will run on the `/commafeed` context. If you'd like to change the context, go to `webapps` and rename `commafeed.war`. Use the special name `ROOT.war` to deploy to the root context.
-* To start and stop the application, use `bin/startup.sh` and `bin/shutdown.sh` on Linux (you need to `chmod +x bin/*.sh`) or `bin\startup.bat` and `bin\shutdown.bat` on Windows. 
-If you use the embedded database, note that the database file will be created in the current directory, so make sure you always start the app in the same directory. You can optionally set an absolute path instead of a relative one in `tomee.xml`.
-* To update the application with a newer version, pull the latest changes and use the same command you used to build the complete TomEE package, but without the `tomee:build` part (keep `-Pprod -P<database>`). 
-This will generate the file `target/commafeed.war`. Copy this file to your tomee `webapps/` directory.
-* The application is online at [http://localhost:8082/commafeed](http://localhost:8082/commafeed). Don't forget to set the public URL in the admin settings.
-* The default user is `admin` and the password is `admin`.
+	java -jar target/commafeed.jar server config.yml
 
 You can use nginx or apache as a proxy http server. Note that when using apache, the `ProxyPreserveHost on` option should be set in your config file.
 
 Local development
 -----------------
 
-Checkout the code and use maven to build and start a local TomEE instance.
+To start the dropwizard backend, use your IDE to run CommaFeedApplication as your main class, and pass `server config.dev.yml` as arguments to the program.
+To start the client-side webserver with watches on assets, run `gulp dev`. The server is now running on port 8082 and is proxying REST requests to dropwizard on port 8083.
 
- `mvn clean package tomee:run`
-
-The application is online at [http://localhost:8082/commafeed](http://localhost:8082/commafeed). Any change to the source code will be applied immediatly.
-The default user is `admin` and the password is `admin`.
 
 Translate CommaFeed into your language
 --------------------------------------
 
-Files for internationalization are located [here](https://github.com/Athou/commafeed/tree/master/src/main/resources/i18n).
+Files for internationalization are located [here](https://github.com/Athou/commafeed/tree/master/src/main/app/i18n).
 
 To add a new language, create a new file in that directory.
 The name of the file should be the two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
-The language has to be referenced in the `languages.properties` file to be picked up.
-
-When adding new translations, add them in en.properties then run `mvn -e groovy:execute -Pi18n`. It will parse the english file and add placeholders in the other translation files. 
+The language has to be referenced in the `src/main/app/js/i18n.js` file to be picked up.
 
 Themes
 ---------------------
@@ -117,7 +73,7 @@ See [_test.scss](https://github.com/Athou/commafeed/blob/master/src/main/webapp/
 Copyright and license
 ---------------------
 
-Copyright 2013 CommaFeed.
+Copyright 2013-2014 CommaFeed.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this work except in compliance with the License.

@@ -4,18 +4,18 @@ import java.io.Serializable;
 
 import lombok.Data;
 
-import com.wordnik.swagger.annotations.ApiClass;
-import com.wordnik.swagger.annotations.ApiProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
-@ApiClass("Add Category Request")
+@ApiModel("Add Category Request")
 @Data
 public class AddCategoryRequest implements Serializable {
 
-	@ApiProperty(value = "name", required = true)
+	@ApiModelProperty(value = "name", required = true)
 	private String name;
 
-	@ApiProperty(value = "parent category id, if any")
+	@ApiModelProperty(value = "parent category id, if any")
 	private String parentId;
 
 }

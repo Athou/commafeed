@@ -98,8 +98,9 @@ gulp.task('serve', function() {
 		middleware : function() {
 			var rest = '^/rest/(.*)$ http://localhost:8083/rest/$1 [P]';
 			var next = '^/next(.*)$ http://localhost:8083/next$1 [P]';
-			var logout = '^/logout(.*)$ http://localhost:8083/logout$1 [P]';
-			return [modRewrite([rest, next, logout])];
+			var logout = '^/logout$ http://localhost:8083/logout [P]';
+			var custom_css = '^/custom_css.css$ http://localhost:8083/custom_css.css [P]';
+			return [modRewrite([rest, next, logout, custom_css])];
 		}
 	});
 });

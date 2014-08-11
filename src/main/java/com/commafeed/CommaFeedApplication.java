@@ -76,6 +76,7 @@ import com.commafeed.frontend.resource.FeedREST;
 import com.commafeed.frontend.resource.PubSubHubbubCallbackREST;
 import com.commafeed.frontend.resource.ServerREST;
 import com.commafeed.frontend.resource.UserREST;
+import com.commafeed.frontend.servlet.CustomCssServlet;
 import com.commafeed.frontend.servlet.LogoutServlet;
 import com.commafeed.frontend.servlet.NextUnreadServlet;
 
@@ -194,8 +195,10 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		NextUnreadServlet nextUnreadServlet = new NextUnreadServlet(sessionFactory, feedSubscriptionDAO, feedEntryStatusDAO,
 				feedCategoryDAO, config);
 		LogoutServlet logoutServlet = new LogoutServlet(config);
+		CustomCssServlet customCssServlet = new CustomCssServlet(sessionFactory, userSettingsDAO, config);
 		environment.servlets().addServlet("next", nextUnreadServlet).addMapping("/next");
 		environment.servlets().addServlet("logout", logoutServlet).addMapping("/logout");
+		environment.servlets().addServlet("customCss", customCssServlet).addMapping("/custom_css.css");
 
 		// Tasks
 		SchedulingService schedulingService = new SchedulingService();

@@ -106,7 +106,8 @@ gulp.task('serve', function() {
 			var next = '^/next(.*)$ http://localhost:8083/next$1 [P]';
 			var logout = '^/logout$ http://localhost:8083/logout [P]';
 			var custom_css = '^/custom_css.css$ http://localhost:8083/custom_css.css [P]';
-			return [modRewrite([rest, next, logout, custom_css])];
+			var analytics = '^/analytics.js http://localhost:8083/analytics.js [P]';
+			return [modRewrite([rest, next, logout, custom_css, analytics])];
 		}
 	});
 });

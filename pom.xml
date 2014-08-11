@@ -154,9 +154,14 @@
 			<version>${dropwizard.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>io.federecio</groupId>
-			<artifactId>dropwizard-swagger</artifactId>
-			<version>0.5.1</version>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-assets</artifactId>
+			<version>${dropwizard.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.wordnik</groupId>
+			<artifactId>swagger-jaxrs_2.10</artifactId>
+			<version>1.3.2</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jsr311-api</artifactId>

@@ -15,5 +15,7 @@ public class ServerInfo implements Serializable {
 	private String version;
 	private String gitCommit;
 	private boolean allowRegistrations;
+	private String googleAnalyticsCode;
+	private boolean smtpEnabled;
 
 }

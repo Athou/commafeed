@@ -13,6 +13,8 @@ import javax.ws.rs.core.Response.Status;
 
 import lombok.AllArgsConstructor;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
@@ -45,6 +47,8 @@ public class ServerREST {
 		infos.setVersion(applicationPropertiesService.getVersion());
 		infos.setGitCommit(applicationPropertiesService.getGitCommit());
 		infos.setAllowRegistrations(config.getApplicationSettings().isAllowRegistrations());
+		infos.setGoogleAnalyticsCode(config.getApplicationSettings().getGoogleAnalyticsTrackingCode());
+		infos.setSmtpEnabled(StringUtils.isNotBlank(config.getApplicationSettings().getSmtpHost()));
 		return Response.ok(infos).build();
 	}
 

@@ -17,11 +17,11 @@ app:
   databaseUpdateThreads: 1
   
   # settings for sending emails (password recovery)
-  smtpHost:
-  smtpPort:
+  smtpHost: localhost
+  smtpPort: 25
   smtpTls: false
-  smtpUserName:
-  smtpPassword:
+  smtpUserName: user
+  smtpPassword: pass
   
   # wether this commafeed instance has a lot of feeds to refresh
   # leave this to false in almost all cases

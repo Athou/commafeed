@@ -36,6 +36,7 @@ module.factory('SessionService', ['$resource', function($resource) {
 	var res = {};
 	res.login = $resource('rest/user/login').save;
 	res.register = $resource('rest/user/register').save;
+	res.passwordReset = $resource('rest/user/passwordReset').save;
 	return res;
 }]);
 

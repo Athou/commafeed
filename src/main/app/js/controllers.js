@@ -1460,9 +1460,16 @@ module.controller('MetricsCtrl', ['$scope', 'AdminMetricsService', function($sco
 	$scope.metrics = AdminMetricsService.get();
 }]);
 
-module.controller('LoginCtrl', ['$scope', '$location', 'SessionService', function($scope, $location, SessionService) {
+module.controller('LoginCtrl', ['$scope', '$location', 'SessionService', 'ServerService', function($scope, $location, SessionService, ServerService) {
 	$scope.model = {};
-
+	$scope.recovery_model = {};
+	$scope.recovery = false;
+	$scope.recovery_enabled = false;
+	
+	ServerService.get(function(data) {
+		$scope.recovery_enabled = data.smtpEnabled;
+	});
+	
 	var login = function(model) {
 		var success = function(data) {
 			window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
@@ -1485,6 +1492,22 @@ module.controller('LoginCtrl', ['$scope', '$location', 'SessionService', functio
 	$scope.login = function() {
 		login($scope.model);
 	};
+	
+	$scope.toggleRecovery = function() {
+		$scope.recovery = !$scope.recovery;
+	};
+	
+	var recovery_success = function(data) {
+		$scope.recovery_message = "Email has ben sent. Check your inbox.";
+	};
+	var recovery_error = function(data) {
+		$scope.recovery_message = data.data;
+	};
+	$scope.recover = function() {
+		SessionService.passwordReset({
+			email : $scope.recovery_model.email
+		}, recovery_success, recovery_error);
+	}
 }]);
 
 module.controller('RegisterCtrl', ['$scope', '$location', 'SessionService', 'ServerService',

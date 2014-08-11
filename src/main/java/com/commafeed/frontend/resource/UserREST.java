@@ -6,6 +6,8 @@ import io.dropwizard.jersey.validation.ValidationErrorMessage;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
@@ -15,18 +17,26 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.http.client.utils.URIBuilder;
 
 import com.commafeed.CommaFeedApplication;
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
+import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
@@ -34,12 +44,14 @@ import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.model.UserSettings.ViewMode;
+import com.commafeed.backend.service.MailService;
 import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.LoginRequest;
+import com.commafeed.frontend.model.request.PasswordResetRequest;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.model.request.RegistrationRequest;
 import com.google.common.base.Optional;
@@ -53,6 +65,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 @Api(value = "/user", description = "Operations about the user")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Slf4j
 @AllArgsConstructor
 public class UserREST {
 
@@ -61,6 +74,8 @@ public class UserREST {
 	private final UserSettingsDAO userSettingsDAO;
 	private final UserService userService;
 	private final PasswordEncryptionService encryptionService;
+	private final MailService mailService;
+	private final CommaFeedConfiguration config;
 
 	@Path("/settings")
 	@GET
@@ -231,6 +246,75 @@ public class UserREST {
 		} else {
 			return Response.status(Response.Status.UNAUTHORIZED).entity("wrong username or password").build();
 		}
+	}
+
+	@Path("/passwordReset")
+	@POST
+	@UnitOfWork
+	@ApiOperation(value = "send a password reset email")
+	public Response sendPasswordReset(@Valid PasswordResetRequest req) {
+		User user = userDAO.findByEmail(req.getEmail());
+		if (user == null) {
+			return Response.status(Status.PRECONDITION_FAILED).entity("Email not found.").build();
+		}
+		try {
+			user.setRecoverPasswordToken(DigestUtils.sha1Hex(UUID.randomUUID().toString()));
+			user.setRecoverPasswordTokenDate(new Date());
+			userDAO.saveOrUpdate(user);
+			mailService.sendMail(user, "Password recovery", buildEmailContent(user));
+			return Response.ok().build();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("could not send email: " + e.getMessage()).build();
+		}
+	}
+
+	private String buildEmailContent(User user) throws Exception {
+		String publicUrl = FeedUtils.removeTrailingSlash(config.getApplicationSettings().getPublicUrl());
+		publicUrl += "/rest/user/passwordResetCallback";
+		return String
+				.format("You asked for password recovery for account '%s', <a href='%s'>follow this link</a> to change your password. Ignore this if you didn't request a password recovery.",
+						user.getName(), callbackUrl(user, publicUrl));
+	}
+
+	private String callbackUrl(User user, String publicUrl) throws Exception {
+		return new URIBuilder(publicUrl).addParameter("email", user.getEmail()).addParameter("token", user.getRecoverPasswordToken())
+				.build().toURL().toString();
+	}
+
+	@Path("/passwordResetCallback")
+	@GET
+	@UnitOfWork
+	@Produces(MediaType.TEXT_HTML)
+	public Response passwordRecoveryCallback(@QueryParam("email") String email, @QueryParam("token") String token) {
+		Preconditions.checkNotNull(email);
+		Preconditions.checkNotNull(token);
+
+		User user = userDAO.findByEmail(email);
+		if (user == null) {
+			return Response.status(Status.UNAUTHORIZED).entity("Email not found.").build();
+		}
+		if (user.getRecoverPasswordToken() == null || !user.getRecoverPasswordToken().equals(token)) {
+			return Response.status(Status.UNAUTHORIZED).entity("Invalid token.").build();
+		}
+		if (user.getRecoverPasswordTokenDate().before(DateUtils.addDays(new Date(), -2))) {
+			return Response.status(Status.UNAUTHORIZED).entity("token expired.").build();
+		}
+
+		String passwd = RandomStringUtils.randomAlphanumeric(10);
+		byte[] password = encryptionService.getEncryptedPassword(passwd, user.getSalt());
+		user.setPassword(password);
+		if (StringUtils.isNotBlank(user.getApiKey())) {
+			user.setApiKey(userService.generateApiKey(user));
+		}
+		user.setRecoverPasswordToken(null);
+		user.setRecoverPasswordTokenDate(null);
+		userDAO.saveOrUpdate(user);
+
+		String message = "Your new password is: " + passwd;
+		message += "<br />";
+		message += String.format("<a href=\"%s\">Back to Homepage</a>", config.getApplicationSettings().getPublicUrl());
+		return Response.ok(message).build();
 	}
 
 	@Path("/profile/deleteAccount")

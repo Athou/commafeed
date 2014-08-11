@@ -3,7 +3,6 @@ package com.commafeed.backend.service;
 import java.io.Serializable;
 import java.util.Properties;
 
-import javax.inject.Inject;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -11,6 +10,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import lombok.RequiredArgsConstructor;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConfiguration.ApplicationSettings;
@@ -21,10 +22,10 @@ import com.commafeed.backend.model.User;
  * 
  */
 @SuppressWarnings("serial")
+@RequiredArgsConstructor
 public class MailService implements Serializable {
 
-	@Inject
-	CommaFeedConfiguration config;
+	private final CommaFeedConfiguration config;
 
 	public void sendMail(User user, String subject, String content) throws Exception {
 

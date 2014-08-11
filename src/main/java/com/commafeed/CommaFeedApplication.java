@@ -60,6 +60,7 @@ import com.commafeed.backend.service.FeedEntryTagService;
 import com.commafeed.backend.service.FeedService;
 import com.commafeed.backend.service.FeedSubscriptionService;
 import com.commafeed.backend.service.FeedUpdateService;
+import com.commafeed.backend.service.MailService;
 import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.PubSubService;
 import com.commafeed.backend.service.StartupService;
@@ -160,6 +161,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		FeedSubscriptionService feedSubscriptionService = new FeedSubscriptionService(feedEntryStatusDAO, feedSubscriptionDAO, feedService,
 				queues, cacheService, config);
 		FeedUpdateService feedUpdateService = new FeedUpdateService(feedEntryDAO, feedEntryContentService);
+		MailService mailService = new MailService(config);
 		PasswordEncryptionService encryptionService = new PasswordEncryptionService();
 		PubSubService pubSubService = new PubSubService(config, queues);
 		UserService userService = new UserService(feedCategoryDAO, userDAO, userSettingsDAO, feedSubscriptionService, encryptionService,
@@ -198,7 +200,8 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 						feedSubscriptionService, queues, opmlImporter, opmlExporter, cacheService, config));
 		environment.jersey().register(new PubSubHubbubCallbackREST(feedDAO, feedParser, queues, config, metrics));
 		environment.jersey().register(new ServerREST(httpGetter, config, applicationPropertiesService));
-		environment.jersey().register(new UserREST(userDAO, userRoleDAO, userSettingsDAO, userService, encryptionService));
+		environment.jersey().register(
+				new UserREST(userDAO, userRoleDAO, userSettingsDAO, userService, encryptionService, mailService, config));
 
 		// Servlets
 		NextUnreadServlet nextUnreadServlet = new NextUnreadServlet(sessionFactory, feedSubscriptionDAO, feedEntryStatusDAO,
@@ -230,8 +233,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		SwaggerConfig swaggerConfig = ConfigFactory.config();
 		swaggerConfig.setApiVersion("1");
 		swaggerConfig.setBasePath("/rest");
-
-		// TODO password recovery
 	}
 
 	public static void main(String[] args) throws Exception {

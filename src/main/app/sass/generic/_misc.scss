@@ -35,6 +35,10 @@ label {
 	color: inherit;
 }
 
+.clear-both {
+	clear: both;
+}
+
 .block {
 	display: block;
 }
@@ -63,7 +67,11 @@ label {
 }
 
 .welcome .header {
-	margin: 20px 0 40px 0;
+	margin: 20px 0 20px 0;
+}
+
+.welcome h3 {
+	margin-top: 0;
 }
 
 .welcome .tagline {
@@ -73,13 +81,14 @@ label {
 }
 
 .welcome .preview {
-	margin: 20px 0 20px 0;
-	max-width: 100%;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .welcome .demo {
 	font-size: 24px;
 	color: #B3B3B3;
+	display: block;
 }
 
 .main .spinner {

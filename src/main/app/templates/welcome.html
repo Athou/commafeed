@@ -6,21 +6,18 @@
 			</a>
 		</div>
 		<div class="pull-right tagline">Bloat-free feed reader</div>
-		<div class="text-center">
-			<a href="#" ng-click="demoLogin()">
-				<img src="images/preview.jpg" class="preview" />
+		<div class="text-center clear-both">
+			<img src="images/preview.jpg" class="preview" />
+			<a href="#" ng-click="demoLogin()" class="demo">
+				Try out the demo
 				<br />
-				<span class="demo">
-					Try out the demo
-					<br />
-					<small>(some features are disabled)</small>
-				</span>
+				<small>(some features are disabled)</small>
 			</a>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-6" ng-controller="LoginCtrl">
-			<div class="well" id="login-panel">
+			<div class="well" id="login-panel" ng-if="!recovery">
 				<h3>Login</h3>
 				<span class="feedback">{{message}}</span>
 				<form ng-submit="login()">
@@ -34,7 +31,21 @@
 					</div>
 					<div>
 						<input type="submit" class="btn btn-primary" value="Log in" />
-						<a class="pull-right">Forgot password?</a>
+						<a href="" class="pull-right" ng-click="toggleRecovery()" ng-if="recovery_enabled">Forgot password?</a>
+					</div>
+				</form>
+			</div>
+			<div class="well" id="recovery-panel" ng-if="recovery">
+				<h3>Password Recovery</h3>
+				<span class="feedback">{{recovery_message}}</span>
+				<form ng-submit="recover()">
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input type="email" name="email" class="form-control" ng-model="recovery_model.email" focus="true"></input>
+					</div>
+					<div>
+						<input type="submit" class="btn btn-primary" value="Recover" />
+						<input type="button" class="btn" value="Cancel" ng-click="toggleRecovery()" />
 					</div>
 				</form>
 			</div>

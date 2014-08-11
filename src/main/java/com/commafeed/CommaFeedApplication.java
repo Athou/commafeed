@@ -142,8 +142,8 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 		// Services
 		ApplicationPropertiesService applicationPropertiesService = new ApplicationPropertiesService();
-		DatabaseCleaningService cleaningService = new DatabaseCleaningService(feedDAO, feedEntryDAO, feedEntryContentDAO,
-				feedEntryStatusDAO, feedSubscriptionDAO);
+		DatabaseCleaningService cleaningService = new DatabaseCleaningService(sessionFactory, feedDAO, feedEntryDAO, feedEntryContentDAO,
+				feedEntryStatusDAO);
 		FeedEntryContentService feedEntryContentService = new FeedEntryContentService(feedEntryContentDAO);
 		FeedEntryService feedEntryService = new FeedEntryService(feedSubscriptionDAO, feedEntryDAO, feedEntryStatusDAO, cacheService);
 		FeedEntryTagService feedEntryTagService = new FeedEntryTagService(feedEntryDAO, feedEntryTagDAO);
@@ -202,8 +202,8 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 		// Tasks
 		SchedulingService schedulingService = new SchedulingService();
-		schedulingService.register(new OldStatusesCleanupTask(sessionFactory, config, cleaningService));
-		schedulingService.register(new OrphansCleanupTask(sessionFactory, cleaningService));
+		schedulingService.register(new OldStatusesCleanupTask(config, cleaningService));
+		schedulingService.register(new OrphansCleanupTask(cleaningService));
 
 		// Managed objects
 		environment.lifecycle().manage(startupService);

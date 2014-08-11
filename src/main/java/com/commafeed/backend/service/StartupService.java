@@ -48,7 +48,7 @@ public class StartupService implements Managed {
 		new UnitOfWork<Void>(sessionFactory) {
 			@Override
 			protected Void runInSession() throws Exception {
-				if (userDAO.findByName(CommaFeedApplication.USERNAME_ADMIN) == null) {
+				if (userDAO.count() == 0) {
 					initialData();
 				}
 				return null;

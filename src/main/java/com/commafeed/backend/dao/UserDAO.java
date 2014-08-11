@@ -28,4 +28,8 @@ public class UserDAO extends GenericDAO<User> {
 		return newQuery().from(user).where(user.email.equalsIgnoreCase(email)).leftJoin(user.roles, QUserRole.userRole).fetch()
 				.uniqueResult(user);
 	}
+
+	public long count() {
+		return newQuery().from(user).count();
+	}
 }

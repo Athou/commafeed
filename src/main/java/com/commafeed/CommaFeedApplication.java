@@ -79,6 +79,15 @@ import com.commafeed.frontend.resource.UserREST;
 import com.commafeed.frontend.servlet.CustomCssServlet;
 import com.commafeed.frontend.servlet.LogoutServlet;
 import com.commafeed.frontend.servlet.NextUnreadServlet;
+import com.wordnik.swagger.config.ConfigFactory;
+import com.wordnik.swagger.config.ScannerFactory;
+import com.wordnik.swagger.config.SwaggerConfig;
+import com.wordnik.swagger.jaxrs.config.DefaultJaxrsScanner;
+import com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider;
+import com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON;
+import com.wordnik.swagger.jaxrs.listing.ResourceListingProvider;
+import com.wordnik.swagger.jaxrs.reader.DefaultJaxrsApiReader;
+import com.wordnik.swagger.reader.ClassReaders;
 
 @Slf4j
 public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
@@ -212,7 +221,16 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.lifecycle().manage(feedUpdater);
 		environment.lifecycle().manage(schedulingService);
 
-		// TODO swagger ui
+		// Swagger
+		environment.jersey().register(new ApiListingResourceJSON());
+		environment.jersey().register(new ApiDeclarationProvider());
+		environment.jersey().register(new ResourceListingProvider());
+		ScannerFactory.setScanner(new DefaultJaxrsScanner());
+		ClassReaders.setReader(new DefaultJaxrsApiReader());
+		SwaggerConfig swaggerConfig = ConfigFactory.config();
+		swaggerConfig.setApiVersion("1");
+		swaggerConfig.setBasePath("/rest");
+
 		// TODO password recovery
 	}
 

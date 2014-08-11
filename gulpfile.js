@@ -51,6 +51,12 @@ gulp.task('select2', ['bower'], function() {
 	return gulp.src([gif, png]).pipe(gulp.dest(BUILD_DIR + 'css'));
 });
 
+gulp.task('swagger-ui', ['bower'], function() {
+	var index_html = SRC_DIR + 'api/index.html';
+	var lib = SRC_DIR + 'lib/swagger-ui/dist/**/*';
+	return gulp.src([lib, index_html]).pipe(gulp.dest(BUILD_DIR + 'api'));
+});
+
 gulp.task('template-cache', function() {
 	var options = {
 		module : 'commafeed.services',
@@ -59,7 +65,7 @@ gulp.task('template-cache', function() {
 	return gulp.src(SRC_DIR + 'templates/**/*.html').pipe(templateCache(options)).pipe(gulp.dest(TEMP_DIR + 'js'));
 });
 
-gulp.task('build-dev', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2', 'template-cache', 'bower'], function() {
+gulp.task('build-dev', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2', 'swagger-ui', 'template-cache', 'bower'], function() {
 	var assets = useref.assets({
 		searchPath : [SRC_DIR, TEMP_DIR]
 	});
@@ -69,7 +75,7 @@ gulp.task('build-dev', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2'
 			revReplace()).pipe(gulp.dest(BUILD_DIR));
 });
 
-gulp.task('build', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2', 'template-cache', 'bower'], function() {
+gulp.task('build', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2', 'swagger-ui', 'template-cache', 'bower'], function() {
 	var assets = useref.assets({
 		searchPath : [SRC_DIR, TEMP_DIR]
 	});

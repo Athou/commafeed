@@ -24,7 +24,7 @@
   },
   "import" : {
     "google_reader_prefix" : "Importiere die Feeds von deinem",
-    "google_reader_suffix" : " Account.",
+    "google_reader_suffix" : " Konto.",
     "google_download" : "Alternativ kannst du eine XML-Datei hochladen.",
     "google_download_link" : "Lade sie hier herunter.",
     "xml_file" : "OPML Datei"
@@ -118,8 +118,8 @@
     "generate_new_api_key" : "Generiere einen neuen API key",
     "generate_new_api_key_info" : "Das Ändern des Passwortes erzeugt einen neuen API Schlüssel",
     "opml_export" : "OPML exportieren",
-    "delete_account" : "Account löschen",
-    "delete_account_confirmation" : "Deinen Account löschen? Es gibt kein Zurück!"
+    "delete_account" : "Konto löschen",
+    "delete_account_confirmation" : "Deine Konto löschen? Es gibt kein Zurück!"
   },
   "about" : {
     "rest_api" : {
@@ -141,7 +141,7 @@
       "subscribe_url" : "Abonnement-URL",
       "chrome_extension" : "Chrome Erweiterung",
       "firefox_extension" : "Firefox Add-on",
-      "opera_extension" : "Opera Add-on",
+      "opera_extension" : "Opera Erweiterung",
       "subscribe_bookmarklet" : "Abonnieren-bookmarklet (klicken)",
       "subscribe_bookmarklet_asc" : "Älteste zuerst",
       "subscribe_bookmarklet_desc" : "Neuste zuerst",
@@ -152,7 +152,7 @@
       "message" : "Wir brauchen deine Hilfe zur Übersetzung von CommaFeed.",
       "link" : "Wie du uns dabei helfen kannst"
     },
-    "announcements" : "Bekanntmachungen",
+    "announcements" : "Neuigkeiten",
     "shortcuts" : {
       "mouse_middleclick" : "Mittlere Maustaste",
       "open_next_entry" : "nächsten Artikel öffnen",

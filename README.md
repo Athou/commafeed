@@ -40,7 +40,7 @@ Now build the application
 Copy `config.yml.example` to `config.yml` then edit the file to your liking.
 Issue the following command to run the app, the server will listen by default on ``http://localhost:8082`. The default user is `admin` and the default password is `admin`.
 
-	java -jar target/commafeed-2.0.0.jar server config.yml
+	java -jar target/commafeed.jar server config.yml
 
 You can use nginx or apache as a proxy http server. Note that when using apache, the `ProxyPreserveHost on` option should be set in your config file.
 

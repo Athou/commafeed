@@ -168,8 +168,8 @@ public class AdminREST {
 		if (u == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		if (CommaFeedApplication.USERNAME_ADMIN.equals(u.getName())) {
-			return Response.status(Status.FORBIDDEN).entity("You cannot delete the admin user.").build();
+		if (user.getId().equals(u.getId())) {
+			return Response.status(Status.FORBIDDEN).entity("You cannot delete your own user.").build();
 		}
 		userService.unregister(u);
 		return Response.ok().build();

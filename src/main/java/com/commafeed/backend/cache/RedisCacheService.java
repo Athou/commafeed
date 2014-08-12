@@ -5,9 +5,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import lombok.extern.slf4j.Slf4j;
-
-import org.apache.commons.pool.impl.GenericObjectPool;
-
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -32,7 +29,7 @@ public class RedisCacheService extends CacheService {
 
 	public RedisCacheService() {
 		JedisPoolConfig config = new JedisPoolConfig();
-		config.setWhenExhaustedAction(GenericObjectPool.WHEN_EXHAUSTED_GROW);
+		config.setBlockWhenExhausted(false);
 		pool = new JedisPool(config, "localhost");
 	}
 

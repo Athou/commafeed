@@ -7,6 +7,9 @@ target
 # log files
 log
 
+# jetty sessions
+sessions
+
 # node
 node
 node_modules

@@ -9,10 +9,13 @@ import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
+import java.io.File;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.hibernate.SessionFactory;
 
@@ -182,8 +185,21 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		FeedRefreshTaskGiver taskGiver = new FeedRefreshTaskGiver(sessionFactory, queues, feedDAO, feedWorker, config, metrics);
 
 		// Auth/session management
+		HashSessionManager sessionManager = new HashSessionManager();
+		sessionManager.setHttpOnly(true);
+		sessionManager.getSessionCookieConfig().setHttpOnly(true);
 
-		environment.servlets().setSessionHandler(new SessionHandler());
+		sessionManager.setStoreDirectory(new File("sessions"));
+		sessionManager.getSessionCookieConfig().setMaxAge((int) TimeUnit.DAYS.toSeconds(30));
+		sessionManager.setMaxInactiveInterval((int) TimeUnit.DAYS.toSeconds(30));
+
+		sessionManager.setDeleteUnrestorableSessions(true);
+		sessionManager.setIdleSavePeriod((int) TimeUnit.HOURS.toSeconds(2));
+		sessionManager.setRefreshCookieAge((int) TimeUnit.DAYS.toSeconds(1));
+		sessionManager.setSavePeriod((int) TimeUnit.MINUTES.toSeconds(5));
+		sessionManager.setScavengePeriod((int) TimeUnit.MINUTES.toSeconds(5));
+
+		environment.servlets().setSessionHandler(new SessionHandler(sessionManager));
 		environment.jersey().register(new SecurityCheckUserServiceProvider(userService));
 		environment.jersey().register(SecurityCheckProvider.class);
 		environment.jersey().register(HttpSessionProvider.class);

@@ -54,7 +54,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 			query.where(disabledDatePredicate);
 		}
 
-		return query.orderBy(feed.disabledUntil.asc()).limit(count).list(feed);
+		return query.orderBy(feed.disabledUntil.asc()).limit(count).distinct().list(feed);
 	}
 
 	public Feed findByUrl(String normalizedUrl) {

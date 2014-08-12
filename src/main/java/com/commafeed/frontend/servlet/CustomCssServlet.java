@@ -39,7 +39,8 @@ public class CustomCssServlet extends HttpServlet {
 				return userSettingsDAO.findByUser(user);
 			}
 		}.run();
-		if (settings == null) {
+
+		if (settings == null || settings.getCustomCss() == null) {
 			return;
 		}
 

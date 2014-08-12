@@ -45,13 +45,13 @@ public class FeedDAO extends GenericDAO<Feed> {
 		disabledDatePredicate.or(feed.disabledUntil.isNull());
 		disabledDatePredicate.or(feed.disabledUntil.lt(new Date()));
 
-		HibernateQuery query = newQuery().from(feed).where(disabledDatePredicate);
+		HibernateQuery query = newQuery().from(feed);
 		if (lastLoginThreshold != null) {
-			QFeedSubscription sub = QFeedSubscription.feedSubscription;
+			QFeedSubscription subs = QFeedSubscription.feedSubscription;
 			QUser user = QUser.user;
-			HibernateSubQuery subquery = new HibernateSubQuery();
-			subquery.from(sub).join(sub.user, user).where(sub.feed.eq(feed), user.lastLogin.gt(lastLoginThreshold));
-			query.where(subquery.exists());
+			query.join(feed.subscriptions, subs).join(subs.user, user).where(disabledDatePredicate, user.lastLogin.gt(lastLoginThreshold));
+		} else {
+			query.where(disabledDatePredicate);
 		}
 
 		return query.orderBy(feed.disabledUntil.asc()).limit(count).list(feed);

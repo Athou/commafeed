@@ -78,10 +78,11 @@ public class AdminREST {
 				return Response.status(Status.CONFLICT).entity(e.getMessage()).build();
 			}
 		} else {
-			User u = userDAO.findById(id);
-			if (CommaFeedApplication.USERNAME_ADMIN.equals(u.getName()) && !userModel.isEnabled()) {
-				return Response.status(Status.FORBIDDEN).entity("You cannot disable the admin user.").build();
+			if (userModel.getId().equals(user.getId()) && !userModel.isEnabled()) {
+				return Response.status(Status.FORBIDDEN).entity("You cannot disable your own account.").build();
 			}
+
+			User u = userDAO.findById(id);
 			u.setName(userModel.getName());
 			if (StringUtils.isNotBlank(userModel.getPassword())) {
 				u.setPassword(encryptionService.getEncryptedPassword(userModel.getPassword(), u.getSalt()));

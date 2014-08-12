@@ -302,8 +302,8 @@ public class UserREST {
 		}
 
 		String passwd = RandomStringUtils.randomAlphanumeric(10);
-		byte[] password = encryptionService.getEncryptedPassword(passwd, user.getSalt());
-		user.setPassword(password);
+		byte[] encryptedPassword = encryptionService.getEncryptedPassword(passwd, user.getSalt());
+		user.setPassword(encryptedPassword);
 		if (StringUtils.isNotBlank(user.getApiKey())) {
 			user.setApiKey(userService.generateApiKey(user));
 		}

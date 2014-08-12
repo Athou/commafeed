@@ -82,6 +82,7 @@ public class FeedRefreshUpdater implements Managed {
 
 	@Override
 	public void stop() throws Exception {
+		log.info("shutting down feed refresh updater");
 		pool.shutdown();
 	}
 

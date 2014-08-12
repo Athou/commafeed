@@ -47,6 +47,7 @@ public class FeedRefreshTaskGiver implements Managed {
 
 	@Override
 	public void stop() {
+		log.info("shutting down feed refresh task giver");
 		executor.shutdownNow();
 		while (!executor.isTerminated()) {
 			try {
@@ -82,7 +83,7 @@ public class FeedRefreshTaskGiver implements Managed {
 							try {
 								Thread.sleep(15000);
 							} catch (InterruptedException e) {
-								log.error("interrupted while sleeping");
+								log.debug("interrupted while sleeping");
 							}
 						}
 					} catch (Exception e) {

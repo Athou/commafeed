@@ -31,12 +31,15 @@ public class UserService {
 	private final PasswordEncryptionService encryptionService;
 	private final CommaFeedConfiguration config;
 
-	public Optional<User> login(String name, String password) {
-		if (name == null || password == null) {
+	public Optional<User> login(String nameOrEmail, String password) {
+		if (nameOrEmail == null || password == null) {
 			return Optional.absent();
 		}
 
-		User user = userDAO.findByName(name);
+		User user = userDAO.findByName(nameOrEmail);
+		if (user == null) {
+			user = userDAO.findByEmail(nameOrEmail);
+		}
 		if (user != null && !user.isDisabled()) {
 			boolean authenticated = encryptionService.authenticate(password, user.getPassword(), user.getSalt());
 			if (authenticated) {

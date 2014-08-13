@@ -16,32 +16,24 @@ public abstract class UnitOfWork<T> {
 	protected abstract T runInSession() throws Exception;
 
 	public T run() {
-		// if newSession is false, we already are in a unit of work and roll back/commit will happen in the wrapping unit of work
-		boolean newSession = !ManagedSessionContext.hasBind(sessionFactory);
-
-		final Session session = newSession ? sessionFactory.openSession() : sessionFactory.getCurrentSession();
+		final Session session = sessionFactory.openSession();
+		if (ManagedSessionContext.hasBind(sessionFactory)) {
+			throw new IllegalStateException("Already in a unit of work!");
+		}
 		T t = null;
 		try {
-			if (newSession) {
-				ManagedSessionContext.bind(session);
-				session.beginTransaction();
-			}
+			ManagedSessionContext.bind(session);
+			session.beginTransaction();
 			try {
 				t = runInSession();
-				if (newSession) {
-					commitTransaction(session);
-				}
+				commitTransaction(session);
 			} catch (Exception e) {
-				if (newSession) {
-					rollbackTransaction(session);
-				}
+				rollbackTransaction(session);
 				this.<RuntimeException> rethrow(e);
 			}
 		} finally {
-			if (newSession) {
-				session.close();
-				ManagedSessionContext.unbind(sessionFactory);
-			}
+			session.close();
+			ManagedSessionContext.unbind(sessionFactory);
 		}
 		return t;
 	}

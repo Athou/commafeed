@@ -100,18 +100,8 @@ public class FeedRefreshUpdater implements Managed {
 
 		@Override
 		public void run() {
-			new UnitOfWork<Void>(sessionFactory) {
-				@Override
-				protected Void runInSession() throws Exception {
-					internalRun();
-					return null;
-				}
-			}.run();
-		}
-
-		public void internalRun() {
 			boolean ok = true;
-			Feed feed = context.getFeed();
+			final Feed feed = context.getFeed();
 			List<FeedEntry> entries = context.getEntries();
 			if (entries.isEmpty()) {
 				feed.setMessage("Feed has no entries");
@@ -125,7 +115,12 @@ public class FeedRefreshUpdater implements Managed {
 					if (!lastEntries.contains(cacheKey)) {
 						log.debug("cache miss for {}", entry.getUrl());
 						if (subscriptions == null) {
-							subscriptions = feedSubscriptionDAO.findByFeed(feed);
+							subscriptions = new UnitOfWork<List<FeedSubscription>>(sessionFactory) {
+								@Override
+								protected List<FeedSubscription> runInSession() throws Exception {
+									return feedSubscriptionDAO.findByFeed(feed);
+								}
+							}.run();
 						}
 						ok &= addEntry(feed, entry, subscriptions);
 						entryCacheMiss.mark();
@@ -190,7 +185,12 @@ public class FeedRefreshUpdater implements Managed {
 			locked1 = lock1.tryLock(1, TimeUnit.MINUTES);
 			locked2 = lock2.tryLock(1, TimeUnit.MINUTES);
 			if (locked1 && locked2) {
-				boolean inserted = feedUpdateService.addEntry(feed, entry);
+				boolean inserted = new UnitOfWork<Boolean>(sessionFactory) {
+					@Override
+					protected Boolean runInSession() throws Exception {
+						return feedUpdateService.addEntry(feed, entry);
+					}
+				}.run();
 				if (inserted) {
 					entryInserted.mark();
 				}

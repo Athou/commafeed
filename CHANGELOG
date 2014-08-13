@@ -10,4 +10,4 @@ v2.0.0
   - The backend has been completely rewritten using Dropwizard instead of TomEE, resulting in a lot less memory consumption and better overall performances.
     See the README on how to build CommaFeed from now on.
   - CommaFeed should no longer fetch the same feed multiple times in a row  
-    
+  - Users can use their username or email to log in  

@@ -8,7 +8,6 @@ import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.QFeedEntryTag;
 import com.commafeed.backend.model.User;
-import com.mysema.query.types.ConstructorExpression;
 
 public class FeedEntryTagDAO extends GenericDAO<FeedEntryTag> {
 
@@ -19,7 +18,7 @@ public class FeedEntryTagDAO extends GenericDAO<FeedEntryTag> {
 	}
 
 	public List<String> findByUser(User user) {
-		return newQuery().from(tag).where(tag.user.eq(user)).distinct().list(ConstructorExpression.create(String.class, tag.name));
+		return newQuery().from(tag).where(tag.user.eq(user)).distinct().list(tag.name);
 	}
 
 	public List<FeedEntryTag> findByEntry(User user, FeedEntry entry) {

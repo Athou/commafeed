@@ -12,7 +12,6 @@ import com.commafeed.backend.model.QFeed;
 import com.commafeed.backend.model.QFeedEntry;
 import com.commafeed.backend.model.QFeedSubscription;
 import com.google.common.collect.Iterables;
-import com.mysema.query.types.ConstructorExpression;
 
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
@@ -24,7 +23,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
 	public Long findExisting(String guid, Feed feed) {
 		List<Long> list = newQuery().from(entry).where(entry.guidHash.eq(DigestUtils.sha1Hex(guid)), entry.feed.eq(feed)).limit(1)
-				.list(ConstructorExpression.create(Long.class, entry.id));
+				.list(entry.id);
 		return Iterables.getFirst(list, null);
 	}
 

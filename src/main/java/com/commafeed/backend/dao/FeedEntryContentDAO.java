@@ -8,7 +8,6 @@ import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.QFeedEntry;
 import com.commafeed.backend.model.QFeedEntryContent;
 import com.google.common.collect.Iterables;
-import com.mysema.query.types.ConstructorExpression;
 
 public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 
@@ -20,7 +19,7 @@ public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 
 	public Long findExisting(String contentHash, String titleHash) {
 		List<Long> list = newQuery().from(content).where(content.contentHash.eq(contentHash), content.titleHash.eq(titleHash)).limit(1)
-				.list(ConstructorExpression.create(Long.class, content.id));
+				.list(content.id);
 		return Iterables.getFirst(list, null);
 	}
 

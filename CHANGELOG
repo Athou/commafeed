@@ -1,0 +1,13 @@
+v 2.0.2
+  - fix login on firefox when fields are autofilled by the browser
+  - fix link to documentation on home page and about page
+  - fields autocomplete is disabled on the profile page
+  - users are able to delete their account again
+  - chinese and malaysian translation files are now correctly loaded
+v 2.0.1
+  - the redis pool no longer throws an exception when it is unable to aquire a new connection
+v2.0.0
+  - The backend has been completely rewritten using Dropwizard instead of TomEE, resulting in a lot less memory consumption and better overall performances.
+    See the README on how to build CommaFeed from now on.
+  - CommaFeed should no longer fetch the same feed multiple times in a row  
+    

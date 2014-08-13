@@ -206,8 +206,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 		// REST resources
 		environment.jersey().setUrlPattern("/rest/*");
-		environment.jersey()
-				.register(new AdminREST(userDAO, userRoleDAO, userService, encryptionService, cleaningService, config, metrics));
+		environment.jersey().register(new AdminREST(userDAO, userRoleDAO, userService, encryptionService, config, metrics));
 		environment.jersey().register(
 				new CategoryREST(feedCategoryDAO, feedEntryStatusDAO, feedSubscriptionDAO, feedEntryService, feedSubscriptionService,
 						cacheService, config));

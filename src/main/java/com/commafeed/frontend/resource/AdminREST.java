@@ -28,7 +28,6 @@ import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
-import com.commafeed.backend.service.DatabaseCleaningService;
 import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.auth.SecurityCheck;
@@ -52,7 +51,6 @@ public class AdminREST {
 	private final UserRoleDAO userRoleDAO;
 	private final UserService userService;
 	private final PasswordEncryptionService encryptionService;
-	private final DatabaseCleaningService cleaner;
 	private final CommaFeedConfiguration config;
 	private final MetricRegistry metrics;
 
@@ -190,36 +188,6 @@ public class AdminREST {
 	@ApiOperation(value = "Retrieve server metrics")
 	public Response getMetrics(@SecurityCheck(Role.ADMIN) User user) {
 		return Response.ok(metrics).build();
-	}
-
-	@Path("/cleanup/entries")
-	@GET
-	@UnitOfWork
-	@ApiOperation(value = "Entries cleanup", notes = "Delete entries without subscriptions")
-	public Response cleanupEntries(@SecurityCheck(Role.ADMIN) User user) {
-		Map<String, Long> map = Maps.newHashMap();
-		map.put("entries_without_subscriptions", cleaner.cleanEntriesWithoutSubscriptions());
-		return Response.ok(map).build();
-	}
-
-	@Path("/cleanup/feeds")
-	@GET
-	@UnitOfWork
-	@ApiOperation(value = "Feeds cleanup", notes = "Delete feeds without subscriptions")
-	public Response cleanupFeeds(@SecurityCheck(Role.ADMIN) User user) {
-		Map<String, Long> map = Maps.newHashMap();
-		map.put("feeds_without_subscriptions", cleaner.cleanFeedsWithoutSubscriptions());
-		return Response.ok(map).build();
-	}
-
-	@Path("/cleanup/content")
-	@GET
-	@UnitOfWork
-	@ApiOperation(value = "Content cleanup", notes = "Delete contents without entries")
-	public Response cleanupContents(@SecurityCheck(Role.ADMIN) User user) {
-		Map<String, Long> map = Maps.newHashMap();
-		map.put("contents_without_entries", cleaner.cleanContentsWithoutEntries());
-		return Response.ok(map).build();
 	}
 
 }

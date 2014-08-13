@@ -1471,11 +1471,6 @@ module.controller('LoginCtrl', ['$scope', '$location', '$timeout', 'SessionServi
 				$scope.recovery_enabled = data.smtpEnabled;
 			});
 
-			// autofilled fields do not trigger model update, do it manually
-			$timeout(function() {
-				$('input[ng-model]').trigger('input');
-			}, 100);
-
 			var login = function(model) {
 				var success = function(data) {
 					window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
@@ -1496,6 +1491,8 @@ module.controller('LoginCtrl', ['$scope', '$location', '$timeout', 'SessionServi
 			};
 
 			$scope.login = function() {
+				// autofilled fields do not trigger model update, do it manually
+				$('input[ng-model]').trigger('input');
 				login($scope.model);
 			};
 

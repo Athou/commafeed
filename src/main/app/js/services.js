@@ -56,13 +56,13 @@ module.factory('SettingsService', ['$resource', '$translate', function($resource
 		res.get(function(data) {
 			s.settings = data;
 			var lang = s.settings.language || 'en';
+			$translate.use(lang);
 			if (lang === 'zh') {
 				lang = 'zh-cn';
 			} else if (lang === 'ms') {
 				lang = 'ms-my';
 			}
 			moment.lang(lang, {});
-			$translate.use(lang);
 			if (callback) {
 				callback(data);
 			}

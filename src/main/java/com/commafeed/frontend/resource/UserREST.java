@@ -325,7 +325,7 @@ public class UserREST {
 		if (CommaFeedApplication.USERNAME_ADMIN.equals(user.getName()) || CommaFeedApplication.USERNAME_DEMO.equals(user.getName())) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
-		userService.unregister(user);
+		userService.unregister(userDAO.findById(user.getId()));
 		return Response.ok().build();
 	}
 }

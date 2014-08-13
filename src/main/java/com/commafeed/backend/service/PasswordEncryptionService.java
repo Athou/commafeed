@@ -1,10 +1,10 @@
 package com.commafeed.backend.service;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
-import java.util.Arrays;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -30,7 +30,7 @@ public class PasswordEncryptionService implements Serializable {
 
 		// Authentication succeeds if encrypted password that the user entered
 		// is equal to the stored hash
-		return Arrays.equals(encryptedPassword, encryptedAttemptedPassword);
+		return MessageDigest.isEqual(encryptedPassword, encryptedAttemptedPassword);
 	}
 
 	public byte[] getEncryptedPassword(String password, byte[] salt) {

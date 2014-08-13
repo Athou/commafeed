@@ -1460,55 +1460,61 @@ module.controller('MetricsCtrl', ['$scope', 'AdminMetricsService', function($sco
 	$scope.metrics = AdminMetricsService.get();
 }]);
 
-module.controller('LoginCtrl', ['$scope', '$location', 'SessionService', 'ServerService', function($scope, $location, SessionService, ServerService) {
-	$scope.model = {};
-	$scope.recovery_model = {};
-	$scope.recovery = false;
-	$scope.recovery_enabled = false;
-	
-	ServerService.get(function(data) {
-		$scope.recovery_enabled = data.smtpEnabled;
-	});
-	
-	var login = function(model) {
-		var success = function(data) {
-			window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
-		};
-		var error = function(data) {
-			$scope.message = data.data;
-		};
-		SessionService.login({
-			name : model.name,
-			password : model.password
-		}, success, error);
-	}
-	$scope.demoLogin = function() {
-		login({
-			name : 'demo',
-			password : 'demo'
-		});
-	};
+module.controller('LoginCtrl', ['$scope', '$location', '$timeout', 'SessionService', 'ServerService',
+		function($scope, $location, $timeout, SessionService, ServerService) {
+			$scope.model = {};
+			$scope.recovery_model = {};
+			$scope.recovery = false;
+			$scope.recovery_enabled = false;
 
-	$scope.login = function() {
-		login($scope.model);
-	};
-	
-	$scope.toggleRecovery = function() {
-		$scope.recovery = !$scope.recovery;
-	};
-	
-	var recovery_success = function(data) {
-		$scope.recovery_message = "Email has ben sent. Check your inbox.";
-	};
-	var recovery_error = function(data) {
-		$scope.recovery_message = data.data;
-	};
-	$scope.recover = function() {
-		SessionService.passwordReset({
-			email : $scope.recovery_model.email
-		}, recovery_success, recovery_error);
-	}
-}]);
+			ServerService.get(function(data) {
+				$scope.recovery_enabled = data.smtpEnabled;
+			});
+
+			// autofilled fields do not trigger model update, do it manually
+			$timeout(function() {
+				$('input[ng-model]').trigger('input');
+			}, 100);
+
+			var login = function(model) {
+				var success = function(data) {
+					window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('#'));
+				};
+				var error = function(data) {
+					$scope.message = data.data;
+				};
+				SessionService.login({
+					name : model.name,
+					password : model.password
+				}, success, error);
+			}
+			$scope.demoLogin = function() {
+				login({
+					name : 'demo',
+					password : 'demo'
+				});
+			};
+
+			$scope.login = function() {
+				login($scope.model);
+			};
+
+			$scope.toggleRecovery = function() {
+				$scope.recovery = !$scope.recovery;
+			};
+
+			var recovery_success = function(data) {
+				$scope.recovery_message = "Email has ben sent. Check your inbox.";
+			};
+			var recovery_error = function(data) {
+				$scope.recovery_message = data.data;
+			};
+			$scope.recover = function() {
+				SessionService.passwordReset({
+					email : $scope.recovery_model.email
+				}, recovery_success, recovery_error);
+			}
+		}]);
 
 module.controller('RegisterCtrl', ['$scope', '$location', 'SessionService', 'ServerService',
 		function($scope, $location, SessionService, ServerService) {

@@ -16,6 +16,7 @@ public abstract class UnitOfWork<T> {
 	protected abstract T runInSession() throws Exception;
 
 	public T run() {
+		// if newSession is false, we already are in a unit of work and roll back/commit will happen in the wrapping unit of work
 		boolean newSession = !ManagedSessionContext.hasBind(sessionFactory);
 
 		final Session session = newSession ? sessionFactory.openSession() : sessionFactory.getCurrentSession();

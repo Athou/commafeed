@@ -29,7 +29,7 @@ public class RedisCacheService extends CacheService {
 
 	public RedisCacheService() {
 		JedisPoolConfig config = new JedisPoolConfig();
-		config.setBlockWhenExhausted(false);
+		config.setMaxTotal(500);
 		pool = new JedisPool(config, "localhost");
 	}
 

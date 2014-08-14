@@ -4,6 +4,7 @@ v 2.0.2
   - fields autocomplete is disabled on the profile page
   - users are able to delete their account again
   - chinese and malaysian translation files are now correctly loaded
+  - software version in user-agent when fetching feeds is no longer hardcoded 
 v 2.0.1
   - the redis pool no longer throws an exception when it is unable to aquire a new connection
 v2.0.0

@@ -28,7 +28,7 @@ public class FeedSubscriptionService {
 
 	@SuppressWarnings("serial")
 	public static class FeedSubscriptionException extends RuntimeException {
-		public FeedSubscriptionException(String msg) {
+		private FeedSubscriptionException(String msg) {
 			super(msg);
 		}
 	}
@@ -87,16 +87,6 @@ public class FeedSubscriptionService {
 		}
 	}
 
-	public UnreadCount getUnreadCount(User user, FeedSubscription sub) {
-		UnreadCount count = cache.getUnreadCount(sub);
-		if (count == null) {
-			log.debug("unread count cache miss for {}", Models.getId(sub));
-			count = feedEntryStatusDAO.getUnreadCount(user, sub);
-			cache.setUnreadCount(sub, count);
-		}
-		return count;
-	}
-
 	public Map<Long, UnreadCount> getUnreadCount(User user) {
 		Map<Long, UnreadCount> map = Maps.newHashMap();
 		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
@@ -104,6 +94,16 @@ public class FeedSubscriptionService {
 			map.put(sub.getId(), getUnreadCount(user, sub));
 		}
 		return map;
+	}
+
+	private UnreadCount getUnreadCount(User user, FeedSubscription sub) {
+		UnreadCount count = cache.getUnreadCount(sub);
+		if (count == null) {
+			log.debug("unread count cache miss for {}", Models.getId(sub));
+			count = feedEntryStatusDAO.getUnreadCount(user, sub);
+			cache.setUnreadCount(sub, count);
+		}
+		return count;
 	}
 
 }

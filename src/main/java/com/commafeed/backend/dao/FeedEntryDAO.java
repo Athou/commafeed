@@ -34,13 +34,6 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 				.list(entry);
 	}
 
-	public int delete(Feed feed, int max) {
-		List<FeedEntry> list = newQuery().from(entry).where(entry.feed.eq(feed)).limit(max).list(entry);
-		int deleted = list.size();
-		delete(list);
-		return deleted;
-	}
-
 	public int delete(Date olderThan, int max) {
 		List<FeedEntry> list = newQuery().from(entry).where(entry.inserted.lt(olderThan)).limit(max).list(entry);
 		int deleted = list.size();

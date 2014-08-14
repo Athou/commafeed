@@ -192,7 +192,7 @@ public class HttpGetter {
 		private long duration;
 		private String urlAfterRedirect;
 
-		public HttpResult(byte[] content, String contentType, String lastModifiedSince, String eTag, long duration, String urlAfterRedirect) {
+		private HttpResult(byte[] content, String contentType, String lastModifiedSince, String eTag, long duration, String urlAfterRedirect) {
 			this.content = content;
 			this.contentType = contentType;
 			this.lastModifiedSince = lastModifiedSince;

@@ -11,7 +11,7 @@ import com.mysema.query.jpa.hibernate.HibernateQuery;
 
 public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T> {
 
-	public GenericDAO(SessionFactory sessionFactory) {
+	protected GenericDAO(SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
@@ -56,9 +56,4 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 		return objects.size();
 	}
 
-	protected void setTimeout(javax.persistence.Query query, int queryTimeout) {
-		if (queryTimeout > 0) {
-			query.setHint("javax.persistence.query.timeout", queryTimeout);
-		}
-	}
 }

@@ -31,8 +31,8 @@ import com.google.common.collect.Iterables;
 @RequiredArgsConstructor
 public class NextUnreadServlet extends HttpServlet {
 
-	public static final String PARAM_CATEGORYID = "category";
-	public static final String PARAM_READINGORDER = "order";
+	private static final String PARAM_CATEGORYID = "category";
+	private static final String PARAM_READINGORDER = "order";
 
 	private final SessionFactory sessionFactory;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;

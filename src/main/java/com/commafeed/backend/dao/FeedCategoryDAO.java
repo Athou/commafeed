@@ -59,7 +59,7 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 		return list;
 	}
 
-	public boolean isChild(FeedCategory child, FeedCategory parent) {
+	private boolean isChild(FeedCategory child, FeedCategory parent) {
 		if (parent == null) {
 			return true;
 		}

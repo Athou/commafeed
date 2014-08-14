@@ -22,13 +22,10 @@ import com.commafeed.backend.HttpGetter.HttpResult;
 @AllArgsConstructor
 public class FaviconFetcher {
 
+	private static List<String> ICON_MIMETYPE_BLACKLIST = Arrays.asList("application/xml", "text/html");
 	private static long MIN_ICON_LENGTH = 100;
 	private static long MAX_ICON_LENGTH = 100000;
 	private static int TIMEOUT = 4000;
-
-	protected static List<String> ICON_MIMETYPES = Arrays.asList("image/x-icon", "image/vnd.microsoft.icon", "image/ico", "image/icon",
-			"text/ico", "application/ico", "image/x-ms-bmp", "image/x-bmp", "image/gif", "image/png", "image/jpeg");
-	private static List<String> ICON_MIMETYPE_BLACKLIST = Arrays.asList("application/xml", "text/html");
 
 	private final HttpGetter getter;
 

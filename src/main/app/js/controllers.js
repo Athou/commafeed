@@ -1432,6 +1432,9 @@ module.controller('ManageSettingsCtrl', ['$scope', '$location', '$state', 'Admin
 			$scope.toUsers = function() {
 				$state.transitionTo('admin.userlist');
 			};
+			$scope.toMetrics = function() {
+				$state.transitionTo('admin.metrics');
+			};
 		}]);
 
 module.controller('HelpController', ['$scope', 'CategoryService', 'AnalyticsService', 'ServerService',

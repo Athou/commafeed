@@ -112,7 +112,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		List<FeedEntryStatus> statuses = query.list(status);
 		for (FeedEntryStatus status : statuses) {
 			status = handleStatus(user, status, status.getSubscription(), status.getEntry());
-			status = fetchTags(user, status);
+			fetchTags(user, status);
 		}
 		return lazyLoadContent(includeContent, statuses);
 	}

@@ -1,6 +1,5 @@
 package com.commafeed.backend.service;
 
-import java.io.Serializable;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -21,9 +20,8 @@ import com.commafeed.backend.model.User;
  * Mailing service
  * 
  */
-@SuppressWarnings("serial")
 @RequiredArgsConstructor
-public class MailService implements Serializable {
+public class MailService {
 
 	private final CommaFeedConfiguration config;
 

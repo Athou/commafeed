@@ -12,12 +12,17 @@ import javax.crypto.spec.PBEKeySpec;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.lang.StringUtils;
+
 // taken from http://www.javacodegeeks.com/2012/05/secure-password-storage-donts-dos-and.html
 @SuppressWarnings("serial")
 @Slf4j
 public class PasswordEncryptionService implements Serializable {
 
 	public boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt) {
+		if (StringUtils.isBlank(attemptedPassword)) {
+			return false;
+		}
 		// Encrypt the clear-text password using the same salt that was used to
 		// encrypt the original password
 		byte[] encryptedAttemptedPassword = null;
@@ -26,6 +31,10 @@ public class PasswordEncryptionService implements Serializable {
 		} catch (Exception e) {
 			// should never happen
 			log.error(e.getMessage(), e);
+		}
+
+		if (encryptedAttemptedPassword == null) {
+			return false;
 		}
 
 		// Authentication succeeds if encrypted password that the user entered

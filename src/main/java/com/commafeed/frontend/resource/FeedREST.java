@@ -133,7 +133,7 @@ public class FeedREST {
 
 		boolean unreadOnly = readType == ReadingMode.unread;
 
-		Date newerThanDate = newerThan == null ? null : new Date(Long.valueOf(newerThan));
+		Date newerThanDate = newerThan == null ? null : new Date(newerThan);
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, Long.valueOf(id));
 		if (subscription != null) {

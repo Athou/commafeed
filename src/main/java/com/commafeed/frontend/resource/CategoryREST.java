@@ -117,7 +117,7 @@ public class CategoryREST {
 			id = ALL;
 		}
 
-		Date newerThanDate = newerThan == null ? null : new Date(Long.valueOf(newerThan));
+		Date newerThanDate = newerThan == null ? null : new Date(newerThan);
 
 		List<Long> excludedIds = null;
 		if (StringUtils.isNotEmpty(excludedSubscriptionIds)) {
@@ -386,7 +386,7 @@ public class CategoryREST {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
-		FeedCategory category = feedCategoryDAO.findById(user, Long.valueOf(req.getId()));
+		FeedCategory category = feedCategoryDAO.findById(user, req.getId());
 		if (category == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}

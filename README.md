@@ -44,7 +44,7 @@ Issue the following command to run the app, the server will listen by default on
 
 	java -jar target/commafeed.jar server config.yml
 
-You can use nginx or apache as a proxy http server. Note that when using apache, the `ProxyPreserveHost on` option should be set in your config file.
+You can use a proxy http server such as nginx or apache.
 
 Local development
 -----------------

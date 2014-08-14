@@ -89,9 +89,9 @@ public class FeedFetcher {
 			Elements atom = doc.select("link[type=application/atom+xml]");
 			Elements rss = doc.select("link[type=application/rss+xml]");
 			if (!atom.isEmpty()) {
-				foundUrl = atom.get(0).attr("abs:href").toString();
+				foundUrl = atom.get(0).attr("abs:href");
 			} else if (!rss.isEmpty()) {
-				foundUrl = rss.get(0).attr("abs:href").toString();
+				foundUrl = rss.get(0).attr("abs:href");
 			}
 		}
 		return foundUrl;

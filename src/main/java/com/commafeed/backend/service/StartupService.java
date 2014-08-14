@@ -5,8 +5,6 @@ import io.dropwizard.lifecycle.Managed;
 import java.sql.Connection;
 import java.util.Arrays;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import liquibase.Liquibase;
@@ -58,14 +56,12 @@ public class StartupService implements Managed {
 
 	private void updateSchema() {
 		try {
-			Context context = null;
 			Connection connection = null;
 			try {
 				Thread currentThread = Thread.currentThread();
 				ClassLoader classLoader = currentThread.getContextClassLoader();
 				ResourceAccessor accessor = new ClassLoaderResourceAccessor(classLoader);
 
-				context = new InitialContext();
 				DataSource dataSource = getDataSource(sessionFactory);
 				connection = dataSource.getConnection();
 				JdbcConnection jdbcConnection = new JdbcConnection(connection);
@@ -85,9 +81,6 @@ public class StartupService implements Managed {
 				Liquibase liq = new Liquibase("migrations.xml", accessor, database);
 				liq.update("prod");
 			} finally {
-				if (context != null) {
-					context.close();
-				}
 				if (connection != null) {
 					connection.close();
 				}

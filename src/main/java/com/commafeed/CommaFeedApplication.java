@@ -175,7 +175,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		OPMLExporter opmlExporter = new OPMLExporter(feedCategoryDAO, feedSubscriptionDAO);
 
 		// Feed fetching/parsing
-		HttpGetter httpGetter = new HttpGetter();
+		HttpGetter httpGetter = new HttpGetter(applicationPropertiesService);
 		FeedParser feedParser = new FeedParser();
 		FaviconFetcher faviconFetcher = new FaviconFetcher(httpGetter);
 		FeedFetcher feedFetcher = new FeedFetcher(feedParser, httpGetter);

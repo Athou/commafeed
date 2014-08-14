@@ -29,26 +29,6 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-3" for="feedbackButton">Feedback button</label>
-						<div class="col-sm-9">
-							<div class="checkbox">
-								<input type="checkbox" id="feedbackButton" name="feedbackButton" ng-model="settings.feedbackButton" />
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-3" for="googleClientId">Google client ID</label>
-						<div class="col-sm-9">
-							<input type="text" name="googleClientId" class="form-control" ng-model="settings.googleClientId" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-3" for="googleClientSecret">Google client secret</label>
-						<div class="col-sm-9">
-							<input type="text" name="googleClientSecret" class="form-control" ng-model="settings.googleClientSecret" />
-						</div>
-					</div>
-					<div class="form-group">
 						<label class="control-label col-sm-3" for="googleAnalyticsTrackingCode">Google Analytics tracking code</label>
 						<div class="col-sm-9">
 							<input type="text" name="googleAnalyticsTrackingCode" class="form-control" ng-model="settings.googleAnalyticsTrackingCode" />
@@ -135,14 +115,6 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-3" for="logLevel">Logging level</label>
-						<div class="col-sm-9">
-							<select name="logLevel" ng-model="settings.logLevel" class="form-control"
-								ng-options="level for level in ['DEBUG', 'INFO', 'WARN', 'ERROR']">
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
 						<label class="control-label col-sm-3" for="logLevel">Database query timeout (ms)</label>
 						<div class="col-sm-9">
 							<input type="number" name="queryTimeout" class="form-control" ng-model="settings.queryTimeout" />
@@ -173,8 +145,7 @@
 			</div>
 			<div class="row">
 				<div class="text-center form-group">
-					<button type="submit" class="btn btn-primary">Save</button>
-					<button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+					<button type="button" class="btn btn-default" ng-click="cancel()">Back</button>
 				</div>
 			</div>
 		</form>

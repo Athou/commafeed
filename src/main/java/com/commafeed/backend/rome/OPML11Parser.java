@@ -1,9 +1,9 @@
 package com.commafeed.backend.rome;
 
-import org.jdom.Document;
-import org.jdom.Element;
+import org.jdom2.Document;
+import org.jdom2.Element;
 
-import com.sun.syndication.io.impl.OPML10Parser;
+import com.rometools.opml.io.impl.OPML10Parser;
 
 /**
  * Support for OPML 1.1 parsing

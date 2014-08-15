@@ -17,7 +17,7 @@ import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.model.Feed;
-import com.sun.syndication.io.FeedException;
+import com.rometools.rome.io.FeedException;
 
 @Slf4j
 @AllArgsConstructor

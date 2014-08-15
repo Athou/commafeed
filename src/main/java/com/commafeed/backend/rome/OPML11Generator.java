@@ -1,19 +1,20 @@
 package com.commafeed.backend.rome;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 
-import com.sun.syndication.feed.opml.Opml;
+import com.rometools.opml.feed.opml.Opml;
 
 /**
  * Add missing title to the generated OPML
  * 
  */
-public class OPML11Generator extends com.sun.syndication.io.impl.OPML10Generator {
+public class OPML11Generator extends com.rometools.opml.io.impl.OPML10Generator {
 
 	public OPML11Generator() {
 		super("opml_1.1");
 	}
 
+	@Override
 	protected Element generateHead(Opml opml) {
 		Element head = new Element("head");
 		addNotNullSimpleElement(head, "title", opml.getTitle());

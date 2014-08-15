@@ -14,9 +14,10 @@ import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.FeedSubscription;
 import com.google.common.collect.Lists;
-import com.sun.syndication.feed.synd.SyndContentImpl;
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndEntryImpl;
+import com.rometools.rome.feed.synd.SyndContent;
+import com.rometools.rome.feed.synd.SyndContentImpl;
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndEntryImpl;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
@@ -72,7 +73,7 @@ public class Entry implements Serializable {
 
 		SyndContentImpl content = new SyndContentImpl();
 		content.setValue(getContent());
-		entry.setContents(Arrays.asList(content));
+		entry.setContents(Arrays.<SyndContent> asList(content));
 		entry.setLink(getUrl());
 		entry.setPublishedDate(getDate());
 		return entry;

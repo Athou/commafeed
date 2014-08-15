@@ -5,7 +5,7 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.commafeed.backend.cache.CacheService;
@@ -15,9 +15,9 @@ import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedSubscriptionService;
 import com.commafeed.backend.service.FeedSubscriptionService.FeedSubscriptionException;
-import com.sun.syndication.feed.opml.Opml;
-import com.sun.syndication.feed.opml.Outline;
-import com.sun.syndication.io.WireFeedInput;
+import com.rometools.opml.feed.opml.Opml;
+import com.rometools.opml.feed.opml.Outline;
+import com.rometools.rome.io.WireFeedInput;
 
 @Slf4j
 public class OPMLImporter {
@@ -33,7 +33,6 @@ public class OPMLImporter {
 		this.cache = cache;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void importOpml(User user, String xml) {
 		xml = xml.substring(xml.indexOf('<'));
 		WireFeedInput input = new WireFeedInput();
@@ -49,7 +48,6 @@ public class OPMLImporter {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	private void handleOutline(User user, Outline outline, FeedCategory parent) {
 		List<Outline> children = outline.getChildren();
 		if (CollectionUtils.isNotEmpty(children)) {

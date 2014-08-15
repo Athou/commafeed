@@ -2,13 +2,13 @@ package com.commafeed.backend.rome;
 
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.apache.commons.collections4.CollectionUtils;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import com.google.common.collect.Lists;
-import com.sun.syndication.io.impl.RSS10Parser;
+import com.rometools.rome.io.impl.RSS10Parser;
 
 public class RSSRDF10Parser extends RSS10Parser {
 
@@ -19,14 +19,13 @@ public class RSSRDF10Parser extends RSS10Parser {
 		super("rss_1.0", RSS_NS);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public boolean isMyType(Document document) {
 		boolean ok = false;
 
 		Element rssRoot = document.getRootElement();
 		Namespace defaultNS = rssRoot.getNamespace();
-		List additionalNSs = Lists.newArrayList(rssRoot.getAdditionalNamespaces());
+		List<Namespace> additionalNSs = Lists.newArrayList(rssRoot.getAdditionalNamespaces());
 		List<Element> children = rssRoot.getChildren();
 		if (CollectionUtils.isNotEmpty(children)) {
 			Element child = children.get(0);

@@ -10,9 +10,9 @@ import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
-import com.sun.syndication.feed.opml.Attribute;
-import com.sun.syndication.feed.opml.Opml;
-import com.sun.syndication.feed.opml.Outline;
+import com.rometools.opml.feed.opml.Attribute;
+import com.rometools.opml.feed.opml.Opml;
+import com.rometools.opml.feed.opml.Outline;
 
 @AllArgsConstructor
 public class OPMLExporter {
@@ -20,7 +20,6 @@ public class OPMLExporter {
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 
-	@SuppressWarnings("unchecked")
 	public Opml export(User user) {
 		Opml opml = new Opml();
 		opml.setFeedType("opml_1.1");
@@ -48,7 +47,6 @@ public class OPMLExporter {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	private Outline buildCategoryOutline(FeedCategory cat, List<FeedSubscription> subscriptions) {
 		Outline outline = new Outline();
 		outline.setText(cat.getName());
@@ -66,7 +64,6 @@ public class OPMLExporter {
 		return outline;
 	}
 
-	@SuppressWarnings("unchecked")
 	private Outline buildSubscriptionOutline(FeedSubscription sub) {
 		Outline outline = new Outline();
 		outline.setText(sub.getTitle());

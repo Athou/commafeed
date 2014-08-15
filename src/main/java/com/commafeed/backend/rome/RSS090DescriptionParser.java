@@ -1,10 +1,12 @@
 package com.commafeed.backend.rome;
 
-import org.jdom.Element;
+import java.util.Locale;
 
-import com.sun.syndication.feed.rss.Description;
-import com.sun.syndication.feed.rss.Item;
-import com.sun.syndication.io.impl.RSS090Parser;
+import org.jdom2.Element;
+
+import com.rometools.rome.feed.rss.Description;
+import com.rometools.rome.feed.rss.Item;
+import com.rometools.rome.io.impl.RSS090Parser;
 
 /**
  * Support description tag for RSS09
@@ -13,9 +15,8 @@ import com.sun.syndication.io.impl.RSS090Parser;
 public class RSS090DescriptionParser extends RSS090Parser {
 
 	@Override
-	protected Item parseItem(Element rssRoot, Element eItem) {
-		Item item = super.parseItem(rssRoot, eItem);
-
+	protected Item parseItem(Element rssRoot, Element eItem, Locale locale) {
+		Item item = super.parseItem(rssRoot, eItem, locale);
 		Element e = eItem.getChild("description", getRSSNamespace());
 		if (e != null) {
 			Description desc = new Description();
@@ -25,5 +26,4 @@ public class RSS090DescriptionParser extends RSS090Parser {
 
 		return item;
 	}
-
 }

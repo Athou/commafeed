@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.xml.sax.InputSource;
 
 import com.commafeed.backend.model.Feed;
@@ -19,14 +19,14 @@ import com.commafeed.backend.model.FeedEntryContent;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
-import com.sun.syndication.feed.synd.SyndContent;
-import com.sun.syndication.feed.synd.SyndEnclosure;
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.feed.synd.SyndLink;
-import com.sun.syndication.feed.synd.SyndLinkImpl;
-import com.sun.syndication.io.FeedException;
-import com.sun.syndication.io.SyndFeedInput;
+import com.rometools.rome.feed.synd.SyndContent;
+import com.rometools.rome.feed.synd.SyndEnclosure;
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.feed.synd.SyndLink;
+import com.rometools.rome.feed.synd.SyndLinkImpl;
+import com.rometools.rome.io.FeedException;
+import com.rometools.rome.io.SyndFeedInput;
 
 @Slf4j
 public class FeedParser {
@@ -38,12 +38,12 @@ public class FeedParser {
 	private static final Date END = new Date(1000l * Integer.MAX_VALUE - 86400000);
 
 	private static final Function<SyndContent, String> CONTENT_TO_STRING = new Function<SyndContent, String>() {
+		@Override
 		public String apply(SyndContent content) {
 			return content.getValue();
 		}
 	};
 
-	@SuppressWarnings("unchecked")
 	public FetchedFeed parse(String feedUrl, byte[] xml) throws FeedException {
 		FetchedFeed fetchedFeed = new FetchedFeed();
 		Feed feed = fetchedFeed.getFeed();
@@ -81,7 +81,7 @@ public class FeedParser {
 				entry.setGuid(FeedUtils.truncate(guid, 2048));
 				entry.setUpdated(validateDate(getEntryUpdateDate(item), true));
 				entry.setUrl(FeedUtils.truncate(FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink(), feed.getUrlAfterRedirect()), 2048));
-				
+
 				// if link is empty but guid is used as url
 				if (StringUtils.isBlank(entry.getUrl()) && StringUtils.startsWith(entry.getGuid(), "http")) {
 					entry.setUrl(entry.getGuid());
@@ -91,7 +91,7 @@ public class FeedParser {
 				content.setContent(getContent(item));
 				content.setTitle(getTitle(item));
 				content.setAuthor(StringUtils.trimToNull(item.getAuthor()));
-				SyndEnclosure enclosure = (SyndEnclosure) Iterables.getFirst(item.getEnclosures(), null);
+				SyndEnclosure enclosure = Iterables.getFirst(item.getEnclosures(), null);
 				if (enclosure != null) {
 					content.setEnclosureUrl(FeedUtils.truncate(enclosure.getUrl(), 2048));
 					content.setEnclosureType(enclosure.getType());
@@ -121,24 +121,17 @@ public class FeedParser {
 	/**
 	 * Adds atom links for rss feeds
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void handleForeignMarkup(SyndFeed feed) {
-		Object foreignMarkup = feed.getForeignMarkup();
+		List<Element> foreignMarkup = feed.getForeignMarkup();
 		if (foreignMarkup == null) {
 			return;
 		}
-		if (foreignMarkup instanceof List) {
-			List elements = (List) foreignMarkup;
-			for (Object object : elements) {
-				if (object instanceof Element) {
-					Element element = (Element) object;
-					if ("link".equals(element.getName()) && ATOM_10_NS.equals(element.getNamespace())) {
-						SyndLink link = new SyndLinkImpl();
-						link.setRel(element.getAttributeValue("rel"));
-						link.setHref(element.getAttributeValue("href"));
-						feed.getLinks().add(link);
-					}
-				}
+		for (Element element : foreignMarkup) {
+			if ("link".equals(element.getName()) && ATOM_10_NS.equals(element.getNamespace())) {
+				SyndLink link = new SyndLinkImpl();
+				link.setRel(element.getAttributeValue("rel"));
+				link.setHref(element.getAttributeValue("href"));
+				feed.getLinks().add(link);
 			}
 		}
 	}
@@ -169,7 +162,6 @@ public class FeedParser {
 		return date;
 	}
 
-	@SuppressWarnings("unchecked")
 	private String getContent(SyndEntry item) {
 		String content = null;
 		if (item.getContents().isEmpty()) {
@@ -193,9 +185,8 @@ public class FeedParser {
 		return StringUtils.trimToNull(title);
 	}
 
-	@SuppressWarnings("unchecked")
 	private String findHub(SyndFeed feed) {
-		for (SyndLink l : (List<SyndLink>) feed.getLinks()) {
+		for (SyndLink l : feed.getLinks()) {
 			if ("hub".equalsIgnoreCase(l.getRel())) {
 				log.debug("found hub {} for feed {}", l.getHref(), feed.getLink());
 				return l.getHref();
@@ -204,9 +195,8 @@ public class FeedParser {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	private String findSelf(SyndFeed feed) {
-		for (SyndLink l : (List<SyndLink>) feed.getLinks()) {
+		for (SyndLink l : feed.getLinks()) {
 			if ("self".equalsIgnoreCase(l.getRel())) {
 				log.debug("found self {} for feed {}", l.getHref(), feed.getLink());
 				return l.getHref();

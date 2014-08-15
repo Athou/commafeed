@@ -1,10 +1,10 @@
 package com.commafeed.backend.rome;
 
-import com.sun.syndication.feed.rss.Description;
-import com.sun.syndication.feed.rss.Item;
-import com.sun.syndication.feed.synd.SyndContentImpl;
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.impl.ConverterForRSS090;
+import com.rometools.rome.feed.rss.Description;
+import com.rometools.rome.feed.rss.Item;
+import com.rometools.rome.feed.synd.SyndContentImpl;
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.impl.ConverterForRSS090;
 
 /**
  * Support description tag for RSS09

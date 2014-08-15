@@ -1,5 +1,6 @@
 v 2.0.2
   - fix login on firefox when fields are autofilled by the browser
+  - user is now logged in after registration
   - fix link to documentation on home page and about page
   - fields autocomplete is disabled on the profile page
   - users are able to delete their account again

@@ -67,7 +67,10 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 			HttpSession session = request.getSession(false);
 			if (session != null) {
 				User user = (User) session.getAttribute(CommaFeedApplication.SESSION_USER);
-				return Optional.fromNullable(user);
+				if (user != null) {
+					userService.afterLogin(user);
+					return Optional.of(user);
+				}
 			}
 			return Optional.absent();
 		}

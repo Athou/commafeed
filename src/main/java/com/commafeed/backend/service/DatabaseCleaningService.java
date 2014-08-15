@@ -16,7 +16,6 @@ import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 
 /**
@@ -34,25 +33,6 @@ public class DatabaseCleaningService {
 	private final FeedEntryDAO feedEntryDAO;
 	private final FeedEntryContentDAO feedEntryContentDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
-
-	public long cleanEntriesWithoutSubscriptions() {
-		log.info("cleaning entries without subscriptions");
-		long total = 0;
-		int deleted = 0;
-		do {
-			deleted = new UnitOfWork<Integer>(sessionFactory) {
-				@Override
-				protected Integer runInSession() throws Exception {
-					List<FeedEntry> entries = feedEntryDAO.findWithoutSubscriptions(BATCH_SIZE);
-					return feedEntryDAO.delete(entries);
-				}
-			}.run();
-			total += deleted;
-			log.info("removed {} entries without subscriptions", total);
-		} while (deleted != 0);
-		log.info("cleanup done: {} entries without subscriptions deleted", total);
-		return total;
-	}
 
 	public long cleanFeedsWithoutSubscriptions() {
 		log.info("cleaning feeds without subscriptions");

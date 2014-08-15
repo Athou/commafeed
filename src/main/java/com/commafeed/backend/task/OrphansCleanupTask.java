@@ -14,14 +14,13 @@ public class OrphansCleanupTask implements ScheduledTask {
 
 	@Override
 	public void run() {
-		cleaner.cleanEntriesWithoutSubscriptions();
 		cleaner.cleanFeedsWithoutSubscriptions();
 		cleaner.cleanContentsWithoutEntries();
 	}
 
 	@Override
 	public long getInitialDelay() {
-		return 30;
+		return 5;
 	}
 
 	@Override

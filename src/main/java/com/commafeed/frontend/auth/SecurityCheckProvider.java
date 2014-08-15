@@ -1,7 +1,6 @@
 package com.commafeed.frontend.auth;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.jetty.util.B64Code;
 import org.eclipse.jetty.util.StringUtil;
 
-import com.commafeed.CommaFeedApplication;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.UserService;
@@ -56,7 +54,12 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 			}
 
 			if (user.isPresent()) {
-				return user.get();
+				if (user.get().hasRole(role)) {
+					return user.get();
+				} else {
+					throw new WebApplicationException(Response.status(Response.Status.FORBIDDEN)
+							.entity("You don't have the required role to access this resource.").type(MediaType.TEXT_PLAIN_TYPE).build());
+				}
 			} else {
 				throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
 						.entity("Credentials are required to access this resource.").type(MediaType.TEXT_PLAIN_TYPE).build());
@@ -64,15 +67,7 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 		}
 
 		private Optional<User> cookieSessionLogin() {
-			HttpSession session = request.getSession(false);
-			if (session != null) {
-				User user = (User) session.getAttribute(CommaFeedApplication.SESSION_USER);
-				if (user != null) {
-					userService.afterLogin(user);
-					return Optional.of(user);
-				}
-			}
-			return Optional.absent();
+			return userService.login(request.getSession());
 		}
 
 		private Optional<User> basicAuthenticationLogin(HttpContext c) {
@@ -87,10 +82,7 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 						if (i > 0) {
 							String username = decoded.substring(0, i);
 							String password = decoded.substring(i + 1);
-							Optional<User> user = userService.login(username, password);
-							if (user.isPresent() && user.get().hasRole(role)) {
-								return user;
-							}
+							return userService.login(username, password);
 						}
 					}
 				}
@@ -101,10 +93,7 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 		private Optional<User> apiKeyLogin(HttpContext c) {
 			String apiKey = c.getUriInfo().getPathParameters().getFirst("apiKey");
 			if (apiKey != null && apiKeyAllowed) {
-				Optional<User> user = userService.login(apiKey);
-				if (user.isPresent() && user.get().hasRole(role)) {
-					return user;
-				}
+				return userService.login(apiKey);
 			}
 			return Optional.absent();
 		}

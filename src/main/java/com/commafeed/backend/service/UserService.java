@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -23,6 +25,8 @@ import com.google.common.base.Preconditions;
 @RequiredArgsConstructor
 public class UserService {
 
+	private static final String SESSION_KEY_USER = "user";
+
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final UserDAO userDAO;
 	private final UserSettingsDAO userSettingsDAO;
@@ -31,6 +35,9 @@ public class UserService {
 	private final PasswordEncryptionService encryptionService;
 	private final CommaFeedConfiguration config;
 
+	/**
+	 * try to log in with given credentials
+	 */
 	public Optional<User> login(String nameOrEmail, String password) {
 		if (nameOrEmail == null || password == null) {
 			return Optional.absent();
@@ -50,6 +57,32 @@ public class UserService {
 		return Optional.absent();
 	}
 
+	/**
+	 * try to log in with given credentials and create a session for the user
+	 */
+	public Optional<User> login(String nameOrEmail, String password, HttpSession sessionToFill) {
+		Optional<User> user = login(nameOrEmail, password);
+		if (user.isPresent()) {
+			sessionToFill.setAttribute(SESSION_KEY_USER, user.get());
+		}
+		return user;
+	}
+
+	/**
+	 * try to log in by checking if the user has an active session
+	 */
+	public Optional<User> login(HttpSession session) {
+		User user = (User) session.getAttribute(SESSION_KEY_USER);
+		if (user != null) {
+			afterLogin(user);
+			return Optional.of(user);
+		}
+		return Optional.absent();
+	}
+
+	/**
+	 * try to log in with given api key
+	 */
 	public Optional<User> login(String apiKey) {
 		if (apiKey == null) {
 			return Optional.absent();
@@ -63,7 +96,10 @@ public class UserService {
 		return Optional.absent();
 	}
 
-	public void afterLogin(User user) {
+	/**
+	 * should triggers after successful login
+	 */
+	private void afterLogin(User user) {
 		Date lastLogin = user.getLastLogin();
 		Date now = new Date();
 

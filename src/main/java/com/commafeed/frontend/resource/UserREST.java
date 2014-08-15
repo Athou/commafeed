@@ -239,9 +239,8 @@ public class UserREST {
 	@UnitOfWork
 	@ApiOperation(value = "Login and create a session")
 	public Response login(@ApiParam(required = true) LoginRequest req, @Session HttpSession session) {
-		Optional<User> user = userService.login(req.getName(), req.getPassword());
+		Optional<User> user = userService.login(req.getName(), req.getPassword(), session);
 		if (user.isPresent()) {
-			session.setAttribute(CommaFeedApplication.SESSION_USER, user.get());
 			return Response.ok().build();
 		} else {
 			return Response.status(Response.Status.UNAUTHORIZED).entity("wrong username or password").build();

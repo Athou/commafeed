@@ -100,8 +100,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 	public static final String USERNAME_ADMIN = "admin";
 	public static final String USERNAME_DEMO = "demo";
 
-	public static final String SESSION_USER = "user";
-
 	public static final Date STARTUP_TIME = new Date();
 
 	private HibernateBundle<CommaFeedConfiguration> hibernateBundle;
@@ -221,9 +219,9 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 		// Servlets
 		NextUnreadServlet nextUnreadServlet = new NextUnreadServlet(sessionFactory, feedSubscriptionDAO, feedEntryStatusDAO,
-				feedCategoryDAO, config);
+				feedCategoryDAO, userService, config);
 		LogoutServlet logoutServlet = new LogoutServlet(config);
-		CustomCssServlet customCssServlet = new CustomCssServlet(sessionFactory, userSettingsDAO);
+		CustomCssServlet customCssServlet = new CustomCssServlet(sessionFactory, userSettingsDAO, userService);
 		AnalyticsServlet analyticsServlet = new AnalyticsServlet(config);
 		environment.servlets().addServlet("next", nextUnreadServlet).addMapping("/next");
 		environment.servlets().addServlet("logout", logoutServlet).addMapping("/logout");

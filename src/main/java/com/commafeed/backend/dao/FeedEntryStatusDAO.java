@@ -3,21 +3,10 @@ package com.commafeed.backend.dao;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.CompareToBuilder;
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Conjunction;
-import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
-import org.hibernate.transform.Transformers;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.FixedSizeSortedSet;
@@ -36,19 +25,20 @@ import com.commafeed.frontend.model.UnreadCount;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.mysema.query.BooleanBuilder;
+import com.mysema.query.Tuple;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
-
-	private static final String ALIAS_STATUS = "status";
-	private static final String ALIAS_ENTRY = "entry";
-	private static final String ALIAS_TAG = "tag";
 
 	private FeedEntryDAO feedEntryDAO;
 	private FeedEntryTagDAO feedEntryTagDAO;
 	private CommaFeedConfiguration config;
 
 	private QFeedEntryStatus status = QFeedEntryStatus.feedEntryStatus;
+	private QFeedEntry entry = QFeedEntry.feedEntry;
+	private QFeedEntryContent content = QFeedEntryContent.feedEntryContent;
+	private QFeedEntryTag entryTag = QFeedEntryTag.feedEntryTag;
 
 	public FeedEntryStatusDAO(SessionFactory sessionFactory, FeedEntryDAO feedEntryDAO, FeedEntryTagDAO feedEntryTagDAO,
 			CommaFeedConfiguration config) {
@@ -117,83 +107,74 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return lazyLoadContent(includeContent, statuses);
 	}
 
-	private Criteria buildSearchCriteria(User user, FeedSubscription sub, boolean unreadOnly, String keywords, Date newerThan, int offset,
+	private HibernateQuery buildQuery(User user, FeedSubscription sub, boolean unreadOnly, String keywords, Date newerThan, int offset,
 			int limit, ReadingOrder order, Date last, String tag) {
-		QFeedEntry entry = QFeedEntry.feedEntry;
-		QFeedEntryContent content = QFeedEntryContent.feedEntryContent;
-		QFeedEntryStatus status = QFeedEntryStatus.feedEntryStatus;
-		QFeedEntryTag entryTag = QFeedEntryTag.feedEntryTag;
 
-		Criteria criteria = currentSession().createCriteria(FeedEntry.class, ALIAS_ENTRY);
-		criteria.add(Restrictions.eq(entry.feed.getMetadata().getName(), sub.getFeed()));
+		HibernateQuery query = newQuery().from(entry).where(entry.feed.eq(sub.getFeed()));
 
 		if (keywords != null) {
-			Criteria contentJoin = criteria.createCriteria(entry.content.getMetadata().getName(), "content", JoinType.INNER_JOIN);
+			query.join(entry.content, content);
 
 			for (String keyword : StringUtils.split(keywords)) {
-				Disjunction or = Restrictions.disjunction();
-				or.add(Restrictions.ilike(content.content.getMetadata().getName(), keyword, MatchMode.ANYWHERE));
-				or.add(Restrictions.ilike(content.title.getMetadata().getName(), keyword, MatchMode.ANYWHERE));
-				contentJoin.add(or);
+				BooleanBuilder or = new BooleanBuilder();
+				or.or(content.content.containsIgnoreCase(keyword));
+				or.or(content.title.containsIgnoreCase(keyword));
+				query.where(or);
 			}
 		}
-		Criteria statusJoin = criteria.createCriteria(entry.statuses.getMetadata().getName(), ALIAS_STATUS, JoinType.LEFT_OUTER_JOIN,
-				Restrictions.eq(status.subscription.getMetadata().getName(), sub));
+		query.leftJoin(entry.statuses, status).on(status.subscription.id.eq(sub.getId()));
 
 		if (unreadOnly && tag == null) {
-
-			Disjunction or = Restrictions.disjunction();
-			or.add(Restrictions.isNull(status.read.getMetadata().getName()));
-			or.add(Restrictions.eq(status.read.getMetadata().getName(), false));
-			statusJoin.add(or);
+			BooleanBuilder or = new BooleanBuilder();
+			or.or(status.read.isNull());
+			or.or(status.read.isFalse());
+			query.where(or);
 
 			Date unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
 			if (unreadThreshold != null) {
-				criteria.add(Restrictions.ge(entry.updated.getMetadata().getName(), unreadThreshold));
+				query.where(entry.updated.goe(unreadThreshold));
 			}
 		}
 
 		if (tag != null) {
-			Conjunction and = Restrictions.conjunction();
-			and.add(Restrictions.eq(entryTag.user.getMetadata().getName(), user));
-			and.add(Restrictions.eq(entryTag.name.getMetadata().getName(), tag));
-			criteria.createCriteria(entry.tags.getMetadata().getName(), ALIAS_TAG, JoinType.INNER_JOIN, and);
+			BooleanBuilder and = new BooleanBuilder();
+			and.and(entryTag.user.id.eq(user.getId()));
+			and.and(entryTag.name.eq(tag));
+			query.join(entry.tags, entryTag).on(and);
 		}
 
 		if (newerThan != null) {
-			criteria.add(Restrictions.ge(entry.inserted.getMetadata().getName(), newerThan));
+			query.where(entry.inserted.goe(newerThan));
 		}
 
 		if (last != null) {
 			if (order == ReadingOrder.desc) {
-				criteria.add(Restrictions.gt(entry.updated.getMetadata().getName(), last));
+				query.where(entry.updated.gt(last));
 			} else {
-				criteria.add(Restrictions.lt(entry.updated.getMetadata().getName(), last));
+				query.where(entry.updated.lt(last));
 			}
 		}
 
 		if (order != null) {
 			if (order == ReadingOrder.asc) {
-				criteria.addOrder(Order.asc(entry.updated.getMetadata().getName())).addOrder(Order.asc(entry.id.getMetadata().getName()));
+				query.orderBy(entry.updated.asc(), entry.id.asc());
 			} else {
-				criteria.addOrder(Order.desc(entry.updated.getMetadata().getName())).addOrder(Order.desc(entry.id.getMetadata().getName()));
+				query.orderBy(entry.updated.desc(), entry.id.desc());
 			}
 		}
 		if (offset > -1) {
-			criteria.setFirstResult(offset);
+			query.offset(offset);
 		}
 		if (limit > -1) {
-			criteria.setMaxResults(limit);
+			query.limit(limit);
 		}
 		int timeout = config.getApplicationSettings().getQueryTimeout();
 		if (timeout > 0) {
-			// hibernate timeout is in seconds, jpa timeout is in millis
-			criteria.setTimeout(timeout / 1000);
+			query.setTimeout(timeout);
 		}
-		return criteria;
+		return query;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<FeedEntryStatus> findBySubscriptions(User user, List<FeedSubscription> subs, boolean unreadOnly, String keywords,
 			Date newerThan, int offset, int limit, ReadingOrder order, boolean includeContent, boolean onlyIds, String tag) {
 		int capacity = offset + limit;
@@ -201,18 +182,12 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<FeedEntryStatus>(capacity, comparator);
 		for (FeedSubscription sub : subs) {
 			Date last = (order != null && set.isFull()) ? set.last().getEntryUpdated() : null;
-			Criteria criteria = buildSearchCriteria(user, sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag);
-			ProjectionList projection = Projections.projectionList();
-			projection.add(Projections.property("id"), "id");
-			projection.add(Projections.property("updated"), "updated");
-			projection.add(Projections.property(ALIAS_STATUS + ".id"), "status_id");
-			criteria.setProjection(projection);
-			criteria.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-			List<Map<String, Object>> list = criteria.list();
-			for (Map<String, Object> map : list) {
-				Long id = (Long) map.get("id");
-				Date updated = (Date) map.get("updated");
-				Long statusId = (Long) map.get("status_id");
+			HibernateQuery query = buildQuery(user, sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag);
+			List<Tuple> tuples = query.list(entry.id, entry.updated, status.id);
+			for (Tuple tuple : tuples) {
+				Long id = tuple.get(entry.id);
+				Date updated = tuple.get(entry.updated);
+				Long statusId = tuple.get(status.id);
 
 				FeedEntry entry = new FeedEntry();
 				entry.setId(id);
@@ -253,19 +228,13 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return statuses;
 	}
 
-	@SuppressWarnings("unchecked")
 	public UnreadCount getUnreadCount(User user, FeedSubscription subscription) {
 		UnreadCount uc = null;
-		Criteria criteria = buildSearchCriteria(user, subscription, true, null, null, -1, -1, null, null, null);
-		ProjectionList projection = Projections.projectionList();
-		projection.add(Projections.rowCount(), "count");
-		projection.add(Projections.max(QFeedEntry.feedEntry.updated.getMetadata().getName()), "updated");
-		criteria.setProjection(projection);
-		criteria.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-		List<Map<String, Object>> list = criteria.list();
-		for (Map<String, Object> row : list) {
-			Long count = (Long) row.get("count");
-			Date updated = (Date) row.get("updated");
+		HibernateQuery query = buildQuery(user, subscription, true, null, null, -1, -1, null, null, null);
+		List<Tuple> tuples = query.list(entry.count(), entry.updated.max());
+		for (Tuple tuple : tuples) {
+			Long count = tuple.get(entry.count());
+			Date updated = tuple.get(entry.updated.max());
 			uc = new UnreadCount(subscription.getId(), count, updated);
 		}
 		return uc;

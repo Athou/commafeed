@@ -43,11 +43,16 @@ public class NextUnreadServlet extends HttpServlet {
 	private final CommaFeedConfiguration config;
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(final HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		final String categoryId = req.getParameter(PARAM_CATEGORYID);
 		String orderParam = req.getParameter(PARAM_READINGORDER);
 
-		final Optional<User> user = userService.login(req.getSession());
+		final Optional<User> user = new UnitOfWork<Optional<User>>(sessionFactory) {
+			@Override
+			protected Optional<User> runInSession() throws Exception {
+				return userService.login(req.getSession());
+			}
+		}.run();
 		if (!user.isPresent()) {
 			resp.sendRedirect(resp.encodeRedirectURL(config.getApplicationSettings().getPublicUrl()));
 			return;

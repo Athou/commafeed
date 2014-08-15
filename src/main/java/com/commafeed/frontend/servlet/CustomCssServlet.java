@@ -27,10 +27,15 @@ public class CustomCssServlet extends HttpServlet {
 	private final UserService userService;
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(final HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/css");
 
-		final Optional<User> user = userService.login(req.getSession());
+		final Optional<User> user = new UnitOfWork<Optional<User>>(sessionFactory) {
+			@Override
+			protected Optional<User> runInSession() throws Exception {
+				return userService.login(req.getSession());
+			}
+		}.run();
 		if (!user.isPresent()) {
 			return;
 		}

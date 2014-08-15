@@ -42,7 +42,7 @@ public class DatabaseCleaningService {
 			deleted = new UnitOfWork<Integer>(sessionFactory) {
 				@Override
 				protected Integer runInSession() throws Exception {
-					List<Feed> feeds = feedDAO.findWithoutSubscriptions(BATCH_SIZE);
+					List<Feed> feeds = feedDAO.findWithoutSubscriptions(1);
 					return feedDAO.delete(feeds);
 				};
 			}.run();

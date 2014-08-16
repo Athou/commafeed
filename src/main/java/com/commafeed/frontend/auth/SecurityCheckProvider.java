@@ -91,7 +91,7 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 		}
 
 		private Optional<User> apiKeyLogin(HttpContext c) {
-			String apiKey = c.getUriInfo().getPathParameters().getFirst("apiKey");
+			String apiKey = c.getUriInfo().getQueryParameters().getFirst("apiKey");
 			if (apiKey != null && apiKeyAllowed) {
 				return userService.login(apiKey);
 			}

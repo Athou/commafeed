@@ -1,4 +1,5 @@
 v 2.0.2
+  - api using the api key is now working again
   - context path is now configurable in config.yml (see app.contextPath in config.yml.example)
   - fix login on firefox when fields are autofilled by the browser
   - user is now logged in after registration

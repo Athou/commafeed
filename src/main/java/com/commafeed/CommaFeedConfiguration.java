@@ -34,6 +34,9 @@ public class CommaFeedConfiguration extends Configuration {
 	@Getter
 	public static class ApplicationSettings {
 		@JsonProperty
+		private String contextPath;
+
+		@JsonProperty
 		private String publicUrl;
 
 		@JsonProperty

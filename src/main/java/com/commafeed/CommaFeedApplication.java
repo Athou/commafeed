@@ -130,6 +130,8 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 	@Override
 	public void run(CommaFeedConfiguration config, Environment environment) throws Exception {
+		environment.getApplicationContext().setContextPath(config.getApplicationSettings().getContextPath());
+
 		MetricRegistry metrics = environment.metrics();
 		SessionFactory sessionFactory = hibernateBundle.getSessionFactory();
 

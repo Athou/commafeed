@@ -170,7 +170,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 		int timeout = config.getApplicationSettings().getQueryTimeout();
 		if (timeout > 0) {
-			query.setTimeout(timeout);
+			query.setTimeout(timeout / 1000);
 		}
 		return query;
 	}

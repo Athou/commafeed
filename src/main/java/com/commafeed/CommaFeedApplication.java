@@ -55,7 +55,6 @@ import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.opml.OPMLExporter;
 import com.commafeed.backend.opml.OPMLImporter;
-import com.commafeed.backend.service.ApplicationPropertiesService;
 import com.commafeed.backend.service.DatabaseCleaningService;
 import com.commafeed.backend.service.FeedEntryContentService;
 import com.commafeed.backend.service.FeedEntryService;
@@ -155,7 +154,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		FeedQueues queues = new FeedQueues(feedDAO, config, metrics);
 
 		// Services
-		ApplicationPropertiesService applicationPropertiesService = new ApplicationPropertiesService();
 		DatabaseCleaningService cleaningService = new DatabaseCleaningService(sessionFactory, feedDAO, feedEntryDAO, feedEntryContentDAO,
 				feedEntryStatusDAO);
 		FeedEntryContentService feedEntryContentService = new FeedEntryContentService(feedEntryContentDAO);
@@ -175,7 +173,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		OPMLExporter opmlExporter = new OPMLExporter(feedCategoryDAO, feedSubscriptionDAO);
 
 		// Feed fetching/parsing
-		HttpGetter httpGetter = new HttpGetter(applicationPropertiesService);
+		HttpGetter httpGetter = new HttpGetter(config);
 		FeedParser feedParser = new FeedParser();
 		FaviconFetcher faviconFetcher = new FaviconFetcher(httpGetter);
 		FeedFetcher feedFetcher = new FeedFetcher(feedParser, httpGetter);
@@ -215,7 +213,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 				new FeedREST(feedSubscriptionDAO, feedCategoryDAO, feedEntryStatusDAO, faviconFetcher, feedFetcher, feedEntryService,
 						feedSubscriptionService, queues, opmlImporter, opmlExporter, cacheService, config));
 		environment.jersey().register(new PubSubHubbubCallbackREST(feedDAO, feedParser, queues, config, metrics));
-		environment.jersey().register(new ServerREST(httpGetter, config, applicationPropertiesService));
+		environment.jersey().register(new ServerREST(httpGetter, config));
 		environment.jersey().register(
 				new UserREST(userDAO, userRoleDAO, userSettingsDAO, userService, encryptionService, mailService, config));
 

@@ -20,7 +20,6 @@ import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.User;
-import com.commafeed.backend.service.ApplicationPropertiesService;
 import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.ServerInfo;
 import com.wordnik.swagger.annotations.Api;
@@ -35,7 +34,6 @@ public class ServerREST {
 
 	private final HttpGetter httpGetter;
 	private final CommaFeedConfiguration config;
-	private final ApplicationPropertiesService applicationPropertiesService;
 
 	@Path("/get")
 	@GET
@@ -44,8 +42,8 @@ public class ServerREST {
 	public Response get() {
 		ServerInfo infos = new ServerInfo();
 		infos.setAnnouncement(config.getApplicationSettings().getAnnouncement());
-		infos.setVersion(applicationPropertiesService.getVersion());
-		infos.setGitCommit(applicationPropertiesService.getGitCommit());
+		infos.setVersion(config.getVersion());
+		infos.setGitCommit(config.getGitCommit());
 		infos.setAllowRegistrations(config.getApplicationSettings().isAllowRegistrations());
 		infos.setGoogleAnalyticsCode(config.getApplicationSettings().getGoogleAnalyticsTrackingCode());
 		infos.setSmtpEnabled(StringUtils.isNotBlank(config.getApplicationSettings().getSmtpHost()));

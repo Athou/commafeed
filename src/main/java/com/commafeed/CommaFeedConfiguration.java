@@ -4,6 +4,7 @@ import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
 
 import java.util.Date;
+import java.util.ResourceBundle;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -23,6 +24,12 @@ public class CommaFeedConfiguration extends Configuration {
 		NOOP, REDIS
 	}
 
+	private ResourceBundle bundle;
+
+	public CommaFeedConfiguration() {
+		bundle = ResourceBundle.getBundle("application");
+	}
+
 	@Valid
 	@NotNull
 	@JsonProperty("database")
@@ -32,6 +39,14 @@ public class CommaFeedConfiguration extends Configuration {
 	@NotNull
 	@JsonProperty("app")
 	private ApplicationSettings applicationSettings;
+
+	public String getVersion() {
+		return bundle.getString("version");
+	}
+
+	public String getGitCommit() {
+		return bundle.getString("git.commit");
+	}
 
 	@Getter
 	public static class ApplicationSettings {

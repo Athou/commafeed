@@ -44,7 +44,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
-import com.commafeed.backend.service.ApplicationPropertiesService;
+import com.commafeed.CommaFeedConfiguration;
 
 /**
  * Smart HTTP getter: handles gzip, ssl, last modified and etag headers
@@ -95,8 +95,8 @@ public class HttpGetter {
 
 	private final String userAgent;
 
-	public HttpGetter(ApplicationPropertiesService applicationPropertiesService) {
-		this.userAgent = String.format("CommaFeed/%s (https://www.commafeed.com)", applicationPropertiesService.getVersion());
+	public HttpGetter(CommaFeedConfiguration config) {
+		this.userAgent = String.format("CommaFeed/%s (https://www.commafeed.com)", config.getVersion());
 	}
 
 	public HttpResult getBinary(String url, int timeout) throws ClientProtocolException, IOException, NotModifiedException {

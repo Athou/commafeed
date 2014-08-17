@@ -79,6 +79,7 @@ database:
     minSize: 1
     maxSize: 50
     checkConnectionWhileIdle: true
+    maxConnectionAge: 30m
     
 server:
   applicationConnectors:

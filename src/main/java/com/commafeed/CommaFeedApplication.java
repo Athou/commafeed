@@ -13,6 +13,8 @@ import java.io.File;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.SessionTrackingMode;
+
 import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
 
@@ -48,6 +50,7 @@ import com.commafeed.frontend.servlet.AnalyticsServlet;
 import com.commafeed.frontend.servlet.CustomCssServlet;
 import com.commafeed.frontend.servlet.LogoutServlet;
 import com.commafeed.frontend.servlet.NextUnreadServlet;
+import com.google.common.collect.ImmutableSet;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.wordnik.swagger.config.ConfigFactory;
@@ -100,6 +103,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 		// Auth/session management
 		HashSessionManager sessionManager = new HashSessionManager();
+		sessionManager.setSessionTrackingModes(ImmutableSet.of(SessionTrackingMode.COOKIE));
 		sessionManager.setHttpOnly(true);
 		sessionManager.getSessionCookieConfig().setHttpOnly(true);
 

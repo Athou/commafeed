@@ -3,6 +3,9 @@ package com.commafeed.backend.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import lombok.RequiredArgsConstructor;
 
 import com.commafeed.backend.dao.FeedEntryDAO;
@@ -14,7 +17,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class FeedEntryTagService {
 
 	private final FeedEntryDAO feedEntryDAO;

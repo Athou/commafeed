@@ -5,6 +5,9 @@ import io.dropwizard.lifecycle.Managed;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -24,6 +27,7 @@ import com.google.common.base.Optional;
  * 
  */
 @Slf4j
+@Singleton
 public class FeedRefreshWorker implements Managed {
 
 	private final FeedRefreshUpdater feedRefreshUpdater;
@@ -32,6 +36,7 @@ public class FeedRefreshWorker implements Managed {
 	private final CommaFeedConfiguration config;
 	private final FeedRefreshExecutor pool;
 
+	@Inject
 	public FeedRefreshWorker(FeedRefreshUpdater feedRefreshUpdater, FeedFetcher fetcher, FeedQueues queues, CommaFeedConfiguration config,
 			MetricRegistry metrics) {
 		this.feedRefreshUpdater = feedRefreshUpdater;

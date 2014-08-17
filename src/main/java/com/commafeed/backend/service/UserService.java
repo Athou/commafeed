@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpSession;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,8 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class UserService {
 
 	private static final String SESSION_KEY_USER = "user";

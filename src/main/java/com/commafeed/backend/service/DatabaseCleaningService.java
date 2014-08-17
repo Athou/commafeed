@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +26,8 @@ import com.commafeed.backend.model.FeedEntryStatus;
  * 
  */
 @Slf4j
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class DatabaseCleaningService {
 
 	private static final int BATCH_SIZE = 100;

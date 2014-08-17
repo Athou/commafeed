@@ -2,6 +2,8 @@ package com.commafeed.frontend.servlet;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +21,8 @@ import com.commafeed.backend.service.UserService;
 import com.google.common.base.Optional;
 
 @SuppressWarnings("serial")
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class CustomCssServlet extends HttpServlet {
 
 	private final SessionFactory sessionFactory;

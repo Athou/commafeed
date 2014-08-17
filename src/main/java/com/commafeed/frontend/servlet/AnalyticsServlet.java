@@ -2,6 +2,8 @@ package com.commafeed.frontend.servlet;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +14,13 @@ import org.apache.commons.lang.StringUtils;
 import com.commafeed.CommaFeedConfiguration;
 
 @SuppressWarnings("serial")
+@Singleton
 public class AnalyticsServlet extends HttpServlet {
 
-	private CommaFeedConfiguration config;
-	private String script;
+	private final CommaFeedConfiguration config;
+	private final String script;
 
+	@Inject
 	public AnalyticsServlet(CommaFeedConfiguration config) {
 		this.config = config;
 

@@ -2,6 +2,9 @@ package com.commafeed.backend.dao;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.apache.commons.lang.ObjectUtils;
 import org.hibernate.SessionFactory;
 
@@ -12,10 +15,12 @@ import com.commafeed.backend.model.User;
 import com.google.common.collect.Lists;
 import com.mysema.query.types.Predicate;
 
+@Singleton
 public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 
 	private QFeedCategory category = QFeedCategory.feedCategory;
 
+	@Inject
 	public FeedCategoryDAO(SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}

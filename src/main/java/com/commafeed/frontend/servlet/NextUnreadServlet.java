@@ -3,6 +3,8 @@ package com.commafeed.frontend.servlet;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +31,8 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 
 @SuppressWarnings("serial")
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class NextUnreadServlet extends HttpServlet {
 
 	private static final String PARAM_CATEGORYID = "category";

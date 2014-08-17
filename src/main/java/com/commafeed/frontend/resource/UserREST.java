@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
@@ -22,7 +24,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -66,7 +68,8 @@ import com.wordnik.swagger.annotations.ApiParam;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class UserREST {
 
 	private final UserDAO userDAO;

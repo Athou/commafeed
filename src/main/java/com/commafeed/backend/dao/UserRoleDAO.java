@@ -3,6 +3,9 @@ package com.commafeed.backend.dao;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.QUserRole;
@@ -11,10 +14,12 @@ import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.google.common.collect.Sets;
 
+@Singleton
 public class UserRoleDAO extends GenericDAO<UserRole> {
 
 	private QUserRole role = QUserRole.userRole;
 
+	@Inject
 	public UserRoleDAO(SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}

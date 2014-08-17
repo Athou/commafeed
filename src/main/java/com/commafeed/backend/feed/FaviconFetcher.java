@@ -3,7 +3,10 @@ package com.commafeed.backend.feed;
 import java.util.Arrays;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
@@ -19,7 +22,8 @@ import com.commafeed.backend.HttpGetter.HttpResult;
  * 
  */
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class FaviconFetcher {
 
 	private static List<String> ICON_MIMETYPE_BLACKLIST = Arrays.asList("application/xml", "text/html");

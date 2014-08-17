@@ -8,11 +8,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.IOUtils;
@@ -51,6 +54,8 @@ import com.commafeed.CommaFeedConfiguration;
  * 
  */
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class HttpGetter {
 
 	private static final String ACCEPT_LANGUAGE = "en";
@@ -93,7 +98,7 @@ public class HttpGetter {
 		}
 	}
 
-	private final String userAgent;
+	private String userAgent;
 
 	public HttpGetter(CommaFeedConfiguration config) {
 		this.userAgent = String.format("CommaFeed/%s (https://www.commafeed.com)", config.getVersion());

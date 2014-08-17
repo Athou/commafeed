@@ -3,6 +3,9 @@ package com.commafeed.backend.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +26,8 @@ import com.commafeed.frontend.model.UnreadCount;
 import com.google.common.collect.Maps;
 
 @Slf4j
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class FeedSubscriptionService {
 
 	@SuppressWarnings("serial")

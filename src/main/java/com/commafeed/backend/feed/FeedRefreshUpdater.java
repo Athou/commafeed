@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -36,6 +39,7 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Striped;
 
 @Slf4j
+@Singleton
 public class FeedRefreshUpdater implements Managed {
 
 	private final SessionFactory sessionFactory;
@@ -54,6 +58,7 @@ public class FeedRefreshUpdater implements Managed {
 	private Meter feedUpdated;
 	private Meter entryInserted;
 
+	@Inject
 	public FeedRefreshUpdater(SessionFactory sessionFactory, FeedUpdateService feedUpdateService, PubSubService pubSubService,
 			FeedQueues queues, CommaFeedConfiguration config, MetricRegistry metrics, FeedSubscriptionDAO feedSubscriptionDAO,
 			CacheService cache) {

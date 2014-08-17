@@ -3,7 +3,10 @@ package com.commafeed.backend.feed;
 import java.io.IOException;
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.codec.binary.StringUtils;
@@ -20,7 +23,8 @@ import com.commafeed.backend.model.Feed;
 import com.rometools.rome.io.FeedException;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class FeedFetcher {
 
 	private final FeedParser parser;

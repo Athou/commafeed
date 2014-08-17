@@ -1,5 +1,8 @@
 package com.commafeed.backend.service;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -9,7 +12,8 @@ import com.commafeed.backend.dao.FeedEntryContentDAO;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedEntryContent;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class FeedEntryContentService {
 
 	private final FeedEntryContentDAO feedEntryContentDAO;

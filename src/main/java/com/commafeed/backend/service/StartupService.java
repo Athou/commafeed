@@ -5,6 +5,8 @@ import io.dropwizard.lifecycle.Managed;
 import java.sql.Connection;
 import java.util.Arrays;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.sql.DataSource;
 
 import liquibase.Liquibase;
@@ -15,6 +17,7 @@ import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import liquibase.resource.ResourceAccessor;
 import liquibase.structure.DatabaseObject;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.hibernate.SessionFactory;
@@ -28,17 +31,13 @@ import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.UserRole.Role;
 
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class StartupService implements Managed {
 
-	private SessionFactory sessionFactory;
-	private UserDAO userDAO;
-	private UserService userService;
-
-	public StartupService(SessionFactory sessionFactory, UserDAO userDAO, UserService userService) {
-		this.sessionFactory = sessionFactory;
-		this.userDAO = userDAO;
-		this.userService = userService;
-	}
+	private final SessionFactory sessionFactory;
+	private final UserDAO userDAO;
+	private final UserService userService;
 
 	@Override
 	public void start() throws Exception {

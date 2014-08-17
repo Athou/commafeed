@@ -1,15 +1,20 @@
 package com.commafeed.backend.dao;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.QUser;
 import com.commafeed.backend.model.QUserRole;
 import com.commafeed.backend.model.User;
 
+@Singleton
 public class UserDAO extends GenericDAO<User> {
 
 	private QUser user = QUser.user;
 
+	@Inject
 	public UserDAO(SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}

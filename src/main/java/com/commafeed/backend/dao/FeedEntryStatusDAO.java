@@ -4,6 +4,9 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.hibernate.SessionFactory;
@@ -29,6 +32,7 @@ import com.mysema.query.BooleanBuilder;
 import com.mysema.query.Tuple;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 
+@Singleton
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	private FeedEntryDAO feedEntryDAO;
@@ -40,6 +44,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	private QFeedEntryContent content = QFeedEntryContent.feedEntryContent;
 	private QFeedEntryTag entryTag = QFeedEntryTag.feedEntryTag;
 
+	@Inject
 	public FeedEntryStatusDAO(SessionFactory sessionFactory, FeedEntryDAO feedEntryDAO, FeedEntryTagDAO feedEntryTagDAO,
 			CommaFeedConfiguration config) {
 		super(sessionFactory);

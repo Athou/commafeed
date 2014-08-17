@@ -3,7 +3,10 @@ package com.commafeed.backend.opml;
 import java.util.Date;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import lombok.RequiredArgsConstructor;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -14,7 +17,8 @@ import com.rometools.opml.feed.opml.Attribute;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
 
-@AllArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class OPMLExporter {
 
 	private final FeedCategoryDAO feedCategoryDAO;

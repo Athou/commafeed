@@ -5,6 +5,8 @@ import io.dropwizard.hibernate.UnitOfWork;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -35,7 +37,8 @@ import com.google.common.base.Preconditions;
 
 @Path("/push")
 @Slf4j
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class PubSubHubbubCallbackREST {
 
 	@Context

@@ -2,6 +2,8 @@ package com.commafeed.backend.service;
 
 import java.util.Properties;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -20,7 +22,8 @@ import com.commafeed.backend.model.User;
  * Mailing service
  * 
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class MailService {
 
 	private final CommaFeedConfiguration config;

@@ -3,6 +3,10 @@ package com.commafeed.backend.opml;
 import java.io.StringReader;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -20,18 +24,13 @@ import com.rometools.opml.feed.opml.Outline;
 import com.rometools.rome.io.WireFeedInput;
 
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class OPMLImporter {
 
-	private FeedCategoryDAO feedCategoryDAO;
-	private FeedSubscriptionService feedSubscriptionService;
-	private CacheService cache;
-
-	public OPMLImporter(FeedCategoryDAO feedCategoryDAO, FeedSubscriptionService feedSubscriptionService, CacheService cache) {
-		super();
-		this.feedCategoryDAO = feedCategoryDAO;
-		this.feedSubscriptionService = feedSubscriptionService;
-		this.cache = cache;
-	}
+	private final FeedCategoryDAO feedCategoryDAO;
+	private final FeedSubscriptionService feedSubscriptionService;
+	private final CacheService cache;
 
 	public void importOpml(User user, String xml) {
 		xml = xml.substring(xml.indexOf('<'));

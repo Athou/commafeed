@@ -2,6 +2,8 @@ package com.commafeed.backend.service;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.ws.rs.core.MediaType;
 
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,8 @@ import com.google.common.collect.Lists;
  * 
  */
 @Slf4j
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class PubSubService {
 
 	private final CommaFeedConfiguration config;

@@ -3,6 +3,9 @@ package com.commafeed.backend.service;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import lombok.RequiredArgsConstructor;
 
 import com.commafeed.backend.cache.CacheService;
@@ -15,7 +18,8 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.google.common.collect.Lists;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class FeedEntryService {
 
 	private final FeedSubscriptionDAO feedSubscriptionDAO;

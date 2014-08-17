@@ -3,13 +3,17 @@ package com.commafeed.backend.task;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import lombok.RequiredArgsConstructor;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.service.DatabaseCleaningService;
 import com.commafeed.backend.task.SchedulingService.ScheduledTask;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class OldStatusesCleanupTask implements ScheduledTask {
 
 	private final CommaFeedConfiguration config;

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Queue;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -20,6 +21,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 
+@Singleton
 public class FeedQueues {
 
 	private final FeedDAO feedDAO;

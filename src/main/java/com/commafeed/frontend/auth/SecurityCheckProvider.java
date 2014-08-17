@@ -45,12 +45,12 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 
 		@Override
 		public User getValue(HttpContext c) {
-			Optional<User> user = cookieSessionLogin();
+			Optional<User> user = apiKeyLogin(c);
 			if (!user.isPresent()) {
 				user = basicAuthenticationLogin(c);
 			}
 			if (!user.isPresent()) {
-				user = apiKeyLogin(c);
+				user = cookieSessionLogin();
 			}
 
 			if (user.isPresent()) {

@@ -15,6 +15,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -195,47 +196,15 @@ public class HttpGetter {
 		return result;
 	}
 
+	@Getter
+	@RequiredArgsConstructor
 	public static class HttpResult {
-
-		private byte[] content;
-		private String contentType;
-		private String lastModifiedSince;
-		private String eTag;
-		private long duration;
-		private String urlAfterRedirect;
-
-		private HttpResult(byte[] content, String contentType, String lastModifiedSince, String eTag, long duration, String urlAfterRedirect) {
-			this.content = content;
-			this.contentType = contentType;
-			this.lastModifiedSince = lastModifiedSince;
-			this.eTag = eTag;
-			this.duration = duration;
-			this.urlAfterRedirect = urlAfterRedirect;
-		}
-
-		public byte[] getContent() {
-			return content;
-		}
-
-		public String getContentType() {
-			return contentType;
-		}
-
-		public String getLastModifiedSince() {
-			return lastModifiedSince;
-		}
-
-		public String geteTag() {
-			return eTag;
-		}
-
-		public long getDuration() {
-			return duration;
-		}
-
-		public String getUrlAfterRedirect() {
-			return urlAfterRedirect;
-		}
+		private final byte[] content;
+		private final String contentType;
+		private final String lastModifiedSince;
+		private final String eTag;
+		private final long duration;
+		private final String urlAfterRedirect;
 	}
 
 	public static CloseableHttpClient newClient(int timeout) {

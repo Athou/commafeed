@@ -15,6 +15,7 @@ import lombok.Getter;
 import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.commafeed.frontend.SessionManagerFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Getter
@@ -34,6 +35,11 @@ public class CommaFeedConfiguration extends Configuration {
 	@NotNull
 	@JsonProperty("database")
 	private DataSourceFactory database = new DataSourceFactory();
+	
+	@Valid
+	@NotNull
+	@JsonProperty("session")
+	private SessionManagerFactory sessionManagerFactory = new SessionManagerFactory();
 
 	@Valid
 	@NotNull
@@ -50,80 +56,61 @@ public class CommaFeedConfiguration extends Configuration {
 
 	@Getter
 	public static class ApplicationSettings {
-		@JsonProperty
 		@NotNull
 		@NotBlank
 		private String contextPath;
 
-		@JsonProperty
 		@NotNull
 		@NotBlank
 		private String publicUrl;
 
-		@JsonProperty
 		@NotNull
 		private boolean allowRegistrations;
 
-		@JsonProperty
 		private String googleAnalyticsTrackingCode;
 
-		@JsonProperty
 		@NotNull
 		@Min(1)
 		private int backgroundThreads;
 
-		@JsonProperty
 		@NotNull
 		@Min(1)
 		private int databaseUpdateThreads;
 
-		@JsonProperty
 		private String smtpHost;
 
-		@JsonProperty
 		private int smtpPort;
 
-		@JsonProperty
 		private boolean smtpTls;
 
-		@JsonProperty
 		private String smtpUserName;
 
-		@JsonProperty
 		private String smtpPassword;
 
-		@JsonProperty
 		@NotNull
 		private boolean heavyLoad;
 
-		@JsonProperty
 		@NotNull
 		private boolean pubsubhubbub;
 
-		@JsonProperty
 		@NotNull
 		private boolean imageProxyEnabled;
 
-		@JsonProperty
 		@NotNull
 		@Min(0)
 		private int queryTimeout;
 
-		@JsonProperty
 		@NotNull
 		@Min(0)
 		private int keepStatusDays;
 
-		@JsonProperty
 		@NotNull
 		@Min(0)
 		private int refreshIntervalMinutes;
 
-		@JsonProperty
 		@NotNull
 		private CacheType cache;
 
-		@JsonProperty
 		@NotNull
 		private String announcement;
 

@@ -9,13 +9,8 @@ import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
-import java.io.File;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
-import javax.servlet.SessionTrackingMode;
-
-import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
 
 import com.commafeed.backend.feed.FeedRefreshTaskGiver;
@@ -50,7 +45,6 @@ import com.commafeed.frontend.servlet.AnalyticsServlet;
 import com.commafeed.frontend.servlet.CustomCssServlet;
 import com.commafeed.frontend.servlet.LogoutServlet;
 import com.commafeed.frontend.servlet.NextUnreadServlet;
-import com.google.common.collect.ImmutableSet;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.wordnik.swagger.config.ConfigFactory;
@@ -102,22 +96,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		Injector injector = Guice.createInjector(new CommaFeedModule(hibernateBundle.getSessionFactory(), config, environment.metrics()));
 
 		// Auth/session management
-		HashSessionManager sessionManager = new HashSessionManager();
-		sessionManager.setSessionTrackingModes(ImmutableSet.of(SessionTrackingMode.COOKIE));
-		sessionManager.setHttpOnly(true);
-		sessionManager.getSessionCookieConfig().setHttpOnly(true);
-
-		sessionManager.setStoreDirectory(new File("sessions"));
-		sessionManager.getSessionCookieConfig().setMaxAge((int) TimeUnit.DAYS.toSeconds(30));
-		sessionManager.setMaxInactiveInterval((int) TimeUnit.DAYS.toSeconds(30));
-
-		sessionManager.setDeleteUnrestorableSessions(true);
-		sessionManager.setIdleSavePeriod((int) TimeUnit.HOURS.toSeconds(2));
-		sessionManager.setRefreshCookieAge((int) TimeUnit.DAYS.toSeconds(1));
-		sessionManager.setSavePeriod((int) TimeUnit.MINUTES.toSeconds(5));
-		sessionManager.setScavengePeriod((int) TimeUnit.MINUTES.toSeconds(5));
-
-		environment.servlets().setSessionHandler(new SessionHandler(sessionManager));
+		environment.servlets().setSessionHandler(new SessionHandler(config.getSessionManagerFactory().build()));
 		environment.jersey().register(new SecurityCheckUserServiceProvider(injector.getInstance(UserService.class)));
 		environment.jersey().register(SecurityCheckProvider.class);
 		environment.jersey().register(HttpSessionProvider.class);
@@ -138,17 +117,19 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.servlets().addServlet("customCss", injector.getInstance(CustomCssServlet.class)).addMapping("/custom_css.css");
 		environment.servlets().addServlet("analytics.js", injector.getInstance(AnalyticsServlet.class)).addMapping("/analytics.js");
 
-		// Tasks
+		// Scheduled tasks
 		SchedulingService schedulingService = new SchedulingService();
 		schedulingService.register(injector.getInstance(OldStatusesCleanupTask.class));
 		schedulingService.register(injector.getInstance(OrphansCleanupTask.class));
+		environment.lifecycle().manage(schedulingService);
 
-		// Managed objects
+		// database init/changelogs
 		environment.lifecycle().manage(injector.getInstance(StartupService.class));
+
+		// background feed fetching
 		environment.lifecycle().manage(injector.getInstance(FeedRefreshTaskGiver.class));
 		environment.lifecycle().manage(injector.getInstance(FeedRefreshWorker.class));
 		environment.lifecycle().manage(injector.getInstance(FeedRefreshUpdater.class));
-		environment.lifecycle().manage(schedulingService);
 
 		// Swagger
 		environment.jersey().register(new ApiListingResourceJSON());

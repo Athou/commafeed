@@ -48,8 +48,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
-import com.commafeed.CommaFeedConfiguration;
-
 /**
  * Smart HTTP getter: handles gzip, ssl, last modified and etag headers
  * 
@@ -59,6 +57,7 @@ import com.commafeed.CommaFeedConfiguration;
 @Singleton
 public class HttpGetter {
 
+	private static final String USER_AGENT = "CommaFeed/2.0 (http://www.commafeed.com)";
 	private static final String ACCEPT_LANGUAGE = "en";
 	private static final String PRAGMA_NO_CACHE = "No-cache";
 	private static final String CACHE_CONTROL_NO_CACHE = "no-cache";
@@ -99,12 +98,6 @@ public class HttpGetter {
 		}
 	}
 
-	private String userAgent;
-
-	public HttpGetter(CommaFeedConfiguration config) {
-		this.userAgent = String.format("CommaFeed/%s (https://www.commafeed.com)", config.getVersion());
-	}
-
 	public HttpResult getBinary(String url, int timeout) throws ClientProtocolException, IOException, NotModifiedException {
 		return getBinary(url, null, null, timeout);
 	}
@@ -137,7 +130,7 @@ public class HttpGetter {
 			httpget.addHeader(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE);
 			httpget.addHeader(HttpHeaders.PRAGMA, PRAGMA_NO_CACHE);
 			httpget.addHeader(HttpHeaders.CACHE_CONTROL, CACHE_CONTROL_NO_CACHE);
-			httpget.addHeader(HttpHeaders.USER_AGENT, userAgent);
+			httpget.addHeader(HttpHeaders.USER_AGENT, USER_AGENT);
 
 			if (lastModified != null) {
 				httpget.addHeader(HttpHeaders.IF_MODIFIED_SINCE, lastModified);

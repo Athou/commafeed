@@ -7,7 +7,6 @@ v 2.0.2
   - fields autocomplete is disabled on the profile page
   - users are able to delete their account again
   - chinese and malaysian translation files are now correctly loaded
-  - software version in user-agent when fetching feeds is no longer hardcoded
   - admin settings page is now read only, settings are configured in config.yml 
   - added link to metrics on the admin settings page
   - Rome (rss library) upgrade to 1.5.0

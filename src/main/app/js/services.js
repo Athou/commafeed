@@ -243,12 +243,12 @@ module.factory('CategoryService', ['$resource', '$http', function($resource, $ht
 				callback(data);
 		});
 	};
-	res.refresh = function(callback) {
+	res.refresh = function(success, error) {
 		res.get(function(data) {
 			_.merge(res.subscriptions, data);
-			if (callback)
-				callback(data);
-		});
+			if (success)
+				success(data);
+		}, error);
 	};
 
 	res.init();

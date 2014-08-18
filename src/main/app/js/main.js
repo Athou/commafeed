@@ -32,9 +32,8 @@ app.config([
 					var status = response.status;
 					if (status == 401) {
 						$injector.get('$state').transitionTo('welcome');
-						return $q.reject(response);
 					}
-					return response;
+					return $q.reject(response);
 				};
 
 				var promise = function(promise) {

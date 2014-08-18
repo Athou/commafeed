@@ -78,7 +78,16 @@ public class FeedQueues {
 	public void add(Feed feed, boolean urgent) {
 		int refreshInterval = config.getApplicationSettings().getRefreshIntervalMinutes();
 		if (feed.getLastUpdated() == null || feed.getLastUpdated().before(DateUtils.addMinutes(new Date(), -1 * refreshInterval))) {
-			addQueue.add(new FeedRefreshContext(feed, urgent));
+			boolean alreadyQueued = false;
+			for (FeedRefreshContext context : addQueue) {
+				if (context.getFeed().getId().equals(feed.getId())) {
+					alreadyQueued = true;
+					break;
+				}
+			}
+			if (!alreadyQueued) {
+				addQueue.add(new FeedRefreshContext(feed, urgent));
+			}
 		}
 	}
 

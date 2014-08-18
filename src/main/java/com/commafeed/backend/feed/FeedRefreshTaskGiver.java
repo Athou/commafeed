@@ -71,15 +71,13 @@ public class FeedRefreshTaskGiver implements Managed {
 						FeedRefreshContext context = new UnitOfWork<FeedRefreshContext>(sessionFactory) {
 							@Override
 							protected FeedRefreshContext runInSession() throws Exception {
-								FeedRefreshContext context = queues.take();
-								if (context != null) {
-									feedRefreshed.mark();
-									worker.updateFeed(context);
-								}
-								return context;
+								return queues.take();
 							}
 						}.run();
-						if (context == null) {
+						if (context != null) {
+							feedRefreshed.mark();
+							worker.updateFeed(context);
+						} else {
 							log.debug("nothing to do, sleeping for 15s");
 							threadWaited.mark();
 							try {

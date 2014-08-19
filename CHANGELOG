@@ -2,6 +2,7 @@ v 2.0.2
   - api using the api key is now working again
   - context path is now configurable in config.yml (see app.contextPath in config.yml.example)
   - fix login on firefox when fields are autofilled by the browser
+  - fix scrolling of subscriptions list on mobile
   - user is now logged in after registration
   - fix link to documentation on home page and about page
   - fields autocomplete is disabled on the profile page

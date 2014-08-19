@@ -75,10 +75,12 @@ public class UserService {
 	 * try to log in by checking if the user has an active session
 	 */
 	public Optional<User> login(HttpSession session) {
-		User user = (User) session.getAttribute(SESSION_KEY_USER);
-		if (user != null) {
-			afterLogin(user);
-			return Optional.of(user);
+		if (session != null) {
+			User user = (User) session.getAttribute(SESSION_KEY_USER);
+			if (user != null) {
+				afterLogin(user);
+				return Optional.of(user);
+			}
 		}
 		return Optional.absent();
 	}

@@ -53,7 +53,7 @@ public class NextUnreadServlet extends HttpServlet {
 		final Optional<User> user = new UnitOfWork<Optional<User>>(sessionFactory) {
 			@Override
 			protected Optional<User> runInSession() throws Exception {
-				return userService.login(req.getSession());
+				return userService.login(req.getSession(false));
 			}
 		}.run();
 		if (!user.isPresent()) {

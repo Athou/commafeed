@@ -67,7 +67,7 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 		}
 
 		private Optional<User> cookieSessionLogin() {
-			return userService.login(request.getSession());
+			return userService.login(request.getSession(false));
 		}
 
 		private Optional<User> basicAuthenticationLogin(HttpContext c) {

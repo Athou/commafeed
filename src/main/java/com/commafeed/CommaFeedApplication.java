@@ -67,6 +67,11 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 	private HibernateBundle<CommaFeedConfiguration> hibernateBundle;
 
 	@Override
+	public String getName() {
+		return "CommaFeed";
+	}
+
+	@Override
 	public void initialize(Bootstrap<CommaFeedConfiguration> bootstrap) {
 		bootstrap.addBundle(hibernateBundle = new HibernateBundle<CommaFeedConfiguration>(AbstractModel.class, Feed.class,
 				FeedCategory.class, FeedEntry.class, FeedEntryContent.class, FeedEntryStatus.class, FeedEntryTag.class,

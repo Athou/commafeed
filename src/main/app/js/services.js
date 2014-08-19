@@ -182,7 +182,7 @@ module.factory('CategoryService', ['$resource', '$http', function($resource, $ht
 	var actions = {
 		get : {
 			method : 'GET',
-			ignoreLoadingBar: true,
+			ignoreLoadingBar : true,
 			params : {
 				_method : 'get'
 			}
@@ -248,7 +248,10 @@ module.factory('CategoryService', ['$resource', '$http', function($resource, $ht
 			_.merge(res.subscriptions, data);
 			if (success)
 				success(data);
-		}, error);
+		}, function(data) {
+			if (error)
+				error(data);
+		});
 	};
 
 	res.init();
@@ -265,7 +268,7 @@ module.factory('EntryService', ['$resource', '$http', function($resource, $http)
 		},
 		mark : {
 			method : 'POST',
-			ignoreLoadingBar: true,
+			ignoreLoadingBar : true,
 			params : {
 				_method : 'mark'
 			}

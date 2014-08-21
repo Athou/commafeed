@@ -17,6 +17,12 @@
 		<dropwizard.version>0.7.1</dropwizard.version>
 	</properties>
 
+	<scm>
+		<connection>scm:git:ssh://github.com/Athou/commafeed.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/Athou/commafeed.git</developerConnection>
+		<url>https://github.com/Athou/commafeed</url>
+	</scm>
+
 	<build>
 		<finalName>commafeed</finalName>
 		<resources>

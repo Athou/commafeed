@@ -18,8 +18,8 @@
 	</properties>
 
 	<scm>
-		<connection>scm:git:ssh://github.com/Athou/commafeed.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/Athou/commafeed.git</developerConnection>
+		<connection>scm:git:https://github.com/Athou/commafeed.git</connection>
+		<developerConnection>scm:git:https://github.com/Athou/commafeed.git</developerConnection>
 		<url>https://github.com/Athou/commafeed</url>
 	</scm>
 

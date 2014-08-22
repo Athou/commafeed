@@ -10,6 +10,9 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 import java.util.Date;
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
 
 import org.eclipse.jetty.server.session.SessionHandler;
 
@@ -32,6 +35,7 @@ import com.commafeed.backend.service.UserService;
 import com.commafeed.backend.task.OldStatusesCleanupTask;
 import com.commafeed.backend.task.OrphansCleanupTask;
 import com.commafeed.backend.task.SchedulingService;
+import com.commafeed.frontend.CacheFilter;
 import com.commafeed.frontend.auth.SecurityCheckProvider;
 import com.commafeed.frontend.auth.SecurityCheckProvider.SecurityCheckUserServiceProvider;
 import com.commafeed.frontend.resource.AdminREST;
@@ -145,6 +149,10 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		SwaggerConfig swaggerConfig = ConfigFactory.config();
 		swaggerConfig.setApiVersion("1");
 		swaggerConfig.setBasePath("/rest");
+
+		// cache configuration
+		environment.servlets().addFilter("cache-filter", new CacheFilter())
+				.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
 	}
 
 	public static void main(String[] args) throws Exception {

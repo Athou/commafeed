@@ -12,8 +12,13 @@ app.config([
 		'$translateProvider',
 		function($routeProvider, $stateProvider, $urlRouterProvider, $httpProvider, $compileProvider, cfpLoadingBarProvider,
 				$translateProvider) {
+			
+			// ie ajax cache workaround
+			if (!$httpProvider.defaults.headers.get) {
+				$httpProvider.defaults.headers.get = {};
+			}
+			$httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
 
-			// $translateProvider.useLocalStorage();
 			$translateProvider.useStaticFilesLoader({
 				prefix : 'i18n/',
 				suffix : '.js'

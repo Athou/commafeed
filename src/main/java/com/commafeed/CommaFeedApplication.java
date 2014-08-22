@@ -6,6 +6,7 @@ import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.jersey.sessions.HttpSessionProvider;
 import io.dropwizard.migrations.MigrationsBundle;
+import io.dropwizard.servlets.CacheBustingFilter;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
@@ -35,7 +36,6 @@ import com.commafeed.backend.service.UserService;
 import com.commafeed.backend.task.OldStatusesCleanupTask;
 import com.commafeed.backend.task.OrphansCleanupTask;
 import com.commafeed.backend.task.SchedulingService;
-import com.commafeed.frontend.CacheFilter;
 import com.commafeed.frontend.auth.SecurityCheckProvider;
 import com.commafeed.frontend.auth.SecurityCheckProvider.SecurityCheckUserServiceProvider;
 import com.commafeed.frontend.resource.AdminREST;
@@ -151,7 +151,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		swaggerConfig.setBasePath("/rest");
 
 		// cache configuration
-		environment.servlets().addFilter("cache-filter", new CacheFilter())
+		environment.servlets().addFilter("cache-filter", new CacheBustingFilter())
 				.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
 	}
 

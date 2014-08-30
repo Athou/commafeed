@@ -40,7 +40,7 @@
 			<div class="col-sm-offset-2 col-sm-10">
 				<button type="submit" class="btn btn-primary" ng-if="!isMeta()">{{ 'global.save' | translate }}</button>
 				<button type="button" class="btn btn-danger" ng-click="deleteCategory()" ng-show="!isMeta()"
-					confirm-click="{{ 'details.delete_category_confirmation}">{{ 'global.delete' | translate }}</button>
+					confirm-click="'details.delete_category_confirmation' | translate">{{ 'global.delete' | translate }}</button>
 				<button type="button" class="btn btn-default" ng-click="back()">{{ 'global.cancel' | translate }}</button>
 			</div>
 		</div>

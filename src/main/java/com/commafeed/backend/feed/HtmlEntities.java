@@ -3,7 +3,7 @@ package com.commafeed.backend.feed;
 import java.util.Collections;
 import java.util.Map;
 
-import com.google.gwt.thirdparty.guava.common.collect.Maps;
+import com.google.common.collect.Maps;
 
 public class HtmlEntities {
 	public static final Map<String, String> NUMERIC_MAPPING = Collections.unmodifiableMap(loadMap());

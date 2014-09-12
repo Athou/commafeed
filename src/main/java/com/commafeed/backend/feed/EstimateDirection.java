@@ -41,6 +41,11 @@ class EstimateDirection {
 			} else if (hasAnyLtr(token)) {
 				total++;
 			}
+
+			// only checking 20 first words is usually enough
+			if (i == 20) {
+				break;	
+			}
 		}
 
 		return total == 0 ? false : ((float) rtlCount / total > RTL_DETECTION_THRESHOLD ? true : false);

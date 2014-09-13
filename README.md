@@ -49,7 +49,7 @@ You can use a proxy http server such as nginx or apache.
 Deployment on OpenShift
 -----------------------------
 
- [OpenShift](https://openshift.redhat.com) is Red Hat's Platform-as-a-Service (PaaS) that allows developers to quickly develop, host, and scale applications in a cloud environment. Commafeed runs perfectly on OpenShift and can even be used in the free tier. Follow the [Getting Started](https://developers.openshift.com/en/getting-started-overview.html) guide and after you sign up and install the Command Line Tools (RHC), do:
+ [OpenShift](https://openshift.redhat.com) is Red Hat's Platform-as-a-Service (PaaS) that allows developers to quickly develop, host, and scale applications in a cloud environment. CommaFeed runs perfectly on OpenShift and can even be used in the free tier. Follow the [Getting Started](https://developers.openshift.com/en/getting-started-overview.html) guide and after you sign up and install the Command Line Tools (RHC), do:
 
 	rhc create-app commafeed diy-0.1 mysql-5.5
 	cd commafeed

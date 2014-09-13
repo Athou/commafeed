@@ -54,6 +54,7 @@
 				<configuration>
 					<generateGitPropertiesFile>false</generateGitPropertiesFile>
 					<failOnNoGitDirectory>false</failOnNoGitDirectory>
+					<failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
 				</configuration>
 			</plugin>
 			<plugin>

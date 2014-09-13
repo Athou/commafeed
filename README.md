@@ -1,4 +1,4 @@
-CommaFeed [![Build Status](https://buildhive.cloudbees.com/job/Athou/job/commafeed/badge/icon)](https://buildhive.cloudbees.com/job/Athou/job/commafeed/)
+CommaFeed [![Build Status](https://travis-ci.org/Athou/commafeed.svg?branch=master)](https://travis-ci.org/Athou/commafeed)
 =========
 Sources for [CommaFeed.com](http://www.commafeed.com/).
 

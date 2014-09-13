@@ -1,0 +1,3 @@
+#!/bin/bash
+cd $OPENSHIFT_REPO_DIR
+nohup java -jar target/commafeed.jar server .openshift/config.mysql.yml > ${OPENSHIFT_DIY_LOG_DIR}/commafeed.log 2>&1 &

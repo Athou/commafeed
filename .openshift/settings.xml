@@ -1,0 +1,3 @@
+<settings>
+    <localRepository>$OPENSHIFT_DATA_DIR</localRepository>
+</settings>

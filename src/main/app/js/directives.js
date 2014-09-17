@@ -193,7 +193,7 @@ module.directive('category', [function() {
 						});
 						var label = '';
 						if (count > 0) {
-							label = '(' + count + ')';
+							label = count;
 						}
 						return label;
 					};
@@ -201,7 +201,7 @@ module.directive('category', [function() {
 					$scope.feedCountLabel = function(feed) {
 						var label = '';
 						if (feed.unread > 0) {
-							label = '(' + feed.unread + ')';
+							label = feed.unread;
 						}
 						return label;
 					};

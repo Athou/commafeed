@@ -15,6 +15,7 @@ import lombok.Getter;
 import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.commafeed.backend.cache.RedisPoolFactory;
 import com.commafeed.frontend.SessionManagerFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -35,7 +36,12 @@ public class CommaFeedConfiguration extends Configuration {
 	@NotNull
 	@JsonProperty("database")
 	private DataSourceFactory database = new DataSourceFactory();
-	
+
+	@Valid
+	@NotNull
+	@JsonProperty("redis")
+	private RedisPoolFactory redisPoolFactory = new RedisPoolFactory();
+
 	@Valid
 	@NotNull
 	@JsonProperty("session")

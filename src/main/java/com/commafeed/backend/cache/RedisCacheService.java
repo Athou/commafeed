@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Pipeline;
 
 import com.commafeed.backend.model.Feed;
@@ -21,17 +21,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 
 @Slf4j
+@RequiredArgsConstructor
 public class RedisCacheService extends CacheService {
 
-	private static ObjectMapper mapper = new ObjectMapper();
+	private static ObjectMapper MAPPER = new ObjectMapper();
 
-	private JedisPool pool;
-
-	public RedisCacheService() {
-		JedisPoolConfig config = new JedisPoolConfig();
-		config.setMaxTotal(500);
-		pool = new JedisPool(config, "localhost");
-	}
+	private final JedisPool pool;
 
 	@Override
 	public List<String> getLastEntries(Feed feed) {
@@ -75,7 +70,7 @@ public class RedisCacheService extends CacheService {
 			String key = buildRedisUserRootCategoryKey(user);
 			String json = jedis.get(key);
 			if (json != null) {
-				cat = mapper.readValue(json, Category.class);
+				cat = MAPPER.readValue(json, Category.class);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -93,7 +88,7 @@ public class RedisCacheService extends CacheService {
 
 			Pipeline pipe = jedis.pipelined();
 			pipe.del(key);
-			pipe.set(key, mapper.writeValueAsString(category));
+			pipe.set(key, MAPPER.writeValueAsString(category));
 			pipe.expire(key, (int) TimeUnit.MINUTES.toSeconds(30));
 			pipe.sync();
 		} catch (JsonProcessingException e) {
@@ -111,7 +106,7 @@ public class RedisCacheService extends CacheService {
 			String key = buildRedisUnreadCountKey(sub);
 			String json = jedis.get(key);
 			if (json != null) {
-				count = mapper.readValue(json, UnreadCount.class);
+				count = MAPPER.readValue(json, UnreadCount.class);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -129,7 +124,7 @@ public class RedisCacheService extends CacheService {
 
 			Pipeline pipe = jedis.pipelined();
 			pipe.del(key);
-			pipe.set(key, mapper.writeValueAsString(count));
+			pipe.set(key, MAPPER.writeValueAsString(count));
 			pipe.expire(key, (int) TimeUnit.MINUTES.toSeconds(30));
 			pipe.sync();
 		} catch (Exception e) {

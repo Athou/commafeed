@@ -88,6 +88,7 @@ server:
   adminConnectors:
     - type: http
       port: 8084
+      
 logging:
   level: INFO
   loggers:
@@ -104,3 +105,15 @@ logging:
       archivedLogFilenamePattern: log/commafeed-%d.log
       archivedFileCount: 5
       timeZone: UTC
+      
+# Redis pool configuration
+# (only used if app.cache is 'redis')
+# -----------------------------------
+redis:
+  host: localhost
+  port: 6379
+  password: 
+  timeout: 2000
+  database: 0
+  maxTotal: 500
+   

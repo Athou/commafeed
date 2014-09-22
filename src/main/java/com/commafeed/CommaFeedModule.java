@@ -30,7 +30,7 @@ public class CommaFeedModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		CacheService cacheService = config.getApplicationSettings().getCache() == CacheType.NOOP ? new NoopCacheService()
-				: new RedisCacheService();
+				: new RedisCacheService(config.getRedisPoolFactory().build());
 		log.info("using cache {}", cacheService.getClass());
 		bind(CacheService.class).toInstance(cacheService);
 	}

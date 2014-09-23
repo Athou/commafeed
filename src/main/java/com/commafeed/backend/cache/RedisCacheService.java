@@ -31,23 +31,19 @@ public class RedisCacheService extends CacheService {
 	@Override
 	public List<String> getLastEntries(Feed feed) {
 		List<String> list = Lists.newArrayList();
-		Jedis jedis = pool.getResource();
-		try {
+		try (Jedis jedis = pool.getResource()) {
 			String key = buildRedisEntryKey(feed);
 			Set<String> members = jedis.smembers(key);
 			for (String member : members) {
 				list.add(member);
 			}
-		} finally {
-			pool.returnResource(jedis);
 		}
 		return list;
 	}
 
 	@Override
 	public void setLastEntries(Feed feed, List<String> entries) {
-		Jedis jedis = pool.getResource();
-		try {
+		try (Jedis jedis = pool.getResource()) {
 			String key = buildRedisEntryKey(feed);
 
 			Pipeline pipe = jedis.pipelined();
@@ -57,16 +53,13 @@ public class RedisCacheService extends CacheService {
 			}
 			pipe.expire(key, (int) TimeUnit.DAYS.toSeconds(7));
 			pipe.sync();
-		} finally {
-			pool.returnResource(jedis);
 		}
 	}
 
 	@Override
 	public Category getUserRootCategory(User user) {
 		Category cat = null;
-		Jedis jedis = pool.getResource();
-		try {
+		try (Jedis jedis = pool.getResource()) {
 			String key = buildRedisUserRootCategoryKey(user);
 			String json = jedis.get(key);
 			if (json != null) {
@@ -74,16 +67,13 @@ public class RedisCacheService extends CacheService {
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-		} finally {
-			pool.returnResource(jedis);
 		}
 		return cat;
 	}
 
 	@Override
 	public void setUserRootCategory(User user, Category category) {
-		Jedis jedis = pool.getResource();
-		try {
+		try (Jedis jedis = pool.getResource()) {
 			String key = buildRedisUserRootCategoryKey(user);
 
 			Pipeline pipe = jedis.pipelined();
@@ -93,16 +83,13 @@ public class RedisCacheService extends CacheService {
 			pipe.sync();
 		} catch (JsonProcessingException e) {
 			log.error(e.getMessage(), e);
-		} finally {
-			pool.returnResource(jedis);
 		}
 	}
 
 	@Override
 	public UnreadCount getUnreadCount(FeedSubscription sub) {
 		UnreadCount count = null;
-		Jedis jedis = pool.getResource();
-		try {
+		try (Jedis jedis = pool.getResource()) {
 			String key = buildRedisUnreadCountKey(sub);
 			String json = jedis.get(key);
 			if (json != null) {
@@ -110,16 +97,13 @@ public class RedisCacheService extends CacheService {
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-		} finally {
-			pool.returnResource(jedis);
 		}
 		return count;
 	}
 
 	@Override
 	public void setUnreadCount(FeedSubscription sub, UnreadCount count) {
-		Jedis jedis = pool.getResource();
-		try {
+		try (Jedis jedis = pool.getResource()) {
 			String key = buildRedisUnreadCountKey(sub);
 
 			Pipeline pipe = jedis.pipelined();
@@ -129,15 +113,12 @@ public class RedisCacheService extends CacheService {
 			pipe.sync();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-		} finally {
-			pool.returnResource(jedis);
 		}
 	}
 
 	@Override
 	public void invalidateUserRootCategory(User... users) {
-		Jedis jedis = pool.getResource();
-		try {
+		try (Jedis jedis = pool.getResource()) {
 			Pipeline pipe = jedis.pipelined();
 			if (users != null) {
 				for (User user : users) {
@@ -146,15 +127,12 @@ public class RedisCacheService extends CacheService {
 				}
 			}
 			pipe.sync();
-		} finally {
-			pool.returnResource(jedis);
 		}
 	}
 
 	@Override
 	public void invalidateUnreadCount(FeedSubscription... subs) {
-		Jedis jedis = pool.getResource();
-		try {
+		try (Jedis jedis = pool.getResource()) {
 			Pipeline pipe = jedis.pipelined();
 			if (subs != null) {
 				for (FeedSubscription sub : subs) {
@@ -163,8 +141,6 @@ public class RedisCacheService extends CacheService {
 				}
 			}
 			pipe.sync();
-		} finally {
-			pool.returnResource(jedis);
 		}
 	}
 

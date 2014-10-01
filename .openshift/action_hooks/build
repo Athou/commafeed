@@ -1,11 +1,22 @@
 #!/bin/bash
 cd $OPENSHIFT_REPO_DIR
 
+rm -rf $OPENSHIFT_REPO_DIR/node
+rm -rf $OPENSHIFT_REPO_DIR/node_modules
+rm -rf $OPENSHIFT_TMP_DIR/npm
+rm -rf $OPENSHIFT_TMP_DIR/npmrc
+rm -rf $OPENSHIFT_TMP_DIR/m2
+rm -rf $OPENSHIFT_TMP_DIR/local
+
+export NPM_CONFIG_PREFIX="$OPENSHIFT_TMP_DIR/npm"
+export NPM_CONFIG_USERCONFIG="$OPENSHIFT_TMP_DIR/npmrc"
 export NPM_CONFIG_CACHE="$OPENSHIFT_TMP_DIR/npm/cache" 
 export MAVEN_OPTS="-Dmaven.repo.local=$OPENSHIFT_TMP_DIR/m2" 
 export HOME="$OPENSHIFT_TMP_DIR/local" 
 
+export NPM_CONFIG_ARCH="x64"
+
 npm install npm
 export PATH="$OPENSHIFT_REPO_DIR/node_modules/.bin:$PATH"
 
-mvn clean package
+mvn clean package -DskipTests -Dos.arch=x64

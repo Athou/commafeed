@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,12 +20,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.Consts;
 import org.apache.http.Header;
-import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpException;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
 import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
@@ -41,11 +35,9 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.ConnectionConfig;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.entity.HttpEntityWrapper;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 import com.commafeed.CommaFeedConfiguration;
@@ -61,32 +53,8 @@ public class HttpGetter {
 	private static final String ACCEPT_LANGUAGE = "en";
 	private static final String PRAGMA_NO_CACHE = "No-cache";
 	private static final String CACHE_CONTROL_NO_CACHE = "no-cache";
-
-	private static final List<String> ALLOWED_CONTENT_ENCODINGS = Arrays.asList("gzip", "x-gzip", "deflate", "identity");
-	private static final HttpResponseInterceptor REMOVE_INCORRECT_CONTENT_ENCODING = new HttpResponseInterceptor() {
-
-		@Override
-		public void process(HttpResponse response, HttpContext context) throws HttpException, IOException {
-			HttpEntity entity = response.getEntity();
-			if (entity != null && entity.getContentLength() != 0) {
-				Header header = entity.getContentEncoding();
-				if (header != null) {
-					HeaderElement[] codecs = header.getElements();
-					for (final HeaderElement codec : codecs) {
-						String codecName = codec.getName().toLowerCase(Locale.US);
-						if (!ALLOWED_CONTENT_ENCODINGS.contains(codecName)) {
-							response.setEntity(new HttpEntityWrapper(entity) {
-								@Override
-								public Header getContentEncoding() {
-									return null;
-								};
-							});
-						}
-					}
-				}
-			}
-		}
-	};
+	
+	private static final HttpResponseInterceptor REMOVE_INCORRECT_CONTENT_ENCODING = new ContentEncodingInterceptor();
 
 	private static SSLContext SSL_CONTEXT = null;
 	static {

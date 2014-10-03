@@ -23,13 +23,13 @@ class ContentEncodingInterceptor implements HttpResponseInterceptor {
 	public void process(HttpResponse response, HttpContext context) throws HttpException, IOException {
 		if (hasContent(response)) {
 			Header contentEncodingHeader = response.getEntity().getContentEncoding();
-			if (contentEncodingHeader != null && doesNotContainAllowedEncodings(contentEncodingHeader)) {
+			if (contentEncodingHeader != null && containsUnsupportedEncodings(contentEncodingHeader)) {
 				overrideContentEncoding(response);
 			}
 		}
 	}
 	
-	private boolean doesNotContainAllowedEncodings(Header contentEncodingHeader) {
+	private boolean containsUnsupportedEncodings(Header contentEncodingHeader) {
 		HeaderElement[] codecs = contentEncodingHeader.getElements();
 		
 		for (final HeaderElement codec : codecs) {

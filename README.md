@@ -21,12 +21,8 @@ You also need Maven 3.x (and a Java 1.7+ JDK) installed in order to build the ap
 
 To install maven and openjdk on Ubuntu, issue the following commands
 
-    sudo add-apt-repository ppa:natecarlson/maven3
-    sudo apt-get update
-    sudo apt-get install openjdk-7-jdk maven3
+    sudo apt-get install openjdk-7-jdk maven
     
-    # Not required but if you don't, use 'mvn3' instead of 'mvn' for the rest of the instructions.
-    sudo ln -s /usr/bin/mvn3 /usr/bin/mvn
     
 On Windows and other operating systems, just download maven 3.x from the [official site](http://maven.apache.org/), extract it somewhere and add the `bin` directory to your `PATH` environment variable.
     
@@ -40,7 +36,7 @@ Now build the application
     mvn clean package
     
 Copy `config.yml.example` to `config.yml` then edit the file to your liking.
-Issue the following command to run the app, the server will listen by default on ``http://localhost:8082`. The default user is `admin` and the default password is `admin`.
+Issue the following command to run the app, the server will listen by default on `http://localhost:8082`. The default user is `admin` and the default password is `admin`.
 
 	java -jar target/commafeed.jar server config.yml
 

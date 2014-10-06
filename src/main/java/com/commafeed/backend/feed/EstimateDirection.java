@@ -30,7 +30,7 @@ class EstimateDirection {
 	static boolean isRTL(String str) {
 		int rtlCount = 0;
 		int total = 0;
-		String[] tokens = WORD_SEPARATOR_RE.split(str);
+		String[] tokens = WORD_SEPARATOR_RE.split(str, 20); // limit splits to 20, usually enough
 		for (int i = 0; i < tokens.length; i++) {
 			String token = tokens[i];
 			if (startsWithRtl(token)) {
@@ -40,11 +40,6 @@ class EstimateDirection {
 				// do nothing
 			} else if (hasAnyLtr(token)) {
 				total++;
-			}
-
-			// only checking 20 first words is usually enough
-			if (i == 20) {
-				break;	
 			}
 		}
 

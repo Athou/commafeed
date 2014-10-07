@@ -101,6 +101,14 @@
 	font-size: 11px;
 }
 
+.css-treeview .unread ~ .unread-counter::before {
+	content: '(';
+}
+
+.css-treeview .unread ~ .unread-counter::after {
+	content: ')';
+}
+
 .css-treeview a {
 	cursor: pointer;
 	color: black;

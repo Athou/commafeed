@@ -12,8 +12,8 @@
 				<i ng-class="{'icon-star' : node.id == 'starred', 'icon-inbox': node.id == 'all', 'icon-tag' : node.isTag}" ng-show="!showChildren"></i>
 			</span>
 			<span ng-class="{selected: (node.id == selectedId && (node.isTag ? selectedType == 'tag' : selectedType == 'category'))}">
-				<span ng-class="{unread: unreadCount({category:node})}" class="bidi-embed"> {{categoryLabel(node)}} </span>
-				<span class="unread-counter"> {{categoryCountLabel(node)}} </span>
+				<span ng-class="{unread: unreadCount({category:node})}" class="bidi-embed">{{categoryLabel(node)}}</span>
+				<span class="unread-counter">{{categoryCountLabel(node)}}</span>
 			</span>
 		</div>
 	</div>
@@ -30,8 +30,8 @@
 			<a ng-click="feedClicked(feed.id, $event)" ng-dblclick="showFeedDetails(feed)" class="feed-link" href="{{feed.feedLink}}" target="_blank"
 				ng-class="{error: feed.message && feed.errorCount > 10, selected: (feed.id == selectedId && selectedType == 'feed') }">
 				<favicon url="feed.iconUrl" />
-				<span ng-class="{unread: feed.unread}" class="bidi-embed"> {{feed.name}} </span>
-				<span class="unread-counter"> {{feedCountLabel(feed)}} </span>
+				<span ng-class="{unread: feed.unread}" class="bidi-embed">{{feed.name}}</span>
+				<span class="unread-counter">{{feedCountLabel(feed)}}</span>
 			</a>
 		</li>
 	</ul>

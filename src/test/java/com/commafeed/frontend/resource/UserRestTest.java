@@ -1,6 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -25,7 +24,6 @@ public class UserRestTest {
 		// Create UserService partial mock
 		UserService service = mock(UserService.class);
 		when(service.login("user", "password")).thenReturn(absentUser);
-		when(service.login(any(String.class), any(String.class), any(HttpSession.class))).thenCallRealMethod();
 		
 		HttpSession session = mock(HttpSession.class);
 		UserREST userREST = new UserREST(null, null, null, service, null, null, null);
@@ -47,7 +45,6 @@ public class UserRestTest {
 		// Create UserService partial mock
 		UserService service = mock(UserService.class);
 		when(service.login("user", "password")).thenReturn(Optional.of(user));
-		when(service.login(any(String.class), any(String.class), any(HttpSession.class))).thenCallRealMethod();
 		
 		HttpSession session = mock(HttpSession.class);
 		UserREST userREST = new UserREST(null, null, null, service, null, null, null);

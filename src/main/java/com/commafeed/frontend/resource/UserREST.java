@@ -79,6 +79,7 @@ public class UserREST {
 	private final PasswordEncryptionService encryptionService;
 	private final MailService mailService;
 	private final CommaFeedConfiguration config;
+	public static final String SESSION_KEY_USER = "user";
 
 	@Path("/settings")
 	@GET
@@ -243,8 +244,9 @@ public class UserREST {
 	@UnitOfWork
 	@ApiOperation(value = "Login and create a session")
 	public Response login(@ApiParam(required = true) LoginRequest req, @Session HttpSession session) {
-		Optional<User> user = userService.login(req.getName(), req.getPassword(), session);
+		Optional<User> user = userService.login(req.getName(), req.getPassword());
 		if (user.isPresent()) {
+			session.setAttribute(SESSION_KEY_USER, user.get());
 			return Response.ok().build();
 		} else {
 			return Response.status(Response.Status.UNAUTHORIZED).entity("wrong username or password").build();

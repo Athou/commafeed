@@ -138,6 +138,41 @@ public class UserServiceTest {
 	}
 	
 	@Test public void
+	calling_login_should_execute_post_login_activities_for_user_on_successful_authentication() {
+		// Make a user who is not disabled
+		User user = new User();
+		user.setDisabled(false);
+		
+		// Set the encryptedPassword on the user
+		byte[] encryptedPassword = new byte[]{1,2,3};
+		user.setPassword(encryptedPassword);
+		
+		// Set a salt for this user
+		byte[] salt = new byte[]{4,5,6};
+		user.setSalt(salt);
+		
+		// Mock DAO to return the user
+		UserDAO dao = mock(UserDAO.class);
+		when(dao.findByName("test")).thenReturn(user);
+		
+		// Mock PasswordEncryptionService
+		PasswordEncryptionService encryptionService = mock(PasswordEncryptionService.class);
+		when(encryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(true);
+		
+		// Mock PostLoginActivities to do nothing
+		PostLoginActivities postLoginActivities = mock(PostLoginActivities.class);
+		doNothing().when(postLoginActivities).executeFor(any(User.class));
+		
+		// Create service with mocks
+		UserService service = new UserService(null, dao, null, encryptionService, null, postLoginActivities);
+		
+		// Try to login as the user
+		service.login("test", "password");
+		
+		verify(postLoginActivities).executeFor(user);
+	}
+	
+	@Test public void
 	calling_login_should_return_user_object_on_successful_authentication() {
 		// Make a user who is not disabled
 		User user = new User();

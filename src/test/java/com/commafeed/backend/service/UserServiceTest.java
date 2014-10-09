@@ -2,19 +2,18 @@ package com.commafeed.backend.service;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.doNothing;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.service.internal.PostLoginActivities;
 import com.google.common.base.Optional;
-
 
 public class UserServiceTest {
 	
@@ -99,7 +98,7 @@ public class UserServiceTest {
 		when(encryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(false);
 		
 		// Create service with mocks
-		UserService service = new UserService(null, dao, null, null, encryptionService, null);
+		UserService service = new UserService(null, dao, null, encryptionService, null, null);
 		
 		// Try to login as the user
 		service.login("test", "password");
@@ -130,7 +129,7 @@ public class UserServiceTest {
 		when(encryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(false);
 		
 		// Create service with mocks
-		UserService service = new UserService(null, dao, null, null, encryptionService, null);
+		UserService service = new UserService(null, dao, null, encryptionService, null, null);
 		
 		// Try to login as the user
 		Optional<User> authenticatedUser = service.login("test", "password");
@@ -160,15 +159,15 @@ public class UserServiceTest {
 		PasswordEncryptionService encryptionService = mock(PasswordEncryptionService.class);
 		when(encryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(true);
 		
-		// Create service with mocks
-		UserService service = new UserService(null, dao, null, null, encryptionService, null);
+		// Mock PostLoginActivities to do nothing
+		PostLoginActivities postLoginActivities = mock(PostLoginActivities.class);
+		doNothing().when(postLoginActivities).executeFor(any(User.class));
 		
-		// Skip afterLogin activities 
-		UserService spy = spy(service);
-		doNothing().when(spy).afterLogin(any(User.class));
+		// Create service with mocks
+		UserService service = new UserService(null, dao, null, encryptionService, null, postLoginActivities);
 		
 		// Try to login as the user
-		Optional<User> authenticatedUser = spy.login("test", "password");
+		Optional<User> authenticatedUser = service.login("test", "password");
 		
 		Assert.assertTrue(authenticatedUser.isPresent());
 		Assert.assertEquals(user, authenticatedUser.get());

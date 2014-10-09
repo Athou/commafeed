@@ -3,6 +3,7 @@ package com.commafeed.backend.service.internal;
 import java.util.Date;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,13 +15,14 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedSubscriptionService;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class PostLoginActivities {
 	
 	private final UserDAO userDAO;
 	private final FeedSubscriptionService feedSubscriptionService;
 	private final CommaFeedConfiguration config;
 	
-	public void afterLogin(User user) {
+	public void executeFor(User user) {
 		Date lastLogin = user.getLastLogin();
 		Date now = new Date();
 

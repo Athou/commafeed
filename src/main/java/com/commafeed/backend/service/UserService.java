@@ -34,9 +34,10 @@ public class UserService {
 	private final UserDAO userDAO;
 	private final UserSettingsDAO userSettingsDAO;
 
-	private final FeedSubscriptionService feedSubscriptionService;
 	private final PasswordEncryptionService encryptionService;
 	private final CommaFeedConfiguration config;
+	
+	private final PostLoginActivities postLoginActivities;
 
 	/**
 	 * try to log in with given credentials
@@ -103,11 +104,9 @@ public class UserService {
 
 	/**
 	 * should triggers after successful login
-	 * 
-	 * Note: Visibility changed to package private to enabled spying on this method
 	 */
-	void afterLogin(User user) {
-		new PostLoginActivities(userDAO, feedSubscriptionService, config).afterLogin(user);
+	private void afterLogin(User user) {
+		postLoginActivities.executeFor(user);
 	}
 
 	public User register(String name, String password, String email, Collection<Role> roles) {

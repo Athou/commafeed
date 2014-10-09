@@ -104,9 +104,9 @@ public class UserService {
 	/**
 	 * should triggers after successful login
 	 * 
-	 * Note: Visibility changed to protected to enabled spying on this method
+	 * Note: Visibility changed to package private to enabled spying on this method
 	 */
-	protected void afterLogin(User user) {
+	void afterLogin(User user) {
 		Date lastLogin = user.getLastLogin();
 		Date now = new Date();
 

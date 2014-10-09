@@ -5,6 +5,8 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.doNothing;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -103,6 +105,73 @@ public class UserServiceTest {
 		service.login("test", "password");
 		
 		verify(encryptionService).authenticate("password", encryptedPassword, salt);
+	}
+	
+	@Test public void
+	calling_login_should_not_return_user_object_on_unsuccessful_authentication() {
+		// Make a user who is not disabled
+		User user = new User();
+		user.setDisabled(false);
+		
+		// Set the encryptedPassword on the user
+		byte[] encryptedPassword = new byte[]{1,2,3};
+		user.setPassword(encryptedPassword);
+		
+		// Set a salt for this user
+		byte[] salt = new byte[]{4,5,6};
+		user.setSalt(salt);
+		
+		// Mock DAO to return the user
+		UserDAO dao = mock(UserDAO.class);
+		when(dao.findByName("test")).thenReturn(user);
+		
+		// Mock PasswordEncryptionService
+		PasswordEncryptionService encryptionService = mock(PasswordEncryptionService.class);
+		when(encryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(false);
+		
+		// Create service with mocks
+		UserService service = new UserService(null, dao, null, null, encryptionService, null);
+		
+		// Try to login as the user
+		Optional<User> authenticatedUser = service.login("test", "password");
+		
+		Assert.assertFalse(authenticatedUser.isPresent());
+	}
+	
+	@Test public void
+	calling_login_should_return_user_object_on_successful_authentication() {
+		// Make a user who is not disabled
+		User user = new User();
+		user.setDisabled(false);
+		
+		// Set the encryptedPassword on the user
+		byte[] encryptedPassword = new byte[]{1,2,3};
+		user.setPassword(encryptedPassword);
+		
+		// Set a salt for this user
+		byte[] salt = new byte[]{4,5,6};
+		user.setSalt(salt);
+		
+		// Mock DAO to return the user
+		UserDAO dao = mock(UserDAO.class);
+		when(dao.findByName("test")).thenReturn(user);
+		
+		// Mock PasswordEncryptionService
+		PasswordEncryptionService encryptionService = mock(PasswordEncryptionService.class);
+		when(encryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(true);
+		
+		// Create service with mocks
+		UserService service = new UserService(null, dao, null, null, encryptionService, null);
+		
+		// Skip afterLogin activities 
+		UserService spy = spy(service);
+		doNothing().when(spy).afterLogin(any(User.class));
+		
+		// Try to login as the user
+		Optional<User> authenticatedUser = spy.login("test", "password");
+		
+		Assert.assertTrue(authenticatedUser.isPresent());
+		Assert.assertEquals(user, authenticatedUser.get());
 	}
 
 }

@@ -61,17 +61,6 @@ public class UserService {
 	}
 
 	/**
-	 * try to log in with given credentials and create a session for the user
-	 */
-	public Optional<User> login(String nameOrEmail, String password, HttpSession sessionToFill) {
-		Optional<User> user = login(nameOrEmail, password);
-		if (user.isPresent()) {
-			sessionToFill.setAttribute(UserREST.SESSION_KEY_USER, user.get());
-		}
-		return user;
-	}
-
-	/**
 	 * try to log in by checking if the user has an active session
 	 */
 	public Optional<User> login(HttpSession session) {

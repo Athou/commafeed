@@ -226,8 +226,9 @@ public class UserREST {
 	@ApiOperation(value = "Register a new account")
 	public Response register(@Valid @ApiParam(required = true) RegistrationRequest req, @Session HttpSession session) {
 		try {
-			userService.register(req.getName(), req.getPassword(), req.getEmail(), Arrays.asList(Role.USER));
-			userService.login(req.getName(), req.getPassword(), session);
+			User registeredUser = userService.register(req.getName(), req.getPassword(), req.getEmail(), Arrays.asList(Role.USER));
+			userService.login(req.getName(), req.getPassword());
+			session.setAttribute(SESSION_KEY_USER, registeredUser);
 			return Response.ok().build();
 		} catch (final IllegalArgumentException e) {
 			return Response.status(422).entity(new ValidationErrorMessage(Collections.<ConstraintViolation<?>> emptySet()) {

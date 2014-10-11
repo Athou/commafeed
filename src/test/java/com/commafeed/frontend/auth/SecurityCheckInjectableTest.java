@@ -80,7 +80,7 @@ public class SecurityCheckInjectableTest {
 	}
 	
 	@Test public void
-	calling_login_should_return_user_if_user_present_in_http_session() {
+	cookie_login_should_return_user_if_user_present_in_http_session() {
 		User userInSession = new User();
 		
 		HttpSession session = mock(HttpSession.class);

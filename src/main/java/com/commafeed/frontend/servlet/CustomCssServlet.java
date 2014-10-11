@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +19,7 @@ import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.service.UserService;
+import com.commafeed.frontend.resource.UserREST;
 import com.google.common.base.Optional;
 
 @SuppressWarnings("serial")
@@ -36,7 +38,15 @@ public class CustomCssServlet extends HttpServlet {
 		final Optional<User> user = new UnitOfWork<Optional<User>>(sessionFactory) {
 			@Override
 			protected Optional<User> runInSession() throws Exception {
-				return userService.login(req.getSession(false));
+				HttpSession session = req.getSession(false);
+				if (session != null) {
+					User user = (User) session.getAttribute(UserREST.SESSION_KEY_USER);
+					if (user != null) {
+						userService.afterLogin(user);
+						return Optional.of(user);
+					}
+				}
+				return Optional.absent();
 			}
 		}.run();
 		if (!user.isPresent()) {

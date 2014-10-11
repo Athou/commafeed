@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.servlet.http.HttpSession;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +20,6 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.internal.PostLoginActivities;
-import com.commafeed.frontend.resource.UserREST;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
@@ -58,21 +56,7 @@ public class UserService {
 			}
 		}
 		return Optional.absent();
-	}
-
-	/**
-	 * try to log in by checking if the user has an active session
-	 */
-	public Optional<User> login(HttpSession session) {
-		if (session != null) {
-			User user = (User) session.getAttribute(UserREST.SESSION_KEY_USER);
-			if (user != null) {
-				afterLogin(user);
-				return Optional.of(user);
-			}
-		}
-		return Optional.absent();
-	}
+	}	
 
 	/**
 	 * try to log in with given api key

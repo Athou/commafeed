@@ -93,7 +93,7 @@ public class UserService {
 	/**
 	 * should triggers after successful login
 	 */
-	private void afterLogin(User user) {
+	public void afterLogin(User user) {
 		postLoginActivities.executeFor(user);
 	}
 

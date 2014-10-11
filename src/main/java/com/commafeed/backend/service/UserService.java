@@ -54,7 +54,7 @@ public class UserService {
 			boolean authenticated = encryptionService.authenticate(password, user.getPassword(), user.getSalt());
 			if (authenticated) {
 				afterLogin(user);
-				return Optional.fromNullable(user);
+				return Optional.of(user);
 			}
 		}
 		return Optional.absent();

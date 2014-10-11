@@ -35,7 +35,7 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 	}
 
 	@RequiredArgsConstructor
-	private static class SecurityCheckInjectable<T> extends AbstractHttpContextInjectable<User> {
+	static class SecurityCheckInjectable<T> extends AbstractHttpContextInjectable<User> {
 		private static final String PREFIX = "Basic";
 
 		private final HttpServletRequest request;
@@ -66,7 +66,7 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 			}
 		}
 
-		private Optional<User> cookieSessionLogin() {
+		Optional<User> cookieSessionLogin() {
 			return userService.login(request.getSession(false));
 		}
 

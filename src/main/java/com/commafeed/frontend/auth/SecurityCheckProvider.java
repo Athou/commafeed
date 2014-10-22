@@ -36,7 +36,7 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 	}
 
 	@RequiredArgsConstructor
-	static class SecurityCheckInjectable<T> extends AbstractHttpContextInjectable<User> {
+	static class SecurityCheckInjectable extends AbstractHttpContextInjectable<User> {
 		private static final String PREFIX = "Basic";
 
 		private final HttpServletRequest request;
@@ -120,6 +120,6 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 
 	@Override
 	public Injectable<?> getInjectable(ComponentContext ic, SecurityCheck sc, Parameter c) {
-		return new SecurityCheckInjectable<>(request, userService, sc.value(), sc.apiKeyAllowed());
+		return new SecurityCheckInjectable(request, userService, sc.value(), sc.apiKeyAllowed());
 	}
 }

@@ -14,10 +14,11 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.backend.service.internal.PostLoginActivities;
 import com.commafeed.frontend.auth.SecurityCheckProvider.SecurityCheckInjectable;
-import com.commafeed.frontend.resource.UserREST;
 import com.google.common.base.Optional;
 
 public class SecurityCheckInjectableTest {
+	
+	private static String SESSION_KEY_USER = "user";
 	
 	@Test public void
 	cookie_login_does_not_create_a_session_if_not_present() {
@@ -46,7 +47,7 @@ public class SecurityCheckInjectableTest {
 	@Test public void
 	cookie_login_should_not_return_user_if_user_not_present_in_http_session() {
 		HttpSession session = mock(HttpSession.class);
-		when(session.getAttribute(UserREST.SESSION_KEY_USER)).thenReturn(null);
+		when(session.getAttribute(SESSION_KEY_USER)).thenReturn(null);
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		when(request.getSession(false)).thenReturn(session);
@@ -64,7 +65,7 @@ public class SecurityCheckInjectableTest {
 		User userInSession = new User();
 		
 		HttpSession session = mock(HttpSession.class);
-		when(session.getAttribute(UserREST.SESSION_KEY_USER)).thenReturn(userInSession);
+		when(session.getAttribute(SESSION_KEY_USER)).thenReturn(userInSession);
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		when(request.getSession(false)).thenReturn(session);
@@ -84,7 +85,7 @@ public class SecurityCheckInjectableTest {
 		User userInSession = new User();
 		
 		HttpSession session = mock(HttpSession.class);
-		when(session.getAttribute(UserREST.SESSION_KEY_USER)).thenReturn(userInSession);
+		when(session.getAttribute(SESSION_KEY_USER)).thenReturn(userInSession);
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		when(request.getSession(false)).thenReturn(session);

@@ -1,7 +1,6 @@
 package com.commafeed.frontend.auth;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -16,7 +15,7 @@ import org.eclipse.jetty.util.StringUtil;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.UserService;
-import com.commafeed.frontend.resource.UserREST;
+import com.commafeed.frontend.SessionHelper;
 import com.google.common.base.Optional;
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.api.model.Parameter;
@@ -69,15 +68,12 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 		}
 
 		Optional<User> cookieSessionLogin() {
-			HttpSession session = request.getSession(false);
-			if (session != null) {
-				User user = (User) session.getAttribute(UserREST.SESSION_KEY_USER);
-				if (user != null) {
-					userService.afterLogin(user);
-					return Optional.of(user);
-				}
+			SessionHelper sessionHelper = new SessionHelper(request);
+			Optional<User> loggedInUser = sessionHelper.getLoggedInUser();
+			if (loggedInUser.isPresent()) {
+				userService.performPostLoginActivities(loggedInUser.get());
 			}
-			return Optional.absent();
+			return loggedInUser;
 		}
 
 		private Optional<User> basicAuthenticationLogin(HttpContext c) {

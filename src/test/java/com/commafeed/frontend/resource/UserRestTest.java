@@ -3,13 +3,11 @@ package com.commafeed.frontend.resource;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-
-import javax.servlet.http.HttpSession;
 
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -18,6 +16,7 @@ import org.mockito.Matchers;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.UserService;
+import com.commafeed.frontend.SessionHelper;
 import com.commafeed.frontend.model.request.LoginRequest;
 import com.commafeed.frontend.model.request.RegistrationRequest;
 import com.google.common.base.Optional;
@@ -33,16 +32,16 @@ public class UserRestTest {
 		UserService service = mock(UserService.class);
 		when(service.login("user", "password")).thenReturn(absentUser);
 		
-		HttpSession session = mock(HttpSession.class);
 		UserREST userREST = new UserREST(null, null, null, service, null, null, null);
+		SessionHelper sessionHelper = mock(SessionHelper.class);
 		
 		LoginRequest req = new LoginRequest();
 		req.setName("user");
 		req.setPassword("password");
 		
-		userREST.login(req, session);
+		userREST.login(req, sessionHelper);
 		
-		verifyZeroInteractions(session);
+		verify(sessionHelper, never()).setLoggedInUser(any(User.class));
 	}
 	
 	@Test public void
@@ -54,16 +53,16 @@ public class UserRestTest {
 		UserService service = mock(UserService.class);
 		when(service.login("user", "password")).thenReturn(Optional.of(user));
 		
-		HttpSession session = mock(HttpSession.class);
-		UserREST userREST = new UserREST(null, null, null, service, null, null, null);
-		
 		LoginRequest req = new LoginRequest();
 		req.setName("user");
 		req.setPassword("password");
 		
-		userREST.login(req, session);
+		UserREST userREST = new UserREST(null, null, null, service, null, null, null);
+		SessionHelper sessionHelper = mock(SessionHelper.class);
 		
-		verify(session).setAttribute(UserREST.SESSION_KEY_USER, user);
+		userREST.login(req, sessionHelper);
+		
+		verify(sessionHelper).setLoggedInUser(user);
 	}
 	
 	@Test public void
@@ -76,12 +75,12 @@ public class UserRestTest {
 		req.setPassword("password");
 		req.setEmail("test@test.com");
 		
-		HttpSession session = mock(HttpSession.class);
-		
 		InOrder inOrder = inOrder(service);
 		
+		SessionHelper sessionHelper = mock(SessionHelper.class);
 		UserREST userREST = new UserREST(null, null, null, service, null, null, null);
-		userREST.register(req, session);
+		
+		userREST.register(req, sessionHelper);
 		
 		inOrder.verify(service).register("user", "password", "test@test.com", Arrays.asList(Role.USER));
 		inOrder.verify(service).login("user", "password");
@@ -92,7 +91,7 @@ public class UserRestTest {
 		// Create a user
 		User user = new User();
 		
-		// Create UserService partial mock
+		// Create UserService mock
 		UserService service = mock(UserService.class);
 		when(service.register(any(String.class), any(String.class), any(String.class), Matchers.anyListOf(Role.class))).thenReturn(user);
 		when(service.login(any(String.class), any(String.class))).thenReturn(Optional.of(user));
@@ -102,12 +101,12 @@ public class UserRestTest {
 		req.setPassword("password");
 		req.setEmail("test@test.com");
 		
-		HttpSession session = mock(HttpSession.class);
-		
+		SessionHelper sessionHelper = mock(SessionHelper.class);
 		UserREST userREST = new UserREST(null, null, null, service, null, null, null);
-		userREST.register(req, session);
 		
-		verify(session).setAttribute(UserREST.SESSION_KEY_USER, user);
+		userREST.register(req, sessionHelper);
+		
+		verify(sessionHelper).setLoggedInUser(user);
 	}
 
 }

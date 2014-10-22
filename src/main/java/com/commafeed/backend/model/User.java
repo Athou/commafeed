@@ -15,6 +15,7 @@ import javax.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.annotations.Cascade;
 
 import com.commafeed.backend.model.UserRole.Role;
@@ -76,6 +77,14 @@ public class User extends AbstractModel {
 			}
 		}
 		return false;
+	}
+	
+	public boolean shouldRefreshFeedsAt(Date when) {
+		return (lastFullRefresh == null || lastFullRefreshMoreThan30MinutesBefore(when));
+	}
+
+	private boolean lastFullRefreshMoreThan30MinutesBefore(Date when) {
+		return lastFullRefresh.before(DateUtils.addMinutes(when, -30));
 	}
 
 }

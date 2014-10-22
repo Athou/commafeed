@@ -51,7 +51,7 @@ public class UserService {
 		if (user != null && !user.isDisabled()) {
 			boolean authenticated = encryptionService.authenticate(password, user.getPassword(), user.getSalt());
 			if (authenticated) {
-				afterLogin(user);
+				performPostLoginActivities(user);
 				return Optional.of(user);
 			}
 		}
@@ -68,8 +68,8 @@ public class UserService {
 
 		User user = userDAO.findByApiKey(apiKey);
 		if (user != null && !user.isDisabled()) {
-			afterLogin(user);
-			return Optional.fromNullable(user);
+			performPostLoginActivities(user);
+			return Optional.of(user);
 		}
 		return Optional.absent();
 	}
@@ -77,7 +77,7 @@ public class UserService {
 	/**
 	 * should triggers after successful login
 	 */
-	public void afterLogin(User user) {
+	public void performPostLoginActivities(User user) {
 		postLoginActivities.executeFor(user);
 	}
 

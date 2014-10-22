@@ -26,8 +26,8 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.service.UserService;
-import com.commafeed.frontend.SessionHelper;
 import com.commafeed.frontend.resource.CategoryREST;
+import com.commafeed.frontend.session.SessionHelper;
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 

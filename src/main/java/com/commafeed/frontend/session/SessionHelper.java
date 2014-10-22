@@ -1,4 +1,4 @@
-package com.commafeed.frontend;
+package com.commafeed.frontend.session;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

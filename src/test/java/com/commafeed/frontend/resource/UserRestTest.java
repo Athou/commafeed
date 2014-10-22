@@ -16,9 +16,9 @@ import org.mockito.Matchers;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.UserService;
-import com.commafeed.frontend.SessionHelper;
 import com.commafeed.frontend.model.request.LoginRequest;
 import com.commafeed.frontend.model.request.RegistrationRequest;
+import com.commafeed.frontend.session.SessionHelper;
 import com.google.common.base.Optional;
 
 public class UserRestTest {

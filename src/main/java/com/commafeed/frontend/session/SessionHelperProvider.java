@@ -1,4 +1,4 @@
-package com.commafeed.frontend;
+package com.commafeed.frontend.session;
 
 import java.lang.reflect.Type;
 

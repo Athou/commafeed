@@ -16,7 +16,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.commafeed.backend.cache.RedisPoolFactory;
-import com.commafeed.frontend.SessionManagerFactory;
+import com.commafeed.frontend.session.SessionManagerFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Getter

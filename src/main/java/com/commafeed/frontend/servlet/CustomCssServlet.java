@@ -17,7 +17,7 @@ import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
-import com.commafeed.frontend.SessionHelper;
+import com.commafeed.frontend.session.SessionHelper;
 import com.google.common.base.Optional;
 
 @SuppressWarnings("serial")

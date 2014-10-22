@@ -15,7 +15,7 @@ import org.eclipse.jetty.util.StringUtil;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.UserService;
-import com.commafeed.frontend.SessionHelper;
+import com.commafeed.frontend.session.SessionHelper;
 import com.google.common.base.Optional;
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.api.model.Parameter;

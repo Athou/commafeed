@@ -10,11 +10,10 @@ import lombok.RequiredArgsConstructor;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.service.DatabaseCleaningService;
-import com.commafeed.backend.task.SchedulingService.ScheduledTask;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
-public class OldStatusesCleanupTask implements ScheduledTask {
+public class OldStatusesCleanupTask extends ScheduledTask {
 
 	private final CommaFeedConfiguration config;
 	private final DatabaseCleaningService cleaner;

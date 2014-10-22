@@ -11,6 +11,7 @@ import io.dropwizard.setup.Environment;
 
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javax.servlet.DispatcherType;
 
@@ -34,7 +35,6 @@ import com.commafeed.backend.service.StartupService;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.backend.task.OldStatusesCleanupTask;
 import com.commafeed.backend.task.OrphansCleanupTask;
-import com.commafeed.backend.task.SchedulingService;
 import com.commafeed.frontend.auth.SecurityCheckProvider;
 import com.commafeed.frontend.auth.SecurityCheckProvider.SecurityCheckUserServiceProvider;
 import com.commafeed.frontend.resource.AdminREST;
@@ -127,10 +127,9 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.servlets().addServlet("analytics.js", injector.getInstance(AnalyticsServlet.class)).addMapping("/analytics.js");
 
 		// Scheduled tasks
-		SchedulingService schedulingService = new SchedulingService();
-		schedulingService.register(injector.getInstance(OldStatusesCleanupTask.class));
-		schedulingService.register(injector.getInstance(OrphansCleanupTask.class));
-		environment.lifecycle().manage(schedulingService);
+		ScheduledExecutorService executor = environment.lifecycle().scheduledExecutorService("task-scheduler").build();
+		injector.getInstance(OldStatusesCleanupTask.class).register(executor);
+		injector.getInstance(OrphansCleanupTask.class).register(executor);
 
 		// database init/changelogs
 		environment.lifecycle().manage(injector.getInstance(StartupService.class));

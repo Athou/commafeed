@@ -8,11 +8,10 @@ import javax.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 import com.commafeed.backend.service.DatabaseCleaningService;
-import com.commafeed.backend.task.SchedulingService.ScheduledTask;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
-public class OrphansCleanupTask implements ScheduledTask {
+public class OrphansCleanupTask extends ScheduledTask {
 
 	private final DatabaseCleaningService cleaner;
 

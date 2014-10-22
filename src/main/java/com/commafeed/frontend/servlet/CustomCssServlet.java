@@ -17,7 +17,6 @@ import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
-import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.SessionHelper;
 import com.google.common.base.Optional;
 
@@ -28,7 +27,6 @@ public class CustomCssServlet extends HttpServlet {
 
 	private final SessionFactory sessionFactory;
 	private final UserSettingsDAO userSettingsDAO;
-	private final UserService userService;
 
 	@Override
 	protected void doGet(final HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,12 +35,7 @@ public class CustomCssServlet extends HttpServlet {
 		final Optional<User> user = new UnitOfWork<Optional<User>>(sessionFactory) {
 			@Override
 			protected Optional<User> runInSession() throws Exception {
-				SessionHelper sessionHelper = new SessionHelper(req);
-				Optional<User> loggedInUser = sessionHelper.getLoggedInUser();
-				if (loggedInUser.isPresent()) {
-					userService.performPostLoginActivities(loggedInUser.get());
-				}
-				return loggedInUser;
+				return new SessionHelper(req).getLoggedInUser();
 			}
 		}.run();
 		if (!user.isPresent()) {

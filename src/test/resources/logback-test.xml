@@ -1,0 +1,11 @@
+<configuration>
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%-5p %d{ISO8601} [%thread] [%c{0}:%L] %m %rEx%n</pattern>
+		</encoder>
+	</appender>
+
+	<root level="ERROR">
+		<appender-ref ref="CONSOLE" />
+	</root>
+</configuration>

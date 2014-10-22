@@ -4,7 +4,6 @@ import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
-import io.dropwizard.jersey.sessions.HttpSessionProvider;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.servlets.CacheBustingFilter;
 import io.dropwizard.setup.Bootstrap;
@@ -36,6 +35,7 @@ import com.commafeed.backend.service.UserService;
 import com.commafeed.backend.task.OldStatusesCleanupTask;
 import com.commafeed.backend.task.OrphansCleanupTask;
 import com.commafeed.backend.task.SchedulingService;
+import com.commafeed.frontend.SessionHelperProvider;
 import com.commafeed.frontend.auth.SecurityCheckProvider;
 import com.commafeed.frontend.auth.SecurityCheckProvider.SecurityCheckUserServiceProvider;
 import com.commafeed.frontend.resource.AdminREST;
@@ -108,7 +108,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.servlets().setSessionHandler(new SessionHandler(config.getSessionManagerFactory().build()));
 		environment.jersey().register(new SecurityCheckUserServiceProvider(injector.getInstance(UserService.class)));
 		environment.jersey().register(SecurityCheckProvider.class);
-		environment.jersey().register(HttpSessionProvider.class);
+		environment.jersey().register(SessionHelperProvider.class);
 
 		// REST resources
 		environment.jersey().setUrlPattern("/rest/*");

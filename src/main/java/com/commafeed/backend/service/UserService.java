@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.servlet.http.HttpSession;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,8 +26,6 @@ import com.google.common.base.Preconditions;
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class UserService {
-
-	private static final String SESSION_KEY_USER = "user";
 
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final UserDAO userDAO;
@@ -54,37 +51,12 @@ public class UserService {
 		if (user != null && !user.isDisabled()) {
 			boolean authenticated = encryptionService.authenticate(password, user.getPassword(), user.getSalt());
 			if (authenticated) {
-				afterLogin(user);
-				return Optional.fromNullable(user);
-			}
-		}
-		return Optional.absent();
-	}
-
-	/**
-	 * try to log in with given credentials and create a session for the user
-	 */
-	public Optional<User> login(String nameOrEmail, String password, HttpSession sessionToFill) {
-		Optional<User> user = login(nameOrEmail, password);
-		if (user.isPresent()) {
-			sessionToFill.setAttribute(SESSION_KEY_USER, user.get());
-		}
-		return user;
-	}
-
-	/**
-	 * try to log in by checking if the user has an active session
-	 */
-	public Optional<User> login(HttpSession session) {
-		if (session != null) {
-			User user = (User) session.getAttribute(SESSION_KEY_USER);
-			if (user != null) {
-				afterLogin(user);
+				performPostLoginActivities(user);
 				return Optional.of(user);
 			}
 		}
 		return Optional.absent();
-	}
+	}	
 
 	/**
 	 * try to log in with given api key
@@ -96,8 +68,8 @@ public class UserService {
 
 		User user = userDAO.findByApiKey(apiKey);
 		if (user != null && !user.isDisabled()) {
-			afterLogin(user);
-			return Optional.fromNullable(user);
+			performPostLoginActivities(user);
+			return Optional.of(user);
 		}
 		return Optional.absent();
 	}
@@ -105,7 +77,7 @@ public class UserService {
 	/**
 	 * should triggers after successful login
 	 */
-	private void afterLogin(User user) {
+	public void performPostLoginActivities(User user) {
 		postLoginActivities.executeFor(user);
 	}
 

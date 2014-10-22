@@ -28,16 +28,15 @@ public class PostLoginActivities {
 
 		boolean saveUser = false;
 		// only update lastLogin field every hour in order to not
-		// invalidate the cache everytime someone logs in
+		// invalidate the cache every time someone logs in
 		if (lastLogin == null || lastLogin.before(DateUtils.addHours(now, -1))) {
 			user.setLastLogin(now);
 			saveUser = true;
 		}
-		if (config.getApplicationSettings().isHeavyLoad()
-				&& (user.getLastFullRefresh() == null || user.getLastFullRefresh().before(DateUtils.addMinutes(now, -30)))) {
+		if (config.getApplicationSettings().isHeavyLoad() && user.shouldRefreshFeedsAt(now)) {
+			feedSubscriptionService.refreshAll(user);
 			user.setLastFullRefresh(now);
 			saveUser = true;
-			feedSubscriptionService.refreshAll(user);
 		}
 		if (saveUser) {
 			userDAO.merge(user);

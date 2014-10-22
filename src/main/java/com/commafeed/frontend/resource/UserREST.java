@@ -1,7 +1,6 @@
 package com.commafeed.frontend.resource;
 
 import io.dropwizard.hibernate.UnitOfWork;
-import io.dropwizard.jersey.sessions.Session;
 import io.dropwizard.jersey.validation.ValidationErrorMessage;
 
 import java.util.Arrays;
@@ -11,7 +10,6 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -20,6 +18,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -49,6 +48,7 @@ import com.commafeed.backend.model.UserSettings.ViewMode;
 import com.commafeed.backend.service.MailService;
 import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.UserService;
+import com.commafeed.frontend.SessionHelper;
 import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.frontend.model.UserModel;
@@ -223,10 +223,11 @@ public class UserREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Register a new account")
-	public Response register(@Valid @ApiParam(required = true) RegistrationRequest req, @Session HttpSession session) {
+	public Response register(@Valid @ApiParam(required = true) RegistrationRequest req, @Context SessionHelper sessionHelper) {
 		try {
-			userService.register(req.getName(), req.getPassword(), req.getEmail(), Arrays.asList(Role.USER));
-			userService.login(req.getName(), req.getPassword(), session);
+			User registeredUser = userService.register(req.getName(), req.getPassword(), req.getEmail(), Arrays.asList(Role.USER));
+			userService.login(req.getName(), req.getPassword());
+			sessionHelper.setLoggedInUser(registeredUser);
 			return Response.ok().build();
 		} catch (final IllegalArgumentException e) {
 			return Response.status(422).entity(new ValidationErrorMessage(Collections.<ConstraintViolation<?>> emptySet()) {
@@ -242,9 +243,10 @@ public class UserREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Login and create a session")
-	public Response login(@ApiParam(required = true) LoginRequest req, @Session HttpSession session) {
-		Optional<User> user = userService.login(req.getName(), req.getPassword(), session);
+	public Response login(@ApiParam(required = true) LoginRequest req, @Context SessionHelper sessionHelper) {
+		Optional<User> user = userService.login(req.getName(), req.getPassword());
 		if (user.isPresent()) {
+			sessionHelper.setLoggedInUser(user.get());
 			return Response.ok().build();
 		} else {
 			return Response.status(Response.Status.UNAUTHORIZED).entity("wrong username or password").build();

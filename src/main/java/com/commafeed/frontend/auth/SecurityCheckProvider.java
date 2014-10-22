@@ -15,6 +15,7 @@ import org.eclipse.jetty.util.StringUtil;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.UserService;
+import com.commafeed.frontend.SessionHelper;
 import com.google.common.base.Optional;
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.api.model.Parameter;
@@ -35,7 +36,7 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 	}
 
 	@RequiredArgsConstructor
-	private static class SecurityCheckInjectable<T> extends AbstractHttpContextInjectable<User> {
+	static class SecurityCheckInjectable<T> extends AbstractHttpContextInjectable<User> {
 		private static final String PREFIX = "Basic";
 
 		private final HttpServletRequest request;
@@ -66,8 +67,13 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 			}
 		}
 
-		private Optional<User> cookieSessionLogin() {
-			return userService.login(request.getSession(false));
+		Optional<User> cookieSessionLogin() {
+			SessionHelper sessionHelper = new SessionHelper(request);
+			Optional<User> loggedInUser = sessionHelper.getLoggedInUser();
+			if (loggedInUser.isPresent()) {
+				userService.performPostLoginActivities(loggedInUser.get());
+			}
+			return loggedInUser;
 		}
 
 		private Optional<User> basicAuthenticationLogin(HttpContext c) {

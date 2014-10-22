@@ -1,6 +1,5 @@
 package com.commafeed.frontend.auth;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -39,7 +38,7 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 	static class SecurityCheckInjectable extends AbstractHttpContextInjectable<User> {
 		private static final String PREFIX = "Basic";
 
-		private final HttpServletRequest request;
+		private final SessionHelper sessionHelper;
 		private final UserService userService;
 		private final Role role;
 		private final boolean apiKeyAllowed;
@@ -68,7 +67,6 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 		}
 
 		Optional<User> cookieSessionLogin() {
-			SessionHelper sessionHelper = new SessionHelper(request);
 			Optional<User> loggedInUser = sessionHelper.getLoggedInUser();
 			if (loggedInUser.isPresent()) {
 				userService.performPostLoginActivities(loggedInUser.get());
@@ -105,11 +103,11 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 		}
 	}
 
-	private HttpServletRequest request;
+	private SessionHelper sessionHelper;
 	private UserService userService;
 
-	public SecurityCheckProvider(@Context HttpServletRequest request, @Context UserService userService) {
-		this.request = request;
+	public SecurityCheckProvider(@Context SessionHelper sessionHelper, @Context UserService userService) {
+		this.sessionHelper = sessionHelper;
 		this.userService = userService;
 	}
 
@@ -120,6 +118,6 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 
 	@Override
 	public Injectable<?> getInjectable(ComponentContext ic, SecurityCheck sc, Parameter c) {
-		return new SecurityCheckInjectable(request, userService, sc.value(), sc.apiKeyAllowed());
+		return new SecurityCheckInjectable(sessionHelper, userService, sc.value(), sc.apiKeyAllowed());
 	}
 }

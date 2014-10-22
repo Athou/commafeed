@@ -1,5 +1,6 @@
 package com.commafeed.frontend.auth;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -106,8 +107,8 @@ public class SecurityCheckProvider implements InjectableProvider<SecurityCheck, 
 	private SessionHelper sessionHelper;
 	private UserService userService;
 
-	public SecurityCheckProvider(@Context SessionHelper sessionHelper, @Context UserService userService) {
-		this.sessionHelper = sessionHelper;
+	public SecurityCheckProvider(@Context HttpServletRequest req, @Context UserService userService) {
+		this.sessionHelper = new SessionHelper(req);
 		this.userService = userService;
 	}
 

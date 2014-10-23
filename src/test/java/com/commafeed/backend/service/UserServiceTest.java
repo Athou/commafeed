@@ -1,211 +1,183 @@
 package com.commafeed.backend.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.UserDAO;
+import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.internal.PostLoginActivities;
 import com.google.common.base.Optional;
 
 public class UserServiceTest {
 	
+	private static final byte[] SALT = new byte[]{1,2,3};
+	private static final byte[] ENCRYPTED_PASSWORD = new byte[]{5,6,7};
+	
+	@Mock private CommaFeedConfiguration commaFeedConfiguration;
+	@Mock private FeedCategoryDAO feedCategoryDAO;
+	@Mock private UserDAO userDAO;
+	@Mock private UserSettingsDAO userSettingsDAO;
+	@Mock private PasswordEncryptionService passwordEncryptionService;
+	@Mock private PostLoginActivities postLoginActivities;
+	
+	private User disabledUser;
+	private User normalUser;
+	
+	private UserService userService;
+
+	@Before public void
+	before_each_test() {
+		MockitoAnnotations.initMocks(this);
+		
+		userService = new UserService(feedCategoryDAO, userDAO, userSettingsDAO, passwordEncryptionService, commaFeedConfiguration, postLoginActivities);
+		
+		disabledUser = new User();
+		disabledUser.setDisabled(true);
+		
+		normalUser = new User();
+		normalUser.setDisabled(false);
+		normalUser.setSalt(SALT);
+		normalUser.setPassword(ENCRYPTED_PASSWORD);
+	}
+	
 	@Test public void 
 	calling_login_should_not_return_user_object_when_given_null_nameOrEmail() {
-		UserService service = new UserService(null, null, null, null, null, null);
-		
-		Optional<User> user = service.login(null, "password");
-		
-		Assert.assertFalse(user.isPresent());
+		Optional<User> user = userService.login(null, "password");
+		assertFalse(user.isPresent());
 	}
 	
 	@Test public void
 	calling_login_should_not_return_user_object_when_given_null_password() {
-		UserService service = new UserService(null, null, null, null, null, null);
-		
-		Optional<User> user = service.login("testusername", null);
-		
-		Assert.assertFalse(user.isPresent());
+		Optional<User> user = userService.login("testusername", null);
+		assertFalse(user.isPresent());
 	}
 	
 	@Test public void
 	calling_login_should_lookup_user_by_name() {
-		UserDAO dao = mock(UserDAO.class);
-		
-		UserService service = new UserService(null, dao, null, null, null, null);
-		service.login("test", "password");
-		
-		verify(dao).findByName("test");
+		userService.login("test", "password");
+		verify(userDAO).findByName("test");
 	}
 	
 	@Test public void
 	calling_login_should_lookup_user_by_email_if_lookup_by_name_failed() {
-		UserDAO dao = mock(UserDAO.class);
-		when(dao.findByName("test@test.com")).thenReturn(null);
+		when(userDAO.findByName("test@test.com")).thenReturn(null);
+		userService.login("test@test.com", "password");
+		verify(userDAO).findByEmail("test@test.com");
+	}
+	
+	@Test public void
+	calling_login_should_not_return_user_object_if_could_not_find_user_by_name_or_email() {
+		when(userDAO.findByName("test@test.com")).thenReturn(null);
+		when(userDAO.findByEmail("test@test.com")).thenReturn(null);
 		
-		UserService service = new UserService(null, dao, null, null, null, null);
-		service.login("test@test.com", "password");
+		Optional<User> user = userService.login("test@test.com", "password");
 		
-		verify(dao).findByEmail("test@test.com");
+		assertFalse(user.isPresent());
 	}
 	
 	@Test public void
 	calling_login_should_not_return_user_object_if_user_is_disabled() {
-		// Make a disabled user
-		User disabledUser = new User();
-		disabledUser.setDisabled(true);
-		
-		// Mock DAO to return the disabled user
-		UserDAO dao = mock(UserDAO.class);
-		when(dao.findByName("test")).thenReturn(disabledUser);
-		
-		// Create service with mocked DAO
-		UserService service = new UserService(null, dao, null, null, null, null);
-		
-		// Try to login as the disabled user
-		Optional<User> user = service.login("test", "password");
-		
-		Assert.assertFalse(user.isPresent());
+		when(userDAO.findByName("test")).thenReturn(disabledUser);
+		Optional<User> user = userService.login("test", "password");
+		assertFalse(user.isPresent());
 	}
 	
 	@Test public void
 	calling_login_should_try_to_authenticate_user_who_is_not_disabled() {
-		// Make a user who is not disabled
-		User user = new User();
-		user.setDisabled(false);
+		when(userDAO.findByName("test")).thenReturn(normalUser);
+		when(passwordEncryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(false);
 		
-		// Set the encryptedPassword on the user
-		byte[] encryptedPassword = new byte[]{5,6,7};
-		user.setPassword(encryptedPassword);
+		userService.login("test", "password");
 		
-		// Set a salt for this user
-		byte[] salt = new byte[]{1,2,3};
-		user.setSalt(salt);
-		
-		// Mock DAO to return the user
-		UserDAO dao = mock(UserDAO.class);
-		when(dao.findByName("test")).thenReturn(user);
-		
-		// Mock PasswordEncryptionService
-		PasswordEncryptionService encryptionService = mock(PasswordEncryptionService.class);
-		when(encryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(false);
-		
-		// Create service with mocks
-		UserService service = new UserService(null, dao, null, encryptionService, null, null);
-		
-		// Try to login as the user
-		service.login("test", "password");
-		
-		verify(encryptionService).authenticate("password", encryptedPassword, salt);
+		verify(passwordEncryptionService).authenticate("password", ENCRYPTED_PASSWORD, SALT);
 	}
 	
 	@Test public void
 	calling_login_should_not_return_user_object_on_unsuccessful_authentication() {
-		// Make a user who is not disabled
-		User user = new User();
-		user.setDisabled(false);
+		when(userDAO.findByName("test")).thenReturn(normalUser);
+		when(passwordEncryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(false);
 		
-		// Set the encryptedPassword on the user
-		byte[] encryptedPassword = new byte[]{1,2,3};
-		user.setPassword(encryptedPassword);
+		Optional<User> authenticatedUser = userService.login("test", "password");
 		
-		// Set a salt for this user
-		byte[] salt = new byte[]{4,5,6};
-		user.setSalt(salt);
-		
-		// Mock DAO to return the user
-		UserDAO dao = mock(UserDAO.class);
-		when(dao.findByName("test")).thenReturn(user);
-		
-		// Mock PasswordEncryptionService
-		PasswordEncryptionService encryptionService = mock(PasswordEncryptionService.class);
-		when(encryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(false);
-		
-		// Create service with mocks
-		UserService service = new UserService(null, dao, null, encryptionService, null, null);
-		
-		// Try to login as the user
-		Optional<User> authenticatedUser = service.login("test", "password");
-		
-		Assert.assertFalse(authenticatedUser.isPresent());
+		assertFalse(authenticatedUser.isPresent());
 	}
 	
 	@Test public void
 	calling_login_should_execute_post_login_activities_for_user_on_successful_authentication() {
-		// Make a user who is not disabled
-		User user = new User();
-		user.setDisabled(false);
-		
-		// Set the encryptedPassword on the user
-		byte[] encryptedPassword = new byte[]{1,2,3};
-		user.setPassword(encryptedPassword);
-		
-		// Set a salt for this user
-		byte[] salt = new byte[]{4,5,6};
-		user.setSalt(salt);
-		
-		// Mock DAO to return the user
-		UserDAO dao = mock(UserDAO.class);
-		when(dao.findByName("test")).thenReturn(user);
-		
-		// Mock PasswordEncryptionService
-		PasswordEncryptionService encryptionService = mock(PasswordEncryptionService.class);
-		when(encryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(true);
-		
-		// Mock PostLoginActivities to do nothing
-		PostLoginActivities postLoginActivities = mock(PostLoginActivities.class);
+		when(userDAO.findByName("test")).thenReturn(normalUser);
+		when(passwordEncryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(true);
 		doNothing().when(postLoginActivities).executeFor(any(User.class));
 		
-		// Create service with mocks
-		UserService service = new UserService(null, dao, null, encryptionService, null, postLoginActivities);
+		userService.login("test", "password");
 		
-		// Try to login as the user
-		service.login("test", "password");
-		
-		verify(postLoginActivities).executeFor(user);
+		verify(postLoginActivities).executeFor(normalUser);
 	}
 	
 	@Test public void
 	calling_login_should_return_user_object_on_successful_authentication() {
-		// Make a user who is not disabled
-		User user = new User();
-		user.setDisabled(false);
-		
-		// Set the encryptedPassword on the user
-		byte[] encryptedPassword = new byte[]{1,2,3};
-		user.setPassword(encryptedPassword);
-		
-		// Set a salt for this user
-		byte[] salt = new byte[]{4,5,6};
-		user.setSalt(salt);
-		
-		// Mock DAO to return the user
-		UserDAO dao = mock(UserDAO.class);
-		when(dao.findByName("test")).thenReturn(user);
-		
-		// Mock PasswordEncryptionService
-		PasswordEncryptionService encryptionService = mock(PasswordEncryptionService.class);
-		when(encryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(true);
-		
-		// Mock PostLoginActivities to do nothing
-		PostLoginActivities postLoginActivities = mock(PostLoginActivities.class);
+		when(userDAO.findByName("test")).thenReturn(normalUser);
+		when(passwordEncryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(true);
 		doNothing().when(postLoginActivities).executeFor(any(User.class));
 		
-		// Create service with mocks
-		UserService service = new UserService(null, dao, null, encryptionService, null, postLoginActivities);
+		Optional<User> authenticatedUser = userService.login("test", "password");
 		
-		// Try to login as the user
-		Optional<User> authenticatedUser = service.login("test", "password");
-		
-		Assert.assertTrue(authenticatedUser.isPresent());
-		Assert.assertEquals(user, authenticatedUser.get());
+		assertTrue(authenticatedUser.isPresent());
+		assertEquals(normalUser, authenticatedUser.get());
+	}
+	
+	@Test public void
+	api_login_should_not_return_user_if_apikey_null() {
+		Optional<User> user = userService.login(null);
+		assertFalse(user.isPresent());
+	}
+	
+	@Test public void
+	api_login_should_lookup_user_by_apikey() {
+		when(userDAO.findByApiKey("apikey")).thenReturn(null);
+		userService.login("apikey");
+		verify(userDAO).findByApiKey("apikey");
+	}
+	
+	@Test public void
+	api_login_should_not_return_user_if_user_not_found_from_lookup_by_apikey() {
+		when(userDAO.findByApiKey("apikey")).thenReturn(null);
+		Optional<User> user = userService.login("apikey");
+		assertFalse(user.isPresent());
+	}
+	
+	@Test public void
+	api_login_should_not_return_user_if_user_found_from_apikey_lookup_is_disabled() {
+		when(userDAO.findByApiKey("apikey")).thenReturn(disabledUser);
+		Optional<User> user = userService.login("apikey");
+		assertFalse(user.isPresent());
+	}
+	
+	@Test public void
+	api_login_should_perform_post_login_activities_if_user_found_from_apikey_lookup_not_disabled() {
+		when(userDAO.findByApiKey("apikey")).thenReturn(normalUser);
+		userService.login("apikey");
+		verify(postLoginActivities).executeFor(normalUser);
+	}
+	
+	@Test public void
+	api_login_should_return_user_if_user_found_from_apikey_lookup_not_disabled() {
+		when(userDAO.findByApiKey("apikey")).thenReturn(normalUser);
+		Optional<User> returnedUser = userService.login("apikey");
+		assertEquals(normalUser, returnedUser.get());
 	}
 
 }

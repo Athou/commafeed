@@ -42,7 +42,6 @@ import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
-import com.commafeed.backend.feed.FaviconFetcher;
 import com.commafeed.backend.feed.FeedFetcher;
 import com.commafeed.backend.feed.FeedQueues;
 import com.commafeed.backend.feed.FeedUtils;
@@ -57,6 +56,7 @@ import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.opml.OPMLExporter;
 import com.commafeed.backend.opml.OPMLImporter;
 import com.commafeed.backend.service.FeedEntryService;
+import com.commafeed.backend.service.FeedService;
 import com.commafeed.backend.service.FeedSubscriptionService;
 import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.Entries;
@@ -95,8 +95,8 @@ public class FeedREST {
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
-	private final FaviconFetcher faviconFetcher;
 	private final FeedFetcher feedFetcher;
+	private final FeedService feedService;
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionService feedSubscriptionService;
 	private final FeedQueues queues;
@@ -322,8 +322,7 @@ public class FeedREST {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		Feed feed = subscription.getFeed();
-		String url = feed.getLink() != null ? feed.getLink() : feed.getUrl();
-		byte[] icon = faviconFetcher.fetch(url);
+		byte[] icon = feedService.fetchFavicon(feed);
 
 		ResponseBuilder builder = null;
 		if (icon == null) {

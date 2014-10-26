@@ -334,8 +334,7 @@ public class FeedREST {
 
 		CacheControl cacheControl = new CacheControl();
 		cacheControl.setMaxAge(2592000);
-		cacheControl.setPrivate(true);
-		// trying to replicate "public, max-age=2592000"
+		cacheControl.setPrivate(false);
 		builder.cacheControl(cacheControl);
 
 		Calendar calendar = Calendar.getInstance();

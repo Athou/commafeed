@@ -1,26 +1,39 @@
 package com.commafeed.backend.service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lombok.RequiredArgsConstructor;
-
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
 
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.favicon.AbstractFaviconFetcher;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class FeedService {
 
 	private final FeedDAO feedDAO;
 	private final Set<AbstractFaviconFetcher> faviconFetchers;
+
+	private byte[] defaultFavicon;
+
+	@Inject
+	public FeedService(FeedDAO feedDAO, Set<AbstractFaviconFetcher> faviconFetchers) {
+		this.feedDAO = feedDAO;
+		this.faviconFetchers = faviconFetchers;
+
+		try {
+			defaultFavicon = IOUtils.toByteArray(getClass().getResource("/images/default_favicon.ico"));
+		} catch (IOException e) {
+			throw new RuntimeException("could not load default favicon", e);
+		}
+	}
 
 	public synchronized Feed findOrCreate(String url) {
 		String normalized = FeedUtils.normalizeURL(url);
@@ -45,6 +58,9 @@ public class FeedService {
 			if (icon != null) {
 				break;
 			}
+		}
+		if (icon == null) {
+			icon = defaultFavicon;
 		}
 		return icon;
 	}

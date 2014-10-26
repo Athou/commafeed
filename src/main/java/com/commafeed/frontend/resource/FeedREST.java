@@ -324,13 +324,7 @@ public class FeedREST {
 		Feed feed = subscription.getFeed();
 		byte[] icon = feedService.fetchFavicon(feed);
 
-		ResponseBuilder builder = null;
-		if (icon == null) {
-			String baseUrl = FeedUtils.removeTrailingSlash(config.getApplicationSettings().getPublicUrl());
-			builder = Response.status(Status.MOVED_PERMANENTLY).location(URI.create(baseUrl + "/images/default_favicon.gif"));
-		} else {
-			builder = Response.ok(icon, "image/x-icon");
-		}
+		ResponseBuilder builder = Response.ok(icon, "image/x-icon");
 
 		CacheControl cacheControl = new CacheControl();
 		cacheControl.setMaxAge(2592000);

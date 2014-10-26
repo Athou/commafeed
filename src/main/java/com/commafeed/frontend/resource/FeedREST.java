@@ -322,7 +322,7 @@ public class FeedREST {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		Feed feed = subscription.getFeed();
-		String url = feed.getLink() != null ? feed.getLink() : feed.getUrl();
+		String url = faviconFetcher.exceptionUrl(feed.getUrl()) ? feed.getUrl() : (feed.getLink() != null ? feed.getLink() : feed.getUrl());
 		byte[] icon = faviconFetcher.fetch(url);
 
 		ResponseBuilder builder = null;

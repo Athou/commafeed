@@ -39,6 +39,12 @@ public class FaviconFetcher {
 			log.debug("url is null");
 			return null;
 		}
+		
+		// Get YouTube Icon here
+		if (url.toLowerCase().contains("://gdata.youtube.com/")) {
+			byte[] icon = getYouTubeIcon(url);
+			return icon;
+		}
 
 		int doubleSlash = url.indexOf("//");
 		if (doubleSlash == -1) {
@@ -154,4 +160,57 @@ public class FaviconFetcher {
 		return bytes;
 	}
 
+	/*
+	 * Instead of grabbing the actual favicon, grab the user's icon
+	 * This prevents a whole bunch of repeated YouTube icons, replacing
+	 * each with identifiable user icons.
+	 */
+	private byte[] getYouTubeIcon(String url) {
+		byte[] bytes = null;
+		String contentType = null;
+		String username = null;
+		String imageUrl = null;
+		String thumbnailUrl = null;
+		try {
+			int apiOrBase = url.indexOf("/users/");
+			int userEndSlash = url.indexOf('/', apiOrBase + "/users/".length());
+			if (userEndSlash != -1) {
+				username = url.substring(apiOrBase + "/users/".length(), userEndSlash);
+			}
+			imageUrl = "https://gdata.youtube.com/feeds/users/" + username;
+			log.debug("Getting YouTube user's icon, {}", url);
+			
+			//initial get to translate username to obscure user thumbnail URL
+			HttpResult result = getter.getBinary(imageUrl, TIMEOUT);
+			bytes = result.getContent();
+			contentType = result.getContentType();
+			thumbnailUrl = FeedUtils.parseForImageUrl(bytes);
+
+			int thumbnailStart = thumbnailUrl.indexOf("<media:thumbnail url='");
+			int thumbnailEnd = thumbnailUrl.indexOf("'/>", thumbnailStart);
+			if (thumbnailStart != -1) {
+				thumbnailUrl = thumbnailUrl.substring(thumbnailStart+"<media:thumbnail url='".length(), thumbnailEnd);
+			}
+			
+			//final get to actually retrieve the thumbnail
+			result = getter.getBinary(thumbnailUrl, TIMEOUT);
+			bytes = result.getContent();
+			contentType = result.getContentType();
+		} catch (Exception e) {
+			log.debug("Failed to retrieve YouTubeIcon, instead retrieving default YouTube favicon: " + e.getMessage(), e);
+			return fetch("http://www.youtube.com/");
+		}
+
+		if (!isValidIconResponse(bytes, contentType)) {
+			bytes = null;
+		}
+		return bytes;
+	}
+	
+	public boolean exceptionUrl(String url) {
+		if (url.toLowerCase().contains("://gdata.youtube.com/")) {
+			return true;
+		}
+		return false;
+	}
 }

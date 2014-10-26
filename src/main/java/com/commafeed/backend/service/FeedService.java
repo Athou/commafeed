@@ -29,7 +29,7 @@ public class FeedService {
 		this.faviconFetchers = faviconFetchers;
 
 		try {
-			defaultFavicon = IOUtils.toByteArray(getClass().getResource("/images/default_favicon.ico"));
+			defaultFavicon = IOUtils.toByteArray(getClass().getResource("/images/default_favicon.gif"));
 		} catch (IOException e) {
 			throw new RuntimeException("could not load default favicon", e);
 		}

@@ -9,11 +9,17 @@ import io.dropwizard.servlets.CacheBustingFilter;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.concurrent.ScheduledExecutorService;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jetty.server.session.SessionHandler;
 
@@ -150,8 +156,18 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		swaggerConfig.setBasePath("/rest");
 
 		// cache configuration
-		environment.servlets().addFilter("cache-filter", new CacheBustingFilter())
-				.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
+		// prevent caching on REST resources, except for favicons
+		environment.servlets().addFilter("cache-filter", new CacheBustingFilter() {
+			@Override
+			public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+				String path = ((HttpServletRequest) request).getRequestURI();
+				if (path.contains("/feed/favicon")) {
+					chain.doFilter(request, response);
+				} else {
+					super.doFilter(request, response, chain);
+				}
+			}
+		}).addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/rest/*");
 	}
 
 	public static void main(String[] args) throws Exception {

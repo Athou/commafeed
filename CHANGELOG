@@ -2,6 +2,7 @@ v 2.0.3
   - internet explorer ajax cache workaround
   - categories are now deletable again
   - openshift support is back
+  - youtube feeds now show user favicon instead of youtube favicon
 v 2.0.2
   - api using the api key is now working again
   - context path is now configurable in config.yml (see app.contextPath in config.yml.example)

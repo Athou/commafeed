@@ -63,14 +63,12 @@ Steps to configuring a development environment for CommaFeed may include, but ma
 
 1. `git clone https://github.com/Athou/CommaFeed` into some folder to get the project files.
 2. Install Eclipse Luna (or latest) from http://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/lunasr1 or your repo if available.
-3. In Eclipse, Window → Preferences → Maven → Annotation Processing
-    Check "Automatically configure JDT APT"
+3. In Eclipse, Window → Preferences → Maven → Annotation Processing. Check "Automatically configure JDT APT"
     * You may have to install the m2e-apt connector to have "Annotation Processing" as an option. Do so from Window → Preferences → Maven → Discovery → Open Catalog → type "m2e-apt" in the search box
         * If you have installed Eclipse EE instead of Luna, you may have trouble installing m2e-apt
 4. Install Lombok into Eclipse from http://projectlombok.org/download.html
     * You may have to run `java -jar lombok.jar` as an administrator if your eclipse installation is not in your home folder 
-5. In Eclipse, File → Import → Maven → Existing Maven Projects
-    Navigate to where you cloned the CommaFeed files into, and select that as the root directory. Click Finish.
+5. In Eclipse, File → Import → Maven → Existing Maven Projects. Navigate to where you cloned the CommaFeed files into, and select that as the root directory. Click Finish.
     * You may notice some errors along the lines of "Plugin execution not covered by lifecycle configuration". These are inconsequential.
 6. Find the file "CommaFeedApplication.java" under the navigation pane. 
 7. Right click it to bring up the context menu → Debug as... → Debug Configurations

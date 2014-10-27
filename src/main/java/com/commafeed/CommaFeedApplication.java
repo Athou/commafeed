@@ -57,6 +57,7 @@ import com.commafeed.frontend.servlet.NextUnreadServlet;
 import com.commafeed.frontend.session.SessionHelperProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.sun.jersey.api.core.ResourceConfig;
 import com.wordnik.swagger.config.ConfigFactory;
 import com.wordnik.swagger.config.ScannerFactory;
 import com.wordnik.swagger.config.SwaggerConfig;
@@ -168,6 +169,9 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 				}
 			}
 		}).addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/rest/*");
+
+		// enable wadl
+		environment.jersey().disable(ResourceConfig.FEATURE_DISABLE_WADL);
 	}
 
 	public static void main(String[] args) throws Exception {

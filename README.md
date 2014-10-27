@@ -56,6 +56,25 @@ Deployment on OpenShift
 	git pull -s recursive -X theirs upstream master
 	git push
 
+Translate CommaFeed into your language
+--------------------------------------
+
+Files for internationalization are located [here](https://github.com/Athou/commafeed/tree/master/src/main/app/i18n).
+
+To add a new language, create a new file in that directory.
+The name of the file should be the two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
+The language has to be referenced in the `src/main/app/js/i18n.js` file to be picked up.
+
+Themes
+---------------------
+
+To create a theme, create a new file  `src/main/webapp/sass/themes/_<theme>.scss`. Your styles should be wrapped in a `#theme-<theme>` element and use the [SCSS format](http://sass-lang.com/) which is a superset of CSS.
+
+Don't forget to reference your theme in `src/main/webapp/sass/app.scss` and in `src/main/webapp/js/controllers.js` (look for `$scope.themes`).
+
+See [_test.scss](https://github.com/Athou/commafeed/blob/master/src/main/webapp/sass/themes/_test.scss) for an example.
+
+
 Local development
 -----------------
 
@@ -80,25 +99,6 @@ Steps to configuring a development environment for CommaFeed may include, but ma
 13. Connect to the server from your browser; you should have functional breakpoints and watches on assets.
 14. When you're done developing, create a fork at the top of https://github.com/Athou/CommaFeed page and commit your changes to it.
 15. If you'd like to contribute to CommaFeed, create a pull request from your repository to https://github.com/Athou/CommaFeed when your changes are ready. There's a button to do so at the top of https://github.com/Athou/CommaFeed.
-
-Translate CommaFeed into your language
---------------------------------------
-
-Files for internationalization are located [here](https://github.com/Athou/commafeed/tree/master/src/main/app/i18n).
-
-To add a new language, create a new file in that directory.
-The name of the file should be the two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
-The language has to be referenced in the `src/main/app/js/i18n.js` file to be picked up.
-
-Themes
----------------------
-
-To create a theme, create a new file  `src/main/webapp/sass/themes/_<theme>.scss`. Your styles should be wrapped in a `#theme-<theme>` element and use the [SCSS format](http://sass-lang.com/) which is a superset of CSS.
-
-Don't forget to reference your theme in `src/main/webapp/sass/app.scss` and in `src/main/webapp/js/controllers.js` (look for `$scope.themes`).
-
-See [_test.scss](https://github.com/Athou/commafeed/blob/master/src/main/webapp/sass/themes/_test.scss) for an example.
-
 
 Copyright and license
 ---------------------

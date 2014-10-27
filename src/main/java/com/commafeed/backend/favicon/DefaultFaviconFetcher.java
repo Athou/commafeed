@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.feed.FeedUtils;
+import com.commafeed.backend.model.Feed;
 
 /**
  * Inspired/Ported from https://github.com/potatolondon/getfavicon
@@ -27,7 +28,9 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 	private final HttpGetter getter;
 
 	@Override
-	public byte[] fetch(String url) {
+	public byte[] fetch(Feed feed) {
+		String url = feed.getLink() != null ? feed.getLink() : feed.getUrl();
+
 		if (url == null) {
 			log.debug("url is null");
 			return null;

@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
+import com.commafeed.backend.model.Feed;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
@@ -21,7 +22,9 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 	private final HttpGetter getter;
 
 	@Override
-	public byte[] fetch(String url) {
+	public byte[] fetch(Feed feed) {
+		String url = feed.getUrl();
+
 		if (!url.toLowerCase().contains("://gdata.youtube.com/")) {
 			return null;
 		}

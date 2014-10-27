@@ -50,11 +50,10 @@ public class FeedService {
 	}
 
 	public byte[] fetchFavicon(Feed feed) {
-		String url = feed.getLink() != null ? feed.getLink() : feed.getUrl();
 
 		byte[] icon = null;
 		for (AbstractFaviconFetcher faviconFetcher : faviconFetchers) {
-			icon = faviconFetcher.fetch(url);
+			icon = faviconFetcher.fetch(feed);
 			if (icon != null) {
 				break;
 			}

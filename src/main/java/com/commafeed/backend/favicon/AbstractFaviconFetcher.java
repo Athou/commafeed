@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.commafeed.backend.model.Feed;
+
 @Slf4j
 public abstract class AbstractFaviconFetcher {
 
@@ -16,7 +18,7 @@ public abstract class AbstractFaviconFetcher {
 
 	protected static int TIMEOUT = 4000;
 
-	public abstract byte[] fetch(String url);
+	public abstract byte[] fetch(Feed feed);
 
 	protected boolean isValidIconResponse(byte[] content, String contentType) {
 		if (content == null) {

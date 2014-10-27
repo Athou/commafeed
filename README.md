@@ -59,9 +59,28 @@ Deployment on OpenShift
 Local development
 -----------------
 
-To start the dropwizard backend, use your IDE to run CommaFeedApplication as your main class, and pass `server config.dev.yml` as arguments to the program.
-To start the client-side webserver with watches on assets, run `gulp dev`. The server is now running on port 8082 and is proxying REST requests to dropwizard on port 8083.
-
+Steps to configuring a development environment for CommaFeed may include, but may not be limited to:
+01. git clone https://github.com/Athou/CommaFeed into some folder to get the project files.
+02. Install Eclipse Luna (or latest) from http://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/lunasr1 or your repo if available
+03. In Eclipse, Window -> Preferences -> Maven -> Annotation Processing
+    Check "Automatically configure JDT APT"
+    03a. You may have to install the m2e-apt connector to have "Annotation Processing" as an option. Do so from Window -> Preferences -> Maven -> Discovery -> Open Catalog -> type "m2e-apt" in the search box
+        03ai. If you have installed Eclipse EE instead of Luna, you may have trouble installing m2e-apt
+04. Install Lombok into Eclipse from http://projectlombok.org/download.html
+    04a. You may have to run `java -jar lombok.jar` as an administrator if your eclipse installation is not in your home folder 
+05. In Eclipse, File -> Import -> Maven -> Existing Maven Projects
+    navigate to where you cloned the CommaFeed files into, and select that as the root directory. Click Finish.
+    05a. You may notice some errors along the lines of "Plugin execution not covered by lifecycle configuration". These are inconsequential.
+06. Find the file "CommaFeedApplication.java" under the navigation pane
+    06a. right click it to bring up the context menu -> Debug as... -> Debug Configurations
+07. Type `server config.dev.yml` under "Program arguments" in the "Arguments" tab for the Java Application setting "CommaFeedApplication"
+08. Apply and hit "Debug"
+09. The debugger is now working. To connect to it, open a terminal (or command prompt) and navigate to the directory where you cloned the CommaFeed files.
+10. Issue the command `gulp dev` on Unix based systems or `gulp.cmd dev` in Windows.
+11. The development server is now running at http://localhost:8082 and is proxying REST requests to dropwizard on port 8083.
+12. Connect to the server from your browser; you should have functional breakpoints and watches on assets.
+13. When you're done developing, create a fork at the top of https://github.com/Athou/CommaFeed page and commit your changes to it.
+14. If you'd like to contribute to CommaFeed, create a pull request from your repository to https://github.com/Athou/CommaFeed when your changes are ready.
 
 Translate CommaFeed into your language
 --------------------------------------

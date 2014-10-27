@@ -81,7 +81,7 @@ Steps to configuring a development environment for CommaFeed may include, but ma
 12. The development server is now running at http://localhost:8082 and is proxying REST requests to dropwizard on port 8083.
 13. Connect to the server from your browser; you should have functional breakpoints and watches on assets.
 14. When you're done developing, create a fork at the top of https://github.com/Athou/CommaFeed page and commit your changes to it.
-15. If you'd like to contribute to CommaFeed, create a pull request from your repository to https://github.com/Athou/CommaFeed when your changes are ready.
+15. If you'd like to contribute to CommaFeed, create a pull request from your repository to https://github.com/Athou/CommaFeed when your changes are ready. There's a button to do so at the top of https://github.com/Athou/CommaFeed.
 
 Translate CommaFeed into your language
 --------------------------------------

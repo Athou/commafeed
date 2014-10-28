@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response.Status;
 
 import lombok.RequiredArgsConstructor;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedApplication;

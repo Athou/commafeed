@@ -2,7 +2,7 @@ package com.commafeed.backend.cache;
 
 import lombok.Getter;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;

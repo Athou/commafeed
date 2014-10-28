@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -53,7 +53,7 @@ public class HttpGetter {
 	private static final String ACCEPT_LANGUAGE = "en";
 	private static final String PRAGMA_NO_CACHE = "No-cache";
 	private static final String CACHE_CONTROL_NO_CACHE = "no-cache";
-	
+
 	private static final HttpResponseInterceptor REMOVE_INCORRECT_CONTENT_ENCODING = new ContentEncodingInterceptor();
 
 	private static SSLContext SSL_CONTEXT = null;

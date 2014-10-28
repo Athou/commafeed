@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -27,8 +28,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.cache.CacheService;
@@ -359,7 +360,7 @@ public class CategoryREST {
 
 			int existingIndex = -1;
 			for (int i = 0; i < categories.size(); i++) {
-				if (ObjectUtils.equals(categories.get(i).getId(), category.getId())) {
+				if (Objects.equals(categories.get(i).getId(), category.getId())) {
 					existingIndex = i;
 				}
 			}
@@ -436,7 +437,7 @@ public class CategoryREST {
 		category.setExpanded(true);
 
 		for (FeedCategory c : categories) {
-			if ((id == null && c.getParent() == null) || (c.getParent() != null && ObjectUtils.equals(c.getParent().getId(), id))) {
+			if ((id == null && c.getParent() == null) || (c.getParent() != null && Objects.equals(c.getParent().getId(), id))) {
 				Category child = buildCategory(c.getId(), categories, subscriptions, unreadCount);
 				child.setId(String.valueOf(c.getId()));
 				child.setName(c.getName());
@@ -457,7 +458,7 @@ public class CategoryREST {
 
 		for (FeedSubscription subscription : subscriptions) {
 			if ((id == null && subscription.getCategory() == null)
-					|| (subscription.getCategory() != null && ObjectUtils.equals(subscription.getCategory().getId(), id))) {
+					|| (subscription.getCategory() != null && Objects.equals(subscription.getCategory().getId(), id))) {
 				UnreadCount uc = unreadCount.get(subscription.getId());
 				Subscription sub = Subscription.build(subscription, config.getApplicationSettings().getPublicUrl(), uc);
 				category.getFeeds().add(sub);

@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -33,8 +34,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import com.commafeed.CommaFeedApplication;
@@ -439,7 +440,7 @@ public class FeedREST {
 
 			int existingIndex = -1;
 			for (int i = 0; i < subs.size(); i++) {
-				if (ObjectUtils.equals(subs.get(i).getId(), subscription.getId())) {
+				if (Objects.equals(subs.get(i).getId(), subscription.getId())) {
 					existingIndex = i;
 				}
 			}

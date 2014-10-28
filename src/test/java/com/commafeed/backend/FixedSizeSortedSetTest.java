@@ -2,7 +2,7 @@ package com.commafeed.backend;
 
 import java.util.Comparator;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

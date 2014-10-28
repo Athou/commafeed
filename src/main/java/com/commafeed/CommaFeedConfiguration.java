@@ -64,10 +64,6 @@ public class CommaFeedConfiguration extends Configuration {
 	public static class ApplicationSettings {
 		@NotNull
 		@NotBlank
-		private String contextPath;
-
-		@NotNull
-		@NotBlank
 		private String publicUrl;
 
 		@NotNull

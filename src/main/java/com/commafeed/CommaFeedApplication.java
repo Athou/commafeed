@@ -105,9 +105,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 	@Override
 	public void run(CommaFeedConfiguration config, Environment environment) throws Exception {
-		// configure context path
-		environment.getApplicationContext().setContextPath(config.getApplicationSettings().getContextPath());
-
 		// guice init
 		Injector injector = Guice.createInjector(new CommaFeedModule(hibernateBundle.getSessionFactory(), config, environment.metrics()));
 

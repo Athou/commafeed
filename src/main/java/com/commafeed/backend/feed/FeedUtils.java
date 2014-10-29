@@ -130,7 +130,7 @@ public class FeedUtils {
 	public static String replaceHtmlEntitiesWithNumericEntities(String source) {
 		String result = source;
 		for (String entity : HtmlEntities.NUMERIC_MAPPING.keySet()) {
-			result = result.replace(entity, HtmlEntities.NUMERIC_MAPPING.get(entity));
+			result = StringUtils.replace(result, entity, HtmlEntities.NUMERIC_MAPPING.get(entity));
 		}
 		return result;
 	}
@@ -531,5 +531,5 @@ public class FeedUtils {
 		}
 		return xmlString;
 	}
-	
+
 }

@@ -1,6 +1,6 @@
 v 2.1.0
   - dropwizard upgrade to 0.8.0
-  - remove our custom app.contextPath setting from config, use server.applicationContextPath from dropwizard instead
+  - you have to remove the "app.contextPath" setting from your yml file, you can optionnaly use server.applicationContextPath instead
 v 2.0.3
   - internet explorer ajax cache workaround
   - categories are now deletable again

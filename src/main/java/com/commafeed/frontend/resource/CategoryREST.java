@@ -243,11 +243,12 @@ public class CategoryREST {
 		Preconditions.checkNotNull(req.getId());
 
 		Date olderThan = req.getOlderThan() == null ? null : new Date(req.getOlderThan());
+		String keywords = req.getKeywords();
 
 		if (ALL.equals(req.getId())) {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 			removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
-			feedEntryService.markSubscriptionEntries(user, subs, olderThan);
+			feedEntryService.markSubscriptionEntries(user, subs, olderThan, keywords);
 		} else if (STARRED.equals(req.getId())) {
 			feedEntryService.markStarredEntries(user, olderThan);
 		} else {
@@ -255,7 +256,7 @@ public class CategoryREST {
 			List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, parent);
 			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(user, categories);
 			removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
-			feedEntryService.markSubscriptionEntries(user, subs, olderThan);
+			feedEntryService.markSubscriptionEntries(user, subs, olderThan, keywords);
 		}
 		return Response.ok().build();
 	}

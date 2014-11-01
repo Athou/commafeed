@@ -287,10 +287,11 @@ public class FeedREST {
 		Preconditions.checkNotNull(req.getId());
 
 		Date olderThan = req.getOlderThan() == null ? null : new Date(req.getOlderThan());
+		String keywords = req.getKeywords();
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, Long.valueOf(req.getId()));
 		if (subscription != null) {
-			feedEntryService.markSubscriptionEntries(user, Arrays.asList(subscription), olderThan);
+			feedEntryService.markSubscriptionEntries(user, Arrays.asList(subscription), olderThan, keywords);
 		}
 		return Response.ok().build();
 	}

@@ -24,6 +24,9 @@ public class MarkRequest implements Serializable {
 			required = false)
 	private Long olderThan;
 
+	@ApiModelProperty(value = "only mark read if a feed has these keywords in the title or rss content", required = false)
+	private String keywords;
+	
 	@ApiModelProperty(value = "if marking a category or 'all', exclude those subscriptions from the marking", required = false)
 	private List<Long> excludedSubscriptions;
 

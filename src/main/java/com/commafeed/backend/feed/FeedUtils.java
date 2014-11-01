@@ -130,7 +130,7 @@ public class FeedUtils {
 	public static String replaceHtmlEntitiesWithNumericEntities(String source) {
 		String result = source;
 		for (String entity : HtmlEntities.NUMERIC_MAPPING.keySet()) {
-			result = result.replace(entity, HtmlEntities.NUMERIC_MAPPING.get(entity));
+			result = StringUtils.replace(result, entity, HtmlEntities.NUMERIC_MAPPING.get(entity));
 		}
 		return result;
 	}
@@ -517,19 +517,4 @@ public class FeedUtils {
 			}
 		}
 	}
-
-	public static String parseForImageUrl(byte[] xml) {
-		String xmlString = null;
-		try {
-			String encoding = FeedUtils.guessEncoding(xml);
-			xmlString = FeedUtils.trimInvalidXmlCharacters(new String(xml, encoding));
-			/*if (xmlString == null) {
-				throw new FeedException("Input string is null for url " + feedUrl);
-			}*/
-			xmlString = FeedUtils.replaceHtmlEntitiesWithNumericEntities(xmlString);
-		} catch (Exception e) {
-		}
-		return xmlString;
-	}
-	
 }

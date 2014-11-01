@@ -65,8 +65,8 @@ public class FeedEntryService {
 		feedEntryStatusDAO.saveOrUpdate(status);
 	}
 
-	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Date olderThan) {
-		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, null, null, -1, -1, null, false,
+	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Date olderThan, String keywords) {
+		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, keywords, null, -1, -1, null, false,
 				false, null);
 		markList(statuses, olderThan);
 		cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));

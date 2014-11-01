@@ -489,6 +489,7 @@ module.controller('ToolbarCtrl', [
 					type : $stateParams._type,
 					id : $stateParams._id,
 					olderThan : olderThan,
+					keywords: $location.search().q,
 					read : true
 				});
 			};
@@ -881,6 +882,7 @@ module.controller('FeedListCtrl', [
 				service.mark({
 					id : $scope.selectedId,
 					olderThan : olderThan || $scope.timestamp,
+					keywords: $location.search().q,
 					read : true
 				}, function() {
 					CategoryService.refresh(function() {

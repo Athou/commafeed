@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -33,7 +33,7 @@ public class UserService {
 
 	private final PasswordEncryptionService encryptionService;
 	private final CommaFeedConfiguration config;
-	
+
 	private final PostLoginActivities postLoginActivities;
 
 	/**
@@ -56,7 +56,7 @@ public class UserService {
 			}
 		}
 		return Optional.absent();
-	}	
+	}
 
 	/**
 	 * try to log in with given api key

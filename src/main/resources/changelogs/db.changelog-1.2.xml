@@ -44,6 +44,7 @@
 	</changeSet>
 
 	<changeSet author="athou" id="force-feed-refresh">
+		<validCheckSum>7:9bf9357b47d8666dc7916f9a318138ad</validCheckSum>
 		<update tableName="FEEDS">
 			<column name="lastUpdated" valueComputed="null"></column>
 			<column name="lastPublishedDate" valueComputed="null"></column>

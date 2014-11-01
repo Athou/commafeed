@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.commafeed.backend.cache.RedisPoolFactory;
@@ -62,10 +62,6 @@ public class CommaFeedConfiguration extends Configuration {
 
 	@Getter
 	public static class ApplicationSettings {
-		@NotNull
-		@NotBlank
-		private String contextPath;
-
 		@NotNull
 		@NotBlank
 		private String publicUrl;

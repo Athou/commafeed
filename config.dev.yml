@@ -1,9 +1,6 @@
 # CommaFeed settings
 # ------------------
 app:
-  # context path of the application 
-  contextPath: /
-  
   # url used to access commafeed
   publicUrl: http://localhost:8082/
   

@@ -5,7 +5,7 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.model.Feed;
 

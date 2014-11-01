@@ -45,7 +45,7 @@ public class FeedFetcher {
 		} catch (FeedException e) {
 			if (extractFeedUrlFromHtml) {
 				String extractedUrl = extractFeedUrl(StringUtils.newStringUtf8(result.getContent()), feedUrl);
-				if (org.apache.commons.lang.StringUtils.isNotBlank(extractedUrl)) {
+				if (org.apache.commons.lang3.StringUtils.isNotBlank(extractedUrl)) {
 					feedUrl = extractedUrl;
 
 					result = getter.getBinary(extractedUrl, lastModified, eTag, timeout);

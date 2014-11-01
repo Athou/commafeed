@@ -1,11 +1,11 @@
 package com.commafeed.backend.dao;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.FeedCategory;
@@ -70,7 +70,7 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 		}
 		boolean isChild = false;
 		while (child != null) {
-			if (ObjectUtils.equals(child.getId(), parent.getId())) {
+			if (Objects.equals(child.getId(), parent.getId())) {
 				isChild = true;
 				break;
 			}

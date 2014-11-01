@@ -9,11 +9,10 @@ import org.junit.Test;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.backend.service.internal.PostLoginActivities;
-import com.commafeed.frontend.auth.SecurityCheckProvider.SecurityCheckInjectable;
 import com.commafeed.frontend.session.SessionHelper;
 import com.google.common.base.Optional;
 
-public class SecurityCheckInjectableTest {
+public class SecurityCheckFactoryTest {
 
 	@Test
 	public void cookie_login_should_perform_post_login_activities_if_user_is_logged_in() {
@@ -26,8 +25,9 @@ public class SecurityCheckInjectableTest {
 
 		UserService service = new UserService(null, null, null, null, null, postLoginActivities);
 
-		SecurityCheckInjectable injectable = new SecurityCheckInjectable(sessionHelper, service, null, false);
-		injectable.cookieSessionLogin();
+		SecurityCheckFactory factory = new SecurityCheckFactory(null, false);
+		factory.userService = service;
+		factory.cookieSessionLogin(sessionHelper);
 
 		verify(postLoginActivities).executeFor(userInSession);
 	}

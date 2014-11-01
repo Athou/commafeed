@@ -11,8 +11,7 @@ import javax.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.xml.sax.InputSource;
@@ -173,7 +172,7 @@ public class FeedParser {
 		if (item.getContents().isEmpty()) {
 			content = item.getDescription() == null ? null : item.getDescription().getValue();
 		} else {
-			content = StringUtils.join(Collections2.transform(item.getContents(), CONTENT_TO_STRING), SystemUtils.LINE_SEPARATOR);
+			content = StringUtils.join(Collections2.transform(item.getContents(), CONTENT_TO_STRING), System.lineSeparator());
 		}
 		return StringUtils.trimToNull(content);
 	}

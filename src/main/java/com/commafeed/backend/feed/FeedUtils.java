@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -517,4 +517,5 @@ public class FeedUtils {
 			}
 		}
 	}
+
 }

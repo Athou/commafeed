@@ -1,5 +1,6 @@
 package com.commafeed.backend.feed;
 
+import org.apache.commons.jexl2.JexlException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,16 +44,16 @@ public class FeedEntryFilterTest {
 		Assert.assertTrue(filter.matchesEntry(entry));
 	}
 
-	@Test
+	@Test(expected = JexlException.class)
 	public void newIsDisabled() {
 		FeedEntryFilter filter = new FeedEntryFilter("null eq new ('java.lang.String', 'athou')");
-		Assert.assertTrue(filter.matchesEntry(entry));
+		filter.matchesEntry(entry);
 	}
 
-	@Test
+	@Test(expected = JexlException.class)
 	public void getClassMethodIsDisabled() {
 		FeedEntryFilter filter = new FeedEntryFilter("null eq ''.getClass()");
-		Assert.assertTrue(filter.matchesEntry(entry));
+		filter.matchesEntry(entry);
 	}
 
 	@Test

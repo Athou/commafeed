@@ -1,6 +1,5 @@
 package com.commafeed.backend.feed;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.jexl2.Expression;
@@ -77,13 +76,4 @@ public class FeedEntryFilter {
 
 		return (boolean) expression.evaluate(context);
 	}
-
-	@Data
-	private static class Model {
-		private String title;
-		private String author;
-		private String content;
-		private String url;
-	}
-
 }

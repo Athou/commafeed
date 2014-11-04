@@ -41,6 +41,6 @@ public class FeedSubscription extends AbstractModel {
 	private Integer position;
 
 	@Column(length = 4096)
-	private String filter = "author.contains('a')";
+	private String filter;
 
 }

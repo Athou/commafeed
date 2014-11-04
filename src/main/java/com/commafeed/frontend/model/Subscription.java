@@ -35,6 +35,7 @@ public class Subscription implements Serializable {
 		sub.setUnread(unreadCount.getUnreadCount());
 		sub.setNewestItemTime(unreadCount.getNewestItemTime());
 		sub.setCategoryId(category == null ? null : String.valueOf(category.getId()));
+		sub.setFilter(subscription.getFilter());
 		return sub;
 	}
 
@@ -76,5 +77,8 @@ public class Subscription implements Serializable {
 
 	@ApiModelProperty("date of the newest item")
 	private Date newestItemTime;
+
+	@ApiModelProperty(value = "JEXL string evaluated on new entries to mark them as read if they do not match")
+	private String filter;
 
 }

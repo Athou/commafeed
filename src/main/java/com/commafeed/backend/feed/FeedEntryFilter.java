@@ -56,6 +56,7 @@ public class FeedEntryFilter {
 		};
 
 		JexlEngine engine = new JexlEngine(uberspect, null, null, null);
+		engine.setStrict(true);
 		engine.setClassLoader(cl);
 		return engine;
 	}

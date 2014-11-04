@@ -13,6 +13,7 @@ import org.apache.commons.jexl2.introspection.Uberspect;
 import org.apache.commons.jexl2.introspection.UberspectImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.LogFactory;
+import org.jsoup.Jsoup;
 
 import com.commafeed.backend.model.FeedEntry;
 
@@ -69,9 +70,9 @@ public class FeedEntryFilter {
 		Expression expression = ENGINE.createExpression(filter);
 
 		JexlContext context = new MapContext();
-		context.set("title", entry.getContent().getTitle().toLowerCase());
+		context.set("title", Jsoup.parse(entry.getContent().getTitle()).text().toLowerCase());
 		context.set("author", entry.getContent().getAuthor().toLowerCase());
-		context.set("content", entry.getContent().getContent().toLowerCase());
+		context.set("content", Jsoup.parse(entry.getContent().getContent()).text().toLowerCase());
 		context.set("url", entry.getUrl().toLowerCase());
 
 		return (boolean) expression.evaluate(context);

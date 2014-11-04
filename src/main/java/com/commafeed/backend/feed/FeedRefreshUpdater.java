@@ -193,7 +193,7 @@ public class FeedRefreshUpdater implements Managed {
 				boolean inserted = new UnitOfWork<Boolean>(sessionFactory) {
 					@Override
 					protected Boolean runInSession() throws Exception {
-						return feedUpdateService.addEntry(feed, entry);
+						return feedUpdateService.addEntry(feed, entry, subscriptions);
 					}
 				}.run();
 				if (inserted) {

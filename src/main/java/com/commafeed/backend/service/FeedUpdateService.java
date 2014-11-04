@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -19,6 +20,7 @@ import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 
+@Slf4j
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class FeedUpdateService {
@@ -47,7 +49,13 @@ public class FeedUpdateService {
 		// if filter does not match the entry, mark it as read
 		for (FeedSubscription sub : subscriptions) {
 			FeedEntryFilter filter = new FeedEntryFilter(sub.getFilter());
-			if (!filter.matchesEntry(entry)) {
+			boolean matches = true;
+			try {
+				matches = filter.matchesEntry(entry);
+			} catch (Exception e) {
+				log.error("could not evaluate filter {}", sub.getFilter(), e);
+			}
+			if (!matches) {
 				FeedEntryStatus status = new FeedEntryStatus(sub.getUser(), sub, entry);
 				status.setRead(true);
 				feedEntryStatusDAO.saveOrUpdate(status);

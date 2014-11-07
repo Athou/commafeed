@@ -16,7 +16,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<dropwizard.version>0.8.0-SNAPSHOT</dropwizard.version>
 		<guice.version>3.0</guice.version>
-		<querydsl.version>3.5.0</querydsl.version>
+		<querydsl.version>3.5.1</querydsl.version>
 		<rome.version>1.5.0</rome.version>
 	</properties>
 
@@ -329,7 +329,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.33</version>
+			<version>5.1.34</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>

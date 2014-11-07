@@ -14,6 +14,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.feed.FeedEntryFilter;
+import com.commafeed.backend.feed.FeedEntryFilter.FeedEntryFilterException;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
@@ -52,7 +53,7 @@ public class FeedUpdateService {
 			boolean matches = true;
 			try {
 				matches = filter.matchesEntry(entry);
-			} catch (Exception e) {
+			} catch (FeedEntryFilterException e) {
 				log.error("could not evaluate filter {}", sub.getFilter(), e);
 			}
 			if (!matches) {

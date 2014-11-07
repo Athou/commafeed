@@ -45,6 +45,7 @@ import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.feed.FeedEntryFilter;
+import com.commafeed.backend.feed.FeedEntryFilter.FeedEntryFilterException;
 import com.commafeed.backend.feed.FeedFetcher;
 import com.commafeed.backend.feed.FeedQueues;
 import com.commafeed.backend.feed.FeedUtils;
@@ -437,7 +438,7 @@ public class FeedREST {
 
 		try {
 			new FeedEntryFilter(req.getFilter()).matchesEntry(TEST_ENTRY);
-		} catch (Exception e) {
+		} catch (FeedEntryFilterException e) {
 			Throwable root = Throwables.getRootCause(e);
 			return Response.status(Status.BAD_REQUEST).entity(root.getMessage()).build();
 		}

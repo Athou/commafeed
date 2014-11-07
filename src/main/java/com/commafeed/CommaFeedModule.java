@@ -13,6 +13,7 @@ import com.commafeed.backend.cache.NoopCacheService;
 import com.commafeed.backend.cache.RedisCacheService;
 import com.commafeed.backend.favicon.AbstractFaviconFetcher;
 import com.commafeed.backend.favicon.DefaultFaviconFetcher;
+import com.commafeed.backend.favicon.FacebookFaviconFetcher;
 import com.commafeed.backend.favicon.YoutubeFaviconFetcher;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -40,6 +41,7 @@ public class CommaFeedModule extends AbstractModule {
 
 		Multibinder<AbstractFaviconFetcher> multibinder = Multibinder.newSetBinder(binder(), AbstractFaviconFetcher.class);
 		multibinder.addBinding().to(YoutubeFaviconFetcher.class);
+		multibinder.addBinding().to(FacebookFaviconFetcher.class);
 		multibinder.addBinding().to(DefaultFaviconFetcher.class);
 	}
 }

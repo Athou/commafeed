@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConfiguration.ApplicationSettings;
 import com.commafeed.backend.model.User;
+import com.google.common.base.Optional;
 
 /**
  * Mailing service
@@ -34,6 +35,7 @@ public class MailService {
 
 		final String username = settings.getSmtpUserName();
 		final String password = settings.getSmtpPassword();
+		final String fromAddress = Optional.fromNullable(settings.getSmtpFromAddress()).or(settings.getSmtpUserName());
 
 		String dest = user.getEmail();
 
@@ -51,7 +53,7 @@ public class MailService {
 		});
 
 		Message message = new MimeMessage(session);
-		message.setFrom(new InternetAddress(username, "CommaFeed"));
+		message.setFrom(new InternetAddress(fromAddress, "CommaFeed"));
 		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(dest));
 		message.setSubject("CommaFeed - " + subject);
 		message.setContent(content, "text/html; charset=utf-8");

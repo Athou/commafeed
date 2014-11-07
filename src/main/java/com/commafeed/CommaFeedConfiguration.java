@@ -89,6 +89,8 @@ public class CommaFeedConfiguration extends Configuration {
 
 		private String smtpPassword;
 
+		private String smtpFromAddress;
+
 		@NotNull
 		private boolean heavyLoad;
 

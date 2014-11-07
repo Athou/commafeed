@@ -50,14 +50,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 			if (thumbnails.isEmpty()) {
 				return null;
 			}
-
 			String thumbnailUrl = thumbnails.get(0).attr("abs:url");
-
-			int thumbnailStart = thumbnailUrl.indexOf("<media:thumbnail url='");
-			int thumbnailEnd = thumbnailUrl.indexOf("'/>", thumbnailStart);
-			if (thumbnailStart != -1) {
-				thumbnailUrl = thumbnailUrl.substring(thumbnailStart + "<media:thumbnail url='".length(), thumbnailEnd);
-			}
 
 			// final get to actually retrieve the thumbnail
 			HttpResult iconResult = getter.getBinary(thumbnailUrl, TIMEOUT);

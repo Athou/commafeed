@@ -36,6 +36,7 @@ import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
@@ -109,6 +110,7 @@ public class CategoryREST {
 
 		keywords = StringUtils.trimToNull(keywords);
 		Preconditions.checkArgument(keywords == null || StringUtils.length(keywords) >= 3);
+		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
 		limit = Math.min(limit, 1000);
 		limit = Math.max(0, limit);
@@ -135,8 +137,8 @@ public class CategoryREST {
 			entries.setName(Optional.fromNullable(tag).or("All"));
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 			removeExcludedSubscriptions(subs, excludedIds);
-			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, keywords, newerThanDate, offset,
-					limit + 1, order, true, onlyIds, tag);
+			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, entryKeywords, newerThanDate,
+					offset, limit + 1, order, true, onlyIds, tag);
 
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(
@@ -158,7 +160,7 @@ public class CategoryREST {
 				List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, parent);
 				List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(user, categories);
 				removeExcludedSubscriptions(subs, excludedIds);
-				List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, keywords, newerThanDate,
+				List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, entryKeywords, newerThanDate,
 						offset, limit + 1, order, true, onlyIds, tag);
 
 				for (FeedEntryStatus status : list) {
@@ -180,7 +182,7 @@ public class CategoryREST {
 
 		entries.setTimestamp(System.currentTimeMillis());
 		entries.setIgnoredReadStatus(STARRED.equals(id) || keywords != null || tag != null);
-		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), keywords);
+		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), entryKeywords);
 		return Response.ok(entries).build();
 	}
 
@@ -245,11 +247,12 @@ public class CategoryREST {
 
 		Date olderThan = req.getOlderThan() == null ? null : new Date(req.getOlderThan());
 		String keywords = req.getKeywords();
+		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
 		if (ALL.equals(req.getId())) {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 			removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
-			feedEntryService.markSubscriptionEntries(user, subs, olderThan, keywords);
+			feedEntryService.markSubscriptionEntries(user, subs, olderThan, entryKeywords);
 		} else if (STARRED.equals(req.getId())) {
 			feedEntryService.markStarredEntries(user, olderThan);
 		} else {
@@ -257,7 +260,7 @@ public class CategoryREST {
 			List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, parent);
 			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(user, categories);
 			removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
-			feedEntryService.markSubscriptionEntries(user, subs, olderThan, keywords);
+			feedEntryService.markSubscriptionEntries(user, subs, olderThan, entryKeywords);
 		}
 		return Response.ok().build();
 	}

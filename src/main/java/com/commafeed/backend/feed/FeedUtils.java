@@ -29,6 +29,7 @@ import org.mozilla.universalchardet.UniversalDetector;
 import org.w3c.css.sac.InputSource;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
+import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.model.Entry;
@@ -495,19 +496,20 @@ public class FeedUtils {
 		return rot13(new String(Base64.decodeBase64(code)));
 	}
 
-	public static void removeUnwantedFromSearch(List<Entry> entries, String keywords) {
-		if (StringUtils.isBlank(keywords)) {
-			return;
-		}
-
+	public static void removeUnwantedFromSearch(List<Entry> entries, List<FeedEntryKeyword> keywords) {
 		Iterator<Entry> it = entries.iterator();
 		while (it.hasNext()) {
 			Entry entry = it.next();
 			boolean keep = true;
-			for (String keyword : keywords.split(" ")) {
+			for (FeedEntryKeyword keyword : keywords) {
 				String title = Jsoup.parse(entry.getTitle()).text();
 				String content = Jsoup.parse(entry.getContent()).text();
-				if (!StringUtils.containsIgnoreCase(content, keyword) && !StringUtils.containsIgnoreCase(title, keyword)) {
+				boolean condition = !StringUtils.containsIgnoreCase(content, keyword.getKeyword())
+						&& !StringUtils.containsIgnoreCase(title, keyword.getKeyword());
+				if (keyword.getMode() == Mode.EXCLUDE) {
+					condition = !condition;
+				}
+				if (condition) {
 					keep = false;
 					break;
 				}
@@ -517,5 +519,4 @@ public class FeedUtils {
 			}
 		}
 	}
-
 }

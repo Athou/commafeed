@@ -7,12 +7,13 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.hibernate.SessionFactory;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.FixedSizeSortedSet;
+import com.commafeed.backend.feed.FeedEntryKeyword;
+import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryTag;
@@ -112,18 +113,21 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return lazyLoadContent(includeContent, statuses);
 	}
 
-	private HibernateQuery buildQuery(User user, FeedSubscription sub, boolean unreadOnly, String keywords, Date newerThan, int offset,
-			int limit, ReadingOrder order, Date last, String tag) {
+	private HibernateQuery buildQuery(User user, FeedSubscription sub, boolean unreadOnly, List<FeedEntryKeyword> keywords, Date newerThan,
+			int offset, int limit, ReadingOrder order, Date last, String tag) {
 
 		HibernateQuery query = newQuery().from(entry).where(entry.feed.eq(sub.getFeed()));
 
 		if (keywords != null) {
 			query.join(entry.content, content);
 
-			for (String keyword : StringUtils.split(keywords)) {
+			for (FeedEntryKeyword keyword : keywords) {
 				BooleanBuilder or = new BooleanBuilder();
-				or.or(content.content.containsIgnoreCase(keyword));
-				or.or(content.title.containsIgnoreCase(keyword));
+				or.or(content.content.containsIgnoreCase(keyword.getKeyword()));
+				or.or(content.title.containsIgnoreCase(keyword.getKeyword()));
+				if (keyword.getMode() == Mode.EXCLUDE) {
+					or.not();
+				}
 				query.where(or);
 			}
 		}
@@ -180,8 +184,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return query;
 	}
 
-	public List<FeedEntryStatus> findBySubscriptions(User user, List<FeedSubscription> subs, boolean unreadOnly, String keywords,
-			Date newerThan, int offset, int limit, ReadingOrder order, boolean includeContent, boolean onlyIds, String tag) {
+	public List<FeedEntryStatus> findBySubscriptions(User user, List<FeedSubscription> subs, boolean unreadOnly,
+			List<FeedEntryKeyword> keywords, Date newerThan, int offset, int limit, ReadingOrder order, boolean includeContent,
+			boolean onlyIds, String tag) {
 		int capacity = offset + limit;
 		Comparator<FeedEntryStatus> comparator = order == ReadingOrder.desc ? STATUS_COMPARATOR_DESC : STATUS_COMPARATOR_ASC;
 		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<FeedEntryStatus>(capacity, comparator);

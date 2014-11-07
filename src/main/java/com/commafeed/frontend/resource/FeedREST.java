@@ -44,6 +44,7 @@ import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedFetcher;
 import com.commafeed.backend.feed.FeedQueues;
 import com.commafeed.backend.feed.FeedUtils;
@@ -127,6 +128,7 @@ public class FeedREST {
 
 		keywords = StringUtils.trimToNull(keywords);
 		Preconditions.checkArgument(keywords == null || StringUtils.length(keywords) >= 3);
+		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
 		limit = Math.min(limit, 1000);
 		limit = Math.max(0, limit);
@@ -146,8 +148,8 @@ public class FeedREST {
 			entries.setErrorCount(subscription.getFeed().getErrorCount());
 			entries.setFeedLink(subscription.getFeed().getLink());
 
-			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, Arrays.asList(subscription), unreadOnly, keywords,
-					newerThanDate, offset, limit + 1, order, true, onlyIds, null);
+			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, Arrays.asList(subscription), unreadOnly,
+					entryKeywords, newerThanDate, offset, limit + 1, order, true, onlyIds, null);
 
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(
@@ -166,7 +168,7 @@ public class FeedREST {
 
 		entries.setTimestamp(System.currentTimeMillis());
 		entries.setIgnoredReadStatus(keywords != null);
-		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), keywords);
+		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), entryKeywords);
 		return Response.ok(entries).build();
 	}
 
@@ -289,10 +291,11 @@ public class FeedREST {
 
 		Date olderThan = req.getOlderThan() == null ? null : new Date(req.getOlderThan());
 		String keywords = req.getKeywords();
+		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, Long.valueOf(req.getId()));
 		if (subscription != null) {
-			feedEntryService.markSubscriptionEntries(user, Arrays.asList(subscription), olderThan, keywords);
+			feedEntryService.markSubscriptionEntries(user, Arrays.asList(subscription), olderThan, entryKeywords);
 		}
 		return Response.ok().build();
 	}

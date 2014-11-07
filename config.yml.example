@@ -22,6 +22,7 @@ app:
   smtpTls: false
   smtpUserName:
   smtpPassword:
+  smtpFromAddress:
   
   # wether this commafeed instance has a lot of feeds to refresh
   # leave this to false in almost all cases

@@ -14,24 +14,11 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<dropwizard.version>0.8.0-SNAPSHOT</dropwizard.version>
+		<dropwizard.version>0.8.0-rc1</dropwizard.version>
 		<guice.version>3.0</guice.version>
 		<querydsl.version>3.5.1</querydsl.version>
 		<rome.version>1.5.0</rome.version>
 	</properties>
-
-	<repositories>
-		<repository>
-			<id>oss_snapshots</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 
 	<scm>
 		<connection>scm:git:https://github.com/Athou/commafeed.git</connection>

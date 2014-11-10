@@ -99,7 +99,11 @@ public class FeedEntryFilteringService {
 		} catch (TimeoutException e) {
 			throw new FeedEntryFilterException("Took too long evaluating expression " + filter, e);
 		}
-		return (boolean) result;
+		try {
+			return (boolean) result;
+		} catch (ClassCastException e) {
+			throw new FeedEntryFilterException(e.getMessage(), e);
+		}
 	}
 
 	@SuppressWarnings("serial")

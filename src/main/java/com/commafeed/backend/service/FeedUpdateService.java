@@ -13,13 +13,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
-import com.commafeed.backend.feed.FeedEntryFilter;
-import com.commafeed.backend.feed.FeedEntryFilter.FeedEntryFilterException;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
@@ -29,6 +28,7 @@ public class FeedUpdateService {
 	private final FeedEntryDAO feedEntryDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedEntryContentService feedEntryContentService;
+	private final FeedEntryFilteringService feedEntryFilteringService;
 
 	/**
 	 * this is NOT thread-safe
@@ -49,10 +49,9 @@ public class FeedUpdateService {
 
 		// if filter does not match the entry, mark it as read
 		for (FeedSubscription sub : subscriptions) {
-			FeedEntryFilter filter = new FeedEntryFilter(sub.getFilter());
 			boolean matches = true;
 			try {
-				matches = filter.matchesEntry(entry);
+				matches = feedEntryFilteringService.filterMatchesEntry(sub.getFilter(), entry);
 			} catch (FeedEntryFilterException e) {
 				log.error("could not evaluate filter {}", sub.getFilter(), e);
 			}

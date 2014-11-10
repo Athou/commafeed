@@ -44,8 +44,6 @@ import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
-import com.commafeed.backend.feed.FeedEntryFilter;
-import com.commafeed.backend.feed.FeedEntryFilter.FeedEntryFilterException;
 import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedFetcher;
 import com.commafeed.backend.feed.FeedQueues;
@@ -62,6 +60,8 @@ import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.opml.OPMLExporter;
 import com.commafeed.backend.opml.OPMLImporter;
+import com.commafeed.backend.service.FeedEntryFilteringService;
+import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedService;
 import com.commafeed.backend.service.FeedSubscriptionService;
@@ -119,6 +119,7 @@ public class FeedREST {
 	private final FeedService feedService;
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionService feedSubscriptionService;
+	private final FeedEntryFilteringService feedEntryFilteringService;
 	private final FeedQueues queues;
 	private final OPMLImporter opmlImporter;
 	private final OPMLExporter opmlExporter;
@@ -440,7 +441,7 @@ public class FeedREST {
 		Preconditions.checkNotNull(req.getId());
 
 		try {
-			new FeedEntryFilter(req.getFilter()).matchesEntry(TEST_ENTRY);
+			feedEntryFilteringService.filterMatchesEntry(req.getFilter(), TEST_ENTRY);
 		} catch (FeedEntryFilterException e) {
 			Throwable root = Throwables.getRootCause(e);
 			return Response.status(Status.BAD_REQUEST).entity(root.getMessage()).build();

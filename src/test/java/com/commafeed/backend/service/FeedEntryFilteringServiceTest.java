@@ -1,20 +1,24 @@
-package com.commafeed.backend.feed;
+package com.commafeed.backend.service;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.commafeed.backend.feed.FeedEntryFilter.FeedEntryFilterException;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
+import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
 
-public class FeedEntryFilterTest {
+public class FeedEntryFilteringServiceTest {
+
+	private FeedEntryFilteringService service;
 
 	private FeedEntry entry;
 	private FeedEntryContent content;
 
 	@Before
 	public void init() {
+		service = new FeedEntryFilteringService();
+
 		entry = new FeedEntry();
 		entry.setUrl("https://github.com/Athou/commafeed");
 
@@ -28,44 +32,37 @@ public class FeedEntryFilterTest {
 
 	@Test
 	public void emptyFilterMatchesFilter() throws FeedEntryFilterException {
-		FeedEntryFilter filter = new FeedEntryFilter(null);
-		Assert.assertTrue(filter.matchesEntry(entry));
+		Assert.assertTrue(service.filterMatchesEntry(null, entry));
 	}
 
 	@Test
 	public void blankFilterMatchesFilter() throws FeedEntryFilterException {
-		FeedEntryFilter filter = new FeedEntryFilter("");
-		Assert.assertTrue(filter.matchesEntry(entry));
+		Assert.assertTrue(service.filterMatchesEntry("", entry));
 	}
 
 	@Test
 	public void simpleExpression() throws FeedEntryFilterException {
-		FeedEntryFilter filter = new FeedEntryFilter("author eq 'athou'");
-		Assert.assertTrue(filter.matchesEntry(entry));
+		Assert.assertTrue(service.filterMatchesEntry("author eq 'athou'", entry));
 	}
 
 	@Test(expected = FeedEntryFilterException.class)
 	public void newIsDisabled() throws FeedEntryFilterException {
-		FeedEntryFilter filter = new FeedEntryFilter("null eq new ('java.lang.String', 'athou')");
-		filter.matchesEntry(entry);
+		service.filterMatchesEntry("null eq new ('java.lang.String', 'athou')", entry);
 	}
 
 	@Test(expected = FeedEntryFilterException.class)
 	public void getClassMethodIsDisabled() throws FeedEntryFilterException {
-		FeedEntryFilter filter = new FeedEntryFilter("null eq ''.getClass()");
-		filter.matchesEntry(entry);
+		service.filterMatchesEntry("null eq ''.getClass()", entry);
 	}
 
 	@Test
 	public void dotClassIsDisabled() throws FeedEntryFilterException {
-		FeedEntryFilter filter = new FeedEntryFilter("null eq ''.class");
-		Assert.assertTrue(filter.matchesEntry(entry));
+		Assert.assertTrue(service.filterMatchesEntry("null eq ''.class", entry));
 	}
 
 	@Test(expected = FeedEntryFilterException.class)
 	public void cannotLoopForever() throws FeedEntryFilterException {
-		FeedEntryFilter filter = new FeedEntryFilter("while(true) {}");
-		filter.matchesEntry(entry);
+		service.filterMatchesEntry("while(true) {}", entry);
 	}
 
 }

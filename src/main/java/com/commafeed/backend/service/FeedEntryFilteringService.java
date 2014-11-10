@@ -1,13 +1,12 @@
-package com.commafeed.backend.feed;
+package com.commafeed.backend.service;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.JexlEngine;
@@ -25,8 +24,7 @@ import org.jsoup.Jsoup;
 
 import com.commafeed.backend.model.FeedEntry;
 
-@RequiredArgsConstructor
-public class FeedEntryFilter {
+public class FeedEntryFilteringService {
 
 	private static final JexlEngine ENGINE = initEngine();
 
@@ -69,9 +67,9 @@ public class FeedEntryFilter {
 		return engine;
 	}
 
-	private final String filter;
+	private ExecutorService executor = Executors.newCachedThreadPool();
 
-	public boolean matchesEntry(FeedEntry entry) throws FeedEntryFilterException {
+	public boolean filterMatchesEntry(String filter, FeedEntry entry) throws FeedEntryFilterException {
 		if (StringUtils.isBlank(filter)) {
 			return true;
 		}
@@ -90,7 +88,7 @@ public class FeedEntryFilter {
 		context.set("url", entry.getUrl().toLowerCase());
 
 		Callable<Object> callable = script.callable(context);
-		Future<Object> future = Executors.newFixedThreadPool(1).submit(callable);
+		Future<Object> future = executor.submit(callable);
 		Object result = null;
 		try {
 			result = future.get(500, TimeUnit.MILLISECONDS);

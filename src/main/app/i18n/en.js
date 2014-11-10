@@ -98,6 +98,8 @@
     "next_refresh" : "Next refresh",
     "queued_for_refresh" : "Queued for refresh",
     "feed_url" : "Feed URL",
+    "filtering_expression" : "Filtering expression",
+    "filtering_expression_help" : "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically.\nAvailable variables are 'title', 'content', 'url' and 'author' and their content is converted to lower case for convenience.\nExample: url.contains('youtube') or (author eq 'athou' and title.contains('github').\nComplete available syntax is available <a href='http://commons.apache.org/proper/commons-jexl/reference/syntax.html' target='_blank'>here</a>.",
     "generate_api_key_first" : "Generate an API key in your profile first.",
     "unsubscribe" : "Unsubscribe",
     "unsubscribe_confirmation" : "Are you sure you want to unsubscribe from this feed?",

@@ -3,6 +3,7 @@
 		<h3>{{ 'details.feed_details' | translate }}</h3>
 	</div>
 	<form name="form" class="form-horizontal" ng-submit="save()">
+		<div class="alert alert-danger" ng-if="error">{{ error }}</div>
 		<div class="form-group">
 			<label class="col-sm-2 control-label">{{ 'details.url' | translate }}</label>
 			<div class="col-sm-10 checkbox">
@@ -66,6 +67,14 @@
 			<div class="col-sm-10 checkbox">
 				<a ng-show="user.apiKey" href="{{'rest/feed/entriesAsFeed?id=' + sub.id + '&apiKey=' + user.apiKey}}" target="_blank">{{ 'global.link' | translate }}</a>
 				<span ng-show="!user.apiKey">{{ 'details.generate_api_key_first' | translate }}</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">{{ 'details.filtering_expression' | translate }}</label>
+			<div class="col-sm-10 form-control-static">
+				<input type="text" name="filter" ng-model="sub.filter" class="form-control"></input>
+				<p class="help-block pre-wrap" ng-bind-html="'details.filtering_expression_help' | translate"></p>
 			</div>
 		</div>
 

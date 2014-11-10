@@ -44,6 +44,8 @@ import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.feed.FeedEntryFilter;
+import com.commafeed.backend.feed.FeedEntryFilter.FeedEntryFilterException;
 import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedFetcher;
 import com.commafeed.backend.feed.FeedQueues;
@@ -51,6 +53,8 @@ import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.feed.FetchedFeed;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
+import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
@@ -93,6 +97,20 @@ import com.wordnik.swagger.annotations.ApiParam;
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class FeedREST {
+
+	private static final FeedEntry TEST_ENTRY = initTestEntry();
+
+	private static FeedEntry initTestEntry() {
+		FeedEntry entry = new FeedEntry();
+		entry.setUrl("https://github.com/Athou/commafeed");
+
+		FeedEntryContent content = new FeedEntryContent();
+		content.setAuthor("Athou");
+		content.setTitle("Merge pull request #662 from Athou/dw8");
+		content.setContent("Merge pull request #662 from Athou/dw8");
+		entry.setContent(content);
+		return entry;
+	}
 
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedCategoryDAO feedCategoryDAO;
@@ -421,7 +439,15 @@ public class FeedREST {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
+		try {
+			new FeedEntryFilter(req.getFilter()).matchesEntry(TEST_ENTRY);
+		} catch (FeedEntryFilterException e) {
+			Throwable root = Throwables.getRootCause(e);
+			return Response.status(Status.BAD_REQUEST).entity(root.getMessage()).build();
+		}
+
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, req.getId());
+		subscription.setFilter(req.getFilter());
 
 		if (StringUtils.isNotBlank(req.getName())) {
 			subscription.setTitle(req.getName());

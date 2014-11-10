@@ -24,4 +24,7 @@ public class FeedModificationRequest implements Serializable {
 	@ApiModelProperty(value = "new display position, null if not changed")
 	private Integer position;
 
+	@ApiModelProperty(value = "JEXL string evaluated on new entries to mark them as read if they do not match")
+	private String filter;
+
 }

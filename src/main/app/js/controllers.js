@@ -322,17 +322,21 @@ module.controller('FeedDetailsCtrl', ['$scope', '$state', '$stateParams', 'FeedS
 
 			$scope.save = function() {
 				var sub = $scope.sub;
+				$scope.error = null;
 				FeedService.modify({
 					id : sub.id,
 					name : sub.name,
 					position : sub.position,
-					categoryId : sub.categoryId
+					categoryId : sub.categoryId,
+					filter : sub.filter
 				}, function() {
 					CategoryService.init();
 					$state.transitionTo('feeds.view', {
 						_id : 'all',
 						_type : 'category'
 					});
+				}, function(e) {
+					$scope.error = e.data;
 				});
 			};
 		}]);
@@ -489,7 +493,7 @@ module.controller('ToolbarCtrl', [
 					type : $stateParams._type,
 					id : $stateParams._id,
 					olderThan : olderThan,
-					keywords: $location.search().q,
+					keywords : $location.search().q,
 					read : true
 				});
 			};
@@ -882,7 +886,7 @@ module.controller('FeedListCtrl', [
 				service.mark({
 					id : $scope.selectedId,
 					olderThan : olderThan || $scope.timestamp,
-					keywords: $location.search().q,
+					keywords : $location.search().q,
 					read : true
 				}, function() {
 					CategoryService.refresh(function() {

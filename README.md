@@ -21,7 +21,7 @@ You also need Maven 3.x (and a Java 1.7+ JDK) installed in order to build the ap
 
 To install maven and openjdk on Ubuntu, issue the following commands
 
-    sudo apt-get install build-essential openjdk-7-jdk maven
+    sudo apt-get install g++ build-essential openjdk-7-jdk maven
     # Make sure java7 is the selected java version
     sudo update-alternatives --config java
     sudo update-alternatives --config javac

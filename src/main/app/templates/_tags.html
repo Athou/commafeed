@@ -1,8 +1,8 @@
 <span>
-	<a ng-click="edit_mode=!edit_mode" class="nolink pointer">
+	<span ng-click="edit_mode=!edit_mode" class="nolink pointer">
 		<i class="icon-tags"></i>
 		{{ 'global.tags' | translate }}
-	</a>
+	</span>
 	<span ng-if="!edit_mode">
 		<span class="label label-info" ng-repeat="tag in entry.tags">{{tag}}</span>
 	</span>

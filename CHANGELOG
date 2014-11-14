@@ -4,6 +4,7 @@ v 2.1.0
   - ability to set filtering expressions for subscriptions to automatically mark new entries as read based on title, content, author or url.
   - ability to use !keyword or -keyword to exclude a keyword from a search query
   - facebook feeds now show user favicon instead of facebook favicon
+  - new dark theme 'nightsky'
 v 2.0.3
   - internet explorer ajax cache workaround
   - categories are now deletable again

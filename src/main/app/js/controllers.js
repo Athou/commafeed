@@ -1371,7 +1371,7 @@ module.controller('SettingsCtrl', ['$scope', '$location', 'SettingsService', 'An
 
 			$scope.langs = LangService.langs;
 
-			$scope.themes = ['default', 'bootstrap', 'dark', 'ebraminio', 'MRACHINI', 'svetla', 'third'];
+			$scope.themes = ['default', 'bootstrap', 'dark', 'ebraminio', 'MRACHINI', 'nightsky', 'svetla', 'third'];
 
 			$scope.settingsService = SettingsService;
 			$scope.$watch('settingsService.settings', function(value) {

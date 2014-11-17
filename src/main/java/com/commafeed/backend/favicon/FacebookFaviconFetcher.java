@@ -50,7 +50,7 @@ public class FacebookFaviconFetcher extends AbstractFaviconFetcher {
 			bytes = iconResult.getContent();
 			contentType = iconResult.getContentType();
 		} catch (Exception e) {
-			log.debug("Failed to retrieve YouTube icon", e);
+			log.debug("Failed to retrieve Facebook icon", e);
 		}
 
 		if (!isValidIconResponse(bytes, contentType)) {

@@ -62,7 +62,7 @@ module.factory('SettingsService', ['$resource', '$translate', function($resource
 			} else if (lang === 'ms') {
 				lang = 'ms-my';
 			}
-			moment.lang(lang, {});
+			moment.locale(lang, {});
 			if (callback) {
 				callback(data);
 			}

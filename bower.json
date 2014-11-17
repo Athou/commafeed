@@ -2,7 +2,7 @@
   "name": "commafeed",
   "version": "2.0.0",
   "dependencies": {
-    "jquery": "1.11.0",
+    "jquery": "2.1.1",
     "jquery-ui": "1.10.3",
     "jquery-mousewheel": "3.1.12",
     "lodash": "2.4.1",

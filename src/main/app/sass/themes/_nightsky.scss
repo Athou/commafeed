@@ -30,10 +30,14 @@
 	}
 	
 	.css-treeview .unread-counter {
-	    color: #C8C8C8;
+	    color: #939393;
 	}
 	
-	.css-treeview a {
+	.css-treeview .category-link, .css-treeview a {
+	    color: #939393;
+	}
+	
+	.css-treeview a .unread {
 	    color: #C6C6C6;
 	}
 	
@@ -53,8 +57,13 @@
 	    font-weight: normal;
 	}
 	
+	#feed-accordion .entry-heading .entry-name {
+	    color: #939393;
+	}
+	
 	#feed-accordion .unread .entry-heading .entry-name {
 	    font-weight: normal;
+	    color: #C6C6C6;
 	}
 	
 	#feed-accordion .unread .entry-heading {

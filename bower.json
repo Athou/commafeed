@@ -28,7 +28,7 @@
     "device.js": "matthewhudson/device.js#2ae5c775e35ccc837589e5af34e292c54936778c",
     "readabilicons": "arc90/readability-readabilicons#34c55561c5b8ec6e90714b50237c06b13cb9d59c",
     "zocial": "samcollins/css-social-buttons#1f59ecacde475e563fb6771667597493ec4eecb6",
-	"swagger-ui": "2.0.21"
+	"swagger-ui": "2.0.24"
   },
   "resolutions": {
     "angular": "1.3.2",

@@ -11,7 +11,7 @@
     "gulp-uglify": "0.3.1",
     "gulp-filter": "1.0.0",
     "gulp-bower": "0.0.6",
-    "gulp-connect": "2.0.6",
+    "gulp-connect": "2.2.0",
     "connect-modrewrite": "0.7.7",
     "gulp-sass": "0.7.2",
     "gulp-useref": "0.6.0",

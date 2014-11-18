@@ -72,7 +72,7 @@ gulp.task('build-dev', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2'
 	var jsFilter = filter("**/*.js");
 	var cssFilter = filter("**/*.css");
 	return gulp.src([SRC_DIR + 'index.html', TEMP_DIR + 'app.css']).pipe(assets).pipe(rev()).pipe(assets.restore()).pipe(useref()).pipe(
-			revReplace()).pipe(gulp.dest(BUILD_DIR));
+			revReplace()).pipe(gulp.dest(BUILD_DIR)).pipe(connect.reload());
 });
 
 gulp.task('build', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2', 'swagger-ui', 'template-cache', 'bower'], function() {
@@ -101,6 +101,7 @@ gulp.task('serve', function() {
 	connect.server({
 		root : BUILD_DIR,
 		port : 8082,
+		livereload: true,
 		middleware : function() {
 			var rest = '^/rest/(.*)$ http://localhost:8083/rest/$1 [P]';
 			var next = '^/next(.*)$ http://localhost:8083/next$1 [P]';

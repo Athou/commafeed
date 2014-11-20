@@ -37,7 +37,14 @@ public class FeedRefreshExecutor {
 					return offerLast(r);
 				}
 			}
-		});
+		}) {
+			@Override
+			protected void afterExecute(Runnable r, Throwable t) {
+				if (t != null) {
+					log.error("thread from pool {} threw a runtime exception", poolName, t);
+				}
+			};
+		};
 		pool.setRejectedExecutionHandler(new RejectedExecutionHandler() {
 			@Override
 			public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {

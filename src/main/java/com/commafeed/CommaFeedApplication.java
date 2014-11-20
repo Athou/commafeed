@@ -137,7 +137,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.servlets().addServlet("analytics.js", injector.getInstance(AnalyticsServlet.class)).addMapping("/analytics.js");
 
 		// Scheduled tasks
-		ScheduledExecutorService executor = environment.lifecycle().scheduledExecutorService("task-scheduler").build();
+		ScheduledExecutorService executor = environment.lifecycle().scheduledExecutorService("task-scheduler", true).build();
 		injector.getInstance(OldStatusesCleanupTask.class).register(executor);
 		injector.getInstance(OrphansCleanupTask.class).register(executor);
 

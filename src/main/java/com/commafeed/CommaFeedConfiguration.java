@@ -35,7 +35,7 @@ public class CommaFeedConfiguration extends Configuration {
 	@Valid
 	@NotNull
 	@JsonProperty("database")
-	private DataSourceFactory database = new DataSourceFactory();
+	private DataSourceFactory dataSourceFactory = new DataSourceFactory();
 
 	@Valid
 	@NotNull

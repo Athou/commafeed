@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.hibernate.cfg.AvailableSettings;
 
 import com.commafeed.backend.feed.FeedRefreshTaskGiver;
 import com.commafeed.backend.feed.FeedRefreshUpdater;
@@ -89,14 +90,18 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 				FeedSubscription.class, User.class, UserRole.class, UserSettings.class) {
 			@Override
 			public DataSourceFactory getDataSourceFactory(CommaFeedConfiguration configuration) {
-				return configuration.getDatabase();
+				DataSourceFactory factory = configuration.getDataSourceFactory();
+
+				// keep using old id generator for backward compatibility
+				factory.getProperties().put(AvailableSettings.USE_NEW_ID_GENERATOR_MAPPINGS, "false");
+				return factory;
 			}
 		});
 
 		bootstrap.addBundle(new MigrationsBundle<CommaFeedConfiguration>() {
 			@Override
 			public DataSourceFactory getDataSourceFactory(CommaFeedConfiguration configuration) {
-				return configuration.getDatabase();
+				return configuration.getDataSourceFactory();
 			}
 		});
 

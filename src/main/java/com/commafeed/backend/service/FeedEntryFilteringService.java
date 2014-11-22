@@ -82,10 +82,11 @@ public class FeedEntryFilteringService {
 		}
 
 		JexlContext context = new MapContext();
-		context.set("title", Jsoup.parse(entry.getContent().getTitle()).text().toLowerCase());
-		context.set("author", entry.getContent().getAuthor().toLowerCase());
-		context.set("content", Jsoup.parse(entry.getContent().getContent()).text().toLowerCase());
-		context.set("url", entry.getUrl().toLowerCase());
+		context.set("title", entry.getContent().getTitle() == null ? "" : Jsoup.parse(entry.getContent().getTitle()).text().toLowerCase());
+		context.set("author", entry.getContent().getAuthor() == null ? "" : entry.getContent().getAuthor().toLowerCase());
+		context.set("content", entry.getContent().getContent() == null ? "" : Jsoup.parse(entry.getContent().getContent()).text()
+				.toLowerCase());
+		context.set("url", entry.getUrl() == null ? "" : entry.getUrl().toLowerCase());
 
 		Callable<Object> callable = script.callable(context);
 		Future<Object> future = executor.submit(callable);

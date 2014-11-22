@@ -65,4 +65,10 @@ public class FeedEntryFilteringServiceTest {
 		service.filterMatchesEntry("while(true) {}", entry);
 	}
 
+	@Test
+	public void handlesNullCorrectly() throws FeedEntryFilterException {
+		entry.setContent(new FeedEntryContent());
+		service.filterMatchesEntry("author eq 'athou'", entry);
+	}
+
 }

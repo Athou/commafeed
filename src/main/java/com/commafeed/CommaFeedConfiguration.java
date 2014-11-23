@@ -69,6 +69,8 @@ public class CommaFeedConfiguration extends Configuration {
 		@NotNull
 		private boolean allowRegistrations;
 
+		private boolean createDemoAccount;
+
 		private String googleAnalyticsTrackingCode;
 
 		@NotNull

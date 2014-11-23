@@ -249,7 +249,7 @@ public class UserREST {
 			sessionHelper.setLoggedInUser(user.get());
 			return Response.ok().build();
 		} else {
-			return Response.status(Response.Status.UNAUTHORIZED).entity("wrong username or password").build();
+			return Response.status(Response.Status.UNAUTHORIZED).entity("wrong username or password").type(MediaType.TEXT_PLAIN).build();
 		}
 	}
 
@@ -270,7 +270,8 @@ public class UserREST {
 			return Response.ok().build();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("could not send email: " + e.getMessage()).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("could not send email: " + e.getMessage())
+					.type(MediaType.TEXT_PLAIN).build();
 		}
 	}
 

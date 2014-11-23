@@ -26,6 +26,7 @@ import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.internal.SessionFactoryImpl;
 
 import com.commafeed.CommaFeedApplication;
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.UserRole.Role;
@@ -38,6 +39,7 @@ public class StartupService implements Managed {
 	private final SessionFactory sessionFactory;
 	private final UserDAO userDAO;
 	private final UserService userService;
+	private final CommaFeedConfiguration config;
 
 	@Override
 	public void start() throws Exception {
@@ -95,7 +97,9 @@ public class StartupService implements Managed {
 		try {
 			userService.register(CommaFeedApplication.USERNAME_ADMIN, "admin", "admin@commafeed.com", Arrays.asList(Role.ADMIN, Role.USER),
 					true);
-			userService.register(CommaFeedApplication.USERNAME_DEMO, "demo", "demo@commafeed.com", Arrays.asList(Role.USER), true);
+			if (config.getApplicationSettings().isCreateDemoAccount()) {
+				userService.register(CommaFeedApplication.USERNAME_DEMO, "demo", "demo@commafeed.com", Arrays.asList(Role.USER), true);
+			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

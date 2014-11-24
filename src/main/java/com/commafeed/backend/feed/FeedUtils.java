@@ -25,7 +25,6 @@ import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
-import org.mozilla.universalchardet.UniversalDetector;
 import org.w3c.css.sac.InputSource;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
@@ -34,6 +33,8 @@ import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.model.Entry;
 import com.google.common.collect.Lists;
+import com.ibm.icu.text.CharsetDetector;
+import com.ibm.icu.text.CharsetMatch;
 import com.steadystate.css.parser.CSSOMParser;
 
 import edu.uci.ics.crawler4j.url.URLCanonicalizer;
@@ -114,15 +115,15 @@ public class FeedUtils {
 	 * Detect encoding by analyzing characters in the array
 	 */
 	public static String detectEncoding(byte[] bytes) {
-		String DEFAULT_ENCODING = "UTF-8";
-		UniversalDetector detector = new UniversalDetector(null);
-		detector.handleData(bytes, 0, bytes.length);
-		detector.dataEnd();
-		String encoding = detector.getDetectedCharset();
-		detector.reset();
-		if (encoding == null) {
-			encoding = DEFAULT_ENCODING;
-		} else if (encoding.equalsIgnoreCase("ISO-8859-1")) {
+		String encoding = "UTF-8";
+
+		CharsetDetector detector = new CharsetDetector();
+		detector.setText(bytes);
+		CharsetMatch match = detector.detect();
+		if (match != null) {
+			encoding = match.getName();
+		}
+		if (encoding.equalsIgnoreCase("ISO-8859-1")) {
 			encoding = "windows-1252";
 		}
 		return encoding;

@@ -118,9 +118,9 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		// session management
 		environment.servlets().setSessionHandler(new SessionHandler(config.getSessionManagerFactory().build()));
 
-		// support for "@SecurityCheck User user" intection
+		// support for "@SecurityCheck User user" injection
 		environment.jersey().register(new SecurityCheckFactoryProvider.Binder(injector.getInstance(UserService.class)));
-		// support for "@COntext SessionHelper sessionHelper" intection
+		// support for "@Context SessionHelper sessionHelper" injection
 		environment.jersey().register(new SessionHelperFactoryProvider.Binder());
 
 		// REST resources

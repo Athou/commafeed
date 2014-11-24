@@ -13,6 +13,7 @@ import io.dropwizard.setup.Environment;
 import java.io.IOException;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 
 import javax.servlet.DispatcherType;
@@ -42,8 +43,7 @@ import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.service.StartupService;
 import com.commafeed.backend.service.UserService;
-import com.commafeed.backend.task.OldStatusesCleanupTask;
-import com.commafeed.backend.task.OrphansCleanupTask;
+import com.commafeed.backend.task.ScheduledTask;
 import com.commafeed.frontend.auth.SecurityCheckFactoryProvider;
 import com.commafeed.frontend.resource.AdminREST;
 import com.commafeed.frontend.resource.CategoryREST;
@@ -59,6 +59,8 @@ import com.commafeed.frontend.servlet.NextUnreadServlet;
 import com.commafeed.frontend.session.SessionHelperFactoryProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
 import com.wordnik.swagger.config.ConfigFactory;
 import com.wordnik.swagger.config.ScannerFactory;
 import com.wordnik.swagger.config.SwaggerConfig;
@@ -142,9 +144,13 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.servlets().addServlet("analytics.js", injector.getInstance(AnalyticsServlet.class)).addMapping("/analytics.js");
 
 		// Scheduled tasks
-		ScheduledExecutorService executor = environment.lifecycle().scheduledExecutorService("task-scheduler", true).build();
-		injector.getInstance(OldStatusesCleanupTask.class).register(executor);
-		injector.getInstance(OrphansCleanupTask.class).register(executor);
+		Set<ScheduledTask> tasks = injector.getInstance(Key.get(new TypeLiteral<Set<ScheduledTask>>() {
+		}));
+		ScheduledExecutorService executor = environment.lifecycle().scheduledExecutorService("task-scheduler", true).threads(tasks.size())
+				.build();
+		for (ScheduledTask task : tasks) {
+			task.register(executor);
+		}
 
 		// database init/changelogs
 		environment.lifecycle().manage(injector.getInstance(StartupService.class));

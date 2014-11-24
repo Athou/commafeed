@@ -15,6 +15,9 @@ import com.commafeed.backend.favicon.AbstractFaviconFetcher;
 import com.commafeed.backend.favicon.DefaultFaviconFetcher;
 import com.commafeed.backend.favicon.FacebookFaviconFetcher;
 import com.commafeed.backend.favicon.YoutubeFaviconFetcher;
+import com.commafeed.backend.task.OldStatusesCleanupTask;
+import com.commafeed.backend.task.OrphansCleanupTask;
+import com.commafeed.backend.task.ScheduledTask;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.multibindings.Multibinder;
@@ -39,9 +42,13 @@ public class CommaFeedModule extends AbstractModule {
 		log.info("using cache {}", cacheService.getClass());
 		bind(CacheService.class).toInstance(cacheService);
 
-		Multibinder<AbstractFaviconFetcher> multibinder = Multibinder.newSetBinder(binder(), AbstractFaviconFetcher.class);
-		multibinder.addBinding().to(YoutubeFaviconFetcher.class);
-		multibinder.addBinding().to(FacebookFaviconFetcher.class);
-		multibinder.addBinding().to(DefaultFaviconFetcher.class);
+		Multibinder<AbstractFaviconFetcher> faviconMultibinder = Multibinder.newSetBinder(binder(), AbstractFaviconFetcher.class);
+		faviconMultibinder.addBinding().to(YoutubeFaviconFetcher.class);
+		faviconMultibinder.addBinding().to(FacebookFaviconFetcher.class);
+		faviconMultibinder.addBinding().to(DefaultFaviconFetcher.class);
+
+		Multibinder<ScheduledTask> taskMultibinder = Multibinder.newSetBinder(binder(), ScheduledTask.class);
+		taskMultibinder.addBinding().to(OldStatusesCleanupTask.class);
+		taskMultibinder.addBinding().to(OrphansCleanupTask.class);
 	}
 }

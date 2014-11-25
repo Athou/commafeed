@@ -72,7 +72,7 @@ module.directive('tags', function() {
 						tags : []
 					};
 					if (newValue) {
-						data.tags = newValue.split(',');
+						data.tags = newValue;
 					}
 					EntryService.tag(data);
 				}

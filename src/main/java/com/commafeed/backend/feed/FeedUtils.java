@@ -185,12 +185,12 @@ public class FeedUtils {
 		}
 
 		String pi = new String(ArrayUtils.subarray(bytes, 0, index + 1));
-		index = StringUtils.indexOf(pi, "encoding=\"");
+		index = StringUtils.indexOf(pi, "encoding=");
 		if (index == -1) {
 			return null;
 		}
 		String encoding = pi.substring(index + 10, pi.length());
-		encoding = encoding.substring(0, encoding.indexOf('"'));
+		encoding = encoding.substring(0, Math.max(encoding.indexOf(' ') - 1, 0));
 		return encoding;
 	}
 

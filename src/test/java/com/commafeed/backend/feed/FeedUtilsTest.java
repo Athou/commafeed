@@ -3,8 +3,6 @@ package com.commafeed.backend.feed;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.commafeed.backend.feed.FeedUtils;
-
 public class FeedUtilsTest {
 
 	@Test
@@ -53,6 +51,15 @@ public class FeedUtilsTest {
 
 		Assert.assertEquals("http://ergoemacs.org/emacs/elisp_all_about_lines.html",
 				FeedUtils.toAbsoluteUrl("elisp_all_about_lines.html", "blog.xml", "http://ergoemacs.org/emacs/blog.xml"));
+
+	}
+
+	@Test
+	public void testExtractDeclaredEncoding() {
+		Assert.assertNull(FeedUtils.extractDeclaredEncoding("<?xml ?>".getBytes()));
+		Assert.assertNull(FeedUtils.extractDeclaredEncoding("<feed></feed>".getBytes()));
+		Assert.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding=\"UTF-8\" ?>".getBytes()));
+		Assert.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding='UTF-8' ?>".getBytes()));
 
 	}
 }

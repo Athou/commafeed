@@ -184,13 +184,13 @@ public class FeedUtils {
 			return null;
 		}
 
-		String pi = new String(ArrayUtils.subarray(bytes, 0, index + 1));
-		index = StringUtils.indexOf(pi, "encoding=");
+		String pi = new String(ArrayUtils.subarray(bytes, 0, index + 1)).replace('\'', '"');
+		index = StringUtils.indexOf(pi, "encoding=\"");
 		if (index == -1) {
 			return null;
 		}
 		String encoding = pi.substring(index + 10, pi.length());
-		encoding = encoding.substring(0, Math.max(encoding.indexOf(' ') - 1, 0));
+		encoding = encoding.substring(0, encoding.indexOf('"'));
 		return encoding;
 	}
 

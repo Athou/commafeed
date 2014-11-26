@@ -60,6 +60,6 @@ public class FeedUtilsTest {
 		Assert.assertNull(FeedUtils.extractDeclaredEncoding("<feed></feed>".getBytes()));
 		Assert.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding=\"UTF-8\" ?>".getBytes()));
 		Assert.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding='UTF-8' ?>".getBytes()));
-
+		Assert.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding='UTF-8'?>".getBytes()));
 	}
 }

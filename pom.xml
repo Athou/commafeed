@@ -139,29 +139,6 @@
 					</archive>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>com.jamierf.dropwizard</groupId>
-				<artifactId>dropwizard-debpkg-maven-plugin</artifactId>
-				<version>0.7</version>
-				<configuration>
-					<configTemplate>${basedir}/config.yml.example</configTemplate>
-					<jvm>
-						<packageName>openjdk-7-jdk</packageName>
-						<server>true</server>
-					</jvm>
-					<unix>
-						<user>commafeed</user>
-					</unix>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>dwpackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 

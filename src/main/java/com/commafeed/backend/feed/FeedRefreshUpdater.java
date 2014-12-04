@@ -152,7 +152,7 @@ public class FeedRefreshUpdater implements Managed {
 				}
 			}
 
-			if (config.getApplicationSettings().isPubsubhubbub()) {
+			if (config.getApplicationSettings().getPubsubhubbub()) {
 				handlePubSub(feed);
 			}
 			if (!ok) {

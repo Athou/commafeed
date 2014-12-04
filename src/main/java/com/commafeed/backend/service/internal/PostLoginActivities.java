@@ -33,7 +33,7 @@ public class PostLoginActivities {
 			user.setLastLogin(now);
 			saveUser = true;
 		}
-		if (config.getApplicationSettings().isHeavyLoad() && user.shouldRefreshFeedsAt(now)) {
+		if (config.getApplicationSettings().getHeavyLoad() && user.shouldRefreshFeedsAt(now)) {
 			feedSubscriptionService.refreshAll(user);
 			user.setLastFullRefresh(now);
 			saveUser = true;

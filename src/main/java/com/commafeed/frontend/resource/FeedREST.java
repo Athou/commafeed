@@ -173,7 +173,7 @@ public class FeedREST {
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(
 						Entry.build(status, config.getApplicationSettings().getPublicUrl(), config.getApplicationSettings()
-								.isImageProxyEnabled()));
+								.getImageProxyEnabled()));
 			}
 
 			boolean hasMore = entries.getEntries().size() > limit;

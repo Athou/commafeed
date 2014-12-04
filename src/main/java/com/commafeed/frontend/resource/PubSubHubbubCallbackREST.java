@@ -57,7 +57,7 @@ public class PubSubHubbubCallbackREST {
 	public Response verify(@QueryParam("hub.mode") String mode, @QueryParam("hub.topic") String topic,
 			@QueryParam("hub.challenge") String challenge, @QueryParam("hub.lease_seconds") String leaseSeconds,
 			@QueryParam("hub.verify_token") String verifyToken) {
-		if (!config.getApplicationSettings().isPubsubhubbub()) {
+		if (!config.getApplicationSettings().getPubsubhubbub()) {
 			return Response.status(Status.FORBIDDEN).entity("pubsubhubbub is disabled").build();
 		}
 
@@ -87,7 +87,7 @@ public class PubSubHubbubCallbackREST {
 	@Consumes({ MediaType.APPLICATION_ATOM_XML, "application/rss+xml" })
 	public Response callback() {
 
-		if (!config.getApplicationSettings().isPubsubhubbub()) {
+		if (!config.getApplicationSettings().getPubsubhubbub()) {
 			return Response.status(Status.FORBIDDEN).entity("pubsubhubbub is disabled").build();
 		}
 

@@ -92,7 +92,7 @@ public class UserService {
 		Preconditions.checkNotNull(password);
 
 		if (!forceRegistration) {
-			Preconditions.checkState(config.getApplicationSettings().isAllowRegistrations(),
+			Preconditions.checkState(config.getApplicationSettings().getAllowRegistrations(),
 					"Registrations are closed on this CommaFeed instance");
 
 			Preconditions.checkNotNull(email);

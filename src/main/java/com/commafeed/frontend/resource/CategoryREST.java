@@ -143,7 +143,7 @@ public class CategoryREST {
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(
 						Entry.build(status, config.getApplicationSettings().getPublicUrl(), config.getApplicationSettings()
-								.isImageProxyEnabled()));
+								.getImageProxyEnabled()));
 			}
 
 		} else if (STARRED.equals(id)) {
@@ -152,7 +152,7 @@ public class CategoryREST {
 			for (FeedEntryStatus status : starred) {
 				entries.getEntries().add(
 						Entry.build(status, config.getApplicationSettings().getPublicUrl(), config.getApplicationSettings()
-								.isImageProxyEnabled()));
+								.getImageProxyEnabled()));
 			}
 		} else {
 			FeedCategory parent = feedCategoryDAO.findById(user, Long.valueOf(id));
@@ -166,7 +166,7 @@ public class CategoryREST {
 				for (FeedEntryStatus status : list) {
 					entries.getEntries().add(
 							Entry.build(status, config.getApplicationSettings().getPublicUrl(), config.getApplicationSettings()
-									.isImageProxyEnabled()));
+									.getImageProxyEnabled()));
 				}
 				entries.setName(parent.getName());
 			} else {

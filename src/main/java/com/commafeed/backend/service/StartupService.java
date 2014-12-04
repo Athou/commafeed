@@ -97,7 +97,7 @@ public class StartupService implements Managed {
 		try {
 			userService.register(CommaFeedApplication.USERNAME_ADMIN, "admin", "admin@commafeed.com", Arrays.asList(Role.ADMIN, Role.USER),
 					true);
-			if (config.getApplicationSettings().isCreateDemoAccount()) {
+			if (config.getApplicationSettings().getCreateDemoAccount()) {
 				userService.register(CommaFeedApplication.USERNAME_DEMO, "demo", "demo@commafeed.com", Arrays.asList(Role.USER), true);
 			}
 		} catch (Exception e) {

@@ -90,7 +90,7 @@ public class FeedRefreshWorker implements Managed {
 			// stops here if NotModifiedException or any other exception is thrown
 			List<FeedEntry> entries = fetchedFeed.getEntries();
 
-			if (config.getApplicationSettings().isHeavyLoad()) {
+			if (config.getApplicationSettings().getHeavyLoad()) {
 				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed.getFeed().getLastEntryDate(), fetchedFeed.getFeed()
 						.getAverageEntryInterval(), disabledUntil);
 			}
@@ -118,7 +118,7 @@ public class FeedRefreshWorker implements Managed {
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified : {} - {}", feed.getUrl(), e.getMessage());
 
-			if (config.getApplicationSettings().isHeavyLoad()) {
+			if (config.getApplicationSettings().getHeavyLoad()) {
 				disabledUntil = FeedUtils.buildDisabledUntil(feed.getLastEntryDate(), feed.getAverageEntryInterval(), disabledUntil);
 			}
 			feed.setErrorCount(0);

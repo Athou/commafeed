@@ -47,7 +47,7 @@ public class ServerREST {
 		infos.setAnnouncement(config.getApplicationSettings().getAnnouncement());
 		infos.setVersion(config.getVersion());
 		infos.setGitCommit(config.getGitCommit());
-		infos.setAllowRegistrations(config.getApplicationSettings().isAllowRegistrations());
+		infos.setAllowRegistrations(config.getApplicationSettings().getAllowRegistrations());
 		infos.setGoogleAnalyticsCode(config.getApplicationSettings().getGoogleAnalyticsTrackingCode());
 		infos.setSmtpEnabled(StringUtils.isNotBlank(config.getApplicationSettings().getSmtpHost()));
 		return Response.ok(infos).build();
@@ -59,7 +59,7 @@ public class ServerREST {
 	@ApiOperation(value = "proxy image")
 	@Produces("image/png")
 	public Response get(@SecurityCheck User user, @QueryParam("u") String url) {
-		if (!config.getApplicationSettings().isImageProxyEnabled()) {
+		if (!config.getApplicationSettings().getImageProxyEnabled()) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 

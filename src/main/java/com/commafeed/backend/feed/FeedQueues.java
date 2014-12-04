@@ -154,7 +154,7 @@ public class FeedQueues {
 	}
 
 	private Date getLastLoginThreshold() {
-		if (config.getApplicationSettings().isHeavyLoad()) {
+		if (config.getApplicationSettings().getHeavyLoad()) {
 			return DateUtils.addDays(new Date(), -30);
 		} else {
 			return null;

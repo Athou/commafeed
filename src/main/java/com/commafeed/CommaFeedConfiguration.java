@@ -64,64 +64,74 @@ public class CommaFeedConfiguration extends Configuration {
 	public static class ApplicationSettings {
 		@NotNull
 		@NotBlank
+		@Valid
 		private String publicUrl;
 
 		@NotNull
-		private boolean allowRegistrations;
+		@Valid
+		private Boolean allowRegistrations;
 
-		private boolean createDemoAccount;
+		@NotNull
+		@Valid
+		private Boolean createDemoAccount;
 
 		private String googleAnalyticsTrackingCode;
 
 		@NotNull
 		@Min(1)
-		private int backgroundThreads;
+		@Valid
+		private Integer backgroundThreads;
 
 		@NotNull
 		@Min(1)
-		private int databaseUpdateThreads;
+		@Valid
+		private Integer databaseUpdateThreads;
 
 		private String smtpHost;
-
 		private int smtpPort;
-
 		private boolean smtpTls;
-
 		private String smtpUserName;
-
 		private String smtpPassword;
-
 		private String smtpFromAddress;
 
 		@NotNull
-		private boolean heavyLoad;
+		@Valid
+		private Boolean heavyLoad;
 
 		@NotNull
-		private boolean pubsubhubbub;
+		@Valid
+		private Boolean pubsubhubbub;
 
 		@NotNull
-		private boolean imageProxyEnabled;
-
-		@NotNull
-		@Min(0)
-		private int queryTimeout;
-
-		@NotNull
-		@Min(0)
-		private int keepStatusDays;
+		@Valid
+		private Boolean imageProxyEnabled;
 
 		@NotNull
 		@Min(0)
-		private int maxFeedCapacity;
+		@Valid
+		private Integer queryTimeout;
 
 		@NotNull
 		@Min(0)
-		private int refreshIntervalMinutes;
+		@Valid
+		private Integer keepStatusDays;
 
 		@NotNull
+		@Min(0)
+		@Valid
+		private Integer maxFeedCapacity;
+
+		@NotNull
+		@Min(0)
+		@Valid
+		private Integer refreshIntervalMinutes;
+
+		@NotNull
+		@Valid
 		private CacheType cache;
 
 		@NotNull
+		@Valid
 		private String announcement;
 
 		public Date getUnreadThreshold() {

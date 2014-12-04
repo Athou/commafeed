@@ -1,9 +1,7 @@
 package com.commafeed.backend.service;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -16,6 +14,7 @@ import org.hibernate.SessionFactory;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryContentDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
+import com.commafeed.backend.dao.FeedEntryDAO.FeedCapacity;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.Feed;
@@ -75,23 +74,37 @@ public class DatabaseCleaningService {
 		return total;
 	}
 
-	public long cleanEntriesOlderThan(long value, TimeUnit unit) {
-		final Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MINUTE, -1 * (int) unit.toMinutes(value));
-
+	public long cleanEntriesForFeedsExceedingCapacity(final int maxFeedCapacity) {
 		long total = 0;
-		int deleted = 0;
-		do {
-			deleted = new UnitOfWork<Integer>(sessionFactory) {
+		while (true) {
+			List<FeedCapacity> feeds = new UnitOfWork<List<FeedCapacity>>(sessionFactory) {
 				@Override
-				protected Integer runInSession() throws Exception {
-					return feedEntryDAO.delete(cal.getTime(), BATCH_SIZE);
+				protected List<FeedCapacity> runInSession() throws Exception {
+					return feedEntryDAO.findFeedsExceedingCapacity(maxFeedCapacity, BATCH_SIZE);
 				}
 			}.run();
-			total += deleted;
-			log.info("removed {} entries", total);
-		} while (deleted != 0);
-		log.info("cleanup done: {} entries deleted", total);
+
+			if (feeds.isEmpty()) {
+				break;
+			}
+
+			for (final FeedCapacity feed : feeds) {
+				long remaining = feed.getCapacity() - maxFeedCapacity;
+				do {
+					final long rem = remaining;
+					int deleted = new UnitOfWork<Integer>(sessionFactory) {
+						@Override
+						protected Integer runInSession() throws Exception {
+							return feedEntryDAO.deleteOldEntries(feed.getId(), Math.min(BATCH_SIZE, rem));
+						};
+					}.run();
+					total += deleted;
+					remaining -= deleted;
+					log.info("removed {} entries for feeds exceeding capacity", total);
+				} while (remaining > 0);
+			}
+		}
+		log.info("cleanup done: {} entries for feeds exceeding capacity deleted", total);
 		return total;
 	}
 

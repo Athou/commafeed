@@ -44,6 +44,9 @@ app:
   # time to keep unread statuses (in days), 0 to disable
   keepStatusDays: 0
   
+  # entries to keep per feed, old entries will be deleted, 0 to disable
+  maxFeedCapacity: 500
+  
   # cache service to use, possible values are 'noop' and 'redis'
   cache: noop
   

@@ -23,7 +23,7 @@ public class OrphansCleanupTask extends ScheduledTask {
 
 	@Override
 	public long getInitialDelay() {
-		return 5;
+		return 10;
 	}
 
 	@Override

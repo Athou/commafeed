@@ -1,10 +1,12 @@
 package com.commafeed.backend.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.SessionFactory;
@@ -13,6 +15,9 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.QFeedEntry;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.mysema.query.Tuple;
+import com.mysema.query.types.expr.NumberExpression;
 
 @Singleton
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
@@ -30,10 +35,27 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		return Iterables.getFirst(list, null);
 	}
 
-	public int delete(Date olderThan, int max) {
-		List<FeedEntry> list = newQuery().from(entry).where(entry.inserted.lt(olderThan)).limit(max).list(entry);
+	public List<FeedCapacity> findFeedsExceedingCapacity(long maxCapacity, long max) {
+		List<FeedCapacity> list = Lists.newArrayList();
+		NumberExpression<Long> count = entry.id.countDistinct();
+		List<Tuple> tuples = newQuery().from(entry).groupBy(entry.feed).having(count.gt(maxCapacity)).limit(max).list(entry.feed.id, count);
+		for (Tuple tuple : tuples) {
+			list.add(new FeedCapacity(tuple.get(entry.feed.id), tuple.get(count)));
+		}
+		return list;
+	}
+
+	public int deleteOldEntries(Long feedId, long max) {
+		List<FeedEntry> list = newQuery().from(entry).where(entry.feed.id.eq(feedId)).orderBy(entry.updated.asc()).limit(max).list(entry);
 		int deleted = list.size();
 		delete(list);
 		return deleted;
+	}
+
+	@AllArgsConstructor
+	@Getter
+	public static class FeedCapacity {
+		private Long id;
+		private Long capacity;
 	}
 }

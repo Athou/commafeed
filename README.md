@@ -1,18 +1,28 @@
-CommaFeed [![Build Status](https://travis-ci.org/Athou/commafeed.svg?branch=master)](https://travis-ci.org/Athou/commafeed)
-=========
+# CommaFeed [![Build Status](https://travis-ci.org/Athou/commafeed.svg?branch=master)](https://travis-ci.org/Athou/commafeed)
+
 Sources for [CommaFeed.com](http://www.commafeed.com/).
 
 Google Reader inspired self-hosted RSS reader, based on Dropwizard and AngularJS.
 
-Related open-source projects
-----------------------------
+## Related open-source projects
+
 
 Android apps: [News+ extension](https://github.com/Athou/commafeed-newsplus) - [Android app](https://github.com/doomrobo/CommaFeed-Android-Reader)
 
 Browser extensions: [Chrome](https://github.com/Athou/commafeed-chrome) - [Firefox](https://github.com/Athou/commafeed-firefox) - [Opera](https://github.com/Athou/commafeed-opera) - [Safari](https://github.com/Athou/commafeed-safari)
 
-Deployment on your own server
------------------------------
+## Deployment on your own server
+
+### The short version
+
+    git clone https://github.com/Athou/commafeed.git
+	cd commafeed
+    mvn clean package
+	cp config.yml.example config.yml
+	vi config.yml
+	java -jar target/commafeed.jar server config.yml 
+
+### The long version
 
 CommaFeed 2.0 has been rewritten to use Dropwizard and gulp instead of using tomee and wro4j. The latest version of the 1.x branch is available [here](https://github.com/Athou/commafeed/tree/1.x).
 
@@ -45,8 +55,7 @@ Issue the following command to run the app, the server will listen by default on
 
 You can use a proxy http server such as nginx or apache.
 
-Deployment on OpenShift
------------------------------
+## Deployment on OpenShift
 
  [OpenShift](https://openshift.redhat.com) is Red Hat's Platform-as-a-Service (PaaS) that allows developers to quickly develop, host, and scale applications in a cloud environment. CommaFeed runs perfectly on OpenShift and can even be used in the free tier. Follow the [Getting Started](https://developers.openshift.com/en/getting-started-overview.html) guide and after you sign up and install the Command Line Tools (RHC), do:
 
@@ -56,8 +65,7 @@ Deployment on OpenShift
 	git pull -s recursive -X theirs upstream master
 	git push
 
-Translate CommaFeed into your language
---------------------------------------
+## Translate CommaFeed into your language
 
 Files for internationalization are located [here](https://github.com/Athou/commafeed/tree/master/src/main/app/i18n).
 
@@ -65,8 +73,7 @@ To add a new language, create a new file in that directory.
 The name of the file should be the two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
 The language has to be referenced in the `src/main/app/js/i18n.js` file to be picked up.
 
-Themes
----------------------
+## Themes
 
 To create a theme, create a new file  `src/main/webapp/sass/themes/_<theme>.scss`. Your styles should be wrapped in a `#theme-<theme>` element and use the [SCSS format](http://sass-lang.com/) which is a superset of CSS.
 
@@ -75,8 +82,7 @@ Don't forget to reference your theme in `src/main/webapp/sass/app.scss` and in `
 See [_test.scss](https://github.com/Athou/commafeed/blob/master/src/main/webapp/sass/themes/_test.scss) for an example.
 
 
-Local development
------------------
+## Local development
 
 Steps to configuring a development environment for CommaFeed may include, but may not be limited to:
 
@@ -100,8 +106,7 @@ Steps to configuring a development environment for CommaFeed may include, but ma
 14. When you're done developing, create a fork at the top of https://github.com/Athou/CommaFeed page and commit your changes to it.
 15. If you'd like to contribute to CommaFeed, create a pull request from your repository to https://github.com/Athou/CommaFeed when your changes are ready. There's a button to do so at the top of https://github.com/Athou/CommaFeed.
 
-Copyright and license
----------------------
+## Copyright and license
 
 Copyright 2013-2014 CommaFeed.
 

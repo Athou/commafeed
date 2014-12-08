@@ -13,6 +13,9 @@ import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
+import com.google.common.base.Function;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 import com.rometools.opml.feed.opml.Attribute;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
@@ -20,6 +23,14 @@ import com.rometools.opml.feed.opml.Outline;
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class OPMLExporter {
+
+	private static Long ROOT_CATEGORY_ID = new Long(-1);
+	private static final Function<FeedSubscription, Long> SUBSCRIPTION_TO_CATEGORYID = new Function<FeedSubscription, Long>() {
+		@Override
+		public Long apply(FeedSubscription sub) {
+			return sub.getCategory() == null ? ROOT_CATEGORY_ID : sub.getCategory().getId();
+		}
+	};
 
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
@@ -31,7 +42,7 @@ public class OPMLExporter {
 		opml.setCreated(new Date());
 
 		List<FeedCategory> categories = feedCategoryDAO.findAll(user);
-		List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
+		Multimap<Long, FeedSubscription> subscriptions = Multimaps.index(feedSubscriptionDAO.findAll(user), SUBSCRIPTION_TO_CATEGORYID);
 
 		// export root categories
 		for (FeedCategory cat : categories) {
@@ -41,17 +52,15 @@ public class OPMLExporter {
 		}
 
 		// export root subscriptions
-		for (FeedSubscription sub : subscriptions) {
-			if (sub.getCategory() == null) {
-				opml.getOutlines().add(buildSubscriptionOutline(sub));
-			}
+		for (FeedSubscription sub : subscriptions.get(ROOT_CATEGORY_ID)) {
+			opml.getOutlines().add(buildSubscriptionOutline(sub));
 		}
 
 		return opml;
 
 	}
 
-	private Outline buildCategoryOutline(FeedCategory cat, List<FeedSubscription> subscriptions) {
+	private Outline buildCategoryOutline(FeedCategory cat, Multimap<Long, FeedSubscription> subscriptions) {
 		Outline outline = new Outline();
 		outline.setText(cat.getName());
 		outline.setTitle(cat.getName());
@@ -60,10 +69,8 @@ public class OPMLExporter {
 			outline.getChildren().add(buildCategoryOutline(child, subscriptions));
 		}
 
-		for (FeedSubscription sub : subscriptions) {
-			if (sub.getCategory() != null && sub.getCategory().getId().equals(cat.getId())) {
-				outline.getChildren().add(buildSubscriptionOutline(sub));
-			}
+		for (FeedSubscription sub : subscriptions.get(cat.getId())) {
+			outline.getChildren().add(buildSubscriptionOutline(sub));
 		}
 		return outline;
 	}

@@ -1,7 +1,10 @@
 package com.commafeed.backend.opml;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,46 +28,69 @@ public class OPMLExporter {
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 
 	public Opml export(User user) {
-		Opml opml = new Opml();
-		opml.setFeedType("opml_1.1");
-		opml.setTitle(String.format("%s subscriptions in CommaFeed", user.getName()));
-		opml.setCreated(new Date());
-
-		List<FeedCategory> categories = feedCategoryDAO.findAll(user);
+	    String userName = user.getName();
+	    
+	    List<FeedCategory> categories = feedCategoryDAO.findAll(user);
 		List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
+		
+		return generateOPML(userName, categories, subscriptions);
+	}
+
+    Opml generateOPML(String userName, List<FeedCategory> categories, List<FeedSubscription> subscriptions) {
+        Opml opml = new Opml();
+        
+        opml.setFeedType("opml_1.1");
+        opml.setTitle(String.format("%s subscriptions in CommaFeed", userName));
+        opml.setCreated(new Date());
+        
+        Map<Long, SubscriptionOutlines> categoryIdToSubscriptionOutlinesMap = mapCategoryIdToSubscriptionOutlines(subscriptions);
 
 		// export root categories
 		for (FeedCategory cat : categories) {
 			if (cat.getParent() == null) {
-				opml.getOutlines().add(buildCategoryOutline(cat, subscriptions));
+				opml.getOutlines().add(buildCategoryOutline(cat, categoryIdToSubscriptionOutlinesMap));
 			}
 		}
 
 		// export root subscriptions
-		for (FeedSubscription sub : subscriptions) {
-			if (sub.getCategory() == null) {
-				opml.getOutlines().add(buildSubscriptionOutline(sub));
-			}
+		if (categoryIdToSubscriptionOutlinesMap.containsKey(null)) {
+		    opml.getOutlines().addAll(categoryIdToSubscriptionOutlinesMap.get(null));
 		}
 
 		return opml;
+    }
+    
+    private Map<Long, SubscriptionOutlines> mapCategoryIdToSubscriptionOutlines(List<FeedSubscription> subscriptions) {
+        Map<Long, SubscriptionOutlines> map = new HashMap<>();
+        
+        for(FeedSubscription subscription : subscriptions) {
+            Long categoryId = subscription.getCategory() == null ? null : subscription.getCategory().getId();
+            
+            SubscriptionOutlines outlines = map.get(categoryId) == null ? new SubscriptionOutlines() : map.get(categoryId);
+            outlines.add(buildSubscriptionOutline(subscription));
+            
+            if (!map.containsKey(categoryId)) {
+                map.put(categoryId, outlines);
+            }
+        }
+        
+        return map;
+    }
 
-	}
-
-	private Outline buildCategoryOutline(FeedCategory cat, List<FeedSubscription> subscriptions) {
+	private Outline buildCategoryOutline(FeedCategory cat, Map<Long, SubscriptionOutlines> categoryIdToSubscriptionOutlinesMap) {
 		Outline outline = new Outline();
 		outline.setText(cat.getName());
 		outline.setTitle(cat.getName());
 
 		for (FeedCategory child : cat.getChildren()) {
-			outline.getChildren().add(buildCategoryOutline(child, subscriptions));
+			outline.getChildren().add(buildCategoryOutline(child, categoryIdToSubscriptionOutlinesMap));
 		}
 
-		for (FeedSubscription sub : subscriptions) {
-			if (sub.getCategory() != null && sub.getCategory().getId().equals(cat.getId())) {
-				outline.getChildren().add(buildSubscriptionOutline(sub));
-			}
+		Long categoryId = cat.getId();
+		if (categoryIdToSubscriptionOutlinesMap.containsKey(categoryId)) {
+		    outline.getChildren().addAll(categoryIdToSubscriptionOutlinesMap.get(categoryId));
 		}
+		
 		return outline;
 	}
 
@@ -79,4 +105,7 @@ public class OPMLExporter {
 		}
 		return outline;
 	}
+	
+	@SuppressWarnings("serial")
+    private static class SubscriptionOutlines extends ArrayList<Outline> {}
 }

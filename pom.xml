@@ -192,6 +192,12 @@
 			<artifactId>dropwizard-migrations</artifactId>
 			<version>${dropwizard.version}</version>
 		</dependency>
+		<!-- TODO remove when dropwizard 0.8.0 is released -->
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>3.3.1</version>
+		</dependency>
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-assets</artifactId>

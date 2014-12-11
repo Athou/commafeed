@@ -17,7 +17,8 @@ import com.commafeed.backend.favicon.FacebookFaviconFetcher;
 import com.commafeed.backend.favicon.YoutubeFaviconFetcher;
 import com.commafeed.backend.task.OldEntriesCleanupTask;
 import com.commafeed.backend.task.OldStatusesCleanupTask;
-import com.commafeed.backend.task.OrphansCleanupTask;
+import com.commafeed.backend.task.OrphanedContentsCleanupTask;
+import com.commafeed.backend.task.OrphanedFeedsCleanupTask;
 import com.commafeed.backend.task.ScheduledTask;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -51,6 +52,7 @@ public class CommaFeedModule extends AbstractModule {
 		Multibinder<ScheduledTask> taskMultibinder = Multibinder.newSetBinder(binder(), ScheduledTask.class);
 		taskMultibinder.addBinding().to(OldStatusesCleanupTask.class);
 		taskMultibinder.addBinding().to(OldEntriesCleanupTask.class);
-		taskMultibinder.addBinding().to(OrphansCleanupTask.class);
+		taskMultibinder.addBinding().to(OrphanedFeedsCleanupTask.class);
+		taskMultibinder.addBinding().to(OrphanedContentsCleanupTask.class);
 	}
 }

@@ -11,19 +11,18 @@ import com.commafeed.backend.service.DatabaseCleaningService;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
-public class OrphansCleanupTask extends ScheduledTask {
+public class OrphanedContentsCleanupTask extends ScheduledTask {
 
 	private final DatabaseCleaningService cleaner;
 
 	@Override
 	public void run() {
-		cleaner.cleanFeedsWithoutSubscriptions();
 		cleaner.cleanContentsWithoutEntries();
 	}
 
 	@Override
 	public long getInitialDelay() {
-		return 10;
+		return 20;
 	}
 
 	@Override

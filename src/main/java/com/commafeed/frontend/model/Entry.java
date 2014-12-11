@@ -77,10 +77,12 @@ public class Entry implements Serializable {
 		content.setValue(getContent());
 		entry.setContents(Arrays.<SyndContent> asList(content));
 
-		SyndEnclosureImpl enclosure = new SyndEnclosureImpl();
-		enclosure.setType(getEnclosureType());
-		enclosure.setUrl(getEnclosureUrl());
-		entry.setEnclosures(Arrays.<SyndEnclosure> asList(enclosure));
+		if (getEnclosureUrl() != null) {
+			SyndEnclosureImpl enclosure = new SyndEnclosureImpl();
+			enclosure.setType(getEnclosureType());
+			enclosure.setUrl(getEnclosureUrl());
+			entry.setEnclosures(Arrays.<SyndEnclosure> asList(enclosure));
+		}
 
 		entry.setLink(getUrl());
 		entry.setPublishedDate(getDate());

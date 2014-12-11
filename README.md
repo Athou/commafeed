@@ -26,7 +26,7 @@ Browser extensions: [Chrome](https://github.com/Athou/commafeed-chrome) - [Firef
 
 CommaFeed 2.0 has been rewritten to use Dropwizard and gulp instead of using tomee and wro4j. The latest version of the 1.x branch is available [here](https://github.com/Athou/commafeed/tree/1.x).
 
-For storage, you can either use an embedded H2 database or an external MySQL, PostgreSQL or SQLServer database.
+For storage, you can either use an embedded H2 database (use it only to test CommaFeed) or an external MySQL, PostgreSQL or SQLServer database.
 You also need Maven 3.x (and a Java 1.7+ JDK) installed in order to build the application.
 
 To install maven and openjdk on Ubuntu, issue the following commands

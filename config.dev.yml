@@ -72,7 +72,7 @@ app:
 
 database:
   driverClass: org.h2.Driver
-  url: jdbc:h2:./target/example
+  url: jdbc:h2:./target/example;mv_store=false
   user: sa
   password: sa
   properties:

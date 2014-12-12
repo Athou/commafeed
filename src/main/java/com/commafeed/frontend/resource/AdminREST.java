@@ -123,11 +123,7 @@ public class AdminREST {
 		userModel.setName(u.getName());
 		userModel.setEmail(u.getEmail());
 		userModel.setEnabled(!u.isDisabled());
-		for (UserRole role : userRoleDAO.findAll(u)) {
-			if (role.getRole() == Role.ADMIN) {
-				userModel.setAdmin(true);
-			}
-		}
+		userModel.setAdmin(userRoleDAO.findAll(u).stream().anyMatch(r -> r.getRole() == Role.ADMIN));
 		return Response.ok(userModel).build();
 	}
 

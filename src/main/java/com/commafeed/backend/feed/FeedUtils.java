@@ -3,6 +3,7 @@ package com.commafeed.backend.feed;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -100,14 +101,14 @@ public class FeedUtils {
 	 * feed
 	 * 
 	 */
-	public static String guessEncoding(byte[] bytes) {
+	public static Charset guessEncoding(byte[] bytes) {
 		String extracted = extractDeclaredEncoding(bytes);
 		if (StringUtils.startsWithIgnoreCase(extracted, "iso-8859-")) {
 			if (StringUtils.endsWith(extracted, "1") == false) {
-				return extracted;
+				return Charset.forName(extracted);
 			}
 		} else if (StringUtils.startsWithIgnoreCase(extracted, "windows-")) {
-			return extracted;
+			return Charset.forName(extracted);
 		}
 		return detectEncoding(bytes);
 	}
@@ -115,7 +116,7 @@ public class FeedUtils {
 	/**
 	 * Detect encoding by analyzing characters in the array
 	 */
-	public static String detectEncoding(byte[] bytes) {
+	public static Charset detectEncoding(byte[] bytes) {
 		String encoding = "UTF-8";
 
 		CharsetDetector detector = new CharsetDetector();
@@ -127,7 +128,7 @@ public class FeedUtils {
 		if (encoding.equalsIgnoreCase("ISO-8859-1")) {
 			encoding = "windows-1252";
 		}
-		return encoding;
+		return Charset.forName(encoding);
 	}
 
 	public static String replaceHtmlEntitiesWithNumericEntities(String source) {

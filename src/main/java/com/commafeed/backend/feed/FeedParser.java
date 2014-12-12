@@ -1,6 +1,7 @@
 package com.commafeed.backend.feed;
 
 import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +47,7 @@ public class FeedParser {
 		List<FeedEntry> entries = fetchedFeed.getEntries();
 
 		try {
-			String encoding = FeedUtils.guessEncoding(xml);
+			Charset encoding = FeedUtils.guessEncoding(xml);
 			String xmlString = FeedUtils.trimInvalidXmlCharacters(new String(xml, encoding));
 			if (xmlString == null) {
 				throw new FeedException("Input string is null for url " + feedUrl);

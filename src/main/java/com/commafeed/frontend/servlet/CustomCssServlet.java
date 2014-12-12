@@ -1,6 +1,7 @@
 package com.commafeed.frontend.servlet;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,7 +19,6 @@ import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.frontend.session.SessionHelper;
-import com.google.common.base.Optional;
 
 @SuppressWarnings("serial")
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))

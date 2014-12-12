@@ -1,5 +1,6 @@
 package com.commafeed.backend.service;
 
+import java.util.Optional;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -17,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConfiguration.ApplicationSettings;
 import com.commafeed.backend.model.User;
-import com.google.common.base.Optional;
 
 /**
  * Mailing service
@@ -35,7 +35,7 @@ public class MailService {
 
 		final String username = settings.getSmtpUserName();
 		final String password = settings.getSmtpPassword();
-		final String fromAddress = Optional.fromNullable(settings.getSmtpFromAddress()).or(settings.getSmtpUserName());
+		final String fromAddress = Optional.ofNullable(settings.getSmtpFromAddress()).orElse(settings.getSmtpUserName());
 
 		String dest = user.getEmail();
 

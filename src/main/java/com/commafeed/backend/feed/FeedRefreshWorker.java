@@ -4,6 +4,7 @@ import io.dropwizard.lifecycle.Managed;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -20,7 +21,6 @@ import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.feed.FeedRefreshExecutor.Task;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.google.common.base.Optional;
 
 /**
  * Calls {@link FeedFetcher} and handles its outcome
@@ -84,7 +84,7 @@ public class FeedRefreshWorker implements Managed {
 		int refreshInterval = config.getApplicationSettings().getRefreshIntervalMinutes();
 		Date disabledUntil = DateUtils.addMinutes(new Date(), refreshInterval);
 		try {
-			String url = Optional.fromNullable(feed.getUrlAfterRedirect()).or(feed.getUrl());
+			String url = Optional.ofNullable(feed.getUrlAfterRedirect()).orElse(feed.getUrl());
 			FetchedFeed fetchedFeed = fetcher.fetch(url, false, feed.getLastModifiedHeader(), feed.getEtagHeader(),
 					feed.getLastPublishedDate(), feed.getLastContentHash());
 			// stops here if NotModifiedException or any other exception is thrown

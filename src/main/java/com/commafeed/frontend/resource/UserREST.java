@@ -6,6 +6,7 @@ import io.dropwizard.jersey.validation.ValidationErrorMessage;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -56,7 +57,6 @@ import com.commafeed.frontend.model.request.PasswordResetRequest;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.model.request.RegistrationRequest;
 import com.commafeed.frontend.session.SessionHelper;
-import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.wordnik.swagger.annotations.Api;

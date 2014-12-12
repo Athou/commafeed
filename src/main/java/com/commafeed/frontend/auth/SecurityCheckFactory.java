@@ -1,5 +1,7 @@
 package com.commafeed.frontend.auth;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
@@ -18,7 +20,6 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.session.SessionHelper;
-import com.google.common.base.Optional;
 
 @RequiredArgsConstructor
 public class SecurityCheckFactory extends AbstractContainerRequestValueFactory<User> {
@@ -82,7 +83,7 @@ public class SecurityCheckFactory extends AbstractContainerRequestValueFactory<U
 				}
 			}
 		}
-		return Optional.absent();
+		return Optional.empty();
 	}
 
 	private Optional<User> apiKeyLogin() {
@@ -90,7 +91,7 @@ public class SecurityCheckFactory extends AbstractContainerRequestValueFactory<U
 		if (apiKey != null && apiKeyAllowed) {
 			return userService.login(apiKey);
 		}
-		return Optional.absent();
+		return Optional.empty();
 	}
 
 }

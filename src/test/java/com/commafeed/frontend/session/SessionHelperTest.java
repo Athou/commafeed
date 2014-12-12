@@ -4,6 +4,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,7 +13,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.commafeed.backend.model.User;
-import com.google.common.base.Optional;
 
 public class SessionHelperTest {
 

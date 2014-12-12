@@ -4,13 +4,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
+
 import org.junit.Test;
 
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.backend.service.internal.PostLoginActivities;
 import com.commafeed.frontend.session.SessionHelper;
-import com.google.common.base.Optional;
 
 public class SecurityCheckFactoryTest {
 

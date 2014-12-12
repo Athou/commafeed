@@ -2,6 +2,7 @@ package com.commafeed.backend.service;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -20,7 +21,6 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.internal.PostLoginActivities;
-import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
@@ -41,7 +41,7 @@ public class UserService {
 	 */
 	public Optional<User> login(String nameOrEmail, String password) {
 		if (nameOrEmail == null || password == null) {
-			return Optional.absent();
+			return Optional.empty();
 		}
 
 		User user = userDAO.findByName(nameOrEmail);
@@ -55,7 +55,7 @@ public class UserService {
 				return Optional.of(user);
 			}
 		}
-		return Optional.absent();
+		return Optional.empty();
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class UserService {
 	 */
 	public Optional<User> login(String apiKey) {
 		if (apiKey == null) {
-			return Optional.absent();
+			return Optional.empty();
 		}
 
 		User user = userDAO.findByApiKey(apiKey);
@@ -71,7 +71,7 @@ public class UserService {
 			performPostLoginActivities(user);
 			return Optional.of(user);
 		}
-		return Optional.absent();
+		return Optional.empty();
 	}
 
 	/**

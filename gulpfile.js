@@ -40,7 +40,7 @@ gulp.task('sass', function() {
 
 gulp.task('fonts', ['bower'], function() {
 	var font_awesome = SRC_DIR + 'lib/font-awesome/font/fontawesome-webfont.*';
-	var zocial = SRC_DIR + 'lib/zocial/css/zocial-regular-*';
+	var zocial = SRC_DIR + 'lib/zocial-less/css/zocial-regular-*';
 	var readabilicons = SRC_DIR + 'lib/readabilicons/webfont/fonts/readabilicons-*';
 	return gulp.src([font_awesome, zocial, readabilicons]).pipe(gulp.dest(BUILD_DIR + 'font'));
 });

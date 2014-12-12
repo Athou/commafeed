@@ -27,7 +27,7 @@
     "momentjs": "2.8.3",
     "devicejs": "0.1.16",
     "readabilicons": "arc90/readability-readabilicons#34c55561c5b8ec6e90714b50237c06b13cb9d59c",
-    "zocial": "samcollins/css-social-buttons#1f59ecacde475e563fb6771667597493ec4eecb6",
+    "zocial-less": "1.0.0",
 	"swagger-ui": "2.0.24"
   },
   "resolutions": {

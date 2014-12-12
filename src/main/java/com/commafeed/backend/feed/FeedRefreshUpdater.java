@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -138,10 +139,7 @@ public class FeedRefreshUpdater implements Managed {
 				}
 
 				if (CollectionUtils.isNotEmpty(subscriptions)) {
-					List<User> users = Lists.newArrayList();
-					for (FeedSubscription sub : subscriptions) {
-						users.add(sub.getUser());
-					}
+					List<User> users = subscriptions.stream().map(s -> s.getUser()).collect(Collectors.toList());
 					cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
 					cache.invalidateUserRootCategory(users.toArray(new User[0]));
 				}

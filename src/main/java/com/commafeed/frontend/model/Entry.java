@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.Data;
 
@@ -11,9 +12,7 @@ import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
-import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.FeedSubscription;
-import com.google.common.collect.Lists;
 import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndContentImpl;
 import com.rometools.rome.feed.synd.SyndEnclosure;
@@ -48,12 +47,7 @@ public class Entry implements Serializable {
 		entry.setFeedUrl(sub.getFeed().getUrl());
 		entry.setFeedLink(sub.getFeed().getLink());
 		entry.setIconUrl(FeedUtils.getFaviconUrl(sub, publicUrl));
-
-		List<String> tags = Lists.newArrayList();
-		for (FeedEntryTag tag : status.getTags()) {
-			tags.add(tag.getName());
-		}
-		entry.setTags(tags);
+		entry.setTags(status.getTags().stream().map(t -> t.getName()).collect(Collectors.toList()));
 
 		if (content != null) {
 			entry.setRtl(FeedUtils.isRTL(feedEntry));

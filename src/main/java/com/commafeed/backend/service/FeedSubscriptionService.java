@@ -2,6 +2,7 @@ package com.commafeed.backend.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,7 +24,6 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.UnreadCount;
-import com.google.common.collect.Maps;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
@@ -92,12 +92,7 @@ public class FeedSubscriptionService {
 	}
 
 	public Map<Long, UnreadCount> getUnreadCount(User user) {
-		Map<Long, UnreadCount> map = Maps.newHashMap();
-		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
-		for (FeedSubscription sub : subs) {
-			map.put(sub.getId(), getUnreadCount(user, sub));
-		}
-		return map;
+		return feedSubscriptionDAO.findAll(user).stream().collect(Collectors.toMap(s -> s.getId(), s -> getUnreadCount(user, s)));
 	}
 
 	private UnreadCount getUnreadCount(User user, FeedSubscription sub) {

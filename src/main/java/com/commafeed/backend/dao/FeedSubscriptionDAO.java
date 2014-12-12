@@ -1,6 +1,8 @@
 package com.commafeed.backend.dao;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,9 +15,7 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.QFeedSubscription;
 import com.commafeed.backend.model.User;
-import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 
 @Singleton
@@ -60,26 +60,13 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 	}
 
 	public List<FeedSubscription> findByCategories(User user, List<FeedCategory> categories) {
-		List<Long> categoryIds = Lists.transform(categories, new Function<FeedCategory, Long>() {
-			@Override
-			public Long apply(FeedCategory input) {
-				return input.getId();
-			}
-		});
-
-		List<FeedSubscription> subscriptions = Lists.newArrayList();
-		for (FeedSubscription sub : findAll(user)) {
-			if (sub.getCategory() != null && categoryIds.contains(sub.getCategory().getId())) {
-				subscriptions.add(sub);
-			}
-		}
-		return subscriptions;
+		Set<Long> categoryIds = categories.stream().map(c -> c.getId()).collect(Collectors.toSet());
+		return findAll(user).stream().filter(s -> s.getCategory() != null && categoryIds.contains(s.getCategory().getId()))
+				.collect(Collectors.toList());
 	}
 
 	private List<FeedSubscription> initRelations(List<FeedSubscription> list) {
-		for (FeedSubscription sub : list) {
-			initRelations(sub);
-		}
+		list.forEach(s -> initRelations(s));
 		return list;
 	}
 

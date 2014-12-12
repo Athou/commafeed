@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,10 +20,7 @@ import org.xml.sax.InputSource;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
-import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -41,13 +39,6 @@ public class FeedParser {
 
 	private static final Date START = new Date(86400000);
 	private static final Date END = new Date(1000l * Integer.MAX_VALUE - 86400000);
-
-	private static final Function<SyndContent, String> CONTENT_TO_STRING = new Function<SyndContent, String>() {
-		@Override
-		public String apply(SyndContent content) {
-			return content.getValue();
-		}
-	};
 
 	public FetchedFeed parse(String feedUrl, byte[] xml) throws FeedException {
 		FetchedFeed fetchedFeed = new FetchedFeed();
@@ -172,7 +163,7 @@ public class FeedParser {
 		if (item.getContents().isEmpty()) {
 			content = item.getDescription() == null ? null : item.getDescription().getValue();
 		} else {
-			content = StringUtils.join(Collections2.transform(item.getContents(), CONTENT_TO_STRING), System.lineSeparator());
+			content = item.getContents().stream().map(c -> c.getValue()).collect(Collectors.joining(System.lineSeparator()));
 		}
 		return StringUtils.trimToNull(content);
 	}

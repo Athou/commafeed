@@ -24,9 +24,7 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 	}
 
 	public void saveOrUpdate(Collection<T> models) {
-		for (T model : models) {
-			persist(model);
-		}
+		models.forEach(m -> persist(m));
 	}
 
 	public void merge(T model) {
@@ -34,9 +32,7 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 	}
 
 	public void merge(Collection<T> models) {
-		for (T model : models) {
-			merge(model);
-		}
+		models.forEach(m -> merge(m));
 	}
 
 	public T findById(Long id) {
@@ -50,9 +46,7 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 	}
 
 	public int delete(Collection<T> objects) {
-		for (T object : objects) {
-			delete(object);
-		}
+		objects.forEach(o -> delete(o));
 		return objects.size();
 	}
 

@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -388,13 +389,7 @@ public class FeedUtils {
 	}
 
 	public static List<Long> getSortedTimestamps(List<FeedEntry> entries) {
-		List<Long> timestamps = Lists.newArrayList();
-		for (FeedEntry entry : entries) {
-			timestamps.add(entry.getUpdated().getTime());
-		}
-		Collections.sort(timestamps);
-		Collections.reverse(timestamps);
-		return timestamps;
+		return entries.stream().map(t -> t.getUpdated().getTime()).sorted(Collections.reverseOrder()).collect(Collectors.toList());
 	}
 
 	public static String removeTrailingSlash(String url) {

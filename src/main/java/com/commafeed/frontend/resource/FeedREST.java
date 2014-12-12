@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -78,9 +79,7 @@ import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
-import com.google.common.collect.Lists;
 import com.rometools.opml.feed.opml.Opml;
-import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndFeedImpl;
 import com.rometools.rome.io.SyndFeedOutput;
@@ -218,14 +217,8 @@ public class FeedREST {
 		feed.setFeedType("rss_2.0");
 		feed.setTitle("CommaFeed - " + entries.getName());
 		feed.setDescription("CommaFeed - " + entries.getName());
-		String publicUrl = config.getApplicationSettings().getPublicUrl();
-		feed.setLink(publicUrl);
-
-		List<SyndEntry> children = Lists.newArrayList();
-		for (Entry entry : entries.getEntries()) {
-			children.add(entry.asRss());
-		}
-		feed.setEntries(children);
+		feed.setLink(config.getApplicationSettings().getPublicUrl());
+		feed.setEntries(entries.getEntries().stream().map(e -> e.asRss()).collect(Collectors.toList()));
 
 		SyndFeedOutput output = new SyndFeedOutput();
 		StringWriter writer = new StringWriter();

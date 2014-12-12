@@ -1,6 +1,7 @@
 package com.commafeed.backend.dao;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,7 +16,6 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.QFeedEntry;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.mysema.query.Tuple;
 import com.mysema.query.types.expr.NumberExpression;
 
@@ -36,13 +36,9 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 	}
 
 	public List<FeedCapacity> findFeedsExceedingCapacity(long maxCapacity, long max) {
-		List<FeedCapacity> list = Lists.newArrayList();
 		NumberExpression<Long> count = entry.id.countDistinct();
 		List<Tuple> tuples = newQuery().from(entry).groupBy(entry.feed).having(count.gt(maxCapacity)).limit(max).list(entry.feed.id, count);
-		for (Tuple tuple : tuples) {
-			list.add(new FeedCapacity(tuple.get(entry.feed.id), tuple.get(count)));
-		}
-		return list;
+		return tuples.stream().map(t -> new FeedCapacity(t.get(entry.feed.id), t.get(count))).collect(Collectors.toList());
 	}
 
 	public int deleteOldEntries(Long feedId, long max) {

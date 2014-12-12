@@ -3,6 +3,7 @@ package com.commafeed.frontend.resource;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -60,7 +62,6 @@ import com.commafeed.frontend.model.request.MarkRequest;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndFeedImpl;
 import com.rometools.rome.io.SyndFeedOutput;
@@ -127,10 +128,7 @@ public class CategoryREST {
 
 		List<Long> excludedIds = null;
 		if (StringUtils.isNotEmpty(excludedSubscriptionIds)) {
-			excludedIds = Lists.newArrayList();
-			for (String excludedId : excludedSubscriptionIds.split(",")) {
-				excludedIds.add(Long.valueOf(excludedId));
-			}
+			excludedIds = Arrays.stream(excludedSubscriptionIds.split(",")).map(Long::valueOf).collect(Collectors.toList());
 		}
 
 		if (ALL.equals(id)) {
@@ -216,14 +214,8 @@ public class CategoryREST {
 		feed.setFeedType("rss_2.0");
 		feed.setTitle("CommaFeed - " + entries.getName());
 		feed.setDescription("CommaFeed - " + entries.getName());
-		String publicUrl = config.getApplicationSettings().getPublicUrl();
-		feed.setLink(publicUrl);
-
-		List<SyndEntry> children = Lists.newArrayList();
-		for (Entry entry : entries.getEntries()) {
-			children.add(entry.asRss());
-		}
-		feed.setEntries(children);
+		feed.setLink(config.getApplicationSettings().getPublicUrl());
+		feed.setEntries(entries.getEntries().stream().map(e -> e.asRss()).collect(Collectors.toList()));
 
 		SyndFeedOutput output = new SyndFeedOutput();
 		StringWriter writer = new StringWriter();

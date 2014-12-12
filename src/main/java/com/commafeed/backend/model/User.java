@@ -71,12 +71,7 @@ public class User extends AbstractModel {
 	private Date lastFullRefresh;
 
 	public boolean hasRole(Role role) {
-		for (UserRole userRole : getRoles()) {
-			if (userRole.getRole() == role) {
-				return true;
-			}
-		}
-		return false;
+		return getRoles().stream().anyMatch(r -> r.getRole() == role);
 	}
 
 	public boolean shouldRefreshFeedsAt(Date when) {

@@ -2,6 +2,7 @@ package com.commafeed.backend.dao;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -12,7 +13,6 @@ import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.QFeedCategory;
 import com.commafeed.backend.model.QUser;
 import com.commafeed.backend.model.User;
-import com.google.common.collect.Lists;
 import com.mysema.query.types.Predicate;
 
 @Singleton
@@ -54,14 +54,7 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 	}
 
 	public List<FeedCategory> findAllChildrenCategories(User user, FeedCategory parent) {
-		List<FeedCategory> list = Lists.newArrayList();
-		List<FeedCategory> all = findAll(user);
-		for (FeedCategory cat : all) {
-			if (isChild(cat, parent)) {
-				list.add(cat);
-			}
-		}
-		return list;
+		return findAll(user).stream().filter(c -> isChild(c, parent)).collect(Collectors.toList());
 	}
 
 	private boolean isChild(FeedCategory child, FeedCategory parent) {

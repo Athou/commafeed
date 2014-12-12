@@ -44,15 +44,10 @@ public class StartupService implements Managed {
 	@Override
 	public void start() throws Exception {
 		updateSchema();
-		new UnitOfWork<Void>(sessionFactory) {
-			@Override
-			protected Void runInSession() throws Exception {
-				if (userDAO.count() == 0) {
-					initialData();
-				}
-				return null;
-			}
-		}.run();
+		long count = UnitOfWork.run(sessionFactory, () -> userDAO.count());
+		if (count == 0) {
+			UnitOfWork.run(sessionFactory, () -> initialData());
+		}
 	}
 
 	private void updateSchema() {

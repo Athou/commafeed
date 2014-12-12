@@ -17,8 +17,6 @@ import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryDAO.FeedCapacity;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.UnitOfWork;
-import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.model.FeedEntryStatus;
 
 /**
  * Contains utility methods for cleaning the database
@@ -42,13 +40,7 @@ public class DatabaseCleaningService {
 		long total = 0;
 		int deleted = 0;
 		do {
-			deleted = new UnitOfWork<Integer>(sessionFactory) {
-				@Override
-				protected Integer runInSession() throws Exception {
-					List<Feed> feeds = feedDAO.findWithoutSubscriptions(1);
-					return feedDAO.delete(feeds);
-				};
-			}.run();
+			deleted = UnitOfWork.run(sessionFactory, () -> feedDAO.delete(feedDAO.findWithoutSubscriptions(1)));
 			total += deleted;
 			log.info("removed {} feeds without subscriptions", total);
 		} while (deleted != 0);
@@ -61,12 +53,7 @@ public class DatabaseCleaningService {
 		long total = 0;
 		int deleted = 0;
 		do {
-			deleted = new UnitOfWork<Integer>(sessionFactory) {
-				@Override
-				protected Integer runInSession() throws Exception {
-					return feedEntryContentDAO.deleteWithoutEntries(BATCH_SIZE);
-				}
-			}.run();
+			deleted = UnitOfWork.run(sessionFactory, () -> feedEntryContentDAO.deleteWithoutEntries(BATCH_SIZE));
 			total += deleted;
 			log.info("removed {} contents without entries", total);
 		} while (deleted != 0);
@@ -77,13 +64,8 @@ public class DatabaseCleaningService {
 	public long cleanEntriesForFeedsExceedingCapacity(final int maxFeedCapacity) {
 		long total = 0;
 		while (true) {
-			List<FeedCapacity> feeds = new UnitOfWork<List<FeedCapacity>>(sessionFactory) {
-				@Override
-				protected List<FeedCapacity> runInSession() throws Exception {
-					return feedEntryDAO.findFeedsExceedingCapacity(maxFeedCapacity, BATCH_SIZE);
-				}
-			}.run();
-
+			List<FeedCapacity> feeds = UnitOfWork.run(sessionFactory,
+					() -> feedEntryDAO.findFeedsExceedingCapacity(maxFeedCapacity, BATCH_SIZE));
 			if (feeds.isEmpty()) {
 				break;
 			}
@@ -92,12 +74,8 @@ public class DatabaseCleaningService {
 				long remaining = feed.getCapacity() - maxFeedCapacity;
 				do {
 					final long rem = remaining;
-					int deleted = new UnitOfWork<Integer>(sessionFactory) {
-						@Override
-						protected Integer runInSession() throws Exception {
-							return feedEntryDAO.deleteOldEntries(feed.getId(), Math.min(BATCH_SIZE, rem));
-						};
-					}.run();
+					int deleted = UnitOfWork.run(sessionFactory,
+							() -> feedEntryDAO.deleteOldEntries(feed.getId(), Math.min(BATCH_SIZE, rem)));
 					total += deleted;
 					remaining -= deleted;
 					log.info("removed {} entries for feeds exceeding capacity", total);
@@ -113,13 +91,8 @@ public class DatabaseCleaningService {
 		long total = 0;
 		int deleted = 0;
 		do {
-			deleted = new UnitOfWork<Integer>(sessionFactory) {
-				@Override
-				protected Integer runInSession() throws Exception {
-					List<FeedEntryStatus> list = feedEntryStatusDAO.getOldStatuses(olderThan, BATCH_SIZE);
-					return feedEntryStatusDAO.delete(list);
-				}
-			}.run();
+			deleted = UnitOfWork.run(sessionFactory,
+					() -> feedEntryStatusDAO.delete(feedEntryStatusDAO.getOldStatuses(olderThan, BATCH_SIZE)));
 			total += deleted;
 			log.info("cleaned {} old read statuses", total);
 		} while (deleted != 0);

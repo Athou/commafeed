@@ -51,17 +51,11 @@ public class NextUnreadServlet extends HttpServlet {
 		final String categoryId = req.getParameter(PARAM_CATEGORYID);
 		String orderParam = req.getParameter(PARAM_READINGORDER);
 
-		final Optional<User> user = new UnitOfWork<Optional<User>>(sessionFactory) {
-			@Override
-			protected Optional<User> runInSession() throws Exception {
-				SessionHelper sessionHelper = new SessionHelper(req);
-				Optional<User> loggedInUser = sessionHelper.getLoggedInUser();
-				if (loggedInUser.isPresent()) {
-					userService.performPostLoginActivities(loggedInUser.get());
-				}
-				return loggedInUser;
-			}
-		}.run();
+		SessionHelper sessionHelper = new SessionHelper(req);
+		Optional<User> user = sessionHelper.getLoggedInUser();
+		if (user.isPresent()) {
+			UnitOfWork.run(sessionFactory, () -> userService.performPostLoginActivities(user.get()));
+		}
 		if (!user.isPresent()) {
 			resp.sendRedirect(resp.encodeRedirectURL(config.getApplicationSettings().getPublicUrl()));
 			return;
@@ -69,32 +63,31 @@ public class NextUnreadServlet extends HttpServlet {
 
 		final ReadingOrder order = StringUtils.equals(orderParam, "asc") ? ReadingOrder.asc : ReadingOrder.desc;
 
-		FeedEntryStatus status = new UnitOfWork<FeedEntryStatus>(sessionFactory) {
-			@Override
-			protected FeedEntryStatus runInSession() throws Exception {
-				FeedEntryStatus status = null;
-				if (StringUtils.isBlank(categoryId) || CategoryREST.ALL.equals(categoryId)) {
-					List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user.get());
-					List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subs, true, null, null, 0, 1,
-							order, true, false, null);
-					status = Iterables.getFirst(statuses, null);
-				} else {
-					FeedCategory category = feedCategoryDAO.findById(user.get(), Long.valueOf(categoryId));
-					if (category != null) {
-						List<FeedCategory> children = feedCategoryDAO.findAllChildrenCategories(user.get(), category);
-						List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user.get(), children);
-						List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subscriptions, true, null,
-								null, 0, 1, order, true, false, null);
-						status = Iterables.getFirst(statuses, null);
+		FeedEntryStatus status = UnitOfWork.run(
+				sessionFactory,
+				() -> {
+					FeedEntryStatus s = null;
+					if (StringUtils.isBlank(categoryId) || CategoryREST.ALL.equals(categoryId)) {
+						List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user.get());
+						List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subs, true, null, null, 0, 1,
+								order, true, false, null);
+						s = Iterables.getFirst(statuses, null);
+					} else {
+						FeedCategory category = feedCategoryDAO.findById(user.get(), Long.valueOf(categoryId));
+						if (category != null) {
+							List<FeedCategory> children = feedCategoryDAO.findAllChildrenCategories(user.get(), category);
+							List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user.get(), children);
+							List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subscriptions, true, null,
+									null, 0, 1, order, true, false, null);
+							s = Iterables.getFirst(statuses, null);
+						}
 					}
-				}
-				if (status != null) {
-					status.setRead(true);
-					feedEntryStatusDAO.saveOrUpdate(status);
-				}
-				return status;
-			}
-		}.run();
+					if (s != null) {
+						s.setRead(true);
+						feedEntryStatusDAO.saveOrUpdate(s);
+					}
+					return s;
+				});
 
 		if (status == null) {
 			resp.sendRedirect(resp.encodeRedirectURL(config.getApplicationSettings().getPublicUrl()));
@@ -103,5 +96,4 @@ public class NextUnreadServlet extends HttpServlet {
 			resp.sendRedirect(resp.encodeRedirectURL(url));
 		}
 	}
-
 }

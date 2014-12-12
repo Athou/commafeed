@@ -32,23 +32,12 @@ public class CustomCssServlet extends HttpServlet {
 	protected void doGet(final HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/css");
 
-		final Optional<User> user = new UnitOfWork<Optional<User>>(sessionFactory) {
-			@Override
-			protected Optional<User> runInSession() throws Exception {
-				return new SessionHelper(req).getLoggedInUser();
-			}
-		}.run();
+		final Optional<User> user = UnitOfWork.run(sessionFactory, () -> new SessionHelper(req).getLoggedInUser());
 		if (!user.isPresent()) {
 			return;
 		}
 
-		UserSettings settings = new UnitOfWork<UserSettings>(sessionFactory) {
-			@Override
-			protected UserSettings runInSession() {
-				return userSettingsDAO.findByUser(user.get());
-			}
-		}.run();
-
+		UserSettings settings = UnitOfWork.run(sessionFactory, () -> userSettingsDAO.findByUser(user.get()));
 		if (settings == null || settings.getCustomCss() == null) {
 			return;
 		}

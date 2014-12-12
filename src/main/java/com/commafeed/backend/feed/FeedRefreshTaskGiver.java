@@ -68,12 +68,7 @@ public class FeedRefreshTaskGiver implements Managed {
 			public void run() {
 				while (!executor.isShutdown()) {
 					try {
-						FeedRefreshContext context = new UnitOfWork<FeedRefreshContext>(sessionFactory) {
-							@Override
-							protected FeedRefreshContext runInSession() throws Exception {
-								return queues.take();
-							}
-						}.run();
+						FeedRefreshContext context = UnitOfWork.run(sessionFactory, () -> queues.take());
 						if (context != null) {
 							feedRefreshed.mark();
 							worker.updateFeed(context);

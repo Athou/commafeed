@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,6 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.model.UnreadCount;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.Tuple;
@@ -216,7 +216,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		List<FeedEntryStatus> placeholders = set.asList();
 		int size = placeholders.size();
 		if (size < offset) {
-			return Lists.newArrayList();
+			return new ArrayList<>();
 		}
 		placeholders = placeholders.subList(Math.max(offset, 0), size);
 
@@ -224,7 +224,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		if (onlyIds) {
 			statuses = placeholders;
 		} else {
-			statuses = Lists.newArrayList();
+			statuses = new ArrayList<>();
 			for (FeedEntryStatus placeholder : placeholders) {
 				Long statusId = placeholder.getId();
 				FeedEntry entry = feedEntryDAO.findById(placeholder.getEntry().getId());

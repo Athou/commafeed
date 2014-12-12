@@ -2,6 +2,7 @@ package com.commafeed.frontend.resource;
 
 import io.dropwizard.hibernate.UnitOfWork;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,7 +37,6 @@ import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -136,7 +136,7 @@ public class AdminREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get all users", notes = "Get all users", response = UserModel.class, responseContainer = "List")
 	public Response getUsers(@SecurityCheck(Role.ADMIN) User user) {
-		Map<Long, UserModel> users = Maps.newHashMap();
+		Map<Long, UserModel> users = new HashMap<>();
 		for (UserRole role : userRoleDAO.findAll()) {
 			User u = role.getUser();
 			Long key = u.getId();

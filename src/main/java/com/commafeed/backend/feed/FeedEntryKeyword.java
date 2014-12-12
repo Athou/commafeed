@@ -1,13 +1,12 @@
 package com.commafeed.backend.feed;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.lang3.StringUtils;
-
-import com.google.common.collect.Lists;
 
 /**
  * A keyword used in a search query
@@ -24,7 +23,7 @@ public class FeedEntryKeyword {
 	private final Mode mode;
 
 	public static List<FeedEntryKeyword> fromQueryString(String keywords) {
-		List<FeedEntryKeyword> list = Lists.newArrayList();
+		List<FeedEntryKeyword> list = new ArrayList<>();
 		if (keywords != null) {
 			for (String keyword : StringUtils.split(keywords)) {
 				boolean not = false;

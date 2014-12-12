@@ -1,5 +1,6 @@
 package com.commafeed.backend.cache;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +19,6 @@ import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.UnreadCount;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class RedisCacheService extends CacheService {
 
 	@Override
 	public List<String> getLastEntries(Feed feed) {
-		List<String> list = Lists.newArrayList();
+		List<String> list = new ArrayList<>();
 		try (Jedis jedis = pool.getResource()) {
 			String key = buildRedisEntryKey(feed);
 			Set<String> members = jedis.smembers(key);

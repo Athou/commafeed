@@ -1,5 +1,6 @@
 package com.commafeed.backend.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,7 +27,6 @@ import com.commafeed.backend.feed.FeedQueues;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.frontend.resource.PubSubHubbubCallbackREST;
-import com.google.common.collect.Lists;
 
 /**
  * Sends push subscription requests. Callback is handled by {@link PubSubHubbubCallbackREST}
@@ -57,7 +57,7 @@ public class PubSubService {
 		log.debug("sending new pubsub subscription to {} for {}", hub, topic);
 
 		HttpPost post = new HttpPost(hub);
-		List<NameValuePair> nvp = Lists.newArrayList();
+		List<NameValuePair> nvp = new ArrayList<>();
 		nvp.add(new BasicNameValuePair("hub.callback", publicUrl + "/rest/push/callback"));
 		nvp.add(new BasicNameValuePair("hub.topic", topic));
 		nvp.add(new BasicNameValuePair("hub.mode", "subscribe"));

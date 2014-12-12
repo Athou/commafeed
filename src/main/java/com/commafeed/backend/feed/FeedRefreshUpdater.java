@@ -2,6 +2,7 @@ package com.commafeed.backend.feed;
 
 import io.dropwizard.lifecycle.Managed;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
@@ -36,7 +37,6 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedUpdateService;
 import com.commafeed.backend.service.PubSubService;
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Striped;
 
 @Slf4j
@@ -113,7 +113,7 @@ public class FeedRefreshUpdater implements Managed {
 				feed.setMessage("Feed has no entries");
 			} else {
 				List<String> lastEntries = cache.getLastEntries(feed);
-				List<String> currentEntries = Lists.newArrayList();
+				List<String> currentEntries = new ArrayList<>();
 
 				List<FeedSubscription> subscriptions = null;
 				for (FeedEntry entry : entries) {

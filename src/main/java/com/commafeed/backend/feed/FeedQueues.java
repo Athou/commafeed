@@ -1,9 +1,12 @@
 package com.commafeed.backend.feed;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -17,9 +20,6 @@ import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.model.Feed;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Queues;
 
 @Singleton
 public class FeedQueues {
@@ -27,9 +27,9 @@ public class FeedQueues {
 	private final FeedDAO feedDAO;
 	private final CommaFeedConfiguration config;
 
-	private Queue<FeedRefreshContext> addQueue = Queues.newConcurrentLinkedQueue();
-	private Queue<FeedRefreshContext> takeQueue = Queues.newConcurrentLinkedQueue();
-	private Queue<Feed> giveBackQueue = Queues.newConcurrentLinkedQueue();
+	private Queue<FeedRefreshContext> addQueue = new ConcurrentLinkedQueue<>();
+	private Queue<FeedRefreshContext> takeQueue = new ConcurrentLinkedQueue<>();
+	private Queue<Feed> giveBackQueue = new ConcurrentLinkedQueue<>();
 
 	private Meter refill;
 
@@ -97,7 +97,7 @@ public class FeedQueues {
 	private void refill() {
 		refill.mark();
 
-		List<FeedRefreshContext> contexts = Lists.newArrayList();
+		List<FeedRefreshContext> contexts = new ArrayList<>();
 		int batchSize = Math.min(100, 3 * config.getApplicationSettings().getBackgroundThreads());
 
 		// add feeds we got from the add() method
@@ -117,7 +117,7 @@ public class FeedQueues {
 
 		// set the disabledDate as we use it in feedDAO to decide what to refresh next. We also use a map to remove
 		// duplicates.
-		Map<Long, FeedRefreshContext> map = Maps.newLinkedHashMap();
+		Map<Long, FeedRefreshContext> map = new LinkedHashMap<>();
 		for (FeedRefreshContext context : contexts) {
 			Feed feed = context.getFeed();
 			feed.setDisabledUntil(DateUtils.addMinutes(new Date(), config.getApplicationSettings().getRefreshIntervalMinutes()));
@@ -135,7 +135,7 @@ public class FeedQueues {
 		}
 
 		// update all feeds in the database
-		List<Feed> feeds = Lists.newArrayList();
+		List<Feed> feeds = new ArrayList<>();
 		for (FeedRefreshContext context : map.values()) {
 			feeds.add(context.getFeed());
 		}

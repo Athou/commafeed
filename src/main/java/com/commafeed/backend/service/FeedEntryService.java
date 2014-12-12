@@ -1,5 +1,6 @@
 package com.commafeed.backend.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,6 @@ import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
-import com.google.common.collect.Lists;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
@@ -80,7 +80,7 @@ public class FeedEntryService {
 	}
 
 	private void markList(List<FeedEntryStatus> statuses, Date olderThan) {
-		List<FeedEntryStatus> list = Lists.newArrayList();
+		List<FeedEntryStatus> list = new ArrayList<>();
 		for (FeedEntryStatus status : statuses) {
 			if (!status.isRead()) {
 				Date inserted = status.getEntry().getInserted();

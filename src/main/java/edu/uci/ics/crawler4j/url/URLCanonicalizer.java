@@ -168,7 +168,7 @@ public class URLCanonicalizer {
 			return "";
 		}
 
-		final StringBuffer sb = new StringBuffer(100);
+		final StringBuilder sb = new StringBuilder(100);
 		for (Map.Entry<String, String> pair : sortedParamMap.entrySet()) {
 			final String key = pair.getKey().toLowerCase();
 			if (key.equals("jsessionid") || key.equals("phpsessid") || key.equals("aspsessionid")) {

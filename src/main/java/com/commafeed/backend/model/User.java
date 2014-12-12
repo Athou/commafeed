@@ -1,6 +1,7 @@
 package com.commafeed.backend.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -19,7 +20,6 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.annotations.Cascade;
 
 import com.commafeed.backend.model.UserRole.Role;
-import com.google.common.collect.Sets;
 
 @Entity
 @Table(name = "USERS")
@@ -61,7 +61,7 @@ public class User extends AbstractModel {
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
 	@Cascade({ org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			org.hibernate.annotations.CascadeType.REMOVE })
-	private Set<UserRole> roles = Sets.newHashSet();
+	private Set<UserRole> roles = new HashSet<>();
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<FeedSubscription> subscriptions;

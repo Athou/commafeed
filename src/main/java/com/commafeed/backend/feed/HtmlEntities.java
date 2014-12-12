@@ -1,15 +1,14 @@
 package com.commafeed.backend.feed;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
 
 public class HtmlEntities {
 	public static final Map<String, String> NUMERIC_MAPPING = Collections.unmodifiableMap(loadMap());
 
 	private static synchronized Map<String, String> loadMap() {
-		Map<String, String> map = Maps.newLinkedHashMap();
+		Map<String, String> map = new LinkedHashMap<>();
 		map.put("&Aacute;", "&#193;");
 		map.put("&aacute;", "&#225;");
 		map.put("&Acirc;", "&#194;");

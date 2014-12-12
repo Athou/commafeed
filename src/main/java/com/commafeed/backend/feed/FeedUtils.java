@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -34,7 +35,6 @@ import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.model.Entry;
-import com.google.common.collect.Lists;
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
 import com.steadystate.css.parser.CSSOMParser;
@@ -231,7 +231,7 @@ public class FeedUtils {
 		String rule = "";
 		CSSOMParser parser = new CSSOMParser();
 		try {
-			List<String> rules = Lists.newArrayList();
+			List<String> rules = new ArrayList<>();
 			CSSStyleDeclaration decl = parser.parseStyleDeclaration(new InputSource(new StringReader(orig)));
 
 			for (int i = 0; i < decl.getLength(); i++) {
@@ -256,7 +256,7 @@ public class FeedUtils {
 		String rule = "";
 		CSSOMParser parser = new CSSOMParser();
 		try {
-			List<String> rules = Lists.newArrayList();
+			List<String> rules = new ArrayList<>();
 			CSSStyleDeclaration decl = parser.parseStyleDeclaration(new InputSource(new StringReader(orig)));
 
 			for (int i = 0; i < decl.getLength(); i++) {

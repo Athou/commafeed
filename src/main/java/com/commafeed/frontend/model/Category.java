@@ -1,11 +1,11 @@
 package com.commafeed.frontend.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
 
-import com.google.common.collect.Lists;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
@@ -24,10 +24,10 @@ public class Category implements Serializable {
 	private String name;
 
 	@ApiModelProperty("category children categories")
-	private List<Category> children = Lists.newArrayList();
+	private List<Category> children = new ArrayList<>();
 
 	@ApiModelProperty("category feeds")
-	private List<Subscription> feeds = Lists.newArrayList();
+	private List<Subscription> feeds = new ArrayList<>();
 
 	@ApiModelProperty("wether the category is expanded or collapsed")
 	private boolean expanded;

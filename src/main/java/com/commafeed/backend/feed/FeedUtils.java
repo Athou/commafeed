@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -133,8 +134,8 @@ public class FeedUtils {
 
 	public static String replaceHtmlEntitiesWithNumericEntities(String source) {
 		String result = source;
-		for (String entity : HtmlEntities.NUMERIC_MAPPING.keySet()) {
-			result = StringUtils.replace(result, entity, HtmlEntities.NUMERIC_MAPPING.get(entity));
+		for (Map.Entry<String, String> entry : HtmlEntities.NUMERIC_MAPPING.entrySet()) {
+			result = StringUtils.replace(result, entry.getKey(), entry.getValue());
 		}
 		return result;
 	}

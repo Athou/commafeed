@@ -238,8 +238,16 @@
 					<artifactId>jsr311-api</artifactId>
 				</exclusion>
 				<exclusion>
-					<artifactId>commons-lang</artifactId>
 					<groupId>commons-lang</groupId>
+					<artifactId>commons-lang</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.module</groupId>
+					<artifactId>jackson-module-scala_2.10</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.scala-lang</groupId>
+					<artifactId>scalap</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

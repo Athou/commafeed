@@ -15,7 +15,13 @@ var SRC_DIR = 'src/main/app/';
 var TEMP_DIR = 'target/gulp/'
 var BUILD_DIR = 'target/classes/assets/';
 
-gulp.task('bower', function() {
+gulp.task('bower_prune', function() {
+	return bower({
+		cmd : 'prune'
+	});
+});
+
+gulp.task('bower', ['bower_prune'], function() {
 	return bower();
 });
 
@@ -101,7 +107,7 @@ gulp.task('serve', function() {
 	connect.server({
 		root : BUILD_DIR,
 		port : 8082,
-		livereload: true,
+		livereload : true,
 		middleware : function() {
 			var rest = '^/rest/(.*)$ http://localhost:8083/rest/$1 [P]';
 			var next = '^/next(.*)$ http://localhost:8083/next$1 [P]';

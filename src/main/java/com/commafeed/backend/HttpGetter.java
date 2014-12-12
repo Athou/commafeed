@@ -58,9 +58,6 @@ public class HttpGetter {
 
 	private static SSLContext SSL_CONTEXT = null;
 	static {
-		// fix for "handshake alert: unrecognized_name"
-		System.setProperty("jsse.enableSNIExtension", "false");
-
 		try {
 			SSL_CONTEXT = SSLContext.getInstance("TLS");
 			SSL_CONTEXT.init(new KeyManager[0], new TrustManager[] { new DefaultTrustManager() }, new SecureRandom());

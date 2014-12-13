@@ -8,7 +8,7 @@
     "link" : "Bağlantı",
     "bookmark" : "Yer imi",
     "close" : "Kapat",
-    "tags" : "Tags "
+    "tags" : "Etiketler "
   },
   "tree" : {
     "subscribe" : "Abone ol",
@@ -24,7 +24,7 @@
   },
   "import" : {
     "google_reader_prefix" : "Aboneliklerinizi ",
-    "google_reader_suffix" : " hesabınızdan aktarmama izin verin.",
+    "google_reader_suffix" : "Hesabınızdan aktarmama izin verin.",
     "google_download" : "Veya, subscriptions.xml dosyanızı yükleyin.",
     "google_download_link" : "Buradan indirebilirsiniz.",
     "xml_file" : "OPML dosyası"
@@ -39,12 +39,12 @@
     "previous_entry" : "Önceki ileti",
     "next_entry" : "Sonraki ileti",
     "refresh" : "Yenile",
-    "refresh_all" : "Force refresh all my feeds ",
+    "refresh_all" : "Tüm yayınları yenilemek için zorla",
     "sort_by_asc_desc" : "Tarihe göre sırala artan/azalan",
     "titles_only" : "Sadece başlıklar",
     "expanded_view" : "Genişletilmiş görünüm",
     "mark_all_as_read" : "Tümünü okundu işaretle",
-    "mark_all_older_12_hours" : "Items older than 12 hours ",
+    "mark_all_older_12_hours" : "12 saatten daha eski öğeler ",
     "mark_all_older_day" : "Bir günden eski yazılar",
     "mark_all_older_week" : "Bir haftadan eski yazılar",
     "mark_all_older_two_weeks" : "İki haftadan eski yazılar",
@@ -100,10 +100,10 @@
     "feed_url" : "Yayın URL'si",
     "generate_api_key_first" : "Öncelikle profilinizden bir API anahtarı oluşturun.",
     "unsubscribe" : "Aboneliği iptal et",
-    "unsubscribe_confirmation" : "Are you sure you want to unsubscribe from this feed? ",
-    "delete_category_confirmation" : "Are you sure you want to delete this category? ",
+    "unsubscribe_confirmation" : "Bu yayından çıkmak istediğinizden emin misiniz? ",
+    "delete_category_confirmation" : "Bu kategoriyi silmek istediğinizden emin misiniz? ",
     "category_details" : "Kategori detayları",
-    "tag_details" : "Tag details ",
+    "tag_details" : "Etiket detayları ",
     "parent_category" : "Üst kategori"
   },
   "profile" : {
@@ -119,7 +119,7 @@
     "generate_new_api_key_info" : "Şifre değiştirmek API anahtarının da değiştirilmesine neden olcak.",
     "opml_export" : "OPML dışa aktar",
     "delete_account" : "Hesabı sil",
-    "delete_account_confirmation" : "Delete your acount? There's no turning back! "
+    "delete_account_confirmation" : "Hesabı silmek istediğinize emin misiniz? Bu işlemde geri dönüş yoktur! "
   },
   "about" : {
     "rest_api" : {
@@ -128,7 +128,7 @@
       "link_to_documentation" : "Dökümantasyon için tıklayın."
     },
     "keyboard_shortcuts" : "Klavye kısayolları",
-    "version" : "CommaFeed version ",
+    "version" : "CommaFeed versiyon ",
     "line1_prefix" : "CommaFeed bir açık kaynak projedir. Kaynak dosyaları ",
     "line1_suffix" : " adresinde yayınlanır.",
     "line2_prefix" : "Lütfen, bir hata ile karşılaşırsanız bunu  ",

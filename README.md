@@ -75,11 +75,11 @@ The language has to be referenced in the `src/main/app/js/i18n.js` file to be pi
 
 ## Themes
 
-To create a theme, create a new file  `src/main/webapp/sass/themes/_<theme>.scss`. Your styles should be wrapped in a `#theme-<theme>` element and use the [SCSS format](http://sass-lang.com/) which is a superset of CSS.
+To create a theme, create a new file  `src/main/app/sass/themes/_<theme>.scss`. Your styles should be wrapped in a `#theme-<theme>` element and use the [SCSS format](http://sass-lang.com/) which is a superset of CSS.
 
-Don't forget to reference your theme in `src/main/webapp/sass/app.scss` and in `src/main/webapp/js/controllers.js` (look for `$scope.themes`).
+Don't forget to reference your theme in `src/main/app/sass/app.scss` and in `src/main/app/js/controllers.js` (look for `$scope.themes`).
 
-See [_test.scss](https://github.com/Athou/commafeed/blob/master/src/main/webapp/sass/themes/_test.scss) for an example.
+See [_test.scss](https://github.com/Athou/commafeed/blob/master/src/main/app/sass/themes/_test.scss) for an example.
 
 
 ## Local development

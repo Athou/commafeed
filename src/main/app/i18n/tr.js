@@ -56,7 +56,7 @@
     "donate" : "Bağış"
   },
   "view" : {
-    "entry_source" : "site: ",
+    "entry_source" : "kaynak: ",
     "entry_author" : "yazar: ",
     "error_while_loading_feed" : "Bu aboneliği çekerken hata oluştu.",
     "keep_unread" : "Okunmadı olarak sakla",

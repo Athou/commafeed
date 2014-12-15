@@ -94,7 +94,7 @@ public class DatabaseCleaningService {
 			deleted = UnitOfWork.run(sessionFactory,
 					() -> feedEntryStatusDAO.delete(feedEntryStatusDAO.getOldStatuses(olderThan, BATCH_SIZE)));
 			total += deleted;
-			log.info("cleaned {} old read statuses", total);
+			log.info("removed {} old read statuses", total);
 		} while (deleted != 0);
 		log.info("cleanup done: {} old read statuses deleted", total);
 		return total;

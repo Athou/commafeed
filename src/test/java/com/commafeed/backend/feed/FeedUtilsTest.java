@@ -62,4 +62,10 @@ public class FeedUtilsTest {
 		Assert.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding='UTF-8' ?>".getBytes()));
 		Assert.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding='UTF-8'?>".getBytes()));
 	}
+
+	@Test
+	public void testReplaceHtmlEntitiesWithNumericEntities() {
+		String source = "<source>T&acute;l&acute;phone &prime;</source>";
+		Assert.assertEquals("<source>T&#180;l&#180;phone &#8242;</source>", FeedUtils.replaceHtmlEntitiesWithNumericEntities(source));
+	}
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -129,10 +130,7 @@ public class FeedQueues {
 		}
 
 		// update all feeds in the database
-		List<Feed> feeds = new ArrayList<>();
-		for (FeedRefreshContext context : map.values()) {
-			feeds.add(context.getFeed());
-		}
+		List<Feed> feeds = map.values().stream().map(c -> c.getFeed()).collect(Collectors.toList());
 		feedDAO.merge(feeds);
 	}
 

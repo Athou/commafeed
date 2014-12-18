@@ -39,11 +39,6 @@ public class FeedEntryFilteringService {
 		// classloader that prevents object creation
 		ClassLoader cl = new ClassLoader() {
 			@Override
-			public Class<?> loadClass(String name) throws ClassNotFoundException {
-				return null;
-			}
-
-			@Override
 			protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
 				return null;
 			}

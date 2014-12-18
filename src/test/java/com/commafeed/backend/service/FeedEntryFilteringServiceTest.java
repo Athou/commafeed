@@ -42,7 +42,7 @@ public class FeedEntryFilteringServiceTest {
 
 	@Test
 	public void simpleExpression() throws FeedEntryFilterException {
-		Assert.assertTrue(service.filterMatchesEntry("author eq 'athou'", entry));
+		Assert.assertTrue(service.filterMatchesEntry("author.toString() eq 'athou'", entry));
 	}
 
 	@Test(expected = FeedEntryFilterException.class)
@@ -67,8 +67,19 @@ public class FeedEntryFilteringServiceTest {
 
 	@Test
 	public void handlesNullCorrectly() throws FeedEntryFilterException {
+		entry.setUrl(null);
 		entry.setContent(new FeedEntryContent());
 		service.filterMatchesEntry("author eq 'athou'", entry);
+	}
+
+	@Test(expected = FeedEntryFilterException.class)
+	public void incorrectScriptThrowsException() throws FeedEntryFilterException {
+		service.filterMatchesEntry("aa eqz bb", entry);
+	}
+
+	@Test(expected = FeedEntryFilterException.class)
+	public void incorrectReturnTypeThrowsException() throws FeedEntryFilterException {
+		service.filterMatchesEntry("1", entry);
 	}
 
 }

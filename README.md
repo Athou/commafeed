@@ -7,7 +7,7 @@ Google Reader inspired self-hosted RSS reader, based on Dropwizard and AngularJS
 ## Related open-source projects
 
 
-Android apps: [News+ extension](https://github.com/Athou/commafeed-newsplus) - [Android app](https://github.com/doomrobo/CommaFeed-Android-Reader)
+Android apps: [News+ extension](https://github.com/Athou/commafeed-newsplus)
 
 Browser extensions: [Chrome](https://github.com/Athou/commafeed-chrome) - [Firefox](https://github.com/Athou/commafeed-firefox) - [Opera](https://github.com/Athou/commafeed-opera) - [Safari](https://github.com/Athou/commafeed-safari)
 

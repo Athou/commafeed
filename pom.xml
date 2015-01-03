@@ -140,23 +140,6 @@
 					</archive>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.gaul</groupId>
-				<artifactId>modernizer-maven-plugin</artifactId>
-				<version>1.1.0</version>
-				<configuration>
-					<javaVersion>${java.version}</javaVersion>
-				</configuration>
-				<executions>
-					<execution>
-						<id>modernizer</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>modernizer</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 

@@ -99,7 +99,7 @@
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>0.0.19</version>
+				<version>0.0.20</version>
 				<executions>
 					<execution>
 						<id>install node and npm</id>
@@ -118,6 +118,15 @@
 							<goal>npm</goal>
 						</goals>
 						<phase>generate-resources</phase>
+					</execution>
+					<execution>
+						<id>bower install</id>
+						<goals>
+							<goal>bower</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
 					</execution>
 					<execution>
 						<id>gulp build</id>

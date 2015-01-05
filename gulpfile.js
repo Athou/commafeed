@@ -4,7 +4,6 @@ var revReplace = require('gulp-rev-replace');
 var minifyCSS = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var filter = require('gulp-filter');
-var bower = require('gulp-bower');
 var connect = require('gulp-connect');
 var modRewrite = require('connect-modrewrite');
 var sass = require('gulp-sass');
@@ -14,16 +13,6 @@ var templateCache = require('gulp-angular-templatecache');
 var SRC_DIR = 'src/main/app/';
 var TEMP_DIR = 'target/gulp/'
 var BUILD_DIR = 'target/classes/assets/';
-
-gulp.task('bower_prune', function() {
-	return bower({
-		cmd : 'prune'
-	});
-});
-
-gulp.task('bower', ['bower_prune'], function() {
-	return bower();
-});
 
 gulp.task('images', function() {
 	return gulp.src(SRC_DIR + 'images/**/*').pipe(gulp.dest(BUILD_DIR + 'images'));
@@ -44,20 +33,20 @@ gulp.task('sass', function() {
 	return gulp.src(SRC_DIR + 'sass/app.scss').pipe(sass()).pipe(gulp.dest(TEMP_DIR + 'css'));
 });
 
-gulp.task('fonts', ['bower'], function() {
+gulp.task('fonts', function() {
 	var font_awesome = SRC_DIR + 'lib/font-awesome/font/fontawesome-webfont.*';
 	var zocial = SRC_DIR + 'lib/zocial-less/css/zocial-regular-*';
 	var readabilicons = SRC_DIR + 'lib/readabilicons/webfont/fonts/readabilicons-*';
 	return gulp.src([font_awesome, zocial, readabilicons]).pipe(gulp.dest(BUILD_DIR + 'font'));
 });
 
-gulp.task('select2', ['bower'], function() {
+gulp.task('select2', function() {
 	var gif = SRC_DIR + 'lib/select2/*.gif';
 	var png = SRC_DIR + 'lib/select2/*.png';
 	return gulp.src([gif, png]).pipe(gulp.dest(BUILD_DIR + 'css'));
 });
 
-gulp.task('swagger-ui', ['bower'], function() {
+gulp.task('swagger-ui', function() {
 	var index_html = SRC_DIR + 'api/index.html';
 	var lib = SRC_DIR + 'lib/swagger-ui/dist/**/*';
 	return gulp.src([lib, index_html]).pipe(gulp.dest(BUILD_DIR + 'api'));
@@ -71,7 +60,7 @@ gulp.task('template-cache', function() {
 	return gulp.src(SRC_DIR + 'templates/**/*.html').pipe(templateCache(options)).pipe(gulp.dest(TEMP_DIR + 'js'));
 });
 
-gulp.task('build-dev', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2', 'swagger-ui', 'template-cache', 'bower'], function() {
+gulp.task('build-dev', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2', 'swagger-ui', 'template-cache'], function() {
 	var assets = useref.assets({
 		searchPath : [SRC_DIR, TEMP_DIR]
 	});
@@ -81,7 +70,7 @@ gulp.task('build-dev', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2'
 			revReplace()).pipe(gulp.dest(BUILD_DIR)).pipe(connect.reload());
 });
 
-gulp.task('build', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2', 'swagger-ui', 'template-cache', 'bower'], function() {
+gulp.task('build', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2', 'swagger-ui', 'template-cache'], function() {
 	var assets = useref.assets({
 		searchPath : [SRC_DIR, TEMP_DIR]
 	});

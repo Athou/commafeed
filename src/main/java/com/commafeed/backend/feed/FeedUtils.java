@@ -430,12 +430,8 @@ public class FeedUtils {
 	}
 
 	public static boolean isRelative(final String url) {
-		// the regex means "doesn't start with 'scheme://'"
-		if ((url != null) && (url.startsWith("/") == false) && (!url.matches("^\\w+\\:\\/\\/.*")) && !(url.startsWith("#"))) {
-			return true;
-		} else {
-			return false;
-		}
+		// the regex means "start with 'scheme://'"
+		return url.startsWith("/") || url.startsWith("#") || !url.matches("^\\w+\\:\\/\\/.*");
 	}
 
 	public static String getFaviconUrl(FeedSubscription subscription, String publicUrl) {

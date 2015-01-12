@@ -44,10 +44,17 @@ public class FeedUtilsTest {
 	@Test
 	public void testToAbsoluteUrl() {
 		String expected = "http://a.com/blog/entry/1";
+
+		// usual cases
 		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("http://a.com/blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
 		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("http://a.com/blog/entry/1", "http://a.com/feed", "http://a.com/feed"));
+
+		// relative links
 		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("../blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
 		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("../blog/entry/1", "feed.xml", "http://a.com/feed/feed.xml"));
+
+		// root-relative links
+		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("/blog/entry/1", "/feed", "http://a.com/feed"));
 
 		Assert.assertEquals("http://ergoemacs.org/emacs/elisp_all_about_lines.html",
 				FeedUtils.toAbsoluteUrl("elisp_all_about_lines.html", "blog.xml", "http://ergoemacs.org/emacs/blog.xml"));

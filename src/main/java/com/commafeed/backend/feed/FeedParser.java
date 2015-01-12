@@ -77,7 +77,7 @@ public class FeedParser {
 				}
 				entry.setGuid(FeedUtils.truncate(guid, 2048));
 				entry.setUpdated(validateDate(getEntryUpdateDate(item), true));
-				entry.setUrl(FeedUtils.truncate(FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink(), feed.getUrlAfterRedirect()), 2048));
+				entry.setUrl(FeedUtils.truncate(FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink(), feedUrl), 2048));
 
 				// if link is empty but guid is used as url
 				if (StringUtils.isBlank(entry.getUrl()) && StringUtils.startsWith(entry.getGuid(), "http")) {

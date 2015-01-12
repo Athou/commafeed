@@ -41,7 +41,7 @@ public class FeedFetcher {
 		byte[] content = result.getContent();
 
 		try {
-			fetchedFeed = parser.parse(feedUrl, content);
+			fetchedFeed = parser.parse(result.getUrlAfterRedirect(), content);
 		} catch (FeedException e) {
 			if (extractFeedUrlFromHtml) {
 				String extractedUrl = extractFeedUrl(StringUtils.newStringUtf8(result.getContent()), feedUrl);
@@ -50,7 +50,7 @@ public class FeedFetcher {
 
 					result = getter.getBinary(extractedUrl, lastModified, eTag, timeout);
 					content = result.getContent();
-					fetchedFeed = parser.parse(feedUrl, content);
+					fetchedFeed = parser.parse(result.getUrlAfterRedirect(), content);
 				} else {
 					throw e;
 				}

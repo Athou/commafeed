@@ -56,6 +56,9 @@ public class FeedUtilsTest {
 		// root-relative links
 		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("/blog/entry/1", "/feed", "http://a.com/feed"));
 
+		// real cases
+		Assert.assertEquals("https://github.com/erusev/parsedown/releases/tag/1.3.0", FeedUtils.toAbsoluteUrl(
+				"/erusev/parsedown/releases/tag/1.3.0", "/erusev/parsedown/releases", "https://github.com/erusev/parsedown/tags.atom"));
 		Assert.assertEquals("http://ergoemacs.org/emacs/elisp_all_about_lines.html",
 				FeedUtils.toAbsoluteUrl("elisp_all_about_lines.html", "blog.xml", "http://ergoemacs.org/emacs/blog.xml"));
 

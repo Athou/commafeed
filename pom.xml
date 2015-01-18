@@ -15,7 +15,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<dropwizard.version>0.8.0-rc1</dropwizard.version>
+		<dropwizard.version>0.8.0-rc2</dropwizard.version>
 		<guice.version>4.0-beta5</guice.version>
 		<querydsl.version>3.6.0</querydsl.version>
 		<rome.version>1.5.0</rome.version>
@@ -166,12 +166,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-jexl</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-
-		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
 			<version>${guice.version}</version>
@@ -201,12 +195,6 @@
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-migrations</artifactId>
 			<version>${dropwizard.version}</version>
-		</dependency>
-		<!-- TODO remove when dropwizard 0.8.0 is released -->
-		<dependency>
-			<groupId>org.liquibase</groupId>
-			<artifactId>liquibase-core</artifactId>
-			<version>3.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>io.dropwizard</groupId>
@@ -254,6 +242,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>18.0</version>
+		</dependency>
+		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
@@ -272,6 +265,11 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-math3</artifactId>
 			<version>3.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-jexl</artifactId>
+			<version>2.1.1</version>
 		</dependency>
 
 		<dependency>
@@ -327,7 +325,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.4.184</version>
+			<version>1.4.185</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>

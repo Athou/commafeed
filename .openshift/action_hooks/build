@@ -33,7 +33,4 @@ export HOME="$OPENSHIFT_TMP_DIR/local"
 
 export NPM_CONFIG_ARCH="x64"
 
-npm install npm
-export PATH="$OPENSHIFT_REPO_DIR/node_modules/.bin:$PATH"
-
 mvn clean package -DskipTests -Dos.arch=x64 -s .openshift/settings.xml

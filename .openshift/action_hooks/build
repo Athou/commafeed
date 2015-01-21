@@ -1,6 +1,15 @@
 #!/bin/bash
-cd $OPENSHIFT_REPO_DIR
+if [ ! -d $OPENSHIFT_DATA_DIR/jdk1.8.0_20 ]
+	then 
+		cd $OPENSHIFT_DATA_DIR
+		wget http://www.java.net/download/jdk8u20/archive/b17/binaries/jdk-8u20-ea-bin-b17-linux-x64-04_jun_2014.tar.gz
+		tar xvf *.tar.gz 
+		rm -f *.tar.gz
+fi
+export JAVA_HOME=$OPENSHIFT_DATA_DIR/jdk1.8.0_20
+export PATH=$JAVA_HOME/bin:$PATH
 
+cd $OPENSHIFT_REPO_DIR
 rm -rf $OPENSHIFT_REPO_DIR/node
 rm -rf $OPENSHIFT_REPO_DIR/node_modules
 rm -rf $OPENSHIFT_TMP_DIR/npm

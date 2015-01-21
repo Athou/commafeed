@@ -6,8 +6,16 @@ if [ ! -d $OPENSHIFT_DATA_DIR/jdk1.8.0_20 ]
 		tar xvf *.tar.gz 
 		rm -f *.tar.gz
 fi
+if [ ! -d $OPENSHIFT_DATA_DIR/apache-maven-3.2.3 ]
+        then
+                cd $OPENSHIFT_DATA_DIR
+                wget http://archive.apache.org/dist/maven/maven-3/3.2.3/binaries/apache-maven-3.2.3-bin.tar.gz
+                tar xvf *.tar.gz
+                rm -f *.tar.gz
+fi
+export M2=$OPENSHIFT_DATA_DIR/apache-maven-3.2.3/bin
 export JAVA_HOME=$OPENSHIFT_DATA_DIR/jdk1.8.0_20
-export PATH=$JAVA_HOME/bin:$PATH
+export PATH=$JAVA_HOME/bin:$M2:$PATH
 
 cd $OPENSHIFT_REPO_DIR
 rm -rf $OPENSHIFT_REPO_DIR/node

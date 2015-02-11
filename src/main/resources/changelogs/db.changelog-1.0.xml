@@ -5,6 +5,7 @@
 
 	<changeSet author="athou" id="create-app-settings">
 		<validCheckSum>7:6d3ad493d25dd9c50067e804efc9ffcc</validCheckSum>
+		<validCheckSum>7:896a68c1651397288c40f717ce0397b4</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="APPLICATIONSETTINGS" />
@@ -56,6 +57,7 @@
 
 	<changeSet author="athou" id="create-ffe">
 		<validCheckSum>7:eccd6b37116ab35ee963aa46152e1ae5</validCheckSum>
+		<validCheckSum>7:ac622ab04aec79a7e5854d25511abaef</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEED_FEEDENTRIES" />
@@ -76,6 +78,7 @@
 
 	<changeSet author="athou" id="create-cat">
 		<validCheckSum>7:93155e15f0feabe936e1de35711bf85b</validCheckSum>
+		<validCheckSum>7:c52f258e54d34156208cbfd2d8547fbd</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDCATEGORIES" />
@@ -104,6 +107,7 @@
 
 	<changeSet author="athou" id="create-entries">
 		<validCheckSum>7:2d9e82da5573ac551df31a13f3bc40e5</validCheckSum>
+		<validCheckSum>7:c3cc179801e812635b53849301a1a1d1</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDENTRIES" />
@@ -133,6 +137,7 @@
 
 	<changeSet author="athou" id="create-contents">
 		<validCheckSum>7:a2d83b0f7d1bf97a7553e94dd6100edf</validCheckSum>
+		<validCheckSum>7:1c45f6b6a6e7583dd4c090a4a3930758</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDENTRYCONTENTS" />
@@ -154,6 +159,7 @@
 
 	<changeSet author="athou" id="create-statuses">
 		<validCheckSum>7:a9cf194a01c16b937a897aea934f09ae</validCheckSum>
+		<validCheckSum>7:6a386e0b08e98bdba9ce55e26ab90eba</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDENTRYSTATUSES" />
@@ -181,6 +187,7 @@
 
 	<changeSet author="athou" id="create-feeds">
 		<validCheckSum>7:e3a44d2e0f774dcb4efe36702c8d5f3f</validCheckSum>
+		<validCheckSum>7:604b2bb0b62b7f0529e50e63c2b2cf0c</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDS" />
@@ -221,6 +228,7 @@
 
 	<changeSet author="athou" id="create-subs">
 		<validCheckSum>7:36e92eac052c7d2ce0ef75e3ec2cdf8d</validCheckSum>
+		<validCheckSum>7:248affcafffd2243f8b0d16750e17af0</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDSUBSCRIPTIONS" />
@@ -249,6 +257,7 @@
 
 	<changeSet author="athou" id="create-seq">
 		<validCheckSum>7:6d68765b2116ba88680d69c03b3cefd2</validCheckSum>
+		<validCheckSum>7:6112f92b437b4d0ecfcdf038fd04ed2f</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="hibernate_sequences" />
@@ -265,6 +274,7 @@
 
 	<changeSet author="athou" id="create-roles">
 		<validCheckSum>7:eefc98cfa1b9bbf51fa6acd7a0d49c1b</validCheckSum>
+		<validCheckSum>7:abbff58b88c8cebfb4548d17730a262d</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="USERROLES" />
@@ -287,6 +297,7 @@
 	</changeSet>
 
 	<changeSet author="athou" id="create-users">
+		<validCheckSum>7:750e0990a8edebd0252df7d4adc7aa7c</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="USERS" />
@@ -321,6 +332,7 @@
 
 	<changeSet author="athou" id="create-user-settings">
 		<validCheckSum>7:985d6607a4350e032ea345d9a2f2f0c0</validCheckSum>
+		<validCheckSum>7:722eaff49d04d43c5b26da0929d3f707</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="USERSETTINGS" />

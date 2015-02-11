@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "USERSETTINGS")
 @SuppressWarnings("serial")
@@ -59,6 +61,7 @@ public class UserSettings extends AbstractModel {
 
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
+	@Type(type = "org.hibernate.type.StringClobType")
 	private String customCss;
 
 	@Column(name = "scroll_speed")

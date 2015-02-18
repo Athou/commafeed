@@ -32,7 +32,7 @@ public class CustomCssServlet extends HttpServlet {
 	protected void doGet(final HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/css");
 
-		final Optional<User> user = UnitOfWork.run(sessionFactory, () -> new SessionHelper(req).getLoggedInUser());
+		final Optional<User> user = new SessionHelper(req).getLoggedInUser();
 		if (!user.isPresent()) {
 			return;
 		}

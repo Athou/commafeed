@@ -41,11 +41,14 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		return tuples.stream().map(t -> new FeedCapacity(t.get(entry.feed.id), t.get(count))).collect(Collectors.toList());
 	}
 
+	public int delete(Long feedId, long max) {
+		List<FeedEntry> list = newQuery().from(entry).where(entry.feed.id.eq(feedId)).limit(max).list(entry);
+		return delete(list);
+	}
+
 	public int deleteOldEntries(Long feedId, long max) {
 		List<FeedEntry> list = newQuery().from(entry).where(entry.feed.id.eq(feedId)).orderBy(entry.updated.asc()).limit(max).list(entry);
-		int deleted = list.size();
-		delete(list);
-		return deleted;
+		return delete(list);
 	}
 
 	@AllArgsConstructor

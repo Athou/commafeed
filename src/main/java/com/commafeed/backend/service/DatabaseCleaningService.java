@@ -17,6 +17,7 @@ import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryDAO.FeedCapacity;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.UnitOfWork;
+import com.commafeed.backend.model.Feed;
 
 /**
  * Contains utility methods for cleaning the database
@@ -40,7 +41,14 @@ public class DatabaseCleaningService {
 		long total = 0;
 		int deleted = 0;
 		do {
-			deleted = UnitOfWork.run(sessionFactory, () -> feedDAO.delete(feedDAO.findWithoutSubscriptions(1)));
+			List<Feed> feeds = UnitOfWork.run(sessionFactory, () -> feedDAO.findWithoutSubscriptions(1));
+			for (Feed feed : feeds) {
+				int entriesDeleted = 0;
+				do {
+					entriesDeleted = UnitOfWork.run(sessionFactory, () -> feedEntryDAO.delete(feed.getId(), BATCH_SIZE));
+				} while (entriesDeleted == BATCH_SIZE);
+			}
+			deleted = UnitOfWork.run(sessionFactory, () -> feedDAO.delete(feeds));
 			total += deleted;
 			log.info("removed {} feeds without subscriptions", total);
 		} while (deleted != 0);

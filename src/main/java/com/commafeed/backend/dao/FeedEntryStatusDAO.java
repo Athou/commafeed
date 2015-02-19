@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.hibernate.SessionFactory;
 
@@ -118,7 +119,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		HibernateQuery query = newQuery().from(entry).where(entry.feed.eq(sub.getFeed()));
 
-		if (keywords != null) {
+		if (CollectionUtils.isNotEmpty(keywords)) {
 			query.join(entry.content, content);
 
 			for (FeedEntryKeyword keyword : keywords) {

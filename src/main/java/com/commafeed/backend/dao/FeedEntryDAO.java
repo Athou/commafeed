@@ -36,7 +36,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 	}
 
 	public List<FeedCapacity> findFeedsExceedingCapacity(long maxCapacity, long max) {
-		NumberExpression<Long> count = entry.id.countDistinct();
+		NumberExpression<Long> count = entry.id.count();
 		List<Tuple> tuples = newQuery().from(entry).groupBy(entry.feed).having(count.gt(maxCapacity)).limit(max).list(entry.feed.id, count);
 		return tuples.stream().map(t -> new FeedCapacity(t.get(entry.feed.id), t.get(count))).collect(Collectors.toList());
 	}

@@ -40,13 +40,16 @@ public class DatabaseCleaningService {
 		log.info("cleaning feeds without subscriptions");
 		long total = 0;
 		int deleted = 0;
+		long entriesTotal = 0;
 		do {
 			List<Feed> feeds = UnitOfWork.run(sessionFactory, () -> feedDAO.findWithoutSubscriptions(1));
 			for (Feed feed : feeds) {
 				int entriesDeleted = 0;
 				do {
 					entriesDeleted = UnitOfWork.run(sessionFactory, () -> feedEntryDAO.delete(feed.getId(), BATCH_SIZE));
-				} while (entriesDeleted == BATCH_SIZE);
+					entriesTotal += entriesDeleted;
+					log.info("removed {} entries for feeds without subscriptions", entriesTotal);
+				} while (entriesDeleted > 0);
 			}
 			deleted = UnitOfWork.run(sessionFactory, () -> feedDAO.delete(feeds));
 			total += deleted;

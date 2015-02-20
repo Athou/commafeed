@@ -3,6 +3,7 @@ package com.commafeed;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.server.DefaultServerFactory;
@@ -24,7 +25,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jetty.server.session.SessionHandler;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.hibernate.cfg.AvailableSettings;
 
 import com.commafeed.backend.feed.FeedRefreshTaskGiver;
@@ -108,6 +108,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		});
 
 		bootstrap.addBundle(new AssetsBundle("/assets/", "/", "index.html"));
+		bootstrap.addBundle(new MultiPartBundle());
 	}
 
 	@Override
@@ -133,9 +134,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.jersey().register(injector.getInstance(PubSubHubbubCallbackREST.class));
 		environment.jersey().register(injector.getInstance(ServerREST.class));
 		environment.jersey().register(injector.getInstance(UserREST.class));
-
-		// @FormDataParam support
-		environment.jersey().register(MultiPartFeature.class);
 
 		// Servlets
 		environment.servlets().addServlet("next", injector.getInstance(NextUnreadServlet.class)).addMapping("/next");

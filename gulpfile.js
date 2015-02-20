@@ -98,6 +98,7 @@ gulp.task('serve', function() {
 		port : 8082,
 		livereload : true,
 		middleware : function() {
+			var api = '^/api/(.*)$ http://localhost:8083/rest/$1 [P]';
 			var rest = '^/rest/(.*)$ http://localhost:8083/rest/$1 [P]';
 			var next = '^/next(.*)$ http://localhost:8083/next$1 [P]';
 			var logout = '^/logout$ http://localhost:8083/logout [P]';

@@ -57,19 +57,13 @@ import com.commafeed.frontend.servlet.CustomCssServlet;
 import com.commafeed.frontend.servlet.LogoutServlet;
 import com.commafeed.frontend.servlet.NextUnreadServlet;
 import com.commafeed.frontend.session.SessionHelperFactoryProvider;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
-import com.wordnik.swagger.config.ConfigFactory;
-import com.wordnik.swagger.config.ScannerFactory;
-import com.wordnik.swagger.config.SwaggerConfig;
-import com.wordnik.swagger.jaxrs.config.DefaultJaxrsScanner;
-import com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider;
-import com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON;
-import com.wordnik.swagger.jaxrs.listing.ResourceListingProvider;
-import com.wordnik.swagger.jaxrs.reader.DefaultJaxrsApiReader;
-import com.wordnik.swagger.reader.ClassReaders;
+import com.wordnik.swagger.jaxrs.config.BeanConfig;
+import com.wordnik.swagger.jaxrs.listing.ApiListingResource;
 
 public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
@@ -159,14 +153,15 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.lifecycle().manage(injector.getInstance(FeedRefreshUpdater.class));
 
 		// Swagger
-		environment.jersey().register(new ApiListingResourceJSON());
-		environment.jersey().register(new ApiDeclarationProvider());
-		environment.jersey().register(new ResourceListingProvider());
-		ScannerFactory.setScanner(new DefaultJaxrsScanner());
-		ClassReaders.setReader(new DefaultJaxrsApiReader());
-		SwaggerConfig swaggerConfig = ConfigFactory.config();
-		swaggerConfig.setApiVersion("1");
+		environment.jersey().register(new ApiListingResource());
+		environment.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+		BeanConfig swaggerConfig = new BeanConfig();
+		swaggerConfig.setTitle("CommaFeed");
+		swaggerConfig.setVersion("1");
 		swaggerConfig.setBasePath("/rest");
+		swaggerConfig.setResourcePackage("com.commafeed.frontend.model");
+		swaggerConfig.setScan(true);
 
 		// cache configuration
 		// prevent caching on REST resources, except for favicons

@@ -235,7 +235,7 @@ public class UserREST {
 				public ImmutableList<String> getErrors() {
 					return ImmutableList.of(e.getMessage());
 				}
-			}).build();
+			}).type(MediaType.TEXT_PLAIN).build();
 		}
 	}
 
@@ -260,7 +260,7 @@ public class UserREST {
 	public Response sendPasswordReset(@Valid PasswordResetRequest req) {
 		User user = userDAO.findByEmail(req.getEmail());
 		if (user == null) {
-			return Response.status(Status.PRECONDITION_FAILED).entity("Email not found.").build();
+			return Response.status(Status.PRECONDITION_FAILED).entity("Email not found.").type(MediaType.TEXT_PLAIN).build();
 		}
 		try {
 			user.setRecoverPasswordToken(DigestUtils.sha1Hex(UUID.randomUUID().toString()));

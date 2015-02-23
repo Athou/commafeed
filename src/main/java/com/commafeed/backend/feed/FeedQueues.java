@@ -14,17 +14,20 @@ import javax.inject.Singleton;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.hibernate.SessionFactory;
 
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
+import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.Feed;
 
 @Singleton
 public class FeedQueues {
 
+	private SessionFactory sessionFactory;
 	private final FeedDAO feedDAO;
 	private final CommaFeedConfiguration config;
 
@@ -35,7 +38,8 @@ public class FeedQueues {
 	private Meter refill;
 
 	@Inject
-	public FeedQueues(FeedDAO feedDAO, CommaFeedConfiguration config, MetricRegistry metrics) {
+	public FeedQueues(SessionFactory sessionFactory, FeedDAO feedDAO, CommaFeedConfiguration config, MetricRegistry metrics) {
+		this.sessionFactory = sessionFactory;
 		this.config = config;
 		this.feedDAO = feedDAO;
 
@@ -67,7 +71,7 @@ public class FeedQueues {
 		FeedRefreshContext context = takeQueue.poll();
 
 		if (context == null) {
-			refill();
+			UnitOfWork.run(sessionFactory, () -> refill());
 			context = takeQueue.poll();
 		}
 		return context;

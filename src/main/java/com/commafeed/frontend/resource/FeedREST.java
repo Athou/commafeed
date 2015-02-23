@@ -395,7 +395,7 @@ public class FeedREST {
 			url = fetchFeedInternal(url).getUrl();
 
 			FeedInfo info = fetchFeedInternal(url);
-			feedSubscriptionService.subscribe(user, info.getUrl(), info.getTitle(), null);
+			feedSubscriptionService.subscribe(user, info.getUrl(), info.getTitle());
 		} catch (Exception e) {
 			log.info("Could not subscribe to url {} : {}", url, e.getMessage());
 		}

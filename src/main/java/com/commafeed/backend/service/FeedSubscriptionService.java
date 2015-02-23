@@ -44,7 +44,15 @@ public class FeedSubscriptionService {
 	private final CacheService cache;
 	private final CommaFeedConfiguration config;
 
-	public Feed subscribe(User user, String url, String title, FeedCategory category) {
+	public Feed subscribe(User user, String url, String title) {
+		return subscribe(user, url, title, null, 0);
+	}
+
+	public Feed subscribe(User user, String url, String title, FeedCategory parent) {
+		return subscribe(user, url, title, parent, 0);
+	}
+
+	public Feed subscribe(User user, String url, String title, FeedCategory category, int position) {
 
 		final String pubUrl = config.getApplicationSettings().getPublicUrl();
 		if (StringUtils.isBlank(pubUrl)) {
@@ -63,7 +71,7 @@ public class FeedSubscriptionService {
 			sub.setUser(user);
 		}
 		sub.setCategory(category);
-		sub.setPosition(0);
+		sub.setPosition(position);
 		sub.setTitle(FeedUtils.truncate(title, 128));
 		feedSubscriptionDAO.saveOrUpdate(sub);
 

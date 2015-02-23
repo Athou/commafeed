@@ -46,7 +46,7 @@ public class OPMLImporterTest {
 		importer.importOpml(user, xml);
 
 		Mockito.verify(feedSubscriptionService).subscribe(Mockito.eq(user), Mockito.anyString(), Mockito.anyString(),
-				Mockito.any(FeedCategory.class));
+				Mockito.any(FeedCategory.class), Mockito.anyInt());
 	}
 
 }

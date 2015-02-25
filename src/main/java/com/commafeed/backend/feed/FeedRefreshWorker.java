@@ -5,6 +5,7 @@ import io.dropwizard.lifecycle.Managed;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -89,6 +90,11 @@ public class FeedRefreshWorker implements Managed {
 					feed.getLastPublishedDate(), feed.getLastContentHash());
 			// stops here if NotModifiedException or any other exception is thrown
 			List<FeedEntry> entries = fetchedFeed.getEntries();
+
+			Integer maxFeedCapacity = config.getApplicationSettings().getMaxFeedCapacity();
+			if (maxFeedCapacity > 0) {
+				entries = entries.stream().limit(maxFeedCapacity).collect(Collectors.toList());
+			}
 
 			if (config.getApplicationSettings().getHeavyLoad()) {
 				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed.getFeed().getLastEntryDate(), fetchedFeed.getFeed()

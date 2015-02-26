@@ -210,7 +210,7 @@
 		<dependency>
 			<groupId>com.wordnik</groupId>
 			<artifactId>swagger-jaxrs</artifactId>
-			<version>1.5.1-M1</version>
+			<version>1.5.2-M1</version>
 			<exclusions>
 				<exclusion>
 					<groupId>javax.ws.rs</groupId>

@@ -15,7 +15,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<dropwizard.version>0.8.0-rc3</dropwizard.version>
+		<dropwizard.version>0.8.0-rc4</dropwizard.version>
 		<guice.version>4.0-beta5</guice.version>
 		<querydsl.version>3.6.1</querydsl.version>
 		<rome.version>1.5.0</rome.version>

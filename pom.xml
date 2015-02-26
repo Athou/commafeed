@@ -332,13 +332,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.4-1200-jdbc41</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>slf4j-simple</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-			</exclusions>
+			<version>9.4-1201-jdbc41</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.jtds</groupId>

@@ -71,7 +71,7 @@ public class FeedQueues {
 		FeedRefreshContext context = takeQueue.poll();
 
 		if (context == null) {
-			UnitOfWork.run(sessionFactory, () -> refill());
+			refill();
 			context = takeQueue.poll();
 		}
 		return context;
@@ -108,7 +108,7 @@ public class FeedQueues {
 		// add feeds that are up to refresh from the database
 		int count = batchSize - contexts.size();
 		if (count > 0) {
-			List<Feed> feeds = feedDAO.findNextUpdatable(count, getLastLoginThreshold());
+			List<Feed> feeds = UnitOfWork.run(sessionFactory, () -> feedDAO.findNextUpdatable(count, getLastLoginThreshold()));
 			for (Feed feed : feeds) {
 				contexts.add(new FeedRefreshContext(feed, false));
 			}
@@ -134,8 +134,9 @@ public class FeedQueues {
 		}
 
 		// update all feeds in the database
-		List<Feed> feeds = map.values().stream().map(c -> c.getFeed()).collect(Collectors.toList());
-		feedDAO.merge(feeds);
+		List<Feed> feeds = map.values().stream().filter(c -> config.getApplicationSettings().getHeavyLoad() ? !c.isUrgent() : true)
+				.map(c -> c.getFeed()).collect(Collectors.toList());
+		UnitOfWork.run(sessionFactory, () -> feedDAO.merge(feeds));
 	}
 
 	/**

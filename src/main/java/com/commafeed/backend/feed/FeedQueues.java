@@ -136,7 +136,7 @@ public class FeedQueues {
 		// update all feeds in the database
 		List<Feed> feeds = map.values().stream().filter(c -> config.getApplicationSettings().getHeavyLoad() ? !c.isUrgent() : true)
 				.map(c -> c.getFeed()).collect(Collectors.toList());
-		UnitOfWork.run(sessionFactory, () -> feedDAO.merge(feeds));
+		UnitOfWork.run(sessionFactory, () -> feedDAO.update(feeds));
 	}
 
 	/**

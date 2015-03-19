@@ -27,6 +27,14 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 		models.forEach(m -> persist(m));
 	}
 
+	public void update(T model) {
+		currentSession().update(model);
+	}
+
+	public void update(Collection<T> models) {
+		models.forEach(m -> update(m));
+	}
+
 	public void merge(T model) {
 		currentSession().merge(model);
 	}

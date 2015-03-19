@@ -34,7 +34,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.ConnectionConfig;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
@@ -182,7 +182,7 @@ public class HttpGetter {
 		builder.disableAutomaticRetries();
 
 		builder.setSslcontext(SSL_CONTEXT);
-		builder.setHostnameVerifier(SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+		builder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
 
 		RequestConfig.Builder configBuilder = RequestConfig.custom();
 		configBuilder.setCookieSpec(CookieSpecs.IGNORE_COOKIES);

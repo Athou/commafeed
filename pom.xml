@@ -188,11 +188,6 @@
 		</dependency>
 		<dependency>
 			<groupId>io.dropwizard</groupId>
-			<artifactId>dropwizard-client</artifactId>
-			<version>${dropwizard.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-migrations</artifactId>
 			<version>${dropwizard.version}</version>
 		</dependency>
@@ -205,6 +200,12 @@
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-forms</artifactId>
 			<version>${dropwizard.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.4</version>
 		</dependency>
 
 		<dependency>

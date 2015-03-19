@@ -90,6 +90,9 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 				// keep using old id generator for backward compatibility
 				factory.getProperties().put(AvailableSettings.USE_NEW_ID_GENERATOR_MAPPINGS, "false");
+
+				factory.getProperties().put(AvailableSettings.STATEMENT_BATCH_SIZE, "50");
+				factory.getProperties().put(AvailableSettings.BATCH_VERSIONED_DATA, "true");
 				return factory;
 			}
 		});

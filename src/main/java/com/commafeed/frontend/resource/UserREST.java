@@ -215,7 +215,7 @@ public class UserREST {
 		if (request.isNewApiKey()) {
 			user.setApiKey(userService.generateApiKey(user));
 		}
-		userDAO.merge(user);
+		userDAO.saveOrUpdate(user);
 		return Response.ok().build();
 	}
 

@@ -39,7 +39,7 @@ public class PostLoginActivities {
 			saveUser = true;
 		}
 		if (saveUser) {
-			userDAO.merge(user);
+			userDAO.saveOrUpdate(user);
 		}
 	}
 

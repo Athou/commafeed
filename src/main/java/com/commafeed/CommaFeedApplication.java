@@ -12,8 +12,10 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -24,6 +26,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.hibernate.cfg.AvailableSettings;
 
@@ -159,11 +162,15 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.jersey().register(new ApiListingResource());
 		environment.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
+		String modelsPackage = "com.commafeed.frontend.model";
+		String requestsPackage = "com.commafeed.frontend.model.request";
+		String endpointsPackage = "com.commafeed.frontend.resource";
+		List<String> packages = Arrays.asList(modelsPackage, requestsPackage, endpointsPackage);
 		BeanConfig swaggerConfig = new BeanConfig();
 		swaggerConfig.setTitle("CommaFeed");
 		swaggerConfig.setVersion("1");
 		swaggerConfig.setBasePath("/rest");
-		swaggerConfig.setResourcePackage("com.commafeed.frontend.model");
+		swaggerConfig.setResourcePackage(StringUtils.join(packages, ","));
 		swaggerConfig.setScan(true);
 
 		// cache configuration

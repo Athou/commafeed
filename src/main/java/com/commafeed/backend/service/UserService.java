@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.UserDAO;
+import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
@@ -29,6 +30,7 @@ public class UserService {
 
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final UserDAO userDAO;
+	private final UserRoleDAO userRoleDAO;
 	private final UserSettingsDAO userSettingsDAO;
 
 	private final PasswordEncryptionService encryptionService;
@@ -115,7 +117,7 @@ public class UserService {
 		user.setSalt(salt);
 		user.setPassword(encryptionService.getEncryptedPassword(password, salt));
 		for (Role role : roles) {
-			user.getRoles().add(new UserRole(user, role));
+			userRoleDAO.saveOrUpdate(new UserRole(user, role));
 		}
 		userDAO.saveOrUpdate(user);
 		return user;

@@ -116,10 +116,10 @@ public class UserService {
 		user.setCreated(new Date());
 		user.setSalt(salt);
 		user.setPassword(encryptionService.getEncryptedPassword(password, salt));
+		userDAO.saveOrUpdate(user);
 		for (Role role : roles) {
 			userRoleDAO.saveOrUpdate(new UserRole(user, role));
 		}
-		userDAO.saveOrUpdate(user);
 		return user;
 	}
 

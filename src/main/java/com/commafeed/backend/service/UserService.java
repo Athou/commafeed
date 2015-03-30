@@ -3,6 +3,7 @@ package com.commafeed.backend.service;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -132,5 +133,9 @@ public class UserService {
 	public String generateApiKey(User user) {
 		byte[] key = encryptionService.getEncryptedPassword(UUID.randomUUID().toString(), user.getSalt());
 		return DigestUtils.sha1Hex(key);
+	}
+
+	public Set<Role> getRoles(User user) {
+		return userRoleDAO.findRoles(user);
 	}
 }

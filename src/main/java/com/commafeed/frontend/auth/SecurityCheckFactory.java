@@ -1,6 +1,7 @@
 package com.commafeed.frontend.auth;
 
 import java.util.Optional;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +47,8 @@ public class SecurityCheckFactory extends AbstractContainerRequestValueFactory<U
 		}
 
 		if (user.isPresent()) {
-			if (user.get().hasRole(role)) {
+			Set<Role> roles = userService.getRoles(user.get());
+			if (roles.contains(role)) {
 				return user.get();
 			} else {
 				throw new WebApplicationException(Response.status(Response.Status.FORBIDDEN)

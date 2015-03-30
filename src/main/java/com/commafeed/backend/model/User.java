@@ -1,7 +1,6 @@
 package com.commafeed.backend.model;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,8 +16,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import org.apache.commons.lang3.time.DateUtils;
-
-import com.commafeed.backend.model.UserRole.Role;
 
 @Entity
 @Table(name = "USERS")
@@ -57,19 +54,12 @@ public class User extends AbstractModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date recoverPasswordTokenDate;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-	private Set<UserRole> roles = new HashSet<>();
-
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<FeedSubscription> subscriptions;
 
 	@Column(name = "last_full_refresh")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastFullRefresh;
-
-	public boolean hasRole(Role role) {
-		return getRoles().stream().anyMatch(r -> r.getRole() == role);
-	}
 
 	public boolean shouldRefreshFeedsAt(Date when) {
 		return (lastFullRefresh == null || lastFullRefreshMoreThan30MinutesBefore(when));

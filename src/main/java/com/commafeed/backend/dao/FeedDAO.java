@@ -17,6 +17,7 @@ import com.commafeed.backend.model.QUser;
 import com.google.common.collect.Iterables;
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.mysema.query.jpa.hibernate.HibernateSubQuery;
 
 @Singleton
 public class FeedDAO extends GenericDAO<Feed> {
@@ -33,12 +34,14 @@ public class FeedDAO extends GenericDAO<Feed> {
 		disabledDatePredicate.or(feed.disabledUntil.isNull());
 		disabledDatePredicate.or(feed.disabledUntil.lt(new Date()));
 
-		HibernateQuery query = newQuery().from(feed);
+		HibernateQuery query = null;
 		if (lastLoginThreshold != null) {
 			QFeedSubscription subs = QFeedSubscription.feedSubscription;
 			QUser user = QUser.user;
-			query.join(feed.subscriptions, subs).join(subs.user, user).where(disabledDatePredicate, user.lastLogin.gt(lastLoginThreshold));
+			query = newQuery().from(subs);
+			query.join(subs.feed, feed).join(subs.user, user).where(disabledDatePredicate, user.lastLogin.gt(lastLoginThreshold));
 		} else {
+			query = newQuery().from(feed);
 			query.where(disabledDatePredicate);
 		}
 
@@ -60,6 +63,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 
 	public List<Feed> findWithoutSubscriptions(int max) {
 		QFeedSubscription sub = QFeedSubscription.feedSubscription;
-		return newQuery().from(feed).leftJoin(feed.subscriptions, sub).where(sub.id.isNull()).limit(max).list(feed);
+		return newQuery().from(feed).where(new HibernateSubQuery().from(sub).where(sub.feed.eq(feed)).notExists()).limit(max).list(feed);
+		// return newQuery().from(feed).leftJoin(feed.subscriptions, sub).where(sub.id.isNull()).limit(max).list(feed);
 	}
 }

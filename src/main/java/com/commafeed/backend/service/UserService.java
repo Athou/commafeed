@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedCategoryDAO;
+import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
@@ -30,6 +31,7 @@ import com.google.common.base.Preconditions;
 public class UserService {
 
 	private final FeedCategoryDAO feedCategoryDAO;
+	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final UserDAO userDAO;
 	private final UserRoleDAO userRoleDAO;
 	private final UserSettingsDAO userSettingsDAO;
@@ -127,6 +129,8 @@ public class UserService {
 	public void unregister(User user) {
 		feedCategoryDAO.delete(feedCategoryDAO.findAll(user));
 		userSettingsDAO.delete(userSettingsDAO.findByUser(user));
+		userRoleDAO.delete(userRoleDAO.findAll(user));
+		feedSubscriptionDAO.delete(feedSubscriptionDAO.findAll(user));
 		userDAO.delete(user);
 	}
 

@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedCategoryDAO;
+import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
@@ -33,6 +34,8 @@ public class UserServiceTest {
 	private CommaFeedConfiguration commaFeedConfiguration;
 	@Mock
 	private FeedCategoryDAO feedCategoryDAO;
+	@Mock
+	private FeedSubscriptionDAO feedSubscriptionDAO;
 	@Mock
 	private UserDAO userDAO;
 	@Mock
@@ -53,8 +56,8 @@ public class UserServiceTest {
 	public void before_each_test() {
 		MockitoAnnotations.initMocks(this);
 
-		userService = new UserService(feedCategoryDAO, userDAO, userRoleDAO, userSettingsDAO, passwordEncryptionService,
-				commaFeedConfiguration, postLoginActivities);
+		userService = new UserService(feedCategoryDAO, feedSubscriptionDAO, userDAO, userRoleDAO, userSettingsDAO,
+				passwordEncryptionService, commaFeedConfiguration, postLoginActivities);
 
 		disabledUser = new User();
 		disabledUser.setDisabled(true);

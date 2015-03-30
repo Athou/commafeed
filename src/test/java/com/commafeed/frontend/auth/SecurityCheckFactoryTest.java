@@ -24,7 +24,7 @@ public class SecurityCheckFactoryTest {
 
 		PostLoginActivities postLoginActivities = mock(PostLoginActivities.class);
 
-		UserService service = new UserService(null, null, null, null, null, null, postLoginActivities);
+		UserService service = new UserService(null, null, null, null, null, null, null, postLoginActivities);
 
 		SecurityCheckFactory factory = new SecurityCheckFactory(null, false);
 		factory.userService = service;

@@ -1,13 +1,9 @@
 package com.commafeed.backend.model;
 
 import java.util.Date;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -53,9 +49,6 @@ public class User extends AbstractModel {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date recoverPasswordTokenDate;
-
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	private Set<FeedSubscription> subscriptions;
 
 	@Column(name = "last_full_refresh")
 	@Temporal(TemporalType.TIMESTAMP)

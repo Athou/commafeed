@@ -9,15 +9,15 @@
 	<name>CommaFeed</name>
 
 	<prerequisites>
-		<maven>3.0.5</maven>
+		<maven>3.1.0</maven>
 	</prerequisites>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<dropwizard.version>0.8.0</dropwizard.version>
+		<dropwizard.version>0.8.1-rc2</dropwizard.version>
 		<guice.version>4.0-beta5</guice.version>
-		<querydsl.version>3.6.2</querydsl.version>
+		<querydsl.version>3.6.3</querydsl.version>
 		<rome.version>1.5.0</rome.version>
 	</properties>
 
@@ -39,7 +39,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.3</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -99,7 +99,7 @@
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>0.0.22</version>
+				<version>0.0.23</version>
 				<executions>
 					<execution>
 						<id>install node and npm</id>
@@ -162,7 +162,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.10</version>
+			<version>1.7.12</version>
 		</dependency>
 
 		<dependency>
@@ -205,7 +205,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.4</version>
+			<version>4.4.1</version>
 		</dependency>
 
 		<dependency>
@@ -273,7 +273,7 @@
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
-			<version>2.6.2</version>
+			<version>2.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.mail</groupId>
@@ -317,7 +317,7 @@
 		<dependency>
 			<groupId>net.sourceforge.cssparser</groupId>
 			<artifactId>cssparser</artifactId>
-			<version>0.9.14</version>
+			<version>0.9.15</version>
 		</dependency>
 
 		<dependency>
@@ -328,7 +328,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.34</version>
+			<version>5.1.35</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>

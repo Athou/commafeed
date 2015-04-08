@@ -15,7 +15,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<dropwizard.version>0.8.1-rc2</dropwizard.version>
+		<dropwizard.version>0.8.1</dropwizard.version>
 		<guice.version>4.0-beta5</guice.version>
 		<querydsl.version>3.6.3</querydsl.version>
 		<rome.version>1.5.0</rome.version>
@@ -312,7 +312,7 @@
 		<dependency>
 			<groupId>com.ibm.icu</groupId>
 			<artifactId>icu4j</artifactId>
-			<version>54.1.1</version>
+			<version>55.1</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.cssparser</groupId>

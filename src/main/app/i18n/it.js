@@ -8,7 +8,7 @@
     "link" : "Link",
     "bookmark" : "Segnalibro ",
     "close" : "Chiudi",
-    "tags" : "Tags "
+    "tags" : "Targhette "
   },
   "tree" : {
     "subscribe" : "Iscriviti",
@@ -31,7 +31,7 @@
   },
   "new_category" : {
     "name" : "Nome",
-    "parent" : "Parent"
+    "parent" : "Gruppo"
   },
   "toolbar" : {
     "unread" : "Non letti",
@@ -52,18 +52,18 @@
     "profile" : "Profilo",
     "admin" : "Admin",
     "about" : "Informazioni",
-    "logout" : "Logout",
+    "logout" : "Esci",
     "donate" : "Dona"
   },
   "view" : {
-    "entry_source" : "from  ",
-    "entry_author" : "by  ",
+    "entry_source" : "da  ",
+    "entry_author" : "di  ",
     "error_while_loading_feed" : "Si è verificato un errore mentre caricavo il feed",
     "keep_unread" : "Mantiene come da leggere",
     "no_unread_items" : "Non ci sono elementi da leggere.",
-    "mark_up_to_here" : "Mark as read up to here ",
-    "search_for" : "searching for:  ",
-    "no_search_results" : "No match found for the requested keywords "
+    "mark_up_to_here" : "Contrassegna come già letto fino qui",
+    "search_for" : "Cerca:  ",
+    "no_search_results" : "Nessun risultato trovato per le parole chiave richieste "
   },
   "feedsearch" : {
     "hint" : "Type in a subscription... ",
@@ -76,15 +76,15 @@
       "language" : "Lingua",
       "language_contribute" : "Contribuisci con le traduzioni",
       "show_unread" : "Mostra le fonti e le categorie con gli elementi già letti",
-      "social_buttons" : "Visualizza i social button",
+      "social_buttons" : "Visualizza i pulsanti per i social network",
       "scroll_marks" : "Marca come letto quando scorri"
     },
-    "appearance" : "Aspetto  ",
+    "appearance" : "Aspetto",
     "scroll_speed" : "Velocità dello scorrimento durante la navigazione fra i feed (in millisecondi) ",
     "scroll_speed_help" : "Imposta a 0 per disabilitare ",
     "theme" : "Tema ",
-    "submit_your_theme" : "Sottoponi il tuo tema ",
-    "custom_css" : "CSS modificato "
+    "submit_your_theme" : "Proponi il tuo tema ",
+    "custom_css" : "CSS personalizzato "
   },
   "details" : {
     "feed_details" : "Dettagli feed ",
@@ -94,20 +94,20 @@
     "category" : "Categoria ",
     "position" : "Posizione ",
     "last_refresh" : "Ultimo aggiornamento ",
-    "message" : "Last refresh message ",
-    "next_refresh" : "Next refresh ",
+    "message" : "Ultimo messaggio di aggiornamento ",
+    "next_refresh" : "Prossimo aggiornamento ",
     "queued_for_refresh" : "In attesa per l'aggiornamento ",
     "feed_url" : "URL del feed ",
-    "generate_api_key_first" : "Generate an API key in your profile first.",
-    "unsubscribe" : "Annulla l\"'\"iscrizione ",
+    "generate_api_key_first" : "Genera prima una chiave API nelle impostazioni del tuo profilo.",
+    "unsubscribe" : "Annulla l'iscrizione ",
     "unsubscribe_confirmation" : "Si è certi di voler annullare la sottoscrizione da questo feed? ",
     "delete_category_confirmation" : "Si è certi di voler eliminare questa categoria? ",
     "category_details" : "Dettagli categoria",
-    "tag_details" : "Tag details ",
-    "parent_category" : "Parent category"
+    "tag_details" : "TDettagli targhette ",
+    "parent_category" : "Categoria principale"
   },
   "profile" : {
-    "user_name" : "User name ",
+    "user_name" : "Nome utente ",
     "email" : "E-mail",
     "change_password" : "Cambia password ",
     "confirm_password" : "Conferma password ",
@@ -134,11 +134,11 @@
     "line2_prefix" : "Se hai qualche problema, segnalalo sulla pagina del ",
     "line2_suffix" : " progetto.",
     "line3" : "Se ti piace il progetto, prendi in considerazione una donazione per supportare lo sviluppatore e contribuire a coprire i costi di mantenenimento di questo sito on-line.",
-    "line4" : "Per chi preferisce Bitcoin, questo è l\"'\"indirizzo ",
+    "line4" : "Se preferisci i Bitcoin, questo è l'indirizzo ",
     "goodies" : {
       "value" : "Goodies",
-      "android_app" : "Android app ",
-      "subscribe_url" : "Subscribe URL ",
+      "android_app" : "Applicazione Android ",
+      "subscribe_url" : "Sottoscrivi URL ",
       "chrome_extension" : "Estensione per Chrome",
       "firefox_extension" : "Estensione per Firefox",
       "opera_extension" : "Estensione per Opera",
@@ -150,7 +150,7 @@
     "translation" : {
       "value" : "Traduzioni",
       "message" : "Abbiamo bisogno del tuo aiuto per tradurre CommaFeed.",
-      "link" : "Vedi come aiutare con le traduzioni."
+      "link" : "Vedi come aiutarrci con le traduzioni."
     },
     "announcements" : "Annunci",
     "shortcuts" : {

@@ -436,8 +436,7 @@ public class FeedREST {
 		try {
 			feedEntryFilteringService.filterMatchesEntry(req.getFilter(), TEST_ENTRY);
 		} catch (FeedEntryFilterException e) {
-			Throwable root = Throwables.getRootCause(e);
-			return Response.status(Status.BAD_REQUEST).entity(root.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			return Response.status(Status.BAD_REQUEST).entity(e.getCause().getMessage()).type(MediaType.TEXT_PLAIN).build();
 		}
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, req.getId());

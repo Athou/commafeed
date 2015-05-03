@@ -20,7 +20,7 @@ Browser extensions: [Chrome](https://github.com/Athou/commafeed-chrome) - [Firef
     mvn clean package
 	cp config.yml.example config.yml
 	vi config.yml
-	java -jar target/commafeed.jar server config.yml 
+	java -Djava.net.preferIPv4Stack=true -jar target/commafeed.jar server config.yml 
 
 ### The long version
 
@@ -51,7 +51,7 @@ Now build the application
 Copy `config.yml.example` to `config.yml` then edit the file to your liking.
 Issue the following command to run the app, the server will listen by default on `http://localhost:8082`. The default user is `admin` and the default password is `admin`.
 
-	java -jar target/commafeed.jar server config.yml
+	java -Djava.net.preferIPv4Stack=true -jar target/commafeed.jar server config.yml
 
 You can use a proxy http server such as nginx or apache.
 

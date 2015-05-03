@@ -43,6 +43,9 @@ public class FeedEntryContent extends AbstractModel {
 	@Column(length = 255)
 	private String enclosureType;
 
+	@Column(length = 4096)
+	private String categories;
+
 	@OneToMany(mappedBy = "content")
 	private Set<FeedEntry> entries;
 

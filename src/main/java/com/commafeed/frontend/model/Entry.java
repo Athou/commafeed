@@ -56,6 +56,7 @@ public class Entry implements Serializable {
 			entry.setAuthor(content.getAuthor());
 			entry.setEnclosureUrl(content.getEnclosureUrl());
 			entry.setEnclosureType(content.getEnclosureType());
+			entry.setCategories(content.getCategories());
 		}
 
 		return entry;
@@ -94,6 +95,9 @@ public class Entry implements Serializable {
 
 	@ApiModelProperty("entry content")
 	private String content;
+
+	@ApiModelProperty("comma-separated list of categories")
+	private String categories;
 
 	@ApiModelProperty("wether entry content and title are rtl")
 	private boolean rtl;

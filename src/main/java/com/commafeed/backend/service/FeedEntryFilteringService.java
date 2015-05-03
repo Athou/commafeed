@@ -89,6 +89,7 @@ public class FeedEntryFilteringService {
 		context.set("content", entry.getContent().getContent() == null ? "" : Jsoup.parse(entry.getContent().getContent()).text()
 				.toLowerCase());
 		context.set("url", entry.getUrl() == null ? "" : entry.getUrl().toLowerCase());
+		context.set("categories", entry.getContent().getCategories() == null ? "" : entry.getContent().getCategories().toLowerCase());
 
 		Callable<Object> callable = script.callable(context);
 		Future<Object> future = executor.submit(callable);

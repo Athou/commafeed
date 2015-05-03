@@ -51,6 +51,9 @@
 								<span class="entry-author-prefix">{{ 'view.entry_author' | translate }}</span>
 								<span class="entry-author-name">{{entry.author}}</span>
 							</span>
+							<span class="entry-categories" ng-if="entry.categories">
+								<span class="entry-categories-name">({{entry.categories}})</span>
+							</span>
 						</div>
 					</div>
 				</div>

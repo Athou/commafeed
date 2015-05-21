@@ -26,7 +26,8 @@ gulp.task('favicons', function() {
 	var favicons_png = SRC_DIR + '*.png';
 	var favicons_ico = SRC_DIR + '*.ico';
 	var favicons_svg = SRC_DIR + '*.svg';
-	return gulp.src([favicons_png, favicons_ico, favicons_svg]).pipe(gulp.dest(BUILD_DIR));
+	var manifest = SRC_DIR + 'manifest.json';
+	return gulp.src([favicons_png, favicons_ico, favicons_svg, manifest]).pipe(gulp.dest(BUILD_DIR));
 });
 
 gulp.task('sass', function() {

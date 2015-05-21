@@ -22,7 +22,7 @@ gulp.task('i18n', function() {
 	return gulp.src(SRC_DIR + 'i18n/**/*.js').pipe(gulp.dest(BUILD_DIR + 'i18n'));
 });
 
-gulp.task('favicons', function() {
+gulp.task('resources', function() {
 	var favicons_png = SRC_DIR + '*.png';
 	var favicons_ico = SRC_DIR + '*.ico';
 	var favicons_svg = SRC_DIR + '*.svg';
@@ -61,7 +61,7 @@ gulp.task('template-cache', function() {
 	return gulp.src(SRC_DIR + 'templates/**/*.html').pipe(templateCache(options)).pipe(gulp.dest(TEMP_DIR + 'js'));
 });
 
-gulp.task('build-dev', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2', 'swagger-ui', 'template-cache'], function() {
+gulp.task('build-dev', ['images', 'i18n', 'resources', 'sass', 'fonts', 'select2', 'swagger-ui', 'template-cache'], function() {
 	var assets = useref.assets({
 		searchPath : [SRC_DIR, TEMP_DIR]
 	});
@@ -71,7 +71,7 @@ gulp.task('build-dev', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2'
 			revReplace()).pipe(gulp.dest(BUILD_DIR)).pipe(connect.reload());
 });
 
-gulp.task('build', ['images', 'i18n', 'favicons', 'sass', 'fonts', 'select2', 'swagger-ui', 'template-cache'], function() {
+gulp.task('build', ['images', 'i18n', 'resources', 'sass', 'fonts', 'select2', 'swagger-ui', 'template-cache'], function() {
 	var assets = useref.assets({
 		searchPath : [SRC_DIR, TEMP_DIR]
 	});

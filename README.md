@@ -64,6 +64,10 @@ You can use a proxy http server such as nginx or apache.
 	git remote add upstream -m master https://github.com/Athou/commafeed.git
 	git pull -s recursive -X theirs upstream master
 	git push
+	
+	# To upgrade an existing openshift installation
+	git pull upstream master
+	git push
 
 ## Translate CommaFeed into your language
 

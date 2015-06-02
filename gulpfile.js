@@ -79,7 +79,7 @@ gulp.task('build', ['images', 'i18n', 'resources', 'sass', 'fonts', 'select2', '
 	var cssFilter = filter("**/*.css");
 	return gulp.src([SRC_DIR + 'index.html', TEMP_DIR + 'app.css']).pipe(assets)
 
-	.pipe(cssFilter).pipe(minifyCSS({rebase: false})).pipe(cssFilter.restore())
+	.pipe(cssFilter).pipe(minifyCSS()).pipe(cssFilter.restore())
 
 	.pipe(jsFilter).pipe(uglify()).pipe(jsFilter.restore())
 

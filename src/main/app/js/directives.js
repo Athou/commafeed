@@ -308,7 +308,8 @@ module.directive('droppable', ['CategoryService', 'FeedService', function(Catego
 
 					var data = {
 						id : source.id,
-						name : source.name
+						name : source.name,
+						filter : source.filter
 					};
 
 					if (source.children) {

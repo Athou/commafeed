@@ -13,6 +13,9 @@ app:
   # put your google analytics tracking code here
   googleAnalyticsTrackingCode:
   
+  # put your google server key (used for youtube favicon fetching)
+  googleAuthKey:
+  
   # number of http threads
   backgroundThreads: 3
   

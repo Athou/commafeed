@@ -77,6 +77,8 @@ public class CommaFeedConfiguration extends Configuration {
 
 		private String googleAnalyticsTrackingCode;
 
+		private String googleAuthKey;
+
 		@NotNull
 		@Min(1)
 		@Valid

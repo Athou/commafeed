@@ -181,7 +181,7 @@ public class HttpGetter {
 		builder.addInterceptorFirst(REMOVE_INCORRECT_CONTENT_ENCODING);
 		builder.disableAutomaticRetries();
 
-		builder.setSslcontext(SSL_CONTEXT);
+		builder.setSSLContext(SSL_CONTEXT);
 		builder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
 
 		RequestConfig.Builder configBuilder = RequestConfig.custom();

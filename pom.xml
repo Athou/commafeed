@@ -17,7 +17,7 @@
 		<java.version>1.8</java.version>
 		<dropwizard.version>0.8.1</dropwizard.version>
 		<guice.version>4.0</guice.version>
-		<querydsl.version>3.6.3</querydsl.version>
+		<querydsl.version>3.6.4</querydsl.version>
 		<rome.version>1.5.0</rome.version>
 	</properties>
 
@@ -238,7 +238,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.4.1</version>
+			<version>4.5</version>
 		</dependency>
 
 		<dependency>
@@ -350,13 +350,13 @@
 		<dependency>
 			<groupId>net.sourceforge.cssparser</groupId>
 			<artifactId>cssparser</artifactId>
-			<version>0.9.15</version>
+			<version>0.9.16</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.google.apis</groupId>
 			<artifactId>google-api-services-youtube</artifactId>
-			<version>v3-rev138-1.20.0</version>
+			<version>v3-rev139-1.20.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.guava</groupId>
@@ -395,7 +395,7 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>2.0.7-beta</version>
+			<version>2.0.11-beta</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

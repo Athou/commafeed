@@ -13,7 +13,6 @@ app.config([
 		function($routeProvider, $stateProvider, $urlRouterProvider, $httpProvider, $compileProvider, cfpLoadingBarProvider,
 				$translateProvider) {
 			
-			$translateProvider.useSanitizeValueStrategy('sanitize');
 			$translateProvider.useStaticFilesLoader({
 				prefix : 'i18n/',
 				suffix : '.js'

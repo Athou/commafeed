@@ -36,7 +36,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 	private final CommaFeedConfiguration config;
 
 	@Override
-	public byte[] fetch(Feed feed) {
+	public Favicon fetch(Feed feed) {
 		String url = feed.getUrl();
 
 		if (!url.toLowerCase().contains("youtube.com/feeds/videos.xml")) {
@@ -94,8 +94,8 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 		}
 
 		if (!isValidIconResponse(bytes, contentType)) {
-			bytes = null;
+			return null;
 		}
-		return bytes;
+		return new Favicon(bytes, contentType);
 	}
 }

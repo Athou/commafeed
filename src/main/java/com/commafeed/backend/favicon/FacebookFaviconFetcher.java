@@ -26,7 +26,7 @@ public class FacebookFaviconFetcher extends AbstractFaviconFetcher {
 	private final HttpGetter getter;
 
 	@Override
-	public byte[] fetch(Feed feed) {
+	public Favicon fetch(Feed feed) {
 		String url = feed.getUrl();
 
 		if (!url.toLowerCase().contains("www.facebook.com")) {
@@ -54,9 +54,9 @@ public class FacebookFaviconFetcher extends AbstractFaviconFetcher {
 		}
 
 		if (!isValidIconResponse(bytes, contentType)) {
-			bytes = null;
+			return null;
 		}
-		return bytes;
+		return new Favicon(bytes, contentType);
 	}
 
 	private String extractUserName(String url) {

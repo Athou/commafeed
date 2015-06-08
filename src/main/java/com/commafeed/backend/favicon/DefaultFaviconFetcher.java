@@ -28,15 +28,15 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 	private final HttpGetter getter;
 
 	@Override
-	public byte[] fetch(Feed feed) {
-		byte[] icon = fetch(feed.getLink());
+	public Favicon fetch(Feed feed) {
+		Favicon icon = fetch(feed.getLink());
 		if (icon == null) {
 			icon = fetch(feed.getUrl());
 		}
 		return icon;
 	}
 
-	private byte[] fetch(String url) {
+	private Favicon fetch(String url) {
 		if (url == null) {
 			log.debug("url is null");
 			return null;
@@ -53,7 +53,7 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 			url = url.substring(0, firstSlash);
 		}
 
-		byte[] icon = getIconAtRoot(url);
+		Favicon icon = getIconAtRoot(url);
 
 		if (icon == null) {
 			icon = getIconInPage(url);
@@ -62,7 +62,7 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 		return icon;
 	}
 
-	private byte[] getIconAtRoot(String url) {
+	private Favicon getIconAtRoot(String url) {
 		byte[] bytes = null;
 		String contentType = null;
 
@@ -78,12 +78,12 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 		}
 
 		if (!isValidIconResponse(bytes, contentType)) {
-			bytes = null;
+			return null;
 		}
-		return bytes;
+		return new Favicon(bytes, contentType);
 	}
 
-	private byte[] getIconInPage(String url) {
+	private Favicon getIconInPage(String url) {
 
 		Document doc = null;
 		try {
@@ -127,6 +127,6 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 			return null;
 		}
 
-		return bytes;
+		return new Favicon(bytes, contentType);
 	}
 }

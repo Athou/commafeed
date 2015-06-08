@@ -29,8 +29,14 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 
 	@Override
 	public byte[] fetch(Feed feed) {
-		String url = feed.getLink() != null ? feed.getLink() : feed.getUrl();
+		byte[] icon = fetch(feed.getLink());
+		if (icon == null) {
+			icon = fetch(feed.getUrl());
+		}
+		return icon;
+	}
 
+	private byte[] fetch(String url) {
 		if (url == null) {
 			log.debug("url is null");
 			return null;

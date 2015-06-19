@@ -13,6 +13,14 @@ Browser extensions: [Chrome](https://github.com/Athou/commafeed-chrome) - [Firef
 
 ## Deployment on your own server
 
+### The very short version (download precompiled package)
+
+    mkdir commafeed && cd commafeed
+    wget https://github.com/Athou/commafeed/releases/download/2.2.0/commafeed.jar
+    wget https://raw.githubusercontent.com/Athou/commafeed/2.2.0/config.yml.example -O config.yml
+    vi config.yml
+    java -Djava.net.preferIPv4Stack=true -jar commafeed.jar server config.yml 
+
 ### The short version
 
     git clone https://github.com/Athou/commafeed.git
@@ -112,7 +120,7 @@ Steps to configuring a development environment for CommaFeed may include, but ma
 
 ## Copyright and license
 
-Copyright 2013-2014 CommaFeed.
+Copyright 2013-2015 CommaFeed.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this work except in compliance with the License.

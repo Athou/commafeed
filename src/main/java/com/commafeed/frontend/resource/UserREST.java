@@ -4,14 +4,12 @@ import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.validation.ValidationErrorMessage;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -230,12 +228,8 @@ public class UserREST {
 			sessionHelper.setLoggedInUser(registeredUser);
 			return Response.ok().build();
 		} catch (final IllegalArgumentException e) {
-			return Response.status(422).entity(new ValidationErrorMessage(Collections.<ConstraintViolation<?>> emptySet()) {
-				@Override
-				public ImmutableList<String> getErrors() {
-					return ImmutableList.of(e.getMessage());
-				}
-			}).type(MediaType.TEXT_PLAIN).build();
+			return Response.status(422).entity(new ValidationErrorMessage(ImmutableList.of(e.getMessage()))).type(MediaType.TEXT_PLAIN)
+					.build();
 		}
 	}
 

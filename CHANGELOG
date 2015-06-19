@@ -1,4 +1,7 @@
 v 2.2.0
+  - fix youtube and instagram favicon fetching
+  - mark as read filter was lost when a feed was rearranged with drag&drop
+  - feed entry categories are now displayed if available
   - various performance and dependencies upgrades
   - java8 is now required
 v 2.1.0

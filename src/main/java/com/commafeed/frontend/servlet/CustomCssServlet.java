@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.RequiredArgsConstructor;
-
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.dao.UnitOfWork;
@@ -20,8 +18,10 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.frontend.session.SessionHelper;
 
+import lombok.RequiredArgsConstructor;
+
 @SuppressWarnings("serial")
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class CustomCssServlet extends HttpServlet {
 
@@ -37,7 +37,7 @@ public class CustomCssServlet extends HttpServlet {
 			return;
 		}
 
-		UserSettings settings = UnitOfWork.run(sessionFactory, () -> userSettingsDAO.findByUser(user.get()));
+		UserSettings settings = UnitOfWork.call(sessionFactory, () -> userSettingsDAO.findByUser(user.get()));
 		if (settings == null || settings.getCustomCss() == null) {
 			return;
 		}

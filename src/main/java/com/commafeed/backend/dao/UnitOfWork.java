@@ -18,13 +18,13 @@ public class UnitOfWork {
 	}
 
 	public static void run(SessionFactory sessionFactory, SessionRunner sessionRunner) {
-		run(sessionFactory, () -> {
+		call(sessionFactory, () -> {
 			sessionRunner.runInSession();
 			return null;
 		});
 	}
 
-	public static <T> T run(SessionFactory sessionFactory, SessionRunnerReturningValue<T> sessionRunner) {
+	public static <T> T call(SessionFactory sessionFactory, SessionRunnerReturningValue<T> sessionRunner) {
 		final Session session = sessionFactory.openSession();
 		if (ManagedSessionContext.hasBind(sessionFactory)) {
 			throw new IllegalStateException("Already in a unit of work!");

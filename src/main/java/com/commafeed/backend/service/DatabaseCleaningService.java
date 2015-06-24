@@ -6,9 +6,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.dao.FeedDAO;
@@ -19,12 +16,15 @@ import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.Feed;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Contains utility methods for cleaning the database
  * 
  */
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class DatabaseCleaningService {
 
@@ -42,16 +42,16 @@ public class DatabaseCleaningService {
 		int deleted = 0;
 		long entriesTotal = 0;
 		do {
-			List<Feed> feeds = UnitOfWork.run(sessionFactory, () -> feedDAO.findWithoutSubscriptions(1));
+			List<Feed> feeds = UnitOfWork.call(sessionFactory, () -> feedDAO.findWithoutSubscriptions(1));
 			for (Feed feed : feeds) {
 				int entriesDeleted = 0;
 				do {
-					entriesDeleted = UnitOfWork.run(sessionFactory, () -> feedEntryDAO.delete(feed.getId(), BATCH_SIZE));
+					entriesDeleted = UnitOfWork.call(sessionFactory, () -> feedEntryDAO.delete(feed.getId(), BATCH_SIZE));
 					entriesTotal += entriesDeleted;
 					log.info("removed {} entries for feeds without subscriptions", entriesTotal);
 				} while (entriesDeleted > 0);
 			}
-			deleted = UnitOfWork.run(sessionFactory, () -> feedDAO.delete(feeds));
+			deleted = UnitOfWork.call(sessionFactory, () -> feedDAO.delete(feeds));
 			total += deleted;
 			log.info("removed {} feeds without subscriptions", total);
 		} while (deleted != 0);
@@ -64,7 +64,7 @@ public class DatabaseCleaningService {
 		long total = 0;
 		int deleted = 0;
 		do {
-			deleted = UnitOfWork.run(sessionFactory, () -> feedEntryContentDAO.deleteWithoutEntries(BATCH_SIZE));
+			deleted = UnitOfWork.call(sessionFactory, () -> feedEntryContentDAO.deleteWithoutEntries(BATCH_SIZE));
 			total += deleted;
 			log.info("removed {} contents without entries", total);
 		} while (deleted != 0);
@@ -75,7 +75,7 @@ public class DatabaseCleaningService {
 	public long cleanEntriesForFeedsExceedingCapacity(final int maxFeedCapacity) {
 		long total = 0;
 		while (true) {
-			List<FeedCapacity> feeds = UnitOfWork.run(sessionFactory,
+			List<FeedCapacity> feeds = UnitOfWork.call(sessionFactory,
 					() -> feedEntryDAO.findFeedsExceedingCapacity(maxFeedCapacity, BATCH_SIZE));
 			if (feeds.isEmpty()) {
 				break;
@@ -85,7 +85,7 @@ public class DatabaseCleaningService {
 				long remaining = feed.getCapacity() - maxFeedCapacity;
 				do {
 					final long rem = remaining;
-					int deleted = UnitOfWork.run(sessionFactory,
+					int deleted = UnitOfWork.call(sessionFactory,
 							() -> feedEntryDAO.deleteOldEntries(feed.getId(), Math.min(BATCH_SIZE, rem)));
 					total += deleted;
 					remaining -= deleted;
@@ -102,7 +102,7 @@ public class DatabaseCleaningService {
 		long total = 0;
 		int deleted = 0;
 		do {
-			deleted = UnitOfWork.run(sessionFactory,
+			deleted = UnitOfWork.call(sessionFactory,
 					() -> feedEntryStatusDAO.delete(feedEntryStatusDAO.getOldStatuses(olderThan, BATCH_SIZE)));
 			total += deleted;
 			log.info("removed {} old read statuses", total);

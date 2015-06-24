@@ -108,7 +108,7 @@ public class FeedQueues {
 		// add feeds that are up to refresh from the database
 		int count = batchSize - contexts.size();
 		if (count > 0) {
-			List<Feed> feeds = UnitOfWork.run(sessionFactory, () -> feedDAO.findNextUpdatable(count, getLastLoginThreshold()));
+			List<Feed> feeds = UnitOfWork.call(sessionFactory, () -> feedDAO.findNextUpdatable(count, getLastLoginThreshold()));
 			for (Feed feed : feeds) {
 				contexts.add(new FeedRefreshContext(feed, false));
 			}

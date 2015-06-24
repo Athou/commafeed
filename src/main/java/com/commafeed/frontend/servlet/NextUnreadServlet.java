@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.RequiredArgsConstructor;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.SessionFactory;
 
@@ -31,8 +29,10 @@ import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.frontend.session.SessionHelper;
 import com.google.common.collect.Iterables;
 
+import lombok.RequiredArgsConstructor;
+
 @SuppressWarnings("serial")
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class NextUnreadServlet extends HttpServlet {
 
@@ -63,31 +63,29 @@ public class NextUnreadServlet extends HttpServlet {
 
 		final ReadingOrder order = StringUtils.equals(orderParam, "asc") ? ReadingOrder.asc : ReadingOrder.desc;
 
-		FeedEntryStatus status = UnitOfWork.run(
-				sessionFactory,
-				() -> {
-					FeedEntryStatus s = null;
-					if (StringUtils.isBlank(categoryId) || CategoryREST.ALL.equals(categoryId)) {
-						List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user.get());
-						List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subs, true, null, null, 0, 1,
-								order, true, false, null);
-						s = Iterables.getFirst(statuses, null);
-					} else {
-						FeedCategory category = feedCategoryDAO.findById(user.get(), Long.valueOf(categoryId));
-						if (category != null) {
-							List<FeedCategory> children = feedCategoryDAO.findAllChildrenCategories(user.get(), category);
-							List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user.get(), children);
-							List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subscriptions, true, null,
-									null, 0, 1, order, true, false, null);
-							s = Iterables.getFirst(statuses, null);
-						}
-					}
-					if (s != null) {
-						s.setRead(true);
-						feedEntryStatusDAO.saveOrUpdate(s);
-					}
-					return s;
-				});
+		FeedEntryStatus status = UnitOfWork.call(sessionFactory, () -> {
+			FeedEntryStatus s = null;
+			if (StringUtils.isBlank(categoryId) || CategoryREST.ALL.equals(categoryId)) {
+				List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user.get());
+				List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subs, true, null, null, 0, 1, order,
+						true, false, null);
+				s = Iterables.getFirst(statuses, null);
+			} else {
+				FeedCategory category = feedCategoryDAO.findById(user.get(), Long.valueOf(categoryId));
+				if (category != null) {
+					List<FeedCategory> children = feedCategoryDAO.findAllChildrenCategories(user.get(), category);
+					List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user.get(), children);
+					List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subscriptions, true, null, null, 0,
+							1, order, true, false, null);
+					s = Iterables.getFirst(statuses, null);
+				}
+			}
+			if (s != null) {
+				s.setRead(true);
+				feedEntryStatusDAO.saveOrUpdate(s);
+			}
+			return s;
+		});
 
 		if (status == null) {
 			resp.sendRedirect(resp.encodeRedirectURL(config.getApplicationSettings().getPublicUrl()));

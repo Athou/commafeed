@@ -1,7 +1,5 @@
 package com.commafeed.backend.feed;
 
-import io.dropwizard.lifecycle.Managed;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -13,8 +11,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.CollectionUtils;
@@ -38,6 +34,9 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedUpdateService;
 import com.commafeed.backend.service.PubSubService;
 import com.google.common.util.concurrent.Striped;
+
+import io.dropwizard.lifecycle.Managed;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Singleton
@@ -121,7 +120,7 @@ public class FeedRefreshUpdater implements Managed {
 					if (!lastEntries.contains(cacheKey)) {
 						log.debug("cache miss for {}", entry.getUrl());
 						if (subscriptions == null) {
-							subscriptions = UnitOfWork.run(sessionFactory, () -> feedSubscriptionDAO.findByFeed(feed));
+							subscriptions = UnitOfWork.call(sessionFactory, () -> feedSubscriptionDAO.findByFeed(feed));
 						}
 						ok &= addEntry(feed, entry, subscriptions);
 						entryCacheMiss.mark();
@@ -183,7 +182,7 @@ public class FeedRefreshUpdater implements Managed {
 			locked1 = lock1.tryLock(1, TimeUnit.MINUTES);
 			locked2 = lock2.tryLock(1, TimeUnit.MINUTES);
 			if (locked1 && locked2) {
-				boolean inserted = UnitOfWork.run(sessionFactory, () -> feedUpdateService.addEntry(feed, entry, subscriptions));
+				boolean inserted = UnitOfWork.call(sessionFactory, () -> feedUpdateService.addEntry(feed, entry, subscriptions));
 				if (inserted) {
 					entryInserted.mark();
 				}

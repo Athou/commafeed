@@ -1,24 +1,11 @@
 package com.commafeed.backend.service;
 
-import io.dropwizard.lifecycle.Managed;
-
 import java.sql.Connection;
 import java.util.Arrays;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.sql.DataSource;
-
-import liquibase.Liquibase;
-import liquibase.database.Database;
-import liquibase.database.DatabaseFactory;
-import liquibase.database.core.PostgresDatabase;
-import liquibase.database.jvm.JdbcConnection;
-import liquibase.resource.ClassLoaderResourceAccessor;
-import liquibase.resource.ResourceAccessor;
-import liquibase.structure.DatabaseObject;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl;
@@ -31,8 +18,20 @@ import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.UserRole.Role;
 
+import io.dropwizard.lifecycle.Managed;
+import liquibase.Liquibase;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.core.PostgresDatabase;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.resource.ClassLoaderResourceAccessor;
+import liquibase.resource.ResourceAccessor;
+import liquibase.structure.DatabaseObject;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class StartupService implements Managed {
 
@@ -44,7 +43,7 @@ public class StartupService implements Managed {
 	@Override
 	public void start() throws Exception {
 		updateSchema();
-		long count = UnitOfWork.run(sessionFactory, () -> userDAO.count());
+		long count = UnitOfWork.call(sessionFactory, () -> userDAO.count());
 		if (count == 0) {
 			UnitOfWork.run(sessionFactory, () -> initialData());
 		}

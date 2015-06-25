@@ -15,7 +15,6 @@ import com.commafeed.backend.model.QFeed;
 import com.commafeed.backend.model.QFeedSubscription;
 import com.commafeed.backend.model.QUser;
 import com.google.common.collect.Iterables;
-import com.mysema.query.BooleanBuilder;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import com.mysema.query.jpa.hibernate.HibernateSubQuery;
 
@@ -30,19 +29,16 @@ public class FeedDAO extends GenericDAO<Feed> {
 	}
 
 	public List<Feed> findNextUpdatable(int count, Date lastLoginThreshold) {
-		BooleanBuilder disabledDatePredicate = new BooleanBuilder();
-		disabledDatePredicate.or(feed.disabledUntil.isNull());
-		disabledDatePredicate.or(feed.disabledUntil.lt(new Date()));
+		HibernateQuery query = newQuery().from(feed);
+		query.where(feed.disabledUntil.isNull().or(feed.disabledUntil.lt(new Date())));
 
-		HibernateQuery query = null;
 		if (lastLoginThreshold != null) {
 			QFeedSubscription subs = QFeedSubscription.feedSubscription;
 			QUser user = QUser.user;
-			query = newQuery().from(subs);
-			query.join(subs.feed, feed).join(subs.user, user).where(disabledDatePredicate, user.lastLogin.gt(lastLoginThreshold));
-		} else {
-			query = newQuery().from(feed);
-			query.where(disabledDatePredicate);
+
+			HibernateSubQuery subQuery = new HibernateSubQuery().from(subs);
+			subQuery.join(subs.user, user).where(user.lastLogin.gt(lastLoginThreshold));
+			query.where(subQuery.exists());
 		}
 
 		return query.orderBy(feed.disabledUntil.asc()).limit(count).distinct().list(feed);

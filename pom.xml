@@ -9,7 +9,7 @@
 	<name>CommaFeed</name>
 
 	<prerequisites>
-		<maven>3.0.5</maven>
+		<maven>3.1.0</maven>
 	</prerequisites>
 
 	<properties>
@@ -132,7 +132,7 @@
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>0.0.22</version>
+				<version>0.0.24</version>
 				<executions>
 					<execution>
 						<id>install node and npm</id>

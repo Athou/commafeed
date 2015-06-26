@@ -24,11 +24,11 @@ Browser extensions: [Chrome](https://github.com/Athou/commafeed-chrome) - [Firef
 ### The short version
 
     git clone https://github.com/Athou/commafeed.git
-	cd commafeed
+    cd commafeed
     mvn clean package
-	cp config.yml.example config.yml
-	vi config.yml
-	java -Djava.net.preferIPv4Stack=true -jar target/commafeed.jar server config.yml 
+    cp config.yml.example config.yml
+    vi config.yml
+    java -Djava.net.preferIPv4Stack=true -jar target/commafeed.jar server config.yml 
 
 ### The long version
 
@@ -39,13 +39,15 @@ You also need Maven 3.x (and a Java 1.8+ JDK) installed in order to build the ap
 
 To install maven and openjdk on Ubuntu, issue the following commands
 
-    sudo apt-get install g++ build-essential openjdk-8-jdk maven
+    sudo add-apt-repository ppa:timothy-downey/maven3
+    sudo apt-get update
+    sudo apt-get install g++ build-essential openjdk-8-jdk maven3
     # Make sure java8 is the selected java version
     sudo update-alternatives --config java
     sudo update-alternatives --config javac
     
     
-On Windows and other operating systems, just download maven 3.x from the [official site](http://maven.apache.org/), extract it somewhere and add the `bin` directory to your `PATH` environment variable.
+On Windows and other operating systems, just download maven 3.3.x from the [official site](http://maven.apache.org/), extract it somewhere and add the `bin` directory to your `PATH` environment variable.
     
 Clone this repository. If you don't have git you can download the sources as a zip file from [here](https://github.com/Athou/commafeed/archive/master.zip)
 

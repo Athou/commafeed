@@ -442,7 +442,7 @@ public class FeedREST {
 		}
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, req.getId());
-		subscription.setFilter(req.getFilter());
+		subscription.setFilter(StringUtils.lowerCase(req.getFilter()));
 
 		if (StringUtils.isNotBlank(req.getName())) {
 			subscription.setTitle(req.getName());

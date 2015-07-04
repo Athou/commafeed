@@ -182,6 +182,11 @@
 					</archive>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.rimerosolutions.maven.plugins</groupId>
+				<artifactId>wrapper-maven-plugin</artifactId>
+				<version>0.0.4</version>
+			</plugin>
 		</plugins>
 	</build>
 

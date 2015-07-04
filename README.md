@@ -21,33 +21,29 @@ Browser extensions: [Chrome](https://github.com/Athou/commafeed-chrome) - [Firef
     vi config.yml
     java -Djava.net.preferIPv4Stack=true -jar commafeed.jar server config.yml 
 
-### The short version
+### The short version (build from sources)
 
     git clone https://github.com/Athou/commafeed.git
     cd commafeed
-    mvn clean package
+    ./mvnw clean package
     cp config.yml.example config.yml
     vi config.yml
     java -Djava.net.preferIPv4Stack=true -jar target/commafeed.jar server config.yml 
 
-### The long version
+### The long version (same as the short version, but more detailed)
 
 CommaFeed 2.0 has been rewritten to use Dropwizard and gulp instead of using tomee and wro4j. The latest version of the 1.x branch is available [here](https://github.com/Athou/commafeed/tree/1.x).
 
 For storage, you can either use an embedded H2 database (use it only to test CommaFeed) or an external MySQL, PostgreSQL or SQLServer database.
-You also need Maven 3.x (and a Java 1.8+ JDK) installed in order to build the application.
+You also need the Java 1.8+ JDK  in order to build the application.
 
-To install maven and openjdk on Ubuntu, issue the following commands
+To install the required packages to build CommaFeed on Ubuntu, issue the following commands
 
-    sudo add-apt-repository ppa:timothy-downey/maven3
-    sudo apt-get update
-    sudo apt-get install g++ build-essential openjdk-8-jdk maven3
+    sudo apt-get install g++ build-essential openjdk-8-jdk
     # Make sure java8 is the selected java version
     sudo update-alternatives --config java
     sudo update-alternatives --config javac
     
-    
-On Windows and other operating systems, just download maven 3.3.x from the [official site](http://maven.apache.org/), extract it somewhere and add the `bin` directory to your `PATH` environment variable.
     
 Clone this repository. If you don't have git you can download the sources as a zip file from [here](https://github.com/Athou/commafeed/archive/master.zip)
 
@@ -56,7 +52,7 @@ Clone this repository. If you don't have git you can download the sources as a z
     
 Now build the application
 
-    mvn clean package
+    ./mvnw clean package
     
 Copy `config.yml.example` to `config.yml` then edit the file to your liking.
 Issue the following command to run the app, the server will listen by default on `http://localhost:8082`. The default user is `admin` and the default password is `admin`.

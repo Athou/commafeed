@@ -17,7 +17,7 @@
 		<java.version>1.8</java.version>
 		<dropwizard.version>0.9.0-rc1</dropwizard.version>
 		<guice.version>4.0</guice.version>
-		<querydsl.version>3.6.4</querydsl.version>
+		<querydsl.version>4.0.2</querydsl.version>
 		<rome.version>1.5.0</rome.version>
 	</properties>
 
@@ -265,14 +265,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.mysema.querydsl</groupId>
+			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
 			<version>${querydsl.version}</version>
 			<scope>provided</scope>
 			<classifier>hibernate</classifier>
 		</dependency>
 		<dependency>
-			<groupId>com.mysema.querydsl</groupId>
+			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
 			<version>${querydsl.version}</version>
 		</dependency>

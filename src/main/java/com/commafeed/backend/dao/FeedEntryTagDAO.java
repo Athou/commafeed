@@ -23,10 +23,10 @@ public class FeedEntryTagDAO extends GenericDAO<FeedEntryTag> {
 	}
 
 	public List<String> findByUser(User user) {
-		return newQuery().from(tag).where(tag.user.eq(user)).distinct().list(tag.name);
+		return query().selectDistinct(tag.name).from(tag).where(tag.user.eq(user)).fetch();
 	}
 
 	public List<FeedEntryTag> findByEntry(User user, FeedEntry entry) {
-		return newQuery().from(tag).where(tag.user.eq(user), tag.entry.eq(entry)).list(tag);
+		return query().selectFrom(tag).where(tag.user.eq(user), tag.entry.eq(entry)).fetch();
 	}
 }

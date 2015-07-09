@@ -19,18 +19,18 @@ public class UserDAO extends GenericDAO<User> {
 	}
 
 	public User findByName(String name) {
-		return newQuery().from(user).where(user.name.equalsIgnoreCase(name)).uniqueResult(user);
+		return query().selectFrom(user).where(user.name.equalsIgnoreCase(name)).fetchOne();
 	}
 
 	public User findByApiKey(String key) {
-		return newQuery().from(user).where(user.apiKey.equalsIgnoreCase(key)).uniqueResult(user);
+		return query().selectFrom(user).where(user.apiKey.equalsIgnoreCase(key)).fetchOne();
 	}
 
 	public User findByEmail(String email) {
-		return newQuery().from(user).where(user.email.equalsIgnoreCase(email)).uniqueResult(user);
+		return query().selectFrom(user).where(user.email.equalsIgnoreCase(email)).fetchOne();
 	}
 
 	public long count() {
-		return newQuery().from(user).count();
+		return query().selectFrom(user).fetchCount();
 	}
 }

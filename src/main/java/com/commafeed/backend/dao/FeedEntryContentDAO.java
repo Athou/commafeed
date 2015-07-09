@@ -10,13 +10,14 @@ import org.hibernate.SessionFactory;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.QFeedEntry;
 import com.commafeed.backend.model.QFeedEntryContent;
-import com.google.common.collect.Iterables;
-import com.mysema.query.jpa.hibernate.HibernateSubQuery;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 
 @Singleton
 public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 
 	private QFeedEntryContent content = QFeedEntryContent.feedEntryContent;
+	private QFeedEntry entry = QFeedEntry.feedEntry;
 
 	@Inject
 	public FeedEntryContentDAO(SessionFactory sessionFactory) {
@@ -24,16 +25,14 @@ public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 	}
 
 	public Long findExisting(String contentHash, String titleHash) {
-		List<Long> list = newQuery().from(content).where(content.contentHash.eq(contentHash), content.titleHash.eq(titleHash)).limit(1)
-				.list(content.id);
-		return Iterables.getFirst(list, null);
+		return query().select(content.id).from(content).where(content.contentHash.eq(contentHash), content.titleHash.eq(titleHash))
+				.fetchFirst();
 	}
 
 	public int deleteWithoutEntries(int max) {
-		QFeedEntry entry = QFeedEntry.feedEntry;
 
-		HibernateSubQuery subQuery = new HibernateSubQuery().from(entry).where(entry.content.id.eq(content.id));
-		List<FeedEntryContent> list = newQuery().from(content).where(subQuery.notExists()).limit(max).list(content);
+		JPQLQuery<Integer> subQuery = JPAExpressions.selectOne().from(entry).where(entry.content.id.eq(content.id));
+		List<FeedEntryContent> list = query().selectFrom(content).where(subQuery.notExists()).limit(max).fetch();
 
 		int deleted = list.size();
 		delete(list);

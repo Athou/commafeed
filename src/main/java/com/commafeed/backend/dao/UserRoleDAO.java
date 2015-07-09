@@ -25,11 +25,11 @@ public class UserRoleDAO extends GenericDAO<UserRole> {
 	}
 
 	public List<UserRole> findAll() {
-		return newQuery().from(role).leftJoin(role.user).fetch().distinct().list(role);
+		return query().selectFrom(role).leftJoin(role.user).fetchJoin().distinct().fetch();
 	}
 
 	public List<UserRole> findAll(User user) {
-		return newQuery().from(role).where(role.user.eq(user)).distinct().list(role);
+		return query().selectFrom(role).where(role.user.eq(user)).distinct().fetch();
 	}
 
 	public Set<Role> findRoles(User user) {

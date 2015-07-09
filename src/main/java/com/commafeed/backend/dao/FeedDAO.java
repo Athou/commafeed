@@ -15,8 +15,9 @@ import com.commafeed.backend.model.QFeed;
 import com.commafeed.backend.model.QFeedSubscription;
 import com.commafeed.backend.model.QUser;
 import com.google.common.collect.Iterables;
-import com.mysema.query.jpa.hibernate.HibernateQuery;
-import com.mysema.query.jpa.hibernate.HibernateSubQuery;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.hibernate.HibernateQuery;
 
 @Singleton
 public class FeedDAO extends GenericDAO<Feed> {
@@ -29,23 +30,23 @@ public class FeedDAO extends GenericDAO<Feed> {
 	}
 
 	public List<Feed> findNextUpdatable(int count, Date lastLoginThreshold) {
-		HibernateQuery query = newQuery().from(feed);
+		HibernateQuery<Feed> query = query().selectFrom(feed);
 		query.where(feed.disabledUntil.isNull().or(feed.disabledUntil.lt(new Date())));
 
 		if (lastLoginThreshold != null) {
 			QFeedSubscription subs = QFeedSubscription.feedSubscription;
 			QUser user = QUser.user;
 
-			HibernateSubQuery subQuery = new HibernateSubQuery().from(subs);
+			JPQLQuery<Integer> subQuery = JPAExpressions.selectOne().from(subs);
 			subQuery.join(subs.user, user).where(user.lastLogin.gt(lastLoginThreshold));
 			query.where(subQuery.exists());
 		}
 
-		return query.orderBy(feed.disabledUntil.asc()).limit(count).distinct().list(feed);
+		return query.orderBy(feed.disabledUntil.asc()).limit(count).distinct().fetch();
 	}
 
 	public Feed findByUrl(String normalizedUrl) {
-		List<Feed> feeds = newQuery().from(feed).where(feed.normalizedUrlHash.eq(DigestUtils.sha1Hex(normalizedUrl))).list(feed);
+		List<Feed> feeds = query().selectFrom(feed).where(feed.normalizedUrlHash.eq(DigestUtils.sha1Hex(normalizedUrl))).fetch();
 		Feed feed = Iterables.getFirst(feeds, null);
 		if (feed != null && StringUtils.equals(normalizedUrl, feed.getNormalizedUrl())) {
 			return feed;
@@ -54,12 +55,12 @@ public class FeedDAO extends GenericDAO<Feed> {
 	}
 
 	public List<Feed> findByTopic(String topic) {
-		return newQuery().from(feed).where(feed.pushTopicHash.eq(DigestUtils.sha1Hex(topic))).list(feed);
+		return query().selectFrom(feed).where(feed.pushTopicHash.eq(DigestUtils.sha1Hex(topic))).fetch();
 	}
 
 	public List<Feed> findWithoutSubscriptions(int max) {
 		QFeedSubscription sub = QFeedSubscription.feedSubscription;
-		return newQuery().from(feed).where(new HibernateSubQuery().from(sub).where(sub.feed.eq(feed)).notExists()).limit(max).list(feed);
-		// return newQuery().from(feed).leftJoin(feed.subscriptions, sub).where(sub.id.isNull()).limit(max).list(feed);
+		return query().selectFrom(feed).where(JPAExpressions.selectOne().from(sub).where(sub.feed.eq(feed)).notExists()).limit(max)
+				.fetch();
 	}
 }

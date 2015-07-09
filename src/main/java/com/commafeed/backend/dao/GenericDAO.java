@@ -1,22 +1,25 @@
 package com.commafeed.backend.dao;
 
-import io.dropwizard.hibernate.AbstractDAO;
-
 import java.util.Collection;
 
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.AbstractModel;
-import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.querydsl.jpa.hibernate.HibernateQueryFactory;
+
+import io.dropwizard.hibernate.AbstractDAO;
 
 public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T> {
 
+	private HibernateQueryFactory factory;
+
 	protected GenericDAO(SessionFactory sessionFactory) {
 		super(sessionFactory);
+		this.factory = new HibernateQueryFactory(() -> currentSession());
 	}
 
-	protected HibernateQuery newQuery() {
-		return new HibernateQuery(currentSession());
+	protected HibernateQueryFactory query() {
+		return factory;
 	}
 
 	public void saveOrUpdate(T model) {

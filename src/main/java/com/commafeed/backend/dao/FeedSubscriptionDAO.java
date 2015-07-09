@@ -16,7 +16,7 @@ import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.QFeedSubscription;
 import com.commafeed.backend.model.User;
 import com.google.common.collect.Iterables;
-import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.querydsl.jpa.hibernate.HibernateQuery;
 
 @Singleton
 public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
@@ -29,34 +29,34 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 	}
 
 	public FeedSubscription findById(User user, Long id) {
-		List<FeedSubscription> subs = newQuery().from(sub).where(sub.user.eq(user), sub.id.eq(id)).leftJoin(sub.feed).fetch()
-				.leftJoin(sub.category).fetch().list(sub);
+		List<FeedSubscription> subs = query().selectFrom(sub).where(sub.user.eq(user), sub.id.eq(id)).leftJoin(sub.feed).fetchJoin()
+				.leftJoin(sub.category).fetchJoin().fetch();
 		return initRelations(Iterables.getFirst(subs, null));
 	}
 
 	public List<FeedSubscription> findByFeed(Feed feed) {
-		return newQuery().from(sub).where(sub.feed.eq(feed)).list(sub);
+		return query().selectFrom(sub).where(sub.feed.eq(feed)).fetch();
 	}
 
 	public FeedSubscription findByFeed(User user, Feed feed) {
-		List<FeedSubscription> subs = newQuery().from(sub).where(sub.user.eq(user), sub.feed.eq(feed)).list(sub);
+		List<FeedSubscription> subs = query().selectFrom(sub).where(sub.user.eq(user), sub.feed.eq(feed)).fetch();
 		return initRelations(Iterables.getFirst(subs, null));
 	}
 
 	public List<FeedSubscription> findAll(User user) {
-		List<FeedSubscription> subs = newQuery().from(sub).where(sub.user.eq(user)).leftJoin(sub.feed).fetch().leftJoin(sub.category)
-				.fetch().list(sub);
+		List<FeedSubscription> subs = query().selectFrom(sub).where(sub.user.eq(user)).leftJoin(sub.feed).fetchJoin()
+				.leftJoin(sub.category).fetchJoin().fetch();
 		return initRelations(subs);
 	}
 
 	public List<FeedSubscription> findByCategory(User user, FeedCategory category) {
-		HibernateQuery query = newQuery().from(sub).where(sub.user.eq(user));
+		HibernateQuery<FeedSubscription> query = query().selectFrom(sub).where(sub.user.eq(user));
 		if (category == null) {
 			query.where(sub.category.isNull());
 		} else {
 			query.where(sub.category.eq(category));
 		}
-		return initRelations(query.list(sub));
+		return initRelations(query.fetch());
 	}
 
 	public List<FeedSubscription> findByCategories(User user, List<FeedCategory> categories) {

@@ -1,7 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.hibernate.UnitOfWork;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
@@ -13,8 +11,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import lombok.RequiredArgsConstructor;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.CommaFeedConfiguration;
@@ -24,8 +20,11 @@ import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.ServerInfo;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
+
+import io.dropwizard.hibernate.UnitOfWork;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 
 @Path("/server")
 @Api(value = "/server", description = "Operations about server infos")

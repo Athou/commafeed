@@ -1,8 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.hibernate.UnitOfWork;
-import io.dropwizard.jersey.validation.ValidationErrorMessage;
-
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
@@ -21,9 +18,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -57,9 +51,14 @@ import com.commafeed.frontend.model.request.RegistrationRequest;
 import com.commafeed.frontend.session.SessionHelper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
+
+import io.dropwizard.hibernate.UnitOfWork;
+import io.dropwizard.jersey.validation.ValidationErrorMessage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Path("/user")
 @Api(value = "/user", description = "Operations about the user")

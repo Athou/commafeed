@@ -3,14 +3,14 @@ package com.commafeed.frontend.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import lombok.Data;
-
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 @SuppressWarnings("serial")
 @ApiModel("User information")

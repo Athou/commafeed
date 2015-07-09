@@ -1,7 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.hibernate.UnitOfWork;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -17,8 +15,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -38,9 +34,12 @@ import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
+
+import io.dropwizard.hibernate.UnitOfWork;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 
 @Path("/admin")
 @Api(value = "/admin", description = "Operations about application administration")

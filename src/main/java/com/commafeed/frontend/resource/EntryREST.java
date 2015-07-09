@@ -1,7 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.hibernate.UnitOfWork;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -14,8 +12,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import lombok.RequiredArgsConstructor;
-
 import com.commafeed.backend.dao.FeedEntryTagDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedEntryService;
@@ -26,9 +22,12 @@ import com.commafeed.frontend.model.request.MultipleMarkRequest;
 import com.commafeed.frontend.model.request.StarRequest;
 import com.commafeed.frontend.model.request.TagRequest;
 import com.google.common.base.Preconditions;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
+
+import io.dropwizard.hibernate.UnitOfWork;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 
 @Path("/entry")
 @Api(value = "/entry", description = "Operations about feed entries")

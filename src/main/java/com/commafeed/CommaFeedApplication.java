@@ -1,21 +1,8 @@
 package com.commafeed;
 
-import io.dropwizard.Application;
-import io.dropwizard.assets.AssetsBundle;
-import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.forms.MultiPartBundle;
-import io.dropwizard.hibernate.HibernateBundle;
-import io.dropwizard.migrations.MigrationsBundle;
-import io.dropwizard.server.DefaultServerFactory;
-import io.dropwizard.servlets.CacheBustingFilter;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
-
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -26,7 +13,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.hibernate.cfg.AvailableSettings;
 
@@ -60,13 +46,21 @@ import com.commafeed.frontend.servlet.CustomCssServlet;
 import com.commafeed.frontend.servlet.LogoutServlet;
 import com.commafeed.frontend.servlet.NextUnreadServlet;
 import com.commafeed.frontend.session.SessionHelperFactoryProvider;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
-import com.wordnik.swagger.jaxrs.config.BeanConfig;
-import com.wordnik.swagger.jaxrs.listing.ApiListingResource;
+
+import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.forms.MultiPartBundle;
+import io.dropwizard.hibernate.HibernateBundle;
+import io.dropwizard.migrations.MigrationsBundle;
+import io.dropwizard.server.DefaultServerFactory;
+import io.dropwizard.servlets.CacheBustingFilter;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
 
 public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
@@ -157,21 +151,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.lifecycle().manage(injector.getInstance(FeedRefreshTaskGiver.class));
 		environment.lifecycle().manage(injector.getInstance(FeedRefreshWorker.class));
 		environment.lifecycle().manage(injector.getInstance(FeedRefreshUpdater.class));
-
-		// Swagger
-		environment.jersey().register(new ApiListingResource());
-		environment.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
-		String modelsPackage = "com.commafeed.frontend.model";
-		String requestsPackage = "com.commafeed.frontend.model.request";
-		String endpointsPackage = "com.commafeed.frontend.resource";
-		List<String> packages = Arrays.asList(modelsPackage, requestsPackage, endpointsPackage);
-		BeanConfig swaggerConfig = new BeanConfig();
-		swaggerConfig.setTitle("CommaFeed");
-		swaggerConfig.setVersion("1");
-		swaggerConfig.setBasePath("/rest");
-		swaggerConfig.setResourcePackage(StringUtils.join(packages, ","));
-		swaggerConfig.setScan(true);
 
 		// cache configuration
 		// prevent caching on REST resources, except for favicons

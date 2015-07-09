@@ -49,8 +49,9 @@ gulp.task('select2', function() {
 
 gulp.task('swagger-ui', function() {
 	var index_html = SRC_DIR + 'api/index.html';
+	var swagger_json = 'target/swagger/swagger.json';
 	var lib = SRC_DIR + 'lib/swagger-ui/dist/**/*';
-	return gulp.src([lib, index_html]).pipe(gulp.dest(BUILD_DIR + 'api'));
+	return gulp.src([lib, index_html, swagger_json]).pipe(gulp.dest(BUILD_DIR + 'api'));
 });
 
 gulp.task('template-cache', function() {

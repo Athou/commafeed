@@ -2,9 +2,8 @@ package com.commafeed.frontend.model;
 
 import java.io.Serializable;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
-
-import com.wordnik.swagger.annotations.ApiModel;
 
 @SuppressWarnings("serial")
 @ApiModel("Server infos")

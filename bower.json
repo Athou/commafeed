@@ -28,7 +28,7 @@
     "devicejs": "0.2.4",
     "readabilicons": "arc90/readability-readabilicons#34c55561c5b8ec6e90714b50237c06b13cb9d59c",
     "zocial-less": "1.0.0",
-	"swagger-ui": "2.1.8-M1"
+	"swagger-ui": "2.1.0"
   },
   "resolutions": {
     "angular": "1.3.14",

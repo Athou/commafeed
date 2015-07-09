@@ -183,9 +183,34 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>com.rimerosolutions.maven.plugins</groupId>
-				<artifactId>wrapper-maven-plugin</artifactId>
-				<version>0.0.4</version>
+				<groupId>com.github.kongchen</groupId>
+				<artifactId>swagger-maven-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<apiSources>
+						<apiSource>
+							<locations>com.commafeed.frontend.resource;com.commafeed.frontend.model;com.commafeed.frontend.model.request</locations>
+							<swaggerDirectory>target/swagger</swaggerDirectory>
+							<basePath>/rest</basePath>
+							<info>
+								<title>CommaFeed</title>
+								<version>${project.version}</version>
+							</info>
+							<!-- TODO uncomment when 3.1.1 is released -->
+							<!-- <typesToSkip> -->
+							<!-- <typeToSkip>com.commafeed.backend.model.User</typeToSkip> -->
+							<!-- </typesToSkip> -->
+						</apiSource>
+					</apiSources>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -253,15 +278,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.wordnik</groupId>
-			<artifactId>swagger-jaxrs</artifactId>
-			<version>1.5.3-M1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.ws.rs</groupId>
-					<artifactId>jsr311-api</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.5.0</version>
 		</dependency>
 
 		<dependency>

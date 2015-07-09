@@ -1,7 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.hibernate.UnitOfWork;
-
 import java.util.Date;
 import java.util.List;
 
@@ -19,9 +17,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +29,10 @@ import com.commafeed.backend.feed.FeedQueues;
 import com.commafeed.backend.feed.FetchedFeed;
 import com.commafeed.backend.model.Feed;
 import com.google.common.base.Preconditions;
+
+import io.dropwizard.hibernate.UnitOfWork;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Path("/push")
 @Slf4j

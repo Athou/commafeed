@@ -15,7 +15,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<dropwizard.version>0.9.0-rc1</dropwizard.version>
+		<dropwizard.version>0.9.0-rc2</dropwizard.version>
 		<guice.version>4.0</guice.version>
 		<querydsl.version>4.0.2</querydsl.version>
 		<rome.version>1.5.0</rome.version>
@@ -243,6 +243,16 @@
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-core</artifactId>
 			<version>${dropwizard.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.glassfish.hk2.external</groupId>
+					<artifactId>aopalliance-repackaged</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.hk2.external</groupId>
+					<artifactId>javax.inject</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>io.dropwizard</groupId>
@@ -263,6 +273,12 @@
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-forms</artifactId>
 			<version>${dropwizard.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.glassfish.hk2.external</groupId>
+					<artifactId>javax.inject</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

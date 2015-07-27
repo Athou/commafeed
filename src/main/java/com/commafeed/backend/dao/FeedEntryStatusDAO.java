@@ -62,7 +62,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			builder.append(o2.getEntryUpdated(), o1.getEntryUpdated());
 			builder.append(o2.getId(), o1.getId());
 			return builder.toComparison();
-		};
+		}
 	};
 
 	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = Ordering.from(STATUS_COMPARATOR_DESC).reverse();

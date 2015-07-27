@@ -29,7 +29,7 @@ public class OPML11Parser extends OPML10Parser {
 
 		return false;
 
-	};
+	}
 
 	@Override
 	public WireFeed parse(Document document, boolean validate, Locale locale) throws IllegalArgumentException, FeedException {

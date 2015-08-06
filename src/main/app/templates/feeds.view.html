@@ -61,8 +61,7 @@
 				<div class="entry-body-content">
 					<div ng-if="!MobileService.mobile" ng-bind-html="entry.content | iframeHttpsRewrite| highlight:keywords | trustHtml"></div>
 					<div ng-if="MobileService.mobile" ng-bind-html="entry.content | iframeHttpsRewrite| highlight:keywords | appendImageTitles | trustHtml"></div>
-					
-					<div class="entry-enclosure" ng-if="entry.enclosureType && (entry.enclosureUrl && entry.content && entry.content.indexOf(entry.enclosureUrl) == 0)">
+					<div class="entry-enclosure" ng-if="entry.enclosureType && (entry.enclosureUrl && entry.content && entry.content.indexOf(entry.enclosureUrl) == -1)">
 						<video controls ng-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">
 							<source ng-src="{{entry.enclosureUrl | trustUrl}}" type="{{entry.enclosureType}}" />
 						</video>

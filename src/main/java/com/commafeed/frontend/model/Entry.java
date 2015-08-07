@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
@@ -52,10 +54,11 @@ public class Entry implements Serializable {
 		if (content != null) {
 			entry.setRtl(FeedUtils.isRTL(feedEntry));
 			entry.setTitle(content.getTitle());
-			entry.setContent(FeedUtils.proxyImages(content.getContent(), publicUrl, proxyImages));
+			entry.setContent(proxyImages ? FeedUtils.proxyImages(content.getContent(), publicUrl) : content.getContent());
 			entry.setAuthor(content.getAuthor());
-			entry.setEnclosureUrl(content.getEnclosureUrl());
 			entry.setEnclosureType(content.getEnclosureType());
+			entry.setEnclosureUrl(proxyImages && StringUtils.contains(content.getEnclosureType(), "image")
+					? FeedUtils.proxyImage(content.getEnclosureUrl(), publicUrl) : content.getEnclosureUrl());
 			entry.setCategories(content.getCategories());
 		}
 

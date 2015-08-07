@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +38,7 @@ import com.ibm.icu.text.CharsetMatch;
 import com.steadystate.css.parser.CSSOMParser;
 
 import edu.uci.ics.crawler4j.url.URLCanonicalizer;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Utility methods related to feed handling
@@ -438,10 +437,7 @@ public class FeedUtils {
 		return removeTrailingSlash(publicUrl) + "/rest/feed/favicon/" + subscription.getId();
 	}
 
-	public static String proxyImages(String content, String publicUrl, boolean proxyImages) {
-		if (!proxyImages) {
-			return content;
-		}
+	public static String proxyImages(String content, String publicUrl) {
 		if (StringUtils.isBlank(content)) {
 			return content;
 		}
@@ -451,12 +447,19 @@ public class FeedUtils {
 		for (Element element : elements) {
 			String href = element.attr("src");
 			if (href != null) {
-				String proxy = removeTrailingSlash(publicUrl) + "/rest/server/proxy?u=" + imageProxyEncoder(href);
+				String proxy = proxyImage(href, publicUrl);
 				element.attr("src", proxy);
 			}
 		}
 
 		return doc.body().html();
+	}
+
+	public static String proxyImage(String url, String publicUrl) {
+		if (StringUtils.isBlank(url)) {
+			return url;
+		}
+		return removeTrailingSlash(publicUrl) + "/rest/server/proxy?u=" + imageProxyEncoder(url);
 	}
 
 	public static String rot13(String msg) {

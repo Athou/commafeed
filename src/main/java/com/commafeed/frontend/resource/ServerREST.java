@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
@@ -27,10 +28,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 @Path("/server")
-@Api(value = "/server", description = "Operations about server infos")
+@Api(value = "/server")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class ServerREST {
 
@@ -41,6 +42,7 @@ public class ServerREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Get server infos", notes = "Get server infos", response = ServerInfo.class)
+	@Timed
 	public Response get() {
 		ServerInfo infos = new ServerInfo();
 		infos.setAnnouncement(config.getApplicationSettings().getAnnouncement());
@@ -57,6 +59,7 @@ public class ServerREST {
 	@UnitOfWork
 	@ApiOperation(value = "proxy image")
 	@Produces("image/png")
+	@Timed
 	public Response get(@SecurityCheck User user, @QueryParam("u") String url) {
 		if (!config.getApplicationSettings().getImageProxyEnabled()) {
 			return Response.status(Status.FORBIDDEN).build();

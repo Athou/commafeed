@@ -9,6 +9,9 @@
 
 		<dt>Total</dt>
 		<dd>{{metric.count}}</dd>
+		
+		<dt>min/max/mean (ms)</dt>
+		<dd>{{metric.snapshot.min/1000000 | number:0}} {{metric.snapshot.max/1000000 | number:0}} {{metric.snapshot.mean/1000000 | number:0}}</dd>
 
 	</dl>
 </div>

@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.client.utils.URIBuilder;
 
+import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.UserDAO;
@@ -61,11 +62,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Path("/user")
-@Api(value = "/user", description = "Operations about the user")
+@Api(value = "/user")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class UserREST {
 
@@ -81,6 +82,7 @@ public class UserREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Retrieve user settings", notes = "Retrieve user settings", response = Settings.class)
+	@Timed
 	public Response getSettings(@SecurityCheck User user) {
 		Settings s = new Settings();
 		UserSettings settings = userSettingsDAO.findByUser(user);
@@ -135,6 +137,7 @@ public class UserREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Save user settings", notes = "Save user settings")
+	@Timed
 	public Response saveSettings(@SecurityCheck User user, @ApiParam(required = true) Settings settings) {
 		Preconditions.checkNotNull(settings);
 
@@ -173,6 +176,7 @@ public class UserREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Retrieve user's profile", response = UserModel.class)
+	@Timed
 	public Response get(@SecurityCheck User user) {
 		UserModel userModel = new UserModel();
 		userModel.setId(user.getId());
@@ -192,6 +196,7 @@ public class UserREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Save user's profile")
+	@Timed
 	public Response save(@SecurityCheck User user, @ApiParam(required = true) ProfileModificationRequest request) {
 		Preconditions.checkArgument(StringUtils.isBlank(request.getPassword()) || request.getPassword().length() >= 6);
 		if (StringUtils.isNotBlank(request.getEmail())) {
@@ -220,6 +225,7 @@ public class UserREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Register a new account")
+	@Timed
 	public Response register(@Valid @ApiParam(required = true) RegistrationRequest req, @Context SessionHelper sessionHelper) {
 		try {
 			User registeredUser = userService.register(req.getName(), req.getPassword(), req.getEmail(), Arrays.asList(Role.USER));
@@ -236,6 +242,7 @@ public class UserREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Login and create a session")
+	@Timed
 	public Response login(@ApiParam(required = true) LoginRequest req, @Context SessionHelper sessionHelper) {
 		Optional<User> user = userService.login(req.getName(), req.getPassword());
 		if (user.isPresent()) {
@@ -250,6 +257,7 @@ public class UserREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "send a password reset email")
+	@Timed
 	public Response sendPasswordReset(@Valid PasswordResetRequest req) {
 		User user = userDAO.findByEmail(req.getEmail());
 		if (user == null) {
@@ -271,9 +279,9 @@ public class UserREST {
 	private String buildEmailContent(User user) throws Exception {
 		String publicUrl = FeedUtils.removeTrailingSlash(config.getApplicationSettings().getPublicUrl());
 		publicUrl += "/rest/user/passwordResetCallback";
-		return String
-				.format("You asked for password recovery for account '%s', <a href='%s'>follow this link</a> to change your password. Ignore this if you didn't request a password recovery.",
-						user.getName(), callbackUrl(user, publicUrl));
+		return String.format(
+				"You asked for password recovery for account '%s', <a href='%s'>follow this link</a> to change your password. Ignore this if you didn't request a password recovery.",
+				user.getName(), callbackUrl(user, publicUrl));
 	}
 
 	private String callbackUrl(User user, String publicUrl) throws Exception {
@@ -285,6 +293,7 @@ public class UserREST {
 	@GET
 	@UnitOfWork
 	@Produces(MediaType.TEXT_HTML)
+	@Timed
 	public Response passwordRecoveryCallback(@QueryParam("email") String email, @QueryParam("token") String token) {
 		Preconditions.checkNotNull(email);
 		Preconditions.checkNotNull(token);
@@ -320,6 +329,7 @@ public class UserREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Delete the user account")
+	@Timed
 	public Response delete(@SecurityCheck User user) {
 		if (CommaFeedApplication.USERNAME_ADMIN.equals(user.getName()) || CommaFeedApplication.USERNAME_DEMO.equals(user.getName())) {
 			return Response.status(Status.FORBIDDEN).build();

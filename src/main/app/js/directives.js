@@ -360,3 +360,14 @@ module.directive('metricGauge', function() {
 		templateUrl : 'templates/_metrics.gauge.html'
 	};
 });
+
+module.directive('metricTimer', function() {
+	return {
+		scope : {
+			metric : '=',
+			label : '='
+		},
+		restrict : 'E',
+		templateUrl : 'templates/_metrics.timer.html'
+	};
+});

@@ -22,6 +22,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.feed.FeedParser;
@@ -36,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Path("/push")
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class PubSubHubbubCallbackREST {
 
@@ -53,6 +54,7 @@ public class PubSubHubbubCallbackREST {
 	@GET
 	@UnitOfWork
 	@Produces(MediaType.TEXT_PLAIN)
+	@Timed
 	public Response verify(@QueryParam("hub.mode") String mode, @QueryParam("hub.topic") String topic,
 			@QueryParam("hub.challenge") String challenge, @QueryParam("hub.lease_seconds") String leaseSeconds,
 			@QueryParam("hub.verify_token") String verifyToken) {
@@ -84,6 +86,7 @@ public class PubSubHubbubCallbackREST {
 	@POST
 	@UnitOfWork
 	@Consumes({ MediaType.APPLICATION_ATOM_XML, "application/rss+xml" })
+	@Timed
 	public Response callback() {
 
 		if (!config.getApplicationSettings().getPubsubhubbub()) {

@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.codahale.metrics.annotation.Timed;
 import com.commafeed.backend.dao.FeedEntryTagDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedEntryService;
@@ -30,10 +31,10 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 
 @Path("/entry")
-@Api(value = "/entry", description = "Operations about feed entries")
+@Api(value = "/entry")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class EntryREST {
 
@@ -45,6 +46,7 @@ public class EntryREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
+	@Timed
 	public Response markFeedEntry(@SecurityCheck User user, @ApiParam(value = "Mark Request", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -57,6 +59,7 @@ public class EntryREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Mark multiple feed entries", notes = "Mark feed entries as read/unread")
+	@Timed
 	public Response markFeedEntries(@SecurityCheck User user,
 			@ApiParam(value = "Multiple Mark Request", required = true) MultipleMarkRequest req) {
 		Preconditions.checkNotNull(req);
@@ -73,6 +76,7 @@ public class EntryREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
+	@Timed
 	public Response starFeedEntry(@SecurityCheck User user, @ApiParam(value = "Star Request", required = true) StarRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -87,6 +91,7 @@ public class EntryREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Get list of tags for the user", notes = "Get list of tags for the user")
+	@Timed
 	public Response getTags(@SecurityCheck User user) {
 		List<String> tags = feedEntryTagDAO.findByUser(user);
 		return Response.ok(tags).build();
@@ -96,6 +101,7 @@ public class EntryREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
+	@Timed
 	public Response tagFeedEntry(@SecurityCheck User user, @ApiParam(value = "Tag Request", required = true) TagRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getEntryId());

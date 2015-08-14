@@ -35,6 +35,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.cache.CacheService;
@@ -90,11 +91,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Path("/feed")
-@Api(value = "/feed", description = "Operations about feeds")
+@Api(value = "/feed")
 @Slf4j
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class FeedREST {
 
@@ -130,10 +131,13 @@ public class FeedREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Get feed entries", notes = "Get a list of feed entries", response = Entries.class)
-	public Response getFeedEntries(
-			@SecurityCheck User user,
+	@Timed
+	public Response getFeedEntries(@SecurityCheck User user,
 			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
-			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
+			@ApiParam(
+					value = "all entries or only unread ones",
+					allowableValues = "all,unread",
+					required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
@@ -171,9 +175,8 @@ public class FeedREST {
 					entryKeywords, newerThanDate, offset, limit + 1, order, true, onlyIds, null);
 
 			for (FeedEntryStatus status : list) {
-				entries.getEntries().add(
-						Entry.build(status, config.getApplicationSettings().getPublicUrl(), config.getApplicationSettings()
-								.getImageProxyEnabled()));
+				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getPublicUrl(),
+						config.getApplicationSettings().getImageProxyEnabled()));
 			}
 
 			boolean hasMore = entries.getEntries().size() > limit;
@@ -196,10 +199,13 @@ public class FeedREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get feed entries as a feed", notes = "Get a feed of feed entries")
 	@Produces(MediaType.APPLICATION_XML)
-	public Response getFeedEntriesAsFeed(
-			@SecurityCheck(apiKeyAllowed = true) User user,
+	@Timed
+	public Response getFeedEntriesAsFeed(@SecurityCheck(apiKeyAllowed = true) User user,
 			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
-			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("all") @QueryParam("readType") ReadingMode readType,
+			@ApiParam(
+					value = "all entries or only unread ones",
+					allowableValues = "all,unread",
+					required = true) @DefaultValue("all") @QueryParam("readType") ReadingMode readType,
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
@@ -253,6 +259,7 @@ public class FeedREST {
 	@Path("/fetch")
 	@UnitOfWork
 	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", response = FeedInfo.class)
+	@Timed
 	public Response fetchFeed(@SecurityCheck User user, @ApiParam(value = "feed url", required = true) FeedInfoRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getUrl());
@@ -271,6 +278,7 @@ public class FeedREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Queue all feeds of the user for refresh", notes = "Manually add all feeds of the user to the refresh queue")
+	@Timed
 	public Response queueAllForRefresh(@SecurityCheck User user) {
 		feedSubscriptionService.refreshAll(user);
 		return Response.ok().build();
@@ -280,6 +288,7 @@ public class FeedREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Queue a feed for refresh", notes = "Manually add a feed to the refresh queue")
+	@Timed
 	public Response queueForRefresh(@SecurityCheck User user, @ApiParam(value = "Feed id") IDRequest req) {
 
 		Preconditions.checkNotNull(req);
@@ -298,6 +307,7 @@ public class FeedREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read (unread is not supported)")
+	@Timed
 	public Response markFeedEntries(@SecurityCheck User user, @ApiParam(value = "Mark request") MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -317,6 +327,7 @@ public class FeedREST {
 	@Path("/get/{id}")
 	@UnitOfWork
 	@ApiOperation(value = "", notes = "")
+	@Timed
 	public Response get(@SecurityCheck User user, @ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
@@ -332,6 +343,7 @@ public class FeedREST {
 	@Path("/favicon/{id}")
 	@UnitOfWork
 	@ApiOperation(value = "Fetch a feed's icon", notes = "Fetch a feed's icon")
+	@Timed
 	public Response getFavicon(@SecurityCheck User user, @ApiParam(value = "subscription id") @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
@@ -361,6 +373,7 @@ public class FeedREST {
 	@Path("/subscribe")
 	@UnitOfWork
 	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
+	@Timed
 	public Response subscribe(@SecurityCheck User user, @ApiParam(value = "subscription request", required = true) SubscribeRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getTitle());
@@ -387,6 +400,7 @@ public class FeedREST {
 	@Path("/subscribe")
 	@UnitOfWork
 	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
+	@Timed
 	public Response subscribe(@SecurityCheck User user, @ApiParam(value = "feed url", required = true) @QueryParam("url") String url) {
 
 		try {
@@ -414,6 +428,7 @@ public class FeedREST {
 	@Path("/unsubscribe")
 	@UnitOfWork
 	@ApiOperation(value = "Unsubscribe from a feed", notes = "Unsubscribe from a feed")
+	@Timed
 	public Response unsubscribe(@SecurityCheck User user, @ApiParam(required = true) IDRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -430,6 +445,7 @@ public class FeedREST {
 	@Path("/modify")
 	@UnitOfWork
 	@ApiOperation(value = "Modify a subscription", notes = "Modify a feed subscription")
+	@Timed
 	public Response modify(@SecurityCheck User user, @ApiParam(value = "subscription id", required = true) FeedModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -489,12 +505,13 @@ public class FeedREST {
 	@UnitOfWork
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@ApiOperation(value = "OPML import", notes = "Import an OPML file, posted as a FORM with the 'file' name")
+	@Timed
 	public Response importOpml(@SecurityCheck User user, @FormDataParam("file") InputStream input) {
 
 		String publicUrl = config.getApplicationSettings().getPublicUrl();
 		if (StringUtils.isBlank(publicUrl)) {
-			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR)
-					.entity("Set the public URL in the admin section.").build());
+			throw new WebApplicationException(
+					Response.status(Status.INTERNAL_SERVER_ERROR).entity("Set the public URL in the admin section.").build());
 		}
 
 		if (CommaFeedApplication.USERNAME_DEMO.equals(user.getName())) {
@@ -515,6 +532,7 @@ public class FeedREST {
 	@UnitOfWork
 	@Produces(MediaType.APPLICATION_XML)
 	@ApiOperation(value = "OPML export", notes = "Export an OPML file of the user's subscriptions")
+	@Timed
 	public Response exportOpml(@SecurityCheck User user) {
 		Opml opml = opmlExporter.export(user);
 		WireFeedOutput output = new WireFeedOutput();

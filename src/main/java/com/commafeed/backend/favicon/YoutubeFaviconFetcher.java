@@ -54,7 +54,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 		try {
 			List<NameValuePair> params = URLEncodedUtils.parse(url.substring(url.indexOf("?") + 1), StandardCharsets.UTF_8);
 			Optional<NameValuePair> userId = params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("user")).findFirst();
-			Optional<NameValuePair> channelId = params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("channel")).findFirst();
+			Optional<NameValuePair> channelId = params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("channel_id")).findFirst();
 			if (!userId.isPresent() && !channelId.isPresent()) {
 				return null;
 			}

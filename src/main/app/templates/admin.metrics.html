@@ -1,21 +1,28 @@
 <div>
-	<metric-meter metric="metrics.meters['com.commafeed.backend.feed.FeedQueues.refill']" label="'Refresh queue refill rate (/sec)'"></metric-meter>
-	<metric-meter metric="metrics.meters['com.commafeed.backend.feed.FeedRefreshTaskGiver.feedRefreshed']" label="'Feed refreshed (/sec)'"></metric-meter>
-	<metric-meter metric="metrics.meters['com.commafeed.backend.feed.FeedRefreshUpdater.feedUpdated']" label="'Feed updated (/sec)'"></metric-meter>
-	<metric-meter metric="metrics.meters['com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheHit']" label="'Entry cache hit (/sec)'"></metric-meter>
-	<metric-meter metric="metrics.meters['com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheMiss']" label="'Entry cache miss (/sec)'"></metric-meter>
+	<div class="col-md-6">
+		<metric-meter metric="metrics.meters['com.commafeed.backend.feed.FeedQueues.refill']" label="'Refresh queue refill rate (/sec)'"></metric-meter>
+		<metric-meter metric="metrics.meters['com.commafeed.backend.feed.FeedRefreshTaskGiver.feedRefreshed']" label="'Feed refreshed (/sec)'"></metric-meter>
+		<metric-meter metric="metrics.meters['com.commafeed.backend.feed.FeedRefreshUpdater.feedUpdated']" label="'Feed updated (/sec)'"></metric-meter>
+		<metric-meter metric="metrics.meters['com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheHit']" label="'Entry cache hit (/sec)'"></metric-meter>
+		<metric-meter metric="metrics.meters['com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheMiss']" label="'Entry cache miss (/sec)'"></metric-meter>
+		
+			<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-updater.active']"
+			label="'Feed Updater active'"></metric-gauge>
+		<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-updater.pending']"
+			label="'Feed Updater queued'"></metric-gauge>
 
-	<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-updater.active']"
-		label="'Feed Updater active'"></metric-gauge>
-	<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-updater.pending']"
-		label="'Feed Updater queued'"></metric-gauge>
+		<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-worker.active']"
+			label="'Feed Worker active'"></metric-gauge>
+		<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-worker.pending']"
+			label="'Feed Worker queued'"></metric-gauge>
 
-	<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-worker.active']"
-		label="'Feed Worker active'"></metric-gauge>
-	<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-worker.pending']"
-		label="'Feed Worker queued'"></metric-gauge>
-
-	<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedQueues.addQueue']" label="'Task Giver Add Queue'"></metric-gauge>
-	<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedQueues.takeQueue']" label="'Task Giver Take Queue'"></metric-gauge>
-	<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedQueues.giveBackQueue']" label="'Task Giver Give Back Queue'"></metric-gauge>
+		<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedQueues.addQueue']" label="'Task Giver Add Queue'"></metric-gauge>
+		<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedQueues.takeQueue']" label="'Task Giver Take Queue'"></metric-gauge>
+		<metric-gauge metric="metrics.gauges['com.commafeed.backend.feed.FeedQueues.giveBackQueue']" label="'Task Giver Give Back Queue'"></metric-gauge>
+	</div>
+	<div class="col-md-6">
+		<div ng-repeat="(name, timer) in metrics.timers">
+			<metric-timer metric="timer" label="name"></metric-gauge>
+		</div>
+	</div>
 </div>

@@ -1,6 +1,8 @@
 package com.commafeed.backend.dao;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,10 +15,8 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.QFeedSubscription;
 import com.commafeed.backend.model.User;
-import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.querydsl.jpa.hibernate.HibernateQuery;
 
 @Singleton
 public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
@@ -29,57 +29,44 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 	}
 
 	public FeedSubscription findById(User user, Long id) {
-		List<FeedSubscription> subs = newQuery().from(sub).where(sub.user.eq(user), sub.id.eq(id)).leftJoin(sub.feed).fetch()
-				.leftJoin(sub.category).fetch().list(sub);
+		List<FeedSubscription> subs = query().selectFrom(sub).where(sub.user.eq(user), sub.id.eq(id)).leftJoin(sub.feed).fetchJoin()
+				.leftJoin(sub.category).fetchJoin().fetch();
 		return initRelations(Iterables.getFirst(subs, null));
 	}
 
 	public List<FeedSubscription> findByFeed(Feed feed) {
-		return newQuery().from(sub).where(sub.feed.eq(feed)).list(sub);
+		return query().selectFrom(sub).where(sub.feed.eq(feed)).fetch();
 	}
 
 	public FeedSubscription findByFeed(User user, Feed feed) {
-		List<FeedSubscription> subs = newQuery().from(sub).where(sub.user.eq(user), sub.feed.eq(feed)).list(sub);
+		List<FeedSubscription> subs = query().selectFrom(sub).where(sub.user.eq(user), sub.feed.eq(feed)).fetch();
 		return initRelations(Iterables.getFirst(subs, null));
 	}
 
 	public List<FeedSubscription> findAll(User user) {
-		List<FeedSubscription> subs = newQuery().from(sub).where(sub.user.eq(user)).leftJoin(sub.feed).fetch().leftJoin(sub.category)
-				.fetch().list(sub);
+		List<FeedSubscription> subs = query().selectFrom(sub).where(sub.user.eq(user)).leftJoin(sub.feed).fetchJoin()
+				.leftJoin(sub.category).fetchJoin().fetch();
 		return initRelations(subs);
 	}
 
 	public List<FeedSubscription> findByCategory(User user, FeedCategory category) {
-		HibernateQuery query = newQuery().from(sub).where(sub.user.eq(user));
+		HibernateQuery<FeedSubscription> query = query().selectFrom(sub).where(sub.user.eq(user));
 		if (category == null) {
 			query.where(sub.category.isNull());
 		} else {
 			query.where(sub.category.eq(category));
 		}
-		return initRelations(query.list(sub));
+		return initRelations(query.fetch());
 	}
 
 	public List<FeedSubscription> findByCategories(User user, List<FeedCategory> categories) {
-		List<Long> categoryIds = Lists.transform(categories, new Function<FeedCategory, Long>() {
-			@Override
-			public Long apply(FeedCategory input) {
-				return input.getId();
-			}
-		});
-
-		List<FeedSubscription> subscriptions = Lists.newArrayList();
-		for (FeedSubscription sub : findAll(user)) {
-			if (sub.getCategory() != null && categoryIds.contains(sub.getCategory().getId())) {
-				subscriptions.add(sub);
-			}
-		}
-		return subscriptions;
+		Set<Long> categoryIds = categories.stream().map(c -> c.getId()).collect(Collectors.toSet());
+		return findAll(user).stream().filter(s -> s.getCategory() != null && categoryIds.contains(s.getCategory().getId()))
+				.collect(Collectors.toList());
 	}
 
 	private List<FeedSubscription> initRelations(List<FeedSubscription> list) {
-		for (FeedSubscription sub : list) {
-			initRelations(sub);
-		}
+		list.forEach(s -> initRelations(s));
 		return list;
 	}
 

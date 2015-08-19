@@ -1,17 +1,9 @@
 package com.commafeed;
 
-import io.dropwizard.Application;
-import io.dropwizard.assets.AssetsBundle;
-import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.hibernate.HibernateBundle;
-import io.dropwizard.migrations.MigrationsBundle;
-import io.dropwizard.servlets.CacheBustingFilter;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
-
 import java.io.IOException;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 
 import javax.servlet.DispatcherType;
@@ -22,6 +14,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jetty.server.session.SessionHandler;
+import org.hibernate.cfg.AvailableSettings;
 
 import com.commafeed.backend.feed.FeedRefreshTaskGiver;
 import com.commafeed.backend.feed.FeedRefreshUpdater;
@@ -39,10 +32,8 @@ import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.service.StartupService;
 import com.commafeed.backend.service.UserService;
-import com.commafeed.backend.task.OldStatusesCleanupTask;
-import com.commafeed.backend.task.OrphansCleanupTask;
-import com.commafeed.frontend.auth.SecurityCheckProvider;
-import com.commafeed.frontend.auth.SecurityCheckProvider.SecurityCheckUserServiceProvider;
+import com.commafeed.backend.task.ScheduledTask;
+import com.commafeed.frontend.auth.SecurityCheckFactoryProvider;
 import com.commafeed.frontend.resource.AdminREST;
 import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.frontend.resource.EntryREST;
@@ -54,19 +45,22 @@ import com.commafeed.frontend.servlet.AnalyticsServlet;
 import com.commafeed.frontend.servlet.CustomCssServlet;
 import com.commafeed.frontend.servlet.LogoutServlet;
 import com.commafeed.frontend.servlet.NextUnreadServlet;
-import com.commafeed.frontend.session.SessionHelperProvider;
+import com.commafeed.frontend.session.SessionHelperFactoryProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.sun.jersey.api.core.ResourceConfig;
-import com.wordnik.swagger.config.ConfigFactory;
-import com.wordnik.swagger.config.ScannerFactory;
-import com.wordnik.swagger.config.SwaggerConfig;
-import com.wordnik.swagger.jaxrs.config.DefaultJaxrsScanner;
-import com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider;
-import com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON;
-import com.wordnik.swagger.jaxrs.listing.ResourceListingProvider;
-import com.wordnik.swagger.jaxrs.reader.DefaultJaxrsApiReader;
-import com.wordnik.swagger.reader.ClassReaders;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
+
+import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.forms.MultiPartBundle;
+import io.dropwizard.hibernate.HibernateBundle;
+import io.dropwizard.migrations.MigrationsBundle;
+import io.dropwizard.server.DefaultServerFactory;
+import io.dropwizard.servlets.CacheBustingFilter;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
 
 public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
@@ -89,36 +83,44 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 				FeedSubscription.class, User.class, UserRole.class, UserSettings.class) {
 			@Override
 			public DataSourceFactory getDataSourceFactory(CommaFeedConfiguration configuration) {
-				return configuration.getDatabase();
+				DataSourceFactory factory = configuration.getDataSourceFactory();
+
+				// keep using old id generator for backward compatibility
+				factory.getProperties().put(AvailableSettings.USE_NEW_ID_GENERATOR_MAPPINGS, "false");
+
+				factory.getProperties().put(AvailableSettings.STATEMENT_BATCH_SIZE, "50");
+				factory.getProperties().put(AvailableSettings.BATCH_VERSIONED_DATA, "true");
+				return factory;
 			}
 		});
 
 		bootstrap.addBundle(new MigrationsBundle<CommaFeedConfiguration>() {
 			@Override
 			public DataSourceFactory getDataSourceFactory(CommaFeedConfiguration configuration) {
-				return configuration.getDatabase();
+				return configuration.getDataSourceFactory();
 			}
 		});
 
 		bootstrap.addBundle(new AssetsBundle("/assets/", "/", "index.html"));
+		bootstrap.addBundle(new MultiPartBundle());
 	}
 
 	@Override
 	public void run(CommaFeedConfiguration config, Environment environment) throws Exception {
-		// configure context path
-		environment.getApplicationContext().setContextPath(config.getApplicationSettings().getContextPath());
-
 		// guice init
 		Injector injector = Guice.createInjector(new CommaFeedModule(hibernateBundle.getSessionFactory(), config, environment.metrics()));
 
-		// Auth/session management
+		// session management
 		environment.servlets().setSessionHandler(new SessionHandler(config.getSessionManagerFactory().build()));
-		environment.jersey().register(new SecurityCheckUserServiceProvider(injector.getInstance(UserService.class)));
-		environment.jersey().register(SecurityCheckProvider.class);
-		environment.jersey().register(SessionHelperProvider.class);
+
+		// support for "@SecurityCheck User user" injection
+		environment.jersey().register(new SecurityCheckFactoryProvider.Binder(injector.getInstance(UserService.class)));
+		// support for "@Context SessionHelper sessionHelper" injection
+		environment.jersey().register(new SessionHelperFactoryProvider.Binder());
 
 		// REST resources
 		environment.jersey().setUrlPattern("/rest/*");
+		((DefaultServerFactory) config.getServerFactory()).setJerseyRootPath("/rest/*");
 		environment.jersey().register(injector.getInstance(AdminREST.class));
 		environment.jersey().register(injector.getInstance(CategoryREST.class));
 		environment.jersey().register(injector.getInstance(EntryREST.class));
@@ -134,9 +136,13 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.servlets().addServlet("analytics.js", injector.getInstance(AnalyticsServlet.class)).addMapping("/analytics.js");
 
 		// Scheduled tasks
-		ScheduledExecutorService executor = environment.lifecycle().scheduledExecutorService("task-scheduler").build();
-		injector.getInstance(OldStatusesCleanupTask.class).register(executor);
-		injector.getInstance(OrphansCleanupTask.class).register(executor);
+		Set<ScheduledTask> tasks = injector.getInstance(Key.get(new TypeLiteral<Set<ScheduledTask>>() {
+		}));
+		ScheduledExecutorService executor = environment.lifecycle().scheduledExecutorService("task-scheduler", true).threads(tasks.size())
+				.build();
+		for (ScheduledTask task : tasks) {
+			task.register(executor);
+		}
 
 		// database init/changelogs
 		environment.lifecycle().manage(injector.getInstance(StartupService.class));
@@ -145,16 +151,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.lifecycle().manage(injector.getInstance(FeedRefreshTaskGiver.class));
 		environment.lifecycle().manage(injector.getInstance(FeedRefreshWorker.class));
 		environment.lifecycle().manage(injector.getInstance(FeedRefreshUpdater.class));
-
-		// Swagger
-		environment.jersey().register(new ApiListingResourceJSON());
-		environment.jersey().register(new ApiDeclarationProvider());
-		environment.jersey().register(new ResourceListingProvider());
-		ScannerFactory.setScanner(new DefaultJaxrsScanner());
-		ClassReaders.setReader(new DefaultJaxrsApiReader());
-		SwaggerConfig swaggerConfig = ConfigFactory.config();
-		swaggerConfig.setApiVersion("1");
-		swaggerConfig.setBasePath("/rest");
 
 		// cache configuration
 		// prevent caching on REST resources, except for favicons
@@ -170,8 +166,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 			}
 		}).addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/rest/*");
 
-		// enable wadl
-		environment.jersey().disable(ResourceConfig.FEATURE_DISABLE_WADL);
 	}
 
 	public static void main(String[] args) throws Exception {

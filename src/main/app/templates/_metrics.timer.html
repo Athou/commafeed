@@ -1,0 +1,17 @@
+<div>
+	<span>{{label}}</span>
+	<dl class="dl-horizontal">
+		<dt>Mean</dt>
+		<dd>{{metric.meanRate | number:2}}</dd>
+
+		<dt>1/5/15 min</dt>
+		<dd>{{metric.oneMinuteRate | number:2}} {{metric.fiveMinuteRate | number:2}} {{metric.fifteenMinuteRate | number:2}}</dd>
+
+		<dt>Total</dt>
+		<dd>{{metric.count}}</dd>
+		
+		<dt>min/max/mean (ms)</dt>
+		<dd>{{metric.snapshot.min/1000000 | number:0}} {{metric.snapshot.max/1000000 | number:0}} {{metric.snapshot.mean/1000000 | number:0}}</dd>
+
+	</dl>
+</div>

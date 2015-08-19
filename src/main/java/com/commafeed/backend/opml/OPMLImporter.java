@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -38,8 +38,8 @@ public class OPMLImporter {
 		try {
 			Opml feed = (Opml) input.build(new StringReader(xml));
 			List<Outline> outlines = feed.getOutlines();
-			for (Outline outline : outlines) {
-				handleOutline(user, outline, null);
+			for (int i = 0; i < outlines.size(); i++) {
+				handleOutline(user, outlines.get(i), null, i);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -47,7 +47,7 @@ public class OPMLImporter {
 
 	}
 
-	private void handleOutline(User user, Outline outline, FeedCategory parent) {
+	private void handleOutline(User user, Outline outline, FeedCategory parent, int position) {
 		List<Outline> children = outline.getChildren();
 		if (CollectionUtils.isNotEmpty(children)) {
 			String name = FeedUtils.truncate(outline.getText(), 128);
@@ -64,11 +64,12 @@ public class OPMLImporter {
 				category.setName(name);
 				category.setParent(parent);
 				category.setUser(user);
+				category.setPosition(position);
 				feedCategoryDAO.saveOrUpdate(category);
 			}
 
-			for (Outline child : children) {
-				handleOutline(user, child, category);
+			for (int i = 0; i < children.size(); i++) {
+				handleOutline(user, children.get(i), category, i);
 			}
 		} else {
 			String name = FeedUtils.truncate(outline.getText(), 128);
@@ -80,7 +81,7 @@ public class OPMLImporter {
 			}
 			// make sure we continue with the import process even if a feed failed
 			try {
-				feedSubscriptionService.subscribe(user, outline.getXmlUrl(), name, parent);
+				feedSubscriptionService.subscribe(user, outline.getXmlUrl(), name, parent, position);
 			} catch (FeedSubscriptionException e) {
 				throw e;
 			} catch (Exception e) {

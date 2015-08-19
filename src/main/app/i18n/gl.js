@@ -31,7 +31,7 @@
   },
   "new_category" : {
     "name" : "Nome",
-    "parent" : "Pai"
+    "parent" : "Subcategoría de "
   },
   "toolbar" : {
     "unread" : "Sen Ler",
@@ -39,12 +39,12 @@
     "previous_entry" : "Entrada Anterior",
     "next_entry" : "Próxima Entrada",
     "refresh" : "Actualizar",
-    "refresh_all" : "Force refresh all my feeds ",
+    "refresh_all" : "Forzar a actualización de todas as fontes ",
     "sort_by_asc_desc" : "Ordenar por data asc/desc",
     "titles_only" : "Só títulos",
     "expanded_view" : "Vista expandida",
     "mark_all_as_read" : "Marcar todos como lidos",
-    "mark_all_older_12_hours" : "Items older than 12 hours ",
+    "mark_all_older_12_hours" : "Elementos anteriores a 12 h. ",
     "mark_all_older_day" : "Artigos anteriores a un día",
     "mark_all_older_week" : "Artigos de máis de unha semana",
     "mark_all_older_two_weeks" : "Artigos de máis de dúas semanas",
@@ -56,14 +56,14 @@
     "donate" : "Doar"
   },
   "view" : {
-    "entry_source" : "from  ",
-    "entry_author" : "by  ",
+    "entry_source" : "desde  ",
+    "entry_author" : "por  ",
     "error_while_loading_feed" : "Erro mentras se cargaba esta fonte",
     "keep_unread" : "Gardar non lidos",
     "no_unread_items" : "non ten elementos sen ler.",
-    "mark_up_to_here" : "Mark as read up to here ",
-    "search_for" : "searching for:  ",
-    "no_search_results" : "No match found for the requested keywords "
+    "mark_up_to_here" : "Marcar como lidos ate aquí ",
+    "search_for" : "buscando por:  ",
+    "no_search_results" : "Sen coincidencias para as palabras introducidas "
   },
   "feedsearch" : {
     "hint" : "Escriba unha suscrición...",
@@ -80,8 +80,8 @@
       "scroll_marks" : "En vista expandida, o desplazamento polas entradas márcaas como lidas."
     },
     "appearance" : "Aspecto",
-    "scroll_speed" : "Scrolling speed when navigating between entries (in milliseconds) ",
-    "scroll_speed_help" : "set to 0 to disable ",
+    "scroll_speed" : "Velocidade de desplazamento navegando entre entradas (en milisegundos) ",
+    "scroll_speed_help" : "escriba 0 para deshabilitar ",
     "theme" : "Decorado",
     "submit_your_theme" : "Envíe o seu decorado",
     "custom_css" : "CSS Personalizado"
@@ -89,21 +89,21 @@
   "details" : {
     "feed_details" : "Detalles de fontes",
     "url" : "URL",
-    "website" : "Website ",
+    "website" : "Sitio web ",
     "name" : "Nome",
     "category" : "Categoría",
-    "position" : "Position ",
+    "position" : "Posición ",
     "last_refresh" : "Última actualización",
-    "message" : "Last refresh message ",
+    "message" : "Última mensaxe da actualización ",
     "next_refresh" : "Próxima actualización",
     "queued_for_refresh" : "En cola para actualizar",
     "feed_url" : "URL da fonte",
     "generate_api_key_first" : "Antes debes xerar unha chave API no teu perfil.",
     "unsubscribe" : "Rematar suscripción",
-    "unsubscribe_confirmation" : "Are you sure you want to unsubscribe from this feed? ",
-    "delete_category_confirmation" : "Are you sure you want to delete this category? ",
+    "unsubscribe_confirmation" : "Seguro que queres desuscribirte de esta fonte? ",
+    "delete_category_confirmation" : "Seguro que queres eliminar esta categoría? ",
     "category_details" : "Detalles da categoría",
-    "tag_details" : "Tag details ",
+    "tag_details" : "Detalles da etiqueta ",
     "parent_category" : "Categoría principal"
   },
   "profile" : {
@@ -119,7 +119,7 @@
     "generate_new_api_key_info" : "Ao cambiar o contrasinal xerarase unha nova chave API",
     "opml_export" : "Exportación de OPML",
     "delete_account" : "Eliminar conta",
-    "delete_account_confirmation" : "Delete your acount? There's no turning back! "
+    "delete_account_confirmation" : "Eliminar conta? Non hai volta atrás! "
   },
   "about" : {
     "rest_api" : {
@@ -158,7 +158,7 @@
       "open_next_entry" : "abrir próxima entrada",
       "open_previous_entry" : "abrir entrada anterior",
       "spacebar" : "space/shift+space ",
-      "move_page_down_up" : "moves the page down/up ",
+      "move_page_down_up" : "move a páxina arriba/abaixo ",
       "focus_next_entry" : "Establecer o foco na próxima entrada sen abrila",
       "focus_previous_entry" : "Establecer o foco na entrada anterior sen abrila",
       "open_next_feed" : "abrir a seguinte fonte ou categoría",
@@ -170,10 +170,10 @@
       "mark_current_entry" : "marcar como lida/non lida a entrada actual",
       "mark_all_as_read" : "marcar todas as entradas como lidas",
       "open_in_new_tab_mark_as_read" : "abrir entrada nunha nova lapela e marcar como lida",
-      "fullscreen" : "toggle full screen mode ",
-      "font_size" : "increase/decrease font size of the current entry ",
-      "go_to_all" : "go to the All view ",
-      "go_to_starred" : "go to the Starred view ",
+      "fullscreen" : "habilita a pantalla completa ",
+      "font_size" : "aumenta/diminúe o tamaño da letra da entrada activa ",
+      "go_to_all" : "ir a vista TODOS",
+      "go_to_starred" : "ir a vista Destacados ",
       "feed_search" : "navegue ate unha suscrición introducindo o nome da suscrición"
     }
   }

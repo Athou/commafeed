@@ -6,7 +6,7 @@
 					<button type="button" class="close" ng-click="close()">&times;</button>
 					<h4>
 						<input ng-model="filter" class="filter-input"
-							ui-keydown="{'up': 'focusPrevious($event)', 'down': 'focusNext($event)', 'enter': 'openFocused()' }" placeholder="'feedsearch.hint' | translate"
+							ui-keydown="{'up': 'focusPrevious($event)', 'down': 'focusNext($event)', 'enter': 'openFocused()' }" placeholder="{{'feedsearch.hint' | translate}}"
 							focus="feedSearchModal">
 					</h4>
 					<small>{{ 'feedsearch.help' | translate }}</small>

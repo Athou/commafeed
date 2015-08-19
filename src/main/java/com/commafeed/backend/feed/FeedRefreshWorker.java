@@ -4,6 +4,8 @@ import io.dropwizard.lifecycle.Managed;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -11,8 +13,8 @@ import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
@@ -20,7 +22,6 @@ import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.feed.FeedRefreshExecutor.Task;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.google.common.base.Optional;
 
 /**
  * Calls {@link FeedFetcher} and handles its outcome
@@ -84,13 +85,18 @@ public class FeedRefreshWorker implements Managed {
 		int refreshInterval = config.getApplicationSettings().getRefreshIntervalMinutes();
 		Date disabledUntil = DateUtils.addMinutes(new Date(), refreshInterval);
 		try {
-			String url = Optional.fromNullable(feed.getUrlAfterRedirect()).or(feed.getUrl());
+			String url = Optional.ofNullable(feed.getUrlAfterRedirect()).orElse(feed.getUrl());
 			FetchedFeed fetchedFeed = fetcher.fetch(url, false, feed.getLastModifiedHeader(), feed.getEtagHeader(),
 					feed.getLastPublishedDate(), feed.getLastContentHash());
 			// stops here if NotModifiedException or any other exception is thrown
 			List<FeedEntry> entries = fetchedFeed.getEntries();
 
-			if (config.getApplicationSettings().isHeavyLoad()) {
+			Integer maxFeedCapacity = config.getApplicationSettings().getMaxFeedCapacity();
+			if (maxFeedCapacity > 0) {
+				entries = entries.stream().limit(maxFeedCapacity).collect(Collectors.toList());
+			}
+
+			if (config.getApplicationSettings().getHeavyLoad()) {
 				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed.getFeed().getLastEntryDate(), fetchedFeed.getFeed()
 						.getAverageEntryInterval(), disabledUntil);
 			}
@@ -118,7 +124,7 @@ public class FeedRefreshWorker implements Managed {
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified : {} - {}", feed.getUrl(), e.getMessage());
 
-			if (config.getApplicationSettings().isHeavyLoad()) {
+			if (config.getApplicationSettings().getHeavyLoad()) {
 				disabledUntil = FeedUtils.buildDisabledUntil(feed.getLastEntryDate(), feed.getAverageEntryInterval(), disabledUntil);
 			}
 			feed.setErrorCount(0);

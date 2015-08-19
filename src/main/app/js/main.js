@@ -23,26 +23,23 @@ app.config([
 
 			$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|javascript):/);
 			var interceptor = ['$rootScope', '$q', '$injector', function(scope, $q, $injector) {
-
-				var success = function(response) {
+				var f = {};
+				
+				f.response = function(response) {
 					return response;
 				};
-				var error = function(response) {
+				
+				f.responseError = function(response) {
 					var status = response.status;
 					if (status == 401) {
 						$injector.get('$state').transitionTo('welcome');
 					}
 					return $q.reject(response);
 				};
-
-				var promise = function(promise) {
-					return promise.then(success, error);
-				};
-
-				return promise;
+				return f;
 			}];
 
-			$httpProvider.responseInterceptors.push(interceptor);
+			$httpProvider.interceptors.push(interceptor);
 
 			$stateProvider.state('feeds', {
 				'abstract' : true,

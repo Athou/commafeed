@@ -1,7 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.hibernate.UnitOfWork;
-
 import java.util.Date;
 import java.util.List;
 
@@ -19,14 +17,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.feed.FeedParser;
@@ -35,9 +31,13 @@ import com.commafeed.backend.feed.FetchedFeed;
 import com.commafeed.backend.model.Feed;
 import com.google.common.base.Preconditions;
 
+import io.dropwizard.hibernate.UnitOfWork;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 @Path("/push")
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class PubSubHubbubCallbackREST {
 
@@ -54,10 +54,11 @@ public class PubSubHubbubCallbackREST {
 	@GET
 	@UnitOfWork
 	@Produces(MediaType.TEXT_PLAIN)
+	@Timed
 	public Response verify(@QueryParam("hub.mode") String mode, @QueryParam("hub.topic") String topic,
 			@QueryParam("hub.challenge") String challenge, @QueryParam("hub.lease_seconds") String leaseSeconds,
 			@QueryParam("hub.verify_token") String verifyToken) {
-		if (!config.getApplicationSettings().isPubsubhubbub()) {
+		if (!config.getApplicationSettings().getPubsubhubbub()) {
 			return Response.status(Status.FORBIDDEN).entity("pubsubhubbub is disabled").build();
 		}
 
@@ -85,9 +86,10 @@ public class PubSubHubbubCallbackREST {
 	@POST
 	@UnitOfWork
 	@Consumes({ MediaType.APPLICATION_ATOM_XML, "application/rss+xml" })
+	@Timed
 	public Response callback() {
 
-		if (!config.getApplicationSettings().isPubsubhubbub()) {
+		if (!config.getApplicationSettings().getPubsubhubbub()) {
 			return Response.status(Status.FORBIDDEN).entity("pubsubhubbub is disabled").build();
 		}
 

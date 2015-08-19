@@ -72,7 +72,7 @@ module.directive('tags', function() {
 						tags : []
 					};
 					if (newValue) {
-						data.tags = newValue.split(',');
+						data.tags = newValue;
 					}
 					EntryService.tag(data);
 				}
@@ -308,7 +308,8 @@ module.directive('droppable', ['CategoryService', 'FeedService', function(Catego
 
 					var data = {
 						id : source.id,
-						name : source.name
+						name : source.name,
+						filter : source.filter
 					};
 
 					if (source.children) {
@@ -357,5 +358,16 @@ module.directive('metricGauge', function() {
 		},
 		restrict : 'E',
 		templateUrl : 'templates/_metrics.gauge.html'
+	};
+});
+
+module.directive('metricTimer', function() {
+	return {
+		scope : {
+			metric : '=',
+			label : '='
+		},
+		restrict : 'E',
+		templateUrl : 'templates/_metrics.timer.html'
 	};
 });

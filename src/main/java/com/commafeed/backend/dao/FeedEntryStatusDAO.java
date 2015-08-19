@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -7,12 +8,14 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.hibernate.SessionFactory;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.FixedSizeSortedSet;
+import com.commafeed.backend.feed.FeedEntryKeyword;
+import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryTag;
@@ -26,11 +29,10 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.model.UnreadCount;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.Tuple;
-import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.hibernate.HibernateQuery;
 
 @Singleton
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
@@ -60,13 +62,13 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			builder.append(o2.getEntryUpdated(), o1.getEntryUpdated());
 			builder.append(o2.getId(), o1.getId());
 			return builder.toComparison();
-		};
+		}
 	};
 
 	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = Ordering.from(STATUS_COMPARATOR_DESC).reverse();
 
 	public FeedEntryStatus getStatus(User user, FeedSubscription sub, FeedEntry entry) {
-		List<FeedEntryStatus> statuses = newQuery().from(status).where(status.entry.eq(entry), status.subscription.eq(sub)).list(status);
+		List<FeedEntryStatus> statuses = query().selectFrom(status).where(status.entry.eq(entry), status.subscription.eq(sub)).fetch();
 		FeedEntryStatus status = Iterables.getFirst(statuses, null);
 		return handleStatus(user, status, sub, entry);
 	}
@@ -91,7 +93,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	public List<FeedEntryStatus> findStarred(User user, Date newerThan, int offset, int limit, ReadingOrder order, boolean includeContent) {
-		HibernateQuery query = newQuery().from(status).where(status.user.eq(user), status.starred.isTrue());
+		HibernateQuery<FeedEntryStatus> query = query().selectFrom(status).where(status.user.eq(user), status.starred.isTrue());
 		if (newerThan != null) {
 			query.where(status.entryInserted.gt(newerThan));
 		}
@@ -102,9 +104,13 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			query.orderBy(status.entryUpdated.desc(), status.id.desc());
 		}
 
-		query.offset(offset).limit(limit).setTimeout(config.getApplicationSettings().getQueryTimeout());
+		query.offset(offset).limit(limit);
+		int timeout = config.getApplicationSettings().getQueryTimeout();
+		if (timeout > 0) {
+			query.setTimeout(timeout / 1000);
+		}
 
-		List<FeedEntryStatus> statuses = query.list(status);
+		List<FeedEntryStatus> statuses = query.fetch();
 		for (FeedEntryStatus status : statuses) {
 			status = handleStatus(user, status, status.getSubscription(), status.getEntry());
 			fetchTags(user, status);
@@ -112,18 +118,21 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return lazyLoadContent(includeContent, statuses);
 	}
 
-	private HibernateQuery buildQuery(User user, FeedSubscription sub, boolean unreadOnly, String keywords, Date newerThan, int offset,
-			int limit, ReadingOrder order, Date last, String tag) {
+	private HibernateQuery<FeedEntry> buildQuery(User user, FeedSubscription sub, boolean unreadOnly, List<FeedEntryKeyword> keywords,
+			Date newerThan, int offset, int limit, ReadingOrder order, Date last, String tag) {
 
-		HibernateQuery query = newQuery().from(entry).where(entry.feed.eq(sub.getFeed()));
+		HibernateQuery<FeedEntry> query = query().selectFrom(entry).where(entry.feed.eq(sub.getFeed()));
 
-		if (keywords != null) {
+		if (CollectionUtils.isNotEmpty(keywords)) {
 			query.join(entry.content, content);
 
-			for (String keyword : StringUtils.split(keywords)) {
+			for (FeedEntryKeyword keyword : keywords) {
 				BooleanBuilder or = new BooleanBuilder();
-				or.or(content.content.containsIgnoreCase(keyword));
-				or.or(content.title.containsIgnoreCase(keyword));
+				or.or(content.content.containsIgnoreCase(keyword.getKeyword()));
+				or.or(content.title.containsIgnoreCase(keyword.getKeyword()));
+				if (keyword.getMode() == Mode.EXCLUDE) {
+					or.not();
+				}
 				query.where(or);
 			}
 		}
@@ -180,15 +189,16 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return query;
 	}
 
-	public List<FeedEntryStatus> findBySubscriptions(User user, List<FeedSubscription> subs, boolean unreadOnly, String keywords,
-			Date newerThan, int offset, int limit, ReadingOrder order, boolean includeContent, boolean onlyIds, String tag) {
+	public List<FeedEntryStatus> findBySubscriptions(User user, List<FeedSubscription> subs, boolean unreadOnly,
+			List<FeedEntryKeyword> keywords, Date newerThan, int offset, int limit, ReadingOrder order, boolean includeContent,
+			boolean onlyIds, String tag) {
 		int capacity = offset + limit;
 		Comparator<FeedEntryStatus> comparator = order == ReadingOrder.desc ? STATUS_COMPARATOR_DESC : STATUS_COMPARATOR_ASC;
 		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<FeedEntryStatus>(capacity, comparator);
 		for (FeedSubscription sub : subs) {
 			Date last = (order != null && set.isFull()) ? set.last().getEntryUpdated() : null;
-			HibernateQuery query = buildQuery(user, sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag);
-			List<Tuple> tuples = query.list(entry.id, entry.updated, status.id);
+			HibernateQuery<FeedEntry> query = buildQuery(user, sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag);
+			List<Tuple> tuples = query.select(entry.id, entry.updated, status.id).fetch();
 			for (Tuple tuple : tuples) {
 				Long id = tuple.get(entry.id);
 				Date updated = tuple.get(entry.updated);
@@ -211,7 +221,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		List<FeedEntryStatus> placeholders = set.asList();
 		int size = placeholders.size();
 		if (size < offset) {
-			return Lists.newArrayList();
+			return new ArrayList<>();
 		}
 		placeholders = placeholders.subList(Math.max(offset, 0), size);
 
@@ -219,7 +229,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		if (onlyIds) {
 			statuses = placeholders;
 		} else {
-			statuses = Lists.newArrayList();
+			statuses = new ArrayList<>();
 			for (FeedEntryStatus placeholder : placeholders) {
 				Long statusId = placeholder.getId();
 				FeedEntry entry = feedEntryDAO.findById(placeholder.getEntry().getId());
@@ -235,8 +245,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public UnreadCount getUnreadCount(User user, FeedSubscription subscription) {
 		UnreadCount uc = null;
-		HibernateQuery query = buildQuery(user, subscription, true, null, null, -1, -1, null, null, null);
-		List<Tuple> tuples = query.list(entry.count(), entry.updated.max());
+		HibernateQuery<FeedEntry> query = buildQuery(user, subscription, true, null, null, -1, -1, null, null, null);
+		List<Tuple> tuples = query.select(entry.count(), entry.updated.max()).fetch();
 		for (Tuple tuple : tuples) {
 			Long count = tuple.get(entry.count());
 			Date updated = tuple.get(entry.updated.max());
@@ -256,7 +266,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	public List<FeedEntryStatus> getOldStatuses(Date olderThan, int limit) {
-		return newQuery().from(status).where(status.entryInserted.lt(olderThan), status.starred.isFalse()).limit(limit).list(status);
+		return query().selectFrom(status).where(status.entryInserted.lt(olderThan), status.starred.isFalse()).limit(limit).fetch();
 	}
 
 }

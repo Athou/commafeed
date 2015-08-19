@@ -4,22 +4,25 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
-import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.FeedSubscription;
-import com.google.common.collect.Lists;
 import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndContentImpl;
+import com.rometools.rome.feed.synd.SyndEnclosure;
+import com.rometools.rome.feed.synd.SyndEnclosureImpl;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndEntryImpl;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 @SuppressWarnings("serial")
 @ApiModel("Entry details")
@@ -46,20 +49,17 @@ public class Entry implements Serializable {
 		entry.setFeedUrl(sub.getFeed().getUrl());
 		entry.setFeedLink(sub.getFeed().getLink());
 		entry.setIconUrl(FeedUtils.getFaviconUrl(sub, publicUrl));
-
-		List<String> tags = Lists.newArrayList();
-		for (FeedEntryTag tag : status.getTags()) {
-			tags.add(tag.getName());
-		}
-		entry.setTags(tags);
+		entry.setTags(status.getTags().stream().map(t -> t.getName()).collect(Collectors.toList()));
 
 		if (content != null) {
 			entry.setRtl(FeedUtils.isRTL(feedEntry));
 			entry.setTitle(content.getTitle());
-			entry.setContent(FeedUtils.proxyImages(content.getContent(), publicUrl, proxyImages));
+			entry.setContent(proxyImages ? FeedUtils.proxyImages(content.getContent(), publicUrl) : content.getContent());
 			entry.setAuthor(content.getAuthor());
-			entry.setEnclosureUrl(content.getEnclosureUrl());
 			entry.setEnclosureType(content.getEnclosureType());
+			entry.setEnclosureUrl(proxyImages && StringUtils.contains(content.getEnclosureType(), "image")
+					? FeedUtils.proxyImage(content.getEnclosureUrl(), publicUrl) : content.getEnclosureUrl());
+			entry.setCategories(content.getCategories());
 		}
 
 		return entry;
@@ -74,6 +74,14 @@ public class Entry implements Serializable {
 		SyndContentImpl content = new SyndContentImpl();
 		content.setValue(getContent());
 		entry.setContents(Arrays.<SyndContent> asList(content));
+
+		if (getEnclosureUrl() != null) {
+			SyndEnclosureImpl enclosure = new SyndEnclosureImpl();
+			enclosure.setType(getEnclosureType());
+			enclosure.setUrl(getEnclosureUrl());
+			entry.setEnclosures(Arrays.<SyndEnclosure> asList(enclosure));
+		}
+
 		entry.setLink(getUrl());
 		entry.setPublishedDate(getDate());
 		return entry;
@@ -90,6 +98,9 @@ public class Entry implements Serializable {
 
 	@ApiModelProperty("entry content")
 	private String content;
+
+	@ApiModelProperty("comma-separated list of categories")
+	private String categories;
 
 	@ApiModelProperty("wether entry content and title are rtl")
 	private boolean rtl;

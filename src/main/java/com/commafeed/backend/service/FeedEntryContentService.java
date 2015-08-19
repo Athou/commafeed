@@ -6,7 +6,7 @@ import javax.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.dao.FeedEntryContentDAO;
 import com.commafeed.backend.feed.FeedUtils;

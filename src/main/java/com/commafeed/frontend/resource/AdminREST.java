@@ -1,7 +1,6 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.hibernate.UnitOfWork;
-
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,11 +16,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import lombok.RequiredArgsConstructor;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConfiguration.ApplicationSettings;
@@ -36,17 +34,19 @@ import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
+
+import io.dropwizard.hibernate.UnitOfWork;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 
 @Path("/admin")
-@Api(value = "/admin", description = "Operations about application administration")
+@Api(value = "/admin")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class AdminREST {
 
@@ -61,6 +61,7 @@ public class AdminREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Save or update a user", notes = "Save or update a user. If the id is not specified, a new user will be created")
+	@Timed
 	public Response save(@SecurityCheck(Role.ADMIN) User user, @ApiParam(required = true) UserModel userModel) {
 		Preconditions.checkNotNull(userModel);
 		Preconditions.checkNotNull(userModel.getName());
@@ -115,6 +116,7 @@ public class AdminREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Get user information", notes = "Get user information", response = UserModel.class)
+	@Timed
 	public Response getUser(@SecurityCheck(Role.ADMIN) User user, @ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
 		Preconditions.checkNotNull(id);
 		User u = userDAO.findById(id);
@@ -123,11 +125,7 @@ public class AdminREST {
 		userModel.setName(u.getName());
 		userModel.setEmail(u.getEmail());
 		userModel.setEnabled(!u.isDisabled());
-		for (UserRole role : userRoleDAO.findAll(u)) {
-			if (role.getRole() == Role.ADMIN) {
-				userModel.setAdmin(true);
-			}
-		}
+		userModel.setAdmin(userRoleDAO.findAll(u).stream().anyMatch(r -> r.getRole() == Role.ADMIN));
 		return Response.ok(userModel).build();
 	}
 
@@ -135,8 +133,9 @@ public class AdminREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Get all users", notes = "Get all users", response = UserModel.class, responseContainer = "List")
+	@Timed
 	public Response getUsers(@SecurityCheck(Role.ADMIN) User user) {
-		Map<Long, UserModel> users = Maps.newHashMap();
+		Map<Long, UserModel> users = new HashMap<>();
 		for (UserRole role : userRoleDAO.findAll()) {
 			User u = role.getUser();
 			Long key = u.getId();
@@ -162,6 +161,7 @@ public class AdminREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Delete a user", notes = "Delete a user, and all his subscriptions")
+	@Timed
 	public Response delete(@SecurityCheck(Role.ADMIN) User user, @ApiParam(required = true) IDRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -181,6 +181,7 @@ public class AdminREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Retrieve application settings", notes = "Retrieve application settings", response = ApplicationSettings.class)
+	@Timed
 	public Response getSettings(@SecurityCheck(Role.ADMIN) User user) {
 		return Response.ok(config.getApplicationSettings()).build();
 	}
@@ -189,6 +190,7 @@ public class AdminREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Retrieve server metrics")
+	@Timed
 	public Response getMetrics(@SecurityCheck(Role.ADMIN) User user) {
 		return Response.ok(metrics).build();
 	}

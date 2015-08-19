@@ -1,3 +1,17 @@
+v 2.2.0
+  - fix youtube and instagram favicon fetching
+  - mark as read filter was lost when a feed was rearranged with drag&drop
+  - feed entry categories are now displayed if available
+  - various performance and dependencies upgrades
+  - java8 is now required
+v 2.1.0
+  - dropwizard upgrade to 0.8.0
+  - you have to remove the "app.contextPath" setting from your yml file, you can optionally use server.applicationContextPath instead
+  - new setting app.maxFeedCapacity for deleting old entries
+  - ability to set filtering expressions for subscriptions to automatically mark new entries as read based on title, content, author or url.
+  - ability to use !keyword or -keyword to exclude a keyword from a search query
+  - facebook feeds now show user favicon instead of facebook favicon
+  - new dark theme 'nightsky'
 v 2.0.3
   - internet explorer ajax cache workaround
   - categories are now deletable again

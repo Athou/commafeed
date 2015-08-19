@@ -20,6 +20,6 @@ public class UserSettingsDAO extends GenericDAO<UserSettings> {
 	}
 
 	public UserSettings findByUser(User user) {
-		return newQuery().from(settings).where(settings.user.eq(user)).uniqueResult(settings);
+		return query().selectFrom(settings).where(settings.user.eq(user)).fetchFirst();
 	}
 }

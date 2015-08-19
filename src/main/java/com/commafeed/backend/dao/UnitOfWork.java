@@ -5,17 +5,26 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.context.internal.ManagedSessionContext;
 
-public abstract class UnitOfWork<T> {
+public class UnitOfWork {
 
-	private SessionFactory sessionFactory;
-
-	public UnitOfWork(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+	@FunctionalInterface
+	public static interface SessionRunner {
+		public void runInSession();
 	}
 
-	protected abstract T runInSession() throws Exception;
+	@FunctionalInterface
+	public static interface SessionRunnerReturningValue<T> {
+		public T runInSession();
+	}
 
-	public T run() {
+	public static void run(SessionFactory sessionFactory, SessionRunner sessionRunner) {
+		call(sessionFactory, () -> {
+			sessionRunner.runInSession();
+			return null;
+		});
+	}
+
+	public static <T> T call(SessionFactory sessionFactory, SessionRunnerReturningValue<T> sessionRunner) {
 		final Session session = sessionFactory.openSession();
 		if (ManagedSessionContext.hasBind(sessionFactory)) {
 			throw new IllegalStateException("Already in a unit of work!");
@@ -25,11 +34,11 @@ public abstract class UnitOfWork<T> {
 			ManagedSessionContext.bind(session);
 			session.beginTransaction();
 			try {
-				t = runInSession();
+				t = sessionRunner.runInSession();
 				commitTransaction(session);
 			} catch (Exception e) {
 				rollbackTransaction(session);
-				this.<RuntimeException> rethrow(e);
+				UnitOfWork.<RuntimeException> rethrow(e);
 			}
 		} finally {
 			session.close();
@@ -38,14 +47,14 @@ public abstract class UnitOfWork<T> {
 		return t;
 	}
 
-	private void rollbackTransaction(Session session) {
+	private static void rollbackTransaction(Session session) {
 		final Transaction txn = session.getTransaction();
 		if (txn != null && txn.isActive()) {
 			txn.rollback();
 		}
 	}
 
-	private void commitTransaction(Session session) {
+	private static void commitTransaction(Session session) {
 		final Transaction txn = session.getTransaction();
 		if (txn != null && txn.isActive()) {
 			txn.commit();
@@ -53,7 +62,7 @@ public abstract class UnitOfWork<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <E extends Exception> void rethrow(Exception e) throws E {
+	private static <E extends Exception> void rethrow(Exception e) throws E {
 		throw (E) e;
 	}
 

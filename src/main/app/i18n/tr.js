@@ -8,7 +8,7 @@
     "link" : "Bağlantı",
     "bookmark" : "Yer imi",
     "close" : "Kapat",
-    "tags" : "Tags "
+    "tags" : "Etiketler "
   },
   "tree" : {
     "subscribe" : "Abone ol",
@@ -24,7 +24,7 @@
   },
   "import" : {
     "google_reader_prefix" : "Aboneliklerinizi ",
-    "google_reader_suffix" : " hesabınızdan aktarmama izin verin.",
+    "google_reader_suffix" : "Hesabınızdan aktarmama izin verin.",
     "google_download" : "Veya, subscriptions.xml dosyanızı yükleyin.",
     "google_download_link" : "Buradan indirebilirsiniz.",
     "xml_file" : "OPML dosyası"
@@ -39,15 +39,15 @@
     "previous_entry" : "Önceki ileti",
     "next_entry" : "Sonraki ileti",
     "refresh" : "Yenile",
-    "refresh_all" : "Force refresh all my feeds ",
+    "refresh_all" : "Tüm yayınları yenilemek için zorla",
     "sort_by_asc_desc" : "Tarihe göre sırala artan/azalan",
     "titles_only" : "Sadece başlıklar",
     "expanded_view" : "Genişletilmiş görünüm",
     "mark_all_as_read" : "Tümünü okundu işaretle",
-    "mark_all_older_12_hours" : "Items older than 12 hours ",
-    "mark_all_older_day" : "Bir günden eski yazılar",
-    "mark_all_older_week" : "Bir haftadan eski yazılar",
-    "mark_all_older_two_weeks" : "İki haftadan eski yazılar",
+    "mark_all_older_12_hours" : "12 saatten daha eski yayınlar ",
+    "mark_all_older_day" : "Bir günden eski yayınlar",
+    "mark_all_older_week" : "Bir haftadan eski yayınlar",
+    "mark_all_older_two_weeks" : "İki haftadan eski yayınlar",
     "settings" : "Ayarlar",
     "profile" : "Profil",
     "admin" : "Yönetim",
@@ -56,14 +56,14 @@
     "donate" : "Bağış"
   },
   "view" : {
-    "entry_source" : "from  ",
-    "entry_author" : "by  ",
+    "entry_source" : "kaynak: ",
+    "entry_author" : "yazar: ",
     "error_while_loading_feed" : "Bu aboneliği çekerken hata oluştu.",
     "keep_unread" : "Okunmadı olarak sakla",
-    "no_unread_items" : "okunmamış ileti yok.",
-    "mark_up_to_here" : "Mark as read up to here ",
+    "no_unread_items" : "Okunmamış ileti yok.",
+    "mark_up_to_here" : "Buraya kadar olan bütün yayınları okundu olarak işaretle!",
     "search_for" : "searching for:  ",
-    "no_search_results" : "No match found for the requested keywords "
+    "no_search_results" : "İstenen anahtar kelimeler için eşleşme bulunamadı"
   },
   "feedsearch" : {
     "hint" : "Bir abonelik yazın...",
@@ -80,8 +80,8 @@
       "scroll_marks" : "Genişletilmiş görünümde götüntülenen iletileri okunmuş işaretle"
     },
     "appearance" : "Görünüm",
-    "scroll_speed" : "Scrolling speed when navigating between entries (in milliseconds) ",
-    "scroll_speed_help" : "set to 0 to disable ",
+    "scroll_speed" : "İçerikler arasında gezinirken kaydırma hızı (milisaniye cinsinden)",
+    "scroll_speed_help" : "ayarı kapatmak için 0 yazınız",
     "theme" : "Tema",
     "submit_your_theme" : "Tema gönder",
     "custom_css" : "Kişiselleştirilmiş CSS"
@@ -100,10 +100,10 @@
     "feed_url" : "Yayın URL'si",
     "generate_api_key_first" : "Öncelikle profilinizden bir API anahtarı oluşturun.",
     "unsubscribe" : "Aboneliği iptal et",
-    "unsubscribe_confirmation" : "Are you sure you want to unsubscribe from this feed? ",
-    "delete_category_confirmation" : "Are you sure you want to delete this category? ",
+    "unsubscribe_confirmation" : "Bu yayından çıkmak istediğinizden emin misiniz? ",
+    "delete_category_confirmation" : "Bu kategoriyi silmek istediğinizden emin misiniz? ",
     "category_details" : "Kategori detayları",
-    "tag_details" : "Tag details ",
+    "tag_details" : "Etiket detayları ",
     "parent_category" : "Üst kategori"
   },
   "profile" : {
@@ -116,10 +116,10 @@
     "api_key" : "API anahtarı",
     "api_key_not_generated" : "Henüz oluşturulmadı",
     "generate_new_api_key" : "Yeni bir API anahtarı oluştur",
-    "generate_new_api_key_info" : "Şifre değiştirmek API anahtarının da değiştirilmesine neden olcak.",
+    "generate_new_api_key_info" : "Şifreyi değiştirmek API anahtarının da değiştirilmesine neden olcak.",
     "opml_export" : "OPML dışa aktar",
     "delete_account" : "Hesabı sil",
-    "delete_account_confirmation" : "Delete your acount? There's no turning back! "
+    "delete_account_confirmation" : "Hesabı silmek istediğinize emin misiniz? Bu işlemde geri dönüş yoktur! "
   },
   "about" : {
     "rest_api" : {
@@ -128,24 +128,24 @@
       "link_to_documentation" : "Dökümantasyon için tıklayın."
     },
     "keyboard_shortcuts" : "Klavye kısayolları",
-    "version" : "CommaFeed version ",
+    "version" : "CommaFeed versiyon ",
     "line1_prefix" : "CommaFeed bir açık kaynak projedir. Kaynak dosyaları ",
-    "line1_suffix" : " adresinde yayınlanır.",
+    "line1_suffix" : "adresinde yayınlanır.",
     "line2_prefix" : "Lütfen, bir hata ile karşılaşırsanız bunu  ",
-    "line2_suffix" : " projesinde hatalar sayfasından rapor edin.",
+    "line2_suffix" : "projesinde hatalar sayfasından rapor edin.",
     "line3" : "Eğer bu projeyi beğendiyseniz, lütfen bağış yaparak geliştiriciye bu sayfayı ayakta tutmasında yardımcı olun.",
     "line4" : "Bitcoin'i tercih edenler için adres ",
     "goodies" : {
-      "value" : "Extralar",
-      "android_app" : "Android app ",
+      "value" : "Ekstralar",
+      "android_app" : "Android eklentisi",
       "subscribe_url" : "Abonelik URL'si",
       "chrome_extension" : "Chrome eklentisi",
       "firefox_extension" : "Firefox eklentisi",
       "opera_extension" : "Opera eklentisi",
-      "subscribe_bookmarklet" : "Bookmarklet'a abonelik ekle (tıklayın)",
-      "subscribe_bookmarklet_asc" : "Oldest first ",
-      "subscribe_bookmarklet_desc" : "Newest first ",
-      "next_unread_bookmarklet" : "Bookmarklet'daki en son okunmamış ileti (Sık kullanılan çubuğuna sürükleyin)"
+      "subscribe_bookmarklet" : "Yer imilerine abonelik ekle (tıklayın)",
+      "subscribe_bookmarklet_asc" : "Eskiler önce",
+      "subscribe_bookmarklet_desc" : "Yeniler önce ",
+      "next_unread_bookmarklet" : "Yer imilerindeki en son okunmamış ileti (Sık kullanılan çubuğuna sürükleyin)"
     },
     "translation" : {
       "value" : "Çeviri",
@@ -158,7 +158,7 @@
       "open_next_entry" : "sonraki öğeyi görüntüle",
       "open_previous_entry" : "önceki öğeyi görüntüle",
       "spacebar" : "space/shift+space ",
-      "move_page_down_up" : "moves the page down/up ",
+      "move_page_down_up" : "sayfayı aşağı/yukarı hareket ettir",
       "focus_next_entry" : "sonraki öğeyi görüntülemeden işaretle",
       "focus_previous_entry" : "önceki öğeyi görüntülemeden işaretle",
       "open_next_feed" : "sonraki aboneliği veya kategoriyi görüntüle",
@@ -170,10 +170,10 @@
       "mark_current_entry" : "görüntülenen öğeyi okundu/okunmadı işaretle",
       "mark_all_as_read" : "tümünü okundu işaretle",
       "open_in_new_tab_mark_as_read" : "öğeyi yeni bir sekmede aç ve okundu işaretle",
-      "fullscreen" : "toggle full screen mode ",
-      "font_size" : "increase/decrease font size of the current entry ",
-      "go_to_all" : "go to the All view ",
-      "go_to_starred" : "go to the Starred view ",
+      "fullscreen" : "tam ekran moduna geç ",
+      "font_size" : "mevcut içerik için yazı boyunutunu arttır/azalt",
+      "go_to_all" : "Tüm öğeleri görüntüle",
+      "go_to_starred" : "yıldızlı öğerleri görüntüle",
       "feed_search" : "abonelik ismini yazarak aboneliğe git"
     }
   }

@@ -10,13 +10,10 @@ import javax.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.hibernate.SessionFactory;
-
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
-import com.commafeed.backend.dao.UnitOfWork;
 
 /**
  * Infinite loop fetching feeds from @FeedQueues and queuing them to the {@link FeedRefreshWorker} pool.
@@ -26,7 +23,6 @@ import com.commafeed.backend.dao.UnitOfWork;
 @Singleton
 public class FeedRefreshTaskGiver implements Managed {
 
-	private final SessionFactory sessionFactory;
 	private final FeedQueues queues;
 	private final FeedRefreshWorker worker;
 
@@ -36,9 +32,8 @@ public class FeedRefreshTaskGiver implements Managed {
 	private Meter threadWaited;
 
 	@Inject
-	public FeedRefreshTaskGiver(SessionFactory sessionFactory, FeedQueues queues, FeedDAO feedDAO, FeedRefreshWorker worker,
-			CommaFeedConfiguration config, MetricRegistry metrics) {
-		this.sessionFactory = sessionFactory;
+	public FeedRefreshTaskGiver(FeedQueues queues, FeedDAO feedDAO, FeedRefreshWorker worker, CommaFeedConfiguration config,
+			MetricRegistry metrics) {
 		this.queues = queues;
 		this.worker = worker;
 
@@ -68,12 +63,7 @@ public class FeedRefreshTaskGiver implements Managed {
 			public void run() {
 				while (!executor.isShutdown()) {
 					try {
-						FeedRefreshContext context = new UnitOfWork<FeedRefreshContext>(sessionFactory) {
-							@Override
-							protected FeedRefreshContext runInSession() throws Exception {
-								return queues.take();
-							}
-						}.run();
+						FeedRefreshContext context = queues.take();
 						if (context != null) {
 							feedRefreshed.mark();
 							worker.updateFeed(context);

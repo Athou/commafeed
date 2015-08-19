@@ -6,7 +6,7 @@ import javax.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -28,9 +28,15 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 	private final HttpGetter getter;
 
 	@Override
-	public byte[] fetch(Feed feed) {
-		String url = feed.getLink() != null ? feed.getLink() : feed.getUrl();
+	public Favicon fetch(Feed feed) {
+		Favicon icon = fetch(feed.getLink());
+		if (icon == null) {
+			icon = fetch(feed.getUrl());
+		}
+		return icon;
+	}
 
+	private Favicon fetch(String url) {
 		if (url == null) {
 			log.debug("url is null");
 			return null;
@@ -47,7 +53,7 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 			url = url.substring(0, firstSlash);
 		}
 
-		byte[] icon = getIconAtRoot(url);
+		Favicon icon = getIconAtRoot(url);
 
 		if (icon == null) {
 			icon = getIconInPage(url);
@@ -56,7 +62,7 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 		return icon;
 	}
 
-	private byte[] getIconAtRoot(String url) {
+	private Favicon getIconAtRoot(String url) {
 		byte[] bytes = null;
 		String contentType = null;
 
@@ -67,23 +73,25 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 			bytes = result.getContent();
 			contentType = result.getContentType();
 		} catch (Exception e) {
-			log.debug("Failed to retrieve iconAtRoot for url {}: ", url, e);
+			log.debug("Failed to retrieve iconAtRoot for url {}: ", url);
+			log.trace("Failed to retrieve iconAtRoot for url {}: ", url, e);
 		}
 
 		if (!isValidIconResponse(bytes, contentType)) {
-			bytes = null;
+			return null;
 		}
-		return bytes;
+		return new Favicon(bytes, contentType);
 	}
 
-	private byte[] getIconInPage(String url) {
+	private Favicon getIconInPage(String url) {
 
 		Document doc = null;
 		try {
 			HttpResult result = getter.getBinary(url, TIMEOUT);
 			doc = Jsoup.parse(new String(result.getContent()), url);
 		} catch (Exception e) {
-			log.debug("Failed to retrieve page to find icon", e);
+			log.debug("Failed to retrieve page to find icon");
+			log.trace("Failed to retrieve page to find icon", e);
 			return null;
 		}
 
@@ -109,7 +117,8 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 			bytes = result.getContent();
 			contentType = result.getContentType();
 		} catch (Exception e) {
-			log.debug("Failed to retrieve icon found in page {}", href, e);
+			log.debug("Failed to retrieve icon found in page {}", href);
+			log.trace("Failed to retrieve icon found in page {}", href, e);
 			return null;
 		}
 
@@ -118,6 +127,6 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 			return null;
 		}
 
-		return bytes;
+		return new Favicon(bytes, contentType);
 	}
 }

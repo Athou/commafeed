@@ -1,17 +1,20 @@
 # CommaFeed settings
 # ------------------
 app:
-  # context path of the application 
-  contextPath: /
-  
   # url used to access commafeed
   publicUrl: http://localhost:8082/
   
   # wether to allow user registrations
   allowRegistrations: true
   
+  # create a demo account the first time the app starts
+  createDemoAccount: false
+  
   # put your google analytics tracking code here
   googleAnalyticsTrackingCode:
+  
+  # put your google server key (used for youtube favicon fetching)
+  googleAuthKey:
   
   # number of http threads
   backgroundThreads: 3
@@ -47,6 +50,9 @@ app:
   # time to keep unread statuses (in days), 0 to disable
   keepStatusDays: 0
   
+  # entries to keep per feed, old entries will be deleted, 0 to disable
+  maxFeedCapacity: 500
+  
   # cache service to use, possible values are 'noop' and 'redis'
   cache: noop
   
@@ -69,17 +75,12 @@ app:
 
 database:
   driverClass: org.h2.Driver
-  url: jdbc:h2:./target/example
+  url: jdbc:h2:./target/example;mv_store=false
   user: sa
   password: sa
   properties:
     charSet: UTF-8
-    maxWaitForConnection: 1s
-    validationQuery: "/* CommaFeed Health Check */ SELECT 1"
-    minSize: 1
-    maxSize: 50
-    checkConnectionWhileIdle: true
-    maxConnectionAge: 30m
+  validationQuery: "/* CommaFeed Health Check */ SELECT 1"
     
 server:
   applicationConnectors:
@@ -94,7 +95,7 @@ logging:
   loggers:
     com.commafeed: DEBUG
     liquibase: INFO
-    org.hibernate.SQL: ALL
+    org.hibernate.SQL: INFO # or ALL for sql debugging
     org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: WARN
   appenders:
     - type: console

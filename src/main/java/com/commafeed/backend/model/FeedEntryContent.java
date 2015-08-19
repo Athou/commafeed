@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "FEEDENTRYCONTENTS")
 @SuppressWarnings("serial")
@@ -26,6 +28,7 @@ public class FeedEntryContent extends AbstractModel {
 
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
+	@Type(type = "org.hibernate.type.StringClobType")
 	private String content;
 
 	@Column(length = 40)
@@ -39,6 +42,9 @@ public class FeedEntryContent extends AbstractModel {
 
 	@Column(length = 255)
 	private String enclosureType;
+
+	@Column(length = 4096)
+	private String categories;
 
 	@OneToMany(mappedBy = "content")
 	private Set<FeedEntry> entries;

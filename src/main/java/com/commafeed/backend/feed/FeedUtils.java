@@ -3,19 +3,20 @@ package com.commafeed.backend.feed;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.stream.Collectors;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -25,17 +26,19 @@ import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
-import org.mozilla.universalchardet.UniversalDetector;
 import org.w3c.css.sac.InputSource;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
+import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.model.Entry;
-import com.google.common.collect.Lists;
+import com.ibm.icu.text.CharsetDetector;
+import com.ibm.icu.text.CharsetMatch;
 import com.steadystate.css.parser.CSSOMParser;
 
 import edu.uci.ics.crawler4j.url.URLCanonicalizer;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Utility methods related to feed handling
@@ -97,14 +100,14 @@ public class FeedUtils {
 	 * feed
 	 * 
 	 */
-	public static String guessEncoding(byte[] bytes) {
+	public static Charset guessEncoding(byte[] bytes) {
 		String extracted = extractDeclaredEncoding(bytes);
 		if (StringUtils.startsWithIgnoreCase(extracted, "iso-8859-")) {
 			if (StringUtils.endsWith(extracted, "1") == false) {
-				return extracted;
+				return Charset.forName(extracted);
 			}
 		} else if (StringUtils.startsWithIgnoreCase(extracted, "windows-")) {
-			return extracted;
+			return Charset.forName(extracted);
 		}
 		return detectEncoding(bytes);
 	}
@@ -112,27 +115,23 @@ public class FeedUtils {
 	/**
 	 * Detect encoding by analyzing characters in the array
 	 */
-	public static String detectEncoding(byte[] bytes) {
-		String DEFAULT_ENCODING = "UTF-8";
-		UniversalDetector detector = new UniversalDetector(null);
-		detector.handleData(bytes, 0, bytes.length);
-		detector.dataEnd();
-		String encoding = detector.getDetectedCharset();
-		detector.reset();
-		if (encoding == null) {
-			encoding = DEFAULT_ENCODING;
-		} else if (encoding.equalsIgnoreCase("ISO-8859-1")) {
+	public static Charset detectEncoding(byte[] bytes) {
+		String encoding = "UTF-8";
+
+		CharsetDetector detector = new CharsetDetector();
+		detector.setText(bytes);
+		CharsetMatch match = detector.detect();
+		if (match != null) {
+			encoding = match.getName();
+		}
+		if (encoding.equalsIgnoreCase("ISO-8859-1")) {
 			encoding = "windows-1252";
 		}
-		return encoding;
+		return Charset.forName(encoding);
 	}
 
 	public static String replaceHtmlEntitiesWithNumericEntities(String source) {
-		String result = source;
-		for (String entity : HtmlEntities.NUMERIC_MAPPING.keySet()) {
-			result = StringUtils.replace(result, entity, HtmlEntities.NUMERIC_MAPPING.get(entity));
-		}
-		return result;
+		return StringUtils.replaceEach(source, HtmlEntities.HTML_ENTITIES, HtmlEntities.NUMERIC_ENTITIES);
 	}
 
 	/**
@@ -182,7 +181,7 @@ public class FeedUtils {
 			return null;
 		}
 
-		String pi = new String(ArrayUtils.subarray(bytes, 0, index + 1));
+		String pi = new String(ArrayUtils.subarray(bytes, 0, index + 1)).replace('\'', '"');
 		index = StringUtils.indexOf(pi, "encoding=\"");
 		if (index == -1) {
 			return null;
@@ -227,7 +226,7 @@ public class FeedUtils {
 		String rule = "";
 		CSSOMParser parser = new CSSOMParser();
 		try {
-			List<String> rules = Lists.newArrayList();
+			List<String> rules = new ArrayList<>();
 			CSSStyleDeclaration decl = parser.parseStyleDeclaration(new InputSource(new StringReader(orig)));
 
 			for (int i = 0; i < decl.getLength(); i++) {
@@ -252,7 +251,7 @@ public class FeedUtils {
 		String rule = "";
 		CSSOMParser parser = new CSSOMParser();
 		try {
-			List<String> rules = Lists.newArrayList();
+			List<String> rules = new ArrayList<>();
 			CSSStyleDeclaration decl = parser.parseStyleDeclaration(new InputSource(new StringReader(orig)));
 
 			for (int i = 0; i < decl.getLength(); i++) {
@@ -386,13 +385,7 @@ public class FeedUtils {
 	}
 
 	public static List<Long> getSortedTimestamps(List<FeedEntry> entries) {
-		List<Long> timestamps = Lists.newArrayList();
-		for (FeedEntry entry : entries) {
-			timestamps.add(entry.getUpdated().getTime());
-		}
-		Collections.sort(timestamps);
-		Collections.reverse(timestamps);
-		return timestamps;
+		return entries.stream().map(t -> t.getUpdated().getTime()).sorted(Collections.reverseOrder()).collect(Collectors.toList());
 	}
 
 	public static String removeTrailingSlash(String url) {
@@ -436,22 +429,15 @@ public class FeedUtils {
 	}
 
 	public static boolean isRelative(final String url) {
-		// the regex means "doesn't start with 'scheme://'"
-		if ((url != null) && (url.startsWith("/") == false) && (!url.matches("^\\w+\\:\\/\\/.*")) && !(url.startsWith("#"))) {
-			return true;
-		} else {
-			return false;
-		}
+		// the regex means "start with 'scheme://'"
+		return url.startsWith("/") || url.startsWith("#") || !url.matches("^\\w+\\:\\/\\/.*");
 	}
 
 	public static String getFaviconUrl(FeedSubscription subscription, String publicUrl) {
 		return removeTrailingSlash(publicUrl) + "/rest/feed/favicon/" + subscription.getId();
 	}
 
-	public static String proxyImages(String content, String publicUrl, boolean proxyImages) {
-		if (!proxyImages) {
-			return content;
-		}
+	public static String proxyImages(String content, String publicUrl) {
 		if (StringUtils.isBlank(content)) {
 			return content;
 		}
@@ -461,12 +447,19 @@ public class FeedUtils {
 		for (Element element : elements) {
 			String href = element.attr("src");
 			if (href != null) {
-				String proxy = removeTrailingSlash(publicUrl) + "/rest/server/proxy?u=" + imageProxyEncoder(href);
+				String proxy = proxyImage(href, publicUrl);
 				element.attr("src", proxy);
 			}
 		}
 
 		return doc.body().html();
+	}
+
+	public static String proxyImage(String url, String publicUrl) {
+		if (StringUtils.isBlank(url)) {
+			return url;
+		}
+		return removeTrailingSlash(publicUrl) + "/rest/server/proxy?u=" + imageProxyEncoder(url);
 	}
 
 	public static String rot13(String msg) {
@@ -495,19 +488,20 @@ public class FeedUtils {
 		return rot13(new String(Base64.decodeBase64(code)));
 	}
 
-	public static void removeUnwantedFromSearch(List<Entry> entries, String keywords) {
-		if (StringUtils.isBlank(keywords)) {
-			return;
-		}
-
+	public static void removeUnwantedFromSearch(List<Entry> entries, List<FeedEntryKeyword> keywords) {
 		Iterator<Entry> it = entries.iterator();
 		while (it.hasNext()) {
 			Entry entry = it.next();
 			boolean keep = true;
-			for (String keyword : keywords.split(" ")) {
+			for (FeedEntryKeyword keyword : keywords) {
 				String title = Jsoup.parse(entry.getTitle()).text();
 				String content = Jsoup.parse(entry.getContent()).text();
-				if (!StringUtils.containsIgnoreCase(content, keyword) && !StringUtils.containsIgnoreCase(title, keyword)) {
+				boolean condition = !StringUtils.containsIgnoreCase(content, keyword.getKeyword())
+						&& !StringUtils.containsIgnoreCase(title, keyword.getKeyword());
+				if (keyword.getMode() == Mode.EXCLUDE) {
+					condition = !condition;
+				}
+				if (condition) {
 					keep = false;
 					break;
 				}

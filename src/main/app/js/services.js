@@ -62,7 +62,7 @@ module.factory('SettingsService', ['$resource', '$translate', function($resource
 			} else if (lang === 'ms') {
 				lang = 'ms-my';
 			}
-			moment.lang(lang, {});
+			moment.locale(lang, {});
 			if (callback) {
 				callback(data);
 			}
@@ -298,6 +298,7 @@ module.factory('EntryService', ['$resource', '$http', function($resource, $http)
 		$http.get('rest/entry/tags').success(function(data) {
 			res.tags = [];
 			res.tags.push.apply(res.tags, data);
+			res.tags.sort();
 		});
 	};
 	var oldTag = res.tag;

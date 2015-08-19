@@ -1,9 +1,11 @@
 package com.commafeed.backend.feed;
 
 import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -11,8 +13,7 @@ import javax.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.xml.sax.InputSource;
@@ -20,10 +21,7 @@ import org.xml.sax.InputSource;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
-import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -43,20 +41,13 @@ public class FeedParser {
 	private static final Date START = new Date(86400000);
 	private static final Date END = new Date(1000l * Integer.MAX_VALUE - 86400000);
 
-	private static final Function<SyndContent, String> CONTENT_TO_STRING = new Function<SyndContent, String>() {
-		@Override
-		public String apply(SyndContent content) {
-			return content.getValue();
-		}
-	};
-
 	public FetchedFeed parse(String feedUrl, byte[] xml) throws FeedException {
 		FetchedFeed fetchedFeed = new FetchedFeed();
 		Feed feed = fetchedFeed.getFeed();
 		List<FeedEntry> entries = fetchedFeed.getEntries();
 
 		try {
-			String encoding = FeedUtils.guessEncoding(xml);
+			Charset encoding = FeedUtils.guessEncoding(xml);
 			String xmlString = FeedUtils.trimInvalidXmlCharacters(new String(xml, encoding));
 			if (xmlString == null) {
 				throw new FeedException("Input string is null for url " + feedUrl);
@@ -86,7 +77,7 @@ public class FeedParser {
 				}
 				entry.setGuid(FeedUtils.truncate(guid, 2048));
 				entry.setUpdated(validateDate(getEntryUpdateDate(item), true));
-				entry.setUrl(FeedUtils.truncate(FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink(), feed.getUrlAfterRedirect()), 2048));
+				entry.setUrl(FeedUtils.truncate(FeedUtils.toAbsoluteUrl(item.getLink(), feed.getLink(), feedUrl), 2048));
 
 				// if link is empty but guid is used as url
 				if (StringUtils.isBlank(entry.getUrl()) && StringUtils.startsWith(entry.getGuid(), "http")) {
@@ -95,6 +86,8 @@ public class FeedParser {
 
 				FeedEntryContent content = new FeedEntryContent();
 				content.setContent(getContent(item));
+				content.setCategories(FeedUtils.truncate(
+						item.getCategories().stream().map(c -> c.getName()).collect(Collectors.joining(", ")), 4096));
 				content.setTitle(getTitle(item));
 				content.setAuthor(StringUtils.trimToNull(item.getAuthor()));
 				SyndEnclosure enclosure = Iterables.getFirst(item.getEnclosures(), null);
@@ -173,7 +166,7 @@ public class FeedParser {
 		if (item.getContents().isEmpty()) {
 			content = item.getDescription() == null ? null : item.getDescription().getValue();
 		} else {
-			content = StringUtils.join(Collections2.transform(item.getContents(), CONTENT_TO_STRING), SystemUtils.LINE_SEPARATOR);
+			content = item.getContents().stream().map(c -> c.getValue()).collect(Collectors.joining(System.lineSeparator()));
 		}
 		return StringUtils.trimToNull(content);
 	}

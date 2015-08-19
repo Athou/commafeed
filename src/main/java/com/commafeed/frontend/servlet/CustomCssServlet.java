@@ -1,6 +1,7 @@
 package com.commafeed.frontend.servlet;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -9,8 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.RequiredArgsConstructor;
-
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.dao.UnitOfWork;
@@ -18,10 +17,11 @@ import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.frontend.session.SessionHelper;
-import com.google.common.base.Optional;
+
+import lombok.RequiredArgsConstructor;
 
 @SuppressWarnings("serial")
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class CustomCssServlet extends HttpServlet {
 
@@ -32,23 +32,12 @@ public class CustomCssServlet extends HttpServlet {
 	protected void doGet(final HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/css");
 
-		final Optional<User> user = new UnitOfWork<Optional<User>>(sessionFactory) {
-			@Override
-			protected Optional<User> runInSession() throws Exception {
-				return new SessionHelper(req).getLoggedInUser();
-			}
-		}.run();
+		final Optional<User> user = new SessionHelper(req).getLoggedInUser();
 		if (!user.isPresent()) {
 			return;
 		}
 
-		UserSettings settings = new UnitOfWork<UserSettings>(sessionFactory) {
-			@Override
-			protected UserSettings runInSession() {
-				return userSettingsDAO.findByUser(user.get());
-			}
-		}.run();
-
+		UserSettings settings = UnitOfWork.call(sessionFactory, () -> userSettingsDAO.findByUser(user.get()));
 		if (settings == null || settings.getCustomCss() == null) {
 			return;
 		}

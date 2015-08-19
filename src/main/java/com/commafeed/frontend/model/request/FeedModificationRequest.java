@@ -2,10 +2,9 @@ package com.commafeed.frontend.model.request;
 
 import java.io.Serializable;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
 @ApiModel("Feed modification request")
@@ -23,5 +22,8 @@ public class FeedModificationRequest implements Serializable {
 
 	@ApiModelProperty(value = "new display position, null if not changed")
 	private Integer position;
+
+	@ApiModelProperty(value = "JEXL string evaluated on new entries to mark them as read if they do not match")
+	private String filter;
 
 }

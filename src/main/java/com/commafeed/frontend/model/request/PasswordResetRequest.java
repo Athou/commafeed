@@ -2,13 +2,12 @@ package com.commafeed.frontend.model.request;
 
 import java.io.Serializable;
 
-import lombok.Data;
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 @SuppressWarnings("serial")
 @Data

@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -34,7 +34,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.ConnectionConfig;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
@@ -53,7 +53,7 @@ public class HttpGetter {
 	private static final String ACCEPT_LANGUAGE = "en";
 	private static final String PRAGMA_NO_CACHE = "No-cache";
 	private static final String CACHE_CONTROL_NO_CACHE = "no-cache";
-	
+
 	private static final HttpResponseInterceptor REMOVE_INCORRECT_CONTENT_ENCODING = new ContentEncodingInterceptor();
 
 	private static SSLContext SSL_CONTEXT = null;
@@ -181,8 +181,8 @@ public class HttpGetter {
 		builder.addInterceptorFirst(REMOVE_INCORRECT_CONTENT_ENCODING);
 		builder.disableAutomaticRetries();
 
-		builder.setSslcontext(SSL_CONTEXT);
-		builder.setHostnameVerifier(SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+		builder.setSSLContext(SSL_CONTEXT);
+		builder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
 
 		RequestConfig.Builder configBuilder = RequestConfig.custom();
 		configBuilder.setCookieSpec(CookieSpecs.IGNORE_COOKIES);

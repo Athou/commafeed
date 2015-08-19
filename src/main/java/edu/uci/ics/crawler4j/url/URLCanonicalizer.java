@@ -28,11 +28,11 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * See http://en.wikipedia.org/wiki/URL_normalization for a reference Note: some
- * parts of the code are adapted from: http://stackoverflow.com/a/4057470/405418
+ * See http://en.wikipedia.org/wiki/URL_normalization for a reference Note: some parts of the code are adapted from:
+ * http://stackoverflow.com/a/4057470/405418
  * 
  * @author Yasser Ganjisaffar <lastname at gmail dot com>
  */
@@ -46,7 +46,7 @@ public class URLCanonicalizer {
 
 		try {
 			URL canonicalURL = new URL(UrlResolver.resolveUrl(context == null ? "" : context, href));
-			
+
 			String host = canonicalURL.getHost().toLowerCase();
 			if (StringUtils.isBlank(host)) {
 				// This is an invalid Url.
@@ -113,7 +113,7 @@ public class URLCanonicalizer {
 
 			URL result = new URL(protocol, host, port, pathAndQueryString);
 			return result.toExternalForm();
-			
+
 		} catch (MalformedURLException ex) {
 			return null;
 		} catch (URISyntaxException ex) {
@@ -122,8 +122,7 @@ public class URLCanonicalizer {
 	}
 
 	/**
-	 * Takes a query string, separates the constituent name-value pairs, and
-	 * stores them in a SortedMap ordered by lexicographical order.
+	 * Takes a query string, separates the constituent name-value pairs, and stores them in a SortedMap ordered by lexicographical order.
 	 * 
 	 * @return Null if there is no query string.
 	 */
@@ -149,7 +148,7 @@ public class URLCanonicalizer {
 					params.put(tokens[0], "");
 				}
 				break;
-			case 2: 
+			case 2:
 				params.put(tokens[0], tokens[1]);
 				break;
 			}
@@ -169,7 +168,7 @@ public class URLCanonicalizer {
 			return "";
 		}
 
-		final StringBuffer sb = new StringBuffer(100);
+		final StringBuilder sb = new StringBuilder(100);
 		for (Map.Entry<String, String> pair : sortedParamMap.entrySet()) {
 			final String key = pair.getKey().toLowerCase();
 			if (key.equals("jsessionid") || key.equals("phpsessid") || key.equals("aspsessionid")) {
@@ -188,8 +187,7 @@ public class URLCanonicalizer {
 	}
 
 	/**
-	 * Percent-encode values according the RFC 3986. The built-in Java
-	 * URLEncoder does not encode according to the RFC, so we make the extra
+	 * Percent-encode values according the RFC 3986. The built-in Java URLEncoder does not encode according to the RFC, so we make the extra
 	 * replacements.
 	 * 
 	 * @param string

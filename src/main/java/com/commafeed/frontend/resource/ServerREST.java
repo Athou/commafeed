@@ -1,7 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.hibernate.UnitOfWork;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
@@ -13,10 +11,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
-import org.apache.commons.lang.StringUtils;
-
+import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
@@ -24,14 +21,17 @@ import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.ServerInfo;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
+
+import io.dropwizard.hibernate.UnitOfWork;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 
 @Path("/server")
-@Api(value = "/server", description = "Operations about server infos")
+@Api(value = "/server")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class ServerREST {
 
@@ -42,12 +42,13 @@ public class ServerREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Get server infos", notes = "Get server infos", response = ServerInfo.class)
+	@Timed
 	public Response get() {
 		ServerInfo infos = new ServerInfo();
 		infos.setAnnouncement(config.getApplicationSettings().getAnnouncement());
 		infos.setVersion(config.getVersion());
 		infos.setGitCommit(config.getGitCommit());
-		infos.setAllowRegistrations(config.getApplicationSettings().isAllowRegistrations());
+		infos.setAllowRegistrations(config.getApplicationSettings().getAllowRegistrations());
 		infos.setGoogleAnalyticsCode(config.getApplicationSettings().getGoogleAnalyticsTrackingCode());
 		infos.setSmtpEnabled(StringUtils.isNotBlank(config.getApplicationSettings().getSmtpHost()));
 		return Response.ok(infos).build();
@@ -58,8 +59,9 @@ public class ServerREST {
 	@UnitOfWork
 	@ApiOperation(value = "proxy image")
 	@Produces("image/png")
+	@Timed
 	public Response get(@SecurityCheck User user, @QueryParam("u") String url) {
-		if (!config.getApplicationSettings().isImageProxyEnabled()) {
+		if (!config.getApplicationSettings().getImageProxyEnabled()) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 

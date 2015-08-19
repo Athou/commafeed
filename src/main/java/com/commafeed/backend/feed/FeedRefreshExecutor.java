@@ -5,10 +5,10 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import lombok.extern.slf4j.Slf4j;
-
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.MetricRegistry;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Wraps a {@link ThreadPoolExecutor} instance. Blocks when queue is full instead of rejecting the task. Allow priority queueing by using
@@ -37,7 +37,14 @@ public class FeedRefreshExecutor {
 					return offerLast(r);
 				}
 			}
-		});
+		}) {
+			@Override
+			protected void afterExecute(Runnable r, Throwable t) {
+				if (t != null) {
+					log.error("thread from pool {} threw a runtime exception", poolName, t);
+				}
+			}
+		};
 		pool.setRejectedExecutionHandler(new RejectedExecutionHandler() {
 			@Override
 			public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {

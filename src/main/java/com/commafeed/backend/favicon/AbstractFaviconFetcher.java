@@ -3,9 +3,11 @@ package com.commafeed.backend.favicon;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.model.Feed;
 
@@ -18,7 +20,7 @@ public abstract class AbstractFaviconFetcher {
 
 	protected static int TIMEOUT = 4000;
 
-	public abstract byte[] fetch(Feed feed);
+	public abstract Favicon fetch(Feed feed);
 
 	protected boolean isValidIconResponse(byte[] content, String contentType) {
 		if (content == null) {
@@ -47,5 +49,12 @@ public abstract class AbstractFaviconFetcher {
 		}
 
 		return true;
+	}
+
+	@RequiredArgsConstructor
+	@Getter
+	public static class Favicon {
+		private final byte[] icon;
+		private final String mediaType;
 	}
 }

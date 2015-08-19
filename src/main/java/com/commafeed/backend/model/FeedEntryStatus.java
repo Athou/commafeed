@@ -1,5 +1,6 @@
 package com.commafeed.backend.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,8 +16,6 @@ import javax.persistence.Transient;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import com.google.common.collect.Lists;
 
 @Entity
 @Table(name = "FEEDENTRYSTATUSES")
@@ -41,7 +40,7 @@ public class FeedEntryStatus extends AbstractModel {
 	private boolean markable;
 
 	@Transient
-	private List<FeedEntryTag> tags = Lists.newArrayList();
+	private List<FeedEntryTag> tags = new ArrayList<>();
 
 	/**
 	 * Denormalization starts here

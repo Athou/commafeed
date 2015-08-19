@@ -1,5 +1,6 @@
 package com.commafeed.backend.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,11 +13,11 @@ import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
-import com.google.common.collect.Lists;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
@@ -65,9 +66,9 @@ public class FeedEntryService {
 		feedEntryStatusDAO.saveOrUpdate(status);
 	}
 
-	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Date olderThan, String keywords) {
-		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, keywords, null, -1, -1, null, false,
-				false, null);
+	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Date olderThan, List<FeedEntryKeyword> keywords) {
+		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, keywords, null, -1, -1, null,
+				false, false, null);
 		markList(statuses, olderThan);
 		cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
 		cache.invalidateUserRootCategory(user);
@@ -79,7 +80,7 @@ public class FeedEntryService {
 	}
 
 	private void markList(List<FeedEntryStatus> statuses, Date olderThan) {
-		List<FeedEntryStatus> list = Lists.newArrayList();
+		List<FeedEntryStatus> list = new ArrayList<>();
 		for (FeedEntryStatus status : statuses) {
 			if (!status.isRead()) {
 				Date inserted = status.getEntry().getInserted();

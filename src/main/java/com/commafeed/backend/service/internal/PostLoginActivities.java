@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 
 import lombok.RequiredArgsConstructor;
 
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.UserDAO;
@@ -17,11 +17,11 @@ import com.commafeed.backend.service.FeedSubscriptionService;
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class PostLoginActivities {
-	
+
 	private final UserDAO userDAO;
 	private final FeedSubscriptionService feedSubscriptionService;
 	private final CommaFeedConfiguration config;
-	
+
 	public void executeFor(User user) {
 		Date lastLogin = user.getLastLogin();
 		Date now = new Date();
@@ -33,13 +33,13 @@ public class PostLoginActivities {
 			user.setLastLogin(now);
 			saveUser = true;
 		}
-		if (config.getApplicationSettings().isHeavyLoad() && user.shouldRefreshFeedsAt(now)) {
+		if (config.getApplicationSettings().getHeavyLoad() && user.shouldRefreshFeedsAt(now)) {
 			feedSubscriptionService.refreshAll(user);
 			user.setLastFullRefresh(now);
 			saveUser = true;
 		}
 		if (saveUser) {
-			userDAO.merge(user);
+			userDAO.saveOrUpdate(user);
 		}
 	}
 

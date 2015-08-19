@@ -16,7 +16,7 @@ import org.apache.http.entity.HttpEntityWrapper;
 import org.apache.http.protocol.HttpContext;
 
 class ContentEncodingInterceptor implements HttpResponseInterceptor {
-	
+
 	private static final Set<String> ALLOWED_CONTENT_ENCODINGS = new HashSet<>(Arrays.asList("gzip", "x-gzip", "deflate", "identity"));
 
 	@Override
@@ -28,17 +28,17 @@ class ContentEncodingInterceptor implements HttpResponseInterceptor {
 			}
 		}
 	}
-	
+
 	private boolean containsUnsupportedEncodings(Header contentEncodingHeader) {
 		HeaderElement[] codecs = contentEncodingHeader.getElements();
-		
+
 		for (final HeaderElement codec : codecs) {
 			String codecName = codec.getName().toLowerCase(Locale.US);
 			if (!ALLOWED_CONTENT_ENCODINGS.contains(codecName)) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -47,9 +47,9 @@ class ContentEncodingInterceptor implements HttpResponseInterceptor {
 			@Override
 			public Header getContentEncoding() {
 				return null;
-			};
+			}
 		};
-		
+
 		response.setEntity(wrapped);
 	}
 

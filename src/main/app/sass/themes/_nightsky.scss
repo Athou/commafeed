@@ -1,0 +1,126 @@
+#theme-nightsky {
+	a {
+	    color: #2A9FD6;
+	}
+	
+	.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+	    color: #FFF;
+	    background-color: #2A9FD6;
+	}
+
+	body, .toolbar {
+	    color: #C6C6C6;
+	    background-color: #2F2F2F;
+	}
+	
+	.btn-default {
+		color: #C6C6C6;
+		background-color: #424242;
+		border-color: #424242;
+	}
+	
+	.btn-default:hover, .btn-default:focus, .btn-default.focus, .btn-default:active,
+		.btn-default.active, .open>.dropdown-toggle.btn-default {
+		background-color: #282828;
+		border-color: #232323;
+	}
+	
+	.css-treeview li .tree-item:hover {
+		background-color: #282828;
+	}
+	
+	.css-treeview .unread-counter {
+	    color: #939393;
+	}
+	
+	.css-treeview .category-link, .css-treeview a {
+	    color: #939393;
+	}
+	
+	.css-treeview a .unread, .css-treeview .category-link .unread {
+	    color: #C6C6C6;
+	}
+	
+	.css-treeview .selected {
+	    color: #C00;
+	}
+	
+	.entrylist-header {
+	    border-bottom: 1px solid #282828;
+	}
+	
+	#feed-accordion .entry {
+	    border-bottom: 1px solid #282828;
+	}
+	
+	#feed-accordion .entry-body .entry-title {
+	    font-weight: normal;
+	}
+	
+	#feed-accordion .entry-heading .entry-name {
+	    color: #939393;
+	}
+	
+	#feed-accordion .unread .entry-heading .entry-name {
+	    font-weight: normal;
+	    color: #C6C6C6;
+	}
+	
+	#feed-accordion .unread .entry-heading {
+	    background-color: #444;
+	}
+	
+	#feed-accordion .entry-heading {
+	    background-color: #2F2F2F;
+	}
+	
+	#feed-accordion .unread .entry-heading:hover {
+		background-color: #2F2F2F;
+	}
+	
+	#feed-accordion .current.closed .entry-heading {
+	    background-color: #151515;
+	}
+	
+	#feed-accordion .entry-heading-link {
+	    color: #C6C6C6;
+	}
+	
+	#feed-accordion .entry-external-link {
+	    color: #C6C6C6;
+	}
+	
+	#feed-accordion .icon-star-empty {
+	    color: #C6C6C6;
+	}
+	
+	#feed-accordion .entry-heading .feed-name {
+	    color: #939393;
+	}
+	
+	#feed-accordion .entry-body-content {
+	    color: #C6C6C6;
+	}
+	
+	#feed-accordion .entry-buttons {
+	    background-color: #494949;
+	    border-top: 1px solid #282828;
+	}
+	
+	#feed-accordion .share-buttons a {
+	    color: #C6C6C6;
+	}
+	
+	#feed-accordion a.mark-up-to {
+	    color: #C6C6C6;
+	}
+	
+	#loading-bar .bar {
+		background: #C6C6C6;
+	}
+	
+	#loading-bar .peg {
+		box-shadow: 0 0 10px #C6C6C6, 0 0 5px #C6C6C6;
+	}
+}
+

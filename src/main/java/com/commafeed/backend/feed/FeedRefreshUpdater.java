@@ -1,23 +1,21 @@
 package com.commafeed.backend.feed;
 
-import io.dropwizard.lifecycle.Managed;
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.SessionFactory;
 
 import com.codahale.metrics.Meter;
@@ -35,8 +33,10 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedUpdateService;
 import com.commafeed.backend.service.PubSubService;
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Striped;
+
+import io.dropwizard.lifecycle.Managed;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Singleton
@@ -112,7 +112,7 @@ public class FeedRefreshUpdater implements Managed {
 				feed.setMessage("Feed has no entries");
 			} else {
 				List<String> lastEntries = cache.getLastEntries(feed);
-				List<String> currentEntries = Lists.newArrayList();
+				List<String> currentEntries = new ArrayList<>();
 
 				List<FeedSubscription> subscriptions = null;
 				for (FeedEntry entry : entries) {
@@ -120,12 +120,7 @@ public class FeedRefreshUpdater implements Managed {
 					if (!lastEntries.contains(cacheKey)) {
 						log.debug("cache miss for {}", entry.getUrl());
 						if (subscriptions == null) {
-							subscriptions = new UnitOfWork<List<FeedSubscription>>(sessionFactory) {
-								@Override
-								protected List<FeedSubscription> runInSession() throws Exception {
-									return feedSubscriptionDAO.findByFeed(feed);
-								}
-							}.run();
+							subscriptions = UnitOfWork.call(sessionFactory, () -> feedSubscriptionDAO.findByFeed(feed));
 						}
 						ok &= addEntry(feed, entry, subscriptions);
 						entryCacheMiss.mark();
@@ -143,16 +138,13 @@ public class FeedRefreshUpdater implements Managed {
 				}
 
 				if (CollectionUtils.isNotEmpty(subscriptions)) {
-					List<User> users = Lists.newArrayList();
-					for (FeedSubscription sub : subscriptions) {
-						users.add(sub.getUser());
-					}
+					List<User> users = subscriptions.stream().map(s -> s.getUser()).collect(Collectors.toList());
 					cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
 					cache.invalidateUserRootCategory(users.toArray(new User[0]));
 				}
 			}
 
-			if (config.getApplicationSettings().isPubsubhubbub()) {
+			if (config.getApplicationSettings().getPubsubhubbub()) {
 				handlePubSub(feed);
 			}
 			if (!ok) {
@@ -190,12 +182,7 @@ public class FeedRefreshUpdater implements Managed {
 			locked1 = lock1.tryLock(1, TimeUnit.MINUTES);
 			locked2 = lock2.tryLock(1, TimeUnit.MINUTES);
 			if (locked1 && locked2) {
-				boolean inserted = new UnitOfWork<Boolean>(sessionFactory) {
-					@Override
-					protected Boolean runInSession() throws Exception {
-						return feedUpdateService.addEntry(feed, entry);
-					}
-				}.run();
+				boolean inserted = UnitOfWork.call(sessionFactory, () -> feedUpdateService.addEntry(feed, entry, subscriptions));
 				if (inserted) {
 					entryInserted.mark();
 				}

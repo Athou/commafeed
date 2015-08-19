@@ -12,6 +12,7 @@ import org.apache.commons.io.IOUtils;
 
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.favicon.AbstractFaviconFetcher;
+import com.commafeed.backend.favicon.AbstractFaviconFetcher.Favicon;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 
@@ -21,7 +22,7 @@ public class FeedService {
 	private final FeedDAO feedDAO;
 	private final Set<AbstractFaviconFetcher> faviconFetchers;
 
-	private byte[] defaultFavicon;
+	private Favicon defaultFavicon;
 
 	@Inject
 	public FeedService(FeedDAO feedDAO, Set<AbstractFaviconFetcher> faviconFetchers) {
@@ -29,7 +30,7 @@ public class FeedService {
 		this.faviconFetchers = faviconFetchers;
 
 		try {
-			defaultFavicon = IOUtils.toByteArray(getClass().getResource("/images/default_favicon.gif"));
+			defaultFavicon = new Favicon(IOUtils.toByteArray(getClass().getResource("/images/default_favicon.gif")), "image/gif");
 		} catch (IOException e) {
 			throw new RuntimeException("could not load default favicon", e);
 		}
@@ -49,9 +50,9 @@ public class FeedService {
 		return feed;
 	}
 
-	public byte[] fetchFavicon(Feed feed) {
+	public Favicon fetchFavicon(Feed feed) {
 
-		byte[] icon = null;
+		Favicon icon = null;
 		for (AbstractFaviconFetcher faviconFetcher : faviconFetchers) {
 			icon = faviconFetcher.fetch(feed);
 			if (icon != null) {

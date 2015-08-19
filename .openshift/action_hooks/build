@@ -1,6 +1,23 @@
 #!/bin/bash
-cd $OPENSHIFT_REPO_DIR
+if [ ! -d $OPENSHIFT_DATA_DIR/jdk1.8.0_20 ]
+	then 
+		cd $OPENSHIFT_DATA_DIR
+		wget http://www.java.net/download/jdk8u20/archive/b17/binaries/jdk-8u20-ea-bin-b17-linux-x64-04_jun_2014.tar.gz
+		tar xvf *.tar.gz 
+		rm -f *.tar.gz
+fi
+if [ ! -d $OPENSHIFT_DATA_DIR/apache-maven-3.2.3 ]
+        then
+                cd $OPENSHIFT_DATA_DIR
+                wget http://archive.apache.org/dist/maven/maven-3/3.2.3/binaries/apache-maven-3.2.3-bin.tar.gz
+                tar xvf *.tar.gz
+                rm -f *.tar.gz
+fi
+export M2=$OPENSHIFT_DATA_DIR/apache-maven-3.2.3/bin
+export JAVA_HOME=$OPENSHIFT_DATA_DIR/jdk1.8.0_20
+export PATH=$JAVA_HOME/bin:$M2:$PATH
 
+cd $OPENSHIFT_REPO_DIR
 rm -rf $OPENSHIFT_REPO_DIR/node
 rm -rf $OPENSHIFT_REPO_DIR/node_modules
 rm -rf $OPENSHIFT_TMP_DIR/npm
@@ -16,7 +33,4 @@ export HOME="$OPENSHIFT_TMP_DIR/local"
 
 export NPM_CONFIG_ARCH="x64"
 
-npm install npm
-export PATH="$OPENSHIFT_REPO_DIR/node_modules/.bin:$PATH"
-
-mvn clean package -DskipTests -Dos.arch=x64
+mvn clean package -DskipTests -Dos.arch=x64 -s .openshift/settings.xml

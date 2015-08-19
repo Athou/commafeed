@@ -1,12 +1,9 @@
 package com.commafeed.backend.model;
 
 import java.util.Date;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -102,12 +99,6 @@ public class Feed extends AbstractModel {
 	 */
 	@Column(length = 40)
 	private String lastContentHash;
-
-	@OneToMany(mappedBy = "feed", cascade = CascadeType.REMOVE)
-	private Set<FeedEntry> entries;
-
-	@OneToMany(mappedBy = "feed")
-	private Set<FeedSubscription> subscriptions;
 
 	/**
 	 * detected hub for pubsubhubbub

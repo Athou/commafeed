@@ -1,13 +1,12 @@
 package com.commafeed.frontend.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import com.google.common.collect.Lists;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
 @ApiModel("List of entries with some metadata")
@@ -39,7 +38,7 @@ public class Entries implements Serializable {
 	private int limit;
 
 	@ApiModelProperty("list of entries")
-	private List<Entry> entries = Lists.newArrayList();
+	private List<Entry> entries = new ArrayList<>();
 
 	@ApiModelProperty("if true, the unread flag was ignored in the request, all entries are returned regardless of their read status")
 	private boolean ignoredReadStatus;

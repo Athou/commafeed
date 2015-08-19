@@ -51,6 +51,9 @@
 								<span class="entry-author-prefix">{{ 'view.entry_author' | translate }}</span>
 								<span class="entry-author-name">{{entry.author}}</span>
 							</span>
+							<span class="entry-categories" ng-if="entry.categories">
+								<span class="entry-categories-name">({{entry.categories}})</span>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -58,8 +61,7 @@
 				<div class="entry-body-content">
 					<div ng-if="!MobileService.mobile" ng-bind-html="entry.content | iframeHttpsRewrite| highlight:keywords | trustHtml"></div>
 					<div ng-if="MobileService.mobile" ng-bind-html="entry.content | iframeHttpsRewrite| highlight:keywords | appendImageTitles | trustHtml"></div>
-					
-					<div class="entry-enclosure" ng-if="entry.enclosureType">
+					<div class="entry-enclosure" ng-if="entry.enclosureType && (entry.enclosureUrl && entry.content && entry.content.indexOf(entry.enclosureUrl) == -1)">
 						<video controls ng-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">
 							<source ng-src="{{entry.enclosureUrl | trustUrl}}" type="{{entry.enclosureType}}" />
 						</video>

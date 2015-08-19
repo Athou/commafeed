@@ -1,14 +1,16 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.hibernate.UnitOfWork;
-
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,18 +25,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
@@ -55,23 +56,25 @@ import com.commafeed.frontend.model.request.CategoryModificationRequest;
 import com.commafeed.frontend.model.request.CollapseRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
-import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndFeedImpl;
 import com.rometools.rome.io.SyndFeedOutput;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
+
+import io.dropwizard.hibernate.UnitOfWork;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Path("/category")
-@Api(value = "/category", description = "Operations about user categories")
+@Api(value = "/category")
 @Slf4j
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class CategoryREST {
 
@@ -90,10 +93,13 @@ public class CategoryREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Get category entries", notes = "Get a list of category entries", response = Entries.class)
-	public Response getCategoryEntries(
-			@SecurityCheck User user,
+	@Timed
+	public Response getCategoryEntries(@SecurityCheck User user,
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
-			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
+			@ApiParam(
+					value = "all entries or only unread ones",
+					allowableValues = "all,unread",
+					required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
@@ -101,13 +107,15 @@ public class CategoryREST {
 			@ApiParam(
 					value = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
 			@ApiParam(value = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds,
-			@ApiParam(value = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
+			@ApiParam(
+					value = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
 			@ApiParam(value = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {
 
 		Preconditions.checkNotNull(readType);
 
 		keywords = StringUtils.trimToNull(keywords);
 		Preconditions.checkArgument(keywords == null || StringUtils.length(keywords) >= 3);
+		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
 		limit = Math.min(limit, 1000);
 		limit = Math.max(0, limit);
@@ -124,32 +132,27 @@ public class CategoryREST {
 
 		List<Long> excludedIds = null;
 		if (StringUtils.isNotEmpty(excludedSubscriptionIds)) {
-			excludedIds = Lists.newArrayList();
-			for (String excludedId : excludedSubscriptionIds.split(",")) {
-				excludedIds.add(Long.valueOf(excludedId));
-			}
+			excludedIds = Arrays.stream(excludedSubscriptionIds.split(",")).map(Long::valueOf).collect(Collectors.toList());
 		}
 
 		if (ALL.equals(id)) {
-			entries.setName(Optional.fromNullable(tag).or("All"));
+			entries.setName(Optional.ofNullable(tag).orElse("All"));
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 			removeExcludedSubscriptions(subs, excludedIds);
-			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, keywords, newerThanDate, offset,
-					limit + 1, order, true, onlyIds, tag);
+			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, entryKeywords, newerThanDate,
+					offset, limit + 1, order, true, onlyIds, tag);
 
 			for (FeedEntryStatus status : list) {
-				entries.getEntries().add(
-						Entry.build(status, config.getApplicationSettings().getPublicUrl(), config.getApplicationSettings()
-								.isImageProxyEnabled()));
+				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getPublicUrl(),
+						config.getApplicationSettings().getImageProxyEnabled()));
 			}
 
 		} else if (STARRED.equals(id)) {
 			entries.setName("Starred");
 			List<FeedEntryStatus> starred = feedEntryStatusDAO.findStarred(user, newerThanDate, offset, limit + 1, order, !onlyIds);
 			for (FeedEntryStatus status : starred) {
-				entries.getEntries().add(
-						Entry.build(status, config.getApplicationSettings().getPublicUrl(), config.getApplicationSettings()
-								.isImageProxyEnabled()));
+				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getPublicUrl(),
+						config.getApplicationSettings().getImageProxyEnabled()));
 			}
 		} else {
 			FeedCategory parent = feedCategoryDAO.findById(user, Long.valueOf(id));
@@ -157,13 +160,12 @@ public class CategoryREST {
 				List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, parent);
 				List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(user, categories);
 				removeExcludedSubscriptions(subs, excludedIds);
-				List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, keywords, newerThanDate,
+				List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, entryKeywords, newerThanDate,
 						offset, limit + 1, order, true, onlyIds, tag);
 
 				for (FeedEntryStatus status : list) {
-					entries.getEntries().add(
-							Entry.build(status, config.getApplicationSettings().getPublicUrl(), config.getApplicationSettings()
-									.isImageProxyEnabled()));
+					entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getPublicUrl(),
+							config.getApplicationSettings().getImageProxyEnabled()));
 				}
 				entries.setName(parent.getName());
 			} else {
@@ -179,7 +181,7 @@ public class CategoryREST {
 
 		entries.setTimestamp(System.currentTimeMillis());
 		entries.setIgnoredReadStatus(STARRED.equals(id) || keywords != null || tag != null);
-		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), keywords);
+		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), entryKeywords);
 		return Response.ok(entries).build();
 	}
 
@@ -188,10 +190,13 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get category entries as feed", notes = "Get a feed of category entries")
 	@Produces(MediaType.APPLICATION_XML)
-	public Response getCategoryEntriesAsFeed(
-			@SecurityCheck(apiKeyAllowed = true) User user,
+	@Timed
+	public Response getCategoryEntriesAsFeed(@SecurityCheck(apiKeyAllowed = true) User user,
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
-			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("all") @QueryParam("readType") ReadingMode readType,
+			@ApiParam(
+					value = "all entries or only unread ones",
+					allowableValues = "all,unread",
+					required = true) @DefaultValue("all") @QueryParam("readType") ReadingMode readType,
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
@@ -199,7 +204,8 @@ public class CategoryREST {
 			@ApiParam(
 					value = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
 			@ApiParam(value = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds,
-			@ApiParam(value = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
+			@ApiParam(
+					value = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
 			@ApiParam(value = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {
 
 		Response response = getCategoryEntries(user, id, readType, newerThan, offset, limit, order, keywords, onlyIds,
@@ -213,14 +219,8 @@ public class CategoryREST {
 		feed.setFeedType("rss_2.0");
 		feed.setTitle("CommaFeed - " + entries.getName());
 		feed.setDescription("CommaFeed - " + entries.getName());
-		String publicUrl = config.getApplicationSettings().getPublicUrl();
-		feed.setLink(publicUrl);
-
-		List<SyndEntry> children = Lists.newArrayList();
-		for (Entry entry : entries.getEntries()) {
-			children.add(entry.asRss());
-		}
-		feed.setEntries(children);
+		feed.setLink(config.getApplicationSettings().getPublicUrl());
+		feed.setEntries(entries.getEntries().stream().map(e -> e.asRss()).collect(Collectors.toList()));
 
 		SyndFeedOutput output = new SyndFeedOutput();
 		StringWriter writer = new StringWriter();
@@ -237,6 +237,7 @@ public class CategoryREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Mark category entries", notes = "Mark feed entries of this category as read")
+	@Timed
 	public Response markCategoryEntries(@SecurityCheck User user,
 			@ApiParam(value = "category id, or 'all'", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
@@ -244,11 +245,12 @@ public class CategoryREST {
 
 		Date olderThan = req.getOlderThan() == null ? null : new Date(req.getOlderThan());
 		String keywords = req.getKeywords();
+		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
 		if (ALL.equals(req.getId())) {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 			removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
-			feedEntryService.markSubscriptionEntries(user, subs, olderThan, keywords);
+			feedEntryService.markSubscriptionEntries(user, subs, olderThan, entryKeywords);
 		} else if (STARRED.equals(req.getId())) {
 			feedEntryService.markStarredEntries(user, olderThan);
 		} else {
@@ -256,7 +258,7 @@ public class CategoryREST {
 			List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, parent);
 			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(user, categories);
 			removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
-			feedEntryService.markSubscriptionEntries(user, subs, olderThan, keywords);
+			feedEntryService.markSubscriptionEntries(user, subs, olderThan, entryKeywords);
 		}
 		return Response.ok().build();
 	}
@@ -277,6 +279,7 @@ public class CategoryREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Add a category", notes = "Add a new feed category", response = Long.class)
+	@Timed
 	public Response addCategory(@SecurityCheck User user, @ApiParam(required = true) AddCategoryRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getName());
@@ -300,6 +303,7 @@ public class CategoryREST {
 	@Path("/delete")
 	@UnitOfWork
 	@ApiOperation(value = "Delete a category", notes = "Delete an existing feed category")
+	@Timed
 	public Response deleteCategory(@SecurityCheck User user, @ApiParam(required = true) IDRequest req) {
 
 		Preconditions.checkNotNull(req);
@@ -332,6 +336,7 @@ public class CategoryREST {
 	@Path("/modify")
 	@UnitOfWork
 	@ApiOperation(value = "Rename a category", notes = "Rename an existing feed category")
+	@Timed
 	public Response modifyCategory(@SecurityCheck User user, @ApiParam(required = true) CategoryModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -360,7 +365,7 @@ public class CategoryREST {
 
 			int existingIndex = -1;
 			for (int i = 0; i < categories.size(); i++) {
-				if (ObjectUtils.equals(categories.get(i).getId(), category.getId())) {
+				if (Objects.equals(categories.get(i).getId(), category.getId())) {
 					existingIndex = i;
 				}
 			}
@@ -386,6 +391,7 @@ public class CategoryREST {
 	@Path("/collapse")
 	@UnitOfWork
 	@ApiOperation(value = "Collapse a category", notes = "Save collapsed or expanded status for a category")
+	@Timed
 	public Response collapse(@SecurityCheck User user, @ApiParam(required = true) CollapseRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -404,6 +410,7 @@ public class CategoryREST {
 	@Path("/unreadCount")
 	@UnitOfWork
 	@ApiOperation(value = "Get unread count for feed subscriptions", response = UnreadCount.class, responseContainer = "List")
+	@Timed
 	public Response getUnreadCount(@SecurityCheck User user) {
 		Map<Long, UnreadCount> unreadCount = feedSubscriptionService.getUnreadCount(user);
 		return Response.ok(Lists.newArrayList(unreadCount.values())).build();
@@ -413,6 +420,7 @@ public class CategoryREST {
 	@Path("/get")
 	@UnitOfWork
 	@ApiOperation(value = "Get feed categories", notes = "Get all categories and subscriptions of the user", response = Category.class)
+	@Timed
 	public Response getSubscriptions(@SecurityCheck User user) {
 		Category root = cache.getUserRootCategory(user);
 		if (root == null) {
@@ -437,7 +445,7 @@ public class CategoryREST {
 		category.setExpanded(true);
 
 		for (FeedCategory c : categories) {
-			if ((id == null && c.getParent() == null) || (c.getParent() != null && ObjectUtils.equals(c.getParent().getId(), id))) {
+			if ((id == null && c.getParent() == null) || (c.getParent() != null && Objects.equals(c.getParent().getId(), id))) {
 				Category child = buildCategory(c.getId(), categories, subscriptions, unreadCount);
 				child.setId(String.valueOf(c.getId()));
 				child.setName(c.getName());
@@ -458,7 +466,7 @@ public class CategoryREST {
 
 		for (FeedSubscription subscription : subscriptions) {
 			if ((id == null && subscription.getCategory() == null)
-					|| (subscription.getCategory() != null && ObjectUtils.equals(subscription.getCategory().getId(), id))) {
+					|| (subscription.getCategory() != null && Objects.equals(subscription.getCategory().getId(), id))) {
 				UnreadCount uc = unreadCount.get(subscription.getId());
 				Subscription sub = Subscription.build(subscription, config.getApplicationSettings().getPublicUrl(), uc);
 				category.getFeeds().add(sub);

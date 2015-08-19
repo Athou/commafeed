@@ -1,7 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import io.dropwizard.hibernate.UnitOfWork;
-
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URI;
@@ -11,6 +9,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -29,25 +30,28 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.favicon.AbstractFaviconFetcher.Favicon;
+import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedFetcher;
 import com.commafeed.backend.feed.FeedQueues;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.feed.FetchedFeed;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
+import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
@@ -55,6 +59,8 @@ import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.opml.OPMLExporter;
 import com.commafeed.backend.opml.OPMLImporter;
+import com.commafeed.backend.service.FeedEntryFilteringService;
+import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedService;
 import com.commafeed.backend.service.FeedSubscriptionService;
@@ -71,26 +77,41 @@ import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
-import com.google.common.collect.Lists;
 import com.rometools.opml.feed.opml.Opml;
-import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndFeedImpl;
 import com.rometools.rome.io.SyndFeedOutput;
 import com.rometools.rome.io.WireFeedOutput;
-import com.sun.jersey.multipart.FormDataParam;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
+
+import io.dropwizard.hibernate.UnitOfWork;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Path("/feed")
-@Api(value = "/feed", description = "Operations about feeds")
+@Api(value = "/feed")
 @Slf4j
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
 @Singleton
 public class FeedREST {
+
+	private static final FeedEntry TEST_ENTRY = initTestEntry();
+
+	private static FeedEntry initTestEntry() {
+		FeedEntry entry = new FeedEntry();
+		entry.setUrl("https://github.com/Athou/commafeed");
+
+		FeedEntryContent content = new FeedEntryContent();
+		content.setAuthor("Athou");
+		content.setTitle("Merge pull request #662 from Athou/dw8");
+		content.setContent("Merge pull request #662 from Athou/dw8");
+		entry.setContent(content);
+		return entry;
+	}
 
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedCategoryDAO feedCategoryDAO;
@@ -99,6 +120,7 @@ public class FeedREST {
 	private final FeedService feedService;
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionService feedSubscriptionService;
+	private final FeedEntryFilteringService feedEntryFilteringService;
 	private final FeedQueues queues;
 	private final OPMLImporter opmlImporter;
 	private final OPMLExporter opmlExporter;
@@ -109,10 +131,13 @@ public class FeedREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Get feed entries", notes = "Get a list of feed entries", response = Entries.class)
-	public Response getFeedEntries(
-			@SecurityCheck User user,
+	@Timed
+	public Response getFeedEntries(@SecurityCheck User user,
 			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
-			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
+			@ApiParam(
+					value = "all entries or only unread ones",
+					allowableValues = "all,unread",
+					required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
@@ -126,6 +151,7 @@ public class FeedREST {
 
 		keywords = StringUtils.trimToNull(keywords);
 		Preconditions.checkArgument(keywords == null || StringUtils.length(keywords) >= 3);
+		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
 		limit = Math.min(limit, 1000);
 		limit = Math.max(0, limit);
@@ -145,13 +171,12 @@ public class FeedREST {
 			entries.setErrorCount(subscription.getFeed().getErrorCount());
 			entries.setFeedLink(subscription.getFeed().getLink());
 
-			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, Arrays.asList(subscription), unreadOnly, keywords,
-					newerThanDate, offset, limit + 1, order, true, onlyIds, null);
+			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, Arrays.asList(subscription), unreadOnly,
+					entryKeywords, newerThanDate, offset, limit + 1, order, true, onlyIds, null);
 
 			for (FeedEntryStatus status : list) {
-				entries.getEntries().add(
-						Entry.build(status, config.getApplicationSettings().getPublicUrl(), config.getApplicationSettings()
-								.isImageProxyEnabled()));
+				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getPublicUrl(),
+						config.getApplicationSettings().getImageProxyEnabled()));
 			}
 
 			boolean hasMore = entries.getEntries().size() > limit;
@@ -165,7 +190,7 @@ public class FeedREST {
 
 		entries.setTimestamp(System.currentTimeMillis());
 		entries.setIgnoredReadStatus(keywords != null);
-		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), keywords);
+		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), entryKeywords);
 		return Response.ok(entries).build();
 	}
 
@@ -174,10 +199,13 @@ public class FeedREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get feed entries as a feed", notes = "Get a feed of feed entries")
 	@Produces(MediaType.APPLICATION_XML)
-	public Response getFeedEntriesAsFeed(
-			@SecurityCheck(apiKeyAllowed = true) User user,
+	@Timed
+	public Response getFeedEntriesAsFeed(@SecurityCheck(apiKeyAllowed = true) User user,
 			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
-			@ApiParam(value = "all entries or only unread ones", allowableValues = "all,unread", required = true) @DefaultValue("all") @QueryParam("readType") ReadingMode readType,
+			@ApiParam(
+					value = "all entries or only unread ones",
+					allowableValues = "all,unread",
+					required = true) @DefaultValue("all") @QueryParam("readType") ReadingMode readType,
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
@@ -196,14 +224,8 @@ public class FeedREST {
 		feed.setFeedType("rss_2.0");
 		feed.setTitle("CommaFeed - " + entries.getName());
 		feed.setDescription("CommaFeed - " + entries.getName());
-		String publicUrl = config.getApplicationSettings().getPublicUrl();
-		feed.setLink(publicUrl);
-
-		List<SyndEntry> children = Lists.newArrayList();
-		for (Entry entry : entries.getEntries()) {
-			children.add(entry.asRss());
-		}
-		feed.setEntries(children);
+		feed.setLink(config.getApplicationSettings().getPublicUrl());
+		feed.setEntries(entries.getEntries().stream().map(e -> e.asRss()).collect(Collectors.toList()));
 
 		SyndFeedOutput output = new SyndFeedOutput();
 		StringWriter writer = new StringWriter();
@@ -237,6 +259,7 @@ public class FeedREST {
 	@Path("/fetch")
 	@UnitOfWork
 	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", response = FeedInfo.class)
+	@Timed
 	public Response fetchFeed(@SecurityCheck User user, @ApiParam(value = "feed url", required = true) FeedInfoRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getUrl());
@@ -246,7 +269,7 @@ public class FeedREST {
 			info = fetchFeedInternal(req.getUrl());
 		} catch (Exception e) {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(Throwables.getStackTraceAsString(Throwables.getRootCause(e)))
-					.build();
+					.type(MediaType.TEXT_PLAIN).build();
 		}
 		return Response.ok(info).build();
 	}
@@ -255,6 +278,7 @@ public class FeedREST {
 	@GET
 	@UnitOfWork
 	@ApiOperation(value = "Queue all feeds of the user for refresh", notes = "Manually add all feeds of the user to the refresh queue")
+	@Timed
 	public Response queueAllForRefresh(@SecurityCheck User user) {
 		feedSubscriptionService.refreshAll(user);
 		return Response.ok().build();
@@ -264,6 +288,7 @@ public class FeedREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Queue a feed for refresh", notes = "Manually add a feed to the refresh queue")
+	@Timed
 	public Response queueForRefresh(@SecurityCheck User user, @ApiParam(value = "Feed id") IDRequest req) {
 
 		Preconditions.checkNotNull(req);
@@ -282,16 +307,18 @@ public class FeedREST {
 	@POST
 	@UnitOfWork
 	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read (unread is not supported)")
+	@Timed
 	public Response markFeedEntries(@SecurityCheck User user, @ApiParam(value = "Mark request") MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
 		Date olderThan = req.getOlderThan() == null ? null : new Date(req.getOlderThan());
 		String keywords = req.getKeywords();
+		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, Long.valueOf(req.getId()));
 		if (subscription != null) {
-			feedEntryService.markSubscriptionEntries(user, Arrays.asList(subscription), olderThan, keywords);
+			feedEntryService.markSubscriptionEntries(user, Arrays.asList(subscription), olderThan, entryKeywords);
 		}
 		return Response.ok().build();
 	}
@@ -300,6 +327,7 @@ public class FeedREST {
 	@Path("/get/{id}")
 	@UnitOfWork
 	@ApiOperation(value = "", notes = "")
+	@Timed
 	public Response get(@SecurityCheck User user, @ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
@@ -315,6 +343,7 @@ public class FeedREST {
 	@Path("/favicon/{id}")
 	@UnitOfWork
 	@ApiOperation(value = "Fetch a feed's icon", notes = "Fetch a feed's icon")
+	@Timed
 	public Response getFavicon(@SecurityCheck User user, @ApiParam(value = "subscription id") @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
@@ -323,9 +352,9 @@ public class FeedREST {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		Feed feed = subscription.getFeed();
-		byte[] icon = feedService.fetchFavicon(feed);
+		Favicon icon = feedService.fetchFavicon(feed);
 
-		ResponseBuilder builder = Response.ok(icon, "image/x-icon");
+		ResponseBuilder builder = Response.ok(icon.getIcon(), Optional.ofNullable(icon.getMediaType()).orElse("image/x-icon"));
 
 		CacheControl cacheControl = new CacheControl();
 		cacheControl.setMaxAge(2592000);
@@ -344,6 +373,7 @@ public class FeedREST {
 	@Path("/subscribe")
 	@UnitOfWork
 	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
+	@Timed
 	public Response subscribe(@SecurityCheck User user, @ApiParam(value = "subscription request", required = true) SubscribeRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getTitle());
@@ -370,6 +400,7 @@ public class FeedREST {
 	@Path("/subscribe")
 	@UnitOfWork
 	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
+	@Timed
 	public Response subscribe(@SecurityCheck User user, @ApiParam(value = "feed url", required = true) @QueryParam("url") String url) {
 
 		try {
@@ -379,7 +410,7 @@ public class FeedREST {
 			url = fetchFeedInternal(url).getUrl();
 
 			FeedInfo info = fetchFeedInternal(url);
-			feedSubscriptionService.subscribe(user, info.getUrl(), info.getTitle(), null);
+			feedSubscriptionService.subscribe(user, info.getUrl(), info.getTitle());
 		} catch (Exception e) {
 			log.info("Could not subscribe to url {} : {}", url, e.getMessage());
 		}
@@ -397,6 +428,7 @@ public class FeedREST {
 	@Path("/unsubscribe")
 	@UnitOfWork
 	@ApiOperation(value = "Unsubscribe from a feed", notes = "Unsubscribe from a feed")
+	@Timed
 	public Response unsubscribe(@SecurityCheck User user, @ApiParam(required = true) IDRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -413,11 +445,19 @@ public class FeedREST {
 	@Path("/modify")
 	@UnitOfWork
 	@ApiOperation(value = "Modify a subscription", notes = "Modify a feed subscription")
+	@Timed
 	public Response modify(@SecurityCheck User user, @ApiParam(value = "subscription id", required = true) FeedModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
+		try {
+			feedEntryFilteringService.filterMatchesEntry(req.getFilter(), TEST_ENTRY);
+		} catch (FeedEntryFilterException e) {
+			return Response.status(Status.BAD_REQUEST).entity(e.getCause().getMessage()).type(MediaType.TEXT_PLAIN).build();
+		}
+
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, req.getId());
+		subscription.setFilter(StringUtils.lowerCase(req.getFilter()));
 
 		if (StringUtils.isNotBlank(req.getName())) {
 			subscription.setTitle(req.getName());
@@ -440,7 +480,7 @@ public class FeedREST {
 
 			int existingIndex = -1;
 			for (int i = 0; i < subs.size(); i++) {
-				if (ObjectUtils.equals(subs.get(i).getId(), subscription.getId())) {
+				if (Objects.equals(subs.get(i).getId(), subscription.getId())) {
 					existingIndex = i;
 				}
 			}
@@ -465,12 +505,13 @@ public class FeedREST {
 	@UnitOfWork
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@ApiOperation(value = "OPML import", notes = "Import an OPML file, posted as a FORM with the 'file' name")
+	@Timed
 	public Response importOpml(@SecurityCheck User user, @FormDataParam("file") InputStream input) {
 
 		String publicUrl = config.getApplicationSettings().getPublicUrl();
 		if (StringUtils.isBlank(publicUrl)) {
-			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR)
-					.entity("Set the public URL in the admin section.").build());
+			throw new WebApplicationException(
+					Response.status(Status.INTERNAL_SERVER_ERROR).entity("Set the public URL in the admin section.").build());
 		}
 
 		if (CommaFeedApplication.USERNAME_DEMO.equals(user.getName())) {
@@ -491,6 +532,7 @@ public class FeedREST {
 	@UnitOfWork
 	@Produces(MediaType.APPLICATION_XML)
 	@ApiOperation(value = "OPML export", notes = "Export an OPML file of the user's subscriptions")
+	@Timed
 	public Response exportOpml(@SecurityCheck User user) {
 		Opml opml = opmlExporter.export(user);
 		WireFeedOutput output = new WireFeedOutput();

@@ -1,7 +1,8 @@
 package com.commafeed.backend.service;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,9 +14,6 @@ import com.commafeed.backend.dao.FeedEntryTagDAO;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.User;
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
@@ -30,29 +28,12 @@ public class FeedEntryTagService {
 			return;
 		}
 
-		List<FeedEntryTag> tags = feedEntryTagDAO.findByEntry(user, entry);
-		Map<String, FeedEntryTag> tagMap = Maps.uniqueIndex(tags, new Function<FeedEntryTag, String>() {
-			@Override
-			public String apply(FeedEntryTag input) {
-				return input.getName();
-			}
-		});
+		List<FeedEntryTag> existingTags = feedEntryTagDAO.findByEntry(user, entry);
+		Set<String> existingTagNames = existingTags.stream().map(t -> t.getName()).collect(Collectors.toSet());
 
-		List<FeedEntryTag> addList = Lists.newArrayList();
-		List<FeedEntryTag> removeList = Lists.newArrayList();
-
-		for (String tagName : tagNames) {
-			FeedEntryTag tag = tagMap.get(tagName);
-			if (tag == null) {
-				addList.add(new FeedEntryTag(user, entry, tagName));
-			}
-		}
-
-		for (FeedEntryTag tag : tags) {
-			if (!tagNames.contains(tag.getName())) {
-				removeList.add(tag);
-			}
-		}
+		List<FeedEntryTag> addList = tagNames.stream().filter(name -> !existingTagNames.contains(name))
+				.map(name -> new FeedEntryTag(user, entry, name)).collect(Collectors.toList());
+		List<FeedEntryTag> removeList = existingTags.stream().filter(tag -> !tagNames.contains(tag.getName())).collect(Collectors.toList());
 
 		feedEntryTagDAO.saveOrUpdate(addList);
 		feedEntryTagDAO.delete(removeList);

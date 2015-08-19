@@ -2,6 +2,7 @@ package com.commafeed.backend.dao;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -12,7 +13,6 @@ import com.commafeed.backend.model.QUserRole;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
-import com.google.common.collect.Sets;
 
 @Singleton
 public class UserRoleDAO extends GenericDAO<UserRole> {
@@ -25,18 +25,14 @@ public class UserRoleDAO extends GenericDAO<UserRole> {
 	}
 
 	public List<UserRole> findAll() {
-		return newQuery().from(role).leftJoin(role.user).fetch().distinct().list(role);
+		return query().selectFrom(role).leftJoin(role.user).fetchJoin().distinct().fetch();
 	}
 
 	public List<UserRole> findAll(User user) {
-		return newQuery().from(role).where(role.user.eq(user)).distinct().list(role);
+		return query().selectFrom(role).where(role.user.eq(user)).distinct().fetch();
 	}
 
 	public Set<Role> findRoles(User user) {
-		Set<Role> list = Sets.newHashSet();
-		for (UserRole role : findAll(user)) {
-			list.add(role.getRole());
-		}
-		return list;
+		return findAll(user).stream().map(r -> r.getRole()).collect(Collectors.toSet());
 	}
 }

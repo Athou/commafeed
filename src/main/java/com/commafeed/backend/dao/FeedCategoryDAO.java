@@ -1,19 +1,19 @@
 package com.commafeed.backend.dao;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.QFeedCategory;
 import com.commafeed.backend.model.QUser;
 import com.commafeed.backend.model.User;
-import com.google.common.collect.Lists;
-import com.mysema.query.types.Predicate;
+import com.querydsl.core.types.Predicate;
 
 @Singleton
 public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
@@ -26,11 +26,11 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 	}
 
 	public List<FeedCategory> findAll(User user) {
-		return newQuery().from(category).where(category.user.eq(user)).join(category.user, QUser.user).fetch().list(category);
+		return query().selectFrom(category).where(category.user.eq(user)).join(category.user, QUser.user).fetchJoin().fetch();
 	}
 
 	public FeedCategory findById(User user, Long id) {
-		return newQuery().from(category).where(category.user.eq(user), category.id.eq(id)).uniqueResult(category);
+		return query().selectFrom(category).where(category.user.eq(user), category.id.eq(id)).fetchOne();
 	}
 
 	public FeedCategory findByName(User user, String name, FeedCategory parent) {
@@ -40,7 +40,7 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 		} else {
 			parentPredicate = category.parent.eq(parent);
 		}
-		return newQuery().from(category).where(category.user.eq(user), category.name.eq(name), parentPredicate).uniqueResult(category);
+		return query().selectFrom(category).where(category.user.eq(user), category.name.eq(name), parentPredicate).fetchOne();
 	}
 
 	public List<FeedCategory> findByParent(User user, FeedCategory parent) {
@@ -50,18 +50,11 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 		} else {
 			parentPredicate = category.parent.eq(parent);
 		}
-		return newQuery().from(category).where(category.user.eq(user), parentPredicate).list(category);
+		return query().selectFrom(category).where(category.user.eq(user), parentPredicate).fetch();
 	}
 
 	public List<FeedCategory> findAllChildrenCategories(User user, FeedCategory parent) {
-		List<FeedCategory> list = Lists.newArrayList();
-		List<FeedCategory> all = findAll(user);
-		for (FeedCategory cat : all) {
-			if (isChild(cat, parent)) {
-				list.add(cat);
-			}
-		}
-		return list;
+		return findAll(user).stream().filter(c -> isChild(c, parent)).collect(Collectors.toList());
 	}
 
 	private boolean isChild(FeedCategory child, FeedCategory parent) {
@@ -70,7 +63,7 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 		}
 		boolean isChild = false;
 		while (child != null) {
-			if (ObjectUtils.equals(child.getId(), parent.getId())) {
+			if (Objects.equals(child.getId(), parent.getId())) {
 				isChild = true;
 				break;
 			}

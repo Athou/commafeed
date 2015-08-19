@@ -1,5 +1,6 @@
 package com.commafeed.backend.service;
 
+import java.util.Optional;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -34,6 +35,7 @@ public class MailService {
 
 		final String username = settings.getSmtpUserName();
 		final String password = settings.getSmtpPassword();
+		final String fromAddress = Optional.ofNullable(settings.getSmtpFromAddress()).orElse(settings.getSmtpUserName());
 
 		String dest = user.getEmail();
 
@@ -51,7 +53,7 @@ public class MailService {
 		});
 
 		Message message = new MimeMessage(session);
-		message.setFrom(new InternetAddress(username, "CommaFeed"));
+		message.setFrom(new InternetAddress(fromAddress, "CommaFeed"));
 		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(dest));
 		message.setSubject("CommaFeed - " + subject);
 		message.setContent(content, "text/html; charset=utf-8");

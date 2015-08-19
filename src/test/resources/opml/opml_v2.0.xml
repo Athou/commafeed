@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+	<head>
+		<title>subscriptions</title>
+	</head>
+	<body>
+		<outline text="out1" title="out1">
+			<outline type="rss" text="feed1" title="feed1" xmlUrl="http://www.feed.com/feed1.xml" htmlUrl="http://www.feed.com" />
+		</outline>
+	</body>
+</opml>

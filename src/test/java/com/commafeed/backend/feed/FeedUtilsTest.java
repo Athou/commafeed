@@ -3,8 +3,6 @@ package com.commafeed.backend.feed;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.commafeed.backend.feed.FeedUtils;
-
 public class FeedUtilsTest {
 
 	@Test
@@ -46,13 +44,38 @@ public class FeedUtilsTest {
 	@Test
 	public void testToAbsoluteUrl() {
 		String expected = "http://a.com/blog/entry/1";
+
+		// usual cases
 		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("http://a.com/blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
 		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("http://a.com/blog/entry/1", "http://a.com/feed", "http://a.com/feed"));
+
+		// relative links
 		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("../blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
 		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("../blog/entry/1", "feed.xml", "http://a.com/feed/feed.xml"));
 
+		// root-relative links
+		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("/blog/entry/1", "/feed", "http://a.com/feed"));
+
+		// real cases
+		Assert.assertEquals("https://github.com/erusev/parsedown/releases/tag/1.3.0", FeedUtils.toAbsoluteUrl(
+				"/erusev/parsedown/releases/tag/1.3.0", "/erusev/parsedown/releases", "https://github.com/erusev/parsedown/tags.atom"));
 		Assert.assertEquals("http://ergoemacs.org/emacs/elisp_all_about_lines.html",
 				FeedUtils.toAbsoluteUrl("elisp_all_about_lines.html", "blog.xml", "http://ergoemacs.org/emacs/blog.xml"));
 
+	}
+
+	@Test
+	public void testExtractDeclaredEncoding() {
+		Assert.assertNull(FeedUtils.extractDeclaredEncoding("<?xml ?>".getBytes()));
+		Assert.assertNull(FeedUtils.extractDeclaredEncoding("<feed></feed>".getBytes()));
+		Assert.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding=\"UTF-8\" ?>".getBytes()));
+		Assert.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding='UTF-8' ?>".getBytes()));
+		Assert.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding='UTF-8'?>".getBytes()));
+	}
+
+	@Test
+	public void testReplaceHtmlEntitiesWithNumericEntities() {
+		String source = "<source>T&acute;l&acute;phone &prime;</source>";
+		Assert.assertEquals("<source>T&#180;l&#180;phone &#8242;</source>", FeedUtils.replaceHtmlEntitiesWithNumericEntities(source));
 	}
 }

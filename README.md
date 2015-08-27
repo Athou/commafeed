@@ -39,7 +39,12 @@ You also need the Java 1.8+ JDK  in order to build the application.
 
 To install the required packages to build CommaFeed on Ubuntu, issue the following commands
 
+	# if openjdk-8-jdk is not available on your ubuntu version (14.04 LTS), add the following repo first
+	sudo add-apt-repository ppa:openjdk-r/ppa
+	sudo apt-get update
+
     sudo apt-get install g++ build-essential openjdk-8-jdk
+
     # Make sure java8 is the selected java version
     sudo update-alternatives --config java
     sudo update-alternatives --config javac

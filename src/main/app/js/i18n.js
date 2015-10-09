@@ -19,7 +19,7 @@ module.service('LangService', [function() {
 		'nn': 'Norsk (nynorsk)',
 		'pt': 'Português',
 		'pl': 'Polski',
-		'ru': 'Pусский',
+		'ru': 'Русский',
 		'fi': 'Suomi',
 		'sv': 'Svenska',
 		'zh': '简体中文',

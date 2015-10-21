@@ -86,7 +86,7 @@ public class FeedUtils {
 		whitelist.addAttributes("th", "border", "bordercolor", "abbr", "axis", "colspan", "rowspan", "scope", "width");
 		whitelist.addAttributes("ul", "type");
 
-		whitelist.addProtocols("a", "href", "ftp", "http", "https", "mailto");
+		whitelist.addProtocols("a", "href", "ftp", "http", "https", "magnet", "mailto");
 		whitelist.addProtocols("blockquote", "cite", "http", "https");
 		whitelist.addProtocols("img", "src", "http", "https");
 		whitelist.addProtocols("q", "cite", "http", "https");

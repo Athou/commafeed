@@ -8,24 +8,24 @@
     "link" : "Link",
     "bookmark" : "Segnalibro",
     "close" : "Chiudi",
-    "tags" : "Etichette "
+    "tags" : "Tag"
   },
   "tree" : {
-    "subscribe" : "Abbonati",
+    "subscribe" : "Iscriviti",
     "import" : "Importa",
     "new_category" : "Nuova categoria",
     "all" : "Tutto",
     "starred" : "Preferiti"
   },
   "subscribe" : {
-    "feed_url" : "Feed URL",
+    "feed_url" : "URL del feed",
     "feed_name" : "Nome feed",
     "category" : "Categoria"
   },
   "import" : {
     "google_reader_prefix" : "Permettimi di importare i tuoi feed dal tuo ",
     "google_reader_suffix" : " account.",
-    "google_download" : "Oppure, carica il tuo file subscriptions.xml.",
+    "google_download" : "Oppure carica il tuo file subscriptions.xml.",
     "google_download_link" : "Scaricalo da qui.",
     "xml_file" : "OPML File"
   },
@@ -39,8 +39,8 @@
     "previous_entry" : "Precedente",
     "next_entry" : "Successivo",
     "refresh" : "Ricarica",
-    "refresh_all" : "Forza l'aggiornamento di tutte i miei feed",
-    "sort_by_asc_desc" : "Ordina per data ascendente/decrescente",
+    "refresh_all" : "Forza l'aggiornamento di tutti i feed",
+    "sort_by_asc_desc" : "Ordina per data crescente/decrescente",
     "titles_only" : "Solo i titoli",
     "expanded_view" : "Espandi",
     "mark_all_as_read" : "Segna tutto come già letto",
@@ -56,11 +56,11 @@
     "donate" : "Dona"
   },
   "view" : {
-    "entry_source" : "da  ",
-    "entry_author" : "di  ",
-    "error_while_loading_feed" : "Si è verificato un errore durante il caricamento di questo feed",
-    "keep_unread" : "Mantiene come non leggere",
-    "no_unread_items" : "Non ci sono elementi da leggere.",
+    "entry_source" : "da",
+    "entry_author" : "di",
+    "error_while_loading_feed" : "Si è verificato un errore durante il caricamento del feed",
+    "keep_unread" : "Mantiene come da leggere",
+    "no_unread_items" : "Non ci sono elementi da leggere",
     "mark_up_to_here" : "Segna come letto fino qui",
     "search_for" : "cercando:  ",
     "no_search_results" : "Nessun risultato trovato per le parole chiave cercate"
@@ -102,10 +102,10 @@
     "filtering_expression_help" : "Se non è vuoto, una espressione viene misurata in 'true' o 'false'. Se falsa, i nuovi elementi di questo feed verranno segnati automaticamente come letti.\nLe variabili accettate sono 'title', 'content', 'url' 'author' e 'categories' e il loro contenuto è convertito in minuscolo per una facile confronto di stringhe.\Esempio: url.contains('youtube') o (author eq 'athou' and title.contains('github').\nLa sintassi completa è disponibile <a href='http://commons.apache.org/proper/commons-jexl/reference/syntax.html' target='_blank'>qui</a>.",
     "generate_api_key_first" : "Genera prima una chiave API nelle impostazioni del tuo profilo.",
     "unsubscribe" : "Annulla la sottoscrizione",
-    "unsubscribe_confirmation" : "Sei sicuro di voler annullare la sottoscrizione da questo feed?",
+    "unsubscribe_confirmation" : "Sei sicuro di voler annullare la sottoscrizione dal feed?",
     "delete_category_confirmation" : "Sei sicuro di voler eliminare questa categoria?",
     "category_details" : "Dettagli categoria",
-    "tag_details" : "Dettagli etichette ",
+    "tag_details" : "Dettagli tag",
     "parent_category" : "Categoria principale"
   },
   "profile" : {
@@ -118,10 +118,10 @@
     "api_key" : "chiave API",
     "api_key_not_generated" : "Non ancora generata",
     "generate_new_api_key" : "Genera una nuova chiave API ",
-    "generate_new_api_key_info" : "Cambiando la password sarà generata una nuova chiave API ì",
+    "generate_new_api_key_info" : "Cambiando la password sarà generata una nuova chiave API",
     "opml_export" : "Esporta OPML",
     "delete_account" : "Elimina il profilo",
-    "delete_account_confirmation" : "Eliminare il tuo profilo? Non si può tornare indietro!"
+    "delete_account_confirmation" : "Vuoi eliminare il tuo profilo? Non si può tornare indietro!"
   },
   "about" : {
     "rest_api" : {
@@ -135,7 +135,7 @@
     "line1_suffix" : ".",
     "line2_prefix" : "Se hai qualche problema, segnalalo sulla pagina del ",
     "line2_suffix" : " progetto.",
-    "line3" : "Se ti piace il progetto, considera una donazione per supportare lo sviluppatore ed a aiutare per coprire i costi di mantenenimento di questo sito online.",
+    "line3" : "Se ti piace il progetto, considera una donazione per supportare lo sviluppatore ed aiutare a coprire i costi di mantenenimento di questo sito online.",
     "line4" : "Se preferisci i Bitcoin, questo è l'indirizzo",
     "goodies" : {
       "value" : "Goodies",

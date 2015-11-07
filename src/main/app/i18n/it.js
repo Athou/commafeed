@@ -99,7 +99,7 @@
     "queued_for_refresh" : "In attesa per l'aggiornamento",
     "feed_url" : "URL del feed ",
     "filtering_expression" : "Espressione del filtro",
-    "filtering_expression_help" : "Se non è vuoto, una espressione viene misurata in 'true' o 'false'. Se falsa, i nuovi elementi di questo feed verranno segnati automaticamente come letti.\nLe variabili accettate sono 'title', 'content', 'url' 'author' e 'categories' e il loro contenuto è convertito in minuscolo per una facile confronto di stringhe.\Esempio: url.contains('youtube') o (author eq 'athou' and title.contains('github').\nLa sintassi completa è disponibile <a href='http://commons.apache.org/proper/commons-jexl/reference/syntax.html' target='_blank'>qui</a>.",
+    "filtering_expression_help" : "Se non è vuoto, una espressione viene misurata in 'true' o 'false'. Se falsa, i nuovi elementi di questo feed verranno segnati automaticamente come letti.\nLe variabili accettate sono 'title', 'content', 'url' 'author' e 'categories' e il loro contenuto è convertito in minuscolo per una facile confronto di stringhe.\nEsempio: url.contains('youtube') o (author eq 'athou' and title.contains('github').\nLa sintassi completa è disponibile <a href='http://commons.apache.org/proper/commons-jexl/reference/syntax.html' target='_blank'>qui</a>.",
     "generate_api_key_first" : "Genera prima una chiave API nelle impostazioni del tuo profilo.",
     "unsubscribe" : "Annulla la sottoscrizione",
     "unsubscribe_confirmation" : "Sei sicuro di voler annullare la sottoscrizione dal feed?",

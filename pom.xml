@@ -132,7 +132,7 @@
 			<plugin>
 				<groupId>com.github.kongchen</groupId>
 				<artifactId>swagger-maven-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.1.1</version>
 				<configuration>
 					<apiSources>
 						<apiSource>
@@ -143,10 +143,9 @@
 								<title>CommaFeed</title>
 								<version>${project.version}</version>
 							</info>
-							<!-- TODO uncomment when 3.1.1 is released -->
-							<!-- <typesToSkip> -->
-							<!-- <typeToSkip>com.commafeed.backend.model.User</typeToSkip> -->
-							<!-- </typesToSkip> -->
+							<typesToSkip>
+								<typeToSkip>com.commafeed.backend.model.User</typeToSkip>
+							</typesToSkip>
 						</apiSource>
 					</apiSources>
 				</configuration>

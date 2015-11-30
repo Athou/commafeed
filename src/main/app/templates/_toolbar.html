@@ -6,14 +6,14 @@
 			</button>
 		</div>
 
-		<div class="btn-group">
+		<div class="btn-group" id="toolbar-nav">
 			<a type="button" class="btn btn-default" ng-click="previousEntry()" title="{{ 'toolbar.previous_entry' | translate }}">
 				<i class="icon-chevron-up"></i>
 			</a>
 			<a type="button" class="btn btn-default" ng-click="nextEntry()" title="{{ 'toolbar.next_entry' | translate }}">
 				<i class="icon-chevron-down"></i>
 			</a>
-			<div class="btn-group">
+			<div class="btn-group" id="toolbar-refresh">
 				<a type="button" class="btn btn-default" ng-click="refresh()" title="{{ 'toolbar.refresh' | translate }}">
 					<i class="icon-refresh"></i>
 				</a>
@@ -28,7 +28,7 @@
 			</div>
 		</div>
 
-		<div class="btn-group">
+		<div class="btn-group" id="toolbar-mark-read">
 			<a type="button" class="btn btn-default" ng-click="markAllAsRead()" title="{{ 'toolbar.mark_all_as_read' | translate }}">
 				<i class="icon-ok"></i>
 			</a>
@@ -57,7 +57,7 @@
 			</button>
 		</div>
 
-		<div class="actions btn-group">
+		<div class="actions btn-group" id="toolbar-read-mode">
 			<div ng-if="!MobileService.mobile || MobileService.rightMenu">
 				<div class="btn-group read-mode">
 					<button type="button" class="btn btn-default" ng-click="settingsService.settings.readingMode = 'unread'"
@@ -66,14 +66,14 @@
 						ng-class="{'active': settingsService.settings.readingMode == 'all'}">{{ 'toolbar.all' | translate }}</button>
 				</div>
 
-				<div class="btn-group">
+				<div class="btn-group" id="toolbar-read-order">
 					<a type="button" class="btn btn-default" ng-click="toggleOrder()" title="{{ 'toolbar.sort_by_asc_desc' | translate }}">
 						<i
 							ng-class="{'icon-arrow-up' : settingsService.settings.readingOrder == 'asc', 'icon-arrow-down': settingsService.settings.readingOrder == 'desc'}"></i>
 					</a>
 				</div>
 
-				<div class="btn-group">
+				<div class="btn-group" id="toolbar-read-view-settings">
 					<a type="button" class="btn btn-default" ng-click="settingsService.settings.viewMode = 'title'"
 						ng-class="{'active': settingsService.settings.viewMode == 'title'}" title="{{ 'toolbar.titles_only' | translate }}">
 						<i class="icon-list"></i>
@@ -84,7 +84,7 @@
 					</a>
 				</div>
 
-				<div class="btn-group">
+				<div class="btn-group" id="toolbar-settings">
 					<a class="btn btn-default" ng-click="toSettings()" title="{{ 'toolbar.settings' | translate }}">
 						<i class="icon-cog"></i>
 					</a>

@@ -180,6 +180,9 @@
 							<goal>npm</goal>
 						</goals>
 						<phase>compile</phase>
+						<configuration>
+							<arguments>install --loglevel info</arguments>
+						</configuration>
 					</execution>
 					<execution>
 						<id>bower install</id>

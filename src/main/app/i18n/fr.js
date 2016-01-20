@@ -34,24 +34,24 @@
     "parent" : "Parent"
   },
   "toolbar" : {
-    "unread" : "Non-lus",
+    "unread" : "Non lus",
     "all" : "Tous",
     "previous_entry" : "Article précédent",
     "next_entry" : "Article suivant",
     "refresh" : "Rafraîchir",
-    "refresh_all" : "Force refresh all my feeds ",
+    "refresh_all" : "Rafraîchir tous les flux",
     "sort_by_asc_desc" : "Trier par date croissante/décroissante",
     "titles_only" : "Titres uniquement",
     "expanded_view" : "Vue étendue",
     "mark_all_as_read" : "Tout marquer comme lu",
-    "mark_all_older_12_hours" : "Items older than 12 hours ",
-    "mark_all_older_day" : "Articles de plus d'un jour",
+    "mark_all_older_12_hours" : "Articles de plus de 12 heures",
+    "mark_all_older_day" : "Articles de plus d'une journée",
     "mark_all_older_week" : "Articles de plus d'une semaine",
     "mark_all_older_two_weeks" : "Articles de plus d'un mois",
     "settings" : "Préférences",
     "profile" : "Profil",
     "admin" : "Administration",
-    "about" : "A propos",
+    "about" : "À propos",
     "logout" : "Déconnexion",
     "donate" : "Faire un don"
   },
@@ -59,16 +59,16 @@
     "entry_source" : "sur",
     "entry_author" : "par ",
     "error_while_loading_feed" : "Erreur durant le chargement de ce flux",
-    "keep_unread" : "Garder non-lu",
-    "no_unread_items" : "n'a pas d'articles non-lus.",
+    "keep_unread" : "Garder non lu",
+    "no_unread_items" : "n'a pas d'articles non lus.",
     "mark_up_to_here" : "Marquer comme lu jusqu'ici",
-    "search_for" : "searching for:  ",
-    "no_search_results" : "No match found for the requested keywords "
+    "search_for" : "recherche : ",
+    "no_search_results" : "Pas de résultats avec le terme indiqué."
   },
   "feedsearch" : {
     "hint" : "Tapez un nom de flux",
     "help" : "Utilisez la touche entrée pour sélectionner et les flèches pour naviguer",
-    "result_prefix" : "Vos flux:"
+    "result_prefix" : "Vos flux :"
   },
   "settings" : {
     "general" : {
@@ -76,12 +76,12 @@
       "language" : "Langue",
       "language_contribute" : "Contribuer aux traductions",
       "show_unread" : "Afficher les flux et les catégories pour lesquels tout est déjà lu",
-      "social_buttons" : "Afficher les boutons de partage sur réseaux sociaux",
-      "scroll_marks" : "En mode de lecture étendu, marquer comme lu les éléments lorsque la fenêtre descend."
+      "social_buttons" : "Afficher les boutons de partage sur les réseaux sociaux",
+      "scroll_marks" : "En mode de lecture étendu, marquer les éléments comme lus lorsque la fenêtre descend."
     },
     "appearance" : "Apparence",
-    "scroll_speed" : "Scrolling speed when navigating between entries (in milliseconds) ",
-    "scroll_speed_help" : "set to 0 to disable ",
+    "scroll_speed" : "Vitesse de défilement entre les entrées (en millisecondes) ",
+    "scroll_speed_help" : "Mettez 0 pour désactiver",
     "theme" : "Thème",
     "submit_your_theme" : "Soumettez votre thème.",
     "custom_css" : "CSS personnelle"
@@ -94,16 +94,16 @@
     "category" : "Catégorie",
     "position" : "Position",
     "last_refresh" : "Dernière mise à jour",
-    "message" : "Last refresh message ",
+    "message" : "Message de la dernière mise à jour ",
     "next_refresh" : "Prochaine mise à jour",
     "queued_for_refresh" : "En file d'attente",
     "feed_url" : "URL du flux",
-    "generate_api_key_first" : "Générez une clé API dans votre profil d'abord.",
+    "generate_api_key_first" : "Générez d'abord une clé API dans votre profil.",
     "unsubscribe" : "Se désabonner",
-    "unsubscribe_confirmation" : "Are you sure you want to unsubscribe from this feed? ",
-    "delete_category_confirmation" : "Are you sure you want to delete this category? ",
+    "unsubscribe_confirmation" : "Êtes-vous sûr de vouloir vous désabonner de de flux ? ",
+    "delete_category_confirmation" : "Êtes-vous sûr de vouloir supprimer cette catégorie ? ",
     "category_details" : "Détails de la catégorie",
-    "tag_details" : "Tag details ",
+    "tag_details" : "Détails du tag",
     "parent_category" : "Catégorie parente"
   },
   "profile" : {
@@ -116,15 +116,15 @@
     "api_key" : "Clé API",
     "api_key_not_generated" : "Pas encore générée",
     "generate_new_api_key" : "Générer une nouvelle clé API",
-    "generate_new_api_key_info" : "Changer de mot de passe va générer une nouvelle clé API",
+    "generate_new_api_key_info" : "Changer de mot de passe générera une nouvelle clé API",
     "opml_export" : "Export du fichier OPML",
     "delete_account" : "Effacer le compte",
-    "delete_account_confirmation" : "Delete your acount? There's no turning back! "
+    "delete_account_confirmation" : "Êtes-vous sûr de vouloir supprimer définitivement votre compte ?"
   },
   "about" : {
     "rest_api" : {
       "value" : "API REST",
-      "line1" : "CommaFeed utilise JAX-RS et AngularJS, donc une API REST est disponible.",
+      "line1" : "CommaFeed utilise JAX-RS et AngularJS, une API REST est donc disponible.",
       "link_to_documentation" : "Lien vers la documentation."
     },
     "keyboard_shortcuts" : "Raccourcis clavier",
@@ -145,7 +145,7 @@
       "subscribe_bookmarklet" : "Bookmarklet d'ajout d'abonnement",
       "subscribe_bookmarklet_asc" : "Du plus ancien au plus récent",
       "subscribe_bookmarklet_desc" : "Du plus récent au plus ancien",
-      "next_unread_bookmarklet" : "Bookmarklet vers le prochain article non-lu"
+      "next_unread_bookmarklet" : "Bookmarklet vers le prochain article non lu"
     },
     "translation" : {
       "value" : "Traduction",
@@ -165,9 +165,9 @@
       "open_previous_feed" : "Sélectionner le flux ou la catégorie précédente",
       "open_close_current_entry" : "Ouvrir/fermer l'article courant",
       "open_current_entry_in_new_window" : "Ouvrir l'article courant dans une nouvelle fenêtre",
-      "open_current_entry_in_new_window_background" : "Ouvrir l'article courant dans une nouvelle fenêtre en arrière plan",
+      "open_current_entry_in_new_window_background" : "Ouvrir l'article courant dans une nouvelle fenêtre en arrière-plan",
       "star_unstar" : "Ajouter/enlever l'article courant des favoris",
-      "mark_current_entry" : "Marquer comme lue/non-lue l'article courant",
+      "mark_current_entry" : "Marquer comme lu/non lu l'article courant",
       "mark_all_as_read" : "Marquer tous les articles comme lus",
       "open_in_new_tab_mark_as_read" : "Ouvrir l'article courant dans une nouvelle fenêtre et marquer comme lu",
       "fullscreen" : "Activer/désactiver le mode plein-écran",

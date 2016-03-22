@@ -92,6 +92,7 @@ public class FeedUtils {
 		whitelist.addProtocols("q", "cite", "http", "https");
 
 		whitelist.addEnforcedAttribute("a", "target", "_blank");
+		whitelist.addEnforcedAttribute("a", "rel", "noreferrer");
 		return whitelist;
 	}
 

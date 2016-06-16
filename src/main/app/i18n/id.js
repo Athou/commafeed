@@ -99,7 +99,7 @@
     "queued_for_refresh" : "Antri untuk penyegaran",
     "feed_url" : "Umpan URL",
     "filtering_expression" : "Penyaring ekspresi",
-    "filtering_expression_help" : "Jika tidak kosong, sebuah ekspresi mengevaluasi ke 'benar' atau 'salah'. Jika salah, catatan baru untuk umpan ini akan ditandai sebagai telah dibaca secara otomatis. \nVariabel yang tersedia adalah 'judul', 'konten', 'url' 'penulis' dan 'kategori' dan konten mereka dikonversi dari huruf kecil ke perbandingan string yang mudah. \nContoh: url.mengandung('youtube') atau (penulis ekivalen 'authou' dan judul.mengandung('github'). \nSintaksis lengkap tersedia di <a href='http://commons.apache.org/proper/commons-jexl/reference/syntax.html' target='_blank'>here</a>.",
+    "filtering_expression_help" : "Jika tidak kosong, sebuah ekspresi mengevaluasi ke 'benar' atau 'salah'. Jika salah, catatan baru untuk umpan ini akan ditandai sebagai telah dibaca secara otomatis. \nVariabel yang tersedia adalah 'judul', 'konten', 'url' 'penulis' dan 'kategori' dan konten mereka dikonversi dari huruf kecil ke perbandingan string yang mudah. \nContoh: url.contains('youtube') or (author eq 'athou' and title.contains('github'). \nSintaksis lengkap tersedia di <a href='http://commons.apache.org/proper/commons-jexl/reference/syntax.html' target='_blank'>here</a>.",
     "generate_api_key_first" : "Menghasilkan sebuah kunci API di profil Anda terlebih dahulu.",
     "unsubscribe" : "Berhenti berlangganan",
     "unsubscribe_confirmation" : "Apakah Anda yakin ingin berhenti berlangganan dari umpan ini?",

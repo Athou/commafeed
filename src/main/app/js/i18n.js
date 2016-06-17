@@ -12,6 +12,7 @@ module.service('LangService', [function() {
 		'gl': 'Galician',
 		'glk': 'گیلکی',
 		'hu': 'Magyar',
+		'id': 'Indonesian',
 		'ja': '日本語',
 		'ko': '한국어',
 		'nl': 'Nederlands',

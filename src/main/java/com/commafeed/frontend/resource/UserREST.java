@@ -208,6 +208,7 @@ public class UserREST {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 
+		user = userDAO.findById(user.getId());
 		user.setEmail(StringUtils.trimToNull(request.getEmail()));
 		if (StringUtils.isNotBlank(request.getPassword())) {
 			byte[] password = encryptionService.getEncryptedPassword(request.getPassword(), user.getSalt());

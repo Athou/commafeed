@@ -171,7 +171,7 @@
 						<phase>compile</phase>
 						<configuration>
 							<nodeVersion>v0.10.39</nodeVersion>
-							<npmVersion>3.8.6</npmVersion>
+							<npmVersion>3.10.6</npmVersion>
 						</configuration>
 					</execution>
 					<execution>
@@ -181,7 +181,7 @@
 						</goals>
 						<phase>compile</phase>
 						<configuration>
-							<arguments>install --loglevel info</arguments>
+							<arguments>install</arguments>
 						</configuration>
 					</execution>
 					<execution>

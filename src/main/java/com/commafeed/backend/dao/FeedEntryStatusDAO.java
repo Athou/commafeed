@@ -66,6 +66,19 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	};
 
 	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = Ordering.from(STATUS_COMPARATOR_DESC).reverse();
+	
+	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ABC = new Comparator<FeedEntryStatus>() {
+		@Override
+		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
+			CompareToBuilder builder = new CompareToBuilder();
+			builder.append(o2.getTitle(), o1.getTitle());
+			builder.append(o2.getId(), o1.getId());
+			return builder.toComparison();
+		}
+	};
+	
+	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ZYX = Ordering.from(STATUS_COMPARATOR_ABC).reverse();
+
 
 	public FeedEntryStatus getStatus(User user, FeedSubscription sub, FeedEntry entry) {
 		List<FeedEntryStatus> statuses = query().selectFrom(status).where(status.entry.eq(entry), status.subscription.eq(sub)).fetch();
@@ -172,8 +185,14 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		if (order != null) {
 			if (order == ReadingOrder.asc) {
 				query.orderBy(entry.updated.asc(), entry.id.asc());
-			} else {
+			} else if (order == ReadingOrder.desc) {
 				query.orderBy(entry.updated.desc(), entry.id.desc());
+			} else if (order == ReadingOrder.abc) {
+				query.join(entry.content, content);
+				query.orderBy(content.title.desc(), entry.id.desc());
+			} else { //order == ReadingOrder.zyx
+				query.join(entry.content, content);
+				query.orderBy(content.title.asc(), entry.id.asc());
 			}
 		}
 		if (offset > -1) {
@@ -193,17 +212,33 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			List<FeedEntryKeyword> keywords, Date newerThan, int offset, int limit, ReadingOrder order, boolean includeContent,
 			boolean onlyIds, String tag) {
 		int capacity = offset + limit;
-		Comparator<FeedEntryStatus> comparator = order == ReadingOrder.desc ? STATUS_COMPARATOR_DESC : STATUS_COMPARATOR_ASC;
+		
+		Comparator<FeedEntryStatus> comparator;
+		if (order == ReadingOrder.desc) {
+			comparator = STATUS_COMPARATOR_DESC;
+		} else if (order == ReadingOrder.abc) {
+			comparator = STATUS_COMPARATOR_ABC;
+		} else if (order == ReadingOrder.zyx) {
+			comparator = STATUS_COMPARATOR_ZYX;
+		} else {
+			comparator = STATUS_COMPARATOR_ASC;
+		}
+		
 		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<FeedEntryStatus>(capacity, comparator);
 		for (FeedSubscription sub : subs) {
 			Date last = (order != null && set.isFull()) ? set.last().getEntryUpdated() : null;
 			HibernateQuery<FeedEntry> query = buildQuery(user, sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag);
-			List<Tuple> tuples = query.select(entry.id, entry.updated, status.id).fetch();
+			List<Tuple> tuples;
+			if (order == ReadingOrder.abc || order == ReadingOrder.zyx) {
+				tuples = query.select(entry.id, entry.updated, status.id, content.title).fetch();
+			} else {
+				tuples = query.select(entry.id, entry.updated, status.id).fetch();
+			}
 			for (Tuple tuple : tuples) {
 				Long id = tuple.get(entry.id);
 				Date updated = tuple.get(entry.updated);
 				Long statusId = tuple.get(status.id);
-
+				
 				FeedEntry entry = new FeedEntry();
 				entry.setId(id);
 				entry.setUpdated(updated);
@@ -213,6 +248,11 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 				status.setEntryUpdated(updated);
 				status.setEntry(entry);
 				status.setSubscription(sub);
+				
+				if (order == ReadingOrder.abc || order == ReadingOrder.zyx) {
+					String title = tuple.get(content.title);
+					status.setTitle(title);
+				}
 
 				set.add(status);
 			}

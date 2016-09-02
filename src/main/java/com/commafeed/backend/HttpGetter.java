@@ -70,7 +70,7 @@ public class HttpGetter {
 
 	@Inject
 	public HttpGetter(CommaFeedConfiguration config) {
-		this.userAgent = String.format("CommaFeed/%s (https://www.commafeed.com)", config.getVersion());
+		this.userAgent = String.format("CommaFeed/%s (https://github.com/Athou/commafeed)", config.getVersion());
 	}
 
 	public HttpResult getBinary(String url, int timeout) throws ClientProtocolException, IOException, NotModifiedException {

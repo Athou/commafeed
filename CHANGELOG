@@ -1,3 +1,8 @@
+v 2.3.0
+  - dropwizard upgrade 0.9.1
+  - feed enclosures are hidden if they already displayed in the content 
+  - fix youtube favicons
+  - various internationalization fixes
 v 2.2.0
   - fix youtube and instagram favicon fetching
   - mark as read filter was lost when a feed was rearranged with drag&drop

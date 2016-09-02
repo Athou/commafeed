@@ -16,8 +16,8 @@ Browser extensions: [Chrome](https://github.com/Athou/commafeed-chrome) - [Firef
 ### The very short version (download precompiled package)
 
     mkdir commafeed && cd commafeed
-    wget https://github.com/Athou/commafeed/releases/download/2.2.0/commafeed.jar
-    wget https://raw.githubusercontent.com/Athou/commafeed/2.2.0/config.yml.example -O config.yml
+    wget https://github.com/Athou/commafeed/releases/download/2.3.0/commafeed.jar
+    wget https://raw.githubusercontent.com/Athou/commafeed/2.3.0/config.yml.example -O config.yml
     vi config.yml
     java -Djava.net.preferIPv4Stack=true -jar commafeed.jar server config.yml 
 
@@ -39,7 +39,12 @@ You also need the Java 1.8+ JDK  in order to build the application.
 
 To install the required packages to build CommaFeed on Ubuntu, issue the following commands
 
+	# if openjdk-8-jdk is not available on your ubuntu version (14.04 LTS), add the following repo first
+	sudo add-apt-repository ppa:openjdk-r/ppa
+	sudo apt-get update
+
     sudo apt-get install g++ build-essential openjdk-8-jdk
+
     # Make sure java8 is the selected java version
     sudo update-alternatives --config java
     sudo update-alternatives --config javac
@@ -118,7 +123,7 @@ Steps to configuring a development environment for CommaFeed may include, but ma
 
 ## Copyright and license
 
-Copyright 2013-2015 CommaFeed.
+Copyright 2013-2016 CommaFeed.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this work except in compliance with the License.

@@ -86,12 +86,13 @@ public class FeedUtils {
 		whitelist.addAttributes("th", "border", "bordercolor", "abbr", "axis", "colspan", "rowspan", "scope", "width");
 		whitelist.addAttributes("ul", "type");
 
-		whitelist.addProtocols("a", "href", "ftp", "http", "https", "mailto");
+		whitelist.addProtocols("a", "href", "ftp", "http", "https", "magnet", "mailto");
 		whitelist.addProtocols("blockquote", "cite", "http", "https");
 		whitelist.addProtocols("img", "src", "http", "https");
 		whitelist.addProtocols("q", "cite", "http", "https");
 
 		whitelist.addEnforcedAttribute("a", "target", "_blank");
+		whitelist.addEnforcedAttribute("a", "rel", "noreferrer");
 		return whitelist;
 	}
 
@@ -494,8 +495,8 @@ public class FeedUtils {
 			Entry entry = it.next();
 			boolean keep = true;
 			for (FeedEntryKeyword keyword : keywords) {
-				String title = Jsoup.parse(entry.getTitle()).text();
-				String content = Jsoup.parse(entry.getContent()).text();
+				String title = entry.getTitle() == null ? null : Jsoup.parse(entry.getTitle()).text();
+				String content = entry.getContent() == null ? null : Jsoup.parse(entry.getContent()).text();
 				boolean condition = !StringUtils.containsIgnoreCase(content, keyword.getKeyword())
 						&& !StringUtils.containsIgnoreCase(title, keyword.getKeyword());
 				if (keyword.getMode() == Mode.EXCLUDE) {

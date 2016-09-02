@@ -6,7 +6,7 @@
 				<span ng-switch-when="starred">{{ 'tree.starred' | translate }}</span>
 				<span ng-switch-default>
 					<span ng-hide="feedLink">{{name}}</span>
-					<a ng-show="feedLink" href="{{feedLink}}" target="_blank">{{name}}</a>
+					<a ng-show="feedLink" href="{{feedLink}}" target="_blank" rel="noreferrer">{{name}}</a>
 				</span>
 			</span>
 			<span ng-show="name"> &#187;</span>
@@ -20,7 +20,7 @@
 		<div ng-repeat="entry in entries" class="entry entry-font-size-{{font_size}}" id="entry_{{entry.id}}"
 			ng-class="{unread: entry.read == false, current: current==entry, open: isOpen, closed: !isOpen }">
 			<div class="entry-heading" ng-swipe-right="mark(entry, !entry.read)">
-				<a href="{{entry.url}}" target="_blank" class="entry-heading-link" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)">
+				<a href="{{entry.url}}" target="_blank" rel="noreferrer" class="entry-heading-link" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)">
 					<span class="feed-name">
 						<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
 							<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}" class="pointer"></i>
@@ -93,7 +93,7 @@
 							title="Gmail" popup ng-if="settingsService.settings.gmail">
 							<i class="icon-gmail"></i>
 						</a>
-						<a href="http://www.facebook.com/sharer.php?u=={{entry.url|escape}}" title="Facebook" popup ng-if="settingsService.settings.facebook">
+						<a href="http://www.facebook.com/sharer.php?u={{entry.url|escape}}" title="Facebook" popup ng-if="settingsService.settings.facebook">
 							<i class="icon-facebook"></i>
 						</a>
 						<a href="http://twitter.com/share?text={{entry.title|escape}}&url={{entry.url|escape}}" title="Twitter" popup

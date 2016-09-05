@@ -41,6 +41,7 @@
     "refresh" : "إعادة انعاش",
     "refresh_all" : "Force refresh all my feeds ",
     "sort_by_asc_desc" : "الترتيب حسب التاريخ تصاعدي / تنازلي",
+    "sort_by_abc_zyx" : "Sort alphabetically",
     "titles_only" : "العناوين فقط",
     "expanded_view" : "عرض موسع",
     "mark_all_as_read" : "اعتبر الكل مقروء",

@@ -41,6 +41,7 @@
     "refresh" : "Segarkan",
     "refresh_all" : "Memaksa menyegarkan semua umpan saya",
     "sort_by_asc_desc" : "Urutkan menurut tanggal asc/desc",
+    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "Hanya Judul",
     "expanded_view" : "Penglihatan diperluas",
     "mark_all_as_read" : "Tandai semua sebagai telah dibaca",

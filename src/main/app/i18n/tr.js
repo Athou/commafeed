@@ -41,6 +41,7 @@
     "refresh" : "Yenile",
     "refresh_all" : "Tüm yayınları yenilemek için zorla",
     "sort_by_asc_desc" : "Tarihe göre sırala artan/azalan",
+    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "Sadece başlıklar",
     "expanded_view" : "Genişletilmiş görünüm",
     "mark_all_as_read" : "Tümünü okundu işaretle",

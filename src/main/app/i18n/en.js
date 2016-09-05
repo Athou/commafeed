@@ -41,6 +41,7 @@
     "refresh" : "Refresh",
     "refresh_all" : "Force refresh all my feeds",
     "sort_by_asc_desc" : "Sort by date asc/desc",
+    "sort_by_abc_zyx" : "Sort alphabetically",
     "titles_only" : "Titles only",
     "expanded_view" : "Expanded view",
     "mark_all_as_read" : "Mark all as read",

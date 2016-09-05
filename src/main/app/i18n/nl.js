@@ -41,6 +41,7 @@
     "refresh" : "Vernieuwen",
     "refresh_all" : "Force refresh all my feeds ",
     "sort_by_asc_desc" : "Sorteer op datum opl/afl",
+    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "Alleen titels",
     "expanded_view" : "Uitgebreide weergave",
     "mark_all_as_read" : "Markeer alles als gelezen",

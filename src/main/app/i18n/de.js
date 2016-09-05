@@ -41,6 +41,7 @@
     "refresh" : "Aktualisieren",
     "refresh_all" : "Erzwinge Aktualisierung aller Feeds",
     "sort_by_asc_desc" : "Nach Datum sortieren (auf-/absteigend)",
+    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "Nur Überschriften",
     "expanded_view" : "Ausgedehnte Ansicht",
     "mark_all_as_read" : "Alle Artikel als gelesen markieren",

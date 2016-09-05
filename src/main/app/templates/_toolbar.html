@@ -69,11 +69,11 @@
 				<div class="btn-group" id="toolbar-read-order">
 					<a type="button" class="btn btn-default" ng-click="toggleOrder()" title="{{ 'toolbar.sort_by_asc_desc' | translate }}">
 						<i
-							ng-class="{'icon-arrow-up' : settingsService.settings.readingOrder == 'asc', 'icon-arrow-down': settingsService.settings.readingOrder != 'asc'}"></i>
+							ng-class="{'icon-arrow-up' : settingsService.settings.readingOrder == 'asc', 'icon-arrow-down': settingsService.settings.readingOrder != 'asc', 'active' : settingsService.settings.readingOrder == 'asc' || settingsService.settings.readingOrder == 'desc'}"></i>
 					</a>
-					<a type="button" class="btn btn-default" ng-click="toggleAbcOrder()" title="{{ 'toolbar.sort_by_asc_desc' | translate }}">
+					<a type="button" class="btn btn-default" ng-click="toggleAbcOrder()" title="{{ 'toolbar.sort_by_abc_zyx' | translate }}">
 						<i
-							ng-class="{'icon-arrow-up' : settingsService.settings.readingOrder == 'abc', 'icon-arrow-down': settingsService.settings.readingOrder != 'abc'}"></i>
+							ng-class="{'icon-arrow-up' : settingsService.settings.readingOrder == 'abc', 'icon-arrow-down': settingsService.settings.readingOrder != 'abc', 'active' : settingsService.settings.readingOrder == 'abc' || settingsService.settings.readingOrder == 'zyx'}"></i>
 					</a>
 				</div>
 

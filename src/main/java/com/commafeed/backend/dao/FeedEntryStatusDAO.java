@@ -234,22 +234,21 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		} else {
 			comparator = STATUS_COMPARATOR_ASC;
 		}
-		
+
 		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<FeedEntryStatus>(capacity, comparator);
 		for (FeedSubscription sub : subs) {
 			FeedEntryStatus last = (order != null && set.isFull()) ? set.last() : null;
 			HibernateQuery<FeedEntry> query = buildQuery(user, sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag);
-			List<Tuple> tuples;
-			tuples = query.select(entry.id, entry.updated, status.id, entry.content.title).fetch();
-			
+			List<Tuple> tuples = query.select(entry.id, entry.updated, status.id, entry.content.title).fetch();
+
 			for (Tuple tuple : tuples) {
 				Long id = tuple.get(entry.id);
 				Date updated = tuple.get(entry.updated);
 				Long statusId = tuple.get(status.id);
-				
+
 				FeedEntryContent content = new FeedEntryContent();
 				content.setTitle(tuple.get(entry.content.title));
-				
+
 				FeedEntry entry = new FeedEntry();
 				entry.setId(id);
 				entry.setUpdated(updated);
@@ -260,7 +259,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 				status.setEntryUpdated(updated);
 				status.setEntry(entry);
 				status.setSubscription(sub);
-				
+
 				set.add(status);
 			}
 		}

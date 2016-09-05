@@ -61,7 +61,18 @@ public class NextUnreadServlet extends HttpServlet {
 			return;
 		}
 
-		final ReadingOrder order = StringUtils.equals(orderParam, "asc") ? ReadingOrder.asc : ReadingOrder.desc;
+		final ReadingOrder order = (StringUtils.equals(orderParam, "asc") ?
+										ReadingOrder.asc :
+										(
+										StringUtils.equals(orderParam, "desc") ?
+											ReadingOrder.desc :
+											(
+											StringUtils.equals(orderParam, "abc") ?
+												ReadingOrder.abc :
+												(ReadingOrder.zyx)
+											)
+										)
+									);
 
 		FeedEntryStatus status = UnitOfWork.call(sessionFactory, () -> {
 			FeedEntryStatus s = null;

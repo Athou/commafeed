@@ -17,6 +17,7 @@ import com.commafeed.backend.FixedSizeSortedSet;
 import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.FeedSubscription;
@@ -71,7 +72,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		@Override
 		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
 			CompareToBuilder builder = new CompareToBuilder();
-			builder.append(o2.getTitle(), o1.getTitle());
+			builder.append(o2.getEntry().getContent().getTitle(), o1.getEntry().getContent().getTitle());
 			builder.append(o2.getId(), o1.getId());
 			return builder.toComparison();
 		}
@@ -113,8 +114,12 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		if (order == ReadingOrder.asc) {
 			query.orderBy(status.entryUpdated.asc(), status.id.asc());
-		} else {
+		} else if (order == ReadingOrder.desc){
 			query.orderBy(status.entryUpdated.desc(), status.id.desc());
+		} else if (order == ReadingOrder.abc) {
+			query.orderBy(status.entry.content.title.asc(), status.id.desc());
+		} else { //order == ReadingOrder.xyz
+			query.orderBy(status.entry.content.title.desc(), status.id.desc());
 		}
 
 		query.offset(offset).limit(limit);
@@ -132,7 +137,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	private HibernateQuery<FeedEntry> buildQuery(User user, FeedSubscription sub, boolean unreadOnly, List<FeedEntryKeyword> keywords,
-			Date newerThan, int offset, int limit, ReadingOrder order, Date last, String tag) {
+			Date newerThan, int offset, int limit, ReadingOrder order, FeedEntryStatus last, String tag) {
 
 		HibernateQuery<FeedEntry> query = query().selectFrom(entry).where(entry.feed.eq(sub.getFeed()));
 
@@ -176,22 +181,28 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		if (last != null) {
 			if (order == ReadingOrder.desc) {
-				query.where(entry.updated.gt(last));
-			} else {
-				query.where(entry.updated.lt(last));
+				query.where(entry.updated.gt(last.getEntryUpdated()));
+			} else if (order == ReadingOrder.asc) {
+				query.where(entry.updated.lt(last.getEntryUpdated()));
+			} else if (order == ReadingOrder.abc) {
+				query.join(entry.content, content);
+				query.where(content.title.gt(last.getEntry().getContent().getTitle()));
+			} else { //order == ReadingOrder.zyx
+				query.join(entry.content, content);
+				query.where(content.title.lt(last.getEntry().getContent().getTitle()));
 			}
+		} else if (order != null && (order == ReadingOrder.abc || order == ReadingOrder.zyx)) {
+			query.join(entry.content, content);
 		}
-
+		
 		if (order != null) {
 			if (order == ReadingOrder.asc) {
 				query.orderBy(entry.updated.asc(), entry.id.asc());
 			} else if (order == ReadingOrder.desc) {
 				query.orderBy(entry.updated.desc(), entry.id.desc());
 			} else if (order == ReadingOrder.abc) {
-				query.join(entry.content, content);
 				query.orderBy(content.title.desc(), entry.id.desc());
 			} else { //order == ReadingOrder.zyx
-				query.join(entry.content, content);
 				query.orderBy(content.title.asc(), entry.id.asc());
 			}
 		}
@@ -226,22 +237,23 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		
 		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<FeedEntryStatus>(capacity, comparator);
 		for (FeedSubscription sub : subs) {
-			Date last = (order != null && set.isFull()) ? set.last().getEntryUpdated() : null;
+			FeedEntryStatus last = (order != null && set.isFull()) ? set.last() : null;
 			HibernateQuery<FeedEntry> query = buildQuery(user, sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag);
 			List<Tuple> tuples;
-			if (order == ReadingOrder.abc || order == ReadingOrder.zyx) {
-				tuples = query.select(entry.id, entry.updated, status.id, content.title).fetch();
-			} else {
-				tuples = query.select(entry.id, entry.updated, status.id).fetch();
-			}
+			tuples = query.select(entry.id, entry.updated, status.id, entry.content.title).fetch();
+			
 			for (Tuple tuple : tuples) {
 				Long id = tuple.get(entry.id);
 				Date updated = tuple.get(entry.updated);
 				Long statusId = tuple.get(status.id);
 				
+				FeedEntryContent content = new FeedEntryContent();
+				content.setTitle(tuple.get(entry.content.title));
+				
 				FeedEntry entry = new FeedEntry();
 				entry.setId(id);
 				entry.setUpdated(updated);
+				entry.setContent(content);
 
 				FeedEntryStatus status = new FeedEntryStatus();
 				status.setId(statusId);
@@ -249,11 +261,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 				status.setEntry(entry);
 				status.setSubscription(sub);
 				
-				if (order == ReadingOrder.abc || order == ReadingOrder.zyx) {
-					String title = tuple.get(content.title);
-					status.setTitle(title);
-				}
-
 				set.add(status);
 			}
 		}

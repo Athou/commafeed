@@ -55,8 +55,6 @@ public class FeedEntryStatus extends AbstractModel {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date entryUpdated;
-	
-	private String title;
 
 	public FeedEntryStatus() {
 

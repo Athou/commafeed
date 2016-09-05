@@ -73,7 +73,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
 			CompareToBuilder builder = new CompareToBuilder();
 			builder.append(o1.getEntry().getContent().getTitle(), o2.getEntry().getContent().getTitle());
-			builder.append(o2.getId(), o1.getId());
+			builder.append(o1.getId(), o2.getId());
 			return builder.toComparison();
 		}
 	};
@@ -186,10 +186,10 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 				query.where(entry.updated.lt(last.getEntryUpdated()));
 			} else if (order == ReadingOrder.abc) {
 				query.join(entry.content, content);
-				query.where(content.title.gt(last.getEntry().getContent().getTitle()));
+				query.where(content.title.lt(last.getEntry().getContent().getTitle()));
 			} else { //order == ReadingOrder.zyx
 				query.join(entry.content, content);
-				query.where(content.title.lt(last.getEntry().getContent().getTitle()));
+				query.where(content.title.gt(last.getEntry().getContent().getTitle()));
 			}
 		} else if (order != null && (order == ReadingOrder.abc || order == ReadingOrder.zyx)) {
 			query.join(entry.content, content);
@@ -201,9 +201,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			} else if (order == ReadingOrder.desc) {
 				query.orderBy(entry.updated.desc(), entry.id.desc());
 			} else if (order == ReadingOrder.abc) {
-				query.orderBy(content.title.desc(), entry.id.desc());
-			} else { //order == ReadingOrder.zyx
 				query.orderBy(content.title.asc(), entry.id.asc());
+			} else { //order == ReadingOrder.zyx
+				query.orderBy(content.title.desc(), entry.id.desc());
 			}
 		}
 		if (offset > -1) {

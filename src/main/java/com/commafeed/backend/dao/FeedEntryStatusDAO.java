@@ -72,7 +72,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		@Override
 		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
 			CompareToBuilder builder = new CompareToBuilder();
-			builder.append(o2.getEntry().getContent().getTitle(), o1.getEntry().getContent().getTitle());
+			builder.append(o1.getEntry().getContent().getTitle(), o2.getEntry().getContent().getTitle());
 			builder.append(o2.getId(), o1.getId());
 			return builder.toComparison();
 		}

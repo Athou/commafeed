@@ -60,32 +60,30 @@
 		<div class="actions btn-group" id="toolbar-read-mode">
 			<div ng-if="!MobileService.mobile || MobileService.rightMenu">
 				<div class="btn-group read-mode">
-					<button type="button" class="btn btn-default" ng-click="settingsService.settings.readingMode = 'unread'"
-						ng-class="{'active': settingsService.settings.readingMode == 'unread'}">{{ 'toolbar.unread' | translate }}</button>
-					<button type="button" class="btn btn-default" ng-click="settingsService.settings.readingMode = 'all'"
-						ng-class="{'active': settingsService.settings.readingMode == 'all'}">{{ 'toolbar.all' | translate }}</button>
+					<button type="button" class="btn btn-default" ng-click="settingsService.settings.readingMode = 'unread'" ng-class="{'active': settingsService.settings.readingMode == 'unread'}">{{
+						'toolbar.unread' | translate }}</button>
+					<button type="button" class="btn btn-default" ng-click="settingsService.settings.readingMode = 'all'" ng-class="{'active': settingsService.settings.readingMode == 'all'}">{{
+						'toolbar.all' | translate }}</button>
 				</div>
 
 				<div class="btn-group" id="toolbar-read-order">
 					<a type="button" class="btn btn-default" ng-click="toggleOrder()" title="{{ 'toolbar.sort_by_asc_desc' | translate }}"
-							ng-class="{'active' : settingsService.settings.readingOrder == 'asc' || settingsService.settings.readingOrder == 'desc'}">
-						<i
-							ng-class="{'icon-arrow-up' : settingsService.settings.readingOrder == 'asc', 'icon-arrow-down': settingsService.settings.readingOrder != 'asc'}"></i>
+						ng-class="{'active' : settingsService.settings.readingOrder == 'asc' || settingsService.settings.readingOrder == 'desc'}">
+						<i ng-class="{'icon-arrow-up' : settingsService.settings.readingOrder == 'asc', 'icon-arrow-down': settingsService.settings.readingOrder != 'asc'}"></i>
 					</a>
 					<button type="button" class="btn btn-default" ng-click="toggleAbcOrder()" title="{{ 'toolbar.sort_by_abc_zyx' | translate }}"
 						ng-class="{'active' : settingsService.settings.readingOrder == 'abc' || settingsService.settings.readingOrder == 'zyx'}">
-						<i
-							ng-class="{'icon-sort-by-alphabet' : settingsService.settings.readingOrder != 'zyx', 'icon-sort-by-alphabet-alt': settingsService.settings.readingOrder == 'zyx'}"></i>
+						<i ng-class="{'icon-sort-by-alphabet' : settingsService.settings.readingOrder != 'zyx', 'icon-sort-by-alphabet-alt': settingsService.settings.readingOrder == 'zyx'}"></i>
 					</button>
 				</div>
 
 				<div class="btn-group" id="toolbar-read-view-settings">
-					<a type="button" class="btn btn-default" ng-click="settingsService.settings.viewMode = 'title'"
-						ng-class="{'active': settingsService.settings.viewMode == 'title'}" title="{{ 'toolbar.titles_only' | translate }}">
+					<a type="button" class="btn btn-default" ng-click="settingsService.settings.viewMode = 'title'" ng-class="{'active': settingsService.settings.viewMode == 'title'}"
+						title="{{ 'toolbar.titles_only' | translate }}">
 						<i class="icon-list"></i>
 					</a>
-					<a type="button" class="btn btn-default" ng-click="settingsService.settings.viewMode = 'expanded'"
-						ng-class="{'active': settingsService.settings.viewMode == 'expanded'}" title="{{ 'toolbar.expanded_view' | translate }}">
+					<a type="button" class="btn btn-default" ng-click="settingsService.settings.viewMode = 'expanded'" ng-class="{'active': settingsService.settings.viewMode == 'expanded'}"
+						title="{{ 'toolbar.expanded_view' | translate }}">
 						<i class="icon-th-list"></i>
 					</a>
 				</div>

@@ -41,6 +41,7 @@
     "refresh" : "Actualizar",
     "refresh_all" : "Forzar a actualización de todas as fontes ",
     "sort_by_asc_desc" : "Ordenar por data asc/desc",
+    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "Só títulos",
     "expanded_view" : "Vista expandida",
     "mark_all_as_read" : "Marcar todos como lidos",

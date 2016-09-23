@@ -41,6 +41,7 @@
     "refresh" : "تازه‌سازی",
     "refresh_all" : "مجبورکردن تازه‌سازی همهٔ خوراک‌ها",
     "sort_by_asc_desc" : "مرتب‌کردن بر اساس تاریخ به‌صورت صعودی/نزولی",
+    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "فقط عنوان‌ها",
     "expanded_view" : "نمای گسترش‌یافته",
     "mark_all_as_read" : "علامت‌گذاری تمامی مطالب به‌عنوان خوانده‌شده",

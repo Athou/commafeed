@@ -41,6 +41,7 @@
     "refresh" : "Обновить",
     "refresh_all" : "Обновить все подписки вручную",
     "sort_by_asc_desc" : "Сначала новые/старые",
+    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "Только заголовки",
     "expanded_view" : "Развёрнутый вид",
     "mark_all_as_read" : "Отметить всё как прочитанное",

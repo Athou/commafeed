@@ -41,6 +41,7 @@
     "refresh" : "Adnewyddu",
     "refresh_all" : "Gorfodi ail-lwytho pob ffrwd",
     "sort_by_asc_desc" : "Trefnu yn ôl dyddiad",
+    "sort_by_abc_zyx" : "Sort alphabetically",
     "titles_only" : "Teitlau yn unig",
     "expanded_view" : "Golwg estynedig",
     "mark_all_as_read" : "Nodi'r cyfan fel wedi ei ddarllen",

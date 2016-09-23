@@ -41,6 +41,7 @@
     "refresh" : "واج‌أری",
     "refresh_all" : "Force refresh all my feeds ",
     "sort_by_asc_desc" : "تاریخˇ سر دچئن",
+    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "خالی تیتران",
     "expanded_view" : "واشاده نما",
     "mark_all_as_read" : "همه‌ته مطالبه چاکون بخانده",

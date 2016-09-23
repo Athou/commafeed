@@ -41,6 +41,7 @@
     "refresh" : "Obnoviť",
     "refresh_all" : "Vynútené obnovenie všetkých položiek",
     "sort_by_asc_desc" : "Zoradiť podľa najnovšieho/najstaršieho",
+    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "Náhľad titulkov",
     "expanded_view" : "Rozšírený náhľad",
     "mark_all_as_read" : "Označiť všetky ako prečítané",

@@ -41,6 +41,7 @@
     "refresh" : "更新",
     "refresh_all" : "全てのフィードを更新",
     "sort_by_asc_desc" : "昇順/降順にソート",
+    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "タイトルのみ",
     "expanded_view" : "拡張ビュー",
     "mark_all_as_read" : "全て既読にする",

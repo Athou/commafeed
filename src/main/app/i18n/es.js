@@ -43,6 +43,7 @@
     "refresh" : "Atualizar",
     "refresh_all" : "Forzar la actualización de todos mis canales.",
     "sort_by_asc_desc" : "Ordenar por fecha asc/desc.",
+    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "Sólo títulos",
     "expanded_view" : "Vista expandida",
     "mark_all_as_read" : "Marcar todos como leído",

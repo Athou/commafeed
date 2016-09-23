@@ -41,6 +41,7 @@
     "refresh" : "Frissítés",
     "refresh_all" : "Force refresh all my feeds ",
     "sort_by_asc_desc" : "Rendezés időrend szerint",
+    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "Csak cím",
     "expanded_view" : "Részletes nézet",
     "mark_all_as_read" : "Az összes megjelölése olvasottként",

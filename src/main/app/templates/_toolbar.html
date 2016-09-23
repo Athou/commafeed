@@ -67,10 +67,14 @@
 				</div>
 
 				<div class="btn-group" id="toolbar-read-order">
-					<a type="button" class="btn btn-default" ng-click="toggleOrder()" title="{{ 'toolbar.sort_by_asc_desc' | translate }}">
+					<a type="button" class="btn btn-default" ng-click="toggleOrder()" title="{{ 'toolbar.sort_by_asc_desc' | translate }}"
+							ng-class="{'active' : settingsService.settings.readingOrder == 'asc' || settingsService.settings.readingOrder == 'desc'}">
 						<i
-							ng-class="{'icon-arrow-up' : settingsService.settings.readingOrder == 'asc', 'icon-arrow-down': settingsService.settings.readingOrder == 'desc'}"></i>
+							ng-class="{'icon-arrow-up' : settingsService.settings.readingOrder == 'asc', 'icon-arrow-down': settingsService.settings.readingOrder != 'asc'}"></i>
 					</a>
+					<button type="button" class="btn btn-default" ng-click="toggleAbcOrder()" title="{{ 'toolbar.sort_by_abc_zyx' | translate }}"
+						ng-class="{'active' : settingsService.settings.readingOrder == 'abc' || settingsService.settings.readingOrder == 'zyx'}">{{ ((settingsService.settings.readingOrder == 'abc' || settingsService.settings.readingOrder == 'zyx') ? settingsService.settings.readingOrder.toUpperCase() : "ABC") }}
+					</button>
 				</div>
 
 				<div class="btn-group" id="toolbar-read-view-settings">

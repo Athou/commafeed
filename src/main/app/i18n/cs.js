@@ -41,6 +41,7 @@
     "refresh " : " Obnovit",
     "refresh_all" : "Force refresh all my feeds ",
     "sort_by_asc_desc " : " Seřadit podle nejnovějšího/nejstaršího",
+    "sort_by_abc_zyx" : "Sort alphabetically",
     "titles_only " : " Zobrazit jenom titulky",
     "expanded_view " : " Rozšířený náhled",
     "mark_all_as_read " : " Označit vše jako přečtené",

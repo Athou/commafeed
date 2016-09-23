@@ -41,6 +41,7 @@
     "refresh" : "Refresh",
     "refresh_all" : "Force refresh all my feeds ",
     "sort_by_asc_desc" : "Aturkan mengikut tarikh (baru/lama)",
+    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "Tajuk sahaja",
     "expanded_view" : "Wide view",
     "mark_all_as_read" : "Tanda kesemuanya telah dibaca",

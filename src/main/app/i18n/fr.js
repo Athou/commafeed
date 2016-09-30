@@ -41,7 +41,7 @@
     "refresh" : "Rafraîchir",
     "refresh_all" : "Rafraîchir tous les flux",
     "sort_by_asc_desc" : "Trier par date croissante/décroissante",
-    "sort_by_abc_zyx" : "Sort Alphabetically",
+    "sort_by_abc_zyx" : "Trier par ordre alphabétique",
     "titles_only" : "Titres uniquement",
     "expanded_view" : "Vue étendue",
     "mark_all_as_read" : "Tout marquer comme lu",

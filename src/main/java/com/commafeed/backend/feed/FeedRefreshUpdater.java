@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.SessionFactory;
@@ -135,9 +134,7 @@ public class FeedRefreshUpdater implements Managed {
 
 				if (subscriptions == null) {
 					feed.setMessage("No new entries found");
-				}
-
-				if (CollectionUtils.isNotEmpty(subscriptions)) {
+				} else if (!subscriptions.isEmpty()) {
 					List<User> users = subscriptions.stream().map(s -> s.getUser()).collect(Collectors.toList());
 					cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
 					cache.invalidateUserRootCategory(users.toArray(new User[0]));

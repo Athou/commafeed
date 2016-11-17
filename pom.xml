@@ -427,7 +427,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.4-1205-jdbc42</version>
+			<version>9.4-1212</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.jtds</groupId>

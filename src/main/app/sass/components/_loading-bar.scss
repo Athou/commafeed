@@ -1,5 +1,8 @@
 #loading-bar .bar {
 	background: #2c3e50;
+	height: 101px;
+	top: -100px;
+	position: fixed;
 }
 
 #loading-bar .peg {

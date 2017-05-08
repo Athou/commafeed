@@ -39,13 +39,13 @@
     "previous_entry" : "Poprzedni element",
     "next_entry" : "Następny element",
     "refresh" : "Odswież",
-    "refresh_all" : "Force refresh all my feeds ",
+    "refresh_all" : "Odśwież teraz wszystkie kanały ",
     "sort_by_asc_desc" : "Sortuj od najnowszego/najstarszego",
-    "sort_by_abc_zyx" : "Sort Alphabetically",
+    "sort_by_abc_zyx" : "Sortuj alfabetycznie",
     "titles_only" : "Widok listy",
     "expanded_view" : "Widok rozwinięty",
     "mark_all_as_read" : "Oznacz wszystko jako przeczytane",
-    "mark_all_older_12_hours" : "Items older than 12 hours ",
+    "mark_all_older_12_hours" : "Elementy starsze niż 12 godzin ",
     "mark_all_older_day" : "Elementy starsze niż dzień",
     "mark_all_older_week" : "Elementy starsze niż tydzień",
     "mark_all_older_two_weeks" : "Elementy starsze niż dwa tygodnie",
@@ -62,9 +62,9 @@
     "error_while_loading_feed" : "Wystąpił błąd podczas ładowania tego kanału.",
     "keep_unread" : "Pozostaw nieprzeczytane",
     "no_unread_items" : " nie ma nieprzeczytanych elementów.",
-    "mark_up_to_here" : "Mark as read up to here ",
-    "search_for" : "searching for:  ",
-    "no_search_results" : "No match found for the requested keywords "
+    "mark_up_to_here" : "Oznacz jako przeczytane do tego elementu ",
+    "search_for" : "wyszukiwanie dla:  ",
+    "no_search_results" : "Nie znaleziono wyników dla wyszukiwanej frazy "
   },
   "feedsearch" : {
     "hint" : "Wpisz subskrybcję...",
@@ -81,8 +81,8 @@
       "scroll_marks" : "W widoku rozwiniętym przewijanie oznacza elementy jako przeczytane"
     },
     "appearance" : "Wygląd",
-    "scroll_speed" : "Scrolling speed when navigating between entries (in milliseconds) ",
-    "scroll_speed_help" : "set to 0 to disable ",
+    "scroll_speed" : "Prędkość przewijania podczas nawigowania pomiędzy wpisami (w milisekundach) ",
+    "scroll_speed_help" : "ustaw na 0 by wyłączyć ",
     "theme" : "Motyw",
     "submit_your_theme" : "Wyślij swój motyw",
     "custom_css" : "Własny styl CSS"
@@ -90,21 +90,23 @@
   "details" : {
     "feed_details" : "Szczegóły kanału",
     "url" : "URL",
-    "website" : "Website ",
+    "website" : "Strona internetowa",
     "name" : "Nazwa",
     "category" : "Kategoria",
     "position" : "Pozycja",
     "last_refresh" : "Ostatnio odświeżony",
-    "message" : "Last refresh message ",
+    "message" : "Ostatnia odpowiedź odświeżenia",
     "next_refresh" : "Następne odświeżenie",
     "queued_for_refresh" : "W kolejce do odświeżenia",
     "feed_url" : "URL kanału",
+    "filtering_expression" : "Wyrażenie filtrujące",
+    "filtering_expression_help" : "Ustaw puste, by wyłączyć. W przeciwnym razie wyrażenie zwracające 'true' lub 'false'. Dla 'false' nowe elementy w kanale będą autmatycznie \noznaczane jako przeczytane. Dostępne zmienne to: 'title', 'content', 'url' 'author' and 'categories'. Ich zawartość jest konwertowana na małe litery \npodczas porówynywania tekstu. Przykład: url.contains('youtube') albo (author eq 'athou' and title.contains('github') \nPełna dostępna składnia jest dostępna pod <a href='http://commons.apache.org/proper/commons-jexl/reference/syntax.html' target='_blank'>tym</a> adresem.",
     "generate_api_key_first" : "Najpierw wygeneruj klucz API w swoim profilu.",
     "unsubscribe" : "Cofnij subskrypcje",
-    "unsubscribe_confirmation" : "Are you sure you want to unsubscribe from this feed? ",
-    "delete_category_confirmation" : "Are you sure you want to delete this category? ",
+    "unsubscribe_confirmation" : "Czy na pewno chcesz cofnąć sybskrypcję tego kanału? ",
+    "delete_category_confirmation" : "Czy na pewno chcesz usunąć tą kategorię? ",
     "category_details" : "Szczegóły kategorii",
-    "tag_details" : "Tag details ",
+    "tag_details" : "Szczegóły tagu ",
     "parent_category" : "Kategoria nadrzędna"
   },
   "profile" : {
@@ -120,7 +122,7 @@
     "generate_new_api_key_info" : "Zmiana hasła spowoduje wygenerowanie nowego klucza API",
     "opml_export" : "Eksportuj do pliku OPML",
     "delete_account" : "Usuń konto",
-    "delete_account_confirmation" : "Delete your acount? There's no turning back! "
+    "delete_account_confirmation" : "Na pewno usunąć to konto? Nie można tego cofnąć! "
   },
   "about" : {
     "rest_api" : {
@@ -144,8 +146,8 @@
       "firefox_extension" : "Dodatek do Firefoxa",
       "opera_extension" : "Dodatek do Opery",
       "subscribe_bookmarklet" : "Dodaj subskrybcje jako skryptozakładkę (kliknij)",
-      "subscribe_bookmarklet_asc" : "Oldest first ",
-      "subscribe_bookmarklet_desc" : "Newest first ",
+      "subscribe_bookmarklet_asc" : "Najpierw najstarsze ",
+      "subscribe_bookmarklet_desc" : "Najpierw najnowsze ",
       "next_unread_bookmarklet" : "Następny nieprzeczytany element jako skryptozakładka (przeciągnij na pasek zakładek)"
     },
     "translation" : {
@@ -173,8 +175,8 @@
       "open_in_new_tab_mark_as_read" : "otwórz w nowej zakładce i oznacz jako przeczytane",
       "fullscreen" : "przełącz tryb pełnoekranowy",
       "font_size" : "zmień wielkość czcionki",
-      "go_to_all" : "go to the All view ",
-      "go_to_starred" : "go to the Starred view ",
+      "go_to_all" : "przejdź do widoku Wszystkich elementów ",
+      "go_to_starred" : "przejdź do Elementów oznaczonych gwiazdką ",
       "feed_search" : "przejdź do subskrybcji wpisując jej nazwę"
     }
   }

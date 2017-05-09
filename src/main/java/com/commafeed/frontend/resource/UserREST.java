@@ -66,7 +66,7 @@ import lombok.extern.slf4j.Slf4j;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class UserREST {
 
@@ -208,7 +208,6 @@ public class UserREST {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 
-		user = userDAO.findById(user.getId());
 		user.setEmail(StringUtils.trimToNull(request.getEmail()));
 		if (StringUtils.isNotBlank(request.getPassword())) {
 			byte[] password = encryptionService.getEncryptedPassword(request.getPassword(), user.getSalt());
@@ -218,7 +217,7 @@ public class UserREST {
 		if (request.isNewApiKey()) {
 			user.setApiKey(userService.generateApiKey(user));
 		}
-		userDAO.saveOrUpdate(user);
+		userDAO.update(user);
 		return Response.ok().build();
 	}
 

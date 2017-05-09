@@ -30,6 +30,10 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 		models.forEach(m -> persist(m));
 	}
 
+	public void update(T model) {
+		currentSession().merge(model);
+	}
+
 	public T findById(Long id) {
 		return get(id);
 	}

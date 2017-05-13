@@ -1,5 +1,7 @@
 # CommaFeed [![Build Status](https://travis-ci.org/Athou/commafeed.svg?branch=master)](https://travis-ci.org/Athou/commafeed)
 
+[![Join the chat at https://gitter.im/Athou/commafeed](https://badges.gitter.im/Athou/commafeed.svg)](https://gitter.im/Athou/commafeed?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Sources for [CommaFeed.com](http://www.commafeed.com/).
 
 Google Reader inspired self-hosted RSS reader, based on Dropwizard and AngularJS.

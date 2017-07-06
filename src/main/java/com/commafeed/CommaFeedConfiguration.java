@@ -96,6 +96,12 @@ public class CommaFeedConfiguration extends Configuration {
 		private String smtpPassword;
 		private String smtpFromAddress;
 
+		private boolean graphiteEnabled;
+		private String graphitePrefix;
+		private String graphiteHost;
+		private int graphitePort;
+		private int graphiteInterval;
+
 		@NotNull
 		@Valid
 		private Boolean heavyLoad;

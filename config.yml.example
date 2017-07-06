@@ -29,6 +29,14 @@ app:
   smtpUserName:
   smtpPassword:
   smtpFromAddress:
+
+  # Graphite Metric settings
+  # Allows those who use Graphite to have CommaFeed send metrics for graphing (time in seconds)
+  graphiteEnabled: false
+  graphitePrefix: "test.commafeed"
+  graphiteHost: "localhost"
+  graphitePort: 2003
+  graphiteInterval: 60
   
   # wether this commafeed instance has a lot of feeds to refresh
   # leave this to false in almost all cases

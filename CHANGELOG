@@ -1,3 +1,12 @@
+v 2.4.0
+  - users were not able to change password or delete account
+  - fix api key generation
+  - feed entries can now be sorted alphabetically
+  - fix facebook sharing
+  - fix layout on iOS
+  - postgresql driver update (fix for postgres 9.6)
+  - various internationalization fixes
+  - security fixes
 v 2.3.0
   - dropwizard upgrade 0.9.1
   - feed enclosures are hidden if they already displayed in the content 

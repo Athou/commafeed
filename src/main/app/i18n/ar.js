@@ -175,7 +175,8 @@
       "font_size" : "increase/decrease font size of the current entry ",
       "go_to_all" : "go to the All view ",
       "go_to_starred" : "go to the Starred view ",
-      "feed_search" : "navigate to a subscription by entering the subscription name"
+      "feed_search" : "navigate to a subscription by entering the subscription name",
+      "refresh": "refresh"
     }
   }
 }

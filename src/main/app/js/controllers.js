@@ -1061,6 +1061,7 @@ module.controller('FeedListCtrl', [
 				}
 			};
 
+			// keyboard shortcuts
 			Mousetrap.bind('j', function(e) {
 				$scope.$apply(function() {
 					$scope.navigationMode = 'keyboard';

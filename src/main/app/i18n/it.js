@@ -41,7 +41,7 @@
     "refresh" : "Aggiorna",
     "refresh_all" : "Forza l'aggiornamento di tutti i feed",
     "sort_by_asc_desc" : "Ordina per data crescente/decrescente",
-    "sort_by_abc_zyx" : "Sort Alphabetically",
+    "sort_by_abc_zyx" : "Ordina alfabeticamente",
     "titles_only" : "Solo i titoli",
     "expanded_view" : "Espandi",
     "mark_all_as_read" : "Segna tutti come già letti",
@@ -57,8 +57,8 @@
     "donate" : "Dona"
   },
   "view" : {
-    "entry_source" : "da",
-    "entry_author" : "di",
+    "entry_source" : "da ",
+    "entry_author" : "di ",
     "error_while_loading_feed" : "Si è verificato un errore durante il caricamento del feed",
     "keep_unread" : "Mantieni come da leggere",
     "no_unread_items" : "non contiene elementi da leggere",
@@ -82,9 +82,9 @@
     },
     "appearance" : "Aspetto",
     "scroll_speed" : "Velocità di scorrimento quando navighi tra i feed (in millisecondi)",
-    "scroll_speed_help" : "Imposta su 0 per disabilitare",
+    "scroll_speed_help" : "imposta su 0 per disabilitare",
     "theme" : "Tema",
-    "submit_your_theme" : "Sottoponi il tuo tema",
+    "submit_your_theme" : "Inserisci il tuo tema",
     "custom_css" : "CSS personalizzato"
   },
   "details" : {
@@ -130,7 +130,7 @@
       "line1" : "CommaFeed è basato su JAX-RS e AngularJS. Pertanto è disponibile una REST API.",
       "link_to_documentation" : "Link alla documentazione."
     },
-    "keyboard_shortcuts" : "Scorciatoie da tastiera", 
+    "keyboard_shortcuts" : "Scorciatoie da tastiera",
     "version" : "Versione di CommaFeed",
     "line1_prefix" : "CommaFeed è un progetto open source. Trovi i sorgenti su ",
     "line1_suffix" : ".",
@@ -148,12 +148,12 @@
       "subscribe_bookmarklet" : "Aggiungi la sottoscrizione ai segnalibri (clicca)",
       "subscribe_bookmarklet_asc" : "Prima i vecchi",
       "subscribe_bookmarklet_desc" : "Prima i recenti",
-      "next_unread_bookmarklet" : "Bookmarklet al prossimo elemento da leggere (trascinalo nella barra dei segnalibri)"
+      "next_unread_bookmarklet" : "Segnalibro al prossimo elemento da leggere (trascinalo nella barra dei segnalibri)"
     },
     "translation" : {
       "value" : "Traduzioni",
       "message" : "Abbiamo bisogno del tuo aiuto per tradurre CommaFeed.",
-      "link" : "Scopri come aiutarci nella traduzioni."
+      "link" : "Scopri come aiutarci nelle traduzioni."
     },
     "announcements" : "Annunci",
     "shortcuts" : {
@@ -177,7 +177,8 @@
       "font_size" : "aumenta/decrementa la dimensione del font per la voce corrente",
       "go_to_all" : "vai alla vista Tutti",
       "go_to_starred" : "vai alla vista Preferiti",
-      "feed_search" : "raggiungi una sottoscrizione scrivendo il suo nome"
+      "feed_search" : "raggiungi una sottoscrizione scrivendo il suo nome",
+      "refresh" : "aggiorna"
     }
   }
 }

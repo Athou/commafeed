@@ -151,9 +151,13 @@ public class HttpGetter {
 					contentType = entity.getContentType().getValue();
 				}
 			}
-			HttpUriRequest req = (HttpUriRequest) context.getRequest();
-			HttpHost host = context.getTargetHost();
-			String urlAfterRedirect = req.getURI().isAbsolute() ? req.getURI().toString() : host.toURI() + req.getURI();
+
+			String urlAfterRedirect = url;
+			if (context.getRequest() instanceof HttpUriRequest) {
+				HttpUriRequest req = (HttpUriRequest) context.getRequest();
+				HttpHost host = context.getTargetHost();
+				urlAfterRedirect = req.getURI().isAbsolute() ? req.getURI().toString() : host.toURI() + req.getURI();
+			}
 
 			long duration = System.currentTimeMillis() - start;
 			result = new HttpResult(content, contentType, lastModifiedHeaderValue, eTagHeaderValue, duration, urlAfterRedirect);

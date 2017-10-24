@@ -1269,6 +1269,7 @@ module.controller('FeedListCtrl', [
 				$scope.timestamp = 0;
 				$scope.busy = false;
 				$scope.hasMore = true;
+				$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
 				$scope.loadMoreEntries();
 
 				if (all) {

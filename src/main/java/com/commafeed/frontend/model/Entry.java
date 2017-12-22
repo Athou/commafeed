@@ -70,6 +70,7 @@ public class Entry implements Serializable {
 
 		entry.setUri(getGuid());
 		entry.setTitle(getTitle());
+		entry.setAuthor(getAuthor());
 
 		SyndContentImpl content = new SyndContentImpl();
 		content.setValue(getContent());

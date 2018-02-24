@@ -120,6 +120,24 @@ public class FeedParserTest {
 
     }
 
+    /**
+     * This test will cover the main method: parse(...)
+     * Inside the class FeedParser...
+     */
+    @Test
+    public void testParse(){
+        childOfParser parser = new childOfParser();
+        FetchedFeed fetchedFeed = mock(FetchedFeed.class);
+        String fakeURL = "https://www.w3schools.com";
+        byte[] xml = makeFakeXMLFeed();
+        try{
+            fetchedFeed = parser.parse(fakeURL, xml);
+            Assert.assertEquals(fetchedFeed.getTitleForTest(), "W3Schools Home Page");
+        }catch (Exception ee){
+            ee.printStackTrace();
+        }
+    }
+
     // make a mock fake SyndEntry
     private SyndEntry makeMockFakeSyndEntry(){
         SyndEntry fakeMockSyncEntry = mock(SyndEntry.class);
@@ -159,6 +177,33 @@ public class FeedParserTest {
         fakeSyncEntry.setUri("http://this-is-a-website.com");
         fakeSyncEntry.setTitle("This is a title");
         return  fakeSyncEntry;
+    }
+    // Helper function to generate fake RSS XML
+    private byte[] makeFakeXMLFeed(){
+        String fakeFeedString =
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" +
+                "<rss version=\"2.0\">\n" +
+                "\n" +
+                "<channel>\n" +
+                "  <title>W3Schools Home Page</title>\n" +
+                "  <link>https://www.w3schools.com</link>\n" +
+                "  <description>Free web building tutorials</description>\n" +
+                "  <item>\n" +
+                "    <title>RSS Tutorial</title>\n" +
+                "    <link>https://www.w3schools.com/xml/xml_rss.asp</link>\n" +
+                "    <description>New RSS tutorial on W3Schools</description>\n" +
+                "  </item>\n" +
+                "  <item>\n" +
+                "    <title>XML Tutorial</title>\n" +
+                "    <link>https://www.w3schools.com/xml</link>\n" +
+                "    <description>New XML tutorial on W3Schools</description>\n" +
+                "  </item>\n" +
+                "</channel>\n" +
+                "\n" +
+                "</rss>";
+        byte[] fakeXml = fakeFeedString.getBytes();
+        return  fakeXml;
+
     }
 }
 

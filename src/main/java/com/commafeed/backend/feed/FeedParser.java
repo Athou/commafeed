@@ -193,8 +193,7 @@ public class FeedParser {
 		}
 		return null;
 	}
-	// This function have been changed to protected for testing purposes
-	protected String findSelf(SyndFeed feed) {
+	private String findSelf(SyndFeed feed) {
 		for (SyndLink l : feed.getLinks()) {
 			if ("self".equalsIgnoreCase(l.getRel())) {
 				log.debug("found self {} for feed {}", l.getHref(), feed.getLink());

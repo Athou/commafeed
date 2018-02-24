@@ -1,5 +1,9 @@
 package com.commafeed.backend.feed;
 import com.commafeed.backend.model.Feed;
+import com.rometools.rome.feed.CopyFrom;
+import com.rometools.rome.feed.module.Module;
+import com.rometools.rome.feed.synd.*;
+import org.jdom2.Element;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.*;
@@ -9,8 +13,10 @@ import static org.mockito.Mockito.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This class will test methods of the class FeedParser.java
@@ -60,7 +66,53 @@ public class FeedParserTest {
 
     @Test
     public void testgetEntryUpdateDate(){
+        childOfParser parser = mock(childOfParser.class);
+        // Make a fake SyncEntry
+        SyndEntry fakeEntry = makeFakeSyndEntry();
+        Date now = new Date();
+        fakeEntry.setUpdatedDate(now);
 
+        // Get ealier date
+        Calendar calenEarly =  Calendar.getInstance();
+        calenEarly.set(928, 06,02);
+        Date testDateEarly = calenEarly.getTime();
+
+        when(parser.getEntryUpdateDate(fakeEntry)).thenReturn(now);
+        Assert.assertEquals(parser.getEntryUpdateDate(fakeEntry), now);
+
+        // Upon getting a date obj == null, suppose to get null (if publish date is null)
+        fakeEntry.setUpdatedDate(null);
+        when(parser.getEntryUpdateDate(fakeEntry)).thenReturn(null);
+        Assert.assertEquals(parser.getEntryUpdateDate(fakeEntry), null);
+
+        // Let's setup the publish date and expect the publish date even if UpdatedDate is null
+        fakeEntry.setPublishedDate(testDateEarly);
+        fakeEntry.setUpdatedDate(null);
+        when(parser.getEntryUpdateDate(fakeEntry)).thenReturn(testDateEarly);
+        Assert.assertEquals(parser.getEntryUpdateDate(fakeEntry), testDateEarly);
+        
+
+
+
+
+    }
+    // Helper function to set a fake entry...
+    private SyndEntry makeFakeSyndEntry(){
+        SyndEntry fakeSyncEntry = mock(SyndEntry.class);
+        SyndContent fakeContent = mock(SyndContent.class);
+
+        fakeContent.setValue("This is fake Content");
+
+        List<SyndContent> fakeList = mock(ArrayList.class);
+
+        fakeList.add(fakeContent);
+
+        fakeSyncEntry.setAuthor("Bob Bobinson");
+        fakeSyncEntry.setLink("http://this.is.a.link.com");
+        fakeSyncEntry.setContents(fakeList);
+        fakeSyncEntry.setDescription(fakeContent);
+        fakeSyncEntry.setUri("http://this-is-a-website.com");
+        return  fakeSyncEntry;
     }
 }
 

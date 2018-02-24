@@ -1,24 +1,12 @@
 package com.commafeed.backend.feed;
-import com.commafeed.backend.model.Feed;
-import com.rometools.rome.feed.CopyFrom;
-import com.rometools.rome.feed.module.Module;
 import com.rometools.rome.feed.synd.*;
-import org.apache.commons.lang3.StringUtils;
-import org.jdom2.Element;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.*;
-
 import static org.mockito.Mockito.*;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This class will test methods of the class FeedParser.java

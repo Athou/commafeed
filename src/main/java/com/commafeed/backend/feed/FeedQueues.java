@@ -149,7 +149,8 @@ public class FeedQueues {
 		giveBackQueue.add(feed);
 	}
 
-	private Date getLastLoginThreshold() {
+	//Changed private to protected for testing
+	protected Date getLastLoginThreshold() {
 		if (config.getApplicationSettings().getHeavyLoad()) {
 			return DateUtils.addDays(new Date(), -30);
 		} else {

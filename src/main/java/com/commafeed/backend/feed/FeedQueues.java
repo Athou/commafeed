@@ -92,8 +92,10 @@ public class FeedQueues {
 
 	/**
 	 * refills the refresh queue and empties the giveBack queue while at it
-	 */
-	private void refill() {
+     *
+     * changed private to protected for testing
+     */
+	protected void refill() {
 		refill.mark();
 
 		List<FeedRefreshContext> contexts = new ArrayList<>();

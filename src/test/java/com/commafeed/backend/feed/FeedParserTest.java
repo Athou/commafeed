@@ -202,6 +202,6 @@ public class FeedParserTest {
  *
  * Mockito can't Mock Singleton...
  *
- * With this child method inside FeedParser.java can be tested
+ * With this child, FeedParser.java can be tested
  */
  class childOfParser extends FeedParser{ }

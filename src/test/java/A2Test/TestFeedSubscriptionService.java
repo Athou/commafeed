@@ -60,7 +60,6 @@ public class TestFeedSubscriptionService {
 		 //set the category
 		category = new FeedCategory();
 		category.setName("memes");
- 
     }
 
 	@Test

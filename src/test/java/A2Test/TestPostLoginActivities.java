@@ -70,7 +70,6 @@ public class TestPostLoginActivities {
 		System.out.println("New Login = " + testUser.getLastLogin());
 		//date is the same but needs format to but get TRUE, getDate() works fine for now
 		assertEquals(testUser.getLastLogin().getDate(), now.getDate());
-		
 	}
 	
 	@Test

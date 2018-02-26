@@ -10,6 +10,11 @@ import static org.mockito.Mockito.*;
 public class FeedQueuesTest {
 
     @Test
+    public void testTake(){
+
+    }
+
+    @Test
     public void testAdd(){
         //create a fake feed queues objects by mocking
         FeedQueues fakeFeedQueues = mock(FeedQueues.class);

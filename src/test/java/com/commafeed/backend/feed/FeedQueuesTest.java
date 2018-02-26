@@ -12,6 +12,12 @@ public class FeedQueuesTest {
     @Test
     public void testTake(){
 
+        FeedQueues fakeFeedQueues = mock(FeedQueues.class);
+
+        doNothing().when(fakeFeedQueues).take();
+
+        verify(fakeFeedQueues, times(1)).take();
+
     }
 
     @Test

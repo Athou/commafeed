@@ -5,6 +5,7 @@ import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.service.FeedService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.SessionFactory;
 import org.junit.Assert;
 import org.junit.Before;
@@ -63,6 +64,7 @@ public class FeedQueuesTest {
         Stream mockStream = mock(Stream.class);
 
         //Mocking the process of which the add method goes through to navigate the conditions
+        //3 had been choosen randomly
         when(mockSetting.getRefreshIntervalMinutes()).thenReturn(3);
         when(config.getApplicationSettings()).thenReturn(mockSetting);
         when(mockFeed.getLastUpdated()).thenReturn(null);
@@ -104,12 +106,19 @@ public class FeedQueuesTest {
 //        verify(giveBackQueue).add(mockFeed);
 //    }
 
-    @Test
-    public void testGetLastLoginThreshold(){
-
-        FeedQueues childOF = mock(FeedQueues.class);
-
-        //Test with no value
-        Assert.assertEquals(childOF.getLastLoginThreshold(), null);
-    }
+    //not working
+//    @Test
+//    public void testGetLastLoginThreshold(){
+//
+//        //Initiate a feedqueues object
+//        FeedQueues feedQueues = new FeedQueues(addQueue, takeQueue, giveBackQueue, sessionFactory, feedDAO, config, metrics);
+//
+//        CommaFeedConfiguration.ApplicationSettings mockSetting = mock(CommaFeedConfiguration.ApplicationSettings.class);
+//
+//        when(config.getApplicationSettings().thenReturn(mockSetting);
+//        when(mockSetting.getHeavyLoad()).thenReturn(false);
+//
+//        assertNull();
+//
+//    }
 }

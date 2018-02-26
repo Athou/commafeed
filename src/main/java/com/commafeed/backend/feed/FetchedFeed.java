@@ -20,4 +20,9 @@ public class FetchedFeed {
 	private String urlAfterRedirect;
 	private long fetchDuration;
 
+	// Addition of a getter method for testing purposes
+	protected String getTitleForTest(){
+		return this.title;
+	}
+
 }

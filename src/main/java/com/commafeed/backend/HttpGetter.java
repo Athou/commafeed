@@ -223,4 +223,11 @@ public class HttpGetter {
 			return null;
 		}
 	}
+
+	public static void main(String[] args) throws Exception {
+		CommaFeedConfiguration config = new CommaFeedConfiguration();
+		HttpGetter getter = new HttpGetter(config);
+		HttpResult result = getter.getBinary("https://sourceforge.net/projects/mpv-player-windows/rss", 30000);
+		System.out.println(new String(result.content));
+	}
 }

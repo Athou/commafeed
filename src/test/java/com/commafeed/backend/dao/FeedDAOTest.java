@@ -98,6 +98,28 @@ public class FeedDAOTest extends AbstractDAOTest {
         feedDAO.delete(feed1);
         feedDAO.delete(feed2);
     }
+    
+    @Test
+    public void testShadowWrites() {
+        MigrationToggles.turnShadowWritesOn();
+
+        // Putting some users in the database
+        feed1 = getSomeFeed("http://www.geek.com", "Hello you", "A geek", "geek.com", "geek");
+        feed2 = getSomeFeed("http://www.robert.com", "Bob", "bob", "bob.com", "bob");
+
+        feedDAO.saveOrUpdate(feed1);
+        feedDAO.saveOrUpdate(feed2);
+
+        // Checking that the data in the storage is ok
+        assert(this.feedStorage.exists(feed1));
+        assert(this.feedStorage.exists(feed2));
+        assert(this.feedStorage.read(feed1).equals(feed1));
+        assert(this.feedStorage.read(feed2).equals(feed2));
+
+        feedDAO.delete(feed1);
+        feedDAO.delete(feed2);
+    }
+
 
     private static Feed getSomeFeed(String url, String message, String topic, String normalURL, String header){
         Feed feed = new Feed();

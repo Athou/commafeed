@@ -65,7 +65,7 @@ public class FeedDAOTest extends AbstractDAOTest {
     public void testConsistencyCheck() {
         MigrationToggles.turnConsistencyCheckerOn();
 
-        // Putting some users in the database
+        // Putting some feeds in the database
         feed1 = getSomeFeed("http://www.geek.com", "Hello you", "A geek", "geek.com", "geek");
         feed2 = getSomeFeed("http://www.robert.com", "Bob", "bob", "bob.com", "bob");
 
@@ -151,7 +151,7 @@ public class FeedDAOTest extends AbstractDAOTest {
 
         assertNotEquals(feed4, feed2);
 
-        // Reading the user
+        // Reading the feed
         Feed feed5 = feedDAO.findById(feed2.getId());
 
         // Now the corrupted data should have been corrected
@@ -165,6 +165,69 @@ public class FeedDAOTest extends AbstractDAOTest {
         }
 
         assertEquals(this.feedStorage.read(feed4.getId()), feed5);
+
+        feedDAO.delete(feed1);
+        feedDAO.delete(feed2);
+    }
+
+    @Test
+    public void testReadAndWriteMigration() {
+        MigrationToggles.turnShadowReadsOn();
+
+        // Putting some feed in the database
+        feed1 = getSomeFeed("http://www.geek.com", "Hello you", "A geek", "geek.com", "geek");
+        feed2 = getSomeFeed("http://www.robert.com", "Bob", "bob", "bob.com", "bob");
+        feedDAO.saveOrUpdate(feed1);
+        feedDAO.saveOrUpdate(feed2);
+
+        // Getting the number of entries in the database
+        int totalEntry = feedDAO.findAll().size();
+
+        // Checking that the data in the storage is ok
+        assert(this.feedStorage.exists(feed1));
+        assert(this.feedStorage.exists(feed2));
+        assert(this.feedStorage.read(feed1).equals(feed1));
+        assert(this.feedStorage.read(feed2).equals(feed2));
+
+        // Corrupting the data in the datastorage
+        Feed feed3 = getSomeFeed("http://www.greek.com", "Hellorrrr you", "A greek", "greek.com", "greek");
+        Feed feed4 = getSomeFeed("http://www.robertii.com", "Bobi", "bobi", "bobi.com", "bobi");
+
+        feed3.setId(feed1.getId());
+        feed4.setId(feed2.getId());
+        this.feedStorage.update(feed3);
+        this.feedStorage.update(feed4);
+
+        int inconsistencyCounter = 0;
+        double threshold = 1;
+
+        // First time, there should be two inconsistencies
+        assertEquals(2, inconsistencyCounter = feedDAO.consistencyChecker());
+        int entriesChecked = 0;
+        do {
+            entriesChecked += totalEntry;
+            threshold = inconsistencyCounter / totalEntry;
+            // Other times, there should be no inconsistency
+            assertEquals(0, inconsistencyCounter = feedDAO.consistencyChecker
+                    ());
+        } while(threshold > 0.01);
+
+        // Now that the inconsistencies are below a certain threshold, we can
+        // discard the old database
+        MigrationToggles.turnReadAndWriteOn();
+
+        // Removing the feed1 from the storage
+        feedDAO.delete(feed1);
+        assert(!this.feedStorage.exists(feed1));
+
+        // Turning off the toggles to check that the feed1 in the db wasn't
+        // affected
+        MigrationToggles.turnAllTogglesOff();
+
+        // Getting the feed1 from the database
+        Feed feed6 = feedDAO.findById(feed1.getId());
+        // Result should be equal to feed 1
+        assertEquals(feed1, feed6);
 
         feedDAO.delete(feed1);
         feedDAO.delete(feed2);

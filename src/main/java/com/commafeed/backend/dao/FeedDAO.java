@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.commafeed.backend.dao.datamigrationtoggles.MigrationToggles;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.SessionFactory;
@@ -62,5 +63,19 @@ public class FeedDAO extends GenericDAO<Feed> {
 		QFeedSubscription sub = QFeedSubscription.feedSubscription;
 		return query().selectFrom(feed).where(JPAExpressions.selectOne().from(sub).where(sub.feed.eq(feed)).notExists()).limit(max)
 				.fetch();
+	}
+
+	// Helper method findall()
+	public List<Feed> findAll(){
+		return query().selectFrom(feed).fetch();
+	}
+
+	public void forkLift(){
+		if(MigrationToggles.isForkLiftOn()){
+			List<Feed> feeds = findAll();
+			for(Feed feed: feeds){
+				saveOrUpdate(feed);
+			}
+		}
 	}
 }

@@ -1,5 +1,4 @@
 package com.commafeed.backend.dao.newstorage;
-
 import com.commafeed.backend.model.User;
 import java.util.Objects;
 
@@ -9,18 +8,18 @@ public class UserStorage implements
     private GenericStorage<Long, User> storage;
     private static UserStorage instance;
 
-    private UserStorage(){
-        this.storage = new GenericStorage<Long, User>("User");
+    private UserStorage() {
+        // Provide the name of the file it will be serialized to
+        this.storage = new GenericStorage<Long, User>("UserSettings");
     }
 
-    public static UserStorage getInstance(){
-        if(instance == null){
+    public static UserStorage getInstance() {
+        if (instance == null) {
             instance = new UserStorage();
         }
         return instance;
     }
-
-    public static UserStorage getTestInstance(){
+    public static UserStorage getTestInstance() {
         return new UserStorage();
     }
 
@@ -35,13 +34,13 @@ public class UserStorage implements
     }
 
     @Override
-    public User read(User model) {
-        return this.storage.read(model.getId());
+    public User read(Long id) {
+        return this.storage.read(id);
     }
 
     @Override
-    public User read(Long id) {
-        return this.storage.read(id);
+    public User read(User model) {
+        return read(model.getId());
     }
 
     @Override
@@ -51,7 +50,7 @@ public class UserStorage implements
 
     @Override
     public User delete(User model) {
-        return this.storage.delete(model.getId(), model);
+        return this.storage.delete(model.getId());
     }
 
     @Override
@@ -83,10 +82,6 @@ public class UserStorage implements
         }else{
             update(model);
             vefication(model, modelImported);
-            return false;
-        }
-    }
-
     /**
      * This method will act as a log system
      * @param model

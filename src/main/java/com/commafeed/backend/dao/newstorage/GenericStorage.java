@@ -34,7 +34,7 @@ public class GenericStorage<Key, Value> {
         return (Value) this.hashMap.update(key, value);
     }
 
-    protected Value delete(Key key, Value value) {
+    protected Value delete(Key key) {
         return (Value) this.hashMap.delete(key);
     }
 }

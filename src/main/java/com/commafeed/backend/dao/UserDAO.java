@@ -47,4 +47,17 @@ public class UserDAO extends GenericDAO<User> {
 			}
 		}
 	}
+
+	public int consistencyChecker() {
+		int inconsistencyCounter = 0;
+		if (MigrationToggles.isConsistencyCheckerOn()) {
+			List<User> users = findAll();
+			for(User user: users) {
+				if (!this.storage.isModelConsistent(user)) {
+					++inconsistencyCounter;
+				}
+			}
+		}
+		return inconsistencyCounter;
+	}
 }

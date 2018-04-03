@@ -93,7 +93,7 @@ public class UserStorage implements
 
     public void verification(User expected, User received) {
         System.out.println("Inconsistency found!\n\nObject in real database: " +
-                "" + model.toString() +
-                "\n\nObject found in new storage: " + modelImported.toString());
+                "" + expected.toString() +
+                "\n\nObject found in new storage: " + received.toString());
     }
 }

@@ -10,8 +10,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class UserDAOTest extends AbstractDAOTest {
 
@@ -119,6 +121,54 @@ public class UserDAOTest extends AbstractDAOTest {
         assert(this.userStorage.exists(user2));
         assert(this.userStorage.read(user1).equals(user1));
         assert(this.userStorage.read(user2).equals(user2));
+
+        userDAO.delete(user1);
+        userDAO.delete(user2);
+    }
+
+    @Test
+    public void testShadowReads() {
+        MigrationToggles.turnShadowReadsOn();
+
+        // Putting some users in the database and in the storage
+        user1 = getUser("Hello", "hello@gmail.com");
+        userDAO.saveOrUpdate(user1);
+        user2 = getUser("Hello2", "hello2@gmail.com");
+        userDAO.saveOrUpdate(user2);
+
+        // Checking that the data in the storage is ok
+        assert(this.userStorage.exists(user1));
+        assert(this.userStorage.exists(user2));
+        assert(this.userStorage.read(user1).equals(user1));
+        assert(this.userStorage.read(user2).equals(user2));
+
+        // Pulling data from the db with the read method
+        User user3 = userDAO.findById(user1.getId());
+
+        assert(user3.equals(user1));
+
+        // Corrupting the data from the storage and checking that the error
+        // is automatically corrected
+        User user4 = getUser("New user", "Corruption!");
+        user4.setId(user2.getId());
+        this.userStorage.update(user4);
+
+        assertNotEquals(user4, user2);
+
+        // Reading the user
+        User user5 = userDAO.findById(user2.getId());
+
+        // Now the corrupted data should have been corrected
+        assertEquals(user2, user5);
+
+        // Waiting for the asynchronous call to finish
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(this.userStorage.read(user4.getId()), user5);
 
         userDAO.delete(user1);
         userDAO.delete(user2);

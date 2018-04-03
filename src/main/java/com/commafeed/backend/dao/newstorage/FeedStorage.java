@@ -13,6 +13,13 @@ public class FeedStorage implements
     private FeedStorage(){
         this.storage = new GenericStorage<Long, Feed>("Feed");
     }
+    public static FeedStorage getInstance(){
+        if(instance == null){
+            instance = new FeedStorage();
+        }
+        return instance;
+    }
+
 
     @Override
     public boolean exists(Feed model) {

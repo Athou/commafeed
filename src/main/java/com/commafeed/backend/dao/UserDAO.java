@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import com.commafeed.backend.dao.datamigrationtoggles.MigrationToggles;
 import com.commafeed.backend.model.QUser;
 import com.commafeed.backend.model.User;
 import org.hibernate.SessionFactory;

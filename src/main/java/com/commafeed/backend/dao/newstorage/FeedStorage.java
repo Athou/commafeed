@@ -41,7 +41,7 @@ public class FeedStorage implements
 
     @Override
     public Feed delete(Feed model) {
-        return this.storage.delete(model.getId(), model);
+        return this.storage.delete(model.getId());
     }
 
     @Override

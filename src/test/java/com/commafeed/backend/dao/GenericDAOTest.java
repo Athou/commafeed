@@ -4,11 +4,14 @@ import com.commafeed.backend.dao.datamigrationtoggles.MigrationToggles;
 import com.commafeed.backend.dao.newstorage.UserSettingsStorage;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
-import org.junit.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class GenericDAOTest extends AbstractDAOTest {
 
@@ -23,14 +26,23 @@ public class GenericDAOTest extends AbstractDAOTest {
     private static User user4;
     private static User user5;
     private UserSettingsStorage storage;
+    private static Session userSession;
+    private static Session userSettingSession;
 
     @BeforeClass
     public static void beforeClass() {
+        SessionFactory userSessionFactory = createSessionFactory(User.class);
+        userSession = userSessionFactory.getCurrentSession();
         userDAO = new UserDAO(createSessionFactory(User.class));
-        List<Class> classList = new ArrayList<>();
-        classList.add(UserSettings.class);
-        classList.add(User.class);
-        userSettingsDAO = new UserSettingsDAO(createSessionFactory(classList));
+
+//        List<Class> classList = new ArrayList<>();
+//        classList.add(UserSettings.class);
+//        classList.add(User.class);
+//        SessionFactory userSettingsSessionFactory = createSessionFactory
+//                (classList);
+//
+//        userSettingSession = userSettingsSessionFactory.getCurrentSession();
+//        userSettingsDAO = new UserSettingsDAO(userSettingsSessionFactory);
         MigrationToggles.turnAllTogglesOff();
         // Creating all the users in the database
         user1 = getUser("Hello", "Hello@gmail.com");
@@ -41,37 +53,24 @@ public class GenericDAOTest extends AbstractDAOTest {
 
 
         // DB TRANSACTIONS
-        beginTransaction();
+        userSession.beginTransaction();
         userDAO.saveOrUpdate(user1);
-        closeTransaction();
-        beginTransaction();
-        userDAO.saveOrUpdate(user2);
-        closeTransaction();
-        beginTransaction();
-        userDAO.saveOrUpdate(user3);
-        closeTransaction();
-        beginTransaction();
-        userDAO.saveOrUpdate(user4);
-        closeTransaction();
-        beginTransaction();
-        userDAO.saveOrUpdate(user5);
-        closeTransaction();
-        beginTransaction();
-        userSettings1 = getUserSettings(user1, "English",
-                true);
-        userSettings2 = getUserSettings(user2, "English",
-                false);
-        userSettings3 = getUserSettings(user3, "French",
-                false);
-
-        userSettingsDAO.saveOrUpdate(userSettings1);
-        closeTransaction();
-        beginTransaction();
-        userSettingsDAO.saveOrUpdate(userSettings2);
-        closeTransaction();
-        beginTransaction();
-        userSettingsDAO.saveOrUpdate(userSettings3);
-        closeTransaction();
+//        userDAO.saveOrUpdate(user2);
+//        userDAO.saveOrUpdate(user3);
+//        userDAO.saveOrUpdate(user4);
+//        userDAO.saveOrUpdate(user5);
+//        userSession.close();
+//        userSettings1 = getUserSettings(user1, "English",
+//                true);
+//        userSettings2 = getUserSettings(user2, "English",
+//                false);
+//        userSettings3 = getUserSettings(user3, "French",
+//                false);
+//        userSettingSession.beginTransaction();
+//        userSettingsDAO.saveOrUpdate(userSettings1);
+//        userSettingsDAO.saveOrUpdate(userSettings2);
+//        userSettingsDAO.saveOrUpdate(userSettings3);
+//        userSettingSession.close();
     }
 
     @Before
@@ -84,30 +83,23 @@ public class GenericDAOTest extends AbstractDAOTest {
 
     @AfterClass
     public static void afterClass() {
-        beginTransaction();
+//        userSession.beginTransaction();
         userDAO.delete(user1);
-        closeTransaction();
-        beginTransaction();
-        userDAO.delete(user2);
-        closeTransaction();
-        beginTransaction();
-        userDAO.delete(user3);
-        closeTransaction();
-        beginTransaction();
-        userDAO.delete(user4);
-        closeTransaction();
-        beginTransaction();
-        userDAO.delete(user5);
-        closeTransaction();
-        beginTransaction();
-        userSettingsDAO.delete(userSettings1);
-        closeTransaction();
-        beginTransaction();
-        userSettingsDAO.delete(userSettings2);
-        closeTransaction();
-        beginTransaction();
-        userSettingsDAO.delete(userSettings3);
-        closeTransaction();
+//        userDAO.delete(user2);
+//        userDAO.delete(user3);
+//        userDAO.delete(user4);
+//        userDAO.delete(user5);
+        userSession.close();
+//        userSettingSession.beginTransaction();
+//        userSettingsDAO.delete(userSettings1);
+//        userSettingsDAO.delete(userSettings2);
+//        userSettingsDAO.delete(userSettings3);
+//        userSettingSession.close();
+    }
+
+    @Test
+    public void test(){
+
     }
 
     @Test
@@ -120,12 +112,8 @@ public class GenericDAOTest extends AbstractDAOTest {
         UserSettings userSettings2 = getUserSettings(user5, "Italian", false);
 
         // Saving the user settings
-        beginTransaction();
         userSettingsDAO.saveOrUpdate(userSettings1);
-        closeTransaction();
-        beginTransaction();
         userSettingsDAO.saveOrUpdate(userSettings2);
-        closeTransaction();
 
         // Fetching the user settings from the implemented new storage
         UserSettings storageUserSettings1 = this.storage.read(userSettings1);

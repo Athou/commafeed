@@ -1,11 +1,9 @@
 package com.commafeed.backend.model;
 
-import java.util.Objects;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.time.DateUtils;
+
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Date;
@@ -59,8 +57,6 @@ public class User extends AbstractModel {
 		return lastFullRefresh.before(DateUtils.addMinutes(when, -30));
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "User{" +
@@ -77,14 +73,6 @@ public class User extends AbstractModel {
 				", lastFullRefresh=" + lastFullRefresh +
 				'}';
 	}
-
-	@Override
-	public () {
-
-		int result = Objects.hash(name, email, apiKey, disabled, lastLogin, created, recoverPasswordToken, recoverPasswordTokenDate, lastFullRefresh);
-		result = 31 * result + Arrays.hashCode(password);
-		result = 31 * result + Arrays.hashCode(salt);
-		return result;
 
 	public boolean equals(Object o) {
 		if (this == o) {

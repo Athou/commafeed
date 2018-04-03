@@ -34,12 +34,4 @@ public class UserDAO extends GenericDAO<User> {
 	public long count() {
 		return query().selectFrom(user).fetchCount();
 	}
-	/**
-	 * Forklift User data to new storage
-	 */
-	public void ForkLiftUserDAO(){
-		if(MigrationToggles.isForkLiftOn()){
-			long allUser = count();
-		}
-	}
 }

@@ -78,11 +78,4 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 		}
 		return sub;
 	}
-
-	/**
-	 * Forklift feedSubcription data to new storage
-	 */
-	public void ForkLiftFeedSubcription(){
-
-	}
 }

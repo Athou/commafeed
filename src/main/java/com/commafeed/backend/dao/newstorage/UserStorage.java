@@ -1,8 +1,6 @@
 package com.commafeed.backend.dao.newstorage;
 
 import com.commafeed.backend.model.User;
-import com.commafeed.backend.model.UserSettings;
-
 import java.util.Objects;
 
 public class UserStorage implements
@@ -66,9 +64,9 @@ public class UserStorage implements
         this.storage.loadStorage();
     }
 
+    //TODO: DO WE REALLY NEED THIS
     @Override
     public int hashCode() {
-
         return Objects.hash(storage);
     }
 
@@ -90,7 +88,7 @@ public class UserStorage implements
     }
 
     /**
-     * This method willa act as our
+     * This method will act as a log system
      * @param model
      * @param modelImported
      */

@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao.newstorage;
 
+import com.commafeed.backend.dao.datamigrationtoggles.MigrationToggles;
 import com.commafeed.backend.model.User;
 
 public class UserStorage implements IStorageModelDAO<User> {
@@ -65,14 +66,17 @@ public class UserStorage implements IStorageModelDAO<User> {
 
     @Override
     public boolean isModelConsistent(User model) {
-        User modelFromStorage = read(model);
-        if (model.equals(modelFromStorage)) {
-            return true;
-        } else {
-            update(model);
-            verification(model, modelFromStorage);
-            return false;
+        if (MigrationToggles.isConsistencyCheckerOn()) {
+            User modelFromStorage = read(model);
+            if (model.equals(modelFromStorage)) {
+                return true;
+            } else {
+                update(model);
+                verification(model, modelFromStorage);
+                return false;
+            }
         }
+        return true;
     }
 
     public void verification(User expected, User received) {

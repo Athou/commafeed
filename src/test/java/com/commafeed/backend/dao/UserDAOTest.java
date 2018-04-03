@@ -104,6 +104,26 @@ public class UserDAOTest extends AbstractDAOTest {
         userDAO.delete(user2);
     }
 
+    @Test
+    public void testShadowWrites() {
+        MigrationToggles.turnShadowWritesOn();
+
+        // Putting some users in the database and in the storage
+        user1 = getUser("Hello", "hello@gmail.com");
+        userDAO.saveOrUpdate(user1);
+        user2 = getUser("Hello2", "hello2@gmail.com");
+        userDAO.saveOrUpdate(user2);
+
+        // Checking that the data in the storage is ok
+        assert(this.userStorage.exists(user1));
+        assert(this.userStorage.exists(user2));
+        assert(this.userStorage.read(user1).equals(user1));
+        assert(this.userStorage.read(user2).equals(user2));
+
+        userDAO.delete(user1);
+        userDAO.delete(user2);
+    }
+
     private static User getUser(String name, String email) {
         User user = new User();
         Date date = new Date(000000000);

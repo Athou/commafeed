@@ -10,8 +10,10 @@ import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class FeedDAOTest extends AbstractDAOTest {
 
@@ -98,12 +100,12 @@ public class FeedDAOTest extends AbstractDAOTest {
         feedDAO.delete(feed1);
         feedDAO.delete(feed2);
     }
-    
+
     @Test
     public void testShadowWrites() {
         MigrationToggles.turnShadowWritesOn();
 
-        // Putting some users in the database
+        // Putting some feed in the database
         feed1 = getSomeFeed("http://www.geek.com", "Hello you", "A geek", "geek.com", "geek");
         feed2 = getSomeFeed("http://www.robert.com", "Bob", "bob", "bob.com", "bob");
 
@@ -120,6 +122,53 @@ public class FeedDAOTest extends AbstractDAOTest {
         feedDAO.delete(feed2);
     }
 
+    @Test
+    public void testShadowReads() {
+        MigrationToggles.turnShadowReadsOn();
+
+        // Putting some feed in the database
+        feed1 = getSomeFeed("http://www.geek.com", "Hello you", "A geek", "geek.com", "geek");
+        feed2 = getSomeFeed("http://www.robert.com", "Bob", "bob", "bob.com", "bob");
+        feedDAO.saveOrUpdate(feed1);
+        feedDAO.saveOrUpdate(feed2);
+
+        // Checking that the data in the storage is ok
+        assert(this.feedStorage.exists(feed1));
+        assert(this.feedStorage.exists(feed2));
+        assert(this.feedStorage.read(feed1).equals(feed1));
+        assert(this.feedStorage.read(feed2).equals(feed2));
+
+        // Pulling data from the db with the read method
+        Feed feed3 = feedDAO.findById(feed1.getId());
+
+        assert(feed3.equals(feed1));
+
+        // Corrupting the data from the storage and checking that the error
+        // is automatically corrected
+        Feed feed4 = getSomeFeed("http://www.robertii.com", "Bobi", "bobi", "bobi.com", "bobi");
+        feed4.setId(feed2.getId());
+        this.feedStorage.update(feed4);
+
+        assertNotEquals(feed4, feed2);
+
+        // Reading the user
+        Feed feed5 = feedDAO.findById(feed2.getId());
+
+        // Now the corrupted data should have been corrected
+        assertEquals(feed2, feed5);
+
+        // Waiting for the asynchronous call to finish
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(this.feedStorage.read(feed4.getId()), feed5);
+
+        feedDAO.delete(feed1);
+        feedDAO.delete(feed2);
+    }
 
     private static Feed getSomeFeed(String url, String message, String topic, String normalURL, String header){
         Feed feed = new Feed();

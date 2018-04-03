@@ -22,12 +22,6 @@ public class UserDAOTest extends AbstractDAOTest {
     public static void beforeClass() {
         userDAO = new UserDAO(createSessionFactory(User.class));
         MigrationToggles.turnAllTogglesOff();
-        beginTransaction();
-        user1 = getUser("Hello", "hello@gmail.com");
-        userDAO.saveOrUpdate(user1);
-        user2 = getUser("Hello2", "hello2@gmail.com");
-        userDAO.saveOrUpdate(user2);
-        closeTransaction();
     }
 
     @Before
@@ -50,8 +44,19 @@ public class UserDAOTest extends AbstractDAOTest {
     @Test
     public void testForklift() {
         MigrationToggles.turnForkLiftOn();
+
+        // Putting some users in the database
+        user1 = getUser("Hello", "hello@gmail.com");
+        userDAO.saveOrUpdate(user1);
+        user2 = getUser("Hello2", "hello2@gmail.com");
+        userDAO.saveOrUpdate(user2);
+
         // Forklifting the data from the database to the storage
         userDAO.forklift();
+
+        userDAO.delete(user1);
+        userDAO.delete(user2);
+
         // Checking that the data in the storage is ok
         assert(this.userStorage.exists(user1));
         assert(this.userStorage.exists(user2));

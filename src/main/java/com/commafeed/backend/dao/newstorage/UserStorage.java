@@ -1,8 +1,9 @@
 package com.commafeed.backend.dao.newstorage;
-
 import com.commafeed.backend.model.User;
+import java.util.Objects;
 
-public class UserStorage implements IStorageModelDAO<User> {
+public class UserStorage implements
+        IStorageModelDAO<User> {
 
     private GenericStorage<Long, User> storage;
     private static UserStorage instance;
@@ -18,7 +19,6 @@ public class UserStorage implements IStorageModelDAO<User> {
         }
         return instance;
     }
-
     public static UserStorage getTestInstance() {
         return new UserStorage();
     }
@@ -63,22 +63,33 @@ public class UserStorage implements IStorageModelDAO<User> {
         this.storage.loadStorage();
     }
 
+    //TODO: DO WE REALLY NEED THIS
+    @Override
+    public int hashCode() {
+        return Objects.hash(storage);
+    }
+
+    /**
+     * This method will act as a consistency checker
+     * @param model
+     * @return true -> if consistency is ok or was corrected, false if failure to fix
+     */
     @Override
     public boolean isModelConsistent(User model) {
-        User modelFromStorage = read(model);
-        if (model.equals(modelFromStorage)) {
+        User modelImported = read(model);
+        if(model.equals(modelImported)){
             return true;
-        } else {
+        }else{
             update(model);
-            verification(model, modelFromStorage);
-            return false;
-        }
-    }
-
-    public void verification(User expected, User received) {
+            vefication(model, modelImported);
+    /**
+     * This method will act as a log system
+     * @param model
+     * @param modelImported
+     */
+    private void vefication(User model, User modelImported) {
         System.out.println("Inconsistency found!\n\nObject in real database: " +
-                "" + expected +
-                "\n\nObject found in new storage: " + received);
+                "" + model.toString() +
+                "\n\nObject found in new storage: " + modelImported.toString());
     }
-
 }

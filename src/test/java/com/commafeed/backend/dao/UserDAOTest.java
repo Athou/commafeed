@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -234,6 +235,48 @@ public class UserDAOTest extends AbstractDAOTest {
 
         userDAO.delete(user1);
         userDAO.delete(user2);
+    }
+
+
+    @Test
+    public void testLongTermConsistencyCheck() {
+        MigrationToggles.turnLongTermConsistencyOn();
+
+        // Putting some users in the database
+        user1 = getUser("Hello", "hello@gmail.com");
+        user1.setId(1L);
+        userDAO.saveOrUpdate(user1);
+        user2 = getUser("Hello2", "hello2@gmail.com");
+        user2.setId(2L);
+        userDAO.saveOrUpdate(user2);
+
+        HashMap<Long, User> longTermHashMapConsistencyChecker = new
+                HashMap<Long, User>();
+
+        longTermHashMapConsistencyChecker.put(user1.getId(), user1);
+        longTermHashMapConsistencyChecker.put(user2.getId(), user2);
+
+        userDAO.setLongTermHashMap(longTermHashMapConsistencyChecker);
+
+        // Checking that the data in the storage is ok
+        assert(this.userStorage.exists(user1));
+        assert(this.userStorage.exists(user2));
+        assert(this.userStorage.read(user1).equals(user1));
+        assert(this.userStorage.read(user2).equals(user2));
+
+        // Corrupting the data in the datastorage
+        User user3 = getUser("Hiiiiii", "hello@gmail.com");
+        user3.setId(user1.getId());
+        this.userStorage.update(user3);
+        User user4 = getUser("another name", "hello@gmail.com");
+        user4.setId(user2.getId());
+        this.userStorage.update(user4);
+
+        // First time, there should be two inconsistencies
+        assertEquals(2, userDAO.consistencyChecker());
+
+        // Second time, there should be no inconsistency
+        assertEquals(0, userDAO.consistencyChecker());
     }
 
     private static User getUser(String name, String email) {

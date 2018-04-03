@@ -7,12 +7,15 @@ import org.hibernate.SessionFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 @Singleton
 public class UserDAO extends GenericDAO<User> {
 
 	private QUser user = QUser.user;
+	private HashMap<Long, User> longTermHashMap;
 
 	@Inject
 	public UserDAO(SessionFactory sessionFactory) {
@@ -50,14 +53,27 @@ public class UserDAO extends GenericDAO<User> {
 
 	public int consistencyChecker() {
 		int inconsistencyCounter = 0;
-		if (MigrationToggles.isConsistencyCheckerOn()) {
-			List<User> users = findAll();
+		if (MigrationToggles.isLongTermConsistencyOn()) {
+			Collection<User> users = this.longTermHashMap.values();
 			for(User user: users) {
 				if (!this.storage.isModelConsistent(user)) {
 					++inconsistencyCounter;
 				}
 			}
+		} else {
+			if (MigrationToggles.isConsistencyCheckerOn()) {
+				List<User> users = findAll();
+				for(User user: users) {
+					if (!this.storage.isModelConsistent(user)) {
+						++inconsistencyCounter;
+					}
+				}
+			}
 		}
 		return inconsistencyCounter;
+	}
+
+	public void setLongTermHashMap(HashMap<Long, User> hashMap) {
+		this.longTermHashMap = hashMap;
 	}
 }

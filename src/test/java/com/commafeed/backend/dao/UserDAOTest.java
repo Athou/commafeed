@@ -174,6 +174,68 @@ public class UserDAOTest extends AbstractDAOTest {
         userDAO.delete(user2);
     }
 
+    @Test
+    public void testReadAndWriteMigration() {
+        MigrationToggles.turnShadowReadsOn();
+
+        // Putting some users in the database and local storage
+        user1 = getUser("Hello", "hello@gmail.com");
+        userDAO.saveOrUpdate(user1);
+        user2 = getUser("Hello2", "hello2@gmail.com");
+        userDAO.saveOrUpdate(user2);
+
+        // Getting the number of entries in the database
+        int totalEntry = userDAO.findAll().size();
+
+        // Checking that the data in the storage is ok
+        assert(this.userStorage.exists(user1));
+        assert(this.userStorage.exists(user2));
+        assert(this.userStorage.read(user1).equals(user1));
+        assert(this.userStorage.read(user2).equals(user2));
+
+        // Corrupting the data in the datastorage
+        User user3 = getUser("Hiiiiii", "hello@gmail.com");
+        user3.setId(user1.getId());
+        this.userStorage.update(user3);
+        User user4 = getUser("another name", "hello@gmail.com");
+        user4.setId(user2.getId());
+        this.userStorage.update(user4);
+
+        int inconsistencyCounter = 0;
+        double threshold = 1;
+
+        // First time, there should be two inconsistencies
+        assertEquals(2, inconsistencyCounter = userDAO.consistencyChecker());
+        int entriesChecked = 0;
+        do {
+            entriesChecked += totalEntry;
+            threshold = inconsistencyCounter / totalEntry;
+            // Other times, there should be no inconsistency
+            assertEquals(0, inconsistencyCounter = userDAO.consistencyChecker
+                    ());
+        } while(threshold > 0.01);
+
+        // Now that the inconsistencies are below a certain threshold, we can
+        // discard the old database
+        MigrationToggles.turnReadAndWriteOn();
+
+        // Removing the user1 from the storage
+        userDAO.delete(user1);
+        assert(!this.userStorage.exists(user1));
+
+        // Turning off the toggles to check that the user1 in the db wasn't
+        // affected
+        MigrationToggles.turnAllTogglesOff();
+
+        // Getting the user1 from the database
+        User user6 = userDAO.findById(user1.getId());
+        // Result should be equal to user 1
+        assertEquals(user1, user6);
+
+        userDAO.delete(user1);
+        userDAO.delete(user2);
+    }
+
     private static User getUser(String name, String email) {
         User user = new User();
         Date date = new Date(000000000);

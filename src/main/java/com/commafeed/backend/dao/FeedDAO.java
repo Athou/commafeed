@@ -78,4 +78,17 @@ public class FeedDAO extends GenericDAO<Feed> {
 			}
 		}
 	}
+
+	public int consistencyChecker() {
+		int inconsistencyCounter = 0;
+		if (MigrationToggles.isConsistencyCheckerOn()) {
+			List<Feed> feeds = findAll();
+			for(Feed f: feeds) {
+				if (!this.storage.isModelConsistent(f)) {
+					++inconsistencyCounter;
+				}
+			}
+		}
+		return inconsistencyCounter;
+	}
 }

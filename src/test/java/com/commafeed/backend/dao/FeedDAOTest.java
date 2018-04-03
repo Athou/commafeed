@@ -11,6 +11,8 @@ import org.junit.Test;
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.junit.Assert.assertEquals;
+
 public class FeedDAOTest extends AbstractDAOTest {
 
     private static FeedDAO feedDAO;
@@ -56,6 +58,45 @@ public class FeedDAOTest extends AbstractDAOTest {
 
 
 
+    }
+    @Test
+    public void testConsistencyCheck() {
+        MigrationToggles.turnConsistencyCheckerOn();
+
+        // Putting some users in the database
+        feed1 = getSomeFeed("http://www.geek.com", "Hello you", "A geek", "geek.com", "geek");
+        feed2 = getSomeFeed("http://www.robert.com", "Bob", "bob", "bob.com", "bob");
+
+        feedDAO.saveOrUpdate(feed1);
+        feedDAO.saveOrUpdate(feed2);
+
+        // Forklifting the data from the database to the storage
+        feedDAO.forkLift();
+
+        // Checking that the data in the storage is ok
+        assert(this.feedStorage.exists(feed1));
+        assert(this.feedStorage.exists(feed2));
+        assert(this.feedStorage.read(feed2).equals(feed2));
+        assert(this.feedStorage.read(feed1).equals(feed1));
+
+        // Corrupting the data in the datastorage
+        Feed feed3 = getSomeFeed("http://www.greek.com", "Hellorrrr you", "A greek", "greek.com", "greek");
+        feed3.setId(feed1.getId());
+        Feed feed4 = getSomeFeed("http://www.robertii.com", "Bobi", "bobi", "bobi.com", "bobi");
+        feed4.setId(feed2.getId());
+
+
+        this.feedStorage.update(feed3);
+        this.feedStorage.update(feed4);
+
+        // First time, there should be two inconsistencies
+        assertEquals(2, feedDAO.consistencyChecker());
+
+        // Second time, there should be no inconsistency
+        assertEquals(0, feedDAO.consistencyChecker());
+
+        feedDAO.delete(feed1);
+        feedDAO.delete(feed2);
     }
 
     private static Feed getSomeFeed(String url, String message, String topic, String normalURL, String header){

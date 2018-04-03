@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 public abstract class GenericDAO<Model extends AbstractModel> extends AbstractDAO<Model> {
 
 	private HibernateQueryFactory factory;
-	private IStorageModelDAO<Model> storage;
+	protected IStorageModelDAO<Model> storage;
 
 	protected GenericDAO(SessionFactory sessionFactory, IStorageModelDAO
 			storage) {
@@ -115,7 +115,7 @@ public abstract class GenericDAO<Model extends AbstractModel> extends AbstractDA
 		return models.size();
 	}
 
-	private void saveOrUpdateToStorage(Model model) {
+	protected void saveOrUpdateToStorage(Model model) {
 		boolean isModelAlreadyInStorage = this.storage.exists(model);
 		if (isModelAlreadyInStorage) {
 			this.storage.update(model);

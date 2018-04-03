@@ -2,8 +2,10 @@ package com.commafeed.backend.dao.newstorage;
 
 import com.commafeed.backend.dao.datamigrationtoggles.MigrationToggles;
 import com.commafeed.backend.model.User;
+import java.util.Objects;
 
-public class UserStorage implements IStorageModelDAO<User> {
+public class UserStorage implements
+        IStorageModelDAO<User> {
 
     private GenericStorage<Long, User> storage;
     private static UserStorage instance;
@@ -19,7 +21,6 @@ public class UserStorage implements IStorageModelDAO<User> {
         }
         return instance;
     }
-
     public static UserStorage getTestInstance() {
         return new UserStorage();
     }
@@ -64,6 +65,17 @@ public class UserStorage implements IStorageModelDAO<User> {
         this.storage.loadStorage();
     }
 
+    //TODO: DO WE REALLY NEED THIS
+    @Override
+    public int hashCode() {
+        return Objects.hash(storage);
+    }
+
+    /**
+     * This method will act as a consistency checker
+     * @param model
+     * @return true -> if consistency is ok or was corrected, false if failure to fix
+     */
     @Override
     public boolean isModelConsistent(User model) {
         if (MigrationToggles.isConsistencyCheckerOn()) {
@@ -81,8 +93,7 @@ public class UserStorage implements IStorageModelDAO<User> {
 
     public void verification(User expected, User received) {
         System.out.println("Inconsistency found!\n\nObject in real database: " +
-                "" + expected +
-                "\n\nObject found in new storage: " + received);
+                "" + model.toString() +
+                "\n\nObject found in new storage: " + modelImported.toString());
     }
-
 }

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.commafeed.backend.dao.datamigrationtoggles.MigrationToggles;
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.Feed;
@@ -76,5 +77,12 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 			Models.initialize(sub.getCategory());
 		}
 		return sub;
+	}
+
+	/**
+	 * Forklift feedSubcription data to new storage
+	 */
+	public void ForkLiftFeedSubcription(){
+
 	}
 }

@@ -1,6 +1,8 @@
 package com.commafeed.backend.model;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -62,4 +64,47 @@ public class User extends AbstractModel {
 		return lastFullRefresh.before(DateUtils.addMinutes(when, -30));
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		User user = (User) o;
+		return disabled == user.disabled &&
+				Objects.equals(name, user.name) &&
+				Objects.equals(email, user.email) &&
+				Arrays.equals(password, user.password) &&
+				Objects.equals(apiKey, user.apiKey) &&
+				Arrays.equals(salt, user.salt) &&
+				Objects.equals(lastLogin, user.lastLogin) &&
+				Objects.equals(created, user.created) &&
+				Objects.equals(recoverPasswordToken, user.recoverPasswordToken) &&
+				Objects.equals(recoverPasswordTokenDate, user.recoverPasswordTokenDate) &&
+				Objects.equals(lastFullRefresh, user.lastFullRefresh);
+	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"name='" + name + '\'' +
+				", email='" + email + '\'' +
+				", password=" + Arrays.toString(password) +
+				", apiKey='" + apiKey + '\'' +
+				", salt=" + Arrays.toString(salt) +
+				", disabled=" + disabled +
+				", lastLogin=" + lastLogin +
+				", created=" + created +
+				", recoverPasswordToken='" + recoverPasswordToken + '\'' +
+				", recoverPasswordTokenDate=" + recoverPasswordTokenDate +
+				", lastFullRefresh=" + lastFullRefresh +
+				'}';
+	}
+
+	@Override
+	public int hashCode() {
+
+		int result = Objects.hash(name, email, apiKey, disabled, lastLogin, created, recoverPasswordToken, recoverPasswordTokenDate, lastFullRefresh);
+		result = 31 * result + Arrays.hashCode(password);
+		result = 31 * result + Arrays.hashCode(salt);
+		return result;
+	}
 }

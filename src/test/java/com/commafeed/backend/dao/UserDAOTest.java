@@ -11,6 +11,8 @@ import org.junit.Test;
 
 import java.util.Date;
 
+import static org.junit.Assert.assertEquals;
+
 public class UserDAOTest extends AbstractDAOTest {
 
     private static UserDAO userDAO;
@@ -54,6 +56,7 @@ public class UserDAOTest extends AbstractDAOTest {
         // Forklifting the data from the database to the storage
         userDAO.forklift();
 
+        // Cleanup the database afterwards
         userDAO.delete(user1);
         userDAO.delete(user2);
 
@@ -77,14 +80,28 @@ public class UserDAOTest extends AbstractDAOTest {
         // Forklifting the data from the database to the storage
         userDAO.forklift();
 
-        userDAO.delete(user1);
-        userDAO.delete(user2);
-
         // Checking that the data in the storage is ok
         assert(this.userStorage.exists(user1));
         assert(this.userStorage.exists(user2));
         assert(this.userStorage.read(user1).equals(user1));
         assert(this.userStorage.read(user2).equals(user2));
+
+        // Corrupting the data in the datastorage
+        User user3 = getUser("Hiiiiii", "hello@gmail.com");
+        user3.setId(user1.getId());
+        this.userStorage.update(user3);
+        User user4 = getUser("another name", "hello@gmail.com");
+        user4.setId(user2.getId());
+        this.userStorage.update(user4);
+
+        // First time, there should be two inconsistencies
+        assertEquals(2, userDAO.consistencyChecker());
+
+        // Second time, there should be no inconsistency
+        assertEquals(0, userDAO.consistencyChecker());
+
+        userDAO.delete(user1);
+        userDAO.delete(user2);
     }
 
     private static User getUser(String name, String email) {

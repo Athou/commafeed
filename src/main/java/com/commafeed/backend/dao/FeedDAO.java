@@ -1,6 +1,7 @@
 package com.commafeed.backend.dao;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -24,6 +25,7 @@ import com.querydsl.jpa.hibernate.HibernateQuery;
 public class FeedDAO extends GenericDAO<Feed> {
 
 	private QFeed feed = QFeed.feed;
+	private HashMap<Long, Feed> longTermHashMap;
 
 	@Inject
 	public FeedDAO(SessionFactory sessionFactory) {
@@ -90,5 +92,9 @@ public class FeedDAO extends GenericDAO<Feed> {
 			}
 		}
 		return inconsistencyCounter;
+	}
+
+	public void setLongTermHashMap(HashMap<Long, Feed> hashMap) {
+		this.longTermHashMap = hashMap;
 	}
 }

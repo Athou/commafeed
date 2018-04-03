@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -231,6 +232,48 @@ public class FeedDAOTest extends AbstractDAOTest {
 
         feedDAO.delete(feed1);
         feedDAO.delete(feed2);
+    }
+
+    @Test
+    public void testLongTermConsistencyCheck() {
+        MigrationToggles.turnLongTermConsistencyOn();
+
+        // Putting some feed in the database
+        feed1 = getSomeFeed("http://www.geek.com", "Hello you", "A geek", "geek.com", "geek");
+        feed2 = getSomeFeed("http://www.robert.com", "Bob", "bob", "bob.com", "bob");
+        feed1.setId(1L);
+        feedDAO.saveOrUpdate(feed1);
+        feed2.setId(2L);
+        feedDAO.saveOrUpdate(feed2);
+
+        HashMap<Long, Feed> longTermHashMapConsistencyChecker = new
+                HashMap<Long, Feed>();
+
+        longTermHashMapConsistencyChecker.put(feed1.getId(), feed1);
+        longTermHashMapConsistencyChecker.put(feed2.getId(), feed2);
+
+        feedDAO.setLongTermHashMap(longTermHashMapConsistencyChecker);
+
+        // Checking that the data in the storage is ok
+        assert(this.feedStorage.exists(feed1));
+        assert(this.feedStorage.exists(feed2));
+        assert(this.feedStorage.read(feed1).equals(feed1));
+        assert(this.feedStorage.read(feed2).equals(feed2));
+
+        // Corrupting the data in the datastorage
+        Feed feed3 = getSomeFeed("http://www.greek.com", "Hellorrrr you", "A greek", "greek.com", "greek");
+        Feed feed4 = getSomeFeed("http://www.robertii.com", "Bobi", "bobi", "bobi.com", "bobi");
+
+        feed3.setId(feed1.getId());
+        feed4.setId(feed2.getId());
+        this.feedStorage.update(feed3);
+        this.feedStorage.update(feed4);
+
+        // First time, there should be two inconsistencies
+        assertEquals(2, feedDAO.consistencyChecker());
+
+        // Second time, there should be no inconsistency
+        assertEquals(0, feedDAO.consistencyChecker());
     }
 
     private static Feed getSomeFeed(String url, String message, String topic, String normalURL, String header){

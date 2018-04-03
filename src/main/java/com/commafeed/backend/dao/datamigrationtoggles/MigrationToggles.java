@@ -33,7 +33,7 @@ public class MigrationToggles {
         return isLongTermConsistencyOn;
     }
 
-    private static void turnAllTogglesOff() {
+    public static void turnAllTogglesOff() {
         isForkLiftOn = false;
         isConsistencyCheckerOn = false;
         isShadowWritesOn = false;

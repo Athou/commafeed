@@ -82,10 +82,10 @@ app:
 # url is jdbc:jtds:sqlserver://localhost:1433/commafeed;instance=<instanceName, remove if not needed>
 
 database:
-  driverClass: org.h2.Driver
-  url: jdbc:h2:./target/example
-  user: sa
-  password: sa
+  driverClass: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true
+  user: root
+  password:
   properties:
     charSet: UTF-8
   validationQuery: "/* CommaFeed Health Check */ SELECT 1"

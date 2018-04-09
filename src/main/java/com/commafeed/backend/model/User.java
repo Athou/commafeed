@@ -1,17 +1,12 @@
 package com.commafeed.backend.model;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import lombok.Getter;
 import lombok.Setter;
-
 import org.apache.commons.lang3.time.DateUtils;
+
+import javax.persistence.*;
+import java.util.Arrays;
+import java.util.Date;
 
 @Entity
 @Table(name = "USERS")
@@ -62,4 +57,77 @@ public class User extends AbstractModel {
 		return lastFullRefresh.before(DateUtils.addMinutes(when, -30));
 	}
 
+	@Override
+	public String toString() {
+		return "User{" +
+				"name='" + name + '\'' +
+				", email='" + email + '\'' +
+				", password=" + Arrays.toString(password) +
+				", apiKey='" + apiKey + '\'' +
+				", salt=" + Arrays.toString(salt) +
+				", disabled=" + disabled +
+				", lastLogin=" + lastLogin +
+				", created=" + created +
+				", recoverPasswordToken='" + recoverPasswordToken + '\'' +
+				", recoverPasswordTokenDate=" + recoverPasswordTokenDate +
+				", lastFullRefresh=" + lastFullRefresh +
+				'}';
+	}
+
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof User)) {
+			return false;
+		}
+
+		User user = (User) o;
+
+		if (isDisabled() != user.isDisabled()) {
+			return false;
+		}
+		if (getName() != null ? !getName().equals(user.getName()) :
+				user.getName() != null) {
+			return false;
+		}
+		if (getEmail() != null ? !getEmail().equals(user.getEmail()) :
+				user.getEmail() != null) {
+			return false;
+		}
+		if (!Arrays.equals(getPassword(), user.getPassword())) {
+			return false;
+		}
+		if (getApiKey() != null ? !getApiKey().equals(user.getApiKey()) :
+				user.getApiKey() != null) {
+			return false;
+		}
+		if (!Arrays.equals(getSalt(), user.getSalt())) {
+			return false;
+		}
+		if (getLastLogin() != null ?
+				!getLastLogin().equals(user.getLastLogin()) :
+				user.getLastLogin() != null) {
+			return false;
+		}
+		if (getCreated() != null ? !getCreated().equals(user.getCreated()) :
+				user.getCreated() != null) {
+			return false;
+		}
+		if (getRecoverPasswordToken() != null ?
+				!getRecoverPasswordToken()
+						.equals(user.getRecoverPasswordToken()) :
+				user.getRecoverPasswordToken() != null) {
+			return false;
+		}
+		if (getRecoverPasswordTokenDate() != null ?
+				!getRecoverPasswordTokenDate()
+						.equals(user.getRecoverPasswordTokenDate()) :
+				user.getRecoverPasswordTokenDate() != null) {
+			return false;
+		}
+		return getLastFullRefresh() != null ?
+				getLastFullRefresh().equals(user.getLastFullRefresh()) :
+				user.getLastFullRefresh() == null;
+	}
 }

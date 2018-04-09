@@ -1,6 +1,7 @@
 package com.commafeed.backend.model;
 
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -121,4 +122,60 @@ public class Feed extends AbstractModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date pushLastPing;
 
+	@Override
+	public String toString() {
+		return "Feed{" +
+				"url='" + url + '\'' +
+				", urlAfterRedirect='" + urlAfterRedirect + '\'' +
+				", normalizedUrl='" + normalizedUrl + '\'' +
+				", normalizedUrlHash='" + normalizedUrlHash + '\'' +
+				", link='" + link + '\'' +
+				", lastUpdated=" + lastUpdated +
+				", lastPublishedDate=" + lastPublishedDate +
+				", lastEntryDate=" + lastEntryDate +
+				", message='" + message + '\'' +
+				", errorCount=" + errorCount +
+				", disabledUntil=" + disabledUntil +
+				", lastModifiedHeader='" + lastModifiedHeader + '\'' +
+				", etagHeader='" + etagHeader + '\'' +
+				", averageEntryInterval=" + averageEntryInterval +
+				", lastContentHash='" + lastContentHash + '\'' +
+				", pushHub='" + pushHub + '\'' +
+				", pushTopic='" + pushTopic + '\'' +
+				", pushTopicHash='" + pushTopicHash + '\'' +
+				", pushLastPing=" + pushLastPing +
+				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Feed feed = (Feed) o;
+		return errorCount == feed.errorCount &&
+				Objects.equals(url, feed.url) &&
+				Objects.equals(urlAfterRedirect, feed.urlAfterRedirect) &&
+				Objects.equals(normalizedUrl, feed.normalizedUrl) &&
+				Objects.equals(normalizedUrlHash, feed.normalizedUrlHash) &&
+				Objects.equals(link, feed.link) &&
+				Objects.equals(lastUpdated, feed.lastUpdated) &&
+				Objects.equals(lastPublishedDate, feed.lastPublishedDate) &&
+				Objects.equals(lastEntryDate, feed.lastEntryDate) &&
+				Objects.equals(message, feed.message) &&
+				Objects.equals(disabledUntil, feed.disabledUntil) &&
+				Objects.equals(lastModifiedHeader, feed.lastModifiedHeader) &&
+				Objects.equals(etagHeader, feed.etagHeader) &&
+				Objects.equals(averageEntryInterval, feed.averageEntryInterval) &&
+				Objects.equals(lastContentHash, feed.lastContentHash) &&
+				Objects.equals(pushHub, feed.pushHub) &&
+				Objects.equals(pushTopic, feed.pushTopic) &&
+				Objects.equals(pushTopicHash, feed.pushTopicHash) &&
+				Objects.equals(pushLastPing, feed.pushLastPing);
+	}
+
+	@Override
+	public int hashCode() {
+
+		return Objects.hash(url, urlAfterRedirect, normalizedUrl, normalizedUrlHash, link, lastUpdated, lastPublishedDate, lastEntryDate, message, errorCount, disabledUntil, lastModifiedHeader, etagHeader, averageEntryInterval, lastContentHash, pushHub, pushTopic, pushTopicHash, pushLastPing);
+	}
 }

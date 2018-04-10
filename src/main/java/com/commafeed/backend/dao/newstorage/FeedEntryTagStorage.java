@@ -1,9 +1,8 @@
 package com.commafeed.backend.dao.newstorage;
 
 import com.commafeed.backend.dao.datamigrationtoggles.MigrationToggles;
-import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntryTag;
-import com.commafeed.backend.model.User;
+
 
 public class FeedEntryTagStorage implements
 IStorageModelDAO<FeedEntryTag>{

@@ -9,7 +9,6 @@ import javax.inject.Singleton;
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.dao.datamigrationtoggles.MigrationToggles;
-import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.QFeedEntryTag;
@@ -49,14 +48,14 @@ public class FeedEntryTagDAO extends GenericDAO<FeedEntryTag> {
 	
 	public int consistencyChecker() {
 		int inconsistencyCounter = 0;
-		if (MigrationToggles.isConsistencyCheckerOn()) {
+		//if (MigrationToggles.isConsistencyCheckerOn()) {
 			List<FeedEntryTag> tags = findAllTags();
 			for(FeedEntryTag tag: tags) {
 				if (!this.storage.isModelConsistent(tag)) {
 					++inconsistencyCounter;
 				}
 			}
-		}
+		//}
 		return inconsistencyCounter;
 	}
 

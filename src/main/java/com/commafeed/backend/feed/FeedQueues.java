@@ -37,6 +37,16 @@ public class FeedQueues {
 
 	private Meter refill;
 
+	//This constructor ir for testing purpose
+    @Inject
+    public FeedQueues(Queue<FeedRefreshContext> addQueue, Queue<FeedRefreshContext> takeQueue, Queue<Feed> giveBackQueue ,SessionFactory sessionFactory, FeedDAO feedDAO, CommaFeedConfiguration config, MetricRegistry metrics) {
+        this(sessionFactory, feedDAO, config, metrics);
+
+        this.addQueue = addQueue;
+        this.takeQueue = takeQueue;
+        this.giveBackQueue = giveBackQueue;
+    }
+
 	@Inject
 	public FeedQueues(SessionFactory sessionFactory, FeedDAO feedDAO, CommaFeedConfiguration config, MetricRegistry metrics) {
 		this.sessionFactory = sessionFactory;
@@ -92,8 +102,10 @@ public class FeedQueues {
 
 	/**
 	 * refills the refresh queue and empties the giveBack queue while at it
-	 */
-	private void refill() {
+     *
+     * changed private to protected for testing
+     */
+	protected void refill() {
 		refill.mark();
 
 		List<FeedRefreshContext> contexts = new ArrayList<>();
@@ -149,7 +161,8 @@ public class FeedQueues {
 		giveBackQueue.add(feed);
 	}
 
-	private Date getLastLoginThreshold() {
+	//Changed private to protected for testing
+	protected Date getLastLoginThreshold() {
 		if (config.getApplicationSettings().getHeavyLoad()) {
 			return DateUtils.addDays(new Date(), -30);
 		} else {

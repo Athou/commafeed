@@ -1,11 +1,13 @@
 package com.commafeed.backend.dao;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.commafeed.backend.dao.datamigrationtoggles.MigrationToggles;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.SessionFactory;
@@ -23,6 +25,7 @@ import com.querydsl.jpa.hibernate.HibernateQuery;
 public class FeedDAO extends GenericDAO<Feed> {
 
 	private QFeed feed = QFeed.feed;
+	private HashMap<Long, Feed> longTermHashMap;
 
 	@Inject
 	public FeedDAO(SessionFactory sessionFactory) {
@@ -62,5 +65,36 @@ public class FeedDAO extends GenericDAO<Feed> {
 		QFeedSubscription sub = QFeedSubscription.feedSubscription;
 		return query().selectFrom(feed).where(JPAExpressions.selectOne().from(sub).where(sub.feed.eq(feed)).notExists()).limit(max)
 				.fetch();
+	}
+
+	// Helper method findall()
+	public List<Feed> findAll(){
+		return query().selectFrom(feed).fetch();
+	}
+
+	public void forkLift(){
+		if(MigrationToggles.isForkLiftOn()){
+			List<Feed> feeds = findAll();
+			for(Feed feed: feeds){
+				saveOrUpdate(feed);
+			}
+		}
+	}
+
+	public int consistencyChecker() {
+		int inconsistencyCounter = 0;
+		if (MigrationToggles.isConsistencyCheckerOn()) {
+			List<Feed> feeds = findAll();
+			for(Feed f: feeds) {
+				if (!this.storage.isModelConsistent(f)) {
+					++inconsistencyCounter;
+				}
+			}
+		}
+		return inconsistencyCounter;
+	}
+
+	public void setLongTermHashMap(HashMap<Long, Feed> hashMap) {
+		this.longTermHashMap = hashMap;
 	}
 }

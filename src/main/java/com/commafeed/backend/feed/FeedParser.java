@@ -134,8 +134,8 @@ public class FeedParser {
 			}
 		}
 	}
-
-	private Date getEntryUpdateDate(SyndEntry item) {
+	// This function have been changed to protected for testing purposes
+	protected Date getEntryUpdateDate(SyndEntry item) {
 		Date date = item.getUpdatedDate();
 		if (date == null) {
 			date = item.getPublishedDate();
@@ -145,8 +145,8 @@ public class FeedParser {
 		}
 		return date;
 	}
-
-	private Date validateDate(Date date, boolean nullToNow) {
+	// This function have been changed to protected for testing purposes
+	protected Date validateDate(Date date, boolean nullToNow) {
 		Date now = new Date();
 		if (date == null) {
 			return nullToNow ? now : null;
@@ -160,8 +160,8 @@ public class FeedParser {
 		}
 		return date;
 	}
-
-	private String getContent(SyndEntry item) {
+	// This function have been changed to protected for testing purposes
+	protected String getContent(SyndEntry item) {
 		String content = null;
 		if (item.getContents().isEmpty()) {
 			content = item.getDescription() == null ? null : item.getDescription().getValue();
@@ -170,8 +170,8 @@ public class FeedParser {
 		}
 		return StringUtils.trimToNull(content);
 	}
-
-	private String getTitle(SyndEntry item) {
+	// This function have been changed to protected for testing purposes
+	protected String getTitle(SyndEntry item) {
 		String title = item.getTitle();
 		if (StringUtils.isBlank(title)) {
 			Date date = item.getPublishedDate();
@@ -193,7 +193,6 @@ public class FeedParser {
 		}
 		return null;
 	}
-
 	private String findSelf(SyndFeed feed) {
 		for (SyndLink l : feed.getLinks()) {
 			if ("self".equalsIgnoreCase(l.getRel())) {

@@ -1,30 +1,13 @@
 package com.commafeed.backend;
 
-import java.io.IOException;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
+import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.backend.util.TodayDateConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Consts;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponseInterceptor;
-import org.apache.http.HttpStatus;
+import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.config.CookieSpecs;
@@ -40,7 +23,16 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import com.commafeed.CommaFeedConfiguration;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.io.IOException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 /**
  * Smart HTTP getter: handles gzip, ssl, last modified and etag headers
@@ -55,6 +47,9 @@ public class HttpGetter {
 	private static final String CACHE_CONTROL_NO_CACHE = "no-cache";
 
 	private static final HttpResponseInterceptor REMOVE_INCORRECT_CONTENT_ENCODING = new ContentEncodingInterceptor();
+
+	// Used to fix a bug. Protected to allow for easy access in test class.
+	protected TodayDateConstructor todayDate = new TodayDateConstructor();
 
 	private static SSLContext SSL_CONTEXT = null;
 	static {
@@ -108,6 +103,9 @@ public class HttpGetter {
 			httpget.addHeader(HttpHeaders.USER_AGENT, userAgent);
 
 			if (lastModified != null) {
+				if (lastModified.equalsIgnoreCase("Thu, 01 Jan 1970 00:00:00 GMT")){
+					lastModified = todayDate.constructDate();
+				}
 				httpget.addHeader(HttpHeaders.IF_MODIFIED_SINCE, lastModified);
 			}
 			if (eTag != null) {

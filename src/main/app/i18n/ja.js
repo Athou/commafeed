@@ -3,7 +3,7 @@
     "save" : "保存",
     "cancel" : "取り消し",
     "delete" : "削除",
-    "required" : "Required",
+    "required" : "必須",
     "download" : "ダウンロード",
     "link" : "リンク",
     "bookmark" : "ブックマーク",
@@ -15,7 +15,7 @@
     "import" : "インポート",
     "new_category" : "新しいカテゴリー",
     "all" : "全て",
-    "starred" : "スター付"
+    "starred" : "スター付き"
   },
   "subscribe" : {
     "feed_url" : "フィードURL",
@@ -40,8 +40,8 @@
     "next_entry" : "次のエントリー",
     "refresh" : "更新",
     "refresh_all" : "全てのフィードを更新",
-    "sort_by_asc_desc" : "昇順/降順にソート",
-    "sort_by_abc_zyx" : "Sort Alphabetically",
+    "sort_by_asc_desc" : "日時でソート",
+    "sort_by_abc_zyx" : "名前でソート",
     "titles_only" : "タイトルのみ",
     "expanded_view" : "拡張ビュー",
     "mark_all_as_read" : "全て既読にする",
@@ -101,8 +101,8 @@
     "feed_url" : "フィードURL",
     "generate_api_key_first" : "最初にあなたのAPIキーを生成して下さい。",
     "unsubscribe" : "購読解除",
-    "unsubscribe_confirmation" : "Are you sure you want to unsubscribe from this feed? ",
-    "delete_category_confirmation" : "Are you sure you want to delete this category? ",
+    "unsubscribe_confirmation" : "フィードの購読を解除してよろしいですか?",
+    "delete_category_confirmation" : "カテゴリーを削除してよろしいですか?",
     "category_details" : "カテゴリー詳細",
     "tag_details" : "タグ詳細",
     "parent_category" : "親カテゴリー"
@@ -117,10 +117,10 @@
     "api_key" : "APIキー",
     "api_key_not_generated" : "APIキーが生成されていません",
     "generate_new_api_key" : "新しいAPIキーを生成",
-    "generate_new_api_key_info" : "パスワードの変更は新しいAPIキーが生成されます",
+    "generate_new_api_key_info" : "パスワードを変更すると新しいAPIキーが生成されます",
     "opml_export" : "OPMLエクスポート",
     "delete_account" : "アカウント削除",
-    "delete_account_confirmation" : "Delete your acount? There's no turning back! "
+    "delete_account_confirmation" : "アカウントを削除してよろしいですか? 削除すると戻すことはできません!"
   },
   "about" : {
     "rest_api" : {
@@ -150,10 +150,10 @@
     },
     "translation" : {
       "value" : "翻訳",
-      "message" : "CommaFeedの翻訳に助けが必要です！",
-      "link" : "どうやって翻訳に貢献できるか見て下さい。"
+      "message" : "CommaFeedの翻訳にご協力ください！",
+      "link" : "翻訳にあたっての案内はこちら"
     },
-    "announcements" : "Announcements",
+    "announcements" : "お知らせ",
     "shortcuts" : {
       "mouse_middleclick" : "中クリック",
       "open_next_entry" : "次のエントリーを開く",
@@ -171,7 +171,7 @@
       "mark_current_entry" : "現在のエントリーを既読/未読にする",
       "mark_all_as_read" : "全エントリーを既読にする",
       "open_in_new_tab_mark_as_read" : "エントリーを既読にして新しいタブで開く",
-      "fullscreen" : "フルスクリーントグル",
+      "fullscreen" : "フルスクリーン切り替え",
       "font_size" : "現在のエントリーのフォントサイズを大きく/小さくする",
       "go_to_all" : "All viewに変更する",
       "go_to_starred" : "スター付きviewに変更する",

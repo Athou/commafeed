@@ -1,9 +1,11 @@
 package com.commafeed.backend.feed;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class HtmlEntities {
+	public static final Map<String, String> HTML_TO_NUMERIC_MAP;
 	public static final String[] HTML_ENTITIES;
 	public static final String[] NUMERIC_ENTITIES;
 
@@ -260,6 +262,7 @@ public class HtmlEntities {
 		map.put("&zwj;", "&#8205;");
 		map.put("&zwnj;", "&#8204;");
 
+		HTML_TO_NUMERIC_MAP = Collections.unmodifiableMap(map);
 		HTML_ENTITIES = map.keySet().toArray(new String[map.size()]);
 		NUMERIC_ENTITIES = map.values().toArray(new String[map.size()]);
 	}

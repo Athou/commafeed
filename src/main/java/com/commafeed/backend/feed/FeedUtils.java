@@ -6,6 +6,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -13,6 +14,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.ahocorasick.trie.Emit;
+import org.ahocorasick.trie.Trie;
+import org.ahocorasick.trie.Trie.TrieBuilder;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -132,7 +136,32 @@ public class FeedUtils {
 	}
 
 	public static String replaceHtmlEntitiesWithNumericEntities(String source) {
-		return StringUtils.replaceEach(source, HtmlEntities.HTML_ENTITIES, HtmlEntities.NUMERIC_ENTITIES);
+		// Create a buffer sufficiently large that re-allocations are minimized.
+		StringBuilder sb = new StringBuilder(source.length() << 1);
+
+		TrieBuilder builder = Trie.builder();
+		builder.ignoreOverlaps();
+
+		for (String key : HtmlEntities.HTML_ENTITIES) {
+			builder.addKeyword(key);
+		}
+
+		Trie trie = builder.build();
+		Collection<Emit> emits = trie.parseText(source);
+
+		int prevIndex = 0;
+		for (Emit emit : emits) {
+			int matchIndex = emit.getStart();
+
+			sb.append(source.substring(prevIndex, matchIndex));
+			sb.append(HtmlEntities.HTML_TO_NUMERIC_MAP.get(emit.getKeyword()));
+			prevIndex = emit.getEnd() + 1;
+		}
+
+		// Add the remainder of the string (contains no more matches).
+		sb.append(source.substring(prevIndex));
+
+		return sb.toString();
 	}
 
 	/**

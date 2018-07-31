@@ -43,7 +43,7 @@ module.controller('SubscribeCtrl', ['$scope', '$location', 'FeedService', 'Categ
 			// 'ok', 'loading' or 'failed'
 			$scope.state = 'ok';
 			$scope.urlChanged = function() {
-				if ($scope.sub.url) {
+				if ($scope.sub.url && $scope.state != 'loading') {
 					$scope.state = 'loading';
 					$scope.sub.title = 'Loading...';
 					FeedService.fetch({

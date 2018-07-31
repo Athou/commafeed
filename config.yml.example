@@ -68,6 +68,9 @@ app:
   # announcement string displayed on the main page
   announcement:
   
+  # user-agent string that will be used by the http client, leave empty for the default one
+  userAgent:
+  
 # Database connection
 # -------------------  
 # for MySQL

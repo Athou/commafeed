@@ -142,6 +142,8 @@ public class CommaFeedConfiguration extends Configuration {
 		@Valid
 		private String announcement;
 
+		private String userAgent;
+
 		public Date getUnreadThreshold() {
 			int keepStatusDays = getKeepStatusDays();
 			return keepStatusDays > 0 ? DateUtils.addDays(new Date(), -1 * keepStatusDays) : null;

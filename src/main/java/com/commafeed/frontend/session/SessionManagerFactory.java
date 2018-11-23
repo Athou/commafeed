@@ -18,7 +18,7 @@ import com.google.common.collect.ImmutableSet;
 public class SessionManagerFactory {
 
 	private String path = "sessions";
-	private Duration cookieMaxAge = Duration.days(30);
+	private Duration cookieMaxAge = Duration.days(300);
 	private Duration cookieRefreshAge = Duration.days(1);
 	private Duration maxInactiveInterval = Duration.days(30);
 	private Duration idleSavePeriod = Duration.hours(2);

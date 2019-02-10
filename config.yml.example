@@ -4,7 +4,7 @@ app:
   # url used to access commafeed
   publicUrl: http://localhost:8082/
   
-  # wether to allow user registrations
+  # whether to allow user registrations
   allowRegistrations: false
   
   # create a demo account the first time the app starts

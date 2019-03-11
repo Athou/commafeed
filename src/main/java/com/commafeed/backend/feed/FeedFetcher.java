@@ -2,6 +2,7 @@ package com.commafeed.backend.feed;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.regex.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -96,8 +97,24 @@ public class FeedFetcher {
 				foundUrl = atom.get(0).attr("abs:href");
 			} else if (!rss.isEmpty()) {
 				foundUrl = rss.get(0).attr("abs:href");
+			} else {
+				foundUrl = extractYoutubeFeedUrl(baseUri);
 			}
 		}
 		return foundUrl;
+	}
+
+	/*
+	* Workaround for Youtube channels:
+	* convert the channel URL to the valid feed URL
+	* https://www.youtube.com/channel/CHANNEL_ID
+	* https://www.youtube.com/feeds/videos.xml?channel_id=CHANNEL_ID
+	*/
+	private String extractYoutubeFeedUrl(String url) {
+		Pattern regexp = Pattern.compile("(.*\\byoutube\\.com)\\/channel\\/([^\\/]+)", Pattern.CASE_INSENSITIVE);
+		Matcher matcher = regexp.matcher(url);
+		if ( matcher.find() ) {
+			return matcher.group(1) + "/feeds/videos.xml?channel_id=" + matcher.group(2);
+		}
 	}
 }

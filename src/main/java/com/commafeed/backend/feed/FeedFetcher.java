@@ -113,8 +113,6 @@ public class FeedFetcher {
 	private String extractYoutubeFeedUrl(String url) {
 		Pattern regexp = Pattern.compile("(.*\\byoutube\\.com)\\/channel\\/([^\\/]+)", Pattern.CASE_INSENSITIVE);
 		Matcher matcher = regexp.matcher(url);
-		if ( matcher.find() ) {
-			return matcher.group(1) + "/feeds/videos.xml?channel_id=" + matcher.group(2);
-		}
+		return matcher.find() ? matcher.group(1) + "/feeds/videos.xml?channel_id=" + matcher.group(2) : null;
 	}
 }

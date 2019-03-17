@@ -2,25 +2,23 @@ package com.commafeed.backend.feed;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.http.client.ClientProtocolException;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.urlprovider.FeedURLProvider;
 import com.rometools.rome.io.FeedException;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
@@ -29,9 +27,10 @@ public class FeedFetcher {
 
 	private final FeedParser parser;
 	private final HttpGetter getter;
+	private final Set<FeedURLProvider> urlProviders;
 
 	public FetchedFeed fetch(String feedUrl, boolean extractFeedUrlFromHtml, String lastModified, String eTag, Date lastPublishedDate,
-			String lastContentHash) throws FeedException, ClientProtocolException, IOException, NotModifiedException {
+			String lastContentHash) throws FeedException, IOException, NotModifiedException {
 		log.debug("Fetching feed {}", feedUrl);
 		FetchedFeed fetchedFeed = null;
 
@@ -44,7 +43,7 @@ public class FeedFetcher {
 			fetchedFeed = parser.parse(result.getUrlAfterRedirect(), content);
 		} catch (FeedException e) {
 			if (extractFeedUrlFromHtml) {
-				String extractedUrl = extractFeedUrl(StringUtils.newStringUtf8(result.getContent()), feedUrl);
+				String extractedUrl = extractFeedUrl(urlProviders, StringUtils.newStringUtf8(result.getContent()), feedUrl);
 				if (org.apache.commons.lang3.StringUtils.isNotBlank(extractedUrl)) {
 					feedUrl = extractedUrl;
 
@@ -84,20 +83,13 @@ public class FeedFetcher {
 		return fetchedFeed;
 	}
 
-	private String extractFeedUrl(String html, String baseUri) {
-		String foundUrl = null;
-
-		Document doc = Jsoup.parse(html, baseUri);
-		String root = doc.children().get(0).tagName();
-		if ("html".equals(root)) {
-			Elements atom = doc.select("link[type=application/atom+xml]");
-			Elements rss = doc.select("link[type=application/rss+xml]");
-			if (!atom.isEmpty()) {
-				foundUrl = atom.get(0).attr("abs:href");
-			} else if (!rss.isEmpty()) {
-				foundUrl = rss.get(0).attr("abs:href");
-			}
+	private static String extractFeedUrl(Set<FeedURLProvider> urlProviders, String html, String baseUri) {
+		for (FeedURLProvider urlProvider : urlProviders) {
+			String url = urlProvider.get(html, baseUri);
+			if (url != null)
+				return url;
 		}
-		return foundUrl;
+
+		return null;
 	}
 }

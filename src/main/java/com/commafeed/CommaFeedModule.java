@@ -26,6 +26,9 @@ import com.commafeed.backend.task.OldStatusesCleanupTask;
 import com.commafeed.backend.task.OrphanedContentsCleanupTask;
 import com.commafeed.backend.task.OrphanedFeedsCleanupTask;
 import com.commafeed.backend.task.ScheduledTask;
+import com.commafeed.backend.urlprovider.FeedURLProvider;
+import com.commafeed.backend.urlprovider.InPageReferenceFeedURLProvider;
+import com.commafeed.backend.urlprovider.YoutubeFeedURLProvider;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.multibindings.Multibinder;
@@ -54,6 +57,10 @@ public class CommaFeedModule extends AbstractModule {
 		faviconMultibinder.addBinding().to(YoutubeFaviconFetcher.class);
 		faviconMultibinder.addBinding().to(FacebookFaviconFetcher.class);
 		faviconMultibinder.addBinding().to(DefaultFaviconFetcher.class);
+
+		Multibinder<FeedURLProvider> urlProviderMultibinder = Multibinder.newSetBinder(binder(), FeedURLProvider.class);
+		urlProviderMultibinder.addBinding().to(InPageReferenceFeedURLProvider.class);
+		urlProviderMultibinder.addBinding().to(YoutubeFeedURLProvider.class);
 
 		Multibinder<ScheduledTask> taskMultibinder = Multibinder.newSetBinder(binder(), ScheduledTask.class);
 		taskMultibinder.addBinding().to(OldStatusesCleanupTask.class);

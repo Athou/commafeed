@@ -43,7 +43,7 @@ public class FeedFetcher {
 			fetchedFeed = parser.parse(result.getUrlAfterRedirect(), content);
 		} catch (FeedException e) {
 			if (extractFeedUrlFromHtml) {
-				String extractedUrl = extractFeedUrl(urlProviders, StringUtils.newStringUtf8(result.getContent()), feedUrl);
+				String extractedUrl = extractFeedUrl(urlProviders, feedUrl, StringUtils.newStringUtf8(result.getContent()));
 				if (org.apache.commons.lang3.StringUtils.isNotBlank(extractedUrl)) {
 					feedUrl = extractedUrl;
 
@@ -83,11 +83,11 @@ public class FeedFetcher {
 		return fetchedFeed;
 	}
 
-	private static String extractFeedUrl(Set<FeedURLProvider> urlProviders, String html, String baseUri) {
+	private static String extractFeedUrl(Set<FeedURLProvider> urlProviders, String url, String urlContent) {
 		for (FeedURLProvider urlProvider : urlProviders) {
-			String url = urlProvider.get(html, baseUri);
-			if (url != null)
-				return url;
+			String feedUrl = urlProvider.get(url, urlContent);
+			if (feedUrl != null)
+				return feedUrl;
 		}
 
 		return null;

@@ -14,7 +14,7 @@ public class YoutubeFeedURLProvider implements FeedURLProvider {
 	private static final Pattern REGEXP = Pattern.compile("(.*\\byoutube\\.com)\\/channel\\/([^\\/]+)", Pattern.CASE_INSENSITIVE);
 
 	@Override
-	public String get(String html, String url) {
+	public String get(String url, String urlContent) {
 		Matcher matcher = REGEXP.matcher(url);
 		return matcher.find() ? matcher.group(1) + "/feeds/videos.xml?channel_id=" + matcher.group(2) : null;
 	}

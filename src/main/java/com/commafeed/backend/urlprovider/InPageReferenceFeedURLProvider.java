@@ -7,10 +7,10 @@ import org.jsoup.select.Elements;
 public class InPageReferenceFeedURLProvider implements FeedURLProvider {
 
 	@Override
-	public String get(String html, String url) {
+	public String get(String url, String urlContent) {
 		String foundUrl = null;
 
-		Document doc = Jsoup.parse(html, url);
+		Document doc = Jsoup.parse(urlContent, url);
 		String root = doc.children().get(0).tagName();
 		if ("html".equals(root)) {
 			Elements atom = doc.select("link[type=application/atom+xml]");

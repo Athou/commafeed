@@ -16,7 +16,7 @@ import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.QFeedSubscription;
 import com.commafeed.backend.model.User;
 import com.google.common.collect.Iterables;
-import com.querydsl.jpa.hibernate.HibernateQuery;
+import com.querydsl.jpa.JPQLQuery;
 
 @Singleton
 public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
@@ -44,13 +44,13 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 	}
 
 	public List<FeedSubscription> findAll(User user) {
-		List<FeedSubscription> subs = query().selectFrom(sub).where(sub.user.eq(user)).leftJoin(sub.feed).fetchJoin()
-				.leftJoin(sub.category).fetchJoin().fetch();
+		List<FeedSubscription> subs = query().selectFrom(sub).where(sub.user.eq(user)).leftJoin(sub.feed).fetchJoin().leftJoin(sub.category)
+				.fetchJoin().fetch();
 		return initRelations(subs);
 	}
 
 	public List<FeedSubscription> findByCategory(User user, FeedCategory category) {
-		HibernateQuery<FeedSubscription> query = query().selectFrom(sub).where(sub.user.eq(user));
+		JPQLQuery<FeedSubscription> query = query().selectFrom(sub).where(sub.user.eq(user));
 		if (category == null) {
 			query.where(sub.category.isNull());
 		} else {

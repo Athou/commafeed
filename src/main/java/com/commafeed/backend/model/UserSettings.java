@@ -10,10 +10,10 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "USERSETTINGS")
@@ -61,7 +61,7 @@ public class UserSettings extends AbstractModel {
 
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
-	@Type(type = "org.hibernate.type.StringClobType")
+	@Type(type = "org.hibernate.type.TextType")
 	private String customCss;
 
 	@Column(name = "scroll_speed")

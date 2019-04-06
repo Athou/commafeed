@@ -5,20 +5,20 @@ import java.util.Collection;
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.AbstractModel;
-import com.querydsl.jpa.hibernate.HibernateQueryFactory;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import io.dropwizard.hibernate.AbstractDAO;
 
 public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T> {
 
-	private HibernateQueryFactory factory;
+	private JPAQueryFactory factory;
 
 	protected GenericDAO(SessionFactory sessionFactory) {
 		super(sessionFactory);
-		this.factory = new HibernateQueryFactory(() -> currentSession());
+		this.factory = new JPAQueryFactory(() -> sessionFactory.createEntityManager());
 	}
 
-	protected HibernateQueryFactory query() {
+	protected JPAQueryFactory query() {
 		return factory;
 	}
 

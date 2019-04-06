@@ -8,10 +8,10 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "FEEDENTRYCONTENTS")
@@ -28,7 +28,7 @@ public class FeedEntryContent extends AbstractModel {
 
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
-	@Type(type = "org.hibernate.type.StringClobType")
+	@Type(type = "org.hibernate.type.TextType")
 	private String content;
 
 	@Column(length = 40)

@@ -8,17 +8,18 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
-import com.google.common.base.MoreObjects;
 import com.rometools.opml.feed.opml.Attribute;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
@@ -35,11 +36,11 @@ public class OPMLExporter {
 
 		List<FeedCategory> categories = feedCategoryDAO.findAll(user);
 		Collections.sort(categories,
-				(e1, e2) -> MoreObjects.firstNonNull(e1.getPosition(), 0) - MoreObjects.firstNonNull(e2.getPosition(), 0));
+				(e1, e2) -> ObjectUtils.firstNonNull(e1.getPosition(), 0) - ObjectUtils.firstNonNull(e2.getPosition(), 0));
 
 		List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
 		Collections.sort(subscriptions,
-				(e1, e2) -> MoreObjects.firstNonNull(e1.getPosition(), 0) - MoreObjects.firstNonNull(e2.getPosition(), 0));
+				(e1, e2) -> ObjectUtils.firstNonNull(e1.getPosition(), 0) - ObjectUtils.firstNonNull(e2.getPosition(), 0));
 
 		// export root categories
 		for (FeedCategory cat : categories.stream().filter(c -> c.getParent() == null).collect(Collectors.toList())) {

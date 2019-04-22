@@ -15,7 +15,7 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 
 	protected GenericDAO(SessionFactory sessionFactory) {
 		super(sessionFactory);
-		this.factory = new JPAQueryFactory(() -> sessionFactory.createEntityManager());
+		this.factory = new JPAQueryFactory(() -> currentSession());
 	}
 
 	protected JPAQueryFactory query() {

@@ -16,12 +16,18 @@ import io.dropwizard.util.Duration;
 public class SessionHandlerFactory {
 
 	private String path = "sessions";
+	private Duration cookieMaxAge = Duration.days(30);
 	private Duration cookieRefreshAge = Duration.days(1);
 	private Duration maxInactiveInterval = Duration.days(30);
 	private Duration savePeriod = Duration.minutes(5);
 
 	public SessionHandler build() {
-		SessionHandler sessionHandler = new SessionHandler();
+		SessionHandler sessionHandler = new SessionHandler() {
+			{
+				// no setter available for maxCookieAge
+				_maxCookieAge = (int) cookieMaxAge.toSeconds();
+			}
+		};
 		SessionCache sessionCache = new DefaultSessionCache(sessionHandler);
 		sessionHandler.setSessionCache(sessionCache);
 		FileSessionDataStore dataStore = new FileSessionDataStore();

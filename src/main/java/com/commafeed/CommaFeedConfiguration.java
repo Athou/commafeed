@@ -1,8 +1,5 @@
 package com.commafeed;
 
-import io.dropwizard.Configuration;
-import io.dropwizard.db.DataSourceFactory;
-
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -10,14 +7,16 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
-
 import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.commafeed.backend.cache.RedisPoolFactory;
-import com.commafeed.frontend.session.SessionManagerFactory;
+import com.commafeed.frontend.session.SessionHandlerFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.dropwizard.Configuration;
+import io.dropwizard.db.DataSourceFactory;
+import lombok.Getter;
 
 @Getter
 public class CommaFeedConfiguration extends Configuration {
@@ -45,7 +44,7 @@ public class CommaFeedConfiguration extends Configuration {
 	@Valid
 	@NotNull
 	@JsonProperty("session")
-	private SessionManagerFactory sessionManagerFactory = new SessionManagerFactory();
+	private SessionHandlerFactory SessionHandlerFactory = new SessionHandlerFactory();
 
 	@Valid
 	@NotNull
@@ -138,7 +137,6 @@ public class CommaFeedConfiguration extends Configuration {
 		@Valid
 		private CacheType cache;
 
-		@NotNull
 		@Valid
 		private String announcement;
 

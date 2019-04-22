@@ -17,7 +17,6 @@ import com.commafeed.backend.model.QUser;
 import com.google.common.collect.Iterables;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
-import com.querydsl.jpa.hibernate.HibernateQuery;
 
 @Singleton
 public class FeedDAO extends GenericDAO<Feed> {
@@ -30,7 +29,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 	}
 
 	public List<Feed> findNextUpdatable(int count, Date lastLoginThreshold) {
-		HibernateQuery<Feed> query = query().selectFrom(feed);
+		JPQLQuery<Feed> query = query().selectFrom(feed);
 		query.where(feed.disabledUntil.isNull().or(feed.disabledUntil.lt(new Date())));
 
 		if (lastLoginThreshold != null) {
@@ -60,7 +59,6 @@ public class FeedDAO extends GenericDAO<Feed> {
 
 	public List<Feed> findWithoutSubscriptions(int max) {
 		QFeedSubscription sub = QFeedSubscription.feedSubscription;
-		return query().selectFrom(feed).where(JPAExpressions.selectOne().from(sub).where(sub.feed.eq(feed)).notExists()).limit(max)
-				.fetch();
+		return query().selectFrom(feed).where(JPAExpressions.selectOne().from(sub).where(sub.feed.eq(feed)).notExists()).limit(max).fetch();
 	}
 }

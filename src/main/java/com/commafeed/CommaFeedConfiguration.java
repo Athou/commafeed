@@ -11,6 +11,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.commafeed.backend.cache.RedisPoolFactory;
+import com.commafeed.frontend.session.SessionHandlerFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.dropwizard.Configuration;
@@ -39,6 +40,11 @@ public class CommaFeedConfiguration extends Configuration {
 	@NotNull
 	@JsonProperty("redis")
 	private RedisPoolFactory redisPoolFactory = new RedisPoolFactory();
+
+	@Valid
+	@NotNull
+	@JsonProperty("session")
+	private SessionHandlerFactory SessionHandlerFactory = new SessionHandlerFactory();
 
 	@Valid
 	@NotNull

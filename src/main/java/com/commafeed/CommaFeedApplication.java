@@ -13,7 +13,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.eclipse.jetty.server.session.SessionHandler;
 import org.hibernate.cfg.AvailableSettings;
 
 import com.commafeed.backend.feed.FeedRefreshTaskGiver;
@@ -110,7 +109,8 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		// guice init
 		Injector injector = Guice.createInjector(new CommaFeedModule(hibernateBundle.getSessionFactory(), config, environment.metrics()));
 
-		environment.servlets().setSessionHandler(new SessionHandler());
+		// session management
+		environment.servlets().setSessionHandler(config.getSessionHandlerFactory().build());
 
 		// support for "@SecurityCheck User user" injection
 		environment.jersey().register(new SecurityCheckFactoryProvider.Binder(injector.getInstance(UserService.class)));

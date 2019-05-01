@@ -103,7 +103,11 @@
 				<configuration>
 					<apiSources>
 						<apiSource>
-							<locations>com.commafeed.frontend.resource;com.commafeed.frontend.model;com.commafeed.frontend.model.request</locations>
+							<locations>
+								<location>com.commafeed.frontend.resource</location>
+								<location>com.commafeed.frontend.model</location>
+								<location>com.commafeed.frontend.model.request</location>
+							</locations>
 							<swaggerDirectory>target/swagger</swaggerDirectory>
 							<basePath>/rest</basePath>
 							<info>

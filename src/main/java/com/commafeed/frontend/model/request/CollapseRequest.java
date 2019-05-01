@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel("Mark Request")
+@ApiModel(description = "Mark Request")
 @Data
 public class CollapseRequest implements Serializable {
 

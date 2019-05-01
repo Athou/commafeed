@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel("Star Request")
+@ApiModel(description = "Star Request")
 @Data
 public class StarRequest implements Serializable {
 

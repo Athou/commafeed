@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel("Profile modification request")
+@ApiModel(description = "Profile modification request")
 @Data
 public class ProfileModificationRequest implements Serializable {
 

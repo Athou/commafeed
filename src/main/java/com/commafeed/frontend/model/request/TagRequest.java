@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel("Tag Request")
+@ApiModel(description = "Tag Request")
 @Data
 public class TagRequest implements Serializable {
 

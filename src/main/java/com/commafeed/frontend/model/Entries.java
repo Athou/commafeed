@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel("List of entries with some metadata")
+@ApiModel(description = "List of entries with some metadata")
 @Data
 public class Entries implements Serializable {
 

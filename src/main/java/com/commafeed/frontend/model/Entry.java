@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel("Entry details")
+@ApiModel(description = "Entry details")
 @Data
 public class Entry implements Serializable {
 

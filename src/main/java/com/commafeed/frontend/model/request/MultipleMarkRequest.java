@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel("Multiple Mark Request")
+@ApiModel(description = "Multiple Mark Request")
 @Data
 public class MultipleMarkRequest implements Serializable {
 

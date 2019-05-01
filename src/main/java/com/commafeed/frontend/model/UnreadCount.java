@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel("Unread count")
+@ApiModel(description = "Unread count")
 @Data
 public class UnreadCount implements Serializable {
 

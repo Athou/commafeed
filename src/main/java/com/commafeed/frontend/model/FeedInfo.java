@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel("Feed details")
+@ApiModel(description = "Feed details")
 @Data
 public class FeedInfo implements Serializable {
 

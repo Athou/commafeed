@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel("User information")
+@ApiModel(description = "User information")
 @Data
 public class Subscription implements Serializable {
 

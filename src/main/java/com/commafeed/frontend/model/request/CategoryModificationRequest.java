@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel("Category modification request")
+@ApiModel(description = "Category modification request")
 @Data
 public class CategoryModificationRequest implements Serializable {
 

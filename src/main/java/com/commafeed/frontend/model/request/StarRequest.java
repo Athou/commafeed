@@ -17,7 +17,7 @@ public class StarRequest implements Serializable {
 	@ApiModelProperty(value = "feed id", required = true)
 	private Long feedId;
 
-	@ApiModelProperty(value = "starred or not")
+	@ApiModelProperty(value = "starred or not", required = true)
 	private boolean starred;
 
 }

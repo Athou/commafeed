@@ -63,7 +63,7 @@ public class Subscription implements Serializable {
 	@ApiModelProperty(value = "this subscription's website url", required = true)
 	private String feedLink;
 
-	@ApiModelProperty(value = "The favicon url to use for this feed")
+	@ApiModelProperty(value = "The favicon url to use for this feed", required = true)
 	private String iconUrl;
 
 	@ApiModelProperty(value = "unread count", required = true)

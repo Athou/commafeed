@@ -15,7 +15,7 @@ public class TagRequest implements Serializable {
 	@ApiModelProperty(value = "entry id", required = true)
 	private Long entryId;
 
-	@ApiModelProperty(value = "tags")
+	@ApiModelProperty(value = "tags", required = true)
 	private List<String> tags;
 
 }

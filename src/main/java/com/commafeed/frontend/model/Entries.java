@@ -13,34 +13,36 @@ import lombok.Data;
 @Data
 public class Entries implements Serializable {
 
-	@ApiModelProperty("name of the feed or the category requested")
+	@ApiModelProperty(value = "name of the feed or the category requested", required = true)
 	private String name;
 
-	@ApiModelProperty("error or warning message")
+	@ApiModelProperty(value = "error or warning message")
 	private String message;
 
-	@ApiModelProperty("times the server tried to refresh the feed and failed")
+	@ApiModelProperty(value = "times the server tried to refresh the feed and failed", required = true)
 	private int errorCount;
 
-	@ApiModelProperty("URL of the website, extracted from the feed")
+	@ApiModelProperty(value = "URL of the website, extracted from the feed", required = true)
 	private String feedLink;
 
-	@ApiModelProperty("list generation timestamp")
+	@ApiModelProperty(value = "list generation timestamp", required = true)
 	private long timestamp;
 
-	@ApiModelProperty("if the query has more elements")
+	@ApiModelProperty(value = "if the query has more elements", required = true)
 	private boolean hasMore;
 
-	@ApiModelProperty("the requested offset")
+	@ApiModelProperty(value = "the requested offset")
 	private int offset;
 
-	@ApiModelProperty("the requested limit")
+	@ApiModelProperty(value = "the requested limit")
 	private int limit;
 
-	@ApiModelProperty("list of entries")
+	@ApiModelProperty(value = "list of entries", required = true)
 	private List<Entry> entries = new ArrayList<>();
 
-	@ApiModelProperty("if true, the unread flag was ignored in the request, all entries are returned regardless of their read status")
+	@ApiModelProperty(
+			value = "if true, the unread flag was ignored in the request, all entries are returned regardless of their read status",
+			required = true)
 	private boolean ignoredReadStatus;
 
 }

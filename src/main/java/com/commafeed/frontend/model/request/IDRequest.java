@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class IDRequest implements Serializable {
 
-	@ApiModelProperty
+	@ApiModelProperty(required = true)
 	private Long id;
 
 }

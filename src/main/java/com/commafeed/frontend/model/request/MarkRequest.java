@@ -15,7 +15,7 @@ public class MarkRequest implements Serializable {
 	@ApiModelProperty(value = "entry id, category id, 'all' or 'starred'", required = true)
 	private String id;
 
-	@ApiModelProperty(value = "mark as read or unread")
+	@ApiModelProperty(value = "mark as read or unread", required = true)
 	private boolean read;
 
 	@ApiModelProperty(
@@ -25,7 +25,7 @@ public class MarkRequest implements Serializable {
 
 	@ApiModelProperty(value = "only mark read if a feed has these keywords in the title or rss content", required = false)
 	private String keywords;
-	
+
 	@ApiModelProperty(value = "if marking a category or 'all', exclude those subscriptions from the marking", required = false)
 	private List<Long> excludedSubscriptions;
 

@@ -58,7 +58,8 @@ public class Entry implements Serializable {
 			entry.setAuthor(content.getAuthor());
 			entry.setEnclosureType(content.getEnclosureType());
 			entry.setEnclosureUrl(proxyImages && StringUtils.contains(content.getEnclosureType(), "image")
-					? FeedUtils.proxyImage(content.getEnclosureUrl(), publicUrl) : content.getEnclosureUrl());
+					? FeedUtils.proxyImage(content.getEnclosureUrl(), publicUrl)
+					: content.getEnclosureUrl());
 			entry.setCategories(content.getCategories());
 		}
 
@@ -88,66 +89,66 @@ public class Entry implements Serializable {
 		return entry;
 	}
 
-	@ApiModelProperty("entry id")
+	@ApiModelProperty(value = "entry id", required = true)
 	private String id;
 
-	@ApiModelProperty("entry guid")
+	@ApiModelProperty(value = "entry guid", required = true)
 	private String guid;
 
-	@ApiModelProperty("entry title")
+	@ApiModelProperty(value = "entry title", required = true)
 	private String title;
 
-	@ApiModelProperty("entry content")
+	@ApiModelProperty(value = "entry content", required = true)
 	private String content;
 
-	@ApiModelProperty("comma-separated list of categories")
+	@ApiModelProperty(value = "comma-separated list of categories")
 	private String categories;
 
-	@ApiModelProperty("wether entry content and title are rtl")
+	@ApiModelProperty(value = "wether entry content and title are rtl", required = true)
 	private boolean rtl;
 
-	@ApiModelProperty("entry author")
+	@ApiModelProperty(value = "entry author")
 	private String author;
 
-	@ApiModelProperty("entry enclosure url, if any")
+	@ApiModelProperty(value = "entry enclosure url, if any")
 	private String enclosureUrl;
 
-	@ApiModelProperty("entry enclosure mime type, if any")
+	@ApiModelProperty(value = "entry enclosure mime type, if any")
 	private String enclosureType;
 
-	@ApiModelProperty("entry publication date")
+	@ApiModelProperty(value = "entry publication date", required = true)
 	private Date date;
 
-	@ApiModelProperty("entry insertion date in the database")
+	@ApiModelProperty(value = "entry insertion date in the database", required = true)
 	private Date insertedDate;
 
-	@ApiModelProperty("feed id")
+	@ApiModelProperty(value = "feed id", required = true)
 	private String feedId;
 
-	@ApiModelProperty("feed name")
+	@ApiModelProperty(value = "feed name", required = true)
 	private String feedName;
 
-	@ApiModelProperty("this entry's feed url")
+	@ApiModelProperty(value = "this entry's feed url", required = true)
 	private String feedUrl;
 
-	@ApiModelProperty("this entry's website url")
+	@ApiModelProperty(value = "this entry's website url", required = true)
 	private String feedLink;
 
-	@ApiModelProperty(value = "The favicon url to use for this feed")
+	@ApiModelProperty(value = "The favicon url to use for this feed", required = true)
 	private String iconUrl;
 
-	@ApiModelProperty("entry url")
+	@ApiModelProperty(value = "entry url", required = true)
 	private String url;
 
-	@ApiModelProperty("read sttaus")
+	@ApiModelProperty(value = "read status", required = true)
 	private boolean read;
 
-	@ApiModelProperty("starred status")
+	@ApiModelProperty(value = "starred status", required = true)
 	private boolean starred;
 
-	@ApiModelProperty("wether the entry is still markable (old entry statuses are discarded)")
+	@ApiModelProperty(value = "wether the entry is still markable (old entry statuses are discarded)", required = true)
 	private boolean markable;
 
-	@ApiModelProperty("tags")
+	@ApiModelProperty(value = "tags", required = true)
 	private List<String> tags;
 }

@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class Settings implements Serializable {
 
-	@ApiModelProperty(value = "user's preferred language, english if none")
+	@ApiModelProperty(value = "user's preferred language, english if none", required = true)
 	private String language;
 
 	@ApiModelProperty(value = "user reads all entries or unread entries only", allowableValues = "all,unread", required = true)
@@ -35,18 +35,37 @@ public class Settings implements Serializable {
 	@ApiModelProperty(value = "user's custom css for the website")
 	private String customCss;
 
-	@ApiModelProperty(value = "user's preferred scroll speed when navigating between entries")
+	@ApiModelProperty(value = "user's preferred scroll speed when navigating between entries", required = true)
 	private int scrollSpeed;
 
+	@ApiModelProperty(required = true)
 	private boolean email;
+
+	@ApiModelProperty(required = true)
 	private boolean gmail;
+
+	@ApiModelProperty(required = true)
 	private boolean facebook;
+
+	@ApiModelProperty(required = true)
 	private boolean twitter;
+
+	@ApiModelProperty(required = true)
 	private boolean googleplus;
+
+	@ApiModelProperty(required = true)
 	private boolean tumblr;
+
+	@ApiModelProperty(required = true)
 	private boolean pocket;
+
+	@ApiModelProperty(required = true)
 	private boolean instapaper;
+
+	@ApiModelProperty(required = true)
 	private boolean buffer;
+
+	@ApiModelProperty(required = true)
 	private boolean readability;
 
 }

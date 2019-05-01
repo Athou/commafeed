@@ -13,24 +13,24 @@ import lombok.Data;
 @Data
 public class Category implements Serializable {
 
-	@ApiModelProperty("category id")
+	@ApiModelProperty(value = "category id", required = true)
 	private String id;
 
-	@ApiModelProperty("parent category id")
+	@ApiModelProperty(value = "parent category id")
 	private String parentId;
 
-	@ApiModelProperty("category id")
+	@ApiModelProperty(value = "category id", required = true)
 	private String name;
 
-	@ApiModelProperty("category children categories")
+	@ApiModelProperty(value = "category children categories", required = true)
 	private List<Category> children = new ArrayList<>();
 
-	@ApiModelProperty("category feeds")
+	@ApiModelProperty(value = "category feeds", required = true)
 	private List<Subscription> feeds = new ArrayList<>();
 
-	@ApiModelProperty("wether the category is expanded or collapsed")
+	@ApiModelProperty(value = "wether the category is expanded or collapsed", required = true)
 	private boolean expanded;
 
-	@ApiModelProperty("position of the category in the list")
+	@ApiModelProperty(value = "position of the category in the list", required = true)
 	private Integer position;
 }

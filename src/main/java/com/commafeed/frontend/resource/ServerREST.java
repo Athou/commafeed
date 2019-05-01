@@ -25,13 +25,14 @@ import com.commafeed.frontend.model.ServerInfo;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 
 @Path("/server")
 @Api(value = "/server")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class ServerREST {
 
@@ -60,7 +61,7 @@ public class ServerREST {
 	@ApiOperation(value = "proxy image")
 	@Produces("image/png")
 	@Timed
-	public Response get(@SecurityCheck User user, @QueryParam("u") String url) {
+	public Response get(@ApiParam(hidden = true) @SecurityCheck User user, @QueryParam("u") String url) {
 		if (!config.getApplicationSettings().getImageProxyEnabled()) {
 			return Response.status(Status.FORBIDDEN).build();
 		}

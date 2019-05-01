@@ -46,7 +46,7 @@ import lombok.RequiredArgsConstructor;
 @Api(value = "/admin")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class AdminREST {
 
@@ -62,7 +62,7 @@ public class AdminREST {
 	@UnitOfWork
 	@ApiOperation(value = "Save or update a user", notes = "Save or update a user. If the id is not specified, a new user will be created")
 	@Timed
-	public Response save(@SecurityCheck(Role.ADMIN) User user, @ApiParam(required = true) UserModel userModel) {
+	public Response save(@ApiParam(hidden = true) @SecurityCheck(Role.ADMIN) User user, @ApiParam(required = true) UserModel userModel) {
 		Preconditions.checkNotNull(userModel);
 		Preconditions.checkNotNull(userModel.getName());
 
@@ -117,7 +117,8 @@ public class AdminREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get user information", notes = "Get user information", response = UserModel.class)
 	@Timed
-	public Response getUser(@SecurityCheck(Role.ADMIN) User user, @ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
+	public Response getUser(@ApiParam(hidden = true) @SecurityCheck(Role.ADMIN) User user,
+			@ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
 		Preconditions.checkNotNull(id);
 		User u = userDAO.findById(id);
 		UserModel userModel = new UserModel();
@@ -134,7 +135,7 @@ public class AdminREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get all users", notes = "Get all users", response = UserModel.class, responseContainer = "List")
 	@Timed
-	public Response getUsers(@SecurityCheck(Role.ADMIN) User user) {
+	public Response getUsers(@ApiParam(hidden = true) @SecurityCheck(Role.ADMIN) User user) {
 		Map<Long, UserModel> users = new HashMap<>();
 		for (UserRole role : userRoleDAO.findAll()) {
 			User u = role.getUser();
@@ -162,7 +163,7 @@ public class AdminREST {
 	@UnitOfWork
 	@ApiOperation(value = "Delete a user", notes = "Delete a user, and all his subscriptions")
 	@Timed
-	public Response delete(@SecurityCheck(Role.ADMIN) User user, @ApiParam(required = true) IDRequest req) {
+	public Response delete(@ApiParam(hidden = true) @SecurityCheck(Role.ADMIN) User user, @ApiParam(required = true) IDRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -182,7 +183,7 @@ public class AdminREST {
 	@UnitOfWork
 	@ApiOperation(value = "Retrieve application settings", notes = "Retrieve application settings", response = ApplicationSettings.class)
 	@Timed
-	public Response getSettings(@SecurityCheck(Role.ADMIN) User user) {
+	public Response getSettings(@ApiParam(hidden = true) @SecurityCheck(Role.ADMIN) User user) {
 		return Response.ok(config.getApplicationSettings()).build();
 	}
 
@@ -191,7 +192,7 @@ public class AdminREST {
 	@UnitOfWork
 	@ApiOperation(value = "Retrieve server metrics")
 	@Timed
-	public Response getMetrics(@SecurityCheck(Role.ADMIN) User user) {
+	public Response getMetrics(@ApiParam(hidden = true) @SecurityCheck(Role.ADMIN) User user) {
 		return Response.ok(metrics).build();
 	}
 

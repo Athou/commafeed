@@ -74,7 +74,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class CategoryREST {
 
@@ -94,7 +94,7 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get category entries", notes = "Get a list of category entries", response = Entries.class)
 	@Timed
-	public Response getCategoryEntries(@SecurityCheck User user,
+	public Response getCategoryEntries(@ApiParam(hidden = true) @SecurityCheck User user,
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
 			@ApiParam(
 					value = "all entries or only unread ones",
@@ -103,7 +103,9 @@ public class CategoryREST {
 			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
-			@ApiParam(value = "ordering", allowableValues = "asc,desc,abc,zyx") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
+			@ApiParam(
+					value = "ordering",
+					allowableValues = "asc,desc,abc,zyx") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
 			@ApiParam(
 					value = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
 			@ApiParam(value = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds,
@@ -191,7 +193,7 @@ public class CategoryREST {
 	@ApiOperation(value = "Get category entries as feed", notes = "Get a feed of category entries")
 	@Produces(MediaType.APPLICATION_XML)
 	@Timed
-	public Response getCategoryEntriesAsFeed(@SecurityCheck(apiKeyAllowed = true) User user,
+	public Response getCategoryEntriesAsFeed(@ApiParam(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user,
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
 			@ApiParam(
 					value = "all entries or only unread ones",
@@ -238,7 +240,7 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Mark category entries", notes = "Mark feed entries of this category as read")
 	@Timed
-	public Response markCategoryEntries(@SecurityCheck User user,
+	public Response markCategoryEntries(@ApiParam(hidden = true) @SecurityCheck User user,
 			@ApiParam(value = "category id, or 'all'", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -280,7 +282,7 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Add a category", notes = "Add a new feed category", response = Long.class)
 	@Timed
-	public Response addCategory(@SecurityCheck User user, @ApiParam(required = true) AddCategoryRequest req) {
+	public Response addCategory(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(required = true) AddCategoryRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getName());
 
@@ -304,7 +306,7 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Delete a category", notes = "Delete an existing feed category")
 	@Timed
-	public Response deleteCategory(@SecurityCheck User user, @ApiParam(required = true) IDRequest req) {
+	public Response deleteCategory(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(required = true) IDRequest req) {
 
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -337,7 +339,8 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Rename a category", notes = "Rename an existing feed category")
 	@Timed
-	public Response modifyCategory(@SecurityCheck User user, @ApiParam(required = true) CategoryModificationRequest req) {
+	public Response modifyCategory(@ApiParam(hidden = true) @SecurityCheck User user,
+			@ApiParam(required = true) CategoryModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -392,7 +395,7 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Collapse a category", notes = "Save collapsed or expanded status for a category")
 	@Timed
-	public Response collapse(@SecurityCheck User user, @ApiParam(required = true) CollapseRequest req) {
+	public Response collapse(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(required = true) CollapseRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -411,7 +414,7 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get unread count for feed subscriptions", response = UnreadCount.class, responseContainer = "List")
 	@Timed
-	public Response getUnreadCount(@SecurityCheck User user) {
+	public Response getUnreadCount(@ApiParam(hidden = true) @SecurityCheck User user) {
 		Map<Long, UnreadCount> unreadCount = feedSubscriptionService.getUnreadCount(user);
 		return Response.ok(Lists.newArrayList(unreadCount.values())).build();
 	}
@@ -421,7 +424,7 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get feed categories", notes = "Get all categories and subscriptions of the user", response = Category.class)
 	@Timed
-	public Response getSubscriptions(@SecurityCheck User user) {
+	public Response getSubscriptions(@ApiParam(hidden = true) @SecurityCheck User user) {
 		Category root = cache.getUserRootCategory(user);
 		if (root == null) {
 			log.debug("tree cache miss for {}", user.getId());

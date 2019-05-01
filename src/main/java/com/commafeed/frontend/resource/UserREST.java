@@ -83,7 +83,7 @@ public class UserREST {
 	@UnitOfWork
 	@ApiOperation(value = "Retrieve user settings", notes = "Retrieve user settings", response = Settings.class)
 	@Timed
-	public Response getSettings(@SecurityCheck User user) {
+	public Response getSettings(@ApiParam(hidden = true) @SecurityCheck User user) {
 		Settings s = new Settings();
 		UserSettings settings = userSettingsDAO.findByUser(user);
 		if (settings != null) {
@@ -138,7 +138,7 @@ public class UserREST {
 	@UnitOfWork
 	@ApiOperation(value = "Save user settings", notes = "Save user settings")
 	@Timed
-	public Response saveSettings(@SecurityCheck User user, @ApiParam(required = true) Settings settings) {
+	public Response saveSettings(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(required = true) Settings settings) {
 		Preconditions.checkNotNull(settings);
 
 		UserSettings s = userSettingsDAO.findByUser(user);
@@ -177,7 +177,7 @@ public class UserREST {
 	@UnitOfWork
 	@ApiOperation(value = "Retrieve user's profile", response = UserModel.class)
 	@Timed
-	public Response get(@SecurityCheck User user) {
+	public Response get(@ApiParam(hidden = true) @SecurityCheck User user) {
 		UserModel userModel = new UserModel();
 		userModel.setId(user.getId());
 		userModel.setName(user.getName());
@@ -197,7 +197,7 @@ public class UserREST {
 	@UnitOfWork
 	@ApiOperation(value = "Save user's profile")
 	@Timed
-	public Response save(@SecurityCheck User user, @ApiParam(required = true) ProfileModificationRequest request) {
+	public Response save(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(required = true) ProfileModificationRequest request) {
 		Preconditions.checkArgument(StringUtils.isBlank(request.getPassword()) || request.getPassword().length() >= 6);
 		if (StringUtils.isNotBlank(request.getEmail())) {
 			User u = userDAO.findByEmail(request.getEmail());
@@ -330,7 +330,7 @@ public class UserREST {
 	@UnitOfWork
 	@ApiOperation(value = "Delete the user account")
 	@Timed
-	public Response delete(@SecurityCheck User user) {
+	public Response delete(@ApiParam(hidden = true) @SecurityCheck User user) {
 		if (CommaFeedApplication.USERNAME_ADMIN.equals(user.getName()) || CommaFeedApplication.USERNAME_DEMO.equals(user.getName())) {
 			return Response.status(Status.FORBIDDEN).build();
 		}

@@ -61,7 +61,8 @@ public class ServerREST {
 	@ApiOperation(value = "proxy image")
 	@Produces("image/png")
 	@Timed
-	public Response get(@ApiParam(hidden = true) @SecurityCheck User user, @QueryParam("u") String url) {
+	public Response get(@ApiParam(hidden = true) @SecurityCheck User user,
+			@ApiParam(value = "image url", required = true) @QueryParam("u") String url) {
 		if (!config.getApplicationSettings().getImageProxyEnabled()) {
 			return Response.status(Status.FORBIDDEN).build();
 		}

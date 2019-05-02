@@ -292,7 +292,8 @@ public class FeedREST {
 	@UnitOfWork
 	@ApiOperation(value = "Queue a feed for refresh", notes = "Manually add a feed to the refresh queue")
 	@Timed
-	public Response queueForRefresh(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(value = "Feed id") IDRequest req) {
+	public Response queueForRefresh(@ApiParam(hidden = true) @SecurityCheck User user,
+			@ApiParam(value = "Feed id", required = true) IDRequest req) {
 
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -311,7 +312,8 @@ public class FeedREST {
 	@UnitOfWork
 	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read (unread is not supported)")
 	@Timed
-	public Response markFeedEntries(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(value = "Mark request") MarkRequest req) {
+	public Response markFeedEntries(@ApiParam(hidden = true) @SecurityCheck User user,
+			@ApiParam(value = "Mark request", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -349,7 +351,7 @@ public class FeedREST {
 	@ApiOperation(value = "Fetch a feed's icon", notes = "Fetch a feed's icon")
 	@Timed
 	public Response getFavicon(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "subscription id") @PathParam("id") Long id) {
+			@ApiParam(value = "subscription id", required = true) @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, id);
@@ -514,7 +516,8 @@ public class FeedREST {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@ApiOperation(value = "OPML import", notes = "Import an OPML file, posted as a FORM with the 'file' name")
 	@Timed
-	public Response importOpml(@ApiParam(hidden = true) @SecurityCheck User user, @FormDataParam("file") InputStream input) {
+	public Response importOpml(@ApiParam(hidden = true) @SecurityCheck User user,
+			@ApiParam(value = "ompl file", required = true) @FormDataParam("file") InputStream input) {
 
 		String publicUrl = config.getApplicationSettings().getPublicUrl();
 		if (StringUtils.isBlank(publicUrl)) {

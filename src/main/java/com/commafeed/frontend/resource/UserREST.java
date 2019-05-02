@@ -226,7 +226,8 @@ public class UserREST {
 	@UnitOfWork
 	@ApiOperation(value = "Register a new account")
 	@Timed
-	public Response register(@Valid @ApiParam(required = true) RegistrationRequest req, @Context SessionHelper sessionHelper) {
+	public Response register(@Valid @ApiParam(required = true) RegistrationRequest req,
+			@Context @ApiParam(hidden = true) SessionHelper sessionHelper) {
 		try {
 			User registeredUser = userService.register(req.getName(), req.getPassword(), req.getEmail(), Arrays.asList(Role.USER));
 			userService.login(req.getName(), req.getPassword());
@@ -243,7 +244,7 @@ public class UserREST {
 	@UnitOfWork
 	@ApiOperation(value = "Login and create a session")
 	@Timed
-	public Response login(@ApiParam(required = true) LoginRequest req, @Context SessionHelper sessionHelper) {
+	public Response login(@ApiParam(required = true) LoginRequest req, @ApiParam(hidden = true) @Context SessionHelper sessionHelper) {
 		Optional<User> user = userService.login(req.getName(), req.getPassword());
 		if (user.isPresent()) {
 			sessionHelper.setLoggedInUser(user.get());
@@ -258,7 +259,7 @@ public class UserREST {
 	@UnitOfWork
 	@ApiOperation(value = "send a password reset email")
 	@Timed
-	public Response sendPasswordReset(@Valid PasswordResetRequest req) {
+	public Response sendPasswordReset(@Valid @ApiParam(required = true) PasswordResetRequest req) {
 		User user = userDAO.findByEmail(req.getEmail());
 		if (user == null) {
 			return Response.status(Status.PRECONDITION_FAILED).entity("Email not found.").type(MediaType.TEXT_PLAIN).build();
@@ -294,7 +295,8 @@ public class UserREST {
 	@UnitOfWork
 	@Produces(MediaType.TEXT_HTML)
 	@Timed
-	public Response passwordRecoveryCallback(@QueryParam("email") String email, @QueryParam("token") String token) {
+	public Response passwordRecoveryCallback(@ApiParam(required = true) @QueryParam("email") String email,
+			@ApiParam(required = true) @QueryParam("token") String token) {
 		Preconditions.checkNotNull(email);
 		Preconditions.checkNotNull(token);
 

@@ -80,7 +80,7 @@ public class UserRestTest {
 		SessionHelper sessionHelper = mock(SessionHelper.class);
 		UserREST userREST = new UserREST(null, null, null, service, null, null, null);
 
-		userREST.register(req, sessionHelper);
+		userREST.registerUser(req, sessionHelper);
 
 		inOrder.verify(service).register("user", "password", "test@test.com", Arrays.asList(Role.USER));
 		inOrder.verify(service).login("user", "password");
@@ -104,7 +104,7 @@ public class UserRestTest {
 		SessionHelper sessionHelper = mock(SessionHelper.class);
 		UserREST userREST = new UserREST(null, null, null, service, null, null, null);
 
-		userREST.register(req, sessionHelper);
+		userREST.registerUser(req, sessionHelper);
 
 		verify(sessionHelper).setLoggedInUser(user);
 	}

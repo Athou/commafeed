@@ -116,10 +116,10 @@ public class Entry implements Serializable {
 	@ApiModelProperty(value = "entry enclosure mime type, if any")
 	private String enclosureType;
 
-	@ApiModelProperty(value = "entry publication date", required = true)
+	@ApiModelProperty(value = "entry publication date", dataType = "number", required = true)
 	private Date date;
 
-	@ApiModelProperty(value = "entry insertion date in the database", required = true)
+	@ApiModelProperty(value = "entry insertion date in the database", dataType = "number", required = true)
 	private Date insertedDate;
 
 	@ApiModelProperty(value = "feed id", required = true)

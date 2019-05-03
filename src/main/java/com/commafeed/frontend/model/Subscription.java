@@ -51,10 +51,13 @@ public class Subscription implements Serializable {
 	@ApiModelProperty(value = "error count", required = true)
 	private int errorCount;
 
-	@ApiModelProperty(value = "last time the feed was refreshed", required = true)
+	@ApiModelProperty(value = "last time the feed was refreshed", dataType = "number", required = true)
 	private Date lastRefresh;
 
-	@ApiModelProperty(value = "next time the feed refresh is planned, null if refresh is already queued", required = true)
+	@ApiModelProperty(
+			value = "next time the feed refresh is planned, null if refresh is already queued",
+			dataType = "number",
+			required = true)
 	private Date nextRefresh;
 
 	@ApiModelProperty(value = "this subscription's feed url", required = true)
@@ -75,7 +78,7 @@ public class Subscription implements Serializable {
 	@ApiModelProperty("position of the subscription's in the list")
 	private Integer position;
 
-	@ApiModelProperty("date of the newest item")
+	@ApiModelProperty(value = "date of the newest item", dataType = "number")
 	private Date newestItemTime;
 
 	@ApiModelProperty(value = "JEXL string evaluated on new entries to mark them as read if they do not match")

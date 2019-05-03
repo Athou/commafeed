@@ -18,7 +18,7 @@ public class UnreadCount implements Serializable {
 	@ApiModelProperty
 	private long unreadCount;
 
-	@ApiModelProperty
+	@ApiModelProperty(dataType = "number")
 	private Date newestItemTime;
 
 	public UnreadCount() {

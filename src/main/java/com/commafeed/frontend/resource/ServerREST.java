@@ -44,7 +44,7 @@ public class ServerREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get server infos", notes = "Get server infos", response = ServerInfo.class)
 	@Timed
-	public Response get() {
+	public Response getServerInfos() {
 		ServerInfo infos = new ServerInfo();
 		infos.setAnnouncement(config.getApplicationSettings().getAnnouncement());
 		infos.setVersion(config.getVersion());
@@ -61,7 +61,7 @@ public class ServerREST {
 	@ApiOperation(value = "proxy image")
 	@Produces("image/png")
 	@Timed
-	public Response get(@ApiParam(hidden = true) @SecurityCheck User user,
+	public Response getProxiedImage(@ApiParam(hidden = true) @SecurityCheck User user,
 			@ApiParam(value = "image url", required = true) @QueryParam("u") String url) {
 		if (!config.getApplicationSettings().getImageProxyEnabled()) {
 			return Response.status(Status.FORBIDDEN).build();

@@ -331,9 +331,9 @@ public class FeedREST {
 	@GET
 	@Path("/get/{id}")
 	@UnitOfWork
-	@ApiOperation(value = "", notes = "")
+	@ApiOperation(value = "get feed", response = Subscription.class)
 	@Timed
-	public Response get(@ApiParam(hidden = true) @SecurityCheck User user,
+	public Response getFeed(@ApiParam(hidden = true) @SecurityCheck User user,
 			@ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
@@ -350,7 +350,7 @@ public class FeedREST {
 	@UnitOfWork
 	@ApiOperation(value = "Fetch a feed's icon", notes = "Fetch a feed's icon")
 	@Timed
-	public Response getFavicon(@ApiParam(hidden = true) @SecurityCheck User user,
+	public Response getFeedFavicon(@ApiParam(hidden = true) @SecurityCheck User user,
 			@ApiParam(value = "subscription id", required = true) @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
@@ -409,7 +409,7 @@ public class FeedREST {
 	@UnitOfWork
 	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
 	@Timed
-	public Response subscribe(@ApiParam(hidden = true) @SecurityCheck User user,
+	public Response subscribeFromUrl(@ApiParam(hidden = true) @SecurityCheck User user,
 			@ApiParam(value = "feed url", required = true) @QueryParam("url") String url) {
 
 		try {
@@ -455,7 +455,7 @@ public class FeedREST {
 	@UnitOfWork
 	@ApiOperation(value = "Modify a subscription", notes = "Modify a feed subscription")
 	@Timed
-	public Response modify(@ApiParam(hidden = true) @SecurityCheck User user,
+	public Response modifyFeed(@ApiParam(hidden = true) @SecurityCheck User user,
 			@ApiParam(value = "subscription id", required = true) FeedModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());

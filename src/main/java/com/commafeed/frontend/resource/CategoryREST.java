@@ -395,7 +395,7 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Collapse a category", notes = "Save collapsed or expanded status for a category")
 	@Timed
-	public Response collapse(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(required = true) CollapseRequest req) {
+	public Response collapseCategory(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(required = true) CollapseRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -422,9 +422,9 @@ public class CategoryREST {
 	@GET
 	@Path("/get")
 	@UnitOfWork
-	@ApiOperation(value = "Get feed categories", notes = "Get all categories and subscriptions of the user", response = Category.class)
+	@ApiOperation(value = "Get root category", notes = "Get all categories and subscriptions of the user", response = Category.class)
 	@Timed
-	public Response getSubscriptions(@ApiParam(hidden = true) @SecurityCheck User user) {
+	public Response getRootCategory(@ApiParam(hidden = true) @SecurityCheck User user) {
 		Category root = cache.getUserRootCategory(user);
 		if (root == null) {
 			log.debug("tree cache miss for {}", user.getId());

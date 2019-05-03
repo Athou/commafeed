@@ -47,7 +47,7 @@ public class EntryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
 	@Timed
-	public Response markFeedEntry(@ApiParam(hidden = true) @SecurityCheck User user,
+	public Response markEntry(@ApiParam(hidden = true) @SecurityCheck User user,
 			@ApiParam(value = "Mark Request", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -61,13 +61,13 @@ public class EntryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Mark multiple feed entries", notes = "Mark feed entries as read/unread")
 	@Timed
-	public Response markFeedEntries(@ApiParam(hidden = true) @SecurityCheck User user,
+	public Response markEntries(@ApiParam(hidden = true) @SecurityCheck User user,
 			@ApiParam(value = "Multiple Mark Request", required = true) MultipleMarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getRequests());
 
 		for (MarkRequest r : req.getRequests()) {
-			markFeedEntry(user, r);
+			markEntry(user, r);
 		}
 
 		return Response.ok().build();
@@ -78,7 +78,7 @@ public class EntryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
 	@Timed
-	public Response starFeedEntry(@ApiParam(hidden = true) @SecurityCheck User user,
+	public Response starEntry(@ApiParam(hidden = true) @SecurityCheck User user,
 			@ApiParam(value = "Star Request", required = true) StarRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -104,7 +104,7 @@ public class EntryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
 	@Timed
-	public Response tagFeedEntry(@ApiParam(hidden = true) @SecurityCheck User user,
+	public Response tagEntry(@ApiParam(hidden = true) @SecurityCheck User user,
 			@ApiParam(value = "Tag Request", required = true) TagRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getEntryId());

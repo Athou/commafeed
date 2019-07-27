@@ -34,15 +34,15 @@
 	<div class="css-treeview">
 		<ul>
 			<category node="CategoryService.subscriptions" show-label="'tree.all' | translate" show-children="false" level="0" selected-type="selectedType"
-				selected-id="selectedId" unread-count="unreadCount(category)"> </category>
+				selected-id="selectedId" unread-count="unreadCount(category, true)"> </category>
 			<category node="starred" show-label="'tree.starred' | translate" show-children="false" level="0" selected-type="selectedType"
-				selected-id="selectedId" unread-count="unreadCount(category)"> </category>
+				selected-id="selectedId" unread-count="unreadCount(category, false)"> </category>
 			<category node="CategoryService.subscriptions" show-label="false" show-children="true" level="0" selected-type="selectedType"
-				selected-id="selectedId" unread-count="unreadCount(category)"> </category>
+				selected-id="selectedId" unread-count="unreadCount(category, false)"> </category>
 
 			<li ng-repeat="tag in tags | orderBy: 'name'">
 				<category node="tag" show-label="tag.name" show-children="false" level="0" selected-type="selectedType" selected-id="selectedId"
-					unread-count="unreadCount(category)"> </category>
+					unread-count="unreadCount(category, false)"> </category>
 			</li>
 		</ul>
 	</div>

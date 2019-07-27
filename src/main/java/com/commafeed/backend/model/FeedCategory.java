@@ -37,6 +37,8 @@ public class FeedCategory extends AbstractModel {
 	private Set<FeedSubscription> subscriptions;
 
 	private boolean collapsed;
+	
+	private boolean hidden;
 
 	private Integer position;
 

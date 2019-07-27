@@ -172,12 +172,17 @@ module.controller('CategoryTreeCtrl', [
 
 			$scope.CategoryService = CategoryService;
 
-			$scope.unreadCount = function(category) {
+			$scope.unreadCount = function(category, isCountingAll) {
+				
+				if (category.hidden && isCountingAll) {
+					return 0;
+				}
+				
 				var count = 0;
 				var i;
 				if (category.children) {
 					for (i = 0; i < category.children.length; i++) {
-						count = count + $scope.unreadCount(category.children[i]);
+						count = count + $scope.unreadCount(category.children[i], !!isCountingAll);
 					}
 				}
 				if (category.feeds) {
@@ -190,7 +195,7 @@ module.controller('CategoryTreeCtrl', [
 			};
 
 			var rootUnreadCount = function() {
-				return $scope.unreadCount($scope.CategoryService.subscriptions);
+				return $scope.unreadCount($scope.CategoryService.subscriptions, true);
 			};
 
 			$scope.$watch(rootUnreadCount, function(value) {
@@ -367,7 +372,8 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 							id : cat.id,
 							name : cat.orig.name,
 							position : cat.orig.position,
-							parentId : cat.orig.parentId
+							parentId : cat.orig.parentId,
+							hidden : cat.orig.hidden
 						};
 						break;
 					}
@@ -402,7 +408,8 @@ module.controller('CategoryDetailsCtrl', ['$scope', '$state', '$stateParams', 'F
 					id : cat.id,
 					name : cat.name,
 					position : cat.position,
-					parentId : cat.parentId
+					parentId : cat.parentId,
+					hidden : cat.hidden
 				}, function() {
 					CategoryService.init();
 					$state.transitionTo('feeds.view', {

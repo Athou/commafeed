@@ -145,8 +145,10 @@ public class CategoryREST {
 					offset, limit + 1, order, true, onlyIds, tag);
 
 			for (FeedEntryStatus status : list) {
-				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getPublicUrl(),
-						config.getApplicationSettings().getImageProxyEnabled()));
+				if (!status.getSubscription().getCategory().isHidden()) {
+					entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getPublicUrl(),
+							config.getApplicationSettings().getImageProxyEnabled()));
+				}
 			}
 
 		} else if (STARRED.equals(id)) {
@@ -356,6 +358,8 @@ public class CategoryREST {
 			parent = feedCategoryDAO.findById(user, Long.valueOf(req.getParentId()));
 		}
 		category.setParent(parent);
+		
+		category.setHidden(req.isHidden());
 
 		if (req.getPosition() != null) {
 			List<FeedCategory> categories = feedCategoryDAO.findByParent(user, parent);
@@ -453,6 +457,7 @@ public class CategoryREST {
 				child.setId(String.valueOf(c.getId()));
 				child.setName(c.getName());
 				child.setPosition(c.getPosition());
+				child.setHidden(c.isHidden());
 				if (c.getParent() != null && c.getParent().getId() != null) {
 					child.setParentId(String.valueOf(c.getParent().getId()));
 				}

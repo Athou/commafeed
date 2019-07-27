@@ -33,4 +33,7 @@ public class Category implements Serializable {
 
 	@ApiModelProperty(value = "position of the category in the list", required = true)
 	private Integer position;
+
+	@ApiModelProperty(value = "hide category in all")
+	private boolean hidden;
 }

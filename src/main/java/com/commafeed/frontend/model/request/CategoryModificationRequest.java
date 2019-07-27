@@ -23,4 +23,7 @@ public class CategoryModificationRequest implements Serializable {
 	@ApiModelProperty(value = "new display position, null if not changed")
 	private Integer position;
 
+	@ApiModelProperty(value = "hide category from all")
+	private boolean hidden;
+
 }

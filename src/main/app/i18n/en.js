@@ -107,7 +107,8 @@
     "delete_category_confirmation" : "Are you sure you want to delete this category?",
     "category_details" : "Category details",
     "tag_details" : "Tag details",
-    "parent_category" : "Parent category"
+    "parent_category" : "Parent category",
+    "hide_all": "Hide in 'all'"
   },
   "profile" : {
     "user_name" : "User name",

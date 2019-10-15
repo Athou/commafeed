@@ -5,7 +5,11 @@
 	<changeSet id="add-hidden-categories" author="Robbe7730">
 		<addColumn tableName="FEEDCATEGORIES">
 			<column name="hidden" type="BIT" />
-		</addColumn>
+                </addColumn>
+                <update tableName="FEEDCATEGORIES">
+                        <column name="hidden" valueBoolean="false"></column>
+                </update>
+
 	</changeSet>
 
 </databaseChangeLog>

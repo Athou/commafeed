@@ -302,6 +302,7 @@
 	<changeSet author="athou" id="create-users">
 		<validCheckSum>7:750e0990a8edebd0252df7d4adc7aa7c</validCheckSum>
 		<validCheckSum>8:dd1676f356c3c70822d69d5103947948</validCheckSum>
+		<validCheckSum>8:ca2d6edef0263a78cab9cc0942972d50</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="USERS" />

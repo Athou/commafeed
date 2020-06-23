@@ -3,35 +3,36 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
 	<changeSet id="add-detailed-social-options" author="athou">
+		<validCheckSum>8:58e8060bba0ec9d448f4346eb35d815c</validCheckSum>
 		<addColumn tableName="USERSETTINGS">
-			<column name="email" type="BIT"></column>
+			<column name="email" type="BOOLEAN"></column>
 		</addColumn>
 		<addColumn tableName="USERSETTINGS">
-			<column name="gmail" type="BIT"></column>
+			<column name="gmail" type="BOOLEAN"></column>
 		</addColumn>
 		<addColumn tableName="USERSETTINGS">
-			<column name="facebook" type="BIT"></column>
+			<column name="facebook" type="BOOLEAN"></column>
 		</addColumn>
 		<addColumn tableName="USERSETTINGS">
-			<column name="twitter" type="BIT"></column>
+			<column name="twitter" type="BOOLEAN"></column>
 		</addColumn>
 		<addColumn tableName="USERSETTINGS">
-			<column name="googleplus" type="BIT"></column>
+			<column name="googleplus" type="BOOLEAN"></column>
 		</addColumn>
 		<addColumn tableName="USERSETTINGS">
-			<column name="tumblr" type="BIT"></column>
+			<column name="tumblr" type="BOOLEAN"></column>
 		</addColumn>
 		<addColumn tableName="USERSETTINGS">
-			<column name="pocket" type="BIT"></column>
+			<column name="pocket" type="BOOLEAN"></column>
 		</addColumn>
 		<addColumn tableName="USERSETTINGS">
-			<column name="instapaper" type="BIT"></column>
+			<column name="instapaper" type="BOOLEAN"></column>
 		</addColumn>
 		<addColumn tableName="USERSETTINGS">
-			<column name="buffer" type="BIT"></column>
+			<column name="buffer" type="BOOLEAN"></column>
 		</addColumn>
 		<addColumn tableName="USERSETTINGS">
-			<column name="readability" type="BIT"></column>
+			<column name="readability" type="BOOLEAN"></column>
 		</addColumn>
 
 		<dropColumn tableName="USERSETTINGS" columnName="socialButtons" />
@@ -49,7 +50,7 @@
 			<column name="readability" valueBoolean="true"></column>
 		</update>
 	</changeSet>
-	
+
 	<changeSet id="delete-settings" author="athou">
 		<dropTable tableName="APPLICATIONSETTINGS" />
 	</changeSet>

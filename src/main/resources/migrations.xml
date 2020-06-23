@@ -2,6 +2,11 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	
+	<property name="blob_type" value="bytea" dbms="postgresql"/>
+	<property name="blob_type" value="blob" dbms="h2" />
+	<property name="blob_type" value="blob" dbms="mysql" />
+	<property name="blob_type" value="blob" dbms="mssql" />
 
 	<include file="changelogs/db.changelog-1.0.xml" />
 	<include file="changelogs/db.changelog-1.1.xml" />

@@ -16,7 +16,7 @@
 			<column name="read_status" />
 		</createIndex>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="drop-fes-index">
 		<preConditions onFail="MARK_RAN" onFailMessage="index not found, skip drop index">
 			<indexExists tableName="FEEDENTRYSTATUSES" indexName="subscription_id" />
@@ -66,7 +66,7 @@
 			<column name="logLevel" type="VARCHAR(255)" />
 		</addColumn>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-push-hub">
 		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
 			<not>
@@ -78,7 +78,7 @@
 			<column name="pushHub" type="VARCHAR(2048)" />
 		</addColumn>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-push-topic">
 		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
 			<not>
@@ -90,7 +90,7 @@
 			<column name="pushTopic" type="VARCHAR(2048)" />
 		</addColumn>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-push-lastping">
 		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
 			<not>
@@ -102,7 +102,7 @@
 			<column name="pushLastPing" type="DATETIME" />
 		</addColumn>
 	</changeSet>
-				
+
 	<changeSet author="athou" id="add-lastpublished">
 		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
 			<not>
@@ -113,8 +113,8 @@
 		<addColumn tableName="FEEDS">
 			<column name="lastPublishedDate" type="DATETIME" />
 		</addColumn>
-	</changeSet>			
-			
+	</changeSet>
+
 	<changeSet author="athou" id="add-lastcontenthash">
 		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
 			<not>
@@ -125,8 +125,8 @@
 		<addColumn tableName="FEEDS">
 			<column name="lastContentHash" type="VARCHAR(40)" />
 		</addColumn>
-	</changeSet>	
-	
+	</changeSet>
+
 	<changeSet author="athou" id="add-lastinterval">
 		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
 			<not>
@@ -137,8 +137,8 @@
 		<addColumn tableName="FEEDS">
 			<column name="averageEntryInterval" type="BIGINT" />
 		</addColumn>
-	</changeSet>		
-			
+	</changeSet>
+
 	<changeSet author="athou" id="add-lastentrydate">
 		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
 			<not>
@@ -150,7 +150,7 @@
 			<column name="lastEntryDate" type="DATETIME" />
 		</addColumn>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-cat-position">
 		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
 			<not>
@@ -162,7 +162,7 @@
 			<column name="position" type="INT" />
 		</addColumn>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-sub-position">
 		<preConditions onFail="MARK_RAN" onFailMessage="column already exists">
 			<not>
@@ -174,26 +174,26 @@
 			<column name="position" type="INT" />
 		</addColumn>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="drop-sequence">
 		<preConditions onFail="MARK_RAN" onFailMessage="table does not exist">
 			<tableExists tableName="hibernate_sequence" />
 		</preConditions>
 		<dropTable tableName="hibernate_sequence" />
 	</changeSet>
-	
+
 	<changeSet author="athou" id="drop-old-pushinfos">
 		<preConditions onFail="MARK_RAN" onFailMessage="table does not exist">
 			<tableExists tableName="FEEDPUSHINFOS" />
 		</preConditions>
 		<dropTable tableName="FEEDPUSHINFOS" />
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-topic-hash">
 		<addColumn tableName="FEEDS">
 			<column name="push_topic_hash" type="VARCHAR(40)" />
 		</addColumn>
-		
+
 		<createIndex tableName="FEEDS" indexName="push_topic_hash_index">
 			<column name="push_topic_hash"></column>
 		</createIndex>
@@ -203,83 +203,85 @@
 		<addColumn tableName="FEEDENTRIES">
 			<column name="author" type="VARCHAR(128)" />
 		</addColumn>
-	</changeSet>	
+	</changeSet>
 
 	<changeSet author="athou" id="add-inserted-index">
 		<createIndex tableName="FEEDENTRIES" indexName="inserted_index">
 			<column name="inserted"></column>
 		</createIndex>
-	</changeSet>	
-		
+	</changeSet>
+
 	<changeSet author="athou" id="rename-lang">
 		<renameColumn tableName="USERSETTINGS" oldColumnName="language" newColumnName="user_lang" columnDataType="VARCHAR(4)" />
 	</changeSet>
-	
+
 	<changeSet author="athou" id="norwegian-migration">
 		<sql>update USERSETTINGS set user_lang='nb' where user_lang='no'</sql>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-user-created">
 		<validCheckSum>3:b1bbf8d559ac25b785751704f2d24a91</validCheckSum>
 		<validCheckSum>7:5bd8b28aadce012b56f003539ce99957</validCheckSum>
 		<addColumn tableName="USERS">
-		    <column name="created" type="DATETIME" />
+			<column name="created" type="DATETIME" />
 		</addColumn>
-	</changeSet>	
-		
+	</changeSet>
+
 	<changeSet author="athou" id="add-proxy-setting">
 		<validCheckSum>7:ffca06665d2dc182bd3cb718e62e98f0</validCheckSum>
+		<validCheckSum>8:a1b2bfccb0b37fec8eb107220f76e3bd</validCheckSum>
 		<addColumn tableName="APPLICATIONSETTINGS">
-		    <column name="imageProxyEnabled" type="BIT" />
+			<column name="imageProxyEnabled" type="BOOLEAN" />
 		</addColumn>
 		<update tableName="APPLICATIONSETTINGS">
 			<column name="imageProxyEnabled" valueBoolean="false"></column>
-		</update>	
+		</update>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-query-timeout-setting">
 		<addColumn tableName="APPLICATIONSETTINGS">
-		    <column name="queryTimeout" type="INT" />
+			<column name="queryTimeout" type="INT" />
 		</addColumn>
 		<update tableName="APPLICATIONSETTINGS">
 			<column name="queryTimeout" valueNumeric="0"></column>
-		</update>	
+		</update>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-normalized-url">
 		<addColumn tableName="FEEDS">
-		    <column name="normalizedUrl" type="VARCHAR(2048)" />
+			<column name="normalizedUrl" type="VARCHAR(2048)" />
 		</addColumn>
 		<addColumn tableName="FEEDS">
-		    <column name="normalizedUrlHash" type="VARCHAR(40)" />
+			<column name="normalizedUrlHash" type="VARCHAR(40)" />
 		</addColumn>
 		<createIndex indexName="norm_url_hash_index" tableName="FEEDS"
 			unique="false">
 			<column name="normalizedUrlHash" />
 		</createIndex>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-pause-crawling">
+		<validCheckSum>8:4473505a94945268fcca0f2d77e4be4a</validCheckSum>
 		<addColumn tableName="APPLICATIONSETTINGS">
-		    <column name="crawlingPaused" type="BIT" />
+			<column name="crawlingPaused" type="BOOLEAN" />
 		</addColumn>
 		<update tableName="APPLICATIONSETTINGS">
 			<column name="crawlingPaused" valueBoolean="false"></column>
-		</update>	
+		</update>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-content-hash-index">
 		<createIndex tableName="FEEDS" indexName="last_content_hash_index">
 			<column name="lastContentHash"></column>
 		</createIndex>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="create-settings-index">
 		<createIndex tableName="USERSETTINGS" indexName="user_id_index" unique="true">
 			<column name="user_id"></column>
 		</createIndex>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="denormalize-statuses">
 		<validCheckSum>7:c73f70fbcbc8bb30f9629028ec8ddb06</validCheckSum>
 		<addColumn tableName="FEEDENTRYSTATUSES">
@@ -290,18 +292,18 @@
 			<column name="entryUpdated" type="DATETIME" />
 		</addColumn>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="populate-status-dates">
 		<validCheckSum>7:d6b5ab6920948b0a84e614870128e2f5</validCheckSum>
 		<sql>update FEEDENTRYSTATUSES SET entryUpdated = (select e.updated from FEEDENTRIES e where e.id = FEEDENTRYSTATUSES.entry_id)</sql>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="populate-status-users">
 		<validCheckSum>7:4227fdf2e7b9fe8e59544d536a7ee963</validCheckSum>
 		<sql>update FEEDENTRYSTATUSES SET user_id = (select sub.user_id from FEEDSUBSCRIPTIONS sub where sub.id = FEEDENTRYSTATUSES.subscription_id)</sql>
 	</changeSet>
-	
-	<changeSet author="athou" id="recreate-fes-index-2">		
+
+	<changeSet author="athou" id="recreate-fes-index-2">
 		<createIndex indexName="sub_entry_index" tableName="FEEDENTRYSTATUSES">
 			<column name="subscription_id" />
 			<column name="entry_id" />
@@ -317,28 +319,28 @@
 			<column name="entryUpdated" />
 		</createIndex>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="drop-fes-index-2">
 		<dropIndex tableName="FEEDENTRYSTATUSES" indexName="sub_entry_read_index" />
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-entry-updated-to-ffe">
 		<addColumn tableName="FEED_FEEDENTRIES">
 			<column name="entryUpdated" type="DATETIME"></column>
 		</addColumn>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="populate-entry-dates">
 		<sql>update FEED_FEEDENTRIES SET entryUpdated = (select e.updated from FEEDENTRIES e where e.id = FEED_FEEDENTRIES.feedentry_id)</sql>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="create-ffe-entry-updated-index">
 		<createIndex tableName="FEED_FEEDENTRIES" indexName="feed_updated_index">
 			<column name="FEED_ID"></column>
 			<column name="entryUpdated"></column>
 		</createIndex>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="create-count-index">
 		<createIndex indexName="user_read_sub_index" tableName="FEEDENTRYSTATUSES">
 			<column name="user_id" />
@@ -346,21 +348,21 @@
 			<column name="subscription_id" />
 		</createIndex>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="add-trim-status-setting">
 		<addColumn tableName="APPLICATIONSETTINGS">
-		    <column name="keepStatusDays" type="INT" />
+			<column name="keepStatusDays" type="INT" />
 		</addColumn>
 		<update tableName="APPLICATIONSETTINGS">
 			<column name="keepStatusDays" valueNumeric="0"></column>
-		</update>	
+		</update>
 	</changeSet>
-	
+
 	<changeSet author="athou" id="status-cleanup">
 		<validCheckSum>7:cf40ae235c2d4086c5fa6ac64102c6a9</validCheckSum>
 		<delete tableName="FEEDENTRYSTATUSES">
 			<where>read_status = false and starred = false</where>
 		</delete>
 	</changeSet>
-	
+
 </databaseChangeLog>

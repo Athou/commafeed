@@ -6,6 +6,7 @@
 	<changeSet author="athou" id="create-app-settings">
 		<validCheckSum>7:6d3ad493d25dd9c50067e804efc9ffcc</validCheckSum>
 		<validCheckSum>7:896a68c1651397288c40f717ce0397b4</validCheckSum>
+		<validCheckSum>8:1b0879c4739d483c3b1d779e08fe770b</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="APPLICATIONSETTINGS" />
@@ -15,7 +16,7 @@
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="allowRegistrations" type="BIT">
+			<column name="allowRegistrations" type="BOOLEAN">
 				<constraints nullable="false" />
 			</column>
 			<column name="backgroundThreads" type="INT">
@@ -29,20 +30,20 @@
 			<column name="smtpPort" type="INT">
 				<constraints nullable="false" />
 			</column>
-			<column name="smtpTls" type="BIT">
+			<column name="smtpTls" type="BOOLEAN">
 				<constraints nullable="false" />
 			</column>
 			<column name="smtpUserName" type="VARCHAR(255)" />
 			<column name="googleAnalyticsDomainName" type="VARCHAR(255)" />
 			<column name="googleAnalyticsTrackingCode" type="VARCHAR(255)" />
 			<column name="announcement" type="VARCHAR(255)" />
-			<column name="feedbackButton" type="BIT">
+			<column name="feedbackButton" type="BOOLEAN">
 				<constraints nullable="false" />
 			</column>
-			<column name="heavyLoad" type="BIT">
+			<column name="heavyLoad" type="BOOLEAN">
 				<constraints nullable="false" />
 			</column>
-			<column name="pubsubhubbub" type="BIT">
+			<column name="pubsubhubbub" type="BOOLEAN">
 				<constraints nullable="false" />
 			</column>
 			<column name="databaseUpdateThreads" type="INT">
@@ -79,6 +80,7 @@
 	<changeSet author="athou" id="create-cat">
 		<validCheckSum>7:93155e15f0feabe936e1de35711bf85b</validCheckSum>
 		<validCheckSum>7:c52f258e54d34156208cbfd2d8547fbd</validCheckSum>
+		<validCheckSum>8:c59e763e4cc7d59ae58d843937cf4e77</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDCATEGORIES" />
@@ -88,7 +90,7 @@
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="collapsed" type="BIT">
+			<column name="collapsed" type="BOOLEAN">
 				<constraints nullable="false" />
 			</column>
 			<column name="name" type="VARCHAR(128)">
@@ -160,6 +162,7 @@
 	<changeSet author="athou" id="create-statuses">
 		<validCheckSum>7:a9cf194a01c16b937a897aea934f09ae</validCheckSum>
 		<validCheckSum>7:6a386e0b08e98bdba9ce55e26ab90eba</validCheckSum>
+		<validCheckSum>8:ccfbff3df6f16c8686229c2da514e8b1</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="FEEDENTRYSTATUSES" />
@@ -169,8 +172,8 @@
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="read_status" type="BIT" />
-			<column name="starred" type="BIT">
+			<column name="read_status" type="BOOLEAN" />
+			<column name="starred" type="BOOLEAN">
 				<constraints nullable="false" />
 			</column>
 			<column name="entry_id" type="BIGINT">
@@ -298,6 +301,8 @@
 
 	<changeSet author="athou" id="create-users">
 		<validCheckSum>7:750e0990a8edebd0252df7d4adc7aa7c</validCheckSum>
+		<validCheckSum>8:dd1676f356c3c70822d69d5103947948</validCheckSum>
+		<validCheckSum>8:ca2d6edef0263a78cab9cc0942972d50</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="USERS" />
@@ -307,17 +312,17 @@
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="disabled" type="BIT">
+			<column name="disabled" type="BOOLEAN">
 				<constraints nullable="false" />
 			</column>
 			<column name="email" type="VARCHAR(255)" />
 			<column name="name" type="VARCHAR(32)">
 				<constraints nullable="false" />
 			</column>
-			<column name="password" type="BLOB">
+			<column name="password" type="${blob_type}">
 				<constraints nullable="false" />
 			</column>
-			<column name="salt" type="BLOB">
+			<column name="salt" type="${blob_type}">
 				<constraints nullable="false" />
 			</column>
 			<column name="lastLogin" type="DATETIME" />
@@ -333,6 +338,7 @@
 	<changeSet author="athou" id="create-user-settings">
 		<validCheckSum>7:985d6607a4350e032ea345d9a2f2f0c0</validCheckSum>
 		<validCheckSum>7:722eaff49d04d43c5b26da0929d3f707</validCheckSum>
+		<validCheckSum>8:451004f3bc72abac6a38d813881d3a87</validCheckSum>
 		<preConditions onFail="MARK_RAN" onFailMessage="existing table skipping">
 			<not>
 				<tableExists tableName="USERSETTINGS" />
@@ -349,16 +355,16 @@
 			<column name="readingOrder" type="VARCHAR(255)">
 				<constraints nullable="false" />
 			</column>
-			<column name="showRead" type="BIT">
+			<column name="showRead" type="BOOLEAN">
 				<constraints nullable="false" />
 			</column>
 			<column name="user_id" type="BIGINT">
 				<constraints nullable="false" />
 			</column>
-			<column name="socialButtons" type="BIT">
+			<column name="socialButtons" type="BOOLEAN">
 				<constraints nullable="false" />
 			</column>
-			<column name="scrollMarks" type="BIT">
+			<column name="scrollMarks" type="BOOLEAN">
 				<constraints nullable="false" />
 			</column>
 			<column name="viewMode" type="VARCHAR(255)">

@@ -1,6 +1,9 @@
 v 2.5.0
   - unread count is now displayed in a favicon badge when supported
-
+  - the user agent string for the bot fetching feeds is now configurable
+  - feed parsing performance improvements
+  - support for java9+ runtime
+  - can now properly start from an empty postgresql database
 v 2.4.0
   - users were not able to change password or delete account
   - fix api key generation

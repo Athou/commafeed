@@ -255,7 +255,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.12</version>
+			<version>1.7.30</version>
 		</dependency>
 
 		<dependency>
@@ -481,6 +481,12 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<version>2.0.11-beta</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mock-server</groupId>
+			<artifactId>mockserver-junit-rule</artifactId>
+			<version>5.11.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

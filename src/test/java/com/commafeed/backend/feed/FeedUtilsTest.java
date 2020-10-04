@@ -78,4 +78,19 @@ public class FeedUtilsTest {
 		String source = "<source>T&acute;l&acute;phone &prime;</source>";
 		Assert.assertEquals("<source>T&#180;l&#180;phone &#8242;</source>", FeedUtils.replaceHtmlEntitiesWithNumericEntities(source));
 	}
+
+	@Test
+	public void testRemoveTrailingSlash() {
+		final String url = "http://localhost/";
+		final String result = FeedUtils.removeTrailingSlash(url);
+		Assert.assertEquals("http://localhost", result);
+	}
+
+	@Test
+	public void testRemoveTrailingSlash_lastSlashOnly() {
+		final String url = "http://localhost//";
+		final String result = FeedUtils.removeTrailingSlash(url);
+		Assert.assertEquals("http://localhost/", result);
+	}
+
 }

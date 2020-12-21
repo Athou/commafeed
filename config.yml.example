@@ -100,9 +100,11 @@ database:
 server:
   applicationConnectors:
     - type: http
+      bindHost: 127.0.0.1
       port: 8082
   adminConnectors:
     - type: http
+      bindHost: 127.0.0.1
       port: 8084
       
 logging:

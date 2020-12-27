@@ -42,18 +42,28 @@ public class UserService {
 	private final PostLoginActivities postLoginActivities;
 
 	/**
-	 * try to log in with given credentials
+	 * get user by name or email
 	 */
-	public Optional<User> login(String nameOrEmail, String password) {
-		if (nameOrEmail == null || password == null) {
+	public Optional<User> getUser(String nameOrEmail) {
+		if (nameOrEmail == null) {
 			return Optional.empty();
 		}
-
 		User user = userDAO.findByName(nameOrEmail);
 		if (user == null) {
 			user = userDAO.findByEmail(nameOrEmail);
 		}
-		if (user != null && !user.isDisabled()) {
+		if (user != null) {
+			return Optional.of(user);
+		} else {
+			return Optional.empty();
+		}
+	}
+
+	/**
+	 * try to log in user with password
+	 */
+	public Optional<User> login(User user, String password) {
+		if (!user.isDisabled()) {
 			boolean authenticated = encryptionService.authenticate(password, user.getPassword(), user.getSalt());
 			if (authenticated) {
 				performPostLoginActivities(user);

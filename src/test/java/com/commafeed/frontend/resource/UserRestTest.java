@@ -74,7 +74,10 @@ public class UserRestTest {
 	@Test
 	public void register_should_register_and_then_login() {
 		// Create UserService mock
+		User user = new User();
 		UserService service = mock(UserService.class);
+		when(service.register("user", "password", "test@test.com", Arrays.asList(Role.USER))).thenReturn(user);
+		when(service.login(user, "password")).thenReturn(Optional.of(user));
 
 		RegistrationRequest req = new RegistrationRequest();
 		req.setName("user");

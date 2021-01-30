@@ -41,7 +41,6 @@
     "refresh" : "새로고침",
     "refresh_all" : "모든 피드를 강제로 새로고침",
     "sort_by_asc_desc" : "날짜별 오름차/내림차순 정렬",
-    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "제목만 표시하기",
     "expanded_view" : "Expanded View",
     "mark_all_as_read" : "읽음으로 표시",

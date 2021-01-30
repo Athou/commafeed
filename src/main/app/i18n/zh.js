@@ -41,7 +41,6 @@
     "refresh" : "刷新",
     "refresh_all" : "刷新所有订阅",
     "sort_by_asc_desc" : "按日期升序/降序排序",
-    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "仅显示标题",
     "expanded_view" : "显示内容",
     "mark_all_as_read" : "标记所有为已读",

@@ -38,14 +38,14 @@ import com.querydsl.jpa.impl.JPAQuery;
 @Singleton
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
-	private FeedEntryDAO feedEntryDAO;
-	private FeedEntryTagDAO feedEntryTagDAO;
-	private CommaFeedConfiguration config;
+	private final FeedEntryDAO feedEntryDAO;
+	private final FeedEntryTagDAO feedEntryTagDAO;
+	private final CommaFeedConfiguration config;
 
-	private QFeedEntryStatus status = QFeedEntryStatus.feedEntryStatus;
-	private QFeedEntry entry = QFeedEntry.feedEntry;
-	private QFeedEntryContent content = QFeedEntryContent.feedEntryContent;
-	private QFeedEntryTag entryTag = QFeedEntryTag.feedEntryTag;
+	private final QFeedEntryStatus status = QFeedEntryStatus.feedEntryStatus;
+	private final QFeedEntry entry = QFeedEntry.feedEntry;
+	private final QFeedEntryContent content = QFeedEntryContent.feedEntryContent;
+	private final QFeedEntryTag entryTag = QFeedEntryTag.feedEntryTag;
 
 	@Inject
 	public FeedEntryStatusDAO(SessionFactory sessionFactory, FeedEntryDAO feedEntryDAO, FeedEntryTagDAO feedEntryTagDAO,
@@ -67,18 +67,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	};
 
 	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = Ordering.from(STATUS_COMPARATOR_DESC).reverse();
-
-	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ABC = new Comparator<FeedEntryStatus>() {
-		@Override
-		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
-			CompareToBuilder builder = new CompareToBuilder();
-			builder.append(o1.getEntry().getContent().getTitle(), o2.getEntry().getContent().getTitle());
-			builder.append(o1.getId(), o2.getId());
-			return builder.toComparison();
-		}
-	};
-
-	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ZYX = Ordering.from(STATUS_COMPARATOR_ABC).reverse();
 
 	public FeedEntryStatus getStatus(User user, FeedSubscription sub, FeedEntry entry) {
 		List<FeedEntryStatus> statuses = query().selectFrom(status).where(status.entry.eq(entry), status.subscription.eq(sub)).fetch();
@@ -113,12 +101,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		if (order == ReadingOrder.asc) {
 			query.orderBy(status.entryUpdated.asc(), status.id.asc());
-		} else if (order == ReadingOrder.desc) {
+		} else {
 			query.orderBy(status.entryUpdated.desc(), status.id.desc());
-		} else if (order == ReadingOrder.abc) {
-			query.orderBy(status.entry.content.title.asc(), status.id.desc());
-		} else { // order == ReadingOrder.xyz
-			query.orderBy(status.entry.content.title.desc(), status.id.desc());
 		}
 
 		query.offset(offset).limit(limit);
@@ -178,36 +162,27 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		if (last != null) {
 			if (order == ReadingOrder.desc) {
 				query.where(entry.updated.gt(last.getEntryUpdated()));
-			} else if (order == ReadingOrder.asc) {
+			} else {
 				query.where(entry.updated.lt(last.getEntryUpdated()));
-			} else if (order == ReadingOrder.abc) {
-				query.join(entry.content, content);
-				query.where(content.title.lt(last.getEntry().getContent().getTitle()));
-			} else { // order == ReadingOrder.zyx
-				query.join(entry.content, content);
-				query.where(content.title.gt(last.getEntry().getContent().getTitle()));
 			}
-		} else if (order != null && (order == ReadingOrder.abc || order == ReadingOrder.zyx)) {
-			query.join(entry.content, content);
 		}
 
 		if (order != null) {
 			if (order == ReadingOrder.asc) {
 				query.orderBy(entry.updated.asc(), entry.id.asc());
-			} else if (order == ReadingOrder.desc) {
+			} else {
 				query.orderBy(entry.updated.desc(), entry.id.desc());
-			} else if (order == ReadingOrder.abc) {
-				query.orderBy(content.title.asc(), entry.id.asc());
-			} else { // order == ReadingOrder.zyx
-				query.orderBy(content.title.desc(), entry.id.desc());
 			}
 		}
+
 		if (offset > -1) {
 			query.offset(offset);
 		}
+
 		if (limit > -1) {
 			query.limit(limit);
 		}
+
 		setTimeout(query, config.getApplicationSettings().getQueryTimeout());
 		return query;
 	}
@@ -217,18 +192,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			boolean onlyIds, String tag) {
 		int capacity = offset + limit;
 
-		Comparator<FeedEntryStatus> comparator;
-		if (order == ReadingOrder.desc) {
-			comparator = STATUS_COMPARATOR_DESC;
-		} else if (order == ReadingOrder.abc) {
-			comparator = STATUS_COMPARATOR_ABC;
-		} else if (order == ReadingOrder.zyx) {
-			comparator = STATUS_COMPARATOR_ZYX;
-		} else {
-			comparator = STATUS_COMPARATOR_ASC;
-		}
+		Comparator<FeedEntryStatus> comparator = order == ReadingOrder.desc ? STATUS_COMPARATOR_DESC : STATUS_COMPARATOR_ASC;
 
-		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<FeedEntryStatus>(capacity, comparator);
+		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<>(capacity, comparator);
 		for (FeedSubscription sub : subs) {
 			FeedEntryStatus last = (order != null && set.isFull()) ? set.last() : null;
 			JPAQuery<FeedEntry> query = buildQuery(user, sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag);

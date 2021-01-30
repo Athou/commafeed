@@ -41,7 +41,6 @@
     "refresh" : "Uppdatera",
     "refresh_all" : "Tvinga uppdatering av alla prenumerationer",
     "sort_by_asc_desc" : "Sortera efter datum stigande/fallande",
-    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "Endast titlar",
     "expanded_view" : "Expanderad vy",
     "mark_all_as_read" : "Markera alla som lästa",

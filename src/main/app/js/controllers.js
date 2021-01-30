@@ -529,10 +529,6 @@ module.controller('ToolbarCtrl', [
 				var settings = $scope.settingsService.settings;
 				settings.readingOrder = settings.readingOrder == 'desc' ? 'asc' : 'desc';
 			};
-			$scope.toggleAbcOrder = function() {
-				var settings = $scope.settingsService.settings;
-				settings.readingOrder = settings.readingOrder == 'abc' ? 'zyx' : 'abc';
-			};
 
 			$scope.toAdmin = function() {
 				$location.path('admin');

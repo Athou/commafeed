@@ -41,7 +41,6 @@
     "refresh" : "更新",
     "refresh_all" : "全てのフィードを更新",
     "sort_by_asc_desc" : "日時でソート",
-    "sort_by_abc_zyx" : "名前でソート",
     "titles_only" : "タイトルのみ",
     "expanded_view" : "拡張ビュー",
     "mark_all_as_read" : "全て既読にする",

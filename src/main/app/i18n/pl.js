@@ -41,7 +41,6 @@
     "refresh" : "Odswież",
     "refresh_all" : "Odśwież teraz wszystkie kanały ",
     "sort_by_asc_desc" : "Sortuj od najnowszego/najstarszego",
-    "sort_by_abc_zyx" : "Sortuj alfabetycznie",
     "titles_only" : "Widok listy",
     "expanded_view" : "Widok rozwinięty",
     "mark_all_as_read" : "Oznacz wszystko jako przeczytane",

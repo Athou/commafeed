@@ -32,7 +32,7 @@ import com.google.common.collect.Iterables;
 import lombok.RequiredArgsConstructor;
 
 @SuppressWarnings("serial")
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class NextUnreadServlet extends HttpServlet {
 
@@ -61,18 +61,7 @@ public class NextUnreadServlet extends HttpServlet {
 			return;
 		}
 
-		final ReadingOrder order = (StringUtils.equals(orderParam, "asc") ?
-										ReadingOrder.asc :
-										(
-										StringUtils.equals(orderParam, "desc") ?
-											ReadingOrder.desc :
-											(
-											StringUtils.equals(orderParam, "abc") ?
-												ReadingOrder.abc :
-												(ReadingOrder.zyx)
-											)
-										)
-									);
+		final ReadingOrder order = StringUtils.equals(orderParam, "asc") ? ReadingOrder.asc : ReadingOrder.desc;
 
 		FeedEntryStatus status = UnitOfWork.call(sessionFactory, () -> {
 			FeedEntryStatus s = null;

@@ -127,10 +127,10 @@ public class UserService {
 	}
 
 	public void unregister(User user) {
-		feedCategoryDAO.delete(feedCategoryDAO.findAll(user));
 		userSettingsDAO.delete(userSettingsDAO.findByUser(user));
 		userRoleDAO.delete(userRoleDAO.findAll(user));
 		feedSubscriptionDAO.delete(feedSubscriptionDAO.findAll(user));
+		feedCategoryDAO.delete(feedCategoryDAO.findAll(user));
 		userDAO.delete(user);
 	}
 

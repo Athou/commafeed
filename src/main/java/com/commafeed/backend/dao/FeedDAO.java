@@ -21,7 +21,7 @@ import com.querydsl.jpa.JPQLQuery;
 @Singleton
 public class FeedDAO extends GenericDAO<Feed> {
 
-	private QFeed feed = QFeed.feed;
+	private final QFeed feed = QFeed.feed;
 
 	@Inject
 	public FeedDAO(SessionFactory sessionFactory) {
@@ -36,9 +36,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 			QFeedSubscription subs = QFeedSubscription.feedSubscription;
 			QUser user = QUser.user;
 
-			JPQLQuery<Integer> subQuery = JPAExpressions.selectOne().from(subs);
-			subQuery.join(subs.user, user).where(user.lastLogin.gt(lastLoginThreshold));
-			query.where(subQuery.exists());
+			query.join(feed.subscriptions, subs).join(subs.user, user).where(user.lastLogin.gt(lastLoginThreshold));
 		}
 
 		return query.orderBy(feed.disabledUntil.asc()).limit(count).distinct().fetch();

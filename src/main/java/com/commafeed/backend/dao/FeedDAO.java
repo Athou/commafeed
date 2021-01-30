@@ -39,7 +39,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 			query.join(feed.subscriptions, subs).join(subs.user, user).where(user.lastLogin.gt(lastLoginThreshold));
 		}
 
-		return query.orderBy(feed.disabledUntil.asc()).limit(count).distinct().fetch();
+		return query.orderBy(feed.disabledUntil.asc()).limit(count).fetch();
 	}
 
 	public Feed findByUrl(String normalizedUrl) {

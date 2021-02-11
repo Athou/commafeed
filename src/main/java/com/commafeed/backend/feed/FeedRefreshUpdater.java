@@ -189,6 +189,7 @@ public class FeedRefreshUpdater implements Managed {
 			}
 		} catch (InterruptedException e) {
 			log.error("interrupted while waiting for lock for " + feed.getUrl() + " : " + e.getMessage(), e);
+			Thread.currentThread().interrupt();
 		} finally {
 			if (locked1) {
 				lock1.unlock();
@@ -214,6 +215,7 @@ public class FeedRefreshUpdater implements Managed {
 							Thread.sleep(30000);
 						} catch (InterruptedException e1) {
 							// do nothing
+							Thread.currentThread().interrupt();
 						}
 
 						pubSubService.subscribe(feed);

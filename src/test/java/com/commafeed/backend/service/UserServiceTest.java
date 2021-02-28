@@ -69,86 +69,79 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void calling_login_should_not_return_user_object_when_given_null_nameOrEmail() {
-		Optional<User> user = userService.login(null, "password");
+	public void getting_user_with_null_name_or_email_should_return_empty_optional() {
+		Optional<User> user = userService.getUser(null);
 		assertFalse(user.isPresent());
 	}
 
 	@Test
-	public void calling_login_should_not_return_user_object_when_given_null_password() {
-		Optional<User> user = userService.login("testusername", null);
-		assertFalse(user.isPresent());
-	}
-
-	@Test
-	public void calling_login_should_lookup_user_by_name() {
-		userService.login("test", "password");
+	public void getting_user_by_name_should_lookup_user_by_name() {
+		Optional<User> user = userService.getUser("test");
 		verify(userDAO).findByName("test");
 	}
 
 	@Test
-	public void calling_login_should_lookup_user_by_email_if_lookup_by_name_failed() {
+	public void getting_user_should_lookup_user_by_email_if_lookup_by_name_failed() {
 		when(userDAO.findByName("test@test.com")).thenReturn(null);
-		userService.login("test@test.com", "password");
+		Optional<User> user = userService.getUser("test@test.com");
 		verify(userDAO).findByEmail("test@test.com");
 	}
 
 	@Test
-	public void calling_login_should_not_return_user_object_if_could_not_find_user_by_name_or_email() {
+	public void getting_user_should_not_return_user_object_if_could_not_find_user_by_name_or_email() {
 		when(userDAO.findByName("test@test.com")).thenReturn(null);
 		when(userDAO.findByEmail("test@test.com")).thenReturn(null);
+		Optional<User> user = userService.getUser("test@test.com");
+		assertFalse(user.isPresent());
+	}
 
-		Optional<User> user = userService.login("test@test.com", "password");
+	@Test
+	public void getting_user_should_return_user_object_when_user_exists() {
+		when(userDAO.findByName("test")).thenReturn(normalUser);
+		Optional<User> user = userService.getUser("test");
+		assertTrue(user.isPresent());
+		assertEquals(normalUser, user.get());
+	}
 
+	@Test
+	public void calling_login_should_not_return_user_object_when_given_null_password() {
+		Optional<User> user = userService.login(normalUser, null);
 		assertFalse(user.isPresent());
 	}
 
 	@Test
 	public void calling_login_should_not_return_user_object_if_user_is_disabled() {
-		when(userDAO.findByName("test")).thenReturn(disabledUser);
-		Optional<User> user = userService.login("test", "password");
+		Optional<User> user = userService.login(disabledUser, "password");
 		assertFalse(user.isPresent());
 	}
 
 	@Test
 	public void calling_login_should_try_to_authenticate_user_who_is_not_disabled() {
-		when(userDAO.findByName("test")).thenReturn(normalUser);
 		when(passwordEncryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(false);
-
-		userService.login("test", "password");
-
+		userService.login(normalUser, "password");
 		verify(passwordEncryptionService).authenticate("password", ENCRYPTED_PASSWORD, SALT);
 	}
 
 	@Test
 	public void calling_login_should_not_return_user_object_on_unsuccessful_authentication() {
-		when(userDAO.findByName("test")).thenReturn(normalUser);
 		when(passwordEncryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(false);
-
-		Optional<User> authenticatedUser = userService.login("test", "password");
-
+		Optional<User> authenticatedUser = userService.login(normalUser, "password");
 		assertFalse(authenticatedUser.isPresent());
 	}
 
 	@Test
 	public void calling_login_should_execute_post_login_activities_for_user_on_successful_authentication() {
-		when(userDAO.findByName("test")).thenReturn(normalUser);
 		when(passwordEncryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(true);
 		doNothing().when(postLoginActivities).executeFor(any(User.class));
-
-		userService.login("test", "password");
-
+		userService.login(normalUser, "password");
 		verify(postLoginActivities).executeFor(normalUser);
 	}
 
 	@Test
 	public void calling_login_should_return_user_object_on_successful_authentication() {
-		when(userDAO.findByName("test")).thenReturn(normalUser);
 		when(passwordEncryptionService.authenticate(anyString(), any(byte[].class), any(byte[].class))).thenReturn(true);
 		doNothing().when(postLoginActivities).executeFor(any(User.class));
-
-		Optional<User> authenticatedUser = userService.login("test", "password");
-
+		Optional<User> authenticatedUser = userService.login(normalUser, "password");
 		assertTrue(authenticatedUser.isPresent());
 		assertEquals(normalUser, authenticatedUser.get());
 	}

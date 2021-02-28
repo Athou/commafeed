@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterChain;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.cfg.AvailableSettings;
 
+import com.codahale.metrics.json.MetricsModule;
 import com.commafeed.backend.feed.FeedRefreshTaskGiver;
 import com.commafeed.backend.feed.FeedRefreshUpdater;
 import com.commafeed.backend.feed.FeedRefreshWorker;
@@ -77,6 +79,8 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 	@Override
 	public void initialize(Bootstrap<CommaFeedConfiguration> bootstrap) {
+		bootstrap.getObjectMapper().registerModule(new MetricsModule(TimeUnit.SECONDS, TimeUnit.SECONDS, false));
+
 		bootstrap.addBundle(hibernateBundle = new HibernateBundle<CommaFeedConfiguration>(AbstractModel.class, Feed.class,
 				FeedCategory.class, FeedEntry.class, FeedEntryContent.class, FeedEntryStatus.class, FeedEntryTag.class,
 				FeedSubscription.class, User.class, UserRole.class, UserSettings.class) {

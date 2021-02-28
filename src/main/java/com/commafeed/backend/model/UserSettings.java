@@ -27,7 +27,7 @@ public class UserSettings extends AbstractModel {
 	}
 
 	public enum ReadingOrder {
-		asc, desc, abc, zyx
+		asc, desc
 	}
 
 	public enum ViewMode {

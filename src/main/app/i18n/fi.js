@@ -41,7 +41,6 @@
     "refresh" : "Päivitä",
     "refresh_all" : "Pakota kaikkien syötteiden päivitys",
     "sort_by_asc_desc" : "Järjestä päivämäärän mukaan nousevasti/laskevasti",
-    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "Näytä vain otsikot",
     "expanded_view" : "Laajennettu näkymä",
     "mark_all_as_read" : "Merkitse kaikki luetuiksi",

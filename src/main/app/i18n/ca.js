@@ -41,7 +41,6 @@
     "refresh" : "Actualitzar",
     "refresh_all" : "Força l'actualització de tots els canals",
     "sort_by_asc_desc" : "Ordenar per data asc/desc",
-    "sort_by_abc_zyx" : "Sort alphabetically",
     "titles_only" : "Només títols",
     "expanded_view" : "Vista ampliada",
     "mark_all_as_read" : "Marcar tots llegits",

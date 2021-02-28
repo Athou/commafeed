@@ -41,7 +41,6 @@
     "refresh" : "Oppdater",
     "refresh_all" : "Force refresh all my feeds ",
     "sort_by_asc_desc" : "Sorter etter dato ny/gamal",
-    "sort_by_abc_zyx" : "Sort Alphabetically",
     "titles_only" : "Berre titlar",
     "expanded_view" : "Utvida visning",
     "mark_all_as_read" : "Merk alle som lesne",

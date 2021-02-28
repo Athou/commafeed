@@ -41,15 +41,6 @@ public class PubSubService {
 	private final FeedQueues queues;
 
 	public void subscribe(Feed feed) {
-
-		try {
-			// make sure the feed has been updated in the database so that the
-			// callback works
-			Thread.sleep(30000);
-		} catch (InterruptedException e1) {
-			// do nothing
-		}
-
 		String hub = feed.getPushHub();
 		String topic = feed.getPushTopic();
 		String publicUrl = FeedUtils.removeTrailingSlash(config.getApplicationSettings().getPublicUrl());

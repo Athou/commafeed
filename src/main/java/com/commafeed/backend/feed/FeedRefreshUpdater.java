@@ -208,6 +208,14 @@ public class FeedRefreshUpdater implements Managed {
 				new Thread() {
 					@Override
 					public void run() {
+						try {
+							// make sure the feed has been updated in the database so that the
+							// callback works
+							Thread.sleep(30000);
+						} catch (InterruptedException e1) {
+							// do nothing
+						}
+
 						pubSubService.subscribe(feed);
 					}
 				}.start();

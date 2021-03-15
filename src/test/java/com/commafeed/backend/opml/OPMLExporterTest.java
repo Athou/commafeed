@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -41,9 +42,11 @@ public class OPMLExporterTest {
 	private List<FeedCategory> categories = new ArrayList<>();
 	private List<FeedSubscription> subscriptions = new ArrayList<>();
 
+	private AutoCloseable mocks;
+
 	@Before
 	public void before_each_test() {
-		MockitoAnnotations.initMocks(this);
+		mocks = MockitoAnnotations.openMocks(this);
 
 		user.setName("John Doe");
 
@@ -74,6 +77,11 @@ public class OPMLExporterTest {
 		subscriptions.add(rootFeed);
 		subscriptions.add(cat1Feed);
 		subscriptions.add(cat2Feed);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		mocks.close();
 	}
 
 	private Feed newFeed(String url) {

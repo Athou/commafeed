@@ -4,13 +4,13 @@ import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.feed.FeedQueues;
 import com.commafeed.backend.model.Feed;
 import org.apache.http.HttpHeaders;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.MockitoAnnotations;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.junit.MockServerRule;
 import org.mockserver.model.MediaType;
@@ -19,7 +19,6 @@ import static org.mockito.Mockito.*;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
-@RunWith(MockitoJUnitRunner.class)
 public class PubSubServiceTest {
 
     PubSubService underTest;
@@ -37,9 +36,12 @@ public class PubSubServiceTest {
     @Mock
     Feed feed;
 
+    private AutoCloseable mocks;
 
     @Before
     public void init() {
+        mocks = MockitoAnnotations.openMocks(this);
+
         underTest = new PubSubService(config, queues);
 
         // setup feed
@@ -49,6 +51,11 @@ public class PubSubServiceTest {
 
         // setup config
         when(config.getApplicationSettings().getPublicUrl()).thenReturn("http://localhost:22441/hub");
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        mocks.close();
     }
 
     @Test
@@ -68,7 +75,7 @@ public class PubSubServiceTest {
                 .withMethod("POST")
                 .withPath("/hub"));
         verify(feed, never()).setPushTopic(anyString());
-        verifyZeroInteractions(queues);
+        verifyNoInteractions(queues);
     }
 
     @Test
@@ -98,7 +105,7 @@ public class PubSubServiceTest {
 
         // Assert
         verify(feed, never()).setPushTopic(anyString());
-        verifyZeroInteractions(queues);
+        verifyNoInteractions(queues);
     }
 
 }

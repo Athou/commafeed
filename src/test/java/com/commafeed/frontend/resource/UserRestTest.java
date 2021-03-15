@@ -1,7 +1,6 @@
 package com.commafeed.frontend.resource;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -13,7 +12,6 @@ import java.util.Optional;
 
 import org.junit.Test;
 import org.mockito.InOrder;
-import org.mockito.Matchers;
 
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
@@ -102,7 +100,7 @@ public class UserRestTest {
 
 		// Create UserService mock
 		UserService service = mock(UserService.class);
-		when(service.register(any(String.class), any(String.class), any(String.class), Matchers.anyListOf(Role.class))).thenReturn(user);
+		when(service.register(any(String.class), any(String.class), any(String.class), anyList())).thenReturn(user);
 		when(service.login(any(User.class), any(String.class))).thenReturn(Optional.of(user));
 
 		RegistrationRequest req = new RegistrationRequest();

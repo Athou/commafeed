@@ -2,10 +2,11 @@ package com.commafeed.backend;
 
 import java.util.Comparator;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.apache.commons.lang3.ObjectUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FixedSizeSortedSetTest {
 
@@ -17,8 +18,8 @@ public class FixedSizeSortedSetTest {
 		}
 	};
 
-	@Before
-	public void init() {
+	@BeforeEach
+	public void setUp() {
 		set = new FixedSizeSortedSet<String>(3, COMP);
 	}
 
@@ -28,9 +29,9 @@ public class FixedSizeSortedSetTest {
 		set.add("1");
 		set.add("2");
 
-		Assert.assertEquals("0", set.asList().get(0));
-		Assert.assertEquals("1", set.asList().get(1));
-		Assert.assertEquals("2", set.asList().get(2));
+		assertEquals("0", set.asList().get(0));
+		assertEquals("1", set.asList().get(1));
+		assertEquals("2", set.asList().get(2));
 	}
 
 	@Test
@@ -38,9 +39,9 @@ public class FixedSizeSortedSetTest {
 		set.add("0");
 		set.add("1");
 
-		Assert.assertFalse(set.isFull());
+		assertFalse(set.isFull());
 		set.add("2");
-		Assert.assertTrue(set.isFull());
+		assertTrue(set.isFull());
 	}
 
 	@Test
@@ -49,9 +50,9 @@ public class FixedSizeSortedSetTest {
 		set.add("1");
 		set.add("0");
 
-		Assert.assertEquals("0", set.asList().get(0));
-		Assert.assertEquals("1", set.asList().get(1));
-		Assert.assertEquals("2", set.asList().get(2));
+		assertEquals("0", set.asList().get(0));
+		assertEquals("1", set.asList().get(1));
+		assertEquals("2", set.asList().get(2));
 	}
 
 	@Test
@@ -64,9 +65,9 @@ public class FixedSizeSortedSetTest {
 		set.add("1");
 		set.add("2");
 
-		Assert.assertEquals("0", set.asList().get(0));
-		Assert.assertEquals("1", set.asList().get(1));
-		Assert.assertEquals("2", set.asList().get(2));
+		assertEquals("0", set.asList().get(0));
+		assertEquals("1", set.asList().get(1));
+		assertEquals("2", set.asList().get(2));
 	}
 
 	@Test
@@ -76,7 +77,7 @@ public class FixedSizeSortedSetTest {
 		set.add("2");
 		set.add("3");
 
-		Assert.assertEquals(3, set.asList().size());
+		assertEquals(3, set.asList().size());
 	}
 
 	@Test
@@ -85,10 +86,10 @@ public class FixedSizeSortedSetTest {
 		set.add("1");
 		set.add("2");
 
-		Assert.assertEquals("2", set.last());
+		assertEquals("2", set.last());
 
 		set.add("3");
 
-		Assert.assertEquals("2", set.last());
+		assertEquals("2", set.last());
 	}
 }

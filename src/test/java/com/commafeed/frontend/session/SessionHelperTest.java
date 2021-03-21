@@ -3,20 +3,20 @@ package com.commafeed.frontend.session;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.commafeed.backend.model.User;
 
 public class SessionHelperTest {
 
-	private static String SESSION_KEY_USER = "user";
+	private static final String SESSION_KEY_USER = "user";
 
 	@Test
 	public void getting_user_does_not_create_a_session_if_not_present() {
@@ -36,7 +36,7 @@ public class SessionHelperTest {
 		SessionHelper sessionHelper = new SessionHelper(request);
 		Optional<User> user = sessionHelper.getLoggedInUser();
 
-		Assert.assertFalse(user.isPresent());
+		assertFalse(user.isPresent());
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class SessionHelperTest {
 		SessionHelper sessionHelper = new SessionHelper(request);
 		Optional<User> user = sessionHelper.getLoggedInUser();
 
-		Assert.assertFalse(user.isPresent());
+		assertFalse(user.isPresent());
 	}
 
 	@Test
@@ -66,8 +66,8 @@ public class SessionHelperTest {
 		SessionHelper sessionHelper = new SessionHelper(request);
 		Optional<User> user = sessionHelper.getLoggedInUser();
 
-		Assert.assertTrue(user.isPresent());
-		Assert.assertEquals(userInSession, user.get());
+		assertTrue(user.isPresent());
+		assertEquals(userInSession, user.get());
 	}
 
 }

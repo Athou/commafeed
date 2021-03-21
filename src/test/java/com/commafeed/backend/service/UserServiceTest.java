@@ -1,8 +1,6 @@
 package com.commafeed.backend.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -11,9 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -55,23 +51,20 @@ public class UserServiceTest {
 
 	private AutoCloseable mocks;
 
-	@Before
-	public void before_each_test() {
+	@BeforeEach
+	public void setUp() {
 		mocks = MockitoAnnotations.openMocks(this);
-
 		userService = new UserService(feedCategoryDAO, feedSubscriptionDAO, userDAO, userRoleDAO, userSettingsDAO,
 				passwordEncryptionService, commaFeedConfiguration, postLoginActivities);
-
 		disabledUser = new User();
 		disabledUser.setDisabled(true);
-
 		normalUser = new User();
 		normalUser.setDisabled(false);
 		normalUser.setSalt(SALT);
 		normalUser.setPassword(ENCRYPTED_PASSWORD);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		mocks.close();
 	}

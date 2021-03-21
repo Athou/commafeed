@@ -1,31 +1,31 @@
 package com.commafeed.backend.service;
 
-import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.backend.feed.FeedQueues;
-import com.commafeed.backend.model.Feed;
-import org.apache.http.HttpHeaders;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Answers;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockserver.client.MockServerClient;
-import org.mockserver.junit.MockServerRule;
-import org.mockserver.model.MediaType;
-
 import static org.mockito.Mockito.*;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
+import org.apache.http.HttpHeaders;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Answers;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockserver.client.MockServerClient;
+import org.mockserver.junit.jupiter.MockServerExtension;
+import org.mockserver.junit.jupiter.MockServerSettings;
+import org.mockserver.model.MediaType;
+
+import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.backend.feed.FeedQueues;
+import com.commafeed.backend.model.Feed;
+
+@ExtendWith(MockServerExtension.class)
+@MockServerSettings(ports = {22441})
 public class PubSubServiceTest {
 
-    PubSubService underTest;
+    private PubSubService underTest;
 
-    @Rule
-    public MockServerRule mockServerRule = new MockServerRule(this, 22441);
-    public MockServerClient mockServerClient;
+    private MockServerClient client;
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     CommaFeedConfiguration config;
@@ -38,8 +38,9 @@ public class PubSubServiceTest {
 
     private AutoCloseable mocks;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    public void setUp(MockServerClient client) {
+        this.client = client;
         mocks = MockitoAnnotations.openMocks(this);
 
         underTest = new PubSubService(config, queues);
@@ -53,15 +54,16 @@ public class PubSubServiceTest {
         when(config.getApplicationSettings().getPublicUrl()).thenReturn("http://localhost:22441/hub");
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         mocks.close();
+        client.reset();
     }
 
     @Test
     public void subscribe_200() {
         // Arrange
-        mockServerClient
+        client
                 .when(request().withMethod("POST"))
                 .respond(response().withStatusCode(200));
 
@@ -69,7 +71,7 @@ public class PubSubServiceTest {
         underTest.subscribe(feed);
 
         // Assert
-        mockServerClient.verify(request()
+        client.verify(request()
                 .withContentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .withHeader(HttpHeaders.USER_AGENT, "CommaFeed")
                 .withMethod("POST")
@@ -81,7 +83,7 @@ public class PubSubServiceTest {
     @Test
     public void subscribe_400_withPushpressError() {
         // Arrange
-        mockServerClient
+        client
                 .when(request().withMethod("POST"))
                 .respond(response().withStatusCode(400).withBody(" is value is not allowed.  You may only subscribe to"));
 
@@ -96,7 +98,7 @@ public class PubSubServiceTest {
     @Test
     public void subscribe_400_withoutPushpressError() {
         // Arrange
-        mockServerClient
+        client
                 .when(request().withMethod("POST"))
                 .respond(response().withStatusCode(400));
 

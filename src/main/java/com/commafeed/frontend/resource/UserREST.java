@@ -248,12 +248,13 @@ public class UserREST {
 	public Response login(@ApiParam(required = true) LoginRequest req, @ApiParam(hidden = true) @Context SessionHelper sessionHelper) {
 		Optional<User> user = userService.getUser(req.getName());
 		if (user.isPresent()) {
-			userService.login(user.get(),req.getPassword());
-			sessionHelper.setLoggedInUser(user.get());
-			return Response.ok().build();
-		} else {
-			return Response.status(Response.Status.UNAUTHORIZED).entity("wrong username or password").type(MediaType.TEXT_PLAIN).build();
+			Optional<User> loggedInUser = userService.login(user.get(), req.getPassword());
+			if (loggedInUser.isPresent()) {
+				sessionHelper.setLoggedInUser(loggedInUser.get());
+				return Response.ok().build();
+			}
 		}
+		return Response.status(Response.Status.UNAUTHORIZED).entity("wrong username or password").type(MediaType.TEXT_PLAIN).build();
 	}
 
 	@Path("/passwordReset")

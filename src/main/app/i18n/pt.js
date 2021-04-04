@@ -62,8 +62,8 @@
     "keep_unread" : "Manter como não lido",
     "no_unread_items" : "não tem itens não lidos.",
     "mark_up_to_here" : "Marcar como lido até aqui",
-    "search_for" : "searching for:  ",
-    "no_search_results" : "No match found for the requested keywords "
+    "search_for" : "Procurando por:  ",
+    "no_search_results" : "Nenhum resultado encontrado para a pesquisa."
   },
   "feedsearch" : {
     "hint" : "Digite o nome de uma Inscrição...",
@@ -80,8 +80,8 @@
       "scroll_marks" : "No modo expandido, percorrer os itens marca-os como lidos"
     },
     "appearance" : "Aparência",
-    "scroll_speed" : "Scrolling speed when navigating between entries (in milliseconds) ",
-    "scroll_speed_help" : "set to 0 to disable ",
+    "scroll_speed" : "Velocidade de rolagem enquanto navega pelos itens.",
+    "scroll_speed_help" : "Deixe em 0 para desabilitar ",
     "theme" : "Tema",
     "submit_your_theme" : "Envie seu tema",
     "custom_css" : "CSS personalizado"
@@ -94,17 +94,17 @@
     "category" : "Categoria",
     "position" : "Posição",
     "last_refresh" : "Última atualização",
-    "message" : "Last refresh message ",
+    "message" : "Ultima mensagem de atualização ",
     "next_refresh" : "Próxima atualização",
     "queued_for_refresh" : "Na fila para atualizar",
     "feed_url" : "URL do feed",
     "generate_api_key_first" : "Gerar uma chave de API em seu perfil primeiro.",
     "unsubscribe" : "Cancelar inscrição",
-    "unsubscribe_confirmation" : "Are you sure you want to unsubscribe from this feed? ",
-    "delete_category_confirmation" : "Are you sure you want to delete this category? ",
+    "unsubscribe_confirmation" : "Você tem certeza de que deseja se desinscrever desse feed? ",
+    "delete_category_confirmation" : "Você tem certeza de que deseja deletar essa categoria? ",
     "category_details" : "Detalhes da categoria",
-    "tag_details" : "Tag details ",
-    "parent_category" : "Categoria pai"
+    "tag_details" : "Detalhes da tag ",
+    "parent_category" : "Categoria principal"
   },
   "profile" : {
     "user_name" : "Nome de usuário",
@@ -119,7 +119,7 @@
     "generate_new_api_key_info" : "Mudar a senha irá gerar uma nova chave de API",
     "opml_export" : "Exportar OPML",
     "delete_account" : "Excluir conta",
-    "delete_account_confirmation" : "Delete your acount? There's no turning back! "
+    "delete_account_confirmation" : "Deseja excluir sua conta? Não há como desfazer essa ação! "
   },
   "about" : {
     "rest_api" : {
@@ -129,7 +129,7 @@
     },
     "keyboard_shortcuts" : "Atalhos de teclado",
     "version" : "CommaFeed versão",
-    "line1_prefix" : "CommaFeed é um projeto de código livre. Fontes estão hospedados em ",
+    "line1_prefix" : "CommaFeed é um projeto de código livre. As sources estão hospedados em ",
     "line1_suffix" : ".",
     "line2_prefix" : "Se você encontrar um problema, por favor relate-o na página de problemas do projeto ",
     "line2_suffix" : ".",
@@ -143,13 +143,13 @@
       "firefox_extension" : "Extensão para o Firefox",
       "opera_extension" : "Extensão para o Opera",
       "subscribe_bookmarklet" : "Bookmarklet para adicionar inscrição (clique)",
-      "subscribe_bookmarklet_asc" : "Mais velhas primeiro",
-      "subscribe_bookmarklet_desc" : "Mais novas primeiro",
+      "subscribe_bookmarklet_asc" : "Mais antigas primeiro",
+      "subscribe_bookmarklet_desc" : "Mais recentes primeiro",
       "next_unread_bookmarklet" : "Bookmarklet para o próximo item não lido (arraste para a barra de favoritos)"
     },
     "translation" : {
       "value" : "Tradução",
-      "message" : "Precisamos de sua ajuda para traduzir CommaFeed.",
+      "message" : "Precisamos de sua ajuda para traduzir o CommaFeed.",
       "link" : "Veja como contribuir com traduções."
     },
     "announcements" : "Anúncios",

@@ -2,9 +2,15 @@ package com.commafeed.backend.opml;
 
 import java.io.IOException;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyInt;
+
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.Test;
 
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -35,18 +41,18 @@ public class OPMLImporterTest {
 	}
 
 	private void testOpmlVersion(String fileName) throws IOException {
-		FeedCategoryDAO feedCategoryDAO = Mockito.mock(FeedCategoryDAO.class);
-		FeedSubscriptionService feedSubscriptionService = Mockito.mock(FeedSubscriptionService.class);
-		CacheService cacheService = Mockito.mock(CacheService.class);
-		User user = Mockito.mock(User.class);
+		FeedCategoryDAO feedCategoryDAO = mock(FeedCategoryDAO.class);
+		FeedSubscriptionService feedSubscriptionService = mock(FeedSubscriptionService.class);
+		CacheService cacheService = mock(CacheService.class);
+		User user = mock(User.class);
 
 		String xml = IOUtils.toString(getClass().getResourceAsStream(fileName));
 
 		OPMLImporter importer = new OPMLImporter(feedCategoryDAO, feedSubscriptionService, cacheService);
 		importer.importOpml(user, xml);
 
-		Mockito.verify(feedSubscriptionService).subscribe(Mockito.eq(user), Mockito.anyString(), Mockito.anyString(),
-				Mockito.any(FeedCategory.class), Mockito.anyInt());
+		verify(feedSubscriptionService).subscribe(eq(user), anyString(), anyString(),
+				any(FeedCategory.class), anyInt());
 	}
 
 }

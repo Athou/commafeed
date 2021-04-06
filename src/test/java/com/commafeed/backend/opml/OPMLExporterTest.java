@@ -1,15 +1,15 @@
 package com.commafeed.backend.opml;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -41,23 +41,25 @@ public class OPMLExporterTest {
 	private List<FeedCategory> categories = new ArrayList<>();
 	private List<FeedSubscription> subscriptions = new ArrayList<>();
 
-	@Before
+	private AutoCloseable mocks;
+
+	@BeforeEach
 	public void before_each_test() {
-		MockitoAnnotations.initMocks(this);
+		mocks = MockitoAnnotations.openMocks(this);
 
 		user.setName("John Doe");
 
-		cat1.setId(1l);
+		cat1.setId(1L);
 		cat1.setName("cat1");
 		cat1.setParent(null);
-		cat1.setChildren(new HashSet<FeedCategory>());
-		cat1.setSubscriptions(new HashSet<FeedSubscription>());
+		cat1.setChildren(new HashSet<>());
+		cat1.setSubscriptions(new HashSet<>());
 
-		cat2.setId(2l);
+		cat2.setId(2L);
 		cat2.setName("cat2");
 		cat2.setParent(cat1);
-		cat2.setChildren(new HashSet<FeedCategory>());
-		cat2.setSubscriptions(new HashSet<FeedSubscription>());
+		cat2.setChildren(new HashSet<>());
+		cat2.setSubscriptions(new HashSet<>());
 
 		cat1.getChildren().add(cat2);
 
@@ -74,6 +76,11 @@ public class OPMLExporterTest {
 		subscriptions.add(rootFeed);
 		subscriptions.add(cat1Feed);
 		subscriptions.add(cat2Feed);
+	}
+
+	@AfterEach
+	public void tearDown() throws Exception {
+		mocks.close();
 	}
 
 	private Feed newFeed(String url) {
@@ -102,12 +109,14 @@ public class OPMLExporterTest {
 		assertTrue(containsFeed(rootOutlines, "rootFeed", "rootFeed.com"));
 
 		Outline cat1Outline = getCategoryOutline(rootOutlines, "cat1");
+		assertNotNull(cat1Outline);
 		List<Outline> cat1Children = cat1Outline.getChildren();
 		assertEquals(2, cat1Children.size());
 		assertTrue(containsCategory(cat1Children, "cat2"));
 		assertTrue(containsFeed(cat1Children, "cat1Feed", "cat1Feed.com"));
 
 		Outline cat2Outline = getCategoryOutline(cat1Children, "cat2");
+		assertNotNull(cat2Outline);
 		List<Outline> cat2Children = cat2Outline.getChildren();
 		assertEquals(1, cat2Children.size());
 		assertTrue(containsFeed(cat2Children, "cat2Feed", "cat2Feed.com"));
@@ -118,7 +127,6 @@ public class OPMLExporterTest {
 			if (!"rss".equals(o.getType()))
 				if (category.equals(o.getTitle()))
 					return true;
-
 		return false;
 	}
 
@@ -127,7 +135,6 @@ public class OPMLExporterTest {
 			if ("rss".equals(o.getType()))
 				if (title.equals(o.getTitle()) && o.getAttributeValue("xmlUrl").equals(url))
 					return true;
-
 		return false;
 	}
 
@@ -135,7 +142,6 @@ public class OPMLExporterTest {
 		for (Outline o : outlines)
 			if (o.getTitle().equals(title))
 				return o;
-
 		return null;
 	}
 }

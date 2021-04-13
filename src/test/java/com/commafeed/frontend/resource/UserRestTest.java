@@ -1,6 +1,6 @@
 package com.commafeed.frontend.resource;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -10,9 +10,8 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
-import org.mockito.Matchers;
 
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
@@ -30,7 +29,7 @@ public class UserRestTest {
 
 		// Create UserService partial mock
 		UserService service = mock(UserService.class);
-		when(service.login("user", "password")).thenReturn(absentUser);
+		when(service.getUser("user")).thenReturn(absentUser);
 
 		UserREST userREST = new UserREST(null, null, null, service, null, null, null);
 		SessionHelper sessionHelper = mock(SessionHelper.class);
@@ -41,6 +40,8 @@ public class UserRestTest {
 
 		userREST.login(req, sessionHelper);
 
+		verify(service).getUser("user");
+		verify(service, never()).login(any(User.class), any(String.class));
 		verify(sessionHelper, never()).setLoggedInUser(any(User.class));
 	}
 
@@ -51,7 +52,8 @@ public class UserRestTest {
 
 		// Create UserService mock
 		UserService service = mock(UserService.class);
-		when(service.login("user", "password")).thenReturn(Optional.of(user));
+		when(service.getUser("user")).thenReturn(Optional.of(user));
+		when(service.login(user, "password")).thenReturn(Optional.of(user));
 
 		LoginRequest req = new LoginRequest();
 		req.setName("user");
@@ -62,13 +64,18 @@ public class UserRestTest {
 
 		userREST.login(req, sessionHelper);
 
+		verify(service).getUser("user");
+		verify(service).login(user, "password");
 		verify(sessionHelper).setLoggedInUser(user);
 	}
 
 	@Test
 	public void register_should_register_and_then_login() {
 		// Create UserService mock
+		User user = new User();
 		UserService service = mock(UserService.class);
+		when(service.register("user", "password", "test@test.com", Arrays.asList(Role.USER))).thenReturn(user);
+		when(service.login(user, "password")).thenReturn(Optional.of(user));
 
 		RegistrationRequest req = new RegistrationRequest();
 		req.setName("user");
@@ -83,7 +90,7 @@ public class UserRestTest {
 		userREST.registerUser(req, sessionHelper);
 
 		inOrder.verify(service).register("user", "password", "test@test.com", Arrays.asList(Role.USER));
-		inOrder.verify(service).login("user", "password");
+		inOrder.verify(service).login(any(User.class), eq("password"));
 	}
 
 	@Test
@@ -93,8 +100,8 @@ public class UserRestTest {
 
 		// Create UserService mock
 		UserService service = mock(UserService.class);
-		when(service.register(any(String.class), any(String.class), any(String.class), Matchers.anyListOf(Role.class))).thenReturn(user);
-		when(service.login(any(String.class), any(String.class))).thenReturn(Optional.of(user));
+		when(service.register(any(String.class), any(String.class), any(String.class), anyList())).thenReturn(user);
+		when(service.login(any(User.class), any(String.class))).thenReturn(Optional.of(user));
 
 		RegistrationRequest req = new RegistrationRequest();
 		req.setName("user");

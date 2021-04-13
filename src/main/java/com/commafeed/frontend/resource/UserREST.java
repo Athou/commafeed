@@ -231,7 +231,7 @@ public class UserREST {
 			@Context @ApiParam(hidden = true) SessionHelper sessionHelper) {
 		try {
 			User registeredUser = userService.register(req.getName(), req.getPassword(), req.getEmail(), Arrays.asList(Role.USER));
-			userService.login(req.getName(), req.getPassword());
+			userService.login(registeredUser, req.getPassword());
 			sessionHelper.setLoggedInUser(registeredUser);
 			return Response.ok().build();
 		} catch (final IllegalArgumentException e) {
@@ -246,8 +246,9 @@ public class UserREST {
 	@ApiOperation(value = "Login and create a session")
 	@Timed
 	public Response login(@ApiParam(required = true) LoginRequest req, @ApiParam(hidden = true) @Context SessionHelper sessionHelper) {
-		Optional<User> user = userService.login(req.getName(), req.getPassword());
+		Optional<User> user = userService.getUser(req.getName());
 		if (user.isPresent()) {
+			userService.login(user.get(),req.getPassword());
 			sessionHelper.setLoggedInUser(user.get());
 			return Response.ok().build();
 		} else {

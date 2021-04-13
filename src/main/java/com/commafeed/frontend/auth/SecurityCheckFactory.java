@@ -78,9 +78,12 @@ public class SecurityCheckFactory extends AbstractContainerRequestValueFactory<U
 					String decoded = B64Code.decode(header.substring(space + 1), StringUtil.__ISO_8859_1);
 					int i = decoded.indexOf(':');
 					if (i > 0) {
-						String username = decoded.substring(0, i);
-						String password = decoded.substring(i + 1);
-						return userService.login(username, password);
+						Optional<User> user = userService.getUser(decoded.substring(0, i));
+						if (user.isPresent()) {
+							return userService.login(user.get(), decoded.substring(i + 1));
+						} else {
+							return Optional.empty();
+						}
 					}
 				}
 			}

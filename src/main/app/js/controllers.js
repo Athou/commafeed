@@ -857,6 +857,16 @@ module.controller('FeedListCtrl', [
 				return $window.off('scroll', scrollListener);
 			});
 
+			var refreshHandler = function() {
+				if ((document.visibilityState === 'visible') && (!$scope.isOpen) && (SettingsService.settings.viewMode !== 'expanded')) {
+					$scope.$emit('emitReload');
+				}
+			};
+			$window.on('visibilitychange', refreshHandler);
+			$scope.$on('$destroy', function() {
+				return $window.off('visibilitychange', refreshHandler);
+			});
+
 			$scope.goToFeed = function(id) {
 				$state.transitionTo('feeds.view', {
 					_type : 'feed',
@@ -1255,6 +1265,7 @@ module.controller('FeedListCtrl', [
 				$scope.timestamp = 0;
 				$scope.busy = false;
 				$scope.hasMore = true;
+				$scope.isOpen = SettingsService.settings.viewMode == 'expanded';
 				$scope.loadMoreEntries();
 
 				if (all) {

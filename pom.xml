@@ -84,7 +84,7 @@
 						</goals>
 						<configuration>
 							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>com.commafeed.CommaFeedApplication</mainClass>
 								</transformer>
@@ -232,7 +232,7 @@
 												</goals>
 											</pluginExecutionFilter>
 											<action>
-												<ignore></ignore>
+												<ignore/>
 											</action>
 										</pluginExecution>
 									</pluginExecutions>
@@ -447,7 +447,7 @@
 		<dependency>
 			<groupId>com.google.apis</groupId>
 			<artifactId>google-api-services-youtube</artifactId>
-			<version>v3-rev139-1.20.0</version>
+			<version>v3-rev20210624-1.32.1</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.guava</groupId>

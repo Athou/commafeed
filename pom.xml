@@ -84,7 +84,7 @@
 						</goals>
 						<configuration>
 							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>com.commafeed.CommaFeedApplication</mainClass>
 								</transformer>
@@ -232,7 +232,7 @@
 												</goals>
 											</pluginExecutionFilter>
 											<action>
-												<ignore></ignore>
+												<ignore/>
 											</action>
 										</pluginExecution>
 									</pluginExecutions>
@@ -431,7 +431,7 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.8.3</version>
+			<version>1.14.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ibm.icu</groupId>

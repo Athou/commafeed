@@ -2,6 +2,7 @@ package com.commafeed.backend.favicon;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,12 +67,12 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 						}
 					}).setApplicationName("CommaFeed").build();
 
-			YouTube.Channels.List list = youtube.channels().list("snippet");
+			YouTube.Channels.List list = youtube.channels().list(Arrays.asList("snippet"));
 			list.setKey(googleAuthKey);
 			if (userId.isPresent()) {
 				list.setForUsername(userId.get().getValue());
 			} else {
-				list.setId(channelId.get().getValue());
+				list.setId(Arrays.asList(channelId.get().getValue()));
 			}
 
 			log.debug("contacting youtube api");

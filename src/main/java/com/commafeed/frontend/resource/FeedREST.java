@@ -10,7 +10,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -361,7 +360,7 @@ public class FeedREST {
 		Feed feed = subscription.getFeed();
 		Favicon icon = feedService.fetchFavicon(feed);
 
-		ResponseBuilder builder = Response.ok(icon.getIcon(), Optional.ofNullable(icon.getMediaType()).orElse("image/x-icon"));
+		ResponseBuilder builder = Response.ok(icon.getIcon(), StringUtils.defaultIfBlank(icon.getMediaType(), "image/x-icon"));
 
 		CacheControl cacheControl = new CacheControl();
 		cacheControl.setMaxAge(2592000);

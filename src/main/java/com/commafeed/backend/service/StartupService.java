@@ -63,8 +63,10 @@ public class StartupService implements Managed {
 				}
 
 				ResourceAccessor accessor = new ClassLoaderResourceAccessor(Thread.currentThread().getContextClassLoader());
-				Liquibase liq = new Liquibase("migrations.xml", accessor, database);
-				liq.update("prod");
+				try (Liquibase liq = new Liquibase("migrations.xml", accessor, database)) {
+					liq.update("prod");
+				}
+
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}

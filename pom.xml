@@ -295,6 +295,11 @@
 			<version>${dropwizard.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>3.6.3</version>
+		</dependency>
+		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-assets</artifactId>
 			<version>${dropwizard.version}</version>

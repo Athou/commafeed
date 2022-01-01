@@ -1,155 +1,241 @@
 <div ng-class="{expanded: settingsService.settings.viewMode == 'expanded'}">
-	<div class="entrylist-header" ng-if="name">
-		<h3>
-			<span ng-switch on="selectedId">
-				<span ng-switch-when="all">{{ 'tree.all' | translate }}</span>
-				<span ng-switch-when="starred">{{ 'tree.starred' | translate }}</span>
-				<span ng-switch-default>
-					<span ng-hide="feedLink">{{name}}</span>
-					<a ng-show="feedLink" href="{{feedLink}}" target="_blank" rel="noreferrer">{{name}}</a>
-				</span>
-			</span>
-			<span ng-show="name"> &#187;</span>
-			<span ng-show="keywords">{{ 'view.search_for' | translate }} '{{ keywords }}'</span>
-		</h3>
-	</div>
+    <div class="entrylist-header" ng-if="name">
+        <h3>
+            <span ng-switch on="selectedId">
+                <span ng-switch-when="all">{{ 'tree.all' | translate }}</span>
+                <span ng-switch-when="starred">{{ 'tree.starred' | translate }}</span>
+                <span ng-switch-default>
+                    <span ng-hide="feedLink">{{name}}</span>
+                    <a ng-show="feedLink" href="{{feedLink}}" target="_blank" rel="noreferrer">{{name}}</a>
+                </span>
+            </span>
+            <span ng-show="name"> &#187;</span>
+            <span ng-show="keywords">{{ 'view.search_for' | translate }} '{{ keywords }}'</span>
+        </h3>
+    </div>
 
-	<div infinite-scroll="loadMoreEntries()" infinite-scroll-disabled="busy || !settingsService.settings.readingMode"
-		infinite-scroll-distance="1" id="feed-accordion" ng-class="{'expanded' : settingsService.settings.viewMode == 'expanded' }">
-		<div ng-show="message && errorCount > 10">{{ 'view.error_while_loading_feed' | translate }} : {{ message }}</div>
-		<div ng-repeat="entry in entries" class="entry entry-font-size-{{font_size}}" id="entry_{{entry.id}}"
-			ng-class="{unread: entry.read == false, current: current==entry, open: isOpen, closed: !isOpen }">
-			<div class="entry-heading" ng-swipe-right="mark(entry, !entry.read)">
-				<a href="{{entry.url}}" target="_blank" rel="noreferrer" class="entry-heading-link" ng-click="noop($event)" ng-mouseup="entryClicked(entry, $event)">
-					<span class="feed-name">
-						<span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
-							<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}" class="pointer"></i>
-						</span>
-						<favicon url="entry.iconUrl" />
-						{{entry.feedName}}
-					</span>
-					<span class="entry-date">{{entry.date | entryDate}}</span>
-					<span class="entry-name" ng-class="{shrink: true, rtl: entry.rtl}" ng-bind-html="entry.title | highlight:keywords | trustHtml"></span>
-				</a>
-				<a href="{{entry.url}}" target="_blank" rel="noreferrer" class="entry-external-link" ng-click="mark(entry, true)">
-					<i class="icon-external-link"></i>
-				</a>
-			</div>
-			<div class="entry-body" ng-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)"
-				ng-mouseup="bodyClicked(entry, $event)" ng-class="{rtl: entry.rtl}">
-				<div class="entry-header">
-					<div class="entry-title">
-						<a href="{{entry.url}}" target="_blank" rel="noreferrer" ng-bind-html="entry.title | highlight:keywords | trustHtml"></a>
-						<div class="entry-subtitle">
-							<span class="entry-source" ng-if="selectedType == 'category'">
-								<span class="entry-source-prefix">{{ 'view.entry_source' | translate }}</span>
-								<a ng-click="goToFeed(entry.feedId)" class="pointer bidi-embed">
-									<span>{{entry.feedName}}</span>
-								</a>
-							</span>
-							<span class="entry-author" ng-if="entry.author">
-								<span class="entry-author-prefix">{{ 'view.entry_author' | translate }}</span>
-								<span class="entry-author-name">{{entry.author}}</span>
-							</span>
-							<span class="entry-categories" ng-if="entry.categories">
-								<span class="entry-categories-name">({{entry.categories}})</span>
-							</span>
-						</div>
-					</div>
-				</div>
+    <div
+        infinite-scroll="loadMoreEntries()"
+        infinite-scroll-disabled="busy || !settingsService.settings.readingMode"
+        infinite-scroll-distance="1"
+        id="feed-accordion"
+        ng-class="{'expanded' : settingsService.settings.viewMode == 'expanded' }"
+    >
+        <div ng-show="message && errorCount > 10">{{ 'view.error_while_loading_feed' | translate }} : {{ message }}</div>
+        <div
+            ng-repeat="entry in entries"
+            class="entry entry-font-size-{{font_size}}"
+            id="entry_{{entry.id}}"
+            ng-class="{unread: entry.read == false, current: current==entry, open: isOpen, closed: !isOpen }"
+        >
+            <div class="entry-heading" ng-swipe-right="mark(entry, !entry.read)">
+                <a
+                    href="{{entry.url}}"
+                    target="_blank"
+                    rel="noreferrer"
+                    class="entry-heading-link"
+                    ng-click="noop($event)"
+                    ng-mouseup="entryClicked(entry, $event)"
+                >
+                    <span class="feed-name">
+                        <span class="star" ng-mouseup="star(entry, !entry.starred, $event)">
+                            <i
+                                ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}"
+                                class="pointer"
+                            ></i>
+                        </span>
+                        <favicon url="entry.iconUrl" />
+                        {{entry.feedName}}
+                    </span>
+                    <span class="entry-date">{{entry.date | entryDate}}</span>
+                    <span
+                        class="entry-name"
+                        ng-class="{shrink: true, rtl: entry.rtl}"
+                        ng-bind-html="entry.title | highlight:keywords | trustHtml"
+                    ></span>
+                </a>
+                <a href="{{entry.url}}" target="_blank" rel="noreferrer" class="entry-external-link" ng-click="mark(entry, true)">
+                    <i class="icon-external-link"></i>
+                </a>
+            </div>
+            <div
+                class="entry-body"
+                ng-if="settingsService.settings.viewMode == 'expanded' || (isOpen && current == entry)"
+                ng-mouseup="bodyClicked(entry, $event)"
+                ng-class="{rtl: entry.rtl}"
+            >
+                <div class="entry-header">
+                    <div class="entry-title">
+                        <a
+                            href="{{entry.url}}"
+                            target="_blank"
+                            rel="noreferrer"
+                            ng-bind-html="entry.title | highlight:keywords | trustHtml"
+                        ></a>
+                        <div class="entry-subtitle">
+                            <span class="entry-source" ng-if="selectedType == 'category'">
+                                <span class="entry-source-prefix">{{ 'view.entry_source' | translate }}</span>
+                                <a ng-click="goToFeed(entry.feedId)" class="pointer bidi-embed">
+                                    <span>{{entry.feedName}}</span>
+                                </a>
+                            </span>
+                            <span class="entry-author" ng-if="entry.author">
+                                <span class="entry-author-prefix">{{ 'view.entry_author' | translate }}</span>
+                                <span class="entry-author-name">{{entry.author}}</span>
+                            </span>
+                            <span class="entry-categories" ng-if="entry.categories">
+                                <span class="entry-categories-name">({{entry.categories}})</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
 
-				<div class="entry-body-content">
-					<div ng-if="!MobileService.mobile" ng-bind-html="entry.content | iframeHttpsRewrite| highlight:keywords | trustHtml"></div>
-					<div ng-if="MobileService.mobile" ng-bind-html="entry.content | iframeHttpsRewrite| highlight:keywords | appendImageTitles | trustHtml"></div>
-					<div class="entry-enclosure" ng-if="entry.enclosureType && (entry.enclosureUrl && entry.content && entry.content.indexOf(entry.enclosureUrl) == -1)">
-						<video controls ng-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">
-							<source ng-src="{{entry.enclosureUrl | trustUrl}}" type="{{entry.enclosureType}}" />
-						</video>
-						<audio controls ng-if="entry.enclosureType && entry.enclosureType.indexOf('audio') == 0">
-							<source ng-src="{{entry.enclosureUrl | trustUrl}}" type="{{entry.enclosureType}}" />
-						</audio>
-						<div ng-if="entry.enclosureType && entry.enclosureType.indexOf('image') == 0">
-							<img ng-src="{{entry.enclosureUrl | trustUrl}}" />
-						</div>
-						<a ng-href="{{entry.enclosureUrl | trustUrl}}" target="_blank" ng-if="entry.enclosureType" download> {{ 'global.download' | translate }} </a>
-					</div>
-				</div>
-				<div class="entry-buttons form-inline">
-					<div class="form-group star" ng-mouseup="star(entry, !entry.starred, $event)">
-						<i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}" class="pointer"></i>
-					</div>
-					<div class="checkbox-inline keep-unread">
-						<label ng-if="entry.markable" class="pointer">
-							<input type="checkbox" ng-checked="!entry.read" ng-click="mark(entry, !entry.read)" class="mousetrap"></input>
-							{{ 'view.keep_unread' | translate }}
-						</label>
-					</div>
+                <div class="entry-body-content">
+                    <div
+                        ng-if="!MobileService.mobile"
+                        ng-bind-html="entry.content | iframeHttpsRewrite| highlight:keywords | trustHtml"
+                    ></div>
+                    <div
+                        ng-if="MobileService.mobile"
+                        ng-bind-html="entry.content | iframeHttpsRewrite| highlight:keywords | appendImageTitles | trustHtml"
+                    ></div>
+                    <div
+                        class="entry-enclosure"
+                        ng-if="entry.enclosureType && (entry.enclosureUrl && entry.content && entry.content.indexOf(entry.enclosureUrl) == -1)"
+                    >
+                        <video controls ng-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">
+                            <source ng-src="{{entry.enclosureUrl | trustUrl}}" type="{{entry.enclosureType}}" />
+                        </video>
+                        <audio controls ng-if="entry.enclosureType && entry.enclosureType.indexOf('audio') == 0">
+                            <source ng-src="{{entry.enclosureUrl | trustUrl}}" type="{{entry.enclosureType}}" />
+                        </audio>
+                        <div ng-if="entry.enclosureType && entry.enclosureType.indexOf('image') == 0">
+                            <img ng-src="{{entry.enclosureUrl | trustUrl}}" />
+                        </div>
+                        <a ng-href="{{entry.enclosureUrl | trustUrl}}" target="_blank" ng-if="entry.enclosureType" download>
+                            {{ 'global.download' | translate }}
+                        </a>
+                    </div>
+                </div>
+                <div class="entry-buttons form-inline">
+                    <div class="form-group star" ng-mouseup="star(entry, !entry.starred, $event)">
+                        <i ng-class="{'icon-star icon-star-yellow': entry.starred, 'icon-star-empty': !entry.starred}" class="pointer"></i>
+                    </div>
+                    <div class="checkbox-inline keep-unread">
+                        <label ng-if="entry.markable" class="pointer">
+                            <input type="checkbox" ng-checked="!entry.read" ng-click="mark(entry, !entry.read)" class="mousetrap" />
+                            {{ 'view.keep_unread' | translate }}
+                        </label>
+                    </div>
 
-					<span class="share-buttons">
-						<a href="mailto:?subject={{entry.title|escape}}&body={{entry.url|escape}}" title="E-mail" popup ng-if="settingsService.settings.email">
-							<i class="icon-envelope"></i>
-						</a>
-						<a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&source=mailto&su={{entry.title|escape}}&body={{entry.url|escape}}"
-							title="Gmail" popup ng-if="settingsService.settings.gmail">
-							<i class="icon-gmail"></i>
-						</a>
-						<a href="http://www.facebook.com/sharer.php?u={{entry.url|escape}}" title="Facebook" popup ng-if="settingsService.settings.facebook">
-							<i class="icon-facebook"></i>
-						</a>
-						<a href="http://twitter.com/share?text={{entry.title|escape}}&url={{entry.url|escape}}" title="Twitter" popup
-							ng-if="settingsService.settings.twitter">
-							<i class="icon-twitter"></i>
-						</a>
-						<a href="https://plus.google.com/share?url={{entry.url|escape}}" title="Google+" popup ng-if="settingsService.settings.googleplus">
-							<i class="icon-google-plus"></i>
-						</a>
-						<a href="http://www.tumblr.com/share/link?url={{entry.url|escape}}&name={{entry.title|escape}}" title="Tumblr" popup
-							ng-if="settingsService.settings.tumblr">
-							<i class="icon-tumblr"></i>
-						</a>
-						<a href="https://getpocket.com/save?url={{entry.url|escape}}&title={{entry.title|escape}}" title="Pocket" popup
-							ng-if="settingsService.settings.pocket">
-							<i class="icon-pocket"></i>
-						</a>
-						<a href="https://www.instapaper.com/hello2?url={{entry.url|escape}}&title={{entry.title|escape}}" title="Instapaper" popup
-							ng-if="settingsService.settings.instapaper">
-							<i class="icon-instapaper"></i>
-						</a>
-						<a href="https://bufferapp.com/add?url={{entry.url|escape}}&text={{entry.title|escape}}" title="Buffer" popup
-							ng-if="settingsService.settings.buffer">
-							<i class="icon-buffer"></i>
-						</a>
-						<a href="http://www.readability.com/save?url={{entry.url|escape}}" title="Readability" popup
-							ng-if="settingsService.settings.readability">
-							<i class="icon-couch"></i>
-						</a>
-					</span>
+                    <span class="share-buttons">
+                        <a
+                            href="mailto:?subject={{entry.title|escape}}&body={{entry.url|escape}}"
+                            title="E-mail"
+                            popup
+                            ng-if="settingsService.settings.email"
+                        >
+                            <i class="icon-envelope"></i>
+                        </a>
+                        <a
+                            href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&source=mailto&su={{entry.title|escape}}&body={{entry.url|escape}}"
+                            title="Gmail"
+                            popup
+                            ng-if="settingsService.settings.gmail"
+                        >
+                            <i class="icon-gmail"></i>
+                        </a>
+                        <a
+                            href="http://www.facebook.com/sharer.php?u={{entry.url|escape}}"
+                            title="Facebook"
+                            popup
+                            ng-if="settingsService.settings.facebook"
+                        >
+                            <i class="icon-facebook"></i>
+                        </a>
+                        <a
+                            href="http://twitter.com/share?text={{entry.title|escape}}&url={{entry.url|escape}}"
+                            title="Twitter"
+                            popup
+                            ng-if="settingsService.settings.twitter"
+                        >
+                            <i class="icon-twitter"></i>
+                        </a>
+                        <a
+                            href="https://plus.google.com/share?url={{entry.url|escape}}"
+                            title="Google+"
+                            popup
+                            ng-if="settingsService.settings.googleplus"
+                        >
+                            <i class="icon-google-plus"></i>
+                        </a>
+                        <a
+                            href="http://www.tumblr.com/share/link?url={{entry.url|escape}}&name={{entry.title|escape}}"
+                            title="Tumblr"
+                            popup
+                            ng-if="settingsService.settings.tumblr"
+                        >
+                            <i class="icon-tumblr"></i>
+                        </a>
+                        <a
+                            href="https://getpocket.com/save?url={{entry.url|escape}}&title={{entry.title|escape}}"
+                            title="Pocket"
+                            popup
+                            ng-if="settingsService.settings.pocket"
+                        >
+                            <i class="icon-pocket"></i>
+                        </a>
+                        <a
+                            href="https://www.instapaper.com/hello2?url={{entry.url|escape}}&title={{entry.title|escape}}"
+                            title="Instapaper"
+                            popup
+                            ng-if="settingsService.settings.instapaper"
+                        >
+                            <i class="icon-instapaper"></i>
+                        </a>
+                        <a
+                            href="https://bufferapp.com/add?url={{entry.url|escape}}&text={{entry.title|escape}}"
+                            title="Buffer"
+                            popup
+                            ng-if="settingsService.settings.buffer"
+                        >
+                            <i class="icon-buffer"></i>
+                        </a>
+                        <a
+                            href="http://www.readability.com/save?url={{entry.url|escape}}"
+                            title="Readability"
+                            popup
+                            ng-if="settingsService.settings.readability"
+                        >
+                            <i class="icon-couch"></i>
+                        </a>
+                    </span>
 
-					<span class="tags-panel">
-						<tags entry="entry"></tags>
-					</span>
-					<a ng-click="markUpTo(entry)" class="mark-up-to" title="{{ 'view.mark_up_to_here' | translate }}">
-						<i class="icon-step-forward icon-rotate-90"></i>
-					</a>
-				</div>
-			</div>
-		</div>
-		<div class="no-entries" ng-show="name && entries.length == 0 && !busy">
-			<span ng-show="keywords">{{ 'view.no_search_results' | translate }}</span>
-			<span ng-hide="keywords">"{{name}}" {{ 'view.no_unread_items' | translate }}</span>
-		</div>
-		<div modal="shortcutsModal" close="shortcutsModal=false" options="shortcutsOpts">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" ng-click="shortcutsModal=false">&times;</button>
-						<h4>{{ 'about.keyboard_shortcuts' | translate }}</h4>
-					</div>
-					<div class="modal-body" ng-include="'templates/_shortcuts.html'"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div style="height: 30px" ng-if="settingsService.settings.viewMode != 'expanded' && entries.length != 0"></div>
-	<div style="height: 1000px" ng-if="settingsService.settings.viewMode == 'expanded' && entries.length != 0"></div>
+                    <span class="tags-panel">
+                        <tags entry="entry"></tags>
+                    </span>
+                    <a ng-click="markUpTo(entry)" class="mark-up-to" title="{{ 'view.mark_up_to_here' | translate }}">
+                        <i class="icon-step-forward icon-rotate-90"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="no-entries" ng-show="name && entries.length == 0 && !busy">
+            <span ng-show="keywords">{{ 'view.no_search_results' | translate }}</span>
+            <span ng-hide="keywords">"{{name}}" {{ 'view.no_unread_items' | translate }}</span>
+        </div>
+        <div modal="shortcutsModal" close="shortcutsModal=false" options="shortcutsOpts">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="shortcutsModal=false">&times;</button>
+                        <h4>{{ 'about.keyboard_shortcuts' | translate }}</h4>
+                    </div>
+                    <div class="modal-body" ng-include="'templates/_shortcuts.html'"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 30px" ng-if="settingsService.settings.viewMode != 'expanded' && entries.length != 0"></div>
+    <div style="height: 1000px" ng-if="settingsService.settings.viewMode == 'expanded' && entries.length != 0"></div>
 </div>

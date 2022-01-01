@@ -1,66 +1,90 @@
 <div class="profile">
-	<div class="page-header">
-		<h1>{{ 'toolbar.profile' | translate }}</h1>
-	</div>
-	<form name="profileForm" ng-submit="save()" class="form-horizontal">
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="email">{{ 'profile.user_name' | translate }}</label>
-			<div class="col-sm-10 checkbox">
-				<span>{{user.name}}</span>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="email">{{ 'profile.email' | translate }}</label>
-			<div class="col-sm-10">
-				<input type="email" id="email" ng-model="user.email" class="form-control" autocomplete="off" />
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="password">{{ 'profile.change_password' | translate }}</label>
-			<div class="col-sm-10">
-				<input type="password" name="password" id="password" ng-model="user.password" class="form-control" ng-minlength="6" autocomplete="off" />
-				<span class="help-inline" ng-show="profileForm.password.$error.minlength">{{ 'profile.minimum_6_chars' | translate }}</span>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="password">{{ 'profile.confirm_password' | translate }}</label>
-			<div class="col-sm-10">
-				<input type="password" class="form-control" name="password_c" id="password_c" ng-model="password_c"
-					ui-validate="'$value==user.password'" ui-validate-watch="'user.password'" autocomplete="off">
-				<span class="help-inline" ng-show="profileForm.password_c.$error.validator">{{ 'profile.passwords_do_not_match' | translate }}</span>
-			</div>
-		</div>
+    <div class="page-header">
+        <h1>{{ 'toolbar.profile' | translate }}</h1>
+    </div>
+    <form name="profileForm" ng-submit="save()" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="email">{{ 'profile.user_name' | translate }}</label>
+            <div class="col-sm-10 checkbox">
+                <span>{{user.name}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="email">{{ 'profile.email' | translate }}</label>
+            <div class="col-sm-10">
+                <input type="email" id="email" ng-model="user.email" class="form-control" autocomplete="off" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="password">{{ 'profile.change_password' | translate }}</label>
+            <div class="col-sm-10">
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    ng-model="user.password"
+                    class="form-control"
+                    ng-minlength="6"
+                    autocomplete="off"
+                />
+                <span class="help-inline" ng-show="profileForm.password.$error.minlength">{{ 'profile.minimum_6_chars' | translate }}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="password">{{ 'profile.confirm_password' | translate }}</label>
+            <div class="col-sm-10">
+                <input
+                    type="password"
+                    class="form-control"
+                    name="password_c"
+                    id="password_c"
+                    ng-model="password_c"
+                    ui-validate="'$value==user.password'"
+                    ui-validate-watch="'user.password'"
+                    autocomplete="off"
+                />
+                <span class="help-inline" ng-show="profileForm.password_c.$error.validator"
+                    >{{ 'profile.passwords_do_not_match' | translate }}</span
+                >
+            </div>
+        </div>
 
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="password">{{ 'profile.api_key' | translate }}</label>
-			<div class="col-sm-10">
-				<pre ng-show="user.apiKey">{{user.apiKey}}</pre>
-				<span class="help-block" ng-show="!user.apiKey">{{ 'profile.api_key_not_generated' | translate }}</span>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="password">{{ 'profile.generate_new_api_key' | translate }}</label>
-			<div class="col-sm-10">
-				<div class="checkbox">
-					<input type="checkbox" name="newApiKey" id="newApiKey" ng-model="newApiKey">
-					<span class="help-inline">{{ 'profile.generate_new_api_key_info' | translate }}</span>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="password">{{ 'profile.opml_export' | translate }}</label>
-			<div class="col-sm-10 checkbox">
-				<a href="rest/feed/export" download="commafeed_opml.xml">{{ 'global.download' | translate }}</a>
-			</div>
-		</div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="password">{{ 'profile.api_key' | translate }}</label>
+            <div class="col-sm-10">
+                <pre ng-show="user.apiKey">{{user.apiKey}}</pre>
+                <span class="help-block" ng-show="!user.apiKey">{{ 'profile.api_key_not_generated' | translate }}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="password">{{ 'profile.generate_new_api_key' | translate }}</label>
+            <div class="col-sm-10">
+                <div class="checkbox">
+                    <input type="checkbox" name="newApiKey" id="newApiKey" ng-model="newApiKey" />
+                    <span class="help-inline">{{ 'profile.generate_new_api_key_info' | translate }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="password">{{ 'profile.opml_export' | translate }}</label>
+            <div class="col-sm-10 checkbox">
+                <a href="rest/feed/export" download="commafeed_opml.xml">{{ 'global.download' | translate }}</a>
+            </div>
+        </div>
 
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-primary">{{ 'global.save' | translate }}</button>
-				<button type="button" class="btn btn-danger" ng-click="deleteAccount()"
-					confirm-click="'profile.delete_account_confirmation' | translate">{{ 'profile.delete_account' | translate }}</button>
-				<button type="button" class="btn btn-default" ng-click="cancel()">{{ 'global.cancel' | translate }}</button>
-			</div>
-		</div>
-	</form>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">{{ 'global.save' | translate }}</button>
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    ng-click="deleteAccount()"
+                    confirm-click="'profile.delete_account_confirmation' | translate"
+                >
+                    {{ 'profile.delete_account' | translate }}
+                </button>
+                <button type="button" class="btn btn-default" ng-click="cancel()">{{ 'global.cancel' | translate }}</button>
+            </div>
+        </div>
+    </form>
 </div>

@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.cache.CacheService;
+import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.feed.FeedQueues;
@@ -37,6 +38,7 @@ public class FeedSubscriptionService {
 		}
 	}
 
+	private final FeedDAO feedDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedService feedService;
@@ -63,6 +65,12 @@ public class FeedSubscriptionService {
 		}
 
 		Feed feed = feedService.findOrCreate(url);
+
+		// upgrade feed to https if it was using http
+		if (FeedUtils.isHttp(feed.getUrl()) && FeedUtils.isHttps(url)) {
+			feed.setUrl(url);
+			feedDAO.saveOrUpdate(feed);
+		}
 
 		FeedSubscription sub = feedSubscriptionDAO.findByFeed(user, feed);
 		if (sub == null) {

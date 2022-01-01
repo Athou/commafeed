@@ -164,6 +164,14 @@ public class FeedUtils {
 		return sb.toString();
 	}
 
+	public static boolean isHttp(String url) {
+		return url.startsWith("http://");
+	}
+
+	public static boolean isHttps(String url) {
+		return url.startsWith("https://");
+	}
+
 	/**
 	 * Normalize the url. The resulting url is not meant to be fetched but rather used as a mean to identify a feed and avoid duplicates
 	 */

@@ -1,6 +1,7 @@
 package com.commafeed.backend.opml;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
@@ -40,13 +41,13 @@ public class OPMLImporterTest {
 		CacheService cacheService = Mockito.mock(CacheService.class);
 		User user = Mockito.mock(User.class);
 
-		String xml = IOUtils.toString(getClass().getResourceAsStream(fileName));
+		String xml = IOUtils.toString(getClass().getResourceAsStream(fileName), StandardCharsets.UTF_8);
 
 		OPMLImporter importer = new OPMLImporter(feedCategoryDAO, feedSubscriptionService, cacheService);
 		importer.importOpml(user, xml);
 
-		Mockito.verify(feedSubscriptionService).subscribe(Mockito.eq(user), Mockito.anyString(), Mockito.anyString(),
-				Mockito.any(FeedCategory.class), Mockito.anyInt());
+		Mockito.verify(feedSubscriptionService)
+				.subscribe(Mockito.eq(user), Mockito.anyString(), Mockito.anyString(), Mockito.any(FeedCategory.class), Mockito.anyInt());
 	}
 
 }

@@ -67,7 +67,7 @@ public class FacebookFaviconFetcher extends AbstractFaviconFetcher {
 			log.debug("could not parse url", e);
 			return null;
 		}
-		List<NameValuePair> params = URLEncodedUtils.parse(uri, StandardCharsets.UTF_8.name());
+		List<NameValuePair> params = URLEncodedUtils.parse(uri, StandardCharsets.UTF_8);
 		for (NameValuePair param : params) {
 			if ("id".equals(param.getName())) {
 				return param.getValue();

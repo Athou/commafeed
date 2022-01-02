@@ -1,5 +1,7 @@
 package com.commafeed.frontend.auth;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.Set;
 
@@ -11,8 +13,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.eclipse.jetty.util.B64Code;
-import org.eclipse.jetty.util.StringUtil;
 import org.glassfish.jersey.server.internal.inject.AbstractContainerRequestValueFactory;
 
 import com.commafeed.backend.model.User;
@@ -79,7 +79,8 @@ public class SecurityCheckFactory extends AbstractContainerRequestValueFactory<U
 			if (space > 0) {
 				String method = header.substring(0, space);
 				if (PREFIX.equalsIgnoreCase(method)) {
-					String decoded = B64Code.decode(header.substring(space + 1), StringUtil.__ISO_8859_1);
+					byte[] decodedBytes = Base64.getDecoder().decode(header.substring(space + 1));
+					String decoded = new String(decodedBytes, StandardCharsets.ISO_8859_1);
 					int i = decoded.indexOf(':');
 					if (i > 0) {
 						String username = decoded.substring(0, i);

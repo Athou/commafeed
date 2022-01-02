@@ -8,6 +8,7 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.hibernate.annotations.Type;
 
 import lombok.Getter;
@@ -59,5 +60,23 @@ public class FeedEntryContent extends AbstractModel {
 
 	@OneToMany(mappedBy = "content")
 	private Set<FeedEntry> entries;
+
+	public boolean equivalentTo(FeedEntryContent c) {
+		if (c == null) {
+			return false;
+		}
+
+		return new EqualsBuilder().append(title, c.title)
+				.append(content, c.content)
+				.append(author, c.author)
+				.append(enclosureUrl, c.enclosureUrl)
+				.append(enclosureType, c.enclosureType)
+				.append(mediaDescription, c.mediaDescription)
+				.append(mediaThumbnailUrl, c.mediaThumbnailUrl)
+				.append(mediaThumbnailWidth, c.mediaThumbnailWidth)
+				.append(mediaThumbnailHeight, c.mediaThumbnailHeight)
+				.append(categories, c.categories)
+				.build();
+	}
 
 }

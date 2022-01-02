@@ -24,11 +24,8 @@ public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 		super(sessionFactory);
 	}
 
-	public Long findExisting(String contentHash, String titleHash) {
-		return query().select(content.id)
-				.from(content)
-				.where(content.contentHash.eq(contentHash), content.titleHash.eq(titleHash))
-				.fetchFirst();
+	public List<FeedEntryContent> findExisting(String contentHash, String titleHash) {
+		return query().select(content).from(content).where(content.contentHash.eq(contentHash), content.titleHash.eq(titleHash)).fetch();
 	}
 
 	public int deleteWithoutEntries(int max) {

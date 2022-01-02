@@ -1,5 +1,8 @@
 package com.commafeed.backend.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -22,26 +25,24 @@ public class FeedEntryContentService {
 	 * this is NOT thread-safe
 	 */
 	public FeedEntryContent findOrCreate(FeedEntryContent content, String baseUrl) {
+		content.setAuthor(FeedUtils.truncate(FeedUtils.handleContent(content.getAuthor(), baseUrl, true), 128));
+		content.setTitle(FeedUtils.truncate(FeedUtils.handleContent(content.getTitle(), baseUrl, true), 2048));
+		content.setContent(FeedUtils.handleContent(content.getContent(), baseUrl, false));
+		content.setMediaDescription(FeedUtils.handleContent(content.getMediaDescription(), baseUrl, false));
 
 		String contentHash = DigestUtils.sha1Hex(StringUtils.trimToEmpty(content.getContent()));
+		content.setContentHash(contentHash);
+
 		String titleHash = DigestUtils.sha1Hex(StringUtils.trimToEmpty(content.getTitle()));
-		Long existingId = feedEntryContentDAO.findExisting(contentHash, titleHash);
+		content.setTitleHash(titleHash);
 
-		FeedEntryContent result = null;
-		if (existingId == null) {
-			content.setContentHash(contentHash);
-			content.setTitleHash(titleHash);
-
-			content.setAuthor(FeedUtils.truncate(FeedUtils.handleContent(content.getAuthor(), baseUrl, true), 128));
-			content.setTitle(FeedUtils.truncate(FeedUtils.handleContent(content.getTitle(), baseUrl, true), 2048));
-			content.setContent(FeedUtils.handleContent(content.getContent(), baseUrl, false));
-			content.setMediaDescription(FeedUtils.handleContent(content.getMediaDescription(), baseUrl, false));
-			result = content;
-			feedEntryContentDAO.saveOrUpdate(result);
-		} else {
-			result = new FeedEntryContent();
-			result.setId(existingId);
+		List<FeedEntryContent> existing = feedEntryContentDAO.findExisting(contentHash, titleHash);
+		Optional<FeedEntryContent> equivalentContent = existing.stream().filter(c -> content.equivalentTo(c)).findFirst();
+		if (equivalentContent.isPresent()) {
+			return equivalentContent.get();
 		}
-		return result;
+
+		feedEntryContentDAO.saveOrUpdate(content);
+		return content;
 	}
 }

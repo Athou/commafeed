@@ -1,20 +1,9 @@
 package com.commafeed.backend;
 
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +23,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.ConnectionConfig;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
@@ -42,11 +30,14 @@ import org.apache.http.util.EntityUtils;
 
 import com.commafeed.CommaFeedConfiguration;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import nl.altindag.ssl.SSLFactory;
+
 /**
  * Smart HTTP getter: handles gzip, ssl, last modified and etag headers
- * 
+ *
  */
-@Slf4j
 @Singleton
 public class HttpGetter {
 
@@ -56,15 +47,7 @@ public class HttpGetter {
 
 	private static final HttpResponseInterceptor REMOVE_INCORRECT_CONTENT_ENCODING = new ContentEncodingInterceptor();
 
-	private static SSLContext SSL_CONTEXT = null;
-	static {
-		try {
-			SSL_CONTEXT = SSLContext.getInstance("TLS");
-			SSL_CONTEXT.init(new KeyManager[0], new TrustManager[] { new DefaultTrustManager() }, new SecureRandom());
-		} catch (Exception e) {
-			log.error("Could not configure ssl context");
-		}
-	}
+	private static final SSLFactory SSL_FACTORY = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
 
 	private String userAgent;
 
@@ -81,7 +64,7 @@ public class HttpGetter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param url
 	 *            the url to retrive
 	 * @param lastModified
@@ -94,8 +77,8 @@ public class HttpGetter {
 	 * @throws NotModifiedException
 	 *             if the url hasn't changed since we asked for it last time
 	 */
-	public HttpResult getBinary(String url, String lastModified, String eTag, int timeout) throws ClientProtocolException, IOException,
-			NotModifiedException {
+	public HttpResult getBinary(String url, String lastModified, String eTag, int timeout)
+			throws ClientProtocolException, IOException, NotModifiedException {
 		HttpResult result = null;
 		long start = System.currentTimeMillis();
 
@@ -171,25 +154,14 @@ public class HttpGetter {
 		return result;
 	}
 
-	@Getter
-	@RequiredArgsConstructor
-	public static class HttpResult {
-		private final byte[] content;
-		private final String contentType;
-		private final String lastModifiedSince;
-		private final String eTag;
-		private final long duration;
-		private final String urlAfterRedirect;
-	}
-
 	public static CloseableHttpClient newClient(int timeout) {
 		HttpClientBuilder builder = HttpClients.custom();
 		builder.useSystemProperties();
 		builder.addInterceptorFirst(REMOVE_INCORRECT_CONTENT_ENCODING);
 		builder.disableAutomaticRetries();
 
-		builder.setSSLContext(SSL_CONTEXT);
-		builder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
+		builder.setSSLContext(SSL_FACTORY.getSslContext());
+		builder.setSSLHostnameVerifier(SSL_FACTORY.getHostnameVerifier());
 
 		RequestConfig.Builder configBuilder = RequestConfig.custom();
 		configBuilder.setCookieSpec(CookieSpecs.IGNORE_COOKIES);
@@ -203,6 +175,13 @@ public class HttpGetter {
 		return builder.build();
 	}
 
+	public static void main(String[] args) throws Exception {
+		CommaFeedConfiguration config = new CommaFeedConfiguration();
+		HttpGetter getter = new HttpGetter(config);
+		HttpResult result = getter.getBinary("https://sourceforge.net/projects/mpv-player-windows/rss", 30000);
+		System.out.println(new String(result.content));
+	}
+
 	public static class NotModifiedException extends Exception {
 		private static final long serialVersionUID = 1L;
 
@@ -212,25 +191,15 @@ public class HttpGetter {
 
 	}
 
-	private static class DefaultTrustManager implements X509TrustManager {
-		@Override
-		public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-		}
-
-		@Override
-		public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-		}
-
-		@Override
-		public X509Certificate[] getAcceptedIssuers() {
-			return null;
-		}
+	@Getter
+	@RequiredArgsConstructor
+	public static class HttpResult {
+		private final byte[] content;
+		private final String contentType;
+		private final String lastModifiedSince;
+		private final String eTag;
+		private final long duration;
+		private final String urlAfterRedirect;
 	}
 
-	public static void main(String[] args) throws Exception {
-		CommaFeedConfiguration config = new CommaFeedConfiguration();
-		HttpGetter getter = new HttpGetter(config);
-		HttpResult result = getter.getBinary("https://sourceforge.net/projects/mpv-player-windows/rss", 30000);
-		System.out.println(new String(result.content));
-	}
 }

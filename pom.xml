@@ -538,6 +538,11 @@
 			<artifactId>gwt-servlet</artifactId>
 			<version>2.9.0</version>
 		</dependency>
+		<dependency>
+			<groupId>io.github.hakky54</groupId>
+			<artifactId>sslcontext-kickstart</artifactId>
+			<version>7.2.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.google.apis</groupId>

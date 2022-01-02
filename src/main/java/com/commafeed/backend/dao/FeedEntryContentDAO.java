@@ -16,8 +16,8 @@ import com.querydsl.jpa.JPQLQuery;
 @Singleton
 public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 
-	private QFeedEntryContent content = QFeedEntryContent.feedEntryContent;
-	private QFeedEntry entry = QFeedEntry.feedEntry;
+	private final QFeedEntryContent content = QFeedEntryContent.feedEntryContent;
+	private final QFeedEntry entry = QFeedEntry.feedEntry;
 
 	@Inject
 	public FeedEntryContentDAO(SessionFactory sessionFactory) {
@@ -25,7 +25,9 @@ public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 	}
 
 	public Long findExisting(String contentHash, String titleHash) {
-		return query().select(content.id).from(content).where(content.contentHash.eq(contentHash), content.titleHash.eq(titleHash))
+		return query().select(content.id)
+				.from(content)
+				.where(content.contentHash.eq(contentHash), content.titleHash.eq(titleHash))
 				.fetchFirst();
 	}
 

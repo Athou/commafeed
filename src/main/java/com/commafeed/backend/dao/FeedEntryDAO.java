@@ -29,13 +29,20 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 	}
 
 	public Long findExisting(String guid, Feed feed) {
-		return query().select(entry.id).from(entry).where(entry.guidHash.eq(DigestUtils.sha1Hex(guid)), entry.feed.eq(feed)).limit(1)
+		return query().select(entry.id)
+				.from(entry)
+				.where(entry.guidHash.eq(DigestUtils.sha1Hex(guid)), entry.feed.eq(feed))
+				.limit(1)
 				.fetchOne();
 	}
 
 	public List<FeedCapacity> findFeedsExceedingCapacity(long maxCapacity, long max) {
 		NumberExpression<Long> count = entry.id.count();
-		List<Tuple> tuples = query().select(entry.feed.id, count).from(entry).groupBy(entry.feed).having(count.gt(maxCapacity)).limit(max)
+		List<Tuple> tuples = query().select(entry.feed.id, count)
+				.from(entry)
+				.groupBy(entry.feed)
+				.having(count.gt(maxCapacity))
+				.limit(max)
 				.fetch();
 		return tuples.stream().map(t -> new FeedCapacity(t.get(entry.feed.id), t.get(count))).collect(Collectors.toList());
 	}

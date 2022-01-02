@@ -61,13 +61,15 @@ public class OPMLExporter {
 		outline.setText(cat.getName());
 		outline.setTitle(cat.getName());
 
-		for (FeedCategory child : categories.stream().filter(c -> c.getParent() != null && c.getParent().getId().equals(cat.getId()))
+		for (FeedCategory child : categories.stream()
+				.filter(c -> c.getParent() != null && c.getParent().getId().equals(cat.getId()))
 				.collect(Collectors.toList())) {
 			outline.getChildren().add(buildCategoryOutline(child, categories, subscriptions));
 		}
 
 		for (FeedSubscription sub : subscriptions.stream()
-				.filter(s -> s.getCategory() != null && s.getCategory().getId().equals(cat.getId())).collect(Collectors.toList())) {
+				.filter(s -> s.getCategory() != null && s.getCategory().getId().equals(cat.getId()))
+				.collect(Collectors.toList())) {
 			outline.getChildren().add(buildSubscriptionOutline(sub));
 		}
 		return outline;

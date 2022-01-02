@@ -141,7 +141,9 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		// Scheduled tasks
 		Set<ScheduledTask> tasks = injector.getInstance(Key.get(new TypeLiteral<Set<ScheduledTask>>() {
 		}));
-		ScheduledExecutorService executor = environment.lifecycle().scheduledExecutorService("task-scheduler", true).threads(tasks.size())
+		ScheduledExecutorService executor = environment.lifecycle()
+				.scheduledExecutorService("task-scheduler", true)
+				.threads(tasks.size())
 				.build();
 		for (ScheduledTask task : tasks) {
 			task.register(executor);

@@ -29,8 +29,13 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 	}
 
 	public FeedSubscription findById(User user, Long id) {
-		List<FeedSubscription> subs = query().selectFrom(sub).where(sub.user.eq(user), sub.id.eq(id)).leftJoin(sub.feed).fetchJoin()
-				.leftJoin(sub.category).fetchJoin().fetch();
+		List<FeedSubscription> subs = query().selectFrom(sub)
+				.where(sub.user.eq(user), sub.id.eq(id))
+				.leftJoin(sub.feed)
+				.fetchJoin()
+				.leftJoin(sub.category)
+				.fetchJoin()
+				.fetch();
 		return initRelations(Iterables.getFirst(subs, null));
 	}
 
@@ -44,8 +49,13 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 	}
 
 	public List<FeedSubscription> findAll(User user) {
-		List<FeedSubscription> subs = query().selectFrom(sub).where(sub.user.eq(user)).leftJoin(sub.feed).fetchJoin().leftJoin(sub.category)
-				.fetchJoin().fetch();
+		List<FeedSubscription> subs = query().selectFrom(sub)
+				.where(sub.user.eq(user))
+				.leftJoin(sub.feed)
+				.fetchJoin()
+				.leftJoin(sub.category)
+				.fetchJoin()
+				.fetch();
 		return initRelations(subs);
 	}
 
@@ -61,7 +71,8 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 
 	public List<FeedSubscription> findByCategories(User user, List<FeedCategory> categories) {
 		Set<Long> categoryIds = categories.stream().map(c -> c.getId()).collect(Collectors.toSet());
-		return findAll(user).stream().filter(s -> s.getCategory() != null && categoryIds.contains(s.getCategory().getId()))
+		return findAll(user).stream()
+				.filter(s -> s.getCategory() != null && categoryIds.contains(s.getCategory().getId()))
 				.collect(Collectors.toList());
 	}
 

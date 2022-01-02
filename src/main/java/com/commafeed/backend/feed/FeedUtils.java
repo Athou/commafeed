@@ -37,6 +37,8 @@ import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.model.Entry;
+import com.google.gwt.i18n.client.HasDirection.Direction;
+import com.google.gwt.i18n.shared.BidiUtils;
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
 import com.steadystate.css.parser.CSSOMParser;
@@ -326,7 +328,8 @@ public class FeedUtils {
 			return false;
 		}
 
-		return EstimateDirection.isRTL(text);
+		Direction direction = BidiUtils.get().estimateDirection(text);
+		return direction == Direction.RTL;
 	}
 
 	public static String trimInvalidXmlCharacters(String xml) {

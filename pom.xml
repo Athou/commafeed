@@ -466,6 +466,16 @@
 			<artifactId>cssparser</artifactId>
 			<version>0.9.29</version>
 		</dependency>
+		<dependency>
+			<groupId>edu.uci.ics</groupId>
+			<artifactId>crawler4j</artifactId>
+			<version>3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>2.9.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.google.apis</groupId>

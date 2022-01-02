@@ -28,7 +28,7 @@ import org.jsoup.nodes.Document.OutputSettings;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.safety.Cleaner;
-import org.jsoup.safety.Whitelist;
+import org.jsoup.safety.Safelist;
 import org.jsoup.select.Elements;
 import org.w3c.css.sac.InputSource;
 import org.w3c.dom.css.CSSStyleDeclaration;
@@ -57,7 +57,7 @@ public class FeedUtils {
 	private static final List<String> ALLOWED_IMG_CSS_RULES = Arrays.asList("display", "width", "height");
 	private static final char[] FORBIDDEN_CSS_RULE_CHARACTERS = new char[] { '(', ')' };
 
-	private static final Whitelist WHITELIST = buildWhiteList();
+	private static final Safelist WHITELIST = buildWhiteList();
 
 	public static String truncate(String string, int length) {
 		if (string != null) {
@@ -66,8 +66,8 @@ public class FeedUtils {
 		return string;
 	}
 
-	private static synchronized Whitelist buildWhiteList() {
-		Whitelist whitelist = new Whitelist();
+	private static synchronized Safelist buildWhiteList() {
+		Safelist whitelist = new Safelist();
 		whitelist.addTags("a", "b", "blockquote", "br", "caption", "cite", "code", "col", "colgroup", "dd", "div", "dl", "dt", "em", "h1",
 				"h2", "h3", "h4", "h5", "h6", "i", "iframe", "img", "li", "ol", "p", "pre", "q", "small", "strike", "strong", "sub", "sup",
 				"table", "tbody", "td", "tfoot", "th", "thead", "tr", "u", "ul");
@@ -504,14 +504,15 @@ public class FeedUtils {
 		StringBuilder message = new StringBuilder();
 
 		for (char c : msg.toCharArray()) {
-			if (c >= 'a' && c <= 'm')
+			if (c >= 'a' && c <= 'm') {
 				c += 13;
-			else if (c >= 'n' && c <= 'z')
+			} else if (c >= 'n' && c <= 'z') {
 				c -= 13;
-			else if (c >= 'A' && c <= 'M')
+			} else if (c >= 'A' && c <= 'M') {
 				c += 13;
-			else if (c >= 'N' && c <= 'Z')
+			} else if (c >= 'N' && c <= 'Z') {
 				c -= 13;
+			}
 			message.append(c);
 		}
 

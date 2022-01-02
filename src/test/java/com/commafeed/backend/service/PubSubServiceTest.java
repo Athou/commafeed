@@ -22,11 +22,10 @@ import com.commafeed.backend.model.Feed;
 @RunWith(MockitoJUnitRunner.class)
 public class PubSubServiceTest {
 
-	private PubSubService underTest;
-
 	@Rule
-	private final MockServerRule mockServerRule = new MockServerRule(this, 22441);
+	public final MockServerRule mockServerRule = new MockServerRule(this, 22441);
 
+	private PubSubService underTest;
 	private MockServerClient mockServerClient;
 
 	@Mock(answer = Answers.RETURNS_DEEP_STUBS)

@@ -1,4 +1,0 @@
-#!/bin/bash
-cd $OPENSHIFT_REPO_DIR
-export JAVA_HOME=$OPENSHIFT_DATA_DIR/jdk1.8.0_20
-nohup $JAVA_HOME/bin/java -jar target/commafeed.jar server .openshift/config.mysql.yml > ${OPENSHIFT_DIY_LOG_DIR}/commafeed.log 2>&1 &

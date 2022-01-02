@@ -1,8 +1,0 @@
-#!/bin/bash
-source $OPENSHIFT_CARTRIDGE_SDK_BASH
-if [ -z "$(ps -ef | grep commafeed.jar | grep -v grep)" ]
-then
-    client_result "Application is already stopped"
-else
-    kill `ps -ef | grep commafeed.jar | grep -v grep | awk '{ print $2 }'` > /dev/null 2>&1
-fi

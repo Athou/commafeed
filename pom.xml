@@ -196,6 +196,55 @@
 					</archive>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>true</failsOnError>
+					<linkXRef>false</linkXRef>
+					<sourceDirectories>
+						<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+					</sourceDirectories>
+					<testSourceDirectories>
+						<testSourceDirectory>${project.build.testSourceDirectory}</testSourceDirectory>
+					</testSourceDirectories>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<configLocation>dev/checkstyle.xml</configLocation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>1.27.0</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<lineEndings>WINDOWS</lineEndings>
+					<java>
+						<eclipse>
+							<file>${project.basedir}/dev/EclipseCodeFormatter.xml</file>
+						</eclipse>
+					</java>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -242,6 +291,19 @@
 												<versionRange>[3.1.7,)</versionRange>
 												<goals>
 													<goal>generate</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore></ignore>
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>com.diffplug.spotless</groupId>
+												<artifactId>spotless-maven-plugin</artifactId>
+												<versionRange>[1.27.0,)</versionRange>
+												<goals>
+													<goal>check</goal>
 												</goals>
 											</pluginExecutionFilter>
 											<action>

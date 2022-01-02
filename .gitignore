@@ -23,6 +23,7 @@ src/main/app/lib
 .classpath
 .settings
 .factorypath
+.checkstyle
 
 # IntelliJ Idea files
 .idea

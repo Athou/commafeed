@@ -420,6 +420,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.rometools</groupId>
+			<artifactId>rome-modules</artifactId>
+			<version>${rome.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.rometools</groupId>
 			<artifactId>rome-opml</artifactId>
 			<version>${rome.version}</version>
 		</dependency>

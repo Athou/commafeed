@@ -12,6 +12,7 @@ import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
+import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.FeedSubscription;
 import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndContentImpl;
@@ -49,17 +50,25 @@ public class Entry implements Serializable {
 		entry.setFeedUrl(sub.getFeed().getUrl());
 		entry.setFeedLink(sub.getFeed().getLink());
 		entry.setIconUrl(FeedUtils.getFaviconUrl(sub, publicUrl));
-		entry.setTags(status.getTags().stream().map(t -> t.getName()).collect(Collectors.toList()));
+		entry.setTags(status.getTags().stream().map(FeedEntryTag::getName).collect(Collectors.toList()));
 
 		if (content != null) {
 			entry.setRtl(FeedUtils.isRTL(feedEntry));
 			entry.setTitle(content.getTitle());
 			entry.setContent(proxyImages ? FeedUtils.proxyImages(content.getContent(), publicUrl) : content.getContent());
 			entry.setAuthor(content.getAuthor());
+
 			entry.setEnclosureType(content.getEnclosureType());
 			entry.setEnclosureUrl(proxyImages && StringUtils.contains(content.getEnclosureType(), "image")
 					? FeedUtils.proxyImage(content.getEnclosureUrl(), publicUrl)
 					: content.getEnclosureUrl());
+
+			entry.setMediaDescription(content.getMediaDescription());
+			entry.setMediaThumbnailUrl(
+					proxyImages ? FeedUtils.proxyImage(content.getMediaThumbnailUrl(), publicUrl) : content.getMediaThumbnailUrl());
+			entry.setMediaThumbnailWidth(content.getMediaThumbnailWidth());
+			entry.setMediaThumbnailHeight(content.getMediaThumbnailHeight());
+
 			entry.setCategories(content.getCategories());
 		}
 
@@ -115,6 +124,18 @@ public class Entry implements Serializable {
 
 	@ApiModelProperty(value = "entry enclosure mime type, if any")
 	private String enclosureType;
+
+	@ApiModelProperty(value = "entry media description, if any")
+	private String mediaDescription;
+
+	@ApiModelProperty(value = "entry media thumbnail url, if any")
+	private String mediaThumbnailUrl;
+
+	@ApiModelProperty(value = "entry media thumbnail width, if any")
+	private Integer mediaThumbnailWidth;
+
+	@ApiModelProperty(value = "entry media thumbnail height, if any")
+	private Integer mediaThumbnailHeight;
 
 	@ApiModelProperty(value = "entry publication date", dataType = "number", required = true)
 	private Date date;

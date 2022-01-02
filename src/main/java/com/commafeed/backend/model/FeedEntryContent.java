@@ -43,6 +43,17 @@ public class FeedEntryContent extends AbstractModel {
 	@Column(length = 255)
 	private String enclosureType;
 
+	@Lob
+	@Column(length = Integer.MAX_VALUE)
+	@Type(type = "org.hibernate.type.TextType")
+	private String mediaDescription;
+
+	@Column(length = 2048)
+	private String mediaThumbnailUrl;
+
+	private Integer mediaThumbnailWidth;
+	private Integer mediaThumbnailHeight;
+
 	@Column(length = 4096)
 	private String categories;
 

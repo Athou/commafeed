@@ -101,20 +101,26 @@
                     ></div>
                     <div
                         class="entry-enclosure"
-                        ng-if="entry.enclosureType && (entry.enclosureUrl && entry.content && entry.content.indexOf(entry.enclosureUrl) == -1)"
+                        ng-if="entry.enclosureType && entry.enclosureUrl && (!entry.content || entry.content.indexOf(entry.enclosureUrl) == -1)"
                     >
-                        <video controls ng-if="entry.enclosureType && entry.enclosureType.indexOf('video') == 0">
+                        <video controls ng-if="entry.enclosureType.indexOf('video') == 0">
                             <source ng-src="{{entry.enclosureUrl | trustUrl}}" type="{{entry.enclosureType}}" />
                         </video>
-                        <audio controls ng-if="entry.enclosureType && entry.enclosureType.indexOf('audio') == 0">
+                        <audio controls ng-if="entry.enclosureType.indexOf('audio') == 0">
                             <source ng-src="{{entry.enclosureUrl | trustUrl}}" type="{{entry.enclosureType}}" />
                         </audio>
-                        <div ng-if="entry.enclosureType && entry.enclosureType.indexOf('image') == 0">
+                        <div ng-if="entry.enclosureType.indexOf('image') == 0">
                             <img ng-src="{{entry.enclosureUrl | trustUrl}}" />
                         </div>
-                        <a ng-href="{{entry.enclosureUrl | trustUrl}}" target="_blank" ng-if="entry.enclosureType" download>
-                            {{ 'global.download' | translate }}
-                        </a>
+                        <a ng-href="{{entry.enclosureUrl | trustUrl}}" target="_blank" download> {{ 'global.download' | translate }} </a>
+                    </div>
+                    <div class="entry-media" ng-if="!entry.content && entry.mediaThumbnailUrl">
+                        <img
+                            ng-src="{{entry.mediaThumbnailUrl | trustUrl}}"
+                            ng-attr-width="{{entry.mediaThumbnailWidth}}"
+                            ng-attr-height="{{entry.mediaThumbnailHeight}}"
+                        />
+                        <div ng-if="entry.mediaDescription" class="entry-media-description">{{entry.mediaDescription}}</div>
                     </div>
                 </div>
                 <div class="entry-buttons form-inline">

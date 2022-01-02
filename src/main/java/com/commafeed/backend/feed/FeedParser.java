@@ -10,9 +10,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -22,6 +20,13 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.google.common.collect.Iterables;
+import com.rometools.modules.mediarss.MediaEntryModule;
+import com.rometools.modules.mediarss.MediaModule;
+import com.rometools.modules.mediarss.types.MediaGroup;
+import com.rometools.modules.mediarss.types.Metadata;
+import com.rometools.modules.mediarss.types.Thumbnail;
+import com.rometools.rome.feed.synd.SyndCategory;
+import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -29,6 +34,10 @@ import com.rometools.rome.feed.synd.SyndLink;
 import com.rometools.rome.feed.synd.SyndLinkImpl;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
+
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
@@ -86,15 +95,28 @@ public class FeedParser {
 
 				FeedEntryContent content = new FeedEntryContent();
 				content.setContent(getContent(item));
-				content.setCategories(FeedUtils.truncate(
-						item.getCategories().stream().map(c -> c.getName()).collect(Collectors.joining(", ")), 4096));
+				content.setCategories(FeedUtils
+						.truncate(item.getCategories().stream().map(SyndCategory::getName).collect(Collectors.joining(", ")), 4096));
 				content.setTitle(getTitle(item));
 				content.setAuthor(StringUtils.trimToNull(item.getAuthor()));
+
 				SyndEnclosure enclosure = Iterables.getFirst(item.getEnclosures(), null);
 				if (enclosure != null) {
 					content.setEnclosureUrl(FeedUtils.truncate(enclosure.getUrl(), 2048));
 					content.setEnclosureType(enclosure.getType());
 				}
+
+				MediaEntryModule module = (MediaEntryModule) item.getModule(MediaModule.URI);
+				if (module != null) {
+					Media media = getMedia(module);
+					if (media != null) {
+						content.setMediaDescription(media.getDescription());
+						content.setMediaThumbnailUrl(FeedUtils.truncate(media.getThumbnailUrl(), 2048));
+						content.setMediaThumbnailWidth(media.getThumbnailWidth());
+						content.setMediaThumbnailHeight(media.getThumbnailHeight());
+					}
+				}
+
 				entry.setContent(content);
 
 				entries.add(entry);
@@ -166,7 +188,7 @@ public class FeedParser {
 		if (item.getContents().isEmpty()) {
 			content = item.getDescription() == null ? null : item.getDescription().getValue();
 		} else {
-			content = item.getContents().stream().map(c -> c.getValue()).collect(Collectors.joining(System.lineSeparator()));
+			content = item.getContents().stream().map(SyndContent::getValue).collect(Collectors.joining(System.lineSeparator()));
 		}
 		return StringUtils.trimToNull(content);
 	}
@@ -182,6 +204,41 @@ public class FeedParser {
 			}
 		}
 		return StringUtils.trimToNull(title);
+	}
+
+	private Media getMedia(MediaEntryModule module) {
+		Media media = getMedia(module.getMetadata());
+		if (media == null && ArrayUtils.isNotEmpty(module.getMediaGroups())) {
+			MediaGroup group = module.getMediaGroups()[0];
+			media = getMedia(group.getMetadata());
+		}
+
+		return media;
+	}
+
+	private Media getMedia(Metadata metadata) {
+		if (metadata == null) {
+			return null;
+		}
+
+		Media media = new Media();
+		media.setDescription(metadata.getDescription());
+
+		if (ArrayUtils.isNotEmpty(metadata.getThumbnail())) {
+			Thumbnail thumbnail = metadata.getThumbnail()[0];
+			media.setThumbnailWidth(thumbnail.getWidth());
+			media.setThumbnailHeight(thumbnail.getHeight());
+
+			if (thumbnail.getUrl() != null) {
+				media.setThumbnailUrl(thumbnail.getUrl().toString());
+			}
+		}
+
+		if (media.isEmpty()) {
+			return null;
+		}
+
+		return media;
 	}
 
 	private String findHub(SyndFeed feed) {
@@ -202,6 +259,18 @@ public class FeedParser {
 			}
 		}
 		return null;
+	}
+
+	@Data
+	private static class Media {
+		private String description;
+		private String thumbnailUrl;
+		private Integer thumbnailWidth;
+		private Integer thumbnailHeight;
+
+		public boolean isEmpty() {
+			return description == null && thumbnailUrl == null;
+		}
 	}
 
 }

@@ -8,4 +8,19 @@
 		<dropColumn tableName="USERSETTINGS" columnName="readability" />
 	</changeSet>
 
+	<changeSet id="add-content-media" author="athou">
+		<addColumn tableName="FEEDENTRYCONTENTS">
+			<column name="mediaDescription" type="CLOB" />
+		</addColumn>
+		<addColumn tableName="FEEDENTRYCONTENTS">
+			<column name="mediaThumbnailUrl" type="VARCHAR(2048)" />
+		</addColumn>
+		<addColumn tableName="FEEDENTRYCONTENTS">
+			<column name="mediaThumbnailWidth" type="INT" />
+		</addColumn>
+		<addColumn tableName="FEEDENTRYCONTENTS">
+			<column name="mediaThumbnailHeight" type="INT" />
+		</addColumn>
+	</changeSet>
+
 </databaseChangeLog>

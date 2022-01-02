@@ -51,9 +51,6 @@ public class Settings implements Serializable {
 	private boolean twitter;
 
 	@ApiModelProperty(required = true)
-	private boolean googleplus;
-
-	@ApiModelProperty(required = true)
 	private boolean tumblr;
 
 	@ApiModelProperty(required = true)
@@ -64,8 +61,4 @@ public class Settings implements Serializable {
 
 	@ApiModelProperty(required = true)
 	private boolean buffer;
-
-	@ApiModelProperty(required = true)
-	private boolean readability;
-
 }

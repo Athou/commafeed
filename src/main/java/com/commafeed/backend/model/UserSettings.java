@@ -71,11 +71,9 @@ public class UserSettings extends AbstractModel {
 	private boolean gmail;
 	private boolean facebook;
 	private boolean twitter;
-	private boolean googleplus;
 	private boolean tumblr;
 	private boolean pocket;
 	private boolean instapaper;
 	private boolean buffer;
-	private boolean readability;
 
 }

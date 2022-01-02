@@ -96,12 +96,10 @@ public class UserREST {
 			s.setGmail(settings.isGmail());
 			s.setFacebook(settings.isFacebook());
 			s.setTwitter(settings.isTwitter());
-			s.setGoogleplus(settings.isGoogleplus());
 			s.setTumblr(settings.isTumblr());
 			s.setPocket(settings.isPocket());
 			s.setInstapaper(settings.isInstapaper());
 			s.setBuffer(settings.isBuffer());
-			s.setReadability(settings.isReadability());
 
 			s.setScrollMarks(settings.isScrollMarks());
 			s.setTheme(settings.getTheme());
@@ -119,12 +117,10 @@ public class UserREST {
 			s.setGmail(true);
 			s.setFacebook(true);
 			s.setTwitter(true);
-			s.setGoogleplus(true);
 			s.setTumblr(true);
 			s.setPocket(true);
 			s.setInstapaper(true);
 			s.setBuffer(true);
-			s.setReadability(true);
 
 			s.setScrollMarks(true);
 			s.setLanguage("en");
@@ -160,12 +156,10 @@ public class UserREST {
 		s.setGmail(settings.isGmail());
 		s.setFacebook(settings.isFacebook());
 		s.setTwitter(settings.isTwitter());
-		s.setGoogleplus(settings.isGoogleplus());
 		s.setTumblr(settings.isTumblr());
 		s.setPocket(settings.isPocket());
 		s.setInstapaper(settings.isInstapaper());
 		s.setBuffer(settings.isBuffer());
-		s.setReadability(settings.isReadability());
 
 		userSettingsDAO.saveOrUpdate(s);
 		return Response.ok().build();
@@ -235,7 +229,9 @@ public class UserREST {
 			sessionHelper.setLoggedInUser(registeredUser);
 			return Response.ok().build();
 		} catch (final IllegalArgumentException e) {
-			return Response.status(422).entity(new ValidationErrorMessage(ImmutableList.of(e.getMessage()))).type(MediaType.TEXT_PLAIN)
+			return Response.status(422)
+					.entity(new ValidationErrorMessage(ImmutableList.of(e.getMessage())))
+					.type(MediaType.TEXT_PLAIN)
 					.build();
 		}
 	}
@@ -273,8 +269,10 @@ public class UserREST {
 			return Response.ok().build();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("could not send email: " + e.getMessage())
-					.type(MediaType.TEXT_PLAIN).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR)
+					.entity("could not send email: " + e.getMessage())
+					.type(MediaType.TEXT_PLAIN)
+					.build();
 		}
 	}
 
@@ -287,8 +285,11 @@ public class UserREST {
 	}
 
 	private String callbackUrl(User user, String publicUrl) throws Exception {
-		return new URIBuilder(publicUrl).addParameter("email", user.getEmail()).addParameter("token", user.getRecoverPasswordToken())
-				.build().toURL().toString();
+		return new URIBuilder(publicUrl).addParameter("email", user.getEmail())
+				.addParameter("token", user.getRecoverPasswordToken())
+				.build()
+				.toURL()
+				.toString();
 	}
 
 	@Path("/passwordResetCallback")

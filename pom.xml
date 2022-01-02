@@ -62,7 +62,14 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.3</version>
+				<version>3.2.4</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.kordamp.shade</groupId>
+						<artifactId>maven-shade-ext-transformers</artifactId>
+						<version>1.4.0</version>
+					</dependency>
+				</dependencies>
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<filters>
@@ -87,6 +94,12 @@
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>com.commafeed.CommaFeedApplication</mainClass>
+								</transformer>
+								<transformer implementation="org.kordamp.shade.resources.PropertiesFileTransformer">
+									<paths>
+										<path>rome.properties</path>
+									</paths>
+									<mergeStrategy>append</mergeStrategy>
 								</transformer>
 							</transformers>
 						</configuration>

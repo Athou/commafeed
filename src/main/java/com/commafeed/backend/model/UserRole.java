@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 public class UserRole extends AbstractModel {
 
-	public static enum Role {
+	public enum Role {
 		USER, ADMIN
 	}
 

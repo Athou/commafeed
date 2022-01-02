@@ -7,16 +7,6 @@ import org.hibernate.context.internal.ManagedSessionContext;
 
 public class UnitOfWork {
 
-	@FunctionalInterface
-	public static interface SessionRunner {
-		public void runInSession();
-	}
-
-	@FunctionalInterface
-	public static interface SessionRunnerReturningValue<T> {
-		public T runInSession();
-	}
-
 	public static void run(SessionFactory sessionFactory, SessionRunner sessionRunner) {
 		call(sessionFactory, () -> {
 			sessionRunner.runInSession();
@@ -64,6 +54,16 @@ public class UnitOfWork {
 	@SuppressWarnings("unchecked")
 	private static <E extends Exception> void rethrow(Exception e) throws E {
 		throw (E) e;
+	}
+
+	@FunctionalInterface
+	public interface SessionRunner {
+		void runInSession();
+	}
+
+	@FunctionalInterface
+	public interface SessionRunnerReturningValue<T> {
+		T runInSession();
 	}
 
 }

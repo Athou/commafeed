@@ -21,35 +21,35 @@ import lombok.Getter;
 @Getter
 public class CommaFeedConfiguration extends Configuration {
 
-	public static enum CacheType {
+	public enum CacheType {
 		NOOP, REDIS
-	}
-
-	private ResourceBundle bundle;
-
-	public CommaFeedConfiguration() {
-		bundle = ResourceBundle.getBundle("application");
 	}
 
 	@Valid
 	@NotNull
 	@JsonProperty("database")
-	private DataSourceFactory dataSourceFactory = new DataSourceFactory();
+	private final DataSourceFactory dataSourceFactory = new DataSourceFactory();
 
 	@Valid
 	@NotNull
 	@JsonProperty("redis")
-	private RedisPoolFactory redisPoolFactory = new RedisPoolFactory();
+	private final RedisPoolFactory redisPoolFactory = new RedisPoolFactory();
 
 	@Valid
 	@NotNull
 	@JsonProperty("session")
-	private SessionHandlerFactory SessionHandlerFactory = new SessionHandlerFactory();
+	private final SessionHandlerFactory sessionHandlerFactory = new SessionHandlerFactory();
 
 	@Valid
 	@NotNull
 	@JsonProperty("app")
 	private ApplicationSettings applicationSettings;
+
+	private final ResourceBundle bundle;
+
+	public CommaFeedConfiguration() {
+		bundle = ResourceBundle.getBundle("application");
+	}
 
 	public String getVersion() {
 		return bundle.getString("version");

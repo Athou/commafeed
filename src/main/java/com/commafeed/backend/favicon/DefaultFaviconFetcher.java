@@ -3,9 +3,6 @@ package com.commafeed.backend.favicon;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,6 +12,9 @@ import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Inspired/Ported from https://github.com/potatolondon/getfavicon

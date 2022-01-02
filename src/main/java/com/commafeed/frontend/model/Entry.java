@@ -30,74 +30,6 @@ import lombok.Data;
 @Data
 public class Entry implements Serializable {
 
-	public static Entry build(FeedEntryStatus status, String publicUrl, boolean proxyImages) {
-		Entry entry = new Entry();
-
-		FeedEntry feedEntry = status.getEntry();
-		FeedSubscription sub = status.getSubscription();
-		FeedEntryContent content = feedEntry.getContent();
-
-		entry.setId(String.valueOf(feedEntry.getId()));
-		entry.setGuid(feedEntry.getGuid());
-		entry.setRead(status.isRead());
-		entry.setStarred(status.isStarred());
-		entry.setMarkable(status.isMarkable());
-		entry.setDate(feedEntry.getUpdated());
-		entry.setInsertedDate(feedEntry.getInserted());
-		entry.setUrl(feedEntry.getUrl());
-		entry.setFeedName(sub.getTitle());
-		entry.setFeedId(String.valueOf(sub.getId()));
-		entry.setFeedUrl(sub.getFeed().getUrl());
-		entry.setFeedLink(sub.getFeed().getLink());
-		entry.setIconUrl(FeedUtils.getFaviconUrl(sub, publicUrl));
-		entry.setTags(status.getTags().stream().map(FeedEntryTag::getName).collect(Collectors.toList()));
-
-		if (content != null) {
-			entry.setRtl(FeedUtils.isRTL(feedEntry));
-			entry.setTitle(content.getTitle());
-			entry.setContent(proxyImages ? FeedUtils.proxyImages(content.getContent(), publicUrl) : content.getContent());
-			entry.setAuthor(content.getAuthor());
-
-			entry.setEnclosureType(content.getEnclosureType());
-			entry.setEnclosureUrl(proxyImages && StringUtils.contains(content.getEnclosureType(), "image")
-					? FeedUtils.proxyImage(content.getEnclosureUrl(), publicUrl)
-					: content.getEnclosureUrl());
-
-			entry.setMediaDescription(content.getMediaDescription());
-			entry.setMediaThumbnailUrl(
-					proxyImages ? FeedUtils.proxyImage(content.getMediaThumbnailUrl(), publicUrl) : content.getMediaThumbnailUrl());
-			entry.setMediaThumbnailWidth(content.getMediaThumbnailWidth());
-			entry.setMediaThumbnailHeight(content.getMediaThumbnailHeight());
-
-			entry.setCategories(content.getCategories());
-		}
-
-		return entry;
-	}
-
-	public SyndEntry asRss() {
-		SyndEntry entry = new SyndEntryImpl();
-
-		entry.setUri(getGuid());
-		entry.setTitle(getTitle());
-		entry.setAuthor(getAuthor());
-
-		SyndContentImpl content = new SyndContentImpl();
-		content.setValue(getContent());
-		entry.setContents(Arrays.<SyndContent> asList(content));
-
-		if (getEnclosureUrl() != null) {
-			SyndEnclosureImpl enclosure = new SyndEnclosureImpl();
-			enclosure.setType(getEnclosureType());
-			enclosure.setUrl(getEnclosureUrl());
-			entry.setEnclosures(Arrays.<SyndEnclosure> asList(enclosure));
-		}
-
-		entry.setLink(getUrl());
-		entry.setPublishedDate(getDate());
-		return entry;
-	}
-
 	@ApiModelProperty(value = "entry id", required = true)
 	private String id;
 
@@ -172,4 +104,72 @@ public class Entry implements Serializable {
 
 	@ApiModelProperty(value = "tags", required = true)
 	private List<String> tags;
+
+	public static Entry build(FeedEntryStatus status, String publicUrl, boolean proxyImages) {
+		Entry entry = new Entry();
+
+		FeedEntry feedEntry = status.getEntry();
+		FeedSubscription sub = status.getSubscription();
+		FeedEntryContent content = feedEntry.getContent();
+
+		entry.setId(String.valueOf(feedEntry.getId()));
+		entry.setGuid(feedEntry.getGuid());
+		entry.setRead(status.isRead());
+		entry.setStarred(status.isStarred());
+		entry.setMarkable(status.isMarkable());
+		entry.setDate(feedEntry.getUpdated());
+		entry.setInsertedDate(feedEntry.getInserted());
+		entry.setUrl(feedEntry.getUrl());
+		entry.setFeedName(sub.getTitle());
+		entry.setFeedId(String.valueOf(sub.getId()));
+		entry.setFeedUrl(sub.getFeed().getUrl());
+		entry.setFeedLink(sub.getFeed().getLink());
+		entry.setIconUrl(FeedUtils.getFaviconUrl(sub, publicUrl));
+		entry.setTags(status.getTags().stream().map(FeedEntryTag::getName).collect(Collectors.toList()));
+
+		if (content != null) {
+			entry.setRtl(FeedUtils.isRTL(feedEntry));
+			entry.setTitle(content.getTitle());
+			entry.setContent(proxyImages ? FeedUtils.proxyImages(content.getContent(), publicUrl) : content.getContent());
+			entry.setAuthor(content.getAuthor());
+
+			entry.setEnclosureType(content.getEnclosureType());
+			entry.setEnclosureUrl(proxyImages && StringUtils.contains(content.getEnclosureType(), "image")
+					? FeedUtils.proxyImage(content.getEnclosureUrl(), publicUrl)
+					: content.getEnclosureUrl());
+
+			entry.setMediaDescription(content.getMediaDescription());
+			entry.setMediaThumbnailUrl(
+					proxyImages ? FeedUtils.proxyImage(content.getMediaThumbnailUrl(), publicUrl) : content.getMediaThumbnailUrl());
+			entry.setMediaThumbnailWidth(content.getMediaThumbnailWidth());
+			entry.setMediaThumbnailHeight(content.getMediaThumbnailHeight());
+
+			entry.setCategories(content.getCategories());
+		}
+
+		return entry;
+	}
+
+	public SyndEntry asRss() {
+		SyndEntry entry = new SyndEntryImpl();
+
+		entry.setUri(getGuid());
+		entry.setTitle(getTitle());
+		entry.setAuthor(getAuthor());
+
+		SyndContentImpl content = new SyndContentImpl();
+		content.setValue(getContent());
+		entry.setContents(Arrays.<SyndContent> asList(content));
+
+		if (getEnclosureUrl() != null) {
+			SyndEnclosureImpl enclosure = new SyndEnclosureImpl();
+			enclosure.setType(getEnclosureType());
+			enclosure.setUrl(getEnclosureUrl());
+			entry.setEnclosures(Arrays.<SyndEnclosure> asList(enclosure));
+		}
+
+		entry.setLink(getUrl());
+		entry.setPublishedDate(getDate());
+		return entry;
+	}
 }

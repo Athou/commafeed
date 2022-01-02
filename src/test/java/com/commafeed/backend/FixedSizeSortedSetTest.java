@@ -9,17 +9,18 @@ import org.junit.Test;
 
 public class FixedSizeSortedSetTest {
 
-	private FixedSizeSortedSet<String> set;
-	private static Comparator<String> COMP = new Comparator<String>() {
+	private static final Comparator<String> COMP = new Comparator<String>() {
 		@Override
 		public int compare(String o1, String o2) {
 			return ObjectUtils.compare(o1, o2);
 		}
 	};
 
+	private FixedSizeSortedSet<String> set;
+
 	@Before
 	public void init() {
-		set = new FixedSizeSortedSet<String>(3, COMP);
+		set = new FixedSizeSortedSet<>(3, COMP);
 	}
 
 	@Test

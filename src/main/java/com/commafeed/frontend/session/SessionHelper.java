@@ -5,9 +5,9 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import lombok.RequiredArgsConstructor;
-
 import com.commafeed.backend.model.User;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor()
 public class SessionHelper {

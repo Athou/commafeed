@@ -38,6 +38,18 @@ import com.querydsl.jpa.impl.JPAQuery;
 @Singleton
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
+	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_DESC = new Comparator<FeedEntryStatus>() {
+		@Override
+		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
+			CompareToBuilder builder = new CompareToBuilder();
+			builder.append(o2.getEntryUpdated(), o1.getEntryUpdated());
+			builder.append(o2.getId(), o1.getId());
+			return builder.toComparison();
+		}
+	};
+
+	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = Ordering.from(STATUS_COMPARATOR_DESC).reverse();
+
 	private final FeedEntryDAO feedEntryDAO;
 	private final FeedEntryTagDAO feedEntryTagDAO;
 	private final CommaFeedConfiguration config;
@@ -55,18 +67,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		this.feedEntryTagDAO = feedEntryTagDAO;
 		this.config = config;
 	}
-
-	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_DESC = new Comparator<FeedEntryStatus>() {
-		@Override
-		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
-			CompareToBuilder builder = new CompareToBuilder();
-			builder.append(o2.getEntryUpdated(), o1.getEntryUpdated());
-			builder.append(o2.getId(), o1.getId());
-			return builder.toComparison();
-		}
-	};
-
-	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = Ordering.from(STATUS_COMPARATOR_DESC).reverse();
 
 	public FeedEntryStatus getStatus(User user, FeedSubscription sub, FeedEntry entry) {
 		List<FeedEntryStatus> statuses = query().selectFrom(status).where(status.entry.eq(entry), status.subscription.eq(sub)).fetch();

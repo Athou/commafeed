@@ -2,16 +2,13 @@ package com.commafeed;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import org.hibernate.SessionFactory;
 
+import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
-import com.codahale.metrics.MetricFilter;
 import com.commafeed.CommaFeedConfiguration.ApplicationSettings;
 import com.commafeed.CommaFeedConfiguration.CacheType;
 import com.commafeed.backend.cache.CacheService;
@@ -32,6 +29,10 @@ import com.commafeed.backend.urlprovider.YoutubeFeedURLProvider;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.multibindings.Multibinder;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -76,15 +77,16 @@ public class CommaFeedModule extends AbstractModule {
 			final int graphitePort = settings.getGraphitePort();
 			final int graphiteInterval = settings.getGraphiteInterval();
 
-			log.info("Graphite Metrics will be sent to host={}, port={}, prefix={}, interval={}sec", graphiteHost, graphitePort, graphitePrefix, graphiteInterval);
+			log.info("Graphite Metrics will be sent to host={}, port={}, prefix={}, interval={}sec", graphiteHost, graphitePort,
+					graphitePrefix, graphiteInterval);
 
 			final Graphite graphite = new Graphite(new InetSocketAddress(graphiteHost, graphitePort));
 			final GraphiteReporter reporter = GraphiteReporter.forRegistry(metrics)
-			                                                  .prefixedWith(graphitePrefix)
-			                                                  .convertRatesTo(TimeUnit.SECONDS)
-			                                                  .convertDurationsTo(TimeUnit.MILLISECONDS)
-			                                                  .filter(MetricFilter.ALL)
-			                                                  .build(graphite);
+					.prefixedWith(graphitePrefix)
+					.convertRatesTo(TimeUnit.SECONDS)
+					.convertDurationsTo(TimeUnit.MILLISECONDS)
+					.filter(MetricFilter.ALL)
+					.build(graphite);
 			reporter.start(graphiteInterval, TimeUnit.SECONDS);
 		} else {
 			log.info("Graphite Metrics Disabled. Metrics will not be sent.");

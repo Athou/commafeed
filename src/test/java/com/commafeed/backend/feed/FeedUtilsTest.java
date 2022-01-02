@@ -87,7 +87,7 @@ public class FeedUtilsTest {
 	}
 
 	@Test
-	public void testRemoveTrailingSlash_lastSlashOnly() {
+	public void testRemoveTrailingSlashLastSlashOnly() {
 		final String url = "http://localhost//";
 		final String result = FeedUtils.removeTrailingSlash(url);
 		Assert.assertEquals("http://localhost/", result);

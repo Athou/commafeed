@@ -3,8 +3,6 @@ package com.commafeed.frontend.auth;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lombok.RequiredArgsConstructor;
-
 import org.glassfish.hk2.api.Factory;
 import org.glassfish.hk2.api.InjectionResolver;
 import org.glassfish.hk2.api.ServiceLocator;
@@ -19,6 +17,8 @@ import org.glassfish.jersey.server.spi.internal.ValueFactoryProvider;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+
 @Singleton
 public class SecurityCheckFactoryProvider extends AbstractValueFactoryProvider {
 
@@ -32,8 +32,9 @@ public class SecurityCheckFactoryProvider extends AbstractValueFactoryProvider {
 		final Class<?> classType = parameter.getRawType();
 
 		SecurityCheck securityCheck = parameter.getAnnotation(SecurityCheck.class);
-		if (securityCheck == null)
+		if (securityCheck == null) {
 			return null;
+		}
 
 		if (classType.isAssignableFrom(User.class)) {
 			return new SecurityCheckFactory(securityCheck.value(), securityCheck.apiKeyAllowed());

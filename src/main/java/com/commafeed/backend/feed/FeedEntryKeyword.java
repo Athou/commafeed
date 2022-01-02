@@ -3,10 +3,10 @@ package com.commafeed.backend.feed;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * A keyword used in a search query
@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 @RequiredArgsConstructor
 public class FeedEntryKeyword {
 
-	public static enum Mode {
+	public enum Mode {
 		INCLUDE, EXCLUDE;
 	}
 

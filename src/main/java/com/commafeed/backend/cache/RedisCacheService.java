@@ -5,12 +5,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.Pipeline;
-
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
@@ -20,11 +14,17 @@ import com.commafeed.frontend.model.UnreadCount;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Pipeline;
+
 @Slf4j
 @RequiredArgsConstructor
 public class RedisCacheService extends CacheService {
 
-	private static ObjectMapper MAPPER = new ObjectMapper();
+	private static final ObjectMapper MAPPER = new ObjectMapper();
 
 	private final JedisPool pool;
 

@@ -1,16 +1,14 @@
 package com.commafeed.backend.opml;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -29,31 +27,31 @@ public class OPMLExporterTest {
 	@Mock
 	private FeedSubscriptionDAO feedSubscriptionDAO;
 
-	private User user = new User();
+	private final User user = new User();
 
-	private FeedCategory cat1 = new FeedCategory();
-	private FeedCategory cat2 = new FeedCategory();
+	private final FeedCategory cat1 = new FeedCategory();
+	private final FeedCategory cat2 = new FeedCategory();
 
-	private FeedSubscription rootFeed = newFeedSubscription("rootFeed", "rootFeed.com");
-	private FeedSubscription cat1Feed = newFeedSubscription("cat1Feed", "cat1Feed.com");
-	private FeedSubscription cat2Feed = newFeedSubscription("cat2Feed", "cat2Feed.com");
+	private final FeedSubscription rootFeed = newFeedSubscription("rootFeed", "rootFeed.com");
+	private final FeedSubscription cat1Feed = newFeedSubscription("cat1Feed", "cat1Feed.com");
+	private final FeedSubscription cat2Feed = newFeedSubscription("cat2Feed", "cat2Feed.com");
 
-	private List<FeedCategory> categories = new ArrayList<>();
-	private List<FeedSubscription> subscriptions = new ArrayList<>();
+	private final List<FeedCategory> categories = new ArrayList<>();
+	private final List<FeedSubscription> subscriptions = new ArrayList<>();
 
 	@Before
-	public void before_each_test() {
+	public void init() {
 		MockitoAnnotations.initMocks(this);
 
 		user.setName("John Doe");
 
-		cat1.setId(1l);
+		cat1.setId(1L);
 		cat1.setName("cat1");
 		cat1.setParent(null);
 		cat1.setChildren(new HashSet<FeedCategory>());
 		cat1.setSubscriptions(new HashSet<FeedSubscription>());
 
-		cat2.setId(2l);
+		cat2.setId(2L);
 		cat2.setName("cat2");
 		cat2.setParent(cat1);
 		cat2.setChildren(new HashSet<FeedCategory>());
@@ -90,51 +88,59 @@ public class OPMLExporterTest {
 	}
 
 	@Test
-	public void generates_OPML_correctly() {
-		when(feedCategoryDAO.findAll(user)).thenReturn(categories);
-		when(feedSubscriptionDAO.findAll(user)).thenReturn(subscriptions);
+	public void generatesOpmlCorrectly() {
+		Mockito.when(feedCategoryDAO.findAll(user)).thenReturn(categories);
+		Mockito.when(feedSubscriptionDAO.findAll(user)).thenReturn(subscriptions);
 
 		Opml opml = new OPMLExporter(feedCategoryDAO, feedSubscriptionDAO).export(user);
 
 		List<Outline> rootOutlines = opml.getOutlines();
-		assertEquals(2, rootOutlines.size());
-		assertTrue(containsCategory(rootOutlines, "cat1"));
-		assertTrue(containsFeed(rootOutlines, "rootFeed", "rootFeed.com"));
+		Assert.assertEquals(2, rootOutlines.size());
+		Assert.assertTrue(containsCategory(rootOutlines, "cat1"));
+		Assert.assertTrue(containsFeed(rootOutlines, "rootFeed", "rootFeed.com"));
 
 		Outline cat1Outline = getCategoryOutline(rootOutlines, "cat1");
 		List<Outline> cat1Children = cat1Outline.getChildren();
-		assertEquals(2, cat1Children.size());
-		assertTrue(containsCategory(cat1Children, "cat2"));
-		assertTrue(containsFeed(cat1Children, "cat1Feed", "cat1Feed.com"));
+		Assert.assertEquals(2, cat1Children.size());
+		Assert.assertTrue(containsCategory(cat1Children, "cat2"));
+		Assert.assertTrue(containsFeed(cat1Children, "cat1Feed", "cat1Feed.com"));
 
 		Outline cat2Outline = getCategoryOutline(cat1Children, "cat2");
 		List<Outline> cat2Children = cat2Outline.getChildren();
-		assertEquals(1, cat2Children.size());
-		assertTrue(containsFeed(cat2Children, "cat2Feed", "cat2Feed.com"));
+		Assert.assertEquals(1, cat2Children.size());
+		Assert.assertTrue(containsFeed(cat2Children, "cat2Feed", "cat2Feed.com"));
 	}
 
 	private boolean containsCategory(List<Outline> outlines, String category) {
-		for (Outline o : outlines)
-			if (!"rss".equals(o.getType()))
-				if (category.equals(o.getTitle()))
+		for (Outline o : outlines) {
+			if (!"rss".equals(o.getType())) {
+				if (category.equals(o.getTitle())) {
 					return true;
+				}
+			}
+		}
 
 		return false;
 	}
 
 	private boolean containsFeed(List<Outline> outlines, String title, String url) {
-		for (Outline o : outlines)
-			if ("rss".equals(o.getType()))
-				if (title.equals(o.getTitle()) && o.getAttributeValue("xmlUrl").equals(url))
+		for (Outline o : outlines) {
+			if ("rss".equals(o.getType())) {
+				if (title.equals(o.getTitle()) && o.getAttributeValue("xmlUrl").equals(url)) {
 					return true;
+				}
+			}
+		}
 
 		return false;
 	}
 
 	private Outline getCategoryOutline(List<Outline> outlines, String title) {
-		for (Outline o : outlines)
-			if (o.getTitle().equals(title))
+		for (Outline o : outlines) {
+			if (o.getTitle().equals(title)) {
 				return o;
+			}
+		}
 
 		return null;
 	}

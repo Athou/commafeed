@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Path("/push")
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class PubSubHubbubCallbackREST {
 
@@ -69,7 +69,7 @@ public class PubSubHubbubCallbackREST {
 
 		List<Feed> feeds = feedDAO.findByTopic(topic);
 
-		if (feeds.isEmpty() == false) {
+		if (!feeds.isEmpty()) {
 			for (Feed feed : feeds) {
 				log.debug("activated push notifications for {}", feed.getPushTopic());
 				feed.setPushLastPing(new Date());

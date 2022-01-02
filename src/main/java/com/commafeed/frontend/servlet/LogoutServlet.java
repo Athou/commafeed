@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.RequiredArgsConstructor;
-
 import com.commafeed.CommaFeedConfiguration;
+
+import lombok.RequiredArgsConstructor;
 
 @SuppressWarnings("serial")
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))

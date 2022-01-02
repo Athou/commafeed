@@ -49,13 +49,13 @@ public class FeedRefreshUpdater implements Managed {
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final CacheService cache;
 
-	private FeedRefreshExecutor pool;
-	private Striped<Lock> locks;
+	private final FeedRefreshExecutor pool;
+	private final Striped<Lock> locks;
 
-	private Meter entryCacheMiss;
-	private Meter entryCacheHit;
-	private Meter feedUpdated;
-	private Meter entryInserted;
+	private final Meter entryCacheMiss;
+	private final Meter entryCacheHit;
+	private final Meter feedUpdated;
+	private final Meter entryInserted;
 
 	@Inject
 	public FeedRefreshUpdater(SessionFactory sessionFactory, FeedUpdateService feedUpdateService, PubSubService pubSubService,
@@ -92,70 +92,6 @@ public class FeedRefreshUpdater implements Managed {
 
 	public void updateFeed(FeedRefreshContext context) {
 		pool.execute(new EntryTask(context));
-	}
-
-	private class EntryTask implements Task {
-
-		private FeedRefreshContext context;
-
-		public EntryTask(FeedRefreshContext context) {
-			this.context = context;
-		}
-
-		@Override
-		public void run() {
-			boolean ok = true;
-			final Feed feed = context.getFeed();
-			List<FeedEntry> entries = context.getEntries();
-			if (entries.isEmpty()) {
-				feed.setMessage("Feed has no entries");
-			} else {
-				List<String> lastEntries = cache.getLastEntries(feed);
-				List<String> currentEntries = new ArrayList<>();
-
-				List<FeedSubscription> subscriptions = null;
-				for (FeedEntry entry : entries) {
-					String cacheKey = cache.buildUniqueEntryKey(feed, entry);
-					if (!lastEntries.contains(cacheKey)) {
-						log.debug("cache miss for {}", entry.getUrl());
-						if (subscriptions == null) {
-							subscriptions = UnitOfWork.call(sessionFactory, () -> feedSubscriptionDAO.findByFeed(feed));
-						}
-						ok &= addEntry(feed, entry, subscriptions);
-						entryCacheMiss.mark();
-					} else {
-						log.debug("cache hit for {}", entry.getUrl());
-						entryCacheHit.mark();
-					}
-
-					currentEntries.add(cacheKey);
-				}
-				cache.setLastEntries(feed, currentEntries);
-
-				if (subscriptions == null) {
-					feed.setMessage("No new entries found");
-				} else if (!subscriptions.isEmpty()) {
-					List<User> users = subscriptions.stream().map(s -> s.getUser()).collect(Collectors.toList());
-					cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
-					cache.invalidateUserRootCategory(users.toArray(new User[0]));
-				}
-			}
-
-			if (config.getApplicationSettings().getPubsubhubbub()) {
-				handlePubSub(feed);
-			}
-			if (!ok) {
-				// requeue asap
-				feed.setDisabledUntil(new Date(0));
-			}
-			feedUpdated.mark();
-			queues.giveBack(feed);
-		}
-
-		@Override
-		public boolean isUrgent() {
-			return context.isUrgent();
-		}
 	}
 
 	private boolean addEntry(final Feed feed, final FeedEntry entry, final List<FeedSubscription> subscriptions) {
@@ -220,6 +156,70 @@ public class FeedRefreshUpdater implements Managed {
 					}
 				}.start();
 			}
+		}
+	}
+
+	private class EntryTask implements Task {
+
+		private final FeedRefreshContext context;
+
+		public EntryTask(FeedRefreshContext context) {
+			this.context = context;
+		}
+
+		@Override
+		public void run() {
+			boolean ok = true;
+			final Feed feed = context.getFeed();
+			List<FeedEntry> entries = context.getEntries();
+			if (entries.isEmpty()) {
+				feed.setMessage("Feed has no entries");
+			} else {
+				List<String> lastEntries = cache.getLastEntries(feed);
+				List<String> currentEntries = new ArrayList<>();
+
+				List<FeedSubscription> subscriptions = null;
+				for (FeedEntry entry : entries) {
+					String cacheKey = cache.buildUniqueEntryKey(feed, entry);
+					if (!lastEntries.contains(cacheKey)) {
+						log.debug("cache miss for {}", entry.getUrl());
+						if (subscriptions == null) {
+							subscriptions = UnitOfWork.call(sessionFactory, () -> feedSubscriptionDAO.findByFeed(feed));
+						}
+						ok &= addEntry(feed, entry, subscriptions);
+						entryCacheMiss.mark();
+					} else {
+						log.debug("cache hit for {}", entry.getUrl());
+						entryCacheHit.mark();
+					}
+
+					currentEntries.add(cacheKey);
+				}
+				cache.setLastEntries(feed, currentEntries);
+
+				if (subscriptions == null) {
+					feed.setMessage("No new entries found");
+				} else if (!subscriptions.isEmpty()) {
+					List<User> users = subscriptions.stream().map(FeedSubscription::getUser).collect(Collectors.toList());
+					cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
+					cache.invalidateUserRootCategory(users.toArray(new User[0]));
+				}
+			}
+
+			if (config.getApplicationSettings().getPubsubhubbub()) {
+				handlePubSub(feed);
+			}
+			if (!ok) {
+				// requeue asap
+				feed.setDisabledUntil(new Date(0));
+			}
+			feedUpdated.mark();
+			queues.giveBack(feed);
+		}
+
+		@Override
+		public boolean isUrgent() {
+			return context.isUrgent();
 		}
 	}
 

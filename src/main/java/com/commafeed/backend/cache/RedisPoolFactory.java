@@ -1,22 +1,21 @@
 package com.commafeed.backend.cache;
 
-import lombok.Getter;
-
 import org.apache.commons.lang3.StringUtils;
 
+import lombok.Getter;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Protocol;
 
 @Getter
 public class RedisPoolFactory {
-	private String host = "localhost";
-	private int port = Protocol.DEFAULT_PORT;
-	private String password = null;
-	private int timeout = Protocol.DEFAULT_TIMEOUT;
-	private int database = Protocol.DEFAULT_DATABASE;
+	private final String host = "localhost";
+	private final int port = Protocol.DEFAULT_PORT;
+	private String password;
+	private final int timeout = Protocol.DEFAULT_TIMEOUT;
+	private final int database = Protocol.DEFAULT_DATABASE;
 
-	private int maxTotal = 500;
+	private final int maxTotal = 500;
 
 	public JedisPool build() {
 		JedisPoolConfig config = new JedisPoolConfig();

@@ -12,8 +12,6 @@ import java.util.concurrent.TimeoutException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lombok.RequiredArgsConstructor;
-
 import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.JexlEngine;
 import org.apache.commons.jexl2.JexlException;
@@ -30,11 +28,15 @@ import org.jsoup.Jsoup;
 
 import com.commafeed.backend.model.FeedEntry;
 
+import lombok.RequiredArgsConstructor;
+
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class FeedEntryFilteringService {
 
 	private static final JexlEngine ENGINE = initEngine();
+
+	private final ExecutorService executor = Executors.newCachedThreadPool();
 
 	private static JexlEngine initEngine() {
 		// classloader that prevents object creation
@@ -70,8 +72,6 @@ public class FeedEntryFilteringService {
 		return engine;
 	}
 
-	private ExecutorService executor = Executors.newCachedThreadPool();
-
 	public boolean filterMatchesEntry(String filter, FeedEntry entry) throws FeedEntryFilterException {
 		if (StringUtils.isBlank(filter)) {
 			return true;
@@ -87,8 +87,8 @@ public class FeedEntryFilteringService {
 		JexlContext context = new MapContext();
 		context.set("title", entry.getContent().getTitle() == null ? "" : Jsoup.parse(entry.getContent().getTitle()).text().toLowerCase());
 		context.set("author", entry.getContent().getAuthor() == null ? "" : entry.getContent().getAuthor().toLowerCase());
-		context.set("content", entry.getContent().getContent() == null ? "" : Jsoup.parse(entry.getContent().getContent()).text()
-				.toLowerCase());
+		context.set("content",
+				entry.getContent().getContent() == null ? "" : Jsoup.parse(entry.getContent().getContent()).text().toLowerCase());
 		context.set("url", entry.getUrl() == null ? "" : entry.getUrl().toLowerCase());
 		context.set("categories", entry.getContent().getCategories() == null ? "" : entry.getContent().getCategories().toLowerCase());
 

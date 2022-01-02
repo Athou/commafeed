@@ -11,8 +11,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import lombok.RequiredArgsConstructor;
-
 import org.eclipse.jetty.util.B64Code;
 import org.eclipse.jetty.util.StringUtil;
 import org.glassfish.jersey.server.internal.inject.AbstractContainerRequestValueFactory;
@@ -21,6 +19,8 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.session.SessionHelper;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class SecurityCheckFactory extends AbstractContainerRequestValueFactory<User> {
@@ -52,11 +52,15 @@ public class SecurityCheckFactory extends AbstractContainerRequestValueFactory<U
 				return user.get();
 			} else {
 				throw new WebApplicationException(Response.status(Response.Status.FORBIDDEN)
-						.entity("You don't have the required role to access this resource.").type(MediaType.TEXT_PLAIN_TYPE).build());
+						.entity("You don't have the required role to access this resource.")
+						.type(MediaType.TEXT_PLAIN_TYPE)
+						.build());
 			}
 		} else {
 			throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
-					.entity("Credentials are required to access this resource.").type(MediaType.TEXT_PLAIN_TYPE).build());
+					.entity("Credentials are required to access this resource.")
+					.type(MediaType.TEXT_PLAIN_TYPE)
+					.build());
 		}
 	}
 

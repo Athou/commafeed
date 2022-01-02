@@ -3,22 +3,22 @@ package com.commafeed.backend.favicon;
 import java.util.Arrays;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.model.Feed;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 public abstract class AbstractFaviconFetcher {
 
-	private static List<String> ICON_MIMETYPE_BLACKLIST = Arrays.asList("application/xml", "text/html");
-	private static long MIN_ICON_LENGTH = 100;
-	private static long MAX_ICON_LENGTH = 100000;
+	protected static final int TIMEOUT = 4000;
 
-	protected static int TIMEOUT = 4000;
+	private static final List<String> ICON_MIMETYPE_BLACKLIST = Arrays.asList("application/xml", "text/html");
+	private static final long MIN_ICON_LENGTH = 100;
+	private static final long MAX_ICON_LENGTH = 100000;
 
 	public abstract Favicon fetch(Feed feed);
 

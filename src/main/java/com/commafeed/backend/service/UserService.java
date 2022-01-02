@@ -9,8 +9,6 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lombok.RequiredArgsConstructor;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,6 +23,8 @@ import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.internal.PostLoginActivities;
 import com.google.common.base.Preconditions;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
@@ -102,8 +102,8 @@ public class UserService {
 
 			Preconditions.checkNotNull(email);
 			Preconditions.checkArgument(StringUtils.length(name) >= 3, "Name too short (3 characters minimum)");
-			Preconditions
-					.checkArgument(forceRegistration || StringUtils.length(password) >= 6, "Password too short (6 characters maximum)");
+			Preconditions.checkArgument(forceRegistration || StringUtils.length(password) >= 6,
+					"Password too short (6 characters maximum)");
 			Preconditions.checkArgument(StringUtils.contains(email, "@"), "Invalid email address");
 		}
 

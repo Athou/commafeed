@@ -1,19 +1,18 @@
 package com.commafeed.backend.feed;
 
-import io.dropwizard.lifecycle.Managed;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lombok.extern.slf4j.Slf4j;
-
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
+
+import io.dropwizard.lifecycle.Managed;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Infinite loop fetching feeds from @FeedQueues and queuing them to the {@link FeedRefreshWorker} pool.
@@ -26,10 +25,10 @@ public class FeedRefreshTaskGiver implements Managed {
 	private final FeedQueues queues;
 	private final FeedRefreshWorker worker;
 
-	private ExecutorService executor;
+	private final ExecutorService executor;
 
-	private Meter feedRefreshed;
-	private Meter threadWaited;
+	private final Meter feedRefreshed;
+	private final Meter threadWaited;
 
 	@Inject
 	public FeedRefreshTaskGiver(FeedQueues queues, FeedDAO feedDAO, FeedRefreshWorker worker, CommaFeedConfiguration config,

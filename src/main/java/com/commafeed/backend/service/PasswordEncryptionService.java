@@ -12,10 +12,10 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.apache.commons.lang3.StringUtils;
 
 // taken from http://www.javacodegeeks.com/2012/05/secure-password-storage-donts-dos-and.html
 @SuppressWarnings("serial")

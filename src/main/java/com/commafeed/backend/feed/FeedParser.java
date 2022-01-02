@@ -48,7 +48,7 @@ public class FeedParser {
 	private static final Namespace ATOM_10_NS = Namespace.getNamespace(ATOM_10_URI);
 
 	private static final Date START = new Date(86400000);
-	private static final Date END = new Date(1000l * Integer.MAX_VALUE - 86400000);
+	private static final Date END = new Date(1000L * Integer.MAX_VALUE - 86400000);
 
 	public FetchedFeed parse(String feedUrl, byte[] xml) throws FeedException {
 		FetchedFeed fetchedFeed = new FetchedFeed();

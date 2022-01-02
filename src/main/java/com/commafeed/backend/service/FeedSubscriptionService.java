@@ -7,9 +7,6 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.CommaFeedConfiguration;
@@ -26,17 +23,13 @@ import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.UnreadCount;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class FeedSubscriptionService {
-
-	@SuppressWarnings("serial")
-	public static class FeedSubscriptionException extends RuntimeException {
-		private FeedSubscriptionException(String msg) {
-			super(msg);
-		}
-	}
 
 	private final FeedDAO feedDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
@@ -108,7 +101,7 @@ public class FeedSubscriptionService {
 	}
 
 	public Map<Long, UnreadCount> getUnreadCount(User user) {
-		return feedSubscriptionDAO.findAll(user).stream().collect(Collectors.toMap(s -> s.getId(), s -> getUnreadCount(user, s)));
+		return feedSubscriptionDAO.findAll(user).stream().collect(Collectors.toMap(FeedSubscription::getId, s -> getUnreadCount(user, s)));
 	}
 
 	private UnreadCount getUnreadCount(User user, FeedSubscription sub) {
@@ -119,6 +112,13 @@ public class FeedSubscriptionService {
 			cache.setUnreadCount(sub, count);
 		}
 		return count;
+	}
+
+	@SuppressWarnings("serial")
+	public static class FeedSubscriptionException extends RuntimeException {
+		private FeedSubscriptionException(String msg) {
+			super(msg);
+		}
 	}
 
 }

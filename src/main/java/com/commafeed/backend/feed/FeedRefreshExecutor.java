@@ -81,10 +81,6 @@ public class FeedRefreshExecutor {
 		pool.execute(task);
 	}
 
-	public static interface Task extends Runnable {
-		boolean isUrgent();
-	}
-
 	public void shutdown() {
 		pool.shutdownNow();
 		while (!pool.isTerminated()) {
@@ -95,4 +91,9 @@ public class FeedRefreshExecutor {
 			}
 		}
 	}
+
+	public interface Task extends Runnable {
+		boolean isUrgent();
+	}
+
 }

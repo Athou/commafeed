@@ -8,10 +8,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.commons.lang3.time.DateUtils;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import org.apache.commons.lang3.time.DateUtils;
 
 @Entity
 @Table(name = "USERS")
@@ -55,7 +55,7 @@ public class User extends AbstractModel {
 	private Date lastFullRefresh;
 
 	public boolean shouldRefreshFeedsAt(Date when) {
-		return (lastFullRefresh == null || lastFullRefreshMoreThan30MinutesBefore(when));
+		return lastFullRefresh == null || lastFullRefreshMoreThan30MinutesBefore(when);
 	}
 
 	private boolean lastFullRefreshMoreThan30MinutesBefore(Date when) {

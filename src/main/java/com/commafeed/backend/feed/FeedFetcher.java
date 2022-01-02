@@ -86,8 +86,9 @@ public class FeedFetcher {
 	private static String extractFeedUrl(Set<FeedURLProvider> urlProviders, String url, String urlContent) {
 		for (FeedURLProvider urlProvider : urlProviders) {
 			String feedUrl = urlProvider.get(url, urlContent);
-			if (feedUrl != null)
+			if (feedUrl != null) {
 				return feedUrl;
+			}
 		}
 
 		return null;

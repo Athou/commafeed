@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 

@@ -7,9 +7,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.core.MediaType;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHeaders;
@@ -27,6 +24,9 @@ import com.commafeed.backend.feed.FeedQueues;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.frontend.resource.PubSubHubbubCallbackREST;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Sends push subscription requests. Callback is handled by {@link PubSubHubbubCallbackREST}
@@ -76,8 +76,8 @@ public class PubSubService {
 					queues.giveBack(feed);
 					log.debug("handled pushpress subfeed {} : {}", topic, feed.getPushTopic());
 				} else {
-					throw new Exception("Unexpected response code: " + code + " " + response.getStatusLine().getReasonPhrase() + " - "
-							+ message);
+					throw new Exception(
+							"Unexpected response code: " + code + " " + response.getStatusLine().getReasonPhrase() + " - " + message);
 				}
 			}
 			log.debug("subscribed to {} for {}", hub, topic);

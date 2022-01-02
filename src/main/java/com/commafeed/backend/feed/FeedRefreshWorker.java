@@ -1,7 +1,5 @@
 package com.commafeed.backend.feed;
 
-import io.dropwizard.lifecycle.Managed;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -9,8 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +18,9 @@ import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.feed.FeedRefreshExecutor.Task;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
+
+import io.dropwizard.lifecycle.Managed;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Calls {@link FeedFetcher} and handles its outcome
@@ -61,25 +60,6 @@ public class FeedRefreshWorker implements Managed {
 		pool.execute(new FeedTask(context));
 	}
 
-	private class FeedTask implements Task {
-
-		private FeedRefreshContext context;
-
-		public FeedTask(FeedRefreshContext context) {
-			this.context = context;
-		}
-
-		@Override
-		public void run() {
-			update(context);
-		}
-
-		@Override
-		public boolean isUrgent() {
-			return context.isUrgent();
-		}
-	}
-
 	private void update(FeedRefreshContext context) {
 		Feed feed = context.getFeed();
 		int refreshInterval = config.getApplicationSettings().getRefreshIntervalMinutes();
@@ -97,8 +77,8 @@ public class FeedRefreshWorker implements Managed {
 			}
 
 			if (config.getApplicationSettings().getHeavyLoad()) {
-				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed.getFeed().getLastEntryDate(), fetchedFeed.getFeed()
-						.getAverageEntryInterval(), disabledUntil);
+				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed.getFeed().getLastEntryDate(),
+						fetchedFeed.getFeed().getAverageEntryInterval(), disabledUntil);
 			}
 			String urlAfterRedirect = fetchedFeed.getUrlAfterRedirect();
 			if (StringUtils.equals(url, urlAfterRedirect)) {
@@ -156,13 +136,32 @@ public class FeedRefreshWorker implements Managed {
 				topic = "http://" + topic;
 			} else if (topic.startsWith("feed://")) {
 				topic = "http://" + topic.substring(7);
-			} else if (topic.startsWith("http") == false) {
+			} else if (!topic.startsWith("http")) {
 				topic = "http://" + topic;
 			}
 			log.debug("feed {} has pubsub info: {}", feed.getUrl(), topic);
 			feed.setPushHub(hub);
 			feed.setPushTopic(topic);
 			feed.setPushTopicHash(DigestUtils.sha1Hex(topic));
+		}
+	}
+
+	private class FeedTask implements Task {
+
+		private final FeedRefreshContext context;
+
+		public FeedTask(FeedRefreshContext context) {
+			this.context = context;
+		}
+
+		@Override
+		public void run() {
+			update(context);
+		}
+
+		@Override
+		public boolean isUrgent() {
+			return context.isUrgent();
 		}
 	}
 }

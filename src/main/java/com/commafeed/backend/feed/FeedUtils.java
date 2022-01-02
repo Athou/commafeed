@@ -110,7 +110,7 @@ public class FeedUtils {
 	public static Charset guessEncoding(byte[] bytes) {
 		String extracted = extractDeclaredEncoding(bytes);
 		if (StringUtils.startsWithIgnoreCase(extracted, "iso-8859-")) {
-			if (StringUtils.endsWith(extracted, "1") == false) {
+			if (!StringUtils.endsWith(extracted, "1")) {
 				return Charset.forName(extracted);
 			}
 		} else if (StringUtils.startsWithIgnoreCase(extracted, "windows-")) {

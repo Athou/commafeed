@@ -28,8 +28,9 @@ public class SessionHelperFactoryProvider extends AbstractValueFactoryProvider {
 		final Class<?> classType = parameter.getRawType();
 
 		Context context = parameter.getAnnotation(Context.class);
-		if (context == null)
+		if (context == null) {
 			return null;
+		}
 
 		if (classType.isAssignableFrom(SessionHelper.class)) {
 			return new SessionHelperFactory();

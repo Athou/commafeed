@@ -21,7 +21,7 @@ import com.commafeed.frontend.session.SessionHelper;
 import lombok.RequiredArgsConstructor;
 
 @SuppressWarnings("serial")
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }) )
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class CustomCssServlet extends HttpServlet {
 

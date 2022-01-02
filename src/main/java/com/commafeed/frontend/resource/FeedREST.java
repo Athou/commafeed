@@ -100,18 +100,6 @@ public class FeedREST {
 
 	private static final FeedEntry TEST_ENTRY = initTestEntry();
 
-	private static FeedEntry initTestEntry() {
-		FeedEntry entry = new FeedEntry();
-		entry.setUrl("https://github.com/Athou/commafeed");
-
-		FeedEntryContent content = new FeedEntryContent();
-		content.setAuthor("Athou");
-		content.setTitle("Merge pull request #662 from Athou/dw8");
-		content.setContent("Merge pull request #662 from Athou/dw8");
-		entry.setContent(content);
-		return entry;
-	}
-
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
@@ -125,6 +113,18 @@ public class FeedREST {
 	private final OPMLExporter opmlExporter;
 	private final CacheService cache;
 	private final CommaFeedConfiguration config;
+
+	private static FeedEntry initTestEntry() {
+		FeedEntry entry = new FeedEntry();
+		entry.setUrl("https://github.com/Athou/commafeed");
+
+		FeedEntryContent content = new FeedEntryContent();
+		content.setAuthor("Athou");
+		content.setTitle("Merge pull request #662 from Athou/dw8");
+		content.setContent("Merge pull request #662 from Athou/dw8");
+		entry.setContent(content);
+		return entry;
+	}
 
 	@Path("/entries")
 	@GET
@@ -176,8 +176,9 @@ public class FeedREST {
 					entryKeywords, newerThanDate, offset, limit + 1, order, true, onlyIds, null);
 
 			for (FeedEntryStatus status : list) {
-				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getPublicUrl(),
-						config.getApplicationSettings().getImageProxyEnabled()));
+				entries.getEntries()
+						.add(Entry.build(status, config.getApplicationSettings().getPublicUrl(),
+								config.getApplicationSettings().getImageProxyEnabled()));
 			}
 
 			boolean hasMore = entries.getEntries().size() > limit;
@@ -226,7 +227,7 @@ public class FeedREST {
 		feed.setTitle("CommaFeed - " + entries.getName());
 		feed.setDescription("CommaFeed - " + entries.getName());
 		feed.setLink(config.getApplicationSettings().getPublicUrl());
-		feed.setEntries(entries.getEntries().stream().map(e -> e.asRss()).collect(Collectors.toList()));
+		feed.setEntries(entries.getEntries().stream().map(Entry::asRss).collect(Collectors.toList()));
 
 		SyndFeedOutput output = new SyndFeedOutput();
 		StringWriter writer = new StringWriter();
@@ -270,8 +271,10 @@ public class FeedREST {
 		try {
 			info = fetchFeedInternal(req.getUrl());
 		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(Throwables.getStackTraceAsString(Throwables.getRootCause(e)))
-					.type(MediaType.TEXT_PLAIN).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR)
+					.entity(Throwables.getStackTraceAsString(Throwables.getRootCause(e)))
+					.type(MediaType.TEXT_PLAIN)
+					.build();
 		}
 		return Response.ok(info).build();
 	}

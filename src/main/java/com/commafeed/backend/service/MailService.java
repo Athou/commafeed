@@ -13,11 +13,11 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import lombok.RequiredArgsConstructor;
-
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConfiguration.ApplicationSettings;
 import com.commafeed.backend.model.User;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * Mailing service

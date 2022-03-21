@@ -26,6 +26,7 @@
             "density": "4.0"
         }
     ],
-    "start_url": "/",
+    "scope": ".",
+    "start_url": "./",
     "display": "standalone"
 }

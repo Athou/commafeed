@@ -225,7 +225,7 @@ public class CategoryREST {
 		feed.setTitle("CommaFeed - " + entries.getName());
 		feed.setDescription("CommaFeed - " + entries.getName());
 		feed.setLink(config.getApplicationSettings().getPublicUrl());
-		feed.setEntries(entries.getEntries().stream().map(e -> e.asRss()).collect(Collectors.toList()));
+		feed.setEntries(entries.getEntries().stream().map(Entry::asRss).collect(Collectors.toList()));
 
 		SyndFeedOutput output = new SyndFeedOutput();
 		StringWriter writer = new StringWriter();
@@ -451,7 +451,7 @@ public class CategoryREST {
 		category.setExpanded(true);
 
 		for (FeedCategory c : categories) {
-			if ((id == null && c.getParent() == null) || (c.getParent() != null && Objects.equals(c.getParent().getId(), id))) {
+			if (id == null && c.getParent() == null || c.getParent() != null && Objects.equals(c.getParent().getId(), id)) {
 				Category child = buildCategory(c.getId(), categories, subscriptions, unreadCount);
 				child.setId(String.valueOf(c.getId()));
 				child.setName(c.getName());
@@ -471,8 +471,8 @@ public class CategoryREST {
 		});
 
 		for (FeedSubscription subscription : subscriptions) {
-			if ((id == null && subscription.getCategory() == null)
-					|| (subscription.getCategory() != null && Objects.equals(subscription.getCategory().getId(), id))) {
+			if (id == null && subscription.getCategory() == null
+					|| subscription.getCategory() != null && Objects.equals(subscription.getCategory().getId(), id)) {
 				UnreadCount uc = unreadCount.get(subscription.getId());
 				Subscription sub = Subscription.build(subscription, config.getApplicationSettings().getPublicUrl(), uc);
 				category.getFeeds().add(sub);

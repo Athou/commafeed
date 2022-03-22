@@ -5,7 +5,7 @@
 	
 	<property name="blob_type" value="bytea" dbms="postgresql"/>
 	<property name="blob_type" value="blob" dbms="h2" />
-	<property name="blob_type" value="blob" dbms="mysql" />
+	<property name="blob_type" value="blob" dbms="mysql,mariadb" />
 	<property name="blob_type" value="blob" dbms="mssql" />
 
 	<include file="changelogs/db.changelog-1.0.xml" />

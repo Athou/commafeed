@@ -57,7 +57,6 @@ import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.hibernate.HibernateBundle;
-import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.server.DefaultServerFactory;
 import io.dropwizard.servlets.CacheBustingFilter;
 import io.dropwizard.setup.Bootstrap;
@@ -94,13 +93,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 				factory.getProperties().put(AvailableSettings.STATEMENT_BATCH_SIZE, "50");
 				factory.getProperties().put(AvailableSettings.BATCH_VERSIONED_DATA, "true");
 				return factory;
-			}
-		});
-
-		bootstrap.addBundle(new MigrationsBundle<CommaFeedConfiguration>() {
-			@Override
-			public DataSourceFactory getDataSourceFactory(CommaFeedConfiguration configuration) {
-				return configuration.getDataSourceFactory();
 			}
 		});
 

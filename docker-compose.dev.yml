@@ -1,0 +1,19 @@
+version: "3.1"
+
+services:
+  mysql:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=commafeed
+    ports:
+      - 3306:3306
+
+  postgresql:
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: commafeed
+    ports:
+      - 5432:5432

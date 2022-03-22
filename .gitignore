@@ -1,9 +1,12 @@
-# config gile
+# config file
 config.yml
 
 # build directory
 target
 target-ide
+
+# database files
+database
 
 # log files
 log

@@ -1683,7 +1683,7 @@ module.controller("LoginCtrl", [
         }
 
         var recovery_success = function (data) {
-            $scope.recovery_message = "Email has ben sent. Check your inbox."
+            $scope.recovery_message = "An email has been sent if this address was registered. Check your inbox."
         }
         var recovery_error = function (data) {
             $scope.recovery_message = data.data

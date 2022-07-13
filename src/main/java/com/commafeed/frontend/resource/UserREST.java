@@ -259,8 +259,9 @@ public class UserREST {
 	public Response sendPasswordReset(@Valid @ApiParam(required = true) PasswordResetRequest req) {
 		User user = userDAO.findByEmail(req.getEmail());
 		if (user == null) {
-			return Response.status(Status.PRECONDITION_FAILED).entity("Email not found.").type(MediaType.TEXT_PLAIN).build();
+			return Response.ok().build();
 		}
+
 		try {
 			user.setRecoverPasswordToken(DigestUtils.sha1Hex(UUID.randomUUID().toString()));
 			user.setRecoverPasswordTokenDate(new Date());

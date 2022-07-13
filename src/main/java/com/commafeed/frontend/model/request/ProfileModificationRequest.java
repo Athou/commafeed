@@ -2,6 +2,8 @@ package com.commafeed.frontend.model.request;
 
 import java.io.Serializable;
 
+import com.commafeed.frontend.auth.ValidPassword;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,6 +17,7 @@ public class ProfileModificationRequest implements Serializable {
 	private String email;
 
 	@ApiModelProperty(value = "changes password of the user, if specified")
+	@ValidPassword
 	private String password;
 
 	@ApiModelProperty(value = "generate a new api key")

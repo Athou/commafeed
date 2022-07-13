@@ -6,6 +6,8 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.commafeed.frontend.auth.ValidPassword;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,7 +23,7 @@ public class RegistrationRequest implements Serializable {
 	private String name;
 
 	@ApiModelProperty(value = "password, minimum 6 characters", required = true)
-	@Length(min = 6)
+	@ValidPassword
 	@NotEmpty
 	private String password;
 

@@ -92,19 +92,9 @@ public class UserService {
 
 	public User register(String name, String password, String email, Collection<Role> roles, boolean forceRegistration) {
 
-		Preconditions.checkNotNull(name);
-		Preconditions.checkArgument(StringUtils.length(name) <= 32, "Name too long (32 characters maximum)");
-		Preconditions.checkNotNull(password);
-
 		if (!forceRegistration) {
 			Preconditions.checkState(config.getApplicationSettings().getAllowRegistrations(),
 					"Registrations are closed on this CommaFeed instance");
-
-			Preconditions.checkNotNull(email);
-			Preconditions.checkArgument(StringUtils.length(name) >= 3, "Name too short (3 characters minimum)");
-			Preconditions.checkArgument(forceRegistration || StringUtils.length(password) >= 6,
-					"Password too short (6 characters maximum)");
-			Preconditions.checkArgument(StringUtils.contains(email, "@"), "Invalid email address");
 		}
 
 		Preconditions.checkArgument(userDAO.findByName(name) == null, "Name already taken");

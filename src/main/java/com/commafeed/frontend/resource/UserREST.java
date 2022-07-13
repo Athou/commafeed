@@ -192,8 +192,7 @@ public class UserREST {
 	@ApiOperation(value = "Save user's profile")
 	@Timed
 	public Response saveUserProfile(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(required = true) ProfileModificationRequest request) {
-		Preconditions.checkArgument(StringUtils.isBlank(request.getPassword()) || request.getPassword().length() >= 6);
+			@Valid @ApiParam(required = true) ProfileModificationRequest request) {
 		if (StringUtils.isNotBlank(request.getEmail())) {
 			User u = userDAO.findByEmail(request.getEmail());
 			Preconditions.checkArgument(u == null || user.getId().equals(u.getId()));

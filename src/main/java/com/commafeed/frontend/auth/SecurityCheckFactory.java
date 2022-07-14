@@ -4,16 +4,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.server.internal.inject.AbstractContainerRequestValueFactory;
+import org.glassfish.jersey.server.ContainerRequest;
 
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
@@ -23,21 +22,17 @@ import com.commafeed.frontend.session.SessionHelper;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class SecurityCheckFactory extends AbstractContainerRequestValueFactory<User> {
+public class SecurityCheckFactory implements Function<ContainerRequest, User> {
 
 	private static final String PREFIX = "Basic";
 
-	@Context
-	HttpServletRequest request;
-
-	@Inject
-	UserService userService;
-
+	private final UserService userService;
+	private final HttpServletRequest request;
 	private final Role role;
 	private final boolean apiKeyAllowed;
 
 	@Override
-	public User provide() {
+	public User apply(ContainerRequest req) {
 		Optional<User> user = apiKeyLogin();
 		if (!user.isPresent()) {
 			user = basicAuthenticationLogin();

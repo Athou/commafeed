@@ -65,7 +65,7 @@ public class PubSubServiceTest {
 				.withMethod("POST")
 				.withPath("/hub"));
 		Mockito.verify(feed, Mockito.never()).setPushTopic(Mockito.anyString());
-		Mockito.verifyZeroInteractions(queues);
+		Mockito.verifyNoInteractions(queues);
 	}
 
 	@Test
@@ -92,7 +92,7 @@ public class PubSubServiceTest {
 
 		// Assert
 		Mockito.verify(feed, Mockito.never()).setPushTopic(Mockito.anyString());
-		Mockito.verifyZeroInteractions(queues);
+		Mockito.verifyNoInteractions(queues);
 	}
 
 }

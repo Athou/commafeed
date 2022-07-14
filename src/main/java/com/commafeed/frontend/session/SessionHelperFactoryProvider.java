@@ -1,30 +1,32 @@
 package com.commafeed.frontend.session;
 
+import java.util.function.Function;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 
-import org.glassfish.hk2.api.Factory;
-import org.glassfish.hk2.api.InjectionResolver;
-import org.glassfish.hk2.api.ServiceLocator;
-import org.glassfish.hk2.api.TypeLiteral;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import org.glassfish.jersey.server.internal.inject.AbstractValueFactoryProvider;
+import org.glassfish.jersey.server.ContainerRequest;
+import org.glassfish.jersey.server.internal.inject.AbstractValueParamProvider;
 import org.glassfish.jersey.server.internal.inject.MultivaluedParameterExtractorProvider;
-import org.glassfish.jersey.server.internal.inject.ParamInjectionResolver;
 import org.glassfish.jersey.server.model.Parameter;
-import org.glassfish.jersey.server.spi.internal.ValueFactoryProvider;
+import org.glassfish.jersey.server.spi.internal.ValueParamProvider;
 
 @Singleton
-public class SessionHelperFactoryProvider extends AbstractValueFactoryProvider {
+public class SessionHelperFactoryProvider extends AbstractValueParamProvider {
+
+	private HttpServletRequest request;
 
 	@Inject
-	public SessionHelperFactoryProvider(final MultivaluedParameterExtractorProvider extractorProvider, final ServiceLocator injector) {
-		super(extractorProvider, injector, Parameter.Source.CONTEXT);
+	public SessionHelperFactoryProvider(final MultivaluedParameterExtractorProvider extractorProvider, HttpServletRequest request) {
+		super(() -> extractorProvider, Parameter.Source.CONTEXT);
+		this.request = request;
 	}
 
 	@Override
-	protected Factory<?> createValueFactory(final Parameter parameter) {
+	protected Function<ContainerRequest, ?> createValueProvider(Parameter parameter) {
 		final Class<?> classType = parameter.getRawType();
 
 		Context context = parameter.getAnnotation(Context.class);
@@ -32,26 +34,18 @@ public class SessionHelperFactoryProvider extends AbstractValueFactoryProvider {
 			return null;
 		}
 
-		if (classType.isAssignableFrom(SessionHelper.class)) {
-			return new SessionHelperFactory();
-		} else {
+		if (!classType.isAssignableFrom(SessionHelper.class)) {
 			return null;
 		}
-	}
 
-	public static class SessionHelperInjectionResolver extends ParamInjectionResolver<Context> {
-		public SessionHelperInjectionResolver() {
-			super(SessionHelperFactoryProvider.class);
-		}
+		return r -> new SessionHelper(request);
 	}
 
 	public static class Binder extends AbstractBinder {
 
 		@Override
 		protected void configure() {
-			bind(SessionHelperFactoryProvider.class).to(ValueFactoryProvider.class).in(Singleton.class);
-			bind(SessionHelperInjectionResolver.class).to(new TypeLiteral<InjectionResolver<Context>>() {
-			}).in(Singleton.class);
+			bind(SessionHelperFactoryProvider.class).to(ValueParamProvider.class).in(Singleton.class);
 		}
 	}
 }

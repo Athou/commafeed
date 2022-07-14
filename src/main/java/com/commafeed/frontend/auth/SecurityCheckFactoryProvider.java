@@ -1,18 +1,17 @@
 package com.commafeed.frontend.auth;
 
+import java.util.function.Function;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
 
-import org.glassfish.hk2.api.Factory;
-import org.glassfish.hk2.api.InjectionResolver;
-import org.glassfish.hk2.api.ServiceLocator;
-import org.glassfish.hk2.api.TypeLiteral;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import org.glassfish.jersey.server.internal.inject.AbstractValueFactoryProvider;
+import org.glassfish.jersey.server.ContainerRequest;
+import org.glassfish.jersey.server.internal.inject.AbstractValueParamProvider;
 import org.glassfish.jersey.server.internal.inject.MultivaluedParameterExtractorProvider;
-import org.glassfish.jersey.server.internal.inject.ParamInjectionResolver;
 import org.glassfish.jersey.server.model.Parameter;
-import org.glassfish.jersey.server.spi.internal.ValueFactoryProvider;
+import org.glassfish.jersey.server.spi.internal.ValueParamProvider;
 
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.UserService;
@@ -20,15 +19,21 @@ import com.commafeed.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 @Singleton
-public class SecurityCheckFactoryProvider extends AbstractValueFactoryProvider {
+public class SecurityCheckFactoryProvider extends AbstractValueParamProvider {
+
+	private UserService userService;
+	private HttpServletRequest request;
 
 	@Inject
-	public SecurityCheckFactoryProvider(final MultivaluedParameterExtractorProvider extractorProvider, final ServiceLocator injector) {
-		super(extractorProvider, injector, Parameter.Source.UNKNOWN);
+	public SecurityCheckFactoryProvider(final MultivaluedParameterExtractorProvider extractorProvider, UserService userService,
+			HttpServletRequest request) {
+		super(() -> extractorProvider, Parameter.Source.UNKNOWN);
+		this.userService = userService;
+		this.request = request;
 	}
 
 	@Override
-	protected Factory<?> createValueFactory(final Parameter parameter) {
+	protected Function<ContainerRequest, ?> createValueProvider(Parameter parameter) {
 		final Class<?> classType = parameter.getRawType();
 
 		SecurityCheck securityCheck = parameter.getAnnotation(SecurityCheck.class);
@@ -36,17 +41,11 @@ public class SecurityCheckFactoryProvider extends AbstractValueFactoryProvider {
 			return null;
 		}
 
-		if (classType.isAssignableFrom(User.class)) {
-			return new SecurityCheckFactory(securityCheck.value(), securityCheck.apiKeyAllowed());
-		} else {
+		if (!classType.isAssignableFrom(User.class)) {
 			return null;
 		}
-	}
 
-	public static class SecurityCheckInjectionResolver extends ParamInjectionResolver<SecurityCheck> {
-		public SecurityCheckInjectionResolver() {
-			super(SecurityCheckFactoryProvider.class);
-		}
+		return new SecurityCheckFactory(userService, request, securityCheck.value(), securityCheck.apiKeyAllowed());
 	}
 
 	@RequiredArgsConstructor
@@ -56,10 +55,9 @@ public class SecurityCheckFactoryProvider extends AbstractValueFactoryProvider {
 
 		@Override
 		protected void configure() {
-			bind(SecurityCheckFactoryProvider.class).to(ValueFactoryProvider.class).in(Singleton.class);
-			bind(SecurityCheckInjectionResolver.class).to(new TypeLiteral<InjectionResolver<SecurityCheck>>() {
-			}).in(Singleton.class);
+			bind(SecurityCheckFactoryProvider.class).to(ValueParamProvider.class).in(Singleton.class);
 			bind(userService).to(UserService.class);
 		}
 	}
+
 }

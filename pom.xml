@@ -316,6 +316,11 @@
 			<groupId>io.dropwizard.metrics</groupId>
 			<artifactId>metrics-json</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.modules</groupId>
+			<artifactId>dropwizard-web</artifactId>
+			<version>1.5.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.xml.bind</groupId>

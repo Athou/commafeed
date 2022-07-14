@@ -61,6 +61,8 @@ import io.dropwizard.server.DefaultServerFactory;
 import io.dropwizard.servlets.CacheBustingFilter;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.dropwizard.web.WebBundle;
+import io.dropwizard.web.conf.WebConfiguration;
 
 public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
@@ -93,6 +95,15 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 				factory.getProperties().put(AvailableSettings.STATEMENT_BATCH_SIZE, "50");
 				factory.getProperties().put(AvailableSettings.BATCH_VERSIONED_DATA, "true");
 				return factory;
+			}
+		});
+
+		bootstrap.addBundle(new WebBundle<CommaFeedConfiguration>() {
+			@Override
+			public WebConfiguration getWebConfiguration(CommaFeedConfiguration configuration) {
+				WebConfiguration config = new WebConfiguration();
+				config.getFrameOptionsHeaderFactory().setEnabled(true);
+				return config;
 			}
 		});
 

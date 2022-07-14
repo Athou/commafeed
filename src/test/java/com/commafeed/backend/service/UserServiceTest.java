@@ -47,7 +47,7 @@ public class UserServiceTest {
 
 	@Before
 	public void init() {
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 
 		userService = new UserService(feedCategoryDAO, feedSubscriptionDAO, userDAO, userRoleDAO, userSettingsDAO,
 				passwordEncryptionService, commaFeedConfiguration, postLoginActivities);

@@ -5,10 +5,10 @@ import java.util.ResourceBundle;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.time.DateUtils;
-import org.hibernate.validator.constraints.NotBlank;
 
 import com.commafeed.backend.cache.RedisPoolFactory;
 import com.commafeed.frontend.session.SessionHandlerFactory;

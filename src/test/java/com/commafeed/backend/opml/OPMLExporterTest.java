@@ -41,7 +41,7 @@ public class OPMLExporterTest {
 
 	@Before
 	public void init() {
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 
 		user.setName("John Doe");
 

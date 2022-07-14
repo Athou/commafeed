@@ -23,4 +23,8 @@
 		</addColumn>
 	</changeSet>
 
+	<changeSet id="rename-filter-avoid-keyword" author="athou">
+		<renameColumn tableName="FEEDSUBSCRIPTIONS" oldColumnName="filter" newColumnName="filtering_expression" />
+	</changeSet>
+
 </databaseChangeLog>

@@ -2,9 +2,9 @@ package com.commafeed.backend.service;
 
 import java.util.Optional;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -18,7 +18,7 @@ import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.internal.PostLoginActivities;
 
-public class UserServiceTest {
+class UserServiceTest {
 
 	private static final byte[] SALT = new byte[] { 1, 2, 3 };
 	private static final byte[] ENCRYPTED_PASSWORD = new byte[] { 5, 6, 7 };
@@ -45,7 +45,7 @@ public class UserServiceTest {
 
 	private UserService userService;
 
-	@Before
+	@BeforeEach
 	public void init() {
 		MockitoAnnotations.openMocks(this);
 
@@ -62,49 +62,49 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void callingLoginShouldNotReturnUserObjectWhenGivenNullNameOrEmail() {
+	void callingLoginShouldNotReturnUserObjectWhenGivenNullNameOrEmail() {
 		Optional<User> user = userService.login(null, "password");
-		Assert.assertFalse(user.isPresent());
+		Assertions.assertFalse(user.isPresent());
 	}
 
 	@Test
-	public void callingLoginShouldNotReturnUserObjectWhenGivenNullPassword() {
+	void callingLoginShouldNotReturnUserObjectWhenGivenNullPassword() {
 		Optional<User> user = userService.login("testusername", null);
-		Assert.assertFalse(user.isPresent());
+		Assertions.assertFalse(user.isPresent());
 	}
 
 	@Test
-	public void callingLoginShouldLookupUserByName() {
+	void callingLoginShouldLookupUserByName() {
 		userService.login("test", "password");
 		Mockito.verify(userDAO).findByName("test");
 	}
 
 	@Test
-	public void callingLoginShouldLookupUserByEmailIfLookupByNameFailed() {
+	void callingLoginShouldLookupUserByEmailIfLookupByNameFailed() {
 		Mockito.when(userDAO.findByName("test@test.com")).thenReturn(null);
 		userService.login("test@test.com", "password");
 		Mockito.verify(userDAO).findByEmail("test@test.com");
 	}
 
 	@Test
-	public void callingLoginShouldNotReturnUserObjectIfCouldNotFindUserByNameOrEmail() {
+	void callingLoginShouldNotReturnUserObjectIfCouldNotFindUserByNameOrEmail() {
 		Mockito.when(userDAO.findByName("test@test.com")).thenReturn(null);
 		Mockito.when(userDAO.findByEmail("test@test.com")).thenReturn(null);
 
 		Optional<User> user = userService.login("test@test.com", "password");
 
-		Assert.assertFalse(user.isPresent());
+		Assertions.assertFalse(user.isPresent());
 	}
 
 	@Test
-	public void callingLoginShouldNotReturnUserObjectIfUserIsDisabled() {
+	void callingLoginShouldNotReturnUserObjectIfUserIsDisabled() {
 		Mockito.when(userDAO.findByName("test")).thenReturn(disabledUser);
 		Optional<User> user = userService.login("test", "password");
-		Assert.assertFalse(user.isPresent());
+		Assertions.assertFalse(user.isPresent());
 	}
 
 	@Test
-	public void callingLoginShouldTryToAuthenticateUserWhoIsNotDisabled() {
+	void callingLoginShouldTryToAuthenticateUserWhoIsNotDisabled() {
 		Mockito.when(userDAO.findByName("test")).thenReturn(normalUser);
 		Mockito.when(passwordEncryptionService.authenticate(Mockito.anyString(), Mockito.any(byte[].class), Mockito.any(byte[].class)))
 				.thenReturn(false);
@@ -115,18 +115,18 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void callingLoginShouldNotReturnUserObjectOnUnsuccessfulAuthentication() {
+	void callingLoginShouldNotReturnUserObjectOnUnsuccessfulAuthentication() {
 		Mockito.when(userDAO.findByName("test")).thenReturn(normalUser);
 		Mockito.when(passwordEncryptionService.authenticate(Mockito.anyString(), Mockito.any(byte[].class), Mockito.any(byte[].class)))
 				.thenReturn(false);
 
 		Optional<User> authenticatedUser = userService.login("test", "password");
 
-		Assert.assertFalse(authenticatedUser.isPresent());
+		Assertions.assertFalse(authenticatedUser.isPresent());
 	}
 
 	@Test
-	public void callingLoginShouldExecutePostLoginActivitiesForUserOnSuccessfulAuthentication() {
+	void callingLoginShouldExecutePostLoginActivitiesForUserOnSuccessfulAuthentication() {
 		Mockito.when(userDAO.findByName("test")).thenReturn(normalUser);
 		Mockito.when(passwordEncryptionService.authenticate(Mockito.anyString(), Mockito.any(byte[].class), Mockito.any(byte[].class)))
 				.thenReturn(true);
@@ -138,7 +138,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void callingLoginShouldReturnUserObjectOnSuccessfulAuthentication() {
+	void callingLoginShouldReturnUserObjectOnSuccessfulAuthentication() {
 		Mockito.when(userDAO.findByName("test")).thenReturn(normalUser);
 		Mockito.when(passwordEncryptionService.authenticate(Mockito.anyString(), Mockito.any(byte[].class), Mockito.any(byte[].class)))
 				.thenReturn(true);
@@ -146,49 +146,49 @@ public class UserServiceTest {
 
 		Optional<User> authenticatedUser = userService.login("test", "password");
 
-		Assert.assertTrue(authenticatedUser.isPresent());
-		Assert.assertEquals(normalUser, authenticatedUser.get());
+		Assertions.assertTrue(authenticatedUser.isPresent());
+		Assertions.assertEquals(normalUser, authenticatedUser.get());
 	}
 
 	@Test
-	public void apiLoginShouldNotReturnUserIfApikeyNull() {
+	void apiLoginShouldNotReturnUserIfApikeyNull() {
 		Optional<User> user = userService.login(null);
-		Assert.assertFalse(user.isPresent());
+		Assertions.assertFalse(user.isPresent());
 	}
 
 	@Test
-	public void apiLoginShouldLookupUserByApikey() {
+	void apiLoginShouldLookupUserByApikey() {
 		Mockito.when(userDAO.findByApiKey("apikey")).thenReturn(null);
 		userService.login("apikey");
 		Mockito.verify(userDAO).findByApiKey("apikey");
 	}
 
 	@Test
-	public void apiLoginShouldNotReturnUserIfUserNotFoundFromLookupByApikey() {
+	void apiLoginShouldNotReturnUserIfUserNotFoundFromLookupByApikey() {
 		Mockito.when(userDAO.findByApiKey("apikey")).thenReturn(null);
 		Optional<User> user = userService.login("apikey");
-		Assert.assertFalse(user.isPresent());
+		Assertions.assertFalse(user.isPresent());
 	}
 
 	@Test
-	public void apiLoginShouldNotReturnUserIfUserFoundFromApikeyLookupIsDisabled() {
+	void apiLoginShouldNotReturnUserIfUserFoundFromApikeyLookupIsDisabled() {
 		Mockito.when(userDAO.findByApiKey("apikey")).thenReturn(disabledUser);
 		Optional<User> user = userService.login("apikey");
-		Assert.assertFalse(user.isPresent());
+		Assertions.assertFalse(user.isPresent());
 	}
 
 	@Test
-	public void apiLoginShouldPerformPostLoginActivitiesIfUserFoundFromApikeyLookupNotDisabled() {
+	void apiLoginShouldPerformPostLoginActivitiesIfUserFoundFromApikeyLookupNotDisabled() {
 		Mockito.when(userDAO.findByApiKey("apikey")).thenReturn(normalUser);
 		userService.login("apikey");
 		Mockito.verify(postLoginActivities).executeFor(normalUser);
 	}
 
 	@Test
-	public void apiLoginShouldReturnUserIfUserFoundFromApikeyLookupNotDisabled() {
+	void apiLoginShouldReturnUserIfUserFoundFromApikeyLookupNotDisabled() {
 		Mockito.when(userDAO.findByApiKey("apikey")).thenReturn(normalUser);
 		Optional<User> returnedUser = userService.login("apikey");
-		Assert.assertEquals(normalUser, returnedUser.get());
+		Assertions.assertEquals(normalUser, returnedUser.get());
 	}
 
 }

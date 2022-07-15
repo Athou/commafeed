@@ -1,16 +1,15 @@
 package com.commafeed.backend.service;
 
 import org.apache.http.HttpHeaders;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.MockitoAnnotations;
 import org.mockserver.client.MockServerClient;
-import org.mockserver.junit.MockServerRule;
+import org.mockserver.junit.jupiter.MockServerExtension;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 import org.mockserver.model.MediaType;
@@ -19,14 +18,8 @@ import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.feed.FeedQueues;
 import com.commafeed.backend.model.Feed;
 
-@RunWith(MockitoJUnitRunner.class)
-public class PubSubServiceTest {
-
-	@Rule
-	public final MockServerRule mockServerRule = new MockServerRule(this, 22441);
-
-	private PubSubService underTest;
-	private MockServerClient mockServerClient;
+@ExtendWith(MockServerExtension.class)
+class PubSubServiceTest {
 
 	@Mock(answer = Answers.RETURNS_DEEP_STUBS)
 	private CommaFeedConfiguration config;
@@ -37,29 +30,40 @@ public class PubSubServiceTest {
 	@Mock
 	private Feed feed;
 
-	@Before
-	public void init() {
-		underTest = new PubSubService(config, queues);
+	private MockServerClient client;
+	private PubSubService underTest;
+
+	@BeforeEach
+	public void init(MockServerClient client) {
+		MockitoAnnotations.openMocks(this);
+
+		this.client = client;
+		this.client.reset();
+
+		this.underTest = new PubSubService(config, queues);
+
+		Integer port = client.getPort();
+		String hubUrl = String.format("http://localhost:%s/hub", port);
 
 		// setup feed
 		feed = Mockito.mock(Feed.class);
-		Mockito.when(feed.getPushHub()).thenReturn("http://localhost:22441/hub");
+		Mockito.when(feed.getPushHub()).thenReturn(hubUrl);
 		Mockito.when(feed.getPushTopic()).thenReturn("foo");
 
 		// setup config
-		Mockito.when(config.getApplicationSettings().getPublicUrl()).thenReturn("http://localhost:22441/hub");
+		Mockito.when(config.getApplicationSettings().getPublicUrl()).thenReturn(hubUrl);
 	}
 
 	@Test
-	public void subscribe200() {
+	void subscribe200() {
 		// Arrange
-		mockServerClient.when(HttpRequest.request().withMethod("POST")).respond(HttpResponse.response().withStatusCode(200));
+		client.when(HttpRequest.request().withMethod("POST")).respond(HttpResponse.response().withStatusCode(200));
 
 		// Act
 		underTest.subscribe(feed);
 
 		// Assert
-		mockServerClient.verify(HttpRequest.request()
+		client.verify(HttpRequest.request()
 				.withContentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.withHeader(HttpHeaders.USER_AGENT, "CommaFeed")
 				.withMethod("POST")
@@ -69,9 +73,9 @@ public class PubSubServiceTest {
 	}
 
 	@Test
-	public void subscribe400WithPushpressError() {
+	void subscribe400WithPushpressError() {
 		// Arrange
-		mockServerClient.when(HttpRequest.request().withMethod("POST"))
+		client.when(HttpRequest.request().withMethod("POST"))
 				.respond(HttpResponse.response().withStatusCode(400).withBody(" is value is not allowed.  You may only subscribe to"));
 
 		// Act
@@ -83,9 +87,9 @@ public class PubSubServiceTest {
 	}
 
 	@Test
-	public void subscribe400WithoutPushpressError() {
+	void subscribe400WithoutPushpressError() {
 		// Arrange
-		mockServerClient.when(HttpRequest.request().withMethod("POST")).respond(HttpResponse.response().withStatusCode(400));
+		client.when(HttpRequest.request().withMethod("POST")).respond(HttpResponse.response().withStatusCode(400));
 
 		// Act
 		underTest.subscribe(feed);

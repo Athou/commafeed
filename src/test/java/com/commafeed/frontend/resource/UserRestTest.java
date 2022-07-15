@@ -3,7 +3,7 @@ package com.commafeed.frontend.resource;
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
@@ -15,10 +15,10 @@ import com.commafeed.frontend.model.request.LoginRequest;
 import com.commafeed.frontend.model.request.RegistrationRequest;
 import com.commafeed.frontend.session.SessionHelper;
 
-public class UserRestTest {
+class UserRestTest {
 
 	@Test
-	public void loginShouldNotPopulateHttpSessionIfUnsuccessfull() {
+	void loginShouldNotPopulateHttpSessionIfUnsuccessfull() {
 		// Absent user
 		Optional<User> absentUser = Optional.empty();
 
@@ -39,7 +39,7 @@ public class UserRestTest {
 	}
 
 	@Test
-	public void loginShouldPopulateHttpSessionIfSuccessfull() {
+	void loginShouldPopulateHttpSessionIfSuccessfull() {
 		// Create a user
 		User user = new User();
 
@@ -60,7 +60,7 @@ public class UserRestTest {
 	}
 
 	@Test
-	public void registerShouldRegisterAndThenLogin() {
+	void registerShouldRegisterAndThenLogin() {
 		// Create UserService mock
 		UserService service = Mockito.mock(UserService.class);
 
@@ -81,7 +81,7 @@ public class UserRestTest {
 	}
 
 	@Test
-	public void registerShouldPopulateHttpSession() {
+	void registerShouldPopulateHttpSession() {
 		// Create a user
 		User user = new User();
 

@@ -1,21 +1,21 @@
 package com.commafeed.backend.service;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
 
-public class FeedEntryFilteringServiceTest {
+class FeedEntryFilteringServiceTest {
 
 	private FeedEntryFilteringService service;
 
 	private FeedEntry entry;
 	private FeedEntryContent content;
 
-	@Before
+	@BeforeEach
 	public void init() {
 		service = new FeedEntryFilteringService();
 
@@ -31,55 +31,56 @@ public class FeedEntryFilteringServiceTest {
 	}
 
 	@Test
-	public void emptyFilterMatchesFilter() throws FeedEntryFilterException {
-		Assert.assertTrue(service.filterMatchesEntry(null, entry));
+	void emptyFilterMatchesFilter() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry(null, entry));
 	}
 
 	@Test
-	public void blankFilterMatchesFilter() throws FeedEntryFilterException {
-		Assert.assertTrue(service.filterMatchesEntry("", entry));
+	void blankFilterMatchesFilter() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("", entry));
 	}
 
 	@Test
-	public void simpleExpression() throws FeedEntryFilterException {
-		Assert.assertTrue(service.filterMatchesEntry("author.toString() eq 'athou'", entry));
-	}
-
-	@Test(expected = FeedEntryFilterException.class)
-	public void newIsDisabled() throws FeedEntryFilterException {
-		service.filterMatchesEntry("null eq new ('java.lang.String', 'athou')", entry);
-	}
-
-	@Test(expected = FeedEntryFilterException.class)
-	public void getClassMethodIsDisabled() throws FeedEntryFilterException {
-		service.filterMatchesEntry("null eq ''.getClass()", entry);
+	void simpleExpression() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("author.toString() eq 'athou'", entry));
 	}
 
 	@Test
-	public void dotClassIsDisabled() throws FeedEntryFilterException {
-		Assert.assertTrue(service.filterMatchesEntry("null eq ''.class", entry));
-	}
-
-	@Test(expected = FeedEntryFilterException.class)
-	public void cannotLoopForever() throws FeedEntryFilterException {
-		service.filterMatchesEntry("while(true) {}", entry);
+	void newIsDisabled() throws FeedEntryFilterException {
+		Assertions.assertThrows(FeedEntryFilterException.class,
+				() -> service.filterMatchesEntry("null eq new ('java.lang.String', 'athou')", entry));
 	}
 
 	@Test
-	public void handlesNullCorrectly() throws FeedEntryFilterException {
+	void getClassMethodIsDisabled() throws FeedEntryFilterException {
+		Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("null eq ''.getClass()", entry));
+	}
+
+	@Test
+	void dotClassIsDisabled() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("null eq ''.class", entry));
+	}
+
+	@Test
+	void cannotLoopForever() throws FeedEntryFilterException {
+		Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("while(true) {}", entry));
+	}
+
+	@Test
+	void handlesNullCorrectly() throws FeedEntryFilterException {
 		entry.setUrl(null);
 		entry.setContent(new FeedEntryContent());
-		service.filterMatchesEntry("author eq 'athou'", entry);
+		Assertions.assertDoesNotThrow(() -> service.filterMatchesEntry("author eq 'athou'", entry));
 	}
 
-	@Test(expected = FeedEntryFilterException.class)
-	public void incorrectScriptThrowsException() throws FeedEntryFilterException {
-		service.filterMatchesEntry("aa eqz bb", entry);
+	@Test
+	void incorrectScriptThrowsException() throws FeedEntryFilterException {
+		Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("aa eqz bb", entry));
 	}
 
-	@Test(expected = FeedEntryFilterException.class)
-	public void incorrectReturnTypeThrowsException() throws FeedEntryFilterException {
-		service.filterMatchesEntry("1", entry);
+	@Test
+	void incorrectReturnTypeThrowsException() throws FeedEntryFilterException {
+		Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("1", entry));
 	}
 
 }

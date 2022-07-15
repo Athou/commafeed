@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -20,7 +20,7 @@ import com.commafeed.backend.model.User;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
 
-public class OPMLExporterTest {
+class OPMLExporterTest {
 
 	@Mock
 	private FeedCategoryDAO feedCategoryDAO;
@@ -39,7 +39,7 @@ public class OPMLExporterTest {
 	private final List<FeedCategory> categories = new ArrayList<>();
 	private final List<FeedSubscription> subscriptions = new ArrayList<>();
 
-	@Before
+	@BeforeEach
 	public void init() {
 		MockitoAnnotations.openMocks(this);
 
@@ -88,27 +88,27 @@ public class OPMLExporterTest {
 	}
 
 	@Test
-	public void generatesOpmlCorrectly() {
+	void generatesOpmlCorrectly() {
 		Mockito.when(feedCategoryDAO.findAll(user)).thenReturn(categories);
 		Mockito.when(feedSubscriptionDAO.findAll(user)).thenReturn(subscriptions);
 
 		Opml opml = new OPMLExporter(feedCategoryDAO, feedSubscriptionDAO).export(user);
 
 		List<Outline> rootOutlines = opml.getOutlines();
-		Assert.assertEquals(2, rootOutlines.size());
-		Assert.assertTrue(containsCategory(rootOutlines, "cat1"));
-		Assert.assertTrue(containsFeed(rootOutlines, "rootFeed", "rootFeed.com"));
+		Assertions.assertEquals(2, rootOutlines.size());
+		Assertions.assertTrue(containsCategory(rootOutlines, "cat1"));
+		Assertions.assertTrue(containsFeed(rootOutlines, "rootFeed", "rootFeed.com"));
 
 		Outline cat1Outline = getCategoryOutline(rootOutlines, "cat1");
 		List<Outline> cat1Children = cat1Outline.getChildren();
-		Assert.assertEquals(2, cat1Children.size());
-		Assert.assertTrue(containsCategory(cat1Children, "cat2"));
-		Assert.assertTrue(containsFeed(cat1Children, "cat1Feed", "cat1Feed.com"));
+		Assertions.assertEquals(2, cat1Children.size());
+		Assertions.assertTrue(containsCategory(cat1Children, "cat2"));
+		Assertions.assertTrue(containsFeed(cat1Children, "cat1Feed", "cat1Feed.com"));
 
 		Outline cat2Outline = getCategoryOutline(cat1Children, "cat2");
 		List<Outline> cat2Children = cat2Outline.getChildren();
-		Assert.assertEquals(1, cat2Children.size());
-		Assert.assertTrue(containsFeed(cat2Children, "cat2Feed", "cat2Feed.com"));
+		Assertions.assertEquals(1, cat2Children.size());
+		Assertions.assertTrue(containsFeed(cat2Children, "cat2Feed", "cat2Feed.com"));
 	}
 
 	private boolean containsCategory(List<Outline> outlines, String category) {

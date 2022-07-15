@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.commafeed.backend.cache.CacheService;
@@ -13,25 +13,25 @@ import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedSubscriptionService;
 
-public class OPMLImporterTest {
+class OPMLImporterTest {
 
 	@Test
-	public void testOpmlV10() throws IOException {
+	void testOpmlV10() throws IOException {
 		testOpmlVersion("/opml/opml_v1.0.xml");
 	}
 
 	@Test
-	public void testOpmlV11() throws IOException {
+	void testOpmlV11() throws IOException {
 		testOpmlVersion("/opml/opml_v1.1.xml");
 	}
 
 	@Test
-	public void testOpmlV20() throws IOException {
+	void testOpmlV20() throws IOException {
 		testOpmlVersion("/opml/opml_v2.0.xml");
 	}
 
 	@Test
-	public void testOpmlNoVersion() throws IOException {
+	void testOpmlNoVersion() throws IOException {
 		testOpmlVersion("/opml/opml_noversion.xml");
 	}
 

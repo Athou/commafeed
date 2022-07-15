@@ -5,18 +5,18 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.commafeed.backend.model.User;
 
-public class SessionHelperTest {
+class SessionHelperTest {
 
 	private static final String SESSION_KEY_USER = "user";
 
 	@Test
-	public void gettingUserDoesNotCreateSession() {
+	void gettingUserDoesNotCreateSession() {
 		HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
 
 		SessionHelper sessionHelper = new SessionHelper(request);
@@ -26,18 +26,18 @@ public class SessionHelperTest {
 	}
 
 	@Test
-	public void gettingUserShouldNotReturnUserIfThereIsNoPreexistingHttpSession() {
+	void gettingUserShouldNotReturnUserIfThereIsNoPreexistingHttpSession() {
 		HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
 		Mockito.when(request.getSession(false)).thenReturn(null);
 
 		SessionHelper sessionHelper = new SessionHelper(request);
 		Optional<User> user = sessionHelper.getLoggedInUser();
 
-		Assert.assertFalse(user.isPresent());
+		Assertions.assertFalse(user.isPresent());
 	}
 
 	@Test
-	public void gettingUserShouldNotReturnUserIfUserNotPresentInHttpSession() {
+	void gettingUserShouldNotReturnUserIfUserNotPresentInHttpSession() {
 		HttpSession session = Mockito.mock(HttpSession.class);
 		Mockito.when(session.getAttribute(SESSION_KEY_USER)).thenReturn(null);
 
@@ -47,11 +47,11 @@ public class SessionHelperTest {
 		SessionHelper sessionHelper = new SessionHelper(request);
 		Optional<User> user = sessionHelper.getLoggedInUser();
 
-		Assert.assertFalse(user.isPresent());
+		Assertions.assertFalse(user.isPresent());
 	}
 
 	@Test
-	public void gettingUserShouldReturnUserIfUserPresentInHttpSession() {
+	void gettingUserShouldReturnUserIfUserPresentInHttpSession() {
 		User userInSession = new User();
 
 		HttpSession session = Mockito.mock(HttpSession.class);
@@ -63,8 +63,8 @@ public class SessionHelperTest {
 		SessionHelper sessionHelper = new SessionHelper(request);
 		Optional<User> user = sessionHelper.getLoggedInUser();
 
-		Assert.assertTrue(user.isPresent());
-		Assert.assertEquals(userInSession, user.get());
+		Assertions.assertTrue(user.isPresent());
+		Assertions.assertEquals(userInSession, user.get());
 	}
 
 }

@@ -1,12 +1,12 @@
 package com.commafeed.backend.feed;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-public class FeedUtilsTest {
+class FeedUtilsTest {
 
 	@Test
-	public void testNormalization() {
+	void testNormalization() {
 		String urla1 = "http://example.com/hello?a=1&b=2";
 		String urla2 = "http://www.example.com/hello?a=1&b=2";
 		String urla3 = "http://EXAmPLe.com/HELLo?a=1&b=2";
@@ -25,72 +25,72 @@ public class FeedUtilsTest {
 		String urld1 = "http://fivefilters.org/content-only/makefulltextfeed.php?url=http://feeds.feedburner.com/Frandroid";
 		String urld2 = "http://fivefilters.org/content-only/makefulltextfeed.php?url=http://feeds2.feedburner.com/Frandroid";
 
-		Assert.assertEquals(FeedUtils.normalizeURL(urla1), FeedUtils.normalizeURL(urla2));
-		Assert.assertEquals(FeedUtils.normalizeURL(urla1), FeedUtils.normalizeURL(urla3));
-		Assert.assertEquals(FeedUtils.normalizeURL(urla1), FeedUtils.normalizeURL(urla4));
-		Assert.assertEquals(FeedUtils.normalizeURL(urla1), FeedUtils.normalizeURL(urla5));
+		Assertions.assertEquals(FeedUtils.normalizeURL(urla1), FeedUtils.normalizeURL(urla2));
+		Assertions.assertEquals(FeedUtils.normalizeURL(urla1), FeedUtils.normalizeURL(urla3));
+		Assertions.assertEquals(FeedUtils.normalizeURL(urla1), FeedUtils.normalizeURL(urla4));
+		Assertions.assertEquals(FeedUtils.normalizeURL(urla1), FeedUtils.normalizeURL(urla5));
 
-		Assert.assertEquals(FeedUtils.normalizeURL(urlb1), FeedUtils.normalizeURL(urlb2));
+		Assertions.assertEquals(FeedUtils.normalizeURL(urlb1), FeedUtils.normalizeURL(urlb2));
 
-		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc2));
-		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc3));
-		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc4));
-		Assert.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc5));
+		Assertions.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc2));
+		Assertions.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc3));
+		Assertions.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc4));
+		Assertions.assertEquals(FeedUtils.normalizeURL(urlc1), FeedUtils.normalizeURL(urlc5));
 
-		Assert.assertNotEquals(FeedUtils.normalizeURL(urld1), FeedUtils.normalizeURL(urld2));
+		Assertions.assertNotEquals(FeedUtils.normalizeURL(urld1), FeedUtils.normalizeURL(urld2));
 
 	}
 
 	@Test
-	public void testToAbsoluteUrl() {
+	void testToAbsoluteUrl() {
 		String expected = "http://a.com/blog/entry/1";
 
 		// usual cases
-		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("http://a.com/blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
-		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("http://a.com/blog/entry/1", "http://a.com/feed", "http://a.com/feed"));
+		Assertions.assertEquals(expected, FeedUtils.toAbsoluteUrl("http://a.com/blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
+		Assertions.assertEquals(expected, FeedUtils.toAbsoluteUrl("http://a.com/blog/entry/1", "http://a.com/feed", "http://a.com/feed"));
 
 		// relative links
-		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("../blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
-		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("../blog/entry/1", "feed.xml", "http://a.com/feed/feed.xml"));
+		Assertions.assertEquals(expected, FeedUtils.toAbsoluteUrl("../blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
+		Assertions.assertEquals(expected, FeedUtils.toAbsoluteUrl("../blog/entry/1", "feed.xml", "http://a.com/feed/feed.xml"));
 
 		// root-relative links
-		Assert.assertEquals(expected, FeedUtils.toAbsoluteUrl("/blog/entry/1", "/feed", "http://a.com/feed"));
+		Assertions.assertEquals(expected, FeedUtils.toAbsoluteUrl("/blog/entry/1", "/feed", "http://a.com/feed"));
 
 		// real cases
-		Assert.assertEquals("https://github.com/erusev/parsedown/releases/tag/1.3.0", FeedUtils.toAbsoluteUrl(
+		Assertions.assertEquals("https://github.com/erusev/parsedown/releases/tag/1.3.0", FeedUtils.toAbsoluteUrl(
 				"/erusev/parsedown/releases/tag/1.3.0", "/erusev/parsedown/releases", "https://github.com/erusev/parsedown/tags.atom"));
-		Assert.assertEquals("http://ergoemacs.org/emacs/elisp_all_about_lines.html",
+		Assertions.assertEquals("http://ergoemacs.org/emacs/elisp_all_about_lines.html",
 				FeedUtils.toAbsoluteUrl("elisp_all_about_lines.html", "blog.xml", "http://ergoemacs.org/emacs/blog.xml"));
 
 	}
 
 	@Test
-	public void testExtractDeclaredEncoding() {
-		Assert.assertNull(FeedUtils.extractDeclaredEncoding("<?xml ?>".getBytes()));
-		Assert.assertNull(FeedUtils.extractDeclaredEncoding("<feed></feed>".getBytes()));
-		Assert.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding=\"UTF-8\" ?>".getBytes()));
-		Assert.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding='UTF-8' ?>".getBytes()));
-		Assert.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding='UTF-8'?>".getBytes()));
+	void testExtractDeclaredEncoding() {
+		Assertions.assertNull(FeedUtils.extractDeclaredEncoding("<?xml ?>".getBytes()));
+		Assertions.assertNull(FeedUtils.extractDeclaredEncoding("<feed></feed>".getBytes()));
+		Assertions.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding=\"UTF-8\" ?>".getBytes()));
+		Assertions.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding='UTF-8' ?>".getBytes()));
+		Assertions.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding='UTF-8'?>".getBytes()));
 	}
 
 	@Test
-	public void testReplaceHtmlEntitiesWithNumericEntities() {
+	void testReplaceHtmlEntitiesWithNumericEntities() {
 		String source = "<source>T&acute;l&acute;phone &prime;</source>";
-		Assert.assertEquals("<source>T&#180;l&#180;phone &#8242;</source>", FeedUtils.replaceHtmlEntitiesWithNumericEntities(source));
+		Assertions.assertEquals("<source>T&#180;l&#180;phone &#8242;</source>", FeedUtils.replaceHtmlEntitiesWithNumericEntities(source));
 	}
 
 	@Test
-	public void testRemoveTrailingSlash() {
+	void testRemoveTrailingSlash() {
 		final String url = "http://localhost/";
 		final String result = FeedUtils.removeTrailingSlash(url);
-		Assert.assertEquals("http://localhost", result);
+		Assertions.assertEquals("http://localhost", result);
 	}
 
 	@Test
-	public void testRemoveTrailingSlashLastSlashOnly() {
+	void testRemoveTrailingSlashLastSlashOnly() {
 		final String url = "http://localhost//";
 		final String result = FeedUtils.removeTrailingSlash(url);
-		Assert.assertEquals("http://localhost/", result);
+		Assertions.assertEquals("http://localhost/", result);
 	}
 
 }

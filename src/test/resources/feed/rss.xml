@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+	<channel>
+		<title>CommaFeed test feed</title>
+		<link>https://www.commafeed.com</link>
+		<description>CommaFeed test feed description</description>
+		<item>
+			<title>Item 1</title>
+			<link>https://www.commafeed.com/1</link>
+			<description>Item 1 description</description>
+		</item>
+		<item>
+			<title>Item 2</title>
+			<link>https://www.commafeed.com/2</link>
+			<description>Item 2 description</description>
+		</item>
+	</channel>
+</rss> 

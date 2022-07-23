@@ -111,7 +111,7 @@
     "email" : "رایانامه",
     "change_password" : "تغییر گذرواژه",
     "confirm_password" : "تأیید گذرواژه",
-    "minimum_6_chars" : "حداقل ۶ نویسه",
+    "minimum_8_chars" : "حداقل ۸ نویسه",
     "passwords_do_not_match" : "گذرواژه‌ها انطباق ندارند",
     "api_key" : "کلید API",
     "api_key_not_generated" : "هنوز ایجاد نشده‌است",

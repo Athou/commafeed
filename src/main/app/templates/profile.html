@@ -3,10 +3,25 @@
         <h1>{{ 'toolbar.profile' | translate }}</h1>
     </div>
     <form name="profileForm" ng-submit="save()" class="form-horizontal">
+        <div ng-if="error" class="col-sm-offset-2 col-sm-10 alert alert-danger">{{error}}</div>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="email">{{ 'profile.user_name' | translate }}</label>
             <div class="col-sm-10 checkbox">
                 <span>{{user.name}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="currentPassword">{{ 'profile.current_password' | translate }}</label>
+            <div class="col-sm-10">
+                <input
+                    type="password"
+                    name="currentPassword"
+                    id="currentPassword"
+                    ng-model="currentPassword"
+                    class="form-control"
+                    autocomplete="off"
+                    required
+                />
             </div>
         </div>
         <div class="form-group">
@@ -16,18 +31,20 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label" for="password">{{ 'profile.change_password' | translate }}</label>
+            <label class="col-sm-2 control-label" for="newPassword">{{ 'profile.change_password' | translate }}</label>
             <div class="col-sm-10">
                 <input
                     type="password"
-                    name="password"
-                    id="password"
-                    ng-model="user.password"
+                    name="newPassword"
+                    id="newPassword"
+                    ng-model="newPassword"
                     class="form-control"
-                    ng-minlength="6"
+                    ng-minlength="8"
                     autocomplete="off"
                 />
-                <span class="help-inline" ng-show="profileForm.password.$error.minlength">{{ 'profile.minimum_6_chars' | translate }}</span>
+                <span class="help-inline" ng-show="profileForm.newPassword.$error.minlength"
+                    >{{ 'profile.minimum_8_chars' | translate }}</span
+                >
             </div>
         </div>
         <div class="form-group">
@@ -39,8 +56,8 @@
                     name="password_c"
                     id="password_c"
                     ng-model="password_c"
-                    ui-validate="'$value==user.password'"
-                    ui-validate-watch="'user.password'"
+                    ui-validate="'$value==newPassword'"
+                    ui-validate-watch="'newPassword'"
                     autocomplete="off"
                 />
                 <span class="help-inline" ng-show="profileForm.password_c.$error.validator"

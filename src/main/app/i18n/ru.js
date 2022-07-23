@@ -111,7 +111,7 @@
     "email" : "Эл. почта",
     "change_password" : "Изменить пароль",
     "confirm_password" : "Подтвердите пароль",
-    "minimum_6_chars" : "Не меньше 6 символов",
+    "minimum_8_chars" : "Не меньше 8 символов",
     "passwords_do_not_match" : "Пароли не совпадают",
     "api_key" : "API-ключ",
     "api_key_not_generated" : "Не сгенерирован",

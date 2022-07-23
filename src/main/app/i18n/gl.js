@@ -111,7 +111,7 @@
     "email" : "Correo",
     "change_password" : "Cambiar contrasinal",
     "confirm_password" : "Confirmar contrasinal",
-    "minimum_6_chars" : "Mínimo 6 caracteres",
+    "minimum_8_chars" : "Mínimo 8 caracteres",
     "passwords_do_not_match" : "Os contrasinais non coinciden no coinciden",
     "api_key" : "Chave API",
     "api_key_not_generated" : "Non xerado todavía",

@@ -111,7 +111,7 @@
     "email" : "E-bost",
     "change_password" : "Newid cyfrinair",
     "confirm_password" : "Cadarnhau cyfrinair",
-    "minimum_6_chars" : "Isafswm 6 nod",
+    "minimum_8_chars" : "Isafswm 8 nod",
     "passwords_do_not_match" : "Mae'r cyfrineiriau yn wahanol",
     "api_key" : "Allwedd API",
     "api_key_not_generated" : "Heb ei gynhyrchu eto",

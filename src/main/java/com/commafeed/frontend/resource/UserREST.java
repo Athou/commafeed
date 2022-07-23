@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.validation.Valid;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -193,24 +194,34 @@ public class UserREST {
 	@Timed
 	public Response saveUserProfile(@ApiParam(hidden = true) @SecurityCheck User user,
 			@Valid @ApiParam(required = true) ProfileModificationRequest request) {
-		if (StringUtils.isNotBlank(request.getEmail())) {
-			User u = userDAO.findByEmail(request.getEmail());
-			Preconditions.checkArgument(u == null || user.getId().equals(u.getId()));
-		}
-
 		if (CommaFeedApplication.USERNAME_DEMO.equals(user.getName())) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 
-		user.setEmail(StringUtils.trimToNull(request.getEmail()));
-		if (StringUtils.isNotBlank(request.getPassword())) {
-			byte[] password = encryptionService.getEncryptedPassword(request.getPassword(), user.getSalt());
+		Optional<User> login = userService.login(user.getEmail(), request.getCurrentPassword());
+		if (!login.isPresent()) {
+			throw new BadRequestException("invalid password");
+		}
+
+		String email = StringUtils.trimToNull(request.getEmail());
+		if (StringUtils.isNotBlank(email)) {
+			User u = userDAO.findByEmail(email);
+			if (u != null && !user.getId().equals(u.getId())) {
+				throw new BadRequestException("email already taken");
+			}
+		}
+		user.setEmail(email);
+
+		if (StringUtils.isNotBlank(request.getNewPassword())) {
+			byte[] password = encryptionService.getEncryptedPassword(request.getNewPassword(), user.getSalt());
 			user.setPassword(password);
 			user.setApiKey(userService.generateApiKey(user));
 		}
+
 		if (request.isNewApiKey()) {
 			user.setApiKey(userService.generateApiKey(user));
 		}
+
 		userDAO.update(user);
 		return Response.ok().build();
 	}

@@ -111,7 +111,7 @@
     "email" : "이메일",
     "change_password" : "비밀번호 변경",
     "confirm_password" : "비밀번호 확인",
-    "minimum_6_chars" : "최소 6개의 문자가 필요합니다.",
+    "minimum_8_chars" : "최소 8개의 문자가 필요합니다.",
     "passwords_do_not_match" : "비밀번호가 일치하지 않습니다.",
     "api_key" : "API key",
     "api_key_not_generated" : "아직 API Key가 생성되지 않았습니다.",

@@ -1546,23 +1546,39 @@ module.controller("ProfileCtrl", [
         AnalyticsService.track()
 
         $scope.user = ProfileService.get()
+        $scope.error = ""
 
         $scope.cancel = function () {
             $location.path("/")
         }
         $scope.save = function () {
+            $scope.error = ""
             if (!$scope.profileForm.$valid) {
                 return
             }
             var o = {
                 email: $scope.user.email,
-                password: $scope.user.password,
+                currentPassword: $scope.currentPassword,
+                newPassword: $scope.newPassword,
                 newApiKey: $scope.newApiKey,
             }
 
-            ProfileService.save(o, function () {
-                $location.path("/")
-            })
+            ProfileService.save(
+                o,
+                function () {
+                    $location.path("/")
+                },
+                function (error) {
+                    var data = error.data
+                    if (data.errors) {
+                        // password validation error
+                        $scope.error = data.errors.join(", ")
+                    } else {
+                        // bad request error
+                        $scope.error = data.message
+                    }
+                }
+            )
         }
         $scope.deleteAccount = function () {
             ProfileService.deleteAccount({})

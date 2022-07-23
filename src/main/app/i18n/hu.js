@@ -111,7 +111,7 @@
     "email" : "E-mail",
     "change_password" : "Jelszó megváltoztatás",
     "confirm_password" : "Jelszó megerősítése",
-    "minimum_6_chars" : "Legalább 8 karakter",
+    "minimum_8_chars" : "Legalább 8 karakter",
     "passwords_do_not_match" : "A jelszavak nem egyeznek",
     "api_key" : "API kulcs",
     "api_key_not_generated" : "Még nincsen generálva",

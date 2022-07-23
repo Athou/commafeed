@@ -111,7 +111,7 @@
     "email" : "E-mail",
     "change_password" : "Verander wachtwoord",
     "confirm_password" : "Bevestig wachtwoord",
-    "minimum_6_chars" : "Minimaal 6 tekens",
+    "minimum_8_chars" : "Minimaal 8 tekens",
     "passwords_do_not_match" : "Wachtwoorden komen niet overeen",
     "api_key" : "API sleutel",
     "api_key_not_generated" : "Nog niet gegenereerd",

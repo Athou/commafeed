@@ -113,7 +113,7 @@
     "email" : "E-mail",
     "change_password" : "Cambia password",
     "confirm_password" : "Conferma password",
-    "minimum_6_chars" : "Minimo 6 caratteri",
+    "minimum_8_chars" : "Minimo 8 caratteri",
     "passwords_do_not_match" : "Le password non corrispondono",
     "api_key" : "chiave API",
     "api_key_not_generated" : "Non ancora generata",

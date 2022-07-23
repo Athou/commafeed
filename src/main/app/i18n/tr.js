@@ -111,7 +111,7 @@
     "email" : "E-posta",
     "change_password" : "Şifre değiştir",
     "confirm_password" : "Şifreyi doğrula",
-    "minimum_6_chars" : "En az 6 karakter",
+    "minimum_8_chars" : "En az 8 karakter",
     "passwords_do_not_match" : "Şifreler uyuşmuyor",
     "api_key" : "API anahtarı",
     "api_key_not_generated" : "Henüz oluşturulmadı",

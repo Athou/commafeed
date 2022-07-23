@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.LengthRule;
@@ -22,6 +23,10 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
+		if (StringUtils.isBlank(value)) {
+			return true;
+		}
+
 		PasswordValidator validator = buildPasswordValidator();
 		RuleResult result = validator.validate(new PasswordData(value));
 

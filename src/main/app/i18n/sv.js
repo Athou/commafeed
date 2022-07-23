@@ -111,7 +111,7 @@
     "email" : "E-mail",
     "change_password" : "Ändra lösenord",
     "confirm_password" : "Bekräfta lösenord",
-    "minimum_6_chars" : "Minst 6 bokstäver",
+    "minimum_8_chars" : "Minst 8 bokstäver",
     "passwords_do_not_match" : "Lösenorden matchar inte",
     "api_key" : "API-nyckel",
     "api_key_not_generated" : "Inte skapad än",

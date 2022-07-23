@@ -111,7 +111,7 @@
     "email" : "E-mail",
     "change_password" : "Passwort ändern",
     "confirm_password" : "Passwort bestätigen",
-    "minimum_6_chars" : "Mindestens 6 Zeichen",
+    "minimum_8_chars" : "Mindestens 8 Zeichen",
     "passwords_do_not_match" : "Passwörter stimmen nicht überein",
     "api_key" : "API Schlüssel",
     "api_key_not_generated" : "Noch nicht generiert",

@@ -111,7 +111,7 @@
     "email" : "ایمئل",
     "change_password" : "رمزه عوضأگودن",
     "confirm_password" : "رمزه تأیید گودن",
-    "minimum_6_chars" : "ناقلن 6 کارکتر",
+    "minimum_8_chars" : "ناقلن 8 کارکتر",
     "passwords_do_not_match" : "رمزان کس‌به‌کسه نخانید",
     "api_key" : "کلید API",
     "api_key_not_generated" : "هلئه چاگوده نبؤ",

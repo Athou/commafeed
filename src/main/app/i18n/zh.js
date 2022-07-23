@@ -111,7 +111,7 @@
     "email" : "邮箱",
     "change_password" : "修改密码",
     "confirm_password" : "确认密码",
-    "minimum_6_chars" : "最少为 6 个字母",
+    "minimum_8_chars" : "最少为 8 个字母",
     "passwords_do_not_match" : "密码不匹配",
     "api_key" : "API 密钥",
     "api_key_not_generated" : "API 密钥尚未生成",

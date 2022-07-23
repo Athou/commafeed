@@ -111,7 +111,7 @@
     "email" : "Adreça electrònica",
     "change_password" : "Canvia la contrasenya ",
     "confirm_password" : "Confirma la contrasenya",
-    "minimum_6_chars" : "Mínim de 6 caracters",
+    "minimum_8_chars" : "Mínim de 8 caracters",
     "passwords_do_not_match" : "Les contrasenyes no coincideixen",
     "api_key" : "Clau API ",
     "api_key_not_generated" : "Encara no s'ha generat",

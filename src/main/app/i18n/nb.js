@@ -111,7 +111,7 @@
     "email" : "E-post",
     "change_password" : "Endre passord",
     "confirm_password" : "Bekreft passord",
-    "minimum_6_chars" : "Minimum 6 tegn",
+    "minimum_8_chars" : "Minimum 8 tegn",
     "passwords_do_not_match" : "Passordene er ikke like",
     "api_key" : "API-nøkkel",
     "api_key_not_generated" : "Har ikke blitt generert",

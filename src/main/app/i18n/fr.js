@@ -109,9 +109,10 @@
   "profile" : {
     "user_name" : "Nom",
     "email" : "E-mail",
+    "current_password" : "Mot de passe actuel",
     "change_password" : "Changer de mot de passe",
     "confirm_password" : "Confirmer le mot de passe",
-    "minimum_6_chars" : "Minimum 6 caractères",
+    "minimum_8_chars" : "Minimum 8 caractères",
     "passwords_do_not_match" : "Les mots de passe ne correspondent pas",
     "api_key" : "Clé API",
     "api_key_not_generated" : "Pas encore générée",

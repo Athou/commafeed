@@ -111,7 +111,7 @@
     "email" : "Sähköposti",
     "change_password" : "Vaihda salasana",
     "confirm_password" : "Vahvista uusi salasana",
-    "minimum_6_chars" : "Vähintään 6 merkkiä",
+    "minimum_8_chars" : "Vähintään 8 merkkiä",
     "passwords_do_not_match" : "Salasanat eivät täsmää",
     "api_key" : "API-avain",
     "api_key_not_generated" : "API-avainta ei ole vielä luotu",

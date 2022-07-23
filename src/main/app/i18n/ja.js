@@ -111,7 +111,7 @@
     "email" : "E-mail",
     "change_password" : "パスワードの変更",
     "confirm_password" : "変更パスワードの確認",
-    "minimum_6_chars" : "6文字以上",
+    "minimum_8_chars" : "8文字以上",
     "passwords_do_not_match" : "パスワードが一致しません",
     "api_key" : "APIキー",
     "api_key_not_generated" : "APIキーが生成されていません",

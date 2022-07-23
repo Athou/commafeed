@@ -111,7 +111,7 @@
     "email" : "E-mel",
     "change_password" : "Tukar kata laluan",
     "confirm_password" : "Sahkan kata laluan",
-    "minimum_6_chars" : "Minimum 6 huruf",
+    "minimum_8_chars" : "Minimum 8 huruf",
     "passwords_do_not_match" : "Kata laluan tidak sama",
     "api_key" : "API key",
     "api_key_not_generated" : "Belum dijana",

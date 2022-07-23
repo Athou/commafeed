@@ -111,7 +111,7 @@
     "email" : "E-mail",
     "change_password" : "Zmeniť heslo",
     "confirm_password" : "Potvrdiť heslo",
-    "minimum_6_chars" : "Minimum je 6 znakov",
+    "minimum_8_chars" : "Minimum je 8 znakov",
     "passwords_do_not_match" : "Heslá sa nezhodujú",
     "api_key" : "API kľúč",
     "api_key_not_generated" : "Nie je vygenerovaný",

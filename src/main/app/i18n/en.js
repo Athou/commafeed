@@ -111,9 +111,10 @@
   "profile" : {
     "user_name" : "User name",
     "email" : "E-mail",
+    "current_password" : "Current Password",
     "change_password" : "Change password",
     "confirm_password" : "Confirm password",
-    "minimum_6_chars" : "Minimum 6 characters",
+    "minimum_8_chars" : "Minimum 8 characters",
     "passwords_do_not_match" : "Passwords do not match",
     "api_key" : "API key",
     "api_key_not_generated" : "Not generated yet",

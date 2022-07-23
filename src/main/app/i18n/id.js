@@ -113,7 +113,7 @@
     "email" : "Surel",
     "change_password" : "Ganti kata sandi",
     "confirm_password" : "Konfirmasi kata sandi",
-    "minimum_6_chars" : "Minimal 6 karakter",
+    "minimum_8_chars" : "Minimal 8 karakter",
     "passwords_do_not_match" : "Kata sandi tidak sesuai",
     "api_key" : "kunci API",
     "api_key_not_generated" : "Belum menghasilkan",

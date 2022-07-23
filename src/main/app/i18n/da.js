@@ -111,7 +111,7 @@
     "email" : "E-mail",
     "change_password" : "Skift adgangskode",
     "confirm_password" : "Bekræft adgangskode",
-    "minimum_6_chars" : "Minimum 6 karakter",
+    "minimum_8_chars" : "Minimum 8 karakter",
     "passwords_do_not_match" : "Adgangskoderne er ikke ens",
     "api_key" : "API nøgle",
     "api_key_not_generated" : "Ikke genereret endnu",

@@ -12,13 +12,15 @@ import lombok.Data;
 @ApiModel(description = "Profile modification request")
 @Data
 public class ProfileModificationRequest implements Serializable {
+	@ApiModelProperty(value = "current user password, required to change profile data", required = true)
+	private String currentPassword;
 
 	@ApiModelProperty(value = "changes email of the user, if specified")
 	private String email;
 
 	@ApiModelProperty(value = "changes password of the user, if specified")
 	@ValidPassword
-	private String password;
+	private String newPassword;
 
 	@ApiModelProperty(value = "generate a new api key")
 	private boolean newApiKey;

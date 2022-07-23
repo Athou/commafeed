@@ -24,7 +24,9 @@
 	</changeSet>
 
 	<changeSet id="rename-filter-avoid-keyword" author="athou">
-		<renameColumn tableName="FEEDSUBSCRIPTIONS" oldColumnName="filter" newColumnName="filtering_expression" />
+		<validCheckSum>8:39e5a9ff312af90d82f87c88abf1c66d</validCheckSum>
+		<renameColumn tableName="FEEDSUBSCRIPTIONS" oldColumnName="filter" newColumnName="filtering_expression"
+			columnDataType="VARCHAR(4096)" />
 	</changeSet>
 
 </databaseChangeLog>

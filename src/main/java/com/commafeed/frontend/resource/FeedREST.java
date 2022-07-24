@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -263,7 +264,7 @@ public class FeedREST {
 	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", response = FeedInfo.class)
 	@Timed
 	public Response fetchFeed(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "feed url", required = true) FeedInfoRequest req) {
+			@Valid @ApiParam(value = "feed url", required = true) FeedInfoRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getUrl());
 
@@ -315,7 +316,7 @@ public class FeedREST {
 	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read (unread is not supported)")
 	@Timed
 	public Response markFeedEntries(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "Mark request", required = true) MarkRequest req) {
+			@Valid @ApiParam(value = "Mark request", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -384,7 +385,7 @@ public class FeedREST {
 	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
 	@Timed
 	public Response subscribe(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "subscription request", required = true) SubscribeRequest req) {
+			@Valid @ApiParam(value = "subscription request", required = true) SubscribeRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getTitle());
 		Preconditions.checkNotNull(req.getUrl());
@@ -458,7 +459,7 @@ public class FeedREST {
 	@ApiOperation(value = "Modify a subscription", notes = "Modify a feed subscription")
 	@Timed
 	public Response modifyFeed(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "subscription id", required = true) FeedModificationRequest req) {
+			@Valid @ApiParam(value = "subscription id", required = true) FeedModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 

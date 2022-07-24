@@ -251,7 +251,8 @@ public class UserREST {
 	@UnitOfWork
 	@ApiOperation(value = "Login and create a session")
 	@Timed
-	public Response login(@ApiParam(required = true) LoginRequest req, @ApiParam(hidden = true) @Context SessionHelper sessionHelper) {
+	public Response login(@Valid @ApiParam(required = true) LoginRequest req,
+			@ApiParam(hidden = true) @Context SessionHelper sessionHelper) {
 		Optional<User> user = userService.login(req.getName(), req.getPassword());
 		if (user.isPresent()) {
 			sessionHelper.setLoggedInUser(user.get());

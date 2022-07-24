@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -244,7 +245,7 @@ public class CategoryREST {
 	@ApiOperation(value = "Mark category entries", notes = "Mark feed entries of this category as read")
 	@Timed
 	public Response markCategoryEntries(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "category id, or 'all'", required = true) MarkRequest req) {
+			@Valid @ApiParam(value = "category id, or 'all'", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -285,7 +286,8 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Add a category", notes = "Add a new feed category", response = Long.class)
 	@Timed
-	public Response addCategory(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(required = true) AddCategoryRequest req) {
+	public Response addCategory(@ApiParam(hidden = true) @SecurityCheck User user,
+			@Valid @ApiParam(required = true) AddCategoryRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getName());
 
@@ -343,7 +345,7 @@ public class CategoryREST {
 	@ApiOperation(value = "Rename a category", notes = "Rename an existing feed category")
 	@Timed
 	public Response modifyCategory(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(required = true) CategoryModificationRequest req) {
+			@Valid @ApiParam(required = true) CategoryModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 

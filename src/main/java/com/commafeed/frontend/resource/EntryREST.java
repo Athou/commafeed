@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -48,7 +49,7 @@ public class EntryREST {
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
 	@Timed
 	public Response markEntry(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "Mark Request", required = true) MarkRequest req) {
+			@Valid @ApiParam(value = "Mark Request", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -62,7 +63,7 @@ public class EntryREST {
 	@ApiOperation(value = "Mark multiple feed entries", notes = "Mark feed entries as read/unread")
 	@Timed
 	public Response markEntries(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "Multiple Mark Request", required = true) MultipleMarkRequest req) {
+			@Valid @ApiParam(value = "Multiple Mark Request", required = true) MultipleMarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getRequests());
 
@@ -79,7 +80,7 @@ public class EntryREST {
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
 	@Timed
 	public Response starEntry(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "Star Request", required = true) StarRequest req) {
+			@Valid @ApiParam(value = "Star Request", required = true) StarRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 		Preconditions.checkNotNull(req.getFeedId());
@@ -105,7 +106,7 @@ public class EntryREST {
 	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
 	@Timed
 	public Response tagEntry(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "Tag Request", required = true) TagRequest req) {
+			@Valid @ApiParam(value = "Tag Request", required = true) TagRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getEntryId());
 

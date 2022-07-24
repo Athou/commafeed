@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.Size;
 
 import com.commafeed.frontend.auth.ValidPassword;
 
@@ -19,18 +18,19 @@ import lombok.Data;
 public class RegistrationRequest implements Serializable {
 
 	@ApiModelProperty(value = "username, between 3 and 32 characters", required = true)
-	@Length(min = 3, max = 32)
 	@NotEmpty
+	@Size(min = 3, max = 32)
 	private String name;
 
 	@ApiModelProperty(value = "password, minimum 6 characters", required = true)
-	@ValidPassword
 	@NotEmpty
+	@ValidPassword
 	private String password;
 
 	@ApiModelProperty(value = "email address for password recovery", required = true)
 	@Email
 	@NotEmpty
+	@Size(max = 255)
 	private String email;
 
 }

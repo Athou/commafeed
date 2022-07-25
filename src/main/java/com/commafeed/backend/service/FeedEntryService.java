@@ -83,8 +83,8 @@ public class FeedEntryService {
 		List<FeedEntryStatus> list = new ArrayList<>();
 		for (FeedEntryStatus status : statuses) {
 			if (!status.isRead()) {
-				Date inserted = status.getEntry().getInserted();
-				if (olderThan == null || inserted == null || olderThan.after(inserted)) {
+				Date entryDate = status.getEntry().getUpdated();
+				if (olderThan == null || entryDate == null || olderThan.after(entryDate)) {
 					status.setRead(true);
 					list.add(status);
 				}

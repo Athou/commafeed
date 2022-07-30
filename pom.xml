@@ -11,7 +11,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<guice.version>4.2.2</guice.version>
+		<guice.version>5.1.0</guice.version>
 		<querydsl.version>4.2.1</querydsl.version>
 		<rome.version>1.18.0</rome.version>
 	</properties>
@@ -303,11 +303,6 @@
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
-			<version>${guice.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject.extensions</groupId>
-			<artifactId>guice-multibindings</artifactId>
 			<version>${guice.version}</version>
 		</dependency>
 

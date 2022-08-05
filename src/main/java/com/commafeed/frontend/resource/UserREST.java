@@ -52,10 +52,8 @@ import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.model.request.RegistrationRequest;
 import com.commafeed.frontend.session.SessionHelper;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 
 import io.dropwizard.hibernate.UnitOfWork;
-import io.dropwizard.jersey.validation.ValidationErrorMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -239,10 +237,7 @@ public class UserREST {
 			sessionHelper.setLoggedInUser(registeredUser);
 			return Response.ok().build();
 		} catch (final IllegalArgumentException e) {
-			return Response.status(422)
-					.entity(new ValidationErrorMessage(ImmutableList.of(e.getMessage())))
-					.type(MediaType.TEXT_PLAIN)
-					.build();
+			throw new BadRequestException(e.getMessage());
 		}
 	}
 

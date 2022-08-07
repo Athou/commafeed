@@ -276,10 +276,7 @@ public class UserREST {
 			return Response.ok().build();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			return Response.status(Status.INTERNAL_SERVER_ERROR)
-					.entity("could not send email: " + e.getMessage())
-					.type(MediaType.TEXT_PLAIN)
-					.build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("could not send email").type(MediaType.TEXT_PLAIN).build();
 		}
 	}
 

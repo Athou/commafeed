@@ -1,3 +1,18 @@
+v 2.6.0
+  - add support for media content as a backup for missing content (useful for youtube feeds)
+  - correctly follow http error code 308 redirects
+  - fixed a bug that prevented users from deleting their account
+  - fixed a bug that made commafeed store entry contents multiple times
+  - fixed a bug that prevented the app to be used as an installed app on mobile devices if the context path of commafeed was not "/"
+  - fixed a bug that prevented entries from being "marked as read older than xxx" for a feed that was just added
+  - removed support for google+ and readability as those services no longer exist
+  - removed support for deploying on openshift
+  - removed alphabetical sorting of entries because of really poor performance (title cannot be indexed)
+  - improve performance for instances with the heavy load setting enabled by preventing CommaFeed from fetching feeds from users that did not log in for a long time
+  - various dependencies upgrades (notably dropwizard from 1.3 to 2.1)
+  - add support for mariadb
+  - add support for java17+ runtime
+  - various security improvements
 v 2.5.0
   - unread count is now displayed in a favicon badge when supported
   - the user agent string for the bot fetching feeds is now configurable

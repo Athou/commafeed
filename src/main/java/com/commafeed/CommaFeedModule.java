@@ -18,6 +18,7 @@ import com.commafeed.backend.favicon.AbstractFaviconFetcher;
 import com.commafeed.backend.favicon.DefaultFaviconFetcher;
 import com.commafeed.backend.favicon.FacebookFaviconFetcher;
 import com.commafeed.backend.favicon.YoutubeFaviconFetcher;
+import com.commafeed.backend.task.DemoAccountCleanupTask;
 import com.commafeed.backend.task.OldEntriesCleanupTask;
 import com.commafeed.backend.task.OldStatusesCleanupTask;
 import com.commafeed.backend.task.OrphanedContentsCleanupTask;
@@ -68,6 +69,7 @@ public class CommaFeedModule extends AbstractModule {
 		taskMultibinder.addBinding().to(OldEntriesCleanupTask.class);
 		taskMultibinder.addBinding().to(OrphanedFeedsCleanupTask.class);
 		taskMultibinder.addBinding().to(OrphanedContentsCleanupTask.class);
+		taskMultibinder.addBinding().to(DemoAccountCleanupTask.class);
 
 		ApplicationSettings settings = config.getApplicationSettings();
 

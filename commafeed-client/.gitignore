@@ -1,39 +1,33 @@
-# config file
-config.yml
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# build directory
-target
-target-ide
-
-# database files
-database
-
-# log files
-log
-
-# jetty sessions
-sessions
-
-# node
-node
 node_modules
+dist
+dist-ssr
+*.local
 
-# bower
-src/main/app/lib
-
-# Eclipse files
-.project
-.classpath
-.settings
-.factorypath
-.checkstyle
-
-# IntelliJ Idea files
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
 .idea
-*.iml
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# Sublime
-*.sublime*
+# rollup-plugin-visualizer
+/stats.html
 
-# Macs
-*.DS_Store
+# vite
+vite.config.ts.timestamp-*.mjs
+
+# compiled locales
+src/locales/**/*.ts

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.commafeed</groupId>
 		<artifactId>commafeed</artifactId>
-		<version>${revision}</version>
+		<version>3.0.0</version>
 	</parent>
 	<artifactId>commafeed-client</artifactId>
 	<name>CommaFeed Client</name>
@@ -15,7 +15,7 @@
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.6</version>
+				<version>1.12.1</version>
 				<?m2e ignore?>
 				<executions>
 					<execution>
@@ -25,8 +25,8 @@
 						</goals>
 						<phase>compile</phase>
 						<configuration>
-							<nodeVersion>v6.11.4</nodeVersion>
-							<npmVersion>3.10.6</npmVersion>
+							<nodeVersion>v16.16.0</nodeVersion>
+							<npmVersion>8.15.0</npmVersion>
 						</configuration>
 					</execution>
 					<execution>
@@ -36,25 +36,60 @@
 						</goals>
 						<phase>compile</phase>
 						<configuration>
-							<arguments>install</arguments>
+							<arguments>ci</arguments>
 						</configuration>
 					</execution>
 					<execution>
-						<id>bower install</id>
+						<id>npm run eslint</id>
 						<goals>
-							<goal>bower</goal>
+							<goal>npm</goal>
 						</goals>
 						<phase>compile</phase>
 						<configuration>
-							<arguments>install</arguments>
+							<arguments>run eslint</arguments>
 						</configuration>
 					</execution>
 					<execution>
-						<id>gulp build</id>
+						<id>npm run test</id>
 						<goals>
-							<goal>gulp</goal>
+							<goal>npm</goal>
 						</goals>
 						<phase>compile</phase>
+						<configuration>
+							<arguments>run test:ci</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm run build</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<phase>compile</phase>
+						<configuration>
+							<arguments>run build</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.3.0</version>
+				<executions>
+					<execution>
+						<id>copy web interface to resources</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/classes/assets</outputDirectory>
+							<resources>
+								<resource>
+									<directory>dist</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

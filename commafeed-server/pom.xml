@@ -490,5 +490,12 @@
 			<artifactId>awaitility</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.microsoft.playwright</groupId>
+			<artifactId>playwright</artifactId>
+			<version>1.24.1</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 </project>

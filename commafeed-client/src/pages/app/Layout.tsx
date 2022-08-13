@@ -104,6 +104,12 @@ export default function Layout({ sidebar, header }: LayoutProps) {
         />
     )
 
+    const addButton = (
+        <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectToAdd())} aria-label="Subscribe">
+            <TbPlus size={18} />
+        </ActionIcon>
+    )
+
     if (loading) return <LoadingPage />
     return (
         <AppShell
@@ -131,11 +137,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                                 <Box>
                                     <LogoAndTitle />
                                 </Box>
-                                <Box>
-                                    <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectToAdd())}>
-                                        <TbPlus size={18} />
-                                    </ActionIcon>
-                                </Box>
+                                <Box>{addButton}</Box>
                             </Group>
                         )}
                         {!mobileMenuOpen && (
@@ -151,11 +153,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                                 <Box>
                                     <LogoAndTitle />
                                 </Box>
-                                <Box>
-                                    <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectToAdd())}>
-                                        <TbPlus size={18} />
-                                    </ActionIcon>
-                                </Box>
+                                <Box>{addButton}</Box>
                             </Group>
                             <Box sx={{ flexGrow: 1 }}>{header}</Box>
                         </Group>

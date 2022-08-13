@@ -12,30 +12,31 @@ import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedSubscriptionService;
+import com.rometools.rome.io.FeedException;
 
 class OPMLImporterTest {
 
 	@Test
-	void testOpmlV10() throws IOException {
+	void testOpmlV10() throws IOException, IllegalArgumentException, FeedException {
 		testOpmlVersion("/opml/opml_v1.0.xml");
 	}
 
 	@Test
-	void testOpmlV11() throws IOException {
+	void testOpmlV11() throws IOException, IllegalArgumentException, FeedException {
 		testOpmlVersion("/opml/opml_v1.1.xml");
 	}
 
 	@Test
-	void testOpmlV20() throws IOException {
+	void testOpmlV20() throws IOException, IllegalArgumentException, FeedException {
 		testOpmlVersion("/opml/opml_v2.0.xml");
 	}
 
 	@Test
-	void testOpmlNoVersion() throws IOException {
+	void testOpmlNoVersion() throws IOException, IllegalArgumentException, FeedException {
 		testOpmlVersion("/opml/opml_noversion.xml");
 	}
 
-	private void testOpmlVersion(String fileName) throws IOException {
+	private void testOpmlVersion(String fileName) throws IOException, IllegalArgumentException, FeedException {
 		FeedCategoryDAO feedCategoryDAO = Mockito.mock(FeedCategoryDAO.class);
 		FeedSubscriptionService feedSubscriptionService = Mockito.mock(FeedSubscriptionService.class);
 		CacheService cacheService = Mockito.mock(CacheService.class);

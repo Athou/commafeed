@@ -18,6 +18,7 @@ import com.commafeed.backend.service.FeedSubscriptionService;
 import com.commafeed.backend.service.FeedSubscriptionService.FeedSubscriptionException;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
+import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.WireFeedInput;
 
 import lombok.RequiredArgsConstructor;
@@ -32,19 +33,14 @@ public class OPMLImporter {
 	private final FeedSubscriptionService feedSubscriptionService;
 	private final CacheService cache;
 
-	public void importOpml(User user, String xml) {
+	public void importOpml(User user, String xml) throws IllegalArgumentException, FeedException {
 		xml = xml.substring(xml.indexOf('<'));
 		WireFeedInput input = new WireFeedInput();
-		try {
-			Opml feed = (Opml) input.build(new StringReader(xml));
-			List<Outline> outlines = feed.getOutlines();
-			for (int i = 0; i < outlines.size(); i++) {
-				handleOutline(user, outlines.get(i), null, i);
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+		Opml feed = (Opml) input.build(new StringReader(xml));
+		List<Outline> outlines = feed.getOutlines();
+		for (int i = 0; i < outlines.size(); i++) {
+			handleOutline(user, outlines.get(i), null, i);
 		}
-
 	}
 
 	private void handleOutline(User user, Outline outline, FeedCategory parent, int position) {

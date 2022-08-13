@@ -39,15 +39,15 @@ public class FeedSubscriptionService {
 	private final CacheService cache;
 	private final CommaFeedConfiguration config;
 
-	public Feed subscribe(User user, String url, String title) {
+	public FeedSubscription subscribe(User user, String url, String title) {
 		return subscribe(user, url, title, null, 0);
 	}
 
-	public Feed subscribe(User user, String url, String title, FeedCategory parent) {
+	public FeedSubscription subscribe(User user, String url, String title, FeedCategory parent) {
 		return subscribe(user, url, title, parent, 0);
 	}
 
-	public Feed subscribe(User user, String url, String title, FeedCategory category, int position) {
+	public FeedSubscription subscribe(User user, String url, String title, FeedCategory category, int position) {
 
 		final String pubUrl = config.getApplicationSettings().getPublicUrl();
 		if (StringUtils.isBlank(pubUrl)) {
@@ -78,7 +78,7 @@ public class FeedSubscriptionService {
 
 		queues.add(feed, false);
 		cache.invalidateUserRootCategory(user);
-		return feed;
+		return sub;
 	}
 
 	public boolean unsubscribe(User user, Long subId) {

@@ -24,7 +24,6 @@ import org.mockserver.model.HttpResponse;
 
 import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.request.SubscribeRequest;
@@ -62,15 +61,14 @@ class FeedIT {
 
 		String feedUrl = "http://localhost:" + this.mockServerClient.getPort();
 
-		subscribe(client, feedUrl);
-		Subscription subscription = getSubscription(client, feedUrl);
+		Subscription subscription = subscribe(client, feedUrl);
 		Awaitility.await()
 				.atMost(Duration.ofSeconds(15))
 				.pollInterval(Duration.ofMillis(500))
 				.until(() -> getFeedEntries(client, subscription), e -> e.getEntries().size() == 2);
 	}
 
-	private void subscribe(Client client, String feedUrl) {
+	private Subscription subscribe(Client client, String feedUrl) {
 		SubscribeRequest subscribeRequest = new SubscribeRequest();
 		subscribeRequest.setUrl(feedUrl);
 		subscribeRequest.setTitle("my title for this feed");
@@ -78,14 +76,7 @@ class FeedIT {
 				.request()
 				.post(Entity.json(subscribeRequest));
 		Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-	}
-
-	private Subscription getSubscription(Client client, String feedUrl) {
-		Response response = client.target(String.format("http://localhost:%d/rest/category/get", EXT.getLocalPort())).request().get();
-		Category category = response.readEntity(Category.class);
-		Subscription subscription = category.getFeeds().stream().findFirst().orElse(null);
-		Assertions.assertNotNull(subscription);
-		return subscription;
+		return response.readEntity(Subscription.class);
 	}
 
 	private Entries getFeedEntries(Client client, Subscription subscription) {

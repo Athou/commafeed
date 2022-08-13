@@ -3,7 +3,7 @@ import { Box, Button, Group, Stack, Stepper, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorsToStrings, errorToStrings } from "app/client"
 import { Constants } from "app/constants"
-import { redirectToSelectedSource } from "app/slices/redirect"
+import { redirectToFeed, redirectToSelectedSource } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
 import { useAppDispatch } from "app/store"
 import { FeedInfoRequest, SubscribeRequest } from "app/types"
@@ -39,9 +39,9 @@ export function Subscribe() {
         },
     })
     const [subscribe, subscribeResult] = useMutation(client.feed.subscribe, {
-        onSuccess: () => {
+        onSuccess: sub => {
             dispatch(reloadTree())
-            dispatch(redirectToSelectedSource())
+            dispatch(redirectToFeed(sub.data.data.id))
         },
     })
     const errors = errorsToStrings([fetchFeedResult.error, errorToStrings(subscribeResult.error)])

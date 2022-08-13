@@ -272,8 +272,9 @@ public class FeedREST {
 		try {
 			info = fetchFeedInternal(req.getUrl());
 		} catch (Exception e) {
+			Throwable cause = Throwables.getRootCause(e);
 			return Response.status(Status.INTERNAL_SERVER_ERROR)
-					.entity(Throwables.getStackTraceAsString(Throwables.getRootCause(e)))
+					.entity(cause.getClass().getName() + ": " + cause.getMessage())
 					.type(MediaType.TEXT_PLAIN)
 					.build();
 		}

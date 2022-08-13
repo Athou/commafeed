@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { RootState } from "app/store"
 import { ReadingMode, ReadingOrder, Settings, UserModel } from "app/types"
+import { reloadEntries } from "./entries"
 
 interface UserState {
     settings?: Settings
@@ -20,6 +21,7 @@ export const changeReadingMode = createAsyncThunk<void, ReadingMode, { state: Ro
         const { settings } = thunkApi.getState().user
         if (!settings) return
         client.user.saveSettings({ ...settings, readingMode })
+        thunkApi.dispatch(reloadEntries())
     }
 )
 export const changeReadingOrder = createAsyncThunk<void, ReadingOrder, { state: RootState }>(
@@ -28,6 +30,7 @@ export const changeReadingOrder = createAsyncThunk<void, ReadingOrder, { state: 
         const { settings } = thunkApi.getState().user
         if (!settings) return
         client.user.saveSettings({ ...settings, readingOrder })
+        thunkApi.dispatch(reloadEntries())
     }
 )
 export const changeLanguage = createAsyncThunk<void, string, { state: RootState }>("settings/language", (language, thunkApi) => {

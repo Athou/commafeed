@@ -36,8 +36,6 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
     const sourceWebsiteUrl = useAppSelector(state => state.entries.sourceWebsiteUrl)
     const hasMore = useAppSelector(state => state.entries.hasMore)
-    const readType = useAppSelector(state => state.user.settings?.readingMode)
-    const order = useAppSelector(state => state.user.settings?.readingOrder)
     const dispatch = useAppDispatch()
 
     const titleClicked = () => {
@@ -46,14 +44,8 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
     }
 
     useEffect(() => {
-        if (!readType || !order) return
-        dispatch(
-            loadEntries({
-                sourceType: props.sourceType,
-                req: { id, readType, order },
-            })
-        )
-    }, [dispatch, props.sourceType, id, readType, order, location.state])
+        dispatch(loadEntries({ type: props.sourceType, id }))
+    }, [dispatch, props.sourceType, id, location.state])
 
     const hideEditButton = props.sourceType === "category" && id === Constants.categoryIds.all
 

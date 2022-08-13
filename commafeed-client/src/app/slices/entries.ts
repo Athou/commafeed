@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { Constants } from "app/constants"
 import { RootState } from "app/store"
-import { Entries, Entry, GetEntriesRequest, MarkRequest } from "app/types"
+import { Entries, Entry, MarkRequest } from "app/types"
 
 export type EntrySourceType = "category" | "feed"
 export type EntrySource = { type: EntrySourceType; id: string }
@@ -35,18 +35,18 @@ const initialState: EntriesState = {
 }
 
 const getEndpoint = (sourceType: EntrySourceType) => (sourceType === "category" ? client.category.getEntries : client.feed.getEntries)
-export const loadEntries = createAsyncThunk<Entries, { req: GetEntriesRequest; sourceType: EntrySourceType }, { state: RootState }>(
-    "entries/load",
-    async arg => {
-        const endpoint = getEndpoint(arg.sourceType)
-        const result = await endpoint({
-            ...arg.req,
-            offset: 0,
-            limit: 50,
-        })
-        return result.data
-    }
-)
+export const loadEntries = createAsyncThunk<Entries, EntrySource, { state: RootState }>("entries/load", async (source, thunkApi) => {
+    const state = thunkApi.getState()
+    const endpoint = getEndpoint(source.type)
+    const result = await endpoint({
+        id: source.id,
+        order: state.user.settings?.readingOrder,
+        readType: state.user.settings?.readingMode,
+        offset: 0,
+        limit: 50,
+    })
+    return result.data
+})
 export const loadMoreEntries = createAsyncThunk<Entries, void, { state: RootState }>("entries/loadMore", async (_, thunkApi) => {
     const state = thunkApi.getState()
     const offset =
@@ -61,17 +61,9 @@ export const loadMoreEntries = createAsyncThunk<Entries, void, { state: RootStat
     })
     return result.data
 })
-export const reloadEntries = createAsyncThunk<Entries, void, { state: RootState }>("entries/reload", async (_, thunkApi) => {
+export const reloadEntries = createAsyncThunk<void, void, { state: RootState }>("entries/reload", async (_, thunkApi) => {
     const state = thunkApi.getState()
-    const endpoint = getEndpoint(state.entries.source.type)
-    const result = await endpoint({
-        id: state.entries.source.id,
-        readType: state.user.settings?.readingMode,
-        order: state.user.settings?.readingOrder,
-        offset: 0,
-        limit: 50,
-    })
-    return result.data
+    thunkApi.dispatch(loadEntries(state.entries.source))
 })
 export const markEntry = createAsyncThunk(
     "entries/entry/mark",
@@ -160,10 +152,7 @@ export const entriesSlice = createSlice({
             })
         })
         builder.addCase(loadEntries.pending, (state, action) => {
-            state.source = {
-                type: action.meta.arg.sourceType,
-                id: action.meta.arg.req.id,
-            }
+            state.source = action.meta.arg
             state.entries = []
             state.timestamp = undefined
             state.sourceLabel = ""
@@ -182,21 +171,6 @@ export const entriesSlice = createSlice({
             // remove already existing entries
             const entriesToAdd = action.payload.entries.filter(e => !state.entries.some(e2 => e.id === e2.id))
             state.entries = [...state.entries, ...entriesToAdd]
-            state.hasMore = action.payload.hasMore
-        })
-        builder.addCase(reloadEntries.pending, state => {
-            state.entries = []
-            state.timestamp = undefined
-            state.sourceLabel = ""
-            state.sourceWebsiteUrl = ""
-            state.hasMore = true
-            state.selectedEntryId = undefined
-        })
-        builder.addCase(reloadEntries.fulfilled, (state, action) => {
-            state.entries = action.payload.entries
-            state.timestamp = action.payload.timestamp
-            state.sourceLabel = action.payload.name
-            state.sourceWebsiteUrl = action.payload.feedLink
             state.hasMore = action.payload.hasMore
         })
     },

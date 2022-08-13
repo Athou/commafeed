@@ -7,9 +7,8 @@ import { UserEdit } from "components/admin/UserEdit"
 import { Alert } from "components/Alert"
 import { Loader } from "components/Loader"
 import { RelativeDate } from "components/RelativeDate"
-import { useAsync } from "react-async-hook"
+import { useAsync, useAsyncCallback } from "react-async-hook"
 import { TbCheck, TbPencil, TbPlus, TbTrash, TbX } from "react-icons/tb"
-import useMutation from "use-mutation"
 
 function BooleanIcon({ value }: { value: boolean }) {
     return value ? <TbCheck size={18} /> : <TbX size={18} />
@@ -20,13 +19,12 @@ export function AdminUsersPage() {
     const query = useAsync(() => client.admin.getAllUsers(), [])
     const users = query.result?.data.sort((a, b) => a.id - b.id)
 
-    const [deleteUser, deleteUserResult] = useMutation(client.admin.deleteUser, {
+    const deleteUser = useAsyncCallback(client.admin.deleteUser, {
         onSuccess: () => {
             query.execute()
             closeAllModals()
         },
     })
-    const errors = errorToStrings(deleteUserResult.error)
 
     const openUserEditModal = (title: string, user?: UserModel) => {
         openModal({
@@ -57,7 +55,7 @@ export function AdminUsersPage() {
             ),
             labels: { confirm: t`Confirm`, cancel: t`Cancel` },
             confirmProps: { color: "red" },
-            onConfirm: () => deleteUser({ id: user.id }),
+            onConfirm: () => deleteUser.execute({ id: user.id }),
         })
     }
 
@@ -73,9 +71,9 @@ export function AdminUsersPage() {
                 </Group>
             </Title>
 
-            {errors.length > 0 && (
+            {deleteUser.error && (
                 <Box mb="md">
-                    <Alert messages={errors} />
+                    <Alert messages={errorToStrings(deleteUser.error)} />
                 </Box>
             )}
 
@@ -134,7 +132,7 @@ export function AdminUsersPage() {
                                     <ActionIcon
                                         color={theme.primaryColor}
                                         onClick={() => openUserDeleteModal(u)}
-                                        loading={deleteUserResult.status === "running"}
+                                        loading={deleteUser.loading}
                                     >
                                         <TbTrash size={18} />
                                     </ActionIcon>

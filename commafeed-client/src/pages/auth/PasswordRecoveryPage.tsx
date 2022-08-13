@@ -6,8 +6,8 @@ import { PasswordResetRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { Logo } from "components/Logo"
 import { useState } from "react"
+import { useAsyncCallback } from "react-async-hook"
 import { Link } from "react-router-dom"
-import useMutation from "use-mutation"
 
 export function PasswordRecoveryPage() {
     const [message, setMessage] = useState("")
@@ -18,15 +18,11 @@ export function PasswordRecoveryPage() {
         },
     })
 
-    const [recoverPassword, recoverPasswordResult] = useMutation(client.user.passwordReset, {
-        onMutate: () => {
-            setMessage("")
-        },
+    const recoverPassword = useAsyncCallback(client.user.passwordReset, {
         onSuccess: () => {
             setMessage(t`An email has been sent if this address was registered. Check your inbox.`)
         },
     })
-    const errors = errorToStrings(recoverPasswordResult.error)
 
     return (
         <Container size="xs">
@@ -40,17 +36,25 @@ export function PasswordRecoveryPage() {
                 <Title order={2} mb="md">
                     <Trans>Password Recovery</Trans>
                 </Title>
-                {errors.length > 0 && (
+
+                {recoverPassword.error && (
                     <Box mb="md">
-                        <Alert messages={errors} />
+                        <Alert messages={errorToStrings(recoverPassword.error)} />
                     </Box>
                 )}
+
                 {message && (
                     <Box mb="md">
                         <Alert level="success" messages={[message]} />
                     </Box>
                 )}
-                <form onSubmit={form.onSubmit(recoverPassword)}>
+
+                <form
+                    onSubmit={form.onSubmit(req => {
+                        setMessage("")
+                        recoverPassword.execute(req)
+                    })}
+                >
                     <Stack>
                         <TextInput
                             type="email"
@@ -61,7 +65,7 @@ export function PasswordRecoveryPage() {
                             required
                         />
 
-                        <Button type="submit" loading={recoverPasswordResult.status === "running"}>
+                        <Button type="submit" loading={recoverPassword.loading}>
                             <Trans>Recover password</Trans>
                         </Button>
 

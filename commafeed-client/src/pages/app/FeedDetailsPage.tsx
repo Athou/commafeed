@@ -2,7 +2,7 @@ import { t, Trans } from "@lingui/macro"
 import { Anchor, Box, Button, Code, Container, Divider, Group, Input, NumberInput, Stack, Text, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
-import { client, errorsToStrings } from "app/client"
+import { client, errorToStrings } from "app/client"
 import { redirectToRootCategory, redirectToSelectedSource } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -12,10 +12,9 @@ import { CategorySelect } from "components/content/add/CategorySelect"
 import { Loader } from "components/Loader"
 import { RelativeDate } from "components/RelativeDate"
 import { useEffect } from "react"
-import { useAsync } from "react-async-hook"
+import { useAsync, useAsyncCallback } from "react-async-hook"
 import { TbDeviceFloppy, TbTrash } from "react-icons/tb"
 import { useParams } from "react-router-dom"
-import useMutation from "use-mutation"
 
 function FilteringExpressionDescription() {
     const example = <Code>url.contains('youtube') or (author eq 'athou' and title.contains('github')</Code>
@@ -60,19 +59,18 @@ export function FeedDetailsPage() {
     const form = useForm<FeedModificationRequest>()
     const { setValues } = form
 
-    const [modify, modifyResult] = useMutation(client.feed.modify, {
+    const modifyFeed = useAsyncCallback(client.feed.modify, {
         onSuccess: () => {
             dispatch(reloadTree())
             dispatch(redirectToSelectedSource())
         },
     })
-    const [unsubscribe, unsubscribeResult] = useMutation(client.feed.unsubscribe, {
+    const unsubscribe = useAsyncCallback(client.feed.unsubscribe, {
         onSuccess: () => {
             dispatch(reloadTree())
             dispatch(redirectToRootCategory())
         },
     })
-    const errors = errorsToStrings([modifyResult.error, unsubscribeResult.error])
 
     const openUnsubscribeModal = () => {
         const feedName = feed?.name
@@ -87,7 +85,7 @@ export function FeedDetailsPage() {
             ),
             labels: { confirm: t`Confirm`, cancel: t`Cancel` },
             confirmProps: { color: "red" },
-            onConfirm: () => unsubscribe({ id: +id }),
+            onConfirm: () => unsubscribe.execute({ id: +id }),
         })
     }
 
@@ -99,13 +97,19 @@ export function FeedDetailsPage() {
     if (!feed) return <Loader />
     return (
         <Container>
-            {errors.length > 0 && (
+            {modifyFeed.error && (
                 <Box mb="md">
-                    <Alert messages={errors} />
+                    <Alert messages={errorToStrings(modifyFeed.error)} />
                 </Box>
             )}
 
-            <form onSubmit={form.onSubmit(modify)}>
+            {unsubscribe.error && (
+                <Box mb="md">
+                    <Alert messages={errorToStrings(unsubscribe.error)} />
+                </Box>
+            )}
+
+            <form onSubmit={form.onSubmit(modifyFeed.execute)}>
                 <Stack>
                     <Title order={3}>{feed.name}</Title>
                     <Input.Wrapper label={t`Feed URL`}>
@@ -159,7 +163,7 @@ export function FeedDetailsPage() {
                         <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={modifyResult.status === "running"}>
+                        <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={modifyFeed.loading}>
                             <Trans>Save</Trans>
                         </Button>
                         <Divider orientation="vertical" />
@@ -167,7 +171,7 @@ export function FeedDetailsPage() {
                             color="red"
                             leftIcon={<TbTrash size={16} />}
                             onClick={() => openUnsubscribeModal()}
-                            loading={unsubscribeResult.status === "running"}
+                            loading={unsubscribe.loading}
                         >
                             <Trans>Unsubscribe</Trans>
                         </Button>

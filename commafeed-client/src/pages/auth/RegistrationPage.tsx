@@ -7,8 +7,8 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { RegistrationRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { Logo } from "components/Logo"
+import { useAsyncCallback } from "react-async-hook"
 import { Link } from "react-router-dom"
-import useMutation from "use-mutation"
 
 export function RegistrationPage() {
     const serverInfos = useAppSelector(state => state.server.serverInfos)
@@ -22,12 +22,11 @@ export function RegistrationPage() {
         },
     })
 
-    const [register, registerResult] = useMutation(client.user.register, {
+    const register = useAsyncCallback(client.user.register, {
         onSuccess: () => {
             dispatch(redirectToRootCategory())
         },
     })
-    const errors = errorToStrings(registerResult.error)
 
     return (
         <Container size="xs">
@@ -48,13 +47,13 @@ export function RegistrationPage() {
                 )}
                 {serverInfos?.allowRegistrations && (
                     <>
-                        {errors.length > 0 && (
+                        {register.error && (
                             <Box mb="md">
-                                <Alert messages={errors} />
+                                <Alert messages={errorToStrings(register.error)} />
                             </Box>
                         )}
 
-                        <form onSubmit={form.onSubmit(register)}>
+                        <form onSubmit={form.onSubmit(register.execute)}>
                             <Stack>
                                 <TextInput label="User Name" placeholder="User Name" {...form.getInputProps("name")} size="md" required />
                                 <TextInput
@@ -72,7 +71,7 @@ export function RegistrationPage() {
                                     size="md"
                                     required
                                 />
-                                <Button type="submit" loading={registerResult.status === "running"}>
+                                <Button type="submit" loading={register.loading}>
                                     <Trans>Sign up</Trans>
                                 </Button>
                                 <Center>

@@ -2,15 +2,15 @@ import { t, Trans } from "@lingui/macro"
 import { Anchor, Box, Button, Checkbox, Divider, Group, Input, PasswordInput, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
-import { client, errorsToStrings } from "app/client"
+import { client, errorToStrings } from "app/client"
 import { redirectToLogin, redirectToSelectedSource } from "app/slices/redirect"
 import { reloadProfile } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { ProfileModificationRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { useEffect } from "react"
+import { useAsyncCallback } from "react-async-hook"
 import { TbDeviceFloppy, TbTrash } from "react-icons/tb"
-import useMutation from "use-mutation"
 
 interface FormData extends ProfileModificationRequest {
     newPasswordConfirmation?: string
@@ -27,18 +27,17 @@ export function ProfileSettings() {
     })
     const { setValues } = form
 
-    const [saveProfile, saveProfileResult] = useMutation(client.user.saveProfile, {
+    const saveProfile = useAsyncCallback(client.user.saveProfile, {
         onSuccess: () => {
             dispatch(reloadProfile())
             dispatch(redirectToSelectedSource())
         },
     })
-    const [deleteProfile, deleteProfileResult] = useMutation(client.user.deleteProfile, {
+    const deleteProfile = useAsyncCallback(client.user.deleteProfile, {
         onSuccess: () => {
             dispatch(redirectToLogin())
         },
     })
-    const errors = errorsToStrings([saveProfileResult.error, deleteProfileResult.error])
 
     const openDeleteProfileModal = () =>
         openConfirmModal({
@@ -50,7 +49,7 @@ export function ProfileSettings() {
             ),
             labels: { confirm: t`Confirm`, cancel: t`Cancel` },
             confirmProps: { color: "red" },
-            onConfirm: () => deleteProfile({}),
+            onConfirm: () => deleteProfile.execute(),
         })
 
     useEffect(() => {
@@ -64,13 +63,19 @@ export function ProfileSettings() {
 
     return (
         <>
-            {errors.length > 0 && (
+            {saveProfile.error && (
                 <Box mb="md">
-                    <Alert messages={errors} />
+                    <Alert messages={errorToStrings(saveProfile.error)} />
                 </Box>
             )}
 
-            <form onSubmit={form.onSubmit(saveProfile)}>
+            {deleteProfile.error && (
+                <Box mb="md">
+                    <Alert messages={errorToStrings(deleteProfile.error)} />
+                </Box>
+            )}
+
+            <form onSubmit={form.onSubmit(saveProfile.execute)}>
                 <Stack>
                     <Input.Wrapper label={t`User name`}>
                         <Box>{profile?.name}</Box>
@@ -105,7 +110,7 @@ export function ProfileSettings() {
                         <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={saveProfileResult.status === "running"}>
+                        <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={saveProfile.loading}>
                             <Trans>Save</Trans>
                         </Button>
                         <Divider orientation="vertical" />
@@ -113,7 +118,7 @@ export function ProfileSettings() {
                             color="red"
                             leftIcon={<TbTrash size={16} />}
                             onClick={() => openDeleteProfileModal()}
-                            loading={deleteProfileResult.status === "running"}
+                            loading={deleteProfile.loading}
                         >
                             <Trans>Delete account</Trans>
                         </Button>

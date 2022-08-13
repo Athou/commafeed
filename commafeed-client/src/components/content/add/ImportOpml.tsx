@@ -6,8 +6,8 @@ import { redirectToSelectedSource } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
 import { useAppDispatch } from "app/store"
 import { Alert } from "components/Alert"
+import { useAsyncCallback } from "react-async-hook"
 import { TbFileImport } from "react-icons/tb"
-import useMutation from "use-mutation"
 
 export function ImportOpml() {
     const dispatch = useAppDispatch()
@@ -18,23 +18,22 @@ export function ImportOpml() {
         },
     })
 
-    const [importOpml, importOpmlResult] = useMutation(client.feed.importOpml, {
+    const importOpml = useAsyncCallback(client.feed.importOpml, {
         onSuccess: () => {
             dispatch(reloadTree())
             dispatch(redirectToSelectedSource())
         },
     })
-    const errors = errorToStrings(importOpmlResult.error)
 
     return (
         <>
-            {errors.length > 0 && (
+            {importOpml.error && (
                 <Box mb="md">
-                    <Alert messages={errors} />
+                    <Alert messages={errorToStrings(importOpml.error)} />
                 </Box>
             )}
 
-            <form onSubmit={form.onSubmit(v => importOpml(v.file))}>
+            <form onSubmit={form.onSubmit(v => importOpml.execute(v.file))}>
                 <Stack>
                     <FileInput
                         label={t`OPML file`}
@@ -48,7 +47,7 @@ export function ImportOpml() {
                         <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button type="submit" leftIcon={<TbFileImport size={16} />} loading={importOpmlResult.status === "running"}>
+                        <Button type="submit" leftIcon={<TbFileImport size={16} />} loading={importOpml.loading}>
                             <Trans>Import</Trans>
                         </Button>
                     </Group>

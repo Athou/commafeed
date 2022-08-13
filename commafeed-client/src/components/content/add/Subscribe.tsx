@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro"
 import { Box, Button, Group, Stack, Stepper, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { client, errorsToStrings, errorToStrings } from "app/client"
+import { client, errorToStrings } from "app/client"
 import { Constants } from "app/constants"
 import { redirectToFeed, redirectToSelectedSource } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
@@ -9,8 +9,8 @@ import { useAppDispatch } from "app/store"
 import { FeedInfoRequest, SubscribeRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { useState } from "react"
+import { useAsyncCallback } from "react-async-hook"
 import { TbRss } from "react-icons/tb"
-import useMutation from "use-mutation"
 import { CategorySelect } from "./CategorySelect"
 
 export function Subscribe() {
@@ -31,20 +31,19 @@ export function Subscribe() {
         },
     })
 
-    const [fetchFeed, fetchFeedResult] = useMutation(client.feed.fetchFeed, {
+    const fetchFeed = useAsyncCallback(client.feed.fetchFeed, {
         onSuccess: ({ data }) => {
-            step1Form.setFieldValue("url", data.data.url)
-            step1Form.setFieldValue("title", data.data.title)
+            step1Form.setFieldValue("url", data.url)
+            step1Form.setFieldValue("title", data.title)
             setActiveStep(step => step + 1)
         },
     })
-    const [subscribe, subscribeResult] = useMutation(client.feed.subscribe, {
+    const subscribe = useAsyncCallback(client.feed.subscribe, {
         onSuccess: sub => {
             dispatch(reloadTree())
-            dispatch(redirectToFeed(sub.data.data.id))
+            dispatch(redirectToFeed(sub.data.id))
         },
     })
-    const errors = errorsToStrings([fetchFeedResult.error, errorToStrings(subscribeResult.error)])
 
     const previousStep = () => {
         if (activeStep === 0) dispatch(redirectToSelectedSource())
@@ -52,17 +51,23 @@ export function Subscribe() {
     }
     const nextStep = (e: React.FormEvent<HTMLFormElement>) => {
         if (activeStep === 0) {
-            step0Form.onSubmit(fetchFeed)(e)
+            step0Form.onSubmit(fetchFeed.execute)(e)
         } else if (activeStep === 1) {
-            step1Form.onSubmit(subscribe)(e)
+            step1Form.onSubmit(subscribe.execute)(e)
         }
     }
 
     return (
         <>
-            {errors.length > 0 && (
+            {fetchFeed.error && (
                 <Box mb="md">
-                    <Alert messages={errors} />
+                    <Alert messages={errorToStrings(fetchFeed.error)} />
+                </Box>
+            )}
+
+            {subscribe.error && (
+                <Box mb="md">
+                    <Alert messages={errorToStrings(subscribe.error)} />
                 </Box>
             )}
 
@@ -96,16 +101,12 @@ export function Subscribe() {
                         <Trans>Back</Trans>
                     </Button>
                     {activeStep === 0 && (
-                        <Button type="submit" loading={fetchFeedResult.status === "running"}>
+                        <Button type="submit" loading={fetchFeed.loading}>
                             <Trans>Next</Trans>
                         </Button>
                     )}
                     {activeStep === 1 && (
-                        <Button
-                            type="submit"
-                            leftIcon={<TbRss size={16} />}
-                            loading={fetchFeedResult.status === "running" || subscribeResult.status === "running"}
-                        >
+                        <Button type="submit" leftIcon={<TbRss size={16} />} loading={fetchFeed.loading || subscribe.loading}>
                             <Trans>Subscribe</Trans>
                         </Button>
                     )}

@@ -4,8 +4,8 @@ import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
 import { UserModel } from "app/types"
 import { Alert } from "components/Alert"
+import { useAsyncCallback } from "react-async-hook"
 import { TbDeviceFloppy } from "react-icons/tb"
-import useMutation from "use-mutation"
 
 interface UserEditProps {
     user?: UserModel
@@ -17,18 +17,17 @@ export function UserEdit(props: UserEditProps) {
     const form = useForm<UserModel>({
         initialValues: props.user ?? ({ enabled: true } as UserModel),
     })
-    const [saveUser, saveUserResult] = useMutation(client.admin.saveUser, { onSuccess: props.onSave })
-    const errors = errorToStrings(saveUserResult.error)
+    const saveUser = useAsyncCallback(client.admin.saveUser, { onSuccess: props.onSave })
 
     return (
         <>
-            {errors.length > 0 && (
+            {saveUser.error && (
                 <Box mb="md">
-                    <Alert messages={errors} />
+                    <Alert messages={errorToStrings(saveUser.error)} />
                 </Box>
             )}
 
-            <form onSubmit={form.onSubmit(saveUser)}>
+            <form onSubmit={form.onSubmit(saveUser.execute)}>
                 <Stack>
                     <TextInput label={t`Name`} {...form.getInputProps("name")} required />
                     <PasswordInput label={t`Password`} {...form.getInputProps("password")} required={!props.user} />
@@ -40,7 +39,7 @@ export function UserEdit(props: UserEditProps) {
                         <Button variant="default" onClick={props.onCancel}>
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={saveUserResult.status === "running"}>
+                        <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={saveUser.loading}>
                             <Trans>Save</Trans>
                         </Button>
                     </Group>

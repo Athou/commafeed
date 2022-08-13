@@ -35,7 +35,7 @@
         "react-hooks/exhaustive-deps": [
             "warn",
             {
-                "additionalHooks": "useAsync"
+                "additionalHooks": "(^useAsync$)"
             }
         ],
 
@@ -67,8 +67,9 @@
                     "useState",
                     "useAppSelector",
                     "useAppDispatch",
+                    "useAsync",
                     "useForm",
-                    "useMutation",
+                    "useAsyncCallback",
                     "useCallback",
                     "useEffect"
                 ]

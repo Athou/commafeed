@@ -7,8 +7,8 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { LoginRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { Logo } from "components/Logo"
+import { useAsyncCallback } from "react-async-hook"
 import { Link } from "react-router-dom"
-import useMutation from "use-mutation"
 
 export function LoginPage() {
     const serverInfos = useAppSelector(state => state.server.serverInfos)
@@ -21,12 +21,11 @@ export function LoginPage() {
         },
     })
 
-    const [login, loginResult] = useMutation(client.user.login, {
+    const login = useAsyncCallback(client.user.login, {
         onSuccess: () => {
             dispatch(redirectToRootCategory())
         },
     })
-    const errors = errorToStrings(loginResult.error)
 
     return (
         <Container size="xs">
@@ -40,12 +39,12 @@ export function LoginPage() {
                 <Title order={2} mb="md">
                     <Trans>Log in</Trans>
                 </Title>
-                {errors.length > 0 && (
+                {login.error && (
                     <Box mb="md">
-                        <Alert messages={errors} />
+                        <Alert messages={errorToStrings(login.error)} />
                     </Box>
                 )}
-                <form onSubmit={form.onSubmit(login)}>
+                <form onSubmit={form.onSubmit(login.execute)}>
                     <Stack>
                         <TextInput
                             label={t`User Name or E-mail`}
@@ -69,7 +68,7 @@ export function LoginPage() {
                             </Anchor>
                         )}
 
-                        <Button type="submit" loading={loginResult.status === "running"}>
+                        <Button type="submit" loading={login.loading}>
                             <Trans>Log in</Trans>
                         </Button>
                         {serverInfos?.allowRegistrations && (

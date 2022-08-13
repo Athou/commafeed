@@ -7,8 +7,8 @@ import { reloadTree } from "app/slices/tree"
 import { useAppDispatch } from "app/store"
 import { AddCategoryRequest } from "app/types"
 import { Alert } from "components/Alert"
+import { useAsyncCallback } from "react-async-hook"
 import { TbFolderPlus } from "react-icons/tb"
-import useMutation from "use-mutation"
 import { CategorySelect } from "./CategorySelect"
 
 export function AddCategory() {
@@ -16,23 +16,22 @@ export function AddCategory() {
 
     const form = useForm<AddCategoryRequest>()
 
-    const [addCategory, addCategoryResult] = useMutation(client.category.add, {
+    const addCategory = useAsyncCallback(client.category.add, {
         onSuccess: () => {
             dispatch(reloadTree())
             dispatch(redirectToSelectedSource())
         },
     })
-    const errors = errorToStrings(addCategoryResult.error)
 
     return (
         <>
-            {errors.length > 0 && (
+            {addCategory.error && (
                 <Box mb="md">
-                    <Alert messages={errors} />
+                    <Alert messages={errorToStrings(addCategory.error)} />
                 </Box>
             )}
 
-            <form onSubmit={form.onSubmit(addCategory)}>
+            <form onSubmit={form.onSubmit(addCategory.execute)}>
                 <Stack>
                     <TextInput label={t`Category`} placeholder={t`Category`} {...form.getInputProps("name")} required />
                     <CategorySelect label={t`Parent`} {...form.getInputProps("parentId")} clearable />
@@ -40,7 +39,7 @@ export function AddCategory() {
                         <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button type="submit" leftIcon={<TbFolderPlus size={16} />} loading={addCategoryResult.status === "running"}>
+                        <Button type="submit" leftIcon={<TbFolderPlus size={16} />} loading={addCategory.loading}>
                             <Trans>Add</Trans>
                         </Button>
                     </Group>

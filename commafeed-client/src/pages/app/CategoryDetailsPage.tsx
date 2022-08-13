@@ -13,35 +13,34 @@ import { Alert } from "components/Alert"
 import { CategorySelect } from "components/content/add/CategorySelect"
 import { Loader } from "components/Loader"
 import { useEffect } from "react"
-import { useAsync } from "react-async-hook"
+import { useAsync, useAsyncCallback } from "react-async-hook"
 import { TbDeviceFloppy, TbTrash } from "react-icons/tb"
 import { useParams } from "react-router-dom"
-import useMutation from "use-mutation"
 
 export function CategoryDetailsPage() {
     const { id = Constants.categoryIds.all } = useParams()
 
     const apiKey = useAppSelector(state => state.user.profile?.apiKey)
     const dispatch = useAppDispatch()
+
     const query = useAsync(() => client.category.getRoot(), [])
     const category = query.result && flattenCategoryTree(query.result.data).find(c => c.id === id)
 
     const form = useForm<CategoryModificationRequest>()
     const { setValues } = form
 
-    const [modify, modifyResult] = useMutation(client.category.modify, {
+    const modifyCategory = useAsyncCallback(client.category.modify, {
         onSuccess: () => {
             dispatch(reloadTree())
             dispatch(redirectToSelectedSource())
         },
     })
-    const [deleteCategory, deleteCategoryResult] = useMutation(client.category.delete, {
+    const deleteCategory = useAsyncCallback(client.category.delete, {
         onSuccess: () => {
             dispatch(reloadTree())
             dispatch(redirectToRootCategory())
         },
     })
-    const errors = [...errorToStrings(modifyResult.error), ...errorToStrings(deleteCategoryResult.error)]
 
     const openDeleteCategoryModal = () => {
         const categoryName = category?.name
@@ -56,7 +55,7 @@ export function CategoryDetailsPage() {
             ),
             labels: { confirm: t`Confirm`, cancel: t`Cancel` },
             confirmProps: { color: "red" },
-            onConfirm: () => deleteCategory({ id: +id }),
+            onConfirm: () => deleteCategory.execute({ id: +id }),
         })
     }
 
@@ -73,13 +72,19 @@ export function CategoryDetailsPage() {
     if (!category) return <Loader />
     return (
         <Container>
-            {errors.length > 0 && (
+            {modifyCategory.error && (
                 <Box mb="md">
-                    <Alert messages={errors} />
+                    <Alert messages={errorToStrings(modifyCategory.error)} />
                 </Box>
             )}
 
-            <form onSubmit={form.onSubmit(modify)}>
+            {deleteCategory.error && (
+                <Box mb="md">
+                    <Alert messages={errorToStrings(deleteCategory.error)} />
+                </Box>
+            )}
+
+            <form onSubmit={form.onSubmit(modifyCategory.execute)}>
                 <Stack>
                     <Title order={3}>{category.name}</Title>
                     <Input.Wrapper label={t`Generated feed url`}>
@@ -105,7 +110,7 @@ export function CategoryDetailsPage() {
                         <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={modifyResult.status === "running"}>
+                        <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={modifyCategory.loading}>
                             <Trans>Save</Trans>
                         </Button>
                         <Divider orientation="vertical" />
@@ -113,7 +118,7 @@ export function CategoryDetailsPage() {
                             color="red"
                             leftIcon={<TbTrash size={16} />}
                             onClick={() => openDeleteCategoryModal()}
-                            loading={deleteCategoryResult.status === "running"}
+                            loading={deleteCategory.loading}
                         >
                             <Trans>Delete</Trans>
                         </Button>

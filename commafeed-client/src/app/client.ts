@@ -59,8 +59,6 @@ export const client = {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
-                // TODO remove redirect from backend method then remove this
-                validateStatus: () => true,
             })
         },
     },

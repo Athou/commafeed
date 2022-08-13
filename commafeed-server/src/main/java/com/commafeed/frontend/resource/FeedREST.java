@@ -538,7 +538,7 @@ public class FeedREST {
 			log.error(e.getMessage(), e);
 			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
-		return Response.seeOther(URI.create(config.getApplicationSettings().getPublicUrl())).build();
+		return Response.ok().build();
 	}
 
 	@GET

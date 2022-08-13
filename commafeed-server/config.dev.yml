@@ -8,7 +8,7 @@ app:
   allowRegistrations: true
   
   # create a demo account the first time the app starts
-  createDemoAccount: false
+  createDemoAccount: true
   
   # put your google analytics tracking code here
   googleAnalyticsTrackingCode:

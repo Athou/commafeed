@@ -51,6 +51,7 @@ export function LoginPage() {
                             label={t`User Name or E-mail`}
                             placeholder={t`User Name or E-mail`}
                             {...form.getInputProps("name")}
+                            description={serverInfos?.demoAccountEnabled ? t`Try out CommaFeed with the demo account: demo/demo` : ""}
                             size="md"
                             required
                         />

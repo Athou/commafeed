@@ -52,6 +52,7 @@ public class ServerREST {
 		infos.setAllowRegistrations(config.getApplicationSettings().getAllowRegistrations());
 		infos.setGoogleAnalyticsCode(config.getApplicationSettings().getGoogleAnalyticsTrackingCode());
 		infos.setSmtpEnabled(StringUtils.isNotBlank(config.getApplicationSettings().getSmtpHost()));
+		infos.setDemoAccountEnabled(config.getApplicationSettings().getCreateDemoAccount());
 		return Response.ok(infos).build();
 	}
 

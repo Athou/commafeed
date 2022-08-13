@@ -468,6 +468,10 @@ msgstr "L'URL du flux auquel vous souhaitez vous abonner. Vous pouvez aussi util
 msgid "Theme"
 msgstr "Thème"
 
+#: src/pages/auth/LoginPage.tsx
+msgid "Try out CommaFeed with the demo account: demo/demo"
+msgstr "Essayez CommaFeed avec le compte de démonstration : demo/demo"
+
 #: src/components/header/Header.tsx
 msgid "Unread"
 msgstr "Non lu"

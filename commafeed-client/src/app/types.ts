@@ -160,6 +160,7 @@ export interface ServerInfo {
     allowRegistrations: boolean
     googleAnalyticsCode?: string
     smtpEnabled: boolean
+    demoAccountEnabled: boolean
 }
 
 export interface Settings {

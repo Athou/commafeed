@@ -29,4 +29,7 @@ public class ServerInfo implements Serializable {
 	@ApiModelProperty(required = true)
 	private boolean smtpEnabled;
 
+	@ApiModelProperty(required = true)
+	private boolean demoAccountEnabled;
+
 }

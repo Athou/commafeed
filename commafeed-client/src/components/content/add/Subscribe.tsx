@@ -41,7 +41,7 @@ export function Subscribe() {
     const subscribe = useAsyncCallback(client.feed.subscribe, {
         onSuccess: sub => {
             dispatch(reloadTree())
-            dispatch(redirectToFeed(sub.data.id))
+            dispatch(redirectToFeed(sub.data))
         },
     })
 

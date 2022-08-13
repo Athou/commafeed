@@ -400,8 +400,8 @@ public class FeedREST {
 				category = feedCategoryDAO.findById(Long.valueOf(req.getCategoryId()));
 			}
 			FeedInfo info = fetchFeedInternal(url);
-			FeedSubscription subscription = feedSubscriptionService.subscribe(user, info.getUrl(), req.getTitle(), category);
-			return Response.ok(subscription).build();
+			long subscriptionId = feedSubscriptionService.subscribe(user, info.getUrl(), req.getTitle(), category);
+			return Response.ok(subscriptionId).build();
 		} catch (Exception e) {
 			log.error("Failed to subscribe to URL {}: {}", url, e.getMessage(), e);
 			return Response.status(Status.SERVICE_UNAVAILABLE).entity("Failed to subscribe to URL " + url + ": " + e.getMessage()).build();

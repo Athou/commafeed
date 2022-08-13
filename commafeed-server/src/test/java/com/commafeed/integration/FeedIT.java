@@ -25,7 +25,6 @@ import org.mockserver.model.HttpResponse;
 import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.frontend.model.Entries;
-import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 
 import io.dropwizard.testing.ResourceHelpers;
@@ -61,14 +60,14 @@ class FeedIT {
 
 		String feedUrl = "http://localhost:" + this.mockServerClient.getPort();
 
-		Subscription subscription = subscribe(client, feedUrl);
+		long subscriptionId = subscribe(client, feedUrl);
 		Awaitility.await()
 				.atMost(Duration.ofSeconds(15))
 				.pollInterval(Duration.ofMillis(500))
-				.until(() -> getFeedEntries(client, subscription), e -> e.getEntries().size() == 2);
+				.until(() -> getFeedEntries(client, subscriptionId), e -> e.getEntries().size() == 2);
 	}
 
-	private Subscription subscribe(Client client, String feedUrl) {
+	private Long subscribe(Client client, String feedUrl) {
 		SubscribeRequest subscribeRequest = new SubscribeRequest();
 		subscribeRequest.setUrl(feedUrl);
 		subscribeRequest.setTitle("my title for this feed");
@@ -76,12 +75,12 @@ class FeedIT {
 				.request()
 				.post(Entity.json(subscribeRequest));
 		Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-		return response.readEntity(Subscription.class);
+		return response.readEntity(Long.class);
 	}
 
-	private Entries getFeedEntries(Client client, Subscription subscription) {
+	private Entries getFeedEntries(Client client, long subscriptionId) {
 		Response response = client.target(String.format("http://localhost:%d/rest/feed/entries", EXT.getLocalPort()))
-				.queryParam("id", subscription.getId())
+				.queryParam("id", subscriptionId)
 				.queryParam("readType", "unread")
 				.request()
 				.get();

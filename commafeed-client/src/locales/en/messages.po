@@ -323,6 +323,10 @@ msgstr "Mark all as read"
 msgid "Mark all entries as read"
 msgstr "Mark all entries as read"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "Metrics"
+msgstr "Metrics"
+
 #: src/components/RelativeDate.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "N/A"
@@ -367,6 +371,10 @@ msgstr "OPML export"
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "OPML file"
+
+#: src/pages/ErrorPage.tsx
+msgid "Oops!"
+msgstr "Oops!"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
@@ -445,6 +453,10 @@ msgstr "Settings saved."
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Sign up"
 msgstr "Sign up"
+
+#: src/pages/ErrorPage.tsx
+msgid "Something bad just happened..."
+msgstr "Something bad just happened..."
 
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx

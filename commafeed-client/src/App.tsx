@@ -9,6 +9,7 @@ import { redirectTo } from "app/slices/redirect"
 import { reloadServerInfos } from "app/slices/server"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { categoryUnreadCount } from "app/utils"
+import { ErrorBoundary } from "components/ErrorBoundary"
 import { Header } from "components/header/Header"
 import { Tree } from "components/sidebar/Tree"
 import { useI18n } from "i18n"
@@ -48,7 +49,7 @@ function Providers(props: { children: React.ReactNode }) {
                 >
                     <ModalsProvider>
                         <NotificationsProvider position="top-center" zIndex={9999}>
-                            {props.children}
+                            <ErrorBoundary>{props.children}</ErrorBoundary>
                         </NotificationsProvider>
                     </ModalsProvider>
                 </MantineProvider>

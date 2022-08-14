@@ -1,4 +1,4 @@
-import { createStyles, Text } from "@mantine/core"
+import { createStyles, Text, TypographyStylesProvider } from "@mantine/core"
 
 export interface ContentProps {
     content: string
@@ -26,5 +26,9 @@ const useStyles = createStyles(theme => ({
 
 export function Content(props: ContentProps) {
     const { classes } = useStyles()
-    return <Text size="md" className={classes.content} dangerouslySetInnerHTML={{ __html: props.content }} />
+    return (
+        <TypographyStylesProvider>
+            <Text size="md" className={classes.content} dangerouslySetInnerHTML={{ __html: props.content }} />
+        </TypographyStylesProvider>
+    )
 }

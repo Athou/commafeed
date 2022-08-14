@@ -3,18 +3,23 @@ name: Java CI
 on: [push]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                java: ["8", "11", "17"]
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: ["8", "11", "17"]
 
-        steps:
-            - uses: actions/checkout@v3
-            - name: Set up Java
-              uses: actions/setup-java@v3
-              with:
-                  java-version: ${{ matrix.java }}
-                  distribution: "temurin"
-            - name: Build with Maven
-              run: mvn --batch-mode --update-snapshots verify
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: "temurin"
+      - name: Build with Maven
+        run: mvn --batch-mode --update-snapshots verify
+      - uses: actions/upload-artifact@v3
+        if: ${{ matrix.java == '8' }}
+        with:
+          name: commafeed.jar
+          path: commafeed-server/target/commafeed.jar

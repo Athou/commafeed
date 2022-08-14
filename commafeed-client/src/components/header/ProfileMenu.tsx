@@ -1,9 +1,9 @@
 import { Trans } from "@lingui/macro"
 import { Divider, Menu, useMantineColorScheme } from "@mantine/core"
-import { redirectToAdminUsers, redirectToSettings } from "app/slices/redirect"
+import { redirectToAdminUsers, redirectToMetrics, redirectToSettings } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { useState } from "react"
-import { TbMoon, TbPower, TbSettings, TbSun, TbUsers } from "react-icons/tb"
+import { TbChartLine, TbMoon, TbPower, TbSettings, TbSun, TbUsers } from "react-icons/tb"
 
 interface ProfileMenuProps {
     control: React.ReactElement
@@ -51,6 +51,15 @@ export function ProfileMenu(props: ProfileMenuProps) {
                             }}
                         >
                             <Trans>Manage users</Trans>
+                        </Menu.Item>
+                        <Menu.Item
+                            icon={<TbChartLine />}
+                            onClick={() => {
+                                dispatch(redirectToMetrics())
+                                setOpened(false)
+                            }}
+                        >
+                            <Trans>Metrics</Trans>
                         </Menu.Item>
                     </>
                 )}

@@ -12,6 +12,7 @@ import {
     IDRequest,
     LoginRequest,
     MarkRequest,
+    Metrics,
     PasswordResetRequest,
     ProfileModificationRequest,
     RegistrationRequest,
@@ -79,6 +80,7 @@ export const client = {
         getAllUsers: () => axiosInstance.get<UserModel[]>("admin/user/getAll"),
         saveUser: (req: UserModel) => axiosInstance.post("admin/user/save", req),
         deleteUser: (req: IDRequest) => axiosInstance.post("admin/user/delete", req),
+        getMetrics: () => axiosInstance.get<Metrics>("admin/metrics"),
     },
 }
 

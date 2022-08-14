@@ -115,6 +115,22 @@ export interface FeedModificationRequest {
     filter?: string
 }
 
+export interface GetEntriesRequest {
+    id: string
+    readType?: ReadingMode
+    newerThan?: number
+    order?: ReadingOrder
+    keywords?: string
+    onlyIds?: boolean
+    excludedSubscriptionIds?: string
+    tag?: string
+}
+
+export interface GetEntriesPaginatedRequest extends GetEntriesRequest {
+    offset: number
+    limit: number
+}
+
 export interface IDRequest {
     id: number
 }
@@ -130,6 +146,50 @@ export interface MarkRequest {
     olderThan?: number
     keywords?: string
     excludedSubscriptions?: number[]
+}
+
+export interface MetricCounter {
+    count: number
+}
+
+export interface MetricGauge {
+    value: number
+}
+
+export interface MetricMeter {
+    count: number
+    m15_rate: number
+    m1_rate: number
+    m5_rate: number
+    mean_rate: number
+    units: string
+}
+
+export type MetricTimer = {
+    count: number
+    max: number
+    mean: number
+    min: number
+    p50: number
+    p75: number
+    p95: number
+    p98: number
+    p99: number
+    p999: number
+    stddev: number
+    m15_rate: number
+    m1_rate: number
+    m5_rate: number
+    mean_rate: number
+    duration_units: string
+    rate_units: string
+}
+
+export interface Metrics {
+    counters: { [key: string]: MetricCounter }
+    gauges: { [key: string]: MetricGauge }
+    meters: { [key: string]: MetricMeter }
+    timers: { [key: string]: MetricTimer }
 }
 
 export interface MultipleMarkRequest {
@@ -217,22 +277,6 @@ export interface Subscription {
 export interface TagRequest {
     entryId: number
     tags: string[]
-}
-
-export interface GetEntriesRequest {
-    id: string
-    readType?: ReadingMode
-    newerThan?: number
-    order?: ReadingOrder
-    keywords?: string
-    onlyIds?: boolean
-    excludedSubscriptionIds?: string
-    tag?: string
-}
-
-export interface GetEntriesPaginatedRequest extends GetEntriesRequest {
-    offset: number
-    limit: number
 }
 
 export interface UnreadCount {

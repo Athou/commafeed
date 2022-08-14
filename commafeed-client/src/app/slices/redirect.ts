@@ -37,6 +37,9 @@ export const redirectToSettings = createAsyncThunk("redirect/settings", (_, thun
 export const redirectToAdminUsers = createAsyncThunk("redirect/admin/users", (_, thunkApi) =>
     thunkApi.dispatch(redirectTo("/app/admin/users"))
 )
+export const redirectToMetrics = createAsyncThunk("redirect/admin/metrics", (_, thunkApi) =>
+    thunkApi.dispatch(redirectTo("/app/admin/metrics"))
+)
 
 export const redirectSlice = createSlice({
     name: "redirect",

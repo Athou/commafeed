@@ -14,6 +14,7 @@ import { Header } from "components/header/Header"
 import { Tree } from "components/sidebar/Tree"
 import { useI18n } from "i18n"
 import { AdminUsersPage } from "pages/admin/AdminUsersPage"
+import { MetricsPage } from "pages/admin/MetricsPage"
 import { AddPage } from "pages/app/AddPage"
 import { CategoryDetailsPage } from "pages/app/CategoryDetailsPage"
 import { FeedDetailsPage } from "pages/app/FeedDetailsPage"
@@ -78,6 +79,7 @@ function AppRoutes() {
                 <Route path="settings" element={<SettingsPage />} />
                 <Route path="admin">
                     <Route path="users" element={<AdminUsersPage />} />
+                    <Route path="metrics" element={<MetricsPage />} />
                 </Route>
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />

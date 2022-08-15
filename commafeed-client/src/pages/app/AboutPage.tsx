@@ -1,7 +1,8 @@
 import { t, Trans } from "@lingui/macro"
 import { Anchor, Box, Center, Container, Group, List, NativeSelect, SimpleGrid, Title } from "@mantine/core"
 import { Constants } from "app/constants"
-import { useAppSelector } from "app/store"
+import { redirectToApiDocumentation } from "app/slices/redirect"
+import { useAppDispatch, useAppSelector } from "app/store"
 import { CategorySelect } from "components/content/add/CategorySelect"
 import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"
 import React, { useState } from "react"
@@ -49,6 +50,7 @@ function NextUnreadBookmarklet() {
 export function AboutPage() {
     const version = useAppSelector(state => state.server.serverInfos?.version)
     const revision = useAppSelector(state => state.server.serverInfos?.gitCommit)
+    const dispatch = useAppDispatch()
     return (
         <Container size="xl">
             <SimpleGrid cols={2} breakpoints={[{ maxWidth: Constants.layout.mobileBreakpoint, cols: 1 }]}>
@@ -149,8 +151,8 @@ export function AboutPage() {
                     </List>
                 </Section>
                 <Section title={t`REST API`} icon={<TbRocket size={24} />}>
-                    <Anchor href="api/" target="_blank" rel="noreferrer">
-                        <Trans>Link to the API documentation.</Trans>
+                    <Anchor onClick={() => dispatch(redirectToApiDocumentation())}>
+                        <Trans>Go to the API documentation.</Trans>
                     </Anchor>
                 </Section>
             </SimpleGrid>

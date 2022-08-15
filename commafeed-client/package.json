@@ -39,6 +39,7 @@
         "react-infinite-scroller": "^1.2.6",
         "react-redux": "^8.0.2",
         "react-router-dom": "^6.3.0",
+        "swagger-ui-react": "^4.13.2",
         "tinycon": "^0.6.8"
     },
     "devDependencies": {
@@ -48,6 +49,7 @@
         "@types/react": "^18.0.17",
         "@types/react-dom": "^18.0.6",
         "@types/react-infinite-scroller": "^1.2.3",
+        "@types/swagger-ui-react": "^4.11.0",
         "@types/tinycon": "^0.6.3",
         "@vitejs/plugin-react": "^2.0.1",
         "eslint": "^8.22.0",

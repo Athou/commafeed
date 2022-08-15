@@ -138,7 +138,7 @@
 								<location>com.commafeed.frontend.model</location>
 								<location>com.commafeed.frontend.model.request</location>
 							</locations>
-							<swaggerDirectory>target/swagger</swaggerDirectory>
+							<swaggerDirectory>${project.build.directory}/classes/assets/swagger</swaggerDirectory>
 							<basePath>/rest</basePath>
 							<info>
 								<title>CommaFeed</title>

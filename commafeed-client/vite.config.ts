@@ -13,7 +13,7 @@ export default defineConfig({
                 plugins: ["macros"],
             },
         }),
-        eslint(),
+        eslint({ exclude: ["**/node_modules/**"] }),
         tsconfigPaths(),
         visualizer(),
     ],
@@ -22,9 +22,11 @@ export default defineConfig({
         port: 8082,
         proxy: {
             "/rest": "http://localhost:8083",
+            "/swagger": "http://localhost:8083",
         },
     },
     build: {
+        chunkSizeWarningLimit: 1000,
         rollupOptions: {
             output: {
                 manualChunks: id => {

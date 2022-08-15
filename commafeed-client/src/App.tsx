@@ -17,6 +17,7 @@ import { AdminUsersPage } from "pages/admin/AdminUsersPage"
 import { MetricsPage } from "pages/admin/MetricsPage"
 import { AboutPage } from "pages/app/AboutPage"
 import { AddPage } from "pages/app/AddPage"
+import { ApiDocumentationPage } from "pages/app/ApiDocumentationPage"
 import { CategoryDetailsPage } from "pages/app/CategoryDetailsPage"
 import { FeedDetailsPage } from "pages/app/FeedDetailsPage"
 import { FeedEntriesPage } from "pages/app/FeedEntriesPage"
@@ -83,6 +84,7 @@ function AppRoutes() {
                     <Route path="metrics" element={<MetricsPage />} />
                 </Route>
                 <Route path="about" element={<AboutPage />} />
+                <Route path="api" element={<ApiDocumentationPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

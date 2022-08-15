@@ -283,6 +283,10 @@ msgstr "Générer une nouvelle clé API"
 msgid "Generated feed url"
 msgstr "URL du flux généré"
 
+#: src/pages/app/AboutPage.tsx
+msgid "Go to the API documentation."
+msgstr "Aller à la documentation de l'API."
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
 msgstr "Aller à la catégorie Tout"
@@ -340,10 +344,6 @@ msgstr "Dernier message de mise à jour"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Link"
 msgstr "Lien"
-
-#: src/pages/app/AboutPage.tsx
-msgid "Link to the API documentation."
-msgstr "Lien vers la documentation de l'API."
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."

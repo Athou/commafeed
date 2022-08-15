@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro"
-import { Anchor, Box, Center, Container, Group, List, NativeSelect, SimpleGrid, Title } from "@mantine/core"
+import { Anchor, Box, Center, Container, createStyles, List, NativeSelect, SimpleGrid, Title } from "@mantine/core"
 import { Constants } from "app/constants"
 import { redirectToApiDocumentation } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -8,13 +8,23 @@ import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"
 import React, { useState } from "react"
 import { TbHelp, TbKeyboard, TbPuzzle, TbRocket } from "react-icons/tb"
 
+const useStyles = createStyles(() => ({
+    sectionTitle: {
+        display: "flex",
+        alignItems: "center",
+    },
+}))
+
 function Section(props: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
+    const { classes } = useStyles()
     return (
-        <Box my="xs">
-            <Group mb="xs">
-                <Box>{props.icon}</Box>
-                <Title order={3}>{props.title}</Title>
-            </Group>
+        <Box my="xl">
+            <Box className={classes.sectionTitle} mb="xs">
+                {props.icon}
+                <Title order={3} ml="xs">
+                    {props.title}
+                </Title>
+            </Box>
             <Box>{props.children}</Box>
         </Box>
     )
@@ -105,9 +115,6 @@ export function AboutPage() {
                         </form>
                     </Box>
                 </Section>
-                <Section title={t`Keyboard shortcuts`} icon={<TbKeyboard size={24} />}>
-                    <KeyboardShortcutsHelp />
-                </Section>
                 <Section title={t`Goodies`} icon={<TbPuzzle size={24} />}>
                     <List>
                         <List.Item>
@@ -149,6 +156,9 @@ export function AboutPage() {
                             </Box>
                         </List.Item>
                     </List>
+                </Section>
+                <Section title={t`Keyboard shortcuts`} icon={<TbKeyboard size={24} />}>
+                    <KeyboardShortcutsHelp />
                 </Section>
                 <Section title={t`REST API`} icon={<TbRocket size={24} />}>
                     <Anchor onClick={() => dispatch(redirectToApiDocumentation())}>

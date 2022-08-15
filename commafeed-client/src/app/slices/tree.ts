@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { Category, CollapseRequest } from "app/types"
 import { visitCategoryTree } from "app/utils"
-import { markAllEntries, markEntry } from "./entries"
+// eslint-disable-next-line import/no-cycle
+import { markEntry } from "./entries"
 import { redirectTo } from "./redirect"
 
 interface TreeState {
@@ -46,26 +47,6 @@ export const treeSlice = createSlice({
                         f.unread = action.meta.arg.read ? f.unread - 1 : f.unread + 1
                     })
             )
-        })
-        builder.addCase(markAllEntries.pending, (state, action) => {
-            if (!state.rootCategory) return
-            const { sourceType } = action.meta.arg
-            const sourceId = action.meta.arg.req.id
-            visitCategoryTree(state.rootCategory, c => {
-                if (sourceType === "category" && c.id === sourceId) {
-                    visitCategoryTree(c, c2 =>
-                        c2.feeds.forEach(f => {
-                            f.unread = 0
-                        })
-                    )
-                } else if (sourceType === "feed") {
-                    c.feeds
-                        .filter(f => f.id === +sourceId)
-                        .forEach(f => {
-                            f.unread = 0
-                        })
-                }
-            })
         })
         builder.addCase(redirectTo, state => {
             state.mobileMenuOpen = false

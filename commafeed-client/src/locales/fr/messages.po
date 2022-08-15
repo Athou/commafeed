@@ -86,9 +86,13 @@ msgstr "Etes-vous sûr de vouloir supprimer l'utilisateur <0>{userName}</0> ?"
 msgid "Are you sure you want to delete your account? There's no turning back!"
 msgstr "Êtes-vous sûr de vouloir supprimer définitivement votre compte ?"
 
-#: src/components/header/Header.tsx
+#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
 msgstr "Etes-vous sûr de vouloir marquer toutes les entrées de <0>{sourceLabel}</0> comme lues?"
+
+#: src/components/header/MarkAllAsReadButton.tsx
+msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
+msgstr "Etes-vous sûr de vouloir marquer les entrées de <0>{sourceLabel}</0> plus anciennes que {threshold} jours comme lues?"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
@@ -117,7 +121,7 @@ msgstr "Extensions pour navigateurs"
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/ImportOpml.tsx
-#: src/components/header/Header.tsx
+#: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -156,7 +160,7 @@ msgstr "CommaFeed prochain article non lu"
 msgid "CommaFeed version {version} ({revision})"
 msgstr "CommaFeed version {version} ({revision})"
 
-#: src/components/header/Header.tsx
+#: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -371,11 +375,11 @@ msgstr "Déconnexion"
 msgid "Manage users"
 msgstr "Gestion des utilisateurs"
 
-#: src/components/header/Header.tsx
+#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Mark all as read"
 msgstr "Tout marquer comme lu"
 
-#: src/components/header/Header.tsx
+#: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Mark all entries as read"
 msgstr "Marquer toutes les entrées comme lues"

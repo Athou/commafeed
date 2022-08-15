@@ -3,6 +3,8 @@ import { client } from "app/client"
 import { Constants } from "app/constants"
 import { RootState } from "app/store"
 import { Entries, Entry, MarkRequest } from "app/types"
+// eslint-disable-next-line import/no-cycle
+import { reloadTree } from "./tree"
 
 export type EntrySourceType = "category" | "feed"
 export type EntrySource = { type: EntrySourceType; id: string }
@@ -77,10 +79,14 @@ export const markEntry = createAsyncThunk(
         condition: arg => arg.entry.read !== arg.read,
     }
 )
-export const markAllEntries = createAsyncThunk("entries/entry/markAll", (arg: { sourceType: EntrySourceType; req: MarkRequest }) => {
-    const endpoint = arg.sourceType === "category" ? client.category.markEntries : client.feed.markEntries
-    endpoint(arg.req)
-})
+export const markAllEntries = createAsyncThunk<void, { sourceType: EntrySourceType; req: MarkRequest }, { state: RootState }>(
+    "entries/entry/markAll",
+    async (arg, thunkApi) => {
+        const endpoint = arg.sourceType === "category" ? client.category.markEntries : client.feed.markEntries
+        await endpoint(arg.req)
+        thunkApi.dispatch(reloadTree())
+    }
+)
 export const selectEntry = createAsyncThunk<void, Entry, { state: RootState }>("entries/entry/select", (arg, thunkApi) => {
     const state = thunkApi.getState()
     const entry = state.entries.entries.find(e => e.id === arg.id)
@@ -146,10 +152,12 @@ export const entriesSlice = createSlice({
                     e.read = action.meta.arg.read
                 })
         })
-        builder.addCase(markAllEntries.pending, state => {
-            state.entries.forEach(e => {
-                e.read = true
-            })
+        builder.addCase(markAllEntries.pending, (state, action) => {
+            state.entries
+                .filter(e => (action.meta.arg.req.olderThan ? e.date < action.meta.arg.req.olderThan : true))
+                .forEach(e => {
+                    e.read = true
+                })
         })
         builder.addCase(loadEntries.pending, (state, action) => {
             state.source = action.meta.arg

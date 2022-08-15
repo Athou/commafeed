@@ -1,6 +1,6 @@
-import { Center, Container, RingProgress, Text, Title, useMantineTheme } from "@mantine/core"
-import { Logo } from "components/Logo"
+import { Center, Container, RingProgress, Text, useMantineTheme } from "@mantine/core"
 import { useAppLoading } from "hooks/useAppLoading"
+import { PageTitle } from "./PageTitle"
 
 export function LoadingPage() {
     const theme = useMantineTheme()
@@ -8,12 +8,7 @@ export function LoadingPage() {
 
     return (
         <Container size="xs">
-            <Center my="xl">
-                <Logo size={48} />
-                <Title order={1} ml="md">
-                    CommaFeed
-                </Title>
-            </Center>
+            <PageTitle />
 
             <Center>
                 <RingProgress

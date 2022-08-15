@@ -4,7 +4,7 @@ import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
 import { PasswordResetRequest } from "app/types"
 import { Alert } from "components/Alert"
-import { Logo } from "components/Logo"
+import { PageTitle } from "pages/PageTitle"
 import { useState } from "react"
 import { useAsyncCallback } from "react-async-hook"
 import { Link } from "react-router-dom"
@@ -26,12 +26,7 @@ export function PasswordRecoveryPage() {
 
     return (
         <Container size="xs">
-            <Center my="xl">
-                <Logo size={48} />
-                <Title order={1} ml="md">
-                    CommaFeed
-                </Title>
-            </Center>
+            <PageTitle />
             <Paper>
                 <Title order={2} mb="md">
                     <Trans>Password Recovery</Trans>

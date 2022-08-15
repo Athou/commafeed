@@ -6,7 +6,7 @@ import { redirectToRootCategory } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { LoginRequest } from "app/types"
 import { Alert } from "components/Alert"
-import { Logo } from "components/Logo"
+import { PageTitle } from "pages/PageTitle"
 import { useAsyncCallback } from "react-async-hook"
 import { Link } from "react-router-dom"
 
@@ -29,12 +29,7 @@ export function LoginPage() {
 
     return (
         <Container size="xs">
-            <Center my="xl">
-                <Logo size={48} />
-                <Title order={1} ml="md">
-                    CommaFeed
-                </Title>
-            </Center>
+            <PageTitle />
             <Paper>
                 <Title order={2} mb="md">
                     <Trans>Log in</Trans>

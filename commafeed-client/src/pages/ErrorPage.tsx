@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/macro"
-import { Box, Button, Center, Container, createStyles, Group, Stack, Text, Title } from "@mantine/core"
-import { Logo } from "components/Logo"
+import { Box, Button, Container, createStyles, Group, Text, Title } from "@mantine/core"
 import { TbRefresh } from "react-icons/tb"
+import { PageTitle } from "./PageTitle"
 
 const useStyles = createStyles(theme => ({
     root: {
@@ -37,14 +37,7 @@ export function ErrorPage(props: { error: Error }) {
     return (
         <div className={classes.root}>
             <Container>
-                <Stack>
-                    <Center my="xl">
-                        <Logo size={48} />
-                        <Title order={1} ml="md">
-                            CommaFeed
-                        </Title>
-                    </Center>
-                </Stack>
+                <PageTitle />
                 <Box className={classes.label}>
                     <Trans>Oops!</Trans>
                 </Box>

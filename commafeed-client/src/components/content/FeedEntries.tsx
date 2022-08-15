@@ -1,3 +1,5 @@
+import { t } from "@lingui/macro"
+import { openModal } from "@mantine/modals"
 import { Constants } from "app/constants"
 import {
     loadMoreEntries,
@@ -10,6 +12,7 @@ import {
 } from "app/slices/entries"
 import { redirectToRootCategory } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
+import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"
 import { Loader } from "components/Loader"
 import { useMousetrap } from "hooks/useMousetrap"
 import { useEffect, useRef } from "react"
@@ -128,6 +131,9 @@ export function FeedEntries() {
     })
     useMousetrap("g a", () => {
         dispatch(redirectToRootCategory())
+    })
+    useMousetrap("?", () => {
+        openModal({ title: t`Keyboard shortcuts`, size: "xl", children: <KeyboardShortcutsHelp /> })
     })
 
     if (!entries) return <Loader />

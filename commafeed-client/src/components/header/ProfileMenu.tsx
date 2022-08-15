@@ -1,9 +1,9 @@
 import { Trans } from "@lingui/macro"
 import { Divider, Menu, useMantineColorScheme } from "@mantine/core"
-import { redirectToAdminUsers, redirectToMetrics, redirectToSettings } from "app/slices/redirect"
+import { redirectToAbout, redirectToAdminUsers, redirectToMetrics, redirectToSettings } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { useState } from "react"
-import { TbChartLine, TbMoon, TbPower, TbSettings, TbSun, TbUsers } from "react-icons/tb"
+import { TbChartLine, TbHelp, TbMoon, TbPower, TbSettings, TbSun, TbUsers } from "react-icons/tb"
 
 interface ProfileMenuProps {
     control: React.ReactElement
@@ -65,6 +65,15 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 )}
 
                 <Divider />
+                <Menu.Item
+                    icon={<TbHelp />}
+                    onClick={() => {
+                        dispatch(redirectToAbout())
+                        setOpened(false)
+                    }}
+                >
+                    <Trans>About</Trans>
+                </Menu.Item>
                 <Menu.Item icon={<TbPower />} onClick={logout}>
                     <Trans>Logout</Trans>
                 </Menu.Item>

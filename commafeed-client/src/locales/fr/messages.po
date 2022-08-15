@@ -29,6 +29,11 @@ msgstr "<0>Besoin d'un compte ?</0><1>Enregistrez-vous !</1>"
 msgid "API key"
 msgstr "Clé API"
 
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/app/AboutPage.tsx
+msgid "About"
+msgstr "A propos"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
 msgstr "Actions"
@@ -51,6 +56,7 @@ msgstr "Ajouter un utilisateur"
 msgid "Admin"
 msgstr "Administrateur"
 
+#: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
 #: src/components/sidebar/Tree.tsx
 msgid "All"
@@ -104,6 +110,10 @@ msgstr "Retour"
 msgid "Back to log in"
 msgstr "Retour à la connexion"
 
+#: src/pages/app/AboutPage.tsx
+msgid "Browser extentions"
+msgstr "Extensions pour navigateurs"
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/ImportOpml.tsx
@@ -121,6 +131,7 @@ msgstr "Annuler"
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
+#: src/pages/app/AboutPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Category"
 msgstr "Catégorie"
@@ -132,6 +143,18 @@ msgstr "Changer de mot de passe générera une nouvelle clé API"
 #: src/components/content/add/Subscribe.tsx
 msgid "Check that the feed is working"
 msgstr "Vérifie que le flux fonctionne"
+
+#: src/pages/app/AboutPage.tsx
+msgid "CommaFeed is an open-source project. Sources are hosted on <0>GitHub</0>."
+msgstr "CommaFeed est un projet open-source. Les sources sont hébergées sur <0>GitHub</0>."
+
+#: src/pages/app/AboutPage.tsx
+msgid "CommaFeed next unread item"
+msgstr "CommaFeed prochain article non lu"
+
+#: src/pages/app/AboutPage.tsx
+msgid "CommaFeed version {version} ({revision})"
+msgstr "CommaFeed version {version} ({revision})"
 
 #: src/components/header/Header.tsx
 #: src/components/settings/ProfileSettings.tsx
@@ -182,6 +205,10 @@ msgstr "Affichage"
 msgid "Download"
 msgstr "Télécharger"
 
+#: src/pages/app/AboutPage.tsx
+msgid "Drag link to bookmark bar"
+msgstr "Déplacez le lien vers la barre de favoris"
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -203,6 +230,10 @@ msgstr "Modifier un utilisateur"
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Enabled"
 msgstr "Actif"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Enter"
+msgstr "Entrer"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Enter your current password to change profile settings"
@@ -252,6 +283,14 @@ msgstr "Générer une nouvelle clé API"
 msgid "Generated feed url"
 msgstr "URL du flux généré"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Go to the All view"
+msgstr "Aller à la catégorie Tout"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Goodies"
+msgstr "Extensions"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "Identifiant"
@@ -260,6 +299,14 @@ msgstr "Identifiant"
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
 msgstr "Si non vide, une expression évaluant à 'vrai' ou 'faux'. Si faux, les nouvelles entrées de ce flux seront marquées comme lues automatiquement."
 
+#: src/pages/app/AboutPage.tsx
+msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
+msgstr "Si vous rencontrez un problème, merci de le signaler sur la page du projet GitHub."
+
+#: src/pages/app/AboutPage.tsx
+msgid "If you like this project, please consider a donation to support the developer and help cover the costs of keeping this website online."
+msgstr "Si vous aimez ce projet, n'hésitez pas à faire un don pour encourager le développeur et aider à couvrir les coûts d'hébergement de la plate-forme."
+
 #: src/components/content/add/ImportOpml.tsx
 msgid "Import"
 msgstr "Importer"
@@ -267,6 +314,11 @@ msgstr "Importer"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Garder non lu"
+
+#: src/components/content/FeedEntries.tsx
+#: src/pages/app/AboutPage.tsx
+msgid "Keyboard shortcuts"
+msgstr "Raccourcis clavier"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Language"
@@ -288,6 +340,10 @@ msgstr "Dernier message de mise à jour"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Link"
 msgstr "Lien"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Link to the API documentation."
+msgstr "Lien vers la documentation de l'API."
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
@@ -320,12 +376,21 @@ msgid "Mark all as read"
 msgstr "Tout marquer comme lu"
 
 #: src/components/header/Header.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Mark all entries as read"
 msgstr "Marquer toutes les entrées comme lues"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
 msgstr "Métriques"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Move the page down"
+msgstr "Faites défiler la page vers le bas"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Move the page up"
+msgstr "Faites défiler la page vers le haut"
 
 #: src/components/RelativeDate.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -339,9 +404,17 @@ msgstr "N/A"
 msgid "Name"
 msgstr "Nom"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Navigate to a subscription by entering its name"
+msgstr "Naviguer vers un abonnement en entrant son nom"
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
 msgstr "Nouveau mot de passe"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Newest first"
+msgstr "Plus récent en premier"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Next"
@@ -350,6 +423,10 @@ msgstr "Suivant"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Next refresh"
 msgstr "Prochaine mise à jour"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Next unread item bookmarklet"
+msgstr "Bookmarklet vers le prochain article non lu"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "No more entries"
@@ -372,13 +449,41 @@ msgstr "Export du fichier OPML"
 msgid "OPML file"
 msgstr "Fichier OPML"
 
+#: src/pages/app/AboutPage.tsx
+msgid "Oldest first"
+msgstr "Du plus ancien au plus récent"
+
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
 msgstr "Oups !"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Open current entry in a new tab"
+msgstr "Ouvrir l'entrée actuelle dans un nouvel onglet"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Open current entry in a new tab in the background"
+msgstr "Ouvrir l'entrée actuelle dans un nouvel onglet en arrière-plan"
+
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "Ouvrir le lien"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Open next entry"
+msgstr "Ouvrir l'entrée suivante"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Open previous entry"
+msgstr "Ouvrir l'entrée précédente"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Open/close current entry"
+msgstr "Ouvrir/fermer l'entrée actuelle"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Order"
+msgstr "Ordre"
 
 #: src/components/content/add/AddCategory.tsx
 msgid "Parent"
@@ -413,11 +518,16 @@ msgstr "Position"
 msgid "Profile"
 msgstr "Profil"
 
+#: src/pages/app/AboutPage.tsx
+msgid "REST API"
+msgstr "API REST"
+
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Récupérer le mot de passe"
 
 #: src/components/header/Header.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Refresh"
 msgstr "Rafraîchir"
 
@@ -449,6 +559,15 @@ msgstr "Réglages"
 msgid "Settings saved."
 msgstr "Réglages enregistrés."
 
+#: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Shift"
+msgstr "Maj"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show keyboard shortcut help"
+msgstr "Montrer les raccourcis clavier"
+
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Sign up"
@@ -458,11 +577,20 @@ msgstr "Créer un compte"
 msgid "Something bad just happened..."
 msgstr "Quelque chose s'est mal passé..."
 
+#: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Space"
+msgstr "Espace"
+
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
 msgid "Subscribe"
 msgstr "S'abonner"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Subscribe URL"
+msgstr "URL pour s'abonner"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
@@ -479,6 +607,10 @@ msgstr "L'URL du flux auquel vous souhaitez vous abonner. Vous pouvez aussi util
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
 msgstr "Thème"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Toggle read status of current entry"
+msgstr "Marquer l'entrée actuelle comme lue/non lue"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"

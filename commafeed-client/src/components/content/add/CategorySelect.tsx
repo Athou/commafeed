@@ -1,9 +1,12 @@
+import { t } from "@lingui/macro"
 import { Select, SelectItem, SelectProps } from "@mantine/core"
 import { Constants } from "app/constants"
 import { useAppSelector } from "app/store"
 import { flattenCategoryTree } from "app/utils"
 
-export function CategorySelect(props: Partial<SelectProps>) {
+type CategorySelectProps = Partial<SelectProps> & { withAll?: boolean }
+
+export function CategorySelect(props: CategorySelectProps) {
     const rootCategory = useAppSelector(state => state.tree.rootCategory)
     const categories = rootCategory && flattenCategoryTree(rootCategory)
     const selectData: SelectItem[] | undefined = categories
@@ -13,6 +16,12 @@ export function CategorySelect(props: Partial<SelectProps>) {
             label: c.name,
             value: c.id,
         }))
+    if (props.withAll) {
+        selectData?.unshift({
+            label: t`All`,
+            value: Constants.categoryIds.all,
+        })
+    }
 
     return <Select {...props} data={selectData ?? []} disabled={!selectData} />
 }

@@ -29,7 +29,6 @@ export function Tree() {
     }
     const categoryClicked = (e: React.MouseEvent, id: string) => {
         if (e.detail === 2) {
-            if (id === Constants.categoryIds.all) return
             dispatch(redirectToCategoryDetails(id))
         } else {
             dispatch(redirectToCategory(id))

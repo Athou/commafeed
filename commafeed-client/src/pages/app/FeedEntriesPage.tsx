@@ -47,8 +47,6 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
         dispatch(loadEntries({ type: props.sourceType, id }))
     }, [dispatch, props.sourceType, id, location.state])
 
-    const hideEditButton = props.sourceType === "category" && id === Constants.categoryIds.all
-
     const noSubscriptions = rootCategory && flattenCategoryTree(rootCategory).every(c => c.feeds.length === 0)
     if (noSubscriptions) return <NoSubscriptionHelp />
     return (
@@ -61,7 +59,7 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
                     </Anchor>
                 )}
                 {!sourceWebsiteUrl && <Title order={3}>{sourceLabel}</Title>}
-                {sourceLabel && !hideEditButton && (
+                {sourceLabel && (
                     <ActionIcon onClick={titleClicked} variant="subtle" color={theme.primaryColor}>
                         <TbEdit size={18} />
                     </ActionIcon>

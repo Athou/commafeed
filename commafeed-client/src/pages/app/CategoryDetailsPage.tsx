@@ -69,6 +69,7 @@ export function CategoryDetailsPage() {
         })
     }, [setValues, category])
 
+    const editable = id !== Constants.categoryIds.all
     if (!category) return <Loader />
     return (
         <Container>
@@ -102,26 +103,34 @@ export function CategoryDetailsPage() {
                         </Box>
                     </Input.Wrapper>
 
-                    <TextInput label={t`Name`} {...form.getInputProps("name")} required />
-                    <CategorySelect label={t`Parent Category`} {...form.getInputProps("parentId")} clearable />
-                    <NumberInput label={t`Position`} {...form.getInputProps("position")} required min={0} />
+                    {editable && (
+                        <>
+                            <TextInput label={t`Name`} {...form.getInputProps("name")} required />
+                            <CategorySelect label={t`Parent Category`} {...form.getInputProps("parentId")} clearable />
+                            <NumberInput label={t`Position`} {...form.getInputProps("position")} required min={0} />
+                        </>
+                    )}
 
                     <Group>
                         <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={modifyCategory.loading}>
-                            <Trans>Save</Trans>
-                        </Button>
-                        <Divider orientation="vertical" />
-                        <Button
-                            color="red"
-                            leftIcon={<TbTrash size={16} />}
-                            onClick={() => openDeleteCategoryModal()}
-                            loading={deleteCategory.loading}
-                        >
-                            <Trans>Delete</Trans>
-                        </Button>
+                        {editable && (
+                            <>
+                                <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={modifyCategory.loading}>
+                                    <Trans>Save</Trans>
+                                </Button>
+                                <Divider orientation="vertical" />
+                                <Button
+                                    color="red"
+                                    leftIcon={<TbTrash size={16} />}
+                                    onClick={() => openDeleteCategoryModal()}
+                                    loading={deleteCategory.loading}
+                                >
+                                    <Trans>Delete</Trans>
+                                </Button>
+                            </>
+                        )}
                     </Group>
                 </Stack>
             </form>

@@ -13,7 +13,7 @@ export default defineConfig({
                 plugins: ["macros"],
             },
         }),
-        eslint({ exclude: ["**/node_modules/**"] }),
+        eslint(),
         tsconfigPaths(),
         visualizer(),
     ],

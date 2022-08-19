@@ -21,7 +21,7 @@ export const redirectToCategory = createAsyncThunk("redirect/category", (id: str
     thunkApi.dispatch(redirectTo(`/app/category/${id}`))
 )
 export const redirectToRootCategory = createAsyncThunk("redirect/category/root", (_, thunkApi) =>
-    thunkApi.dispatch(redirectToCategory(Constants.categoryIds.all))
+    thunkApi.dispatch(redirectToCategory(Constants.categories.all.id))
 )
 export const redirectToCategoryDetails = createAsyncThunk("redirect/category/details", (id: string, thunkApi) =>
     thunkApi.dispatch(redirectTo(`/app/category/${id}/details`))

@@ -27,7 +27,7 @@ export function Subscribe() {
         initialValues: {
             url: "",
             title: "",
-            categoryId: Constants.categoryIds.all,
+            categoryId: Constants.categories.all.id,
         },
     })
 

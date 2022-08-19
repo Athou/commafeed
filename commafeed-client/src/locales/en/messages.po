@@ -56,6 +56,7 @@ msgstr "Add user"
 msgid "Admin"
 msgstr "Admin"
 
+#: src/app/constants.ts
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
 #: src/components/sidebar/Tree.tsx
@@ -586,6 +587,15 @@ msgstr "Something bad just happened..."
 msgid "Space"
 msgstr "Space"
 
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Star"
+msgstr "Star"
+
+#: src/app/constants.ts
+#: src/components/sidebar/Tree.tsx
+msgid "Starred"
+msgstr "Starred"
+
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
@@ -623,6 +633,10 @@ msgstr "Try out CommaFeed with the demo account: demo/demo"
 #: src/components/header/Header.tsx
 msgid "Unread"
 msgstr "Unread"
+
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Unstar"
+msgstr "Unstar"
 
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx

@@ -31,7 +31,7 @@ function Section(props: { title: string; icon: React.ReactNode; children: React.
 }
 
 function NextUnreadBookmarklet() {
-    const [categoryId, setCategoryId] = useState(Constants.categoryIds.all)
+    const [categoryId, setCategoryId] = useState(Constants.categories.all.id)
     const [order, setOrder] = useState("desc")
     const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf("#"))
     const href = `javascript:window.location.href='${baseUrl}next?category=${categoryId}&order=${order}&t='+new Date().getTime();`

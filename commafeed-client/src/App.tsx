@@ -64,7 +64,7 @@ function Providers(props: { children: React.ReactNode }) {
 function AppRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<Navigate to={`/app/category/${Constants.categoryIds.all}`} replace />} />
+            <Route path="/" element={<Navigate to={`/app/category/${Constants.categories.all.id}`} replace />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegistrationPage />} />
             <Route path="passwordRecovery" element={<PasswordRecoveryPage />} />

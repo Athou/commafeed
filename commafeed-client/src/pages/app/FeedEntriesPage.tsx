@@ -29,7 +29,7 @@ interface FeedEntriesPageProps {
 
 export function FeedEntriesPage(props: FeedEntriesPageProps) {
     const location = useLocation()
-    const { id = Constants.categoryIds.all } = useParams()
+    const { id = Constants.categories.all.id } = useParams()
     const viewport = useViewportSize()
     const theme = useMantineTheme()
     const rootCategory = useAppSelector(state => state.tree.rootCategory)

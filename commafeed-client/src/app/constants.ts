@@ -1,9 +1,27 @@
+import { t } from "@lingui/macro"
 import { DEFAULT_THEME } from "@mantine/core"
+import { Category } from "./types"
 
-export const Constants = {
-    categoryIds: {
-        all: "all",
+const categories: { [key: string]: Category } = {
+    all: {
+        id: "all",
+        name: t`All`,
+        expanded: false,
+        children: [],
+        feeds: [],
+        position: 0,
     },
+    starred: {
+        id: "starred",
+        name: t`Starred`,
+        expanded: false,
+        children: [],
+        feeds: [],
+        position: 1,
+    },
+}
+export const Constants = {
+    categories,
     layout: {
         mobileBreakpoint: DEFAULT_THEME.breakpoints.md,
         headerHeight: 60,

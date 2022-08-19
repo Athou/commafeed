@@ -18,13 +18,16 @@ import { TbDeviceFloppy, TbTrash } from "react-icons/tb"
 import { useParams } from "react-router-dom"
 
 export function CategoryDetailsPage() {
-    const { id = Constants.categoryIds.all } = useParams()
+    const { id = Constants.categories.all.id } = useParams()
 
     const apiKey = useAppSelector(state => state.user.profile?.apiKey)
     const dispatch = useAppDispatch()
 
     const query = useAsync(() => client.category.getRoot(), [])
-    const category = query.result && flattenCategoryTree(query.result.data).find(c => c.id === id)
+    const category =
+        id === Constants.categories.starred.id
+            ? Constants.categories.starred
+            : query.result && flattenCategoryTree(query.result.data).find(c => c.id === id)
 
     const form = useForm<CategoryModificationRequest>()
     const { setValues } = form
@@ -69,7 +72,7 @@ export function CategoryDetailsPage() {
         })
     }, [setValues, category])
 
-    const editable = id !== Constants.categoryIds.all
+    const editable = id !== Constants.categories.all.id && id !== Constants.categories.starred.id
     if (!category) return <Loader />
     return (
         <Container>

@@ -10,7 +10,7 @@ export function CategorySelect(props: CategorySelectProps) {
     const rootCategory = useAppSelector(state => state.tree.rootCategory)
     const categories = rootCategory && flattenCategoryTree(rootCategory)
     const selectData: SelectItem[] | undefined = categories
-        ?.filter(c => c.id !== Constants.categoryIds.all)
+        ?.filter(c => c.id !== Constants.categories.all.id)
         .sort((c1, c2) => c1.name.localeCompare(c2.name))
         .map(c => ({
             label: c.name,
@@ -19,7 +19,7 @@ export function CategorySelect(props: CategorySelectProps) {
     if (props.withAll) {
         selectData?.unshift({
             label: t`All`,
-            value: Constants.categoryIds.all,
+            value: Constants.categories.all.id,
         })
     }
 

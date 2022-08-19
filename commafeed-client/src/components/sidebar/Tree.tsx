@@ -9,11 +9,12 @@ import { categoryUnreadCount, flattenCategoryTree } from "app/utils"
 import { Loader } from "components/Loader"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import React from "react"
-import { FaChevronDown, FaChevronRight, FaInbox } from "react-icons/fa"
+import { FaChevronDown, FaChevronRight, FaInbox, FaStar } from "react-icons/fa"
 import { TreeNode } from "./TreeNode"
 import { TreeSearch } from "./TreeSearch"
 
 const allIcon = <FaInbox size={14} />
+const starredIcon = <FaStar size={14} />
 const expandedIcon = <FaChevronDown size={14} />
 const collapsedIcon = <FaChevronRight size={14} />
 
@@ -47,11 +48,24 @@ export function Tree() {
 
     const allCategoryNode = () => (
         <TreeNode
-            id={Constants.categoryIds.all}
+            id={Constants.categories.all.id}
             name={t`All`}
             icon={allIcon}
             unread={categoryUnreadCount(root)}
-            selected={source.type === "category" && source.id === Constants.categoryIds.all}
+            selected={source.type === "category" && source.id === Constants.categories.all.id}
+            expanded={false}
+            level={0}
+            hasError={false}
+            onClick={categoryClicked}
+        />
+    )
+    const starredCategoryNode = () => (
+        <TreeNode
+            id={Constants.categories.starred.id}
+            name={t`Starred`}
+            icon={starredIcon}
+            unread={0}
+            selected={source.type === "category" && source.id === Constants.categories.starred.id}
             expanded={false}
             level={0}
             hasError={false}
@@ -109,6 +123,7 @@ export function Tree() {
             </OnDesktop>
             <Box>
                 {allCategoryNode()}
+                {starredCategoryNode()}
                 {root.children.map(c => recursiveCategoryNode(c))}
                 {root.feeds.map(f => feedNode(f))}
             </Box>

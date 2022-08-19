@@ -28,7 +28,7 @@ interface EntriesState {
 const initialState: EntriesState = {
     source: {
         type: "category",
-        id: Constants.categoryIds.all,
+        id: Constants.categories.all.id,
     },
     sourceLabel: "",
     sourceWebsiteUrl: "",
@@ -87,6 +87,13 @@ export const markAllEntries = createAsyncThunk<void, { sourceType: EntrySourceTy
         thunkApi.dispatch(reloadTree())
     }
 )
+export const starEntry = createAsyncThunk("entries/entry/star", (arg: { entry: Entry; starred: boolean }) => {
+    client.entry.star({
+        id: arg.entry.id,
+        feedId: +arg.entry.feedId,
+        starred: arg.starred,
+    })
+})
 export const selectEntry = createAsyncThunk<void, Entry, { state: RootState }>("entries/entry/select", (arg, thunkApi) => {
     const state = thunkApi.getState()
     const entry = state.entries.entries.find(e => e.id === arg.id)
@@ -157,6 +164,13 @@ export const entriesSlice = createSlice({
                 .filter(e => (action.meta.arg.req.olderThan ? e.date < action.meta.arg.req.olderThan : true))
                 .forEach(e => {
                     e.read = true
+                })
+        })
+        builder.addCase(starEntry.pending, (state, action) => {
+            state.entries
+                .filter(e => action.meta.arg.entry.id === e.id && action.meta.arg.entry.feedId === e.feedId)
+                .forEach(e => {
+                    e.starred = action.meta.arg.starred
                 })
         })
         builder.addCase(loadEntries.pending, (state, action) => {

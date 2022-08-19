@@ -18,6 +18,7 @@ import {
     RegistrationRequest,
     ServerInfo,
     Settings,
+    StarRequest,
     SubscribeRequest,
     Subscription,
     UserModel,
@@ -44,6 +45,7 @@ export const client = {
     },
     entry: {
         mark: (req: MarkRequest) => axiosInstance.post("entry/mark", req),
+        star: (req: StarRequest) => axiosInstance.post("entry/star", req),
     },
     feed: {
         get: (id: string) => axiosInstance.get<Subscription>(`feed/get/${id}`),

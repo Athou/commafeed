@@ -564,6 +564,14 @@ msgstr "Réglages"
 msgid "Settings saved."
 msgstr "Réglages enregistrés."
 
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Share"
+msgstr "Partager"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Sharing sites"
+msgstr "Sites de partage"
+
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"

@@ -3,7 +3,7 @@ import { showNotification } from "@mantine/notifications"
 import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { RootState } from "app/store"
-import { ReadingMode, ReadingOrder, Settings, UserModel } from "app/types"
+import { ReadingMode, ReadingOrder, Settings, SharingSettings, UserModel } from "app/types"
 import { reloadEntries } from "./entries"
 
 interface UserState {
@@ -43,6 +43,20 @@ export const changeScrollSpeed = createAsyncThunk<void, boolean, { state: RootSt
     if (!settings) return
     client.user.saveSettings({ ...settings, scrollSpeed: speed ? 400 : 0 })
 })
+export const changeSharingSetting = createAsyncThunk<void, { site: keyof SharingSettings; value: boolean }, { state: RootState }>(
+    "settings/sharingSetting",
+    (sharingSetting, thunkApi) => {
+        const { settings } = thunkApi.getState().user
+        if (!settings) return
+        client.user.saveSettings({
+            ...settings,
+            sharingSettings: {
+                ...settings.sharingSettings,
+                [sharingSetting.site]: sharingSetting.value,
+            },
+        })
+    }
+)
 
 export const userSlice = createSlice({
     name: "user",
@@ -71,7 +85,11 @@ export const userSlice = createSlice({
             if (!state.settings) return
             state.settings.scrollSpeed = action.meta.arg ? 400 : 0
         })
-        builder.addMatcher(isAnyOf(changeLanguage.fulfilled, changeScrollSpeed.fulfilled), () => {
+        builder.addCase(changeSharingSetting.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.sharingSettings[action.meta.arg.site] = action.meta.arg.value
+        })
+        builder.addMatcher(isAnyOf(changeLanguage.fulfilled, changeScrollSpeed.fulfilled, changeSharingSetting.fulfilled), () => {
             showNotification({
                 message: t`Settings saved.`,
                 color: "green",

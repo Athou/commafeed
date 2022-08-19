@@ -1,12 +1,15 @@
 import { t } from "@lingui/macro"
-import { Select, Stack, Switch } from "@mantine/core"
-import { changeLanguage, changeScrollSpeed } from "app/slices/user"
+import { Divider, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
+import { Constants } from "app/constants"
+import { changeLanguage, changeScrollSpeed, changeSharingSetting } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
+import { SharingSettings } from "app/types"
 import { locales } from "i18n"
 
 export function DisplaySettings() {
     const language = useAppSelector(state => state.user.settings?.language)
     const scrollSpeed = useAppSelector(state => state.user.settings?.scrollSpeed)
+    const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const dispatch = useAppDispatch()
 
     return (
@@ -26,6 +29,19 @@ export function DisplaySettings() {
                 checked={scrollSpeed ? scrollSpeed > 0 : false}
                 onChange={e => dispatch(changeScrollSpeed(e.currentTarget.checked))}
             />
+
+            <Divider label={t`Sharing sites`} labelPosition="center" />
+
+            <SimpleGrid cols={2}>
+                {(Object.keys(Constants.sharing) as Array<keyof SharingSettings>).map(site => (
+                    <Switch
+                        key={site}
+                        label={Constants.sharing[site].label}
+                        checked={sharingSettings && sharingSettings[site]}
+                        onChange={e => dispatch(changeSharingSetting({ site, value: e.currentTarget.checked }))}
+                    />
+                ))}
+            </SimpleGrid>
         </Stack>
     )
 }

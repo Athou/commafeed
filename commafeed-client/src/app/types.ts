@@ -233,16 +233,18 @@ export interface Settings {
     theme?: string
     customCss?: string
     scrollSpeed: number
+    sharingSettings: SharingSettings
+}
+
+export interface SharingSettings {
     email: boolean
     gmail: boolean
     facebook: boolean
     twitter: boolean
-    googleplus: boolean
     tumblr: boolean
     pocket: boolean
     instapaper: boolean
     buffer: boolean
-    readability: boolean
 }
 
 export interface StarRequest {

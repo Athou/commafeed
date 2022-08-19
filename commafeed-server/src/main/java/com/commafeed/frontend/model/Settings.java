@@ -38,27 +38,34 @@ public class Settings implements Serializable {
 	@ApiModelProperty(value = "user's preferred scroll speed when navigating between entries", required = true)
 	private int scrollSpeed;
 
-	@ApiModelProperty(required = true)
-	private boolean email;
+	@ApiModelProperty(value = "sharing settings", required = true)
+	private SharingSettings sharingSettings = new SharingSettings();
 
-	@ApiModelProperty(required = true)
-	private boolean gmail;
+	@ApiModel(description = "User sharing settings")
+	@Data
+	public static class SharingSettings implements Serializable {
+		@ApiModelProperty(required = true)
+		private boolean email;
 
-	@ApiModelProperty(required = true)
-	private boolean facebook;
+		@ApiModelProperty(required = true)
+		private boolean gmail;
 
-	@ApiModelProperty(required = true)
-	private boolean twitter;
+		@ApiModelProperty(required = true)
+		private boolean facebook;
 
-	@ApiModelProperty(required = true)
-	private boolean tumblr;
+		@ApiModelProperty(required = true)
+		private boolean twitter;
 
-	@ApiModelProperty(required = true)
-	private boolean pocket;
+		@ApiModelProperty(required = true)
+		private boolean tumblr;
 
-	@ApiModelProperty(required = true)
-	private boolean instapaper;
+		@ApiModelProperty(required = true)
+		private boolean pocket;
 
-	@ApiModelProperty(required = true)
-	private boolean buffer;
+		@ApiModelProperty(required = true)
+		private boolean instapaper;
+
+		@ApiModelProperty(required = true)
+		private boolean buffer;
+	}
 }

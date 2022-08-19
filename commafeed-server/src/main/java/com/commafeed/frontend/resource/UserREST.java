@@ -91,14 +91,14 @@ public class UserREST {
 			s.setViewMode(settings.getViewMode().name());
 			s.setShowRead(settings.isShowRead());
 
-			s.setEmail(settings.isEmail());
-			s.setGmail(settings.isGmail());
-			s.setFacebook(settings.isFacebook());
-			s.setTwitter(settings.isTwitter());
-			s.setTumblr(settings.isTumblr());
-			s.setPocket(settings.isPocket());
-			s.setInstapaper(settings.isInstapaper());
-			s.setBuffer(settings.isBuffer());
+			s.getSharingSettings().setEmail(settings.isEmail());
+			s.getSharingSettings().setGmail(settings.isGmail());
+			s.getSharingSettings().setFacebook(settings.isFacebook());
+			s.getSharingSettings().setTwitter(settings.isTwitter());
+			s.getSharingSettings().setTumblr(settings.isTumblr());
+			s.getSharingSettings().setPocket(settings.isPocket());
+			s.getSharingSettings().setInstapaper(settings.isInstapaper());
+			s.getSharingSettings().setBuffer(settings.isBuffer());
 
 			s.setScrollMarks(settings.isScrollMarks());
 			s.setTheme(settings.getTheme());
@@ -112,14 +112,14 @@ public class UserREST {
 			s.setShowRead(true);
 			s.setTheme("default");
 
-			s.setEmail(true);
-			s.setGmail(true);
-			s.setFacebook(true);
-			s.setTwitter(true);
-			s.setTumblr(true);
-			s.setPocket(true);
-			s.setInstapaper(true);
-			s.setBuffer(true);
+			s.getSharingSettings().setEmail(true);
+			s.getSharingSettings().setGmail(true);
+			s.getSharingSettings().setFacebook(true);
+			s.getSharingSettings().setTwitter(true);
+			s.getSharingSettings().setTumblr(true);
+			s.getSharingSettings().setPocket(true);
+			s.getSharingSettings().setInstapaper(true);
+			s.getSharingSettings().setBuffer(true);
 
 			s.setScrollMarks(true);
 			s.setLanguage("en");
@@ -151,14 +151,14 @@ public class UserREST {
 		s.setLanguage(settings.getLanguage());
 		s.setScrollSpeed(settings.getScrollSpeed());
 
-		s.setEmail(settings.isEmail());
-		s.setGmail(settings.isGmail());
-		s.setFacebook(settings.isFacebook());
-		s.setTwitter(settings.isTwitter());
-		s.setTumblr(settings.isTumblr());
-		s.setPocket(settings.isPocket());
-		s.setInstapaper(settings.isInstapaper());
-		s.setBuffer(settings.isBuffer());
+		s.setEmail(settings.getSharingSettings().isEmail());
+		s.setGmail(settings.getSharingSettings().isGmail());
+		s.setFacebook(settings.getSharingSettings().isFacebook());
+		s.setTwitter(settings.getSharingSettings().isTwitter());
+		s.setTumblr(settings.getSharingSettings().isTumblr());
+		s.setPocket(settings.getSharingSettings().isPocket());
+		s.setInstapaper(settings.getSharingSettings().isInstapaper());
+		s.setBuffer(settings.getSharingSettings().isBuffer());
 
 		userSettingsDAO.saveOrUpdate(s);
 		return Response.ok().build();

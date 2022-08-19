@@ -160,9 +160,12 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.lifecycle().manage(injector.getInstance(FeedRefreshWorker.class));
 		environment.lifecycle().manage(injector.getInstance(FeedRefreshUpdater.class));
 
-		// cache configuration
-		// prevent caching on REST resources, except for favicons
-		environment.servlets().addFilter("cache-filter", new CacheBustingFilter() {
+		// prevent caching index.html, so that the webapp is always up to date
+		environment.servlets()
+				.addFilter("index-cache-busting-filter", new CacheBustingFilter())
+				.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/");
+		// prevent caching REST resources, except for favicons
+		environment.servlets().addFilter("rest-cache-busting-filter", new CacheBustingFilter() {
 			@Override
 			public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 				String path = ((HttpServletRequest) request).getRequestURI();

@@ -52,8 +52,7 @@ export function FeedEntries() {
         if (selectedEntry) {
             if (selectedEntry.expanded) {
                 const ref = refs.current[selectedEntry.id]
-                const bottomVisible = ref.getBoundingClientRect().bottom <= window.innerHeight
-                if (bottomVisible) {
+                if (Constants.layout.isBottomVisible(ref)) {
                     dispatch(selectNextEntry())
                 } else {
                     const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
@@ -73,8 +72,7 @@ export function FeedEntries() {
         if (selectedEntry) {
             if (selectedEntry.expanded) {
                 const ref = refs.current[selectedEntry.id]
-                const topVisible = ref.getBoundingClientRect().top >= Constants.layout.headerHeight
-                if (topVisible) {
+                if (Constants.layout.isTopVisible(ref)) {
                     dispatch(selectPreviousEntry())
                 } else {
                     const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)

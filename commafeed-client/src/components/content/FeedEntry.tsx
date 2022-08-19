@@ -58,6 +58,7 @@ export function FeedEntry(props: FeedEntryProps) {
         setTimeout(() => {
             if (!ref.current) return
             if (!props.expanded) return
+            if (Constants.layout.isTopVisible(ref.current) && Constants.layout.isBottomVisible(ref.current)) return
 
             document.getElementById(Constants.dom.mainScrollAreaId)?.scrollTo({
                 // having a small gap between the top of the content and the top of the page is sexier

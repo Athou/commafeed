@@ -146,18 +146,14 @@ public class CategoryREST {
 					offset, limit + 1, order, true, onlyIds, tag);
 
 			for (FeedEntryStatus status : list) {
-				entries.getEntries()
-						.add(Entry.build(status, config.getApplicationSettings().getPublicUrl(),
-								config.getApplicationSettings().getImageProxyEnabled()));
+				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));
 			}
 
 		} else if (STARRED.equals(id)) {
 			entries.setName("Starred");
 			List<FeedEntryStatus> starred = feedEntryStatusDAO.findStarred(user, newerThanDate, offset, limit + 1, order, !onlyIds);
 			for (FeedEntryStatus status : starred) {
-				entries.getEntries()
-						.add(Entry.build(status, config.getApplicationSettings().getPublicUrl(),
-								config.getApplicationSettings().getImageProxyEnabled()));
+				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));
 			}
 		} else {
 			FeedCategory parent = feedCategoryDAO.findById(user, Long.valueOf(id));
@@ -169,9 +165,7 @@ public class CategoryREST {
 						offset, limit + 1, order, true, onlyIds, tag);
 
 				for (FeedEntryStatus status : list) {
-					entries.getEntries()
-							.add(Entry.build(status, config.getApplicationSettings().getPublicUrl(),
-									config.getApplicationSettings().getImageProxyEnabled()));
+					entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));
 				}
 				entries.setName(parent.getName());
 			} else {
@@ -476,7 +470,7 @@ public class CategoryREST {
 			if (id == null && subscription.getCategory() == null
 					|| subscription.getCategory() != null && Objects.equals(subscription.getCategory().getId(), id)) {
 				UnreadCount uc = unreadCount.get(subscription.getId());
-				Subscription sub = Subscription.build(subscription, config.getApplicationSettings().getPublicUrl(), uc);
+				Subscription sub = Subscription.build(subscription, uc);
 				category.getFeeds().add(sub);
 			}
 		}

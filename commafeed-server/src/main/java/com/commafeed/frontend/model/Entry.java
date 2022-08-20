@@ -105,7 +105,7 @@ public class Entry implements Serializable {
 	@ApiModelProperty(value = "tags", required = true)
 	private List<String> tags;
 
-	public static Entry build(FeedEntryStatus status, String publicUrl, boolean proxyImages) {
+	public static Entry build(FeedEntryStatus status, boolean proxyImages) {
 		Entry entry = new Entry();
 
 		FeedEntry feedEntry = status.getEntry();
@@ -124,23 +124,22 @@ public class Entry implements Serializable {
 		entry.setFeedId(String.valueOf(sub.getId()));
 		entry.setFeedUrl(sub.getFeed().getUrl());
 		entry.setFeedLink(sub.getFeed().getLink());
-		entry.setIconUrl(FeedUtils.getFaviconUrl(sub, publicUrl));
+		entry.setIconUrl(FeedUtils.getFaviconUrl(sub));
 		entry.setTags(status.getTags().stream().map(FeedEntryTag::getName).collect(Collectors.toList()));
 
 		if (content != null) {
 			entry.setRtl(FeedUtils.isRTL(feedEntry));
 			entry.setTitle(content.getTitle());
-			entry.setContent(proxyImages ? FeedUtils.proxyImages(content.getContent(), publicUrl) : content.getContent());
+			entry.setContent(proxyImages ? FeedUtils.proxyImages(content.getContent()) : content.getContent());
 			entry.setAuthor(content.getAuthor());
 
 			entry.setEnclosureType(content.getEnclosureType());
 			entry.setEnclosureUrl(proxyImages && StringUtils.contains(content.getEnclosureType(), "image")
-					? FeedUtils.proxyImage(content.getEnclosureUrl(), publicUrl)
+					? FeedUtils.proxyImage(content.getEnclosureUrl())
 					: content.getEnclosureUrl());
 
 			entry.setMediaDescription(content.getMediaDescription());
-			entry.setMediaThumbnailUrl(
-					proxyImages ? FeedUtils.proxyImage(content.getMediaThumbnailUrl(), publicUrl) : content.getMediaThumbnailUrl());
+			entry.setMediaThumbnailUrl(proxyImages ? FeedUtils.proxyImage(content.getMediaThumbnailUrl()) : content.getMediaThumbnailUrl());
 			entry.setMediaThumbnailWidth(content.getMediaThumbnailWidth());
 			entry.setMediaThumbnailHeight(content.getMediaThumbnailHeight());
 

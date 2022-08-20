@@ -474,11 +474,11 @@ public class FeedUtils {
 		return url.startsWith("/") || url.startsWith("#") || !url.matches("^\\w+\\:\\/\\/.*");
 	}
 
-	public static String getFaviconUrl(FeedSubscription subscription, String publicUrl) {
-		return removeTrailingSlash(publicUrl) + "/rest/feed/favicon/" + subscription.getId();
+	public static String getFaviconUrl(FeedSubscription subscription) {
+		return "rest/feed/favicon/" + subscription.getId();
 	}
 
-	public static String proxyImages(String content, String publicUrl) {
+	public static String proxyImages(String content) {
 		if (StringUtils.isBlank(content)) {
 			return content;
 		}
@@ -488,7 +488,7 @@ public class FeedUtils {
 		for (Element element : elements) {
 			String href = element.attr("src");
 			if (href != null) {
-				String proxy = proxyImage(href, publicUrl);
+				String proxy = proxyImage(href);
 				element.attr("src", proxy);
 			}
 		}
@@ -496,11 +496,11 @@ public class FeedUtils {
 		return doc.body().html();
 	}
 
-	public static String proxyImage(String url, String publicUrl) {
+	public static String proxyImage(String url) {
 		if (StringUtils.isBlank(url)) {
 			return url;
 		}
-		return removeTrailingSlash(publicUrl) + "/rest/server/proxy?u=" + imageProxyEncoder(url);
+		return "rest/server/proxy?u=" + imageProxyEncoder(url);
 	}
 
 	public static String rot13(String msg) {

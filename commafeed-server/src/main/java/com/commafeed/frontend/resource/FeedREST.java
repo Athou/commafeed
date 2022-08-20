@@ -177,9 +177,7 @@ public class FeedREST {
 					entryKeywords, newerThanDate, offset, limit + 1, order, true, onlyIds, null);
 
 			for (FeedEntryStatus status : list) {
-				entries.getEntries()
-						.add(Entry.build(status, config.getApplicationSettings().getPublicUrl(),
-								config.getApplicationSettings().getImageProxyEnabled()));
+				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));
 			}
 
 			boolean hasMore = entries.getEntries().size() > limit;
@@ -346,7 +344,7 @@ public class FeedREST {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		UnreadCount unreadCount = feedSubscriptionService.getUnreadCount(user).get(id);
-		return Response.ok(Subscription.build(sub, config.getApplicationSettings().getPublicUrl(), unreadCount)).build();
+		return Response.ok(Subscription.build(sub, unreadCount)).build();
 	}
 
 	@GET
@@ -522,13 +520,6 @@ public class FeedREST {
 	@Timed
 	public Response importOpml(@ApiParam(hidden = true) @SecurityCheck User user,
 			@ApiParam(value = "ompl file", required = true) @FormDataParam("file") InputStream input) {
-
-		String publicUrl = config.getApplicationSettings().getPublicUrl();
-		if (StringUtils.isBlank(publicUrl)) {
-			throw new WebApplicationException(
-					Response.status(Status.INTERNAL_SERVER_ERROR).entity("Set the public URL in the admin section.").build());
-		}
-
 		if (CommaFeedApplication.USERNAME_DEMO.equals(user.getName())) {
 			return Response.status(Status.FORBIDDEN).entity("Import is disabled for the demo account").build();
 		}

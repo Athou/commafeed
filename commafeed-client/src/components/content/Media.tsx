@@ -1,4 +1,7 @@
-import { Box, createStyles } from "@mantine/core"
+import { Box, TypographyStylesProvider } from "@mantine/core"
+import { Constants } from "app/constants"
+import { calculatePlaceholderSize } from "app/utils"
+import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
 import { Content } from "./Content"
 
 export interface MediaProps {
@@ -8,29 +11,29 @@ export interface MediaProps {
     description?: string
 }
 
-const useStyles = createStyles(() => ({
-    image: {
-        maxWidth: "100%",
-        height: "auto",
-    },
-}))
-
 export function Media(props: MediaProps) {
-    const { classes } = useStyles()
+    const width = props.thumbnailWidth
+    const height = props.thumbnailHeight
+    const placeholderSize = calculatePlaceholderSize({
+        width,
+        height,
+        maxWidth: Constants.layout.entryMaxWidth,
+    })
     return (
-        <>
-            <img
-                className={classes.image}
+        <TypographyStylesProvider>
+            <ImageWithPlaceholderWhileLoading
                 src={props.thumbnailUrl}
+                alt="media thumbnail"
                 width={props.thumbnailWidth}
                 height={props.thumbnailHeight}
-                alt="media thumbnail"
+                placeholderWidth={placeholderSize.width}
+                placeholderHeight={placeholderSize.height}
             />
             {props.description && (
                 <Box pt="md">
                     <Content content={props.description} />
                 </Box>
             )}
-        </>
+        </TypographyStylesProvider>
     )
 }

@@ -50,7 +50,7 @@ app:
   
   # if enabled, images in feed entries will be proxied through the server instead of accessed directly by the browser
   # useful if commafeed is usually accessed through a restricting proxy  
-  imageProxyEnabled: false
+  imageProxyEnabled: true
   
   # database query timeout (in milliseconds), 0 to disable
   queryTimeout: 0

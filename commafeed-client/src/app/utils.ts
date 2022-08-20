@@ -19,3 +19,9 @@ export function categoryUnreadCount(category?: Category): number {
         .map(f => f.unread)
         .reduce((total, current) => total + current, 0)
 }
+
+export const calculatePlaceholderSize = ({ width, height, maxWidth }: { width?: number; height?: number; maxWidth: number }) => {
+    const placeholderWidth = width && Math.min(width, maxWidth)
+    const placeholderHeight = height && width && width > maxWidth ? height * (maxWidth / width) : height
+    return { width: placeholderWidth, height: placeholderHeight }
+}

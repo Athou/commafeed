@@ -29,7 +29,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
             },
         },
         body: {
-            maxWidth: "650px",
+            maxWidth: Constants.layout.entryMaxWidth,
         },
     }
 })

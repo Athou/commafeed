@@ -1,12 +1,8 @@
-import { Loader } from "components/Loader"
-import React, { Suspense } from "react"
+import SwaggerUI from "swagger-ui-react"
+import "swagger-ui-react/swagger-ui.css"
 
-export function ApiDocumentationPage() {
-    // swagger-ui is very large, load only on-demand
-    const SwaggerUI = React.lazy(() => import("swagger-ui-react"))
-    return (
-        <Suspense fallback={<Loader />}>
-            <SwaggerUI url="swagger/swagger.json" />
-        </Suspense>
-    )
+function ApiDocumentationPage() {
+    return <SwaggerUI url="swagger/swagger.json" />
 }
+
+export default ApiDocumentationPage

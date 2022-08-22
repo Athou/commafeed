@@ -9,6 +9,7 @@ import {
     DEFAULT_THEME,
     Group,
     Header,
+    Loader,
     Navbar,
     ScrollArea,
     Title,
@@ -25,7 +26,7 @@ import { OnDesktop } from "components/responsive/OnDesktop"
 import { OnMobile } from "components/responsive/OnMobile"
 import { useAppLoading } from "hooks/useAppLoading"
 import { LoadingPage } from "pages/LoadingPage"
-import { ReactNode, useEffect } from "react"
+import { ReactNode, Suspense, useEffect } from "react"
 import { TbPlus } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
 
@@ -168,7 +169,9 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                 }}
             >
                 <Box className={classes.mainContent}>
-                    <Outlet />
+                    <Suspense fallback={<Loader />}>
+                        <Outlet />
+                    </Suspense>
                 </Box>
             </ScrollArea>
         </AppShell>

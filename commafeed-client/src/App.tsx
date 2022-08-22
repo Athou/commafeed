@@ -17,7 +17,6 @@ import { AdminUsersPage } from "pages/admin/AdminUsersPage"
 import { MetricsPage } from "pages/admin/MetricsPage"
 import { AboutPage } from "pages/app/AboutPage"
 import { AddPage } from "pages/app/AddPage"
-import { ApiDocumentationPage } from "pages/app/ApiDocumentationPage"
 import { CategoryDetailsPage } from "pages/app/CategoryDetailsPage"
 import { FeedDetailsPage } from "pages/app/FeedDetailsPage"
 import { FeedEntriesPage } from "pages/app/FeedEntriesPage"
@@ -60,6 +59,9 @@ function Providers(props: { children: React.ReactNode }) {
         </I18nProvider>
     )
 }
+
+// swagger-ui is very large, load only on-demand
+const ApiDocumentationPage = React.lazy(() => import("pages/app/ApiDocumentationPage"))
 
 function AppRoutes() {
     return (

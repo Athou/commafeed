@@ -22,6 +22,7 @@ const errorThreshold = 9
 export function Tree() {
     const root = useAppSelector(state => state.tree.rootCategory)
     const source = useAppSelector(state => state.entries.source)
+    const showRead = useAppSelector(state => state.user.settings?.showRead)
     const dispatch = useAppDispatch()
 
     const feedClicked = (e: React.MouseEvent, id: string) => {
@@ -74,13 +75,16 @@ export function Tree() {
     )
 
     const categoryNode = (category: Category, level: number = 0) => {
+        const unreadCount = categoryUnreadCount(category)
+        if (unreadCount === 0 && !showRead) return null
+
         const hasError = !category.expanded && flattenCategoryTree(category).some(c => c.feeds.some(f => f.errorCount > errorThreshold))
         return (
             <TreeNode
                 id={category.id}
                 name={category.name}
                 icon={category.expanded ? expandedIcon : collapsedIcon}
-                unread={categoryUnreadCount(category)}
+                unread={unreadCount}
                 selected={source.type === "category" && source.id === category.id}
                 expanded={category.expanded}
                 level={level}
@@ -92,19 +96,23 @@ export function Tree() {
         )
     }
 
-    const feedNode = (feed: Subscription, level: number = 0) => (
-        <TreeNode
-            id={String(feed.id)}
-            name={feed.name}
-            icon={feed.iconUrl}
-            unread={feed.unread}
-            selected={source.type === "feed" && source.id === String(feed.id)}
-            level={level}
-            hasError={feed.errorCount > errorThreshold}
-            onClick={feedClicked}
-            key={feed.id}
-        />
-    )
+    const feedNode = (feed: Subscription, level: number = 0) => {
+        if (feed.unread === 0 && !showRead) return null
+
+        return (
+            <TreeNode
+                id={String(feed.id)}
+                name={feed.name}
+                icon={feed.iconUrl}
+                unread={feed.unread}
+                selected={source.type === "feed" && source.id === String(feed.id)}
+                level={level}
+                hasError={feed.errorCount > errorThreshold}
+                onClick={feedClicked}
+                key={feed.id}
+            />
+        )
+    }
 
     const recursiveCategoryNode = (category: Category, level: number = 0) => (
         <React.Fragment key={`recursiveCategoryNode-${category.id}`}>

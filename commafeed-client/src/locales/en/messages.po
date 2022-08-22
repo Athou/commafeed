@@ -577,6 +577,10 @@ msgstr "Sharing sites"
 msgid "Shift"
 msgstr "Shift"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show feeds and categories with no unread entries"
+msgstr "Show feeds and categories with no unread entries"
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show keyboard shortcut help"
 msgstr "Show keyboard shortcut help"

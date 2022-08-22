@@ -577,6 +577,10 @@ msgstr "Sites de partage"
 msgid "Shift"
 msgstr "Maj"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show feeds and categories with no unread entries"
+msgstr "Afficher les flux et les catégories pour lesquels tout est déjà lu"
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show keyboard shortcut help"
 msgstr "Montrer les raccourcis clavier"

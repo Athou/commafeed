@@ -25,6 +25,7 @@ export function FeedEntries() {
     const entriesTimestamp = useAppSelector(state => state.entries.timestamp)
     const selectedEntryId = useAppSelector(state => state.entries.selectedEntryId)
     const hasMore = useAppSelector(state => state.entries.hasMore)
+    const viewMode = useAppSelector(state => state.user.settings?.viewMode)
     const dispatch = useAppDispatch()
 
     const selectedEntry = entries.find(e => e.id === selectedEntryId)
@@ -151,7 +152,7 @@ export function FeedEntries() {
                         refs.current[e.id] = el!
                     }}
                 >
-                    <FeedEntry entry={e} expanded={!!e.expanded} />
+                    <FeedEntry entry={e} expanded={!!e.expanded || viewMode === "expanded"} />
                 </div>
             ))}
         </InfiniteScroll>

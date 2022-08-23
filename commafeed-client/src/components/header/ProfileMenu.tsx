@@ -1,16 +1,48 @@
 import { Trans } from "@lingui/macro"
-import { Divider, Menu, useMantineColorScheme } from "@mantine/core"
+import { Box, Divider, Group, Menu, SegmentedControl, SegmentedControlItem, useMantineColorScheme } from "@mantine/core"
 import { redirectToAbout, redirectToAdminUsers, redirectToMetrics, redirectToSettings } from "app/slices/redirect"
+import { changeViewMode } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
+import { ViewMode } from "app/types"
 import { useState } from "react"
-import { TbChartLine, TbHelp, TbMoon, TbPower, TbSettings, TbSun, TbUsers } from "react-icons/tb"
+import { TbChartLine, TbHelp, TbList, TbMoon, TbNotes, TbPower, TbSettings, TbSun, TbUsers } from "react-icons/tb"
 
 interface ProfileMenuProps {
     control: React.ReactElement
 }
 
+interface ViewModeControlItem extends SegmentedControlItem {
+    value: ViewMode
+}
+
+const viewModeData: ViewModeControlItem[] = [
+    {
+        value: "title",
+        label: (
+            <Group>
+                <TbList />
+                <Box ml={6}>
+                    <Trans>Compact</Trans>
+                </Box>
+            </Group>
+        ),
+    },
+    {
+        value: "expanded",
+        label: (
+            <Group>
+                <TbNotes />
+                <Box ml={6}>
+                    <Trans>Expanded</Trans>
+                </Box>
+            </Group>
+        ),
+    },
+]
+
 export function ProfileMenu(props: ProfileMenuProps) {
     const [opened, setOpened] = useState(false)
+    const viewMode = useAppSelector(state => state.user.settings?.viewMode)
     const admin = useAppSelector(state => state.user.profile?.admin)
     const dispatch = useAppDispatch()
     const { colorScheme, toggleColorScheme } = useMantineColorScheme()
@@ -33,9 +65,22 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 >
                     <Trans>Settings</Trans>
                 </Menu.Item>
+
+                <Divider />
+                <Menu.Label>
+                    <Trans>Display</Trans>
+                </Menu.Label>
                 <Menu.Item icon={dark ? <TbMoon /> : <TbSun />} onClick={() => toggleColorScheme()}>
                     <Trans>Theme</Trans>
                 </Menu.Item>
+                <SegmentedControl
+                    fullWidth
+                    orientation="vertical"
+                    data={viewModeData}
+                    value={viewMode}
+                    onChange={e => dispatch(changeViewMode(e as ViewMode))}
+                    mb="xs"
+                />
 
                 {admin && (
                     <>

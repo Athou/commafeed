@@ -161,6 +161,10 @@ msgstr "CommaFeed prochain article non lu"
 msgid "CommaFeed version {version} ({revision})"
 msgstr "CommaFeed version {version} ({revision})"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "Compact"
+msgstr "Compact"
+
 #: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -202,6 +206,7 @@ msgstr "Effacer l'utilisateur"
 msgid "Desc"
 msgstr "Descendant"
 
+#: src/components/header/ProfileMenu.tsx
 #: src/pages/app/SettingsPage.tsx
 msgid "Display"
 msgstr "Affichage"
@@ -251,6 +256,10 @@ msgstr "Erreur"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Example: {example}."
 msgstr "Exemple : {example}."
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Expanded"
+msgstr "Vue étendue"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"

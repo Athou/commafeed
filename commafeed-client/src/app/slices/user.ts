@@ -3,7 +3,7 @@ import { showNotification } from "@mantine/notifications"
 import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { RootState } from "app/store"
-import { ReadingMode, ReadingOrder, Settings, SharingSettings, UserModel } from "app/types"
+import { ReadingMode, ReadingOrder, Settings, SharingSettings, UserModel, ViewMode } from "app/types"
 import { reloadEntries } from "./entries"
 
 interface UserState {
@@ -33,6 +33,12 @@ export const changeReadingOrder = createAsyncThunk<void, ReadingOrder, { state: 
         thunkApi.dispatch(reloadEntries())
     }
 )
+export const changeViewMode = createAsyncThunk<void, ViewMode, { state: RootState }>("settings/viewMode", (viewMode, thunkApi) => {
+    const { settings } = thunkApi.getState().user
+    if (!settings) return
+    client.user.saveSettings({ ...settings, viewMode })
+    thunkApi.dispatch(reloadEntries())
+})
 export const changeLanguage = createAsyncThunk<void, string, { state: RootState }>("settings/language", (language, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return
@@ -81,6 +87,10 @@ export const userSlice = createSlice({
         builder.addCase(changeReadingOrder.pending, (state, action) => {
             if (!state.settings) return
             state.settings.readingOrder = action.meta.arg
+        })
+        builder.addCase(changeViewMode.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.viewMode = action.meta.arg
         })
         builder.addCase(changeLanguage.pending, (state, action) => {
             if (!state.settings) return

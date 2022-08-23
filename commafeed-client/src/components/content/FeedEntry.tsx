@@ -1,9 +1,10 @@
 import { Anchor, Box, createStyles, Divider, Paper } from "@mantine/core"
+import { useDidUpdate } from "@mantine/hooks"
 import { Constants } from "app/constants"
 import { markEntry, selectEntry } from "app/slices/entries"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Entry } from "app/types"
-import React, { useEffect, useRef } from "react"
+import React, { useRef } from "react"
 import { FeedEntryBody } from "./FeedEntryBody"
 import { FeedEntryFooter } from "./FeedEntryFooter"
 import { FeedEntryHeader } from "./FeedEntryHeader"
@@ -53,8 +54,9 @@ export function FeedEntry(props: FeedEntryProps) {
     }
 
     // scroll to entry when expanded
+    // we use useDidUpdate to avoid scrolling towards all entries during initial load when viewMode is "expanded"
     const ref = useRef<HTMLDivElement>(null)
-    useEffect(() => {
+    useDidUpdate(() => {
         setTimeout(() => {
             if (!ref.current) return
             if (!props.expanded) return

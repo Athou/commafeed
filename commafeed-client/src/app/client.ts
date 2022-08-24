@@ -13,6 +13,7 @@ import {
     LoginRequest,
     MarkRequest,
     Metrics,
+    MultipleMarkRequest,
     PasswordResetRequest,
     ProfileModificationRequest,
     RegistrationRequest,
@@ -45,6 +46,7 @@ export const client = {
     },
     entry: {
         mark: (req: MarkRequest) => axiosInstance.post("entry/mark", req),
+        markMultiple: (req: MultipleMarkRequest) => axiosInstance.post("entry/markMultiple", req),
         star: (req: StarRequest) => axiosInstance.post("entry/star", req),
     },
     feed: {

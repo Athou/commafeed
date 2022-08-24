@@ -79,6 +79,34 @@ export const markEntry = createAsyncThunk(
         condition: arg => arg.entry.read !== arg.read,
     }
 )
+export const markMultipleEntries = createAsyncThunk(
+    "entries/entry/markMultiple",
+    async (arg: { entries: Entry[]; read: boolean }, thunkApi) => {
+        const requests: MarkRequest[] = arg.entries.map(e => ({
+            id: e.id,
+            read: arg.read,
+        }))
+        await client.entry.markMultiple({ requests })
+        thunkApi.dispatch(reloadTree())
+    }
+)
+export const markEntriesUpToEntry = createAsyncThunk<void, Entry, { state: RootState }>(
+    "entries/entry/upToEntry",
+    async (arg, thunkApi) => {
+        const state = thunkApi.getState()
+        const { entries } = state.entries
+
+        const index = entries.findIndex(e => e.id === arg.id)
+        if (index === -1) return
+
+        thunkApi.dispatch(
+            markMultipleEntries({
+                entries: entries.slice(0, index + 1),
+                read: true,
+            })
+        )
+    }
+)
 export const markAllEntries = createAsyncThunk<void, { sourceType: EntrySourceType; req: MarkRequest }, { state: RootState }>(
     "entries/entry/markAll",
     async (arg, thunkApi) => {
@@ -155,6 +183,13 @@ export const entriesSlice = createSlice({
         builder.addCase(markEntry.pending, (state, action) => {
             state.entries
                 .filter(e => e.id === action.meta.arg.entry.id)
+                .forEach(e => {
+                    e.read = action.meta.arg.read
+                })
+        })
+        builder.addCase(markMultipleEntries.pending, (state, action) => {
+            state.entries
+                .filter(e => action.meta.arg.entries.some(e2 => e2.id === e.id))
                 .forEach(e => {
                     e.read = action.meta.arg.read
                 })

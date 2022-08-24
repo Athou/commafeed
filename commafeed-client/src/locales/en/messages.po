@@ -394,6 +394,10 @@ msgstr "Mark all as read"
 msgid "Mark all entries as read"
 msgstr "Mark all entries as read"
 
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Mark as read up to here"
+msgstr "Mark as read up to here"
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
 msgstr "Metrics"

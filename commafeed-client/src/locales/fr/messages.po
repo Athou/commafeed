@@ -394,6 +394,10 @@ msgstr "Tout marquer comme lu"
 msgid "Mark all entries as read"
 msgstr "Marquer toutes les entrées comme lues"
 
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Mark as read up to here"
+msgstr "Marquer comme lu jusqu'ici"
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
 msgstr "Métriques"

@@ -87,7 +87,7 @@ export function FeedEntry(props: FeedEntryProps) {
                 </Anchor>
                 {props.expanded && (
                     <Box px="xs" pb="xs">
-                        <Box className={classes.body}>
+                        <Box className={classes.body} sx={{ direction: props.entry.rtl ? "rtl" : "ltr" }}>
                             <FeedEntryBody entry={props.entry} />
                         </Box>
                         <Divider variant="dashed" my="xs" />

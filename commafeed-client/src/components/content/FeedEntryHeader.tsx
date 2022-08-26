@@ -30,7 +30,7 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
             <Box className={classes.headerText}>{props.entry.title}</Box>
             <Box className={classes.headerSubtext}>
                 <Box mr={6}>
-                    <Image src={props.entry.iconUrl} alt="feed icon" width={18} height={18} />
+                    <Image withPlaceholder src={props.entry.iconUrl} alt="feed icon" width={18} height={18} />
                 </Box>
                 <Box>
                     <Text color="dimmed">{props.entry.feedName}</Text>

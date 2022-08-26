@@ -49,7 +49,11 @@ export function TreeNode(props: TreeNodeProps) {
     return (
         <Box py={1} pl={props.level * 20} className={classes.node} onClick={(e: React.MouseEvent) => props.onClick(e, props.id)}>
             <Box mr={6} onClick={(e: React.MouseEvent) => props.onIconClick && props.onIconClick(e, props.id)}>
-                {typeof props.icon === "string" ? <Image withPlaceholder src={props.icon} alt="" width={18} height={18} /> : props.icon}
+                {typeof props.icon === "string" ? (
+                    <Image withPlaceholder src={props.icon} alt="favicon" width={18} height={18} />
+                ) : (
+                    props.icon
+                )}
             </Box>
             <Box className={classes.nodeText}>{props.name}</Box>
             {!props.expanded && (

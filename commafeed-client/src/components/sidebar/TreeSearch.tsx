@@ -17,7 +17,7 @@ export function TreeSearch(props: TreeSearchProps) {
         .sort((f1, f2) => f1.name.localeCompare(f2.name))
         .map(f => ({
             title: f.name,
-            icon: <Image withPlaceholder src={f.iconUrl} alt="" width={18} height={18} />,
+            icon: <Image withPlaceholder src={f.iconUrl} alt="favicon" width={18} height={18} />,
             onTrigger: () => dispatch(redirectToFeed(f.id)),
         }))
 

@@ -177,6 +177,10 @@ msgstr "Confirm"
 msgid "Confirm password"
 msgstr "Confirm password"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "Cozy"
+msgstr "Cozy"
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "Current password"
 msgstr "Current password"

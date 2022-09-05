@@ -5,7 +5,7 @@ import { changeViewMode } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { ViewMode } from "app/types"
 import { useState } from "react"
-import { TbChartLine, TbHelp, TbList, TbMoon, TbNotes, TbPower, TbSettings, TbSun, TbUsers } from "react-icons/tb"
+import { TbChartLine, TbHelp, TbLayoutList, TbList, TbMoon, TbNotes, TbPower, TbSettings, TbSun, TbUsers } from "react-icons/tb"
 
 interface ProfileMenuProps {
     control: React.ReactElement
@@ -15,14 +15,27 @@ interface ViewModeControlItem extends SegmentedControlItem {
     value: ViewMode
 }
 
+const iconSize = 16
+
 const viewModeData: ViewModeControlItem[] = [
     {
         value: "title",
         label: (
             <Group>
-                <TbList />
+                <TbList size={iconSize} />
                 <Box ml={6}>
                     <Trans>Compact</Trans>
+                </Box>
+            </Group>
+        ),
+    },
+    {
+        value: "cozy",
+        label: (
+            <Group>
+                <TbLayoutList size={iconSize} />
+                <Box ml={6}>
+                    <Trans>Cozy</Trans>
                 </Box>
             </Group>
         ),
@@ -31,7 +44,7 @@ const viewModeData: ViewModeControlItem[] = [
         value: "expanded",
         label: (
             <Group>
-                <TbNotes />
+                <TbNotes size={iconSize} />
                 <Box ml={6}>
                     <Trans>Expanded</Trans>
                 </Box>
@@ -57,7 +70,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
             <Menu.Target>{props.control}</Menu.Target>
             <Menu.Dropdown>
                 <Menu.Item
-                    icon={<TbSettings />}
+                    icon={<TbSettings size={iconSize} />}
                     onClick={() => {
                         dispatch(redirectToSettings())
                         setOpened(false)
@@ -70,7 +83,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 <Menu.Label>
                     <Trans>Display</Trans>
                 </Menu.Label>
-                <Menu.Item icon={dark ? <TbMoon /> : <TbSun />} onClick={() => toggleColorScheme()}>
+                <Menu.Item icon={dark ? <TbMoon size={iconSize} /> : <TbSun size={iconSize} />} onClick={() => toggleColorScheme()}>
                     <Trans>Theme</Trans>
                 </Menu.Item>
                 <SegmentedControl
@@ -89,7 +102,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                             <Trans>Admin</Trans>
                         </Menu.Label>
                         <Menu.Item
-                            icon={<TbUsers />}
+                            icon={<TbUsers size={iconSize} />}
                             onClick={() => {
                                 dispatch(redirectToAdminUsers())
                                 setOpened(false)
@@ -98,7 +111,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                             <Trans>Manage users</Trans>
                         </Menu.Item>
                         <Menu.Item
-                            icon={<TbChartLine />}
+                            icon={<TbChartLine size={iconSize} />}
                             onClick={() => {
                                 dispatch(redirectToMetrics())
                                 setOpened(false)
@@ -111,7 +124,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
 
                 <Divider />
                 <Menu.Item
-                    icon={<TbHelp />}
+                    icon={<TbHelp size={iconSize} />}
                     onClick={() => {
                         dispatch(redirectToAbout())
                         setOpened(false)
@@ -119,7 +132,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 >
                     <Trans>About</Trans>
                 </Menu.Item>
-                <Menu.Item icon={<TbPower />} onClick={logout}>
+                <Menu.Item icon={<TbPower size={iconSize} />} onClick={logout}>
                     <Trans>Logout</Trans>
                 </Menu.Item>
             </Menu.Dropdown>

@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { Entry } from "app/types"
 import React, { useRef } from "react"
 import { FeedEntryBody } from "./FeedEntryBody"
+import { FeedEntryCompactHeader } from "./FeedEntryCompactHeader"
 import { FeedEntryFooter } from "./FeedEntryFooter"
 import { FeedEntryHeader } from "./FeedEntryHeader"
 
@@ -37,8 +38,10 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
 
 export function FeedEntry(props: FeedEntryProps) {
     const { classes } = useStyles(props)
+    const viewMode = useAppSelector(state => state.user.settings?.viewMode)
     const scrollSpeed = useAppSelector(state => state.user.settings?.scrollSpeed)
     const dispatch = useAppDispatch()
+    const compactHeader = viewMode === "title" && !props.expanded
 
     const headerClicked = (e: React.MouseEvent) => {
         if (e.button === 1 || e.ctrlKey || e.metaKey) {
@@ -82,7 +85,8 @@ export function FeedEntry(props: FeedEntryProps) {
                     onAuxClick={headerClicked}
                 >
                     <Box p="xs">
-                        <FeedEntryHeader entry={props.entry} expanded={props.expanded} />
+                        {compactHeader && <FeedEntryCompactHeader entry={props.entry} />}
+                        {!compactHeader && <FeedEntryHeader entry={props.entry} expanded={props.expanded} />}
                     </Box>
                 </Anchor>
                 {props.expanded && (

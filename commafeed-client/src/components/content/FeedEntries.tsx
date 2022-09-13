@@ -26,6 +26,7 @@ export function FeedEntries() {
     const selectedEntryId = useAppSelector(state => state.entries.selectedEntryId)
     const hasMore = useAppSelector(state => state.entries.hasMore)
     const viewMode = useAppSelector(state => state.user.settings?.viewMode)
+    const scrollSpeed = useAppSelector(state => state.user.settings?.scrollSpeed)
     const dispatch = useAppDispatch()
 
     const selectedEntry = entries.find(e => e.id === selectedEntryId)
@@ -39,6 +40,20 @@ export function FeedEntries() {
             if (!found) delete refs.current[k]
         })
     }, [entries])
+
+    // scroll to entry when selected entry changes
+    useEffect(() => {
+        if (!selectedEntryId) return
+
+        const selectedEntryElement = refs.current[selectedEntryId]
+        if (Constants.layout.isTopVisible(selectedEntryElement) && Constants.layout.isBottomVisible(selectedEntryElement)) return
+
+        document.getElementById(Constants.dom.mainScrollAreaId)?.scrollTo({
+            // having a small gap between the top of the content and the top of the page is sexier
+            top: selectedEntryElement.offsetTop - 3,
+            behavior: scrollSpeed && scrollSpeed > 0 ? "smooth" : "auto",
+        })
+    }, [selectedEntryId, scrollSpeed])
 
     useMousetrap("r", () => {
         dispatch(reloadEntries())

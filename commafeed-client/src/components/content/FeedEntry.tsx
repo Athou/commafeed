@@ -1,10 +1,9 @@
 import { Anchor, Box, createStyles, Divider, Paper } from "@mantine/core"
-import { useDidUpdate } from "@mantine/hooks"
 import { Constants } from "app/constants"
 import { markEntry, selectEntry } from "app/slices/entries"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Entry } from "app/types"
-import React, { useRef } from "react"
+import React from "react"
 import { FeedEntryBody } from "./FeedEntryBody"
 import { FeedEntryCompactHeader } from "./FeedEntryCompactHeader"
 import { FeedEntryFooter } from "./FeedEntryFooter"
@@ -39,7 +38,6 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
 export function FeedEntry(props: FeedEntryProps) {
     const { classes } = useStyles(props)
     const viewMode = useAppSelector(state => state.user.settings?.viewMode)
-    const scrollSpeed = useAppSelector(state => state.user.settings?.scrollSpeed)
     const dispatch = useAppDispatch()
     const compactHeader = viewMode === "title" && !props.expanded
 
@@ -56,49 +54,30 @@ export function FeedEntry(props: FeedEntryProps) {
         }
     }
 
-    // scroll to entry when expanded
-    // we use useDidUpdate to avoid scrolling towards all entries during initial load when viewMode is "expanded"
-    const ref = useRef<HTMLDivElement>(null)
-    useDidUpdate(() => {
-        setTimeout(() => {
-            if (!ref.current) return
-            if (!props.expanded) return
-            if (Constants.layout.isTopVisible(ref.current) && Constants.layout.isBottomVisible(ref.current)) return
-
-            document.getElementById(Constants.dom.mainScrollAreaId)?.scrollTo({
-                // having a small gap between the top of the content and the top of the page is sexier
-                top: ref.current.offsetTop - 3,
-                behavior: scrollSpeed && scrollSpeed > 0 ? "smooth" : "auto",
-            })
-        })
-    }, [props.expanded, scrollSpeed])
-
     return (
-        <div ref={ref}>
-            <Paper shadow="xs" withBorder className={classes.paper}>
-                <Anchor
-                    variant="text"
-                    href={props.entry.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={headerClicked}
-                    onAuxClick={headerClicked}
-                >
-                    <Box p="xs">
-                        {compactHeader && <FeedEntryCompactHeader entry={props.entry} />}
-                        {!compactHeader && <FeedEntryHeader entry={props.entry} expanded={props.expanded} />}
+        <Paper shadow="xs" withBorder className={classes.paper}>
+            <Anchor
+                variant="text"
+                href={props.entry.url}
+                target="_blank"
+                rel="noreferrer"
+                onClick={headerClicked}
+                onAuxClick={headerClicked}
+            >
+                <Box p="xs">
+                    {compactHeader && <FeedEntryCompactHeader entry={props.entry} />}
+                    {!compactHeader && <FeedEntryHeader entry={props.entry} expanded={props.expanded} />}
+                </Box>
+            </Anchor>
+            {props.expanded && (
+                <Box px="xs" pb="xs">
+                    <Box className={classes.body} sx={{ direction: props.entry.rtl ? "rtl" : "ltr" }}>
+                        <FeedEntryBody entry={props.entry} />
                     </Box>
-                </Anchor>
-                {props.expanded && (
-                    <Box px="xs" pb="xs">
-                        <Box className={classes.body} sx={{ direction: props.entry.rtl ? "rtl" : "ltr" }}>
-                            <FeedEntryBody entry={props.entry} />
-                        </Box>
-                        <Divider variant="dashed" my="xs" />
-                        <FeedEntryFooter entry={props.entry} />
-                    </Box>
-                )}
-            </Paper>
-        </div>
+                    <Divider variant="dashed" my="xs" />
+                    <FeedEntryFooter entry={props.entry} />
+                </Box>
+            )}
+        </Paper>
     )
 }

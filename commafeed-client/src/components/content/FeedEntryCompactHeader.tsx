@@ -45,11 +45,9 @@ export function FeedEntryCompactHeader(props: FeedEntryHeaderProps) {
             </OnDesktop>
             <Box className={classes.title}>{props.entry.title}</Box>
             <OnDesktop>
-                <Box className={classes.date}>
-                    <Text color="dimmed">
-                        <RelativeDate date={props.entry.date} />
-                    </Text>
-                </Box>
+                <Text color="dimmed" className={classes.date}>
+                    <RelativeDate date={props.entry.date} />
+                </Text>
             </OnDesktop>
         </Box>
     )

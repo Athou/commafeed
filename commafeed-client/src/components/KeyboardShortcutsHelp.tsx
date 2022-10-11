@@ -31,6 +31,22 @@ export function KeyboardShortcutsHelp() {
                 </tr>
                 <tr>
                     <td>
+                        <Trans>Set focus on next entry without opening it</Trans>
+                    </td>
+                    <td>
+                        <Kbd>N</Kbd>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Trans>Set focus on previous entry without opening it</Trans>
+                    </td>
+                    <td>
+                        <Kbd>P</Kbd>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         <Trans>Move the page down</Trans>
                     </td>
                     <td>

@@ -573,6 +573,14 @@ msgstr "Scroll smoothly when navigating between entries"
 msgid "Search"
 msgstr "Search"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Set focus on next entry without opening it"
+msgstr "Set focus on next entry without opening it"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Set focus on previous entry without opening it"
+msgstr "Set focus on previous entry without opening it"
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Settings"
 msgstr "Settings"

@@ -11,6 +11,7 @@ import { FeedEntryHeader } from "./FeedEntryHeader"
 interface FeedEntryProps {
     entry: Entry
     expanded: boolean
+    showSelectionIndicator: boolean
     onHeaderClick: (e: React.MouseEvent) => void
 }
 
@@ -19,7 +20,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
     if (theme.colorScheme === "dark") backgroundColor = props.entry.read ? "inherit" : theme.colors.dark[5]
     else backgroundColor = props.entry.read && !props.expanded ? theme.colors.gray[0] : "inherit"
 
-    return {
+    const styles = {
         paper: {
             backgroundColor,
             marginTop: theme.spacing.xs,
@@ -33,6 +34,12 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
             maxWidth: Constants.layout.entryMaxWidth,
         },
     }
+
+    if (props.showSelectionIndicator) {
+        styles.paper.borderLeftColor = theme.colors.orange[4]
+    }
+
+    return styles
 })
 
 export function FeedEntry(props: FeedEntryProps) {

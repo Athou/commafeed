@@ -573,6 +573,14 @@ msgstr "Défilement animé lors de la navigation entre les entrées"
 msgid "Search"
 msgstr "Rechercher"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Set focus on next entry without opening it"
+msgstr "Sélectionner l'article suivant sans l'ouvrir"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Set focus on previous entry without opening it"
+msgstr "Sélectionner l'article précédent sans l'ouvrir"
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Settings"
 msgstr "Réglages"

@@ -64,6 +64,7 @@ export function FeedEntries() {
     // scroll to entry when selected entry changes
     useEffect(() => {
         if (!selectedEntryId) return
+        if (!selectedEntry?.expanded) return
 
         const selectedEntryElement = refs.current[selectedEntryId]
         if (Constants.layout.isTopVisible(selectedEntryElement) && Constants.layout.isBottomVisible(selectedEntryElement)) return
@@ -73,7 +74,7 @@ export function FeedEntries() {
             top: selectedEntryElement.offsetTop - 3,
             behavior: scrollSpeed && scrollSpeed > 0 ? "smooth" : "auto",
         })
-    }, [selectedEntryId, scrollSpeed])
+    }, [selectedEntryId, selectedEntry?.expanded, scrollSpeed])
 
     useMousetrap("r", () => {
         dispatch(reloadEntries())
@@ -86,11 +87,27 @@ export function FeedEntries() {
             })
         )
     })
+    useMousetrap("n", () => {
+        dispatch(
+            selectNextEntry({
+                expand: false,
+                markAsRead: false,
+            })
+        )
+    })
     useMousetrap("k", () => {
         dispatch(
             selectPreviousEntry({
                 expand: true,
                 markAsRead: true,
+            })
+        )
+    })
+    useMousetrap("p", () => {
+        dispatch(
+            selectPreviousEntry({
+                expand: false,
+                markAsRead: false,
             })
         )
     })
@@ -232,6 +249,7 @@ export function FeedEntries() {
                     <FeedEntry
                         entry={entry}
                         expanded={!!entry.expanded || viewMode === "expanded"}
+                        showSelectionIndicator={entry.id === selectedEntryId && (!entry.expanded || viewMode === "expanded")}
                         onHeaderClick={event => headerClicked(entry, event)}
                     />
                 </div>

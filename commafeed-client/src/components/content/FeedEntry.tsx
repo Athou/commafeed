@@ -1,7 +1,6 @@
 import { Anchor, Box, createStyles, Divider, Paper } from "@mantine/core"
 import { Constants } from "app/constants"
-import { markEntry, selectEntry } from "app/slices/entries"
-import { useAppDispatch, useAppSelector } from "app/store"
+import { useAppSelector } from "app/store"
 import { Entry } from "app/types"
 import React from "react"
 import { FeedEntryBody } from "./FeedEntryBody"
@@ -12,6 +11,7 @@ import { FeedEntryHeader } from "./FeedEntryHeader"
 interface FeedEntryProps {
     entry: Entry
     expanded: boolean
+    onHeaderClick: (e: React.MouseEvent) => void
 }
 
 const useStyles = createStyles((theme, props: FeedEntryProps) => {
@@ -38,21 +38,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
 export function FeedEntry(props: FeedEntryProps) {
     const { classes } = useStyles(props)
     const viewMode = useAppSelector(state => state.user.settings?.viewMode)
-    const dispatch = useAppDispatch()
     const compactHeader = viewMode === "title" && !props.expanded
-
-    const headerClicked = (e: React.MouseEvent) => {
-        if (e.button === 1 || e.ctrlKey || e.metaKey) {
-            // middle click
-            dispatch(markEntry({ entry: props.entry, read: true }))
-        } else if (e.button === 0) {
-            // main click
-            // don't trigger the link
-            e.preventDefault()
-
-            dispatch(selectEntry(props.entry))
-        }
-    }
 
     return (
         <Paper shadow="xs" withBorder className={classes.paper}>
@@ -61,8 +47,8 @@ export function FeedEntry(props: FeedEntryProps) {
                 href={props.entry.url}
                 target="_blank"
                 rel="noreferrer"
-                onClick={headerClicked}
-                onAuxClick={headerClicked}
+                onClick={props.onHeaderClick}
+                onAuxClick={props.onHeaderClick}
             >
                 <Box p="xs">
                     {compactHeader && <FeedEntryCompactHeader entry={props.entry} />}

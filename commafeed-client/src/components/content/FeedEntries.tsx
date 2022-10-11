@@ -2,6 +2,7 @@ import { t } from "@lingui/macro"
 import { openModal } from "@mantine/modals"
 import { Constants } from "app/constants"
 import {
+    ExpendableEntry,
     loadMoreEntries,
     markAllEntries,
     markEntry,
@@ -31,6 +32,25 @@ export function FeedEntries() {
 
     const selectedEntry = entries.find(e => e.id === selectedEntryId)
 
+    const headerClicked = (entry: ExpendableEntry, event: React.MouseEvent) => {
+        if (event.button === 1 || event.ctrlKey || event.metaKey) {
+            // middle click
+            dispatch(markEntry({ entry, read: true }))
+        } else if (event.button === 0) {
+            // main click
+            // don't trigger the link
+            event.preventDefault()
+
+            dispatch(
+                selectEntry({
+                    entry,
+                    expand: !entry.expanded,
+                    markAsRead: !entry.expanded,
+                })
+            )
+        }
+    }
+
     // references to entries html elements
     const refs = useRef<{ [id: string]: HTMLDivElement }>({})
     useEffect(() => {
@@ -59,17 +79,32 @@ export function FeedEntries() {
         dispatch(reloadEntries())
     })
     useMousetrap("j", () => {
-        dispatch(selectNextEntry())
+        dispatch(
+            selectNextEntry({
+                expand: true,
+                markAsRead: true,
+            })
+        )
     })
     useMousetrap("k", () => {
-        dispatch(selectPreviousEntry())
+        dispatch(
+            selectPreviousEntry({
+                expand: true,
+                markAsRead: true,
+            })
+        )
     })
     useMousetrap("space", () => {
         if (selectedEntry) {
             if (selectedEntry.expanded) {
                 const ref = refs.current[selectedEntry.id]
                 if (Constants.layout.isBottomVisible(ref)) {
-                    dispatch(selectNextEntry())
+                    dispatch(
+                        selectNextEntry({
+                            expand: true,
+                            markAsRead: true,
+                        })
+                    )
                 } else {
                     const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
                     scrollArea?.scrollTo({
@@ -78,10 +113,21 @@ export function FeedEntries() {
                     })
                 }
             } else {
-                dispatch(selectEntry(selectedEntry))
+                dispatch(
+                    selectEntry({
+                        entry: selectedEntry,
+                        expand: true,
+                        markAsRead: true,
+                    })
+                )
             }
         } else {
-            dispatch(selectNextEntry())
+            dispatch(
+                selectNextEntry({
+                    expand: true,
+                    markAsRead: true,
+                })
+            )
         }
     })
     useMousetrap("shift+space", () => {
@@ -89,7 +135,12 @@ export function FeedEntries() {
             if (selectedEntry.expanded) {
                 const ref = refs.current[selectedEntry.id]
                 if (Constants.layout.isTopVisible(ref)) {
-                    dispatch(selectPreviousEntry())
+                    dispatch(
+                        selectPreviousEntry({
+                            expand: true,
+                            markAsRead: true,
+                        })
+                    )
                 } else {
                     const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
                     scrollArea?.scrollTo({
@@ -98,14 +149,25 @@ export function FeedEntries() {
                     })
                 }
             } else {
-                dispatch(selectPreviousEntry())
+                dispatch(
+                    selectPreviousEntry({
+                        expand: true,
+                        markAsRead: true,
+                    })
+                )
             }
         }
     })
     useMousetrap(["o", "enter"], () => {
         // toggle expanded status
         if (!selectedEntry) return
-        dispatch(selectEntry(selectedEntry))
+        dispatch(
+            selectEntry({
+                entry: selectedEntry,
+                expand: !selectedEntry.expanded,
+                markAsRead: !selectedEntry.expanded,
+            })
+        )
     })
     useMousetrap("v", () => {
         // open tab in foreground
@@ -160,14 +222,18 @@ export function FeedEntries() {
             useWindow={false}
             getScrollParent={() => document.getElementById(Constants.dom.mainScrollAreaId)}
         >
-            {entries.map(e => (
+            {entries.map(entry => (
                 <div
-                    key={e.id}
+                    key={entry.id}
                     ref={el => {
-                        refs.current[e.id] = el!
+                        refs.current[entry.id] = el!
                     }}
                 >
-                    <FeedEntry entry={e} expanded={!!e.expanded || viewMode === "expanded"} />
+                    <FeedEntry
+                        entry={entry}
+                        expanded={!!entry.expanded || viewMode === "expanded"}
+                        onHeaderClick={event => headerClicked(entry, event)}
+                    />
                 </div>
             ))}
         </InfiniteScroll>

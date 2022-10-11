@@ -122,47 +122,68 @@ export const starEntry = createAsyncThunk("entries/entry/star", (arg: { entry: E
         starred: arg.starred,
     })
 })
-export const selectEntry = createAsyncThunk<void, Entry, { state: RootState }>("entries/entry/select", (arg, thunkApi) => {
+export const selectEntry = createAsyncThunk<
+    void,
+    {
+        entry: Entry
+        expand: boolean
+        markAsRead: boolean
+    },
+    { state: RootState }
+>("entries/entry/select", (arg, thunkApi) => {
     const state = thunkApi.getState()
-    const entry = state.entries.entries.find(e => e.id === arg.id)
+    const entry = state.entries.entries.find(e => e.id === arg.entry.id)
     if (!entry) return
 
-    // only mark entry as read if we're expanding
-    if (!entry.expanded) {
+    // mark as read if requested
+    if (arg.markAsRead) {
         thunkApi.dispatch(markEntry({ entry, read: true }))
     }
 
     // set entry as selected
     thunkApi.dispatch(entriesSlice.actions.setSelectedEntry(entry))
 
-    // collapse or expand entry if needed
+    // expand if requested
     const previouslySelectedEntry = state.entries.entries.find(e => e.id === state.entries.selectedEntryId)
-    if (entry === previouslySelectedEntry) {
-        // selecting an entry already selected toggles expanded status
-        thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry, expanded: !entry.expanded }))
-    } else {
-        if (previouslySelectedEntry) {
-            thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry: previouslySelectedEntry, expanded: false }))
+    if (previouslySelectedEntry) {
+        thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry: previouslySelectedEntry, expanded: false }))
+    }
+    thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry, expanded: arg.expand }))
+})
+export const selectPreviousEntry = createAsyncThunk<void, { expand: boolean; markAsRead: boolean }, { state: RootState }>(
+    "entries/entry/selectPrevious",
+    (arg, thunkApi) => {
+        const state = thunkApi.getState()
+        const { entries } = state.entries
+        const previousIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) - 1
+        if (previousIndex >= 0) {
+            thunkApi.dispatch(
+                selectEntry({
+                    entry: entries[previousIndex],
+                    expand: arg.expand,
+                    markAsRead: arg.markAsRead,
+                })
+            )
         }
-        thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry, expanded: true }))
     }
-})
-export const selectPreviousEntry = createAsyncThunk<void, void, { state: RootState }>("entries/entry/selectPrevious", (_, thunkApi) => {
-    const state = thunkApi.getState()
-    const { entries } = state.entries
-    const previousIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) - 1
-    if (previousIndex >= 0) {
-        thunkApi.dispatch(selectEntry(entries[previousIndex]))
+)
+export const selectNextEntry = createAsyncThunk<void, { expand: boolean; markAsRead: boolean }, { state: RootState }>(
+    "entries/entry/selectNext",
+    (arg, thunkApi) => {
+        const state = thunkApi.getState()
+        const { entries } = state.entries
+        const nextIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) + 1
+        if (nextIndex < entries.length) {
+            thunkApi.dispatch(
+                selectEntry({
+                    entry: entries[nextIndex],
+                    expand: arg.expand,
+                    markAsRead: arg.markAsRead,
+                })
+            )
+        }
     }
-})
-export const selectNextEntry = createAsyncThunk<void, void, { state: RootState }>("entries/entry/selectNext", (_, thunkApi) => {
-    const state = thunkApi.getState()
-    const { entries } = state.entries
-    const nextIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) + 1
-    if (nextIndex < entries.length) {
-        thunkApi.dispatch(selectEntry(entries[nextIndex]))
-    }
-})
+)
 
 export const entriesSlice = createSlice({
     name: "entries",

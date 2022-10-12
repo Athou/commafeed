@@ -36,7 +36,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
     }
 
     if (props.showSelectionIndicator) {
-        styles.paper.borderLeftColor = theme.colors.orange[4]
+        styles.paper.borderLeftColor = theme.colorScheme === "dark" ? theme.colors.orange[4] : theme.colors.orange[6]
     }
 
     return styles

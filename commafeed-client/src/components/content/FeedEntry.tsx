@@ -48,7 +48,7 @@ export function FeedEntry(props: FeedEntryProps) {
     const compactHeader = viewMode === "title" && !props.expanded
 
     return (
-        <Paper shadow="xs" withBorder className={classes.paper}>
+        <Paper withBorder className={classes.paper}>
             <Anchor
                 variant="text"
                 href={props.entry.url}

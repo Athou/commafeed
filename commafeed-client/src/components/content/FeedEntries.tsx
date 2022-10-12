@@ -243,7 +243,7 @@ export function FeedEntries() {
                 <div
                     key={entry.id}
                     ref={el => {
-                        refs.current[entry.id] = el!
+                        if (el) refs.current[entry.id] = el
                     }}
                 >
                     <FeedEntry

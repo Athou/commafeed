@@ -1,6 +1,14 @@
 {
-    "extends": ["plugin:react/recommended", "react-app", "airbnb", "airbnb-typescript", "prettier"],
-    "plugins": ["prettier", "hooks"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
+        "react-app",
+        "airbnb",
+        "airbnb-typescript",
+        "prettier"
+    ],
+    "plugins": ["@typescript-eslint", "prettier", "hooks"],
     "parserOptions": {
         "project": "./tsconfig.json"
     },

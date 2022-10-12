@@ -74,7 +74,7 @@ export function Tree() {
         />
     )
 
-    const categoryNode = (category: Category, level: number = 0) => {
+    const categoryNode = (category: Category, level = 0) => {
         const unreadCount = categoryUnreadCount(category)
         if (unreadCount === 0 && !showRead) return null
 
@@ -96,7 +96,7 @@ export function Tree() {
         )
     }
 
-    const feedNode = (feed: Subscription, level: number = 0) => {
+    const feedNode = (feed: Subscription, level = 0) => {
         if (feed.unread === 0 && !showRead) return null
 
         return (
@@ -114,7 +114,7 @@ export function Tree() {
         )
     }
 
-    const recursiveCategoryNode = (category: Category, level: number = 0) => (
+    const recursiveCategoryNode = (category: Category, level = 0) => (
         <React.Fragment key={`recursiveCategoryNode-${category.id}`}>
             {categoryNode(category, level)}
             {category.expanded && category.children.map(c => recursiveCategoryNode(c, level + 1))}

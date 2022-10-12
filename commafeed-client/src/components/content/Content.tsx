@@ -30,8 +30,10 @@ const transform: TransformCallback = node => {
         const src = node.getAttribute("src") ?? undefined
         const alt = node.getAttribute("alt") ?? undefined
         const title = node.getAttribute("title") ?? undefined
-        const width = node.getAttribute("width") ? parseInt(node.getAttribute("width")!, 10) : undefined
-        const height = node.getAttribute("height") ? parseInt(node.getAttribute("height")!, 10) : undefined
+        const nodeWidth = node.getAttribute("width")
+        const nodeHeight = node.getAttribute("height")
+        const width = nodeWidth ? parseInt(nodeWidth, 10) : undefined
+        const height = nodeHeight ? parseInt(nodeHeight, 10) : undefined
         const placeholderSize = calculatePlaceholderSize({
             width,
             height,

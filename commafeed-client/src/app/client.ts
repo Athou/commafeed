@@ -93,12 +93,12 @@ export const client = {
  * @param err an error object (e.g. from axios)
  * @returns an array of messages to show the user
  */
-export const errorToStrings = (err: any) => {
+export const errorToStrings = (err: unknown) => {
     let strings: string[] = []
 
     if (axios.isAxiosError(err)) {
         if (err.response) {
-            const data = err.response.data as any
+            const { data } = err.response
             if (typeof data === "string") strings.push(data)
             if (typeof data === "object" && data.message) strings.push(data.message)
             if (typeof data === "object" && data.errors) strings = [...strings, ...data.errors]

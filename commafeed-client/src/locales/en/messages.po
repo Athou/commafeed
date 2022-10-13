@@ -333,6 +333,10 @@ msgstr "If you like this project, please consider a donation to support the deve
 msgid "Import"
 msgstr "Import"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "In expanded view, scrolling through entries mark them as read"
+msgstr "In expanded view, scrolling through entries mark them as read"
+
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Keep unread"

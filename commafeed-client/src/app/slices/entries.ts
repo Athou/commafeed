@@ -3,6 +3,8 @@ import { client } from "app/client"
 import { Constants } from "app/constants"
 import { RootState } from "app/store"
 import { Entries, Entry, MarkRequest } from "app/types"
+import { scrollToWithCallback } from "app/utils"
+import { flushSync } from "react-dom"
 // eslint-disable-next-line import/no-cycle
 import { reloadTree } from "./tree"
 
@@ -23,6 +25,7 @@ interface EntriesState {
     timestamp?: number
     selectedEntryId?: string
     hasMore: boolean
+    scrollingToEntry: boolean
 }
 
 const initialState: EntriesState = {
@@ -34,6 +37,7 @@ const initialState: EntriesState = {
     sourceWebsiteUrl: "",
     entries: [],
     hasMore: true,
+    scrollingToEntry: false,
 }
 
 const getEndpoint = (sourceType: EntrySourceType) => (sourceType === "category" ? client.category.getEntries : client.feed.getEntries)
@@ -128,6 +132,7 @@ export const selectEntry = createAsyncThunk<
         entry: Entry
         expand: boolean
         markAsRead: boolean
+        scrollToEntry: boolean
     },
     { state: RootState }
 >("entries/entry/select", (arg, thunkApi) => {
@@ -135,55 +140,101 @@ export const selectEntry = createAsyncThunk<
     const entry = state.entries.entries.find(e => e.id === arg.entry.id)
     if (!entry) return
 
-    // mark as read if requested
-    if (arg.markAsRead) {
-        thunkApi.dispatch(markEntry({ entry, read: true }))
-    }
+    // flushSync is required because we need the newly selected entry to be expanded
+    // and the previously selected entry to be collapsed to be able to scroll to the right position
+    flushSync(() => {
+        // mark as read if requested
+        if (arg.markAsRead) {
+            thunkApi.dispatch(markEntry({ entry, read: true }))
+        }
 
-    // set entry as selected
-    thunkApi.dispatch(entriesSlice.actions.setSelectedEntry(entry))
+        // set entry as selected
+        thunkApi.dispatch(entriesSlice.actions.setSelectedEntry(entry))
 
-    // expand if requested
-    const previouslySelectedEntry = state.entries.entries.find(e => e.id === state.entries.selectedEntryId)
-    if (previouslySelectedEntry) {
-        thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry: previouslySelectedEntry, expanded: false }))
+        // expand if requested
+        const previouslySelectedEntry = state.entries.entries.find(e => e.id === state.entries.selectedEntryId)
+        if (previouslySelectedEntry) {
+            thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry: previouslySelectedEntry, expanded: false }))
+        }
+        thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry, expanded: arg.expand }))
+    })
+
+    if (arg.scrollToEntry) {
+        const entryElement = document.getElementById(Constants.dom.entryId(entry))
+        if (entryElement) {
+            const scrollSpeed = state.user.settings?.scrollSpeed
+            thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(true))
+            scrollToEntry(entryElement, scrollSpeed, () => thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(false)))
+        }
     }
-    thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry, expanded: arg.expand }))
 })
-export const selectPreviousEntry = createAsyncThunk<void, { expand: boolean; markAsRead: boolean }, { state: RootState }>(
-    "entries/entry/selectPrevious",
-    (arg, thunkApi) => {
-        const state = thunkApi.getState()
-        const { entries } = state.entries
-        const previousIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) - 1
-        if (previousIndex >= 0) {
-            thunkApi.dispatch(
-                selectEntry({
-                    entry: entries[previousIndex],
-                    expand: arg.expand,
-                    markAsRead: arg.markAsRead,
-                })
-            )
-        }
+const scrollToEntry = (entryElement: HTMLElement, scrollSpeed: number | undefined, onScrollEnded: () => void) => {
+    // the entry is entirely visible, no need to scroll
+    if (Constants.layout.isTopVisible(entryElement) && Constants.layout.isBottomVisible(entryElement)) {
+        onScrollEnded()
+        return
     }
-)
-export const selectNextEntry = createAsyncThunk<void, { expand: boolean; markAsRead: boolean }, { state: RootState }>(
-    "entries/entry/selectNext",
-    (arg, thunkApi) => {
-        const state = thunkApi.getState()
-        const { entries } = state.entries
-        const nextIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) + 1
-        if (nextIndex < entries.length) {
-            thunkApi.dispatch(
-                selectEntry({
-                    entry: entries[nextIndex],
-                    expand: arg.expand,
-                    markAsRead: arg.markAsRead,
-                })
-            )
-        }
+
+    const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
+    if (scrollArea) {
+        scrollToWithCallback({
+            element: scrollArea,
+            options: {
+                // add a small gap between the top of the content and the top of the page
+                top: entryElement.offsetTop - 3,
+                behavior: scrollSpeed && scrollSpeed > 0 ? "smooth" : "auto",
+            },
+            onScrollEnded,
+        })
     }
-)
+}
+
+export const selectPreviousEntry = createAsyncThunk<
+    void,
+    {
+        expand: boolean
+        markAsRead: boolean
+        scrollToEntry: boolean
+    },
+    { state: RootState }
+>("entries/entry/selectPrevious", (arg, thunkApi) => {
+    const state = thunkApi.getState()
+    const { entries } = state.entries
+    const previousIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) - 1
+    if (previousIndex >= 0) {
+        thunkApi.dispatch(
+            selectEntry({
+                entry: entries[previousIndex],
+                expand: arg.expand,
+                markAsRead: arg.markAsRead,
+                scrollToEntry: arg.scrollToEntry,
+            })
+        )
+    }
+})
+export const selectNextEntry = createAsyncThunk<
+    void,
+    {
+        expand: boolean
+        markAsRead: boolean
+        scrollToEntry: boolean
+    },
+    { state: RootState }
+>("entries/entry/selectNext", (arg, thunkApi) => {
+    const state = thunkApi.getState()
+    const { entries } = state.entries
+    const nextIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) + 1
+    if (nextIndex < entries.length) {
+        thunkApi.dispatch(
+            selectEntry({
+                entry: entries[nextIndex],
+                expand: arg.expand,
+                markAsRead: arg.markAsRead,
+                scrollToEntry: arg.scrollToEntry,
+            })
+        )
+    }
+})
 
 export const entriesSlice = createSlice({
     name: "entries",
@@ -198,6 +249,9 @@ export const entriesSlice = createSlice({
                 .forEach(e => {
                     e.expanded = action.payload.expanded
                 })
+        },
+        setScrollingToEntry: (state, action: PayloadAction<boolean>) => {
+            state.scrollingToEntry = action.payload
         },
     },
     extraReducers: builder => {

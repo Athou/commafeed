@@ -3,7 +3,7 @@ import { DEFAULT_THEME } from "@mantine/core"
 import { IconType } from "react-icons"
 import { FaAt } from "react-icons/fa"
 import { SiBuffer, SiFacebook, SiGmail, SiInstapaper, SiPocket, SiTumblr, SiTwitter } from "react-icons/si"
-import { Category, SharingSettings } from "./types"
+import { Category, Entry, SharingSettings } from "./types"
 
 const categories: { [key: string]: Category } = {
     all: {
@@ -90,10 +90,11 @@ export const Constants = {
         headerHeight: 60,
         sidebarWidth: 350,
         entryMaxWidth: 650,
-        isTopVisible: (div: HTMLDivElement) => div.getBoundingClientRect().top >= Constants.layout.headerHeight,
-        isBottomVisible: (div: HTMLDivElement) => div.getBoundingClientRect().bottom <= window.innerHeight,
+        isTopVisible: (div: HTMLElement) => div.getBoundingClientRect().top >= Constants.layout.headerHeight,
+        isBottomVisible: (div: HTMLElement) => div.getBoundingClientRect().bottom <= window.innerHeight,
     },
     dom: {
         mainScrollAreaId: "main-scroll-area-id",
+        entryId: (entry: Entry) => `entry-id-${entry.id}`,
     },
 }

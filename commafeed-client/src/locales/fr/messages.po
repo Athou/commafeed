@@ -333,6 +333,10 @@ msgstr "Si vous aimez ce projet, n'hésitez pas à faire un don pour encourager 
 msgid "Import"
 msgstr "Importer"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "In expanded view, scrolling through entries mark them as read"
+msgstr "En mode de lecture étendu, marquer les éléments comme lus lorsque la fenêtre descend."
+
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Garder non lu"

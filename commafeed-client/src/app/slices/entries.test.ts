@@ -77,6 +77,7 @@ describe("entries", () => {
                     sourceWebsiteUrl: "",
                     entries: [{ id: "3" } as Entry],
                     hasMore: true,
+                    scrollingToEntry: false,
                 },
             },
         })
@@ -100,6 +101,7 @@ describe("entries", () => {
                     sourceWebsiteUrl: "",
                     entries: [{ id: "3", read: false } as Entry, { id: "4", read: false } as Entry],
                     hasMore: true,
+                    scrollingToEntry: false,
                 },
             },
         })
@@ -125,6 +127,7 @@ describe("entries", () => {
                     sourceWebsiteUrl: "",
                     entries: [{ id: "3", read: false } as Entry, { id: "4", read: false } as Entry],
                     hasMore: true,
+                    scrollingToEntry: false,
                 },
             },
         })

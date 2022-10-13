@@ -54,6 +54,11 @@ export const changeShowRead = createAsyncThunk<void, boolean, { state: RootState
     if (!settings) return
     client.user.saveSettings({ ...settings, showRead })
 })
+export const changeScrollMarks = createAsyncThunk<void, boolean, { state: RootState }>("settings/scrollMarks", (scrollMarks, thunkApi) => {
+    const { settings } = thunkApi.getState().user
+    if (!settings) return
+    client.user.saveSettings({ ...settings, scrollMarks })
+})
 export const changeSharingSetting = createAsyncThunk<void, { site: keyof SharingSettings; value: boolean }, { state: RootState }>(
     "settings/sharingSetting",
     (sharingSetting, thunkApi) => {
@@ -104,12 +109,22 @@ export const userSlice = createSlice({
             if (!state.settings) return
             state.settings.showRead = action.meta.arg
         })
+        builder.addCase(changeScrollMarks.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.scrollMarks = action.meta.arg
+        })
         builder.addCase(changeSharingSetting.pending, (state, action) => {
             if (!state.settings) return
             state.settings.sharingSettings[action.meta.arg.site] = action.meta.arg.value
         })
         builder.addMatcher(
-            isAnyOf(changeLanguage.fulfilled, changeScrollSpeed.fulfilled, changeShowRead.fulfilled, changeSharingSetting.fulfilled),
+            isAnyOf(
+                changeLanguage.fulfilled,
+                changeScrollSpeed.fulfilled,
+                changeShowRead.fulfilled,
+                changeScrollMarks.fulfilled,
+                changeSharingSetting.fulfilled
+            ),
             () => {
                 showNotification({
                     message: t`Settings saved.`,

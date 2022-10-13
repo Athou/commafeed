@@ -25,3 +25,29 @@ export const calculatePlaceholderSize = ({ width, height, maxWidth }: { width?: 
     const placeholderHeight = height && width && width > maxWidth ? height * (maxWidth / width) : height
     return { width: placeholderWidth, height: placeholderHeight }
 }
+
+export const scrollToWithCallback = ({
+    element,
+    options,
+    onScrollEnded,
+}: {
+    element: HTMLElement
+    options: ScrollToOptions
+    onScrollEnded: () => void
+}) => {
+    const offset = (options.top ?? 0).toFixed()
+
+    const onScroll = () => {
+        if (element.offsetTop.toFixed() === offset) {
+            element.removeEventListener("scroll", onScroll)
+            onScrollEnded()
+        }
+    }
+
+    element.addEventListener("scroll", onScroll)
+
+    // scrollTo does not trigger if there's nothing to do, trigger it manually
+    onScroll()
+
+    element.scrollTo(options)
+}

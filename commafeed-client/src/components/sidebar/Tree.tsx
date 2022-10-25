@@ -1,7 +1,14 @@
 import { t } from "@lingui/macro"
 import { Box, Stack } from "@mantine/core"
 import { Constants } from "app/constants"
-import { redirectToCategory, redirectToCategoryDetails, redirectToFeed, redirectToFeedDetails } from "app/slices/redirect"
+import {
+    redirectToCategory,
+    redirectToCategoryDetails,
+    redirectToFeed,
+    redirectToFeedDetails,
+    redirectToTag,
+    redirectToTagDetails,
+} from "app/slices/redirect"
 import { collapseTreeCategory } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Category, Subscription } from "app/types"
@@ -9,19 +16,21 @@ import { categoryUnreadCount, flattenCategoryTree } from "app/utils"
 import { Loader } from "components/Loader"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import React from "react"
-import { FaChevronDown, FaChevronRight, FaInbox, FaStar } from "react-icons/fa"
+import { TbChevronDown, TbChevronRight, TbInbox, TbStar, TbTag } from "react-icons/tb"
 import { TreeNode } from "./TreeNode"
 import { TreeSearch } from "./TreeSearch"
 
-const allIcon = <FaInbox size={14} />
-const starredIcon = <FaStar size={14} />
-const expandedIcon = <FaChevronDown size={14} />
-const collapsedIcon = <FaChevronRight size={14} />
+const allIcon = <TbInbox size={16} />
+const starredIcon = <TbStar size={16} />
+const tagIcon = <TbTag size={16} />
+const expandedIcon = <TbChevronDown size={16} />
+const collapsedIcon = <TbChevronRight size={16} />
 
 const errorThreshold = 9
 export function Tree() {
     const root = useAppSelector(state => state.tree.rootCategory)
     const source = useAppSelector(state => state.entries.source)
+    const tags = useAppSelector(state => state.user.tags)
     const showRead = useAppSelector(state => state.user.settings?.showRead)
     const dispatch = useAppDispatch()
 
@@ -45,6 +54,10 @@ export function Tree() {
                 collapse: category.expanded,
             })
         )
+    }
+    const tagClicked = (e: React.MouseEvent, id: string) => {
+        if (e.detail === 2) dispatch(redirectToTagDetails(id))
+        else dispatch(redirectToTag(id))
     }
 
     const allCategoryNode = () => (
@@ -114,6 +127,20 @@ export function Tree() {
         )
     }
 
+    const tagNode = (tag: string) => (
+        <TreeNode
+            id={tag}
+            name={tag}
+            icon={tagIcon}
+            unread={0}
+            selected={source.type === "tag" && source.id === tag}
+            level={0}
+            hasError={false}
+            onClick={tagClicked}
+            key={tag}
+        />
+    )
+
     const recursiveCategoryNode = (category: Category, level = 0) => (
         <React.Fragment key={`recursiveCategoryNode-${category.id}`}>
             {categoryNode(category, level)}
@@ -134,6 +161,7 @@ export function Tree() {
                 {starredCategoryNode()}
                 {root.children.map(c => recursiveCategoryNode(c))}
                 {root.feeds.map(f => feedNode(f))}
+                {tags?.map(tag => tagNode(tag))}
             </Box>
         </Stack>
     )

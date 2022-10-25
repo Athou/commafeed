@@ -3,7 +3,7 @@ import { ActionIcon, Anchor, Box, Center, Divider, Group, Title, useMantineTheme
 import { useViewportSize } from "@mantine/hooks"
 import { Constants } from "app/constants"
 import { EntrySourceType, loadEntries } from "app/slices/entries"
-import { redirectToCategoryDetails, redirectToFeedDetails } from "app/slices/redirect"
+import { redirectToCategoryDetails, redirectToFeedDetails, redirectToTagDetails } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { flattenCategoryTree } from "app/utils"
 import { FeedEntries } from "components/content/FeedEntries"
@@ -40,7 +40,8 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
 
     const titleClicked = () => {
         if (props.sourceType === "category") dispatch(redirectToCategoryDetails(id))
-        else dispatch(redirectToFeedDetails(id))
+        else if (props.sourceType === "feed") dispatch(redirectToFeedDetails(id))
+        else if (props.sourceType === "tag") dispatch(redirectToTagDetails(id))
     }
 
     useEffect(() => {

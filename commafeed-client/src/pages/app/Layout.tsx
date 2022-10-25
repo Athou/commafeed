@@ -19,7 +19,7 @@ import { useViewportSize } from "@mantine/hooks"
 import { Constants } from "app/constants"
 import { redirectToAdd, redirectToRootCategory } from "app/slices/redirect"
 import { reloadTree, setMobileMenuOpen } from "app/slices/tree"
-import { reloadProfile, reloadSettings } from "app/slices/user"
+import { reloadProfile, reloadSettings, reloadTags } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Logo } from "components/Logo"
 import { OnDesktop } from "components/responsive/OnDesktop"
@@ -90,6 +90,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
         dispatch(reloadSettings())
         dispatch(reloadProfile())
         dispatch(reloadTree())
+        dispatch(reloadTags())
 
         // reload tree periodically
         const id = setInterval(() => dispatch(reloadTree()), 30000)

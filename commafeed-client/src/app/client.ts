@@ -22,6 +22,7 @@ import {
     StarRequest,
     SubscribeRequest,
     Subscription,
+    TagRequest,
     UserModel,
 } from "./types"
 
@@ -48,6 +49,8 @@ export const client = {
         mark: (req: MarkRequest) => axiosInstance.post("entry/mark", req),
         markMultiple: (req: MultipleMarkRequest) => axiosInstance.post("entry/markMultiple", req),
         star: (req: StarRequest) => axiosInstance.post("entry/star", req),
+        getTags: () => axiosInstance.get<string[]>("entry/tags"),
+        tag: (req: TagRequest) => axiosInstance.post("entry/tag", req),
     },
     feed: {
         get: (id: string) => axiosInstance.get<Subscription>(`feed/get/${id}`),

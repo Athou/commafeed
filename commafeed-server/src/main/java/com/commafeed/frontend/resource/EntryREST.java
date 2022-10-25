@@ -103,7 +103,7 @@ public class EntryREST {
 	@Path("/tag")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
+	@ApiOperation(value = "Set feed entry tags")
 	@Timed
 	public Response tagEntry(@ApiParam(hidden = true) @SecurityCheck User user,
 			@Valid @ApiParam(value = "Tag Request", required = true) TagRequest req) {

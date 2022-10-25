@@ -22,6 +22,7 @@ import { FeedDetailsPage } from "pages/app/FeedDetailsPage"
 import { FeedEntriesPage } from "pages/app/FeedEntriesPage"
 import Layout from "pages/app/Layout"
 import { SettingsPage } from "pages/app/SettingsPage"
+import { TagDetailsPage } from "pages/app/TagDetailsPage"
 import { LoginPage } from "pages/auth/LoginPage"
 import { PasswordRecoveryPage } from "pages/auth/PasswordRecoveryPage"
 import { RegistrationPage } from "pages/auth/RegistrationPage"
@@ -79,6 +80,10 @@ function AppRoutes() {
                 <Route path="feed">
                     <Route path=":id" element={<FeedEntriesPage sourceType="feed" />} />
                     <Route path=":id/details" element={<FeedDetailsPage />} />
+                </Route>
+                <Route path="tag">
+                    <Route path=":id" element={<FeedEntriesPage sourceType="tag" />} />
+                    <Route path=":id/details" element={<TagDetailsPage />} />
                 </Route>
                 <Route path="add" element={<AddPage />} />
                 <Route path="settings" element={<SettingsPage />} />

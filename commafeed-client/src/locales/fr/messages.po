@@ -181,6 +181,10 @@ msgstr "Confirmer le mot de passe"
 msgid "Cozy"
 msgstr "Cozy"
 
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Create tag: {query}"
+msgstr "Créer le tag: {query}"
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "Current password"
 msgstr "Mot de passe actuel"
@@ -378,6 +382,10 @@ msgstr "Chargement des paramètres ..."
 #: src/hooks/useAppLoading.ts
 msgid "Loading subscriptions..."
 msgstr "Chargement des abonnements ..."
+
+#: src/hooks/useAppLoading.ts
+msgid "Loading tags..."
+msgstr "Chargement des tags ..."
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx

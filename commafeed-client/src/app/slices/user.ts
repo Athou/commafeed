@@ -4,17 +4,20 @@ import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { RootState } from "app/store"
 import { ReadingMode, ReadingOrder, Settings, SharingSettings, UserModel, ViewMode } from "app/types"
+// eslint-disable-next-line import/no-cycle
 import { reloadEntries } from "./entries"
 
 interface UserState {
     settings?: Settings
     profile?: UserModel
+    tags?: string[]
 }
 
 const initialState: UserState = {}
 
 export const reloadSettings = createAsyncThunk("settings/reload", () => client.user.getSettings().then(r => r.data))
 export const reloadProfile = createAsyncThunk("profile/reload", () => client.user.getProfile().then(r => r.data))
+export const reloadTags = createAsyncThunk("entries/tags", () => client.entry.getTags().then(r => r.data))
 export const changeReadingMode = createAsyncThunk<void, ReadingMode, { state: RootState }>(
     "settings/readingMode",
     (readingMode, thunkApi) => {
@@ -84,6 +87,9 @@ export const userSlice = createSlice({
         })
         builder.addCase(reloadProfile.fulfilled, (state, action) => {
             state.profile = action.payload
+        })
+        builder.addCase(reloadTags.fulfilled, (state, action) => {
+            state.tags = action.payload
         })
         builder.addCase(changeReadingMode.pending, (state, action) => {
             if (!state.settings) return

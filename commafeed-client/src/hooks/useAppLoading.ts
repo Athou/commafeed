@@ -10,6 +10,7 @@ export const useAppLoading = () => {
     const profile = useAppSelector(state => state.user.profile)
     const settings = useAppSelector(state => state.user.settings)
     const rootCategory = useAppSelector(state => state.tree.rootCategory)
+    const tags = useAppSelector(state => state.user.tags)
 
     const steps: Step[] = [
         {
@@ -23,6 +24,10 @@ export const useAppLoading = () => {
         {
             label: t`Loading subscriptions...`,
             done: !!rootCategory,
+        },
+        {
+            label: t`Loading tags...`,
+            done: !!tags,
         },
     ]
 

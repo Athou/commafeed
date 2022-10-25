@@ -2,13 +2,15 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { Constants } from "app/constants"
 import { RootState } from "app/store"
-import { Entries, Entry, MarkRequest } from "app/types"
+import { Entries, Entry, MarkRequest, TagRequest } from "app/types"
 import { scrollToWithCallback } from "app/utils"
 import { flushSync } from "react-dom"
 // eslint-disable-next-line import/no-cycle
 import { reloadTree } from "./tree"
+// eslint-disable-next-line import/no-cycle
+import { reloadTags } from "./user"
 
-export type EntrySourceType = "category" | "feed"
+export type EntrySourceType = "category" | "feed" | "tag"
 export type EntrySource = { type: EntrySourceType; id: string }
 export type ExpendableEntry = Entry & { expanded?: boolean }
 
@@ -40,16 +42,18 @@ const initialState: EntriesState = {
     scrollingToEntry: false,
 }
 
-const getEndpoint = (sourceType: EntrySourceType) => (sourceType === "category" ? client.category.getEntries : client.feed.getEntries)
+const getEndpoint = (sourceType: EntrySourceType) =>
+    sourceType === "category" || sourceType === "tag" ? client.category.getEntries : client.feed.getEntries
 export const loadEntries = createAsyncThunk<Entries, EntrySource, { state: RootState }>("entries/load", async (source, thunkApi) => {
     const state = thunkApi.getState()
     const endpoint = getEndpoint(source.type)
     const result = await endpoint({
-        id: source.id,
+        id: source.type === "tag" ? Constants.categories.all.id : source.id,
         order: state.user.settings?.readingOrder,
         readType: state.user.settings?.readingMode,
         offset: 0,
         limit: 50,
+        tag: source.type === "tag" ? source.id : undefined,
     })
     return result.data
 })
@@ -235,6 +239,10 @@ export const selectNextEntry = createAsyncThunk<
         )
     }
 })
+export const tagEntry = createAsyncThunk<void, TagRequest, { state: RootState }>("entries/entry/tag", async (arg, thunkApi) => {
+    await client.entry.tag(arg)
+    thunkApi.dispatch(reloadTags())
+})
 
 export const entriesSlice = createSlice({
     name: "entries",
@@ -304,6 +312,13 @@ export const entriesSlice = createSlice({
             const entriesToAdd = action.payload.entries.filter(e => !state.entries.some(e2 => e.id === e2.id))
             state.entries = [...state.entries, ...entriesToAdd]
             state.hasMore = action.payload.hasMore
+        })
+        builder.addCase(tagEntry.pending, (state, action) => {
+            state.entries
+                .filter(e => +e.id === action.meta.arg.entryId)
+                .forEach(e => {
+                    e.tags = action.meta.arg.tags
+                })
         })
     },
 })

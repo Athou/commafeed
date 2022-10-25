@@ -32,6 +32,10 @@ export const redirectToFeed = createAsyncThunk("redirect/feed", (id: string | nu
 export const redirectToFeedDetails = createAsyncThunk("redirect/feed/details", (id: string, thunkApi) =>
     thunkApi.dispatch(redirectTo(`/app/feed/${id}/details`))
 )
+export const redirectToTag = createAsyncThunk("redirect/tag", (id: string, thunkApi) => thunkApi.dispatch(redirectTo(`/app/tag/${id}`)))
+export const redirectToTagDetails = createAsyncThunk("redirect/tag/details", (id: string, thunkApi) =>
+    thunkApi.dispatch(redirectTo(`/app/tag/${id}/details`))
+)
 export const redirectToAdd = createAsyncThunk("redirect/add", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/add")))
 export const redirectToSettings = createAsyncThunk("redirect/settings", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/settings")))
 export const redirectToAdminUsers = createAsyncThunk("redirect/admin/users", (_, thunkApi) =>

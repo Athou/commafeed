@@ -81,6 +81,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                                 placeholder="Tags"
                                 searchable
                                 creatable
+                                autoFocus
                                 getCreateLabel={query => t`Create tag: ${query}`}
                                 value={props.entry.tags}
                                 onChange={onTagsChange}

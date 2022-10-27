@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro"
-import { Checkbox, Group, Indicator, MultiSelect, Popover } from "@mantine/core"
+import { Group, Indicator, MultiSelect, Popover } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import { Constants } from "app/constants"
 import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "app/slices/entries"
@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { Entry } from "app/types"
 import { ActionButton } from "components/ActionButtton"
 import { useEffect, useState } from "react"
-import { TbArrowBarToDown, TbExternalLink, TbShare, TbStar, TbStarOff, TbTag } from "react-icons/tb"
+import { TbArrowBarToDown, TbExternalLink, TbEyeCheck, TbEyeOff, TbShare, TbStar, TbStarOff, TbTag } from "react-icons/tb"
 import { ShareButtons } from "./ShareButtons"
 
 interface FeedEntryFooterProps {
@@ -24,7 +24,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
     const showSharingButtons =
         sharingSettings && (Object.values(sharingSettings) as Array<typeof sharingSettings[keyof typeof sharingSettings]>).some(v => v)
 
-    const readStatusCheckboxClicked = () => dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))
+    const readStatusButtonClicked = () => dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))
     const onTagsChange = (values: string[]) =>
         dispatch(
             tagEntry({
@@ -45,14 +45,10 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
         <Group position="apart">
             <Group>
                 {props.entry.markable && (
-                    <Checkbox
-                        label={t`Keep unread`}
-                        checked={!props.entry.read}
-                        onChange={readStatusCheckboxClicked}
-                        styles={{
-                            label: { cursor: "pointer" },
-                            input: { cursor: "pointer" },
-                        }}
+                    <ActionButton
+                        icon={props.entry.read ? <TbEyeOff size={18} /> : <TbEyeCheck size={18} />}
+                        label={props.entry.read ? t`Keep unread` : t`Mark as read`}
+                        onClick={readStatusButtonClicked}
                     />
                 )}
                 <ActionButton

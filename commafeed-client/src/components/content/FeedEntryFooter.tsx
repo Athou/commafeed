@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro"
-import { Checkbox, Group, MultiSelect, Popover } from "@mantine/core"
+import { Checkbox, Group, Indicator, MultiSelect, Popover } from "@mantine/core"
 import { Constants } from "app/constants"
 import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "app/slices/entries"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -73,7 +73,9 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 {tags && (
                     <Popover withArrow withinPortal shadow="md" positionDependencies={[scrollPosition]}>
                         <Popover.Target>
-                            <ActionButton icon={<TbTag size={18} />} label={t`Tags`} />
+                            <Indicator label={props.entry.tags.length} showZero={false} dot={false} inline size={16}>
+                                <ActionButton icon={<TbTag size={18} />} label={t`Tags`} />
+                            </Indicator>
                         </Popover.Target>
                         <Popover.Dropdown>
                             <MultiSelect

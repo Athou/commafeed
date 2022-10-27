@@ -27,6 +27,7 @@ interface EntriesState {
     timestamp?: number
     selectedEntryId?: string
     hasMore: boolean
+    search?: string
     scrollingToEntry: boolean
 }
 
@@ -44,38 +45,43 @@ const initialState: EntriesState = {
 
 const getEndpoint = (sourceType: EntrySourceType) =>
     sourceType === "category" || sourceType === "tag" ? client.category.getEntries : client.feed.getEntries
-export const loadEntries = createAsyncThunk<Entries, EntrySource, { state: RootState }>("entries/load", async (source, thunkApi) => {
-    const state = thunkApi.getState()
-    const endpoint = getEndpoint(source.type)
-    const result = await endpoint({
-        id: source.type === "tag" ? Constants.categories.all.id : source.id,
-        order: state.user.settings?.readingOrder,
-        readType: state.user.settings?.readingMode,
-        offset: 0,
-        limit: 50,
-        tag: source.type === "tag" ? source.id : undefined,
-    })
-    return result.data
-})
+export const loadEntries = createAsyncThunk<Entries, { source: EntrySource; clearSearch: boolean }, { state: RootState }>(
+    "entries/load",
+    async (arg, thunkApi) => {
+        if (arg.clearSearch) thunkApi.dispatch(setSearch(""))
+
+        const state = thunkApi.getState()
+        const endpoint = getEndpoint(arg.source.type)
+        const result = await endpoint(buildGetEntriesPaginatedRequest(state, arg.source, 0))
+        return result.data
+    }
+)
 export const loadMoreEntries = createAsyncThunk<Entries, void, { state: RootState }>("entries/loadMore", async (_, thunkApi) => {
     const state = thunkApi.getState()
     const { source } = state.entries
     const offset =
         state.user.settings?.readingMode === "all" ? state.entries.entries.length : state.entries.entries.filter(e => !e.read).length
     const endpoint = getEndpoint(state.entries.source.type)
-    const result = await endpoint({
-        id: source.type === "tag" ? Constants.categories.all.id : source.id,
-        readType: state.user.settings?.readingMode,
-        order: state.user.settings?.readingOrder,
-        offset,
-        limit: 50,
-        tag: source.type === "tag" ? source.id : undefined,
-    })
+    const result = await endpoint(buildGetEntriesPaginatedRequest(state, source, offset))
     return result.data
 })
-export const reloadEntries = createAsyncThunk<void, void, { state: RootState }>("entries/reload", async (_, thunkApi) => {
+const buildGetEntriesPaginatedRequest = (state: RootState, source: EntrySource, offset: number) => ({
+    id: source.type === "tag" ? Constants.categories.all.id : source.id,
+    order: state.user.settings?.readingOrder,
+    readType: state.user.settings?.readingMode,
+    offset,
+    limit: 50,
+    tag: source.type === "tag" ? source.id : undefined,
+    keywords: state.entries.search,
+})
+export const reloadEntries = createAsyncThunk<void, void, { state: RootState }>("entries/reload", async (arg, thunkApi) => {
     const state = thunkApi.getState()
-    thunkApi.dispatch(loadEntries(state.entries.source))
+    thunkApi.dispatch(loadEntries({ source: state.entries.source, clearSearch: false }))
+})
+export const search = createAsyncThunk<void, string, { state: RootState }>("entries/search", async (arg, thunkApi) => {
+    const state = thunkApi.getState()
+    thunkApi.dispatch(setSearch(arg))
+    thunkApi.dispatch(loadEntries({ source: state.entries.source, clearSearch: false }))
 })
 export const markEntry = createAsyncThunk(
     "entries/entry/mark",
@@ -263,6 +269,9 @@ export const entriesSlice = createSlice({
         setScrollingToEntry: (state, action: PayloadAction<boolean>) => {
             state.scrollingToEntry = action.payload
         },
+        setSearch: (state, action: PayloadAction<string>) => {
+            state.search = action.payload
+        },
     },
     extraReducers: builder => {
         builder.addCase(markEntry.pending, (state, action) => {
@@ -294,7 +303,7 @@ export const entriesSlice = createSlice({
                 })
         })
         builder.addCase(loadEntries.pending, (state, action) => {
-            state.source = action.meta.arg
+            state.source = action.meta.arg.source
             state.entries = []
             state.timestamp = undefined
             state.sourceLabel = ""
@@ -325,4 +334,5 @@ export const entriesSlice = createSlice({
     },
 })
 
+export const { setSearch } = entriesSlice.actions
 export default entriesSlice.reducer

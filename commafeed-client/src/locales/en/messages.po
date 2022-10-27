@@ -588,10 +588,16 @@ msgstr "Save"
 msgid "Scroll smoothly when navigating between entries"
 msgstr "Scroll smoothly when navigating between entries"
 
+#: src/components/header/Header.tsx
+#: src/components/header/Header.tsx
 #: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Search"
+
+#: src/components/header/Header.tsx
+msgid "Search requires at least 3 characters"
+msgstr "Search requires at least 3 characters"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"

@@ -2,6 +2,7 @@ import { Box, createStyles, Image, Text } from "@mantine/core"
 import { Entry } from "app/types"
 import { RelativeDate } from "components/RelativeDate"
 import { OnDesktop } from "components/responsive/OnDesktop"
+import { FeedEntryTitle } from "./FeedEntryTitle"
 
 export interface FeedEntryHeaderProps {
     entry: Entry
@@ -43,7 +44,9 @@ export function FeedEntryCompactHeader(props: FeedEntryHeaderProps) {
                     {props.entry.feedName}
                 </Text>
             </OnDesktop>
-            <Box className={classes.title}>{props.entry.title}</Box>
+            <Box className={classes.title}>
+                <FeedEntryTitle entry={props.entry} />
+            </Box>
             <OnDesktop>
                 <Text color="dimmed" className={classes.date}>
                     <RelativeDate date={props.entry.date} />

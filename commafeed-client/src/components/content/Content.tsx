@@ -1,8 +1,9 @@
-import { Box, createStyles, TypographyStylesProvider } from "@mantine/core"
+import { Box, createStyles, Mark, TypographyStylesProvider } from "@mantine/core"
 import { Constants } from "app/constants"
+import { useAppSelector } from "app/store"
 import { calculatePlaceholderSize } from "app/utils"
 import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
-import { Interweave, TransformCallback } from "interweave"
+import { ChildrenNode, Interweave, Matcher, MatchResponse, Node, TransformCallback } from "interweave"
 
 export interface ContentProps {
     content: string
@@ -54,13 +55,39 @@ const transform: TransformCallback = node => {
     return undefined
 }
 
+class HighlightMatcher extends Matcher {
+    private search: string
+
+    constructor(search: string) {
+        super("highlight")
+        this.search = search
+    }
+
+    match(string: string): MatchResponse<unknown> | null {
+        const pattern = this.search.split(" ").join("|")
+        return this.doMatch(string, new RegExp(pattern, "i"), () => ({}))
+    }
+
+    // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
+    replaceWith(children: ChildrenNode, props: unknown): Node {
+        return <Mark>{children}</Mark>
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    asTag(): string {
+        return "span"
+    }
+}
+
 export function Content(props: ContentProps) {
     const { classes } = useStyles()
+    const search = useAppSelector(state => state.entries.search)
+    const matchers = search ? [new HighlightMatcher(search)] : []
 
     return (
         <TypographyStylesProvider>
             <Box className={classes.content}>
-                <Interweave content={props.content} transform={transform} />
+                <Interweave content={props.content} transform={transform} matchers={matchers} />
             </Box>
         </TypographyStylesProvider>
     )

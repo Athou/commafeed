@@ -45,7 +45,15 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
     }
 
     useEffect(() => {
-        dispatch(loadEntries({ type: props.sourceType, id }))
+        dispatch(
+            loadEntries({
+                source: {
+                    type: props.sourceType,
+                    id,
+                },
+                clearSearch: true,
+            })
+        )
     }, [dispatch, props.sourceType, id, location.state])
 
     const noSubscriptions = rootCategory && flattenCategoryTree(rootCategory).every(c => c.feeds.length === 0)

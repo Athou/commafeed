@@ -32,7 +32,7 @@ describe("entries", () => {
         } as AxiosResponse<Entries>)
 
         const store = configureStore({ reducer: reducers })
-        const promise = store.dispatch(loadEntries({ type: "feed", id: "feed-id" }))
+        const promise = store.dispatch(loadEntries({ source: { type: "feed", id: "feed-id" }, clearSearch: true }))
 
         expect(store.getState().entries.source.type).toBe("feed")
         expect(store.getState().entries.source.id).toBe("feed-id")

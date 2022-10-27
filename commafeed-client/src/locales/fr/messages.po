@@ -588,10 +588,16 @@ msgstr "Enregistrer"
 msgid "Scroll smoothly when navigating between entries"
 msgstr "Défilement animé lors de la navigation entre les entrées"
 
+#: src/components/header/Header.tsx
+#: src/components/header/Header.tsx
 #: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Rechercher"
+
+#: src/components/header/Header.tsx
+msgid "Search requires at least 3 characters"
+msgstr "La recherche requiert au moins 3 caractères"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"

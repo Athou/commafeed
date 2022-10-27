@@ -59,15 +59,17 @@ export const loadEntries = createAsyncThunk<Entries, EntrySource, { state: RootS
 })
 export const loadMoreEntries = createAsyncThunk<Entries, void, { state: RootState }>("entries/loadMore", async (_, thunkApi) => {
     const state = thunkApi.getState()
+    const { source } = state.entries
     const offset =
         state.user.settings?.readingMode === "all" ? state.entries.entries.length : state.entries.entries.filter(e => !e.read).length
     const endpoint = getEndpoint(state.entries.source.type)
     const result = await endpoint({
-        id: state.entries.source.id,
+        id: source.type === "tag" ? Constants.categories.all.id : source.id,
         readType: state.user.settings?.readingMode,
         order: state.user.settings?.readingOrder,
         offset,
         limit: 50,
+        tag: source.type === "tag" ? source.id : undefined,
     })
     return result.data
 })

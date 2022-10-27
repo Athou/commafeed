@@ -81,11 +81,16 @@ export function ProfileMenu(props: ProfileMenuProps) {
 
                 <Divider />
                 <Menu.Label>
+                    <Trans>Theme</Trans>
+                </Menu.Label>
+                <Menu.Item icon={dark ? <TbSun size={iconSize} /> : <TbMoon size={iconSize} />} onClick={() => toggleColorScheme()}>
+                    {dark ? <Trans>Switch to light theme</Trans> : <Trans>Switch to dark theme</Trans>}
+                </Menu.Item>
+
+                <Divider />
+                <Menu.Label>
                     <Trans>Display</Trans>
                 </Menu.Label>
-                <Menu.Item icon={dark ? <TbMoon size={iconSize} /> : <TbSun size={iconSize} />} onClick={() => toggleColorScheme()}>
-                    <Trans>Theme</Trans>
-                </Menu.Item>
                 <SegmentedControl
                     fullWidth
                     orientation="vertical"

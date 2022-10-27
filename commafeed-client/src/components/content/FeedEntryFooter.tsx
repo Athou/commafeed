@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro"
 import { Checkbox, Group, Indicator, MultiSelect, Popover } from "@mantine/core"
+import { useMediaQuery } from "@mantine/hooks"
 import { Constants } from "app/constants"
 import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "app/slices/entries"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -17,6 +18,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
     const [scrollPosition, setScrollPosition] = useState(0)
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const tags = useAppSelector(state => state.user.tags)
+    const mobile = !useMediaQuery(`(min-width: ${Constants.layout.mobileBreakpoint}px)`)
     const dispatch = useAppDispatch()
 
     const showSharingButtons =
@@ -60,7 +62,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 />
 
                 {showSharingButtons && (
-                    <Popover withArrow withinPortal shadow="md" positionDependencies={[scrollPosition]}>
+                    <Popover withArrow withinPortal shadow="md" positionDependencies={[scrollPosition]} closeOnClickOutside={!mobile}>
                         <Popover.Target>
                             <ActionButton icon={<TbShare size={18} />} label={t`Share`} />
                         </Popover.Target>
@@ -71,7 +73,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 )}
 
                 {tags && (
-                    <Popover withArrow withinPortal shadow="md" positionDependencies={[scrollPosition]}>
+                    <Popover withArrow withinPortal shadow="md" positionDependencies={[scrollPosition]} closeOnClickOutside={!mobile}>
                         <Popover.Target>
                             <Indicator label={props.entry.tags.length} showZero={false} dot={false} inline size={16}>
                                 <ActionButton icon={<TbTag size={18} />} label={t`Tags`} />

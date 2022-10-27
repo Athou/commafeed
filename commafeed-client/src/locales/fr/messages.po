@@ -130,6 +130,7 @@ msgstr "Extensions pour navigateurs"
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -293,6 +294,7 @@ msgstr "Mot de passe oublié ?"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Generate an API key in your profile first."
 msgstr "Générez d'abord une clé API dans votre profil."
 
@@ -302,6 +304,7 @@ msgstr "Générer une nouvelle clé API"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Generated feed url"
 msgstr "URL du flux généré"
 
@@ -368,6 +371,7 @@ msgstr "Dernier message de mise à jour"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Link"
 msgstr "Lien"
 
@@ -409,6 +413,10 @@ msgstr "Tout marquer comme lu"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Mark all entries as read"
 msgstr "Marquer toutes les entrées comme lues"
+
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Mark as read"
+msgstr "Marquer comme lu"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
@@ -662,6 +670,18 @@ msgstr "S'abonner au flux"
 #: src/components/Alert.tsx
 msgid "Success"
 msgstr "Succès"
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Switch to dark theme"
+msgstr "Activer le mode sombre"
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Switch to light theme"
+msgstr "Activer le mode clair"
+
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Tags"
+msgstr "Tags"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."

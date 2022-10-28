@@ -186,6 +186,10 @@ msgstr "Cozy"
 msgid "Create tag: {query}"
 msgstr "Créer le tag: {query}"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Ctrl"
+msgstr "Ctrl"
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "Current password"
 msgstr "Mot de passe actuel"

@@ -74,7 +74,8 @@ export function KeyboardShortcutsHelp() {
                         <Trans>Open/close current entry</Trans>
                     </td>
                     <td>
-                        <Kbd>O</Kbd>,<span> </span>
+                        <Kbd>O</Kbd>
+                        <span>, </span>
                         <Kbd>
                             <Trans>Enter</Trans>
                         </Kbd>
@@ -131,6 +132,12 @@ export function KeyboardShortcutsHelp() {
                         <Trans>Navigate to a subscription by entering its name</Trans>
                     </td>
                     <td>
+                        <Kbd>
+                            <Trans>Ctrl</Trans>
+                        </Kbd>
+                        <span> + </span>
+                        <Kbd>K</Kbd>
+                        <span>, </span>
                         <Kbd>G</Kbd>
                         <span> </span>
                         <Kbd>U</Kbd>

@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro"
-import { Center, Divider, Group, Indicator, Popover, TextInput } from "@mantine/core"
+import { ActionIcon, Center, Divider, Group, Indicator, Popover, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { reloadEntries, search } from "app/slices/entries"
 import { changeReadingMode, changeReadingOrder } from "app/slices/user"
@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { ActionButton } from "components/ActionButtton"
 import { Loader } from "components/Loader"
 import { useEffect } from "react"
-import { TbArrowDown, TbArrowUp, TbEye, TbEyeOff, TbRefresh, TbSearch, TbUser } from "react-icons/tb"
+import { TbArrowDown, TbArrowUp, TbEye, TbEyeOff, TbRefresh, TbSearch, TbUser, TbX } from "react-icons/tb"
 import { MarkAllAsReadButton } from "./MarkAllAsReadButton"
 import { ProfileMenu } from "./ProfileMenu"
 
@@ -67,6 +67,11 @@ export function Header() {
                                 placeholder={t`Search`}
                                 {...searchForm.getInputProps("search")}
                                 icon={<TbSearch size={iconSize} />}
+                                rightSection={
+                                    <ActionIcon onClick={() => searchFromStore && dispatch(search(""))}>
+                                        <TbX />
+                                    </ActionIcon>
+                                }
                                 autoFocus
                             />
                         </form>

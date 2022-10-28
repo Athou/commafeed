@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/pages/app/FeedDetailsPage.tsx
-msgid "<0>Complete available syntax is available </0><1>here</1>."
+msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr "<0>La syntaxe complète est disponible </0><1>ici</1>."
 
 #: src/pages/auth/RegistrationPage.tsx

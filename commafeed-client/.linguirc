@@ -1,7 +1,33 @@
 {
     "locales": [
+        "ar",
+        "ca",
+        "cs",
+        "cy",
+        "da",
+        "de",
         "en",
-        "fr"
+        "es",
+        "fa",
+        "fi",
+        "fr",
+        "gl",
+        "hu",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "ms",
+        "nb",
+        "nl",
+        "nn",
+        "pl",
+        "pt",
+        "ru",
+        "sk",
+        "sv",
+        "tr",
+        "zh"
     ],
     "catalogs": [
         {

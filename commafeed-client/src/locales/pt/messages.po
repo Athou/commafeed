@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2022-08-04 18:51+0200\n"
+"POT-Creation-Date: 2022-10-28 13:47+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: en\n"
+"Language: pt\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: \n"
@@ -15,109 +15,109 @@ msgstr ""
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
-msgstr "<0>Complete syntax is available </0><1>here</1>."
+msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
-msgstr "<0>Have an account?</0><1>Log in!</1>"
+msgstr "<0>Tem uma conta?</0><1>Faça login!</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
-msgstr "<0>Need an account?</0><1>Sign up!</1>"
+msgstr "<0>Precisa de uma conta?</0><1>Inscreva-se!</1>"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
-msgstr "API key"
+msgstr "chave de API"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
 msgid "About"
-msgstr "About"
+msgstr "Sobre"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
-msgstr "Actions"
+msgstr "Ações"
 
 #: src/components/content/add/AddCategory.tsx
 msgid "Add"
-msgstr "Add"
+msgstr "Adicionar"
 
 #: src/pages/app/AddPage.tsx
 msgid "Add category"
-msgstr "Add category"
+msgstr "Adicionar categoria"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Add user"
-msgstr "Add user"
+msgstr "Adicionar usuário"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Admin"
-msgstr "Admin"
+msgstr "Administrador"
 
 #: src/app/constants.ts
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
 #: src/components/sidebar/Tree.tsx
 msgid "All"
-msgstr "All"
+msgstr "Todos"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
-msgstr "An email has been sent if this address was registered. Check your inbox."
+msgstr "Um email foi enviado se este endereço foi registrado. "
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services."
-msgstr "An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services."
+msgstr "Um arquivo opml é um arquivo XML contendo URLs e categorias de feed. "
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
-msgstr "Analyze feed"
+msgstr "Analisar feed"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
-msgstr "Are you sure you want to delete category <0>{categoryName}</0>?"
+msgstr "Tem certeza de que deseja excluir a categoria <0>{categoryName}</0>?"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Are you sure you want to delete user <0>{userName}</0> ?"
-msgstr "Are you sure you want to delete user <0>{userName}</0> ?"
+msgstr "Tem certeza de que deseja excluir o usuário <0>{userName}</0> ?"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Are you sure you want to delete your account? There's no turning back!"
-msgstr "Are you sure you want to delete your account? There's no turning back!"
+msgstr "Tem certeza de que deseja excluir sua conta? "
 
 #: src/components/header/MarkAllAsReadButton.tsx
 msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
-msgstr "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
+msgstr "Tem certeza de que deseja marcar todas as entradas de <0>{sourceLabel}</0> como lidas?"
 
 #: src/components/header/MarkAllAsReadButton.tsx
 msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
-msgstr "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
+msgstr "Tem certeza de que deseja marcar entradas com mais de {threshold} dias de <0>{sourceLabel}</0> como lidas?"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
-msgstr "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
+msgstr "Tem certeza de que deseja cancelar a inscrição em <0>{feedName}</0>?"
 
 #: src/components/header/Header.tsx
 msgid "Asc"
-msgstr "Asc"
+msgstr ""
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
-msgstr "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
+msgstr "As variáveis ​​disponíveis são 'título', 'conteúdo', 'url' 'autor' e 'categorias' e seu conteúdo é convertido em letras minúsculas para facilitar a comparação de strings."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
-msgstr "Back"
+msgstr "Voltar"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Back to log in"
-msgstr "Back to log in"
+msgstr "Voltar para logar"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extentions"
-msgstr "Browser extentions"
+msgstr "Extensões do navegador"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -132,7 +132,7 @@ msgstr "Browser extentions"
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Cancelar"
 
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -140,31 +140,31 @@ msgstr "Cancel"
 #: src/pages/app/AboutPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Category"
-msgstr "Category"
+msgstr "Categoria"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Changing password will generate a new API key"
-msgstr "Changing password will generate a new API key"
+msgstr "A alteração da senha gerará uma nova chave de API"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Check that the feed is working"
-msgstr "Check that the feed is working"
+msgstr "Verifique se o feed está funcionando"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed is an open-source project. Sources are hosted on <0>GitHub</0>."
-msgstr "CommaFeed is an open-source project. Sources are hosted on <0>GitHub</0>."
+msgstr "CommaFeed é um projeto de código aberto. "
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
-msgstr "CommaFeed next unread item"
+msgstr "CommaFeed próximo item não lido"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed version {version} ({revision})"
-msgstr "CommaFeed version {version} ({revision})"
+msgstr "Versão do CommaFeed {versão} ({revisão})"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"
-msgstr "Compact"
+msgstr "Compacto"
 
 #: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/settings/ProfileSettings.tsx
@@ -172,65 +172,65 @@ msgstr "Compact"
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Confirm"
-msgstr "Confirm"
+msgstr "Confirmar"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Confirm password"
-msgstr "Confirm password"
+msgstr "Confirmar senha"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
-msgstr "Cozy"
+msgstr "Aconchegante"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Create tag: {query}"
-msgstr "Create tag: {query}"
+msgstr "Criar etiqueta: {consulta}"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
-msgstr "Ctrl"
+msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Current password"
-msgstr "Current password"
+msgstr "Senha atual"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
-msgstr "Date created"
+msgstr "Data de criação"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
-msgstr "Delete"
+msgstr "Excluir"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete Category"
-msgstr "Delete Category"
+msgstr "Excluir Categoria"
 
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
-msgstr "Delete account"
+msgstr "Excluir conta"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Delete user"
-msgstr "Delete user"
+msgstr "Excluir usuário"
 
 #: src/components/header/Header.tsx
 msgid "Desc"
-msgstr "Desc"
+msgstr "Descrição"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/SettingsPage.tsx
 msgid "Display"
-msgstr "Display"
+msgstr "Exibir"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
-msgstr "Download"
+msgstr "Baixar"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Drag link to bookmark bar"
-msgstr "Drag link to bookmark bar"
+msgstr "Arraste o link para a barra de favoritos"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
@@ -238,306 +238,306 @@ msgstr "Drag link to bookmark bar"
 #: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
-msgstr "E-mail"
+msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
-msgstr "E-mail address"
+msgstr "Endereço de e-mail"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Edit user"
-msgstr "Edit user"
+msgstr "Editar usuário"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Enabled"
-msgstr "Enabled"
+msgstr "Ativado"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Enter"
-msgstr "Enter"
+msgstr "Entrar"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Enter your current password to change profile settings"
-msgstr "Enter your current password to change profile settings"
+msgstr "Digite sua senha atual para alterar as configurações do perfil"
 
 #: src/components/Alert.tsx
 msgid "Error"
-msgstr "Error"
+msgstr "Erro"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Example: {example}."
-msgstr "Example: {example}."
+msgstr "Exemplo: {exemplo}."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Expanded"
-msgstr "Expanded"
+msgstr "Expandido"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
-msgstr "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
+msgstr "Exporte suas inscrições e categorias como um arquivo OPML que pode ser importado em outros serviços de leitura de feed"
 
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
-msgstr "Feed URL"
+msgstr "URL do feed"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
-msgstr "Feed name"
+msgstr "Nome do feed"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
-msgstr "Filtering expression"
+msgstr "Filtrando expressão"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
-msgstr "Forgot password?"
+msgstr "Esqueceu a senha?"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Generate an API key in your profile first."
-msgstr "Generate an API key in your profile first."
+msgstr "Gere uma chave de API em seu perfil primeiro."
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Generate new API key"
-msgstr "Generate new API key"
+msgstr "Gerar nova chave de API"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Generated feed url"
-msgstr "Generated feed url"
+msgstr "URL do feed gerado"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Go to the API documentation."
-msgstr "Go to the API documentation."
+msgstr "Vá para a documentação da API."
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
-msgstr "Go to the All view"
+msgstr "Ir para a visualização Tudo"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
-msgstr "Goodies"
+msgstr "Brindes"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
-msgstr "Id"
+msgstr "ID"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
-msgstr "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
+msgstr "Se não estiver vazio, uma expressão avaliada como 'true' ou 'false'. "
 
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
-msgstr "If you encounter an issue, please report it on the issues page of the GitHub project."
+msgstr "Se você encontrar um problema, informe-o na página de problemas do projeto GitHub."
 
 #: src/pages/app/AboutPage.tsx
 msgid "If you like this project, please consider a donation to support the developer and help cover the costs of keeping this website online."
-msgstr "If you like this project, please consider a donation to support the developer and help cover the costs of keeping this website online."
+msgstr "Se você gostar deste projeto, considere uma doação para apoiar o desenvolvedor e ajudar a cobrir os custos de manter este site online."
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "Import"
-msgstr "Import"
+msgstr "Importar"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "In expanded view, scrolling through entries mark them as read"
-msgstr "In expanded view, scrolling through entries mark them as read"
+msgstr "Na visualização expandida, rolar pelas entradas marca-as como lidas"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
-msgstr "Keep unread"
+msgstr "Manter não lido"
 
 #: src/components/content/FeedEntries.tsx
 #: src/pages/app/AboutPage.tsx
 msgid "Keyboard shortcuts"
-msgstr "Keyboard shortcuts"
+msgstr "Atalhos de teclado"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Language"
-msgstr "Language"
+msgstr "Idioma"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Last login date"
-msgstr "Last login date"
+msgstr "Data do último login"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Last refresh"
-msgstr "Last refresh"
+msgstr "Última atualização"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Last refresh message"
-msgstr "Last refresh message"
+msgstr "Última mensagem de atualização"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Link"
-msgstr "Link"
+msgstr ""
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
-msgstr "Loading profile..."
+msgstr "Carregando perfil..."
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading settings..."
-msgstr "Loading settings..."
+msgstr "Carregando configurações..."
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading subscriptions..."
-msgstr "Loading subscriptions..."
+msgstr "Carregando assinaturas..."
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading tags..."
-msgstr "Loading tags..."
+msgstr "Carregando tags..."
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "Log in"
-msgstr "Log in"
+msgstr "Entrar"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Logout"
-msgstr "Logout"
+msgstr "Sair"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
-msgstr "Manage users"
+msgstr "Gerenciar usuários"
 
 #: src/components/header/MarkAllAsReadButton.tsx
 msgid "Mark all as read"
-msgstr "Mark all as read"
+msgstr "Marcar todos como lidos"
 
 #: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Mark all entries as read"
-msgstr "Mark all entries as read"
+msgstr "Marcar todas as entradas como lidas"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
-msgstr "Mark as read"
+msgstr "Marcar como lido"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
-msgstr "Mark as read up to here"
+msgstr "Marcar como lido até aqui"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
-msgstr "Metrics"
+msgstr "Métricas"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
-msgstr "Move the page down"
+msgstr "Mova a página para baixo"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page up"
-msgstr "Move the page up"
+msgstr "Mover a página para cima"
 
 #: src/components/RelativeDate.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "N/A"
-msgstr "N/A"
+msgstr "N/D"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Name"
-msgstr "Name"
+msgstr "Nome"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Navigate to a subscription by entering its name"
-msgstr "Navigate to a subscription by entering its name"
+msgstr "Navegue até uma assinatura digitando seu nome"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
-msgstr "New password"
+msgstr "Nova senha"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
-msgstr "Newest first"
+msgstr "Mais novo primeiro"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Next"
-msgstr "Next"
+msgstr "Próximo"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Next refresh"
-msgstr "Next refresh"
+msgstr "Próxima atualização"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Next unread item bookmarklet"
-msgstr "Next unread item bookmarklet"
+msgstr "Próximo item não lido bookmarklet"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "No more entries"
-msgstr "No more entries"
+msgstr "Não há mais entradas"
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
-msgstr "Nothing found"
+msgstr "Nada encontrado"
 
 #: src/pages/app/AddPage.tsx
 msgid "OPML"
-msgstr "OPML"
+msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "OPML export"
-msgstr "OPML export"
+msgstr "Exportação OPML"
 
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
-msgstr "OPML file"
+msgstr "Arquivo OPML"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
-msgstr "Oldest first"
+msgstr "Mais antigo primeiro"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
-msgstr "Oops!"
+msgstr "Opa!"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
-msgstr "Open current entry in a new tab"
+msgstr "Abrir a entrada atual em uma nova aba"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab in the background"
-msgstr "Open current entry in a new tab in the background"
+msgstr "Abrir a entrada atual em uma nova aba em segundo plano"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
-msgstr "Open link"
+msgstr "Abrir link"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
-msgstr "Open next entry"
+msgstr "Abrir próxima entrada"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open previous entry"
-msgstr "Open previous entry"
+msgstr "Abrir entrada anterior"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open/close current entry"
-msgstr "Open/close current entry"
+msgstr "Abrir/fechar entrada atual"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
-msgstr "Order"
+msgstr "Ordem"
 
 #: src/components/content/add/AddCategory.tsx
 msgid "Parent"
-msgstr "Parent"
+msgstr "Pai"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Parent Category"
-msgstr "Parent Category"
+msgstr "Categoria Pai"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/auth/LoginPage.tsx
@@ -545,204 +545,204 @@ msgstr "Parent Category"
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
-msgstr "Password"
+msgstr "Senha"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
-msgstr "Password Recovery"
+msgstr "Recuperação de Senha"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Passwords do not match"
-msgstr "Passwords do not match"
+msgstr "Senhas não coincidem"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
-msgstr "Position"
+msgstr "Posição"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
-msgstr "Profile"
+msgstr "Perfil"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
-msgstr "REST API"
+msgstr "API REST"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
-msgstr "Recover password"
+msgstr "Recuperar senha"
 
 #: src/components/header/Header.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Refresh"
-msgstr "Refresh"
+msgstr "Atualizar"
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
-msgstr "Registrations are closed on this CommaFeed instance"
+msgstr "Os registros estão fechados nesta instância do CommaFeed"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Save"
-msgstr "Save"
+msgstr "Salvar"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
-msgstr "Scroll smoothly when navigating between entries"
+msgstr "Rolar suavemente ao navegar entre as entradas"
 
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
 #: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
-msgstr "Search"
+msgstr "Pesquisar"
 
 #: src/components/header/Header.tsx
 msgid "Search requires at least 3 characters"
-msgstr "Search requires at least 3 characters"
+msgstr "Pesquisa requer pelo menos 3 caracteres"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
-msgstr "Set focus on next entry without opening it"
+msgstr "Definir o foco na próxima entrada sem abri-la"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on previous entry without opening it"
-msgstr "Set focus on previous entry without opening it"
+msgstr "Definir o foco na entrada anterior sem abri-la"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Settings"
-msgstr "Settings"
+msgstr "Configurações"
 
 #: src/app/slices/user.ts
 msgid "Settings saved."
-msgstr "Settings saved."
+msgstr "Configurações salvas."
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Share"
-msgstr "Share"
+msgstr "Compartilhar"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Sharing sites"
-msgstr "Sharing sites"
+msgstr "Compartilhando sites"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
-msgstr "Shift"
+msgstr "Mudar"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
-msgstr "Show feeds and categories with no unread entries"
+msgstr "Mostrar feeds e categorias sem entradas não lidas"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show keyboard shortcut help"
-msgstr "Show keyboard shortcut help"
+msgstr "Mostrar ajuda de atalho de teclado"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Sign up"
-msgstr "Sign up"
+msgstr "Inscreva-se"
 
 #: src/pages/ErrorPage.tsx
 msgid "Something bad just happened..."
-msgstr "Something bad just happened..."
+msgstr "Algo ruim acabou de acontecer..."
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
-msgstr "Space"
+msgstr "Espaço"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
-msgstr "Star"
+msgstr "Estrela"
 
 #: src/app/constants.ts
 #: src/components/sidebar/Tree.tsx
 msgid "Starred"
-msgstr "Starred"
+msgstr "Com estrela"
 
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
 msgid "Subscribe"
-msgstr "Subscribe"
+msgstr "Assinar"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Subscribe URL"
-msgstr "Subscribe URL"
+msgstr "URL de inscrição"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
-msgstr "Subscribe to the feed"
+msgstr "Inscrever-se no feed"
 
 #: src/components/Alert.tsx
 msgid "Success"
-msgstr "Success"
+msgstr "Sucesso"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Switch to dark theme"
-msgstr "Switch to dark theme"
+msgstr "Mudar para tema escuro"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Switch to light theme"
-msgstr "Switch to light theme"
+msgstr "Mudar para tema claro"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
-msgstr "Tags"
+msgstr "Etiquetas"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
-msgstr "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
+msgstr "A URL do feed que você deseja assinar. "
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
-msgstr "Theme"
+msgstr "Tema"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
-msgstr "Toggle read status of current entry"
+msgstr "Alternar o status de leitura da entrada atual"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
-msgstr "Try out CommaFeed with the demo account: demo/demo"
+msgstr "Experimente o CommaFeed com a conta demo: demo/demo"
 
 #: src/components/header/Header.tsx
 msgid "Unread"
-msgstr "Unread"
+msgstr "Não lido"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
-msgstr "Unstar"
+msgstr "Desestrelar"
 
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
-msgstr "Unsubscribe"
+msgstr "Cancelar inscrição"
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
-msgstr "User Name or E-mail"
+msgstr "Nome de usuário ou e-mail"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
-msgstr "User name"
+msgstr "Nome de usuário"
 
 #: src/components/Alert.tsx
 msgid "Warning"
-msgstr "Warning"
+msgstr "Aviso"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Website"
-msgstr "Website"
+msgstr "Site"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
-msgstr "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
+msgstr "Você ainda não tem nenhuma assinatura. "
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"
-msgstr "file is required"
+msgstr "o arquivo é obrigatório"

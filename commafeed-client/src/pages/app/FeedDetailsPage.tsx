@@ -37,7 +37,7 @@ function FilteringExpressionDescription() {
             </div>
             <div>
                 <Trans>
-                    <span>Complete available syntax is available </span>
+                    <span>Complete syntax is available </span>
                     <a href="http://commons.apache.org/proper/commons-jexl/reference/syntax.html" target="_blank" rel="noreferrer">
                         here
                     </a>

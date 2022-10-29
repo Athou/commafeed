@@ -6,6 +6,7 @@ import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "app/slices
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Entry } from "app/types"
 import { ActionButton } from "components/ActionButtton"
+import { ButtonToolbar } from "components/ButtonToolbar"
 import { useEffect, useState } from "react"
 import { TbArrowBarToDown, TbExternalLink, TbEyeCheck, TbEyeOff, TbShare, TbStar, TbStarOff, TbTag } from "react-icons/tb"
 import { ShareButtons } from "./ShareButtons"
@@ -43,7 +44,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
 
     return (
         <Group position="apart">
-            <Group>
+            <ButtonToolbar>
                 {props.entry.markable && (
                     <ActionButton
                         icon={props.entry.read ? <TbEyeOff size={18} /> : <TbEyeCheck size={18} />}
@@ -93,7 +94,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 <a href={props.entry.url} target="_blank" rel="noreferrer">
                     <ActionButton icon={<TbExternalLink size={18} />} label={t`Open link`} />
                 </a>
-            </Group>
+            </ButtonToolbar>
 
             <ActionButton
                 icon={<TbArrowBarToDown size={18} />}

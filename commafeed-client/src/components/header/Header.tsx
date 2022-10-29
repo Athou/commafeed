@@ -1,10 +1,11 @@
 import { t } from "@lingui/macro"
-import { ActionIcon, Center, Divider, Group, Indicator, Popover, TextInput } from "@mantine/core"
+import { ActionIcon, Center, Divider, Indicator, Popover, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { reloadEntries, search } from "app/slices/entries"
 import { changeReadingMode, changeReadingOrder } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { ActionButton } from "components/ActionButtton"
+import { ButtonToolbar } from "components/ButtonToolbar"
 import { Loader } from "components/Loader"
 import { useEffect } from "react"
 import { TbArrowDown, TbArrowUp, TbEye, TbEyeOff, TbRefresh, TbSearch, TbUser, TbX } from "react-icons/tb"
@@ -38,7 +39,7 @@ export function Header() {
     if (!settings) return <Loader />
     return (
         <Center>
-            <Group>
+            <ButtonToolbar>
                 <ActionButton icon={<TbRefresh size={iconSize} />} label={t`Refresh`} onClick={() => dispatch(reloadEntries())} />
                 <MarkAllAsReadButton iconSize={iconSize} />
 
@@ -81,7 +82,7 @@ export function Header() {
                 <HeaderDivider />
 
                 <ProfileMenu control={<ActionButton icon={<TbUser size={iconSize} />} label={profile?.name} />} />
-            </Group>
+            </ButtonToolbar>
         </Center>
     )
 }

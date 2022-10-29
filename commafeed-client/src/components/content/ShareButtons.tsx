@@ -25,7 +25,7 @@ function ShareButton({ url, icon, color }: { url: string; icon: IconType; color:
     return (
         <ActionIcon>
             <a href={url} target="_blank" rel="noreferrer" onClick={onClick}>
-                <Box p={8} className={classes.socialIcon}>
+                <Box p={6} className={classes.socialIcon}>
                     {icon({ size: 18 })}
                 </Box>
             </a>

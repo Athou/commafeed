@@ -681,6 +681,10 @@ msgstr "Suscríbete a la fuente"
 msgid "Success"
 msgstr "Éxito"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Swipe header to the right"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Switch to dark theme"
 msgstr "Cambiar a tema oscuro"

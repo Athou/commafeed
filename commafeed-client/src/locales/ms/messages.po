@@ -681,6 +681,10 @@ msgstr "Langgan suapan"
 msgid "Success"
 msgstr "Kejayaan"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Swipe header to the right"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Switch to dark theme"
 msgstr "Tukar kepada tema gelap"

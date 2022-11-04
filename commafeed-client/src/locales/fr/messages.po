@@ -681,6 +681,10 @@ msgstr "S'abonner au flux"
 msgid "Success"
 msgstr "Succès"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Swipe header to the right"
+msgstr "Faire glisser le titre vers la droite"
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Switch to dark theme"
 msgstr "Activer le mode sombre"

@@ -681,6 +681,10 @@ msgstr "beslemeye abone olun"
 msgid "Success"
 msgstr "Başarı"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Swipe header to the right"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Switch to dark theme"
 msgstr "Karanlık temaya geç"

@@ -1,8 +1,10 @@
 import { Anchor, Box, createStyles, Divider, Paper } from "@mantine/core"
 import { Constants } from "app/constants"
-import { useAppSelector } from "app/store"
+import { markEntry } from "app/slices/entries"
+import { useAppDispatch, useAppSelector } from "app/store"
 import { Entry } from "app/types"
 import React from "react"
+import { useSwipeable } from "react-swipeable"
 import { FeedEntryBody } from "./FeedEntryBody"
 import { FeedEntryCompactHeader } from "./FeedEntryCompactHeader"
 import { FeedEntryFooter } from "./FeedEntryFooter"
@@ -45,7 +47,13 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
 export function FeedEntry(props: FeedEntryProps) {
     const { classes } = useStyles(props)
     const viewMode = useAppSelector(state => state.user.settings?.viewMode)
+    const dispatch = useAppDispatch()
+
     const compactHeader = viewMode === "title" && !props.expanded
+
+    const swipeHandlers = useSwipeable({
+        onSwipedRight: () => dispatch(markEntry({ entry: props.entry, read: !props.entry.read })),
+    })
 
     return (
         <Paper withBorder className={classes.paper}>
@@ -57,7 +65,7 @@ export function FeedEntry(props: FeedEntryProps) {
                 onClick={props.onHeaderClick}
                 onAuxClick={props.onHeaderClick}
             >
-                <Box p="xs">
+                <Box p="xs" {...swipeHandlers}>
                     {compactHeader && <FeedEntryCompactHeader entry={props.entry} />}
                     {!compactHeader && <FeedEntryHeader entry={props.entry} expanded={props.expanded} />}
                 </Box>

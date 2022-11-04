@@ -41,6 +41,7 @@
         "react-infinite-scroller": "^1.2.6",
         "react-redux": "^8.0.4",
         "react-router-dom": "^6.4.2",
+        "react-swipeable": "^7.0.0",
         "swagger-ui-react": "^4.15.2",
         "tinycon": "^0.6.8"
     },

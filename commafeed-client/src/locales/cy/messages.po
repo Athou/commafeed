@@ -681,6 +681,10 @@ msgstr "Tanysgrifio i'r porthiant"
 msgid "Success"
 msgstr "Llwyddiant"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Swipe header to the right"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Switch to dark theme"
 msgstr "Newid i thema dywyll"

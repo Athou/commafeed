@@ -681,6 +681,10 @@ msgstr "フィードを購読する"
 msgid "Success"
 msgstr "成功"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Swipe header to the right"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Switch to dark theme"
 msgstr "ダークテーマに切り替え"

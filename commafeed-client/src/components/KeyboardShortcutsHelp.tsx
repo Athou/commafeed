@@ -103,6 +103,8 @@ export function KeyboardShortcutsHelp() {
                     </td>
                     <td>
                         <Kbd>M</Kbd>
+                        <span>, </span>
+                        <Trans>Swipe header to the right</Trans>
                     </td>
                 </tr>
                 <tr>

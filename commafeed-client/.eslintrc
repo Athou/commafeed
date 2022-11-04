@@ -70,8 +70,6 @@
                 "groups": [
                     "useLocation",
                     "useParams",
-                    "useStyles",
-                    "useMantineTheme",
                     "useState",
                     "useAppSelector",
                     "useAppDispatch",

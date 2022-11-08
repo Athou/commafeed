@@ -10,6 +10,9 @@ interface ImageWithPlaceholderWhileLoadingProps {
     height?: number | "auto"
     placeholderWidth?: number
     placeholderHeight?: number
+    placeholderBackgroundColor?: string
+    placeholderIconSize?: number
+    placeholderIconColor?: string
 }
 
 const useStyles = createStyles((theme, props: ImageWithPlaceholderWhileLoadingProps) => ({
@@ -17,8 +20,8 @@ const useStyles = createStyles((theme, props: ImageWithPlaceholderWhileLoadingPr
         width: props.placeholderWidth ?? 400,
         height: props.placeholderHeight ?? 600,
         maxWidth: "100%",
-        color: theme.fn.variant({ color: theme.primaryColor, variant: "subtle" }).color,
-        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1],
+        color: props.placeholderIconColor ?? theme.fn.variant({ color: theme.primaryColor, variant: "subtle" }).color,
+        backgroundColor: props.placeholderBackgroundColor ?? (theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1]),
     },
 }))
 
@@ -32,7 +35,7 @@ export function ImageWithPlaceholderWhileLoading(props: ImageWithPlaceholderWhil
                 <Box>
                     <Center className={classes.placeholder}>
                         <div>
-                            <TbPhoto size={48} />
+                            <TbPhoto size={props.placeholderIconSize ?? 48} />
                         </div>
                     </Center>
                 </Box>

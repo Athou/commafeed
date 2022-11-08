@@ -1,9 +1,10 @@
 import { t } from "@lingui/macro"
-import { Box, Center, Image, Kbd, TextInput } from "@mantine/core"
+import { Box, Center, Kbd, TextInput } from "@mantine/core"
 import { openSpotlight, SpotlightAction, SpotlightProvider } from "@mantine/spotlight"
 import { redirectToFeed } from "app/slices/redirect"
 import { useAppDispatch } from "app/store"
 import { Subscription } from "app/types"
+import { FeedFavicon } from "components/content/FeedFavicon"
 import { useMousetrap } from "hooks/useMousetrap"
 import { TbSearch } from "react-icons/tb"
 
@@ -17,7 +18,7 @@ export function TreeSearch(props: TreeSearchProps) {
         .sort((f1, f2) => f1.name.localeCompare(f2.name))
         .map(f => ({
             title: f.name,
-            icon: <Image withPlaceholder src={f.iconUrl} alt="favicon" width={18} height={18} />,
+            icon: <FeedFavicon url={f.iconUrl} />,
             onTrigger: () => dispatch(redirectToFeed(f.id)),
         }))
 

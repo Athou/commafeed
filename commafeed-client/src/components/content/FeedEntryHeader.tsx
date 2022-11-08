@@ -1,7 +1,8 @@
-import { Box, createStyles, Image, Text } from "@mantine/core"
+import { Box, createStyles, Text } from "@mantine/core"
 import { Entry } from "app/types"
 import { RelativeDate } from "components/RelativeDate"
 import { FeedEntryTitle } from "./FeedEntryTitle"
+import { FeedFavicon } from "./FeedFavicon"
 
 export interface FeedEntryHeaderProps {
     entry: Entry
@@ -33,7 +34,7 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
             </Box>
             <Box className={classes.headerSubtext}>
                 <Box mr={6}>
-                    <Image withPlaceholder src={props.entry.iconUrl} alt="feed icon" width={18} height={18} />
+                    <FeedFavicon url={props.entry.iconUrl} />
                 </Box>
                 <Box>
                     <Text color="dimmed">{props.entry.feedName}</Text>

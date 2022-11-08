@@ -14,7 +14,7 @@ export function FeedEntryBody(props: FeedEntryBodyProps) {
             <Box>
                 <Content content={props.entry.content} />
             </Box>
-            {props.entry.enclosureUrl && (
+            {props.entry.enclosureType && props.entry.enclosureUrl && (
                 <Box pt="md">
                     <Enclosure enclosureType={props.entry.enclosureType} enclosureUrl={props.entry.enclosureUrl} />
                 </Box>

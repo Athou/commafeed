@@ -3,8 +3,8 @@ import { useState } from "react"
 import { TbPhoto } from "react-icons/tb"
 
 interface ImageWithPlaceholderWhileLoadingProps {
-    src?: string
-    alt?: string
+    src: string
+    alt: string
     title?: string
     width?: number
     height?: number | "auto"

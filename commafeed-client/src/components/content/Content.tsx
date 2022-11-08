@@ -29,7 +29,9 @@ const transform: TransformCallback = node => {
     if (node.tagName === "IMG") {
         // show placeholders for loading img tags, this allows the entry to have its final height immediately
         const src = node.getAttribute("src") ?? undefined
-        const alt = node.getAttribute("alt") ?? undefined
+        if (!src) return undefined
+
+        const alt = node.getAttribute("alt") ?? "image"
         const title = node.getAttribute("title") ?? undefined
         const nodeWidth = node.getAttribute("width")
         const nodeHeight = node.getAttribute("height")
@@ -40,6 +42,7 @@ const transform: TransformCallback = node => {
             height,
             maxWidth: Constants.layout.entryMaxWidth,
         })
+
         return (
             <ImageWithPlaceholderWhileLoading
                 src={src}

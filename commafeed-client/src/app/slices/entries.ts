@@ -128,6 +128,7 @@ export const markAllEntries = createAsyncThunk<void, { sourceType: EntrySourceTy
     async (arg, thunkApi) => {
         const endpoint = arg.sourceType === "category" ? client.category.markEntries : client.feed.markEntries
         await endpoint(arg.req)
+        thunkApi.dispatch(reloadEntries())
         thunkApi.dispatch(reloadTree())
     }
 )

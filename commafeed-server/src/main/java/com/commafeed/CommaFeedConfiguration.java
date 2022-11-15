@@ -45,18 +45,14 @@ public class CommaFeedConfiguration extends Configuration {
 	@JsonProperty("app")
 	private ApplicationSettings applicationSettings;
 
-	private final ResourceBundle bundle;
+	private final String version;
+	private final String gitCommit;
 
 	public CommaFeedConfiguration() {
-		bundle = ResourceBundle.getBundle("application");
-	}
+		ResourceBundle bundle = ResourceBundle.getBundle("application");
 
-	public String getVersion() {
-		return bundle.getString("version");
-	}
-
-	public String getGitCommit() {
-		return bundle.getString("git.commit");
+		this.version = bundle.getString("version");
+		this.gitCommit = bundle.getString("git.commit");
 	}
 
 	@Getter

@@ -261,8 +261,8 @@
 			<artifactId>dropwizard-hibernate</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.liquibase</groupId>
-			<artifactId>liquibase-core</artifactId>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-migrations</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.dropwizard</groupId>

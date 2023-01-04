@@ -9,16 +9,26 @@ import org.eclipse.jetty.server.session.FileSessionDataStore;
 import org.eclipse.jetty.server.session.SessionCache;
 import org.eclipse.jetty.server.session.SessionHandler;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableSet;
 
 import io.dropwizard.util.Duration;
 
 public class SessionHandlerFactory {
 
+	@JsonProperty
 	private String path = "sessions";
+
+	@JsonProperty
 	private Duration cookieMaxAge = Duration.days(30);
+
+	@JsonProperty
 	private Duration cookieRefreshAge = Duration.days(1);
+
+	@JsonProperty
 	private Duration maxInactiveInterval = Duration.days(30);
+
+	@JsonProperty
 	private Duration savePeriod = Duration.minutes(5);
 
 	public SessionHandler build() {

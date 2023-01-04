@@ -54,6 +54,8 @@ import com.google.inject.TypeLiteral;
 
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
+import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.hibernate.HibernateBundle;
@@ -117,6 +119,10 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 		bootstrap.addBundle(new AssetsBundle("/assets/", "/", "index.html"));
 		bootstrap.addBundle(new MultiPartBundle());
+
+		// Enable variable substitution with environment variables
+		bootstrap.setConfigurationSourceProvider(
+				new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(), new EnvironmentVariableSubstitutor(false)));
 	}
 
 	@Override

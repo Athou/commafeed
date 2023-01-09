@@ -413,7 +413,7 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get unread count for feed subscriptions", response = UnreadCount.class, responseContainer = "List")
 	@Timed
-	public Response getUnreadCount(@ApiParam(hidden = true) @SecurityCheck User user) {
+	public Response getUnreadCount(@ApiParam(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user) {
 		Map<Long, UnreadCount> unreadCount = feedSubscriptionService.getUnreadCount(user);
 		return Response.ok(Lists.newArrayList(unreadCount.values())).build();
 	}

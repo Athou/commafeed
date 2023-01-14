@@ -1,6 +1,5 @@
 package com.commafeed.backend.feed;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,7 +9,6 @@ import javax.inject.Singleton;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
@@ -31,15 +29,17 @@ import lombok.extern.slf4j.Slf4j;
 public class FeedRefreshWorker implements Managed {
 
 	private final FeedRefreshUpdater feedRefreshUpdater;
+	private final FeedRefreshIntervalCalculator refreshIntervalCalculator;
 	private final FeedFetcher fetcher;
 	private final FeedQueues queues;
 	private final CommaFeedConfiguration config;
 	private final FeedRefreshExecutor pool;
 
 	@Inject
-	public FeedRefreshWorker(FeedRefreshUpdater feedRefreshUpdater, FeedFetcher fetcher, FeedQueues queues, CommaFeedConfiguration config,
-			MetricRegistry metrics) {
+	public FeedRefreshWorker(FeedRefreshUpdater feedRefreshUpdater, FeedRefreshIntervalCalculator refreshIntervalCalculator,
+			FeedFetcher fetcher, FeedQueues queues, CommaFeedConfiguration config, MetricRegistry metrics) {
 		this.feedRefreshUpdater = feedRefreshUpdater;
+		this.refreshIntervalCalculator = refreshIntervalCalculator;
 		this.fetcher = fetcher;
 		this.config = config;
 		this.queues = queues;
@@ -62,8 +62,6 @@ public class FeedRefreshWorker implements Managed {
 
 	private void update(FeedRefreshContext context) {
 		Feed feed = context.getFeed();
-		int refreshInterval = config.getApplicationSettings().getRefreshIntervalMinutes();
-		Date disabledUntil = DateUtils.addMinutes(new Date(), refreshInterval);
 		try {
 			String url = Optional.ofNullable(feed.getUrlAfterRedirect()).orElse(feed.getUrl());
 			FetchedFeed fetchedFeed = fetcher.fetch(url, false, feed.getLastModifiedHeader(), feed.getEtagHeader(),
@@ -76,10 +74,6 @@ public class FeedRefreshWorker implements Managed {
 				entries = entries.stream().limit(maxFeedCapacity).collect(Collectors.toList());
 			}
 
-			if (config.getApplicationSettings().getHeavyLoad()) {
-				disabledUntil = FeedUtils.buildDisabledUntil(fetchedFeed.getFeed().getLastEntryDate(),
-						fetchedFeed.getFeed().getAverageEntryInterval(), disabledUntil);
-			}
 			String urlAfterRedirect = fetchedFeed.getUrlAfterRedirect();
 			if (StringUtils.equals(url, urlAfterRedirect)) {
 				urlAfterRedirect = null;
@@ -95,7 +89,7 @@ public class FeedRefreshWorker implements Managed {
 
 			feed.setErrorCount(0);
 			feed.setMessage(null);
-			feed.setDisabledUntil(disabledUntil);
+			feed.setDisabledUntil(refreshIntervalCalculator.onFetchSuccess(fetchedFeed));
 
 			handlePubSub(feed, fetchedFeed.getFeed());
 			context.setEntries(entries);
@@ -104,12 +98,9 @@ public class FeedRefreshWorker implements Managed {
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified : {} - {}", feed.getUrl(), e.getMessage());
 
-			if (config.getApplicationSettings().getHeavyLoad()) {
-				disabledUntil = FeedUtils.buildDisabledUntil(feed.getLastEntryDate(), feed.getAverageEntryInterval(), disabledUntil);
-			}
 			feed.setErrorCount(0);
 			feed.setMessage(e.getMessage());
-			feed.setDisabledUntil(disabledUntil);
+			feed.setDisabledUntil(refreshIntervalCalculator.onFeedNotModified(feed));
 
 			queues.giveBack(feed);
 		} catch (Exception e) {
@@ -118,7 +109,7 @@ public class FeedRefreshWorker implements Managed {
 
 			feed.setErrorCount(feed.getErrorCount() + 1);
 			feed.setMessage(message);
-			feed.setDisabledUntil(FeedUtils.buildDisabledUntil(feed.getErrorCount()));
+			feed.setDisabledUntil(refreshIntervalCalculator.onFetchError(feed));
 
 			queues.giveBack(feed);
 		}

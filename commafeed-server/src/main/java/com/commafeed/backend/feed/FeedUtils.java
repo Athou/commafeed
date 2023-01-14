@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -20,7 +19,6 @@ import org.ahocorasick.trie.Trie.TrieBuilder;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -357,57 +355,6 @@ public class FeedUtils {
 			}
 		}
 		return sb.toString();
-	}
-
-	/**
-	 * When there was an error fetching the feed
-	 * 
-	 */
-	public static Date buildDisabledUntil(int errorCount) {
-		Date now = new Date();
-		int retriesBeforeDisable = 3;
-
-		if (errorCount >= retriesBeforeDisable) {
-			int disabledHours = errorCount - retriesBeforeDisable + 1;
-			disabledHours = Math.min(24 * 7, disabledHours);
-			return DateUtils.addHours(now, disabledHours);
-		}
-		return now;
-	}
-
-	/**
-	 * When the feed was refreshed successfully
-	 */
-	public static Date buildDisabledUntil(Date publishedDate, Long averageEntryInterval, Date defaultRefreshInterval) {
-		Date now = new Date();
-
-		if (publishedDate == null) {
-			// feed with no entries, recheck in 24 hours
-			return DateUtils.addHours(now, 24);
-		} else if (publishedDate.before(DateUtils.addMonths(now, -1))) {
-			// older than a month, recheck in 24 hours
-			return DateUtils.addHours(now, 24);
-		} else if (publishedDate.before(DateUtils.addDays(now, -14))) {
-			// older than two weeks, recheck in 12 hours
-			return DateUtils.addHours(now, 12);
-		} else if (publishedDate.before(DateUtils.addDays(now, -7))) {
-			// older than a week, recheck in 6 hours
-			return DateUtils.addHours(now, 6);
-		} else if (averageEntryInterval != null) {
-			// use average time between entries to decide when to refresh next, divided by factor
-			int factor = 2;
-
-			// not more than 6 hours
-			long date = Math.min(DateUtils.addHours(now, 6).getTime(), now.getTime() + averageEntryInterval / factor);
-
-			// not less than default refresh interval
-			date = Math.max(defaultRefreshInterval.getTime(), date);
-
-			return new Date(date);
-		} else {
-			// unknown case, recheck in 24 hours
-			return DateUtils.addHours(now, 24);
-		}
 	}
 
 	public static Long averageTimeBetweenEntries(List<FeedEntry> entries) {

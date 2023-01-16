@@ -28,7 +28,6 @@ public class FeedRefreshTaskGiver implements Managed {
 	private final ExecutorService executor;
 
 	private final Meter feedRefreshed;
-	private final Meter threadWaited;
 
 	@Inject
 	public FeedRefreshTaskGiver(FeedQueues queues, FeedDAO feedDAO, FeedRefreshWorker worker, CommaFeedConfiguration config,
@@ -38,7 +37,6 @@ public class FeedRefreshTaskGiver implements Managed {
 
 		executor = Executors.newFixedThreadPool(1);
 		feedRefreshed = metrics.meter(MetricRegistry.name(getClass(), "feedRefreshed"));
-		threadWaited = metrics.meter(MetricRegistry.name(getClass(), "threadWaited"));
 	}
 
 	@Override
@@ -66,14 +64,6 @@ public class FeedRefreshTaskGiver implements Managed {
 						if (context != null) {
 							feedRefreshed.mark();
 							worker.updateFeed(context);
-						} else {
-							log.debug("nothing to do, sleeping for 15s");
-							threadWaited.mark();
-							try {
-								Thread.sleep(15000);
-							} catch (InterruptedException e) {
-								log.debug("interrupted while sleeping");
-							}
 						}
 					} catch (Exception e) {
 						log.error(e.getMessage(), e);

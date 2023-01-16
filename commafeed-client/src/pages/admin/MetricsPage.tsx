@@ -21,9 +21,7 @@ const shownGauges: { [key: string]: string } = {
     "com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-updater.pending": "Feed Updater queued",
     "com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-worker.active": "Feed Worker active",
     "com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-worker.pending": "Feed Worker queued",
-    "com.commafeed.backend.feed.FeedQueues.addQueue": "Task Giver Add Queue",
-    "com.commafeed.backend.feed.FeedQueues.takeQueue": "Task Giver Take Queue",
-    "com.commafeed.backend.feed.FeedQueues.giveBackQueue": "Task Giver Give Back Queue",
+    "com.commafeed.backend.feed.FeedQueues.queue": "Feed Refresh queue size",
 }
 
 export function MetricsPage() {

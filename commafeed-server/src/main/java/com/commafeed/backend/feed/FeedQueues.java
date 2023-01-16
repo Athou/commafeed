@@ -81,12 +81,9 @@ public class FeedQueues {
 	 * add a feed to the refresh queue
 	 */
 	public void add(Feed feed, boolean urgent) {
-		int refreshInterval = config.getApplicationSettings().getRefreshIntervalMinutes();
-		if (feed.getLastUpdated() == null || feed.getLastUpdated().before(DateUtils.addMinutes(new Date(), -1 * refreshInterval))) {
-			boolean alreadyQueued = addQueue.stream().anyMatch(c -> c.getFeed().getId().equals(feed.getId()));
-			if (!alreadyQueued) {
-				addQueue.add(new FeedRefreshContext(feed, urgent));
-			}
+		boolean alreadyQueued = addQueue.stream().anyMatch(c -> c.getFeed().getId().equals(feed.getId()));
+		if (!alreadyQueued) {
+			addQueue.add(new FeedRefreshContext(feed, urgent));
 		}
 	}
 
@@ -134,7 +131,7 @@ public class FeedQueues {
 		}
 
 		// update all feeds in the database
-		List<Feed> feeds = map.values().stream().map(c -> c.getFeed()).collect(Collectors.toList());
+		List<Feed> feeds = map.values().stream().map(FeedRefreshContext::getFeed).collect(Collectors.toList());
 		UnitOfWork.run(sessionFactory, () -> feedDAO.saveOrUpdate(feeds));
 	}
 

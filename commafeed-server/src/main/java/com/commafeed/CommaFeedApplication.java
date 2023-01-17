@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.ServerEndpointConfig;
 
 import org.hibernate.cfg.AvailableSettings;
 
@@ -47,11 +48,14 @@ import com.commafeed.frontend.servlet.CustomCssServlet;
 import com.commafeed.frontend.servlet.LogoutServlet;
 import com.commafeed.frontend.servlet.NextUnreadServlet;
 import com.commafeed.frontend.session.SessionHelperFactoryProvider;
+import com.commafeed.frontend.ws.WebSocketConfigurator;
+import com.commafeed.frontend.ws.WebSocketEndpoint;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 
+import be.tomcools.dropwizard.websocket.WebsocketBundle;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
@@ -60,7 +64,6 @@ import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
-import io.dropwizard.server.DefaultServerFactory;
 import io.dropwizard.servlets.CacheBustingFilter;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -75,6 +78,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 	public static final Date STARTUP_TIME = new Date();
 
 	private HibernateBundle<CommaFeedConfiguration> hibernateBundle;
+	private WebsocketBundle<CommaFeedConfiguration> websocketBundle;
 
 	@Override
 	public String getName() {
@@ -85,6 +89,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 	public void initialize(Bootstrap<CommaFeedConfiguration> bootstrap) {
 		bootstrap.getObjectMapper().registerModule(new MetricsModule(TimeUnit.SECONDS, TimeUnit.SECONDS, false));
 
+		bootstrap.addBundle(websocketBundle = new WebsocketBundle<>());
 		bootstrap.addBundle(hibernateBundle = new HibernateBundle<CommaFeedConfiguration>(AbstractModel.class, Feed.class,
 				FeedCategory.class, FeedEntry.class, FeedEntryContent.class, FeedEntryStatus.class, FeedEntryTag.class,
 				FeedSubscription.class, User.class, UserRole.class, UserSettings.class) {
@@ -140,7 +145,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 		// REST resources
 		environment.jersey().setUrlPattern("/rest/*");
-		((DefaultServerFactory) config.getServerFactory()).setJerseyRootPath("/rest/*");
 		environment.jersey().register(injector.getInstance(AdminREST.class));
 		environment.jersey().register(injector.getInstance(CategoryREST.class));
 		environment.jersey().register(injector.getInstance(EntryREST.class));
@@ -154,6 +158,12 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.servlets().addServlet("logout", injector.getInstance(LogoutServlet.class)).addMapping("/logout");
 		environment.servlets().addServlet("customCss", injector.getInstance(CustomCssServlet.class)).addMapping("/custom_css.css");
 		environment.servlets().addServlet("analytics.js", injector.getInstance(AnalyticsServlet.class)).addMapping("/analytics.js");
+
+		// WebSocket endpoint
+		ServerEndpointConfig serverEndpointConfig = ServerEndpointConfig.Builder.create(WebSocketEndpoint.class, "/ws")
+				.configurator(injector.getInstance(WebSocketConfigurator.class))
+				.build();
+		websocketBundle.addEndpoint(serverEndpointConfig);
 
 		// Scheduled tasks
 		Set<ScheduledTask> tasks = injector.getInstance(Key.get(new TypeLiteral<Set<ScheduledTask>>() {

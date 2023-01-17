@@ -43,7 +43,8 @@
         "react-router-dom": "^6.4.3",
         "react-swipeable": "^7.0.0",
         "swagger-ui-react": "^4.15.2",
-        "tinycon": "^0.6.8"
+        "tinycon": "^0.6.8",
+        "websocket-heartbeat-js": "^1.1.0"
     },
     "devDependencies": {
         "@lingui/cli": "^3.15.0",

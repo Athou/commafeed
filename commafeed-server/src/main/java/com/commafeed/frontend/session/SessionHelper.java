@@ -9,7 +9,7 @@ import com.commafeed.backend.model.User;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor()
+@RequiredArgsConstructor
 public class SessionHelper {
 
 	private static final String SESSION_KEY_USER = "user";
@@ -18,13 +18,16 @@ public class SessionHelper {
 
 	public Optional<User> getLoggedInUser() {
 		Optional<HttpSession> session = getSession(false);
-
 		if (session.isPresent()) {
-			User user = (User) session.get().getAttribute(SESSION_KEY_USER);
-			return Optional.ofNullable(user);
+			return getLoggedInUser(session.get());
 		}
 
 		return Optional.empty();
+	}
+
+	public static Optional<User> getLoggedInUser(HttpSession session) {
+		User user = (User) session.getAttribute(SESSION_KEY_USER);
+		return Optional.ofNullable(user);
 	}
 
 	public void setLoggedInUser(User user) {

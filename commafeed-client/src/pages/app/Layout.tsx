@@ -25,6 +25,7 @@ import { Logo } from "components/Logo"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import { OnMobile } from "components/responsive/OnMobile"
 import { useAppLoading } from "hooks/useAppLoading"
+import { useWebSocket } from "hooks/useWebSocket"
 import { LoadingPage } from "pages/LoadingPage"
 import { ReactNode, Suspense, useEffect } from "react"
 import { TbPlus } from "react-icons/tb"
@@ -85,6 +86,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
     const { loading } = useAppLoading()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
     const dispatch = useAppDispatch()
+    useWebSocket()
 
     useEffect(() => {
         dispatch(reloadSettings())

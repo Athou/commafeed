@@ -76,7 +76,7 @@ public class FeedSubscriptionService {
 		sub.setTitle(FeedUtils.truncate(title, 128));
 		feedSubscriptionDAO.saveOrUpdate(sub);
 
-		queues.add(feed, false);
+		queues.add(feed, true);
 		cache.invalidateUserRootCategory(user);
 		return sub.getId();
 	}

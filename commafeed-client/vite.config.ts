@@ -22,6 +22,7 @@ export default defineConfig({
         port: 8082,
         proxy: {
             "/rest": "http://localhost:8083",
+            "/ws": "ws://localhost:8083",
             "/swagger": "http://localhost:8083",
         },
     },

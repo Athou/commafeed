@@ -288,6 +288,10 @@ msgstr "URL zdroje"
 msgid "Feed name"
 msgstr "Název zdroje"
 
+#: src/components/header/RefreshMenu.tsx
+msgid "Fetch all my feeds now"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
 msgstr "Filtrování výrazu"
@@ -580,6 +584,10 @@ msgstr "Obnovit"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "V této instanci CommaFeed jsou registrace uzavřeny"
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Reload"
+msgstr ""
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx

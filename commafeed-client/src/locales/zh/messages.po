@@ -288,6 +288,10 @@ msgstr "供稿网址"
 msgid "Feed name"
 msgstr "提要名称"
 
+#: src/components/header/RefreshMenu.tsx
+msgid "Fetch all my feeds now"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
 msgstr "过滤表达式"
@@ -580,6 +584,10 @@ msgstr "刷新"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "此 CommaFeed 实例上的注册已关闭"
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Reload"
+msgstr ""
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx

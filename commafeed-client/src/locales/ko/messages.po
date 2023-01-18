@@ -288,6 +288,10 @@ msgstr "피드 URL"
 msgid "Feed name"
 msgstr "피드 이름"
 
+#: src/components/header/RefreshMenu.tsx
+msgid "Fetch all my feeds now"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
 msgstr "필터링 표현식"
@@ -580,6 +584,10 @@ msgstr "새로 고침"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "이 CommaFeed 인스턴스에 대한 등록이 마감되었습니다."
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Reload"
+msgstr ""
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx

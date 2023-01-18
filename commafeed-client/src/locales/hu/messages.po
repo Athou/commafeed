@@ -288,6 +288,10 @@ msgstr ""
 msgid "Feed name"
 msgstr "Hírcsatorna neve"
 
+#: src/components/header/RefreshMenu.tsx
+msgid "Fetch all my feeds now"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
 msgstr "Szűrő kifejezés"
@@ -580,6 +584,10 @@ msgstr "Frissítés"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "A regisztrációk le vannak zárva ezen a CommaFeed példányon"
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Reload"
+msgstr ""
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx

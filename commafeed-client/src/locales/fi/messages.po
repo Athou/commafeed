@@ -288,6 +288,10 @@ msgstr "Syötteen URL-osoite"
 msgid "Feed name"
 msgstr "Syötteen nimi"
 
+#: src/components/header/RefreshMenu.tsx
+msgid "Fetch all my feeds now"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
 msgstr "Suodattava lauseke"
@@ -580,6 +584,10 @@ msgstr "Päivitä"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Tämän CommaFeed-esiintymän rekisteröinnit on suljettu"
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Reload"
+msgstr ""
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx

@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro"
 import { ActionIcon, Center, Divider, Indicator, Popover, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { reloadEntries, search } from "app/slices/entries"
+import { search } from "app/slices/entries"
 import { changeReadingMode, changeReadingOrder } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { ActionButton } from "components/ActionButtton"
@@ -11,6 +11,7 @@ import { useEffect } from "react"
 import { TbArrowDown, TbArrowUp, TbEye, TbEyeOff, TbRefresh, TbSearch, TbUser, TbX } from "react-icons/tb"
 import { MarkAllAsReadButton } from "./MarkAllAsReadButton"
 import { ProfileMenu } from "./ProfileMenu"
+import { RefreshMenu } from "./RefreshMenu"
 
 function HeaderDivider() {
     return <Divider orientation="vertical" />
@@ -40,7 +41,7 @@ export function Header() {
     return (
         <Center>
             <ButtonToolbar>
-                <ActionButton icon={<TbRefresh size={iconSize} />} label={t`Refresh`} onClick={() => dispatch(reloadEntries())} />
+                <RefreshMenu control={<ActionButton icon={<TbRefresh size={iconSize} />} label={t`Refresh`} />} />
                 <MarkAllAsReadButton iconSize={iconSize} />
 
                 <HeaderDivider />

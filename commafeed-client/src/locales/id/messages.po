@@ -288,6 +288,10 @@ msgstr "URL Umpan"
 msgid "Feed name"
 msgstr "Nama umpan"
 
+#: src/components/header/RefreshMenu.tsx
+msgid "Fetch all my feeds now"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
 msgstr "Memfilter ekspresi"
@@ -580,6 +584,10 @@ msgstr "Segarkan"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Pendaftaran ditutup pada instans CommaFeed ini"
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Reload"
+msgstr ""
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx

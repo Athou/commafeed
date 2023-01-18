@@ -58,6 +58,7 @@ export const client = {
         getEntries: (req: GetEntriesPaginatedRequest) => axiosInstance.get<Entries>("feed/entries", { params: req }),
         markEntries: (req: MarkRequest) => axiosInstance.post("feed/mark", req),
         fetchFeed: (req: FeedInfoRequest) => axiosInstance.post<FeedInfo>("feed/fetch", req),
+        refreshAll: () => axiosInstance.get("feed/refreshAll"),
         subscribe: (req: SubscribeRequest) => axiosInstance.post<number>("feed/subscribe", req),
         unsubscribe: (req: IDRequest) => axiosInstance.post("feed/unsubscribe", req),
         importOpml: (req: File) => {

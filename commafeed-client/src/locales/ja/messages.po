@@ -288,6 +288,10 @@ msgstr "フィード URL"
 msgid "Feed name"
 msgstr "フィード名"
 
+#: src/components/header/RefreshMenu.tsx
+msgid "Fetch all my feeds now"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
 msgstr "フィルタリング式"
@@ -580,6 +584,10 @@ msgstr "リフレッシュ"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "この CommaFeed インスタンスの登録は終了しています"
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Reload"
+msgstr ""
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx

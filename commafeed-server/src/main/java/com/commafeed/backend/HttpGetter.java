@@ -182,11 +182,28 @@ public class HttpGetter {
 		System.out.println(new String(result.content));
 	}
 
+	@Getter
 	public static class NotModifiedException extends Exception {
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * if the value of this header changed, this is its new value
+		 */
+		private String newLastModifiedHeader;
+
+		/**
+		 * if the value of this header changed, this is its new value
+		 */
+		private String newEtagHeader;
+
 		public NotModifiedException(String message) {
+			this(message, null, null);
+		}
+
+		public NotModifiedException(String message, String newLastModifiedHeader, String newEtagHeader) {
 			super(message);
+			this.newLastModifiedHeader = newLastModifiedHeader;
+			this.newEtagHeader = newEtagHeader;
 		}
 
 	}

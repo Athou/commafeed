@@ -62,16 +62,23 @@ public class FeedFetcher {
 			throw new IOException("Feed content is empty.");
 		}
 
+		boolean lastModifiedHeaderValueChanged = !StringUtils.equals(lastModified, result.getLastModifiedSince());
+		boolean etagHeaderValueChanged = !StringUtils.equals(eTag, result.getETag());
+
 		String hash = DigestUtils.sha1Hex(content);
 		if (lastContentHash != null && hash != null && lastContentHash.equals(hash)) {
 			log.debug("content hash not modified: {}", feedUrl);
-			throw new NotModifiedException("content hash not modified");
+			throw new NotModifiedException("content hash not modified",
+					lastModifiedHeaderValueChanged ? result.getLastModifiedSince() : null,
+					etagHeaderValueChanged ? result.getETag() : null);
 		}
 
 		if (lastPublishedDate != null && fetchedFeed.getFeed().getLastPublishedDate() != null
 				&& lastPublishedDate.getTime() == fetchedFeed.getFeed().getLastPublishedDate().getTime()) {
 			log.debug("publishedDate not modified: {}", feedUrl);
-			throw new NotModifiedException("publishedDate not modified");
+			throw new NotModifiedException("publishedDate not modified",
+					lastModifiedHeaderValueChanged ? result.getLastModifiedSince() : null,
+					etagHeaderValueChanged ? result.getETag() : null);
 		}
 
 		Feed feed = fetchedFeed.getFeed();

@@ -102,6 +102,14 @@ public class FeedRefreshWorker implements Managed {
 			feed.setMessage(e.getMessage());
 			feed.setDisabledUntil(refreshIntervalCalculator.onFeedNotModified(feed));
 
+			if (e.getNewLastModifiedHeader() != null) {
+				feed.setLastModifiedHeader(e.getNewLastModifiedHeader());
+			}
+
+			if (e.getNewEtagHeader() != null) {
+				feed.setEtagHeader(e.getNewEtagHeader());
+			}
+
 			queues.giveBack(feed);
 		} catch (Exception e) {
 			String message = "Unable to refresh feed " + feed.getUrl() + " : " + e.getMessage();

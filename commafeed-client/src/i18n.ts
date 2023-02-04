@@ -29,7 +29,37 @@ import "dayjs/locale/sk"
 import "dayjs/locale/sv"
 import "dayjs/locale/tr"
 import "dayjs/locale/zh"
-import { ar, ca, cs, cy, da, de, en, es, fa, fi, fr, gl, hu, id, it, ja, ko, ms, nb, nl, nn, pl, pt, ru, sk, sv, tr, zh } from "make-plural"
+import {
+    ar,
+    ca,
+    cs,
+    cy,
+    da,
+    de,
+    en,
+    es,
+    fa,
+    fi,
+    fr,
+    gl,
+    hu,
+    id,
+    it,
+    ja,
+    ko,
+    ms,
+    nb,
+    nl,
+    nn,
+    pl,
+    PluralCategory,
+    pt,
+    ru,
+    sk,
+    sv,
+    tr,
+    zh,
+} from "make-plural"
 import { useEffect } from "react"
 import { messages as arMessages } from "./locales/ar/messages"
 import { messages as caMessages } from "./locales/ca/messages"
@@ -64,7 +94,7 @@ interface Locale {
     key: string
     label: string
     messages: Messages
-    plurals?: (n: number | string, ord?: boolean) => string
+    plurals?: (n: number | string, ord?: boolean) => PluralCategory
 }
 
 // add an object to the array to add a new locale

@@ -22,8 +22,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
     const mobile = !useMediaQuery(`(min-width: ${Constants.layout.mobileBreakpoint}px)`)
     const dispatch = useAppDispatch()
 
-    const showSharingButtons =
-        sharingSettings && (Object.values(sharingSettings) as Array<typeof sharingSettings[keyof typeof sharingSettings]>).some(v => v)
+    const showSharingButtons = sharingSettings && Object.values(sharingSettings).some(v => v)
 
     const readStatusButtonClicked = () => dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))
     const onTagsChange = (values: string[]) =>

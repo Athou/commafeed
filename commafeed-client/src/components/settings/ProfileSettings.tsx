@@ -22,7 +22,7 @@ export function ProfileSettings() {
 
     const form = useForm<FormData>({
         validate: {
-            newPasswordConfirmation: (value: string, values: FormData) => (value !== values.newPassword ? t`Passwords do not match` : null),
+            newPasswordConfirmation: (value, values) => (value !== values.newPassword ? t`Passwords do not match` : null),
         },
     })
     const { setValues } = form

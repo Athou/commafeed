@@ -98,6 +98,8 @@
     "next_refresh" : "Nächste Aktualisierung",
     "queued_for_refresh" : "Wartet auf Aktualisierung",
     "feed_url" : "Feed Adresse",
+    "filtering_expression" : "Begriff filtern",
+    "filtering_expression_help" : "Falls nicht leer, ein Ausdruck, der als 'true' oder 'false' ausgewertet wird. \nBei 'false', werden neue Einträge für diesen Feed automatisch als gelesen markiert. \nVerfügbare Variablen sind 'title', 'content', 'url', 'author' und 'categories'. Ihr Inhalt wird in Kleinbuchstaben umgewandelt, um den String-Vergleich zu erleichtern. \nBeispiel: url.contains('youtube') oder (author eq 'athou' und title.contains('github'). \nDie vollständige Syntax ist <a href='http://commons.apache.org/proper/commons-jexl/reference/syntax.html' target='_blank'>hier</a> verfügbar.",
     "generate_api_key_first" : "Generiere zuerst einen API Schlüssel in deinem Profil.",
     "unsubscribe" : "Kündigen",
     "unsubscribe_confirmation" : "Bist du sicher das du diesen Feed kündigen möchtest?",
@@ -108,7 +110,8 @@
   },
   "profile" : {
     "user_name" : "Benutzername",
-    "email" : "E-mail",
+    "email" : "E-Mail",
+    "current_password" : "Aktuelles Passwort",
     "change_password" : "Passwort ändern",
     "confirm_password" : "Passwort bestätigen",
     "minimum_8_chars" : "Mindestens 8 Zeichen",
@@ -175,6 +178,7 @@
       "go_to_all" : "Gehe zur Ansicht \"Alle\"",
       "go_to_starred" : "Gehe zur Ansicht \"Favoriten\"",
       "feed_search" : "zu einem Feed springen durch durch eingeben seines Namens"
+      "refresh": "aktualisieren"
     }
   }
 }

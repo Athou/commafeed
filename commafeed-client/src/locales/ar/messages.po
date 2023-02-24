@@ -352,6 +352,7 @@ msgstr "استيراد"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "في العرض الموسع ، التمرير عبر الإدخالات وضع علامة عليها كمقروءة"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "إبقاء غير مقروءة"
@@ -408,6 +409,10 @@ msgstr "تسجيل الدخول"
 msgid "Logout"
 msgstr "تسجيل الخروج"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "تعليم الكل كمقروء"
 msgid "Mark all entries as read"
 msgstr "تعليم كافة الإدخالات كمقروءة"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "وضع علامة كمقروء"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "وضع علامة كمقروءة حتى هنا"
@@ -515,6 +522,7 @@ msgstr "فتح الإدخال الحالي في علامة تبويب جديدة
 msgid "Open current entry in a new tab in the background"
 msgstr "فتح الإدخال الحالي في علامة تبويب جديدة في الخلفية"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "افتح الرابط"
@@ -589,6 +597,10 @@ msgstr "تم إغلاق التسجيلات في مثيل CommaFeed هذا"
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "مشاركة المواقع"
 msgid "Shift"
 msgstr "الحلقة"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "إظهار موجز ويب والفئات التي لا تحتوي على إدخالات غير مقروءة"
@@ -662,6 +682,7 @@ msgstr "شيء سيء حدث للتو ..."
 msgid "Space"
 msgstr "فضاء"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "النجم"
@@ -725,6 +746,7 @@ msgstr "جرب CommaFeed باستخدام الحساب التجريبي: تجر�
 msgid "Unread"
 msgstr "غير مقروءة"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr "إلغاء النجم"
@@ -754,6 +776,10 @@ msgstr "موقع الكتروني"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "ليس لديك أي اشتراكات حتى الآن. "
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

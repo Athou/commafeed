@@ -352,6 +352,7 @@ msgstr "Импорт"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "В развернутом виде прокрутка записей помечает их как прочитанные."
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Не читать"
@@ -408,6 +409,10 @@ msgstr "Войти"
 msgid "Logout"
 msgstr "Выйти"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "Отметить все как прочитанное"
 msgid "Mark all entries as read"
 msgstr "Отметить все записи как прочитанные"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "Отметить как прочитанное"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Отметить как прочитанное до этого места"
@@ -515,6 +522,7 @@ msgstr "Открыть текущую запись в новой вкладке"
 msgid "Open current entry in a new tab in the background"
 msgstr "Открыть текущую запись в новой вкладке в фоновом режиме."
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "Открыть ссылку"
@@ -589,6 +597,10 @@ msgstr "Регистрация закрыта для этого экземпля
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "Обмен сайтами"
 msgid "Shift"
 msgstr "Сдвиг"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Показать каналы и категории без непрочитанных записей"
@@ -662,6 +682,7 @@ msgstr "Только что случилось что-то плохое..."
 msgid "Space"
 msgstr "Пробел"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "Звезда"
@@ -725,6 +746,7 @@ msgstr "Попробуйте CommaFeed на демо-счете: demo/demo"
 msgid "Unread"
 msgstr "непрочитано"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr "Снять пометку"
@@ -754,6 +776,10 @@ msgstr "Веб-сайт"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "У вас пока нет подписок. "
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

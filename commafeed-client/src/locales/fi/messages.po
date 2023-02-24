@@ -352,6 +352,7 @@ msgstr "Tuo"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "Merkitse ne luetuiksi laajennetussa näkymässä vierittämällä merkintöjä"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Pidä lukematta"
@@ -408,6 +409,10 @@ msgstr "Kirjaudu sisään"
 msgid "Logout"
 msgstr "Uloskirjautuminen"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "Merkitse kaikki luetuiksi"
 msgid "Mark all entries as read"
 msgstr "Merkitse kaikki merkinnät luetuiksi"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "Merkitse luetuksi"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Merkitse luetuksi tähän asti"
@@ -515,6 +522,7 @@ msgstr "Avaa nykyinen merkintä uudessa välilehdessä"
 msgid "Open current entry in a new tab in the background"
 msgstr "Avaa nykyinen merkintä uudella välilehdellä taustalla"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "Avaa linkki"
@@ -589,6 +597,10 @@ msgstr "Tämän CommaFeed-esiintymän rekisteröinnit on suljettu"
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "Sivustojen jakaminen"
 msgid "Shift"
 msgstr "Vaihto"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Näytä syötteet ja luokat ilman lukemattomia merkintöjä"
@@ -662,6 +682,7 @@ msgstr "Jotain pahaa tapahtui juuri..."
 msgid "Space"
 msgstr "Avaruus"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "Tähti"
@@ -725,6 +746,7 @@ msgstr "Kokeile CommaFeediä demotilillä: demo/demo"
 msgid "Unread"
 msgstr "Lukematon"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr "Poista tähti"
@@ -754,6 +776,10 @@ msgstr "Verkkosivusto"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Sinulla ei ole vielä tilauksia. "
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

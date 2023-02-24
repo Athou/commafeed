@@ -352,6 +352,7 @@ msgstr ""
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "V rozšírenom zobrazení ich rolovanie cez položky označí ako prečítané"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Ponechať neprečítané"
@@ -408,6 +409,10 @@ msgstr "Prihláste sa"
 msgid "Logout"
 msgstr "Odhlásenie"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "Označiť všetko ako prečítané"
 msgid "Mark all entries as read"
 msgstr "Označte všetky položky ako prečítané"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "Označiť ako prečítané"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Označiť ako prečítané až sem"
@@ -515,6 +522,7 @@ msgstr "Otvorte aktuálny záznam na novej karte"
 msgid "Open current entry in a new tab in the background"
 msgstr "Otvorte aktuálny záznam na novej karte na pozadí"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "Otvoriť odkaz"
@@ -589,6 +597,10 @@ msgstr "V tejto inštancii CommaFeed sú registrácie uzavreté"
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "Zdieľanie stránok"
 msgid "Shift"
 msgstr "Smena"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Zobraziť kanály a kategórie bez neprečítaných záznamov"
@@ -662,6 +682,7 @@ msgstr "Práve sa stalo niečo zlé..."
 msgid "Space"
 msgstr "Vesmír"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "Hviezda"
@@ -725,6 +746,7 @@ msgstr "Vyskúšajte CommaFeed s demo účtom: demo/demo"
 msgid "Unread"
 msgstr "Neprečítané"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr "Odobrať hviezdičku"
@@ -754,6 +776,10 @@ msgstr "Webová stránka"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Zatiaľ nemáte žiadne odbery. "
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

@@ -352,6 +352,7 @@ msgstr "가져오기"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "확장 보기에서 항목을 스크롤하면 읽은 것으로 표시됩니다."
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "읽지 않은 상태로 유지"
@@ -408,6 +409,10 @@ msgstr "로그인"
 msgid "Logout"
 msgstr "로그아웃"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "모두 읽은 상태로 표시"
 msgid "Mark all entries as read"
 msgstr "모든 항목을 읽은 상태로 표시"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "읽은 상태로 표시"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "여기까지 읽은 것으로 표시"
@@ -515,6 +522,7 @@ msgstr "새 탭에서 현재 항목 열기"
 msgid "Open current entry in a new tab in the background"
 msgstr "배경의 새 탭에서 현재 항목 열기"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "링크 열기"
@@ -589,6 +597,10 @@ msgstr "이 CommaFeed 인스턴스에 대한 등록이 마감되었습니다."
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "사이트 공유"
 msgid "Shift"
 msgstr "시프트"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "읽지 않은 항목이 없는 피드 및 카테고리 표시"
@@ -662,6 +682,7 @@ msgstr "뭔가 안 좋은 일이 일어났어..."
 msgid "Space"
 msgstr "우주"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "스타"
@@ -725,6 +746,7 @@ msgstr "데모 계정으로 CommaFeed를 사용해 보세요: demo/demo"
 msgid "Unread"
 msgstr "읽지 않음"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr "별표 제거"
@@ -754,6 +776,10 @@ msgstr "웹사이트"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "아직 구독이 없습니다. "
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

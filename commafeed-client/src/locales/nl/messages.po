@@ -352,6 +352,7 @@ msgstr ""
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "In de uitgevouwen weergave markeert het scrollen door items ze als gelezen"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Ongelezen houden"
@@ -408,6 +409,10 @@ msgstr "Inloggen"
 msgid "Logout"
 msgstr "Uitloggen"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "Alles markeren als gelezen"
 msgid "Mark all entries as read"
 msgstr "Markeer alle vermeldingen als gelezen"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "Markeren als gelezen"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Markeer als gelezen tot hier"
@@ -515,6 +522,7 @@ msgstr "Huidige invoer openen in een nieuw tabblad"
 msgid "Open current entry in a new tab in the background"
 msgstr "Open huidig ​​item in een nieuw tabblad op de achtergrond"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "Link openen"
@@ -589,6 +597,10 @@ msgstr "Registraties zijn gesloten op deze CommaFeed-instantie"
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "Sites delen"
 msgid "Shift"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Toon feeds en categorieën zonder ongelezen items"
@@ -662,6 +682,7 @@ msgstr "Er is net iets ergs gebeurd..."
 msgid "Space"
 msgstr "Ruimte"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "Ster"
@@ -725,6 +746,7 @@ msgstr "Probeer CommaFeed uit met het demo-account: demo/demo"
 msgid "Unread"
 msgstr "Ongelezen"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr "Sterren uit"
@@ -754,6 +776,10 @@ msgstr ""
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Je hebt nog geen abonnementen. "
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

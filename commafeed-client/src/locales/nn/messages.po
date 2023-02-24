@@ -352,6 +352,7 @@ msgstr ""
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "I utvidet visning merker du dem som lest ved å rulle gjennom oppføringer"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Behold ulest"
@@ -408,6 +409,10 @@ msgstr "Logg inn"
 msgid "Logout"
 msgstr "Logg ut"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "Merk alle som lest"
 msgid "Mark all entries as read"
 msgstr "Merk alle oppføringer som lest"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "Merk som lest"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Merk som lest frem til her"
@@ -515,6 +522,7 @@ msgstr "Åpne gjeldende oppføring i en ny fane"
 msgid "Open current entry in a new tab in the background"
 msgstr "Åpne gjeldende oppføring i en ny fane i bakgrunnen"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "Åpen lenke"
@@ -589,6 +597,10 @@ msgstr "Registreringer er stengt på denne CommaFeed-forekomsten"
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "Delingssider"
 msgid "Shift"
 msgstr "Skift"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Vis feeder og kategorier uten uleste oppføringer"
@@ -662,6 +682,7 @@ msgstr "Noe ille skjedde akkurat..."
 msgid "Space"
 msgstr ""
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "Stjerne"
@@ -725,6 +746,7 @@ msgstr "Prøv CommaFeed med demokontoen: demo/demo"
 msgid "Unread"
 msgstr "Ulest"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr "Fjern stjerne"
@@ -754,6 +776,10 @@ msgstr "Nettsted"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Du har ingen abonnementer ennå. "
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

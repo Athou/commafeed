@@ -352,6 +352,7 @@ msgstr ""
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "I utökad vy, rullning genom poster markerar dem som lästa"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Behåll oläst"
@@ -408,6 +409,10 @@ msgstr "Logga in"
 msgid "Logout"
 msgstr "Logga ut"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "Markera alla som lästa"
 msgid "Mark all entries as read"
 msgstr "Markera alla poster som lästa"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "Markera som läst"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Markera som läst hit"
@@ -515,6 +522,7 @@ msgstr "Öppna aktuell post i en ny flik"
 msgid "Open current entry in a new tab in the background"
 msgstr "Öppna aktuell post i en ny flik i bakgrunden"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "Öppen länk"
@@ -589,6 +597,10 @@ msgstr "Registreringar är stängda på denna CommaFeed-instans"
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "Delningssajter"
 msgid "Shift"
 msgstr "Skift"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Visa flöden och kategorier utan olästa poster"
@@ -662,6 +682,7 @@ msgstr "Något dåligt hände precis..."
 msgid "Space"
 msgstr "Rymden"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "Stjärna"
@@ -725,6 +746,7 @@ msgstr "Prova CommaFeed med demokontot: demo/demo"
 msgid "Unread"
 msgstr "Oläst"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr ""
@@ -754,6 +776,10 @@ msgstr "Webbplats"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Du har inga prenumerationer än. "
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

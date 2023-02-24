@@ -352,6 +352,7 @@ msgstr "Importación"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "Na vista ampliada, ao desprazarse polas entradas márcaas como lidas"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Manter sen ler"
@@ -408,6 +409,10 @@ msgstr "Iniciar sesión"
 msgid "Logout"
 msgstr "Pechar sesión"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "Marcar todo como lido"
 msgid "Mark all entries as read"
 msgstr "Marcar todas as entradas como lidas"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "Marcar como lido"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Marcar como lido ata aquí"
@@ -515,6 +522,7 @@ msgstr "Abrir a entrada actual nunha nova pestana"
 msgid "Open current entry in a new tab in the background"
 msgstr "Abre a entrada actual nunha nova pestana en segundo plano"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "ligazón aberta"
@@ -589,6 +597,10 @@ msgstr "Os rexistros están pechados nesta instancia de CommaFeed"
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "Compartir sitios"
 msgid "Shift"
 msgstr "quendas"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Mostrar fontes e categorías sen entradas sen ler"
@@ -662,6 +682,7 @@ msgstr "Algo malo pasou..."
 msgid "Space"
 msgstr "Espazo"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "estrela"
@@ -725,6 +746,7 @@ msgstr "Proba CommaFeed coa conta de demostración: demo/demo"
 msgid "Unread"
 msgstr "Sen ler"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr "Desestrela"
@@ -754,6 +776,10 @@ msgstr "Páxina web"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Aínda non tes ningunha subscrición. "
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

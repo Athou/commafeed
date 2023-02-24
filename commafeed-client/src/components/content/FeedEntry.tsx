@@ -7,6 +7,7 @@ import React from "react"
 import { useSwipeable } from "react-swipeable"
 import { FeedEntryBody } from "./FeedEntryBody"
 import { FeedEntryCompactHeader } from "./FeedEntryCompactHeader"
+import { FeedEntryContextMenu, useFeedEntryContextMenu } from "./FeedEntryContextMenu"
 import { FeedEntryFooter } from "./FeedEntryFooter"
 import { FeedEntryHeader } from "./FeedEntryHeader"
 
@@ -63,6 +64,8 @@ export function FeedEntry(props: FeedEntryProps) {
         onSwipedRight: () => dispatch(markEntry({ entry: props.entry, read: !props.entry.read })),
     })
 
+    const { onContextMenu } = useFeedEntryContextMenu(props.entry)
+
     const spacing = compact ? 8 : "xs"
     const borderRadius = compact ? "xs" : "sm"
 
@@ -75,6 +78,7 @@ export function FeedEntry(props: FeedEntryProps) {
                 rel="noreferrer"
                 onClick={props.onHeaderClick}
                 onAuxClick={props.onHeaderClick}
+                onContextMenu={onContextMenu}
             >
                 <Box p={spacing} {...swipeHandlers}>
                     {compactHeader && <FeedEntryCompactHeader entry={props.entry} />}
@@ -90,6 +94,8 @@ export function FeedEntry(props: FeedEntryProps) {
                     <FeedEntryFooter entry={props.entry} />
                 </Box>
             )}
+
+            <FeedEntryContextMenu entry={props.entry} />
         </Paper>
     )
 }

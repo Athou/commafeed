@@ -352,6 +352,7 @@ msgstr "Mewnforio"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "Mewn gwedd estynedig, mae sgrolio trwy gofnodion yn nodi eu bod wedi'u darllen"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Cadwch heb ei ddarllen"
@@ -408,6 +409,10 @@ msgstr "Mewngofnodi"
 msgid "Logout"
 msgstr "Allgofnodi"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "Marciwch y cyfan wedi'i ddarllen"
 msgid "Mark all entries as read"
 msgstr "Marciwch bob cofnod wedi'i ddarllen"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "Marciwch ei fod wedi'i ddarllen"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Marciwch fel y darllenwyd hyd yma"
@@ -515,6 +522,7 @@ msgstr "Agorwch y cofnod cyfredol mewn tab newydd"
 msgid "Open current entry in a new tab in the background"
 msgstr "Agorwch y cofnod cyfredol mewn tab newydd yn y cefndir"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "Dolen agored"
@@ -589,6 +597,10 @@ msgstr "Mae cofrestriadau ar gau ar yr achos CommaFeed hwn"
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "Rhannu gwefannau"
 msgid "Shift"
 msgstr "shifft"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Dangos ffrydiau a chategorïau heb unrhyw gofnodion heb eu darllen"
@@ -662,6 +682,7 @@ msgstr "Mae rhywbeth drwg newydd ddigwydd ..."
 msgid "Space"
 msgstr "Gofod"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "seren"
@@ -725,6 +746,7 @@ msgstr "Rhowch gynnig ar CommaFeed gyda'r cyfrif demo: demo / demo"
 msgid "Unread"
 msgstr "Heb ei ddarllen"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr "dad-seren"
@@ -754,6 +776,10 @@ msgstr "Gwefan"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Nid oes gennych unrhyw danysgrifiadau eto. "
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

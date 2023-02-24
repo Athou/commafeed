@@ -352,6 +352,7 @@ msgstr "进口"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "在展开视图中，滚动条目将它们标记为已读"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "保持未读状态"
@@ -408,6 +409,10 @@ msgstr "登录"
 msgid "Logout"
 msgstr "注销"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "全部标记为已读"
 msgid "Mark all entries as read"
 msgstr "将所有条目标记为已读"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "标记为已读"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "标记为已读到这里"
@@ -515,6 +522,7 @@ msgstr "在新选项卡中打开当前条目"
 msgid "Open current entry in a new tab in the background"
 msgstr "在后台的新选项卡中打开当前条目"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "打开链接"
@@ -589,6 +597,10 @@ msgstr "此 CommaFeed 实例上的注册已关闭"
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "共享站点"
 msgid "Shift"
 msgstr "换档"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "显示没有未读条目的提要和类别"
@@ -662,6 +682,7 @@ msgstr "刚刚发生了不好的事情……"
 msgid "Space"
 msgstr "空间"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "星星"
@@ -725,6 +746,7 @@ msgstr "使用演示帐户试用 CommaFeed：demo/demo"
 msgid "Unread"
 msgstr "未读"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr "解星"
@@ -754,6 +776,10 @@ msgstr "网站"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "您还没有任何订阅。"
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

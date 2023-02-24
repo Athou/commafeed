@@ -4,7 +4,7 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --host",
         "build": "npm run i18n:compile && tsc && vite build",
         "preview": "vite preview",
         "test": "vitest",
@@ -36,6 +36,7 @@
         "mousetrap": "^1.6.5",
         "react": "^18.2.0",
         "react-async-hook": "^4.0.0",
+        "react-contexify": "^6.0.0",
         "react-dom": "^18.2.0",
         "react-icons": "^4.7.1",
         "react-infinite-scroller": "^1.2.6",

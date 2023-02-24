@@ -352,6 +352,7 @@ msgstr "Importer"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "En mode de lecture étendu, marquer les éléments comme lus lorsque la fenêtre descend."
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Garder non lu"
@@ -408,6 +409,10 @@ msgstr "Connexion"
 msgid "Logout"
 msgstr "Déconnexion"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "Tout marquer comme lu"
 msgid "Mark all entries as read"
 msgstr "Marquer toutes les entrées comme lues"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "Marquer comme lu"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Marquer comme lu jusqu'ici"
@@ -515,6 +522,7 @@ msgstr "Ouvrir l'entrée actuelle dans un nouvel onglet"
 msgid "Open current entry in a new tab in the background"
 msgstr "Ouvrir l'entrée actuelle dans un nouvel onglet en arrière-plan"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "Ouvrir le lien"
@@ -589,6 +597,10 @@ msgstr "Les inscriptions sont fermées sur cette instance de CommaFeed"
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "Sites de partage"
 msgid "Shift"
 msgstr "Maj"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Afficher les flux et les catégories pour lesquels tout est déjà lu"
@@ -662,6 +682,7 @@ msgstr "Quelque chose s'est mal passé..."
 msgid "Space"
 msgstr "Espace"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "Ajouter aux favoris"
@@ -725,6 +746,7 @@ msgstr "Essayez CommaFeed avec le compte de démonstration : demo/demo"
 msgid "Unread"
 msgstr "Non lu"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr "Retirer des favoris"
@@ -754,6 +776,10 @@ msgstr "Site web"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Vous n'avez pas encore d'abonnements. Pourquoi ne pas essayer d'en ajouter un en cliquant sur le signe + en haut de la page ?"
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

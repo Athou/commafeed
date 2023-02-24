@@ -352,6 +352,7 @@ msgstr "インポート"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "展開ビューでエントリをスクロールすると、それらが既読としてマークされます"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "未読のままにする"
@@ -408,6 +409,10 @@ msgstr "ログイン"
 msgid "Logout"
 msgstr "ログアウト"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "すべて既読にする"
 msgid "Mark all entries as read"
 msgstr "すべてのエントリを既読にする"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "既読にする"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "ここまで既読にする"
@@ -515,6 +522,7 @@ msgstr "現在のエントリを新しいタブで開く"
 msgid "Open current entry in a new tab in the background"
 msgstr "現在のエントリをバックグラウンドで新しいタブで開く"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "リンクを開く"
@@ -589,6 +597,10 @@ msgstr "この CommaFeed インスタンスの登録は終了しています"
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "共有サイト"
 msgid "Shift"
 msgstr "シフト"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "未読エントリのないフィードとカテゴリを表示する"
@@ -662,6 +682,7 @@ msgstr "何か悪いことが起こった..."
 msgid "Space"
 msgstr "スペース"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "スター"
@@ -725,6 +746,7 @@ msgstr "デモアカウントで CommaFeed を試す: demo/demo"
 msgid "Unread"
 msgstr "未読"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr "スターを外す"
@@ -754,6 +776,10 @@ msgstr "ウェブサイト"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "まだサブスクリプションがありません。"
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

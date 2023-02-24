@@ -352,6 +352,7 @@ msgstr "Impor"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "Dalam tampilan yang diperluas, menggulir entri menandainya sebagai telah dibaca"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Tetap belum dibaca"
@@ -408,6 +409,10 @@ msgstr "Masuk"
 msgid "Logout"
 msgstr "Keluar"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
@@ -422,10 +427,12 @@ msgstr "Tandai semua sebagai telah dibaca"
 msgid "Mark all entries as read"
 msgstr "Tandai semua entri sebagai telah dibaca"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "Tandai sebagai telah dibaca"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Tandai sebagai telah dibaca sampai di sini"
@@ -515,6 +522,7 @@ msgstr "Buka entri saat ini di tab baru"
 msgid "Open current entry in a new tab in the background"
 msgstr "Buka entri saat ini di tab baru di latar belakang"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "Buka tautan"
@@ -589,6 +597,10 @@ msgstr "Pendaftaran ditutup pada instans CommaFeed ini"
 msgid "Reload"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -640,6 +652,14 @@ msgstr "Berbagi situs"
 msgid "Shift"
 msgstr "Pergeseran"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Tampilkan umpan dan kategori tanpa entri yang belum dibaca"
@@ -662,6 +682,7 @@ msgstr "Sesuatu yang buruk baru saja terjadi..."
 msgid "Space"
 msgstr "Luar Angkasa"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
 msgstr "Bintang"
@@ -725,6 +746,7 @@ msgstr "Cobalah CommaFeed dengan akun demo: demo/demo"
 msgid "Unread"
 msgstr "Belum Dibaca"
 
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
 msgstr "Hapus bintang"
@@ -754,6 +776,10 @@ msgstr "Situs Web"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Anda belum memiliki langganan. "
+
+#: src/components/header/RefreshMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

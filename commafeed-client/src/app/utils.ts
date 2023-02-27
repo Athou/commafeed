@@ -51,3 +51,16 @@ export const scrollToWithCallback = ({
 
     element.scrollTo(options)
 }
+
+export const openLinkInBackgroundTab = (url: string) => {
+    // simulate ctrl+click to open tab in background
+    const a = document.createElement("a")
+    a.href = url
+    a.rel = "noreferrer"
+    a.dispatchEvent(
+        new MouseEvent("click", {
+            ctrlKey: true,
+            metaKey: true,
+        })
+    )
+}

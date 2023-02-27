@@ -442,6 +442,10 @@ msgid "Metrics"
 msgstr "Metriky"
 
 #: src/components/KeyboardShortcutsHelp.tsx
+msgid "Middle click"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
 msgstr "Přesuňte stránku dolů"
 
@@ -522,10 +526,17 @@ msgstr "Otevřete aktuální položku na nové kartě"
 msgid "Open current entry in a new tab in the background"
 msgstr "Otevřít aktuální položku na nové kartě na pozadí"
 
-#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "Otevřít odkaz"
+
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Open link in new background tab"
+msgstr ""
+
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Open link in new tab"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"

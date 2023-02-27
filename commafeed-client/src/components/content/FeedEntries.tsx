@@ -13,6 +13,7 @@ import {
 } from "app/slices/entries"
 import { redirectToRootCategory } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
+import { openLinkInBackgroundTab } from "app/utils"
 import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"
 import { Loader } from "components/Loader"
 import { useMousetrap } from "hooks/useMousetrap"
@@ -211,15 +212,7 @@ export function FeedEntries() {
     useMousetrap("b", () => {
         // simulate ctrl+click to open tab in background
         if (!selectedEntry) return
-        const a = document.createElement("a")
-        a.href = selectedEntry.url
-        a.rel = "noreferrer"
-        a.dispatchEvent(
-            new MouseEvent("click", {
-                ctrlKey: true,
-                metaKey: true,
-            })
-        )
+        openLinkInBackgroundTab(selectedEntry.url)
     })
     useMousetrap("m", () => {
         // toggle read status

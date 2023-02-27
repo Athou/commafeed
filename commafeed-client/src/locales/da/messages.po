@@ -442,6 +442,10 @@ msgid "Metrics"
 msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
+msgid "Middle click"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
 msgstr "Flyt siden ned"
 
@@ -522,10 +526,17 @@ msgstr "Åbn den aktuelle post i en ny fane"
 msgid "Open current entry in a new tab in the background"
 msgstr "Åbn den aktuelle post i en ny fane i baggrunden"
 
-#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "Åbent link"
+
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Open link in new background tab"
+msgstr ""
+
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Open link in new tab"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"

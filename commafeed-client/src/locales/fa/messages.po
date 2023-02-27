@@ -442,6 +442,10 @@ msgid "Metrics"
 msgstr "متریک"
 
 #: src/components/KeyboardShortcutsHelp.tsx
+msgid "Middle click"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
 msgstr "صفحه را به پایین ببرید"
 
@@ -522,10 +526,17 @@ msgstr "ورودی فعلی را در یک برگه جدید باز کنید"
 msgid "Open current entry in a new tab in the background"
 msgstr "ورودی فعلی را در یک برگه جدید در پس زمینه باز کنید"
 
-#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
 msgstr "پیوند را باز کنید"
+
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Open link in new background tab"
+msgstr ""
+
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Open link in new tab"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"

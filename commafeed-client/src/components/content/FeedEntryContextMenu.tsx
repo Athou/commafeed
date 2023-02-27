@@ -4,6 +4,7 @@ import { Constants } from "app/constants"
 import { markEntriesUpToEntry, markEntry, starEntry } from "app/slices/entries"
 import { useAppDispatch } from "app/store"
 import { Entry } from "app/types"
+import { openLinkInBackgroundTab } from "app/utils"
 import { throttle } from "lodash"
 import { useEffect } from "react"
 import { Item, Menu, Separator, useContextMenu } from "react-contexify"
@@ -41,7 +42,18 @@ export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
             >
                 <Group>
                     <TbExternalLink size={iconSize} />
-                    <Trans>Open link</Trans>
+                    <Trans>Open link in new tab</Trans>
+                </Group>
+            </Item>
+            <Item
+                onClick={() => {
+                    openLinkInBackgroundTab(props.entry.url)
+                    dispatch(markEntry({ entry: props.entry, read: true }))
+                }}
+            >
+                <Group>
+                    <TbExternalLink size={iconSize} />
+                    <Trans>Open link in new background tab</Trans>
                 </Group>
             </Item>
 

@@ -95,6 +95,10 @@ export function KeyboardShortcutsHelp() {
                     </td>
                     <td>
                         <Kbd>B</Kbd>
+                        <span>, </span>
+                        <Kbd>
+                            <Trans>Middle click</Trans>
+                        </Kbd>
                     </td>
                 </tr>
                 <tr>

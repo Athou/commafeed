@@ -324,6 +324,10 @@ msgstr "API 문서로 이동합니다."
 msgid "Go to the All view"
 msgstr "전체 보기로 이동"
 
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
 msgstr "굿즈"

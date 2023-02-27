@@ -324,6 +324,10 @@ msgstr "Siirry API-dokumentaatioon."
 msgid "Go to the All view"
 msgstr "Siirry Kaikki-näkymään"
 
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
 msgstr "Hyvää"

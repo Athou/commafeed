@@ -324,6 +324,10 @@ msgstr "Ewch i'r ddogfennaeth API."
 msgid "Go to the All view"
 msgstr "Ewch i'r golwg Pawb"
 
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
 msgstr "nwyddau"

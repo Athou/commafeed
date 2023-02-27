@@ -324,6 +324,10 @@ msgstr "Перейдите к документации по API."
 msgid "Go to the All view"
 msgstr "Перейти к представлению «Все»"
 
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
 msgstr "Сладости"

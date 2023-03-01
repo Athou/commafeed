@@ -17,7 +17,7 @@ import { TbDeviceFloppy, TbTrash } from "react-icons/tb"
 import { useParams } from "react-router-dom"
 
 function FilteringExpressionDescription() {
-    const example = <Code>url.contains('youtube') or (author eq 'athou' and title.contains('github')</Code>
+    const example = <Code>url.contains('youtube') or (author eq 'athou' and title.contains('github'))</Code>
     return (
         <div>
             <div>

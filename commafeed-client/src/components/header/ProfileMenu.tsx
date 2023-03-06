@@ -1,11 +1,25 @@
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { Box, Divider, Group, Menu, SegmentedControl, SegmentedControlItem, useMantineColorScheme } from "@mantine/core"
+import { showNotification } from "@mantine/notifications"
+import { client } from "app/client"
 import { redirectToAbout, redirectToAdminUsers, redirectToMetrics, redirectToSettings } from "app/slices/redirect"
 import { changeViewMode } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { ViewMode } from "app/types"
 import { useState } from "react"
-import { TbChartLine, TbHelp, TbLayoutList, TbList, TbMoon, TbNotes, TbPower, TbSettings, TbSun, TbUsers } from "react-icons/tb"
+import {
+    TbChartLine,
+    TbHelp,
+    TbLayoutList,
+    TbList,
+    TbMoon,
+    TbNotes,
+    TbPower,
+    TbSettings,
+    TbSun,
+    TbUsers,
+    TbWorldDownload,
+} from "react-icons/tb"
 
 interface ProfileMenuProps {
     control: React.ReactElement
@@ -56,6 +70,7 @@ const viewModeData: ViewModeControlItem[] = [
 export function ProfileMenu(props: ProfileMenuProps) {
     const [opened, setOpened] = useState(false)
     const viewMode = useAppSelector(state => state.user.settings?.viewMode)
+    const profile = useAppSelector(state => state.user.profile)
     const admin = useAppSelector(state => state.user.profile?.admin)
     const dispatch = useAppDispatch()
     const { colorScheme, toggleColorScheme } = useMantineColorScheme()
@@ -69,6 +84,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
         <Menu position="bottom-end" closeOnItemClick={false} opened={opened} onChange={setOpened}>
             <Menu.Target>{props.control}</Menu.Target>
             <Menu.Dropdown>
+                {profile && <Menu.Label>{profile.name}</Menu.Label>}
                 <Menu.Item
                     icon={<TbSettings size={iconSize} />}
                     onClick={() => {
@@ -77,6 +93,21 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     }}
                 >
                     <Trans>Settings</Trans>
+                </Menu.Item>
+                <Menu.Item
+                    icon={<TbWorldDownload size={iconSize} />}
+                    onClick={() =>
+                        client.feed.refreshAll().then(() => {
+                            showNotification({
+                                message: t`Your feeds have been queued for refresh.`,
+                                color: "green",
+                                autoClose: 1000,
+                            })
+                            setOpened(false)
+                        })
+                    }
+                >
+                    <Trans>Fetch all my feeds now</Trans>
                 </Menu.Item>
 
                 <Divider />

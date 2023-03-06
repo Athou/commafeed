@@ -288,7 +288,7 @@ msgstr "URL de fuente"
 msgid "Feed name"
 msgstr "Nombre de alimentación"
 
-#: src/components/header/RefreshMenu.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
 
@@ -608,10 +608,6 @@ msgstr "Actualizar"
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Los registros están cerrados en esta instancia de CommaFeed"
 
-#: src/components/header/RefreshMenu.tsx
-msgid "Reload"
-msgstr ""
-
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr ""
@@ -792,7 +788,7 @@ msgstr "Sitio web"
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Todavía no tienes ninguna suscripción. "
 
-#: src/components/header/RefreshMenu.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
 msgstr ""
 

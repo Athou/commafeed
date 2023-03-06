@@ -288,7 +288,7 @@ msgstr "Feed URL'si"
 msgid "Feed name"
 msgstr "Yayın adı"
 
-#: src/components/header/RefreshMenu.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
 
@@ -608,10 +608,6 @@ msgstr "Yenile"
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Bu CommaFeed örneğinde kayıtlar kapalı"
 
-#: src/components/header/RefreshMenu.tsx
-msgid "Reload"
-msgstr ""
-
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr ""
@@ -792,7 +788,7 @@ msgstr "Web sitesi"
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Henüz aboneliğiniz yok. "
 
-#: src/components/header/RefreshMenu.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
 msgstr ""
 

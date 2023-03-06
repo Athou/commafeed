@@ -288,7 +288,7 @@ msgstr "Feed-URL"
 msgid "Feed name"
 msgstr "Feednavn"
 
-#: src/components/header/RefreshMenu.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
 
@@ -608,10 +608,6 @@ msgstr "Oppdater"
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Registreringer er stengt på denne CommaFeed-forekomsten"
 
-#: src/components/header/RefreshMenu.tsx
-msgid "Reload"
-msgstr ""
-
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr ""
@@ -792,7 +788,7 @@ msgstr "Nettsted"
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Du har ingen abonnementer ennå. "
 
-#: src/components/header/RefreshMenu.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
 msgstr ""
 

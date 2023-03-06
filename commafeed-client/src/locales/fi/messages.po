@@ -288,7 +288,7 @@ msgstr "Syötteen URL-osoite"
 msgid "Feed name"
 msgstr "Syötteen nimi"
 
-#: src/components/header/RefreshMenu.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
 
@@ -608,10 +608,6 @@ msgstr "Päivitä"
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Tämän CommaFeed-esiintymän rekisteröinnit on suljettu"
 
-#: src/components/header/RefreshMenu.tsx
-msgid "Reload"
-msgstr ""
-
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr ""
@@ -792,7 +788,7 @@ msgstr "Verkkosivusto"
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Sinulla ei ole vielä tilauksia. "
 
-#: src/components/header/RefreshMenu.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
 msgstr ""
 

@@ -454,17 +454,13 @@ public class CategoryREST {
 				child.setPosition(c.getPosition());
 				if (c.getParent() != null && c.getParent().getId() != null) {
 					child.setParentId(String.valueOf(c.getParent().getId()));
+					child.setParentName(c.getParent().getName());
 				}
 				child.setExpanded(!c.isCollapsed());
 				category.getChildren().add(child);
 			}
 		}
-		Collections.sort(category.getChildren(), new Comparator<Category>() {
-			@Override
-			public int compare(Category o1, Category o2) {
-				return ObjectUtils.compare(o1.getPosition(), o2.getPosition());
-			}
-		});
+		Collections.sort(category.getChildren(), (o1, o2) -> ObjectUtils.compare(o1.getPosition(), o2.getPosition()));
 
 		for (FeedSubscription subscription : subscriptions) {
 			if (id == null && subscription.getCategory() == null
@@ -474,12 +470,8 @@ public class CategoryREST {
 				category.getFeeds().add(sub);
 			}
 		}
-		Collections.sort(category.getFeeds(), new Comparator<Subscription>() {
-			@Override
-			public int compare(Subscription o1, Subscription o2) {
-				return ObjectUtils.compare(o1.getPosition(), o2.getPosition());
-			}
-		});
+		Collections.sort(category.getFeeds(), (o1, o2) -> ObjectUtils.compare(o1.getPosition(), o2.getPosition()));
+
 		return category;
 	}
 

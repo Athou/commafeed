@@ -109,7 +109,12 @@ export function CategoryDetailsPage() {
                     {editable && (
                         <>
                             <TextInput label={t`Name`} {...form.getInputProps("name")} required />
-                            <CategorySelect label={t`Parent Category`} {...form.getInputProps("parentId")} clearable />
+                            <CategorySelect
+                                label={t`Parent Category`}
+                                {...form.getInputProps("parentId")}
+                                clearable
+                                withoutCategoryIds={[id]}
+                            />
                             <NumberInput label={t`Position`} {...form.getInputProps("position")} required min={0} />
                         </>
                     )}

@@ -19,6 +19,9 @@ public class Category implements Serializable {
 	@ApiModelProperty(value = "parent category id")
 	private String parentId;
 
+	@ApiModelProperty(value = "parent category name")
+	private String parentName;
+
 	@ApiModelProperty(value = "category id", required = true)
 	private String name;
 

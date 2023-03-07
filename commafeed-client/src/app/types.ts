@@ -38,6 +38,7 @@ export interface ApplicationSettings {
 export interface Category {
     id: string
     parentId?: string
+    parentName?: string
     name: string
     children: Category[]
     feeds: Subscription[]

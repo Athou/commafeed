@@ -795,3 +795,7 @@ msgstr ""
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"
 msgstr "fail diperlukan"
+
+#: src/components/content/add/CategorySelect.tsx
+msgid "{0} (in {1})"
+msgstr ""

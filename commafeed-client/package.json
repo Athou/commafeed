@@ -5,6 +5,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite --host",
+        "dev:typescript": "tsc --watch",
         "build": "npm run i18n:compile && tsc && vite build",
         "preview": "vite preview",
         "test": "vitest",

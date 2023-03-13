@@ -44,7 +44,7 @@
     "titles_only" : "仅显示标题",
     "expanded_view" : "显示内容",
     "mark_all_as_read" : "标记所有为已读",
-    "mark_all_older_12_hours" : "Items older than 12 hours ",
+    "mark_all_older_12_hours" : "超过12小时的条目 ",
     "mark_all_older_day" : "早于一天的条目",
     "mark_all_older_week" : "早于一周的条目",
     "mark_all_older_two_weeks" : "早于两周的条目",
@@ -62,8 +62,8 @@
     "keep_unread" : "保持未读",
     "no_unread_items" : "没有未读的条目。",
     "mark_up_to_here" : "标记为已读至本条目",
-    "search_for" : "searching for:  ",
-    "no_search_results" : "No match found for the requested keywords "
+    "search_for" : "搜索:  ",
+    "no_search_results" : "找不到与所请求的关键词匹配的结果。"
   },
   "feedsearch" : {
     "hint" : "输入订阅",
@@ -80,8 +80,8 @@
       "scroll_marks" : "在扩展视图中，可滚动条目将其标记为已读"
     },
     "appearance" : "外观",
-    "scroll_speed" : "Scrolling speed when navigating between entries (in milliseconds) ",
-    "scroll_speed_help" : "set to 0 to disable ",
+    "scroll_speed" : "在条目之间导航时的滚动速度（以毫秒为单位）",
+    "scroll_speed_help" : "设置为0以禁用 ",
     "theme" : "主题",
     "submit_your_theme" : "提交你的主题",
     "custom_css" : "自定义 CSS 样式"
@@ -100,10 +100,10 @@
     "feed_url" : "订阅地址",
     "generate_api_key_first" : "在您的配置文件中首先生成一个 API 密钥。",
     "unsubscribe" : "取消订阅",
-    "unsubscribe_confirmation" : "Are you sure you want to unsubscribe from this feed? ",
-    "delete_category_confirmation" : "Are you sure you want to delete this category? ",
+    "unsubscribe_confirmation" : "您确定要取消订阅此源吗？",
+    "delete_category_confirmation" : "您确定要删除此类别吗？ ",
     "category_details" : "目录详情",
-    "tag_details" : "Tag details ",
+    "tag_details" : "标签详情",
     "parent_category" : "上一层目录"
   },
   "profile" : {
@@ -119,7 +119,7 @@
     "generate_new_api_key_info" : "修改密码将会生成一个新的的 API 密钥",
     "opml_export" : "导出 OPML",
     "delete_account" : "删除帐号",
-    "delete_account_confirmation" : "Delete your acount? There's no turning back! "
+    "delete_account_confirmation" : "删除您的帐户？这是无法挽回的操作！ "
   },
   "about" : {
     "rest_api" : {

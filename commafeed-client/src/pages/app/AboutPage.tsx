@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro"
-import { Anchor, Box, Center, Container, createStyles, List, NativeSelect, SimpleGrid, Title } from "@mantine/core"
+import { Anchor, Box, Center, Code, Container, createStyles, List, NativeSelect, SimpleGrid, Title } from "@mantine/core"
 import { Constants } from "app/constants"
 import { redirectToApiDocumentation } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -57,6 +57,7 @@ function NextUnreadBookmarklet() {
     )
 }
 
+const bitcoinAddress = <Code>{Constants.bitcoinWalletAddress}</Code>
 export function AboutPage() {
     const version = useAppSelector(state => state.server.serverInfos?.version)
     const revision = useAppSelector(state => state.server.serverInfos?.gitCommit)
@@ -70,7 +71,7 @@ export function AboutPage() {
                             CommaFeed version {version} ({revision})
                         </Trans>
                     </Box>
-                    <Box>
+                    <Box mt="md">
                         <Trans>
                             CommaFeed is an open-source project. Sources are hosted on&nbsp;
                             <Anchor href="https://github.com/Athou/commafeed" target="_blank" rel="noreferrer">
@@ -113,6 +114,9 @@ export function AboutPage() {
                                 </Box>
                             </Center>
                         </form>
+                    </Box>
+                    <Box mt="xs">
+                        <Trans>For those of you who prefer bitcoin, here is the address: {bitcoinAddress}</Trans>
                     </Box>
                 </Section>
                 <Section title={t`Goodies`} icon={<TbPuzzle size={24} />}>

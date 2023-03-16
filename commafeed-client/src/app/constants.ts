@@ -97,4 +97,5 @@ export const Constants = {
         mainScrollAreaId: "main-scroll-area-id",
         entryId: (entry: Entry) => `entry-id-${entry.id}`,
     },
+    bitcoinWalletAddress: "1dymfUxqCWpyD7a6rQSqNy4rLVDBsAr5e",
 }

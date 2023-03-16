@@ -296,6 +296,10 @@ msgstr "Fetch all my feeds now"
 msgid "Filtering expression"
 msgstr "Filtering expression"
 
+#: src/pages/app/AboutPage.tsx
+msgid "For those of you who prefer bitcoin, here is the address: {bitcoinAddress}"
+msgstr "For those of you who prefer bitcoin, here is the address: {bitcoinAddress}"
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
 msgstr "Forgot password?"

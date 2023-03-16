@@ -296,6 +296,10 @@ msgstr ""
 msgid "Filtering expression"
 msgstr "过滤表达式"
 
+#: src/pages/app/AboutPage.tsx
+msgid "For those of you who prefer bitcoin, here is the address: {bitcoinAddress}"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
 msgstr "忘记密码？"

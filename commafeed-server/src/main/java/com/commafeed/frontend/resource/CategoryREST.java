@@ -95,7 +95,7 @@ public class CategoryREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get category entries", notes = "Get a list of category entries", response = Entries.class)
 	@Timed
-	public Response getCategoryEntries(@ApiParam(hidden = true) @SecurityCheck User user,
+	public Response getCategoryEntries(@ApiParam(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user,
 			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
 			@ApiParam(
 					value = "all entries or only unread ones",

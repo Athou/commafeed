@@ -132,7 +132,7 @@ public class FeedREST {
 	@UnitOfWork
 	@ApiOperation(value = "Get feed entries", notes = "Get a list of feed entries", response = Entries.class)
 	@Timed
-	public Response getFeedEntries(@ApiParam(hidden = true) @SecurityCheck User user,
+	public Response getFeedEntries(@ApiParam(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user,
 			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
 			@ApiParam(
 					value = "all entries or only unread ones",

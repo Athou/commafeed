@@ -50,6 +50,8 @@ import com.commafeed.frontend.servlet.NextUnreadServlet;
 import com.commafeed.frontend.session.SessionHelperFactoryProvider;
 import com.commafeed.frontend.ws.WebSocketConfigurator;
 import com.commafeed.frontend.ws.WebSocketEndpoint;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -58,8 +60,7 @@ import com.google.inject.TypeLiteral;
 import be.tomcools.dropwizard.websocket.WebsocketBundle;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
-import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
-import io.dropwizard.configuration.SubstitutingSourceProvider;
+import io.dropwizard.configuration.DefaultConfigurationFactoryFactory;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.hibernate.HibernateBundle;
@@ -69,6 +70,7 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.web.WebBundle;
 import io.dropwizard.web.conf.WebConfiguration;
+import io.whitfin.dropwizard.configuration.EnvironmentSubstitutor;
 
 public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
@@ -87,6 +89,15 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 	@Override
 	public void initialize(Bootstrap<CommaFeedConfiguration> bootstrap) {
+		bootstrap.setConfigurationFactoryFactory(new DefaultConfigurationFactoryFactory<CommaFeedConfiguration>() {
+			@Override
+			protected ObjectMapper configureObjectMapper(ObjectMapper objectMapper) {
+				// disable case sensitivity because EnvironmentSubstitutor maps MYPROPERTY to myproperty and not to myProperty
+				return objectMapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
+			}
+		});
+		bootstrap.setConfigurationSourceProvider(new EnvironmentSubstitutor("CF", bootstrap.getConfigurationSourceProvider()));
+
 		bootstrap.getObjectMapper().registerModule(new MetricsModule(TimeUnit.SECONDS, TimeUnit.SECONDS, false));
 
 		bootstrap.addBundle(websocketBundle = new WebsocketBundle<>());
@@ -124,10 +135,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 		bootstrap.addBundle(new AssetsBundle("/assets/", "/", "index.html"));
 		bootstrap.addBundle(new MultiPartBundle());
-
-		// Enable variable substitution with environment variables
-		bootstrap.setConfigurationSourceProvider(
-				new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(), new EnvironmentVariableSubstitutor(false)));
 	}
 
 	@Override

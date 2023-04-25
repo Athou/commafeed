@@ -1,0 +1,6 @@
+dist
+node_modules
+
+vite.config.ts
+
+src/locales/**/*.ts

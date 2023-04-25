@@ -1,0 +1,39 @@
+# config file
+config.yml
+
+# build directory
+target
+target-ide
+
+# database files
+database
+
+# log files
+log
+
+# jetty sessions
+sessions
+
+# node
+node
+node_modules
+
+# bower
+src/main/app/lib
+
+# Eclipse files
+.project
+.classpath
+.settings
+.factorypath
+.checkstyle
+
+# IntelliJ Idea files
+.idea
+*.iml
+
+# Sublime
+*.sublime*
+
+# Macs
+*.DS_Store

@@ -1,0 +1,805 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2022-10-28 13:47+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: id\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "<0>Complete syntax is available </0><1>here</1>."
+msgstr ""
+
+#: src/pages/auth/RegistrationPage.tsx
+msgid "<0>Have an account?</0><1>Log in!</1>"
+msgstr "<0>Punya akun?</0><1>Masuk!</1>"
+
+#: src/pages/auth/LoginPage.tsx
+msgid "<0>Need an account?</0><1>Sign up!</1>"
+msgstr "<0>Butuh akun?</0><1>Daftar!</1>"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "API key"
+msgstr "kunci API"
+
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/app/AboutPage.tsx
+msgid "About"
+msgstr "Tentang"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Actions"
+msgstr "Tindakan"
+
+#: src/components/content/add/AddCategory.tsx
+msgid "Add"
+msgstr "Tambahkan"
+
+#: src/pages/app/AddPage.tsx
+msgid "Add category"
+msgstr "Tambahkan kategori"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Add user"
+msgstr "Tambahkan pengguna"
+
+#: src/components/admin/UserEdit.tsx
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Admin"
+msgstr ""
+
+#: src/app/constants.ts
+#: src/components/content/add/CategorySelect.tsx
+#: src/components/header/Header.tsx
+#: src/components/sidebar/Tree.tsx
+msgid "All"
+msgstr "Semua"
+
+#: src/pages/auth/PasswordRecoveryPage.tsx
+msgid "An email has been sent if this address was registered. Check your inbox."
+msgstr "Email telah dikirim jika alamat ini terdaftar. "
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services."
+msgstr "File opml adalah file XML yang berisi URL dan kategori feed. "
+
+#: src/components/content/add/Subscribe.tsx
+msgid "Analyze feed"
+msgstr "Analisis umpan"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
+msgstr "Anda yakin ingin menghapus kategori <0>{categoryName}</0>?"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Are you sure you want to delete user <0>{userName}</0> ?"
+msgstr "Apakah Anda yakin ingin menghapus pengguna <0>{userName}</0> ?"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Are you sure you want to delete your account? There's no turning back!"
+msgstr "Apakah Anda yakin ingin menghapus akun Anda? "
+
+#: src/components/header/MarkAllAsReadButton.tsx
+msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
+msgstr "Apakah Anda yakin ingin menandai semua entri <0>{sourceLabel}</0> sebagai telah dibaca?"
+
+#: src/components/header/MarkAllAsReadButton.tsx
+msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
+msgstr "Apakah Anda yakin ingin menandai entri yang lebih lama dari {threshold} hari <0>{sourceLabel}</0> sebagai telah dibaca?"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
+msgstr "Yakin ingin berhenti berlangganan <0>{feedName}</0>?"
+
+#: src/components/header/Header.tsx
+msgid "Asc"
+msgstr ""
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
+msgstr "Variabel yang tersedia adalah 'judul', 'konten', 'url' 'penulis' dan 'kategori' dan kontennya diubah menjadi huruf kecil untuk memudahkan perbandingan string."
+
+#: src/components/content/add/Subscribe.tsx
+msgid "Back"
+msgstr "Kembali"
+
+#: src/pages/auth/PasswordRecoveryPage.tsx
+msgid "Back to log in"
+msgstr "Kembali untuk masuk"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Browser extentions"
+msgstr "Ekstensi peramban"
+
+#: src/components/admin/UserEdit.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
+msgid "Cancel"
+msgstr "Batal"
+
+#: src/components/content/add/AddCategory.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/content/add/Subscribe.tsx
+#: src/pages/app/AboutPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Category"
+msgstr "Kategori"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Changing password will generate a new API key"
+msgstr "Mengubah kata sandi akan menghasilkan kunci API baru"
+
+#: src/components/content/add/Subscribe.tsx
+msgid "Check that the feed is working"
+msgstr "Periksa apakah umpannya berfungsi"
+
+#: src/pages/app/AboutPage.tsx
+msgid "CommaFeed is an open-source project. Sources are hosted on <0>GitHub</0>."
+msgstr "CommaFeed adalah proyek sumber terbuka. "
+
+#: src/pages/app/AboutPage.tsx
+msgid "CommaFeed next unread item"
+msgstr "CommaFeed item yang belum dibaca berikutnya"
+
+#: src/pages/app/AboutPage.tsx
+msgid "CommaFeed version {version} ({revision})"
+msgstr "CommaFeed versi {versi} ({revisi})"
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Compact"
+msgstr "Ringkas"
+
+#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Confirm"
+msgstr "Konfirmasi"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Confirm password"
+msgstr "Konfirmasi kata sandi"
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Cozy"
+msgstr "Nyaman"
+
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Create tag: {query}"
+msgstr "Buat tag: {query}"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Ctrl"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Current password"
+msgstr "Kata sandi saat ini"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Date created"
+msgstr "Tanggal dibuat"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Delete"
+msgstr "Hapus"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Delete Category"
+msgstr "Hapus Kategori"
+
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+msgid "Delete account"
+msgstr "Hapus akun"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Delete user"
+msgstr "Hapus pengguna"
+
+#: src/components/header/Header.tsx
+msgid "Desc"
+msgstr ""
+
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/app/SettingsPage.tsx
+msgid "Display"
+msgstr "Tampilan"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Download"
+msgstr "Unduh"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Drag link to bookmark bar"
+msgstr "Seret tautan ke bilah bookmark"
+
+#: src/components/admin/UserEdit.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
+msgid "E-mail"
+msgstr "Email"
+
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+msgid "E-mail address"
+msgstr "Alamat email"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Edit user"
+msgstr "Edit pengguna"
+
+#: src/components/admin/UserEdit.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Enabled"
+msgstr "Diaktifkan"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Enter"
+msgstr "Masuk"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Enter your current password to change profile settings"
+msgstr "Masukkan kata sandi Anda saat ini untuk mengubah pengaturan profil"
+
+#: src/components/Alert.tsx
+msgid "Error"
+msgstr "Kesalahan"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Example: {example}."
+msgstr "Contoh: {contoh}."
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Expanded"
+msgstr "Diperluas"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
+msgstr "Ekspor langganan dan kategori Anda sebagai file OPML yang dapat diimpor ke layanan membaca feed lainnya"
+
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Feed URL"
+msgstr "URL Umpan"
+
+#: src/components/content/add/Subscribe.tsx
+msgid "Feed name"
+msgstr "Nama umpan"
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Fetch all my feeds now"
+msgstr ""
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Filtering expression"
+msgstr "Memfilter ekspresi"
+
+#: src/pages/app/AboutPage.tsx
+msgid "For those of you who prefer bitcoin, here is the address: {bitcoinAddress}"
+msgstr ""
+
+#: src/pages/auth/LoginPage.tsx
+msgid "Forgot password?"
+msgstr "Lupa kata sandi?"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
+msgid "Generate an API key in your profile first."
+msgstr "Buat kunci API di profil Anda terlebih dahulu."
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Generate new API key"
+msgstr "Buat kunci API baru"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
+msgid "Generated feed url"
+msgstr "Url umpan yang dihasilkan"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Go to the API documentation."
+msgstr "Buka dokumentasi API."
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Go to the All view"
+msgstr "Pergi ke tampilan Semua"
+
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
+
+#: src/pages/app/AboutPage.tsx
+msgid "Goodies"
+msgstr "Pernak-pernik"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Id"
+msgstr ""
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
+msgstr "Jika tidak kosong, ekspresi mengevaluasi ke 'benar' atau 'salah'. "
+
+#: src/pages/app/AboutPage.tsx
+msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
+msgstr "Jika Anda mengalami masalah, harap laporkan di halaman masalah proyek GitHub."
+
+#: src/pages/app/AboutPage.tsx
+msgid "If you like this project, please consider a donation to support the developer and help cover the costs of keeping this website online."
+msgstr "Jika Anda menyukai proyek ini, mohon pertimbangkan sumbangan untuk mendukung pengembang dan membantu menutupi biaya menjaga situs web ini tetap online."
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "Import"
+msgstr "Impor"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "In expanded view, scrolling through entries mark them as read"
+msgstr "Dalam tampilan yang diperluas, menggulir entri menandainya sebagai telah dibaca"
+
+#: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Keep unread"
+msgstr "Tetap belum dibaca"
+
+#: src/components/content/FeedEntries.tsx
+#: src/pages/app/AboutPage.tsx
+msgid "Keyboard shortcuts"
+msgstr "Pintasan keyboard"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Language"
+msgstr "Bahasa"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Last login date"
+msgstr "Tanggal masuk terakhir"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Last refresh"
+msgstr "Penyegaran terakhir"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Last refresh message"
+msgstr "Pesan penyegaran terakhir"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
+msgid "Link"
+msgstr "Tautan"
+
+#: src/hooks/useAppLoading.ts
+msgid "Loading profile..."
+msgstr "Memuat profil..."
+
+#: src/hooks/useAppLoading.ts
+msgid "Loading settings..."
+msgstr "Memuat pengaturan..."
+
+#: src/hooks/useAppLoading.ts
+msgid "Loading subscriptions..."
+msgstr "Memuat langganan..."
+
+#: src/hooks/useAppLoading.ts
+msgid "Loading tags..."
+msgstr "Memuat tag..."
+
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
+msgid "Log in"
+msgstr "Masuk"
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Logout"
+msgstr "Keluar"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Long press"
+msgstr ""
+
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Manage users"
+msgstr "Kelola pengguna"
+
+#: src/components/header/MarkAllAsReadButton.tsx
+msgid "Mark all as read"
+msgstr "Tandai semua sebagai telah dibaca"
+
+#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Mark all entries as read"
+msgstr "Tandai semua entri sebagai telah dibaca"
+
+#: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Mark as read"
+msgstr "Tandai sebagai telah dibaca"
+
+#: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Mark as read up to here"
+msgstr "Tandai sebagai telah dibaca sampai di sini"
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Metrics"
+msgstr "Metrik"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Middle click"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Move the page down"
+msgstr "Pindahkan halaman ke bawah"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Move the page up"
+msgstr "Pindahkan halaman ke atas"
+
+#: src/components/RelativeDate.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "N/A"
+msgstr "T/A"
+
+#: src/components/admin/UserEdit.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Name"
+msgstr "Nama"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Navigate to a subscription by entering its name"
+msgstr "Navigasikan ke langganan dengan memasukkan namanya"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "New password"
+msgstr "Kata sandi baru"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Newest first"
+msgstr "Terbaru dulu"
+
+#: src/components/content/add/Subscribe.tsx
+msgid "Next"
+msgstr "Selanjutnya"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Next refresh"
+msgstr "Penyegaran berikutnya"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Next unread item bookmarklet"
+msgstr "Bookmarklet item yang belum dibaca berikutnya"
+
+#: src/pages/app/FeedEntriesPage.tsx
+msgid "No more entries"
+msgstr "Tidak ada entri lagi"
+
+#: src/components/sidebar/TreeSearch.tsx
+msgid "Nothing found"
+msgstr "Tidak ada yang ditemukan"
+
+#: src/pages/app/AddPage.tsx
+msgid "OPML"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "OPML export"
+msgstr "ekspor OPML"
+
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file"
+msgstr "file OPML"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Oldest first"
+msgstr "Tertua dulu"
+
+#: src/pages/ErrorPage.tsx
+msgid "Oops!"
+msgstr "Ups!"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Open current entry in a new tab"
+msgstr "Buka entri saat ini di tab baru"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Open current entry in a new tab in the background"
+msgstr "Buka entri saat ini di tab baru di latar belakang"
+
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Open link"
+msgstr "Buka tautan"
+
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Open link in new background tab"
+msgstr ""
+
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Open link in new tab"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Open next entry"
+msgstr "Buka entri berikutnya"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Open previous entry"
+msgstr "Buka entri sebelumnya"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Open/close current entry"
+msgstr "Buka/tutup entri saat ini"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Order"
+msgstr "Pesan"
+
+#: src/components/content/add/AddCategory.tsx
+msgid "Parent"
+msgstr "Orang tua"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Parent Category"
+msgstr "Kategori Induk"
+
+#: src/components/admin/UserEdit.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+msgid "Password"
+msgstr "Kata Sandi"
+
+#: src/pages/auth/PasswordRecoveryPage.tsx
+msgid "Password Recovery"
+msgstr "Pemulihan Kata Sandi"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Passwords do not match"
+msgstr "Kata sandi tidak cocok"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Position"
+msgstr "Posisi"
+
+#: src/pages/app/SettingsPage.tsx
+msgid "Profile"
+msgstr "Profil"
+
+#: src/pages/app/AboutPage.tsx
+msgid "REST API"
+msgstr ""
+
+#: src/pages/auth/PasswordRecoveryPage.tsx
+msgid "Recover password"
+msgstr "Pulihkan kata sandi"
+
+#: src/components/header/Header.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Refresh"
+msgstr "Segarkan"
+
+#: src/pages/auth/RegistrationPage.tsx
+msgid "Registrations are closed on this CommaFeed instance"
+msgstr "Pendaftaran ditutup pada instans CommaFeed ini"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Right click"
+msgstr ""
+
+#: src/components/admin/UserEdit.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Save"
+msgstr "Simpan"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Scroll smoothly when navigating between entries"
+msgstr "Gulir dengan lancar saat menavigasi antar entri"
+
+#: src/components/header/Header.tsx
+#: src/components/header/Header.tsx
+#: src/components/sidebar/TreeSearch.tsx
+#: src/components/sidebar/TreeSearch.tsx
+msgid "Search"
+msgstr "Pencarian"
+
+#: src/components/header/Header.tsx
+msgid "Search requires at least 3 characters"
+msgstr "Pencarian membutuhkan setidaknya 3 karakter"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Set focus on next entry without opening it"
+msgstr "Tetapkan fokus pada entri berikutnya tanpa membukanya"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Set focus on previous entry without opening it"
+msgstr "Tetapkan fokus pada entri sebelumnya tanpa membukanya"
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: src/app/slices/user.ts
+msgid "Settings saved."
+msgstr "Pengaturan disimpan."
+
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Share"
+msgstr "Bagikan"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Sharing sites"
+msgstr "Berbagi situs"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Shift"
+msgstr "Pergeseran"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (desktop)"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show entry menu (mobile)"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show feeds and categories with no unread entries"
+msgstr "Tampilkan umpan dan kategori tanpa entri yang belum dibaca"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show keyboard shortcut help"
+msgstr "Tampilkan bantuan pintasan keyboard"
+
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+msgid "Sign up"
+msgstr "Daftar"
+
+#: src/pages/ErrorPage.tsx
+msgid "Something bad just happened..."
+msgstr "Sesuatu yang buruk baru saja terjadi..."
+
+#: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Space"
+msgstr "Luar Angkasa"
+
+#: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Star"
+msgstr "Bintang"
+
+#: src/app/constants.ts
+#: src/components/sidebar/Tree.tsx
+msgid "Starred"
+msgstr "Berbintang"
+
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
+#: src/pages/app/AddPage.tsx
+msgid "Subscribe"
+msgstr "Berlangganan"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Subscribe URL"
+msgstr "URL Berlangganan"
+
+#: src/components/content/add/Subscribe.tsx
+msgid "Subscribe to the feed"
+msgstr "Berlangganan umpan"
+
+#: src/components/Alert.tsx
+msgid "Success"
+msgstr "Sukses"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Swipe header to the right"
+msgstr ""
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Switch to dark theme"
+msgstr "Beralih ke tema gelap"
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Switch to light theme"
+msgstr "Beralih ke tema terang"
+
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Tags"
+msgstr "Tag"
+
+#: src/components/content/add/Subscribe.tsx
+msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
+msgstr "URL untuk umpan yang ingin Anda langgani. "
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Theme"
+msgstr "Tema"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Toggle read status of current entry"
+msgstr "Beralih status baca entri saat ini"
+
+#: src/pages/auth/LoginPage.tsx
+msgid "Try out CommaFeed with the demo account: demo/demo"
+msgstr "Cobalah CommaFeed dengan akun demo: demo/demo"
+
+#: src/components/header/Header.tsx
+msgid "Unread"
+msgstr "Belum Dibaca"
+
+#: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
+msgid "Unstar"
+msgstr "Hapus bintang"
+
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Unsubscribe"
+msgstr "Berhenti berlangganan"
+
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
+msgid "User Name or E-mail"
+msgstr "Nama Pengguna atau Email"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "User name"
+msgstr "Nama pengguna"
+
+#: src/components/Alert.tsx
+msgid "Warning"
+msgstr "Peringatan"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Website"
+msgstr "Situs Web"
+
+#: src/pages/app/FeedEntriesPage.tsx
+msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
+msgstr "Anda belum memiliki langganan. "
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Your feeds have been queued for refresh."
+msgstr ""
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "file is required"
+msgstr "file diperlukan"
+
+#: src/components/content/add/CategorySelect.tsx
+msgid "{0} (in {1})"
+msgstr ""

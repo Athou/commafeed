@@ -1,0 +1,85 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
+        "react-app",
+        "airbnb",
+        "airbnb-typescript",
+        "prettier"
+    ],
+    "plugins": ["@typescript-eslint", "prettier", "hooks"],
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+        // make eslint check prettier rules
+        "prettier/prettier": "error",
+
+        // enforce consistent curly braces usage
+        "curly": ["error", "multi-line", "consistent"],
+
+        // set "props" to false because it cases false positives with immer
+        "no-param-reassign": ["error", { "props": false }],
+
+        "prefer-destructuring": [
+            "error",
+            {
+                "array": false,
+                "object": true
+            },
+            {
+                "enforceForRenamedProperties": false
+            }
+        ],
+
+        // causes issues in thunks when we want to dispatch an action that is defined in the reducer
+        "@typescript-eslint/no-use-before-define": "off",
+
+        // make sure the key prop is filled when required
+        "react/jsx-key": ["error", { "checkFragmentShorthand": true }],
+
+        // configure additional hooks
+        "react-hooks/exhaustive-deps": [
+            "warn",
+            {
+                "additionalHooks": "(^useAsync$|useDidUpdate)"
+            }
+        ],
+
+        // trigger even if props is used only in createStyles()
+        "react/no-unused-prop-types": "off",
+
+        // no longer required with modern react versions
+        "react/react-in-jsx-scope": "off",
+
+        // not required with typescript
+        "react/prop-types": "off",
+        "react/require-default-props": "off",
+
+        // matter of taste
+        "react/destructuring-assignment": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/no-unescaped-entities": "off",
+        "import/prefer-default-export": "off",
+
+        // enforce hook call order
+        "hooks/sort": [
+            2,
+            {
+                "groups": [
+                    "useLocation",
+                    "useParams",
+                    "useState",
+                    "useAppSelector",
+                    "useAppDispatch",
+                    "useAsync",
+                    "useForm",
+                    "useAsyncCallback",
+                    "useCallback",
+                    "useEffect"
+                ]
+            }
+        ]
+    }
+}

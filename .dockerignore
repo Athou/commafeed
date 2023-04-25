@@ -1,0 +1,6 @@
+# ignore everything
+*
+
+# allow only what we need
+!commafeed-server/target/commafeed.jar
+!commafeed-server/config.yml.example

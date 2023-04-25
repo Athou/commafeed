@@ -1,3 +1,8 @@
+v 3.0.0
+  - complete overhaul of the UI
+  - backend and frontend are now in separate maven modules
+  - no changes to the api or the database
+
 v 2.6.0
   - add support for media content as a backup for missing content (useful for youtube feeds)
   - correctly follow http error code 308 redirects

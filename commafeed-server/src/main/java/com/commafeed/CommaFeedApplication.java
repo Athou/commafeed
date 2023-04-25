@@ -61,6 +61,8 @@ import be.tomcools.dropwizard.websocket.WebsocketBundle;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.configuration.DefaultConfigurationFactoryFactory;
+import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
+import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.hibernate.HibernateBundle;
@@ -96,7 +98,15 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 				return objectMapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
 			}
 		});
-		bootstrap.setConfigurationSourceProvider(new EnvironmentSubstitutor("CF", bootstrap.getConfigurationSourceProvider()));
+
+		// enable config.yml string substitution
+		// e.g. having a custom config.yml file with app.session.path=${SOME_ENV_VAR} will substitute SOME_ENV_VAR
+		SubstitutingSourceProvider substitutingSourceProvider = new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(),
+				new EnvironmentVariableSubstitutor(false));
+		// enable config.yml properties override with env variables prefixed with CF_
+		// e.g. setting CF_APP_ALLOWREGISTRATIONS=true will set app.allowRegistrations to true
+		EnvironmentSubstitutor environmentSubstitutor = new EnvironmentSubstitutor("CF", substitutingSourceProvider);
+		bootstrap.setConfigurationSourceProvider(environmentSubstitutor);
 
 		bootstrap.getObjectMapper().registerModule(new MetricsModule(TimeUnit.SECONDS, TimeUnit.SECONDS, false));
 

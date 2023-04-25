@@ -1,4 +1,4 @@
-FROM openjdk:17-alpine
+FROM eclipse-temurin:17-jre
 
 RUN mkdir -p /commafeed/data
 VOLUME /commafeed/data

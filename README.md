@@ -2,8 +2,7 @@
 
 Sources for [CommaFeed.com](http://www.commafeed.com/).
 
-Google Reader inspired self-hosted RSS reader, based on Dropwizard and AngularJS.
-CommaFeed is now considered feature-complete and is in maintenance mode.
+Google Reader inspired self-hosted RSS reader, based on Dropwizard and React/TypeScript.
 
 ## Related open-source projects
 

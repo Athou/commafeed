@@ -220,6 +220,10 @@ msgid "Desc"
 msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
+msgid "Detailed"
+msgstr ""
+
+#: src/components/header/ProfileMenu.tsx
 #: src/pages/app/SettingsPage.tsx
 msgid "Display"
 msgstr "Kijelző"

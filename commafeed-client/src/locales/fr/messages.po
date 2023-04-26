@@ -220,6 +220,10 @@ msgid "Desc"
 msgstr "Descendant"
 
 #: src/components/header/ProfileMenu.tsx
+msgid "Detailed"
+msgstr "Vue détaillée"
+
+#: src/components/header/ProfileMenu.tsx
 #: src/pages/app/SettingsPage.tsx
 msgid "Display"
 msgstr "Affichage"

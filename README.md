@@ -22,8 +22,8 @@ Docker images are built automatically and are available at https://hub.docker.co
 ### Download precompiled package
 
     mkdir commafeed && cd commafeed
-    wget https://github.com/Athou/commafeed/releases/download/3.0.0/commafeed.jar
-    wget https://raw.githubusercontent.com/Athou/commafeed/3.0.0/commafeed-server/config.yml.example -O config.yml
+    wget https://github.com/Athou/commafeed/releases/download/3.0.1/commafeed.jar
+    wget https://raw.githubusercontent.com/Athou/commafeed/3.0.1/commafeed-server/config.yml.example -O config.yml
     vi config.yml
     java -Djava.net.preferIPv4Stack=true -jar commafeed.jar server config.yml
 

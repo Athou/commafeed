@@ -2,9 +2,10 @@ import { Anchor, Box, createStyles, Divider, Paper } from "@mantine/core"
 import { Constants } from "app/constants"
 import { markEntry } from "app/slices/entries"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { Entry } from "app/types"
+import { Entry, ViewMode } from "app/types"
 import React from "react"
 import { useSwipeable } from "react-swipeable"
+import { MantineNumberSize } from "@mantine/styles"
 import { FeedEntryBody } from "./FeedEntryBody"
 import { FeedEntryCompactHeader } from "./FeedEntryCompactHeader"
 import { FeedEntryContextMenu, useFeedEntryContextMenu } from "./FeedEntryContextMenu"
@@ -18,16 +19,18 @@ interface FeedEntryProps {
     onHeaderClick: (e: React.MouseEvent) => void
 }
 
-const useStyles = createStyles((theme, props: FeedEntryProps & { compact: boolean }) => {
+const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: ViewMode }) => {
     let backgroundColor
     if (theme.colorScheme === "dark") backgroundColor = props.entry.read ? "inherit" : theme.colors.dark[5]
     else backgroundColor = props.entry.read && !props.expanded ? theme.colors.gray[0] : "inherit"
 
     let marginY = theme.spacing.xs
-    if (props.compact) marginY = 6
+    if (props.viewMode === "title") marginY = 2
+    else if (props.viewMode === "cozy") marginY = 6
 
     let mobileMarginY = 6
-    if (props.compact) mobileMarginY = 4
+    if (props.viewMode === "title") mobileMarginY = 2
+    else if (props.viewMode === "cozy") mobileMarginY = 4
 
     const styles = {
         paper: {
@@ -53,10 +56,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { compact: boolea
 
 export function FeedEntry(props: FeedEntryProps) {
     const viewMode = useAppSelector(state => state.user.settings?.viewMode)
-    const compact = viewMode === "title"
-    const compactHeader = compact && !props.expanded
-
-    const { classes } = useStyles({ ...props, compact })
+    const { classes } = useStyles({ ...props, viewMode })
 
     const dispatch = useAppDispatch()
 
@@ -66,9 +66,15 @@ export function FeedEntry(props: FeedEntryProps) {
 
     const { onContextMenu } = useFeedEntryContextMenu(props.entry)
 
-    const spacing = compact ? 8 : "xs"
-    const borderRadius = compact ? "xs" : "sm"
+    let padding: MantineNumberSize = "xs"
+    if (viewMode === "title") padding = 4
+    else if (viewMode === "cozy") padding = 8
 
+    let borderRadius: MantineNumberSize = "sm"
+    if (viewMode === "title") borderRadius = 0
+    else if (viewMode === "cozy") borderRadius = "xs"
+
+    const compactHeader = !props.expanded && (viewMode === "title" || viewMode === "cozy")
     return (
         <Paper withBorder radius={borderRadius} className={classes.paper}>
             <Anchor
@@ -80,17 +86,17 @@ export function FeedEntry(props: FeedEntryProps) {
                 onAuxClick={props.onHeaderClick}
                 onContextMenu={onContextMenu}
             >
-                <Box p={spacing} {...swipeHandlers}>
+                <Box p={padding} {...swipeHandlers}>
                     {compactHeader && <FeedEntryCompactHeader entry={props.entry} />}
                     {!compactHeader && <FeedEntryHeader entry={props.entry} expanded={props.expanded} />}
                 </Box>
             </Anchor>
             {props.expanded && (
-                <Box px={spacing} pb={spacing}>
+                <Box px={padding} pb={padding}>
                     <Box className={classes.body} sx={{ direction: props.entry.rtl ? "rtl" : "ltr" }}>
                         <FeedEntryBody entry={props.entry} />
                     </Box>
-                    <Divider variant="dashed" my={spacing} />
+                    <Divider variant="dashed" my={padding} />
                     <FeedEntryFooter entry={props.entry} />
                 </Box>
             )}

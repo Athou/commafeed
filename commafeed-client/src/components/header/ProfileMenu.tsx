@@ -12,6 +12,7 @@ import {
     TbHelp,
     TbLayoutList,
     TbList,
+    TbListDetails,
     TbMoon,
     TbNotes,
     TbPower,
@@ -50,6 +51,17 @@ const viewModeData: ViewModeControlItem[] = [
                 <TbLayoutList size={iconSize} />
                 <Box ml={6}>
                     <Trans>Cozy</Trans>
+                </Box>
+            </Group>
+        ),
+    },
+    {
+        value: "detailed",
+        label: (
+            <Group>
+                <TbListDetails size={iconSize} />
+                <Box ml={6}>
+                    <Trans>Detailed</Trans>
                 </Box>
             </Group>
         ),

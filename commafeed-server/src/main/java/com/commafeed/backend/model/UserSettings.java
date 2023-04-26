@@ -31,7 +31,7 @@ public class UserSettings extends AbstractModel {
 	}
 
 	public enum ViewMode {
-		title, cozy, expanded
+		title, cozy, detailed, expanded
 	}
 
 	@OneToOne(fetch = FetchType.LAZY)

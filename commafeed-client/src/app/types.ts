@@ -306,4 +306,4 @@ export type ReadingMode = "all" | "unread"
 
 export type ReadingOrder = "asc" | "desc"
 
-export type ViewMode = "title" | "cozy" | "expanded"
+export type ViewMode = "title" | "cozy" | "detailed" | "expanded"

@@ -3,7 +3,7 @@ import { showNotification } from "@mantine/notifications"
 import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { RootState } from "app/store"
-import { ReadingMode, ReadingOrder, Settings, SharingSettings, UserModel, ViewMode } from "app/types"
+import { ReadingMode, ReadingOrder, Settings, SharingSettings, UserModel } from "app/types"
 // eslint-disable-next-line import/no-cycle
 import { reloadEntries } from "./entries"
 
@@ -36,46 +36,67 @@ export const changeReadingOrder = createAsyncThunk<void, ReadingOrder, { state: 
         thunkApi.dispatch(reloadEntries())
     }
 )
-export const changeViewMode = createAsyncThunk<void, ViewMode, { state: RootState }>("settings/viewMode", (viewMode, thunkApi) => {
-    const { settings } = thunkApi.getState().user
-    if (!settings) return
-    client.user.saveSettings({ ...settings, viewMode })
-    thunkApi.dispatch(reloadEntries())
-})
-export const changeLanguage = createAsyncThunk<void, string, { state: RootState }>("settings/language", (language, thunkApi) => {
+export const changeLanguage = createAsyncThunk<
+    void,
+    string,
+    {
+        state: RootState
+    }
+>("settings/language", (language, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return
     client.user.saveSettings({ ...settings, language })
 })
-export const changeScrollSpeed = createAsyncThunk<void, boolean, { state: RootState }>("settings/scrollSpeed", (speed, thunkApi) => {
+export const changeScrollSpeed = createAsyncThunk<
+    void,
+    boolean,
+    {
+        state: RootState
+    }
+>("settings/scrollSpeed", (speed, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return
     client.user.saveSettings({ ...settings, scrollSpeed: speed ? 400 : 0 })
 })
-export const changeShowRead = createAsyncThunk<void, boolean, { state: RootState }>("settings/showRead", (showRead, thunkApi) => {
+export const changeShowRead = createAsyncThunk<
+    void,
+    boolean,
+    {
+        state: RootState
+    }
+>("settings/showRead", (showRead, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return
     client.user.saveSettings({ ...settings, showRead })
 })
-export const changeScrollMarks = createAsyncThunk<void, boolean, { state: RootState }>("settings/scrollMarks", (scrollMarks, thunkApi) => {
+export const changeScrollMarks = createAsyncThunk<
+    void,
+    boolean,
+    {
+        state: RootState
+    }
+>("settings/scrollMarks", (scrollMarks, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return
     client.user.saveSettings({ ...settings, scrollMarks })
 })
-export const changeSharingSetting = createAsyncThunk<void, { site: keyof SharingSettings; value: boolean }, { state: RootState }>(
-    "settings/sharingSetting",
-    (sharingSetting, thunkApi) => {
-        const { settings } = thunkApi.getState().user
-        if (!settings) return
-        client.user.saveSettings({
-            ...settings,
-            sharingSettings: {
-                ...settings.sharingSettings,
-                [sharingSetting.site]: sharingSetting.value,
-            },
-        })
+export const changeSharingSetting = createAsyncThunk<
+    void,
+    { site: keyof SharingSettings; value: boolean },
+    {
+        state: RootState
     }
-)
+>("settings/sharingSetting", (sharingSetting, thunkApi) => {
+    const { settings } = thunkApi.getState().user
+    if (!settings) return
+    client.user.saveSettings({
+        ...settings,
+        sharingSettings: {
+            ...settings.sharingSettings,
+            [sharingSetting.site]: sharingSetting.value,
+        },
+    })
+})
 
 export const userSlice = createSlice({
     name: "user",
@@ -98,10 +119,6 @@ export const userSlice = createSlice({
         builder.addCase(changeReadingOrder.pending, (state, action) => {
             if (!state.settings) return
             state.settings.readingOrder = action.meta.arg
-        })
-        builder.addCase(changeViewMode.pending, (state, action) => {
-            if (!state.settings) return
-            state.settings.viewMode = action.meta.arg
         })
         builder.addCase(changeLanguage.pending, (state, action) => {
             if (!state.settings) return

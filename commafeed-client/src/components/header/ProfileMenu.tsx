@@ -3,7 +3,6 @@ import { Box, Divider, Group, Menu, SegmentedControl, SegmentedControlItem, useM
 import { showNotification } from "@mantine/notifications"
 import { client } from "app/client"
 import { redirectToAbout, redirectToAdminUsers, redirectToMetrics, redirectToSettings } from "app/slices/redirect"
-import { changeViewMode } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { ViewMode } from "app/types"
 import { useState } from "react"
@@ -21,6 +20,7 @@ import {
     TbUsers,
     TbWorldDownload,
 } from "react-icons/tb"
+import { useViewMode } from "../../hooks/useViewMode"
 
 interface ProfileMenuProps {
     control: React.ReactElement
@@ -81,7 +81,7 @@ const viewModeData: ViewModeControlItem[] = [
 
 export function ProfileMenu(props: ProfileMenuProps) {
     const [opened, setOpened] = useState(false)
-    const viewMode = useAppSelector(state => state.user.settings?.viewMode)
+    const { viewMode, setViewMode } = useViewMode()
     const profile = useAppSelector(state => state.user.profile)
     const admin = useAppSelector(state => state.user.profile?.admin)
     const dispatch = useAppDispatch()
@@ -139,7 +139,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     orientation="vertical"
                     data={viewModeData}
                     value={viewMode}
-                    onChange={e => dispatch(changeViewMode(e as ViewMode))}
+                    onChange={e => setViewMode(e as ViewMode)}
                     mb="xs"
                 />
 

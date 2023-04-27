@@ -1,7 +1,8 @@
 import { i18n } from "@lingui/core"
 import { I18nProvider } from "@lingui/react"
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core"
-import { useColorScheme, useLocalStorage } from "@mantine/hooks"
+import { useColorScheme } from "@mantine/hooks"
+import useLocalStorage from "use-local-storage"
 import { ModalsProvider } from "@mantine/modals"
 import { NotificationsProvider } from "@mantine/notifications"
 import { Constants } from "app/constants"
@@ -32,11 +33,7 @@ import Tinycon from "tinycon"
 
 function Providers(props: { children: React.ReactNode }) {
     const preferredColorScheme = useColorScheme()
-    const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-        key: "color-scheme",
-        defaultValue: preferredColorScheme,
-        getInitialValueInEffect: true,
-    })
+    const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>("color-scheme", preferredColorScheme)
     const toggleColorScheme = (value?: ColorScheme) => setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"))
 
     return (

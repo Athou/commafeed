@@ -21,6 +21,7 @@ import throttle from "lodash/throttle"
 import { useEffect } from "react"
 import InfiniteScroll from "react-infinite-scroller"
 import { FeedEntry } from "./FeedEntry"
+import { useViewMode } from "../../hooks/useViewMode"
 
 export function FeedEntries() {
     const source = useAppSelector(state => state.entries.source)
@@ -28,7 +29,7 @@ export function FeedEntries() {
     const entriesTimestamp = useAppSelector(state => state.entries.timestamp)
     const selectedEntryId = useAppSelector(state => state.entries.selectedEntryId)
     const hasMore = useAppSelector(state => state.entries.hasMore)
-    const viewMode = useAppSelector(state => state.user.settings?.viewMode)
+    const { viewMode } = useViewMode()
     const scrollMarks = useAppSelector(state => state.user.settings?.scrollMarks)
     const scrollingToEntry = useAppSelector(state => state.entries.scrollingToEntry)
     const dispatch = useAppDispatch()

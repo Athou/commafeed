@@ -1,7 +1,7 @@
 import { Anchor, Box, createStyles, Divider, Paper } from "@mantine/core"
 import { Constants } from "app/constants"
 import { markEntry } from "app/slices/entries"
-import { useAppDispatch, useAppSelector } from "app/store"
+import { useAppDispatch } from "app/store"
 import { Entry, ViewMode } from "app/types"
 import React from "react"
 import { useSwipeable } from "react-swipeable"
@@ -11,6 +11,7 @@ import { FeedEntryCompactHeader } from "./FeedEntryCompactHeader"
 import { FeedEntryContextMenu, useFeedEntryContextMenu } from "./FeedEntryContextMenu"
 import { FeedEntryFooter } from "./FeedEntryFooter"
 import { FeedEntryHeader } from "./FeedEntryHeader"
+import { useViewMode } from "../../hooks/useViewMode"
 
 interface FeedEntryProps {
     entry: Entry
@@ -63,7 +64,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: View
 })
 
 export function FeedEntry(props: FeedEntryProps) {
-    const viewMode = useAppSelector(state => state.user.settings?.viewMode)
+    const { viewMode } = useViewMode()
     const { classes } = useStyles({ ...props, viewMode })
 
     const dispatch = useAppDispatch()

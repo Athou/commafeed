@@ -47,6 +47,7 @@
     "react-swipeable": "^7.0.0",
     "swagger-ui-react": "^4.15.5",
     "tinycon": "^0.6.8",
+    "use-local-storage": "^3.0.0",
     "websocket-heartbeat-js": "^1.1.1"
   },
   "devDependencies": {

@@ -228,7 +228,6 @@ export interface Settings {
     language: string
     readingMode: ReadingMode
     readingOrder: ReadingOrder
-    viewMode: ViewMode
     showRead: boolean
     scrollMarks: boolean
     theme?: string

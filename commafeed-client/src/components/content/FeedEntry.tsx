@@ -32,6 +32,11 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: View
     if (props.viewMode === "title") mobileMarginY = 2
     else if (props.viewMode === "cozy") mobileMarginY = 4
 
+    let backgroundHoverColor = backgroundColor
+    if (!props.expanded) {
+        backgroundHoverColor = theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[0]
+    }
+
     const styles = {
         paper: {
             backgroundColor,
@@ -40,6 +45,9 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: View
             [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
                 marginTop: mobileMarginY,
                 marginBottom: mobileMarginY,
+            },
+            "&:hover": {
+                backgroundColor: backgroundHoverColor,
             },
         },
         body: {

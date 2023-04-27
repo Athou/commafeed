@@ -66,9 +66,12 @@ export function FeedEntry(props: FeedEntryProps) {
 
     const { onContextMenu } = useFeedEntryContextMenu(props.entry)
 
-    let padding: MantineNumberSize = "xs"
-    if (viewMode === "title") padding = 4
-    else if (viewMode === "cozy") padding = 8
+    let paddingX: MantineNumberSize = "xs"
+    if (viewMode === "title" || viewMode === "cozy") paddingX = 6
+
+    let paddingY: MantineNumberSize = "xs"
+    if (viewMode === "title") paddingY = 4
+    else if (viewMode === "cozy") paddingY = 8
 
     let borderRadius: MantineNumberSize = "sm"
     if (viewMode === "title") borderRadius = 0
@@ -86,17 +89,17 @@ export function FeedEntry(props: FeedEntryProps) {
                 onAuxClick={props.onHeaderClick}
                 onContextMenu={onContextMenu}
             >
-                <Box p={padding} {...swipeHandlers}>
+                <Box px={paddingX} py={paddingY} {...swipeHandlers}>
                     {compactHeader && <FeedEntryCompactHeader entry={props.entry} />}
                     {!compactHeader && <FeedEntryHeader entry={props.entry} expanded={props.expanded} />}
                 </Box>
             </Anchor>
             {props.expanded && (
-                <Box px={padding} pb={padding}>
+                <Box px={paddingX} pb={paddingY}>
                     <Box className={classes.body} sx={{ direction: props.entry.rtl ? "rtl" : "ltr" }}>
                         <FeedEntryBody entry={props.entry} />
                     </Box>
-                    <Divider variant="dashed" my={padding} />
+                    <Divider variant="dashed" my={paddingY} />
                     <FeedEntryFooter entry={props.entry} />
                 </Box>
             )}

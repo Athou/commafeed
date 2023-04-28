@@ -35,7 +35,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: View
 
     let backgroundHoverColor = backgroundColor
     if (!props.expanded) {
-        backgroundHoverColor = theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[0]
+        backgroundHoverColor = theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1]
     }
 
     const styles = {

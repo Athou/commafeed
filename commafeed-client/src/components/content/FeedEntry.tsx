@@ -47,8 +47,10 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: View
                 marginTop: mobileMarginY,
                 marginBottom: mobileMarginY,
             },
-            "&:hover": {
-                backgroundColor: backgroundHoverColor,
+            "@media (hover: hover)": {
+                "&:hover": {
+                    backgroundColor: backgroundHoverColor,
+                },
             },
         },
         body: {

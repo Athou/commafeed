@@ -36,7 +36,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 			QFeedSubscription subs = QFeedSubscription.feedSubscription;
 			QUser user = QUser.user;
 
-			query.join(feed.subscriptions, subs).join(subs.user, user).where(user.lastLogin.gt(lastLoginThreshold));
+			query.join(subs).on(subs.feed.id.eq(feed.id)).join(subs.user, user).where(user.lastLogin.gt(lastLoginThreshold));
 		}
 
 		return query.orderBy(feed.disabledUntil.asc()).limit(count).fetch();

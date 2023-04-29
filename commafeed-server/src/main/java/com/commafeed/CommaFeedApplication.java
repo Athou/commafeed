@@ -95,7 +95,8 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 			@Override
 			protected ObjectMapper configureObjectMapper(ObjectMapper objectMapper) {
 				// disable case sensitivity because EnvironmentSubstitutor maps MYPROPERTY to myproperty and not to myProperty
-				return objectMapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
+				return objectMapper
+						.setConfig(objectMapper.getDeserializationConfig().with(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES));
 			}
 		});
 

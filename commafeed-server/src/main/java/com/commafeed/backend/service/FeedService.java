@@ -50,6 +50,14 @@ public class FeedService {
 		return feed;
 	}
 
+	public void save(Feed feed) {
+		String normalized = FeedUtils.normalizeURL(feed.getUrl());
+		feed.setNormalizedUrl(normalized);
+		feed.setNormalizedUrlHash(DigestUtils.sha1Hex(normalized));
+		feed.setLastUpdated(new Date());
+		feedDAO.saveOrUpdate(feed);
+	}
+
 	public Favicon fetchFavicon(Feed feed) {
 
 		Favicon icon = null;

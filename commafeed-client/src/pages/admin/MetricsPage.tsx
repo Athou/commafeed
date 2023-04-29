@@ -1,7 +1,6 @@
-import { Accordion, Box, Tabs } from "@mantine/core"
+import { Accordion, Tabs } from "@mantine/core"
 import { client } from "app/client"
 import { Loader } from "components/Loader"
-import { Gauge } from "components/metrics/Gauge"
 import { Meter } from "components/metrics/Meter"
 import { MetricAccordionItem } from "components/metrics/MetricAccordionItem"
 import { Timer } from "components/metrics/Timer"
@@ -9,26 +8,18 @@ import { useAsync } from "react-async-hook"
 import { TbChartAreaLine, TbClock } from "react-icons/tb"
 
 const shownMeters: { [key: string]: string } = {
-    "com.commafeed.backend.feed.FeedQueues.refill": "Refresh queue refill rate",
-    "com.commafeed.backend.feed.FeedRefreshTaskGiver.feedRefreshed": "Feed refreshed",
-    "com.commafeed.backend.feed.FeedRefreshUpdater.feedUpdated": "Feed updated",
-    "com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheHit": "Entry cache hit",
-    "com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheMiss": "Entry cache miss",
-}
-
-const shownGauges: { [key: string]: string } = {
-    "com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-updater.active": "Feed Updater active",
-    "com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-updater.pending": "Feed Updater queued",
-    "com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-worker.active": "Feed Worker active",
-    "com.commafeed.backend.feed.FeedRefreshExecutor.feed-refresh-worker.pending": "Feed Worker queued",
-    "com.commafeed.backend.feed.FeedQueues.queue": "Feed Refresh queue size",
+    "com.commafeed.backend.service.FeedRefreshFlowService.refill": "Feed queue refill rate",
+    "com.commafeed.backend.feed.FeedRefreshWorker.feedFetched": "Feed fetching rate",
+    "com.commafeed.backend.feed.FeedRefreshUpdater.feedUpdated": "Feed update rate",
+    "com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheHit": "Entry cache hit rate",
+    "com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheMiss": "Entry cache miss rate",
 }
 
 export function MetricsPage() {
     const query = useAsync(() => client.admin.getMetrics(), [])
 
     if (!query.result) return <Loader />
-    const { meters, gauges, timers } = query.result.data
+    const { meters, timers } = query.result.data
     return (
         <Tabs defaultValue="stats">
             <Tabs.List>
@@ -48,15 +39,6 @@ export function MetricsPage() {
                         </MetricAccordionItem>
                     ))}
                 </Accordion>
-
-                <Box pt="xs">
-                    {Object.keys(shownGauges).map(g => (
-                        <Box key={g}>
-                            <span>{shownGauges[g]}&nbsp;</span>
-                            <Gauge gauge={gauges[g]} />
-                        </Box>
-                    ))}
-                </Box>
             </Tabs.Panel>
 
             <Tabs.Panel value="timers" pt="xs">

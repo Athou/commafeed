@@ -14,7 +14,6 @@ import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
-import com.commafeed.backend.feed.FeedQueues;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
@@ -35,7 +34,7 @@ public class FeedSubscriptionService {
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedService feedService;
-	private final FeedQueues queues;
+	private final FeedRefreshEngine feedRefreshEngine;
 	private final CacheService cache;
 	private final CommaFeedConfiguration config;
 
@@ -76,7 +75,7 @@ public class FeedSubscriptionService {
 		sub.setTitle(FeedUtils.truncate(title, 128));
 		feedSubscriptionDAO.saveOrUpdate(sub);
 
-		queues.add(feed, true);
+		feedRefreshEngine.refreshImmediately(feed);
 		cache.invalidateUserRootCategory(user);
 		return sub.getId();
 	}
@@ -96,7 +95,7 @@ public class FeedSubscriptionService {
 		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 		for (FeedSubscription sub : subs) {
 			Feed feed = sub.getFeed();
-			queues.add(feed, true);
+			feedRefreshEngine.refreshImmediately(feed);
 		}
 	}
 

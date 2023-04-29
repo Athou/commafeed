@@ -20,17 +20,16 @@ import org.hibernate.SessionFactory;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.CommaFeedConfiguration.ApplicationSettings;
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UnitOfWork;
-import com.commafeed.backend.feed.FeedRefreshExecutor.Task;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
-import com.commafeed.backend.service.FeedUpdateService;
+import com.commafeed.backend.service.FeedEntryService;
+import com.commafeed.backend.service.FeedService;
 import com.commafeed.backend.service.PubSubService;
 import com.commafeed.frontend.ws.WebSocketMessageBuilder;
 import com.commafeed.frontend.ws.WebSocketSessions;
@@ -45,15 +44,14 @@ import lombok.extern.slf4j.Slf4j;
 public class FeedRefreshUpdater implements Managed {
 
 	private final SessionFactory sessionFactory;
-	private final FeedUpdateService feedUpdateService;
+	private final FeedService feedService;
+	private final FeedEntryService feedEntryService;
 	private final PubSubService pubSubService;
-	private final FeedQueues queues;
 	private final CommaFeedConfiguration config;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final CacheService cache;
 	private final WebSocketSessions webSocketSessions;
 
-	private final FeedRefreshExecutor pool;
 	private final Striped<Lock> locks;
 
 	private final Meter entryCacheMiss;
@@ -62,41 +60,24 @@ public class FeedRefreshUpdater implements Managed {
 	private final Meter entryInserted;
 
 	@Inject
-	public FeedRefreshUpdater(SessionFactory sessionFactory, FeedUpdateService feedUpdateService, PubSubService pubSubService,
-			FeedQueues queues, CommaFeedConfiguration config, MetricRegistry metrics, FeedSubscriptionDAO feedSubscriptionDAO,
+	public FeedRefreshUpdater(SessionFactory sessionFactory, FeedService feedService, FeedEntryService feedEntryService,
+			PubSubService pubSubService, CommaFeedConfiguration config, MetricRegistry metrics, FeedSubscriptionDAO feedSubscriptionDAO,
 			CacheService cache, WebSocketSessions webSocketSessions) {
 		this.sessionFactory = sessionFactory;
-		this.feedUpdateService = feedUpdateService;
+		this.feedService = feedService;
+		this.feedEntryService = feedEntryService;
 		this.pubSubService = pubSubService;
-		this.queues = queues;
 		this.config = config;
 		this.feedSubscriptionDAO = feedSubscriptionDAO;
 		this.cache = cache;
 		this.webSocketSessions = webSocketSessions;
 
-		ApplicationSettings settings = config.getApplicationSettings();
-		int threads = Math.max(settings.getDatabaseUpdateThreads(), 1);
-		pool = new FeedRefreshExecutor("feed-refresh-updater", threads, Math.min(50 * threads, 1000), metrics);
-		locks = Striped.lazyWeakLock(threads * 100000);
+		locks = Striped.lazyWeakLock(100000);
 
 		entryCacheMiss = metrics.meter(MetricRegistry.name(getClass(), "entryCacheMiss"));
 		entryCacheHit = metrics.meter(MetricRegistry.name(getClass(), "entryCacheHit"));
 		feedUpdated = metrics.meter(MetricRegistry.name(getClass(), "feedUpdated"));
 		entryInserted = metrics.meter(MetricRegistry.name(getClass(), "entryInserted"));
-	}
-
-	@Override
-	public void start() throws Exception {
-	}
-
-	@Override
-	public void stop() throws Exception {
-		log.info("shutting down feed refresh updater");
-		pool.shutdown();
-	}
-
-	public void updateFeed(FeedRefreshContext context) {
-		pool.execute(new EntryTask(context));
 	}
 
 	private AddEntryResult addEntry(final Feed feed, final FeedEntry entry, final List<FeedSubscription> subscriptions) {
@@ -123,7 +104,7 @@ public class FeedRefreshUpdater implements Managed {
 			locked2 = lock2.tryLock(1, TimeUnit.MINUTES);
 			if (locked1 && locked2) {
 				processed = true;
-				inserted = UnitOfWork.call(sessionFactory, () -> feedUpdateService.addEntry(feed, entry, subscriptions));
+				inserted = UnitOfWork.call(sessionFactory, () -> feedEntryService.addEntry(feed, entry, subscriptions));
 				if (inserted) {
 					entryInserted.mark();
 				}
@@ -166,76 +147,63 @@ public class FeedRefreshUpdater implements Managed {
 		}
 	}
 
-	private class EntryTask implements Task {
+	public boolean update(Feed feed, List<FeedEntry> entries) {
+		boolean processed = true;
+		boolean insertedAtLeastOneEntry = false;
 
-		private final FeedRefreshContext context;
+		if (!entries.isEmpty()) {
+			List<String> lastEntries = cache.getLastEntries(feed);
+			List<String> currentEntries = new ArrayList<>();
 
-		public EntryTask(FeedRefreshContext context) {
-			this.context = context;
-		}
-
-		@Override
-		public void run() {
-			boolean processed = true;
-			boolean insertedAtLeastOneEntry = false;
-
-			final Feed feed = context.getFeed();
-			List<FeedEntry> entries = context.getEntries();
-			if (entries.isEmpty()) {
-				feed.setMessage("Feed has no entries");
-			} else {
-				List<String> lastEntries = cache.getLastEntries(feed);
-				List<String> currentEntries = new ArrayList<>();
-
-				List<FeedSubscription> subscriptions = null;
-				for (FeedEntry entry : entries) {
-					String cacheKey = cache.buildUniqueEntryKey(feed, entry);
-					if (!lastEntries.contains(cacheKey)) {
-						log.debug("cache miss for {}", entry.getUrl());
-						if (subscriptions == null) {
-							subscriptions = UnitOfWork.call(sessionFactory, () -> feedSubscriptionDAO.findByFeed(feed));
-						}
-						AddEntryResult addEntryResult = addEntry(feed, entry, subscriptions);
-						processed &= addEntryResult.processed;
-						insertedAtLeastOneEntry |= addEntryResult.inserted;
-
-						entryCacheMiss.mark();
-					} else {
-						log.debug("cache hit for {}", entry.getUrl());
-						entryCacheHit.mark();
+			List<FeedSubscription> subscriptions = null;
+			for (FeedEntry entry : entries) {
+				String cacheKey = cache.buildUniqueEntryKey(feed, entry);
+				if (!lastEntries.contains(cacheKey)) {
+					log.debug("cache miss for {}", entry.getUrl());
+					if (subscriptions == null) {
+						subscriptions = UnitOfWork.call(sessionFactory, () -> feedSubscriptionDAO.findByFeed(feed));
 					}
+					AddEntryResult addEntryResult = addEntry(feed, entry, subscriptions);
+					processed &= addEntryResult.processed;
+					insertedAtLeastOneEntry |= addEntryResult.inserted;
 
-					currentEntries.add(cacheKey);
+					entryCacheMiss.mark();
+				} else {
+					log.debug("cache hit for {}", entry.getUrl());
+					entryCacheHit.mark();
 				}
-				cache.setLastEntries(feed, currentEntries);
 
-				if (subscriptions == null) {
-					feed.setMessage("No new entries found");
-				} else if (insertedAtLeastOneEntry) {
-					List<User> users = subscriptions.stream().map(FeedSubscription::getUser).collect(Collectors.toList());
-					cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
-					cache.invalidateUserRootCategory(users.toArray(new User[0]));
+				currentEntries.add(cacheKey);
+			}
+			cache.setLastEntries(feed, currentEntries);
 
-					// notify over websocket
-					subscriptions.forEach(sub -> webSocketSessions.sendMessage(sub.getUser(), WebSocketMessageBuilder.newFeedEntries(sub)));
-				}
-			}
+			if (subscriptions == null) {
+				feed.setMessage("No new entries found");
+			} else if (insertedAtLeastOneEntry) {
+				List<User> users = subscriptions.stream().map(FeedSubscription::getUser).collect(Collectors.toList());
+				cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
+				cache.invalidateUserRootCategory(users.toArray(new User[0]));
 
-			if (config.getApplicationSettings().getPubsubhubbub()) {
-				handlePubSub(feed);
+				// notify over websocket
+				subscriptions.forEach(sub -> webSocketSessions.sendMessage(sub.getUser(), WebSocketMessageBuilder.newFeedEntries(sub)));
 			}
-			if (!processed) {
-				// requeue asap
-				feed.setDisabledUntil(new Date(0));
-			}
+		}
+
+		if (Boolean.TRUE.equals(config.getApplicationSettings().getPubsubhubbub())) {
+			handlePubSub(feed);
+		}
+		if (!processed) {
+			// requeue asap
+			feed.setDisabledUntil(new Date(0));
+		}
+
+		if (insertedAtLeastOneEntry) {
 			feedUpdated.mark();
-			queues.giveBack(feed);
 		}
 
-		@Override
-		public boolean isUrgent() {
-			return context.isUrgent();
-		}
+		UnitOfWork.run(sessionFactory, () -> feedService.save(feed));
+
+		return processed;
 	}
 
 	@AllArgsConstructor

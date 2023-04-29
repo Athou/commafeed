@@ -26,9 +26,9 @@ import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.feed.FeedParser;
-import com.commafeed.backend.feed.FeedQueues;
 import com.commafeed.backend.feed.FetchedFeed;
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.service.FeedRefreshEngine;
 import com.google.common.base.Preconditions;
 
 import io.dropwizard.hibernate.UnitOfWork;
@@ -46,7 +46,7 @@ public class PubSubHubbubCallbackREST {
 
 	private final FeedDAO feedDAO;
 	private final FeedParser parser;
-	private final FeedQueues queues;
+	private final FeedRefreshEngine feedRefreshEngine;
 	private final CommaFeedConfiguration config;
 	private final MetricRegistry metricRegistry;
 
@@ -114,7 +114,7 @@ public class PubSubHubbubCallbackREST {
 
 			for (Feed feed : feeds) {
 				log.debug("pushing content to queue for {}", feed.getUrl());
-				queues.add(feed, false);
+				feedRefreshEngine.refreshImmediately(feed);
 			}
 			metricRegistry.meter(MetricRegistry.name(getClass(), "pushReceived")).mark();
 

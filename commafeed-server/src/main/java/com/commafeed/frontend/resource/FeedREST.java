@@ -45,7 +45,6 @@ import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.favicon.AbstractFaviconFetcher.Favicon;
 import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedFetcher;
-import com.commafeed.backend.feed.FeedQueues;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.feed.FetchedFeed;
 import com.commafeed.backend.model.Feed;
@@ -62,6 +61,7 @@ import com.commafeed.backend.opml.OPMLImporter;
 import com.commafeed.backend.service.FeedEntryFilteringService;
 import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
 import com.commafeed.backend.service.FeedEntryService;
+import com.commafeed.backend.service.FeedRefreshEngine;
 import com.commafeed.backend.service.FeedService;
 import com.commafeed.backend.service.FeedSubscriptionService;
 import com.commafeed.frontend.auth.SecurityCheck;
@@ -109,7 +109,7 @@ public class FeedREST {
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionService feedSubscriptionService;
 	private final FeedEntryFilteringService feedEntryFilteringService;
-	private final FeedQueues queues;
+	private final FeedRefreshEngine feedRefreshEngine;
 	private final OPMLImporter opmlImporter;
 	private final OPMLExporter opmlExporter;
 	private final CacheService cache;
@@ -303,7 +303,7 @@ public class FeedREST {
 		FeedSubscription sub = feedSubscriptionDAO.findById(user, req.getId());
 		if (sub != null) {
 			Feed feed = sub.getFeed();
-			queues.add(feed, true);
+			feedRefreshEngine.refreshImmediately(feed);
 			return Response.ok().build();
 		}
 		return Response.ok(Status.NOT_FOUND).build();

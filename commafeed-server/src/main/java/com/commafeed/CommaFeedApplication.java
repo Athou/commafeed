@@ -18,9 +18,6 @@ import javax.websocket.server.ServerEndpointConfig;
 import org.hibernate.cfg.AvailableSettings;
 
 import com.codahale.metrics.json.MetricsModule;
-import com.commafeed.backend.feed.FeedRefreshTaskGiver;
-import com.commafeed.backend.feed.FeedRefreshUpdater;
-import com.commafeed.backend.feed.FeedRefreshWorker;
 import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
@@ -32,7 +29,8 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserSettings;
-import com.commafeed.backend.service.StartupService;
+import com.commafeed.backend.service.DatabaseStartupService;
+import com.commafeed.backend.service.FeedRefreshEngine;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.backend.task.ScheduledTask;
 import com.commafeed.frontend.auth.SecurityCheckFactoryProvider;
@@ -195,12 +193,10 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		}
 
 		// database init/changelogs
-		environment.lifecycle().manage(injector.getInstance(StartupService.class));
+		environment.lifecycle().manage(injector.getInstance(DatabaseStartupService.class));
 
-		// background feed fetching
-		environment.lifecycle().manage(injector.getInstance(FeedRefreshTaskGiver.class));
-		environment.lifecycle().manage(injector.getInstance(FeedRefreshWorker.class));
-		environment.lifecycle().manage(injector.getInstance(FeedRefreshUpdater.class));
+		// start feed fetching engine
+		environment.lifecycle().manage(injector.getInstance(FeedRefreshEngine.class));
 
 		// prevent caching index.html, so that the webapp is always up to date
 		environment.servlets()

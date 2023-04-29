@@ -1,5 +1,6 @@
 package com.commafeed.backend.feed;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,58 +11,38 @@ import javax.inject.Singleton;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
-import com.commafeed.backend.feed.FeedRefreshExecutor.Task;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 
-import io.dropwizard.lifecycle.Managed;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Calls {@link FeedFetcher} and handles its outcome
- * 
  */
 @Slf4j
 @Singleton
-public class FeedRefreshWorker implements Managed {
+public class FeedRefreshWorker {
 
-	private final FeedRefreshUpdater feedRefreshUpdater;
 	private final FeedRefreshIntervalCalculator refreshIntervalCalculator;
 	private final FeedFetcher fetcher;
-	private final FeedQueues queues;
 	private final CommaFeedConfiguration config;
-	private final FeedRefreshExecutor pool;
+	private final Meter feedFetched;
 
 	@Inject
-	public FeedRefreshWorker(FeedRefreshUpdater feedRefreshUpdater, FeedRefreshIntervalCalculator refreshIntervalCalculator,
-			FeedFetcher fetcher, FeedQueues queues, CommaFeedConfiguration config, MetricRegistry metrics) {
-		this.feedRefreshUpdater = feedRefreshUpdater;
+	public FeedRefreshWorker(FeedRefreshIntervalCalculator refreshIntervalCalculator, FeedFetcher fetcher, CommaFeedConfiguration config,
+			MetricRegistry metrics) {
 		this.refreshIntervalCalculator = refreshIntervalCalculator;
 		this.fetcher = fetcher;
 		this.config = config;
-		this.queues = queues;
-		int threads = config.getApplicationSettings().getBackgroundThreads();
-		pool = new FeedRefreshExecutor("feed-refresh-worker", threads, Math.min(20 * threads, 1000), metrics);
+		this.feedFetched = metrics.meter(MetricRegistry.name(getClass(), "feedFetched"));
+
 	}
 
-	@Override
-	public void start() throws Exception {
-	}
-
-	@Override
-	public void stop() throws Exception {
-		pool.shutdown();
-	}
-
-	public void updateFeed(FeedRefreshContext context) {
-		pool.execute(new FeedTask(context));
-	}
-
-	private void update(FeedRefreshContext context) {
-		Feed feed = context.getFeed();
+	public FeedAndEntries update(Feed feed) {
 		try {
 			String url = Optional.ofNullable(feed.getUrlAfterRedirect()).orElse(feed.getUrl());
 			FetchedFeed fetchedFeed = fetcher.fetch(url, false, feed.getLastModifiedHeader(), feed.getEtagHeader(),
@@ -92,9 +73,8 @@ public class FeedRefreshWorker implements Managed {
 			feed.setDisabledUntil(refreshIntervalCalculator.onFetchSuccess(fetchedFeed));
 
 			handlePubSub(feed, fetchedFeed.getFeed());
-			context.setEntries(entries);
-			feedRefreshUpdater.updateFeed(context);
 
+			return new FeedAndEntries(feed, entries);
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified : {} - {}", feed.getUrl(), e.getMessage());
 
@@ -110,7 +90,7 @@ public class FeedRefreshWorker implements Managed {
 				feed.setEtagHeader(e.getNewEtagHeader());
 			}
 
-			queues.giveBack(feed);
+			return new FeedAndEntries(feed, Collections.emptyList());
 		} catch (Exception e) {
 			String message = "Unable to refresh feed " + feed.getUrl() + " : " + e.getMessage();
 			log.debug(e.getClass().getName() + " " + message, e);
@@ -119,7 +99,9 @@ public class FeedRefreshWorker implements Managed {
 			feed.setMessage(message);
 			feed.setDisabledUntil(refreshIntervalCalculator.onFetchError(feed));
 
-			queues.giveBack(feed);
+			return new FeedAndEntries(feed, Collections.emptyList());
+		} finally {
+			feedFetched.mark();
 		}
 	}
 
@@ -145,22 +127,4 @@ public class FeedRefreshWorker implements Managed {
 		}
 	}
 
-	private class FeedTask implements Task {
-
-		private final FeedRefreshContext context;
-
-		public FeedTask(FeedRefreshContext context) {
-			this.context = context;
-		}
-
-		@Override
-		public void run() {
-			update(context);
-		}
-
-		@Override
-		public boolean isUrgent() {
-			return context.isUrgent();
-		}
-	}
 }

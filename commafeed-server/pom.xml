@@ -13,8 +13,8 @@
 
 	<properties>
 		<guice.version>5.1.0</guice.version>
-		<querydsl.version>4.2.1</querydsl.version>
-		<rome.version>1.18.0</rome.version>
+		<querydsl.version>4.4.0</querydsl.version>
+		<rome.version>2.1.0</rome.version>
 	</properties>
 
 	<dependencyManagement>
@@ -22,7 +22,7 @@
 			<dependency>
 				<groupId>io.dropwizard</groupId>
 				<artifactId>dropwizard-dependencies</artifactId>
-				<version>2.1.1</version>
+				<version>2.1.6</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -293,7 +293,7 @@
 		<dependency>
 			<groupId>be.tomcools</groupId>
 			<artifactId>dropwizard-websocket-jee7-bundle</artifactId>
-			<version>2.0.0</version>
+			<version>2.1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>io.whitfin</groupId>
@@ -413,17 +413,17 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.14.3</version>
+			<version>1.15.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ibm.icu</groupId>
 			<artifactId>icu4j</artifactId>
-			<version>70.1</version>
+			<version>73.1</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.cssparser</groupId>
 			<artifactId>cssparser</artifactId>
-			<version>0.9.29</version>
+			<version>0.9.30</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.uci.ics</groupId>
@@ -439,24 +439,18 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-			<version>2.9.0</version>
+			<version>2.10.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.hakky54</groupId>
 			<artifactId>sslcontext-kickstart</artifactId>
-			<version>7.2.0</version>
+			<version>7.4.11</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.google.apis</groupId>
 			<artifactId>google-api-services-youtube</artifactId>
-			<version>v3-rev139-1.20.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava-jdk5</artifactId>
-				</exclusion>
-			</exclusions>
+			<version>v3-rev222-1.25.0</version>
 		</dependency>
 
 		<dependency>
@@ -466,12 +460,12 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.28</version>
+			<version>8.0.33</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.4.1</version>
+			<version>42.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.jtds</groupId>
@@ -497,7 +491,7 @@
 		<dependency>
 			<groupId>org.mock-server</groupId>
 			<artifactId>mockserver-junit-jupiter</artifactId>
-			<version>5.13.2</version>
+			<version>5.15.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -513,7 +507,7 @@
 		<dependency>
 			<groupId>com.microsoft.playwright</groupId>
 			<artifactId>playwright</artifactId>
-			<version>1.24.1</version>
+			<version>1.32.0</version>
 			<scope>test</scope>
 		</dependency>
 

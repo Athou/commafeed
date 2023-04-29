@@ -28,6 +28,8 @@ import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Safelist;
 import org.jsoup.select.Elements;
+import org.netpreserve.urlcanon.Canonicalizer;
+import org.netpreserve.urlcanon.ParsedUrl;
 import org.w3c.css.sac.InputSource;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
@@ -41,7 +43,6 @@ import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
 import com.steadystate.css.parser.CSSOMParser;
 
-import edu.uci.ics.crawler4j.url.URLCanonicalizer;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -179,7 +180,10 @@ public class FeedUtils {
 		if (url == null) {
 			return null;
 		}
-		String normalized = URLCanonicalizer.getCanonicalURL(url);
+
+		ParsedUrl parsedUrl = ParsedUrl.parseUrl(url);
+		Canonicalizer.AGGRESSIVE.canonicalize(parsedUrl);
+		String normalized = parsedUrl.toString();
 		if (normalized == null) {
 			normalized = url;
 		}

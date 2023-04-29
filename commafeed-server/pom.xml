@@ -426,15 +426,9 @@
 			<version>0.9.30</version>
 		</dependency>
 		<dependency>
-			<groupId>edu.uci.ics</groupId>
-			<artifactId>crawler4j</artifactId>
-			<version>3.5</version>
-			<exclusions>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.netpreserve</groupId>
+			<artifactId>urlcanon</artifactId>
+			<version>0.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>

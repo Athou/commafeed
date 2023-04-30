@@ -104,6 +104,8 @@ server:
   adminConnectors:
     - type: http
       port: 8084
+  requestLog:
+    appenders: [ ]
       
 logging:
   level: ERROR

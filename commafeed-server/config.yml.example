@@ -106,7 +106,7 @@ server:
       port: 8084
       
 logging:
-  level: WARN
+  level: ERROR
   loggers:
     com.commafeed: INFO
     liquibase: INFO

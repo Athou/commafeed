@@ -34,10 +34,12 @@ public class WebSocketSessions {
 				.flatMap(e -> e.getValue().stream())
 				.collect(Collectors.toSet());
 
-		log.debug("sending '{}' to {} users via websocket", text, userSessions.size());
-		for (Session userSession : userSessions) {
-			if (userSession.isOpen()) {
-				userSession.getAsyncRemote().sendText(text);
+		if (!userSessions.isEmpty()) {
+			log.debug("sending '{}' to {} users via websocket", text, userSessions.size());
+			for (Session userSession : userSessions) {
+				if (userSession.isOpen()) {
+					userSession.getAsyncRemote().sendText(text);
+				}
 			}
 		}
 	}

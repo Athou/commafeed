@@ -40,19 +40,7 @@ jobs:
           name: commafeed.jar
           path: commafeed-server/target/commafeed.jar
 
-      - name: Create release
-        uses: softprops/action-gh-release@v1
-        if: ${{ matrix.java == '8' && github.ref_type == 'tag' }}
-        with:
-          name: CommaFeed ${{ github.ref_name }}
-          body: See changelog at https://github.com/Athou/commafeed/blob/master/CHANGELOG.md
-          draft: false
-          prerelease: false
-          files: |
-            commafeed-server/target/commafeed.jar
-            commafeed-server/config.yml.example
-
-          # Docker
+      # Docker
       - name: Login to Container Registry
         uses: docker/login-action@v2
         if: ${{ matrix.java == '8' }}
@@ -79,3 +67,16 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm/v7
           tags: athou/commafeed:master
+
+      # Create GitHub release after Docker image has been published
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        if: ${{ matrix.java == '8' && github.ref_type == 'tag' }}
+        with:
+          name: CommaFeed ${{ github.ref_name }}
+          body: See changelog at https://github.com/Athou/commafeed/blob/master/CHANGELOG.md
+          draft: false
+          prerelease: false
+          files: |
+            commafeed-server/target/commafeed.jar
+            commafeed-server/config.yml.example

@@ -34,9 +34,8 @@ Docker images are built automatically and are available at https://hub.docker.co
 ### Download precompiled package
 
     mkdir commafeed && cd commafeed
-    wget https://github.com/Athou/commafeed/releases/download/3.0.1/commafeed.jar
-    wget https://raw.githubusercontent.com/Athou/commafeed/3.0.1/commafeed-server/config.yml.example -O config.yml
-    vi config.yml
+    wget https://github.com/Athou/commafeed/releases/latest/download/commafeed.jar
+    wget https://github.com/Athou/commafeed/releases/latest/download/config.yml.example -O config.yml
     java -Djava.net.preferIPv4Stack=true -jar commafeed.jar server config.yml
 
 The server will listen on http://localhost:8082. The default
@@ -48,7 +47,6 @@ user is `admin` and the default password is `admin`.
     cd commafeed
     ./mvnw clean package
     cp commafeed-server/config.yml.example config.yml
-    vi config.yml
     java -Djava.net.preferIPv4Stack=true -jar commafeed-server/target/commafeed.jar server config.yml
 
 The server will listen on http://localhost:8082. The default
@@ -76,8 +74,6 @@ two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_6
 
 - Open `commafeed-server` in your preferred Java IDE.
     - CommaFeed uses Lombok, you need the Lombok plugin for your IDE.
-    - If using Eclipse, Go to Window → Preferences → Maven → Annotation Processing and check "Automatically configure
-      JDT APT"
 - Start `CommaFeedApplication.java` in debug mode with `server config.dev.yml` as arguments
 
 ### Frontend
@@ -85,8 +81,9 @@ two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_6
 - Open `commafeed-client` in your preferred JavaScript IDE.
 - run `npm install`
 - run `npm run dev`
-- the frontend server is now running at http://localhost:8082 and is proxying REST requests to the backend running on
-  port 8083
+
+The frontend server is now running at http://localhost:8082 and is proxying REST requests to the backend running on
+port 8083
 
 ## Copyright and license
 

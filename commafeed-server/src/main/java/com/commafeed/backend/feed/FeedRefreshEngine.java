@@ -1,4 +1,4 @@
-package com.commafeed.backend.service;
+package com.commafeed.backend.feed;
 
 import java.util.Date;
 import java.util.List;
@@ -15,8 +15,6 @@ import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.UnitOfWork;
-import com.commafeed.backend.feed.FeedRefreshUpdater;
-import com.commafeed.backend.feed.FeedRefreshWorker;
 import com.commafeed.backend.model.Feed;
 
 import io.dropwizard.lifecycle.Managed;

@@ -27,8 +27,8 @@ import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.feed.FeedParser;
 import com.commafeed.backend.feed.FeedParser.FeedParserResult;
+import com.commafeed.backend.feed.FeedRefreshEngine;
 import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.service.FeedRefreshEngine;
 import com.google.common.base.Preconditions;
 
 import io.dropwizard.hibernate.UnitOfWork;

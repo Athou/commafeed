@@ -8,7 +8,7 @@ import { useAsync } from "react-async-hook"
 import { TbChartAreaLine, TbClock } from "react-icons/tb"
 
 const shownMeters: { [key: string]: string } = {
-    "com.commafeed.backend.service.FeedRefreshFlowService.refill": "Feed queue refill rate",
+    "com.commafeed.backend.feed.FeedRefreshEngine.refill": "Feed queue refill rate",
     "com.commafeed.backend.feed.FeedRefreshWorker.feedFetched": "Feed fetching rate",
     "com.commafeed.backend.feed.FeedRefreshUpdater.feedUpdated": "Feed update rate",
     "com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheHit": "Entry cache hit rate",

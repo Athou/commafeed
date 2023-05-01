@@ -18,6 +18,7 @@ import javax.websocket.server.ServerEndpointConfig;
 import org.hibernate.cfg.AvailableSettings;
 
 import com.codahale.metrics.json.MetricsModule;
+import com.commafeed.backend.feed.FeedRefreshEngine;
 import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
@@ -30,7 +31,6 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.service.DatabaseStartupService;
-import com.commafeed.backend.service.FeedRefreshEngine;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.backend.task.ScheduledTask;
 import com.commafeed.frontend.auth.SecurityCheckFactoryProvider;

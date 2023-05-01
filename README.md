@@ -1,8 +1,20 @@
 # CommaFeed
 
-Sources for [CommaFeed.com](http://www.commafeed.com/).
-
 Google Reader inspired self-hosted RSS reader, based on Dropwizard and React/TypeScript.
+
+![preview](https://user-images.githubusercontent.com/1256795/184886828-1973f148-58a9-4c6d-9587-ee5e5d3cc2cb.png)
+
+## Features
+
+- 4 different layouts
+- Dark theme
+- Fully responsive
+- Keyboard shortcuts for almost everything
+- Support for right-to-left feeds
+- Translated in 25+ languages
+- Supports thousands of users and millions of feeds
+- OPML import/export
+- REST API
 
 ## Related open-source projects
 

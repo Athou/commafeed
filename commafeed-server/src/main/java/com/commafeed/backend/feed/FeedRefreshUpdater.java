@@ -39,6 +39,9 @@ import io.dropwizard.lifecycle.Managed;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Updates the feed in the database and inserts new entries
+ */
 @Slf4j
 @Singleton
 public class FeedRefreshUpdater implements Managed {

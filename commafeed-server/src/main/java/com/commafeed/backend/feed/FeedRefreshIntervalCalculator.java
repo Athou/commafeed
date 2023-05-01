@@ -22,9 +22,9 @@ public class FeedRefreshIntervalCalculator {
 		this.refreshIntervalMinutes = config.getApplicationSettings().getRefreshIntervalMinutes();
 	}
 
-	public Date onFetchSuccess(FetchedFeed fetchedFeed) {
+	public Date onFetchSuccess(Feed feed) {
 		Date defaultRefreshInterval = getDefaultRefreshInterval();
-		return heavyLoad ? computeRefreshIntervalForHeavyLoad(fetchedFeed.getFeed(), defaultRefreshInterval) : defaultRefreshInterval;
+		return heavyLoad ? computeRefreshIntervalForHeavyLoad(feed, defaultRefreshInterval) : defaultRefreshInterval;
 	}
 
 	public Date onFeedNotModified(Feed feed) {

@@ -14,7 +14,6 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
@@ -59,7 +58,7 @@ public class HttpGetter {
 		}
 	}
 
-	public HttpResult getBinary(String url, int timeout) throws ClientProtocolException, IOException, NotModifiedException {
+	public HttpResult getBinary(String url, int timeout) throws IOException, NotModifiedException {
 		return getBinary(url, null, null, timeout);
 	}
 
@@ -71,14 +70,10 @@ public class HttpGetter {
 	 *            header we got last time we queried that url, or null
 	 * @param eTag
 	 *            header we got last time we queried that url, or null
-	 * @return
-	 * @throws ClientProtocolException
-	 * @throws IOException
 	 * @throws NotModifiedException
 	 *             if the url hasn't changed since we asked for it last time
 	 */
-	public HttpResult getBinary(String url, String lastModified, String eTag, int timeout)
-			throws ClientProtocolException, IOException, NotModifiedException {
+	public HttpResult getBinary(String url, String lastModified, String eTag, int timeout) throws IOException, NotModifiedException {
 		HttpResult result = null;
 		long start = System.currentTimeMillis();
 
@@ -175,13 +170,6 @@ public class HttpGetter {
 		return builder.build();
 	}
 
-	public static void main(String[] args) throws Exception {
-		CommaFeedConfiguration config = new CommaFeedConfiguration();
-		HttpGetter getter = new HttpGetter(config);
-		HttpResult result = getter.getBinary("https://sourceforge.net/projects/mpv-player-windows/rss", 30000);
-		System.out.println(new String(result.content));
-	}
-
 	@Getter
 	public static class NotModifiedException extends Exception {
 		private static final long serialVersionUID = 1L;
@@ -189,12 +177,12 @@ public class HttpGetter {
 		/**
 		 * if the value of this header changed, this is its new value
 		 */
-		private String newLastModifiedHeader;
+		private final String newLastModifiedHeader;
 
 		/**
 		 * if the value of this header changed, this is its new value
 		 */
-		private String newEtagHeader;
+		private final String newEtagHeader;
 
 		public NotModifiedException(String message) {
 			this(message, null, null);

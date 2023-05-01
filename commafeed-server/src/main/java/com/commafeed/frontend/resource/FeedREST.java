@@ -45,8 +45,8 @@ import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.favicon.AbstractFaviconFetcher.Favicon;
 import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedFetcher;
+import com.commafeed.backend.feed.FeedFetcher.FeedFetcherResult;
 import com.commafeed.backend.feed.FeedUtils;
-import com.commafeed.backend.feed.FetchedFeed;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
@@ -244,10 +244,10 @@ public class FeedREST {
 		url = StringUtils.trimToEmpty(url);
 		url = prependHttp(url);
 		try {
-			FetchedFeed feed = feedFetcher.fetch(url, true, null, null, null, null);
+			FeedFetcherResult feedFetcherResult = feedFetcher.fetch(url, true, null, null, null, null);
 			info = new FeedInfo();
-			info.setUrl(feed.getUrlAfterRedirect());
-			info.setTitle(feed.getTitle());
+			info.setUrl(feedFetcherResult.getUrlAfterRedirect());
+			info.setTitle(feedFetcherResult.getTitle());
 
 		} catch (Exception e) {
 			log.debug(e.getMessage(), e);

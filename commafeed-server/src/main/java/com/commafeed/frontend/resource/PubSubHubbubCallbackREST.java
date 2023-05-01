@@ -26,7 +26,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.feed.FeedParser;
-import com.commafeed.backend.feed.FetchedFeed;
+import com.commafeed.backend.feed.FeedParser.FeedParserResult;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.service.FeedRefreshEngine;
 import com.google.common.base.Preconditions;
@@ -100,8 +100,8 @@ public class PubSubHubbubCallbackREST {
 				return Response.status(Status.BAD_REQUEST).entity("empty body received").build();
 			}
 
-			FetchedFeed fetchedFeed = parser.parse(null, bytes);
-			String topic = fetchedFeed.getFeed().getPushTopic();
+			FeedParserResult feedParserResult = parser.parse(null, bytes);
+			String topic = feedParserResult.getFeed().getPushTopic();
 			if (StringUtils.isBlank(topic)) {
 				return Response.status(Status.BAD_REQUEST).entity("empty topic received").build();
 			}

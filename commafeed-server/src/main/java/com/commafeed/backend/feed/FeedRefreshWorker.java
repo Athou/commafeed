@@ -15,13 +15,15 @@ import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
+import com.commafeed.backend.feed.FeedFetcher.FeedFetcherResult;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Calls {@link FeedFetcher} and handles its outcome
+ * Calls {@link FeedFetcher} and updates the Feed object, but does not update the database ({@link FeedRefreshUpdater} does that)
  */
 @Slf4j
 @Singleton
@@ -42,39 +44,39 @@ public class FeedRefreshWorker {
 
 	}
 
-	public FeedAndEntries update(Feed feed) {
+	public FeedRefreshWorkerResult update(Feed feed) {
 		try {
 			String url = Optional.ofNullable(feed.getUrlAfterRedirect()).orElse(feed.getUrl());
-			FetchedFeed fetchedFeed = fetcher.fetch(url, false, feed.getLastModifiedHeader(), feed.getEtagHeader(),
+			FeedFetcherResult feedFetcherResult = fetcher.fetch(url, false, feed.getLastModifiedHeader(), feed.getEtagHeader(),
 					feed.getLastPublishedDate(), feed.getLastContentHash());
 			// stops here if NotModifiedException or any other exception is thrown
-			List<FeedEntry> entries = fetchedFeed.getEntries();
+			List<FeedEntry> entries = feedFetcherResult.getEntries();
 
 			Integer maxFeedCapacity = config.getApplicationSettings().getMaxFeedCapacity();
 			if (maxFeedCapacity > 0) {
 				entries = entries.stream().limit(maxFeedCapacity).collect(Collectors.toList());
 			}
 
-			String urlAfterRedirect = fetchedFeed.getUrlAfterRedirect();
+			String urlAfterRedirect = feedFetcherResult.getUrlAfterRedirect();
 			if (StringUtils.equals(url, urlAfterRedirect)) {
 				urlAfterRedirect = null;
 			}
 			feed.setUrlAfterRedirect(urlAfterRedirect);
-			feed.setLink(fetchedFeed.getFeed().getLink());
-			feed.setLastModifiedHeader(fetchedFeed.getFeed().getLastModifiedHeader());
-			feed.setEtagHeader(fetchedFeed.getFeed().getEtagHeader());
-			feed.setLastContentHash(fetchedFeed.getFeed().getLastContentHash());
-			feed.setLastPublishedDate(fetchedFeed.getFeed().getLastPublishedDate());
-			feed.setAverageEntryInterval(fetchedFeed.getFeed().getAverageEntryInterval());
-			feed.setLastEntryDate(fetchedFeed.getFeed().getLastEntryDate());
+			feed.setLink(feedFetcherResult.getFeed().getLink());
+			feed.setLastModifiedHeader(feedFetcherResult.getFeed().getLastModifiedHeader());
+			feed.setEtagHeader(feedFetcherResult.getFeed().getEtagHeader());
+			feed.setLastContentHash(feedFetcherResult.getFeed().getLastContentHash());
+			feed.setLastPublishedDate(feedFetcherResult.getFeed().getLastPublishedDate());
+			feed.setAverageEntryInterval(feedFetcherResult.getFeed().getAverageEntryInterval());
+			feed.setLastEntryDate(feedFetcherResult.getFeed().getLastEntryDate());
 
 			feed.setErrorCount(0);
 			feed.setMessage(null);
-			feed.setDisabledUntil(refreshIntervalCalculator.onFetchSuccess(fetchedFeed));
+			feed.setDisabledUntil(refreshIntervalCalculator.onFetchSuccess(feedFetcherResult.getFeed()));
 
-			handlePubSub(feed, fetchedFeed.getFeed());
+			handlePubSub(feed, feedFetcherResult.getFeed());
 
-			return new FeedAndEntries(feed, entries);
+			return new FeedRefreshWorkerResult(feed, entries);
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified : {} - {}", feed.getUrl(), e.getMessage());
 
@@ -90,7 +92,7 @@ public class FeedRefreshWorker {
 				feed.setEtagHeader(e.getNewEtagHeader());
 			}
 
-			return new FeedAndEntries(feed, Collections.emptyList());
+			return new FeedRefreshWorkerResult(feed, Collections.emptyList());
 		} catch (Exception e) {
 			String message = "Unable to refresh feed " + feed.getUrl() + " : " + e.getMessage();
 			log.debug(e.getClass().getName() + " " + message, e);
@@ -99,7 +101,7 @@ public class FeedRefreshWorker {
 			feed.setMessage(message);
 			feed.setDisabledUntil(refreshIntervalCalculator.onFetchError(feed));
 
-			return new FeedAndEntries(feed, Collections.emptyList());
+			return new FeedRefreshWorkerResult(feed, Collections.emptyList());
 		} finally {
 			feedFetched.mark();
 		}
@@ -125,6 +127,12 @@ public class FeedRefreshWorker {
 			feed.setPushTopic(topic);
 			feed.setPushTopicHash(DigestUtils.sha1Hex(topic));
 		}
+	}
+
+	@Value
+	public static class FeedRefreshWorkerResult {
+		Feed feed;
+		List<FeedEntry> entries;
 	}
 
 }

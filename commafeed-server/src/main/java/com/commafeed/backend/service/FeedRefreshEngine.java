@@ -53,7 +53,7 @@ public class FeedRefreshEngine implements Managed {
 	}
 
 	@Override
-	public void start() throws Exception {
+	public void start() {
 		Flowable<Feed> database = Flowable.fromCallable(() -> findNextUpdatableFeeds(getBatchSize(), getLastLoginThreshold()))
 				.onErrorResumeNext(e -> {
 					log.error("error while fetching next updatable feeds", e);
@@ -114,7 +114,7 @@ public class FeedRefreshEngine implements Managed {
 	}
 
 	@Override
-	public void stop() throws Exception {
+	public void stop() {
 		flow.dispose();
 	}
 }

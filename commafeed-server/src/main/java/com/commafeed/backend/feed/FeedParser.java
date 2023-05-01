@@ -3,6 +3,7 @@ package com.commafeed.backend.feed;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,8 +38,12 @@ import com.rometools.rome.io.SyndFeedInput;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Parses raw xml as a Feed object
+ */
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
@@ -50,10 +55,7 @@ public class FeedParser {
 	private static final Date START = new Date(86400000);
 	private static final Date END = new Date(1000L * Integer.MAX_VALUE - 86400000);
 
-	public FetchedFeed parse(String feedUrl, byte[] xml) throws FeedException {
-		FetchedFeed fetchedFeed = new FetchedFeed();
-		Feed feed = fetchedFeed.getFeed();
-		List<FeedEntry> entries = fetchedFeed.getEntries();
+	public FeedParserResult parse(String feedUrl, byte[] xml) throws FeedException {
 
 		try {
 			Charset encoding = FeedUtils.guessEncoding(xml);
@@ -63,17 +65,19 @@ public class FeedParser {
 			}
 			xmlString = FeedUtils.replaceHtmlEntitiesWithNumericEntities(xmlString);
 			InputSource source = new InputSource(new StringReader(xmlString));
+
 			SyndFeed rss = new SyndFeedInput().build(source);
 			handleForeignMarkup(rss);
 
-			fetchedFeed.setTitle(rss.getTitle());
+			String title = rss.getTitle();
+			Feed feed = new Feed();
 			feed.setPushHub(findHub(rss));
 			feed.setPushTopic(findSelf(rss));
 			feed.setUrl(feedUrl);
 			feed.setLink(rss.getLink());
-			List<SyndEntry> items = rss.getEntries();
 
-			for (SyndEntry item : items) {
+			List<FeedEntry> entries = new ArrayList<>();
+			for (SyndEntry item : rss.getEntries()) {
 				FeedEntry entry = new FeedEntry();
 
 				String guid = item.getUri();
@@ -121,6 +125,7 @@ public class FeedParser {
 
 				entries.add(entry);
 			}
+
 			Date lastEntryDate = null;
 			Date publishedDate = validateDate(rss.getPublishedDate(), false);
 			if (!entries.isEmpty()) {
@@ -133,10 +138,10 @@ public class FeedParser {
 			feed.setAverageEntryInterval(FeedUtils.averageTimeBetweenEntries(entries));
 			feed.setLastEntryDate(lastEntryDate);
 
+			return new FeedParserResult(feed, entries, title);
 		} catch (Exception e) {
 			throw new FeedException(String.format("Could not parse feed from %s : %s", feedUrl, e.getMessage()), e);
 		}
-		return fetchedFeed;
 	}
 
 	/**
@@ -271,6 +276,13 @@ public class FeedParser {
 		public boolean isEmpty() {
 			return description == null && thumbnailUrl == null;
 		}
+	}
+
+	@Value
+	public static class FeedParserResult {
+		Feed feed;
+		List<FeedEntry> entries;
+		String title;
 	}
 
 }

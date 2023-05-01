@@ -92,17 +92,7 @@ public class FeedRefreshEngine implements Managed {
 
 	private List<Feed> findNextUpdatableFeeds(int max, Date lastLoginThreshold) {
 		refill.mark();
-
-		return UnitOfWork.call(sessionFactory, () -> {
-			List<Feed> list = feedDAO.findNextUpdatable(max, lastLoginThreshold);
-
-			// set the disabledDate as we use it in feedDAO.findNextUpdatable() to decide what to refresh next
-			Date nextRefreshDate = DateUtils.addMinutes(new Date(), config.getApplicationSettings().getRefreshIntervalMinutes());
-			list.forEach(f -> f.setDisabledUntil(nextRefreshDate));
-			feedDAO.saveOrUpdate(list);
-
-			return list;
-		});
+		return UnitOfWork.call(sessionFactory, () -> feedDAO.findNextUpdatable(max, lastLoginThreshold));
 	}
 
 	private int getBatchSize() {

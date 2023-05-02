@@ -1,8 +1,6 @@
-Changelog
-=========
+# Changelog
 
-3.1.0
------
+## [3.1.0]
 
 - add an even more compact layout
 - restore hover effect from commafeed 2.x
@@ -11,8 +9,7 @@ Changelog
 - fix for the "Illegal attempt to associate a collection with two open sessions." error
 - feed fetching workflow is now orchestrated with rxjava, removing a lot of code
 
-3.0.1
------
+## [3.0.1]
 
 - allow env variable substitution in config.yml
     - e.g. having a custom config.yml file with `app.session.path=${SOME_ENV_VAR}` will substitute `SOME_ENV_VAR` with
@@ -20,16 +17,14 @@ Changelog
 - allow env variable prefixed with `CF_` to override config.yml properties
     - e.g. setting `CF_APP_ALLOWREGISTRATIONS=true` will set `app.allowRegistrations` to `true`
 
-3.0.0
------
+## [3.0.0]
 
 - complete overhaul of the UI
 - backend and frontend are now in separate maven modules
 - no changes to the api or the database
 - Docker images are now automatically built and available at https://hub.docker.com/r/athou/commafeed
 
-2.6.0
------
+## [2.6.0]
 
 - add support for media content as a backup for missing content (useful for youtube feeds)
 - correctly follow http error code 308 redirects
@@ -48,8 +43,7 @@ Changelog
 - add support for java17+ runtime
 - various security improvements
 
-2.5.0
------
+## [2.5.0]
 
 - unread count is now displayed in a favicon badge when supported
 - the user agent string for the bot fetching feeds is now configurable
@@ -57,8 +51,7 @@ Changelog
 - support for java9+ runtime
 - can now properly start from an empty postgresql database
 
-2.4.0
------
+## [2.4.0]
 
 - users were not able to change password or delete account
 - fix api key generation
@@ -69,16 +62,14 @@ Changelog
 - various internationalization fixes
 - security fixes
 
-2.3.0
------
+## [2.3.0]
 
 - dropwizard upgrade 0.9.1
 - feed enclosures are hidden if they already displayed in the content
 - fix youtube favicons
 - various internationalization fixes
 
-2.2.0
------
+## [2.2.0]
 
 - fix youtube and instagram favicon fetching
 - mark as read filter was lost when a feed was rearranged with drag&drop
@@ -86,8 +77,7 @@ Changelog
 - various performance and dependencies upgrades
 - java8 is now required
 
-2.1.0
------
+## [2.1.0]
 
 - dropwizard upgrade to 0.8.0
 - you have to remove the "app.contextPath" setting from your yml file, you can optionally use
@@ -99,16 +89,14 @@ Changelog
 - facebook feeds now show user favicon instead of facebook favicon
 - new dark theme 'nightsky'
 
-2.0.3
------
+## [2.0.3]
 
 - internet explorer ajax cache workaround
 - categories are now deletable again
 - openshift support is back
 - youtube feeds now show user favicon instead of youtube favicon
 
-2.0.2
------
+## [2.0.2]
 
 - api using the api key is now working again
 - context path is now configurable in config.yml (see app.contextPath in config.yml.example)
@@ -124,13 +112,11 @@ Changelog
 - added link to metrics on the admin settings page
 - Rome (rss library) upgrade to 1.5.0
 
-2.0.1
------
+## [2.0.1]
 
 - the redis pool no longer throws an exception when it is unable to aquire a new connection
 
-2.0.0
------
+## [2.0.0]
 
 - The backend has been completely rewritten using Dropwizard instead of TomEE, resulting in a lot less memory
   consumption and better overall performances.

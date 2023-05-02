@@ -69,12 +69,19 @@ jobs:
           tags: athou/commafeed:master
 
       # Create GitHub release after Docker image has been published
+      - name: Extract Changelog Entry
+        uses: mindsers/changelog-reader-action@v2
+        if: ${{ matrix.java == '8' && github.ref_type == 'tag' }}
+        id: changelog_reader
+        with:
+          version: ${{ github.ref_name }}
+
       - name: Create GitHub release
         uses: softprops/action-gh-release@v1
         if: ${{ matrix.java == '8' && github.ref_type == 'tag' }}
         with:
           name: CommaFeed ${{ github.ref_name }}
-          body: See changelog at https://github.com/Athou/commafeed/blob/master/CHANGELOG.md
+          body: ${{ steps.changelog_reader.outputs.changes }}
           draft: false
           prerelease: false
           files: |

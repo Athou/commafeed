@@ -2,7 +2,6 @@ import { i18n } from "@lingui/core"
 import { I18nProvider } from "@lingui/react"
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core"
 import { useColorScheme } from "@mantine/hooks"
-import useLocalStorage from "use-local-storage"
 import { ModalsProvider } from "@mantine/modals"
 import { NotificationsProvider } from "@mantine/notifications"
 import { Constants } from "app/constants"
@@ -28,8 +27,10 @@ import { LoginPage } from "pages/auth/LoginPage"
 import { PasswordRecoveryPage } from "pages/auth/PasswordRecoveryPage"
 import { RegistrationPage } from "pages/auth/RegistrationPage"
 import React, { useEffect } from "react"
-import { HashRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom"
+import ReactGA from "react-ga4"
+import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import Tinycon from "tinycon"
+import useLocalStorage from "use-local-storage"
 
 function Providers(props: { children: React.ReactNode }) {
     const preferredColorScheme = useColorScheme()
@@ -111,6 +112,21 @@ function RedirectHandler() {
     return null
 }
 
+function GoogleAnalyticsHandler() {
+    const location = useLocation()
+    const googleAnalyticsCode = useAppSelector(state => state.server.serverInfos?.googleAnalyticsCode)
+
+    useEffect(() => {
+        if (googleAnalyticsCode) ReactGA.initialize(googleAnalyticsCode)
+    }, [googleAnalyticsCode])
+
+    useEffect(() => {
+        ReactGA.send({ hitType: "pageview", page: location.pathname })
+    }, [location])
+
+    return null
+}
+
 function FaviconHandler() {
     const root = useAppSelector(state => state.tree.rootCategory)
     useEffect(() => {
@@ -135,6 +151,7 @@ export function App() {
             <>
                 <FaviconHandler />
                 <HashRouter>
+                    <GoogleAnalyticsHandler />
                     <RedirectHandler />
                     <AppRoutes />
                 </HashRouter>

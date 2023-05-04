@@ -1,27 +1,53 @@
 package com.commafeed.backend.cache;
 
-import org.apache.commons.lang3.StringUtils;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import redis.clients.jedis.DefaultJedisClientConfig;
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.JedisClientConfig;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Protocol;
 
+@Slf4j
 @Getter
 public class RedisPoolFactory {
-	private final String host = "localhost";
-	private final int port = Protocol.DEFAULT_PORT;
-	private String password;
-	private final int timeout = Protocol.DEFAULT_TIMEOUT;
-	private final int database = Protocol.DEFAULT_DATABASE;
 
-	private final int maxTotal = 500;
+	@JsonProperty
+	private String host = "localhost";
+
+	@JsonProperty
+	private int port = Protocol.DEFAULT_PORT;
+
+	@JsonProperty
+	private String username;
+
+	@JsonProperty
+	private String password;
+
+	@JsonProperty
+	private int timeout = Protocol.DEFAULT_TIMEOUT;
+
+	@JsonProperty
+	private int database = Protocol.DEFAULT_DATABASE;
+
+	@JsonProperty
+	private int maxTotal = 500;
 
 	public JedisPool build() {
-		JedisPoolConfig config = new JedisPoolConfig();
-		config.setMaxTotal(maxTotal);
+		JedisPoolConfig poolConfig = new JedisPoolConfig();
+		poolConfig.setMaxTotal(maxTotal);
 
-		return new JedisPool(config, host, port, timeout, StringUtils.trimToNull(password), database);
+		JedisClientConfig clientConfig = DefaultJedisClientConfig.builder()
+				.user(username)
+				.password(password)
+				.timeoutMillis(timeout)
+				.database(database)
+				.build();
+
+		return new JedisPool(poolConfig, new HostAndPort(host, port), clientConfig);
 	}
 
 }

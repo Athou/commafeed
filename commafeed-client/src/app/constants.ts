@@ -54,13 +54,13 @@ const sharing: {
         label: "Twitter",
         icon: SiTwitter,
         color: "#1D9BF0",
-        url: (url, desc) => `http://twitter.com/share?text=${desc}&url=${url}`,
+        url: (url, desc) => `https://twitter.com/share?text=${desc}&url=${url}`,
     },
     tumblr: {
         label: "Tumblr",
         icon: SiTumblr,
         color: "#375672",
-        url: (url, desc) => `http://www.tumblr.com/share/link?url=${url}&name=${desc}`,
+        url: (url, desc) => `https://www.tumblr.com/share/link?url=${url}&name=${desc}`,
     },
     pocket: {
         label: "Pocket",

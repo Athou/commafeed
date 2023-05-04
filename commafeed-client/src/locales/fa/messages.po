@@ -414,6 +414,7 @@ msgstr "بارگیری برچسب ها..."
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "وارد شوید"
 
@@ -689,6 +690,7 @@ msgstr "نمایش راهنمایی میانبر صفحه کلید"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "ثبت نام کنید"
 
@@ -760,6 +762,10 @@ msgstr "وضعیت خواندن ورودی فعلی را تغییر دهید"
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "CommaFeed را با حساب آزمایشی امتحان کنید: دمو/دمو"
+
+#: src/pages/WelcomePage.tsx
+msgid "Try the demo!"
+msgstr ""
 
 #: src/components/header/Header.tsx
 msgid "Unread"

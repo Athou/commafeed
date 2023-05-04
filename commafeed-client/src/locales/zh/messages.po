@@ -414,6 +414,7 @@ msgstr "正在加载标签..."
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "登录"
 
@@ -689,6 +690,7 @@ msgstr "显示键盘快捷键帮助"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "注册"
 
@@ -760,6 +762,10 @@ msgstr "切换当前条目的读取状态"
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "使用演示帐户试用 CommaFeed：demo/demo"
+
+#: src/pages/WelcomePage.tsx
+msgid "Try the demo!"
+msgstr ""
 
 #: src/components/header/Header.tsx
 msgid "Unread"

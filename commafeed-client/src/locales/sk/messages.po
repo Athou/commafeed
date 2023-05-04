@@ -414,6 +414,7 @@ msgstr "Načítavam značky..."
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "Prihláste sa"
 
@@ -689,6 +690,7 @@ msgstr "Zobraziť pomoc s klávesovými skratkami"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "Zaregistrujte sa"
 
@@ -760,6 +762,10 @@ msgstr "Prepne stav čítania aktuálneho záznamu"
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "Vyskúšajte CommaFeed s demo účtom: demo/demo"
+
+#: src/pages/WelcomePage.tsx
+msgid "Try the demo!"
+msgstr ""
 
 #: src/components/header/Header.tsx
 msgid "Unread"

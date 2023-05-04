@@ -414,6 +414,7 @@ msgstr "Ładowanie tagów..."
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "Zaloguj się"
 
@@ -689,6 +690,7 @@ msgstr "Pokaż pomoc dotyczącą skrótów klawiaturowych"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "Zarejestruj się"
 
@@ -760,6 +762,10 @@ msgstr "Przełącz stan odczytu bieżącego wpisu"
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "Wypróbuj CommaFeed z kontem demo: demo/demo"
+
+#: src/pages/WelcomePage.tsx
+msgid "Try the demo!"
+msgstr ""
 
 #: src/components/header/Header.tsx
 msgid "Unread"

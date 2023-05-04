@@ -414,6 +414,7 @@ msgstr "タグを読み込んでいます..."
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "ログイン"
 
@@ -689,6 +690,7 @@ msgstr "キーボード ショートカットのヘルプを表示"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "サインアップ"
 
@@ -760,6 +762,10 @@ msgstr "現在のエントリの読み取りステータスを切り替えます
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "デモアカウントで CommaFeed を試す: demo/demo"
+
+#: src/pages/WelcomePage.tsx
+msgid "Try the demo!"
+msgstr ""
 
 #: src/components/header/Header.tsx
 msgid "Unread"

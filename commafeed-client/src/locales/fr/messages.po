@@ -414,6 +414,7 @@ msgstr "Chargement des tags ..."
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "Connexion"
 
@@ -689,6 +690,7 @@ msgstr "Montrer les raccourcis clavier"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "Créer un compte"
 
@@ -760,6 +762,10 @@ msgstr "Marquer l'entrée actuelle comme lue/non lue"
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "Essayez CommaFeed avec le compte de démonstration : demo/demo"
+
+#: src/pages/WelcomePage.tsx
+msgid "Try the demo!"
+msgstr ""
 
 #: src/components/header/Header.tsx
 msgid "Unread"

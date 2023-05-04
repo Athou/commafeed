@@ -31,6 +31,7 @@ import ReactGA from "react-ga4"
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import Tinycon from "tinycon"
 import useLocalStorage from "use-local-storage"
+import { WelcomePage } from "./pages/WelcomePage"
 
 function Providers(props: { children: React.ReactNode }) {
     const preferredColorScheme = useColorScheme()
@@ -67,6 +68,7 @@ function AppRoutes() {
     return (
         <Routes>
             <Route path="/" element={<Navigate to={`/app/category/${Constants.categories.all.id}`} replace />} />
+            <Route path="welcome" element={<WelcomePage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegistrationPage />} />
             <Route path="passwordRecovery" element={<PasswordRecoveryPage />} />

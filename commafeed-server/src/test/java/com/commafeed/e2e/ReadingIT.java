@@ -43,6 +43,7 @@ class ReadingIT extends PlaywrightTestBase {
 	void scenario() {
 		// login
 		page.navigate("http://localhost:" + EXT.getLocalPort());
+		page.locator("button:has-text('Log in')").click();
 		PlaywrightTestUtils.login(page);
 		PlaywrightAssertions.assertThat(page.locator("text=You don't have any subscriptions yet.")).hasCount(1);
 

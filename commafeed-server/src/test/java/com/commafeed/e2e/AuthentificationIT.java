@@ -15,12 +15,12 @@ import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 @ExtendWith(DropwizardExtensionsSupport.class)
 class AuthentificationIT extends PlaywrightTestBase {
 
-	private static final DropwizardAppExtension<CommaFeedConfiguration> EXT = new DropwizardAppExtension<CommaFeedConfiguration>(
-			CommaFeedApplication.class, ResourceHelpers.resourceFilePath("config.test.yml"));
+	private static final DropwizardAppExtension<CommaFeedConfiguration> EXT = new DropwizardAppExtension<>(CommaFeedApplication.class,
+			ResourceHelpers.resourceFilePath("config.test.yml"));
 
 	@Test
 	void loginFail() {
-		page.navigate("http://localhost:" + EXT.getLocalPort());
+		page.navigate(getLoginPageUrl());
 		page.locator("[placeholder='User Name or E-mail']").fill("admin");
 		page.locator("[placeholder='Password']").fill("wrong_password");
 		page.locator("button:has-text('Log in')").click();
@@ -29,14 +29,14 @@ class AuthentificationIT extends PlaywrightTestBase {
 
 	@Test
 	void loginSuccess() {
-		page.navigate("http://localhost:" + EXT.getLocalPort());
+		page.navigate(getLoginPageUrl());
 		PlaywrightTestUtils.login(page);
 		PlaywrightAssertions.assertThat(page).hasURL("http://localhost:" + EXT.getLocalPort() + "/#/app/category/all");
 	}
 
 	@Test
 	void registerFailPasswordTooSimple() {
-		page.navigate("http://localhost:" + EXT.getLocalPort());
+		page.navigate(getLoginPageUrl());
 		page.locator("text=Sign up!").click();
 		page.locator("[placeholder='User Name']").fill("user");
 		page.locator("[placeholder='E-mail address']").fill("user@domain.com");
@@ -52,12 +52,16 @@ class AuthentificationIT extends PlaywrightTestBase {
 
 	@Test
 	void registerSuccess() {
-		page.navigate("http://localhost:" + EXT.getLocalPort());
+		page.navigate(getLoginPageUrl());
 		page.locator("text=Sign up!").click();
 		page.locator("[placeholder='User Name']").fill("user");
 		page.locator("[placeholder='E-mail address']").fill("user@domain.com");
 		page.locator("[placeholder='Password']").fill("MyPassword1!");
 		page.locator("button:has-text('Sign up')").click();
 		PlaywrightAssertions.assertThat(page).hasURL("http://localhost:" + EXT.getLocalPort() + "/#/app/category/all");
+	}
+
+	private String getLoginPageUrl() {
+		return "http://localhost:" + EXT.getLocalPort() + "/#/login";
 	}
 }

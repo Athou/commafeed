@@ -414,6 +414,7 @@ msgstr "تحميل العلامات ..."
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "تسجيل الدخول"
 
@@ -689,6 +690,7 @@ msgstr "إظهار تعليمات اختصار لوحة المفاتيح"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "قم بالتسجيل"
 
@@ -760,6 +762,10 @@ msgstr "تبديل قراءة حالة الإدخال الحالي"
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "جرب CommaFeed باستخدام الحساب التجريبي: تجريبي / تجريبي"
+
+#: src/pages/WelcomePage.tsx
+msgid "Try the demo!"
+msgstr ""
 
 #: src/components/header/Header.tsx
 msgid "Unread"

@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.1.1]
+
+- restore the welcome page
+- only apply hover effect for unread entries (same as commafeed v2)
+- move notifications at the bottom of the screen
+- always use https for sharing urls
+- add support for redis ACLs
+- transition to google analytics v4
+
 ## [3.1.0]
 
 - add an even more compact layout

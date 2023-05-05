@@ -26,12 +26,12 @@ import { TagDetailsPage } from "pages/app/TagDetailsPage"
 import { LoginPage } from "pages/auth/LoginPage"
 import { PasswordRecoveryPage } from "pages/auth/PasswordRecoveryPage"
 import { RegistrationPage } from "pages/auth/RegistrationPage"
+import { WelcomePage } from "pages/WelcomePage"
 import React, { useEffect } from "react"
 import ReactGA from "react-ga4"
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import Tinycon from "tinycon"
 import useLocalStorage from "use-local-storage"
-import { WelcomePage } from "./pages/WelcomePage"
 
 function Providers(props: { children: React.ReactNode }) {
     const preferredColorScheme = useColorScheme()

@@ -5,6 +5,7 @@ import { client } from "app/client"
 import { redirectToAbout, redirectToAdminUsers, redirectToMetrics, redirectToSettings } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { ViewMode } from "app/types"
+import { useViewMode } from "hooks/useViewMode"
 import { useState } from "react"
 import {
     TbChartLine,
@@ -20,7 +21,6 @@ import {
     TbUsers,
     TbWorldDownload,
 } from "react-icons/tb"
-import { useViewMode } from "../../hooks/useViewMode"
 
 interface ProfileMenuProps {
     control: React.ReactElement

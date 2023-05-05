@@ -1,9 +1,9 @@
 import { Trans } from "@lingui/macro"
 import { Container, Tabs } from "@mantine/core"
+import { CustomCss } from "components/settings/CustomCss"
 import { DisplaySettings } from "components/settings/DisplaySettings"
 import { ProfileSettings } from "components/settings/ProfileSettings"
 import { TbBoxMargin, TbPhoto, TbUser } from "react-icons/tb"
-import { CustomCss } from "../../components/settings/CustomCss"
 
 export function SettingsPage() {
     return (

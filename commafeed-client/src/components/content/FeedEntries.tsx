@@ -17,10 +17,10 @@ import { openLinkInBackgroundTab } from "app/utils"
 import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"
 import { Loader } from "components/Loader"
 import { useMousetrap } from "hooks/useMousetrap"
+import { useViewMode } from "hooks/useViewMode"
 import throttle from "lodash/throttle"
 import { useEffect } from "react"
 import InfiniteScroll from "react-infinite-scroller"
-import { useViewMode } from "../../hooks/useViewMode"
 import { FeedEntry } from "./FeedEntry"
 
 export function FeedEntries() {

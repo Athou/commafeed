@@ -1,12 +1,12 @@
 import { Trans } from "@lingui/macro"
 import { Button, Group, Stack, Textarea } from "@mantine/core"
 import { useForm } from "@mantine/form"
+import { client } from "app/client"
+import { redirectToSelectedSource } from "app/slices/redirect"
+import { useAppDispatch, useAppSelector } from "app/store"
 import { useEffect } from "react"
 import { useAsyncCallback } from "react-async-hook"
 import { TbDeviceFloppy } from "react-icons/tb"
-import { client } from "../../app/client"
-import { redirectToSelectedSource } from "../../app/slices/redirect"
-import { useAppDispatch, useAppSelector } from "../../app/store"
 
 interface FormData {
     customCss: string

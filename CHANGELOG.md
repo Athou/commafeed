@@ -1,6 +1,6 @@
 # Changelog
 
-## [3.1.1]
+## [3.2.0]
 
 - restore the welcome page
 - only apply hover effect for unread entries (same as commafeed v2)

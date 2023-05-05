@@ -20,11 +20,17 @@ export function CustomCss() {
     const form = useForm<FormData>()
     const { setValues } = form
 
-    const saveCustomCss = useAsyncCallback(client.user.saveSettings, {
-        onSuccess: () => {
-            window.location.reload()
+    const saveCustomCss = useAsyncCallback(
+        async (d: FormData) => {
+            if (!settings) return
+            await client.user.saveSettings({ ...settings, customCss: d.customCss })
         },
-    })
+        {
+            onSuccess: () => {
+                window.location.reload()
+            },
+        }
+    )
 
     useEffect(() => {
         if (!customCss) return
@@ -34,17 +40,7 @@ export function CustomCss() {
     }, [setValues, customCss])
 
     return (
-        <form
-            onSubmit={form.onSubmit(data => {
-                if (!settings) return
-                saveCustomCss
-                    .execute({
-                        ...settings,
-                        customCss: data.customCss,
-                    })
-                    .then(() => window.location.reload())
-            })}
-        >
+        <form onSubmit={form.onSubmit(saveCustomCss.execute)}>
             <Stack>
                 <Textarea
                     autosize

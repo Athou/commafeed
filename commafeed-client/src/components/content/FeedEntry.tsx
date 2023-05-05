@@ -1,17 +1,17 @@
 import { Anchor, Box, createStyles, Divider, Paper } from "@mantine/core"
+import { MantineNumberSize } from "@mantine/styles"
 import { Constants } from "app/constants"
 import { markEntry } from "app/slices/entries"
 import { useAppDispatch } from "app/store"
 import { Entry, ViewMode } from "app/types"
 import React from "react"
 import { useSwipeable } from "react-swipeable"
-import { MantineNumberSize } from "@mantine/styles"
+import { useViewMode } from "../../hooks/useViewMode"
 import { FeedEntryBody } from "./FeedEntryBody"
 import { FeedEntryCompactHeader } from "./FeedEntryCompactHeader"
 import { FeedEntryContextMenu, useFeedEntryContextMenu } from "./FeedEntryContextMenu"
 import { FeedEntryFooter } from "./FeedEntryFooter"
 import { FeedEntryHeader } from "./FeedEntryHeader"
-import { useViewMode } from "../../hooks/useViewMode"
 
 interface FeedEntryProps {
     entry: Entry
@@ -34,7 +34,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: View
     else if (props.viewMode === "cozy") mobileMarginY = 4
 
     let backgroundHoverColor = backgroundColor
-    if (!props.expanded) {
+    if (!props.expanded && !props.entry.read) {
         backgroundHoverColor = theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1]
     }
 

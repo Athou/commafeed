@@ -50,7 +50,7 @@ function Providers(props: { children: React.ReactNode }) {
                     }}
                 >
                     <ModalsProvider>
-                        <NotificationsProvider position="top-center" zIndex={9999}>
+                        <NotificationsProvider position="bottom-right" zIndex={9999}>
                             <ErrorBoundary>{props.children}</ErrorBoundary>
                         </NotificationsProvider>
                     </ModalsProvider>

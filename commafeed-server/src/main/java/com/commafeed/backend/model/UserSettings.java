@@ -46,18 +46,11 @@ public class UserSettings extends AbstractModel {
 	@Column(nullable = false)
 	private ReadingOrder readingOrder;
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	private ViewMode viewMode;
-
 	@Column(name = "user_lang", length = 4)
 	private String language;
 
 	private boolean showRead;
 	private boolean scrollMarks;
-
-	@Column(length = 32)
-	private String theme;
 
 	@Lob
 	@Column(length = Integer.MAX_VALUE)

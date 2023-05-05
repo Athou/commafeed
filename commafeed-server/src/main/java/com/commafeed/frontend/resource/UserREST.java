@@ -39,7 +39,6 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
-import com.commafeed.backend.model.UserSettings.ViewMode;
 import com.commafeed.backend.service.MailService;
 import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.UserService;
@@ -88,7 +87,6 @@ public class UserREST {
 		if (settings != null) {
 			s.setReadingMode(settings.getReadingMode().name());
 			s.setReadingOrder(settings.getReadingOrder().name());
-			s.setViewMode(settings.getViewMode().name());
 			s.setShowRead(settings.isShowRead());
 
 			s.getSharingSettings().setEmail(settings.isEmail());
@@ -101,16 +99,13 @@ public class UserREST {
 			s.getSharingSettings().setBuffer(settings.isBuffer());
 
 			s.setScrollMarks(settings.isScrollMarks());
-			s.setTheme(settings.getTheme());
 			s.setCustomCss(settings.getCustomCss());
 			s.setLanguage(settings.getLanguage());
 			s.setScrollSpeed(settings.getScrollSpeed());
 		} else {
 			s.setReadingMode(ReadingMode.unread.name());
 			s.setReadingOrder(ReadingOrder.desc.name());
-			s.setViewMode(ViewMode.title.name());
 			s.setShowRead(true);
-			s.setTheme("default");
 
 			s.getSharingSettings().setEmail(true);
 			s.getSharingSettings().setGmail(true);
@@ -144,9 +139,7 @@ public class UserREST {
 		s.setReadingMode(ReadingMode.valueOf(settings.getReadingMode()));
 		s.setReadingOrder(ReadingOrder.valueOf(settings.getReadingOrder()));
 		s.setShowRead(settings.isShowRead());
-		s.setViewMode(ViewMode.valueOf(settings.getViewMode()));
 		s.setScrollMarks(settings.isScrollMarks());
-		s.setTheme(settings.getTheme());
 		s.setCustomCss(settings.getCustomCss());
 		s.setLanguage(settings.getLanguage());
 		s.setScrollSpeed(settings.getScrollSpeed());

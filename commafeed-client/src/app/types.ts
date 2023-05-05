@@ -230,7 +230,6 @@ export interface Settings {
     readingOrder: ReadingOrder
     showRead: boolean
     scrollMarks: boolean
-    theme?: string
     customCss?: string
     scrollSpeed: number
     sharingSettings: SharingSettings

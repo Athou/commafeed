@@ -20,8 +20,8 @@ import { useMousetrap } from "hooks/useMousetrap"
 import throttle from "lodash/throttle"
 import { useEffect } from "react"
 import InfiniteScroll from "react-infinite-scroller"
-import { FeedEntry } from "./FeedEntry"
 import { useViewMode } from "../../hooks/useViewMode"
+import { FeedEntry } from "./FeedEntry"
 
 export function FeedEntries() {
     const source = useAppSelector(state => state.entries.source)
@@ -239,6 +239,7 @@ export function FeedEntries() {
     if (!entries) return <Loader />
     return (
         <InfiniteScroll
+            id="entries"
             initialLoad={false}
             loadMore={() => dispatch(loadMoreEntries())}
             hasMore={hasMore}

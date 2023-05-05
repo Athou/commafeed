@@ -123,6 +123,7 @@ msgstr "Nettleserutvidelser"
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/settings/CustomCss.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -193,6 +194,14 @@ msgstr ""
 #: src/components/settings/ProfileSettings.tsx
 msgid "Current password"
 msgstr "Gjeldende passord"
+
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom CSS"
+msgstr ""
+
+#: src/components/settings/CustomCss.tsx
+msgid "Custom CSS rules that will be applied"
+msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -622,6 +631,7 @@ msgid "Right click"
 msgstr ""
 
 #: src/components/admin/UserEdit.tsx
+#: src/components/settings/CustomCss.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx

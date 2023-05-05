@@ -10,13 +10,13 @@ export function AddPage() {
         <Container size="sm" px={0}>
             <Tabs defaultValue="subscribe">
                 <Tabs.List>
-                    <Tabs.Tab value="subscribe" icon={<TbRss />}>
+                    <Tabs.Tab value="subscribe" icon={<TbRss size={16} />}>
                         <Trans>Subscribe</Trans>
                     </Tabs.Tab>
-                    <Tabs.Tab value="category" icon={<TbFolderPlus />}>
+                    <Tabs.Tab value="category" icon={<TbFolderPlus size={16} />}>
                         <Trans>Add category</Trans>
                     </Tabs.Tab>
-                    <Tabs.Tab value="opml" icon={<TbFileImport />}>
+                    <Tabs.Tab value="opml" icon={<TbFileImport size={16} />}>
                         <Trans>OPML</Trans>
                     </Tabs.Tab>
                 </Tabs.List>

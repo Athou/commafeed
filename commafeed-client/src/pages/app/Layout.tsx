@@ -122,6 +122,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
             classNames={{ main: classes.mainContentWrapper }}
             navbar={
                 <Navbar
+                    id="sidebar"
                     p={sidebarPadding}
                     hiddenBreakpoint={Constants.layout.mobileBreakpoint}
                     hidden={!mobileMenuOpen}
@@ -133,7 +134,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                 </Navbar>
             }
             header={
-                <Header height={Constants.layout.headerHeight} p="md">
+                <Header id="header" height={Constants.layout.headerHeight} p="md">
                     <OnMobile>
                         {mobileMenuOpen && (
                             <Group position="apart">
@@ -171,7 +172,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                     if (ref) ref.id = Constants.dom.mainScrollAreaId
                 }}
             >
-                <Box className={classes.mainContent}>
+                <Box id="content" className={classes.mainContent}>
                     <Suspense fallback={<Loader />}>
                         <Outlet />
                     </Suspense>

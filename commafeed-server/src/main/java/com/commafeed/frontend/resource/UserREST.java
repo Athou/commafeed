@@ -100,6 +100,7 @@ public class UserREST {
 
 			s.setScrollMarks(settings.isScrollMarks());
 			s.setCustomCss(settings.getCustomCss());
+			s.setCustomJs(settings.getCustomJs());
 			s.setLanguage(settings.getLanguage());
 			s.setScrollSpeed(settings.getScrollSpeed());
 		} else {
@@ -141,6 +142,7 @@ public class UserREST {
 		s.setShowRead(settings.isShowRead());
 		s.setScrollMarks(settings.isScrollMarks());
 		s.setCustomCss(settings.getCustomCss());
+		s.setCustomJs(settings.getCustomJs());
 		s.setLanguage(settings.getLanguage());
 		s.setScrollSpeed(settings.getScrollSpeed());
 

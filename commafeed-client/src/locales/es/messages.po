@@ -123,7 +123,7 @@ msgstr "Extensiones del navegador"
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/header/MarkAllAsReadButton.tsx
-#: src/components/settings/CustomCss.tsx
+#: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -195,12 +195,16 @@ msgstr ""
 msgid "Current password"
 msgstr "Contraseña actual"
 
-#: src/pages/app/SettingsPage.tsx
-msgid "Custom CSS"
+#: src/components/settings/CustomCodeSettings.tsx
+msgid "Custom CSS rules that will be applied"
 msgstr ""
 
-#: src/components/settings/CustomCss.tsx
-msgid "Custom CSS rules that will be applied"
+#: src/components/settings/CustomCodeSettings.tsx
+msgid "Custom JS code that will be executed on page load"
+msgstr ""
+
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom code"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -631,7 +635,7 @@ msgid "Right click"
 msgstr ""
 
 #: src/components/admin/UserEdit.tsx
-#: src/components/settings/CustomCss.tsx
+#: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx

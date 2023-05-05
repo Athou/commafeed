@@ -29,6 +29,9 @@ public class Settings implements Serializable {
 	@ApiModelProperty(value = "user's custom css for the website")
 	private String customCss;
 
+	@ApiModelProperty(value = "user's custom js for the website")
+	private String customJs;
+
 	@ApiModelProperty(value = "user's preferred scroll speed when navigating between entries", required = true)
 	private int scrollSpeed;
 

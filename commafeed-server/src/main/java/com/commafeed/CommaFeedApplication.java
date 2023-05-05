@@ -43,6 +43,7 @@ import com.commafeed.frontend.resource.ServerREST;
 import com.commafeed.frontend.resource.UserREST;
 import com.commafeed.frontend.servlet.AnalyticsServlet;
 import com.commafeed.frontend.servlet.CustomCssServlet;
+import com.commafeed.frontend.servlet.CustomJsServlet;
 import com.commafeed.frontend.servlet.LogoutServlet;
 import com.commafeed.frontend.servlet.NextUnreadServlet;
 import com.commafeed.frontend.session.SessionHelperFactoryProvider;
@@ -173,6 +174,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.servlets().addServlet("next", injector.getInstance(NextUnreadServlet.class)).addMapping("/next");
 		environment.servlets().addServlet("logout", injector.getInstance(LogoutServlet.class)).addMapping("/logout");
 		environment.servlets().addServlet("customCss", injector.getInstance(CustomCssServlet.class)).addMapping("/custom_css.css");
+		environment.servlets().addServlet("customJs", injector.getInstance(CustomJsServlet.class)).addMapping("/custom_js.js");
 		environment.servlets().addServlet("analytics.js", injector.getInstance(AnalyticsServlet.class)).addMapping("/analytics.js");
 
 		// WebSocket endpoint

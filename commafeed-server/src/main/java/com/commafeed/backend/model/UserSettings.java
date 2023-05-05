@@ -57,6 +57,11 @@ public class UserSettings extends AbstractModel {
 	@Type(type = "org.hibernate.type.TextType")
 	private String customCss;
 
+	@Lob
+	@Column(length = Integer.MAX_VALUE)
+	@Type(type = "org.hibernate.type.TextType")
+	private String customJs;
+
 	@Column(name = "scroll_speed")
 	private int scrollSpeed;
 

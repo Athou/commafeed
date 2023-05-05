@@ -1,27 +1,29 @@
 package com.commafeed.frontend.servlet;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.UserSettings;
 
-public class CustomCssServlet extends AbstractCustomCodeServlet {
+@Singleton
+public class CustomJsServlet extends AbstractCustomCodeServlet {
 
 	@Inject
-	public CustomCssServlet(SessionFactory sessionFactory, UserSettingsDAO userSettingsDAO) {
+	public CustomJsServlet(SessionFactory sessionFactory, UserSettingsDAO userSettingsDAO) {
 		super(sessionFactory, userSettingsDAO);
 	}
 
 	@Override
 	protected String getMimeType() {
-		return "text/css";
+		return "application/javascript";
 	}
 
 	@Override
 	protected String getCustomCode(UserSettings settings) {
-		return settings.getCustomCss();
+		return settings.getCustomJs();
 	}
 
 }

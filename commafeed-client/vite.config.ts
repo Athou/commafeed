@@ -25,6 +25,7 @@ export default defineConfig({
             "/ws": "ws://localhost:8083",
             "/swagger": "http://localhost:8083",
             "/custom_css.css": "http://localhost:8083",
+            "/custom_js.js": "http://localhost:8083",
         },
     },
     build: {

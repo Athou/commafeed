@@ -9,4 +9,10 @@
 		<dropColumn tableName="USERSETTINGS" columnName="viewMode" />
 	</changeSet>
 
+	<changeSet id="add-customjs-column" author="athou">
+		<addColumn tableName="USERSETTINGS">
+			<column name="customJs" type="CLOB" />
+		</addColumn>
+	</changeSet>
+
 </databaseChangeLog>

@@ -231,6 +231,7 @@ export interface Settings {
     showRead: boolean
     scrollMarks: boolean
     customCss?: string
+    customJs?: string
     scrollSpeed: number
     sharingSettings: SharingSettings
 }

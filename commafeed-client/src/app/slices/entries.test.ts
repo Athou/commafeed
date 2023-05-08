@@ -1,19 +1,20 @@
 /* eslint-disable import/first */
-import { beforeEach, describe, expect, it, vi } from "vitest"
-import { DeepMockProxy, mockDeep, mockReset } from "vitest-mock-extended"
-
-vi.doMock("app/client", () => ({ client: mockDeep() }))
-
 import { configureStore } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { reducers } from "app/store"
 import { Entries, Entry } from "app/types"
 import { AxiosResponse } from "axios"
+import { beforeEach, describe, expect, it, vi } from "vitest"
+import { mockReset } from "vitest-mock-extended"
 import { loadEntries, loadMoreEntries, markAllEntries, markEntry } from "./entries"
 
-describe("entries", () => {
-    const mockClient = client as DeepMockProxy<typeof client>
+const mockClient = await vi.hoisted(async () => {
+    const mockModule = await import("vitest-mock-extended")
+    return mockModule.mockDeep<typeof client>()
+})
+vi.mock("app/client", () => ({ client: mockClient }))
 
+describe("entries", () => {
     beforeEach(() => {
         mockReset(mockClient)
     })

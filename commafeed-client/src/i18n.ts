@@ -29,37 +29,7 @@ import "dayjs/locale/sk"
 import "dayjs/locale/sv"
 import "dayjs/locale/tr"
 import "dayjs/locale/zh"
-import {
-    ar,
-    ca,
-    cs,
-    cy,
-    da,
-    de,
-    en,
-    es,
-    fa,
-    fi,
-    fr,
-    gl,
-    hu,
-    id,
-    it,
-    ja,
-    ko,
-    ms,
-    nb,
-    nl,
-    nn,
-    pl,
-    PluralCategory,
-    pt,
-    ru,
-    sk,
-    sv,
-    tr,
-    zh,
-} from "make-plural"
+
 import { useEffect } from "react"
 import { messages as arMessages } from "./locales/ar/messages"
 import { messages as caMessages } from "./locales/ca/messages"
@@ -94,48 +64,42 @@ interface Locale {
     key: string
     label: string
     messages: Messages
-    plurals?: (n: number | string, ord?: boolean) => PluralCategory
 }
 
 // add an object to the array to add a new locale
 // don't forget to also add it to the 'locales' array in .linguirc
 export const locales: Locale[] = [
-    { key: "ar", messages: arMessages, plurals: ar, label: "العربية" },
-    { key: "ca", messages: caMessages, plurals: ca, label: "Català" },
-    { key: "cs", messages: csMessages, plurals: cs, label: "Čeština" },
-    { key: "cy", messages: cyMessages, plurals: cy, label: "Cymraeg" },
-    { key: "da", messages: daMessages, plurals: da, label: "Danish" },
-    { key: "de", messages: deMessages, plurals: de, label: "Deutsch" },
-    { key: "en", messages: enMessages, plurals: en, label: "English" },
-    { key: "es", messages: esMessages, plurals: es, label: "Español" },
-    { key: "fa", messages: faMessages, plurals: fa, label: "فارسی" },
-    { key: "fi", messages: fiMessages, plurals: fi, label: "Suomi" },
-    { key: "fr", messages: frMessages, plurals: fr, label: "Français" },
-    { key: "gl", messages: glMessages, plurals: gl, label: "Galician" },
-    { key: "hu", messages: huMessages, plurals: hu, label: "Magyar" },
-    { key: "id", messages: idMessages, plurals: id, label: "Indonesian" },
-    { key: "it", messages: itMessages, plurals: it, label: "Italiano" },
-    { key: "ja", messages: jaMessages, plurals: ja, label: "日本語" },
-    { key: "ko", messages: koMessages, plurals: ko, label: "한국어" },
-    { key: "ms", messages: msMessages, plurals: ms, label: "Bahasa Malaysian" },
-    { key: "nb", messages: nbMessages, plurals: nb, label: "Norsk (bokmål)" },
-    { key: "nl", messages: nlMessages, plurals: nl, label: "Nederlands" },
-    { key: "nn", messages: nnMessages, plurals: nn, label: "Norsk (nynorsk)" },
-    { key: "pl", messages: plMessages, plurals: pl, label: "Polski" },
-    { key: "pt", messages: ptMessages, plurals: pt, label: "Português" },
-    { key: "ru", messages: ruMessages, plurals: ru, label: "Русский" },
-    { key: "sk", messages: skMessages, plurals: sk, label: "Slovenčina" },
-    { key: "sv", messages: svMessages, plurals: sv, label: "Svenska" },
-    { key: "tr", messages: trMessages, plurals: tr, label: "Türkçe" },
-    { key: "zh", messages: zhMessages, plurals: zh, label: "简体中文" },
+    { key: "ar", messages: arMessages, label: "العربية" },
+    { key: "ca", messages: caMessages, label: "Català" },
+    { key: "cs", messages: csMessages, label: "Čeština" },
+    { key: "cy", messages: cyMessages, label: "Cymraeg" },
+    { key: "da", messages: daMessages, label: "Danish" },
+    { key: "de", messages: deMessages, label: "Deutsch" },
+    { key: "en", messages: enMessages, label: "English" },
+    { key: "es", messages: esMessages, label: "Español" },
+    { key: "fa", messages: faMessages, label: "فارسی" },
+    { key: "fi", messages: fiMessages, label: "Suomi" },
+    { key: "fr", messages: frMessages, label: "Français" },
+    { key: "gl", messages: glMessages, label: "Galician" },
+    { key: "hu", messages: huMessages, label: "Magyar" },
+    { key: "id", messages: idMessages, label: "Indonesian" },
+    { key: "it", messages: itMessages, label: "Italiano" },
+    { key: "ja", messages: jaMessages, label: "日本語" },
+    { key: "ko", messages: koMessages, label: "한국어" },
+    { key: "ms", messages: msMessages, label: "Bahasa Malaysian" },
+    { key: "nb", messages: nbMessages, label: "Norsk (bokmål)" },
+    { key: "nl", messages: nlMessages, label: "Nederlands" },
+    { key: "nn", messages: nnMessages, label: "Norsk (nynorsk)" },
+    { key: "pl", messages: plMessages, label: "Polski" },
+    { key: "pt", messages: ptMessages, label: "Português" },
+    { key: "ru", messages: ruMessages, label: "Русский" },
+    { key: "sk", messages: skMessages, label: "Slovenčina" },
+    { key: "sv", messages: svMessages, label: "Svenska" },
+    { key: "tr", messages: trMessages, label: "Türkçe" },
+    { key: "zh", messages: zhMessages, label: "简体中文" },
 ]
 
 locales.forEach(l => {
-    i18n.loadLocaleData({
-        [l.key]: {
-            plurals: l.plurals,
-        },
-    })
     i18n.load({
         [l.key]: l.messages,
     })

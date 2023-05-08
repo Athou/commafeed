@@ -19,9 +19,9 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@fontsource/open-sans": "^4.5.14",
-    "@lingui/core": "^3.17.0",
-    "@lingui/macro": "^3.17.0",
-    "@lingui/react": "^3.17.0",
+    "@lingui/core": "^4.0.0",
+    "@lingui/macro": "^4.0.0",
+    "@lingui/react": "^4.0.0",
     "@mantine/core": "^5.10.3",
     "@mantine/form": "^5.10.3",
     "@mantine/hooks": "^5.10.3",
@@ -34,7 +34,6 @@
     "dayjs": "^1.11.7",
     "interweave": "^13.0.0",
     "lodash": "^4.17.21",
-    "make-plural": "^7.2.0",
     "mousetrap": "^1.6.5",
     "react": "^18.2.0",
     "react-async-hook": "^4.0.0",
@@ -52,7 +51,8 @@
     "websocket-heartbeat-js": "^1.1.1"
   },
   "devDependencies": {
-    "@lingui/cli": "^3.17.0",
+    "@lingui/cli": "^4.0.0",
+    "@lingui/vite-plugin": "^4.0.0",
     "@types/eslint": "^8.21.0",
     "@types/lodash": "^4.14.191",
     "@types/mousetrap": "^1.6.11",
@@ -64,6 +64,7 @@
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
     "@vitejs/plugin-react": "^3.1.0",
+    "babel-plugin-macros": "^3.1.0",
     "eslint": "^8.33.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",

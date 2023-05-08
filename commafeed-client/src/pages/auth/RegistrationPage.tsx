@@ -53,14 +53,14 @@ export function RegistrationPage() {
                                 <TextInput label="User Name" placeholder="User Name" {...form.getInputProps("name")} size="md" required />
                                 <TextInput
                                     type="email"
-                                    label={t`E-mail address`}
+                                    label={<Trans>E-mail address</Trans>}
                                     placeholder={t`E-mail address`}
                                     {...form.getInputProps("email")}
                                     size="md"
                                     required
                                 />
                                 <PasswordInput
-                                    label={t`Password`}
+                                    label={<Trans>Password</Trans>}
                                     placeholder={t`Password`}
                                     {...form.getInputProps("password")}
                                     size="md"

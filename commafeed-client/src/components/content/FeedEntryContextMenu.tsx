@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { createStyles, Group } from "@mantine/core"
 import { Constants } from "app/constants"
 import { markEntriesUpToEntry, markEntry, starEntry } from "app/slices/entries"
@@ -29,6 +29,7 @@ const useStyles = createStyles(theme => ({
 }))
 
 const menuId = (entry: Entry) => entry.id
+
 export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
     const { classes, theme } = useStyles()
     const sourceType = useAppSelector(state => state.entries.source.type)
@@ -64,13 +65,13 @@ export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
             <Item onClick={() => dispatch(starEntry({ entry: props.entry, starred: !props.entry.starred }))}>
                 <Group>
                     {props.entry.starred ? <TbStarOff size={iconSize} /> : <TbStar size={iconSize} />}
-                    {props.entry.starred ? t`Unstar` : t`Star`}
+                    {props.entry.starred ? <Trans>Unstar</Trans> : <Trans>Star</Trans>}
                 </Group>
             </Item>
             <Item onClick={() => dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))}>
                 <Group>
                     {props.entry.read ? <TbEyeOff size={iconSize} /> : <TbEyeCheck size={iconSize} />}
-                    {props.entry.read ? t`Keep unread` : t`Mark as read`}
+                    {props.entry.read ? <Trans>Keep unread</Trans> : <Trans>Mark as read</Trans>}
                 </Group>
             </Item>
             <Item onClick={() => dispatch(markEntriesUpToEntry(props.entry))}>

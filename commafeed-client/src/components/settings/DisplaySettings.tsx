@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { Divider, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
 import { Constants } from "app/constants"
 import { changeLanguage, changeScrollMarks, changeScrollSpeed, changeSharingSetting, changeShowRead } from "app/slices/user"
@@ -17,7 +17,7 @@ export function DisplaySettings() {
     return (
         <Stack>
             <Select
-                description={t`Language`}
+                description={<Trans>Language</Trans>}
                 value={language}
                 data={locales.map(l => ({
                     value: l.key,
@@ -27,24 +27,24 @@ export function DisplaySettings() {
             />
 
             <Switch
-                label={t`Scroll smoothly when navigating between entries`}
+                label={<Trans>Scroll smoothly when navigating between entries</Trans>}
                 checked={scrollSpeed ? scrollSpeed > 0 : false}
                 onChange={e => dispatch(changeScrollSpeed(e.currentTarget.checked))}
             />
 
             <Switch
-                label={t`Show feeds and categories with no unread entries`}
+                label={<Trans>Show feeds and categories with no unread entries</Trans>}
                 checked={showRead}
                 onChange={e => dispatch(changeShowRead(e.currentTarget.checked))}
             />
 
             <Switch
-                label={t`In expanded view, scrolling through entries mark them as read`}
+                label={<Trans>In expanded view, scrolling through entries mark them as read</Trans>}
                 checked={scrollMarks}
                 onChange={e => dispatch(changeScrollMarks(e.currentTarget.checked))}
             />
 
-            <Divider label={t`Sharing sites`} labelPosition="center" />
+            <Divider label={<Trans>Sharing sites</Trans>} labelPosition="center" />
 
             <SimpleGrid cols={2}>
                 {(Object.keys(Constants.sharing) as Array<keyof SharingSettings>).map(site => (

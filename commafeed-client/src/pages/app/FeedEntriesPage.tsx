@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { ActionIcon, Anchor, Box, Center, Divider, Group, Title, useMantineTheme } from "@mantine/core"
 import { useViewportSize } from "@mantine/hooks"
 import { Constants } from "app/constants"
@@ -77,7 +77,7 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
 
             <FeedEntries />
 
-            {!hasMore && <Divider my="xl" label={t`No more entries`} labelPosition="center" />}
+            {!hasMore && <Divider my="xl" label={<Trans>No more entries</Trans>} labelPosition="center" />}
         </Box>
     )
 }

@@ -36,9 +36,14 @@ export function ImportOpml() {
             <form onSubmit={form.onSubmit(v => importOpml.execute(v.file))}>
                 <Stack>
                     <FileInput
-                        label={t`OPML file`}
+                        label={<Trans>OPML file</Trans>}
                         placeholder={t`OPML file`}
-                        description={t`An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services.`}
+                        description={
+                            <Trans>
+                                An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your
+                                data from other feed reading services.
+                            </Trans>
+                        }
                         {...form.getInputProps("file")}
                         required
                         accept="application/xml"

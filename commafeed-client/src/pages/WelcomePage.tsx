@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { Anchor, Box, Center, Container, Divider, Group, Image, Title, useMantineColorScheme } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import { client } from "app/client"
@@ -76,7 +76,7 @@ function Buttons() {
         <ButtonToolbar>
             {serverInfos?.demoAccountEnabled && (
                 <ActionButton
-                    label={t`Try the demo!`}
+                    label={<Trans>Try the demo!</Trans>}
                     icon={<TbClock size={iconSize} />}
                     variant="outline"
                     onClick={() => login.execute({ name: "demo", password: "demo" })}
@@ -84,7 +84,7 @@ function Buttons() {
                 />
             )}
             <ActionButton
-                label={t`Log in`}
+                label={<Trans>Log in</Trans>}
                 icon={<TbKey size={iconSize} />}
                 variant="outline"
                 onClick={() => dispatch(redirectToLogin())}
@@ -92,7 +92,7 @@ function Buttons() {
             />
             {serverInfos?.allowRegistrations && (
                 <ActionButton
-                    label={t`Sign up`}
+                    label={<Trans>Sign up</Trans>}
                     icon={<TbUserPlus size={iconSize} />}
                     variant="filled"
                     onClick={() => dispatch(redirectToRegistration())}

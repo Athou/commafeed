@@ -1,5 +1,5 @@
-import { t } from "@lingui/macro"
-import { Alert as MantineAlert, Box } from "@mantine/core"
+import { Trans } from "@lingui/macro"
+import { Box, Alert as MantineAlert } from "@mantine/core"
 import { Fragment } from "react"
 import { TbAlertCircle, TbAlertTriangle, TbCircleCheck } from "react-icons/tb"
 
@@ -10,24 +10,24 @@ export interface ErrorsAlertProps {
 }
 
 export function Alert(props: ErrorsAlertProps) {
-    let title: string
+    let title: React.ReactNode
     let color: string
     let icon: React.ReactNode
 
     const level = props.level ?? "error"
     switch (level) {
         case "error":
-            title = t`Error`
+            title = <Trans>Error</Trans>
             color = "red"
             icon = <TbAlertCircle />
             break
         case "warning":
-            title = t`Warning`
+            title = <Trans>Warning</Trans>
             color = "orange"
             icon = <TbAlertTriangle />
             break
         case "success":
-            title = t`Success`
+            title = <Trans>Success</Trans>
             color = "green"
             icon = <TbCircleCheck />
             break

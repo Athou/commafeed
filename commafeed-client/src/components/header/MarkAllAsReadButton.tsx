@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 
 import { Button, Code, Group, Modal, Slider, Stack, Text } from "@mantine/core"
 import { markAllEntries } from "app/slices/entries"
@@ -17,7 +17,7 @@ export function MarkAllAsReadButton(props: { iconSize: number }) {
 
     return (
         <>
-            <Modal opened={opened} onClose={() => setOpened(false)} title={t`Mark all entries as read`}>
+            <Modal opened={opened} onClose={() => setOpened(false)} title={<Trans>Mark all entries as read</Trans>}>
                 <Stack>
                     <Text size="sm">
                         {threshold === 0 && (
@@ -72,7 +72,7 @@ export function MarkAllAsReadButton(props: { iconSize: number }) {
             </Modal>
             <ActionButton
                 icon={<TbChecks size={props.iconSize} />}
-                label={t`Mark all as read`}
+                label={<Trans>Mark all as read</Trans>}
                 onClick={() => {
                     setThreshold(0)
                     setOpened(true)

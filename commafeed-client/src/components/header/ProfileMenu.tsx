@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { Box, Divider, Group, Menu, SegmentedControl, SegmentedControlItem, useMantineColorScheme } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import { client } from "app/client"
@@ -111,7 +111,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     onClick={() =>
                         client.feed.refreshAll().then(() => {
                             showNotification({
-                                message: t`Your feeds have been queued for refresh.`,
+                                message: <Trans>Your feeds have been queued for refresh.</Trans>,
                                 color: "green",
                                 autoClose: 1000,
                             })

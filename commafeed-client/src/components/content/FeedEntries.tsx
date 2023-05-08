@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { openModal } from "@mantine/modals"
 import { Constants } from "app/constants"
 import {
@@ -234,7 +234,13 @@ export function FeedEntries() {
         )
     })
     useMousetrap("g a", () => dispatch(redirectToRootCategory()))
-    useMousetrap("?", () => openModal({ title: t`Keyboard shortcuts`, size: "xl", children: <KeyboardShortcutsHelp /> }))
+    useMousetrap("?", () =>
+        openModal({
+            title: <Trans>Keyboard shortcuts</Trans>,
+            size: "xl",
+            children: <KeyboardShortcutsHelp />,
+        })
+    )
 
     if (!entries) return <Loader />
     return (

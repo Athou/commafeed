@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { Box, Stack } from "@mantine/core"
 import { Constants } from "app/constants"
 import {
@@ -27,6 +27,7 @@ const expandedIcon = <TbChevronDown size={16} />
 const collapsedIcon = <TbChevronRight size={16} />
 
 const errorThreshold = 9
+
 export function Tree() {
     const root = useAppSelector(state => state.tree.rootCategory)
     const source = useAppSelector(state => state.entries.source)
@@ -63,7 +64,7 @@ export function Tree() {
     const allCategoryNode = () => (
         <TreeNode
             id={Constants.categories.all.id}
-            name={t`All`}
+            name={<Trans>All</Trans>}
             icon={allIcon}
             unread={categoryUnreadCount(root)}
             selected={source.type === "category" && source.id === Constants.categories.all.id}
@@ -76,7 +77,7 @@ export function Tree() {
     const starredCategoryNode = () => (
         <TreeNode
             id={Constants.categories.starred.id}
-            name={t`Starred`}
+            name={<Trans>Starred</Trans>}
             icon={starredIcon}
             unread={0}
             selected={source.type === "category" && source.id === Constants.categories.starred.id}

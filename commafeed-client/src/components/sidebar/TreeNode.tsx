@@ -5,8 +5,8 @@ import { UnreadCount } from "./UnreadCount"
 
 interface TreeNodeProps {
     id: string
-    name: string
-    icon: ReactNode | string
+    name: ReactNode
+    icon: ReactNode
     unread: number
     selected: boolean
     expanded?: boolean

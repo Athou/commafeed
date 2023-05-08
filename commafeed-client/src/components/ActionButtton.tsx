@@ -6,7 +6,7 @@ import { forwardRef, MouseEventHandler, ReactNode } from "react"
 interface ActionButtonProps {
     className?: string
     icon?: ReactNode
-    label?: string
+    label?: ReactNode
     onClick?: MouseEventHandler
     variant?: ActionIconVariant & ButtonVariant
     showLabelOnMobile?: boolean

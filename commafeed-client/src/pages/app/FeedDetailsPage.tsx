@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { Anchor, Box, Button, Code, Container, Divider, Group, Input, NumberInput, Stack, Text, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
@@ -47,6 +47,7 @@ function FilteringExpressionDescription() {
         </div>
     )
 }
+
 export function FeedDetailsPage() {
     const { id } = useParams()
     if (!id) throw Error("id required")
@@ -75,7 +76,7 @@ export function FeedDetailsPage() {
     const openUnsubscribeModal = () => {
         const feedName = feed?.name
         return openConfirmModal({
-            title: t`Unsubscribe`,
+            title: <Trans>Unsubscribe</Trans>,
             children: (
                 <Text size="sm">
                     <Trans>
@@ -83,7 +84,7 @@ export function FeedDetailsPage() {
                     </Trans>
                 </Text>
             ),
-            labels: { confirm: t`Confirm`, cancel: t`Cancel` },
+            labels: { confirm: <Trans>Confirm</Trans>, cancel: <Trans>Cancel</Trans> },
             confirmProps: { color: "red" },
             onConfirm: () => unsubscribe.execute({ id: +id }),
         })
@@ -112,34 +113,34 @@ export function FeedDetailsPage() {
             <form onSubmit={form.onSubmit(modifyFeed.execute)}>
                 <Stack>
                     <Title order={3}>{feed.name}</Title>
-                    <Input.Wrapper label={t`Feed URL`}>
+                    <Input.Wrapper label={<Trans>Feed URL</Trans>}>
                         <Box>
                             <Anchor href={feed.feedUrl} target="_blank" rel="noreferrer">
                                 {feed.feedUrl}
                             </Anchor>
                         </Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label={t`Website`}>
+                    <Input.Wrapper label={<Trans>Website</Trans>}>
                         <Box>
                             <Anchor href={feed.feedLink} target="_blank" rel="noreferrer">
                                 {feed.feedLink}
                             </Anchor>
                         </Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label={t`Last refresh`}>
+                    <Input.Wrapper label={<Trans>Last refresh</Trans>}>
                         <Box>
                             <RelativeDate date={feed.lastRefresh} />
                         </Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label={t`Last refresh message`}>
-                        <Box>{feed.message ?? t`N/A`}</Box>
+                    <Input.Wrapper label={<Trans>Last refresh message</Trans>}>
+                        <Box>{feed.message ?? <Trans>N/A</Trans>}</Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label={t`Next refresh`}>
+                    <Input.Wrapper label={<Trans>Next refresh</Trans>}>
                         <Box>
                             <RelativeDate date={feed.nextRefresh} />
                         </Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label={t`Generated feed url`}>
+                    <Input.Wrapper label={<Trans>Generated feed url</Trans>}>
                         <Box>
                             {apiKey && (
                                 <Anchor href={`rest/feed/entriesAsFeed?id=${feed.id}&apiKey=${apiKey}`} target="_blank" rel="noreferrer">
@@ -150,11 +151,11 @@ export function FeedDetailsPage() {
                         </Box>
                     </Input.Wrapper>
 
-                    <TextInput label={t`Name`} {...form.getInputProps("name")} required />
-                    <CategorySelect label={t`Category`} {...form.getInputProps("categoryId")} clearable />
-                    <NumberInput label={t`Position`} {...form.getInputProps("position")} required min={0} />
+                    <TextInput label={<Trans>Name</Trans>} {...form.getInputProps("name")} required />
+                    <CategorySelect label={<Trans>Category</Trans>} {...form.getInputProps("categoryId")} clearable />
+                    <NumberInput label={<Trans>Position</Trans>} {...form.getInputProps("position")} required min={0} />
                     <TextInput
-                        label={t`Filtering expression`}
+                        label={<Trans>Filtering expression</Trans>}
                         description={<FilteringExpressionDescription />}
                         {...form.getInputProps("filter")}
                     />

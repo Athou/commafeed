@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { ActionIcon, Box, Code, Container, Group, Table, Text, Title, useMantineTheme } from "@mantine/core"
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals"
 import { client, errorToStrings } from "app/client"
@@ -7,6 +7,7 @@ import { UserEdit } from "components/admin/UserEdit"
 import { Alert } from "components/Alert"
 import { Loader } from "components/Loader"
 import { RelativeDate } from "components/RelativeDate"
+import { ReactNode } from "react"
 import { useAsync, useAsyncCallback } from "react-async-hook"
 import { TbCheck, TbPencil, TbPlus, TbTrash, TbX } from "react-icons/tb"
 
@@ -26,7 +27,7 @@ export function AdminUsersPage() {
         },
     })
 
-    const openUserEditModal = (title: string, user?: UserModel) => {
+    const openUserEditModal = (title: ReactNode, user?: UserModel) => {
         openModal({
             title,
             children: (
@@ -45,7 +46,7 @@ export function AdminUsersPage() {
     const openUserDeleteModal = (user: UserModel) => {
         const userName = user.name
         openConfirmModal({
-            title: t`Delete user`,
+            title: <Trans>Delete user</Trans>,
             children: (
                 <Text size="sm">
                     <Trans>
@@ -53,7 +54,7 @@ export function AdminUsersPage() {
                     </Trans>
                 </Text>
             ),
-            labels: { confirm: t`Confirm`, cancel: t`Cancel` },
+            labels: { confirm: <Trans>Confirm</Trans>, cancel: <Trans>Cancel</Trans> },
             confirmProps: { color: "red" },
             onConfirm: () => deleteUser.execute({ id: user.id }),
         })
@@ -65,7 +66,7 @@ export function AdminUsersPage() {
             <Title order={3} mb="md">
                 <Group>
                     <Trans>Manage users</Trans>
-                    <ActionIcon color={theme.primaryColor} onClick={() => openUserEditModal(t`Add user`)}>
+                    <ActionIcon color={theme.primaryColor} onClick={() => openUserEditModal(<Trans>Add user</Trans>)}>
                         <TbPlus size={20} />
                     </ActionIcon>
                 </Group>
@@ -126,7 +127,7 @@ export function AdminUsersPage() {
                             </td>
                             <td>
                                 <Group>
-                                    <ActionIcon color={theme.primaryColor} onClick={() => openUserEditModal(t`Edit user`, u)}>
+                                    <ActionIcon color={theme.primaryColor} onClick={() => openUserEditModal(<Trans>Edit user</Trans>, u)}>
                                         <TbPencil size={18} />
                                     </ActionIcon>
                                     <ActionIcon

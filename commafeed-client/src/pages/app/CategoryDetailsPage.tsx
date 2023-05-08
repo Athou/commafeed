@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { Anchor, Box, Button, Code, Container, Divider, Group, Input, NumberInput, Stack, Text, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
@@ -48,7 +48,7 @@ export function CategoryDetailsPage() {
     const openDeleteCategoryModal = () => {
         const categoryName = category?.name
         return openConfirmModal({
-            title: t`Delete Category`,
+            title: <Trans>Delete Category</Trans>,
             children: (
                 <Text size="sm">
                     <Trans>
@@ -56,7 +56,7 @@ export function CategoryDetailsPage() {
                     </Trans>
                 </Text>
             ),
-            labels: { confirm: t`Confirm`, cancel: t`Cancel` },
+            labels: { confirm: <Trans>Confirm</Trans>, cancel: <Trans>Cancel</Trans> },
             confirmProps: { color: "red" },
             onConfirm: () => deleteCategory.execute({ id: +id }),
         })
@@ -91,7 +91,7 @@ export function CategoryDetailsPage() {
             <form onSubmit={form.onSubmit(modifyCategory.execute)}>
                 <Stack>
                     <Title order={3}>{category.name}</Title>
-                    <Input.Wrapper label={t`Generated feed url`}>
+                    <Input.Wrapper label={<Trans>Generated feed url</Trans>}>
                         <Box>
                             {apiKey && (
                                 <Anchor
@@ -108,14 +108,14 @@ export function CategoryDetailsPage() {
 
                     {editable && (
                         <>
-                            <TextInput label={t`Name`} {...form.getInputProps("name")} required />
+                            <TextInput label={<Trans>Name</Trans>} {...form.getInputProps("name")} required />
                             <CategorySelect
-                                label={t`Parent Category`}
+                                label={<Trans>Parent Category</Trans>}
                                 {...form.getInputProps("parentId")}
                                 clearable
                                 withoutCategoryIds={[id]}
                             />
-                            <NumberInput label={t`Position`} {...form.getInputProps("position")} required min={0} />
+                            <NumberInput label={<Trans>Position</Trans>} {...form.getInputProps("position")} required min={0} />
                         </>
                     )}
 

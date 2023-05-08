@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { ActionIcon, Center, Divider, Indicator, Popover, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { reloadEntries, search } from "app/slices/entries"
@@ -17,6 +17,7 @@ function HeaderDivider() {
 }
 
 const iconSize = 18
+
 export function Header() {
     const settings = useAppSelector(state => state.user.settings)
     const profile = useAppSelector(state => state.user.profile)
@@ -40,26 +41,30 @@ export function Header() {
     return (
         <Center>
             <ButtonToolbar>
-                <ActionButton icon={<TbRefresh size={iconSize} />} label={t`Refresh`} onClick={() => dispatch(reloadEntries())} />
+                <ActionButton
+                    icon={<TbRefresh size={iconSize} />}
+                    label={<Trans>Refresh</Trans>}
+                    onClick={() => dispatch(reloadEntries())}
+                />
                 <MarkAllAsReadButton iconSize={iconSize} />
 
                 <HeaderDivider />
 
                 <ActionButton
                     icon={settings.readingMode === "all" ? <TbEye size={iconSize} /> : <TbEyeOff size={iconSize} />}
-                    label={settings.readingMode === "all" ? t`All` : t`Unread`}
+                    label={settings.readingMode === "all" ? <Trans>All</Trans> : <Trans>Unread</Trans>}
                     onClick={() => dispatch(changeReadingMode(settings.readingMode === "all" ? "unread" : "all"))}
                 />
                 <ActionButton
                     icon={settings.readingOrder === "asc" ? <TbArrowUp size={iconSize} /> : <TbArrowDown size={iconSize} />}
-                    label={settings.readingOrder === "asc" ? t`Asc` : t`Desc`}
+                    label={settings.readingOrder === "asc" ? <Trans>Asc</Trans> : <Trans>Desc</Trans>}
                     onClick={() => dispatch(changeReadingOrder(settings.readingOrder === "asc" ? "desc" : "asc"))}
                 />
 
                 <Popover>
                     <Popover.Target>
                         <Indicator disabled={!searchFromStore}>
-                            <ActionButton icon={<TbSearch size={iconSize} />} label={t`Search`} />
+                            <ActionButton icon={<TbSearch size={iconSize} />} label={<Trans>Search</Trans>} />
                         </Indicator>
                     </Popover.Target>
                     <Popover.Dropdown>

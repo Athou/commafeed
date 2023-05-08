@@ -53,7 +53,7 @@ export function PasswordRecoveryPage() {
                     <Stack>
                         <TextInput
                             type="email"
-                            label={t`E-mail`}
+                            label={<Trans>E-mail</Trans>}
                             placeholder={t`E-mail`}
                             {...form.getInputProps("email")}
                             size="md"

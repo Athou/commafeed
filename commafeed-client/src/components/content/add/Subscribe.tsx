@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { Box, Button, Group, Stack, Stepper, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
@@ -74,24 +74,33 @@ export function Subscribe() {
             <form onSubmit={nextStep}>
                 <Stepper active={activeStep} onStepClick={setActiveStep}>
                     <Stepper.Step
-                        label={t`Analyze feed`}
-                        description={t`Check that the feed is working`}
+                        label={<Trans>Analyze feed</Trans>}
+                        description={<Trans>Check that the feed is working</Trans>}
                         allowStepSelect={activeStep === 1}
                     >
                         <TextInput
-                            label={t`Feed URL`}
+                            label={<Trans>Feed URL</Trans>}
                             placeholder="http://www.mysite.com/rss"
-                            description={t`The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page.`}
+                            description={
+                                <Trans>
+                                    The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed
+                                    will try to find the feed in the page.
+                                </Trans>
+                            }
                             required
                             autoFocus
                             {...step0Form.getInputProps("url")}
                         />
                     </Stepper.Step>
-                    <Stepper.Step label={t`Subscribe`} description={t`Subscribe to the feed`} allowStepSelect={false}>
+                    <Stepper.Step
+                        label={<Trans>Subscribe</Trans>}
+                        description={<Trans>Subscribe to the feed</Trans>}
+                        allowStepSelect={false}
+                    >
                         <Stack>
-                            <TextInput label={t`Feed URL`} {...step1Form.getInputProps("url")} disabled />
-                            <TextInput label={t`Feed name`} {...step1Form.getInputProps("title")} required autoFocus />
-                            <CategorySelect label={t`Category`} {...step1Form.getInputProps("categoryId")} clearable />
+                            <TextInput label={<Trans>Feed URL</Trans>} {...step1Form.getInputProps("url")} disabled />
+                            <TextInput label={<Trans>Feed name</Trans>} {...step1Form.getInputProps("title")} required autoFocus />
+                            <CategorySelect label={<Trans>Category</Trans>} {...step1Form.getInputProps("categoryId")} clearable />
                         </Stack>
                     </Stepper.Step>
                 </Stepper>

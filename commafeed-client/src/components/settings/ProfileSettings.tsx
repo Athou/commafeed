@@ -41,13 +41,13 @@ export function ProfileSettings() {
 
     const openDeleteProfileModal = () =>
         openConfirmModal({
-            title: t`Delete account`,
+            title: <Trans>Delete account</Trans>,
             children: (
                 <Text size="sm">
                     <Trans>Are you sure you want to delete your account? There's no turning back!</Trans>
                 </Text>
             ),
-            labels: { confirm: t`Confirm`, cancel: t`Cancel` },
+            labels: { confirm: <Trans>Confirm</Trans>, cancel: <Trans>Cancel</Trans> },
             confirmProps: { color: "red" },
             onConfirm: () => deleteProfile.execute(),
         })
@@ -77,12 +77,16 @@ export function ProfileSettings() {
 
             <form onSubmit={form.onSubmit(saveProfile.execute)}>
                 <Stack>
-                    <Input.Wrapper label={t`User name`}>
+                    <Input.Wrapper label={<Trans>User name</Trans>}>
                         <Box>{profile?.name}</Box>
                     </Input.Wrapper>
                     <Input.Wrapper
-                        label={t`OPML export`}
-                        description={t`Export your subscriptions and categories as an OPML file that can be imported in other feed reading services`}
+                        label={<Trans>OPML export</Trans>}
+                        description={
+                            <Trans>
+                                Export your subscriptions and categories as an OPML file that can be imported in other feed reading services
+                            </Trans>
+                        }
                     >
                         <Box>
                             <Anchor href="rest/feed/export" download="commafeed_opml.xml">
@@ -91,20 +95,20 @@ export function ProfileSettings() {
                         </Box>
                     </Input.Wrapper>
                     <PasswordInput
-                        label={t`Current password`}
-                        description={t`Enter your current password to change profile settings`}
+                        label={<Trans>Current password</Trans>}
+                        description={<Trans>Enter your current password to change profile settings</Trans>}
                         required
                         {...form.getInputProps("currentPassword")}
                     />
-                    <TextInput type="email" label={t`E-mail`} {...form.getInputProps("email")} required />
+                    <TextInput type="email" label={<Trans>E-mail</Trans>} {...form.getInputProps("email")} required />
                     <PasswordInput
-                        label={t`New password`}
-                        description={t`Changing password will generate a new API key`}
+                        label={<Trans>New password</Trans>}
+                        description={<Trans>Changing password will generate a new API key</Trans>}
                         {...form.getInputProps("newPassword")}
                     />
-                    <PasswordInput label={t`Confirm password`} {...form.getInputProps("newPasswordConfirmation")} />
-                    <TextInput label={t`API key`} readOnly value={profile?.apiKey} />
-                    <Checkbox label={t`Generate new API key`} {...form.getInputProps("newApiKey", { type: "checkbox" })} />
+                    <PasswordInput label={<Trans>Confirm password</Trans>} {...form.getInputProps("newPasswordConfirmation")} />
+                    <TextInput label={<Trans>API key</Trans>} readOnly value={profile?.apiKey} />
+                    <Checkbox label={<Trans>Generate new API key</Trans>} {...form.getInputProps("newApiKey", { type: "checkbox" })} />
 
                     <Group>
                         <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>

@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 
 import { Anchor, Box, Button, Container, Group, Input, Stack, Title } from "@mantine/core"
 import { Constants } from "app/constants"
@@ -16,7 +16,7 @@ export function TagDetailsPage() {
         <Container>
             <Stack>
                 <Title order={3}>{id}</Title>
-                <Input.Wrapper label={t`Generated feed url`}>
+                <Input.Wrapper label={<Trans>Generated feed url</Trans>}>
                     <Box>
                         {apiKey && (
                             <Anchor

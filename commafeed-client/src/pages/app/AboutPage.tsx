@@ -15,7 +15,7 @@ const useStyles = createStyles(() => ({
     },
 }))
 
-function Section(props: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
+function Section(props: { title: React.ReactNode; icon: React.ReactNode; children: React.ReactNode }) {
     const { classes } = useStyles()
     return (
         <Box my="xl">
@@ -38,7 +38,7 @@ function NextUnreadBookmarklet() {
 
     return (
         <Box>
-            <CategorySelect value={categoryId} onChange={c => c && setCategoryId(c)} withAll description={t`Category`} />
+            <CategorySelect value={categoryId} onChange={c => c && setCategoryId(c)} withAll description={<Trans>Category</Trans>} />
             <NativeSelect
                 data={[
                     { value: "desc", label: t`Newest first` },
@@ -46,7 +46,7 @@ function NextUnreadBookmarklet() {
                 ]}
                 value={order}
                 onChange={e => setOrder(e.target.value)}
-                description={t`Order`}
+                description={<Trans>Order</Trans>}
             />
             <Trans>Drag link to bookmark bar</Trans>
             <span> </span>
@@ -58,6 +58,7 @@ function NextUnreadBookmarklet() {
 }
 
 const bitcoinAddress = <Code>{Constants.bitcoinWalletAddress}</Code>
+
 export function AboutPage() {
     const version = useAppSelector(state => state.server.serverInfos?.version)
     const revision = useAppSelector(state => state.server.serverInfos?.gitCommit)
@@ -65,7 +66,7 @@ export function AboutPage() {
     return (
         <Container size="xl">
             <SimpleGrid cols={2} breakpoints={[{ maxWidth: Constants.layout.mobileBreakpoint, cols: 1 }]}>
-                <Section title={t`About`} icon={<TbHelp size={24} />}>
+                <Section title={<Trans>About</Trans>} icon={<TbHelp size={24} />}>
                     <Box>
                         <Trans>
                             CommaFeed version {version} ({revision})
@@ -119,7 +120,7 @@ export function AboutPage() {
                         <Trans>For those of you who prefer bitcoin, here is the address: {bitcoinAddress}</Trans>
                     </Box>
                 </Section>
-                <Section title={t`Goodies`} icon={<TbPuzzle size={24} />}>
+                <Section title={<Trans>Goodies</Trans>} icon={<TbPuzzle size={24} />}>
                     <List>
                         <List.Item>
                             <Trans>Browser extentions</Trans>
@@ -161,10 +162,10 @@ export function AboutPage() {
                         </List.Item>
                     </List>
                 </Section>
-                <Section title={t`Keyboard shortcuts`} icon={<TbKeyboard size={24} />}>
+                <Section title={<Trans>Keyboard shortcuts</Trans>} icon={<TbKeyboard size={24} />}>
                     <KeyboardShortcutsHelp />
                 </Section>
-                <Section title={t`REST API`} icon={<TbRocket size={24} />}>
+                <Section title={<Trans>REST API</Trans>} icon={<TbRocket size={24} />}>
                     <Anchor onClick={() => dispatch(redirectToApiDocumentation())}>
                         <Trans>Go to the API documentation.</Trans>
                     </Anchor>

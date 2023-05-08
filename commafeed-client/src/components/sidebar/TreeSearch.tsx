@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { Box, Center, Kbd, TextInput } from "@mantine/core"
 import { openSpotlight, SpotlightAction, SpotlightProvider } from "@mantine/spotlight"
 import { redirectToFeed } from "app/slices/redirect"
@@ -11,6 +11,7 @@ import { TbSearch } from "react-icons/tb"
 export interface TreeSearchProps {
     feeds: Subscription[]
 }
+
 export function TreeSearch(props: TreeSearchProps) {
     const dispatch = useAppDispatch()
 
@@ -40,7 +41,7 @@ export function TreeSearch(props: TreeSearchProps) {
             searchIcon={searchIcon}
             searchPlaceholder={t`Search`}
             shortcut="ctrl+k"
-            nothingFoundMessage={t`Nothing found`}
+            nothingFoundMessage={<Trans>Nothing found</Trans>}
         >
             <TextInput
                 placeholder={t`Search`}

@@ -42,15 +42,17 @@ export function LoginPage() {
                 <form onSubmit={form.onSubmit(login.execute)}>
                     <Stack>
                         <TextInput
-                            label={t`User Name or E-mail`}
+                            label={<Trans>User Name or E-mail</Trans>}
                             placeholder={t`User Name or E-mail`}
                             {...form.getInputProps("name")}
-                            description={serverInfos?.demoAccountEnabled ? t`Try out CommaFeed with the demo account: demo/demo` : ""}
+                            description={
+                                serverInfos?.demoAccountEnabled ? <Trans>Try out CommaFeed with the demo account: demo/demo</Trans> : ""
+                            }
                             size="md"
                             required
                         />
                         <PasswordInput
-                            label={t`Password`}
+                            label={<Trans>Password</Trans>}
                             placeholder={t`Password`}
                             {...form.getInputProps("password")}
                             size="md"

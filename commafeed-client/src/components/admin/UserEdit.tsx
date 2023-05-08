@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { Box, Button, Checkbox, Group, PasswordInput, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
@@ -29,11 +29,11 @@ export function UserEdit(props: UserEditProps) {
 
             <form onSubmit={form.onSubmit(saveUser.execute)}>
                 <Stack>
-                    <TextInput label={t`Name`} {...form.getInputProps("name")} required />
-                    <PasswordInput label={t`Password`} {...form.getInputProps("password")} required={!props.user} />
-                    <TextInput type="email" label={t`E-mail`} {...form.getInputProps("email")} />
-                    <Checkbox label={t`Admin`} {...form.getInputProps("admin", { type: "checkbox" })} />
-                    <Checkbox label={t`Enabled`} {...form.getInputProps("enabled", { type: "checkbox" })} />
+                    <TextInput label={<Trans>Name</Trans>} {...form.getInputProps("name")} required />
+                    <PasswordInput label={<Trans>Password</Trans>} {...form.getInputProps("password")} required={!props.user} />
+                    <TextInput type="email" label={<Trans>E-mail</Trans>} {...form.getInputProps("email")} />
+                    <Checkbox label={<Trans>Admin</Trans>} {...form.getInputProps("admin", { type: "checkbox" })} />
+                    <Checkbox label={<Trans>Enabled</Trans>} {...form.getInputProps("enabled", { type: "checkbox" })} />
 
                     <Group>
                         <Button variant="default" onClick={props.onCancel}>

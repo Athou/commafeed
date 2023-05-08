@@ -1,6 +1,5 @@
 import {
     ActionIcon,
-    Anchor,
     AppShell,
     Box,
     Burger,
@@ -37,13 +36,13 @@ interface LayoutProps {
 }
 
 const sidebarPadding = DEFAULT_THEME.spacing.xs
-const sidebarRightBorderWidth = 1
+const sidebarRightBorderWidth = "1px"
 
 const useStyles = createStyles(theme => ({
     sidebarContent: {
-        maxWidth: Constants.layout.sidebarWidth - sidebarPadding * 2 - sidebarRightBorderWidth,
+        maxWidth: `calc(${Constants.layout.sidebarWidth} - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
         [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
-            maxWidth: `calc(100vw - ${sidebarPadding * 2 + sidebarRightBorderWidth}px)`,
+            maxWidth: `calc(100vw - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
         },
     },
     mainContentWrapper: {
@@ -68,14 +67,12 @@ const useStyles = createStyles(theme => ({
 function LogoAndTitle() {
     const dispatch = useAppDispatch()
     return (
-        <Anchor onClick={() => dispatch(redirectToRootCategory())} variant="text">
-            <Center inline>
-                <Logo size={24} />
-                <Title order={3} pl="md">
-                    CommaFeed
-                </Title>
-            </Center>
-        </Anchor>
+        <Center inline onClick={() => dispatch(redirectToRootCategory())} style={{ cursor: "pointer" }}>
+            <Logo size={24} />
+            <Title order={3} pl="md">
+                CommaFeed
+            </Title>
+        </Center>
     )
 }
 

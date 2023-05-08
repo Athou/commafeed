@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro"
-import { ActionIcon, Anchor, Box, Center, Divider, Group, Title, useMantineTheme } from "@mantine/core"
+import { ActionIcon, Box, Center, createStyles, Divider, Group, Title, useMantineTheme } from "@mantine/core"
 import { useViewportSize } from "@mantine/hooks"
 import { Constants } from "app/constants"
 import { EntrySourceType, loadEntries } from "app/slices/entries"
@@ -27,7 +27,15 @@ interface FeedEntriesPageProps {
     sourceType: EntrySourceType
 }
 
+const useStyles = createStyles(() => ({
+    sourceWebsiteLink: {
+        color: "inherit",
+        textDecoration: "none",
+    },
+}))
+
 export function FeedEntriesPage(props: FeedEntriesPageProps) {
+    const { classes } = useStyles()
     const location = useLocation()
     const { id = Constants.categories.all.id } = useParams()
     const viewport = useViewportSize()
@@ -63,9 +71,9 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
         <Box mb={viewport.height - Constants.layout.headerHeight - 210}>
             <Group spacing="xl">
                 {sourceWebsiteUrl && (
-                    <Anchor href={sourceWebsiteUrl} target="_blank" rel="noreferrer" variant="text">
+                    <a href={sourceWebsiteUrl} target="_blank" rel="noreferrer" className={classes.sourceWebsiteLink}>
                         <Title order={3}>{sourceLabel}</Title>
-                    </Anchor>
+                    </a>
                 )}
                 {!sourceWebsiteUrl && <Title order={3}>{sourceLabel}</Title>}
                 {sourceLabel && (

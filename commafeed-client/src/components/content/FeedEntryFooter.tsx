@@ -20,7 +20,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
     const [scrollPosition, setScrollPosition] = useState(0)
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const tags = useAppSelector(state => state.user.tags)
-    const mobile = !useMediaQuery(`(min-width: ${Constants.layout.mobileBreakpoint}px)`)
+    const mobile = !useMediaQuery(`(min-width: ${Constants.layout.mobileBreakpoint})`)
     const dispatch = useAppDispatch()
 
     const showSharingButtons = sharingSettings && Object.values(sharingSettings).some(v => v)
@@ -74,7 +74,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 {tags && (
                     <Popover withArrow withinPortal shadow="md" positionDependencies={[scrollPosition]} closeOnClickOutside={!mobile}>
                         <Popover.Target>
-                            <Indicator label={props.entry.tags.length} showZero={false} dot={false} inline size={16}>
+                            <Indicator label={props.entry.tags.length} disabled={props.entry.tags.length === 0} inline size={16}>
                                 <ActionButton icon={<TbTag size={18} />} label={<Trans>Tags</Trans>} />
                             </Indicator>
                         </Popover.Target>

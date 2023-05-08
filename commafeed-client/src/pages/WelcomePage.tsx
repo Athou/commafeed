@@ -38,7 +38,7 @@ export function WelcomePage() {
 }
 
 function Header() {
-    const mobile = !useMediaQuery(`(min-width: ${Constants.layout.mobileBreakpoint}px)`)
+    const mobile = !useMediaQuery(`(min-width: ${Constants.layout.mobileBreakpoint})`)
 
     if (mobile) {
         return (

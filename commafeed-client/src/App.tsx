@@ -3,7 +3,7 @@ import { I18nProvider } from "@lingui/react"
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core"
 import { useColorScheme } from "@mantine/hooks"
 import { ModalsProvider } from "@mantine/modals"
-import { NotificationsProvider } from "@mantine/notifications"
+import { Notifications } from "@mantine/notifications"
 import { Constants } from "app/constants"
 import { redirectTo } from "app/slices/redirect"
 import { reloadServerInfos } from "app/slices/server"
@@ -51,9 +51,8 @@ function Providers(props: { children: React.ReactNode }) {
                     }}
                 >
                     <ModalsProvider>
-                        <NotificationsProvider position="bottom-right" zIndex={9999}>
-                            <ErrorBoundary>{props.children}</ErrorBoundary>
-                        </NotificationsProvider>
+                        <Notifications position="bottom-right" zIndex={9999} />
+                        <ErrorBoundary>{props.children}</ErrorBoundary>
                     </ModalsProvider>
                 </MantineProvider>
             </ColorSchemeProvider>

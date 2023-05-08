@@ -1,4 +1,4 @@
-import { Anchor, Box, createStyles, Divider, Paper } from "@mantine/core"
+import { Box, createStyles, Divider, Paper } from "@mantine/core"
 import { MantineNumberSize } from "@mantine/styles"
 import { Constants } from "app/constants"
 import { markEntry } from "app/slices/entries"
@@ -25,7 +25,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: View
     if (theme.colorScheme === "dark") backgroundColor = props.entry.read ? "inherit" : theme.colors.dark[5]
     else backgroundColor = props.entry.read && !props.expanded ? theme.colors.gray[0] : "inherit"
 
-    let marginY = theme.spacing.xs
+    let marginY = 10
     if (props.viewMode === "title") marginY = 2
     else if (props.viewMode === "cozy") marginY = 6
 
@@ -52,6 +52,10 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: View
                     backgroundColor: backgroundHoverColor,
                 },
             },
+        },
+        headerLink: {
+            color: "inherit",
+            textDecoration: "none",
         },
         body: {
             maxWidth: Constants.layout.entryMaxWidth,
@@ -91,8 +95,8 @@ export function FeedEntry(props: FeedEntryProps) {
     const compactHeader = !props.expanded && (viewMode === "title" || viewMode === "cozy")
     return (
         <Paper withBorder radius={borderRadius} className={classes.paper}>
-            <Anchor
-                variant="text"
+            <a
+                className={classes.headerLink}
                 href={props.entry.url}
                 target="_blank"
                 rel="noreferrer"
@@ -104,7 +108,7 @@ export function FeedEntry(props: FeedEntryProps) {
                     {compactHeader && <FeedEntryCompactHeader entry={props.entry} />}
                     {!compactHeader && <FeedEntryHeader entry={props.entry} expanded={props.expanded} />}
                 </Box>
-            </Anchor>
+            </a>
             {props.expanded && (
                 <Box px={paddingX} pb={paddingY}>
                     <Box className={classes.body} sx={{ direction: props.entry.rtl ? "rtl" : "ltr" }}>

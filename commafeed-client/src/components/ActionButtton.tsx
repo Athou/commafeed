@@ -1,5 +1,6 @@
-import { ActionIcon, Button, ButtonVariant, useMantineTheme } from "@mantine/core"
-import { ActionIconVariant } from "@mantine/core/lib/ActionIcon/ActionIcon.styles"
+import { ActionIcon, Button, useMantineTheme } from "@mantine/core"
+import { ActionIconProps } from "@mantine/core/lib/ActionIcon/ActionIcon"
+import { ButtonProps } from "@mantine/core/lib/Button/Button"
 import { useMediaQuery } from "@mantine/hooks"
 import { forwardRef, MouseEventHandler, ReactNode } from "react"
 
@@ -8,7 +9,7 @@ interface ActionButtonProps {
     icon?: ReactNode
     label?: ReactNode
     onClick?: MouseEventHandler
-    variant?: ActionIconVariant & ButtonVariant
+    variant?: ActionIconProps["variant"] & ButtonProps["variant"]
     showLabelOnMobile?: boolean
 }
 
@@ -18,7 +19,7 @@ interface ActionButtonProps {
 export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>((props: ActionButtonProps, ref) => {
     const theme = useMantineTheme()
     const variant = props.variant ?? "subtle"
-    const mobile = !useMediaQuery(`(min-width: ${theme.breakpoints.lg}px)`)
+    const mobile = !useMediaQuery(`(min-width: ${theme.breakpoints.lg})`)
     const iconOnly = !props.showLabelOnMobile && (mobile || !props.label)
     return iconOnly ? (
         <ActionIcon ref={ref} color={theme.primaryColor} variant={variant} className={props.className} onClick={props.onClick}>

@@ -1,11 +1,14 @@
 # Changelog
 
+## [3.3.1]
+
+- fix long feed names not being shortened to respect tree max width
+
 ## [3.3.0]
 
 - there are now database changes, rolling back to 2.x will no longer be possible
 - restore support for user custom CSS rules
 - add support for user custom JS code that will be executed on page load
-
 
 ## [3.2.0]
 

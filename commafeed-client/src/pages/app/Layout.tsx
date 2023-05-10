@@ -40,7 +40,7 @@ const sidebarRightBorderWidth = "1px"
 
 const useStyles = createStyles(theme => ({
     sidebarContent: {
-        maxWidth: `calc(${Constants.layout.sidebarWidth} - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
+        maxWidth: `calc(${Constants.layout.sidebarWidth}px - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
         [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
             maxWidth: `calc(100vw - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
         },

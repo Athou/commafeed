@@ -151,6 +151,8 @@ export function FeedDetailsPage() {
                         </Box>
                     </Input.Wrapper>
 
+                    <Divider />
+
                     <TextInput label={<Trans>Name</Trans>} {...form.getInputProps("name")} required />
                     <CategorySelect label={<Trans>Category</Trans>} {...form.getInputProps("categoryId")} clearable />
                     <NumberInput label={<Trans>Position</Trans>} {...form.getInputProps("position")} required min={0} />

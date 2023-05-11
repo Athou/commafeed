@@ -108,6 +108,8 @@ export function CategoryDetailsPage() {
 
                     {editable && (
                         <>
+                            <Divider />
+
                             <TextInput label={<Trans>Name</Trans>} {...form.getInputProps("name")} required />
                             <CategorySelect
                                 label={<Trans>Parent Category</Trans>}

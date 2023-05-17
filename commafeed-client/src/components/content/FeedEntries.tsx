@@ -18,9 +18,9 @@ import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"
 import { Loader } from "components/Loader"
 import { useMousetrap } from "hooks/useMousetrap"
 import { useViewMode } from "hooks/useViewMode"
-import throttle from "lodash/throttle"
 import { useEffect } from "react"
 import InfiniteScroll from "react-infinite-scroller"
+import { throttle } from "throttle-debounce"
 import { FeedEntry } from "./FeedEntry"
 
 export function FeedEntries() {
@@ -82,7 +82,7 @@ export function FeedEntries() {
                 )
             }
         }
-        const throttledListener = throttle(listener, 100)
+        const throttledListener = throttle(100, listener)
         scrollArea?.addEventListener("scroll", throttledListener)
         return () => scrollArea?.removeEventListener("scroll", throttledListener)
     }, [dispatch, entries, viewMode, scrollMarks, scrollingToEntry])

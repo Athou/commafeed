@@ -5,11 +5,11 @@ import { markEntriesUpToEntry, markEntry, starEntry } from "app/slices/entries"
 import { redirectToFeed } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Entry } from "app/types"
-import { openLinkInBackgroundTab } from "app/utils"
-import { throttle, truncate } from "lodash"
+import { openLinkInBackgroundTab, truncate } from "app/utils"
 import { useEffect } from "react"
 import { Item, Menu, Separator, useContextMenu } from "react-contexify"
 import { TbArrowBarToDown, TbExternalLink, TbEyeCheck, TbEyeOff, TbRss, TbStar, TbStarOff } from "react-icons/tb"
+import { throttle } from "throttle-debounce"
 
 interface FeedEntryContextMenuProps {
     entry: Entry
@@ -92,7 +92,7 @@ export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
                     >
                         <Group>
                             <TbRss size={iconSize} />
-                            <Trans>Go to {truncate(props.entry.feedName)}</Trans>
+                            <Trans>Go to {truncate(props.entry.feedName, 30)}</Trans>
                         </Group>
                     </Item>
                 </>
@@ -118,7 +118,7 @@ export function useFeedEntryContextMenu(entry: Entry) {
         const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
 
         const listener = () => contextMenu.hideAll()
-        const throttledListener = throttle(listener, 100)
+        const throttledListener = throttle(100, listener)
 
         scrollArea?.addEventListener("scroll", throttledListener)
         return () => scrollArea?.removeEventListener("scroll", throttledListener)

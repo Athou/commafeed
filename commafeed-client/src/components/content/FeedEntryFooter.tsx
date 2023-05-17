@@ -7,9 +7,9 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { Entry } from "app/types"
 import { ActionButton } from "components/ActionButtton"
 import { ButtonToolbar } from "components/ButtonToolbar"
-import { throttle } from "lodash"
 import { useEffect, useState } from "react"
 import { TbArrowBarToDown, TbExternalLink, TbEyeCheck, TbEyeOff, TbShare, TbStar, TbStarOff, TbTag } from "react-icons/tb"
+import { throttle } from "throttle-debounce"
 import { ShareButtons } from "./ShareButtons"
 
 interface FeedEntryFooterProps {
@@ -38,7 +38,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
         const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
 
         const listener = () => setScrollPosition(scrollArea ? scrollArea.scrollTop : 0)
-        const throttledListener = throttle(listener, 100)
+        const throttledListener = throttle(100, listener)
 
         scrollArea?.addEventListener("scroll", throttledListener)
         return () => scrollArea?.removeEventListener("scroll", throttledListener)

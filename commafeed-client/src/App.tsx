@@ -122,7 +122,7 @@ function GoogleAnalyticsHandler() {
     }, [googleAnalyticsCode])
 
     useEffect(() => {
-        ReactGA.send({ hitType: "pageview", page: location.pathname })
+        if (ReactGA.isInitialized) ReactGA.send({ hitType: "pageview", page: location.pathname })
     }, [location])
 
     return null

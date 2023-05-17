@@ -11,6 +11,8 @@ import com.commafeed.backend.model.UserSettings;
 @Singleton
 public class CustomJsServlet extends AbstractCustomCodeServlet {
 
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	public CustomJsServlet(SessionFactory sessionFactory, UserSettingsDAO userSettingsDAO) {
 		super(sessionFactory, userSettingsDAO);

@@ -9,6 +9,8 @@ import com.commafeed.backend.model.UserSettings;
 
 public class CustomCssServlet extends AbstractCustomCodeServlet {
 
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	public CustomCssServlet(SessionFactory sessionFactory, UserSettingsDAO userSettingsDAO) {
 		super(sessionFactory, userSettingsDAO);

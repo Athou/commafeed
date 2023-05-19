@@ -63,7 +63,8 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: View
     }
 
     if (props.showSelectionIndicator) {
-        styles.paper.borderLeftColor = theme.colorScheme === "dark" ? theme.colors.orange[4] : theme.colors.orange[6]
+        const borderLeftColor = theme.colorScheme === "dark" ? theme.colors.orange[4] : theme.colors.orange[6]
+        styles.paper.borderLeftColor = `${borderLeftColor} !important`
     }
 
     return styles

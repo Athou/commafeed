@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.3.2]
+
+- restore entry selection indicator (left orange border) that was lost with the mantine 6.x upgrade (3.3.0)
+- add dividers to visually separate read-only information from forms on feed and category details pages
+- reduced js bundle size by 10%
+
 ## [3.3.1]
 
 - fix long feed names not being shortened to respect tree max width
@@ -31,10 +37,10 @@
 ## [3.0.1]
 
 - allow env variable substitution in config.yml
-    - e.g. having a custom config.yml file with `app.session.path=${SOME_ENV_VAR}` will substitute `SOME_ENV_VAR` with
-      its value
+  - e.g. having a custom config.yml file with `app.session.path=${SOME_ENV_VAR}` will substitute `SOME_ENV_VAR` with
+    its value
 - allow env variable prefixed with `CF_` to override config.yml properties
-    - e.g. setting `CF_APP_ALLOWREGISTRATIONS=true` will set `app.allowRegistrations` to `true`
+  - e.g. setting `CF_APP_ALLOWREGISTRATIONS=true` will set `app.allowRegistrations` to `true`
 
 ## [3.0.0]
 
@@ -141,4 +147,4 @@
   consumption and better overall performances.
   See the README on how to build CommaFeed from now on.
 - CommaFeed should no longer fetch the same feed multiple times in a row
-- Users can use their username or email to log in  
+- Users can use their username or email to log in

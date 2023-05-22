@@ -42,6 +42,10 @@ public class FeedDAO extends GenericDAO<Feed> {
 		return query.orderBy(feed.disabledUntil.asc()).limit(count).fetch();
 	}
 
+	public void setDisabledUntil(List<Long> feedIds, Date date) {
+		updateQuery(feed).set(feed.disabledUntil, date).where(feed.id.in(feedIds)).execute();
+	}
+
 	public Feed findByUrl(String normalizedUrl) {
 		List<Feed> feeds = query().selectFrom(feed).where(feed.normalizedUrlHash.eq(DigestUtils.sha1Hex(normalizedUrl))).fetch();
 		Feed feed = Iterables.getFirst(feeds, null);

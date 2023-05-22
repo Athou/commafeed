@@ -6,8 +6,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.annotations.QueryHints;
 
 import com.commafeed.backend.model.AbstractModel;
+import com.querydsl.core.types.EntityPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
 
 import io.dropwizard.hibernate.AbstractDAO;
 
@@ -22,6 +24,10 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 
 	protected JPAQueryFactory query() {
 		return factory;
+	}
+
+	protected JPAUpdateClause updateQuery(EntityPath<T> entityPath) {
+		return new JPAUpdateClause(currentSession(), entityPath);
 	}
 
 	public void saveOrUpdate(T model) {

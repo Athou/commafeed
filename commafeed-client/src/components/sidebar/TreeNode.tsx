@@ -1,4 +1,4 @@
-import { Box, createStyles } from "@mantine/core"
+import { Box, Center, createStyles } from "@mantine/core"
 import { FeedFavicon } from "components/content/FeedFavicon"
 import React, { ReactNode } from "react"
 import { UnreadCount } from "./UnreadCount"
@@ -50,7 +50,7 @@ export function TreeNode(props: TreeNodeProps) {
     return (
         <Box py={1} pl={props.level * 20} className={classes.node} onClick={(e: React.MouseEvent) => props.onClick(e, props.id)}>
             <Box mr={6} onClick={(e: React.MouseEvent) => props.onIconClick && props.onIconClick(e, props.id)}>
-                {typeof props.icon === "string" ? <FeedFavicon url={props.icon} /> : props.icon}
+                <Center>{typeof props.icon === "string" ? <FeedFavicon url={props.icon} /> : props.icon}</Center>
             </Box>
             <Box className={classes.nodeText}>{props.name}</Box>
             {!props.expanded && (

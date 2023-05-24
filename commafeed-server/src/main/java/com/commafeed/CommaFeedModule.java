@@ -90,8 +90,6 @@ public class CommaFeedModule extends AbstractModule {
 					.filter(MetricFilter.ALL)
 					.build(graphite);
 			reporter.start(graphiteInterval, TimeUnit.SECONDS);
-		} else {
-			log.info("Graphite Metrics Disabled. Metrics will not be sent.");
 		}
 	}
 }

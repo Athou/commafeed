@@ -33,15 +33,17 @@ public class DatabaseStartupService implements Managed {
 	private final CommaFeedConfiguration config;
 
 	@Override
-	public void start() throws Exception {
+	public void start() {
 		updateSchema();
-		long count = UnitOfWork.call(sessionFactory, () -> userDAO.count());
+		long count = UnitOfWork.call(sessionFactory, userDAO::count);
 		if (count == 0) {
 			UnitOfWork.run(sessionFactory, this::initialData);
 		}
 	}
 
 	private void updateSchema() {
+		log.info("checking if database schema needs updating");
+
 		Session session = sessionFactory.openSession();
 		session.doWork(connection -> {
 			try {
@@ -68,10 +70,12 @@ public class DatabaseStartupService implements Managed {
 			}
 		});
 		session.close();
+
+		log.info("database schema is up to date");
 	}
 
 	private void initialData() {
-		log.info("Populating database with default values");
+		log.info("populating database with default values");
 		try {
 			userService.createAdminUser();
 			if (config.getApplicationSettings().getCreateDemoAccount()) {
@@ -82,8 +86,4 @@ public class DatabaseStartupService implements Managed {
 		}
 	}
 
-	@Override
-	public void stop() throws Exception {
-
-	}
 }

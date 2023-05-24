@@ -28,3 +28,7 @@ dist-ssr
 
 # vite
 vite.config.ts.timestamp-*.mjs
+
+# compiled linguijs locales
+# they no longer exist but we keep this to avoid issues with people still having those files on disk
+src/locales/**/*.ts

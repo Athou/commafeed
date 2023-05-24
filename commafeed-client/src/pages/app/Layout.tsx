@@ -97,12 +97,14 @@ export default function Layout({ sidebar, header }: LayoutProps) {
     }, [dispatch])
 
     const burger = (
-        <Burger
-            color={theme.fn.variant({ color: theme.primaryColor, variant: "subtle" }).color}
-            opened={mobileMenuOpen}
-            onClick={() => dispatch(setMobileMenuOpen(!mobileMenuOpen))}
-            size="sm"
-        />
+        <Center>
+            <Burger
+                color={theme.fn.variant({ color: theme.primaryColor, variant: "subtle" }).color}
+                opened={mobileMenuOpen}
+                onClick={() => dispatch(setMobileMenuOpen(!mobileMenuOpen))}
+                size="sm"
+            />
+        </Center>
     )
 
     const addButton = (

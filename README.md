@@ -59,11 +59,11 @@ located [here](https://github.com/Athou/commafeed/tree/master/commafeed-client/s
 
 To add a new language:
 
-- edit `commafeed-client/src/i18n.ts`
-    - add the new locale to the `locales` array.
-    - import the dayjs locale
-- edit `commafeed-client/.linguirc` and add the new locale to the `locales` array.
-- run `npm run i18n` and add translations to the newly created `commafeed-client/src/locales/[locale]/messages.po` file
+- add the new locale to the `locales` array in:
+    - `commafeed-client/.linguirc`
+    - `commafeed-client/src/i18n.ts`
+- run `npm run i18n:extract`
+- add translations to the newly created `commafeed-client/src/locales/[locale]/messages.po` file
 
 The name of the locale should be the
 two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).

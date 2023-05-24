@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/content/add/CategorySelect.tsx
+msgid "{0} (in {1})"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr ""
@@ -24,10 +28,6 @@ msgstr "<0>Máte účet?</0><1>Prihláste sa!</1>"
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Potrebujete účet?</0><1>Zaregistrujte sa!</1>"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "API key"
-msgstr "Kľúč API"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
@@ -74,6 +74,10 @@ msgstr "Súbor opml je súbor XML obsahujúci adresy URL kanálov a kategórie. 
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr "Analyzujte krmivo"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "API key"
+msgstr "Kľúč API"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -195,16 +199,16 @@ msgstr ""
 msgid "Current password"
 msgstr "Aktuálne heslo"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom code"
+msgstr ""
+
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
 msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Custom code"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -215,14 +219,14 @@ msgstr "Dátum vytvorenia"
 msgid "Delete"
 msgstr "Vymazať"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-msgid "Delete Category"
-msgstr "Vymažte kategóriu"
-
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Vymažte účet"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Delete Category"
+msgstr "Vymažte kategóriu"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Delete user"
@@ -296,17 +300,21 @@ msgid "Export your subscriptions and categories as an OPML file that can be impo
 msgstr "Exportujte svoje odbery a kategórie ako súbor OPML, ktorý je možné importovať do iných služieb na čítanie informačných kanálov"
 
 #: src/components/content/add/Subscribe.tsx
+msgid "Feed name"
+msgstr "Názov informačného kanála"
+
+#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
 msgstr "URL informačného kanála"
 
-#: src/components/content/add/Subscribe.tsx
-msgid "Feed name"
-msgstr "Názov informačného kanála"
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
+msgstr ""
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "file is required"
 msgstr ""
 
 #: src/pages/app/FeedDetailsPage.tsx
@@ -337,17 +345,17 @@ msgstr "Vygenerujte nový kľúč API"
 msgid "Generated feed url"
 msgstr "Generovaná adresa URL informačného kanála"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Go to the API documentation."
-msgstr "Prejdite na dokumentáciu API."
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
 msgstr "Prejdite na zobrazenie Všetky"
 
-#: src/components/content/FeedEntryContextMenu.tsx
-msgid "Go to {0}"
-msgstr ""
+#: src/pages/app/AboutPage.tsx
+msgid "Go to the API documentation."
+msgstr "Prejdite na dokumentáciu API."
 
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
@@ -523,19 +531,6 @@ msgstr "Žiadne ďalšie záznamy"
 msgid "Nothing found"
 msgstr "Nič sa nenašlo"
 
-#: src/pages/app/AddPage.tsx
-msgid "OPML"
-msgstr ""
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "OPML export"
-msgstr "Export OPML"
-
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
-msgid "OPML file"
-msgstr "súbor OPML"
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Najprv najstarší"
@@ -576,6 +571,19 @@ msgstr "Otvoriť predchádzajúci záznam"
 msgid "Open/close current entry"
 msgstr "Otvoriť/zatvoriť aktuálny záznam"
 
+#: src/pages/app/AddPage.tsx
+msgid "OPML"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "OPML export"
+msgstr "Export OPML"
+
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file"
+msgstr "súbor OPML"
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "Poriadok"
@@ -613,10 +621,6 @@ msgstr "Pozícia"
 msgid "Profile"
 msgstr "Profil"
 
-#: src/pages/app/AboutPage.tsx
-msgid "REST API"
-msgstr ""
-
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Obnoviť heslo"
@@ -629,6 +633,10 @@ msgstr "Obnoviť"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "V tejto inštancii CommaFeed sú registrácie uzavreté"
+
+#: src/pages/app/AboutPage.tsx
+msgid "REST API"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
@@ -733,13 +741,13 @@ msgstr "S hviezdičkou"
 msgid "Subscribe"
 msgstr "Prihlásiť sa"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Subscribe URL"
-msgstr "URL na odber"
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
 msgstr "Prihláste sa na odber kanála"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Subscribe URL"
+msgstr "URL na odber"
 
 #: src/components/Alert.tsx
 msgid "Success"
@@ -795,14 +803,14 @@ msgstr "Odobrať hviezdičku"
 msgid "Unsubscribe"
 msgstr "Zrušte odber"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "User name"
+msgstr "Meno používateľa"
+
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Meno používateľa alebo e-mail"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "User name"
-msgstr "Meno používateľa"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -818,12 +826,4 @@ msgstr "Zatiaľ nemáte žiadne odbery. "
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr ""
-
-#: src/components/content/add/CategorySelect.tsx
-msgid "{0} (in {1})"
 msgstr ""

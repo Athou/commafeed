@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/content/add/CategorySelect.tsx
+msgid "{0} (in {1})"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr ""
@@ -24,10 +28,6 @@ msgstr "<0>حساب دارید؟</0><1>وارد سیستم شوید!</1>"
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>به یک حساب نیاز دارید؟</0><1>ثبت نام کنید!</1>"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "API key"
-msgstr "کلید API"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
@@ -74,6 +74,10 @@ msgstr "یک فایل opml یک فایل XML است که حاوی آدرس‌ه�
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr "خوراک را تجزیه و تحلیل کنید"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "API key"
+msgstr "کلید API"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -195,16 +199,16 @@ msgstr ""
 msgid "Current password"
 msgstr "رمز عبور فعلی"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom code"
+msgstr ""
+
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
 msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Custom code"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -215,14 +219,14 @@ msgstr "تاریخ ایجاد"
 msgid "Delete"
 msgstr "حذف کنید"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-msgid "Delete Category"
-msgstr "حذف دسته"
-
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "حذف حساب"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Delete Category"
+msgstr "حذف دسته"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Delete user"
@@ -296,18 +300,22 @@ msgid "Export your subscriptions and categories as an OPML file that can be impo
 msgstr "اشتراک ها و دسته های خود را به عنوان یک فایل OPML صادر کنید که می تواند در سایر خدمات خواندن فید وارد شود"
 
 #: src/components/content/add/Subscribe.tsx
+msgid "Feed name"
+msgstr "نام فید"
+
+#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
 msgstr "URL فید"
 
-#: src/components/content/add/Subscribe.tsx
-msgid "Feed name"
-msgstr "نام فید"
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "file is required"
+msgstr "فایل مورد نیاز است"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -337,17 +345,17 @@ msgstr "کلید API جدید ایجاد کنید"
 msgid "Generated feed url"
 msgstr "آدرس اینترنتی فید تولید شده"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Go to the API documentation."
-msgstr "به مستندات API بروید."
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
 msgstr "به نمای All بروید"
 
-#: src/components/content/FeedEntryContextMenu.tsx
-msgid "Go to {0}"
-msgstr ""
+#: src/pages/app/AboutPage.tsx
+msgid "Go to the API documentation."
+msgstr "به مستندات API بروید."
 
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
@@ -523,19 +531,6 @@ msgstr "ورودی دیگری وجود ندارد"
 msgid "Nothing found"
 msgstr "چیزی پیدا نشد"
 
-#: src/pages/app/AddPage.tsx
-msgid "OPML"
-msgstr ""
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "OPML export"
-msgstr "صادرات OPML"
-
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
-msgid "OPML file"
-msgstr "فایل OPML"
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "قدیمی ترین اول"
@@ -576,6 +571,19 @@ msgstr "ورودی قبلی را باز کنید"
 msgid "Open/close current entry"
 msgstr "باز کردن/بستن ورودی فعلی"
 
+#: src/pages/app/AddPage.tsx
+msgid "OPML"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "OPML export"
+msgstr "صادرات OPML"
+
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file"
+msgstr "فایل OPML"
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "سفارش"
@@ -613,10 +621,6 @@ msgstr "موقعیت"
 msgid "Profile"
 msgstr "نمایه"
 
-#: src/pages/app/AboutPage.tsx
-msgid "REST API"
-msgstr ""
-
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "بازیابی رمز عبور"
@@ -629,6 +633,10 @@ msgstr "تازه کردن"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "ثبت نام در این نمونه CommaFeed بسته شده است"
+
+#: src/pages/app/AboutPage.tsx
+msgid "REST API"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
@@ -733,13 +741,13 @@ msgstr "ستاره دار"
 msgid "Subscribe"
 msgstr "مشترک شوید"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Subscribe URL"
-msgstr "URL اشتراک"
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
 msgstr "در فید مشترک شوید"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Subscribe URL"
+msgstr "URL اشتراک"
 
 #: src/components/Alert.tsx
 msgid "Success"
@@ -795,14 +803,14 @@ msgstr ""
 msgid "Unsubscribe"
 msgstr "لغو اشتراک"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "User name"
+msgstr "نام کاربری"
+
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "نام کاربری یا ایمیل"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "User name"
-msgstr "نام کاربری"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -818,12 +826,4 @@ msgstr "شما هنوز هیچ اشتراکی ندارید. "
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "فایل مورد نیاز است"
-
-#: src/components/content/add/CategorySelect.tsx
-msgid "{0} (in {1})"
 msgstr ""

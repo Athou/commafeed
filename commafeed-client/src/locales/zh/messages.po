@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/content/add/CategorySelect.tsx
+msgid "{0} (in {1})"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr ""
@@ -24,10 +28,6 @@ msgstr "<0>有帐号吗？</0><1>登录！</1>"
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>需要一个帐户？</0><1>注册！</1>"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "API key"
-msgstr "API 密钥"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
@@ -74,6 +74,10 @@ msgstr "opml 文件是包含提要 URL 和类别的 XML 文件。"
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr "分析饲料"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "API key"
+msgstr "API 密钥"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -195,16 +199,16 @@ msgstr "控制"
 msgid "Current password"
 msgstr "当前密码"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom code"
+msgstr ""
+
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
 msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Custom code"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -215,14 +219,14 @@ msgstr "创建日期"
 msgid "Delete"
 msgstr "删除"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-msgid "Delete Category"
-msgstr "删除类别"
-
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "删除帐号"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Delete Category"
+msgstr "删除类别"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Delete user"
@@ -296,18 +300,22 @@ msgid "Export your subscriptions and categories as an OPML file that can be impo
 msgstr "将您的订阅和类别导出为 OPML 文件，可以在其他提要阅读服务中导入"
 
 #: src/components/content/add/Subscribe.tsx
+msgid "Feed name"
+msgstr "提要名称"
+
+#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
 msgstr "供稿网址"
 
-#: src/components/content/add/Subscribe.tsx
-msgid "Feed name"
-msgstr "提要名称"
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "file is required"
+msgstr "文件是必需的"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -337,17 +345,17 @@ msgstr "生成新的 API 密钥"
 msgid "Generated feed url"
 msgstr "生成的提要网址"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Go to the API documentation."
-msgstr "转到 API 文档。"
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
 msgstr "转到全部视图"
 
-#: src/components/content/FeedEntryContextMenu.tsx
-msgid "Go to {0}"
-msgstr ""
+#: src/pages/app/AboutPage.tsx
+msgid "Go to the API documentation."
+msgstr "转到 API 文档。"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
@@ -523,19 +531,6 @@ msgstr "没有更多条目"
 msgid "Nothing found"
 msgstr "没有找到"
 
-#: src/pages/app/AddPage.tsx
-msgid "OPML"
-msgstr ""
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "OPML export"
-msgstr "OPML 导出"
-
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
-msgid "OPML file"
-msgstr "OPML 文件"
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "最早的优先"
@@ -576,6 +571,19 @@ msgstr "打开上一个条目"
 msgid "Open/close current entry"
 msgstr "打开/关闭当前条目"
 
+#: src/pages/app/AddPage.tsx
+msgid "OPML"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "OPML export"
+msgstr "OPML 导出"
+
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file"
+msgstr "OPML 文件"
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "订单"
@@ -613,10 +621,6 @@ msgstr "位置"
 msgid "Profile"
 msgstr "配置文件"
 
-#: src/pages/app/AboutPage.tsx
-msgid "REST API"
-msgstr ""
-
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "找回密码"
@@ -629,6 +633,10 @@ msgstr "刷新"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "此 CommaFeed 实例上的注册已关闭"
+
+#: src/pages/app/AboutPage.tsx
+msgid "REST API"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
@@ -733,13 +741,13 @@ msgstr "已加星标"
 msgid "Subscribe"
 msgstr "订阅"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Subscribe URL"
-msgstr "订阅网址"
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
 msgstr "订阅订阅源"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Subscribe URL"
+msgstr "订阅网址"
 
 #: src/components/Alert.tsx
 msgid "Success"
@@ -795,14 +803,14 @@ msgstr "解星"
 msgid "Unsubscribe"
 msgstr "取消订阅"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "User name"
+msgstr "用户名"
+
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "用户名或电子邮件"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "User name"
-msgstr "用户名"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -818,12 +826,4 @@ msgstr "您还没有任何订阅。"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "文件是必需的"
-
-#: src/components/content/add/CategorySelect.tsx
-msgid "{0} (in {1})"
 msgstr ""

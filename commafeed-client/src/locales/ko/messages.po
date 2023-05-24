@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/content/add/CategorySelect.tsx
+msgid "{0} (in {1})"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr ""
@@ -24,10 +28,6 @@ msgstr "<0>계정이 있습니까?</0><1>로그인하세요!</1>"
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>계정이 필요하십니까?</0><1>가입하세요!</1>"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "API key"
-msgstr "API 키"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
@@ -74,6 +74,10 @@ msgstr "opml 파일은 피드 URL과 카테고리를 포함하는 XML 파일입�
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr "피드 분석"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "API key"
+msgstr "API 키"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -195,16 +199,16 @@ msgstr "컨트롤"
 msgid "Current password"
 msgstr "현재 비밀번호"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom code"
+msgstr ""
+
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
 msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Custom code"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -215,14 +219,14 @@ msgstr "생성 날짜"
 msgid "Delete"
 msgstr "삭제"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-msgid "Delete Category"
-msgstr "카테고리 삭제"
-
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "계정 삭제"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Delete Category"
+msgstr "카테고리 삭제"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Delete user"
@@ -296,18 +300,22 @@ msgid "Export your subscriptions and categories as an OPML file that can be impo
 msgstr "구독 및 카테고리를 다른 피드 읽기 서비스에서 가져올 수 있는 OPML 파일로 내보내기"
 
 #: src/components/content/add/Subscribe.tsx
+msgid "Feed name"
+msgstr "피드 이름"
+
+#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
 msgstr "피드 URL"
 
-#: src/components/content/add/Subscribe.tsx
-msgid "Feed name"
-msgstr "피드 이름"
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "file is required"
+msgstr "파일이 필요합니다"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -337,17 +345,17 @@ msgstr "새 API 키 생성"
 msgid "Generated feed url"
 msgstr "생성된 피드 URL"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Go to the API documentation."
-msgstr "API 문서로 이동합니다."
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
 msgstr "전체 보기로 이동"
 
-#: src/components/content/FeedEntryContextMenu.tsx
-msgid "Go to {0}"
-msgstr ""
+#: src/pages/app/AboutPage.tsx
+msgid "Go to the API documentation."
+msgstr "API 문서로 이동합니다."
 
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
@@ -523,19 +531,6 @@ msgstr "더 이상 항목이 없습니다"
 msgid "Nothing found"
 msgstr "아무것도 찾을 수 없습니다"
 
-#: src/pages/app/AddPage.tsx
-msgid "OPML"
-msgstr ""
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "OPML export"
-msgstr "OPML 내보내기"
-
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
-msgid "OPML file"
-msgstr "OPML 파일"
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "가장 오래된 것부터"
@@ -576,6 +571,19 @@ msgstr "이전 항목 열기"
 msgid "Open/close current entry"
 msgstr "현재 항목 열기/닫기"
 
+#: src/pages/app/AddPage.tsx
+msgid "OPML"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "OPML export"
+msgstr "OPML 내보내기"
+
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file"
+msgstr "OPML 파일"
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "주문"
@@ -613,10 +621,6 @@ msgstr "위치"
 msgid "Profile"
 msgstr "프로필"
 
-#: src/pages/app/AboutPage.tsx
-msgid "REST API"
-msgstr ""
-
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "비밀번호 복구"
@@ -629,6 +633,10 @@ msgstr "새로 고침"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "이 CommaFeed 인스턴스에 대한 등록이 마감되었습니다."
+
+#: src/pages/app/AboutPage.tsx
+msgid "REST API"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
@@ -733,13 +741,13 @@ msgstr "별표"
 msgid "Subscribe"
 msgstr "구독"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Subscribe URL"
-msgstr "구독 URL"
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
 msgstr "피드 구독"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Subscribe URL"
+msgstr "구독 URL"
 
 #: src/components/Alert.tsx
 msgid "Success"
@@ -795,14 +803,14 @@ msgstr "별표 제거"
 msgid "Unsubscribe"
 msgstr "구독 취소"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "User name"
+msgstr "사용자 이름"
+
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "사용자 이름 또는 이메일"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "User name"
-msgstr "사용자 이름"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -818,12 +826,4 @@ msgstr "아직 구독이 없습니다. "
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "파일이 필요합니다"
-
-#: src/components/content/add/CategorySelect.tsx
-msgid "{0} (in {1})"
 msgstr ""

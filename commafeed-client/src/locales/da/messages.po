@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/content/add/CategorySelect.tsx
+msgid "{0} (in {1})"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr ""
@@ -24,10 +28,6 @@ msgstr "<0>Har du en konto?</0><1>Log ind!</1>"
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Har du brug for en konto?</0><1>Tilmeld dig!</1>"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "API key"
-msgstr "API-nøgle"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
@@ -74,6 +74,10 @@ msgstr "En opml-fil er en XML-fil, der indeholder feed-URL'er og kategorier. "
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr "Analyser foder"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "API key"
+msgstr "API-nøgle"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -195,16 +199,16 @@ msgstr ""
 msgid "Current password"
 msgstr "Nuværende adgangskode"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom code"
+msgstr ""
+
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
 msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Custom code"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -215,14 +219,14 @@ msgstr "Dato oprettet"
 msgid "Delete"
 msgstr "Slet"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-msgid "Delete Category"
-msgstr "Slet kategori"
-
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Slet konto"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Delete Category"
+msgstr "Slet kategori"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Delete user"
@@ -296,18 +300,22 @@ msgid "Export your subscriptions and categories as an OPML file that can be impo
 msgstr "Eksporter dine abonnementer og kategorier som en OPML-fil, der kan importeres i andre feed-læsningstjenester"
 
 #: src/components/content/add/Subscribe.tsx
+msgid "Feed name"
+msgstr "Feednavn"
+
+#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
 msgstr ""
 
-#: src/components/content/add/Subscribe.tsx
-msgid "Feed name"
-msgstr "Feednavn"
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "file is required"
+msgstr "fil er påkrævet"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -337,17 +345,17 @@ msgstr "Generer ny API-nøgle"
 msgid "Generated feed url"
 msgstr "Genereret feed-url"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Go to the API documentation."
-msgstr "Gå til API-dokumentationen."
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
 msgstr "Gå til visningen Alle"
 
-#: src/components/content/FeedEntryContextMenu.tsx
-msgid "Go to {0}"
-msgstr ""
+#: src/pages/app/AboutPage.tsx
+msgid "Go to the API documentation."
+msgstr "Gå til API-dokumentationen."
 
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
@@ -523,19 +531,6 @@ msgstr "Ingen flere poster"
 msgid "Nothing found"
 msgstr "Intet fundet"
 
-#: src/pages/app/AddPage.tsx
-msgid "OPML"
-msgstr ""
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "OPML export"
-msgstr "OPML eksport"
-
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
-msgid "OPML file"
-msgstr "OPML fil"
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Ældst først"
@@ -576,6 +571,19 @@ msgstr "Åbn forrige post"
 msgid "Open/close current entry"
 msgstr "Åbn/luk aktuel indgang"
 
+#: src/pages/app/AddPage.tsx
+msgid "OPML"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "OPML export"
+msgstr "OPML eksport"
+
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file"
+msgstr "OPML fil"
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "Bestilling"
@@ -613,10 +621,6 @@ msgstr ""
 msgid "Profile"
 msgstr "Profil"
 
-#: src/pages/app/AboutPage.tsx
-msgid "REST API"
-msgstr ""
-
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Gendan adgangskode"
@@ -629,6 +633,10 @@ msgstr "Opdater"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Registreringer er lukket på denne CommaFeed-instans"
+
+#: src/pages/app/AboutPage.tsx
+msgid "REST API"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
@@ -733,13 +741,13 @@ msgstr "Medvirkende"
 msgid "Subscribe"
 msgstr "Tilmeld"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Subscribe URL"
-msgstr ""
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
 msgstr "Abonner på feedet"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Subscribe URL"
+msgstr ""
 
 #: src/components/Alert.tsx
 msgid "Success"
@@ -795,14 +803,14 @@ msgstr ""
 msgid "Unsubscribe"
 msgstr "Afmeld"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "User name"
+msgstr "Brugernavn"
+
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Brugernavn eller e-mail"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "User name"
-msgstr "Brugernavn"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -818,12 +826,4 @@ msgstr "Du har ingen abonnementer endnu. "
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "fil er påkrævet"
-
-#: src/components/content/add/CategorySelect.tsx
-msgid "{0} (in {1})"
 msgstr ""

@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/content/add/CategorySelect.tsx
+msgid "{0} (in {1})"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr ""
@@ -24,10 +28,6 @@ msgstr "<0>Van fiókja?</0><1>Jelentkezzen be!</1>"
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Fiókra van szüksége?</0><1>Regisztráljon!</1>"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "API key"
-msgstr "API kulcs"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
@@ -74,6 +74,10 @@ msgstr "Az opml-fájl olyan XML-fájl, amely feed URL-címeket és kategóriáka
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr "Hírcsatorna elemzése"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "API key"
+msgstr "API kulcs"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -195,16 +199,16 @@ msgstr ""
 msgid "Current password"
 msgstr "Jelenlegi jelszó"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom code"
+msgstr ""
+
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
 msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Custom code"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -215,14 +219,14 @@ msgstr "Létrehozás dátuma"
 msgid "Delete"
 msgstr "Törlés"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-msgid "Delete Category"
-msgstr "Kategória törlése"
-
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Fiók törlése"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Delete Category"
+msgstr "Kategória törlése"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Delete user"
@@ -296,18 +300,22 @@ msgid "Export your subscriptions and categories as an OPML file that can be impo
 msgstr "Exportálja előfizetéseit és kategóriáit OPML-fájlként, amely importálható más feedolvasó szolgáltatásokba"
 
 #: src/components/content/add/Subscribe.tsx
+msgid "Feed name"
+msgstr "Hírcsatorna neve"
+
+#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
 msgstr ""
 
-#: src/components/content/add/Subscribe.tsx
-msgid "Feed name"
-msgstr "Hírcsatorna neve"
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "file is required"
+msgstr "fájl szükséges"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -337,17 +345,17 @@ msgstr "Új API-kulcs létrehozása"
 msgid "Generated feed url"
 msgstr "Hírcsatorna generált URL-je"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Go to the API documentation."
-msgstr "Nyissa meg az API dokumentációját."
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
 msgstr "Lépjen az Összes nézetre"
 
-#: src/components/content/FeedEntryContextMenu.tsx
-msgid "Go to {0}"
-msgstr ""
+#: src/pages/app/AboutPage.tsx
+msgid "Go to the API documentation."
+msgstr "Nyissa meg az API dokumentációját."
 
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
@@ -523,19 +531,6 @@ msgstr "Nincs több bejegyzés"
 msgid "Nothing found"
 msgstr "Semmi sem található"
 
-#: src/pages/app/AddPage.tsx
-msgid "OPML"
-msgstr ""
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "OPML export"
-msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
-msgid "OPML file"
-msgstr "OPML fájl"
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "A legidősebb első"
@@ -576,6 +571,19 @@ msgstr "Nyissa meg az előző bejegyzést"
 msgid "Open/close current entry"
 msgstr "Aktuális bejegyzés megnyitása/zárása"
 
+#: src/pages/app/AddPage.tsx
+msgid "OPML"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "OPML export"
+msgstr ""
+
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file"
+msgstr "OPML fájl"
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "Rendelés"
@@ -613,10 +621,6 @@ msgstr "Pozíció"
 msgid "Profile"
 msgstr "Profil"
 
-#: src/pages/app/AboutPage.tsx
-msgid "REST API"
-msgstr ""
-
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Jelszó helyreállítása"
@@ -629,6 +633,10 @@ msgstr "Frissítés"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "A regisztrációk le vannak zárva ezen a CommaFeed példányon"
+
+#: src/pages/app/AboutPage.tsx
+msgid "REST API"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
@@ -733,13 +741,13 @@ msgstr "Csillaggal megjelölve"
 msgid "Subscribe"
 msgstr "Feliratkozás"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Subscribe URL"
-msgstr "Feliratkozási URL"
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
 msgstr "Feliratkozás a hírfolyamra"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Subscribe URL"
+msgstr "Feliratkozási URL"
 
 #: src/components/Alert.tsx
 msgid "Success"
@@ -795,14 +803,14 @@ msgstr ""
 msgid "Unsubscribe"
 msgstr "Leiratkozás"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "User name"
+msgstr "Felhasználónév"
+
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Felhasználói név vagy e-mail cím"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "User name"
-msgstr "Felhasználónév"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -818,12 +826,4 @@ msgstr "Még nincs előfizetése. "
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "fájl szükséges"
-
-#: src/components/content/add/CategorySelect.tsx
-msgid "{0} (in {1})"
 msgstr ""

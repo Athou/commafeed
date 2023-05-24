@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/content/add/CategorySelect.tsx
+msgid "{0} (in {1})"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr "<0>La syntaxe complète est disponible </0><1>ici</1>."
@@ -24,10 +28,6 @@ msgstr "<0>Déjà un compte ?</0><1>Connectez-vous !</1>"
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Besoin d'un compte ?</0><1>Enregistrez-vous !</1>"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "API key"
-msgstr "Clé API"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
@@ -74,6 +74,10 @@ msgstr "Un fichier OPML est un fichier XML contenant des URL de flux et des cat�
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr "Analyser le flux"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "API key"
+msgstr "Clé API"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -195,16 +199,16 @@ msgstr "Ctrl"
 msgid "Current password"
 msgstr "Mot de passe actuel"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom code"
+msgstr ""
+
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
 msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Custom code"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -215,14 +219,14 @@ msgstr "Date de création"
 msgid "Delete"
 msgstr "Effacer"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-msgid "Delete Category"
-msgstr "Effacer la catégorie"
-
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Effacer le compte"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Delete Category"
+msgstr "Effacer la catégorie"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Delete user"
@@ -296,18 +300,22 @@ msgid "Export your subscriptions and categories as an OPML file that can be impo
 msgstr "Exporter vos abonnements et catégories en tant que fichier OPML qui peut être importé dans d'autres services de lecture de flux"
 
 #: src/components/content/add/Subscribe.tsx
+msgid "Feed name"
+msgstr "Nom du flux"
+
+#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
 msgstr "URL du flux"
 
-#: src/components/content/add/Subscribe.tsx
-msgid "Feed name"
-msgstr "Nom du flux"
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "file is required"
+msgstr "fichier requis"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -337,17 +345,17 @@ msgstr "Générer une nouvelle clé API"
 msgid "Generated feed url"
 msgstr "URL du flux généré"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Go to the API documentation."
-msgstr "Aller à la documentation de l'API."
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
 msgstr "Aller à la catégorie Tout"
 
-#: src/components/content/FeedEntryContextMenu.tsx
-msgid "Go to {0}"
-msgstr ""
+#: src/pages/app/AboutPage.tsx
+msgid "Go to the API documentation."
+msgstr "Aller à la documentation de l'API."
 
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
@@ -523,19 +531,6 @@ msgstr "Plus d'entrées"
 msgid "Nothing found"
 msgstr "Aucun résultat"
 
-#: src/pages/app/AddPage.tsx
-msgid "OPML"
-msgstr "OPML"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "OPML export"
-msgstr "Export du fichier OPML"
-
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
-msgid "OPML file"
-msgstr "Fichier OPML"
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Du plus ancien au plus récent"
@@ -576,6 +571,19 @@ msgstr "Ouvrir l'entrée précédente"
 msgid "Open/close current entry"
 msgstr "Ouvrir/fermer l'entrée actuelle"
 
+#: src/pages/app/AddPage.tsx
+msgid "OPML"
+msgstr "OPML"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "OPML export"
+msgstr "Export du fichier OPML"
+
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file"
+msgstr "Fichier OPML"
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "Ordre"
@@ -613,10 +621,6 @@ msgstr "Position"
 msgid "Profile"
 msgstr "Profil"
 
-#: src/pages/app/AboutPage.tsx
-msgid "REST API"
-msgstr "API REST"
-
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Récupérer le mot de passe"
@@ -629,6 +633,10 @@ msgstr "Rafraîchir"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Les inscriptions sont fermées sur cette instance de CommaFeed"
+
+#: src/pages/app/AboutPage.tsx
+msgid "REST API"
+msgstr "API REST"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
@@ -733,13 +741,13 @@ msgstr "Favoris"
 msgid "Subscribe"
 msgstr "S'abonner"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Subscribe URL"
-msgstr "URL pour s'abonner"
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
 msgstr "S'abonner au flux"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Subscribe URL"
+msgstr "URL pour s'abonner"
 
 #: src/components/Alert.tsx
 msgid "Success"
@@ -795,14 +803,14 @@ msgstr "Retirer des favoris"
 msgid "Unsubscribe"
 msgstr "Se désabonner"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "User name"
+msgstr "Nom"
+
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Nom d'utilisateur ou e-mail"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "User name"
-msgstr "Nom"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -818,12 +826,4 @@ msgstr "Vous n'avez pas encore d'abonnements. Pourquoi ne pas essayer d'en ajout
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "fichier requis"
-
-#: src/components/content/add/CategorySelect.tsx
-msgid "{0} (in {1})"
 msgstr ""

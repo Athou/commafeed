@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/content/add/CategorySelect.tsx
+msgid "{0} (in {1})"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr ""
@@ -24,10 +28,6 @@ msgstr "<0>アカウントをお持ちですか?</0><1>ログインしてくだ�
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>アカウントが必要ですか?</0><1>サインアップ!</1>"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "API key"
-msgstr "APIキー"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
@@ -74,6 +74,10 @@ msgstr "opml ファイルは、フィードの URL とカテゴリを含む XML 
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr "フィードを分析する"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "API key"
+msgstr "APIキー"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -195,16 +199,16 @@ msgstr "コントロール"
 msgid "Current password"
 msgstr "現在のパスワード"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom code"
+msgstr ""
+
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
 msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Custom code"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -215,14 +219,14 @@ msgstr "作成日"
 msgid "Delete"
 msgstr "削除"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-msgid "Delete Category"
-msgstr "カテゴリを削除"
-
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "アカウント削除"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Delete Category"
+msgstr "カテゴリを削除"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Delete user"
@@ -296,18 +300,22 @@ msgid "Export your subscriptions and categories as an OPML file that can be impo
 msgstr "サブスクリプションとカテゴリを、他のフィード読み取りサービスにインポートできる OPML ファイルとしてエクスポートします"
 
 #: src/components/content/add/Subscribe.tsx
+msgid "Feed name"
+msgstr "フィード名"
+
+#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
 msgstr "フィード URL"
 
-#: src/components/content/add/Subscribe.tsx
-msgid "Feed name"
-msgstr "フィード名"
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "file is required"
+msgstr "ファイルが必要です"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -337,17 +345,17 @@ msgstr "新しい API キーを生成する"
 msgid "Generated feed url"
 msgstr "生成されたフィード URL"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Go to the API documentation."
-msgstr "API ドキュメントに移動します。"
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
 msgstr "すべてのビューに移動"
 
-#: src/components/content/FeedEntryContextMenu.tsx
-msgid "Go to {0}"
-msgstr ""
+#: src/pages/app/AboutPage.tsx
+msgid "Go to the API documentation."
+msgstr "API ドキュメントに移動します。"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
@@ -523,19 +531,6 @@ msgstr "これ以上エントリはありません"
 msgid "Nothing found"
 msgstr "何も見つかりませんでした"
 
-#: src/pages/app/AddPage.tsx
-msgid "OPML"
-msgstr ""
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "OPML export"
-msgstr "OPML エクスポート"
-
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
-msgid "OPML file"
-msgstr "OPMLファイル"
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "古い順"
@@ -576,6 +571,19 @@ msgstr "前のエントリを開く"
 msgid "Open/close current entry"
 msgstr "現在のエントリを開く/閉じる"
 
+#: src/pages/app/AddPage.tsx
+msgid "OPML"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "OPML export"
+msgstr "OPML エクスポート"
+
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file"
+msgstr "OPMLファイル"
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "オーダー"
@@ -613,10 +621,6 @@ msgstr "位置"
 msgid "Profile"
 msgstr "プロフィール"
 
-#: src/pages/app/AboutPage.tsx
-msgid "REST API"
-msgstr ""
-
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "パスワードの回復"
@@ -629,6 +633,10 @@ msgstr "リフレッシュ"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "この CommaFeed インスタンスの登録は終了しています"
+
+#: src/pages/app/AboutPage.tsx
+msgid "REST API"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
@@ -733,13 +741,13 @@ msgstr "スター付き"
 msgid "Subscribe"
 msgstr "購読する"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Subscribe URL"
-msgstr "購読URL"
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
 msgstr "フィードを購読する"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Subscribe URL"
+msgstr "購読URL"
 
 #: src/components/Alert.tsx
 msgid "Success"
@@ -795,14 +803,14 @@ msgstr "スターを外す"
 msgid "Unsubscribe"
 msgstr "退会"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "User name"
+msgstr "ユーザー名"
+
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "ユーザー名またはメールアドレス"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "User name"
-msgstr "ユーザー名"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -818,12 +826,4 @@ msgstr "まだサブスクリプションがありません。"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "ファイルが必要です"
-
-#: src/components/content/add/CategorySelect.tsx
-msgid "{0} (in {1})"
 msgstr ""

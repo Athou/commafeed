@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/content/add/CategorySelect.tsx
+msgid "{0} (in {1})"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr ""
@@ -24,10 +28,6 @@ msgstr "<0>Ada akaun?</0><1>Log masuk!</1>"
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Perlukan akaun?</0><1>Daftar!</1>"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "API key"
-msgstr "Kunci API"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
@@ -74,6 +74,10 @@ msgstr "Fail opml ialah fail XML yang mengandungi URL suapan dan kategori. "
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr "Menganalisis suapan"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "API key"
+msgstr "Kunci API"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -195,16 +199,16 @@ msgstr ""
 msgid "Current password"
 msgstr "Kata laluan semasa"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom code"
+msgstr ""
+
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
 msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Custom code"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -215,14 +219,14 @@ msgstr "Tarikh dibuat"
 msgid "Delete"
 msgstr "Padam"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-msgid "Delete Category"
-msgstr "Padamkan Kategori"
-
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Padam akaun"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Delete Category"
+msgstr "Padamkan Kategori"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Delete user"
@@ -296,18 +300,22 @@ msgid "Export your subscriptions and categories as an OPML file that can be impo
 msgstr "Eksport langganan dan kategori anda sebagai fail OPML yang boleh diimport dalam perkhidmatan membaca suapan lain"
 
 #: src/components/content/add/Subscribe.tsx
+msgid "Feed name"
+msgstr "Nama suapan"
+
+#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
 msgstr "URL Suapan"
 
-#: src/components/content/add/Subscribe.tsx
-msgid "Feed name"
-msgstr "Nama suapan"
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "file is required"
+msgstr "fail diperlukan"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -337,17 +345,17 @@ msgstr "Jana kunci API baharu"
 msgid "Generated feed url"
 msgstr "Url suapan yang dijana"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Go to the API documentation."
-msgstr "Pergi ke dokumentasi API."
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
 msgstr "Pergi ke paparan Semua"
 
-#: src/components/content/FeedEntryContextMenu.tsx
-msgid "Go to {0}"
-msgstr ""
+#: src/pages/app/AboutPage.tsx
+msgid "Go to the API documentation."
+msgstr "Pergi ke dokumentasi API."
 
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
@@ -523,19 +531,6 @@ msgstr "Tiada lagi penyertaan"
 msgid "Nothing found"
 msgstr "Tiada apa-apa dijumpai"
 
-#: src/pages/app/AddPage.tsx
-msgid "OPML"
-msgstr ""
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "OPML export"
-msgstr "OPML eksport"
-
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
-msgid "OPML file"
-msgstr "Fail OPML"
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Tertua dahulu"
@@ -576,6 +571,19 @@ msgstr "Buka entri sebelumnya"
 msgid "Open/close current entry"
 msgstr "Buka/tutup entri semasa"
 
+#: src/pages/app/AddPage.tsx
+msgid "OPML"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "OPML export"
+msgstr "OPML eksport"
+
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file"
+msgstr "Fail OPML"
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "Perintah"
@@ -613,10 +621,6 @@ msgstr "Kedudukan"
 msgid "Profile"
 msgstr "Profil"
 
-#: src/pages/app/AboutPage.tsx
-msgid "REST API"
-msgstr "REHAT API"
-
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Pulihkan kata laluan"
@@ -629,6 +633,10 @@ msgstr "Muat semula"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Pendaftaran ditutup pada contoh CommaFeed ini"
+
+#: src/pages/app/AboutPage.tsx
+msgid "REST API"
+msgstr "REHAT API"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
@@ -733,13 +741,13 @@ msgstr "Dibintangi"
 msgid "Subscribe"
 msgstr "Langgan"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Subscribe URL"
-msgstr "Langgan URL"
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
 msgstr "Langgan suapan"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Subscribe URL"
+msgstr "Langgan URL"
 
 #: src/components/Alert.tsx
 msgid "Success"
@@ -795,14 +803,14 @@ msgstr "Nyahbintang"
 msgid "Unsubscribe"
 msgstr "Nyahlanggan"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "User name"
+msgstr "Nama pengguna"
+
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Nama Pengguna atau E-mel"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "User name"
-msgstr "Nama pengguna"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -818,12 +826,4 @@ msgstr "Anda belum mempunyai sebarang langganan lagi. "
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "fail diperlukan"
-
-#: src/components/content/add/CategorySelect.tsx
-msgid "{0} (in {1})"
 msgstr ""

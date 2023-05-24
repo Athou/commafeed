@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/content/add/CategorySelect.tsx
+msgid "{0} (in {1})"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr ""
@@ -24,10 +28,6 @@ msgstr "<0>Onko sinulla tili?</0><1>Kirjaudu sisään!</1>"
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Tarvitsetko tilin?</0><1>Rekisteröidy!</1>"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "API key"
-msgstr "API-avain"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
@@ -74,6 +74,10 @@ msgstr "Opml-tiedosto on XML-tiedosto, joka sisältää syötteen URL-osoitteet 
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr "Analysoi syöte"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "API key"
+msgstr "API-avain"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -195,16 +199,16 @@ msgstr ""
 msgid "Current password"
 msgstr "Nykyinen salasana"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom code"
+msgstr ""
+
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
 msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Custom code"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -215,14 +219,14 @@ msgstr "Luontipäivämäärä"
 msgid "Delete"
 msgstr "Poista"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-msgid "Delete Category"
-msgstr "Poista luokka"
-
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Poista tili"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Delete Category"
+msgstr "Poista luokka"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Delete user"
@@ -296,18 +300,22 @@ msgid "Export your subscriptions and categories as an OPML file that can be impo
 msgstr "Vie tilauksesi ja luokat OPML-tiedostona, joka voidaan tuoda muihin syötteiden lukupalveluihin"
 
 #: src/components/content/add/Subscribe.tsx
+msgid "Feed name"
+msgstr "Syötteen nimi"
+
+#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
 msgstr "Syötteen URL-osoite"
 
-#: src/components/content/add/Subscribe.tsx
-msgid "Feed name"
-msgstr "Syötteen nimi"
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "file is required"
+msgstr "tiedosto vaaditaan"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -337,17 +345,17 @@ msgstr "Luo uusi API-avain"
 msgid "Generated feed url"
 msgstr "Luotu syötteen URL-osoite"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Go to the API documentation."
-msgstr "Siirry API-dokumentaatioon."
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
 msgstr "Siirry Kaikki-näkymään"
 
-#: src/components/content/FeedEntryContextMenu.tsx
-msgid "Go to {0}"
-msgstr ""
+#: src/pages/app/AboutPage.tsx
+msgid "Go to the API documentation."
+msgstr "Siirry API-dokumentaatioon."
 
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
@@ -523,19 +531,6 @@ msgstr "Ei enää merkintöjä"
 msgid "Nothing found"
 msgstr "Mitään ei löytynyt"
 
-#: src/pages/app/AddPage.tsx
-msgid "OPML"
-msgstr ""
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "OPML export"
-msgstr "OPML-vienti"
-
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
-msgid "OPML file"
-msgstr "OPML-tiedosto"
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Vanhin ensin"
@@ -576,6 +571,19 @@ msgstr "Avaa edellinen merkintä"
 msgid "Open/close current entry"
 msgstr "Avaa/sulje nykyinen merkintä"
 
+#: src/pages/app/AddPage.tsx
+msgid "OPML"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "OPML export"
+msgstr "OPML-vienti"
+
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file"
+msgstr "OPML-tiedosto"
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "Tilaus"
@@ -613,10 +621,6 @@ msgstr "Sijainti"
 msgid "Profile"
 msgstr "Profiili"
 
-#: src/pages/app/AboutPage.tsx
-msgid "REST API"
-msgstr ""
-
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Palauta salasana"
@@ -629,6 +633,10 @@ msgstr "Päivitä"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Tämän CommaFeed-esiintymän rekisteröinnit on suljettu"
+
+#: src/pages/app/AboutPage.tsx
+msgid "REST API"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
@@ -733,13 +741,13 @@ msgstr "Tähdellä merkitty"
 msgid "Subscribe"
 msgstr "Tilaa"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Subscribe URL"
-msgstr "Tilaa URL-osoite"
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
 msgstr "Tilaa syöte"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Subscribe URL"
+msgstr "Tilaa URL-osoite"
 
 #: src/components/Alert.tsx
 msgid "Success"
@@ -795,14 +803,14 @@ msgstr "Poista tähti"
 msgid "Unsubscribe"
 msgstr "Peruuta tilaus"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "User name"
+msgstr "Käyttäjänimi"
+
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Käyttäjänimi tai sähköpostiosoite"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "User name"
-msgstr "Käyttäjänimi"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -818,12 +826,4 @@ msgstr "Sinulla ei ole vielä tilauksia. "
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "tiedosto vaaditaan"
-
-#: src/components/content/add/CategorySelect.tsx
-msgid "{0} (in {1})"
 msgstr ""

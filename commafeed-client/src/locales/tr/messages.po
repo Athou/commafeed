@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/content/add/CategorySelect.tsx
+msgid "{0} (in {1})"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr ""
@@ -24,10 +28,6 @@ msgstr "<0>Hesabınız var mı?</0><1>Giriş yapın!</1>"
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Bir hesaba mı ihtiyacınız var?</0><1>Kaydolun!</1>"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "API key"
-msgstr "API anahtarı"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
@@ -74,6 +74,10 @@ msgstr "Bir opml dosyası, besleme URL'lerini ve kategorilerini içeren bir XML 
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr "Feed'i analiz et"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "API key"
+msgstr "API anahtarı"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -195,16 +199,16 @@ msgstr ""
 msgid "Current password"
 msgstr "Geçerli şifre"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom code"
+msgstr ""
+
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
 msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Custom code"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -215,14 +219,14 @@ msgstr "Oluşturulma tarihi"
 msgid "Delete"
 msgstr "Sil"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-msgid "Delete Category"
-msgstr "Kategoriyi Sil"
-
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Hesabı sil"
+
+#: src/pages/app/CategoryDetailsPage.tsx
+msgid "Delete Category"
+msgstr "Kategoriyi Sil"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Delete user"
@@ -296,18 +300,22 @@ msgid "Export your subscriptions and categories as an OPML file that can be impo
 msgstr "Aboneliklerinizi ve kategorilerinizi diğer besleme okuma hizmetlerinde içe aktarılabilen bir OPML dosyası olarak dışa aktarın"
 
 #: src/components/content/add/Subscribe.tsx
+msgid "Feed name"
+msgstr "Yayın adı"
+
+#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
 msgstr "Feed URL'si"
 
-#: src/components/content/add/Subscribe.tsx
-msgid "Feed name"
-msgstr "Yayın adı"
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr ""
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "file is required"
+msgstr "dosya gerekli"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -337,17 +345,17 @@ msgstr "Yeni API anahtarı oluştur"
 msgid "Generated feed url"
 msgstr "Oluşturulan besleme url'si"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Go to the API documentation."
-msgstr "API belgelerine gidin."
+#: src/components/content/FeedEntryContextMenu.tsx
+msgid "Go to {0}"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
 msgstr "Tümü görünümüne git"
 
-#: src/components/content/FeedEntryContextMenu.tsx
-msgid "Go to {0}"
-msgstr ""
+#: src/pages/app/AboutPage.tsx
+msgid "Go to the API documentation."
+msgstr "API belgelerine gidin."
 
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
@@ -523,19 +531,6 @@ msgstr "Başka giriş yok"
 msgid "Nothing found"
 msgstr "Hiçbir şey bulunamadı"
 
-#: src/pages/app/AddPage.tsx
-msgid "OPML"
-msgstr ""
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "OPML export"
-msgstr "OPML dışa aktarma"
-
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
-msgid "OPML file"
-msgstr "OPML dosyası"
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Önce en eski"
@@ -576,6 +571,19 @@ msgstr "Önceki girişi aç"
 msgid "Open/close current entry"
 msgstr "Geçerli girişi aç/kapat"
 
+#: src/pages/app/AddPage.tsx
+msgid "OPML"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "OPML export"
+msgstr "OPML dışa aktarma"
+
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file"
+msgstr "OPML dosyası"
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "Sipariş"
@@ -613,10 +621,6 @@ msgstr "Konum"
 msgid "Profile"
 msgstr "Profil"
 
-#: src/pages/app/AboutPage.tsx
-msgid "REST API"
-msgstr ""
-
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Şifreyi kurtar"
@@ -629,6 +633,10 @@ msgstr "Yenile"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Bu CommaFeed örneğinde kayıtlar kapalı"
+
+#: src/pages/app/AboutPage.tsx
+msgid "REST API"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
@@ -733,13 +741,13 @@ msgstr "Yıldızlı"
 msgid "Subscribe"
 msgstr "Abone ol"
 
-#: src/pages/app/AboutPage.tsx
-msgid "Subscribe URL"
-msgstr "Abone URL'si"
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
 msgstr "beslemeye abone olun"
+
+#: src/pages/app/AboutPage.tsx
+msgid "Subscribe URL"
+msgstr "Abone URL'si"
 
 #: src/components/Alert.tsx
 msgid "Success"
@@ -795,14 +803,14 @@ msgstr "Yıldızı kaldır"
 msgid "Unsubscribe"
 msgstr "Aboneliği iptal et"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "User name"
+msgstr "Kullanıcı adı"
+
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Kullanıcı Adı veya E-posta"
-
-#: src/components/settings/ProfileSettings.tsx
-msgid "User name"
-msgstr "Kullanıcı adı"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -818,12 +826,4 @@ msgstr "Henüz aboneliğiniz yok. "
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "dosya gerekli"
-
-#: src/components/content/add/CategorySelect.tsx
-msgid "{0} (in {1})"
 msgstr ""

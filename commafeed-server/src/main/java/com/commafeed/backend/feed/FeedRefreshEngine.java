@@ -119,14 +119,24 @@ public class FeedRefreshEngine implements Managed {
 	}
 
 	public void refreshImmediately(Feed feed) {
+		// remove the feed from the queue if it was already queued to avoid refreshing it twice
+		queue.removeIf(f -> f.getId().equals(feed.getId()));
 		queue.addFirst(feed);
 	}
 
 	private void refillQueueAsync() {
 		CompletableFuture.runAsync(() -> {
-			if (queue.isEmpty()) {
-				refill.mark();
-				queue.addAll(getNextUpdatableFeeds(getBatchSize()));
+			if (!queue.isEmpty()) {
+				return;
+			}
+
+			refill.mark();
+
+			for (Feed feed : getNextUpdatableFeeds(getBatchSize())) {
+				// add the feed only if it was not already queued
+				if (queue.stream().noneMatch(f -> f.getId().equals(feed.getId()))) {
+					queue.addLast(feed);
+				}
 			}
 		}, refillExecutor).whenComplete((data, ex) -> {
 			if (ex != null) {

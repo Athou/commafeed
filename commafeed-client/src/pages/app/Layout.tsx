@@ -8,7 +8,6 @@ import {
     DEFAULT_THEME,
     Group,
     Header,
-    Loader,
     Navbar,
     ScrollArea,
     Title,
@@ -20,6 +19,7 @@ import { redirectToAdd, redirectToRootCategory } from "app/slices/redirect"
 import { reloadTree, setMobileMenuOpen } from "app/slices/tree"
 import { reloadProfile, reloadSettings, reloadTags } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
+import { Loader } from "components/Loader"
 import { Logo } from "components/Logo"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import { OnMobile } from "components/responsive/OnMobile"

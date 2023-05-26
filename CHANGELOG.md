@@ -1,10 +1,20 @@
 # Changelog
 
+## [3.4.0]
+
+- add support for arm64 docker images
+- add divider to visually separate read-only information from form on the profile settings page
+- reduce javascript bundle size by 30% by loading only the necessary translations
+- add a standalone donate page with all ways to support CommaFeed
+- fix an issue introduced in 3.1.0 that could make CommaFeed not refresh feeds as fast as before on instances with lots of feeds
+- fix alignment of icon with text for category tree nodes
+- fix alignment of burger button with the rest of the header on mobile
+
 ## [3.3.2]
 
 - restore entry selection indicator (left orange border) that was lost with the mantine 6.x upgrade (3.3.0)
 - add dividers to visually separate read-only information from forms on feed and category details pages
-- reduced js bundle size by 10%
+- reduced javascript bundle size by 10%
 
 ## [3.3.1]
 

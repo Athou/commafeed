@@ -2,13 +2,14 @@ import { Trans } from "@lingui/macro"
 import { Box, Divider, Group, Menu, SegmentedControl, SegmentedControlItem, useMantineColorScheme } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import { client } from "app/client"
-import { redirectToAbout, redirectToAdminUsers, redirectToMetrics, redirectToSettings } from "app/slices/redirect"
+import { redirectToAbout, redirectToAdminUsers, redirectToDonate, redirectToMetrics, redirectToSettings } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { ViewMode } from "app/types"
 import { useViewMode } from "hooks/useViewMode"
 import { useState } from "react"
 import {
     TbChartLine,
+    TbHeartFilled,
     TbHelp,
     TbLayoutList,
     TbList,
@@ -123,6 +124,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 </Menu.Item>
 
                 <Divider />
+
                 <Menu.Label>
                     <Trans>Theme</Trans>
                 </Menu.Label>
@@ -131,6 +133,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 </Menu.Item>
 
                 <Divider />
+
                 <Menu.Label>
                     <Trans>Display</Trans>
                 </Menu.Label>
@@ -171,6 +174,17 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 )}
 
                 <Divider />
+
+                <Menu.Item
+                    icon={<TbHeartFilled size={iconSize} color="red" />}
+                    onClick={() => {
+                        dispatch(redirectToDonate())
+                        setOpened(false)
+                    }}
+                >
+                    <Trans>Donate</Trans>
+                </Menu.Item>
+
                 <Menu.Item
                     icon={<TbHelp size={iconSize} />}
                     onClick={() => {

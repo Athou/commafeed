@@ -18,6 +18,7 @@ import { MetricsPage } from "pages/admin/MetricsPage"
 import { AboutPage } from "pages/app/AboutPage"
 import { AddPage } from "pages/app/AddPage"
 import { CategoryDetailsPage } from "pages/app/CategoryDetailsPage"
+import { DonatePage } from "pages/app/DonatePage"
 import { FeedDetailsPage } from "pages/app/FeedDetailsPage"
 import { FeedEntriesPage } from "pages/app/FeedEntriesPage"
 import Layout from "pages/app/Layout"
@@ -91,6 +92,7 @@ function AppRoutes() {
                     <Route path="metrics" element={<MetricsPage />} />
                 </Route>
                 <Route path="about" element={<AboutPage />} />
+                <Route path="donate" element={<DonatePage />} />
                 <Route path="api" element={<ApiDocumentationPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />

@@ -25,6 +25,10 @@ msgstr ""
 msgid "<0>Have an account?</0><1>Log in!</1>"
 msgstr "<0>Teniu un compte?</0><1>Inicieu la sessió!</1>"
 
+#: src/pages/app/DonatePage.tsx
+msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Necessites un compte?</0><1>Registreu-vos!</1>"
@@ -245,6 +249,11 @@ msgstr ""
 msgid "Display"
 msgstr "Mostra"
 
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/app/DonatePage.tsx
+msgid "Donate"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
 msgstr "Descarrega"
@@ -321,10 +330,6 @@ msgstr "el fitxer és necessari"
 msgid "Filtering expression"
 msgstr "Expressió de filtratge"
 
-#: src/pages/app/AboutPage.tsx
-msgid "For those of you who prefer bitcoin, here is the address: {bitcoinAddress}"
-msgstr ""
-
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
 msgstr "Heu oblidat la contrasenya?"
@@ -372,10 +377,6 @@ msgstr "Si no està buida, una expressió que s'avalua com a \"vertader\" o \"fa
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
 msgstr "Si trobeu un problema, informeu-lo a la pàgina de problemes del projecte GitHub."
-
-#: src/pages/app/AboutPage.tsx
-msgid "If you like this project, please consider a donation to support the developer and help cover the costs of keeping this website online."
-msgstr "Si t'agrada aquest projecte, considera una donació per donar suport al desenvolupador i ajudar a cobrir els costos de mantenir aquest lloc web en línia."
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "Import"

@@ -25,6 +25,10 @@ msgstr ""
 msgid "<0>Have an account?</0><1>Log in!</1>"
 msgstr "<0>Máte účet?</0><1>Přihlaste se!</1>"
 
+#: src/pages/app/DonatePage.tsx
+msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Potřebujete účet?</0><1>Zaregistrujte se!</1>"
@@ -245,6 +249,11 @@ msgstr ""
 msgid "Display"
 msgstr "Displej"
 
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/app/DonatePage.tsx
+msgid "Donate"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
 msgstr "Stáhnout"
@@ -321,10 +330,6 @@ msgstr ""
 msgid "Filtering expression"
 msgstr "Filtrování výrazu"
 
-#: src/pages/app/AboutPage.tsx
-msgid "For those of you who prefer bitcoin, here is the address: {bitcoinAddress}"
-msgstr ""
-
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
 msgstr "Zapomněli jste heslo?"
@@ -372,10 +377,6 @@ msgstr "Pokud není prázdný, výraz vyhodnocený jako 'true' nebo 'false'. "
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
 msgstr "Pokud narazíte na problém, nahlaste jej prosím na stránce problémů projektu GitHub."
-
-#: src/pages/app/AboutPage.tsx
-msgid "If you like this project, please consider a donation to support the developer and help cover the costs of keeping this website online."
-msgstr "Pokud se vám tento projekt líbí, zvažte prosím dar na podporu vývojáře a pomozte pokrýt náklady na udržování tohoto webu online."
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "Import"

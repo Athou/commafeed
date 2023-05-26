@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro"
-import { Anchor, Box, Center, Code, Container, createStyles, List, NativeSelect, SimpleGrid, Title } from "@mantine/core"
+import { Anchor, Box, Container, createStyles, List, NativeSelect, SimpleGrid, Title } from "@mantine/core"
 import { Constants } from "app/constants"
 import { redirectToApiDocumentation } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -57,8 +57,6 @@ function NextUnreadBookmarklet() {
     )
 }
 
-const bitcoinAddress = <Code>{Constants.bitcoinWalletAddress}</Code>
-
 export function AboutPage() {
     const version = useAppSelector(state => state.server.serverInfos?.version)
     const revision = useAppSelector(state => state.server.serverInfos?.gitCommit)
@@ -83,41 +81,6 @@ export function AboutPage() {
                     </Box>
                     <Box>
                         <Trans>If you encounter an issue, please report it on the issues page of the GitHub project.</Trans>
-                    </Box>
-
-                    <Box mt="md">
-                        <Trans>
-                            If you like this project, please consider a donation to support the developer and help cover the costs of
-                            keeping this website online.
-                        </Trans>
-
-                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-                            <input type="hidden" name="cmd" value="_donations" />
-                            <input type="hidden" name="business" value="9CNQHMJG2ZJVY" />
-                            <input type="hidden" name="lc" value="US" />
-                            <input type="hidden" name="item_name" value="CommaFeed" />
-                            <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted" />
-                            <input type="hidden" name="currency_code" value="USD" />
-                            <Center mt="md">
-                                <Box mr="md">
-                                    <input
-                                        type="image"
-                                        src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif"
-                                        name="submit"
-                                        alt="PayPal - The safer, easier way to pay online!"
-                                    />
-                                </Box>
-                                <Box>
-                                    <select name="currency_code">
-                                        <option value="EUR">Euro</option>
-                                        <option value="USD">US Dollars</option>
-                                    </select>
-                                </Box>
-                            </Center>
-                        </form>
-                    </Box>
-                    <Box mt="xs">
-                        <Trans>For those of you who prefer bitcoin, here is the address: {bitcoinAddress}</Trans>
                     </Box>
                 </Section>
                 <Section title={<Trans>Goodies</Trans>} icon={<TbPuzzle size={24} />}>

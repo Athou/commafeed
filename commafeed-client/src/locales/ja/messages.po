@@ -25,6 +25,10 @@ msgstr ""
 msgid "<0>Have an account?</0><1>Log in!</1>"
 msgstr "<0>アカウントをお持ちですか?</0><1>ログインしてください!</1>"
 
+#: src/pages/app/DonatePage.tsx
+msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>アカウントが必要ですか?</0><1>サインアップ!</1>"
@@ -245,6 +249,11 @@ msgstr ""
 msgid "Display"
 msgstr "ディスプレイ"
 
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/app/DonatePage.tsx
+msgid "Donate"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
 msgstr "ダウンロード"
@@ -321,10 +330,6 @@ msgstr "ファイルが必要です"
 msgid "Filtering expression"
 msgstr "フィルタリング式"
 
-#: src/pages/app/AboutPage.tsx
-msgid "For those of you who prefer bitcoin, here is the address: {bitcoinAddress}"
-msgstr ""
-
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
 msgstr "パスワードをお忘れですか?"
@@ -372,10 +377,6 @@ msgstr "空でない場合は、'true' または 'false' に評価される式�
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
 msgstr "問題が発生した場合は、GitHub プロジェクトの問題ページで報告してください。"
-
-#: src/pages/app/AboutPage.tsx
-msgid "If you like this project, please consider a donation to support the developer and help cover the costs of keeping this website online."
-msgstr "このプロジェクトが気に入った場合は、開発者をサポートし、この Web サイトをオンラインに維持するための費用を賄うための寄付を検討してください。"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "Import"

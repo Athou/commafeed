@@ -25,6 +25,10 @@ msgstr ""
 msgid "<0>Have an account?</0><1>Log in!</1>"
 msgstr "<0>حساب دارید؟</0><1>وارد سیستم شوید!</1>"
 
+#: src/pages/app/DonatePage.tsx
+msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>به یک حساب نیاز دارید؟</0><1>ثبت نام کنید!</1>"
@@ -245,6 +249,11 @@ msgstr ""
 msgid "Display"
 msgstr "نمایش"
 
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/app/DonatePage.tsx
+msgid "Donate"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
 msgstr "دانلود"
@@ -321,10 +330,6 @@ msgstr "فایل مورد نیاز است"
 msgid "Filtering expression"
 msgstr "بیان فیلتر"
 
-#: src/pages/app/AboutPage.tsx
-msgid "For those of you who prefer bitcoin, here is the address: {bitcoinAddress}"
-msgstr ""
-
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
 msgstr "رمز عبور را فراموش کرده اید؟"
@@ -372,10 +377,6 @@ msgstr "اگر خالی نباشد، عبارتی به \"درست\" یا \"نا�
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
 msgstr "اگر با مشکلی مواجه شدید، لطفاً آن را در صفحه مشکلات پروژه GitHub گزارش دهید."
-
-#: src/pages/app/AboutPage.tsx
-msgid "If you like this project, please consider a donation to support the developer and help cover the costs of keeping this website online."
-msgstr "اگر این پروژه را دوست دارید، لطفاً کمک مالی برای حمایت از توسعه دهنده و کمک به پوشش هزینه های آنلاین نگه داشتن این وب سایت در نظر بگیرید."
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "Import"

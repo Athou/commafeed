@@ -13,7 +13,13 @@ export const redirectToRegistration = createAsyncThunk("redirect/register", (_, 
 export const redirectToPasswordRecovery = createAsyncThunk("redirect/passwordRecovery", (_, thunkApi) =>
     thunkApi.dispatch(redirectTo("/passwordRecovery"))
 )
-export const redirectToSelectedSource = createAsyncThunk<void, void, { state: RootState }>("redirect/selectedSource", (_, thunkApi) => {
+export const redirectToSelectedSource = createAsyncThunk<
+    void,
+    void,
+    {
+        state: RootState
+    }
+>("redirect/selectedSource", (_, thunkApi) => {
     const { source } = thunkApi.getState().entries
     thunkApi.dispatch(redirectTo(`/app/${source.type}/${source.id}`))
 })
@@ -44,6 +50,7 @@ export const redirectToAdminUsers = createAsyncThunk("redirect/admin/users", (_,
 export const redirectToMetrics = createAsyncThunk("redirect/admin/metrics", (_, thunkApi) =>
     thunkApi.dispatch(redirectTo("/app/admin/metrics"))
 )
+export const redirectToDonate = createAsyncThunk("redirect/donate", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/donate")))
 export const redirectToAbout = createAsyncThunk("redirect/about", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/about")))
 export const redirectToApiDocumentation = createAsyncThunk("redirect/api", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/api")))
 

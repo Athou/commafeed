@@ -1,6 +1,7 @@
-import { Accordion, Tabs } from "@mantine/core"
+import { Accordion, Box, Tabs } from "@mantine/core"
 import { client } from "app/client"
 import { Loader } from "components/Loader"
+import { Gauge } from "components/metrics/Gauge"
 import { Meter } from "components/metrics/Meter"
 import { MetricAccordionItem } from "components/metrics/MetricAccordionItem"
 import { Timer } from "components/metrics/Timer"
@@ -15,11 +16,17 @@ const shownMeters: { [key: string]: string } = {
     "com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheMiss": "Entry cache miss rate",
 }
 
+const shownGauges: { [key: string]: string } = {
+    "com.commafeed.backend.feed.FeedRefreshEngine.queue.size": "Queue size",
+    "com.commafeed.backend.feed.FeedRefreshEngine.worker.active": "Feed Worker active",
+    "com.commafeed.backend.feed.FeedRefreshEngine.updater.active": "Feed Updater active",
+}
+
 export function MetricsPage() {
     const query = useAsync(() => client.admin.getMetrics(), [])
 
     if (!query.result) return <Loader />
-    const { meters, timers } = query.result.data
+    const { meters, gauges, timers } = query.result.data
     return (
         <Tabs defaultValue="stats">
             <Tabs.List>
@@ -39,6 +46,15 @@ export function MetricsPage() {
                         </MetricAccordionItem>
                     ))}
                 </Accordion>
+
+                <Box pt="xs">
+                    {Object.keys(shownGauges).map(g => (
+                        <Box key={g}>
+                            <span>{shownGauges[g]}&nbsp;</span>
+                            <Gauge gauge={gauges[g]} />
+                        </Box>
+                    ))}
+                </Box>
             </Tabs.Panel>
 
             <Tabs.Panel value="timers" pt="xs">

@@ -18,6 +18,7 @@ import javax.inject.Singleton;
 import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.SessionFactory;
 
+import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
@@ -45,8 +46,8 @@ public class FeedRefreshEngine implements Managed {
 	private final ExecutorService feedProcessingLoopExecutor;
 	private final ExecutorService refillLoopExecutor;
 	private final ExecutorService refillExecutor;
-	private final ExecutorService workerExecutor;
-	private final ExecutorService databaseUpdaterExecutor;
+	private final ThreadPoolExecutor workerExecutor;
+	private final ThreadPoolExecutor databaseUpdaterExecutor;
 
 	@Inject
 	public FeedRefreshEngine(SessionFactory sessionFactory, FeedDAO feedDAO, FeedRefreshWorker worker, FeedRefreshUpdater updater,
@@ -65,6 +66,10 @@ public class FeedRefreshEngine implements Managed {
 		this.refillExecutor = newDiscardingSingleThreadExecutorService();
 		this.workerExecutor = newBlockingExecutorService(config.getApplicationSettings().getBackgroundThreads());
 		this.databaseUpdaterExecutor = newBlockingExecutorService(config.getApplicationSettings().getDatabaseUpdateThreads());
+
+		metrics.register(MetricRegistry.name(getClass(), "queue", "size"), (Gauge<Integer>) queue::size);
+		metrics.register(MetricRegistry.name(getClass(), "worker", "active"), (Gauge<Integer>) workerExecutor::getActiveCount);
+		metrics.register(MetricRegistry.name(getClass(), "updater", "active"), (Gauge<Integer>) databaseUpdaterExecutor::getActiveCount);
 	}
 
 	@Override
@@ -185,7 +190,7 @@ public class FeedRefreshEngine implements Managed {
 	/**
 	 * returns an ExecutorService with a single thread that discards tasks if a task is already running
 	 */
-	private ExecutorService newDiscardingSingleThreadExecutorService() {
+	private ThreadPoolExecutor newDiscardingSingleThreadExecutorService() {
 		ThreadPoolExecutor pool = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new SynchronousQueue<>());
 		pool.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());
 		return pool;
@@ -194,7 +199,7 @@ public class FeedRefreshEngine implements Managed {
 	/**
 	 * returns an ExecutorService that blocks submissions until a thread is available
 	 */
-	private ExecutorService newBlockingExecutorService(int threads) {
+	private ThreadPoolExecutor newBlockingExecutorService(int threads) {
 		ThreadPoolExecutor pool = new ThreadPoolExecutor(threads, threads, 0L, TimeUnit.MILLISECONDS, new SynchronousQueue<>());
 		pool.setRejectedExecutionHandler((r, e) -> {
 			if (e.isShutdown()) {

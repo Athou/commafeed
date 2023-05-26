@@ -80,6 +80,9 @@ export function ProfileSettings() {
                     <Input.Wrapper label={<Trans>User name</Trans>}>
                         <Box>{profile?.name}</Box>
                     </Input.Wrapper>
+
+                    <TextInput label={<Trans>API key</Trans>} readOnly value={profile?.apiKey} />
+
                     <Input.Wrapper
                         label={<Trans>OPML export</Trans>}
                         description={
@@ -94,6 +97,9 @@ export function ProfileSettings() {
                             </Anchor>
                         </Box>
                     </Input.Wrapper>
+
+                    <Divider />
+
                     <PasswordInput
                         label={<Trans>Current password</Trans>}
                         description={<Trans>Enter your current password to change profile settings</Trans>}
@@ -107,7 +113,6 @@ export function ProfileSettings() {
                         {...form.getInputProps("newPassword")}
                     />
                     <PasswordInput label={<Trans>Confirm password</Trans>} {...form.getInputProps("newPasswordConfirmation")} />
-                    <TextInput label={<Trans>API key</Trans>} readOnly value={profile?.apiKey} />
                     <Checkbox label={<Trans>Generate new API key</Trans>} {...form.getInputProps("newApiKey", { type: "checkbox" })} />
 
                     <Group>

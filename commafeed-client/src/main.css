@@ -1,0 +1,4 @@
+html, body {
+    /* disable pull-to-refresh on mobile as it messes with vertical scrolling */
+    overscroll-behavior: none;
+}

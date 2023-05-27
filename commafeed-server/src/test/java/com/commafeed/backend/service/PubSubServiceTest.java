@@ -1,7 +1,6 @@
 package com.commafeed.backend.service;
 
 import org.apache.http.HttpHeaders;
-import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +15,7 @@ import org.mockserver.model.HttpResponse;
 import org.mockserver.model.MediaType;
 
 import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.Feed;
 
 @ExtendWith(MockServerExtension.class)
@@ -28,7 +28,7 @@ class PubSubServiceTest {
 	private FeedService feedService;
 
 	@Mock(answer = Answers.RETURNS_DEEP_STUBS)
-	private SessionFactory sessionFactory;
+	private UnitOfWork unitOfWork;
 
 	@Mock
 	private Feed feed;
@@ -43,7 +43,7 @@ class PubSubServiceTest {
 		this.client = client;
 		this.client.reset();
 
-		this.underTest = new PubSubService(config, feedService, sessionFactory);
+		this.underTest = new PubSubService(config, feedService, unitOfWork);
 
 		Integer port = client.getPort();
 		String hubUrl = String.format("http://localhost:%s/hub", port);
@@ -72,7 +72,7 @@ class PubSubServiceTest {
 				.withMethod("POST")
 				.withPath("/hub"));
 		Mockito.verify(feed, Mockito.never()).setPushTopic(Mockito.anyString());
-		Mockito.verifyNoInteractions(feedService);
+		Mockito.verifyNoInteractions(unitOfWork);
 	}
 
 	@Test
@@ -86,7 +86,7 @@ class PubSubServiceTest {
 
 		// Assert
 		Mockito.verify(feed).setPushTopic(Mockito.anyString());
-		Mockito.verify(feedService).save(feed);
+		Mockito.verify(unitOfWork).run(Mockito.any());
 	}
 
 	@Test
@@ -99,7 +99,7 @@ class PubSubServiceTest {
 
 		// Assert
 		Mockito.verify(feed, Mockito.never()).setPushTopic(Mockito.anyString());
-		Mockito.verifyNoInteractions(feedService);
+		Mockito.verifyNoInteractions(unitOfWork);
 	}
 
 }

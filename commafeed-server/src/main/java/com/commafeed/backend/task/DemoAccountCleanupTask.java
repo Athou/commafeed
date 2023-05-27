@@ -5,8 +5,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.hibernate.SessionFactory;
-
 import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.UnitOfWork;
@@ -23,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DemoAccountCleanupTask extends ScheduledTask {
 
 	private final CommaFeedConfiguration config;
-	private final SessionFactory sessionFactory;
+	private final UnitOfWork unitOfWork;
 	private final UserDAO userDAO;
 	private final UserService userService;
 
@@ -34,7 +32,7 @@ public class DemoAccountCleanupTask extends ScheduledTask {
 		}
 
 		log.info("recreating demo user account");
-		UnitOfWork.run(sessionFactory, () -> {
+		unitOfWork.run(() -> {
 			User demoUser = userDAO.findByName(CommaFeedApplication.USERNAME_DEMO);
 			if (demoUser == null) {
 				return;

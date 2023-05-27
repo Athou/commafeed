@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 public class DatabaseStartupService implements Managed {
 
+	private final UnitOfWork unitOfWork;
 	private final SessionFactory sessionFactory;
 	private final UserDAO userDAO;
 	private final UserService userService;
@@ -35,9 +36,9 @@ public class DatabaseStartupService implements Managed {
 	@Override
 	public void start() {
 		updateSchema();
-		long count = UnitOfWork.call(sessionFactory, userDAO::count);
+		long count = unitOfWork.call(userDAO::count);
 		if (count == 0) {
-			UnitOfWork.run(sessionFactory, this::initialData);
+			unitOfWork.run(this::initialData);
 		}
 	}
 

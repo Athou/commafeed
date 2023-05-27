@@ -3,8 +3,7 @@ package com.commafeed.frontend.servlet;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.hibernate.SessionFactory;
-
+import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.UserSettings;
 
@@ -14,8 +13,8 @@ public class CustomJsServlet extends AbstractCustomCodeServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	public CustomJsServlet(SessionFactory sessionFactory, UserSettingsDAO userSettingsDAO) {
-		super(sessionFactory, userSettingsDAO);
+	public CustomJsServlet(UnitOfWork unitOfWork, UserSettingsDAO userSettingsDAO) {
+		super(unitOfWork, userSettingsDAO);
 	}
 
 	@Override

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.SessionFactory;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -39,7 +38,7 @@ public class NextUnreadServlet extends HttpServlet {
 	private static final String PARAM_CATEGORYID = "category";
 	private static final String PARAM_READINGORDER = "order";
 
-	private final SessionFactory sessionFactory;
+	private final UnitOfWork unitOfWork;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedCategoryDAO feedCategoryDAO;
@@ -54,7 +53,7 @@ public class NextUnreadServlet extends HttpServlet {
 		SessionHelper sessionHelper = new SessionHelper(req);
 		Optional<User> user = sessionHelper.getLoggedInUser();
 		if (user.isPresent()) {
-			UnitOfWork.run(sessionFactory, () -> userService.performPostLoginActivities(user.get()));
+			unitOfWork.run(() -> userService.performPostLoginActivities(user.get()));
 		}
 		if (!user.isPresent()) {
 			resp.sendRedirect(resp.encodeRedirectURL(config.getApplicationSettings().getPublicUrl()));
@@ -63,7 +62,7 @@ public class NextUnreadServlet extends HttpServlet {
 
 		final ReadingOrder order = StringUtils.equals(orderParam, "asc") ? ReadingOrder.asc : ReadingOrder.desc;
 
-		FeedEntryStatus status = UnitOfWork.call(sessionFactory, () -> {
+		FeedEntryStatus status = unitOfWork.call(() -> {
 			FeedEntryStatus s = null;
 			if (StringUtils.isBlank(categoryId) || CategoryREST.ALL.equals(categoryId)) {
 				List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user.get());

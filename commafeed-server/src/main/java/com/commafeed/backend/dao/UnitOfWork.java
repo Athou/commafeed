@@ -1,20 +1,29 @@
 package com.commafeed.backend.dao;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.context.internal.ManagedSessionContext;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Singleton
 public class UnitOfWork {
 
-	public static void run(SessionFactory sessionFactory, SessionRunner sessionRunner) {
-		call(sessionFactory, () -> {
+	private final SessionFactory sessionFactory;
+
+	public void run(SessionRunner sessionRunner) {
+		call(() -> {
 			sessionRunner.runInSession();
 			return null;
 		});
 	}
 
-	public static <T> T call(SessionFactory sessionFactory, SessionRunnerReturningValue<T> sessionRunner) {
+	public <T> T call(SessionRunnerReturningValue<T> sessionRunner) {
 		T t = null;
 
 		boolean sessionAlreadyBound = ManagedSessionContext.hasBind(sessionFactory);

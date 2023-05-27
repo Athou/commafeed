@@ -16,7 +16,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.commons.lang3.time.DateUtils;
-import org.hibernate.SessionFactory;
 
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Meter;
@@ -34,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 public class FeedRefreshEngine implements Managed {
 
-	private final SessionFactory sessionFactory;
+	private final UnitOfWork unitOfWork;
 	private final FeedDAO feedDAO;
 	private final FeedRefreshWorker worker;
 	private final FeedRefreshUpdater updater;
@@ -50,9 +49,9 @@ public class FeedRefreshEngine implements Managed {
 	private final ThreadPoolExecutor databaseUpdaterExecutor;
 
 	@Inject
-	public FeedRefreshEngine(SessionFactory sessionFactory, FeedDAO feedDAO, FeedRefreshWorker worker, FeedRefreshUpdater updater,
+	public FeedRefreshEngine(UnitOfWork unitOfWork, FeedDAO feedDAO, FeedRefreshWorker worker, FeedRefreshUpdater updater,
 			CommaFeedConfiguration config, MetricRegistry metrics) {
-		this.sessionFactory = sessionFactory;
+		this.unitOfWork = unitOfWork;
 		this.feedDAO = feedDAO;
 		this.worker = worker;
 		this.updater = updater;
@@ -161,7 +160,7 @@ public class FeedRefreshEngine implements Managed {
 	}
 
 	private List<Feed> getNextUpdatableFeeds(int max) {
-		return UnitOfWork.call(sessionFactory, () -> {
+		return unitOfWork.call(() -> {
 			List<Feed> feeds = feedDAO.findNextUpdatable(max);
 			// update disabledUntil to prevent feeds from being returned again by feedDAO.findNextUpdatable()
 			Date nextUpdateDate = DateUtils.addMinutes(new Date(), config.getApplicationSettings().getRefreshIntervalMinutes());

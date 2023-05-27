@@ -15,7 +15,6 @@ import javax.inject.Singleton;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.hibernate.SessionFactory;
 
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
@@ -46,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 public class FeedRefreshUpdater implements Managed {
 
-	private final SessionFactory sessionFactory;
+	private final UnitOfWork unitOfWork;
 	private final FeedService feedService;
 	private final FeedEntryService feedEntryService;
 	private final PubSubService pubSubService;
@@ -63,10 +62,10 @@ public class FeedRefreshUpdater implements Managed {
 	private final Meter entryInserted;
 
 	@Inject
-	public FeedRefreshUpdater(SessionFactory sessionFactory, FeedService feedService, FeedEntryService feedEntryService,
+	public FeedRefreshUpdater(UnitOfWork unitOfWork, FeedService feedService, FeedEntryService feedEntryService,
 			PubSubService pubSubService, CommaFeedConfiguration config, MetricRegistry metrics, FeedSubscriptionDAO feedSubscriptionDAO,
 			CacheService cache, WebSocketSessions webSocketSessions) {
-		this.sessionFactory = sessionFactory;
+		this.unitOfWork = unitOfWork;
 		this.feedService = feedService;
 		this.feedEntryService = feedEntryService;
 		this.pubSubService = pubSubService;
@@ -107,7 +106,7 @@ public class FeedRefreshUpdater implements Managed {
 			locked2 = lock2.tryLock(1, TimeUnit.MINUTES);
 			if (locked1 && locked2) {
 				processed = true;
-				inserted = UnitOfWork.call(sessionFactory, () -> feedEntryService.addEntry(feed, entry, subscriptions));
+				inserted = unitOfWork.call(() -> feedEntryService.addEntry(feed, entry, subscriptions));
 				if (inserted) {
 					entryInserted.mark();
 				}
@@ -164,7 +163,7 @@ public class FeedRefreshUpdater implements Managed {
 				if (!lastEntries.contains(cacheKey)) {
 					log.debug("cache miss for {}", entry.getUrl());
 					if (subscriptions == null) {
-						subscriptions = UnitOfWork.call(sessionFactory, () -> feedSubscriptionDAO.findByFeed(feed));
+						subscriptions = unitOfWork.call(() -> feedSubscriptionDAO.findByFeed(feed));
 					}
 					AddEntryResult addEntryResult = addEntry(feed, entry, subscriptions);
 					processed &= addEntryResult.processed;
@@ -204,7 +203,7 @@ public class FeedRefreshUpdater implements Managed {
 			feedUpdated.mark();
 		}
 
-		UnitOfWork.run(sessionFactory, () -> feedService.save(feed));
+		unitOfWork.run(() -> feedService.save(feed));
 
 		return processed;
 	}

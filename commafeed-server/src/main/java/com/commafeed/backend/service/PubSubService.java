@@ -17,7 +17,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.hibernate.SessionFactory;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.HttpGetter;
@@ -40,7 +39,7 @@ public class PubSubService {
 
 	private final CommaFeedConfiguration config;
 	private final FeedService feedService;
-	private final SessionFactory sessionFactory;
+	private final UnitOfWork unitOfWork;
 
 	public void subscribe(Feed feed) {
 		String hub = feed.getPushHub();
@@ -75,7 +74,7 @@ public class PubSubService {
 				if (code == 400 && StringUtils.contains(message, pushpressError)) {
 					String[] tokens = message.split(" ");
 					feed.setPushTopic(tokens[tokens.length - 1]);
-					UnitOfWork.run(sessionFactory, () -> feedService.save(feed));
+					unitOfWork.run(() -> feedService.save(feed));
 					log.debug("handled pushpress subfeed {} : {}", topic, feed.getPushTopic());
 				} else {
 					throw new Exception(

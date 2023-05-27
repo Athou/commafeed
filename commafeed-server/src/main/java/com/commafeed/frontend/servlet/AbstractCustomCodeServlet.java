@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.SessionFactory;
-
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
@@ -22,7 +20,7 @@ abstract class AbstractCustomCodeServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private final SessionFactory sessionFactory;
+	private final UnitOfWork unitOfWork;
 	private final UserSettingsDAO userSettingsDAO;
 
 	@Override
@@ -34,7 +32,7 @@ abstract class AbstractCustomCodeServlet extends HttpServlet {
 			return;
 		}
 
-		UserSettings settings = UnitOfWork.call(sessionFactory, () -> userSettingsDAO.findByUser(user.get()));
+		UserSettings settings = unitOfWork.call(() -> userSettingsDAO.findByUser(user.get()));
 		if (settings == null) {
 			return;
 		}

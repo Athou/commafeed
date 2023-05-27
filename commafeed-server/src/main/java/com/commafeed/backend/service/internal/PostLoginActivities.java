@@ -6,7 +6,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.commons.lang3.time.DateUtils;
-import org.hibernate.SessionFactory;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.UnitOfWork;
@@ -22,7 +21,7 @@ public class PostLoginActivities {
 
 	private final UserDAO userDAO;
 	private final FeedSubscriptionService feedSubscriptionService;
-	private final SessionFactory sessionFactory;
+	private final UnitOfWork unitOfWork;
 	private final CommaFeedConfiguration config;
 
 	public void executeFor(User user) {
@@ -49,7 +48,7 @@ public class PostLoginActivities {
 			// We update the user in a new transaction to update the user immediately.
 			// If we didn't and the webservice call takes time, subsequent webservice calls would have to wait for the first call to
 			// finish even if they didn't use the same database tables, because they updated the user too.
-			UnitOfWork.run(sessionFactory, () -> userDAO.saveOrUpdate(user));
+			unitOfWork.run(() -> userDAO.saveOrUpdate(user));
 		}
 	}
 

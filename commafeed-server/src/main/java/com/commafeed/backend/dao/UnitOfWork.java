@@ -15,39 +15,40 @@ public class UnitOfWork {
 	}
 
 	public static <T> T call(SessionFactory sessionFactory, SessionRunnerReturningValue<T> sessionRunner) {
-		final Session session = sessionFactory.openSession();
-		if (ManagedSessionContext.hasBind(sessionFactory)) {
-			throw new IllegalStateException("Already in a unit of work!");
-		}
 		T t = null;
-		try {
-			ManagedSessionContext.bind(session);
-			session.beginTransaction();
+
+		boolean sessionAlreadyBound = ManagedSessionContext.hasBind(sessionFactory);
+		try (Session session = sessionFactory.openSession()) {
+			if (!sessionAlreadyBound) {
+				ManagedSessionContext.bind(session);
+			}
+
+			Transaction tx = session.beginTransaction();
 			try {
 				t = sessionRunner.runInSession();
-				commitTransaction(session);
+				commitTransaction(tx);
 			} catch (Exception e) {
-				rollbackTransaction(session);
-				UnitOfWork.<RuntimeException> rethrow(e);
+				rollbackTransaction(tx);
+				UnitOfWork.rethrow(e);
 			}
 		} finally {
-			session.close();
-			ManagedSessionContext.unbind(sessionFactory);
+			if (!sessionAlreadyBound) {
+				ManagedSessionContext.unbind(sessionFactory);
+			}
 		}
+
 		return t;
 	}
 
-	private static void rollbackTransaction(Session session) {
-		final Transaction txn = session.getTransaction();
-		if (txn != null && txn.isActive()) {
-			txn.rollback();
+	private static void rollbackTransaction(Transaction tx) {
+		if (tx != null && tx.isActive()) {
+			tx.rollback();
 		}
 	}
 
-	private static void commitTransaction(Session session) {
-		final Transaction txn = session.getTransaction();
-		if (txn != null && txn.isActive()) {
-			txn.commit();
+	private static void commitTransaction(Transaction tx) {
+		if (tx != null && tx.isActive()) {
+			tx.commit();
 		}
 	}
 

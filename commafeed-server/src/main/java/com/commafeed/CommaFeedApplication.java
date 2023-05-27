@@ -123,6 +123,8 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 				factory.getProperties().put(AvailableSettings.STATEMENT_BATCH_SIZE, "50");
 				factory.getProperties().put(AvailableSettings.BATCH_VERSIONED_DATA, "true");
+				factory.getProperties().put(AvailableSettings.ORDER_INSERTS, "true");
+				factory.getProperties().put(AvailableSettings.ORDER_UPDATES, "true");
 				return factory;
 			}
 		});

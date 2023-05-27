@@ -162,7 +162,7 @@ public class FeedRefreshEngine implements Managed {
 
 	private List<Feed> getNextUpdatableFeeds(int max) {
 		return UnitOfWork.call(sessionFactory, () -> {
-			List<Feed> feeds = feedDAO.findNextUpdatable(max, getLastLoginThreshold());
+			List<Feed> feeds = feedDAO.findNextUpdatable(max);
 			// update disabledUntil to prevent feeds from being returned again by feedDAO.findNextUpdatable()
 			Date nextUpdateDate = DateUtils.addMinutes(new Date(), config.getApplicationSettings().getRefreshIntervalMinutes());
 			feedDAO.setDisabledUntil(feeds.stream().map(AbstractModel::getId).collect(Collectors.toList()), nextUpdateDate);
@@ -172,10 +172,6 @@ public class FeedRefreshEngine implements Managed {
 
 	private int getBatchSize() {
 		return Math.min(100, 3 * config.getApplicationSettings().getBackgroundThreads());
-	}
-
-	private Date getLastLoginThreshold() {
-		return Boolean.TRUE.equals(config.getApplicationSettings().getHeavyLoad()) ? DateUtils.addDays(new Date(), -30) : null;
 	}
 
 	@Override

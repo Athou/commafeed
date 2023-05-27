@@ -13,10 +13,8 @@ import org.hibernate.SessionFactory;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.QFeed;
 import com.commafeed.backend.model.QFeedSubscription;
-import com.commafeed.backend.model.QUser;
 import com.google.common.collect.Iterables;
 import com.querydsl.jpa.JPAExpressions;
-import com.querydsl.jpa.JPQLQuery;
 
 @Singleton
 public class FeedDAO extends GenericDAO<Feed> {
@@ -28,18 +26,12 @@ public class FeedDAO extends GenericDAO<Feed> {
 		super(sessionFactory);
 	}
 
-	public List<Feed> findNextUpdatable(int count, Date lastLoginThreshold) {
-		JPQLQuery<Feed> query = query().selectFrom(feed);
-		query.where(feed.disabledUntil.isNull().or(feed.disabledUntil.lt(new Date())));
-
-		if (lastLoginThreshold != null) {
-			QFeedSubscription subs = QFeedSubscription.feedSubscription;
-			QUser user = QUser.user;
-
-			query.join(subs).on(subs.feed.id.eq(feed.id)).join(subs.user, user).where(user.lastLogin.gt(lastLoginThreshold));
-		}
-
-		return query.orderBy(feed.disabledUntil.asc()).limit(count).fetch();
+	public List<Feed> findNextUpdatable(int count) {
+		return query().selectFrom(feed)
+				.where(feed.disabledUntil.isNull().or(feed.disabledUntil.lt(new Date())))
+				.orderBy(feed.disabledUntil.asc())
+				.limit(count)
+				.fetch();
 	}
 
 	public void setDisabledUntil(List<Long> feedIds, Date date) {

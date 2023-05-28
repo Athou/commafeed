@@ -13,6 +13,8 @@ export const redirectToRegistration = createAsyncThunk("redirect/register", (_, 
 export const redirectToPasswordRecovery = createAsyncThunk("redirect/passwordRecovery", (_, thunkApi) =>
     thunkApi.dispatch(redirectTo("/passwordRecovery"))
 )
+export const redirectToApiDocumentation = createAsyncThunk("redirect/api", (_, thunkApi) => thunkApi.dispatch(redirectTo("/api")))
+
 export const redirectToSelectedSource = createAsyncThunk<
     void,
     void,
@@ -52,7 +54,6 @@ export const redirectToMetrics = createAsyncThunk("redirect/admin/metrics", (_, 
 )
 export const redirectToDonate = createAsyncThunk("redirect/donate", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/donate")))
 export const redirectToAbout = createAsyncThunk("redirect/about", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/about")))
-export const redirectToApiDocumentation = createAsyncThunk("redirect/api", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/api")))
 
 export const redirectSlice = createSlice({
     name: "redirect",

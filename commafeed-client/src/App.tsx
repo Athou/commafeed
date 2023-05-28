@@ -72,6 +72,7 @@ function AppRoutes() {
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegistrationPage />} />
             <Route path="passwordRecovery" element={<PasswordRecoveryPage />} />
+            <Route path="api" element={<ApiDocumentationPage />} />
             <Route path="app" element={<Layout header={<Header />} sidebar={<Tree />} />}>
                 <Route path="category">
                     <Route path=":id" element={<FeedEntriesPage sourceType="category" />} />
@@ -93,7 +94,6 @@ function AppRoutes() {
                 </Route>
                 <Route path="about" element={<AboutPage />} />
                 <Route path="donate" element={<DonatePage />} />
-                <Route path="api" element={<ApiDocumentationPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

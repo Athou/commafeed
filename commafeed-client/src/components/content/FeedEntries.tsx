@@ -263,6 +263,7 @@ export function FeedEntries() {
                     <FeedEntry
                         entry={entry}
                         expanded={!!entry.expanded || viewMode === "expanded"}
+                        selected={entry.id === selectedEntryId}
                         showSelectionIndicator={entry.id === selectedEntryId && (!entry.expanded || viewMode === "expanded")}
                         onHeaderClick={event => headerClicked(entry, event)}
                     />

@@ -16,6 +16,7 @@ import { FeedEntryHeader } from "./FeedEntryHeader"
 interface FeedEntryProps {
     entry: Entry
     expanded: boolean
+    selected: boolean
     showSelectionIndicator: boolean
     onHeaderClick: (e: React.MouseEvent) => void
 }
@@ -72,7 +73,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: View
 
 export function FeedEntry(props: FeedEntryProps) {
     const { viewMode } = useViewMode()
-    const { classes } = useStyles({ ...props, viewMode })
+    const { classes, cx } = useStyles({ ...props, viewMode })
 
     const dispatch = useAppDispatch()
 
@@ -95,7 +96,17 @@ export function FeedEntry(props: FeedEntryProps) {
 
     const compactHeader = !props.expanded && (viewMode === "title" || viewMode === "cozy")
     return (
-        <Paper withBorder radius={borderRadius} className={classes.paper}>
+        <Paper
+            withBorder
+            radius={borderRadius}
+            className={cx(classes.paper, {
+                read: props.entry.read,
+                unread: !props.entry.read,
+                expanded: props.expanded,
+                selected: props.selected,
+                "show-selection-indicator": props.showSelectionIndicator,
+            })}
+        >
             <a
                 className={classes.headerLink}
                 href={props.entry.url}

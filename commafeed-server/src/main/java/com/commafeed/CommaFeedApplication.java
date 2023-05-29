@@ -118,8 +118,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 			public DataSourceFactory getDataSourceFactory(CommaFeedConfiguration configuration) {
 				DataSourceFactory factory = configuration.getDataSourceFactory();
 
-				// keep using old id generator for backward compatibility
-				factory.getProperties().put(AvailableSettings.USE_NEW_ID_GENERATOR_MAPPINGS, "false");
+				factory.getProperties().put(AvailableSettings.PREFERRED_POOLED_OPTIMIZER, "pooled-lo");
 
 				factory.getProperties().put(AvailableSettings.STATEMENT_BATCH_SIZE, "50");
 				factory.getProperties().put(AvailableSettings.BATCH_VERSIONED_DATA, "true");

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+
+	<changeSet id="new-hibernate-id-generator" author="athou">
+		<modifyDataType tableName="hibernate_sequences" columnName="sequence_next_hi_value" newDataType="BIGINT" />
+		<sql>update hibernate_sequences
+			 set sequence_next_hi_value=
+						 (select coalesce(max(id), 0) + 1 from FEEDCATEGORIES)
+			 where sequence_name = 'FEEDCATEGORIES'</sql>
+		<sql>update hibernate_sequences
+			 set sequence_next_hi_value=
+						 (select coalesce(max(id), 0) + 1 from FEEDENTRIES)
+			 where sequence_name = 'FEEDENTRIES'</sql>
+		<sql>update hibernate_sequences
+			 set sequence_next_hi_value=
+						 (select coalesce(max(id), 0) + 1 from FEEDENTRYCONTENTS)
+			 where sequence_name = 'FEEDENTRYCONTENTS'</sql>
+		<sql>update hibernate_sequences
+			 set sequence_next_hi_value=
+						 (select coalesce(max(id), 0) + 1 from FEEDENTRYSTATUSES)
+			 where sequence_name = 'FEEDENTRYSTATUSES'</sql>
+		<sql>update hibernate_sequences
+			 set sequence_next_hi_value=
+						 (select coalesce(max(id), 0) + 1 from FEEDS)
+			 where sequence_name = 'FEEDS'</sql>
+		<sql>update hibernate_sequences
+			 set sequence_next_hi_value=
+						 (select coalesce(max(id), 0) + 1 from FEEDSUBSCRIPTIONS)
+			 where sequence_name = 'FEEDSUBSCRIPTIONS'</sql>
+		<sql>update hibernate_sequences
+			 set sequence_next_hi_value=
+						 (select coalesce(max(id), 0) + 1 from USERROLES)
+			 where sequence_name = 'USERROLES'</sql>
+		<sql>update hibernate_sequences
+			 set sequence_next_hi_value=
+						 (select coalesce(max(id), 0) + 1 from USERS)
+			 where sequence_name = 'USERS'</sql>
+		<sql>update hibernate_sequences
+			 set sequence_next_hi_value=
+						 (select coalesce(max(id), 0) + 1 from USERSETTINGS)
+			 where sequence_name = 'USERSETTINGS'</sql>
+	</changeSet>
+
+</databaseChangeLog>

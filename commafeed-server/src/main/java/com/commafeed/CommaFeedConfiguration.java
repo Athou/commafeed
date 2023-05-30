@@ -17,8 +17,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class CommaFeedConfiguration extends Configuration {
 
 	public enum CacheType {
@@ -56,6 +58,7 @@ public class CommaFeedConfiguration extends Configuration {
 	}
 
 	@Getter
+	@Setter
 	public static class ApplicationSettings {
 		@NotNull
 		@NotBlank
@@ -126,7 +129,7 @@ public class CommaFeedConfiguration extends Configuration {
 
 		@NotNull
 		@Valid
-		private Integer maxFeedsPerUser;
+		private Integer maxFeedsPerUser = 0;
 
 		@NotNull
 		@Min(0)

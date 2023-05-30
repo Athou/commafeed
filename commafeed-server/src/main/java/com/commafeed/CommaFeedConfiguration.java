@@ -125,6 +125,10 @@ public class CommaFeedConfiguration extends Configuration {
 		private Integer maxFeedCapacity;
 
 		@NotNull
+		@Valid
+		private Integer maxFeedsPerUser;
+
+		@NotNull
 		@Min(0)
 		@Valid
 		private Integer refreshIntervalMinutes;

@@ -60,6 +60,9 @@ app:
   
   # entries to keep per feed, old entries will be deleted, 0 to disable
   maxFeedCapacity: 500
+
+  # limit the number of feeds a user can subscribe to, 0 to disable
+  maxFeedsPerUser: 0
   
   # cache service to use, possible values are 'noop' and 'redis'
   cache: noop
@@ -69,7 +72,7 @@ app:
   
   # user-agent string that will be used by the http client, leave empty for the default one
   userAgent:
-  
+
 # Database connection
 # -------------------  
 # for MySQL
@@ -92,8 +95,8 @@ database:
   properties:
     charSet: UTF-8
   validationQuery: "/* CommaFeed Health Check */ SELECT 1"
-    
-     
+
+
 logging:
   level: INFO
   loggers:

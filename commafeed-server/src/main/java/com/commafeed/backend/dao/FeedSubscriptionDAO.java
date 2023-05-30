@@ -59,6 +59,10 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 		return initRelations(subs);
 	}
 
+	public Long count(User user) {
+		return query().select(sub.count()).from(sub).where(sub.user.eq(user)).fetchOne();
+	}
+
 	public List<FeedSubscription> findByCategory(User user, FeedCategory category) {
 		JPQLQuery<FeedSubscription> query = query().selectFrom(sub).where(sub.user.eq(user));
 		if (category == null) {

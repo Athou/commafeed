@@ -15,7 +15,6 @@ import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedSubscriptionService;
-import com.commafeed.backend.service.FeedSubscriptionService.FeedSubscriptionException;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
 import com.rometools.rome.io.FeedException;
@@ -78,8 +77,6 @@ public class OPMLImporter {
 			// make sure we continue with the import process even if a feed failed
 			try {
 				feedSubscriptionService.subscribe(user, outline.getXmlUrl(), name, parent, position);
-			} catch (FeedSubscriptionException e) {
-				throw e;
 			} catch (Exception e) {
 				log.error("error while importing {}: {}", outline.getXmlUrl(), e.getMessage());
 			}

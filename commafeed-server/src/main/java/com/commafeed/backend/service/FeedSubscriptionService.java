@@ -57,6 +57,13 @@ public class FeedSubscriptionService {
 			throw new FeedSubscriptionException("Could not subscribe to a feed from this CommaFeed instance");
 		}
 
+		Integer maxFeedsPerUser = config.getApplicationSettings().getMaxFeedsPerUser();
+		if (maxFeedsPerUser > 0 && feedSubscriptionDAO.count(user) >= maxFeedsPerUser) {
+			String message = String.format("You cannot subscribe to more feeds on this CommaFeed instance (max %s feeds per user)",
+					maxFeedsPerUser);
+			throw new FeedSubscriptionException(message);
+		}
+
 		Feed feed = feedService.findOrCreate(url);
 
 		// upgrade feed to https if it was using http

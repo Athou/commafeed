@@ -14,7 +14,12 @@ import org.passay.PasswordValidator;
 import org.passay.RuleResult;
 import org.passay.WhitespaceRule;
 
+import lombok.Setter;
+
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
+
+	@Setter
+	private static boolean strict = true;
 
 	@Override
 	public void initialize(ValidPassword constraintAnnotation) {
@@ -27,7 +32,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 			return true;
 		}
 
-		PasswordValidator validator = buildPasswordValidator();
+		PasswordValidator validator = strict ? buildStrictPasswordValidator() : buildLoosePasswordValidator();
 		RuleResult result = validator.validate(new PasswordData(value));
 
 		if (result.isValid()) {
@@ -40,10 +45,10 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 		return false;
 	}
 
-	private PasswordValidator buildPasswordValidator() {
+	private PasswordValidator buildStrictPasswordValidator() {
 		return new PasswordValidator(
 				// length
-				new LengthRule(8, 128),
+				new LengthRule(8, 256),
 				// 1 uppercase char
 				new CharacterRule(EnglishCharacterData.UpperCase, 1),
 				// 1 lowercase char
@@ -52,6 +57,14 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 				new CharacterRule(EnglishCharacterData.Digit, 1),
 				// 1 special char
 				new CharacterRule(EnglishCharacterData.Special, 1),
+				// no whitespace
+				new WhitespaceRule());
+	}
+
+	private PasswordValidator buildLoosePasswordValidator() {
+		return new PasswordValidator(
+				// length
+				new LengthRule(6, 256),
 				// no whitespace
 				new WhitespaceRule());
 	}

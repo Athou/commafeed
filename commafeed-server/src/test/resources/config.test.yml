@@ -6,6 +6,9 @@ app:
   
   # wether to allow user registrations
   allowRegistrations: true
+
+  # whether to enable strict password validation (1 uppercase char, 1 lowercase char, 1 digit, 1 special char)
+  strictPasswordPolicy: true
   
   # create a demo account the first time the app starts
   createDemoAccount: false

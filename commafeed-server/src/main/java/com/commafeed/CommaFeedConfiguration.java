@@ -71,6 +71,10 @@ public class CommaFeedConfiguration extends Configuration {
 
 		@NotNull
 		@Valid
+		private Boolean strictPasswordPolicy = true;
+
+		@NotNull
+		@Valid
 		private Boolean createDemoAccount;
 
 		private String googleAnalyticsTrackingCode;

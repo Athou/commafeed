@@ -33,6 +33,7 @@ import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.service.DatabaseStartupService;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.backend.task.ScheduledTask;
+import com.commafeed.frontend.auth.PasswordConstraintValidator;
 import com.commafeed.frontend.auth.SecurityCheckFactoryProvider;
 import com.commafeed.frontend.resource.AdminREST;
 import com.commafeed.frontend.resource.CategoryREST;
@@ -150,6 +151,8 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 	@Override
 	public void run(CommaFeedConfiguration config, Environment environment) throws Exception {
+		PasswordConstraintValidator.setStrict(config.getApplicationSettings().getStrictPasswordPolicy());
+
 		// guice init
 		Injector injector = Guice.createInjector(new CommaFeedModule(hibernateBundle.getSessionFactory(), config, environment.metrics()));
 

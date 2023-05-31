@@ -31,7 +31,7 @@ public class Category implements Serializable {
 	@ApiModelProperty(value = "category feeds", required = true)
 	private List<Subscription> feeds = new ArrayList<>();
 
-	@ApiModelProperty(value = "wether the category is expanded or collapsed", required = true)
+	@ApiModelProperty(value = "whether the category is expanded or collapsed", required = true)
 	private boolean expanded;
 
 	@ApiModelProperty(value = "position of the category in the list", required = true)

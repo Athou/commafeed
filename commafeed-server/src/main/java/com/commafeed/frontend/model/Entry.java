@@ -45,7 +45,7 @@ public class Entry implements Serializable {
 	@ApiModelProperty(value = "comma-separated list of categories")
 	private String categories;
 
-	@ApiModelProperty(value = "wether entry content and title are rtl", required = true)
+	@ApiModelProperty(value = "whether entry content and title are rtl", required = true)
 	private boolean rtl;
 
 	@ApiModelProperty(value = "entry author")
@@ -99,7 +99,7 @@ public class Entry implements Serializable {
 	@ApiModelProperty(value = "starred status", required = true)
 	private boolean starred;
 
-	@ApiModelProperty(value = "wether the entry is still markable (old entry statuses are discarded)", required = true)
+	@ApiModelProperty(value = "whether the entry is still markable (old entry statuses are discarded)", required = true)
 	private boolean markable;
 
 	@ApiModelProperty(value = "tags", required = true)

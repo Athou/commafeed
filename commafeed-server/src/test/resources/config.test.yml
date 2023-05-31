@@ -4,7 +4,7 @@ app:
   # url used to access commafeed
   publicUrl: http://localhost:8082/
   
-  # wether to allow user registrations
+  # whether to allow user registrations
   allowRegistrations: true
 
   # whether to enable strict password validation (1 uppercase char, 1 lowercase char, 1 digit, 1 special char)
@@ -40,14 +40,14 @@ app:
   graphitePort: 2003
   graphiteInterval: 60
   
-  # wether this commafeed instance has a lot of feeds to refresh
+  # whether this commafeed instance has a lot of feeds to refresh
   # leave this to false in almost all cases
   heavyLoad: false
   
   # minimum amount of time commafeed will wait before refreshing the same feed
   refreshIntervalMinutes: 5
   
-  # wether to enable pubsub
+  # whether to enable pubsub
   # probably not needed if refreshIntervalMinutes is low
   pubsubhubbub: false
   

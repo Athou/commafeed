@@ -15,15 +15,7 @@ Google Reader inspired self-hosted RSS reader, based on Dropwizard and React/Typ
 - Supports thousands of users and millions of feeds
 - OPML import/export
 - REST API
-
-## Related open-source projects
-
-Browser extensions:
-
-- [Chrome](https://github.com/Athou/commafeed-chrome)
-- [Firefox](https://github.com/Athou/commafeed-firefox)
-- [Opera](https://github.com/Athou/commafeed-opera)
-- [Safari](https://github.com/Athou/commafeed-safari)
+- [Browser extension](https://github.com/Athou/commafeed-browser-extension)
 
 ## Deployment on your own server
 

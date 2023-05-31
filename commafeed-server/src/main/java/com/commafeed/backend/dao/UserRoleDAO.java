@@ -17,7 +17,7 @@ import com.commafeed.backend.model.UserRole.Role;
 @Singleton
 public class UserRoleDAO extends GenericDAO<UserRole> {
 
-	private QUserRole role = QUserRole.userRole;
+	private final QUserRole role = QUserRole.userRole;
 
 	@Inject
 	public UserRoleDAO(SessionFactory sessionFactory) {

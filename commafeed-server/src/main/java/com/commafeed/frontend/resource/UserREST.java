@@ -1,6 +1,6 @@
 package com.commafeed.frontend.resource;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
@@ -227,7 +227,8 @@ public class UserREST {
 	public Response registerUser(@Valid @ApiParam(required = true) RegistrationRequest req,
 			@Context @ApiParam(hidden = true) SessionHelper sessionHelper) {
 		try {
-			User registeredUser = userService.register(req.getName(), req.getPassword(), req.getEmail(), Arrays.asList(Role.USER));
+			User registeredUser = userService.register(req.getName(), req.getPassword(), req.getEmail(),
+					Collections.singletonList(Role.USER));
 			userService.login(req.getName(), req.getPassword());
 			sessionHelper.setLoggedInUser(registeredUser);
 			return Response.ok().build();

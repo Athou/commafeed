@@ -3,7 +3,7 @@ package com.commafeed.frontend.resource;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URI;
-import java.util.Arrays;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -171,7 +171,7 @@ public class FeedREST {
 			entries.setErrorCount(subscription.getFeed().getErrorCount());
 			entries.setFeedLink(subscription.getFeed().getLink());
 
-			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, Arrays.asList(subscription), unreadOnly,
+			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, Collections.singletonList(subscription), unreadOnly,
 					entryKeywords, newerThanDate, offset, limit + 1, order, true, onlyIds, null);
 
 			for (FeedEntryStatus status : list) {
@@ -323,7 +323,7 @@ public class FeedREST {
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, Long.valueOf(req.getId()));
 		if (subscription != null) {
-			feedEntryService.markSubscriptionEntries(user, Arrays.asList(subscription), olderThan, entryKeywords);
+			feedEntryService.markSubscriptionEntries(user, Collections.singletonList(subscription), olderThan, entryKeywords);
 		}
 		return Response.ok().build();
 	}
@@ -522,7 +522,7 @@ public class FeedREST {
 			return Response.status(Status.FORBIDDEN).entity("Import is disabled for the demo account").build();
 		}
 		try {
-			String opml = IOUtils.toString(input, "UTF-8");
+			String opml = IOUtils.toString(input, StandardCharsets.UTF_8);
 			opmlImporter.importOpml(user, opml);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

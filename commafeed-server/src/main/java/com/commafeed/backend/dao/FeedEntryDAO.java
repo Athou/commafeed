@@ -21,7 +21,7 @@ import lombok.Getter;
 @Singleton
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
-	private QFeedEntry entry = QFeedEntry.feedEntry;
+	private final QFeedEntry entry = QFeedEntry.feedEntry;
 
 	@Inject
 	public FeedEntryDAO(SessionFactory sessionFactory) {

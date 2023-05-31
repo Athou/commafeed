@@ -154,7 +154,7 @@ public class FeedUtils {
 		for (Emit emit : emits) {
 			int matchIndex = emit.getStart();
 
-			sb.append(source.substring(prevIndex, matchIndex));
+			sb.append(source, prevIndex, matchIndex);
 			sb.append(HtmlEntities.HTML_TO_NUMERIC_MAP.get(emit.getKeyword()));
 			prevIndex = emit.getEnd() + 1;
 		}
@@ -228,7 +228,7 @@ public class FeedUtils {
 		if (index == -1) {
 			return null;
 		}
-		String encoding = pi.substring(index + 10, pi.length());
+		String encoding = pi.substring(index + 10);
 		encoding = encoding.substring(0, encoding.indexOf('"'));
 		return encoding;
 	}

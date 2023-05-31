@@ -2,6 +2,7 @@ package com.commafeed.backend.service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
@@ -123,7 +124,7 @@ public class UserService {
 	}
 
 	public void createDemoUser() {
-		register(CommaFeedApplication.USERNAME_DEMO, "demo", "demo@commafeed.com", Arrays.asList(Role.USER), true);
+		register(CommaFeedApplication.USERNAME_DEMO, "demo", "demo@commafeed.com", Collections.singletonList(Role.USER), true);
 	}
 
 	public void unregister(User user) {

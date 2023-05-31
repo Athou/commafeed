@@ -23,11 +23,7 @@ public class OPML11Parser extends OPML10Parser {
 	public boolean isMyType(Document document) {
 		Element e = document.getRootElement();
 
-		if (e.getName().equals("opml")) {
-			return true;
-		}
-
-		return false;
+		return e.getName().equals("opml");
 
 	}
 

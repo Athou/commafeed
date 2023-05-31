@@ -21,7 +21,7 @@ import com.querydsl.jpa.JPQLQuery;
 @Singleton
 public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 
-	private QFeedSubscription sub = QFeedSubscription.feedSubscription;
+	private final QFeedSubscription sub = QFeedSubscription.feedSubscription;
 
 	@Inject
 	public FeedSubscriptionDAO(SessionFactory sessionFactory) {

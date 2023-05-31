@@ -11,7 +11,7 @@ import com.commafeed.backend.model.User;
 @Singleton
 public class UserDAO extends GenericDAO<User> {
 
-	private QUser user = QUser.user;
+	private final QUser user = QUser.user;
 
 	@Inject
 	public UserDAO(SessionFactory sessionFactory) {

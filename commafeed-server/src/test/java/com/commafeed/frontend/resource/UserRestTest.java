@@ -1,6 +1,6 @@
 package com.commafeed.frontend.resource;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -76,7 +76,7 @@ class UserRestTest {
 
 		userREST.registerUser(req, sessionHelper);
 
-		inOrder.verify(service).register("user", "password", "test@test.com", Arrays.asList(Role.USER));
+		inOrder.verify(service).register("user", "password", "test@test.com", Collections.singletonList(Role.USER));
 		inOrder.verify(service).login("user", "password");
 	}
 

@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class FixedSizeSortedSet<E> {
 
-	private List<E> inner;
+	private final List<E> inner;
 
 	private final Comparator<? super E> comparator;
 	private final int capacity;

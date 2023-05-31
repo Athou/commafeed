@@ -13,8 +13,8 @@ import com.commafeed.backend.model.Feed;
 @Singleton
 public class FeedRefreshIntervalCalculator {
 
-	private boolean heavyLoad;
-	private int refreshIntervalMinutes;
+	private final boolean heavyLoad;
+	private final int refreshIntervalMinutes;
 
 	@Inject
 	public FeedRefreshIntervalCalculator(CommaFeedConfiguration config) {

@@ -15,7 +15,7 @@ import io.dropwizard.hibernate.AbstractDAO;
 
 public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T> {
 
-	private JPAQueryFactory factory;
+	private final JPAQueryFactory factory;
 
 	protected GenericDAO(SessionFactory sessionFactory) {
 		super(sessionFactory);

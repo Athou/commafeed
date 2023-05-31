@@ -17,7 +17,7 @@ import org.glassfish.jersey.server.spi.internal.ValueParamProvider;
 @Singleton
 public class SessionHelperFactoryProvider extends AbstractValueParamProvider {
 
-	private HttpServletRequest request;
+	private final HttpServletRequest request;
 
 	@Inject
 	public SessionHelperFactoryProvider(final MultivaluedParameterExtractorProvider extractorProvider, HttpServletRequest request) {

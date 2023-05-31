@@ -41,9 +41,9 @@ public class MailService {
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "" + settings.isSmtpTls());
+		props.put("mail.smtp.starttls.enable", String.valueOf(settings.isSmtpTls()));
 		props.put("mail.smtp.host", settings.getSmtpHost());
-		props.put("mail.smtp.port", "" + settings.getSmtpPort());
+		props.put("mail.smtp.port", String.valueOf(settings.getSmtpPort()));
 
 		Session session = Session.getInstance(props, new Authenticator() {
 			@Override

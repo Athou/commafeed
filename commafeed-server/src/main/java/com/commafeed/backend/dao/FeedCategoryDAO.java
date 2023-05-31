@@ -18,7 +18,7 @@ import com.querydsl.core.types.Predicate;
 @Singleton
 public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 
-	private QFeedCategory category = QFeedCategory.feedCategory;
+	private final QFeedCategory category = QFeedCategory.feedCategory;
 
 	@Inject
 	public FeedCategoryDAO(SessionFactory sessionFactory) {

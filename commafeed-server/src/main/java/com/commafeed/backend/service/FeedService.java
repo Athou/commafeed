@@ -22,7 +22,7 @@ public class FeedService {
 	private final FeedDAO feedDAO;
 	private final Set<AbstractFaviconFetcher> faviconFetchers;
 
-	private Favicon defaultFavicon;
+	private final Favicon defaultFavicon;
 
 	@Inject
 	public FeedService(FeedDAO feedDAO, Set<AbstractFaviconFetcher> faviconFetchers) {

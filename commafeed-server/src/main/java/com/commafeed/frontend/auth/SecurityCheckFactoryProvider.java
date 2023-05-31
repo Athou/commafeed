@@ -21,8 +21,8 @@ import lombok.RequiredArgsConstructor;
 @Singleton
 public class SecurityCheckFactoryProvider extends AbstractValueParamProvider {
 
-	private UserService userService;
-	private HttpServletRequest request;
+	private final UserService userService;
+	private final HttpServletRequest request;
 
 	@Inject
 	public SecurityCheckFactoryProvider(final MultivaluedParameterExtractorProvider extractorProvider, UserService userService,

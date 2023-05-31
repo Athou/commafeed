@@ -88,7 +88,7 @@ public class FeedRefreshUpdater implements Managed {
 
 		// lock on feed, make sure we are not updating the same feed twice at
 		// the same time
-		String key1 = StringUtils.trimToEmpty("" + feed.getId());
+		String key1 = StringUtils.trimToEmpty(String.valueOf(feed.getId()));
 
 		// lock on content, make sure we are not updating the same entry
 		// twice at the same time

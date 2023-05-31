@@ -15,7 +15,7 @@ import com.commafeed.backend.model.User;
 @Singleton
 public class FeedEntryTagDAO extends GenericDAO<FeedEntryTag> {
 
-	private QFeedEntryTag tag = QFeedEntryTag.feedEntryTag;
+	private final QFeedEntryTag tag = QFeedEntryTag.feedEntryTag;
 
 	@Inject
 	public FeedEntryTagDAO(SessionFactory sessionFactory) {

@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class FeedEntryKeyword {
 
 	public enum Mode {
-		INCLUDE, EXCLUDE;
+		INCLUDE, EXCLUDE
 	}
 
 	private final String keyword;

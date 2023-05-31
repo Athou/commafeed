@@ -12,7 +12,7 @@ import com.commafeed.backend.model.UserSettings;
 @Singleton
 public class UserSettingsDAO extends GenericDAO<UserSettings> {
 
-	private QUserSettings settings = QUserSettings.userSettings;
+	private final QUserSettings settings = QUserSettings.userSettings;
 
 	@Inject
 	public UserSettingsDAO(SessionFactory sessionFactory) {

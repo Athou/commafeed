@@ -73,7 +73,7 @@ public class FeedFetcher {
 		boolean etagHeaderValueChanged = !StringUtils.equals(eTag, result.getETag());
 
 		String hash = DigestUtils.sha1Hex(content);
-		if (lastContentHash != null && hash != null && lastContentHash.equals(hash)) {
+		if (lastContentHash != null && lastContentHash.equals(hash)) {
 			log.debug("content hash not modified: {}", feedUrl);
 			throw new NotModifiedException("content hash not modified",
 					lastModifiedHeaderValueChanged ? result.getLastModifiedSince() : null,

@@ -7,7 +7,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class WebSocketMessageBuilder {
 
-	public static final String newFeedEntries(FeedSubscription subscription) {
+	public static String newFeedEntries(FeedSubscription subscription) {
 		return String.format("%s:%s", "new-feed-entries", subscription.getId());
 	}
 

@@ -1,7 +1,7 @@
 package com.commafeed.frontend.model;
 
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -158,13 +158,13 @@ public class Entry implements Serializable {
 
 		SyndContentImpl content = new SyndContentImpl();
 		content.setValue(getContent());
-		entry.setContents(Arrays.<SyndContent> asList(content));
+		entry.setContents(Collections.<SyndContent> singletonList(content));
 
 		if (getEnclosureUrl() != null) {
 			SyndEnclosureImpl enclosure = new SyndEnclosureImpl();
 			enclosure.setType(getEnclosureType());
 			enclosure.setUrl(getEnclosureUrl());
-			entry.setEnclosures(Arrays.<SyndEnclosure> asList(enclosure));
+			entry.setEnclosures(Collections.<SyndEnclosure> singletonList(enclosure));
 		}
 
 		entry.setLink(getUrl());

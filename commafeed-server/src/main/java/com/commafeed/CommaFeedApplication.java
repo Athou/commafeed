@@ -70,8 +70,6 @@ import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.servlets.CacheBustingFilter;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import io.dropwizard.web.WebBundle;
-import io.dropwizard.web.conf.WebConfiguration;
 import io.whitfin.dropwizard.configuration.EnvironmentSubstitutor;
 
 public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
@@ -126,15 +124,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 				factory.getProperties().put(AvailableSettings.ORDER_INSERTS, "true");
 				factory.getProperties().put(AvailableSettings.ORDER_UPDATES, "true");
 				return factory;
-			}
-		});
-
-		bootstrap.addBundle(new WebBundle<CommaFeedConfiguration>() {
-			@Override
-			public WebConfiguration getWebConfiguration(CommaFeedConfiguration configuration) {
-				WebConfiguration config = new WebConfiguration();
-				config.getFrameOptionsHeaderFactory().setEnabled(true);
-				return config;
 			}
 		});
 

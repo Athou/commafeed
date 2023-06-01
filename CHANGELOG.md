@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.5.0]
+
+- add compatibility with the new version of the CommaFeed browser extension
+- disable pull-to-refresh on mobile as it messes with vertical scrolling
+- add css classes to feed entries to help with custom css rules
+- api documentation page no longer requires users to be authenticated
+- add a setting to limit the number of feeds a user can subscribe to
+- add a setting to disable strict password policy
+- add feed refresh engine metrics
+- fix redis timeouts
+
 ## [3.4.0]
 
 - add support for arm64 docker images

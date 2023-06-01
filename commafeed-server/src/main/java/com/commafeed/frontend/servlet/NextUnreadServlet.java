@@ -23,6 +23,7 @@ import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
+import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.frontend.session.SessionHelper;
@@ -43,6 +44,7 @@ public class NextUnreadServlet extends HttpServlet {
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final UserService userService;
+	private final FeedEntryService feedEntryService;
 	private final CommaFeedConfiguration config;
 
 	@Override
@@ -80,8 +82,7 @@ public class NextUnreadServlet extends HttpServlet {
 				}
 			}
 			if (s != null) {
-				s.setRead(true);
-				feedEntryStatusDAO.saveOrUpdate(s);
+				feedEntryService.markEntry(user.get(), s.getEntry().getId(), true);
 			}
 			return s;
 		});

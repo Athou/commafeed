@@ -17,6 +17,10 @@ msgstr ""
 msgid "{0} (in {1})"
 msgstr "{0} (sur {1})"
 
+#: src/pages/app/AboutPage.tsx
+msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
+msgstr "<0>CommaFeed est un projet open-source. Les sources sont hébergées sur </0><1>GitHub</1>."
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr "<0>La syntaxe complète est disponible </0><1>ici</1>."
@@ -160,10 +164,6 @@ msgid "Check that the feed is working"
 msgstr "Vérifie que le flux fonctionne"
 
 #: src/pages/app/AboutPage.tsx
-msgid "CommaFeed is an open-source project. Sources are hosted on <0>GitHub</0>."
-msgstr "CommaFeed est un projet open-source. Les sources sont hébergées sur <0>GitHub</0>."
-
-#: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "CommaFeed prochain article non lu"
 
@@ -213,7 +213,7 @@ msgstr "Code CSS personnalisé qui sera appliqué"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr "Code CSS personnalisé qui sera appliqué au chargement des pages"
+msgstr "Code JS personnalisé qui sera appliqué au chargement des pages"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"

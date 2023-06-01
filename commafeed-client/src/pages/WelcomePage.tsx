@@ -3,7 +3,7 @@ import { Anchor, Box, Center, Container, Divider, Group, Image, Title, useMantin
 import { useMediaQuery } from "@mantine/hooks"
 import { client } from "app/client"
 import { Constants } from "app/constants"
-import { redirectToLogin, redirectToRegistration, redirectToRootCategory } from "app/slices/redirect"
+import { redirectToApiDocumentation, redirectToLogin, redirectToRegistration, redirectToRootCategory } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import welcome_page_dark from "assets/welcome_page_dark.png"
 import welcome_page_light from "assets/welcome_page_light.png"
@@ -109,11 +109,11 @@ function Buttons() {
 }
 
 function Footer() {
+    const dispatch = useAppDispatch()
     return (
-        <Box>
+        <Group position="apart">
             <Group>
                 <span>© CommaFeed</span>
-                <span> - </span>
                 <Anchor variant="text" href="https://github.com/Athou/commafeed/" target="_blank" rel="noreferrer">
                     <SiGithub />
                 </Anchor>
@@ -121,6 +121,11 @@ function Footer() {
                     <SiTwitter />
                 </Anchor>
             </Group>
-        </Box>
+            <Box>
+                <Anchor variant="text" onClick={() => dispatch(redirectToApiDocumentation())}>
+                    API documentation
+                </Anchor>
+            </Box>
+        </Group>
     )
 }

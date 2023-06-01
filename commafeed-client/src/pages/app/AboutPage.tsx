@@ -72,7 +72,7 @@ export function AboutPage() {
                     </Box>
                     <Box mt="md">
                         <Trans>
-                            CommaFeed is an open-source project. Sources are hosted on&nbsp;
+                            <span>CommaFeed is an open-source project. Sources are hosted on </span>
                             <Anchor href="https://github.com/Athou/commafeed" target="_blank" rel="noreferrer">
                                 GitHub
                             </Anchor>

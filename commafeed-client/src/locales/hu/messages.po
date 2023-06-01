@@ -17,6 +17,10 @@ msgstr ""
 msgid "{0} (in {1})"
 msgstr ""
 
+#: src/pages/app/AboutPage.tsx
+msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
 msgstr ""
@@ -158,10 +162,6 @@ msgstr "A jelszó megváltoztatása új API-kulcsot generál"
 #: src/components/content/add/Subscribe.tsx
 msgid "Check that the feed is working"
 msgstr "Ellenőrizze, hogy a feed működik-e"
-
-#: src/pages/app/AboutPage.tsx
-msgid "CommaFeed is an open-source project. Sources are hosted on <0>GitHub</0>."
-msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"

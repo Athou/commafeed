@@ -86,28 +86,9 @@ export function AboutPage() {
                 <Section title={<Trans>Goodies</Trans>} icon={<TbPuzzle size={24} />}>
                     <List>
                         <List.Item>
-                            <Trans>Browser extentions</Trans>
-                            <List withPadding>
-                                <List.Item>
-                                    <Anchor
-                                        href="https://addons.mozilla.org/en-US/firefox/addon/commafeed/"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        Firefox
-                                    </Anchor>
-                                </List.Item>
-                                <List.Item>
-                                    <Anchor href="https://github.com/Athou/commafeed-chrome" target="_blank" rel="noreferrer">
-                                        Chrome
-                                    </Anchor>
-                                </List.Item>
-                                <List.Item>
-                                    <Anchor href="https://github.com/Athou/commafeed-opera" target="_blank" rel="noreferrer">
-                                        Opera
-                                    </Anchor>
-                                </List.Item>
-                            </List>
+                            <Anchor href="https://github.com/Athou/commafeed-browser-extension" target="_blank" rel="noreferrer">
+                                <Trans>Browser extentions</Trans>
+                            </Anchor>
                         </List.Item>
                         <List.Item>
                             <Trans>Subscribe URL</Trans>

@@ -15,7 +15,7 @@ msgstr ""
 
 #: src/components/content/add/CategorySelect.tsx
 msgid "{0} (in {1})"
-msgstr ""
+msgstr "{0} (sur {1})"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
@@ -27,7 +27,7 @@ msgstr "<0>Déjà un compte ?</0><1>Connectez-vous !</1>"
 
 #: src/pages/app/DonatePage.tsx
 msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
-msgstr ""
+msgstr "<0>Salut,</0><1>Je m'appelle Jérémie, je suis belge, et je développe CommaFeed sur mon temps libre depuis maintenant 10 ans. Merci de m'aider à continuer de maintenir CommaFeed.</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
@@ -36,7 +36,7 @@ msgstr "<0>Besoin d'un compte ?</0><1>Enregistrez-vous !</1>"
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
 msgid "About"
-msgstr "A propos"
+msgstr "À propos"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -85,11 +85,11 @@ msgstr "Clé API"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
-msgstr "Etes-vous sûr de vouloir supprimer la catégorie <0>{categoryName}</0>?"
+msgstr "Êtes-vous sûr de vouloir supprimer la catégorie <0>{categoryName}</0> ?"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Are you sure you want to delete user <0>{userName}</0> ?"
-msgstr "Etes-vous sûr de vouloir supprimer l'utilisateur <0>{userName}</0> ?"
+msgstr "Êtes-vous sûr de vouloir supprimer l'utilisateur <0>{userName}</0> ?"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Are you sure you want to delete your account? There's no turning back!"
@@ -97,15 +97,15 @@ msgstr "Êtes-vous sûr de vouloir supprimer définitivement votre compte ?"
 
 #: src/components/header/MarkAllAsReadButton.tsx
 msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
-msgstr "Etes-vous sûr de vouloir marquer toutes les entrées de <0>{sourceLabel}</0> comme lues?"
+msgstr "Êtes-vous sûr de vouloir marquer toutes les entrées de <0>{sourceLabel}</0> comme lues ?"
 
 #: src/components/header/MarkAllAsReadButton.tsx
 msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
-msgstr "Etes-vous sûr de vouloir marquer les entrées de <0>{sourceLabel}</0> plus anciennes que {threshold} jours comme lues?"
+msgstr "Êtes-vous sûr de vouloir marquer les entrées de <0>{sourceLabel}</0> plus anciennes que {threshold} jours comme lues ?"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
-msgstr "Etes-vous sûr de vouloir vous désabonner de <0>{feedName}</0>?"
+msgstr "Êtes-vous sûr de vouloir vous désabonner de <0>{feedName}</0> ?"
 
 #: src/components/header/Header.tsx
 msgid "Asc"
@@ -160,7 +160,7 @@ msgid "Check that the feed is working"
 msgstr "Vérifie que le flux fonctionne"
 
 #: src/pages/app/AboutPage.tsx
-msgid "CommaFeed is an open-source project. Sources are hosted on <0>GitHub</0>."
+msgid "CommaFeed is an open-source project. Sources are hosted on <0>GitHub</0>."
 msgstr "CommaFeed est un projet open-source. Les sources sont hébergées sur <0>GitHub</0>."
 
 #: src/pages/app/AboutPage.tsx
@@ -193,7 +193,7 @@ msgstr "Cozy"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Create tag: {query}"
-msgstr "Créer le tag: {query}"
+msgstr "Créer le marqueur : {query}"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
@@ -205,15 +205,15 @@ msgstr "Mot de passe actuel"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Custom code"
-msgstr ""
+msgstr "Code personnalisé"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
-msgstr ""
+msgstr "Code CSS personnalisé qui sera appliqué"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
+msgstr "Code CSS personnalisé qui sera appliqué au chargement des pages"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -252,7 +252,7 @@ msgstr "Affichage"
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/DonatePage.tsx
 msgid "Donate"
-msgstr ""
+msgstr "Faites un don"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
@@ -320,7 +320,7 @@ msgstr "URL du flux"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
-msgstr ""
+msgstr "Rafraîchir tous mes flux"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"
@@ -352,7 +352,7 @@ msgstr "URL du flux généré"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Go to {0}"
-msgstr ""
+msgstr "Aller à {0}"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
@@ -420,19 +420,19 @@ msgstr "Lien"
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
-msgstr "Chargement du profil ..."
+msgstr "Chargement du profil..."
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading settings..."
-msgstr "Chargement des paramètres ..."
+msgstr "Chargement des paramètres..."
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading subscriptions..."
-msgstr "Chargement des abonnements ..."
+msgstr "Chargement des abonnements..."
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading tags..."
-msgstr "Chargement des tags ..."
+msgstr "Chargement des marqueurs..."
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
@@ -446,7 +446,7 @@ msgstr "Déconnexion"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Long press"
-msgstr ""
+msgstr "Appui long"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -478,7 +478,7 @@ msgstr "Métriques"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Middle click"
-msgstr ""
+msgstr "Clic milieu"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
@@ -526,7 +526,7 @@ msgstr "Bookmarklet vers le prochain article non lu"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "No more entries"
-msgstr "Plus d'entrées"
+msgstr "Fin de la liste"
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
@@ -554,11 +554,11 @@ msgstr "Ouvrir le lien"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new background tab"
-msgstr ""
+msgstr "Ouvrir le lien dans un nouvel onglet en arrière-plan"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new tab"
-msgstr ""
+msgstr "Ouvrir le lien dans un nouvel onglet"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
@@ -641,7 +641,7 @@ msgstr "API REST"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
-msgstr ""
+msgstr "Clic droit"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
@@ -697,11 +697,11 @@ msgstr "Maj"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
-msgstr ""
+msgstr "Afficher les options de l'entrée (ordinateur)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (mobile)"
-msgstr ""
+msgstr "Afficher les options de l'entrée (mobile)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
@@ -768,7 +768,7 @@ msgstr "Activer le mode clair"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
-msgstr "Tags"
+msgstr "Marqueurs"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -788,7 +788,7 @@ msgstr "Essayez CommaFeed avec le compte de démonstration : demo/demo"
 
 #: src/pages/WelcomePage.tsx
 msgid "Try the demo!"
-msgstr ""
+msgstr "Essayez la version de démonstration !"
 
 #: src/components/header/Header.tsx
 msgid "Unread"
@@ -827,4 +827,4 @@ msgstr "Vous n'avez pas encore d'abonnements. Pourquoi ne pas essayer d'en ajout
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
+msgstr "Vos flux sont en cours de rafraîchissement"

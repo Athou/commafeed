@@ -93,7 +93,7 @@ app:
 
 database:
   driverClass: org.h2.Driver
-  url: jdbc:h2:/commafeed/data/db
+  url: jdbc:h2:./db/commafeed
   user: sa
   password: sa
   properties:

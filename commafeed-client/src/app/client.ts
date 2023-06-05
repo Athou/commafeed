@@ -30,7 +30,10 @@ const axiosInstance = axios.create({ baseURL: "./rest", withCredentials: true })
 axiosInstance.interceptors.response.use(
     response => response,
     error => {
-        if (error.response.status === 401 && error.response.data === "Credentials are required to access this resource.") {
+        if (
+            (error.response.status === 401 && error.response.data === "Credentials are required to access this resource.") ||
+            (error.response.status === 403 && error.response.data === "You don't have the required role to access this resource.")
+        ) {
             window.location.hash = "/welcome"
         }
         throw error

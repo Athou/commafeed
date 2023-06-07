@@ -1,4 +1,4 @@
-import { ActionIcon, Button, useMantineTheme } from "@mantine/core"
+import { ActionIcon, Button, Tooltip, useMantineTheme } from "@mantine/core"
 import { ActionIconProps } from "@mantine/core/lib/ActionIcon/ActionIcon"
 import { ButtonProps } from "@mantine/core/lib/Button/Button"
 import { useMediaQuery } from "@mantine/hooks"
@@ -22,9 +22,11 @@ export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>((pr
     const mobile = !useMediaQuery(`(min-width: ${theme.breakpoints.lg})`)
     const iconOnly = !props.showLabelOnMobile && (mobile || !props.label)
     return iconOnly ? (
-        <ActionIcon ref={ref} color={theme.primaryColor} variant={variant} className={props.className} onClick={props.onClick}>
-            {props.icon}
-        </ActionIcon>
+        <Tooltip label={props.label} openDelay={500}>
+            <ActionIcon ref={ref} color={theme.primaryColor} variant={variant} className={props.className} onClick={props.onClick}>
+                {props.icon}
+            </ActionIcon>
+        </Tooltip>
     ) : (
         <Button ref={ref} variant={variant} size="xs" className={props.className} leftIcon={props.icon} onClick={props.onClick}>
             {props.label}

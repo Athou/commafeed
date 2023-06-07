@@ -37,8 +37,8 @@ export function FeedEntries() {
     const selectedEntry = entries.find(e => e.id === selectedEntryId)
 
     const headerClicked = (entry: ExpendableEntry, event: React.MouseEvent) => {
-        if (event.button === 1 || event.ctrlKey || event.metaKey) {
-            // middle click
+        const middleClick = event.button === 1 || event.ctrlKey || event.metaKey
+        if (middleClick || viewMode === "expanded") {
             dispatch(markEntry({ entry, read: true }))
         } else if (event.button === 0) {
             // main click

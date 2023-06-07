@@ -308,6 +308,11 @@ msgstr "Genişletilmiş"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "Aboneliklerinizi ve kategorilerinizi diğer besleme okuma hizmetlerinde içe aktarılabilen bir OPML dosyası olarak dışa aktarın"
 
+#: src/components/header/Header.tsx
+#: src/pages/WelcomePage.tsx
+msgid "Extension options"
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
 msgstr "Yayın adı"
@@ -540,6 +545,10 @@ msgstr "Önce en eski"
 msgid "Oops!"
 msgstr "Hata!"
 
+#: src/components/header/Header.tsx
+msgid "Open CommaFeed"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
 msgstr "Geçerli girişi yeni bir sekmede aç"
@@ -759,10 +768,12 @@ msgid "Swipe header to the right"
 msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Karanlık temaya geç"
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Açık temaya geç"
 

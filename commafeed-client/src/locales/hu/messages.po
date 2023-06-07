@@ -308,6 +308,11 @@ msgstr "Kiterjesztve"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "Exportálja előfizetéseit és kategóriáit OPML-fájlként, amely importálható más feedolvasó szolgáltatásokba"
 
+#: src/components/header/Header.tsx
+#: src/pages/WelcomePage.tsx
+msgid "Extension options"
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
 msgstr "Hírcsatorna neve"
@@ -540,6 +545,10 @@ msgstr "A legidősebb első"
 msgid "Oops!"
 msgstr "Hoppá!"
 
+#: src/components/header/Header.tsx
+msgid "Open CommaFeed"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
 msgstr "Az aktuális bejegyzés megnyitása új lapon"
@@ -759,10 +768,12 @@ msgid "Swipe header to the right"
 msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Váltás sötét témára"
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Váltás világos témára"
 

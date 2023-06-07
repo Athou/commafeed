@@ -308,6 +308,11 @@ msgstr "Vue étendue"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "Exporter vos abonnements et catégories en tant que fichier OPML qui peut être importé dans d'autres services de lecture de flux"
 
+#: src/components/header/Header.tsx
+#: src/pages/WelcomePage.tsx
+msgid "Extension options"
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
 msgstr "Nom du flux"
@@ -540,6 +545,10 @@ msgstr "Du plus ancien au plus récent"
 msgid "Oops!"
 msgstr "Oups !"
 
+#: src/components/header/Header.tsx
+msgid "Open CommaFeed"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
 msgstr "Ouvrir l'entrée actuelle dans un nouvel onglet"
@@ -759,10 +768,12 @@ msgid "Swipe header to the right"
 msgstr "Faire glisser le titre vers la droite"
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Activer le mode sombre"
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Activer le mode clair"
 

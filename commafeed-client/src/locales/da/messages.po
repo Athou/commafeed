@@ -308,6 +308,11 @@ msgstr "Udvidet"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "Eksporter dine abonnementer og kategorier som en OPML-fil, der kan importeres i andre feed-læsningstjenester"
 
+#: src/components/header/Header.tsx
+#: src/pages/WelcomePage.tsx
+msgid "Extension options"
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
 msgstr "Feednavn"
@@ -540,6 +545,10 @@ msgstr "Ældst først"
 msgid "Oops!"
 msgstr "Hovsa!"
 
+#: src/components/header/Header.tsx
+msgid "Open CommaFeed"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
 msgstr "Åbn den aktuelle post i en ny fane"
@@ -759,10 +768,12 @@ msgid "Swipe header to the right"
 msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Skift til mørkt tema"
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Skift til lystema"
 

@@ -308,6 +308,11 @@ msgstr "확장"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "구독 및 카테고리를 다른 피드 읽기 서비스에서 가져올 수 있는 OPML 파일로 내보내기"
 
+#: src/components/header/Header.tsx
+#: src/pages/WelcomePage.tsx
+msgid "Extension options"
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
 msgstr "피드 이름"
@@ -540,6 +545,10 @@ msgstr "가장 오래된 것부터"
 msgid "Oops!"
 msgstr "앗!"
 
+#: src/components/header/Header.tsx
+msgid "Open CommaFeed"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
 msgstr "새 탭에서 현재 항목 열기"
@@ -759,10 +768,12 @@ msgid "Swipe header to the right"
 msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "어두운 테마로 전환"
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "밝은 테마로 전환"
 

@@ -308,6 +308,11 @@ msgstr "Ampliat"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "exporteu les vostres subscripcions i categories com a fitxer OPML que es pot importar a altres serveis de lectura de feeds"
 
+#: src/components/header/Header.tsx
+#: src/pages/WelcomePage.tsx
+msgid "Extension options"
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
 msgstr "Nom del canal"
@@ -540,6 +545,10 @@ msgstr "el més vell primer"
 msgid "Oops!"
 msgstr "Vaja!"
 
+#: src/components/header/Header.tsx
+msgid "Open CommaFeed"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
 msgstr "Obre l'entrada actual en una pestanya nova"
@@ -759,10 +768,12 @@ msgid "Swipe header to the right"
 msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Canvia al tema fosc"
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Canvia al tema clar"
 

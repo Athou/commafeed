@@ -308,6 +308,11 @@ msgstr "گسترش یافت"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "اشتراک ها و دسته های خود را به عنوان یک فایل OPML صادر کنید که می تواند در سایر خدمات خواندن فید وارد شود"
 
+#: src/components/header/Header.tsx
+#: src/pages/WelcomePage.tsx
+msgid "Extension options"
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
 msgstr "نام فید"
@@ -540,6 +545,10 @@ msgstr "قدیمی ترین اول"
 msgid "Oops!"
 msgstr "اوه!"
 
+#: src/components/header/Header.tsx
+msgid "Open CommaFeed"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
 msgstr "ورودی فعلی را در یک برگه جدید باز کنید"
@@ -759,10 +768,12 @@ msgid "Swipe header to the right"
 msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "تغییر به تم تیره"
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "روی زمینه روشن"
 

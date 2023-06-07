@@ -9,10 +9,10 @@ import welcome_page_dark from "assets/welcome_page_dark.png"
 import welcome_page_light from "assets/welcome_page_light.png"
 import { ActionButton } from "components/ActionButtton"
 import { ButtonToolbar } from "components/ButtonToolbar"
+import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useAsyncCallback } from "react-async-hook"
-import { SiGithub, TbKey, TbUserPlus } from "react-icons/all"
-import { SiTwitter } from "react-icons/si"
-import { TbClock, TbMoon, TbSun } from "react-icons/tb"
+import { SiGithub, SiTwitter } from "react-icons/si"
+import { TbClock, TbKey, TbMoon, TbSettings, TbSun, TbUserPlus } from "react-icons/tb"
 import { PageTitle } from "./PageTitle"
 
 export function WelcomePage() {
@@ -63,8 +63,9 @@ function Buttons() {
     const iconSize = 18
     const serverInfos = useAppSelector(state => state.server.serverInfos)
     const { colorScheme, toggleColorScheme } = useMantineColorScheme()
-
+    const { isBrowserExtension, openSettingsPage } = useBrowserExtension()
     const dispatch = useAppDispatch()
+    const dark = colorScheme === "dark"
 
     const login = useAsyncCallback(client.user.login, {
         onSuccess: () => {
@@ -101,9 +102,20 @@ function Buttons() {
             )}
 
             <ActionButton
+                label={dark ? <Trans>Switch to light theme</Trans> : <Trans>Switch to dark theme</Trans>}
                 icon={colorScheme === "dark" ? <TbSun size={18} /> : <TbMoon size={iconSize} />}
                 onClick={() => toggleColorScheme()}
+                hideLabelOnDesktop
             />
+
+            {isBrowserExtension && (
+                <ActionButton
+                    label={<Trans>Extension options</Trans>}
+                    icon={<TbSettings size={iconSize} />}
+                    onClick={() => openSettingsPage()}
+                    hideLabelOnDesktop
+                />
+            )}
         </ButtonToolbar>
     )
 }

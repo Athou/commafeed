@@ -7,8 +7,9 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { ActionButton } from "components/ActionButtton"
 import { ButtonToolbar } from "components/ButtonToolbar"
 import { Loader } from "components/Loader"
+import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useEffect } from "react"
-import { TbArrowDown, TbArrowUp, TbEye, TbEyeOff, TbRefresh, TbSearch, TbUser, TbX } from "react-icons/tb"
+import { TbArrowDown, TbArrowUp, TbExternalLink, TbEye, TbEyeOff, TbRefresh, TbSearch, TbSettings, TbUser, TbX } from "react-icons/tb"
 import { MarkAllAsReadButton } from "./MarkAllAsReadButton"
 import { ProfileMenu } from "./ProfileMenu"
 
@@ -22,6 +23,7 @@ export function Header() {
     const settings = useAppSelector(state => state.user.settings)
     const profile = useAppSelector(state => state.user.profile)
     const searchFromStore = useAppSelector(state => state.entries.search)
+    const { isBrowserExtension, openSettingsPage, openAppInNewTab } = useBrowserExtension()
     const dispatch = useAppDispatch()
 
     const searchForm = useForm<{ search: string }>({
@@ -87,6 +89,23 @@ export function Header() {
                 <HeaderDivider />
 
                 <ProfileMenu control={<ActionButton icon={<TbUser size={iconSize} />} label={profile?.name} />} />
+
+                {isBrowserExtension && (
+                    <>
+                        <HeaderDivider />
+
+                        <ActionButton
+                            icon={<TbSettings size={iconSize} />}
+                            label={<Trans>Extension options</Trans>}
+                            onClick={() => openSettingsPage()}
+                        />
+                        <ActionButton
+                            icon={<TbExternalLink size={iconSize} />}
+                            label={<Trans>Open CommaFeed</Trans>}
+                            onClick={() => openAppInNewTab()}
+                        />
+                    </>
+                )}
             </ButtonToolbar>
         </Center>
     )

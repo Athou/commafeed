@@ -308,6 +308,11 @@ msgstr "Laajennettu"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "Vie tilauksesi ja luokat OPML-tiedostona, joka voidaan tuoda muihin syötteiden lukupalveluihin"
 
+#: src/components/header/Header.tsx
+#: src/pages/WelcomePage.tsx
+msgid "Extension options"
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
 msgstr "Syötteen nimi"
@@ -540,6 +545,10 @@ msgstr "Vanhin ensin"
 msgid "Oops!"
 msgstr "Hups!"
 
+#: src/components/header/Header.tsx
+msgid "Open CommaFeed"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
 msgstr "Avaa nykyinen merkintä uudessa välilehdessä"
@@ -759,10 +768,12 @@ msgid "Swipe header to the right"
 msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Vaihda tummaan teemaan"
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Vaihda vaaleaan teemaan"
 

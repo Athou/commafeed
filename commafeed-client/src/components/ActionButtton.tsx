@@ -7,9 +7,10 @@ import { forwardRef, MouseEventHandler, ReactNode } from "react"
 interface ActionButtonProps {
     className?: string
     icon?: ReactNode
-    label?: ReactNode
+    label: ReactNode
     onClick?: MouseEventHandler
     variant?: ActionIconProps["variant"] & ButtonProps["variant"]
+    hideLabelOnDesktop?: boolean
     showLabelOnMobile?: boolean
 }
 
@@ -20,7 +21,7 @@ export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>((pr
     const theme = useMantineTheme()
     const variant = props.variant ?? "subtle"
     const mobile = !useMediaQuery(`(min-width: ${theme.breakpoints.lg})`)
-    const iconOnly = !props.showLabelOnMobile && (mobile || !props.label)
+    const iconOnly = (mobile && !props.showLabelOnMobile) || (!mobile && props.hideLabelOnDesktop)
     return iconOnly ? (
         <Tooltip label={props.label} openDelay={500}>
             <ActionIcon ref={ref} color={theme.primaryColor} variant={variant} className={props.className} onClick={props.onClick}>

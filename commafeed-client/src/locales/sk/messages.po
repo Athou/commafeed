@@ -308,6 +308,11 @@ msgstr "Rozšírené"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "Exportujte svoje odbery a kategórie ako súbor OPML, ktorý je možné importovať do iných služieb na čítanie informačných kanálov"
 
+#: src/components/header/Header.tsx
+#: src/pages/WelcomePage.tsx
+msgid "Extension options"
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
 msgstr "Názov informačného kanála"
@@ -540,6 +545,10 @@ msgstr "Najprv najstarší"
 msgid "Oops!"
 msgstr "Ojoj!"
 
+#: src/components/header/Header.tsx
+msgid "Open CommaFeed"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
 msgstr "Otvorte aktuálny záznam na novej karte"
@@ -759,10 +768,12 @@ msgid "Swipe header to the right"
 msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Prepnúť na tmavú tému"
 
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Prepnite na svetlú tému"
 

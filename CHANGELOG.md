@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.6.0]
+
+- add a button to open CommaFeed in a new tab and a button to open options when using the browser extension
+- clicking on the entry title in expanded mode now opens the link instead of doing nothing
+- add tooltips to buttons when the mobile layout is used on desktop
+- redirect the user to the welcome page if the user was deleted from the database
+- add link to api documentation on welcome page
+- the unread count is now correctly updated when using the "/next" bookmarklet while redis cache is enabled
+
 ## [3.5.0]
 
 - add compatibility with the new version of the CommaFeed browser extension

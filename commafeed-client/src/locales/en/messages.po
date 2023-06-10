@@ -127,9 +127,13 @@ msgstr "Back"
 msgid "Back to log in"
 msgstr "Back to log in"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Browser extension required"
+msgstr "Browser extension required"
+
 #: src/pages/app/AboutPage.tsx
-msgid "Browser extentions"
-msgstr "Browser extentions"
+msgid "Browser extention"
+msgstr "Browser extention"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -164,12 +168,20 @@ msgid "Check that the feed is working"
 msgstr "Check that the feed is working"
 
 #: src/pages/app/AboutPage.tsx
+msgid "CommaFeed browser extension <0>not installed</0> (or URL in extension options not matching this CommaFeed instance)."
+msgstr "CommaFeed browser extension <0>not installed</0> (or URL in extension options not matching this CommaFeed instance)."
+
+#: src/pages/app/AboutPage.tsx
+msgid "CommaFeed browser extension version {browserExtensionVersion}."
+msgstr "CommaFeed browser extension version {browserExtensionVersion}."
+
+#: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "CommaFeed next unread item"
 
 #: src/pages/app/AboutPage.tsx
-msgid "CommaFeed version {version} ({revision})"
-msgstr "CommaFeed version {version} ({revision})"
+msgid "CommaFeed version {version} ({revision})."
+msgstr "CommaFeed version {version} ({revision})."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"

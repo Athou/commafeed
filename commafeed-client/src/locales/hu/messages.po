@@ -127,9 +127,13 @@ msgstr "Vissza"
 msgid "Back to log in"
 msgstr "Vissza a bejelentkezéshez"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Browser extension required"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
-msgid "Browser extentions"
-msgstr "Böngészőbővítések"
+msgid "Browser extention"
+msgstr ""
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -164,12 +168,20 @@ msgid "Check that the feed is working"
 msgstr "Ellenőrizze, hogy a feed működik-e"
 
 #: src/pages/app/AboutPage.tsx
+msgid "CommaFeed browser extension <0>not installed</0> (or URL in extension options not matching this CommaFeed instance)."
+msgstr ""
+
+#: src/pages/app/AboutPage.tsx
+msgid "CommaFeed browser extension version {browserExtensionVersion}."
+msgstr ""
+
+#: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "CommaFeed következő olvasatlan elem"
 
 #: src/pages/app/AboutPage.tsx
-msgid "CommaFeed version {version} ({revision})"
-msgstr "CommaFeed verzió {version} ({revision})"
+msgid "CommaFeed version {version} ({revision})."
+msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"

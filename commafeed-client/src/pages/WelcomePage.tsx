@@ -63,7 +63,7 @@ function Buttons() {
     const iconSize = 18
     const serverInfos = useAppSelector(state => state.server.serverInfos)
     const { colorScheme, toggleColorScheme } = useMantineColorScheme()
-    const { isBrowserExtension, openSettingsPage } = useBrowserExtension()
+    const { isBrowserExtensionPopup, openSettingsPage } = useBrowserExtension()
     const dispatch = useAppDispatch()
     const dark = colorScheme === "dark"
 
@@ -108,7 +108,7 @@ function Buttons() {
                 hideLabelOnDesktop
             />
 
-            {isBrowserExtension && (
+            {isBrowserExtensionPopup && (
                 <ActionButton
                     label={<Trans>Extension options</Trans>}
                     icon={<TbSettings size={iconSize} />}

@@ -5,6 +5,7 @@ import { redirectToApiDocumentation } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { CategorySelect } from "components/content/add/CategorySelect"
 import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"
+import { useBrowserExtension } from "hooks/useBrowserExtension"
 import React, { useState } from "react"
 import { TbHelp, TbKeyboard, TbPuzzle, TbRocket } from "react-icons/tb"
 
@@ -60,16 +61,34 @@ function NextUnreadBookmarklet() {
 export function AboutPage() {
     const version = useAppSelector(state => state.server.serverInfos?.version)
     const revision = useAppSelector(state => state.server.serverInfos?.gitCommit)
+    const { isBrowserExtensionInstalled, browserExtensionVersion, isBrowserExtensionInstallable } = useBrowserExtension()
     const dispatch = useAppDispatch()
+
     return (
         <Container size="xl">
             <SimpleGrid cols={2} breakpoints={[{ maxWidth: Constants.layout.mobileBreakpoint, cols: 1 }]}>
                 <Section title={<Trans>About</Trans>} icon={<TbHelp size={24} />}>
                     <Box>
                         <Trans>
-                            CommaFeed version {version} ({revision})
+                            CommaFeed version {version} ({revision}).
                         </Trans>
                     </Box>
+                    {isBrowserExtensionInstallable && isBrowserExtensionInstalled && (
+                        <Box>
+                            <Trans>CommaFeed browser extension version {browserExtensionVersion}.</Trans>
+                        </Box>
+                    )}
+                    {isBrowserExtensionInstallable && !isBrowserExtensionInstalled && (
+                        <Box>
+                            <Trans>
+                                CommaFeed browser extension{" "}
+                                <Anchor href={Constants.browserExtensionUrl} target="_blank" rel="noreferrer">
+                                    not installed
+                                </Anchor>{" "}
+                                (or URL in extension options not matching this CommaFeed instance).
+                            </Trans>
+                        </Box>
+                    )}
                     <Box mt="md">
                         <Trans>
                             <span>CommaFeed is an open-source project. Sources are hosted on </span>
@@ -86,8 +105,8 @@ export function AboutPage() {
                 <Section title={<Trans>Goodies</Trans>} icon={<TbPuzzle size={24} />}>
                     <List>
                         <List.Item>
-                            <Anchor href="https://github.com/Athou/commafeed-browser-extension" target="_blank" rel="noreferrer">
-                                <Trans>Browser extentions</Trans>
+                            <Anchor href={Constants.browserExtensionUrl} target="_blank" rel="noreferrer">
+                                <Trans>Browser extention</Trans>
                             </Anchor>
                         </List.Item>
                         <List.Item>

@@ -23,7 +23,7 @@ export function Header() {
     const settings = useAppSelector(state => state.user.settings)
     const profile = useAppSelector(state => state.user.profile)
     const searchFromStore = useAppSelector(state => state.entries.search)
-    const { isBrowserExtension, openSettingsPage, openAppInNewTab } = useBrowserExtension()
+    const { isBrowserExtensionPopup, openSettingsPage, openAppInNewTab } = useBrowserExtension()
     const dispatch = useAppDispatch()
 
     const searchForm = useForm<{ search: string }>({
@@ -90,7 +90,7 @@ export function Header() {
 
                 <ProfileMenu control={<ActionButton icon={<TbUser size={iconSize} />} label={profile?.name} />} />
 
-                {isBrowserExtension && (
+                {isBrowserExtensionPopup && (
                     <>
                         <HeaderDivider />
 

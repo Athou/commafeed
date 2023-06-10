@@ -97,5 +97,6 @@ export const Constants = {
         mainScrollAreaId: "main-scroll-area-id",
         entryId: (entry: Entry) => `entry-id-${entry.id}`,
     },
+    browserExtensionUrl: "https://github.com/Athou/commafeed-browser-extension",
     bitcoinWalletAddress: "1dymfUxqCWpyD7a6rQSqNy4rLVDBsAr5e",
 }

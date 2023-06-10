@@ -127,9 +127,13 @@ msgstr "Tillbaka"
 msgid "Back to log in"
 msgstr "Tillbaka för att logga in"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Browser extension required"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
-msgid "Browser extentions"
-msgstr "Webbläsartillägg"
+msgid "Browser extention"
+msgstr ""
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -164,11 +168,19 @@ msgid "Check that the feed is working"
 msgstr "Kontrollera att matningen fungerar"
 
 #: src/pages/app/AboutPage.tsx
+msgid "CommaFeed browser extension <0>not installed</0> (or URL in extension options not matching this CommaFeed instance)."
+msgstr ""
+
+#: src/pages/app/AboutPage.tsx
+msgid "CommaFeed browser extension version {browserExtensionVersion}."
+msgstr ""
+
+#: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "CommaFeed nästa olästa objekt"
 
 #: src/pages/app/AboutPage.tsx
-msgid "CommaFeed version {version} ({revision})"
+msgid "CommaFeed version {version} ({revision})."
 msgstr ""
 
 #: src/components/header/ProfileMenu.tsx

@@ -52,17 +52,4 @@ export const scrollToWithCallback = ({
     element.scrollTo(options)
 }
 
-export const openLinkInBackgroundTab = (url: string) => {
-    // simulate ctrl+click to open tab in background
-    const a = document.createElement("a")
-    a.href = url
-    a.rel = "noreferrer"
-    a.dispatchEvent(
-        new MouseEvent("click", {
-            ctrlKey: true,
-            metaKey: true,
-        })
-    )
-}
-
 export const truncate = (str: string, n: number) => (str.length > n ? `${str.slice(0, n - 1)}\u2026` : str)

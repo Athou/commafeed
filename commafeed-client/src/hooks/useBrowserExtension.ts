@@ -31,6 +31,7 @@ export const useBrowserExtension = () => {
     const openSettingsPage = () => w.postMessage("open-settings-page", "*")
     const openAppInNewTab = () => w.postMessage("open-app-in-new-tab", "*")
     const openLinkInBackgroundTab = (url: string) => w.postMessage(`open-link-in-background-tab:${url}`, "*")
+    const setBadgeUnreadCount = (count: number) => w.postMessage(`set-badge-unread-count:${count}`, "*")
 
     return {
         browserExtensionVersion,
@@ -40,5 +41,6 @@ export const useBrowserExtension = () => {
         openSettingsPage,
         openAppInNewTab,
         openLinkInBackgroundTab,
+        setBadgeUnreadCount,
     }
 }

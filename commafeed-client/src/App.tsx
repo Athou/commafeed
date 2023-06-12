@@ -12,6 +12,7 @@ import { categoryUnreadCount } from "app/utils"
 import { ErrorBoundary } from "components/ErrorBoundary"
 import { Header } from "components/header/Header"
 import { Tree } from "components/sidebar/Tree"
+import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useI18n } from "i18n"
 import { AdminUsersPage } from "pages/admin/AdminUsersPage"
 import { MetricsPage } from "pages/admin/MetricsPage"
@@ -141,6 +142,18 @@ function FaviconHandler() {
     return null
 }
 
+function BrowserExtensionBadgeUnreadCountHandler() {
+    const root = useAppSelector(state => state.tree.rootCategory)
+    const { setBadgeUnreadCount } = useBrowserExtension()
+    useEffect(() => {
+        if (!root) return
+        const unreadCount = categoryUnreadCount(root)
+        setBadgeUnreadCount(unreadCount)
+    }, [root, setBadgeUnreadCount])
+
+    return null
+}
+
 export function App() {
     useI18n()
     const dispatch = useAppDispatch()
@@ -153,6 +166,7 @@ export function App() {
         <Providers>
             <>
                 <FaviconHandler />
+                <BrowserExtensionBadgeUnreadCountHandler />
                 <HashRouter>
                     <GoogleAnalyticsHandler />
                     <RedirectHandler />

@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
 
 export const useBrowserExtension = () => {
-    const [browserExtensionVersion, setBrowserExtensionVersion] = useState<string>()
+    // the extension will set the "browser-extension-installed" attribute on the root element
+    const [browserExtensionVersion, setBrowserExtensionVersion] = useState(
+        document.documentElement.getAttribute("browser-extension-installed")
+    )
 
-    // the extension will set the "browser-extension-installed" attribute on the root element, monitor it for changes
+    // monitor the attribute on the root element as it may change after the page was loaded
     useEffect(() => {
         const observer = new MutationObserver(mutations => {
             mutations.forEach(mutation => {

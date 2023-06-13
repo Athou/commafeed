@@ -25,9 +25,9 @@ export const useBrowserExtension = () => {
         return () => observer.disconnect()
     }, [])
 
-    const isBrowserExtensionInstalled = !!browserExtensionVersion
     // when not in an iframe, window.parent is a reference to window
     const isBrowserExtensionPopup = window.parent !== window
+    const isBrowserExtensionInstalled = isBrowserExtensionPopup || !!browserExtensionVersion
     const isBrowserExtensionInstallable = !isBrowserExtensionPopup
 
     const w = isBrowserExtensionPopup ? window.parent : window

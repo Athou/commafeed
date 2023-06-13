@@ -13,8 +13,8 @@ if [[ "$BRANCH" != "master" ]]; then
   exit
 fi
 
-# make sure README.md has been updated
-read -r -p "Has README.md been updated? (Y/n) " CONFIRM
+# make sure CHANGELOG.md has been updated
+read -r -p "Has CHANGELOG.md been updated? (Y/n) " CONFIRM
 case "$CONFIRM" in
 n | N) exit ;;
 esac

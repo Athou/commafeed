@@ -128,7 +128,7 @@ msgid "Back to log in"
 msgstr "返回登录"
 
 #: src/components/KeyboardShortcutsHelp.tsx
-msgid "Browser extension required"
+msgid "Browser extension required for Chrome"
 msgstr ""
 
 #: src/pages/app/AboutPage.tsx

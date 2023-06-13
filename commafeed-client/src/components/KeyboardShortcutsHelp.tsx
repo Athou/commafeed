@@ -184,7 +184,7 @@ export function KeyboardShortcutsHelp() {
             <Box>
                 <span>* </span>
                 <Anchor href={Constants.browserExtensionUrl} target="_blank" rel="noreferrer">
-                    <Trans>Browser extension required</Trans>
+                    <Trans>Browser extension required for Chrome</Trans>
                 </Anchor>
             </Box>
         </Stack>

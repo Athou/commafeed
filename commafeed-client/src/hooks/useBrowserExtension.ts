@@ -33,7 +33,22 @@ export const useBrowserExtension = () => {
     const w = isBrowserExtensionPopup ? window.parent : window
     const openSettingsPage = () => w.postMessage("open-settings-page", "*")
     const openAppInNewTab = () => w.postMessage("open-app-in-new-tab", "*")
-    const openLinkInBackgroundTab = (url: string) => w.postMessage(`open-link-in-background-tab:${url}`, "*")
+    const openLinkInBackgroundTab = (url: string) => {
+        if (isBrowserExtensionInstalled) {
+            w.postMessage(`open-link-in-background-tab:${url}`, "*")
+        } else {
+            // fallback to ctrl+click simulation
+            const a = document.createElement("a")
+            a.href = url
+            a.rel = "noreferrer"
+            a.dispatchEvent(
+                new MouseEvent("click", {
+                    ctrlKey: true,
+                    metaKey: true,
+                })
+            )
+        }
+    }
     const setBadgeUnreadCount = (count: number) => w.postMessage(`set-badge-unread-count:${count}`, "*")
 
     return {

@@ -33,7 +33,7 @@ export function FeedEntries() {
     const scrollMarks = useAppSelector(state => state.user.settings?.scrollMarks)
     const scrollingToEntry = useAppSelector(state => state.entries.scrollingToEntry)
     const dispatch = useAppDispatch()
-    const { isBrowserExtensionInstalled, openLinkInBackgroundTab } = useBrowserExtension()
+    const { openLinkInBackgroundTab } = useBrowserExtension()
 
     const selectedEntry = entries.find(e => e.id === selectedEntryId)
 
@@ -212,7 +212,6 @@ export function FeedEntries() {
         window.open(selectedEntry.url, "_blank", "noreferrer")
     })
     useMousetrap("b", () => {
-        if (!isBrowserExtensionInstalled) return
         if (!selectedEntry) return
         openLinkInBackgroundTab(selectedEntry.url)
     })

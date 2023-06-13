@@ -128,8 +128,8 @@ msgid "Back to log in"
 msgstr "Back to log in"
 
 #: src/components/KeyboardShortcutsHelp.tsx
-msgid "Browser extension required"
-msgstr "Browser extension required"
+msgid "Browser extension required for Chrome"
+msgstr "Browser extension required for Chrome"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extention"

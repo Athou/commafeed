@@ -35,7 +35,7 @@ export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
     const { classes, theme } = useStyles()
     const sourceType = useAppSelector(state => state.entries.source.type)
     const dispatch = useAppDispatch()
-    const { isBrowserExtensionInstalled, openLinkInBackgroundTab } = useBrowserExtension()
+    const { openLinkInBackgroundTab } = useBrowserExtension()
 
     return (
         <Menu id={menuId(props.entry)} theme={theme.colorScheme} animation={false} className={classes.menu}>
@@ -50,19 +50,17 @@ export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
                     <Trans>Open link in new tab</Trans>
                 </Group>
             </Item>
-            {isBrowserExtensionInstalled && (
-                <Item
-                    onClick={() => {
-                        openLinkInBackgroundTab(props.entry.url)
-                        dispatch(markEntry({ entry: props.entry, read: true }))
-                    }}
-                >
-                    <Group>
-                        <TbExternalLink size={iconSize} />
-                        <Trans>Open link in new background tab</Trans>
-                    </Group>
-                </Item>
-            )}
+            <Item
+                onClick={() => {
+                    openLinkInBackgroundTab(props.entry.url)
+                    dispatch(markEntry({ entry: props.entry, read: true }))
+                }}
+            >
+                <Group>
+                    <TbExternalLink size={iconSize} />
+                    <Trans>Open link in new background tab</Trans>
+                </Group>
+            </Item>
 
             <Separator />
 

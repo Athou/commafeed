@@ -78,17 +78,6 @@ export function AboutPage() {
                             <Trans>CommaFeed browser extension version {browserExtensionVersion}.</Trans>
                         </Box>
                     )}
-                    {isBrowserExtensionInstallable && !isBrowserExtensionInstalled && (
-                        <Box>
-                            <Trans>
-                                CommaFeed browser extension{" "}
-                                <Anchor href={Constants.browserExtensionUrl} target="_blank" rel="noreferrer">
-                                    not installed
-                                </Anchor>{" "}
-                                (or URL in extension options not matching this CommaFeed instance).
-                            </Trans>
-                        </Box>
-                    )}
                     <Box mt="md">
                         <Trans>
                             <span>CommaFeed is an open-source project. Sources are hosted on </span>

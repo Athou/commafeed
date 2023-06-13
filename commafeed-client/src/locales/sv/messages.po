@@ -168,10 +168,6 @@ msgid "Check that the feed is working"
 msgstr "Kontrollera att matningen fungerar"
 
 #: src/pages/app/AboutPage.tsx
-msgid "CommaFeed browser extension <0>not installed</0> (or URL in extension options not matching this CommaFeed instance)."
-msgstr ""
-
-#: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr ""
 

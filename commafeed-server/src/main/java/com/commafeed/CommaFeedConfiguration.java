@@ -67,6 +67,10 @@ public class CommaFeedConfiguration extends Configuration {
 
 		@NotNull
 		@Valid
+		private Boolean hideFromWebCrawlers = true;
+
+		@NotNull
+		@Valid
 		private Boolean allowRegistrations;
 
 		@NotNull

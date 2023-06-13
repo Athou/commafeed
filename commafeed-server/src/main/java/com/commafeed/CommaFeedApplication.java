@@ -47,6 +47,7 @@ import com.commafeed.frontend.servlet.CustomCssServlet;
 import com.commafeed.frontend.servlet.CustomJsServlet;
 import com.commafeed.frontend.servlet.LogoutServlet;
 import com.commafeed.frontend.servlet.NextUnreadServlet;
+import com.commafeed.frontend.servlet.RobotsTxtDisallowAllServlet;
 import com.commafeed.frontend.session.SessionHelperFactoryProvider;
 import com.commafeed.frontend.ws.WebSocketConfigurator;
 import com.commafeed.frontend.ws.WebSocketEndpoint;
@@ -169,6 +170,11 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.servlets().addServlet("customCss", injector.getInstance(CustomCssServlet.class)).addMapping("/custom_css.css");
 		environment.servlets().addServlet("customJs", injector.getInstance(CustomJsServlet.class)).addMapping("/custom_js.js");
 		environment.servlets().addServlet("analytics.js", injector.getInstance(AnalyticsServlet.class)).addMapping("/analytics.js");
+		if (Boolean.TRUE.equals(config.getApplicationSettings().getHideFromWebCrawlers())) {
+			environment.servlets()
+					.addServlet("robots.txt", injector.getInstance(RobotsTxtDisallowAllServlet.class))
+					.addMapping("/robots.txt");
+		}
 
 		// WebSocket endpoint
 		ServerEndpointConfig serverEndpointConfig = ServerEndpointConfig.Builder.create(WebSocketEndpoint.class, "/ws")

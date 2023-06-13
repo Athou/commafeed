@@ -3,6 +3,9 @@
 app:
   # url used to access commafeed
   publicUrl: http://localhost:8082/
+
+  # whether to expose a robots.txt file that disallows web crawlers and search engine indexers
+  hideFromWebCrawlers: true
   
   # whether to allow user registrations
   allowRegistrations: false

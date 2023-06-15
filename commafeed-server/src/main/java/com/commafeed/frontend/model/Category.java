@@ -35,5 +35,5 @@ public class Category implements Serializable {
 	private boolean expanded;
 
 	@ApiModelProperty(value = "position of the category in the list", required = true)
-	private Integer position;
+	private int position;
 }

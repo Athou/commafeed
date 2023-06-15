@@ -271,7 +271,7 @@ export interface Subscription {
     iconUrl: string
     unread: number
     categoryId?: string
-    position?: number
+    position: number
     newestItemTime?: number
     filter?: string
 }

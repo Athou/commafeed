@@ -38,7 +38,7 @@ public class FeedSubscription extends AbstractModel {
 	@OneToMany(mappedBy = "subscription", cascade = CascadeType.REMOVE)
 	private Set<FeedEntryStatus> statuses;
 
-	private Integer position;
+	private int position;
 
 	@Column(name = "filtering_expression", length = 4096)
 	private String filter;

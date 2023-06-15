@@ -54,7 +54,7 @@ public class Subscription implements Serializable {
 	private String categoryId;
 
 	@ApiModelProperty("position of the subscription's in the list")
-	private Integer position;
+	private int position;
 
 	@ApiModelProperty(value = "date of the newest item", dataType = "number")
 	private Date newestItemTime;

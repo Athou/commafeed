@@ -38,6 +38,6 @@ public class FeedCategory extends AbstractModel {
 
 	private boolean collapsed;
 
-	private Integer position;
+	private int position;
 
 }

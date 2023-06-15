@@ -458,7 +458,7 @@ public class CategoryREST {
 				category.getChildren().add(child);
 			}
 		}
-		Collections.sort(category.getChildren(), (o1, o2) -> ObjectUtils.compare(o1.getPosition(), o2.getPosition()));
+		category.getChildren().sort(Comparator.comparing(Category::getPosition).thenComparing(Category::getName));
 
 		for (FeedSubscription subscription : subscriptions) {
 			if (id == null && subscription.getCategory() == null
@@ -468,7 +468,7 @@ public class CategoryREST {
 				category.getFeeds().add(sub);
 			}
 		}
-		Collections.sort(category.getFeeds(), (o1, o2) -> ObjectUtils.compare(o1.getPosition(), o2.getPosition()));
+		category.getFeeds().sort(Comparator.comparing(Subscription::getPosition).thenComparing(Subscription::getName));
 
 		return category;
 	}

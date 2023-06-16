@@ -15,23 +15,30 @@ import com.commafeed.backend.model.QFeed;
 import com.commafeed.backend.model.QFeedSubscription;
 import com.google.common.collect.Iterables;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
 
 @Singleton
 public class FeedDAO extends GenericDAO<Feed> {
 
 	private final QFeed feed = QFeed.feed;
+	private final QFeedSubscription subscription = QFeedSubscription.feedSubscription;
 
 	@Inject
 	public FeedDAO(SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
-	public List<Feed> findNextUpdatable(int count) {
-		return query().selectFrom(feed)
-				.where(feed.disabledUntil.isNull().or(feed.disabledUntil.lt(new Date())))
-				.orderBy(feed.disabledUntil.asc())
-				.limit(count)
-				.fetch();
+	public List<Feed> findNextUpdatable(int count, Date lastLoginThreshold) {
+		JPAQuery<Feed> query = query().selectFrom(feed).where(feed.disabledUntil.isNull().or(feed.disabledUntil.lt(new Date())));
+		if (lastLoginThreshold != null) {
+			query.where(JPAExpressions.selectOne()
+					.from(subscription)
+					.join(subscription.user)
+					.where(subscription.feed.id.eq(feed.id), subscription.user.lastLogin.gt(lastLoginThreshold))
+					.exists());
+		}
+
+		return query.orderBy(feed.disabledUntil.asc()).limit(count).fetch();
 	}
 
 	public void setDisabledUntil(List<Long> feedIds, Date date) {

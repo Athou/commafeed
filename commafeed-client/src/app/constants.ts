@@ -88,7 +88,6 @@ export const Constants = {
     layout: {
         mobileBreakpoint: DEFAULT_THEME.breakpoints.md,
         headerHeight: 60,
-        sidebarWidth: 350,
         entryMaxWidth: 650,
         isTopVisible: (div: HTMLElement) => div.getBoundingClientRect().top >= Constants.layout.headerHeight,
         isBottomVisible: (div: HTMLElement) => div.getBoundingClientRect().bottom <= window.innerHeight,

@@ -9,10 +9,12 @@ import { redirectTo } from "./redirect"
 interface TreeState {
     rootCategory?: Category
     mobileMenuOpen: boolean
+    sidebarWidth: number
 }
 
 const initialState: TreeState = {
     mobileMenuOpen: false,
+    sidebarWidth: 350,
 }
 
 export const reloadTree = createAsyncThunk("tree/reload", () => client.category.getRoot().then(r => r.data))
@@ -26,6 +28,9 @@ export const treeSlice = createSlice({
     reducers: {
         setMobileMenuOpen: (state, action: PayloadAction<boolean>) => {
             state.mobileMenuOpen = action.payload
+        },
+        setSidebarWidth: (state, action: PayloadAction<number>) => {
+            state.sidebarWidth = action.payload
         },
     },
     extraReducers: builder => {
@@ -54,5 +59,5 @@ export const treeSlice = createSlice({
     },
 })
 
-export const { setMobileMenuOpen } = treeSlice.actions
+export const { setMobileMenuOpen, setSidebarWidth } = treeSlice.actions
 export default treeSlice.reducer

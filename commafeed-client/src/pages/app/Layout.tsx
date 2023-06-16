@@ -16,7 +16,7 @@ import {
 import { useViewportSize } from "@mantine/hooks"
 import { Constants } from "app/constants"
 import { redirectToAdd, redirectToRootCategory } from "app/slices/redirect"
-import { reloadTree, setMobileMenuOpen } from "app/slices/tree"
+import { reloadTree, setMobileMenuOpen, setSidebarWidth } from "app/slices/tree"
 import { reloadProfile, reloadSettings, reloadTags } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Loader } from "components/Loader"
@@ -26,28 +26,34 @@ import { OnMobile } from "components/responsive/OnMobile"
 import { useAppLoading } from "hooks/useAppLoading"
 import { useWebSocket } from "hooks/useWebSocket"
 import { LoadingPage } from "pages/LoadingPage"
+import { Resizable } from "re-resizable"
 import { ReactNode, Suspense, useEffect } from "react"
 import { TbPlus } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
 
 interface LayoutProps {
     sidebar: ReactNode
+    sidebarWidth: number
     header: ReactNode
 }
 
 const sidebarPadding = DEFAULT_THEME.spacing.xs
 const sidebarRightBorderWidth = "1px"
 
-const useStyles = createStyles(theme => ({
+const useStyles = createStyles((theme, props: LayoutProps) => ({
+    sidebarContentResizeWrapper: {
+        padding: sidebarPadding,
+        minHeight: "100vh",
+    },
     sidebarContent: {
-        maxWidth: `calc(${Constants.layout.sidebarWidth}px - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
+        maxWidth: `calc(${props.sidebarWidth}px - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
         [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
             maxWidth: `calc(100vw - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
         },
     },
     mainContentWrapper: {
         paddingTop: Constants.layout.headerHeight,
-        paddingLeft: Constants.layout.sidebarWidth,
+        paddingLeft: props.sidebarWidth,
         paddingRight: 0,
         paddingBottom: 0,
         [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
@@ -55,7 +61,7 @@ const useStyles = createStyles(theme => ({
         },
     },
     mainContent: {
-        maxWidth: `calc(100vw - ${Constants.layout.sidebarWidth}px)`,
+        maxWidth: `calc(100vw - ${props.sidebarWidth}px)`,
         padding: theme.spacing.md,
         [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
             maxWidth: "100vw",
@@ -76,14 +82,16 @@ function LogoAndTitle() {
     )
 }
 
-export default function Layout({ sidebar, header }: LayoutProps) {
-    const { classes } = useStyles()
+export default function Layout(props: LayoutProps) {
+    const { classes } = useStyles(props)
     const theme = useMantineTheme()
     const viewport = useViewportSize()
     const { loading } = useAppLoading()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
     const dispatch = useAppDispatch()
     useWebSocket()
+
+    const handleResize = (element: HTMLElement) => dispatch(setSidebarWidth(element.offsetWidth))
 
     useEffect(() => {
         dispatch(reloadSettings())
@@ -122,14 +130,30 @@ export default function Layout({ sidebar, header }: LayoutProps) {
             navbar={
                 <Navbar
                     id="sidebar"
-                    p={sidebarPadding}
                     hiddenBreakpoint={Constants.layout.mobileBreakpoint}
                     hidden={!mobileMenuOpen}
-                    width={{ md: Constants.layout.sidebarWidth }}
+                    width={{ md: props.sidebarWidth }}
                 >
-                    <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
-                        <Box className={classes.sidebarContent}>{sidebar}</Box>
-                    </Navbar.Section>
+                    <Resizable
+                        enable={{
+                            top: false,
+                            right: true,
+                            bottom: false,
+                            left: false,
+                            topRight: false,
+                            bottomRight: false,
+                            bottomLeft: false,
+                            topLeft: false,
+                        }}
+                        onResize={(e, dir, el) => handleResize(el)}
+                        minWidth={120}
+                    >
+                        <Box className={classes.sidebarContentResizeWrapper}>
+                            <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
+                                <Box className={classes.sidebarContent}>{props.sidebar}</Box>
+                            </Navbar.Section>
+                        </Box>
+                    </Resizable>
                 </Navbar>
             }
             header={
@@ -147,19 +171,19 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                         {!mobileMenuOpen && (
                             <Group>
                                 <Box mr="sm">{burger}</Box>
-                                <Box sx={{ flexGrow: 1 }}>{header}</Box>
+                                <Box sx={{ flexGrow: 1 }}>{props.header}</Box>
                             </Group>
                         )}
                     </OnMobile>
                     <OnDesktop>
                         <Group>
-                            <Group position="apart" sx={{ width: Constants.layout.sidebarWidth - 16 }}>
+                            <Group position="apart" sx={{ width: props.sidebarWidth - 16 }}>
                                 <Box>
                                     <LogoAndTitle />
                                 </Box>
                                 <Box>{addButton}</Box>
                             </Group>
-                            <Box sx={{ flexGrow: 1 }}>{header}</Box>
+                            <Box sx={{ flexGrow: 1 }}>{props.header}</Box>
                         </Group>
                     </OnDesktop>
                 </Header>

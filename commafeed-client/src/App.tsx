@@ -66,6 +66,7 @@ function Providers(props: { children: React.ReactNode }) {
 const ApiDocumentationPage = React.lazy(() => import("pages/app/ApiDocumentationPage"))
 
 function AppRoutes() {
+    const sidebarWidth = useAppSelector(state => state.tree.sidebarWidth)
     return (
         <Routes>
             <Route path="/" element={<Navigate to={`/app/category/${Constants.categories.all.id}`} replace />} />
@@ -74,7 +75,7 @@ function AppRoutes() {
             <Route path="register" element={<RegistrationPage />} />
             <Route path="passwordRecovery" element={<PasswordRecoveryPage />} />
             <Route path="api" element={<ApiDocumentationPage />} />
-            <Route path="app" element={<Layout header={<Header />} sidebar={<Tree />} />}>
+            <Route path="app" element={<Layout header={<Header />} sidebar={<Tree />} sidebarWidth={sidebarWidth} />}>
                 <Route path="category">
                     <Route path=":id" element={<FeedEntriesPage sourceType="category" />} />
                     <Route path=":id/details" element={<CategoryDetailsPage />} />
@@ -135,8 +136,11 @@ function FaviconHandler() {
     const root = useAppSelector(state => state.tree.rootCategory)
     useEffect(() => {
         const unreadCount = categoryUnreadCount(root)
-        if (unreadCount === 0) Tinycon.reset()
-        else Tinycon.setBubble(unreadCount)
+        if (unreadCount === 0) {
+            Tinycon.reset()
+        } else {
+            Tinycon.setBubble(unreadCount)
+        }
     }, [root])
 
     return null

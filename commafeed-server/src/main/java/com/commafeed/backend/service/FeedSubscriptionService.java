@@ -1,5 +1,6 @@
 package com.commafeed.backend.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -104,6 +105,17 @@ public class FeedSubscriptionService {
 		for (FeedSubscription sub : subs) {
 			Feed feed = sub.getFeed();
 			feedRefreshEngine.refreshImmediately(feed);
+		}
+	}
+
+	public void refreshAllUpForRefresh(User user) {
+		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
+		for (FeedSubscription sub : subs) {
+			Date disabledUntil = sub.getFeed().getDisabledUntil();
+			if (disabledUntil == null || disabledUntil.before(new Date())) {
+				Feed feed = sub.getFeed();
+				feedRefreshEngine.refreshImmediately(feed);
+			}
 		}
 	}
 

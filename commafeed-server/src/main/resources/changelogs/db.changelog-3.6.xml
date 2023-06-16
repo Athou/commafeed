@@ -18,4 +18,8 @@
 		<addNotNullConstraint tableName="FEEDSUBSCRIPTIONS" columnName="position" columnDataType="int" />
 	</changeSet>
 
+	<changeSet id="drop-unused-last-full-refresh" author="athou">
+		<dropColumn tableName="USERS" columnName="last_full_refresh" />
+	</changeSet>
+
 </databaseChangeLog>

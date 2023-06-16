@@ -8,8 +8,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.apache.commons.lang3.time.DateUtils;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -49,17 +47,4 @@ public class User extends AbstractModel {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date recoverPasswordTokenDate;
-
-	@Column(name = "last_full_refresh")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastFullRefresh;
-
-	public boolean shouldRefreshFeedsAt(Date when) {
-		return lastFullRefresh == null || lastFullRefreshMoreThan30MinutesBefore(when);
-	}
-
-	private boolean lastFullRefreshMoreThan30MinutesBefore(Date when) {
-		return lastFullRefresh.before(DateUtils.addMinutes(when, -30));
-	}
-
 }

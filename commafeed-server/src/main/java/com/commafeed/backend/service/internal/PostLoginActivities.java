@@ -25,25 +25,20 @@ public class PostLoginActivities {
 	private final CommaFeedConfiguration config;
 
 	public void executeFor(User user) {
-		Date lastLogin = user.getLastLogin();
+		// only update lastLogin every once in a while in order to avoid invalidating the cache every time someone logs in
 		Date now = new Date();
-
-		boolean saveUser = false;
-
-		// only update lastLogin field every hour in order to not
-		// invalidate the cache every time someone logs in
-		if (lastLogin == null || lastLogin.before(DateUtils.addHours(now, -1))) {
+		Date lastLogin = user.getLastLogin();
+		if (lastLogin == null || lastLogin.before(DateUtils.addMinutes(now, -30))) {
 			user.setLastLogin(now);
-			saveUser = true;
-		}
 
-		if (Boolean.TRUE.equals(config.getApplicationSettings().getHeavyLoad()) && user.shouldRefreshFeedsAt(now)) {
-			feedSubscriptionService.refreshAll(user);
-			user.setLastFullRefresh(now);
-			saveUser = true;
-		}
+			boolean heavyLoad = Boolean.TRUE.equals(config.getApplicationSettings().getHeavyLoad());
+			if (heavyLoad) {
+				// the amount of feeds in the database that are up for refresh might be very large since we're in heavy load mode
+				// the feed refresh engine might not be able to catch up quickly enough
+				// put feeds from online users that are up for refresh at the top of the queue
+				feedSubscriptionService.refreshAllUpForRefresh(user);
+			}
 
-		if (saveUser) {
 			// Post login activites are susceptible to run for any webservice call.
 			// We update the user in a new transaction to update the user immediately.
 			// If we didn't and the webservice call takes time, subsequent webservice calls would have to wait for the first call to
@@ -51,5 +46,4 @@ public class PostLoginActivities {
 			unitOfWork.run(() -> userDAO.saveOrUpdate(user));
 		}
 	}
-
 }

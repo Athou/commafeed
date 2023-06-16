@@ -86,10 +86,12 @@ public class FeedRefreshEngine implements Managed {
 					Feed feed = queue.take();
 
 					// send the feed to be processed
+					log.debug("got feed {} from the queue, send it for processing", feed.getId());
 					processFeedAsync(feed);
 
 					// we removed a feed from the queue, try to refill it as it may now be empty
 					if (queue.isEmpty()) {
+						log.debug("took the last feed from the queue, try to refill");
 						refillQueueAsync();
 					}
 				} catch (InterruptedException e) {
@@ -108,9 +110,11 @@ public class FeedRefreshEngine implements Managed {
 			while (!refillLoopExecutor.isShutdown()) {
 				try {
 					if (queue.isEmpty()) {
+						log.debug("refilling queue");
 						refillQueueAsync();
 					}
 
+					log.debug("sleeping for 15s");
 					TimeUnit.SECONDS.sleep(15);
 				} catch (InterruptedException e) {
 					log.debug("interrupted while sleeping");
@@ -123,6 +127,7 @@ public class FeedRefreshEngine implements Managed {
 	}
 
 	public void refreshImmediately(Feed feed) {
+		log.debug("add feed {} at the start of the queue", feed.getId());
 		// remove the feed from the queue if it was already queued to avoid refreshing it twice
 		queue.removeIf(f -> f.getId().equals(feed.getId()));
 		queue.addFirst(feed);
@@ -136,7 +141,9 @@ public class FeedRefreshEngine implements Managed {
 
 			refill.mark();
 
-			for (Feed feed : getNextUpdatableFeeds(getBatchSize())) {
+			List<Feed> nextUpdatableFeeds = getNextUpdatableFeeds(getBatchSize());
+			log.debug("found {} feeds that are up for refresh", nextUpdatableFeeds.size());
+			for (Feed feed : nextUpdatableFeeds) {
 				// add the feed only if it was not already queued
 				if (queue.stream().noneMatch(f -> f.getId().equals(feed.getId()))) {
 					queue.addLast(feed);

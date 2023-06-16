@@ -13,7 +13,7 @@ import {
     Title,
     useMantineTheme,
 } from "@mantine/core"
-import { useViewportSize } from "@mantine/hooks"
+import { useMediaQuery, useViewportSize } from "@mantine/hooks"
 import { Constants } from "app/constants"
 import { redirectToAdd, redirectToRootCategory } from "app/slices/redirect"
 import { reloadTree, setMobileMenuOpen, setSidebarWidth } from "app/slices/tree"
@@ -43,7 +43,7 @@ const sidebarRightBorderWidth = "1px"
 const useStyles = createStyles((theme, props: LayoutProps) => ({
     sidebarContentResizeWrapper: {
         padding: sidebarPadding,
-        minHeight: "100vh",
+        minHeight: `calc(100vh - ${Constants.layout.headerHeight}px)`,
     },
     sidebarContent: {
         maxWidth: `calc(${props.sidebarWidth}px - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
@@ -87,6 +87,7 @@ export default function Layout(props: LayoutProps) {
     const theme = useMantineTheme()
     const viewport = useViewportSize()
     const { loading } = useAppLoading()
+    const mobile = !useMediaQuery(`(min-width: ${Constants.layout.mobileBreakpoint})`)
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
     const sidebarHidden = props.sidebarWidth === 0
     const dispatch = useAppDispatch()
@@ -135,26 +136,25 @@ export default function Layout(props: LayoutProps) {
                     hidden={sidebarHidden || !mobileMenuOpen}
                     width={{ md: props.sidebarWidth }}
                 >
-                    <Resizable
-                        enable={{
-                            top: false,
-                            right: true,
-                            bottom: false,
-                            left: false,
-                            topRight: false,
-                            bottomRight: false,
-                            bottomLeft: false,
-                            topLeft: false,
-                        }}
-                        onResize={(e, dir, el) => handleResize(el)}
-                        minWidth={120}
-                    >
-                        <Box className={classes.sidebarContentResizeWrapper}>
-                            <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
-                                <Box className={classes.sidebarContent}>{props.sidebar}</Box>
-                            </Navbar.Section>
-                        </Box>
-                    </Resizable>
+                    <Navbar.Section grow component={ScrollArea} mx={mobile ? 0 : "-sm"} px={mobile ? 0 : "sm"}>
+                        <Resizable
+                            enable={{
+                                top: false,
+                                right: !mobile,
+                                bottom: false,
+                                left: false,
+                                topRight: false,
+                                bottomRight: false,
+                                bottomLeft: false,
+                                topLeft: false,
+                            }}
+                            onResize={(e, dir, el) => handleResize(el)}
+                            minWidth={120}
+                            className={classes.sidebarContentResizeWrapper}
+                        >
+                            <Box className={classes.sidebarContent}>{props.sidebar}</Box>
+                        </Resizable>
+                    </Navbar.Section>
                 </Navbar>
             }
             header={

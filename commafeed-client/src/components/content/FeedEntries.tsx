@@ -12,6 +12,7 @@ import {
     selectPreviousEntry,
 } from "app/slices/entries"
 import { redirectToRootCategory } from "app/slices/redirect"
+import { toggleSidebar } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"
 import { Loader } from "components/Loader"
@@ -234,6 +235,7 @@ export function FeedEntries() {
         )
     })
     useMousetrap("g a", () => dispatch(redirectToRootCategory()))
+    useMousetrap("f", () => dispatch(toggleSidebar()))
     useMousetrap("?", () =>
         openModal({
             title: <Trans>Keyboard shortcuts</Trans>,

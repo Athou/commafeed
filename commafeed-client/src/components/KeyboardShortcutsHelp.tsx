@@ -173,6 +173,14 @@ export function KeyboardShortcutsHelp() {
                     </tr>
                     <tr>
                         <td>
+                            <Trans>Toggle sidebar</Trans>
+                        </td>
+                        <td>
+                            <Kbd>F</Kbd>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <Trans>Show keyboard shortcut help</Trans>
                         </td>
                         <td>

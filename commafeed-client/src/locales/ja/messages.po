@@ -801,6 +801,10 @@ msgstr "テーマ"
 msgid "Toggle read status of current entry"
 msgstr "現在のエントリの読み取りステータスを切り替えます"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Toggle sidebar"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "デモアカウントで CommaFeed を試す: demo/demo"

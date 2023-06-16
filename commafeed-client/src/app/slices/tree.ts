@@ -10,11 +10,13 @@ interface TreeState {
     rootCategory?: Category
     mobileMenuOpen: boolean
     sidebarWidth: number
+    sidebarVisible: boolean
 }
 
 const initialState: TreeState = {
     mobileMenuOpen: false,
     sidebarWidth: 350,
+    sidebarVisible: true,
 }
 
 export const reloadTree = createAsyncThunk("tree/reload", () => client.category.getRoot().then(r => r.data))
@@ -31,6 +33,9 @@ export const treeSlice = createSlice({
         },
         setSidebarWidth: (state, action: PayloadAction<number>) => {
             state.sidebarWidth = action.payload
+        },
+        toggleSidebar: state => {
+            state.sidebarVisible = !state.sidebarVisible
         },
     },
     extraReducers: builder => {
@@ -59,5 +64,5 @@ export const treeSlice = createSlice({
     },
 })
 
-export const { setMobileMenuOpen, setSidebarWidth } = treeSlice.actions
+export const { setMobileMenuOpen, setSidebarWidth, toggleSidebar } = treeSlice.actions
 export default treeSlice.reducer

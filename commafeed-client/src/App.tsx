@@ -38,7 +38,7 @@ import useLocalStorage from "use-local-storage"
 function Providers(props: { children: React.ReactNode }) {
     const preferredColorScheme = useColorScheme()
     const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>("color-scheme", preferredColorScheme)
-    const toggleColorScheme = (value?: ColorScheme) => setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"))
+    const toggleColorScheme = (value?: ColorScheme) => setColorScheme(value ?? (colorScheme === "dark" ? "light" : "dark"))
 
     return (
         <I18nProvider i18n={i18n}>
@@ -67,6 +67,8 @@ const ApiDocumentationPage = React.lazy(() => import("pages/app/ApiDocumentation
 
 function AppRoutes() {
     const sidebarWidth = useAppSelector(state => state.tree.sidebarWidth)
+    const sidebarVisible = useAppSelector(state => state.tree.sidebarVisible)
+
     return (
         <Routes>
             <Route path="/" element={<Navigate to={`/app/category/${Constants.categories.all.id}`} replace />} />
@@ -75,7 +77,7 @@ function AppRoutes() {
             <Route path="register" element={<RegistrationPage />} />
             <Route path="passwordRecovery" element={<PasswordRecoveryPage />} />
             <Route path="api" element={<ApiDocumentationPage />} />
-            <Route path="app" element={<Layout header={<Header />} sidebar={<Tree />} sidebarWidth={sidebarWidth} />}>
+            <Route path="app" element={<Layout header={<Header />} sidebar={<Tree />} sidebarWidth={sidebarVisible ? sidebarWidth : 0} />}>
                 <Route path="category">
                     <Route path=":id" element={<FeedEntriesPage sourceType="category" />} />
                     <Route path=":id/details" element={<CategoryDetailsPage />} />

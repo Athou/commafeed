@@ -88,6 +88,7 @@ export default function Layout(props: LayoutProps) {
     const viewport = useViewportSize()
     const { loading } = useAppLoading()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
+    const sidebarHidden = props.sidebarWidth === 0
     const dispatch = useAppDispatch()
     useWebSocket()
 
@@ -130,8 +131,8 @@ export default function Layout(props: LayoutProps) {
             navbar={
                 <Navbar
                     id="sidebar"
-                    hiddenBreakpoint={Constants.layout.mobileBreakpoint}
-                    hidden={!mobileMenuOpen}
+                    hiddenBreakpoint={sidebarHidden ? 99999999 : Constants.layout.mobileBreakpoint}
+                    hidden={sidebarHidden || !mobileMenuOpen}
                     width={{ md: props.sidebarWidth }}
                 >
                     <Resizable

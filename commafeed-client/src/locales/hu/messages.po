@@ -801,6 +801,10 @@ msgstr "Téma"
 msgid "Toggle read status of current entry"
 msgstr "Az aktuális bejegyzés olvasási állapotának váltása"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Toggle sidebar"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "Próbálja ki a CommaFeed-et a demo fiókkal: demo/demo"

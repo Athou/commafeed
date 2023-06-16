@@ -801,6 +801,10 @@ msgstr "Teema"
 msgid "Toggle read status of current entry"
 msgstr "Vaihda nykyisen merkinnän lukutila"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Toggle sidebar"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "Kokeile CommaFeediä demotilillä: demo/demo"

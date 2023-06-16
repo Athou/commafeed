@@ -801,6 +801,10 @@ msgstr "تم"
 msgid "Toggle read status of current entry"
 msgstr "وضعیت خواندن ورودی فعلی را تغییر دهید"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Toggle sidebar"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "CommaFeed را با حساب آزمایشی امتحان کنید: دمو/دمو"

@@ -1,4 +1,5 @@
 import { Trans } from "@lingui/macro"
+import { Tooltip } from "@mantine/core"
 import dayjs from "dayjs"
 import { useEffect, useState } from "react"
 
@@ -10,5 +11,10 @@ export function RelativeDate(props: { date: Date | number | undefined }) {
     }, [])
 
     if (!props.date) return <Trans>N/A</Trans>
-    return <>{dayjs(props.date).from(dayjs(now))}</>
+    const date = dayjs(props.date)
+    return (
+        <Tooltip label={date.toString()} openDelay={500}>
+            <span>{date.from(dayjs(now))}</span>
+        </Tooltip>
+    )
 }

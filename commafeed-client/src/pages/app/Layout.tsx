@@ -41,6 +41,11 @@ const sidebarPadding = DEFAULT_THEME.spacing.xs
 const sidebarRightBorderWidth = "1px"
 
 const useStyles = createStyles((theme, props: LayoutProps) => ({
+    sidebar: {
+        "& .mantine-ScrollArea-scrollbar[data-orientation='horizontal']": {
+            display: "none",
+        },
+    },
     sidebarContentResizeWrapper: {
         padding: sidebarPadding,
         minHeight: `calc(100vh - ${Constants.layout.headerHeight}px)`,
@@ -135,6 +140,7 @@ export default function Layout(props: LayoutProps) {
                     hiddenBreakpoint={sidebarHidden ? 99999999 : Constants.layout.mobileBreakpoint}
                     hidden={sidebarHidden || !mobileMenuOpen}
                     width={{ md: props.sidebarWidth }}
+                    className={classes.sidebar}
                 >
                     <Navbar.Section grow component={ScrollArea} mx={mobile ? 0 : "-sm"} px={mobile ? 0 : "sm"}>
                         <Resizable

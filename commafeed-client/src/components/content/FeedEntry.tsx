@@ -18,21 +18,31 @@ interface FeedEntryProps {
     expanded: boolean
     selected: boolean
     showSelectionIndicator: boolean
+    maxWidth?: number
     onHeaderClick: (e: React.MouseEvent) => void
 }
 
 const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: ViewMode }) => {
     let backgroundColor
-    if (theme.colorScheme === "dark") backgroundColor = props.entry.read ? "inherit" : theme.colors.dark[5]
-    else backgroundColor = props.entry.read && !props.expanded ? theme.colors.gray[0] : "inherit"
+    if (theme.colorScheme === "dark") {
+        backgroundColor = props.entry.read ? "inherit" : theme.colors.dark[5]
+    } else {
+        backgroundColor = props.entry.read && !props.expanded ? theme.colors.gray[0] : "inherit"
+    }
 
     let marginY = 10
-    if (props.viewMode === "title") marginY = 2
-    else if (props.viewMode === "cozy") marginY = 6
+    if (props.viewMode === "title") {
+        marginY = 2
+    } else if (props.viewMode === "cozy") {
+        marginY = 6
+    }
 
     let mobileMarginY = 6
-    if (props.viewMode === "title") mobileMarginY = 2
-    else if (props.viewMode === "cozy") mobileMarginY = 4
+    if (props.viewMode === "title") {
+        mobileMarginY = 2
+    } else if (props.viewMode === "cozy") {
+        mobileMarginY = 4
+    }
 
     let backgroundHoverColor = backgroundColor
     if (!props.expanded && !props.entry.read) {
@@ -59,7 +69,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: View
             textDecoration: "none",
         },
         body: {
-            maxWidth: Constants.layout.entryMaxWidth,
+            maxWidth: props.maxWidth ?? "100%",
         },
     }
 
@@ -87,12 +97,18 @@ export function FeedEntry(props: FeedEntryProps) {
     if (viewMode === "title" || viewMode === "cozy") paddingX = 6
 
     let paddingY: MantineNumberSize = "xs"
-    if (viewMode === "title") paddingY = 4
-    else if (viewMode === "cozy") paddingY = 8
+    if (viewMode === "title") {
+        paddingY = 4
+    } else if (viewMode === "cozy") {
+        paddingY = 8
+    }
 
     let borderRadius: MantineNumberSize = "sm"
-    if (viewMode === "title") borderRadius = 0
-    else if (viewMode === "cozy") borderRadius = "xs"
+    if (viewMode === "title") {
+        borderRadius = 0
+    } else if (viewMode === "cozy") {
+        borderRadius = "xs"
+    }
 
     const compactHeader = !props.expanded && (viewMode === "title" || viewMode === "cozy")
     return (

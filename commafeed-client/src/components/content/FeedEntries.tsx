@@ -30,9 +30,10 @@ export function FeedEntries() {
     const entriesTimestamp = useAppSelector(state => state.entries.timestamp)
     const selectedEntryId = useAppSelector(state => state.entries.selectedEntryId)
     const hasMore = useAppSelector(state => state.entries.hasMore)
-    const { viewMode } = useViewMode()
     const scrollMarks = useAppSelector(state => state.user.settings?.scrollMarks)
     const scrollingToEntry = useAppSelector(state => state.entries.scrollingToEntry)
+    const sidebarVisible = useAppSelector(state => state.tree.sidebarVisible)
+    const { viewMode } = useViewMode()
     const dispatch = useAppDispatch()
     const { openLinkInBackgroundTab } = useBrowserExtension()
 
@@ -267,6 +268,7 @@ export function FeedEntries() {
                         expanded={!!entry.expanded || viewMode === "expanded"}
                         selected={entry.id === selectedEntryId}
                         showSelectionIndicator={entry.id === selectedEntryId && (!entry.expanded || viewMode === "expanded")}
+                        maxWidth={sidebarVisible ? Constants.layout.entryMaxWidth : undefined}
                         onHeaderClick={event => headerClicked(entry, event)}
                     />
                 </div>

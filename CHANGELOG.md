@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.7.0]
+
+- the sidebar is now resizable
+- added the "f" keyboard shortcut to hide the sidebar
+- added tooltips to relative dates with the exact date
+- add a setting to hide commafeed from search engines (exposes a robots.txt file, enabled by default)
+- the browser extension unread count now updates when articles are marked as read/unread in the app
+- The "b" keyboard shortcut now works as expected on Chrome but requires the browser extension to be installed
+- dark mode has been disabled on the api documentation page as it was unreadable
+- improvement to the feed refresh queuing logic when "heavy load" mode is enabled
+- fix a bug that could prevent feeds and categories from being edited
+
 ## [3.6.0]
 
 - add a button to open CommaFeed in a new tab and a button to open options when using the browser extension
@@ -26,7 +38,8 @@
 - add divider to visually separate read-only information from form on the profile settings page
 - reduce javascript bundle size by 30% by loading only the necessary translations
 - add a standalone donate page with all ways to support CommaFeed
-- fix an issue introduced in 3.1.0 that could make CommaFeed not refresh feeds as fast as before on instances with lots of feeds
+- fix an issue introduced in 3.1.0 that could make CommaFeed not refresh feeds as fast as before on instances with lots
+  of feeds
 - fix alignment of icon with text for category tree nodes
 - fix alignment of burger button with the rest of the header on mobile
 
@@ -67,10 +80,10 @@
 ## [3.0.1]
 
 - allow env variable substitution in config.yml
-  - e.g. having a custom config.yml file with `app.session.path=${SOME_ENV_VAR}` will substitute `SOME_ENV_VAR` with
-    its value
+    - e.g. having a custom config.yml file with `app.session.path=${SOME_ENV_VAR}` will substitute `SOME_ENV_VAR` with
+      its value
 - allow env variable prefixed with `CF_` to override config.yml properties
-  - e.g. setting `CF_APP_ALLOWREGISTRATIONS=true` will set `app.allowRegistrations` to `true`
+    - e.g. setting `CF_APP_ALLOWREGISTRATIONS=true` will set `app.allowRegistrations` to `true`
 
 ## [3.0.0]
 

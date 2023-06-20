@@ -7,9 +7,7 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { Entry } from "app/types"
 import { ActionButton } from "components/ActionButtton"
 import { ButtonToolbar } from "components/ButtonToolbar"
-import { useEffect, useState } from "react"
 import { TbArrowBarToDown, TbExternalLink, TbEyeCheck, TbEyeOff, TbShare, TbStar, TbStarOff, TbTag } from "react-icons/tb"
-import { throttle } from "throttle-debounce"
 import { ShareButtons } from "./ShareButtons"
 
 interface FeedEntryFooterProps {
@@ -17,7 +15,6 @@ interface FeedEntryFooterProps {
 }
 
 export function FeedEntryFooter(props: FeedEntryFooterProps) {
-    const [scrollPosition, setScrollPosition] = useState(0)
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const tags = useAppSelector(state => state.user.tags)
     const mobile = !useMediaQuery(`(min-width: ${Constants.layout.mobileBreakpoint})`)
@@ -33,16 +30,6 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 tags: values,
             })
         )
-
-    useEffect(() => {
-        const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
-
-        const listener = () => setScrollPosition(scrollArea ? scrollArea.scrollTop : 0)
-        const throttledListener = throttle(100, listener)
-
-        scrollArea?.addEventListener("scroll", throttledListener)
-        return () => scrollArea?.removeEventListener("scroll", throttledListener)
-    }, [])
 
     return (
         <Group position="apart">
@@ -61,7 +48,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 />
 
                 {showSharingButtons && (
-                    <Popover withArrow withinPortal shadow="md" positionDependencies={[scrollPosition]} closeOnClickOutside={!mobile}>
+                    <Popover withArrow withinPortal shadow="md" closeOnClickOutside={!mobile}>
                         <Popover.Target>
                             <ActionButton icon={<TbShare size={18} />} label={<Trans>Share</Trans>} />
                         </Popover.Target>
@@ -72,7 +59,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 )}
 
                 {tags && (
-                    <Popover withArrow withinPortal shadow="md" positionDependencies={[scrollPosition]} closeOnClickOutside={!mobile}>
+                    <Popover withArrow withinPortal shadow="md" closeOnClickOutside={!mobile}>
                         <Popover.Target>
                             <Indicator label={props.entry.tags.length} disabled={props.entry.tags.length === 0} inline size={16}>
                                 <ActionButton icon={<TbTag size={18} />} label={<Trans>Tags</Trans>} />

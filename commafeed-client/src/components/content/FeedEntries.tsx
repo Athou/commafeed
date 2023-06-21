@@ -59,6 +59,8 @@ export function FeedEntries() {
         }
     }
 
+    const swipedRight = (entry: ExpendableEntry) => dispatch(markEntry({ entry, read: !entry.read }))
+
     useEffect(() => {
         const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
 
@@ -270,6 +272,7 @@ export function FeedEntries() {
                         showSelectionIndicator={entry.id === selectedEntryId && (!entry.expanded || viewMode === "expanded")}
                         maxWidth={sidebarVisible ? Constants.layout.entryMaxWidth : undefined}
                         onHeaderClick={event => headerClicked(entry, event)}
+                        onSwipedRight={() => swipedRight(entry)}
                     />
                 </div>
             ))}

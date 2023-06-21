@@ -1,8 +1,6 @@
 import { Box, createStyles, Divider, Paper } from "@mantine/core"
 import { MantineNumberSize } from "@mantine/styles"
 import { Constants } from "app/constants"
-import { markEntry } from "app/slices/entries"
-import { useAppDispatch } from "app/store"
 import { Entry, ViewMode } from "app/types"
 import { useViewMode } from "hooks/useViewMode"
 import React from "react"
@@ -20,6 +18,7 @@ interface FeedEntryProps {
     showSelectionIndicator: boolean
     maxWidth?: number
     onHeaderClick: (e: React.MouseEvent) => void
+    onSwipedRight: () => void
 }
 
 const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: ViewMode }) => {
@@ -85,10 +84,8 @@ export function FeedEntry(props: FeedEntryProps) {
     const { viewMode } = useViewMode()
     const { classes, cx } = useStyles({ ...props, viewMode })
 
-    const dispatch = useAppDispatch()
-
     const swipeHandlers = useSwipeable({
-        onSwipedRight: () => dispatch(markEntry({ entry: props.entry, read: !props.entry.read })),
+        onSwipedRight: props.onSwipedRight,
     })
 
     const { onContextMenu } = useFeedEntryContextMenu(props.entry)

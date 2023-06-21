@@ -59,6 +59,18 @@ export function FeedEntries() {
         }
     }
 
+    const bodyClicked = (entry: ExpendableEntry) => {
+        if (viewMode !== "expanded") return
+        dispatch(
+            selectEntry({
+                entry,
+                expand: true,
+                markAsRead: true,
+                scrollToEntry: true,
+            })
+        )
+    }
+
     const swipedRight = (entry: ExpendableEntry) => dispatch(markEntry({ entry, read: !entry.read }))
 
     useEffect(() => {
@@ -272,6 +284,7 @@ export function FeedEntries() {
                         showSelectionIndicator={entry.id === selectedEntryId && (!entry.expanded || viewMode === "expanded")}
                         maxWidth={sidebarVisible ? Constants.layout.entryMaxWidth : undefined}
                         onHeaderClick={event => headerClicked(entry, event)}
+                        onBodyClick={() => bodyClicked(entry)}
                         onSwipedRight={() => swipedRight(entry)}
                     />
                 </div>

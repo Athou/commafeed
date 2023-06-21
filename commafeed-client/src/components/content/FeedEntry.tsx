@@ -18,6 +18,7 @@ interface FeedEntryProps {
     showSelectionIndicator: boolean
     maxWidth?: number
     onHeaderClick: (e: React.MouseEvent) => void
+    onBodyClick: (e: React.MouseEvent) => void
     onSwipedRight: () => void
 }
 
@@ -135,7 +136,7 @@ export function FeedEntry(props: FeedEntryProps) {
                 </Box>
             </a>
             {props.expanded && (
-                <Box px={paddingX} pb={paddingY}>
+                <Box px={paddingX} pb={paddingY} onClick={props.onBodyClick}>
                     <Box className={classes.body} sx={{ direction: props.entry.rtl ? "rtl" : "ltr" }}>
                         <FeedEntryBody entry={props.entry} />
                     </Box>

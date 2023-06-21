@@ -129,11 +129,11 @@ msgstr "Retour à la connexion"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
-msgstr ""
+msgstr "L'extension navigateur est nécessaire sur Chrome"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extention"
-msgstr ""
+msgstr "Extension navigateur"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -169,7 +169,7 @@ msgstr "Vérifie que le flux fonctionne"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
-msgstr ""
+msgstr "Extension CommaFeed pour navigateur version {browserExtensionVersion}."
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -177,7 +177,7 @@ msgstr "CommaFeed prochain article non lu"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed version {version} ({revision})."
-msgstr ""
+msgstr "CommaFeed version {version} ({revision})."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"
@@ -319,7 +319,7 @@ msgstr "Exporter vos abonnements et catégories en tant que fichier OPML qui peu
 #: src/components/header/Header.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Extension options"
-msgstr ""
+msgstr "Options de l'extension"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
@@ -555,7 +555,7 @@ msgstr "Oups !"
 
 #: src/components/header/Header.tsx
 msgid "Open CommaFeed"
-msgstr ""
+msgstr "Ouvrir CommaFeed"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
@@ -803,7 +803,7 @@ msgstr "Marquer l'entrée actuelle comme lue/non lue"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Montrer/cacher la barre latérale"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"

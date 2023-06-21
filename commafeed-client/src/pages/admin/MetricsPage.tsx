@@ -20,6 +20,8 @@ const shownGauges: { [key: string]: string } = {
     "com.commafeed.backend.feed.FeedRefreshEngine.queue.size": "Queue size",
     "com.commafeed.backend.feed.FeedRefreshEngine.worker.active": "Feed Worker active",
     "com.commafeed.backend.feed.FeedRefreshEngine.updater.active": "Feed Updater active",
+    "com.commafeed.frontend.ws.WebSocketSessions.users": "WebSocket users",
+    "com.commafeed.frontend.ws.WebSocketSessions.sessions": "WebSocket sessions",
 }
 
 export function MetricsPage() {

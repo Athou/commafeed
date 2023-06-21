@@ -1,11 +1,8 @@
-import { Box, MediaQuery } from "@mantine/core"
-import { Constants } from "app/constants"
+import { Box } from "@mantine/core"
+import { useMobile } from "hooks/useMobile"
 import React from "react"
 
 export function OnMobile(props: { children: React.ReactNode }) {
-    return (
-        <MediaQuery largerThan={Constants.layout.mobileBreakpoint} styles={{ display: "none" }}>
-            <Box>{props.children}</Box>
-        </MediaQuery>
-    )
+    const mobile = useMobile()
+    return <Box>{mobile && props.children}</Box>
 }

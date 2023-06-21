@@ -13,7 +13,7 @@ import {
     Title,
     useMantineTheme,
 } from "@mantine/core"
-import { useMediaQuery, useViewportSize } from "@mantine/hooks"
+import { useViewportSize } from "@mantine/hooks"
 import { Constants } from "app/constants"
 import { redirectToAdd, redirectToRootCategory } from "app/slices/redirect"
 import { reloadTree, setMobileMenuOpen, setSidebarWidth } from "app/slices/tree"
@@ -24,6 +24,7 @@ import { Logo } from "components/Logo"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import { OnMobile } from "components/responsive/OnMobile"
 import { useAppLoading } from "hooks/useAppLoading"
+import { useMobile } from "hooks/useMobile"
 import { useWebSocket } from "hooks/useWebSocket"
 import { LoadingPage } from "pages/LoadingPage"
 import { Resizable } from "re-resizable"
@@ -92,7 +93,7 @@ export default function Layout(props: LayoutProps) {
     const theme = useMantineTheme()
     const viewport = useViewportSize()
     const { loading } = useAppLoading()
-    const mobile = !useMediaQuery(`(min-width: ${Constants.layout.mobileBreakpoint})`)
+    const mobile = useMobile()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
     const sidebarHidden = props.sidebarWidth === 0
     const dispatch = useAppDispatch()

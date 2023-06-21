@@ -1,12 +1,11 @@
 import { t, Trans } from "@lingui/macro"
 import { Group, Indicator, MultiSelect, Popover } from "@mantine/core"
-import { useMediaQuery } from "@mantine/hooks"
-import { Constants } from "app/constants"
 import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "app/slices/entries"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Entry } from "app/types"
 import { ActionButton } from "components/ActionButtton"
 import { ButtonToolbar } from "components/ButtonToolbar"
+import { useMobile } from "hooks/useMobile"
 import { TbArrowBarToDown, TbExternalLink, TbEyeCheck, TbEyeOff, TbShare, TbStar, TbStarOff, TbTag } from "react-icons/tb"
 import { ShareButtons } from "./ShareButtons"
 
@@ -17,7 +16,7 @@ interface FeedEntryFooterProps {
 export function FeedEntryFooter(props: FeedEntryFooterProps) {
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const tags = useAppSelector(state => state.user.tags)
-    const mobile = !useMediaQuery(`(min-width: ${Constants.layout.mobileBreakpoint})`)
+    const mobile = useMobile()
     const dispatch = useAppDispatch()
 
     const showSharingButtons = sharingSettings && Object.values(sharingSettings).some(v => v)

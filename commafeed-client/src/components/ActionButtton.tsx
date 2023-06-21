@@ -1,7 +1,7 @@
 import { ActionIcon, Button, Tooltip, useMantineTheme } from "@mantine/core"
 import { ActionIconProps } from "@mantine/core/lib/ActionIcon/ActionIcon"
 import { ButtonProps } from "@mantine/core/lib/Button/Button"
-import { useMediaQuery } from "@mantine/hooks"
+import { useMobile } from "hooks/useMobile"
 import { forwardRef, MouseEventHandler, ReactNode } from "react"
 
 interface ActionButtonProps {
@@ -20,7 +20,7 @@ interface ActionButtonProps {
 export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>((props: ActionButtonProps, ref) => {
     const theme = useMantineTheme()
     const variant = props.variant ?? "subtle"
-    const mobile = !useMediaQuery(`(min-width: ${theme.breakpoints.lg})`)
+    const mobile = useMobile(theme.breakpoints.lg)
     const iconOnly = (mobile && !props.showLabelOnMobile) || (!mobile && props.hideLabelOnDesktop)
     return iconOnly ? (
         <Tooltip label={props.label} openDelay={500}>

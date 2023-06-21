@@ -1,8 +1,6 @@
 import { Trans } from "@lingui/macro"
 import { Anchor, Box, Center, Container, Divider, Group, Image, Title, useMantineColorScheme } from "@mantine/core"
-import { useMediaQuery } from "@mantine/hooks"
 import { client } from "app/client"
-import { Constants } from "app/constants"
 import { redirectToApiDocumentation, redirectToLogin, redirectToRegistration, redirectToRootCategory } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import welcome_page_dark from "assets/welcome_page_dark.png"
@@ -10,6 +8,7 @@ import welcome_page_light from "assets/welcome_page_light.png"
 import { ActionButton } from "components/ActionButtton"
 import { ButtonToolbar } from "components/ButtonToolbar"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
+import { useMobile } from "hooks/useMobile"
 import { useAsyncCallback } from "react-async-hook"
 import { SiGithub, SiTwitter } from "react-icons/si"
 import { TbClock, TbKey, TbMoon, TbSettings, TbSun, TbUserPlus } from "react-icons/tb"
@@ -38,7 +37,7 @@ export function WelcomePage() {
 }
 
 function Header() {
-    const mobile = !useMediaQuery(`(min-width: ${Constants.layout.mobileBreakpoint})`)
+    const mobile = useMobile()
 
     if (mobile) {
         return (

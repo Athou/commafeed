@@ -19,12 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WebSocketSessions {
 
-	// a user may have multiple sessions (two tabs, on mobile, ...)
+	// a user may have multiple sessions (two tabs, two devices, ...)
 	private final Map<Long, Set<Session>> sessions = new ConcurrentHashMap<>();
 
 	@Inject
 	public WebSocketSessions(MetricRegistry metrics) {
-		metrics.register(MetricRegistry.name(getClass(), "users"), (Gauge<Integer>) sessions::size);
+		metrics.register(MetricRegistry.name(getClass(), "users"),
+				(Gauge<Long>) () -> sessions.values().stream().filter(v -> !v.isEmpty()).count());
 		metrics.register(MetricRegistry.name(getClass(), "sessions"),
 				(Gauge<Long>) () -> sessions.values().stream().mapToLong(Set::size).sum());
 	}
@@ -34,7 +35,7 @@ public class WebSocketSessions {
 	}
 
 	public void remove(Session session) {
-		sessions.values().forEach(v -> v.removeIf(e -> e.equals(session)));
+		sessions.values().forEach(v -> v.remove(session));
 	}
 
 	public void sendMessage(User user, String text) {

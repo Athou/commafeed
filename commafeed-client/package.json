@@ -26,6 +26,7 @@
     "@mantine/notifications": "^6.0.11",
     "@mantine/spotlight": "^6.0.11",
     "@mantine/styles": "^6.0.11",
+    "@monaco-editor/react": "^4.5.1",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "dayjs": "^1.11.7",

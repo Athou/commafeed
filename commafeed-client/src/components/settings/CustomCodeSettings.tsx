@@ -1,11 +1,11 @@
 import { Trans } from "@lingui/macro"
-import { Box, Button, Group, Input, Stack, useMantineTheme } from "@mantine/core"
+import { Box, Button, Group, Input, Stack } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { Editor } from "@monaco-editor/react"
 import { client, errorToStrings } from "app/client"
 import { redirectToSelectedSource } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Alert } from "components/Alert"
+import RichCodeEditor from "components/RichCodeEditor"
 import { useEffect } from "react"
 import { useAsyncCallback } from "react-async-hook"
 import { TbDeviceFloppy } from "react-icons/tb"
@@ -17,10 +17,7 @@ interface FormData {
 
 export function CustomCodeSettings() {
     const settings = useAppSelector(state => state.user.settings)
-    const theme = useMantineTheme()
     const dispatch = useAppDispatch()
-
-    const editorTheme = theme.colorScheme === "dark" ? "vs-dark" : "light"
 
     const form = useForm<FormData>()
     const { setValues } = form
@@ -60,23 +57,11 @@ export function CustomCodeSettings() {
             <form onSubmit={form.onSubmit(saveCustomCode.execute)}>
                 <Stack>
                     <Input.Wrapper description={<Trans>Custom CSS rules that will be applied</Trans>}>
-                        <Editor
-                            height="30vh"
-                            defaultLanguage="css"
-                            theme={editorTheme}
-                            options={{ minimap: { enabled: false } }}
-                            {...form.getInputProps("customCss")}
-                        />
+                        <RichCodeEditor height="30vh" language="css" {...form.getInputProps("customCss")} />
                     </Input.Wrapper>
 
                     <Input.Wrapper description={<Trans>Custom JS code that will be executed on page load</Trans>}>
-                        <Editor
-                            height="30vh"
-                            defaultLanguage="javascript"
-                            theme={editorTheme}
-                            options={{ minimap: { enabled: false } }}
-                            {...form.getInputProps("customJs")}
-                        />
+                        <RichCodeEditor height="30vh" language="javascript" {...form.getInputProps("customJs")} />
                     </Input.Wrapper>
 
                     <Group>

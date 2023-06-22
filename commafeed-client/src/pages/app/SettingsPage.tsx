@@ -8,7 +8,7 @@ import { TbCode, TbPhoto, TbUser } from "react-icons/tb"
 export function SettingsPage() {
     return (
         <Container size="sm" px={0}>
-            <Tabs defaultValue="display">
+            <Tabs defaultValue="display" keepMounted={false}>
                 <Tabs.List>
                     <Tabs.Tab value="display" icon={<TbPhoto size={16} />}>
                         <Trans>Display</Trans>

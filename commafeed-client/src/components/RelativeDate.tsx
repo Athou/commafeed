@@ -13,7 +13,7 @@ export function RelativeDate(props: { date: Date | number | undefined }) {
     if (!props.date) return <Trans>N/A</Trans>
     const date = dayjs(props.date)
     return (
-        <Tooltip label={date.toString()} openDelay={500}>
+        <Tooltip label={date.toDate().toLocaleString()} openDelay={500}>
             <span>{date.from(dayjs(now))}</span>
         </Tooltip>
     )

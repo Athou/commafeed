@@ -1,11 +1,11 @@
 import { Trans } from "@lingui/macro"
-import { Box, Button, Group, Input, Stack } from "@mantine/core"
+import { Box, Button, Group, Stack } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
 import { redirectToSelectedSource } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Alert } from "components/Alert"
-import RichCodeEditor from "components/RichCodeEditor"
+import { CodeEditor } from "components/code/CodeEditor"
 import { useEffect } from "react"
 import { useAsyncCallback } from "react-async-hook"
 import { TbDeviceFloppy } from "react-icons/tb"
@@ -56,13 +56,17 @@ export function CustomCodeSettings() {
 
             <form onSubmit={form.onSubmit(saveCustomCode.execute)}>
                 <Stack>
-                    <Input.Wrapper description={<Trans>Custom CSS rules that will be applied</Trans>}>
-                        <RichCodeEditor height="30vh" language="css" {...form.getInputProps("customCss")} />
-                    </Input.Wrapper>
+                    <CodeEditor
+                        description={<Trans>Custom CSS rules that will be applied</Trans>}
+                        language="css"
+                        {...form.getInputProps("customCss")}
+                    />
 
-                    <Input.Wrapper description={<Trans>Custom JS code that will be executed on page load</Trans>}>
-                        <RichCodeEditor height="30vh" language="javascript" {...form.getInputProps("customJs")} />
-                    </Input.Wrapper>
+                    <CodeEditor
+                        description={<Trans>Custom JS code that will be executed on page load</Trans>}
+                        language="javascript"
+                        {...form.getInputProps("customJs")}
+                    />
 
                     <Group>
                         <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>

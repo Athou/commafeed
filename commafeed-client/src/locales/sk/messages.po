@@ -71,6 +71,10 @@ msgstr "Správca"
 msgid "All"
 msgstr "Všetky"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Always scroll selected entry to the top of the page, even if it fits entirely on screen"
+msgstr ""
+
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
 msgstr "E-mail bol odoslaný, ak bola táto adresa zaregistrovaná. "

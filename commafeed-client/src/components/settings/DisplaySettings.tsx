@@ -1,7 +1,14 @@
 import { Trans } from "@lingui/macro"
 import { Divider, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
 import { Constants } from "app/constants"
-import { changeLanguage, changeScrollMarks, changeScrollSpeed, changeSharingSetting, changeShowRead } from "app/slices/user"
+import {
+    changeAlwaysScrollToEntry,
+    changeLanguage,
+    changeScrollMarks,
+    changeScrollSpeed,
+    changeSharingSetting,
+    changeShowRead,
+} from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { SharingSettings } from "app/types"
 import { locales } from "i18n"
@@ -11,6 +18,7 @@ export function DisplaySettings() {
     const scrollSpeed = useAppSelector(state => state.user.settings?.scrollSpeed)
     const showRead = useAppSelector(state => state.user.settings?.showRead)
     const scrollMarks = useAppSelector(state => state.user.settings?.scrollMarks)
+    const alwaysScrollToEntry = useAppSelector(state => state.user.settings?.alwaysScrollToEntry)
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const dispatch = useAppDispatch()
 
@@ -30,6 +38,12 @@ export function DisplaySettings() {
                 label={<Trans>Scroll smoothly when navigating between entries</Trans>}
                 checked={scrollSpeed ? scrollSpeed > 0 : false}
                 onChange={e => dispatch(changeScrollSpeed(e.currentTarget.checked))}
+            />
+
+            <Switch
+                label={<Trans>Always scroll selected entry to the top of the page, even if it fits entirely on screen</Trans>}
+                checked={alwaysScrollToEntry}
+                onChange={e => dispatch(changeAlwaysScrollToEntry(e.currentTarget.checked))}
             />
 
             <Switch

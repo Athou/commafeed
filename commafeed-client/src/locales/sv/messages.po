@@ -71,6 +71,10 @@ msgstr ""
 msgid "All"
 msgstr "Alla"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Always scroll selected entry to the top of the page, even if it fits entirely on screen"
+msgstr ""
+
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
 msgstr "Ett e-postmeddelande har skickats om denna adress var registrerad. "

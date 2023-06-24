@@ -71,6 +71,10 @@ msgstr "관리자"
 msgid "All"
 msgstr "전체"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Always scroll selected entry to the top of the page, even if it fits entirely on screen"
+msgstr ""
+
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
 msgstr "이 주소가 등록된 경우 이메일이 전송되었습니다. "

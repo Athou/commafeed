@@ -233,6 +233,7 @@ export interface Settings {
     customCss?: string
     customJs?: string
     scrollSpeed: number
+    alwaysScrollToEntry: boolean
     sharingSettings: SharingSettings
 }
 

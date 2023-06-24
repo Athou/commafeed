@@ -35,6 +35,9 @@ public class Settings implements Serializable {
 	@ApiModelProperty(value = "user's preferred scroll speed when navigating between entries", required = true)
 	private int scrollSpeed;
 
+	@ApiModelProperty(value = "always scroll selected entry to the top of the page, even if it fits entirely on screen", required = true)
+	private boolean alwaysScrollToEntry;
+
 	@ApiModelProperty(value = "sharing settings", required = true)
 	private SharingSettings sharingSettings = new SharingSettings();
 

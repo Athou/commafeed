@@ -45,18 +45,27 @@ const initialState: EntriesState = {
 
 const getEndpoint = (sourceType: EntrySourceType) =>
     sourceType === "category" || sourceType === "tag" ? client.category.getEntries : client.feed.getEntries
-export const loadEntries = createAsyncThunk<Entries, { source: EntrySource; clearSearch: boolean }, { state: RootState }>(
-    "entries/load",
-    async (arg, thunkApi) => {
-        if (arg.clearSearch) thunkApi.dispatch(setSearch(""))
-
-        const state = thunkApi.getState()
-        const endpoint = getEndpoint(arg.source.type)
-        const result = await endpoint(buildGetEntriesPaginatedRequest(state, arg.source, 0))
-        return result.data
+export const loadEntries = createAsyncThunk<
+    Entries,
+    { source: EntrySource; clearSearch: boolean },
+    {
+        state: RootState
     }
-)
-export const loadMoreEntries = createAsyncThunk<Entries, void, { state: RootState }>("entries/loadMore", async (_, thunkApi) => {
+>("entries/load", async (arg, thunkApi) => {
+    if (arg.clearSearch) thunkApi.dispatch(setSearch(""))
+
+    const state = thunkApi.getState()
+    const endpoint = getEndpoint(arg.source.type)
+    const result = await endpoint(buildGetEntriesPaginatedRequest(state, arg.source, 0))
+    return result.data
+})
+export const loadMoreEntries = createAsyncThunk<
+    Entries,
+    void,
+    {
+        state: RootState
+    }
+>("entries/loadMore", async (_, thunkApi) => {
     const state = thunkApi.getState()
     const { source } = state.entries
     const offset =
@@ -74,7 +83,13 @@ const buildGetEntriesPaginatedRequest = (state: RootState, source: EntrySource, 
     tag: source.type === "tag" ? source.id : undefined,
     keywords: state.entries.search,
 })
-export const reloadEntries = createAsyncThunk<void, void, { state: RootState }>("entries/reload", async (arg, thunkApi) => {
+export const reloadEntries = createAsyncThunk<
+    void,
+    void,
+    {
+        state: RootState
+    }
+>("entries/reload", async (arg, thunkApi) => {
     const state = thunkApi.getState()
     thunkApi.dispatch(loadEntries({ source: state.entries.source, clearSearch: false }))
 })
@@ -123,15 +138,18 @@ export const markEntriesUpToEntry = createAsyncThunk<void, Entry, { state: RootS
         )
     }
 )
-export const markAllEntries = createAsyncThunk<void, { sourceType: EntrySourceType; req: MarkRequest }, { state: RootState }>(
-    "entries/entry/markAll",
-    async (arg, thunkApi) => {
-        const endpoint = arg.sourceType === "category" ? client.category.markEntries : client.feed.markEntries
-        await endpoint(arg.req)
-        thunkApi.dispatch(reloadEntries())
-        thunkApi.dispatch(reloadTree())
+export const markAllEntries = createAsyncThunk<
+    void,
+    { sourceType: EntrySourceType; req: MarkRequest },
+    {
+        state: RootState
     }
-)
+>("entries/entry/markAll", async (arg, thunkApi) => {
+    const endpoint = arg.sourceType === "category" ? client.category.markEntries : client.feed.markEntries
+    await endpoint(arg.req)
+    thunkApi.dispatch(reloadEntries())
+    thunkApi.dispatch(reloadTree())
+})
 export const starEntry = createAsyncThunk("entries/entry/star", (arg: { entry: Entry; starred: boolean }) => {
     client.entry.star({
         id: arg.entry.id,
@@ -175,19 +193,17 @@ export const selectEntry = createAsyncThunk<
     if (arg.scrollToEntry) {
         const entryElement = document.getElementById(Constants.dom.entryId(entry))
         if (entryElement) {
-            const scrollSpeed = state.user.settings?.scrollSpeed
-            thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(true))
-            scrollToEntry(entryElement, scrollSpeed, () => thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(false)))
+            const alwaysScrollToEntry = state.user.settings?.alwaysScrollToEntry
+            const entryEntirelyVisible = Constants.layout.isTopVisible(entryElement) && Constants.layout.isBottomVisible(entryElement)
+            if (alwaysScrollToEntry || !entryEntirelyVisible) {
+                const scrollSpeed = state.user.settings?.scrollSpeed
+                thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(true))
+                scrollToEntry(entryElement, scrollSpeed, () => thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(false)))
+            }
         }
     }
 })
 const scrollToEntry = (entryElement: HTMLElement, scrollSpeed: number | undefined, onScrollEnded: () => void) => {
-    // the entry is entirely visible, no need to scroll
-    if (Constants.layout.isTopVisible(entryElement) && Constants.layout.isBottomVisible(entryElement)) {
-        onScrollEnded()
-        return
-    }
-
     const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
     if (scrollArea) {
         scrollToWithCallback({
@@ -248,7 +264,13 @@ export const selectNextEntry = createAsyncThunk<
         )
     }
 })
-export const tagEntry = createAsyncThunk<void, TagRequest, { state: RootState }>("entries/entry/tag", async (arg, thunkApi) => {
+export const tagEntry = createAsyncThunk<
+    void,
+    TagRequest,
+    {
+        state: RootState
+    }
+>("entries/entry/tag", async (arg, thunkApi) => {
     await client.entry.tag(arg)
     thunkApi.dispatch(reloadTags())
 })

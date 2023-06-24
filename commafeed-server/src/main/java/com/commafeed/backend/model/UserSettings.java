@@ -65,6 +65,8 @@ public class UserSettings extends AbstractModel {
 	@Column(name = "scroll_speed")
 	private int scrollSpeed;
 
+	private boolean alwaysScrollToEntry;
+
 	private boolean email;
 	private boolean gmail;
 	private boolean facebook;

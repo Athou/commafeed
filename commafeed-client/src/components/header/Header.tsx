@@ -1,20 +1,52 @@
 import { t, Trans } from "@lingui/macro"
-import { ActionIcon, Center, Divider, Indicator, Popover, TextInput } from "@mantine/core"
+import { ActionIcon, Box, Center, Divider, Group, Indicator, Popover, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { reloadEntries, search } from "app/slices/entries"
+import { Constants } from "app/constants"
+import { reloadEntries, search, selectNextEntry, selectPreviousEntry } from "app/slices/entries"
 import { changeReadingMode, changeReadingOrder } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { ActionButton } from "components/ActionButtton"
-import { ButtonToolbar } from "components/ButtonToolbar"
 import { Loader } from "components/Loader"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
+import { useMobile } from "hooks/useMobile"
 import { useEffect } from "react"
-import { TbArrowDown, TbArrowUp, TbExternalLink, TbEye, TbEyeOff, TbRefresh, TbSearch, TbSettings, TbUser, TbX } from "react-icons/tb"
+import {
+    TbArrowDown,
+    TbArrowUp,
+    TbExternalLink,
+    TbEye,
+    TbEyeOff,
+    TbRefresh,
+    TbSearch,
+    TbSettings,
+    TbSortAscending,
+    TbSortDescending,
+    TbUser,
+    TbX,
+} from "react-icons/tb"
 import { MarkAllAsReadButton } from "./MarkAllAsReadButton"
 import { ProfileMenu } from "./ProfileMenu"
 
 function HeaderDivider() {
     return <Divider orientation="vertical" />
+}
+
+function HeaderToolbar(props: { children: React.ReactNode }) {
+    const mobile = useMobile("480px")
+    return mobile ? (
+        // on mobile use all available width
+        <Box
+            sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+            }}
+        >
+            {props.children}
+        </Box>
+    ) : (
+        <Group spacing={Constants.layout.buttonSpacing}>{props.children}</Group>
+    )
 }
 
 const iconSize = 18
@@ -42,7 +74,34 @@ export function Header() {
     if (!settings) return <Loader />
     return (
         <Center>
-            <ButtonToolbar>
+            <HeaderToolbar>
+                <ActionButton
+                    icon={<TbArrowDown size={iconSize} />}
+                    label={<Trans>Next</Trans>}
+                    onClick={() =>
+                        dispatch(
+                            selectNextEntry({
+                                expand: true,
+                                markAsRead: true,
+                                scrollToEntry: true,
+                            })
+                        )
+                    }
+                />
+                <ActionButton
+                    icon={<TbArrowUp size={iconSize} />}
+                    label={<Trans>Previous</Trans>}
+                    onClick={() =>
+                        dispatch(
+                            selectPreviousEntry({
+                                expand: true,
+                                markAsRead: true,
+                                scrollToEntry: true,
+                            })
+                        )
+                    }
+                />
+
                 <ActionButton
                     icon={<TbRefresh size={iconSize} />}
                     label={<Trans>Refresh</Trans>}
@@ -58,7 +117,7 @@ export function Header() {
                     onClick={() => dispatch(changeReadingMode(settings.readingMode === "all" ? "unread" : "all"))}
                 />
                 <ActionButton
-                    icon={settings.readingOrder === "asc" ? <TbArrowUp size={iconSize} /> : <TbArrowDown size={iconSize} />}
+                    icon={settings.readingOrder === "asc" ? <TbSortAscending size={iconSize} /> : <TbSortDescending size={iconSize} />}
                     label={settings.readingOrder === "asc" ? <Trans>Asc</Trans> : <Trans>Desc</Trans>}
                     onClick={() => dispatch(changeReadingOrder(settings.readingOrder === "asc" ? "desc" : "asc"))}
                 />
@@ -106,7 +165,7 @@ export function Header() {
                         />
                     </>
                 )}
-            </ButtonToolbar>
+            </HeaderToolbar>
         </Center>
     )
 }

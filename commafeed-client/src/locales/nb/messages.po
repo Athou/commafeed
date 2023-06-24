@@ -530,6 +530,7 @@ msgid "Newest first"
 msgstr "Nyeste først"
 
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "Neste"
 
@@ -638,6 +639,10 @@ msgstr "Passordene samsvarer ikke"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "Posisjon"
+
+#: src/components/header/Header.tsx
+msgid "Previous"
+msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

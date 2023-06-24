@@ -530,6 +530,7 @@ msgid "Newest first"
 msgstr "Önce en yenisi"
 
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "Sonraki"
 
@@ -638,6 +639,10 @@ msgstr "Parolalar eşleşmiyor"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "Konum"
+
+#: src/components/header/Header.tsx
+msgid "Previous"
+msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

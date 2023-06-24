@@ -530,6 +530,7 @@ msgid "Newest first"
 msgstr "Najnowsze jako pierwsze"
 
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "Dalej"
 
@@ -638,6 +639,10 @@ msgstr "Hasła nie pasują"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "Pozycja"
+
+#: src/components/header/Header.tsx
+msgid "Previous"
+msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

@@ -530,6 +530,7 @@ msgid "Newest first"
 msgstr "o máis novo primeiro"
 
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "Seguinte"
 
@@ -638,6 +639,10 @@ msgstr "Os contrasinais non coinciden"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "Posición"
+
+#: src/components/header/Header.tsx
+msgid "Previous"
+msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

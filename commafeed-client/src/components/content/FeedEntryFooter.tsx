@@ -1,10 +1,10 @@
 import { t, Trans } from "@lingui/macro"
 import { Group, Indicator, MultiSelect, Popover } from "@mantine/core"
+import { Constants } from "app/constants"
 import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "app/slices/entries"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Entry } from "app/types"
 import { ActionButton } from "components/ActionButtton"
-import { ButtonToolbar } from "components/ButtonToolbar"
 import { useMobile } from "hooks/useMobile"
 import { TbArrowBarToDown, TbExternalLink, TbEyeCheck, TbEyeOff, TbShare, TbStar, TbStarOff, TbTag } from "react-icons/tb"
 import { ShareButtons } from "./ShareButtons"
@@ -32,7 +32,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
 
     return (
         <Group position="apart">
-            <ButtonToolbar>
+            <Group spacing={Constants.layout.buttonSpacing}>
                 {props.entry.markable && (
                     <ActionButton
                         icon={props.entry.read ? <TbEyeOff size={18} /> : <TbEyeCheck size={18} />}
@@ -82,7 +82,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 <a href={props.entry.url} target="_blank" rel="noreferrer">
                     <ActionButton icon={<TbExternalLink size={18} />} label={<Trans>Open link</Trans>} />
                 </a>
-            </ButtonToolbar>
+            </Group>
 
             <ActionButton
                 icon={<TbArrowBarToDown size={18} />}

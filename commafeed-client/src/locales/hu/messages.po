@@ -530,6 +530,7 @@ msgid "Newest first"
 msgstr "A legújabbak először"
 
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "Következő"
 
@@ -638,6 +639,10 @@ msgstr "A jelszavak nem egyeznek"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "Pozíció"
+
+#: src/components/header/Header.tsx
+msgid "Previous"
+msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

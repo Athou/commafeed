@@ -530,6 +530,7 @@ msgid "Newest first"
 msgstr "Nyeste først"
 
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "Næste"
 
@@ -637,6 +638,10 @@ msgstr "Adgangskoder stemmer ikke overens"
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
+msgstr ""
+
+#: src/components/header/Header.tsx
+msgid "Previous"
 msgstr ""
 
 #: src/pages/app/SettingsPage.tsx

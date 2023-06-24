@@ -530,6 +530,7 @@ msgid "Newest first"
 msgstr "최신순"
 
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "다음"
 
@@ -638,6 +639,10 @@ msgstr "비밀번호가 일치하지 않습니다"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "위치"
+
+#: src/components/header/Header.tsx
+msgid "Previous"
+msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

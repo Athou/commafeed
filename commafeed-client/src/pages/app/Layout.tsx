@@ -178,7 +178,7 @@ export default function Layout(props: LayoutProps) {
                         )}
                         {!mobileMenuOpen && (
                             <Group>
-                                <Box mr="sm">{burger}</Box>
+                                <Box>{burger}</Box>
                                 <Box sx={{ flexGrow: 1 }}>{props.header}</Box>
                             </Group>
                         )}

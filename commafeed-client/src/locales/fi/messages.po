@@ -530,6 +530,7 @@ msgid "Newest first"
 msgstr "Uusin ensin"
 
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "Seuraava"
 
@@ -638,6 +639,10 @@ msgstr "Salasanat eivät täsmää"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "Sijainti"
+
+#: src/components/header/Header.tsx
+msgid "Previous"
+msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

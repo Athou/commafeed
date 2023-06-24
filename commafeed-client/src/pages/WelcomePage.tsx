@@ -1,12 +1,12 @@
 import { Trans } from "@lingui/macro"
 import { Anchor, Box, Center, Container, Divider, Group, Image, Title, useMantineColorScheme } from "@mantine/core"
 import { client } from "app/client"
+import { Constants } from "app/constants"
 import { redirectToApiDocumentation, redirectToLogin, redirectToRegistration, redirectToRootCategory } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import welcome_page_dark from "assets/welcome_page_dark.png"
 import welcome_page_light from "assets/welcome_page_light.png"
 import { ActionButton } from "components/ActionButtton"
-import { ButtonToolbar } from "components/ButtonToolbar"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useMobile } from "hooks/useMobile"
 import { useAsyncCallback } from "react-async-hook"
@@ -73,7 +73,7 @@ function Buttons() {
     })
 
     return (
-        <ButtonToolbar>
+        <Group spacing={Constants.layout.buttonSpacing}>
             {serverInfos?.demoAccountEnabled && (
                 <ActionButton
                     label={<Trans>Try the demo!</Trans>}
@@ -115,7 +115,7 @@ function Buttons() {
                     hideLabelOnDesktop
                 />
             )}
-        </ButtonToolbar>
+        </Group>
     )
 }
 

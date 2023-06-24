@@ -530,6 +530,7 @@ msgid "Newest first"
 msgstr "El més nou primer"
 
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "Següent"
 
@@ -638,6 +639,10 @@ msgstr "Les contrasenyes no coincideixen"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "Posició"
+
+#: src/components/header/Header.tsx
+msgid "Previous"
+msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

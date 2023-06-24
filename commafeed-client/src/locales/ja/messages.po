@@ -530,6 +530,7 @@ msgid "Newest first"
 msgstr "最新順"
 
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "次へ"
 
@@ -638,6 +639,10 @@ msgstr "パスワードが一致しません"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "位置"
+
+#: src/components/header/Header.tsx
+msgid "Previous"
+msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

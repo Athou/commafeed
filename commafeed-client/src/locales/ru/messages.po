@@ -530,6 +530,7 @@ msgid "Newest first"
 msgstr "Сначала новые"
 
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "Далее"
 
@@ -638,6 +639,10 @@ msgstr "Пароли не совпадают"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "Позиция"
+
+#: src/components/header/Header.tsx
+msgid "Previous"
+msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

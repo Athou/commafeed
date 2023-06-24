@@ -74,8 +74,6 @@ export function FeedEntries() {
     const swipedRight = (entry: ExpendableEntry) => dispatch(markEntry({ entry, read: !entry.read }))
 
     useEffect(() => {
-        const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
-
         const listener = () => {
             if (viewMode !== "expanded") return
             if (scrollingToEntry) return
@@ -100,8 +98,8 @@ export function FeedEntries() {
             }
         }
         const throttledListener = throttle(100, listener)
-        scrollArea?.addEventListener("scroll", throttledListener)
-        return () => scrollArea?.removeEventListener("scroll", throttledListener)
+        window.addEventListener("scroll", throttledListener)
+        return () => window.removeEventListener("scroll", throttledListener)
     }, [dispatch, entries, viewMode, scrollMarks, scrollingToEntry])
 
     useMousetrap("r", () => dispatch(reloadEntries()))
@@ -154,9 +152,8 @@ export function FeedEntries() {
                         })
                     )
                 } else {
-                    const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
-                    scrollArea?.scrollTo({
-                        top: scrollArea.scrollTop + scrollArea.clientHeight * 0.8,
+                    window.scrollTo({
+                        top: window.scrollY + document.documentElement.clientHeight * 0.8,
                         behavior: "smooth",
                     })
                 }
@@ -193,9 +190,8 @@ export function FeedEntries() {
                         })
                     )
                 } else {
-                    const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
-                    scrollArea?.scrollTo({
-                        top: scrollArea.scrollTop - scrollArea.clientHeight * 0.8,
+                    window.scrollTo({
+                        top: window.scrollY - document.documentElement.clientHeight * 0.8,
                         behavior: "smooth",
                     })
                 }
@@ -267,8 +263,6 @@ export function FeedEntries() {
             loadMore={() => dispatch(loadMoreEntries())}
             hasMore={hasMore}
             loader={<Loader key={0} />}
-            useWindow={false}
-            getScrollParent={() => document.getElementById(Constants.dom.mainScrollAreaId)}
         >
             {entries.map(entry => (
                 <div

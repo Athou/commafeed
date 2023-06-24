@@ -204,18 +204,14 @@ export const selectEntry = createAsyncThunk<
     }
 })
 const scrollToEntry = (entryElement: HTMLElement, scrollSpeed: number | undefined, onScrollEnded: () => void) => {
-    const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
-    if (scrollArea) {
-        scrollToWithCallback({
-            element: scrollArea,
-            options: {
-                // add a small gap between the top of the content and the top of the page
-                top: entryElement.offsetTop - 3,
-                behavior: scrollSpeed && scrollSpeed > 0 ? "smooth" : "auto",
-            },
-            onScrollEnded,
-        })
-    }
+    scrollToWithCallback({
+        options: {
+            // add a small gap between the top of the content and the top of the page
+            top: entryElement.offsetTop - Constants.layout.headerHeight - 3,
+            behavior: scrollSpeed && scrollSpeed > 0 ? "smooth" : "auto",
+        },
+        onScrollEnded,
+    })
 }
 
 export const selectPreviousEntry = createAsyncThunk<

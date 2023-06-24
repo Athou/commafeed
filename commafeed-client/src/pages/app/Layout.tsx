@@ -13,7 +13,6 @@ import {
     Title,
     useMantineTheme,
 } from "@mantine/core"
-import { useViewportSize } from "@mantine/hooks"
 import { Constants } from "app/constants"
 import { redirectToAdd, redirectToRootCategory } from "app/slices/redirect"
 import { reloadTree, setMobileMenuOpen, setSidebarWidth } from "app/slices/tree"
@@ -91,7 +90,6 @@ function LogoAndTitle() {
 export default function Layout(props: LayoutProps) {
     const { classes } = useStyles(props)
     const theme = useMantineTheme()
-    const viewport = useViewportSize()
     const { loading } = useAppLoading()
     const mobile = useMobile()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
@@ -197,18 +195,11 @@ export default function Layout(props: LayoutProps) {
                 </Header>
             }
         >
-            <ScrollArea
-                sx={{ height: viewport.height - Constants.layout.headerHeight }}
-                viewportRef={ref => {
-                    if (ref) ref.id = Constants.dom.mainScrollAreaId
-                }}
-            >
-                <Box id="content" className={classes.mainContent}>
-                    <Suspense fallback={<Loader />}>
-                        <Outlet />
-                    </Suspense>
-                </Box>
-            </ScrollArea>
+            <Box id="content" className={classes.mainContent}>
+                <Suspense fallback={<Loader />}>
+                    <Outlet />
+                </Suspense>
+            </Box>
         </AppShell>
     )
 }

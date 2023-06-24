@@ -26,30 +26,22 @@ export const calculatePlaceholderSize = ({ width, height, maxWidth }: { width?: 
     return { width: placeholderWidth, height: placeholderHeight }
 }
 
-export const scrollToWithCallback = ({
-    element,
-    options,
-    onScrollEnded,
-}: {
-    element: HTMLElement
-    options: ScrollToOptions
-    onScrollEnded: () => void
-}) => {
+export const scrollToWithCallback = ({ options, onScrollEnded }: { options: ScrollToOptions; onScrollEnded: () => void }) => {
     const offset = (options.top ?? 0).toFixed()
 
     const onScroll = () => {
-        if (element.offsetTop.toFixed() === offset) {
-            element.removeEventListener("scroll", onScroll)
+        if (window.scrollY.toFixed() === offset) {
+            window.removeEventListener("scroll", onScroll)
             onScrollEnded()
         }
     }
 
-    element.addEventListener("scroll", onScroll)
+    window.addEventListener("scroll", onScroll)
 
     // scrollTo does not trigger if there's nothing to do, trigger it manually
     onScroll()
 
-    element.scrollTo(options)
+    window.scrollTo(options)
 }
 
 export const truncate = (str: string, n: number) => (str.length > n ? `${str.slice(0, n - 1)}\u2026` : str)

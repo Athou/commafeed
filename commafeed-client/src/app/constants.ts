@@ -94,7 +94,6 @@ export const Constants = {
         isBottomVisible: (div: HTMLElement) => div.getBoundingClientRect().bottom <= window.innerHeight,
     },
     dom: {
-        mainScrollAreaId: "main-scroll-area-id",
         entryId: (entry: Entry) => `entry-id-${entry.id}`,
     },
     browserExtensionUrl: "https://github.com/Athou/commafeed-browser-extension",

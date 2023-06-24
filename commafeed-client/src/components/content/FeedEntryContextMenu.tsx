@@ -1,6 +1,5 @@
 import { Trans } from "@lingui/macro"
 import { createStyles, Group } from "@mantine/core"
-import { Constants } from "app/constants"
 import { markEntriesUpToEntry, markEntry, starEntry } from "app/slices/entries"
 import { redirectToFeed } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -117,13 +116,11 @@ export function useFeedEntryContextMenu(entry: Entry) {
 
     // close context menu on scroll
     useEffect(() => {
-        const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
-
         const listener = () => contextMenu.hideAll()
         const throttledListener = throttle(100, listener)
 
-        scrollArea?.addEventListener("scroll", throttledListener)
-        return () => scrollArea?.removeEventListener("scroll", throttledListener)
+        window.addEventListener("scroll", throttledListener)
+        return () => window.removeEventListener("scroll", throttledListener)
     }, [contextMenu])
 
     return { onContextMenu }

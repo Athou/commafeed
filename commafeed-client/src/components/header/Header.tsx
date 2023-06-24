@@ -102,6 +102,8 @@ export function Header() {
                     }
                 />
 
+                <HeaderDivider />
+
                 <ActionButton
                     icon={<TbRefresh size={iconSize} />}
                     label={<Trans>Refresh</Trans>}

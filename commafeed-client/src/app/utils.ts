@@ -1,3 +1,4 @@
+import { throttle } from "throttle-debounce"
 import { Category } from "./types"
 
 export function visitCategoryTree(category: Category, visitor: (category: Category) => void): void {
@@ -31,15 +32,15 @@ export const scrollToWithCallback = ({ options, onScrollEnded }: { options: Scro
 
     const onScroll = () => {
         if (window.scrollY.toFixed() === offset) {
-            window.removeEventListener("scroll", onScroll)
+            window.removeEventListener("scroll", throttleListener)
             onScrollEnded()
         }
     }
-
-    window.addEventListener("scroll", onScroll)
+    const throttleListener = throttle(100, onScroll)
+    window.addEventListener("scroll", throttleListener)
 
     // scrollTo does not trigger if there's nothing to do, trigger it manually
-    onScroll()
+    throttleListener()
 
     window.scrollTo(options)
 }

@@ -49,9 +49,16 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: View
         backgroundHoverColor = theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1]
     }
 
-    const styles = {
+    let paperBorderLeftColor
+    if (props.showSelectionIndicator) {
+        const borderLeftColor = theme.colorScheme === "dark" ? theme.colors.orange[4] : theme.colors.orange[6]
+        paperBorderLeftColor = `${borderLeftColor} !important`
+    }
+
+    return {
         paper: {
             backgroundColor,
+            borderLeftColor: paperBorderLeftColor,
             marginTop: marginY,
             marginBottom: marginY,
             [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
@@ -69,16 +76,10 @@ const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: View
             textDecoration: "none",
         },
         body: {
+            direction: props.entry.rtl ? "rtl" : "ltr",
             maxWidth: props.maxWidth ?? "100%",
         },
     }
-
-    if (props.showSelectionIndicator) {
-        const borderLeftColor = theme.colorScheme === "dark" ? theme.colors.orange[4] : theme.colors.orange[6]
-        styles.paper.borderLeftColor = `${borderLeftColor} !important`
-    }
-
-    return styles
 })
 
 export function FeedEntry(props: FeedEntryProps) {
@@ -137,7 +138,7 @@ export function FeedEntry(props: FeedEntryProps) {
             </a>
             {props.expanded && (
                 <Box px={paddingX} pb={paddingY} onClick={props.onBodyClick}>
-                    <Box className={classes.body} sx={{ direction: props.entry.rtl ? "rtl" : "ltr" }}>
+                    <Box className={classes.body}>
                         <FeedEntryBody entry={props.entry} />
                     </Box>
                     <Divider variant="dashed" my={paddingY} />

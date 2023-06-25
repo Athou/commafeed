@@ -1,4 +1,5 @@
 import { Box } from "@mantine/core"
+import { useAppSelector } from "app/store"
 import { Entry } from "app/types"
 import { Content } from "./Content"
 import { Enclosure } from "./Enclosure"
@@ -9,10 +10,11 @@ export interface FeedEntryBodyProps {
 }
 
 export function FeedEntryBody(props: FeedEntryBodyProps) {
+    const search = useAppSelector(state => state.entries.search)
     return (
         <Box>
             <Box>
-                <Content content={props.entry.content} />
+                <Content content={props.entry.content} highlight={search} />
             </Box>
             {props.entry.enclosureType && props.entry.enclosureUrl && (
                 <Box pt="md">

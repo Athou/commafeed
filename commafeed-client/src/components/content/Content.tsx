@@ -1,12 +1,13 @@
 import { Box, createStyles, Mark, TypographyStylesProvider } from "@mantine/core"
 import { Constants } from "app/constants"
-import { useAppSelector } from "app/store"
 import { calculatePlaceholderSize } from "app/utils"
 import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
 import { ChildrenNode, Interweave, Matcher, MatchResponse, Node, TransformCallback } from "interweave"
+import React from "react"
 
 export interface ContentProps {
     content: string
+    highlight?: string
 }
 
 const useStyles = createStyles(theme => ({
@@ -82,10 +83,10 @@ class HighlightMatcher extends Matcher {
     }
 }
 
-export function Content(props: ContentProps) {
+// memoize component because Interweave is costly
+const Content = React.memo((props: ContentProps) => {
     const { classes } = useStyles()
-    const search = useAppSelector(state => state.entries.search)
-    const matchers = search ? [new HighlightMatcher(search)] : []
+    const matchers = props.highlight ? [new HighlightMatcher(props.highlight)] : []
 
     return (
         <TypographyStylesProvider>
@@ -94,4 +95,6 @@ export function Content(props: ContentProps) {
             </Box>
         </TypographyStylesProvider>
     )
-}
+})
+
+export { Content }

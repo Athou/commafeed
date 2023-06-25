@@ -122,7 +122,6 @@ logging:
     com.commafeed: INFO
     liquibase: INFO
     io.dropwizard.server.ServerFactory: INFO
-    org.hibernate.orm.deprecation: "OFF"
   appenders:
     - type: console
     - type: file

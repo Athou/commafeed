@@ -30,17 +30,16 @@ export const calculatePlaceholderSize = ({ width, height, maxWidth }: { width?: 
 export const scrollToWithCallback = ({ options, onScrollEnded }: { options: ScrollToOptions; onScrollEnded: () => void }) => {
     const offset = (options.top ?? 0).toFixed()
 
-    const onScroll = () => {
+    const onScroll = throttle(100, () => {
         if (window.scrollY.toFixed() === offset) {
-            window.removeEventListener("scroll", throttleListener)
+            window.removeEventListener("scroll", onScroll)
             onScrollEnded()
         }
-    }
-    const throttleListener = throttle(100, onScroll)
-    window.addEventListener("scroll", throttleListener)
+    })
+    window.addEventListener("scroll", onScroll)
 
     // scrollTo does not trigger if there's nothing to do, trigger it manually
-    throttleListener()
+    onScroll()
 
     window.scrollTo(options)
 }

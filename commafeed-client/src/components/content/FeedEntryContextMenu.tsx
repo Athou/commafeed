@@ -1,15 +1,14 @@
 import { Trans } from "@lingui/macro"
 import { createStyles, Group } from "@mantine/core"
+import { Constants } from "app/constants"
 import { markEntriesUpToEntry, markEntry, starEntry } from "app/slices/entries"
 import { redirectToFeed } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Entry } from "app/types"
 import { truncate } from "app/utils"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
-import { useEffect } from "react"
-import { Item, Menu, Separator, useContextMenu } from "react-contexify"
+import { Item, Menu, Separator } from "react-contexify"
 import { TbArrowBarToDown, TbExternalLink, TbEyeCheck, TbEyeOff, TbRss, TbStar, TbStarOff } from "react-icons/tb"
-import { throttle } from "throttle-debounce"
 
 interface FeedEntryContextMenuProps {
     entry: Entry
@@ -28,8 +27,6 @@ const useStyles = createStyles(theme => ({
     },
 }))
 
-const menuId = (entry: Entry) => entry.id
-
 export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
     const { classes, theme } = useStyles()
     const sourceType = useAppSelector(state => state.entries.source.type)
@@ -37,7 +34,7 @@ export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
     const { openLinkInBackgroundTab } = useBrowserExtension()
 
     return (
-        <Menu id={menuId(props.entry)} theme={theme.colorScheme} animation={false} className={classes.menu}>
+        <Menu id={Constants.dom.entryContextMenuId(props.entry)} theme={theme.colorScheme} animation={false} className={classes.menu}>
             <Item
                 onClick={() => {
                     window.open(props.entry.url, "_blank", "noreferrer")
@@ -100,28 +97,4 @@ export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
             )}
         </Menu>
     )
-}
-
-export function useFeedEntryContextMenu(entry: Entry) {
-    const contextMenu = useContextMenu({
-        id: menuId(entry),
-    })
-
-    const onContextMenu = (event: React.MouseEvent) => {
-        event.preventDefault()
-        contextMenu.show({
-            event,
-        })
-    }
-
-    // close context menu on scroll
-    useEffect(() => {
-        const listener = () => contextMenu.hideAll()
-        const throttledListener = throttle(100, listener)
-
-        window.addEventListener("scroll", throttledListener)
-        return () => window.removeEventListener("scroll", throttledListener)
-    }, [contextMenu])
-
-    return { onContextMenu }
 }

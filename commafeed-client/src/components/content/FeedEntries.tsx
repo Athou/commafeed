@@ -20,6 +20,7 @@ import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useMousetrap } from "hooks/useMousetrap"
 import { useViewMode } from "hooks/useViewMode"
 import { useEffect } from "react"
+import { useContextMenu } from "react-contexify"
 import InfiniteScroll from "react-infinite-scroller"
 import { throttle } from "throttle-debounce"
 import { FeedEntry } from "./FeedEntry"
@@ -59,6 +60,15 @@ export function FeedEntries() {
         }
     }
 
+    const contextMenu = useContextMenu()
+    const headerRightClicked = (entry: ExpendableEntry, event: React.MouseEvent) => {
+        event.preventDefault()
+        contextMenu.show({
+            id: Constants.dom.entryContextMenuId(entry),
+            event,
+        })
+    }
+
     const bodyClicked = (entry: ExpendableEntry) => {
         if (viewMode !== "expanded") return
         dispatch(
@@ -73,8 +83,15 @@ export function FeedEntries() {
 
     const swipedRight = (entry: ExpendableEntry) => dispatch(markEntry({ entry, read: !entry.read }))
 
+    // close context menu on scroll
     useEffect(() => {
-        const listener = () => {
+        const listener = throttle(100, () => contextMenu.hideAll())
+        window.addEventListener("scroll", listener)
+        return () => window.removeEventListener("scroll", listener)
+    }, [contextMenu])
+
+    useEffect(() => {
+        const listener = throttle(100, () => {
             if (viewMode !== "expanded") return
             if (scrollingToEntry) return
 
@@ -96,11 +113,10 @@ export function FeedEntries() {
                     })
                 )
             }
-        }
-        const throttledListener = throttle(100, listener)
-        window.addEventListener("scroll", throttledListener)
-        return () => window.removeEventListener("scroll", throttledListener)
-    }, [dispatch, entries, viewMode, scrollMarks, scrollingToEntry])
+        })
+        window.addEventListener("scroll", listener)
+        return () => window.removeEventListener("scroll", listener)
+    }, [dispatch, contextMenu, entries, viewMode, scrollMarks, scrollingToEntry])
 
     useMousetrap("r", () => dispatch(reloadEntries()))
     useMousetrap("j", () =>
@@ -278,6 +294,7 @@ export function FeedEntries() {
                         showSelectionIndicator={entry.id === selectedEntryId && (!entry.expanded || viewMode === "expanded")}
                         maxWidth={sidebarVisible ? Constants.layout.entryMaxWidth : undefined}
                         onHeaderClick={event => headerClicked(entry, event)}
+                        onHeaderRightClick={event => headerRightClicked(entry, event)}
                         onBodyClick={() => bodyClicked(entry)}
                         onSwipedRight={() => swipedRight(entry)}
                     />

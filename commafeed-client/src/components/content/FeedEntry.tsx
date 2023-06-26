@@ -7,7 +7,7 @@ import React from "react"
 import { useSwipeable } from "react-swipeable"
 import { FeedEntryBody } from "./FeedEntryBody"
 import { FeedEntryCompactHeader } from "./FeedEntryCompactHeader"
-import { FeedEntryContextMenu, useFeedEntryContextMenu } from "./FeedEntryContextMenu"
+import { FeedEntryContextMenu } from "./FeedEntryContextMenu"
 import { FeedEntryFooter } from "./FeedEntryFooter"
 import { FeedEntryHeader } from "./FeedEntryHeader"
 
@@ -18,6 +18,7 @@ interface FeedEntryProps {
     showSelectionIndicator: boolean
     maxWidth?: number
     onHeaderClick: (e: React.MouseEvent) => void
+    onHeaderRightClick: (e: React.MouseEvent) => void
     onBodyClick: (e: React.MouseEvent) => void
     onSwipedRight: () => void
 }
@@ -90,8 +91,6 @@ export function FeedEntry(props: FeedEntryProps) {
         onSwipedRight: props.onSwipedRight,
     })
 
-    const { onContextMenu } = useFeedEntryContextMenu(props.entry)
-
     let paddingX: MantineNumberSize = "xs"
     if (viewMode === "title" || viewMode === "cozy") paddingX = 6
 
@@ -129,7 +128,7 @@ export function FeedEntry(props: FeedEntryProps) {
                 rel="noreferrer"
                 onClick={props.onHeaderClick}
                 onAuxClick={props.onHeaderClick}
-                onContextMenu={onContextMenu}
+                onContextMenu={props.onHeaderRightClick}
             >
                 <Box px={paddingX} py={paddingY} {...swipeHandlers}>
                     {compactHeader && <FeedEntryCompactHeader entry={props.entry} />}

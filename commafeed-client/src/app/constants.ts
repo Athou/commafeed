@@ -95,6 +95,7 @@ export const Constants = {
     },
     dom: {
         entryId: (entry: Entry) => `entry-id-${entry.id}`,
+        entryContextMenuId: (entry: Entry) => entry.id,
     },
     browserExtensionUrl: "https://github.com/Athou/commafeed-browser-extension",
     bitcoinWalletAddress: "1dymfUxqCWpyD7a6rQSqNy4rLVDBsAr5e",

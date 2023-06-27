@@ -20,7 +20,7 @@ interface ActionButtonProps {
 export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>((props: ActionButtonProps, ref) => {
     const theme = useMantineTheme()
     const variant = props.variant ?? "subtle"
-    const mobile = useMobile(theme.breakpoints.xl)
+    const mobile = useMobile("1600px")
     const iconOnly = (mobile && !props.showLabelOnMobile) || (!mobile && props.hideLabelOnDesktop)
     return iconOnly ? (
         <Tooltip label={props.label} openDelay={500}>

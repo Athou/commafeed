@@ -89,7 +89,6 @@ export const Constants = {
         mobileBreakpoint: DEFAULT_THEME.breakpoints.md,
         headerHeight: 60,
         entryMaxWidth: 650,
-        buttonSpacing: 14,
         isTopVisible: (div: HTMLElement) => div.getBoundingClientRect().top >= Constants.layout.headerHeight,
         isBottomVisible: (div: HTMLElement) => div.getBoundingClientRect().bottom <= window.innerHeight,
     },

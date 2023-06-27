@@ -1,7 +1,6 @@
 import { Trans } from "@lingui/macro"
 import { Anchor, Box, Center, Container, Divider, Group, Image, Title, useMantineColorScheme } from "@mantine/core"
 import { client } from "app/client"
-import { Constants } from "app/constants"
 import { redirectToApiDocumentation, redirectToLogin, redirectToRegistration, redirectToRootCategory } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import welcome_page_dark from "assets/welcome_page_dark.png"
@@ -73,7 +72,7 @@ function Buttons() {
     })
 
     return (
-        <Group spacing={Constants.layout.buttonSpacing}>
+        <Group spacing={14}>
             {serverInfos?.demoAccountEnabled && (
                 <ActionButton
                     label={<Trans>Try the demo!</Trans>}

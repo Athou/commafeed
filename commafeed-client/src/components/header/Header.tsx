@@ -1,12 +1,12 @@
 import { t, Trans } from "@lingui/macro"
 import { ActionIcon, Box, Center, Divider, Group, Indicator, Popover, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { Constants } from "app/constants"
 import { reloadEntries, search, selectNextEntry, selectPreviousEntry } from "app/slices/entries"
 import { changeReadingMode, changeReadingOrder } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { ActionButton } from "components/ActionButton"
 import { Loader } from "components/Loader"
+import { useActionButton } from "hooks/useActionButton"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useMobile } from "hooks/useMobile"
 import { useEffect } from "react"
@@ -32,6 +32,7 @@ function HeaderDivider() {
 }
 
 function HeaderToolbar(props: { children: React.ReactNode }) {
+    const { spacing } = useActionButton()
     const mobile = useMobile("480px")
     return mobile ? (
         // on mobile use all available width
@@ -45,7 +46,7 @@ function HeaderToolbar(props: { children: React.ReactNode }) {
             {props.children}
         </Box>
     ) : (
-        <Group spacing={Constants.layout.buttonSpacing}>{props.children}</Group>
+        <Group spacing={spacing}>{props.children}</Group>
     )
 }
 

@@ -1,7 +1,7 @@
 import { ActionIcon, Button, Tooltip, useMantineTheme } from "@mantine/core"
 import { ActionIconProps } from "@mantine/core/lib/ActionIcon/ActionIcon"
 import { ButtonProps } from "@mantine/core/lib/Button/Button"
-import { useMobile } from "hooks/useMobile"
+import { useActionButton } from "hooks/useActionButton"
 import { forwardRef, MouseEventHandler, ReactNode } from "react"
 
 interface ActionButtonProps {
@@ -18,9 +18,9 @@ interface ActionButtonProps {
  * Switches between Button with label (desktop) and ActionIcon (mobile)
  */
 export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>((props: ActionButtonProps, ref) => {
+    const { mobile } = useActionButton()
     const theme = useMantineTheme()
     const variant = props.variant ?? "subtle"
-    const mobile = useMobile("1600px")
     const iconOnly = (mobile && !props.showLabelOnMobile) || (!mobile && props.hideLabelOnDesktop)
     return iconOnly ? (
         <Tooltip label={props.label} openDelay={500}>

@@ -3,7 +3,7 @@ import { Trans } from "@lingui/macro"
 import { Button, Code, Group, Modal, Slider, Stack, Text } from "@mantine/core"
 import { markAllEntries } from "app/slices/entries"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { ActionButton } from "components/ActionButtton"
+import { ActionButton } from "components/ActionButton"
 import { useState } from "react"
 import { TbChecks } from "react-icons/tb"
 

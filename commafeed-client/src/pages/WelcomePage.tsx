@@ -6,7 +6,7 @@ import { redirectToApiDocumentation, redirectToLogin, redirectToRegistration, re
 import { useAppDispatch, useAppSelector } from "app/store"
 import welcome_page_dark from "assets/welcome_page_dark.png"
 import welcome_page_light from "assets/welcome_page_light.png"
-import { ActionButton } from "components/ActionButtton"
+import { ActionButton } from "components/ActionButton"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useMobile } from "hooks/useMobile"
 import { useAsyncCallback } from "react-async-hook"

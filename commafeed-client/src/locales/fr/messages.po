@@ -73,7 +73,7 @@ msgstr "Tout"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always scroll selected entry to the top of the page, even if it fits entirely on screen"
-msgstr ""
+msgstr "Toujours remonter l'entrée sélectionnée en haut de la page, même si elle s'affiche complètement à l'écran"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
@@ -642,7 +642,7 @@ msgstr "Position"
 
 #: src/components/header/Header.tsx
 msgid "Previous"
-msgstr ""
+msgstr "Précédent"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

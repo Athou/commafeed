@@ -13,9 +13,20 @@ import { SiGithub, SiTwitter } from "react-icons/si"
 import { TbClock, TbKey, TbMoon, TbSettings, TbSun, TbUserPlus } from "react-icons/tb"
 import { PageTitle } from "./PageTitle"
 
+const iconSize = 18
+
 export function WelcomePage() {
+    const serverInfos = useAppSelector(state => state.server.serverInfos)
     const { colorScheme } = useMantineColorScheme()
+    const dispatch = useAppDispatch()
     const image = colorScheme === "light" ? welcome_page_light : welcome_page_dark
+
+    const login = useAsyncCallback(client.user.login, {
+        onSuccess: () => {
+            dispatch(redirectToRootCategory())
+        },
+    })
+
     return (
         <Container>
             <Header />
@@ -23,6 +34,18 @@ export function WelcomePage() {
             <Center my="xl">
                 <Title order={3}>Bloat-free feed reader</Title>
             </Center>
+
+            {serverInfos?.demoAccountEnabled && (
+                <Center>
+                    <ActionButton
+                        label={<Trans>Try the demo!</Trans>}
+                        icon={<TbClock size={iconSize} />}
+                        variant="outline"
+                        onClick={() => login.execute({ name: "demo", password: "demo" })}
+                        showLabelOnMobile
+                    />
+                </Center>
+            )}
 
             <Divider my="xl" />
 
@@ -58,30 +81,14 @@ function Header() {
 }
 
 function Buttons() {
-    const iconSize = 18
     const serverInfos = useAppSelector(state => state.server.serverInfos)
     const { colorScheme, toggleColorScheme } = useMantineColorScheme()
     const { isBrowserExtensionPopup, openSettingsPage } = useBrowserExtension()
     const dispatch = useAppDispatch()
     const dark = colorScheme === "dark"
 
-    const login = useAsyncCallback(client.user.login, {
-        onSuccess: () => {
-            dispatch(redirectToRootCategory())
-        },
-    })
-
     return (
         <Group spacing={14}>
-            {serverInfos?.demoAccountEnabled && (
-                <ActionButton
-                    label={<Trans>Try the demo!</Trans>}
-                    icon={<TbClock size={iconSize} />}
-                    variant="outline"
-                    onClick={() => login.execute({ name: "demo", password: "demo" })}
-                    showLabelOnMobile
-                />
-            )}
             <ActionButton
                 label={<Trans>Log in</Trans>}
                 icon={<TbKey size={iconSize} />}

@@ -2,6 +2,7 @@ import { Box, createStyles, Mark, TypographyStylesProvider } from "@mantine/core
 import { Constants } from "app/constants"
 import { calculatePlaceholderSize } from "app/utils"
 import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
+import escapeStringRegexp from "escape-string-regexp"
 import { ChildrenNode, Interweave, Matcher, MatchResponse, Node, TransformCallback } from "interweave"
 import React from "react"
 
@@ -64,7 +65,7 @@ class HighlightMatcher extends Matcher {
 
     constructor(search: string) {
         super("highlight")
-        this.search = search
+        this.search = escapeStringRegexp(search)
     }
 
     match(string: string): MatchResponse<unknown> | null {

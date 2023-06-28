@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.8.0]
+
+- add previous and next buttons in the toolbar
+- add a setting to always scroll selected entry to the top of the page, even if it fits entirely on screen
+- clicking on the body of an entry in expanded mode selects it and marks it as read
+- add rich text editor with autocomplete for custom css and js code in settings (desktop only)
+- dramatically improve performance while scrolling
+- fix broken welcome page mobile layout
+- format dates in user locale instead of GMT in relative date popups
+
 ## [3.7.0]
 
 - the sidebar is now resizable

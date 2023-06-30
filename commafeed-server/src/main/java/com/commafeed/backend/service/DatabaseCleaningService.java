@@ -34,15 +34,15 @@ public class DatabaseCleaningService {
 	private final FeedEntryContentDAO feedEntryContentDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 
-	public long cleanFeedsWithoutSubscriptions() {
+	public void cleanFeedsWithoutSubscriptions() {
 		log.info("cleaning feeds without subscriptions");
 		long total = 0;
-		int deleted = 0;
+		int deleted;
 		long entriesTotal = 0;
 		do {
 			List<Feed> feeds = unitOfWork.call(() -> feedDAO.findWithoutSubscriptions(1));
 			for (Feed feed : feeds) {
-				int entriesDeleted = 0;
+				long entriesDeleted;
 				do {
 					entriesDeleted = unitOfWork.call(() -> feedEntryDAO.delete(feed.getId(), BATCH_SIZE));
 					entriesTotal += entriesDeleted;
@@ -54,23 +54,21 @@ public class DatabaseCleaningService {
 			log.info("removed {} feeds without subscriptions", total);
 		} while (deleted != 0);
 		log.info("cleanup done: {} feeds without subscriptions deleted", total);
-		return total;
 	}
 
-	public long cleanContentsWithoutEntries() {
+	public void cleanContentsWithoutEntries() {
 		log.info("cleaning contents without entries");
 		long total = 0;
-		int deleted = 0;
+		long deleted;
 		do {
 			deleted = unitOfWork.call(() -> feedEntryContentDAO.deleteWithoutEntries(BATCH_SIZE));
 			total += deleted;
 			log.info("removed {} contents without entries", total);
 		} while (deleted != 0);
 		log.info("cleanup done: {} contents without entries deleted", total);
-		return total;
 	}
 
-	public long cleanEntriesForFeedsExceedingCapacity(final int maxFeedCapacity) {
+	public void cleanEntriesForFeedsExceedingCapacity(final int maxFeedCapacity) {
 		long total = 0;
 		while (true) {
 			List<FeedCapacity> feeds = unitOfWork.call(() -> feedEntryDAO.findFeedsExceedingCapacity(maxFeedCapacity, BATCH_SIZE));
@@ -90,19 +88,17 @@ public class DatabaseCleaningService {
 			}
 		}
 		log.info("cleanup done: {} entries for feeds exceeding capacity deleted", total);
-		return total;
 	}
 
-	public long cleanStatusesOlderThan(final Date olderThan) {
+	public void cleanStatusesOlderThan(final Date olderThan) {
 		log.info("cleaning old read statuses");
 		long total = 0;
-		int deleted = 0;
+		long deleted;
 		do {
-			deleted = unitOfWork.call(() -> feedEntryStatusDAO.delete(feedEntryStatusDAO.getOldStatuses(olderThan, BATCH_SIZE)));
+			deleted = unitOfWork.call(() -> feedEntryStatusDAO.deleteOldStatuses(olderThan, BATCH_SIZE));
 			total += deleted;
 			log.info("removed {} old read statuses", total);
 		} while (deleted != 0);
 		log.info("cleanup done: {} old read statuses deleted", total);
-		return total;
 	}
 }

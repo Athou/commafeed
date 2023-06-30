@@ -48,7 +48,6 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 	}
 
 	public int delete(Long feedId, long max) {
-
 		List<FeedEntry> list = query().selectFrom(entry).where(entry.feed.id.eq(feedId)).limit(max).fetch();
 		return delete(list);
 	}

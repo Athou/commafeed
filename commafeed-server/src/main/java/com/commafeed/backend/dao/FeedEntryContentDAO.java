@@ -28,13 +28,10 @@ public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 		return query().select(content).from(content).where(content.contentHash.eq(contentHash), content.titleHash.eq(titleHash)).fetch();
 	}
 
-	public int deleteWithoutEntries(int max) {
-
+	public long deleteWithoutEntries(int max) {
 		JPQLQuery<Integer> subQuery = JPAExpressions.selectOne().from(entry).where(entry.content.id.eq(content.id));
-		List<FeedEntryContent> list = query().selectFrom(content).where(subQuery.notExists()).limit(max).fetch();
+		List<Long> ids = query().select(content.id).from(content).where(subQuery.notExists()).limit(max).fetch();
 
-		int deleted = list.size();
-		delete(list);
-		return deleted;
+		return deleteQuery(content).where(content.id.in(ids)).execute();
 	}
 }

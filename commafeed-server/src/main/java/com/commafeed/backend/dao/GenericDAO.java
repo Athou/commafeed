@@ -7,6 +7,7 @@ import org.hibernate.annotations.QueryHints;
 
 import com.commafeed.backend.model.AbstractModel;
 import com.querydsl.core.types.EntityPath;
+import com.querydsl.jpa.impl.JPADeleteClause;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
@@ -28,6 +29,10 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 
 	protected JPAUpdateClause updateQuery(EntityPath<T> entityPath) {
 		return new JPAUpdateClause(currentSession(), entityPath);
+	}
+
+	protected JPADeleteClause deleteQuery(EntityPath<T> entityPath) {
+		return new JPADeleteClause(currentSession(), entityPath);
 	}
 
 	public void saveOrUpdate(T model) {

@@ -270,8 +270,13 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return results;
 	}
 
-	public List<FeedEntryStatus> getOldStatuses(Date olderThan, int limit) {
-		return query().selectFrom(status).where(status.entryInserted.lt(olderThan), status.starred.isFalse()).limit(limit).fetch();
+	public long deleteOldStatuses(Date olderThan, int limit) {
+		List<Long> ids = query().select(status.id)
+				.from(status)
+				.where(status.entryInserted.lt(olderThan), status.starred.isFalse())
+				.limit(limit)
+				.fetch();
+		return deleteQuery(status).where(status.id.in(ids)).execute();
 	}
 
 }

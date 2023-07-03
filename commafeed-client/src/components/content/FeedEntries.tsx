@@ -71,6 +71,10 @@ export function FeedEntries() {
 
     const bodyClicked = (entry: ExpendableEntry) => {
         if (viewMode !== "expanded") return
+
+        // entry is already selected
+        if (entry.id === selectedEntryId) return
+
         dispatch(
             selectEntry({
                 entry,

@@ -1,5 +1,10 @@
 # Changelog
 
+## [3.8.1]
+
+- in expanded mode, don't scroll when clicking on the body of the current entry
+- improve content cleanup task performance for instances with a very large number of feeds
+
 ## [3.8.0]
 
 - add previous and next buttons in the toolbar

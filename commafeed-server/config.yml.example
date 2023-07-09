@@ -6,28 +6,28 @@ app:
 
   # whether to expose a robots.txt file that disallows web crawlers and search engine indexers
   hideFromWebCrawlers: true
-  
+
   # whether to allow user registrations
   allowRegistrations: false
 
   # whether to enable strict password validation (1 uppercase char, 1 lowercase char, 1 digit, 1 special char)
   strictPasswordPolicy: true
-  
+
   # create a demo account the first time the app starts
   createDemoAccount: false
-  
+
   # put your google analytics tracking code here
   googleAnalyticsTrackingCode:
-  
+
   # put your google server key (used for youtube favicon fetching)
   googleAuthKey:
-  
+
   # number of http threads
   backgroundThreads: 3
-  
+
   # number of database updating threads
   databaseUpdateThreads: 1
-  
+
   # settings for sending emails (password recovery)
   smtpHost:
   smtpPort:
@@ -43,28 +43,28 @@ app:
   graphiteHost: "localhost"
   graphitePort: 2003
   graphiteInterval: 60
-  
+
   # whether this commafeed instance has a lot of feeds to refresh
   # leave this to false in almost all cases
   heavyLoad: false
-  
+
   # minimum amount of time commafeed will wait before refreshing the same feed
   refreshIntervalMinutes: 5
-  
+
   # whether to enable pubsub
   # probably not needed if refreshIntervalMinutes is low
   pubsubhubbub: false
-  
+
   # if enabled, images in feed entries will be proxied through the server instead of accessed directly by the browser
-  # useful if commafeed is usually accessed through a restricting proxy  
+  # useful if commafeed is usually accessed through a restricting proxy
   imageProxyEnabled: false
-  
+
   # database query timeout (in milliseconds), 0 to disable
   queryTimeout: 0
-  
+
   # time to keep unread statuses (in days), 0 to disable
   keepStatusDays: 0
-  
+
   # entries to keep per feed, old entries will be deleted, 0 to disable
   maxFeedCapacity: 500
 
@@ -73,17 +73,17 @@ app:
 
   # cache service to use, possible values are 'noop' and 'redis'
   cache: noop
-  
+
   # announcement string displayed on the main page
   announcement:
-  
+
   # user-agent string that will be used by the http client, leave empty for the default one
   userAgent:
-  
+
 # Database connection
-# -------------------  
+# -------------------
 # for MySQL
-# driverClass is com.mysql.jdbc.Driver
+# driverClass is com.mysql.cj.jdbc.Driver
 # url is jdbc:mysql://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true
 #
 # for PostgreSQL
@@ -105,7 +105,7 @@ database:
   minSize: 1
   maxSize: 50
   maxConnectionAge: 30m
-    
+
 server:
   applicationConnectors:
     - type: http
@@ -115,7 +115,7 @@ server:
       port: 8084
   requestLog:
     appenders: [ ]
-      
+
 logging:
   level: ERROR
   loggers:
@@ -131,7 +131,7 @@ logging:
       archivedLogFilenamePattern: log/commafeed-%d.log
       archivedFileCount: 5
       timeZone: UTC
-      
+
 # Redis pool configuration
 # (only used if app.cache is 'redis')
 # -----------------------------------
@@ -140,8 +140,7 @@ redis:
   port: 6379
   # username is only required when using ACLs
   username:
-  password: 
+  password:
   timeout: 2000
   database: 0
   maxTotal: 500
-   

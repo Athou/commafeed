@@ -94,11 +94,10 @@ public class FeedRefreshWorker {
 
 			return new FeedRefreshWorkerResult(feed, Collections.emptyList());
 		} catch (Exception e) {
-			String message = "Unable to refresh feed " + feed.getUrl() + " : " + e.getMessage();
-			log.debug(e.getClass().getName() + " " + message, e);
+			log.debug("unable to refresh feed {}", feed.getUrl(), e);
 
 			feed.setErrorCount(feed.getErrorCount() + 1);
-			feed.setMessage(message);
+			feed.setMessage("Unable to refresh feed : " + e.getMessage());
 			feed.setDisabledUntil(refreshIntervalCalculator.onFetchError(feed));
 
 			return new FeedRefreshWorkerResult(feed, Collections.emptyList());

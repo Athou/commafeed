@@ -136,6 +136,11 @@ public class CommaFeedConfiguration extends Configuration {
 		private Integer maxFeedCapacity;
 
 		@NotNull
+		@Min(100)
+		@Valid
+		private Integer maxCleanupBatchSize;
+
+		@NotNull
 		@Valid
 		private Integer maxFeedsPerUser = 0;
 

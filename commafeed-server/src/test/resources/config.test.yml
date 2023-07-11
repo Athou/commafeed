@@ -67,6 +67,9 @@ app:
   # entries to keep per feed, old entries will be deleted, 0 to disable
   maxFeedCapacity: 500
 
+  # rows to delete per query while cleaning up old entries, minimum 100
+  maxCleanupBatchSize: 100
+
   # limit the number of feeds a user can subscribe to, 0 to disable
   maxFeedsPerUser: 0
   

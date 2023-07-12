@@ -41,7 +41,7 @@ public class DatabaseCleaningService {
 		this.feedEntryDAO = feedEntryDAO;
 		this.feedEntryContentDAO = feedEntryContentDAO;
 		this.feedEntryStatusDAO = feedEntryStatusDAO;
-		this.batchSize = config.getApplicationSettings().getMaxCleanupBatchSize();
+		this.batchSize = config.getApplicationSettings().getDatabaseCleanupBatchSize();
 	}
 
 	public void cleanFeedsWithoutSubscriptions() {

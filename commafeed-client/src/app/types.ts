@@ -28,7 +28,7 @@ export interface ApplicationSettings {
     queryTimeout: number
     keepStatusDays: number
     maxFeedCapacity: number
-    maxCleanupBatchSize: number
+    databaseCleanupBatchSize: number
     refreshIntervalMinutes: number
     cache: ApplicationSettingsCache
     announcement?: string

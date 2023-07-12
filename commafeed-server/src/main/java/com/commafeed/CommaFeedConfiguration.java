@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -95,6 +96,11 @@ public class CommaFeedConfiguration extends Configuration {
 		@Valid
 		private Integer databaseUpdateThreads;
 
+		@NotNull
+		@Positive
+		@Valid
+		private Integer databaseCleanupBatchSize = 100;
+
 		private String smtpHost;
 		private int smtpPort;
 		private boolean smtpTls;
@@ -134,11 +140,6 @@ public class CommaFeedConfiguration extends Configuration {
 		@Min(0)
 		@Valid
 		private Integer maxFeedCapacity;
-
-		@NotNull
-		@Min(100)
-		@Valid
-		private Integer maxCleanupBatchSize;
 
 		@NotNull
 		@Valid

@@ -3,38 +3,6 @@ export interface AddCategoryRequest {
     parentId?: string
 }
 
-export interface ApplicationSettings {
-    publicUrl: string
-    allowRegistrations: boolean
-    createDemoAccount: boolean
-    googleAnalyticsTrackingCode?: string
-    googleAuthKey?: string
-    backgroundThreads: number
-    databaseUpdateThreads: number
-    smtpHost?: string
-    smtpPort?: number
-    smtpTls?: boolean
-    smtpUserName?: string
-    smtpPassword?: string
-    smtpFromAddress?: string
-    graphiteEnabled?: boolean
-    graphitePrefix?: string
-    graphiteHost?: string
-    graphitePort?: number
-    graphiteInterval?: number
-    heavyLoad: boolean
-    pubsubhubbub: boolean
-    imageProxyEnabled: boolean
-    queryTimeout: number
-    keepStatusDays: number
-    maxFeedCapacity: number
-    refreshIntervalMinutes: number
-    cache: ApplicationSettingsCache
-    announcement?: string
-    userAgent?: string
-    unreadThreshold?: Date
-}
-
 export interface Category {
     id: string
     parentId?: string
@@ -299,8 +267,6 @@ export interface UserModel {
     lastLogin?: number
     admin: boolean
 }
-
-export type ApplicationSettingsCache = "NOOP" | "REDIS"
 
 export type ReadingMode = "all" | "unread"
 

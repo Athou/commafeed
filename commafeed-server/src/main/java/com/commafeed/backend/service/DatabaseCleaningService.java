@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryContentDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
@@ -14,7 +15,6 @@ import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.Feed;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -22,17 +22,27 @@ import lombok.extern.slf4j.Slf4j;
  * 
  */
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class DatabaseCleaningService {
 
-	private static final int BATCH_SIZE = 100;
+	private final int batchSize;
 
 	private final UnitOfWork unitOfWork;
 	private final FeedDAO feedDAO;
 	private final FeedEntryDAO feedEntryDAO;
 	private final FeedEntryContentDAO feedEntryContentDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
+
+	@Inject
+	public DatabaseCleaningService(CommaFeedConfiguration config, UnitOfWork unitOfWork, FeedDAO feedDAO, FeedEntryDAO feedEntryDAO,
+			FeedEntryContentDAO feedEntryContentDAO, FeedEntryStatusDAO feedEntryStatusDAO) {
+		this.unitOfWork = unitOfWork;
+		this.feedDAO = feedDAO;
+		this.feedEntryDAO = feedEntryDAO;
+		this.feedEntryContentDAO = feedEntryContentDAO;
+		this.feedEntryStatusDAO = feedEntryStatusDAO;
+		this.batchSize = config.getApplicationSettings().getDatabaseCleanupBatchSize();
+	}
 
 	public void cleanFeedsWithoutSubscriptions() {
 		log.info("cleaning feeds without subscriptions");
@@ -44,7 +54,7 @@ public class DatabaseCleaningService {
 			for (Feed feed : feeds) {
 				long entriesDeleted;
 				do {
-					entriesDeleted = unitOfWork.call(() -> feedEntryDAO.delete(feed.getId(), BATCH_SIZE));
+					entriesDeleted = unitOfWork.call(() -> feedEntryDAO.delete(feed.getId(), batchSize));
 					entriesTotal += entriesDeleted;
 					log.info("removed {} entries for feeds without subscriptions", entriesTotal);
 				} while (entriesDeleted > 0);
@@ -61,7 +71,7 @@ public class DatabaseCleaningService {
 		long total = 0;
 		long deleted;
 		do {
-			deleted = unitOfWork.call(() -> feedEntryContentDAO.deleteWithoutEntries(BATCH_SIZE));
+			deleted = unitOfWork.call(() -> feedEntryContentDAO.deleteWithoutEntries(batchSize));
 			total += deleted;
 			log.info("removed {} contents without entries", total);
 		} while (deleted != 0);
@@ -71,7 +81,7 @@ public class DatabaseCleaningService {
 	public void cleanEntriesForFeedsExceedingCapacity(final int maxFeedCapacity) {
 		long total = 0;
 		while (true) {
-			List<FeedCapacity> feeds = unitOfWork.call(() -> feedEntryDAO.findFeedsExceedingCapacity(maxFeedCapacity, BATCH_SIZE));
+			List<FeedCapacity> feeds = unitOfWork.call(() -> feedEntryDAO.findFeedsExceedingCapacity(maxFeedCapacity, batchSize));
 			if (feeds.isEmpty()) {
 				break;
 			}
@@ -80,7 +90,7 @@ public class DatabaseCleaningService {
 				long remaining = feed.getCapacity() - maxFeedCapacity;
 				do {
 					final long rem = remaining;
-					int deleted = unitOfWork.call(() -> feedEntryDAO.deleteOldEntries(feed.getId(), Math.min(BATCH_SIZE, rem)));
+					int deleted = unitOfWork.call(() -> feedEntryDAO.deleteOldEntries(feed.getId(), Math.min(batchSize, rem)));
 					total += deleted;
 					remaining -= deleted;
 					log.info("removed {} entries for feeds exceeding capacity", total);
@@ -95,7 +105,7 @@ public class DatabaseCleaningService {
 		long total = 0;
 		long deleted;
 		do {
-			deleted = unitOfWork.call(() -> feedEntryStatusDAO.deleteOldStatuses(olderThan, BATCH_SIZE));
+			deleted = unitOfWork.call(() -> feedEntryStatusDAO.deleteOldStatuses(olderThan, batchSize));
 			total += deleted;
 			log.info("removed {} old read statuses", total);
 		} while (deleted != 0);

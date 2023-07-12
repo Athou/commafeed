@@ -28,6 +28,9 @@ app:
   # number of database updating threads
   databaseUpdateThreads: 1
   
+  # rows to delete per query while cleaning up old entries
+  databaseCleanupBatchSize: 100
+
   # settings for sending emails (password recovery)
   smtpHost: localhost
   smtpPort: 25

@@ -666,6 +666,7 @@ msgid "REST API"
 msgstr "REST-API"
 
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr ""
 
@@ -718,6 +719,7 @@ msgstr "Sites delen"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr ""
 
@@ -736,6 +738,10 @@ msgstr "Toon feeds en categorieën zonder ongelezen items"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show keyboard shortcut help"
 msgstr "Toon hulp bij sneltoetsen"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show native menu (desktop)"
+msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx

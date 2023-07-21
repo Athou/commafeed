@@ -666,6 +666,7 @@ msgid "REST API"
 msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr ""
 
@@ -718,6 +719,7 @@ msgstr "사이트 공유"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "시프트"
 
@@ -736,6 +738,10 @@ msgstr "읽지 않은 항목이 없는 피드 및 카테고리 표시"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show keyboard shortcut help"
 msgstr "키보드 단축키 도움말 표시"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show native menu (desktop)"
+msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx

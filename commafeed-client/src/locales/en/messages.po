@@ -666,6 +666,7 @@ msgid "REST API"
 msgstr "REST API"
 
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr "Right click"
 
@@ -718,6 +719,7 @@ msgstr "Sharing sites"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "Shift"
 
@@ -736,6 +738,10 @@ msgstr "Show feeds and categories with no unread entries"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show keyboard shortcut help"
 msgstr "Show keyboard shortcut help"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show native menu (desktop)"
+msgstr "Show native menu (desktop)"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx

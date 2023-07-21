@@ -62,6 +62,8 @@ export function FeedEntries() {
 
     const contextMenu = useContextMenu()
     const headerRightClicked = (entry: ExpendableEntry, event: React.MouseEvent) => {
+        if (event.shiftKey) return
+
         event.preventDefault()
         contextMenu.show({
             id: Constants.dom.entryContextMenuId(entry),

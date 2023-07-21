@@ -666,6 +666,7 @@ msgid "REST API"
 msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr ""
 
@@ -718,6 +719,7 @@ msgstr "共享站点"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "换档"
 
@@ -736,6 +738,10 @@ msgstr "显示没有未读条目的提要和类别"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show keyboard shortcut help"
 msgstr "显示键盘快捷键帮助"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show native menu (desktop)"
+msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx

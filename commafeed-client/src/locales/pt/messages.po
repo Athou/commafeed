@@ -666,6 +666,7 @@ msgid "REST API"
 msgstr "API REST"
 
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr ""
 
@@ -718,6 +719,7 @@ msgstr "Compartilhando sites"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "Mudar"
 
@@ -736,6 +738,10 @@ msgstr "Mostrar feeds e categorias sem entradas não lidas"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show keyboard shortcut help"
 msgstr "Mostrar ajuda de atalho de teclado"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show native menu (desktop)"
+msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx

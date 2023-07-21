@@ -666,6 +666,7 @@ msgid "REST API"
 msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr ""
 
@@ -718,6 +719,7 @@ msgstr "اشتراک گذاری سایت ها"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "شیفت"
 
@@ -736,6 +738,10 @@ msgstr "فیدها و دسته ها را بدون ورودی خوانده نشد
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show keyboard shortcut help"
 msgstr "نمایش راهنمایی میانبر صفحه کلید"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show native menu (desktop)"
+msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx

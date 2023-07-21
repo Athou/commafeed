@@ -666,6 +666,7 @@ msgid "REST API"
 msgstr "API REST"
 
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr "Clic droit"
 
@@ -718,6 +719,7 @@ msgstr "Sites de partage"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "Maj"
 
@@ -736,6 +738,10 @@ msgstr "Afficher les flux et les catégories pour lesquels tout est déjà lu"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show keyboard shortcut help"
 msgstr "Montrer les raccourcis clavier"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Show native menu (desktop)"
+msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx

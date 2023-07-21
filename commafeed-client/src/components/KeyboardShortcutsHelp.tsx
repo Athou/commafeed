@@ -163,6 +163,20 @@ export function KeyboardShortcutsHelp() {
                     </tr>
                     <tr>
                         <td>
+                            <Trans>Show native menu (desktop)</Trans>
+                        </td>
+                        <td>
+                            <Kbd>
+                                <Trans>Shift</Trans>
+                            </Kbd>
+                            <span> + </span>
+                            <Kbd>
+                                <Trans>Right click</Trans>
+                            </Kbd>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <Trans>Show entry menu (mobile)</Trans>
                         </td>
                         <td>

@@ -1,11 +1,8 @@
 package com.commafeed.backend.feed;
 
-import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -22,16 +19,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Document.OutputSettings;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Entities.EscapeMode;
-import org.jsoup.safety.Cleaner;
-import org.jsoup.safety.Safelist;
 import org.jsoup.select.Elements;
 import org.netpreserve.urlcanon.Canonicalizer;
 import org.netpreserve.urlcanon.ParsedUrl;
-import org.w3c.css.sac.InputSource;
-import org.w3c.dom.css.CSSStyleDeclaration;
 
 import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
 import com.commafeed.backend.model.FeedEntry;
@@ -41,7 +32,6 @@ import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.i18n.shared.BidiUtils;
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
-import com.steadystate.css.parser.CSSOMParser;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,51 +44,11 @@ public class FeedUtils {
 
 	private static final String ESCAPED_QUESTION_MARK = Pattern.quote("?");
 
-	private static final List<String> ALLOWED_IFRAME_CSS_RULES = Arrays.asList("height", "width", "border");
-	private static final List<String> ALLOWED_IMG_CSS_RULES = Arrays.asList("display", "width", "height");
-	private static final char[] FORBIDDEN_CSS_RULE_CHARACTERS = new char[] { '(', ')' };
-
-	private static final Safelist WHITELIST = buildWhiteList();
-
 	public static String truncate(String string, int length) {
 		if (string != null) {
 			string = string.substring(0, Math.min(length, string.length()));
 		}
 		return string;
-	}
-
-	private static synchronized Safelist buildWhiteList() {
-		Safelist whitelist = new Safelist();
-		whitelist.addTags("a", "b", "blockquote", "br", "caption", "cite", "code", "col", "colgroup", "dd", "div", "dl", "dt", "em", "h1",
-				"h2", "h3", "h4", "h5", "h6", "i", "iframe", "img", "li", "ol", "p", "pre", "q", "small", "strike", "strong", "sub", "sup",
-				"table", "tbody", "td", "tfoot", "th", "thead", "tr", "u", "ul");
-
-		whitelist.addAttributes("div", "dir");
-		whitelist.addAttributes("pre", "dir");
-		whitelist.addAttributes("code", "dir");
-		whitelist.addAttributes("table", "dir");
-		whitelist.addAttributes("p", "dir");
-		whitelist.addAttributes("a", "href", "title");
-		whitelist.addAttributes("blockquote", "cite");
-		whitelist.addAttributes("col", "span", "width");
-		whitelist.addAttributes("colgroup", "span", "width");
-		whitelist.addAttributes("iframe", "src", "height", "width", "allowfullscreen", "frameborder", "style");
-		whitelist.addAttributes("img", "align", "alt", "height", "src", "title", "width", "style");
-		whitelist.addAttributes("ol", "start", "type");
-		whitelist.addAttributes("q", "cite");
-		whitelist.addAttributes("table", "border", "bordercolor", "summary", "width");
-		whitelist.addAttributes("td", "border", "bordercolor", "abbr", "axis", "colspan", "rowspan", "width");
-		whitelist.addAttributes("th", "border", "bordercolor", "abbr", "axis", "colspan", "rowspan", "scope", "width");
-		whitelist.addAttributes("ul", "type");
-
-		whitelist.addProtocols("a", "href", "ftp", "http", "https", "magnet", "mailto");
-		whitelist.addProtocols("blockquote", "cite", "http", "https");
-		whitelist.addProtocols("img", "src", "http", "https");
-		whitelist.addProtocols("q", "cite", "http", "https");
-
-		whitelist.addEnforcedAttribute("a", "target", "_blank");
-		whitelist.addEnforcedAttribute("a", "rel", "noreferrer");
-		return whitelist;
 	}
 
 	/**
@@ -231,87 +181,6 @@ public class FeedUtils {
 		String encoding = pi.substring(index + 10);
 		encoding = encoding.substring(0, encoding.indexOf('"'));
 		return encoding;
-	}
-
-	public static String handleContent(String content, String baseUri, boolean keepTextOnly) {
-		if (StringUtils.isNotBlank(content)) {
-			baseUri = StringUtils.trimToEmpty(baseUri);
-
-			Document dirty = Jsoup.parseBodyFragment(content, baseUri);
-			Cleaner cleaner = new Cleaner(WHITELIST);
-			Document clean = cleaner.clean(dirty);
-
-			for (Element e : clean.select("iframe[style]")) {
-				String style = e.attr("style");
-				String escaped = escapeIFrameCss(style);
-				e.attr("style", escaped);
-			}
-
-			for (Element e : clean.select("img[style]")) {
-				String style = e.attr("style");
-				String escaped = escapeImgCss(style);
-				e.attr("style", escaped);
-			}
-
-			clean.outputSettings(new OutputSettings().escapeMode(EscapeMode.base).prettyPrint(false));
-			Element body = clean.body();
-			if (keepTextOnly) {
-				content = body.text();
-			} else {
-				content = body.html();
-			}
-		}
-		return content;
-	}
-
-	public static String escapeIFrameCss(String orig) {
-		String rule = "";
-		CSSOMParser parser = new CSSOMParser();
-		try {
-			List<String> rules = new ArrayList<>();
-			CSSStyleDeclaration decl = parser.parseStyleDeclaration(new InputSource(new StringReader(orig)));
-
-			for (int i = 0; i < decl.getLength(); i++) {
-				String property = decl.item(i);
-				String value = decl.getPropertyValue(property);
-				if (StringUtils.isBlank(property) || StringUtils.isBlank(value)) {
-					continue;
-				}
-
-				if (ALLOWED_IFRAME_CSS_RULES.contains(property) && StringUtils.containsNone(value, FORBIDDEN_CSS_RULE_CHARACTERS)) {
-					rules.add(property + ":" + decl.getPropertyValue(property) + ";");
-				}
-			}
-			rule = StringUtils.join(rules, "");
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
-		return rule;
-	}
-
-	public static String escapeImgCss(String orig) {
-		String rule = "";
-		CSSOMParser parser = new CSSOMParser();
-		try {
-			List<String> rules = new ArrayList<>();
-			CSSStyleDeclaration decl = parser.parseStyleDeclaration(new InputSource(new StringReader(orig)));
-
-			for (int i = 0; i < decl.getLength(); i++) {
-				String property = decl.item(i);
-				String value = decl.getPropertyValue(property);
-				if (StringUtils.isBlank(property) || StringUtils.isBlank(value)) {
-					continue;
-				}
-
-				if (ALLOWED_IMG_CSS_RULES.contains(property) && StringUtils.containsNone(value, FORBIDDEN_CSS_RULE_CHARACTERS)) {
-					rules.add(property + ":" + decl.getPropertyValue(property) + ";");
-				}
-			}
-			rule = StringUtils.join(rules, "");
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
-		return rule;
 	}
 
 	public static boolean isRTL(FeedEntry entry) {

@@ -87,6 +87,10 @@ msgstr "Un fichier OPML est un fichier XML contenant des URL de flux et des cat√
 msgid "Analyze feed"
 msgstr "Analyser le flux"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "Cl√© API"

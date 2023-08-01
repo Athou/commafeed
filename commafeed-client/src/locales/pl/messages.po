@@ -87,6 +87,10 @@ msgstr "Plik opml to plik XML zawierający adresy URL i kategorie kanałów. "
 msgid "Analyze feed"
 msgstr "Analizuj kanał"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "klucz API"

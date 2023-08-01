@@ -87,6 +87,10 @@ msgstr "Az opml-fájl olyan XML-fájl, amely feed URL-címeket és kategóriáka
 msgid "Analyze feed"
 msgstr "Hírcsatorna elemzése"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "API kulcs"

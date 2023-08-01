@@ -87,6 +87,10 @@ msgstr "opml 파일은 피드 URL과 카테고리를 포함하는 XML 파일입�
 msgid "Analyze feed"
 msgstr "피드 분석"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "API 키"

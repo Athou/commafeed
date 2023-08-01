@@ -87,6 +87,10 @@ msgstr "Soubor opml je soubor XML obsahující adresy URL a kategorie zdrojů. "
 msgid "Analyze feed"
 msgstr "Analyzujte krmivo"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "Klíč API"

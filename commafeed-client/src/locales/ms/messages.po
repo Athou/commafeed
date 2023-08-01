@@ -87,6 +87,10 @@ msgstr "Fail opml ialah fail XML yang mengandungi URL suapan dan kategori. "
 msgid "Analyze feed"
 msgstr "Menganalisis suapan"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "Kunci API"

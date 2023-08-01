@@ -87,6 +87,10 @@ msgstr "یک فایل opml یک فایل XML است که حاوی آدرس‌ه�
 msgid "Analyze feed"
 msgstr "خوراک را تجزیه و تحلیل کنید"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "کلید API"

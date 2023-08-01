@@ -87,6 +87,10 @@ msgstr "Mae ffeil opml yn ffeil XML sy'n cynnwys URLs porthiant a chategorïau. 
 msgid "Analyze feed"
 msgstr "Dadansoddi porthiant"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "Allwedd API"

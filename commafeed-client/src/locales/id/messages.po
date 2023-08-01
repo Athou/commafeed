@@ -87,6 +87,10 @@ msgstr "File opml adalah file XML yang berisi URL dan kategori feed. "
 msgid "Analyze feed"
 msgstr "Analisis umpan"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "kunci API"

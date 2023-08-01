@@ -87,6 +87,10 @@ msgstr "Een opml-bestand is een XML-bestand met feed-URL's en categorieën. "
 msgid "Analyze feed"
 msgstr "Analyseer feed"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "API-sleutel"

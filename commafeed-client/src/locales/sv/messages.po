@@ -87,6 +87,10 @@ msgstr "En opml-fil är en XML-fil som innehåller feed-URL:er och kategorier. "
 msgid "Analyze feed"
 msgstr "Analysera foder"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "API-nyckel"

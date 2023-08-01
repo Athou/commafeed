@@ -87,6 +87,10 @@ msgstr "Un fitxer opml és un fitxer XML que conté URL i categories de canals. 
 msgid "Analyze feed"
 msgstr "Analitzar el feed"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "clau API"

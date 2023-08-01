@@ -87,6 +87,10 @@ msgstr "Bir opml dosyası, besleme URL'lerini ve kategorilerini içeren bir XML 
 msgid "Analyze feed"
 msgstr "Feed'i analiz et"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "API anahtarı"

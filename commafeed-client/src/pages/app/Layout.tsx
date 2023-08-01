@@ -18,6 +18,7 @@ import { redirectToAdd, redirectToRootCategory } from "app/slices/redirect"
 import { reloadTree, setMobileMenuOpen, setSidebarWidth } from "app/slices/tree"
 import { reloadProfile, reloadSettings, reloadTags } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
+import { AnnouncementDialog } from "components/AnnouncementDialog"
 import { Loader } from "components/Loader"
 import { Logo } from "components/Logo"
 import { OnDesktop } from "components/responsive/OnDesktop"
@@ -197,6 +198,7 @@ export default function Layout(props: LayoutProps) {
         >
             <Box id="content" className={classes.mainContent}>
                 <Suspense fallback={<Loader />}>
+                    <AnnouncementDialog />
                     <Outlet />
                 </Suspense>
             </Box>

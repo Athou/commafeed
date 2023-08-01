@@ -87,6 +87,10 @@ msgstr "OPML-файл — это XML-файл, содержащий URL-адре
 msgid "Analyze feed"
 msgstr "Анализ канала"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "ключ API"

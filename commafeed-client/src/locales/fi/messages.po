@@ -87,6 +87,10 @@ msgstr "Opml-tiedosto on XML-tiedosto, joka sisältää syötteen URL-osoitteet 
 msgid "Analyze feed"
 msgstr "Analysoi syöte"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "API-avain"

@@ -87,6 +87,10 @@ msgstr "ملف opml هو ملف XML يحتوي على عناوين URL للتغ�
 msgid "Analyze feed"
 msgstr "تحليل التغذية"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "مفتاح API"

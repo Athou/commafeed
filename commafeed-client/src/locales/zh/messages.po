@@ -87,6 +87,10 @@ msgstr "opml 文件是包含提要 URL 和类别的 XML 文件。"
 msgid "Analyze feed"
 msgstr "分析饲料"
 
+#: src/components/AnnouncementDialog.tsx
+msgid "Announcement"
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "API 密钥"

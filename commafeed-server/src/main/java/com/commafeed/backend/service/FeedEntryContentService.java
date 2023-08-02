@@ -188,17 +188,17 @@ public class FeedEntryContentService {
 		parser.setErrorHandler(new ErrorHandler() {
 			@Override
 			public void warning(CSSParseException exception) throws CSSException {
-				log.info("warning while parsing css: {}", exception.getMessage(), exception);
+				log.debug("warning while parsing css: {}", exception.getMessage(), exception);
 			}
 
 			@Override
 			public void error(CSSParseException exception) throws CSSException {
-				log.info("error while parsing css: {}", exception.getMessage(), exception);
+				log.debug("error while parsing css: {}", exception.getMessage(), exception);
 			}
 
 			@Override
 			public void fatalError(CSSParseException exception) throws CSSException {
-				log.info("fatal error while parsing css: {}", exception.getMessage(), exception);
+				log.debug("fatal error while parsing css: {}", exception.getMessage(), exception);
 			}
 		});
 

@@ -66,6 +66,7 @@ public class UserSettings extends AbstractModel {
 	private int scrollSpeed;
 
 	private boolean alwaysScrollToEntry;
+	private boolean markAllAsReadConfirmation;
 
 	private boolean email;
 	private boolean gmail;

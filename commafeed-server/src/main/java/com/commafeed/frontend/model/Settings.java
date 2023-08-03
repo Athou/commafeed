@@ -38,6 +38,9 @@ public class Settings implements Serializable {
 	@ApiModelProperty(value = "always scroll selected entry to the top of the page, even if it fits entirely on screen", required = true)
 	private boolean alwaysScrollToEntry;
 
+	@ApiModelProperty(value = "ask for confirmation when marking all entries as read", required = true)
+	private boolean markAllAsReadConfirmation;
+
 	@ApiModelProperty(value = "sharing settings", required = true)
 	private SharingSettings sharingSettings = new SharingSettings();
 

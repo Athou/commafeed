@@ -727,6 +727,10 @@ msgstr "사이트 공유"
 msgid "Shift"
 msgstr "시프트"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show confirmation when marking all entries as read"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
 msgstr ""

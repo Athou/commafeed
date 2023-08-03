@@ -727,6 +727,10 @@ msgstr "共享站点"
 msgid "Shift"
 msgstr "换档"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show confirmation when marking all entries as read"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
 msgstr ""

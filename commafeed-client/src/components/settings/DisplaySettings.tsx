@@ -4,6 +4,7 @@ import { Constants } from "app/constants"
 import {
     changeAlwaysScrollToEntry,
     changeLanguage,
+    changeMarkAllAsReadConfirmation,
     changeScrollMarks,
     changeScrollSpeed,
     changeSharingSetting,
@@ -19,6 +20,7 @@ export function DisplaySettings() {
     const showRead = useAppSelector(state => state.user.settings?.showRead)
     const scrollMarks = useAppSelector(state => state.user.settings?.scrollMarks)
     const alwaysScrollToEntry = useAppSelector(state => state.user.settings?.alwaysScrollToEntry)
+    const markAllAsReadConfirmation = useAppSelector(state => state.user.settings?.markAllAsReadConfirmation)
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const dispatch = useAppDispatch()
 
@@ -56,6 +58,12 @@ export function DisplaySettings() {
                 label={<Trans>In expanded view, scrolling through entries mark them as read</Trans>}
                 checked={scrollMarks}
                 onChange={e => dispatch(changeScrollMarks(e.currentTarget.checked))}
+            />
+
+            <Switch
+                label={<Trans>Show confirmation when marking all entries as read</Trans>}
+                checked={markAllAsReadConfirmation}
+                onChange={e => dispatch(changeMarkAllAsReadConfirmation(e.currentTarget.checked))}
             />
 
             <Divider label={<Trans>Sharing sites</Trans>} labelPosition="center" />

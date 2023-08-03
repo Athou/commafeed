@@ -202,6 +202,7 @@ export interface Settings {
     customJs?: string
     scrollSpeed: number
     alwaysScrollToEntry: boolean
+    markAllAsReadConfirmation: boolean
     sharingSettings: SharingSettings
 }
 

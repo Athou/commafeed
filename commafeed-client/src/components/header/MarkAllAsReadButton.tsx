@@ -13,7 +13,26 @@ export function MarkAllAsReadButton(props: { iconSize: number }) {
     const source = useAppSelector(state => state.entries.source)
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
     const entriesTimestamp = useAppSelector(state => state.entries.timestamp) ?? Date.now()
+    const markAllAsReadConfirmation = useAppSelector(state => state.user.settings?.markAllAsReadConfirmation)
     const dispatch = useAppDispatch()
+
+    const buttonClicked = () => {
+        if (markAllAsReadConfirmation) {
+            setThreshold(0)
+            setOpened(true)
+        } else {
+            dispatch(
+                markAllEntries({
+                    sourceType: source.type,
+                    req: {
+                        id: source.id,
+                        read: true,
+                        olderThan: entriesTimestamp,
+                    },
+                })
+            )
+        }
+    }
 
     return (
         <>
@@ -70,14 +89,7 @@ export function MarkAllAsReadButton(props: { iconSize: number }) {
                     </Group>
                 </Stack>
             </Modal>
-            <ActionButton
-                icon={<TbChecks size={props.iconSize} />}
-                label={<Trans>Mark all as read</Trans>}
-                onClick={() => {
-                    setThreshold(0)
-                    setOpened(true)
-                }}
-            />
+            <ActionButton icon={<TbChecks size={props.iconSize} />} label={<Trans>Mark all as read</Trans>} onClick={buttonClicked} />
         </>
     )
 }

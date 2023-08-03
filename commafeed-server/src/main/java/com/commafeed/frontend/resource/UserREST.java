@@ -104,6 +104,7 @@ public class UserREST {
 			s.setLanguage(settings.getLanguage());
 			s.setScrollSpeed(settings.getScrollSpeed());
 			s.setAlwaysScrollToEntry(settings.isAlwaysScrollToEntry());
+			s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());
 		} else {
 			s.setReadingMode(ReadingMode.unread.name());
 			s.setReadingOrder(ReadingOrder.desc.name());
@@ -122,6 +123,7 @@ public class UserREST {
 			s.setLanguage("en");
 			s.setScrollSpeed(400);
 			s.setAlwaysScrollToEntry(false);
+			s.setMarkAllAsReadConfirmation(true);
 		}
 		return Response.ok(s).build();
 	}
@@ -148,6 +150,7 @@ public class UserREST {
 		s.setLanguage(settings.getLanguage());
 		s.setScrollSpeed(settings.getScrollSpeed());
 		s.setAlwaysScrollToEntry(settings.isAlwaysScrollToEntry());
+		s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());
 
 		s.setEmail(settings.getSharingSettings().isEmail());
 		s.setGmail(settings.getSharingSettings().isGmail());

@@ -105,6 +105,7 @@ public class UserREST {
 			s.setScrollSpeed(settings.getScrollSpeed());
 			s.setAlwaysScrollToEntry(settings.isAlwaysScrollToEntry());
 			s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());
+			s.setCustomContextMenu(settings.isCustomContextMenu());
 		} else {
 			s.setReadingMode(ReadingMode.unread.name());
 			s.setReadingOrder(ReadingOrder.desc.name());
@@ -124,6 +125,7 @@ public class UserREST {
 			s.setScrollSpeed(400);
 			s.setAlwaysScrollToEntry(false);
 			s.setMarkAllAsReadConfirmation(true);
+			s.setCustomContextMenu(true);
 		}
 		return Response.ok(s).build();
 	}
@@ -151,6 +153,7 @@ public class UserREST {
 		s.setScrollSpeed(settings.getScrollSpeed());
 		s.setAlwaysScrollToEntry(settings.isAlwaysScrollToEntry());
 		s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());
+		s.setCustomContextMenu(settings.isCustomContextMenu());
 
 		s.setEmail(settings.getSharingSettings().isEmail());
 		s.setGmail(settings.getSharingSettings().isGmail());

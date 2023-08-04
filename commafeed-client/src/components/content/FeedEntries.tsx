@@ -34,6 +34,7 @@ export function FeedEntries() {
     const scrollMarks = useAppSelector(state => state.user.settings?.scrollMarks)
     const scrollingToEntry = useAppSelector(state => state.entries.scrollingToEntry)
     const sidebarVisible = useAppSelector(state => state.tree.sidebarVisible)
+    const customContextMenu = useAppSelector(state => state.user.settings?.customContextMenu)
     const { viewMode } = useViewMode()
     const dispatch = useAppDispatch()
     const { openLinkInBackgroundTab } = useBrowserExtension()
@@ -62,7 +63,7 @@ export function FeedEntries() {
 
     const contextMenu = useContextMenu()
     const headerRightClicked = (entry: ExpendableEntry, event: React.MouseEvent) => {
-        if (event.shiftKey) return
+        if (event.shiftKey || !customContextMenu) return
 
         event.preventDefault()
         contextMenu.show({

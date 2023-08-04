@@ -728,6 +728,10 @@ msgid "Shift"
 msgstr "الحلقة"
 
 #: src/components/settings/DisplaySettings.tsx
+msgid "Show CommaFeed's own context menu on right click"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 msgid "Show confirmation when marking all entries as read"
 msgstr ""
 

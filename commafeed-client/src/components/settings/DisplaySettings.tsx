@@ -3,6 +3,7 @@ import { Divider, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
 import { Constants } from "app/constants"
 import {
     changeAlwaysScrollToEntry,
+    changeCustomContextMenu,
     changeLanguage,
     changeMarkAllAsReadConfirmation,
     changeScrollMarks,
@@ -21,6 +22,7 @@ export function DisplaySettings() {
     const scrollMarks = useAppSelector(state => state.user.settings?.scrollMarks)
     const alwaysScrollToEntry = useAppSelector(state => state.user.settings?.alwaysScrollToEntry)
     const markAllAsReadConfirmation = useAppSelector(state => state.user.settings?.markAllAsReadConfirmation)
+    const customContextMenu = useAppSelector(state => state.user.settings?.customContextMenu)
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const dispatch = useAppDispatch()
 
@@ -64,6 +66,12 @@ export function DisplaySettings() {
                 label={<Trans>Show confirmation when marking all entries as read</Trans>}
                 checked={markAllAsReadConfirmation}
                 onChange={e => dispatch(changeMarkAllAsReadConfirmation(e.currentTarget.checked))}
+            />
+
+            <Switch
+                label={<Trans>Show CommaFeed's own context menu on right click</Trans>}
+                checked={customContextMenu}
+                onChange={e => dispatch(changeCustomContextMenu(e.currentTarget.checked))}
             />
 
             <Divider label={<Trans>Sharing sites</Trans>} labelPosition="center" />

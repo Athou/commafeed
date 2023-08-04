@@ -102,6 +102,17 @@ export const changeMarkAllAsReadConfirmation = createAsyncThunk<
     if (!settings) return
     client.user.saveSettings({ ...settings, markAllAsReadConfirmation })
 })
+export const changeCustomContextMenu = createAsyncThunk<
+    void,
+    boolean,
+    {
+        state: RootState
+    }
+>("settings/customContextMenu", (customContextMenu, thunkApi) => {
+    const { settings } = thunkApi.getState().user
+    if (!settings) return
+    client.user.saveSettings({ ...settings, customContextMenu })
+})
 export const changeSharingSetting = createAsyncThunk<
     void,
     { site: keyof SharingSettings; value: boolean },
@@ -166,6 +177,10 @@ export const userSlice = createSlice({
             if (!state.settings) return
             state.settings.markAllAsReadConfirmation = action.meta.arg
         })
+        builder.addCase(changeCustomContextMenu.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.customContextMenu = action.meta.arg
+        })
         builder.addCase(changeSharingSetting.pending, (state, action) => {
             if (!state.settings) return
             state.settings.sharingSettings[action.meta.arg.site] = action.meta.arg.value
@@ -178,6 +193,7 @@ export const userSlice = createSlice({
                 changeScrollMarks.fulfilled,
                 changeAlwaysScrollToEntry.fulfilled,
                 changeMarkAllAsReadConfirmation.fulfilled,
+                changeCustomContextMenu.fulfilled,
                 changeSharingSetting.fulfilled
             ),
             () => {

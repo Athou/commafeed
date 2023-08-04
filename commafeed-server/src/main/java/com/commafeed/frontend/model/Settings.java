@@ -41,6 +41,9 @@ public class Settings implements Serializable {
 	@ApiModelProperty(value = "ask for confirmation when marking all entries as read", required = true)
 	private boolean markAllAsReadConfirmation;
 
+	@ApiModelProperty(value = "show commafeed's own context menu on right click", required = true)
+	private boolean customContextMenu;
+
 	@ApiModelProperty(value = "sharing settings", required = true)
 	private SharingSettings sharingSettings = new SharingSettings();
 

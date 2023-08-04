@@ -203,6 +203,7 @@ export interface Settings {
     scrollSpeed: number
     alwaysScrollToEntry: boolean
     markAllAsReadConfirmation: boolean
+    customContextMenu: boolean
     sharingSettings: SharingSettings
 }
 

@@ -89,7 +89,7 @@ msgstr "Analyser le flux"
 
 #: src/components/AnnouncementDialog.tsx
 msgid "Announcement"
-msgstr ""
+msgstr "Annonces"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
@@ -268,7 +268,7 @@ msgstr "Affichage"
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/DonatePage.tsx
 msgid "Donate"
-msgstr "Faites un don"
+msgstr "Faire un don"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
@@ -733,7 +733,7 @@ msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show confirmation when marking all entries as read"
-msgstr ""
+msgstr "Demander une confirmation avant de tout marquer comme lu"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
@@ -753,7 +753,7 @@ msgstr "Montrer les raccourcis clavier"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
-msgstr ""
+msgstr "Afficher les options du navigateur (ordinateur)"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx

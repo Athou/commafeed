@@ -15,15 +15,15 @@ msgstr ""
 
 #: src/components/content/add/CategorySelect.tsx
 msgid "{0} (in {1})"
-msgstr ""
+msgstr "{0} ({1} içinde)"
 
 #: src/pages/app/AboutPage.tsx
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
-msgstr ""
+msgstr "<0>CommaFeed açık kaynak kodlu bir proje. Kaynak kodları </0><1>GitHub</1>'da."
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
-msgstr ""
+msgstr "<0>Tüm sözdizimi </0><1>burada</1>."
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
@@ -31,7 +31,7 @@ msgstr "<0>Hesabınız var mı?</0><1>Giriş yapın!</1>"
 
 #: src/pages/app/DonatePage.tsx
 msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
-msgstr ""
+msgstr "<0>Merhaba,</0><1>Ben Belçika'dan Jérémie ve 10 yıldır boş zamanlarımda CommaFeed üzerinde çalışıyorum. CommaFeed'i desteklememe ilgi gösterdiğiniz için teşekkürler.</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
@@ -73,7 +73,7 @@ msgstr "Tümü"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always scroll selected entry to the top of the page, even if it fits entirely on screen"
-msgstr ""
+msgstr "Seçilen girişi her zaman sayfanın üstüne kaydır, ekrana tamamen sığsa bile"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
@@ -89,7 +89,7 @@ msgstr "Feed'i analiz et"
 
 #: src/components/AnnouncementDialog.tsx
 msgid "Announcement"
-msgstr ""
+msgstr "Duyuru"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
@@ -141,7 +141,7 @@ msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extention"
-msgstr ""
+msgstr "Tarayıcı eklentisi"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -177,7 +177,7 @@ msgstr "Feed'in çalışıp çalışmadığını kontrol edin"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
-msgstr ""
+msgstr "CommaFeed tarayıcı eklentisi sürüm {browserExtensionVersion}."
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -185,7 +185,7 @@ msgstr "CommaFeed sonraki okunmamış öğe"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed version {version} ({revision})."
-msgstr ""
+msgstr "CommaFeed sürüm {version} ({revision})."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"
@@ -213,7 +213,7 @@ msgstr "Etiket oluştur: {query}"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Current password"
@@ -221,15 +221,15 @@ msgstr "Geçerli şifre"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Custom code"
-msgstr ""
+msgstr "Özel kod"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
-msgstr ""
+msgstr "Uygulanacak özel CSS kuralları"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
+msgstr "Sayfa yüklendiğinde çalıştırılacak özel JS kodu"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -327,7 +327,7 @@ msgstr "Aboneliklerinizi ve kategorilerinizi diğer besleme okuma hizmetlerinde 
 #: src/components/header/Header.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Extension options"
-msgstr ""
+msgstr "Eklenti ayarları"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
@@ -341,7 +341,7 @@ msgstr "Feed URL'si"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
-msgstr ""
+msgstr "Tüm feed'lerimi şimdi çek"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"
@@ -373,7 +373,7 @@ msgstr "Oluşturulan besleme url'si"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Go to {0}"
-msgstr ""
+msgstr "{0}'a git"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
@@ -467,7 +467,7 @@ msgstr "Çıkış"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Long press"
-msgstr ""
+msgstr "Uzun bas"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -499,7 +499,7 @@ msgstr "Metrikler"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Middle click"
-msgstr ""
+msgstr "Orta tuş ile tıkla"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
@@ -564,7 +564,7 @@ msgstr "Hata!"
 
 #: src/components/header/Header.tsx
 msgid "Open CommaFeed"
-msgstr ""
+msgstr "CommaFeed'i aç"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
@@ -580,11 +580,11 @@ msgstr "Bağlantıyı aç"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new background tab"
-msgstr ""
+msgstr "Bağlantıyı arkaplanda yeni sekmede aç"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new tab"
-msgstr ""
+msgstr "Bağlantıyı yeni sekmede aç"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
@@ -600,7 +600,7 @@ msgstr "Geçerli girişi aç/kapat"
 
 #: src/pages/app/AddPage.tsx
 msgid "OPML"
-msgstr ""
+msgstr "OPML"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "OPML export"
@@ -646,7 +646,7 @@ msgstr "Konum"
 
 #: src/components/header/Header.tsx
 msgid "Previous"
-msgstr ""
+msgstr "Önceki"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -667,12 +667,12 @@ msgstr "Bu CommaFeed örneğinde kayıtlar kapalı"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
-msgstr ""
+msgstr "REST API"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
-msgstr ""
+msgstr "Sağ tık"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
@@ -729,19 +729,19 @@ msgstr "Vardiya"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show CommaFeed's own context menu on right click"
-msgstr ""
+msgstr "Sağ tıkta CommaFeed'in kendi menüsünü göster"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show confirmation when marking all entries as read"
-msgstr ""
+msgstr "Tüm girişleri okundu işaretlerken onay iste"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
-msgstr ""
+msgstr "Giriş menüsünü göster (masaüstü)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (mobile)"
-msgstr ""
+msgstr "Giriş menüsünü göster (mobil)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
@@ -753,7 +753,7 @@ msgstr "Klavye kısayolu yardımını göster"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
-msgstr ""
+msgstr "Orijinal tarayıcı menüsünü göster (masaüstü)"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -800,7 +800,7 @@ msgstr "Başarı"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Swipe header to the right"
-msgstr ""
+msgstr "Başlığı sağa kaydır"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
@@ -810,7 +810,7 @@ msgstr "Karanlık temaya geç"
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
-msgstr "Açık temaya geç"
+msgstr "Aydınlık temaya geç"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
@@ -830,7 +830,7 @@ msgstr "Geçerli girişin okuma durumunu değiştir"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Kenar çubuğunu göster/gizle"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -838,11 +838,11 @@ msgstr "CommaFeed'i demo hesabıyla deneyin: demo/demo"
 
 #: src/pages/WelcomePage.tsx
 msgid "Try the demo!"
-msgstr ""
+msgstr "Demo'yu deneyin!"
 
 #: src/components/header/Header.tsx
 msgid "Unread"
-msgstr "Okunmadı"
+msgstr "Okunmamış"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -873,8 +873,8 @@ msgstr "Web sitesi"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
-msgstr "Henüz aboneliğiniz yok. "
+msgstr "Henüz aboneliğiniz yok. Sayfanın üstündeki + işaretiyle feed ekleyebilirsiniz."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
+msgstr "Feed'leriniz yenileme için sıraya alındı."

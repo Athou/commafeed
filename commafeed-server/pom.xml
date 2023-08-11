@@ -142,6 +142,12 @@
 								<title>CommaFeed</title>
 								<version>${project.version}</version>
 							</info>
+							<securityDefinitions>
+								<securityDefinition>
+									<name>basicAuth</name>
+									<type>basic</type>
+								</securityDefinition>
+							</securityDefinitions>
 							<typesToSkip>
 								<typeToSkip>com.commafeed.backend.model.User</typeToSkip>
 							</typesToSkip>

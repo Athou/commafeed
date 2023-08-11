@@ -27,6 +27,7 @@ interface EntriesState {
     timestamp?: number
     selectedEntryId?: string
     hasMore: boolean
+    loading: boolean
     search?: string
     scrollingToEntry: boolean
 }
@@ -40,6 +41,7 @@ const initialState: EntriesState = {
     sourceWebsiteUrl: "",
     entries: [],
     hasMore: true,
+    loading: false,
     scrollingToEntry: false,
 }
 
@@ -329,6 +331,10 @@ export const entriesSlice = createSlice({
             state.sourceWebsiteUrl = ""
             state.hasMore = true
             state.selectedEntryId = undefined
+            state.loading = true
+        })
+        builder.addCase(loadMoreEntries.pending, state => {
+            state.loading = true
         })
         builder.addCase(loadEntries.fulfilled, (state, action) => {
             state.entries = action.payload.entries
@@ -336,12 +342,14 @@ export const entriesSlice = createSlice({
             state.sourceLabel = action.payload.name
             state.sourceWebsiteUrl = action.payload.feedLink
             state.hasMore = action.payload.hasMore
+            state.loading = false
         })
         builder.addCase(loadMoreEntries.fulfilled, (state, action) => {
             // remove already existing entries
             const entriesToAdd = action.payload.entries.filter(e => !state.entries.some(e2 => e.id === e2.id))
             state.entries = [...state.entries, ...entriesToAdd]
             state.hasMore = action.payload.hasMore
+            state.loading = false
         })
         builder.addCase(tagEntry.pending, (state, action) => {
             state.entries

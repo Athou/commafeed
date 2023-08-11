@@ -1,4 +1,5 @@
 import { Trans } from "@lingui/macro"
+import { Box } from "@mantine/core"
 import { openModal } from "@mantine/modals"
 import { Constants } from "app/constants"
 import {
@@ -31,6 +32,7 @@ export function FeedEntries() {
     const entriesTimestamp = useAppSelector(state => state.entries.timestamp)
     const selectedEntryId = useAppSelector(state => state.entries.selectedEntryId)
     const hasMore = useAppSelector(state => state.entries.hasMore)
+    const loading = useAppSelector(state => state.entries.loading)
     const scrollMarks = useAppSelector(state => state.user.settings?.scrollMarks)
     const scrollingToEntry = useAppSelector(state => state.entries.scrollingToEntry)
     const sidebarVisible = useAppSelector(state => state.tree.sidebarVisible)
@@ -283,9 +285,9 @@ export function FeedEntries() {
         <InfiniteScroll
             id="entries"
             initialLoad={false}
-            loadMore={() => dispatch(loadMoreEntries())}
+            loadMore={() => !loading && dispatch(loadMoreEntries())}
             hasMore={hasMore}
-            loader={<Loader key={0} />}
+            loader={<Box key={0}>{loading && <Loader />}</Box>}
         >
             {entries.map(entry => (
                 <div

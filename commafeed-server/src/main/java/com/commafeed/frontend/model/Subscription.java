@@ -23,19 +23,16 @@ public class Subscription implements Serializable {
 	@ApiModelProperty(value = "subscription name", required = true)
 	private String name;
 
-	@ApiModelProperty(value = "error message while fetching the feed", required = true)
+	@ApiModelProperty(value = "error message while fetching the feed")
 	private String message;
 
 	@ApiModelProperty(value = "error count", required = true)
 	private int errorCount;
 
-	@ApiModelProperty(value = "last time the feed was refreshed", dataType = "number", required = true)
+	@ApiModelProperty(value = "last time the feed was refreshed", dataType = "number")
 	private Date lastRefresh;
 
-	@ApiModelProperty(
-			value = "next time the feed refresh is planned, null if refresh is already queued",
-			dataType = "number",
-			required = true)
+	@ApiModelProperty(value = "next time the feed refresh is planned, null if refresh is already queued", dataType = "number")
 	private Date nextRefresh;
 
 	@ApiModelProperty(value = "this subscription's feed url", required = true)

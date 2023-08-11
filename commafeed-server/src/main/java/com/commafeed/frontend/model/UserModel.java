@@ -30,7 +30,7 @@ public class UserModel implements Serializable {
 	@ApiModelProperty(value = "account status", required = true)
 	private boolean enabled;
 
-	@ApiModelProperty(value = "account creation date", dataType = "number", required = true)
+	@ApiModelProperty(value = "account creation date", dataType = "number")
 	private Date created;
 
 	@ApiModelProperty(value = "last login date", dataType = "number")

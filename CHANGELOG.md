@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.9.0]
+
+- improve performance by disabling the loader when nothing is loading (most noticeable on mobile)
+- added a setting to disable the 'mark all as read' confirmation
+- added a setting to disable the custom context menu
+- if the custom context is enabled, it can still be disabled by pressing the shift key
+- the announcement feature is now working again and supports html ('announcement' configuration element in config.yml)
+- add support for MariaDB 11+
+- fix entry header shortly rendered as mobile on desktop, causing a small visual glitch
+- fix an issue that could cause a feed to not refresh correctly if the url was very long
+- database cleanup batch size is now configurable
+- css parsing errors are no longer logged to the standard output
+- fix small errors in the api documentation
+
 ## [3.8.1]
 
 - in expanded mode, don't scroll when clicking on the body of the current entry
@@ -95,10 +109,9 @@
 ## [3.0.1]
 
 - allow env variable substitution in config.yml
-    - e.g. having a custom config.yml file with `app.session.path=${SOME_ENV_VAR}` will substitute `SOME_ENV_VAR` with
-      its value
+- e.g. having a custom config.yml file with `app.session.path=${SOME_ENV_VAR}` will substitute `SOME_ENV_VAR` with its value
 - allow env variable prefixed with `CF_` to override config.yml properties
-    - e.g. setting `CF_APP_ALLOWREGISTRATIONS=true` will set `app.allowRegistrations` to `true`
+- e.g. setting `CF_APP_ALLOWREGISTRATIONS=true` will set `app.allowRegistrations` to `true`
 
 ## [3.0.0]
 

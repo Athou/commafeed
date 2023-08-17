@@ -69,7 +69,7 @@ public class NextUnreadServlet extends HttpServlet {
 			if (StringUtils.isBlank(categoryId) || CategoryREST.ALL.equals(categoryId)) {
 				List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user.get());
 				List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subs, true, null, null, 0, 1, order,
-						true, false, null);
+						true, false, null, null, null);
 				s = Iterables.getFirst(statuses, null);
 			} else {
 				FeedCategory category = feedCategoryDAO.findById(user.get(), Long.valueOf(categoryId));
@@ -77,7 +77,7 @@ public class NextUnreadServlet extends HttpServlet {
 					List<FeedCategory> children = feedCategoryDAO.findAllChildrenCategories(user.get(), category);
 					List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user.get(), children);
 					List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user.get(), subscriptions, true, null, null, 0,
-							1, order, true, false, null);
+							1, order, true, false, null, null, null);
 					s = Iterables.getFirst(statuses, null);
 				}
 			}

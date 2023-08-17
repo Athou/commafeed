@@ -141,7 +141,7 @@ public class CategoryREST {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 			removeExcludedSubscriptions(subs, excludedIds);
 			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, entryKeywords, newerThanDate,
-					offset, limit + 1, order, true, onlyIds, tag);
+					offset, limit + 1, order, true, onlyIds, tag, null, null);
 
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));
@@ -160,7 +160,7 @@ public class CategoryREST {
 				List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(user, categories);
 				removeExcludedSubscriptions(subs, excludedIds);
 				List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, entryKeywords, newerThanDate,
-						offset, limit + 1, order, true, onlyIds, tag);
+						offset, limit + 1, order, true, onlyIds, tag, null, null);
 
 				for (FeedEntryStatus status : list) {
 					entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));

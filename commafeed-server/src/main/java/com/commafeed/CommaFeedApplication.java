@@ -42,6 +42,7 @@ import com.commafeed.frontend.resource.FeedREST;
 import com.commafeed.frontend.resource.PubSubHubbubCallbackREST;
 import com.commafeed.frontend.resource.ServerREST;
 import com.commafeed.frontend.resource.UserREST;
+import com.commafeed.frontend.resource.fever.FeverREST;
 import com.commafeed.frontend.servlet.AnalyticsServlet;
 import com.commafeed.frontend.servlet.CustomCssServlet;
 import com.commafeed.frontend.servlet.CustomJsServlet;
@@ -163,6 +164,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.jersey().register(injector.getInstance(PubSubHubbubCallbackREST.class));
 		environment.jersey().register(injector.getInstance(ServerREST.class));
 		environment.jersey().register(injector.getInstance(UserREST.class));
+		environment.jersey().register(injector.getInstance(FeverREST.class));
 
 		// Servlets
 		environment.servlets().addServlet("next", injector.getInstance(NextUnreadServlet.class)).addMapping("/next");

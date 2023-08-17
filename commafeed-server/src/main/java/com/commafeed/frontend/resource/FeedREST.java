@@ -172,7 +172,7 @@ public class FeedREST {
 			entries.setFeedLink(subscription.getFeed().getLink());
 
 			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, Collections.singletonList(subscription), unreadOnly,
-					entryKeywords, newerThanDate, offset, limit + 1, order, true, onlyIds, null);
+					entryKeywords, newerThanDate, offset, limit + 1, order, true, onlyIds, null, null, null);
 
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));

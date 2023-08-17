@@ -83,6 +83,28 @@ public class UserService {
 	}
 
 	/**
+	 * try to log in with given fever api key
+	 */
+	public Optional<User> login(long userId, String feverApiKey) {
+		if (feverApiKey == null) {
+			return Optional.empty();
+		}
+
+		User user = userDAO.findById(userId);
+		if (user == null || user.isDisabled() || user.getApiKey() == null) {
+			return Optional.empty();
+		}
+
+		String computedFeverApiKey = DigestUtils.md5Hex(user.getName() + ":" + user.getApiKey());
+		if (!computedFeverApiKey.equals(feverApiKey)) {
+			return Optional.empty();
+		}
+
+		performPostLoginActivities(user);
+		return Optional.of(user);
+	}
+
+	/**
 	 * should triggers after successful login
 	 */
 	public void performPostLoginActivities(User user) {

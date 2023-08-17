@@ -117,7 +117,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	private JPAQuery<FeedEntry> buildQuery(User user, FeedSubscription sub, boolean unreadOnly, List<FeedEntryKeyword> keywords,
-			Date newerThan, int offset, int limit, ReadingOrder order, FeedEntryStatus last, String tag) {
+			Date newerThan, int offset, int limit, ReadingOrder order, FeedEntryStatus last, String tag, Long minEntryId, Long maxEntryId) {
 
 		JPAQuery<FeedEntry> query = query().selectFrom(entry).where(entry.feed.eq(sub.getFeed()));
 
@@ -159,6 +159,14 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			query.where(entry.inserted.goe(newerThan));
 		}
 
+		if (minEntryId != null) {
+			query.where(entry.id.gt(minEntryId));
+		}
+
+		if (maxEntryId != null) {
+			query.where(entry.id.lt(maxEntryId));
+		}
+
 		if (last != null) {
 			if (order == ReadingOrder.desc) {
 				query.where(entry.updated.gt(last.getEntryUpdated()));
@@ -189,7 +197,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public List<FeedEntryStatus> findBySubscriptions(User user, List<FeedSubscription> subs, boolean unreadOnly,
 			List<FeedEntryKeyword> keywords, Date newerThan, int offset, int limit, ReadingOrder order, boolean includeContent,
-			boolean onlyIds, String tag) {
+			boolean onlyIds, String tag, Long minEntryId, Long maxEntryId) {
 		int capacity = offset + limit;
 
 		Comparator<FeedEntryStatus> comparator = order == ReadingOrder.desc ? STATUS_COMPARATOR_DESC : STATUS_COMPARATOR_ASC;
@@ -197,7 +205,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<>(capacity, comparator);
 		for (FeedSubscription sub : subs) {
 			FeedEntryStatus last = (order != null && set.isFull()) ? set.last() : null;
-			JPAQuery<FeedEntry> query = buildQuery(user, sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag);
+			JPAQuery<FeedEntry> query = buildQuery(user, sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag, minEntryId,
+					maxEntryId);
 			List<Tuple> tuples = query.select(entry.id, entry.updated, status.id, entry.content.title).fetch();
 
 			for (Tuple tuple : tuples) {
@@ -250,7 +259,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public UnreadCount getUnreadCount(User user, FeedSubscription subscription) {
 		UnreadCount uc = null;
-		JPAQuery<FeedEntry> query = buildQuery(user, subscription, true, null, null, -1, -1, null, null, null);
+		JPAQuery<FeedEntry> query = buildQuery(user, subscription, true, null, null, -1, -1, null, null, null, null, null);
 		List<Tuple> tuples = query.select(entry.count(), entry.updated.max()).fetch();
 		for (Tuple tuple : tuples) {
 			Long count = tuple.get(entry.count());

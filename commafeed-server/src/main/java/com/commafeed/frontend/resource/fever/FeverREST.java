@@ -6,6 +6,7 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -24,6 +25,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
+
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import com.codahale.metrics.annotation.Timed;
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -63,7 +66,6 @@ import lombok.RequiredArgsConstructor;
  */
 @Path("/fever")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class FeverREST {
@@ -80,14 +82,34 @@ public class FeverREST {
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 
+	// some readers post data using MultiPart FormData instead of the classic POST
+	// e.g. Raven Reader
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Path("/user/{userId}")
 	@POST
 	@UnitOfWork
 	@Timed
-	public FeverResponse handle(@Context UriInfo uri, @PathParam("userId") Long userId, MultivaluedMap<String, String> form) {
-		MultivaluedMap<String, String> query = uri.getQueryParameters();
+	public FeverResponse formData(@Context UriInfo uri, @PathParam("userId") Long userId, FormDataMultiPart form) {
+		Map<String, String> params = new HashMap<>();
+		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
+		form.getFields().forEach((k, v) -> params.put(k, v.get(0).getValue()));
+		return handle(userId, params);
+	}
 
-		User user = auth(userId, form.getFirst("api_key")).orElse(null);
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Path("/user/{userId}")
+	@POST
+	@UnitOfWork
+	@Timed
+	public FeverResponse formUrlencoded(@Context UriInfo uri, @PathParam("userId") Long userId, MultivaluedMap<String, String> form) {
+		Map<String, String> params = new HashMap<>();
+		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
+		form.forEach((k, v) -> params.put(k, v.get(0)));
+		return handle(userId, params);
+	}
+
+	public FeverResponse handle(long userId, Map<String, String> params) {
+		User user = auth(userId, params.get("api_key")).orElse(null);
 		if (user == null) {
 			FeverResponse resp = new FeverResponse();
 			resp.setAuth(false);
@@ -100,52 +122,52 @@ public class FeverREST {
 		List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
 		resp.setLastRefreshedOnTime(buildLastRefreshedOnTime(subscriptions));
 
-		if (query.containsKey("groups") || query.containsKey("feeds")) {
+		if (params.containsKey("groups") || params.containsKey("feeds")) {
 			resp.setFeedsGroups(buildFeedsGroups(subscriptions));
 
-			if (query.containsKey("groups")) {
+			if (params.containsKey("groups")) {
 				List<FeedCategory> categories = feedCategoryDAO.findAll(user);
 				resp.setGroups(buildGroups(categories));
 			}
 
-			if (query.containsKey("feeds")) {
+			if (params.containsKey("feeds")) {
 				resp.setFeeds(buildFeeds(subscriptions));
 			}
 		}
 
-		if (query.containsKey("unread_item_ids")) {
+		if (params.containsKey("unread_item_ids")) {
 			resp.setUnreadItemIds(buildUnreadItemIds(user, subscriptions));
 		}
 
-		if (query.containsKey("saved_item_ids")) {
+		if (params.containsKey("saved_item_ids")) {
 			resp.setSavedItemIds(buildSavedItemIds(user));
 		}
 
-		if (query.containsKey("items")) {
-			if (query.containsKey("with_ids")) {
-				String withIds = query.getFirst("with_ids");
+		if (params.containsKey("items")) {
+			if (params.containsKey("with_ids")) {
+				String withIds = params.get("with_ids");
 				List<String> entryIds = Stream.of(withIds.split(",")).collect(Collectors.toList());
 				resp.setItems(buildItems(user, subscriptions, entryIds));
 			} else {
-				Long sinceId = query.containsKey("since_id") ? Long.valueOf(query.getFirst("since_id")) : null;
-				Long maxId = query.containsKey("max_id") ? Long.valueOf(query.getFirst("max_id")) : null;
+				Long sinceId = params.containsKey("since_id") ? Long.valueOf(params.get("since_id")) : null;
+				Long maxId = params.containsKey("max_id") ? Long.valueOf(params.get("max_id")) : null;
 				resp.setItems(buildItems(user, subscriptions, sinceId, maxId));
 			}
 		}
 
-		if (query.containsKey("favicons")) {
+		if (params.containsKey("favicons")) {
 			resp.setFavicons(buildFavicons(subscriptions));
 		}
 
-		if (query.containsKey("links")) {
+		if (params.containsKey("links")) {
 			resp.setLinks(Collections.emptyList());
 		}
 
-		if (form.containsKey("mark") && form.containsKey("id") && form.containsKey("as")) {
-			long id = Long.parseLong(form.getFirst("id"));
-			String before = form.getFirst("before");
+		if (params.containsKey("mark") && params.containsKey("id") && params.containsKey("as")) {
+			long id = Long.parseLong(params.get("id"));
+			String before = params.get("before");
 			Date olderThan = before == null ? null : Date.from(Instant.ofEpochSecond(Long.parseLong(before)));
-			mark(user, form.getFirst("mark"), id, form.getFirst("as"), olderThan);
+			mark(user, params.get("mark"), id, params.get("as"), olderThan);
 		}
 
 		return resp;
@@ -242,7 +264,7 @@ public class FeverREST {
 		i.setFeedId(s.getSubscription().getId());
 		i.setTitle(s.getEntry().getContent().getTitle());
 		i.setAuthor(s.getEntry().getContent().getAuthor());
-		i.setHtml(s.getEntry().getContent().getContent());
+		i.setHtml(Optional.ofNullable(s.getEntry().getContent().getContent()).orElse(""));
 		i.setUrl(s.getEntry().getUrl());
 		i.setSaved(s.isStarred());
 		i.setRead(s.isRead());

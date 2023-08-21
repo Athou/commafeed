@@ -147,7 +147,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		Injector injector = Guice.createInjector(new CommaFeedModule(hibernateBundle.getSessionFactory(), config, environment.metrics()));
 
 		// session management
-		environment.servlets().setSessionHandler(config.getSessionHandlerFactory().build());
+		environment.servlets().setSessionHandler(config.getSessionHandlerFactory().build(config.getDataSourceFactory()));
 
 		// support for "@SecurityCheck User user" injection
 		environment.jersey().register(new SecurityCheckFactoryProvider.Binder(injector.getInstance(UserService.class)));

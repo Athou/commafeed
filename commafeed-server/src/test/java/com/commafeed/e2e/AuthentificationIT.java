@@ -3,20 +3,16 @@ package com.commafeed.e2e;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.commafeed.CommaFeedApplication;
-import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.CommaFeedDropwizardAppExtension;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 
-import io.dropwizard.testing.ResourceHelpers;
-import io.dropwizard.testing.junit5.DropwizardAppExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 
 @ExtendWith(DropwizardExtensionsSupport.class)
 class AuthentificationIT extends PlaywrightTestBase {
 
-	private static final DropwizardAppExtension<CommaFeedConfiguration> EXT = new DropwizardAppExtension<>(CommaFeedApplication.class,
-			ResourceHelpers.resourceFilePath("config.test.yml"));
+	private static final CommaFeedDropwizardAppExtension EXT = new CommaFeedDropwizardAppExtension();
 
 	@Test
 	void loginFail() {

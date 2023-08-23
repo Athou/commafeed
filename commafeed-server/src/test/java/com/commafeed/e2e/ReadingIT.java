@@ -12,22 +12,18 @@ import org.mockserver.junit.jupiter.MockServerExtension;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
-import com.commafeed.CommaFeedApplication;
-import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.CommaFeedDropwizardAppExtension;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Locator.WaitForOptions;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 
-import io.dropwizard.testing.ResourceHelpers;
-import io.dropwizard.testing.junit5.DropwizardAppExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 
 @ExtendWith(DropwizardExtensionsSupport.class)
 @ExtendWith(MockServerExtension.class)
 class ReadingIT extends PlaywrightTestBase {
 
-	private static final DropwizardAppExtension<CommaFeedConfiguration> EXT = new DropwizardAppExtension<CommaFeedConfiguration>(
-			CommaFeedApplication.class, ResourceHelpers.resourceFilePath("config.test.yml"));
+	private static final CommaFeedDropwizardAppExtension EXT = new CommaFeedDropwizardAppExtension();
 
 	private MockServerClient mockServerClient;
 

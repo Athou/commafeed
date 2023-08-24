@@ -57,7 +57,7 @@ import lombok.RequiredArgsConstructor;
  * Fever-compatible API
  * 
  * <ul>
- * <li>url: http://localhost:8082/rest/fever/user/${userId}</li>
+ * <li>url: /rest/fever/user/${userId}</li>
  * <li>login: username</li>
  * <li>password: api key</li>
  * </ul>
@@ -85,7 +85,9 @@ public class FeverREST {
 	// some readers post data using MultiPart FormData instead of the classic POST
 	// e.g. Raven Reader
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Path("/user/{userId}")
+	// some readers add a trailing /fever, just ignore it
+	// e.g. FocusReader
+	@Path("/user/{userId}{fever : (/fever)?}")
 	@POST
 	@UnitOfWork
 	@Timed
@@ -97,7 +99,9 @@ public class FeverREST {
 	}
 
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Path("/user/{userId}")
+	// some clients add a trailing /fever, just ignore it
+	// e.g. FocusReader
+	@Path("/user/{userId}{fever : (/fever)?}")
 	@POST
 	@UnitOfWork
 	@Timed

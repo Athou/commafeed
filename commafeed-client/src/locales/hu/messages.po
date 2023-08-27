@@ -832,6 +832,10 @@ msgstr "Az aktuális bejegyzés olvasási állapotának váltása"
 msgid "Toggle sidebar"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Toggle starred status of current entry"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "Próbálja ki a CommaFeed-et a demo fiókkal: demo/demo"

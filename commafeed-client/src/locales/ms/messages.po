@@ -832,6 +832,10 @@ msgstr "Togol status bacaan entri semasa"
 msgid "Toggle sidebar"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Toggle starred status of current entry"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "Cuba CommaFeed dengan akaun demo: demo/demo"

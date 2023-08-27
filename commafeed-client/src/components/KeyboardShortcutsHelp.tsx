@@ -115,6 +115,14 @@ export function KeyboardShortcutsHelp() {
                     </tr>
                     <tr>
                         <td>
+                            <Trans>Toggle starred status of current entry</Trans>
+                        </td>
+                        <td>
+                            <Kbd>S</Kbd>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <Trans>Mark all entries as read</Trans>
                         </td>
                         <td>

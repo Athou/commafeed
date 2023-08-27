@@ -832,6 +832,10 @@ msgstr "Alternar o status de leitura da entrada atual"
 msgid "Toggle sidebar"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Toggle starred status of current entry"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "Experimente o CommaFeed com a conta demo: demo/demo"

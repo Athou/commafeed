@@ -11,6 +11,7 @@ import {
     selectEntry,
     selectNextEntry,
     selectPreviousEntry,
+    starEntry,
 } from "app/slices/entries"
 import { redirectToRootCategory } from "app/slices/redirect"
 import { toggleSidebar } from "app/slices/tree"
@@ -256,6 +257,11 @@ export function FeedEntries() {
         // toggle read status
         if (!selectedEntry) return
         dispatch(markEntry({ entry: selectedEntry, read: !selectedEntry.read }))
+    })
+    useMousetrap("s", () => {
+        // toggle starred status
+        if (!selectedEntry) return
+        dispatch(starEntry({ entry: selectedEntry, starred: !selectedEntry.starred }))
     })
     useMousetrap("shift+a", () => {
         // mark all entries as read

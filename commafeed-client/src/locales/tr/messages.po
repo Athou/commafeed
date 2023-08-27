@@ -832,6 +832,10 @@ msgstr "Geçerli girişin okuma durumunu değiştir"
 msgid "Toggle sidebar"
 msgstr "Kenar çubuğunu göster/gizle"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Toggle starred status of current entry"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "CommaFeed'i demo hesabıyla deneyin: demo/demo"

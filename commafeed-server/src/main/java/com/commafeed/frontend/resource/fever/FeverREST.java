@@ -70,6 +70,7 @@ import lombok.RequiredArgsConstructor;
 @Singleton
 public class FeverREST {
 
+	private static final String PATH = "/user/{userId}{optionalTrailingFever : (/fever)?}{optionalTrailingSlash : (/)?}";
 	private static final int UNREAD_ITEM_IDS_BATCH_SIZE = 1000;
 	private static final int SAVED_ITEM_IDS_BATCH_SIZE = 1000;
 	private static final int ITEMS_BATCH_SIZE = 200;
@@ -82,26 +83,9 @@ public class FeverREST {
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 
-	// some readers post data using MultiPart FormData instead of the classic POST
-	// e.g. Raven Reader
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	// some readers add a trailing /fever, just ignore it
-	// e.g. FocusReader
-	@Path("/user/{userId}{fever : (/fever)?}")
-	@POST
-	@UnitOfWork
-	@Timed
-	public FeverResponse formData(@Context UriInfo uri, @PathParam("userId") Long userId, FormDataMultiPart form) {
-		Map<String, String> params = new HashMap<>();
-		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
-		form.getFields().forEach((k, v) -> params.put(k, v.get(0).getValue()));
-		return handle(userId, params);
-	}
-
+	// expected Fever API
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	// some clients add a trailing /fever, just ignore it
-	// e.g. FocusReader
-	@Path("/user/{userId}{fever : (/fever)?}")
+	@Path(PATH)
 	@POST
 	@UnitOfWork
 	@Timed
@@ -109,6 +93,32 @@ public class FeverREST {
 		Map<String, String> params = new HashMap<>();
 		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
 		form.forEach((k, v) -> params.put(k, v.get(0)));
+		return handle(userId, params);
+	}
+
+	// workaround for some readers that post data without any media type, and all params in the url
+	// e.g. FeedMe
+	@Path(PATH)
+	@POST
+	@UnitOfWork
+	@Timed
+	public FeverResponse noForm(@Context UriInfo uri, @PathParam("userId") Long userId) {
+		Map<String, String> params = new HashMap<>();
+		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
+		return handle(userId, params);
+	}
+
+	// workaround for some readers that post data using MultiPart FormData instead of the classic POST
+	// e.g. Raven Reader
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Path(PATH)
+	@POST
+	@UnitOfWork
+	@Timed
+	public FeverResponse formData(@Context UriInfo uri, @PathParam("userId") Long userId, FormDataMultiPart form) {
+		Map<String, String> params = new HashMap<>();
+		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
+		form.getFields().forEach((k, v) -> params.put(k, v.get(0).getValue()));
 		return handle(userId, params);
 	}
 
@@ -150,7 +160,7 @@ public class FeverREST {
 		if (params.containsKey("items")) {
 			if (params.containsKey("with_ids")) {
 				String withIds = params.get("with_ids");
-				List<String> entryIds = Stream.of(withIds.split(",")).collect(Collectors.toList());
+				List<String> entryIds = Stream.of(withIds.split(",")).map(String::trim).collect(Collectors.toList());
 				resp.setItems(buildItems(user, subscriptions, entryIds));
 			} else {
 				Long sinceId = params.containsKey("since_id") ? Long.valueOf(params.get("since_id")) : null;

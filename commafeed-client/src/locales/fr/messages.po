@@ -179,6 +179,10 @@ msgstr "Vérifie que le flux fonctionne"
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr "Extension CommaFeed pour navigateur version {browserExtensionVersion}."
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. The username is your user name and the password is your API key."
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "CommaFeed prochain article non lu"
@@ -342,6 +346,14 @@ msgstr "URL du flux"
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr "Rafraîchir tous mes flux"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Fever API"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Fever API URL"
+msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

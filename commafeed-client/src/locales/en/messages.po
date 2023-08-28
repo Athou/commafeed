@@ -179,6 +179,10 @@ msgstr "Check that the feed is working"
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr "CommaFeed browser extension version {browserExtensionVersion}."
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. The username is your user name and the password is your API key."
+msgstr "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. The username is your user name and the password is your API key."
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "CommaFeed next unread item"
@@ -342,6 +346,14 @@ msgstr "Feed URL"
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
 msgstr "Fetch all my feeds now"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Fever API"
+msgstr "Fever API"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Fever API URL"
+msgstr "Fever API URL"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"

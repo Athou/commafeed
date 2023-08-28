@@ -77,10 +77,7 @@ export function ProfileSettings() {
 
             <form onSubmit={form.onSubmit(saveProfile.execute)}>
                 <Stack>
-                    <Input.Wrapper label={<Trans>User name</Trans>}>
-                        <Box>{profile?.name}</Box>
-                    </Input.Wrapper>
-
+                    <TextInput label={<Trans>User name</Trans>} readOnly value={profile?.name} />
                     <TextInput label={<Trans>API key</Trans>} readOnly value={profile?.apiKey} />
 
                     <Input.Wrapper
@@ -94,6 +91,22 @@ export function ProfileSettings() {
                         <Box>
                             <Anchor href="rest/feed/export" download="commafeed_opml.xml">
                                 <Trans>Download</Trans>
+                            </Anchor>
+                        </Box>
+                    </Input.Wrapper>
+
+                    <Input.Wrapper
+                        label={<Trans>Fever API</Trans>}
+                        description={
+                            <Trans>
+                                CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client.
+                                The username is your user name and the password is your API key.
+                            </Trans>
+                        }
+                    >
+                        <Box>
+                            <Anchor href={`rest/fever/user/${profile?.id}`} target="_blank">
+                                <Trans>Fever API URL</Trans>
                             </Anchor>
                         </Box>
                     </Input.Wrapper>

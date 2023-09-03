@@ -14,6 +14,7 @@ const shownMeters: { [key: string]: string } = {
     "com.commafeed.backend.feed.FeedRefreshUpdater.feedUpdated": "Feed update rate",
     "com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheHit": "Entry cache hit rate",
     "com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheMiss": "Entry cache miss rate",
+    "com.commafeed.backend.service.DatabaseCleaningService.entriesDeleted": "Entries deleted",
 }
 
 const shownGauges: { [key: string]: string } = {

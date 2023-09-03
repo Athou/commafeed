@@ -6,6 +6,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.codahale.metrics.Meter;
+import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryContentDAO;
@@ -32,16 +34,18 @@ public class DatabaseCleaningService {
 	private final FeedEntryDAO feedEntryDAO;
 	private final FeedEntryContentDAO feedEntryContentDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
+	private final Meter entriesDeletedMeter;
 
 	@Inject
 	public DatabaseCleaningService(CommaFeedConfiguration config, UnitOfWork unitOfWork, FeedDAO feedDAO, FeedEntryDAO feedEntryDAO,
-			FeedEntryContentDAO feedEntryContentDAO, FeedEntryStatusDAO feedEntryStatusDAO) {
+			FeedEntryContentDAO feedEntryContentDAO, FeedEntryStatusDAO feedEntryStatusDAO, MetricRegistry metrics) {
 		this.unitOfWork = unitOfWork;
 		this.feedDAO = feedDAO;
 		this.feedEntryDAO = feedEntryDAO;
 		this.feedEntryContentDAO = feedEntryContentDAO;
 		this.feedEntryStatusDAO = feedEntryStatusDAO;
 		this.batchSize = config.getApplicationSettings().getDatabaseCleanupBatchSize();
+		this.entriesDeletedMeter = metrics.meter(MetricRegistry.name(getClass(), "entriesDeleted"));
 	}
 
 	public void cleanFeedsWithoutSubscriptions() {
@@ -55,6 +59,7 @@ public class DatabaseCleaningService {
 				long entriesDeleted;
 				do {
 					entriesDeleted = unitOfWork.call(() -> feedEntryDAO.delete(feed.getId(), batchSize));
+					entriesDeletedMeter.mark(entriesDeleted);
 					entriesTotal += entriesDeleted;
 					log.info("removed {} entries for feeds without subscriptions", entriesTotal);
 				} while (entriesDeleted > 0);
@@ -91,6 +96,7 @@ public class DatabaseCleaningService {
 				do {
 					final long rem = remaining;
 					int deleted = unitOfWork.call(() -> feedEntryDAO.deleteOldEntries(feed.getId(), Math.min(batchSize, rem)));
+					entriesDeletedMeter.mark(deleted);
 					total += deleted;
 					remaining -= deleted;
 					log.info("removed {} entries for feeds exceeding capacity", total);

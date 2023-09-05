@@ -1,4 +1,4 @@
-import { Box, createStyles, Text } from "@mantine/core"
+import { Box, createStyles, Space, Text } from "@mantine/core"
 import { Entry } from "app/types"
 import { RelativeDate } from "components/RelativeDate"
 import { FeedEntryTitle } from "./FeedEntryTitle"
@@ -12,17 +12,11 @@ export interface FeedEntryHeaderProps {
 const useStyles = createStyles((theme, props: FeedEntryHeaderProps) => ({
     headerText: {
         fontWeight: theme.colorScheme === "light" && !props.entry.read ? "bold" : "inherit",
-        whiteSpace: props.expanded ? "inherit" : "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
     },
     headerSubtext: {
         display: "flex",
         alignItems: "center",
         fontSize: "90%",
-        whiteSpace: props.expanded ? "inherit" : "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
     },
 }))
 export function FeedEntryHeader(props: FeedEntryHeaderProps) {
@@ -33,18 +27,13 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
                 <FeedEntryTitle entry={props.entry} />
             </Box>
             <Box className={classes.headerSubtext}>
-                <Box mr={6}>
-                    <FeedFavicon url={props.entry.iconUrl} />
-                </Box>
-                <Box>
-                    <Text color="dimmed">{props.entry.feedName}</Text>
-                </Box>
-                <Box>
-                    <Text color="dimmed">
-                        <span>&nbsp;·&nbsp;</span>
-                        <RelativeDate date={props.entry.date} />
-                    </Text>
-                </Box>
+                <FeedFavicon url={props.entry.iconUrl} />
+                <Space w={6} />
+                <Text color="dimmed">
+                    {props.entry.feedName}
+                    <span> · </span>
+                    <RelativeDate date={props.entry.date} />
+                </Text>
             </Box>
             {props.expanded && (
                 <Box className={classes.headerSubtext}>

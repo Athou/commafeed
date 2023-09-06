@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.10.0]
+
+- added a Fever-compatible API that is usable with mobile clients that support the Fever API (see instructions in Settings -> Profile)
+- long entry titles are no longer shortened in the detailed view
+- added the "s" keyboard shortcut to star/unstar entries
+- http sessions are now stored in the database (they were stored on disk before)
+- fixed an issue that made it impossible to override the database url in a config.yml mounted in the Docker image
+
 ## [3.9.0]
 
 - improve performance by disabling the loader when nothing is loading (most noticeable on mobile)

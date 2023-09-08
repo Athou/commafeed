@@ -379,7 +379,7 @@ public class FeedREST {
 	@POST
 	@Path("/subscribe")
 	@UnitOfWork
-	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
+	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed", response = Long.class)
 	@Timed
 	public Response subscribe(@ApiParam(hidden = true) @SecurityCheck User user,
 			@Valid @ApiParam(value = "subscription request", required = true) SubscribeRequest req) {

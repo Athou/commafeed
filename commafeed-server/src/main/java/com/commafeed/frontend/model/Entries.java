@@ -22,7 +22,7 @@ public class Entries implements Serializable {
 	@ApiModelProperty(value = "times the server tried to refresh the feed and failed", required = true)
 	private int errorCount;
 
-	@ApiModelProperty(value = "URL of the website, extracted from the feed", required = true)
+	@ApiModelProperty(value = "URL of the website, extracted from the feed, only filled if querying for feed entries, not category entries")
 	private String feedLink;
 
 	@ApiModelProperty(value = "list generation timestamp", required = true)

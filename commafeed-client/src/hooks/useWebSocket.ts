@@ -1,3 +1,4 @@
+import { setWebSocketConnected } from "app/slices/server"
 import { reloadTree } from "app/slices/tree"
 import { useAppDispatch } from "app/store"
 import { useEffect } from "react"
@@ -12,6 +13,8 @@ export const useWebSocket = () => {
         const wsUrl = `${wsProtocol}://${currentUrl.hostname}:${currentUrl.port}/ws`
 
         const ws = new WebsocketHeartbeatJs({ url: wsUrl, pingMsg: "ping" })
+        ws.onopen = () => dispatch(setWebSocketConnected(true))
+        ws.onclose = () => dispatch(setWebSocketConnected(false))
         ws.onmessage = event => {
             const { data } = event
             if (typeof data === "string") {

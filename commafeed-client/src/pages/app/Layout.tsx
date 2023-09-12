@@ -94,6 +94,7 @@ export default function Layout(props: LayoutProps) {
     const { loading } = useAppLoading()
     const mobile = useMobile()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
+    const webSocketConnected = useAppSelector(state => state.server.webSocketConnected)
     const sidebarHidden = props.sidebarWidth === 0
     const dispatch = useAppDispatch()
     useWebSocket()
@@ -106,10 +107,12 @@ export default function Layout(props: LayoutProps) {
         dispatch(reloadTree())
         dispatch(reloadTags())
 
-        // reload tree periodically
-        const id = setInterval(() => dispatch(reloadTree()), 30000)
+        // reload tree periodically if not receiving websocket events
+        const id = setInterval(() => {
+            if (!webSocketConnected) dispatch(reloadTree())
+        }, 30000)
         return () => clearInterval(id)
-    }, [dispatch])
+    }, [dispatch, webSocketConnected])
 
     const burger = (
         <Center>

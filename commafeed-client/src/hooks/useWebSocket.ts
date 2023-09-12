@@ -12,7 +12,12 @@ export const useWebSocket = () => {
         const wsProtocol = currentUrl.protocol === "http:" ? "ws" : "wss"
         const wsUrl = `${wsProtocol}://${currentUrl.hostname}:${currentUrl.port}/ws`
 
-        const ws = new WebsocketHeartbeatJs({ url: wsUrl, pingMsg: "ping" })
+        const ws = new WebsocketHeartbeatJs({
+            url: wsUrl,
+            pingMsg: "ping",
+            // ping interval, just under a minute to prevent firewalls from closing idle connections
+            pingTimeout: 55000,
+        })
         ws.onopen = () => dispatch(setWebSocketConnected(true))
         ws.onclose = () => dispatch(setWebSocketConnected(false))
         ws.onmessage = event => {

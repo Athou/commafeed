@@ -102,16 +102,19 @@ export default function Layout(props: LayoutProps) {
     const handleResize = (element: HTMLElement) => dispatch(setSidebarWidth(element.offsetWidth))
 
     useEffect(() => {
+        // load initial data
         dispatch(reloadSettings())
         dispatch(reloadProfile())
         dispatch(reloadTree())
         dispatch(reloadTags())
+    }, [dispatch])
 
+    useEffect(() => {
         // reload tree periodically if not receiving websocket events
-        const id = setInterval(() => {
+        const timer = setInterval(() => {
             if (!webSocketConnected) dispatch(reloadTree())
         }, 30000)
-        return () => clearInterval(id)
+        return () => clearInterval(timer)
     }, [dispatch, webSocketConnected])
 
     const burger = (

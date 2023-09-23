@@ -1,4 +1,4 @@
-import { Badge, createStyles } from "@mantine/core"
+import { Badge, createStyles, Tooltip } from "@mantine/core"
 
 const useStyles = createStyles(() => ({
     badge: {
@@ -13,6 +13,10 @@ export function UnreadCount(props: { unreadCount: number }) {
 
     if (props.unreadCount <= 0) return null
 
-    const count = props.unreadCount >= 1000 ? "999+" : props.unreadCount
-    return <Badge className={classes.badge}>{count}</Badge>
+    const count = props.unreadCount >= 10000 ? "10k+" : props.unreadCount
+    return (
+        <Tooltip label={props.unreadCount} disabled={props.unreadCount === count}>
+            <Badge className={classes.badge}>{count}</Badge>
+        </Tooltip>
+    )
 }

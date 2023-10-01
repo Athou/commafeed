@@ -17,11 +17,21 @@ Google Reader inspired self-hosted RSS reader, based on Dropwizard and React/Typ
 - REST API
 - [Browser extension](https://github.com/Athou/commafeed-browser-extension)
 
-## Deployment on your own server
+## Deployment
 
 ### Docker
 
+Docker is the easiest way to get started with CommaFeed.
+
 Docker images are built automatically and are available at https://hub.docker.com/r/athou/commafeed
+
+### Cloud hosting
+
+[PikaPods](https://www.pikapods.com) offers 1-click cloud hosting solutions starting at $1/month with a free $5
+welcome credit and officially supports CommaFeed.
+PikaPods shares 20% of the revenue back to CommaFeed.
+
+[![PikaPods](https://www.pikapods.com/static/run-button.svg)](https://www.pikapods.com/pods?run=commafeed)
 
 ### Download precompiled package
 

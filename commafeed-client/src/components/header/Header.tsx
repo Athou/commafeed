@@ -77,11 +77,11 @@ export function Header() {
         <Center>
             <HeaderToolbar>
                 <ActionButton
-                    icon={<TbArrowDown size={iconSize} />}
-                    label={<Trans>Next</Trans>}
+                    icon={<TbArrowUp size={iconSize} />}
+                    label={<Trans>Previous</Trans>}
                     onClick={() =>
                         dispatch(
-                            selectNextEntry({
+                            selectPreviousEntry({
                                 expand: true,
                                 markAsRead: true,
                                 scrollToEntry: true,
@@ -90,11 +90,11 @@ export function Header() {
                     }
                 />
                 <ActionButton
-                    icon={<TbArrowUp size={iconSize} />}
-                    label={<Trans>Previous</Trans>}
+                    icon={<TbArrowDown size={iconSize} />}
+                    label={<Trans>Next</Trans>}
                     onClick={() =>
                         dispatch(
-                            selectPreviousEntry({
+                            selectNextEntry({
                                 expand: true,
                                 markAsRead: true,
                                 scrollToEntry: true,

@@ -7,14 +7,14 @@ Google Reader inspired self-hosted RSS reader, based on Dropwizard and React/Typ
 ## Features
 
 - 4 different layouts
-- Dark theme
+- Light/Dark theme
 - Fully responsive
 - Keyboard shortcuts for almost everything
 - Support for right-to-left feeds
 - Translated in 25+ languages
 - Supports thousands of users and millions of feeds
 - OPML import/export
-- REST API
+- REST API and a Fever-compatible API for native mobile apps
 - [Browser extension](https://github.com/Athou/commafeed-browser-extension)
 
 ## Deployment

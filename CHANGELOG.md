@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.10.1]
+
+- swap next and previous buttons (#1159)
+- unread count for subscriptions will now be shortened starting at 10k instead of 1k
+- increased websocket ping interval to just under a minute to reduce data and battery usage on mobile
+- only refresh subscription tree on a timer if websocket connection is unavailable
+- the Docker image now uses less memory by returning unused memory to the OS
+- add support for Java 21
+
 ## [3.10.0]
 
 - added a Fever-compatible API that is usable with mobile clients that support the Fever API (see instructions in Settings -> Profile)

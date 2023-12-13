@@ -117,9 +117,7 @@ server:
   applicationConnectors:
     - type: http
       port: 8082
-  adminConnectors:
-    - type: http
-      port: 8084
+  adminConnectors: [ ]
   requestLog:
     appenders: [ ]
 

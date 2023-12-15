@@ -1,86 +1,237 @@
 package com.commafeed.integration;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 import java.time.Duration;
+import java.util.Date;
+import java.util.Objects;
 
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.awaitility.Awaitility;
 import org.eclipse.jetty.http.HttpStatus;
-import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.media.multipart.MultiPart;
+import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockserver.client.MockServerClient;
-import org.mockserver.junit.jupiter.MockServerExtension;
-import org.mockserver.model.HttpRequest;
-import org.mockserver.model.HttpResponse;
 
-import com.commafeed.CommaFeedDropwizardAppExtension;
 import com.commafeed.frontend.model.Entries;
-import com.commafeed.frontend.model.request.SubscribeRequest;
+import com.commafeed.frontend.model.Entry;
+import com.commafeed.frontend.model.FeedInfo;
+import com.commafeed.frontend.model.Subscription;
+import com.commafeed.frontend.model.request.FeedInfoRequest;
+import com.commafeed.frontend.model.request.FeedModificationRequest;
+import com.commafeed.frontend.model.request.IDRequest;
+import com.commafeed.frontend.model.request.MarkRequest;
 
-import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
+class FeedIT extends BaseIT {
 
-@ExtendWith(DropwizardExtensionsSupport.class)
-@ExtendWith(MockServerExtension.class)
-class FeedIT {
+	@Nested
+	class Fetch {
+		@Test
+		void fetchFeed() {
+			FeedInfoRequest req = new FeedInfoRequest();
+			req.setUrl(getFeedUrl());
 
-	private static final CommaFeedDropwizardAppExtension EXT = new CommaFeedDropwizardAppExtension() {
-		@Override
-		protected JerseyClientBuilder clientBuilder() {
-			HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("admin", "admin");
-			return super.clientBuilder().register(feature);
+			try (Response response = getClient().target(getApiBaseUrl() + "feed/fetch").request().post(Entity.json(req))) {
+				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
+
+				FeedInfo feedInfo = response.readEntity(FeedInfo.class);
+				Assertions.assertEquals("CommaFeed test feed", feedInfo.getTitle());
+				Assertions.assertEquals(getFeedUrl(), feedInfo.getUrl());
+			}
+
 		}
-	};
-
-	private MockServerClient mockServerClient;
-
-	@BeforeEach
-	void init(MockServerClient mockServerClient) throws IOException {
-		this.mockServerClient = mockServerClient;
-		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
-				.respond(HttpResponse.response()
-						.withBody(IOUtils.toString(getClass().getResource("/feed/rss.xml"), StandardCharsets.UTF_8)));
 	}
 
-	@Test
-	void test() {
-		Client client = EXT.client();
+	@Nested
+	class Subscribe {
+		@Test
+		void subscribeAndReadEntries() {
+			long subscriptionId = subscribe(getFeedUrl());
+			Awaitility.await().atMost(Duration.ofSeconds(15)).until(() -> getFeedEntries(subscriptionId), e -> e.getEntries().size() == 2);
+		}
 
-		String feedUrl = "http://localhost:" + this.mockServerClient.getPort();
+		@Test
+		void subscribeFromUrl() {
+			try (Response response = getClient().target(getApiBaseUrl() + "feed/subscribe")
+					.queryParam("url", getFeedUrl())
+					.property(ClientProperties.FOLLOW_REDIRECTS, Boolean.FALSE)
+					.request()
+					.get()) {
+				Assertions.assertEquals(HttpStatus.TEMPORARY_REDIRECT_307, response.getStatus());
+			}
+		}
 
-		long subscriptionId = subscribe(client, feedUrl);
-		Awaitility.await()
-				.atMost(Duration.ofSeconds(15))
-				.pollInterval(Duration.ofMillis(500))
-				.until(() -> getFeedEntries(client, subscriptionId), e -> e.getEntries().size() == 2);
+		@Test
+		void unsubscribeFromUnknownFeed() {
+			Assertions.assertEquals(HttpStatus.NOT_FOUND_404, unsubsribe(1L));
+		}
+
+		@Test
+		void unsubscribeFromKnownFeed() {
+			long subscriptionId = subscribe(getFeedUrl());
+			Assertions.assertEquals(HttpStatus.OK_200, unsubsribe(subscriptionId));
+		}
+
+		private int unsubsribe(long subscriptionId) {
+			IDRequest request = new IDRequest();
+			request.setId(subscriptionId);
+
+			try (Response response = getClient().target(getApiBaseUrl() + "feed/unsubscribe").request().post(Entity.json(request))) {
+				return response.getStatus();
+			}
+		}
 	}
 
-	private Long subscribe(Client client, String feedUrl) {
-		SubscribeRequest subscribeRequest = new SubscribeRequest();
-		subscribeRequest.setUrl(feedUrl);
-		subscribeRequest.setTitle("my title for this feed");
-		Response response = client.target(String.format("http://localhost:%d/rest/feed/subscribe", EXT.getLocalPort()))
-				.request()
-				.post(Entity.json(subscribeRequest));
-		Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-		return response.readEntity(Long.class);
+	@Nested
+	class Mark {
+		@Test
+		void mark() {
+			long subscriptionId = subscribe(getFeedUrl());
+			Entries entries = Awaitility.await()
+					.atMost(Duration.ofSeconds(15))
+					.until(() -> getFeedEntries(subscriptionId), e -> e.getEntries().size() == 2);
+			Assertions.assertTrue(entries.getEntries().stream().noneMatch(Entry::isRead));
+
+			markFeedEntries(subscriptionId);
+			Awaitility.await()
+					.atMost(Duration.ofSeconds(15))
+					.until(() -> getFeedEntries(subscriptionId), e -> e.getEntries().stream().allMatch(Entry::isRead));
+		}
+
+		private void markFeedEntries(long subscriptionId) {
+			MarkRequest request = new MarkRequest();
+			request.setId(String.valueOf(subscriptionId));
+
+			try (Response response = getClient().target(getApiBaseUrl() + "feed/mark").request().post(Entity.json(request))) {
+				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
+			}
+		}
 	}
 
-	private Entries getFeedEntries(Client client, long subscriptionId) {
-		Response response = client.target(String.format("http://localhost:%d/rest/feed/entries", EXT.getLocalPort()))
-				.queryParam("id", subscriptionId)
-				.queryParam("readType", "unread")
-				.request()
-				.get();
-		return response.readEntity(Entries.class);
+	@Nested
+	class Refresh {
+		@Test
+		void refresh() {
+			Long subscriptionId = subscribe(getFeedUrl());
+
+			Date now = new Date();
+			refreshFeed(subscriptionId);
+
+			Awaitility.await()
+					.atMost(Duration.ofSeconds(15))
+					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().after(now));
+		}
+
+		@Test
+		void refreshAll() {
+			Long subscriptionId = subscribe(getFeedUrl());
+
+			Date now = new Date();
+			refreshAllFeeds();
+
+			Awaitility.await()
+					.atMost(Duration.ofSeconds(15))
+					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().after(now));
+		}
+
+		private void refreshFeed(Long subscriptionId) {
+			IDRequest request = new IDRequest();
+			request.setId(subscriptionId);
+
+			try (Response response = getClient().target(getApiBaseUrl() + "feed/refresh").request().post(Entity.json(request))) {
+				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
+			}
+		}
+
+		private void refreshAllFeeds() {
+			try (Response response = getClient().target(getApiBaseUrl() + "feed/refreshAll").request().get()) {
+				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
+			}
+		}
+
+	}
+
+	@Nested
+	class Modify {
+		@Test
+		void modify() {
+			Long subscriptionId = subscribe(getFeedUrl());
+
+			Subscription subscription = getSubscription(subscriptionId);
+
+			FeedModificationRequest req = new FeedModificationRequest();
+			req.setId(subscriptionId);
+			req.setName("new name");
+			req.setCategoryId(subscription.getCategoryId());
+			try (Response response = getClient().target(getApiBaseUrl() + "feed/modify").request().post(Entity.json(req))) {
+				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
+			}
+
+			subscription = getSubscription(subscriptionId);
+			Assertions.assertEquals("new name", subscription.getName());
+		}
+	}
+
+	@Nested
+	class Favicon {
+		@Test
+		void favicon() throws IOException {
+			Long subscriptionId = subscribe(getFeedUrl());
+
+			try (Response response = getClient().target(getApiBaseUrl() + "feed/favicon")
+					.path("{id}")
+					.resolveTemplate("id", subscriptionId)
+					.request()
+					.get()) {
+				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
+				byte[] icon = response.readEntity(byte[].class);
+
+				byte[] defaultFavicon = IOUtils.toByteArray(Objects.requireNonNull(getClass().getResource("/images/default_favicon.gif")));
+				Assertions.assertArrayEquals(defaultFavicon, icon);
+			}
+		}
+	}
+
+	@Nested
+	class Opml {
+		@Test
+		void importExportOpml() throws IOException {
+			importOpml();
+			String opml = exportOpml();
+			String expextedOpml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<opml version=\"1.0\">\n" + "  <head>\n"
+					+ "    <title>admin subscriptions in CommaFeed</title>\n" + "  </head>\n" + "  <body>\n"
+					+ "    <outline text=\"out1\" title=\"out1\">\n"
+					+ "      <outline text=\"feed1\" type=\"rss\" title=\"feed1\" xmlUrl=\"http://www.feed.com/feed1.xml\" />\n"
+					+ "    </outline>\n" + "  </body>\n" + "</opml>\n";
+			Assertions.assertEquals(StringUtils.normalizeSpace(expextedOpml), StringUtils.normalizeSpace(opml));
+		}
+
+		void importOpml() {
+			InputStream stream = Objects.requireNonNull(getClass().getResourceAsStream("/opml/opml_v2.0.xml"));
+			MultiPart multiPart = new MultiPart().bodyPart(new StreamDataBodyPart("file", stream));
+			multiPart.setMediaType(MediaType.MULTIPART_FORM_DATA_TYPE);
+
+			try (Response response = getClient().target(getApiBaseUrl() + "feed/import")
+					.request()
+					.post(Entity.entity(multiPart, multiPart.getMediaType()))) {
+				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
+			}
+		}
+
+		String exportOpml() {
+			try (Response response = getClient().target(getApiBaseUrl() + "feed/export").request().get()) {
+				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
+				return response.readEntity(String.class);
+			}
+		}
 	}
 
 }

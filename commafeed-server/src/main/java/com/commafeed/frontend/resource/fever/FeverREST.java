@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -82,6 +83,13 @@ public class FeverREST {
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
+
+	@Path(PATH)
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public String welcome() {
+		return "Welcome to the CommaFeed Fever API. Add this URL to your Fever-compatible reader.";
+	}
 
 	// expected Fever API
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)

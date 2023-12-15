@@ -43,7 +43,6 @@ import com.commafeed.frontend.resource.PubSubHubbubCallbackREST;
 import com.commafeed.frontend.resource.ServerREST;
 import com.commafeed.frontend.resource.UserREST;
 import com.commafeed.frontend.resource.fever.FeverREST;
-import com.commafeed.frontend.servlet.AnalyticsServlet;
 import com.commafeed.frontend.servlet.CustomCssServlet;
 import com.commafeed.frontend.servlet.CustomJsServlet;
 import com.commafeed.frontend.servlet.LogoutServlet;
@@ -171,7 +170,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.servlets().addServlet("logout", injector.getInstance(LogoutServlet.class)).addMapping("/logout");
 		environment.servlets().addServlet("customCss", injector.getInstance(CustomCssServlet.class)).addMapping("/custom_css.css");
 		environment.servlets().addServlet("customJs", injector.getInstance(CustomJsServlet.class)).addMapping("/custom_js.js");
-		environment.servlets().addServlet("analytics.js", injector.getInstance(AnalyticsServlet.class)).addMapping("/analytics.js");
 		if (Boolean.TRUE.equals(config.getApplicationSettings().getHideFromWebCrawlers())) {
 			environment.servlets()
 					.addServlet("robots.txt", injector.getInstance(RobotsTxtDisallowAllServlet.class))

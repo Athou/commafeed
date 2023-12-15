@@ -25,7 +25,7 @@ class NextUnreadIT extends BaseIT {
 				.header(HttpHeaders.COOKIE, "JSESSIONID=" + cookie)
 				.get();
 		Assertions.assertEquals(HttpStatus.FOUND_302, response.getStatus());
-		Assertions.assertEquals("https://www.commafeed.com/2", response.getHeaderString(HttpHeaders.LOCATION));
+		Assertions.assertEquals("https://hostname.local/commafeed/2", response.getHeaderString(HttpHeaders.LOCATION));
 	}
 
 }

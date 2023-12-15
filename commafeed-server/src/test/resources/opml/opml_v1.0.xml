@@ -5,7 +5,8 @@
 	</head>
 	<body>
 		<outline text="out1" title="out1">
-			<outline type="rss" text="feed1" title="feed1" xmlUrl="http://www.feed.com/feed1.xml" htmlUrl="http://www.feed.com" />
+			<outline type="rss" text="feed1" title="feed1" xmlUrl="https://hostname.local/commafeed/feed1.xml"
+					 htmlUrl="https://hostname.local/commafeed" />
 		</outline>
 	</body>
 </opml>

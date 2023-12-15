@@ -209,7 +209,7 @@ class FeedIT extends BaseIT {
 			String expextedOpml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<opml version=\"1.0\">\n" + "  <head>\n"
 					+ "    <title>admin subscriptions in CommaFeed</title>\n" + "  </head>\n" + "  <body>\n"
 					+ "    <outline text=\"out1\" title=\"out1\">\n"
-					+ "      <outline text=\"feed1\" type=\"rss\" title=\"feed1\" xmlUrl=\"http://www.feed.com/feed1.xml\" />\n"
+					+ "      <outline text=\"feed1\" type=\"rss\" title=\"feed1\" xmlUrl=\"https://hostname.local/commafeed/feed1.xml\" />\n"
 					+ "    </outline>\n" + "  </body>\n" + "</opml>\n";
 			Assertions.assertEquals(StringUtils.normalizeSpace(expextedOpml), StringUtils.normalizeSpace(opml));
 		}

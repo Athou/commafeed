@@ -1,4 +1,4 @@
-package com.commafeed.integration;
+package com.commafeed.integration.rest;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +15,7 @@ import com.commafeed.CommaFeedConfiguration.ApplicationSettings;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.IDRequest;
+import com.commafeed.integration.BaseIT;
 
 class AdminIT extends BaseIT {
 

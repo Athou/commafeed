@@ -1,4 +1,4 @@
-package com.commafeed.integration;
+package com.commafeed.integration.rest;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +29,7 @@ import com.commafeed.frontend.model.request.FeedInfoRequest;
 import com.commafeed.frontend.model.request.FeedModificationRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
+import com.commafeed.integration.BaseIT;
 
 class FeedIT extends BaseIT {
 
@@ -120,7 +121,7 @@ class FeedIT extends BaseIT {
 	class Refresh {
 		@Test
 		void refresh() {
-			Long subscriptionId = subscribe(getFeedUrl());
+			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 
 			Date now = new Date();
 			refreshFeed(subscriptionId);
@@ -132,7 +133,7 @@ class FeedIT extends BaseIT {
 
 		@Test
 		void refreshAll() {
-			Long subscriptionId = subscribe(getFeedUrl());
+			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 
 			Date now = new Date();
 			refreshAllFeeds();
@@ -186,8 +187,7 @@ class FeedIT extends BaseIT {
 		void favicon() throws IOException {
 			Long subscriptionId = subscribe(getFeedUrl());
 
-			try (Response response = getClient().target(getApiBaseUrl() + "feed/favicon")
-					.path("{id}")
+			try (Response response = getClient().target(getApiBaseUrl() + "feed/favicon/{id}")
 					.resolveTemplate("id", subscriptionId)
 					.request()
 					.get()) {

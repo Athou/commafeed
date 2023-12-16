@@ -1,22 +1,20 @@
-package com.commafeed.integration;
-
-import java.util.concurrent.TimeUnit;
+package com.commafeed.integration.servlet;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
-import org.awaitility.Awaitility;
 import org.eclipse.jetty.http.HttpStatus;
 import org.glassfish.jersey.client.ClientProperties;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.commafeed.integration.BaseIT;
+
 class NextUnreadIT extends BaseIT {
 
 	@Test
 	void test() {
-		Long subscriptionId = subscribe(getFeedUrl());
-		Awaitility.await().atMost(15, TimeUnit.SECONDS).until(() -> !getFeedEntries(subscriptionId).getEntries().isEmpty());
+		Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 
 		String cookie = login();
 		Response response = getClient().target(getBaseUrl() + "next")

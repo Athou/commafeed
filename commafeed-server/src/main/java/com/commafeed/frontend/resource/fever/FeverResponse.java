@@ -3,6 +3,7 @@ package com.commafeed.frontend.resource.fever;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
@@ -10,8 +11,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
@@ -41,10 +46,12 @@ public class FeverResponse {
 
 	@JsonProperty("unread_item_ids")
 	@JsonSerialize(using = LongListToCommaSeparatedStringSerializer.class)
+	@JsonDeserialize(using = CommaSeparatedStringToLongListDeserializer.class)
 	private List<Long> unreadItemIds;
 
 	@JsonProperty("saved_item_ids")
 	@JsonSerialize(using = LongListToCommaSeparatedStringSerializer.class)
+	@JsonDeserialize(using = CommaSeparatedStringToLongListDeserializer.class)
 	private List<Long> savedItemIds;
 
 	@JsonProperty("items")
@@ -100,6 +107,7 @@ public class FeverResponse {
 
 		@JsonProperty("feed_ids")
 		@JsonSerialize(using = LongListToCommaSeparatedStringSerializer.class)
+		@JsonDeserialize(using = CommaSeparatedStringToLongListDeserializer.class)
 		private List<Long> feedIds;
 	}
 
@@ -153,12 +161,18 @@ public class FeverResponse {
 	}
 
 	public static class LongListToCommaSeparatedStringSerializer extends JsonSerializer<List<Long>> {
-
 		@Override
 		public void serialize(List<Long> input, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
 			String output = input.stream().map(String::valueOf).collect(Collectors.joining(","));
 			jsonGenerator.writeObject(output);
 		}
+	}
 
+	public static class CommaSeparatedStringToLongListDeserializer extends JsonDeserializer<List<Long>> {
+		@Override
+		public List<Long> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+			String value = ctxt.readValue(p, String.class);
+			return Stream.of(value.split(",")).map(Long::valueOf).collect(Collectors.toList());
+		}
 	}
 }

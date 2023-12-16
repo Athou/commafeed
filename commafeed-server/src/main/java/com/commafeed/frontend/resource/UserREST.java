@@ -211,8 +211,8 @@ public class UserREST {
 			if (u != null && !user.getId().equals(u.getId())) {
 				throw new BadRequestException("email already taken");
 			}
+			user.setEmail(email);
 		}
-		user.setEmail(email);
 
 		if (StringUtils.isNotBlank(request.getNewPassword())) {
 			byte[] password = encryptionService.getEncryptedPassword(request.getNewPassword(), user.getSalt());

@@ -3,6 +3,7 @@ package com.commafeed.integration;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Objects;
 
 import javax.ws.rs.client.Client;
@@ -10,6 +11,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
+import org.awaitility.Awaitility;
 import org.eclipse.jetty.http.HttpStatus;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
@@ -34,7 +36,7 @@ import lombok.Getter;
 @Getter
 @ExtendWith(DropwizardExtensionsSupport.class)
 @ExtendWith(MockServerExtension.class)
-abstract class BaseIT {
+public abstract class BaseIT {
 
 	private static final CommaFeedDropwizardAppExtension EXT = new CommaFeedDropwizardAppExtension() {
 		@Override
@@ -86,12 +88,14 @@ abstract class BaseIT {
 		}
 	}
 
+	protected Long subscribeAndWaitForEntries(String feedUrl) {
+		Long subscriptionId = subscribe(feedUrl);
+		Awaitility.await().atMost(Duration.ofSeconds(15)).until(() -> getFeedEntries(subscriptionId), e -> e.getEntries().size() == 2);
+		return subscriptionId;
+	}
+
 	protected Subscription getSubscription(Long subscriptionId) {
-		try (Response response = client.target(apiBaseUrl + "feed/get")
-				.path("{id}")
-				.resolveTemplate("id", subscriptionId)
-				.request()
-				.get()) {
+		try (Response response = client.target(apiBaseUrl + "feed/get/{id}").resolveTemplate("id", subscriptionId).request().get()) {
 			Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
 			return response.readEntity(Subscription.class);
 		}

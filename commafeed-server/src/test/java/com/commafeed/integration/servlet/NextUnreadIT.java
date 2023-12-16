@@ -14,7 +14,7 @@ class NextUnreadIT extends BaseIT {
 
 	@Test
 	void test() {
-		Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
+		subscribeAndWaitForEntries(getFeedUrl());
 
 		String cookie = login();
 		Response response = getClient().target(getBaseUrl() + "next")

@@ -40,14 +40,9 @@ class FeedIT extends BaseIT {
 			FeedInfoRequest req = new FeedInfoRequest();
 			req.setUrl(getFeedUrl());
 
-			try (Response response = getClient().target(getApiBaseUrl() + "feed/fetch").request().post(Entity.json(req))) {
-				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-
-				FeedInfo feedInfo = response.readEntity(FeedInfo.class);
-				Assertions.assertEquals("CommaFeed test feed", feedInfo.getTitle());
-				Assertions.assertEquals(getFeedUrl(), feedInfo.getUrl());
-			}
-
+			FeedInfo feedInfo = getClient().target(getApiBaseUrl() + "feed/fetch").request().post(Entity.json(req), FeedInfo.class);
+			Assertions.assertEquals("CommaFeed test feed", feedInfo.getTitle());
+			Assertions.assertEquals(getFeedUrl(), feedInfo.getUrl());
 		}
 	}
 
@@ -110,10 +105,7 @@ class FeedIT extends BaseIT {
 		private void markFeedEntries(long subscriptionId) {
 			MarkRequest request = new MarkRequest();
 			request.setId(String.valueOf(subscriptionId));
-
-			try (Response response = getClient().target(getApiBaseUrl() + "feed/mark").request().post(Entity.json(request))) {
-				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-			}
+			getClient().target(getApiBaseUrl() + "feed/mark").request().post(Entity.json(request), Void.TYPE);
 		}
 	}
 
@@ -124,7 +116,9 @@ class FeedIT extends BaseIT {
 			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 
 			Date now = new Date();
-			refreshFeed(subscriptionId);
+			IDRequest request = new IDRequest();
+			request.setId(subscriptionId);
+			getClient().target(getApiBaseUrl() + "feed/refresh").request().post(Entity.json(request), Void.TYPE);
 
 			Awaitility.await()
 					.atMost(Duration.ofSeconds(15))
@@ -136,28 +130,12 @@ class FeedIT extends BaseIT {
 			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 
 			Date now = new Date();
-			refreshAllFeeds();
+			getClient().target(getApiBaseUrl() + "feed/refreshAll").request().get(Void.TYPE);
 
 			Awaitility.await()
 					.atMost(Duration.ofSeconds(15))
 					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().after(now));
 		}
-
-		private void refreshFeed(Long subscriptionId) {
-			IDRequest request = new IDRequest();
-			request.setId(subscriptionId);
-
-			try (Response response = getClient().target(getApiBaseUrl() + "feed/refresh").request().post(Entity.json(request))) {
-				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-			}
-		}
-
-		private void refreshAllFeeds() {
-			try (Response response = getClient().target(getApiBaseUrl() + "feed/refreshAll").request().get()) {
-				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-			}
-		}
-
 	}
 
 	@Nested
@@ -172,9 +150,7 @@ class FeedIT extends BaseIT {
 			req.setId(subscriptionId);
 			req.setName("new name");
 			req.setCategoryId(subscription.getCategoryId());
-			try (Response response = getClient().target(getApiBaseUrl() + "feed/modify").request().post(Entity.json(req))) {
-				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-			}
+			getClient().target(getApiBaseUrl() + "feed/modify").request().post(Entity.json(req), Void.TYPE);
 
 			subscription = getSubscription(subscriptionId);
 			Assertions.assertEquals("new name", subscription.getName());
@@ -187,25 +163,21 @@ class FeedIT extends BaseIT {
 		void favicon() throws IOException {
 			Long subscriptionId = subscribe(getFeedUrl());
 
-			try (Response response = getClient().target(getApiBaseUrl() + "feed/favicon/{id}")
+			byte[] icon = getClient().target(getApiBaseUrl() + "feed/favicon/{id}")
 					.resolveTemplate("id", subscriptionId)
 					.request()
-					.get()) {
-				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-				byte[] icon = response.readEntity(byte[].class);
-
-				byte[] defaultFavicon = IOUtils.toByteArray(Objects.requireNonNull(getClass().getResource("/images/default_favicon.gif")));
-				Assertions.assertArrayEquals(defaultFavicon, icon);
-			}
+					.get(byte[].class);
+			byte[] defaultFavicon = IOUtils.toByteArray(Objects.requireNonNull(getClass().getResource("/images/default_favicon.gif")));
+			Assertions.assertArrayEquals(defaultFavicon, icon);
 		}
 	}
 
 	@Nested
 	class Opml {
 		@Test
-		void importExportOpml() throws IOException {
+		void importExportOpml() {
 			importOpml();
-			String opml = exportOpml();
+			String opml = getClient().target(getApiBaseUrl() + "feed/export").request().get(String.class);
 			String expextedOpml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<opml version=\"1.0\">\n" + "  <head>\n"
 					+ "    <title>admin subscriptions in CommaFeed</title>\n" + "  </head>\n" + "  <body>\n"
 					+ "    <outline text=\"out1\" title=\"out1\">\n"
@@ -219,18 +191,9 @@ class FeedIT extends BaseIT {
 			MultiPart multiPart = new MultiPart().bodyPart(new StreamDataBodyPart("file", stream));
 			multiPart.setMediaType(MediaType.MULTIPART_FORM_DATA_TYPE);
 
-			try (Response response = getClient().target(getApiBaseUrl() + "feed/import")
+			getClient().target(getApiBaseUrl() + "feed/import")
 					.request()
-					.post(Entity.entity(multiPart, multiPart.getMediaType()))) {
-				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-			}
-		}
-
-		String exportOpml() {
-			try (Response response = getClient().target(getApiBaseUrl() + "feed/export").request().get()) {
-				Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-				return response.readEntity(String.class);
-			}
+					.post(Entity.entity(multiPart, multiPart.getMediaType()), Void.TYPE);
 		}
 	}
 

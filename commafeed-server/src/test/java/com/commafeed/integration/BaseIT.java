@@ -38,12 +38,7 @@ import lombok.Getter;
 @ExtendWith(MockServerExtension.class)
 public abstract class BaseIT {
 
-	private static final CommaFeedDropwizardAppExtension EXT = new CommaFeedDropwizardAppExtension() {
-		@Override
-		protected JerseyClientBuilder clientBuilder() {
-			return super.clientBuilder().register(HttpAuthenticationFeature.basic("admin", "admin")).register(MultiPartFeature.class);
-		}
-	};
+	private final CommaFeedDropwizardAppExtension extension = buildExtension();
 
 	private Client client;
 
@@ -55,17 +50,26 @@ public abstract class BaseIT {
 
 	private String webSocketUrl;
 
+	protected CommaFeedDropwizardAppExtension buildExtension() {
+		return new CommaFeedDropwizardAppExtension() {
+			@Override
+			protected JerseyClientBuilder clientBuilder() {
+				return super.clientBuilder().register(HttpAuthenticationFeature.basic("admin", "admin")).register(MultiPartFeature.class);
+			}
+		};
+	}
+
 	@BeforeEach
 	void init(MockServerClient mockServerClient) throws IOException {
 		URL resource = Objects.requireNonNull(getClass().getResource("/feed/rss.xml"));
 		mockServerClient.when(HttpRequest.request().withMethod("GET").withPath("/"))
 				.respond(HttpResponse.response().withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
 
-		this.client = EXT.client();
+		this.client = extension.client();
 		this.feedUrl = "http://localhost:" + mockServerClient.getPort() + "/";
-		this.baseUrl = "http://localhost:" + EXT.getLocalPort() + "/";
+		this.baseUrl = "http://localhost:" + extension.getLocalPort() + "/";
 		this.apiBaseUrl = this.baseUrl + "rest/";
-		this.webSocketUrl = "ws://localhost:" + EXT.getLocalPort() + "/ws";
+		this.webSocketUrl = "ws://localhost:" + extension.getLocalPort() + "/ws";
 	}
 
 	protected String login() {
@@ -82,10 +86,7 @@ public abstract class BaseIT {
 		SubscribeRequest subscribeRequest = new SubscribeRequest();
 		subscribeRequest.setUrl(feedUrl);
 		subscribeRequest.setTitle("my title for this feed");
-		try (Response response = client.target(apiBaseUrl + "feed/subscribe").request().post(Entity.json(subscribeRequest))) {
-			Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-			return response.readEntity(Long.class);
-		}
+		return client.target(apiBaseUrl + "feed/subscribe").request().post(Entity.json(subscribeRequest), Long.class);
 	}
 
 	protected Long subscribeAndWaitForEntries(String feedUrl) {
@@ -95,10 +96,7 @@ public abstract class BaseIT {
 	}
 
 	protected Subscription getSubscription(Long subscriptionId) {
-		try (Response response = client.target(apiBaseUrl + "feed/get/{id}").resolveTemplate("id", subscriptionId).request().get()) {
-			Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-			return response.readEntity(Subscription.class);
-		}
+		return client.target(apiBaseUrl + "feed/get/{id}").resolveTemplate("id", subscriptionId).request().get(Subscription.class);
 	}
 
 	protected Entries getFeedEntries(long subscriptionId) {

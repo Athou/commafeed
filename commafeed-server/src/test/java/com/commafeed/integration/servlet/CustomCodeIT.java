@@ -4,7 +4,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
-import org.eclipse.jetty.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -16,17 +15,12 @@ class CustomCodeIT extends BaseIT {
 	@Test
 	void test() {
 		// get settings
-		Settings settings = null;
-		try (Response response = getClient().target(getApiBaseUrl() + "user/settings").request().get()) {
-			settings = response.readEntity(Settings.class);
-		}
+		Settings settings = getClient().target(getApiBaseUrl() + "user/settings").request().get(Settings.class);
 
 		// update settings
 		settings.setCustomJs("custom-js");
 		settings.setCustomCss("custom-css");
-		try (Response response = getClient().target(getApiBaseUrl() + "user/settings").request().post(Entity.json(settings))) {
-			Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-		}
+		getClient().target(getApiBaseUrl() + "user/settings").request().post(Entity.json(settings), Void.TYPE);
 
 		// check custom code servlets
 		String cookie = login();

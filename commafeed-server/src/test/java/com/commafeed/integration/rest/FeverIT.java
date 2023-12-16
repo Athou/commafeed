@@ -2,10 +2,8 @@ package com.commafeed.integration.rest;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.eclipse.jetty.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,9 +24,7 @@ class FeverIT extends BaseIT {
 		ProfileModificationRequest req = new ProfileModificationRequest();
 		req.setCurrentPassword("admin");
 		req.setNewApiKey(true);
-		try (Response response = getClient().target(getApiBaseUrl() + "user/profile").request().post(Entity.json(req))) {
-			Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-		}
+		getClient().target(getApiBaseUrl() + "user/profile").request().post(Entity.json(req), Void.TYPE);
 
 		// retrieve api key
 		UserModel user = getClient().target(getApiBaseUrl() + "user/profile").request().get(UserModel.class);
@@ -38,13 +34,11 @@ class FeverIT extends BaseIT {
 
 	@Test
 	void get() {
-		try (Response response = getClient().target(getApiBaseUrl() + "fever/user/${userId}")
+		String message = getClient().target(getApiBaseUrl() + "fever/user/${userId}")
 				.resolveTemplate("userId", 1)
 				.request()
-				.get()) {
-			Assertions.assertEquals("Welcome to the CommaFeed Fever API. Add this URL to your Fever-compatible reader.",
-					response.readEntity(String.class));
-		}
+				.get(String.class);
+		Assertions.assertEquals("Welcome to the CommaFeed Fever API. Add this URL to your Fever-compatible reader.", message);
 	}
 
 	@Test
@@ -81,12 +75,9 @@ class FeverIT extends BaseIT {
 		Form form = new Form();
 		form.param("api_key", DigestUtils.md5Hex("admin:" + apiKey));
 		form.param(what, "1");
-		try (Response response = getClient().target(getApiBaseUrl() + "fever/user/{userId}")
+		return getClient().target(getApiBaseUrl() + "fever/user/{userId}")
 				.resolveTemplate("userId", userId)
 				.request()
-				.post(Entity.form(form))) {
-			Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-			return response.readEntity(FeverResponse.class);
-		}
+				.post(Entity.form(form), FeverResponse.class);
 	}
 }

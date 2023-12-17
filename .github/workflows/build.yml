@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ "8", "11", "17", "21" ]
+        java: [ "17", "21" ]
 
     steps:
       - name: Checkout
@@ -35,7 +35,7 @@ jobs:
 
       - name: Upload JAR
         uses: actions/upload-artifact@v3
-        if: ${{ matrix.java == '8' }}
+        if: ${{ matrix.java == '17' }}
         with:
           name: commafeed.jar
           path: commafeed-server/target/commafeed.jar
@@ -43,14 +43,14 @@ jobs:
       # Docker
       - name: Login to Container Registry
         uses: docker/login-action@v2
-        if: ${{ matrix.java == '8' }}
+        if: ${{ matrix.java == '17' }}
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Docker build and push tag
         uses: docker/build-push-action@v4
-        if: ${{ matrix.java == '8' && github.ref_type == 'tag' }}
+        if: ${{ matrix.java == '17' && github.ref_type == 'tag' }}
         with:
           context: .
           push: true
@@ -61,7 +61,7 @@ jobs:
 
       - name: Docker build and push master
         uses: docker/build-push-action@v4
-        if: ${{ matrix.java == '8' && github.ref_name == 'master' }}
+        if: ${{ matrix.java == '17' && github.ref_name == 'master' }}
         with:
           context: .
           push: true
@@ -71,14 +71,14 @@ jobs:
       # Create GitHub release after Docker image has been published
       - name: Extract Changelog Entry
         uses: mindsers/changelog-reader-action@v2
-        if: ${{ matrix.java == '8' && github.ref_type == 'tag' }}
+        if: ${{ matrix.java == '17' && github.ref_type == 'tag' }}
         id: changelog_reader
         with:
           version: ${{ github.ref_name }}
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v1
-        if: ${{ matrix.java == '8' && github.ref_type == 'tag' }}
+        if: ${{ matrix.java == '17' && github.ref_type == 'tag' }}
         with:
           name: CommaFeed ${{ github.ref_name }}
           body: ${{ steps.changelog_reader.outputs.changes }}

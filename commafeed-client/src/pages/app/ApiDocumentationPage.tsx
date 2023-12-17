@@ -6,7 +6,7 @@ function ApiDocumentationPage() {
     return (
         // force white background because swagger is unreadable with dark theme
         <Box style={{ backgroundColor: "#fff" }}>
-            <SwaggerUI url="swagger/swagger.json" />
+            <SwaggerUI url="openapi/openapi.json" />
         </Box>
     )
 }

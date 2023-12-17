@@ -5,21 +5,21 @@ import java.io.Serializable;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "Add Category Request")
+@Schema(description = "Add Category Request")
 @Data
 public class AddCategoryRequest implements Serializable {
 
-	@ApiModelProperty(value = "name", required = true)
+	@Schema(description = "name", requiredMode = RequiredMode.REQUIRED)
 	@NotEmpty
 	@Size(max = 128)
 	private String name;
 
-	@ApiModelProperty(value = "parent category id, if any")
+	@Schema(description = "parent category id, if any")
 	@Size(max = 128)
 	private String parentId;
 

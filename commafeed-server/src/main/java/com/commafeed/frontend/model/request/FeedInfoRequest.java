@@ -5,16 +5,16 @@ import java.io.Serializable;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "Feed information request")
+@Schema(description = "Feed information request")
 @Data
 public class FeedInfoRequest implements Serializable {
 
-	@ApiModelProperty(value = "feed url", required = true)
+	@Schema(description = "feed url", requiredMode = RequiredMode.REQUIRED)
 	@NotEmpty
 	@Size(max = 4096)
 	private String url;

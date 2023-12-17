@@ -8,26 +8,26 @@ import javax.validation.constraints.Size;
 
 import com.commafeed.frontend.auth.ValidPassword;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
 @Data
-@ApiModel
+@Schema
 public class RegistrationRequest implements Serializable {
 
-	@ApiModelProperty(value = "username, between 3 and 32 characters", required = true)
+	@Schema(description = "username, between 3 and 32 characters", requiredMode = RequiredMode.REQUIRED)
 	@NotEmpty
 	@Size(min = 3, max = 32)
 	private String name;
 
-	@ApiModelProperty(value = "password, minimum 6 characters", required = true)
+	@Schema(description = "password, minimum 6 characters", requiredMode = RequiredMode.REQUIRED)
 	@NotEmpty
 	@ValidPassword
 	private String password;
 
-	@ApiModelProperty(value = "email address for password recovery", required = true)
+	@Schema(description = "email address for password recovery", requiredMode = RequiredMode.REQUIRED)
 	@Email
 	@NotEmpty
 	@Size(max = 255)

@@ -37,13 +37,15 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
 import io.dropwizard.hibernate.UnitOfWork;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
 @Path("/admin")
-@Api(value = "/admin")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
@@ -60,10 +62,12 @@ public class AdminREST {
 	@Path("/user/save")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Save or update a user", notes = "Save or update a user. If the id is not specified, a new user will be created")
+	@Operation(
+			summary = "Save or update a user",
+			description = "Save or update a user. If the id is not specified, a new user will be created")
 	@Timed
-	public Response adminSaveUser(@ApiParam(hidden = true) @SecurityCheck(Role.ADMIN) User user,
-			@ApiParam(required = true) UserModel userModel) {
+	public Response adminSaveUser(@Parameter(hidden = true) @SecurityCheck(Role.ADMIN) User user,
+			@Parameter(required = true) UserModel userModel) {
 		Preconditions.checkNotNull(userModel);
 		Preconditions.checkNotNull(userModel.getName());
 
@@ -116,10 +120,13 @@ public class AdminREST {
 	@Path("/user/get/{id}")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "Get user information", notes = "Get user information", response = UserModel.class)
+	@Operation(
+			summary = "Get user information",
+			description = "Get user information",
+			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = UserModel.class))) })
 	@Timed
-	public Response adminGetUser(@ApiParam(hidden = true) @SecurityCheck(Role.ADMIN) User user,
-			@ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
+	public Response adminGetUser(@Parameter(hidden = true) @SecurityCheck(Role.ADMIN) User user,
+			@Parameter(description = "user id", required = true) @PathParam("id") Long id) {
 		Preconditions.checkNotNull(id);
 		User u = userDAO.findById(id);
 		UserModel userModel = new UserModel();
@@ -134,9 +141,12 @@ public class AdminREST {
 	@Path("/user/getAll")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "Get all users", notes = "Get all users", response = UserModel.class, responseContainer = "List")
+	@Operation(
+			summary = "Get all users",
+			description = "Get all users",
+			responses = { @ApiResponse(content = @Content(array = @ArraySchema(schema = @Schema(implementation = UserModel.class)))) })
 	@Timed
-	public Response adminGetUsers(@ApiParam(hidden = true) @SecurityCheck(Role.ADMIN) User user) {
+	public Response adminGetUsers(@Parameter(hidden = true) @SecurityCheck(Role.ADMIN) User user) {
 		Map<Long, UserModel> users = new HashMap<>();
 		for (UserRole role : userRoleDAO.findAll()) {
 			User u = role.getUser();
@@ -162,10 +172,10 @@ public class AdminREST {
 	@Path("/user/delete")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Delete a user", notes = "Delete a user, and all his subscriptions")
+	@Operation(summary = "Delete a user", description = "Delete a user, and all his subscriptions")
 	@Timed
-	public Response adminDeleteUser(@ApiParam(hidden = true) @SecurityCheck(Role.ADMIN) User user,
-			@ApiParam(required = true) IDRequest req) {
+	public Response adminDeleteUser(@Parameter(hidden = true) @SecurityCheck(Role.ADMIN) User user,
+			@Parameter(required = true) IDRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -183,18 +193,21 @@ public class AdminREST {
 	@Path("/settings")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "Retrieve application settings", notes = "Retrieve application settings", response = ApplicationSettings.class)
+	@Operation(
+			summary = "Retrieve application settings",
+			description = "Retrieve application settings",
+			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = ApplicationSettings.class))) })
 	@Timed
-	public Response getApplicationSettings(@ApiParam(hidden = true) @SecurityCheck(Role.ADMIN) User user) {
+	public Response getApplicationSettings(@Parameter(hidden = true) @SecurityCheck(Role.ADMIN) User user) {
 		return Response.ok(config.getApplicationSettings()).build();
 	}
 
 	@Path("/metrics")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "Retrieve server metrics")
+	@Operation(summary = "Retrieve server metrics")
 	@Timed
-	public Response getMetrics(@ApiParam(hidden = true) @SecurityCheck(Role.ADMIN) User user) {
+	public Response getMetrics(@Parameter(hidden = true) @SecurityCheck(Role.ADMIN) User user) {
 		return Response.ok(metrics).build();
 	}
 

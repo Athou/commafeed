@@ -2,19 +2,19 @@ package com.commafeed.frontend.model;
 
 import java.io.Serializable;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "Feed details")
+@Schema(description = "Feed details")
 @Data
 public class FeedInfo implements Serializable {
 
-	@ApiModelProperty(value = "url", required = true)
+	@Schema(description = "url", requiredMode = RequiredMode.REQUIRED)
 	private String url;
 
-	@ApiModelProperty(value = "title", required = true)
+	@Schema(description = "title", requiredMode = RequiredMode.REQUIRED)
 	private String title;
 
 }

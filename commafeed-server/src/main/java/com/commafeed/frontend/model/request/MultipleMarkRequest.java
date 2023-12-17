@@ -5,16 +5,16 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "Multiple Mark Request")
+@Schema(description = "Multiple Mark Request")
 @Data
 public class MultipleMarkRequest implements Serializable {
 
-	@ApiModelProperty(value = "list of mark requests", required = true)
+	@Schema(description = "list of mark requests", requiredMode = RequiredMode.REQUIRED)
 	private List<@Valid MarkRequest> requests;
 
 }

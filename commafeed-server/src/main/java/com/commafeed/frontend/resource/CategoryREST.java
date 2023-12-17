@@ -64,14 +64,16 @@ import com.rometools.rome.feed.synd.SyndFeedImpl;
 import com.rometools.rome.io.SyndFeedOutput;
 
 import io.dropwizard.hibernate.UnitOfWork;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Path("/category")
-@Api(value = "/category")
 @Slf4j
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -93,24 +95,26 @@ public class CategoryREST {
 	@Path("/entries")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "Get category entries", notes = "Get a list of category entries", response = Entries.class)
+	@Operation(
+			summary = "Get category entries",
+			description = "Get a list of category entries",
+			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Entries.class))) })
 	@Timed
-	public Response getCategoryEntries(@ApiParam(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user,
-			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
-			@ApiParam(
-					value = "all entries or only unread ones",
-					allowableValues = "all,unread",
+	public Response getCategoryEntries(@Parameter(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user,
+			@Parameter(description = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
+			@Parameter(
+					description = "all entries or only unread ones",
 					required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
-			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
-			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
-			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
-			@ApiParam(value = "ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
-			@ApiParam(
-					value = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
-			@ApiParam(value = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds,
-			@ApiParam(
-					value = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
-			@ApiParam(value = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {
+			@Parameter(description = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
+			@Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
+			@Parameter(description = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
+			@Parameter(description = "ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
+			@Parameter(
+					description = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
+			@Parameter(description = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds,
+			@Parameter(
+					description = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
+			@Parameter(description = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {
 
 		Preconditions.checkNotNull(readType);
 
@@ -186,25 +190,24 @@ public class CategoryREST {
 	@Path("/entriesAsFeed")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "Get category entries as feed", notes = "Get a feed of category entries")
+	@Operation(summary = "Get category entries as feed", description = "Get a feed of category entries")
 	@Produces(MediaType.APPLICATION_XML)
 	@Timed
-	public Response getCategoryEntriesAsFeed(@ApiParam(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user,
-			@ApiParam(value = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
-			@ApiParam(
-					value = "all entries or only unread ones",
-					allowableValues = "all,unread",
+	public Response getCategoryEntriesAsFeed(@Parameter(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user,
+			@Parameter(description = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
+			@Parameter(
+					description = "all entries or only unread ones",
 					required = true) @DefaultValue("all") @QueryParam("readType") ReadingMode readType,
-			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
-			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
-			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
-			@ApiParam(value = "date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
-			@ApiParam(
-					value = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
-			@ApiParam(value = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds,
-			@ApiParam(
-					value = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
-			@ApiParam(value = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {
+			@Parameter(description = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
+			@Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
+			@Parameter(description = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
+			@Parameter(description = "date ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
+			@Parameter(
+					description = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
+			@Parameter(description = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds,
+			@Parameter(
+					description = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
+			@Parameter(description = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {
 
 		Response response = getCategoryEntries(user, id, readType, newerThan, offset, limit, order, keywords, onlyIds,
 				excludedSubscriptionIds, tag);
@@ -234,10 +237,10 @@ public class CategoryREST {
 	@Path("/mark")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Mark category entries", notes = "Mark feed entries of this category as read")
+	@Operation(summary = "Mark category entries", description = "Mark feed entries of this category as read")
 	@Timed
-	public Response markCategoryEntries(@ApiParam(hidden = true) @SecurityCheck User user,
-			@Valid @ApiParam(value = "category id, or 'all'", required = true) MarkRequest req) {
+	public Response markCategoryEntries(@Parameter(hidden = true) @SecurityCheck User user,
+			@Valid @Parameter(description = "category id, or 'all'", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -276,10 +279,13 @@ public class CategoryREST {
 	@Path("/add")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Add a category", notes = "Add a new feed category", response = Long.class)
+	@Operation(
+			summary = "Add a category",
+			description = "Add a new feed category",
+			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Long.class))) })
 	@Timed
-	public Response addCategory(@ApiParam(hidden = true) @SecurityCheck User user,
-			@Valid @ApiParam(required = true) AddCategoryRequest req) {
+	public Response addCategory(@Parameter(hidden = true) @SecurityCheck User user,
+			@Valid @Parameter(required = true) AddCategoryRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getName());
 
@@ -301,9 +307,9 @@ public class CategoryREST {
 	@POST
 	@Path("/delete")
 	@UnitOfWork
-	@ApiOperation(value = "Delete a category", notes = "Delete an existing feed category")
+	@Operation(summary = "Delete a category", description = "Delete an existing feed category")
 	@Timed
-	public Response deleteCategory(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(required = true) IDRequest req) {
+	public Response deleteCategory(@Parameter(hidden = true) @SecurityCheck User user, @Parameter(required = true) IDRequest req) {
 
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -334,10 +340,10 @@ public class CategoryREST {
 	@POST
 	@Path("/modify")
 	@UnitOfWork
-	@ApiOperation(value = "Rename a category", notes = "Rename an existing feed category")
+	@Operation(summary = "Rename a category", description = "Rename an existing feed category")
 	@Timed
-	public Response modifyCategory(@ApiParam(hidden = true) @SecurityCheck User user,
-			@Valid @ApiParam(required = true) CategoryModificationRequest req) {
+	public Response modifyCategory(@Parameter(hidden = true) @SecurityCheck User user,
+			@Valid @Parameter(required = true) CategoryModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -390,9 +396,9 @@ public class CategoryREST {
 	@POST
 	@Path("/collapse")
 	@UnitOfWork
-	@ApiOperation(value = "Collapse a category", notes = "Save collapsed or expanded status for a category")
+	@Operation(summary = "Collapse a category", description = "Save collapsed or expanded status for a category")
 	@Timed
-	public Response collapseCategory(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(required = true) CollapseRequest req) {
+	public Response collapseCategory(@Parameter(hidden = true) @SecurityCheck User user, @Parameter(required = true) CollapseRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -409,9 +415,11 @@ public class CategoryREST {
 	@GET
 	@Path("/unreadCount")
 	@UnitOfWork
-	@ApiOperation(value = "Get unread count for feed subscriptions", response = UnreadCount.class, responseContainer = "List")
+	@Operation(
+			summary = "Get unread count for feed subscriptions",
+			responses = { @ApiResponse(content = @Content(array = @ArraySchema(schema = @Schema(implementation = UnreadCount.class)))) })
 	@Timed
-	public Response getUnreadCount(@ApiParam(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user) {
+	public Response getUnreadCount(@Parameter(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user) {
 		Map<Long, UnreadCount> unreadCount = feedSubscriptionService.getUnreadCount(user);
 		return Response.ok(Lists.newArrayList(unreadCount.values())).build();
 	}
@@ -419,9 +427,12 @@ public class CategoryREST {
 	@GET
 	@Path("/get")
 	@UnitOfWork
-	@ApiOperation(value = "Get root category", notes = "Get all categories and subscriptions of the user", response = Category.class)
+	@Operation(
+			summary = "Get root category",
+			description = "Get all categories and subscriptions of the user",
+			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Category.class))) })
 	@Timed
-	public Response getRootCategory(@ApiParam(hidden = true) @SecurityCheck User user) {
+	public Response getRootCategory(@Parameter(hidden = true) @SecurityCheck User user) {
 		Category root = cache.getUserRootCategory(user);
 		if (root == null) {
 			log.debug("tree cache miss for {}", user.getId());

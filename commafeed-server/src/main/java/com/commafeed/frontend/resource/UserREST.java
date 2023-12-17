@@ -53,14 +53,15 @@ import com.commafeed.frontend.session.SessionHelper;
 import com.google.common.base.Preconditions;
 
 import io.dropwizard.hibernate.UnitOfWork;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Path("/user")
-@Api(value = "/user")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Slf4j
@@ -79,9 +80,12 @@ public class UserREST {
 	@Path("/settings")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "Retrieve user settings", notes = "Retrieve user settings", response = Settings.class)
+	@Operation(
+			summary = "Retrieve user settings",
+			description = "Retrieve user settings",
+			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Settings.class))) })
 	@Timed
-	public Response getUserSettings(@ApiParam(hidden = true) @SecurityCheck User user) {
+	public Response getUserSettings(@Parameter(hidden = true) @SecurityCheck User user) {
 		Settings s = new Settings();
 		UserSettings settings = userSettingsDAO.findByUser(user);
 		if (settings != null) {
@@ -133,9 +137,9 @@ public class UserREST {
 	@Path("/settings")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Save user settings", notes = "Save user settings")
+	@Operation(summary = "Save user settings", description = "Save user settings")
 	@Timed
-	public Response saveUserSettings(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(required = true) Settings settings) {
+	public Response saveUserSettings(@Parameter(hidden = true) @SecurityCheck User user, @Parameter(required = true) Settings settings) {
 		Preconditions.checkNotNull(settings);
 
 		UserSettings s = userSettingsDAO.findByUser(user);
@@ -172,9 +176,11 @@ public class UserREST {
 	@Path("/profile")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "Retrieve user's profile", response = UserModel.class)
+	@Operation(
+			summary = "Retrieve user's profile",
+			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = UserModel.class))) })
 	@Timed
-	public Response getUserProfile(@ApiParam(hidden = true) @SecurityCheck User user) {
+	public Response getUserProfile(@Parameter(hidden = true) @SecurityCheck User user) {
 		UserModel userModel = new UserModel();
 		userModel.setId(user.getId());
 		userModel.setName(user.getName());
@@ -192,10 +198,10 @@ public class UserREST {
 	@Path("/profile")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Save user's profile")
+	@Operation(summary = "Save user's profile")
 	@Timed
-	public Response saveUserProfile(@ApiParam(hidden = true) @SecurityCheck User user,
-			@Valid @ApiParam(required = true) ProfileModificationRequest request) {
+	public Response saveUserProfile(@Parameter(hidden = true) @SecurityCheck User user,
+			@Valid @Parameter(required = true) ProfileModificationRequest request) {
 		if (CommaFeedApplication.USERNAME_DEMO.equals(user.getName())) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
@@ -231,10 +237,10 @@ public class UserREST {
 	@Path("/register")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Register a new account")
+	@Operation(summary = "Register a new account")
 	@Timed
-	public Response registerUser(@Valid @ApiParam(required = true) RegistrationRequest req,
-			@Context @ApiParam(hidden = true) SessionHelper sessionHelper) {
+	public Response registerUser(@Valid @Parameter(required = true) RegistrationRequest req,
+			@Context @Parameter(hidden = true) SessionHelper sessionHelper) {
 		try {
 			User registeredUser = userService.register(req.getName(), req.getPassword(), req.getEmail(),
 					Collections.singletonList(Role.USER));
@@ -249,10 +255,10 @@ public class UserREST {
 	@Path("/login")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Login and create a session")
+	@Operation(summary = "Login and create a session")
 	@Timed
-	public Response login(@Valid @ApiParam(required = true) LoginRequest req,
-			@ApiParam(hidden = true) @Context SessionHelper sessionHelper) {
+	public Response login(@Valid @Parameter(required = true) LoginRequest req,
+			@Parameter(hidden = true) @Context SessionHelper sessionHelper) {
 		Optional<User> user = userService.login(req.getName(), req.getPassword());
 		if (user.isPresent()) {
 			sessionHelper.setLoggedInUser(user.get());
@@ -265,9 +271,9 @@ public class UserREST {
 	@Path("/passwordReset")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "send a password reset email")
+	@Operation(summary = "send a password reset email")
 	@Timed
-	public Response sendPasswordReset(@Valid @ApiParam(required = true) PasswordResetRequest req) {
+	public Response sendPasswordReset(@Valid @Parameter(required = true) PasswordResetRequest req) {
 		User user = userDAO.findByEmail(req.getEmail());
 		if (user == null) {
 			return Response.ok().build();
@@ -306,8 +312,8 @@ public class UserREST {
 	@UnitOfWork
 	@Produces(MediaType.TEXT_HTML)
 	@Timed
-	public Response passwordRecoveryCallback(@ApiParam(required = true) @QueryParam("email") String email,
-			@ApiParam(required = true) @QueryParam("token") String token) {
+	public Response passwordRecoveryCallback(@Parameter(required = true) @QueryParam("email") String email,
+			@Parameter(required = true) @QueryParam("token") String token) {
 		Preconditions.checkNotNull(email);
 		Preconditions.checkNotNull(token);
 
@@ -341,9 +347,9 @@ public class UserREST {
 	@Path("/profile/deleteAccount")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Delete the user account")
+	@Operation(summary = "Delete the user account")
 	@Timed
-	public Response deleteUser(@ApiParam(hidden = true) @SecurityCheck User user) {
+	public Response deleteUser(@Parameter(hidden = true) @SecurityCheck User user) {
 		if (CommaFeedApplication.USERNAME_ADMIN.equals(user.getName()) || CommaFeedApplication.USERNAME_DEMO.equals(user.getName())) {
 			return Response.status(Status.FORBIDDEN).build();
 		}

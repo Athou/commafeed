@@ -3,22 +3,21 @@ package com.commafeed.frontend.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "Unread count")
+@Schema(description = "Unread count")
 @Data
 public class UnreadCount implements Serializable {
 
-	@ApiModelProperty
+	@Schema
 	private long feedId;
 
-	@ApiModelProperty
+	@Schema
 	private long unreadCount;
 
-	@ApiModelProperty(dataType = "number")
+	@Schema(type = "number")
 	private Date newestItemTime;
 
 	public UnreadCount() {

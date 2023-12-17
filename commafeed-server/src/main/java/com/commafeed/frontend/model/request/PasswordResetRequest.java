@@ -6,16 +6,16 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
 @Data
-@ApiModel
+@Schema
 public class PasswordResetRequest implements Serializable {
 
-	@ApiModelProperty(value = "email address for password recovery", required = true)
+	@Schema(description = "email address for password recovery", requiredMode = RequiredMode.REQUIRED)
 	@Email
 	@NotEmpty
 	@Size(max = 255)

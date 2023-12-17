@@ -23,13 +23,14 @@ import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.ServerInfo;
 
 import io.dropwizard.hibernate.UnitOfWork;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
 @Path("/server")
-@Api(value = "/server")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
@@ -42,7 +43,10 @@ public class ServerREST {
 	@Path("/get")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "Get server infos", notes = "Get server infos", response = ServerInfo.class)
+	@Operation(
+			summary = "Get server infos",
+			description = "Get server infos",
+			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = ServerInfo.class))) })
 	@Timed
 	public Response getServerInfos() {
 		ServerInfo infos = new ServerInfo();
@@ -59,11 +63,11 @@ public class ServerREST {
 	@Path("/proxy")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "proxy image")
+	@Operation(summary = "proxy image")
 	@Produces("image/png")
 	@Timed
-	public Response getProxiedImage(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "image url", required = true) @QueryParam("u") String url) {
+	public Response getProxiedImage(@Parameter(hidden = true) @SecurityCheck User user,
+			@Parameter(description = "image url", required = true) @QueryParam("u") String url) {
 		if (!config.getApplicationSettings().getImageProxyEnabled()) {
 			return Response.status(Status.FORBIDDEN).build();
 		}

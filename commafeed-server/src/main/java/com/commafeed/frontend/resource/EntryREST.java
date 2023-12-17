@@ -26,13 +26,11 @@ import com.commafeed.frontend.model.request.TagRequest;
 import com.google.common.base.Preconditions;
 
 import io.dropwizard.hibernate.UnitOfWork;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 
 @Path("/entry")
-@Api(value = "/entry")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
@@ -46,10 +44,10 @@ public class EntryREST {
 	@Path("/mark")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
+	@Operation(summary = "Mark a feed entry", description = "Mark a feed entry as read/unread")
 	@Timed
-	public Response markEntry(@ApiParam(hidden = true) @SecurityCheck User user,
-			@Valid @ApiParam(value = "Mark Request", required = true) MarkRequest req) {
+	public Response markEntry(@Parameter(hidden = true) @SecurityCheck User user,
+			@Valid @Parameter(description = "Mark Request", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -60,10 +58,10 @@ public class EntryREST {
 	@Path("/markMultiple")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Mark multiple feed entries", notes = "Mark feed entries as read/unread")
+	@Operation(summary = "Mark multiple feed entries", description = "Mark feed entries as read/unread")
 	@Timed
-	public Response markEntries(@ApiParam(hidden = true) @SecurityCheck User user,
-			@Valid @ApiParam(value = "Multiple Mark Request", required = true) MultipleMarkRequest req) {
+	public Response markEntries(@Parameter(hidden = true) @SecurityCheck User user,
+			@Valid @Parameter(description = "Multiple Mark Request", required = true) MultipleMarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getRequests());
 
@@ -77,10 +75,10 @@ public class EntryREST {
 	@Path("/star")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Mark a feed entry", notes = "Mark a feed entry as read/unread")
+	@Operation(summary = "Mark a feed entry", description = "Mark a feed entry as read/unread")
 	@Timed
-	public Response starEntry(@ApiParam(hidden = true) @SecurityCheck User user,
-			@Valid @ApiParam(value = "Star Request", required = true) StarRequest req) {
+	public Response starEntry(@Parameter(hidden = true) @SecurityCheck User user,
+			@Valid @Parameter(description = "Star Request", required = true) StarRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 		Preconditions.checkNotNull(req.getFeedId());
@@ -93,9 +91,9 @@ public class EntryREST {
 	@Path("/tags")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "Get list of tags for the user", notes = "Get list of tags for the user")
+	@Operation(summary = "Get list of tags for the user", description = "Get list of tags for the user")
 	@Timed
-	public Response getTags(@ApiParam(hidden = true) @SecurityCheck User user) {
+	public Response getTags(@Parameter(hidden = true) @SecurityCheck User user) {
 		List<String> tags = feedEntryTagDAO.findByUser(user);
 		return Response.ok(tags).build();
 	}
@@ -103,10 +101,10 @@ public class EntryREST {
 	@Path("/tag")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Set feed entry tags")
+	@Operation(summary = "Set feed entry tags")
 	@Timed
-	public Response tagEntry(@ApiParam(hidden = true) @SecurityCheck User user,
-			@Valid @ApiParam(value = "Tag Request", required = true) TagRequest req) {
+	public Response tagEntry(@Parameter(hidden = true) @SecurityCheck User user,
+			@Valid @Parameter(description = "Tag Request", required = true) TagRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getEntryId());
 

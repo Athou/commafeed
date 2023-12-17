@@ -45,7 +45,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.2",
     "react-swipeable": "^7.0.0",
-    "swagger-ui-react": "^4.18.3",
+    "swagger-ui-react": "^5.10.5",
     "throttle-debounce": "^5.0.0",
     "tinycon": "^0.6.8",
     "use-local-storage": "^3.0.0",

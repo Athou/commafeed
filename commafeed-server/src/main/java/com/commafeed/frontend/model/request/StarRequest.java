@@ -5,24 +5,24 @@ import java.io.Serializable;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "Star Request")
+@Schema(description = "Star Request")
 @Data
 public class StarRequest implements Serializable {
 
-	@ApiModelProperty(value = "id", required = true)
+	@Schema(description = "id", requiredMode = RequiredMode.REQUIRED)
 	@NotEmpty
 	@Size(max = 128)
 	private String id;
 
-	@ApiModelProperty(value = "feed id", required = true)
+	@Schema(description = "feed id", requiredMode = RequiredMode.REQUIRED)
 	private Long feedId;
 
-	@ApiModelProperty(value = "starred or not", required = true)
+	@Schema(description = "starred or not", requiredMode = RequiredMode.REQUIRED)
 	private boolean starred;
 
 }

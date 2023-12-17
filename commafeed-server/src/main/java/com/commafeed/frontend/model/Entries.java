@@ -4,45 +4,45 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "List of entries with some metadata")
+@Schema(description = "List of entries with some metadata")
 @Data
 public class Entries implements Serializable {
 
-	@ApiModelProperty(value = "name of the feed or the category requested", required = true)
+	@Schema(description = "name of the feed or the category requested", requiredMode = RequiredMode.REQUIRED)
 	private String name;
 
-	@ApiModelProperty(value = "error or warning message")
+	@Schema(description = "error or warning message")
 	private String message;
 
-	@ApiModelProperty(value = "times the server tried to refresh the feed and failed", required = true)
+	@Schema(description = "times the server tried to refresh the feed and failed", requiredMode = RequiredMode.REQUIRED)
 	private int errorCount;
 
-	@ApiModelProperty(value = "URL of the website, extracted from the feed, only filled if querying for feed entries, not category entries")
+	@Schema(description = "URL of the website, extracted from the feed, only filled if querying for feed entries, not category entries")
 	private String feedLink;
 
-	@ApiModelProperty(value = "list generation timestamp", required = true)
+	@Schema(description = "list generation timestamp", requiredMode = RequiredMode.REQUIRED)
 	private long timestamp;
 
-	@ApiModelProperty(value = "if the query has more elements", required = true)
+	@Schema(description = "if the query has more elements", requiredMode = RequiredMode.REQUIRED)
 	private boolean hasMore;
 
-	@ApiModelProperty(value = "the requested offset")
+	@Schema(description = "the requested offset")
 	private int offset;
 
-	@ApiModelProperty(value = "the requested limit")
+	@Schema(description = "the requested limit")
 	private int limit;
 
-	@ApiModelProperty(value = "list of entries", required = true)
+	@Schema(description = "list of entries", requiredMode = RequiredMode.REQUIRED)
 	private List<Entry> entries = new ArrayList<>();
 
-	@ApiModelProperty(
-			value = "if true, the unread flag was ignored in the request, all entries are returned regardless of their read status",
-			required = true)
+	@Schema(
+			description = "if true, the unread flag was ignored in the request, all entries are returned regardless of their read status",
+			requiredMode = RequiredMode.REQUIRED)
 	private boolean ignoredReadStatus;
 
 }

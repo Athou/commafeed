@@ -2,76 +2,84 @@ package com.commafeed.frontend.model;
 
 import java.io.Serializable;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "User settings")
+@Schema(description = "User settings")
 @Data
 public class Settings implements Serializable {
 
-	@ApiModelProperty(value = "user's preferred language, english if none", required = true)
+	@Schema(description = "user's preferred language, english if none", requiredMode = RequiredMode.REQUIRED)
 	private String language;
 
-	@ApiModelProperty(value = "user reads all entries or unread entries only", allowableValues = "all,unread", required = true)
+	@Schema(
+			description = "user reads all entries or unread entries only",
+			allowableValues = "all,unread",
+			requiredMode = RequiredMode.REQUIRED)
 	private String readingMode;
 
-	@ApiModelProperty(value = "user reads entries in ascending or descending order", allowableValues = "asc,desc", required = true)
+	@Schema(
+			description = "user reads entries in ascending or descending order",
+			allowableValues = "asc,desc",
+			requiredMode = RequiredMode.REQUIRED)
 	private String readingOrder;
 
-	@ApiModelProperty(value = "user wants category and feeds with no unread entries shown", required = true)
+	@Schema(description = "user wants category and feeds with no unread entries shown", requiredMode = RequiredMode.REQUIRED)
 	private boolean showRead;
 
-	@ApiModelProperty(value = "In expanded view, scroll through entries mark them as read", required = true)
+	@Schema(description = "In expanded view, scroll through entries mark them as read", requiredMode = RequiredMode.REQUIRED)
 	private boolean scrollMarks;
 
-	@ApiModelProperty(value = "user's custom css for the website")
+	@Schema(description = "user's custom css for the website")
 	private String customCss;
 
-	@ApiModelProperty(value = "user's custom js for the website")
+	@Schema(description = "user's custom js for the website")
 	private String customJs;
 
-	@ApiModelProperty(value = "user's preferred scroll speed when navigating between entries", required = true)
+	@Schema(description = "user's preferred scroll speed when navigating between entries", requiredMode = RequiredMode.REQUIRED)
 	private int scrollSpeed;
 
-	@ApiModelProperty(value = "always scroll selected entry to the top of the page, even if it fits entirely on screen", required = true)
+	@Schema(
+			description = "always scroll selected entry to the top of the page, even if it fits entirely on screen",
+			requiredMode = RequiredMode.REQUIRED)
 	private boolean alwaysScrollToEntry;
 
-	@ApiModelProperty(value = "ask for confirmation when marking all entries as read", required = true)
+	@Schema(description = "ask for confirmation when marking all entries as read", requiredMode = RequiredMode.REQUIRED)
 	private boolean markAllAsReadConfirmation;
 
-	@ApiModelProperty(value = "show commafeed's own context menu on right click", required = true)
+	@Schema(description = "show commafeed's own context menu on right click", requiredMode = RequiredMode.REQUIRED)
 	private boolean customContextMenu;
 
-	@ApiModelProperty(value = "sharing settings", required = true)
+	@Schema(description = "sharing settings", requiredMode = RequiredMode.REQUIRED)
 	private SharingSettings sharingSettings = new SharingSettings();
 
-	@ApiModel(description = "User sharing settings")
+	@Schema(description = "User sharing settings")
 	@Data
 	public static class SharingSettings implements Serializable {
-		@ApiModelProperty(required = true)
+		@Schema(requiredMode = RequiredMode.REQUIRED)
 		private boolean email;
 
-		@ApiModelProperty(required = true)
+		@Schema(requiredMode = RequiredMode.REQUIRED)
 		private boolean gmail;
 
-		@ApiModelProperty(required = true)
+		@Schema(requiredMode = RequiredMode.REQUIRED)
 		private boolean facebook;
 
-		@ApiModelProperty(required = true)
+		@Schema(requiredMode = RequiredMode.REQUIRED)
 		private boolean twitter;
 
-		@ApiModelProperty(required = true)
+		@Schema(requiredMode = RequiredMode.REQUIRED)
 		private boolean tumblr;
 
-		@ApiModelProperty(required = true)
+		@Schema(requiredMode = RequiredMode.REQUIRED)
 		private boolean pocket;
 
-		@ApiModelProperty(required = true)
+		@Schema(requiredMode = RequiredMode.REQUIRED)
 		private boolean instapaper;
 
-		@ApiModelProperty(required = true)
+		@Schema(requiredMode = RequiredMode.REQUIRED)
 		private boolean buffer;
 	}
 }

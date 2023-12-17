@@ -8,55 +8,55 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "User information")
+@Schema(description = "User information")
 @Data
 public class Subscription implements Serializable {
 
-	@ApiModelProperty(value = "subscription id", required = true)
+	@Schema(description = "subscription id", requiredMode = RequiredMode.REQUIRED)
 	private Long id;
 
-	@ApiModelProperty(value = "subscription name", required = true)
+	@Schema(description = "subscription name", requiredMode = RequiredMode.REQUIRED)
 	private String name;
 
-	@ApiModelProperty(value = "error message while fetching the feed")
+	@Schema(description = "error message while fetching the feed")
 	private String message;
 
-	@ApiModelProperty(value = "error count", required = true)
+	@Schema(description = "error count", requiredMode = RequiredMode.REQUIRED)
 	private int errorCount;
 
-	@ApiModelProperty(value = "last time the feed was refreshed", dataType = "number")
+	@Schema(description = "last time the feed was refreshed", type = "number")
 	private Date lastRefresh;
 
-	@ApiModelProperty(value = "next time the feed refresh is planned, null if refresh is already queued", dataType = "number")
+	@Schema(description = "next time the feed refresh is planned, null if refresh is already queued", type = "number")
 	private Date nextRefresh;
 
-	@ApiModelProperty(value = "this subscription's feed url", required = true)
+	@Schema(description = "this subscription's feed url", requiredMode = RequiredMode.REQUIRED)
 	private String feedUrl;
 
-	@ApiModelProperty(value = "this subscription's website url", required = true)
+	@Schema(description = "this subscription's website url", requiredMode = RequiredMode.REQUIRED)
 	private String feedLink;
 
-	@ApiModelProperty(value = "The favicon url to use for this feed", required = true)
+	@Schema(description = "The favicon url to use for this feed", requiredMode = RequiredMode.REQUIRED)
 	private String iconUrl;
 
-	@ApiModelProperty(value = "unread count", required = true)
+	@Schema(description = "unread count", requiredMode = RequiredMode.REQUIRED)
 	private long unread;
 
-	@ApiModelProperty(value = "category id")
+	@Schema(description = "category id")
 	private String categoryId;
 
-	@ApiModelProperty("position of the subscription's in the list")
+	@Schema(description = "position of the subscription's in the list")
 	private int position;
 
-	@ApiModelProperty(value = "date of the newest item", dataType = "number")
+	@Schema(description = "date of the newest item", type = "number")
 	private Date newestItemTime;
 
-	@ApiModelProperty(value = "JEXL string evaluated on new entries to mark them as read if they do not match")
+	@Schema(description = "JEXL string evaluated on new entries to mark them as read if they do not match")
 	private String filter;
 
 	public static Subscription build(FeedSubscription subscription, UnreadCount unreadCount) {

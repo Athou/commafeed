@@ -21,88 +21,88 @@ import com.rometools.rome.feed.synd.SyndEnclosureImpl;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndEntryImpl;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "Entry details")
+@Schema(description = "Entry details")
 @Data
 public class Entry implements Serializable {
 
-	@ApiModelProperty(value = "entry id", required = true)
+	@Schema(description = "entry id", requiredMode = RequiredMode.REQUIRED)
 	private String id;
 
-	@ApiModelProperty(value = "entry guid", required = true)
+	@Schema(description = "entry guid", requiredMode = RequiredMode.REQUIRED)
 	private String guid;
 
-	@ApiModelProperty(value = "entry title", required = true)
+	@Schema(description = "entry title", requiredMode = RequiredMode.REQUIRED)
 	private String title;
 
-	@ApiModelProperty(value = "entry content", required = true)
+	@Schema(description = "entry content", requiredMode = RequiredMode.REQUIRED)
 	private String content;
 
-	@ApiModelProperty(value = "comma-separated list of categories")
+	@Schema(description = "comma-separated list of categories")
 	private String categories;
 
-	@ApiModelProperty(value = "whether entry content and title are rtl", required = true)
+	@Schema(description = "whether entry content and title are rtl", requiredMode = RequiredMode.REQUIRED)
 	private boolean rtl;
 
-	@ApiModelProperty(value = "entry author")
+	@Schema(description = "entry author")
 	private String author;
 
-	@ApiModelProperty(value = "entry enclosure url, if any")
+	@Schema(description = "entry enclosure url, if any")
 	private String enclosureUrl;
 
-	@ApiModelProperty(value = "entry enclosure mime type, if any")
+	@Schema(description = "entry enclosure mime type, if any")
 	private String enclosureType;
 
-	@ApiModelProperty(value = "entry media description, if any")
+	@Schema(description = "entry media description, if any")
 	private String mediaDescription;
 
-	@ApiModelProperty(value = "entry media thumbnail url, if any")
+	@Schema(description = "entry media thumbnail url, if any")
 	private String mediaThumbnailUrl;
 
-	@ApiModelProperty(value = "entry media thumbnail width, if any")
+	@Schema(description = "entry media thumbnail width, if any")
 	private Integer mediaThumbnailWidth;
 
-	@ApiModelProperty(value = "entry media thumbnail height, if any")
+	@Schema(description = "entry media thumbnail height, if any")
 	private Integer mediaThumbnailHeight;
 
-	@ApiModelProperty(value = "entry publication date", dataType = "number", required = true)
+	@Schema(description = "entry publication date", type = "number", requiredMode = RequiredMode.REQUIRED)
 	private Date date;
 
-	@ApiModelProperty(value = "entry insertion date in the database", dataType = "number", required = true)
+	@Schema(description = "entry insertion date in the database", type = "number", requiredMode = RequiredMode.REQUIRED)
 	private Date insertedDate;
 
-	@ApiModelProperty(value = "feed id", required = true)
+	@Schema(description = "feed id", requiredMode = RequiredMode.REQUIRED)
 	private String feedId;
 
-	@ApiModelProperty(value = "feed name", required = true)
+	@Schema(description = "feed name", requiredMode = RequiredMode.REQUIRED)
 	private String feedName;
 
-	@ApiModelProperty(value = "this entry's feed url", required = true)
+	@Schema(description = "this entry's feed url", requiredMode = RequiredMode.REQUIRED)
 	private String feedUrl;
 
-	@ApiModelProperty(value = "this entry's website url", required = true)
+	@Schema(description = "this entry's website url", requiredMode = RequiredMode.REQUIRED)
 	private String feedLink;
 
-	@ApiModelProperty(value = "The favicon url to use for this feed", required = true)
+	@Schema(description = "The favicon url to use for this feed", requiredMode = RequiredMode.REQUIRED)
 	private String iconUrl;
 
-	@ApiModelProperty(value = "entry url", required = true)
+	@Schema(description = "entry url", requiredMode = RequiredMode.REQUIRED)
 	private String url;
 
-	@ApiModelProperty(value = "read status", required = true)
+	@Schema(description = "read status", requiredMode = RequiredMode.REQUIRED)
 	private boolean read;
 
-	@ApiModelProperty(value = "starred status", required = true)
+	@Schema(description = "starred status", requiredMode = RequiredMode.REQUIRED)
 	private boolean starred;
 
-	@ApiModelProperty(value = "whether the entry is still markable (old entry statuses are discarded)", required = true)
+	@Schema(description = "whether the entry is still markable (old entry statuses are discarded)", requiredMode = RequiredMode.REQUIRED)
 	private boolean markable;
 
-	@ApiModelProperty(value = "tags", required = true)
+	@Schema(description = "tags", requiredMode = RequiredMode.REQUIRED)
 	private List<String> tags;
 
 	public static Entry build(FeedEntryStatus status, boolean proxyImages) {

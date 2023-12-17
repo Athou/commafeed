@@ -7,28 +7,28 @@ import javax.validation.constraints.Size;
 
 import com.commafeed.frontend.auth.ValidPassword;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "Profile modification request")
+@Schema(description = "Profile modification request")
 @Data
 public class ProfileModificationRequest implements Serializable {
-	@ApiModelProperty(value = "current user password, required to change profile data", required = true)
+	@Schema(description = "current user password, required to change profile data", requiredMode = RequiredMode.REQUIRED)
 	@NotEmpty
 	@Size(max = 128)
 	private String currentPassword;
 
-	@ApiModelProperty(value = "changes email of the user, if specified")
+	@Schema(description = "changes email of the user, if specified")
 	@Size(max = 255)
 	private String email;
 
-	@ApiModelProperty(value = "changes password of the user, if specified")
+	@Schema(description = "changes password of the user, if specified")
 	@ValidPassword
 	private String newPassword;
 
-	@ApiModelProperty(value = "generate a new api key")
+	@Schema(description = "generate a new api key")
 	private boolean newApiKey;
 
 }

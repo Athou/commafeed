@@ -4,27 +4,27 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Size;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "Category modification request")
+@Schema(description = "Category modification request")
 @Data
 public class CategoryModificationRequest implements Serializable {
 
-	@ApiModelProperty(value = "id", required = true)
+	@Schema(description = "id", requiredMode = RequiredMode.REQUIRED)
 	private Long id;
 
-	@ApiModelProperty(value = "new name, null if not changed")
+	@Schema(description = "new name, null if not changed")
 	@Size(max = 128)
 	private String name;
 
-	@ApiModelProperty(value = "new parent category id")
+	@Schema(description = "new parent category id")
 	@Size(max = 128)
 	private String parentId;
 
-	@ApiModelProperty(value = "new display position, null if not changed")
+	@Schema(description = "new display position, null if not changed")
 	private Integer position;
 
 }

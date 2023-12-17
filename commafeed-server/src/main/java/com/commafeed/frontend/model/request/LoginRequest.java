@@ -5,20 +5,20 @@ import java.io.Serializable;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
 @Data
-@ApiModel
+@Schema
 public class LoginRequest implements Serializable {
 
-	@ApiModelProperty(value = "username", required = true)
+	@Schema(description = "username", requiredMode = RequiredMode.REQUIRED)
 	@Size(min = 3, max = 32)
 	private String name;
 
-	@ApiModelProperty(value = "password", required = true)
+	@Schema(description = "password", requiredMode = RequiredMode.REQUIRED)
 	@NotEmpty
 	@Size(max = 128)
 	private String password;

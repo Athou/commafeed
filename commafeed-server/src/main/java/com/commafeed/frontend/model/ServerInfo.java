@@ -2,34 +2,34 @@ package com.commafeed.frontend.model;
 
 import java.io.Serializable;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "Server infos")
+@Schema(description = "Server infos")
 @Data
 public class ServerInfo implements Serializable {
 
-	@ApiModelProperty
+	@Schema
 	private String announcement;
 
-	@ApiModelProperty(required = true)
+	@Schema(requiredMode = RequiredMode.REQUIRED)
 	private String version;
 
-	@ApiModelProperty(required = true)
+	@Schema(requiredMode = RequiredMode.REQUIRED)
 	private String gitCommit;
 
-	@ApiModelProperty(required = true)
+	@Schema(requiredMode = RequiredMode.REQUIRED)
 	private boolean allowRegistrations;
 
-	@ApiModelProperty
+	@Schema
 	private String googleAnalyticsCode;
 
-	@ApiModelProperty(required = true)
+	@Schema(requiredMode = RequiredMode.REQUIRED)
 	private boolean smtpEnabled;
 
-	@ApiModelProperty(required = true)
+	@Schema(requiredMode = RequiredMode.REQUIRED)
 	private boolean demoAccountEnabled;
 
 }

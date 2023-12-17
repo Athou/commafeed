@@ -84,14 +84,15 @@ import com.rometools.rome.io.SyndFeedOutput;
 import com.rometools.rome.io.WireFeedOutput;
 
 import io.dropwizard.hibernate.UnitOfWork;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Path("/feed")
-@Api(value = "/feed")
 @Slf4j
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -130,21 +131,23 @@ public class FeedREST {
 	@Path("/entries")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "Get feed entries", notes = "Get a list of feed entries", response = Entries.class)
+	@Operation(
+			summary = "Get feed entries",
+			description = "Get a list of feed entries",
+			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Entries.class))) })
 	@Timed
-	public Response getFeedEntries(@ApiParam(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user,
-			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
-			@ApiParam(
-					value = "all entries or only unread ones",
-					allowableValues = "all,unread",
+	public Response getFeedEntries(@Parameter(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user,
+			@Parameter(description = "id of the feed", required = true) @QueryParam("id") String id,
+			@Parameter(
+					description = "all entries or only unread ones",
 					required = true) @DefaultValue("unread") @QueryParam("readType") ReadingMode readType,
-			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
-			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
-			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
-			@ApiParam(value = "ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
-			@ApiParam(
-					value = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
-			@ApiParam(value = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds) {
+			@Parameter(description = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
+			@Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
+			@Parameter(description = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
+			@Parameter(description = "ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
+			@Parameter(
+					description = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
+			@Parameter(description = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds) {
 
 		Preconditions.checkNotNull(id);
 		Preconditions.checkNotNull(readType);
@@ -196,22 +199,21 @@ public class FeedREST {
 	@Path("/entriesAsFeed")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "Get feed entries as a feed", notes = "Get a feed of feed entries")
+	@Operation(summary = "Get feed entries as a feed", description = "Get a feed of feed entries")
 	@Produces(MediaType.APPLICATION_XML)
 	@Timed
-	public Response getFeedEntriesAsFeed(@ApiParam(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user,
-			@ApiParam(value = "id of the feed", required = true) @QueryParam("id") String id,
-			@ApiParam(
-					value = "all entries or only unread ones",
-					allowableValues = "all,unread",
+	public Response getFeedEntriesAsFeed(@Parameter(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user,
+			@Parameter(description = "id of the feed", required = true) @QueryParam("id") String id,
+			@Parameter(
+					description = "all entries or only unread ones",
 					required = true) @DefaultValue("all") @QueryParam("readType") ReadingMode readType,
-			@ApiParam(value = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
-			@ApiParam(value = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
-			@ApiParam(value = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
-			@ApiParam(value = "date ordering", allowableValues = "asc,desc") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
-			@ApiParam(
-					value = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
-			@ApiParam(value = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds) {
+			@Parameter(description = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
+			@Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
+			@Parameter(description = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
+			@Parameter(description = "date ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
+			@Parameter(
+					description = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
+			@Parameter(description = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds) {
 
 		Response response = getFeedEntries(user, id, readType, newerThan, offset, limit, order, keywords, onlyIds);
 		if (response.getStatus() != Status.OK.getStatusCode()) {
@@ -257,10 +259,13 @@ public class FeedREST {
 	@POST
 	@Path("/fetch")
 	@UnitOfWork
-	@ApiOperation(value = "Fetch a feed", notes = "Fetch a feed by its url", response = FeedInfo.class)
+	@Operation(
+			summary = "Fetch a feed",
+			description = "Fetch a feed by its url",
+			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = FeedInfo.class))) })
 	@Timed
-	public Response fetchFeed(@ApiParam(hidden = true) @SecurityCheck User user,
-			@Valid @ApiParam(value = "feed url", required = true) FeedInfoRequest req) {
+	public Response fetchFeed(@Parameter(hidden = true) @SecurityCheck User user,
+			@Valid @Parameter(description = "feed url", required = true) FeedInfoRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getUrl());
 
@@ -280,9 +285,9 @@ public class FeedREST {
 	@Path("/refreshAll")
 	@GET
 	@UnitOfWork
-	@ApiOperation(value = "Queue all feeds of the user for refresh", notes = "Manually add all feeds of the user to the refresh queue")
+	@Operation(summary = "Queue all feeds of the user for refresh", description = "Manually add all feeds of the user to the refresh queue")
 	@Timed
-	public Response queueAllForRefresh(@ApiParam(hidden = true) @SecurityCheck User user) {
+	public Response queueAllForRefresh(@Parameter(hidden = true) @SecurityCheck User user) {
 		feedSubscriptionService.refreshAll(user);
 		return Response.ok().build();
 	}
@@ -290,10 +295,10 @@ public class FeedREST {
 	@Path("/refresh")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Queue a feed for refresh", notes = "Manually add a feed to the refresh queue")
+	@Operation(summary = "Queue a feed for refresh", description = "Manually add a feed to the refresh queue")
 	@Timed
-	public Response queueForRefresh(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "Feed id", required = true) IDRequest req) {
+	public Response queueForRefresh(@Parameter(hidden = true) @SecurityCheck User user,
+			@Parameter(description = "Feed id", required = true) IDRequest req) {
 
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -310,10 +315,10 @@ public class FeedREST {
 	@Path("/mark")
 	@POST
 	@UnitOfWork
-	@ApiOperation(value = "Mark feed entries", notes = "Mark feed entries as read (unread is not supported)")
+	@Operation(summary = "Mark feed entries", description = "Mark feed entries as read (unread is not supported)")
 	@Timed
-	public Response markFeedEntries(@ApiParam(hidden = true) @SecurityCheck User user,
-			@Valid @ApiParam(value = "Mark request", required = true) MarkRequest req) {
+	public Response markFeedEntries(@Parameter(hidden = true) @SecurityCheck User user,
+			@Valid @Parameter(description = "Mark request", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -331,10 +336,12 @@ public class FeedREST {
 	@GET
 	@Path("/get/{id}")
 	@UnitOfWork
-	@ApiOperation(value = "get feed", response = Subscription.class)
+	@Operation(
+			summary = "get feed",
+			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Subscription.class))) })
 	@Timed
-	public Response getFeed(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "user id", required = true) @PathParam("id") Long id) {
+	public Response getFeed(@Parameter(hidden = true) @SecurityCheck User user,
+			@Parameter(description = "user id", required = true) @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
 		FeedSubscription sub = feedSubscriptionDAO.findById(user, id);
@@ -348,10 +355,10 @@ public class FeedREST {
 	@GET
 	@Path("/favicon/{id}")
 	@UnitOfWork
-	@ApiOperation(value = "Fetch a feed's icon", notes = "Fetch a feed's icon")
+	@Operation(summary = "Fetch a feed's icon", description = "Fetch a feed's icon")
 	@Timed
-	public Response getFeedFavicon(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "subscription id", required = true) @PathParam("id") Long id) {
+	public Response getFeedFavicon(@Parameter(hidden = true) @SecurityCheck User user,
+			@Parameter(description = "subscription id", required = true) @PathParam("id") Long id) {
 
 		Preconditions.checkNotNull(id);
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, id);
@@ -379,10 +386,13 @@ public class FeedREST {
 	@POST
 	@Path("/subscribe")
 	@UnitOfWork
-	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed", response = Long.class)
+	@Operation(
+			summary = "Subscribe to a feed",
+			description = "Subscribe to a feed",
+			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Long.class))) })
 	@Timed
-	public Response subscribe(@ApiParam(hidden = true) @SecurityCheck User user,
-			@Valid @ApiParam(value = "subscription request", required = true) SubscribeRequest req) {
+	public Response subscribe(@Parameter(hidden = true) @SecurityCheck User user,
+			@Valid @Parameter(description = "subscription request", required = true) SubscribeRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getTitle());
 		Preconditions.checkNotNull(req.getUrl());
@@ -407,10 +417,10 @@ public class FeedREST {
 	@GET
 	@Path("/subscribe")
 	@UnitOfWork
-	@ApiOperation(value = "Subscribe to a feed", notes = "Subscribe to a feed")
+	@Operation(summary = "Subscribe to a feed", description = "Subscribe to a feed")
 	@Timed
-	public Response subscribeFromUrl(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "feed url", required = true) @QueryParam("url") String url) {
+	public Response subscribeFromUrl(@Parameter(hidden = true) @SecurityCheck User user,
+			@Parameter(description = "feed url", required = true) @QueryParam("url") String url) {
 
 		try {
 			Preconditions.checkNotNull(url);
@@ -436,9 +446,9 @@ public class FeedREST {
 	@POST
 	@Path("/unsubscribe")
 	@UnitOfWork
-	@ApiOperation(value = "Unsubscribe from a feed", notes = "Unsubscribe from a feed")
+	@Operation(summary = "Unsubscribe from a feed", description = "Unsubscribe from a feed")
 	@Timed
-	public Response unsubscribe(@ApiParam(hidden = true) @SecurityCheck User user, @ApiParam(required = true) IDRequest req) {
+	public Response unsubscribe(@Parameter(hidden = true) @SecurityCheck User user, @Parameter(required = true) IDRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -453,10 +463,10 @@ public class FeedREST {
 	@POST
 	@Path("/modify")
 	@UnitOfWork
-	@ApiOperation(value = "Modify a subscription", notes = "Modify a feed subscription")
+	@Operation(summary = "Modify a subscription", description = "Modify a feed subscription")
 	@Timed
-	public Response modifyFeed(@ApiParam(hidden = true) @SecurityCheck User user,
-			@Valid @ApiParam(value = "subscription id", required = true) FeedModificationRequest req) {
+	public Response modifyFeed(@Parameter(hidden = true) @SecurityCheck User user,
+			@Valid @Parameter(description = "subscription id", required = true) FeedModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -514,10 +524,10 @@ public class FeedREST {
 	@Path("/import")
 	@UnitOfWork
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@ApiOperation(value = "OPML import", notes = "Import an OPML file, posted as a FORM with the 'file' name")
+	@Operation(summary = "OPML import", description = "Import an OPML file, posted as a FORM with the 'file' name")
 	@Timed
-	public Response importOpml(@ApiParam(hidden = true) @SecurityCheck User user,
-			@ApiParam(value = "ompl file", required = true) @FormDataParam("file") InputStream input) {
+	public Response importOpml(@Parameter(hidden = true) @SecurityCheck User user,
+			@Parameter(description = "ompl file", required = true) @FormDataParam("file") InputStream input) {
 		if (CommaFeedApplication.USERNAME_DEMO.equals(user.getName())) {
 			return Response.status(Status.FORBIDDEN).entity("Import is disabled for the demo account").build();
 		}
@@ -535,9 +545,9 @@ public class FeedREST {
 	@Path("/export")
 	@UnitOfWork
 	@Produces(MediaType.APPLICATION_XML)
-	@ApiOperation(value = "OPML export", notes = "Export an OPML file of the user's subscriptions")
+	@Operation(summary = "OPML export", description = "Export an OPML file of the user's subscriptions")
 	@Timed
-	public Response exportOpml(@ApiParam(hidden = true) @SecurityCheck User user) {
+	public Response exportOpml(@Parameter(hidden = true) @SecurityCheck User user) {
 		Opml opml = opmlExporter.export(user);
 		WireFeedOutput output = new WireFeedOutput();
 		String opmlString = null;

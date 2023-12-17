@@ -4,36 +4,36 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
-@ApiModel(description = "Entry details")
+@Schema(description = "Entry details")
 @Data
 public class Category implements Serializable {
 
-	@ApiModelProperty(value = "category id", required = true)
+	@Schema(description = "category id", requiredMode = RequiredMode.REQUIRED)
 	private String id;
 
-	@ApiModelProperty(value = "parent category id")
+	@Schema(description = "parent category id")
 	private String parentId;
 
-	@ApiModelProperty(value = "parent category name")
+	@Schema(description = "parent category name")
 	private String parentName;
 
-	@ApiModelProperty(value = "category id", required = true)
+	@Schema(description = "category id", requiredMode = RequiredMode.REQUIRED)
 	private String name;
 
-	@ApiModelProperty(value = "category children categories", required = true)
+	@Schema(description = "category children categories", requiredMode = RequiredMode.REQUIRED)
 	private List<Category> children = new ArrayList<>();
 
-	@ApiModelProperty(value = "category feeds", required = true)
+	@Schema(description = "category feeds", requiredMode = RequiredMode.REQUIRED)
 	private List<Subscription> feeds = new ArrayList<>();
 
-	@ApiModelProperty(value = "whether the category is expanded or collapsed", required = true)
+	@Schema(description = "whether the category is expanded or collapsed", requiredMode = RequiredMode.REQUIRED)
 	private boolean expanded;
 
-	@ApiModelProperty(value = "position of the category in the list", required = true)
+	@Schema(description = "position of the category in the list", requiredMode = RequiredMode.REQUIRED)
 	private int position;
 }

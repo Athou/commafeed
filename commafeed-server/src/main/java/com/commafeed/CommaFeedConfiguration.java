@@ -9,6 +9,8 @@ import com.commafeed.backend.cache.RedisPoolFactory;
 import com.commafeed.frontend.session.SessionHandlerFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import be.tomcools.dropwizard.websocket.WebsocketBundleConfiguration;
+import be.tomcools.dropwizard.websocket.WebsocketConfiguration;
 import io.dropwizard.core.Configuration;
 import io.dropwizard.db.DataSourceFactory;
 import jakarta.validation.Valid;
@@ -21,7 +23,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CommaFeedConfiguration extends Configuration {
+public class CommaFeedConfiguration extends Configuration implements WebsocketBundleConfiguration {
 
 	public enum CacheType {
 		NOOP, REDIS
@@ -55,6 +57,14 @@ public class CommaFeedConfiguration extends Configuration {
 
 		this.version = bundle.getString("version");
 		this.gitCommit = bundle.getString("git.commit");
+	}
+
+	@Override
+	public WebsocketConfiguration getWebsocketConfiguration() {
+		WebsocketConfiguration config = new WebsocketConfiguration();
+		// the client sends ping messages every minute, so we can close idle connections a little bit after that
+		config.setMaxSessionIdleTimeout(90000L);
+		return config;
 	}
 
 	@Getter

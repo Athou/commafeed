@@ -2,10 +2,6 @@ package com.commafeed.frontend.auth;
 
 import java.util.function.Function;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.servlet.http.HttpServletRequest;
-
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ContainerRequest;
 import org.glassfish.jersey.server.internal.inject.AbstractValueParamProvider;
@@ -16,6 +12,9 @@ import org.glassfish.jersey.server.spi.internal.ValueParamProvider;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.UserService;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @Singleton

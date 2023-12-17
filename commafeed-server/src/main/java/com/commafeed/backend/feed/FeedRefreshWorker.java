@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,6 +16,8 @@ import com.commafeed.backend.feed.FeedFetcher.FeedFetcherResult;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 

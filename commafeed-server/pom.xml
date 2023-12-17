@@ -12,8 +12,8 @@
 	<name>CommaFeed Server</name>
 
 	<properties>
-		<guice.version>5.1.0</guice.version>
-		<querydsl.version>4.4.0</querydsl.version>
+		<guice.version>7.0.0</guice.version>
+		<querydsl.version>5.0.0</querydsl.version>
 		<rome.version>2.1.0</rome.version>
 	</properties>
 
@@ -22,7 +22,7 @@
 			<dependency>
 				<groupId>io.dropwizard</groupId>
 				<artifactId>dropwizard-dependencies</artifactId>
-				<version>2.1.6</version>
+				<version>4.0.4</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -125,7 +125,7 @@
 			</plugin>
 			<plugin>
 				<groupId>io.swagger.core.v3</groupId>
-				<artifactId>swagger-maven-plugin</artifactId>
+				<artifactId>swagger-maven-plugin-jakarta</artifactId>
 				<version>2.2.19</version>
 				<?m2e ignore?>
 				<configuration>
@@ -270,8 +270,8 @@
 		</dependency>
 		<dependency>
 			<groupId>be.tomcools</groupId>
-			<artifactId>dropwizard-websocket-jee7-bundle</artifactId>
-			<version>2.1.6</version>
+			<artifactId>dropwizard-websocket-jsr356-bundle</artifactId>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.whitfin</groupId>
@@ -288,6 +288,7 @@
 					<groupId>commons-logging</groupId>
 				</exclusion>
 			</exclusions>
+			<version>4.5.14</version>
 		</dependency>
 
 		<dependency>
@@ -301,12 +302,13 @@
 			<artifactId>querydsl-apt</artifactId>
 			<version>${querydsl.version}</version>
 			<scope>provided</scope>
-			<classifier>hibernate</classifier>
+			<classifier>jakarta</classifier>
 		</dependency>
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
 			<version>${querydsl.version}</version>
+			<classifier>jakarta</classifier>
 		</dependency>
 
 		<dependency>
@@ -352,8 +354,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.sun.mail</groupId>
-			<artifactId>javax.mail</artifactId>
-			<version>1.5.3</version>
+			<artifactId>jakarta.mail</artifactId>
+			<version>2.0.1</version>
 		</dependency>
 
 		<dependency>

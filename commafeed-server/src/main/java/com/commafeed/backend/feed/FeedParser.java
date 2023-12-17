@@ -8,9 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jdom2.Element;
@@ -36,6 +33,8 @@ import com.rometools.rome.feed.synd.SyndLinkImpl;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;

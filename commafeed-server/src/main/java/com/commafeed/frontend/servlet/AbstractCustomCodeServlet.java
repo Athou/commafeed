@@ -3,16 +3,15 @@ package com.commafeed.frontend.servlet;
 import java.io.IOException;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.frontend.session.SessionHelper;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

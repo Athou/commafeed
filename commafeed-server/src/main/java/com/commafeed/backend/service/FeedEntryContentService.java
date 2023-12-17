@@ -6,9 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -29,6 +26,8 @@ import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.steadystate.css.parser.CSSOMParser;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

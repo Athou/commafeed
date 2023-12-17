@@ -1,7 +1,5 @@
 package com.commafeed.frontend.session;
 
-import javax.servlet.SessionTrackingMode;
-
 import org.eclipse.jetty.server.session.DatabaseAdaptor;
 import org.eclipse.jetty.server.session.DefaultSessionCache;
 import org.eclipse.jetty.server.session.JDBCSessionDataStore;
@@ -14,6 +12,7 @@ import com.google.common.collect.ImmutableSet;
 
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.util.Duration;
+import jakarta.servlet.SessionTrackingMode;
 
 public class SessionHandlerFactory {
 

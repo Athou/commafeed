@@ -5,9 +5,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.hibernate.SessionFactory;
@@ -34,6 +31,9 @@ import com.google.common.collect.Ordering;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQuery;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {

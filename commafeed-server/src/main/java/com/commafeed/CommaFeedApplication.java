@@ -7,14 +7,6 @@ import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.ServerEndpointConfig;
-
 import org.hibernate.cfg.AvailableSettings;
 
 import com.codahale.metrics.json.MetricsModule;
@@ -59,19 +51,26 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 
 import be.tomcools.dropwizard.websocket.WebsocketBundle;
-import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.configuration.DefaultConfigurationFactoryFactory;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
+import io.dropwizard.core.Application;
+import io.dropwizard.core.setup.Bootstrap;
+import io.dropwizard.core.setup.Environment;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.servlets.CacheBustingFilter;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
 import io.whitfin.dropwizard.configuration.EnvironmentSubstitutor;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.websocket.server.ServerEndpointConfig;
 
 public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 

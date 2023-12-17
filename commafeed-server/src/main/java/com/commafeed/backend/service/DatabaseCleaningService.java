@@ -3,9 +3,6 @@ package com.commafeed.backend.service;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
@@ -17,6 +14,8 @@ import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.Feed;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -12,9 +12,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.codahale.metrics.Gauge;
@@ -27,6 +24,8 @@ import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
 
 import io.dropwizard.lifecycle.Managed;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

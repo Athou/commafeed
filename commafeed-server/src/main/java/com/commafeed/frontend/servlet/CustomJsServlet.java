@@ -1,11 +1,11 @@
 package com.commafeed.frontend.servlet;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.UserSettings;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class CustomJsServlet extends AbstractCustomCodeServlet {

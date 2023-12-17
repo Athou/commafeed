@@ -3,9 +3,6 @@ package com.commafeed.backend.dao;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.SessionFactory;
 
@@ -15,6 +12,8 @@ import com.commafeed.backend.model.QFeedEntry;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.NumberExpression;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

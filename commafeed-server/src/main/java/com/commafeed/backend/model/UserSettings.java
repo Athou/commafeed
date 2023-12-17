@@ -1,17 +1,18 @@
 package com.commafeed.backend.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import java.sql.Types;
 
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -54,12 +55,12 @@ public class UserSettings extends AbstractModel {
 
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
-	@Type(type = "org.hibernate.type.TextType")
+	@JdbcTypeCode(Types.LONGVARCHAR)
 	private String customCss;
 
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
-	@Type(type = "org.hibernate.type.TextType")
+	@JdbcTypeCode(Types.LONGVARCHAR)
 	private String customJs;
 
 	@Column(name = "scroll_speed")

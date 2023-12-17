@@ -4,15 +4,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryTagDAO;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.User;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))

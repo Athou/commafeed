@@ -1,14 +1,14 @@
 package com.commafeed.integration.servlet;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.integration.BaseIT;
+
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Response;
 
 class CustomCodeIT extends BaseIT {
 

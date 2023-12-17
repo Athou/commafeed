@@ -9,9 +9,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.JexlEngine;
 import org.apache.commons.jexl2.JexlException;
@@ -28,6 +25,8 @@ import org.jsoup.Jsoup;
 
 import com.commafeed.backend.model.FeedEntry;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))

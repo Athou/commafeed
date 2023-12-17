@@ -6,10 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Objects;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
-
 import org.apache.commons.io.IOUtils;
 import org.awaitility.Awaitility;
 import org.eclipse.jetty.http.HttpStatus;
@@ -31,6 +27,9 @@ import com.commafeed.frontend.model.request.LoginRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.Response;
 import lombok.Getter;
 
 @Getter

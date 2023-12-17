@@ -6,12 +6,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.glassfish.jersey.server.ContainerRequest;
 
 import com.commafeed.backend.model.User;
@@ -19,6 +13,11 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.session.SessionHelper;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Set;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -15,6 +12,9 @@ import com.commafeed.backend.favicon.AbstractFaviconFetcher;
 import com.commafeed.backend.favicon.AbstractFaviconFetcher.Favicon;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class FeedService {

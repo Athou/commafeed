@@ -1,12 +1,12 @@
 package com.commafeed.backend.dao;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.QUser;
 import com.commafeed.backend.model.User;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class UserDAO extends GenericDAO<User> {
@@ -31,6 +31,6 @@ public class UserDAO extends GenericDAO<User> {
 	}
 
 	public long count() {
-		return query().selectFrom(user).fetchCount();
+		return query().select(user.count()).from(user).fetchOne();
 	}
 }

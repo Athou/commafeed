@@ -2,9 +2,6 @@ package com.commafeed.frontend.auth;
 
 import java.util.List;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
 import org.apache.commons.lang3.StringUtils;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
@@ -14,6 +11,8 @@ import org.passay.PasswordValidator;
 import org.passay.RuleResult;
 import org.passay.WhitespaceRule;
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import lombok.Setter;
 
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {

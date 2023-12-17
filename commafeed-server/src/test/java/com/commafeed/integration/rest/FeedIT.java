@@ -6,10 +6,6 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.Objects;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.awaitility.Awaitility;
@@ -30,6 +26,10 @@ import com.commafeed.frontend.model.request.FeedModificationRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.integration.BaseIT;
+
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 class FeedIT extends BaseIT {
 
@@ -175,7 +175,7 @@ class FeedIT extends BaseIT {
 	@Nested
 	class Opml {
 		@Test
-		void importExportOpml() {
+		void importExportOpml() throws IOException {
 			importOpml();
 			String opml = getClient().target(getApiBaseUrl() + "feed/export").request().get(String.class);
 			String expextedOpml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<opml version=\"1.0\">\n" + "  <head>\n"
@@ -186,14 +186,16 @@ class FeedIT extends BaseIT {
 			Assertions.assertEquals(StringUtils.normalizeSpace(expextedOpml), StringUtils.normalizeSpace(opml));
 		}
 
-		void importOpml() {
+		void importOpml() throws IOException {
 			InputStream stream = Objects.requireNonNull(getClass().getResourceAsStream("/opml/opml_v2.0.xml"));
-			MultiPart multiPart = new MultiPart().bodyPart(new StreamDataBodyPart("file", stream));
-			multiPart.setMediaType(MediaType.MULTIPART_FORM_DATA_TYPE);
+			try (MultiPart multiPart = new MultiPart()) {
+				multiPart.bodyPart(new StreamDataBodyPart("file", stream));
+				multiPart.setMediaType(MediaType.MULTIPART_FORM_DATA_TYPE);
 
-			getClient().target(getApiBaseUrl() + "feed/import")
-					.request()
-					.post(Entity.entity(multiPart, multiPart.getMediaType()), Void.TYPE);
+				getClient().target(getApiBaseUrl() + "feed/import")
+						.request()
+						.post(Entity.entity(multiPart, multiPart.getMediaType()), Void.TYPE);
+			}
 		}
 	}
 

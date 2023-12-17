@@ -5,9 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -20,6 +17,8 @@ import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.urlprovider.FeedURLProvider;
 import com.rometools.rome.io.FeedException;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;

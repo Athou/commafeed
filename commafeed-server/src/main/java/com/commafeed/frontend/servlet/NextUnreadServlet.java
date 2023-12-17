@@ -4,13 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.CommaFeedConfiguration;
@@ -29,6 +22,12 @@ import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.frontend.session.SessionHelper;
 import com.google.common.collect.Iterables;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @SuppressWarnings("serial")

@@ -5,9 +5,6 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 
@@ -15,6 +12,8 @@ import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.model.Feed;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

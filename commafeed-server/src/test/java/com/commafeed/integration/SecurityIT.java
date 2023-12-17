@@ -2,10 +2,6 @@ package com.commafeed.integration;
 
 import java.util.Base64;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,6 +11,10 @@ import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
+
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Response;
 
 class SecurityIT extends BaseIT {
 

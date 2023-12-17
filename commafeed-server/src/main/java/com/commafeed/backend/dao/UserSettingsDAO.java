@@ -1,13 +1,13 @@
 package com.commafeed.backend.dao;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.QUserSettings;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class UserSettingsDAO extends GenericDAO<UserSettings> {

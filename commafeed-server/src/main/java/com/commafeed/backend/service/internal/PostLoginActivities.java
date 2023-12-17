@@ -2,9 +2,6 @@ package com.commafeed.backend.service.internal;
 
 import java.util.Date;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.commafeed.CommaFeedConfiguration;
@@ -13,6 +10,8 @@ import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedSubscriptionService;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))

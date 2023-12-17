@@ -3,9 +3,6 @@ package com.commafeed.backend.opml;
 import java.io.StringReader;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,6 +17,8 @@ import com.rometools.opml.feed.opml.Outline;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.WireFeedInput;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

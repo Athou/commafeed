@@ -3,8 +3,6 @@ package com.commafeed.integration.rest;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ws.rs.client.Entity;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,6 +12,8 @@ import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.integration.BaseIT;
+
+import jakarta.ws.rs.client.Entity;
 
 class AdminIT extends BaseIT {
 

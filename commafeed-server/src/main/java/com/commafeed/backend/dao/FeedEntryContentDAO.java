@@ -2,9 +2,6 @@ package com.commafeed.backend.dao;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.FeedEntryContent;
@@ -12,6 +9,9 @@ import com.commafeed.backend.model.QFeedEntry;
 import com.commafeed.backend.model.QFeedEntryContent;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {

@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.QUserRole;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class UserRoleDAO extends GenericDAO<UserRole> {

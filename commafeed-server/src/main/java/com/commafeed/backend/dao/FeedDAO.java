@@ -3,9 +3,6 @@ package com.commafeed.backend.dao;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.SessionFactory;
@@ -16,6 +13,9 @@ import com.commafeed.backend.model.QFeedSubscription;
 import com.google.common.collect.Iterables;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class FeedDAO extends GenericDAO<Feed> {

@@ -1,13 +1,12 @@
 package com.commafeed.backend.dao;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.context.internal.ManagedSessionContext;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))

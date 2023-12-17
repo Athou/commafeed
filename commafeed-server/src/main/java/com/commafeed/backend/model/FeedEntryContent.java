@@ -1,16 +1,16 @@
 package com.commafeed.backend.model;
 
+import java.sql.Types;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +29,7 @@ public class FeedEntryContent extends AbstractModel {
 
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
-	@Type(type = "org.hibernate.type.TextType")
+	@JdbcTypeCode(Types.LONGVARCHAR)
 	private String content;
 
 	@Column(length = 40)
@@ -46,7 +46,7 @@ public class FeedEntryContent extends AbstractModel {
 
 	@Lob
 	@Column(length = Integer.MAX_VALUE)
-	@Type(type = "org.hibernate.type.TextType")
+	@JdbcTypeCode(Types.LONGVARCHAR)
 	private String mediaDescription;
 
 	@Column(length = 2048)

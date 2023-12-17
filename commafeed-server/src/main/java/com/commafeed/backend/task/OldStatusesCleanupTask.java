@@ -3,12 +3,11 @@ package com.commafeed.backend.task;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.service.DatabaseCleaningService;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))

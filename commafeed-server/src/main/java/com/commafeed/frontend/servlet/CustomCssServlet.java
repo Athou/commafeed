@@ -1,10 +1,10 @@
 package com.commafeed.frontend.servlet;
 
-import javax.inject.Inject;
-
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.UserSettings;
+
+import jakarta.inject.Inject;
 
 public class CustomCssServlet extends AbstractCustomCodeServlet {
 

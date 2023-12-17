@@ -2,9 +2,6 @@ package com.commafeed.backend;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
@@ -29,6 +26,8 @@ import org.apache.http.util.EntityUtils;
 
 import com.commafeed.CommaFeedConfiguration;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import nl.altindag.ssl.SSLFactory;

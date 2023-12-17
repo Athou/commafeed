@@ -2,13 +2,13 @@ package com.commafeed.backend.feed;
 
 import java.util.Date;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.Feed;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class FeedRefreshIntervalCalculator {

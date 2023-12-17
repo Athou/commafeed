@@ -3,7 +3,7 @@ package com.commafeed.backend.dao;
 import java.util.Collection;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.annotations.QueryHints;
+import org.hibernate.jpa.SpecHints;
 
 import com.commafeed.backend.model.AbstractModel;
 import com.querydsl.core.types.EntityPath;
@@ -20,7 +20,7 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 
 	protected GenericDAO(SessionFactory sessionFactory) {
 		super(sessionFactory);
-		this.factory = new JPAQueryFactory(() -> currentSession());
+		this.factory = new JPAQueryFactory(this::currentSession);
 	}
 
 	protected JPAQueryFactory query() {
@@ -40,7 +40,7 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 	}
 
 	public void saveOrUpdate(Collection<T> models) {
-		models.forEach(m -> persist(m));
+		models.forEach(this::persist);
 	}
 
 	public void update(T model) {
@@ -53,7 +53,7 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 
 	public void delete(T object) {
 		if (object != null) {
-			currentSession().delete(object);
+			currentSession().remove(object);
 		}
 	}
 
@@ -64,7 +64,7 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 
 	protected void setTimeout(JPAQuery<?> query, int timeoutMs) {
 		if (timeoutMs > 0) {
-			query.setHint(QueryHints.TIMEOUT_JPA, timeoutMs);
+			query.setHint(SpecHints.HINT_SPEC_QUERY_TIMEOUT, timeoutMs);
 		}
 	}
 

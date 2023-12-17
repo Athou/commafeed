@@ -1,8 +1,5 @@
 package com.commafeed.integration.rest;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Form;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +9,9 @@ import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.resource.fever.FeverResponse;
 import com.commafeed.integration.BaseIT;
+
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.Form;
 
 class FeverIT extends BaseIT {
 

@@ -2,15 +2,14 @@ package com.commafeed.frontend.servlet;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.commafeed.CommaFeedConfiguration;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @SuppressWarnings("serial")

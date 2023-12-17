@@ -3,10 +3,6 @@ package com.commafeed.backend.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.ws.rs.core.MediaType;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHeaders;
@@ -25,6 +21,9 @@ import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.frontend.resource.PubSubHubbubCallbackREST;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import jakarta.ws.rs.core.MediaType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

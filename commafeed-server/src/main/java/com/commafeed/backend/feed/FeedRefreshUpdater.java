@@ -9,9 +9,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -35,6 +32,8 @@ import com.commafeed.frontend.ws.WebSocketSessions;
 import com.google.common.util.concurrent.Striped;
 
 import io.dropwizard.lifecycle.Managed;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

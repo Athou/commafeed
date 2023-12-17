@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.FeedCategory;
@@ -14,6 +11,9 @@ import com.commafeed.backend.model.QFeedCategory;
 import com.commafeed.backend.model.QUser;
 import com.commafeed.backend.model.User;
 import com.querydsl.core.types.Predicate;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class FeedCategoryDAO extends GenericDAO<FeedCategory> {

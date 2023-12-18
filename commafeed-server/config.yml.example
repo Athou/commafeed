@@ -54,10 +54,6 @@ app:
   # minimum amount of time commafeed will wait before refreshing the same feed
   refreshIntervalMinutes: 5
 
-  # whether to enable pubsub
-  # probably not needed if refreshIntervalMinutes is low
-  pubsubhubbub: false
-
   # if enabled, images in feed entries will be proxied through the server instead of accessed directly by the browser
   # useful if commafeed is usually accessed through a restricting proxy
   imageProxyEnabled: false

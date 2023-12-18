@@ -31,7 +31,6 @@ import com.commafeed.frontend.resource.AdminREST;
 import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.frontend.resource.EntryREST;
 import com.commafeed.frontend.resource.FeedREST;
-import com.commafeed.frontend.resource.PubSubHubbubCallbackREST;
 import com.commafeed.frontend.resource.ServerREST;
 import com.commafeed.frontend.resource.UserREST;
 import com.commafeed.frontend.resource.fever.FeverREST;
@@ -159,7 +158,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.jersey().register(injector.getInstance(CategoryREST.class));
 		environment.jersey().register(injector.getInstance(EntryREST.class));
 		environment.jersey().register(injector.getInstance(FeedREST.class));
-		environment.jersey().register(injector.getInstance(PubSubHubbubCallbackREST.class));
 		environment.jersey().register(injector.getInstance(ServerREST.class));
 		environment.jersey().register(injector.getInstance(UserREST.class));
 		environment.jersey().register(injector.getInstance(FeverREST.class));

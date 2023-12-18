@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.codahale.metrics.Meter;
@@ -73,8 +72,6 @@ public class FeedRefreshWorker {
 			feed.setMessage(null);
 			feed.setDisabledUntil(refreshIntervalCalculator.onFetchSuccess(feedFetcherResult.getFeed()));
 
-			handlePubSub(feed, feedFetcherResult.getFeed());
-
 			return new FeedRefreshWorkerResult(feed, entries);
 		} catch (NotModifiedException e) {
 			log.debug("Feed not modified : {} - {}", feed.getUrl(), e.getMessage());
@@ -102,28 +99,6 @@ public class FeedRefreshWorker {
 			return new FeedRefreshWorkerResult(feed, Collections.emptyList());
 		} finally {
 			feedFetched.mark();
-		}
-	}
-
-	private void handlePubSub(Feed feed, Feed fetchedFeed) {
-		String hub = fetchedFeed.getPushHub();
-		String topic = fetchedFeed.getPushTopic();
-		if (hub != null && topic != null) {
-			if (hub.contains("hubbub.api.typepad.com")) {
-				// that hub does not exist anymore
-				return;
-			}
-			if (topic.startsWith("www.")) {
-				topic = "http://" + topic;
-			} else if (topic.startsWith("feed://")) {
-				topic = "http://" + topic.substring(7);
-			} else if (!topic.startsWith("http")) {
-				topic = "http://" + topic;
-			}
-			log.debug("feed {} has pubsub info: {}", feed.getUrl(), topic);
-			feed.setPushHub(hub);
-			feed.setPushTopic(topic);
-			feed.setPushTopicHash(DigestUtils.sha1Hex(topic));
 		}
 	}
 

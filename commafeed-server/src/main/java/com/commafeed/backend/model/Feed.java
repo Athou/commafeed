@@ -99,25 +99,4 @@ public class Feed extends AbstractModel {
 	@Column(length = 40)
 	private String lastContentHash;
 
-	/**
-	 * detected hub for pubsubhubbub
-	 */
-	@Column(length = 2048)
-	private String pushHub;
-
-	/**
-	 * detected topic for pubsubhubbub
-	 */
-	@Column(length = 2048)
-	private String pushTopic;
-
-	@Column(name = "push_topic_hash", length = 2048)
-	private String pushTopicHash;
-
-	/**
-	 * last time we subscribed for that topic on that hub
-	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date pushLastPing;
-
 }

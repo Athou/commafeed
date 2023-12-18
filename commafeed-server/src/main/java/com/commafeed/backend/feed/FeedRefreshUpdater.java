@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
@@ -26,7 +25,6 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedService;
-import com.commafeed.backend.service.PubSubService;
 import com.commafeed.frontend.ws.WebSocketMessageBuilder;
 import com.commafeed.frontend.ws.WebSocketSessions;
 import com.google.common.util.concurrent.Striped;
@@ -47,7 +45,6 @@ public class FeedRefreshUpdater implements Managed {
 	private final UnitOfWork unitOfWork;
 	private final FeedService feedService;
 	private final FeedEntryService feedEntryService;
-	private final PubSubService pubSubService;
 	private final CommaFeedConfiguration config;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final CacheService cache;
@@ -62,12 +59,11 @@ public class FeedRefreshUpdater implements Managed {
 
 	@Inject
 	public FeedRefreshUpdater(UnitOfWork unitOfWork, FeedService feedService, FeedEntryService feedEntryService,
-			PubSubService pubSubService, CommaFeedConfiguration config, MetricRegistry metrics, FeedSubscriptionDAO feedSubscriptionDAO,
-			CacheService cache, WebSocketSessions webSocketSessions) {
+			CommaFeedConfiguration config, MetricRegistry metrics, FeedSubscriptionDAO feedSubscriptionDAO, CacheService cache,
+			WebSocketSessions webSocketSessions) {
 		this.unitOfWork = unitOfWork;
 		this.feedService = feedService;
 		this.feedEntryService = feedEntryService;
-		this.pubSubService = pubSubService;
 		this.config = config;
 		this.feedSubscriptionDAO = feedSubscriptionDAO;
 		this.cache = cache;
@@ -125,29 +121,6 @@ public class FeedRefreshUpdater implements Managed {
 		return new AddEntryResult(processed, inserted);
 	}
 
-	private void handlePubSub(final Feed feed) {
-		if (feed.getPushHub() != null && feed.getPushTopic() != null) {
-			Date lastPing = feed.getPushLastPing();
-			Date now = new Date();
-			if (lastPing == null || lastPing.before(DateUtils.addDays(now, -3))) {
-				new Thread() {
-					@Override
-					public void run() {
-						try {
-							// make sure the feed has been updated in the database so that the
-							// callback works
-							Thread.sleep(30000);
-						} catch (InterruptedException e1) {
-							// do nothing
-						}
-
-						pubSubService.subscribe(feed);
-					}
-				}.start();
-			}
-		}
-	}
-
 	public boolean update(Feed feed, List<FeedEntry> entries) {
 		boolean processed = true;
 		boolean insertedAtLeastOneEntry = false;
@@ -190,9 +163,6 @@ public class FeedRefreshUpdater implements Managed {
 			}
 		}
 
-		if (Boolean.TRUE.equals(config.getApplicationSettings().getPubsubhubbub())) {
-			handlePubSub(feed);
-		}
 		if (!processed) {
 			// requeue asap
 			feed.setDisabledUntil(new Date(0));

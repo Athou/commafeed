@@ -70,8 +70,6 @@ public class FeedParser {
 
 			String title = rss.getTitle();
 			Feed feed = new Feed();
-			feed.setPushHub(findHub(rss));
-			feed.setPushTopic(findSelf(rss));
 			feed.setUrl(feedUrl);
 			feed.setLink(rss.getLink());
 

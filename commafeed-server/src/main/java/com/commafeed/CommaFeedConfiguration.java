@@ -129,10 +129,6 @@ public class CommaFeedConfiguration extends Configuration implements WebsocketBu
 
 		@NotNull
 		@Valid
-		private Boolean pubsubhubbub;
-
-		@NotNull
-		@Valid
 		private Boolean imageProxyEnabled;
 
 		@NotNull

@@ -54,10 +54,6 @@ public class FeedDAO extends GenericDAO<Feed> {
 		return null;
 	}
 
-	public List<Feed> findByTopic(String topic) {
-		return query().selectFrom(feed).where(feed.pushTopicHash.eq(DigestUtils.sha1Hex(topic))).fetch();
-	}
-
 	public List<Feed> findWithoutSubscriptions(int max) {
 		QFeedSubscription sub = QFeedSubscription.feedSubscription;
 		return query().selectFrom(feed).where(JPAExpressions.selectOne().from(sub).where(sub.feed.eq(feed)).notExists()).limit(max).fetch();

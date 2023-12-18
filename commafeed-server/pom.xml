@@ -464,6 +464,19 @@
 			<version>5.15.0</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- dropwizard pulls bouncycastle 1.76 but mockserver pulls 1.72, causing NoSuchFieldError on BCObjectIdentifiers.sphincsPlus_shake_256 -->
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk18on</artifactId>
+			<version>1.76</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk18on</artifactId>
+			<version>1.76</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-testing</artifactId>

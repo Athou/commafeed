@@ -1,6 +1,8 @@
 package com.commafeed.backend;
 
 import java.io.IOException;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Redirect;
@@ -106,6 +108,7 @@ public class HttpGetter {
 				.followRedirects(Redirect.ALWAYS)
 				.sslContext(sslFactory.getSslContext())
 				.sslParameters(sslFactory.getSslParameters())
+				.cookieHandler(new CookieManager(null, CookiePolicy.ACCEPT_NONE))
 				.build();
 	}
 

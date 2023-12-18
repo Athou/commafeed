@@ -3,6 +3,7 @@ package com.commafeed.backend;
 import java.io.IOException;
 import java.net.http.HttpTimeoutException;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.http.HttpStatus;
@@ -135,6 +136,25 @@ class HttpGetterTest {
 				.respond(HttpResponse.response().withStatusCode(HttpStatus.NOT_MODIFIED_304));
 
 		Assertions.assertThrows(NotModifiedException.class, () -> getter.getBinary(this.feedUrl, null, "78910", TIMEOUT));
+	}
+
+	@Test
+	void ignoreCookie() throws Exception {
+		AtomicInteger calls = new AtomicInteger();
+
+		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {
+			calls.incrementAndGet();
+
+			if (req.containsHeader(HttpHeaders.COOKIE)) {
+				throw new Exception("cookie should not be sent by the client");
+			}
+
+			return HttpResponse.response().withBody("ok").withHeader(HttpHeaders.SET_COOKIE, "foo=bar");
+		});
+
+		Assertions.assertDoesNotThrow(() -> getter.getBinary(this.feedUrl, TIMEOUT));
+		Assertions.assertDoesNotThrow(() -> getter.getBinary(this.feedUrl, TIMEOUT));
+		Assertions.assertEquals(2, calls.get());
 	}
 
 }

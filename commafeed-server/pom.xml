@@ -408,7 +408,7 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<!-- stay on 2.1 because 2.2 file format changed to version '3' -->
-			<version>2.1.214</version>
+			<version>2.1.214</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -456,7 +456,7 @@
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk18on</artifactId>
-			<version>1.76</version>
+			<version>1.76</version><!--$NO-MVN-MAN-VER$ -->
 			<scope>test</scope>
 		</dependency>
 		<dependency>

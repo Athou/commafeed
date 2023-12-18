@@ -14,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
-import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UnitOfWork;
@@ -45,7 +44,6 @@ public class FeedRefreshUpdater implements Managed {
 	private final UnitOfWork unitOfWork;
 	private final FeedService feedService;
 	private final FeedEntryService feedEntryService;
-	private final CommaFeedConfiguration config;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final CacheService cache;
 	private final WebSocketSessions webSocketSessions;
@@ -58,13 +56,11 @@ public class FeedRefreshUpdater implements Managed {
 	private final Meter entryInserted;
 
 	@Inject
-	public FeedRefreshUpdater(UnitOfWork unitOfWork, FeedService feedService, FeedEntryService feedEntryService,
-			CommaFeedConfiguration config, MetricRegistry metrics, FeedSubscriptionDAO feedSubscriptionDAO, CacheService cache,
-			WebSocketSessions webSocketSessions) {
+	public FeedRefreshUpdater(UnitOfWork unitOfWork, FeedService feedService, FeedEntryService feedEntryService, MetricRegistry metrics,
+			FeedSubscriptionDAO feedSubscriptionDAO, CacheService cache, WebSocketSessions webSocketSessions) {
 		this.unitOfWork = unitOfWork;
 		this.feedService = feedService;
 		this.feedEntryService = feedEntryService;
-		this.config = config;
 		this.feedSubscriptionDAO = feedSubscriptionDAO;
 		this.cache = cache;
 		this.webSocketSessions = webSocketSessions;

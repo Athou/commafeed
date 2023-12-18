@@ -38,12 +38,10 @@ import jakarta.inject.Singleton;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Parses raw xml as a Feed object
  */
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class FeedParser {
@@ -241,26 +239,6 @@ public class FeedParser {
 		}
 
 		return media;
-	}
-
-	private String findHub(SyndFeed feed) {
-		for (SyndLink l : feed.getLinks()) {
-			if ("hub".equalsIgnoreCase(l.getRel())) {
-				log.debug("found hub {} for feed {}", l.getHref(), feed.getLink());
-				return l.getHref();
-			}
-		}
-		return null;
-	}
-
-	private String findSelf(SyndFeed feed) {
-		for (SyndLink l : feed.getLinks()) {
-			if ("self".equalsIgnoreCase(l.getRel())) {
-				log.debug("found self {} for feed {}", l.getHref(), feed.getLink());
-				return l.getHref();
-			}
-		}
-		return null;
 	}
 
 	@Data

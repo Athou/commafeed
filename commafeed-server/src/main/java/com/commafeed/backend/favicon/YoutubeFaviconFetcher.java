@@ -12,13 +12,14 @@ import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.model.Feed;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.youtube.YouTube;
+import com.google.api.services.youtube.YouTube.Channels;
+import com.google.api.services.youtube.YouTube.Playlists;
 import com.google.api.services.youtube.model.Channel;
 import com.google.api.services.youtube.model.ChannelListResponse;
+import com.google.api.services.youtube.model.PlaylistListResponse;
 import com.google.api.services.youtube.model.Thumbnail;
 
 import jakarta.inject.Inject;
@@ -54,27 +55,27 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 			List<NameValuePair> params = URLEncodedUtils.parse(url.substring(url.indexOf("?") + 1), StandardCharsets.UTF_8);
 			Optional<NameValuePair> userId = params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("user")).findFirst();
 			Optional<NameValuePair> channelId = params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("channel_id")).findFirst();
-			if (!userId.isPresent() && !channelId.isPresent()) {
+			Optional<NameValuePair> playlistId = params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("playlist_id")).findFirst();
+
+			YouTube youtube = new YouTube.Builder(new NetHttpTransport(), GsonFactory.getDefaultInstance(), request -> {
+			}).setApplicationName("CommaFeed").build();
+
+			ChannelListResponse response = null;
+			if (userId.isPresent()) {
+				log.debug("contacting youtube api for user {}", userId.get().getValue());
+				response = fetchForUser(youtube, googleAuthKey, userId.get().getValue());
+			} else if (channelId.isPresent()) {
+				log.debug("contacting youtube api for channel {}", channelId.get().getValue());
+				response = fetchForChannel(youtube, googleAuthKey, channelId.get().getValue());
+			} else if (playlistId.isPresent()) {
+				log.debug("contacting youtube api for playlist {}", playlistId.get().getValue());
+				response = fetchForPlaylist(youtube, googleAuthKey, playlistId.get().getValue());
+			}
+
+			if (response == null) {
 				return null;
 			}
 
-			YouTube youtube = new YouTube.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance(),
-					new HttpRequestInitializer() {
-						@Override
-						public void initialize(HttpRequest request) throws IOException {
-						}
-					}).setApplicationName("CommaFeed").build();
-
-			YouTube.Channels.List list = youtube.channels().list("snippet");
-			list.setKey(googleAuthKey);
-			if (userId.isPresent()) {
-				list.setForUsername(userId.get().getValue());
-			} else {
-				list.setId(channelId.get().getValue());
-			}
-
-			log.debug("contacting youtube api");
-			ChannelListResponse response = list.execute();
 			if (response.getItems().isEmpty()) {
 				log.debug("youtube api returned no items");
 				return null;
@@ -96,4 +97,33 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 		}
 		return new Favicon(bytes, contentType);
 	}
+
+	private ChannelListResponse fetchForUser(YouTube youtube, String googleAuthKey, String userId) throws IOException {
+		Channels.List list = youtube.channels().list(List.of("snippet"));
+		list.setKey(googleAuthKey);
+		list.setForUsername(userId);
+		return list.execute();
+	}
+
+	private ChannelListResponse fetchForChannel(YouTube youtube, String googleAuthKey, String channelId) throws IOException {
+		Channels.List list = youtube.channels().list(List.of("snippet"));
+		list.setKey(googleAuthKey);
+		list.setId(List.of(channelId));
+		return list.execute();
+	}
+
+	private ChannelListResponse fetchForPlaylist(YouTube youtube, String googleAuthKey, String playlistId) throws IOException {
+		Playlists.List list = youtube.playlists().list(List.of("snippet"));
+		list.setKey(googleAuthKey);
+		list.setId(List.of(playlistId));
+
+		PlaylistListResponse response = list.execute();
+		if (response.getItems().isEmpty()) {
+			return null;
+		}
+
+		String channelId = response.getItems().get(0).getSnippet().getChannelId();
+		return fetchForChannel(youtube, googleAuthKey, channelId);
+	}
+
 }

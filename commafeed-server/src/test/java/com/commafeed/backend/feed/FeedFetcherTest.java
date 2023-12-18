@@ -1,6 +1,5 @@
 package com.commafeed.backend.feed;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.Set;
 
@@ -17,7 +16,6 @@ import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.urlprovider.FeedURLProvider;
-import com.rometools.rome.io.FeedException;
 
 @ExtendWith(MockitoExtension.class)
 class FeedFetcherTest {
@@ -39,7 +37,7 @@ class FeedFetcherTest {
 	}
 
 	@Test
-	void updatesHeaderWhenContentDitNotChange() throws FeedException, IOException, NotModifiedException {
+	void updatesHeaderWhenContentDitNotChange() throws Exception {
 		String url = "https://aaa.com";
 		String lastModified = "last-modified-1";
 		String etag = "etag-1";

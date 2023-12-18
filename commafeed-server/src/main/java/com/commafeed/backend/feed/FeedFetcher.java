@@ -36,7 +36,7 @@ public class FeedFetcher {
 	private final Set<FeedURLProvider> urlProviders;
 
 	public FeedFetcherResult fetch(String feedUrl, boolean extractFeedUrlFromHtml, String lastModified, String eTag, Date lastPublishedDate,
-			String lastContentHash) throws FeedException, IOException, NotModifiedException {
+			String lastContentHash) throws FeedException, IOException, NotModifiedException, InterruptedException {
 		log.debug("Fetching feed {}", feedUrl);
 
 		int timeout = 20000;

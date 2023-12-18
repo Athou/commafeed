@@ -1,12 +1,10 @@
 package com.commafeed.backend;
 
 import java.io.IOException;
-import java.net.SocketTimeoutException;
+import java.net.http.HttpTimeoutException;
 import java.util.Objects;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpHeaders;
-import org.apache.http.client.HttpResponseException;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,11 +21,15 @@ import org.mockserver.model.MediaType;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConfiguration.ApplicationSettings;
+import com.commafeed.backend.HttpGetter.HttpResponseException;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
+import com.google.common.net.HttpHeaders;
 
 @ExtendWith(MockServerExtension.class)
 class HttpGetterTest {
+
+	private static final int TIMEOUT = 10000;
 
 	private MockServerClient mockServerClient;
 	private String feedUrl;
@@ -43,6 +45,7 @@ class HttpGetterTest {
 
 		ApplicationSettings settings = new ApplicationSettings();
 		settings.setUserAgent("http-getter-test");
+		settings.setBackgroundThreads(3);
 
 		CommaFeedConfiguration config = new CommaFeedConfiguration();
 		config.setApplicationSettings(settings);
@@ -57,12 +60,12 @@ class HttpGetterTest {
 	void errorCodes(int code) {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(HttpResponse.response().withStatusCode(code));
 
-		HttpResponseException e = Assertions.assertThrows(HttpResponseException.class, () -> getter.getBinary(this.feedUrl, 1000));
-		Assertions.assertEquals(code, e.getStatusCode());
+		HttpResponseException e = Assertions.assertThrows(HttpResponseException.class, () -> getter.getBinary(this.feedUrl, TIMEOUT));
+		Assertions.assertEquals(code, e.getCode());
 	}
 
 	@Test
-	void validFeed() throws IOException, NotModifiedException {
+	void validFeed() throws Exception {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
 				.respond(HttpResponse.response()
 						.withBody(feedContent)
@@ -70,7 +73,7 @@ class HttpGetterTest {
 						.withHeader(HttpHeaders.LAST_MODIFIED, "123456")
 						.withHeader(HttpHeaders.ETAG, "78910"));
 
-		HttpResult result = getter.getBinary(this.feedUrl, 1000);
+		HttpResult result = getter.getBinary(this.feedUrl, TIMEOUT);
 		Assertions.assertArrayEquals(feedContent, result.getContent());
 		Assertions.assertEquals(MediaType.APPLICATION_ATOM_XML.toString(), result.getContentType());
 		Assertions.assertEquals("123456", result.getLastModifiedSince());
@@ -80,7 +83,7 @@ class HttpGetterTest {
 	}
 
 	@Test
-	void followRedirects() throws IOException, NotModifiedException {
+	void followRedirects() throws Exception {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withPath("/redirected"))
 				.respond(HttpResponse.response().withBody(feedContent).withContentType(MediaType.APPLICATION_ATOM_XML));
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
@@ -88,49 +91,50 @@ class HttpGetterTest {
 						.withStatusCode(HttpStatus.MOVED_PERMANENTLY_301)
 						.withHeader(HttpHeaders.LOCATION, "http://localhost:" + this.mockServerClient.getPort() + "/redirected"));
 
-		HttpResult result = getter.getBinary(this.feedUrl, 1000);
+		HttpResult result = getter.getBinary(this.feedUrl, TIMEOUT);
 		Assertions.assertEquals("http://localhost:" + this.mockServerClient.getPort() + "/redirected", result.getUrlAfterRedirect());
 	}
 
 	@Test
 	void timeout() {
+		int smallTimeout = 500;
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
-				.respond(HttpResponse.response().withDelay(Delay.milliseconds(2000)));
+				.respond(HttpResponse.response().withDelay(Delay.milliseconds(smallTimeout * 2)));
 
-		Assertions.assertThrows(SocketTimeoutException.class, () -> getter.getBinary(this.feedUrl, 1000));
+		Assertions.assertThrows(HttpTimeoutException.class, () -> getter.getBinary(this.feedUrl, smallTimeout));
 	}
 
 	@Test
-	void userAgent() throws IOException, NotModifiedException {
+	void userAgent() throws Exception {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.USER_AGENT, "http-getter-test"))
 				.respond(HttpResponse.response().withBody("ok"));
 
-		HttpResult result = getter.getBinary(this.feedUrl, 1000);
+		HttpResult result = getter.getBinary(this.feedUrl, TIMEOUT);
 		Assertions.assertEquals("ok", new String(result.getContent()));
 	}
 
 	@Test
-	void ignoreInvalidSsl() throws IOException, NotModifiedException {
+	void ignoreInvalidSsl() throws Exception {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(HttpResponse.response().withBody("ok"));
 
-		HttpResult result = getter.getBinary("https://localhost:" + this.mockServerClient.getPort(), 1000);
+		HttpResult result = getter.getBinary("https://localhost:" + this.mockServerClient.getPort(), TIMEOUT);
 		Assertions.assertEquals("ok", new String(result.getContent()));
 	}
 
 	@Test
-	void lastModifiedReturns304() throws IOException, NotModifiedException {
+	void lastModifiedReturns304() throws Exception {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.IF_MODIFIED_SINCE, "123456"))
 				.respond(HttpResponse.response().withStatusCode(HttpStatus.NOT_MODIFIED_304));
 
-		Assertions.assertThrows(NotModifiedException.class, () -> getter.getBinary(this.feedUrl, "123456", null, 1000));
+		Assertions.assertThrows(NotModifiedException.class, () -> getter.getBinary(this.feedUrl, "123456", null, TIMEOUT));
 	}
 
 	@Test
-	void eTagReturns304() throws IOException, NotModifiedException {
+	void eTagReturns304() throws Exception {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.IF_NONE_MATCH, "78910"))
 				.respond(HttpResponse.response().withStatusCode(HttpStatus.NOT_MODIFIED_304));
 
-		Assertions.assertThrows(NotModifiedException.class, () -> getter.getBinary(this.feedUrl, null, "78910", 1000));
+		Assertions.assertThrows(NotModifiedException.class, () -> getter.getBinary(this.feedUrl, null, "78910", TIMEOUT));
 	}
 
 }

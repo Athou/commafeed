@@ -33,10 +33,11 @@ app:
 
   # settings for sending emails (password recovery)
   smtpHost: localhost
-  smtpPort: 25
+  smtpPort: 3025
   smtpTls: false
   smtpUserName: user
   smtpPassword: pass
+  smtpFromAddress: noreply@commafeed.com
 
   # Graphite Metric settings
   # Allows those who use Graphite to have CommaFeed send metrics for graphing (time in seconds)

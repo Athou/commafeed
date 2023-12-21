@@ -37,6 +37,7 @@ app:
   smtpTls: false
   smtpUserName: user
   smtpPassword: pass
+  smtpFromAddress:
 
   # Graphite Metric settings
   # Allows those who use Graphite to have CommaFeed send metrics for graphing (time in seconds)

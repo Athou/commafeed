@@ -32,4 +32,13 @@ public class ServerInfo implements Serializable {
 	@Schema(requiredMode = RequiredMode.REQUIRED)
 	private boolean demoAccountEnabled;
 
+	@Schema(requiredMode = RequiredMode.REQUIRED)
+	private boolean websocketEnabled;
+
+	@Schema(requiredMode = RequiredMode.REQUIRED)
+	private long websocketPingInterval;
+
+	@Schema(requiredMode = RequiredMode.REQUIRED)
+	private long treeReloadInterval;
+
 }

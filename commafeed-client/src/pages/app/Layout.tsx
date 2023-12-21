@@ -95,6 +95,7 @@ export default function Layout(props: LayoutProps) {
     const mobile = useMobile()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
     const webSocketConnected = useAppSelector(state => state.server.webSocketConnected)
+    const treeReloadInterval = useAppSelector(state => state.server.serverInfos?.treeReloadInterval)
     const sidebarHidden = props.sidebarWidth === 0
     const dispatch = useAppDispatch()
     useWebSocket()
@@ -110,12 +111,15 @@ export default function Layout(props: LayoutProps) {
     }, [dispatch])
 
     useEffect(() => {
-        // reload tree periodically if not receiving websocket events
-        const timer = setInterval(() => {
-            if (!webSocketConnected) dispatch(reloadTree())
-        }, 30000)
+        let timer: number | undefined
+
+        if (!webSocketConnected && treeReloadInterval) {
+            // reload tree periodically if not receiving websocket events
+            timer = window.setInterval(() => dispatch(reloadTree()), treeReloadInterval)
+        }
+
         return () => clearInterval(timer)
-    }, [dispatch, webSocketConnected])
+    }, [dispatch, webSocketConnected, treeReloadInterval])
 
     const burger = (
         <Center>

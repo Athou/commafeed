@@ -13,6 +13,7 @@ import be.tomcools.dropwizard.websocket.WebsocketBundleConfiguration;
 import be.tomcools.dropwizard.websocket.WebsocketConfiguration;
 import io.dropwizard.core.Configuration;
 import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.util.Duration;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -62,8 +63,7 @@ public class CommaFeedConfiguration extends Configuration implements WebsocketBu
 	@Override
 	public WebsocketConfiguration getWebsocketConfiguration() {
 		WebsocketConfiguration config = new WebsocketConfiguration();
-		// the client sends ping messages every minute, so we can close idle connections a little bit after that
-		config.setMaxSessionIdleTimeout(90000L);
+		config.setMaxSessionIdleTimeout(getApplicationSettings().getWebsocketPingInterval().toMilliseconds() + 10000);
 		return config;
 	}
 
@@ -163,6 +163,12 @@ public class CommaFeedConfiguration extends Configuration implements WebsocketBu
 		private String announcement;
 
 		private String userAgent;
+
+		private Boolean websocketEnabled = true;
+
+		private Duration websocketPingInterval = Duration.minutes(15);
+
+		private Duration treeReloadInterval = Duration.seconds(30);
 
 		public Date getUnreadThreshold() {
 			int keepStatusDays = getKeepStatusDays();

@@ -190,6 +190,9 @@ export interface ServerInfo {
     googleAnalyticsCode?: string
     smtpEnabled: boolean
     demoAccountEnabled: boolean
+    websocketEnabled: boolean
+    websocketPingInterval: number
+    treeReloadInterval: number
 }
 
 export interface Settings {

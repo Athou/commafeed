@@ -78,6 +78,15 @@ app:
   # user-agent string that will be used by the http client, leave empty for the default one
   userAgent:
 
+  # enable websocket connection so the server can notify the web client that there are new entries for your feeds
+  websocketEnabled: true
+
+  # interval at which the client will send a ping message on the websocket to keep the connection alive
+  websocketPingInterval: 15m
+
+  # if websocket is disabled or the connection is lost, the client will reload the feed tree at this interval
+  treeReloadInterval: 30s
+
 # Database connection
 # -------------------  
 # for MariaDB

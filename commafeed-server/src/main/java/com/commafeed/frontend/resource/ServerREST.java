@@ -56,6 +56,9 @@ public class ServerREST {
 		infos.setGoogleAnalyticsCode(config.getApplicationSettings().getGoogleAnalyticsTrackingCode());
 		infos.setSmtpEnabled(StringUtils.isNotBlank(config.getApplicationSettings().getSmtpHost()));
 		infos.setDemoAccountEnabled(config.getApplicationSettings().getCreateDemoAccount());
+		infos.setWebsocketEnabled(config.getApplicationSettings().getWebsocketEnabled());
+		infos.setWebsocketPingInterval(config.getApplicationSettings().getWebsocketPingInterval().toMilliseconds());
+		infos.setTreeReloadInterval(config.getApplicationSettings().getTreeReloadInterval().toMilliseconds());
 		return Response.ok(infos).build();
 	}
 

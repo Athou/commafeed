@@ -108,7 +108,7 @@ app:
 
 database:
   driverClass: org.h2.Driver
-  url: jdbc:h2:/commafeed/data/db
+  url: jdbc:h2:/commafeed/data/db;DEFRAG_ALWAYS=TRUE
   user: sa
   password: sa
   properties:

@@ -31,6 +31,14 @@ import nl.altindag.ssl.SSLFactory;
 @Singleton
 public class HttpGetter {
 
+	static {
+		// reduce connection keepalive timeout to 30s, default is 20 minutes
+		// https://stackoverflow.com/a/53620696/1885506
+		// will no longer be needed with Java 21+
+		// https://bugs.openjdk.org/browse/JDK-8297030
+		System.setProperty("jdk.httpclient.keepalive.timeout", "30");
+	}
+
 	private final HttpClient client;
 	private final String userAgent;
 

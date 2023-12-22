@@ -101,10 +101,11 @@ public class HttpGetter {
 		return new HttpResult(content, contentType, lastModifiedHeader, eTagHeader, duration, urlAfterRedirect);
 	}
 
-	public static HttpClient newClient() {
+	private HttpClient newClient() {
 		SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
 		return HttpClient.newBuilder()
 				.version(Version.HTTP_1_1)
+				.connectTimeout(Duration.ofSeconds(5))
 				.followRedirects(Redirect.ALWAYS)
 				.sslContext(sslFactory.getSslContext())
 				.sslParameters(sslFactory.getSslParameters())

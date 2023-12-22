@@ -1,6 +1,7 @@
 package com.commafeed.backend;
 
 import java.io.IOException;
+import java.net.http.HttpConnectTimeoutException;
 import java.net.http.HttpTimeoutException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -102,7 +103,17 @@ class HttpGetterTest {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
 				.respond(HttpResponse.response().withDelay(Delay.milliseconds(smallTimeout * 2)));
 
-		Assertions.assertThrows(HttpTimeoutException.class, () -> getter.getBinary(this.feedUrl, smallTimeout));
+		HttpTimeoutException e = Assertions.assertThrows(HttpTimeoutException.class, () -> getter.getBinary(this.feedUrl, smallTimeout));
+		Assertions.assertEquals("request timed out", e.getMessage());
+	}
+
+	@Test
+	void connectTimeout() {
+		// try to connect to a non-routable address
+		// https://stackoverflow.com/a/904609/1885506
+		HttpConnectTimeoutException e = Assertions.assertThrows(HttpConnectTimeoutException.class,
+				() -> getter.getBinary("http://10.255.255.1", 10000));
+		Assertions.assertEquals("HTTP connect timed out", e.getMessage());
 	}
 
 	@Test

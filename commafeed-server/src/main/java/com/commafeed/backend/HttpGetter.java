@@ -1,8 +1,7 @@
 package com.commafeed.backend;
 
 import java.io.IOException;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
+import java.net.CookieHandler;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Redirect;
@@ -10,6 +9,9 @@ import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -117,8 +119,21 @@ public class HttpGetter {
 				.followRedirects(Redirect.ALWAYS)
 				.sslContext(sslFactory.getSslContext())
 				.sslParameters(sslFactory.getSslParameters())
-				.cookieHandler(new CookieManager(null, CookiePolicy.ACCEPT_NONE))
+				.cookieHandler(new IgnoreCookieHandler())
 				.build();
+	}
+
+	private static class IgnoreCookieHandler extends CookieHandler {
+		@Override
+		public Map<String, List<String>> get(URI uri, Map<String, List<String>> requestHeaders) {
+			return Collections.emptyMap();
+		}
+
+		@Override
+		public void put(URI uri, Map<String, List<String>> responseHeaders) {
+			// do nothing
+		}
+
 	}
 
 	@Getter

@@ -26,41 +26,47 @@ class AdminIT extends BaseIT {
 	@Nested
 	class Users {
 		@Test
-		void saveThenDeleteNewUser() {
+		void saveModifyAndDeleteNewUser() {
 			List<UserModel> existingUsers = getAllUsers();
 
+			createUser();
+			Assertions.assertEquals(existingUsers.size() + 1, getAllUsers().size());
+
+			modifyUser();
+			Assertions.assertEquals(existingUsers.size() + 1, getAllUsers().size());
+
+			deleteUser();
+			Assertions.assertEquals(existingUsers.size(), getAllUsers().size());
+		}
+
+		private void createUser() {
 			User user = new User();
 			user.setName("test");
 			user.setPassword("test".getBytes());
 			user.setEmail("test@test.com");
 			getClient().target(getApiBaseUrl() + "admin/user/save").request().post(Entity.json(user), Void.TYPE);
+		}
 
-			List<UserModel> newUsers = getAllUsers();
-			Assertions.assertEquals(existingUsers.size() + 1, newUsers.size());
-
-			UserModel newUser = newUsers.stream()
+		private void modifyUser() {
+			List<UserModel> existingUsers = getAllUsers();
+			UserModel user = existingUsers.stream()
 					.filter(u -> u.getName().equals("test"))
 					.findFirst()
 					.orElseThrow(() -> new NullPointerException("User not found"));
-			user.setId(newUser.getId());
+			user.setEmail("new-email@provider.com");
+			getClient().target(getApiBaseUrl() + "admin/user/save").request().post(Entity.json(user), Void.TYPE);
+		}
+
+		private void deleteUser() {
+			List<UserModel> existingUsers = getAllUsers();
+			UserModel user = existingUsers.stream()
+					.filter(u -> u.getName().equals("test"))
+					.findFirst()
+					.orElseThrow(() -> new NullPointerException("User not found"));
 
 			IDRequest req = new IDRequest();
 			req.setId(user.getId());
 			getClient().target(getApiBaseUrl() + "admin/user/delete").request().post(Entity.json(req), Void.TYPE);
-			Assertions.assertEquals(existingUsers.size(), getAllUsers().size());
-		}
-
-		@Test
-		void editExistingUser() {
-			List<UserModel> existingUsers = getAllUsers();
-			UserModel user = existingUsers.stream()
-					.filter(u -> u.getName().equals("admin"))
-					.findFirst()
-					.orElseThrow(() -> new NullPointerException("User not found"));
-			user.setEmail("new-email@provider.com");
-
-			getClient().target(getApiBaseUrl() + "admin/user/save").request().post(Entity.json(user), Void.TYPE);
-			Assertions.assertEquals(existingUsers.size(), getAllUsers().size());
 		}
 
 		private List<UserModel> getAllUsers() {

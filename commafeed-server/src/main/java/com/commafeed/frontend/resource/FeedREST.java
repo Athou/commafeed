@@ -24,7 +24,7 @@ import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
-import com.commafeed.backend.favicon.AbstractFaviconFetcher.Favicon;
+import com.commafeed.backend.favicon.Favicon;
 import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedFetcher;
 import com.commafeed.backend.feed.FeedFetcher.FeedFetcherResult;
@@ -364,10 +364,10 @@ public class FeedREST {
 		if (subscription == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
+
 		Feed feed = subscription.getFeed();
 		Favicon icon = feedService.fetchFavicon(feed);
-
-		ResponseBuilder builder = Response.ok(icon.getIcon(), StringUtils.defaultIfBlank(icon.getMediaType(), "image/x-icon"));
+		ResponseBuilder builder = Response.ok(icon.getIcon(), icon.getMediaType());
 
 		CacheControl cacheControl = new CacheControl();
 		cacheControl.setMaxAge(2592000);

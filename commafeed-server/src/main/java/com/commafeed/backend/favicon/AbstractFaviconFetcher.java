@@ -7,8 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.model.Feed;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -49,12 +47,5 @@ public abstract class AbstractFaviconFetcher {
 		}
 
 		return true;
-	}
-
-	@RequiredArgsConstructor
-	@Getter
-	public static class Favicon {
-		private final byte[] icon;
-		private final String mediaType;
 	}
 }

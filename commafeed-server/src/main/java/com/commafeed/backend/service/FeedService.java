@@ -9,7 +9,7 @@ import org.apache.commons.io.IOUtils;
 
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.favicon.AbstractFaviconFetcher;
-import com.commafeed.backend.favicon.AbstractFaviconFetcher.Favicon;
+import com.commafeed.backend.favicon.Favicon;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 

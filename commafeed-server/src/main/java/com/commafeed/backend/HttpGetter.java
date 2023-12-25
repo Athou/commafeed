@@ -1,25 +1,30 @@
 package com.commafeed.backend;
 
 import java.io.IOException;
-import java.net.CookieHandler;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpClient.Redirect;
-import java.net.http.HttpClient.Version;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.util.EntityUtils;
 import org.eclipse.jetty.http.HttpStatus;
 
 import com.commafeed.CommaFeedConfiguration;
+import com.google.common.collect.Iterables;
 import com.google.common.net.HttpHeaders;
 
+import io.dropwizard.lifecycle.Managed;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.Getter;
@@ -31,24 +36,15 @@ import nl.altindag.ssl.SSLFactory;
  *
  */
 @Singleton
-public class HttpGetter {
+public class HttpGetter implements Managed {
 
-	static {
-		// reduce connection keepalive timeout to 30s, default is 20 minutes
-		// https://stackoverflow.com/a/53620696/1885506
-		// will no longer be needed with Java 21+
-		// https://bugs.openjdk.org/browse/JDK-8297030
-		System.setProperty("jdk.httpclient.keepalive.timeout", "30");
-	}
-
-	private final HttpClient client;
-	private final String userAgent;
+	private final CloseableHttpClient client;
 
 	@Inject
 	public HttpGetter(CommaFeedConfiguration config) {
-		this.client = newClient();
-		this.userAgent = Optional.ofNullable(config.getApplicationSettings().getUserAgent())
+		String userAgent = Optional.ofNullable(config.getApplicationSettings().getUserAgent())
 				.orElseGet(() -> String.format("CommaFeed/%s (https://github.com/Athou/commafeed)", config.getVersion()));
+		this.client = newClient(userAgent, config.getApplicationSettings().getBackgroundThreads());
 	}
 
 	public HttpResult getBinary(String url, int timeout) throws IOException, NotModifiedException, InterruptedException {
@@ -70,70 +66,77 @@ public class HttpGetter {
 			throws IOException, NotModifiedException, InterruptedException {
 		long start = System.currentTimeMillis();
 
-		HttpRequest.Builder builder = HttpRequest.newBuilder()
-				.uri(URI.create(url))
-				.timeout(Duration.ofMillis(timeout))
-				.header(HttpHeaders.ACCEPT_LANGUAGE, "en")
-				.header(HttpHeaders.PRAGMA, "No-cache")
-				.header(HttpHeaders.CACHE_CONTROL, "no-cache")
-				.header(HttpHeaders.USER_AGENT, userAgent);
+		HttpGet request = new HttpGet(url);
 		if (lastModified != null) {
-			builder.header(HttpHeaders.IF_MODIFIED_SINCE, lastModified);
+			request.addHeader(HttpHeaders.IF_MODIFIED_SINCE, lastModified);
 		}
 		if (eTag != null) {
-			builder.header(HttpHeaders.IF_NONE_MATCH, eTag);
-		}
-		HttpRequest request = builder.GET().build();
-
-		HttpResponse<byte[]> response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
-		int code = response.statusCode();
-		if (code == HttpStatus.NOT_MODIFIED_304) {
-			throw new NotModifiedException("'304 - not modified' http code received");
-		} else if (code >= 300) {
-			throw new HttpResponseException(code, "Server returned HTTP error code " + code);
+			request.addHeader(HttpHeaders.IF_NONE_MATCH, eTag);
 		}
 
-		String lastModifiedHeader = response.headers().firstValue(HttpHeaders.LAST_MODIFIED).map(StringUtils::trimToNull).orElse(null);
-		if (lastModifiedHeader != null && lastModifiedHeader.equals(lastModified)) {
-			throw new NotModifiedException("lastModifiedHeader is the same");
+		HttpClientContext context = HttpClientContext.create();
+		context.setRequestConfig(
+				RequestConfig.custom().setConnectTimeout(timeout).setConnectionRequestTimeout(timeout).setSocketTimeout(timeout).build());
+
+		try (CloseableHttpResponse response = client.execute(request, context)) {
+			int code = response.getStatusLine().getStatusCode();
+			if (code == HttpStatus.NOT_MODIFIED_304) {
+				throw new NotModifiedException("'304 - not modified' http code received");
+			} else if (code >= 300) {
+				throw new HttpResponseException(code, "Server returned HTTP error code " + code);
+			}
+
+			String lastModifiedHeader = Optional.ofNullable(response.getFirstHeader(HttpHeaders.LAST_MODIFIED))
+					.map(NameValuePair::getValue)
+					.map(StringUtils::trimToNull)
+					.orElse(null);
+			if (lastModifiedHeader != null && lastModifiedHeader.equals(lastModified)) {
+				throw new NotModifiedException("lastModifiedHeader is the same");
+			}
+
+			String eTagHeader = Optional.ofNullable(response.getFirstHeader(HttpHeaders.ETAG))
+					.map(NameValuePair::getValue)
+					.map(StringUtils::trimToNull)
+					.orElse(null);
+			if (eTagHeader != null && eTagHeader.equals(eTag)) {
+				throw new NotModifiedException("eTagHeader is the same");
+			}
+
+			HttpEntity entity = response.getEntity();
+			byte[] content = entity == null ? null : EntityUtils.toByteArray(entity);
+			String contentType = Optional.ofNullable(entity).map(HttpEntity::getContentType).map(Header::getValue).orElse(null);
+			String urlAfterRedirect = CollectionUtils.isEmpty(context.getRedirectLocations()) ? url
+					: Iterables.getLast(context.getRedirectLocations()).toString();
+
+			long duration = System.currentTimeMillis() - start;
+			return new HttpResult(content, contentType, lastModifiedHeader, eTagHeader, duration, urlAfterRedirect);
 		}
-
-		String eTagHeader = response.headers().firstValue(HttpHeaders.ETAG).map(StringUtils::trimToNull).orElse(null);
-		if (eTagHeader != null && eTagHeader.equals(eTag)) {
-			throw new NotModifiedException("eTagHeader is the same");
-		}
-
-		byte[] content = response.body();
-		String contentType = response.headers().firstValue(HttpHeaders.CONTENT_TYPE).orElse(null);
-		String urlAfterRedirect = response.request().uri().toString();
-
-		long duration = System.currentTimeMillis() - start;
-		return new HttpResult(content, contentType, lastModifiedHeader, eTagHeader, duration, urlAfterRedirect);
 	}
 
-	private HttpClient newClient() {
+	private CloseableHttpClient newClient(String userAgent, int poolSize) {
 		SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
-		return HttpClient.newBuilder()
-				.version(Version.HTTP_1_1)
-				.connectTimeout(Duration.ofSeconds(5))
-				.followRedirects(Redirect.ALWAYS)
-				.sslContext(sslFactory.getSslContext())
-				.sslParameters(sslFactory.getSslParameters())
-				.cookieHandler(new IgnoreCookieHandler())
+
+		List<Header> headers = new ArrayList<>();
+		headers.add(new BasicHeader(HttpHeaders.ACCEPT_LANGUAGE, "en"));
+		headers.add(new BasicHeader(HttpHeaders.PRAGMA, "No-cache"));
+		headers.add(new BasicHeader(HttpHeaders.CACHE_CONTROL, "no-cache"));
+
+		return HttpClientBuilder.create()
+				.useSystemProperties()
+				.disableAutomaticRetries()
+				.disableCookieManagement()
+				.setUserAgent(userAgent)
+				.setDefaultHeaders(headers)
+				.setSSLContext(sslFactory.getSslContext())
+				.setSSLHostnameVerifier(sslFactory.getHostnameVerifier())
+				.setMaxConnTotal(poolSize)
+				.setMaxConnPerRoute(poolSize)
 				.build();
 	}
 
-	private static class IgnoreCookieHandler extends CookieHandler {
-		@Override
-		public Map<String, List<String>> get(URI uri, Map<String, List<String>> requestHeaders) {
-			return Collections.emptyMap();
-		}
-
-		@Override
-		public void put(URI uri, Map<String, List<String>> responseHeaders) {
-			// do nothing
-		}
-
+	@Override
+	public void stop() throws Exception {
+		client.close();
 	}
 
 	@Getter

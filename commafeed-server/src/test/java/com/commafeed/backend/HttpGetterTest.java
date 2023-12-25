@@ -1,12 +1,12 @@
 package com.commafeed.backend;
 
 import java.io.IOException;
-import java.net.http.HttpConnectTimeoutException;
-import java.net.http.HttpTimeoutException;
+import java.net.SocketTimeoutException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -87,6 +87,10 @@ class HttpGetterTest {
 	@Test
 	void followRedirects() throws Exception {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withPath("/redirected"))
+				.respond(HttpResponse.response()
+						.withStatusCode(HttpStatus.MOVED_TEMPORARILY_302)
+						.withHeader(HttpHeaders.LOCATION, "http://localhost:" + this.mockServerClient.getPort() + "/redirected-2"));
+		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withPath("/redirected-2"))
 				.respond(HttpResponse.response().withBody(feedContent).withContentType(MediaType.APPLICATION_ATOM_XML));
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
 				.respond(HttpResponse.response()
@@ -94,26 +98,23 @@ class HttpGetterTest {
 						.withHeader(HttpHeaders.LOCATION, "http://localhost:" + this.mockServerClient.getPort() + "/redirected"));
 
 		HttpResult result = getter.getBinary(this.feedUrl, TIMEOUT);
-		Assertions.assertEquals("http://localhost:" + this.mockServerClient.getPort() + "/redirected", result.getUrlAfterRedirect());
+		Assertions.assertEquals("http://localhost:" + this.mockServerClient.getPort() + "/redirected-2", result.getUrlAfterRedirect());
 	}
 
 	@Test
-	void timeout() {
+	void dataTimeout() {
 		int smallTimeout = 500;
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
 				.respond(HttpResponse.response().withDelay(Delay.milliseconds(smallTimeout * 2)));
 
-		HttpTimeoutException e = Assertions.assertThrows(HttpTimeoutException.class, () -> getter.getBinary(this.feedUrl, smallTimeout));
-		Assertions.assertEquals("request timed out", e.getMessage());
+		Assertions.assertThrows(SocketTimeoutException.class, () -> getter.getBinary(this.feedUrl, smallTimeout));
 	}
 
 	@Test
 	void connectTimeout() {
 		// try to connect to a non-routable address
 		// https://stackoverflow.com/a/904609/1885506
-		HttpConnectTimeoutException e = Assertions.assertThrows(HttpConnectTimeoutException.class,
-				() -> getter.getBinary("http://10.255.255.1", 10000));
-		Assertions.assertEquals("HTTP connect timed out", e.getMessage());
+		Assertions.assertThrows(ConnectTimeoutException.class, () -> getter.getBinary("http://10.255.255.1", 2000));
 	}
 
 	@Test

@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.hc.client5.http.ConnectTimeoutException;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -135,7 +135,7 @@ class HttpGetterTest {
 	}
 
 	@Test
-	void lastModifiedReturns304() throws Exception {
+	void lastModifiedReturns304() {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.IF_MODIFIED_SINCE, "123456"))
 				.respond(HttpResponse.response().withStatusCode(HttpStatus.NOT_MODIFIED_304));
 
@@ -143,7 +143,7 @@ class HttpGetterTest {
 	}
 
 	@Test
-	void eTagReturns304() throws Exception {
+	void eTagReturns304() {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.IF_NONE_MATCH, "78910"))
 				.respond(HttpResponse.response().withStatusCode(HttpStatus.NOT_MODIFIED_304));
 
@@ -151,7 +151,7 @@ class HttpGetterTest {
 	}
 
 	@Test
-	void ignoreCookie() throws Exception {
+	void ignoreCookie() {
 		AtomicInteger calls = new AtomicInteger();
 
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {

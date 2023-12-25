@@ -393,8 +393,12 @@
 			<version>2.10.0</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>io.github.hakky54</groupId>
-			<artifactId>sslcontext-kickstart</artifactId>
+			<artifactId>sslcontext-kickstart-for-apache5</artifactId>
 			<version>8.2.0</version>
 		</dependency>
 

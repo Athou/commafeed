@@ -1,23 +1,30 @@
 package com.commafeed.backend;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.client5.http.protocol.RedirectLocations;
+import org.apache.hc.core5.http.ClassicHttpRequest;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
+import org.apache.hc.core5.http.message.BasicHeader;
+import org.apache.hc.core5.util.TimeValue;
+import org.apache.hc.core5.util.Timeout;
 import org.eclipse.jetty.http.HttpStatus;
 
 import com.commafeed.CommaFeedConfiguration;
@@ -30,6 +37,7 @@ import jakarta.inject.Singleton;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import nl.altindag.ssl.SSLFactory;
+import nl.altindag.ssl.apache5.util.Apache5SslUtils;
 
 /**
  * Smart HTTP getter: handles gzip, ssl, last modified and etag headers
@@ -47,7 +55,7 @@ public class HttpGetter implements Managed {
 		this.client = newClient(userAgent, config.getApplicationSettings().getBackgroundThreads());
 	}
 
-	public HttpResult getBinary(String url, int timeout) throws IOException, NotModifiedException, InterruptedException {
+	public HttpResult getBinary(String url, int timeout) throws IOException, NotModifiedException {
 		return getBinary(url, null, null, timeout);
 	}
 
@@ -62,11 +70,10 @@ public class HttpGetter implements Managed {
 	 * @throws NotModifiedException
 	 *             if the url hasn't changed since we asked for it last time
 	 */
-	public HttpResult getBinary(String url, String lastModified, String eTag, int timeout)
-			throws IOException, NotModifiedException, InterruptedException {
+	public HttpResult getBinary(String url, String lastModified, String eTag, int timeout) throws IOException, NotModifiedException {
 		long start = System.currentTimeMillis();
 
-		HttpGet request = new HttpGet(url);
+		ClassicHttpRequest request = ClassicRequestBuilder.get(url).build();
 		if (lastModified != null) {
 			request.addHeader(HttpHeaders.IF_MODIFIED_SINCE, lastModified);
 		}
@@ -75,42 +82,50 @@ public class HttpGetter implements Managed {
 		}
 
 		HttpClientContext context = HttpClientContext.create();
-		context.setRequestConfig(
-				RequestConfig.custom().setConnectTimeout(timeout).setConnectionRequestTimeout(timeout).setSocketTimeout(timeout).build());
+		context.setRequestConfig(RequestConfig.custom().setResponseTimeout(timeout, TimeUnit.MILLISECONDS).build());
 
-		try (CloseableHttpResponse response = client.execute(request, context)) {
-			int code = response.getStatusLine().getStatusCode();
-			if (code == HttpStatus.NOT_MODIFIED_304) {
-				throw new NotModifiedException("'304 - not modified' http code received");
-			} else if (code >= 300) {
-				throw new HttpResponseException(code, "Server returned HTTP error code " + code);
-			}
-
-			String lastModifiedHeader = Optional.ofNullable(response.getFirstHeader(HttpHeaders.LAST_MODIFIED))
+		HttpResponse response = client.execute(request, context, resp -> {
+			int code = resp.getCode();
+			String lastModifiedHeader = Optional.ofNullable(resp.getFirstHeader(HttpHeaders.LAST_MODIFIED))
 					.map(NameValuePair::getValue)
 					.map(StringUtils::trimToNull)
 					.orElse(null);
-			if (lastModifiedHeader != null && lastModifiedHeader.equals(lastModified)) {
-				throw new NotModifiedException("lastModifiedHeader is the same");
-			}
-
-			String eTagHeader = Optional.ofNullable(response.getFirstHeader(HttpHeaders.ETAG))
+			String eTagHeader = Optional.ofNullable(resp.getFirstHeader(HttpHeaders.ETAG))
 					.map(NameValuePair::getValue)
 					.map(StringUtils::trimToNull)
 					.orElse(null);
-			if (eTagHeader != null && eTagHeader.equals(eTag)) {
-				throw new NotModifiedException("eTagHeader is the same");
-			}
 
-			HttpEntity entity = response.getEntity();
-			byte[] content = entity == null ? null : EntityUtils.toByteArray(entity);
-			String contentType = Optional.ofNullable(entity).map(HttpEntity::getContentType).map(Header::getValue).orElse(null);
-			String urlAfterRedirect = CollectionUtils.isEmpty(context.getRedirectLocations()) ? url
-					: Iterables.getLast(context.getRedirectLocations()).toString();
+			byte[] content = resp.getEntity() == null ? null : EntityUtils.toByteArray(resp.getEntity());
+			String contentType = Optional.ofNullable(resp.getEntity()).map(HttpEntity::getContentType).orElse(null);
+			String urlAfterRedirect = Optional.ofNullable(context.getRedirectLocations())
+					.map(RedirectLocations::getAll)
+					.map(l -> Iterables.getLast(l, null))
+					.map(URI::toString)
+					.orElse(url);
 
-			long duration = System.currentTimeMillis() - start;
-			return new HttpResult(content, contentType, lastModifiedHeader, eTagHeader, duration, urlAfterRedirect);
+			return new HttpResponse(code, lastModifiedHeader, eTagHeader, content, contentType, urlAfterRedirect);
+		});
+
+		int code = response.getCode();
+		if (code == HttpStatus.NOT_MODIFIED_304) {
+			throw new NotModifiedException("'304 - not modified' http code received");
+		} else if (code >= 300) {
+			throw new HttpResponseException(code, "Server returned HTTP error code " + code);
 		}
+
+		String lastModifiedHeader = response.getLastModifiedHeader();
+		if (lastModifiedHeader != null && lastModifiedHeader.equals(lastModified)) {
+			throw new NotModifiedException("lastModifiedHeader is the same");
+		}
+
+		String eTagHeader = response.getETagHeader();
+		if (eTagHeader != null && eTagHeader.equals(eTag)) {
+			throw new NotModifiedException("eTagHeader is the same");
+		}
+
+		long duration = System.currentTimeMillis() - start;
+		return new HttpResult(response.getContent(), response.getContentType(), lastModifiedHeader, eTagHeader, duration,
+				response.getUrlAfterRedirect());
 	}
 
 	private CloseableHttpClient newClient(String userAgent, int poolSize) {
@@ -121,16 +136,21 @@ public class HttpGetter implements Managed {
 		headers.add(new BasicHeader(HttpHeaders.PRAGMA, "No-cache"));
 		headers.add(new BasicHeader(HttpHeaders.CACHE_CONTROL, "no-cache"));
 
+		PoolingHttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
+				.setSSLSocketFactory(Apache5SslUtils.toSocketFactory(sslFactory))
+				.setDefaultConnectionConfig(
+						ConnectionConfig.custom().setConnectTimeout(Timeout.ofSeconds(5)).setTimeToLive(TimeValue.ofSeconds(30)).build())
+				.setMaxConnPerRoute(poolSize)
+				.setMaxConnTotal(poolSize)
+				.build();
+
 		return HttpClientBuilder.create()
 				.useSystemProperties()
 				.disableAutomaticRetries()
 				.disableCookieManagement()
 				.setUserAgent(userAgent)
 				.setDefaultHeaders(headers)
-				.setSSLContext(sslFactory.getSslContext())
-				.setSSLHostnameVerifier(sslFactory.getHostnameVerifier())
-				.setMaxConnTotal(poolSize)
-				.setMaxConnPerRoute(poolSize)
+				.setConnectionManager(connectionManager)
 				.build();
 	}
 
@@ -175,6 +195,17 @@ public class HttpGetter implements Managed {
 			this.code = code;
 		}
 
+	}
+
+	@Getter
+	@RequiredArgsConstructor
+	private static class HttpResponse {
+		private final int code;
+		private final String lastModifiedHeader;
+		private final String eTagHeader;
+		private final byte[] content;
+		private final String contentType;
+		private final String urlAfterRedirect;
 	}
 
 	@Getter

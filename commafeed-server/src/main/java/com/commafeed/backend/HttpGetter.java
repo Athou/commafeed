@@ -128,7 +128,7 @@ public class HttpGetter implements Managed {
 				response.getUrlAfterRedirect());
 	}
 
-	private CloseableHttpClient newClient(String userAgent, int poolSize) {
+	private static CloseableHttpClient newClient(String userAgent, int poolSize) {
 		SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
 
 		List<Header> headers = new ArrayList<>();

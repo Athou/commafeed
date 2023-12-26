@@ -2,11 +2,10 @@ package com.commafeed.backend.favicon;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.net.URIBuilder;
 
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
@@ -66,13 +65,9 @@ public class FacebookFaviconFetcher extends AbstractFaviconFetcher {
 			log.debug("could not parse url", e);
 			return null;
 		}
-		List<NameValuePair> params = URLEncodedUtils.parse(uri, StandardCharsets.UTF_8);
-		for (NameValuePair param : params) {
-			if ("id".equals(param.getName())) {
-				return param.getValue();
-			}
-		}
-		return null;
+
+		List<NameValuePair> params = new URIBuilder(uri).getQueryParams();
+		return params.stream().filter(p -> "id".equals(p.getName())).map(NameValuePair::getValue).findFirst().orElse(null);
 	}
 
 }

@@ -1,12 +1,13 @@
 package com.commafeed.backend.favicon;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.net.URIBuilder;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.HttpGetter;
@@ -52,7 +53,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 		byte[] bytes = null;
 		String contentType = null;
 		try {
-			List<NameValuePair> params = URLEncodedUtils.parse(url.substring(url.indexOf("?") + 1), StandardCharsets.UTF_8);
+			List<NameValuePair> params = new URIBuilder(url).getQueryParams();
 			Optional<NameValuePair> userId = params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("user")).findFirst();
 			Optional<NameValuePair> channelId = params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("channel_id")).findFirst();
 			Optional<NameValuePair> playlistId = params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("playlist_id")).findFirst();
@@ -72,11 +73,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 				response = fetchForPlaylist(youtube, googleAuthKey, playlistId.get().getValue());
 			}
 
-			if (response == null) {
-				return null;
-			}
-
-			if (response.getItems().isEmpty()) {
+			if (MapUtils.isEmpty(response) || CollectionUtils.isEmpty(response.getItems())) {
 				log.debug("youtube api returned no items");
 				return null;
 			}

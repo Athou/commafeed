@@ -19,7 +19,7 @@ import liquibase.changelog.ChangeLogParameters;
 import liquibase.command.CommandScope;
 import liquibase.command.core.UpdateCommandStep;
 import liquibase.command.core.helpers.DatabaseChangelogCommandStep;
-import liquibase.command.core.helpers.DbUrlConnectionCommandStep;
+import liquibase.command.core.helpers.DbUrlConnectionArgumentsCommandStep;
 import liquibase.command.core.helpers.ShowSummaryArgument;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
@@ -67,7 +67,7 @@ public class DatabaseStartupService implements Managed {
 
 					Scope.child(scopeObjects, () -> {
 						CommandScope command = new CommandScope(UpdateCommandStep.COMMAND_NAME);
-						command.addArgumentValue(DbUrlConnectionCommandStep.DATABASE_ARG, database);
+						command.addArgumentValue(DbUrlConnectionArgumentsCommandStep.DATABASE_ARG, database);
 						command.addArgumentValue(UpdateCommandStep.CHANGELOG_FILE_ARG, "migrations.xml");
 						command.addArgumentValue(DatabaseChangelogCommandStep.CHANGELOG_PARAMETERS, new ChangeLogParameters(database));
 						command.addArgumentValue(ShowSummaryArgument.SHOW_SUMMARY, UpdateSummaryEnum.OFF);

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.net.URIBuilder;
 
@@ -73,7 +72,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 				response = fetchForPlaylist(youtube, googleAuthKey, playlistId.get().getValue());
 			}
 
-			if (MapUtils.isEmpty(response) || CollectionUtils.isEmpty(response.getItems())) {
+			if (response == null || response.isEmpty() || CollectionUtils.isEmpty(response.getItems())) {
 				log.debug("youtube api returned no items");
 				return null;
 			}

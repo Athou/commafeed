@@ -34,9 +34,7 @@ public class RedisCacheService extends CacheService {
 		try (Jedis jedis = pool.getResource()) {
 			String key = buildRedisEntryKey(feed);
 			Set<String> members = jedis.smembers(key);
-			for (String member : members) {
-				list.add(member);
-			}
+			list.addAll(members);
 		}
 		return list;
 	}

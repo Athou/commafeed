@@ -63,7 +63,7 @@ public class PlaywrightTestBase {
 		private final String directory = buildDirectory + "/playwright-artifacts";
 
 		@Override
-		public void beforeEach(ExtensionContext context) throws Exception {
+		public void beforeEach(ExtensionContext context) {
 			PlaywrightTestBase testInstance = getTestInstance(context);
 
 			NewContextOptions newContextOptions = new Browser.NewContextOptions().setRecordVideoDir(Paths.get(directory));

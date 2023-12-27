@@ -33,8 +33,8 @@ public class FeedEntryTagService {
 		List<FeedEntryTag> addList = tagNames.stream()
 				.filter(name -> !existingTagNames.contains(name))
 				.map(name -> new FeedEntryTag(user, entry, name))
-				.collect(Collectors.toList());
-		List<FeedEntryTag> removeList = existingTags.stream().filter(tag -> !tagNames.contains(tag.getName())).collect(Collectors.toList());
+				.toList();
+		List<FeedEntryTag> removeList = existingTags.stream().filter(tag -> !tagNames.contains(tag.getName())).toList();
 
 		feedEntryTagDAO.saveOrUpdate(addList);
 		feedEntryTagDAO.delete(removeList);

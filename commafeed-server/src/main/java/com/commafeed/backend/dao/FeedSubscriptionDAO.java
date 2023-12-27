@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.hibernate.SessionFactory;
 
+import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
@@ -74,14 +75,12 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 	}
 
 	public List<FeedSubscription> findByCategories(User user, List<FeedCategory> categories) {
-		Set<Long> categoryIds = categories.stream().map(c -> c.getId()).collect(Collectors.toSet());
-		return findAll(user).stream()
-				.filter(s -> s.getCategory() != null && categoryIds.contains(s.getCategory().getId()))
-				.collect(Collectors.toList());
+		Set<Long> categoryIds = categories.stream().map(AbstractModel::getId).collect(Collectors.toSet());
+		return findAll(user).stream().filter(s -> s.getCategory() != null && categoryIds.contains(s.getCategory().getId())).toList();
 	}
 
 	private List<FeedSubscription> initRelations(List<FeedSubscription> list) {
-		list.forEach(s -> initRelations(s));
+		list.forEach(this::initRelations);
 		return list;
 	}
 

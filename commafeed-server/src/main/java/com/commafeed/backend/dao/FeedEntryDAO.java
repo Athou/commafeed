@@ -1,7 +1,6 @@
 package com.commafeed.backend.dao;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.SessionFactory;
@@ -43,7 +42,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 				.having(count.gt(maxCapacity))
 				.limit(max)
 				.fetch();
-		return tuples.stream().map(t -> new FeedCapacity(t.get(entry.feed.id), t.get(count))).collect(Collectors.toList());
+		return tuples.stream().map(t -> new FeedCapacity(t.get(entry.feed.id), t.get(count))).toList();
 	}
 
 	public int delete(Long feedId, long max) {

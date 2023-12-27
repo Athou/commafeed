@@ -5,9 +5,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -18,6 +19,7 @@ import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.internal.PostLoginActivities;
 
+@ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
 	private static final byte[] SALT = new byte[] { 1, 2, 3 };
@@ -47,8 +49,6 @@ class UserServiceTest {
 
 	@BeforeEach
 	public void init() {
-		MockitoAnnotations.openMocks(this);
-
 		userService = new UserService(feedCategoryDAO, feedSubscriptionDAO, userDAO, userRoleDAO, userSettingsDAO,
 				passwordEncryptionService, commaFeedConfiguration, postLoginActivities);
 

@@ -41,7 +41,7 @@ public class FeedEntryFilteringService {
 		// classloader that prevents object creation
 		ClassLoader cl = new ClassLoader() {
 			@Override
-			protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+			protected Class<?> loadClass(String name, boolean resolve) {
 				return null;
 			}
 		};
@@ -76,7 +76,7 @@ public class FeedEntryFilteringService {
 			return true;
 		}
 
-		Script script = null;
+		Script script;
 		try {
 			script = ENGINE.createScript(filter);
 		} catch (JexlException e) {
@@ -95,7 +95,7 @@ public class FeedEntryFilteringService {
 
 		Callable<Object> callable = script.callable(context);
 		Future<Object> future = executor.submit(callable);
-		Object result = null;
+		Object result;
 		try {
 			result = future.get(500, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {

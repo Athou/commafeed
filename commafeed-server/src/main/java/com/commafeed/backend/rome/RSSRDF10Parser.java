@@ -21,7 +21,7 @@ public class RSSRDF10Parser extends RSS10Parser {
 
 	@Override
 	public boolean isMyType(Document document) {
-		boolean ok = false;
+		boolean ok;
 
 		Element rssRoot = document.getRootElement();
 		Namespace defaultNS = rssRoot.getNamespace();

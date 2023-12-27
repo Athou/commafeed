@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.ahocorasick.trie.Emit;
 import org.ahocorasick.trie.Trie;
@@ -246,7 +245,7 @@ public class FeedUtils {
 	}
 
 	public static List<Long> getSortedTimestamps(List<FeedEntry> entries) {
-		return entries.stream().map(t -> t.getUpdated().getTime()).sorted(Collections.reverseOrder()).collect(Collectors.toList());
+		return entries.stream().map(t -> t.getUpdated().getTime()).sorted(Collections.reverseOrder()).toList();
 	}
 
 	public static String removeTrailingSlash(String url) {
@@ -278,7 +277,7 @@ public class FeedUtils {
 			return url;
 		}
 
-		String result = null;
+		String result;
 		try {
 			result = new URL(new URL(baseUrl), url).toString();
 		} catch (MalformedURLException e) {
@@ -307,7 +306,7 @@ public class FeedUtils {
 		Elements elements = doc.select("img");
 		for (Element element : elements) {
 			String href = element.attr("src");
-			if (href != null) {
+			if (StringUtils.isNotBlank(href)) {
 				String proxy = proxyImage(href);
 				element.attr("src", proxy);
 			}

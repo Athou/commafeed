@@ -7,9 +7,10 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -20,6 +21,7 @@ import com.commafeed.backend.model.User;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
 
+@ExtendWith(MockitoExtension.class)
 class OPMLExporterTest {
 
 	@Mock
@@ -41,21 +43,19 @@ class OPMLExporterTest {
 
 	@BeforeEach
 	public void init() {
-		MockitoAnnotations.openMocks(this);
-
 		user.setName("John Doe");
 
 		cat1.setId(1L);
 		cat1.setName("cat1");
 		cat1.setParent(null);
-		cat1.setChildren(new HashSet<FeedCategory>());
-		cat1.setSubscriptions(new HashSet<FeedSubscription>());
+		cat1.setChildren(new HashSet<>());
+		cat1.setSubscriptions(new HashSet<>());
 
 		cat2.setId(2L);
 		cat2.setName("cat2");
 		cat2.setParent(cat1);
-		cat2.setChildren(new HashSet<FeedCategory>());
-		cat2.setSubscriptions(new HashSet<FeedSubscription>());
+		cat2.setChildren(new HashSet<>());
+		cat2.setSubscriptions(new HashSet<>());
 
 		cat1.getChildren().add(cat2);
 

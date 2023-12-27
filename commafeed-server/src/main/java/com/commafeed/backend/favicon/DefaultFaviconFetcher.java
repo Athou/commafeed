@@ -84,7 +84,7 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 
 	private Favicon getIconInPage(String url) {
 
-		Document doc = null;
+		Document doc;
 		try {
 			HttpResult result = getter.getBinary(url, TIMEOUT);
 			doc = Jsoup.parse(new String(result.getContent()), url);
@@ -109,8 +109,8 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 
 		log.debug("Found unconfirmed iconInPage at {}", href);
 
-		byte[] bytes = null;
-		String contentType = null;
+		byte[] bytes;
+		String contentType;
 		try {
 			HttpResult result = getter.getBinary(href, TIMEOUT);
 			bytes = result.getContent();

@@ -58,7 +58,7 @@ public class FacebookFaviconFetcher extends AbstractFaviconFetcher {
 	}
 
 	private String extractUserName(String url) {
-		URI uri = null;
+		URI uri;
 		try {
 			uri = new URI(url);
 		} catch (URISyntaxException e) {

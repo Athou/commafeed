@@ -10,7 +10,6 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -173,7 +172,7 @@ public class FeedRefreshEngine implements Managed {
 			List<Feed> feeds = feedDAO.findNextUpdatable(max, lastLoginThreshold);
 			// update disabledUntil to prevent feeds from being returned again by feedDAO.findNextUpdatable()
 			Date nextUpdateDate = DateUtils.addMinutes(new Date(), config.getApplicationSettings().getRefreshIntervalMinutes());
-			feedDAO.setDisabledUntil(feeds.stream().map(AbstractModel::getId).collect(Collectors.toList()), nextUpdateDate);
+			feedDAO.setDisabledUntil(feeds.stream().map(AbstractModel::getId).toList(), nextUpdateDate);
 			return feeds;
 		});
 	}

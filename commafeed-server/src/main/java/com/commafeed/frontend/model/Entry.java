@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,9 +13,7 @@ import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.FeedSubscription;
-import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndContentImpl;
-import com.rometools.rome.feed.synd.SyndEnclosure;
 import com.rometools.rome.feed.synd.SyndEnclosureImpl;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndEntryImpl;
@@ -125,7 +122,7 @@ public class Entry implements Serializable {
 		entry.setFeedUrl(sub.getFeed().getUrl());
 		entry.setFeedLink(sub.getFeed().getLink());
 		entry.setIconUrl(FeedUtils.getFaviconUrl(sub));
-		entry.setTags(status.getTags().stream().map(FeedEntryTag::getName).collect(Collectors.toList()));
+		entry.setTags(status.getTags().stream().map(FeedEntryTag::getName).toList());
 
 		if (content != null) {
 			entry.setRtl(FeedUtils.isRTL(feedEntry));
@@ -158,13 +155,13 @@ public class Entry implements Serializable {
 
 		SyndContentImpl content = new SyndContentImpl();
 		content.setValue(getContent());
-		entry.setContents(Collections.<SyndContent> singletonList(content));
+		entry.setContents(Collections.singletonList(content));
 
 		if (getEnclosureUrl() != null) {
 			SyndEnclosureImpl enclosure = new SyndEnclosureImpl();
 			enclosure.setType(getEnclosureType());
 			enclosure.setUrl(getEnclosureUrl());
-			entry.setEnclosures(Collections.<SyndEnclosure> singletonList(enclosure));
+			entry.setEnclosures(Collections.singletonList(enclosure));
 		}
 
 		entry.setLink(getUrl());

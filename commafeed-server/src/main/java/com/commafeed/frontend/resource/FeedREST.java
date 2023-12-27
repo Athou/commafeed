@@ -6,11 +6,9 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -225,7 +223,7 @@ public class FeedREST {
 		feed.setTitle("CommaFeed - " + entries.getName());
 		feed.setDescription("CommaFeed - " + entries.getName());
 		feed.setLink(config.getApplicationSettings().getPublicUrl());
-		feed.setEntries(entries.getEntries().stream().map(Entry::asRss).collect(Collectors.toList()));
+		feed.setEntries(entries.getEntries().stream().map(Entry::asRss).toList());
 
 		SyndFeedOutput output = new SyndFeedOutput();
 		StringWriter writer = new StringWriter();
@@ -239,7 +237,7 @@ public class FeedREST {
 	}
 
 	private FeedInfo fetchFeedInternal(String url) {
-		FeedInfo info = null;
+		FeedInfo info;
 		url = StringUtils.trimToEmpty(url);
 		url = prependHttp(url);
 		try {
@@ -268,7 +266,7 @@ public class FeedREST {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getUrl());
 
-		FeedInfo info = null;
+		FeedInfo info;
 		try {
 			info = fetchFeedInternal(req.getUrl());
 		} catch (Exception e) {
@@ -490,12 +488,7 @@ public class FeedREST {
 
 		if (req.getPosition() != null) {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategory(user, parent);
-			Collections.sort(subs, new Comparator<FeedSubscription>() {
-				@Override
-				public int compare(FeedSubscription o1, FeedSubscription o2) {
-					return ObjectUtils.compare(o1.getPosition(), o2.getPosition());
-				}
-			});
+			subs.sort((o1, o2) -> ObjectUtils.compare(o1.getPosition(), o2.getPosition()));
 
 			int existingIndex = -1;
 			for (int i = 0; i < subs.size(); i++) {
@@ -549,7 +542,7 @@ public class FeedREST {
 	public Response exportOpml(@Parameter(hidden = true) @SecurityCheck User user) {
 		Opml opml = opmlExporter.export(user);
 		WireFeedOutput output = new WireFeedOutput();
-		String opmlString = null;
+		String opmlString;
 		try {
 			opmlString = output.outputString(opml);
 		} catch (Exception e) {

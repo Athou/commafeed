@@ -38,14 +38,11 @@ import jakarta.inject.Singleton;
 @Singleton
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
-	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_DESC = new Comparator<FeedEntryStatus>() {
-		@Override
-		public int compare(FeedEntryStatus o1, FeedEntryStatus o2) {
-			CompareToBuilder builder = new CompareToBuilder();
-			builder.append(o2.getEntryUpdated(), o1.getEntryUpdated());
-			builder.append(o2.getId(), o1.getId());
-			return builder.toComparison();
-		}
+	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_DESC = (o1, o2) -> {
+		CompareToBuilder builder = new CompareToBuilder();
+		builder.append(o2.getEntryUpdated(), o1.getEntryUpdated());
+		builder.append(o2.getId(), o1.getId());
+		return builder.toComparison();
 	};
 
 	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = Ordering.from(STATUS_COMPARATOR_DESC).reverse();
@@ -239,7 +236,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 		placeholders = placeholders.subList(Math.max(offset, 0), size);
 
-		List<FeedEntryStatus> statuses = null;
+		List<FeedEntryStatus> statuses;
 		if (onlyIds) {
 			statuses = placeholders;
 		} else {
@@ -264,7 +261,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		for (Tuple tuple : tuples) {
 			Long count = tuple.get(entry.count());
 			Date updated = tuple.get(entry.updated.max());
-			uc = new UnreadCount(subscription.getId(), count, updated);
+			uc = new UnreadCount(subscription.getId(), count == null ? 0 : count, updated);
 		}
 		return uc;
 	}

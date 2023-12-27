@@ -33,6 +33,6 @@ public class UserRoleDAO extends GenericDAO<UserRole> {
 	}
 
 	public Set<Role> findRoles(User user) {
-		return findAll(user).stream().map(r -> r.getRole()).collect(Collectors.toSet());
+		return findAll(user).stream().map(UserRole::getRole).collect(Collectors.toSet());
 	}
 }

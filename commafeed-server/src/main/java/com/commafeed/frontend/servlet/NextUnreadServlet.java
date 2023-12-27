@@ -24,7 +24,6 @@ import com.google.common.collect.Iterables;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -47,16 +46,14 @@ public class NextUnreadServlet extends HttpServlet {
 	private final CommaFeedConfiguration config;
 
 	@Override
-	protected void doGet(final HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(final HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		final String categoryId = req.getParameter(PARAM_CATEGORYID);
 		String orderParam = req.getParameter(PARAM_READINGORDER);
 
 		SessionHelper sessionHelper = new SessionHelper(req);
 		Optional<User> user = sessionHelper.getLoggedInUser();
-		if (user.isPresent()) {
-			unitOfWork.run(() -> userService.performPostLoginActivities(user.get()));
-		}
-		if (!user.isPresent()) {
+		user.ifPresent(value -> unitOfWork.run(() -> userService.performPostLoginActivities(value)));
+		if (user.isEmpty()) {
 			resp.sendRedirect(resp.encodeRedirectURL(config.getApplicationSettings().getPublicUrl()));
 			return;
 		}

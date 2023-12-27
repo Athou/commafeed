@@ -65,7 +65,8 @@ public class EntryREST {
 		Preconditions.checkNotNull(req.getRequests());
 
 		for (MarkRequest r : req.getRequests()) {
-			markEntry(user, r);
+			Preconditions.checkNotNull(r.getId());
+			feedEntryService.markEntry(user, Long.valueOf(r.getId()), r.isRead());
 		}
 
 		return Response.ok().build();

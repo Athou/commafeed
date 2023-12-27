@@ -27,15 +27,13 @@ public class WebSocketConfigurator extends Configurator {
 		HttpSession httpSession = (HttpSession) request.getHttpSession();
 		if (httpSession != null) {
 			Optional<User> user = SessionHelper.getLoggedInUser(httpSession);
-			if (user.isPresent()) {
-				config.getUserProperties().put(SESSIONKEY_USERID, user.get().getId());
-			}
+			user.ifPresent(value -> config.getUserProperties().put(SESSIONKEY_USERID, value.getId()));
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
+	public <T> T getEndpointInstance(Class<T> endpointClass) {
 		return (T) new WebSocketEndpoint(webSocketSessions);
 	}
 }

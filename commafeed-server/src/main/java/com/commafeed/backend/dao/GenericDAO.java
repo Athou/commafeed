@@ -58,7 +58,7 @@ public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T>
 	}
 
 	public int delete(Collection<T> objects) {
-		objects.forEach(o -> delete(o));
+		objects.forEach(this::delete);
 		return objects.size();
 	}
 

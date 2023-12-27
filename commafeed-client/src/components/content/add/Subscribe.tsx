@@ -80,7 +80,7 @@ export function Subscribe() {
                     >
                         <TextInput
                             label={<Trans>Feed URL</Trans>}
-                            placeholder="http://www.mysite.com/rss"
+                            placeholder="https://www.mysite.com/rss"
                             description={
                                 <Trans>
                                     The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed

@@ -9,12 +9,7 @@ import org.junit.jupiter.api.Test;
 
 class FixedSizeSortedSetTest {
 
-	private static final Comparator<String> COMP = new Comparator<String>() {
-		@Override
-		public int compare(String o1, String o2) {
-			return ObjectUtils.compare(o1, o2);
-		}
-	};
+	private static final Comparator<String> COMP = ObjectUtils::compare;
 
 	private FixedSizeSortedSet<String> set;
 

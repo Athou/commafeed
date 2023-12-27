@@ -167,7 +167,7 @@ public class FeverREST {
 		if (params.containsKey("items")) {
 			if (params.containsKey("with_ids")) {
 				String withIds = params.get("with_ids");
-				List<String> entryIds = Stream.of(withIds.split(",")).map(String::trim).collect(Collectors.toList());
+				List<String> entryIds = Stream.of(withIds.split(",")).map(String::trim).toList();
 				resp.setItems(buildItems(user, subscriptions, entryIds));
 			} else {
 				Long sinceId = params.containsKey("since_id") ? Long.valueOf(params.get("since_id")) : null;
@@ -216,10 +216,10 @@ public class FeverREST {
 				.map(e -> {
 					FeverFeedGroup fg = new FeverFeedGroup();
 					fg.setGroupId(e.getKey());
-					fg.setFeedIds(e.getValue().stream().map(FeedSubscription::getId).collect(Collectors.toList()));
+					fg.setFeedIds(e.getValue().stream().map(FeedSubscription::getId).toList());
 					return fg;
 				})
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	private List<FeverGroup> buildGroups(List<FeedCategory> categories) {
@@ -228,7 +228,7 @@ public class FeverREST {
 			g.setId(c.getId());
 			g.setTitle(c.getName());
 			return g;
-		}).collect(Collectors.toList());
+		}).toList();
 	}
 
 	private List<FeverFeed> buildFeeds(List<FeedSubscription> subscriptions) {
@@ -242,18 +242,18 @@ public class FeverREST {
 			f.setSpark(false);
 			f.setLastUpdatedOnTime(s.getFeed().getLastUpdated() == null ? 0 : s.getFeed().getLastUpdated().toInstant().getEpochSecond());
 			return f;
-		}).collect(Collectors.toList());
+		}).toList();
 	}
 
 	private List<Long> buildUnreadItemIds(User user, List<FeedSubscription> subscriptions) {
 		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, null, null, 0,
 				UNREAD_ITEM_IDS_BATCH_SIZE, ReadingOrder.desc, false, true, null, null, null);
-		return statuses.stream().map(s -> s.getEntry().getId()).collect(Collectors.toList());
+		return statuses.stream().map(s -> s.getEntry().getId()).toList();
 	}
 
 	private List<Long> buildSavedItemIds(User user) {
 		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findStarred(user, null, 0, SAVED_ITEM_IDS_BATCH_SIZE, ReadingOrder.desc, false);
-		return statuses.stream().map(s -> s.getEntry().getId()).collect(Collectors.toList());
+		return statuses.stream().map(s -> s.getEntry().getId()).toList();
 	}
 
 	private List<FeverItem> buildItems(User user, List<FeedSubscription> subscriptions, List<String> entryIds) {
@@ -276,7 +276,7 @@ public class FeverREST {
 	private List<FeverItem> buildItems(User user, List<FeedSubscription> subscriptions, Long sinceId, Long maxId) {
 		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, false, null, null, 0, ITEMS_BATCH_SIZE,
 				ReadingOrder.desc, false, false, null, sinceId, maxId);
-		return statuses.stream().map(this::mapStatus).collect(Collectors.toList());
+		return statuses.stream().map(this::mapStatus).toList();
 	}
 
 	private FeverItem mapStatus(FeedEntryStatus s) {
@@ -301,7 +301,7 @@ public class FeverREST {
 			f.setId(s.getFeed().getId());
 			f.setData(String.format("data:%s;base64,%s", favicon.getMediaType(), Base64.getEncoder().encodeToString(favicon.getIcon())));
 			return f;
-		}).collect(Collectors.toList());
+		}).toList();
 	}
 
 	private void mark(User user, String source, long id, String action, Date olderThan) {

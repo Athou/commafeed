@@ -1,9 +1,8 @@
 package com.commafeed.backend.opml;
 
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -34,20 +33,18 @@ public class OPMLExporter {
 		opml.setCreated(new Date());
 
 		List<FeedCategory> categories = feedCategoryDAO.findAll(user);
-		Collections.sort(categories,
-				(e1, e2) -> ObjectUtils.firstNonNull(e1.getPosition(), 0) - ObjectUtils.firstNonNull(e2.getPosition(), 0));
+		categories.sort(Comparator.comparingInt(e -> ObjectUtils.firstNonNull(e.getPosition(), 0)));
 
 		List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
-		Collections.sort(subscriptions,
-				(e1, e2) -> ObjectUtils.firstNonNull(e1.getPosition(), 0) - ObjectUtils.firstNonNull(e2.getPosition(), 0));
+		subscriptions.sort(Comparator.comparingInt(e -> ObjectUtils.firstNonNull(e.getPosition(), 0)));
 
 		// export root categories
-		for (FeedCategory cat : categories.stream().filter(c -> c.getParent() == null).collect(Collectors.toList())) {
+		for (FeedCategory cat : categories.stream().filter(c -> c.getParent() == null).toList()) {
 			opml.getOutlines().add(buildCategoryOutline(cat, categories, subscriptions));
 		}
 
 		// export root subscriptions
-		for (FeedSubscription sub : subscriptions.stream().filter(s -> s.getCategory() == null).collect(Collectors.toList())) {
+		for (FeedSubscription sub : subscriptions.stream().filter(s -> s.getCategory() == null).toList()) {
 			opml.getOutlines().add(buildSubscriptionOutline(sub));
 		}
 
@@ -62,13 +59,13 @@ public class OPMLExporter {
 
 		for (FeedCategory child : categories.stream()
 				.filter(c -> c.getParent() != null && c.getParent().getId().equals(cat.getId()))
-				.collect(Collectors.toList())) {
+				.toList()) {
 			outline.getChildren().add(buildCategoryOutline(child, categories, subscriptions));
 		}
 
 		for (FeedSubscription sub : subscriptions.stream()
 				.filter(s -> s.getCategory() != null && s.getCategory().getId().equals(cat.getId()))
-				.collect(Collectors.toList())) {
+				.toList()) {
 			outline.getChildren().add(buildSubscriptionOutline(sub));
 		}
 		return outline;

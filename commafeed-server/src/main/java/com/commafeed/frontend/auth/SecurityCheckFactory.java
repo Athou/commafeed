@@ -33,10 +33,10 @@ public class SecurityCheckFactory implements Function<ContainerRequest, User> {
 	@Override
 	public User apply(ContainerRequest req) {
 		Optional<User> user = apiKeyLogin();
-		if (!user.isPresent()) {
+		if (user.isEmpty()) {
 			user = basicAuthenticationLogin();
 		}
-		if (!user.isPresent()) {
+		if (user.isEmpty()) {
 			user = cookieSessionLogin(new SessionHelper(request));
 		}
 
@@ -60,9 +60,7 @@ public class SecurityCheckFactory implements Function<ContainerRequest, User> {
 
 	Optional<User> cookieSessionLogin(SessionHelper sessionHelper) {
 		Optional<User> loggedInUser = sessionHelper.getLoggedInUser();
-		if (loggedInUser.isPresent()) {
-			userService.performPostLoginActivities(loggedInUser.get());
-		}
+		loggedInUser.ifPresent(userService::performPostLoginActivities);
 		return loggedInUser;
 	}
 

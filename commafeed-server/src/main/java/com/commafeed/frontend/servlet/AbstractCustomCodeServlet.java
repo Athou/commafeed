@@ -27,7 +27,7 @@ abstract class AbstractCustomCodeServlet extends HttpServlet {
 		resp.setContentType(getMimeType());
 
 		final Optional<User> user = new SessionHelper(req).getLoggedInUser();
-		if (!user.isPresent()) {
+		if (user.isEmpty()) {
 			return;
 		}
 

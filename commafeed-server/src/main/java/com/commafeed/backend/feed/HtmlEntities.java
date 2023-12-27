@@ -263,7 +263,7 @@ public class HtmlEntities {
 		map.put("&zwnj;", "&#8204;");
 
 		HTML_TO_NUMERIC_MAP = Collections.unmodifiableMap(map);
-		HTML_ENTITIES = map.keySet().toArray(new String[map.size()]);
-		NUMERIC_ENTITIES = map.values().toArray(new String[map.size()]);
+		HTML_ENTITIES = map.keySet().toArray(new String[0]);
+		NUMERIC_ENTITIES = map.values().toArray(new String[0]);
 	}
 }

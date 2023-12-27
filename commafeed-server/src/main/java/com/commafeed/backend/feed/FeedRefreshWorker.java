@@ -3,7 +3,6 @@ package com.commafeed.backend.feed;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -52,7 +51,7 @@ public class FeedRefreshWorker {
 
 			Integer maxFeedCapacity = config.getApplicationSettings().getMaxFeedCapacity();
 			if (maxFeedCapacity > 0) {
-				entries = entries.stream().limit(maxFeedCapacity).collect(Collectors.toList());
+				entries = entries.stream().limit(maxFeedCapacity).toList();
 			}
 
 			String urlAfterRedirect = feedFetcherResult.getUrlAfterRedirect();

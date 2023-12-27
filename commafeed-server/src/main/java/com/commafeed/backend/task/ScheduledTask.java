@@ -16,14 +16,11 @@ public abstract class ScheduledTask {
 	protected abstract TimeUnit getTimeUnit();
 
 	public void register(ScheduledExecutorService executor) {
-		Runnable runnable = new Runnable() {
-			@Override
-			public void run() {
-				try {
-					ScheduledTask.this.run();
-				} catch (Exception e) {
-					log.error(e.getMessage(), e);
-				}
+		Runnable runnable = () -> {
+			try {
+				ScheduledTask.this.run();
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
 			}
 		};
 		log.info("registering task {} for execution every {} {}, starting in {} {}", getClass().getSimpleName(), getPeriod(), getTimeUnit(),

@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
-import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -150,7 +149,7 @@ public class FeedRefreshUpdater implements Managed {
 			if (subscriptions == null) {
 				feed.setMessage("No new entries found");
 			} else if (insertedAtLeastOneEntry) {
-				List<User> users = subscriptions.stream().map(FeedSubscription::getUser).collect(Collectors.toList());
+				List<User> users = subscriptions.stream().map(FeedSubscription::getUser).toList();
 				cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
 				cache.invalidateUserRootCategory(users.toArray(new User[0]));
 

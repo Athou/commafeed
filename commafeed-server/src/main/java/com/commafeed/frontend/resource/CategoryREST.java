@@ -2,15 +2,12 @@ package com.commafeed.frontend.resource;
 
 import java.io.StringWriter;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -136,7 +133,7 @@ public class CategoryREST {
 
 		List<Long> excludedIds = null;
 		if (StringUtils.isNotEmpty(excludedSubscriptionIds)) {
-			excludedIds = Arrays.stream(excludedSubscriptionIds.split(",")).map(Long::valueOf).collect(Collectors.toList());
+			excludedIds = Arrays.stream(excludedSubscriptionIds.split(",")).map(Long::valueOf).toList();
 		}
 
 		if (ALL.equals(id)) {
@@ -220,7 +217,7 @@ public class CategoryREST {
 		feed.setTitle("CommaFeed - " + entries.getName());
 		feed.setDescription("CommaFeed - " + entries.getName());
 		feed.setLink(config.getApplicationSettings().getPublicUrl());
-		feed.setEntries(entries.getEntries().stream().map(Entry::asRss).collect(Collectors.toList()));
+		feed.setEntries(entries.getEntries().stream().map(Entry::asRss).toList());
 
 		SyndFeedOutput output = new SyndFeedOutput();
 		StringWriter writer = new StringWriter();
@@ -265,13 +262,7 @@ public class CategoryREST {
 
 	private void removeExcludedSubscriptions(List<FeedSubscription> subs, List<Long> excludedIds) {
 		if (CollectionUtils.isNotEmpty(excludedIds)) {
-			Iterator<FeedSubscription> it = subs.iterator();
-			while (it.hasNext()) {
-				FeedSubscription sub = it.next();
-				if (excludedIds.contains(sub.getId())) {
-					it.remove();
-				}
-			}
+			subs.removeIf(sub -> excludedIds.contains(sub.getId()));
 		}
 	}
 
@@ -361,12 +352,7 @@ public class CategoryREST {
 
 		if (req.getPosition() != null) {
 			List<FeedCategory> categories = feedCategoryDAO.findByParent(user, parent);
-			Collections.sort(categories, new Comparator<FeedCategory>() {
-				@Override
-				public int compare(FeedCategory o1, FeedCategory o2) {
-					return ObjectUtils.compare(o1.getPosition(), o2.getPosition());
-				}
-			});
+			categories.sort((o1, o2) -> ObjectUtils.compare(o1.getPosition(), o2.getPosition()));
 
 			int existingIndex = -1;
 			for (int i = 0; i < categories.size(); i++) {

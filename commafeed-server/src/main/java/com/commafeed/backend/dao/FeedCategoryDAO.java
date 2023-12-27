@@ -2,7 +2,6 @@ package com.commafeed.backend.dao;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.hibernate.SessionFactory;
 
@@ -34,7 +33,7 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 	}
 
 	public FeedCategory findByName(User user, String name, FeedCategory parent) {
-		Predicate parentPredicate = null;
+		Predicate parentPredicate;
 		if (parent == null) {
 			parentPredicate = category.parent.isNull();
 		} else {
@@ -44,7 +43,7 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 	}
 
 	public List<FeedCategory> findByParent(User user, FeedCategory parent) {
-		Predicate parentPredicate = null;
+		Predicate parentPredicate;
 		if (parent == null) {
 			parentPredicate = category.parent.isNull();
 		} else {
@@ -54,7 +53,7 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 	}
 
 	public List<FeedCategory> findAllChildrenCategories(User user, FeedCategory parent) {
-		return findAll(user).stream().filter(c -> isChild(c, parent)).collect(Collectors.toList());
+		return findAll(user).stream().filter(c -> isChild(c, parent)).toList();
 	}
 
 	private boolean isChild(FeedCategory child, FeedCategory parent) {

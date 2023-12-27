@@ -18,7 +18,7 @@ public class FixedSizeSortedSet<E> {
 	private final int capacity;
 
 	public FixedSizeSortedSet(int capacity, Comparator<? super E> comparator) {
-		this.inner = new ArrayList<E>(Math.max(0, capacity));
+		this.inner = new ArrayList<>(Math.max(0, capacity));
 		this.capacity = capacity < 0 ? Integer.MAX_VALUE : capacity;
 		this.comparator = comparator;
 	}

@@ -88,30 +88,14 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 
 	@Override
 	public void initialize(Bootstrap<CommaFeedConfiguration> bootstrap) {
-		bootstrap.setConfigurationFactoryFactory(new DefaultConfigurationFactoryFactory<CommaFeedConfiguration>() {
-			@Override
-			protected ObjectMapper configureObjectMapper(ObjectMapper objectMapper) {
-				// disable case sensitivity because EnvironmentSubstitutor maps MYPROPERTY to myproperty and not to myProperty
-				return objectMapper
-						.setConfig(objectMapper.getDeserializationConfig().with(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES));
-			}
-		});
-
-		// enable config.yml string substitution
-		// e.g. having a custom config.yml file with app.session.path=${SOME_ENV_VAR} will substitute SOME_ENV_VAR
-		SubstitutingSourceProvider substitutingSourceProvider = new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(),
-				new EnvironmentVariableSubstitutor(false));
-		// enable config.yml properties override with env variables prefixed with CF_
-		// e.g. setting CF_APP_ALLOWREGISTRATIONS=true will set app.allowRegistrations to true
-		EnvironmentSubstitutor environmentSubstitutor = new EnvironmentSubstitutor("CF", substitutingSourceProvider);
-		bootstrap.setConfigurationSourceProvider(environmentSubstitutor);
+		configureEnvironmentSubstitutor(bootstrap);
 
 		bootstrap.getObjectMapper().registerModule(new MetricsModule(TimeUnit.SECONDS, TimeUnit.SECONDS, false));
 
 		bootstrap.addBundle(websocketBundle = new WebsocketBundle<>());
-		bootstrap.addBundle(hibernateBundle = new HibernateBundle<CommaFeedConfiguration>(AbstractModel.class, Feed.class,
-				FeedCategory.class, FeedEntry.class, FeedEntryContent.class, FeedEntryStatus.class, FeedEntryTag.class,
-				FeedSubscription.class, User.class, UserRole.class, UserSettings.class) {
+		bootstrap.addBundle(hibernateBundle = new HibernateBundle<>(AbstractModel.class, Feed.class, FeedCategory.class, FeedEntry.class,
+				FeedEntryContent.class, FeedEntryStatus.class, FeedEntryTag.class, FeedSubscription.class, User.class, UserRole.class,
+				UserSettings.class) {
 			@Override
 			public DataSourceFactory getDataSourceFactory(CommaFeedConfiguration configuration) {
 				DataSourceFactory factory = configuration.getDataSourceFactory();
@@ -126,7 +110,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 			}
 		});
 
-		bootstrap.addBundle(new MigrationsBundle<CommaFeedConfiguration>() {
+		bootstrap.addBundle(new MigrationsBundle<>() {
 			@Override
 			public DataSourceFactory getDataSourceFactory(CommaFeedConfiguration configuration) {
 				return configuration.getDataSourceFactory();
@@ -137,8 +121,32 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		bootstrap.addBundle(new MultiPartBundle());
 	}
 
+	private static void configureEnvironmentSubstitutor(Bootstrap<CommaFeedConfiguration> bootstrap) {
+		bootstrap.setConfigurationFactoryFactory(new DefaultConfigurationFactoryFactory<>() {
+			@Override
+			protected ObjectMapper configureObjectMapper(ObjectMapper objectMapper) {
+				// disable case sensitivity because EnvironmentSubstitutor maps MYPROPERTY to myproperty and not to myProperty
+				return objectMapper
+						.setConfig(objectMapper.getDeserializationConfig().with(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES));
+			}
+		});
+
+		bootstrap.setConfigurationSourceProvider(buildEnvironmentSubstitutor(bootstrap));
+	}
+
+	private static EnvironmentSubstitutor buildEnvironmentSubstitutor(Bootstrap<CommaFeedConfiguration> bootstrap) {
+		// enable config.yml string substitution
+		// e.g. having a custom config.yml file with app.session.path=${SOME_ENV_VAR} will substitute SOME_ENV_VAR
+		SubstitutingSourceProvider substitutingSourceProvider = new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(),
+				new EnvironmentVariableSubstitutor(false));
+
+		// enable config.yml properties override with env variables prefixed with CF_
+		// e.g. setting CF_APP_ALLOWREGISTRATIONS=true will set app.allowRegistrations to true
+		return new EnvironmentSubstitutor("CF", substitutingSourceProvider);
+	}
+
 	@Override
-	public void run(CommaFeedConfiguration config, Environment environment) throws Exception {
+	public void run(CommaFeedConfiguration config, Environment environment) {
 		PasswordConstraintValidator.setStrict(config.getApplicationSettings().getStrictPasswordPolicy());
 
 		// guice init
@@ -180,7 +188,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		websocketBundle.addEndpoint(serverEndpointConfig);
 
 		// Scheduled tasks
-		Set<ScheduledTask> tasks = injector.getInstance(Key.get(new TypeLiteral<Set<ScheduledTask>>() {
+		Set<ScheduledTask> tasks = injector.getInstance(Key.get(new TypeLiteral<>() {
 		}));
 		ScheduledExecutorService executor = environment.lifecycle()
 				.scheduledExecutorService("task-scheduler", true)

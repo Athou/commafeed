@@ -184,7 +184,7 @@ public class FeedParser {
 	}
 
 	private String getContent(SyndEntry item) {
-		String content = null;
+		String content;
 		if (item.getContents().isEmpty()) {
 			content = item.getDescription() == null ? null : item.getDescription().getValue();
 		} else {

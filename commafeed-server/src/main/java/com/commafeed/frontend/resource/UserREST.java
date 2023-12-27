@@ -206,7 +206,7 @@ public class UserREST {
 		}
 
 		Optional<User> login = userService.login(user.getEmail(), request.getCurrentPassword());
-		if (!login.isPresent()) {
+		if (login.isEmpty()) {
 			throw new BadRequestException("invalid password");
 		}
 

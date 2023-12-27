@@ -172,7 +172,7 @@ public class FeverResponse {
 		@Override
 		public List<Long> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
 			String value = ctxt.readValue(p, String.class);
-			return Stream.of(value.split(",")).map(Long::valueOf).collect(Collectors.toList());
+			return Stream.of(value.split(",")).map(Long::valueOf).toList();
 		}
 	}
 }

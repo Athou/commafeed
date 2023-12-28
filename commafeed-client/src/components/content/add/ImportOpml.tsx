@@ -37,7 +37,9 @@ export function ImportOpml() {
                 <Stack>
                     <FileInput
                         label={<Trans>OPML file</Trans>}
-                        placeholder={t`OPML file`}
+                        icon={<TbFileImport />}
+                        // https://github.com/mantinedev/mantine/issues/5401
+                        {...{ placeholder: t`OPML file` }}
                         description={
                             <Trans>
                                 An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your

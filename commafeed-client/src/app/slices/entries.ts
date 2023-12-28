@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { Constants } from "app/constants"
-import { RootState } from "app/store"
-import { Entries, Entry, MarkRequest, TagRequest } from "app/types"
+import { createAppAsyncThunk, RootState } from "app/store"
+import { Entry, MarkRequest, TagRequest } from "app/types"
 import { scrollToWithCallback } from "app/utils"
 import { flushSync } from "react-dom"
 // eslint-disable-next-line import/no-cycle
@@ -47,27 +47,24 @@ const initialState: EntriesState = {
 
 const getEndpoint = (sourceType: EntrySourceType) =>
     sourceType === "category" || sourceType === "tag" ? client.category.getEntries : client.feed.getEntries
-export const loadEntries = createAsyncThunk<
-    Entries,
-    { source: EntrySource; clearSearch: boolean },
-    {
-        state: RootState
-    }
->("entries/load", async (arg, thunkApi) => {
-    if (arg.clearSearch) thunkApi.dispatch(setSearch(""))
+export const loadEntries = createAppAsyncThunk(
+    "entries/load",
+    async (
+        arg: {
+            source: EntrySource
+            clearSearch: boolean
+        },
+        thunkApi
+    ) => {
+        if (arg.clearSearch) thunkApi.dispatch(setSearch(""))
 
-    const state = thunkApi.getState()
-    const endpoint = getEndpoint(arg.source.type)
-    const result = await endpoint(buildGetEntriesPaginatedRequest(state, arg.source, 0))
-    return result.data
-})
-export const loadMoreEntries = createAsyncThunk<
-    Entries,
-    void,
-    {
-        state: RootState
+        const state = thunkApi.getState()
+        const endpoint = getEndpoint(arg.source.type)
+        const result = await endpoint(buildGetEntriesPaginatedRequest(state, arg.source, 0))
+        return result.data
     }
->("entries/loadMore", async (_, thunkApi) => {
+)
+export const loadMoreEntries = createAppAsyncThunk("entries/loadMore", async (_, thunkApi) => {
     const state = thunkApi.getState()
     const { source } = state.entries
     const offset =
@@ -85,22 +82,16 @@ const buildGetEntriesPaginatedRequest = (state: RootState, source: EntrySource, 
     tag: source.type === "tag" ? source.id : undefined,
     keywords: state.entries.search,
 })
-export const reloadEntries = createAsyncThunk<
-    void,
-    void,
-    {
-        state: RootState
-    }
->("entries/reload", async (arg, thunkApi) => {
+export const reloadEntries = createAppAsyncThunk("entries/reload", async (arg, thunkApi) => {
     const state = thunkApi.getState()
     thunkApi.dispatch(loadEntries({ source: state.entries.source, clearSearch: false }))
 })
-export const search = createAsyncThunk<void, string, { state: RootState }>("entries/search", async (arg, thunkApi) => {
+export const search = createAppAsyncThunk("entries/search", async (arg: string, thunkApi) => {
     const state = thunkApi.getState()
     thunkApi.dispatch(setSearch(arg))
     thunkApi.dispatch(loadEntries({ source: state.entries.source, clearSearch: false }))
 })
-export const markEntry = createAsyncThunk(
+export const markEntry = createAppAsyncThunk(
     "entries/entry/mark",
     (arg: { entry: Entry; read: boolean }) => {
         client.entry.mark({
@@ -112,9 +103,15 @@ export const markEntry = createAsyncThunk(
         condition: arg => arg.entry.read !== arg.read,
     }
 )
-export const markMultipleEntries = createAsyncThunk(
+export const markMultipleEntries = createAppAsyncThunk(
     "entries/entry/markMultiple",
-    async (arg: { entries: Entry[]; read: boolean }, thunkApi) => {
+    async (
+        arg: {
+            entries: Entry[]
+            read: boolean
+        },
+        thunkApi
+    ) => {
         const requests: MarkRequest[] = arg.entries.map(e => ({
             id: e.id,
             read: arg.read,
@@ -123,88 +120,90 @@ export const markMultipleEntries = createAsyncThunk(
         thunkApi.dispatch(reloadTree())
     }
 )
-export const markEntriesUpToEntry = createAsyncThunk<void, Entry, { state: RootState }>(
-    "entries/entry/upToEntry",
-    async (arg, thunkApi) => {
-        const state = thunkApi.getState()
-        const { entries } = state.entries
+export const markEntriesUpToEntry = createAppAsyncThunk("entries/entry/upToEntry", async (arg: Entry, thunkApi) => {
+    const state = thunkApi.getState()
+    const { entries } = state.entries
 
-        const index = entries.findIndex(e => e.id === arg.id)
-        if (index === -1) return
+    const index = entries.findIndex(e => e.id === arg.id)
+    if (index === -1) return
 
-        thunkApi.dispatch(
-            markMultipleEntries({
-                entries: entries.slice(0, index + 1),
-                read: true,
-            })
-        )
+    thunkApi.dispatch(
+        markMultipleEntries({
+            entries: entries.slice(0, index + 1),
+            read: true,
+        })
+    )
+})
+export const markAllEntries = createAppAsyncThunk(
+    "entries/entry/markAll",
+    async (
+        arg: {
+            sourceType: EntrySourceType
+            req: MarkRequest
+        },
+        thunkApi
+    ) => {
+        const endpoint = arg.sourceType === "category" ? client.category.markEntries : client.feed.markEntries
+        await endpoint(arg.req)
+        thunkApi.dispatch(reloadEntries())
+        thunkApi.dispatch(reloadTree())
     }
 )
-export const markAllEntries = createAsyncThunk<
-    void,
-    { sourceType: EntrySourceType; req: MarkRequest },
-    {
-        state: RootState
-    }
->("entries/entry/markAll", async (arg, thunkApi) => {
-    const endpoint = arg.sourceType === "category" ? client.category.markEntries : client.feed.markEntries
-    await endpoint(arg.req)
-    thunkApi.dispatch(reloadEntries())
-    thunkApi.dispatch(reloadTree())
-})
-export const starEntry = createAsyncThunk("entries/entry/star", (arg: { entry: Entry; starred: boolean }) => {
+export const starEntry = createAppAsyncThunk("entries/entry/star", (arg: { entry: Entry; starred: boolean }) => {
     client.entry.star({
         id: arg.entry.id,
         feedId: +arg.entry.feedId,
         starred: arg.starred,
     })
 })
-export const selectEntry = createAsyncThunk<
-    void,
-    {
-        entry: Entry
-        expand: boolean
-        markAsRead: boolean
-        scrollToEntry: boolean
-    },
-    { state: RootState }
->("entries/entry/select", (arg, thunkApi) => {
-    const state = thunkApi.getState()
-    const entry = state.entries.entries.find(e => e.id === arg.entry.id)
-    if (!entry) return
+export const selectEntry = createAppAsyncThunk(
+    "entries/entry/select",
+    (
+        arg: {
+            entry: Entry
+            expand: boolean
+            markAsRead: boolean
+            scrollToEntry: boolean
+        },
+        thunkApi
+    ) => {
+        const state = thunkApi.getState()
+        const entry = state.entries.entries.find(e => e.id === arg.entry.id)
+        if (!entry) return
 
-    // flushSync is required because we need the newly selected entry to be expanded
-    // and the previously selected entry to be collapsed to be able to scroll to the right position
-    flushSync(() => {
-        // mark as read if requested
-        if (arg.markAsRead) {
-            thunkApi.dispatch(markEntry({ entry, read: true }))
-        }
+        // flushSync is required because we need the newly selected entry to be expanded
+        // and the previously selected entry to be collapsed to be able to scroll to the right position
+        flushSync(() => {
+            // mark as read if requested
+            if (arg.markAsRead) {
+                thunkApi.dispatch(markEntry({ entry, read: true }))
+            }
 
-        // set entry as selected
-        thunkApi.dispatch(entriesSlice.actions.setSelectedEntry(entry))
+            // set entry as selected
+            thunkApi.dispatch(entriesSlice.actions.setSelectedEntry(entry))
 
-        // expand if requested
-        const previouslySelectedEntry = state.entries.entries.find(e => e.id === state.entries.selectedEntryId)
-        if (previouslySelectedEntry) {
-            thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry: previouslySelectedEntry, expanded: false }))
-        }
-        thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry, expanded: arg.expand }))
-    })
+            // expand if requested
+            const previouslySelectedEntry = state.entries.entries.find(e => e.id === state.entries.selectedEntryId)
+            if (previouslySelectedEntry) {
+                thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry: previouslySelectedEntry, expanded: false }))
+            }
+            thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry, expanded: arg.expand }))
+        })
 
-    if (arg.scrollToEntry) {
-        const entryElement = document.getElementById(Constants.dom.entryId(entry))
-        if (entryElement) {
-            const alwaysScrollToEntry = state.user.settings?.alwaysScrollToEntry
-            const entryEntirelyVisible = Constants.layout.isTopVisible(entryElement) && Constants.layout.isBottomVisible(entryElement)
-            if (alwaysScrollToEntry || !entryEntirelyVisible) {
-                const scrollSpeed = state.user.settings?.scrollSpeed
-                thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(true))
-                scrollToEntry(entryElement, scrollSpeed, () => thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(false)))
+        if (arg.scrollToEntry) {
+            const entryElement = document.getElementById(Constants.dom.entryId(entry))
+            if (entryElement) {
+                const alwaysScrollToEntry = state.user.settings?.alwaysScrollToEntry
+                const entryEntirelyVisible = Constants.layout.isTopVisible(entryElement) && Constants.layout.isBottomVisible(entryElement)
+                if (alwaysScrollToEntry || !entryEntirelyVisible) {
+                    const scrollSpeed = state.user.settings?.scrollSpeed
+                    thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(true))
+                    scrollToEntry(entryElement, scrollSpeed, () => thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(false)))
+                }
             }
         }
     }
-})
+)
 const scrollToEntry = (entryElement: HTMLElement, scrollSpeed: number | undefined, onScrollEnded: () => void) => {
     scrollToWithCallback({
         options: {
@@ -216,59 +215,57 @@ const scrollToEntry = (entryElement: HTMLElement, scrollSpeed: number | undefine
     })
 }
 
-export const selectPreviousEntry = createAsyncThunk<
-    void,
-    {
-        expand: boolean
-        markAsRead: boolean
-        scrollToEntry: boolean
-    },
-    { state: RootState }
->("entries/entry/selectPrevious", (arg, thunkApi) => {
-    const state = thunkApi.getState()
-    const { entries } = state.entries
-    const previousIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) - 1
-    if (previousIndex >= 0) {
-        thunkApi.dispatch(
-            selectEntry({
-                entry: entries[previousIndex],
-                expand: arg.expand,
-                markAsRead: arg.markAsRead,
-                scrollToEntry: arg.scrollToEntry,
-            })
-        )
+export const selectPreviousEntry = createAppAsyncThunk(
+    "entries/entry/selectPrevious",
+    (
+        arg: {
+            expand: boolean
+            markAsRead: boolean
+            scrollToEntry: boolean
+        },
+        thunkApi
+    ) => {
+        const state = thunkApi.getState()
+        const { entries } = state.entries
+        const previousIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) - 1
+        if (previousIndex >= 0) {
+            thunkApi.dispatch(
+                selectEntry({
+                    entry: entries[previousIndex],
+                    expand: arg.expand,
+                    markAsRead: arg.markAsRead,
+                    scrollToEntry: arg.scrollToEntry,
+                })
+            )
+        }
     }
-})
-export const selectNextEntry = createAsyncThunk<
-    void,
-    {
-        expand: boolean
-        markAsRead: boolean
-        scrollToEntry: boolean
-    },
-    { state: RootState }
->("entries/entry/selectNext", (arg, thunkApi) => {
-    const state = thunkApi.getState()
-    const { entries } = state.entries
-    const nextIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) + 1
-    if (nextIndex < entries.length) {
-        thunkApi.dispatch(
-            selectEntry({
-                entry: entries[nextIndex],
-                expand: arg.expand,
-                markAsRead: arg.markAsRead,
-                scrollToEntry: arg.scrollToEntry,
-            })
-        )
+)
+export const selectNextEntry = createAppAsyncThunk(
+    "entries/entry/selectNext",
+    (
+        arg: {
+            expand: boolean
+            markAsRead: boolean
+            scrollToEntry: boolean
+        },
+        thunkApi
+    ) => {
+        const state = thunkApi.getState()
+        const { entries } = state.entries
+        const nextIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) + 1
+        if (nextIndex < entries.length) {
+            thunkApi.dispatch(
+                selectEntry({
+                    entry: entries[nextIndex],
+                    expand: arg.expand,
+                    markAsRead: arg.markAsRead,
+                    scrollToEntry: arg.scrollToEntry,
+                })
+            )
+        }
     }
-})
-export const tagEntry = createAsyncThunk<
-    void,
-    TagRequest,
-    {
-        state: RootState
-    }
->("entries/entry/tag", async (arg, thunkApi) => {
+)
+export const tagEntry = createAppAsyncThunk("entries/entry/tag", async (arg: TagRequest, thunkApi) => {
     await client.entry.tag(arg)
     thunkApi.dispatch(reloadTags())
 })

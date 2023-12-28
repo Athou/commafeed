@@ -1,8 +1,8 @@
 import { t } from "@lingui/macro"
 import { showNotification } from "@mantine/notifications"
-import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit"
+import { createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { client } from "app/client"
-import { RootState } from "app/store"
+import { createAppAsyncThunk } from "app/store"
 import { ReadingMode, ReadingOrder, Settings, SharingSettings, UserModel } from "app/types"
 // eslint-disable-next-line import/no-cycle
 import { reloadEntries } from "./entries"
@@ -15,121 +15,79 @@ interface UserState {
 
 const initialState: UserState = {}
 
-export const reloadSettings = createAsyncThunk("settings/reload", () => client.user.getSettings().then(r => r.data))
-export const reloadProfile = createAsyncThunk("profile/reload", () => client.user.getProfile().then(r => r.data))
-export const reloadTags = createAsyncThunk("entries/tags", () => client.entry.getTags().then(r => r.data))
-export const changeReadingMode = createAsyncThunk<void, ReadingMode, { state: RootState }>(
-    "settings/readingMode",
-    (readingMode, thunkApi) => {
-        const { settings } = thunkApi.getState().user
-        if (!settings) return
-        client.user.saveSettings({ ...settings, readingMode })
-        thunkApi.dispatch(reloadEntries())
-    }
-)
-export const changeReadingOrder = createAsyncThunk<void, ReadingOrder, { state: RootState }>(
-    "settings/readingOrder",
-    (readingOrder, thunkApi) => {
-        const { settings } = thunkApi.getState().user
-        if (!settings) return
-        client.user.saveSettings({ ...settings, readingOrder })
-        thunkApi.dispatch(reloadEntries())
-    }
-)
-export const changeLanguage = createAsyncThunk<
-    void,
-    string,
-    {
-        state: RootState
-    }
->("settings/language", (language, thunkApi) => {
+export const reloadSettings = createAppAsyncThunk("settings/reload", () => client.user.getSettings().then(r => r.data))
+export const reloadProfile = createAppAsyncThunk("profile/reload", () => client.user.getProfile().then(r => r.data))
+export const reloadTags = createAppAsyncThunk("entries/tags", () => client.entry.getTags().then(r => r.data))
+export const changeReadingMode = createAppAsyncThunk("settings/readingMode", (readingMode: ReadingMode, thunkApi) => {
+    const { settings } = thunkApi.getState().user
+    if (!settings) return
+    client.user.saveSettings({ ...settings, readingMode })
+    thunkApi.dispatch(reloadEntries())
+})
+export const changeReadingOrder = createAppAsyncThunk("settings/readingOrder", (readingOrder: ReadingOrder, thunkApi) => {
+    const { settings } = thunkApi.getState().user
+    if (!settings) return
+    client.user.saveSettings({ ...settings, readingOrder })
+    thunkApi.dispatch(reloadEntries())
+})
+export const changeLanguage = createAppAsyncThunk("settings/language", (language: string, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return
     client.user.saveSettings({ ...settings, language })
 })
-export const changeScrollSpeed = createAsyncThunk<
-    void,
-    boolean,
-    {
-        state: RootState
-    }
->("settings/scrollSpeed", (speed, thunkApi) => {
+export const changeScrollSpeed = createAppAsyncThunk("settings/scrollSpeed", (speed: boolean, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return
     client.user.saveSettings({ ...settings, scrollSpeed: speed ? 400 : 0 })
 })
-export const changeShowRead = createAsyncThunk<
-    void,
-    boolean,
-    {
-        state: RootState
-    }
->("settings/showRead", (showRead, thunkApi) => {
+export const changeShowRead = createAppAsyncThunk("settings/showRead", (showRead: boolean, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return
     client.user.saveSettings({ ...settings, showRead })
 })
-export const changeScrollMarks = createAsyncThunk<
-    void,
-    boolean,
-    {
-        state: RootState
-    }
->("settings/scrollMarks", (scrollMarks, thunkApi) => {
+export const changeScrollMarks = createAppAsyncThunk("settings/scrollMarks", (scrollMarks: boolean, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return
     client.user.saveSettings({ ...settings, scrollMarks })
 })
-export const changeAlwaysScrollToEntry = createAsyncThunk<
-    void,
-    boolean,
-    {
-        state: RootState
-    }
->("settings/alwaysScrollToEntry", (alwaysScrollToEntry, thunkApi) => {
+export const changeAlwaysScrollToEntry = createAppAsyncThunk("settings/alwaysScrollToEntry", (alwaysScrollToEntry: boolean, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return
     client.user.saveSettings({ ...settings, alwaysScrollToEntry })
 })
-export const changeMarkAllAsReadConfirmation = createAsyncThunk<
-    void,
-    boolean,
-    {
-        state: RootState
+export const changeMarkAllAsReadConfirmation = createAppAsyncThunk(
+    "settings/markAllAsReadConfirmation",
+    (markAllAsReadConfirmation: boolean, thunkApi) => {
+        const { settings } = thunkApi.getState().user
+        if (!settings) return
+        client.user.saveSettings({ ...settings, markAllAsReadConfirmation })
     }
->("settings/markAllAsReadConfirmation", (markAllAsReadConfirmation, thunkApi) => {
-    const { settings } = thunkApi.getState().user
-    if (!settings) return
-    client.user.saveSettings({ ...settings, markAllAsReadConfirmation })
-})
-export const changeCustomContextMenu = createAsyncThunk<
-    void,
-    boolean,
-    {
-        state: RootState
-    }
->("settings/customContextMenu", (customContextMenu, thunkApi) => {
+)
+export const changeCustomContextMenu = createAppAsyncThunk("settings/customContextMenu", (customContextMenu: boolean, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return
     client.user.saveSettings({ ...settings, customContextMenu })
 })
-export const changeSharingSetting = createAsyncThunk<
-    void,
-    { site: keyof SharingSettings; value: boolean },
-    {
-        state: RootState
-    }
->("settings/sharingSetting", (sharingSetting, thunkApi) => {
-    const { settings } = thunkApi.getState().user
-    if (!settings) return
-    client.user.saveSettings({
-        ...settings,
-        sharingSettings: {
-            ...settings.sharingSettings,
-            [sharingSetting.site]: sharingSetting.value,
+export const changeSharingSetting = createAppAsyncThunk(
+    "settings/sharingSetting",
+    (
+        sharingSetting: {
+            site: keyof SharingSettings
+            value: boolean
         },
-    })
-})
+        thunkApi
+    ) => {
+        const { settings } = thunkApi.getState().user
+        if (!settings) return
+        client.user.saveSettings({
+            ...settings,
+            sharingSettings: {
+                ...settings.sharingSettings,
+                [sharingSetting.site]: sharingSetting.value,
+            },
+        })
+    }
+)
 
 export const userSlice = createSlice({
     name: "user",

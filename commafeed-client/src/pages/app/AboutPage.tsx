@@ -118,7 +118,7 @@ export function AboutPage() {
                     <KeyboardShortcutsHelp />
                 </Section>
                 <Section title={<Trans>REST API</Trans>} icon={<TbRocket size={24} />}>
-                    <Anchor onClick={() => dispatch(redirectToApiDocumentation())}>
+                    <Anchor onClick={async () => await dispatch(redirectToApiDocumentation())}>
                         <Trans>Go to the API documentation.</Trans>
                     </Anchor>
                 </Section>

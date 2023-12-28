@@ -2,7 +2,7 @@ import { Trans } from "@lingui/macro"
 import { Box, Button, Checkbox, Group, PasswordInput, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
-import { UserModel } from "app/types"
+import { type AdminSaveUserRequest, type UserModel } from "app/types"
 import { Alert } from "components/Alert"
 import { useAsyncCallback } from "react-async-hook"
 import { TbDeviceFloppy } from "react-icons/tb"
@@ -14,8 +14,12 @@ interface UserEditProps {
 }
 
 export function UserEdit(props: UserEditProps) {
-    const form = useForm<UserModel>({
-        initialValues: props.user ?? ({ enabled: true } as UserModel),
+    const form = useForm<AdminSaveUserRequest>({
+        initialValues: props.user ?? {
+            name: "",
+            enabled: true,
+            admin: false,
+        },
     })
     const saveUser = useAsyncCallback(client.admin.saveUser, { onSuccess: props.onSave })
 

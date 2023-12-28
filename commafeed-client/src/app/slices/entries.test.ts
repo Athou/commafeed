@@ -1,9 +1,9 @@
 /* eslint-disable import/first */
 import { configureStore } from "@reduxjs/toolkit"
-import { client } from "app/client"
+import { type client } from "app/client"
 import { reducers } from "app/store"
-import { Entries, Entry } from "app/types"
-import { AxiosResponse } from "axios"
+import { type Entries, type Entry } from "app/types"
+import { type AxiosResponse } from "axios"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { mockReset } from "vitest-mock-extended"
 import { loadEntries, loadMoreEntries, markAllEntries, markEntry } from "./entries"

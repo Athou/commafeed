@@ -1,9 +1,9 @@
 import { t, Trans } from "@lingui/macro"
 import { Box, Center, Kbd, TextInput } from "@mantine/core"
-import { openSpotlight, SpotlightAction, SpotlightProvider } from "@mantine/spotlight"
+import { openSpotlight, type SpotlightAction, SpotlightProvider } from "@mantine/spotlight"
 import { redirectToFeed } from "app/slices/redirect"
 import { useAppDispatch } from "app/store"
-import { Subscription } from "app/types"
+import { type Subscription } from "app/types"
 import { FeedFavicon } from "components/content/FeedFavicon"
 import { useMousetrap } from "hooks/useMousetrap"
 import { TbSearch } from "react-icons/tb"
@@ -20,7 +20,7 @@ export function TreeSearch(props: TreeSearchProps) {
         .map(f => ({
             title: f.name,
             icon: <FeedFavicon url={f.iconUrl} />,
-            onTrigger: () => dispatch(redirectToFeed(f.id)),
+            onTrigger: async () => await dispatch(redirectToFeed(f.id)),
         }))
 
     const searchIcon = <TbSearch size={18} />

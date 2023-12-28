@@ -28,7 +28,7 @@ import { useMobile } from "hooks/useMobile"
 import { useWebSocket } from "hooks/useWebSocket"
 import { LoadingPage } from "pages/LoadingPage"
 import { Resizable } from "re-resizable"
-import { ReactNode, Suspense, useEffect } from "react"
+import { type ReactNode, Suspense, useEffect } from "react"
 import { TbPlus } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
 
@@ -79,7 +79,7 @@ const useStyles = createStyles((theme, props: LayoutProps) => ({
 function LogoAndTitle() {
     const dispatch = useAppDispatch()
     return (
-        <Center inline onClick={() => dispatch(redirectToRootCategory())} style={{ cursor: "pointer" }}>
+        <Center inline onClick={async () => await dispatch(redirectToRootCategory())} style={{ cursor: "pointer" }}>
             <Logo size={24} />
             <Title order={3} pl="md">
                 CommaFeed
@@ -115,7 +115,7 @@ export default function Layout(props: LayoutProps) {
 
         if (!webSocketConnected && treeReloadInterval) {
             // reload tree periodically if not receiving websocket events
-            timer = window.setInterval(() => dispatch(reloadTree()), treeReloadInterval)
+            timer = window.setInterval(async () => await dispatch(reloadTree()), treeReloadInterval)
         }
 
         return () => clearInterval(timer)
@@ -133,7 +133,7 @@ export default function Layout(props: LayoutProps) {
     )
 
     const addButton = (
-        <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectToAdd())} aria-label="Subscribe">
+        <ActionIcon color={theme.primaryColor} onClick={async () => await dispatch(redirectToAdd())} aria-label="Subscribe">
             <TbPlus size={18} />
         </ActionIcon>
     )

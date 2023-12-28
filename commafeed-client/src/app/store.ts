@@ -1,6 +1,6 @@
 import { configureStore, createAsyncThunk } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
+import { type TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
 import entriesReducer from "./slices/entries"
 import redirectReducer from "./slices/redirect"
 import serverReducer from "./slices/server"

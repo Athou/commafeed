@@ -41,7 +41,7 @@ export function WelcomePage() {
                         label={<Trans>Try the demo!</Trans>}
                         icon={<TbClock size={iconSize} />}
                         variant="outline"
-                        onClick={() => login.execute({ name: "demo", password: "demo" })}
+                        onClick={async () => await login.execute({ name: "demo", password: "demo" })}
                         showLabelOnMobile
                     />
                 </Center>
@@ -93,7 +93,7 @@ function Buttons() {
                 label={<Trans>Log in</Trans>}
                 icon={<TbKey size={iconSize} />}
                 variant="outline"
-                onClick={() => dispatch(redirectToLogin())}
+                onClick={async () => await dispatch(redirectToLogin())}
                 showLabelOnMobile
             />
             {serverInfos?.allowRegistrations && (
@@ -101,7 +101,7 @@ function Buttons() {
                     label={<Trans>Sign up</Trans>}
                     icon={<TbUserPlus size={iconSize} />}
                     variant="filled"
-                    onClick={() => dispatch(redirectToRegistration())}
+                    onClick={async () => await dispatch(redirectToRegistration())}
                     showLabelOnMobile
                 />
             )}
@@ -139,7 +139,7 @@ function Footer() {
                 </Anchor>
             </Group>
             <Box>
-                <Anchor variant="text" onClick={() => dispatch(redirectToApiDocumentation())}>
+                <Anchor variant="text" onClick={async () => await dispatch(redirectToApiDocumentation())}>
                     API documentation
                 </Anchor>
             </Box>

@@ -11,7 +11,7 @@ import {
 } from "app/slices/redirect"
 import { collapseTreeCategory } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { Category, Subscription } from "app/types"
+import { type Category, type Subscription } from "app/types"
 import { categoryUnreadCount, flattenCategoryTree } from "app/utils"
 import { Loader } from "components/Loader"
 import { OnDesktop } from "components/responsive/OnDesktop"

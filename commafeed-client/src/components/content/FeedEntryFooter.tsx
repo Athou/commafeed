@@ -2,7 +2,7 @@ import { t, Trans } from "@lingui/macro"
 import { Group, Indicator, MultiSelect, Popover } from "@mantine/core"
 import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "app/slices/entries"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { Entry } from "app/types"
+import { type Entry } from "app/types"
 import { ActionButton } from "components/ActionButton"
 import { useActionButton } from "hooks/useActionButton"
 import { useMobile } from "hooks/useMobile"
@@ -22,9 +22,9 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
 
     const showSharingButtons = sharingSettings && Object.values(sharingSettings).some(v => v)
 
-    const readStatusButtonClicked = () => dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))
-    const onTagsChange = (values: string[]) =>
-        dispatch(
+    const readStatusButtonClicked = async () => await dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))
+    const onTagsChange = async (values: string[]) =>
+        await dispatch(
             tagEntry({
                 entryId: +props.entry.id,
                 tags: values,
@@ -44,7 +44,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 <ActionButton
                     icon={props.entry.starred ? <TbStarOff size={18} /> : <TbStar size={18} />}
                     label={props.entry.starred ? <Trans>Unstar</Trans> : <Trans>Star</Trans>}
-                    onClick={() => dispatch(starEntry({ entry: props.entry, starred: !props.entry.starred }))}
+                    onClick={async () => await dispatch(starEntry({ entry: props.entry, starred: !props.entry.starred }))}
                 />
 
                 {showSharingButtons && (
@@ -88,7 +88,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
             <ActionButton
                 icon={<TbArrowBarToDown size={18} />}
                 label={<Trans>Mark as read up to here</Trans>}
-                onClick={() => dispatch(markEntriesUpToEntry(props.entry))}
+                onClick={async () => await dispatch(markEntriesUpToEntry(props.entry))}
             />
         </Group>
     )

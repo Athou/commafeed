@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro"
-import { Select, SelectItem, SelectProps } from "@mantine/core"
+import { Select, type SelectItem, type SelectProps } from "@mantine/core"
 import { Constants } from "app/constants"
 import { useAppSelector } from "app/store"
 import { flattenCategoryTree } from "app/utils"

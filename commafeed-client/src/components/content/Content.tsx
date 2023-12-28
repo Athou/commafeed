@@ -3,7 +3,7 @@ import { Constants } from "app/constants"
 import { calculatePlaceholderSize } from "app/utils"
 import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
 import escapeStringRegexp from "escape-string-regexp"
-import { ChildrenNode, Interweave, Matcher, MatchResponse, Node, TransformCallback } from "interweave"
+import { type ChildrenNode, Interweave, Matcher, type MatchResponse, type Node, type TransformCallback } from "interweave"
 import React from "react"
 
 export interface ContentProps {
@@ -61,7 +61,7 @@ const transform: TransformCallback = node => {
 }
 
 class HighlightMatcher extends Matcher {
-    private search: string
+    private readonly search: string
 
     constructor(search: string) {
         super("highlight")
@@ -73,7 +73,6 @@ class HighlightMatcher extends Matcher {
         return this.doMatch(string, new RegExp(pattern, "i"), () => ({}))
     }
 
-    // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
     replaceWith(children: ChildrenNode, props: unknown): Node {
         return <Mark>{children}</Mark>
     }
@@ -97,5 +96,6 @@ const Content = React.memo((props: ContentProps) => {
         </TypographyStylesProvider>
     )
 })
+Content.displayName = "Content"
 
 export { Content }

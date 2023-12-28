@@ -1,11 +1,11 @@
 import { t } from "@lingui/macro"
 import { DEFAULT_THEME } from "@mantine/core"
-import { IconType } from "react-icons"
+import { type IconType } from "react-icons"
 import { FaAt } from "react-icons/fa"
 import { SiBuffer, SiFacebook, SiGmail, SiInstapaper, SiPocket, SiTumblr, SiTwitter } from "react-icons/si"
-import { Category, Entry, SharingSettings } from "./types"
+import { type Category, type Entry, type SharingSettings } from "./types"
 
-const categories: { [key: string]: Category } = {
+const categories: Record<string, Category> = {
     all: {
         id: "all",
         name: t`All`,

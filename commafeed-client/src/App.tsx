@@ -1,6 +1,6 @@
 import { i18n } from "@lingui/core"
 import { I18nProvider } from "@lingui/react"
-import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core"
+import { type ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core"
 import { useColorScheme } from "@mantine/hooks"
 import { ModalsProvider } from "@mantine/modals"
 import { Notifications } from "@mantine/notifications"
@@ -63,7 +63,7 @@ function Providers(props: { children: React.ReactNode }) {
 }
 
 // swagger-ui is very large, load only on-demand
-const ApiDocumentationPage = React.lazy(() => import("pages/app/ApiDocumentationPage"))
+const ApiDocumentationPage = React.lazy(async () => await import("pages/app/ApiDocumentationPage"))
 
 function AppRoutes() {
     const sidebarWidth = useAppSelector(state => state.tree.sidebarWidth)

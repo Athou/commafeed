@@ -69,7 +69,7 @@ export function CustomCodeSettings() {
                     />
 
                     <Group>
-                        <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
+                        <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
                         <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={saveCustomCode.loading}>

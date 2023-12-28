@@ -5,7 +5,7 @@ import { client, errorToStrings } from "app/client"
 import { redirectToSelectedSource } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
 import { useAppDispatch } from "app/store"
-import { AddCategoryRequest } from "app/types"
+import { type AddCategoryRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { useAsyncCallback } from "react-async-hook"
 import { TbFolderPlus } from "react-icons/tb"
@@ -36,7 +36,7 @@ export function AddCategory() {
                     <TextInput label={<Trans>Category</Trans>} placeholder={t`Category`} {...form.getInputProps("name")} required />
                     <CategorySelect label={<Trans>Parent</Trans>} {...form.getInputProps("parentId")} clearable />
                     <Group position="center">
-                        <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
+                        <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
                         <Button type="submit" leftIcon={<TbFolderPlus size={16} />} loading={addCategory.loading}>

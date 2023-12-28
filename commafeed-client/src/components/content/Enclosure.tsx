@@ -9,13 +9,11 @@ export function Enclosure(props: { enclosureType: string; enclosureUrl: string }
     return (
         <TypographyStylesProvider>
             {hasVideo && (
-                // eslint-disable-next-line jsx-a11y/media-has-caption
                 <video controls>
                     <source src={props.enclosureUrl} type={props.enclosureType} />
                 </video>
             )}
             {hasAudio && (
-                // eslint-disable-next-line jsx-a11y/media-has-caption
                 <audio controls>
                     <source src={props.enclosureUrl} type={props.enclosureType} />
                 </audio>

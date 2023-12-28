@@ -1,6 +1,6 @@
 import { Highlight } from "@mantine/core"
 import { useAppSelector } from "app/store"
-import { Entry } from "app/types"
+import { type Entry } from "app/types"
 
 export interface FeedEntryTitleProps {
     entry: Entry

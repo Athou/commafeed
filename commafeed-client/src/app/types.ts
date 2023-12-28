@@ -134,7 +134,7 @@ export interface MetricMeter {
     units: string
 }
 
-export type MetricTimer = {
+export interface MetricTimer {
     count: number
     max: number
     mean: number
@@ -155,10 +155,10 @@ export type MetricTimer = {
 }
 
 export interface Metrics {
-    counters: { [key: string]: MetricCounter }
-    gauges: { [key: string]: MetricGauge }
-    meters: { [key: string]: MetricMeter }
-    timers: { [key: string]: MetricTimer }
+    counters: Record<string, MetricCounter>
+    gauges: Record<string, MetricGauge>
+    meters: Record<string, MetricMeter>
+    timers: Record<string, MetricTimer>
 }
 
 export interface MultipleMarkRequest {
@@ -270,6 +270,15 @@ export interface UserModel {
     enabled: boolean
     created: number
     lastLogin?: number
+    admin: boolean
+}
+
+export interface AdminSaveUserRequest {
+    id?: number
+    name: string
+    email?: string
+    password?: string
+    enabled: boolean
     admin: boolean
 }
 

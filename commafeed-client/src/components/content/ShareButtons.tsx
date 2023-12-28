@@ -1,8 +1,8 @@
 import { ActionIcon, Box, createStyles, SimpleGrid } from "@mantine/core"
 import { Constants } from "app/constants"
 import { useAppSelector } from "app/store"
-import { SharingSettings } from "app/types"
-import { IconType } from "react-icons"
+import { type SharingSettings } from "app/types"
+import { type IconType } from "react-icons"
 
 type Color = `#${string}`
 

@@ -4,7 +4,7 @@ import { Constants } from "app/constants"
 import { markEntriesUpToEntry, markEntry, starEntry } from "app/slices/entries"
 import { redirectToFeed } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { Entry } from "app/types"
+import { type Entry } from "app/types"
 import { truncate } from "app/utils"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { Item, Menu, Separator } from "react-contexify"
@@ -60,19 +60,19 @@ export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
 
             <Separator />
 
-            <Item onClick={() => dispatch(starEntry({ entry: props.entry, starred: !props.entry.starred }))}>
+            <Item onClick={async () => await dispatch(starEntry({ entry: props.entry, starred: !props.entry.starred }))}>
                 <Group>
                     {props.entry.starred ? <TbStarOff size={iconSize} /> : <TbStar size={iconSize} />}
                     {props.entry.starred ? <Trans>Unstar</Trans> : <Trans>Star</Trans>}
                 </Group>
             </Item>
-            <Item onClick={() => dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))}>
+            <Item onClick={async () => await dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))}>
                 <Group>
                     {props.entry.read ? <TbEyeOff size={iconSize} /> : <TbEyeCheck size={iconSize} />}
                     {props.entry.read ? <Trans>Keep unread</Trans> : <Trans>Mark as read</Trans>}
                 </Group>
             </Item>
-            <Item onClick={() => dispatch(markEntriesUpToEntry(props.entry))}>
+            <Item onClick={async () => await dispatch(markEntriesUpToEntry(props.entry))}>
                 <Group>
                     <TbArrowBarToDown size={iconSize} />
                     <Trans>Mark as read up to here</Trans>

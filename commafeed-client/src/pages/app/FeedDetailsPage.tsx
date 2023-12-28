@@ -6,7 +6,7 @@ import { client, errorToStrings } from "app/client"
 import { redirectToRootCategory, redirectToSelectedSource } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { FeedModificationRequest } from "app/types"
+import { type FeedModificationRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { CategorySelect } from "components/content/add/CategorySelect"
 import { Loader } from "components/Loader"
@@ -54,7 +54,7 @@ export function FeedDetailsPage() {
 
     const apiKey = useAppSelector(state => state.user.profile?.apiKey)
     const dispatch = useAppDispatch()
-    const query = useAsync(() => client.feed.get(id), [id])
+    const query = useAsync(async () => await client.feed.get(id), [id])
     const feed = query.result?.data
 
     const form = useForm<FeedModificationRequest>()
@@ -75,7 +75,7 @@ export function FeedDetailsPage() {
 
     const openUnsubscribeModal = () => {
         const feedName = feed?.name
-        return openConfirmModal({
+        openConfirmModal({
             title: <Trans>Unsubscribe</Trans>,
             children: (
                 <Text size="sm">
@@ -86,7 +86,7 @@ export function FeedDetailsPage() {
             ),
             labels: { confirm: <Trans>Confirm</Trans>, cancel: <Trans>Cancel</Trans> },
             confirmProps: { color: "red" },
-            onConfirm: () => unsubscribe.execute({ id: +id }),
+            onConfirm: async () => await unsubscribe.execute({ id: +id }),
         })
     }
 
@@ -163,7 +163,7 @@ export function FeedDetailsPage() {
                     />
 
                     <Group>
-                        <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
+                        <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
                         <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={modifyFeed.loading}>

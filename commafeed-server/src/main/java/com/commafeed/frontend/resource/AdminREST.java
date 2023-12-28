@@ -20,6 +20,7 @@ import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
+import com.commafeed.frontend.model.request.AdminSaveUserRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
@@ -66,41 +67,41 @@ public class AdminREST {
 			description = "Save or update a user. If the id is not specified, a new user will be created")
 	@Timed
 	public Response adminSaveUser(@Parameter(hidden = true) @SecurityCheck(Role.ADMIN) User user,
-			@Parameter(required = true) UserModel userModel) {
-		Preconditions.checkNotNull(userModel);
-		Preconditions.checkNotNull(userModel.getName());
+			@Parameter(required = true) AdminSaveUserRequest req) {
+		Preconditions.checkNotNull(req);
+		Preconditions.checkNotNull(req.getName());
 
-		Long id = userModel.getId();
+		Long id = req.getId();
 		if (id == null) {
-			Preconditions.checkNotNull(userModel.getPassword());
+			Preconditions.checkNotNull(req.getPassword());
 
 			Set<Role> roles = Sets.newHashSet(Role.USER);
-			if (userModel.isAdmin()) {
+			if (req.isAdmin()) {
 				roles.add(Role.ADMIN);
 			}
 			try {
-				userService.register(userModel.getName(), userModel.getPassword(), userModel.getEmail(), roles, true);
+				userService.register(req.getName(), req.getPassword(), req.getEmail(), roles, true);
 			} catch (Exception e) {
 				return Response.status(Status.CONFLICT).entity(e.getMessage()).build();
 			}
 		} else {
-			if (userModel.getId().equals(user.getId()) && !userModel.isEnabled()) {
+			if (req.getId().equals(user.getId()) && !req.isEnabled()) {
 				return Response.status(Status.FORBIDDEN).entity("You cannot disable your own account.").build();
 			}
 
 			User u = userDAO.findById(id);
-			u.setName(userModel.getName());
-			if (StringUtils.isNotBlank(userModel.getPassword())) {
-				u.setPassword(encryptionService.getEncryptedPassword(userModel.getPassword(), u.getSalt()));
+			u.setName(req.getName());
+			if (StringUtils.isNotBlank(req.getPassword())) {
+				u.setPassword(encryptionService.getEncryptedPassword(req.getPassword(), u.getSalt()));
 			}
-			u.setEmail(userModel.getEmail());
-			u.setDisabled(!userModel.isEnabled());
+			u.setEmail(req.getEmail());
+			u.setDisabled(!req.isEnabled());
 			userDAO.saveOrUpdate(u);
 
 			Set<Role> roles = userRoleDAO.findRoles(u);
-			if (userModel.isAdmin() && !roles.contains(Role.ADMIN)) {
+			if (req.isAdmin() && !roles.contains(Role.ADMIN)) {
 				userRoleDAO.saveOrUpdate(new UserRole(u, Role.ADMIN));
-			} else if (!userModel.isAdmin() && roles.contains(Role.ADMIN)) {
+			} else if (!req.isAdmin() && roles.contains(Role.ADMIN)) {
 				if (CommaFeedApplication.USERNAME_ADMIN.equals(u.getName())) {
 					return Response.status(Status.FORBIDDEN).entity("You cannot remove the admin role from the admin user.").build();
 				}

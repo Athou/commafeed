@@ -33,7 +33,7 @@ export function ImportOpml() {
                 </Box>
             )}
 
-            <form onSubmit={form.onSubmit(v => importOpml.execute(v.file))}>
+            <form onSubmit={form.onSubmit(async v => await importOpml.execute(v.file))}>
                 <Stack>
                     <FileInput
                         label={<Trans>OPML file</Trans>}
@@ -49,7 +49,7 @@ export function ImportOpml() {
                         accept="application/xml"
                     />
                     <Group position="center">
-                        <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
+                        <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
                         <Button type="submit" leftIcon={<TbFileImport size={16} />} loading={importOpml.loading}>

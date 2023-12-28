@@ -7,7 +7,7 @@ import { Constants } from "app/constants"
 import { redirectToRootCategory, redirectToSelectedSource } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { CategoryModificationRequest } from "app/types"
+import { type CategoryModificationRequest } from "app/types"
 import { flattenCategoryTree } from "app/utils"
 import { Alert } from "components/Alert"
 import { CategorySelect } from "components/content/add/CategorySelect"
@@ -23,7 +23,7 @@ export function CategoryDetailsPage() {
     const apiKey = useAppSelector(state => state.user.profile?.apiKey)
     const dispatch = useAppDispatch()
 
-    const query = useAsync(() => client.category.getRoot(), [])
+    const query = useAsync(async () => await client.category.getRoot(), [])
     const category =
         id === Constants.categories.starred.id
             ? Constants.categories.starred
@@ -47,7 +47,7 @@ export function CategoryDetailsPage() {
 
     const openDeleteCategoryModal = () => {
         const categoryName = category?.name
-        return openConfirmModal({
+        openConfirmModal({
             title: <Trans>Delete Category</Trans>,
             children: (
                 <Text size="sm">
@@ -58,7 +58,7 @@ export function CategoryDetailsPage() {
             ),
             labels: { confirm: <Trans>Confirm</Trans>, cancel: <Trans>Cancel</Trans> },
             confirmProps: { color: "red" },
-            onConfirm: () => deleteCategory.execute({ id: +id }),
+            onConfirm: async () => await deleteCategory.execute({ id: +id }),
         })
     }
 
@@ -122,7 +122,7 @@ export function CategoryDetailsPage() {
                     )}
 
                     <Group>
-                        <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
+                        <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
                         {editable && (

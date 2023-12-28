@@ -1,9 +1,10 @@
 import { Trans } from "@lingui/macro"
-import { Box, Alert as MantineAlert } from "@mantine/core"
+import { Alert as MantineAlert, Box } from "@mantine/core"
 import { Fragment } from "react"
 import { TbAlertCircle, TbAlertTriangle, TbCircleCheck } from "react-icons/tb"
 
 type Level = "error" | "warning" | "success"
+
 export interface ErrorsAlertProps {
     level?: Level
     messages: string[]
@@ -31,8 +32,6 @@ export function Alert(props: ErrorsAlertProps) {
             color = "green"
             icon = <TbCircleCheck />
             break
-        default:
-            throw Error(`unsupported level: ${level}`)
     }
 
     return (

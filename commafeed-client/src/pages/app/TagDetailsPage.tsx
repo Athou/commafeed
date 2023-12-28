@@ -32,7 +32,7 @@ export function TagDetailsPage() {
                 </Input.Wrapper>
 
                 <Group>
-                    <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
+                    <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
                         <Trans>Cancel</Trans>
                     </Button>
                 </Group>

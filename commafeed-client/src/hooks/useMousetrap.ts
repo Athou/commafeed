@@ -1,4 +1,4 @@
-import mousetrap, { ExtendedKeyboardEvent } from "mousetrap"
+import mousetrap, { type ExtendedKeyboardEvent } from "mousetrap"
 import { useEffect, useRef } from "react"
 
 type Callback = (e: ExtendedKeyboardEvent, combo: string) => void

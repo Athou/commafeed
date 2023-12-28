@@ -8,7 +8,7 @@ import { Timer } from "components/metrics/Timer"
 import { useAsync } from "react-async-hook"
 import { TbChartAreaLine, TbClock } from "react-icons/tb"
 
-const shownMeters: { [key: string]: string } = {
+const shownMeters: Record<string, string> = {
     "com.commafeed.backend.feed.FeedRefreshEngine.refill": "Feed queue refill rate",
     "com.commafeed.backend.feed.FeedRefreshWorker.feedFetched": "Feed fetching rate",
     "com.commafeed.backend.feed.FeedRefreshUpdater.feedUpdated": "Feed update rate",
@@ -17,7 +17,7 @@ const shownMeters: { [key: string]: string } = {
     "com.commafeed.backend.service.DatabaseCleaningService.entriesDeleted": "Entries deleted",
 }
 
-const shownGauges: { [key: string]: string } = {
+const shownGauges: Record<string, string> = {
     "com.commafeed.backend.feed.FeedRefreshEngine.queue.size": "Queue size",
     "com.commafeed.backend.feed.FeedRefreshEngine.worker.active": "Feed Worker active",
     "com.commafeed.backend.feed.FeedRefreshEngine.updater.active": "Feed Updater active",
@@ -26,7 +26,7 @@ const shownGauges: { [key: string]: string } = {
 }
 
 export function MetricsPage() {
-    const query = useAsync(() => client.admin.getMetrics(), [])
+    const query = useAsync(async () => await client.admin.getMetrics(), [])
 
     if (!query.result) return <Loader />
     const { meters, gauges, timers } = query.result.data

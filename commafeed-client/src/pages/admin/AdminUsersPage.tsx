@@ -2,12 +2,12 @@ import { Trans } from "@lingui/macro"
 import { ActionIcon, Box, Code, Container, Group, Table, Text, Title, useMantineTheme } from "@mantine/core"
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals"
 import { client, errorToStrings } from "app/client"
-import { UserModel } from "app/types"
+import { type UserModel } from "app/types"
 import { UserEdit } from "components/admin/UserEdit"
 import { Alert } from "components/Alert"
 import { Loader } from "components/Loader"
 import { RelativeDate } from "components/RelativeDate"
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 import { useAsync, useAsyncCallback } from "react-async-hook"
 import { TbCheck, TbPencil, TbPlus, TbTrash, TbX } from "react-icons/tb"
 
@@ -17,7 +17,7 @@ function BooleanIcon({ value }: { value: boolean }) {
 
 export function AdminUsersPage() {
     const theme = useMantineTheme()
-    const query = useAsync(() => client.admin.getAllUsers(), [])
+    const query = useAsync(async () => await client.admin.getAllUsers(), [])
     const users = query.result?.data.sort((a, b) => a.id - b.id)
 
     const deleteUser = useAsyncCallback(client.admin.deleteUser, {
@@ -56,7 +56,7 @@ export function AdminUsersPage() {
             ),
             labels: { confirm: <Trans>Confirm</Trans>, cancel: <Trans>Cancel</Trans> },
             confirmProps: { color: "red" },
-            onConfirm: () => deleteUser.execute({ id: user.id }),
+            onConfirm: async () => await deleteUser.execute({ id: user.id }),
         })
     }
 

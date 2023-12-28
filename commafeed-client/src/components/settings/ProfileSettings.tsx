@@ -6,7 +6,7 @@ import { client, errorToStrings } from "app/client"
 import { redirectToLogin, redirectToSelectedSource } from "app/slices/redirect"
 import { reloadProfile } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { ProfileModificationRequest } from "app/types"
+import { type ProfileModificationRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { useEffect } from "react"
 import { useAsyncCallback } from "react-async-hook"
@@ -49,7 +49,7 @@ export function ProfileSettings() {
             ),
             labels: { confirm: <Trans>Confirm</Trans>, cancel: <Trans>Cancel</Trans> },
             confirmProps: { color: "red" },
-            onConfirm: () => deleteProfile.execute(),
+            onConfirm: async () => await deleteProfile.execute(),
         })
 
     useEffect(() => {
@@ -129,7 +129,7 @@ export function ProfileSettings() {
                     <Checkbox label={<Trans>Generate new API key</Trans>} {...form.getInputProps("newApiKey", { type: "checkbox" })} />
 
                     <Group>
-                        <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
+                        <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
                         <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={saveProfile.loading}>

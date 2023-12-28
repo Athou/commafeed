@@ -1,6 +1,6 @@
 import { Box, Center, createStyles } from "@mantine/core"
 import { FeedFavicon } from "components/content/FeedFavicon"
-import React, { ReactNode } from "react"
+import React, { type ReactNode } from "react"
 import { UnreadCount } from "./UnreadCount"
 
 interface TreeNodeProps {

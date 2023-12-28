@@ -10,8 +10,10 @@ import { Provider } from "react-redux"
 
 dayjs.extend(relativeTime)
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-    <Provider store={store}>
-        <App />
-    </Provider>
-)
+const root = document.getElementById("root")
+root &&
+    ReactDOM.createRoot(root).render(
+        <Provider store={store}>
+            <App />
+        </Provider>
+    )

@@ -3,7 +3,7 @@ import { Box } from "@mantine/core"
 import { openModal } from "@mantine/modals"
 import { Constants } from "app/constants"
 import {
-    ExpendableEntry,
+    type ExpendableEntry,
     loadMoreEntries,
     markAllEntries,
     markEntry,
@@ -91,7 +91,7 @@ export function FeedEntries() {
         )
     }
 
-    const swipedRight = (entry: ExpendableEntry) => dispatch(markEntry({ entry, read: !entry.read }))
+    const swipedRight = async (entry: ExpendableEntry) => await dispatch(markEntry({ entry, read: !entry.read }))
 
     // close context menu on scroll
     useEffect(() => {
@@ -128,42 +128,50 @@ export function FeedEntries() {
         return () => window.removeEventListener("scroll", listener)
     }, [dispatch, contextMenu, entries, viewMode, scrollMarks, scrollingToEntry])
 
-    useMousetrap("r", () => dispatch(reloadEntries()))
-    useMousetrap("j", () =>
-        dispatch(
-            selectNextEntry({
-                expand: true,
-                markAsRead: true,
-                scrollToEntry: true,
-            })
-        )
+    useMousetrap("r", async () => await dispatch(reloadEntries()))
+    useMousetrap(
+        "j",
+        async () =>
+            await dispatch(
+                selectNextEntry({
+                    expand: true,
+                    markAsRead: true,
+                    scrollToEntry: true,
+                })
+            )
     )
-    useMousetrap("n", () =>
-        dispatch(
-            selectNextEntry({
-                expand: false,
-                markAsRead: false,
-                scrollToEntry: true,
-            })
-        )
+    useMousetrap(
+        "n",
+        async () =>
+            await dispatch(
+                selectNextEntry({
+                    expand: false,
+                    markAsRead: false,
+                    scrollToEntry: true,
+                })
+            )
     )
-    useMousetrap("k", () =>
-        dispatch(
-            selectPreviousEntry({
-                expand: true,
-                markAsRead: true,
-                scrollToEntry: true,
-            })
-        )
+    useMousetrap(
+        "k",
+        async () =>
+            await dispatch(
+                selectPreviousEntry({
+                    expand: true,
+                    markAsRead: true,
+                    scrollToEntry: true,
+                })
+            )
     )
-    useMousetrap("p", () =>
-        dispatch(
-            selectPreviousEntry({
-                expand: false,
-                markAsRead: false,
-                scrollToEntry: true,
-            })
-        )
+    useMousetrap(
+        "p",
+        async () =>
+            await dispatch(
+                selectPreviousEntry({
+                    expand: false,
+                    markAsRead: false,
+                    scrollToEntry: true,
+                })
+            )
     )
     useMousetrap("space", () => {
         if (selectedEntry) {
@@ -276,7 +284,7 @@ export function FeedEntries() {
             })
         )
     })
-    useMousetrap("g a", () => dispatch(redirectToRootCategory()))
+    useMousetrap("g a", async () => await dispatch(redirectToRootCategory()))
     useMousetrap("f", () => dispatch(toggleSidebar()))
     useMousetrap("?", () =>
         openModal({
@@ -291,7 +299,7 @@ export function FeedEntries() {
         <InfiniteScroll
             id="entries"
             initialLoad={false}
-            loadMore={() => !loading && dispatch(loadMoreEntries())}
+            loadMore={async () => await (!loading && dispatch(loadMoreEntries()))}
             hasMore={hasMore}
             loader={<Box key={0}>{loading && <Loader />}</Box>}
         >
@@ -311,7 +319,7 @@ export function FeedEntries() {
                         onHeaderClick={event => headerClicked(entry, event)}
                         onHeaderRightClick={event => headerRightClicked(entry, event)}
                         onBodyClick={() => bodyClicked(entry)}
-                        onSwipedRight={() => swipedRight(entry)}
+                        onSwipedRight={async () => await swipedRight(entry)}
                     />
                 </div>
             ))}

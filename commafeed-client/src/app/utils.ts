@@ -1,5 +1,5 @@
 import { throttle } from "throttle-debounce"
-import { Category } from "./types"
+import { type Category } from "./types"
 
 export function visitCategoryTree(category: Category, visitor: (category: Category) => void): void {
     visitor(category)

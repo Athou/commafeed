@@ -1,5 +1,5 @@
 import { Box, createStyles, Space, Text } from "@mantine/core"
-import { Entry } from "app/types"
+import { type Entry } from "app/types"
 import { RelativeDate } from "components/RelativeDate"
 import { FeedEntryTitle } from "./FeedEntryTitle"
 import { FeedFavicon } from "./FeedFavicon"

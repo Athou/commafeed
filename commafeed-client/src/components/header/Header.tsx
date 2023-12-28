@@ -79,8 +79,8 @@ export function Header() {
                 <ActionButton
                     icon={<TbArrowUp size={iconSize} />}
                     label={<Trans>Previous</Trans>}
-                    onClick={() =>
-                        dispatch(
+                    onClick={async () =>
+                        await dispatch(
                             selectPreviousEntry({
                                 expand: true,
                                 markAsRead: true,
@@ -92,8 +92,8 @@ export function Header() {
                 <ActionButton
                     icon={<TbArrowDown size={iconSize} />}
                     label={<Trans>Next</Trans>}
-                    onClick={() =>
-                        dispatch(
+                    onClick={async () =>
+                        await dispatch(
                             selectNextEntry({
                                 expand: true,
                                 markAsRead: true,
@@ -108,7 +108,7 @@ export function Header() {
                 <ActionButton
                     icon={<TbRefresh size={iconSize} />}
                     label={<Trans>Refresh</Trans>}
-                    onClick={() => dispatch(reloadEntries())}
+                    onClick={async () => await dispatch(reloadEntries())}
                 />
                 <MarkAllAsReadButton iconSize={iconSize} />
 
@@ -117,12 +117,12 @@ export function Header() {
                 <ActionButton
                     icon={settings.readingMode === "all" ? <TbEye size={iconSize} /> : <TbEyeOff size={iconSize} />}
                     label={settings.readingMode === "all" ? <Trans>All</Trans> : <Trans>Unread</Trans>}
-                    onClick={() => dispatch(changeReadingMode(settings.readingMode === "all" ? "unread" : "all"))}
+                    onClick={async () => await dispatch(changeReadingMode(settings.readingMode === "all" ? "unread" : "all"))}
                 />
                 <ActionButton
                     icon={settings.readingOrder === "asc" ? <TbSortAscending size={iconSize} /> : <TbSortDescending size={iconSize} />}
                     label={settings.readingOrder === "asc" ? <Trans>Asc</Trans> : <Trans>Desc</Trans>}
-                    onClick={() => dispatch(changeReadingOrder(settings.readingOrder === "asc" ? "desc" : "asc"))}
+                    onClick={async () => await dispatch(changeReadingOrder(settings.readingOrder === "asc" ? "desc" : "asc"))}
                 />
 
                 <Popover>
@@ -132,13 +132,13 @@ export function Header() {
                         </Indicator>
                     </Popover.Target>
                     <Popover.Dropdown>
-                        <form onSubmit={searchForm.onSubmit(values => dispatch(search(values.search)))}>
+                        <form onSubmit={searchForm.onSubmit(async values => await dispatch(search(values.search)))}>
                             <TextInput
                                 placeholder={t`Search`}
                                 {...searchForm.getInputProps("search")}
                                 icon={<TbSearch size={iconSize} />}
                                 rightSection={
-                                    <ActionIcon onClick={() => searchFromStore && dispatch(search(""))}>
+                                    <ActionIcon onClick={async () => await (searchFromStore && dispatch(search("")))}>
                                         <TbX />
                                     </ActionIcon>
                                 }

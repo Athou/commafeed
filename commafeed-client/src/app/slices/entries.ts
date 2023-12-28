@@ -1,8 +1,8 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { Constants } from "app/constants"
-import { createAppAsyncThunk, RootState } from "app/store"
-import { Entry, MarkRequest, TagRequest } from "app/types"
+import { createAppAsyncThunk, type RootState } from "app/store"
+import { type Entry, type MarkRequest, type TagRequest } from "app/types"
 import { scrollToWithCallback } from "app/utils"
 import { flushSync } from "react-dom"
 // eslint-disable-next-line import/no-cycle
@@ -11,7 +11,10 @@ import { reloadTree } from "./tree"
 import { reloadTags } from "./user"
 
 export type EntrySourceType = "category" | "feed" | "tag"
-export type EntrySource = { type: EntrySourceType; id: string }
+export interface EntrySource {
+    type: EntrySourceType
+    id: string
+}
 export type ExpendableEntry = Entry & { expanded?: boolean }
 
 interface EntriesState {

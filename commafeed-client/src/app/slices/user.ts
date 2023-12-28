@@ -3,7 +3,7 @@ import { showNotification } from "@mantine/notifications"
 import { createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { createAppAsyncThunk } from "app/store"
-import { ReadingMode, ReadingOrder, Settings, SharingSettings, UserModel } from "app/types"
+import { type ReadingMode, type ReadingOrder, type Settings, type SharingSettings, type UserModel } from "app/types"
 // eslint-disable-next-line import/no-cycle
 import { reloadEntries } from "./entries"
 
@@ -15,9 +15,9 @@ interface UserState {
 
 const initialState: UserState = {}
 
-export const reloadSettings = createAppAsyncThunk("settings/reload", () => client.user.getSettings().then(r => r.data))
-export const reloadProfile = createAppAsyncThunk("profile/reload", () => client.user.getProfile().then(r => r.data))
-export const reloadTags = createAppAsyncThunk("entries/tags", () => client.entry.getTags().then(r => r.data))
+export const reloadSettings = createAppAsyncThunk("settings/reload", async () => await client.user.getSettings().then(r => r.data))
+export const reloadProfile = createAppAsyncThunk("profile/reload", async () => await client.user.getProfile().then(r => r.data))
+export const reloadTags = createAppAsyncThunk("entries/tags", async () => await client.entry.getTags().then(r => r.data))
 export const changeReadingMode = createAppAsyncThunk("settings/readingMode", (readingMode: ReadingMode, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return

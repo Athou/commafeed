@@ -1,5 +1,5 @@
 import { Box, createStyles, Text } from "@mantine/core"
-import { Entry } from "app/types"
+import { type Entry } from "app/types"
 import { RelativeDate } from "components/RelativeDate"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import { FeedEntryTitle } from "./FeedEntryTitle"

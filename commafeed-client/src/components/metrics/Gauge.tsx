@@ -1,4 +1,4 @@
-import { MetricGauge } from "app/types"
+import { type MetricGauge } from "app/types"
 
 interface MeterProps {
     gauge: MetricGauge

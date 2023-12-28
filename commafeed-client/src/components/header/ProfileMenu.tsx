@@ -1,10 +1,10 @@
 import { Trans } from "@lingui/macro"
-import { Box, Divider, Group, Menu, SegmentedControl, SegmentedControlItem, useMantineColorScheme } from "@mantine/core"
+import { Box, Divider, Group, Menu, SegmentedControl, type SegmentedControlItem, useMantineColorScheme } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import { client } from "app/client"
 import { redirectToAbout, redirectToAdminUsers, redirectToDonate, redirectToMetrics, redirectToSettings } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { ViewMode } from "app/types"
+import { type ViewMode } from "app/types"
 import { useViewMode } from "hooks/useViewMode"
 import { useState } from "react"
 import {
@@ -109,8 +109,8 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 </Menu.Item>
                 <Menu.Item
                     icon={<TbWorldDownload size={iconSize} />}
-                    onClick={() =>
-                        client.feed.refreshAll().then(() => {
+                    onClick={async () =>
+                        await client.feed.refreshAll().then(() => {
                             showNotification({
                                 message: <Trans>Your feeds have been queued for refresh.</Trans>,
                                 color: "green",

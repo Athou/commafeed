@@ -1,5 +1,5 @@
 import { Box } from "@mantine/core"
-import { MetricTimer } from "app/types"
+import { type MetricTimer } from "app/types"
 
 interface MetricTimerProps {
     timer: MetricTimer

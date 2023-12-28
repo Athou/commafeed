@@ -1,5 +1,5 @@
 import { Box } from "@mantine/core"
-import { MetricMeter } from "app/types"
+import { type MetricMeter } from "app/types"
 
 interface MeterProps {
     meter: MetricMeter

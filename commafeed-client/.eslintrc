@@ -6,9 +6,9 @@
         "react-app",
         "airbnb",
         "airbnb-typescript",
-        "prettier"
+        "plugin:prettier/recommended"
     ],
-    "plugins": ["@typescript-eslint", "prettier", "hooks"],
+    "plugins": ["@typescript-eslint", "hooks"],
     "parserOptions": {
         "project": "./tsconfig.json"
     },

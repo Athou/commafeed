@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro"
 import { Anchor, Box, Container, createStyles, List, NativeSelect, SimpleGrid, Title } from "@mantine/core"
 import { Constants } from "app/constants"
-import { redirectToApiDocumentation } from "app/slices/redirect"
+import { redirectToApiDocumentation } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { CategorySelect } from "components/content/add/CategorySelect"
 import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"

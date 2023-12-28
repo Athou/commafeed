@@ -1,11 +1,9 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
-import { client } from "app/client"
-import { createAppAsyncThunk } from "app/thunk"
-import { type Category, type CollapseRequest } from "app/types"
+import { markEntry } from "app/entries/thunks"
+import { redirectTo } from "app/redirect/slice"
+import { collapseTreeCategory, reloadTree } from "app/tree/thunks"
+import { type Category } from "app/types"
 import { visitCategoryTree } from "app/utils"
-// eslint-disable-next-line import/no-cycle
-import { markEntry } from "./entries"
-import { redirectTo } from "./redirect"
 
 interface TreeState {
     rootCategory?: Category
@@ -19,12 +17,6 @@ const initialState: TreeState = {
     sidebarWidth: 350,
     sidebarVisible: true,
 }
-
-export const reloadTree = createAppAsyncThunk("tree/reload", async () => await client.category.getRoot().then(r => r.data))
-export const collapseTreeCategory = createAppAsyncThunk(
-    "tree/category/collapse",
-    async (req: CollapseRequest) => await client.category.collapse(req)
-)
 
 export const treeSlice = createSlice({
     name: "tree",
@@ -67,4 +59,3 @@ export const treeSlice = createSlice({
 })
 
 export const { setMobileMenuOpen, setSidebarWidth, toggleSidebar } = treeSlice.actions
-export default treeSlice.reducer

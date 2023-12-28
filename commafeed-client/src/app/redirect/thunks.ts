@@ -1,12 +1,6 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
+import { createAppAsyncThunk } from "app/async-thunk"
 import { Constants } from "app/constants"
-import { createAppAsyncThunk } from "app/thunk"
-
-interface RedirectState {
-    to?: string
-}
-
-const initialState: RedirectState = {}
+import { redirectTo } from "app/redirect/slice"
 
 export const redirectToLogin = createAppAsyncThunk("redirect/login", (_, thunkApi) => thunkApi.dispatch(redirectTo("/login")))
 export const redirectToRegistration = createAppAsyncThunk("redirect/register", (_, thunkApi) => thunkApi.dispatch(redirectTo("/register")))
@@ -49,16 +43,3 @@ export const redirectToMetrics = createAppAsyncThunk("redirect/admin/metrics", (
 )
 export const redirectToDonate = createAppAsyncThunk("redirect/donate", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/donate")))
 export const redirectToAbout = createAppAsyncThunk("redirect/about", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/about")))
-
-export const redirectSlice = createSlice({
-    name: "redirect",
-    initialState,
-    reducers: {
-        redirectTo: (state, action: PayloadAction<string | undefined>) => {
-            state.to = action.payload
-        },
-    },
-})
-
-export const { redirectTo } = redirectSlice.actions
-export default redirectSlice.reducer

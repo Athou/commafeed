@@ -2,8 +2,9 @@ import { Trans } from "@lingui/macro"
 import { ActionIcon, Box, Center, createStyles, Divider, Group, Title, useMantineTheme } from "@mantine/core"
 import { useViewportSize } from "@mantine/hooks"
 import { Constants } from "app/constants"
-import { type EntrySourceType, loadEntries } from "app/slices/entries"
-import { redirectToCategoryDetails, redirectToFeedDetails, redirectToTagDetails } from "app/slices/redirect"
+import { type EntrySourceType } from "app/entries/slice"
+import { loadEntries } from "app/entries/thunks"
+import { redirectToCategoryDetails, redirectToFeedDetails, redirectToTagDetails } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { flattenCategoryTree } from "app/utils"
 import { FeedEntries } from "components/content/FeedEntries"
@@ -47,9 +48,11 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
     const dispatch = useAppDispatch()
 
     const titleClicked = () => {
-        if (props.sourceType === "category") dispatch(redirectToCategoryDetails(id))
-        else if (props.sourceType === "feed") dispatch(redirectToFeedDetails(id))
-        else if (props.sourceType === "tag") dispatch(redirectToTagDetails(id))
+        if (props.sourceType === "category") {
+            dispatch(redirectToCategoryDetails(id))
+        } else if (props.sourceType === "feed") {
+            dispatch(redirectToFeedDetails(id))
+        } else if (props.sourceType === "tag") dispatch(redirectToTagDetails(id))
     }
 
     useEffect(() => {

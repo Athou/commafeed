@@ -1,18 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
+import { entriesSlice } from "app/entries/slice"
+import { redirectSlice } from "app/redirect/slice"
+import { serverSlice } from "app/server/slice"
+import { treeSlice } from "app/tree/slice"
+import { userSlice } from "app/user/slice"
 import { type TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
-import entriesReducer from "./slices/entries"
-import redirectReducer from "./slices/redirect"
-import serverReducer from "./slices/server"
-import treeReducer from "./slices/tree"
-import userReducer from "./slices/user"
 
 export const reducers = {
-    entries: entriesReducer,
-    redirect: redirectReducer,
-    tree: treeReducer,
-    server: serverReducer,
-    user: userReducer,
+    entries: entriesSlice.reducer,
+    redirect: redirectSlice.reducer,
+    tree: treeSlice.reducer,
+    server: serverSlice.reducer,
+    user: userSlice.reducer,
 }
 
 export const store = configureStore({ reducer: reducers })

@@ -77,7 +77,6 @@ class HighlightMatcher extends Matcher {
         return <Mark>{children}</Mark>
     }
 
-    // eslint-disable-next-line class-methods-use-this
     asTag(): string {
         return "span"
     }

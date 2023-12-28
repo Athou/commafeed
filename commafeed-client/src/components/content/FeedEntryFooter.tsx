@@ -1,6 +1,6 @@
 import { t, Trans } from "@lingui/macro"
 import { Group, Indicator, MultiSelect, Popover } from "@mantine/core"
-import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "app/slices/entries"
+import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "app/entries/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { type Entry } from "app/types"
 import { ActionButton } from "components/ActionButton"
@@ -22,7 +22,13 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
 
     const showSharingButtons = sharingSettings && Object.values(sharingSettings).some(v => v)
 
-    const readStatusButtonClicked = async () => await dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))
+    const readStatusButtonClicked = async () =>
+        await dispatch(
+            markEntry({
+                entry: props.entry,
+                read: !props.entry.read,
+            })
+        )
     const onTagsChange = async (values: string[]) =>
         await dispatch(
             tagEntry({
@@ -44,7 +50,14 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 <ActionButton
                     icon={props.entry.starred ? <TbStarOff size={18} /> : <TbStar size={18} />}
                     label={props.entry.starred ? <Trans>Unstar</Trans> : <Trans>Star</Trans>}
-                    onClick={async () => await dispatch(starEntry({ entry: props.entry, starred: !props.entry.starred }))}
+                    onClick={async () =>
+                        await dispatch(
+                            starEntry({
+                                entry: props.entry,
+                                starred: !props.entry.starred,
+                            })
+                        )
+                    }
                 />
 
                 {showSharingButtons && (

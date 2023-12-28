@@ -8,9 +8,9 @@ import {
     redirectToFeedDetails,
     redirectToTag,
     redirectToTagDetails,
-} from "app/slices/redirect"
-import { collapseTreeCategory } from "app/slices/tree"
+} from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
+import { collapseTreeCategory } from "app/tree/thunks"
 import { type Category, type Subscription } from "app/types"
 import { categoryUnreadCount, flattenCategoryTree } from "app/utils"
 import { Loader } from "components/Loader"
@@ -36,8 +36,11 @@ export function Tree() {
     const dispatch = useAppDispatch()
 
     const feedClicked = (e: React.MouseEvent, id: string) => {
-        if (e.detail === 2) dispatch(redirectToFeedDetails(id))
-        else dispatch(redirectToFeed(id))
+        if (e.detail === 2) {
+            dispatch(redirectToFeedDetails(id))
+        } else {
+            dispatch(redirectToFeed(id))
+        }
     }
     const categoryClicked = (e: React.MouseEvent, id: string) => {
         if (e.detail === 2) {
@@ -57,8 +60,11 @@ export function Tree() {
         )
     }
     const tagClicked = (e: React.MouseEvent, id: string) => {
-        if (e.detail === 2) dispatch(redirectToTagDetails(id))
-        else dispatch(redirectToTag(id))
+        if (e.detail === 2) {
+            dispatch(redirectToTagDetails(id))
+        } else {
+            dispatch(redirectToTag(id))
+        }
     }
 
     const allCategoryNode = () => (

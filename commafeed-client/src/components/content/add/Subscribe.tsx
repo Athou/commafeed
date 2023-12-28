@@ -3,9 +3,9 @@ import { Box, Button, Group, Stack, Stepper, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
 import { Constants } from "app/constants"
-import { redirectToFeed, redirectToSelectedSource } from "app/slices/redirect"
-import { reloadTree } from "app/slices/tree"
+import { redirectToFeed, redirectToSelectedSource } from "app/redirect/thunks"
 import { useAppDispatch } from "app/store"
+import { reloadTree } from "app/tree/thunks"
 import { type FeedInfoRequest, type SubscribeRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { useState } from "react"
@@ -46,8 +46,11 @@ export function Subscribe() {
     })
 
     const previousStep = () => {
-        if (activeStep === 0) dispatch(redirectToSelectedSource())
-        else setActiveStep(activeStep - 1)
+        if (activeStep === 0) {
+            dispatch(redirectToSelectedSource())
+        } else {
+            setActiveStep(activeStep - 1)
+        }
     }
     const nextStep = (e: React.FormEvent<HTMLFormElement>) => {
         if (activeStep === 0) {

@@ -1,6 +1,6 @@
+import { redirectToCategory } from "app/redirect/thunks"
 import { store } from "app/store"
 import { describe, expect, it } from "vitest"
-import { redirectToCategory } from "./redirect"
 
 describe("redirects", () => {
     it("redirects to category", async () => {

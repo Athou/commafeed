@@ -1,6 +1,6 @@
-import { setWebSocketConnected } from "app/slices/server"
-import { reloadTree } from "app/slices/tree"
+import { setWebSocketConnected } from "app/server/slice"
 import { useAppDispatch, useAppSelector } from "app/store"
+import { reloadTree } from "app/tree/thunks"
 import { useEffect } from "react"
 import WebsocketHeartbeatJs from "websocket-heartbeat-js"
 

@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/macro"
 
 import { Button, Code, Group, Modal, Slider, Stack, Text } from "@mantine/core"
-import { markAllEntries } from "app/slices/entries"
+import { markAllEntries } from "app/entries/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { ActionButton } from "components/ActionButton"
 import { useState } from "react"

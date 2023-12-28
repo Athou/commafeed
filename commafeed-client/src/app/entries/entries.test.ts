@@ -1,12 +1,12 @@
 /* eslint-disable import/first */
 import { configureStore } from "@reduxjs/toolkit"
 import { type client } from "app/client"
+import { loadEntries, loadMoreEntries, markAllEntries, markEntry } from "app/entries/thunks"
 import { reducers } from "app/store"
 import { type Entries, type Entry } from "app/types"
 import { type AxiosResponse } from "axios"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { mockReset } from "vitest-mock-extended"
-import { loadEntries, loadMoreEntries, markAllEntries, markEntry } from "./entries"
 
 const mockClient = await vi.hoisted(async () => {
     const mockModule = await import("vitest-mock-extended")

@@ -2,7 +2,7 @@ import { Trans } from "@lingui/macro"
 
 import { Anchor, Box, Button, Container, Group, Input, Stack, Title } from "@mantine/core"
 import { Constants } from "app/constants"
-import { redirectToSelectedSource } from "app/slices/redirect"
+import { redirectToSelectedSource } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { useParams } from "react-router-dom"
 

@@ -1,6 +1,8 @@
 import { Trans } from "@lingui/macro"
 import { Divider, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
 import { Constants } from "app/constants"
+import { useAppDispatch, useAppSelector } from "app/store"
+import { type SharingSettings } from "app/types"
 import {
     changeAlwaysScrollToEntry,
     changeCustomContextMenu,
@@ -10,9 +12,7 @@ import {
     changeScrollSpeed,
     changeSharingSetting,
     changeShowRead,
-} from "app/slices/user"
-import { useAppDispatch, useAppSelector } from "app/store"
-import { type SharingSettings } from "app/types"
+} from "app/user/thunks"
 import { locales } from "i18n"
 
 export function DisplaySettings() {
@@ -82,7 +82,14 @@ export function DisplaySettings() {
                         key={site}
                         label={Constants.sharing[site].label}
                         checked={sharingSettings && sharingSettings[site]}
-                        onChange={async e => await dispatch(changeSharingSetting({ site, value: e.currentTarget.checked }))}
+                        onChange={async e =>
+                            await dispatch(
+                                changeSharingSetting({
+                                    site,
+                                    value: e.currentTarget.checked,
+                                })
+                            )
+                        }
                     />
                 ))}
             </SimpleGrid>

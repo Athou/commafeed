@@ -2,8 +2,8 @@ import { Trans } from "@lingui/macro"
 import { Box } from "@mantine/core"
 import { openModal } from "@mantine/modals"
 import { Constants } from "app/constants"
+import { type ExpendableEntry } from "app/entries/slice"
 import {
-    type ExpendableEntry,
     loadMoreEntries,
     markAllEntries,
     markEntry,
@@ -12,10 +12,10 @@ import {
     selectNextEntry,
     selectPreviousEntry,
     starEntry,
-} from "app/slices/entries"
-import { redirectToRootCategory } from "app/slices/redirect"
-import { toggleSidebar } from "app/slices/tree"
+} from "app/entries/thunks"
+import { redirectToRootCategory } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
+import { toggleSidebar } from "app/tree/slice"
 import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"
 import { Loader } from "components/Loader"
 import { useBrowserExtension } from "hooks/useBrowserExtension"

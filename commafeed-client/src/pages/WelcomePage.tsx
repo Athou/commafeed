@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/macro"
 import { Anchor, Box, Center, Container, Divider, Group, Image, Title, useMantineColorScheme } from "@mantine/core"
 import { client } from "app/client"
-import { redirectToApiDocumentation, redirectToLogin, redirectToRegistration, redirectToRootCategory } from "app/slices/redirect"
+import { redirectToApiDocumentation, redirectToLogin, redirectToRegistration, redirectToRootCategory } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import welcome_page_dark from "assets/welcome_page_dark.png"
 import welcome_page_light from "assets/welcome_page_light.png"

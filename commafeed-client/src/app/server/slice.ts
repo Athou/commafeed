@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
-import { client } from "app/client"
-import { createAppAsyncThunk } from "app/thunk"
+import { reloadServerInfos } from "app/server/thunks"
 import { type ServerInfo } from "app/types"
 
 interface ServerState {
@@ -12,7 +11,6 @@ const initialState: ServerState = {
     webSocketConnected: false,
 }
 
-export const reloadServerInfos = createAppAsyncThunk("server/infos", async () => await client.server.getServerInfos().then(r => r.data))
 export const serverSlice = createSlice({
     name: "server",
     initialState,
@@ -29,4 +27,3 @@ export const serverSlice = createSlice({
 })
 
 export const { setWebSocketConnected } = serverSlice.actions
-export default serverSlice.reducer

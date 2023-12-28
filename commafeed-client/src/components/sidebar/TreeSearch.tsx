@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro"
 import { Box, Center, Kbd, TextInput } from "@mantine/core"
 import { openSpotlight, type SpotlightAction, SpotlightProvider } from "@mantine/spotlight"
-import { redirectToFeed } from "app/slices/redirect"
+import { redirectToFeed } from "app/redirect/thunks"
 import { useAppDispatch } from "app/store"
 import { type Subscription } from "app/types"
 import { FeedFavicon } from "components/content/FeedFavicon"

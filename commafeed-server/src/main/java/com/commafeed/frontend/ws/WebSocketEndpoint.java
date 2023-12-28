@@ -8,7 +8,6 @@ import jakarta.websocket.CloseReason;
 import jakarta.websocket.CloseReason.CloseCodes;
 import jakarta.websocket.Endpoint;
 import jakarta.websocket.EndpointConfig;
-import jakarta.websocket.MessageHandler;
 import jakarta.websocket.Session;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,15 +29,9 @@ public class WebSocketEndpoint extends Endpoint {
 			sessions.add(userId, session);
 		}
 
-		// converting this anonymous inner class to a lambda causes the following error when a message is sent from the client
-		// Unable to find decoder for type <javax.websocket.MessageHandler$Whole>
-		// this error is only visible when registering a listener to ws.onclose on the client
-		session.addMessageHandler(new MessageHandler.Whole<String>() {
-			@Override
-			public void onMessage(String message) {
-				if ("ping".equals(message)) {
-					session.getAsyncRemote().sendText("pong");
-				}
+		session.addMessageHandler(String.class, message -> {
+			if ("ping".equals(message)) {
+				session.getAsyncRemote().sendText("pong");
 			}
 		});
 	}

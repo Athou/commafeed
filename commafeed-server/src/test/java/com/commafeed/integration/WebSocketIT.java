@@ -18,7 +18,6 @@ import jakarta.websocket.ContainerProvider;
 import jakarta.websocket.DeploymentException;
 import jakarta.websocket.Endpoint;
 import jakarta.websocket.EndpointConfig;
-import jakarta.websocket.MessageHandler;
 import jakarta.websocket.Session;
 
 class WebSocketIT extends BaseIT {
@@ -26,24 +25,14 @@ class WebSocketIT extends BaseIT {
 	@Test
 	void subscribeAndGetsNotified() throws DeploymentException, IOException {
 		String sessionId = login();
-		ClientEndpointConfig config = ClientEndpointConfig.Builder.create().configurator(new ClientEndpointConfig.Configurator() {
-			@Override
-			public void beforeRequest(Map<String, List<String>> headers) {
-				headers.put("Cookie", Collections.singletonList("JSESSIONID=" + sessionId));
-			}
-		}).build();
+		ClientEndpointConfig config = buildConfig(sessionId);
 
 		AtomicBoolean connected = new AtomicBoolean();
 		AtomicReference<String> messageRef = new AtomicReference<>();
 		try (Session ignored = ContainerProvider.getWebSocketContainer().connectToServer(new Endpoint() {
 			@Override
 			public void onOpen(Session session, EndpointConfig config) {
-				session.addMessageHandler(new MessageHandler.Whole<String>() {
-					@Override
-					public void onMessage(String message) {
-						messageRef.set(message);
-					}
-				});
+				session.addMessageHandler(String.class, messageRef::set);
 				connected.set(true);
 			}
 		}, config, URI.create(getWebSocketUrl()))) {
@@ -54,6 +43,38 @@ class WebSocketIT extends BaseIT {
 			Awaitility.await().atMost(15, TimeUnit.SECONDS).until(() -> messageRef.get() != null);
 			Assertions.assertEquals("new-feed-entries:" + subscriptionId, messageRef.get());
 		}
+	}
+
+	@Test
+	void pingPong() throws DeploymentException, IOException {
+		String sessionId = login();
+		ClientEndpointConfig config = buildConfig(sessionId);
+
+		AtomicBoolean connected = new AtomicBoolean();
+		AtomicReference<String> messageRef = new AtomicReference<>();
+		try (Session session = ContainerProvider.getWebSocketContainer().connectToServer(new Endpoint() {
+			@Override
+			public void onOpen(Session session, EndpointConfig config) {
+				session.addMessageHandler(String.class, messageRef::set);
+				connected.set(true);
+			}
+		}, config, URI.create(getWebSocketUrl()))) {
+			Awaitility.await().atMost(15, TimeUnit.SECONDS).untilTrue(connected);
+
+			session.getAsyncRemote().sendText("ping");
+
+			Awaitility.await().atMost(15, TimeUnit.SECONDS).until(() -> messageRef.get() != null);
+			Assertions.assertEquals("pong", messageRef.get());
+		}
+	}
+
+	private ClientEndpointConfig buildConfig(String sessionId) {
+		return ClientEndpointConfig.Builder.create().configurator(new ClientEndpointConfig.Configurator() {
+			@Override
+			public void beforeRequest(Map<String, List<String>> headers) {
+				headers.put("Cookie", Collections.singletonList("JSESSIONID=" + sessionId));
+			}
+		}).build();
 	}
 
 }

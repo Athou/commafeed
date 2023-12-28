@@ -1,7 +1,8 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { Constants } from "app/constants"
-import { createAppAsyncThunk, type RootState } from "app/store"
+import { type RootState } from "app/store"
+import { createAppAsyncThunk } from "app/thunk"
 import { type Entry, type MarkRequest, type TagRequest } from "app/types"
 import { scrollToWithCallback } from "app/utils"
 import { flushSync } from "react-dom"
@@ -11,10 +12,12 @@ import { reloadTree } from "./tree"
 import { reloadTags } from "./user"
 
 export type EntrySourceType = "category" | "feed" | "tag"
+
 export interface EntrySource {
     type: EntrySourceType
     id: string
 }
+
 export type ExpendableEntry = Entry & { expanded?: boolean }
 
 interface EntriesState {
@@ -188,7 +191,12 @@ export const selectEntry = createAppAsyncThunk(
             // expand if requested
             const previouslySelectedEntry = state.entries.entries.find(e => e.id === state.entries.selectedEntryId)
             if (previouslySelectedEntry) {
-                thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry: previouslySelectedEntry, expanded: false }))
+                thunkApi.dispatch(
+                    entriesSlice.actions.setEntryExpanded({
+                        entry: previouslySelectedEntry,
+                        expanded: false,
+                    })
+                )
             }
             thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry, expanded: arg.expand }))
         })

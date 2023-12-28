@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import { client } from "app/client"
-import { createAppAsyncThunk } from "app/store"
+import { createAppAsyncThunk } from "app/thunk"
 import { type Category, type CollapseRequest } from "app/types"
 import { visitCategoryTree } from "app/utils"
 // eslint-disable-next-line import/no-cycle

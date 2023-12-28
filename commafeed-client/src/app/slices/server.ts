@@ -1,6 +1,6 @@
-import { type PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import { client } from "app/client"
-import { createAppAsyncThunk } from "app/store"
+import { createAppAsyncThunk } from "app/thunk"
 import { type ServerInfo } from "app/types"
 
 interface ServerState {

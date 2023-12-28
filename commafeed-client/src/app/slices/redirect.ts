@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import { Constants } from "app/constants"
-import { createAppAsyncThunk } from "app/store"
+import { createAppAsyncThunk } from "app/thunk"
 
 interface RedirectState {
     to?: string

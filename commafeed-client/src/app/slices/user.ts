@@ -2,7 +2,7 @@ import { t } from "@lingui/macro"
 import { showNotification } from "@mantine/notifications"
 import { createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { client } from "app/client"
-import { createAppAsyncThunk } from "app/store"
+import { createAppAsyncThunk } from "app/thunk"
 import { type ReadingMode, type ReadingOrder, type Settings, type SharingSettings, type UserModel } from "app/types"
 // eslint-disable-next-line import/no-cycle
 import { reloadEntries } from "./entries"

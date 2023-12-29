@@ -2,7 +2,7 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { type client } from "app/client"
 import { loadEntries, loadMoreEntries, markAllEntries, markEntry } from "app/entries/thunks"
-import { reducers } from "app/store"
+import { reducers, type RootState } from "app/store"
 import { type Entries, type Entry } from "app/types"
 import { type AxiosResponse } from "axios"
 import { beforeEach, describe, expect, it, vi } from "vitest"
@@ -81,7 +81,7 @@ describe("entries", () => {
                     loading: false,
                     scrollingToEntry: false,
                 },
-            },
+            } as RootState,
         })
         const promise = store.dispatch(loadMoreEntries())
 
@@ -106,7 +106,7 @@ describe("entries", () => {
                     loading: false,
                     scrollingToEntry: false,
                 },
-            },
+            } as RootState,
         })
 
         store.dispatch(markEntry({ entry: { id: "3" } as Entry, read: true }))
@@ -133,7 +133,7 @@ describe("entries", () => {
                     loading: false,
                     scrollingToEntry: false,
                 },
-            },
+            } as RootState,
         })
 
         store.dispatch(markAllEntries({ sourceType: "category", req: { id: "all", read: true } }))

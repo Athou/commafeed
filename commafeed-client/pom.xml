@@ -25,8 +25,8 @@
 						</goals>
 						<phase>compile</phase>
 						<configuration>
-							<nodeVersion>v16.16.0</nodeVersion>
-							<npmVersion>8.15.0</npmVersion>
+							<nodeVersion>v20.10.0</nodeVersion>
+							<npmVersion>10.2.5</npmVersion>
 						</configuration>
 					</execution>
 					<execution>

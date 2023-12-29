@@ -1,12 +1,11 @@
 import { Box } from "@mantine/core"
-import SwaggerUI from "swagger-ui-react"
-import "swagger-ui-react/swagger-ui.css"
+import { RedocStandalone } from "redoc"
 
 function ApiDocumentationPage() {
     return (
-        // force white background because swagger is unreadable with dark theme
+        // force white background because documentation does not support dark theme
         <Box style={{ backgroundColor: "#fff" }}>
-            <SwaggerUI url="openapi/openapi.json" />
+            <RedocStandalone specUrl="openapi/openapi.json" />
         </Box>
     )
 }

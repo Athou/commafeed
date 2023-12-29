@@ -14,7 +14,6 @@
     "i18n:extract": "lingui extract --clean"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.9.7",
     "@emotion/react": "^11.11.3",
     "@fontsource/open-sans": "^5.0.20",
     "@lingui/core": "^4.6.0",
@@ -28,6 +27,7 @@
     "@mantine/spotlight": "^6.0.21",
     "@mantine/styles": "^6.0.21",
     "@monaco-editor/react": "^4.6.0",
+    "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.6.3",
     "dayjs": "^1.11.10",
     "escape-string-regexp": "^5.0.0",
@@ -45,7 +45,7 @@
     "react-redux": "^8.1.3",
     "react-router-dom": "^6.21.1",
     "react-swipeable": "^7.0.1",
-    "swagger-ui-react": "^5.10.5",
+    "redoc": "^2.1.3",
     "throttle-debounce": "^5.0.0",
     "tinycon": "^0.6.8",
     "use-local-storage": "^3.0.0",

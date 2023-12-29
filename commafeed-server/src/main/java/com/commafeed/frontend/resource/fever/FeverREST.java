@@ -39,6 +39,7 @@ import com.commafeed.frontend.resource.fever.FeverResponse.FeverGroup;
 import com.commafeed.frontend.resource.fever.FeverResponse.FeverItem;
 
 import io.dropwizard.hibernate.UnitOfWork;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
@@ -68,6 +69,7 @@ import lombok.RequiredArgsConstructor;
 @Produces(MediaType.APPLICATION_JSON)
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
+@Hidden
 public class FeverREST {
 
 	private static final String PATH = "/user/{userId}{optionalTrailingFever : (/fever)?}{optionalTrailingSlash : (/)?}";

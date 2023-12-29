@@ -17,6 +17,7 @@ import com.google.common.base.Preconditions;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.validation.Valid;
@@ -34,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
+@Tag(name = "Feed entries")
 public class EntryREST {
 
 	private final FeedEntryTagDAO feedEntryTagDAO;

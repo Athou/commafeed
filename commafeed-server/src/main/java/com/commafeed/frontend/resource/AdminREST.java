@@ -32,6 +32,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
@@ -50,6 +51,7 @@ import lombok.RequiredArgsConstructor;
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
+@Tag(name = "Admin")
 public class AdminREST {
 
 	private final UserDAO userDAO;

@@ -3,7 +3,9 @@ package com.commafeed.integration.rest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 import org.apache.commons.io.IOUtils;
@@ -17,7 +19,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.FeedInfo;
 import com.commafeed.frontend.model.Subscription;
@@ -89,22 +90,43 @@ class FeedIT extends BaseIT {
 	@Nested
 	class Mark {
 		@Test
-		void mark() {
-			long subscriptionId = subscribe(getFeedUrl());
-			Entries entries = Awaitility.await()
-					.atMost(Duration.ofSeconds(15))
-					.until(() -> getFeedEntries(subscriptionId), e -> e.getEntries().size() == 2);
-			Assertions.assertTrue(entries.getEntries().stream().noneMatch(Entry::isRead));
-
-			markFeedEntries(subscriptionId);
-			Awaitility.await()
-					.atMost(Duration.ofSeconds(15))
-					.until(() -> getFeedEntries(subscriptionId), e -> e.getEntries().stream().allMatch(Entry::isRead));
+		void markWithoutDates() {
+			long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
+			markFeedEntries(subscriptionId, null, null);
+			Assertions.assertTrue(getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
 		}
 
-		private void markFeedEntries(long subscriptionId) {
+		@Test
+		void markOlderThan() {
+			long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
+			markFeedEntries(subscriptionId, new GregorianCalendar(2023, Calendar.DECEMBER, 28).getTime(), null);
+			Assertions.assertEquals(1, getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
+		}
+
+		@Test
+		void markInsertedBeforeBeforeSubscription() {
+			Date insertedBefore = new Date();
+
+			long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
+			markFeedEntries(subscriptionId, null, insertedBefore);
+			Assertions.assertTrue(getFeedEntries(subscriptionId).getEntries().stream().noneMatch(Entry::isRead));
+		}
+
+		@Test
+		void markInsertedBeforeAfterSubscription() {
+			long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
+
+			Date insertedBefore = new Date();
+
+			markFeedEntries(subscriptionId, null, insertedBefore);
+			Assertions.assertTrue(getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
+		}
+
+		private void markFeedEntries(long subscriptionId, Date olderThan, Date insertedBefore) {
 			MarkRequest request = new MarkRequest();
 			request.setId(String.valueOf(subscriptionId));
+			request.setOlderThan(olderThan == null ? null : olderThan.getTime());
+			request.setInsertedBefore(insertedBefore == null ? null : insertedBefore.getTime());
 			getClient().target(getApiBaseUrl() + "feed/mark").request().post(Entity.json(request), Void.TYPE);
 		}
 	}

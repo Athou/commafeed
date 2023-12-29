@@ -101,7 +101,7 @@ public abstract class BaseIT {
 	protected Entries getFeedEntries(long subscriptionId) {
 		Response response = client.target(apiBaseUrl + "feed/entries")
 				.queryParam("id", subscriptionId)
-				.queryParam("readType", "unread")
+				.queryParam("readType", "all")
 				.request()
 				.get();
 		return response.readEntity(Entries.class);

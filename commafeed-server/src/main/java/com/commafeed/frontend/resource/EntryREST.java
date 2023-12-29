@@ -77,7 +77,7 @@ public class EntryREST {
 	@Path("/star")
 	@POST
 	@UnitOfWork
-	@Operation(summary = "Mark a feed entry", description = "Mark a feed entry as read/unread")
+	@Operation(summary = "Star a feed entry", description = "Mark a feed entry as read/unread")
 	@Timed
 	public Response starEntry(@Parameter(hidden = true) @SecurityCheck User user,
 			@Valid @Parameter(description = "Star Request", required = true) StarRequest req) {

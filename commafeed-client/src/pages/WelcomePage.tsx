@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro"
-import { Anchor, Box, Center, Container, Divider, Group, Image, Title, useMantineColorScheme } from "@mantine/core"
+import { Anchor, Box, Center, Container, Divider, Group, Image, Space, Title, useMantineColorScheme } from "@mantine/core"
 import { client } from "app/client"
 import { redirectToApiDocumentation, redirectToLogin, redirectToRegistration, redirectToRootCategory } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -31,7 +31,7 @@ export function WelcomePage() {
         <Container>
             <Header />
 
-            <Center my="xl">
+            <Center my="lg">
                 <Title order={3}>Bloat-free feed reader</Title>
             </Center>
 
@@ -47,13 +47,15 @@ export function WelcomePage() {
                 </Center>
             )}
 
-            <Divider my="xl" />
+            <Divider my="lg" />
 
             <Image src={image} />
 
-            <Divider my="xl" />
+            <Divider my="lg" />
 
             <Footer />
+
+            <Space h="lg" />
         </Container>
     )
 }
@@ -73,9 +75,13 @@ function Header() {
     }
 
     return (
-        <Group position="apart">
-            <PageTitle />
-            <Buttons />
+        <Group justify="space-between">
+            <Box>
+                <PageTitle />
+            </Box>
+            <Box>
+                <Buttons />
+            </Box>
         </Group>
     )
 }
@@ -88,7 +94,7 @@ function Buttons() {
     const dark = colorScheme === "dark"
 
     return (
-        <Group spacing={14}>
+        <Group gap={14}>
             <ActionButton
                 label={<Trans>Log in</Trans>}
                 icon={<TbKey size={iconSize} />}
@@ -128,7 +134,7 @@ function Buttons() {
 function Footer() {
     const dispatch = useAppDispatch()
     return (
-        <Group position="apart">
+        <Group justify="space-between">
             <Group>
                 <span>© CommaFeed</span>
                 <Anchor variant="text" href="https://github.com/Athou/commafeed/" target="_blank" rel="noreferrer">

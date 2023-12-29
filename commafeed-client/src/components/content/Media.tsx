@@ -1,6 +1,7 @@
-import { Box, TypographyStylesProvider } from "@mantine/core"
+import { Box } from "@mantine/core"
 import { Constants } from "app/constants"
 import { calculatePlaceholderSize } from "app/utils"
+import { BasicHtmlStyles } from "components/content/BasicHtmlStyles"
 import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
 import { Content } from "./Content"
 
@@ -20,7 +21,7 @@ export function Media(props: MediaProps) {
         maxWidth: Constants.layout.entryMaxWidth,
     })
     return (
-        <TypographyStylesProvider>
+        <BasicHtmlStyles>
             <ImageWithPlaceholderWhileLoading
                 src={props.thumbnailUrl}
                 alt="media thumbnail"
@@ -34,6 +35,6 @@ export function Media(props: MediaProps) {
                     <Content content={props.description} />
                 </Box>
             )}
-        </TypographyStylesProvider>
+        </BasicHtmlStyles>
     )
 }

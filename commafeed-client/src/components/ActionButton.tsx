@@ -1,6 +1,5 @@
-import { ActionIcon, Button, Tooltip, useMantineTheme } from "@mantine/core"
-import { type ActionIconProps } from "@mantine/core/lib/ActionIcon/ActionIcon"
-import { type ButtonProps } from "@mantine/core/lib/Button/Button"
+import { ActionIcon, Button, type ButtonVariant, Tooltip, useMantineTheme } from "@mantine/core"
+import { type ActionIconVariant } from "@mantine/core/lib/components/ActionIcon/ActionIcon"
 import { useActionButton } from "hooks/useActionButton"
 import { forwardRef, type MouseEventHandler, type ReactNode } from "react"
 
@@ -9,7 +8,7 @@ interface ActionButtonProps {
     icon?: ReactNode
     label: ReactNode
     onClick?: MouseEventHandler
-    variant?: ActionIconProps["variant"] & ButtonProps["variant"]
+    variant?: ActionIconVariant & ButtonVariant
     hideLabelOnDesktop?: boolean
     showLabelOnMobile?: boolean
 }
@@ -29,7 +28,7 @@ export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>((pr
             </ActionIcon>
         </Tooltip>
     ) : (
-        <Button ref={ref} variant={variant} size="xs" className={props.className} leftIcon={props.icon} onClick={props.onClick}>
+        <Button ref={ref} variant={variant} size="xs" className={props.className} leftSection={props.icon} onClick={props.onClick}>
             {props.label}
         </Button>
     )

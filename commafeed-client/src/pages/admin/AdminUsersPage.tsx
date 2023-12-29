@@ -66,7 +66,7 @@ export function AdminUsersPage() {
             <Title order={3} mb="md">
                 <Group>
                     <Trans>Manage users</Trans>
-                    <ActionIcon color={theme.primaryColor} onClick={() => openUserEditModal(<Trans>Add user</Trans>)}>
+                    <ActionIcon color={theme.primaryColor} variant="subtle" onClick={() => openUserEditModal(<Trans>Add user</Trans>)}>
                         <TbPlus size={20} />
                     </ActionIcon>
                 </Group>
@@ -79,69 +79,74 @@ export function AdminUsersPage() {
             )}
 
             <Table striped highlightOnHover>
-                <thead>
-                    <tr>
-                        <th>
+                <Table.Thead>
+                    <Table.Tr>
+                        <Table.Th>
                             <Trans>Id</Trans>
-                        </th>
-                        <th>
+                        </Table.Th>
+                        <Table.Th>
                             <Trans>Name</Trans>
-                        </th>
-                        <th>
+                        </Table.Th>
+                        <Table.Th>
                             <Trans>E-mail</Trans>
-                        </th>
-                        <th>
+                        </Table.Th>
+                        <Table.Th>
                             <Trans>Date created</Trans>
-                        </th>
-                        <th>
+                        </Table.Th>
+                        <Table.Th>
                             <Trans>Last login date</Trans>
-                        </th>
-                        <th>
+                        </Table.Th>
+                        <Table.Th>
                             <Trans>Admin</Trans>
-                        </th>
-                        <th>
+                        </Table.Th>
+                        <Table.Th>
                             <Trans>Enabled</Trans>
-                        </th>
-                        <th>
+                        </Table.Th>
+                        <Table.Th>
                             <Trans>Actions</Trans>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
+                        </Table.Th>
+                    </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>
                     {users?.map(u => (
-                        <tr key={u.id}>
-                            <td>{u.id}</td>
-                            <td>{u.name}</td>
-                            <td>{u.email}</td>
-                            <td>
+                        <Table.Tr key={u.id}>
+                            <Table.Td>{u.id}</Table.Td>
+                            <Table.Td>{u.name}</Table.Td>
+                            <Table.Td>{u.email}</Table.Td>
+                            <Table.Td>
                                 <RelativeDate date={u.created} />
-                            </td>
-                            <td>
+                            </Table.Td>
+                            <Table.Td>
                                 <RelativeDate date={u.lastLogin} />
-                            </td>
-                            <td>
+                            </Table.Td>
+                            <Table.Td>
                                 <BooleanIcon value={u.admin} />
-                            </td>
-                            <td>
+                            </Table.Td>
+                            <Table.Td>
                                 <BooleanIcon value={u.enabled} />
-                            </td>
-                            <td>
+                            </Table.Td>
+                            <Table.Td>
                                 <Group>
-                                    <ActionIcon color={theme.primaryColor} onClick={() => openUserEditModal(<Trans>Edit user</Trans>, u)}>
+                                    <ActionIcon
+                                        color={theme.primaryColor}
+                                        variant="subtle"
+                                        onClick={() => openUserEditModal(<Trans>Edit user</Trans>, u)}
+                                    >
                                         <TbPencil size={18} />
                                     </ActionIcon>
                                     <ActionIcon
                                         color={theme.primaryColor}
+                                        variant="subtle"
                                         onClick={() => openUserDeleteModal(u)}
                                         loading={deleteUser.loading}
                                     >
                                         <TbTrash size={18} />
                                     </ActionIcon>
                                 </Group>
-                            </td>
-                        </tr>
+                            </Table.Td>
+                        </Table.Tr>
                     ))}
-                </tbody>
+                </Table.Tbody>
             </Table>
         </Container>
     )

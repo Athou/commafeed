@@ -33,10 +33,10 @@ export function MetricsPage() {
     return (
         <Tabs defaultValue="stats">
             <Tabs.List>
-                <Tabs.Tab value="stats" icon={<TbChartAreaLine size={14} />}>
+                <Tabs.Tab value="stats" leftSection={<TbChartAreaLine size={14} />}>
                     Stats
                 </Tabs.Tab>
-                <Tabs.Tab value="timers" icon={<TbClock size={14} />}>
+                <Tabs.Tab value="timers" leftSection={<TbClock size={14} />}>
                     Timers
                 </Tabs.Tab>
             </Tabs.List>

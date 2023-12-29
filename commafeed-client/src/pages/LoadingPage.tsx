@@ -14,7 +14,7 @@ export function LoadingPage() {
                 <RingProgress
                     sections={[{ value: loadingPercentage, color: theme.primaryColor }]}
                     label={
-                        <Text weight="bold" align="center" size="xl">
+                        <Text fw="bold" ta="center" size="xl">
                             {loadingPercentage}%
                         </Text>
                     }

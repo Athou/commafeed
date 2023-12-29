@@ -11,7 +11,7 @@ export function MetricAccordionItem({ metricKey, name, headerValue, children }: 
     return (
         <Accordion.Item value={metricKey} key={metricKey}>
             <Accordion.Control>
-                <Group position="apart">
+                <Group justify="space-between">
                     <Box>{name}</Box>
                     <Box>{headerValue}</Box>
                 </Group>

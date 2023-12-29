@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro"
-import { Group, Indicator, MultiSelect, Popover } from "@mantine/core"
+import { Group, Indicator, Popover, TagsInput } from "@mantine/core"
 import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "app/entries/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { type Entry } from "app/types"
@@ -38,8 +38,8 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
         )
 
     return (
-        <Group position="apart">
-            <Group spacing={spacing}>
+        <Group justify="space-between">
+            <Group gap={spacing}>
                 {props.entry.markable && (
                     <ActionButton
                         icon={props.entry.read ? <TbEyeOff size={18} /> : <TbEyeCheck size={18} />}
@@ -72,22 +72,21 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 )}
 
                 {tags && (
-                    <Popover withArrow withinPortal shadow="md" closeOnClickOutside={!mobile}>
+                    <Popover withArrow shadow="md" closeOnClickOutside={!mobile}>
                         <Popover.Target>
                             <Indicator label={props.entry.tags.length} disabled={props.entry.tags.length === 0} inline size={16}>
                                 <ActionButton icon={<TbTag size={18} />} label={<Trans>Tags</Trans>} />
                             </Indicator>
                         </Popover.Target>
                         <Popover.Dropdown>
-                            <MultiSelect
+                            <TagsInput
+                                placeholder={t`Tags`}
                                 data={tags}
-                                placeholder="Tags"
-                                searchable
-                                creatable
-                                autoFocus
-                                getCreateLabel={query => t`Create tag: ${query}`}
                                 value={props.entry.tags}
                                 onChange={onTagsChange}
+                                comboboxProps={{
+                                    withinPortal: false,
+                                }}
                             />
                         </Popover.Dropdown>
                     </Popover>

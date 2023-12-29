@@ -50,11 +50,11 @@ export function ErrorPage(props: { error: Error }) {
                 <Title className={classes.title}>
                     <Trans>Something bad just happened...</Trans>
                 </Title>
-                <Text size="lg" align="center" className={classes.description}>
+                <Text size="lg" ta="center" className={classes.description}>
                     {props.error.message}
                 </Text>
-                <Group position="center">
-                    <Button size="md" onClick={() => window.location.reload()} leftIcon={<TbRefresh size={18} />}>
+                <Group justify="center">
+                    <Button size="md" onClick={() => window.location.reload()} leftSection={<TbRefresh size={18} />}>
                         Refresh the page
                     </Button>
                 </Group>

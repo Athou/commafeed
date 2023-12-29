@@ -65,7 +65,7 @@ export function MarkAllAsReadButton(props: { iconSize: number }) {
                         value={threshold}
                         onChange={setThreshold}
                     />
-                    <Group position="right">
+                    <Group justify="flex-end">
                         <Button variant="default" onClick={() => setOpened(false)}>
                             <Trans>Cancel</Trans>
                         </Button>

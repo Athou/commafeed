@@ -17,7 +17,9 @@ export function UnreadCount(props: { unreadCount: number }) {
     const count = props.unreadCount >= 10000 ? "10k+" : props.unreadCount
     return (
         <Tooltip label={props.unreadCount} disabled={props.unreadCount === count}>
-            <Badge className={classes.badge}>{count}</Badge>
+            <Badge className={classes.badge} variant="light">
+                {count}
+            </Badge>
         </Tooltip>
     )
 }

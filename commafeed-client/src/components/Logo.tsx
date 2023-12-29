@@ -6,5 +6,5 @@ export interface LogoProps {
 }
 
 export function Logo(props: LogoProps) {
-    return <Image src={logo} width={props.size} />
+    return <Image src={logo} w={props.size} />
 }

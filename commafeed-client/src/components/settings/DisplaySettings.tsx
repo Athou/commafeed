@@ -81,7 +81,7 @@ export function DisplaySettings() {
                     <Switch
                         key={site}
                         label={Constants.sharing[site].label}
-                        checked={sharingSettings && sharingSettings[site]}
+                        checked={sharingSettings?.[site]}
                         onChange={async e =>
                             await dispatch(
                                 changeSharingSetting({

@@ -127,13 +127,13 @@ export function CategoryDetailsPage() {
                         </Button>
                         {editable && (
                             <>
-                                <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={modifyCategory.loading}>
+                                <Button type="submit" leftSection={<TbDeviceFloppy size={16} />} loading={modifyCategory.loading}>
                                     <Trans>Save</Trans>
                                 </Button>
                                 <Divider orientation="vertical" />
                                 <Button
                                     color="red"
-                                    leftIcon={<TbTrash size={16} />}
+                                    leftSection={<TbTrash size={16} />}
                                     onClick={() => openDeleteCategoryModal()}
                                     loading={deleteCategory.loading}
                                 >

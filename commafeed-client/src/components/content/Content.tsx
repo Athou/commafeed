@@ -1,6 +1,7 @@
-import { Box, type MantineTheme, Mark, TypographyStylesProvider, useMantineTheme } from "@mantine/core"
+import { Box, type MantineTheme, Mark, useMantineTheme } from "@mantine/core"
 import { Constants } from "app/constants"
 import { calculatePlaceholderSize } from "app/utils"
+import { BasicHtmlStyles } from "components/content/BasicHtmlStyles"
 import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
 import escapeStringRegexp from "escape-string-regexp"
 import { type ChildrenNode, Interweave, Matcher, type MatchResponse, type Node, type TransformCallback } from "interweave"
@@ -21,7 +22,11 @@ const useStyles = tss
             // break long links or long words
             overflowWrap: "anywhere",
             "& a": {
-                color: theme.fn.variant({ color: theme.primaryColor, variant: "subtle" }).color,
+                color: theme.variantColorResolver({
+                    theme,
+                    color: theme.primaryColor,
+                    variant: "subtle",
+                }).color,
             },
             "& iframe": {
                 maxWidth: "100%",
@@ -96,11 +101,11 @@ const Content = React.memo((props: ContentProps) => {
     const matchers = props.highlight ? [new HighlightMatcher(props.highlight)] : []
 
     return (
-        <TypographyStylesProvider>
+        <BasicHtmlStyles>
             <Box className={classes.content}>
                 <Interweave content={props.content} transform={transform} matchers={matchers} />
             </Box>
-        </TypographyStylesProvider>
+        </BasicHtmlStyles>
     )
 })
 Content.displayName = "Content"

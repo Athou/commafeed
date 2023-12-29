@@ -166,13 +166,13 @@ export function FeedDetailsPage() {
                         <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={modifyFeed.loading}>
+                        <Button type="submit" leftSection={<TbDeviceFloppy size={16} />} loading={modifyFeed.loading}>
                             <Trans>Save</Trans>
                         </Button>
                         <Divider orientation="vertical" />
                         <Button
                             color="red"
-                            leftIcon={<TbTrash size={16} />}
+                            leftSection={<TbTrash size={16} />}
                             onClick={() => openUnsubscribeModal()}
                             loading={unsubscribe.loading}
                         >

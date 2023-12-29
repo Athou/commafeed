@@ -1,6 +1,7 @@
-import { Box, type MantineTheme, Space, Text, useMantineTheme } from "@mantine/core"
+import { Box, Space, Text } from "@mantine/core"
 import { type Entry } from "app/types"
 import { RelativeDate } from "components/RelativeDate"
+import { useColorScheme } from "hooks/useColorScheme"
 import { tss } from "tss"
 import { FeedEntryTitle } from "./FeedEntryTitle"
 import { FeedFavicon } from "./FeedFavicon"
@@ -12,12 +13,12 @@ export interface FeedEntryHeaderProps {
 
 const useStyles = tss
     .withParams<{
-        theme: MantineTheme
+        colorScheme: "light" | "dark"
         read: boolean
     }>()
-    .create(({ theme, read }) => ({
+    .create(({ colorScheme, read }) => ({
         headerText: {
-            fontWeight: theme.colorScheme === "light" && !read ? "bold" : "inherit",
+            fontWeight: colorScheme === "light" && !read ? "bold" : "inherit",
         },
         headerSubtext: {
             display: "flex",
@@ -27,9 +28,9 @@ const useStyles = tss
     }))
 
 export function FeedEntryHeader(props: FeedEntryHeaderProps) {
-    const theme = useMantineTheme()
+    const colorScheme = useColorScheme()
     const { classes } = useStyles({
-        theme,
+        colorScheme,
         read: props.entry.read,
     })
     return (
@@ -40,7 +41,7 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
             <Box className={classes.headerSubtext}>
                 <FeedFavicon url={props.entry.iconUrl} />
                 <Space w={6} />
-                <Text color="dimmed">
+                <Text c="dimmed">
                     {props.entry.feedName}
                     <span> · </span>
                     <RelativeDate date={props.entry.date} />
@@ -48,7 +49,7 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
             </Box>
             {props.expanded && (
                 <Box className={classes.headerSubtext}>
-                    <Text color="dimmed">
+                    <Text c="dimmed">
                         {props.entry.author && <span>by {props.entry.author}</span>}
                         {props.entry.author && props.entry.categories && <span>&nbsp;·&nbsp;</span>}
                         {props.entry.categories && <span>{props.entry.categories}</span>}

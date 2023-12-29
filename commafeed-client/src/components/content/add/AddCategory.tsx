@@ -35,11 +35,11 @@ export function AddCategory() {
                 <Stack>
                     <TextInput label={<Trans>Category</Trans>} placeholder={t`Category`} {...form.getInputProps("name")} required />
                     <CategorySelect label={<Trans>Parent</Trans>} {...form.getInputProps("parentId")} clearable />
-                    <Group position="center">
+                    <Group justify="center">
                         <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button type="submit" leftIcon={<TbFolderPlus size={16} />} loading={addCategory.loading}>
+                        <Button type="submit" leftSection={<TbFolderPlus size={16} />} loading={addCategory.loading}>
                             <Trans>Add</Trans>
                         </Button>
                     </Group>

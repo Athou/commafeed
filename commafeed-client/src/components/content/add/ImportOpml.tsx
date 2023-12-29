@@ -37,7 +37,7 @@ export function ImportOpml() {
                 <Stack>
                     <FileInput
                         label={<Trans>OPML file</Trans>}
-                        icon={<TbFileImport />}
+                        leftSection={<TbFileImport />}
                         // https://github.com/mantinedev/mantine/issues/5401
                         {...{ placeholder: t`OPML file` }}
                         description={
@@ -50,11 +50,11 @@ export function ImportOpml() {
                         required
                         accept="application/xml"
                     />
-                    <Group position="center">
+                    <Group justify="center">
                         <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button type="submit" leftIcon={<TbFileImport size={16} />} loading={importOpml.loading}>
+                        <Button type="submit" leftSection={<TbFileImport size={16} />} loading={importOpml.loading}>
                             <Trans>Import</Trans>
                         </Button>
                     </Group>

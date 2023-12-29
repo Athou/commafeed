@@ -10,13 +10,13 @@ export function SettingsPage() {
         <Container size="sm" px={0}>
             <Tabs defaultValue="display" keepMounted={false}>
                 <Tabs.List>
-                    <Tabs.Tab value="display" icon={<TbPhoto size={16} />}>
+                    <Tabs.Tab value="display" leftSection={<TbPhoto size={16} />}>
                         <Trans>Display</Trans>
                     </Tabs.Tab>
-                    <Tabs.Tab value="customCode" icon={<TbCode size={16} />}>
+                    <Tabs.Tab value="customCode" leftSection={<TbCode size={16} />}>
                         <Trans>Custom code</Trans>
                     </Tabs.Tab>
-                    <Tabs.Tab value="profile" icon={<TbUser size={16} />}>
+                    <Tabs.Tab value="profile" leftSection={<TbUser size={16} />}>
                         <Trans>Profile</Trans>
                     </Tabs.Tab>
                 </Tabs.List>

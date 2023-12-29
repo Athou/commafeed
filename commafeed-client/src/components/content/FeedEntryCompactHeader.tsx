@@ -1,7 +1,8 @@
-import { Box, type MantineTheme, Text, useMantineTheme } from "@mantine/core"
+import { Box, Text } from "@mantine/core"
 import { type Entry } from "app/types"
 import { RelativeDate } from "components/RelativeDate"
 import { OnDesktop } from "components/responsive/OnDesktop"
+import { useColorScheme } from "hooks/useColorScheme"
 import { tss } from "tss"
 import { FeedEntryTitle } from "./FeedEntryTitle"
 import { FeedFavicon } from "./FeedFavicon"
@@ -12,10 +13,10 @@ export interface FeedEntryHeaderProps {
 
 const useStyles = tss
     .withParams<{
-        theme: MantineTheme
+        colorScheme: "light" | "dark"
         read: boolean
     }>()
-    .create(({ read, theme }) => ({
+    .create(({ colorScheme, read }) => ({
         wrapper: {
             display: "flex",
             alignItems: "center",
@@ -23,7 +24,7 @@ const useStyles = tss
         },
         title: {
             flexGrow: 1,
-            fontWeight: theme.colorScheme === "light" && !read ? "bold" : "inherit",
+            fontWeight: colorScheme === "light" && !read ? "bold" : "inherit",
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
@@ -41,9 +42,9 @@ const useStyles = tss
     }))
 
 export function FeedEntryCompactHeader(props: FeedEntryHeaderProps) {
-    const theme = useMantineTheme()
+    const colorScheme = useColorScheme()
     const { classes } = useStyles({
-        theme,
+        colorScheme,
         read: props.entry.read,
     })
     return (
@@ -52,7 +53,7 @@ export function FeedEntryCompactHeader(props: FeedEntryHeaderProps) {
                 <FeedFavicon url={props.entry.iconUrl} />
             </Box>
             <OnDesktop>
-                <Text color="dimmed" className={classes.feedName}>
+                <Text c="dimmed" className={classes.feedName}>
                     {props.entry.feedName}
                 </Text>
             </OnDesktop>
@@ -60,7 +61,7 @@ export function FeedEntryCompactHeader(props: FeedEntryHeaderProps) {
                 <FeedEntryTitle entry={props.entry} />
             </Box>
             <OnDesktop>
-                <Text color="dimmed" className={classes.date}>
+                <Text c="dimmed" className={classes.date}>
                     <RelativeDate date={props.entry.date} />
                 </Text>
             </OnDesktop>

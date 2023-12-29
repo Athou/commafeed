@@ -67,7 +67,7 @@ export function AboutPage() {
 
     return (
         <Container size="xl">
-            <SimpleGrid cols={2} breakpoints={[{ maxWidth: Constants.layout.mobileBreakpoint, cols: 1 }]}>
+            <SimpleGrid cols={{ base: 1, [Constants.layout.mobileBreakpointName]: 2 }}>
                 <Section title={<Trans>About</Trans>} icon={<TbHelp size={24} />}>
                     <Box>
                         <Trans>

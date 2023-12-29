@@ -1,6 +1,6 @@
 import { t, Trans } from "@lingui/macro"
 import { Box, Center, Kbd, TextInput } from "@mantine/core"
-import { openSpotlight, type SpotlightAction, SpotlightProvider } from "@mantine/spotlight"
+import { Spotlight, spotlight, type SpotlightActionData } from "@mantine/spotlight"
 import { redirectToFeed } from "app/redirect/thunks"
 import { useAppDispatch } from "app/store"
 import { type Subscription } from "app/types"
@@ -15,17 +15,18 @@ export interface TreeSearchProps {
 export function TreeSearch(props: TreeSearchProps) {
     const dispatch = useAppDispatch()
 
-    const actions: SpotlightAction[] = props.feeds
-        .sort((f1, f2) => f1.name.localeCompare(f2.name))
+    const actions: SpotlightActionData[] = props.feeds
+        .toSorted((f1, f2) => f1.name.localeCompare(f2.name))
         .map(f => ({
-            title: f.name,
-            icon: <FeedFavicon url={f.iconUrl} />,
-            onTrigger: async () => await dispatch(redirectToFeed(f.id)),
+            id: `${f.id}`,
+            label: f.name,
+            leftSection: <FeedFavicon url={f.iconUrl} />,
+            onClick: async () => await dispatch(redirectToFeed(f.id)),
         }))
 
     const searchIcon = <TbSearch size={18} />
     const rightSection = (
-        <Center>
+        <Center style={{ cursor: "pointer" }} onClick={() => spotlight.open()}>
             <Kbd>Ctrl</Kbd>
             <Box mx={5}>+</Box>
             <Kbd>K</Kbd>
@@ -33,30 +34,35 @@ export function TreeSearch(props: TreeSearchProps) {
     )
 
     // additional keyboard shortcut used by commafeed v1
-    useMousetrap("g u", () => openSpotlight())
+    useMousetrap("g u", () => spotlight.open())
 
     return (
-        <SpotlightProvider
-            actions={actions}
-            searchIcon={searchIcon}
-            searchPlaceholder={t`Search`}
-            shortcut="ctrl+k"
-            nothingFoundMessage={<Trans>Nothing found</Trans>}
-        >
+        <>
             <TextInput
                 placeholder={t`Search`}
-                icon={searchIcon}
+                leftSection={searchIcon}
                 rightSectionWidth={100}
                 rightSection={rightSection}
                 styles={{
-                    input: { cursor: "pointer" },
-                    rightSection: { pointerEvents: "none" },
+                    input: {
+                        cursor: "pointer",
+                    },
                 }}
-                onClick={() => openSpotlight()}
+                onClick={() => spotlight.open()}
                 // prevent focus
                 onFocus={e => e.target.blur()}
                 readOnly
             />
-        </SpotlightProvider>
+            <Spotlight
+                actions={actions}
+                limit={10}
+                shortcut="ctrl+k"
+                searchProps={{
+                    leftSection: searchIcon,
+                    placeholder: t`Search`,
+                }}
+                nothingFound={<Trans>Nothing found</Trans>}
+            ></Spotlight>
+        </>
     )
 }

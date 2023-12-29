@@ -43,7 +43,7 @@ export function UserEdit(props: UserEditProps) {
                         <Button variant="default" onClick={props.onCancel}>
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={saveUser.loading}>
+                        <Button type="submit" leftSection={<TbDeviceFloppy size={16} />} loading={saveUser.loading}>
                             <Trans>Save</Trans>
                         </Button>
                     </Group>

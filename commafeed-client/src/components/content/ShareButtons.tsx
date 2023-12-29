@@ -2,6 +2,7 @@ import { ActionIcon, Box, type MantineTheme, SimpleGrid, useMantineTheme } from 
 import { Constants } from "app/constants"
 import { useAppSelector } from "app/store"
 import { type SharingSettings } from "app/types"
+import { useColorScheme } from "hooks/useColorScheme"
 import { type IconType } from "react-icons"
 import { tss } from "tss"
 
@@ -10,20 +11,23 @@ type Color = `#${string}`
 const useStyles = tss
     .withParams<{
         theme: MantineTheme
+        colorScheme: "light" | "dark"
         color: Color
     }>()
-    .create(({ theme, color }) => ({
+    .create(({ theme, colorScheme, color }) => ({
         socialIcon: {
             color,
-            backgroundColor: theme.colorScheme === "dark" ? theme.colors.gray[2] : "white",
+            backgroundColor: colorScheme === "dark" ? theme.colors.gray[2] : "white",
             borderRadius: "50%",
         },
     }))
 
 function ShareButton({ url, icon, color }: { url: string; icon: IconType; color: Color }) {
     const theme = useMantineTheme()
+    const colorScheme = useColorScheme()
     const { classes } = useStyles({
         theme,
+        colorScheme,
         color,
     })
 
@@ -33,7 +37,7 @@ function ShareButton({ url, icon, color }: { url: string; icon: IconType; color:
     }
 
     return (
-        <ActionIcon>
+        <ActionIcon variant="transparent">
             <a href={url} target="_blank" rel="noreferrer" onClick={onClick}>
                 <Box p={6} className={classes.socialIcon}>
                     {icon({ size: 18 })}
@@ -51,7 +55,7 @@ export function ShareButtons(props: { url: string; description: string }) {
     return (
         <SimpleGrid cols={4}>
             {(Object.keys(Constants.sharing) as Array<keyof SharingSettings>)
-                .filter(site => sharingSettings && sharingSettings[site])
+                .filter(site => sharingSettings?.[site])
                 .map(site => (
                     <ShareButton
                         key={site}

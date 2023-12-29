@@ -60,7 +60,7 @@ export function LoginPage() {
                         />
 
                         {serverInfos?.smtpEnabled && (
-                            <Anchor component={Link} to="/passwordRecovery" color="dimmed">
+                            <Anchor component={Link} to="/passwordRecovery" c="dimmed">
                                 <Trans>Forgot password?</Trans>
                             </Anchor>
                         )}

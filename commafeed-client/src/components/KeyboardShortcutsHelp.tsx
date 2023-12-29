@@ -4,64 +4,64 @@ import { Constants } from "app/constants"
 
 export function KeyboardShortcutsHelp() {
     return (
-        <Stack spacing="xs">
+        <Stack gap="xs">
             <Table striped highlightOnHover>
-                <tbody>
-                    <tr>
-                        <td>
+                <Table.Tbody>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Refresh</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>R</Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Open next entry</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>J</Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Open previous entry</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>K</Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Set focus on next entry without opening it</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>N</Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Set focus on previous entry without opening it</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>P</Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Move the page down</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>
                                 <Trans>Space</Trans>
                             </Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Move the page up</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>
                                 <Trans>Shift</Trans>
                             </Kbd>
@@ -69,85 +69,85 @@ export function KeyboardShortcutsHelp() {
                             <Kbd>
                                 <Trans>Space</Trans>
                             </Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Open/close current entry</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>O</Kbd>
                             <span>, </span>
                             <Kbd>
                                 <Trans>Enter</Trans>
                             </Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Open current entry in a new tab</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>V</Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Open current entry in a new tab in the background</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>B</Kbd>
                             <span>*, </span>
                             <Kbd>
                                 <Trans>Middle click</Trans>
                             </Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Toggle read status of current entry</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>M</Kbd>
                             <span>, </span>
                             <Trans>Swipe header to the right</Trans>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Toggle starred status of current entry</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>S</Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Mark all entries as read</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>
                                 <Trans>Shift</Trans>
                             </Kbd>
                             <span> + </span>
                             <Kbd>A</Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Go to the All view</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>G</Kbd>
                             <span> </span>
                             <Kbd>A</Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Navigate to a subscription by entering its name</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>
                                 <Trans>Ctrl</Trans>
                             </Kbd>
@@ -157,23 +157,23 @@ export function KeyboardShortcutsHelp() {
                             <Kbd>G</Kbd>
                             <span> </span>
                             <Kbd>U</Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Show entry menu (desktop)</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>
                                 <Trans>Right click</Trans>
                             </Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Show native menu (desktop)</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>
                                 <Trans>Shift</Trans>
                             </Kbd>
@@ -181,35 +181,35 @@ export function KeyboardShortcutsHelp() {
                             <Kbd>
                                 <Trans>Right click</Trans>
                             </Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Show entry menu (mobile)</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>
                                 <Trans>Long press</Trans>
                             </Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Toggle sidebar</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>F</Kbd>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Show keyboard shortcut help</Trans>
-                        </td>
-                        <td>
+                        </Table.Td>
+                        <Table.Td>
                             <Kbd>?</Kbd>
-                        </td>
-                    </tr>
-                </tbody>
+                        </Table.Td>
+                    </Table.Tr>
+                </Table.Tbody>
             </Table>
             <Box>
                 <span>* </span>

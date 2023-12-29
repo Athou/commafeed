@@ -108,7 +108,7 @@ export function Subscribe() {
                     </Stepper.Step>
                 </Stepper>
 
-                <Group position="center" mt="xl">
+                <Group justify="center" mt="xl">
                     <Button variant="default" onClick={previousStep}>
                         <Trans>Back</Trans>
                     </Button>
@@ -118,7 +118,7 @@ export function Subscribe() {
                         </Button>
                     )}
                     {activeStep === 1 && (
-                        <Button type="submit" leftIcon={<TbRss size={16} />} loading={fetchFeed.loading || subscribe.loading}>
+                        <Button type="submit" leftSection={<TbRss size={16} />} loading={fetchFeed.loading || subscribe.loading}>
                             <Trans>Subscribe</Trans>
                         </Button>
                     )}

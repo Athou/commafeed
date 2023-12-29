@@ -37,7 +37,7 @@ function HeaderToolbar(props: { children: React.ReactNode }) {
     return mobile ? (
         // on mobile use all available width
         <Box
-            sx={{
+            style={{
                 width: "100%",
                 display: "flex",
                 justifyContent: "space-between",
@@ -46,7 +46,7 @@ function HeaderToolbar(props: { children: React.ReactNode }) {
             {props.children}
         </Box>
     ) : (
-        <Group spacing={spacing}>{props.children}</Group>
+        <Group gap={spacing}>{props.children}</Group>
     )
 }
 
@@ -136,7 +136,7 @@ export function Header() {
                             <TextInput
                                 placeholder={t`Search`}
                                 {...searchForm.getInputProps("search")}
-                                icon={<TbSearch size={iconSize} />}
+                                leftSection={<TbSearch size={iconSize} />}
                                 rightSection={
                                     <ActionIcon onClick={async () => await (searchFromStore && dispatch(search("")))}>
                                         <TbX />

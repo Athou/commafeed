@@ -1,5 +1,6 @@
 import { Box, Center, type MantineTheme, useMantineTheme } from "@mantine/core"
 import { FeedFavicon } from "components/content/FeedFavicon"
+import { useColorScheme } from "hooks/useColorScheme"
 import React, { type ReactNode } from "react"
 import { tss } from "tss"
 import { UnreadCount } from "./UnreadCount"
@@ -20,18 +21,19 @@ interface TreeNodeProps {
 const useStyles = tss
     .withParams<{
         theme: MantineTheme
+        colorScheme: "dark" | "light"
         selected: boolean
         hasError: boolean
         hasUnread: boolean
     }>()
-    .create(({ theme, selected, hasError, hasUnread }) => {
+    .create(({ theme, colorScheme, selected, hasError, hasUnread }) => {
         let backgroundColor = "inherit"
-        if (selected) backgroundColor = theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+        if (selected) backgroundColor = colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
 
         let color
         if (hasError) {
             color = theme.colors.red[6]
-        } else if (theme.colorScheme === "dark") {
+        } else if (colorScheme === "dark") {
             color = hasUnread ? theme.colors.dark[0] : theme.colors.dark[3]
         } else {
             color = hasUnread ? theme.black : theme.colors.gray[6]
@@ -45,7 +47,7 @@ const useStyles = tss
                 color,
                 backgroundColor,
                 "&:hover": {
-                    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
+                    backgroundColor: colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
                 },
             },
             nodeText: {
@@ -59,8 +61,10 @@ const useStyles = tss
 
 export function TreeNode(props: TreeNodeProps) {
     const theme = useMantineTheme()
+    const colorScheme = useColorScheme()
     const { classes } = useStyles({
         theme,
+        colorScheme,
         selected: props.selected,
         hasError: props.hasError,
         hasUnread: props.unread > 0,

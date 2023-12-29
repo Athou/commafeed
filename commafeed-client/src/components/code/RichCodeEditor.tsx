@@ -1,5 +1,5 @@
-import { useMantineTheme } from "@mantine/core"
 import { Loader } from "components/Loader"
+import { useColorScheme } from "hooks/useColorScheme"
 import { useAsync } from "react-async-hook"
 
 const init = async () => {
@@ -32,8 +32,8 @@ interface RichCodeEditorProps {
 }
 
 function RichCodeEditor(props: RichCodeEditorProps) {
-    const theme = useMantineTheme()
-    const editorTheme = theme.colorScheme === "dark" ? "vs-dark" : "light"
+    const colorScheme = useColorScheme()
+    const editorTheme = colorScheme === "dark" ? "vs-dark" : "light"
 
     const { result: Editor } = useAsync(init, [])
     if (!Editor) return <Loader />

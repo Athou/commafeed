@@ -1,7 +1,6 @@
 import { i18n } from "@lingui/core"
 import { I18nProvider } from "@lingui/react"
-import { type ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core"
-import { useColorScheme } from "@mantine/hooks"
+import { MantineProvider } from "@mantine/core"
 import { ModalsProvider } from "@mantine/modals"
 import { Notifications } from "@mantine/notifications"
 import { Constants } from "app/constants"
@@ -33,31 +32,37 @@ import React, { useEffect } from "react"
 import ReactGA from "react-ga4"
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import Tinycon from "tinycon"
-import useLocalStorage from "use-local-storage"
 
 function Providers(props: { children: React.ReactNode }) {
-    const preferredColorScheme = useColorScheme()
-    const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>("color-scheme", preferredColorScheme)
-    const toggleColorScheme = (value?: ColorScheme) => setColorScheme(value ?? (colorScheme === "dark" ? "light" : "dark"))
-
     return (
         <I18nProvider i18n={i18n}>
-            <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-                <MantineProvider
-                    withGlobalStyles
-                    withNormalizeCSS
-                    theme={{
-                        primaryColor: "orange",
-                        colorScheme,
-                        fontFamily: "Open Sans",
-                    }}
-                >
-                    <ModalsProvider>
-                        <Notifications position="bottom-right" zIndex={9999} />
-                        <ErrorBoundary>{props.children}</ErrorBoundary>
-                    </ModalsProvider>
-                </MantineProvider>
-            </ColorSchemeProvider>
+            <MantineProvider
+                theme={{
+                    primaryColor: "orange",
+                    fontFamily: "Open Sans",
+                    colors: {
+                        // keep using dark colors from mantine v6
+                        // https://v6.mantine.dev/theming/colors/#default-colors
+                        dark: [
+                            "#C1C2C5",
+                            "#A6A7AB",
+                            "#909296",
+                            "#5c5f66",
+                            "#373A40",
+                            "#2C2E33",
+                            "#25262b",
+                            "#1A1B1E",
+                            "#141517",
+                            "#101113",
+                        ],
+                    },
+                }}
+            >
+                <ModalsProvider>
+                    <Notifications position="bottom-right" zIndex={9999} />
+                    <ErrorBoundary>{props.children}</ErrorBoundary>
+                </ModalsProvider>
+            </MantineProvider>
         </I18nProvider>
     )
 }
@@ -77,7 +82,10 @@ function AppRoutes() {
             <Route path="register" element={<RegistrationPage />} />
             <Route path="passwordRecovery" element={<PasswordRecoveryPage />} />
             <Route path="api" element={<ApiDocumentationPage />} />
-            <Route path="app" element={<Layout header={<Header />} sidebar={<Tree />} sidebarWidth={sidebarVisible ? sidebarWidth : 0} />}>
+            <Route
+                path="app"
+                element={<Layout header={<Header />} sidebar={<Tree />} sidebarWidth={sidebarWidth} sidebarVisible={sidebarVisible} />}
+            >
                 <Route path="category">
                     <Route path=":id" element={<FeedEntriesPage sourceType="category" />} />
                     <Route path=":id/details" element={<CategoryDetailsPage />} />

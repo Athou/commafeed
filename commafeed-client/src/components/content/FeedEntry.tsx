@@ -1,7 +1,7 @@
-import { Box, Divider, type MantineTheme, Paper, useMantineTheme } from "@mantine/core"
-import { type MantineNumberSize } from "@mantine/styles"
+import { Box, Divider, type MantineRadius, type MantineSpacing, type MantineTheme, Paper, useMantineTheme } from "@mantine/core"
 import { Constants } from "app/constants"
 import { type Entry, type ViewMode } from "app/types"
+import { useColorScheme } from "hooks/useColorScheme"
 import { useViewMode } from "hooks/useViewMode"
 import React from "react"
 import { useSwipeable } from "react-swipeable"
@@ -27,6 +27,7 @@ interface FeedEntryProps {
 const useStyles = tss
     .withParams<{
         theme: MantineTheme
+        colorScheme: "light" | "dark"
         read: boolean
         expanded: boolean
         viewMode: ViewMode
@@ -34,9 +35,9 @@ const useStyles = tss
         showSelectionIndicator: boolean
         maxWidth?: number
     }>()
-    .create(({ theme, read, expanded, viewMode, rtl, showSelectionIndicator, maxWidth }) => {
+    .create(({ theme, colorScheme, read, expanded, viewMode, rtl, showSelectionIndicator, maxWidth }) => {
         let backgroundColor
-        if (theme.colorScheme === "dark") {
+        if (colorScheme === "dark") {
             backgroundColor = read ? "inherit" : theme.colors.dark[5]
         } else {
             backgroundColor = read && !expanded ? theme.colors.gray[0] : "inherit"
@@ -58,12 +59,12 @@ const useStyles = tss
 
         let backgroundHoverColor = backgroundColor
         if (!expanded && !read) {
-            backgroundHoverColor = theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1]
+            backgroundHoverColor = colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1]
         }
 
         let paperBorderLeftColor
         if (showSelectionIndicator) {
-            const borderLeftColor = theme.colorScheme === "dark" ? theme.colors.orange[4] : theme.colors.orange[6]
+            const borderLeftColor = colorScheme === "dark" ? theme.colors[theme.primaryColor][4] : theme.colors[theme.primaryColor][6]
             paperBorderLeftColor = `${borderLeftColor} !important`
         }
 
@@ -73,7 +74,7 @@ const useStyles = tss
                 borderLeftColor: paperBorderLeftColor,
                 marginTop: marginY,
                 marginBottom: marginY,
-                [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
+                [`@media (max-width: ${Constants.layout.mobileBreakpoint}px)`]: {
                     marginTop: mobileMarginY,
                     marginBottom: mobileMarginY,
                 },
@@ -96,9 +97,11 @@ const useStyles = tss
 
 export function FeedEntry(props: FeedEntryProps) {
     const theme = useMantineTheme()
+    const colorScheme = useColorScheme()
     const { viewMode } = useViewMode()
     const { classes, cx } = useStyles({
         theme,
+        colorScheme,
         read: props.entry.read,
         expanded: props.expanded,
         viewMode,
@@ -111,17 +114,17 @@ export function FeedEntry(props: FeedEntryProps) {
         onSwipedRight: props.onSwipedRight,
     })
 
-    let paddingX: MantineNumberSize = "xs"
+    let paddingX: MantineSpacing = "xs"
     if (viewMode === "title" || viewMode === "cozy") paddingX = 6
 
-    let paddingY: MantineNumberSize = "xs"
+    let paddingY: MantineSpacing = "xs"
     if (viewMode === "title") {
         paddingY = 4
     } else if (viewMode === "cozy") {
         paddingY = 8
     }
 
-    let borderRadius: MantineNumberSize = "sm"
+    let borderRadius: MantineRadius = "sm"
     if (viewMode === "title") {
         borderRadius = 0
     } else if (viewMode === "cozy") {

@@ -1,13 +1,13 @@
-import { TypographyStylesProvider } from "@mantine/core"
+import { BasicHtmlStyles } from "components/content/BasicHtmlStyles"
 import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
 
 export function Enclosure(props: { enclosureType: string; enclosureUrl: string }) {
-    const hasVideo = props.enclosureType && props.enclosureType.indexOf("video") === 0
-    const hasAudio = props.enclosureType && props.enclosureType.indexOf("audio") === 0
-    const hasImage = props.enclosureType && props.enclosureType.indexOf("image") === 0
+    const hasVideo = props.enclosureType?.startsWith("video")
+    const hasAudio = props.enclosureType?.startsWith("audio")
+    const hasImage = props.enclosureType?.startsWith("image")
 
     return (
-        <TypographyStylesProvider>
+        <BasicHtmlStyles>
             {hasVideo && (
                 <video controls>
                     <source src={props.enclosureUrl} type={props.enclosureType} />
@@ -19,6 +19,6 @@ export function Enclosure(props: { enclosureType: string; enclosureUrl: string }
                 </audio>
             )}
             {hasImage && <ImageWithPlaceholderWhileLoading src={props.enclosureUrl} alt="enclosure" />}
-        </TypographyStylesProvider>
+        </BasicHtmlStyles>
     )
 }

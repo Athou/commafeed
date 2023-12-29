@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { type Entry } from "app/types"
 import { truncate } from "app/utils"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
+import { useColorScheme } from "hooks/useColorScheme"
 import { Item, Menu, Separator } from "react-contexify"
 import { TbArrowBarToDown, TbExternalLink, TbEyeCheck, TbEyeOff, TbRss, TbStar, TbStarOff } from "react-icons/tb"
 import { tss } from "tss"
@@ -19,30 +20,31 @@ const iconSize = 16
 const useStyles = tss
     .withParams<{
         theme: MantineTheme
+        colorScheme: "light" | "dark"
     }>()
-    .create(({ theme }) => ({
+    .create(({ theme, colorScheme }) => ({
         menu: {
             // apply mantine theme from MenuItem.styles.ts
             fontSize: theme.fontSizes.sm,
-            "--contexify-item-color": `${theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black} !important`,
-            "--contexify-activeItem-color": `${theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black} !important`,
-            "--contexify-activeItem-bgColor": `${
-                theme.colorScheme === "dark" ? theme.fn.rgba(theme.colors.dark[3], 0.35) : theme.colors.gray[1]
-            } !important`,
+            "--contexify-item-color": `${colorScheme === "dark" ? theme.colors.dark[0] : theme.black} !important`,
+            "--contexify-activeItem-color": `${colorScheme === "dark" ? theme.colors.dark[0] : theme.black} !important`,
+            "--contexify-activeItem-bgColor": `${colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[1]} !important`,
         },
     }))
 
 export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
     const theme = useMantineTheme()
+    const colorScheme = useColorScheme()
     const { classes } = useStyles({
         theme,
+        colorScheme,
     })
     const sourceType = useAppSelector(state => state.entries.source.type)
     const dispatch = useAppDispatch()
     const { openLinkInBackgroundTab } = useBrowserExtension()
 
     return (
-        <Menu id={Constants.dom.entryContextMenuId(props.entry)} theme={theme.colorScheme} animation={false} className={classes.menu}>
+        <Menu id={Constants.dom.entryContextMenuId(props.entry)} theme={colorScheme} animation={false} className={classes.menu}>
             <Item
                 onClick={() => {
                     window.open(props.entry.url, "_blank", "noreferrer")

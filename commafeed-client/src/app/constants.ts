@@ -1,5 +1,4 @@
 import { t } from "@lingui/macro"
-import { DEFAULT_THEME } from "@mantine/core"
 import { type IconType } from "react-icons"
 import { FaAt } from "react-icons/fa"
 import { SiBuffer, SiFacebook, SiGmail, SiInstapaper, SiPocket, SiTumblr, SiTwitter } from "react-icons/si"
@@ -86,7 +85,8 @@ export const Constants = {
     categories,
     sharing,
     layout: {
-        mobileBreakpoint: DEFAULT_THEME.breakpoints.md,
+        mobileBreakpoint: 992,
+        mobileBreakpointName: "md",
         headerHeight: 60,
         entryMaxWidth: 650,
         isTopVisible: (div: HTMLElement) => div.getBoundingClientRect().top >= Constants.layout.headerHeight,

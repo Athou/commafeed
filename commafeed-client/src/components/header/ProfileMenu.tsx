@@ -99,7 +99,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
             <Menu.Dropdown>
                 {profile && <Menu.Label>{profile.name}</Menu.Label>}
                 <Menu.Item
-                    icon={<TbSettings size={iconSize} />}
+                    leftSection={<TbSettings size={iconSize} />}
                     onClick={() => {
                         dispatch(redirectToSettings())
                         setOpened(false)
@@ -108,7 +108,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     <Trans>Settings</Trans>
                 </Menu.Item>
                 <Menu.Item
-                    icon={<TbWorldDownload size={iconSize} />}
+                    leftSection={<TbWorldDownload size={iconSize} />}
                     onClick={async () =>
                         await client.feed.refreshAll().then(() => {
                             showNotification({
@@ -128,7 +128,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 <Menu.Label>
                     <Trans>Theme</Trans>
                 </Menu.Label>
-                <Menu.Item icon={dark ? <TbSun size={iconSize} /> : <TbMoon size={iconSize} />} onClick={() => toggleColorScheme()}>
+                <Menu.Item leftSection={dark ? <TbSun size={iconSize} /> : <TbMoon size={iconSize} />} onClick={() => toggleColorScheme()}>
                     {dark ? <Trans>Switch to light theme</Trans> : <Trans>Switch to dark theme</Trans>}
                 </Menu.Item>
 
@@ -153,7 +153,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                             <Trans>Admin</Trans>
                         </Menu.Label>
                         <Menu.Item
-                            icon={<TbUsers size={iconSize} />}
+                            leftSection={<TbUsers size={iconSize} />}
                             onClick={() => {
                                 dispatch(redirectToAdminUsers())
                                 setOpened(false)
@@ -162,7 +162,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                             <Trans>Manage users</Trans>
                         </Menu.Item>
                         <Menu.Item
-                            icon={<TbChartLine size={iconSize} />}
+                            leftSection={<TbChartLine size={iconSize} />}
                             onClick={() => {
                                 dispatch(redirectToMetrics())
                                 setOpened(false)
@@ -176,7 +176,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 <Divider />
 
                 <Menu.Item
-                    icon={<TbHeartFilled size={iconSize} color="red" />}
+                    leftSection={<TbHeartFilled size={iconSize} color="red" />}
                     onClick={() => {
                         dispatch(redirectToDonate())
                         setOpened(false)
@@ -186,7 +186,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 </Menu.Item>
 
                 <Menu.Item
-                    icon={<TbHelp size={iconSize} />}
+                    leftSection={<TbHelp size={iconSize} />}
                     onClick={() => {
                         dispatch(redirectToAbout())
                         setOpened(false)
@@ -194,7 +194,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 >
                     <Trans>About</Trans>
                 </Menu.Item>
-                <Menu.Item icon={<TbPower size={iconSize} />} onClick={logout}>
+                <Menu.Item leftSection={<TbPower size={iconSize} />} onClick={logout}>
                     <Trans>Logout</Trans>
                 </Menu.Item>
             </Menu.Dropdown>

@@ -24,7 +24,7 @@ export function AnnouncementDialog() {
     return (
         <Dialog opened={opened} withCloseButton onClose={onClosed} size="xl" radius="md">
             <Box>
-                <Text weight="bold">
+                <Text fw="bold">
                     <Trans>Announcement</Trans>
                 </Text>
             </Box>

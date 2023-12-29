@@ -1,87 +1,31 @@
-import {
-    ActionIcon,
-    AppShell,
-    Box,
-    Burger,
-    Center,
-    DEFAULT_THEME,
-    Group,
-    Header,
-    type MantineTheme,
-    Navbar,
-    ScrollArea,
-    Title,
-    useMantineTheme,
-} from "@mantine/core"
+import { Trans } from "@lingui/macro"
+import { ActionIcon, AppShell, Box, Center, Group, ScrollArea, Title, useMantineTheme } from "@mantine/core"
 import { Constants } from "app/constants"
 import { redirectToAdd, redirectToRootCategory } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { setMobileMenuOpen, setSidebarWidth } from "app/tree/slice"
 import { reloadTree } from "app/tree/thunks"
 import { reloadProfile, reloadSettings, reloadTags } from "app/user/thunks"
+import { ActionButton } from "components/ActionButton"
 import { AnnouncementDialog } from "components/AnnouncementDialog"
 import { Loader } from "components/Loader"
 import { Logo } from "components/Logo"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import { OnMobile } from "components/responsive/OnMobile"
 import { useAppLoading } from "hooks/useAppLoading"
-import { useMobile } from "hooks/useMobile"
 import { useWebSocket } from "hooks/useWebSocket"
 import { LoadingPage } from "pages/LoadingPage"
-import { Resizable } from "re-resizable"
 import { type ReactNode, Suspense, useEffect } from "react"
-import { TbPlus } from "react-icons/tb"
+import Draggable from "react-draggable"
+import { TbMenu2, TbPlus, TbX } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
-import { tss } from "tss"
 
 interface LayoutProps {
     sidebar: ReactNode
     sidebarWidth: number
+    sidebarVisible: boolean
     header: ReactNode
 }
-
-const sidebarPadding = DEFAULT_THEME.spacing.xs
-const sidebarRightBorderWidth = "1px"
-
-const useStyles = tss
-    .withParams<{
-        theme: MantineTheme
-        sidebarWidth: number
-    }>()
-    .create(({ theme, sidebarWidth }) => ({
-        sidebar: {
-            "& .mantine-ScrollArea-scrollbar[data-orientation='horizontal']": {
-                display: "none",
-            },
-        },
-        sidebarContentResizeWrapper: {
-            padding: sidebarPadding,
-            minHeight: `calc(100vh - ${Constants.layout.headerHeight}px)`,
-        },
-        sidebarContent: {
-            maxWidth: `calc(${sidebarWidth}px - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
-            [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
-                maxWidth: `calc(100vw - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
-            },
-        },
-        mainContentWrapper: {
-            paddingTop: Constants.layout.headerHeight,
-            paddingLeft: sidebarWidth,
-            paddingRight: 0,
-            paddingBottom: 0,
-            [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
-                paddingLeft: 0,
-            },
-        },
-        mainContent: {
-            maxWidth: `calc(100vw - ${sidebarWidth}px)`,
-            padding: theme.spacing.md,
-            [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
-                maxWidth: "100vw",
-                padding: "6px",
-            },
-        },
-    }))
 
 function LogoAndTitle() {
     const dispatch = useAppDispatch()
@@ -97,20 +41,12 @@ function LogoAndTitle() {
 
 export default function Layout(props: LayoutProps) {
     const theme = useMantineTheme()
-    const { classes } = useStyles({
-        theme,
-        sidebarWidth: props.sidebarWidth,
-    })
     const { loading } = useAppLoading()
-    const mobile = useMobile()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
     const webSocketConnected = useAppSelector(state => state.server.webSocketConnected)
     const treeReloadInterval = useAppSelector(state => state.server.serverInfos?.treeReloadInterval)
-    const sidebarHidden = props.sidebarWidth === 0
     const dispatch = useAppDispatch()
     useWebSocket()
-
-    const handleResize = (element: HTMLElement) => dispatch(setSidebarWidth(element.offsetWidth))
 
     useEffect(() => {
         // load initial data
@@ -132,18 +68,20 @@ export default function Layout(props: LayoutProps) {
     }, [dispatch, webSocketConnected, treeReloadInterval])
 
     const burger = (
-        <Center>
-            <Burger
-                color={theme.fn.variant({ color: theme.primaryColor, variant: "subtle" }).color}
-                opened={mobileMenuOpen}
-                onClick={() => dispatch(setMobileMenuOpen(!mobileMenuOpen))}
-                size="sm"
-            />
-        </Center>
+        <ActionButton
+            label={mobileMenuOpen ? <Trans>Open menu</Trans> : <Trans>Close menu</Trans>}
+            icon={mobileMenuOpen ? <TbX size={18} /> : <TbMenu2 size={18} />}
+            onClick={() => dispatch(setMobileMenuOpen(!mobileMenuOpen))}
+        ></ActionButton>
     )
 
     const addButton = (
-        <ActionIcon color={theme.primaryColor} onClick={async () => await dispatch(redirectToAdd())} aria-label="Subscribe">
+        <ActionIcon
+            color={theme.primaryColor}
+            variant="subtle"
+            onClick={async () => await dispatch(redirectToAdd())}
+            aria-label="Subscribe"
+        >
             <TbPlus size={18} />
         </ActionIcon>
     )
@@ -151,77 +89,80 @@ export default function Layout(props: LayoutProps) {
     if (loading) return <LoadingPage />
     return (
         <AppShell
-            fixed
-            navbarOffsetBreakpoint={Constants.layout.mobileBreakpoint}
-            classNames={{ main: classes.mainContentWrapper }}
-            navbar={
-                <Navbar
-                    id="sidebar"
-                    hiddenBreakpoint={sidebarHidden ? 99999999 : Constants.layout.mobileBreakpoint}
-                    hidden={sidebarHidden || !mobileMenuOpen}
-                    width={{ md: props.sidebarWidth }}
-                    className={classes.sidebar}
-                >
-                    <Navbar.Section grow component={ScrollArea} mx={mobile ? 0 : "-sm"} px={mobile ? 0 : "sm"}>
-                        <Resizable
-                            enable={{
-                                top: false,
-                                right: !mobile,
-                                bottom: false,
-                                left: false,
-                                topRight: false,
-                                bottomRight: false,
-                                bottomLeft: false,
-                                topLeft: false,
-                            }}
-                            onResize={(e, dir, el) => handleResize(el)}
-                            minWidth={120}
-                            className={classes.sidebarContentResizeWrapper}
-                        >
-                            <Box className={classes.sidebarContent}>{props.sidebar}</Box>
-                        </Resizable>
-                    </Navbar.Section>
-                </Navbar>
-            }
-            header={
-                <Header id="header" height={Constants.layout.headerHeight} p="md">
-                    <OnMobile>
-                        {mobileMenuOpen && (
-                            <Group position="apart">
-                                <Box>{burger}</Box>
-                                <Box>
-                                    <LogoAndTitle />
-                                </Box>
-                                <Box>{addButton}</Box>
-                            </Group>
-                        )}
-                        {!mobileMenuOpen && (
-                            <Group>
-                                <Box>{burger}</Box>
-                                <Box sx={{ flexGrow: 1 }}>{props.header}</Box>
-                            </Group>
-                        )}
-                    </OnMobile>
-                    <OnDesktop>
-                        <Group>
-                            <Group position="apart" sx={{ width: props.sidebarWidth - 16 }}>
-                                <Box>
-                                    <LogoAndTitle />
-                                </Box>
-                                <Box>{addButton}</Box>
-                            </Group>
-                            <Box sx={{ flexGrow: 1 }}>{props.header}</Box>
-                        </Group>
-                    </OnDesktop>
-                </Header>
-            }
+            header={{ height: Constants.layout.headerHeight }}
+            navbar={{
+                width: props.sidebarWidth,
+                breakpoint: Constants.layout.mobileBreakpoint,
+                collapsed: { mobile: !mobileMenuOpen, desktop: !props.sidebarVisible },
+            }}
+            padding={{ base: 6, [Constants.layout.mobileBreakpointName]: "md" }}
         >
-            <Box id="content" className={classes.mainContent}>
+            <AppShell.Header id="header">
+                <OnMobile>
+                    {mobileMenuOpen && (
+                        <Group justify="space-between" p="md">
+                            <Box>{burger}</Box>
+                            <Box>
+                                <LogoAndTitle />
+                            </Box>
+                            <Box>{addButton}</Box>
+                        </Group>
+                    )}
+                    {!mobileMenuOpen && (
+                        <Group p="md">
+                            <Box>{burger}</Box>
+                            <Box style={{ flexGrow: 1 }}>{props.header}</Box>
+                        </Group>
+                    )}
+                </OnMobile>
+                <OnDesktop>
+                    <Group p="md">
+                        <Group justify="space-between" style={{ width: props.sidebarWidth - 16 }}>
+                            <Box>
+                                <LogoAndTitle />
+                            </Box>
+                            <Box>{addButton}</Box>
+                        </Group>
+                        <Box style={{ flexGrow: 1 }}>{props.header}</Box>
+                    </Group>
+                </OnDesktop>
+            </AppShell.Header>
+            <AppShell.Navbar id="sidebar" p="xs">
+                <AppShell.Section grow component={ScrollArea} mx="-sm" px="sm">
+                    <Box>{props.sidebar}</Box>
+                </AppShell.Section>
+            </AppShell.Navbar>
+            <Draggable
+                axis="x"
+                defaultPosition={{
+                    x: props.sidebarWidth,
+                    y: Constants.layout.headerHeight,
+                }}
+                bounds={{
+                    left: 120,
+                    right: 1000,
+                }}
+                grid={[30, 30]}
+                onDrag={(_e, data) => {
+                    dispatch(setSidebarWidth(data.x))
+                }}
+            >
+                <Box
+                    style={{
+                        position: "fixed",
+                        height: "100%",
+                        width: "10px",
+                        cursor: "ew-resize",
+                    }}
+                ></Box>
+            </Draggable>
+
+            <AppShell.Main id="content">
                 <Suspense fallback={<Loader />}>
                     <AnnouncementDialog />
                     <Outlet />
                 </Suspense>
-            </Box>
+            </AppShell.Main>
         </AppShell>
     )
 }

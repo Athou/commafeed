@@ -27,7 +27,8 @@ export function MarkAllAsReadButton(props: { iconSize: number }) {
                     req: {
                         id: source.id,
                         read: true,
-                        olderThan: entriesTimestamp,
+                        olderThan: Date.now(),
+                        insertedBefore: entriesTimestamp,
                     },
                 })
             )
@@ -78,7 +79,8 @@ export function MarkAllAsReadButton(props: { iconSize: number }) {
                                         req: {
                                             id: source.id,
                                             read: true,
-                                            olderThan: entriesTimestamp - threshold * 24 * 60 * 60 * 1000,
+                                            olderThan: Date.now() - threshold * 24 * 60 * 60 * 1000,
+                                            insertedBefore: entriesTimestamp,
                                         },
                                     })
                                 )

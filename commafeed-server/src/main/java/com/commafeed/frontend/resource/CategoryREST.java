@@ -243,21 +243,22 @@ public class CategoryREST {
 		Preconditions.checkNotNull(req.getId());
 
 		Date olderThan = req.getOlderThan() == null ? null : new Date(req.getOlderThan());
+		Date insertedBefore = req.getInsertedBefore() == null ? null : new Date(req.getInsertedBefore());
 		String keywords = req.getKeywords();
 		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
 		if (ALL.equals(req.getId())) {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 			removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
-			feedEntryService.markSubscriptionEntries(user, subs, olderThan, entryKeywords);
+			feedEntryService.markSubscriptionEntries(user, subs, olderThan, insertedBefore, entryKeywords);
 		} else if (STARRED.equals(req.getId())) {
-			feedEntryService.markStarredEntries(user, olderThan);
+			feedEntryService.markStarredEntries(user, olderThan, insertedBefore);
 		} else {
 			FeedCategory parent = feedCategoryDAO.findById(user, Long.valueOf(req.getId()));
 			List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, parent);
 			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(user, categories);
 			removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
-			feedEntryService.markSubscriptionEntries(user, subs, olderThan, entryKeywords);
+			feedEntryService.markSubscriptionEntries(user, subs, olderThan, insertedBefore, entryKeywords);
 		}
 		return Response.ok().build();
 	}

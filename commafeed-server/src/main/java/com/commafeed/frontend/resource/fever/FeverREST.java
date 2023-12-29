@@ -189,8 +189,8 @@ public class FeverREST {
 		if (params.containsKey("mark") && params.containsKey("id") && params.containsKey("as")) {
 			long id = Long.parseLong(params.get("id"));
 			String before = params.get("before");
-			Date olderThan = before == null ? null : Date.from(Instant.ofEpochSecond(Long.parseLong(before)));
-			mark(user, params.get("mark"), id, params.get("as"), olderThan);
+			Date insertedBefore = before == null ? null : Date.from(Instant.ofEpochSecond(Long.parseLong(before)));
+			mark(user, params.get("mark"), id, params.get("as"), insertedBefore);
 		}
 
 		return resp;
@@ -306,7 +306,7 @@ public class FeverREST {
 		}).toList();
 	}
 
-	private void mark(User user, String source, long id, String action, Date olderThan) {
+	private void mark(User user, String source, long id, String action, Date insertedBefore) {
 		if ("item".equals(source)) {
 			if ("read".equals(action) || "unread".equals(action)) {
 				feedEntryService.markEntry(user, id, "read".equals(action));
@@ -317,12 +317,12 @@ public class FeverREST {
 			}
 		} else if ("feed".equals(source)) {
 			FeedSubscription subscription = feedSubscriptionDAO.findById(user, id);
-			feedEntryService.markSubscriptionEntries(user, Collections.singletonList(subscription), olderThan, null);
+			feedEntryService.markSubscriptionEntries(user, Collections.singletonList(subscription), null, insertedBefore, null);
 		} else if ("group".equals(source)) {
 			FeedCategory parent = feedCategoryDAO.findById(user, id);
 			List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, parent);
 			List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user, categories);
-			feedEntryService.markSubscriptionEntries(user, subscriptions, olderThan, null);
+			feedEntryService.markSubscriptionEntries(user, subscriptions, null, insertedBefore, null);
 		}
 	}
 

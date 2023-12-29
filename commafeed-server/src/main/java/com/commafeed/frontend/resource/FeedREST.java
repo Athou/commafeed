@@ -322,12 +322,14 @@ public class FeedREST {
 		Preconditions.checkNotNull(req.getId());
 
 		Date olderThan = req.getOlderThan() == null ? null : new Date(req.getOlderThan());
+		Date insertedBefore = req.getInsertedBefore() == null ? null : new Date(req.getInsertedBefore());
 		String keywords = req.getKeywords();
 		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, Long.valueOf(req.getId()));
 		if (subscription != null) {
-			feedEntryService.markSubscriptionEntries(user, Collections.singletonList(subscription), olderThan, entryKeywords);
+			feedEntryService.markSubscriptionEntries(user, Collections.singletonList(subscription), olderThan, insertedBefore,
+					entryKeywords);
 		}
 		return Response.ok().build();
 	}

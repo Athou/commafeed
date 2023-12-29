@@ -113,6 +113,7 @@ export interface MarkRequest {
     id: string
     read: boolean
     olderThan?: number
+    insertedBefore?: number
     keywords?: string
     excludedSubscriptions?: number[]
 }

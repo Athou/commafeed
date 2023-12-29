@@ -1,6 +1,5 @@
 package com.commafeed.backend.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -108,30 +107,30 @@ public class FeedEntryService {
 		feedEntryStatusDAO.saveOrUpdate(status);
 	}
 
-	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Date olderThan, List<FeedEntryKeyword> keywords) {
+	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Date olderThan, Date insertedBefore,
+			List<FeedEntryKeyword> keywords) {
 		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, keywords, null, -1, -1, null,
 				false, false, null, null, null);
-		markList(statuses, olderThan);
+		markList(statuses, olderThan, insertedBefore);
 		cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
 		cache.invalidateUserRootCategory(user);
 	}
 
-	public void markStarredEntries(User user, Date olderThan) {
+	public void markStarredEntries(User user, Date olderThan, Date insertedBefore) {
 		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findStarred(user, null, -1, -1, null, false);
-		markList(statuses, olderThan);
+		markList(statuses, olderThan, insertedBefore);
 	}
 
-	private void markList(List<FeedEntryStatus> statuses, Date olderThan) {
-		List<FeedEntryStatus> list = new ArrayList<>();
-		for (FeedEntryStatus status : statuses) {
-			if (!status.isRead()) {
-				Date entryDate = status.getEntry().getUpdated();
-				if (olderThan == null || entryDate == null || olderThan.after(entryDate)) {
-					status.setRead(true);
-					list.add(status);
-				}
-			}
-		}
-		feedEntryStatusDAO.saveOrUpdate(list);
+	private void markList(List<FeedEntryStatus> statuses, Date olderThan, Date insertedBefore) {
+		List<FeedEntryStatus> statusesToMark = statuses.stream().filter(s -> {
+			Date entryDate = s.getEntry().getUpdated();
+			return olderThan == null || entryDate == null || entryDate.before(olderThan);
+		}).filter(s -> {
+			Date insertedDate = s.getEntry().getInserted();
+			return insertedBefore == null || insertedDate == null || insertedDate.before(insertedBefore);
+		}).toList();
+
+		statusesToMark.forEach(s -> s.setRead(true));
+		feedEntryStatusDAO.saveOrUpdate(statusesToMark);
 	}
 }

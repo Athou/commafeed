@@ -22,10 +22,13 @@ public class MarkRequest implements Serializable {
 	@Schema(description = "mark as read or unread", requiredMode = RequiredMode.REQUIRED)
 	private boolean read;
 
-	@Schema(
-			description = "only entries older than this, pass the timestamp you got from the entry list to prevent marking an entry that was not retrieved",
-			requiredMode = RequiredMode.NOT_REQUIRED)
+	@Schema(description = "mark only entries older than this", requiredMode = RequiredMode.NOT_REQUIRED)
 	private Long olderThan;
+
+	@Schema(
+			description = "pass the timestamp you got from the entry list to avoid marking entries that may have been fetched in the mean time and never displayed",
+			requiredMode = RequiredMode.NOT_REQUIRED)
+	private Long insertedBefore;
 
 	@Schema(
 			description = "only mark read if a feed has these keywords in the title or rss content",

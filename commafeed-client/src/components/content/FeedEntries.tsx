@@ -279,7 +279,8 @@ export function FeedEntries() {
                 req: {
                     id: source.id,
                     read: true,
-                    olderThan: entriesTimestamp,
+                    olderThan: Date.now(),
+                    insertedBefore: entriesTimestamp,
                 },
             })
         )

@@ -129,7 +129,7 @@
 				<version>2.2.19</version>
 				<?m2e ignore?>
 				<configuration>
-					<outputPath>${project.build.directory}/classes/assets/openapi</outputPath>
+					<outputPath>${project.build.directory}/classes/assets</outputPath>
 					<outputFormat>JSONANDYAML</outputFormat>
 					<resourcePackages>
 						<package>com.commafeed.frontend.resource</package>

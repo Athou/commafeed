@@ -5,7 +5,7 @@ function ApiDocumentationPage() {
     return (
         // force white background because documentation does not support dark theme
         <Box style={{ backgroundColor: "#fff" }}>
-            <RedocStandalone specUrl="openapi/openapi.json" />
+            <RedocStandalone specUrl="openapi.json" />
         </Box>
     )
 }

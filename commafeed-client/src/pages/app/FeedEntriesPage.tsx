@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro"
-import { ActionIcon, Box, Center, createStyles, Divider, Group, Title, useMantineTheme } from "@mantine/core"
+import { ActionIcon, Box, Center, Divider, Group, Title, useMantineTheme } from "@mantine/core"
 import { useViewportSize } from "@mantine/hooks"
 import { Constants } from "app/constants"
 import { type EntrySourceType } from "app/entries/slice"
@@ -11,6 +11,7 @@ import { FeedEntries } from "components/content/FeedEntries"
 import { useEffect } from "react"
 import { TbEdit } from "react-icons/tb"
 import { useLocation, useParams } from "react-router-dom"
+import { tss } from "tss"
 
 function NoSubscriptionHelp() {
     return (
@@ -28,7 +29,7 @@ interface FeedEntriesPageProps {
     sourceType: EntrySourceType
 }
 
-const useStyles = createStyles(() => ({
+const useStyles = tss.create(() => ({
     sourceWebsiteLink: {
         color: "inherit",
         textDecoration: "none",

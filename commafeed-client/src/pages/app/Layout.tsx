@@ -4,10 +4,10 @@ import {
     Box,
     Burger,
     Center,
-    createStyles,
     DEFAULT_THEME,
     Group,
     Header,
+    type MantineTheme,
     Navbar,
     ScrollArea,
     Title,
@@ -32,6 +32,7 @@ import { Resizable } from "re-resizable"
 import { type ReactNode, Suspense, useEffect } from "react"
 import { TbPlus } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
+import { tss } from "tss"
 
 interface LayoutProps {
     sidebar: ReactNode
@@ -42,40 +43,45 @@ interface LayoutProps {
 const sidebarPadding = DEFAULT_THEME.spacing.xs
 const sidebarRightBorderWidth = "1px"
 
-const useStyles = createStyles((theme, props: LayoutProps) => ({
-    sidebar: {
-        "& .mantine-ScrollArea-scrollbar[data-orientation='horizontal']": {
-            display: "none",
+const useStyles = tss
+    .withParams<{
+        theme: MantineTheme
+        sidebarWidth: number
+    }>()
+    .create(({ theme, sidebarWidth }) => ({
+        sidebar: {
+            "& .mantine-ScrollArea-scrollbar[data-orientation='horizontal']": {
+                display: "none",
+            },
         },
-    },
-    sidebarContentResizeWrapper: {
-        padding: sidebarPadding,
-        minHeight: `calc(100vh - ${Constants.layout.headerHeight}px)`,
-    },
-    sidebarContent: {
-        maxWidth: `calc(${props.sidebarWidth}px - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
-        [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
-            maxWidth: `calc(100vw - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
+        sidebarContentResizeWrapper: {
+            padding: sidebarPadding,
+            minHeight: `calc(100vh - ${Constants.layout.headerHeight}px)`,
         },
-    },
-    mainContentWrapper: {
-        paddingTop: Constants.layout.headerHeight,
-        paddingLeft: props.sidebarWidth,
-        paddingRight: 0,
-        paddingBottom: 0,
-        [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
-            paddingLeft: 0,
+        sidebarContent: {
+            maxWidth: `calc(${sidebarWidth}px - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
+            [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
+                maxWidth: `calc(100vw - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
+            },
         },
-    },
-    mainContent: {
-        maxWidth: `calc(100vw - ${props.sidebarWidth}px)`,
-        padding: theme.spacing.md,
-        [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
-            maxWidth: "100vw",
-            padding: "6px",
+        mainContentWrapper: {
+            paddingTop: Constants.layout.headerHeight,
+            paddingLeft: sidebarWidth,
+            paddingRight: 0,
+            paddingBottom: 0,
+            [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
+                paddingLeft: 0,
+            },
         },
-    },
-}))
+        mainContent: {
+            maxWidth: `calc(100vw - ${sidebarWidth}px)`,
+            padding: theme.spacing.md,
+            [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
+                maxWidth: "100vw",
+                padding: "6px",
+            },
+        },
+    }))
 
 function LogoAndTitle() {
     const dispatch = useAppDispatch()
@@ -90,8 +96,11 @@ function LogoAndTitle() {
 }
 
 export default function Layout(props: LayoutProps) {
-    const { classes } = useStyles(props)
     const theme = useMantineTheme()
+    const { classes } = useStyles({
+        theme,
+        sidebarWidth: props.sidebarWidth,
+    })
     const { loading } = useAppLoading()
     const mobile = useMobile()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)

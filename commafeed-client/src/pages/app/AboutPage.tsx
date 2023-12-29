@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro"
-import { Anchor, Box, Container, createStyles, List, NativeSelect, SimpleGrid, Title } from "@mantine/core"
+import { Anchor, Box, Container, List, NativeSelect, SimpleGrid, Title } from "@mantine/core"
 import { Constants } from "app/constants"
 import { redirectToApiDocumentation } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -8,8 +8,9 @@ import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
 import React, { useState } from "react"
 import { TbHelp, TbKeyboard, TbPuzzle, TbRocket } from "react-icons/tb"
+import { tss } from "tss"
 
-const useStyles = createStyles(() => ({
+const useStyles = tss.create(() => ({
     sectionTitle: {
         display: "flex",
         alignItems: "center",

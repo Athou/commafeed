@@ -1,6 +1,7 @@
-import { Box, Center, createStyles } from "@mantine/core"
+import { Box, Center, type MantineTheme, useMantineTheme } from "@mantine/core"
 import { useState } from "react"
 import { TbPhoto } from "react-icons/tb"
+import { tss } from "tss"
 
 interface ImageWithPlaceholderWhileLoadingProps {
     src: string
@@ -15,18 +16,51 @@ interface ImageWithPlaceholderWhileLoadingProps {
     placeholderIconColor?: string
 }
 
-const useStyles = createStyles((theme, props: ImageWithPlaceholderWhileLoadingProps) => ({
-    placeholder: {
-        width: props.placeholderWidth ?? 400,
-        height: props.placeholderHeight ?? 600,
-        maxWidth: "100%",
-        color: props.placeholderIconColor ?? theme.fn.variant({ color: theme.primaryColor, variant: "subtle" }).color,
-        backgroundColor: props.placeholderBackgroundColor ?? (theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1]),
-    },
-}))
+const useStyles = tss
+    .withParams<{
+        theme: MantineTheme
+        placeholderWidth?: number
+        placeholderHeight?: number
+        placeholderBackgroundColor?: string
+        placeholderIconColor?: string
+    }>()
+    .create(props => ({
+        placeholder: {
+            width: props.placeholderWidth ?? 400,
+            height: props.placeholderHeight ?? 600,
+            maxWidth: "100%",
+            color:
+                props.placeholderIconColor ??
+                props.theme.fn.variant({
+                    color: props.theme.primaryColor,
+                    variant: "subtle",
+                }).color,
+            backgroundColor:
+                props.placeholderBackgroundColor ??
+                (props.theme.colorScheme === "dark" ? props.theme.colors.dark[5] : props.theme.colors.gray[1]),
+        },
+    }))
 
-export function ImageWithPlaceholderWhileLoading(props: ImageWithPlaceholderWhileLoadingProps) {
-    const { classes } = useStyles(props)
+export function ImageWithPlaceholderWhileLoading({
+    alt,
+    height,
+    placeholderBackgroundColor,
+    placeholderHeight,
+    placeholderIconColor,
+    placeholderIconSize,
+    placeholderWidth,
+    src,
+    title,
+    width,
+}: ImageWithPlaceholderWhileLoadingProps) {
+    const theme = useMantineTheme()
+    const { classes } = useStyles({
+        theme,
+        placeholderWidth,
+        placeholderHeight,
+        placeholderBackgroundColor,
+        placeholderIconColor,
+    })
     const [loading, setLoading] = useState(true)
 
     return (
@@ -35,17 +69,17 @@ export function ImageWithPlaceholderWhileLoading(props: ImageWithPlaceholderWhil
                 <Box>
                     <Center className={classes.placeholder}>
                         <div>
-                            <TbPhoto size={props.placeholderIconSize ?? 48} />
+                            <TbPhoto size={placeholderIconSize ?? 48} />
                         </div>
                     </Center>
                 </Box>
             )}
             <img
-                src={props.src}
-                alt={props.alt}
-                title={props.title}
-                width={props.width}
-                height={props.height}
+                src={src}
+                alt={alt}
+                title={title}
+                width={width}
+                height={height}
                 onLoad={() => setLoading(false)}
                 style={{ display: loading ? "none" : "block" }}
             />

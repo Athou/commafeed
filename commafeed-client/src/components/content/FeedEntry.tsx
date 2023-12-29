@@ -1,10 +1,11 @@
-import { Box, createStyles, Divider, Paper } from "@mantine/core"
+import { Box, Divider, type MantineTheme, Paper, useMantineTheme } from "@mantine/core"
 import { type MantineNumberSize } from "@mantine/styles"
 import { Constants } from "app/constants"
 import { type Entry, type ViewMode } from "app/types"
 import { useViewMode } from "hooks/useViewMode"
 import React from "react"
 import { useSwipeable } from "react-swipeable"
+import { tss } from "tss"
 import { FeedEntryBody } from "./FeedEntryBody"
 import { FeedEntryCompactHeader } from "./FeedEntryCompactHeader"
 import { FeedEntryContextMenu } from "./FeedEntryContextMenu"
@@ -23,69 +24,88 @@ interface FeedEntryProps {
     onSwipedRight: () => void
 }
 
-const useStyles = createStyles((theme, props: FeedEntryProps & { viewMode?: ViewMode }) => {
-    let backgroundColor
-    if (theme.colorScheme === "dark") {
-        backgroundColor = props.entry.read ? "inherit" : theme.colors.dark[5]
-    } else {
-        backgroundColor = props.entry.read && !props.expanded ? theme.colors.gray[0] : "inherit"
-    }
+const useStyles = tss
+    .withParams<{
+        theme: MantineTheme
+        read: boolean
+        expanded: boolean
+        viewMode: ViewMode
+        rtl: boolean
+        showSelectionIndicator: boolean
+        maxWidth?: number
+    }>()
+    .create(({ theme, read, expanded, viewMode, rtl, showSelectionIndicator, maxWidth }) => {
+        let backgroundColor
+        if (theme.colorScheme === "dark") {
+            backgroundColor = read ? "inherit" : theme.colors.dark[5]
+        } else {
+            backgroundColor = read && !expanded ? theme.colors.gray[0] : "inherit"
+        }
 
-    let marginY = 10
-    if (props.viewMode === "title") {
-        marginY = 2
-    } else if (props.viewMode === "cozy") {
-        marginY = 6
-    }
+        let marginY = 10
+        if (viewMode === "title") {
+            marginY = 2
+        } else if (viewMode === "cozy") {
+            marginY = 6
+        }
 
-    let mobileMarginY = 6
-    if (props.viewMode === "title") {
-        mobileMarginY = 2
-    } else if (props.viewMode === "cozy") {
-        mobileMarginY = 4
-    }
+        let mobileMarginY = 6
+        if (viewMode === "title") {
+            mobileMarginY = 2
+        } else if (viewMode === "cozy") {
+            mobileMarginY = 4
+        }
 
-    let backgroundHoverColor = backgroundColor
-    if (!props.expanded && !props.entry.read) {
-        backgroundHoverColor = theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1]
-    }
+        let backgroundHoverColor = backgroundColor
+        if (!expanded && !read) {
+            backgroundHoverColor = theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1]
+        }
 
-    let paperBorderLeftColor
-    if (props.showSelectionIndicator) {
-        const borderLeftColor = theme.colorScheme === "dark" ? theme.colors.orange[4] : theme.colors.orange[6]
-        paperBorderLeftColor = `${borderLeftColor} !important`
-    }
+        let paperBorderLeftColor
+        if (showSelectionIndicator) {
+            const borderLeftColor = theme.colorScheme === "dark" ? theme.colors.orange[4] : theme.colors.orange[6]
+            paperBorderLeftColor = `${borderLeftColor} !important`
+        }
 
-    return {
-        paper: {
-            backgroundColor,
-            borderLeftColor: paperBorderLeftColor,
-            marginTop: marginY,
-            marginBottom: marginY,
-            [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
-                marginTop: mobileMarginY,
-                marginBottom: mobileMarginY,
-            },
-            "@media (hover: hover)": {
-                "&:hover": {
-                    backgroundColor: backgroundHoverColor,
+        return {
+            paper: {
+                backgroundColor,
+                borderLeftColor: paperBorderLeftColor,
+                marginTop: marginY,
+                marginBottom: marginY,
+                [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
+                    marginTop: mobileMarginY,
+                    marginBottom: mobileMarginY,
+                },
+                "@media (hover: hover)": {
+                    "&:hover": {
+                        backgroundColor: backgroundHoverColor,
+                    },
                 },
             },
-        },
-        headerLink: {
-            color: "inherit",
-            textDecoration: "none",
-        },
-        body: {
-            direction: props.entry.rtl ? "rtl" : "ltr",
-            maxWidth: props.maxWidth ?? "100%",
-        },
-    }
-})
+            headerLink: {
+                color: "inherit",
+                textDecoration: "none",
+            },
+            body: {
+                direction: rtl ? "rtl" : "ltr",
+                maxWidth: maxWidth ?? "100%",
+            },
+        }
+    })
 
 export function FeedEntry(props: FeedEntryProps) {
+    const theme = useMantineTheme()
     const { viewMode } = useViewMode()
-    const { classes, cx } = useStyles({ ...props, viewMode })
+    const { classes, cx } = useStyles({
+        theme,
+        read: props.entry.read,
+        expanded: props.expanded,
+        viewMode,
+        rtl: props.entry.rtl,
+        showSelectionIndicator: props.showSelectionIndicator,
+        maxWidth: props.maxWidth,
+    })
 
     const swipeHandlers = useSwipeable({
         onSwipedRight: props.onSwipedRight,

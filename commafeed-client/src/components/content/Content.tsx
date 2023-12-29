@@ -1,31 +1,36 @@
-import { Box, createStyles, Mark, TypographyStylesProvider } from "@mantine/core"
+import { Box, type MantineTheme, Mark, TypographyStylesProvider, useMantineTheme } from "@mantine/core"
 import { Constants } from "app/constants"
 import { calculatePlaceholderSize } from "app/utils"
 import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
 import escapeStringRegexp from "escape-string-regexp"
 import { type ChildrenNode, Interweave, Matcher, type MatchResponse, type Node, type TransformCallback } from "interweave"
 import React from "react"
+import { tss } from "tss"
 
 export interface ContentProps {
     content: string
     highlight?: string
 }
 
-const useStyles = createStyles(theme => ({
-    content: {
-        // break long links or long words
-        overflowWrap: "anywhere",
-        "& a": {
-            color: theme.fn.variant({ color: theme.primaryColor, variant: "subtle" }).color,
+const useStyles = tss
+    .withParams<{
+        theme: MantineTheme
+    }>()
+    .create(({ theme }) => ({
+        content: {
+            // break long links or long words
+            overflowWrap: "anywhere",
+            "& a": {
+                color: theme.fn.variant({ color: theme.primaryColor, variant: "subtle" }).color,
+            },
+            "& iframe": {
+                maxWidth: "100%",
+            },
+            "& pre, & code": {
+                whiteSpace: "pre-wrap",
+            },
         },
-        "& iframe": {
-            maxWidth: "100%",
-        },
-        "& pre, & code": {
-            whiteSpace: "pre-wrap",
-        },
-    },
-}))
+    }))
 
 const transform: TransformCallback = node => {
     if (node.tagName === "IMG") {
@@ -84,7 +89,10 @@ class HighlightMatcher extends Matcher {
 
 // memoize component because Interweave is costly
 const Content = React.memo((props: ContentProps) => {
-    const { classes } = useStyles()
+    const theme = useMantineTheme()
+    const { classes } = useStyles({
+        theme,
+    })
     const matchers = props.highlight ? [new HighlightMatcher(props.highlight)] : []
 
     return (

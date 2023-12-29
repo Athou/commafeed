@@ -1,6 +1,7 @@
-import { Badge, createStyles, Tooltip } from "@mantine/core"
+import { Badge, Tooltip } from "@mantine/core"
+import { tss } from "tss"
 
-const useStyles = createStyles(() => ({
+const useStyles = tss.create(() => ({
     badge: {
         width: "3.2rem",
         // for some reason, mantine Badge has "cursor: 'default'"

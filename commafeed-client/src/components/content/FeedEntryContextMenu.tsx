@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro"
-import { createStyles, Group } from "@mantine/core"
+import { Group, type MantineTheme, useMantineTheme } from "@mantine/core"
 import { Constants } from "app/constants"
 import { markEntriesUpToEntry, markEntry, starEntry } from "app/entries/thunks"
 import { redirectToFeed } from "app/redirect/thunks"
@@ -9,26 +9,34 @@ import { truncate } from "app/utils"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { Item, Menu, Separator } from "react-contexify"
 import { TbArrowBarToDown, TbExternalLink, TbEyeCheck, TbEyeOff, TbRss, TbStar, TbStarOff } from "react-icons/tb"
+import { tss } from "tss"
 
 interface FeedEntryContextMenuProps {
     entry: Entry
 }
 
 const iconSize = 16
-const useStyles = createStyles(theme => ({
-    menu: {
-        // apply mantine theme from MenuItem.styles.ts
-        fontSize: theme.fontSizes.sm,
-        "--contexify-item-color": `${theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black} !important`,
-        "--contexify-activeItem-color": `${theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black} !important`,
-        "--contexify-activeItem-bgColor": `${
-            theme.colorScheme === "dark" ? theme.fn.rgba(theme.colors.dark[3], 0.35) : theme.colors.gray[1]
-        } !important`,
-    },
-}))
+const useStyles = tss
+    .withParams<{
+        theme: MantineTheme
+    }>()
+    .create(({ theme }) => ({
+        menu: {
+            // apply mantine theme from MenuItem.styles.ts
+            fontSize: theme.fontSizes.sm,
+            "--contexify-item-color": `${theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black} !important`,
+            "--contexify-activeItem-color": `${theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black} !important`,
+            "--contexify-activeItem-bgColor": `${
+                theme.colorScheme === "dark" ? theme.fn.rgba(theme.colors.dark[3], 0.35) : theme.colors.gray[1]
+            } !important`,
+        },
+    }))
 
 export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
-    const { classes, theme } = useStyles()
+    const theme = useMantineTheme()
+    const { classes } = useStyles({
+        theme,
+    })
     const sourceType = useAppSelector(state => state.entries.source.type)
     const dispatch = useAppDispatch()
     const { openLinkInBackgroundTab } = useBrowserExtension()

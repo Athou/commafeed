@@ -1,21 +1,31 @@
-import { ActionIcon, Box, createStyles, SimpleGrid } from "@mantine/core"
+import { ActionIcon, Box, type MantineTheme, SimpleGrid, useMantineTheme } from "@mantine/core"
 import { Constants } from "app/constants"
 import { useAppSelector } from "app/store"
 import { type SharingSettings } from "app/types"
 import { type IconType } from "react-icons"
+import { tss } from "tss"
 
 type Color = `#${string}`
 
-const useStyles = createStyles((theme, props: { color: Color }) => ({
-    socialIcon: {
-        color: props.color,
-        backgroundColor: theme.colorScheme === "dark" ? theme.colors.gray[2] : "white",
-        borderRadius: "50%",
-    },
-}))
+const useStyles = tss
+    .withParams<{
+        theme: MantineTheme
+        color: Color
+    }>()
+    .create(({ theme, color }) => ({
+        socialIcon: {
+            color,
+            backgroundColor: theme.colorScheme === "dark" ? theme.colors.gray[2] : "white",
+            borderRadius: "50%",
+        },
+    }))
 
 function ShareButton({ url, icon, color }: { url: string; icon: IconType; color: Color }) {
-    const { classes } = useStyles({ color })
+    const theme = useMantineTheme()
+    const { classes } = useStyles({
+        theme,
+        color,
+    })
 
     const onClick = (e: React.MouseEvent) => {
         e.preventDefault()

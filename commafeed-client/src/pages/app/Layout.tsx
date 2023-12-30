@@ -3,7 +3,7 @@ import { ActionIcon, AppShell, Box, Center, Group, ScrollArea, Title, useMantine
 import { Constants } from "app/constants"
 import { redirectToAdd, redirectToRootCategory } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { setMobileMenuOpen, setSidebarWidth } from "app/tree/slice"
+import { setMobileMenuOpen } from "app/tree/slice"
 import { reloadTree } from "app/tree/thunks"
 import { reloadProfile, reloadSettings, reloadTags } from "app/user/thunks"
 import { ActionButton } from "components/ActionButton"
@@ -19,10 +19,10 @@ import { type ReactNode, Suspense, useEffect } from "react"
 import Draggable from "react-draggable"
 import { TbMenu2, TbPlus, TbX } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
+import useLocalStorage from "use-local-storage"
 
 interface LayoutProps {
     sidebar: ReactNode
-    sidebarWidth: number
     sidebarVisible: boolean
     header: ReactNode
 }
@@ -45,6 +45,7 @@ export default function Layout(props: LayoutProps) {
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
     const webSocketConnected = useAppSelector(state => state.server.webSocketConnected)
     const treeReloadInterval = useAppSelector(state => state.server.serverInfos?.treeReloadInterval)
+    const [sidebarWidth, setSidebarWidth] = useLocalStorage("sidebar-width", 350)
     const dispatch = useAppDispatch()
     useWebSocket()
 
@@ -91,7 +92,7 @@ export default function Layout(props: LayoutProps) {
         <AppShell
             header={{ height: Constants.layout.headerHeight }}
             navbar={{
-                width: props.sidebarWidth,
+                width: sidebarWidth,
                 breakpoint: Constants.layout.mobileBreakpoint,
                 collapsed: { mobile: !mobileMenuOpen, desktop: !props.sidebarVisible },
             }}
@@ -117,7 +118,7 @@ export default function Layout(props: LayoutProps) {
                 </OnMobile>
                 <OnDesktop>
                     <Group p="md">
-                        <Group justify="space-between" style={{ width: props.sidebarWidth - 16 }}>
+                        <Group justify="space-between" style={{ width: sidebarWidth - 16 }}>
                             <Box>
                                 <LogoAndTitle />
                             </Box>
@@ -135,7 +136,7 @@ export default function Layout(props: LayoutProps) {
             <Draggable
                 axis="x"
                 defaultPosition={{
-                    x: props.sidebarWidth,
+                    x: sidebarWidth,
                     y: Constants.layout.headerHeight,
                 }}
                 bounds={{
@@ -143,9 +144,7 @@ export default function Layout(props: LayoutProps) {
                     right: 1000,
                 }}
                 grid={[30, 30]}
-                onDrag={(_e, data) => {
-                    dispatch(setSidebarWidth(data.x))
-                }}
+                onDrag={(_e, data) => setSidebarWidth(data.x)}
             >
                 <Box
                     style={{

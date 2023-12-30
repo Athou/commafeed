@@ -71,7 +71,6 @@ function Providers(props: { children: React.ReactNode }) {
 const ApiDocumentationPage = React.lazy(async () => await import("pages/app/ApiDocumentationPage"))
 
 function AppRoutes() {
-    const sidebarWidth = useAppSelector(state => state.tree.sidebarWidth)
     const sidebarVisible = useAppSelector(state => state.tree.sidebarVisible)
 
     return (
@@ -82,10 +81,7 @@ function AppRoutes() {
             <Route path="register" element={<RegistrationPage />} />
             <Route path="passwordRecovery" element={<PasswordRecoveryPage />} />
             <Route path="api" element={<ApiDocumentationPage />} />
-            <Route
-                path="app"
-                element={<Layout header={<Header />} sidebar={<Tree />} sidebarWidth={sidebarWidth} sidebarVisible={sidebarVisible} />}
-            >
+            <Route path="app" element={<Layout header={<Header />} sidebar={<Tree />} sidebarVisible={sidebarVisible} />}>
                 <Route path="category">
                     <Route path=":id" element={<FeedEntriesPage sourceType="category" />} />
                     <Route path=":id/details" element={<CategoryDetailsPage />} />

@@ -8,13 +8,11 @@ import { visitCategoryTree } from "app/utils"
 interface TreeState {
     rootCategory?: Category
     mobileMenuOpen: boolean
-    sidebarWidth: number
     sidebarVisible: boolean
 }
 
 const initialState: TreeState = {
     mobileMenuOpen: false,
-    sidebarWidth: 350,
     sidebarVisible: true,
 }
 
@@ -24,9 +22,6 @@ export const treeSlice = createSlice({
     reducers: {
         setMobileMenuOpen: (state, action: PayloadAction<boolean>) => {
             state.mobileMenuOpen = action.payload
-        },
-        setSidebarWidth: (state, action: PayloadAction<number>) => {
-            state.sidebarWidth = action.payload
         },
         toggleSidebar: state => {
             state.sidebarVisible = !state.sidebarVisible
@@ -58,4 +53,4 @@ export const treeSlice = createSlice({
     },
 })
 
-export const { setMobileMenuOpen, setSidebarWidth, toggleSidebar } = treeSlice.actions
+export const { setMobileMenuOpen, toggleSidebar } = treeSlice.actions

@@ -16,7 +16,6 @@ export function FeedFavicon({ url, size = 18 }: FeedFaviconProps) {
             placeholderHeight={size}
             placeholderBackgroundColor="inherit"
             placeholderIconSize={size}
-            placeholderIconColor="inherit"
         />
     )
 }

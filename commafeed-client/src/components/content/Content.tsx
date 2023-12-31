@@ -1,4 +1,4 @@
-import { Box, type MantineTheme, Mark, useMantineTheme } from "@mantine/core"
+import { Box, Mark } from "@mantine/core"
 import { Constants } from "app/constants"
 import { calculatePlaceholderSize } from "app/utils"
 import { BasicHtmlStyles } from "components/content/BasicHtmlStyles"
@@ -13,29 +13,22 @@ export interface ContentProps {
     highlight?: string
 }
 
-const useStyles = tss
-    .withParams<{
-        theme: MantineTheme
-    }>()
-    .create(({ theme }) => ({
-        content: {
-            // break long links or long words
-            overflowWrap: "anywhere",
-            "& a": {
-                color: theme.variantColorResolver({
-                    theme,
-                    color: theme.primaryColor,
-                    variant: "subtle",
-                }).color,
-            },
-            "& iframe": {
-                maxWidth: "100%",
-            },
-            "& pre, & code": {
-                whiteSpace: "pre-wrap",
-            },
+const useStyles = tss.create(() => ({
+    content: {
+        // break long links or long words
+        overflowWrap: "anywhere",
+        "& a": {
+            color: "inherit",
+            textDecoration: "underline",
         },
-    }))
+        "& iframe": {
+            maxWidth: "100%",
+        },
+        "& pre, & code": {
+            whiteSpace: "pre-wrap",
+        },
+    },
+}))
 
 const transform: TransformCallback = node => {
     if (node.tagName === "IMG") {
@@ -94,10 +87,7 @@ class HighlightMatcher extends Matcher {
 
 // memoize component because Interweave is costly
 const Content = React.memo((props: ContentProps) => {
-    const theme = useMantineTheme()
-    const { classes } = useStyles({
-        theme,
-    })
+    const { classes } = useStyles()
     const matchers = props.highlight ? [new HighlightMatcher(props.highlight)] : []
 
     return (

@@ -1,6 +1,7 @@
 import { i18n } from "@lingui/core"
 import { I18nProvider } from "@lingui/react"
 import { MantineProvider } from "@mantine/core"
+import { useDidUpdate } from "@mantine/hooks"
 import { ModalsProvider } from "@mantine/modals"
 import { Notifications } from "@mantine/notifications"
 import { Constants } from "app/constants"
@@ -28,7 +29,7 @@ import { LoginPage } from "pages/auth/LoginPage"
 import { PasswordRecoveryPage } from "pages/auth/PasswordRecoveryPage"
 import { RegistrationPage } from "pages/auth/RegistrationPage"
 import { WelcomePage } from "pages/WelcomePage"
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import ReactGA from "react-ga4"
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import Tinycon from "tinycon"
@@ -164,6 +165,40 @@ function BrowserExtensionBadgeUnreadCountHandler() {
     return null
 }
 
+function CustomJs() {
+    const scriptLoaded = useRef(false)
+
+    // useDidUpdate is used instead of useEffect because we want to skip the first render
+    // the first render is the render of react-router, the routes are actually loaded in a second render
+    // we want the script to be executed when the first route is done loading
+    useDidUpdate(() => {
+        if (scriptLoaded.current) {
+            return
+        }
+
+        const script = document.createElement("script")
+        script.src = "custom_js.js"
+        script.async = true
+        document.body.appendChild(script)
+
+        scriptLoaded.current = true
+    })
+
+    return null
+}
+
+function CustomCss() {
+    useEffect(() => {
+        const link = document.createElement("link")
+        link.rel = "stylesheet"
+        link.type = "text/css"
+        link.href = "custom_css.css"
+        document.head.appendChild(link)
+    }, [])
+
+    return null
+}
+
 export function App() {
     useI18n()
     const dispatch = useAppDispatch()
@@ -181,6 +216,8 @@ export function App() {
                     <GoogleAnalyticsHandler />
                     <RedirectHandler />
                     <AppRoutes />
+                    <CustomJs />
+                    <CustomCss />
                 </HashRouter>
             </>
         </Providers>

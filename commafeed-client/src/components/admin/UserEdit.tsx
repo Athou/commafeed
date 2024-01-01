@@ -39,7 +39,7 @@ export function UserEdit(props: UserEditProps) {
                     <Checkbox label={<Trans>Admin</Trans>} {...form.getInputProps("admin", { type: "checkbox" })} />
                     <Checkbox label={<Trans>Enabled</Trans>} {...form.getInputProps("enabled", { type: "checkbox" })} />
 
-                    <Group>
+                    <Group justify="right">
                         <Button variant="default" onClick={props.onCancel}>
                             <Trans>Cancel</Trans>
                         </Button>

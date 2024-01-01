@@ -15,7 +15,7 @@ export const useWebSocket = () => {
         if (websocketEnabled && websocketPingInterval) {
             const currentUrl = new URL(window.location.href)
             const wsProtocol = currentUrl.protocol === "http:" ? "ws" : "wss"
-            const wsUrl = `${wsProtocol}://${currentUrl.hostname}:${currentUrl.port}/ws`
+            const wsUrl = `${wsProtocol}://${currentUrl.hostname}:${currentUrl.port}${currentUrl.pathname}ws`
 
             ws = new WebsocketHeartbeatJs({
                 url: wsUrl,

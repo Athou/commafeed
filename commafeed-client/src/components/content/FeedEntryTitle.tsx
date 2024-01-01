@@ -11,6 +11,7 @@ export function FeedEntryTitle(props: FeedEntryTitleProps) {
     const keywords = search?.split(" ")
     return (
         <Highlight
+            inherit
             highlight={keywords ?? ""}
             // make sure ellipsis is shown when title is too long
             span

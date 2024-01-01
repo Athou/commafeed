@@ -94,7 +94,7 @@ export default function Layout(props: LayoutProps) {
 
     const burger = (
         <ActionButton
-            label={mobileMenuOpen ? <Trans>Open menu</Trans> : <Trans>Close menu</Trans>}
+            label={mobileMenuOpen ? <Trans>Close menu</Trans> : <Trans>Open menu</Trans>}
             icon={mobileMenuOpen ? <TbX size={18} /> : <TbMenu2 size={18} />}
             onClick={() => dispatch(setMobileMenuOpen(!mobileMenuOpen))}
         ></ActionButton>

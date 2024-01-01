@@ -1,12 +1,21 @@
 import { Trans } from "@lingui/macro"
-import { Box, Divider, Group, Menu, SegmentedControl, type SegmentedControlItem, useMantineColorScheme } from "@mantine/core"
+import {
+    Box,
+    Divider,
+    Group,
+    type MantineColorScheme,
+    Menu,
+    SegmentedControl,
+    type SegmentedControlItem,
+    useMantineColorScheme,
+} from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import { client } from "app/client"
 import { redirectToAbout, redirectToAdminUsers, redirectToDonate, redirectToMetrics, redirectToSettings } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { type ViewMode } from "app/types"
 import { useViewMode } from "hooks/useViewMode"
-import { useState } from "react"
+import { type ReactNode, useState } from "react"
 import {
     TbChartLine,
     TbHeartFilled,
@@ -19,6 +28,7 @@ import {
     TbPower,
     TbSettings,
     TbSun,
+    TbSunMoon,
     TbUsers,
     TbWorldDownload,
 } from "react-icons/tb"
@@ -27,56 +37,56 @@ interface ProfileMenuProps {
     control: React.ReactElement
 }
 
-interface ViewModeControlItem extends SegmentedControlItem {
-    value: ViewMode
+const ProfileMenuControlItem = ({ icon, label }: { icon: ReactNode; label: ReactNode }) => {
+    return (
+        <Group>
+            {icon}
+            <Box ml={6}>{label}</Box>
+        </Group>
+    )
 }
 
 const iconSize = 16
 
+interface ColorSchemeControlItem extends SegmentedControlItem {
+    value: MantineColorScheme
+}
+
+const colorSchemeData: ColorSchemeControlItem[] = [
+    {
+        value: "light",
+        label: <ProfileMenuControlItem icon={<TbSun size={iconSize} />} label={<Trans>Light</Trans>} />,
+    },
+    {
+        value: "dark",
+        label: <ProfileMenuControlItem icon={<TbMoon size={iconSize} />} label={<Trans>Dark</Trans>} />,
+    },
+    {
+        value: "auto",
+        label: <ProfileMenuControlItem icon={<TbSunMoon size={iconSize} />} label={<Trans>System</Trans>} />,
+    },
+]
+
+interface ViewModeControlItem extends SegmentedControlItem {
+    value: ViewMode
+}
+
 const viewModeData: ViewModeControlItem[] = [
     {
         value: "title",
-        label: (
-            <Group>
-                <TbList size={iconSize} />
-                <Box ml={6}>
-                    <Trans>Compact</Trans>
-                </Box>
-            </Group>
-        ),
+        label: <ProfileMenuControlItem icon={<TbList size={iconSize} />} label={<Trans>Compact</Trans>} />,
     },
     {
         value: "cozy",
-        label: (
-            <Group>
-                <TbLayoutList size={iconSize} />
-                <Box ml={6}>
-                    <Trans>Cozy</Trans>
-                </Box>
-            </Group>
-        ),
+        label: <ProfileMenuControlItem icon={<TbLayoutList size={iconSize} />} label={<Trans>Cozy</Trans>} />,
     },
     {
         value: "detailed",
-        label: (
-            <Group>
-                <TbListDetails size={iconSize} />
-                <Box ml={6}>
-                    <Trans>Detailed</Trans>
-                </Box>
-            </Group>
-        ),
+        label: <ProfileMenuControlItem icon={<TbListDetails size={iconSize} />} label={<Trans>Detailed</Trans>} />,
     },
     {
         value: "expanded",
-        label: (
-            <Group>
-                <TbNotes size={iconSize} />
-                <Box ml={6}>
-                    <Trans>Expanded</Trans>
-                </Box>
-            </Group>
-        ),
+        label: <ProfileMenuControlItem icon={<TbNotes size={iconSize} />} label={<Trans>Expanded</Trans>} />,
     },
 ]
 
@@ -86,8 +96,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
     const profile = useAppSelector(state => state.user.profile)
     const admin = useAppSelector(state => state.user.profile?.admin)
     const dispatch = useAppDispatch()
-    const { colorScheme, toggleColorScheme } = useMantineColorScheme()
-    const dark = colorScheme === "dark"
+    const { colorScheme, setColorScheme } = useMantineColorScheme()
 
     const logout = () => {
         window.location.href = "logout"
@@ -128,9 +137,14 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 <Menu.Label>
                     <Trans>Theme</Trans>
                 </Menu.Label>
-                <Menu.Item leftSection={dark ? <TbSun size={iconSize} /> : <TbMoon size={iconSize} />} onClick={() => toggleColorScheme()}>
-                    {dark ? <Trans>Switch to light theme</Trans> : <Trans>Switch to dark theme</Trans>}
-                </Menu.Item>
+                <SegmentedControl
+                    fullWidth
+                    orientation="vertical"
+                    data={colorSchemeData}
+                    value={colorScheme}
+                    onChange={e => setColorScheme(e as MantineColorScheme)}
+                    mb="xs"
+                />
 
                 <Divider />
 

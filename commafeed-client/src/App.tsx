@@ -38,6 +38,7 @@ function Providers(props: { children: React.ReactNode }) {
     return (
         <I18nProvider i18n={i18n}>
             <MantineProvider
+                defaultColorScheme="auto"
                 theme={{
                     primaryColor: "orange",
                     fontFamily: "Open Sans",

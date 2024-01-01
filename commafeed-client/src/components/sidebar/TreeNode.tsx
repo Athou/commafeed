@@ -28,7 +28,7 @@ const useStyles = tss
     }>()
     .create(({ theme, colorScheme, selected, hasError, hasUnread }) => {
         let backgroundColor = "inherit"
-        if (selected) backgroundColor = colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+        if (selected) backgroundColor = colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[1]
 
         let color
         if (hasError) {

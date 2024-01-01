@@ -19,6 +19,7 @@ import { type ReactNode, Suspense, useEffect } from "react"
 import Draggable from "react-draggable"
 import { TbMenu2, TbPlus, TbX } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
+import { tss } from "tss"
 import useLocalStorage from "use-local-storage"
 
 interface LayoutProps {
@@ -39,13 +40,36 @@ function LogoAndTitle() {
     )
 }
 
+const useStyles = tss
+    .withParams<{
+        sidebarWidth: number
+        sidebarPadding: string
+        sidebarRightBorderWidth: string
+    }>()
+    .create(({ sidebarWidth, sidebarPadding, sidebarRightBorderWidth }) => {
+        return {
+            sidebarContent: {
+                maxWidth: `calc(${sidebarWidth}px - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
+                [`@media (max-width: ${Constants.layout.mobileBreakpoint}px)`]: {
+                    maxWidth: `calc(100vw - ${sidebarPadding} * 2 - ${sidebarRightBorderWidth})`,
+                },
+            },
+        }
+    })
+
 export default function Layout(props: LayoutProps) {
     const theme = useMantineTheme()
+    const [sidebarWidth, setSidebarWidth] = useLocalStorage("sidebar-width", 350)
+    const sidebarPadding = theme.spacing.xs
+    const { classes } = useStyles({
+        sidebarWidth,
+        sidebarPadding,
+        sidebarRightBorderWidth: "1px",
+    })
     const { loading } = useAppLoading()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
     const webSocketConnected = useAppSelector(state => state.server.webSocketConnected)
     const treeReloadInterval = useAppSelector(state => state.server.serverInfos?.treeReloadInterval)
-    const [sidebarWidth, setSidebarWidth] = useLocalStorage("sidebar-width", 350)
     const dispatch = useAppDispatch()
     useWebSocket()
 
@@ -128,9 +152,9 @@ export default function Layout(props: LayoutProps) {
                     </Group>
                 </OnDesktop>
             </AppShell.Header>
-            <AppShell.Navbar id="sidebar" p="xs">
+            <AppShell.Navbar id="sidebar" p={sidebarPadding}>
                 <AppShell.Section grow component={ScrollArea} mx="-sm" px="sm">
-                    <Box>{props.sidebar}</Box>
+                    <Box className={classes.sidebarContent}>{props.sidebar}</Box>
                 </AppShell.Section>
             </AppShell.Navbar>
             <Draggable

@@ -175,6 +175,10 @@ msgstr "A jelszó megváltoztatása új API-kulcsot generál"
 msgid "Check that the feed is working"
 msgstr "Ellenőrizze, hogy a feed működik-e"
 
+#: src/pages/app/Layout.tsx
+msgid "Close menu"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr ""
@@ -211,10 +215,6 @@ msgstr "Erősítse meg a jelszót"
 msgid "Cozy"
 msgstr "Hangulatos"
 
-#: src/components/content/FeedEntryFooter.tsx
-msgid "Create tag: {query}"
-msgstr "Címke létrehozása: {query}"
-
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
 msgstr ""
@@ -233,6 +233,10 @@ msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
+msgstr ""
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Dark"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -445,6 +449,10 @@ msgstr "Utolsó frissítés"
 msgid "Last refresh message"
 msgstr "Utolsó frissítési üzenet"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "Light"
+msgstr ""
+
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
@@ -598,6 +606,10 @@ msgstr ""
 msgid "Open link in new tab"
 msgstr ""
 
+#: src/pages/app/Layout.tsx
+msgid "Open menu"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
 msgstr "Következő bejegyzés megnyitása"
@@ -721,7 +733,7 @@ msgstr "Állítsa a fókuszt az előző bejegyzésre anélkül, hogy megnyitná 
 msgid "Settings"
 msgstr "Beállítások"
 
-#: src/app/slices/user.ts
+#: src/app/user/slice.ts
 msgid "Settings saved."
 msgstr "Beállítások mentve."
 
@@ -814,16 +826,19 @@ msgstr "Siker"
 msgid "Swipe header to the right"
 msgstr ""
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Váltás sötét témára"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Váltás világos témára"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "System"
+msgstr ""
+
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Címkék"

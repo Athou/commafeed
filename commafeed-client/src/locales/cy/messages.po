@@ -175,6 +175,10 @@ msgstr "Bydd newid cyfrinair yn cynhyrchu allwedd API newydd"
 msgid "Check that the feed is working"
 msgstr "Gwiriwch fod y porthiant yn gweithio"
 
+#: src/pages/app/Layout.tsx
+msgid "Close menu"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr ""
@@ -211,10 +215,6 @@ msgstr "Cadarnhau'r cyfrinair"
 msgid "Cozy"
 msgstr "clyd"
 
-#: src/components/content/FeedEntryFooter.tsx
-msgid "Create tag: {query}"
-msgstr "Creu tag: {query}"
-
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
 msgstr ""
@@ -233,6 +233,10 @@ msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
+msgstr ""
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Dark"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -445,6 +449,10 @@ msgstr "adnewyddu diwethaf"
 msgid "Last refresh message"
 msgstr "Neges adnewyddu ddiwethaf"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "Light"
+msgstr ""
+
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
@@ -598,6 +606,10 @@ msgstr ""
 msgid "Open link in new tab"
 msgstr ""
 
+#: src/pages/app/Layout.tsx
+msgid "Open menu"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
 msgstr "Agor y cofnod nesaf"
@@ -721,7 +733,7 @@ msgstr "Gosod ffocws ar gofnod blaenorol heb ei agor"
 msgid "Settings"
 msgstr "Gosodiadau"
 
-#: src/app/slices/user.ts
+#: src/app/user/slice.ts
 msgid "Settings saved."
 msgstr "Gosodiadau wedi'u cadw."
 
@@ -814,16 +826,19 @@ msgstr "Llwyddiant"
 msgid "Swipe header to the right"
 msgstr ""
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Newid i thema dywyll"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Newid i thema golau"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "System"
+msgstr ""
+
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Tagiau"

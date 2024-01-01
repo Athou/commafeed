@@ -175,6 +175,10 @@ msgstr "Het wijzigen van het wachtwoord genereert een nieuwe API-sleutel"
 msgid "Check that the feed is working"
 msgstr "Controleer of de feed werkt"
 
+#: src/pages/app/Layout.tsx
+msgid "Close menu"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr ""
@@ -211,10 +215,6 @@ msgstr "Bevestig wachtwoord"
 msgid "Cozy"
 msgstr "Gezellig"
 
-#: src/components/content/FeedEntryFooter.tsx
-msgid "Create tag: {query}"
-msgstr "Tag maken: {query}"
-
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
 msgstr ""
@@ -233,6 +233,10 @@ msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
+msgstr ""
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Dark"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -445,6 +449,10 @@ msgstr "Laatste verversing"
 msgid "Last refresh message"
 msgstr "Laatste verversingsbericht"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "Light"
+msgstr ""
+
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
@@ -598,6 +606,10 @@ msgstr ""
 msgid "Open link in new tab"
 msgstr ""
 
+#: src/pages/app/Layout.tsx
+msgid "Open menu"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
 msgstr "Volgende invoer openen"
@@ -721,7 +733,7 @@ msgstr "focus op vorige invoer zonder deze te openen"
 msgid "Settings"
 msgstr "Instellingen"
 
-#: src/app/slices/user.ts
+#: src/app/user/slice.ts
 msgid "Settings saved."
 msgstr "Instellingen opgeslagen."
 
@@ -814,16 +826,19 @@ msgstr "Succes"
 msgid "Swipe header to the right"
 msgstr ""
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Overschakelen naar donker thema"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Overschakelen naar lichtthema"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "System"
+msgstr ""
+
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr ""

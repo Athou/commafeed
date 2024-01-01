@@ -175,6 +175,10 @@ msgstr "Changer de mot de passe générera une nouvelle clé API"
 msgid "Check that the feed is working"
 msgstr "Vérifie que le flux fonctionne"
 
+#: src/pages/app/Layout.tsx
+msgid "Close menu"
+msgstr "Fermer le menu"
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr "Extension CommaFeed pour navigateur version {browserExtensionVersion}."
@@ -211,10 +215,6 @@ msgstr "Confirmer le mot de passe"
 msgid "Cozy"
 msgstr "Cozy"
 
-#: src/components/content/FeedEntryFooter.tsx
-msgid "Create tag: {query}"
-msgstr "Créer le marqueur : {query}"
-
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
 msgstr "Ctrl"
@@ -234,6 +234,10 @@ msgstr "Code CSS personnalisé qui sera appliqué"
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
 msgstr "Code JS personnalisé qui sera appliqué au chargement des pages"
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Dark"
+msgstr "Foncé"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -445,6 +449,10 @@ msgstr "Dernière mise à jour"
 msgid "Last refresh message"
 msgstr "Dernier message de mise à jour"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "Light"
+msgstr "Clair"
+
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
@@ -598,6 +606,10 @@ msgstr "Ouvrir le lien dans un nouvel onglet en arrière-plan"
 msgid "Open link in new tab"
 msgstr "Ouvrir le lien dans un nouvel onglet"
 
+#: src/pages/app/Layout.tsx
+msgid "Open menu"
+msgstr "Ouvrir le menu"
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
 msgstr "Ouvrir l'entrée suivante"
@@ -721,7 +733,7 @@ msgstr "Sélectionner l'article précédent sans l'ouvrir"
 msgid "Settings"
 msgstr "Réglages"
 
-#: src/app/slices/user.ts
+#: src/app/user/slice.ts
 msgid "Settings saved."
 msgstr "Réglages enregistrés."
 
@@ -814,16 +826,19 @@ msgstr "Succès"
 msgid "Swipe header to the right"
 msgstr "Faire glisser le titre vers la droite"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Activer le mode sombre"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Activer le mode clair"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "System"
+msgstr "Système"
+
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Marqueurs"

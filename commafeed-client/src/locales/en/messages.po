@@ -175,6 +175,10 @@ msgstr "Changing password will generate a new API key"
 msgid "Check that the feed is working"
 msgstr "Check that the feed is working"
 
+#: src/pages/app/Layout.tsx
+msgid "Close menu"
+msgstr "Close menu"
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr "CommaFeed browser extension version {browserExtensionVersion}."
@@ -211,10 +215,6 @@ msgstr "Confirm password"
 msgid "Cozy"
 msgstr "Cozy"
 
-#: src/components/content/FeedEntryFooter.tsx
-msgid "Create tag: {query}"
-msgstr "Create tag: {query}"
-
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
 msgstr "Ctrl"
@@ -234,6 +234,10 @@ msgstr "Custom CSS rules that will be applied"
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
 msgstr "Custom JS code that will be executed on page load"
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Dark"
+msgstr "Dark"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -445,6 +449,10 @@ msgstr "Last refresh"
 msgid "Last refresh message"
 msgstr "Last refresh message"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "Light"
+msgstr "Light"
+
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
@@ -598,6 +606,10 @@ msgstr "Open link in new background tab"
 msgid "Open link in new tab"
 msgstr "Open link in new tab"
 
+#: src/pages/app/Layout.tsx
+msgid "Open menu"
+msgstr "Open menu"
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
 msgstr "Open next entry"
@@ -721,7 +733,7 @@ msgstr "Set focus on previous entry without opening it"
 msgid "Settings"
 msgstr "Settings"
 
-#: src/app/slices/user.ts
+#: src/app/user/slice.ts
 msgid "Settings saved."
 msgstr "Settings saved."
 
@@ -814,16 +826,19 @@ msgstr "Success"
 msgid "Swipe header to the right"
 msgstr "Swipe header to the right"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Switch to dark theme"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Switch to light theme"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "System"
+msgstr "System"
+
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Tags"

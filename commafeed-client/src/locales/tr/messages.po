@@ -175,6 +175,10 @@ msgstr "Şifreyi değiştirmek yeni bir API anahtarı oluşturacak"
 msgid "Check that the feed is working"
 msgstr "Feed'in çalışıp çalışmadığını kontrol edin"
 
+#: src/pages/app/Layout.tsx
+msgid "Close menu"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr "CommaFeed tarayıcı eklentisi sürüm {browserExtensionVersion}."
@@ -211,10 +215,6 @@ msgstr "Şifreyi onayla"
 msgid "Cozy"
 msgstr "Rahat"
 
-#: src/components/content/FeedEntryFooter.tsx
-msgid "Create tag: {query}"
-msgstr "Etiket oluştur: {query}"
-
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
 msgstr "Ctrl"
@@ -234,6 +234,10 @@ msgstr "Uygulanacak özel CSS kuralları"
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
 msgstr "Sayfa yüklendiğinde çalıştırılacak özel JS kodu"
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Dark"
+msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -445,6 +449,10 @@ msgstr "Son yenileme"
 msgid "Last refresh message"
 msgstr "Son yenileme mesajı"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "Light"
+msgstr ""
+
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
@@ -598,6 +606,10 @@ msgstr "Bağlantıyı arkaplanda yeni sekmede aç"
 msgid "Open link in new tab"
 msgstr "Bağlantıyı yeni sekmede aç"
 
+#: src/pages/app/Layout.tsx
+msgid "Open menu"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
 msgstr "Sonraki girişi aç"
@@ -721,7 +733,7 @@ msgstr "Odağı açmadan önceki girişe ayarlayın"
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: src/app/slices/user.ts
+#: src/app/user/slice.ts
 msgid "Settings saved."
 msgstr "Ayarlar kaydedildi."
 
@@ -814,16 +826,19 @@ msgstr "Başarı"
 msgid "Swipe header to the right"
 msgstr "Başlığı sağa kaydır"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Karanlık temaya geç"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Aydınlık temaya geç"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "System"
+msgstr ""
+
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Etiketler"

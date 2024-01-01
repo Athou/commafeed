@@ -175,6 +175,10 @@ msgstr "Das Ändern des Passworts generiert einen neuen API-Schlüssel"
 msgid "Check that the feed is working"
 msgstr "Überprüfen Sie, ob der Feed funktioniert"
 
+#: src/pages/app/Layout.tsx
+msgid "Close menu"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr ""
@@ -211,10 +215,6 @@ msgstr "Passwort bestätigen"
 msgid "Cozy"
 msgstr "Gemütlich"
 
-#: src/components/content/FeedEntryFooter.tsx
-msgid "Create tag: {query}"
-msgstr "Tag erstellen: {query}"
-
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
 msgstr "Strg"
@@ -233,6 +233,10 @@ msgstr ""
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
+msgstr ""
+
+#: src/components/header/ProfileMenu.tsx
+msgid "Dark"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -445,6 +449,10 @@ msgstr "Letzte Aktualisierung"
 msgid "Last refresh message"
 msgstr "Letzte Aktualisierungsmeldung"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "Light"
+msgstr ""
+
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
@@ -598,6 +606,10 @@ msgstr "Link in neuem Tab im Hintergrund öffnen"
 msgid "Open link in new tab"
 msgstr "Link in neuem Tab öffnen"
 
+#: src/pages/app/Layout.tsx
+msgid "Open menu"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
 msgstr "Nächsten Eintrag öffnen"
@@ -721,7 +733,7 @@ msgstr "Fokus auf vorherigen Eintrag setzen, ohne ihn zu öffnen"
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: src/app/slices/user.ts
+#: src/app/user/slice.ts
 msgid "Settings saved."
 msgstr "Einstellungen gespeichert."
 
@@ -814,16 +826,19 @@ msgstr "Erfolg"
 msgid "Swipe header to the right"
 msgstr ""
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
 msgstr "Zum Darkmode wechseln"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
 msgstr "Zum Lightmode wechseln"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "System"
+msgstr ""
+
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr ""

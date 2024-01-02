@@ -84,18 +84,26 @@ class HttpGetterTest {
 		Assertions.assertEquals(this.feedUrl, result.getUrlAfterRedirect());
 	}
 
-	@Test
-	void followRedirects() throws Exception {
+	@ParameterizedTest
+	@ValueSource(
+			ints = { HttpStatus.MOVED_PERMANENTLY_301, HttpStatus.MOVED_TEMPORARILY_302, HttpStatus.TEMPORARY_REDIRECT_307,
+					HttpStatus.PERMANENT_REDIRECT_308 })
+	void followRedirects(int code) throws Exception {
+		// first redirect
+		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withPath("/"))
+				.respond(HttpResponse.response()
+						.withStatusCode(code)
+						.withHeader(HttpHeaders.LOCATION, "http://localhost:" + this.mockServerClient.getPort() + "/redirected"));
+
+		// second redirect
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withPath("/redirected"))
 				.respond(HttpResponse.response()
-						.withStatusCode(HttpStatus.MOVED_TEMPORARILY_302)
+						.withStatusCode(code)
 						.withHeader(HttpHeaders.LOCATION, "http://localhost:" + this.mockServerClient.getPort() + "/redirected-2"));
+
+		// final destination
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withPath("/redirected-2"))
 				.respond(HttpResponse.response().withBody(feedContent).withContentType(MediaType.APPLICATION_ATOM_XML));
-		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
-				.respond(HttpResponse.response()
-						.withStatusCode(HttpStatus.MOVED_PERMANENTLY_301)
-						.withHeader(HttpHeaders.LOCATION, "http://localhost:" + this.mockServerClient.getPort() + "/redirected"));
 
 		HttpResult result = getter.getBinary(this.feedUrl, TIMEOUT);
 		Assertions.assertEquals("http://localhost:" + this.mockServerClient.getPort() + "/redirected-2", result.getUrlAfterRedirect());

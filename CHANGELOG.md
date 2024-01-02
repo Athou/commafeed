@@ -11,8 +11,7 @@
 - custom JS code is now executed when the app is done loading instead of when the page is loaded
 - the favicon is now correctly returned for feeds that return an invalid content type
 - the feed refresh engine now uses httpclient5 with connection pooling and no longer creates a new client for each
-  request,
-  reducing CPU usage
+  request, reducing CPU usage
 - updated UI library Mantine to 7.0, improving performance
 - the h2 embedded database is now compacted on shutdown to reclaim unused space
 - the admin connector on port 8084 is now disabled in config.yml.example. Disabling it in your config.yml is

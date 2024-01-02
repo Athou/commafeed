@@ -17,7 +17,7 @@
 - the admin connector on port 8084 is now disabled in config.yml.example. Disabling it in your config.yml is
   recommended (see https://github.com/Athou/commafeed/commit/929df60f09cce56020b0962ab111cd8349b271b0)
 - migrated documentation from swagger 2 to openapi 3
-- added a GET method to the fever api to indicate that the endpoint is working correctly when accesed from a browser
+- added a GET method to the fever api to indicate that the endpoint is working correctly when accessed from a browser
 - the websocket connection can now be disabled, the websocket ping interval and the tree reload interval can now be
   configured (see config.yml.example)
 - the websocket connection now works correctly when the context root of the application is not "/"

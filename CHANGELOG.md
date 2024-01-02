@@ -1,5 +1,29 @@
 # Changelog
 
+## [4.0.0]
+
+- migrated from dropwizard 2 to dropwizard 4, Java 17+ is now required
+- entries that were fetched and inserted in the database but not yet shown in the UI are no longer marked as read when
+  marking all entries as read
+- your custom sidebar width is now persisted in the local storage of your browser
+- there is now a third color scheme option in addition to light and dark: system (follows the system color scheme)
+- added support for youtube playlist favicons
+- custom JS code is now executed when the app is done loading instead of when the page is loaded
+- the favicon is now correctly returned for feeds that return an invalid content type
+- the feed refresh engine now uses httpclient5 with connection pooling and no longer creates a new client for each
+  request,
+  reducing CPU usage
+- updated UI library Mantine to 7.0, improving performance
+- the h2 embedded database is now compacted on shutdown to reclaim unused space
+- the admin connector on port 8084 is now disabled in config.yml.example. Disabling it in your config.yml is
+  recommended (see https://github.com/Athou/commafeed/commit/929df60f09cce56020b0962ab111cd8349b271b0)
+- migrated documentation from swagger 2 to openapi 3
+- added a GET method to the fever api to indicate that the endpoint is working correctly when accesed from a browser
+- the websocket connection can now be disabled, the websocket ping interval and the tree reload interval can now be
+  configured (see config.yml.example)
+- the websocket connection now works correctly when the context root of the application is not "/"
+- unstable pubsubhubbub support was removed
+
 ## [3.10.1]
 
 - swap next and previous buttons (#1159)
@@ -11,7 +35,8 @@
 
 ## [3.10.0]
 
-- added a Fever-compatible API that is usable with mobile clients that support the Fever API (see instructions in Settings -> Profile)
+- added a Fever-compatible API that is usable with mobile clients that support the Fever API (see instructions in
+  Settings -> Profile)
 - long entry titles are no longer shortened in the detailed view
 - added the "s" keyboard shortcut to star/unstar entries
 - http sessions are now stored in the database (they were stored on disk before)
@@ -126,7 +151,8 @@
 ## [3.0.1]
 
 - allow env variable substitution in config.yml
-- e.g. having a custom config.yml file with `app.session.path=${SOME_ENV_VAR}` will substitute `SOME_ENV_VAR` with its value
+- e.g. having a custom config.yml file with `app.session.path=${SOME_ENV_VAR}` will substitute `SOME_ENV_VAR` with its
+  value
 - allow env variable prefixed with `CF_` to override config.yml properties
 - e.g. setting `CF_APP_ALLOWREGISTRATIONS=true` will set `app.allowRegistrations` to `true`
 

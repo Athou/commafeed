@@ -24,10 +24,11 @@ public class WebSocketEndpoint extends Endpoint {
 		Long userId = (Long) config.getUserProperties().get(WebSocketConfigurator.SESSIONKEY_USERID);
 		if (userId == null) {
 			reject(session);
-		} else {
-			log.debug("created websocket session for user {}", userId);
-			sessions.add(userId, session);
+			return;
 		}
+
+		log.debug("created websocket session for user {}", userId);
+		sessions.add(userId, session);
 
 		session.addMessageHandler(String.class, message -> {
 			if ("ping".equals(message)) {
@@ -47,7 +48,6 @@ public class WebSocketEndpoint extends Endpoint {
 	@Override
 	public void onClose(Session session, CloseReason reason) {
 		sessions.remove(session);
-
 	}
 
 }

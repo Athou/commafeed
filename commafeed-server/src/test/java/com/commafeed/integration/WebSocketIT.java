@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import jakarta.websocket.ClientEndpointConfig;
+import jakarta.websocket.CloseReason;
 import jakarta.websocket.ContainerProvider;
 import jakarta.websocket.DeploymentException;
 import jakarta.websocket.Endpoint;
@@ -21,6 +22,30 @@ import jakarta.websocket.EndpointConfig;
 import jakarta.websocket.Session;
 
 class WebSocketIT extends BaseIT {
+
+	@Test
+	void sessionClosedIfNotLoggedIn() throws DeploymentException, IOException {
+		ClientEndpointConfig config = buildConfig("fake-session-id");
+
+		AtomicBoolean connected = new AtomicBoolean();
+		AtomicReference<CloseReason> closeReasonRef = new AtomicReference<>();
+		try (Session ignored = ContainerProvider.getWebSocketContainer().connectToServer(new Endpoint() {
+			@Override
+			public void onOpen(Session session, EndpointConfig config) {
+				connected.set(true);
+			}
+
+			@Override
+			public void onClose(Session session, CloseReason closeReason) {
+				closeReasonRef.set(closeReason);
+			}
+		}, config, URI.create(getWebSocketUrl()))) {
+			Awaitility.await().atMost(15, TimeUnit.SECONDS).untilTrue(connected);
+
+			Awaitility.await().atMost(15, TimeUnit.SECONDS).until(() -> closeReasonRef.get() != null);
+			Assertions.assertEquals(CloseReason.CloseCodes.VIOLATED_POLICY, closeReasonRef.get().getCloseCode());
+		}
+	}
 
 	@Test
 	void subscribeAndGetsNotified() throws DeploymentException, IOException {

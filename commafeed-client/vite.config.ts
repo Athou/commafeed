@@ -6,7 +6,7 @@ import eslint from "vite-plugin-eslint"
 import tsconfigPaths from "vite-tsconfig-paths"
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(env => ({
     plugins: [
         react({
             babel: {
@@ -15,7 +15,8 @@ export default defineConfig({
             },
         }),
         lingui(),
-        eslint(),
+        // https://github.com/vitest-dev/vitest/issues/4055#issuecomment-1732994672
+        env.mode !== "test" && eslint(),
         tsconfigPaths(),
         visualizer(),
     ],
@@ -44,4 +45,4 @@ export default defineConfig({
             },
         },
     },
-})
+}))

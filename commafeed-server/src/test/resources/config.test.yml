@@ -115,6 +115,8 @@ database:
     charSet: UTF-8
   validationQuery: "/* CommaFeed Health Check */ SELECT 1"
 
+server:
+  adminConnectors: [ ]
 
 logging:
   level: INFO

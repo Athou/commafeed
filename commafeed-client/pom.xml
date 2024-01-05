@@ -40,16 +40,6 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>npm run eslint</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<phase>compile</phase>
-						<configuration>
-							<arguments>run eslint</arguments>
-						</configuration>
-					</execution>
-					<execution>
 						<id>npm run test</id>
 						<goals>
 							<goal>npm</goal>

@@ -12,6 +12,7 @@ import org.eclipse.jetty.http.HttpStatus;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -69,6 +70,11 @@ public abstract class BaseIT {
 		this.baseUrl = "http://localhost:" + extension.getLocalPort() + "/";
 		this.apiBaseUrl = this.baseUrl + "rest/";
 		this.webSocketUrl = "ws://localhost:" + extension.getLocalPort() + "/ws";
+	}
+
+	@AfterEach
+	void cleanup() {
+		this.client.close();
 	}
 
 	protected String login() {

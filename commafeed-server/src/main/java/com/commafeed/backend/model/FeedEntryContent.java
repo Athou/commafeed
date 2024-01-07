@@ -3,6 +3,7 @@ package com.commafeed.backend.model;
 import java.sql.Types;
 import java.util.Set;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 
 import jakarta.persistence.Column;
@@ -59,5 +60,23 @@ public class FeedEntryContent extends AbstractModel {
 
 	@OneToMany(mappedBy = "content")
 	private Set<FeedEntry> entries;
+
+	public boolean equivalentTo(FeedEntryContent c) {
+		if (c == null) {
+			return false;
+		}
+
+		return new EqualsBuilder().append(title, c.title)
+				.append(content, c.content)
+				.append(author, c.author)
+				.append(categories, c.categories)
+				.append(enclosureUrl, c.enclosureUrl)
+				.append(enclosureType, c.enclosureType)
+				.append(mediaDescription, c.mediaDescription)
+				.append(mediaThumbnailUrl, c.mediaThumbnailUrl)
+				.append(mediaThumbnailWidth, c.mediaThumbnailWidth)
+				.append(mediaThumbnailHeight, c.mediaThumbnailHeight)
+				.build();
+	}
 
 }

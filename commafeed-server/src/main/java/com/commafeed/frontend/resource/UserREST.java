@@ -153,7 +153,7 @@ public class UserREST {
 		s.setShowRead(settings.isShowRead());
 		s.setScrollMarks(settings.isScrollMarks());
 		s.setCustomCss(settings.getCustomCss());
-		s.setCustomJs(settings.getCustomJs());
+		s.setCustomJs(CommaFeedApplication.USERNAME_DEMO.equals(user.getName()) ? "" : settings.getCustomJs());
 		s.setLanguage(settings.getLanguage());
 		s.setScrollSpeed(settings.getScrollSpeed());
 		s.setAlwaysScrollToEntry(settings.isAlwaysScrollToEntry());

@@ -1,6 +1,9 @@
 package com.commafeed.backend.task;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.lang3.time.DateUtils;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.service.DatabaseCleaningService;
@@ -18,9 +21,10 @@ public class OldEntriesCleanupTask extends ScheduledTask {
 
 	@Override
 	public void run() {
-		int maxFeedCapacity = config.getApplicationSettings().getMaxFeedCapacity();
-		if (maxFeedCapacity > 0) {
-			cleaner.cleanEntriesForFeedsExceedingCapacity(maxFeedCapacity);
+		int maxAgeDays = config.getApplicationSettings().getMaxEntriesAgeDays();
+		if (maxAgeDays > 0) {
+			Date threshold = DateUtils.addDays(new Date(), -1 * maxAgeDays);
+			cleaner.cleanEntriesOlderThan(threshold);
 		}
 	}
 

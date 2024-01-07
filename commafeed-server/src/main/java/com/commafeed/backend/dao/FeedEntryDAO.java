@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -45,6 +46,17 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		return delete(list);
 	}
 
+	/**
+	 * Delete entries older than a certain date
+	 */
+	public int deleteEntriesOlderThan(Date olderThan, long max) {
+		List<FeedEntry> list = query().selectFrom(entry).where(entry.updated.lt(olderThan)).orderBy(entry.updated.asc()).limit(max).fetch();
+		return delete(list);
+	}
+
+	/**
+	 * Delete the oldest entries of a feed
+	 */
 	public int deleteOldEntries(Long feedId, long max) {
 		List<FeedEntry> list = query().selectFrom(entry).where(entry.feed.id.eq(feedId)).orderBy(entry.updated.asc()).limit(max).fetch();
 		return delete(list);

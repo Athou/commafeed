@@ -83,6 +83,7 @@ public class DatabaseCleaningService {
 	}
 
 	public void cleanEntriesForFeedsExceedingCapacity(final int maxFeedCapacity) {
+		log.info("cleaning entries exceeding feed capacity");
 		long total = 0;
 		while (true) {
 			List<FeedCapacity> feeds = unitOfWork.call(() -> feedEntryDAO.findFeedsExceedingCapacity(maxFeedCapacity, batchSize));
@@ -103,6 +104,19 @@ public class DatabaseCleaningService {
 			}
 		}
 		log.info("cleanup done: {} entries for feeds exceeding capacity deleted", total);
+	}
+
+	public void cleanEntriesOlderThan(final Date olderThan) {
+		log.info("cleaning old entries");
+		long total = 0;
+		long deleted;
+		do {
+			deleted = unitOfWork.call(() -> feedEntryDAO.deleteEntriesOlderThan(olderThan, batchSize));
+			entriesDeletedMeter.mark(deleted);
+			total += deleted;
+			log.info("removed {} old entries", total);
+		} while (deleted != 0);
+		log.info("cleanup done: {} old entries deleted", total);
 	}
 
 	public void cleanStatusesOlderThan(final Date olderThan) {

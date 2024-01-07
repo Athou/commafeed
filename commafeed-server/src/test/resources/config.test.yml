@@ -67,6 +67,9 @@ app:
   # entries to keep per feed, old entries will be deleted, 0 to disable
   maxFeedCapacity: 500
 
+  # entries older than this will be deleted, 0 to disable
+  maxEntriesAgeDays: 0
+
   # limit the number of feeds a user can subscribe to, 0 to disable
   maxFeedsPerUser: 0
   

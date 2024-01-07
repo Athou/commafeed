@@ -147,6 +147,11 @@ public class CommaFeedConfiguration extends Configuration implements WebsocketBu
 		private Integer maxFeedCapacity;
 
 		@NotNull
+		@Min(0)
+		@Valid
+		private Integer maxEntriesAgeDays = 0;
+
+		@NotNull
 		@Valid
 		private Integer maxFeedsPerUser = 0;
 

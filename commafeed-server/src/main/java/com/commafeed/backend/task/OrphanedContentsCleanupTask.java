@@ -21,7 +21,7 @@ public class OrphanedContentsCleanupTask extends ScheduledTask {
 
 	@Override
 	public long getInitialDelay() {
-		return 20;
+		return 25;
 	}
 
 	@Override

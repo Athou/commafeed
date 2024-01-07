@@ -27,7 +27,7 @@ public class OldStatusesCleanupTask extends ScheduledTask {
 
 	@Override
 	public long getInitialDelay() {
-		return 10;
+		return 15;
 	}
 
 	@Override

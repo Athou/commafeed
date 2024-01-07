@@ -19,6 +19,7 @@ import com.commafeed.backend.favicon.DefaultFaviconFetcher;
 import com.commafeed.backend.favicon.FacebookFaviconFetcher;
 import com.commafeed.backend.favicon.YoutubeFaviconFetcher;
 import com.commafeed.backend.task.DemoAccountCleanupTask;
+import com.commafeed.backend.task.EntriesExceedingFeedCapacityCleanupTask;
 import com.commafeed.backend.task.OldEntriesCleanupTask;
 import com.commafeed.backend.task.OldStatusesCleanupTask;
 import com.commafeed.backend.task.OrphanedContentsCleanupTask;
@@ -66,6 +67,7 @@ public class CommaFeedModule extends AbstractModule {
 
 		Multibinder<ScheduledTask> taskMultibinder = Multibinder.newSetBinder(binder(), ScheduledTask.class);
 		taskMultibinder.addBinding().to(OldStatusesCleanupTask.class);
+		taskMultibinder.addBinding().to(EntriesExceedingFeedCapacityCleanupTask.class);
 		taskMultibinder.addBinding().to(OldEntriesCleanupTask.class);
 		taskMultibinder.addBinding().to(OrphanedFeedsCleanupTask.class);
 		taskMultibinder.addBinding().to(OrphanedContentsCleanupTask.class);

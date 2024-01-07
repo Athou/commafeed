@@ -1,10 +1,12 @@
 package com.commafeed.backend.feed;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
@@ -47,10 +49,17 @@ public class FeedRefreshWorker {
 					feed.getLastPublishedDate(), feed.getLastContentHash());
 			// stops here if NotModifiedException or any other exception is thrown
 
-			Integer maxFeedCapacity = config.getApplicationSettings().getMaxFeedCapacity();
 			List<Entry> entries = result.feed().entries();
+
+			Integer maxFeedCapacity = config.getApplicationSettings().getMaxFeedCapacity();
 			if (maxFeedCapacity > 0) {
 				entries = entries.stream().limit(maxFeedCapacity).toList();
+			}
+
+			Integer maxEntriesAgeDays = config.getApplicationSettings().getMaxEntriesAgeDays();
+			if (maxEntriesAgeDays > 0) {
+				Date threshold = DateUtils.addDays(new Date(), -1 * maxEntriesAgeDays);
+				entries = entries.stream().filter(entry -> entry.updated().after(threshold)).toList();
 			}
 
 			String urlAfterRedirect = result.urlAfterRedirect();

@@ -51,14 +51,14 @@ public class FeedEntryContentService {
 
 		Enclosure enclosure = content.enclosure();
 		if (enclosure != null) {
-			entryContent.setEnclosureUrl(enclosure.url());
+			entryContent.setEnclosureUrl(FeedUtils.truncate(enclosure.url(), 2048));
 			entryContent.setEnclosureType(enclosure.type());
 		}
 
 		Media media = content.media();
 		if (media != null) {
 			entryContent.setMediaDescription(cleaningService.clean(media.description(), baseUrl, false));
-			entryContent.setMediaThumbnailUrl(media.thumbnailUrl());
+			entryContent.setMediaThumbnailUrl(FeedUtils.truncate(media.thumbnailUrl(), 2048));
 			entryContent.setMediaThumbnailWidth(media.thumbnailWidth());
 			entryContent.setMediaThumbnailHeight(media.thumbnailHeight());
 		}

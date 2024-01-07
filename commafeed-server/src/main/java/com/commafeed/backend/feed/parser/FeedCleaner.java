@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import org.ahocorasick.trie.Emit;
 import org.ahocorasick.trie.Trie;
-import org.ahocorasick.trie.Trie.TrieBuilder;
 import org.apache.commons.lang3.StringUtils;
 
 import jakarta.inject.Singleton;
@@ -39,19 +38,12 @@ class FeedCleaner {
 		return sb.toString();
 	}
 
+	// https://stackoverflow.com/a/40836618/1885506
 	public String replaceHtmlEntitiesWithNumericEntities(String source) {
 		// Create a buffer sufficiently large that re-allocations are minimized.
 		StringBuilder sb = new StringBuilder(source.length() << 1);
 
-		TrieBuilder builder = Trie.builder();
-		builder.ignoreOverlaps();
-
-		for (String key : HtmlEntities.HTML_ENTITIES) {
-			builder.addKeyword(key);
-		}
-
-		Trie trie = builder.build();
-		Collection<Emit> emits = trie.parseText(source);
+		Collection<Emit> emits = Trie.builder().ignoreOverlaps().addKeywords(HtmlEntities.HTML_ENTITIES).build().parseText(source);
 
 		int prevIndex = 0;
 		for (Emit emit : emits) {

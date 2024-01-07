@@ -9,7 +9,6 @@ import org.hibernate.SessionFactory;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.QFeed;
 import com.commafeed.backend.model.QFeedSubscription;
-import com.google.common.collect.Iterables;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 
@@ -45,12 +44,13 @@ public class FeedDAO extends GenericDAO<Feed> {
 	}
 
 	public Feed findByUrl(String normalizedUrl, String normalizedUrlHash) {
-		List<Feed> feeds = query().selectFrom(feed).where(feed.normalizedUrlHash.eq(normalizedUrlHash)).fetch();
-		Feed feed = Iterables.getFirst(feeds, null);
-		if (feed != null && StringUtils.equals(normalizedUrl, feed.getNormalizedUrl())) {
-			return feed;
-		}
-		return null;
+		return query().selectFrom(feed)
+				.where(feed.normalizedUrlHash.eq(normalizedUrlHash))
+				.fetch()
+				.stream()
+				.filter(f -> StringUtils.equals(normalizedUrl, f.getNormalizedUrl()))
+				.findFirst()
+				.orElse(null);
 	}
 
 	public List<Feed> findWithoutSubscriptions(int max) {

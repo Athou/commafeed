@@ -74,7 +74,7 @@ public class FeedParser {
 			List<Entry> entries = buildEntries(feed, feedUrl);
 			Date lastEntryDate = entries.stream().findFirst().map(Entry::updated).orElse(null);
 			Date lastPublishedDate = validateDate(feed.getPublishedDate(), false);
-			if (lastPublishedDate == null || lastPublishedDate.before(lastEntryDate)) {
+			if (lastPublishedDate == null || lastEntryDate != null && lastPublishedDate.before(lastEntryDate)) {
 				lastPublishedDate = lastEntryDate;
 			}
 			Long averageEntryInterval = averageTimeBetweenEntries(entries);

@@ -1,6 +1,7 @@
 package com.commafeed.backend.cache;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -14,7 +15,7 @@ import com.commafeed.frontend.model.UnreadCount;
 public abstract class CacheService {
 
 	// feed entries for faster refresh
-	public abstract List<String> getLastEntries(Feed feed);
+	public abstract Set<String> getLastEntries(Feed feed);
 
 	public abstract void setLastEntries(Feed feed, List<String> entries);
 

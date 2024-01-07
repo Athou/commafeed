@@ -1,6 +1,5 @@
 package com.commafeed.backend.cache;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -29,14 +28,11 @@ public class RedisCacheService extends CacheService {
 	private final JedisPool pool;
 
 	@Override
-	public List<String> getLastEntries(Feed feed) {
-		List<String> list = new ArrayList<>();
+	public Set<String> getLastEntries(Feed feed) {
 		try (Jedis jedis = pool.getResource()) {
 			String key = buildRedisEntryKey(feed);
-			Set<String> members = jedis.smembers(key);
-			list.addAll(members);
+			return jedis.smembers(key);
 		}
-		return list;
 	}
 
 	@Override

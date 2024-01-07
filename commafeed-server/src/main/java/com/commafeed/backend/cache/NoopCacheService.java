@@ -2,6 +2,7 @@ package com.commafeed.backend.cache;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
@@ -12,8 +13,8 @@ import com.commafeed.frontend.model.UnreadCount;
 public class NoopCacheService extends CacheService {
 
 	@Override
-	public List<String> getLastEntries(Feed feed) {
-		return Collections.emptyList();
+	public Set<String> getLastEntries(Feed feed) {
+		return Collections.emptySet();
 	}
 
 	@Override

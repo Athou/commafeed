@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 
@@ -121,7 +122,7 @@ public class FeedRefreshUpdater implements Managed {
 		boolean insertedAtLeastOneEntry = false;
 
 		if (!entries.isEmpty()) {
-			List<String> lastEntries = cache.getLastEntries(feed);
+			Set<String> lastEntries = cache.getLastEntries(feed);
 			List<String> currentEntries = new ArrayList<>();
 
 			List<FeedSubscription> subscriptions = null;

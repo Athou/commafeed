@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
+import com.commafeed.backend.feed.parser.FeedParser;
 import com.commafeed.backend.urlprovider.FeedURLProvider;
 
 @ExtendWith(MockitoExtension.class)

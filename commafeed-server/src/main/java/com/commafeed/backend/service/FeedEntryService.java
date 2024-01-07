@@ -10,9 +10,10 @@ import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.feed.FeedEntryKeyword;
+import com.commafeed.backend.feed.FeedUtils;
+import com.commafeed.backend.feed.parser.FeedParserResult.Entry;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
@@ -37,30 +38,27 @@ public class FeedEntryService {
 	/**
 	 * this is NOT thread-safe
 	 */
-	public boolean addEntry(Feed feed, FeedEntry entry, List<FeedSubscription> subscriptions) {
-
-		Long existing = feedEntryDAO.findExisting(entry.getGuid(), feed);
+	public boolean addEntry(Feed feed, Entry entry, List<FeedSubscription> subscriptions) {
+		String guid = FeedUtils.truncate(entry.guid(), 2048);
+		String guidHash = DigestUtils.sha1Hex(entry.guid());
+		Long existing = feedEntryDAO.findExisting(guidHash, feed);
 		if (existing != null) {
 			return false;
 		}
 
-		FeedEntryContent content = feedEntryContentService.findOrCreate(entry.getContent(), feed.getLink());
-		entry.setGuidHash(DigestUtils.sha1Hex(entry.getGuid()));
-		entry.setContent(content);
-		entry.setInserted(new Date());
-		entry.setFeed(feed);
-		feedEntryDAO.saveOrUpdate(entry);
+		FeedEntry feedEntry = buildEntry(feed, entry, guid, guidHash);
+		feedEntryDAO.saveOrUpdate(feedEntry);
 
 		// if filter does not match the entry, mark it as read
 		for (FeedSubscription sub : subscriptions) {
 			boolean matches = true;
 			try {
-				matches = feedEntryFilteringService.filterMatchesEntry(sub.getFilter(), entry);
+				matches = feedEntryFilteringService.filterMatchesEntry(sub.getFilter(), feedEntry);
 			} catch (FeedEntryFilteringService.FeedEntryFilterException e) {
 				log.error("could not evaluate filter {}", sub.getFilter(), e);
 			}
 			if (!matches) {
-				FeedEntryStatus status = new FeedEntryStatus(sub.getUser(), sub, entry);
+				FeedEntryStatus status = new FeedEntryStatus(sub.getUser(), sub, feedEntry);
 				status.setRead(true);
 				feedEntryStatusDAO.saveOrUpdate(status);
 			}
@@ -69,8 +67,20 @@ public class FeedEntryService {
 		return true;
 	}
 
-	public void markEntry(User user, Long entryId, boolean read) {
+	private FeedEntry buildEntry(Feed feed, Entry e, String guid, String guidHash) {
+		FeedEntry entry = new FeedEntry();
+		entry.setGuid(guid);
+		entry.setGuidHash(guidHash);
+		entry.setUrl(FeedUtils.truncate(e.url(), 2048));
+		entry.setUpdated(e.updated());
+		entry.setInserted(new Date());
+		entry.setFeed(feed);
 
+		entry.setContent(feedEntryContentService.findOrCreate(e.content(), feed.getLink()));
+		return entry;
+	}
+
+	public void markEntry(User user, Long entryId, boolean read) {
 		FeedEntry entry = feedEntryDAO.findById(entryId);
 		if (entry == null) {
 			return;

@@ -245,8 +245,8 @@ public class FeedREST {
 		try {
 			FeedFetcherResult feedFetcherResult = feedFetcher.fetch(url, true, null, null, null, null);
 			info = new FeedInfo();
-			info.setUrl(feedFetcherResult.getUrlAfterRedirect());
-			info.setTitle(feedFetcherResult.getTitle());
+			info.setUrl(feedFetcherResult.urlAfterRedirect());
+			info.setTitle(feedFetcherResult.feed().title());
 
 		} catch (Exception e) {
 			log.debug(e.getMessage(), e);

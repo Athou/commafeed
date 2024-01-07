@@ -156,7 +156,7 @@ public class FeedRefreshEngine implements Managed {
 
 	private void processFeedAsync(Feed feed) {
 		CompletableFuture.supplyAsync(() -> worker.update(feed), workerExecutor)
-				.thenApplyAsync(r -> updater.update(r.getFeed(), r.getEntries()), databaseUpdaterExecutor)
+				.thenApplyAsync(r -> updater.update(r.feed(), r.entries()), databaseUpdaterExecutor)
 				.whenComplete((data, ex) -> {
 					if (ex != null) {
 						log.error("error while processing feed {}", feed.getUrl(), ex);

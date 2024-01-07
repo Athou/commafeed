@@ -65,21 +65,6 @@ class FeedUtilsTest {
 	}
 
 	@Test
-	void testExtractDeclaredEncoding() {
-		Assertions.assertNull(FeedUtils.extractDeclaredEncoding("<?xml ?>".getBytes()));
-		Assertions.assertNull(FeedUtils.extractDeclaredEncoding("<feed></feed>".getBytes()));
-		Assertions.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding=\"UTF-8\" ?>".getBytes()));
-		Assertions.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding='UTF-8' ?>".getBytes()));
-		Assertions.assertEquals("UTF-8", FeedUtils.extractDeclaredEncoding("<?xml encoding='UTF-8'?>".getBytes()));
-	}
-
-	@Test
-	void testReplaceHtmlEntitiesWithNumericEntities() {
-		String source = "<source>T&acute;l&acute;phone &prime;</source>";
-		Assertions.assertEquals("<source>T&#180;l&#180;phone &#8242;</source>", FeedUtils.replaceHtmlEntitiesWithNumericEntities(source));
-	}
-
-	@Test
 	void testRemoveTrailingSlash() {
 		final String url = "http://localhost/";
 		final String result = FeedUtils.removeTrailingSlash(url);

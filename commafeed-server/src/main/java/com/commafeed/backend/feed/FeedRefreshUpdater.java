@@ -16,9 +16,9 @@ import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UnitOfWork;
+import com.commafeed.backend.feed.parser.FeedParserResult.Content;
+import com.commafeed.backend.feed.parser.FeedParserResult.Entry;
 import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedEntryService;
@@ -72,7 +72,7 @@ public class FeedRefreshUpdater implements Managed {
 		entryInserted = metrics.meter(MetricRegistry.name(getClass(), "entryInserted"));
 	}
 
-	private AddEntryResult addEntry(final Feed feed, final FeedEntry entry, final List<FeedSubscription> subscriptions) {
+	private AddEntryResult addEntry(final Feed feed, final Entry entry, final List<FeedSubscription> subscriptions) {
 		boolean processed = false;
 		boolean inserted = false;
 
@@ -82,8 +82,8 @@ public class FeedRefreshUpdater implements Managed {
 
 		// lock on content, make sure we are not updating the same entry
 		// twice at the same time
-		FeedEntryContent content = entry.getContent();
-		String key2 = DigestUtils.sha1Hex(StringUtils.trimToEmpty(content.getContent() + content.getTitle()));
+		Content content = entry.content();
+		String key2 = DigestUtils.sha1Hex(StringUtils.trimToEmpty(content.content() + content.title()));
 
 		Iterator<Lock> iterator = locks.bulkGet(Arrays.asList(key1, key2)).iterator();
 		Lock lock1 = iterator.next();
@@ -116,7 +116,7 @@ public class FeedRefreshUpdater implements Managed {
 		return new AddEntryResult(processed, inserted);
 	}
 
-	public boolean update(Feed feed, List<FeedEntry> entries) {
+	public boolean update(Feed feed, List<Entry> entries) {
 		boolean processed = true;
 		boolean insertedAtLeastOneEntry = false;
 
@@ -125,10 +125,10 @@ public class FeedRefreshUpdater implements Managed {
 			List<String> currentEntries = new ArrayList<>();
 
 			List<FeedSubscription> subscriptions = null;
-			for (FeedEntry entry : entries) {
-				String cacheKey = cache.buildUniqueEntryKey(feed, entry);
+			for (Entry entry : entries) {
+				String cacheKey = cache.buildUniqueEntryKey(entry);
 				if (!lastEntries.contains(cacheKey)) {
-					log.debug("cache miss for {}", entry.getUrl());
+					log.debug("cache miss for {}", entry.url());
 					if (subscriptions == null) {
 						subscriptions = unitOfWork.call(() -> feedSubscriptionDAO.findByFeed(feed));
 					}
@@ -138,7 +138,7 @@ public class FeedRefreshUpdater implements Managed {
 
 					entryCacheMiss.mark();
 				} else {
-					log.debug("cache hit for {}", entry.getUrl());
+					log.debug("cache hit for {}", entry.url());
 					entryCacheHit.mark();
 				}
 

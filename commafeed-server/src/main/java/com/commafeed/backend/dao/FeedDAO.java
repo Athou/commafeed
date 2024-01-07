@@ -3,7 +3,6 @@ package com.commafeed.backend.dao;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.SessionFactory;
 
@@ -45,8 +44,8 @@ public class FeedDAO extends GenericDAO<Feed> {
 		updateQuery(feed).set(feed.disabledUntil, date).where(feed.id.in(feedIds)).execute();
 	}
 
-	public Feed findByUrl(String normalizedUrl) {
-		List<Feed> feeds = query().selectFrom(feed).where(feed.normalizedUrlHash.eq(DigestUtils.sha1Hex(normalizedUrl))).fetch();
+	public Feed findByUrl(String normalizedUrl, String normalizedUrlHash) {
+		List<Feed> feeds = query().selectFrom(feed).where(feed.normalizedUrlHash.eq(normalizedUrlHash)).fetch();
 		Feed feed = Iterables.getFirst(feeds, null);
 		if (feed != null && StringUtils.equals(normalizedUrl, feed.getNormalizedUrl())) {
 			return feed;

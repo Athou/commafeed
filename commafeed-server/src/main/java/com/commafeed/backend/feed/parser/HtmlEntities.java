@@ -1,10 +1,13 @@
-package com.commafeed.backend.feed;
+package com.commafeed.backend.feed.parser;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class HtmlEntities {
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
+class HtmlEntities {
 	public static final Map<String, String> HTML_TO_NUMERIC_MAP;
 	public static final String[] HTML_ENTITIES;
 	public static final String[] NUMERIC_ENTITIES;

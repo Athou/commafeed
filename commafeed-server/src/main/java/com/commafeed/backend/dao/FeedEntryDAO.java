@@ -2,7 +2,6 @@ package com.commafeed.backend.dao;
 
 import java.util.List;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.Feed;
@@ -26,12 +25,8 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		super(sessionFactory);
 	}
 
-	public Long findExisting(String guid, Feed feed) {
-		return query().select(entry.id)
-				.from(entry)
-				.where(entry.guidHash.eq(DigestUtils.sha1Hex(guid)), entry.feed.eq(feed))
-				.limit(1)
-				.fetchOne();
+	public Long findExisting(String guidHash, Feed feed) {
+		return query().select(entry.id).from(entry).where(entry.guidHash.eq(guidHash), entry.feed.eq(feed)).limit(1).fetchOne();
 	}
 
 	public List<FeedCapacity> findFeedsExceedingCapacity(long maxCapacity, long max) {

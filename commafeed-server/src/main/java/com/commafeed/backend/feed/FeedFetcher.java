@@ -2,7 +2,6 @@ package com.commafeed.backend.feed;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.codec.binary.StringUtils;
@@ -11,16 +10,14 @@ import org.apache.commons.codec.digest.DigestUtils;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
-import com.commafeed.backend.feed.FeedParser.FeedParserResult;
-import com.commafeed.backend.model.Feed;
-import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.feed.parser.FeedParser;
+import com.commafeed.backend.feed.parser.FeedParserResult;
 import com.commafeed.backend.urlprovider.FeedURLProvider;
 import com.rometools.rome.io.FeedException;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -79,20 +76,16 @@ public class FeedFetcher {
 					etagHeaderValueChanged ? result.getETag() : null);
 		}
 
-		if (lastPublishedDate != null && parserResult.getFeed().getLastPublishedDate() != null
-				&& lastPublishedDate.getTime() == parserResult.getFeed().getLastPublishedDate().getTime()) {
+		if (lastPublishedDate != null && parserResult.lastPublishedDate() != null
+				&& lastPublishedDate.getTime() == parserResult.lastPublishedDate().getTime()) {
 			log.debug("publishedDate not modified: {}", feedUrl);
 			throw new NotModifiedException("publishedDate not modified",
 					lastModifiedHeaderValueChanged ? result.getLastModifiedSince() : null,
 					etagHeaderValueChanged ? result.getETag() : null);
 		}
 
-		Feed feed = parserResult.getFeed();
-		feed.setLastModifiedHeader(result.getLastModifiedSince());
-		feed.setEtagHeader(FeedUtils.truncate(result.getETag(), 255));
-		feed.setLastContentHash(hash);
-		return new FeedFetcherResult(parserResult.getFeed(), parserResult.getEntries(), parserResult.getTitle(),
-				result.getUrlAfterRedirect(), result.getDuration());
+		return new FeedFetcherResult(parserResult, result.getUrlAfterRedirect(), result.getLastModifiedSince(), result.getETag(), hash,
+				result.getDuration());
 	}
 
 	private static String extractFeedUrl(Set<FeedURLProvider> urlProviders, String url, String urlContent) {
@@ -106,13 +99,8 @@ public class FeedFetcher {
 		return null;
 	}
 
-	@Value
-	public static class FeedFetcherResult {
-		Feed feed;
-		List<FeedEntry> entries;
-		String title;
-		String urlAfterRedirect;
-		long fetchDuration;
+	public record FeedFetcherResult(FeedParserResult feed, String urlAfterRedirect, String lastModifiedHeader, String lastETagHeader,
+			String contentHash, long fetchDuration) {
 	}
 
 }

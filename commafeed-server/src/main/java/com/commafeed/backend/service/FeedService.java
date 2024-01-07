@@ -37,13 +37,14 @@ public class FeedService {
 	}
 
 	public synchronized Feed findOrCreate(String url) {
-		String normalized = FeedUtils.normalizeURL(url);
-		Feed feed = feedDAO.findByUrl(normalized);
+		String normalizedUrl = FeedUtils.normalizeURL(url);
+		String normalizedUrlHash = DigestUtils.sha1Hex(normalizedUrl);
+		Feed feed = feedDAO.findByUrl(normalizedUrl, normalizedUrlHash);
 		if (feed == null) {
 			feed = new Feed();
 			feed.setUrl(url);
-			feed.setNormalizedUrl(normalized);
-			feed.setNormalizedUrlHash(DigestUtils.sha1Hex(normalized));
+			feed.setNormalizedUrl(normalizedUrl);
+			feed.setNormalizedUrlHash(normalizedUrlHash);
 			feed.setDisabledUntil(new Date(0));
 			feedDAO.saveOrUpdate(feed);
 		}
@@ -55,6 +56,7 @@ public class FeedService {
 		feed.setNormalizedUrl(normalized);
 		feed.setNormalizedUrlHash(DigestUtils.sha1Hex(normalized));
 		feed.setLastUpdated(new Date());
+		feed.setEtagHeader(FeedUtils.truncate(feed.getEtagHeader(), 255));
 		feedDAO.saveOrUpdate(feed);
 	}
 

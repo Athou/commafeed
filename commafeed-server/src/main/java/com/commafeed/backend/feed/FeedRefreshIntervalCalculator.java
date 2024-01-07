@@ -5,7 +5,6 @@ import java.util.Date;
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.backend.model.Feed;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -22,18 +21,19 @@ public class FeedRefreshIntervalCalculator {
 		this.refreshIntervalMinutes = config.getApplicationSettings().getRefreshIntervalMinutes();
 	}
 
-	public Date onFetchSuccess(Feed feed) {
+	public Date onFetchSuccess(Date publishedDate, Long averageEntryInterval) {
 		Date defaultRefreshInterval = getDefaultRefreshInterval();
-		return heavyLoad ? computeRefreshIntervalForHeavyLoad(feed, defaultRefreshInterval) : defaultRefreshInterval;
+		return heavyLoad ? computeRefreshIntervalForHeavyLoad(publishedDate, averageEntryInterval, defaultRefreshInterval)
+				: defaultRefreshInterval;
 	}
 
-	public Date onFeedNotModified(Feed feed) {
+	public Date onFeedNotModified(Date publishedDate, Long averageEntryInterval) {
 		Date defaultRefreshInterval = getDefaultRefreshInterval();
-		return heavyLoad ? computeRefreshIntervalForHeavyLoad(feed, defaultRefreshInterval) : defaultRefreshInterval;
+		return heavyLoad ? computeRefreshIntervalForHeavyLoad(publishedDate, averageEntryInterval, defaultRefreshInterval)
+				: defaultRefreshInterval;
 	}
 
-	public Date onFetchError(Feed feed) {
-		int errorCount = feed.getErrorCount();
+	public Date onFetchError(int errorCount) {
 		int retriesBeforeDisable = 3;
 		if (errorCount < retriesBeforeDisable || !heavyLoad) {
 			return getDefaultRefreshInterval();
@@ -47,10 +47,8 @@ public class FeedRefreshIntervalCalculator {
 		return DateUtils.addMinutes(new Date(), refreshIntervalMinutes);
 	}
 
-	private Date computeRefreshIntervalForHeavyLoad(Feed feed, Date defaultRefreshInterval) {
+	private Date computeRefreshIntervalForHeavyLoad(Date publishedDate, Long averageEntryInterval, Date defaultRefreshInterval) {
 		Date now = new Date();
-		Date publishedDate = feed.getLastEntryDate();
-		Long averageEntryInterval = feed.getAverageEntryInterval();
 
 		if (publishedDate == null) {
 			// feed with no entries, recheck in 24 hours

@@ -10,14 +10,14 @@ import java.util.List;
  * 
  * 
  */
-public class FixedSizeSortedSet<E> {
+public class FixedSizeSortedList<E> {
 
 	private final List<E> inner;
 
 	private final Comparator<? super E> comparator;
 	private final int capacity;
 
-	public FixedSizeSortedSet(int capacity, Comparator<? super E> comparator) {
+	public FixedSizeSortedList(int capacity, Comparator<? super E> comparator) {
 		this.inner = new ArrayList<>(Math.max(0, capacity));
 		this.capacity = capacity < 0 ? Integer.MAX_VALUE : capacity;
 		this.comparator = comparator;

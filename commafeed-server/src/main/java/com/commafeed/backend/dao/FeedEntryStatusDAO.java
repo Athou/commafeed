@@ -10,7 +10,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.hibernate.SessionFactory;
 
 import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.backend.FixedSizeSortedSet;
+import com.commafeed.backend.FixedSizeSortedList;
 import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
 import com.commafeed.backend.model.FeedEntry;
@@ -199,9 +199,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		Comparator<FeedEntryStatus> comparator = order == ReadingOrder.desc ? STATUS_COMPARATOR_DESC : STATUS_COMPARATOR_ASC;
 
-		FixedSizeSortedSet<FeedEntryStatus> set = new FixedSizeSortedSet<>(capacity, comparator);
+		FixedSizeSortedList<FeedEntryStatus> fssl = new FixedSizeSortedList<>(capacity, comparator);
 		for (FeedSubscription sub : subs) {
-			FeedEntryStatus last = (order != null && set.isFull()) ? set.last() : null;
+			FeedEntryStatus last = (order != null && fssl.isFull()) ? fssl.last() : null;
 			JPAQuery<FeedEntry> query = buildQuery(user, sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag, minEntryId,
 					maxEntryId);
 			List<Tuple> tuples = query.select(entry.id, entry.updated, status.id, entry.content.title).fetch();
@@ -225,11 +225,11 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 				status.setEntry(entry);
 				status.setSubscription(sub);
 
-				set.add(status);
+				fssl.add(status);
 			}
 		}
 
-		List<FeedEntryStatus> placeholders = set.asList();
+		List<FeedEntryStatus> placeholders = fssl.asList();
 		int size = placeholders.size();
 		if (size < offset) {
 			return new ArrayList<>();

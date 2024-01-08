@@ -1,6 +1,6 @@
 package com.commafeed.backend.service;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -73,7 +73,7 @@ public class FeedEntryService {
 		entry.setGuidHash(guidHash);
 		entry.setUrl(FeedUtils.truncate(e.url(), 2048));
 		entry.setUpdated(e.updated());
-		entry.setInserted(new Date());
+		entry.setInserted(Instant.now());
 		entry.setFeed(feed);
 
 		entry.setContent(feedEntryContentService.findOrCreate(e.content(), feed.getLink()));
@@ -117,7 +117,7 @@ public class FeedEntryService {
 		feedEntryStatusDAO.saveOrUpdate(status);
 	}
 
-	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Date olderThan, Date insertedBefore,
+	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Instant olderThan, Instant insertedBefore,
 			List<FeedEntryKeyword> keywords) {
 		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, keywords, null, -1, -1, null,
 				false, false, null, null, null);
@@ -126,18 +126,18 @@ public class FeedEntryService {
 		cache.invalidateUserRootCategory(user);
 	}
 
-	public void markStarredEntries(User user, Date olderThan, Date insertedBefore) {
+	public void markStarredEntries(User user, Instant olderThan, Instant insertedBefore) {
 		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findStarred(user, null, -1, -1, null, false);
 		markList(statuses, olderThan, insertedBefore);
 	}
 
-	private void markList(List<FeedEntryStatus> statuses, Date olderThan, Date insertedBefore) {
+	private void markList(List<FeedEntryStatus> statuses, Instant olderThan, Instant insertedBefore) {
 		List<FeedEntryStatus> statusesToMark = statuses.stream().filter(s -> {
-			Date entryDate = s.getEntry().getUpdated();
-			return olderThan == null || entryDate == null || entryDate.before(olderThan);
+			Instant entryDate = s.getEntry().getUpdated();
+			return olderThan == null || entryDate == null || entryDate.isBefore(olderThan);
 		}).filter(s -> {
-			Date insertedDate = s.getEntry().getInserted();
-			return insertedBefore == null || insertedDate == null || insertedDate.before(insertedBefore);
+			Instant insertedDate = s.getEntry().getInserted();
+			return insertedBefore == null || insertedDate == null || insertedDate.isBefore(insertedBefore);
 		}).toList();
 
 		statusesToMark.forEach(s -> s.setRead(true));

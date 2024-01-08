@@ -1,6 +1,6 @@
 package com.commafeed.backend.model;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -11,8 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,11 +37,11 @@ public class FeedEntry extends AbstractModel {
 	@Column(length = 2048)
 	private String url;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date inserted;
+	@Column
+	private Instant inserted;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date updated;
+	@Column
+	private Instant updated;
 
 	@OneToMany(mappedBy = "entry", cascade = CascadeType.REMOVE)
 	private Set<FeedEntryStatus> statuses;

@@ -1,7 +1,7 @@
 package com.commafeed.backend.service;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import java.util.Set;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -45,7 +45,7 @@ public class FeedService {
 			feed.setUrl(url);
 			feed.setNormalizedUrl(normalizedUrl);
 			feed.setNormalizedUrlHash(normalizedUrlHash);
-			feed.setDisabledUntil(new Date(0));
+			feed.setDisabledUntil(Instant.EPOCH);
 			feedDAO.saveOrUpdate(feed);
 		}
 		return feed;
@@ -55,7 +55,7 @@ public class FeedService {
 		String normalized = FeedUtils.normalizeURL(feed.getUrl());
 		feed.setNormalizedUrl(normalized);
 		feed.setNormalizedUrlHash(DigestUtils.sha1Hex(normalized));
-		feed.setLastUpdated(new Date());
+		feed.setLastUpdated(Instant.now());
 		feed.setEtagHeader(FeedUtils.truncate(feed.getEtagHeader(), 255));
 		feedDAO.saveOrUpdate(feed);
 	}

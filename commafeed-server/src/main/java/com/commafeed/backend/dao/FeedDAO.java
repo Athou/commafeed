@@ -1,6 +1,6 @@
 package com.commafeed.backend.dao;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -26,8 +26,8 @@ public class FeedDAO extends GenericDAO<Feed> {
 		super(sessionFactory);
 	}
 
-	public List<Feed> findNextUpdatable(int count, Date lastLoginThreshold) {
-		JPAQuery<Feed> query = query().selectFrom(feed).where(feed.disabledUntil.isNull().or(feed.disabledUntil.lt(new Date())));
+	public List<Feed> findNextUpdatable(int count, Instant lastLoginThreshold) {
+		JPAQuery<Feed> query = query().selectFrom(feed).where(feed.disabledUntil.isNull().or(feed.disabledUntil.lt(Instant.now())));
 		if (lastLoginThreshold != null) {
 			query.where(JPAExpressions.selectOne()
 					.from(subscription)
@@ -39,7 +39,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 		return query.orderBy(feed.disabledUntil.asc()).limit(count).fetch();
 	}
 
-	public void setDisabledUntil(List<Long> feedIds, Date date) {
+	public void setDisabledUntil(List<Long> feedIds, Instant date) {
 		updateQuery(feed).set(feed.disabledUntil, date).where(feed.id.in(feedIds)).execute();
 	}
 

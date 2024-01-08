@@ -1,12 +1,12 @@
 package com.commafeed.backend.feed;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
@@ -58,8 +58,8 @@ public class FeedRefreshWorker {
 
 			Integer maxEntriesAgeDays = config.getApplicationSettings().getMaxEntriesAgeDays();
 			if (maxEntriesAgeDays > 0) {
-				Date threshold = DateUtils.addDays(new Date(), -1 * maxEntriesAgeDays);
-				entries = entries.stream().filter(entry -> entry.updated().after(threshold)).toList();
+				Instant threshold = Instant.now().minus(Duration.ofDays(maxEntriesAgeDays));
+				entries = entries.stream().filter(entry -> entry.updated().isAfter(threshold)).toList();
 			}
 
 			String urlAfterRedirect = result.urlAfterRedirect();

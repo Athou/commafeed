@@ -3,9 +3,9 @@ package com.commafeed.integration.rest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 import org.apache.commons.io.IOUtils;
@@ -99,13 +99,13 @@ class FeedIT extends BaseIT {
 		@Test
 		void markOlderThan() {
 			long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
-			markFeedEntries(subscriptionId, new GregorianCalendar(2023, Calendar.DECEMBER, 28).getTime(), null);
+			markFeedEntries(subscriptionId, LocalDate.of(2023, 12, 28).atStartOfDay().toInstant(ZoneOffset.UTC), null);
 			Assertions.assertEquals(1, getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
 		}
 
 		@Test
 		void markInsertedBeforeBeforeSubscription() {
-			Date insertedBefore = new Date();
+			Instant insertedBefore = Instant.now();
 
 			long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 			markFeedEntries(subscriptionId, null, insertedBefore);
@@ -116,17 +116,17 @@ class FeedIT extends BaseIT {
 		void markInsertedBeforeAfterSubscription() {
 			long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 
-			Date insertedBefore = new Date();
+			Instant insertedBefore = Instant.now();
 
 			markFeedEntries(subscriptionId, null, insertedBefore);
 			Assertions.assertTrue(getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
 		}
 
-		private void markFeedEntries(long subscriptionId, Date olderThan, Date insertedBefore) {
+		private void markFeedEntries(long subscriptionId, Instant olderThan, Instant insertedBefore) {
 			MarkRequest request = new MarkRequest();
 			request.setId(String.valueOf(subscriptionId));
-			request.setOlderThan(olderThan == null ? null : olderThan.getTime());
-			request.setInsertedBefore(insertedBefore == null ? null : insertedBefore.getTime());
+			request.setOlderThan(olderThan == null ? null : olderThan.toEpochMilli());
+			request.setInsertedBefore(insertedBefore == null ? null : insertedBefore.toEpochMilli());
 			getClient().target(getApiBaseUrl() + "feed/mark").request().post(Entity.json(request), Void.TYPE);
 		}
 	}
@@ -137,26 +137,26 @@ class FeedIT extends BaseIT {
 		void refresh() {
 			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 
-			Date now = new Date();
+			Instant now = Instant.now();
 			IDRequest request = new IDRequest();
 			request.setId(subscriptionId);
 			getClient().target(getApiBaseUrl() + "feed/refresh").request().post(Entity.json(request), Void.TYPE);
 
 			Awaitility.await()
 					.atMost(Duration.ofSeconds(15))
-					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().after(now));
+					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().isAfter(now));
 		}
 
 		@Test
 		void refreshAll() {
 			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 
-			Date now = new Date();
+			Instant now = Instant.now();
 			getClient().target(getApiBaseUrl() + "feed/refreshAll").request().get(Void.TYPE);
 
 			Awaitility.await()
 					.atMost(Duration.ofSeconds(15))
-					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().after(now));
+					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().isAfter(now));
 		}
 	}
 

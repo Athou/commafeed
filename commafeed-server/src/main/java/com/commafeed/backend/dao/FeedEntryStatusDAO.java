@@ -1,8 +1,8 @@
 package com.commafeed.backend.dao;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -73,8 +73,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	private FeedEntryStatus handleStatus(User user, FeedEntryStatus status, FeedSubscription sub, FeedEntry entry) {
 		if (status == null) {
-			Date unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
-			boolean read = unreadThreshold != null && entry.getUpdated().before(unreadThreshold);
+			Instant unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
+			boolean read = unreadThreshold != null && entry.getUpdated().isBefore(unreadThreshold);
 			status = new FeedEntryStatus(user, sub, entry);
 			status.setRead(read);
 			status.setMarkable(!read);
@@ -90,7 +90,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return status;
 	}
 
-	public List<FeedEntryStatus> findStarred(User user, Date newerThan, int offset, int limit, ReadingOrder order, boolean includeContent) {
+	public List<FeedEntryStatus> findStarred(User user, Instant newerThan, int offset, int limit, ReadingOrder order,
+			boolean includeContent) {
 		JPAQuery<FeedEntryStatus> query = query().selectFrom(status).where(status.user.eq(user), status.starred.isTrue());
 		if (newerThan != null) {
 			query.where(status.entryInserted.gt(newerThan));
@@ -114,7 +115,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	private JPAQuery<FeedEntry> buildQuery(User user, FeedSubscription sub, boolean unreadOnly, List<FeedEntryKeyword> keywords,
-			Date newerThan, int offset, int limit, ReadingOrder order, FeedEntryStatus last, String tag, Long minEntryId, Long maxEntryId) {
+			Instant newerThan, int offset, int limit, ReadingOrder order, FeedEntryStatus last, String tag, Long minEntryId,
+			Long maxEntryId) {
 
 		JPAQuery<FeedEntry> query = query().selectFrom(entry).where(entry.feed.eq(sub.getFeed()));
 
@@ -139,7 +141,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			or.or(status.read.isFalse());
 			query.where(or);
 
-			Date unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
+			Instant unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
 			if (unreadThreshold != null) {
 				query.where(entry.updated.goe(unreadThreshold));
 			}
@@ -193,7 +195,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	public List<FeedEntryStatus> findBySubscriptions(User user, List<FeedSubscription> subs, boolean unreadOnly,
-			List<FeedEntryKeyword> keywords, Date newerThan, int offset, int limit, ReadingOrder order, boolean includeContent,
+			List<FeedEntryKeyword> keywords, Instant newerThan, int offset, int limit, ReadingOrder order, boolean includeContent,
 			boolean onlyIds, String tag, Long minEntryId, Long maxEntryId) {
 		int capacity = offset + limit;
 
@@ -208,7 +210,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 			for (Tuple tuple : tuples) {
 				Long id = tuple.get(entry.id);
-				Date updated = tuple.get(entry.updated);
+				Instant updated = tuple.get(entry.updated);
 				Long statusId = tuple.get(status.id);
 
 				FeedEntryContent content = new FeedEntryContent();
@@ -260,7 +262,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		List<Tuple> tuples = query.select(entry.count(), entry.updated.max()).fetch();
 		for (Tuple tuple : tuples) {
 			Long count = tuple.get(entry.count());
-			Date updated = tuple.get(entry.updated.max());
+			Instant updated = tuple.get(entry.updated.max());
 			uc = new UnreadCount(subscription.getId(), count == null ? 0 : count, updated);
 		}
 		return uc;
@@ -276,7 +278,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return results;
 	}
 
-	public long deleteOldStatuses(Date olderThan, int limit) {
+	public long deleteOldStatuses(Instant olderThan, int limit) {
 		List<Long> ids = query().select(status.id)
 				.from(status)
 				.where(status.entryInserted.lt(olderThan), status.starred.isFalse())

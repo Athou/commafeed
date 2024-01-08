@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -189,7 +188,7 @@ public class FeverREST {
 		if (params.containsKey("mark") && params.containsKey("id") && params.containsKey("as")) {
 			long id = Long.parseLong(params.get("id"));
 			String before = params.get("before");
-			Date insertedBefore = before == null ? null : Date.from(Instant.ofEpochSecond(Long.parseLong(before)));
+			Instant insertedBefore = before == null ? null : Instant.ofEpochSecond(Long.parseLong(before));
 			mark(user, params.get("mark"), id, params.get("as"), insertedBefore);
 		}
 
@@ -206,7 +205,7 @@ public class FeverREST {
 				.map(Feed::getLastUpdated)
 				.filter(Objects::nonNull)
 				.max(Comparator.naturalOrder())
-				.map(d -> d.toInstant().getEpochSecond())
+				.map(d -> d.getEpochSecond())
 				.orElse(0L);
 	}
 
@@ -242,7 +241,7 @@ public class FeverREST {
 			f.setUrl(s.getFeed().getUrl());
 			f.setSiteUrl(s.getFeed().getLink());
 			f.setSpark(false);
-			f.setLastUpdatedOnTime(s.getFeed().getLastUpdated() == null ? 0 : s.getFeed().getLastUpdated().toInstant().getEpochSecond());
+			f.setLastUpdatedOnTime(s.getFeed().getLastUpdated() == null ? 0 : s.getFeed().getLastUpdated().getEpochSecond());
 			return f;
 		}).toList();
 	}
@@ -291,7 +290,7 @@ public class FeverREST {
 		i.setUrl(s.getEntry().getUrl());
 		i.setSaved(s.isStarred());
 		i.setRead(s.isRead());
-		i.setCreatedOnTime(s.getEntryUpdated().toInstant().getEpochSecond());
+		i.setCreatedOnTime(s.getEntryUpdated().getEpochSecond());
 		return i;
 	}
 
@@ -306,7 +305,7 @@ public class FeverREST {
 		}).toList();
 	}
 
-	private void mark(User user, String source, long id, String action, Date insertedBefore) {
+	private void mark(User user, String source, long id, String action, Instant insertedBefore) {
 		if ("item".equals(source)) {
 			if ("read".equals(action) || "unread".equals(action)) {
 				feedEntryService.markEntry(user, id, "read".equals(action));

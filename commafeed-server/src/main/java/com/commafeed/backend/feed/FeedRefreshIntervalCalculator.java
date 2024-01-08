@@ -1,8 +1,8 @@
 package com.commafeed.backend.feed;
 
-import java.util.Date;
-
-import org.apache.commons.lang3.time.DateUtils;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 import com.commafeed.CommaFeedConfiguration;
 
@@ -21,61 +21,59 @@ public class FeedRefreshIntervalCalculator {
 		this.refreshIntervalMinutes = config.getApplicationSettings().getRefreshIntervalMinutes();
 	}
 
-	public Date onFetchSuccess(Date publishedDate, Long averageEntryInterval) {
-		Date defaultRefreshInterval = getDefaultRefreshInterval();
+	public Instant onFetchSuccess(Instant publishedDate, Long averageEntryInterval) {
+		Instant defaultRefreshInterval = getDefaultRefreshInterval();
 		return heavyLoad ? computeRefreshIntervalForHeavyLoad(publishedDate, averageEntryInterval, defaultRefreshInterval)
 				: defaultRefreshInterval;
 	}
 
-	public Date onFeedNotModified(Date publishedDate, Long averageEntryInterval) {
-		Date defaultRefreshInterval = getDefaultRefreshInterval();
-		return heavyLoad ? computeRefreshIntervalForHeavyLoad(publishedDate, averageEntryInterval, defaultRefreshInterval)
-				: defaultRefreshInterval;
+	public Instant onFeedNotModified(Instant publishedDate, Long averageEntryInterval) {
+		return onFetchSuccess(publishedDate, averageEntryInterval);
 	}
 
-	public Date onFetchError(int errorCount) {
+	public Instant onFetchError(int errorCount) {
 		int retriesBeforeDisable = 3;
 		if (errorCount < retriesBeforeDisable || !heavyLoad) {
 			return getDefaultRefreshInterval();
 		}
 
 		int disabledHours = Math.min(24 * 7, errorCount - retriesBeforeDisable + 1);
-		return DateUtils.addHours(new Date(), disabledHours);
+		return Instant.now().plus(Duration.ofHours(disabledHours));
 	}
 
-	private Date getDefaultRefreshInterval() {
-		return DateUtils.addMinutes(new Date(), refreshIntervalMinutes);
+	private Instant getDefaultRefreshInterval() {
+		return Instant.now().plus(Duration.ofMinutes(refreshIntervalMinutes));
 	}
 
-	private Date computeRefreshIntervalForHeavyLoad(Date publishedDate, Long averageEntryInterval, Date defaultRefreshInterval) {
-		Date now = new Date();
+	private Instant computeRefreshIntervalForHeavyLoad(Instant publishedDate, Long averageEntryInterval, Instant defaultRefreshInterval) {
+		Instant now = Instant.now();
 
 		if (publishedDate == null) {
 			// feed with no entries, recheck in 24 hours
-			return DateUtils.addHours(now, 24);
-		} else if (publishedDate.before(DateUtils.addMonths(now, -1))) {
+			return now.plus(Duration.ofHours(24));
+		} else if (ChronoUnit.DAYS.between(publishedDate, now) >= 30) {
 			// older than a month, recheck in 24 hours
-			return DateUtils.addHours(now, 24);
-		} else if (publishedDate.before(DateUtils.addDays(now, -14))) {
+			return now.plus(Duration.ofHours(24));
+		} else if (ChronoUnit.DAYS.between(publishedDate, now) >= 14) {
 			// older than two weeks, recheck in 12 hours
-			return DateUtils.addHours(now, 12);
-		} else if (publishedDate.before(DateUtils.addDays(now, -7))) {
+			return now.plus(Duration.ofHours(12));
+		} else if (ChronoUnit.DAYS.between(publishedDate, now) >= 7) {
 			// older than a week, recheck in 6 hours
-			return DateUtils.addHours(now, 6);
+			return now.plus(Duration.ofHours(6));
 		} else if (averageEntryInterval != null) {
 			// use average time between entries to decide when to refresh next, divided by factor
 			int factor = 2;
 
 			// not more than 6 hours
-			long date = Math.min(DateUtils.addHours(now, 6).getTime(), now.getTime() + averageEntryInterval / factor);
+			long date = Math.min(now.plus(Duration.ofHours(6)).toEpochMilli(), now.toEpochMilli() + averageEntryInterval / factor);
 
 			// not less than default refresh interval
-			date = Math.max(defaultRefreshInterval.getTime(), date);
+			date = Math.max(defaultRefreshInterval.toEpochMilli(), date);
 
-			return new Date(date);
+			return Instant.ofEpochMilli(date);
 		} else {
 			// unknown case, recheck in 24 hours
-			return DateUtils.addHours(now, 24);
+			return now.plus(Duration.ofHours(24));
 		}
 	}
 

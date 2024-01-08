@@ -1,8 +1,8 @@
 package com.commafeed.backend.feed;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -161,7 +161,7 @@ public class FeedRefreshUpdater implements Managed {
 
 		if (!processed) {
 			// requeue asap
-			feed.setDisabledUntil(new Date(0));
+			feed.setDisabledUntil(Instant.EPOCH);
 		}
 
 		if (insertedAtLeastOneEntry) {

@@ -1,7 +1,7 @@
 package com.commafeed.frontend.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
@@ -31,10 +31,10 @@ public class UserModel implements Serializable {
 	private boolean enabled;
 
 	@Schema(description = "account creation date", type = "number")
-	private Date created;
+	private Instant created;
 
 	@Schema(description = "last login date", type = "number")
-	private Date lastLogin;
+	private Instant lastLogin;
 
 	@Schema(description = "user is admin", requiredMode = RequiredMode.REQUIRED)
 	private boolean admin;

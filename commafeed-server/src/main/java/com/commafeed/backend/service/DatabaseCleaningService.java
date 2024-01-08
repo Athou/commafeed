@@ -1,6 +1,6 @@
 package com.commafeed.backend.service;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import com.codahale.metrics.Meter;
@@ -106,7 +106,7 @@ public class DatabaseCleaningService {
 		log.info("cleanup done: {} entries for feeds exceeding capacity deleted", total);
 	}
 
-	public void cleanEntriesOlderThan(final Date olderThan) {
+	public void cleanEntriesOlderThan(final Instant olderThan) {
 		log.info("cleaning old entries");
 		long total = 0;
 		long deleted;
@@ -119,7 +119,7 @@ public class DatabaseCleaningService {
 		log.info("cleanup done: {} old entries deleted", total);
 	}
 
-	public void cleanStatusesOlderThan(final Date olderThan) {
+	public void cleanStatusesOlderThan(final Instant olderThan) {
 		log.info("cleaning old read statuses");
 		long total = 0;
 		long deleted;

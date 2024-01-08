@@ -1,7 +1,7 @@
 package com.commafeed.backend.feed;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import java.util.Set;
 
 import org.apache.commons.codec.binary.StringUtils;
@@ -32,8 +32,8 @@ public class FeedFetcher {
 	private final HttpGetter getter;
 	private final Set<FeedURLProvider> urlProviders;
 
-	public FeedFetcherResult fetch(String feedUrl, boolean extractFeedUrlFromHtml, String lastModified, String eTag, Date lastPublishedDate,
-			String lastContentHash) throws FeedException, IOException, NotModifiedException {
+	public FeedFetcherResult fetch(String feedUrl, boolean extractFeedUrlFromHtml, String lastModified, String eTag,
+			Instant lastPublishedDate, String lastContentHash) throws FeedException, IOException, NotModifiedException {
 		log.debug("Fetching feed {}", feedUrl);
 
 		int timeout = 20000;
@@ -76,8 +76,7 @@ public class FeedFetcher {
 					etagHeaderValueChanged ? result.getETag() : null);
 		}
 
-		if (lastPublishedDate != null && parserResult.lastPublishedDate() != null
-				&& lastPublishedDate.getTime() == parserResult.lastPublishedDate().getTime()) {
+		if (lastPublishedDate != null && lastPublishedDate.equals(parserResult.lastPublishedDate())) {
 			log.debug("publishedDate not modified: {}", feedUrl);
 			throw new NotModifiedException("publishedDate not modified",
 					lastModifiedHeaderValueChanged ? result.getLastModifiedSince() : null,

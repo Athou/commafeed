@@ -3,6 +3,7 @@ package com.commafeed.backend.feed.parser;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -50,8 +51,8 @@ public class FeedParser {
 
 	private static final Namespace ATOM_10_NS = Namespace.getNamespace("http://www.w3.org/2005/Atom");
 
-	private static final Date START = new Date(86400000);
-	private static final Date END = new Date(1000L * Integer.MAX_VALUE - 86400000);
+	private static final Instant START = Instant.ofEpochMilli(86400000);
+	private static final Instant END = Instant.ofEpochMilli(1000L * Integer.MAX_VALUE - 86400000);
 
 	private final EncodingDetector encodingDetector;
 	private final FeedCleaner feedCleaner;
@@ -72,9 +73,9 @@ public class FeedParser {
 			String title = feed.getTitle();
 			String link = feed.getLink();
 			List<Entry> entries = buildEntries(feed, feedUrl);
-			Date lastEntryDate = entries.stream().findFirst().map(Entry::updated).orElse(null);
-			Date lastPublishedDate = validateDate(feed.getPublishedDate(), false);
-			if (lastPublishedDate == null || lastEntryDate != null && lastPublishedDate.before(lastEntryDate)) {
+			Instant lastEntryDate = entries.stream().findFirst().map(Entry::updated).orElse(null);
+			Instant lastPublishedDate = toValidInstant(feed.getPublishedDate(), false);
+			if (lastPublishedDate == null || lastEntryDate != null && lastPublishedDate.isBefore(lastEntryDate)) {
 				lastPublishedDate = lastEntryDate;
 			}
 			Long averageEntryInterval = averageTimeBetweenEntries(entries);
@@ -122,7 +123,7 @@ public class FeedParser {
 				url = guid;
 			}
 
-			Date updated = buildEntryUpdateDate(item);
+			Instant updated = buildEntryUpdateDate(item);
 			Content content = buildContent(item);
 
 			entries.add(new Entry(guid, url, updated, content));
@@ -153,15 +154,12 @@ public class FeedParser {
 		return new Enclosure(enclosure.getUrl(), enclosure.getType());
 	}
 
-	private Date buildEntryUpdateDate(SyndEntry item) {
+	private Instant buildEntryUpdateDate(SyndEntry item) {
 		Date date = item.getUpdatedDate();
 		if (date == null) {
 			date = item.getPublishedDate();
 		}
-		if (date == null) {
-			date = new Date();
-		}
-		return validateDate(date, true);
+		return toValidInstant(date, true);
 	}
 
 	private String buildEntryUrl(SyndFeed feed, String feedUrl, SyndEntry item) {
@@ -176,19 +174,21 @@ public class FeedParser {
 		return FeedUtils.toAbsoluteUrl(url, feedLink, feedUrl);
 	}
 
-	private Date validateDate(Date date, boolean nullToNow) {
-		Date now = new Date();
+	private Instant toValidInstant(Date date, boolean nullToNow) {
+		Instant now = Instant.now();
 		if (date == null) {
 			return nullToNow ? now : null;
 		}
-		if (date.before(START) || date.after(END)) {
+
+		Instant instant = date.toInstant();
+		if (instant.isBefore(START) || instant.isAfter(END)) {
 			return now;
 		}
 
-		if (date.after(now)) {
+		if (instant.isAfter(now)) {
 			return now;
 		}
-		return date;
+		return instant;
 	}
 
 	private String getContent(SyndEntry item) {
@@ -262,7 +262,7 @@ public class FeedParser {
 
 		SummaryStatistics stats = new SummaryStatistics();
 		for (int i = 0; i < entries.size() - 1; i++) {
-			long diff = Math.abs(entries.get(i).updated().getTime() - entries.get(i + 1).updated().getTime());
+			long diff = Math.abs(entries.get(i).updated().toEpochMilli() - entries.get(i + 1).updated().toEpochMilli());
 			stats.addValue(diff);
 		}
 		return (long) stats.getMean();

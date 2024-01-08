@@ -1,12 +1,10 @@
 package com.commafeed.backend.model;
 
-import java.util.Date;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,15 +33,15 @@ public class User extends AbstractModel {
 	@Column(nullable = false)
 	private boolean disabled;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastLogin;
+	@Column
+	private Instant lastLogin;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date created;
+	@Column
+	private Instant created;
 
 	@Column(length = 40)
 	private String recoverPasswordToken;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date recoverPasswordTokenDate;
+	@Column
+	private Instant recoverPasswordTokenDate;
 }

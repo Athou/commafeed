@@ -1,7 +1,7 @@
 package com.commafeed;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
@@ -42,8 +42,10 @@ import com.commafeed.frontend.servlet.RobotsTxtDisallowAllServlet;
 import com.commafeed.frontend.session.SessionHelperFactoryProvider;
 import com.commafeed.frontend.ws.WebSocketConfigurator;
 import com.commafeed.frontend.ws.WebSocketEndpoint;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -76,7 +78,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 	public static final String USERNAME_ADMIN = "admin";
 	public static final String USERNAME_DEMO = "demo";
 
-	public static final Date STARTUP_TIME = new Date();
+	public static final Instant STARTUP_TIME = Instant.now();
 
 	private HibernateBundle<CommaFeedConfiguration> hibernateBundle;
 	private WebsocketBundle<CommaFeedConfiguration> websocketBundle;
@@ -89,8 +91,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 	@Override
 	public void initialize(Bootstrap<CommaFeedConfiguration> bootstrap) {
 		configureEnvironmentSubstitutor(bootstrap);
-
-		bootstrap.getObjectMapper().registerModule(new MetricsModule(TimeUnit.SECONDS, TimeUnit.SECONDS, false));
+		configureObjectMapper(bootstrap.getObjectMapper());
 
 		bootstrap.addBundle(websocketBundle = new WebsocketBundle<>());
 		bootstrap.addBundle(hibernateBundle = new HibernateBundle<>(AbstractModel.class, Feed.class, FeedCategory.class, FeedEntry.class,
@@ -132,6 +133,15 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		});
 
 		bootstrap.setConfigurationSourceProvider(buildEnvironmentSubstitutor(bootstrap));
+	}
+
+	private static void configureObjectMapper(ObjectMapper objectMapper) {
+		// read and write instants as milliseconds instead of nanoseconds
+		objectMapper.configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false)
+				.configure(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
+
+		// add support for serializing metrics
+		objectMapper.registerModule(new MetricsModule(TimeUnit.SECONDS, TimeUnit.SECONDS, false));
 	}
 
 	private static EnvironmentSubstitutor buildEnvironmentSubstitutor(Bootstrap<CommaFeedConfiguration> bootstrap) {

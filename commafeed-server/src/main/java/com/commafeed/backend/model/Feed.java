@@ -1,12 +1,10 @@
 package com.commafeed.backend.model;
 
-import java.util.Date;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,20 +42,20 @@ public class Feed extends AbstractModel {
 	/**
 	 * Last time we tried to fetch the feed
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastUpdated;
+	@Column
+	private Instant lastUpdated;
 
 	/**
 	 * Last publishedDate value in the feed
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastPublishedDate;
+	@Column
+	private Instant lastPublishedDate;
 
 	/**
 	 * date of the last entry of the feed
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastEntryDate;
+	@Column
+	private Instant lastEntryDate;
 
 	/**
 	 * error message while retrieving the feed
@@ -73,8 +71,8 @@ public class Feed extends AbstractModel {
 	/**
 	 * feed refresh is disabled until this date
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date disabledUntil;
+	@Column
+	private Instant disabledUntil;
 
 	/**
 	 * http header returned by the feed

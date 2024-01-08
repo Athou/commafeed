@@ -1,6 +1,7 @@
 package com.commafeed.frontend.model;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -67,10 +68,10 @@ public class Entry implements Serializable {
 	private Integer mediaThumbnailHeight;
 
 	@Schema(description = "entry publication date", type = "number", requiredMode = RequiredMode.REQUIRED)
-	private Date date;
+	private Instant date;
 
 	@Schema(description = "entry insertion date in the database", type = "number", requiredMode = RequiredMode.REQUIRED)
-	private Date insertedDate;
+	private Instant insertedDate;
 
 	@Schema(description = "feed id", requiredMode = RequiredMode.REQUIRED)
 	private String feedId;
@@ -165,7 +166,7 @@ public class Entry implements Serializable {
 		}
 
 		entry.setLink(getUrl());
-		entry.setPublishedDate(getDate());
+		entry.setPublishedDate(getDate() == null ? null : Date.from(getDate()));
 		return entry;
 	}
 }

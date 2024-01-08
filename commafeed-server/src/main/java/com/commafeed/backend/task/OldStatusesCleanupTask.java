@@ -1,6 +1,6 @@
 package com.commafeed.backend.task;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 import com.commafeed.CommaFeedConfiguration;
@@ -19,7 +19,7 @@ public class OldStatusesCleanupTask extends ScheduledTask {
 
 	@Override
 	public void run() {
-		Date threshold = config.getApplicationSettings().getUnreadThreshold();
+		Instant threshold = config.getApplicationSettings().getUnreadThreshold();
 		if (threshold != null) {
 			cleaner.cleanStatusesOlderThan(threshold);
 		}

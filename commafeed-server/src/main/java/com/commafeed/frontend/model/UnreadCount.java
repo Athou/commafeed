@@ -1,7 +1,7 @@
 package com.commafeed.frontend.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -18,12 +18,12 @@ public class UnreadCount implements Serializable {
 	private long unreadCount;
 
 	@Schema(type = "number")
-	private Date newestItemTime;
+	private Instant newestItemTime;
 
 	public UnreadCount() {
 	}
 
-	public UnreadCount(long feedId, long unreadCount, Date newestItemTime) {
+	public UnreadCount(long feedId, long unreadCount, Instant newestItemTime) {
 		this.feedId = feedId;
 		this.unreadCount = unreadCount;
 		this.newestItemTime = newestItemTime;

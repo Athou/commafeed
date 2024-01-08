@@ -1,9 +1,9 @@
 package com.commafeed.backend.service;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -130,7 +130,7 @@ public class UserService {
 		byte[] salt = encryptionService.generateSalt();
 		user.setName(name);
 		user.setEmail(email);
-		user.setCreated(new Date());
+		user.setCreated(Instant.now());
 		user.setSalt(salt);
 		user.setPassword(encryptionService.getEncryptedPassword(password, salt));
 		userDAO.saveOrUpdate(user);

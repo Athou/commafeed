@@ -3,8 +3,8 @@ package com.commafeed.e2e;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
@@ -115,7 +115,7 @@ public class PlaywrightTestBase {
 
 		private String getFileName(ExtensionContext context) {
 			return String.format("%s.%s-%s", context.getRequiredTestClass().getSimpleName(), context.getRequiredTestMethod().getName(),
-					new SimpleDateFormat("yyyy-MM-dd--HH-mm-ss").format(new Date()));
+					DateTimeFormatter.ofPattern("yyyy-MM-dd--HH-mm-ss").format(Instant.now()));
 		}
 
 		private void saveScreenshot(PlaywrightTestBase testInstance, String fileName) {

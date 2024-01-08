@@ -1,6 +1,6 @@
 package com.commafeed.backend.feed;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.Set;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -49,7 +49,7 @@ class FeedFetcherTest {
 				.thenReturn(new HttpResult(content, "content-type", "last-modified-2", "etag-2", 20, null));
 
 		NotModifiedException e = Assertions.assertThrows(NotModifiedException.class,
-				() -> fetcher.fetch(url, false, lastModified, etag, new Date(), lastContentHash));
+				() -> fetcher.fetch(url, false, lastModified, etag, Instant.now(), lastContentHash));
 
 		Assertions.assertEquals("last-modified-2", e.getNewLastModifiedHeader());
 		Assertions.assertEquals("etag-2", e.getNewEtagHeader());

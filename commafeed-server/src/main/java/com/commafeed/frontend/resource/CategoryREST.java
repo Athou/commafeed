@@ -1,9 +1,9 @@
 package com.commafeed.frontend.resource;
 
 import java.io.StringWriter;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -131,7 +131,7 @@ public class CategoryREST {
 			id = ALL;
 		}
 
-		Date newerThanDate = newerThan == null ? null : new Date(newerThan);
+		Instant newerThanDate = newerThan == null ? null : Instant.ofEpochMilli(newerThan);
 
 		List<Long> excludedIds = null;
 		if (StringUtils.isNotEmpty(excludedSubscriptionIds)) {
@@ -242,8 +242,8 @@ public class CategoryREST {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
-		Date olderThan = req.getOlderThan() == null ? null : new Date(req.getOlderThan());
-		Date insertedBefore = req.getInsertedBefore() == null ? null : new Date(req.getInsertedBefore());
+		Instant olderThan = req.getOlderThan() == null ? null : Instant.ofEpochMilli(req.getOlderThan());
+		Instant insertedBefore = req.getInsertedBefore() == null ? null : Instant.ofEpochMilli(req.getInsertedBefore());
 		String keywords = req.getKeywords();
 		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 

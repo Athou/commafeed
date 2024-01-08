@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -164,7 +165,7 @@ public class FeedREST {
 
 		boolean unreadOnly = readType == ReadingMode.unread;
 
-		Date newerThanDate = newerThan == null ? null : new Date(newerThan);
+		Instant newerThanDate = newerThan == null ? null : Instant.ofEpochMilli(newerThan);
 
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, Long.valueOf(id));
 		if (subscription != null) {
@@ -321,8 +322,8 @@ public class FeedREST {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
-		Date olderThan = req.getOlderThan() == null ? null : new Date(req.getOlderThan());
-		Date insertedBefore = req.getInsertedBefore() == null ? null : new Date(req.getInsertedBefore());
+		Instant olderThan = req.getOlderThan() == null ? null : Instant.ofEpochMilli(req.getOlderThan());
+		Instant insertedBefore = req.getInsertedBefore() == null ? null : Instant.ofEpochMilli(req.getInsertedBefore());
 		String keywords = req.getKeywords();
 		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
@@ -379,7 +380,7 @@ public class FeedREST {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.MONTH, 1);
 		builder.expires(calendar.getTime());
-		builder.lastModified(CommaFeedApplication.STARTUP_TIME);
+		builder.lastModified(Date.from(CommaFeedApplication.STARTUP_TIME));
 
 		return builder.build();
 	}

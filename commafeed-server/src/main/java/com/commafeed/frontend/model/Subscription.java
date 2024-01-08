@@ -1,7 +1,7 @@
 package com.commafeed.frontend.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
 
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
@@ -30,10 +30,10 @@ public class Subscription implements Serializable {
 	private int errorCount;
 
 	@Schema(description = "last time the feed was refreshed", type = "number")
-	private Date lastRefresh;
+	private Instant lastRefresh;
 
 	@Schema(description = "next time the feed refresh is planned, null if refresh is already queued", type = "number")
-	private Date nextRefresh;
+	private Instant nextRefresh;
 
 	@Schema(description = "this subscription's feed url", requiredMode = RequiredMode.REQUIRED)
 	private String feedUrl;
@@ -54,13 +54,12 @@ public class Subscription implements Serializable {
 	private int position;
 
 	@Schema(description = "date of the newest item", type = "number")
-	private Date newestItemTime;
+	private Instant newestItemTime;
 
 	@Schema(description = "JEXL string evaluated on new entries to mark them as read if they do not match")
 	private String filter;
 
 	public static Subscription build(FeedSubscription subscription, UnreadCount unreadCount) {
-		Date now = new Date();
 		FeedCategory category = subscription.getCategory();
 		Feed feed = subscription.getFeed();
 		Subscription sub = new Subscription();
@@ -73,7 +72,8 @@ public class Subscription implements Serializable {
 		sub.setFeedLink(feed.getLink());
 		sub.setIconUrl(FeedUtils.getFaviconUrl(subscription));
 		sub.setLastRefresh(feed.getLastUpdated());
-		sub.setNextRefresh((feed.getDisabledUntil() != null && feed.getDisabledUntil().before(now)) ? null : feed.getDisabledUntil());
+		sub.setNextRefresh(
+				(feed.getDisabledUntil() != null && feed.getDisabledUntil().isBefore(Instant.now())) ? null : feed.getDisabledUntil());
 		sub.setUnread(unreadCount.getUnreadCount());
 		sub.setNewestItemTime(unreadCount.getNewestItemTime());
 		sub.setCategoryId(category == null ? null : String.valueOf(category.getId()));

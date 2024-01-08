@@ -1,6 +1,7 @@
 package com.commafeed.backend.feed;
 
-import java.util.Date;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.CompletableFuture;
@@ -10,8 +11,6 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang3.time.DateUtils;
 
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Meter;
@@ -166,12 +165,12 @@ public class FeedRefreshEngine implements Managed {
 
 	private List<Feed> getNextUpdatableFeeds(int max) {
 		return unitOfWork.call(() -> {
-			Date lastLoginThreshold = Boolean.TRUE.equals(config.getApplicationSettings().getHeavyLoad())
-					? DateUtils.addDays(new Date(), -30)
+			Instant lastLoginThreshold = Boolean.TRUE.equals(config.getApplicationSettings().getHeavyLoad())
+					? Instant.now().minus(Duration.ofDays(30))
 					: null;
 			List<Feed> feeds = feedDAO.findNextUpdatable(max, lastLoginThreshold);
 			// update disabledUntil to prevent feeds from being returned again by feedDAO.findNextUpdatable()
-			Date nextUpdateDate = DateUtils.addMinutes(new Date(), config.getApplicationSettings().getRefreshIntervalMinutes());
+			Instant nextUpdateDate = Instant.now().plus(Duration.ofMinutes(config.getApplicationSettings().getRefreshIntervalMinutes()));
 			feedDAO.setDisabledUntil(feeds.stream().map(AbstractModel::getId).toList(), nextUpdateDate);
 			return feeds;
 		});

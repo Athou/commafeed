@@ -1,14 +1,14 @@
 package com.commafeed.frontend.resource;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.apache.hc.core5.net.URIBuilder;
 
 import com.codahale.metrics.annotation.Timed;
@@ -282,7 +282,7 @@ public class UserREST {
 
 		try {
 			user.setRecoverPasswordToken(DigestUtils.sha1Hex(UUID.randomUUID().toString()));
-			user.setRecoverPasswordTokenDate(new Date());
+			user.setRecoverPasswordTokenDate(Instant.now());
 			userDAO.saveOrUpdate(user);
 			mailService.sendMail(user, "Password recovery", buildEmailContent(user));
 			return Response.ok().build();
@@ -325,7 +325,7 @@ public class UserREST {
 		if (user.getRecoverPasswordToken() == null || !user.getRecoverPasswordToken().equals(token)) {
 			return Response.status(Status.UNAUTHORIZED).entity("Invalid token.").build();
 		}
-		if (user.getRecoverPasswordTokenDate().before(DateUtils.addDays(new Date(), -2))) {
+		if (ChronoUnit.DAYS.between(user.getRecoverPasswordTokenDate(), Instant.now()) >= 2) {
 			return Response.status(Status.UNAUTHORIZED).entity("token expired.").build();
 		}
 

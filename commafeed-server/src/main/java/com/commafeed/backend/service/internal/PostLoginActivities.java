@@ -1,8 +1,7 @@
 package com.commafeed.backend.service.internal;
 
-import java.util.Date;
-
-import org.apache.commons.lang3.time.DateUtils;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.UnitOfWork;
@@ -25,9 +24,9 @@ public class PostLoginActivities {
 
 	public void executeFor(User user) {
 		// only update lastLogin every once in a while in order to avoid invalidating the cache every time someone logs in
-		Date now = new Date();
-		Date lastLogin = user.getLastLogin();
-		if (lastLogin == null || lastLogin.before(DateUtils.addMinutes(now, -30))) {
+		Instant now = Instant.now();
+		Instant lastLogin = user.getLastLogin();
+		if (lastLogin == null || ChronoUnit.MINUTES.between(lastLogin, now) >= 30) {
 			user.setLastLogin(now);
 
 			boolean heavyLoad = Boolean.TRUE.equals(config.getApplicationSettings().getHeavyLoad());

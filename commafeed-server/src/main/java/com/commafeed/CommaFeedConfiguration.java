@@ -1,9 +1,8 @@
 package com.commafeed;
 
-import java.util.Date;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
-
-import org.apache.commons.lang3.time.DateUtils;
 
 import com.commafeed.backend.cache.RedisPoolFactory;
 import com.commafeed.frontend.session.SessionHandlerFactory;
@@ -175,9 +174,8 @@ public class CommaFeedConfiguration extends Configuration implements WebsocketBu
 
 		private Duration treeReloadInterval = Duration.seconds(30);
 
-		public Date getUnreadThreshold() {
-			int keepStatusDays = getKeepStatusDays();
-			return keepStatusDays > 0 ? DateUtils.addDays(new Date(), -1 * keepStatusDays) : null;
+		public Instant getUnreadThreshold() {
+			return getKeepStatusDays() > 0 ? Instant.now().minus(getKeepStatusDays(), ChronoUnit.DAYS) : null;
 		}
 
 	}

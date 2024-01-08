@@ -3,6 +3,7 @@ import { Select, type SelectProps } from "@mantine/core"
 import { type ComboboxItem } from "@mantine/core/lib/components/Combobox/Combobox.types"
 import { Constants } from "app/constants"
 import { useAppSelector } from "app/store"
+import { type Category } from "app/types"
 import { flattenCategoryTree } from "app/utils"
 
 type CategorySelectProps = Partial<SelectProps> & {
@@ -13,14 +14,32 @@ type CategorySelectProps = Partial<SelectProps> & {
 export function CategorySelect(props: CategorySelectProps) {
     const rootCategory = useAppSelector(state => state.tree.rootCategory)
     const categories = rootCategory && flattenCategoryTree(rootCategory)
+    const categoriesById = categories?.reduce((map, c) => {
+        map.set(c.id, c)
+        return map
+    }, new Map<string, Category>())
+    const categoryLabel = (cat: Category) => {
+        let label = cat.name
+
+        while (cat.parentId) {
+            const parent = categoriesById?.get(cat.parentId)
+            if (!parent) {
+                break
+            }
+            label = `${parent.name} → ${label}`
+            cat = parent
+        }
+
+        return label
+    }
     const selectData: ComboboxItem[] | undefined = categories
         ?.filter(c => c.id !== Constants.categories.all.id)
         .filter(c => !props.withoutCategoryIds?.includes(c.id))
-        .sort((c1, c2) => c1.name.localeCompare(c2.name))
         .map(c => ({
-            label: c.parentName ? t`${c.name} (in ${c.parentName})` : c.name,
+            label: categoryLabel(c),
             value: c.id,
         }))
+        .toSorted((c1, c2) => c1.label.localeCompare(c2.label))
     if (props.withAll) {
         selectData?.unshift({
             label: t`All`,

@@ -16,13 +16,13 @@ export function TreeSearch(props: TreeSearchProps) {
     const dispatch = useAppDispatch()
 
     const actions: SpotlightActionData[] = props.feeds
-        .toSorted((f1, f2) => f1.name.localeCompare(f2.name))
         .map(f => ({
             id: `${f.id}`,
             label: f.name,
             leftSection: <FeedFavicon url={f.iconUrl} />,
             onClick: async () => await dispatch(redirectToFeed(f.id)),
         }))
+        .sort((f1, f2) => f1.label.localeCompare(f2.label))
 
     const searchIcon = <TbSearch size={18} />
     const rightSection = (

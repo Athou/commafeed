@@ -39,7 +39,7 @@ export function CategorySelect(props: CategorySelectProps) {
             label: categoryLabel(c),
             value: c.id,
         }))
-        .toSorted((c1, c2) => c1.label.localeCompare(c2.label))
+        .sort((c1, c2) => c1.label.localeCompare(c2.label))
     if (props.withAll) {
         selectData?.unshift({
             label: t`All`,

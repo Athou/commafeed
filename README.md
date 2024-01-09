@@ -54,6 +54,29 @@ user is `admin` and the default password is `admin`.
 The server will listen on http://localhost:8082. The default
 user is `admin` and the default password is `admin`.
 
+### Memory management
+
+The Java Virtual Machine (JVM) is rather greedy by default and will not release unused memory to the
+operating system. This is because acquiring memory from the operating system is a relatively expensive operation.
+However, this can be problematic on systems with limited memory.
+
+#### Hard limit
+
+The JVM can be configured to use a maximum amount of memory with the `-Xmx` parameter.
+For example, to limit the JVM to 256MB of memory, use `-Xmx256m`.
+
+#### Dynamic sizing
+
+The JVM can be configured to release unused memory to the operating system with the following parameters:
+
+    -Xms20m -XX:+UseG1GC -XX:-ShrinkHeapInSteps -XX:G1PeriodicGCInterval=10000 -XX:-G1PeriodicGCInvokesConcurrent -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10
+
+This is how the Docker image is configured.
+See [here](https://docs.oracle.com/en/java/javase/17/gctuning/garbage-first-g1-garbage-collector1.html)
+and [here](https://docs.oracle.com/en/java/javase/17/gctuning/factors-affecting-garbage-collection-performance.html) for
+more
+information.
+
 ## Translation
 
 Files for internationalization are

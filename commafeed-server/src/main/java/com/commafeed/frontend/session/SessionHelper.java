@@ -11,32 +11,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SessionHelper {
 
-	private static final String SESSION_KEY_USER = "user";
+	public static final String SESSION_KEY_USER_ID = "user-id";
 
 	private final HttpServletRequest request;
 
-	public Optional<User> getLoggedInUser() {
-		Optional<HttpSession> session = getSession(false);
-		if (session.isPresent()) {
-			return getLoggedInUser(session.get());
-		}
-
-		return Optional.empty();
+	public Optional<Long> getLoggedInUserId() {
+		HttpSession session = request.getSession(false);
+		return getLoggedInUserId(session);
 	}
 
-	public static Optional<User> getLoggedInUser(HttpSession session) {
-		User user = (User) session.getAttribute(SESSION_KEY_USER);
-		return Optional.ofNullable(user);
+	public static Optional<Long> getLoggedInUserId(HttpSession session) {
+		if (session == null) {
+			return Optional.empty();
+		}
+		Long userId = (Long) session.getAttribute(SESSION_KEY_USER_ID);
+		return Optional.ofNullable(userId);
 	}
 
 	public void setLoggedInUser(User user) {
-		Optional<HttpSession> session = getSession(true);
-		session.get().setAttribute(SESSION_KEY_USER, user);
-	}
-
-	private Optional<HttpSession> getSession(boolean force) {
-		HttpSession session = request.getSession(force);
-		return Optional.ofNullable(session);
+		request.getSession(true).setAttribute(SESSION_KEY_USER_ID, user.getId());
 	}
 
 }

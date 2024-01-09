@@ -8,6 +8,7 @@ import java.util.function.Function;
 
 import org.glassfish.jersey.server.ContainerRequest;
 
+import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.UserService;
@@ -25,6 +26,7 @@ public class SecurityCheckFactory implements Function<ContainerRequest, User> {
 
 	private static final String PREFIX = "Basic";
 
+	private final UserDAO userDAO;
 	private final UserService userService;
 	private final HttpServletRequest request;
 	private final Role role;
@@ -59,7 +61,7 @@ public class SecurityCheckFactory implements Function<ContainerRequest, User> {
 	}
 
 	Optional<User> cookieSessionLogin(SessionHelper sessionHelper) {
-		Optional<User> loggedInUser = sessionHelper.getLoggedInUser();
+		Optional<User> loggedInUser = sessionHelper.getLoggedInUserId().map(userDAO::findById);
 		loggedInUser.ifPresent(userService::performPostLoginActivities);
 		return loggedInUser;
 	}

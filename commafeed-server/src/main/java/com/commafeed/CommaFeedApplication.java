@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import org.hibernate.cfg.AvailableSettings;
 
 import com.codahale.metrics.json.MetricsModule;
+import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.feed.FeedRefreshEngine;
 import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
@@ -166,7 +167,9 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.servlets().setSessionHandler(config.getSessionHandlerFactory().build(config.getDataSourceFactory()));
 
 		// support for "@SecurityCheck User user" injection
-		environment.jersey().register(new SecurityCheckFactoryProvider.Binder(injector.getInstance(UserService.class)));
+		environment.jersey()
+				.register(new SecurityCheckFactoryProvider.Binder(injector.getInstance(UserDAO.class),
+						injector.getInstance(UserService.class)));
 		// support for "@Context SessionHelper sessionHelper" injection
 		environment.jersey().register(new SessionHelperFactoryProvider.Binder());
 

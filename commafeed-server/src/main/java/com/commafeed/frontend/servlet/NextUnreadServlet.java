@@ -11,6 +11,7 @@ import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UnitOfWork;
+import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
@@ -41,6 +42,7 @@ public class NextUnreadServlet extends HttpServlet {
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedCategoryDAO feedCategoryDAO;
+	private final UserDAO userDAO;
 	private final UserService userService;
 	private final FeedEntryService feedEntryService;
 	private final CommaFeedConfiguration config;
@@ -51,7 +53,8 @@ public class NextUnreadServlet extends HttpServlet {
 		String orderParam = req.getParameter(PARAM_READINGORDER);
 
 		SessionHelper sessionHelper = new SessionHelper(req);
-		Optional<User> user = sessionHelper.getLoggedInUser();
+		Optional<Long> userId = sessionHelper.getLoggedInUserId();
+		Optional<User> user = unitOfWork.call(() -> userId.map(userDAO::findById));
 		user.ifPresent(value -> unitOfWork.run(() -> userService.performPostLoginActivities(value)));
 		if (user.isEmpty()) {
 			resp.sendRedirect(resp.encodeRedirectURL(config.getApplicationSettings().getPublicUrl()));

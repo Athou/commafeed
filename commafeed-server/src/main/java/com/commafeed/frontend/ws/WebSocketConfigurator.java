@@ -2,7 +2,6 @@ package com.commafeed.frontend.ws;
 
 import java.util.Optional;
 
-import com.commafeed.backend.model.User;
 import com.commafeed.frontend.session.SessionHelper;
 
 import jakarta.inject.Inject;
@@ -26,8 +25,8 @@ public class WebSocketConfigurator extends Configurator {
 	public void modifyHandshake(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response) {
 		HttpSession httpSession = (HttpSession) request.getHttpSession();
 		if (httpSession != null) {
-			Optional<User> user = SessionHelper.getLoggedInUser(httpSession);
-			user.ifPresent(value -> config.getUserProperties().put(SESSIONKEY_USERID, value.getId()));
+			Optional<Long> userId = SessionHelper.getLoggedInUserId(httpSession);
+			userId.ifPresent(value -> config.getUserProperties().put(SESSIONKEY_USERID, value));
 		}
 	}
 

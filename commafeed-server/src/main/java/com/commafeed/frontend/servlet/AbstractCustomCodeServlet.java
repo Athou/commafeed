@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import com.commafeed.backend.dao.UnitOfWork;
+import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
@@ -20,13 +21,16 @@ abstract class AbstractCustomCodeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private final UnitOfWork unitOfWork;
+	private final UserDAO userDAO;
 	private final UserSettingsDAO userSettingsDAO;
 
 	@Override
 	protected final void doGet(final HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType(getMimeType());
 
-		final Optional<User> user = new SessionHelper(req).getLoggedInUser();
+		SessionHelper sessionHelper = new SessionHelper(req);
+		Optional<Long> userId = sessionHelper.getLoggedInUserId();
+		final Optional<User> user = unitOfWork.call(() -> userId.map(userDAO::findById));
 		if (user.isEmpty()) {
 			return;
 		}

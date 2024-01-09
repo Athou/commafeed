@@ -13,14 +13,12 @@ import jakarta.servlet.http.HttpSession;
 
 class SessionHelperTest {
 
-	private static final String SESSION_KEY_USER = "user";
-
 	@Test
 	void gettingUserDoesNotCreateSession() {
 		HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
 
 		SessionHelper sessionHelper = new SessionHelper(request);
-		sessionHelper.getLoggedInUser();
+		sessionHelper.getLoggedInUserId();
 
 		Mockito.verify(request).getSession(false);
 	}
@@ -31,23 +29,23 @@ class SessionHelperTest {
 		Mockito.when(request.getSession(false)).thenReturn(null);
 
 		SessionHelper sessionHelper = new SessionHelper(request);
-		Optional<User> user = sessionHelper.getLoggedInUser();
+		Optional<Long> userId = sessionHelper.getLoggedInUserId();
 
-		Assertions.assertFalse(user.isPresent());
+		Assertions.assertFalse(userId.isPresent());
 	}
 
 	@Test
 	void gettingUserShouldNotReturnUserIfUserNotPresentInHttpSession() {
 		HttpSession session = Mockito.mock(HttpSession.class);
-		Mockito.when(session.getAttribute(SESSION_KEY_USER)).thenReturn(null);
+		Mockito.when(session.getAttribute(SessionHelper.SESSION_KEY_USER_ID)).thenReturn(null);
 
 		HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
 		Mockito.when(request.getSession(false)).thenReturn(session);
 
 		SessionHelper sessionHelper = new SessionHelper(request);
-		Optional<User> user = sessionHelper.getLoggedInUser();
+		Optional<Long> userId = sessionHelper.getLoggedInUserId();
 
-		Assertions.assertFalse(user.isPresent());
+		Assertions.assertFalse(userId.isPresent());
 	}
 
 	@Test
@@ -55,16 +53,15 @@ class SessionHelperTest {
 		User userInSession = new User();
 
 		HttpSession session = Mockito.mock(HttpSession.class);
-		Mockito.when(session.getAttribute(SESSION_KEY_USER)).thenReturn(userInSession);
+		Mockito.when(session.getAttribute(SessionHelper.SESSION_KEY_USER_ID)).thenReturn(1L);
 
 		HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
 		Mockito.when(request.getSession(false)).thenReturn(session);
 
 		SessionHelper sessionHelper = new SessionHelper(request);
-		Optional<User> user = sessionHelper.getLoggedInUser();
+		Optional<Long> userId = sessionHelper.getLoggedInUserId();
 
-		Assertions.assertTrue(user.isPresent());
-		Assertions.assertEquals(userInSession, user.get());
+		Assertions.assertTrue(userId.isPresent());
 	}
 
 }

@@ -1,8 +1,10 @@
 package com.commafeed;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ResourceBundle;
+import java.util.Properties;
 
 import com.commafeed.backend.cache.RedisPoolFactory;
 import com.commafeed.frontend.session.SessionHandlerFactory;
@@ -20,9 +22,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Setter
+@Slf4j
 public class CommaFeedConfiguration extends Configuration implements WebsocketBundleConfiguration {
 
 	public enum CacheType {
@@ -53,10 +57,17 @@ public class CommaFeedConfiguration extends Configuration implements WebsocketBu
 	private final String gitCommit;
 
 	public CommaFeedConfiguration() {
-		ResourceBundle bundle = ResourceBundle.getBundle("application");
+		Properties properties = new Properties();
+		try (InputStream stream = getClass().getResourceAsStream("/git.properties")) {
+			if (stream != null) {
+				properties.load(stream);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
-		this.version = bundle.getString("version");
-		this.gitCommit = bundle.getString("git.commit");
+		this.version = properties.getProperty("git.build.version", "unknown");
+		this.gitCommit = properties.getProperty("git.commit.id.abbrev", "unknown");
 	}
 
 	@Override

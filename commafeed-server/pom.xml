@@ -31,12 +31,6 @@
 
 	<build>
 		<finalName>commafeed</finalName>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
 
 		<plugins>
 			<plugin>
@@ -69,7 +63,8 @@
 					</execution>
 				</executions>
 				<configuration>
-					<generateGitPropertiesFile>false</generateGitPropertiesFile>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
 					<failOnNoGitDirectory>false</failOnNoGitDirectory>
 					<failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
 				</configuration>

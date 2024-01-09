@@ -34,7 +34,7 @@ jobs:
         run: mvn --batch-mode --update-snapshots verify
 
       - name: Upload JAR
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ matrix.java == '17' }}
         with:
           name: commafeed.jar

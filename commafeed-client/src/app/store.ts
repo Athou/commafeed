@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { setupListeners } from "@reduxjs/toolkit/query"
 import { entriesSlice } from "app/entries/slice"
 import { redirectSlice } from "app/redirect/slice"
 import { serverSlice } from "app/server/slice"
@@ -16,8 +15,6 @@ export const reducers = {
 }
 
 export const store = configureStore({ reducer: reducers })
-
-setupListeners(store.dispatch)
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

@@ -31,7 +31,6 @@ import com.commafeed.CommaFeedConfiguration;
 import com.google.common.collect.Iterables;
 import com.google.common.net.HttpHeaders;
 
-import io.dropwizard.lifecycle.Managed;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.Getter;
@@ -44,7 +43,7 @@ import nl.altindag.ssl.apache5.util.Apache5SslUtils;
  *
  */
 @Singleton
-public class HttpGetter implements Managed {
+public class HttpGetter {
 
 	private final CloseableHttpClient client;
 
@@ -152,11 +151,6 @@ public class HttpGetter implements Managed {
 				.setDefaultHeaders(headers)
 				.setConnectionManager(connectionManager)
 				.build();
-	}
-
-	@Override
-	public void stop() throws Exception {
-		client.close();
 	}
 
 	@Getter

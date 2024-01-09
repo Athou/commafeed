@@ -157,28 +157,30 @@ export default function Layout(props: LayoutProps) {
                     <Box className={classes.sidebarContent}>{props.sidebar}</Box>
                 </AppShell.Section>
             </AppShell.Navbar>
-            <Draggable
-                axis="x"
-                defaultPosition={{
-                    x: sidebarWidth,
-                    y: Constants.layout.headerHeight,
-                }}
-                bounds={{
-                    left: 120,
-                    right: 1000,
-                }}
-                grid={[30, 30]}
-                onDrag={(_e, data) => setSidebarWidth(data.x)}
-            >
-                <Box
-                    style={{
-                        position: "fixed",
-                        height: "100%",
-                        width: "10px",
-                        cursor: "ew-resize",
+            <OnDesktop>
+                <Draggable
+                    axis="x"
+                    defaultPosition={{
+                        x: sidebarWidth,
+                        y: Constants.layout.headerHeight,
                     }}
-                ></Box>
-            </Draggable>
+                    bounds={{
+                        left: 120,
+                        right: 1000,
+                    }}
+                    grid={[30, 30]}
+                    onDrag={(_e, data) => setSidebarWidth(data.x)}
+                >
+                    <Box
+                        style={{
+                            position: "fixed",
+                            height: "100%",
+                            width: "10px",
+                            cursor: "ew-resize",
+                        }}
+                    ></Box>
+                </Draggable>
+            </OnDesktop>
 
             <AppShell.Main id="content">
                 <Suspense fallback={<Loader />}>

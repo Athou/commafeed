@@ -12,6 +12,7 @@ import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.UnreadCount;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import redis.clients.jedis.Pipeline;
 @RequiredArgsConstructor
 public class RedisCacheService extends CacheService {
 
-	private static final ObjectMapper MAPPER = new ObjectMapper();
+	private static final ObjectMapper MAPPER = new ObjectMapper().registerModule(new JavaTimeModule());
 
 	private final JedisPool pool;
 

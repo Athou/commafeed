@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.commafeed.backend.model.User;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -50,8 +48,6 @@ class SessionHelperTest {
 
 	@Test
 	void gettingUserShouldReturnUserIfUserPresentInHttpSession() {
-		User userInSession = new User();
-
 		HttpSession session = Mockito.mock(HttpSession.class);
 		Mockito.when(session.getAttribute(SessionHelper.SESSION_KEY_USER_ID)).thenReturn(1L);
 

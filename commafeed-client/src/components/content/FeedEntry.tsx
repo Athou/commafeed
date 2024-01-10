@@ -21,7 +21,7 @@ interface FeedEntryProps {
     onHeaderClick: (e: React.MouseEvent) => void
     onHeaderRightClick: (e: React.MouseEvent) => void
     onBodyClick: (e: React.MouseEvent) => void
-    onSwipedRight: () => void
+    onSwipedLeft: () => void
 }
 
 const useStyles = tss
@@ -111,7 +111,7 @@ export function FeedEntry(props: FeedEntryProps) {
     })
 
     const swipeHandlers = useSwipeable({
-        onSwipedRight: props.onSwipedRight,
+        onSwipedLeft: props.onSwipedLeft,
     })
 
     let paddingX: MantineSpacing = "xs"

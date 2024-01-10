@@ -91,7 +91,7 @@ export function FeedEntries() {
         )
     }
 
-    const swipedRight = async (entry: ExpendableEntry) => await dispatch(markEntry({ entry, read: !entry.read }))
+    const swipedLeft = async (entry: ExpendableEntry) => await dispatch(markEntry({ entry, read: !entry.read }))
 
     // close context menu on scroll
     useEffect(() => {
@@ -320,7 +320,7 @@ export function FeedEntries() {
                         onHeaderClick={event => headerClicked(entry, event)}
                         onHeaderRightClick={event => headerRightClicked(entry, event)}
                         onBodyClick={() => bodyClicked(entry)}
-                        onSwipedRight={async () => await swipedRight(entry)}
+                        onSwipedLeft={async () => await swipedLeft(entry)}
                     />
                 </div>
             ))}

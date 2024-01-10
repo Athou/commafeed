@@ -13,10 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/content/add/CategorySelect.tsx
-msgid "{0} (in {1})"
-msgstr ""
-
 #: src/pages/app/AboutPage.tsx
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
 msgstr ""
@@ -823,7 +819,7 @@ msgid "Success"
 msgstr "Úspech"
 
 #: src/components/KeyboardShortcutsHelp.tsx
-msgid "Swipe header to the right"
+msgid "Swipe header to the left"
 msgstr ""
 
 #: src/pages/WelcomePage.tsx

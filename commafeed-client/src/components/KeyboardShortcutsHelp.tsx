@@ -110,7 +110,7 @@ export function KeyboardShortcutsHelp() {
                         <Table.Td>
                             <Kbd>M</Kbd>
                             <span>, </span>
-                            <Trans>Swipe header to the right</Trans>
+                            <Trans>Swipe header to the left</Trans>
                         </Table.Td>
                     </Table.Tr>
                     <Table.Tr>

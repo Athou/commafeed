@@ -19,6 +19,7 @@ import { type ReactNode, Suspense, useEffect } from "react"
 import Draggable from "react-draggable"
 import { TbMenu2, TbPlus, TbX } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
+import { useSwipeable } from "react-swipeable"
 import { tss } from "tss"
 import useLocalStorage from "use-local-storage"
 
@@ -111,83 +112,94 @@ export default function Layout(props: LayoutProps) {
         </ActionIcon>
     )
 
+    const swipeHandlers = useSwipeable({
+        onSwiping: e => {
+            const threshold = document.documentElement.clientWidth / 6
+            if (e.absX > threshold) {
+                dispatch(setMobileMenuOpen(e.dir === "Right"))
+            }
+        },
+    })
+
     if (loading) return <LoadingPage />
     return (
-        <AppShell
-            header={{ height: Constants.layout.headerHeight }}
-            navbar={{
-                width: sidebarWidth,
-                breakpoint: Constants.layout.mobileBreakpoint,
-                collapsed: { mobile: !mobileMenuOpen, desktop: !props.sidebarVisible },
-            }}
-            padding={{ base: 6, [Constants.layout.mobileBreakpointName]: "md" }}
-        >
-            <AppShell.Header id="header">
-                <OnMobile>
-                    {mobileMenuOpen && (
-                        <Group justify="space-between" p="md">
-                            <Box>{burger}</Box>
-                            <Box>
-                                <LogoAndTitle />
-                            </Box>
-                            <Box>{addButton}</Box>
-                        </Group>
-                    )}
-                    {!mobileMenuOpen && (
+        <Box {...swipeHandlers}>
+            <AppShell
+                header={{ height: Constants.layout.headerHeight }}
+                navbar={{
+                    width: sidebarWidth,
+                    breakpoint: Constants.layout.mobileBreakpoint,
+                    collapsed: { mobile: !mobileMenuOpen, desktop: !props.sidebarVisible },
+                }}
+                padding={{ base: 6, [Constants.layout.mobileBreakpointName]: "md" }}
+            >
+                <AppShell.Header id="header">
+                    <OnMobile>
+                        {mobileMenuOpen && (
+                            <Group justify="space-between" p="md">
+                                <Box>{burger}</Box>
+                                <Box>
+                                    <LogoAndTitle />
+                                </Box>
+                                <Box>{addButton}</Box>
+                            </Group>
+                        )}
+                        {!mobileMenuOpen && (
+                            <Group p="md">
+                                <Box>{burger}</Box>
+                                <Box style={{ flexGrow: 1 }}>{props.header}</Box>
+                            </Group>
+                        )}
+                    </OnMobile>
+                    <OnDesktop>
                         <Group p="md">
-                            <Box>{burger}</Box>
+                            <Group justify="space-between" style={{ width: sidebarWidth - 16 }}>
+                                <Box>
+                                    <LogoAndTitle />
+                                </Box>
+                                <Box>{addButton}</Box>
+                            </Group>
                             <Box style={{ flexGrow: 1 }}>{props.header}</Box>
                         </Group>
-                    )}
-                </OnMobile>
+                    </OnDesktop>
+                </AppShell.Header>
+                <AppShell.Navbar id="sidebar" p={sidebarPadding}>
+                    <AppShell.Section grow component={ScrollArea} mx="-sm" px="sm">
+                        <Box className={classes.sidebarContent}>{props.sidebar}</Box>
+                    </AppShell.Section>
+                </AppShell.Navbar>
                 <OnDesktop>
-                    <Group p="md">
-                        <Group justify="space-between" style={{ width: sidebarWidth - 16 }}>
-                            <Box>
-                                <LogoAndTitle />
-                            </Box>
-                            <Box>{addButton}</Box>
-                        </Group>
-                        <Box style={{ flexGrow: 1 }}>{props.header}</Box>
-                    </Group>
-                </OnDesktop>
-            </AppShell.Header>
-            <AppShell.Navbar id="sidebar" p={sidebarPadding}>
-                <AppShell.Section grow component={ScrollArea} mx="-sm" px="sm">
-                    <Box className={classes.sidebarContent}>{props.sidebar}</Box>
-                </AppShell.Section>
-            </AppShell.Navbar>
-            <OnDesktop>
-                <Draggable
-                    axis="x"
-                    defaultPosition={{
-                        x: sidebarWidth,
-                        y: Constants.layout.headerHeight,
-                    }}
-                    bounds={{
-                        left: 120,
-                        right: 1000,
-                    }}
-                    grid={[30, 30]}
-                    onDrag={(_e, data) => setSidebarWidth(data.x)}
-                >
-                    <Box
-                        style={{
-                            position: "fixed",
-                            height: "100%",
-                            width: "10px",
-                            cursor: "ew-resize",
+                    <Draggable
+                        axis="x"
+                        defaultPosition={{
+                            x: sidebarWidth,
+                            y: Constants.layout.headerHeight,
                         }}
-                    ></Box>
-                </Draggable>
-            </OnDesktop>
+                        bounds={{
+                            left: 120,
+                            right: 1000,
+                        }}
+                        grid={[30, 30]}
+                        onDrag={(_e, data) => setSidebarWidth(data.x)}
+                    >
+                        <Box
+                            style={{
+                                position: "fixed",
+                                height: "100%",
+                                width: "10px",
+                                cursor: "ew-resize",
+                            }}
+                        ></Box>
+                    </Draggable>
+                </OnDesktop>
 
-            <AppShell.Main id="content">
-                <Suspense fallback={<Loader />}>
-                    <AnnouncementDialog />
-                    <Outlet />
-                </Suspense>
-            </AppShell.Main>
-        </AppShell>
+                <AppShell.Main id="content">
+                    <Suspense fallback={<Loader />}>
+                        <AnnouncementDialog />
+                        <Outlet />
+                    </Suspense>
+                </AppShell.Main>
+            </AppShell>
+        </Box>
     )
 }

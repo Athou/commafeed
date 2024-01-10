@@ -207,7 +207,7 @@ public class UserREST {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 
-		Optional<User> login = userService.login(user.getEmail(), request.getCurrentPassword());
+		Optional<User> login = userService.login(user.getName(), request.getCurrentPassword());
 		if (login.isEmpty()) {
 			throw new BadRequestException("invalid password");
 		}

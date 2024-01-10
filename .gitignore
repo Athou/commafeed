@@ -35,5 +35,8 @@ src/main/app/lib
 # Sublime
 *.sublime*
 
+# VSCode
+.vscode
+
 # Macs
 *.DS_Store

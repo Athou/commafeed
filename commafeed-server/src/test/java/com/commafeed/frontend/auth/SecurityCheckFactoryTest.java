@@ -26,7 +26,7 @@ class SecurityCheckFactoryTest {
 
 		UserService service = new UserService(null, null, null, null, null, null, null, postLoginActivities);
 
-		SecurityCheckFactory factory = new SecurityCheckFactory(userDAO, service, null, null, false);
+		SecurityCheckFactory factory = new SecurityCheckFactory(userDAO, service, null, null, null, false);
 		factory.cookieSessionLogin(sessionHelper);
 
 		Mockito.verify(postLoginActivities).executeFor(userInSession);

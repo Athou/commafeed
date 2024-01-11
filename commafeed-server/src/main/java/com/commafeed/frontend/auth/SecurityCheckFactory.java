@@ -2,12 +2,15 @@ package com.commafeed.frontend.auth;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
 import org.glassfish.jersey.server.ContainerRequest;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
@@ -28,6 +31,7 @@ public class SecurityCheckFactory implements Function<ContainerRequest, User> {
 
 	private final UserDAO userDAO;
 	private final UserService userService;
+	private final CommaFeedConfiguration config;
 	private final HttpServletRequest request;
 	private final Role role;
 	private final boolean apiKeyAllowed;
@@ -47,16 +51,10 @@ public class SecurityCheckFactory implements Function<ContainerRequest, User> {
 			if (roles.contains(role)) {
 				return user.get();
 			} else {
-				throw new WebApplicationException(Response.status(Response.Status.FORBIDDEN)
-						.entity("You don't have the required role to access this resource.")
-						.type(MediaType.TEXT_PLAIN_TYPE)
-						.build());
+				throw buildWebApplicationException(Response.Status.FORBIDDEN, "You don't have the required role to access this resource.");
 			}
 		} else {
-			throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
-					.entity("Credentials are required to access this resource.")
-					.type(MediaType.TEXT_PLAIN_TYPE)
-					.build());
+			throw buildWebApplicationException(Response.Status.UNAUTHORIZED, "Credentials are required to access this resource.");
 		}
 	}
 
@@ -93,6 +91,13 @@ public class SecurityCheckFactory implements Function<ContainerRequest, User> {
 			return userService.login(apiKey);
 		}
 		return Optional.empty();
+	}
+
+	private WebApplicationException buildWebApplicationException(Response.Status status, String message) {
+		Map<String, Object> response = new HashMap<>();
+		response.put("message", message);
+		response.put("allowRegistrations", config.getApplicationSettings().getAllowRegistrations());
+		return new WebApplicationException(Response.status(status).entity(response).type(MediaType.APPLICATION_JSON).build());
 	}
 
 }

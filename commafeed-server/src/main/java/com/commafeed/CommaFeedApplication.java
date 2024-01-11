@@ -169,7 +169,7 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		// support for "@SecurityCheck User user" injection
 		environment.jersey()
 				.register(new SecurityCheckFactoryProvider.Binder(injector.getInstance(UserDAO.class),
-						injector.getInstance(UserService.class)));
+						injector.getInstance(UserService.class), config));
 		// support for "@Context SessionHelper sessionHelper" injection
 		environment.jersey().register(new SessionHelperFactoryProvider.Binder());
 

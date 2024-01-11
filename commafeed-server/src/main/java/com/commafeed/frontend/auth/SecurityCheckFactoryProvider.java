@@ -9,6 +9,7 @@ import org.glassfish.jersey.server.internal.inject.MultivaluedParameterExtractor
 import org.glassfish.jersey.server.model.Parameter;
 import org.glassfish.jersey.server.spi.internal.ValueParamProvider;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.UserService;
@@ -23,14 +24,16 @@ public class SecurityCheckFactoryProvider extends AbstractValueParamProvider {
 
 	private final UserService userService;
 	private final UserDAO userDAO;
+	private final CommaFeedConfiguration config;
 	private final HttpServletRequest request;
 
 	@Inject
 	public SecurityCheckFactoryProvider(final MultivaluedParameterExtractorProvider extractorProvider, UserDAO userDAO,
-			UserService userService, HttpServletRequest request) {
+			UserService userService, CommaFeedConfiguration config, HttpServletRequest request) {
 		super(() -> extractorProvider, Parameter.Source.UNKNOWN);
 		this.userDAO = userDAO;
 		this.userService = userService;
+		this.config = config;
 		this.request = request;
 	}
 
@@ -47,7 +50,7 @@ public class SecurityCheckFactoryProvider extends AbstractValueParamProvider {
 			return null;
 		}
 
-		return new SecurityCheckFactory(userDAO, userService, request, securityCheck.value(), securityCheck.apiKeyAllowed());
+		return new SecurityCheckFactory(userDAO, userService, config, request, securityCheck.value(), securityCheck.apiKeyAllowed());
 	}
 
 	@RequiredArgsConstructor
@@ -55,12 +58,14 @@ public class SecurityCheckFactoryProvider extends AbstractValueParamProvider {
 
 		private final UserDAO userDAO;
 		private final UserService userService;
+		private final CommaFeedConfiguration config;
 
 		@Override
 		protected void configure() {
 			bind(SecurityCheckFactoryProvider.class).to(ValueParamProvider.class).in(Singleton.class);
 			bind(userDAO).to(UserDAO.class);
 			bind(userService).to(UserService.class);
+			bind(config).to(CommaFeedConfiguration.class);
 		}
 	}
 

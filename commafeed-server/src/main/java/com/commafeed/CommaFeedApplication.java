@@ -221,6 +221,12 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		environment.servlets()
 				.addFilter("index-cache-busting-filter", new CacheBustingFilter())
 				.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/");
+
+		// prevent caching openapi files, so that the documentation is always up to date
+		environment.servlets()
+				.addFilter("openapi-cache-busting-filter", new CacheBustingFilter())
+				.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/openapi.json", "/openapi.yaml");
+
 		// prevent caching REST resources, except for favicons
 		environment.servlets().addFilter("rest-cache-busting-filter", new CacheBustingFilter() {
 			@Override

@@ -3,7 +3,7 @@
 ## [4.1.0]
 
 - it is now possible to open the sidebar on mobile by swiping to the right (#1098)
-- swiping to mark entries as read/unread changed from swipinig right to left because swiping right now opens the sidebar
+- swiping to mark entries as read/unread changed from swiping right to left because swiping right now opens the sidebar
 - the full hierarchy of categories are now displayed in the category dropdown (#1045)
 - added a setting `maxEntriesAgeDays` to delete old entries based on their age during database cleanup.
   The setting is disabled by default for existing installations, except for the docker image where it is enabled and set

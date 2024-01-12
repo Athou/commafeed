@@ -1,5 +1,24 @@
 # Changelog
 
+## [4.1.0]
+
+- it is now possible to open the sidebar on mobile by swiping to the right (#1098)
+- swiping to mark entries as read/unread changed from swipinig right to left because swiping right now opens the sidebar
+- the full hierarchy of categories are now displayed in the category dropdown (#1045)
+- added a setting `maxEntriesAgeDays` to delete old entries based on their age during database cleanup.
+  The setting is disabled by default for existing installations, except for the docker image where it is enabled and set
+  to 365 days
+- if user registrations are disabled on your instance which is the default behavior, users are redirected on the login
+  page instead of the welcome page when not logged in (#1185)
+- the sidebar resizer is no longer shown in the middle of the screen on mobile
+- when using the system color scheme and the system is using a dark theme, feed entries no longer flicker on load
+- the demo account (if enabled) cannot register custom javascript code anymore
+- removed the usage of `toSorted` in the client because older browsers do not support it (#1183)
+- the openapi documentation is no longer cached by the browser so you always have access to the latest version
+- added a memory management section to the readme, reading it is recommended if you are running CommaFeed on a server
+  with limited memory
+- fixed an issue that caused users without an email address set to be unable to edit their profile (#1184)
+
 ## [4.0.0]
 
 - migrated from dropwizard 2 to dropwizard 4, Java 17+ is now required

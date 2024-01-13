@@ -66,7 +66,7 @@ class WebSocketIT extends BaseIT {
 			Long subscriptionId = subscribe(getFeedUrl());
 
 			Awaitility.await().atMost(15, TimeUnit.SECONDS).until(() -> messageRef.get() != null);
-			Assertions.assertEquals("new-feed-entries:" + subscriptionId, messageRef.get());
+			Assertions.assertEquals("new-feed-entries:" + subscriptionId + ":2", messageRef.get());
 		}
 	}
 

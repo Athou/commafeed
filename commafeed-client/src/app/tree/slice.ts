@@ -26,6 +26,22 @@ export const treeSlice = createSlice({
         toggleSidebar: state => {
             state.sidebarVisible = !state.sidebarVisible
         },
+        incrementUnreadCount: (
+            state,
+            action: PayloadAction<{
+                feedId: number
+                amount: number
+            }>
+        ) => {
+            if (!state.rootCategory) return
+            visitCategoryTree(state.rootCategory, c =>
+                c.feeds
+                    .filter(f => f.id === action.payload.feedId)
+                    .forEach(f => {
+                        f.unread += action.payload.amount
+                    })
+            )
+        },
     },
     extraReducers: builder => {
         builder.addCase(reloadTree.fulfilled, (state, action) => {
@@ -53,4 +69,4 @@ export const treeSlice = createSlice({
     },
 })
 
-export const { setMobileMenuOpen, toggleSidebar } = treeSlice.actions
+export const { setMobileMenuOpen, toggleSidebar, incrementUnreadCount } = treeSlice.actions

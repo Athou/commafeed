@@ -1,8 +1,21 @@
 import { setWebSocketConnected } from "app/server/slice"
-import { useAppDispatch, useAppSelector } from "app/store"
-import { reloadTree } from "app/tree/thunks"
+import { type AppDispatch, useAppDispatch, useAppSelector } from "app/store"
+import { incrementUnreadCount } from "app/tree/slice"
 import { useEffect } from "react"
 import WebsocketHeartbeatJs from "websocket-heartbeat-js"
+
+const handleMessage = (dispatch: AppDispatch, message: string) => {
+    const parts = message.split(":")
+    const type = parts[0]
+    if (type === "new-feed-entries") {
+        dispatch(
+            incrementUnreadCount({
+                feedId: +parts[1],
+                amount: +parts[2],
+            })
+        )
+    }
+}
 
 export const useWebSocket = () => {
     const websocketEnabled = useAppSelector(state => state.server.serverInfos?.websocketEnabled)
@@ -27,7 +40,7 @@ export const useWebSocket = () => {
             ws.onmessage = event => {
                 const { data } = event
                 if (typeof data === "string") {
-                    if (data.startsWith("new-feed-entries:")) dispatch(reloadTree())
+                    handleMessage(dispatch, data)
                 }
             }
         }

@@ -118,7 +118,7 @@ public class FeedRefreshUpdater {
 
 	public boolean update(Feed feed, List<Entry> entries) {
 		boolean processed = true;
-		boolean insertedAtLeastOneEntry = false;
+		long inserted = 0;
 
 		if (!entries.isEmpty()) {
 			Set<String> lastEntries = cache.getLastEntries(feed);
@@ -134,7 +134,7 @@ public class FeedRefreshUpdater {
 					}
 					AddEntryResult addEntryResult = addEntry(feed, entry, subscriptions);
 					processed &= addEntryResult.processed;
-					insertedAtLeastOneEntry |= addEntryResult.inserted;
+					inserted += addEntryResult.inserted ? 1 : 0;
 
 					entryCacheMiss.mark();
 				} else {
@@ -148,13 +148,12 @@ public class FeedRefreshUpdater {
 
 			if (subscriptions == null) {
 				feed.setMessage("No new entries found");
-			} else if (insertedAtLeastOneEntry) {
+			} else if (inserted > 0) {
 				List<User> users = subscriptions.stream().map(FeedSubscription::getUser).toList();
 				cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
 				cache.invalidateUserRootCategory(users.toArray(new User[0]));
 
-				// notify over websocket
-				subscriptions.forEach(sub -> webSocketSessions.sendMessage(sub.getUser(), WebSocketMessageBuilder.newFeedEntries(sub)));
+				notifyOverWebsocket(subscriptions, inserted);
 			}
 		}
 
@@ -163,13 +162,17 @@ public class FeedRefreshUpdater {
 			feed.setDisabledUntil(Instant.EPOCH);
 		}
 
-		if (insertedAtLeastOneEntry) {
+		if (inserted > 0) {
 			feedUpdated.mark();
 		}
 
 		unitOfWork.run(() -> feedService.save(feed));
 
 		return processed;
+	}
+
+	private void notifyOverWebsocket(List<FeedSubscription> subscriptions, long inserted) {
+		subscriptions.forEach(sub -> webSocketSessions.sendMessage(sub.getUser(), WebSocketMessageBuilder.newFeedEntries(sub, inserted)));
 	}
 
 	@AllArgsConstructor

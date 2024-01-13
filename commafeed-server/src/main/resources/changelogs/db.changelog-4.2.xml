@@ -4,23 +4,18 @@
 				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
 	<changeSet id="use-timestamps" author="athou">
-		<modifyDataType tableName="FEEDS" columnName="lastUpdated" newDataType="TIMESTAMP" />
-		<modifyDataType tableName="FEEDS" columnName="lastPublishedDate" newDataType="TIMESTAMP" />
-		<modifyDataType tableName="FEEDS" columnName="lastEntryDate" newDataType="TIMESTAMP" />
-		<modifyDataType tableName="FEEDS" columnName="disabledUntil" newDataType="TIMESTAMP" />
-		<modifyDataType tableName="FEEDENTRIES" columnName="inserted" newDataType="TIMESTAMP" />
-		<modifyDataType tableName="FEEDENTRIES" columnName="updated" newDataType="TIMESTAMP" />
-		<modifyDataType tableName="FEEDENTRYSTATUSES" columnName="entryInserted" newDataType="TIMESTAMP" />
-		<modifyDataType tableName="FEEDENTRYSTATUSES" columnName="entryUpdated" newDataType="TIMESTAMP" />
-		<modifyDataType tableName="USERS" columnName="lastLogin" newDataType="TIMESTAMP" />
-		<modifyDataType tableName="USERS" columnName="created" newDataType="TIMESTAMP" />
-		<modifyDataType tableName="USERS" columnName="recoverPasswordTokenDate" newDataType="TIMESTAMP" />
-		<modifySql dbms="postgresql">
-			<!-- liquibase uses the 'TIMESTAMP WITHOUT TIME ZONE' type by default, which is not a UTC timestamp -->
-			<!-- postgresql UTC timestamp is actually 'TIMESTAMP WITH TIME ZONE' -->
-			<!-- see https://stackoverflow.com/a/48069726/1885506 -->
-			<replace replace="WITHOUT TIME ZONE" with="WITH TIME ZONE" />
-		</modifySql>
+		<validCheckSum>9:bf66bf7def9ec3dab1f365f7230d92cf</validCheckSum>
+		<modifyDataType tableName="FEEDS" columnName="lastUpdated" newDataType="${timestamp_type}" />
+		<modifyDataType tableName="FEEDS" columnName="lastPublishedDate" newDataType="${timestamp_type}" />
+		<modifyDataType tableName="FEEDS" columnName="lastEntryDate" newDataType="${timestamp_type}" />
+		<modifyDataType tableName="FEEDS" columnName="disabledUntil" newDataType="${timestamp_type}" />
+		<modifyDataType tableName="FEEDENTRIES" columnName="inserted" newDataType="${timestamp_type}" />
+		<modifyDataType tableName="FEEDENTRIES" columnName="updated" newDataType="${timestamp_type}" />
+		<modifyDataType tableName="FEEDENTRYSTATUSES" columnName="entryInserted" newDataType="${timestamp_type}" />
+		<modifyDataType tableName="FEEDENTRYSTATUSES" columnName="entryUpdated" newDataType="${timestamp_type}" />
+		<modifyDataType tableName="USERS" columnName="lastLogin" newDataType="${timestamp_type}" />
+		<modifyDataType tableName="USERS" columnName="created" newDataType="${timestamp_type}" />
+		<modifyDataType tableName="USERS" columnName="recoverPasswordTokenDate" newDataType="${timestamp_type}" />
 	</changeSet>
 
 </databaseChangeLog>

@@ -12,8 +12,8 @@ services:
   postgresql:
     image: postgres
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: commafeed
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=commafeed
     ports:
       - 5432:5432

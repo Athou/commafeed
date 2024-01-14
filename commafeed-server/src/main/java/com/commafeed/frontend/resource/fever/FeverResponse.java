@@ -33,7 +33,7 @@ public class FeverResponse {
 	private boolean auth;
 
 	@JsonProperty("last_refreshed_on_time")
-	private long lastRefreshedOnTime;
+	private Long lastRefreshedOnTime;
 
 	@JsonProperty("groups")
 	private List<FeverGroup> groups;

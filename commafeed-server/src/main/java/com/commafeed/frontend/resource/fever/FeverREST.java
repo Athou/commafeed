@@ -84,13 +84,6 @@ public class FeverREST {
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 
-	@Path(PATH)
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public String welcome() {
-		return "Welcome to the CommaFeed Fever API. Add this URL to your Fever-compatible reader.";
-	}
-
 	// expected Fever API
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Path(PATH)
@@ -111,6 +104,18 @@ public class FeverREST {
 	@UnitOfWork
 	@Timed
 	public FeverResponse noForm(@Context UriInfo uri, @PathParam("userId") Long userId) {
+		Map<String, String> params = new HashMap<>();
+		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
+		return handle(userId, params);
+	}
+
+	// workaround for some readers that use GET instead of POST
+	// e.g. Unread
+	@Path(PATH)
+	@GET
+	@UnitOfWork
+	@Timed
+	public FeverResponse get(@Context UriInfo uri, @PathParam("userId") Long userId) {
 		Map<String, String> params = new HashMap<>();
 		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
 		return handle(userId, params);

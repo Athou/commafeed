@@ -33,15 +33,6 @@ class FeverIT extends BaseIT {
 	}
 
 	@Test
-	void get() {
-		String message = getClient().target(getApiBaseUrl() + "fever/user/${userId}")
-				.resolveTemplate("userId", 1)
-				.request()
-				.get(String.class);
-		Assertions.assertEquals("Welcome to the CommaFeed Fever API. Add this URL to your Fever-compatible reader.", message);
-	}
-
-	@Test
 	void invalidApiKey() {
 		FeverResponse response = fetch("feeds", "invalid-key");
 		Assertions.assertFalse(response.isAuth());

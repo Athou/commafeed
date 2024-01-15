@@ -264,14 +264,13 @@
 			<artifactId>metrics-json</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>be.tomcools</groupId>
-			<artifactId>dropwizard-websocket-jsr356-bundle</artifactId>
-			<version>4.0.0</version>
-		</dependency>
-		<dependency>
 			<groupId>io.whitfin</groupId>
 			<artifactId>dropwizard-environment-substitutor</artifactId>
 			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty.websocket</groupId>
+			<artifactId>websocket-jakarta-server</artifactId>
 		</dependency>
 
 		<dependency>

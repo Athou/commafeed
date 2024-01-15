@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jetty.websocket.jakarta.server.config.JakartaWebSocketServletContainerInitializer;
 import org.hibernate.cfg.AvailableSettings;
 
 import com.codahale.metrics.json.MetricsModule;
@@ -52,7 +53,6 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 
-import be.tomcools.dropwizard.websocket.WebsocketBundle;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.configuration.DefaultConfigurationFactoryFactory;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
@@ -82,7 +82,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 	public static final Instant STARTUP_TIME = Instant.now();
 
 	private HibernateBundle<CommaFeedConfiguration> hibernateBundle;
-	private WebsocketBundle<CommaFeedConfiguration> websocketBundle;
 
 	@Override
 	public String getName() {
@@ -94,7 +93,6 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		configureEnvironmentSubstitutor(bootstrap);
 		configureObjectMapper(bootstrap.getObjectMapper());
 
-		bootstrap.addBundle(websocketBundle = new WebsocketBundle<>());
 		bootstrap.addBundle(hibernateBundle = new HibernateBundle<>(AbstractModel.class, Feed.class, FeedCategory.class, FeedEntry.class,
 				FeedEntryContent.class, FeedEntryStatus.class, FeedEntryTag.class, FeedSubscription.class, User.class, UserRole.class,
 				UserSettings.class) {
@@ -195,10 +193,13 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		}
 
 		// WebSocket endpoint
-		ServerEndpointConfig serverEndpointConfig = ServerEndpointConfig.Builder.create(WebSocketEndpoint.class, "/ws")
-				.configurator(injector.getInstance(WebSocketConfigurator.class))
-				.build();
-		websocketBundle.addEndpoint(serverEndpointConfig);
+		JakartaWebSocketServletContainerInitializer.configure(environment.getApplicationContext(), (context, container) -> {
+			container.setDefaultMaxSessionIdleTimeout(config.getApplicationSettings().getWebsocketPingInterval().toMilliseconds() + 10000);
+
+			container.addEndpoint(ServerEndpointConfig.Builder.create(WebSocketEndpoint.class, "/ws")
+					.configurator(injector.getInstance(WebSocketConfigurator.class))
+					.build());
+		});
 
 		// Scheduled tasks
 		Set<ScheduledTask> tasks = injector.getInstance(Key.get(new TypeLiteral<>() {

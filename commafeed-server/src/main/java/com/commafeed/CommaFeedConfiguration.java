@@ -10,8 +10,6 @@ import com.commafeed.backend.cache.RedisPoolFactory;
 import com.commafeed.frontend.session.SessionHandlerFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import be.tomcools.dropwizard.websocket.WebsocketBundleConfiguration;
-import be.tomcools.dropwizard.websocket.WebsocketConfiguration;
 import io.dropwizard.core.Configuration;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.util.Duration;
@@ -25,7 +23,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CommaFeedConfiguration extends Configuration implements WebsocketBundleConfiguration {
+public class CommaFeedConfiguration extends Configuration {
 
 	public enum CacheType {
 		NOOP, REDIS
@@ -66,13 +64,6 @@ public class CommaFeedConfiguration extends Configuration implements WebsocketBu
 
 		this.version = properties.getProperty("git.build.version", "unknown");
 		this.gitCommit = properties.getProperty("git.commit.id.abbrev", "unknown");
-	}
-
-	@Override
-	public WebsocketConfiguration getWebsocketConfiguration() {
-		WebsocketConfiguration config = new WebsocketConfiguration();
-		config.setMaxSessionIdleTimeout(getApplicationSettings().getWebsocketPingInterval().toMilliseconds() + 10000);
-		return config;
 	}
 
 	@Getter

@@ -180,8 +180,8 @@ msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr "CommaFeed browser extension version {browserExtensionVersion}."
 
 #: src/components/settings/ProfileSettings.tsx
-msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. The username is your user name and the password is your API key."
-msgstr "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. The username is your user name and the password is your API key."
+msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
+msgstr "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -846,6 +846,10 @@ msgstr "The URL for the feed you want to subscribe to. You can also use the webs
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
 msgstr "Theme"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
+msgstr "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"

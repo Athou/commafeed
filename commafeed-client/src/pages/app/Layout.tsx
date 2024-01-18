@@ -133,7 +133,7 @@ export default function Layout(props: LayoutProps) {
                 }}
                 padding={{ base: 6, [Constants.layout.mobileBreakpointName]: "md" }}
             >
-                <AppShell.Header id="header">
+                <AppShell.Header id={Constants.dom.headerId}>
                     <OnMobile>
                         {mobileMenuOpen && (
                             <Group justify="space-between" p="md">

@@ -174,10 +174,11 @@ export const selectEntry = createAppAsyncThunk(
     }
 )
 const scrollToEntry = (entryElement: HTMLElement, scrollSpeed: number | undefined, onScrollEnded: () => void) => {
+    const header = document.getElementById(Constants.dom.headerId)?.getBoundingClientRect()
+    const offset = (header?.bottom ?? 0) + 3
     scrollToWithCallback({
         options: {
-            // add a small gap between the top of the content and the top of the page
-            top: entryElement.offsetTop - Constants.layout.headerHeight - 3,
+            top: entryElement.offsetTop - offset,
             behavior: scrollSpeed && scrollSpeed > 0 ? "smooth" : "auto",
         },
         onScrollEnded,

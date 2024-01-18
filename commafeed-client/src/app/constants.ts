@@ -89,10 +89,14 @@ export const Constants = {
         mobileBreakpointName: "md",
         headerHeight: 60,
         entryMaxWidth: 650,
-        isTopVisible: (div: HTMLElement) => div.getBoundingClientRect().top >= Constants.layout.headerHeight,
+        isTopVisible: (div: HTMLElement) => {
+            const header = document.getElementById(Constants.dom.headerId)?.getBoundingClientRect()
+            return div.getBoundingClientRect().top >= (header?.bottom ?? 0)
+        },
         isBottomVisible: (div: HTMLElement) => div.getBoundingClientRect().bottom <= window.innerHeight,
     },
     dom: {
+        headerId: "header",
         entryId: (entry: Entry) => `entry-id-${entry.id}`,
         entryContextMenuId: (entry: Entry) => entry.id,
     },

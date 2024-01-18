@@ -173,7 +173,7 @@ export default function Layout(props: LayoutProps) {
                         axis="x"
                         defaultPosition={{
                             x: sidebarWidth,
-                            y: Constants.layout.headerHeight,
+                            y: 0,
                         }}
                         bounds={{
                             left: 120,

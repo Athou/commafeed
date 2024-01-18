@@ -7,6 +7,7 @@ import {
     changeCustomContextMenu,
     changeLanguage,
     changeMarkAllAsReadConfirmation,
+    changeMobileFooter,
     changeReadingMode,
     changeReadingOrder,
     changeScrollMarks,
@@ -76,6 +77,10 @@ export const userSlice = createSlice({
             if (!state.settings) return
             state.settings.customContextMenu = action.meta.arg
         })
+        builder.addCase(changeMobileFooter.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.mobileFooter = action.meta.arg
+        })
         builder.addCase(changeSharingSetting.pending, (state, action) => {
             if (!state.settings) return
             state.settings.sharingSettings[action.meta.arg.site] = action.meta.arg.value
@@ -89,6 +94,7 @@ export const userSlice = createSlice({
                 changeAlwaysScrollToEntry.fulfilled,
                 changeMarkAllAsReadConfirmation.fulfilled,
                 changeCustomContextMenu.fulfilled,
+                changeMobileFooter.fulfilled,
                 changeSharingSetting.fulfilled
             ),
             () => {

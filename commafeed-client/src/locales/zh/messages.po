@@ -574,6 +574,10 @@ msgstr "没有找到"
 msgid "Oldest first"
 msgstr "最早的优先"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "On mobile, show action buttons at the bottom of the screen"
+msgstr ""
+
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
 msgstr "哎呀！"

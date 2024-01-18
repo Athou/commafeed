@@ -69,6 +69,7 @@ public class UserSettings extends AbstractModel {
 	private boolean alwaysScrollToEntry;
 	private boolean markAllAsReadConfirmation;
 	private boolean customContextMenu;
+	private boolean mobileFooter;
 
 	private boolean email;
 	private boolean gmail;

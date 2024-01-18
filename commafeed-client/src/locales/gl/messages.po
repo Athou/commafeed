@@ -574,6 +574,10 @@ msgstr "Non se atopou nada"
 msgid "Oldest first"
 msgstr "O máis vello primeiro"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "On mobile, show action buttons at the bottom of the screen"
+msgstr ""
+
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
 msgstr "Vaia!"

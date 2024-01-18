@@ -8,6 +8,7 @@ import {
     changeCustomContextMenu,
     changeLanguage,
     changeMarkAllAsReadConfirmation,
+    changeMobileFooter,
     changeScrollMarks,
     changeScrollSpeed,
     changeSharingSetting,
@@ -23,6 +24,7 @@ export function DisplaySettings() {
     const alwaysScrollToEntry = useAppSelector(state => state.user.settings?.alwaysScrollToEntry)
     const markAllAsReadConfirmation = useAppSelector(state => state.user.settings?.markAllAsReadConfirmation)
     const customContextMenu = useAppSelector(state => state.user.settings?.customContextMenu)
+    const mobileFooter = useAppSelector(state => state.user.settings?.mobileFooter)
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const dispatch = useAppDispatch()
 
@@ -72,6 +74,12 @@ export function DisplaySettings() {
                 label={<Trans>Show CommaFeed's own context menu on right click</Trans>}
                 checked={customContextMenu}
                 onChange={async e => await dispatch(changeCustomContextMenu(e.currentTarget.checked))}
+            />
+
+            <Switch
+                label={<Trans>On mobile, show action buttons at the bottom of the screen</Trans>}
+                checked={mobileFooter}
+                onChange={async e => await dispatch(changeMobileFooter(e.currentTarget.checked))}
             />
 
             <Divider label={<Trans>Sharing sites</Trans>} labelPosition="center" />

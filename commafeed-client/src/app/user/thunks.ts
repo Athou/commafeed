@@ -56,6 +56,11 @@ export const changeCustomContextMenu = createAppAsyncThunk("settings/customConte
     if (!settings) return
     client.user.saveSettings({ ...settings, customContextMenu })
 })
+export const changeMobileFooter = createAppAsyncThunk("settings/mobileFooter", (mobileFooter: boolean, thunkApi) => {
+    const { settings } = thunkApi.getState().user
+    if (!settings) return
+    client.user.saveSettings({ ...settings, mobileFooter })
+})
 export const changeSharingSetting = createAppAsyncThunk(
     "settings/sharingSetting",
     (

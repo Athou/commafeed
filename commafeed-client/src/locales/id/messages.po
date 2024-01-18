@@ -574,6 +574,10 @@ msgstr "Tidak ada yang ditemukan"
 msgid "Oldest first"
 msgstr "Tertua dulu"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "On mobile, show action buttons at the bottom of the screen"
+msgstr ""
+
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
 msgstr "Ups!"

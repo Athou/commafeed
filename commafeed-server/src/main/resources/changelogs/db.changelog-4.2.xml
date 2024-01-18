@@ -18,4 +18,12 @@
 		<modifyDataType tableName="USERS" columnName="recoverPasswordTokenDate" newDataType="${timestamp_type}" />
 	</changeSet>
 
+	<changeSet id="mobile-footer-setting" author="athou">
+		<addColumn tableName="USERSETTINGS">
+			<column name="mobileFooter" type="BOOLEAN" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+
 </databaseChangeLog>

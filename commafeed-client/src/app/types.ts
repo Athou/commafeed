@@ -208,6 +208,7 @@ export interface Settings {
     alwaysScrollToEntry: boolean
     markAllAsReadConfirmation: boolean
     customContextMenu: boolean
+    mobileFooter: boolean
     sharingSettings: SharingSettings
 }
 

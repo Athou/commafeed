@@ -574,6 +574,10 @@ msgstr "Nothing found"
 msgid "Oldest first"
 msgstr "Oldest first"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "On mobile, show action buttons at the bottom of the screen"
+msgstr "On mobile, show action buttons at the bottom of the screen"
+
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
 msgstr "Oops!"

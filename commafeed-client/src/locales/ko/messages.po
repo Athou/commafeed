@@ -574,6 +574,10 @@ msgstr "아무것도 찾을 수 없습니다"
 msgid "Oldest first"
 msgstr "가장 오래된 것부터"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "On mobile, show action buttons at the bottom of the screen"
+msgstr ""
+
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
 msgstr "앗!"

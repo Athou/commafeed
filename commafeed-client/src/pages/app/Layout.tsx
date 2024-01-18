@@ -13,6 +13,8 @@ import { Logo } from "components/Logo"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import { OnMobile } from "components/responsive/OnMobile"
 import { useAppLoading } from "hooks/useAppLoading"
+import { useBrowserExtension } from "hooks/useBrowserExtension"
+import { useMobile } from "hooks/useMobile"
 import { useWebSocket } from "hooks/useWebSocket"
 import { LoadingPage } from "pages/LoadingPage"
 import { type ReactNode, Suspense, useEffect } from "react"
@@ -60,6 +62,8 @@ const useStyles = tss
 
 export default function Layout(props: LayoutProps) {
     const theme = useMantineTheme()
+    const mobile = useMobile()
+    const { isBrowserExtensionPopup } = useBrowserExtension()
     const [sidebarWidth, setSidebarWidth] = useLocalStorage("sidebar-width", 350)
     const sidebarPadding = theme.spacing.xs
     const { classes } = useStyles({
@@ -71,6 +75,8 @@ export default function Layout(props: LayoutProps) {
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
     const webSocketConnected = useAppSelector(state => state.server.webSocketConnected)
     const treeReloadInterval = useAppSelector(state => state.server.serverInfos?.treeReloadInterval)
+    const mobileFooter = useAppSelector(state => state.user.settings?.mobileFooter)
+    const headerInFooter = mobile && !isBrowserExtensionPopup && mobileFooter
     const dispatch = useAppDispatch()
     useWebSocket()
 
@@ -112,6 +118,39 @@ export default function Layout(props: LayoutProps) {
         </ActionIcon>
     )
 
+    const header = (
+        <>
+            <OnMobile>
+                {mobileMenuOpen && (
+                    <Group justify="space-between" p="md">
+                        <Box>{burger}</Box>
+                        <Box>
+                            <LogoAndTitle />
+                        </Box>
+                        <Box>{addButton}</Box>
+                    </Group>
+                )}
+                {!mobileMenuOpen && (
+                    <Group p="md">
+                        <Box>{burger}</Box>
+                        <Box style={{ flexGrow: 1 }}>{props.header}</Box>
+                    </Group>
+                )}
+            </OnMobile>
+            <OnDesktop>
+                <Group p="md">
+                    <Group justify="space-between" style={{ width: sidebarWidth - 16 }}>
+                        <Box>
+                            <LogoAndTitle />
+                        </Box>
+                        <Box>{addButton}</Box>
+                    </Group>
+                    <Box style={{ flexGrow: 1 }}>{props.header}</Box>
+                </Group>
+            </OnDesktop>
+        </>
+    )
+
     const swipeHandlers = useSwipeable({
         onSwiping: e => {
             const threshold = document.documentElement.clientWidth / 6
@@ -125,7 +164,8 @@ export default function Layout(props: LayoutProps) {
     return (
         <Box {...swipeHandlers}>
             <AppShell
-                header={{ height: Constants.layout.headerHeight }}
+                header={{ height: Constants.layout.headerHeight, collapsed: headerInFooter }}
+                footer={{ height: Constants.layout.headerHeight, collapsed: !headerInFooter }}
                 navbar={{
                     width: sidebarWidth,
                     breakpoint: Constants.layout.mobileBreakpoint,
@@ -133,36 +173,8 @@ export default function Layout(props: LayoutProps) {
                 }}
                 padding={{ base: 6, [Constants.layout.mobileBreakpointName]: "md" }}
             >
-                <AppShell.Header id={Constants.dom.headerId}>
-                    <OnMobile>
-                        {mobileMenuOpen && (
-                            <Group justify="space-between" p="md">
-                                <Box>{burger}</Box>
-                                <Box>
-                                    <LogoAndTitle />
-                                </Box>
-                                <Box>{addButton}</Box>
-                            </Group>
-                        )}
-                        {!mobileMenuOpen && (
-                            <Group p="md">
-                                <Box>{burger}</Box>
-                                <Box style={{ flexGrow: 1 }}>{props.header}</Box>
-                            </Group>
-                        )}
-                    </OnMobile>
-                    <OnDesktop>
-                        <Group p="md">
-                            <Group justify="space-between" style={{ width: sidebarWidth - 16 }}>
-                                <Box>
-                                    <LogoAndTitle />
-                                </Box>
-                                <Box>{addButton}</Box>
-                            </Group>
-                            <Box style={{ flexGrow: 1 }}>{props.header}</Box>
-                        </Group>
-                    </OnDesktop>
-                </AppShell.Header>
+                <AppShell.Header id={Constants.dom.headerId}>{header}</AppShell.Header>
+                <AppShell.Footer id={Constants.dom.footerId}>{header}</AppShell.Footer>
                 <AppShell.Navbar id="sidebar" p={sidebarPadding}>
                     <AppShell.Section grow component={ScrollArea} mx="-sm" px="sm">
                         <Box className={classes.sidebarContent}>{props.sidebar}</Box>

@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.2.0]
+
+- add a setting to display the action buttons in the footer instead of in the header on mobile (#1121)
+- the websocket notification now contains everything needed to update the UI, the client no longer needs to make an API
+  call to get the latest data when receiving the notification
+- add a workaround to the Fever API for the Unread iOS app (#1188)
+- fix an issue that caused dates to be saved incorrectly if the database server and the application server were in
+  different timezones (#1187)
+
 ## [4.1.0]
 
 - it is now possible to open the sidebar on mobile by swiping to the right (#1098)

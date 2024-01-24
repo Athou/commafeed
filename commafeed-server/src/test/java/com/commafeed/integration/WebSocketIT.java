@@ -13,6 +13,8 @@ import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.commafeed.frontend.model.request.FeedModificationRequest;
+
 import jakarta.websocket.ClientEndpointConfig;
 import jakarta.websocket.CloseReason;
 import jakarta.websocket.ContainerProvider;
@@ -20,13 +22,12 @@ import jakarta.websocket.DeploymentException;
 import jakarta.websocket.Endpoint;
 import jakarta.websocket.EndpointConfig;
 import jakarta.websocket.Session;
+import jakarta.ws.rs.client.Entity;
 
 class WebSocketIT extends BaseIT {
 
 	@Test
 	void sessionClosedIfNotLoggedIn() throws DeploymentException, IOException {
-		ClientEndpointConfig config = buildConfig("fake-session-id");
-
 		AtomicBoolean connected = new AtomicBoolean();
 		AtomicReference<CloseReason> closeReasonRef = new AtomicReference<>();
 		try (Session ignored = ContainerProvider.getWebSocketContainer().connectToServer(new Endpoint() {
@@ -39,7 +40,7 @@ class WebSocketIT extends BaseIT {
 			public void onClose(Session session, CloseReason closeReason) {
 				closeReasonRef.set(closeReason);
 			}
-		}, config, URI.create(getWebSocketUrl()))) {
+		}, buildConfig("fake-session-id"), URI.create(getWebSocketUrl()))) {
 			Awaitility.await().atMost(15, TimeUnit.SECONDS).untilTrue(connected);
 
 			Awaitility.await().atMost(15, TimeUnit.SECONDS).until(() -> closeReasonRef.get() != null);
@@ -50,7 +51,6 @@ class WebSocketIT extends BaseIT {
 	@Test
 	void subscribeAndGetsNotified() throws DeploymentException, IOException {
 		String sessionId = login();
-		ClientEndpointConfig config = buildConfig(sessionId);
 
 		AtomicBoolean connected = new AtomicBoolean();
 		AtomicReference<String> messageRef = new AtomicReference<>();
@@ -60,7 +60,7 @@ class WebSocketIT extends BaseIT {
 				session.addMessageHandler(String.class, messageRef::set);
 				connected.set(true);
 			}
-		}, config, URI.create(getWebSocketUrl()))) {
+		}, buildConfig(sessionId), URI.create(getWebSocketUrl()))) {
 			Awaitility.await().atMost(15, TimeUnit.SECONDS).untilTrue(connected);
 
 			Long subscriptionId = subscribe(getFeedUrl());
@@ -71,9 +71,39 @@ class WebSocketIT extends BaseIT {
 	}
 
 	@Test
+	void notNotifiedForFilteredEntries() throws DeploymentException, IOException {
+		String sessionId = login();
+		Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
+
+		FeedModificationRequest req = new FeedModificationRequest();
+		req.setId(subscriptionId);
+		req.setName("feed-name");
+		req.setFilter("!title.contains('item 4')");
+		getClient().target(getApiBaseUrl() + "feed/modify").request().post(Entity.json(req), Void.class);
+
+		AtomicBoolean connected = new AtomicBoolean();
+		AtomicReference<String> messageRef = new AtomicReference<>();
+		try (Session ignored = ContainerProvider.getWebSocketContainer().connectToServer(new Endpoint() {
+			@Override
+			public void onOpen(Session session, EndpointConfig config) {
+				session.addMessageHandler(String.class, messageRef::set);
+				connected.set(true);
+			}
+		}, buildConfig(sessionId), URI.create(getWebSocketUrl()))) {
+			Awaitility.await().atMost(15, TimeUnit.SECONDS).untilTrue(connected);
+
+			feedNowReturnsMoreEntries();
+			forceRefreshAllFeeds();
+
+			Awaitility.await().atMost(15, TimeUnit.SECONDS).until(() -> messageRef.get() != null);
+			Assertions.assertEquals("new-feed-entries:" + subscriptionId + ":1", messageRef.get());
+		}
+
+	}
+
+	@Test
 	void pingPong() throws DeploymentException, IOException {
 		String sessionId = login();
-		ClientEndpointConfig config = buildConfig(sessionId);
 
 		AtomicBoolean connected = new AtomicBoolean();
 		AtomicReference<String> messageRef = new AtomicReference<>();
@@ -83,7 +113,7 @@ class WebSocketIT extends BaseIT {
 				session.addMessageHandler(String.class, messageRef::set);
 				connected.set(true);
 			}
-		}, config, URI.create(getWebSocketUrl()))) {
+		}, buildConfig(sessionId), URI.create(getWebSocketUrl()))) {
 			Awaitility.await().atMost(15, TimeUnit.SECONDS).untilTrue(connected);
 
 			session.getAsyncRemote().sendText("ping");

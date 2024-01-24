@@ -38,6 +38,8 @@ import lombok.Getter;
 @ExtendWith(MockServerExtension.class)
 public abstract class BaseIT {
 
+	private static final HttpRequest FEED_REQUEST = HttpRequest.request().withMethod("GET").withPath("/");
+
 	private final CommaFeedDropwizardAppExtension extension = buildExtension();
 
 	private Client client;
@@ -50,6 +52,8 @@ public abstract class BaseIT {
 
 	private String webSocketUrl;
 
+	private MockServerClient mockServerClient;
+
 	protected CommaFeedDropwizardAppExtension buildExtension() {
 		return new CommaFeedDropwizardAppExtension() {
 			@Override
@@ -61,9 +65,10 @@ public abstract class BaseIT {
 
 	@BeforeEach
 	void init(MockServerClient mockServerClient) throws IOException {
+		this.mockServerClient = mockServerClient;
+
 		URL resource = Objects.requireNonNull(getClass().getResource("/feed/rss.xml"));
-		mockServerClient.when(HttpRequest.request().withMethod("GET").withPath("/"))
-				.respond(HttpResponse.response().withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
+		mockServerClient.when(FEED_REQUEST).respond(HttpResponse.response().withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
 
 		this.client = extension.client();
 		this.feedUrl = "http://localhost:" + mockServerClient.getPort() + "/";
@@ -75,6 +80,13 @@ public abstract class BaseIT {
 	@AfterEach
 	void cleanup() {
 		this.client.close();
+	}
+
+	protected void feedNowReturnsMoreEntries() throws IOException {
+		mockServerClient.clear(FEED_REQUEST);
+
+		URL resource = Objects.requireNonNull(getClass().getResource("/feed/rss_2.xml"));
+		mockServerClient.when(FEED_REQUEST).respond(HttpResponse.response().withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
 	}
 
 	protected String login() {
@@ -111,5 +123,9 @@ public abstract class BaseIT {
 				.request()
 				.get();
 		return response.readEntity(Entries.class);
+	}
+
+	protected void forceRefreshAllFeeds() {
+		client.target(apiBaseUrl + "feed/refreshAll").request().get(Void.class);
 	}
 }

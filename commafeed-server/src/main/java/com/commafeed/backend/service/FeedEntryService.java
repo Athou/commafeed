@@ -17,6 +17,7 @@ import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -38,33 +39,34 @@ public class FeedEntryService {
 	/**
 	 * this is NOT thread-safe
 	 */
-	public boolean addEntry(Feed feed, Entry entry, List<FeedSubscription> subscriptions) {
+	public FeedEntry findOrCreate(Feed feed, Entry entry) {
 		String guid = FeedUtils.truncate(entry.guid(), 2048);
 		String guidHash = DigestUtils.sha1Hex(entry.guid());
-		Long existing = feedEntryDAO.findExisting(guidHash, feed);
+		FeedEntry existing = feedEntryDAO.findExisting(guidHash, feed);
 		if (existing != null) {
-			return false;
+			return existing;
 		}
 
 		FeedEntry feedEntry = buildEntry(feed, entry, guid, guidHash);
 		feedEntryDAO.saveOrUpdate(feedEntry);
+		return feedEntry;
+	}
 
-		// if filter does not match the entry, mark it as read
-		for (FeedSubscription sub : subscriptions) {
-			boolean matches = true;
-			try {
-				matches = feedEntryFilteringService.filterMatchesEntry(sub.getFilter(), feedEntry);
-			} catch (FeedEntryFilteringService.FeedEntryFilterException e) {
-				log.error("could not evaluate filter {}", sub.getFilter(), e);
-			}
-			if (!matches) {
-				FeedEntryStatus status = new FeedEntryStatus(sub.getUser(), sub, feedEntry);
-				status.setRead(true);
-				feedEntryStatusDAO.saveOrUpdate(status);
-			}
+	public boolean applyFilter(FeedSubscription sub, FeedEntry entry) {
+		boolean matches = true;
+		try {
+			matches = feedEntryFilteringService.filterMatchesEntry(sub.getFilter(), entry);
+		} catch (FeedEntryFilterException e) {
+			log.error("could not evaluate filter {}", sub.getFilter(), e);
 		}
 
-		return true;
+		if (!matches) {
+			FeedEntryStatus status = new FeedEntryStatus(sub.getUser(), sub, entry);
+			status.setRead(true);
+			feedEntryStatusDAO.saveOrUpdate(status);
+		}
+
+		return matches;
 	}
 
 	private FeedEntry buildEntry(Feed feed, Entry e, String guid, String guidHash) {

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+	<channel>
+		<title>CommaFeed test feed</title>
+		<link>https://hostname.local/commafeed</link>
+		<description>CommaFeed test feed description</description>
+		<item>
+			<title>Item 4</title>
+			<link>https://hostname.local/commafeed/4</link>
+			<description>Item 4 description</description>
+			<pubDate>Sun, 31 Dec 2023 15:00:00 +0100</pubDate>
+		</item>
+		<item>
+			<title>Item 3</title>
+			<link>https://hostname.local/commafeed/3</link>
+			<description>Item 3 description</description>
+			<pubDate>Sat, 30 Dec 2023 15:00:00 +0100</pubDate>
+		</item>
+		<item>
+			<title>Item 2</title>
+			<link>https://hostname.local/commafeed/2</link>
+			<description>Item 2 description</description>
+			<pubDate>Fri, 29 Dec 2023 15:02:00 +0100</pubDate>
+		</item>
+		<item>
+			<title>Item 1</title>
+			<link>https://hostname.local/commafeed/1</link>
+			<description>Item 1 description</description>
+			<pubDate>Wed, 27 Dec 2023 22:24:00 +0100</pubDate>
+		</item>
+	</channel>
+</rss> 

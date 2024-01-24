@@ -26,8 +26,8 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		super(sessionFactory);
 	}
 
-	public Long findExisting(String guidHash, Feed feed) {
-		return query().select(entry.id).from(entry).where(entry.guidHash.eq(guidHash), entry.feed.eq(feed)).limit(1).fetchOne();
+	public FeedEntry findExisting(String guidHash, Feed feed) {
+		return query().select(entry).from(entry).where(entry.guidHash.eq(guidHash), entry.feed.eq(feed)).limit(1).fetchOne();
 	}
 
 	public List<FeedCapacity> findFeedsExceedingCapacity(long maxCapacity, long max) {

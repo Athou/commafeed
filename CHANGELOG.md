@@ -1,5 +1,10 @@
 # Changelog
 
+## [4.2.1]
+
+- fix an issue that caused the tree to show an incorrect unread count after a websocket notification because entries
+  that were already marked as read by a filtering expression were not ignored (#1191)
+
 ## [4.2.0]
 
 - add a setting to display the action buttons in the footer instead of in the header on mobile (#1121)

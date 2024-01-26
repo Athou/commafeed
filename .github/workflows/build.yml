@@ -11,19 +11,19 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       # Setup
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Set up Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
           distribution: "temurin"
@@ -42,14 +42,14 @@ jobs:
 
       # Docker
       - name: Login to Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         if: ${{ matrix.java == '17' }}
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Docker build and push tag
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         if: ${{ matrix.java == '17' && github.ref_type == 'tag' }}
         with:
           context: .
@@ -60,7 +60,7 @@ jobs:
             athou/commafeed:${{ github.ref_name }}
 
       - name: Docker build and push master
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         if: ${{ matrix.java == '17' && github.ref_name == 'master' }}
         with:
           context: .

@@ -68,7 +68,7 @@ msgid "All"
 msgstr "Pawb"
 
 #: src/components/settings/DisplaySettings.tsx
-msgid "Always scroll selected entry to the top of the page, even if it fits entirely on screen"
+msgid "Always"
 msgstr ""
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
@@ -407,6 +407,10 @@ msgstr ""
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
 msgstr "Os nad yw'n wag, mynegiad sy'n gwerthuso i 'gwir' neu 'anghywir'. "
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "If the entry doesn't entirely fit on the screen"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
 msgstr "Os byddwch yn dod ar draws mater, rhowch wybod amdano ar dudalen materion y prosiect GitHub."
@@ -540,6 +544,10 @@ msgstr "Enw"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Navigate to a subscription by entering its name"
 msgstr "Llywiwch i danysgrifiad trwy nodi ei enw"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Never"
+msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
@@ -707,8 +715,16 @@ msgid "Save"
 msgstr "Arbed"
 
 #: src/components/settings/DisplaySettings.tsx
+msgid "Scroll selected entry to the top of the page"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
 msgstr "Sgroliwch yn esmwyth wrth lywio rhwng cofnodion"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Scrolling"
+msgstr ""
 
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx

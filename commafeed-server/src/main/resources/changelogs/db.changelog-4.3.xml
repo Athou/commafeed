@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<changeSet id="convert-alwaysScrollToEntry-to-scrollMode" author="athou">
+		<addColumn tableName="USERSETTINGS">
+			<column name="scrollMode" type="VARCHAR(32)" />
+		</addColumn>
+		<update tableName="USERSETTINGS">
+			<column name="scrollMode" value="always" />
+			<where>alwaysScrollToEntry = true</where>
+		</update>
+		<update tableName="USERSETTINGS">
+			<column name="scrollMode" value="if_needed" />
+			<where>alwaysScrollToEntry = false</where>
+		</update>
+		<addNotNullConstraint tableName="USERSETTINGS" columnName="scrollMode" />
+		<dropColumn tableName="USERSETTINGS" columnName="alwaysScrollToEntry" />
+	</changeSet>
+
+</databaseChangeLog>

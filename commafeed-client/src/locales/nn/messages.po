@@ -68,7 +68,7 @@ msgid "All"
 msgstr "Alle"
 
 #: src/components/settings/DisplaySettings.tsx
-msgid "Always scroll selected entry to the top of the page, even if it fits entirely on screen"
+msgid "Always"
 msgstr ""
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
@@ -407,6 +407,10 @@ msgstr ""
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
 msgstr "Hvis det ikke er tomt, et uttrykk som vurderes til 'sant' eller 'usant'. "
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "If the entry doesn't entirely fit on the screen"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
 msgstr "Hvis du støter på et problem, vennligst rapporter det på problemsiden til GitHub-prosjektet."
@@ -540,6 +544,10 @@ msgstr "Navn"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Navigate to a subscription by entering its name"
 msgstr "Naviger til et abonnement ved å skrive inn navnet"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Never"
+msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
@@ -707,8 +715,16 @@ msgid "Save"
 msgstr "Lagre"
 
 #: src/components/settings/DisplaySettings.tsx
+msgid "Scroll selected entry to the top of the page"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
 msgstr "Rull jevnt når du navigerer mellom oppføringer"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Scrolling"
+msgstr ""
 
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx

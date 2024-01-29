@@ -162,9 +162,9 @@ export const selectEntry = createAppAsyncThunk(
         if (arg.scrollToEntry) {
             const entryElement = document.getElementById(Constants.dom.entryId(entry))
             if (entryElement) {
-                const alwaysScrollToEntry = state.user.settings?.alwaysScrollToEntry
+                const scrollMode = state.user.settings?.scrollMode
                 const entryEntirelyVisible = Constants.layout.isTopVisible(entryElement) && Constants.layout.isBottomVisible(entryElement)
-                if (alwaysScrollToEntry || !entryEntirelyVisible) {
+                if (scrollMode === "always" || (scrollMode === "if_needed" && !entryEntirelyVisible)) {
                     const scrollSpeed = state.user.settings?.scrollSpeed
                     thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(true))
                     scrollToEntry(entryElement, scrollSpeed, () => thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(false)))

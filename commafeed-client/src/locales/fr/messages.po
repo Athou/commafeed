@@ -68,8 +68,8 @@ msgid "All"
 msgstr "Tout"
 
 #: src/components/settings/DisplaySettings.tsx
-msgid "Always scroll selected entry to the top of the page, even if it fits entirely on screen"
-msgstr "Toujours remonter l'entrée sélectionnée en haut de la page, même si elle s'affiche complètement à l'écran"
+msgid "Always"
+msgstr "Toujours"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
@@ -407,6 +407,10 @@ msgstr "Identifiant"
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
 msgstr "Si non vide, une expression évaluant à 'vrai' ou 'faux'. Si faux, les nouvelles entrées de ce flux seront marquées comme lues automatiquement."
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "If the entry doesn't entirely fit on the screen"
+msgstr "Si l'entrée ne tient pas entièrement sur l'écran"
+
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
 msgstr "Si vous rencontrez un problème, merci de le signaler sur la page du projet GitHub."
@@ -541,6 +545,10 @@ msgstr "Nom"
 msgid "Navigate to a subscription by entering its name"
 msgstr "Naviguer vers un abonnement en entrant son nom"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Never"
+msgstr "Jamais"
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
 msgstr "Nouveau mot de passe"
@@ -576,7 +584,7 @@ msgstr "Du plus ancien au plus récent"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
-msgstr ""
+msgstr "Sur mobile, afficher les boutons d'action en bas de l'écran"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
@@ -707,8 +715,16 @@ msgid "Save"
 msgstr "Enregistrer"
 
 #: src/components/settings/DisplaySettings.tsx
+msgid "Scroll selected entry to the top of the page"
+msgstr "Faire défiler l'entrée sélectionnée vers le haut de la page"
+
+#: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
 msgstr "Défilement animé lors de la navigation entre les entrées"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Scrolling"
+msgstr "Défilement"
 
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx

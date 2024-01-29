@@ -205,7 +205,7 @@ export interface Settings {
     customCss?: string
     customJs?: string
     scrollSpeed: number
-    alwaysScrollToEntry: boolean
+    scrollMode: ScrollMode
     markAllAsReadConfirmation: boolean
     customContextMenu: boolean
     mobileFooter: boolean
@@ -289,3 +289,5 @@ export type ReadingMode = "all" | "unread"
 export type ReadingOrder = "asc" | "desc"
 
 export type ViewMode = "title" | "cozy" | "detailed" | "expanded"
+
+export type ScrollMode = "always" | "never" | "if_needed"

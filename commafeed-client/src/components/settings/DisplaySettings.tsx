@@ -1,32 +1,39 @@
 import { Trans } from "@lingui/macro"
-import { Divider, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
+import { Divider, Group, Radio, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
 import { Constants } from "app/constants"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { type SharingSettings } from "app/types"
+import { type ScrollMode, type SharingSettings } from "app/types"
 import {
-    changeAlwaysScrollToEntry,
     changeCustomContextMenu,
     changeLanguage,
     changeMarkAllAsReadConfirmation,
     changeMobileFooter,
     changeScrollMarks,
+    changeScrollMode,
     changeScrollSpeed,
     changeSharingSetting,
     changeShowRead,
 } from "app/user/thunks"
 import { locales } from "i18n"
+import { type ReactNode } from "react"
 
 export function DisplaySettings() {
     const language = useAppSelector(state => state.user.settings?.language)
     const scrollSpeed = useAppSelector(state => state.user.settings?.scrollSpeed)
     const showRead = useAppSelector(state => state.user.settings?.showRead)
     const scrollMarks = useAppSelector(state => state.user.settings?.scrollMarks)
-    const alwaysScrollToEntry = useAppSelector(state => state.user.settings?.alwaysScrollToEntry)
+    const scrollMode = useAppSelector(state => state.user.settings?.scrollMode)
     const markAllAsReadConfirmation = useAppSelector(state => state.user.settings?.markAllAsReadConfirmation)
     const customContextMenu = useAppSelector(state => state.user.settings?.customContextMenu)
     const mobileFooter = useAppSelector(state => state.user.settings?.mobileFooter)
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const dispatch = useAppDispatch()
+
+    const scrollModeOptions: Record<ScrollMode, ReactNode> = {
+        always: <Trans>Always</Trans>,
+        never: <Trans>Never</Trans>,
+        if_needed: <Trans>If the entry doesn't entirely fit on the screen</Trans>,
+    }
 
     return (
         <Stack>
@@ -41,27 +48,9 @@ export function DisplaySettings() {
             />
 
             <Switch
-                label={<Trans>Scroll smoothly when navigating between entries</Trans>}
-                checked={scrollSpeed ? scrollSpeed > 0 : false}
-                onChange={async e => await dispatch(changeScrollSpeed(e.currentTarget.checked))}
-            />
-
-            <Switch
-                label={<Trans>Always scroll selected entry to the top of the page, even if it fits entirely on screen</Trans>}
-                checked={alwaysScrollToEntry}
-                onChange={async e => await dispatch(changeAlwaysScrollToEntry(e.currentTarget.checked))}
-            />
-
-            <Switch
                 label={<Trans>Show feeds and categories with no unread entries</Trans>}
                 checked={showRead}
                 onChange={async e => await dispatch(changeShowRead(e.currentTarget.checked))}
-            />
-
-            <Switch
-                label={<Trans>In expanded view, scrolling through entries mark them as read</Trans>}
-                checked={scrollMarks}
-                onChange={async e => await dispatch(changeScrollMarks(e.currentTarget.checked))}
             />
 
             <Switch
@@ -80,6 +69,32 @@ export function DisplaySettings() {
                 label={<Trans>On mobile, show action buttons at the bottom of the screen</Trans>}
                 checked={mobileFooter}
                 onChange={async e => await dispatch(changeMobileFooter(e.currentTarget.checked))}
+            />
+
+            <Divider label={<Trans>Scrolling</Trans>} labelPosition="center" />
+
+            <Radio.Group
+                label={<Trans>Scroll selected entry to the top of the page</Trans>}
+                value={scrollMode}
+                onChange={async value => await dispatch(changeScrollMode(value as ScrollMode))}
+            >
+                <Group mt="xs">
+                    {Object.entries(scrollModeOptions).map(e => (
+                        <Radio key={e[0]} value={e[0]} label={e[1]} />
+                    ))}
+                </Group>
+            </Radio.Group>
+
+            <Switch
+                label={<Trans>Scroll smoothly when navigating between entries</Trans>}
+                checked={scrollSpeed ? scrollSpeed > 0 : false}
+                onChange={async e => await dispatch(changeScrollSpeed(e.currentTarget.checked))}
+            />
+
+            <Switch
+                label={<Trans>In expanded view, scrolling through entries mark them as read</Trans>}
+                checked={scrollMarks}
+                onChange={async e => await dispatch(changeScrollMarks(e.currentTarget.checked))}
             />
 
             <Divider label={<Trans>Sharing sites</Trans>} labelPosition="center" />

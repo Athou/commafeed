@@ -35,6 +35,10 @@ public class UserSettings extends AbstractModel {
 		title, cozy, detailed, expanded
 	}
 
+	public enum ScrollMode {
+		always, never, if_needed
+	}
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false, unique = true)
 	private User user;
@@ -66,7 +70,10 @@ public class UserSettings extends AbstractModel {
 	@Column(name = "scroll_speed")
 	private int scrollSpeed;
 
-	private boolean alwaysScrollToEntry;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private ScrollMode scrollMode;
+
 	private boolean markAllAsReadConfirmation;
 	private boolean customContextMenu;
 	private boolean mobileFooter;

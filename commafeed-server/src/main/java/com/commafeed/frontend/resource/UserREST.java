@@ -24,6 +24,7 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
+import com.commafeed.backend.model.UserSettings.ScrollMode;
 import com.commafeed.backend.service.MailService;
 import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.UserService;
@@ -108,7 +109,7 @@ public class UserREST {
 			s.setCustomJs(settings.getCustomJs());
 			s.setLanguage(settings.getLanguage());
 			s.setScrollSpeed(settings.getScrollSpeed());
-			s.setAlwaysScrollToEntry(settings.isAlwaysScrollToEntry());
+			s.setScrollMode(settings.getScrollMode().name());
 			s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());
 			s.setCustomContextMenu(settings.isCustomContextMenu());
 			s.setMobileFooter(settings.isMobileFooter());
@@ -129,7 +130,7 @@ public class UserREST {
 			s.setScrollMarks(true);
 			s.setLanguage("en");
 			s.setScrollSpeed(400);
-			s.setAlwaysScrollToEntry(false);
+			s.setScrollMode(ScrollMode.if_needed.name());
 			s.setMarkAllAsReadConfirmation(true);
 			s.setCustomContextMenu(true);
 			s.setMobileFooter(false);
@@ -158,7 +159,7 @@ public class UserREST {
 		s.setCustomJs(CommaFeedApplication.USERNAME_DEMO.equals(user.getName()) ? "" : settings.getCustomJs());
 		s.setLanguage(settings.getLanguage());
 		s.setScrollSpeed(settings.getScrollSpeed());
-		s.setAlwaysScrollToEntry(settings.isAlwaysScrollToEntry());
+		s.setScrollMode(ScrollMode.valueOf(settings.getScrollMode()));
 		s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());
 		s.setCustomContextMenu(settings.isCustomContextMenu());
 		s.setMobileFooter(settings.isMobileFooter());

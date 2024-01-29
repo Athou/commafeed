@@ -1,7 +1,7 @@
 import { createAppAsyncThunk } from "app/async-thunk"
 import { client } from "app/client"
 import { reloadEntries } from "app/entries/thunks"
-import type { ReadingMode, ReadingOrder, SharingSettings } from "app/types"
+import type { ReadingMode, ReadingOrder, ScrollMode, SharingSettings } from "app/types"
 
 export const reloadSettings = createAppAsyncThunk("settings/reload", async () => await client.user.getSettings().then(r => r.data))
 export const reloadProfile = createAppAsyncThunk("profile/reload", async () => await client.user.getProfile().then(r => r.data))
@@ -38,10 +38,10 @@ export const changeScrollMarks = createAppAsyncThunk("settings/scrollMarks", (sc
     if (!settings) return
     client.user.saveSettings({ ...settings, scrollMarks })
 })
-export const changeAlwaysScrollToEntry = createAppAsyncThunk("settings/alwaysScrollToEntry", (alwaysScrollToEntry: boolean, thunkApi) => {
+export const changeScrollMode = createAppAsyncThunk("settings/scrollMode", (scrollMode: ScrollMode, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return
-    client.user.saveSettings({ ...settings, alwaysScrollToEntry })
+    client.user.saveSettings({ ...settings, scrollMode })
 })
 export const changeMarkAllAsReadConfirmation = createAppAsyncThunk(
     "settings/markAllAsReadConfirmation",

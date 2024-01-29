@@ -3,7 +3,6 @@ import { showNotification } from "@mantine/notifications"
 import { createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { type Settings, type UserModel } from "app/types"
 import {
-    changeAlwaysScrollToEntry,
     changeCustomContextMenu,
     changeLanguage,
     changeMarkAllAsReadConfirmation,
@@ -11,6 +10,7 @@ import {
     changeReadingMode,
     changeReadingOrder,
     changeScrollMarks,
+    changeScrollMode,
     changeScrollSpeed,
     changeSharingSetting,
     changeShowRead,
@@ -65,9 +65,9 @@ export const userSlice = createSlice({
             if (!state.settings) return
             state.settings.scrollMarks = action.meta.arg
         })
-        builder.addCase(changeAlwaysScrollToEntry.pending, (state, action) => {
+        builder.addCase(changeScrollMode.pending, (state, action) => {
             if (!state.settings) return
-            state.settings.alwaysScrollToEntry = action.meta.arg
+            state.settings.scrollMode = action.meta.arg
         })
         builder.addCase(changeMarkAllAsReadConfirmation.pending, (state, action) => {
             if (!state.settings) return
@@ -91,7 +91,7 @@ export const userSlice = createSlice({
                 changeScrollSpeed.fulfilled,
                 changeShowRead.fulfilled,
                 changeScrollMarks.fulfilled,
-                changeAlwaysScrollToEntry.fulfilled,
+                changeScrollMode.fulfilled,
                 changeMarkAllAsReadConfirmation.fulfilled,
                 changeCustomContextMenu.fulfilled,
                 changeMobileFooter.fulfilled,

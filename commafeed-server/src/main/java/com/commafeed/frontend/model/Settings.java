@@ -42,9 +42,10 @@ public class Settings implements Serializable {
 	private int scrollSpeed;
 
 	@Schema(
-			description = "always scroll selected entry to the top of the page, even if it fits entirely on screen",
+			description = "whether to scroll to the selected entry",
+			allowableValues = "always,never,if_needed",
 			requiredMode = RequiredMode.REQUIRED)
-	private boolean alwaysScrollToEntry;
+	private String scrollMode;
 
 	@Schema(description = "ask for confirmation when marking all entries as read", requiredMode = RequiredMode.REQUIRED)
 	private boolean markAllAsReadConfirmation;

@@ -406,7 +406,7 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<!-- stay on 2.1 because 2.2 file format changed to version '3' -->
-			<version>2.1.214</version><!--$NO-MVN-MAN-VER$ -->
+			<version>2.2.224</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>

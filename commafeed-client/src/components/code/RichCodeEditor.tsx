@@ -27,7 +27,7 @@ const init = async () => {
 interface RichCodeEditorProps {
     height: number | string
     language: "css" | "javascript"
-    value: string
+    value?: string
     onChange: (value: string | undefined) => void
 }
 

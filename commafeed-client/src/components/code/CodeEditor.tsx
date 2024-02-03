@@ -6,7 +6,7 @@ import { type ReactNode } from "react"
 interface CodeEditorProps {
     description?: ReactNode
     language: "css" | "javascript"
-    value: string
+    value?: string
     onChange: (value: string | undefined) => void
 }
 

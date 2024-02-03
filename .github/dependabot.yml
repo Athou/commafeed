@@ -5,6 +5,18 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
+  - package-ecosystem: "npm"
+    directory: "/commafeed-client"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    groups:
+      mantine:
+        patterns:
+          - "@mantine/*"
+      lingui:
+        patterns:
+          - "@lingui/*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

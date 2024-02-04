@@ -15,11 +15,11 @@ msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
-msgstr ""
+msgstr "<0>CommaFeed és un projecte de codi obert. El codi font està allotjat a </0><1>GitHub</1>."
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
-msgstr ""
+msgstr "<0>La sintaxi completa està disponible </0><1>aquí</1>."
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
@@ -27,7 +27,7 @@ msgstr "<0>Teniu un compte?</0><1>Inicieu la sessió!</1>"
 
 #: src/pages/app/DonatePage.tsx
 msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
-msgstr ""
+msgstr "<0>Ei,</0><1> sóc la Jérémie de Bèlgica i fa més de 10 anys que treballo a CommaFeed en el meu temps lliure. Gràcies per interessar-te i ajudar-me a continuar donant suport a CommaFeed.</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
@@ -69,7 +69,7 @@ msgstr "Tot"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
-msgstr ""
+msgstr "Sempre"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
@@ -85,7 +85,7 @@ msgstr "Analitzar el feed"
 
 #: src/components/AnnouncementDialog.tsx
 msgid "Announcement"
-msgstr ""
+msgstr "Anunci"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
@@ -117,7 +117,7 @@ msgstr "Estàs segur que vols cancel·lar la subscripció a <0>{feedName}</0>?"
 
 #: src/components/header/Header.tsx
 msgid "Asc"
-msgstr ""
+msgstr "Asc"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
@@ -133,11 +133,11 @@ msgstr "Tornar a iniciar sessió"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
-msgstr ""
+msgstr "Extensió del navegador necessària per a Chrome"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extention"
-msgstr ""
+msgstr "Extensió del navegador"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -173,15 +173,15 @@ msgstr "Comproveu que el canal funciona"
 
 #: src/pages/app/Layout.tsx
 msgid "Close menu"
-msgstr ""
+msgstr "Tanca el menu"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
-msgstr ""
+msgstr "Versió de l'extensió del navegador CommaFeed {browserExtensionVersion}."
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
-msgstr ""
+msgstr "CommaFeed és compatible amb l'API Fever. Utilitzeu l'URL següent al vostre client mòbil compatible amb Fever. Inicieu sessió amb el vostre nom d'usuari i la vostra <0>clau API</0>."
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -189,7 +189,7 @@ msgstr "CommaFeed següent element no llegit"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed version {version} ({revision})."
-msgstr ""
+msgstr "CommaFeed versió {version} ({version})."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"
@@ -201,7 +201,7 @@ msgstr "Compacte"
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Confirm"
-msgstr "Confirmar"
+msgstr "Confirma"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Confirm password"
@@ -213,7 +213,7 @@ msgstr "Acollidor"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Current password"
@@ -221,19 +221,19 @@ msgstr "Contrasenya actual"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Custom code"
-msgstr ""
+msgstr "Codi personalitzat"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
-msgstr ""
+msgstr "Regles CSS personalitzades que s'aplicaran"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
+msgstr "Codi JS personalitzat que s'executarà en carregar la pàgina"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Dark"
-msgstr ""
+msgstr "Fosc"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -258,11 +258,11 @@ msgstr "Suprimeix l'usuari"
 
 #: src/components/header/Header.tsx
 msgid "Desc"
-msgstr ""
+msgstr "Desc"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Detailed"
-msgstr ""
+msgstr "Detallat"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/SettingsPage.tsx
@@ -272,7 +272,7 @@ msgstr "Mostra"
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/DonatePage.tsx
 msgid "Donate"
-msgstr ""
+msgstr "Donar"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
@@ -314,7 +314,7 @@ msgstr "introduïu la vostra contrasenya actual per canviar la configuració del
 
 #: src/components/Alert.tsx
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Example: {example}."
@@ -331,7 +331,7 @@ msgstr "exporteu les vostres subscripcions i categories com a fitxer OPML que es
 #: src/components/header/Header.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Extension options"
-msgstr ""
+msgstr "Opcions de l'extensió"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
@@ -345,7 +345,7 @@ msgstr "URL del canal"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
-msgstr ""
+msgstr "Carrega tots els meus feeds ara"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API"
@@ -385,7 +385,7 @@ msgstr "URL del feed generat"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Go to {0}"
-msgstr ""
+msgstr "Vés a {0}"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
@@ -401,7 +401,7 @@ msgstr "Bones"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
@@ -409,7 +409,7 @@ msgstr "Si no està buida, una expressió que s'avalua com a \"vertader\" o \"fa
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
-msgstr ""
+msgstr "Si l'entrada no encaixa del tot a la pantalla"
 
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
@@ -451,7 +451,7 @@ msgstr "últim missatge d'actualització"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
-msgstr ""
+msgstr "Clar"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -519,7 +519,7 @@ msgstr "mètriques"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Middle click"
-msgstr ""
+msgstr "Clic central"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
@@ -547,7 +547,7 @@ msgstr "Navegueu a una subscripció introduint-ne el nom"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Never"
-msgstr ""
+msgstr "Mai"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
@@ -584,7 +584,7 @@ msgstr "el més vell primer"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
-msgstr ""
+msgstr "Al mòbil, mostra els botons d'acció a la part inferior de la pantalla"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
@@ -592,7 +592,7 @@ msgstr "Vaja!"
 
 #: src/components/header/Header.tsx
 msgid "Open CommaFeed"
-msgstr ""
+msgstr "Obre CommaFeed"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
@@ -604,19 +604,19 @@ msgstr "Obre l'entrada actual en una pestanya nova al fons"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
-msgstr "Enllaç obert"
+msgstr "Obre l'enllaç obert"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new background tab"
-msgstr ""
+msgstr "Obre l'enllaç a una pestanya de fons nova"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new tab"
-msgstr ""
+msgstr "Obre l'enllaç en una pestanya nova"
 
 #: src/pages/app/Layout.tsx
 msgid "Open menu"
-msgstr ""
+msgstr "Obre el menú"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
@@ -632,7 +632,7 @@ msgstr "Obrir/tancar l'entrada actual"
 
 #: src/pages/app/AddPage.tsx
 msgid "OPML"
-msgstr ""
+msgstr "OPML"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "OPML export"
@@ -678,7 +678,7 @@ msgstr "Posició"
 
 #: src/components/header/Header.tsx
 msgid "Previous"
-msgstr ""
+msgstr "Anterior"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -704,7 +704,7 @@ msgstr "API REST"
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
-msgstr ""
+msgstr "Clic dret"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
@@ -716,7 +716,7 @@ msgstr "Desa"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll selected entry to the top of the page"
-msgstr ""
+msgstr "Desplaceu-vos per l'entrada seleccionada fins a la part superior de la pàgina"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
@@ -724,7 +724,7 @@ msgstr "Desplaceu-vos suaument quan navegueu entre entrades"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scrolling"
-msgstr ""
+msgstr "Desplaçament"
 
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
@@ -769,19 +769,19 @@ msgstr "canvi"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show CommaFeed's own context menu on right click"
-msgstr ""
+msgstr "Mostra el menú contextual de CommaFeed fent clic amb el botó dret"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show confirmation when marking all entries as read"
-msgstr ""
+msgstr "Mostra la confirmació en marcar totes les entrades com a llegides"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
-msgstr ""
+msgstr "Mostra el menú d'entrada (escriptori)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (mobile)"
-msgstr ""
+msgstr "Mostra el menú d'entrada (mòbil)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
@@ -793,13 +793,13 @@ msgstr "Mostra l'ajuda de la drecera del teclat"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
-msgstr ""
+msgstr "Mostra el menú natiu (escriptori)"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Sign up"
-msgstr "Inscriu-te"
+msgstr "Registra't"
 
 #: src/pages/ErrorPage.tsx
 msgid "Something bad just happened..."
@@ -840,7 +840,7 @@ msgstr "Éxit"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Swipe header to the left"
-msgstr ""
+msgstr "Feu lliscar la capçalera cap a l'esquerra"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
@@ -852,7 +852,7 @@ msgstr "Canvia al tema clar"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -869,7 +869,7 @@ msgstr "Tema"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr ""
+msgstr "Aquesta és la vostra clau de l'API. Es pot utilitzar per a algunes operacions de l'API de només lectura i permet accedir a l'API Fever. Utilitzeu el formulari de la part inferior de la pàgina per generar una nova clau d'API."
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
@@ -877,11 +877,11 @@ msgstr "Canvia l'estat de lectura de l'entrada actual"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Canvia la barra lateral"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle starred status of current entry"
-msgstr ""
+msgstr "Commuta l'estat destacat de l'entrada actual"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -889,7 +889,7 @@ msgstr "Proveu CommaFeed amb el compte de demostració: demo/demo"
 
 #: src/pages/WelcomePage.tsx
 msgid "Try the demo!"
-msgstr ""
+msgstr "Prova la demostració!"
 
 #: src/components/header/Header.tsx
 msgid "Unread"
@@ -928,4 +928,4 @@ msgstr "Encara no teniu cap subscripció. "
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
+msgstr "Els vostres feeds s'han posat a la cua per actualitzar-los."

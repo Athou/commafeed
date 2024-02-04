@@ -1,4 +1,4 @@
-package com.commafeed.backend.service;
+package com.commafeed.backend.service.db;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserDAO;
+import com.commafeed.backend.service.UserService;
 
 import io.dropwizard.lifecycle.Managed;
 import jakarta.inject.Inject;

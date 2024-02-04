@@ -1,4 +1,4 @@
-package com.commafeed.backend.service;
+package com.commafeed.backend.service.db;
 
 import java.time.Instant;
 import java.util.List;

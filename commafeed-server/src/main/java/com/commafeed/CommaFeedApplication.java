@@ -1,6 +1,8 @@
 package com.commafeed;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.EnumSet;
 import java.util.Set;
@@ -24,8 +26,9 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserSettings;
-import com.commafeed.backend.service.DatabaseStartupService;
 import com.commafeed.backend.service.UserService;
+import com.commafeed.backend.service.db.DatabaseStartupService;
+import com.commafeed.backend.service.db.H2MigrationService;
 import com.commafeed.backend.task.ScheduledTask;
 import com.commafeed.frontend.auth.PasswordConstraintValidator;
 import com.commafeed.frontend.auth.SecurityCheckFactoryProvider;
@@ -58,6 +61,7 @@ import io.dropwizard.configuration.DefaultConfigurationFactoryFactory;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.core.Application;
+import io.dropwizard.core.ConfiguredBundle;
 import io.dropwizard.core.setup.Bootstrap;
 import io.dropwizard.core.setup.Environment;
 import io.dropwizard.db.DataSourceFactory;
@@ -92,6 +96,30 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 	public void initialize(Bootstrap<CommaFeedConfiguration> bootstrap) {
 		configureEnvironmentSubstitutor(bootstrap);
 		configureObjectMapper(bootstrap.getObjectMapper());
+
+		// run h2 migration as the first bundle because we need to migrate before hibernate is initialized
+		bootstrap.addBundle(new ConfiguredBundle<CommaFeedConfiguration>() {
+			@Override
+			public void run(CommaFeedConfiguration config, Environment environment) throws Exception {
+				DataSourceFactory dataSourceFactory = config.getDataSourceFactory();
+				String url = dataSourceFactory.getUrl();
+				if (isFileBasedH2(url)) {
+					Path path = getFilePath(url);
+					String user = dataSourceFactory.getUser();
+					String password = dataSourceFactory.getPassword();
+					new H2MigrationService().migrateIfNeeded(path, user, password);
+				}
+			}
+
+			private boolean isFileBasedH2(String url) {
+				return url.startsWith("jdbc:h2:") && !url.startsWith("jdbc:h2:mem:");
+			}
+
+			private Path getFilePath(String url) {
+				String name = url.substring("jdbc:h2:".length()).split(";")[0];
+				return Paths.get(name + ".mv.db");
+			}
+		});
 
 		bootstrap.addBundle(hibernateBundle = new HibernateBundle<>(AbstractModel.class, Feed.class, FeedCategory.class, FeedEntry.class,
 				FeedEntryContent.class, FeedEntryStatus.class, FeedEntryTag.class, FeedSubscription.class, User.class, UserRole.class,

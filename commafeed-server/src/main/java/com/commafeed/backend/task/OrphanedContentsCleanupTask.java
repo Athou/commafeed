@@ -2,7 +2,7 @@ package com.commafeed.backend.task;
 
 import java.util.concurrent.TimeUnit;
 
-import com.commafeed.backend.service.DatabaseCleaningService;
+import com.commafeed.backend.service.db.DatabaseCleaningService;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;

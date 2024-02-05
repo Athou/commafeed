@@ -3,7 +3,6 @@ package com.commafeed.frontend.ws;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.MetricRegistry;
@@ -38,12 +37,7 @@ public class WebSocketSessions {
 	}
 
 	public void sendMessage(User user, String text) {
-		Set<Session> userSessions = sessions.entrySet()
-				.stream()
-				.filter(e -> e.getKey().equals(user.getId()))
-				.flatMap(e -> e.getValue().stream())
-				.collect(Collectors.toSet());
-
+		Set<Session> userSessions = sessions.get(user.getId());
 		if (!userSessions.isEmpty()) {
 			log.debug("sending '{}' to {} users via websocket", text, userSessions.size());
 			for (Session userSession : userSessions) {

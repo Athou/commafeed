@@ -25,6 +25,14 @@ Docker is the easiest way to get started with CommaFeed.
 
 Docker images are built automatically and are available at https://hub.docker.com/r/athou/commafeed
 
+You can use the `docker-compose.yml` file included in the [CommaFeed](https://github.com/Athou/commafeed) repository to run the latest stable version of the server.
+
+#### To create and run the container:
+
+```sh
+$ docker-compose up -d
+```
+
 ### Cloud hosting
 
 [PikaPods](https://www.pikapods.com) offers 1-click cloud hosting solutions starting at $1/month with a free $5
@@ -85,8 +93,8 @@ located [here](https://github.com/Athou/commafeed/tree/master/commafeed-client/s
 To add a new language:
 
 - add the new locale to the `locales` array in:
-    - `commafeed-client/.linguirc`
-    - `commafeed-client/src/i18n.ts`
+  - `commafeed-client/.linguirc`
+  - `commafeed-client/src/i18n.ts`
 - run `npm run i18n:extract`
 - add translations to the newly created `commafeed-client/src/locales/[locale]/messages.po` file
 
@@ -98,7 +106,7 @@ two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_6
 ### Backend
 
 - Open `commafeed-server` in your preferred Java IDE.
-    - CommaFeed uses Lombok, you need the Lombok plugin for your IDE.
+  - CommaFeed uses Lombok, you need the Lombok plugin for your IDE.
 - Start `CommaFeedApplication.java` in debug mode with `server config.dev.yml` as arguments
 
 ### Frontend

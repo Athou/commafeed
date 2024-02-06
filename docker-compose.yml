@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  commafeed:
+    image: athou/commafeed:latest
+    restart: unless-stopped
+    ports:
+      # This line makes CommaFeed available at port 8082 of the device you run the server on,
+      # i.e. http://localhost:8082. You can change the first number to change the port, if you want.
+      - 8082:8082

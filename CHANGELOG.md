@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.3.0]
+
+- h2 (the embedded database) has been upgraded to 2.2.224
+    - this version uses a different file format than 2.1.x, the first time you start CommaFeed with this version, the
+      database will be automatically converted to the new format
+- add a setting to completely disable scrolling to selected entry (#1157)
+- add a css class reflecting the current view mode to ease custom css rules (#1232)
+- fix an issue that prevents new feeds from being added when mysql/mariadb is used as the database (#1239)
+
 ## [4.2.1]
 
 - fix an issue that caused the tree to show an incorrect unread count after a websocket notification because entries

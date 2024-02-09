@@ -14,7 +14,7 @@ const shownMeters: Record<string, string> = {
     "com.commafeed.backend.feed.FeedRefreshUpdater.feedUpdated": "Feed update rate",
     "com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheHit": "Entry cache hit rate",
     "com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheMiss": "Entry cache miss rate",
-    "com.commafeed.backend.service.DatabaseCleaningService.entriesDeleted": "Entries deleted",
+    "com.commafeed.backend.service.db.DatabaseCleaningService.entriesDeleted": "Entries deleted",
 }
 
 const shownGauges: Record<string, string> = {

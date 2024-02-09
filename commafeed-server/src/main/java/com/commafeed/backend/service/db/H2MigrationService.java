@@ -18,6 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 public class H2MigrationService {
 
 	public void migrateIfNeeded(Path path, String user, String password) {
+		if (Files.notExists(path)) {
+			return;
+		}
+
 		int format;
 		try {
 			format = getH2FileFormat(path);

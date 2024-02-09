@@ -58,6 +58,10 @@ public class H2MigrationService {
 		Path newVersionPath = path.resolveSibling(path.getFileName() + "." + getPatchVersion(toVersion) + ".mv.db");
 		Path oldVersionBackupPath = path.resolveSibling(path.getFileName() + "." + getPatchVersion(fromVersion) + ".backup");
 
+		Files.deleteIfExists(scriptPath);
+		Files.deleteIfExists(newVersionPath);
+		Files.deleteIfExists(oldVersionBackupPath);
+
 		H2MigrationTool.readDriverRecords();
 		new H2MigrationTool().migrate(fromVersion, toVersion, path.toAbsolutePath().toString(), user, password,
 				scriptPath.toAbsolutePath().toString(), "", "", false, false, "");

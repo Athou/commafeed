@@ -4,6 +4,7 @@
 				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
 	<changeSet id="convert-alwaysScrollToEntry-to-scrollMode" author="athou">
+		<validCheckSum>9:663bcc7c6df5b832ec2109a3afcff5c6</validCheckSum>
 		<addColumn tableName="USERSETTINGS">
 			<column name="scrollMode" type="VARCHAR(32)" />
 		</addColumn>
@@ -15,7 +16,7 @@
 			<column name="scrollMode" value="if_needed" />
 			<where>alwaysScrollToEntry = false</where>
 		</update>
-		<addNotNullConstraint tableName="USERSETTINGS" columnName="scrollMode" />
+		<addNotNullConstraint tableName="USERSETTINGS" columnName="scrollMode" columnDataType="VARCHAR(32)" />
 		<dropColumn tableName="USERSETTINGS" columnName="alwaysScrollToEntry" />
 	</changeSet>
 

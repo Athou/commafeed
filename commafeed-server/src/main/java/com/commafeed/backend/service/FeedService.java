@@ -45,7 +45,7 @@ public class FeedService {
 			feed.setUrl(url);
 			feed.setNormalizedUrl(normalizedUrl);
 			feed.setNormalizedUrlHash(normalizedUrlHash);
-			feed.setDisabledUntil(Instant.EPOCH);
+			feed.setDisabledUntil(Feed.MINIMUM_DISABLED_UNTIL);
 			feedDAO.saveOrUpdate(feed);
 		}
 		return feed;

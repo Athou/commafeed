@@ -177,7 +177,7 @@ public class FeedRefreshUpdater {
 
 		if (!processed) {
 			// requeue asap
-			feed.setDisabledUntil(Instant.EPOCH);
+			feed.setDisabledUntil(Feed.MINIMUM_DISABLED_UNTIL);
 		}
 
 		if (inserted > 0) {

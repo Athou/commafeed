@@ -9,7 +9,7 @@ export function Enclosure(props: { enclosureType: string; enclosureUrl: string }
     return (
         <BasicHtmlStyles>
             {hasVideo && (
-                <video controls>
+                <video controls width="100%">
                     <source src={props.enclosureUrl} type={props.enclosureType} />
                 </video>
             )}

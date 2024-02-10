@@ -15,9 +15,6 @@ import lombok.Setter;
 @Setter
 public class Feed extends AbstractModel {
 
-	// mariadb timestamp range starts at 1970-01-01 00:00:01
-	public static final Instant MINIMUM_DISABLED_UNTIL = Instant.EPOCH.plusSeconds(1);
-
 	/**
 	 * The url of the feed
 	 */

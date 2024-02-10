@@ -25,6 +25,7 @@ import com.commafeed.backend.feed.parser.FeedParserResult.Entry;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedService;
@@ -177,7 +178,7 @@ public class FeedRefreshUpdater {
 
 		if (!processed) {
 			// requeue asap
-			feed.setDisabledUntil(Feed.MINIMUM_DISABLED_UNTIL);
+			feed.setDisabledUntil(Models.MINIMUM_INSTANT);
 		}
 
 		if (inserted > 0) {

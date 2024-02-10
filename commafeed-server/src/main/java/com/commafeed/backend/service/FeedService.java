@@ -12,6 +12,7 @@ import com.commafeed.backend.favicon.AbstractFaviconFetcher;
 import com.commafeed.backend.favicon.Favicon;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.Models;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -45,7 +46,7 @@ public class FeedService {
 			feed.setUrl(url);
 			feed.setNormalizedUrl(normalizedUrl);
 			feed.setNormalizedUrlHash(normalizedUrlHash);
-			feed.setDisabledUntil(Feed.MINIMUM_DISABLED_UNTIL);
+			feed.setDisabledUntil(Models.MINIMUM_INSTANT);
 			feedDAO.saveOrUpdate(feed);
 		}
 		return feed;

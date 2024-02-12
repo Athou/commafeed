@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.3.1]
+
+- fix an issue that prevents new feeds from being added when mysql/mariadb is used as the database and the database
+  timezone is not UTC (#1239)
+- videos in enclosures can no longer have a width larger than the page (#1240)
+
 ## [4.3.0]
 
 - h2 (the embedded database) has been upgraded to 2.2.224

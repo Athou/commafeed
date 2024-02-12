@@ -1,7 +1,6 @@
-import { Box, Divider, type MantineRadius, type MantineSpacing, type MantineTheme, Paper, useMantineTheme } from "@mantine/core"
+import { Box, Divider, type MantineRadius, type MantineSpacing, Paper } from "@mantine/core"
 import { Constants } from "app/constants"
 import { type Entry, type ViewMode } from "app/types"
-import { useColorScheme } from "hooks/useColorScheme"
 import { useViewMode } from "hooks/useViewMode"
 import React from "react"
 import { useSwipeable } from "react-swipeable"
@@ -26,8 +25,6 @@ interface FeedEntryProps {
 
 const useStyles = tss
     .withParams<{
-        theme: MantineTheme
-        colorScheme: "light" | "dark"
         read: boolean
         expanded: boolean
         viewMode: ViewMode
@@ -96,12 +93,8 @@ const useStyles = tss
     })
 
 export function FeedEntry(props: FeedEntryProps) {
-    const theme = useMantineTheme()
-    const colorScheme = useColorScheme()
     const { viewMode } = useViewMode()
     const { classes, cx } = useStyles({
-        theme,
-        colorScheme,
         read: props.entry.read,
         expanded: props.expanded,
         viewMode,

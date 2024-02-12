@@ -1,7 +1,6 @@
 import { Box, Space, Text } from "@mantine/core"
 import { type Entry } from "app/types"
 import { RelativeDate } from "components/RelativeDate"
-import { useColorScheme } from "hooks/useColorScheme"
 import { tss } from "tss"
 import { FeedEntryTitle } from "./FeedEntryTitle"
 import { FeedFavicon } from "./FeedFavicon"
@@ -13,7 +12,6 @@ export interface FeedEntryHeaderProps {
 
 const useStyles = tss
     .withParams<{
-        colorScheme: "light" | "dark"
         read: boolean
     }>()
     .create(({ colorScheme, read }) => ({
@@ -28,9 +26,7 @@ const useStyles = tss
     }))
 
 export function FeedEntryHeader(props: FeedEntryHeaderProps) {
-    const colorScheme = useColorScheme()
     const { classes } = useStyles({
-        colorScheme,
         read: props.entry.read,
     })
     return (

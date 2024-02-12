@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro"
-import { Group, type MantineTheme, useMantineTheme } from "@mantine/core"
+import { Group } from "@mantine/core"
 import { Constants } from "app/constants"
 import { markEntriesUpToEntry, markEntry, starEntry } from "app/entries/thunks"
 import { redirectToFeed } from "app/redirect/thunks"
@@ -17,28 +17,19 @@ interface FeedEntryContextMenuProps {
 }
 
 const iconSize = 16
-const useStyles = tss
-    .withParams<{
-        theme: MantineTheme
-        colorScheme: "light" | "dark"
-    }>()
-    .create(({ theme, colorScheme }) => ({
-        menu: {
-            // apply mantine theme from MenuItem.styles.ts
-            fontSize: theme.fontSizes.sm,
-            "--contexify-item-color": `${colorScheme === "dark" ? theme.colors.dark[0] : theme.black} !important`,
-            "--contexify-activeItem-color": `${colorScheme === "dark" ? theme.colors.dark[0] : theme.black} !important`,
-            "--contexify-activeItem-bgColor": `${colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[1]} !important`,
-        },
-    }))
+const useStyles = tss.create(({ theme, colorScheme }) => ({
+    menu: {
+        // apply mantine theme from MenuItem.styles.ts
+        fontSize: theme.fontSizes.sm,
+        "--contexify-item-color": `${colorScheme === "dark" ? theme.colors.dark[0] : theme.black} !important`,
+        "--contexify-activeItem-color": `${colorScheme === "dark" ? theme.colors.dark[0] : theme.black} !important`,
+        "--contexify-activeItem-bgColor": `${colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[1]} !important`,
+    },
+}))
 
 export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
-    const theme = useMantineTheme()
     const colorScheme = useColorScheme()
-    const { classes } = useStyles({
-        theme,
-        colorScheme,
-    })
+    const { classes } = useStyles()
     const sourceType = useAppSelector(state => state.entries.source.type)
     const dispatch = useAppDispatch()
     const { openLinkInBackgroundTab } = useBrowserExtension()

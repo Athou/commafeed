@@ -1,5 +1,4 @@
-import { Box, Center, type MantineTheme, useMantineTheme } from "@mantine/core"
-import { useColorScheme } from "hooks/useColorScheme"
+import { Box, Center } from "@mantine/core"
 import { useState } from "react"
 import { TbPhoto } from "react-icons/tb"
 import { tss } from "tss"
@@ -18,8 +17,6 @@ interface ImageWithPlaceholderWhileLoadingProps {
 
 const useStyles = tss
     .withParams<{
-        theme: MantineTheme
-        colorScheme: "light" | "dark"
         placeholderWidth?: number
         placeholderHeight?: number
         placeholderBackgroundColor?: string
@@ -46,11 +43,7 @@ export function ImageWithPlaceholderWhileLoading({
     title,
     width,
 }: ImageWithPlaceholderWhileLoadingProps) {
-    const theme = useMantineTheme()
-    const colorScheme = useColorScheme()
     const { classes } = useStyles({
-        theme,
-        colorScheme,
         placeholderWidth,
         placeholderHeight,
         placeholderBackgroundColor,

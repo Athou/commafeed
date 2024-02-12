@@ -1,8 +1,7 @@
-import { ActionIcon, Box, type MantineTheme, SimpleGrid, useMantineTheme } from "@mantine/core"
+import { ActionIcon, Box, SimpleGrid } from "@mantine/core"
 import { Constants } from "app/constants"
 import { useAppSelector } from "app/store"
 import { type SharingSettings } from "app/types"
-import { useColorScheme } from "hooks/useColorScheme"
 import { type IconType } from "react-icons"
 import { tss } from "tss"
 
@@ -10,8 +9,6 @@ type Color = `#${string}`
 
 const useStyles = tss
     .withParams<{
-        theme: MantineTheme
-        colorScheme: "light" | "dark"
         color: Color
     }>()
     .create(({ theme, colorScheme, color }) => ({
@@ -23,11 +20,7 @@ const useStyles = tss
     }))
 
 function ShareButton({ url, icon, color }: { url: string; icon: IconType; color: Color }) {
-    const theme = useMantineTheme()
-    const colorScheme = useColorScheme()
     const { classes } = useStyles({
-        theme,
-        colorScheme,
         color,
     })
 

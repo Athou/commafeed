@@ -1,6 +1,5 @@
-import { Box, Center, type MantineTheme, useMantineTheme } from "@mantine/core"
+import { Box, Center } from "@mantine/core"
 import { FeedFavicon } from "components/content/FeedFavicon"
-import { useColorScheme } from "hooks/useColorScheme"
 import React, { type ReactNode } from "react"
 import { tss } from "tss"
 import { UnreadCount } from "./UnreadCount"
@@ -20,8 +19,6 @@ interface TreeNodeProps {
 
 const useStyles = tss
     .withParams<{
-        theme: MantineTheme
-        colorScheme: "dark" | "light"
         selected: boolean
         hasError: boolean
         hasUnread: boolean
@@ -60,11 +57,7 @@ const useStyles = tss
     })
 
 export function TreeNode(props: TreeNodeProps) {
-    const theme = useMantineTheme()
-    const colorScheme = useColorScheme()
     const { classes } = useStyles({
-        theme,
-        colorScheme,
         selected: props.selected,
         hasError: props.hasError,
         hasUnread: props.unread > 0,

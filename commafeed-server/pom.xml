@@ -399,7 +399,7 @@
 		<dependency>
 			<groupId>com.google.apis</groupId>
 			<artifactId>google-api-services-youtube</artifactId>
-			<version>v3-rev20240123-2.0.0</version>
+			<version>v3-rev20240211-2.0.0</version>
 		</dependency>
 
 		<dependency>

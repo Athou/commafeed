@@ -108,7 +108,7 @@ export function AdminUsersPage() {
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
-                    {users?.map(u => (
+                    {users.map(u => (
                         <Table.Tr key={u.id}>
                             <Table.Td>{u.id}</Table.Td>
                             <Table.Td>{u.name}</Table.Td>

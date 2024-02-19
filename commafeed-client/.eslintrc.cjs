@@ -1,28 +1,36 @@
 module.exports = {
     env: {
         browser: true,
-        es2021: true
+        es2021: true,
     },
-    extends: ["standard-with-typescript", "plugin:react/recommended", "plugin:react-hooks/recommended", "plugin:prettier/recommended"],
+    extends: [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/strict-type-checked",
+        "plugin:@typescript-eslint/stylistic-type-checked",
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:prettier/recommended",
+    ],
     settings: {
         react: {
-            version: "detect"
-        }
+            version: "detect",
+        },
     },
     overrides: [
         {
             env: {
-                node: true
+                node: true,
             },
             files: [".eslintrc.{js,cjs}"],
             parserOptions: {
-                sourceType: "script"
-            }
-        }
+                sourceType: "script",
+            },
+        },
     ],
     parserOptions: {
+        project: true,
         ecmaVersion: "latest",
-        sourceType: "module"
+        sourceType: "module",
     },
     plugins: ["react"],
     rules: {
@@ -31,11 +39,13 @@ module.exports = {
         "@typescript-eslint/no-confusing-void-expression": ["error", { ignoreArrowShorthand: true }],
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-misused-promises": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
         "@typescript-eslint/prefer-nullish-coalescing": ["error", { ignoreConditionalTests: true }],
         "@typescript-eslint/strict-boolean-expressions": "off",
         "@typescript-eslint/unbound-method": "off",
         "react/no-unescaped-entities": "off",
         "react/react-in-jsx-scope": "off",
-        "react-hooks/exhaustive-deps": "error"
-    }
+        "react-hooks/exhaustive-deps": "error",
+    },
 }

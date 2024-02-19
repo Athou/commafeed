@@ -295,7 +295,6 @@ export function FeedEntries() {
         })
     )
 
-    if (!entries) return <Loader />
     return (
         <InfiniteScroll
             id="entries"

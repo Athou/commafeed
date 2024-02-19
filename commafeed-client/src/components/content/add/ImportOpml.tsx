@@ -14,7 +14,7 @@ export function ImportOpml() {
 
     const form = useForm<{ file: File }>({
         validate: {
-            file: v => (v ? null : t`file is required`),
+            file: () => t`file is required`,
         },
     })
 

@@ -31,12 +31,14 @@ const axiosInstance = axios.create({ baseURL: "./rest", withCredentials: true })
 axiosInstance.interceptors.response.use(
     response => response,
     error => {
-        const { status, data } = error.response
-        if (
-            (status === 401 && data?.message === "Credentials are required to access this resource.") ||
-            (status === 403 && data?.message === "You don't have the required role to access this resource.")
-        ) {
-            window.location.hash = data?.allowRegistrations ? "/welcome" : "/login"
+        if (axios.isAxiosError(error) && error.response) {
+            const { status, data } = error.response
+            if (
+                (status === 401 && data?.message === "Credentials are required to access this resource.") ||
+                (status === 403 && data?.message === "You don't have the required role to access this resource.")
+            ) {
+                window.location.hash = data?.allowRegistrations ? "/welcome" : "/login"
+            }
         }
         throw error
     }
@@ -107,13 +109,11 @@ export const client = {
 export const errorToStrings = (err: unknown) => {
     let strings: string[] = []
 
-    if (axios.isAxiosError(err)) {
-        if (err.response) {
-            const { data } = err.response
-            if (typeof data === "string") strings.push(data)
-            if (typeof data === "object" && data.message) strings.push(data.message as string)
-            if (typeof data === "object" && data.errors) strings = [...strings, ...data.errors]
-        }
+    if (axios.isAxiosError(err) && err.response) {
+        const { data } = err.response
+        if (typeof data === "string") strings.push(data)
+        if (typeof data === "object" && data.message) strings.push(data.message as string)
+        if (typeof data === "object" && data.errors) strings = [...strings, ...data.errors]
     }
 
     return strings

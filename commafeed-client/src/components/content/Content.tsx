@@ -76,7 +76,7 @@ class HighlightMatcher extends Matcher {
         return this.doMatch(string, new RegExp(pattern, "i"), () => ({}))
     }
 
-    replaceWith(children: ChildrenNode, props: unknown): Node {
+    replaceWith(children: ChildrenNode): Node {
         return <Mark>{children}</Mark>
     }
 

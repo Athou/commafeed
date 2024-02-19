@@ -44,8 +44,8 @@ export const locales: Locale[] = [
 
 function activateLocale(locale: string) {
     // lingui
-    import(`./locales/${locale}/messages.po`).then(data => {
-        i18n.load(locale, data.messages as Messages)
+    import(`./locales/${locale}/messages.po`).then((data: { messages: Messages }) => {
+        i18n.load(locale, data.messages)
         i18n.activate(locale)
     })
 

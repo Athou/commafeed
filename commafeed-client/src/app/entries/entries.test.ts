@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 import { configureStore } from "@reduxjs/toolkit"
 import { type client } from "app/client"
 import { loadEntries, loadMoreEntries, markAllEntries, markEntry } from "app/entries/thunks"
@@ -90,7 +89,7 @@ describe("entries", () => {
         expect(store.getState().entries.hasMore).toBe(false)
     })
 
-    it("marks an entry as read", async () => {
+    it("marks an entry as read", () => {
         const store = configureStore({
             reducer: reducers,
             preloadedState: {
@@ -117,7 +116,7 @@ describe("entries", () => {
         expect(mockClient.entry.mark).toHaveBeenCalledWith({ id: "3", read: true })
     })
 
-    it("marks all entries as read", async () => {
+    it("marks all entries as read", () => {
         const store = configureStore({
             reducer: reducers,
             preloadedState: {

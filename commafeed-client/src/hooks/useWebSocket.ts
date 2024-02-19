@@ -38,9 +38,8 @@ export const useWebSocket = () => {
             ws.onopen = () => dispatch(setWebSocketConnected(true))
             ws.onclose = () => dispatch(setWebSocketConnected(false))
             ws.onmessage = event => {
-                const { data } = event
-                if (typeof data === "string") {
-                    handleMessage(dispatch, data)
+                if (typeof event.data === "string") {
+                    handleMessage(dispatch, event.data)
                 }
             }
         }

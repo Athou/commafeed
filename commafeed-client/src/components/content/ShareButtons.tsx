@@ -47,7 +47,7 @@ export function ShareButtons(props: { url: string; description: string }) {
 
     return (
         <SimpleGrid cols={4}>
-            {(Object.keys(Constants.sharing) as Array<keyof SharingSettings>)
+            {(Object.keys(Constants.sharing) as (keyof SharingSettings)[])
                 .filter(site => sharingSettings?.[site])
                 .map(site => (
                     <ShareButton

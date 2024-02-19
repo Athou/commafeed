@@ -49,11 +49,17 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
     const dispatch = useAppDispatch()
 
     const titleClicked = () => {
-        if (props.sourceType === "category") {
-            dispatch(redirectToCategoryDetails(id))
-        } else if (props.sourceType === "feed") {
-            dispatch(redirectToFeedDetails(id))
-        } else if (props.sourceType === "tag") dispatch(redirectToTagDetails(id))
+        switch (props.sourceType) {
+            case "category":
+                dispatch(redirectToCategoryDetails(id))
+                break
+            case "feed":
+                dispatch(redirectToFeedDetails(id))
+                break
+            case "tag":
+                dispatch(redirectToTagDetails(id))
+                break
+        }
     }
 
     useEffect(() => {

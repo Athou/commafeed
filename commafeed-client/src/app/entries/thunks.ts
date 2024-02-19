@@ -46,11 +46,11 @@ const buildGetEntriesPaginatedRequest = (state: RootState, source: EntrySource, 
     tag: source.type === "tag" ? source.id : undefined,
     keywords: state.entries.search,
 })
-export const reloadEntries = createAppAsyncThunk("entries/reload", async (arg, thunkApi) => {
+export const reloadEntries = createAppAsyncThunk("entries/reload", (arg, thunkApi) => {
     const state = thunkApi.getState()
     thunkApi.dispatch(loadEntries({ source: state.entries.source, clearSearch: false }))
 })
-export const search = createAppAsyncThunk("entries/search", async (arg: string, thunkApi) => {
+export const search = createAppAsyncThunk("entries/search", (arg: string, thunkApi) => {
     const state = thunkApi.getState()
     thunkApi.dispatch(setSearch(arg))
     thunkApi.dispatch(loadEntries({ source: state.entries.source, clearSearch: false }))
@@ -84,7 +84,7 @@ export const markMultipleEntries = createAppAsyncThunk(
         thunkApi.dispatch(reloadTree())
     }
 )
-export const markEntriesUpToEntry = createAppAsyncThunk("entries/entry/upToEntry", async (arg: Entry, thunkApi) => {
+export const markEntriesUpToEntry = createAppAsyncThunk("entries/entry/upToEntry", (arg: Entry, thunkApi) => {
     const state = thunkApi.getState()
     const { entries } = state.entries
 

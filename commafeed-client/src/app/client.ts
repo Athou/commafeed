@@ -1,7 +1,8 @@
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import {
     type AddCategoryRequest,
     type AdminSaveUserRequest,
+    AuthenticationError,
     type Category,
     type CategoryModificationRequest,
     type CollapseRequest,
@@ -31,18 +32,17 @@ const axiosInstance = axios.create({ baseURL: "./rest", withCredentials: true })
 axiosInstance.interceptors.response.use(
     response => response,
     error => {
-        if (axios.isAxiosError(error) && error.response) {
-            const { status, data } = error.response
-            if (
-                (status === 401 && data?.message === "Credentials are required to access this resource.") ||
-                (status === 403 && data?.message === "You don't have the required role to access this resource.")
-            ) {
-                window.location.hash = data?.allowRegistrations ? "/welcome" : "/login"
-            }
+        if (isAuthenticationError(error)) {
+            const data = error.response?.data
+            window.location.hash = data?.allowRegistrations ? "/welcome" : "/login"
         }
         throw error
     }
 )
+
+function isAuthenticationError(error: unknown): error is AxiosError<AuthenticationError> {
+    return axios.isAxiosError(error) && !!error.response && [401, 403].includes(error.response.status)
+}
 
 export const client = {
     category: {
@@ -110,11 +110,18 @@ export const errorToStrings = (err: unknown) => {
     let strings: string[] = []
 
     if (axios.isAxiosError(err) && err.response) {
-        const { data } = err.response
-        if (typeof data === "string") strings.push(data)
-        if (typeof data === "object" && data.message) strings.push(data.message as string)
-        if (typeof data === "object" && data.errors) strings = [...strings, ...data.errors]
+        if (typeof err.response.data === "string") strings.push(err.response.data)
+        if (isMessageError(err)) strings.push(err.response.data.message)
+        if (isMessageArrayError(err)) strings = [...strings, ...err.response.data.errors]
     }
 
     return strings
+}
+
+function isMessageError(err: AxiosError): err is AxiosError<{ message: string }> {
+    return !!err.response && !!err.response.data && typeof err.response.data === "object" && "message" in err.response.data
+}
+
+function isMessageArrayError(err: AxiosError): err is AxiosError<{ errors: string[] }> {
+    return !!err.response && !!err.response.data && typeof err.response.data === "object" && "errors" in err.response.data
 }

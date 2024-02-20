@@ -284,6 +284,11 @@ export interface AdminSaveUserRequest {
     admin: boolean
 }
 
+export interface AuthenticationError {
+    message: string
+    allowRegistrations: boolean
+}
+
 export type ReadingMode = "all" | "unread"
 
 export type ReadingOrder = "asc" | "desc"

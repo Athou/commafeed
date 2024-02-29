@@ -3,8 +3,8 @@ import { Anchor, Box, Center, Container, Divider, Group, Image, Space, Title, us
 import { client } from "app/client"
 import { redirectToApiDocumentation, redirectToLogin, redirectToRegistration, redirectToRootCategory } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
-import welcome_page_dark from "assets/welcome_page_dark.png"
-import welcome_page_light from "assets/welcome_page_light.png"
+import welcomePageDark from "assets/welcome_page_dark.png"
+import welcomePageLight from "assets/welcome_page_light.png"
 import { ActionButton } from "components/ActionButton"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useMobile } from "hooks/useMobile"
@@ -19,7 +19,7 @@ export function WelcomePage() {
     const serverInfos = useAppSelector(state => state.server.serverInfos)
     const { colorScheme } = useMantineColorScheme()
     const dispatch = useAppDispatch()
-    const image = colorScheme === "light" ? welcome_page_light : welcome_page_dark
+    const image = colorScheme === "light" ? welcomePageLight : welcomePageDark
 
     const login = useAsyncCallback(client.user.login, {
         onSuccess: () => {

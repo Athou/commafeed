@@ -1,6 +1,31 @@
+export type ReadingMode = "all" | "unread"
+
+export type ReadingOrder = "asc" | "desc"
+
+export type ViewMode = "title" | "cozy" | "detailed" | "expanded"
+
+export type ScrollMode = "always" | "never" | "if_needed"
+
 export interface AddCategoryRequest {
     name: string
     parentId?: string
+}
+
+export interface Subscription {
+    id: number
+    name: string
+    message?: string
+    errorCount: number
+    lastRefresh?: number
+    nextRefresh?: number
+    feedUrl: string
+    feedLink: string
+    iconUrl: string
+    unread: number
+    categoryId?: string
+    position: number
+    newestItemTime?: number
+    filter?: string
 }
 
 export interface Category {
@@ -24,19 +49,6 @@ export interface CategoryModificationRequest {
 export interface CollapseRequest {
     id: number
     collapse: boolean
-}
-
-export interface Entries {
-    name: string
-    message?: string
-    errorCount: number
-    feedLink: string
-    timestamp: number
-    hasMore: boolean
-    offset?: number
-    limit?: number
-    entries: Entry[]
-    ignoredReadStatus: boolean
 }
 
 export interface Entry {
@@ -65,6 +77,19 @@ export interface Entry {
     starred: boolean
     markable: boolean
     tags: string[]
+}
+
+export interface Entries {
+    name: string
+    message?: string
+    errorCount: number
+    feedLink: string
+    timestamp: number
+    hasMore: boolean
+    offset?: number
+    limit?: number
+    entries: Entry[]
+    ignoredReadStatus: boolean
 }
 
 export interface FeedInfo {
@@ -196,6 +221,17 @@ export interface ServerInfo {
     treeReloadInterval: number
 }
 
+export interface SharingSettings {
+    email: boolean
+    gmail: boolean
+    facebook: boolean
+    twitter: boolean
+    tumblr: boolean
+    pocket: boolean
+    instapaper: boolean
+    buffer: boolean
+}
+
 export interface Settings {
     language: string
     readingMode: ReadingMode
@@ -212,17 +248,6 @@ export interface Settings {
     sharingSettings: SharingSettings
 }
 
-export interface SharingSettings {
-    email: boolean
-    gmail: boolean
-    facebook: boolean
-    twitter: boolean
-    tumblr: boolean
-    pocket: boolean
-    instapaper: boolean
-    buffer: boolean
-}
-
 export interface StarRequest {
     id: string
     feedId: number
@@ -235,32 +260,9 @@ export interface SubscribeRequest {
     categoryId?: string
 }
 
-export interface Subscription {
-    id: number
-    name: string
-    message?: string
-    errorCount: number
-    lastRefresh?: number
-    nextRefresh?: number
-    feedUrl: string
-    feedLink: string
-    iconUrl: string
-    unread: number
-    categoryId?: string
-    position: number
-    newestItemTime?: number
-    filter?: string
-}
-
 export interface TagRequest {
     entryId: number
     tags: string[]
-}
-
-export interface UnreadCount {
-    feedId?: number
-    unreadCount?: number
-    newestItemTime?: number
 }
 
 export interface UserModel {
@@ -288,11 +290,3 @@ export interface AuthenticationError {
     message: string
     allowRegistrations: boolean
 }
-
-export type ReadingMode = "all" | "unread"
-
-export type ReadingOrder = "asc" | "desc"
-
-export type ViewMode = "title" | "cozy" | "detailed" | "expanded"
-
-export type ScrollMode = "always" | "never" | "if_needed"

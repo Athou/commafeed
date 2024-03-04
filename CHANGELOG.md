@@ -1,5 +1,9 @@
 # Changelog
 
+## [4.3.2]
+
+- added support for unix sockets (#1278)
+
 ## [4.3.1]
 
 - fix an issue that prevents new feeds from being added when mysql/mariadb is used as the database and the database

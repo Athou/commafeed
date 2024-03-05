@@ -47,7 +47,7 @@ export function ImportOpml() {
                         }
                         {...form.getInputProps("file")}
                         required
-                        accept="application/xml"
+                        accept=".xml,.opml"
                     />
                     <Group justify="center">
                         <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>

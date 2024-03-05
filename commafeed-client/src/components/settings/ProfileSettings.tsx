@@ -99,7 +99,7 @@ export function ProfileSettings() {
                         }
                     >
                         <Box>
-                            <Anchor href="rest/feed/export" download="commafeed_opml.xml">
+                            <Anchor href="rest/feed/export" download="commafeed.opml">
                                 <Trans>Download</Trans>
                             </Anchor>
                         </Box>

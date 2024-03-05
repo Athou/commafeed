@@ -1,6 +1,6 @@
 import { t, Trans } from "@lingui/macro"
 import { Box, Button, FileInput, Group, Stack } from "@mantine/core"
-import { useForm } from "@mantine/form"
+import { isNotEmpty, useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
 import { redirectToSelectedSource } from "app/redirect/thunks"
 import { useAppDispatch } from "app/store"
@@ -14,7 +14,7 @@ export function ImportOpml() {
 
     const form = useForm<{ file: File }>({
         validate: {
-            file: () => t`file is required`,
+            file: isNotEmpty(t`OPML file is required`),
         },
     })
 

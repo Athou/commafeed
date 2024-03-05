@@ -1,5 +1,9 @@
 # Changelog
 
+## [4.3.3]
+
+- fix OPML import (#1279)
+
 ## [4.3.2]
 
 - added support for unix sockets (#1278)

@@ -77,7 +77,7 @@ jobs:
           version: ${{ github.ref_name }}
 
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         if: ${{ matrix.java == '17' && github.ref_type == 'tag' }}
         with:
           name: CommaFeed ${{ github.ref_name }}

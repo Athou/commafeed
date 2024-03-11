@@ -56,7 +56,7 @@
     "@lingui/vite-plugin": "^4.7.1",
     "@types/mousetrap": "^1.6.15",
     "@types/react": "^18.2.64",
-    "@types/react-dom": "^18.2.19",
+    "@types/react-dom": "^18.2.21",
     "@types/react-infinite-scroller": "^1.2.5",
     "@types/swagger-ui-react": "^4.18.3",
     "@types/throttle-debounce": "^5.0.2",

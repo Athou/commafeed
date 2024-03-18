@@ -397,7 +397,7 @@
 		<dependency>
 			<groupId>io.github.hakky54</groupId>
 			<artifactId>sslcontext-kickstart-for-apache5</artifactId>
-			<version>8.3.2</version>
+			<version>8.3.3</version>
 		</dependency>
 
 		<dependency>

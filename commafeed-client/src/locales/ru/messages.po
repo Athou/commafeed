@@ -355,10 +355,6 @@ msgstr "Fever API"
 msgid "Fever API URL"
 msgstr "Ссылка Fever API"
 
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "требуется файл"
-
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
 msgstr "Выражение фильтрации"
@@ -632,7 +628,7 @@ msgstr "Открыть/закрыть текущую запись"
 
 #: src/pages/app/AddPage.tsx
 msgid "OPML"
-msgstr "ОПМЛ"
+msgstr "OPML"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "OPML export"
@@ -642,6 +638,10 @@ msgstr "Экспорт OPML"
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "OPML-файл"
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file is required"
+msgstr "Необходим файл OPML"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -818,7 +818,7 @@ msgstr "Звезда"
 #: src/app/constants.ts
 #: src/components/sidebar/Tree.tsx
 msgid "Starred"
-msgstr "Помечено"
+msgstr "Избранное"
 
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
@@ -881,7 +881,7 @@ msgstr "Переключить боковую панель"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle starred status of current entry"
-msgstr "Переключение статуса помечено для текущей записи"
+msgstr "Переключение статуса избранное для текущей записи"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"

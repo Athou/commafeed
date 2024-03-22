@@ -924,7 +924,7 @@ msgstr "Веб-сайт"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
-msgstr "У вас еще нет подписок. Почему бы не попробовать добавить их, нажав на знак "+" в верхней части страницы?"
+msgstr "У вас еще нет подписок. Почему бы не попробовать добавить их, нажав на знак \"+\" в верхней части страницы?"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."

@@ -15,11 +15,11 @@ msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
-msgstr ""
+msgstr "<0>CommaFeed - это проект с открытым исходным кодом. Исходный код доступен по адресу </0><1>GitHub</1>."
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
-msgstr ""
+msgstr "<0>Полный синтаксис доступен </0><1>здесь</1>."
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
@@ -27,7 +27,7 @@ msgstr "<0>Есть аккаунт?</0><1>Войти!</1>"
 
 #: src/pages/app/DonatePage.tsx
 msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
-msgstr ""
+msgstr "<0>Здравствуйте,</0><1>Я Жереми из Бельгии, и я работаю над CommaFeed в свободное время уже более 10 лет. Спасибо, что проявили интерес и помогли мне продолжить поддержку CommaFeed.</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
@@ -36,7 +36,7 @@ msgstr "<0>Нужен аккаунт?</0><1>Зарегистрируйтесь!<
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
 msgid "About"
-msgstr "О"
+msgstr "О CommaFeed"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -69,7 +69,7 @@ msgstr "Все"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
-msgstr ""
+msgstr "Всегда"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
@@ -77,19 +77,19 @@ msgstr "Электронное письмо было отправлено, ес�
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services."
-msgstr "OPML-файл — это XML-файл, содержащий URL-адреса каналов и категории. "
+msgstr "Файл opml - это XML-файл, содержащий URL-адреса и категории фидов. Вы можете получить OPML файл, экспортировав данные из других сервисов чтения фидов."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
-msgstr "Анализ канала"
+msgstr "Анализ фида"
 
 #: src/components/AnnouncementDialog.tsx
 msgid "Announcement"
-msgstr ""
+msgstr "Объявление"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
-msgstr "ключ API"
+msgstr "Ключ API"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -117,7 +117,7 @@ msgstr "Вы уверены, что хотите отказаться от по�
 
 #: src/components/header/Header.tsx
 msgid "Asc"
-msgstr "возр."
+msgstr "По возрастанию"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
@@ -133,11 +133,11 @@ msgstr "Вернуться к входу"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
-msgstr ""
+msgstr "Для браузера Chrome требуется расширение"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extention"
-msgstr ""
+msgstr "Расширение для браузера"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -173,15 +173,15 @@ msgstr "Проверьте, работает ли лента."
 
 #: src/pages/app/Layout.tsx
 msgid "Close menu"
-msgstr ""
+msgstr "Закрыть меню"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
-msgstr ""
+msgstr "Версия расширения браузера CommaFeed {browserExtensionVersion}."
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
-msgstr ""
+msgstr "CommaFeed совместим с API Fever. Используйте следующий URL-адрес в мобильном клиенте, совместимом с Fever. Войдите в систему, указав свое имя пользователя и <0>API-ключ</0>."
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -189,7 +189,7 @@ msgstr "CommaFeed следующий непрочитанный элемент"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed version {version} ({revision})."
-msgstr ""
+msgstr "CommaFeed версии {version} ({revision})."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"
@@ -213,7 +213,7 @@ msgstr "Уютно"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Current password"
@@ -221,19 +221,19 @@ msgstr "Текущий пароль"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Custom code"
-msgstr ""
+msgstr "Пользовательский код"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
-msgstr ""
+msgstr "Пользовательские правила CSS, которые будут применяться"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
+msgstr "Пользовательский JS-код, который будет выполняться при загрузке страницы"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Dark"
-msgstr ""
+msgstr "Темная"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -262,17 +262,17 @@ msgstr "По убыванию"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Detailed"
-msgstr ""
+msgstr "Подробно"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/SettingsPage.tsx
 msgid "Display"
-msgstr "Дисплей"
+msgstr "Отображение"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/DonatePage.tsx
 msgid "Donate"
-msgstr ""
+msgstr "Пожертвование"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
@@ -331,7 +331,7 @@ msgstr "Экспортируйте свои подписки и категори
 #: src/components/header/Header.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Extension options"
-msgstr ""
+msgstr "Параметры расширения"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
@@ -345,19 +345,15 @@ msgstr "URL-адрес фида"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
-msgstr ""
+msgstr "Получить весь мой фид сейчас"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API"
-msgstr ""
+msgstr "Fever API"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
-msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "требуется файл"
+msgstr "Ссылка Fever API"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -375,7 +371,7 @@ msgstr "Сначала сгенерируйте ключ API в своем пр�
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Generate new API key"
-msgstr "Создать новый ключ API."
+msgstr "Создать новый ключ API"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -385,7 +381,7 @@ msgstr "Сгенерированный URL фида"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Go to {0}"
-msgstr ""
+msgstr "Перейти к {0}"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
@@ -401,15 +397,15 @@ msgstr "Сладости"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
-msgstr "идентификатор"
+msgstr "Идентификатор"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
-msgstr "Если не пусто, выражение оценивается как «истина» или «ложь». "
+msgstr "Если не пусто, то выражение, оценивающееся как 'true' или 'false'. Если false, то новые записи для этой ленты будут автоматически помечаться как прочитанные."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
-msgstr ""
+msgstr "Если запись не помещается на экране полностью"
 
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
@@ -426,7 +422,7 @@ msgstr "В развернутом виде прокрутка записей п�
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
-msgstr "Не читать"
+msgstr "Оставить непрочитанным"
 
 #: src/components/content/FeedEntries.tsx
 #: src/pages/app/AboutPage.tsx
@@ -451,7 +447,7 @@ msgstr "Последнее сообщение об обновлении"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
-msgstr ""
+msgstr "Светлая"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -487,7 +483,7 @@ msgstr "Выйти"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Long press"
-msgstr ""
+msgstr "Долгое нажатие"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -519,7 +515,7 @@ msgstr "Метрики"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Middle click"
-msgstr ""
+msgstr "Средний клик"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
@@ -547,7 +543,7 @@ msgstr "Перейдите к подписке, введя ее имя."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Never"
-msgstr ""
+msgstr "Никогда"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
@@ -560,7 +556,7 @@ msgstr "Сначала новые"
 #: src/components/content/add/Subscribe.tsx
 #: src/components/header/Header.tsx
 msgid "Next"
-msgstr "Далее"
+msgstr "Следующий"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Next refresh"
@@ -572,7 +568,7 @@ msgstr "Букмарклет следующего непрочитанного �
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "No more entries"
-msgstr "Нет больше записей"
+msgstr "Записей больше нет"
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
@@ -584,7 +580,7 @@ msgstr "Сначала самые старые"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
-msgstr ""
+msgstr "На мобильных устройствах отображать кнопки действий в нижней части экрана"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
@@ -592,7 +588,7 @@ msgstr "Ой!"
 
 #: src/components/header/Header.tsx
 msgid "Open CommaFeed"
-msgstr ""
+msgstr "Открыть CommaFeed"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
@@ -608,15 +604,15 @@ msgstr "Открыть ссылку"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new background tab"
-msgstr ""
+msgstr "Открыть ссылку в новой фоновой вкладке"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new tab"
-msgstr ""
+msgstr "Открыть ссылку в новой вкладке"
 
 #: src/pages/app/Layout.tsx
 msgid "Open menu"
-msgstr ""
+msgstr "Открыть меню"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
@@ -632,7 +628,7 @@ msgstr "Открыть/закрыть текущую запись"
 
 #: src/pages/app/AddPage.tsx
 msgid "OPML"
-msgstr "ОПМЛ"
+msgstr "OPML"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "OPML export"
@@ -641,7 +637,11 @@ msgstr "Экспорт OPML"
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
-msgstr "OPML-файл"
+msgstr "OPML файл"
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file is required"
+msgstr "Необходим файл OPML"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -678,7 +678,7 @@ msgstr "Позиция"
 
 #: src/components/header/Header.tsx
 msgid "Previous"
-msgstr ""
+msgstr "Предыдущий"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -699,12 +699,12 @@ msgstr "Регистрация закрыта для этого экземпля
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
-msgstr "ОТДЫХА API"
+msgstr "REST API"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
-msgstr ""
+msgstr "Правый клик"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
@@ -716,7 +716,7 @@ msgstr "Сохранить"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll selected entry to the top of the page"
-msgstr ""
+msgstr "Прокрутка выбранной записи в верхнюю часть страницы"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
@@ -724,7 +724,7 @@ msgstr "Плавная прокрутка при переходе между з�
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scrolling"
-msgstr ""
+msgstr "Прокрутка"
 
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
@@ -765,23 +765,23 @@ msgstr "Обмен сайтами"
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
-msgstr "Сдвиг"
+msgstr "Shift"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show CommaFeed's own context menu on right click"
-msgstr ""
+msgstr "Показывать контекстное меню CommaFeed при щелчке правой кнопкой мыши"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show confirmation when marking all entries as read"
-msgstr ""
+msgstr "Показывать подтверждение при отметке всех записей как прочитанных"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
-msgstr ""
+msgstr "Показать меню входа (ПК)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (mobile)"
-msgstr ""
+msgstr "Показать меню входа (телефон)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
@@ -793,7 +793,7 @@ msgstr "Показать справку по сочетаниям клавиш."
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
-msgstr ""
+msgstr "Показать родное меню (ПК)"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -813,12 +813,12 @@ msgstr "Пробел"
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
-msgstr "Звезда"
+msgstr "В избранное"
 
 #: src/app/constants.ts
 #: src/components/sidebar/Tree.tsx
 msgid "Starred"
-msgstr "Помечено"
+msgstr "Избранное"
 
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
@@ -840,7 +840,7 @@ msgstr "Успех"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Swipe header to the left"
-msgstr ""
+msgstr "Проведите пальцем по заголовку влево"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
@@ -852,7 +852,7 @@ msgstr "Переключиться на светлую тему"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "System"
-msgstr ""
+msgstr "Системная"
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -869,7 +869,7 @@ msgstr "Тема"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr ""
+msgstr "Это ваш ключ API. Он может использоваться для некоторых операций API только для чтения и предоставляет доступ к API Fever. Чтобы сгенерировать новый ключ API, воспользуйтесь формой в нижней части страницы"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
@@ -877,28 +877,28 @@ msgstr "Переключить статус чтения текущей запи
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Переключить боковую панель"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle starred status of current entry"
-msgstr ""
+msgstr "Переключение статуса избранное для текущей записи"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
-msgstr "Попробуйте CommaFeed на демо-счете: demo/demo"
+msgstr "Попробуйте CommaFeed на демо аккаунте: demo/demo"
 
 #: src/pages/WelcomePage.tsx
 msgid "Try the demo!"
-msgstr ""
+msgstr "Попробуйте демо-версию!"
 
 #: src/components/header/Header.tsx
 msgid "Unread"
-msgstr "непрочитано"
+msgstr "Не прочитано"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
-msgstr "Снять пометку"
+msgstr "Удалить из избранного"
 
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -924,8 +924,8 @@ msgstr "Веб-сайт"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
-msgstr "У вас пока нет подписок. "
+msgstr "У вас еще нет подписок. Почему бы не попробовать добавить их, нажав на знак \"+\" в верхней части страницы?"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
+msgstr "Ваши каналы были поставлены в очередь на обновление."

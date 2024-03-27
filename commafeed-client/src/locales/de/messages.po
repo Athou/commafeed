@@ -19,7 +19,7 @@ msgstr "CommaFeed ist ein Open Source Projekt. Der Quellcode wird auf auf </0><1
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
-msgstr "Die vollständige Syntax ist </0><1>hier</1> verfügbar."
+msgstr "<0>Die vollständige Syntax ist </0><1>hier</1> verfügbar."
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"

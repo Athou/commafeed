@@ -15,7 +15,7 @@ msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
-msgstr "CommaFeed ist ein Open Source Projekt. Der Quellcode wird auf auf </0><1>GitHub</1> gehostet."
+msgstr "<0>CommaFeed ist ein Open Source Projekt. Der Quellcode wird auf auf </0><1>GitHub</1> gehostet."
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."

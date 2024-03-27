@@ -15,11 +15,11 @@ msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
-msgstr "CommaFeed ist ein Open Source Projekt. Der Quellcode wird auf auf  </0><1>GitHub</1> gehostet."
+msgstr "CommaFeed ist ein Open Source Projekt. Der Quellcode wird auf auf </0><1>GitHub</1> gehostet."
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
-msgstr "Vollständiger Syntax ist </0><1>hier</1> verfügbar."
+msgstr "Die vollständige Syntax ist </0><1>hier</1> verfügbar."
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
@@ -27,7 +27,7 @@ msgstr "<0>Haben Sie ein Konto?</0><1>Melden Sie sich an!</1>"
 
 #: src/pages/app/DonatePage.tsx
 msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
-msgstr ""
+msgstr "<0>Hey,</0><1>Ich bin Jérémie aus Belgien und arbeite seit über 10 Jahren in meiner Freizeit an CommaFeed. Vielen Dank für das Interesse, CommaFeed weiterhin zu unterstützen.</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
@@ -69,11 +69,11 @@ msgstr "Alle"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
-msgstr ""
+msgstr "Immer"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
-msgstr "Eine E-Mail wurde gesendet, wenn diese Adresse registriert wurde. Bitte den Posteingang prüfen."
+msgstr "Falls diese Adresse registriert ist, wurde eine E-Mail gesendet. Bitte den Posteingang prüfen."
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services."
@@ -169,19 +169,19 @@ msgstr "Das Ändern des Passworts generiert einen neuen API-Schlüssel"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Check that the feed is working"
-msgstr "Überprüfen Sie, ob der Feed funktioniert"
+msgstr "Überprüfe, ob der Feed funktioniert"
 
 #: src/pages/app/Layout.tsx
 msgid "Close menu"
-msgstr ""
+msgstr "Menü schließen"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
-msgstr ""
+msgstr "CommaFeed Browser Erweiterung Version {browserExtensionVersion}."
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
-msgstr ""
+msgstr "CommaFeed ist mit der Fever-API kompatibel. Verwenden Sie die folgende URL in Ihrem Fever-kompatiblen mobilen Client. Melden Sie sich mit Ihrem Benutzernamen und Ihrem <0>API-Schlüssel</0> an."
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -189,7 +189,7 @@ msgstr "CommaFeed nächstes ungelesenes Element"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed version {version} ({revision})."
-msgstr ""
+msgstr "CommaFeed version {version} ({revision})."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"
@@ -221,19 +221,19 @@ msgstr "Aktuelles Passwort"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Custom code"
-msgstr ""
+msgstr "Eigener Code"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
-msgstr ""
+msgstr "Eigene CSS Regeln die angewandt werden"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
+msgstr "Einer JS Code der beim Laden der Seite ausgeführt wird"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Dark"
-msgstr ""
+msgstr "Dunkel"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -262,7 +262,7 @@ msgstr "Beschr"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Detailed"
-msgstr ""
+msgstr "Detailliert"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/SettingsPage.tsx
@@ -318,7 +318,7 @@ msgstr "Fehler"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Example: {example}."
-msgstr "Beispiel: {Beispiel}."
+msgstr "Beispiel: {example}."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Expanded"
@@ -405,11 +405,11 @@ msgstr ""
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
-msgstr "Wenn nicht leer, ein Ausdruck, der als „wahr“ oder „falsch“ ausgewertet wird. "
+msgstr "Wenn nicht leer, ein Ausdruck, der als „wahr“ oder „falsch“ ausgewertet wird."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
-msgstr ""
+msgstr "Wenn der Eintrag nicht ganz auf den Bildschirm passt"
 
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
@@ -451,7 +451,7 @@ msgstr "Letzte Aktualisierungsmeldung"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
-msgstr ""
+msgstr "Hell"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -547,7 +547,7 @@ msgstr "Navigieren Sie zu einem Abonnement, indem Sie seinen Namen eingeben"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Never"
-msgstr ""
+msgstr "Niemals"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
@@ -584,7 +584,7 @@ msgstr "Älteste zuerst"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
-msgstr ""
+msgstr "Auf mobilen Geräten die Aktion-Buttons am unteren Ende des Bildschirms anzeigen"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
@@ -592,7 +592,7 @@ msgstr "Ups!"
 
 #: src/components/header/Header.tsx
 msgid "Open CommaFeed"
-msgstr ""
+msgstr "CommaFeed öffnen"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
@@ -616,7 +616,7 @@ msgstr "Link in neuem Tab öffnen"
 
 #: src/pages/app/Layout.tsx
 msgid "Open menu"
-msgstr ""
+msgstr "Menü öffnen"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
@@ -716,7 +716,7 @@ msgstr "Speichern"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll selected entry to the top of the page"
-msgstr ""
+msgstr "Ausgewählten Eintrag an den Anfang der Seite verschieben"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
@@ -724,7 +724,7 @@ msgstr "Schnelles Scrollen beim Navigieren zwischen Einträgen"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scrolling"
-msgstr ""
+msgstr "Scrollen"
 
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
@@ -777,11 +777,11 @@ msgstr "Bestätigung beim Markieren von allen Einträgen als gelesen"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
-msgstr ""
+msgstr "Eintragsmenü anzeigen (Desktop)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (mobile)"
-msgstr ""
+msgstr "Eintragsmenü anzeigen (Handy)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
@@ -793,7 +793,7 @@ msgstr "Tastenkürzel-Hilfe anzeigen"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
-msgstr ""
+msgstr "Natives Menü anzeigen (Desktop)"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -840,7 +840,7 @@ msgstr "Erfolg"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Swipe header to the left"
-msgstr ""
+msgstr "Kopfzeile nach links schieben"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
@@ -869,7 +869,7 @@ msgstr "Thema"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr ""
+msgstr "Dies ist Ihr API-Schlüssel. Er kann für einige schreibgeschützte API-Vorgänge verwendet werden und ermöglicht den Zugriff auf die Fever-API. Verwenden Sie das Formular unten auf der Seite, um einen neuen API-Schlüssel zu generieren"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
@@ -924,7 +924,7 @@ msgstr "Webseite"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
-msgstr "Sie haben noch keine Abonnements. "
+msgstr "Sie haben noch keine Abonnements."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."

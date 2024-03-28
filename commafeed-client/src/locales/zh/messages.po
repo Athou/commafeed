@@ -73,7 +73,7 @@ msgstr "总是"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
-msgstr "如果此地址已注册，则已发送电子邮件。"
+msgstr "如果此地址已注册，则已发送电子邮件，请检查您的邮箱。"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services."
@@ -353,7 +353,7 @@ msgstr "Fever API"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
-msgstr "Fever API 地址"
+msgstr "Fever API 网址"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"
@@ -405,7 +405,7 @@ msgstr "序号"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
-msgstr "如果不为空，则表达式的计算结果为“true”或“false”。如果为“false”，则此信息流的新条目将自动标记为已读。"
+msgstr "如果不为空，则表达式的计算结果为“真”或“假”。如果为“假”，则此信息流的新条目将自动标记为已读。"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"

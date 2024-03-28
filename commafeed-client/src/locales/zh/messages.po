@@ -15,11 +15,11 @@ msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
-msgstr ""
+msgstr "<0>CommaFeed是一个开源项目，源码托管在 </0><1>GitHub</1>。"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
-msgstr ""
+msgstr "<0>可以使用完整的语法 </0><1>详情</1>"
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
@@ -27,7 +27,7 @@ msgstr "<0>有帐号吗？</0><1>登录！</1>"
 
 #: src/pages/app/DonatePage.tsx
 msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
-msgstr ""
+msgstr "<0>您好,</0><1>我是来自比利时的Jérémie，已经在业余时间开发 CommaFeed 超过十年时间。感谢您有兴趣帮助我继续支持CommaFeed发展。</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
@@ -40,7 +40,7 @@ msgstr "关于"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
-msgstr "行动"
+msgstr "操作"
 
 #: src/components/content/add/AddCategory.tsx
 msgid "Add"
@@ -69,7 +69,7 @@ msgstr "全部"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
-msgstr ""
+msgstr "总是"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
@@ -77,15 +77,15 @@ msgstr "如果此地址已注册，则已发送电子邮件。"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services."
-msgstr "opml 文件是包含提要 URL 和类别的 XML 文件。"
+msgstr "OPML 文件是包含信息流地址和类别的 XML 文件。您可以通过从其他信息流阅读服务导出数据来获取 OPML 文件。"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
-msgstr "分析饲料"
+msgstr "分析信息流"
 
 #: src/components/AnnouncementDialog.tsx
 msgid "Announcement"
-msgstr ""
+msgstr "公告"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
@@ -93,7 +93,7 @@ msgstr "API 密钥"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
-msgstr "您确定要删除类别<0>{categoryName}</0>吗？"
+msgstr "您确定要删除类别 <0>{categoryName}</0> 吗？"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Are you sure you want to delete user <0>{userName}</0> ?"
@@ -101,11 +101,11 @@ msgstr "您确定要删除用户 <0>{userName}</0> 吗？"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Are you sure you want to delete your account? There's no turning back!"
-msgstr "您确定要删除您的帐户吗？"
+msgstr "您确定要删除您的帐户吗？这是不可逆的！"
 
 #: src/components/header/MarkAllAsReadButton.tsx
 msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
-msgstr "您确定要将<0>{sourceLabel}</0> 的所有条目标记为已读吗？"
+msgstr "您确定要将 <0>{sourceLabel}</0> 的所有条目标记为已读吗？"
 
 #: src/components/header/MarkAllAsReadButton.tsx
 msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
@@ -117,7 +117,7 @@ msgstr "您确定要退订 <0>{feedName}</0> 吗？"
 
 #: src/components/header/Header.tsx
 msgid "Asc"
-msgstr "上升"
+msgstr "升序"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
@@ -133,11 +133,11 @@ msgstr "返回登录"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
-msgstr ""
+msgstr "浏览器扩展"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extention"
-msgstr ""
+msgstr "浏览器扩展"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -169,19 +169,19 @@ msgstr "更改密码将生成新的 API 密钥"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Check that the feed is working"
-msgstr "检查提要是否正常工作"
+msgstr "检查信息流是否正常工作"
 
 #: src/pages/app/Layout.tsx
 msgid "Close menu"
-msgstr ""
+msgstr "关闭菜单"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
-msgstr ""
+msgstr "CommaFeed的浏览器扩展版本：{browserExtensionVersion}。"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
-msgstr ""
+msgstr "CommaFeed 和 Fever API 兼容，可以在您Fever兼容的移动客户端中使用以下网址，通过用户名和<0>API密钥</0>登录。"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -189,11 +189,11 @@ msgstr "CommaFeed 下一个未读项目"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed version {version} ({revision})."
-msgstr ""
+msgstr "CommaFeed版本：{version} ({revision})"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"
-msgstr "紧凑型"
+msgstr "紧凑"
 
 #: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/settings/ProfileSettings.tsx
@@ -209,11 +209,11 @@ msgstr "确认密码"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
-msgstr "舒适"
+msgstr "宽松"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
-msgstr "控制"
+msgstr "Ctrl"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Current password"
@@ -221,19 +221,19 @@ msgstr "当前密码"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Custom code"
-msgstr ""
+msgstr "自定义代码"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
-msgstr ""
+msgstr "将被应用的自定义CSS规则"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
+msgstr "将在页面加载时执行的自定义JS代码"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Dark"
-msgstr ""
+msgstr "深色"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -258,11 +258,11 @@ msgstr "删除用户"
 
 #: src/components/header/Header.tsx
 msgid "Desc"
-msgstr "描述"
+msgstr "降序"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Detailed"
-msgstr ""
+msgstr "详细"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/SettingsPage.tsx
@@ -272,7 +272,7 @@ msgstr "显示"
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/DonatePage.tsx
 msgid "Donate"
-msgstr ""
+msgstr "捐赠"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
@@ -306,7 +306,7 @@ msgstr "已启用"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Enter"
-msgstr "进入"
+msgstr "回车"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Enter your current password to change profile settings"
@@ -326,34 +326,34 @@ msgstr "展开"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
-msgstr "将您的订阅和类别导出为 OPML 文件，可以在其他提要阅读服务中导入"
+msgstr "将您的订阅和类别导出为 OPML 文件，可以在其它信息流阅读服务中导入"
 
 #: src/components/header/Header.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Extension options"
-msgstr ""
+msgstr "扩展选项"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
-msgstr "提要名称"
+msgstr "信息流名称"
 
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
-msgstr "供稿网址"
+msgstr "信息流网址"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
-msgstr ""
+msgstr "立即刷新所有信息流"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API"
-msgstr ""
+msgstr "Fever API"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
-msgstr ""
+msgstr "Fever API 地址"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "file is required"
@@ -381,11 +381,11 @@ msgstr "生成新的 API 密钥"
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Generated feed url"
-msgstr "生成的提要网址"
+msgstr "生成信息流网址"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Go to {0}"
-msgstr ""
+msgstr "转到 {0}"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
@@ -393,7 +393,7 @@ msgstr "转到全部视图"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Go to the API documentation."
-msgstr "转到 API 文档。"
+msgstr "API 文档"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
@@ -401,15 +401,15 @@ msgstr "好东西"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
-msgstr "身份证"
+msgstr "序号"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
-msgstr "如果不为空，则表达式评估为“真”或“假”。"
+msgstr "如果不为空，则表达式的计算结果为“true”或“false”。如果为“false”，则此信息流的新条目将自动标记为已读。"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
-msgstr ""
+msgstr "如果条目不能完全显示在屏幕上"
 
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
@@ -417,7 +417,7 @@ msgstr "如果遇到问题，请在GitHub项目的issues页面上报告。"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "Import"
-msgstr "进口"
+msgstr "导入"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "In expanded view, scrolling through entries mark them as read"
@@ -451,7 +451,7 @@ msgstr "上次刷新消息"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
-msgstr ""
+msgstr "浅色"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -487,7 +487,7 @@ msgstr "注销"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Long press"
-msgstr ""
+msgstr "长按"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -519,11 +519,11 @@ msgstr "指标"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Middle click"
-msgstr ""
+msgstr "中键单击"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
-msgstr "页面下移"
+msgstr "下移页面"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page up"
@@ -547,7 +547,7 @@ msgstr "通过输入订阅名称导航到订阅"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Never"
-msgstr ""
+msgstr "从不"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
@@ -555,7 +555,7 @@ msgstr "新密码"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
-msgstr "最新优先"
+msgstr "最新的优先"
 
 #: src/components/content/add/Subscribe.tsx
 #: src/components/header/Header.tsx
@@ -584,7 +584,7 @@ msgstr "最早的优先"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
-msgstr ""
+msgstr "在移动端，显示屏幕底部的操作按钮"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
@@ -592,7 +592,7 @@ msgstr "哎呀！"
 
 #: src/components/header/Header.tsx
 msgid "Open CommaFeed"
-msgstr ""
+msgstr "打开 CommaFeed"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
@@ -608,15 +608,15 @@ msgstr "打开链接"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new background tab"
-msgstr ""
+msgstr "在后台的新选项卡中打开链接"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new tab"
-msgstr ""
+msgstr "在新选项卡中打开链接"
 
 #: src/pages/app/Layout.tsx
 msgid "Open menu"
-msgstr ""
+msgstr "打开菜单"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
@@ -632,7 +632,7 @@ msgstr "打开/关闭当前条目"
 
 #: src/pages/app/AddPage.tsx
 msgid "OPML"
-msgstr ""
+msgstr "OPML"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "OPML export"
@@ -645,11 +645,11 @@ msgstr "OPML 文件"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
-msgstr "订单"
+msgstr "顺序"
 
 #: src/components/content/add/AddCategory.tsx
 msgid "Parent"
-msgstr "父母"
+msgstr "父类别"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Parent Category"
@@ -678,7 +678,7 @@ msgstr "位置"
 
 #: src/components/header/Header.tsx
 msgid "Previous"
-msgstr ""
+msgstr "上一个"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -704,7 +704,7 @@ msgstr ""
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
-msgstr ""
+msgstr "右键单击"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
@@ -716,7 +716,7 @@ msgstr "保存"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll selected entry to the top of the page"
-msgstr ""
+msgstr "将所选条目滚动到页面顶部"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
@@ -724,7 +724,7 @@ msgstr "在条目之间导航时平滑滚动"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scrolling"
-msgstr ""
+msgstr "滚动"
 
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
@@ -765,27 +765,27 @@ msgstr "共享站点"
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
-msgstr "换档"
+msgstr "Shift"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show CommaFeed's own context menu on right click"
-msgstr ""
+msgstr "右键单击时显示CommaFeed自己的上下文菜单"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show confirmation when marking all entries as read"
-msgstr ""
+msgstr "将所有条目标记为已读时显示确认信息"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
-msgstr ""
+msgstr "显示条目菜单（桌面端）"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (mobile)"
-msgstr ""
+msgstr "显示条目菜单（移动端）"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
-msgstr "显示没有未读条目的提要和类别"
+msgstr "显示没有未读条目的信息流和类别"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show keyboard shortcut help"
@@ -793,7 +793,7 @@ msgstr "显示键盘快捷键帮助"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
-msgstr ""
+msgstr "显示原生菜单（桌面端）"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -808,12 +808,12 @@ msgstr "刚刚发生了不好的事情……"
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
-msgstr "空间"
+msgstr "空格"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Star"
-msgstr "星星"
+msgstr "星标"
 
 #: src/app/constants.ts
 #: src/components/sidebar/Tree.tsx
@@ -828,7 +828,7 @@ msgstr "订阅"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
-msgstr "订阅订阅源"
+msgstr "订阅信息流"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Subscribe URL"
@@ -840,7 +840,7 @@ msgstr "成功"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Swipe header to the left"
-msgstr ""
+msgstr "向左滑动标题"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
@@ -852,7 +852,7 @@ msgstr "切换到浅色主题"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "System"
-msgstr ""
+msgstr "跟随系统"
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -861,7 +861,7 @@ msgstr "标签"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
-msgstr "您要订阅的订阅源的 URL。"
+msgstr "您要订阅的信息流的网址。您也可以直接使用网站的网址，CommaFeed 会尝试在页面中找到信息流。"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
@@ -869,19 +869,19 @@ msgstr "主题"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr ""
+msgstr "这是您的API 密钥，它可以被用于Fever API的只读操作及访问授权。使用页面底部的表单生成一个新的API密钥。"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
-msgstr "切换当前条目的读取状态"
+msgstr "切换当前条目的阅读状态"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "切换侧边栏"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle starred status of current entry"
-msgstr ""
+msgstr "切换当前条目的星标状态"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -889,7 +889,7 @@ msgstr "使用演示帐户试用 CommaFeed：demo/demo"
 
 #: src/pages/WelcomePage.tsx
 msgid "Try the demo!"
-msgstr ""
+msgstr "尝试 demo！"
 
 #: src/components/header/Header.tsx
 msgid "Unread"
@@ -898,7 +898,7 @@ msgstr "未读"
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Unstar"
-msgstr "解星"
+msgstr "取消星标"
 
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -928,4 +928,4 @@ msgstr "您还没有任何订阅。"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
+msgstr "您的订阅已经进入刷新队列。"

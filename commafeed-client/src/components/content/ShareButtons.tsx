@@ -1,8 +1,12 @@
-import { ActionIcon, Box, SimpleGrid } from "@mantine/core"
+import { Trans } from "@lingui/macro"
+import { ActionIcon, Box, CopyButton, Divider, SimpleGrid } from "@mantine/core"
 import { Constants } from "app/constants"
 import { useAppSelector } from "app/store"
 import { type SharingSettings } from "app/types"
+import { useBrowserExtension } from "hooks/useBrowserExtension"
+import { useMobile } from "hooks/useMobile"
 import { type IconType } from "react-icons"
+import { TbCheck, TbCopy, TbDeviceDesktopShare, TbDeviceMobileShare } from "react-icons/tb"
 import { tss } from "tss"
 
 type Color = `#${string}`
@@ -12,51 +16,98 @@ const useStyles = tss
         color: Color
     }>()
     .create(({ theme, colorScheme, color }) => ({
-        socialIcon: {
+        icon: {
             color,
             backgroundColor: colorScheme === "dark" ? theme.colors.gray[2] : "white",
-            borderRadius: "50%",
         },
     }))
 
-function ShareButton({ url, icon, color }: { url: string; icon: IconType; color: Color }) {
+function ShareButton({ icon, color, onClick }: { icon: IconType; color: Color; onClick: () => void }) {
     const { classes } = useStyles({
         color,
     })
 
-    const onClick = (e: React.MouseEvent) => {
-        e.preventDefault()
+    return (
+        <ActionIcon variant="transparent" radius="xl" size={32}>
+            <Box p={6} className={classes.icon} onClick={onClick}>
+                {icon({ size: 18 })}
+            </Box>
+        </ActionIcon>
+    )
+}
+
+function SiteShareButton({ url, icon, color }: { icon: IconType; color: Color; url: string }) {
+    const onClick = () => {
         window.open(url, "", "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,width=800,height=600")
     }
 
+    return <ShareButton icon={icon} color={color} onClick={onClick} />
+}
+
+function CopyUrlButton({ url }: { url: string }) {
     return (
-        <ActionIcon variant="transparent">
-            <a href={url} target="_blank" rel="noreferrer" onClick={onClick}>
-                <Box p={6} className={classes.socialIcon}>
-                    {icon({ size: 18 })}
-                </Box>
-            </a>
-        </ActionIcon>
+        <CopyButton value={url}>
+            {({ copied, copy }) => <ShareButton icon={copied ? TbCheck : TbCopy} color="#000" onClick={copy} />}
+        </CopyButton>
+    )
+}
+
+function BrowserNativeShareButton({ url, description }: { url: string; description: string }) {
+    const mobile = useMobile()
+    const { isBrowserExtensionPopup } = useBrowserExtension()
+    const onClick = () => {
+        navigator.share({
+            title: description,
+            url,
+        })
+    }
+
+    return (
+        <ShareButton
+            icon={mobile && !isBrowserExtensionPopup ? TbDeviceMobileShare : TbDeviceDesktopShare}
+            color="#000"
+            onClick={onClick}
+        />
     )
 }
 
 export function ShareButtons(props: { url: string; description: string }) {
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
+    const enabledSharingSites = (Object.keys(Constants.sharing) as (keyof SharingSettings)[]).filter(site => sharingSettings?.[site])
     const url = encodeURIComponent(props.url)
     const desc = encodeURIComponent(props.description)
+    const clipboardAvailable = typeof navigator.clipboard !== "undefined"
+    const nativeSharingAvailable = typeof navigator.share !== "undefined"
+    const showNativeSection = clipboardAvailable || nativeSharingAvailable
+    const showSharingSites = enabledSharingSites.length > 0
+    const showDivider = showNativeSection && showSharingSites
+    const showNoSharingOptionsAvailable = !showNativeSection && !showSharingSites
 
     return (
-        <SimpleGrid cols={4}>
-            {(Object.keys(Constants.sharing) as (keyof SharingSettings)[])
-                .filter(site => sharingSettings?.[site])
-                .map(site => (
-                    <ShareButton
-                        key={site}
-                        icon={Constants.sharing[site].icon}
-                        color={Constants.sharing[site].color}
-                        url={Constants.sharing[site].url(url, desc)}
-                    />
-                ))}
-        </SimpleGrid>
+        <>
+            {showNativeSection && (
+                <SimpleGrid cols={4}>
+                    {clipboardAvailable && <CopyUrlButton url={props.url} />}
+                    {nativeSharingAvailable && <BrowserNativeShareButton url={props.url} description={props.description} />}
+                </SimpleGrid>
+            )}
+
+            {showDivider && <Divider my="xs" />}
+
+            {showSharingSites && (
+                <SimpleGrid cols={4}>
+                    {enabledSharingSites.map(site => (
+                        <SiteShareButton
+                            key={site}
+                            icon={Constants.sharing[site].icon}
+                            color={Constants.sharing[site].color}
+                            url={Constants.sharing[site].url(url, desc)}
+                        />
+                    ))}
+                </SimpleGrid>
+            )}
+
+            {showNoSharingOptionsAvailable && <Trans>No sharing options available.</Trans>}
+        </>
     )
 }

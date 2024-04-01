@@ -14,13 +14,10 @@ interface FeedEntryFooterProps {
 }
 
 export function FeedEntryFooter(props: FeedEntryFooterProps) {
-    const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const tags = useAppSelector(state => state.user.tags)
     const mobile = useMobile()
     const { spacing } = useActionButton()
     const dispatch = useAppDispatch()
-
-    const showSharingButtons = sharingSettings && Object.values(sharingSettings).some(v => v)
 
     const readStatusButtonClicked = async () =>
         await dispatch(
@@ -60,16 +57,14 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                     }
                 />
 
-                {showSharingButtons && (
-                    <Popover withArrow withinPortal shadow="md" closeOnClickOutside={!mobile}>
-                        <Popover.Target>
-                            <ActionButton icon={<TbShare size={18} />} label={<Trans>Share</Trans>} />
-                        </Popover.Target>
-                        <Popover.Dropdown>
-                            <ShareButtons url={props.entry.url} description={props.entry.title} />
-                        </Popover.Dropdown>
-                    </Popover>
-                )}
+                <Popover withArrow withinPortal shadow="md" closeOnClickOutside={!mobile}>
+                    <Popover.Target>
+                        <ActionButton icon={<TbShare size={18} />} label={<Trans>Share</Trans>} />
+                    </Popover.Target>
+                    <Popover.Dropdown>
+                        <ShareButtons url={props.entry.url} description={props.entry.title} />
+                    </Popover.Dropdown>
+                </Popover>
 
                 {tags && (
                     <Popover withArrow shadow="md" closeOnClickOutside={!mobile}>

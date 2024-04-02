@@ -73,7 +73,7 @@ function BrowserNativeShareButton({ url, description }: { url: string; descripti
 
 export function ShareButtons(props: { url: string; description: string }) {
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
-    const enabledSharingSites = (Object.keys(Constants.sharing) as (keyof SharingSettings)[]).filter(site => sharingSettings?.[site])
+    const enabledSharingSites = (Object.keys(Constants.sharing) as Array<keyof SharingSettings>).filter(site => sharingSettings?.[site])
     const url = encodeURIComponent(props.url)
     const desc = encodeURIComponent(props.description)
     const clipboardAvailable = typeof navigator.clipboard !== "undefined"

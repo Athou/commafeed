@@ -6,6 +6,7 @@ module.exports = {
     extends: [
         "eslint:recommended",
         "standard",
+        "love",
         "plugin:@typescript-eslint/strict-type-checked",
         "plugin:@typescript-eslint/stylistic-type-checked",
         "plugin:react/recommended",
@@ -36,10 +37,12 @@ module.exports = {
     plugins: ["react"],
     rules: {
         "@typescript-eslint/consistent-type-assertions": ["error", { assertionStyle: "as" }],
+        "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-confusing-void-expression": ["error", { ignoreArrowShorthand: true }],
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-misused-promises": "off",
         "@typescript-eslint/prefer-nullish-coalescing": ["error", { ignoreConditionalTests: true }],
+        "@typescript-eslint/strict-boolean-expressions": "off",
         "react/no-unescaped-entities": "off",
         "react/react-in-jsx-scope": "off",
         "react-hooks/exhaustive-deps": "error",

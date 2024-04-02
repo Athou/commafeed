@@ -49,7 +49,7 @@ export const useBrowserExtension = () => {
             )
         }
     }
-    const setBadgeUnreadCount = (count: number) => w.postMessage(`set-badge-unread-count:${count}`, "*")
+    const setBadgeUnreadCount = (count: number | string) => w.postMessage(`set-badge-unread-count:${count}`, "*")
 
     return {
         browserExtensionVersion,

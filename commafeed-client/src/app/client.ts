@@ -1,8 +1,8 @@
-import axios, { AxiosError } from "axios"
+import axios, { type AxiosError } from "axios"
 import {
     type AddCategoryRequest,
     type AdminSaveUserRequest,
-    AuthenticationError,
+    type AuthenticationError,
     type Category,
     type CategoryModificationRequest,
     type CollapseRequest,

@@ -100,7 +100,7 @@ export function DisplaySettings() {
             <Divider label={<Trans>Sharing sites</Trans>} labelPosition="center" />
 
             <SimpleGrid cols={2}>
-                {(Object.keys(Constants.sharing) as (keyof SharingSettings)[]).map(site => (
+                {(Object.keys(Constants.sharing) as Array<keyof SharingSettings>).map(site => (
                     <Switch
                         key={site}
                         label={Constants.sharing[site].label}

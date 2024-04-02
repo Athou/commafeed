@@ -42,6 +42,7 @@ module.exports = {
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-misused-promises": "off",
         "@typescript-eslint/prefer-nullish-coalescing": ["error", { ignoreConditionalTests: true }],
+        "@typescript-eslint/restrict-template-expressions": ["error", { allowNumber: true }],
         "@typescript-eslint/strict-boolean-expressions": "off",
         "react/no-unescaped-entities": "off",
         "react/react-in-jsx-scope": "off",

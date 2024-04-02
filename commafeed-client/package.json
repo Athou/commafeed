@@ -26,7 +26,7 @@
     "@mantine/notifications": "^7.6.1",
     "@mantine/spotlight": "^7.6.1",
     "@monaco-editor/react": "^4.6.0",
-    "@reduxjs/toolkit": "^2.2.1",
+    "@reduxjs/toolkit": "^2.2.3",
     "axios": "^1.6.8",
     "dayjs": "^1.11.10",
     "escape-string-regexp": "^5.0.0",

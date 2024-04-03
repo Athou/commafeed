@@ -64,7 +64,7 @@ export const markEntry = createAppAsyncThunk(
         })
     },
     {
-        condition: arg => arg.entry.read !== arg.read,
+        condition: arg => arg.entry.markable && arg.entry.read !== arg.read,
     }
 )
 export const markMultipleEntries = createAppAsyncThunk(

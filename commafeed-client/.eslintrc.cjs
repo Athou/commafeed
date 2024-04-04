@@ -44,6 +44,7 @@ module.exports = {
         "@typescript-eslint/prefer-nullish-coalescing": ["error", { ignoreConditionalTests: true }],
         "@typescript-eslint/restrict-template-expressions": ["error", { allowNumber: true }],
         "@typescript-eslint/strict-boolean-expressions": "off",
+        "react/jsx-curly-brace-presence": ["error", "never"],
         "react/no-unescaped-entities": "off",
         "react/react-in-jsx-scope": "off",
         "react-hooks/exhaustive-deps": "error",

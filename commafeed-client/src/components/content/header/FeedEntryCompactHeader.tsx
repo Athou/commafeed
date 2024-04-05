@@ -1,10 +1,11 @@
 import { Box, Text } from "@mantine/core"
 import { type Entry } from "app/types"
+import { FeedFavicon } from "components/content/FeedFavicon"
+import { OpenExternalLink } from "components/content/header/OpenExternalLink"
 import { RelativeDate } from "components/RelativeDate"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import { tss } from "tss"
 import { FeedEntryTitle } from "./FeedEntryTitle"
-import { FeedFavicon } from "./FeedFavicon"
 
 export interface FeedEntryHeaderProps {
     entry: Entry
@@ -61,6 +62,7 @@ export function FeedEntryCompactHeader(props: FeedEntryHeaderProps) {
                     <RelativeDate date={props.entry.date} />
                 </Text>
             </OnDesktop>
+            <OpenExternalLink entry={props.entry} />
         </Box>
     )
 }

@@ -1,15 +1,15 @@
 import { Box, Divider, type MantineRadius, type MantineSpacing, Paper } from "@mantine/core"
 import { Constants } from "app/constants"
 import { type Entry, type ViewMode } from "app/types"
+import { FeedEntryCompactHeader } from "components/content/header/FeedEntryCompactHeader"
+import { FeedEntryHeader } from "components/content/header/FeedEntryHeader"
 import { useViewMode } from "hooks/useViewMode"
 import React from "react"
 import { useSwipeable } from "react-swipeable"
 import { tss } from "tss"
 import { FeedEntryBody } from "./FeedEntryBody"
-import { FeedEntryCompactHeader } from "./FeedEntryCompactHeader"
 import { FeedEntryContextMenu } from "./FeedEntryContextMenu"
 import { FeedEntryFooter } from "./FeedEntryFooter"
-import { FeedEntryHeader } from "./FeedEntryHeader"
 
 interface FeedEntryProps {
     entry: Entry

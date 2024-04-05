@@ -1,9 +1,10 @@
 import { Box, Space, Text } from "@mantine/core"
 import { type Entry } from "app/types"
+import { FeedFavicon } from "components/content/FeedFavicon"
+import { OpenExternalLink } from "components/content/header/OpenExternalLink"
 import { RelativeDate } from "components/RelativeDate"
 import { tss } from "tss"
 import { FeedEntryTitle } from "./FeedEntryTitle"
-import { FeedFavicon } from "./FeedFavicon"
 
 export interface FeedEntryHeaderProps {
     entry: Entry
@@ -15,10 +16,15 @@ const useStyles = tss
         read: boolean
     }>()
     .create(({ colorScheme, read }) => ({
-        headerText: {
+        main: {
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+        },
+        mainText: {
             fontWeight: colorScheme === "light" && !read ? "bold" : "inherit",
         },
-        headerSubtext: {
+        details: {
             display: "flex",
             alignItems: "center",
             fontSize: "90%",
@@ -31,10 +37,13 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
     })
     return (
         <Box>
-            <Box className={classes.headerText}>
-                <FeedEntryTitle entry={props.entry} />
+            <Box className={classes.main}>
+                <Box className={classes.mainText}>
+                    <FeedEntryTitle entry={props.entry} />
+                </Box>
+                <OpenExternalLink entry={props.entry} />
             </Box>
-            <Box className={classes.headerSubtext}>
+            <Box className={classes.details}>
                 <FeedFavicon url={props.entry.iconUrl} />
                 <Space w={6} />
                 <Text c="dimmed">
@@ -44,7 +53,7 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
                 </Text>
             </Box>
             {props.expanded && (
-                <Box className={classes.headerSubtext}>
+                <Box className={classes.details}>
                     <Text c="dimmed">
                         {props.entry.author && <span>by {props.entry.author}</span>}
                         {props.entry.author && props.entry.categories && <span>&nbsp;·&nbsp;</span>}

@@ -20,25 +20,6 @@ import {
 import { locales } from "i18n"
 import { type ReactNode } from "react"
 
-const displayModeData: ComboboxData = [
-    {
-        value: "always",
-        label: t`Always`,
-    },
-    {
-        value: "on_desktop",
-        label: t`On desktop`,
-    },
-    {
-        value: "on_mobile",
-        label: t`On mobile`,
-    },
-    {
-        value: "never",
-        label: t`Never`,
-    },
-]
-
 export function DisplaySettings() {
     const language = useAppSelector(state => state.user.settings?.language)
     const scrollSpeed = useAppSelector(state => state.user.settings?.scrollSpeed)
@@ -58,6 +39,25 @@ export function DisplaySettings() {
         never: <Trans>Never</Trans>,
         if_needed: <Trans>If the entry doesn't entirely fit on the screen</Trans>,
     }
+
+    const displayModeData: ComboboxData = [
+        {
+            value: "always",
+            label: t`Always`,
+        },
+        {
+            value: "on_desktop",
+            label: t`On desktop`,
+        },
+        {
+            value: "on_mobile",
+            label: t`On mobile`,
+        },
+        {
+            value: "never",
+            label: t`Never`,
+        },
+    ]
 
     return (
         <Stack>

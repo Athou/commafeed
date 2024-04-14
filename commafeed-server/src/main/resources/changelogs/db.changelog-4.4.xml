@@ -4,11 +4,12 @@
 				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
 	<changeSet id="add-icon-display-modes" author="athou">
+		<validCheckSum>9:078593b238a4639a97a3cd82f7e5e30d</validCheckSum>
 		<addColumn tableName="USERSETTINGS">
-			<column name="starIconDisplayMode" type="VARCHAR(32)" value="always">
+			<column name="starIconDisplayMode" type="VARCHAR(32)" value="on_desktop">
 				<constraints nullable="false" />
 			</column>
-			<column name="externalLinkIconDisplayMode" type="VARCHAR(32)" value="always">
+			<column name="externalLinkIconDisplayMode" type="VARCHAR(32)" value="on_desktop">
 				<constraints nullable="false" />
 			</column>
 		</addColumn>

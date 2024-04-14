@@ -36,7 +36,7 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
             <Flex align="flex-start" justify="space-between">
                 <Flex align="flex-start" className={classes.main}>
                     {props.showStarIcon && (
-                        <Box ml={-6}>
+                        <Box ml={-5}>
                             <Star entry={props.entry} />
                         </Box>
                     )}

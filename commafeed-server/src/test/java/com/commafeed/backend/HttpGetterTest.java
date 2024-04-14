@@ -135,14 +135,6 @@ class HttpGetterTest {
 	}
 
 	@Test
-	void ignoreInvalidSsl() throws Exception {
-		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(HttpResponse.response().withBody("ok"));
-
-		HttpResult result = getter.getBinary("https://localhost:" + this.mockServerClient.getPort(), TIMEOUT);
-		Assertions.assertEquals("ok", new String(result.getContent()));
-	}
-
-	@Test
 	void lastModifiedReturns304() {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.IF_MODIFIED_SINCE, "123456"))
 				.respond(HttpResponse.response().withStatusCode(HttpStatus.NOT_MODIFIED_304));

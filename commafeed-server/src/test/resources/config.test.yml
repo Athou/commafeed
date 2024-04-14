@@ -119,6 +119,9 @@ database:
   validationQuery: "/* CommaFeed Health Check */ SELECT 1"
 
 server:
+  applicationConnectors:
+    - type: http
+      port: 8083
   adminConnectors: [ ]
 
 logging:

@@ -68,6 +68,7 @@ msgid "All"
 msgstr "Semua"
 
 #: src/components/settings/DisplaySettings.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr ""
 
@@ -312,6 +313,10 @@ msgstr "Masuk"
 msgid "Enter your current password to change profile settings"
 msgstr "Masukkan kata sandi Anda saat ini untuk mengubah pengaturan profil"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Entry headers"
+msgstr ""
+
 #: src/components/Alert.tsx
 msgid "Error"
 msgstr "Kesalahan"
@@ -354,10 +359,6 @@ msgstr ""
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
 msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "file diperlukan"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -546,6 +547,7 @@ msgid "Navigate to a subscription by entering its name"
 msgstr "Navigasikan ke langganan dengan memasukkan namanya"
 
 #: src/components/settings/DisplaySettings.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr ""
 
@@ -574,6 +576,10 @@ msgstr "Bookmarklet item yang belum dibaca berikutnya"
 msgid "No more entries"
 msgstr "Tidak ada entri lagi"
 
+#: src/components/content/ShareButtons.tsx
+msgid "No sharing options available."
+msgstr ""
+
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
 msgstr "Tidak ada yang ditemukan"
@@ -581,6 +587,14 @@ msgstr "Tidak ada yang ditemukan"
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Tertua dulu"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "On desktop"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "On mobile"
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
@@ -603,6 +617,7 @@ msgid "Open current entry in a new tab in the background"
 msgstr "Buka entri saat ini di tab baru di latar belakang"
 
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/OpenExternalLink.tsx
 msgid "Open link"
 msgstr "Buka tautan"
 
@@ -642,6 +657,10 @@ msgstr "ekspor OPML"
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "file OPML"
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file is required"
+msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -784,6 +803,10 @@ msgid "Show entry menu (mobile)"
 msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
+msgid "Show external link icon"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Tampilkan umpan dan kategori tanpa entri yang belum dibaca"
 
@@ -793,6 +816,10 @@ msgstr "Tampilkan bantuan pintasan keyboard"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show star icon"
 msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx
@@ -812,6 +839,7 @@ msgstr "Luar Angkasa"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/Star.tsx
 msgid "Star"
 msgstr "Bintang"
 
@@ -897,6 +925,7 @@ msgstr "Belum Dibaca"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/Star.tsx
 msgid "Unstar"
 msgstr "Hapus bintang"
 

@@ -68,6 +68,7 @@ msgid "All"
 msgstr "Pawb"
 
 #: src/components/settings/DisplaySettings.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr ""
 
@@ -312,6 +313,10 @@ msgstr "Ewch i mewn"
 msgid "Enter your current password to change profile settings"
 msgstr "Rhowch eich cyfrinair presennol i newid gosodiadau proffil"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Entry headers"
+msgstr ""
+
 #: src/components/Alert.tsx
 msgid "Error"
 msgstr "Gwall"
@@ -354,10 +359,6 @@ msgstr ""
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
 msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "mae angen y ffeil"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -546,6 +547,7 @@ msgid "Navigate to a subscription by entering its name"
 msgstr "Llywiwch i danysgrifiad trwy nodi ei enw"
 
 #: src/components/settings/DisplaySettings.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr ""
 
@@ -574,6 +576,10 @@ msgstr "Llyfrnod yr eitem nesaf heb ei darllen"
 msgid "No more entries"
 msgstr "Dim mwy o gofnodion"
 
+#: src/components/content/ShareButtons.tsx
+msgid "No sharing options available."
+msgstr ""
+
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
 msgstr "Dim wedi'i ddarganfod"
@@ -581,6 +587,14 @@ msgstr "Dim wedi'i ddarganfod"
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Hynaf yn gyntaf"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "On desktop"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "On mobile"
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
@@ -603,6 +617,7 @@ msgid "Open current entry in a new tab in the background"
 msgstr "Agorwch y cofnod cyfredol mewn tab newydd yn y cefndir"
 
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/OpenExternalLink.tsx
 msgid "Open link"
 msgstr "Dolen agored"
 
@@ -642,6 +657,10 @@ msgstr "allforio OPML"
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "ffeil OPML"
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file is required"
+msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -784,6 +803,10 @@ msgid "Show entry menu (mobile)"
 msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
+msgid "Show external link icon"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Dangos ffrydiau a chategorïau heb unrhyw gofnodion heb eu darllen"
 
@@ -793,6 +816,10 @@ msgstr "Dangos cymorth llwybr byr bysellfwrdd"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show star icon"
 msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx
@@ -812,6 +839,7 @@ msgstr "Gofod"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/Star.tsx
 msgid "Star"
 msgstr "seren"
 
@@ -897,6 +925,7 @@ msgstr "Heb ei ddarllen"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/Star.tsx
 msgid "Unstar"
 msgstr "dad-seren"
 

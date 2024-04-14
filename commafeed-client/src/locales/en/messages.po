@@ -68,6 +68,7 @@ msgid "All"
 msgstr "All"
 
 #: src/components/settings/DisplaySettings.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr "Always"
 
@@ -312,6 +313,10 @@ msgstr "Enter"
 msgid "Enter your current password to change profile settings"
 msgstr "Enter your current password to change profile settings"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Entry headers"
+msgstr "Entry headers"
+
 #: src/components/Alert.tsx
 msgid "Error"
 msgstr "Error"
@@ -354,10 +359,6 @@ msgstr "Fever API"
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
 msgstr "Fever API URL"
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "file is required"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -546,6 +547,7 @@ msgid "Navigate to a subscription by entering its name"
 msgstr "Navigate to a subscription by entering its name"
 
 #: src/components/settings/DisplaySettings.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "Never"
 
@@ -574,6 +576,10 @@ msgstr "Next unread item bookmarklet"
 msgid "No more entries"
 msgstr "No more entries"
 
+#: src/components/content/ShareButtons.tsx
+msgid "No sharing options available."
+msgstr "No sharing options available."
+
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
 msgstr "Nothing found"
@@ -581,6 +587,14 @@ msgstr "Nothing found"
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Oldest first"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "On desktop"
+msgstr "On desktop"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "On mobile"
+msgstr "On mobile"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
@@ -603,6 +617,7 @@ msgid "Open current entry in a new tab in the background"
 msgstr "Open current entry in a new tab in the background"
 
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/OpenExternalLink.tsx
 msgid "Open link"
 msgstr "Open link"
 
@@ -642,6 +657,10 @@ msgstr "OPML export"
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "OPML file"
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file is required"
+msgstr "OPML file is required"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -784,6 +803,10 @@ msgid "Show entry menu (mobile)"
 msgstr "Show entry menu (mobile)"
 
 #: src/components/settings/DisplaySettings.tsx
+msgid "Show external link icon"
+msgstr "Show external link icon"
+
+#: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Show feeds and categories with no unread entries"
 
@@ -794,6 +817,10 @@ msgstr "Show keyboard shortcut help"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
 msgstr "Show native menu (desktop)"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show star icon"
+msgstr "Show star icon"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -812,6 +839,7 @@ msgstr "Space"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/Star.tsx
 msgid "Star"
 msgstr "Star"
 
@@ -897,6 +925,7 @@ msgstr "Unread"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/Star.tsx
 msgid "Unstar"
 msgstr "Unstar"
 

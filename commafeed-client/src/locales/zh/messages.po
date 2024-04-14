@@ -68,6 +68,7 @@ msgid "All"
 msgstr "全部"
 
 #: src/components/settings/DisplaySettings.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr "总是"
 
@@ -312,6 +313,10 @@ msgstr "回车"
 msgid "Enter your current password to change profile settings"
 msgstr "输入您当前的密码以更改配置文件设置"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Entry headers"
+msgstr ""
+
 #: src/components/Alert.tsx
 msgid "Error"
 msgstr "错误"
@@ -354,10 +359,6 @@ msgstr "Fever API"
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
 msgstr "Fever API 网址"
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "文件是必需的"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -546,6 +547,7 @@ msgid "Navigate to a subscription by entering its name"
 msgstr "通过输入订阅名称导航到订阅"
 
 #: src/components/settings/DisplaySettings.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "从不"
 
@@ -574,6 +576,10 @@ msgstr "下一个未读项目书签"
 msgid "No more entries"
 msgstr "没有更多条目"
 
+#: src/components/content/ShareButtons.tsx
+msgid "No sharing options available."
+msgstr ""
+
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
 msgstr "没有找到"
@@ -581,6 +587,14 @@ msgstr "没有找到"
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "最早的优先"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "On desktop"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "On mobile"
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
@@ -603,6 +617,7 @@ msgid "Open current entry in a new tab in the background"
 msgstr "在后台的新选项卡中打开当前条目"
 
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/OpenExternalLink.tsx
 msgid "Open link"
 msgstr "打开链接"
 
@@ -642,6 +657,10 @@ msgstr "OPML 导出"
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "OPML 文件"
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file is required"
+msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -784,6 +803,10 @@ msgid "Show entry menu (mobile)"
 msgstr "显示条目菜单（移动端）"
 
 #: src/components/settings/DisplaySettings.tsx
+msgid "Show external link icon"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "显示没有未读条目的信息流和类别"
 
@@ -794,6 +817,10 @@ msgstr "显示键盘快捷键帮助"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
 msgstr "显示原生菜单（桌面端）"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show star icon"
+msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -812,6 +839,7 @@ msgstr "空格"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/Star.tsx
 msgid "Star"
 msgstr "星标"
 
@@ -897,6 +925,7 @@ msgstr "未读"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/Star.tsx
 msgid "Unstar"
 msgstr "取消星标"
 

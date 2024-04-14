@@ -68,6 +68,7 @@ msgid "All"
 msgstr "Tümü"
 
 #: src/components/settings/DisplaySettings.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr ""
 
@@ -312,6 +313,10 @@ msgstr "Girin"
 msgid "Enter your current password to change profile settings"
 msgstr "Profil ayarlarını değiştirmek için mevcut şifrenizi girin"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Entry headers"
+msgstr ""
+
 #: src/components/Alert.tsx
 msgid "Error"
 msgstr "Hata"
@@ -354,10 +359,6 @@ msgstr ""
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
 msgstr ""
-
-#: src/components/content/add/ImportOpml.tsx
-msgid "file is required"
-msgstr "dosya gerekli"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -546,6 +547,7 @@ msgid "Navigate to a subscription by entering its name"
 msgstr "Adını girerek bir aboneliğe gidin"
 
 #: src/components/settings/DisplaySettings.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr ""
 
@@ -574,6 +576,10 @@ msgstr "Sonraki okunmamış öğe yer imi"
 msgid "No more entries"
 msgstr "Başka giriş yok"
 
+#: src/components/content/ShareButtons.tsx
+msgid "No sharing options available."
+msgstr ""
+
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
 msgstr "Hiçbir şey bulunamadı"
@@ -581,6 +587,14 @@ msgstr "Hiçbir şey bulunamadı"
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Önce en eski"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "On desktop"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "On mobile"
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
@@ -603,6 +617,7 @@ msgid "Open current entry in a new tab in the background"
 msgstr "Geçerli girişi arka planda yeni bir sekmede aç"
 
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/OpenExternalLink.tsx
 msgid "Open link"
 msgstr "Bağlantıyı aç"
 
@@ -642,6 +657,10 @@ msgstr "OPML dışa aktarma"
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "OPML dosyası"
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "OPML file is required"
+msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -784,6 +803,10 @@ msgid "Show entry menu (mobile)"
 msgstr "Giriş menüsünü göster (mobil)"
 
 #: src/components/settings/DisplaySettings.tsx
+msgid "Show external link icon"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
 msgstr "Okunmamış girişi olmayan beslemeleri ve kategorileri göster"
 
@@ -794,6 +817,10 @@ msgstr "Klavye kısayolu yardımını göster"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
 msgstr "Orijinal tarayıcı menüsünü göster (masaüstü)"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show star icon"
+msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -812,6 +839,7 @@ msgstr "Uzay"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/Star.tsx
 msgid "Star"
 msgstr "Yıldız"
 
@@ -897,6 +925,7 @@ msgstr "Okunmamış"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/header/Star.tsx
 msgid "Unstar"
 msgstr "Yıldızı kaldır"
 

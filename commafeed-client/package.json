@@ -55,7 +55,7 @@
     "@lingui/cli": "^4.7.1",
     "@lingui/vite-plugin": "^4.7.1",
     "@types/mousetrap": "^1.6.15",
-    "@types/react": "^18.2.64",
+    "@types/react": "^18.2.78",
     "@types/react-dom": "^18.2.21",
     "@types/react-infinite-scroller": "^1.2.5",
     "@types/swagger-ui-react": "^4.18.3",

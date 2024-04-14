@@ -165,6 +165,8 @@ public class UserREST {
 		s.setLanguage(settings.getLanguage());
 		s.setScrollSpeed(settings.getScrollSpeed());
 		s.setScrollMode(ScrollMode.valueOf(settings.getScrollMode()));
+		s.setStarIconDisplayMode(IconDisplayMode.valueOf(settings.getStarIconDisplayMode()));
+		s.setExternalLinkIconDisplayMode(IconDisplayMode.valueOf(settings.getExternalLinkIconDisplayMode()));
 		s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());
 		s.setCustomContextMenu(settings.isCustomContextMenu());
 		s.setMobileFooter(settings.isMobileFooter());

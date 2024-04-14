@@ -6,6 +6,8 @@ export type ViewMode = "title" | "cozy" | "detailed" | "expanded"
 
 export type ScrollMode = "always" | "never" | "if_needed"
 
+export type IconDisplayMode = "always" | "never" | "on_desktop" | "on_mobile"
+
 export interface AddCategoryRequest {
     name: string
     parentId?: string
@@ -242,6 +244,8 @@ export interface Settings {
     customJs?: string
     scrollSpeed: number
     scrollMode: ScrollMode
+    starIconDisplayMode: IconDisplayMode
+    externalLinkIconDisplayMode: IconDisplayMode
     markAllAsReadConfirmation: boolean
     customContextMenu: boolean
     mobileFooter: boolean

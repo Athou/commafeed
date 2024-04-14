@@ -2,6 +2,7 @@ import { Box, Text } from "@mantine/core"
 import { type Entry } from "app/types"
 import { FeedFavicon } from "components/content/FeedFavicon"
 import { OpenExternalLink } from "components/content/header/OpenExternalLink"
+import { Star } from "components/content/header/Star"
 import { RelativeDate } from "components/RelativeDate"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import { tss } from "tss"
@@ -9,6 +10,8 @@ import { FeedEntryTitle } from "./FeedEntryTitle"
 
 export interface FeedEntryHeaderProps {
     entry: Entry
+    showStarIcon?: boolean
+    showExternalLinkIcon?: boolean
 }
 
 const useStyles = tss
@@ -46,6 +49,7 @@ export function FeedEntryCompactHeader(props: FeedEntryHeaderProps) {
     })
     return (
         <Box className={classes.wrapper}>
+            {props.showStarIcon && <Star entry={props.entry} />}
             <Box>
                 <FeedFavicon url={props.entry.iconUrl} />
             </Box>
@@ -62,7 +66,7 @@ export function FeedEntryCompactHeader(props: FeedEntryHeaderProps) {
                     <RelativeDate date={props.entry.date} />
                 </Text>
             </OnDesktop>
-            <OpenExternalLink entry={props.entry} />
+            {props.showExternalLinkIcon && <OpenExternalLink entry={props.entry} />}
         </Box>
     )
 }

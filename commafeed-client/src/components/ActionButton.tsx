@@ -1,5 +1,6 @@
 import { ActionIcon, Button, type ButtonVariant, Tooltip, useMantineTheme } from "@mantine/core"
 import { type ActionIconVariant } from "@mantine/core/lib/components/ActionIcon/ActionIcon"
+import { Constants } from "app/constants"
 import { useActionButton } from "hooks/useActionButton"
 import { forwardRef, type MouseEventHandler, type ReactNode } from "react"
 
@@ -22,7 +23,7 @@ export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>((pr
     const variant = props.variant ?? "subtle"
     const iconOnly = (mobile && !props.showLabelOnMobile) || (!mobile && props.hideLabelOnDesktop)
     return iconOnly ? (
-        <Tooltip label={props.label} openDelay={500}>
+        <Tooltip label={props.label} openDelay={Constants.tooltip.delay}>
             <ActionIcon ref={ref} color={theme.primaryColor} variant={variant} className={props.className} onClick={props.onClick}>
                 {props.icon}
             </ActionIcon>

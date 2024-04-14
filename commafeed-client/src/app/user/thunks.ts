@@ -1,7 +1,7 @@
 import { createAppAsyncThunk } from "app/async-thunk"
 import { client } from "app/client"
 import { reloadEntries } from "app/entries/thunks"
-import type { ReadingMode, ReadingOrder, ScrollMode, SharingSettings } from "app/types"
+import type { IconDisplayMode, ReadingMode, ReadingOrder, ScrollMode, SharingSettings } from "app/types"
 
 export const reloadSettings = createAppAsyncThunk("settings/reload", async () => await client.user.getSettings().then(r => r.data))
 export const reloadProfile = createAppAsyncThunk("profile/reload", async () => await client.user.getProfile().then(r => r.data))
@@ -43,6 +43,22 @@ export const changeScrollMode = createAppAsyncThunk("settings/scrollMode", (scro
     if (!settings) return
     client.user.saveSettings({ ...settings, scrollMode })
 })
+export const changeStarIconDisplayMode = createAppAsyncThunk(
+    "settings/starIconDisplayMode",
+    (starIconDisplayMode: IconDisplayMode, thunkApi) => {
+        const { settings } = thunkApi.getState().user
+        if (!settings) return
+        client.user.saveSettings({ ...settings, starIconDisplayMode })
+    }
+)
+export const changeExternalLinkIconDisplayMode = createAppAsyncThunk(
+    "settings/externalLinkIconDisplayMode",
+    (externalLinkIconDisplayMode: IconDisplayMode, thunkApi) => {
+        const { settings } = thunkApi.getState().user
+        if (!settings) return
+        client.user.saveSettings({ ...settings, externalLinkIconDisplayMode })
+    }
+)
 export const changeMarkAllAsReadConfirmation = createAppAsyncThunk(
     "settings/markAllAsReadConfirmation",
     (markAllAsReadConfirmation: boolean, thunkApi) => {

@@ -47,6 +47,18 @@ public class Settings implements Serializable {
 			requiredMode = RequiredMode.REQUIRED)
 	private String scrollMode;
 
+	@Schema(
+			description = "whether to show the star icon in the header of entries",
+			allowableValues = "always,never,on_desktop,on_mobile",
+			requiredMode = RequiredMode.REQUIRED)
+	private String starIconDisplayMode;
+
+	@Schema(
+			description = "whether to show the external link icon in the header of entries",
+			allowableValues = "always,never,on_desktop,on_mobile",
+			requiredMode = RequiredMode.REQUIRED)
+	private String externalLinkIconDisplayMode;
+
 	@Schema(description = "ask for confirmation when marking all entries as read", requiredMode = RequiredMode.REQUIRED)
 	private boolean markAllAsReadConfirmation;
 

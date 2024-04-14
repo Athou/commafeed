@@ -1,7 +1,8 @@
-import { Box, Space, Text } from "@mantine/core"
+import { Box, Flex, Space, Text } from "@mantine/core"
 import { type Entry } from "app/types"
 import { FeedFavicon } from "components/content/FeedFavicon"
 import { OpenExternalLink } from "components/content/header/OpenExternalLink"
+import { Star } from "components/content/header/Star"
 import { RelativeDate } from "components/RelativeDate"
 import { tss } from "tss"
 import { FeedEntryTitle } from "./FeedEntryTitle"
@@ -9,6 +10,8 @@ import { FeedEntryTitle } from "./FeedEntryTitle"
 export interface FeedEntryHeaderProps {
     entry: Entry
     expanded: boolean
+    showStarIcon?: boolean
+    showExternalLinkIcon?: boolean
 }
 
 const useStyles = tss
@@ -17,16 +20,9 @@ const useStyles = tss
     }>()
     .create(({ colorScheme, read }) => ({
         main: {
-            display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "space-between",
-        },
-        mainText: {
             fontWeight: colorScheme === "light" && !read ? "bold" : "inherit",
         },
         details: {
-            display: "flex",
-            alignItems: "center",
             fontSize: "90%",
         },
     }))
@@ -37,13 +33,18 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
     })
     return (
         <Box>
-            <Box className={classes.main}>
-                <Box className={classes.mainText}>
+            <Flex align="flex-start" justify="space-between">
+                <Flex align="flex-start" className={classes.main}>
+                    {props.showStarIcon && (
+                        <Box ml={-6}>
+                            <Star entry={props.entry} />
+                        </Box>
+                    )}
                     <FeedEntryTitle entry={props.entry} />
-                </Box>
-                <OpenExternalLink entry={props.entry} />
-            </Box>
-            <Box className={classes.details}>
+                </Flex>
+                {props.showExternalLinkIcon && <OpenExternalLink entry={props.entry} />}
+            </Flex>
+            <Flex align="center" className={classes.details}>
                 <FeedFavicon url={props.entry.iconUrl} />
                 <Space w={6} />
                 <Text c="dimmed">
@@ -51,7 +52,7 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
                     <span> · </span>
                     <RelativeDate date={props.entry.date} />
                 </Text>
-            </Box>
+            </Flex>
             {props.expanded && (
                 <Box className={classes.details}>
                     <Text c="dimmed">

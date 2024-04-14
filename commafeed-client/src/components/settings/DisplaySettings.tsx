@@ -1,10 +1,12 @@
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { Divider, Group, Radio, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
+import { type ComboboxData } from "@mantine/core/lib/components/Combobox/Combobox.types"
 import { Constants } from "app/constants"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { type ScrollMode, type SharingSettings } from "app/types"
+import { type IconDisplayMode, type ScrollMode, type SharingSettings } from "app/types"
 import {
     changeCustomContextMenu,
+    changeExternalLinkIconDisplayMode,
     changeLanguage,
     changeMarkAllAsReadConfirmation,
     changeMobileFooter,
@@ -13,9 +15,29 @@ import {
     changeScrollSpeed,
     changeSharingSetting,
     changeShowRead,
+    changeStarIconDisplayMode,
 } from "app/user/thunks"
 import { locales } from "i18n"
 import { type ReactNode } from "react"
+
+const displayModeData: ComboboxData = [
+    {
+        value: "always",
+        label: t`Always`,
+    },
+    {
+        value: "on_desktop",
+        label: t`On desktop`,
+    },
+    {
+        value: "on_mobile",
+        label: t`On mobile`,
+    },
+    {
+        value: "never",
+        label: t`Never`,
+    },
+]
 
 export function DisplaySettings() {
     const language = useAppSelector(state => state.user.settings?.language)
@@ -23,6 +45,8 @@ export function DisplaySettings() {
     const showRead = useAppSelector(state => state.user.settings?.showRead)
     const scrollMarks = useAppSelector(state => state.user.settings?.scrollMarks)
     const scrollMode = useAppSelector(state => state.user.settings?.scrollMode)
+    const starIconDisplayMode = useAppSelector(state => state.user.settings?.starIconDisplayMode)
+    const externalLinkIconDisplayMode = useAppSelector(state => state.user.settings?.externalLinkIconDisplayMode)
     const markAllAsReadConfirmation = useAppSelector(state => state.user.settings?.markAllAsReadConfirmation)
     const customContextMenu = useAppSelector(state => state.user.settings?.customContextMenu)
     const mobileFooter = useAppSelector(state => state.user.settings?.mobileFooter)
@@ -60,15 +84,31 @@ export function DisplaySettings() {
             />
 
             <Switch
-                label={<Trans>Show CommaFeed's own context menu on right click</Trans>}
-                checked={customContextMenu}
-                onChange={async e => await dispatch(changeCustomContextMenu(e.currentTarget.checked))}
-            />
-
-            <Switch
                 label={<Trans>On mobile, show action buttons at the bottom of the screen</Trans>}
                 checked={mobileFooter}
                 onChange={async e => await dispatch(changeMobileFooter(e.currentTarget.checked))}
+            />
+
+            <Divider label={<Trans>Entry headers</Trans>} labelPosition="center" />
+
+            <Select
+                description={<Trans>Show star icon</Trans>}
+                value={starIconDisplayMode}
+                data={displayModeData}
+                onChange={async s => await dispatch(changeStarIconDisplayMode(s as IconDisplayMode))}
+            />
+
+            <Select
+                description={<Trans>Show external link icon</Trans>}
+                value={externalLinkIconDisplayMode}
+                data={displayModeData}
+                onChange={async s => await dispatch(changeExternalLinkIconDisplayMode(s as IconDisplayMode))}
+            />
+
+            <Switch
+                label={<Trans>Show CommaFeed's own context menu on right click</Trans>}
+                checked={customContextMenu}
+                onChange={async e => await dispatch(changeCustomContextMenu(e.currentTarget.checked))}
             />
 
             <Divider label={<Trans>Scrolling</Trans>} labelPosition="center" />

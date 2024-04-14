@@ -113,13 +113,19 @@ export const markAllEntries = createAppAsyncThunk(
         thunkApi.dispatch(reloadTree())
     }
 )
-export const starEntry = createAppAsyncThunk("entries/entry/star", (arg: { entry: Entry; starred: boolean }) => {
-    client.entry.star({
-        id: arg.entry.id,
-        feedId: +arg.entry.feedId,
-        starred: arg.starred,
-    })
-})
+export const starEntry = createAppAsyncThunk(
+    "entries/entry/star",
+    (arg: { entry: Entry; starred: boolean }) => {
+        client.entry.star({
+            id: arg.entry.id,
+            feedId: +arg.entry.feedId,
+            starred: arg.starred,
+        })
+    },
+    {
+        condition: arg => arg.entry.markable && arg.entry.starred !== arg.starred,
+    }
+)
 export const selectEntry = createAppAsyncThunk(
     "entries/entry/select",
     (

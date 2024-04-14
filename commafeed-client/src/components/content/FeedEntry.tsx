@@ -1,8 +1,10 @@
 import { Box, Divider, type MantineRadius, type MantineSpacing, Paper } from "@mantine/core"
 import { Constants } from "app/constants"
+import { useAppSelector } from "app/store"
 import { type Entry, type ViewMode } from "app/types"
 import { FeedEntryCompactHeader } from "components/content/header/FeedEntryCompactHeader"
 import { FeedEntryHeader } from "components/content/header/FeedEntryHeader"
+import { useMobile } from "hooks/useMobile"
 import { useViewMode } from "hooks/useViewMode"
 import React from "react"
 import { useSwipeable } from "react-swipeable"
@@ -103,6 +105,15 @@ export function FeedEntry(props: FeedEntryProps) {
         maxWidth: props.maxWidth,
     })
 
+    const externalLinkDisplayMode = useAppSelector(state => state.user.settings?.externalLinkIconDisplayMode)
+    const starIconDisplayMode = useAppSelector(state => state.user.settings?.starIconDisplayMode)
+    const mobile = useMobile()
+
+    const showExternalLinkIcon =
+        externalLinkDisplayMode && ["always", mobile ? "on_mobile" : "on_desktop"].includes(externalLinkDisplayMode)
+    const showStarIcon =
+        props.entry.markable && starIconDisplayMode && ["always", mobile ? "on_mobile" : "on_desktop"].includes(starIconDisplayMode)
+
     const swipeHandlers = useSwipeable({
         onSwipedLeft: props.onSwipedLeft,
     })
@@ -147,8 +158,21 @@ export function FeedEntry(props: FeedEntryProps) {
                 onContextMenu={props.onHeaderRightClick}
             >
                 <Box px={paddingX} py={paddingY} {...swipeHandlers}>
-                    {compactHeader && <FeedEntryCompactHeader entry={props.entry} />}
-                    {!compactHeader && <FeedEntryHeader entry={props.entry} expanded={props.expanded} />}
+                    {compactHeader && (
+                        <FeedEntryCompactHeader
+                            entry={props.entry}
+                            showStarIcon={showStarIcon}
+                            showExternalLinkIcon={showExternalLinkIcon}
+                        />
+                    )}
+                    {!compactHeader && (
+                        <FeedEntryHeader
+                            entry={props.entry}
+                            expanded={props.expanded}
+                            showStarIcon={showStarIcon}
+                            showExternalLinkIcon={showExternalLinkIcon}
+                        />
+                    )}
                 </Box>
             </a>
             {props.expanded && (

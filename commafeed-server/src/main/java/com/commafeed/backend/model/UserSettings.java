@@ -39,6 +39,10 @@ public class UserSettings extends AbstractModel {
 		always, never, if_needed
 	}
 
+	public enum IconDisplayMode {
+		always, never, on_desktop, on_mobile
+	}
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false, unique = true)
 	private User user;
@@ -73,6 +77,14 @@ public class UserSettings extends AbstractModel {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private ScrollMode scrollMode;
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private IconDisplayMode starIconDisplayMode;
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private IconDisplayMode externalLinkIconDisplayMode;
 
 	private boolean markAllAsReadConfirmation;
 	private boolean customContextMenu;

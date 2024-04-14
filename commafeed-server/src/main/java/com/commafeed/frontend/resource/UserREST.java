@@ -22,6 +22,7 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings;
+import com.commafeed.backend.model.UserSettings.IconDisplayMode;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.model.UserSettings.ScrollMode;
@@ -110,6 +111,8 @@ public class UserREST {
 			s.setLanguage(settings.getLanguage());
 			s.setScrollSpeed(settings.getScrollSpeed());
 			s.setScrollMode(settings.getScrollMode().name());
+			s.setStarIconDisplayMode(settings.getStarIconDisplayMode().name());
+			s.setExternalLinkIconDisplayMode(settings.getExternalLinkIconDisplayMode().name());
 			s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());
 			s.setCustomContextMenu(settings.isCustomContextMenu());
 			s.setMobileFooter(settings.isMobileFooter());
@@ -131,6 +134,8 @@ public class UserREST {
 			s.setLanguage("en");
 			s.setScrollSpeed(400);
 			s.setScrollMode(ScrollMode.if_needed.name());
+			s.setStarIconDisplayMode(IconDisplayMode.always.name());
+			s.setExternalLinkIconDisplayMode(IconDisplayMode.always.name());
 			s.setMarkAllAsReadConfirmation(true);
 			s.setCustomContextMenu(true);
 			s.setMobileFooter(false);

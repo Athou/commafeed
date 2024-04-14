@@ -4,6 +4,7 @@ import { createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { type Settings, type UserModel } from "app/types"
 import {
     changeCustomContextMenu,
+    changeExternalLinkIconDisplayMode,
     changeLanguage,
     changeMarkAllAsReadConfirmation,
     changeMobileFooter,
@@ -14,6 +15,7 @@ import {
     changeScrollSpeed,
     changeSharingSetting,
     changeShowRead,
+    changeStarIconDisplayMode,
     reloadProfile,
     reloadSettings,
     reloadTags,
@@ -69,6 +71,14 @@ export const userSlice = createSlice({
             if (!state.settings) return
             state.settings.scrollMode = action.meta.arg
         })
+        builder.addCase(changeStarIconDisplayMode.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.starIconDisplayMode = action.meta.arg
+        })
+        builder.addCase(changeExternalLinkIconDisplayMode.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.externalLinkIconDisplayMode = action.meta.arg
+        })
         builder.addCase(changeMarkAllAsReadConfirmation.pending, (state, action) => {
             if (!state.settings) return
             state.settings.markAllAsReadConfirmation = action.meta.arg
@@ -92,6 +102,8 @@ export const userSlice = createSlice({
                 changeShowRead.fulfilled,
                 changeScrollMarks.fulfilled,
                 changeScrollMode.fulfilled,
+                changeStarIconDisplayMode.fulfilled,
+                changeExternalLinkIconDisplayMode.fulfilled,
                 changeMarkAllAsReadConfirmation.fulfilled,
                 changeCustomContextMenu.fulfilled,
                 changeMobileFooter.fulfilled,

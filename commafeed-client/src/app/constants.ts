@@ -104,6 +104,9 @@ export const Constants = {
         entryId: (entry: Entry) => `entry-id-${entry.id}`,
         entryContextMenuId: (entry: Entry) => entry.id,
     },
+    tooltip: {
+        delay: 500,
+    },
     browserExtensionUrl: "https://github.com/Athou/commafeed-browser-extension",
     bitcoinWalletAddress: "1dymfUxqCWpyD7a6rQSqNy4rLVDBsAr5e",
 }

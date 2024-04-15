@@ -1,5 +1,15 @@
 # Changelog
 
+## [4.4.0]
+
+- add support for sharing using the browser native capabilities if available (#1255)
+- add a button in the entry headers to star an entry (#1025)
+- add a button in the entry headers to open links in a new tab (#1333)
+- add two options in the settings to toggle those buttons
+- accept .opml file extension when importing and export with the .opml extension
+- the "mark as read" option is no longer shown in the context menu for entries that are too old to be marked as read (
+  older than `keepStatusDays`) (#1303)
+
 ## [4.3.3]
 
 - fix OPML import (#1279)

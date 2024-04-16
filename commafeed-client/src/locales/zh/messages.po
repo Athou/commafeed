@@ -315,7 +315,7 @@ msgstr "输入您当前的密码以更改配置文件设置"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
-msgstr ""
+msgstr "条目头部"
 
 #: src/components/Alert.tsx
 msgid "Error"
@@ -578,7 +578,7 @@ msgstr "没有更多条目"
 
 #: src/components/content/ShareButtons.tsx
 msgid "No sharing options available."
-msgstr ""
+msgstr "没有可用的分享选项"
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
@@ -590,11 +590,11 @@ msgstr "最早的优先"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On desktop"
-msgstr ""
+msgstr "桌面端"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile"
-msgstr ""
+msgstr "移动端"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
@@ -660,7 +660,7 @@ msgstr "OPML 文件"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file is required"
-msgstr ""
+msgstr "OPML 文件是必需的"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -718,7 +718,7 @@ msgstr "此 CommaFeed 实例上的注册已关闭"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
-msgstr ""
+msgstr "REST API"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
@@ -804,7 +804,7 @@ msgstr "显示条目菜单（移动端）"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show external link icon"
-msgstr ""
+msgstr "显示外部链接图标"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
@@ -820,7 +820,7 @@ msgstr "显示原生菜单（桌面端）"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
-msgstr ""
+msgstr "显示星标图标"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx

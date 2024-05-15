@@ -60,7 +60,7 @@ export function TreeSearch(props: TreeSearchProps) {
             <Spotlight
                 actions={actions}
                 limit={10}
-                shortcut="ctrl+k"
+                shortcut="mod+k"
                 searchProps={{
                     leftSection: searchIcon,
                     placeholder: t`Search`,

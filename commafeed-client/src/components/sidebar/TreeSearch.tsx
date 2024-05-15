@@ -12,6 +12,10 @@ export interface TreeSearchProps {
     feeds: Subscription[]
 }
 
+function isMacOS() {
+    return navigator.platform.toUpperCase().includes("MAC")
+}
+
 export function TreeSearch(props: TreeSearchProps) {
     const dispatch = useAppDispatch()
 
@@ -27,7 +31,7 @@ export function TreeSearch(props: TreeSearchProps) {
     const searchIcon = <TbSearch size={18} />
     const rightSection = (
         <Center style={{ cursor: "pointer" }} onClick={() => spotlight.open()}>
-            <Kbd>Ctrl</Kbd>
+            <Kbd>{isMacOS() ? "Cmd" : "Ctrl"}</Kbd>
             <Box mx={5}>+</Box>
             <Kbd>K</Kbd>
         </Center>

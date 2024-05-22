@@ -50,6 +50,7 @@ export function LoginPage() {
                             }
                             size="md"
                             required
+                            autoCapitalize="off"
                         />
                         <PasswordInput
                             label={<Trans>Password</Trans>}

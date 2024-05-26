@@ -1,8 +1,10 @@
 import { Trans } from "@lingui/macro"
 import { Anchor, Box, Kbd, Stack, Table } from "@mantine/core"
+import { useOs } from "@mantine/hooks"
 import { Constants } from "app/constants"
 
 export function KeyboardShortcutsHelp() {
+    const isMacOS = useOs() === "macos"
     return (
         <Stack gap="xs">
             <Table striped highlightOnHover>
@@ -149,7 +151,7 @@ export function KeyboardShortcutsHelp() {
                         </Table.Td>
                         <Table.Td>
                             <Kbd>
-                                <Trans>Ctrl</Trans>
+                                <Trans>{isMacOS ? "Cmd" : "Ctrl"}</Trans>
                             </Kbd>
                             <span> + </span>
                             <Kbd>K</Kbd>

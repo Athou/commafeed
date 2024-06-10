@@ -16,15 +16,12 @@ import io.dropwizard.hibernate.AbstractDAO;
 
 public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T> {
 
-	private final JPAQueryFactory factory;
-
 	protected GenericDAO(SessionFactory sessionFactory) {
 		super(sessionFactory);
-		this.factory = new JPAQueryFactory(this::currentSession);
 	}
 
 	protected JPAQueryFactory query() {
-		return factory;
+		return new JPAQueryFactory(currentSession());
 	}
 
 	protected JPAUpdateClause updateQuery(EntityPath<T> entityPath) {

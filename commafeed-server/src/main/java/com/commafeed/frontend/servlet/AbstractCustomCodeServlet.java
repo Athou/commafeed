@@ -20,9 +20,9 @@ abstract class AbstractCustomCodeServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private final UnitOfWork unitOfWork;
-	private final UserDAO userDAO;
-	private final UserSettingsDAO userSettingsDAO;
+	private final transient UnitOfWork unitOfWork;
+	private final transient UserDAO userDAO;
+	private final transient UserSettingsDAO userSettingsDAO;
 
 	@Override
 	protected final void doGet(final HttpServletRequest req, HttpServletResponse resp) throws IOException {

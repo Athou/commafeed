@@ -58,11 +58,11 @@ public class FeedEntryStatus extends AbstractModel {
 	}
 
 	public FeedEntryStatus(User user, FeedSubscription subscription, FeedEntry entry) {
-		setUser(user);
-		setSubscription(subscription);
-		setEntry(entry);
-		setEntryInserted(entry.getInserted());
-		setEntryUpdated(entry.getUpdated());
+		this.user = user;
+		this.subscription = subscription;
+		this.entry = entry;
+		this.entryInserted = entry.getInserted();
+		this.entryUpdated = entry.getUpdated();
 	}
 
 }

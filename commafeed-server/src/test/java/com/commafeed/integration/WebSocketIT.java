@@ -23,14 +23,16 @@ import jakarta.websocket.Endpoint;
 import jakarta.websocket.EndpointConfig;
 import jakarta.websocket.Session;
 import jakarta.ws.rs.client.Entity;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 class WebSocketIT extends BaseIT {
 
 	@Test
 	void sessionClosedIfNotLoggedIn() throws DeploymentException, IOException {
 		AtomicBoolean connected = new AtomicBoolean();
 		AtomicReference<CloseReason> closeReasonRef = new AtomicReference<>();
-		try (Session ignored = ContainerProvider.getWebSocketContainer().connectToServer(new Endpoint() {
+		try (Session session = ContainerProvider.getWebSocketContainer().connectToServer(new Endpoint() {
 			@Override
 			public void onOpen(Session session, EndpointConfig config) {
 				connected.set(true);
@@ -42,6 +44,7 @@ class WebSocketIT extends BaseIT {
 			}
 		}, buildConfig("fake-session-id"), URI.create(getWebSocketUrl()))) {
 			Awaitility.await().atMost(15, TimeUnit.SECONDS).untilTrue(connected);
+			log.info("connected to {}", session.getRequestURI());
 
 			Awaitility.await().atMost(15, TimeUnit.SECONDS).until(() -> closeReasonRef.get() != null);
 			Assertions.assertEquals(CloseReason.CloseCodes.VIOLATED_POLICY, closeReasonRef.get().getCloseCode());
@@ -54,7 +57,7 @@ class WebSocketIT extends BaseIT {
 
 		AtomicBoolean connected = new AtomicBoolean();
 		AtomicReference<String> messageRef = new AtomicReference<>();
-		try (Session ignored = ContainerProvider.getWebSocketContainer().connectToServer(new Endpoint() {
+		try (Session session = ContainerProvider.getWebSocketContainer().connectToServer(new Endpoint() {
 			@Override
 			public void onOpen(Session session, EndpointConfig config) {
 				session.addMessageHandler(String.class, messageRef::set);
@@ -62,6 +65,7 @@ class WebSocketIT extends BaseIT {
 			}
 		}, buildConfig(sessionId), URI.create(getWebSocketUrl()))) {
 			Awaitility.await().atMost(15, TimeUnit.SECONDS).untilTrue(connected);
+			log.info("connected to {}", session.getRequestURI());
 
 			Long subscriptionId = subscribe(getFeedUrl());
 
@@ -83,7 +87,7 @@ class WebSocketIT extends BaseIT {
 
 		AtomicBoolean connected = new AtomicBoolean();
 		AtomicReference<String> messageRef = new AtomicReference<>();
-		try (Session ignored = ContainerProvider.getWebSocketContainer().connectToServer(new Endpoint() {
+		try (Session session = ContainerProvider.getWebSocketContainer().connectToServer(new Endpoint() {
 			@Override
 			public void onOpen(Session session, EndpointConfig config) {
 				session.addMessageHandler(String.class, messageRef::set);
@@ -91,6 +95,7 @@ class WebSocketIT extends BaseIT {
 			}
 		}, buildConfig(sessionId), URI.create(getWebSocketUrl()))) {
 			Awaitility.await().atMost(15, TimeUnit.SECONDS).untilTrue(connected);
+			log.info("connected to {}", session.getRequestURI());
 
 			feedNowReturnsMoreEntries();
 			forceRefreshAllFeeds();
@@ -115,6 +120,7 @@ class WebSocketIT extends BaseIT {
 			}
 		}, buildConfig(sessionId), URI.create(getWebSocketUrl()))) {
 			Awaitility.await().atMost(15, TimeUnit.SECONDS).untilTrue(connected);
+			log.info("connected to {}", session.getRequestURI());
 
 			session.getAsyncRemote().sendText("ping");
 

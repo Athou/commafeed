@@ -30,6 +30,8 @@
 			<property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$" />
 		</module>
 		<module name="ParameterName" />
+		<module name="PatternVariableName" />
+		<module name="RecordComponentName" />
 		<module name="StaticVariableName" />
 		<module name="TypeName" />
 
@@ -90,6 +92,9 @@
 		<module name="SimplifyBooleanReturn" />
 		<module name="StringLiteralEquality" />
 		<module name="UnnecessaryParentheses" />
+		<module name="UnnecessarySemicolonAfterTypeMemberDeclaration" />
+		<module name="UnnecessarySemicolonInTryWithResources" />
+		<module name="UnusedLocalVariable" />
 
 		<!-- Checks for class design -->
 		<!-- See http://checkstyle.sf.net/config_design.html -->

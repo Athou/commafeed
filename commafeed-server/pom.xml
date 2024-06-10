@@ -13,7 +13,7 @@
 
 	<properties>
 		<guice.version>7.0.0</guice.version>
-		<querydsl.version>5.1.0</querydsl.version>
+		<querydsl.version>6.3</querydsl.version>
 		<rome.version>2.1.0</rome.version>
 	</properties>
 
@@ -284,17 +284,16 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.querydsl</groupId>
+			<groupId>io.github.openfeign.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
 			<version>${querydsl.version}</version>
 			<scope>provided</scope>
 			<classifier>jakarta</classifier>
 		</dependency>
 		<dependency>
-			<groupId>com.querydsl</groupId>
+			<groupId>io.github.openfeign.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
 			<version>${querydsl.version}</version>
-			<classifier>jakarta</classifier>
 		</dependency>
 
 		<dependency>

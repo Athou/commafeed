@@ -8,7 +8,7 @@ import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.QFeedEntry;
 import com.commafeed.backend.model.QFeedEntryContent;
 import com.querydsl.jpa.JPAExpressions;
-import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.JPQLSubQuery;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -29,7 +29,7 @@ public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 	}
 
 	public long deleteWithoutEntries(int max) {
-		JPQLQuery<Integer> subQuery = JPAExpressions.selectOne().from(entry).where(entry.content.id.eq(content.id));
+		JPQLSubQuery<Integer> subQuery = JPAExpressions.selectOne().from(entry).where(entry.content.id.eq(content.id));
 		List<Long> ids = query().select(content.id).from(content).where(subQuery.notExists()).limit(max).fetch();
 
 		return deleteQuery(content).where(content.id.in(ids)).execute();

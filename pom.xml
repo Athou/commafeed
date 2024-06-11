@@ -22,6 +22,17 @@
 				<version>3.13.0</version>
 				<configuration>
 					<parameters>true</parameters>
+
+					<!-- treat warnings as errors -->
+					<!-- https://stackoverflow.com/a/33823355/ -->
+					<showWarnings>true</showWarnings>
+					<compilerArgs>
+						<!-- disable the "processing" linter because we have annotations that are processed at runtime -->
+						<!-- https://stackoverflow.com/a/76126981/ -->
+						<!-- disable the "classfile" linter because it generates "file missing" warnings about annotations with the "provided" scope -->
+						<arg>-Xlint:all,-processing,-classfile</arg>
+						<arg>-Werror</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 		</plugins>

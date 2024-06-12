@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -524,7 +523,7 @@ public class FeedREST {
 			return Response.status(Status.FORBIDDEN).entity("Import is disabled for the demo account").build();
 		}
 		try {
-			String opml = IOUtils.toString(input, StandardCharsets.UTF_8);
+			String opml = new String(input.readAllBytes(), StandardCharsets.UTF_8);
 			opmlImporter.importOpml(user, opml);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

@@ -2,9 +2,8 @@ package com.commafeed.backend.service;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.Set;
-
-import org.apache.commons.io.IOUtils;
 
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.dao.FeedDAO;
@@ -13,6 +12,7 @@ import com.commafeed.backend.favicon.Favicon;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.Models;
+import com.google.common.io.Resources;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -31,7 +31,8 @@ public class FeedService {
 		this.faviconFetchers = faviconFetchers;
 
 		try {
-			defaultFavicon = new Favicon(IOUtils.toByteArray(getClass().getResource("/images/default_favicon.gif")), "image/gif");
+			defaultFavicon = new Favicon(
+					Resources.toByteArray(Objects.requireNonNull(getClass().getResource("/images/default_favicon.gif"))), "image/gif");
 		} catch (IOException e) {
 			throw new RuntimeException("could not load default favicon", e);
 		}

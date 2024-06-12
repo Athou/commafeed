@@ -15,6 +15,7 @@ import org.mockserver.model.HttpResponse;
 
 import com.commafeed.CommaFeedDropwizardAppExtension;
 import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.options.AriaRole;
 
@@ -40,34 +41,42 @@ class ReadingIT extends PlaywrightTestBase {
 	void scenario() {
 		// login
 		page.navigate("http://localhost:" + EXT.getLocalPort());
-		page.locator("button:has-text('Log in')").click();
+		page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Log in")).click();
 		PlaywrightTestUtils.login(page);
-		PlaywrightAssertions.assertThat(page.locator("text=You don't have any subscriptions yet.")).hasCount(1);
+
+		Locator header = page.getByRole(AriaRole.BANNER);
+		Locator sidebar = page.getByRole(AriaRole.NAVIGATION);
+		Locator main = page.getByRole(AriaRole.MAIN);
+
+		PlaywrightAssertions.assertThat(main.getByText("You don't have any subscriptions yet.")).hasCount(1);
 
 		// subscribe
-		page.locator("[aria-label='Subscribe']").click();
-		page.locator("text=Feed URL *").fill("http://localhost:" + this.mockServerClient.getPort());
-		page.locator("button:has-text('Next')").click();
-		page.locator("button:has-text('Subscribe')").nth(2).click();
+		header.getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Subscribe")).click();
+		main.getByText("Feed URL *").fill("http://localhost:" + this.mockServerClient.getPort());
+		main.getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Next")).click();
+		main.getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Subscribe").setExact(true)).click();
 
 		// click on subscription
-		page.getByRole(AriaRole.NAVIGATION).getByText(Pattern.compile("CommaFeed test feed\\d+")).click();
+		sidebar.getByText(Pattern.compile("CommaFeed test feed\\d+")).click();
 
 		// we have two unread entries
-		Locator entries = page.locator("main >> .mantine-Paper-root");
-		PlaywrightAssertions.assertThat(entries).hasCount(2);
+		PlaywrightAssertions.assertThat(main.locator(".mantine-Paper-root")).hasCount(2);
 
 		// click on first entry
-		page.locator("text='Item 1'").click();
-		PlaywrightAssertions.assertThat(page.locator("text=Item 1 description")).hasCount(1);
-		PlaywrightAssertions.assertThat(page.locator("text=Item 2 description")).hasCount(0);
+		main.getByText("Item 1").click();
+		PlaywrightAssertions.assertThat(main.getByText("Item 1 description")).hasCount(1);
+		PlaywrightAssertions.assertThat(main.getByText("Item 2 description")).hasCount(0);
+
+		// click on subscription
+		sidebar.getByText(Pattern.compile("CommaFeed test feed\\d+")).click();
+
 		// only one unread entry now
-		PlaywrightAssertions.assertThat(page.locator("nav >> text=CommaFeed test feed1")).hasCount(1);
+		PlaywrightAssertions.assertThat(main.locator(".mantine-Paper-root")).hasCount(1);
 
 		// click on second entry
-		page.locator("text=Item 2").click();
-		PlaywrightAssertions.assertThat(page.locator("text=Item 1 description")).hasCount(0);
-		PlaywrightAssertions.assertThat(page.locator("text=Item 2 description")).hasCount(1);
+		main.getByText("Item 2").click();
+		PlaywrightAssertions.assertThat(main.getByText("Item 1 description")).hasCount(0);
+		PlaywrightAssertions.assertThat(main.getByText("Item 2 description")).hasCount(1);
 	}
 
 }

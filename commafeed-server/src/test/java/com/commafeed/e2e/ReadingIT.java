@@ -2,6 +2,7 @@ package com.commafeed.e2e;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,8 +15,8 @@ import org.mockserver.model.HttpResponse;
 
 import com.commafeed.CommaFeedDropwizardAppExtension;
 import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.Locator.WaitForOptions;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
+import com.microsoft.playwright.options.AriaRole;
 
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 
@@ -49,13 +50,10 @@ class ReadingIT extends PlaywrightTestBase {
 		page.locator("button:has-text('Next')").click();
 		page.locator("button:has-text('Subscribe')").nth(2).click();
 
-		// subscription has two unread entries
-		Locator treeNode = page.locator("nav >> text=CommaFeed test feed2");
-		treeNode.waitFor(new WaitForOptions().setTimeout(30000));
-		PlaywrightAssertions.assertThat(treeNode).hasCount(1);
-
 		// click on subscription
-		treeNode.click();
+		page.getByRole(AriaRole.NAVIGATION).getByText(Pattern.compile("CommaFeed test feed\\d+")).click();
+
+		// we have two unread entries
 		Locator entries = page.locator("main >> .mantine-Paper-root");
 		PlaywrightAssertions.assertThat(entries).hasCount(2);
 

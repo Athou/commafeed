@@ -8,6 +8,7 @@ import { redirectTo } from "app/redirect/slice"
 import { reloadServerInfos } from "app/server/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { categoryUnreadCount } from "app/utils"
+import { DisablePullToRefresh } from "components/DisablePullToRefresh"
 import { ErrorBoundary } from "components/ErrorBoundary"
 import { Header } from "components/header/Header"
 import { Tree } from "components/sidebar/Tree"
@@ -29,6 +30,7 @@ import { PasswordRecoveryPage } from "pages/auth/PasswordRecoveryPage"
 import { RegistrationPage } from "pages/auth/RegistrationPage"
 import { WelcomePage } from "pages/WelcomePage"
 import React, { useEffect } from "react"
+import { isSafari } from "react-device-detect"
 import ReactGA from "react-ga4"
 import { Helmet } from "react-helmet"
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom"
@@ -193,6 +195,11 @@ export function App() {
                     <RedirectHandler />
                     <AppRoutes />
                     <CustomCode />
+                    {/* disable pull-to-refresh as it messes with vertical scrolling
+                        safari behaves weirdly when overscroll-behavior is set to none so we disable it only for other browsers
+                        https://github.com/Athou/commafeed/issues/1168
+                    */}
+                    {!isSafari && <DisablePullToRefresh />}
                 </HashRouter>
             </>
         </Providers>

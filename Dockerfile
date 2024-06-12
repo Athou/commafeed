@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.11_9-jre
+FROM eclipse-temurin:21.0.3_9-jre
 
 EXPOSE 8082
 

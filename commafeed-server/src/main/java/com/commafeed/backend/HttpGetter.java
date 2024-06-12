@@ -35,6 +35,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import nl.altindag.ssl.SSLFactory;
 import nl.altindag.ssl.apache5.util.Apache5SslUtils;
 
@@ -43,6 +44,7 @@ import nl.altindag.ssl.apache5.util.Apache5SslUtils;
  *
  */
 @Singleton
+@Slf4j
 public class HttpGetter {
 
 	private final CloseableHttpClient client;
@@ -70,8 +72,9 @@ public class HttpGetter {
 	 *             if the url hasn't changed since we asked for it last time
 	 */
 	public HttpResult getBinary(String url, String lastModified, String eTag, int timeout) throws IOException, NotModifiedException {
-		long start = System.currentTimeMillis();
+		log.debug("fetching {}", url);
 
+		long start = System.currentTimeMillis();
 		ClassicHttpRequest request = ClassicRequestBuilder.get(url).build();
 		if (lastModified != null) {
 			request.addHeader(HttpHeaders.IF_MODIFIED_SINCE, lastModified);

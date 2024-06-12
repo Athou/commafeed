@@ -399,20 +399,20 @@ public class FeedREST {
 		Preconditions.checkNotNull(req.getTitle());
 		Preconditions.checkNotNull(req.getUrl());
 
-		String url = prependHttp(req.getUrl());
 		try {
-			url = fetchFeedInternal(url).getUrl();
-
 			FeedCategory category = null;
 			if (req.getCategoryId() != null && !CategoryREST.ALL.equals(req.getCategoryId())) {
 				category = feedCategoryDAO.findById(Long.valueOf(req.getCategoryId()));
 			}
-			FeedInfo info = fetchFeedInternal(url);
+
+			FeedInfo info = fetchFeedInternal(prependHttp(req.getUrl()));
 			long subscriptionId = feedSubscriptionService.subscribe(user, info.getUrl(), req.getTitle(), category);
 			return Response.ok(subscriptionId).build();
 		} catch (Exception e) {
-			log.error("Failed to subscribe to URL {}: {}", url, e.getMessage(), e);
-			return Response.status(Status.SERVICE_UNAVAILABLE).entity("Failed to subscribe to URL " + url + ": " + e.getMessage()).build();
+			log.error("Failed to subscribe to URL {}: {}", req.getUrl(), e.getMessage(), e);
+			return Response.status(Status.SERVICE_UNAVAILABLE)
+					.entity("Failed to subscribe to URL " + req.getUrl() + ": " + e.getMessage())
+					.build();
 		}
 	}
 
@@ -423,14 +423,9 @@ public class FeedREST {
 	@Timed
 	public Response subscribeFromUrl(@Parameter(hidden = true) @SecurityCheck User user,
 			@Parameter(description = "feed url", required = true) @QueryParam("url") String url) {
-
 		try {
 			Preconditions.checkNotNull(url);
-
-			url = prependHttp(url);
-			url = fetchFeedInternal(url).getUrl();
-
-			FeedInfo info = fetchFeedInternal(url);
+			FeedInfo info = fetchFeedInternal(prependHttp(url));
 			feedSubscriptionService.subscribe(user, info.getUrl(), info.getTitle());
 		} catch (Exception e) {
 			log.info("Could not subscribe to url {} : {}", url, e.getMessage());

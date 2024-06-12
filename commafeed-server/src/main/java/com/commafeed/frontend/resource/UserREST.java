@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.core5.net.URIBuilder;
@@ -14,6 +13,7 @@ import org.apache.hc.core5.net.URIBuilder;
 import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.backend.Digests;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
@@ -292,7 +292,7 @@ public class UserREST {
 		}
 
 		try {
-			user.setRecoverPasswordToken(DigestUtils.sha1Hex(UUID.randomUUID().toString()));
+			user.setRecoverPasswordToken(Digests.sha1Hex(UUID.randomUUID().toString()));
 			user.setRecoverPasswordTokenDate(Instant.now());
 			userDAO.saveOrUpdate(user);
 			mailService.sendMail(user, "Password recovery", buildEmailContent(user));

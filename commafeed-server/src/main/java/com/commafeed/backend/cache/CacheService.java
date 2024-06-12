@@ -3,8 +3,7 @@ package com.commafeed.backend.cache;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
+import com.commafeed.backend.Digests;
 import com.commafeed.backend.feed.parser.FeedParserResult.Entry;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedSubscription;
@@ -20,7 +19,7 @@ public abstract class CacheService {
 	public abstract void setLastEntries(Feed feed, List<String> entries);
 
 	public String buildUniqueEntryKey(Entry entry) {
-		return DigestUtils.sha1Hex(entry.guid() + entry.url());
+		return Digests.sha1Hex(entry.guid() + entry.url());
 	}
 
 	// user categories

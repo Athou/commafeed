@@ -5,8 +5,8 @@ import java.time.Instant;
 import java.util.Set;
 
 import org.apache.commons.codec.binary.StringUtils;
-import org.apache.commons.codec.digest.DigestUtils;
 
+import com.commafeed.backend.Digests;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
@@ -68,7 +68,7 @@ public class FeedFetcher {
 		boolean lastModifiedHeaderValueChanged = !StringUtils.equals(lastModified, result.getLastModifiedSince());
 		boolean etagHeaderValueChanged = !StringUtils.equals(eTag, result.getETag());
 
-		String hash = DigestUtils.sha1Hex(content);
+		String hash = Digests.sha1Hex(content);
 		if (lastContentHash != null && lastContentHash.equals(hash)) {
 			log.debug("content hash not modified: {}", feedUrl);
 			throw new NotModifiedException("content hash not modified",

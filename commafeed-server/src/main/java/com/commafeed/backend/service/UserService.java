@@ -8,11 +8,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.backend.Digests;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UserDAO;
@@ -94,7 +94,7 @@ public class UserService {
 			return Optional.empty();
 		}
 
-		String computedFeverApiKey = DigestUtils.md5Hex(user.getName() + ":" + user.getApiKey());
+		String computedFeverApiKey = Digests.md5Hex(user.getName() + ":" + user.getApiKey());
 		if (!computedFeverApiKey.equals(feverApiKey)) {
 			return Optional.empty();
 		}
@@ -158,7 +158,7 @@ public class UserService {
 
 	public String generateApiKey(User user) {
 		byte[] key = encryptionService.getEncryptedPassword(UUID.randomUUID().toString(), user.getSalt());
-		return DigestUtils.sha1Hex(key);
+		return Digests.sha1Hex(key);
 	}
 
 	public Set<Role> getRoles(User user) {

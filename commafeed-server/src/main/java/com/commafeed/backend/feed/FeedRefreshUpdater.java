@@ -12,11 +12,11 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
+import com.commafeed.backend.Digests;
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UnitOfWork;
@@ -89,7 +89,7 @@ public class FeedRefreshUpdater {
 		// lock on content, make sure we are not updating the same entry
 		// twice at the same time
 		Content content = entry.content();
-		String key2 = DigestUtils.sha1Hex(StringUtils.trimToEmpty(content.content() + content.title()));
+		String key2 = Digests.sha1Hex(StringUtils.trimToEmpty(content.content() + content.title()));
 
 		Iterator<Lock> iterator = locks.bulkGet(Arrays.asList(key1, key2)).iterator();
 		Lock lock1 = iterator.next();

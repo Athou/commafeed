@@ -3,7 +3,6 @@ package com.commafeed.backend.feed;
 import java.time.Instant;
 import java.util.Set;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +16,7 @@ import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.feed.parser.FeedParser;
 import com.commafeed.backend.urlprovider.FeedURLProvider;
+import com.google.gwt.thirdparty.guava.common.hash.Hashing;
 
 @ExtendWith(MockitoExtension.class)
 class FeedFetcherTest {
@@ -43,7 +43,7 @@ class FeedFetcherTest {
 		String lastModified = "last-modified-1";
 		String etag = "etag-1";
 		byte[] content = "content".getBytes();
-		String lastContentHash = DigestUtils.sha1Hex(content);
+		String lastContentHash = Hashing.sha1().hashBytes(content).toString();
 
 		Mockito.when(getter.getBinary(url, lastModified, etag, 20000))
 				.thenReturn(new HttpResult(content, "content-type", "last-modified-2", "etag-2", 20, null));

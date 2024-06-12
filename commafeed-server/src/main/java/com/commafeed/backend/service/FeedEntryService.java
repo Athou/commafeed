@@ -3,8 +3,7 @@ package com.commafeed.backend.service;
 import java.time.Instant;
 import java.util.List;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
+import com.commafeed.backend.Digests;
 import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
@@ -41,7 +40,7 @@ public class FeedEntryService {
 	 */
 	public FeedEntry findOrCreate(Feed feed, Entry entry) {
 		String guid = FeedUtils.truncate(entry.guid(), 2048);
-		String guidHash = DigestUtils.sha1Hex(entry.guid());
+		String guidHash = Digests.sha1Hex(entry.guid());
 		FeedEntry existing = feedEntryDAO.findExisting(guidHash, feed);
 		if (existing != null) {
 			return existing;

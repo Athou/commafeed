@@ -1,10 +1,10 @@
 package com.commafeed.integration.rest;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.commafeed.backend.Digests;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.resource.fever.FeverResponse;
@@ -64,7 +64,7 @@ class FeverIT extends BaseIT {
 
 	private FeverResponse fetch(String what, String apiKey) {
 		Form form = new Form();
-		form.param("api_key", DigestUtils.md5Hex("admin:" + apiKey));
+		form.param("api_key", Digests.md5Hex("admin:" + apiKey));
 		form.param(what, "1");
 		return getClient().target(getApiBaseUrl() + "fever/user/{userId}")
 				.resolveTemplate("userId", userId)

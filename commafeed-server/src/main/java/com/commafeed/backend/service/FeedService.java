@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.Set;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 
+import com.commafeed.backend.Digests;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.favicon.AbstractFaviconFetcher;
 import com.commafeed.backend.favicon.Favicon;
@@ -39,7 +39,7 @@ public class FeedService {
 
 	public synchronized Feed findOrCreate(String url) {
 		String normalizedUrl = FeedUtils.normalizeURL(url);
-		String normalizedUrlHash = DigestUtils.sha1Hex(normalizedUrl);
+		String normalizedUrlHash = Digests.sha1Hex(normalizedUrl);
 		Feed feed = feedDAO.findByUrl(normalizedUrl, normalizedUrlHash);
 		if (feed == null) {
 			feed = new Feed();
@@ -55,7 +55,7 @@ public class FeedService {
 	public void save(Feed feed) {
 		String normalized = FeedUtils.normalizeURL(feed.getUrl());
 		feed.setNormalizedUrl(normalized);
-		feed.setNormalizedUrlHash(DigestUtils.sha1Hex(normalized));
+		feed.setNormalizedUrlHash(Digests.sha1Hex(normalized));
 		feed.setLastUpdated(Instant.now());
 		feed.setEtagHeader(FeedUtils.truncate(feed.getEtagHeader(), 255));
 		feedDAO.saveOrUpdate(feed);

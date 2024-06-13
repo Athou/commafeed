@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { type client } from "app/client"
+import type { client } from "app/client"
 import { loadEntries, loadMoreEntries, markAllEntries, markEntry } from "app/entries/thunks"
-import { reducers, type RootState } from "app/store"
-import { type Entries, type Entry } from "app/types"
-import { type AxiosResponse } from "axios"
+import { type RootState, reducers } from "app/store"
+import type { Entries, Entry } from "app/types"
+import type { AxiosResponse } from "axios"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { mockReset } from "vitest-mock-extended"
 

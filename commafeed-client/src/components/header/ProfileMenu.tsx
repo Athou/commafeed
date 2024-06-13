@@ -13,7 +13,7 @@ import { showNotification } from "@mantine/notifications"
 import { client } from "app/client"
 import { redirectToAbout, redirectToAdminUsers, redirectToDonate, redirectToMetrics, redirectToSettings } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { type ViewMode } from "app/types"
+import type { ViewMode } from "app/types"
 import { useViewMode } from "hooks/useViewMode"
 import { type ReactNode, useState } from "react"
 import {

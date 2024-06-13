@@ -1,13 +1,13 @@
 import { Box, Center } from "@mantine/core"
 import { FeedFavicon } from "components/content/FeedFavicon"
-import React, { type ReactNode } from "react"
+import type React from "react"
 import { tss } from "tss"
 import { UnreadCount } from "./UnreadCount"
 
 interface TreeNodeProps {
     id: string
-    name: ReactNode
-    icon: ReactNode
+    name: React.ReactNode
+    icon: React.ReactNode
     unread: number
     selected: boolean
     expanded?: boolean
@@ -27,7 +27,7 @@ const useStyles = tss
         let backgroundColor = "inherit"
         if (selected) backgroundColor = colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[1]
 
-        let color
+        let color: string
         if (hasError) {
             color = theme.colors.red[6]
         } else if (colorScheme === "dark") {

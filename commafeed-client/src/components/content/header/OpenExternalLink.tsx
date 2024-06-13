@@ -3,7 +3,7 @@ import { ActionIcon, Anchor, Tooltip } from "@mantine/core"
 import { Constants } from "app/constants"
 import { markEntry } from "app/entries/thunks"
 import { useAppDispatch } from "app/store"
-import { type Entry } from "app/types"
+import type { Entry } from "app/types"
 import { TbExternalLink } from "react-icons/tb"
 
 export function OpenExternalLink(props: { entry: Entry }) {

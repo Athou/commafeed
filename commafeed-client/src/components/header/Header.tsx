@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans, t } from "@lingui/macro"
 import { Box, Center, CloseButton, Divider, Group, Indicator, Popover, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { reloadEntries, search, selectNextEntry, selectPreviousEntry } from "app/entries/thunks"

@@ -1,7 +1,7 @@
 import { createAppAsyncThunk } from "app/async-thunk"
 import { client } from "app/client"
 import { Constants } from "app/constants"
-import { entriesSlice, type EntrySource, type EntrySourceType, setSearch } from "app/entries/slice"
+import { type EntrySource, type EntrySourceType, entriesSlice, setSearch } from "app/entries/slice"
 import type { RootState } from "app/store"
 import { reloadTree } from "app/tree/thunks"
 import type { Entry, MarkRequest, TagRequest } from "app/types"

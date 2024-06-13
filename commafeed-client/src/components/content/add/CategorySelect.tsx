@@ -1,9 +1,9 @@
 import { t } from "@lingui/macro"
 import { Select, type SelectProps } from "@mantine/core"
-import { type ComboboxItem } from "@mantine/core/lib/components/Combobox/Combobox.types"
+import type { ComboboxItem } from "@mantine/core/lib/components/Combobox/Combobox.types"
 import { Constants } from "app/constants"
 import { useAppSelector } from "app/store"
-import { type Category } from "app/types"
+import type { Category } from "app/types"
 import { flattenCategoryTree } from "app/utils"
 
 type CategorySelectProps = Partial<SelectProps> & {
@@ -18,7 +18,8 @@ export function CategorySelect(props: CategorySelectProps) {
         map.set(c.id, c)
         return map
     }, new Map<string, Category>())
-    const categoryLabel = (cat: Category) => {
+    const categoryLabel = (category: Category) => {
+        let cat = category
         let label = cat.name
 
         while (cat.parentId) {

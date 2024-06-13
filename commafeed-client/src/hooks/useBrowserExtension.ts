@@ -9,13 +9,13 @@ export const useBrowserExtension = () => {
     // monitor the attribute on the root element as it may change after the page was loaded
     useEffect(() => {
         const observer = new MutationObserver(mutations => {
-            mutations.forEach(mutation => {
+            for (const mutation of mutations) {
                 if (mutation.type === "attributes") {
                     const element = mutation.target as Element
                     const version = element.getAttribute("browser-extension-installed")
                     if (version) setBrowserExtensionVersion(version)
                 }
-            })
+            }
         })
 
         observer.observe(document.documentElement, {

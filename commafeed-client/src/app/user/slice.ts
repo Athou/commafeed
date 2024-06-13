@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro"
 import { showNotification } from "@mantine/notifications"
 import { createSlice, isAnyOf } from "@reduxjs/toolkit"
-import { type Settings, type UserModel } from "app/types"
+import type { Settings, UserModel } from "app/types"
 import {
     changeCustomContextMenu,
     changeExternalLinkIconDisplayMode,

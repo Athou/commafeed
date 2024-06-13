@@ -104,7 +104,7 @@ export default function Layout(props: LayoutProps) {
             label={mobileMenuOpen ? <Trans>Close menu</Trans> : <Trans>Open menu</Trans>}
             icon={mobileMenuOpen ? <TbX size={18} /> : <TbMenu2 size={18} />}
             onClick={() => dispatch(setMobileMenuOpen(!mobileMenuOpen))}
-        ></ActionButton>
+        />
     )
 
     const addButton = (
@@ -201,7 +201,7 @@ export default function Layout(props: LayoutProps) {
                                 width: "10px",
                                 cursor: "ew-resize",
                             }}
-                        ></Box>
+                        />
                     </Draggable>
                 </OnDesktop>
 

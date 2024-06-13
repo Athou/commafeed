@@ -1,6 +1,6 @@
 import { Box } from "@mantine/core"
 import { useMobile } from "hooks/useMobile"
-import React from "react"
+import type React from "react"
 
 export function OnMobile(props: { children: React.ReactNode }) {
     const mobile = useMobile()

@@ -2,7 +2,7 @@ import { Trans } from "@lingui/macro"
 import { ActionIcon, Box, Center, Divider, Group, Title, useMantineTheme } from "@mantine/core"
 import { useViewportSize } from "@mantine/hooks"
 import { Constants } from "app/constants"
-import { type EntrySourceType } from "app/entries/slice"
+import type { EntrySourceType } from "app/entries/slice"
 import { loadEntries } from "app/entries/thunks"
 import { redirectToCategoryDetails, redirectToFeedDetails, redirectToTagDetails } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -62,6 +62,7 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
         }
     }
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: we subscribe to state.timestamp because we want to reload entries even if the props are the same
     useEffect(() => {
         dispatch(
             loadEntries({
@@ -72,7 +73,7 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
                 clearSearch: true,
             })
         )
-    }, [dispatch, props.sourceType, id, location.state])
+    }, [dispatch, props.sourceType, id, location.state?.timestamp])
 
     const noSubscriptions = rootCategory && flattenCategoryTree(rootCategory).every(c => c.feeds.length === 0)
     if (noSubscriptions) return <NoSubscriptionHelp />

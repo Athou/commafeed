@@ -1,10 +1,10 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans, t } from "@lingui/macro"
 import { Box, Center, Kbd, TextInput } from "@mantine/core"
 import { useOs } from "@mantine/hooks"
-import { Spotlight, spotlight, type SpotlightActionData } from "@mantine/spotlight"
+import { Spotlight, type SpotlightActionData, spotlight } from "@mantine/spotlight"
 import { redirectToFeed } from "app/redirect/thunks"
 import { useAppDispatch } from "app/store"
-import { type Subscription } from "app/types"
+import type { Subscription } from "app/types"
 import { FeedFavicon } from "components/content/FeedFavicon"
 import { useMousetrap } from "hooks/useMousetrap"
 import { TbSearch } from "react-icons/tb"
@@ -63,7 +63,7 @@ export function TreeSearch(props: TreeSearchProps) {
                     placeholder: t`Search`,
                 }}
                 nothingFound={<Trans>Nothing found</Trans>}
-            ></Spotlight>
+            />
         </>
     )
 }

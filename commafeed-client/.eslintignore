@@ -1,8 +1,0 @@
-dist
-node_modules
-
-vite.config.ts
-
-# compiled linguijs locales
-# they no longer exist but we keep this to avoid issues with people still having those files on disk
-src/locales/**/*.ts

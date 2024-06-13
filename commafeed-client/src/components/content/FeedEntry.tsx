@@ -1,12 +1,12 @@
 import { Box, Divider, type MantineRadius, type MantineSpacing, Paper } from "@mantine/core"
 import { Constants } from "app/constants"
 import { useAppSelector } from "app/store"
-import { type Entry, type ViewMode } from "app/types"
+import type { Entry, ViewMode } from "app/types"
 import { FeedEntryCompactHeader } from "components/content/header/FeedEntryCompactHeader"
 import { FeedEntryHeader } from "components/content/header/FeedEntryHeader"
 import { useMobile } from "hooks/useMobile"
 import { useViewMode } from "hooks/useViewMode"
-import React from "react"
+import type React from "react"
 import { useSwipeable } from "react-swipeable"
 import { tss } from "tss"
 import { FeedEntryBody } from "./FeedEntryBody"
@@ -35,7 +35,7 @@ const useStyles = tss
         maxWidth?: number
     }>()
     .create(({ theme, colorScheme, read, expanded, viewMode, rtl, showSelectionIndicator, maxWidth }) => {
-        let backgroundColor
+        let backgroundColor: string
         if (colorScheme === "dark") {
             backgroundColor = read ? "inherit" : theme.colors.dark[5]
         } else {
@@ -61,7 +61,7 @@ const useStyles = tss
             backgroundHoverColor = colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1]
         }
 
-        let paperBorderLeftColor
+        let paperBorderLeftColor = ""
         if (showSelectionIndicator) {
             const borderLeftColor = colorScheme === "dark" ? theme.colors[theme.primaryColor][4] : theme.colors[theme.primaryColor][6]
             paperBorderLeftColor = `${borderLeftColor} !important`

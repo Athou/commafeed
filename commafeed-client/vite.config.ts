@@ -2,7 +2,7 @@ import { lingui } from "@lingui/vite-plugin"
 import react from "@vitejs/plugin-react"
 import { visualizer } from "rollup-plugin-visualizer"
 import { defineConfig } from "vite"
-import eslint from "vite-plugin-eslint"
+import biomePlugin from "vite-plugin-biome"
 import tsconfigPaths from "vite-tsconfig-paths"
 
 // https://vitejs.dev/config/
@@ -16,9 +16,12 @@ export default defineConfig(env => ({
         }),
         lingui(),
         // https://github.com/vitest-dev/vitest/issues/4055#issuecomment-1732994672
-        env.mode !== "test" && eslint(),
         tsconfigPaths(),
         visualizer(),
+        biomePlugin({
+            mode: "check",
+            failOnError: true,
+        }),
     ],
     base: "./",
     server: {

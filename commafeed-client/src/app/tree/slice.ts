@@ -1,8 +1,8 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
+import { type PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { markEntry } from "app/entries/thunks"
 import { redirectTo } from "app/redirect/slice"
 import { collapseTreeCategory, reloadTree } from "app/tree/thunks"
-import { type Category } from "app/types"
+import type { Category } from "app/types"
 import { visitCategoryTree } from "app/utils"
 
 interface TreeState {
@@ -34,13 +34,11 @@ export const treeSlice = createSlice({
             }>
         ) => {
             if (!state.rootCategory) return
-            visitCategoryTree(state.rootCategory, c =>
-                c.feeds
-                    .filter(f => f.id === action.payload.feedId)
-                    .forEach(f => {
-                        f.unread += action.payload.amount
-                    })
-            )
+            visitCategoryTree(state.rootCategory, c => {
+                for (const f of c.feeds.filter(f => f.id === action.payload.feedId)) {
+                    f.unread += action.payload.amount
+                }
+            })
         },
     },
     extraReducers: builder => {
@@ -55,13 +53,11 @@ export const treeSlice = createSlice({
         })
         builder.addCase(markEntry.pending, (state, action) => {
             if (!state.rootCategory) return
-            visitCategoryTree(state.rootCategory, c =>
-                c.feeds
-                    .filter(f => f.id === +action.meta.arg.entry.feedId)
-                    .forEach(f => {
-                        f.unread = action.meta.arg.read ? f.unread - 1 : f.unread + 1
-                    })
-            )
+            visitCategoryTree(state.rootCategory, c => {
+                for (const f of c.feeds.filter(f => f.id === +action.meta.arg.entry.feedId)) {
+                    f.unread = action.meta.arg.read ? f.unread - 1 : f.unread + 1
+                }
+            })
         })
         builder.addCase(redirectTo, state => {
             state.mobileMenuOpen = false

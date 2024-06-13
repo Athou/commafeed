@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans, t } from "@lingui/macro"
 import { Box, Button, FileInput, Group, Stack } from "@mantine/core"
 import { isNotEmpty, useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"

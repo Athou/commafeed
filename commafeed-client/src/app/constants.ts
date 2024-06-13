@@ -1,8 +1,8 @@
 import { t } from "@lingui/macro"
-import { type IconType } from "react-icons"
+import type { IconType } from "react-icons"
 import { FaAt } from "react-icons/fa"
 import { SiBuffer, SiFacebook, SiGmail, SiInstapaper, SiPocket, SiTumblr, SiTwitter } from "react-icons/si"
-import { type Category, type Entry, type SharingSettings } from "./types"
+import type { Category, Entry, SharingSettings } from "./types"
 
 const categories: Record<string, Category> = {
     all: {

@@ -11,7 +11,7 @@ import {
 } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { collapseTreeCategory } from "app/tree/thunks"
-import { type Category, type Subscription } from "app/types"
+import type { Category, Subscription } from "app/types"
 import { categoryUnreadCount, flattenCategoryTree } from "app/utils"
 import { Loader } from "components/Loader"
 import { OnDesktop } from "components/responsive/OnDesktop"

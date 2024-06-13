@@ -5,7 +5,7 @@ import { useAsync } from "react-async-hook"
 const init = async () => {
     window.MonacoEnvironment = {
         async getWorker(_, label) {
-            let worker
+            let worker: typeof import("*?worker")
             if (label === "css") {
                 worker = await import("monaco-editor/esm/vs/language/css/css.worker?worker")
             } else if (label === "javascript") {
@@ -13,7 +13,6 @@ const init = async () => {
             } else {
                 worker = await import("monaco-editor/esm/vs/editor/editor.worker?worker")
             }
-            // eslint-disable-next-line new-cap
             return new worker.default()
         },
     }

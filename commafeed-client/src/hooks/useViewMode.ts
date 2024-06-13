@@ -1,4 +1,4 @@
-import { type ViewMode } from "app/types"
+import type { ViewMode } from "app/types"
 import useLocalStorage from "use-local-storage"
 
 export function useViewMode() {

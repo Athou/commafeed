@@ -1,8 +1,8 @@
 import { ActionIcon, Button, type ButtonVariant, Tooltip, useMantineTheme } from "@mantine/core"
-import { type ActionIconVariant } from "@mantine/core/lib/components/ActionIcon/ActionIcon"
+import type { ActionIconVariant } from "@mantine/core/lib/components/ActionIcon/ActionIcon"
 import { Constants } from "app/constants"
 import { useActionButton } from "hooks/useActionButton"
-import { forwardRef, type MouseEventHandler, type ReactNode } from "react"
+import { type MouseEventHandler, type ReactNode, forwardRef } from "react"
 
 interface ActionButtonProps {
     className?: string

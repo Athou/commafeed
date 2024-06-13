@@ -1,7 +1,7 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
+import { type PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { Constants } from "app/constants"
 import { loadEntries, loadMoreEntries, markAllEntries, markEntry, markMultipleEntries, starEntry, tagEntry } from "app/entries/thunks"
-import { type Entry } from "app/types"
+import type { Entry } from "app/types"
 
 export type EntrySourceType = "category" | "feed" | "tag"
 
@@ -51,11 +51,9 @@ export const entriesSlice = createSlice({
             state.selectedEntryId = action.payload.id
         },
         setEntryExpanded: (state, action: PayloadAction<{ entry: Entry; expanded: boolean }>) => {
-            state.entries
-                .filter(e => e.id === action.payload.entry.id)
-                .forEach(e => {
-                    e.expanded = action.payload.expanded
-                })
+            for (const e of state.entries.filter(e => e.id === action.payload.entry.id)) {
+                e.expanded = action.payload.expanded
+            }
         },
         setScrollingToEntry: (state, action: PayloadAction<boolean>) => {
             state.scrollingToEntry = action.payload
@@ -66,32 +64,24 @@ export const entriesSlice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(markEntry.pending, (state, action) => {
-            state.entries
-                .filter(e => e.id === action.meta.arg.entry.id)
-                .forEach(e => {
-                    e.read = action.meta.arg.read
-                })
+            for (const e of state.entries.filter(e => e.id === action.meta.arg.entry.id)) {
+                e.read = action.meta.arg.read
+            }
         })
         builder.addCase(markMultipleEntries.pending, (state, action) => {
-            state.entries
-                .filter(e => action.meta.arg.entries.some(e2 => e2.id === e.id))
-                .forEach(e => {
-                    e.read = action.meta.arg.read
-                })
+            for (const e of state.entries.filter(e => action.meta.arg.entries.some(e2 => e2.id === e.id))) {
+                e.read = action.meta.arg.read
+            }
         })
         builder.addCase(markAllEntries.pending, (state, action) => {
-            state.entries
-                .filter(e => (action.meta.arg.req.olderThan ? e.date < action.meta.arg.req.olderThan : true))
-                .forEach(e => {
-                    e.read = true
-                })
+            for (const e of state.entries.filter(e => (action.meta.arg.req.olderThan ? e.date < action.meta.arg.req.olderThan : true))) {
+                e.read = true
+            }
         })
         builder.addCase(starEntry.pending, (state, action) => {
-            state.entries
-                .filter(e => action.meta.arg.entry.id === e.id && action.meta.arg.entry.feedId === e.feedId)
-                .forEach(e => {
-                    e.starred = action.meta.arg.starred
-                })
+            for (const e of state.entries.filter(e => action.meta.arg.entry.id === e.id && action.meta.arg.entry.feedId === e.feedId)) {
+                e.starred = action.meta.arg.starred
+            }
         })
         builder.addCase(loadEntries.pending, (state, action) => {
             state.source = action.meta.arg.source
@@ -122,11 +112,9 @@ export const entriesSlice = createSlice({
             state.loading = false
         })
         builder.addCase(tagEntry.pending, (state, action) => {
-            state.entries
-                .filter(e => +e.id === action.meta.arg.entryId)
-                .forEach(e => {
-                    e.tags = action.meta.arg.tags
-                })
+            for (const e of state.entries.filter(e => +e.id === action.meta.arg.entryId)) {
+                e.tags = action.meta.arg.tags
+            }
         })
     },
 })

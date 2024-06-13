@@ -2,7 +2,7 @@ import { Trans } from "@lingui/macro"
 import { Box } from "@mantine/core"
 import { openModal } from "@mantine/modals"
 import { Constants } from "app/constants"
-import { type ExpendableEntry } from "app/entries/slice"
+import type { ExpendableEntry } from "app/entries/slice"
 import {
     loadMoreEntries,
     markAllEntries,
@@ -126,7 +126,7 @@ export function FeedEntries() {
         })
         window.addEventListener("scroll", listener)
         return () => window.removeEventListener("scroll", listener)
-    }, [dispatch, contextMenu, entries, viewMode, scrollMarks, scrollingToEntry])
+    }, [dispatch, entries, viewMode, scrollMarks, scrollingToEntry])
 
     useMousetrap("r", async () => await dispatch(reloadEntries()))
     useMousetrap(

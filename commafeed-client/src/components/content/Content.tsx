@@ -1,10 +1,10 @@
 import { Box, Mark } from "@mantine/core"
 import { Constants } from "app/constants"
 import { calculatePlaceholderSize } from "app/utils"
-import { BasicHtmlStyles } from "components/content/BasicHtmlStyles"
 import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
+import { BasicHtmlStyles } from "components/content/BasicHtmlStyles"
 import escapeStringRegexp from "escape-string-regexp"
-import { type ChildrenNode, Interweave, Matcher, type MatchResponse, type Node, type TransformCallback } from "interweave"
+import { type ChildrenNode, Interweave, type MatchResponse, Matcher, type Node, type TransformCallback } from "interweave"
 import React from "react"
 import { tss } from "tss"
 
@@ -40,8 +40,8 @@ const transform: TransformCallback = node => {
         const title = node.getAttribute("title") ?? undefined
         const nodeWidth = node.getAttribute("width")
         const nodeHeight = node.getAttribute("height")
-        const width = nodeWidth ? parseInt(nodeWidth, 10) : undefined
-        const height = nodeHeight ? parseInt(nodeHeight, 10) : undefined
+        const width = nodeWidth ? Number.parseInt(nodeWidth, 10) : undefined
+        const height = nodeHeight ? Number.parseInt(nodeHeight, 10) : undefined
         const placeholderSize = calculatePlaceholderSize({
             width,
             height,

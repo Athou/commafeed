@@ -1,9 +1,9 @@
-import { t, Trans } from "@lingui/macro"
+import { Trans, t } from "@lingui/macro"
 import { Divider, Group, Radio, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
-import { type ComboboxData } from "@mantine/core/lib/components/Combobox/Combobox.types"
+import type { ComboboxData } from "@mantine/core/lib/components/Combobox/Combobox.types"
 import { Constants } from "app/constants"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { type IconDisplayMode, type ScrollMode, type SharingSettings } from "app/types"
+import type { IconDisplayMode, ScrollMode, SharingSettings } from "app/types"
 import {
     changeCustomContextMenu,
     changeExternalLinkIconDisplayMode,
@@ -18,7 +18,7 @@ import {
     changeStarIconDisplayMode,
 } from "app/user/thunks"
 import { locales } from "i18n"
-import { type ReactNode } from "react"
+import type { ReactNode } from "react"
 
 export function DisplaySettings() {
     const language = useAppSelector(state => state.user.settings?.language)

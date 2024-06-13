@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
+import { type PayloadAction, createSlice } from "@reduxjs/toolkit"
 
 interface RedirectState {
     to?: string

@@ -2,5 +2,16 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "matchPackagePatterns": [
+        "commafeed-client"
+      ],
+      "matchManagers": [
+        "maven"
+      ],
+      "enabled": false
+    }
   ]
 }

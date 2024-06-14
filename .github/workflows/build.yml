@@ -40,6 +40,14 @@ jobs:
           name: commafeed.jar
           path: commafeed-server/target/commafeed.jar
 
+      - name: Upload Playwright artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: |
+            **/target/playwright-artifacts/
+
       # Docker
       - name: Login to Container Registry
         uses: docker/login-action@v3

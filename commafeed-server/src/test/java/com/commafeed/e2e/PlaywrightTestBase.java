@@ -34,7 +34,7 @@ import com.microsoft.playwright.Tracing;
  * 
  */
 @ExtendWith(PlaywrightTestBase.SaveArtifactsOnTestFailed.class)
-public class PlaywrightTestBase {
+public abstract class PlaywrightTestBase {
 
 	private static Playwright playwright;
 	private static Browser browser;

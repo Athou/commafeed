@@ -3,7 +3,7 @@ package com.commafeed.e2e;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
@@ -115,7 +115,7 @@ public abstract class PlaywrightTestBase {
 
 		private String getFileName(ExtensionContext context) {
 			return String.format("%s.%s-%s", context.getRequiredTestClass().getSimpleName(), context.getRequiredTestMethod().getName(),
-					DateTimeFormatter.ofPattern("yyyy-MM-dd--HH-mm-ss").format(Instant.now()));
+					DateTimeFormatter.ofPattern("yyyy-MM-dd--HH-mm-ss").format(ZonedDateTime.now()));
 		}
 
 		private void saveScreenshot(PlaywrightTestBase testInstance, String fileName) {

@@ -6,13 +6,13 @@
   ],
   "packageRules": [
     {
-      "matchPackagePatterns": [
-        "commafeed-client"
-      ],
-      "matchManagers": [
-        "maven"
-      ],
+      "matchManagers": "maven",
+      "matchPackagePatterns": "commafeed-client",
       "enabled": false
+    },
+    {
+      "matchManagers": "npm",
+      "rangeStrategy": "bump"
     }
   ]
 }

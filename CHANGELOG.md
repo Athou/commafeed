@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.4.1]
+
+- fix vertical scrolling issues with Safari (#1168)
+- the default value for new users for the "star entry" button and the "open in new tab" button in the entry headers is
+  now "on desktop" instead of "always"
+- the "keyboard shortcuts" help page now shows "Cmd" instead of "Ctrl" on macOS (#1389)
+- remove a superfluous feed fetch when subscribing to a feed (#1431)
+- the Docker image now uses Java 21
+
 ## [4.4.0]
 
 - add support for sharing using the browser native capabilities if available (#1255)

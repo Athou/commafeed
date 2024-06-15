@@ -2,6 +2,7 @@ package com.commafeed.e2e;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
@@ -34,7 +35,8 @@ class ReadingIT extends PlaywrightTestBase {
 		this.mockServerClient = mockServerClient;
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
 				.respond(HttpResponse.response()
-						.withBody(IOUtils.toString(getClass().getResource("/feed/rss.xml"), StandardCharsets.UTF_8)));
+						.withBody(IOUtils.toString(getClass().getResource("/feed/rss.xml"), StandardCharsets.UTF_8))
+						.withDelay(TimeUnit.MILLISECONDS, 100));
 	}
 
 	@Test

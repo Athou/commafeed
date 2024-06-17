@@ -57,7 +57,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Docker build and push tag
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         if: ${{ matrix.java == '17' && github.ref_type == 'tag' }}
         with:
           context: .
@@ -68,7 +68,7 @@ jobs:
             athou/commafeed:${{ github.ref_name }}
 
       - name: Docker build and push master
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         if: ${{ matrix.java == '17' && github.ref_name == 'master' }}
         with:
           context: .

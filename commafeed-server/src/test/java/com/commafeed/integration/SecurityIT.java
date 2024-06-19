@@ -6,7 +6,6 @@ import org.eclipse.jetty.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.commafeed.CommaFeedDropwizardAppExtension;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
@@ -17,12 +16,6 @@ import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 
 class SecurityIT extends BaseIT {
-
-	@Override
-	protected CommaFeedDropwizardAppExtension buildExtension() {
-		// override so we don't add http basic auth
-		return new CommaFeedDropwizardAppExtension();
-	}
 
 	@Test
 	void notLoggedIn() {

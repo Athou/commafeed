@@ -10,6 +10,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.awaitility.Awaitility;
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +29,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 class WebSocketIT extends BaseIT {
+
+	@Override
+	protected JerseyClientBuilder configureClientBuilder(JerseyClientBuilder base) {
+		return base.register(HttpAuthenticationFeature.basic("admin", "admin"));
+	}
 
 	@Test
 	void sessionClosedIfNotLoggedIn() throws DeploymentException, IOException {

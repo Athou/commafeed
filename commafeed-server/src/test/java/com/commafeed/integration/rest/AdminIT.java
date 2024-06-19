@@ -3,6 +3,8 @@ package com.commafeed.integration.rest;
 import java.util.Arrays;
 import java.util.List;
 
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,11 @@ import com.commafeed.integration.BaseIT;
 import jakarta.ws.rs.client.Entity;
 
 class AdminIT extends BaseIT {
+
+	@Override
+	protected JerseyClientBuilder configureClientBuilder(JerseyClientBuilder base) {
+		return base.register(HttpAuthenticationFeature.basic("admin", "admin"));
+	}
 
 	@Test
 	void getApplicationSettings() {

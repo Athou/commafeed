@@ -10,7 +10,6 @@ import org.apache.commons.io.IOUtils;
 import org.awaitility.Awaitility;
 import org.eclipse.jetty.http.HttpStatus;
 import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -40,7 +39,12 @@ public abstract class BaseIT {
 
 	private static final HttpRequest FEED_REQUEST = HttpRequest.request().withMethod("GET").withPath("/");
 
-	private final CommaFeedDropwizardAppExtension extension = buildExtension();
+	private final CommaFeedDropwizardAppExtension extension = new CommaFeedDropwizardAppExtension() {
+		@Override
+		protected JerseyClientBuilder clientBuilder() {
+			return configureClientBuilder(super.clientBuilder().register(MultiPartFeature.class));
+		}
+	};
 
 	private Client client;
 
@@ -54,13 +58,8 @@ public abstract class BaseIT {
 
 	private MockServerClient mockServerClient;
 
-	protected CommaFeedDropwizardAppExtension buildExtension() {
-		return new CommaFeedDropwizardAppExtension() {
-			@Override
-			protected JerseyClientBuilder clientBuilder() {
-				return super.clientBuilder().register(HttpAuthenticationFeature.basic("admin", "admin")).register(MultiPartFeature.class);
-			}
-		};
+	protected JerseyClientBuilder configureClientBuilder(JerseyClientBuilder base) {
+		return base;
 	}
 
 	@BeforeEach

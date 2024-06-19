@@ -1,5 +1,7 @@
 package com.commafeed.integration.rest;
 
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,11 @@ class FeverIT extends BaseIT {
 
 	private Long userId;
 	private String apiKey;
+
+	@Override
+	protected JerseyClientBuilder configureClientBuilder(JerseyClientBuilder base) {
+		return base.register(HttpAuthenticationFeature.basic("admin", "admin"));
+	}
 
 	@BeforeEach
 	void init() {

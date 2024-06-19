@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import com.commafeed.frontend.model.ServerInfo;
 import com.commafeed.integration.BaseIT;
 
-public class ServerIT extends BaseIT {
+class ServerIT extends BaseIT {
 
 	@Test
 	void getServerInfos() {

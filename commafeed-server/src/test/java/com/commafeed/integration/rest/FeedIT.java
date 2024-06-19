@@ -13,6 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.awaitility.Awaitility;
 import org.eclipse.jetty.http.HttpStatus;
 import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.glassfish.jersey.media.multipart.MultiPart;
 import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
 import org.junit.jupiter.api.Assertions;
@@ -33,6 +35,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 class FeedIT extends BaseIT {
+
+	@Override
+	protected JerseyClientBuilder configureClientBuilder(JerseyClientBuilder base) {
+		return base.register(HttpAuthenticationFeature.basic("admin", "admin"));
+	}
 
 	@Nested
 	class Fetch {

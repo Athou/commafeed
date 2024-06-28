@@ -403,7 +403,7 @@
 		<dependency>
 			<groupId>com.manticore-projects.tools</groupId>
 			<artifactId>h2migrationtool</artifactId>
-			<version>1.4</version>
+			<version>1.6</version>
 		</dependency>
 
 		<dependency>

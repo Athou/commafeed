@@ -4,9 +4,8 @@
     "config:recommended",
     "customManagers:biomeVersions",
     ":automergeMinor",
-    ":automergePr",
-    ":automergeRequireAllStatusChecks",
     ":automergeBranch",
+    ":automergeRequireAllStatusChecks",
     ":maintainLockFilesWeekly"
   ],
   "packageRules": [

@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class H2MigrationService {
 
+	private static final String H2_FILE_SUFFIX = ".mv.db";
+
 	public void migrateIfNeeded(Path path, String user, String password) {
 		if (Files.notExists(path)) {
 			return;
@@ -54,9 +56,10 @@ public class H2MigrationService {
 	private void migrate(Path path, String user, String password, String fromVersion, String toVersion) throws Exception {
 		log.info("migrating H2 database at {} from format {} to format {}", path, fromVersion, toVersion);
 
-		Path scriptPath = path.resolveSibling("script-" + System.currentTimeMillis() + ".sql");
-		Path newVersionPath = path.resolveSibling(path.getFileName() + "." + getPatchVersion(toVersion) + ".mv.db");
-		Path oldVersionBackupPath = path.resolveSibling(path.getFileName() + "." + getPatchVersion(fromVersion) + ".backup");
+		Path scriptPath = path.resolveSibling("script-%d.sql".formatted(System.currentTimeMillis()));
+		Path newVersionPath = path.resolveSibling("%s.%s%s".formatted(StringUtils.removeEnd(path.getFileName().toString(), H2_FILE_SUFFIX),
+				getPatchVersion(toVersion), H2_FILE_SUFFIX));
+		Path oldVersionBackupPath = path.resolveSibling("%s.%s.backup".formatted(path.getFileName(), getPatchVersion(fromVersion)));
 
 		Files.deleteIfExists(scriptPath);
 		Files.deleteIfExists(newVersionPath);

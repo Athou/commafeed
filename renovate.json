@@ -3,7 +3,7 @@
   "extends": [
     "config:recommended",
     "customManagers:biomeVersions",
-    ":automergeMinor",
+    ":automergePatch",
     ":automergeBranch",
     ":automergeRequireAllStatusChecks",
     ":maintainLockFilesWeekly"

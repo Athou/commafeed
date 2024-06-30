@@ -133,7 +133,7 @@ public class FeedEntryService {
 	}
 
 	private void markList(List<FeedEntryStatus> statuses, Instant olderThan, Instant insertedBefore) {
-		List<FeedEntryStatus> statusesToMark = statuses.stream().filter(s -> {
+		List<FeedEntryStatus> statusesToMark = statuses.stream().filter(FeedEntryStatus::isMarkable).filter(s -> {
 			Instant entryDate = s.getEntry().getUpdated();
 			return olderThan == null || entryDate == null || entryDate.isBefore(olderThan);
 		}).filter(s -> {

@@ -103,7 +103,14 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			query.orderBy(status.entryUpdated.desc(), status.id.desc());
 		}
 
-		query.offset(offset).limit(limit);
+		if (offset > -1) {
+			query.offset(offset);
+		}
+
+		if (limit > -1) {
+			query.limit(limit);
+		}
+
 		setTimeout(query, config.getApplicationSettings().getQueryTimeout());
 
 		List<FeedEntryStatus> statuses = query.fetch();

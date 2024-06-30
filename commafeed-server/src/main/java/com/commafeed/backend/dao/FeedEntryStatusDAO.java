@@ -2,32 +2,28 @@ package com.commafeed.backend.dao;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.hibernate.SessionFactory;
 
 import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.backend.FixedSizeSortedList;
 import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
 import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.FeedSubscription;
-import com.commafeed.backend.model.Models;
+import com.commafeed.backend.model.QFeed;
 import com.commafeed.backend.model.QFeedEntry;
 import com.commafeed.backend.model.QFeedEntryContent;
 import com.commafeed.backend.model.QFeedEntryStatus;
 import com.commafeed.backend.model.QFeedEntryTag;
+import com.commafeed.backend.model.QFeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.model.UnreadCount;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Ordering;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -38,29 +34,19 @@ import jakarta.inject.Singleton;
 @Singleton
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
-	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_DESC = (o1, o2) -> {
-		CompareToBuilder builder = new CompareToBuilder();
-		builder.append(o2.getEntryUpdated(), o1.getEntryUpdated());
-		builder.append(o2.getId(), o1.getId());
-		return builder.toComparison();
-	};
-
-	private static final Comparator<FeedEntryStatus> STATUS_COMPARATOR_ASC = Ordering.from(STATUS_COMPARATOR_DESC).reverse();
-
-	private final FeedEntryDAO feedEntryDAO;
 	private final FeedEntryTagDAO feedEntryTagDAO;
 	private final CommaFeedConfiguration config;
 
 	private final QFeedEntryStatus status = QFeedEntryStatus.feedEntryStatus;
 	private final QFeedEntry entry = QFeedEntry.feedEntry;
+	private final QFeed feed = QFeed.feed;
+	private final QFeedSubscription subscription = QFeedSubscription.feedSubscription;
 	private final QFeedEntryContent content = QFeedEntryContent.feedEntryContent;
 	private final QFeedEntryTag entryTag = QFeedEntryTag.feedEntryTag;
 
 	@Inject
-	public FeedEntryStatusDAO(SessionFactory sessionFactory, FeedEntryDAO feedEntryDAO, FeedEntryTagDAO feedEntryTagDAO,
-			CommaFeedConfiguration config) {
+	public FeedEntryStatusDAO(SessionFactory sessionFactory, FeedEntryTagDAO feedEntryTagDAO, CommaFeedConfiguration config) {
 		super(sessionFactory);
-		this.feedEntryDAO = feedEntryDAO;
 		this.feedEntryTagDAO = feedEntryTagDAO;
 		this.config = config;
 	}
@@ -71,6 +57,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return handleStatus(user, status, sub, entry);
 	}
 
+	/**
+	 * creates an artificial "unread" status if status is null
+	 */
 	private FeedEntryStatus handleStatus(User user, FeedEntryStatus status, FeedSubscription sub, FeedEntry entry) {
 		if (status == null) {
 			Instant unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
@@ -93,6 +82,10 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	public List<FeedEntryStatus> findStarred(User user, Instant newerThan, int offset, int limit, ReadingOrder order,
 			boolean includeContent) {
 		JPAQuery<FeedEntryStatus> query = query().selectFrom(status).where(status.user.eq(user), status.starred.isTrue());
+		if (includeContent) {
+			query.join(status.entry.content).fetchJoin();
+		}
+
 		if (newerThan != null) {
 			query.where(status.entryInserted.gt(newerThan));
 		}
@@ -115,21 +108,30 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		List<FeedEntryStatus> statuses = query.fetch();
 		for (FeedEntryStatus status : statuses) {
-			status = handleStatus(user, status, status.getSubscription(), status.getEntry());
-			fetchTags(user, status);
+			status.setMarkable(true);
+
+			if (includeContent) {
+				fetchTags(user, status);
+			}
 		}
-		return lazyLoadContent(includeContent, statuses);
+
+		return statuses;
 	}
 
-	private JPAQuery<FeedEntry> buildQuery(User user, FeedSubscription sub, boolean unreadOnly, List<FeedEntryKeyword> keywords,
-			Instant newerThan, int offset, int limit, ReadingOrder order, FeedEntryStatus last, String tag, Long minEntryId,
-			Long maxEntryId) {
+	public List<FeedEntryStatus> findBySubscriptions(User user, List<FeedSubscription> subs, boolean unreadOnly,
+			List<FeedEntryKeyword> keywords, Instant newerThan, int offset, int limit, ReadingOrder order, boolean includeContent,
+			boolean onlyIds, String tag, Long minEntryId, Long maxEntryId) {
 
-		JPAQuery<FeedEntry> query = query().selectFrom(entry).where(entry.feed.eq(sub.getFeed()));
+		JPAQuery<Tuple> query = query().select(entry, subscription, status).from(entry);
+		query.join(entry.feed, feed);
+		query.join(subscription).on(subscription.feed.eq(feed).and(subscription.user.eq(user)));
+		query.leftJoin(status).on(status.entry.eq(entry).and(status.subscription.eq(subscription)));
+		query.where(subscription.in(subs));
 
+		if (includeContent || CollectionUtils.isNotEmpty(keywords)) {
+			query.join(entry.content, content).fetchJoin();
+		}
 		if (CollectionUtils.isNotEmpty(keywords)) {
-			query.join(entry.content, content);
-
 			for (FeedEntryKeyword keyword : keywords) {
 				BooleanBuilder or = new BooleanBuilder();
 				or.or(content.content.containsIgnoreCase(keyword.getKeyword()));
@@ -140,18 +142,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 				query.where(or);
 			}
 		}
-		query.leftJoin(entry.statuses, status).on(status.subscription.id.eq(sub.getId()));
 
 		if (unreadOnly && tag == null) {
-			BooleanBuilder or = new BooleanBuilder();
-			or.or(status.read.isNull());
-			or.or(status.read.isFalse());
-			query.where(or);
-
-			Instant unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
-			if (unreadThreshold != null) {
-				query.where(entry.updated.goe(unreadThreshold));
-			}
+			query.where(buildUnreadPredicate());
 		}
 
 		if (tag != null) {
@@ -173,14 +166,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			query.where(entry.id.lt(maxEntryId));
 		}
 
-		if (last != null) {
-			if (order == ReadingOrder.desc) {
-				query.where(entry.updated.gt(last.getEntryUpdated()));
-			} else {
-				query.where(entry.updated.lt(last.getEntryUpdated()));
-			}
-		}
-
 		if (order != null) {
 			if (order == ReadingOrder.asc) {
 				query.orderBy(entry.updated.asc(), entry.id.asc());
@@ -198,91 +183,53 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 
 		setTimeout(query, config.getApplicationSettings().getQueryTimeout());
-		return query;
-	}
 
-	public List<FeedEntryStatus> findBySubscriptions(User user, List<FeedSubscription> subs, boolean unreadOnly,
-			List<FeedEntryKeyword> keywords, Instant newerThan, int offset, int limit, ReadingOrder order, boolean includeContent,
-			boolean onlyIds, String tag, Long minEntryId, Long maxEntryId) {
-		int capacity = offset + limit;
+		List<FeedEntryStatus> statuses = new ArrayList<>();
+		List<Tuple> tuples = query.fetch();
+		for (Tuple tuple : tuples) {
+			FeedEntry e = tuple.get(entry);
+			FeedSubscription sub = tuple.get(subscription);
+			FeedEntryStatus s = handleStatus(user, tuple.get(status), sub, e);
 
-		Comparator<FeedEntryStatus> comparator = order == ReadingOrder.desc ? STATUS_COMPARATOR_DESC : STATUS_COMPARATOR_ASC;
-
-		FixedSizeSortedList<FeedEntryStatus> fssl = new FixedSizeSortedList<>(capacity, comparator);
-		for (FeedSubscription sub : subs) {
-			FeedEntryStatus last = (order != null && fssl.isFull()) ? fssl.last() : null;
-			JPAQuery<FeedEntry> query = buildQuery(user, sub, unreadOnly, keywords, newerThan, -1, capacity, order, last, tag, minEntryId,
-					maxEntryId);
-			List<Tuple> tuples = query.select(entry.id, entry.updated, status.id, entry.content.title).fetch();
-
-			for (Tuple tuple : tuples) {
-				Long id = tuple.get(entry.id);
-				Instant updated = tuple.get(entry.updated);
-				Long statusId = tuple.get(status.id);
-
-				FeedEntryContent content = new FeedEntryContent();
-				content.setTitle(tuple.get(entry.content.title));
-
-				FeedEntry entry = new FeedEntry();
-				entry.setId(id);
-				entry.setUpdated(updated);
-				entry.setContent(content);
-
-				FeedEntryStatus status = new FeedEntryStatus();
-				status.setId(statusId);
-				status.setEntryUpdated(updated);
-				status.setEntry(entry);
-				status.setSubscription(sub);
-
-				fssl.add(status);
+			if (includeContent) {
+				fetchTags(user, s);
 			}
+
+			statuses.add(s);
 		}
 
-		List<FeedEntryStatus> placeholders = fssl.asList();
-		int size = placeholders.size();
-		if (size < offset) {
-			return new ArrayList<>();
-		}
-		placeholders = placeholders.subList(Math.max(offset, 0), size);
-
-		List<FeedEntryStatus> statuses;
-		if (onlyIds) {
-			statuses = placeholders;
-		} else {
-			statuses = new ArrayList<>();
-			for (FeedEntryStatus placeholder : placeholders) {
-				Long statusId = placeholder.getId();
-				FeedEntry entry = feedEntryDAO.findById(placeholder.getEntry().getId());
-				FeedEntryStatus status = handleStatus(user, statusId == null ? null : findById(statusId), placeholder.getSubscription(),
-						entry);
-				status = fetchTags(user, status);
-				statuses.add(status);
-			}
-			statuses = lazyLoadContent(includeContent, statuses);
-		}
 		return statuses;
 	}
 
-	public UnreadCount getUnreadCount(User user, FeedSubscription subscription) {
-		UnreadCount uc = null;
-		JPAQuery<FeedEntry> query = buildQuery(user, subscription, true, null, null, -1, -1, null, null, null, null, null);
-		List<Tuple> tuples = query.select(entry.count(), entry.updated.max()).fetch();
-		for (Tuple tuple : tuples) {
-			Long count = tuple.get(entry.count());
-			Instant updated = tuple.get(entry.updated.max());
-			uc = new UnreadCount(subscription.getId(), count == null ? 0 : count, updated);
-		}
-		return uc;
+	public UnreadCount getUnreadCount(User user, FeedSubscription sub) {
+		JPAQuery<Tuple> query = query().select(entry.count(), entry.updated.max())
+				.from(entry)
+				.join(entry.feed, feed)
+				.join(subscription)
+				.on(subscription.feed.eq(feed).and(subscription.user.eq(user)))
+				.leftJoin(status)
+				.on(status.entry.eq(entry).and(status.subscription.eq(subscription)))
+				.where(subscription.eq(sub));
+
+		query.where(buildUnreadPredicate());
+
+		Tuple tuple = query.fetchOne();
+		Long count = tuple.get(entry.count());
+		Instant updated = tuple.get(entry.updated.max());
+		return new UnreadCount(sub.getId(), count == null ? 0 : count, updated);
 	}
 
-	private List<FeedEntryStatus> lazyLoadContent(boolean includeContent, List<FeedEntryStatus> results) {
-		if (includeContent) {
-			for (FeedEntryStatus status : results) {
-				Models.initialize(status.getSubscription().getFeed());
-				Models.initialize(status.getEntry().getContent());
-			}
+	private BooleanBuilder buildUnreadPredicate() {
+		BooleanBuilder or = new BooleanBuilder();
+		or.or(status.read.isNull());
+		or.or(status.read.isFalse());
+
+		Instant unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
+		if (unreadThreshold != null) {
+			return or.and(entry.updated.goe(unreadThreshold));
+		} else {
+			return or;
 		}
-		return results;
 	}
 
 	public long deleteOldStatuses(Instant olderThan, int limit) {

@@ -201,17 +201,15 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return statuses;
 	}
 
-	public UnreadCount getUnreadCount(User user, FeedSubscription sub) {
+	public UnreadCount getUnreadCount(FeedSubscription sub) {
 		JPAQuery<Tuple> query = query().select(entry.count(), entry.updated.max())
 				.from(entry)
 				.join(entry.feed, feed)
 				.join(subscription)
-				.on(subscription.feed.eq(feed).and(subscription.user.eq(user)))
+				.on(subscription.feed.eq(feed).and(subscription.eq(sub)))
 				.leftJoin(status)
-				.on(status.entry.eq(entry).and(status.subscription.eq(subscription)))
-				.where(subscription.eq(sub));
-
-		query.where(buildUnreadPredicate());
+				.on(status.entry.eq(entry).and(status.subscription.eq(sub)))
+				.where(buildUnreadPredicate());
 
 		Tuple tuple = query.fetchOne();
 		Long count = tuple.get(entry.count());

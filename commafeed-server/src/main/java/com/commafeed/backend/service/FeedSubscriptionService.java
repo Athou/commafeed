@@ -119,14 +119,14 @@ public class FeedSubscriptionService {
 	}
 
 	public Map<Long, UnreadCount> getUnreadCount(User user) {
-		return feedSubscriptionDAO.findAll(user).stream().collect(Collectors.toMap(FeedSubscription::getId, s -> getUnreadCount(user, s)));
+		return feedSubscriptionDAO.findAll(user).stream().collect(Collectors.toMap(FeedSubscription::getId, this::getUnreadCount));
 	}
 
-	private UnreadCount getUnreadCount(User user, FeedSubscription sub) {
+	private UnreadCount getUnreadCount(FeedSubscription sub) {
 		UnreadCount count = cache.getUnreadCount(sub);
 		if (count == null) {
 			log.debug("unread count cache miss for {}", Models.getId(sub));
-			count = feedEntryStatusDAO.getUnreadCount(user, sub);
+			count = feedEntryStatusDAO.getUnreadCount(sub);
 			cache.setUnreadCount(sub, count);
 		}
 		return count;

@@ -1,6 +1,8 @@
 package com.commafeed.backend.dao;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.hibernate.SessionFactory;
 
@@ -28,5 +30,13 @@ public class FeedEntryTagDAO extends GenericDAO<FeedEntryTag> {
 
 	public List<FeedEntryTag> findByEntry(User user, FeedEntry entry) {
 		return query().selectFrom(tag).where(tag.user.eq(user), tag.entry.eq(entry)).fetch();
+	}
+
+	public Map<Long, List<FeedEntryTag>> findByEntries(User user, List<FeedEntry> entries) {
+		return query().selectFrom(tag)
+				.where(tag.user.eq(user), tag.entry.in(entries))
+				.fetch()
+				.stream()
+				.collect(Collectors.groupingBy(t -> t.getEntry().getId()));
 	}
 }

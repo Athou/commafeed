@@ -3,6 +3,7 @@ package com.commafeed.backend.dao;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.SessionFactory;
@@ -73,10 +74,13 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return status;
 	}
 
-	private FeedEntryStatus fetchTags(User user, FeedEntryStatus status) {
-		List<FeedEntryTag> tags = feedEntryTagDAO.findByEntry(user, status.getEntry());
-		status.setTags(tags);
-		return status;
+	private void fetchTags(User user, List<FeedEntryStatus> statuses) {
+		Map<Long, List<FeedEntryTag>> tagsByEntryIds = feedEntryTagDAO.findByEntries(user,
+				statuses.stream().map(FeedEntryStatus::getEntry).toList());
+		for (FeedEntryStatus status : statuses) {
+			List<FeedEntryTag> tags = tagsByEntryIds.get(status.getEntry().getId());
+			status.setTags(tags == null ? List.of() : tags);
+		}
 	}
 
 	public List<FeedEntryStatus> findStarred(User user, Instant newerThan, int offset, int limit, ReadingOrder order,
@@ -107,12 +111,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		setTimeout(query, config.getApplicationSettings().getQueryTimeout());
 
 		List<FeedEntryStatus> statuses = query.fetch();
-		for (FeedEntryStatus status : statuses) {
-			status.setMarkable(true);
-
-			if (includeContent) {
-				fetchTags(user, status);
-			}
+		statuses.forEach(s -> s.setMarkable(true));
+		if (includeContent) {
+			fetchTags(user, statuses);
 		}
 
 		return statuses;
@@ -190,12 +191,11 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			FeedEntry e = tuple.get(entry);
 			FeedSubscription sub = tuple.get(subscription);
 			FeedEntryStatus s = handleStatus(user, tuple.get(status), sub, e);
-
-			if (includeContent) {
-				fetchTags(user, s);
-			}
-
 			statuses.add(s);
+		}
+
+		if (includeContent) {
+			fetchTags(user, statuses);
 		}
 
 		return statuses;

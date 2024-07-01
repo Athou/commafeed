@@ -121,7 +121,7 @@ public class FeedEntryService {
 	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Instant olderThan, Instant insertedBefore,
 			List<FeedEntryKeyword> keywords) {
 		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, keywords, null, -1, -1, null,
-				false, false, null, null, null);
+				false, null, null, null);
 		markList(statuses, olderThan, insertedBefore);
 		cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
 		cache.invalidateUserRootCategory(user);

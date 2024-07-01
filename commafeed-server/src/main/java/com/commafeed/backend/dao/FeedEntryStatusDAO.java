@@ -120,7 +120,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public List<FeedEntryStatus> findBySubscriptions(User user, List<FeedSubscription> subs, boolean unreadOnly,
 			List<FeedEntryKeyword> keywords, Instant newerThan, int offset, int limit, ReadingOrder order, boolean includeContent,
-			boolean onlyIds, String tag, Long minEntryId, Long maxEntryId) {
+			String tag, Long minEntryId, Long maxEntryId) {
 
 		JPAQuery<Tuple> query = query().select(entry, subscription, status).from(entry);
 		query.join(entry.feed, feed);

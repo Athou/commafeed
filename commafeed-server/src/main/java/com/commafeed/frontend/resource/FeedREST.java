@@ -143,10 +143,8 @@ public class FeedREST {
 			@Parameter(description = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@Parameter(description = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
-			@Parameter(description = "ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
-			@Parameter(
-					description = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
-			@Parameter(description = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds) {
+			@Parameter(description = "ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order, @Parameter(
+					description = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords) {
 
 		Preconditions.checkNotNull(id);
 		Preconditions.checkNotNull(readType);
@@ -174,7 +172,7 @@ public class FeedREST {
 			entries.setFeedLink(subscription.getFeed().getLink());
 
 			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, Collections.singletonList(subscription), unreadOnly,
-					entryKeywords, newerThanDate, offset, limit + 1, order, true, onlyIds, null, null, null);
+					entryKeywords, newerThanDate, offset, limit + 1, order, true, null, null, null);
 
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));
@@ -209,12 +207,10 @@ public class FeedREST {
 			@Parameter(description = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
 			@Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
 			@Parameter(description = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
-			@Parameter(description = "date ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
-			@Parameter(
-					description = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
-			@Parameter(description = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds) {
+			@Parameter(description = "date ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order, @Parameter(
+					description = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords) {
 
-		Response response = getFeedEntries(user, id, readType, newerThan, offset, limit, order, keywords, onlyIds);
+		Response response = getFeedEntries(user, id, readType, newerThan, offset, limit, order, keywords);
 		if (response.getStatus() != Status.OK.getStatusCode()) {
 			return response;
 		}

@@ -117,7 +117,6 @@ export interface GetEntriesRequest {
     newerThan?: number
     order?: ReadingOrder
     keywords?: string
-    onlyIds?: boolean
     excludedSubscriptionIds?: string
     tag?: string
 }

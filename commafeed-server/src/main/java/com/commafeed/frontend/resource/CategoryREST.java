@@ -109,7 +109,6 @@ public class CategoryREST {
 			@Parameter(description = "ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
 			@Parameter(
 					description = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
-			@Parameter(description = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds,
 			@Parameter(
 					description = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
 			@Parameter(description = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {
@@ -143,7 +142,7 @@ public class CategoryREST {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 			removeExcludedSubscriptions(subs, excludedIds);
 			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, entryKeywords, newerThanDate,
-					offset, limit + 1, order, true, onlyIds, tag, null, null);
+					offset, limit + 1, order, true, tag, null, null);
 
 			for (FeedEntryStatus status : list) {
 				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));
@@ -151,7 +150,7 @@ public class CategoryREST {
 
 		} else if (STARRED.equals(id)) {
 			entries.setName("Starred");
-			List<FeedEntryStatus> starred = feedEntryStatusDAO.findStarred(user, newerThanDate, offset, limit + 1, order, !onlyIds);
+			List<FeedEntryStatus> starred = feedEntryStatusDAO.findStarred(user, newerThanDate, offset, limit + 1, order, true);
 			for (FeedEntryStatus status : starred) {
 				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));
 			}
@@ -162,7 +161,7 @@ public class CategoryREST {
 				List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(user, categories);
 				removeExcludedSubscriptions(subs, excludedIds);
 				List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, entryKeywords, newerThanDate,
-						offset, limit + 1, order, true, onlyIds, tag, null, null);
+						offset, limit + 1, order, true, tag, null, null);
 
 				for (FeedEntryStatus status : list) {
 					entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));
@@ -202,13 +201,11 @@ public class CategoryREST {
 			@Parameter(description = "date ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
 			@Parameter(
 					description = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
-			@Parameter(description = "return only entry ids") @DefaultValue("false") @QueryParam("onlyIds") boolean onlyIds,
 			@Parameter(
 					description = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
 			@Parameter(description = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {
 
-		Response response = getCategoryEntries(user, id, readType, newerThan, offset, limit, order, keywords, onlyIds,
-				excludedSubscriptionIds, tag);
+		Response response = getCategoryEntries(user, id, readType, newerThan, offset, limit, order, keywords, excludedSubscriptionIds, tag);
 		if (response.getStatus() != Status.OK.getStatusCode()) {
 			return response;
 		}

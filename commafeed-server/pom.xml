@@ -15,6 +15,14 @@
 		<guice.version>7.0.0</guice.version>
 		<querydsl.version>6.5</querydsl.version>
 		<rome.version>2.1.0</rome.version>
+
+		<testcontainers.version>1.19.8</testcontainers.version>
+		<!-- renovate: datasource=docker depName=postgres -->
+		<postgresql.image.version>16.2</postgresql.image.version>
+		<!-- renovate: datasource=docker depName=mysql -->
+		<mysql.image.version>8.4</mysql.image.version>
+		<!-- renovate: datasource=docker depName=mariadb -->
+		<mariadb.image.version>11.2</mariadb.image.version>
 	</properties>
 
 	<dependencyManagement>
@@ -31,6 +39,19 @@
 
 	<build>
 		<finalName>commafeed</finalName>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>false</filtering>
+			</testResource>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>docker-images.properties</include>
+				</includes>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
 
 		<plugins>
 			<plugin>
@@ -64,7 +85,8 @@
 				</executions>
 				<configuration>
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
-					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+					</generateGitPropertiesFilename>
 					<failOnNoGitDirectory>false</failOnNoGitDirectory>
 					<failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
 				</configuration>
@@ -86,6 +108,7 @@
 						<filter>
 							<artifact>*:*</artifact>
 							<excludes>
+								<exclude>module-info.class</exclude>
 								<exclude>META-INF/*.SF</exclude>
 								<exclude>META-INF/*.DSA</exclude>
 								<exclude>META-INF/*.RSA</exclude>
@@ -471,5 +494,29 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<version>${testcontainers.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${testcontainers.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>mysql</artifactId>
+			<version>${testcontainers.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>mariadb</artifactId>
+			<version>${testcontainers.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>

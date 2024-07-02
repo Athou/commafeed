@@ -112,10 +112,11 @@ class FeedIT extends BaseIT {
 
 		@Test
 		void markInsertedBeforeBeforeSubscription() {
-			Instant insertedBefore = Instant.now();
+			// mariadb/mysql timestamp precision is 1 second
+			Instant threshold = Instant.now().minus(Duration.ofSeconds(1));
 
 			long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
-			markFeedEntries(subscriptionId, null, insertedBefore);
+			markFeedEntries(subscriptionId, null, threshold);
 			Assertions.assertTrue(getFeedEntries(subscriptionId).getEntries().stream().noneMatch(Entry::isRead));
 		}
 
@@ -123,9 +124,10 @@ class FeedIT extends BaseIT {
 		void markInsertedBeforeAfterSubscription() {
 			long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 
-			Instant insertedBefore = Instant.now();
+			// mariadb/mysql timestamp precision is 1 second
+			Instant threshold = Instant.now().plus(Duration.ofSeconds(1));
 
-			markFeedEntries(subscriptionId, null, insertedBefore);
+			markFeedEntries(subscriptionId, null, threshold);
 			Assertions.assertTrue(getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
 		}
 
@@ -144,26 +146,29 @@ class FeedIT extends BaseIT {
 		void refresh() {
 			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 
-			Instant now = Instant.now();
+			// mariadb/mysql timestamp precision is 1 second
+			Instant threshold = Instant.now().minus(Duration.ofSeconds(1));
+
 			IDRequest request = new IDRequest();
 			request.setId(subscriptionId);
 			getClient().target(getApiBaseUrl() + "feed/refresh").request().post(Entity.json(request), Void.TYPE);
 
 			Awaitility.await()
 					.atMost(Duration.ofSeconds(15))
-					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().isAfter(now));
+					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().isAfter(threshold));
 		}
 
 		@Test
 		void refreshAll() {
 			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 
-			Instant now = Instant.now();
+			// mariadb/mysql timestamp precision is 1 second
+			Instant threshold = Instant.now().minus(Duration.ofSeconds(1));
 			getClient().target(getApiBaseUrl() + "feed/refreshAll").request().get(Void.TYPE);
 
 			Awaitility.await()
 					.atMost(Duration.ofSeconds(15))
-					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().isAfter(now));
+					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().isAfter(threshold));
 		}
 	}
 

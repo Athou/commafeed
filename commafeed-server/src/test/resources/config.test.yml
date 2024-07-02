@@ -117,6 +117,9 @@ database:
   properties:
     charSet: UTF-8
   validationQuery: "/* CommaFeed Health Check */ SELECT 1"
+  minSize: 1
+  maxSize: 5
+  initialSize: 1
 
 server:
   applicationConnectors:

@@ -29,10 +29,20 @@ jobs:
           distribution: "temurin"
           cache: "maven"
 
-      # Build
+      # Build & Test
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots verify
+        run: mvn --batch-mode --no-transfer-progress install
 
+      - name: Run integration tests on PostgreSQL
+        run: TEST_DATABASE=postgresql mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
+
+      - name: Run integration tests on MySQL
+        run: TEST_DATABASE=mysql mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
+
+      - name: Run integration tests on MariaDB
+        run: TEST_DATABASE=mariadb mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
+
+      # Upload artifacts
       - name: Upload JAR
         uses: actions/upload-artifact@v4
         if: ${{ matrix.java == '17' }}

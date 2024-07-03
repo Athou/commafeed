@@ -32,15 +32,29 @@ jobs:
       # Build & Test
       - name: Build with Maven
         run: mvn --batch-mode --no-transfer-progress install
+        env:
+          TEST_DATABASE: h2
 
       - name: Run integration tests on PostgreSQL
-        run: TEST_DATABASE=postgresql mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
+        run: mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
+        env:
+          TEST_DATABASE: postgresql
 
       - name: Run integration tests on MySQL
-        run: TEST_DATABASE=mysql mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
+        run: mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
+        env:
+          TEST_DATABASE: mysql
 
       - name: Run integration tests on MariaDB
-        run: TEST_DATABASE=mariadb mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
+        run: mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
+        env:
+          TEST_DATABASE: mariadb
+
+      - name: Run integration tests with Redis cache enabled
+        run: mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
+        env:
+          TEST_DATABASE: h2
+          REDIS: true
 
       # Upload artifacts
       - name: Upload JAR

@@ -24,7 +24,7 @@
 		<!-- renovate: datasource=docker depName=mariadb -->
 		<mariadb.image.version>11.4.2</mariadb.image.version>
 		<!-- renovate: datasource=docker depName=redis -->
-		<redis.image.version>7.2</redis.image.version>
+		<redis.image.version>7.2.5</redis.image.version>
 	</properties>
 
 	<dependencyManagement>

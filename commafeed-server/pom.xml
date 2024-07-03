@@ -22,7 +22,7 @@
 		<!-- renovate: datasource=docker depName=mysql -->
 		<mysql.image.version>8.4</mysql.image.version>
 		<!-- renovate: datasource=docker depName=mariadb -->
-		<mariadb.image.version>11.2</mariadb.image.version>
+		<mariadb.image.version>11.4.2</mariadb.image.version>
 	</properties>
 
 	<dependencyManagement>

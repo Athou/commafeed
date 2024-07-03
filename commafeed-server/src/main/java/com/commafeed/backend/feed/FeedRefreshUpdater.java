@@ -171,8 +171,6 @@ public class FeedRefreshUpdater {
 				List<User> users = subscriptions.stream().map(FeedSubscription::getUser).toList();
 				cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
 				cache.invalidateUserRootCategory(users.toArray(new User[0]));
-
-				notifyOverWebsocket(unreadCountBySubscription);
 			}
 		}
 
@@ -186,6 +184,8 @@ public class FeedRefreshUpdater {
 		}
 
 		unitOfWork.run(() -> feedService.save(feed));
+
+		notifyOverWebsocket(unreadCountBySubscription);
 
 		return processed;
 	}

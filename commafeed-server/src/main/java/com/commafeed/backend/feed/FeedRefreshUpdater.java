@@ -1,6 +1,5 @@
 package com.commafeed.backend.feed;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -103,9 +102,12 @@ public class FeedRefreshUpdater {
 			if (locked1 && locked2) {
 				processed = true;
 				inserted = unitOfWork.call(() -> {
-					Instant now = Instant.now();
-					FeedEntry feedEntry = feedEntryService.findOrCreate(feed, entry);
-					boolean newEntry = !feedEntry.getInserted().isBefore(now);
+					boolean newEntry = false;
+					FeedEntry feedEntry = feedEntryService.find(feed, entry);
+					if (feedEntry == null) {
+						feedEntry = feedEntryService.create(feed, entry);
+						newEntry = true;
+					}
 					if (newEntry) {
 						entryInserted.mark();
 						for (FeedSubscription sub : subscriptions) {

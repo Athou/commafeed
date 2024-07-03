@@ -35,18 +35,21 @@ public class FeedEntryService {
 	private final FeedEntryFilteringService feedEntryFilteringService;
 	private final CacheService cache;
 
-	/**
-	 * this is NOT thread-safe
-	 */
-	public FeedEntry findOrCreate(Feed feed, Entry entry) {
-		String guid = FeedUtils.truncate(entry.guid(), 2048);
+	public FeedEntry find(Feed feed, Entry entry) {
 		String guidHash = Digests.sha1Hex(entry.guid());
-		FeedEntry existing = feedEntryDAO.findExisting(guidHash, feed);
-		if (existing != null) {
-			return existing;
-		}
+		return feedEntryDAO.findExisting(guidHash, feed);
+	}
 
-		FeedEntry feedEntry = buildEntry(feed, entry, guid, guidHash);
+	public FeedEntry create(Feed feed, Entry entry) {
+		FeedEntry feedEntry = new FeedEntry();
+		feedEntry.setGuid(FeedUtils.truncate(entry.guid(), 2048));
+		feedEntry.setGuidHash(Digests.sha1Hex(entry.guid()));
+		feedEntry.setUrl(FeedUtils.truncate(entry.url(), 2048));
+		feedEntry.setUpdated(entry.updated());
+		feedEntry.setInserted(Instant.now());
+		feedEntry.setFeed(feed);
+		feedEntry.setContent(feedEntryContentService.findOrCreate(entry.content(), feed.getLink()));
+
 		feedEntryDAO.saveOrUpdate(feedEntry);
 		return feedEntry;
 	}
@@ -66,19 +69,6 @@ public class FeedEntryService {
 		}
 
 		return matches;
-	}
-
-	private FeedEntry buildEntry(Feed feed, Entry e, String guid, String guidHash) {
-		FeedEntry entry = new FeedEntry();
-		entry.setGuid(guid);
-		entry.setGuidHash(guidHash);
-		entry.setUrl(FeedUtils.truncate(e.url(), 2048));
-		entry.setUpdated(e.updated());
-		entry.setInserted(Instant.now());
-		entry.setFeed(feed);
-
-		entry.setContent(feedEntryContentService.findOrCreate(e.content(), feed.getLink()));
-		return entry;
 	}
 
 	public void markEntry(User user, Long entryId, boolean read) {

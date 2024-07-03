@@ -104,10 +104,6 @@ app:
 # for PostgreSQL
 # driverClass is org.postgresql.Driver
 # url is jdbc:postgresql://localhost:5432/commafeed
-#
-# for Microsoft SQL Server
-# driverClass is net.sourceforge.jtds.jdbc.Driver
-# url is jdbc:jtds:sqlserver://localhost:1433/commafeed;instance=<instanceName, remove if not needed>
 
 database:
   driverClass: org.h2.Driver

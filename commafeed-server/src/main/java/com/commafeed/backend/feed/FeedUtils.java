@@ -139,7 +139,7 @@ public class FeedUtils {
 		try {
 			return new URL(new URL(baseUrl), relativeUrl).toString();
 		} catch (MalformedURLException e) {
-			log.debug("could not parse url : " + e.getMessage(), e);
+			log.debug("could not parse url : {}", e.getMessage(), e);
 			return null;
 		}
 	}

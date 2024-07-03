@@ -54,6 +54,7 @@ public abstract class PlaywrightTestBase {
 	}
 
 	protected void customizeNewContextOptions(NewContextOptions options) {
+		// override in subclasses to customize the browser context
 	}
 
 	protected static class SaveArtifactsOnTestFailed implements TestWatcher, BeforeEachCallback {

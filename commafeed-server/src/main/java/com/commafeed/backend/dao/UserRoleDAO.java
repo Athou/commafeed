@@ -17,7 +17,7 @@ import jakarta.inject.Singleton;
 @Singleton
 public class UserRoleDAO extends GenericDAO<UserRole> {
 
-	private final QUserRole role = QUserRole.userRole;
+	private static final QUserRole ROLE = QUserRole.userRole;
 
 	@Inject
 	public UserRoleDAO(SessionFactory sessionFactory) {
@@ -25,11 +25,11 @@ public class UserRoleDAO extends GenericDAO<UserRole> {
 	}
 
 	public List<UserRole> findAll() {
-		return query().selectFrom(role).leftJoin(role.user).fetchJoin().distinct().fetch();
+		return query().selectFrom(ROLE).leftJoin(ROLE.user).fetchJoin().distinct().fetch();
 	}
 
 	public List<UserRole> findAll(User user) {
-		return query().selectFrom(role).where(role.user.eq(user)).distinct().fetch();
+		return query().selectFrom(ROLE).where(ROLE.user.eq(user)).distinct().fetch();
 	}
 
 	public Set<Role> findRoles(User user) {

@@ -98,9 +98,9 @@ public class CommaFeedApplication extends Application<CommaFeedConfiguration> {
 		configureObjectMapper(bootstrap.getObjectMapper());
 
 		// run h2 migration as the first bundle because we need to migrate before hibernate is initialized
-		bootstrap.addBundle(new ConfiguredBundle<CommaFeedConfiguration>() {
+		bootstrap.addBundle(new ConfiguredBundle<>() {
 			@Override
-			public void run(CommaFeedConfiguration config, Environment environment) throws Exception {
+			public void run(CommaFeedConfiguration config, Environment environment) {
 				DataSourceFactory dataSourceFactory = config.getDataSourceFactory();
 				String url = dataSourceFactory.getUrl();
 				if (isFileBasedH2(url)) {

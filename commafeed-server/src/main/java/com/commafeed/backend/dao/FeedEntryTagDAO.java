@@ -17,7 +17,7 @@ import jakarta.inject.Singleton;
 @Singleton
 public class FeedEntryTagDAO extends GenericDAO<FeedEntryTag> {
 
-	private final QFeedEntryTag tag = QFeedEntryTag.feedEntryTag;
+	private static final QFeedEntryTag TAG = QFeedEntryTag.feedEntryTag;
 
 	@Inject
 	public FeedEntryTagDAO(SessionFactory sessionFactory) {
@@ -25,16 +25,16 @@ public class FeedEntryTagDAO extends GenericDAO<FeedEntryTag> {
 	}
 
 	public List<String> findByUser(User user) {
-		return query().selectDistinct(tag.name).from(tag).where(tag.user.eq(user)).fetch();
+		return query().selectDistinct(TAG.name).from(TAG).where(TAG.user.eq(user)).fetch();
 	}
 
 	public List<FeedEntryTag> findByEntry(User user, FeedEntry entry) {
-		return query().selectFrom(tag).where(tag.user.eq(user), tag.entry.eq(entry)).fetch();
+		return query().selectFrom(TAG).where(TAG.user.eq(user), TAG.entry.eq(entry)).fetch();
 	}
 
 	public Map<Long, List<FeedEntryTag>> findByEntries(User user, List<FeedEntry> entries) {
-		return query().selectFrom(tag)
-				.where(tag.user.eq(user), tag.entry.in(entries))
+		return query().selectFrom(TAG)
+				.where(TAG.user.eq(user), TAG.entry.in(entries))
 				.fetch()
 				.stream()
 				.collect(Collectors.groupingBy(t -> t.getEntry().getId()));

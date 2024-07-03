@@ -35,13 +35,9 @@ public class RSSRDF10Parser extends RSS10Parser {
 
 		ok = defaultNS != null && defaultNS.equals(getRDFNamespace());
 		if (ok) {
-			if (additionalNSs == null) {
-				ok = false;
-			} else {
-				ok = false;
-				for (int i = 0; !ok && i < additionalNSs.size(); i++) {
-					ok = getRSSNamespace().equals(additionalNSs.get(i));
-				}
+			ok = false;
+			for (int i = 0; !ok && i < additionalNSs.size(); i++) {
+				ok = getRSSNamespace().equals(additionalNSs.get(i));
 			}
 		}
 		return ok;

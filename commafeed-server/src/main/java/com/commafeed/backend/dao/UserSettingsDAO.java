@@ -12,7 +12,7 @@ import jakarta.inject.Singleton;
 @Singleton
 public class UserSettingsDAO extends GenericDAO<UserSettings> {
 
-	private final QUserSettings settings = QUserSettings.userSettings;
+	private static final QUserSettings SETTINGS = QUserSettings.userSettings;
 
 	@Inject
 	public UserSettingsDAO(SessionFactory sessionFactory) {
@@ -20,6 +20,6 @@ public class UserSettingsDAO extends GenericDAO<UserSettings> {
 	}
 
 	public UserSettings findByUser(User user) {
-		return query().selectFrom(settings).where(settings.user.eq(user)).fetchFirst();
+		return query().selectFrom(SETTINGS).where(SETTINGS.user.eq(user)).fetchFirst();
 	}
 }

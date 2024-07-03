@@ -19,7 +19,7 @@ import lombok.Getter;
 @Singleton
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
-	private final QFeedEntry entry = QFeedEntry.feedEntry;
+	private static final QFeedEntry ENTRY = QFeedEntry.feedEntry;
 
 	@Inject
 	public FeedEntryDAO(SessionFactory sessionFactory) {
@@ -27,22 +27,22 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 	}
 
 	public FeedEntry findExisting(String guidHash, Feed feed) {
-		return query().select(entry).from(entry).where(entry.guidHash.eq(guidHash), entry.feed.eq(feed)).limit(1).fetchOne();
+		return query().select(ENTRY).from(ENTRY).where(ENTRY.guidHash.eq(guidHash), ENTRY.feed.eq(feed)).limit(1).fetchOne();
 	}
 
 	public List<FeedCapacity> findFeedsExceedingCapacity(long maxCapacity, long max) {
-		NumberExpression<Long> count = entry.id.count();
-		List<Tuple> tuples = query().select(entry.feed.id, count)
-				.from(entry)
-				.groupBy(entry.feed)
+		NumberExpression<Long> count = ENTRY.id.count();
+		List<Tuple> tuples = query().select(ENTRY.feed.id, count)
+				.from(ENTRY)
+				.groupBy(ENTRY.feed)
 				.having(count.gt(maxCapacity))
 				.limit(max)
 				.fetch();
-		return tuples.stream().map(t -> new FeedCapacity(t.get(entry.feed.id), t.get(count))).toList();
+		return tuples.stream().map(t -> new FeedCapacity(t.get(ENTRY.feed.id), t.get(count))).toList();
 	}
 
 	public int delete(Long feedId, long max) {
-		List<FeedEntry> list = query().selectFrom(entry).where(entry.feed.id.eq(feedId)).limit(max).fetch();
+		List<FeedEntry> list = query().selectFrom(ENTRY).where(ENTRY.feed.id.eq(feedId)).limit(max).fetch();
 		return delete(list);
 	}
 
@@ -50,7 +50,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 	 * Delete entries older than a certain date
 	 */
 	public int deleteEntriesOlderThan(Instant olderThan, long max) {
-		List<FeedEntry> list = query().selectFrom(entry).where(entry.updated.lt(olderThan)).orderBy(entry.updated.asc()).limit(max).fetch();
+		List<FeedEntry> list = query().selectFrom(ENTRY).where(ENTRY.updated.lt(olderThan)).orderBy(ENTRY.updated.asc()).limit(max).fetch();
 		return delete(list);
 	}
 
@@ -58,7 +58,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 	 * Delete the oldest entries of a feed
 	 */
 	public int deleteOldEntries(Long feedId, long max) {
-		List<FeedEntry> list = query().selectFrom(entry).where(entry.feed.id.eq(feedId)).orderBy(entry.updated.asc()).limit(max).fetch();
+		List<FeedEntry> list = query().selectFrom(ENTRY).where(ENTRY.feed.id.eq(feedId)).orderBy(ENTRY.updated.asc()).limit(max).fetch();
 		return delete(list);
 	}
 

@@ -35,15 +35,15 @@ import jakarta.inject.Singleton;
 @Singleton
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
+	private static final QFeedEntryStatus STATUS = QFeedEntryStatus.feedEntryStatus;
+	private static final QFeedEntry ENTRY = QFeedEntry.feedEntry;
+	private static final QFeed FEED = QFeed.feed;
+	private static final QFeedSubscription SUBSCRIPTION = QFeedSubscription.feedSubscription;
+	private static final QFeedEntryContent CONTENT = QFeedEntryContent.feedEntryContent;
+	private static final QFeedEntryTag TAG = QFeedEntryTag.feedEntryTag;
+
 	private final FeedEntryTagDAO feedEntryTagDAO;
 	private final CommaFeedConfiguration config;
-
-	private final QFeedEntryStatus status = QFeedEntryStatus.feedEntryStatus;
-	private final QFeedEntry entry = QFeedEntry.feedEntry;
-	private final QFeed feed = QFeed.feed;
-	private final QFeedSubscription subscription = QFeedSubscription.feedSubscription;
-	private final QFeedEntryContent content = QFeedEntryContent.feedEntryContent;
-	private final QFeedEntryTag entryTag = QFeedEntryTag.feedEntryTag;
 
 	@Inject
 	public FeedEntryStatusDAO(SessionFactory sessionFactory, FeedEntryTagDAO feedEntryTagDAO, CommaFeedConfiguration config) {
@@ -53,7 +53,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	public FeedEntryStatus getStatus(User user, FeedSubscription sub, FeedEntry entry) {
-		List<FeedEntryStatus> statuses = query().selectFrom(status).where(status.entry.eq(entry), status.subscription.eq(sub)).fetch();
+		List<FeedEntryStatus> statuses = query().selectFrom(STATUS).where(STATUS.entry.eq(entry), STATUS.subscription.eq(sub)).fetch();
 		FeedEntryStatus status = Iterables.getFirst(statuses, null);
 		return handleStatus(user, status, sub, entry);
 	}
@@ -85,19 +85,19 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public List<FeedEntryStatus> findStarred(User user, Instant newerThan, int offset, int limit, ReadingOrder order,
 			boolean includeContent) {
-		JPAQuery<FeedEntryStatus> query = query().selectFrom(status).where(status.user.eq(user), status.starred.isTrue());
+		JPAQuery<FeedEntryStatus> query = query().selectFrom(STATUS).where(STATUS.user.eq(user), STATUS.starred.isTrue());
 		if (includeContent) {
-			query.join(status.entry.content).fetchJoin();
+			query.join(STATUS.entry.content).fetchJoin();
 		}
 
 		if (newerThan != null) {
-			query.where(status.entryInserted.gt(newerThan));
+			query.where(STATUS.entryInserted.gt(newerThan));
 		}
 
 		if (order == ReadingOrder.asc) {
-			query.orderBy(status.entryUpdated.asc(), status.id.asc());
+			query.orderBy(STATUS.entryUpdated.asc(), STATUS.id.asc());
 		} else {
-			query.orderBy(status.entryUpdated.desc(), status.id.desc());
+			query.orderBy(STATUS.entryUpdated.desc(), STATUS.id.desc());
 		}
 
 		if (offset > -1) {
@@ -123,20 +123,20 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			List<FeedEntryKeyword> keywords, Instant newerThan, int offset, int limit, ReadingOrder order, boolean includeContent,
 			String tag, Long minEntryId, Long maxEntryId) {
 
-		JPAQuery<Tuple> query = query().select(entry, subscription, status).from(entry);
-		query.join(entry.feed, feed);
-		query.join(subscription).on(subscription.feed.eq(feed).and(subscription.user.eq(user)));
-		query.leftJoin(status).on(status.entry.eq(entry).and(status.subscription.eq(subscription)));
-		query.where(subscription.in(subs));
+		JPAQuery<Tuple> query = query().select(ENTRY, SUBSCRIPTION, STATUS).from(ENTRY);
+		query.join(ENTRY.feed, FEED);
+		query.join(SUBSCRIPTION).on(SUBSCRIPTION.feed.eq(FEED).and(SUBSCRIPTION.user.eq(user)));
+		query.leftJoin(STATUS).on(STATUS.entry.eq(ENTRY).and(STATUS.subscription.eq(SUBSCRIPTION)));
+		query.where(SUBSCRIPTION.in(subs));
 
 		if (includeContent || CollectionUtils.isNotEmpty(keywords)) {
-			query.join(entry.content, content).fetchJoin();
+			query.join(ENTRY.content, CONTENT).fetchJoin();
 		}
 		if (CollectionUtils.isNotEmpty(keywords)) {
 			for (FeedEntryKeyword keyword : keywords) {
 				BooleanBuilder or = new BooleanBuilder();
-				or.or(content.content.containsIgnoreCase(keyword.getKeyword()));
-				or.or(content.title.containsIgnoreCase(keyword.getKeyword()));
+				or.or(CONTENT.content.containsIgnoreCase(keyword.getKeyword()));
+				or.or(CONTENT.title.containsIgnoreCase(keyword.getKeyword()));
 				if (keyword.getMode() == Mode.EXCLUDE) {
 					or.not();
 				}
@@ -150,28 +150,28 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		if (tag != null) {
 			BooleanBuilder and = new BooleanBuilder();
-			and.and(entryTag.user.id.eq(user.getId()));
-			and.and(entryTag.name.eq(tag));
-			query.join(entry.tags, entryTag).on(and);
+			and.and(TAG.user.id.eq(user.getId()));
+			and.and(TAG.name.eq(tag));
+			query.join(ENTRY.tags, TAG).on(and);
 		}
 
 		if (newerThan != null) {
-			query.where(entry.inserted.goe(newerThan));
+			query.where(ENTRY.inserted.goe(newerThan));
 		}
 
 		if (minEntryId != null) {
-			query.where(entry.id.gt(minEntryId));
+			query.where(ENTRY.id.gt(minEntryId));
 		}
 
 		if (maxEntryId != null) {
-			query.where(entry.id.lt(maxEntryId));
+			query.where(ENTRY.id.lt(maxEntryId));
 		}
 
 		if (order != null) {
 			if (order == ReadingOrder.asc) {
-				query.orderBy(entry.updated.asc(), entry.id.asc());
+				query.orderBy(ENTRY.updated.asc(), ENTRY.id.asc());
 			} else {
-				query.orderBy(entry.updated.desc(), entry.id.desc());
+				query.orderBy(ENTRY.updated.desc(), ENTRY.id.desc());
 			}
 		}
 
@@ -188,9 +188,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		List<FeedEntryStatus> statuses = new ArrayList<>();
 		List<Tuple> tuples = query.fetch();
 		for (Tuple tuple : tuples) {
-			FeedEntry e = tuple.get(entry);
-			FeedSubscription sub = tuple.get(subscription);
-			FeedEntryStatus s = handleStatus(user, tuple.get(status), sub, e);
+			FeedEntry e = tuple.get(ENTRY);
+			FeedSubscription sub = tuple.get(SUBSCRIPTION);
+			FeedEntryStatus s = handleStatus(user, tuple.get(STATUS), sub, e);
 			statuses.add(s);
 		}
 
@@ -202,41 +202,41 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	public UnreadCount getUnreadCount(FeedSubscription sub) {
-		JPAQuery<Tuple> query = query().select(entry.count(), entry.updated.max())
-				.from(entry)
-				.join(entry.feed, feed)
-				.join(subscription)
-				.on(subscription.feed.eq(feed).and(subscription.eq(sub)))
-				.leftJoin(status)
-				.on(status.entry.eq(entry).and(status.subscription.eq(sub)))
+		JPAQuery<Tuple> query = query().select(ENTRY.count(), ENTRY.updated.max())
+				.from(ENTRY)
+				.join(ENTRY.feed, FEED)
+				.join(SUBSCRIPTION)
+				.on(SUBSCRIPTION.feed.eq(FEED).and(SUBSCRIPTION.eq(sub)))
+				.leftJoin(STATUS)
+				.on(STATUS.entry.eq(ENTRY).and(STATUS.subscription.eq(sub)))
 				.where(buildUnreadPredicate());
 
 		Tuple tuple = query.fetchOne();
-		Long count = tuple.get(entry.count());
-		Instant updated = tuple.get(entry.updated.max());
+		Long count = tuple.get(ENTRY.count());
+		Instant updated = tuple.get(ENTRY.updated.max());
 		return new UnreadCount(sub.getId(), count == null ? 0 : count, updated);
 	}
 
 	private BooleanBuilder buildUnreadPredicate() {
 		BooleanBuilder or = new BooleanBuilder();
-		or.or(status.read.isNull());
-		or.or(status.read.isFalse());
+		or.or(STATUS.read.isNull());
+		or.or(STATUS.read.isFalse());
 
 		Instant unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
 		if (unreadThreshold != null) {
-			return or.and(entry.updated.goe(unreadThreshold));
+			return or.and(ENTRY.updated.goe(unreadThreshold));
 		} else {
 			return or;
 		}
 	}
 
 	public long deleteOldStatuses(Instant olderThan, int limit) {
-		List<Long> ids = query().select(status.id)
-				.from(status)
-				.where(status.entryInserted.lt(olderThan), status.starred.isFalse())
+		List<Long> ids = query().select(STATUS.id)
+				.from(STATUS)
+				.where(STATUS.entryInserted.lt(olderThan), STATUS.starred.isFalse())
 				.limit(limit)
 				.fetch();
-		return deleteQuery(status).where(status.id.in(ids)).execute();
+		return deleteQuery(STATUS).where(STATUS.id.in(ids)).execute();
 	}
 
 }

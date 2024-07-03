@@ -7,7 +7,7 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=commafeed
     ports:
-      - 3306:3306
+      - "3306:3306"
 
   postgresql:
     image: postgres
@@ -16,4 +16,4 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=commafeed
     ports:
-      - 5432:5432
+      - "5432:5432"

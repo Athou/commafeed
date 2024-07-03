@@ -16,8 +16,8 @@ import jakarta.inject.Singleton;
 @Singleton
 public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 
-	private final QFeedEntryContent content = QFeedEntryContent.feedEntryContent;
-	private final QFeedEntry entry = QFeedEntry.feedEntry;
+	private static final QFeedEntryContent CONTENT = QFeedEntryContent.feedEntryContent;
+	private static final QFeedEntry ENTRY = QFeedEntry.feedEntry;
 
 	@Inject
 	public FeedEntryContentDAO(SessionFactory sessionFactory) {
@@ -25,13 +25,13 @@ public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
 	}
 
 	public List<FeedEntryContent> findExisting(String contentHash, String titleHash) {
-		return query().select(content).from(content).where(content.contentHash.eq(contentHash), content.titleHash.eq(titleHash)).fetch();
+		return query().select(CONTENT).from(CONTENT).where(CONTENT.contentHash.eq(contentHash), CONTENT.titleHash.eq(titleHash)).fetch();
 	}
 
 	public long deleteWithoutEntries(int max) {
-		JPQLSubQuery<Integer> subQuery = JPAExpressions.selectOne().from(entry).where(entry.content.id.eq(content.id));
-		List<Long> ids = query().select(content.id).from(content).where(subQuery.notExists()).limit(max).fetch();
+		JPQLSubQuery<Integer> subQuery = JPAExpressions.selectOne().from(ENTRY).where(ENTRY.content.id.eq(CONTENT.id));
+		List<Long> ids = query().select(CONTENT.id).from(CONTENT).where(subQuery.notExists()).limit(max).fetch();
 
-		return deleteQuery(content).where(content.id.in(ids)).execute();
+		return deleteQuery(CONTENT).where(CONTENT.id.in(ids)).execute();
 	}
 }

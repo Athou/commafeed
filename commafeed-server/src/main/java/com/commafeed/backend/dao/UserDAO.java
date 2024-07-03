@@ -11,7 +11,7 @@ import jakarta.inject.Singleton;
 @Singleton
 public class UserDAO extends GenericDAO<User> {
 
-	private final QUser user = QUser.user;
+	private static final QUser USER = QUser.user;
 
 	@Inject
 	public UserDAO(SessionFactory sessionFactory) {
@@ -19,18 +19,18 @@ public class UserDAO extends GenericDAO<User> {
 	}
 
 	public User findByName(String name) {
-		return query().selectFrom(user).where(user.name.equalsIgnoreCase(name)).fetchOne();
+		return query().selectFrom(USER).where(USER.name.equalsIgnoreCase(name)).fetchOne();
 	}
 
 	public User findByApiKey(String key) {
-		return query().selectFrom(user).where(user.apiKey.equalsIgnoreCase(key)).fetchOne();
+		return query().selectFrom(USER).where(USER.apiKey.equalsIgnoreCase(key)).fetchOne();
 	}
 
 	public User findByEmail(String email) {
-		return query().selectFrom(user).where(user.email.equalsIgnoreCase(email)).fetchOne();
+		return query().selectFrom(USER).where(USER.email.equalsIgnoreCase(email)).fetchOne();
 	}
 
 	public long count() {
-		return query().select(user.count()).from(user).fetchOne();
+		return query().select(USER.count()).from(USER).fetchOne();
 	}
 }

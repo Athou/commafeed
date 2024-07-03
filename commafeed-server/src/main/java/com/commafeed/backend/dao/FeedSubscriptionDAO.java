@@ -29,7 +29,7 @@ import jakarta.inject.Singleton;
 @Singleton
 public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 
-	private final QFeedSubscription sub = QFeedSubscription.feedSubscription;
+	private static final QFeedSubscription SUBSCRIPTION = QFeedSubscription.feedSubscription;
 
 	private final SessionFactory sessionFactory;
 
@@ -60,46 +60,48 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 	}
 
 	public FeedSubscription findById(User user, Long id) {
-		List<FeedSubscription> subs = query().selectFrom(sub)
-				.where(sub.user.eq(user), sub.id.eq(id))
-				.leftJoin(sub.feed)
+		List<FeedSubscription> subs = query().selectFrom(SUBSCRIPTION)
+				.where(SUBSCRIPTION.user.eq(user), SUBSCRIPTION.id.eq(id))
+				.leftJoin(SUBSCRIPTION.feed)
 				.fetchJoin()
-				.leftJoin(sub.category)
+				.leftJoin(SUBSCRIPTION.category)
 				.fetchJoin()
 				.fetch();
 		return initRelations(Iterables.getFirst(subs, null));
 	}
 
 	public List<FeedSubscription> findByFeed(Feed feed) {
-		return query().selectFrom(sub).where(sub.feed.eq(feed)).fetch();
+		return query().selectFrom(SUBSCRIPTION).where(SUBSCRIPTION.feed.eq(feed)).fetch();
 	}
 
 	public FeedSubscription findByFeed(User user, Feed feed) {
-		List<FeedSubscription> subs = query().selectFrom(sub).where(sub.user.eq(user), sub.feed.eq(feed)).fetch();
+		List<FeedSubscription> subs = query().selectFrom(SUBSCRIPTION)
+				.where(SUBSCRIPTION.user.eq(user), SUBSCRIPTION.feed.eq(feed))
+				.fetch();
 		return initRelations(Iterables.getFirst(subs, null));
 	}
 
 	public List<FeedSubscription> findAll(User user) {
-		List<FeedSubscription> subs = query().selectFrom(sub)
-				.where(sub.user.eq(user))
-				.leftJoin(sub.feed)
+		List<FeedSubscription> subs = query().selectFrom(SUBSCRIPTION)
+				.where(SUBSCRIPTION.user.eq(user))
+				.leftJoin(SUBSCRIPTION.feed)
 				.fetchJoin()
-				.leftJoin(sub.category)
+				.leftJoin(SUBSCRIPTION.category)
 				.fetchJoin()
 				.fetch();
 		return initRelations(subs);
 	}
 
 	public Long count(User user) {
-		return query().select(sub.count()).from(sub).where(sub.user.eq(user)).fetchOne();
+		return query().select(SUBSCRIPTION.count()).from(SUBSCRIPTION).where(SUBSCRIPTION.user.eq(user)).fetchOne();
 	}
 
 	public List<FeedSubscription> findByCategory(User user, FeedCategory category) {
-		JPQLQuery<FeedSubscription> query = query().selectFrom(sub).where(sub.user.eq(user));
+		JPQLQuery<FeedSubscription> query = query().selectFrom(SUBSCRIPTION).where(SUBSCRIPTION.user.eq(user));
 		if (category == null) {
-			query.where(sub.category.isNull());
+			query.where(SUBSCRIPTION.category.isNull());
 		} else {
-			query.where(sub.category.eq(category));
+			query.where(SUBSCRIPTION.category.eq(category));
 		}
 		return initRelations(query.fetch());
 	}

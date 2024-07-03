@@ -210,7 +210,7 @@ public class FeverREST {
 				.map(Feed::getLastUpdated)
 				.filter(Objects::nonNull)
 				.max(Comparator.naturalOrder())
-				.map(d -> d.getEpochSecond())
+				.map(Instant::getEpochSecond)
 				.orElse(0L);
 	}
 

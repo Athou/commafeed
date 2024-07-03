@@ -120,10 +120,10 @@ public class FeedRefreshUpdater {
 					return newEntry;
 				});
 			} else {
-				log.error("lock timeout for " + feed.getUrl() + " - " + key1);
+				log.error("lock timeout for {} - {}", feed.getUrl(), key1);
 			}
 		} catch (InterruptedException e) {
-			log.error("interrupted while waiting for lock for " + feed.getUrl() + " : " + e.getMessage(), e);
+			log.error("interrupted while waiting for lock for {} : {}", feed.getUrl(), e.getMessage(), e);
 		} finally {
 			if (locked1) {
 				lock1.unlock();

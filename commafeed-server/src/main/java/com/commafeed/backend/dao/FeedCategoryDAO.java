@@ -17,7 +17,7 @@ import jakarta.inject.Singleton;
 @Singleton
 public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 
-	private final QFeedCategory category = QFeedCategory.feedCategory;
+	private static final QFeedCategory CATEGORY = QFeedCategory.feedCategory;
 
 	@Inject
 	public FeedCategoryDAO(SessionFactory sessionFactory) {
@@ -25,31 +25,31 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 	}
 
 	public List<FeedCategory> findAll(User user) {
-		return query().selectFrom(category).where(category.user.eq(user)).join(category.user, QUser.user).fetchJoin().fetch();
+		return query().selectFrom(CATEGORY).where(CATEGORY.user.eq(user)).join(CATEGORY.user, QUser.user).fetchJoin().fetch();
 	}
 
 	public FeedCategory findById(User user, Long id) {
-		return query().selectFrom(category).where(category.user.eq(user), category.id.eq(id)).fetchOne();
+		return query().selectFrom(CATEGORY).where(CATEGORY.user.eq(user), CATEGORY.id.eq(id)).fetchOne();
 	}
 
 	public FeedCategory findByName(User user, String name, FeedCategory parent) {
 		Predicate parentPredicate;
 		if (parent == null) {
-			parentPredicate = category.parent.isNull();
+			parentPredicate = CATEGORY.parent.isNull();
 		} else {
-			parentPredicate = category.parent.eq(parent);
+			parentPredicate = CATEGORY.parent.eq(parent);
 		}
-		return query().selectFrom(category).where(category.user.eq(user), category.name.eq(name), parentPredicate).fetchOne();
+		return query().selectFrom(CATEGORY).where(CATEGORY.user.eq(user), CATEGORY.name.eq(name), parentPredicate).fetchOne();
 	}
 
 	public List<FeedCategory> findByParent(User user, FeedCategory parent) {
 		Predicate parentPredicate;
 		if (parent == null) {
-			parentPredicate = category.parent.isNull();
+			parentPredicate = CATEGORY.parent.isNull();
 		} else {
-			parentPredicate = category.parent.eq(parent);
+			parentPredicate = CATEGORY.parent.eq(parent);
 		}
-		return query().selectFrom(category).where(category.user.eq(user), parentPredicate).fetch();
+		return query().selectFrom(CATEGORY).where(CATEGORY.user.eq(user), parentPredicate).fetch();
 	}
 
 	public List<FeedCategory> findAllChildrenCategories(User user, FeedCategory parent) {

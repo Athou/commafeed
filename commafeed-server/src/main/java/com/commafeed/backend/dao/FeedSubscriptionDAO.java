@@ -2,9 +2,16 @@ package com.commafeed.backend.dao;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.event.service.spi.EventListenerRegistry;
+import org.hibernate.event.spi.EventType;
+import org.hibernate.event.spi.PostInsertEvent;
+import org.hibernate.event.spi.PostInsertEventListener;
+import org.hibernate.persister.entity.EntityPersister;
 
 import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
@@ -24,9 +31,32 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 
 	private final QFeedSubscription sub = QFeedSubscription.feedSubscription;
 
+	private final SessionFactory sessionFactory;
+
 	@Inject
 	public FeedSubscriptionDAO(SessionFactory sessionFactory) {
 		super(sessionFactory);
+		this.sessionFactory = sessionFactory;
+	}
+
+	public void onPostCommitInsert(Consumer<FeedSubscription> consumer) {
+		sessionFactory.unwrap(SessionFactoryImplementor.class)
+				.getServiceRegistry()
+				.getService(EventListenerRegistry.class)
+				.getEventListenerGroup(EventType.POST_COMMIT_INSERT)
+				.appendListener(new PostInsertEventListener() {
+					@Override
+					public void onPostInsert(PostInsertEvent event) {
+						if (event.getEntity() instanceof FeedSubscription s) {
+							consumer.accept(s);
+						}
+					}
+
+					@Override
+					public boolean requiresPostCommitHandling(EntityPersister persister) {
+						return true;
+					}
+				});
 	}
 
 	public FeedSubscription findById(User user, Long id) {

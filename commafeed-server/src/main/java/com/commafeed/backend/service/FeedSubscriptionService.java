@@ -23,11 +23,9 @@ import com.commafeed.frontend.model.UnreadCount;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class FeedSubscriptionService {
 
@@ -38,6 +36,22 @@ public class FeedSubscriptionService {
 	private final FeedRefreshEngine feedRefreshEngine;
 	private final CacheService cache;
 	private final CommaFeedConfiguration config;
+
+	@Inject
+	public FeedSubscriptionService(FeedDAO feedDAO, FeedEntryStatusDAO feedEntryStatusDAO, FeedSubscriptionDAO feedSubscriptionDAO,
+			FeedService feedService, FeedRefreshEngine feedRefreshEngine, CacheService cache, CommaFeedConfiguration config) {
+		this.feedDAO = feedDAO;
+		this.feedEntryStatusDAO = feedEntryStatusDAO;
+		this.feedSubscriptionDAO = feedSubscriptionDAO;
+		this.feedService = feedService;
+		this.feedRefreshEngine = feedRefreshEngine;
+		this.cache = cache;
+		this.config = config;
+
+		// automatically refresh feeds after they are subscribed to
+		// we need to use this hook because the feed needs to have been persisted because the queue processing is asynchronous
+		feedSubscriptionDAO.onPostCommitInsert(sub -> feedRefreshEngine.refreshImmediately(sub.getFeed()));
+	}
 
 	public long subscribe(User user, String url, String title) {
 		return subscribe(user, url, title, null, 0);
@@ -83,7 +97,6 @@ public class FeedSubscriptionService {
 		sub.setTitle(FeedUtils.truncate(title, 128));
 		feedSubscriptionDAO.saveOrUpdate(sub);
 
-		feedRefreshEngine.refreshImmediately(feed);
 		cache.invalidateUserRootCategory(user);
 		return sub.getId();
 	}

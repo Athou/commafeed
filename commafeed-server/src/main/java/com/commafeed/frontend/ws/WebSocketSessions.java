@@ -39,7 +39,7 @@ public class WebSocketSessions {
 	public void sendMessage(User user, String text) {
 		Set<Session> userSessions = sessions.get(user.getId());
 		if (userSessions != null && !userSessions.isEmpty()) {
-			log.debug("sending '{}' to {} users via websocket", text, userSessions.size());
+			log.debug("sending '{}' to user {} via websocket ({} sessions)", text, user.getId(), userSessions.size());
 			for (Session userSession : userSessions) {
 				if (userSession.isOpen()) {
 					userSession.getAsyncRemote().sendText(text);

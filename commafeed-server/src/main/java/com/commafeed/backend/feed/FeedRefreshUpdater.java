@@ -168,6 +168,7 @@ public class FeedRefreshUpdater {
 			if (subscriptions == null) {
 				feed.setMessage("No new entries found");
 			} else if (inserted > 0) {
+				log.debug("inserted {} entries for feed {}", inserted, feed.getId());
 				List<User> users = subscriptions.stream().map(FeedSubscription::getUser).toList();
 				cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
 				cache.invalidateUserRootCategory(users.toArray(new User[0]));

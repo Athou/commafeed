@@ -18,7 +18,7 @@
 
 		<testcontainers.version>1.19.8</testcontainers.version>
 		<!-- renovate: datasource=docker depName=postgres -->
-		<postgresql.image.version>16.2</postgresql.image.version>
+		<postgresql.image.version>16.3</postgresql.image.version>
 		<!-- renovate: datasource=docker depName=mysql -->
 		<mysql.image.version>8.4</mysql.image.version>
 		<!-- renovate: datasource=docker depName=mariadb -->

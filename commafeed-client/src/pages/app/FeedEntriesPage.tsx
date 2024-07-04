@@ -64,7 +64,7 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: we subscribe to state.timestamp because we want to reload entries even if the props are the same
     useEffect(() => {
-        dispatch(
+        const promise = dispatch(
             loadEntries({
                 source: {
                     type: props.sourceType,
@@ -73,6 +73,7 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
                 clearSearch: true,
             })
         )
+        return () => promise.abort()
     }, [dispatch, props.sourceType, id, location.state?.timestamp])
 
     const noSubscriptions = rootCategory && flattenCategoryTree(rootCategory).every(c => c.feeds.length === 0)

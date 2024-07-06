@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.SessionFactory;
@@ -15,12 +16,10 @@ import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.FeedSubscription;
-import com.commafeed.backend.model.QFeed;
 import com.commafeed.backend.model.QFeedEntry;
 import com.commafeed.backend.model.QFeedEntryContent;
 import com.commafeed.backend.model.QFeedEntryStatus;
 import com.commafeed.backend.model.QFeedEntryTag;
-import com.commafeed.backend.model.QFeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.model.UnreadCount;
@@ -37,8 +36,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	private static final QFeedEntryStatus STATUS = QFeedEntryStatus.feedEntryStatus;
 	private static final QFeedEntry ENTRY = QFeedEntry.feedEntry;
-	private static final QFeed FEED = QFeed.feed;
-	private static final QFeedSubscription SUBSCRIPTION = QFeedSubscription.feedSubscription;
 	private static final QFeedEntryContent CONTENT = QFeedEntryContent.feedEntryContent;
 	private static final QFeedEntryTag TAG = QFeedEntryTag.feedEntryTag;
 
@@ -122,12 +119,11 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	public List<FeedEntryStatus> findBySubscriptions(User user, List<FeedSubscription> subs, boolean unreadOnly,
 			List<FeedEntryKeyword> keywords, Instant newerThan, int offset, int limit, ReadingOrder order, boolean includeContent,
 			String tag, Long minEntryId, Long maxEntryId) {
+		Map<Long, List<FeedSubscription>> subsByFeedId = subs.stream().collect(Collectors.groupingBy(s -> s.getFeed().getId()));
 
-		JPAQuery<Tuple> query = query().select(ENTRY, SUBSCRIPTION, STATUS).from(ENTRY);
-		query.join(ENTRY.feed, FEED);
-		query.join(SUBSCRIPTION).on(SUBSCRIPTION.feed.eq(FEED).and(SUBSCRIPTION.user.eq(user)));
-		query.leftJoin(STATUS).on(STATUS.entry.eq(ENTRY).and(STATUS.subscription.eq(SUBSCRIPTION)));
-		query.where(SUBSCRIPTION.in(subs));
+		JPAQuery<Tuple> query = query().select(ENTRY, STATUS).from(ENTRY);
+		query.leftJoin(ENTRY.statuses, STATUS).on(STATUS.subscription.in(subs));
+		query.where(ENTRY.feed.id.in(subsByFeedId.keySet()));
 
 		if (includeContent || CollectionUtils.isNotEmpty(keywords)) {
 			query.join(ENTRY.content, CONTENT).fetchJoin();
@@ -189,9 +185,10 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		List<Tuple> tuples = query.fetch();
 		for (Tuple tuple : tuples) {
 			FeedEntry e = tuple.get(ENTRY);
-			FeedSubscription sub = tuple.get(SUBSCRIPTION);
-			FeedEntryStatus s = handleStatus(user, tuple.get(STATUS), sub, e);
-			statuses.add(s);
+			FeedEntryStatus s = tuple.get(STATUS);
+			for (FeedSubscription sub : subsByFeedId.get(e.getFeed().getId())) {
+				statuses.add(handleStatus(user, s, sub, e));
+			}
 		}
 
 		if (includeContent) {
@@ -204,11 +201,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	public UnreadCount getUnreadCount(FeedSubscription sub) {
 		JPAQuery<Tuple> query = query().select(ENTRY.count(), ENTRY.updated.max())
 				.from(ENTRY)
-				.join(ENTRY.feed, FEED)
-				.join(SUBSCRIPTION)
-				.on(SUBSCRIPTION.feed.eq(FEED).and(SUBSCRIPTION.eq(sub)))
-				.leftJoin(STATUS)
-				.on(STATUS.entry.eq(ENTRY).and(STATUS.subscription.eq(sub)))
+				.leftJoin(ENTRY.statuses, STATUS)
+				.on(STATUS.subscription.eq(sub))
+				.where(ENTRY.feed.eq(sub.getFeed()))
 				.where(buildUnreadPredicate());
 
 		Tuple tuple = query.fetchOne();

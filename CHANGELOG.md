@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.5.0]
+
+- significantly reduce the time needed to retrieve entries or mark them as read, especially when there are a lot of
+  entries (#1452)
+- fix a race condition where a feed could be refreshed before it was created in the database
+- fix an issue that could cause the websocket notification to contain the wrong number of unread entries when using
+  mysql/mariadb
+- fix an error when trying to mark all starred entries as read
+- remove the `onlyIds` parameter from REST endpoints since retrieving all the entries is now just as fast
+- remove support for microsoft sqlserver because it's not covered with integration tests (please open an issue if you'd
+  like it back)
+
 ## [4.4.1]
 
 - fix vertical scrolling issues with Safari (#1168)

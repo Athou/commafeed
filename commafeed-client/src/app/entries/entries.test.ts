@@ -5,7 +5,7 @@ import { type RootState, reducers } from "app/store"
 import type { Entries, Entry } from "app/types"
 import type { AxiosResponse } from "axios"
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { mockReset } from "vitest-mock-extended"
+import { any, mockReset } from "vitest-mock-extended"
 
 const mockClient = await vi.hoisted(async () => {
     const mockModule = await import("vitest-mock-extended")
@@ -19,7 +19,7 @@ describe("entries", () => {
     })
 
     it("loads entries", async () => {
-        mockClient.feed.getEntries.mockResolvedValue({
+        mockClient.feed.getEntries.calledWith(any()).mockResolvedValue({
             data: {
                 entries: [{ id: "3" } as Entry],
                 hasMore: false,
@@ -53,7 +53,7 @@ describe("entries", () => {
     })
 
     it("loads more entries", async () => {
-        mockClient.category.getEntries.mockResolvedValue({
+        mockClient.category.getEntries.calledWith(any()).mockResolvedValue({
             data: {
                 entries: [{ id: "4" } as Entry],
                 hasMore: false,

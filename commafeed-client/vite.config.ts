@@ -15,7 +15,6 @@ export default defineConfig(env => ({
             },
         }),
         lingui(),
-        // https://github.com/vitest-dev/vitest/issues/4055#issuecomment-1732994672
         tsconfigPaths(),
         visualizer(),
         biomePlugin({

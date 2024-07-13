@@ -58,7 +58,7 @@ user is `admin` and the default password is `admin`.
 
 The Java Virtual Machine (JVM) is rather greedy by default and will not release unused memory to the
 operating system. This is because acquiring memory from the operating system is a relatively expensive operation.
-However, this can be problematic on systems with limited memory.
+This can be problematic on systems with limited memory.
 
 #### Hard limit
 
@@ -76,6 +76,15 @@ See [here](https://docs.oracle.com/en/java/javase/17/gctuning/garbage-first-g1-g
 and [here](https://docs.oracle.com/en/java/javase/17/gctuning/factors-affecting-garbage-collection-performance.html) for
 more
 information.
+
+#### OpenJ9
+
+The [OpenJ9](https://eclipse.dev/openj9/) JVM is a more memory-efficient alternative to the HotSpot JVM, at the cost of
+slightly slower throughput.
+
+IBM provides precompiled binaries for OpenJ9
+named [Semeru](https://developer.ibm.com/languages/java/semeru-runtimes/downloads/).
+This is the JVM used in the [Docker image](https://github.com/Athou/commafeed/blob/master/Dockerfile).
 
 ## Translation
 

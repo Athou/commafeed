@@ -8,5 +8,5 @@ VOLUME /commafeed/data
 COPY commafeed-server/config.yml.example config.yml
 COPY commafeed-server/target/commafeed.jar .
 
-ENV JAVA_TOOL_OPTIONS -Djava.net.preferIPv4Stack=true -Xms20m -XX:+UseG1GC -XX:-ShrinkHeapInSteps -XX:G1PeriodicGCInterval=10000 -XX:-G1PeriodicGCInvokesConcurrent -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10
+ENV JAVA_TOOL_OPTIONS -Djava.net.preferIPv4Stack=true -Xms20m -XX:+UseG1GC -XX:+UseStringDeduplication -XX:-ShrinkHeapInSteps -XX:G1PeriodicGCInterval=10000 -XX:-G1PeriodicGCInvokesConcurrent -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10
 CMD ["java", "-jar", "commafeed.jar", "server", "config.yml"]

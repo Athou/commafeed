@@ -69,7 +69,7 @@ For example, to limit the JVM to 256MB of memory, use `-Xmx256m`.
 
 The JVM can be configured to release unused memory to the operating system with the following parameters:
 
-    -Xms20m -XX:+UseG1GC -XX:-ShrinkHeapInSteps -XX:G1PeriodicGCInterval=10000 -XX:-G1PeriodicGCInvokesConcurrent -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10
+    -Xms20m -XX:+UseG1GC -XX:+UseStringDeduplication -XX:-ShrinkHeapInSteps -XX:G1PeriodicGCInterval=10000 -XX:-G1PeriodicGCInvokesConcurrent -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10
 
 This is how the Docker image is configured.
 See [here](https://docs.oracle.com/en/java/javase/17/gctuning/garbage-first-g1-garbage-collector1.html)

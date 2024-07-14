@@ -45,7 +45,7 @@ public class FeedEntryService {
 		feedEntry.setGuid(FeedUtils.truncate(entry.guid(), 2048));
 		feedEntry.setGuidHash(Digests.sha1Hex(entry.guid()));
 		feedEntry.setUrl(FeedUtils.truncate(entry.url(), 2048));
-		feedEntry.setUpdated(entry.published());
+		feedEntry.setPublished(entry.published());
 		feedEntry.setInserted(Instant.now());
 		feedEntry.setFeed(feed);
 		feedEntry.setContent(feedEntryContentService.findOrCreate(entry.content(), feed.getLink()));
@@ -124,7 +124,7 @@ public class FeedEntryService {
 
 	private void markList(List<FeedEntryStatus> statuses, Instant olderThan, Instant insertedBefore) {
 		List<FeedEntryStatus> statusesToMark = statuses.stream().filter(FeedEntryStatus::isMarkable).filter(s -> {
-			Instant entryDate = s.getEntry().getUpdated();
+			Instant entryDate = s.getEntry().getPublished();
 			return olderThan == null || entryDate == null || entryDate.isBefore(olderThan);
 		}).filter(s -> {
 			Instant insertedDate = s.getEntry().getInserted();

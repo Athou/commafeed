@@ -46,10 +46,9 @@ public class FeedEntry extends AbstractModel {
 	/**
 	 * the moment the entry was published in the feed
 	 * 
-	 * TODO rename the field to published
 	 */
-	@Column
-	private Instant updated;
+	@Column(name = "updated")
+	private Instant published;
 
 	@OneToMany(mappedBy = "entry", cascade = CascadeType.REMOVE)
 	private Set<FeedEntryStatus> statuses;

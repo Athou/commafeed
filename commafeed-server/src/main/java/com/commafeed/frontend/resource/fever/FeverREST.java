@@ -295,7 +295,7 @@ public class FeverREST {
 		i.setUrl(s.getEntry().getUrl());
 		i.setSaved(s.isStarred());
 		i.setRead(s.isRead());
-		i.setCreatedOnTime(s.getEntryUpdated().getEpochSecond());
+		i.setCreatedOnTime(s.getEntryPublished().getEpochSecond());
 		return i;
 	}
 

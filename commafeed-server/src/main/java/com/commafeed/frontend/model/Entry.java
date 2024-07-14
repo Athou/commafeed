@@ -115,7 +115,7 @@ public class Entry implements Serializable {
 		entry.setRead(status.isRead());
 		entry.setStarred(status.isStarred());
 		entry.setMarkable(status.isMarkable());
-		entry.setDate(feedEntry.getUpdated());
+		entry.setDate(feedEntry.getPublished());
 		entry.setInsertedDate(feedEntry.getInserted());
 		entry.setUrl(feedEntry.getUrl());
 		entry.setFeedName(sub.getTitle());

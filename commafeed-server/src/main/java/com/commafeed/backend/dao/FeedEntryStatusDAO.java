@@ -61,7 +61,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	private FeedEntryStatus handleStatus(User user, FeedEntryStatus status, FeedSubscription sub, FeedEntry entry) {
 		if (status == null) {
 			Instant unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
-			boolean read = unreadThreshold != null && entry.getUpdated().isBefore(unreadThreshold);
+			boolean read = unreadThreshold != null && entry.getPublished().isBefore(unreadThreshold);
 			status = new FeedEntryStatus(user, sub, entry);
 			status.setRead(read);
 			status.setMarkable(!read);
@@ -92,9 +92,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 
 		if (order == ReadingOrder.asc) {
-			query.orderBy(STATUS.entryUpdated.asc(), STATUS.id.asc());
+			query.orderBy(STATUS.entryPublished.asc(), STATUS.id.asc());
 		} else {
-			query.orderBy(STATUS.entryUpdated.desc(), STATUS.id.desc());
+			query.orderBy(STATUS.entryPublished.desc(), STATUS.id.desc());
 		}
 
 		if (offset > -1) {
@@ -165,9 +165,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		if (order != null) {
 			if (order == ReadingOrder.asc) {
-				query.orderBy(ENTRY.updated.asc(), ENTRY.id.asc());
+				query.orderBy(ENTRY.published.asc(), ENTRY.id.asc());
 			} else {
-				query.orderBy(ENTRY.updated.desc(), ENTRY.id.desc());
+				query.orderBy(ENTRY.published.desc(), ENTRY.id.desc());
 			}
 		}
 
@@ -199,7 +199,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	}
 
 	public UnreadCount getUnreadCount(FeedSubscription sub) {
-		JPAQuery<Tuple> query = query().select(ENTRY.count(), ENTRY.updated.max())
+		JPAQuery<Tuple> query = query().select(ENTRY.count(), ENTRY.published.max())
 				.from(ENTRY)
 				.leftJoin(ENTRY.statuses, STATUS)
 				.on(STATUS.subscription.eq(sub))
@@ -208,8 +208,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		Tuple tuple = query.fetchOne();
 		Long count = tuple.get(ENTRY.count());
-		Instant updated = tuple.get(ENTRY.updated.max());
-		return new UnreadCount(sub.getId(), count == null ? 0 : count, updated);
+		Instant published = tuple.get(ENTRY.published.max());
+		return new UnreadCount(sub.getId(), count == null ? 0 : count, published);
 	}
 
 	private BooleanBuilder buildUnreadPredicate() {
@@ -219,7 +219,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 		Instant unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
 		if (unreadThreshold != null) {
-			return or.and(ENTRY.updated.goe(unreadThreshold));
+			return or.and(ENTRY.published.goe(unreadThreshold));
 		} else {
 			return or;
 		}

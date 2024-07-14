@@ -50,7 +50,11 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 	 * Delete entries older than a certain date
 	 */
 	public int deleteEntriesOlderThan(Instant olderThan, long max) {
-		List<FeedEntry> list = query().selectFrom(ENTRY).where(ENTRY.updated.lt(olderThan)).orderBy(ENTRY.updated.asc()).limit(max).fetch();
+		List<FeedEntry> list = query().selectFrom(ENTRY)
+				.where(ENTRY.published.lt(olderThan))
+				.orderBy(ENTRY.published.asc())
+				.limit(max)
+				.fetch();
 		return delete(list);
 	}
 
@@ -58,7 +62,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 	 * Delete the oldest entries of a feed
 	 */
 	public int deleteOldEntries(Long feedId, long max) {
-		List<FeedEntry> list = query().selectFrom(ENTRY).where(ENTRY.feed.id.eq(feedId)).orderBy(ENTRY.updated.asc()).limit(max).fetch();
+		List<FeedEntry> list = query().selectFrom(ENTRY).where(ENTRY.feed.id.eq(feedId)).orderBy(ENTRY.published.asc()).limit(max).fetch();
 		return delete(list);
 	}
 

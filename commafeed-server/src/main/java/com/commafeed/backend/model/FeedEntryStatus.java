@@ -50,8 +50,8 @@ public class FeedEntryStatus extends AbstractModel {
 	@Column
 	private Instant entryInserted;
 
-	@Column
-	private Instant entryUpdated;
+	@Column(name = "entryUpdated")
+	private Instant entryPublished;
 
 	public FeedEntryStatus() {
 
@@ -62,7 +62,7 @@ public class FeedEntryStatus extends AbstractModel {
 		this.subscription = subscription;
 		this.entry = entry;
 		this.entryInserted = entry.getInserted();
-		this.entryUpdated = entry.getUpdated();
+		this.entryPublished = entry.getPublished();
 	}
 
 }

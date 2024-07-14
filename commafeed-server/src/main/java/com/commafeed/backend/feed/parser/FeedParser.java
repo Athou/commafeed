@@ -73,7 +73,7 @@ public class FeedParser {
 			String title = feed.getTitle();
 			String link = feed.getLink();
 			List<Entry> entries = buildEntries(feed, feedUrl);
-			Instant lastEntryDate = entries.stream().findFirst().map(Entry::updated).orElse(null);
+			Instant lastEntryDate = entries.stream().findFirst().map(Entry::published).orElse(null);
 			Instant lastPublishedDate = toValidInstant(feed.getPublishedDate(), false);
 			if (lastPublishedDate == null || lastEntryDate != null && lastPublishedDate.isBefore(lastEntryDate)) {
 				lastPublishedDate = lastEntryDate;
@@ -123,13 +123,13 @@ public class FeedParser {
 				url = guid;
 			}
 
-			Instant updated = buildEntryUpdateDate(item);
+			Instant publishedDate = buildEntryPublishedDate(item);
 			Content content = buildContent(item);
 
-			entries.add(new Entry(guid, url, updated, content));
+			entries.add(new Entry(guid, url, publishedDate, content));
 		}
 
-		entries.sort(Comparator.comparing(Entry::updated).reversed());
+		entries.sort(Comparator.comparing(Entry::published).reversed());
 		return entries;
 	}
 
@@ -154,10 +154,10 @@ public class FeedParser {
 		return new Enclosure(enclosure.getUrl(), enclosure.getType());
 	}
 
-	private Instant buildEntryUpdateDate(SyndEntry item) {
-		Date date = item.getUpdatedDate();
+	private Instant buildEntryPublishedDate(SyndEntry item) {
+		Date date = item.getPublishedDate();
 		if (date == null) {
-			date = item.getPublishedDate();
+			date = item.getUpdatedDate();
 		}
 		return toValidInstant(date, true);
 	}
@@ -262,7 +262,7 @@ public class FeedParser {
 
 		SummaryStatistics stats = new SummaryStatistics();
 		for (int i = 0; i < entries.size() - 1; i++) {
-			long diff = Math.abs(entries.get(i).updated().toEpochMilli() - entries.get(i + 1).updated().toEpochMilli());
+			long diff = Math.abs(entries.get(i).published().toEpochMilli() - entries.get(i + 1).published().toEpochMilli());
 			stats.addValue(diff);
 		}
 		return (long) stats.getMean();

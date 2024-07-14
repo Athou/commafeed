@@ -59,7 +59,7 @@ public class FeedRefreshWorker {
 			Integer maxEntriesAgeDays = config.getApplicationSettings().getMaxEntriesAgeDays();
 			if (maxEntriesAgeDays > 0) {
 				Instant threshold = Instant.now().minus(Duration.ofDays(maxEntriesAgeDays));
-				entries = entries.stream().filter(entry -> entry.updated().isAfter(threshold)).toList();
+				entries = entries.stream().filter(entry -> entry.published().isAfter(threshold)).toList();
 			}
 
 			String urlAfterRedirect = result.urlAfterRedirect();

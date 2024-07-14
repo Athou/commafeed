@@ -45,7 +45,7 @@ public class FeedEntryService {
 		feedEntry.setGuid(FeedUtils.truncate(entry.guid(), 2048));
 		feedEntry.setGuidHash(Digests.sha1Hex(entry.guid()));
 		feedEntry.setUrl(FeedUtils.truncate(entry.url(), 2048));
-		feedEntry.setUpdated(entry.updated());
+		feedEntry.setUpdated(entry.published());
 		feedEntry.setInserted(Instant.now());
 		feedEntry.setFeed(feed);
 		feedEntry.setContent(feedEntryContentService.findOrCreate(entry.content(), feed.getLink()));

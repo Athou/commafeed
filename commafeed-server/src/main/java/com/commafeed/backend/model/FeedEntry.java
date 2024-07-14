@@ -37,9 +37,17 @@ public class FeedEntry extends AbstractModel {
 	@Column(length = 2048)
 	private String url;
 
+	/**
+	 * the moment the entry was inserted in the database
+	 */
 	@Column
 	private Instant inserted;
 
+	/**
+	 * the moment the entry was published in the feed
+	 * 
+	 * TODO rename the field to published
+	 */
 	@Column
 	private Instant updated;
 

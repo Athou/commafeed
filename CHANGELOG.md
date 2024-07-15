@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.6.0]
+
+- switched from Temurin to OpenJ9 as the JVM used in the Docker image, resulting in memory usage reduction by up to 50%
+- fix an issue that could cause old entries to reappear if they were updated by their author (#1486)
+- show all entries regardless of their read status when searching with keywords, even if the ui is configured to show
+  unread entries only
+
 ## [4.5.0]
 
 - significantly reduce the time needed to retrieve entries or mark them as read, especially when there are a lot of

@@ -40,7 +40,7 @@ export const loadMoreEntries = createAppAsyncThunk("entries/loadMore", async (_,
 const buildGetEntriesPaginatedRequest = (state: RootState, source: EntrySource, offset: number) => ({
     id: source.type === "tag" ? Constants.categories.all.id : source.id,
     order: state.user.settings?.readingOrder,
-    readType: state.user.settings?.readingMode,
+    readType: state.entries.search ? "all" : state.user.settings?.readingMode,
     offset,
     limit: 50,
     tag: source.type === "tag" ? source.id : undefined,

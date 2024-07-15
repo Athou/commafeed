@@ -14,6 +14,6 @@ COPY commafeed-server/config.yml.example config.yml
 COPY commafeed-server/target/commafeed.jar .
 
 # build openj9 shared classes cache to improve startup time
-RUN sh -c 'java -Xshareclasses -jar commafeed.jar server config.docker-warmup.yml &' ; wait-for-it -t 120 localhost:8088 -- pkill java ; rm -rf config.warmup.yml
+RUN sh -c 'java -Xshareclasses -jar commafeed.jar server config.docker-warmup.yml &' ; wait-for-it -t 600 localhost:8088 -- pkill java ; rm -rf config.warmup.yml
 
 CMD ["java", "-Xshareclasses", "-jar", "commafeed.jar", "server", "config.yml"]

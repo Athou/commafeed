@@ -3,4 +3,6 @@
 
 # allow only what we need
 !commafeed-server/target/commafeed.jar
+!commafeed-server/config.docker-warmup.yml
 !commafeed-server/config.yml.example
+

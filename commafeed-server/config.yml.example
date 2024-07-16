@@ -73,6 +73,9 @@ app:
   # limit the number of feeds a user can subscribe to, 0 to disable
   maxFeedsPerUser: 0
 
+  # don't parse feeds that are too large to prevent memory issues
+  maxFeedResponseSize: 5M
+
   # cache service to use, possible values are 'noop' and 'redis'
   cache: noop
 

@@ -1,6 +1,7 @@
 package com.commafeed.backend;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,6 @@ import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.NameValuePair;
-import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.message.BasicHeader;
 import org.apache.hc.core5.util.TimeValue;
@@ -29,8 +29,10 @@ import org.eclipse.jetty.http.HttpStatus;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.google.common.collect.Iterables;
+import com.google.common.io.ByteStreams;
 import com.google.common.net.HttpHeaders;
 
+import io.dropwizard.util.DataSize;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.Getter;
@@ -41,19 +43,20 @@ import nl.altindag.ssl.apache5.util.Apache5SslUtils;
 
 /**
  * Smart HTTP getter: handles gzip, ssl, last modified and etag headers
- *
  */
 @Singleton
 @Slf4j
 public class HttpGetter {
 
 	private final CloseableHttpClient client;
+	private final DataSize maxResponseSize;
 
 	@Inject
 	public HttpGetter(CommaFeedConfiguration config) {
 		String userAgent = Optional.ofNullable(config.getApplicationSettings().getUserAgent())
 				.orElseGet(() -> String.format("CommaFeed/%s (https://github.com/Athou/commafeed)", config.getVersion()));
 		this.client = newClient(userAgent, config.getApplicationSettings().getBackgroundThreads());
+		this.maxResponseSize = config.getApplicationSettings().getMaxFeedResponseSize();
 	}
 
 	public HttpResult getBinary(String url, int timeout) throws IOException, NotModifiedException {
@@ -61,7 +64,6 @@ public class HttpGetter {
 	}
 
 	/**
-	 *
 	 * @param url
 	 *            the url to retrive
 	 * @param lastModified
@@ -87,6 +89,7 @@ public class HttpGetter {
 		context.setRequestConfig(RequestConfig.custom().setResponseTimeout(timeout, TimeUnit.MILLISECONDS).build());
 
 		HttpResponse response = client.execute(request, context, resp -> {
+			byte[] content = resp.getEntity() == null ? null : toByteArray(resp.getEntity(), maxResponseSize.toBytes());
 			int code = resp.getCode();
 			String lastModifiedHeader = Optional.ofNullable(resp.getFirstHeader(HttpHeaders.LAST_MODIFIED))
 					.map(NameValuePair::getValue)
@@ -97,7 +100,6 @@ public class HttpGetter {
 					.map(StringUtils::trimToNull)
 					.orElse(null);
 
-			byte[] content = resp.getEntity() == null ? null : EntityUtils.toByteArray(resp.getEntity());
 			String contentType = Optional.ofNullable(resp.getEntity()).map(HttpEntity::getContentType).orElse(null);
 			String urlAfterRedirect = Optional.ofNullable(context.getRedirectLocations())
 					.map(RedirectLocations::getAll)
@@ -128,6 +130,25 @@ public class HttpGetter {
 		long duration = System.currentTimeMillis() - start;
 		return new HttpResult(response.getContent(), response.getContentType(), lastModifiedHeader, eTagHeader, duration,
 				response.getUrlAfterRedirect());
+	}
+
+	private static byte[] toByteArray(HttpEntity entity, long maxBytes) throws IOException {
+		if (entity.getContentLength() > maxBytes) {
+			throw new IOException(
+					"Response size (%s bytes) exceeds the maximum allowed size (%s bytes)".formatted(entity.getContentLength(), maxBytes));
+		}
+
+		try (InputStream input = entity.getContent()) {
+			if (input == null) {
+				return null;
+			}
+
+			byte[] bytes = ByteStreams.limit(input, maxBytes).readAllBytes();
+			if (bytes.length == maxBytes) {
+				throw new IOException("Response size exceeds the maximum allowed size (%s bytes)".formatted(maxBytes));
+			}
+			return bytes;
+		}
 	}
 
 	private static CloseableHttpClient newClient(String userAgent, int poolSize) {

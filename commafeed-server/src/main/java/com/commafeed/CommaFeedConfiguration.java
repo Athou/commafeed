@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.dropwizard.core.Configuration;
 import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.util.DataSize;
 import io.dropwizard.util.Duration;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -153,6 +154,10 @@ public class CommaFeedConfiguration extends Configuration {
 		@NotNull
 		@Valid
 		private Integer maxFeedsPerUser = 0;
+
+		@NotNull
+		@Valid
+		private DataSize maxFeedResponseSize = DataSize.megabytes(5);
 
 		@NotNull
 		@Min(0)

@@ -2,6 +2,7 @@ package com.commafeed.backend;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,6 +29,8 @@ import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.google.common.net.HttpHeaders;
 
+import io.dropwizard.util.DataSize;
+
 @ExtendWith(MockServerExtension.class)
 class HttpGetterTest {
 
@@ -48,6 +51,7 @@ class HttpGetterTest {
 		ApplicationSettings settings = new ApplicationSettings();
 		settings.setUserAgent("http-getter-test");
 		settings.setBackgroundThreads(3);
+		settings.setMaxFeedResponseSize(DataSize.kilobytes(1));
 
 		CommaFeedConfiguration config = new CommaFeedConfiguration();
 		config.setApplicationSettings(settings);
@@ -167,6 +171,16 @@ class HttpGetterTest {
 		Assertions.assertDoesNotThrow(() -> getter.getBinary(this.feedUrl, TIMEOUT));
 		Assertions.assertDoesNotThrow(() -> getter.getBinary(this.feedUrl, TIMEOUT));
 		Assertions.assertEquals(2, calls.get());
+	}
+
+	@Test
+	void largeFeedWithContentLengthHeader() {
+		byte[] bytes = new byte[(int) DataSize.kilobytes(10).toBytes()];
+		Arrays.fill(bytes, (byte) 1);
+		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(HttpResponse.response().withBody(bytes));
+
+		IOException e = Assertions.assertThrows(IOException.class, () -> getter.getBinary(this.feedUrl, TIMEOUT));
+		Assertions.assertEquals("Response size (10000 bytes) exceeds the maximum allowed size (1000 bytes)", e.getMessage());
 	}
 
 }

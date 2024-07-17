@@ -16,7 +16,7 @@
 		<querydsl.version>6.5</querydsl.version>
 		<rome.version>2.1.0</rome.version>
 
-		<testcontainers.version>1.19.8</testcontainers.version>
+		<testcontainers.version>1.20.0</testcontainers.version>
 		<!-- renovate: datasource=docker depName=postgres -->
 		<postgresql.image.version>16.3</postgresql.image.version>
 		<!-- renovate: datasource=docker depName=mysql -->

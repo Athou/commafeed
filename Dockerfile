@@ -1,4 +1,4 @@
-FROM ibm-semeru-runtimes:open-21.0.2_13-jre
+FROM ibm-semeru-runtimes:open-21.0.3_9-jre
 
 EXPOSE 8082
 

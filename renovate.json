@@ -18,6 +18,12 @@
     {
       "matchManagers": "npm",
       "rangeStrategy": "bump"
+    },
+    {
+      "matchDatasources": "docker",
+      "matchPackageNames": "ibm-semeru-runtimes",
+      "versioning": "regex:^open-(?<major>\\d+)?(\\.(?<minor>\\d+))?(\\.(?<patch>\\d+))?([\\._+](?<build>(\\d\\.?)+))?(-(?<compatibility>.*))?$",
+      "allowedVersions": "/^open-(?:8|11|17|21)(?:\\.|-|$)/"
     }
   ]
 }

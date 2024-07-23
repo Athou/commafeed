@@ -20,7 +20,7 @@
 		<!-- renovate: datasource=docker depName=postgres -->
 		<postgresql.image.version>16.3</postgresql.image.version>
 		<!-- renovate: datasource=docker depName=mysql -->
-		<mysql.image.version>9.0.0</mysql.image.version>
+		<mysql.image.version>9.0.1</mysql.image.version>
 		<!-- renovate: datasource=docker depName=mariadb -->
 		<mariadb.image.version>11.4.2</mariadb.image.version>
 		<!-- renovate: datasource=docker depName=redis -->

@@ -17,6 +17,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.junit.jupiter.MockServerExtension;
+import org.mockserver.model.ConnectionOptions;
 import org.mockserver.model.Delay;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -51,7 +52,7 @@ class HttpGetterTest {
 		ApplicationSettings settings = new ApplicationSettings();
 		settings.setUserAgent("http-getter-test");
 		settings.setBackgroundThreads(3);
-		settings.setMaxFeedResponseSize(DataSize.kilobytes(1));
+		settings.setMaxFeedResponseSize(DataSize.kilobytes(10));
 
 		CommaFeedConfiguration config = new CommaFeedConfiguration();
 		config.setApplicationSettings(settings);
@@ -175,12 +176,25 @@ class HttpGetterTest {
 
 	@Test
 	void largeFeedWithContentLengthHeader() {
-		byte[] bytes = new byte[(int) DataSize.kilobytes(10).toBytes()];
+		byte[] bytes = new byte[(int) DataSize.kilobytes(100).toBytes()];
 		Arrays.fill(bytes, (byte) 1);
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(HttpResponse.response().withBody(bytes));
 
 		IOException e = Assertions.assertThrows(IOException.class, () -> getter.getBinary(this.feedUrl, TIMEOUT));
-		Assertions.assertEquals("Response size (10000 bytes) exceeds the maximum allowed size (1000 bytes)", e.getMessage());
+		Assertions.assertEquals("Response size (100000 bytes) exceeds the maximum allowed size (10000 bytes)", e.getMessage());
+	}
+
+	@Test
+	void largeFeedWithoutContentLengthHeader() {
+		byte[] bytes = new byte[(int) DataSize.kilobytes(100).toBytes()];
+		Arrays.fill(bytes, (byte) 1);
+		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
+				.respond(HttpResponse.response()
+						.withBody(bytes)
+						.withConnectionOptions(ConnectionOptions.connectionOptions().withSuppressContentLengthHeader(true)));
+
+		IOException e = Assertions.assertThrows(IOException.class, () -> getter.getBinary(this.feedUrl, TIMEOUT));
+		Assertions.assertEquals("Response size exceeds the maximum allowed size (10000 bytes)", e.getMessage());
 	}
 
 }

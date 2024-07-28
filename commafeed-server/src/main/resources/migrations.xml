@@ -8,7 +8,7 @@
 
 	<!-- liquibase uses the 'TIMESTAMP WITHOUT TIME ZONE' type by default, which is not a UTC timestamp -->
 	<!-- postgresql UTC timestamp is actually 'TIMESTAMP WITH TIME ZONE' -->
-	<!-- see https://stackoverflow.com/a/48069726/1885506 -->
+	<!-- see https://stackoverflow.com/a/48069726 -->
 	<property name="timestamp_type" value="timestamp with time zone" dbms="postgresql" />
 	<property name="timestamp_type" value="timestamp" dbms="h2,mysql,mariadb,mssql" />
 

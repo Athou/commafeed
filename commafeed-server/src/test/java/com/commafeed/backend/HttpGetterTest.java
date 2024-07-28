@@ -126,7 +126,7 @@ class HttpGetterTest {
 	@Test
 	void connectTimeout() {
 		// try to connect to a non-routable address
-		// https://stackoverflow.com/a/904609/1885506
+		// https://stackoverflow.com/a/904609
 		Assertions.assertThrows(ConnectTimeoutException.class, () -> getter.getBinary("http://10.255.255.1", 2000));
 	}
 

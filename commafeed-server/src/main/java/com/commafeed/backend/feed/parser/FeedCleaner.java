@@ -38,7 +38,7 @@ class FeedCleaner {
 		return sb.toString();
 	}
 
-	// https://stackoverflow.com/a/40836618/1885506
+	// https://stackoverflow.com/a/40836618
 	public String replaceHtmlEntitiesWithNumericEntities(String source) {
 		// Create a buffer sufficiently large that re-allocations are minimized.
 		StringBuilder sb = new StringBuilder(source.length() << 1);

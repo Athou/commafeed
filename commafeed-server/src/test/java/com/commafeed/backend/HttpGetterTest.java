@@ -197,4 +197,13 @@ class HttpGetterTest {
 		Assertions.assertEquals("Response size exceeds the maximum allowed size (10000 bytes)", e.getMessage());
 	}
 
+	@Test
+	void ignoreInvalidSsl() throws Exception {
+		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(HttpResponse.response().withBody("ok"));
+
+		HttpResult result = getter.getBinary("https://localhost:" + this.mockServerClient.getPort(), TIMEOUT);
+		Assertions.assertEquals("ok", new String(result.getContent()));
+	}
+
+
 }

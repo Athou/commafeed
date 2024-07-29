@@ -15,6 +15,7 @@
 		<guice.version>7.0.0</guice.version>
 		<querydsl.version>6.5</querydsl.version>
 		<rome.version>2.1.0</rome.version>
+		<bouncycastle.version>1.77</bouncycastle.version>
 
 		<testcontainers.version>1.20.0</testcontainers.version>
 		<!-- renovate: datasource=docker depName=postgres -->
@@ -463,12 +464,28 @@
 			<artifactId>mockito-junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.mock-server</groupId>
 			<artifactId>mockserver-junit-jupiter</artifactId>
 			<version>5.15.0</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- dropwizard pulls a version of bouncycastle different than the one pulled by mockserver, causing NoSuchFieldError on BCObjectIdentifiers.sphincsPlus_shake_256 -->
+		<!-- bouncycastle is required by mockserver to generate a self-signed certificate dynamically when https is used -->
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk18on</artifactId>
+			<version>${bouncycastle.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk18on</artifactId>
+			<version>${bouncycastle.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>com.icegreen</groupId>
 			<artifactId>greenmail-junit5</artifactId>

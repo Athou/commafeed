@@ -175,6 +175,23 @@ class HttpGetterTest {
 	}
 
 	@Test
+	void supportsCompression() {
+		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {
+			String acceptEncodingHeader = req.getFirstHeader(HttpHeaders.ACCEPT_ENCODING);
+			if (!acceptEncodingHeader.contains("deflate")) {
+				throw new Exception("deflate should be in the Accept-Encoding header");
+			}
+			if (!acceptEncodingHeader.contains("gzip")) {
+				throw new Exception("gzip should be in the Accept-Encoding header");
+			}
+
+			return HttpResponse.response().withBody("ok");
+		});
+
+		Assertions.assertDoesNotThrow(() -> getter.getBinary(this.feedUrl, TIMEOUT));
+	}
+
+	@Test
 	void largeFeedWithContentLengthHeader() {
 		byte[] bytes = new byte[(int) DataSize.kilobytes(100).toBytes()];
 		Arrays.fill(bytes, (byte) 1);

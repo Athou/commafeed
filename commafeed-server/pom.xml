@@ -17,7 +17,7 @@
 		<rome.version>2.1.0</rome.version>
 		<bouncycastle.version>1.78.1</bouncycastle.version>
 
-		<testcontainers.version>1.20.0</testcontainers.version>
+		<testcontainers.version>1.20.1</testcontainers.version>
 		<!-- renovate: datasource=docker depName=postgres -->
 		<postgresql.image.version>16.3</postgresql.image.version>
 		<!-- renovate: datasource=docker depName=mysql -->

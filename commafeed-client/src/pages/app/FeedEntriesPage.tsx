@@ -80,7 +80,7 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
     if (noSubscriptions) return <NoSubscriptionHelp />
     return (
         // add some room at the bottom of the page in order to be able to scroll the current entry at the top of the page when expanding
-        <Box mb={viewport.height * 0.75}>
+        <Box mb={viewport.height * 0.7}>
             <Group gap="xl">
                 {sourceWebsiteUrl && (
                     <a href={sourceWebsiteUrl} target="_blank" rel="noreferrer" className={classes.sourceWebsiteLink}>

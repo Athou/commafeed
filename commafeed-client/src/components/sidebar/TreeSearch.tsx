@@ -1,6 +1,5 @@
 import { Trans, t } from "@lingui/macro"
-import { Box, Center, Kbd, TextInput } from "@mantine/core"
-import { useOs } from "@mantine/hooks"
+import { TextInput } from "@mantine/core"
 import { Spotlight, type SpotlightActionData, spotlight } from "@mantine/spotlight"
 import { redirectToFeed } from "app/redirect/thunks"
 import { useAppDispatch } from "app/store"
@@ -15,7 +14,6 @@ export interface TreeSearchProps {
 
 export function TreeSearch(props: TreeSearchProps) {
     const dispatch = useAppDispatch()
-    const isMacOS = useOs() === "macos"
     const actions: SpotlightActionData[] = props.feeds
         .map(f => ({
             id: `${f.id}`,
@@ -26,13 +24,6 @@ export function TreeSearch(props: TreeSearchProps) {
         .sort((f1, f2) => f1.label.localeCompare(f2.label))
 
     const searchIcon = <TbSearch size={18} />
-    const rightSection = (
-        <Center style={{ cursor: "pointer" }} onClick={() => spotlight.open()}>
-            <Kbd>{isMacOS ? "Cmd" : "Ctrl"}</Kbd>
-            <Box mx={5}>+</Box>
-            <Kbd>K</Kbd>
-        </Center>
-    )
 
     // additional keyboard shortcut used by commafeed v1
     useMousetrap("g u", () => spotlight.open())
@@ -43,7 +34,6 @@ export function TreeSearch(props: TreeSearchProps) {
                 placeholder={t`Search`}
                 leftSection={searchIcon}
                 rightSectionWidth={100}
-                rightSection={rightSection}
                 styles={{
                     input: {
                         cursor: "pointer",

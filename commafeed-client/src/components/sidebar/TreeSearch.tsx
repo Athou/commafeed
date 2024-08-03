@@ -1,4 +1,5 @@
-import { Trans, t } from "@lingui/macro"
+import { Trans, msg } from "@lingui/macro"
+import { useLingui } from "@lingui/react"
 import { TextInput } from "@mantine/core"
 import { Spotlight, type SpotlightActionData, spotlight } from "@mantine/spotlight"
 import { redirectToFeed } from "app/redirect/thunks"
@@ -14,6 +15,8 @@ export interface TreeSearchProps {
 
 export function TreeSearch(props: TreeSearchProps) {
     const dispatch = useAppDispatch()
+    const { _ } = useLingui()
+
     const actions: SpotlightActionData[] = props.feeds
         .map(f => ({
             id: `${f.id}`,
@@ -31,7 +34,7 @@ export function TreeSearch(props: TreeSearchProps) {
     return (
         <>
             <TextInput
-                placeholder={t`Search`}
+                placeholder={_(msg`Search`)}
                 leftSection={searchIcon}
                 rightSectionWidth={100}
                 styles={{
@@ -50,7 +53,7 @@ export function TreeSearch(props: TreeSearchProps) {
                 shortcut="mod+k"
                 searchProps={{
                     leftSection: searchIcon,
-                    placeholder: t`Search`,
+                    placeholder: _(msg`Search`),
                 }}
                 nothingFound={<Trans>Nothing found</Trans>}
             />

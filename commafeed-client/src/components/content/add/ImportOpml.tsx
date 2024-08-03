@@ -1,4 +1,5 @@
-import { Trans, t } from "@lingui/macro"
+import { Trans, msg } from "@lingui/macro"
+import { useLingui } from "@lingui/react"
 import { Box, Button, FileInput, Group, Stack } from "@mantine/core"
 import { isNotEmpty, useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
@@ -11,10 +12,11 @@ import { TbFileImport } from "react-icons/tb"
 
 export function ImportOpml() {
     const dispatch = useAppDispatch()
+    const { _ } = useLingui()
 
     const form = useForm<{ file: File }>({
         validate: {
-            file: isNotEmpty(t`OPML file is required`),
+            file: isNotEmpty(_(msg`OPML file is required`)),
         },
     })
 
@@ -38,7 +40,7 @@ export function ImportOpml() {
                     <FileInput
                         label={<Trans>OPML file</Trans>}
                         leftSection={<TbFileImport />}
-                        placeholder={t`OPML file`}
+                        placeholder={_(msg`OPML file`)}
                         description={
                             <Trans>
                                 An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your

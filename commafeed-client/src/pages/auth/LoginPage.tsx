@@ -1,4 +1,5 @@
-import { Trans, t } from "@lingui/macro"
+import { Trans, msg } from "@lingui/macro"
+import { useLingui } from "@lingui/react"
 import { Anchor, Box, Button, Center, Container, Group, Paper, PasswordInput, Stack, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
@@ -13,6 +14,7 @@ import { Link } from "react-router-dom"
 export function LoginPage() {
     const serverInfos = useAppSelector(state => state.server.serverInfos)
     const dispatch = useAppDispatch()
+    const { _ } = useLingui()
 
     const form = useForm<LoginRequest>({
         initialValues: {
@@ -43,7 +45,7 @@ export function LoginPage() {
                     <Stack>
                         <TextInput
                             label={<Trans>User Name or E-mail</Trans>}
-                            placeholder={t`User Name or E-mail`}
+                            placeholder={_(msg`User Name or E-mail`)}
                             {...form.getInputProps("name")}
                             description={
                                 serverInfos?.demoAccountEnabled ? <Trans>Try out CommaFeed with the demo account: demo/demo</Trans> : ""
@@ -54,7 +56,7 @@ export function LoginPage() {
                         />
                         <PasswordInput
                             label={<Trans>Password</Trans>}
-                            placeholder={t`Password`}
+                            placeholder={_(msg`Password`)}
                             {...form.getInputProps("password")}
                             size="md"
                             required

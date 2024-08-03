@@ -1,4 +1,5 @@
-import { t } from "@lingui/macro"
+import { msg } from "@lingui/macro"
+import { useLingui } from "@lingui/react"
 import { useAppSelector } from "app/store"
 
 interface Step {
@@ -11,22 +12,23 @@ export const useAppLoading = () => {
     const settings = useAppSelector(state => state.user.settings)
     const rootCategory = useAppSelector(state => state.tree.rootCategory)
     const tags = useAppSelector(state => state.user.tags)
+    const { _ } = useLingui()
 
     const steps: Step[] = [
         {
-            label: t`Loading settings...`,
+            label: _(msg`Loading settings...`),
             done: !!settings,
         },
         {
-            label: t`Loading profile...`,
+            label: _(msg`Loading profile...`),
             done: !!profile,
         },
         {
-            label: t`Loading subscriptions...`,
+            label: _(msg`Loading subscriptions...`),
             done: !!rootCategory,
         },
         {
-            label: t`Loading tags...`,
+            label: _(msg`Loading tags...`),
             done: !!tags,
         },
     ]

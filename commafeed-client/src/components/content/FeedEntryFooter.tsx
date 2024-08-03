@@ -1,4 +1,5 @@
-import { msg, t } from "@lingui/macro"
+import { msg } from "@lingui/macro"
+import { useLingui } from "@lingui/react"
 import { Group, Indicator, Popover, TagsInput } from "@mantine/core"
 import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "app/entries/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -18,6 +19,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
     const mobile = useMobile()
     const { spacing } = useActionButton()
     const dispatch = useAppDispatch()
+    const { _ } = useLingui()
 
     const readStatusButtonClicked = async () =>
         await dispatch(
@@ -75,7 +77,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                         </Popover.Target>
                         <Popover.Dropdown>
                             <TagsInput
-                                placeholder={t`Tags`}
+                                placeholder={_(msg`Tags`)}
                                 data={tags}
                                 value={props.entry.tags}
                                 onChange={onTagsChange}

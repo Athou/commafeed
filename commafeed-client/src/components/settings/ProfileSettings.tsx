@@ -1,4 +1,5 @@
-import { Trans, t } from "@lingui/macro"
+import { Trans, msg } from "@lingui/macro"
+import { useLingui } from "@lingui/react"
 import { Anchor, Box, Button, Checkbox, Divider, Group, Input, PasswordInput, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
@@ -19,10 +20,11 @@ interface FormData extends ProfileModificationRequest {
 export function ProfileSettings() {
     const profile = useAppSelector(state => state.user.profile)
     const dispatch = useAppDispatch()
+    const { _ } = useLingui()
 
     const form = useForm<FormData>({
         validate: {
-            newPasswordConfirmation: (value, values) => (value !== values.newPassword ? t`Passwords do not match` : null),
+            newPasswordConfirmation: (value, values) => (value !== values.newPassword ? _(msg`Passwords do not match`) : null),
         },
     })
     const { setValues } = form

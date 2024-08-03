@@ -1,4 +1,5 @@
-import { Trans, t } from "@lingui/macro"
+import { Trans, msg } from "@lingui/macro"
+import { useLingui } from "@lingui/react"
 import { Box, Button, Group, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
@@ -13,6 +14,7 @@ import { CategorySelect } from "./CategorySelect"
 
 export function AddCategory() {
     const dispatch = useAppDispatch()
+    const { _ } = useLingui()
 
     const form = useForm<AddCategoryRequest>()
 
@@ -33,7 +35,7 @@ export function AddCategory() {
 
             <form onSubmit={form.onSubmit(addCategory.execute)}>
                 <Stack>
-                    <TextInput label={<Trans>Category</Trans>} placeholder={t`Category`} {...form.getInputProps("name")} required />
+                    <TextInput label={<Trans>Category</Trans>} placeholder={_(msg`Category`)} {...form.getInputProps("name")} required />
                     <CategorySelect label={<Trans>Parent</Trans>} {...form.getInputProps("parentId")} clearable />
                     <Group justify="center">
                         <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>

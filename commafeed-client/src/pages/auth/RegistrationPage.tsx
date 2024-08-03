@@ -1,4 +1,5 @@
-import { Trans, t } from "@lingui/macro"
+import { Trans, msg } from "@lingui/macro"
+import { useLingui } from "@lingui/react"
 import { Anchor, Box, Button, Center, Container, Group, Paper, PasswordInput, Stack, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
@@ -13,6 +14,7 @@ import { Link } from "react-router-dom"
 export function RegistrationPage() {
     const serverInfos = useAppSelector(state => state.server.serverInfos)
     const dispatch = useAppDispatch()
+    const { _ } = useLingui()
 
     const form = useForm<RegistrationRequest>({
         initialValues: {
@@ -37,7 +39,7 @@ export function RegistrationPage() {
                 </Title>
                 {serverInfos && !serverInfos.allowRegistrations && (
                     <Box mb="md">
-                        <Alert messages={[t`Registrations are closed on this CommaFeed instance`]} />
+                        <Alert messages={[_(msg`Registrations are closed on this CommaFeed instance`)]} />
                     </Box>
                 )}
                 {serverInfos?.allowRegistrations && (
@@ -54,14 +56,14 @@ export function RegistrationPage() {
                                 <TextInput
                                     type="email"
                                     label={<Trans>E-mail address</Trans>}
-                                    placeholder={t`E-mail address`}
+                                    placeholder={_(msg`E-mail address`)}
                                     {...form.getInputProps("email")}
                                     size="md"
                                     required
                                 />
                                 <PasswordInput
                                     label={<Trans>Password</Trans>}
-                                    placeholder={t`Password`}
+                                    placeholder={_(msg`Password`)}
                                     {...form.getInputProps("password")}
                                     size="md"
                                     required

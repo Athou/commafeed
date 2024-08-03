@@ -1,4 +1,5 @@
-import { t } from "@lingui/macro"
+import { msg } from "@lingui/macro"
+import { useLingui } from "@lingui/react"
 import { Select, type SelectProps } from "@mantine/core"
 import type { ComboboxItem } from "@mantine/core/lib/components/Combobox/Combobox.types"
 import { Constants } from "app/constants"
@@ -13,6 +14,8 @@ type CategorySelectProps = Partial<SelectProps> & {
 
 export function CategorySelect(props: CategorySelectProps) {
     const rootCategory = useAppSelector(state => state.tree.rootCategory)
+    const { _ } = useLingui()
+
     const categories = rootCategory && flattenCategoryTree(rootCategory)
     const categoriesById = categories?.reduce((map, c) => {
         map.set(c.id, c)
@@ -43,7 +46,7 @@ export function CategorySelect(props: CategorySelectProps) {
         .sort((c1, c2) => c1.label.localeCompare(c2.label))
     if (props.withAll) {
         selectData?.unshift({
-            label: t`All`,
+            label: _(msg`All`),
             value: Constants.categories.all.id,
         })
     }

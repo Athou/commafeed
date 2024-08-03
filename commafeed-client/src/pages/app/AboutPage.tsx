@@ -1,4 +1,5 @@
-import { Trans, t } from "@lingui/macro"
+import { Trans, msg } from "@lingui/macro"
+import { useLingui } from "@lingui/react"
 import { Anchor, Box, Container, List, NativeSelect, SimpleGrid, Title } from "@mantine/core"
 import { Constants } from "app/constants"
 import { redirectToApiDocumentation } from "app/redirect/thunks"
@@ -36,6 +37,8 @@ function Section(props: { title: React.ReactNode; icon: React.ReactNode; childre
 function NextUnreadBookmarklet() {
     const [categoryId, setCategoryId] = useState(Constants.categories.all.id)
     const [order, setOrder] = useState("desc")
+    const { _ } = useLingui()
+
     const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf("#"))
     const href = `javascript:window.location.href='${baseUrl}next?category=${categoryId}&order=${order}&t='+new Date().getTime();`
 
@@ -44,8 +47,8 @@ function NextUnreadBookmarklet() {
             <CategorySelect value={categoryId} onChange={c => c && setCategoryId(c)} withAll description={<Trans>Category</Trans>} />
             <NativeSelect
                 data={[
-                    { value: "desc", label: t`Newest first` },
-                    { value: "asc", label: t`Oldest first` },
+                    { value: "desc", label: _(msg`Newest first`) },
+                    { value: "asc", label: _(msg`Oldest first`) },
                 ]}
                 value={order}
                 onChange={e => setOrder(e.target.value)}

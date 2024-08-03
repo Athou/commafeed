@@ -1,4 +1,5 @@
-import { Trans, t } from "@lingui/macro"
+import { Trans, msg } from "@lingui/macro"
+import { useLingui } from "@lingui/react"
 import { Anchor, Box, Button, Center, Container, Group, Paper, Stack, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
@@ -11,6 +12,7 @@ import { Link } from "react-router-dom"
 
 export function PasswordRecoveryPage() {
     const [message, setMessage] = useState("")
+    const { _ } = useLingui()
 
     const form = useForm<PasswordResetRequest>({
         initialValues: {
@@ -20,7 +22,7 @@ export function PasswordRecoveryPage() {
 
     const recoverPassword = useAsyncCallback(client.user.passwordReset, {
         onSuccess: () => {
-            setMessage(t`An email has been sent if this address was registered. Check your inbox.`)
+            setMessage(_(msg`An email has been sent if this address was registered. Check your inbox.`))
         },
     })
 
@@ -54,7 +56,7 @@ export function PasswordRecoveryPage() {
                         <TextInput
                             type="email"
                             label={<Trans>E-mail</Trans>}
-                            placeholder={t`E-mail`}
+                            placeholder={_(msg`E-mail`)}
                             {...form.getInputProps("email")}
                             size="md"
                             required

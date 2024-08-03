@@ -1,4 +1,5 @@
-import { Trans, t } from "@lingui/macro"
+import { Trans, msg } from "@lingui/macro"
+import { useLingui } from "@lingui/react"
 import { Divider, Group, Radio, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
 import type { ComboboxData } from "@mantine/core/lib/components/Combobox/Combobox.types"
 import { Constants } from "app/constants"
@@ -33,6 +34,7 @@ export function DisplaySettings() {
     const mobileFooter = useAppSelector(state => state.user.settings?.mobileFooter)
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const dispatch = useAppDispatch()
+    const { _ } = useLingui()
 
     const scrollModeOptions: Record<ScrollMode, ReactNode> = {
         always: <Trans>Always</Trans>,
@@ -43,19 +45,19 @@ export function DisplaySettings() {
     const displayModeData: ComboboxData = [
         {
             value: "always",
-            label: t`Always`,
+            label: _(msg`Always`),
         },
         {
             value: "on_desktop",
-            label: t`On desktop`,
+            label: _(msg`On desktop`),
         },
         {
             value: "on_mobile",
-            label: t`On mobile`,
+            label: _(msg`On mobile`),
         },
         {
             value: "never",
-            label: t`Never`,
+            label: _(msg`Never`),
         },
     ]
 

@@ -1,4 +1,5 @@
-import { msg, t } from "@lingui/macro"
+import { msg } from "@lingui/macro"
+import { useLingui } from "@lingui/react"
 import { Box, Center, CloseButton, Divider, Group, Indicator, Popover, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { reloadEntries, search, selectNextEntry, selectPreviousEntry } from "app/entries/thunks"
@@ -57,10 +58,11 @@ export function Header() {
     const searchFromStore = useAppSelector(state => state.entries.search)
     const { isBrowserExtensionPopup, openSettingsPage, openAppInNewTab } = useBrowserExtension()
     const dispatch = useAppDispatch()
+    const { _ } = useLingui()
 
     const searchForm = useForm<{ search: string }>({
         validate: {
-            search: value => (value.length > 0 && value.length < 3 ? t`Search requires at least 3 characters` : null),
+            search: value => (value.length > 0 && value.length < 3 ? _(msg`Search requires at least 3 characters`) : null),
         },
     })
     const { setValues } = searchForm
@@ -133,7 +135,7 @@ export function Header() {
                     <Popover.Dropdown>
                         <form onSubmit={searchForm.onSubmit(async values => await dispatch(search(values.search)))}>
                             <TextInput
-                                placeholder={t`Search`}
+                                placeholder={_(msg`Search`)}
                                 {...searchForm.getInputProps("search")}
                                 leftSection={<TbSearch size={iconSize} />}
                                 rightSection={<CloseButton onClick={async () => await (searchFromStore && dispatch(search("")))} />}

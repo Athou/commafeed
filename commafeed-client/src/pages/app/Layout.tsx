@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro"
+import { msg } from "@lingui/macro"
 import { ActionIcon, AppShell, Box, Center, Group, ScrollArea, Title, useMantineTheme } from "@mantine/core"
 import { Constants } from "app/constants"
 import { redirectToAdd, redirectToRootCategory } from "app/redirect/thunks"
@@ -101,7 +101,7 @@ export default function Layout(props: LayoutProps) {
 
     const burger = (
         <ActionButton
-            label={mobileMenuOpen ? <Trans>Close menu</Trans> : <Trans>Open menu</Trans>}
+            label={mobileMenuOpen ? msg`Close menu` : msg`Open menu`}
             icon={mobileMenuOpen ? <TbX size={18} /> : <TbMenu2 size={18} />}
             onClick={() => dispatch(setMobileMenuOpen(!mobileMenuOpen))}
         />

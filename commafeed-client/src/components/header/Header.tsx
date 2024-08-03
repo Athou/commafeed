@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro"
+import { msg, t } from "@lingui/macro"
 import { Box, Center, CloseButton, Divider, Group, Indicator, Popover, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { reloadEntries, search, selectNextEntry, selectPreviousEntry } from "app/entries/thunks"
@@ -77,7 +77,7 @@ export function Header() {
             <HeaderToolbar>
                 <ActionButton
                     icon={<TbArrowUp size={iconSize} />}
-                    label={<Trans>Previous</Trans>}
+                    label={msg`Previous`}
                     onClick={async () =>
                         await dispatch(
                             selectPreviousEntry({
@@ -90,7 +90,7 @@ export function Header() {
                 />
                 <ActionButton
                     icon={<TbArrowDown size={iconSize} />}
-                    label={<Trans>Next</Trans>}
+                    label={msg`Next`}
                     onClick={async () =>
                         await dispatch(
                             selectNextEntry({
@@ -106,7 +106,7 @@ export function Header() {
 
                 <ActionButton
                     icon={<TbRefresh size={iconSize} />}
-                    label={<Trans>Refresh</Trans>}
+                    label={msg`Refresh`}
                     onClick={async () => await dispatch(reloadEntries())}
                 />
                 <MarkAllAsReadButton iconSize={iconSize} />
@@ -115,19 +115,19 @@ export function Header() {
 
                 <ActionButton
                     icon={settings.readingMode === "all" ? <TbEye size={iconSize} /> : <TbEyeOff size={iconSize} />}
-                    label={settings.readingMode === "all" ? <Trans>All</Trans> : <Trans>Unread</Trans>}
+                    label={settings.readingMode === "all" ? msg`All` : msg`Unread`}
                     onClick={async () => await dispatch(changeReadingMode(settings.readingMode === "all" ? "unread" : "all"))}
                 />
                 <ActionButton
                     icon={settings.readingOrder === "asc" ? <TbSortAscending size={iconSize} /> : <TbSortDescending size={iconSize} />}
-                    label={settings.readingOrder === "asc" ? <Trans>Asc</Trans> : <Trans>Desc</Trans>}
+                    label={settings.readingOrder === "asc" ? msg`Asc` : msg`Desc`}
                     onClick={async () => await dispatch(changeReadingOrder(settings.readingOrder === "asc" ? "desc" : "asc"))}
                 />
 
                 <Popover>
                     <Popover.Target>
                         <Indicator disabled={!searchFromStore}>
-                            <ActionButton icon={<TbSearch size={iconSize} />} label={<Trans>Search</Trans>} />
+                            <ActionButton icon={<TbSearch size={iconSize} />} label={msg`Search`} />
                         </Indicator>
                     </Popover.Target>
                     <Popover.Dropdown>
@@ -153,12 +153,12 @@ export function Header() {
 
                         <ActionButton
                             icon={<TbSettings size={iconSize} />}
-                            label={<Trans>Extension options</Trans>}
+                            label={msg`Extension options`}
                             onClick={() => openSettingsPage()}
                         />
                         <ActionButton
                             icon={<TbExternalLink size={iconSize} />}
-                            label={<Trans>Open CommaFeed</Trans>}
+                            label={msg`Open CommaFeed`}
                             onClick={() => openAppInNewTab()}
                         />
                     </>

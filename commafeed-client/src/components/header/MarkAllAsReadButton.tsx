@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro"
+import { Trans, msg } from "@lingui/macro"
 
 import { Button, Code, Group, Modal, Slider, Stack, Text } from "@mantine/core"
 import { markAllEntries } from "app/entries/thunks"
@@ -91,7 +91,7 @@ export function MarkAllAsReadButton(props: { iconSize: number }) {
                     </Group>
                 </Stack>
             </Modal>
-            <ActionButton icon={<TbChecks size={props.iconSize} />} label={<Trans>Mark all as read</Trans>} onClick={buttonClicked} />
+            <ActionButton icon={<TbChecks size={props.iconSize} />} label={msg`Mark all as read`} onClick={buttonClicked} />
         </>
     )
 }

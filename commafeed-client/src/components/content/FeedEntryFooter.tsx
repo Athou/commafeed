@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro"
+import { msg, t } from "@lingui/macro"
 import { Group, Indicator, Popover, TagsInput } from "@mantine/core"
 import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "app/entries/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -40,13 +40,13 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 {props.entry.markable && (
                     <ActionButton
                         icon={props.entry.read ? <TbMail size={18} /> : <TbMailOpened size={18} />}
-                        label={props.entry.read ? <Trans>Keep unread</Trans> : <Trans>Mark as read</Trans>}
+                        label={props.entry.read ? msg`Keep unread` : msg`Mark as read`}
                         onClick={readStatusButtonClicked}
                     />
                 )}
                 <ActionButton
                     icon={props.entry.starred ? <TbStarOff size={18} /> : <TbStar size={18} />}
-                    label={props.entry.starred ? <Trans>Unstar</Trans> : <Trans>Star</Trans>}
+                    label={props.entry.starred ? msg`Unstar` : msg`Star`}
                     onClick={async () =>
                         await dispatch(
                             starEntry({
@@ -59,7 +59,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
 
                 <Popover withArrow withinPortal shadow="md" closeOnClickOutside={!mobile}>
                     <Popover.Target>
-                        <ActionButton icon={<TbShare size={18} />} label={<Trans>Share</Trans>} />
+                        <ActionButton icon={<TbShare size={18} />} label={msg`Share`} />
                     </Popover.Target>
                     <Popover.Dropdown>
                         <ShareButtons url={props.entry.url} description={props.entry.title} />
@@ -70,7 +70,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                     <Popover withArrow shadow="md" closeOnClickOutside={!mobile}>
                         <Popover.Target>
                             <Indicator label={props.entry.tags.length} disabled={props.entry.tags.length === 0} inline size={16}>
-                                <ActionButton icon={<TbTag size={18} />} label={<Trans>Tags</Trans>} />
+                                <ActionButton icon={<TbTag size={18} />} label={msg`Tags`} />
                             </Indicator>
                         </Popover.Target>
                         <Popover.Dropdown>
@@ -88,13 +88,13 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 )}
 
                 <a href={props.entry.url} target="_blank" rel="noreferrer">
-                    <ActionButton icon={<TbExternalLink size={18} />} label={<Trans>Open link</Trans>} />
+                    <ActionButton icon={<TbExternalLink size={18} />} label={msg`Open link`} />
                 </a>
             </Group>
 
             <ActionButton
                 icon={<TbArrowBarToDown size={18} />}
-                label={<Trans>Mark as read up to here</Trans>}
+                label={msg`Mark as read up to here`}
                 onClick={async () => await dispatch(markEntriesUpToEntry(props.entry))}
             />
         </Group>

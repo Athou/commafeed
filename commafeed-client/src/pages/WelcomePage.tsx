@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro"
+import { msg } from "@lingui/macro"
 import { Anchor, Box, Center, Container, Divider, Group, Image, Space, Title, useMantineColorScheme } from "@mantine/core"
 import { client } from "app/client"
 import { redirectToApiDocumentation, redirectToLogin, redirectToRegistration, redirectToRootCategory } from "app/redirect/thunks"
@@ -38,7 +38,7 @@ export function WelcomePage() {
             {serverInfos?.demoAccountEnabled && (
                 <Center>
                     <ActionButton
-                        label={<Trans>Try the demo!</Trans>}
+                        label={msg`Try the demo!`}
                         icon={<TbClock size={iconSize} />}
                         variant="outline"
                         onClick={async () => await login.execute({ name: "demo", password: "demo" })}
@@ -96,7 +96,7 @@ function Buttons() {
     return (
         <Group gap={14}>
             <ActionButton
-                label={<Trans>Log in</Trans>}
+                label={msg`Log in`}
                 icon={<TbKey size={iconSize} />}
                 variant="outline"
                 onClick={async () => await dispatch(redirectToLogin())}
@@ -104,7 +104,7 @@ function Buttons() {
             />
             {serverInfos?.allowRegistrations && (
                 <ActionButton
-                    label={<Trans>Sign up</Trans>}
+                    label={msg`Sign up`}
                     icon={<TbUserPlus size={iconSize} />}
                     variant="filled"
                     onClick={async () => await dispatch(redirectToRegistration())}
@@ -113,7 +113,7 @@ function Buttons() {
             )}
 
             <ActionButton
-                label={dark ? <Trans>Switch to light theme</Trans> : <Trans>Switch to dark theme</Trans>}
+                label={dark ? msg`Switch to light theme` : msg`Switch to dark theme`}
                 icon={colorScheme === "dark" ? <TbSun size={18} /> : <TbMoon size={iconSize} />}
                 onClick={() => toggleColorScheme()}
                 hideLabelOnDesktop
@@ -121,7 +121,7 @@ function Buttons() {
 
             {isBrowserExtensionPopup && (
                 <ActionButton
-                    label={<Trans>Extension options</Trans>}
+                    label={msg`Extension options`}
                     icon={<TbSettings size={iconSize} />}
                     onClick={() => openSettingsPage()}
                     hideLabelOnDesktop

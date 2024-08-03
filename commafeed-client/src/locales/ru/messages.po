@@ -176,6 +176,10 @@ msgstr "Проверьте, работает ли лента."
 msgid "Close menu"
 msgstr "Закрыть меню"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Cmd"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr "Версия расширения браузера CommaFeed {browserExtensionVersion}."

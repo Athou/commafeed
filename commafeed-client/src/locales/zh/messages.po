@@ -176,6 +176,10 @@ msgstr "检查信息流是否正常工作"
 msgid "Close menu"
 msgstr "关闭菜单"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Cmd"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr "CommaFeed的浏览器扩展版本：{browserExtensionVersion}。"

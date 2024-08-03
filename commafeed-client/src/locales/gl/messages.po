@@ -176,6 +176,10 @@ msgstr "Comproba que a fonte funciona"
 msgid "Close menu"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Cmd"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr ""

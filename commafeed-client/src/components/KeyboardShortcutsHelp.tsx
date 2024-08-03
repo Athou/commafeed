@@ -150,9 +150,7 @@ export function KeyboardShortcutsHelp() {
                             <Trans>Navigate to a subscription by entering its name</Trans>
                         </Table.Td>
                         <Table.Td>
-                            <Kbd>
-                                <Trans>{isMacOS ? "Cmd" : "Ctrl"}</Trans>
-                            </Kbd>
+                            <Kbd>{isMacOS ? <Trans>Cmd</Trans> : <Trans>Ctrl</Trans>}</Kbd>
                             <span> + </span>
                             <Kbd>K</Kbd>
                             <span>, </span>

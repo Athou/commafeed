@@ -176,6 +176,10 @@ msgstr "피드가 작동하는지 확인"
 msgid "Close menu"
 msgstr ""
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Cmd"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr ""

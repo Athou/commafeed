@@ -176,6 +176,10 @@ msgstr "Vérifie que le flux fonctionne"
 msgid "Close menu"
 msgstr "Fermer le menu"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Cmd"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr "Extension CommaFeed pour navigateur version {browserExtensionVersion}."

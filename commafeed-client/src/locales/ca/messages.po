@@ -176,6 +176,10 @@ msgstr "Comproveu que el canal funciona"
 msgid "Close menu"
 msgstr "Tanca el menu"
 
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Cmd"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
 msgstr "Versió de l'extensió del navegador CommaFeed {browserExtensionVersion}."

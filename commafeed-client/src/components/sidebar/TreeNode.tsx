@@ -1,4 +1,5 @@
 import { Box, Center } from "@mantine/core"
+import type { EntrySourceType } from "app/entries/slice"
 import { FeedFavicon } from "components/content/FeedFavicon"
 import type React from "react"
 import { tss } from "tss"
@@ -6,6 +7,7 @@ import { UnreadCount } from "./UnreadCount"
 
 interface TreeNodeProps {
     id: string
+    type: EntrySourceType
     name: React.ReactNode
     icon: React.ReactNode
     unread: number
@@ -63,7 +65,15 @@ export function TreeNode(props: TreeNodeProps) {
         hasUnread: props.unread > 0,
     })
     return (
-        <Box py={1} pl={props.level * 20} className={classes.node} onClick={(e: React.MouseEvent) => props.onClick(e, props.id)}>
+        <Box
+            py={1}
+            pl={props.level * 20}
+            className={classes.node}
+            onClick={(e: React.MouseEvent) => props.onClick(e, props.id)}
+            data-id={props.id}
+            data-type={props.type}
+            data-unread-count={props.unread}
+        >
             <Box mr={6} onClick={(e: React.MouseEvent) => props.onIconClick?.(e, props.id)}>
                 <Center>{typeof props.icon === "string" ? <FeedFavicon url={props.icon} /> : props.icon}</Center>
             </Box>

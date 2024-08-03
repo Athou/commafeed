@@ -310,6 +310,7 @@ export function FeedEntries() {
                     ref={el => {
                         if (el) el.id = Constants.dom.entryId(entry)
                     }}
+                    data-id={entry.id}
                 >
                     <FeedEntry
                         entry={entry}

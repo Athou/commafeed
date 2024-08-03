@@ -70,6 +70,7 @@ export function Tree() {
     const allCategoryNode = () => (
         <TreeNode
             id={Constants.categories.all.id}
+            type="category"
             name={<Trans>All</Trans>}
             icon={allIcon}
             unread={categoryUnreadCount(root)}
@@ -83,6 +84,7 @@ export function Tree() {
     const starredCategoryNode = () => (
         <TreeNode
             id={Constants.categories.starred.id}
+            type="category"
             name={<Trans>Starred</Trans>}
             icon={starredIcon}
             unread={0}
@@ -102,6 +104,7 @@ export function Tree() {
         return (
             <TreeNode
                 id={category.id}
+                type="category"
                 name={category.name}
                 icon={category.expanded ? expandedIcon : collapsedIcon}
                 unread={unreadCount}
@@ -122,6 +125,7 @@ export function Tree() {
         return (
             <TreeNode
                 id={String(feed.id)}
+                type="feed"
                 name={feed.name}
                 icon={feed.iconUrl}
                 unread={feed.unread}
@@ -137,6 +141,7 @@ export function Tree() {
     const tagNode = (tag: string) => (
         <TreeNode
             id={tag}
+            type="tag"
             name={tag}
             icon={tagIcon}
             unread={0}

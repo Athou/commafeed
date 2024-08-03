@@ -10,7 +10,7 @@ interface Locale {
 }
 
 // add an object to the array to add a new locale
-// don't forget to also add it to the 'locales' array in .linguirc
+// don't forget to also add it to the 'locales' array in lingui.config.ts
 export const locales: Locale[] = [
     { key: "ar", label: "العربية", dayjsImportFn: async () => await import("dayjs/locale/ar") },
     { key: "ca", label: "Català", dayjsImportFn: async () => await import("dayjs/locale/ca") },

@@ -305,7 +305,7 @@ export function FeedEntries() {
             loader={<Box key={0}>{loading && <Loader />}</Box>}
         >
             {entries.map(entry => (
-                <div
+                <article
                     key={entry.id}
                     ref={el => {
                         if (el) el.id = Constants.dom.entryId(entry)
@@ -322,7 +322,7 @@ export function FeedEntries() {
                         onBodyClick={() => bodyClicked(entry)}
                         onSwipedLeft={async () => await swipedLeft(entry)}
                     />
-                </div>
+                </article>
             ))}
         </InfiniteScroll>
     )

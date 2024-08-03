@@ -9,7 +9,7 @@ import { truncate } from "app/utils"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useColorScheme } from "hooks/useColorScheme"
 import { Item, Menu, Separator } from "react-contexify"
-import { TbArrowBarToDown, TbExternalLink, TbEyeCheck, TbEyeOff, TbRss, TbStar, TbStarOff } from "react-icons/tb"
+import { TbArrowBarToDown, TbExternalLink, TbMail, TbMailOpened, TbRss, TbStar, TbStarOff } from "react-icons/tb"
 import { tss } from "tss"
 
 interface FeedEntryContextMenuProps {
@@ -70,7 +70,7 @@ export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
             {props.entry.markable && (
                 <Item onClick={async () => await dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))}>
                     <Group>
-                        {props.entry.read ? <TbEyeOff size={iconSize} /> : <TbEyeCheck size={iconSize} />}
+                        {props.entry.read ? <TbMail size={iconSize} /> : <TbMailOpened size={iconSize} />}
                         {props.entry.read ? <Trans>Keep unread</Trans> : <Trans>Mark as read</Trans>}
                     </Group>
                 </Item>

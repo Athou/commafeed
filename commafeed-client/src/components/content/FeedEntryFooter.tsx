@@ -6,7 +6,7 @@ import type { Entry } from "app/types"
 import { ActionButton } from "components/ActionButton"
 import { useActionButton } from "hooks/useActionButton"
 import { useMobile } from "hooks/useMobile"
-import { TbArrowBarToDown, TbExternalLink, TbEyeCheck, TbEyeOff, TbShare, TbStar, TbStarOff, TbTag } from "react-icons/tb"
+import { TbArrowBarToDown, TbExternalLink, TbMail, TbMailOpened, TbShare, TbStar, TbStarOff, TbTag } from "react-icons/tb"
 import { ShareButtons } from "./ShareButtons"
 
 interface FeedEntryFooterProps {
@@ -39,7 +39,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
             <Group gap={spacing}>
                 {props.entry.markable && (
                     <ActionButton
-                        icon={props.entry.read ? <TbEyeOff size={18} /> : <TbEyeCheck size={18} />}
+                        icon={props.entry.read ? <TbMail size={18} /> : <TbMailOpened size={18} />}
                         label={props.entry.read ? <Trans>Keep unread</Trans> : <Trans>Mark as read</Trans>}
                         onClick={readStatusButtonClicked}
                     />

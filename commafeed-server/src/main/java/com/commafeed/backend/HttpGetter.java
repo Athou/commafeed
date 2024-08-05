@@ -185,6 +185,8 @@ public class HttpGetter {
 				.setUserAgent(userAgent)
 				.setDefaultHeaders(headers)
 				.setConnectionManager(connectionManager)
+				.evictExpiredConnections()
+				.evictIdleConnections(TimeValue.ofMinutes(1))
 				.build();
 	}
 

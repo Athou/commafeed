@@ -62,7 +62,8 @@ public class HttpGetter {
 		this.maxResponseSize = config.getApplicationSettings().getMaxFeedResponseSize();
 
 		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "max"), () -> connectionManager.getTotalStats().getMax());
-		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "available"), () -> connectionManager.getTotalStats().getAvailable());
+		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "size"),
+				() -> connectionManager.getTotalStats().getAvailable() + connectionManager.getTotalStats().getLeased());
 		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "leased"), () -> connectionManager.getTotalStats().getLeased());
 		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "pending"), () -> connectionManager.getTotalStats().getPending());
 	}

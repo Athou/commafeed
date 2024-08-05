@@ -19,7 +19,7 @@ export default defineConfig(env => ({
         visualizer(),
         biomePlugin({
             mode: "check",
-            failOnError: true,
+            failOnError: env.mode !== "development",
         }),
     ],
     base: "./",

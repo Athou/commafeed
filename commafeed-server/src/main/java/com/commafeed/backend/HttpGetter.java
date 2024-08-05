@@ -15,6 +15,7 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.io.HttpClientConnectionManager;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.client5.http.protocol.RedirectLocations;
 import org.apache.hc.core5.http.ClassicHttpRequest;
@@ -27,6 +28,7 @@ import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
 import org.eclipse.jetty.http.HttpStatus;
 
+import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteStreams;
@@ -52,11 +54,17 @@ public class HttpGetter {
 	private final DataSize maxResponseSize;
 
 	@Inject
-	public HttpGetter(CommaFeedConfiguration config) {
+	public HttpGetter(CommaFeedConfiguration config, MetricRegistry metrics) {
+		PoolingHttpClientConnectionManager connectionManager = newConnectionManager(config.getApplicationSettings().getBackgroundThreads());
 		String userAgent = Optional.ofNullable(config.getApplicationSettings().getUserAgent())
 				.orElseGet(() -> String.format("CommaFeed/%s (https://github.com/Athou/commafeed)", config.getVersion()));
-		this.client = newClient(userAgent, config.getApplicationSettings().getBackgroundThreads());
+		this.client = newClient(connectionManager, userAgent);
 		this.maxResponseSize = config.getApplicationSettings().getMaxFeedResponseSize();
+
+		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "max"), () -> connectionManager.getTotalStats().getMax());
+		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "available"), () -> connectionManager.getTotalStats().getAvailable());
+		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "leased"), () -> connectionManager.getTotalStats().getLeased());
+		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "pending"), () -> connectionManager.getTotalStats().getPending());
 	}
 
 	public HttpResult getBinary(String url, int timeout) throws IOException, NotModifiedException {
@@ -151,21 +159,24 @@ public class HttpGetter {
 		}
 	}
 
-	private static CloseableHttpClient newClient(String userAgent, int poolSize) {
+	private static PoolingHttpClientConnectionManager newConnectionManager(int poolSize) {
 		SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
 
-		List<Header> headers = new ArrayList<>();
-		headers.add(new BasicHeader(HttpHeaders.ACCEPT_LANGUAGE, "en"));
-		headers.add(new BasicHeader(HttpHeaders.PRAGMA, "No-cache"));
-		headers.add(new BasicHeader(HttpHeaders.CACHE_CONTROL, "no-cache"));
-
-		PoolingHttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
+		return PoolingHttpClientConnectionManagerBuilder.create()
 				.setSSLSocketFactory(Apache5SslUtils.toSocketFactory(sslFactory))
 				.setDefaultConnectionConfig(
 						ConnectionConfig.custom().setConnectTimeout(Timeout.ofSeconds(5)).setTimeToLive(TimeValue.ofSeconds(30)).build())
 				.setMaxConnPerRoute(poolSize)
 				.setMaxConnTotal(poolSize)
 				.build();
+
+	}
+
+	private static CloseableHttpClient newClient(HttpClientConnectionManager connectionManager, String userAgent) {
+		List<Header> headers = new ArrayList<>();
+		headers.add(new BasicHeader(HttpHeaders.ACCEPT_LANGUAGE, "en"));
+		headers.add(new BasicHeader(HttpHeaders.PRAGMA, "No-cache"));
+		headers.add(new BasicHeader(HttpHeaders.CACHE_CONTROL, "no-cache"));
 
 		return HttpClientBuilder.create()
 				.useSystemProperties()

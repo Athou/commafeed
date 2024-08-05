@@ -5,6 +5,7 @@ import { Gauge } from "components/metrics/Gauge"
 import { Meter } from "components/metrics/Meter"
 import { MetricAccordionItem } from "components/metrics/MetricAccordionItem"
 import { Timer } from "components/metrics/Timer"
+import { useEffect } from "react"
 import { useAsync } from "react-async-hook"
 import { TbChartAreaLine, TbClock } from "react-icons/tb"
 
@@ -18,15 +19,27 @@ const shownMeters: Record<string, string> = {
 }
 
 const shownGauges: Record<string, string> = {
-    "com.commafeed.backend.feed.FeedRefreshEngine.queue.size": "Queue size",
-    "com.commafeed.backend.feed.FeedRefreshEngine.worker.active": "Feed Worker active",
-    "com.commafeed.backend.feed.FeedRefreshEngine.updater.active": "Feed Updater active",
+    "com.commafeed.backend.feed.FeedRefreshEngine.queue.size": "Feed Refresh Engine queue size",
+    "com.commafeed.backend.feed.FeedRefreshEngine.worker.active": "Feed Refresh Engine active HTTP workers",
+    "com.commafeed.backend.feed.FeedRefreshEngine.updater.active": "Feed Refresh Engine active database update workers",
+    "com.commafeed.backend.HttpGetter.pool.max": "HttpGetter max connections",
+    "com.commafeed.backend.HttpGetter.pool.available": "HttpGetter available connections",
+    "com.commafeed.backend.HttpGetter.pool.leased": "HttpGetter leased connections",
+    "com.commafeed.backend.HttpGetter.pool.pending": "HttpGetter waiting for available connections",
     "com.commafeed.frontend.ws.WebSocketSessions.users": "WebSocket users",
     "com.commafeed.frontend.ws.WebSocketSessions.sessions": "WebSocket sessions",
 }
 
 export function MetricsPage() {
-    const query = useAsync(async () => await client.admin.getMetrics(), [])
+    const query = useAsync(async () => await client.admin.getMetrics(), [], {
+        // keep previous results available while a new request is pending
+        setLoading: state => ({ ...state, loading: true }),
+    })
+
+    useEffect(() => {
+        const interval = setInterval(() => query.execute(), 2000)
+        return () => clearInterval(interval)
+    }, [query.execute])
 
     if (!query.result) return <Loader />
     const { meters, gauges, timers } = query.result.data
@@ -53,7 +66,7 @@ export function MetricsPage() {
                 <Box pt="xs">
                     {Object.keys(shownGauges).map(g => (
                         <Box key={g}>
-                            <span>{shownGauges[g]}&nbsp;</span>
+                            <span>{shownGauges[g]}:&nbsp;</span>
                             <Gauge gauge={gauges[g]} />
                         </Box>
                     ))}

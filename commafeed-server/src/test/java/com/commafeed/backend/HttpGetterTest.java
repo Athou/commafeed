@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mockito;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.junit.jupiter.MockServerExtension;
 import org.mockserver.model.ConnectionOptions;
@@ -23,6 +24,7 @@ import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 import org.mockserver.model.MediaType;
 
+import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConfiguration.ApplicationSettings;
 import com.commafeed.backend.HttpGetter.HttpResponseException;
@@ -57,7 +59,7 @@ class HttpGetterTest {
 		CommaFeedConfiguration config = new CommaFeedConfiguration();
 		config.setApplicationSettings(settings);
 
-		this.getter = new HttpGetter(config);
+		this.getter = new HttpGetter(config, Mockito.mock(MetricRegistry.class));
 	}
 
 	@ParameterizedTest

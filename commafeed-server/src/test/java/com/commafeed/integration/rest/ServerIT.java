@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import com.commafeed.frontend.model.ServerInfo;
 import com.commafeed.integration.BaseIT;
 
+import io.quarkus.test.junit.QuarkusTest;
+
+@QuarkusTest
 class ServerIT extends BaseIT {
 
 	@Test
@@ -16,7 +19,7 @@ class ServerIT extends BaseIT {
 		Assertions.assertTrue(serverInfos.isDemoAccountEnabled());
 		Assertions.assertTrue(serverInfos.isWebsocketEnabled());
 		Assertions.assertEquals(900000, serverInfos.getWebsocketPingInterval());
-		Assertions.assertEquals(10000, serverInfos.getTreeReloadInterval());
+		Assertions.assertEquals(30000, serverInfos.getTreeReloadInterval());
 
 	}
 }

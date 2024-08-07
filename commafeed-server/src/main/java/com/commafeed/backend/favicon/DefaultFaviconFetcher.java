@@ -10,7 +10,7 @@ import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 
-import jakarta.inject.Inject;
+import jakarta.annotation.Priority;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +20,9 @@ import lombok.extern.slf4j.Slf4j;
  * 
  */
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
+@Priority(Integer.MIN_VALUE)
 public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 
 	private final HttpGetter getter;

@@ -4,6 +4,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import jakarta.inject.Singleton;
+
+@Singleton
 public class InPageReferenceFeedURLProvider implements FeedURLProvider {
 
 	@Override

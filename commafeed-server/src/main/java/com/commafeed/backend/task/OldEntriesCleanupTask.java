@@ -7,11 +7,10 @@ import java.util.concurrent.TimeUnit;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.service.db.DatabaseCleaningService;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 public class OldEntriesCleanupTask extends ScheduledTask {
 
@@ -20,9 +19,9 @@ public class OldEntriesCleanupTask extends ScheduledTask {
 
 	@Override
 	public void run() {
-		int maxAgeDays = config.getApplicationSettings().getMaxEntriesAgeDays();
-		if (maxAgeDays > 0) {
-			Instant threshold = Instant.now().minus(Duration.ofDays(maxAgeDays));
+		Duration entriesMaxAge = config.database().cleanup().entriesMaxAge();
+		if (!entriesMaxAge.isZero()) {
+			Instant threshold = Instant.now().minus(entriesMaxAge);
 			cleaner.cleanEntriesOlderThan(threshold);
 		}
 	}

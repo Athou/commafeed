@@ -7,115 +7,39 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ "17", "21" ]
+        database: [ "h2", "postgresql", "mysql", "mariadb" ]
 
     steps:
+      # Checkout
+      - name: Configure git to checkout as-is
+        run: git config --global core.autocrlf false
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       # Setup
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Set up Java
-        uses: actions/setup-java@v4
+      - name: Set up GraalVM
+        uses: graalvm/setup-graalvm@v1
         with:
-          java-version: ${{ matrix.java }}
-          distribution: "temurin"
+          java-version: "21"
+          distribution: "graalvm"
           cache: "maven"
 
       # Build & Test
       - name: Build with Maven
-        run: mvn --batch-mode --no-transfer-progress install
-        env:
-          TEST_DATABASE: h2
-
-      - name: Run integration tests on PostgreSQL
-        run: mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
-        env:
-          TEST_DATABASE: postgresql
-
-      - name: Run integration tests on MySQL
-        run: mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
-        env:
-          TEST_DATABASE: mysql
-
-      - name: Run integration tests on MariaDB
-        run: mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
-        env:
-          TEST_DATABASE: mariadb
-
-      - name: Run integration tests with Redis cache enabled
-        run: mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
-        env:
-          TEST_DATABASE: h2
-          REDIS: true
+        run: mvn --batch-mode --no-transfer-progress install -Pnative -D"quarkus.datasource.db-kind"=${{ matrix.database }}
 
       # Upload artifacts
-      - name: Upload JAR
-        uses: actions/upload-artifact@v4
-        if: ${{ matrix.java == '17' }}
-        with:
-          name: commafeed.jar
-          path: commafeed-server/target/commafeed.jar
-
-      - name: Upload Playwright artifacts
-        if: failure()
+      - name: Upload cross-platform app
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-artifacts
-          path: |
-            **/target/playwright-artifacts/
+          name: commafeed-${{ matrix.database }}-jvm
+          path: commafeed-server/target/commafeed-*.zip
 
-      # Docker
-      - name: Login to Container Registry
-        uses: docker/login-action@v3
-        if: ${{ matrix.java == '17' && (github.ref_type == 'tag' || github.ref_name == 'master') }}
+      - name: Upload native executable
+        uses: actions/upload-artifact@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Docker build and push tag
-        uses: docker/build-push-action@v6
-        if: ${{ matrix.java == '17' && github.ref_type == 'tag' }}
-        with:
-          context: .
-          push: true
-          platforms: linux/amd64,linux/arm64/v8
-          tags: |
-            athou/commafeed:latest
-            athou/commafeed:${{ github.ref_name }}
-
-      - name: Docker build and push master
-        uses: docker/build-push-action@v6
-        if: ${{ matrix.java == '17' && github.ref_name == 'master' }}
-        with:
-          context: .
-          push: true
-          platforms: linux/amd64,linux/arm64/v8
-          tags: athou/commafeed:master
-
-      # Create GitHub release after Docker image has been published
-      - name: Extract Changelog Entry
-        uses: mindsers/changelog-reader-action@v2
-        if: ${{ matrix.java == '17' && github.ref_type == 'tag' }}
-        id: changelog_reader
-        with:
-          version: ${{ github.ref_name }}
-
-      - name: Create GitHub release
-        uses: softprops/action-gh-release@v2
-        if: ${{ matrix.java == '17' && github.ref_type == 'tag' }}
-        with:
-          name: CommaFeed ${{ github.ref_name }}
-          body: ${{ steps.changelog_reader.outputs.changes }}
-          draft: false
-          prerelease: false
-          files: |
-            commafeed-server/target/commafeed.jar
-            commafeed-server/config.yml.example
+          name: commafeed-${{ matrix.database }}-${{ runner.os }}-${{ runner.arch }}
+          path: commafeed-server/target/commafeed-*-runner

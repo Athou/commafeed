@@ -25,11 +25,10 @@ import org.jsoup.Jsoup;
 
 import com.commafeed.backend.model.FeedEntry;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 public class FeedEntryFilteringService {
 

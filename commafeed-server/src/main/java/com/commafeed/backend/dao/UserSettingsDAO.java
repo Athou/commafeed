@@ -1,22 +1,19 @@
 package com.commafeed.backend.dao;
 
-import org.hibernate.SessionFactory;
-
 import com.commafeed.backend.model.QUserSettings;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
 
 @Singleton
 public class UserSettingsDAO extends GenericDAO<UserSettings> {
 
 	private static final QUserSettings SETTINGS = QUserSettings.userSettings;
 
-	@Inject
-	public UserSettingsDAO(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public UserSettingsDAO(EntityManager entityManager) {
+		super(entityManager, UserSettings.class);
 	}
 
 	public UserSettings findByUser(User user) {

@@ -2,8 +2,8 @@ package com.commafeed.backend.service;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.dao.FeedDAO;
@@ -14,19 +14,18 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.Models;
 import com.google.common.io.Resources;
 
-import jakarta.inject.Inject;
+import io.quarkus.arc.All;
 import jakarta.inject.Singleton;
 
 @Singleton
 public class FeedService {
 
 	private final FeedDAO feedDAO;
-	private final Set<AbstractFaviconFetcher> faviconFetchers;
+	private final List<AbstractFaviconFetcher> faviconFetchers;
 
 	private final Favicon defaultFavicon;
 
-	@Inject
-	public FeedService(FeedDAO feedDAO, Set<AbstractFaviconFetcher> faviconFetchers) {
+	public FeedService(FeedDAO feedDAO, @All List<AbstractFaviconFetcher> faviconFetchers) {
 		this.feedDAO = feedDAO;
 		this.faviconFetchers = faviconFetchers;
 

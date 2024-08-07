@@ -12,9 +12,11 @@ import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.resource.fever.FeverResponse;
 import com.commafeed.integration.BaseIT;
 
+import io.quarkus.test.junit.QuarkusTest;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Form;
 
+@QuarkusTest
 class FeverIT extends BaseIT {
 
 	private Long userId;
@@ -26,7 +28,7 @@ class FeverIT extends BaseIT {
 	}
 
 	@BeforeEach
-	void init() {
+	void setup() {
 		// create api key
 		ProfileModificationRequest req = new ProfileModificationRequest();
 		req.setCurrentPassword("admin");
@@ -73,6 +75,7 @@ class FeverIT extends BaseIT {
 		Form form = new Form();
 		form.param("api_key", Digests.md5Hex("admin:" + apiKey));
 		form.param(what, "1");
+
 		return getClient().target(getApiBaseUrl() + "fever/user/{userId}")
 				.resolveTemplate("userId", userId)
 				.request()

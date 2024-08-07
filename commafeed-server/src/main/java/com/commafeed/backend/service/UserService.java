@@ -24,11 +24,10 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.internal.PostLoginActivities;
 import com.google.common.base.Preconditions;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 public class UserService {
 
@@ -117,8 +116,7 @@ public class UserService {
 	public User register(String name, String password, String email, Collection<Role> roles, boolean forceRegistration) {
 
 		if (!forceRegistration) {
-			Preconditions.checkState(config.getApplicationSettings().getAllowRegistrations(),
-					"Registrations are closed on this CommaFeed instance");
+			Preconditions.checkState(config.users().allowRegistrations(), "Registrations are closed on this CommaFeed instance");
 		}
 
 		Preconditions.checkArgument(userDAO.findByName(name) == null, "Name already taken");

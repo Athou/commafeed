@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.SessionFactory;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.QFeed;
@@ -12,8 +11,8 @@ import com.commafeed.backend.model.QFeedSubscription;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
 
 @Singleton
 public class FeedDAO extends GenericDAO<Feed> {
@@ -21,9 +20,8 @@ public class FeedDAO extends GenericDAO<Feed> {
 	private static final QFeed FEED = QFeed.feed;
 	private static final QFeedSubscription SUBSCRIPTION = QFeedSubscription.feedSubscription;
 
-	@Inject
-	public FeedDAO(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public FeedDAO(EntityManager entityManager) {
+		super(entityManager, Feed.class);
 	}
 
 	public List<Feed> findNextUpdatable(int count, Instant lastLoginThreshold) {

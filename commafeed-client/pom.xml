@@ -80,7 +80,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/classes/assets</outputDirectory>
+							<outputDirectory>${project.build.directory}/classes/META-INF/resources</outputDirectory>
 							<resources>
 								<resource>
 									<directory>dist</directory>

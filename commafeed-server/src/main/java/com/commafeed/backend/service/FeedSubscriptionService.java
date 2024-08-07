@@ -21,7 +21,6 @@ import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.UnreadCount;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,7 +36,6 @@ public class FeedSubscriptionService {
 	private final CacheService cache;
 	private final CommaFeedConfiguration config;
 
-	@Inject
 	public FeedSubscriptionService(FeedDAO feedDAO, FeedEntryStatusDAO feedEntryStatusDAO, FeedSubscriptionDAO feedSubscriptionDAO,
 			FeedService feedService, FeedRefreshEngine feedRefreshEngine, CacheService cache, CommaFeedConfiguration config) {
 		this.feedDAO = feedDAO;
@@ -63,7 +61,7 @@ public class FeedSubscriptionService {
 
 	public long subscribe(User user, String url, String title, FeedCategory category, int position) {
 
-		final String pubUrl = config.getApplicationSettings().getPublicUrl();
+		final String pubUrl = config.publicUrl();
 		if (StringUtils.isBlank(pubUrl)) {
 			throw new FeedSubscriptionException("Public URL of this CommaFeed instance is not set");
 		}
@@ -71,7 +69,7 @@ public class FeedSubscriptionService {
 			throw new FeedSubscriptionException("Could not subscribe to a feed from this CommaFeed instance");
 		}
 
-		Integer maxFeedsPerUser = config.getApplicationSettings().getMaxFeedsPerUser();
+		Integer maxFeedsPerUser = config.database().cleanup().maxFeedsPerUser();
 		if (maxFeedsPerUser > 0 && feedSubscriptionDAO.count(user) >= maxFeedsPerUser) {
 			String message = String.format("You cannot subscribe to more feeds on this CommaFeed instance (max %s feeds per user)",
 					maxFeedsPerUser);

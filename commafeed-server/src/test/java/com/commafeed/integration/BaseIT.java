@@ -1,84 +1,82 @@
 package com.commafeed.integration;
 
 import java.io.IOException;
+import java.net.HttpCookie;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.hc.core5.http.HttpStatus;
 import org.awaitility.Awaitility;
-import org.eclipse.jetty.http.HttpStatus;
 import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJsonProvider;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockserver.client.MockServerClient;
-import org.mockserver.junit.jupiter.MockServerExtension;
+import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
-import com.commafeed.CommaFeedDropwizardAppExtension;
+import com.commafeed.JacksonCustomizer;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Subscription;
-import com.commafeed.frontend.model.request.LoginRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
+import io.restassured.RestAssured;
+import io.restassured.http.Header;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 import lombok.Getter;
 
 @Getter
-@ExtendWith(DropwizardExtensionsSupport.class)
-@ExtendWith(MockServerExtension.class)
 public abstract class BaseIT {
 
 	private static final HttpRequest FEED_REQUEST = HttpRequest.request().withMethod("GET").withPath("/");
 
-	private final CommaFeedDropwizardAppExtension extension = new CommaFeedDropwizardAppExtension() {
-		@Override
-		protected JerseyClientBuilder clientBuilder() {
-			return configureClientBuilder(super.clientBuilder().register(MultiPartFeature.class));
-		}
-	};
-
-	private Client client;
-
-	private String feedUrl;
-
-	private String baseUrl;
-
-	private String apiBaseUrl;
-
-	private String webSocketUrl;
-
 	private MockServerClient mockServerClient;
+	private Client client;
+	private String feedUrl;
+	private String baseUrl;
+	private String apiBaseUrl;
+	private String webSocketUrl;
 
 	protected JerseyClientBuilder configureClientBuilder(JerseyClientBuilder base) {
 		return base;
 	}
 
 	@BeforeEach
-	void init(MockServerClient mockServerClient) throws IOException {
-		this.mockServerClient = mockServerClient;
+	void init() throws IOException {
+		this.mockServerClient = ClientAndServer.startClientAndServer(0);
+
+		ObjectMapper mapper = new ObjectMapper();
+		new JacksonCustomizer().customize(mapper);
+		this.client = configureClientBuilder(new JerseyClientBuilder().register(new JacksonJsonProvider(mapper))).build();
+		this.feedUrl = "http://localhost:" + mockServerClient.getPort() + "/";
+		this.baseUrl = "http://localhost:8085/";
+		this.apiBaseUrl = this.baseUrl + "rest/";
+		this.webSocketUrl = "ws://localhost:8085/ws";
 
 		URL resource = Objects.requireNonNull(getClass().getResource("/feed/rss.xml"));
-		mockServerClient.when(FEED_REQUEST).respond(HttpResponse.response().withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
-
-		this.client = extension.client();
-		this.feedUrl = "http://localhost:" + mockServerClient.getPort() + "/";
-		this.baseUrl = "http://localhost:" + extension.getLocalPort() + "/";
-		this.apiBaseUrl = this.baseUrl + "rest/";
-		this.webSocketUrl = "ws://localhost:" + extension.getLocalPort() + "/ws";
+		this.mockServerClient.when(FEED_REQUEST)
+				.respond(HttpResponse.response().withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
 	}
 
 	@AfterEach
 	void cleanup() {
-		this.client.close();
+		if (this.mockServerClient != null) {
+			this.mockServerClient.close();
+		}
+
+		if (this.client != null) {
+			this.client.close();
+		}
 	}
 
 	protected void feedNowReturnsMoreEntries() throws IOException {
@@ -88,14 +86,20 @@ public abstract class BaseIT {
 		mockServerClient.when(FEED_REQUEST).respond(HttpResponse.response().withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
 	}
 
-	protected String login() {
-		LoginRequest req = new LoginRequest();
-		req.setName("admin");
-		req.setPassword("admin");
-		try (Response response = client.target(apiBaseUrl + "user/login").request().post(Entity.json(req))) {
-			Assertions.assertEquals(HttpStatus.OK_200, response.getStatus());
-			return response.getCookies().get("JSESSIONID").getValue();
-		}
+	protected List<HttpCookie> login() {
+		Form form = new Form();
+		form.param("j_username", "admin");
+		form.param("j_password", "admin");
+
+		List<Header> setCookieHeaders = RestAssured.given()
+				.formParams("j_username", "admin", "j_password", "admin")
+				.post(baseUrl + "j_security_check")
+				.then()
+				.statusCode(HttpStatus.SC_OK)
+				.extract()
+				.headers()
+				.getList(HttpHeaders.SET_COOKIE);
+		return setCookieHeaders.stream().flatMap(h -> HttpCookie.parse(h.getValue()).stream()).toList();
 	}
 
 	protected Long subscribe(String feedUrl) {

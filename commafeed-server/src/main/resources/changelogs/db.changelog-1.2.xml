@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
 	<changeSet author="athou" id="change-entries-model">
 		<dropTable tableName="FEED_FEEDENTRIES" />
@@ -14,7 +15,7 @@
 			</column>
 		</addColumn>
 		<addForeignKeyConstraint constraintName="fk_feed_id" baseTableName="FEEDENTRIES" baseColumnNames="feed_id"
-			referencedTableName="FEEDS" referencedColumnNames="id" />
+								 referencedTableName="FEEDS" referencedColumnNames="id" />
 		<createIndex tableName="FEEDENTRIES" indexName="feed_updated_index">
 			<column name="feed_id" />
 			<column name="updated" />

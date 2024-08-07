@@ -6,24 +6,22 @@ import java.time.temporal.ChronoUnit;
 
 import com.commafeed.CommaFeedConfiguration;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 @Singleton
 public class FeedRefreshIntervalCalculator {
 
-	private final boolean heavyLoad;
-	private final int refreshIntervalMinutes;
+	private final Duration refreshInterval;
+	private final boolean empiricalInterval;
 
-	@Inject
 	public FeedRefreshIntervalCalculator(CommaFeedConfiguration config) {
-		this.heavyLoad = config.getApplicationSettings().getHeavyLoad();
-		this.refreshIntervalMinutes = config.getApplicationSettings().getRefreshIntervalMinutes();
+		this.refreshInterval = config.feedRefresh().interval();
+		this.empiricalInterval = config.feedRefresh().intervalEmpirical();
 	}
 
 	public Instant onFetchSuccess(Instant publishedDate, Long averageEntryInterval) {
 		Instant defaultRefreshInterval = getDefaultRefreshInterval();
-		return heavyLoad ? computeRefreshIntervalForHeavyLoad(publishedDate, averageEntryInterval, defaultRefreshInterval)
+		return empiricalInterval ? computeRefreshIntervalForHeavyLoad(publishedDate, averageEntryInterval, defaultRefreshInterval)
 				: defaultRefreshInterval;
 	}
 
@@ -33,7 +31,7 @@ public class FeedRefreshIntervalCalculator {
 
 	public Instant onFetchError(int errorCount) {
 		int retriesBeforeDisable = 3;
-		if (errorCount < retriesBeforeDisable || !heavyLoad) {
+		if (errorCount < retriesBeforeDisable || !empiricalInterval) {
 			return getDefaultRefreshInterval();
 		}
 
@@ -42,7 +40,7 @@ public class FeedRefreshIntervalCalculator {
 	}
 
 	private Instant getDefaultRefreshInterval() {
-		return Instant.now().plus(Duration.ofMinutes(refreshIntervalMinutes));
+		return Instant.now().plus(refreshInterval);
 	}
 
 	private Instant computeRefreshIntervalForHeavyLoad(Instant publishedDate, Long averageEntryInterval, Instant defaultRefreshInterval) {

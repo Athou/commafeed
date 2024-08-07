@@ -17,13 +17,12 @@ import com.rometools.opml.feed.opml.Outline;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.WireFeedInput;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 public class OPMLImporter {
 

@@ -22,13 +22,12 @@ import com.google.api.services.youtube.model.ChannelListResponse;
 import com.google.api.services.youtube.model.PlaylistListResponse;
 import com.google.api.services.youtube.model.Thumbnail;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 
@@ -43,8 +42,8 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 			return null;
 		}
 
-		String googleAuthKey = config.getApplicationSettings().getGoogleAuthKey();
-		if (googleAuthKey == null) {
+		Optional<String> googleAuthKey = config.googleAuthKey();
+		if (googleAuthKey.isEmpty()) {
 			log.debug("no google auth key configured");
 			return null;
 		}
@@ -63,13 +62,13 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 			ChannelListResponse response = null;
 			if (userId.isPresent()) {
 				log.debug("contacting youtube api for user {}", userId.get().getValue());
-				response = fetchForUser(youtube, googleAuthKey, userId.get().getValue());
+				response = fetchForUser(youtube, googleAuthKey.get(), userId.get().getValue());
 			} else if (channelId.isPresent()) {
 				log.debug("contacting youtube api for channel {}", channelId.get().getValue());
-				response = fetchForChannel(youtube, googleAuthKey, channelId.get().getValue());
+				response = fetchForChannel(youtube, googleAuthKey.get(), channelId.get().getValue());
 			} else if (playlistId.isPresent()) {
 				log.debug("contacting youtube api for playlist {}", playlistId.get().getValue());
-				response = fetchForPlaylist(youtube, googleAuthKey, playlistId.get().getValue());
+				response = fetchForPlaylist(youtube, googleAuthKey.get(), playlistId.get().getValue());
 			}
 
 			if (response == null || response.isEmpty() || CollectionUtils.isEmpty(response.getItems())) {

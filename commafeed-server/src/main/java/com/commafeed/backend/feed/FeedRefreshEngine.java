@@ -1,6 +1,5 @@
 package com.commafeed.backend.feed;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.BlockingDeque;
@@ -21,14 +20,12 @@ import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
 
-import io.dropwizard.lifecycle.Managed;
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Singleton
-public class FeedRefreshEngine implements Managed {
+public class FeedRefreshEngine {
 
 	private final UnitOfWork unitOfWork;
 	private final FeedDAO feedDAO;
@@ -45,7 +42,6 @@ public class FeedRefreshEngine implements Managed {
 	private final ThreadPoolExecutor workerExecutor;
 	private final ThreadPoolExecutor databaseUpdaterExecutor;
 
-	@Inject
 	public FeedRefreshEngine(UnitOfWork unitOfWork, FeedDAO feedDAO, FeedRefreshWorker worker, FeedRefreshUpdater updater,
 			CommaFeedConfiguration config, MetricRegistry metrics) {
 		this.unitOfWork = unitOfWork;
@@ -60,15 +56,14 @@ public class FeedRefreshEngine implements Managed {
 		this.feedProcessingLoopExecutor = Executors.newSingleThreadExecutor();
 		this.refillLoopExecutor = Executors.newSingleThreadExecutor();
 		this.refillExecutor = newDiscardingSingleThreadExecutorService();
-		this.workerExecutor = newBlockingExecutorService(config.getApplicationSettings().getBackgroundThreads());
-		this.databaseUpdaterExecutor = newBlockingExecutorService(config.getApplicationSettings().getDatabaseUpdateThreads());
+		this.workerExecutor = newBlockingExecutorService(config.feedRefresh().httpThreads());
+		this.databaseUpdaterExecutor = newBlockingExecutorService(config.feedRefresh().databaseThreads());
 
 		metrics.register(MetricRegistry.name(getClass(), "queue", "size"), (Gauge<Integer>) queue::size);
 		metrics.register(MetricRegistry.name(getClass(), "worker", "active"), (Gauge<Integer>) workerExecutor::getActiveCount);
 		metrics.register(MetricRegistry.name(getClass(), "updater", "active"), (Gauge<Integer>) databaseUpdaterExecutor::getActiveCount);
 	}
 
-	@Override
 	public void start() {
 		startFeedProcessingLoop();
 		startRefillLoop();
@@ -165,22 +160,20 @@ public class FeedRefreshEngine implements Managed {
 
 	private List<Feed> getNextUpdatableFeeds(int max) {
 		return unitOfWork.call(() -> {
-			Instant lastLoginThreshold = Boolean.TRUE.equals(config.getApplicationSettings().getHeavyLoad())
-					? Instant.now().minus(Duration.ofDays(30))
-					: null;
+			Instant lastLoginThreshold = config.feedRefresh().userInactivityPeriod().isZero() ? null
+					: Instant.now().minus(config.feedRefresh().userInactivityPeriod());
 			List<Feed> feeds = feedDAO.findNextUpdatable(max, lastLoginThreshold);
 			// update disabledUntil to prevent feeds from being returned again by feedDAO.findNextUpdatable()
-			Instant nextUpdateDate = Instant.now().plus(Duration.ofMinutes(config.getApplicationSettings().getRefreshIntervalMinutes()));
+			Instant nextUpdateDate = Instant.now().plus(config.feedRefresh().interval());
 			feedDAO.setDisabledUntil(feeds.stream().map(AbstractModel::getId).toList(), nextUpdateDate);
 			return feeds;
 		});
 	}
 
 	private int getBatchSize() {
-		return Math.min(100, 3 * config.getApplicationSettings().getBackgroundThreads());
+		return Math.min(100, 3 * config.feedRefresh().httpThreads());
 	}
 
-	@Override
 	public void stop() {
 		this.feedProcessingLoopExecutor.shutdownNow();
 		this.refillLoopExecutor.shutdownNow();

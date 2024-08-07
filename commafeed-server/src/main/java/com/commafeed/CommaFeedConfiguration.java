@@ -1,188 +1,287 @@
 package com.commafeed;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Properties;
+import java.util.Optional;
 
-import com.commafeed.backend.cache.RedisPoolFactory;
-import com.commafeed.frontend.session.SessionHandlerFactory;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.commafeed.backend.feed.FeedRefreshIntervalCalculator;
 
-import io.dropwizard.core.Configuration;
-import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.util.DataSize;
-import io.dropwizard.util.Duration;
-import jakarta.validation.Valid;
+import io.quarkus.runtime.configuration.MemorySize;
+import io.smallrye.config.ConfigMapping;
+import io.smallrye.config.WithDefault;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.Getter;
-import lombok.Setter;
+import redis.clients.jedis.DefaultJedisClientConfig;
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.JedisClientConfig;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.Protocol;
 
-@Getter
-@Setter
-public class CommaFeedConfiguration extends Configuration {
+/**
+ * CommaFeed configuration
+ *
+ * Default values are for production, they can be overridden in application.properties
+ */
+@ConfigMapping(prefix = "commafeed")
+public interface CommaFeedConfiguration {
 
-	public enum CacheType {
-		NOOP, REDIS
+	/**
+	 * URL used to access commafeed, used for various redirects.
+	 * 
+	 */
+	@NotBlank
+	@WithDefault("http://localhost:8082")
+	String publicUrl();
+
+	/**
+	 * Whether to expose a robots.txt file that disallows web crawlers and search engine indexers.
+	 */
+	@WithDefault("true")
+	boolean hideFromWebCrawlers();
+
+	/**
+	 * If enabled, images in feed entries will be proxied through the server instead of accessed directly by the browser.
+	 * 
+	 * This is useful if commafeed is accessed through a restricting proxy that blocks some feeds that are followed.
+	 */
+	@WithDefault("false")
+	boolean imageProxyEnabled();
+
+	/**
+	 * Message displayed in a notification at the bottom of the page.
+	 */
+	Optional<String> announcement();
+
+	/**
+	 * Google Analytics tracking code.
+	 */
+	Optional<String> googleAnalyticsTrackingCode();
+
+	/**
+	 * Google Auth key for fetching Youtube favicons.
+	 */
+	Optional<String> googleAuthKey();
+
+	/**
+	 * Feed refresh engine settings.
+	 */
+	FeedRefresh feedRefresh();
+
+	/**
+	 * Database settings.
+	 */
+	Database database();
+
+	/**
+	 * Users settings.
+	 */
+	Users users();
+
+	/**
+	 * Websocket settings.
+	 */
+	Websocket websocket();
+
+	/**
+	 * SMTP settings for password recovery.
+	 */
+	Optional<Smtp> smtp();
+
+	/**
+	 * Redis settings to enable caching. This is only really useful on instances with a lot of users.
+	 */
+	Redis redis();
+
+	interface FeedRefresh {
+		/**
+		 * Amount of time CommaFeed will wait before refreshing the same feed.
+		 */
+		@WithDefault("5m")
+		Duration interval();
+
+		/**
+		 * If true, CommaFeed will calculate the next refresh time based on the feed's average entry interval and the time since the last
+		 * entry was published. See {@link FeedRefreshIntervalCalculator} for details.
+		 */
+		@WithDefault("false")
+		boolean intervalEmpirical();
+
+		/**
+		 * Amount of http threads used to fetch feeds.
+		 */
+		@Min(1)
+		@WithDefault("3")
+		int httpThreads();
+
+		/**
+		 * Amount of threads used to insert new entries in the database.
+		 */
+		@Min(1)
+		@WithDefault("1")
+		int databaseThreads();
+
+		/**
+		 * If a feed is larger than this, it will be discarded to prevent memory issues while parsing the feed.
+		 */
+		@WithDefault("5M")
+		MemorySize maxResponseSize();
+
+		/**
+		 * Duration after which a user is considered inactive. Feeds for inactive users are not refreshed until they log in again.
+		 */
+		@WithDefault("0")
+		Duration userInactivityPeriod();
+
+		/**
+		 * User-Agent string that will be used by the http client, leave empty for the default one.
+		 */
+		Optional<String> userAgent();
 	}
 
-	@Valid
-	@NotNull
-	@JsonProperty("database")
-	private final DataSourceFactory dataSourceFactory = new DataSourceFactory();
+	interface Database {
+		/**
+		 * Database query timeout.
+		 */
+		@WithDefault("0")
+		int queryTimeout();
 
-	@Valid
-	@NotNull
-	@JsonProperty("redis")
-	private final RedisPoolFactory redisPoolFactory = new RedisPoolFactory();
+		Cleanup cleanup();
 
-	@Valid
-	@NotNull
-	@JsonProperty("session")
-	private final SessionHandlerFactory sessionHandlerFactory = new SessionHandlerFactory();
+		interface Cleanup {
+			/**
+			 * Maximum age of feed entries in the database. Older entries will be deleted. 0 to disable.
+			 */
+			@WithDefault("365d")
+			Duration entriesMaxAge();
 
-	@Valid
-	@NotNull
-	@JsonProperty("app")
-	private ApplicationSettings applicationSettings;
+			/**
+			 * Maximum age of feed entry statuses (read/unread) in the database. Older statuses will be deleted. 0 to disable.
+			 */
+			@WithDefault("0")
+			Duration statusesMaxAge();
 
-	private final String version;
-	private final String gitCommit;
+			/**
+			 * Maximum number of entries per feed to keep in the database. 0 to disable.
+			 */
+			@WithDefault("500")
+			int maxFeedCapacity();
 
-	public CommaFeedConfiguration() {
-		Properties properties = new Properties();
-		try (InputStream stream = getClass().getResourceAsStream("/git.properties")) {
-			if (stream != null) {
-				properties.load(stream);
+			/**
+			 * Limit the number of feeds a user can subscribe to. 0 to disable.
+			 */
+			@WithDefault("0")
+			int maxFeedsPerUser();
+
+			/**
+			 * Rows to delete per query while cleaning up old entries.
+			 */
+			@Positive
+			@WithDefault("100")
+			int batchSize();
+
+			default Instant statusesInstantThreshold() {
+				return statusesMaxAge().toMillis() > 0 ? Instant.now().minus(statusesMaxAge()) : null;
 			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
 		}
-
-		this.version = properties.getProperty("git.build.version", "unknown");
-		this.gitCommit = properties.getProperty("git.commit.id.abbrev", "unknown");
 	}
 
-	@Getter
-	@Setter
-	public static class ApplicationSettings {
-		@NotNull
-		@NotBlank
-		@Valid
-		private String publicUrl;
+	interface Users {
+		/**
+		 * Whether to let users create accounts for themselves.
+		 */
+		@WithDefault("false")
+		boolean allowRegistrations();
 
-		@NotNull
-		@Valid
-		private Boolean hideFromWebCrawlers = true;
+		/**
+		 * Whether to enable strict password validation (1 uppercase char, 1 lowercase char, 1 digit, 1 special char).
+		 */
+		@WithDefault("true")
+		boolean strictPasswordPolicy();
 
-		@NotNull
-		@Valid
-		private Boolean allowRegistrations;
+		/**
+		 * Whether to create a demo account the first time the app starts.
+		 */
+		@WithDefault("false")
+		boolean createDemoAccount();
+	}
 
-		@NotNull
-		@Valid
-		private Boolean strictPasswordPolicy = true;
+	interface Smtp {
+		String host();
 
-		@NotNull
-		@Valid
-		private Boolean createDemoAccount;
+		int port();
 
-		private String googleAnalyticsTrackingCode;
+		boolean tls();
 
-		private String googleAuthKey;
+		String userName();
 
-		@NotNull
-		@Min(1)
-		@Valid
-		private Integer backgroundThreads;
+		String password();
 
-		@NotNull
-		@Min(1)
-		@Valid
-		private Integer databaseUpdateThreads;
+		String fromAddress();
+	}
 
-		@NotNull
-		@Positive
-		@Valid
-		private Integer databaseCleanupBatchSize = 100;
+	interface Websocket {
+		/**
+		 * Enable websocket connection so the server can notify the web client that there are new entries for your feeds.
+		 */
+		@WithDefault("true")
+		boolean enabled();
 
-		private String smtpHost;
-		private int smtpPort;
-		private boolean smtpTls;
-		private String smtpUserName;
-		private String smtpPassword;
-		private String smtpFromAddress;
+		/**
+		 * Interval at which the client will send a ping message on the websocket to keep the connection alive.
+		 */
+		@WithDefault("15m")
+		Duration pingInterval();
 
-		private boolean graphiteEnabled;
-		private String graphitePrefix;
-		private String graphiteHost;
-		private int graphitePort;
-		private int graphiteInterval;
+		/**
+		 * If the websocket connection is disabled or the connection is lost, the client will reload the feed tree at this interval.
+		 */
+		@WithDefault("30s")
+		Duration treeReloadInterval();
+	}
 
-		@NotNull
-		@Valid
-		private Boolean heavyLoad;
+	interface Redis {
 
-		@NotNull
-		@Valid
-		private Boolean imageProxyEnabled;
+		Optional<String> host();
 
-		@NotNull
-		@Min(0)
-		@Valid
-		private Integer queryTimeout;
+		@WithDefault("" + Protocol.DEFAULT_PORT)
+		int port();
 
-		@NotNull
-		@Min(0)
-		@Valid
-		private Integer keepStatusDays;
+		/**
+		 * Username is only required when using Redis ACLs
+		 */
+		Optional<String> username();
 
-		@NotNull
-		@Min(0)
-		@Valid
-		private Integer maxFeedCapacity;
+		Optional<String> password();
 
-		@NotNull
-		@Min(0)
-		@Valid
-		private Integer maxEntriesAgeDays = 0;
+		@WithDefault("" + Protocol.DEFAULT_TIMEOUT)
+		int timeout();
 
-		@NotNull
-		@Valid
-		private Integer maxFeedsPerUser = 0;
+		@WithDefault("" + Protocol.DEFAULT_DATABASE)
+		int database();
 
-		@NotNull
-		@Valid
-		private DataSize maxFeedResponseSize = DataSize.megabytes(5);
+		@WithDefault("500")
+		int maxTotal();
 
-		@NotNull
-		@Min(0)
-		@Valid
-		private Integer refreshIntervalMinutes;
+		default JedisPool build() {
+			Optional<String> host = host();
+			if (host.isEmpty()) {
+				throw new IllegalStateException("Redis host is required");
+			}
 
-		@NotNull
-		@Valid
-		private CacheType cache;
+			JedisPoolConfig poolConfig = new JedisPoolConfig();
+			poolConfig.setMaxTotal(maxTotal());
 
-		@Valid
-		private String announcement;
+			JedisClientConfig clientConfig = DefaultJedisClientConfig.builder()
+					.user(username().orElse(null))
+					.password(password().orElse(null))
+					.timeoutMillis(timeout())
+					.database(database())
+					.build();
 
-		private String userAgent;
-
-		private Boolean websocketEnabled = true;
-
-		private Duration websocketPingInterval = Duration.minutes(15);
-
-		private Duration treeReloadInterval = Duration.seconds(30);
-
-		public Instant getUnreadThreshold() {
-			return getKeepStatusDays() > 0 ? Instant.now().minus(getKeepStatusDays(), ChronoUnit.DAYS) : null;
+			return new JedisPool(poolConfig, new HostAndPort(host.get(), port()), clientConfig);
 		}
-
 	}
 
 }

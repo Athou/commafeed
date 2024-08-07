@@ -4,11 +4,10 @@ import java.util.concurrent.TimeUnit;
 
 import com.commafeed.backend.service.db.DatabaseCleaningService;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 public class OrphanedContentsCleanupTask extends ScheduledTask {
 

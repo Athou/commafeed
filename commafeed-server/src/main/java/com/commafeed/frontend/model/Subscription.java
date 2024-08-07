@@ -8,6 +8,7 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
@@ -15,6 +16,7 @@ import lombok.Data;
 @SuppressWarnings("serial")
 @Schema(description = "User information")
 @Data
+@RegisterForReflection
 public class Subscription implements Serializable {
 
 	@Schema(description = "subscription id", requiredMode = RequiredMode.REQUIRED)

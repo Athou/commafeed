@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.hibernate.SessionFactory;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.feed.FeedEntryKeyword;
@@ -28,8 +27,8 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQuery;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
 
 @Singleton
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
@@ -42,9 +41,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	private final FeedEntryTagDAO feedEntryTagDAO;
 	private final CommaFeedConfiguration config;
 
-	@Inject
-	public FeedEntryStatusDAO(SessionFactory sessionFactory, FeedEntryTagDAO feedEntryTagDAO, CommaFeedConfiguration config) {
-		super(sessionFactory);
+	public FeedEntryStatusDAO(EntityManager entityManager, FeedEntryTagDAO feedEntryTagDAO, CommaFeedConfiguration config) {
+		super(entityManager, FeedEntryStatus.class);
 		this.feedEntryTagDAO = feedEntryTagDAO;
 		this.config = config;
 	}
@@ -60,8 +58,8 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 	 */
 	private FeedEntryStatus handleStatus(User user, FeedEntryStatus status, FeedSubscription sub, FeedEntry entry) {
 		if (status == null) {
-			Instant unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
-			boolean read = unreadThreshold != null && entry.getPublished().isBefore(unreadThreshold);
+			Instant statusesInstantThreshold = config.database().cleanup().statusesInstantThreshold();
+			boolean read = statusesInstantThreshold != null && entry.getPublished().isBefore(statusesInstantThreshold);
 			status = new FeedEntryStatus(user, sub, entry);
 			status.setRead(read);
 			status.setMarkable(!read);
@@ -84,6 +82,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			boolean includeContent) {
 		JPAQuery<FeedEntryStatus> query = query().selectFrom(STATUS).where(STATUS.user.eq(user), STATUS.starred.isTrue());
 		if (includeContent) {
+			query.join(STATUS.entry).fetchJoin();
 			query.join(STATUS.entry.content).fetchJoin();
 		}
 
@@ -105,7 +104,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			query.limit(limit);
 		}
 
-		setTimeout(query, config.getApplicationSettings().getQueryTimeout());
+		setTimeout(query, config.database().queryTimeout());
 
 		List<FeedEntryStatus> statuses = query.fetch();
 		statuses.forEach(s -> s.setMarkable(true));
@@ -179,7 +178,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			query.limit(limit);
 		}
 
-		setTimeout(query, config.getApplicationSettings().getQueryTimeout());
+		setTimeout(query, config.database().queryTimeout());
 
 		List<FeedEntryStatus> statuses = new ArrayList<>();
 		List<Tuple> tuples = query.fetch();
@@ -217,9 +216,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		or.or(STATUS.read.isNull());
 		or.or(STATUS.read.isFalse());
 
-		Instant unreadThreshold = config.getApplicationSettings().getUnreadThreshold();
-		if (unreadThreshold != null) {
-			return or.and(ENTRY.published.goe(unreadThreshold));
+		Instant statusesInstantThreshold = config.database().cleanup().statusesInstantThreshold();
+		if (statusesInstantThreshold != null) {
+			return or.and(ENTRY.published.goe(statusesInstantThreshold));
 		} else {
 			return or;
 		}

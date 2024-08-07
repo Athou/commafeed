@@ -16,7 +16,6 @@ import com.commafeed.backend.feed.FeedFetcher.FeedFetcherResult;
 import com.commafeed.backend.feed.parser.FeedParserResult.Entry;
 import com.commafeed.backend.model.Feed;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +31,6 @@ public class FeedRefreshWorker {
 	private final CommaFeedConfiguration config;
 	private final Meter feedFetched;
 
-	@Inject
 	public FeedRefreshWorker(FeedRefreshIntervalCalculator refreshIntervalCalculator, FeedFetcher fetcher, CommaFeedConfiguration config,
 			MetricRegistry metrics) {
 		this.refreshIntervalCalculator = refreshIntervalCalculator;
@@ -51,14 +49,14 @@ public class FeedRefreshWorker {
 
 			List<Entry> entries = result.feed().entries();
 
-			Integer maxFeedCapacity = config.getApplicationSettings().getMaxFeedCapacity();
+			int maxFeedCapacity = config.database().cleanup().maxFeedCapacity();
 			if (maxFeedCapacity > 0) {
 				entries = entries.stream().limit(maxFeedCapacity).toList();
 			}
 
-			Integer maxEntriesAgeDays = config.getApplicationSettings().getMaxEntriesAgeDays();
-			if (maxEntriesAgeDays > 0) {
-				Instant threshold = Instant.now().minus(Duration.ofDays(maxEntriesAgeDays));
+			Duration maxEntriesAgeDays = config.database().cleanup().entriesMaxAge();
+			if (!maxEntriesAgeDays.isZero()) {
+				Instant threshold = Instant.now().minus(maxEntriesAgeDays);
 				entries = entries.stream().filter(entry -> entry.published().isAfter(threshold)).toList();
 			}
 

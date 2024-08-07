@@ -1,4 +1,4 @@
-package com.commafeed.frontend.auth;
+package com.commafeed.security.password;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

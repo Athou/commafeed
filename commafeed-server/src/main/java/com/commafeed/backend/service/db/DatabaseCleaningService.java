@@ -14,7 +14,6 @@ import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.Feed;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,7 +34,6 @@ public class DatabaseCleaningService {
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final Meter entriesDeletedMeter;
 
-	@Inject
 	public DatabaseCleaningService(CommaFeedConfiguration config, UnitOfWork unitOfWork, FeedDAO feedDAO, FeedEntryDAO feedEntryDAO,
 			FeedEntryContentDAO feedEntryContentDAO, FeedEntryStatusDAO feedEntryStatusDAO, MetricRegistry metrics) {
 		this.unitOfWork = unitOfWork;
@@ -43,7 +41,7 @@ public class DatabaseCleaningService {
 		this.feedEntryDAO = feedEntryDAO;
 		this.feedEntryContentDAO = feedEntryContentDAO;
 		this.feedEntryStatusDAO = feedEntryStatusDAO;
-		this.batchSize = config.getApplicationSettings().getDatabaseCleanupBatchSize();
+		this.batchSize = config.database().cleanup().batchSize();
 		this.entriesDeletedMeter = metrics.meter(MetricRegistry.name(getClass(), "entriesDeleted"));
 	}
 

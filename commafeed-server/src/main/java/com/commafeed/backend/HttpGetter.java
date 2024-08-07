@@ -21,21 +21,21 @@ import org.apache.hc.client5.http.protocol.RedirectLocations;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpStatus;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.message.BasicHeader;
 import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
-import org.eclipse.jetty.http.HttpStatus;
 
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.CommaFeedVersion;
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteStreams;
 import com.google.common.net.HttpHeaders;
 
-import io.dropwizard.util.DataSize;
-import jakarta.inject.Inject;
+import io.quarkus.runtime.configuration.MemorySize;
 import jakarta.inject.Singleton;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -51,15 +51,15 @@ import nl.altindag.ssl.apache5.util.Apache5SslUtils;
 public class HttpGetter {
 
 	private final CloseableHttpClient client;
-	private final DataSize maxResponseSize;
+	private final MemorySize maxResponseSize;
 
-	@Inject
-	public HttpGetter(CommaFeedConfiguration config, MetricRegistry metrics) {
-		PoolingHttpClientConnectionManager connectionManager = newConnectionManager(config.getApplicationSettings().getBackgroundThreads());
-		String userAgent = Optional.ofNullable(config.getApplicationSettings().getUserAgent())
-				.orElseGet(() -> String.format("CommaFeed/%s (https://github.com/Athou/commafeed)", config.getVersion()));
+	public HttpGetter(CommaFeedConfiguration config, CommaFeedVersion version, MetricRegistry metrics) {
+		PoolingHttpClientConnectionManager connectionManager = newConnectionManager(config.feedRefresh().httpThreads());
+		String userAgent = config.feedRefresh()
+				.userAgent()
+				.orElseGet(() -> String.format("CommaFeed/%s (https://github.com/Athou/commafeed)", version.getVersion()));
 		this.client = newClient(connectionManager, userAgent);
-		this.maxResponseSize = config.getApplicationSettings().getMaxFeedResponseSize();
+		this.maxResponseSize = config.feedRefresh().maxResponseSize();
 
 		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "max"), () -> connectionManager.getTotalStats().getMax());
 		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "size"),
@@ -98,7 +98,7 @@ public class HttpGetter {
 		context.setRequestConfig(RequestConfig.custom().setResponseTimeout(timeout, TimeUnit.MILLISECONDS).build());
 
 		HttpResponse response = client.execute(request, context, resp -> {
-			byte[] content = resp.getEntity() == null ? null : toByteArray(resp.getEntity(), maxResponseSize.toBytes());
+			byte[] content = resp.getEntity() == null ? null : toByteArray(resp.getEntity(), maxResponseSize.asLongValue());
 			int code = resp.getCode();
 			String lastModifiedHeader = Optional.ofNullable(resp.getFirstHeader(HttpHeaders.LAST_MODIFIED))
 					.map(NameValuePair::getValue)
@@ -120,7 +120,7 @@ public class HttpGetter {
 		});
 
 		int code = response.getCode();
-		if (code == HttpStatus.NOT_MODIFIED_304) {
+		if (code == HttpStatus.SC_NOT_MODIFIED) {
 			throw new NotModifiedException("'304 - not modified' http code received");
 		} else if (code >= 300) {
 			throw new HttpResponseException(code, "Server returned HTTP error code " + code);

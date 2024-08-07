@@ -1,14 +1,16 @@
 package com.commafeed.backend;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.SocketTimeoutException;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.client5.http.ConnectTimeoutException;
-import org.eclipse.jetty.http.HttpStatus;
+import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,13 +28,13 @@ import org.mockserver.model.MediaType;
 
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.CommaFeedConfiguration.ApplicationSettings;
+import com.commafeed.CommaFeedVersion;
 import com.commafeed.backend.HttpGetter.HttpResponseException;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.google.common.net.HttpHeaders;
 
-import io.dropwizard.util.DataSize;
+import io.quarkus.runtime.configuration.MemorySize;
 
 @ExtendWith(MockServerExtension.class)
 class HttpGetterTest {
@@ -51,21 +53,17 @@ class HttpGetterTest {
 		this.feedUrl = "http://localhost:" + this.mockServerClient.getPort() + "/";
 		this.feedContent = IOUtils.toByteArray(Objects.requireNonNull(getClass().getResource("/feed/rss.xml")));
 
-		ApplicationSettings settings = new ApplicationSettings();
-		settings.setUserAgent("http-getter-test");
-		settings.setBackgroundThreads(3);
-		settings.setMaxFeedResponseSize(DataSize.kilobytes(10));
+		CommaFeedConfiguration config = Mockito.mock(CommaFeedConfiguration.class, Mockito.RETURNS_DEEP_STUBS);
+		Mockito.when(config.feedRefresh().userAgent()).thenReturn(Optional.of("http-getter-test"));
+		Mockito.when(config.feedRefresh().httpThreads()).thenReturn(3);
+		Mockito.when(config.feedRefresh().maxResponseSize()).thenReturn(new MemorySize(new BigInteger("10000")));
 
-		CommaFeedConfiguration config = new CommaFeedConfiguration();
-		config.setApplicationSettings(settings);
-
-		this.getter = new HttpGetter(config, Mockito.mock(MetricRegistry.class));
+		this.getter = new HttpGetter(config, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
 	}
 
 	@ParameterizedTest
 	@ValueSource(
-			ints = { HttpStatus.UNAUTHORIZED_401, HttpStatus.FORBIDDEN_403, HttpStatus.NOT_FOUND_404,
-					HttpStatus.INTERNAL_SERVER_ERROR_500 })
+			ints = { HttpStatus.SC_UNAUTHORIZED, HttpStatus.SC_FORBIDDEN, HttpStatus.SC_NOT_FOUND, HttpStatus.SC_INTERNAL_SERVER_ERROR })
 	void errorCodes(int code) {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(HttpResponse.response().withStatusCode(code));
 
@@ -93,8 +91,8 @@ class HttpGetterTest {
 
 	@ParameterizedTest
 	@ValueSource(
-			ints = { HttpStatus.MOVED_PERMANENTLY_301, HttpStatus.MOVED_TEMPORARILY_302, HttpStatus.TEMPORARY_REDIRECT_307,
-					HttpStatus.PERMANENT_REDIRECT_308 })
+			ints = { HttpStatus.SC_MOVED_PERMANENTLY, HttpStatus.SC_MOVED_TEMPORARILY, HttpStatus.SC_TEMPORARY_REDIRECT,
+					HttpStatus.SC_PERMANENT_REDIRECT })
 	void followRedirects(int code) throws Exception {
 		// first redirect
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withPath("/"))
@@ -129,7 +127,7 @@ class HttpGetterTest {
 	void connectTimeout() {
 		// try to connect to a non-routable address
 		// https://stackoverflow.com/a/904609
-		Assertions.assertThrows(ConnectTimeoutException.class, () -> getter.getBinary("http://10.255.255.1", 2000));
+		Assertions.assertThrows(ConnectTimeoutException.class, () -> getter.getBinary("http://10.255.255.1", 500));
 	}
 
 	@Test
@@ -144,7 +142,7 @@ class HttpGetterTest {
 	@Test
 	void lastModifiedReturns304() {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.IF_MODIFIED_SINCE, "123456"))
-				.respond(HttpResponse.response().withStatusCode(HttpStatus.NOT_MODIFIED_304));
+				.respond(HttpResponse.response().withStatusCode(HttpStatus.SC_NOT_MODIFIED));
 
 		Assertions.assertThrows(NotModifiedException.class, () -> getter.getBinary(this.feedUrl, "123456", null, TIMEOUT));
 	}
@@ -152,7 +150,7 @@ class HttpGetterTest {
 	@Test
 	void eTagReturns304() {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.IF_NONE_MATCH, "78910"))
-				.respond(HttpResponse.response().withStatusCode(HttpStatus.NOT_MODIFIED_304));
+				.respond(HttpResponse.response().withStatusCode(HttpStatus.SC_NOT_MODIFIED));
 
 		Assertions.assertThrows(NotModifiedException.class, () -> getter.getBinary(this.feedUrl, null, "78910", TIMEOUT));
 	}
@@ -195,7 +193,7 @@ class HttpGetterTest {
 
 	@Test
 	void largeFeedWithContentLengthHeader() {
-		byte[] bytes = new byte[(int) DataSize.kilobytes(100).toBytes()];
+		byte[] bytes = new byte[100000];
 		Arrays.fill(bytes, (byte) 1);
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(HttpResponse.response().withBody(bytes));
 
@@ -205,7 +203,7 @@ class HttpGetterTest {
 
 	@Test
 	void largeFeedWithoutContentLengthHeader() {
-		byte[] bytes = new byte[(int) DataSize.kilobytes(100).toBytes()];
+		byte[] bytes = new byte[100000];
 		Arrays.fill(bytes, (byte) 1);
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
 				.respond(HttpResponse.response()

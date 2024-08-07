@@ -1,20 +1,35 @@
 package com.commafeed.e2e;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.commafeed.CommaFeedDropwizardAppExtension;
+import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.options.AriaRole;
 
-import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
+import io.quarkus.test.junit.QuarkusTest;
 
-@ExtendWith(DropwizardExtensionsSupport.class)
-class AuthentificationIT extends PlaywrightTestBase {
+@QuarkusTest
+class AuthentificationIT {
 
-	private static final CommaFeedDropwizardAppExtension EXT = new CommaFeedDropwizardAppExtension();
+	private final Playwright playwright = Playwright.create();
+	private final Browser browser = playwright.chromium().launch();
+
+	private Page page;
+
+	@BeforeEach
+	void init() {
+		page = browser.newContext().newPage();
+	}
+
+	@AfterEach
+	void cleanup() {
+		playwright.close();
+	}
 
 	@Test
 	void loginFail() {
@@ -29,7 +44,7 @@ class AuthentificationIT extends PlaywrightTestBase {
 	void loginSuccess() {
 		page.navigate(getLoginPageUrl());
 		PlaywrightTestUtils.login(page);
-		PlaywrightAssertions.assertThat(page).hasURL("http://localhost:" + EXT.getLocalPort() + "/#/app/category/all");
+		PlaywrightAssertions.assertThat(page).hasURL("http://localhost:8085/#/app/category/all");
 	}
 
 	@Test
@@ -56,10 +71,10 @@ class AuthentificationIT extends PlaywrightTestBase {
 		page.getByPlaceholder("E-mail address").fill("user@domain.com");
 		page.getByPlaceholder("Password").fill("MyPassword1!");
 		page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Sign up")).click();
-		PlaywrightAssertions.assertThat(page).hasURL("http://localhost:" + EXT.getLocalPort() + "/#/app/category/all");
+		PlaywrightAssertions.assertThat(page).hasURL("http://localhost:8085/#/app/category/all");
 	}
 
 	private String getLoginPageUrl() {
-		return "http://localhost:" + EXT.getLocalPort() + "/#/login";
+		return "http://localhost:8085/#/login";
 	}
 }

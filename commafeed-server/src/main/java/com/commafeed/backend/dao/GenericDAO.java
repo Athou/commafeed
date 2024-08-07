@@ -2,7 +2,7 @@ package com.commafeed.backend.dao;
 
 import java.util.Collection;
 
-import org.hibernate.SessionFactory;
+import org.hibernate.Session;
 import org.hibernate.jpa.SpecHints;
 
 import com.commafeed.backend.model.AbstractModel;
@@ -12,45 +12,43 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
 
-import io.dropwizard.hibernate.AbstractDAO;
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 
-public abstract class GenericDAO<T extends AbstractModel> extends AbstractDAO<T> {
+@RequiredArgsConstructor
+public abstract class GenericDAO<T extends AbstractModel> {
 
-	protected GenericDAO(SessionFactory sessionFactory) {
-		super(sessionFactory);
-	}
+	private final EntityManager entityManager;
+	private final Class<T> entityClass;
 
 	protected JPAQueryFactory query() {
-		return new JPAQueryFactory(currentSession());
+		return new JPAQueryFactory(entityManager);
 	}
 
 	protected JPAUpdateClause updateQuery(EntityPath<T> entityPath) {
-		return new JPAUpdateClause(currentSession(), entityPath);
+		return new JPAUpdateClause(entityManager, entityPath);
 	}
 
 	protected JPADeleteClause deleteQuery(EntityPath<T> entityPath) {
-		return new JPADeleteClause(currentSession(), entityPath);
+		return new JPADeleteClause(entityManager, entityPath);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void saveOrUpdate(T model) {
-		persist(model);
+		entityManager.unwrap(Session.class).saveOrUpdate(model);
 	}
 
 	public void saveOrUpdate(Collection<T> models) {
-		models.forEach(this::persist);
-	}
-
-	public void update(T model) {
-		currentSession().merge(model);
+		models.forEach(this::saveOrUpdate);
 	}
 
 	public T findById(Long id) {
-		return get(id);
+		return entityManager.find(entityClass, id);
 	}
 
 	public void delete(T object) {
 		if (object != null) {
-			currentSession().remove(object);
+			entityManager.remove(object);
 		}
 	}
 

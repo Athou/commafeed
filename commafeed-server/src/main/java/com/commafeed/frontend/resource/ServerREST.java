@@ -1,25 +1,23 @@
 package com.commafeed.frontend.resource;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.CommaFeedVersion;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.feed.FeedUtils;
-import com.commafeed.backend.model.User;
-import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.ServerInfo;
+import com.commafeed.security.Roles;
 
-import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.inject.Inject;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Singleton;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -30,49 +28,50 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import lombok.RequiredArgsConstructor;
 
-@Path("/server")
+@Path("/rest/server")
+
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 @Tag(name = "Server")
 public class ServerREST {
 
 	private final HttpGetter httpGetter;
 	private final CommaFeedConfiguration config;
+	private final CommaFeedVersion version;
 
 	@Path("/get")
 	@GET
-	@UnitOfWork
+	@PermitAll
+	@Transactional
 	@Operation(
 			summary = "Get server infos",
 			description = "Get server infos",
 			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = ServerInfo.class))) })
-	@Timed
 	public Response getServerInfos() {
 		ServerInfo infos = new ServerInfo();
-		infos.setAnnouncement(config.getApplicationSettings().getAnnouncement());
-		infos.setVersion(config.getVersion());
-		infos.setGitCommit(config.getGitCommit());
-		infos.setAllowRegistrations(config.getApplicationSettings().getAllowRegistrations());
-		infos.setGoogleAnalyticsCode(config.getApplicationSettings().getGoogleAnalyticsTrackingCode());
-		infos.setSmtpEnabled(StringUtils.isNotBlank(config.getApplicationSettings().getSmtpHost()));
-		infos.setDemoAccountEnabled(config.getApplicationSettings().getCreateDemoAccount());
-		infos.setWebsocketEnabled(config.getApplicationSettings().getWebsocketEnabled());
-		infos.setWebsocketPingInterval(config.getApplicationSettings().getWebsocketPingInterval().toMilliseconds());
-		infos.setTreeReloadInterval(config.getApplicationSettings().getTreeReloadInterval().toMilliseconds());
+		infos.setAnnouncement(config.announcement().orElse(null));
+		infos.setVersion(version.getVersion());
+		infos.setGitCommit(version.getGitCommit());
+		infos.setAllowRegistrations(config.users().allowRegistrations());
+		infos.setGoogleAnalyticsCode(config.googleAnalyticsTrackingCode().orElse(null));
+		infos.setSmtpEnabled(config.smtp().isPresent());
+		infos.setDemoAccountEnabled(config.users().createDemoAccount());
+		infos.setWebsocketEnabled(config.websocket().enabled());
+		infos.setWebsocketPingInterval(config.websocket().pingInterval().toMillis());
+		infos.setTreeReloadInterval(config.websocket().treeReloadInterval().toMillis());
 		return Response.ok(infos).build();
 	}
 
 	@Path("/proxy")
 	@GET
-	@UnitOfWork
+	@RolesAllowed(Roles.USER)
+	@Transactional
 	@Operation(summary = "proxy image")
 	@Produces("image/png")
-	@Timed
-	public Response getProxiedImage(@Parameter(hidden = true) @SecurityCheck User user,
-			@Parameter(description = "image url", required = true) @QueryParam("u") String url) {
-		if (!config.getApplicationSettings().getImageProxyEnabled()) {
+	public Response getProxiedImage(@Parameter(description = "image url", required = true) @QueryParam("u") String url) {
+		if (!config.imageProxyEnabled()) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 

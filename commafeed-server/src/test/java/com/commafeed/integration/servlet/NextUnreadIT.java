@@ -1,6 +1,10 @@
 package com.commafeed.integration.servlet;
 
-import org.eclipse.jetty.http.HttpStatus;
+import java.net.HttpCookie;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.hc.core5.http.HttpStatus;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
@@ -9,9 +13,11 @@ import org.junit.jupiter.api.Test;
 
 import com.commafeed.integration.BaseIT;
 
+import io.quarkus.test.junit.QuarkusTest;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 
+@QuarkusTest
 class NextUnreadIT extends BaseIT {
 
 	@Override
@@ -23,13 +29,13 @@ class NextUnreadIT extends BaseIT {
 	void test() {
 		subscribeAndWaitForEntries(getFeedUrl());
 
-		String cookie = login();
+		List<HttpCookie> cookies = login();
 		Response response = getClient().target(getBaseUrl() + "next")
 				.property(ClientProperties.FOLLOW_REDIRECTS, Boolean.FALSE)
 				.request()
-				.header(HttpHeaders.COOKIE, "JSESSIONID=" + cookie)
+				.header(HttpHeaders.COOKIE, cookies.stream().map(HttpCookie::toString).collect(Collectors.joining(";")))
 				.get();
-		Assertions.assertEquals(HttpStatus.FOUND_302, response.getStatus());
+		Assertions.assertEquals(HttpStatus.SC_TEMPORARY_REDIRECT, response.getStatus());
 		Assertions.assertEquals("https://hostname.local/commafeed/2", response.getHeaderString(HttpHeaders.LOCATION));
 	}
 

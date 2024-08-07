@@ -4,21 +4,19 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.config.CommaFeedConfiguration;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 @Singleton
 public class FeedRefreshIntervalCalculator {
 
 	private final boolean heavyLoad;
-	private final int refreshIntervalMinutes;
+	private final Duration refreshInterval;
 
-	@Inject
 	public FeedRefreshIntervalCalculator(CommaFeedConfiguration config) {
-		this.heavyLoad = config.getApplicationSettings().getHeavyLoad();
-		this.refreshIntervalMinutes = config.getApplicationSettings().getRefreshIntervalMinutes();
+		this.heavyLoad = config.heavyLoad();
+		this.refreshInterval = config.feedRefreshInterval();
 	}
 
 	public Instant onFetchSuccess(Instant publishedDate, Long averageEntryInterval) {
@@ -42,7 +40,7 @@ public class FeedRefreshIntervalCalculator {
 	}
 
 	private Instant getDefaultRefreshInterval() {
-		return Instant.now().plus(Duration.ofMinutes(refreshIntervalMinutes));
+		return Instant.now().plus(refreshInterval);
 	}
 
 	private Instant computeRefreshIntervalForHeavyLoad(Instant publishedDate, Long averageEntryInterval, Instant defaultRefreshInterval) {

@@ -1,68 +1,20 @@
 package com.commafeed.backend.dao;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.context.internal.ManagedSessionContext;
-
-import jakarta.inject.Inject;
+import io.quarkus.narayana.jta.QuarkusTransaction;
 import jakarta.inject.Singleton;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class UnitOfWork {
 
-	private final SessionFactory sessionFactory;
-
-	public void run(SessionRunner sessionRunner) {
+	public void run(SessionRunner runner) {
 		call(() -> {
-			sessionRunner.runInSession();
+			runner.runInSession();
 			return null;
 		});
 	}
 
-	public <T> T call(SessionRunnerReturningValue<T> sessionRunner) {
-		T t = null;
-
-		boolean sessionAlreadyBound = ManagedSessionContext.hasBind(sessionFactory);
-		try (Session session = sessionFactory.openSession()) {
-			if (!sessionAlreadyBound) {
-				ManagedSessionContext.bind(session);
-			}
-
-			Transaction tx = session.beginTransaction();
-			try {
-				t = sessionRunner.runInSession();
-				commitTransaction(tx);
-			} catch (Exception e) {
-				rollbackTransaction(tx);
-				UnitOfWork.rethrow(e);
-			}
-		} finally {
-			if (!sessionAlreadyBound) {
-				ManagedSessionContext.unbind(sessionFactory);
-			}
-		}
-
-		return t;
-	}
-
-	private static void rollbackTransaction(Transaction tx) {
-		if (tx != null && tx.isActive()) {
-			tx.rollback();
-		}
-	}
-
-	private static void commitTransaction(Transaction tx) {
-		if (tx != null && tx.isActive()) {
-			tx.commit();
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private static <E extends Exception> void rethrow(Exception e) throws E {
-		throw (E) e;
+	public <T> T call(SessionRunnerReturningValue<T> runner) {
+		return QuarkusTransaction.joiningExisting().call(runner::runInSession);
 	}
 
 	@FunctionalInterface

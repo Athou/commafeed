@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
-import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryContentDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
@@ -13,8 +12,8 @@ import com.commafeed.backend.dao.FeedEntryDAO.FeedCapacity;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.Feed;
+import com.commafeed.config.CommaFeedConfiguration;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,7 +34,6 @@ public class DatabaseCleaningService {
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final Meter entriesDeletedMeter;
 
-	@Inject
 	public DatabaseCleaningService(CommaFeedConfiguration config, UnitOfWork unitOfWork, FeedDAO feedDAO, FeedEntryDAO feedEntryDAO,
 			FeedEntryContentDAO feedEntryContentDAO, FeedEntryStatusDAO feedEntryStatusDAO, MetricRegistry metrics) {
 		this.unitOfWork = unitOfWork;
@@ -43,7 +41,7 @@ public class DatabaseCleaningService {
 		this.feedEntryDAO = feedEntryDAO;
 		this.feedEntryContentDAO = feedEntryContentDAO;
 		this.feedEntryStatusDAO = feedEntryStatusDAO;
-		this.batchSize = config.getApplicationSettings().getDatabaseCleanupBatchSize();
+		this.batchSize = config.databaseCleanupBatchSize();
 		this.entriesDeletedMeter = metrics.meter(MetricRegistry.name(getClass(), "entriesDeleted"));
 	}
 

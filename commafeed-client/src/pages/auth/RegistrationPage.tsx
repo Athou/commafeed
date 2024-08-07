@@ -24,9 +24,15 @@ export function RegistrationPage() {
         },
     })
 
-    const register = useAsyncCallback(client.user.register, {
+    const login = useAsyncCallback(client.user.login, {
         onSuccess: () => {
             dispatch(redirectToRootCategory())
+        },
+    })
+
+    const register = useAsyncCallback(client.user.register, {
+        onSuccess: () => {
+            login.execute(form.values)
         },
     })
 
@@ -50,6 +56,12 @@ export function RegistrationPage() {
                             </Box>
                         )}
 
+                        {login.error && (
+                            <Box mb="md">
+                                <Alert messages={errorToStrings(login.error)} />
+                            </Box>
+                        )}
+
                         <form onSubmit={form.onSubmit(register.execute)}>
                             <Stack>
                                 <TextInput label="User Name" placeholder="User Name" {...form.getInputProps("name")} size="md" required />
@@ -68,7 +80,7 @@ export function RegistrationPage() {
                                     size="md"
                                     required
                                 />
-                                <Button type="submit" loading={register.loading}>
+                                <Button type="submit" loading={register.loading || login.loading}>
                                     <Trans>Sign up</Trans>
                                 </Button>
                                 <Center>

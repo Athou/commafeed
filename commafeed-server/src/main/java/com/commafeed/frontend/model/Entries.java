@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
@@ -11,6 +12,7 @@ import lombok.Data;
 @SuppressWarnings("serial")
 @Schema(description = "List of entries with some metadata")
 @Data
+@RegisterForReflection
 public class Entries implements Serializable {
 
 	@Schema(description = "name of the feed or the category requested", requiredMode = RequiredMode.REQUIRED)

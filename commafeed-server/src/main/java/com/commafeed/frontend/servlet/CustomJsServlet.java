@@ -1,30 +1,38 @@
 package com.commafeed.frontend.servlet;
 
 import com.commafeed.backend.dao.UnitOfWork;
-import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
+import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
+import com.commafeed.security.AuthenticationContext;
+import com.commafeed.security.Roles;
 
-import jakarta.inject.Inject;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Singleton;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import lombok.RequiredArgsConstructor;
 
+@Path("/custom_js.js")
+@RolesAllowed(Roles.USER)
+@Produces("application/javascript")
+@RequiredArgsConstructor
 @Singleton
-public class CustomJsServlet extends AbstractCustomCodeServlet {
+public class CustomJsServlet {
 
-	private static final long serialVersionUID = 1L;
+	private final AuthenticationContext authenticationContext;
+	private final UserSettingsDAO userSettingsDAO;
+	private final UnitOfWork unitOfWork;
 
-	@Inject
-	public CustomJsServlet(UnitOfWork unitOfWork, UserDAO userDAO, UserSettingsDAO userSettingsDAO) {
-		super(unitOfWork, userDAO, userSettingsDAO);
-	}
+	@GET
+	public String get() {
+		User user = authenticationContext.getCurrentUser();
+		UserSettings settings = unitOfWork.call(() -> userSettingsDAO.findByUser(user));
+		if (settings == null) {
+			return "";
+		}
 
-	@Override
-	protected String getMimeType() {
-		return "application/javascript";
-	}
-
-	@Override
-	protected String getCustomCode(UserSettings settings) {
 		return settings.getCustomJs();
 	}
 

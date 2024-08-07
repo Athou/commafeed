@@ -1,7 +1,7 @@
 package com.commafeed.backend.feed;
 
 import java.time.Instant;
-import java.util.Set;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ class FeedFetcherTest {
 	private HttpGetter getter;
 
 	@Mock
-	private Set<FeedURLProvider> urlProviders;
+	private List<FeedURLProvider> urlProviders;
 
 	private FeedFetcher fetcher;
 

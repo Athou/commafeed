@@ -1,0 +1,15 @@
+{
+	"resources": {
+		"includes": [
+			{
+				"pattern": "\\Qimages/default_favicon.gif\\E"
+			},
+			{
+				"pattern": "\\Qgit.properties\\E"
+			},
+			{
+				"pattern": "\\Qrome.properties\\E"
+			}
+		]
+	}
+}

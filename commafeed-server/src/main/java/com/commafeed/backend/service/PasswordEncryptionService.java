@@ -12,7 +12,6 @@ import javax.crypto.spec.PBEKeySpec;
 
 import org.apache.commons.lang3.StringUtils;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 // taken from http://www.javacodegeeks.com/2012/05/secure-password-storage-donts-dos-and.html
 @SuppressWarnings("serial")
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 public class PasswordEncryptionService implements Serializable {
 

@@ -9,10 +9,13 @@ import com.rometools.opml.io.impl.OPML10Parser;
 import com.rometools.rome.feed.WireFeed;
 import com.rometools.rome.io.FeedException;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 /**
  * Support for OPML 1.1 parsing
  * 
  */
+@RegisterForReflection
 public class OPML11Parser extends OPML10Parser {
 
 	public OPML11Parser() {

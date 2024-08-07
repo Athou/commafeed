@@ -1,5 +1,6 @@
 package com.commafeed.integration.rest;
 
+import org.apache.hc.core5.http.HttpStatus;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.junit.jupiter.api.Assertions;
@@ -12,9 +13,11 @@ import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.resource.fever.FeverResponse;
 import com.commafeed.integration.BaseIT;
 
+import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.RestAssured;
 import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.Form;
 
+@QuarkusTest
 class FeverIT extends BaseIT {
 
 	private Long userId;
@@ -26,7 +29,7 @@ class FeverIT extends BaseIT {
 	}
 
 	@BeforeEach
-	void init() {
+	void setup() {
 		// create api key
 		ProfileModificationRequest req = new ProfileModificationRequest();
 		req.setCurrentPassword("admin");
@@ -70,12 +73,12 @@ class FeverIT extends BaseIT {
 	}
 
 	private FeverResponse fetch(String what, String apiKey) {
-		Form form = new Form();
-		form.param("api_key", Digests.md5Hex("admin:" + apiKey));
-		form.param(what, "1");
-		return getClient().target(getApiBaseUrl() + "fever/user/{userId}")
-				.resolveTemplate("userId", userId)
-				.request()
-				.post(Entity.form(form), FeverResponse.class);
+		return RestAssured.given()
+				.formParams("api_key", Digests.md5Hex("admin:" + apiKey), what, "1")
+				.post("/rest/fever/user/{userId}", userId)
+				.then()
+				.statusCode(HttpStatus.SC_OK)
+				.extract()
+				.as(FeverResponse.class);
 	}
 }

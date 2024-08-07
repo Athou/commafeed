@@ -7,10 +7,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 
 import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedApplication;
-import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.CommaFeedConfiguration.ApplicationSettings;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.model.User;
@@ -18,14 +15,14 @@ import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.UserService;
-import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.AdminSaveUserRequest;
 import com.commafeed.frontend.model.request.IDRequest;
+import com.commafeed.security.AuthenticationContext;
+import com.commafeed.security.Roles;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
-import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -33,8 +30,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.inject.Inject;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Singleton;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -46,30 +44,29 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import lombok.RequiredArgsConstructor;
 
-@Path("/admin")
+@Path("/rest/admin")
+@RolesAllowed(Roles.ADMIN)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 @Tag(name = "Admin")
 public class AdminREST {
 
+	private final AuthenticationContext authenticationContext;
 	private final UserDAO userDAO;
 	private final UserRoleDAO userRoleDAO;
 	private final UserService userService;
 	private final PasswordEncryptionService encryptionService;
-	private final CommaFeedConfiguration config;
 	private final MetricRegistry metrics;
 
 	@Path("/user/save")
 	@POST
-	@UnitOfWork
+	@Transactional
 	@Operation(
 			summary = "Save or update a user",
 			description = "Save or update a user. If the id is not specified, a new user will be created")
-	@Timed
-	public Response adminSaveUser(@Parameter(hidden = true) @SecurityCheck(Role.ADMIN) User user,
-			@Parameter(required = true) AdminSaveUserRequest req) {
+	public Response adminSaveUser(@Parameter(required = true) AdminSaveUserRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getName());
 
@@ -87,6 +84,7 @@ public class AdminREST {
 				return Response.status(Status.CONFLICT).entity(e.getMessage()).build();
 			}
 		} else {
+			User user = authenticationContext.getCurrentUser();
 			if (req.getId().equals(user.getId()) && !req.isEnabled()) {
 				return Response.status(Status.FORBIDDEN).entity("You cannot disable your own account.").build();
 			}
@@ -121,14 +119,12 @@ public class AdminREST {
 
 	@Path("/user/get/{id}")
 	@GET
-	@UnitOfWork
+	@Transactional
 	@Operation(
 			summary = "Get user information",
 			description = "Get user information",
 			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = UserModel.class))) })
-	@Timed
-	public Response adminGetUser(@Parameter(hidden = true) @SecurityCheck(Role.ADMIN) User user,
-			@Parameter(description = "user id", required = true) @PathParam("id") Long id) {
+	public Response adminGetUser(@Parameter(description = "user id", required = true) @PathParam("id") Long id) {
 		Preconditions.checkNotNull(id);
 		User u = userDAO.findById(id);
 		UserModel userModel = new UserModel();
@@ -142,13 +138,12 @@ public class AdminREST {
 
 	@Path("/user/getAll")
 	@GET
-	@UnitOfWork
+	@Transactional
 	@Operation(
 			summary = "Get all users",
 			description = "Get all users",
 			responses = { @ApiResponse(content = @Content(array = @ArraySchema(schema = @Schema(implementation = UserModel.class)))) })
-	@Timed
-	public Response adminGetUsers(@Parameter(hidden = true) @SecurityCheck(Role.ADMIN) User user) {
+	public Response adminGetUsers() {
 		Map<Long, UserModel> users = new HashMap<>();
 		for (UserRole role : userRoleDAO.findAll()) {
 			User u = role.getUser();
@@ -173,11 +168,9 @@ public class AdminREST {
 
 	@Path("/user/delete")
 	@POST
-	@UnitOfWork
+	@Transactional
 	@Operation(summary = "Delete a user", description = "Delete a user, and all his subscriptions")
-	@Timed
-	public Response adminDeleteUser(@Parameter(hidden = true) @SecurityCheck(Role.ADMIN) User user,
-			@Parameter(required = true) IDRequest req) {
+	public Response adminDeleteUser(@Parameter(required = true) IDRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -185,6 +178,8 @@ public class AdminREST {
 		if (u == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
+
+		User user = authenticationContext.getCurrentUser();
 		if (user.getId().equals(u.getId())) {
 			return Response.status(Status.FORBIDDEN).entity("You cannot delete your own user.").build();
 		}
@@ -192,24 +187,11 @@ public class AdminREST {
 		return Response.ok().build();
 	}
 
-	@Path("/settings")
-	@GET
-	@UnitOfWork
-	@Operation(
-			summary = "Retrieve application settings",
-			description = "Retrieve application settings",
-			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = ApplicationSettings.class))) })
-	@Timed
-	public Response getApplicationSettings(@Parameter(hidden = true) @SecurityCheck(Role.ADMIN) User user) {
-		return Response.ok(config.getApplicationSettings()).build();
-	}
-
 	@Path("/metrics")
 	@GET
-	@UnitOfWork
+	@Transactional
 	@Operation(summary = "Retrieve server metrics")
-	@Timed
-	public Response getMetrics(@Parameter(hidden = true) @SecurityCheck(Role.ADMIN) User user) {
+	public Response getMetrics() {
 		return Response.ok(metrics).build();
 	}
 

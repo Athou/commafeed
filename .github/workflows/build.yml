@@ -33,28 +33,22 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode --no-transfer-progress install
         env:
-          TEST_DATABASE: h2
+          QUARKUS_DATASOURCE_DB_KIND: h2
 
       - name: Run integration tests on PostgreSQL
         run: mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
         env:
-          TEST_DATABASE: postgresql
+          QUARKUS_DATASOURCE_DB_KIND: postgresql
 
       - name: Run integration tests on MySQL
         run: mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
         env:
-          TEST_DATABASE: mysql
+          QUARKUS_DATASOURCE_DB_KIND: mysql
 
       - name: Run integration tests on MariaDB
         run: mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
         env:
-          TEST_DATABASE: mariadb
-
-      - name: Run integration tests with Redis cache enabled
-        run: mvn --batch-mode --no-transfer-progress failsafe:integration-test failsafe:verify
-        env:
-          TEST_DATABASE: h2
-          REDIS: true
+          QUARKUS_DATASOURCE_DB_KIND: mariadb
 
       # Upload artifacts
       - name: Upload JAR

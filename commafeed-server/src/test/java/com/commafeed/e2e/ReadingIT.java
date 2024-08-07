@@ -14,19 +14,16 @@ import org.mockserver.junit.jupiter.MockServerExtension;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
-import com.commafeed.CommaFeedDropwizardAppExtension;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.options.AriaRole;
 
-import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
+import io.quarkus.test.junit.QuarkusIntegrationTest;
 
-@ExtendWith(DropwizardExtensionsSupport.class)
+@QuarkusIntegrationTest
 @ExtendWith(MockServerExtension.class)
 class ReadingIT extends PlaywrightTestBase {
-
-	private static final CommaFeedDropwizardAppExtension EXT = new CommaFeedDropwizardAppExtension();
 
 	private MockServerClient mockServerClient;
 
@@ -42,7 +39,7 @@ class ReadingIT extends PlaywrightTestBase {
 	@Test
 	void scenario() {
 		// login
-		page.navigate("http://localhost:" + EXT.getLocalPort());
+		page.navigate("http://localhost:8084");
 		page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Log in")).click();
 		PlaywrightTestUtils.login(page);
 

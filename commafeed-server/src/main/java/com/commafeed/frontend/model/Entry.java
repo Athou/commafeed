@@ -19,6 +19,7 @@ import com.rometools.rome.feed.synd.SyndEnclosureImpl;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndEntryImpl;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
@@ -26,6 +27,7 @@ import lombok.Data;
 @SuppressWarnings("serial")
 @Schema(description = "Entry details")
 @Data
+@RegisterForReflection
 public class Entry implements Serializable {
 
 	@Schema(description = "entry id", requiredMode = RequiredMode.REQUIRED)

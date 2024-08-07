@@ -3,16 +3,14 @@ package com.commafeed.backend.dao;
 import java.time.Instant;
 import java.util.List;
 
-import org.hibernate.SessionFactory;
-
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.QFeedEntry;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.NumberExpression;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -21,9 +19,8 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
 	private static final QFeedEntry ENTRY = QFeedEntry.feedEntry;
 
-	@Inject
-	public FeedEntryDAO(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public FeedEntryDAO(EntityManager entityManager) {
+		super(entityManager, FeedEntry.class);
 	}
 
 	public FeedEntry findExisting(String guidHash, Feed feed) {

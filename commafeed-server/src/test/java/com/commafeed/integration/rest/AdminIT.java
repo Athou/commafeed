@@ -9,25 +9,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import com.commafeed.CommaFeedConfiguration.ApplicationSettings;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.integration.BaseIT;
 
+import io.quarkus.test.junit.QuarkusTest;
 import jakarta.ws.rs.client.Entity;
 
+@QuarkusTest
 class AdminIT extends BaseIT {
 
 	@Override
 	protected JerseyClientBuilder configureClientBuilder(JerseyClientBuilder base) {
 		return base.register(HttpAuthenticationFeature.basic("admin", "admin"));
-	}
-
-	@Test
-	void getApplicationSettings() {
-		ApplicationSettings settings = getClient().target(getApiBaseUrl() + "admin/settings").request().get(ApplicationSettings.class);
-		Assertions.assertTrue(settings.getAllowRegistrations());
 	}
 
 	@Nested

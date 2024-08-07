@@ -15,11 +15,10 @@ import com.rometools.opml.feed.opml.Attribute;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 public class OPMLExporter {
 
@@ -28,7 +27,7 @@ public class OPMLExporter {
 
 	public Opml export(User user) {
 		Opml opml = new Opml();
-		opml.setFeedType("opml_1.1");
+		opml.setFeedType("opml_1.0");
 		opml.setTitle(String.format("%s subscriptions in CommaFeed", user.getName()));
 		opml.setCreated(new Date());
 

@@ -4,7 +4,7 @@ services:
   mysql:
     image: mariadb
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=commafeed
       - MYSQL_DATABASE=commafeed
     ports:
       - "3306:3306"
@@ -12,8 +12,8 @@ services:
   postgresql:
     image: postgres
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=commafeed
+      - POSTGRES_PASSWORD=commafeed
       - POSTGRES_DB=commafeed
     ports:
       - "5432:5432"

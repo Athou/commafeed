@@ -4,24 +4,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.hibernate.SessionFactory;
-
 import com.commafeed.backend.model.QUserRole;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
 
 @Singleton
 public class UserRoleDAO extends GenericDAO<UserRole> {
 
 	private static final QUserRole ROLE = QUserRole.userRole;
 
-	@Inject
-	public UserRoleDAO(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public UserRoleDAO(EntityManager entityManager) {
+		super(entityManager, UserRole.class);
 	}
 
 	public List<UserRole> findAll() {

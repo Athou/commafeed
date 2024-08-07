@@ -3,25 +3,22 @@ package com.commafeed.backend.dao;
 import java.util.List;
 import java.util.Objects;
 
-import org.hibernate.SessionFactory;
-
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.QFeedCategory;
 import com.commafeed.backend.model.QUser;
 import com.commafeed.backend.model.User;
 import com.querydsl.core.types.Predicate;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
 
 @Singleton
 public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 
 	private static final QFeedCategory CATEGORY = QFeedCategory.feedCategory;
 
-	@Inject
-	public FeedCategoryDAO(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public FeedCategoryDAO(EntityManager entityManager) {
+		super(entityManager, FeedCategory.class);
 	}
 
 	public List<FeedCategory> findAll(User user) {

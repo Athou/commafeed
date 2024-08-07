@@ -1,4 +1,4 @@
-package com.commafeed.frontend.auth;
+package com.commafeed.security.password;
 
 import java.util.List;
 

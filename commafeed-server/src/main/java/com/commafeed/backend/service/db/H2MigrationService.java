@@ -4,20 +4,29 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.manticore.h2.H2MigrationTool;
 
-import lombok.RequiredArgsConstructor;
+import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
-@RequiredArgsConstructor
+@Singleton
 @Slf4j
 public class H2MigrationService {
 
 	private static final String H2_FILE_SUFFIX = ".mv.db";
+
+	public void migrateIfNeeded(String jdbcUrl, String user, String password) {
+		if (!isFileBasedH2(jdbcUrl)) {
+			return;
+		}
+
+		migrateIfNeeded(getFilePath(jdbcUrl), user, password);
+	}
 
 	public void migrateIfNeeded(Path path, String user, String password) {
 		if (Files.notExists(path)) {
@@ -38,6 +47,15 @@ public class H2MigrationService {
 				throw new RuntimeException("could not migrate H2 to format 3", e);
 			}
 		}
+	}
+
+	private boolean isFileBasedH2(String url) {
+		return url.startsWith("jdbc:h2:") && !url.startsWith("jdbc:h2:mem:") && !url.startsWith("jdbc:h2:tcp:");
+	}
+
+	private Path getFilePath(String url) {
+		String name = url.substring("jdbc:h2:".length()).split(";")[0];
+		return Paths.get(name + H2_FILE_SUFFIX);
 	}
 
 	public int getH2FileFormat(Path path) throws IOException {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
 	<changeSet author="athou" id="scroll-speed">
 		<addColumn tableName="USERSETTINGS">
@@ -31,9 +32,9 @@
 		</createTable>
 
 		<addForeignKeyConstraint constraintName="fk_entry_id" baseTableName="FEEDENTRYTAGS" baseColumnNames="entry_id"
-			referencedTableName="FEEDENTRIES" referencedColumnNames="id" />
+								 referencedTableName="FEEDENTRIES" referencedColumnNames="id" />
 		<addForeignKeyConstraint constraintName="fk_user_id" baseTableName="FEEDENTRYTAGS" baseColumnNames="user_id"
-			referencedTableName="USERS" referencedColumnNames="id" />
+								 referencedTableName="USERS" referencedColumnNames="id" />
 
 		<createIndex tableName="FEEDENTRYTAGS" indexName="user_entry_name_index">
 			<column name="user_id" />

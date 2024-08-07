@@ -3,14 +3,13 @@ package com.commafeed.backend.task;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
-import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.service.db.DatabaseCleaningService;
+import com.commafeed.config.CommaFeedConfiguration;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 public class OldStatusesCleanupTask extends ScheduledTask {
 
@@ -19,7 +18,7 @@ public class OldStatusesCleanupTask extends ScheduledTask {
 
 	@Override
 	public void run() {
-		Instant threshold = config.getApplicationSettings().getUnreadThreshold();
+		Instant threshold = config.getUnreadThreshold();
 		if (threshold != null) {
 			cleaner.cleanStatusesOlderThan(threshold);
 		}

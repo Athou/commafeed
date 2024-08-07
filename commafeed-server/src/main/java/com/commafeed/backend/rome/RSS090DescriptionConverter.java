@@ -6,10 +6,13 @@ import com.rometools.rome.feed.synd.SyndContentImpl;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.impl.ConverterForRSS090;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 /**
  * Support description tag for RSS09
  * 
  */
+@RegisterForReflection
 public class RSS090DescriptionConverter extends ConverterForRSS090 {
 
 	@Override

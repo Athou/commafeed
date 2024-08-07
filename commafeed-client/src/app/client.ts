@@ -81,7 +81,17 @@ export const client = {
         },
     },
     user: {
-        login: async (req: LoginRequest) => await axiosInstance.post("user/login", req),
+        login: async (req: LoginRequest) => {
+            const formData = new URLSearchParams()
+            formData.append("j_username", req.name)
+            formData.append("j_password", req.password)
+            return await axiosInstance.post("j_security_check", formData, {
+                baseURL: ".",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            })
+        },
         register: async (req: RegistrationRequest) => await axiosInstance.post("user/register", req),
         passwordReset: async (req: PasswordResetRequest) => await axiosInstance.post("user/passwordReset", req),
         getSettings: async () => await axiosInstance.get<Settings>("user/settings"),

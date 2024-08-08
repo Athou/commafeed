@@ -72,7 +72,7 @@
         "rollup-plugin-visualizer": "^5.12.0",
         "typescript": "^5.5.4",
         "vite": "^5.3.5",
-        "vite-tsconfig-paths": "^4.3.2",
+        "vite-tsconfig-paths": "^5.0.1",
         "vitest": "^2.0.5",
         "vitest-mock-extended": "^2.0.0"
     }

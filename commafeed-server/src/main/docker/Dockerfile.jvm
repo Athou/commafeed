@@ -1,0 +1,16 @@
+FROM ibm-semeru-runtimes:open-21.0.3_9-jre
+
+EXPOSE 8082
+
+RUN mkdir -p /commafeed/data
+VOLUME /commafeed/data
+
+COPY commafeed-server/target/quarkus-app/ /commafeed/app
+WORKDIR /commafeed/app
+
+CMD ["java", \
+    "-Xtune:virtualized", \
+    "-Xminf0.05", \
+    "-Xmaxf0.1", \
+    "-jar", \
+    "quarkus-run.jar"]

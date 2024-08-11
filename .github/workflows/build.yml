@@ -20,6 +20,12 @@ jobs:
           fetch-depth: 0
 
       # Setup
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Set up GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
@@ -52,6 +58,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      ## tags
       - name: Docker build and push tag - native
         uses: docker/build-push-action@v6
         if: ${{ github.ref_type == 'tag' }}
@@ -61,8 +68,8 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: |
-            athou/commafeed:latest
-            athou/commafeed:${{ github.ref_name }}
+            athou/commafeed:latest-native
+            athou/commafeed:${{ github.ref_name }}-native
 
       - name: Docker build and push tag - jvm
         uses: docker/build-push-action@v6
@@ -71,11 +78,20 @@ jobs:
           context: commafeed-server
           file: src/main/docker/Dockerfile.jvm
           push: true
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: linux/arm64/v8
           tags: |
             athou/commafeed:latest-jvm
             athou/commafeed:${{ github.ref_name }}-jvm
 
+      - name: Docker merge tag manifests
+        uses: Noelware/docker-manifest-action@0.4.2
+        if: ${{ github.ref_type == 'tag' }}
+        with:
+          inputs: athou/commafeed:latest
+          images: athou/commafeed:latest-native,athou/commafeed:latest-jvm
+          push: true
+
+      ## master
       - name: Docker build and push master - native
         uses: docker/build-push-action@v6
         if: ${{ github.ref_name == 'master' }}
@@ -84,7 +100,7 @@ jobs:
           file: src/main/docker/Dockerfile.native
           push: true
           platforms: linux/amd64
-          tags: athou/commafeed:master
+          tags: athou/commafeed:master-native
 
       - name: Docker build and push master - jvm
         uses: docker/build-push-action@v6
@@ -93,5 +109,13 @@ jobs:
           context: commafeed-server
           file: src/main/docker/Dockerfile.jvm
           push: true
-          platforms: linux/amd64
+          platforms: linux/arm64/v8
           tags: athou/commafeed:master-jvm
+
+      - name: Docker merge master manifests
+        uses: Noelware/docker-manifest-action@0.4.2
+        if: ${{ github.ref_name == 'master' }}
+        with:
+          inputs: athou/commafeed:master
+          images: athou/commafeed:master-native,athou/commafeed:master-jvm
+          push: true

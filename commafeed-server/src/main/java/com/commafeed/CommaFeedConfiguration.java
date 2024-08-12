@@ -12,12 +12,6 @@ import io.smallrye.config.WithDefault;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-import redis.clients.jedis.DefaultJedisClientConfig;
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.JedisClientConfig;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-import redis.clients.jedis.Protocol;
 
 /**
  * CommaFeed configuration
@@ -91,11 +85,6 @@ public interface CommaFeedConfiguration {
 	 * Websocket settings.
 	 */
 	Websocket websocket();
-
-	/**
-	 * Redis settings to enable caching. This is only really useful on instances with a lot of users.
-	 */
-	Redis redis();
 
 	interface FeedRefresh {
 		/**
@@ -228,49 +217,6 @@ public interface CommaFeedConfiguration {
 		 */
 		@WithDefault("30s")
 		Duration treeReloadInterval();
-	}
-
-	interface Redis {
-
-		Optional<String> host();
-
-		@WithDefault("" + Protocol.DEFAULT_PORT)
-		int port();
-
-		/**
-		 * Username is only required when using Redis ACLs
-		 */
-		Optional<String> username();
-
-		Optional<String> password();
-
-		@WithDefault("" + Protocol.DEFAULT_TIMEOUT)
-		int timeout();
-
-		@WithDefault("" + Protocol.DEFAULT_DATABASE)
-		int database();
-
-		@WithDefault("500")
-		int maxTotal();
-
-		default JedisPool build() {
-			Optional<String> host = host();
-			if (host.isEmpty()) {
-				throw new IllegalStateException("Redis host is required");
-			}
-
-			JedisPoolConfig poolConfig = new JedisPoolConfig();
-			poolConfig.setMaxTotal(maxTotal());
-
-			JedisClientConfig clientConfig = DefaultJedisClientConfig.builder()
-					.user(username().orElse(null))
-					.password(password().orElse(null))
-					.timeoutMillis(timeout())
-					.database(database())
-					.build();
-
-			return new JedisPool(poolConfig, new HostAndPort(host.get(), port()), clientConfig);
-		}
 	}
 
 }

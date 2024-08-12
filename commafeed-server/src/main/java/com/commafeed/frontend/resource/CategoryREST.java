@@ -14,7 +14,6 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -89,7 +88,6 @@ public class CategoryREST {
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionService feedSubscriptionService;
-	private final CacheService cache;
 	private final CommaFeedConfiguration config;
 
 	@Path("/entries")
@@ -291,7 +289,6 @@ public class CategoryREST {
 			cat.setParent(parent);
 		}
 		feedCategoryDAO.saveOrUpdate(cat);
-		cache.invalidateUserRootCategory(user);
 		return Response.ok(cat.getId()).build();
 	}
 
@@ -321,7 +318,6 @@ public class CategoryREST {
 			feedCategoryDAO.saveOrUpdate(categories);
 
 			feedCategoryDAO.delete(cat);
-			cache.invalidateUserRootCategory(user);
 			return Response.ok().build();
 		} else {
 			return Response.status(Status.NOT_FOUND).build();
@@ -374,7 +370,6 @@ public class CategoryREST {
 		}
 
 		feedCategoryDAO.saveOrUpdate(category);
-		cache.invalidateUserRootCategory(user);
 		return Response.ok().build();
 	}
 
@@ -393,7 +388,6 @@ public class CategoryREST {
 		}
 		category.setCollapsed(req.isCollapse());
 		feedCategoryDAO.saveOrUpdate(category);
-		cache.invalidateUserRootCategory(user);
 		return Response.ok().build();
 	}
 
@@ -418,18 +412,14 @@ public class CategoryREST {
 			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Category.class))) })
 	public Response getRootCategory() {
 		User user = authenticationContext.getCurrentUser();
-		Category root = cache.getUserRootCategory(user);
-		if (root == null) {
-			log.debug("tree cache miss for {}", user.getId());
-			List<FeedCategory> categories = feedCategoryDAO.findAll(user);
-			List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
-			Map<Long, UnreadCount> unreadCount = feedSubscriptionService.getUnreadCount(user);
 
-			root = buildCategory(null, categories, subscriptions, unreadCount);
-			root.setId("all");
-			root.setName("All");
-			cache.setUserRootCategory(user, root);
-		}
+		List<FeedCategory> categories = feedCategoryDAO.findAll(user);
+		List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
+		Map<Long, UnreadCount> unreadCount = feedSubscriptionService.getUnreadCount(user);
+
+		Category root = buildCategory(null, categories, subscriptions, unreadCount);
+		root.setId("all");
+		root.setName("All");
 
 		return Response.ok(root).build();
 	}

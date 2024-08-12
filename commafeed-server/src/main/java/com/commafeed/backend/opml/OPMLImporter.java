@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedCategory;
@@ -28,7 +27,6 @@ public class OPMLImporter {
 
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedSubscriptionService feedSubscriptionService;
-	private final CacheService cache;
 
 	public void importOpml(User user, String xml) throws IllegalArgumentException, FeedException {
 		xml = xml.substring(xml.indexOf('<'));
@@ -79,6 +77,5 @@ public class OPMLImporter {
 				log.error("error while importing {}: {}", outline.getXmlUrl(), e.getMessage());
 			}
 		}
-		cache.invalidateUserRootCategory(user);
 	}
 }

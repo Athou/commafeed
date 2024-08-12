@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.List;
 
 import com.commafeed.backend.Digests;
-import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -32,7 +31,6 @@ public class FeedEntryService {
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedEntryContentService feedEntryContentService;
 	private final FeedEntryFilteringService feedEntryFilteringService;
-	private final CacheService cache;
 
 	public FeedEntry find(Feed feed, Entry entry) {
 		String guidHash = Digests.sha1Hex(entry.guid());
@@ -85,8 +83,6 @@ public class FeedEntryService {
 		if (status.isMarkable()) {
 			status.setRead(read);
 			feedEntryStatusDAO.saveOrUpdate(status);
-			cache.invalidateUnreadCount(sub);
-			cache.invalidateUserRootCategory(user);
 		}
 	}
 
@@ -112,8 +108,6 @@ public class FeedEntryService {
 		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, keywords, null, -1, -1, null,
 				false, null, null, null);
 		markList(statuses, olderThan, insertedBefore);
-		cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
-		cache.invalidateUserRootCategory(user);
 	}
 
 	public void markStarredEntries(User user, Instant olderThan, Instant insertedBefore) {

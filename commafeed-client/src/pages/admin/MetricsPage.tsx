@@ -11,8 +11,7 @@ const shownMeters: Record<string, string> = {
     "com.commafeed.backend.feed.FeedRefreshEngine.refill": "Feed queue refill rate",
     "com.commafeed.backend.feed.FeedRefreshWorker.feedFetched": "Feed fetching rate",
     "com.commafeed.backend.feed.FeedRefreshUpdater.feedUpdated": "Feed update rate",
-    "com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheHit": "Entry cache hit rate",
-    "com.commafeed.backend.feed.FeedRefreshUpdater.entryCacheMiss": "Entry cache miss rate",
+    "com.commafeed.backend.feed.FeedRefreshUpdater.entryInserted": "Entries inserted",
     "com.commafeed.backend.service.db.DatabaseCleaningService.entriesDeleted": "Entries deleted",
 }
 

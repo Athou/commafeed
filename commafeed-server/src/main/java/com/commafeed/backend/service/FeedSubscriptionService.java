@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -17,7 +16,6 @@ import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
-import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.UnreadCount;
 
@@ -33,17 +31,15 @@ public class FeedSubscriptionService {
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedService feedService;
 	private final FeedRefreshEngine feedRefreshEngine;
-	private final CacheService cache;
 	private final CommaFeedConfiguration config;
 
 	public FeedSubscriptionService(FeedDAO feedDAO, FeedEntryStatusDAO feedEntryStatusDAO, FeedSubscriptionDAO feedSubscriptionDAO,
-			FeedService feedService, FeedRefreshEngine feedRefreshEngine, CacheService cache, CommaFeedConfiguration config) {
+			FeedService feedService, FeedRefreshEngine feedRefreshEngine, CommaFeedConfiguration config) {
 		this.feedDAO = feedDAO;
 		this.feedEntryStatusDAO = feedEntryStatusDAO;
 		this.feedSubscriptionDAO = feedSubscriptionDAO;
 		this.feedService = feedService;
 		this.feedRefreshEngine = feedRefreshEngine;
-		this.cache = cache;
 		this.config = config;
 
 		// automatically refresh feeds after they are subscribed to
@@ -95,7 +91,6 @@ public class FeedSubscriptionService {
 		sub.setTitle(FeedUtils.truncate(title, 128));
 		feedSubscriptionDAO.saveOrUpdate(sub);
 
-		cache.invalidateUserRootCategory(user);
 		return sub.getId();
 	}
 
@@ -103,7 +98,6 @@ public class FeedSubscriptionService {
 		FeedSubscription sub = feedSubscriptionDAO.findById(user, subId);
 		if (sub != null) {
 			feedSubscriptionDAO.delete(sub);
-			cache.invalidateUserRootCategory(user);
 			return true;
 		} else {
 			return false;
@@ -130,17 +124,9 @@ public class FeedSubscriptionService {
 	}
 
 	public Map<Long, UnreadCount> getUnreadCount(User user) {
-		return feedSubscriptionDAO.findAll(user).stream().collect(Collectors.toMap(FeedSubscription::getId, this::getUnreadCount));
-	}
-
-	private UnreadCount getUnreadCount(FeedSubscription sub) {
-		UnreadCount count = cache.getUnreadCount(sub);
-		if (count == null) {
-			log.debug("unread count cache miss for {}", Models.getId(sub));
-			count = feedEntryStatusDAO.getUnreadCount(sub);
-			cache.setUnreadCount(sub, count);
-		}
-		return count;
+		return feedSubscriptionDAO.findAll(user)
+				.stream()
+				.collect(Collectors.toMap(FeedSubscription::getId, feedEntryStatusDAO::getUnreadCount));
 	}
 
 	@SuppressWarnings("serial")

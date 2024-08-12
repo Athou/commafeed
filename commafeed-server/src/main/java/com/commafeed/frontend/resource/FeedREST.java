@@ -17,7 +17,6 @@ import org.jboss.resteasy.reactive.RestForm;
 
 import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -114,7 +113,6 @@ public class FeedREST {
 	private final FeedRefreshEngine feedRefreshEngine;
 	private final OPMLImporter opmlImporter;
 	private final OPMLExporter opmlExporter;
-	private final CacheService cache;
 	private final CommaFeedConfiguration config;
 
 	private static FeedEntry initTestEntry() {
@@ -492,7 +490,6 @@ public class FeedREST {
 		} else {
 			feedSubscriptionDAO.saveOrUpdate(subscription);
 		}
-		cache.invalidateUserRootCategory(user);
 		return Response.ok().build();
 	}
 

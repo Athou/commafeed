@@ -3,7 +3,6 @@ TODO
 
 MVP:
 
-- remove redis, not useful anymore
 - update readme
 - update docker readme
 - update release notes (+ mention h2 migration has been removed, upgrade to last 4.x is required)

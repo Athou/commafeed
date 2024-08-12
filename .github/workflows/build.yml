@@ -35,7 +35,7 @@ jobs:
 
       # Build & Test
       - name: Build with Maven
-        run: mvn --batch-mode --no-transfer-progress install -Pnative -D"quarkus.datasource.db-kind"=${{ matrix.database }}
+        run: mvn --batch-mode --no-transfer-progress install -Pnative -P${{ matrix.database }}
 
       # Upload artifacts
       - name: Upload cross-platform app

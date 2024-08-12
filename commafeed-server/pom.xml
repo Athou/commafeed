@@ -16,6 +16,7 @@
 		<querydsl.version>6.6</querydsl.version>
 		<rome.version>2.1.0</rome.version>
 		<jersey.version>3.1.8</jersey.version>
+		<properties-plugin.version>1.2.1</properties-plugin.version>
 
 		<quarkus.datasource.db-kind>h2</quarkus.datasource.db-kind>
 	</properties>
@@ -41,6 +42,19 @@
 			</extension>
 		</extensions>
 		<plugins>
+			<plugin>
+				<artifactId>maven-help-plugin</artifactId>
+				<version>3.4.1</version>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>active-profiles</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>io.quarkus.platform</groupId>
 				<artifactId>quarkus-maven-plugin</artifactId>
@@ -479,6 +493,118 @@
 			<properties>
 				<quarkus.native.enabled>true</quarkus.native.enabled>
 			</properties>
+		</profile>
+
+		<profile>
+			<id>h2</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>properties-maven-plugin</artifactId>
+						<version>${properties-plugin.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>set-system-properties</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<properties>
+								<property>
+									<name>quarkus.datasource.db-kind</name>
+									<value>h2</value>
+								</property>
+							</properties>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>mysql</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>properties-maven-plugin</artifactId>
+						<version>${properties-plugin.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>set-system-properties</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<properties>
+								<property>
+									<name>quarkus.datasource.db-kind</name>
+									<value>mysql</value>
+								</property>
+							</properties>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>mariadb</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>properties-maven-plugin</artifactId>
+						<version>${properties-plugin.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>set-system-properties</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<properties>
+								<property>
+									<name>quarkus.datasource.db-kind</name>
+									<value>mariadb</value>
+								</property>
+							</properties>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>postgresql</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>properties-maven-plugin</artifactId>
+						<version>${properties-plugin.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>set-system-properties</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<properties>
+								<property>
+									<name>quarkus.datasource.db-kind</name>
+									<value>postgresql</value>
+								</property>
+							</properties>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 </project>

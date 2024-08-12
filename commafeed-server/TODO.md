@@ -18,5 +18,3 @@ Nice to have:
 - rename "servlets" since they are now rest endpoints
 - warnings hibernate on startup
 - OPML encoding is not handled correctly
-- remove Timers metrics page
-

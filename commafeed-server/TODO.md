@@ -3,9 +3,6 @@ TODO
 
 MVP:
 
-- update github actions
-    - release after tag
-        - new job that downloads all artifacts because we need them all to create the release
 - update readme
 - update docker readme
 - update release notes (+ mention h2 migration has been removed, upgrade to last 4.x is required)

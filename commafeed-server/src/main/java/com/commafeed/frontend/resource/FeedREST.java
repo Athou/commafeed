@@ -2,6 +2,7 @@ package com.commafeed.frontend.resource;
 
 import java.io.StringWriter;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Collections;
@@ -11,6 +12,7 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.jboss.resteasy.reactive.RestForm;
 
 import com.commafeed.CommaFeedApplication;
@@ -505,7 +507,8 @@ public class FeedREST {
 			return Response.status(Status.FORBIDDEN).entity("Import is disabled for the demo account").build();
 		}
 		try {
-			opmlImporter.importOpml(user, opml);
+			// opml will be encoded in the default JVM encoding, bu we want UTF-8
+			opmlImporter.importOpml(user, new String(opml.getBytes(SystemUtils.FILE_ENCODING), StandardCharsets.UTF_8));
 		} catch (Exception e) {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}

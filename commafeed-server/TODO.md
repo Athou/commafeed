@@ -17,4 +17,3 @@ Nice to have:
 - remove rest assured or use only rest assured
 - rename "servlets" since they are now rest endpoints
 - warnings hibernate on startup
-- OPML encoding is not handled correctly

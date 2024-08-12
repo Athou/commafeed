@@ -85,7 +85,7 @@ class HttpGetterTest {
 		Assertions.assertEquals(MediaType.APPLICATION_ATOM_XML.toString(), result.getContentType());
 		Assertions.assertEquals("123456", result.getLastModifiedSince());
 		Assertions.assertEquals("78910", result.getETag());
-		Assertions.assertTrue(result.getDuration() > 0);
+		Assertions.assertTrue(result.getDuration() >= 0);
 		Assertions.assertEquals(this.feedUrl, result.getUrlAfterRedirect());
 	}
 

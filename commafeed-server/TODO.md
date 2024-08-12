@@ -3,10 +3,6 @@ TODO
 
 MVP:
 
-- cookie duration too short
-    - https://github.com/quarkusio/quarkus/issues/42463
-    - Rewrite cookie with https://quarkus.io/guides/rest#request-or-response-filters in the mean time
-
 - update github actions
     - release after tag
         - new job that downloads all artifacts because we need them all to create the release

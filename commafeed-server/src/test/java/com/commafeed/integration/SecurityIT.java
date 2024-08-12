@@ -1,6 +1,9 @@
 package com.commafeed.integration;
 
+import java.net.HttpCookie;
 import java.util.Base64;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
@@ -24,6 +27,30 @@ class SecurityIT extends BaseIT {
 	void notLoggedIn() {
 		try (Response response = getClient().target(getApiBaseUrl() + "user/profile").request().get()) {
 			Assertions.assertEquals(HttpStatus.SC_UNAUTHORIZED, response.getStatus());
+		}
+	}
+
+	@Test
+	void formLogin() {
+		List<HttpCookie> cookies = login();
+
+		try (Response response = getClient().target(getApiBaseUrl() + "user/profile")
+				.request()
+				.header(HttpHeaders.COOKIE, cookies.stream().map(HttpCookie::toString).collect(Collectors.joining(";")))
+				.get()) {
+			Assertions.assertEquals(HttpStatus.SC_OK, response.getStatus());
+			cookies.forEach(c -> Assertions.assertTrue(c.getMaxAge() > 0));
+		}
+	}
+
+	@Test
+	void basicAuthLogin() {
+		String auth = "Basic " + Base64.getEncoder().encodeToString("admin:admin".getBytes());
+		try (Response response = getClient().target(getApiBaseUrl() + "user/profile")
+				.request()
+				.header(HttpHeaders.AUTHORIZATION, auth)
+				.get()) {
+			Assertions.assertEquals(HttpStatus.SC_OK, response.getStatus());
 		}
 	}
 

@@ -267,6 +267,10 @@ public class UserREST {
 	@Transactional
 	@Operation(summary = "send a password reset email")
 	public Response sendPasswordReset(@Valid @Parameter(required = true) PasswordResetRequest req) {
+		if (!config.passwordRecoveryEnabled()) {
+			throw new IllegalArgumentException("Password recovery is not enabled on this CommaFeed instance");
+		}
+
 		User user = userDAO.findByEmail(req.getEmail());
 		if (user == null) {
 			return Response.ok().build();

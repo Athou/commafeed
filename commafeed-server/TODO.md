@@ -3,10 +3,9 @@ TODO
 
 MVP:
 
-- quarkus mailer for smtp
-    - https://quarkus.io/guides/mailer
 - cookie duration too short
     - https://github.com/quarkusio/quarkus/issues/42463
+    - Rewrite cookie with https://quarkus.io/guides/rest#request-or-response-filters in the mean time
 
 - mvn profile instead of -Dquarkus.datasource.db-kind
 - update github actions

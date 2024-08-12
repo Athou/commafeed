@@ -50,6 +50,14 @@ public interface CommaFeedConfiguration {
 	boolean imageProxyEnabled();
 
 	/**
+	 * Enable password recovery via email.
+	 *
+	 * Quarkus mailer will need to be configured.
+	 */
+	@WithDefault("false")
+	boolean passwordRecoveryEnabled();
+
+	/**
 	 * Message displayed in a notification at the bottom of the page.
 	 */
 	Optional<String> announcement();
@@ -83,11 +91,6 @@ public interface CommaFeedConfiguration {
 	 * Websocket settings.
 	 */
 	Websocket websocket();
-
-	/**
-	 * SMTP settings for password recovery.
-	 */
-	Optional<Smtp> smtp();
 
 	/**
 	 * Redis settings to enable caching. This is only really useful on instances with a lot of users.
@@ -205,20 +208,6 @@ public interface CommaFeedConfiguration {
 		 */
 		@WithDefault("false")
 		boolean createDemoAccount();
-	}
-
-	interface Smtp {
-		String host();
-
-		int port();
-
-		boolean tls();
-
-		String userName();
-
-		String password();
-
-		String fromAddress();
 	}
 
 	interface Websocket {

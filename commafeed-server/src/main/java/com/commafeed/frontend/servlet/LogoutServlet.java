@@ -14,18 +14,19 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
-import lombok.RequiredArgsConstructor;
 
 @Path("/logout")
 @PermitAll
-@RequiredArgsConstructor
 @Singleton
 public class LogoutServlet {
 
-	@ConfigProperty(name = "quarkus.http.auth.form.cookie-name")
-	String cookieName;
-
 	private final CommaFeedConfiguration config;
+	private final String cookieName;
+
+	public LogoutServlet(CommaFeedConfiguration config, @ConfigProperty(name = "quarkus.http.auth.form.cookie-name") String cookieName) {
+		this.config = config;
+		this.cookieName = cookieName;
+	}
 
 	@GET
 	public Response get() {

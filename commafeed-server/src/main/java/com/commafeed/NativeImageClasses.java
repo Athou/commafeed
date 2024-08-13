@@ -15,7 +15,7 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 				MetricRegistry.class, Meter.class, Gauge.class, Counter.class, Timer.class, Histogram.class,
 
 				// rome
-				com.rometools.rome.feed.module.DCModuleImpl.class, com.rometools.rome.feed.module.DCSubjectImpl.class,
+				java.util.Date.class, com.rometools.rome.feed.module.DCModuleImpl.class, com.rometools.rome.feed.module.DCSubjectImpl.class,
 				com.rometools.modules.content.ContentModuleImpl.class, com.rometools.modules.mediarss.MediaModuleImpl.class,
 				com.rometools.modules.mediarss.MediaEntryModuleImpl.class,
 

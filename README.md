@@ -59,7 +59,7 @@ memory usage.
 
 - `<database>` can be one of `h2`, `postgresql`, `mysql` or `mariadb`.
 - `-DskipTests` is optional but recommended because tests require a Docker environment to run against a real database.
-- `-Pnative` compiles the application to native code. This requires GraalVM to be installed (GRAALVM_HOME environment
+- `-Pnative` compiles the application to native code. This requires GraalVM to be installed (`GRAALVM_HOME` environment
   variable
   pointing to a GraalVM installation).
 
@@ -99,10 +99,10 @@ This is the JVM used in the [Docker image](https://github.com/Athou/commafeed/bl
 
 There are multiple ways to configure CommaFeed:
 
-- a properties file in `config/application.properties` (kebab-case)
-- Command line arguments prefixed with `-D` (kebab-case)
-- Environment variables (UPPER_CASE)
-- an .env file in the working directory (UPPER_CASE)
+- a properties file in `config/application.properties` (keys in kebab-case)
+- Command line arguments prefixed with `-D` (keys in kebab-case)
+- Environment variables (keys in UPPER_CASE)
+- an .env file in the working directory (keys in UPPER_CASE)
 
 The properties file is recommended because CommaFeed will be able to warn about invalid properties and typos.
 
@@ -147,7 +147,7 @@ two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_6
 
 - Open `commafeed-server` in your preferred Java IDE.
     - CommaFeed uses Lombok, you need the Lombok plugin for your IDE.
-- run `mvn quarkus:dev`
+- run `./mvnw quarkus:dev`
 
 ### Frontend
 

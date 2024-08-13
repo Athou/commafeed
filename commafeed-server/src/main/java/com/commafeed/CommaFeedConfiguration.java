@@ -122,6 +122,8 @@ public interface CommaFeedConfiguration {
 
 		/**
 		 * Duration after which a user is considered inactive. Feeds for inactive users are not refreshed until they log in again.
+		 *
+		 * 0 to disable.
 		 */
 		@WithDefault("0")
 		Duration userInactivityPeriod();
@@ -143,25 +145,33 @@ public interface CommaFeedConfiguration {
 
 		interface Cleanup {
 			/**
-			 * Maximum age of feed entries in the database. Older entries will be deleted. 0 to disable.
+			 * Maximum age of feed entries in the database. Older entries will be deleted.
+			 *
+			 * 0 to disable.
 			 */
 			@WithDefault("365d")
 			Duration entriesMaxAge();
 
 			/**
-			 * Maximum age of feed entry statuses (read/unread) in the database. Older statuses will be deleted. 0 to disable.
+			 * Maximum age of feed entry statuses (read/unread) in the database. Older statuses will be deleted.
+			 *
+			 * 0 to disable.
 			 */
 			@WithDefault("0")
 			Duration statusesMaxAge();
 
 			/**
-			 * Maximum number of entries per feed to keep in the database. 0 to disable.
+			 * Maximum number of entries per feed to keep in the database.
+			 *
+			 * 0 to disable.
 			 */
 			@WithDefault("500")
 			int maxFeedCapacity();
 
 			/**
-			 * Limit the number of feeds a user can subscribe to. 0 to disable.
+			 * Limit the number of feeds a user can subscribe to.
+			 *
+			 * 0 to disable.
 			 */
 			@WithDefault("0")
 			int maxFeedsPerUser();

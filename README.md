@@ -119,7 +119,7 @@ CommaFeed only requires 3 properties to be configured:
       `jdbc:mariadb://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
 
 All
-other [CommaFeed settings](https://github.com/Athou/commafeed/blob/master/commafeed-server/src/main/java/com/commafeed/CommaFeedConfiguration.java)
+other [CommaFeed settings](commafeed-server/src/main/java/com/commafeed/CommaFeedConfiguration.java)
 are optional and have sensible default values.
 
 When started, the server will listen on http://localhost:8082.

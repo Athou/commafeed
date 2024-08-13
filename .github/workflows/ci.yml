@@ -4,6 +4,7 @@ on: [ push ]
 
 env:
   JAVA_VERSION: 21
+  DOCKER_BUILD_SUMMARY: false
 
 jobs:
   build-linux:
@@ -53,7 +54,7 @@ jobs:
       # Docker
       - name: Login to Container Registry
         uses: docker/login-action@v3
-        if: ${{ github.ref_type == 'tag' || github.ref_name == 'master' }}
+        if: ${{ github.ref_type == 'tag' || github.ref_name == 'master' || github.ref_name == 'quarkus' }}
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -63,62 +64,67 @@ jobs:
         uses: docker/build-push-action@v6
         if: ${{ github.ref_type == 'tag' }}
         with:
-          context: commafeed-server
-          file: src/main/docker/Dockerfile.native
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.native
           push: true
           platforms: linux/amd64
           tags: |
-            athou/commafeed:latest-native
-            athou/commafeed:${{ github.ref_name }}-native
+            athou/commafeed:latest-${{ matrix.database }}
+            athou/commafeed:${{ github.ref_name }}-${{ matrix.database }}
 
       - name: Docker build and push tag - jvm
         uses: docker/build-push-action@v6
         if: ${{ github.ref_type == 'tag' }}
         with:
-          context: commafeed-server
-          file: src/main/docker/Dockerfile.jvm
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.jvm
           push: true
-          platforms: linux/arm64/v8
+          platforms: linux/amd64,linux/arm64/v8
           tags: |
-            athou/commafeed:latest-jvm
-            athou/commafeed:${{ github.ref_name }}-jvm
-
-      - name: Docker merge tag manifests
-        uses: Noelware/docker-manifest-action@0.4.2
-        if: ${{ github.ref_type == 'tag' }}
-        with:
-          inputs: athou/commafeed:latest
-          images: athou/commafeed:latest-native,athou/commafeed:latest-jvm
-          push: true
+            athou/commafeed:latest-${{ matrix.database }}-jvm
+            athou/commafeed:${{ github.ref_name }}-${{ matrix.database }}-jvm
 
       ## master
       - name: Docker build and push master - native
         uses: docker/build-push-action@v6
         if: ${{ github.ref_name == 'master' }}
         with:
-          context: commafeed-server
-          file: src/main/docker/Dockerfile.native
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.native
           push: true
           platforms: linux/amd64
-          tags: athou/commafeed:master-native
+          tags: athou/commafeed:master-${{ matrix.database }}
 
       - name: Docker build and push master - jvm
         uses: docker/build-push-action@v6
         if: ${{ github.ref_name == 'master' }}
         with:
-          context: commafeed-server
-          file: src/main/docker/Dockerfile.jvm
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.jvm
           push: true
-          platforms: linux/arm64/v8
-          tags: athou/commafeed:master-jvm
+          platforms: linux/amd64,linux/arm64/v8
+          tags: athou/commafeed:master-${{ matrix.database }}-jvm
 
-      - name: Docker merge master manifests
-        uses: Noelware/docker-manifest-action@0.4.2
-        if: ${{ github.ref_name == 'master' }}
+      ## quarkus branch - remove when merged into master, also remove the condition in the login step
+      - name: Docker build and push quarkus - native
+        uses: docker/build-push-action@v6
+        if: ${{ github.ref_name == 'quarkus' }}
         with:
-          inputs: athou/commafeed:master
-          images: athou/commafeed:master-native,athou/commafeed:master-jvm
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.native
           push: true
+          platforms: linux/amd64
+          tags: athou/commafeed:quarkus-${{ matrix.database }}
+
+      - name: Docker build and push quarkus - jvm
+        uses: docker/build-push-action@v6
+        if: ${{ github.ref_name == 'quarkus' }}
+        with:
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.jvm
+          push: true
+          platforms: linux/amd64,linux/arm64/v8
+          tags: athou/commafeed:quarkus-${{ matrix.database }}-jvm
 
   build-windows:
     runs-on: windows-latest

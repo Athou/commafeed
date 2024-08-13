@@ -2,26 +2,20 @@ package com.commafeed.security.mechanism;
 
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.Set;
 
-import io.quarkus.security.identity.IdentityProviderManager;
-import io.quarkus.security.identity.SecurityIdentity;
-import io.quarkus.security.identity.request.AuthenticationRequest;
 import io.quarkus.vertx.http.runtime.FormAuthConfig;
 import io.quarkus.vertx.http.runtime.FormAuthRuntimeConfig;
 import io.quarkus.vertx.http.runtime.HttpBuildTimeConfig;
 import io.quarkus.vertx.http.runtime.HttpConfiguration;
-import io.quarkus.vertx.http.runtime.security.ChallengeData;
 import io.quarkus.vertx.http.runtime.security.FormAuthenticationMechanism;
 import io.quarkus.vertx.http.runtime.security.HttpAuthenticationMechanism;
-import io.quarkus.vertx.http.runtime.security.HttpCredentialTransport;
 import io.quarkus.vertx.http.runtime.security.PersistentLoginManager;
-import io.smallrye.mutiny.Uni;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.impl.ServerCookie;
 import io.vertx.ext.web.RoutingContext;
 import jakarta.annotation.Priority;
 import jakarta.inject.Singleton;
+import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -37,6 +31,7 @@ public class CookieMaxAgeFormAuthenticationMechanism implements HttpAuthenticati
 	// the temp encryption key, persistent across dev mode restarts
 	static volatile String encryptionKey;
 
+	@Delegate
 	private final FormAuthenticationMechanism delegate;
 
 	public CookieMaxAgeFormAuthenticationMechanism(HttpConfiguration httpConfiguration, HttpBuildTimeConfig buildTimeConfig) {
@@ -84,26 +79,6 @@ public class CookieMaxAgeFormAuthenticationMechanism implements HttpAuthenticati
 
 		this.delegate = new FormAuthenticationMechanism(loginPage, postLocation, usernameParameter, passwordParameter, errorPage,
 				landingPage, redirectAfterLogin, locationCookie, cookieSameSite, cookiePath, loginManager);
-	}
-
-	@Override
-	public Uni<SecurityIdentity> authenticate(RoutingContext context, IdentityProviderManager identityProviderManager) {
-		return delegate.authenticate(context, identityProviderManager);
-	}
-
-	@Override
-	public Uni<ChallengeData> getChallenge(RoutingContext context) {
-		return delegate.getChallenge(context);
-	}
-
-	@Override
-	public Set<Class<? extends AuthenticationRequest>> getCredentialTypes() {
-		return delegate.getCredentialTypes();
-	}
-
-	@Override
-	public Uni<HttpCredentialTransport> getCredentialTransport(RoutingContext context) {
-		return delegate.getCredentialTransport(context);
 	}
 
 	private static String startWithSlash(String page) {

@@ -47,8 +47,8 @@ system and database of choice.
 There are two types of packages:
 
 - The `linux` and `windows` packages are compiled natively and contain an executable that can be run directly.
-- The `jvm` package contains a Java `.jar` file that works on all platforms and is started with
-  `java -jar quarkus-run.jar`.
+- The `jvm` package is a zip file containing all `.jar` files required to run the application. This package works on all
+  platforms and is started with `java -jar quarkus-run.jar`.
 
 If available for your operating system, the native package is recommended because it has a faster startup time and lower
 memory usage.
@@ -62,6 +62,14 @@ memory usage.
 - `-Pnative` compiles the application to native code. This requires GraalVM to be installed (`GRAALVM_HOME` environment
   variable
   pointing to a GraalVM installation).
+
+When the build is complete:
+
+- if you used the native profile, the executable is located at
+  `commafeed-server/target/commafeed-<version>-<database>-<platform>-<arch>-runner[.exe]`
+- if you did not use the native profile, a zip containing all jars required to run the application is located at
+  `commafeed-server/target/commafeed-<version>-<database>.zip`. Extract it and run the application with
+  `java -jar quarkus-run.jar`
 
 ### Memory management (`jvm` package only)
 
@@ -118,8 +126,7 @@ CommaFeed only requires 3 properties to be configured:
     - e.g. for MariaDB:
       `jdbc:mariadb://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
 
-All
-other [CommaFeed settings](commafeed-server/src/main/java/com/commafeed/CommaFeedConfiguration.java)
+All other [CommaFeed settings](commafeed-server/src/main/java/com/commafeed/CommaFeedConfiguration.java)
 are optional and have sensible default values.
 
 When started, the server will listen on http://localhost:8082.

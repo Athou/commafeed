@@ -20,6 +20,7 @@ import org.w3c.css.sac.InputSource;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
 import com.steadystate.css.parser.CSSOMParser;
+import com.steadystate.css.parser.SACParserCSS3;
 
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
@@ -149,7 +150,7 @@ public class FeedEntryContentCleaningService {
 	}
 
 	private CSSOMParser buildCssParser() {
-		CSSOMParser parser = new CSSOMParser();
+		CSSOMParser parser = new CSSOMParser(new SACParserCSS3());
 
 		parser.setErrorHandler(new ErrorHandler() {
 			@Override

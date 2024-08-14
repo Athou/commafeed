@@ -15,7 +15,6 @@
 		<quarkus.version>3.13.1</quarkus.version>
 		<querydsl.version>6.6</querydsl.version>
 		<rome.version>2.1.0</rome.version>
-		<jersey.version>3.1.8</jersey.version>
 		<properties-plugin.version>1.2.1</properties-plugin.version>
 
 		<quarkus.datasource.db-kind>h2</quarkus.datasource.db-kind>
@@ -439,24 +438,6 @@
 			<groupId>org.mock-server</groupId>
 			<artifactId>mockserver-junit-jupiter</artifactId>
 			<version>5.15.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-client</artifactId>
-			<version>${jersey.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-multipart</artifactId>
-			<version>${jersey.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-json-jackson</artifactId>
-			<version>${jersey.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

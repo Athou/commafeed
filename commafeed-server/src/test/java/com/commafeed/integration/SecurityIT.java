@@ -1,7 +1,6 @@
 package com.commafeed.integration;
 
 import java.net.HttpCookie;
-import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,114 +15,117 @@ import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.ws.rs.client.Entity;
+import io.restassured.RestAssured;
 import jakarta.ws.rs.core.HttpHeaders;
-import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.MediaType;
 
 @QuarkusTest
 class SecurityIT extends BaseIT {
 
 	@Test
 	void notLoggedIn() {
-		try (Response response = getClient().target(getApiBaseUrl() + "user/profile").request().get()) {
-			Assertions.assertEquals(HttpStatus.SC_UNAUTHORIZED, response.getStatus());
-		}
+		RestAssured.given().get("rest/user/profile").then().statusCode(HttpStatus.SC_UNAUTHORIZED);
 	}
 
 	@Test
 	void formLogin() {
 		List<HttpCookie> cookies = login();
+		cookies.forEach(c -> Assertions.assertTrue(c.getMaxAge() > 0));
 
-		try (Response response = getClient().target(getApiBaseUrl() + "user/profile")
-				.request()
+		RestAssured.given()
 				.header(HttpHeaders.COOKIE, cookies.stream().map(HttpCookie::toString).collect(Collectors.joining(";")))
-				.get()) {
-			Assertions.assertEquals(HttpStatus.SC_OK, response.getStatus());
-			cookies.forEach(c -> Assertions.assertTrue(c.getMaxAge() > 0));
-		}
+				.get("rest/user/profile")
+				.then()
+				.statusCode(HttpStatus.SC_OK);
 	}
 
 	@Test
 	void basicAuthLogin() {
-		String auth = "Basic " + Base64.getEncoder().encodeToString("admin:admin".getBytes());
-		try (Response response = getClient().target(getApiBaseUrl() + "user/profile")
-				.request()
-				.header(HttpHeaders.AUTHORIZATION, auth)
-				.get()) {
-			Assertions.assertEquals(HttpStatus.SC_OK, response.getStatus());
-		}
+		RestAssured.given().auth().preemptive().basic("admin", "admin").get("rest/user/profile").then().statusCode(HttpStatus.SC_OK);
 	}
 
 	@Test
 	void wrongPassword() {
-		String auth = "Basic " + Base64.getEncoder().encodeToString("admin:wrong-password".getBytes());
-		try (Response response = getClient().target(getApiBaseUrl() + "user/profile")
-				.request()
-				.header(HttpHeaders.AUTHORIZATION, auth)
-				.get()) {
-			Assertions.assertEquals(HttpStatus.SC_UNAUTHORIZED, response.getStatus());
-		}
+		RestAssured.given()
+				.auth()
+				.preemptive()
+				.basic("admin", "wrong-password")
+				.get("rest/user/profile")
+				.then()
+				.statusCode(HttpStatus.SC_UNAUTHORIZED);
 	}
 
 	@Test
 	void missingRole() {
-		String auth = "Basic " + Base64.getEncoder().encodeToString("demo:demo".getBytes());
-		try (Response response = getClient().target(getApiBaseUrl() + "admin/metrics")
-				.request()
-				.header(HttpHeaders.AUTHORIZATION, auth)
-				.get()) {
-			Assertions.assertEquals(HttpStatus.SC_FORBIDDEN, response.getStatus());
-		}
+		RestAssured.given().auth().preemptive().basic("demo", "demo").get("rest/admin/metrics").then().statusCode(HttpStatus.SC_FORBIDDEN);
 	}
 
 	@Test
 	void apiKey() {
-		String auth = "Basic " + Base64.getEncoder().encodeToString("admin:admin".getBytes());
-
 		// create api key
 		ProfileModificationRequest req = new ProfileModificationRequest();
 		req.setCurrentPassword("admin");
 		req.setNewApiKey(true);
-		getClient().target(getApiBaseUrl() + "user/profile")
-				.request()
-				.header(HttpHeaders.AUTHORIZATION, auth)
-				.post(Entity.json(req))
-				.close();
+		RestAssured.given()
+				.auth()
+				.preemptive()
+				.basic("admin", "admin")
+				.body(req)
+				.contentType(MediaType.APPLICATION_JSON)
+				.post("rest/user/profile")
+				.then()
+				.statusCode(HttpStatus.SC_OK);
 
 		// fetch api key
-		String apiKey = getClient().target(getApiBaseUrl() + "user/profile")
-				.request()
-				.header(HttpHeaders.AUTHORIZATION, auth)
-				.get(UserModel.class)
+		String apiKey = RestAssured.given()
+				.auth()
+				.preemptive()
+				.basic("admin", "admin")
+				.get("rest/user/profile")
+				.then()
+				.statusCode(HttpStatus.SC_OK)
+				.extract()
+				.as(UserModel.class)
 				.getApiKey();
 
 		// subscribe to a feed
 		SubscribeRequest subscribeRequest = new SubscribeRequest();
 		subscribeRequest.setUrl(getFeedUrl());
 		subscribeRequest.setTitle("my title for this feed");
-		long subscriptionId = getClient().target(getApiBaseUrl() + "feed/subscribe")
-				.request()
-				.header(HttpHeaders.AUTHORIZATION, auth)
-				.post(Entity.json(subscribeRequest), Long.class);
+		long subscriptionId = RestAssured.given()
+				.auth()
+				.preemptive()
+				.basic("admin", "admin")
+				.body(subscribeRequest)
+				.contentType(MediaType.APPLICATION_JSON)
+				.post("rest/feed/subscribe")
+				.then()
+				.statusCode(HttpStatus.SC_OK)
+				.extract()
+				.as(Long.class);
 
 		// get entries with api key
-		Entries entries = getClient().target(getApiBaseUrl() + "feed/entries")
+		Entries entries = RestAssured.given()
 				.queryParam("id", subscriptionId)
 				.queryParam("readType", "unread")
 				.queryParam("apiKey", apiKey)
-				.request()
-				.get(Entries.class);
+				.get("rest/feed/entries")
+				.then()
+				.statusCode(HttpStatus.SC_OK)
+				.extract()
+				.as(Entries.class);
 		Assertions.assertEquals("my title for this feed", entries.getName());
 
 		// mark entry as read and expect it won't work because it's not a GET request
 		MarkRequest markRequest = new MarkRequest();
 		markRequest.setId("1");
 		markRequest.setRead(true);
-		try (Response markResponse = getClient().target(getApiBaseUrl() + "entry/mark")
+		RestAssured.given()
+				.body(markRequest)
+				.contentType(MediaType.APPLICATION_JSON)
 				.queryParam("apiKey", apiKey)
-				.request()
-				.post(Entity.json(markRequest))) {
-			Assertions.assertEquals(HttpStatus.SC_UNAUTHORIZED, markResponse.getStatus());
-		}
+				.post("rest/entry/mark")
+				.then()
+				.statusCode(HttpStatus.SC_UNAUTHORIZED);
 	}
 }

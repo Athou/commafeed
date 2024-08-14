@@ -1,7 +1,6 @@
 package com.commafeed.integration.rest;
 
-import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,8 +12,8 @@ import com.commafeed.frontend.resource.fever.FeverResponse;
 import com.commafeed.integration.BaseIT;
 
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.Form;
+import io.restassured.RestAssured;
+import jakarta.ws.rs.core.MediaType;
 
 @QuarkusTest
 class FeverIT extends BaseIT {
@@ -22,21 +21,18 @@ class FeverIT extends BaseIT {
 	private Long userId;
 	private String apiKey;
 
-	@Override
-	protected JerseyClientBuilder configureClientBuilder(JerseyClientBuilder base) {
-		return base.register(HttpAuthenticationFeature.basic("admin", "admin"));
-	}
-
 	@BeforeEach
 	void setup() {
+		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
+
 		// create api key
 		ProfileModificationRequest req = new ProfileModificationRequest();
 		req.setCurrentPassword("admin");
 		req.setNewApiKey(true);
-		getClient().target(getApiBaseUrl() + "user/profile").request().post(Entity.json(req), Void.TYPE);
+		RestAssured.given().body(req).contentType(MediaType.APPLICATION_JSON).post("rest/user/profile").then().statusCode(HttpStatus.SC_OK);
 
 		// retrieve api key
-		UserModel user = getClient().target(getApiBaseUrl() + "user/profile").request().get(UserModel.class);
+		UserModel user = RestAssured.given().get("rest/user/profile").then().statusCode(HttpStatus.SC_OK).extract().as(UserModel.class);
 		this.apiKey = user.getApiKey();
 		this.userId = user.getId();
 	}
@@ -72,13 +68,15 @@ class FeverIT extends BaseIT {
 	}
 
 	private FeverResponse fetch(String what, String apiKey) {
-		Form form = new Form();
-		form.param("api_key", Digests.md5Hex("admin:" + apiKey));
-		form.param(what, "1");
-
-		return getClient().target(getApiBaseUrl() + "fever/user/{userId}")
-				.resolveTemplate("userId", userId)
-				.request()
-				.post(Entity.form(form), FeverResponse.class);
+		return RestAssured.given()
+				.auth()
+				.none()
+				.formParam("api_key", Digests.md5Hex("admin:" + apiKey))
+				.formParam(what, 1)
+				.post("rest/fever/user/{userId}", userId)
+				.then()
+				.statusCode(HttpStatus.SC_OK)
+				.extract()
+				.as(FeverResponse.class);
 	}
 }

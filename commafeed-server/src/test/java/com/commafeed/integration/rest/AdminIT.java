@@ -1,11 +1,10 @@
 package com.commafeed.integration.rest;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -15,14 +14,15 @@ import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.integration.BaseIT;
 
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.ws.rs.client.Entity;
+import io.restassured.RestAssured;
+import jakarta.ws.rs.core.MediaType;
 
 @QuarkusTest
 class AdminIT extends BaseIT {
 
-	@Override
-	protected JerseyClientBuilder configureClientBuilder(JerseyClientBuilder base) {
-		return base.register(HttpAuthenticationFeature.basic("admin", "admin"));
+	@BeforeEach
+	void setup() {
+		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
 	}
 
 	@Nested
@@ -46,7 +46,12 @@ class AdminIT extends BaseIT {
 			user.setName("test");
 			user.setPassword("test".getBytes());
 			user.setEmail("test@test.com");
-			getClient().target(getApiBaseUrl() + "admin/user/save").request().post(Entity.json(user), Void.TYPE);
+			RestAssured.given()
+					.body(user)
+					.contentType(MediaType.APPLICATION_JSON)
+					.post("rest/admin/user/save")
+					.then()
+					.statusCode(HttpStatus.SC_OK);
 		}
 
 		private void modifyUser() {
@@ -56,7 +61,12 @@ class AdminIT extends BaseIT {
 					.findFirst()
 					.orElseThrow(() -> new NullPointerException("User not found"));
 			user.setEmail("new-email@provider.com");
-			getClient().target(getApiBaseUrl() + "admin/user/save").request().post(Entity.json(user), Void.TYPE);
+			RestAssured.given()
+					.body(user)
+					.contentType(MediaType.APPLICATION_JSON)
+					.post("rest/admin/user/save")
+					.then()
+					.statusCode(HttpStatus.SC_OK);
 		}
 
 		private void deleteUser() {
@@ -68,11 +78,17 @@ class AdminIT extends BaseIT {
 
 			IDRequest req = new IDRequest();
 			req.setId(user.getId());
-			getClient().target(getApiBaseUrl() + "admin/user/delete").request().post(Entity.json(req), Void.TYPE);
+			RestAssured.given()
+					.body(req)
+					.contentType(MediaType.APPLICATION_JSON)
+					.post("rest/admin/user/delete")
+					.then()
+					.statusCode(HttpStatus.SC_OK);
 		}
 
 		private List<UserModel> getAllUsers() {
-			return Arrays.asList(getClient().target(getApiBaseUrl() + "admin/user/getAll").request().get(UserModel[].class));
+			return List.of(
+					RestAssured.given().get("rest/admin/user/getAll").then().statusCode(HttpStatus.SC_OK).extract().as(UserModel[].class));
 		}
 	}
 

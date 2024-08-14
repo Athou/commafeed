@@ -11,9 +11,10 @@ import com.commafeed.integration.BaseIT;
 
 import io.quarkus.mailer.MockMailbox;
 import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.RestAssured;
 import io.vertx.ext.mail.MailMessage;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.MediaType;
 
 @QuarkusTest
 class UserIT extends BaseIT {
@@ -23,6 +24,8 @@ class UserIT extends BaseIT {
 
 	@BeforeEach
 	void setup() {
+		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
+
 		mailbox.clear();
 	}
 
@@ -30,8 +33,7 @@ class UserIT extends BaseIT {
 	void resetPassword() {
 		PasswordResetRequest req = new PasswordResetRequest();
 		req.setEmail("admin@commafeed.com");
-
-		getClient().target(getApiBaseUrl() + "user/passwordReset").request().post(Entity.json(req), Void.TYPE);
+		RestAssured.given().body(req).contentType(MediaType.APPLICATION_JSON).post("rest/user/passwordReset").then().statusCode(200);
 
 		List<MailMessage> mails = mailbox.getMailMessagesSentTo("admin@commafeed.com");
 		Assertions.assertEquals(1, mails.size());

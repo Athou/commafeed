@@ -11,8 +11,6 @@ import java.util.Objects;
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.core5.http.HttpStatus;
 import org.awaitility.Awaitility;
-import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJsonProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockserver.client.MockServerClient;
@@ -20,19 +18,15 @@ import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
-import com.commafeed.JacksonCustomizer;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.request.SubscribeRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.HttpHeaders;
-import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.MediaType;
 import lombok.Getter;
 
 @Getter
@@ -47,17 +41,10 @@ public abstract class BaseIT {
 	private String apiBaseUrl;
 	private String webSocketUrl;
 
-	protected JerseyClientBuilder configureClientBuilder(JerseyClientBuilder base) {
-		return base;
-	}
-
 	@BeforeEach
 	void init() throws IOException {
 		this.mockServerClient = ClientAndServer.startClientAndServer(0);
 
-		ObjectMapper mapper = new ObjectMapper();
-		new JacksonCustomizer().customize(mapper);
-		this.client = configureClientBuilder(new JerseyClientBuilder().register(new JacksonJsonProvider(mapper))).build();
 		this.feedUrl = "http://localhost:" + mockServerClient.getPort() + "/";
 		this.baseUrl = "http://localhost:8085/";
 		this.apiBaseUrl = this.baseUrl + "rest/";
@@ -87,13 +74,11 @@ public abstract class BaseIT {
 	}
 
 	protected List<HttpCookie> login() {
-		Form form = new Form();
-		form.param("j_username", "admin");
-		form.param("j_password", "admin");
-
 		List<Header> setCookieHeaders = RestAssured.given()
+				.auth()
+				.none()
 				.formParams("j_username", "admin", "j_password", "admin")
-				.post(baseUrl + "j_security_check")
+				.post("j_security_check")
 				.then()
 				.statusCode(HttpStatus.SC_OK)
 				.extract()
@@ -106,7 +91,14 @@ public abstract class BaseIT {
 		SubscribeRequest subscribeRequest = new SubscribeRequest();
 		subscribeRequest.setUrl(feedUrl);
 		subscribeRequest.setTitle("my title for this feed");
-		return client.target(apiBaseUrl + "feed/subscribe").request().post(Entity.json(subscribeRequest), Long.class);
+		return RestAssured.given()
+				.body(subscribeRequest)
+				.contentType(MediaType.APPLICATION_JSON)
+				.post("rest/feed/subscribe")
+				.then()
+				.statusCode(HttpStatus.SC_OK)
+				.extract()
+				.as(Long.class);
 	}
 
 	protected Long subscribeAndWaitForEntries(String feedUrl) {
@@ -116,19 +108,24 @@ public abstract class BaseIT {
 	}
 
 	protected Subscription getSubscription(Long subscriptionId) {
-		return client.target(apiBaseUrl + "feed/get/{id}").resolveTemplate("id", subscriptionId).request().get(Subscription.class);
+		return RestAssured.given()
+				.get("rest/feed/get/{id}", subscriptionId)
+				.then()
+				.statusCode(HttpStatus.SC_OK)
+				.extract()
+				.as(Subscription.class);
 	}
 
 	protected Entries getFeedEntries(long subscriptionId) {
-		Response response = client.target(apiBaseUrl + "feed/entries")
-				.queryParam("id", subscriptionId)
-				.queryParam("readType", "all")
-				.request()
-				.get();
-		return response.readEntity(Entries.class);
+		return RestAssured.given()
+				.get("rest/feed/entries?id={id}&readType=all", subscriptionId)
+				.then()
+				.statusCode(HttpStatus.SC_OK)
+				.extract()
+				.as(Entries.class);
 	}
 
 	protected void forceRefreshAllFeeds() {
-		client.target(apiBaseUrl + "feed/refreshAll").request().get(Void.class);
+		RestAssured.given().get("rest/feed/refreshAll").then().statusCode(HttpStatus.SC_OK);
 	}
 }

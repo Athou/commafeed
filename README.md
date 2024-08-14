@@ -46,7 +46,8 @@ system and database of choice.
 
 There are two types of packages:
 
-- The `linux` and `windows` packages are compiled natively and contain an executable that can be run directly.
+- The `linux-x86_64` and `windows-x86_64` packages are compiled natively and contain an executable that can be run
+  directly.
 - The `jvm` package is a zip file containing all `.jar` files required to run the application. This package works on all
   platforms and is started with `java -jar quarkus-run.jar`.
 
@@ -60,13 +61,12 @@ memory usage.
 - `<database>` can be one of `h2`, `postgresql`, `mysql` or `mariadb`.
 - `-DskipTests` is optional but recommended because tests require a Docker environment to run against a real database.
 - `-Pnative` compiles the application to native code. This requires GraalVM to be installed (`GRAALVM_HOME` environment
-  variable
-  pointing to a GraalVM installation).
+  variable pointing to a GraalVM installation).
 
 When the build is complete:
 
 - a zip containing all jars required to run the application is located at
-  `commafeed-server/target/commafeed-<version>-<database>.zip`. Extract it and run the application with
+  `commafeed-server/target/commafeed-<version>-<database>-jvm.zip`. Extract it and run the application with
   `java -jar quarkus-run.jar`
 - if you used the native profile, the executable is located at
   `commafeed-server/target/commafeed-<version>-<database>-<platform>-<arch>-runner[.exe]`

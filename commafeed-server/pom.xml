@@ -89,7 +89,7 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<finalName>commafeed-${project.version}-${quarkus.datasource.db-kind}</finalName>
+							<finalName>commafeed-${project.version}-${quarkus.datasource.db-kind}-jvm</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 							<descriptors>
 								<descriptor>src/main/assembly/zip-quarkus-app.xml</descriptor>

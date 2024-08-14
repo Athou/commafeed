@@ -15,7 +15,7 @@ import jakarta.validation.constraints.Positive;
 /**
  * CommaFeed configuration
  *
- * Default values are for production, they can be overridden in application.properties
+ * Default values are for production, they can be overridden in application.properties for other profiles
  */
 @ConfigMapping(prefix = "commafeed")
 public interface CommaFeedConfiguration {
@@ -52,7 +52,7 @@ public interface CommaFeedConfiguration {
 	Optional<String> googleAnalyticsTrackingCode();
 
 	/**
-	 * Google Auth key for fetching Youtube favicons.
+	 * Google Auth key for fetching Youtube channel favicons.
 	 */
 	Optional<String> googleAuthKey();
 
@@ -127,6 +127,8 @@ public interface CommaFeedConfiguration {
 	interface Database {
 		/**
 		 * Database query timeout.
+		 *
+		 * 0 to disable.
 		 */
 		@WithDefault("0")
 		int queryTimeout();
@@ -201,7 +203,7 @@ public interface CommaFeedConfiguration {
 
 	interface Websocket {
 		/**
-		 * Enable websocket connection so the server can notify the web client that there are new entries for your feeds.
+		 * Enable websocket connection so the server can notify web clients that there are new entries for feeds.
 		 */
 		@WithDefault("true")
 		boolean enabled();

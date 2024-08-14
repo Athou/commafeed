@@ -1,5 +1,31 @@
 # Changelog
 
+## [5.0.0]
+
+CommaFeed is now powered by Quarkus instead of Dropwizard. Read the rationale behind this change in
+the [announcement](https://github.com/Athou/commafeed/discussions/1517).
+The gist of it is that CommaFeed can now be compiled to a native binary, resulting in blazing fast startup times (around
+0.3s) and very low memory footprint (< 50M).
+
+- CommaFeed now has a different package for each supported database.
+    - If you are deploying CommaFeed with a precompiled package, please
+      read [this section of the README](https://github.com/Athou/commafeed/tree/master?tab=readme-ov-file#download-a-precompiled-package).
+    - If you are building CommaFeed from sources, please
+      read [this section of the README](https://github.com/Athou/commafeed/tree/master?tab=readme-ov-file#build-from-sources).
+    - If you are using the Docker image, please read the instructions on
+      the [Docker Hub page](https://hub.docker.com/r/athou/commafeed).
+- Due to the switch to Quarkus, the way CommaFeed is configured is very different (the `config.yml` file is gone).
+  Please
+  read [this section of the README](https://github.com/Athou/commafeed/tree/master?tab=readme-ov-file#configuration).
+  Note that some configuration elements have been removed or renamed for consistency.
+- Added a setting to prevent parsing large feeds to avoid out of memory errors. The default is 5MB.
+- Use a different icon for filtering unread entries and marking an entry as read (#1506)
+- Added various HTML attributes to ease custom JS/CSS customization (#1507)
+- The Redis cache has been removed. There have been multiple enhancements to the feed refresh engine and it is no longer
+  needed, even for instances with a large number of feeds.
+- The H2 migration tool that automatically upgrades H2 databases from format 2 to 3 has been removed. If you're using
+  the H2 embedded database, please upgrade to at least version 4.3.0 before upgrading to CommaFeed 5.0.0.
+
 ## [4.6.0]
 
 - switched from Temurin to OpenJ9 as the JVM used in the Docker image, resulting in memory usage reduction by up to 50%

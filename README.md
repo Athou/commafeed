@@ -65,11 +65,11 @@ memory usage.
 
 When the build is complete:
 
-- if you used the native profile, the executable is located at
-  `commafeed-server/target/commafeed-<version>-<database>-<platform>-<arch>-runner[.exe]`
-- if you did not use the native profile, a zip containing all jars required to run the application is located at
+- a zip containing all jars required to run the application is located at
   `commafeed-server/target/commafeed-<version>-<database>.zip`. Extract it and run the application with
   `java -jar quarkus-run.jar`
+- if you used the native profile, the executable is located at
+  `commafeed-server/target/commafeed-<version>-<database>-<platform>-<arch>-runner[.exe]`
 
 ### Memory management (`jvm` package only)
 
@@ -107,7 +107,7 @@ This is the JVM used in the [Docker image](https://github.com/Athou/commafeed/bl
 
 There are multiple ways to configure CommaFeed:
 
-- a properties file in `config/application.properties` (keys in kebab-case)
+- a [properties](https://en.wikipedia.org/wiki/.properties) file in `config/application.properties` (keys in kebab-case)
 - Command line arguments prefixed with `-D` (keys in kebab-case)
 - Environment variables (keys in UPPER_CASE)
 - an .env file in the working directory (keys in UPPER_CASE)
@@ -126,8 +126,13 @@ CommaFeed only requires 3 properties to be configured:
     - e.g. for MariaDB:
       `jdbc:mariadb://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
 
+When logging in, credentials are stored in an encrypted cookie. The encryption key is randomly generated at startup,
+meaning that you will have to log back in after each restart of the application. To prevent this, you can set the
+`quarkus.http.auth.session.encryption-key` property to a fixed value (min. 16 characters).
+
 All other [CommaFeed settings](commafeed-server/src/main/java/com/commafeed/CommaFeedConfiguration.java)
-are optional and have sensible default values.
+are optional and have sensible default values. Quarkus settings can be
+found [here](https://quarkus.io/guides/all-config).
 
 When started, the server will listen on http://localhost:8082.
 The default user is `admin` and the default password is `admin`.

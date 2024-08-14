@@ -1,6 +1,5 @@
 package com.commafeed.frontend.servlet;
 
-import java.net.URI;
 import java.time.Instant;
 import java.util.Date;
 
@@ -14,6 +13,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
 @Path("/logout")
 @PermitAll
@@ -21,16 +21,19 @@ import jakarta.ws.rs.core.Response;
 public class LogoutServlet {
 
 	private final CommaFeedConfiguration config;
+	private final UriInfo uri;
 	private final String cookieName;
 
-	public LogoutServlet(CommaFeedConfiguration config, @ConfigProperty(name = "quarkus.http.auth.form.cookie-name") String cookieName) {
+	public LogoutServlet(CommaFeedConfiguration config, UriInfo uri,
+			@ConfigProperty(name = "quarkus.http.auth.form.cookie-name") String cookieName) {
 		this.config = config;
+		this.uri = uri;
 		this.cookieName = cookieName;
 	}
 
 	@GET
 	public Response get() {
 		NewCookie removeCookie = new NewCookie.Builder(cookieName).maxAge(0).expiry(Date.from(Instant.EPOCH)).path("/").build();
-		return Response.temporaryRedirect(URI.create(config.publicUrl())).cookie(removeCookie).build();
+		return Response.temporaryRedirect(uri.getBaseUri()).cookie(removeCookie).build();
 	}
 }

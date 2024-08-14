@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
@@ -56,15 +54,6 @@ public class FeedSubscriptionService {
 	}
 
 	public long subscribe(User user, String url, String title, FeedCategory category, int position) {
-
-		final String pubUrl = config.publicUrl();
-		if (StringUtils.isBlank(pubUrl)) {
-			throw new FeedSubscriptionException("Public URL of this CommaFeed instance is not set");
-		}
-		if (url.startsWith(pubUrl)) {
-			throw new FeedSubscriptionException("Could not subscribe to a feed from this CommaFeed instance");
-		}
-
 		Integer maxFeedsPerUser = config.database().cleanup().maxFeedsPerUser();
 		if (maxFeedsPerUser > 0 && feedSubscriptionDAO.count(user) >= maxFeedsPerUser) {
 			String message = String.format("You cannot subscribe to more feeds on this CommaFeed instance (max %s feeds per user)",

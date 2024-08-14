@@ -1,7 +1,6 @@
 package com.commafeed.frontend.resource;
 
 import java.io.StringWriter;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Calendar;
@@ -86,6 +85,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.UriInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -114,6 +114,7 @@ public class FeedREST {
 	private final OPMLImporter opmlImporter;
 	private final OPMLExporter opmlExporter;
 	private final CommaFeedConfiguration config;
+	private final UriInfo uri;
 
 	private static FeedEntry initTestEntry() {
 		FeedEntry entry = new FeedEntry();
@@ -217,7 +218,7 @@ public class FeedREST {
 		feed.setFeedType("rss_2.0");
 		feed.setTitle("CommaFeed - " + entries.getName());
 		feed.setDescription("CommaFeed - " + entries.getName());
-		feed.setLink(config.publicUrl());
+		feed.setLink(uri.getBaseUri().toString());
 		feed.setEntries(entries.getEntries().stream().map(Entry::asRss).toList());
 
 		SyndFeedOutput output = new SyndFeedOutput();
@@ -413,7 +414,7 @@ public class FeedREST {
 		} catch (Exception e) {
 			log.info("Could not subscribe to url {} : {}", url, e.getMessage());
 		}
-		return Response.temporaryRedirect(URI.create(config.publicUrl())).build();
+		return Response.temporaryRedirect(uri.getBaseUri()).build();
 	}
 
 	private String prependHttp(String url) {

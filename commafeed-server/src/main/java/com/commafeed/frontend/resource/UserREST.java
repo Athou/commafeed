@@ -58,6 +58,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.UriInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -79,6 +80,7 @@ public class UserREST {
 	private final PasswordEncryptionService encryptionService;
 	private final MailService mailService;
 	private final CommaFeedConfiguration config;
+	private final UriInfo uri;
 
 	@Path("/settings")
 	@GET
@@ -289,7 +291,7 @@ public class UserREST {
 	}
 
 	private String buildEmailContent(User user) throws Exception {
-		String publicUrl = FeedUtils.removeTrailingSlash(config.publicUrl());
+		String publicUrl = FeedUtils.removeTrailingSlash(uri.getBaseUri().toString());
 		publicUrl += "/rest/user/passwordResetCallback";
 		return String.format(
 				"You asked for password recovery for account '%s', <a href='%s'>follow this link</a> to change your password. Ignore this if you didn't request a password recovery.",
@@ -337,7 +339,7 @@ public class UserREST {
 
 		String message = "Your new password is: " + passwd;
 		message += "<br />";
-		message += String.format("<a href=\"%s\">Back to Homepage</a>", config.publicUrl());
+		message += String.format("<a href=\"%s\">Back to Homepage</a>", uri.getBaseUri());
 		return Response.ok(message).build();
 	}
 

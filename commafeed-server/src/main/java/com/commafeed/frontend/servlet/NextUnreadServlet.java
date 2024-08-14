@@ -26,6 +26,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 import lombok.RequiredArgsConstructor;
 
 @Path("/next")
@@ -40,12 +41,13 @@ public class NextUnreadServlet {
 	private final FeedEntryService feedEntryService;
 	private final CommaFeedConfiguration config;
 	private final AuthenticationContext authenticationContext;
+	private final UriInfo uri;
 
 	@GET
 	public Response get(@QueryParam("category") String categoryId, @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
 		User user = authenticationContext.getCurrentUser();
 		if (user == null) {
-			return Response.temporaryRedirect(URI.create(config.publicUrl())).build();
+			return Response.temporaryRedirect(uri.getBaseUri()).build();
 		}
 
 		FeedEntryStatus status = unitOfWork.call(() -> {
@@ -71,7 +73,7 @@ public class NextUnreadServlet {
 			return s;
 		});
 
-		String url = status == null ? config.publicUrl() : status.getEntry().getUrl();
+		String url = status == null ? uri.getBaseUri().toString() : status.getEntry().getUrl();
 		return Response.temporaryRedirect(URI.create(url)).build();
 	}
 }

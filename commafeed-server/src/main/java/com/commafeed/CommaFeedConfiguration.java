@@ -10,7 +10,6 @@ import io.quarkus.runtime.configuration.MemorySize;
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
 /**
@@ -20,15 +19,6 @@ import jakarta.validation.constraints.Positive;
  */
 @ConfigMapping(prefix = "commafeed")
 public interface CommaFeedConfiguration {
-
-	/**
-	 * URL used to access commafeed, used for various redirects.
-	 * 
-	 */
-	@NotBlank
-	@WithDefault("http://localhost:8082")
-	String publicUrl();
-
 	/**
 	 * Whether to expose a robots.txt file that disallows web crawlers and search engine indexers.
 	 */

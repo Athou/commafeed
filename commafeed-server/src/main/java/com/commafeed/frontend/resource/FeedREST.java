@@ -3,15 +3,14 @@ package com.commafeed.frontend.resource;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.jboss.resteasy.reactive.Cache;
 import org.jboss.resteasy.reactive.RestForm;
 
 import com.commafeed.CommaFeedApplication;
@@ -80,10 +79,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.CacheControl;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.core.UriInfo;
 import lombok.RequiredArgsConstructor;
@@ -343,6 +340,7 @@ public class FeedREST {
 
 	@GET
 	@Path("/favicon/{id}")
+	@Cache(maxAge = 2592000)
 	@Transactional
 	@Operation(summary = "Fetch a feed's icon", description = "Fetch a feed's icon")
 	public Response getFeedFavicon(@Parameter(description = "subscription id", required = true) @PathParam("id") Long id) {
@@ -356,19 +354,7 @@ public class FeedREST {
 
 		Feed feed = subscription.getFeed();
 		Favicon icon = feedService.fetchFavicon(feed);
-		ResponseBuilder builder = Response.ok(icon.getIcon(), icon.getMediaType());
-
-		CacheControl cacheControl = new CacheControl();
-		cacheControl.setMaxAge(2592000);
-		cacheControl.setPrivate(false);
-		builder.cacheControl(cacheControl);
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MONTH, 1);
-		builder.expires(calendar.getTime());
-		builder.lastModified(Date.from(CommaFeedApplication.STARTUP_TIME));
-
-		return builder.build();
+		return Response.ok(icon.getIcon(), icon.getMediaType()).build();
 	}
 
 	@POST

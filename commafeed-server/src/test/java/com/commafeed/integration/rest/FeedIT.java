@@ -27,6 +27,7 @@ import com.commafeed.integration.BaseIT;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 
 @QuarkusTest
@@ -224,6 +225,7 @@ class FeedIT extends BaseIT {
 					.get("rest/feed/favicon/{id}", subscriptionId)
 					.then()
 					.statusCode(HttpStatus.SC_OK)
+					.header(HttpHeaders.CACHE_CONTROL, "max-age=2592000")
 					.extract()
 					.response()
 					.asByteArray();

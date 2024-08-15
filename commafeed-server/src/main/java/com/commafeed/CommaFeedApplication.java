@@ -1,7 +1,5 @@
 package com.commafeed;
 
-import java.time.Instant;
-
 import com.commafeed.backend.feed.FeedRefreshEngine;
 import com.commafeed.backend.service.db.DatabaseStartupService;
 import com.commafeed.backend.task.TaskScheduler;
@@ -19,8 +17,6 @@ public class CommaFeedApplication {
 
 	public static final String USERNAME_ADMIN = "admin";
 	public static final String USERNAME_DEMO = "demo";
-
-	public static final Instant STARTUP_TIME = Instant.now();
 
 	private final DatabaseStartupService databaseStartupService;
 	private final FeedRefreshEngine feedRefreshEngine;

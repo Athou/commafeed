@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import java.time.Duration;
 import java.util.Collection;
 
 import org.hibernate.Session;
@@ -57,9 +58,9 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		return objects.size();
 	}
 
-	protected void setTimeout(JPAQuery<?> query, int timeoutMs) {
-		if (timeoutMs > 0) {
-			query.setHint(SpecHints.HINT_SPEC_QUERY_TIMEOUT, timeoutMs);
+	protected void setTimeout(JPAQuery<?> query, Duration timeout) {
+		if (!timeout.isZero()) {
+			query.setHint(SpecHints.HINT_SPEC_QUERY_TIMEOUT, timeout.toMillis());
 		}
 	}
 

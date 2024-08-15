@@ -131,7 +131,7 @@ public interface CommaFeedConfiguration {
 		 * 0 to disable.
 		 */
 		@WithDefault("0")
-		int queryTimeout();
+		Duration queryTimeout();
 
 		Cleanup cleanup();
 

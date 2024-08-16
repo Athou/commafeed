@@ -14,10 +14,23 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 				// metrics
 				MetricRegistry.class, Meter.class, Gauge.class, Counter.class, Timer.class, Histogram.class,
 
-				// rome
-				java.util.Date.class, com.rometools.rome.feed.module.DCModuleImpl.class, com.rometools.rome.feed.module.DCSubjectImpl.class,
-				com.rometools.modules.content.ContentModuleImpl.class, com.rometools.modules.mediarss.MediaModuleImpl.class,
-				com.rometools.modules.mediarss.MediaEntryModuleImpl.class,
+				// rome modules
+				java.util.Date.class, com.rometools.modules.sse.modules.Conflict.class, com.rometools.modules.sse.modules.Conflicts.class,
+				com.rometools.modules.cc.CreativeCommonsImpl.class, com.rometools.modules.feedpress.modules.FeedpressModuleImpl.class,
+				com.rometools.modules.opensearch.impl.OpenSearchModuleImpl.class, com.rometools.modules.sse.modules.Sharing.class,
+				com.rometools.modules.georss.SimpleModuleImpl.class, com.rometools.modules.atom.modules.AtomLinkModuleImpl.class,
+				com.rometools.modules.itunes.EntryInformationImpl.class, com.rometools.modules.sse.modules.Update.class,
+				com.rometools.modules.photocast.PhotocastModuleImpl.class, com.rometools.modules.itunes.FeedInformationImpl.class,
+				com.rometools.modules.yahooweather.YWeatherModuleImpl.class, com.rometools.modules.feedburner.FeedBurnerImpl.class,
+				com.rometools.modules.sse.modules.Related.class, com.rometools.modules.fyyd.modules.FyydModuleImpl.class,
+				com.rometools.modules.psc.modules.PodloveSimpleChapterModuleImpl.class, com.rometools.modules.thr.ThreadingModuleImpl.class,
+				com.rometools.modules.sse.modules.Sync.class, com.rometools.modules.sle.SimpleListExtensionImpl.class,
+				com.rometools.modules.slash.SlashImpl.class, com.rometools.modules.sse.modules.History.class,
+				com.rometools.modules.georss.GMLModuleImpl.class, com.rometools.modules.base.CustomTagsImpl.class,
+				com.rometools.modules.base.GoogleBaseImpl.class, com.rometools.modules.sle.SleEntryImpl.class,
+				com.rometools.modules.mediarss.MediaEntryModuleImpl.class, com.rometools.modules.content.ContentModuleImpl.class,
+				com.rometools.modules.georss.W3CGeoModuleImpl.class, com.rometools.rome.feed.module.DCModuleImpl.class,
+				com.rometools.modules.mediarss.MediaModuleImpl.class, com.rometools.rome.feed.module.SyModuleImpl.class,
 
 				// extracted from all 3 rome.properties files of rome library
 				com.rometools.rome.io.impl.RSS090Parser.class, com.rometools.rome.io.impl.RSS091NetscapeParser.class,

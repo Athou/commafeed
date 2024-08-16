@@ -12,6 +12,7 @@ import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryDAO.FeedCapacity;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.UnitOfWork;
+import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
 
 import jakarta.inject.Singleton;
@@ -61,7 +62,7 @@ public class DatabaseCleaningService {
 					log.info("removed {} entries for feeds without subscriptions", entriesTotal);
 				} while (entriesDeleted > 0);
 			}
-			deleted = unitOfWork.call(() -> feedDAO.delete(feeds));
+			deleted = unitOfWork.call(() -> feedDAO.delete(feedDAO.findByIds(feeds.stream().map(AbstractModel::getId).toList())));
 			total += deleted;
 			log.info("removed {} feeds without subscriptions", total);
 		} while (deleted != 0);

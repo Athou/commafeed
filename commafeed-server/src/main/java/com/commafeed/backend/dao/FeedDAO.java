@@ -24,6 +24,10 @@ public class FeedDAO extends GenericDAO<Feed> {
 		super(entityManager, Feed.class);
 	}
 
+	public List<Feed> findByIds(List<Long> id) {
+		return query().selectFrom(FEED).where(FEED.id.in(id)).fetch();
+	}
+
 	public List<Feed> findNextUpdatable(int count, Instant lastLoginThreshold) {
 		JPAQuery<Feed> query = query().selectFrom(FEED).where(FEED.disabledUntil.isNull().or(FEED.disabledUntil.lt(Instant.now())));
 		if (lastLoginThreshold != null) {

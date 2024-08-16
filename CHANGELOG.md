@@ -17,7 +17,7 @@ The gist of it is that CommaFeed can now be compiled to a native binary, resulti
 - Due to the switch to Quarkus, the way CommaFeed is configured is very different (the `config.yml` file is gone).
   Please
   read [this section of the README](https://github.com/Athou/commafeed/tree/master?tab=readme-ov-file#configuration).
-  Note that some configuration elements have been removed or renamed for consistency.
+  Note that a lot of configuration elements have been removed or renamed and are now nested/grouped by feature.
 - Added a setting to prevent parsing large feeds to avoid out of memory errors. The default is 5MB.
 - Use a different icon for filtering unread entries and marking an entry as read (#1506)
 - Added various HTML attributes to ease custom JS/CSS customization (#1507)

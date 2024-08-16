@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -39,7 +38,6 @@ public class NextUnreadServlet {
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedEntryService feedEntryService;
-	private final CommaFeedConfiguration config;
 	private final AuthenticationContext authenticationContext;
 	private final UriInfo uri;
 

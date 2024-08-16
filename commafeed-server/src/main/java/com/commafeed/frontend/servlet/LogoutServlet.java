@@ -5,8 +5,6 @@ import java.util.Date;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import com.commafeed.CommaFeedConfiguration;
-
 import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
@@ -20,13 +18,10 @@ import jakarta.ws.rs.core.UriInfo;
 @Singleton
 public class LogoutServlet {
 
-	private final CommaFeedConfiguration config;
 	private final UriInfo uri;
 	private final String cookieName;
 
-	public LogoutServlet(CommaFeedConfiguration config, UriInfo uri,
-			@ConfigProperty(name = "quarkus.http.auth.form.cookie-name") String cookieName) {
-		this.config = config;
+	public LogoutServlet(UriInfo uri, @ConfigProperty(name = "quarkus.http.auth.form.cookie-name") String cookieName) {
 		this.uri = uri;
 		this.cookieName = cookieName;
 	}

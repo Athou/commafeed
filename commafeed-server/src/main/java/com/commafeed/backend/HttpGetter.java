@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.config.TlsConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
@@ -167,6 +168,7 @@ public class HttpGetter {
 				.setSSLSocketFactory(Apache5SslUtils.toSocketFactory(sslFactory))
 				.setDefaultConnectionConfig(
 						ConnectionConfig.custom().setConnectTimeout(Timeout.ofSeconds(5)).setTimeToLive(TimeValue.ofSeconds(30)).build())
+				.setDefaultTlsConfig(TlsConfig.custom().setHandshakeTimeout(Timeout.ofSeconds(5)).build())
 				.setMaxConnPerRoute(poolSize)
 				.setMaxConnTotal(poolSize)
 				.build();

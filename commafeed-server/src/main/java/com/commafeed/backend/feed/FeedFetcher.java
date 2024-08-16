@@ -40,9 +40,7 @@ public class FeedFetcher {
 			Instant lastPublishedDate, String lastContentHash) throws FeedException, IOException, NotModifiedException {
 		log.debug("Fetching feed {}", feedUrl);
 
-		int timeout = 20000;
-
-		HttpResult result = getter.getBinary(feedUrl, lastModified, eTag, timeout);
+		HttpResult result = getter.getBinary(feedUrl, lastModified, eTag);
 		byte[] content = result.getContent();
 
 		FeedParserResult parserResult;
@@ -54,7 +52,7 @@ public class FeedFetcher {
 				if (org.apache.commons.lang3.StringUtils.isNotBlank(extractedUrl)) {
 					feedUrl = extractedUrl;
 
-					result = getter.getBinary(extractedUrl, lastModified, eTag, timeout);
+					result = getter.getBinary(extractedUrl, lastModified, eTag);
 					content = result.getContent();
 					parserResult = parser.parse(result.getUrlAfterRedirect(), content);
 				} else {
@@ -87,8 +85,7 @@ public class FeedFetcher {
 					etagHeaderValueChanged ? result.getETag() : null);
 		}
 
-		return new FeedFetcherResult(parserResult, result.getUrlAfterRedirect(), result.getLastModifiedSince(), result.getETag(), hash,
-				result.getDuration());
+		return new FeedFetcherResult(parserResult, result.getUrlAfterRedirect(), result.getLastModifiedSince(), result.getETag(), hash);
 	}
 
 	private static String extractFeedUrl(List<FeedURLProvider> urlProviders, String url, String urlContent) {
@@ -103,7 +100,7 @@ public class FeedFetcher {
 	}
 
 	public record FeedFetcherResult(FeedParserResult feed, String urlAfterRedirect, String lastModifiedHeader, String lastETagHeader,
-			String contentHash, long fetchDuration) {
+			String contentHash) {
 	}
 
 }

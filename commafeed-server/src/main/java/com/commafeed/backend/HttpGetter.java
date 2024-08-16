@@ -3,10 +3,10 @@ package com.commafeed.backend;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.client5.http.config.ConnectionConfig;
@@ -36,7 +36,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.io.ByteStreams;
 import com.google.common.net.HttpHeaders;
 
-import io.quarkus.runtime.configuration.MemorySize;
 import jakarta.inject.Singleton;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -51,16 +50,18 @@ import nl.altindag.ssl.apache5.util.Apache5SslUtils;
 @Slf4j
 public class HttpGetter {
 
+	private final CommaFeedConfiguration config;
 	private final CloseableHttpClient client;
-	private final MemorySize maxResponseSize;
 
 	public HttpGetter(CommaFeedConfiguration config, CommaFeedVersion version, MetricRegistry metrics) {
-		PoolingHttpClientConnectionManager connectionManager = newConnectionManager(config.feedRefresh().httpThreads());
-		String userAgent = config.feedRefresh()
+		this.config = config;
+
+		PoolingHttpClientConnectionManager connectionManager = newConnectionManager(config);
+		String userAgent = config.httpClient()
 				.userAgent()
 				.orElseGet(() -> String.format("CommaFeed/%s (https://github.com/Athou/commafeed)", version.getVersion()));
-		this.client = newClient(connectionManager, userAgent);
-		this.maxResponseSize = config.feedRefresh().maxResponseSize();
+
+		this.client = newClient(connectionManager, userAgent, config.httpClient().idleConnectionsEvictionInterval());
 
 		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "max"), () -> connectionManager.getTotalStats().getMax());
 		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "size"),
@@ -69,8 +70,8 @@ public class HttpGetter {
 		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "pending"), () -> connectionManager.getTotalStats().getPending());
 	}
 
-	public HttpResult getBinary(String url, int timeout) throws IOException, NotModifiedException {
-		return getBinary(url, null, null, timeout);
+	public HttpResult getBinary(String url) throws IOException, NotModifiedException {
+		return getBinary(url, null, null);
 	}
 
 	/**
@@ -83,10 +84,9 @@ public class HttpGetter {
 	 * @throws NotModifiedException
 	 *             if the url hasn't changed since we asked for it last time
 	 */
-	public HttpResult getBinary(String url, String lastModified, String eTag, int timeout) throws IOException, NotModifiedException {
+	public HttpResult getBinary(String url, String lastModified, String eTag) throws IOException, NotModifiedException {
 		log.debug("fetching {}", url);
 
-		long start = System.currentTimeMillis();
 		ClassicHttpRequest request = ClassicRequestBuilder.get(url).build();
 		if (lastModified != null) {
 			request.addHeader(HttpHeaders.IF_MODIFIED_SINCE, lastModified);
@@ -96,10 +96,10 @@ public class HttpGetter {
 		}
 
 		HttpClientContext context = HttpClientContext.create();
-		context.setRequestConfig(RequestConfig.custom().setResponseTimeout(timeout, TimeUnit.MILLISECONDS).build());
-
+		context.setRequestConfig(RequestConfig.custom().setResponseTimeout(Timeout.of(config.httpClient().responseTimeout())).build());
 		HttpResponse response = client.execute(request, context, resp -> {
-			byte[] content = resp.getEntity() == null ? null : toByteArray(resp.getEntity(), maxResponseSize.asLongValue());
+			byte[] content = resp.getEntity() == null ? null
+					: toByteArray(resp.getEntity(), config.httpClient().maxResponseSize().asLongValue());
 			int code = resp.getCode();
 			String lastModifiedHeader = Optional.ofNullable(resp.getFirstHeader(HttpHeaders.LAST_MODIFIED))
 					.map(NameValuePair::getValue)
@@ -137,8 +137,7 @@ public class HttpGetter {
 			throw new NotModifiedException("eTagHeader is the same");
 		}
 
-		long duration = System.currentTimeMillis() - start;
-		return new HttpResult(response.getContent(), response.getContentType(), lastModifiedHeader, eTagHeader, duration,
+		return new HttpResult(response.getContent(), response.getContentType(), lastModifiedHeader, eTagHeader,
 				response.getUrlAfterRedirect());
 	}
 
@@ -161,21 +160,26 @@ public class HttpGetter {
 		}
 	}
 
-	private static PoolingHttpClientConnectionManager newConnectionManager(int poolSize) {
+	private static PoolingHttpClientConnectionManager newConnectionManager(CommaFeedConfiguration config) {
 		SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
 
+		int poolSize = config.feedRefresh().httpThreads();
 		return PoolingHttpClientConnectionManagerBuilder.create()
 				.setSSLSocketFactory(Apache5SslUtils.toSocketFactory(sslFactory))
-				.setDefaultConnectionConfig(
-						ConnectionConfig.custom().setConnectTimeout(Timeout.ofSeconds(5)).setTimeToLive(TimeValue.ofSeconds(30)).build())
-				.setDefaultTlsConfig(TlsConfig.custom().setHandshakeTimeout(Timeout.ofSeconds(5)).build())
+				.setDefaultConnectionConfig(ConnectionConfig.custom()
+						.setConnectTimeout(Timeout.of(config.httpClient().connectTimeout()))
+						.setSocketTimeout(Timeout.of(config.httpClient().socketTimeout()))
+						.setTimeToLive(Timeout.of(config.httpClient().connectionTimeToLive()))
+						.build())
+				.setDefaultTlsConfig(TlsConfig.custom().setHandshakeTimeout(Timeout.of(config.httpClient().sslHandshakeTimeout())).build())
 				.setMaxConnPerRoute(poolSize)
 				.setMaxConnTotal(poolSize)
 				.build();
 
 	}
 
-	private static CloseableHttpClient newClient(HttpClientConnectionManager connectionManager, String userAgent) {
+	private static CloseableHttpClient newClient(HttpClientConnectionManager connectionManager, String userAgent,
+			Duration idleConnectionsEvictionInterval) {
 		List<Header> headers = new ArrayList<>();
 		headers.add(new BasicHeader(HttpHeaders.ACCEPT_LANGUAGE, "en"));
 		headers.add(new BasicHeader(HttpHeaders.PRAGMA, "No-cache"));
@@ -189,7 +193,7 @@ public class HttpGetter {
 				.setDefaultHeaders(headers)
 				.setConnectionManager(connectionManager)
 				.evictExpiredConnections()
-				.evictIdleConnections(TimeValue.ofMinutes(1))
+				.evictIdleConnections(TimeValue.of(idleConnectionsEvictionInterval))
 				.build();
 	}
 
@@ -249,7 +253,6 @@ public class HttpGetter {
 		private final String contentType;
 		private final String lastModifiedSince;
 		private final String eTag;
-		private final long duration;
 		private final String urlAfterRedirect;
 	}
 

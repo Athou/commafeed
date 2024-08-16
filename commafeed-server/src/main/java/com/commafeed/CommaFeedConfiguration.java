@@ -57,6 +57,11 @@ public interface CommaFeedConfiguration {
 	Optional<String> googleAuthKey();
 
 	/**
+	 * HTTP client configuration
+	 */
+	HttpClient httpClient();
+
+	/**
 	 * Feed refresh engine settings.
 	 */
 	FeedRefresh feedRefresh();
@@ -75,6 +80,55 @@ public interface CommaFeedConfiguration {
 	 * Websocket settings.
 	 */
 	Websocket websocket();
+
+	interface HttpClient {
+		/**
+		 * User-Agent string that will be used by the http client, leave empty for the default one.
+		 */
+		Optional<String> userAgent();
+
+		/**
+		 * Time to wait for a connection to be established.
+		 */
+		@WithDefault("5s")
+		Duration connectTimeout();
+
+		/**
+		 * Time to wait for SSL handshake to complete.
+		 */
+		@WithDefault("5s")
+		Duration sslHandshakeTimeout();
+
+		/**
+		 * Time to wait between two packets before timeout.
+		 */
+		@WithDefault("10s")
+		Duration socketTimeout();
+
+		/**
+		 * Time to wait for the full response to be received.
+		 */
+		@WithDefault("10s")
+		Duration responseTimeout();
+
+		/**
+		 * Time to live for a connection in the pool.
+		 */
+		@WithDefault("30s")
+		Duration connectionTimeToLive();
+
+		/**
+		 * Time between eviction runs for idle connections.
+		 */
+		@WithDefault("1m")
+		Duration idleConnectionsEvictionInterval();
+
+		/**
+		 * If a feed is larger than this, it will be discarded to prevent memory issues while parsing the feed.
+		 */
+		@WithDefault("5M")
+		MemorySize maxResponseSize();
+	}
 
 	interface FeedRefresh {
 		/**
@@ -105,23 +159,12 @@ public interface CommaFeedConfiguration {
 		int databaseThreads();
 
 		/**
-		 * If a feed is larger than this, it will be discarded to prevent memory issues while parsing the feed.
-		 */
-		@WithDefault("5M")
-		MemorySize maxResponseSize();
-
-		/**
 		 * Duration after which a user is considered inactive. Feeds for inactive users are not refreshed until they log in again.
 		 *
 		 * 0 to disable.
 		 */
 		@WithDefault("0")
 		Duration userInactivityPeriod();
-
-		/**
-		 * User-Agent string that will be used by the http client, leave empty for the default one.
-		 */
-		Optional<String> userAgent();
 	}
 
 	interface Database {

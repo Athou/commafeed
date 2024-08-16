@@ -43,7 +43,7 @@ public class FacebookFaviconFetcher extends AbstractFaviconFetcher {
 		try {
 			log.debug("Getting Facebook user's icon, {}", url);
 
-			HttpResult iconResult = getter.getBinary(iconUrl, TIMEOUT);
+			HttpResult iconResult = getter.getBinary(iconUrl);
 			bytes = iconResult.getContent();
 			contentType = iconResult.getContentType();
 		} catch (Exception e) {

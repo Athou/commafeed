@@ -80,7 +80,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 			Thumbnail thumbnail = channel.getSnippet().getThumbnails().getDefault();
 
 			log.debug("fetching favicon");
-			HttpResult iconResult = getter.getBinary(thumbnail.getUrl(), TIMEOUT);
+			HttpResult iconResult = getter.getBinary(thumbnail.getUrl());
 			bytes = iconResult.getContent();
 			contentType = iconResult.getContentType();
 		} catch (Exception e) {

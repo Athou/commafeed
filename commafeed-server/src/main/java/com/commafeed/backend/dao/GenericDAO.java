@@ -60,7 +60,7 @@ public abstract class GenericDAO<T extends AbstractModel> {
 
 	protected void setTimeout(JPAQuery<?> query, Duration timeout) {
 		if (!timeout.isZero()) {
-			query.setHint(SpecHints.HINT_SPEC_QUERY_TIMEOUT, timeout.toMillis());
+			query.setHint(SpecHints.HINT_SPEC_QUERY_TIMEOUT, Math.toIntExact(timeout.toMillis()));
 		}
 	}
 

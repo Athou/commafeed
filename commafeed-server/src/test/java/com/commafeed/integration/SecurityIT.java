@@ -8,6 +8,7 @@ import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.commafeed.ExceptionMappers.UnauthorizedResponse;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.MarkRequest;
@@ -24,7 +25,13 @@ class SecurityIT extends BaseIT {
 
 	@Test
 	void notLoggedIn() {
-		RestAssured.given().get("rest/user/profile").then().statusCode(HttpStatus.SC_UNAUTHORIZED);
+		UnauthorizedResponse info = RestAssured.given()
+				.get("rest/user/profile")
+				.then()
+				.statusCode(HttpStatus.SC_UNAUTHORIZED)
+				.extract()
+				.as(UnauthorizedResponse.class);
+		Assertions.assertTrue(info.allowRegistrations());
 	}
 
 	@Test

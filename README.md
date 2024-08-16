@@ -105,6 +105,21 @@ This is the JVM used in the [Docker image](https://github.com/Athou/commafeed/bl
 
 ## Configuration
 
+CommaFeed doesn't require any configuration to run with its embedded database (H2). The database file will be stored in
+the `data` directory in the working directory.
+
+To use a different database, you will need to configure the following properties:
+
+- `quarkus.datasource.jdbc-url`
+    - e.g. for H2: `jdbc:h2:./data/db;DEFRAG_ALWAYS=TRUE`
+    - e.g. for PostgreSQL: `jdbc:postgresql://localhost:5432/commafeed`
+    - e.g. for MySQL:
+      `jdbc:mysql://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
+    - e.g. for MariaDB:
+      `jdbc:mariadb://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
+- `quarkus.datasource.username`
+- `quarkus.datasource.password`
+
 There are multiple ways to configure CommaFeed:
 
 - a [properties](https://en.wikipedia.org/wiki/.properties) file in `config/application.properties` (keys in kebab-case)
@@ -114,23 +129,11 @@ There are multiple ways to configure CommaFeed:
 
 The properties file is recommended because CommaFeed will be able to warn about invalid properties and typos.
 
-CommaFeed only requires 3 properties to be configured:
-
-- `quarkus.datasource.username`
-- `quarkus.datasource.password`
-- `quarkus.datasource.jdbc-url`
-    - e.g. for H2: `jdbc:h2:/commafeed/data/db;DEFRAG_ALWAYS=TRUE`
-    - e.g. for PostgreSQL: `jdbc:postgresql://localhost:5432/commafeed`
-    - e.g. for MySQL:
-      `jdbc:mysql://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
-    - e.g. for MariaDB:
-      `jdbc:mariadb://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
-
 When logging in, credentials are stored in an encrypted cookie. The encryption key is randomly generated at startup,
 meaning that you will have to log back in after each restart of the application. To prevent this, you can set the
 `quarkus.http.auth.session.encryption-key` property to a fixed value (min. 16 characters).
 
-All other [CommaFeed settings](commafeed-server/src/main/java/com/commafeed/CommaFeedConfiguration.java)
+All  [CommaFeed settings](commafeed-server/src/main/java/com/commafeed/CommaFeedConfiguration.java)
 are optional and have sensible default values. Quarkus settings can be
 found [here](https://quarkus.io/guides/all-config).
 

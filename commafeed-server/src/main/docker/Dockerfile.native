@@ -4,6 +4,6 @@ EXPOSE 8082
 RUN mkdir -p /commafeed/data
 VOLUME /commafeed/data
 
-COPY commafeed-server/target/commafeed-*-runner /commafeed/app/application
-WORKDIR /commafeed/app
+COPY commafeed-server/target/commafeed-*-runner /commafeed/application
+WORKDIR /commafeed
 CMD ["./application"]

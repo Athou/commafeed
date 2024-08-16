@@ -341,7 +341,6 @@ public class FeedREST {
 	@GET
 	@Path("/favicon/{id}")
 	@Cache(maxAge = 2592000)
-	@Transactional
 	@Operation(summary = "Fetch a feed's icon", description = "Fetch a feed's icon")
 	public Response getFeedFavicon(@Parameter(description = "subscription id", required = true) @PathParam("id") Long id) {
 		Preconditions.checkNotNull(id);

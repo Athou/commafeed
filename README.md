@@ -8,15 +8,17 @@ Google Reader inspired self-hosted RSS reader, based on Quarkus and React/TypeSc
 
 - 4 different layouts
 - Light/Dark theme
-- Fully responsive
+- Fully responsive, works great on both mobile and desktop
 - Keyboard shortcuts for almost everything
 - Support for right-to-left feeds
 - Translated in 25+ languages
 - Supports thousands of users and millions of feeds
 - OPML import/export
-- REST API and a Fever-compatible API for native mobile apps
+- REST API
+- Fever-compatible API for native mobile apps
+- Can automatically mark articles as read based on user-defined rules
 - [Browser extension](https://github.com/Athou/commafeed-browser-extension)
-- Compiles to native code for very fast startup and low memory usage
+- Compiles to native code for blazing fast startup and low memory usage
 - Supports 4 databases
     - H2 (embedded database)
     - PostgreSQL
@@ -56,12 +58,12 @@ memory usage.
 
 ### Build from sources
 
-    ./mvnw clean package -P<database> [-DskipTests] [-Pnative]
+    ./mvnw clean package [-P<database>] [-Pnative] [-DskipTests]
 
-- `<database>` can be one of `h2`, `postgresql`, `mysql` or `mariadb`.
-- `-DskipTests` is optional but recommended because tests require a Docker environment to run against a real database.
+- `<database>` can be one of `h2`, `postgresql`, `mysql` or `mariadb`. The default is `h2`.
 - `-Pnative` compiles the application to native code. This requires GraalVM to be installed (`GRAALVM_HOME` environment
   variable pointing to a GraalVM installation).
+- `-DskipTests` to speed up the build process by skipping tests.
 
 When the build is complete:
 
@@ -70,6 +72,43 @@ When the build is complete:
   `java -jar quarkus-run.jar`
 - if you used the native profile, the executable is located at
   `commafeed-server/target/commafeed-<version>-<database>-<platform>-<arch>-runner[.exe]`
+
+## Configuration
+
+CommaFeed doesn't require any configuration to run with its embedded database (H2). The database file will be stored in
+the `data` directory of the current directory.
+
+To use a different database, you will need to configure the following properties:
+
+- `quarkus.datasource.jdbc-url`
+    - e.g. for H2: `jdbc:h2:./data/db;DEFRAG_ALWAYS=TRUE`
+    - e.g. for PostgreSQL: `jdbc:postgresql://localhost:5432/commafeed`
+    - e.g. for MySQL:
+      `jdbc:mysql://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
+    - e.g. for MariaDB:
+      `jdbc:mariadb://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
+- `quarkus.datasource.username`
+- `quarkus.datasource.password`
+
+There are multiple ways to configure CommaFeed:
+
+- a [properties](https://en.wikipedia.org/wiki/.properties) file in `config/application.properties` (keys in kebab-case)
+- Command line arguments prefixed with `-D` (keys in kebab-case)
+- Environment variables (keys in UPPER_CASE)
+- an .env file in the working directory (keys in UPPER_CASE)
+
+The properties file is recommended because CommaFeed will be able to warn about invalid properties and typos.
+
+When logging in, credentials are stored in an encrypted cookie. The encryption key is randomly generated at startup,
+meaning that you will have to log back in after each restart of the application. To prevent this, you can set the
+`quarkus.http.auth.session.encryption-key` property to a fixed value (min. 16 characters).
+
+All [CommaFeed settings](commafeed-server/src/main/java/com/commafeed/CommaFeedConfiguration.java)
+are optional and have sensible default values.
+Other Quarkus settings can be found [here](https://quarkus.io/guides/all-config).
+
+When started, the server will listen on http://localhost:8082.
+The default user is `admin` and the default password is `admin`.
 
 ### Memory management (`jvm` package only)
 
@@ -102,43 +141,6 @@ slightly slower throughput.
 IBM provides precompiled binaries for OpenJ9
 named [Semeru](https://developer.ibm.com/languages/java/semeru-runtimes/downloads/).
 This is the JVM used in the [Docker image](https://github.com/Athou/commafeed/blob/master/Dockerfile).
-
-## Configuration
-
-CommaFeed doesn't require any configuration to run with its embedded database (H2). The database file will be stored in
-the `data` directory in the working directory.
-
-To use a different database, you will need to configure the following properties:
-
-- `quarkus.datasource.jdbc-url`
-    - e.g. for H2: `jdbc:h2:./data/db;DEFRAG_ALWAYS=TRUE`
-    - e.g. for PostgreSQL: `jdbc:postgresql://localhost:5432/commafeed`
-    - e.g. for MySQL:
-      `jdbc:mysql://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
-    - e.g. for MariaDB:
-      `jdbc:mariadb://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
-- `quarkus.datasource.username`
-- `quarkus.datasource.password`
-
-There are multiple ways to configure CommaFeed:
-
-- a [properties](https://en.wikipedia.org/wiki/.properties) file in `config/application.properties` (keys in kebab-case)
-- Command line arguments prefixed with `-D` (keys in kebab-case)
-- Environment variables (keys in UPPER_CASE)
-- an .env file in the working directory (keys in UPPER_CASE)
-
-The properties file is recommended because CommaFeed will be able to warn about invalid properties and typos.
-
-When logging in, credentials are stored in an encrypted cookie. The encryption key is randomly generated at startup,
-meaning that you will have to log back in after each restart of the application. To prevent this, you can set the
-`quarkus.http.auth.session.encryption-key` property to a fixed value (min. 16 characters).
-
-All  [CommaFeed settings](commafeed-server/src/main/java/com/commafeed/CommaFeedConfiguration.java)
-are optional and have sensible default values. Quarkus settings can be
-found [here](https://quarkus.io/guides/all-config).
-
-When started, the server will listen on http://localhost:8082.
-The default user is `admin` and the default password is `admin`.
 
 ## Translation
 

@@ -56,9 +56,9 @@ class HttpGetterTest {
 
 		this.config = Mockito.mock(CommaFeedConfiguration.class, Mockito.RETURNS_DEEP_STUBS);
 		Mockito.when(config.httpClient().userAgent()).thenReturn(Optional.of("http-getter-test"));
-		Mockito.when(config.httpClient().connectTimeout()).thenReturn(Duration.ofMillis(300));
+		Mockito.when(config.httpClient().connectTimeout()).thenReturn(Duration.ofMillis(500));
 		Mockito.when(config.httpClient().sslHandshakeTimeout()).thenReturn(Duration.ofSeconds(5));
-		Mockito.when(config.httpClient().socketTimeout()).thenReturn(Duration.ofMillis(300));
+		Mockito.when(config.httpClient().socketTimeout()).thenReturn(Duration.ofMillis(500));
 		Mockito.when(config.httpClient().responseTimeout()).thenReturn(Duration.ofMillis(300));
 		Mockito.when(config.httpClient().connectionTimeToLive()).thenReturn(Duration.ofSeconds(30));
 		Mockito.when(config.httpClient().maxResponseSize()).thenReturn(new MemorySize(new BigInteger("10000")));

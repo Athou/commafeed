@@ -43,6 +43,14 @@ public abstract class GenericDAO<T extends AbstractModel> {
 		models.forEach(this::saveOrUpdate);
 	}
 
+	public void persist(T model) {
+		entityManager.persist(model);
+	}
+
+	public T merge(T model) {
+		return entityManager.merge(model);
+	}
+
 	public T findById(Long id) {
 		return entityManager.find(entityClass, id);
 	}

@@ -47,18 +47,18 @@ public class FeedService {
 			feed.setNormalizedUrl(normalizedUrl);
 			feed.setNormalizedUrlHash(normalizedUrlHash);
 			feed.setDisabledUntil(Models.MINIMUM_INSTANT);
-			feedDAO.saveOrUpdate(feed);
+			feedDAO.persist(feed);
 		}
 		return feed;
 	}
 
-	public void save(Feed feed) {
+	public void update(Feed feed) {
 		String normalized = FeedUtils.normalizeURL(feed.getUrl());
 		feed.setNormalizedUrl(normalized);
 		feed.setNormalizedUrlHash(Digests.sha1Hex(normalized));
 		feed.setLastUpdated(Instant.now());
 		feed.setEtagHeader(FeedUtils.truncate(feed.getEtagHeader(), 255));
-		feedDAO.saveOrUpdate(feed);
+		feedDAO.merge(feed);
 	}
 
 	public Favicon fetchFavicon(Feed feed) {

@@ -157,7 +157,7 @@ public class FeedRefreshUpdater {
 			feedUpdated.mark();
 		}
 
-		unitOfWork.run(() -> feedService.save(feed));
+		unitOfWork.run(() -> feedService.update(feed));
 
 		notifyOverWebsocket(unreadCountBySubscription);
 

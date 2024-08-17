@@ -21,7 +21,7 @@ public class FeedRefreshIntervalCalculator {
 
 	public Instant onFetchSuccess(Instant publishedDate, Long averageEntryInterval) {
 		Instant defaultRefreshInterval = getDefaultRefreshInterval();
-		return empiricalInterval ? computeRefreshIntervalForHeavyLoad(publishedDate, averageEntryInterval, defaultRefreshInterval)
+		return empiricalInterval ? computeEmpiricalRefreshInterval(publishedDate, averageEntryInterval, defaultRefreshInterval)
 				: defaultRefreshInterval;
 	}
 
@@ -43,7 +43,7 @@ public class FeedRefreshIntervalCalculator {
 		return Instant.now().plus(refreshInterval);
 	}
 
-	private Instant computeRefreshIntervalForHeavyLoad(Instant publishedDate, Long averageEntryInterval, Instant defaultRefreshInterval) {
+	private Instant computeEmpiricalRefreshInterval(Instant publishedDate, Long averageEntryInterval, Instant defaultRefreshInterval) {
 		Instant now = Instant.now();
 
 		if (publishedDate == null) {

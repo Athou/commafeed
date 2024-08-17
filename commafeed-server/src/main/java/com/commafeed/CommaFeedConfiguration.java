@@ -138,8 +138,10 @@ public interface CommaFeedConfiguration {
 		Duration interval();
 
 		/**
-		 * If true, CommaFeed will calculate the next refresh time based on the feed's average entry interval and the time since the last
-		 * entry was published. See {@link FeedRefreshIntervalCalculator} for details.
+		 * If true, CommaFeed will calculate the next refresh time based on the feed's average time between entries and the time since the
+		 * last entry was published. The interval will be somewhere between the default refresh interval and 24h.
+		 * 
+		 * See {@link FeedRefreshIntervalCalculator} for details.
 		 */
 		@WithDefault("false")
 		boolean intervalEmpirical();

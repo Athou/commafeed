@@ -1,9 +1,13 @@
 package com.commafeed.backend.service;
 
+import java.time.Duration;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
@@ -16,7 +20,10 @@ class FeedEntryFilteringServiceTest {
 
 	@BeforeEach
 	public void init() {
-		service = new FeedEntryFilteringService();
+		CommaFeedConfiguration config = Mockito.mock(CommaFeedConfiguration.class, Mockito.RETURNS_DEEP_STUBS);
+		Mockito.when(config.feedRefresh().filteringExpressionEvaluationTimeout()).thenReturn(Duration.ofSeconds(2));
+
+		service = new FeedEntryFilteringService(config);
 
 		entry = new FeedEntry();
 		entry.setUrl("https://github.com/Athou/commafeed");

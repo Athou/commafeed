@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.LogFactory;
 import org.jsoup.Jsoup;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.FeedEntry;
 
 import jakarta.inject.Singleton;
@@ -35,6 +36,7 @@ public class FeedEntryFilteringService {
 	private static final JexlEngine ENGINE = initEngine();
 
 	private final ExecutorService executor = Executors.newCachedThreadPool();
+	private final CommaFeedConfiguration config;
 
 	private static JexlEngine initEngine() {
 		// classloader that prevents object creation
@@ -96,8 +98,9 @@ public class FeedEntryFilteringService {
 		Future<Object> future = executor.submit(callable);
 		Object result;
 		try {
-			result = future.get(500, TimeUnit.MILLISECONDS);
+			result = future.get(config.feedRefresh().filteringExpressionEvaluationTimeout().toMillis(), TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 			throw new FeedEntryFilterException("interrupted while evaluating expression " + filter, e);
 		} catch (ExecutionException e) {
 			throw new FeedEntryFilterException("Exception while evaluating expression " + filter, e);

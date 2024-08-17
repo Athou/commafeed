@@ -167,6 +167,12 @@ public interface CommaFeedConfiguration {
 		 */
 		@WithDefault("0")
 		Duration userInactivityPeriod();
+
+		/**
+		 * Duration after which the evaluation of a filtering expresion to mark an entry as read is considered to have timed out.
+		 */
+		@WithDefault("500ms")
+		Duration filteringExpressionEvaluationTimeout();
 	}
 
 	interface Database {

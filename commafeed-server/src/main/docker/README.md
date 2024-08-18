@@ -29,7 +29,7 @@ services:
 
 ## Advanced
 
-While using the embedded database is perfectly fine for small instances, you may want to have more control over the
+While using the H2 embedded database is perfectly fine for small instances, you may want to have more control over the
 database. Here's an example that uses postgresql (note the different docker tag):
 
 ```
@@ -70,14 +70,14 @@ with the `COMMAFEED_FEED_REFRESH_INTERVAL_EMPIRICAL=true` variable.
 
 When logging in, credentials are stored in an encrypted cookie. The encryption key is randomly generated at startup,
 meaning that you will have to log back in after each restart of the application. To prevent this, you can set the
-`QUARKUS_HTTP_AUTH_SESSION_ENCRYPTION_KEY` property to a fixed value (min. 16 characters).
+`QUARKUS_HTTP_AUTH_SESSION_ENCRYPTION_KEY` variable to a fixed value (min. 16 characters).
 
 ## Docker tags
 
 Tags are of the form `<version>-<database>[-jvm]` where:
 
 - `<version>` is either:
-    - a specific CommaFeed version (e.g. `4.6.0`)
+    - a specific CommaFeed version (e.g. `5.0.0`)
     - `latest` (always points to the latest version)
     - `master` (always points to the latest git commit)
 - `<database>` is the database to use (`h2`, `postgresql`, `mysql` or `mariadb`)

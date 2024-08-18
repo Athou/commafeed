@@ -9,7 +9,7 @@ import { ActionButton } from "components/ActionButton"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useMobile } from "hooks/useMobile"
 import { useAsyncCallback } from "react-async-hook"
-import { SiGithub, SiTwitter } from "react-icons/si"
+import { SiGithub, SiX } from "react-icons/si"
 import { TbClock, TbKey, TbMoon, TbSettings, TbSun, TbUserPlus } from "react-icons/tb"
 import { PageTitle } from "./PageTitle"
 
@@ -140,8 +140,8 @@ function Footer() {
                 <Anchor variant="text" href="https://github.com/Athou/commafeed/" target="_blank" rel="noreferrer">
                     <SiGithub />
                 </Anchor>
-                <Anchor variant="text" href="https://twitter.com/CommaFeed" target="_blank" rel="noreferrer">
-                    <SiTwitter />
+                <Anchor variant="text" href="https://x.com/CommaFeed" target="_blank" rel="noreferrer">
+                    <SiX />
                 </Anchor>
             </Group>
             <Box>

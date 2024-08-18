@@ -80,7 +80,7 @@ the `data` directory of the current directory.
 
 To use a different database, you will need to configure the following properties:
 
-- `quarkus.datasource.jdbc-url`
+- `quarkus.datasource.jdbc.url`
     - e.g. for H2: `jdbc:h2:./data/db;DEFRAG_ALWAYS=TRUE`
     - e.g. for PostgreSQL: `jdbc:postgresql://localhost:5432/commafeed`
     - e.g. for MySQL:

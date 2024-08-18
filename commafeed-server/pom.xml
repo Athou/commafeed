@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.commafeed</groupId>
 		<artifactId>commafeed</artifactId>
-		<version>5.0.0-beta</version>
+		<version>5.0.0</version>
 	</parent>
 	<artifactId>commafeed-server</artifactId>
 	<name>CommaFeed Server</name>
@@ -17,7 +17,7 @@
 		<rome.version>2.1.0</rome.version>
 		<properties-plugin.version>1.2.1</properties-plugin.version>
 
-		<quarkus.datasource.db-kind>h2</quarkus.datasource.db-kind>
+		<build.database>h2</build.database>
 	</properties>
 
 	<dependencyManagement>
@@ -71,7 +71,7 @@
 							<properties>
 								<quarkus.package.output-name>commafeed-${project.version}</quarkus.package.output-name>
 								<quarkus.package.runner-suffix>
-									-${quarkus.datasource.db-kind}-${os.detected.name}-${os.detected.arch}-runner
+									-${build.database}-${os.detected.name}-${os.detected.arch}-runner
 								</quarkus.package.runner-suffix>
 							</properties>
 						</configuration>
@@ -89,7 +89,7 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<finalName>commafeed-${project.version}-${quarkus.datasource.db-kind}-jvm</finalName>
+							<finalName>commafeed-${project.version}-${build.database}-jvm</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 							<descriptors>
 								<descriptor>src/main/assembly/zip-quarkus-app.xml</descriptor>
@@ -228,7 +228,7 @@
 		<dependency>
 			<groupId>com.commafeed</groupId>
 			<artifactId>commafeed-client</artifactId>
-			<version>5.0.0-beta</version>
+			<version>5.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -483,6 +483,9 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
+			<properties>
+				<build.database>h2</build.database>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -510,6 +513,9 @@
 		</profile>
 		<profile>
 			<id>mysql</id>
+			<properties>
+				<build.database>mysql</build.database>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -537,6 +543,9 @@
 		</profile>
 		<profile>
 			<id>mariadb</id>
+			<properties>
+				<build.database>mariadb</build.database>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -564,6 +573,9 @@
 		</profile>
 		<profile>
 			<id>postgresql</id>
+			<properties>
+				<build.database>postgresql</build.database>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>

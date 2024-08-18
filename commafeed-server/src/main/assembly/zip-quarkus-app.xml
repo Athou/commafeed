@@ -4,7 +4,7 @@
 	<id>zip-quarkus-app</id>
 
 	<includeBaseDirectory>true</includeBaseDirectory>
-	<baseDirectory>commafeed-${project.version}-${quarkus.datasource.db-kind}</baseDirectory>
+	<baseDirectory>commafeed-${project.version}-${build.database}</baseDirectory>
 
 	<formats>
 		<format>zip</format>

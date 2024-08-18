@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro"
 import type { IconType } from "react-icons"
 import { FaAt } from "react-icons/fa"
-import { SiBuffer, SiFacebook, SiGmail, SiInstapaper, SiPocket, SiTumblr, SiTwitter } from "react-icons/si"
+import { SiBuffer, SiFacebook, SiGmail, SiInstapaper, SiPocket, SiTumblr, SiX } from "react-icons/si"
 import type { Category, Entry, SharingSettings } from "./types"
 
 const categories: Record<string, Category> = {
@@ -50,10 +50,10 @@ const sharing: {
         url: url => `https://www.facebook.com/sharer/sharer.php?u=${url}`,
     },
     twitter: {
-        label: "Twitter",
-        icon: SiTwitter,
-        color: "#1D9BF0",
-        url: (url, desc) => `https://twitter.com/share?text=${desc}&url=${url}`,
+        label: "X",
+        icon: SiX,
+        color: "#000000",
+        url: (url, desc) => `https://x.com/share?text=${desc}&url=${url}`,
     },
     tumblr: {
         label: "Tumblr",

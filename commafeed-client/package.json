@@ -16,7 +16,7 @@
     },
     "dependencies": {
         "@emotion/react": "^11.13.0",
-        "@fontsource/open-sans": "^5.0.28",
+        "@fontsource/open-sans": "^5.0.29",
         "@lingui/core": "^4.11.3",
         "@lingui/macro": "^4.11.3",
         "@lingui/react": "^4.11.3",

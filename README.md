@@ -92,7 +92,8 @@ To use a different database, you will need to configure the following properties
 
 There are multiple ways to configure CommaFeed:
 
-- a [properties](https://en.wikipedia.org/wiki/.properties) file in `config/application.properties` (keys in kebab-case)
+- a `config/application.properties` [properties](https://en.wikipedia.org/wiki/.properties) file relative to the working
+  directory (keys in kebab-case)
 - Command line arguments prefixed with `-D` (keys in kebab-case)
 - Environment variables (keys in UPPER_CASE)
 - a `.env` file in the working directory (keys in UPPER_CASE)

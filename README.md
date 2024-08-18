@@ -95,7 +95,7 @@ There are multiple ways to configure CommaFeed:
 - a [properties](https://en.wikipedia.org/wiki/.properties) file in `config/application.properties` (keys in kebab-case)
 - Command line arguments prefixed with `-D` (keys in kebab-case)
 - Environment variables (keys in UPPER_CASE)
-- an .env file in the working directory (keys in UPPER_CASE)
+- a `.env` file in the working directory (keys in UPPER_CASE)
 
 The properties file is recommended because CommaFeed will be able to warn about invalid properties and typos.
 

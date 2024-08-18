@@ -104,8 +104,7 @@ When logging in, credentials are stored in an encrypted cookie. The encryption k
 meaning that you will have to log back in after each restart of the application. To prevent this, you can set the
 `quarkus.http.auth.session.encryption-key` property to a fixed value (min. 16 characters).
 
-All [CommaFeed settings](commafeed-server/src/main/java/com/commafeed/CommaFeedConfiguration.java)
-are optional and have sensible default values.
+All [CommaFeed settings](commafeed-server/doc/commafeed.adoc) are optional and have sensible default values.
 
 When started, the server will listen on http://localhost:8082.
 The default user is `admin` and the default password is `admin`.

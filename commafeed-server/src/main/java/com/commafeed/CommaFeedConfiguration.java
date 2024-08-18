@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import com.commafeed.backend.feed.FeedRefreshIntervalCalculator;
 
+import io.quarkus.runtime.annotations.ConfigPhase;
+import io.quarkus.runtime.annotations.ConfigRoot;
 import io.quarkus.runtime.configuration.MemorySize;
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
@@ -18,6 +20,7 @@ import jakarta.validation.constraints.Positive;
  * Default values are for production, they can be overridden in application.properties for other profiles
  */
 @ConfigMapping(prefix = "commafeed")
+@ConfigRoot(phase = ConfigPhase.RUN_TIME)
 public interface CommaFeedConfiguration {
 	/**
 	 * Whether to expose a robots.txt file that disallows web crawlers and search engine indexers.
@@ -184,6 +187,9 @@ public interface CommaFeedConfiguration {
 		@WithDefault("0")
 		Duration queryTimeout();
 
+		/**
+		 * Database cleanup settings.
+		 */
 		Cleanup cleanup();
 
 		interface Cleanup {

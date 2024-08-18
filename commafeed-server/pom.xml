@@ -296,6 +296,11 @@
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-jdbc-postgresql</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-extension-processor</artifactId>
+			<version>${quarkus.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>io.dropwizard.metrics</groupId>

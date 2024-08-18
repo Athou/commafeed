@@ -61,8 +61,8 @@ services:
 
 ## Configuration
 
-All [CommaFeed settings](https://github.com/Athou/commafeed/blob/master/commafeed-server/src/main/java/com/commafeed/CommaFeedConfiguration.java)
-are optional and have sensible default values.
+All [CommaFeed settings](https://github.com/Athou/commafeed/blob/master/commafeed-server/doc/commafeed.adoc) are
+optional and have sensible default values.
 
 Settings are overrideable with environment variables. For instance, `config.feedRefresh().intervalEmpirical()` can be
 set

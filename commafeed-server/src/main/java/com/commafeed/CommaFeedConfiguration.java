@@ -1,188 +1,275 @@
 package com.commafeed;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Properties;
+import java.util.Optional;
 
-import com.commafeed.backend.cache.RedisPoolFactory;
-import com.commafeed.frontend.session.SessionHandlerFactory;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.commafeed.backend.feed.FeedRefreshIntervalCalculator;
 
-import io.dropwizard.core.Configuration;
-import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.util.DataSize;
-import io.dropwizard.util.Duration;
-import jakarta.validation.Valid;
+import io.quarkus.runtime.configuration.MemorySize;
+import io.smallrye.config.ConfigMapping;
+import io.smallrye.config.WithDefault;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-public class CommaFeedConfiguration extends Configuration {
+/**
+ * CommaFeed configuration
+ *
+ * Default values are for production, they can be overridden in application.properties for other profiles
+ */
+@ConfigMapping(prefix = "commafeed")
+public interface CommaFeedConfiguration {
+	/**
+	 * Whether to expose a robots.txt file that disallows web crawlers and search engine indexers.
+	 */
+	@WithDefault("true")
+	boolean hideFromWebCrawlers();
 
-	public enum CacheType {
-		NOOP, REDIS
+	/**
+	 * If enabled, images in feed entries will be proxied through the server instead of accessed directly by the browser.
+	 * 
+	 * This is useful if commafeed is accessed through a restricting proxy that blocks some feeds that are followed.
+	 */
+	@WithDefault("false")
+	boolean imageProxyEnabled();
+
+	/**
+	 * Enable password recovery via email.
+	 *
+	 * Quarkus mailer will need to be configured.
+	 */
+	@WithDefault("false")
+	boolean passwordRecoveryEnabled();
+
+	/**
+	 * Message displayed in a notification at the bottom of the page.
+	 */
+	Optional<String> announcement();
+
+	/**
+	 * Google Analytics tracking code.
+	 */
+	Optional<String> googleAnalyticsTrackingCode();
+
+	/**
+	 * Google Auth key for fetching Youtube channel favicons.
+	 */
+	Optional<String> googleAuthKey();
+
+	/**
+	 * HTTP client configuration
+	 */
+	HttpClient httpClient();
+
+	/**
+	 * Feed refresh engine settings.
+	 */
+	FeedRefresh feedRefresh();
+
+	/**
+	 * Database settings.
+	 */
+	Database database();
+
+	/**
+	 * Users settings.
+	 */
+	Users users();
+
+	/**
+	 * Websocket settings.
+	 */
+	Websocket websocket();
+
+	interface HttpClient {
+		/**
+		 * User-Agent string that will be used by the http client, leave empty for the default one.
+		 */
+		Optional<String> userAgent();
+
+		/**
+		 * Time to wait for a connection to be established.
+		 */
+		@WithDefault("5s")
+		Duration connectTimeout();
+
+		/**
+		 * Time to wait for SSL handshake to complete.
+		 */
+		@WithDefault("5s")
+		Duration sslHandshakeTimeout();
+
+		/**
+		 * Time to wait between two packets before timeout.
+		 */
+		@WithDefault("10s")
+		Duration socketTimeout();
+
+		/**
+		 * Time to wait for the full response to be received.
+		 */
+		@WithDefault("10s")
+		Duration responseTimeout();
+
+		/**
+		 * Time to live for a connection in the pool.
+		 */
+		@WithDefault("30s")
+		Duration connectionTimeToLive();
+
+		/**
+		 * Time between eviction runs for idle connections.
+		 */
+		@WithDefault("1m")
+		Duration idleConnectionsEvictionInterval();
+
+		/**
+		 * If a feed is larger than this, it will be discarded to prevent memory issues while parsing the feed.
+		 */
+		@WithDefault("5M")
+		MemorySize maxResponseSize();
 	}
 
-	@Valid
-	@NotNull
-	@JsonProperty("database")
-	private final DataSourceFactory dataSourceFactory = new DataSourceFactory();
+	interface FeedRefresh {
+		/**
+		 * Amount of time CommaFeed will wait before refreshing the same feed.
+		 */
+		@WithDefault("5m")
+		Duration interval();
 
-	@Valid
-	@NotNull
-	@JsonProperty("redis")
-	private final RedisPoolFactory redisPoolFactory = new RedisPoolFactory();
+		/**
+		 * If true, CommaFeed will calculate the next refresh time based on the feed's average time between entries and the time since the
+		 * last entry was published. The interval will be somewhere between the default refresh interval and 24h.
+		 * 
+		 * See {@link FeedRefreshIntervalCalculator} for details.
+		 */
+		@WithDefault("false")
+		boolean intervalEmpirical();
 
-	@Valid
-	@NotNull
-	@JsonProperty("session")
-	private final SessionHandlerFactory sessionHandlerFactory = new SessionHandlerFactory();
+		/**
+		 * Amount of http threads used to fetch feeds.
+		 */
+		@Min(1)
+		@WithDefault("3")
+		int httpThreads();
 
-	@Valid
-	@NotNull
-	@JsonProperty("app")
-	private ApplicationSettings applicationSettings;
+		/**
+		 * Amount of threads used to insert new entries in the database.
+		 */
+		@Min(1)
+		@WithDefault("1")
+		int databaseThreads();
 
-	private final String version;
-	private final String gitCommit;
+		/**
+		 * Duration after which a user is considered inactive. Feeds for inactive users are not refreshed until they log in again.
+		 *
+		 * 0 to disable.
+		 */
+		@WithDefault("0")
+		Duration userInactivityPeriod();
 
-	public CommaFeedConfiguration() {
-		Properties properties = new Properties();
-		try (InputStream stream = getClass().getResourceAsStream("/git.properties")) {
-			if (stream != null) {
-				properties.load(stream);
+		/**
+		 * Duration after which the evaluation of a filtering expresion to mark an entry as read is considered to have timed out.
+		 */
+		@WithDefault("500ms")
+		Duration filteringExpressionEvaluationTimeout();
+	}
+
+	interface Database {
+		/**
+		 * Database query timeout.
+		 *
+		 * 0 to disable.
+		 */
+		@WithDefault("0")
+		Duration queryTimeout();
+
+		Cleanup cleanup();
+
+		interface Cleanup {
+			/**
+			 * Maximum age of feed entries in the database. Older entries will be deleted.
+			 *
+			 * 0 to disable.
+			 */
+			@WithDefault("365d")
+			Duration entriesMaxAge();
+
+			/**
+			 * Maximum age of feed entry statuses (read/unread) in the database. Older statuses will be deleted.
+			 *
+			 * 0 to disable.
+			 */
+			@WithDefault("0")
+			Duration statusesMaxAge();
+
+			/**
+			 * Maximum number of entries per feed to keep in the database.
+			 *
+			 * 0 to disable.
+			 */
+			@WithDefault("500")
+			int maxFeedCapacity();
+
+			/**
+			 * Limit the number of feeds a user can subscribe to.
+			 *
+			 * 0 to disable.
+			 */
+			@WithDefault("0")
+			int maxFeedsPerUser();
+
+			/**
+			 * Rows to delete per query while cleaning up old entries.
+			 */
+			@Positive
+			@WithDefault("100")
+			int batchSize();
+
+			default Instant statusesInstantThreshold() {
+				return statusesMaxAge().toMillis() > 0 ? Instant.now().minus(statusesMaxAge()) : null;
 			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
 		}
-
-		this.version = properties.getProperty("git.build.version", "unknown");
-		this.gitCommit = properties.getProperty("git.commit.id.abbrev", "unknown");
 	}
 
-	@Getter
-	@Setter
-	public static class ApplicationSettings {
-		@NotNull
-		@NotBlank
-		@Valid
-		private String publicUrl;
+	interface Users {
+		/**
+		 * Whether to let users create accounts for themselves.
+		 */
+		@WithDefault("false")
+		boolean allowRegistrations();
 
-		@NotNull
-		@Valid
-		private Boolean hideFromWebCrawlers = true;
+		/**
+		 * Whether to enable strict password validation (1 uppercase char, 1 lowercase char, 1 digit, 1 special char).
+		 */
+		@WithDefault("true")
+		boolean strictPasswordPolicy();
 
-		@NotNull
-		@Valid
-		private Boolean allowRegistrations;
+		/**
+		 * Whether to create a demo account the first time the app starts.
+		 */
+		@WithDefault("false")
+		boolean createDemoAccount();
+	}
 
-		@NotNull
-		@Valid
-		private Boolean strictPasswordPolicy = true;
+	interface Websocket {
+		/**
+		 * Enable websocket connection so the server can notify web clients that there are new entries for feeds.
+		 */
+		@WithDefault("true")
+		boolean enabled();
 
-		@NotNull
-		@Valid
-		private Boolean createDemoAccount;
+		/**
+		 * Interval at which the client will send a ping message on the websocket to keep the connection alive.
+		 */
+		@WithDefault("15m")
+		Duration pingInterval();
 
-		private String googleAnalyticsTrackingCode;
-
-		private String googleAuthKey;
-
-		@NotNull
-		@Min(1)
-		@Valid
-		private Integer backgroundThreads;
-
-		@NotNull
-		@Min(1)
-		@Valid
-		private Integer databaseUpdateThreads;
-
-		@NotNull
-		@Positive
-		@Valid
-		private Integer databaseCleanupBatchSize = 100;
-
-		private String smtpHost;
-		private int smtpPort;
-		private boolean smtpTls;
-		private String smtpUserName;
-		private String smtpPassword;
-		private String smtpFromAddress;
-
-		private boolean graphiteEnabled;
-		private String graphitePrefix;
-		private String graphiteHost;
-		private int graphitePort;
-		private int graphiteInterval;
-
-		@NotNull
-		@Valid
-		private Boolean heavyLoad;
-
-		@NotNull
-		@Valid
-		private Boolean imageProxyEnabled;
-
-		@NotNull
-		@Min(0)
-		@Valid
-		private Integer queryTimeout;
-
-		@NotNull
-		@Min(0)
-		@Valid
-		private Integer keepStatusDays;
-
-		@NotNull
-		@Min(0)
-		@Valid
-		private Integer maxFeedCapacity;
-
-		@NotNull
-		@Min(0)
-		@Valid
-		private Integer maxEntriesAgeDays = 0;
-
-		@NotNull
-		@Valid
-		private Integer maxFeedsPerUser = 0;
-
-		@NotNull
-		@Valid
-		private DataSize maxFeedResponseSize = DataSize.megabytes(5);
-
-		@NotNull
-		@Min(0)
-		@Valid
-		private Integer refreshIntervalMinutes;
-
-		@NotNull
-		@Valid
-		private CacheType cache;
-
-		@Valid
-		private String announcement;
-
-		private String userAgent;
-
-		private Boolean websocketEnabled = true;
-
-		private Duration websocketPingInterval = Duration.minutes(15);
-
-		private Duration treeReloadInterval = Duration.seconds(30);
-
-		public Instant getUnreadThreshold() {
-			return getKeepStatusDays() > 0 ? Instant.now().minus(getKeepStatusDays(), ChronoUnit.DAYS) : null;
-		}
-
+		/**
+		 * If the websocket connection is disabled or the connection is lost, the client will reload the feed tree at this interval.
+		 */
+		@WithDefault("30s")
+		Duration treeReloadInterval();
 	}
 
 }

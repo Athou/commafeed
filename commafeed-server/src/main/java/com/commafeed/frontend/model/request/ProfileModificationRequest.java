@@ -2,7 +2,7 @@ package com.commafeed.frontend.model.request;
 
 import java.io.Serializable;
 
-import com.commafeed.frontend.auth.ValidPassword;
+import com.commafeed.security.password.ValidPassword;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;

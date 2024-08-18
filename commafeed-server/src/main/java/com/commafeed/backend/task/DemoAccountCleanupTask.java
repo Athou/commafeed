@@ -9,12 +9,11 @@ import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.UserService;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 @Slf4j
 public class DemoAccountCleanupTask extends ScheduledTask {
@@ -26,7 +25,7 @@ public class DemoAccountCleanupTask extends ScheduledTask {
 
 	@Override
 	protected void run() {
-		if (!config.getApplicationSettings().getCreateDemoAccount()) {
+		if (!config.users().createDemoAccount()) {
 			return;
 		}
 

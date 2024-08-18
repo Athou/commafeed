@@ -13,9 +13,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.jboss.resteasy.reactive.server.multipart.FormValue;
+import org.jboss.resteasy.reactive.server.multipart.MultipartFormDataInput;
 
-import com.codahale.metrics.annotation.Timed;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
@@ -37,10 +37,10 @@ import com.commafeed.frontend.resource.fever.FeverResponse.FeverFeedGroup;
 import com.commafeed.frontend.resource.fever.FeverResponse.FeverGroup;
 import com.commafeed.frontend.resource.fever.FeverResponse.FeverItem;
 
-import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.v3.oas.annotations.Hidden;
-import jakarta.inject.Inject;
+import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Singleton;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -64,9 +64,10 @@ import lombok.RequiredArgsConstructor;
  * 
  * See https://feedafever.com/api
  */
-@Path("/fever")
+@Path("/rest/fever")
+@PermitAll
 @Produces(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 @Hidden
 public class FeverREST {
@@ -88,8 +89,7 @@ public class FeverREST {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Path(PATH)
 	@POST
-	@UnitOfWork
-	@Timed
+	@Transactional
 	public FeverResponse formUrlencoded(@Context UriInfo uri, @PathParam("userId") Long userId, MultivaluedMap<String, String> form) {
 		Map<String, String> params = new HashMap<>();
 		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
@@ -101,8 +101,7 @@ public class FeverREST {
 	// e.g. FeedMe
 	@Path(PATH)
 	@POST
-	@UnitOfWork
-	@Timed
+	@Transactional
 	public FeverResponse noForm(@Context UriInfo uri, @PathParam("userId") Long userId) {
 		Map<String, String> params = new HashMap<>();
 		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
@@ -113,8 +112,7 @@ public class FeverREST {
 	// e.g. Unread
 	@Path(PATH)
 	@GET
-	@UnitOfWork
-	@Timed
+	@Transactional
 	public FeverResponse get(@Context UriInfo uri, @PathParam("userId") Long userId) {
 		Map<String, String> params = new HashMap<>();
 		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
@@ -126,12 +124,11 @@ public class FeverREST {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Path(PATH)
 	@POST
-	@UnitOfWork
-	@Timed
-	public FeverResponse formData(@Context UriInfo uri, @PathParam("userId") Long userId, FormDataMultiPart form) {
+	@Transactional
+	public FeverResponse formData(@Context UriInfo uri, @PathParam("userId") Long userId, MultipartFormDataInput form) {
 		Map<String, String> params = new HashMap<>();
 		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
-		form.getFields().forEach((k, v) -> params.put(k, v.get(0).getValue()));
+		form.getValues().forEach((k, v) -> params.put(k, v.stream().map(FormValue::getValue).findFirst().orElse(null)));
 		return handle(userId, params);
 	}
 

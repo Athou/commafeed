@@ -1,44 +1,46 @@
 package com.commafeed.integration.rest;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
 
 import com.commafeed.frontend.model.request.PasswordResetRequest;
 import com.commafeed.integration.BaseIT;
-import com.icegreen.greenmail.junit5.GreenMailExtension;
-import com.icegreen.greenmail.util.ServerSetupTest;
 
-import jakarta.mail.internet.MimeMessage;
-import jakarta.ws.rs.client.Entity;
+import io.quarkus.mailer.MockMailbox;
+import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.RestAssured;
+import io.vertx.ext.mail.MailMessage;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.MediaType;
 
+@QuarkusTest
 class UserIT extends BaseIT {
 
-	@Nested
-	class PasswordReset {
+	@Inject
+	MockMailbox mailbox;
 
-		@RegisterExtension
-		static final GreenMailExtension GREEN_MAIL = new GreenMailExtension(ServerSetupTest.SMTP);
+	@BeforeEach
+	void setup() {
+		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
 
-		@BeforeEach
-		void init() {
-			GREEN_MAIL.setUser("noreply@commafeed.com", "user", "pass");
-		}
+		mailbox.clear();
+	}
 
-		@Test
-		void resetPassword() throws Exception {
-			PasswordResetRequest req = new PasswordResetRequest();
-			req.setEmail("admin@commafeed.com");
+	@Test
+	void resetPassword() {
+		PasswordResetRequest req = new PasswordResetRequest();
+		req.setEmail("admin@commafeed.com");
+		RestAssured.given().body(req).contentType(MediaType.APPLICATION_JSON).post("rest/user/passwordReset").then().statusCode(200);
 
-			getClient().target(getApiBaseUrl() + "user/passwordReset").request().post(Entity.json(req), Void.TYPE);
+		List<MailMessage> mails = mailbox.getMailMessagesSentTo("admin@commafeed.com");
+		Assertions.assertEquals(1, mails.size());
 
-			MimeMessage message = GREEN_MAIL.getReceivedMessages()[0];
-			Assertions.assertEquals("CommaFeed - Password recovery", message.getSubject());
-			Assertions.assertTrue(message.getContent().toString().startsWith("You asked for password recovery for account 'admin'"));
-			Assertions.assertEquals("CommaFeed <noreply@commafeed.com>", message.getFrom()[0].toString());
-			Assertions.assertEquals("admin@commafeed.com", message.getAllRecipients()[0].toString());
-		}
+		MailMessage message = mails.get(0);
+		Assertions.assertEquals("CommaFeed - Password recovery", message.getSubject());
+		Assertions.assertTrue(message.getHtml().startsWith("You asked for password recovery for account 'admin'"));
+		Assertions.assertEquals("admin@commafeed.com", message.getTo().get(0));
 	}
 }

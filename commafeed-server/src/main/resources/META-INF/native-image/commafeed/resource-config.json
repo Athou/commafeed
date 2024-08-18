@@ -1,0 +1,10 @@
+{
+	"resources": {
+		"includes": [
+			{ "pattern": "^default_banner\\.txt$" },
+			{ "pattern": "^images/default_favicon\\.gif$" },
+			{ "pattern": "^git\\.properties$" },
+			{ "pattern": "^rome\\.properties$" }
+		]
+	}
+}

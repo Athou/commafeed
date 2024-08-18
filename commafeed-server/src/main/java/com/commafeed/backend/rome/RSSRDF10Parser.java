@@ -10,6 +10,9 @@ import org.jdom2.Namespace;
 import com.google.common.collect.Lists;
 import com.rometools.rome.io.impl.RSS10Parser;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class RSSRDF10Parser extends RSS10Parser {
 
 	private static final String RSS_URI = "http://purl.org/rss/1.0/";

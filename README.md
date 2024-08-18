@@ -1,6 +1,6 @@
 # CommaFeed
 
-Google Reader inspired self-hosted RSS reader, based on Dropwizard and React/TypeScript.
+Google Reader inspired self-hosted RSS reader, based on Quarkus and React/TypeScript.
 
 ![preview](https://user-images.githubusercontent.com/1256795/184886828-1973f148-58a9-4c6d-9587-ee5e5d3cc2cb.png)
 
@@ -8,14 +8,22 @@ Google Reader inspired self-hosted RSS reader, based on Dropwizard and React/Typ
 
 - 4 different layouts
 - Light/Dark theme
-- Fully responsive
+- Fully responsive, works great on both mobile and desktop
 - Keyboard shortcuts for almost everything
 - Support for right-to-left feeds
 - Translated in 25+ languages
 - Supports thousands of users and millions of feeds
 - OPML import/export
-- REST API and a Fever-compatible API for native mobile apps
+- REST API
+- Fever-compatible API for native mobile apps
+- Can automatically mark articles as read based on user-defined rules
 - [Browser extension](https://github.com/Athou/commafeed-browser-extension)
+- Compiles to native code for blazing fast startup and low memory usage
+- Supports 4 databases
+    - H2 (embedded database)
+    - PostgreSQL
+    - MySQL
+    - MariaDB
 
 ## Deployment
 
@@ -33,28 +41,75 @@ PikaPods shares 20% of the revenue back to CommaFeed.
 
 [![PikaPods](https://www.pikapods.com/static/run-button.svg)](https://www.pikapods.com/pods?run=commafeed)
 
-### Download precompiled package
+### Download a precompiled package
 
-    mkdir commafeed && cd commafeed
-    wget https://github.com/Athou/commafeed/releases/latest/download/commafeed.jar
-    wget https://github.com/Athou/commafeed/releases/latest/download/config.yml.example -O config.yml
-    java -Djava.net.preferIPv4Stack=true -jar commafeed.jar server config.yml
+Go to the [release page](https://github.com/Athou/commafeed/releases) and download the latest version for your operating
+system and database of choice.
 
-The server will listen on http://localhost:8082. The default
-user is `admin` and the default password is `admin`.
+There are two types of packages:
+
+- The `linux-x86_64` and `windows-x86_64` packages are compiled natively and contain an executable that can be run
+  directly.
+- The `jvm` package is a zip file containing all `.jar` files required to run the application. This package works on all
+  platforms and is started with `java -jar quarkus-run.jar`.
+
+If available for your operating system, the native package is recommended because it has a faster startup time and lower
+memory usage.
 
 ### Build from sources
 
-    git clone https://github.com/Athou/commafeed.git
-    cd commafeed
-    ./mvnw clean package
-    cp commafeed-server/config.yml.example config.yml
-    java -Djava.net.preferIPv4Stack=true -jar commafeed-server/target/commafeed.jar server config.yml
+    ./mvnw clean package [-P<database>] [-Pnative] [-DskipTests]
 
-The server will listen on http://localhost:8082. The default
-user is `admin` and the default password is `admin`.
+- `<database>` can be one of `h2`, `postgresql`, `mysql` or `mariadb`. The default is `h2`.
+- `-Pnative` compiles the application to native code. This requires GraalVM to be installed (`GRAALVM_HOME` environment
+  variable pointing to a GraalVM installation).
+- `-DskipTests` to speed up the build process by skipping tests.
 
-### Memory management
+When the build is complete:
+
+- a zip containing all jars required to run the application is located at
+  `commafeed-server/target/commafeed-<version>-<database>-jvm.zip`. Extract it and run the application with
+  `java -jar quarkus-run.jar`
+- if you used the native profile, the executable is located at
+  `commafeed-server/target/commafeed-<version>-<database>-<platform>-<arch>-runner[.exe]`
+
+## Configuration
+
+CommaFeed doesn't require any configuration to run with its embedded database (H2). The database file will be stored in
+the `data` directory of the current directory.
+
+To use a different database, you will need to configure the following properties:
+
+- `quarkus.datasource.jdbc-url`
+    - e.g. for H2: `jdbc:h2:./data/db;DEFRAG_ALWAYS=TRUE`
+    - e.g. for PostgreSQL: `jdbc:postgresql://localhost:5432/commafeed`
+    - e.g. for MySQL:
+      `jdbc:mysql://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
+    - e.g. for MariaDB:
+      `jdbc:mariadb://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
+- `quarkus.datasource.username`
+- `quarkus.datasource.password`
+
+There are multiple ways to configure CommaFeed:
+
+- a [properties](https://en.wikipedia.org/wiki/.properties) file in `config/application.properties` (keys in kebab-case)
+- Command line arguments prefixed with `-D` (keys in kebab-case)
+- Environment variables (keys in UPPER_CASE)
+- an .env file in the working directory (keys in UPPER_CASE)
+
+The properties file is recommended because CommaFeed will be able to warn about invalid properties and typos.
+
+When logging in, credentials are stored in an encrypted cookie. The encryption key is randomly generated at startup,
+meaning that you will have to log back in after each restart of the application. To prevent this, you can set the
+`quarkus.http.auth.session.encryption-key` property to a fixed value (min. 16 characters).
+
+All [CommaFeed settings](commafeed-server/src/main/java/com/commafeed/CommaFeedConfiguration.java)
+are optional and have sensible default values.
+
+When started, the server will listen on http://localhost:8082.
+The default user is `admin` and the default password is `admin`.
+
+### Memory management (`jvm` package only)
 
 The Java Virtual Machine (JVM) is rather greedy by default and will not release unused memory to the
 operating system. This is because acquiring memory from the operating system is a relatively expensive operation.
@@ -108,7 +163,7 @@ two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_6
 
 - Open `commafeed-server` in your preferred Java IDE.
     - CommaFeed uses Lombok, you need the Lombok plugin for your IDE.
-- Start `CommaFeedApplication.java` in debug mode with `server config.dev.yml` as arguments
+- run `./mvnw quarkus:dev`
 
 ### Frontend
 

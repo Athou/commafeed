@@ -12,11 +12,10 @@ import com.commafeed.backend.feed.parser.FeedParserResult.Enclosure;
 import com.commafeed.backend.feed.parser.FeedParserResult.Media;
 import com.commafeed.backend.model.FeedEntryContent;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 public class FeedEntryContentService {
 

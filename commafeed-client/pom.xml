@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.commafeed</groupId>
 		<artifactId>commafeed</artifactId>
-		<version>4.6.0</version>
+		<version>5.0.0-beta</version>
 	</parent>
 	<artifactId>commafeed-client</artifactId>
 	<name>CommaFeed Client</name>
@@ -80,7 +80,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/classes/assets</outputDirectory>
+							<outputDirectory>${project.build.directory}/classes/META-INF/resources</outputDirectory>
 							<resources>
 								<resource>
 									<directory>dist</directory>

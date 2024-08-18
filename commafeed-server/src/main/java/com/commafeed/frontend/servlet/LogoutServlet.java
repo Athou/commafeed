@@ -1,26 +1,34 @@
 package com.commafeed.frontend.servlet;
 
-import java.io.IOException;
+import java.time.Instant;
+import java.util.Date;
 
-import com.commafeed.CommaFeedConfiguration;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import jakarta.inject.Inject;
+import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Singleton;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
-@SuppressWarnings("serial")
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@Path("/logout")
+@PermitAll
 @Singleton
-public class LogoutServlet extends HttpServlet {
+public class LogoutServlet {
 
-	private final CommaFeedConfiguration config;
+	private final UriInfo uri;
+	private final String cookieName;
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		req.getSession().invalidate();
-		resp.sendRedirect(resp.encodeRedirectURL(config.getApplicationSettings().getPublicUrl()));
+	public LogoutServlet(UriInfo uri, @ConfigProperty(name = "quarkus.http.auth.form.cookie-name") String cookieName) {
+		this.uri = uri;
+		this.cookieName = cookieName;
+	}
+
+	@GET
+	public Response get() {
+		NewCookie removeCookie = new NewCookie.Builder(cookieName).maxAge(0).expiry(Date.from(Instant.EPOCH)).path("/").build();
+		return Response.temporaryRedirect(uri.getBaseUri()).cookie(removeCookie).build();
 	}
 }

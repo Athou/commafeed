@@ -8,7 +8,6 @@ import com.codahale.metrics.Gauge;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.model.User;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.websocket.Session;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +19,6 @@ public class WebSocketSessions {
 	// a user may have multiple sessions (two tabs, two devices, ...)
 	private final Map<Long, Set<Session>> sessions = new ConcurrentHashMap<>();
 
-	@Inject
 	public WebSocketSessions(MetricRegistry metrics) {
 		metrics.register(MetricRegistry.name(getClass(), "users"),
 				(Gauge<Long>) () -> sessions.values().stream().filter(v -> !v.isEmpty()).count());

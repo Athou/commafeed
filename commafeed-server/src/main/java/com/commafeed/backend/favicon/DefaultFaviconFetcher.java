@@ -10,7 +10,7 @@ import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 
-import jakarta.inject.Inject;
+import jakarta.annotation.Priority;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +20,9 @@ import lombok.extern.slf4j.Slf4j;
  * 
  */
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
+@Priority(Integer.MIN_VALUE)
 public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 
 	private final HttpGetter getter;
@@ -68,7 +69,7 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 		try {
 			url = FeedUtils.removeTrailingSlash(url) + "/favicon.ico";
 			log.debug("getting root icon at {}", url);
-			HttpResult result = getter.getBinary(url, TIMEOUT);
+			HttpResult result = getter.getBinary(url);
 			bytes = result.getContent();
 			contentType = result.getContentType();
 		} catch (Exception e) {
@@ -86,7 +87,7 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 
 		Document doc;
 		try {
-			HttpResult result = getter.getBinary(url, TIMEOUT);
+			HttpResult result = getter.getBinary(url);
 			doc = Jsoup.parse(new String(result.getContent()), url);
 		} catch (Exception e) {
 			log.debug("Failed to retrieve page to find icon");
@@ -112,7 +113,7 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 		byte[] bytes;
 		String contentType;
 		try {
-			HttpResult result = getter.getBinary(href, TIMEOUT);
+			HttpResult result = getter.getBinary(href);
 			bytes = result.getContent();
 			contentType = result.getContentType();
 		} catch (Exception e) {

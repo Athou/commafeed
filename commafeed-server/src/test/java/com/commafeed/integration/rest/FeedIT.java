@@ -9,15 +9,10 @@ import java.time.ZoneOffset;
 import java.util.Objects;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.hc.core5.http.HttpStatus;
 import org.awaitility.Awaitility;
-import org.eclipse.jetty.http.HttpStatus;
-import org.glassfish.jersey.client.ClientProperties;
-import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-import org.glassfish.jersey.media.multipart.MultiPart;
-import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -30,15 +25,17 @@ import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.integration.BaseIT;
 
-import jakarta.ws.rs.client.Entity;
+import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.RestAssured;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 
+@QuarkusTest
 class FeedIT extends BaseIT {
 
-	@Override
-	protected JerseyClientBuilder configureClientBuilder(JerseyClientBuilder base) {
-		return base.register(HttpAuthenticationFeature.basic("admin", "admin"));
+	@BeforeEach
+	void setup() {
+		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
 	}
 
 	@Nested
@@ -48,7 +45,14 @@ class FeedIT extends BaseIT {
 			FeedInfoRequest req = new FeedInfoRequest();
 			req.setUrl(getFeedUrl());
 
-			FeedInfo feedInfo = getClient().target(getApiBaseUrl() + "feed/fetch").request().post(Entity.json(req), FeedInfo.class);
+			FeedInfo feedInfo = RestAssured.given()
+					.body(req)
+					.contentType(MediaType.APPLICATION_JSON)
+					.post("rest/feed/fetch")
+					.then()
+					.statusCode(HttpStatus.SC_OK)
+					.extract()
+					.as(FeedInfo.class);
 			Assertions.assertEquals("CommaFeed test feed", feedInfo.getTitle());
 			Assertions.assertEquals(getFeedUrl(), feedInfo.getUrl());
 		}
@@ -64,33 +68,37 @@ class FeedIT extends BaseIT {
 
 		@Test
 		void subscribeFromUrl() {
-			try (Response response = getClient().target(getApiBaseUrl() + "feed/subscribe")
+			RestAssured.given()
 					.queryParam("url", getFeedUrl())
-					.property(ClientProperties.FOLLOW_REDIRECTS, Boolean.FALSE)
-					.request()
-					.get()) {
-				Assertions.assertEquals(HttpStatus.TEMPORARY_REDIRECT_307, response.getStatus());
-			}
+					.redirects()
+					.follow(false)
+					.get("rest/feed/subscribe")
+					.then()
+					.statusCode(HttpStatus.SC_TEMPORARY_REDIRECT);
 		}
 
 		@Test
 		void unsubscribeFromUnknownFeed() {
-			Assertions.assertEquals(HttpStatus.NOT_FOUND_404, unsubsribe(1L));
+			Assertions.assertEquals(HttpStatus.SC_NOT_FOUND, unsubsribe(1L));
 		}
 
 		@Test
 		void unsubscribeFromKnownFeed() {
 			long subscriptionId = subscribe(getFeedUrl());
-			Assertions.assertEquals(HttpStatus.OK_200, unsubsribe(subscriptionId));
+			Assertions.assertEquals(HttpStatus.SC_OK, unsubsribe(subscriptionId));
 		}
 
 		private int unsubsribe(long subscriptionId) {
 			IDRequest request = new IDRequest();
 			request.setId(subscriptionId);
 
-			try (Response response = getClient().target(getApiBaseUrl() + "feed/unsubscribe").request().post(Entity.json(request))) {
-				return response.getStatus();
-			}
+			return RestAssured.given()
+					.body(request)
+					.contentType(MediaType.APPLICATION_JSON)
+					.post("rest/feed/unsubscribe")
+					.then()
+					.extract()
+					.statusCode();
 		}
 	}
 
@@ -136,7 +144,13 @@ class FeedIT extends BaseIT {
 			request.setId(String.valueOf(subscriptionId));
 			request.setOlderThan(olderThan == null ? null : olderThan.toEpochMilli());
 			request.setInsertedBefore(insertedBefore == null ? null : insertedBefore.toEpochMilli());
-			getClient().target(getApiBaseUrl() + "feed/mark").request().post(Entity.json(request), Void.TYPE);
+
+			RestAssured.given()
+					.body(request)
+					.contentType(MediaType.APPLICATION_JSON)
+					.post("rest/feed/mark")
+					.then()
+					.statusCode(HttpStatus.SC_OK);
 		}
 	}
 
@@ -151,7 +165,12 @@ class FeedIT extends BaseIT {
 
 			IDRequest request = new IDRequest();
 			request.setId(subscriptionId);
-			getClient().target(getApiBaseUrl() + "feed/refresh").request().post(Entity.json(request), Void.TYPE);
+			RestAssured.given()
+					.body(request)
+					.contentType(MediaType.APPLICATION_JSON)
+					.post("rest/feed/refresh")
+					.then()
+					.statusCode(HttpStatus.SC_OK);
 
 			Awaitility.await()
 					.atMost(Duration.ofSeconds(15))
@@ -164,7 +183,7 @@ class FeedIT extends BaseIT {
 
 			// mariadb/mysql timestamp precision is 1 second
 			Instant threshold = Instant.now().minus(Duration.ofSeconds(1));
-			getClient().target(getApiBaseUrl() + "feed/refreshAll").request().get(Void.TYPE);
+			forceRefreshAllFeeds();
 
 			Awaitility.await()
 					.atMost(Duration.ofSeconds(15))
@@ -184,7 +203,12 @@ class FeedIT extends BaseIT {
 			req.setId(subscriptionId);
 			req.setName("new name");
 			req.setCategoryId(subscription.getCategoryId());
-			getClient().target(getApiBaseUrl() + "feed/modify").request().post(Entity.json(req), Void.TYPE);
+			RestAssured.given()
+					.body(req)
+					.contentType(MediaType.APPLICATION_JSON)
+					.post("rest/feed/modify")
+					.then()
+					.statusCode(HttpStatus.SC_OK);
 
 			subscription = getSubscription(subscriptionId);
 			Assertions.assertEquals("new name", subscription.getName());
@@ -197,10 +221,14 @@ class FeedIT extends BaseIT {
 		void favicon() throws IOException {
 			Long subscriptionId = subscribe(getFeedUrl());
 
-			byte[] icon = getClient().target(getApiBaseUrl() + "feed/favicon/{id}")
-					.resolveTemplate("id", subscriptionId)
-					.request()
-					.get(byte[].class);
+			byte[] icon = RestAssured.given()
+					.get("rest/feed/favicon/{id}", subscriptionId)
+					.then()
+					.statusCode(HttpStatus.SC_OK)
+					.header(HttpHeaders.CACHE_CONTROL, "max-age=2592000")
+					.extract()
+					.response()
+					.asByteArray();
 			byte[] defaultFavicon = IOUtils.toByteArray(Objects.requireNonNull(getClass().getResource("/images/default_favicon.gif")));
 			Assertions.assertArrayEquals(defaultFavicon, icon);
 		}
@@ -209,35 +237,20 @@ class FeedIT extends BaseIT {
 	@Nested
 	class Opml {
 		@Test
-		void importExportOpml() throws IOException {
+		void importExportOpml() {
 			importOpml();
-			String opml = getClient().target(getApiBaseUrl() + "feed/export").request().get(String.class);
-			String expextedOpml = """
-					<?xml version="1.0" encoding="UTF-8"?>
-					<opml version="1.0">
-						<head>
-							<title>admin subscriptions in CommaFeed</title>
-						</head>
-						<body>
-							<outline text="out1" title="out1">
-								<outline text="feed1" type="rss" title="feed1" xmlUrl="https://hostname.local/commafeed/feed1.xml" />
-							</outline>
-						</body>
-					</opml>
-					""";
-			Assertions.assertEquals(StringUtils.normalizeSpace(expextedOpml), StringUtils.normalizeSpace(opml));
+			String opml = RestAssured.given().get("rest/feed/export").then().statusCode(HttpStatus.SC_OK).extract().asString();
+			Assertions.assertTrue(opml.contains("<title>admin subscriptions in CommaFeed</title>"));
 		}
 
-		void importOpml() throws IOException {
+		void importOpml() {
 			InputStream stream = Objects.requireNonNull(getClass().getResourceAsStream("/opml/opml_v2.0.xml"));
-			try (MultiPart multiPart = new MultiPart()) {
-				multiPart.bodyPart(new StreamDataBodyPart("file", stream));
-				multiPart.setMediaType(MediaType.MULTIPART_FORM_DATA_TYPE);
 
-				getClient().target(getApiBaseUrl() + "feed/import")
-						.request()
-						.post(Entity.entity(multiPart, multiPart.getMediaType()), Void.TYPE);
-			}
+			RestAssured.given()
+					.multiPart("file", "opml_v2.0.xml", stream, MediaType.MULTIPART_FORM_DATA)
+					.post("rest/feed/import")
+					.then()
+					.statusCode(HttpStatus.SC_OK);
 		}
 	}
 

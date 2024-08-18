@@ -1,32 +1,37 @@
 package com.commafeed.integration.servlet;
 
-import org.eclipse.jetty.http.HttpStatus;
-import org.glassfish.jersey.client.ClientProperties;
+import java.net.HttpCookie;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.commafeed.frontend.model.UserModel;
 import com.commafeed.integration.BaseIT;
 
-import jakarta.ws.rs.NotAuthorizedException;
-import jakarta.ws.rs.client.Invocation.Builder;
+import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.RestAssured;
+import io.restassured.http.Headers;
 import jakarta.ws.rs.core.HttpHeaders;
-import jakarta.ws.rs.core.Response;
 
+@QuarkusTest
 class LogoutIT extends BaseIT {
 
 	@Test
 	void test() {
-		String cookie = login();
-		try (Response response = getClient().target(getBaseUrl() + "logout")
-				.request()
-				.header(HttpHeaders.COOKIE, "JSESSIONID=" + cookie)
-				.property(ClientProperties.FOLLOW_REDIRECTS, Boolean.FALSE)
-				.get()) {
-			Assertions.assertEquals(HttpStatus.FOUND_302, response.getStatus());
-		}
+		List<HttpCookie> cookies = login();
+		Headers responseHeaders = RestAssured.given()
+				.header(HttpHeaders.COOKIE, cookies.stream().map(HttpCookie::toString).collect(Collectors.joining(";")))
+				.redirects()
+				.follow(false)
+				.get("logout")
+				.then()
+				.statusCode(HttpStatus.SC_TEMPORARY_REDIRECT)
+				.extract()
+				.headers();
 
-		Builder req = getClient().target(getApiBaseUrl() + "user/profile").request().header(HttpHeaders.COOKIE, "JSESSIONID=" + cookie);
-		Assertions.assertThrows(NotAuthorizedException.class, () -> req.get(UserModel.class));
+		List<String> setCookieHeaders = responseHeaders.getValues(HttpHeaders.SET_COOKIE);
+		Assertions.assertTrue(setCookieHeaders.stream().flatMap(c -> HttpCookie.parse(c).stream()).allMatch(c -> c.getMaxAge() == 0));
 	}
 }

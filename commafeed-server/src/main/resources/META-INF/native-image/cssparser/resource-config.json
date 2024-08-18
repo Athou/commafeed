@@ -1,0 +1,7 @@
+{
+  "bundles": [
+    {
+      "name": "com.steadystate.css.parser.SACParserMessages"
+    }
+  ]
+}

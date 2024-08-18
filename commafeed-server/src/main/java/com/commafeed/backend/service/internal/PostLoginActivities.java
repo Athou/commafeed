@@ -7,11 +7,10 @@ import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 public class PostLoginActivities {
 

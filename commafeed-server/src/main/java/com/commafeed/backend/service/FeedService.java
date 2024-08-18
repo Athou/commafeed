@@ -2,8 +2,8 @@ package com.commafeed.backend.service;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.dao.FeedDAO;
@@ -14,19 +14,18 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.Models;
 import com.google.common.io.Resources;
 
-import jakarta.inject.Inject;
+import io.quarkus.arc.All;
 import jakarta.inject.Singleton;
 
 @Singleton
 public class FeedService {
 
 	private final FeedDAO feedDAO;
-	private final Set<AbstractFaviconFetcher> faviconFetchers;
+	private final List<AbstractFaviconFetcher> faviconFetchers;
 
 	private final Favicon defaultFavicon;
 
-	@Inject
-	public FeedService(FeedDAO feedDAO, Set<AbstractFaviconFetcher> faviconFetchers) {
+	public FeedService(FeedDAO feedDAO, @All List<AbstractFaviconFetcher> faviconFetchers) {
 		this.feedDAO = feedDAO;
 		this.faviconFetchers = faviconFetchers;
 
@@ -48,18 +47,18 @@ public class FeedService {
 			feed.setNormalizedUrl(normalizedUrl);
 			feed.setNormalizedUrlHash(normalizedUrlHash);
 			feed.setDisabledUntil(Models.MINIMUM_INSTANT);
-			feedDAO.saveOrUpdate(feed);
+			feedDAO.persist(feed);
 		}
 		return feed;
 	}
 
-	public void save(Feed feed) {
+	public void update(Feed feed) {
 		String normalized = FeedUtils.normalizeURL(feed.getUrl());
 		feed.setNormalizedUrl(normalized);
 		feed.setNormalizedUrlHash(Digests.sha1Hex(normalized));
 		feed.setLastUpdated(Instant.now());
 		feed.setEtagHeader(FeedUtils.truncate(feed.getEtagHeader(), 255));
-		feedDAO.saveOrUpdate(feed);
+		feedDAO.merge(feed);
 	}
 
 	public Favicon fetchFavicon(Feed feed) {

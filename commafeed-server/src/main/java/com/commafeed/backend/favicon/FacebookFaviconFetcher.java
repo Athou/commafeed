@@ -11,13 +11,12 @@ import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.model.Feed;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 public class FacebookFaviconFetcher extends AbstractFaviconFetcher {
 
@@ -44,7 +43,7 @@ public class FacebookFaviconFetcher extends AbstractFaviconFetcher {
 		try {
 			log.debug("Getting Facebook user's icon, {}", url);
 
-			HttpResult iconResult = getter.getBinary(iconUrl, TIMEOUT);
+			HttpResult iconResult = getter.getBinary(iconUrl);
 			bytes = iconResult.getContent();
 			contentType = iconResult.getContentType();
 		} catch (Exception e) {

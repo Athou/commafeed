@@ -1,6 +1,5 @@
 package com.commafeed.backend.feed;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.Digests;
-import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.feed.parser.FeedParserResult.Content;
@@ -25,14 +23,12 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
-import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedService;
 import com.commafeed.frontend.ws.WebSocketMessageBuilder;
 import com.commafeed.frontend.ws.WebSocketSessions;
 import com.google.common.util.concurrent.Striped;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,30 +44,23 @@ public class FeedRefreshUpdater {
 	private final FeedService feedService;
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
-	private final CacheService cache;
 	private final WebSocketSessions webSocketSessions;
 
 	private final Striped<Lock> locks;
 
-	private final Meter entryCacheMiss;
-	private final Meter entryCacheHit;
 	private final Meter feedUpdated;
 	private final Meter entryInserted;
 
-	@Inject
 	public FeedRefreshUpdater(UnitOfWork unitOfWork, FeedService feedService, FeedEntryService feedEntryService, MetricRegistry metrics,
-			FeedSubscriptionDAO feedSubscriptionDAO, CacheService cache, WebSocketSessions webSocketSessions) {
+			FeedSubscriptionDAO feedSubscriptionDAO, WebSocketSessions webSocketSessions) {
 		this.unitOfWork = unitOfWork;
 		this.feedService = feedService;
 		this.feedEntryService = feedEntryService;
 		this.feedSubscriptionDAO = feedSubscriptionDAO;
-		this.cache = cache;
 		this.webSocketSessions = webSocketSessions;
 
 		locks = Striped.lazyWeakLock(100000);
 
-		entryCacheMiss = metrics.meter(MetricRegistry.name(getClass(), "entryCacheMiss"));
-		entryCacheHit = metrics.meter(MetricRegistry.name(getClass(), "entryCacheHit"));
 		feedUpdated = metrics.meter(MetricRegistry.name(getClass(), "feedUpdated"));
 		entryInserted = metrics.meter(MetricRegistry.name(getClass(), "entryInserted"));
 	}
@@ -141,39 +130,21 @@ public class FeedRefreshUpdater {
 		Map<FeedSubscription, Long> unreadCountBySubscription = new HashMap<>();
 
 		if (!entries.isEmpty()) {
-			Set<String> lastEntries = cache.getLastEntries(feed);
-			List<String> currentEntries = new ArrayList<>();
-
 			List<FeedSubscription> subscriptions = null;
 			for (Entry entry : entries) {
-				String cacheKey = cache.buildUniqueEntryKey(entry);
-				if (!lastEntries.contains(cacheKey)) {
-					log.debug("cache miss for {}", entry.url());
-					if (subscriptions == null) {
-						subscriptions = unitOfWork.call(() -> feedSubscriptionDAO.findByFeed(feed));
-					}
-					AddEntryResult addEntryResult = addEntry(feed, entry, subscriptions);
-					processed &= addEntryResult.processed;
-					inserted += addEntryResult.inserted ? 1 : 0;
-					addEntryResult.subscriptionsForWhichEntryIsUnread.forEach(sub -> unreadCountBySubscription.merge(sub, 1L, Long::sum));
-
-					entryCacheMiss.mark();
-				} else {
-					log.debug("cache hit for {}", entry.url());
-					entryCacheHit.mark();
+				if (subscriptions == null) {
+					subscriptions = unitOfWork.call(() -> feedSubscriptionDAO.findByFeed(feed));
 				}
-
-				currentEntries.add(cacheKey);
+				AddEntryResult addEntryResult = addEntry(feed, entry, subscriptions);
+				processed &= addEntryResult.processed;
+				inserted += addEntryResult.inserted ? 1 : 0;
+				addEntryResult.subscriptionsForWhichEntryIsUnread.forEach(sub -> unreadCountBySubscription.merge(sub, 1L, Long::sum));
 			}
-			cache.setLastEntries(feed, currentEntries);
 
-			if (subscriptions == null) {
+			if (inserted == 0) {
 				feed.setMessage("No new entries found");
 			} else if (inserted > 0) {
-				log.debug("inserted {} entries for feed {}", inserted, feed.getId());
-				List<User> users = subscriptions.stream().map(FeedSubscription::getUser).toList();
-				cache.invalidateUnreadCount(subscriptions.toArray(new FeedSubscription[0]));
-				cache.invalidateUserRootCategory(users.toArray(new User[0]));
+				feed.setMessage("Found %s new entries".formatted(inserted));
 			}
 		}
 
@@ -186,7 +157,7 @@ public class FeedRefreshUpdater {
 			feedUpdated.mark();
 		}
 
-		unitOfWork.run(() -> feedService.save(feed));
+		unitOfWork.run(() -> feedService.update(feed));
 
 		notifyOverWebsocket(unreadCountBySubscription);
 

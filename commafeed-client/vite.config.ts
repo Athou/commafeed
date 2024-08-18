@@ -32,6 +32,7 @@ export default defineConfig(env => ({
             "/openapi.json": "http://localhost:8083",
             "/custom_css.css": "http://localhost:8083",
             "/custom_js.js": "http://localhost:8083",
+            "/j_security_check": "http://localhost:8083",
             "/logout": "http://localhost:8083",
         },
     },

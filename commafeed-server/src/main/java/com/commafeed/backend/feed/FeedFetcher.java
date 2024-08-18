@@ -2,7 +2,7 @@ package com.commafeed.backend.feed;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.commons.codec.binary.StringUtils;
 
@@ -15,30 +15,32 @@ import com.commafeed.backend.feed.parser.FeedParserResult;
 import com.commafeed.backend.urlprovider.FeedURLProvider;
 import com.rometools.rome.io.FeedException;
 
-import jakarta.inject.Inject;
+import io.quarkus.arc.All;
 import jakarta.inject.Singleton;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Fetches a feed then parses it
  */
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
 @Singleton
 public class FeedFetcher {
 
 	private final FeedParser parser;
 	private final HttpGetter getter;
-	private final Set<FeedURLProvider> urlProviders;
+	private final List<FeedURLProvider> urlProviders;
+
+	public FeedFetcher(FeedParser parser, HttpGetter getter, @All List<FeedURLProvider> urlProviders) {
+		this.parser = parser;
+		this.getter = getter;
+		this.urlProviders = urlProviders;
+	}
 
 	public FeedFetcherResult fetch(String feedUrl, boolean extractFeedUrlFromHtml, String lastModified, String eTag,
 			Instant lastPublishedDate, String lastContentHash) throws FeedException, IOException, NotModifiedException {
 		log.debug("Fetching feed {}", feedUrl);
 
-		int timeout = 20000;
-
-		HttpResult result = getter.getBinary(feedUrl, lastModified, eTag, timeout);
+		HttpResult result = getter.getBinary(feedUrl, lastModified, eTag);
 		byte[] content = result.getContent();
 
 		FeedParserResult parserResult;
@@ -50,7 +52,7 @@ public class FeedFetcher {
 				if (org.apache.commons.lang3.StringUtils.isNotBlank(extractedUrl)) {
 					feedUrl = extractedUrl;
 
-					result = getter.getBinary(extractedUrl, lastModified, eTag, timeout);
+					result = getter.getBinary(extractedUrl, lastModified, eTag);
 					content = result.getContent();
 					parserResult = parser.parse(result.getUrlAfterRedirect(), content);
 				} else {
@@ -83,11 +85,10 @@ public class FeedFetcher {
 					etagHeaderValueChanged ? result.getETag() : null);
 		}
 
-		return new FeedFetcherResult(parserResult, result.getUrlAfterRedirect(), result.getLastModifiedSince(), result.getETag(), hash,
-				result.getDuration());
+		return new FeedFetcherResult(parserResult, result.getUrlAfterRedirect(), result.getLastModifiedSince(), result.getETag(), hash);
 	}
 
-	private static String extractFeedUrl(Set<FeedURLProvider> urlProviders, String url, String urlContent) {
+	private static String extractFeedUrl(List<FeedURLProvider> urlProviders, String url, String urlContent) {
 		for (FeedURLProvider urlProvider : urlProviders) {
 			String feedUrl = urlProvider.get(url, urlContent);
 			if (feedUrl != null) {
@@ -99,7 +100,7 @@ public class FeedFetcher {
 	}
 
 	public record FeedFetcherResult(FeedParserResult feed, String urlAfterRedirect, String lastModifiedHeader, String lastETagHeader,
-			String contentHash, long fetchDuration) {
+			String contentHash) {
 	}
 
 }

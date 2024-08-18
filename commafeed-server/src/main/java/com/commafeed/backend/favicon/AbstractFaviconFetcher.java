@@ -12,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class AbstractFaviconFetcher {
 
-	protected static final int TIMEOUT = 4000;
-
 	private static final List<String> ICON_MIMETYPE_BLACKLIST = Arrays.asList("application/xml", "text/html");
 	private static final long MIN_ICON_LENGTH = 100;
 	private static final long MAX_ICON_LENGTH = 100000;

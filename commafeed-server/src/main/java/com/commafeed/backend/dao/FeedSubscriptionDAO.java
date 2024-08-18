@@ -5,12 +5,11 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.event.service.spi.EventListenerRegistry;
 import org.hibernate.event.spi.EventType;
+import org.hibernate.event.spi.PostCommitInsertEventListener;
 import org.hibernate.event.spi.PostInsertEvent;
-import org.hibernate.event.spi.PostInsertEventListener;
 import org.hibernate.persister.entity.EntityPersister;
 
 import com.commafeed.backend.model.AbstractModel;
@@ -23,28 +22,28 @@ import com.commafeed.backend.model.User;
 import com.google.common.collect.Iterables;
 import com.querydsl.jpa.JPQLQuery;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
 
 @Singleton
 public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 
 	private static final QFeedSubscription SUBSCRIPTION = QFeedSubscription.feedSubscription;
 
-	private final SessionFactory sessionFactory;
+	private final EntityManager entityManager;
 
-	@Inject
-	public FeedSubscriptionDAO(SessionFactory sessionFactory) {
-		super(sessionFactory);
-		this.sessionFactory = sessionFactory;
+	public FeedSubscriptionDAO(EntityManager entityManager) {
+		super(entityManager, FeedSubscription.class);
+		this.entityManager = entityManager;
 	}
 
 	public void onPostCommitInsert(Consumer<FeedSubscription> consumer) {
-		sessionFactory.unwrap(SessionFactoryImplementor.class)
+		entityManager.unwrap(SharedSessionContractImplementor.class)
+				.getFactory()
 				.getServiceRegistry()
 				.getService(EventListenerRegistry.class)
 				.getEventListenerGroup(EventType.POST_COMMIT_INSERT)
-				.appendListener(new PostInsertEventListener() {
+				.appendListener(new PostCommitInsertEventListener() {
 					@Override
 					public void onPostInsert(PostInsertEvent event) {
 						if (event.getEntity() instanceof FeedSubscription s) {
@@ -55,6 +54,11 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 					@Override
 					public boolean requiresPostCommitHandling(EntityPersister persister) {
 						return true;
+					}
+
+					@Override
+					public void onPostInsertCommitFailed(PostInsertEvent event) {
+						// do nothing
 					}
 				});
 	}

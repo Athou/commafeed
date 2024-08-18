@@ -13,9 +13,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.codahale.metrics.annotation.Timed;
 import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -29,7 +27,6 @@ import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedSubscriptionService;
-import com.commafeed.frontend.auth.SecurityCheck;
 import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
@@ -40,13 +37,14 @@ import com.commafeed.frontend.model.request.CategoryModificationRequest;
 import com.commafeed.frontend.model.request.CollapseRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
+import com.commafeed.security.AuthenticationContext;
+import com.commafeed.security.Roles;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndFeedImpl;
 import com.rometools.rome.io.SyndFeedOutput;
 
-import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -54,8 +52,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.inject.Inject;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Singleton;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DefaultValue;
@@ -67,14 +66,16 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.UriInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Path("/category")
+@Path("/rest/category")
+@RolesAllowed(Roles.USER)
 @Slf4j
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Singleton
 @Tag(name = "Feed categories")
 public class CategoryREST {
@@ -82,23 +83,23 @@ public class CategoryREST {
 	public static final String ALL = "all";
 	public static final String STARRED = "starred";
 
+	private final AuthenticationContext authenticationContext;
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionService feedSubscriptionService;
-	private final CacheService cache;
 	private final CommaFeedConfiguration config;
+	private final UriInfo uri;
 
 	@Path("/entries")
 	@GET
-	@UnitOfWork
+	@Transactional
 	@Operation(
 			summary = "Get category entries",
 			description = "Get a list of category entries",
 			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Entries.class))) })
-	@Timed
-	public Response getCategoryEntries(@Parameter(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user,
+	public Response getCategoryEntries(
 			@Parameter(description = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
 			@Parameter(
 					description = "all entries or only unread ones",
@@ -137,22 +138,24 @@ public class CategoryREST {
 			excludedIds = Arrays.stream(excludedSubscriptionIds.split(",")).map(Long::valueOf).toList();
 		}
 
+		User user = authenticationContext.getCurrentUser();
 		if (ALL.equals(id)) {
 			entries.setName(Optional.ofNullable(tag).orElse("All"));
+
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 			removeExcludedSubscriptions(subs, excludedIds);
 			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, entryKeywords, newerThanDate,
 					offset, limit + 1, order, true, tag, null, null);
 
 			for (FeedEntryStatus status : list) {
-				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));
+				entries.getEntries().add(Entry.build(status, config.imageProxyEnabled()));
 			}
 
 		} else if (STARRED.equals(id)) {
 			entries.setName("Starred");
 			List<FeedEntryStatus> starred = feedEntryStatusDAO.findStarred(user, newerThanDate, offset, limit + 1, order, true);
 			for (FeedEntryStatus status : starred) {
-				entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));
+				entries.getEntries().add(Entry.build(status, config.imageProxyEnabled()));
 			}
 		} else {
 			FeedCategory parent = feedCategoryDAO.findById(user, Long.valueOf(id));
@@ -164,7 +167,7 @@ public class CategoryREST {
 						offset, limit + 1, order, true, tag, null, null);
 
 				for (FeedEntryStatus status : list) {
-					entries.getEntries().add(Entry.build(status, config.getApplicationSettings().getImageProxyEnabled()));
+					entries.getEntries().add(Entry.build(status, config.imageProxyEnabled()));
 				}
 				entries.setName(parent.getName());
 			} else {
@@ -186,11 +189,10 @@ public class CategoryREST {
 
 	@Path("/entriesAsFeed")
 	@GET
-	@UnitOfWork
+	@Transactional
 	@Operation(summary = "Get category entries as feed", description = "Get a feed of category entries")
 	@Produces(MediaType.APPLICATION_XML)
-	@Timed
-	public Response getCategoryEntriesAsFeed(@Parameter(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user,
+	public Response getCategoryEntriesAsFeed(
 			@Parameter(description = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
 			@Parameter(
 					description = "all entries or only unread ones",
@@ -205,7 +207,7 @@ public class CategoryREST {
 					description = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
 			@Parameter(description = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {
 
-		Response response = getCategoryEntries(user, id, readType, newerThan, offset, limit, order, keywords, excludedSubscriptionIds, tag);
+		Response response = getCategoryEntries(id, readType, newerThan, offset, limit, order, keywords, excludedSubscriptionIds, tag);
 		if (response.getStatus() != Status.OK.getStatusCode()) {
 			return response;
 		}
@@ -215,7 +217,7 @@ public class CategoryREST {
 		feed.setFeedType("rss_2.0");
 		feed.setTitle("CommaFeed - " + entries.getName());
 		feed.setDescription("CommaFeed - " + entries.getName());
-		feed.setLink(config.getApplicationSettings().getPublicUrl());
+		feed.setLink(uri.getBaseUri().toString());
 		feed.setEntries(entries.getEntries().stream().map(Entry::asRss).toList());
 
 		SyndFeedOutput output = new SyndFeedOutput();
@@ -231,11 +233,9 @@ public class CategoryREST {
 
 	@Path("/mark")
 	@POST
-	@UnitOfWork
+	@Transactional
 	@Operation(summary = "Mark category entries", description = "Mark feed entries of this category as read")
-	@Timed
-	public Response markCategoryEntries(@Parameter(hidden = true) @SecurityCheck User user,
-			@Valid @Parameter(description = "category id, or 'all'", required = true) MarkRequest req) {
+	public Response markCategoryEntries(@Valid @Parameter(description = "category id, or 'all'", required = true) MarkRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
@@ -244,6 +244,7 @@ public class CategoryREST {
 		String keywords = req.getKeywords();
 		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
+		User user = authenticationContext.getCurrentUser();
 		if (ALL.equals(req.getId())) {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 			removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
@@ -268,16 +269,16 @@ public class CategoryREST {
 
 	@Path("/add")
 	@POST
-	@UnitOfWork
+	@Transactional
 	@Operation(
 			summary = "Add a category",
 			description = "Add a new feed category",
 			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Long.class))) })
-	@Timed
-	public Response addCategory(@Parameter(hidden = true) @SecurityCheck User user,
-			@Valid @Parameter(required = true) AddCategoryRequest req) {
+	public Response addCategory(@Valid @Parameter(required = true) AddCategoryRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getName());
+
+		User user = authenticationContext.getCurrentUser();
 
 		FeedCategory cat = new FeedCategory();
 		cat.setName(req.getName());
@@ -290,20 +291,19 @@ public class CategoryREST {
 			cat.setParent(parent);
 		}
 		feedCategoryDAO.saveOrUpdate(cat);
-		cache.invalidateUserRootCategory(user);
 		return Response.ok(cat.getId()).build();
 	}
 
 	@POST
 	@Path("/delete")
-	@UnitOfWork
+	@Transactional
 	@Operation(summary = "Delete a category", description = "Delete an existing feed category")
-	@Timed
-	public Response deleteCategory(@Parameter(hidden = true) @SecurityCheck User user, @Parameter(required = true) IDRequest req) {
+	public Response deleteCategory(@Parameter(required = true) IDRequest req) {
 
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
+		User user = authenticationContext.getCurrentUser();
 		FeedCategory cat = feedCategoryDAO.findById(user, req.getId());
 		if (cat != null) {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findByCategory(user, cat);
@@ -320,7 +320,6 @@ public class CategoryREST {
 			feedCategoryDAO.saveOrUpdate(categories);
 
 			feedCategoryDAO.delete(cat);
-			cache.invalidateUserRootCategory(user);
 			return Response.ok().build();
 		} else {
 			return Response.status(Status.NOT_FOUND).build();
@@ -329,14 +328,13 @@ public class CategoryREST {
 
 	@POST
 	@Path("/modify")
-	@UnitOfWork
+	@Transactional
 	@Operation(summary = "Rename a category", description = "Rename an existing feed category")
-	@Timed
-	public Response modifyCategory(@Parameter(hidden = true) @SecurityCheck User user,
-			@Valid @Parameter(required = true) CategoryModificationRequest req) {
+	public Response modifyCategory(@Valid @Parameter(required = true) CategoryModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
+		User user = authenticationContext.getCurrentUser();
 		FeedCategory category = feedCategoryDAO.findById(user, req.getId());
 
 		if (StringUtils.isNotBlank(req.getName())) {
@@ -374,62 +372,56 @@ public class CategoryREST {
 		}
 
 		feedCategoryDAO.saveOrUpdate(category);
-		cache.invalidateUserRootCategory(user);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/collapse")
-	@UnitOfWork
+	@Transactional
 	@Operation(summary = "Collapse a category", description = "Save collapsed or expanded status for a category")
-	@Timed
-	public Response collapseCategory(@Parameter(hidden = true) @SecurityCheck User user, @Parameter(required = true) CollapseRequest req) {
+	public Response collapseCategory(@Parameter(required = true) CollapseRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
 
+		User user = authenticationContext.getCurrentUser();
 		FeedCategory category = feedCategoryDAO.findById(user, req.getId());
 		if (category == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		category.setCollapsed(req.isCollapse());
 		feedCategoryDAO.saveOrUpdate(category);
-		cache.invalidateUserRootCategory(user);
 		return Response.ok().build();
 	}
 
 	@GET
 	@Path("/unreadCount")
-	@UnitOfWork
+	@Transactional
 	@Operation(
 			summary = "Get unread count for feed subscriptions",
 			responses = { @ApiResponse(content = @Content(array = @ArraySchema(schema = @Schema(implementation = UnreadCount.class)))) })
-	@Timed
-	public Response getUnreadCount(@Parameter(hidden = true) @SecurityCheck(apiKeyAllowed = true) User user) {
+	public Response getUnreadCount() {
+		User user = authenticationContext.getCurrentUser();
 		Map<Long, UnreadCount> unreadCount = feedSubscriptionService.getUnreadCount(user);
 		return Response.ok(Lists.newArrayList(unreadCount.values())).build();
 	}
 
 	@GET
 	@Path("/get")
-	@UnitOfWork
+	@Transactional
 	@Operation(
 			summary = "Get root category",
 			description = "Get all categories and subscriptions of the user",
 			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Category.class))) })
-	@Timed
-	public Response getRootCategory(@Parameter(hidden = true) @SecurityCheck User user) {
-		Category root = cache.getUserRootCategory(user);
-		if (root == null) {
-			log.debug("tree cache miss for {}", user.getId());
-			List<FeedCategory> categories = feedCategoryDAO.findAll(user);
-			List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
-			Map<Long, UnreadCount> unreadCount = feedSubscriptionService.getUnreadCount(user);
+	public Response getRootCategory() {
+		User user = authenticationContext.getCurrentUser();
 
-			root = buildCategory(null, categories, subscriptions, unreadCount);
-			root.setId("all");
-			root.setName("All");
-			cache.setUserRootCategory(user, root);
-		}
+		List<FeedCategory> categories = feedCategoryDAO.findAll(user);
+		List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
+		Map<Long, UnreadCount> unreadCount = feedSubscriptionService.getUnreadCount(user);
+
+		Category root = buildCategory(null, categories, subscriptions, unreadCount);
+		root.setId("all");
+		root.setName("All");
 
 		return Response.ok(root).build();
 	}

@@ -20,13 +20,13 @@ import org.w3c.css.sac.InputSource;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
 import com.steadystate.css.parser.CSSOMParser;
+import com.steadystate.css.parser.SACParserCSS21;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@RequiredArgsConstructor(onConstructor = @__({ @Inject }))
+@RequiredArgsConstructor
 @Slf4j
 @Singleton
 public class FeedEntryContentCleaningService {
@@ -150,7 +150,7 @@ public class FeedEntryContentCleaningService {
 	}
 
 	private CSSOMParser buildCssParser() {
-		CSSOMParser parser = new CSSOMParser();
+		CSSOMParser parser = new CSSOMParser(new SACParserCSS21());
 
 		parser.setErrorHandler(new ErrorHandler() {
 			@Override

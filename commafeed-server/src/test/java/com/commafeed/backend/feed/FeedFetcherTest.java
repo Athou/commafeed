@@ -1,7 +1,7 @@
 package com.commafeed.backend.feed;
 
 import java.time.Instant;
-import java.util.Set;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ class FeedFetcherTest {
 	private HttpGetter getter;
 
 	@Mock
-	private Set<FeedURLProvider> urlProviders;
+	private List<FeedURLProvider> urlProviders;
 
 	private FeedFetcher fetcher;
 
@@ -45,8 +45,8 @@ class FeedFetcherTest {
 		byte[] content = "content".getBytes();
 		String lastContentHash = Hashing.sha1().hashBytes(content).toString();
 
-		Mockito.when(getter.getBinary(url, lastModified, etag, 20000))
-				.thenReturn(new HttpResult(content, "content-type", "last-modified-2", "etag-2", 20, null));
+		Mockito.when(getter.getBinary(url, lastModified, etag))
+				.thenReturn(new HttpResult(content, "content-type", "last-modified-2", "etag-2", null));
 
 		NotModifiedException e = Assertions.assertThrows(NotModifiedException.class,
 				() -> fetcher.fetch(url, false, lastModified, etag, Instant.now(), lastContentHash));

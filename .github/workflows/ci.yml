@@ -1,0 +1,197 @@
+name: ci
+
+on: [ push ]
+
+env:
+  JAVA_VERSION: 21
+  DOCKER_BUILD_SUMMARY: false
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        database: [ "h2", "postgresql", "mysql", "mariadb" ]
+
+    steps:
+      # Checkout
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Setup
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Set up GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: "graalvm"
+          cache: "maven"
+
+      # Build & Test
+      - name: Build with Maven
+        run: mvn --batch-mode --no-transfer-progress install -Pnative -P${{ matrix.database }}
+
+      # Upload artifacts
+      - name: Upload cross-platform app
+        uses: actions/upload-artifact@v4
+        with:
+          name: commafeed-${{ matrix.database }}-jvm
+          path: commafeed-server/target/commafeed-*.zip
+
+      - name: Upload native executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: commafeed-${{ matrix.database }}-${{ runner.os }}-${{ runner.arch }}
+          path: commafeed-server/target/commafeed-*-runner
+
+      # Docker
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        if: ${{ github.ref_type == 'tag' || github.ref_name == 'master' || github.ref_name == 'quarkus' }}
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      ## tags
+      - name: Docker build and push tag - native
+        uses: docker/build-push-action@v6
+        if: ${{ github.ref_type == 'tag' }}
+        with:
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.native
+          push: true
+          platforms: linux/amd64
+          tags: |
+            athou/commafeed:latest-${{ matrix.database }}
+            athou/commafeed:${{ github.ref_name }}-${{ matrix.database }}
+
+      - name: Docker build and push tag - jvm
+        uses: docker/build-push-action@v6
+        if: ${{ github.ref_type == 'tag' }}
+        with:
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.jvm
+          push: true
+          platforms: linux/amd64,linux/arm64/v8
+          tags: |
+            athou/commafeed:latest-${{ matrix.database }}-jvm
+            athou/commafeed:${{ github.ref_name }}-${{ matrix.database }}-jvm
+
+      ## master
+      - name: Docker build and push master - native
+        uses: docker/build-push-action@v6
+        if: ${{ github.ref_name == 'master' }}
+        with:
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.native
+          push: true
+          platforms: linux/amd64
+          tags: athou/commafeed:master-${{ matrix.database }}
+
+      - name: Docker build and push master - jvm
+        uses: docker/build-push-action@v6
+        if: ${{ github.ref_name == 'master' }}
+        with:
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.jvm
+          push: true
+          platforms: linux/amd64,linux/arm64/v8
+          tags: athou/commafeed:master-${{ matrix.database }}-jvm
+
+      ## quarkus branch - remove when merged into master, also remove the condition in the login step
+      - name: Docker build and push quarkus - native
+        uses: docker/build-push-action@v6
+        if: ${{ github.ref_name == 'quarkus' }}
+        with:
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.native
+          push: true
+          platforms: linux/amd64
+          tags: athou/commafeed:quarkus-${{ matrix.database }}
+
+      - name: Docker build and push quarkus - jvm
+        uses: docker/build-push-action@v6
+        if: ${{ github.ref_name == 'quarkus' }}
+        with:
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.jvm
+          push: true
+          platforms: linux/amd64,linux/arm64/v8
+          tags: athou/commafeed:quarkus-${{ matrix.database }}-jvm
+
+  build-windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        database: [ "h2", "postgresql", "mysql", "mariadb" ]
+
+    steps:
+      # Checkout
+      - name: Configure git to checkout as-is
+        run: git config --global core.autocrlf false
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Setup
+      - name: Set up GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: "graalvm"
+          cache: "maven"
+
+      # Build & Test
+      - name: Build with Maven
+        run: mvn --batch-mode --no-transfer-progress install -Pnative -P${{ matrix.database }} -DskipTests=${{ matrix.database != 'h2' }}
+
+      # Upload artifacts
+      - name: Upload native executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: commafeed-${{ matrix.database }}-${{ runner.os }}-${{ runner.arch }}
+          path: commafeed-server/target/commafeed-*-runner.exe
+
+  release:
+    runs-on: ubuntu-latest
+    needs:
+      - build-linux
+      - build-windows
+    if: github.ref_type == 'tag'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: commafeed-*
+          path: ./artifacts
+          merge-multiple: true
+
+      - name: Extract Changelog Entry
+        uses: mindsers/changelog-reader-action@v2
+        id: changelog_reader
+        with:
+          version: ${{ github.ref_name }}
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: CommaFeed ${{ github.ref_name }}
+          body: ${{ steps.changelog_reader.outputs.changes }}
+          draft: false
+          prerelease: false
+          files: ./artifacts/*

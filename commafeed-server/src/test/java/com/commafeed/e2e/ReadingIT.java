@@ -6,43 +6,51 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockserver.client.MockServerClient;
-import org.mockserver.junit.jupiter.MockServerExtension;
+import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
-import com.commafeed.CommaFeedDropwizardAppExtension;
+import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.options.AriaRole;
 
-import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
+import io.quarkus.test.junit.QuarkusTest;
 
-@ExtendWith(DropwizardExtensionsSupport.class)
-@ExtendWith(MockServerExtension.class)
-class ReadingIT extends PlaywrightTestBase {
+@QuarkusTest
+class ReadingIT {
 
-	private static final CommaFeedDropwizardAppExtension EXT = new CommaFeedDropwizardAppExtension();
+	private final Playwright playwright = Playwright.create();
+	private final Browser browser = playwright.chromium().launch();
 
+	private Page page;
 	private MockServerClient mockServerClient;
 
 	@BeforeEach
-	void init(MockServerClient mockServerClient) throws IOException {
-		this.mockServerClient = mockServerClient;
+	void init() throws IOException {
+		this.page = browser.newContext().newPage();
+		this.mockServerClient = ClientAndServer.startClientAndServer(0);
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
 				.respond(HttpResponse.response()
 						.withBody(IOUtils.toString(getClass().getResource("/feed/rss.xml"), StandardCharsets.UTF_8))
 						.withDelay(TimeUnit.MILLISECONDS, 100));
 	}
 
+	@AfterEach
+	void cleanup() {
+		playwright.close();
+	}
+
 	@Test
 	void scenario() {
 		// login
-		page.navigate("http://localhost:" + EXT.getLocalPort());
+		page.navigate("http://localhost:8085");
 		page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Log in")).click();
 		PlaywrightTestUtils.login(page);
 

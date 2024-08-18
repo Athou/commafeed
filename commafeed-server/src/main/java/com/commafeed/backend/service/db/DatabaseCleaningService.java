@@ -12,9 +12,9 @@ import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryDAO.FeedCapacity;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.UnitOfWork;
+import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
 
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,7 +35,6 @@ public class DatabaseCleaningService {
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final Meter entriesDeletedMeter;
 
-	@Inject
 	public DatabaseCleaningService(CommaFeedConfiguration config, UnitOfWork unitOfWork, FeedDAO feedDAO, FeedEntryDAO feedEntryDAO,
 			FeedEntryContentDAO feedEntryContentDAO, FeedEntryStatusDAO feedEntryStatusDAO, MetricRegistry metrics) {
 		this.unitOfWork = unitOfWork;
@@ -43,7 +42,7 @@ public class DatabaseCleaningService {
 		this.feedEntryDAO = feedEntryDAO;
 		this.feedEntryContentDAO = feedEntryContentDAO;
 		this.feedEntryStatusDAO = feedEntryStatusDAO;
-		this.batchSize = config.getApplicationSettings().getDatabaseCleanupBatchSize();
+		this.batchSize = config.database().cleanup().batchSize();
 		this.entriesDeletedMeter = metrics.meter(MetricRegistry.name(getClass(), "entriesDeleted"));
 	}
 
@@ -63,7 +62,7 @@ public class DatabaseCleaningService {
 					log.info("removed {} entries for feeds without subscriptions", entriesTotal);
 				} while (entriesDeleted > 0);
 			}
-			deleted = unitOfWork.call(() -> feedDAO.delete(feeds));
+			deleted = unitOfWork.call(() -> feedDAO.delete(feedDAO.findByIds(feeds.stream().map(AbstractModel::getId).toList())));
 			total += deleted;
 			log.info("removed {} feeds without subscriptions", total);
 		} while (deleted != 0);

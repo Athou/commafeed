@@ -7,7 +7,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.commafeed.backend.cache.CacheService;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
@@ -39,12 +38,11 @@ class OPMLImporterTest {
 	private void testOpmlVersion(String fileName) throws IOException, IllegalArgumentException, FeedException {
 		FeedCategoryDAO feedCategoryDAO = Mockito.mock(FeedCategoryDAO.class);
 		FeedSubscriptionService feedSubscriptionService = Mockito.mock(FeedSubscriptionService.class);
-		CacheService cacheService = Mockito.mock(CacheService.class);
 		User user = Mockito.mock(User.class);
 
 		String xml = IOUtils.toString(getClass().getResourceAsStream(fileName), StandardCharsets.UTF_8);
 
-		OPMLImporter importer = new OPMLImporter(feedCategoryDAO, feedSubscriptionService, cacheService);
+		OPMLImporter importer = new OPMLImporter(feedCategoryDAO, feedSubscriptionService);
 		importer.importOpml(user, xml);
 
 		Mockito.verify(feedSubscriptionService)

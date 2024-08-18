@@ -1,47 +1,42 @@
 package com.commafeed.integration.servlet;
 
-import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-import org.junit.jupiter.api.Assertions;
+import org.apache.hc.core5.http.HttpStatus;
+import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.integration.BaseIT;
 
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.HttpHeaders;
-import jakarta.ws.rs.core.Response;
+import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.RestAssured;
+import jakarta.ws.rs.core.MediaType;
 
+@QuarkusTest
 class CustomCodeIT extends BaseIT {
 
-	@Override
-	protected JerseyClientBuilder configureClientBuilder(JerseyClientBuilder base) {
-		return base.register(HttpAuthenticationFeature.basic("admin", "admin"));
+	@BeforeEach
+	void setup() {
+		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
 	}
 
 	@Test
 	void test() {
 		// get settings
-		Settings settings = getClient().target(getApiBaseUrl() + "user/settings").request().get(Settings.class);
+		Settings settings = RestAssured.given().get("rest/user/settings").then().statusCode(200).extract().as(Settings.class);
 
 		// update settings
 		settings.setCustomJs("custom-js");
 		settings.setCustomCss("custom-css");
-		getClient().target(getApiBaseUrl() + "user/settings").request().post(Entity.json(settings), Void.TYPE);
+		RestAssured.given()
+				.body(settings)
+				.contentType(MediaType.APPLICATION_JSON)
+				.post("rest/user/settings")
+				.then()
+				.statusCode(HttpStatus.SC_OK);
 
 		// check custom code servlets
-		String cookie = login();
-		try (Response response = getClient().target(getBaseUrl() + "custom_js.js")
-				.request()
-				.header(HttpHeaders.COOKIE, "JSESSIONID=" + cookie)
-				.get()) {
-			Assertions.assertEquals("custom-js", response.readEntity(String.class));
-		}
-		try (Response response = getClient().target(getBaseUrl() + "custom_css.css")
-				.request()
-				.header(HttpHeaders.COOKIE, "JSESSIONID=" + cookie)
-				.get()) {
-			Assertions.assertEquals("custom-css", response.readEntity(String.class));
-		}
+		RestAssured.given().get("custom_js.js").then().statusCode(HttpStatus.SC_OK).body(CoreMatchers.is("custom-js"));
+		RestAssured.given().get("custom_css.css").then().statusCode(HttpStatus.SC_OK).body(CoreMatchers.is("custom-css"));
 	}
 }

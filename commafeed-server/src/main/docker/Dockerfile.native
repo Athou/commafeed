@@ -6,4 +6,5 @@ VOLUME /commafeed/data
 
 COPY commafeed-server/target/commafeed-*-runner /commafeed/application
 WORKDIR /commafeed
+
 CMD ["./application"]

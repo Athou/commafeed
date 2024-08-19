@@ -70,6 +70,7 @@ set with the `COMMAFEED_FEED_REFRESH_INTERVAL_EMPIRICAL` variable.
 When logging in, credentials are stored in an encrypted cookie. The encryption key is randomly generated at startup,
 meaning that you will have to log back in after each restart of the application. To prevent this, you can set the
 `QUARKUS_HTTP_AUTH_SESSION_ENCRYPTION_KEY` variable to a fixed value (min. 16 characters).
+All other Quarkus settings can be found [here](https://quarkus.io/guides/all-config).
 
 ## Docker tags
 

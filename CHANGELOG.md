@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.0.1]
+
+- Configure native compilation to support older CPU architectures (#1524)
+
 ## [5.0.0]
 
 CommaFeed is now powered by Quarkus instead of Dropwizard. Read the rationale behind this change in

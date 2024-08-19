@@ -1,28 +1,25 @@
 package com.commafeed.backend.favicon;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.net.URIBuilder;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
+import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.model.Feed;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.youtube.YouTube;
-import com.google.api.services.youtube.YouTube.Channels;
-import com.google.api.services.youtube.YouTube.Playlists;
-import com.google.api.services.youtube.model.Channel;
-import com.google.api.services.youtube.model.ChannelListResponse;
-import com.google.api.services.youtube.model.PlaylistListResponse;
-import com.google.api.services.youtube.model.Thumbnail;
+import com.fasterxml.jackson.core.JsonPointer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.inject.Singleton;
+import jakarta.ws.rs.core.UriBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,13 +28,16 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 
+	private static final JsonPointer CHANNEL_THUMBNAIL_URL = JsonPointer.compile("/items/0/snippet/thumbnails/default/url");
+	private static final JsonPointer PLAYLIST_CHANNEL_ID = JsonPointer.compile("/items/0/snippet/channelId");
+
 	private final HttpGetter getter;
 	private final CommaFeedConfiguration config;
+	private final ObjectMapper objectMapper;
 
 	@Override
 	public Favicon fetch(Feed feed) {
 		String url = feed.getUrl();
-
 		if (!url.toLowerCase().contains("youtube.com/feeds/videos.xml")) {
 			return null;
 		}
@@ -56,35 +56,33 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 			Optional<NameValuePair> channelId = params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("channel_id")).findFirst();
 			Optional<NameValuePair> playlistId = params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("playlist_id")).findFirst();
 
-			YouTube youtube = new YouTube.Builder(new NetHttpTransport(), GsonFactory.getDefaultInstance(), request -> {
-			}).setApplicationName("CommaFeed").build();
-
-			ChannelListResponse response = null;
+			byte[] response = null;
 			if (userId.isPresent()) {
 				log.debug("contacting youtube api for user {}", userId.get().getValue());
-				response = fetchForUser(youtube, googleAuthKey.get(), userId.get().getValue());
+				response = fetchForUser(googleAuthKey.get(), userId.get().getValue());
 			} else if (channelId.isPresent()) {
 				log.debug("contacting youtube api for channel {}", channelId.get().getValue());
-				response = fetchForChannel(youtube, googleAuthKey.get(), channelId.get().getValue());
+				response = fetchForChannel(googleAuthKey.get(), channelId.get().getValue());
 			} else if (playlistId.isPresent()) {
 				log.debug("contacting youtube api for playlist {}", playlistId.get().getValue());
-				response = fetchForPlaylist(youtube, googleAuthKey.get(), playlistId.get().getValue());
+				response = fetchForPlaylist(googleAuthKey.get(), playlistId.get().getValue());
 			}
-
-			if (response == null || response.isEmpty() || CollectionUtils.isEmpty(response.getItems())) {
-				log.debug("youtube api returned no items");
+			if (ArrayUtils.isEmpty(response)) {
+				log.debug("youtube api returned empty response");
 				return null;
 			}
 
-			Channel channel = response.getItems().get(0);
-			Thumbnail thumbnail = channel.getSnippet().getThumbnails().getDefault();
+			JsonNode thumbnailUrl = objectMapper.readTree(response).at(CHANNEL_THUMBNAIL_URL);
+			if (thumbnailUrl.isMissingNode()) {
+				log.debug("youtube api returned invalid response");
+				return null;
+			}
 
-			log.debug("fetching favicon");
-			HttpResult iconResult = getter.getBinary(thumbnail.getUrl());
+			HttpResult iconResult = getter.getBinary(thumbnailUrl.asText());
 			bytes = iconResult.getContent();
 			contentType = iconResult.getContentType();
 		} catch (Exception e) {
-			log.debug("Failed to retrieve YouTube icon", e);
+			log.error("Failed to retrieve YouTube icon", e);
 		}
 
 		if (!isValidIconResponse(bytes, contentType)) {
@@ -93,32 +91,38 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 		return new Favicon(bytes, contentType);
 	}
 
-	private ChannelListResponse fetchForUser(YouTube youtube, String googleAuthKey, String userId) throws IOException {
-		Channels.List list = youtube.channels().list(List.of("snippet"));
-		list.setKey(googleAuthKey);
-		list.setForUsername(userId);
-		return list.execute();
+	private byte[] fetchForUser(String googleAuthKey, String userId) throws IOException, NotModifiedException {
+		URI uri = UriBuilder.fromUri("https://www.googleapis.com/youtube/v3/channels")
+				.queryParam("part", "snippet")
+				.queryParam("key", googleAuthKey)
+				.queryParam("forUsername", userId)
+				.build();
+		return getter.getBinary(uri.toString()).getContent();
 	}
 
-	private ChannelListResponse fetchForChannel(YouTube youtube, String googleAuthKey, String channelId) throws IOException {
-		Channels.List list = youtube.channels().list(List.of("snippet"));
-		list.setKey(googleAuthKey);
-		list.setId(List.of(channelId));
-		return list.execute();
+	private byte[] fetchForChannel(String googleAuthKey, String channelId) throws IOException, NotModifiedException {
+		URI uri = UriBuilder.fromUri("https://www.googleapis.com/youtube/v3/channels")
+				.queryParam("part", "snippet")
+				.queryParam("key", googleAuthKey)
+				.queryParam("id", channelId)
+				.build();
+		return getter.getBinary(uri.toString()).getContent();
 	}
 
-	private ChannelListResponse fetchForPlaylist(YouTube youtube, String googleAuthKey, String playlistId) throws IOException {
-		Playlists.List list = youtube.playlists().list(List.of("snippet"));
-		list.setKey(googleAuthKey);
-		list.setId(List.of(playlistId));
+	private byte[] fetchForPlaylist(String googleAuthKey, String playlistId) throws IOException, NotModifiedException {
+		URI uri = UriBuilder.fromUri("https://www.googleapis.com/youtube/v3/playlists")
+				.queryParam("part", "snippet")
+				.queryParam("key", googleAuthKey)
+				.queryParam("id", playlistId)
+				.build();
+		byte[] playlistBytes = getter.getBinary(uri.toString()).getContent();
 
-		PlaylistListResponse response = list.execute();
-		if (response.getItems().isEmpty()) {
+		JsonNode channelId = objectMapper.readTree(playlistBytes).at(PLAYLIST_CHANNEL_ID);
+		if (channelId.isMissingNode()) {
 			return null;
 		}
 
-		String channelId = response.getItems().get(0).getSnippet().getChannelId();
-		return fetchForChannel(youtube, googleAuthKey, channelId);
+		return fetchForChannel(googleAuthKey, channelId.asText());
 	}
 
 }

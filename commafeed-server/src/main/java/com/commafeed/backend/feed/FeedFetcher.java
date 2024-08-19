@@ -1,10 +1,11 @@
 package com.commafeed.backend.feed;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.List;
 
-import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.HttpGetter;
@@ -48,7 +49,7 @@ public class FeedFetcher {
 			parserResult = parser.parse(result.getUrlAfterRedirect(), content);
 		} catch (FeedException e) {
 			if (extractFeedUrlFromHtml) {
-				String extractedUrl = extractFeedUrl(urlProviders, feedUrl, StringUtils.newStringUtf8(result.getContent()));
+				String extractedUrl = extractFeedUrl(urlProviders, feedUrl, new String(result.getContent(), StandardCharsets.UTF_8));
 				if (org.apache.commons.lang3.StringUtils.isNotBlank(extractedUrl)) {
 					feedUrl = extractedUrl;
 

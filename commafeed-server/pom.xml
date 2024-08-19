@@ -328,6 +328,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>33.3.0-jre</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
 			<version>4.4</version>
@@ -416,12 +421,6 @@
 			<groupId>io.github.hakky54</groupId>
 			<artifactId>sslcontext-kickstart-for-apache5</artifactId>
 			<version>8.3.6</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.apis</groupId>
-			<artifactId>google-api-services-youtube</artifactId>
-			<version>v3-rev20240814-2.0.0</version>
 		</dependency>
 
 		<dependency>

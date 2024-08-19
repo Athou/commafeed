@@ -13,6 +13,7 @@ import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
 
 class FeedEntryFilteringServiceTest {
+	private CommaFeedConfiguration config;
 
 	private FeedEntryFilteringService service;
 
@@ -20,8 +21,8 @@ class FeedEntryFilteringServiceTest {
 
 	@BeforeEach
 	public void init() {
-		CommaFeedConfiguration config = Mockito.mock(CommaFeedConfiguration.class, Mockito.RETURNS_DEEP_STUBS);
-		Mockito.when(config.feedRefresh().filteringExpressionEvaluationTimeout()).thenReturn(Duration.ofSeconds(2));
+		config = Mockito.mock(CommaFeedConfiguration.class, Mockito.RETURNS_DEEP_STUBS);
+		Mockito.when(config.feedRefresh().filteringExpressionEvaluationTimeout()).thenReturn(Duration.ofSeconds(30));
 
 		service = new FeedEntryFilteringService(config);
 
@@ -69,6 +70,9 @@ class FeedEntryFilteringServiceTest {
 
 	@Test
 	void cannotLoopForever() {
+		Mockito.when(config.feedRefresh().filteringExpressionEvaluationTimeout()).thenReturn(Duration.ofMillis(200));
+		service = new FeedEntryFilteringService(config);
+
 		Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("while(true) {}", entry));
 	}
 

@@ -56,10 +56,10 @@ class HttpGetterTest {
 
 		this.config = Mockito.mock(CommaFeedConfiguration.class, Mockito.RETURNS_DEEP_STUBS);
 		Mockito.when(config.httpClient().userAgent()).thenReturn(Optional.of("http-getter-test"));
-		Mockito.when(config.httpClient().connectTimeout()).thenReturn(Duration.ofMillis(500));
+		Mockito.when(config.httpClient().connectTimeout()).thenReturn(Duration.ofSeconds(30));
 		Mockito.when(config.httpClient().sslHandshakeTimeout()).thenReturn(Duration.ofSeconds(30));
-		Mockito.when(config.httpClient().socketTimeout()).thenReturn(Duration.ofMillis(500));
-		Mockito.when(config.httpClient().responseTimeout()).thenReturn(Duration.ofMillis(300));
+		Mockito.when(config.httpClient().socketTimeout()).thenReturn(Duration.ofSeconds(30));
+		Mockito.when(config.httpClient().responseTimeout()).thenReturn(Duration.ofSeconds(30));
 		Mockito.when(config.httpClient().connectionTimeToLive()).thenReturn(Duration.ofSeconds(30));
 		Mockito.when(config.httpClient().maxResponseSize()).thenReturn(new MemorySize(new BigInteger("10000")));
 		Mockito.when(config.feedRefresh().httpThreads()).thenReturn(3);
@@ -121,6 +121,9 @@ class HttpGetterTest {
 
 	@Test
 	void dataTimeout() {
+		Mockito.when(config.httpClient().responseTimeout()).thenReturn(Duration.ofMillis(500));
+		this.getter = new HttpGetter(config, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
+
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
 				.respond(HttpResponse.response().withDelay(Delay.milliseconds(1000)));
 
@@ -129,6 +132,8 @@ class HttpGetterTest {
 
 	@Test
 	void connectTimeout() {
+		Mockito.when(config.httpClient().connectTimeout()).thenReturn(Duration.ofMillis(500));
+		this.getter = new HttpGetter(config, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
 		// try to connect to a non-routable address
 		// https://stackoverflow.com/a/904609
 		Assertions.assertThrows(ConnectTimeoutException.class, () -> getter.getBinary("http://10.255.255.1"));

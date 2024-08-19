@@ -4,7 +4,7 @@ Official docker images for https://github.com/Athou/commafeed/
 
 ## Quickstart
 
-Start CommaFeed with an embedded database. Then login as `admin/admin` on http://localhost:8082/
+Start CommaFeed with a H2 embedded database. Then login as `admin/admin` on http://localhost:8082/
 
 ### docker
 
@@ -30,7 +30,7 @@ services:
 ## Advanced
 
 While using the H2 embedded database is perfectly fine for small instances, you may want to have more control over the
-database. Here's an example that uses postgresql (note the different docker tag):
+database. Here's an example that uses postgresql (note image tag change from `latest-h2` to `latest-postgresql`):
 
 ```
 services:
@@ -64,9 +64,8 @@ services:
 All [CommaFeed settings](https://github.com/Athou/commafeed/blob/master/commafeed-server/doc/commafeed.adoc) are
 optional and have sensible default values.
 
-Settings are overrideable with environment variables. For instance, `config.feedRefresh().intervalEmpirical()` can be
-set
-with the `COMMAFEED_FEED_REFRESH_INTERVAL_EMPIRICAL=true` variable.
+Settings are overrideable with environment variables. For instance, `commafeed.feed-refresh.interval-empirical` can be
+set with the `COMMAFEED_FEED_REFRESH_INTERVAL_EMPIRICAL` variable.
 
 When logging in, credentials are stored in an encrypted cookie. The encryption key is randomly generated at startup,
 meaning that you will have to log back in after each restart of the application. To prevent this, you can set the
@@ -82,5 +81,4 @@ Tags are of the form `<version>-<database>[-jvm]` where:
     - `master` (always points to the latest git commit)
 - `<database>` is the database to use (`h2`, `postgresql`, `mysql` or `mariadb`)
 - `-jvm` is optional and indicates that CommaFeed is running on a JVM, and not compiled natively. This image supports
-  the
-  arm64 platform which is not yet supported by the native image.
+  the arm64 platform which is not yet supported by the native image.

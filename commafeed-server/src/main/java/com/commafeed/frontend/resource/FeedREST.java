@@ -241,7 +241,7 @@ public class FeedREST {
 
 		} catch (Exception e) {
 			log.debug(e.getMessage(), e);
-			throw new WebApplicationException(e, Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+			throw new WebApplicationException(e.getMessage(), Status.INTERNAL_SERVER_ERROR);
 		}
 		return info;
 	}

@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.0.2]
+
+- Fix favicon fetching for Youtube channels in native mode when Google auth key is set
+- Fix an error that appears in the logs when fetching some favicons
+
 ## [5.0.1]
 
 - Configure native compilation to support older CPU architectures (#1524)

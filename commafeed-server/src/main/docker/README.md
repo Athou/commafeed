@@ -30,7 +30,7 @@ services:
 ## Advanced
 
 While using the H2 embedded database is perfectly fine for small instances, you may want to have more control over the
-database. Here's an example that uses postgresql (note image tag change from `latest-h2` to `latest-postgresql`):
+database. Here's an example that uses postgresql (note the image tag change from `latest-h2` to `latest-postgresql`):
 
 ```
 services:

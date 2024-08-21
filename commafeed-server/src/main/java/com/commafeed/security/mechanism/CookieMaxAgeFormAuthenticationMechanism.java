@@ -1,20 +1,17 @@
 package com.commafeed.security.mechanism;
 
-import java.security.SecureRandom;
-import java.util.Base64;
-
-import io.quarkus.vertx.http.runtime.FormAuthConfig;
-import io.quarkus.vertx.http.runtime.FormAuthRuntimeConfig;
-import io.quarkus.vertx.http.runtime.HttpBuildTimeConfig;
+import io.quarkus.security.identity.IdentityProviderManager;
+import io.quarkus.security.identity.SecurityIdentity;
 import io.quarkus.vertx.http.runtime.HttpConfiguration;
 import io.quarkus.vertx.http.runtime.security.FormAuthenticationMechanism;
 import io.quarkus.vertx.http.runtime.security.HttpAuthenticationMechanism;
-import io.quarkus.vertx.http.runtime.security.PersistentLoginManager;
+import io.smallrye.mutiny.Uni;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.impl.ServerCookie;
 import io.vertx.ext.web.RoutingContext;
 import jakarta.annotation.Priority;
 import jakarta.inject.Singleton;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,67 +21,24 @@ import lombok.extern.slf4j.Slf4j;
  * This is a workaround for https://github.com/quarkusio/quarkus/issues/42463
  */
 @Priority(1)
+@RequiredArgsConstructor
 @Singleton
 @Slf4j
 public class CookieMaxAgeFormAuthenticationMechanism implements HttpAuthenticationMechanism {
 
-	// the temp encryption key, persistent across dev mode restarts
-	static volatile String encryptionKey;
-
 	@Delegate
 	private final FormAuthenticationMechanism delegate;
+	private final HttpConfiguration config;
 
-	public CookieMaxAgeFormAuthenticationMechanism(HttpConfiguration httpConfiguration, HttpBuildTimeConfig buildTimeConfig) {
-		String key;
-		if (httpConfiguration.encryptionKey.isEmpty()) {
-			if (encryptionKey != null) {
-				// persist across dev mode restarts
-				key = encryptionKey;
-			} else {
-				byte[] data = new byte[32];
-				new SecureRandom().nextBytes(data);
-				key = encryptionKey = Base64.getEncoder().encodeToString(data);
-				log.warn("Encryption key was not specified for persistent FORM auth, using temporary key {}", key);
+	@Override
+	public Uni<SecurityIdentity> authenticate(RoutingContext context, IdentityProviderManager identityProviderManager) {
+		context.addHeadersEndHandler(v -> {
+			Cookie cookie = context.request().getCookie(config.auth.form.cookieName);
+			if (cookie instanceof ServerCookie sc && sc.isChanged()) {
+				cookie.setMaxAge(config.auth.form.timeout.toSeconds());
 			}
-		} else {
-			key = httpConfiguration.encryptionKey.get();
-		}
+		});
 
-		FormAuthConfig form = buildTimeConfig.auth.form;
-		FormAuthRuntimeConfig runtimeForm = httpConfiguration.auth.form;
-		String loginPage = startWithSlash(runtimeForm.loginPage.orElse(null));
-		String errorPage = startWithSlash(runtimeForm.errorPage.orElse(null));
-		String landingPage = startWithSlash(runtimeForm.landingPage.orElse(null));
-		String postLocation = startWithSlash(form.postLocation);
-		String usernameParameter = runtimeForm.usernameParameter;
-		String passwordParameter = runtimeForm.passwordParameter;
-		String locationCookie = runtimeForm.locationCookie;
-		String cookiePath = runtimeForm.cookiePath.orElse(null);
-		boolean redirectAfterLogin = landingPage != null;
-		String cookieSameSite = runtimeForm.cookieSameSite.name();
-
-		PersistentLoginManager loginManager = new PersistentLoginManager(key, runtimeForm.cookieName, runtimeForm.timeout.toMillis(),
-				runtimeForm.newCookieInterval.toMillis(), runtimeForm.httpOnlyCookie, cookieSameSite, cookiePath) {
-			@Override
-			public void save(String value, RoutingContext context, String cookieName, RestoreResult restoreResult, boolean secureCookie) {
-				super.save(value, context, cookieName, restoreResult, secureCookie);
-
-				// add max age to the cookie
-				Cookie cookie = context.request().getCookie(cookieName);
-				if (cookie instanceof ServerCookie sc && sc.isChanged()) {
-					cookie.setMaxAge(runtimeForm.timeout.toSeconds());
-				}
-			}
-		};
-
-		this.delegate = new FormAuthenticationMechanism(loginPage, postLocation, usernameParameter, passwordParameter, errorPage,
-				landingPage, redirectAfterLogin, locationCookie, cookieSameSite, cookiePath, loginManager);
-	}
-
-	private static String startWithSlash(String page) {
-		if (page == null) {
-			return null;
-		}
-		return page.startsWith("/") ? page : "/" + page;
+		return delegate.authenticate(context, identityProviderManager);
 	}
 }

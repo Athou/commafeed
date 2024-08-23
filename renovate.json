@@ -16,6 +16,12 @@
       "enabled": false
     },
     {
+      "description": "quarkus-extension-processor is released way before quarkus-bom, causing build failures because quarkus-bom is not yet released",
+      "matchManagers": "maven",
+      "matchPackagePatterns": "quarkus-extension-processor",
+      "enabled": false
+    },
+    {
       "matchManagers": "npm",
       "rangeStrategy": "bump"
     },

@@ -140,7 +140,8 @@ slightly slower throughput.
 
 IBM provides precompiled binaries for OpenJ9
 named [Semeru](https://developer.ibm.com/languages/java/semeru-runtimes/downloads/).
-This is the JVM used in the [Docker image](https://github.com/Athou/commafeed/blob/master/Dockerfile).
+This is the JVM used in
+the [Docker image](https://github.com/Athou/commafeed/blob/master/commafeed-server/src/main/docker/Dockerfile.jvm).
 
 ## Translation
 

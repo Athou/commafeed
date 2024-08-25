@@ -71,7 +71,7 @@ function Providers(props: { children: React.ReactNode }) {
     )
 }
 
-// swagger-ui is very large, load only on-demand
+// api documentation page is very large, load only on-demand
 const ApiDocumentationPage = React.lazy(async () => await import("pages/app/ApiDocumentationPage"))
 
 function AppRoutes() {
@@ -142,16 +142,18 @@ function GoogleAnalyticsHandler() {
     return null
 }
 
-function FaviconHandler() {
-    const root = useAppSelector(state => state.tree.rootCategory)
+function UnreadCountTitleHandler({ unreadCount, enabled }: { unreadCount: number; enabled?: boolean }) {
+    return <Helmet title={enabled && unreadCount > 0 ? `(${unreadCount}) CommaFeed` : "CommaFeed"} />
+}
+
+function UnreadCountFaviconHandler({ unreadCount, enabled }: { unreadCount: number; enabled?: boolean }) {
     useEffect(() => {
-        const unreadCount = categoryUnreadCount(root)
-        if (unreadCount === 0) {
-            Tinycon.reset()
-        } else {
+        if (enabled && unreadCount > 0) {
             Tinycon.setBubble(unreadCount)
+        } else {
+            Tinycon.reset()
         }
-    }, [root])
+    }, [unreadCount, enabled])
 
     return null
 }
@@ -179,7 +181,12 @@ function CustomCode() {
 
 export function App() {
     useI18n()
+    const root = useAppSelector(state => state.tree.rootCategory)
+    const unreadCountTitle = useAppSelector(state => state.user.settings?.unreadCountTitle)
+    const unreadCountFavicon = useAppSelector(state => state.user.settings?.unreadCountFavicon)
     const dispatch = useAppDispatch()
+
+    const unreadCount = categoryUnreadCount(root)
 
     useEffect(() => {
         dispatch(reloadServerInfos())
@@ -188,7 +195,8 @@ export function App() {
     return (
         <Providers>
             <>
-                <FaviconHandler />
+                <UnreadCountTitleHandler unreadCount={unreadCount} enabled={unreadCountTitle} />
+                <UnreadCountFaviconHandler unreadCount={unreadCount} enabled={unreadCountFavicon} />
                 <BrowserExtensionBadgeUnreadCountHandler />
                 <HashRouter>
                     <GoogleAnalyticsHandler />

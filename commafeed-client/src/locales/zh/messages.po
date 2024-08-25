@@ -140,6 +140,10 @@ msgstr "浏览器扩展"
 msgid "Browser extention"
 msgstr "浏览器扩展"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Browser tab"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/ImportOpml.tsx
@@ -825,6 +829,14 @@ msgstr "显示原生菜单（桌面端）"
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
 msgstr "显示星标图标"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show unread count in tab favicon"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show unread count in tab title"
+msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx

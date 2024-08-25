@@ -89,6 +89,8 @@ public class UserSettings extends AbstractModel {
 	private boolean markAllAsReadConfirmation;
 	private boolean customContextMenu;
 	private boolean mobileFooter;
+	private boolean unreadCountTitle;
+	private boolean unreadCountFavicon;
 
 	private boolean email;
 	private boolean gmail;

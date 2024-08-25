@@ -140,6 +140,10 @@ msgstr "Browser-Erweiterung für Chrome benötigt"
 msgid "Browser extention"
 msgstr "Browser-Erweiterung"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Browser tab"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/ImportOpml.tsx
@@ -824,6 +828,14 @@ msgstr "Natives Menü anzeigen (Desktop)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show unread count in tab favicon"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show unread count in tab title"
 msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx

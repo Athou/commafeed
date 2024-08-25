@@ -119,6 +119,8 @@ public class UserREST {
 			s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());
 			s.setCustomContextMenu(settings.isCustomContextMenu());
 			s.setMobileFooter(settings.isMobileFooter());
+			s.setUnreadCountTitle(settings.isUnreadCountTitle());
+			s.setUnreadCountFavicon(settings.isUnreadCountFavicon());
 		} else {
 			s.setReadingMode(ReadingMode.unread.name());
 			s.setReadingOrder(ReadingOrder.desc.name());
@@ -142,6 +144,8 @@ public class UserREST {
 			s.setMarkAllAsReadConfirmation(true);
 			s.setCustomContextMenu(true);
 			s.setMobileFooter(false);
+			s.setUnreadCountTitle(false);
+			s.setUnreadCountFavicon(true);
 		}
 		return Response.ok(s).build();
 	}
@@ -173,6 +177,8 @@ public class UserREST {
 		s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());
 		s.setCustomContextMenu(settings.isCustomContextMenu());
 		s.setMobileFooter(settings.isMobileFooter());
+		s.setUnreadCountTitle(settings.isUnreadCountTitle());
+		s.setUnreadCountFavicon(settings.isUnreadCountFavicon());
 
 		s.setEmail(settings.getSharingSettings().isEmail());
 		s.setGmail(settings.getSharingSettings().isGmail());

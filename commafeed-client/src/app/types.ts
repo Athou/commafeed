@@ -248,6 +248,8 @@ export interface Settings {
     markAllAsReadConfirmation: boolean
     customContextMenu: boolean
     mobileFooter: boolean
+    unreadCountTitle: boolean
+    unreadCountFavicon: boolean
     sharingSettings: SharingSettings
 }
 

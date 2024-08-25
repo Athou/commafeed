@@ -70,6 +70,12 @@ public class Settings implements Serializable {
 	@Schema(description = "on mobile, show action buttons at the bottom of the screen", requiredMode = RequiredMode.REQUIRED)
 	private boolean mobileFooter;
 
+	@Schema(description = "show unread count in the title", requiredMode = RequiredMode.REQUIRED)
+	private boolean unreadCountTitle;
+
+	@Schema(description = "show unread count in the favicon", requiredMode = RequiredMode.REQUIRED)
+	private boolean unreadCountFavicon;
+
 	@Schema(description = "sharing settings", requiredMode = RequiredMode.REQUIRED)
 	private SharingSettings sharingSettings = new SharingSettings();
 

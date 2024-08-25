@@ -77,6 +77,16 @@ export const changeMobileFooter = createAppAsyncThunk("settings/mobileFooter", (
     if (!settings) return
     client.user.saveSettings({ ...settings, mobileFooter })
 })
+export const changeUnreadCountTitle = createAppAsyncThunk("settings/unreadCountTitle", (unreadCountTitle: boolean, thunkApi) => {
+    const { settings } = thunkApi.getState().user
+    if (!settings) return
+    client.user.saveSettings({ ...settings, unreadCountTitle })
+})
+export const changeUnreadCountFavicon = createAppAsyncThunk("settings/unreadCountFavicon", (unreadCountFavicon: boolean, thunkApi) => {
+    const { settings } = thunkApi.getState().user
+    if (!settings) return
+    client.user.saveSettings({ ...settings, unreadCountFavicon })
+})
 export const changeSharingSetting = createAppAsyncThunk(
     "settings/sharingSetting",
     (

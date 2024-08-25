@@ -17,6 +17,8 @@ import {
     changeSharingSetting,
     changeShowRead,
     changeStarIconDisplayMode,
+    changeUnreadCountFavicon,
+    changeUnreadCountTitle,
 } from "app/user/thunks"
 import { locales } from "i18n"
 import type { ReactNode } from "react"
@@ -32,6 +34,8 @@ export function DisplaySettings() {
     const markAllAsReadConfirmation = useAppSelector(state => state.user.settings?.markAllAsReadConfirmation)
     const customContextMenu = useAppSelector(state => state.user.settings?.customContextMenu)
     const mobileFooter = useAppSelector(state => state.user.settings?.mobileFooter)
+    const unreadCountTitle = useAppSelector(state => state.user.settings?.unreadCountTitle)
+    const unreadCountFavicon = useAppSelector(state => state.user.settings?.unreadCountFavicon)
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const dispatch = useAppDispatch()
     const { _ } = useLingui()
@@ -89,6 +93,20 @@ export function DisplaySettings() {
                 label={<Trans>On mobile, show action buttons at the bottom of the screen</Trans>}
                 checked={mobileFooter}
                 onChange={async e => await dispatch(changeMobileFooter(e.currentTarget.checked))}
+            />
+
+            <Divider label={<Trans>Browser tab</Trans>} labelPosition="center" />
+
+            <Switch
+                label={<Trans>Show unread count in tab title</Trans>}
+                checked={unreadCountTitle}
+                onChange={async e => await dispatch(changeUnreadCountTitle(e.currentTarget.checked))}
+            />
+
+            <Switch
+                label={<Trans>Show unread count in tab favicon</Trans>}
+                checked={unreadCountFavicon}
+                onChange={async e => await dispatch(changeUnreadCountFavicon(e.currentTarget.checked))}
             />
 
             <Divider label={<Trans>Entry headers</Trans>} labelPosition="center" />

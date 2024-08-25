@@ -140,6 +140,10 @@ msgstr "L'extension navigateur est nécessaire sur Chrome"
 msgid "Browser extention"
 msgstr "Extension navigateur"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Browser tab"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/ImportOpml.tsx
@@ -824,6 +828,14 @@ msgstr "Afficher les options du navigateur (ordinateur)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show unread count in tab favicon"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show unread count in tab title"
 msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx

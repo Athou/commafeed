@@ -140,6 +140,10 @@ msgstr "Extensió del navegador necessària per a Chrome"
 msgid "Browser extention"
 msgstr "Extensió del navegador"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Browser tab"
+msgstr ""
+
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/ImportOpml.tsx
@@ -824,6 +828,14 @@ msgstr "Mostra el menú natiu (escriptori)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show unread count in tab favicon"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Show unread count in tab title"
 msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx

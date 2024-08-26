@@ -142,7 +142,7 @@ msgstr "Extension navigateur"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
-msgstr ""
+msgstr "Onglet navigateur"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -182,7 +182,7 @@ msgstr "Fermer le menu"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
@@ -323,7 +323,7 @@ msgstr "Entrez votre mot de passe actuel pour changer les paramètres du profil"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
-msgstr ""
+msgstr "En-têtes de l'entrée"
 
 #: src/components/Alert.tsx
 msgid "Error"
@@ -586,7 +586,7 @@ msgstr "Fin de la liste"
 
 #: src/components/content/ShareButtons.tsx
 msgid "No sharing options available."
-msgstr ""
+msgstr "Aucune option de partage disponible"
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
@@ -598,11 +598,11 @@ msgstr "Du plus ancien au plus récent"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On desktop"
-msgstr ""
+msgstr "Version PC"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile"
-msgstr ""
+msgstr "Version mobile"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
@@ -668,7 +668,7 @@ msgstr "Fichier OPML"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file is required"
-msgstr ""
+msgstr "Vous devez fournir un fichier OPML"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -812,7 +812,7 @@ msgstr "Afficher les options de l'entrée (mobile)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show external link icon"
-msgstr ""
+msgstr "Afficher l'icône du lien distant"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
@@ -828,15 +828,15 @@ msgstr "Afficher les options du navigateur (ordinateur)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
-msgstr ""
+msgstr "Afficher l'icône Favori"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab favicon"
-msgstr ""
+msgstr "Afficher le nombre d'entrées non lues dans la favicône de l'onglet"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab title"
-msgstr ""
+msgstr "Afficher le nombre d'entrées non lues dans le titre de l'onglet"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx

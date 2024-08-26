@@ -12,7 +12,7 @@ class StaticFilesIT {
 	@ParameterizedTest
 	@ValueSource(strings = { "/", "/openapi.json", "/openapi.yaml" })
 	void servedWithoutCache(String path) {
-		RestAssured.given().when().get(path).then().statusCode(200).header("Cache-Control", "no-cache, no-store, must-revalidate");
+		RestAssured.given().when().get(path).then().statusCode(200).header("Cache-Control", "no-cache");
 	}
 
 	@ParameterizedTest

@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
 @OpenAPIDefinition(
 		info = @Info(title = "CommaFeed API"),
-		servers = { @Server(description = "CommaFeed API", url = "rest") },
+		servers = { @Server(description = "CommaFeed API", url = "/") },
 		security = { @SecurityRequirement(name = "basicAuth") })
 @SecurityScheme(name = "basicAuth", type = SecuritySchemeType.HTTP, scheme = "basic")
 public class OpenAPI {

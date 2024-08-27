@@ -30,7 +30,7 @@ services:
 ## Advanced
 
 While using the H2 embedded database is perfectly fine for small instances, you may want to have more control over the
-database. Here's an example that uses postgresql (note the image tag change from `latest-h2` to `latest-postgresql`):
+database. Here's an example that uses PostgreSQL (note the image tag change from `latest-h2` to `latest-postgresql`):
 
 ```
 services:
@@ -58,6 +58,13 @@ services:
     volumes:
       - /path/to/commafeed/db:/var/lib/postgresql/data
 ```
+
+CommaFeed also supports:
+
+- MySQL:
+  `QUARKUS_DATASOURCE_JDBC_URL=jdbc:mysql://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
+- MariaDB:
+  `QUARKUS_DATASOURCE_JDBC_URL=jdbc:mariadb://localhost/commafeed?autoReconnect=true&failOverReadOnly=false&maxReconnects=20&rewriteBatchedStatements=true&timezone=UTC`
 
 ## Configuration
 

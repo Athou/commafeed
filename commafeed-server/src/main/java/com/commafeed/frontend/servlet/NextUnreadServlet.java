@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
-import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
@@ -20,6 +19,7 @@ import com.commafeed.security.AuthenticationContext;
 import com.google.common.collect.Iterables;
 
 import jakarta.inject.Singleton;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -33,7 +33,6 @@ import lombok.RequiredArgsConstructor;
 @Singleton
 public class NextUnreadServlet {
 
-	private final UnitOfWork unitOfWork;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedCategoryDAO feedCategoryDAO;
@@ -42,36 +41,34 @@ public class NextUnreadServlet {
 	private final UriInfo uri;
 
 	@GET
+	@Transactional
 	public Response get(@QueryParam("category") String categoryId, @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
 		User user = authenticationContext.getCurrentUser();
 		if (user == null) {
 			return Response.temporaryRedirect(uri.getBaseUri()).build();
 		}
 
-		FeedEntryStatus status = unitOfWork.call(() -> {
-			FeedEntryStatus s = null;
-			if (StringUtils.isBlank(categoryId) || CategoryREST.ALL.equals(categoryId)) {
-				List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
-				List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subs, true, null, null, 0, 1, order, true,
-						null, null, null);
+		FeedEntryStatus s = null;
+		if (StringUtils.isBlank(categoryId) || CategoryREST.ALL.equals(categoryId)) {
+			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
+			List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subs, true, null, null, 0, 1, order, true, null,
+					null, null);
+			s = Iterables.getFirst(statuses, null);
+		} else {
+			FeedCategory category = feedCategoryDAO.findById(user, Long.valueOf(categoryId));
+			if (category != null) {
+				List<FeedCategory> children = feedCategoryDAO.findAllChildrenCategories(user, category);
+				List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user, children);
+				List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, null, null, 0, 1, order,
+						true, null, null, null);
 				s = Iterables.getFirst(statuses, null);
-			} else {
-				FeedCategory category = feedCategoryDAO.findById(user, Long.valueOf(categoryId));
-				if (category != null) {
-					List<FeedCategory> children = feedCategoryDAO.findAllChildrenCategories(user, category);
-					List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user, children);
-					List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, null, null, 0, 1,
-							order, true, null, null, null);
-					s = Iterables.getFirst(statuses, null);
-				}
 			}
-			if (s != null) {
-				feedEntryService.markEntry(user, s.getEntry().getId(), true);
-			}
-			return s;
-		});
+		}
+		if (s != null) {
+			feedEntryService.markEntry(user, s.getEntry().getId(), true);
+		}
 
-		String url = status == null ? uri.getBaseUri().toString() : status.getEntry().getUrl();
+		String url = s == null ? uri.getBaseUri().toString() : s.getEntry().getUrl();
 		return Response.temporaryRedirect(URI.create(url)).build();
 	}
 }

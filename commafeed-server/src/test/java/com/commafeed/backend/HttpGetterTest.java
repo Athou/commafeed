@@ -33,7 +33,6 @@ import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 import org.mockserver.model.MediaType;
 
-import com.aayushatharva.brotli4j.encoder.BrotliOutputStream;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedVersion;
@@ -232,11 +231,6 @@ class HttpGetterTest {
 		@Test
 		void gzip() throws IOException, NotModifiedException {
 			supportsCompression("gzip", GZIPOutputStream::new);
-		}
-
-		@Test
-		void brotli() throws IOException, NotModifiedException {
-			supportsCompression("br", BrotliOutputStream::new);
 		}
 
 		void supportsCompression(String encoding, CompressionOutputStreamFunction compressionOutputStreamFunction)

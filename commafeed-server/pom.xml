@@ -15,6 +15,7 @@
 		<quarkus.version>3.13.3</quarkus.version>
 		<querydsl.version>6.7</querydsl.version>
 		<rome.version>2.1.0</rome.version>
+		<swagger.version>2.2.23</swagger.version>
 		<properties-plugin.version>1.2.1</properties-plugin.version>
 
 		<build.database>h2</build.database>
@@ -150,7 +151,7 @@
 			<plugin>
 				<groupId>io.swagger.core.v3</groupId>
 				<artifactId>swagger-maven-plugin-jakarta</artifactId>
-				<version>2.2.22</version>
+				<version>${swagger.version}</version>
 				<?m2e ignore?>
 				<configuration>
 					<outputPath>${project.build.directory}/classes/META-INF/resources</outputPath>
@@ -318,7 +319,7 @@
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations</artifactId>
-			<version>2.2.22</version>
+			<version>${swagger.version}</version>
 		</dependency>
 
 		<dependency>

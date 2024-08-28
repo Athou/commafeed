@@ -12,7 +12,7 @@
 	<name>CommaFeed Server</name>
 
 	<properties>
-		<quarkus.version>3.13.3</quarkus.version>
+		<quarkus.version>3.14.1</quarkus.version>
 		<querydsl.version>6.7</querydsl.version>
 		<rome.version>2.1.0</rome.version>
 		<swagger.version>2.2.23</swagger.version>
@@ -76,6 +76,21 @@
 								</quarkus.package.runner-suffix>
 							</properties>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>io.quarkus</groupId>
+				<artifactId>quarkus-config-doc-maven-plugin</artifactId>
+				<version>${quarkus.version}</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>default-generate-asciidoc</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>generate-asciidoc</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>

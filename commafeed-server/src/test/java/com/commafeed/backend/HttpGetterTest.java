@@ -1,19 +1,25 @@
 package com.commafeed.backend;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.SocketTimeoutException;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.client5.http.ConnectTimeoutException;
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,6 +33,7 @@ import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 import org.mockserver.model.MediaType;
 
+import com.aayushatharva.brotli4j.encoder.BrotliOutputStream;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedVersion;
@@ -184,23 +191,6 @@ class HttpGetterTest {
 	}
 
 	@Test
-	void supportsCompression() {
-		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {
-			String acceptEncodingHeader = req.getFirstHeader(HttpHeaders.ACCEPT_ENCODING);
-			if (!acceptEncodingHeader.contains("deflate")) {
-				throw new Exception("deflate should be in the Accept-Encoding header");
-			}
-			if (!acceptEncodingHeader.contains("gzip")) {
-				throw new Exception("gzip should be in the Accept-Encoding header");
-			}
-
-			return HttpResponse.response().withBody("ok");
-		});
-
-		Assertions.assertDoesNotThrow(() -> getter.getBinary(this.feedUrl));
-	}
-
-	@Test
 	void largeFeedWithContentLengthHeader() {
 		byte[] bytes = new byte[100000];
 		Arrays.fill(bytes, (byte) 1);
@@ -229,6 +219,53 @@ class HttpGetterTest {
 
 		HttpResult result = getter.getBinary("https://localhost:" + this.mockServerClient.getPort());
 		Assertions.assertEquals("ok", new String(result.getContent()));
+	}
+
+	@Nested
+	class Compression {
+
+		@Test
+		void deflate() throws IOException, NotModifiedException {
+			supportsCompression("deflate", DeflaterOutputStream::new);
+		}
+
+		@Test
+		void gzip() throws IOException, NotModifiedException {
+			supportsCompression("gzip", GZIPOutputStream::new);
+		}
+
+		@Test
+		void brotli() throws IOException, NotModifiedException {
+			supportsCompression("br", BrotliOutputStream::new);
+		}
+
+		void supportsCompression(String encoding, CompressionOutputStreamFunction compressionOutputStreamFunction)
+				throws IOException, NotModifiedException {
+			String body = "my body";
+
+			HttpGetterTest.this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {
+				String acceptEncodingHeader = req.getFirstHeader(HttpHeaders.ACCEPT_ENCODING);
+				if (!Set.of(acceptEncodingHeader.split(", ")).contains(encoding)) {
+					throw new Exception(encoding + " should be in the Accept-Encoding header");
+				}
+
+				ByteArrayOutputStream output = new ByteArrayOutputStream();
+				try (OutputStream compressionOutputStream = compressionOutputStreamFunction.apply(output)) {
+					compressionOutputStream.write(body.getBytes());
+				}
+
+				return HttpResponse.response().withBody(output.toByteArray()).withHeader(HttpHeaders.CONTENT_ENCODING, encoding);
+			});
+
+			HttpResult result = getter.getBinary(HttpGetterTest.this.feedUrl);
+			Assertions.assertEquals(body, new String(result.getContent()));
+		}
+
+		@FunctionalInterface
+		public interface CompressionOutputStreamFunction {
+			OutputStream apply(OutputStream input) throws IOException;
+		}
+
 	}
 
 }

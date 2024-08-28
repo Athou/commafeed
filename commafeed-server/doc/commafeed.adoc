@@ -1,21 +1,19 @@
-
-:summaryTableId: commafeed
+:summaryTableId: commafeed-server_commafeed
 [.configuration-legend]
 icon:lock[title=Fixed at build time] Configuration property fixed at build time - All other configuration properties are overridable at runtime
 [.configuration-reference.searchable, cols="80,.^10,.^10"]
 |===
 
-h|[[commafeed_configuration]]link:#commafeed_configuration[Configuration property]
-
+h|[.header-title]##Configuration property##
 h|Type
 h|Default
 
-a| [[commafeed_commafeed-hide-from-web-crawlers]]`link:#commafeed_commafeed-hide-from-web-crawlers[commafeed.hide-from-web-crawlers]`
-
+a| [[commafeed-server_commafeed-hide-from-web-crawlers]] [.property-path]##`commafeed.hide-from-web-crawlers`##
 
 [.description]
 --
 Whether to expose a robots.txt file that disallows web crawlers and search engine indexers.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_HIDE_FROM_WEB_CRAWLERS+++[]
@@ -23,16 +21,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HIDE_FROM_WEB_CRAWLERS+++`
 endif::add-copy-button-to-env-var[]
---|boolean 
+--
+|boolean
 |`true`
 
-
-a| [[commafeed_commafeed-image-proxy-enabled]]`link:#commafeed_commafeed-image-proxy-enabled[commafeed.image-proxy-enabled]`
-
+a| [[commafeed-server_commafeed-image-proxy-enabled]] [.property-path]##`commafeed.image-proxy-enabled`##
 
 [.description]
 --
 If enabled, images in feed entries will be proxied through the server instead of accessed directly by the browser. This is useful if commafeed is accessed through a restricting proxy that blocks some feeds that are followed.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_IMAGE_PROXY_ENABLED+++[]
@@ -40,16 +38,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_IMAGE_PROXY_ENABLED+++`
 endif::add-copy-button-to-env-var[]
---|boolean 
+--
+|boolean
 |`false`
 
-
-a| [[commafeed_commafeed-password-recovery-enabled]]`link:#commafeed_commafeed-password-recovery-enabled[commafeed.password-recovery-enabled]`
-
+a| [[commafeed-server_commafeed-password-recovery-enabled]] [.property-path]##`commafeed.password-recovery-enabled`##
 
 [.description]
 --
 Enable password recovery via email. Quarkus mailer will need to be configured.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_PASSWORD_RECOVERY_ENABLED+++[]
@@ -57,16 +55,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_PASSWORD_RECOVERY_ENABLED+++`
 endif::add-copy-button-to-env-var[]
---|boolean 
+--
+|boolean
 |`false`
 
-
-a| [[commafeed_commafeed-announcement]]`link:#commafeed_commafeed-announcement[commafeed.announcement]`
-
+a| [[commafeed-server_commafeed-announcement]] [.property-path]##`commafeed.announcement`##
 
 [.description]
 --
 Message displayed in a notification at the bottom of the page.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_ANNOUNCEMENT+++[]
@@ -74,16 +72,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_ANNOUNCEMENT+++`
 endif::add-copy-button-to-env-var[]
---|string 
+--
+|string
 |
 
-
-a| [[commafeed_commafeed-google-analytics-tracking-code]]`link:#commafeed_commafeed-google-analytics-tracking-code[commafeed.google-analytics-tracking-code]`
-
+a| [[commafeed-server_commafeed-google-analytics-tracking-code]] [.property-path]##`commafeed.google-analytics-tracking-code`##
 
 [.description]
 --
 Google Analytics tracking code.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_GOOGLE_ANALYTICS_TRACKING_CODE+++[]
@@ -91,16 +89,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_GOOGLE_ANALYTICS_TRACKING_CODE+++`
 endif::add-copy-button-to-env-var[]
---|string 
+--
+|string
 |
 
-
-a| [[commafeed_commafeed-google-auth-key]]`link:#commafeed_commafeed-google-auth-key[commafeed.google-auth-key]`
-
+a| [[commafeed-server_commafeed-google-auth-key]] [.property-path]##`commafeed.google-auth-key`##
 
 [.description]
 --
 Google Auth key for fetching Youtube channel favicons.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_GOOGLE_AUTH_KEY+++[]
@@ -108,16 +106,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_GOOGLE_AUTH_KEY+++`
 endif::add-copy-button-to-env-var[]
---|string 
+--
+|string
 |
 
-
-a| [[commafeed_commafeed-http-client-user-agent]]`link:#commafeed_commafeed-http-client-user-agent[commafeed.http-client.user-agent]`
-
+a| [[commafeed-server_commafeed-http-client-user-agent]] [.property-path]##`commafeed.http-client.user-agent`##
 
 [.description]
 --
 User-Agent string that will be used by the http client, leave empty for the default one.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_HTTP_CLIENT_USER_AGENT+++[]
@@ -125,16 +123,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_USER_AGENT+++`
 endif::add-copy-button-to-env-var[]
---|string 
+--
+|string
 |
 
-
-a| [[commafeed_commafeed-http-client-connect-timeout]]`link:#commafeed_commafeed-http-client-connect-timeout[commafeed.http-client.connect-timeout]`
-
+a| [[commafeed-server_commafeed-http-client-connect-timeout]] [.property-path]##`commafeed.http-client.connect-timeout`##
 
 [.description]
 --
 Time to wait for a connection to be established.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_HTTP_CLIENT_CONNECT_TIMEOUT+++[]
@@ -142,17 +140,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_CONNECT_TIMEOUT+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`5S`
 
-
-a| [[commafeed_commafeed-http-client-ssl-handshake-timeout]]`link:#commafeed_commafeed-http-client-ssl-handshake-timeout[commafeed.http-client.ssl-handshake-timeout]`
-
+a| [[commafeed-server_commafeed-http-client-ssl-handshake-timeout]] [.property-path]##`commafeed.http-client.ssl-handshake-timeout`##
 
 [.description]
 --
 Time to wait for SSL handshake to complete.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_HTTP_CLIENT_SSL_HANDSHAKE_TIMEOUT+++[]
@@ -160,17 +157,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_SSL_HANDSHAKE_TIMEOUT+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`5S`
 
-
-a| [[commafeed_commafeed-http-client-socket-timeout]]`link:#commafeed_commafeed-http-client-socket-timeout[commafeed.http-client.socket-timeout]`
-
+a| [[commafeed-server_commafeed-http-client-socket-timeout]] [.property-path]##`commafeed.http-client.socket-timeout`##
 
 [.description]
 --
 Time to wait between two packets before timeout.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_HTTP_CLIENT_SOCKET_TIMEOUT+++[]
@@ -178,17 +174,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_SOCKET_TIMEOUT+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`10S`
 
-
-a| [[commafeed_commafeed-http-client-response-timeout]]`link:#commafeed_commafeed-http-client-response-timeout[commafeed.http-client.response-timeout]`
-
+a| [[commafeed-server_commafeed-http-client-response-timeout]] [.property-path]##`commafeed.http-client.response-timeout`##
 
 [.description]
 --
 Time to wait for the full response to be received.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_HTTP_CLIENT_RESPONSE_TIMEOUT+++[]
@@ -196,17 +191,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_RESPONSE_TIMEOUT+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`10S`
 
-
-a| [[commafeed_commafeed-http-client-connection-time-to-live]]`link:#commafeed_commafeed-http-client-connection-time-to-live[commafeed.http-client.connection-time-to-live]`
-
+a| [[commafeed-server_commafeed-http-client-connection-time-to-live]] [.property-path]##`commafeed.http-client.connection-time-to-live`##
 
 [.description]
 --
 Time to live for a connection in the pool.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_HTTP_CLIENT_CONNECTION_TIME_TO_LIVE+++[]
@@ -214,17 +208,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_CONNECTION_TIME_TO_LIVE+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`30S`
 
-
-a| [[commafeed_commafeed-http-client-idle-connections-eviction-interval]]`link:#commafeed_commafeed-http-client-idle-connections-eviction-interval[commafeed.http-client.idle-connections-eviction-interval]`
-
+a| [[commafeed-server_commafeed-http-client-idle-connections-eviction-interval]] [.property-path]##`commafeed.http-client.idle-connections-eviction-interval`##
 
 [.description]
 --
 Time between eviction runs for idle connections.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_HTTP_CLIENT_IDLE_CONNECTIONS_EVICTION_INTERVAL+++[]
@@ -232,17 +225,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_IDLE_CONNECTIONS_EVICTION_INTERVAL+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`1M`
 
-
-a| [[commafeed_commafeed-http-client-max-response-size]]`link:#commafeed_commafeed-http-client-max-response-size[commafeed.http-client.max-response-size]`
-
+a| [[commafeed-server_commafeed-http-client-max-response-size]] [.property-path]##`commafeed.http-client.max-response-size`##
 
 [.description]
 --
 If a feed is larger than this, it will be discarded to prevent memory issues while parsing the feed.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_HTTP_CLIENT_MAX_RESPONSE_SIZE+++[]
@@ -250,16 +242,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_MAX_RESPONSE_SIZE+++`
 endif::add-copy-button-to-env-var[]
---|MemorySize  link:#memory-size-note-anchor[icon:question-circle[title=More information about the MemorySize format]]
+--
+|MemorySize link:#memory-size-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the MemorySize format]]
 |`5M`
 
-
-a| [[commafeed_commafeed-feed-refresh-interval]]`link:#commafeed_commafeed-feed-refresh-interval[commafeed.feed-refresh.interval]`
-
+a| [[commafeed-server_commafeed-feed-refresh-interval]] [.property-path]##`commafeed.feed-refresh.interval`##
 
 [.description]
 --
 Amount of time CommaFeed will wait before refreshing the same feed.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_FEED_REFRESH_INTERVAL+++[]
@@ -267,17 +259,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_FEED_REFRESH_INTERVAL+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`5M`
 
-
-a| [[commafeed_commafeed-feed-refresh-interval-empirical]]`link:#commafeed_commafeed-feed-refresh-interval-empirical[commafeed.feed-refresh.interval-empirical]`
-
+a| [[commafeed-server_commafeed-feed-refresh-interval-empirical]] [.property-path]##`commafeed.feed-refresh.interval-empirical`##
 
 [.description]
 --
 If true, CommaFeed will calculate the next refresh time based on the feed's average time between entries and the time since the last entry was published. The interval will be somewhere between the default refresh interval and 24h. See `FeedRefreshIntervalCalculator` for details.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_FEED_REFRESH_INTERVAL_EMPIRICAL+++[]
@@ -285,16 +276,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_FEED_REFRESH_INTERVAL_EMPIRICAL+++`
 endif::add-copy-button-to-env-var[]
---|boolean 
+--
+|boolean
 |`false`
 
-
-a| [[commafeed_commafeed-feed-refresh-http-threads]]`link:#commafeed_commafeed-feed-refresh-http-threads[commafeed.feed-refresh.http-threads]`
-
+a| [[commafeed-server_commafeed-feed-refresh-http-threads]] [.property-path]##`commafeed.feed-refresh.http-threads`##
 
 [.description]
 --
 Amount of http threads used to fetch feeds.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_FEED_REFRESH_HTTP_THREADS+++[]
@@ -302,16 +293,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_FEED_REFRESH_HTTP_THREADS+++`
 endif::add-copy-button-to-env-var[]
---|@jakarta.validation.constraints.Min(1L) int 
+--
+|@jakarta.validation.constraints.Min(1L) int
 |`3`
 
-
-a| [[commafeed_commafeed-feed-refresh-database-threads]]`link:#commafeed_commafeed-feed-refresh-database-threads[commafeed.feed-refresh.database-threads]`
-
+a| [[commafeed-server_commafeed-feed-refresh-database-threads]] [.property-path]##`commafeed.feed-refresh.database-threads`##
 
 [.description]
 --
 Amount of threads used to insert new entries in the database.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_FEED_REFRESH_DATABASE_THREADS+++[]
@@ -319,16 +310,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_FEED_REFRESH_DATABASE_THREADS+++`
 endif::add-copy-button-to-env-var[]
---|@jakarta.validation.constraints.Min(1L) int 
+--
+|@jakarta.validation.constraints.Min(1L) int
 |`1`
 
-
-a| [[commafeed_commafeed-feed-refresh-user-inactivity-period]]`link:#commafeed_commafeed-feed-refresh-user-inactivity-period[commafeed.feed-refresh.user-inactivity-period]`
-
+a| [[commafeed-server_commafeed-feed-refresh-user-inactivity-period]] [.property-path]##`commafeed.feed-refresh.user-inactivity-period`##
 
 [.description]
 --
 Duration after which a user is considered inactive. Feeds for inactive users are not refreshed until they log in again. 0 to disable.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_FEED_REFRESH_USER_INACTIVITY_PERIOD+++[]
@@ -336,17 +327,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_FEED_REFRESH_USER_INACTIVITY_PERIOD+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`0S`
 
-
-a| [[commafeed_commafeed-feed-refresh-filtering-expression-evaluation-timeout]]`link:#commafeed_commafeed-feed-refresh-filtering-expression-evaluation-timeout[commafeed.feed-refresh.filtering-expression-evaluation-timeout]`
-
+a| [[commafeed-server_commafeed-feed-refresh-filtering-expression-evaluation-timeout]] [.property-path]##`commafeed.feed-refresh.filtering-expression-evaluation-timeout`##
 
 [.description]
 --
 Duration after which the evaluation of a filtering expresion to mark an entry as read is considered to have timed out.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_FEED_REFRESH_FILTERING_EXPRESSION_EVALUATION_TIMEOUT+++[]
@@ -354,17 +344,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_FEED_REFRESH_FILTERING_EXPRESSION_EVALUATION_TIMEOUT+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`500MS`
 
-
-a| [[commafeed_commafeed-database-query-timeout]]`link:#commafeed_commafeed-database-query-timeout[commafeed.database.query-timeout]`
-
+a| [[commafeed-server_commafeed-database-query-timeout]] [.property-path]##`commafeed.database.query-timeout`##
 
 [.description]
 --
 Database query timeout. 0 to disable.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_DATABASE_QUERY_TIMEOUT+++[]
@@ -372,17 +361,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_DATABASE_QUERY_TIMEOUT+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`0S`
 
-
-a| [[commafeed_commafeed-database-cleanup-entries-max-age]]`link:#commafeed_commafeed-database-cleanup-entries-max-age[commafeed.database.cleanup.entries-max-age]`
-
+a| [[commafeed-server_commafeed-database-cleanup-entries-max-age]] [.property-path]##`commafeed.database.cleanup.entries-max-age`##
 
 [.description]
 --
 Maximum age of feed entries in the database. Older entries will be deleted. 0 to disable.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_DATABASE_CLEANUP_ENTRIES_MAX_AGE+++[]
@@ -390,17 +378,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_DATABASE_CLEANUP_ENTRIES_MAX_AGE+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`365D`
 
-
-a| [[commafeed_commafeed-database-cleanup-statuses-max-age]]`link:#commafeed_commafeed-database-cleanup-statuses-max-age[commafeed.database.cleanup.statuses-max-age]`
-
+a| [[commafeed-server_commafeed-database-cleanup-statuses-max-age]] [.property-path]##`commafeed.database.cleanup.statuses-max-age`##
 
 [.description]
 --
 Maximum age of feed entry statuses (read/unread) in the database. Older statuses will be deleted. 0 to disable.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_DATABASE_CLEANUP_STATUSES_MAX_AGE+++[]
@@ -408,17 +395,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_DATABASE_CLEANUP_STATUSES_MAX_AGE+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`0S`
 
-
-a| [[commafeed_commafeed-database-cleanup-max-feed-capacity]]`link:#commafeed_commafeed-database-cleanup-max-feed-capacity[commafeed.database.cleanup.max-feed-capacity]`
-
+a| [[commafeed-server_commafeed-database-cleanup-max-feed-capacity]] [.property-path]##`commafeed.database.cleanup.max-feed-capacity`##
 
 [.description]
 --
 Maximum number of entries per feed to keep in the database. 0 to disable.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_DATABASE_CLEANUP_MAX_FEED_CAPACITY+++[]
@@ -426,16 +412,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_DATABASE_CLEANUP_MAX_FEED_CAPACITY+++`
 endif::add-copy-button-to-env-var[]
---|int 
+--
+|int
 |`500`
 
-
-a| [[commafeed_commafeed-database-cleanup-max-feeds-per-user]]`link:#commafeed_commafeed-database-cleanup-max-feeds-per-user[commafeed.database.cleanup.max-feeds-per-user]`
-
+a| [[commafeed-server_commafeed-database-cleanup-max-feeds-per-user]] [.property-path]##`commafeed.database.cleanup.max-feeds-per-user`##
 
 [.description]
 --
 Limit the number of feeds a user can subscribe to. 0 to disable.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_DATABASE_CLEANUP_MAX_FEEDS_PER_USER+++[]
@@ -443,16 +429,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_DATABASE_CLEANUP_MAX_FEEDS_PER_USER+++`
 endif::add-copy-button-to-env-var[]
---|int 
+--
+|int
 |`0`
 
-
-a| [[commafeed_commafeed-database-cleanup-batch-size]]`link:#commafeed_commafeed-database-cleanup-batch-size[commafeed.database.cleanup.batch-size]`
-
+a| [[commafeed-server_commafeed-database-cleanup-batch-size]] [.property-path]##`commafeed.database.cleanup.batch-size`##
 
 [.description]
 --
 Rows to delete per query while cleaning up old entries.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_DATABASE_CLEANUP_BATCH_SIZE+++[]
@@ -460,16 +446,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_DATABASE_CLEANUP_BATCH_SIZE+++`
 endif::add-copy-button-to-env-var[]
---|@jakarta.validation.constraints.Positive int 
+--
+|@jakarta.validation.constraints.Positive int
 |`100`
 
-
-a| [[commafeed_commafeed-users-allow-registrations]]`link:#commafeed_commafeed-users-allow-registrations[commafeed.users.allow-registrations]`
-
+a| [[commafeed-server_commafeed-users-allow-registrations]] [.property-path]##`commafeed.users.allow-registrations`##
 
 [.description]
 --
 Whether to let users create accounts for themselves.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_USERS_ALLOW_REGISTRATIONS+++[]
@@ -477,16 +463,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_USERS_ALLOW_REGISTRATIONS+++`
 endif::add-copy-button-to-env-var[]
---|boolean 
+--
+|boolean
 |`false`
 
-
-a| [[commafeed_commafeed-users-strict-password-policy]]`link:#commafeed_commafeed-users-strict-password-policy[commafeed.users.strict-password-policy]`
-
+a| [[commafeed-server_commafeed-users-strict-password-policy]] [.property-path]##`commafeed.users.strict-password-policy`##
 
 [.description]
 --
 Whether to enable strict password validation (1 uppercase char, 1 lowercase char, 1 digit, 1 special char).
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_USERS_STRICT_PASSWORD_POLICY+++[]
@@ -494,16 +480,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_USERS_STRICT_PASSWORD_POLICY+++`
 endif::add-copy-button-to-env-var[]
---|boolean 
+--
+|boolean
 |`true`
 
-
-a| [[commafeed_commafeed-users-create-demo-account]]`link:#commafeed_commafeed-users-create-demo-account[commafeed.users.create-demo-account]`
-
+a| [[commafeed-server_commafeed-users-create-demo-account]] [.property-path]##`commafeed.users.create-demo-account`##
 
 [.description]
 --
 Whether to create a demo account the first time the app starts.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_USERS_CREATE_DEMO_ACCOUNT+++[]
@@ -511,16 +497,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_USERS_CREATE_DEMO_ACCOUNT+++`
 endif::add-copy-button-to-env-var[]
---|boolean 
+--
+|boolean
 |`false`
 
-
-a| [[commafeed_commafeed-websocket-enabled]]`link:#commafeed_commafeed-websocket-enabled[commafeed.websocket.enabled]`
-
+a| [[commafeed-server_commafeed-websocket-enabled]] [.property-path]##`commafeed.websocket.enabled`##
 
 [.description]
 --
 Enable websocket connection so the server can notify web clients that there are new entries for feeds.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_WEBSOCKET_ENABLED+++[]
@@ -528,16 +514,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_WEBSOCKET_ENABLED+++`
 endif::add-copy-button-to-env-var[]
---|boolean 
+--
+|boolean
 |`true`
 
-
-a| [[commafeed_commafeed-websocket-ping-interval]]`link:#commafeed_commafeed-websocket-ping-interval[commafeed.websocket.ping-interval]`
-
+a| [[commafeed-server_commafeed-websocket-ping-interval]] [.property-path]##`commafeed.websocket.ping-interval`##
 
 [.description]
 --
 Interval at which the client will send a ping message on the websocket to keep the connection alive.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_WEBSOCKET_PING_INTERVAL+++[]
@@ -545,17 +531,16 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_WEBSOCKET_PING_INTERVAL+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`15M`
 
-
-a| [[commafeed_commafeed-websocket-tree-reload-interval]]`link:#commafeed_commafeed-websocket-tree-reload-interval[commafeed.websocket.tree-reload-interval]`
-
+a| [[commafeed-server_commafeed-websocket-tree-reload-interval]] [.property-path]##`commafeed.websocket.tree-reload-interval`##
 
 [.description]
 --
 If the websocket connection is disabled or the connection is lost, the client will reload the feed tree at this interval.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++COMMAFEED_WEBSOCKET_TREE_RELOAD_INTERVAL+++[]
@@ -563,14 +548,15 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_WEBSOCKET_TREE_RELOAD_INTERVAL+++`
 endif::add-copy-button-to-env-var[]
---|link:https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html[Duration]
-  link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`30S`
 
 |===
+
 ifndef::no-duration-note[]
 [NOTE]
-[id='duration-note-anchor-{summaryTableId}']
+[id=duration-note-anchor-commafeed-server_commafeed]
 .About the Duration format
 ====
 To write duration values, use the standard `java.time.Duration` format.
@@ -587,11 +573,15 @@ In other cases, the simplified format is translated to the `java.time.Duration` 
 * If the value is a number followed by `d`, it is prefixed with `P`.
 ====
 endif::no-duration-note[]
-
+ifndef::no-memory-size-note[]
 [NOTE]
-[[memory-size-note-anchor]]
+[id=memory-size-note-anchor-commafeed-server_commafeed]
 .About the MemorySize format
 ====
-A size configuration option recognises string in this format (shown as a regular expression): `[0-9]+[KkMmGgTtPpEeZzYy]?`.
+A size configuration option recognizes strings in this format (shown as a regular expression): `[0-9]+[KkMmGgTtPpEeZzYy]?`.
+
 If no suffix is given, assume bytes.
 ====
+ifndef::no-memory-size-note[]
+
+:!summaryTableId:

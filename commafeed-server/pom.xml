@@ -80,6 +80,21 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>io.quarkus</groupId>
+				<artifactId>quarkus-config-doc-maven-plugin</artifactId>
+				<version>${quarkus.version}</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>default-generate-asciidoc</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>generate-asciidoc</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>3.7.1</version>

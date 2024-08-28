@@ -13,8 +13,8 @@ class CommaFeedConfigurationTest {
 	@Test
 	void verifyAsciiDocIsUpToDate() throws IOException {
 		String versionedDocumentationFile = FileUtils.readFileToString(new File("doc/commafeed.adoc"), StandardCharsets.UTF_8);
-		String generatedDocumentationFile = FileUtils.readFileToString(new File("../target/asciidoc/generated/config/commafeed.adoc"),
-				StandardCharsets.UTF_8);
+		String generatedDocumentationFile = FileUtils
+				.readFileToString(new File("target/quarkus-generated-doc/config/commafeed-server.adoc"), StandardCharsets.UTF_8);
 
 		Assertions.assertLinesMatch(versionedDocumentationFile.lines(), generatedDocumentationFile.lines());
 	}

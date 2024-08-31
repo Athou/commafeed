@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.commafeed.backend.feed.FeedRefreshIntervalCalculator;
 
+import io.quarkus.runtime.annotations.ConfigDocSection;
 import io.quarkus.runtime.annotations.ConfigPhase;
 import io.quarkus.runtime.annotations.ConfigRoot;
 import io.quarkus.runtime.configuration.MemorySize;
@@ -62,26 +63,31 @@ public interface CommaFeedConfiguration {
 	/**
 	 * HTTP client configuration
 	 */
+	@ConfigDocSection
 	HttpClient httpClient();
 
 	/**
 	 * Feed refresh engine settings.
 	 */
+	@ConfigDocSection
 	FeedRefresh feedRefresh();
 
 	/**
 	 * Database settings.
 	 */
+	@ConfigDocSection
 	Database database();
 
 	/**
 	 * Users settings.
 	 */
+	@ConfigDocSection
 	Users users();
 
 	/**
 	 * Websocket settings.
 	 */
+	@ConfigDocSection
 	Websocket websocket();
 
 	interface HttpClient {
@@ -180,7 +186,7 @@ public interface CommaFeedConfiguration {
 
 	interface Database {
 		/**
-		 * Database query timeout.
+		 * Timeout applied to all database queries.
 		 *
 		 * 0 to disable.
 		 */
@@ -190,6 +196,7 @@ public interface CommaFeedConfiguration {
 		/**
 		 * Database cleanup settings.
 		 */
+		@ConfigDocSection
 		Cleanup cleanup();
 
 		interface Cleanup {

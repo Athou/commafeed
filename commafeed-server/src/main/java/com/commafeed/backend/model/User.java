@@ -1,9 +1,13 @@
 package com.commafeed.backend.model;
 
+import java.sql.Types;
 import java.time.Instant;
+
+import org.hibernate.annotations.JdbcTypeCode;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,13 +25,17 @@ public class User extends AbstractModel {
 	@Column(length = 255, unique = true)
 	private String email;
 
-	@Column(length = 256, nullable = false)
+	@Lob
+	@Column(length = Integer.MAX_VALUE, nullable = false)
+	@JdbcTypeCode(Types.LONGVARBINARY)
 	private byte[] password;
 
 	@Column(length = 40, unique = true)
 	private String apiKey;
 
-	@Column(length = 8, nullable = false)
+	@Lob
+	@Column(length = Integer.MAX_VALUE, nullable = false)
+	@JdbcTypeCode(Types.LONGVARBINARY)
 	private byte[] salt;
 
 	@Column(nullable = false)

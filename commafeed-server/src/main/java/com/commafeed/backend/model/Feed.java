@@ -1,9 +1,13 @@
 package com.commafeed.backend.model;
 
+import java.sql.Types;
 import java.time.Instant;
+
+import org.hibernate.annotations.JdbcTypeCode;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +22,9 @@ public class Feed extends AbstractModel {
 	/**
 	 * The url of the feed
 	 */
-	@Column(length = 2048, nullable = false)
+	@Lob
+	@Column(length = Integer.MAX_VALUE, nullable = false)
+	@JdbcTypeCode(Types.LONGVARCHAR)
 	private String url;
 
 	/**
@@ -36,7 +42,9 @@ public class Feed extends AbstractModel {
 	/**
 	 * The url of the website, extracted from the feed
 	 */
-	@Column(length = 2048)
+	@Lob
+	@Column(length = Integer.MAX_VALUE)
+	@JdbcTypeCode(Types.LONGVARCHAR)
 	private String link;
 
 	/**
@@ -60,7 +68,9 @@ public class Feed extends AbstractModel {
 	/**
 	 * error message while retrieving the feed
 	 */
-	@Column(length = 1024)
+	@Lob
+	@Column(length = Integer.MAX_VALUE)
+	@JdbcTypeCode(Types.LONGVARCHAR)
 	private String message;
 
 	/**

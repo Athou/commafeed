@@ -59,12 +59,12 @@ public class DatabaseCleaningService {
 					entriesDeleted = unitOfWork.call(() -> feedEntryDAO.delete(feed.getId(), batchSize));
 					entriesDeletedMeter.mark(entriesDeleted);
 					entriesTotal += entriesDeleted;
-					log.info("removed {} entries for feeds without subscriptions", entriesTotal);
+					log.debug("removed {} entries for feeds without subscriptions", entriesTotal);
 				} while (entriesDeleted > 0);
 			}
 			deleted = unitOfWork.call(() -> feedDAO.delete(feedDAO.findByIds(feeds.stream().map(AbstractModel::getId).toList())));
 			total += deleted;
-			log.info("removed {} feeds without subscriptions", total);
+			log.debug("removed {} feeds without subscriptions", total);
 		} while (deleted != 0);
 		log.info("cleanup done: {} feeds without subscriptions deleted", total);
 	}
@@ -76,7 +76,7 @@ public class DatabaseCleaningService {
 		do {
 			deleted = unitOfWork.call(() -> feedEntryContentDAO.deleteWithoutEntries(batchSize));
 			total += deleted;
-			log.info("removed {} contents without entries", total);
+			log.debug("removed {} contents without entries", total);
 		} while (deleted != 0);
 		log.info("cleanup done: {} contents without entries deleted", total);
 	}
@@ -98,7 +98,7 @@ public class DatabaseCleaningService {
 					entriesDeletedMeter.mark(deleted);
 					total += deleted;
 					remaining -= deleted;
-					log.info("removed {} entries for feeds exceeding capacity", total);
+					log.debug("removed {} entries for feeds exceeding capacity", total);
 				} while (remaining > 0);
 			}
 		}
@@ -113,7 +113,7 @@ public class DatabaseCleaningService {
 			deleted = unitOfWork.call(() -> feedEntryDAO.deleteEntriesOlderThan(olderThan, batchSize));
 			entriesDeletedMeter.mark(deleted);
 			total += deleted;
-			log.info("removed {} old entries", total);
+			log.debug("removed {} old entries", total);
 		} while (deleted != 0);
 		log.info("cleanup done: {} old entries deleted", total);
 	}
@@ -125,7 +125,7 @@ public class DatabaseCleaningService {
 		do {
 			deleted = unitOfWork.call(() -> feedEntryStatusDAO.deleteOldStatuses(olderThan, batchSize));
 			total += deleted;
-			log.info("removed {} old read statuses", total);
+			log.debug("removed {} old read statuses", total);
 		} while (deleted != 0);
 		log.info("cleanup done: {} old read statuses deleted", total);
 	}

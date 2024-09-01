@@ -14,4 +14,15 @@
 		</addColumn>
 	</changeSet>
 
+	<changeSet id="add-missing-fk-on-statuses-user" author="athou">
+		<delete tableName="FEEDENTRYSTATUSES">
+			<where>user_id not in (select id from USERS)</where>
+		</delete>
+		<addForeignKeyConstraint baseTableName="FEEDENTRYSTATUSES"
+								 baseColumnNames="user_id"
+								 constraintName="fk_feedentrystatuses_user"
+								 referencedTableName="USERS"
+								 referencedColumnNames="id" />
+	</changeSet>
+
 </databaseChangeLog>

@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.1.0]
+
+- Added a setting for showing/hiding unread count in the browser's tab title/favicon (#1518)
+- Fixed an issue that could prevent the app from starting on some systems (#1532)
+- Added a cache busting filter for the webapp index.html and openapi documentation to make sure they are always up to date
+- Reduced database cleanup log verbosity
+
 ## [5.0.2]
 
 - Fix favicon fetching for Youtube channels in native mode when Google auth key is set

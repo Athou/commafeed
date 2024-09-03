@@ -110,6 +110,10 @@ All other Quarkus settings can be found [here](https://quarkus.io/guides/all-con
 When started, the server will listen on http://localhost:8082.
 The default user is `admin` and the default password is `admin`.
 
+### Updates
+
+When CommaFeed is up and running, you can subscribe to [this feed](https://github.com/Athou/commafeed/releases.atom) to be notified of new releases.
+
 ### Memory management (`jvm` package only)
 
 The Java Virtual Machine (JVM) is rather greedy by default and will not release unused memory to the

@@ -79,6 +79,10 @@ meaning that you will have to log back in after each restart of the application.
 `QUARKUS_HTTP_AUTH_SESSION_ENCRYPTION_KEY` variable to a fixed value (min. 16 characters).
 All other Quarkus settings can be found [here](https://quarkus.io/guides/all-config).
 
+### Updates
+
+When CommaFeed is up and running, you can subscribe to [this feed](https://github.com/Athou/commafeed/releases.atom) to be notified of new releases.
+
 ## Docker tags
 
 Tags are of the form `<version>-<database>[-jvm]` where:

@@ -145,7 +145,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_CONNECT_TIMEOUT+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`5S`
 
 a| [[commafeed-server_commafeed-http-client-ssl-handshake-timeout]] [.property-path]##`commafeed.http-client.ssl-handshake-timeout`##
@@ -162,7 +162,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_SSL_HANDSHAKE_TIMEOUT+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`5S`
 
 a| [[commafeed-server_commafeed-http-client-socket-timeout]] [.property-path]##`commafeed.http-client.socket-timeout`##
@@ -179,7 +179,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_SOCKET_TIMEOUT+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`10S`
 
 a| [[commafeed-server_commafeed-http-client-response-timeout]] [.property-path]##`commafeed.http-client.response-timeout`##
@@ -196,7 +196,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_RESPONSE_TIMEOUT+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`10S`
 
 a| [[commafeed-server_commafeed-http-client-connection-time-to-live]] [.property-path]##`commafeed.http-client.connection-time-to-live`##
@@ -213,7 +213,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_CONNECTION_TIME_TO_LIVE+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`30S`
 
 a| [[commafeed-server_commafeed-http-client-idle-connections-eviction-interval]] [.property-path]##`commafeed.http-client.idle-connections-eviction-interval`##
@@ -230,7 +230,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_HTTP_CLIENT_IDLE_CONNECTIONS_EVICTION_INTERVAL+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`1M`
 
 a| [[commafeed-server_commafeed-http-client-max-response-size]] [.property-path]##`commafeed.http-client.max-response-size`##
@@ -269,7 +269,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_FEED_REFRESH_INTERVAL+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`5M`
 
 a| [[commafeed-server_commafeed-feed-refresh-interval-empirical]] [.property-path]##`commafeed.feed-refresh.interval-empirical`##
@@ -303,7 +303,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_FEED_REFRESH_HTTP_THREADS+++`
 endif::add-copy-button-to-env-var[]
 --
-|@jakarta.validation.constraints.Min(1L) int
+|int
 |`3`
 
 a| [[commafeed-server_commafeed-feed-refresh-database-threads]] [.property-path]##`commafeed.feed-refresh.database-threads`##
@@ -320,7 +320,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_FEED_REFRESH_DATABASE_THREADS+++`
 endif::add-copy-button-to-env-var[]
 --
-|@jakarta.validation.constraints.Min(1L) int
+|int
 |`1`
 
 a| [[commafeed-server_commafeed-feed-refresh-user-inactivity-period]] [.property-path]##`commafeed.feed-refresh.user-inactivity-period`##
@@ -337,7 +337,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_FEED_REFRESH_USER_INACTIVITY_PERIOD+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`0S`
 
 a| [[commafeed-server_commafeed-feed-refresh-filtering-expression-evaluation-timeout]] [.property-path]##`commafeed.feed-refresh.filtering-expression-evaluation-timeout`##
@@ -354,7 +354,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_FEED_REFRESH_FILTERING_EXPRESSION_EVALUATION_TIMEOUT+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`500MS`
 
 
@@ -376,7 +376,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_DATABASE_QUERY_TIMEOUT+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`0S`
 
 h|[[commafeed-server_section_commafeed-database-cleanup]] [.section-name.section-level1]##Database cleanup settings##
@@ -397,7 +397,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_DATABASE_CLEANUP_ENTRIES_MAX_AGE+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`365D`
 
 a| [[commafeed-server_commafeed-database-cleanup-statuses-max-age]] [.property-path]##`commafeed.database.cleanup.statuses-max-age`##
@@ -414,7 +414,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_DATABASE_CLEANUP_STATUSES_MAX_AGE+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`0S`
 
 a| [[commafeed-server_commafeed-database-cleanup-max-feed-capacity]] [.property-path]##`commafeed.database.cleanup.max-feed-capacity`##
@@ -465,7 +465,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_DATABASE_CLEANUP_BATCH_SIZE+++`
 endif::add-copy-button-to-env-var[]
 --
-|@jakarta.validation.constraints.Positive int
+|int
 |`100`
 
 
@@ -561,7 +561,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_WEBSOCKET_PING_INTERVAL+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`15M`
 
 a| [[commafeed-server_commafeed-websocket-tree-reload-interval]] [.property-path]##`commafeed.websocket.tree-reload-interval`##
@@ -578,7 +578,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++COMMAFEED_WEBSOCKET_TREE_RELOAD_INTERVAL+++`
 endif::add-copy-button-to-env-var[]
 --
-|link:https://docs.oracle.com/en/java/javase/17/docs/api/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`30S`
 
 

@@ -1,4 +1,4 @@
-FROM debian:12.6
+FROM debian:12.7
 EXPOSE 8082
 
 RUN mkdir -p /commafeed/data

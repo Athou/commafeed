@@ -35,6 +35,21 @@ export function Tree() {
     const showRead = useAppSelector(state => state.user.settings?.showRead)
     const dispatch = useAppDispatch()
 
+    const isFeedDisplayed = (feed: Subscription) => {
+        const isCurrentFeed = source.type === "feed" && source.id === String(feed.id)
+        return isCurrentFeed || feed.unread > 0 || showRead
+    }
+
+    const isCategoryDisplayed = (category: Category): boolean => {
+        const isCurrentCategory = source.type === "category" && source.id === category.id
+        return (
+            isCurrentCategory ||
+            showRead ||
+            category.children.some(c => isCategoryDisplayed(c)) ||
+            category.feeds.some(f => isFeedDisplayed(f))
+        )
+    }
+
     const feedClicked = (e: React.MouseEvent, id: string) => {
         if (e.detail === 2) {
             dispatch(redirectToFeedDetails(id))
@@ -97,8 +112,7 @@ export function Tree() {
     )
 
     const categoryNode = (category: Category, level = 0) => {
-        const unreadCount = categoryUnreadCount(category)
-        if (unreadCount === 0 && !showRead) return null
+        if (!isCategoryDisplayed(category)) return null
 
         const hasError = !category.expanded && flattenCategoryTree(category).some(c => c.feeds.some(f => f.errorCount > errorThreshold))
         return (
@@ -107,7 +121,7 @@ export function Tree() {
                 type="category"
                 name={category.name}
                 icon={category.expanded ? expandedIcon : collapsedIcon}
-                unread={unreadCount}
+                unread={categoryUnreadCount(category)}
                 selected={source.type === "category" && source.id === category.id}
                 expanded={category.expanded}
                 level={level}
@@ -120,7 +134,7 @@ export function Tree() {
     }
 
     const feedNode = (feed: Subscription, level = 0) => {
-        if (feed.unread === 0 && !showRead) return null
+        if (!isFeedDisplayed(feed)) return null
 
         return (
             <TreeNode

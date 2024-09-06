@@ -4,11 +4,12 @@
 				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
 	<changeSet id="add-unread-count-settings" author="athou">
+		<validCheckSum>9:b4a4044ca0f7d9987536083943d4f1b4</validCheckSum>
 		<addColumn tableName="USERSETTINGS">
-			<column name="unreadCountTitle" type="BOOLEAN" value="false">
+			<column name="unreadCountTitle" type="BOOLEAN" valueBoolean="false">
 				<constraints nullable="false" />
 			</column>
-			<column name="unreadCountFavicon" type="BOOLEAN" value="true">
+			<column name="unreadCountFavicon" type="BOOLEAN" valueBoolean="true">
 				<constraints nullable="false" />
 			</column>
 		</addColumn>

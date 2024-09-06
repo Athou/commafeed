@@ -25,7 +25,8 @@ If applicable, add screenshots to help explain your problem.
 
 **Environment (please complete the following information):**
 
-- CommaFeed version (or "commafeed.com"): 3.2.1
+- commafeed.com or self-hosted:
+- If self-hosted, CommaFeed version [e.g. 5.1.0 (a3dcb2c)]:
 - Browser [e.g. chrome, firefox]:
 - Device [e.g. desktop, mobile]:
 

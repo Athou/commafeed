@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.1.1]
+
+- Fixed database migration issue when upgrading from 5.0.0 to 5.1.0 on MariaDB (#1544)
+- When feeds without unread entries are hidden from the tree, the feed is displayed in the tree until another one is selected (#1543)
+
 ## [5.1.0]
 
 - Added a setting for showing/hiding unread count in the browser's tab title/favicon (#1518)

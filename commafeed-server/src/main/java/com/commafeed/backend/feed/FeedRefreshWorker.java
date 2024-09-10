@@ -54,9 +54,9 @@ public class FeedRefreshWorker {
 				entries = entries.stream().limit(maxFeedCapacity).toList();
 			}
 
-			Duration maxEntriesAgeDays = config.database().cleanup().entriesMaxAge();
-			if (!maxEntriesAgeDays.isZero()) {
-				Instant threshold = Instant.now().minus(maxEntriesAgeDays);
+			Duration entriesMaxAge = config.database().cleanup().entriesMaxAge();
+			if (!entriesMaxAge.isZero()) {
+				Instant threshold = Instant.now().minus(entriesMaxAge);
 				entries = entries.stream().filter(entry -> entry.published().isAfter(threshold)).toList();
 			}
 

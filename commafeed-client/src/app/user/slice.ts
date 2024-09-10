@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro"
 import { showNotification } from "@mantine/notifications"
 import { type PayloadAction, createSlice, isAnyOf } from "@reduxjs/toolkit"
-import type { Settings, UserModel, ViewMode } from "app/types"
+import type { LocalSettings, Settings, UserModel, ViewMode } from "app/types"
 import {
     changeCustomContextMenu,
     changeEntriesToKeepOnTopWhenScrolling,
@@ -26,17 +26,19 @@ import {
 
 interface UserState {
     settings?: Settings
-    localSettings: {
-        viewMode: ViewMode
-    }
+    localSettings: LocalSettings
     profile?: UserModel
     tags?: string[]
 }
 
+export const initialLocalSettings: LocalSettings = {
+    viewMode: "detailed",
+    sidebarWidth: 360,
+    announcementHash: "no-hash",
+}
+
 const initialState: UserState = {
-    localSettings: {
-        viewMode: "detailed",
-    },
+    localSettings: initialLocalSettings,
 }
 
 export const userSlice = createSlice({
@@ -45,6 +47,12 @@ export const userSlice = createSlice({
     reducers: {
         setViewMode: (state, action: PayloadAction<ViewMode>) => {
             state.localSettings.viewMode = action.payload
+        },
+        setSidebarWidth: (state, action: PayloadAction<number>) => {
+            state.localSettings.sidebarWidth = action.payload
+        },
+        setAnnouncementHash: (state, action: PayloadAction<string>) => {
+            state.localSettings.announcementHash = action.payload
         },
     },
     extraReducers: builder => {
@@ -148,4 +156,4 @@ export const userSlice = createSlice({
     },
 })
 
-export const { setViewMode } = userSlice.actions
+export const { setViewMode, setSidebarWidth, setAnnouncementHash } = userSlice.actions

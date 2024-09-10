@@ -5,6 +5,7 @@ import { redirectToAdd, redirectToRootCategory } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { setMobileMenuOpen } from "app/tree/slice"
 import { reloadTree } from "app/tree/thunks"
+import { setSidebarWidth } from "app/user/slice"
 import { reloadProfile, reloadSettings, reloadTags } from "app/user/thunks"
 import { ActionButton } from "components/ActionButton"
 import { AnnouncementDialog } from "components/AnnouncementDialog"
@@ -23,7 +24,6 @@ import { TbMenu2, TbPlus, TbX } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
 import { useSwipeable } from "react-swipeable"
 import { tss } from "tss"
-import useLocalStorage from "use-local-storage"
 
 interface LayoutProps {
     sidebar: ReactNode
@@ -64,21 +64,23 @@ export default function Layout(props: LayoutProps) {
     const theme = useMantineTheme()
     const mobile = useMobile()
     const { isBrowserExtensionPopup } = useBrowserExtension()
-    const [sidebarWidth, setSidebarWidth] = useLocalStorage("sidebar-width", 350)
+
+    const { loading } = useAppLoading()
+    const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
+    const webSocketConnected = useAppSelector(state => state.server.webSocketConnected)
+    const treeReloadInterval = useAppSelector(state => state.server.serverInfos?.treeReloadInterval)
+    const mobileFooter = useAppSelector(state => state.user.settings?.mobileFooter)
+    const sidebarWidth = useAppSelector(state => state.user.localSettings.sidebarWidth)
+    const headerInFooter = mobile && !isBrowserExtensionPopup && mobileFooter
+    const dispatch = useAppDispatch()
+    useWebSocket()
+
     const sidebarPadding = theme.spacing.xs
     const { classes } = useStyles({
         sidebarWidth,
         sidebarPadding,
         sidebarRightBorderWidth: "1px",
     })
-    const { loading } = useAppLoading()
-    const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
-    const webSocketConnected = useAppSelector(state => state.server.webSocketConnected)
-    const treeReloadInterval = useAppSelector(state => state.server.serverInfos?.treeReloadInterval)
-    const mobileFooter = useAppSelector(state => state.user.settings?.mobileFooter)
-    const headerInFooter = mobile && !isBrowserExtensionPopup && mobileFooter
-    const dispatch = useAppDispatch()
-    useWebSocket()
 
     useEffect(() => {
         // load initial data
@@ -192,7 +194,10 @@ export default function Layout(props: LayoutProps) {
                             right: 1000,
                         }}
                         grid={[30, 30]}
-                        onDrag={(_e, data) => setSidebarWidth(data.x)}
+                        onDrag={(_e, data) => {
+                            dispatch(setSidebarWidth(data.x))
+                            return
+                        }}
                     >
                         <Box
                             style={{

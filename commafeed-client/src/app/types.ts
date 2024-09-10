@@ -254,6 +254,12 @@ export interface Settings {
     sharingSettings: SharingSettings
 }
 
+export interface LocalSettings {
+    viewMode: ViewMode
+    sidebarWidth: number
+    announcementHash: string
+}
+
 export interface StarRequest {
     id: string
     feedId: number

@@ -1,9 +1,9 @@
 import { Trans } from "@lingui/macro"
 import { Box, Dialog, Text } from "@mantine/core"
-import { useAppSelector } from "app/store"
+import { useAppDispatch, useAppSelector } from "app/store"
+import { setAnnouncementHash } from "app/user/slice"
 import { Content } from "components/content/Content"
 import { useAsync } from "react-async-hook"
-import useLocalStorage from "use-local-storage"
 
 const sha256Hex = async (input: string | undefined) => {
     const data = new TextEncoder().encode(input)
@@ -15,10 +15,11 @@ const sha256Hex = async (input: string | undefined) => {
 export function AnnouncementDialog() {
     const announcement = useAppSelector(state => state.server.serverInfos?.announcement)
     const announcementHash = useAsync(sha256Hex, [announcement]).result
-    const [localStorageHash, setLocalStorageHash] = useLocalStorage("announcement-hash", "no-hash")
+    const existingAnnouncementHash = useAppSelector(state => state.user.localSettings.announcementHash)
+    const dispatch = useAppDispatch()
 
-    const opened = !!announcementHash && announcementHash !== localStorageHash
-    const onClosed = () => setLocalStorageHash(announcementHash)
+    const opened = !!announcementHash && announcementHash !== existingAnnouncementHash
+    const onClosed = () => announcementHash && dispatch(setAnnouncementHash(announcementHash))
 
     if (!announcement) return null
     return (

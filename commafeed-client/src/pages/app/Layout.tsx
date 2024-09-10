@@ -18,7 +18,7 @@ import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useMobile } from "hooks/useMobile"
 import { useWebSocket } from "hooks/useWebSocket"
 import { LoadingPage } from "pages/LoadingPage"
-import { type ReactNode, Suspense, useEffect } from "react"
+import { type ReactNode, Suspense, useEffect, useRef } from "react"
 import Draggable from "react-draggable"
 import { TbMenu2, TbPlus, TbX } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
@@ -64,6 +64,7 @@ export default function Layout(props: LayoutProps) {
     const theme = useMantineTheme()
     const mobile = useMobile()
     const { isBrowserExtensionPopup } = useBrowserExtension()
+    const draggableSeparator = useRef<HTMLDivElement>(null)
 
     const { loading } = useAppLoading()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
@@ -184,6 +185,7 @@ export default function Layout(props: LayoutProps) {
                 </AppShell.Navbar>
                 <OnDesktop>
                     <Draggable
+                        nodeRef={draggableSeparator}
                         axis="x"
                         defaultPosition={{
                             x: sidebarWidth,
@@ -200,6 +202,7 @@ export default function Layout(props: LayoutProps) {
                         }}
                     >
                         <Box
+                            ref={draggableSeparator}
                             style={{
                                 position: "fixed",
                                 height: "100%",

@@ -114,6 +114,7 @@ public class UserREST {
 			s.setLanguage(settings.getLanguage());
 			s.setScrollSpeed(settings.getScrollSpeed());
 			s.setScrollMode(settings.getScrollMode().name());
+			s.setEntriesToKeepOnTopWhenScrolling(settings.getEntriesToKeepOnTopWhenScrolling());
 			s.setStarIconDisplayMode(settings.getStarIconDisplayMode().name());
 			s.setExternalLinkIconDisplayMode(settings.getExternalLinkIconDisplayMode().name());
 			s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());
@@ -139,6 +140,7 @@ public class UserREST {
 			s.setLanguage("en");
 			s.setScrollSpeed(400);
 			s.setScrollMode(ScrollMode.if_needed.name());
+			s.setEntriesToKeepOnTopWhenScrolling(0);
 			s.setStarIconDisplayMode(IconDisplayMode.on_desktop.name());
 			s.setExternalLinkIconDisplayMode(IconDisplayMode.on_desktop.name());
 			s.setMarkAllAsReadConfirmation(true);
@@ -172,6 +174,7 @@ public class UserREST {
 		s.setLanguage(settings.getLanguage());
 		s.setScrollSpeed(settings.getScrollSpeed());
 		s.setScrollMode(ScrollMode.valueOf(settings.getScrollMode()));
+		s.setEntriesToKeepOnTopWhenScrolling(settings.getEntriesToKeepOnTopWhenScrolling());
 		s.setStarIconDisplayMode(IconDisplayMode.valueOf(settings.getStarIconDisplayMode()));
 		s.setExternalLinkIconDisplayMode(IconDisplayMode.valueOf(settings.getExternalLinkIconDisplayMode()));
 		s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());

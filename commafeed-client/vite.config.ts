@@ -49,4 +49,7 @@ export default defineConfig(env => ({
             },
         },
     },
+    test: {
+        environment: "jsdom",
+    },
 }))

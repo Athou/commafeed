@@ -43,6 +43,14 @@ export const changeScrollMode = createAppAsyncThunk("settings/scrollMode", (scro
     if (!settings) return
     client.user.saveSettings({ ...settings, scrollMode })
 })
+export const changeEntriesToKeepOnTopWhenScrolling = createAppAsyncThunk(
+    "settings/entriesToKeepOnTopWhenScrolling",
+    (entriesToKeepOnTopWhenScrolling: number, thunkApi) => {
+        const { settings } = thunkApi.getState().user
+        if (!settings) return
+        client.user.saveSettings({ ...settings, entriesToKeepOnTopWhenScrolling })
+    }
+)
 export const changeStarIconDisplayMode = createAppAsyncThunk(
     "settings/starIconDisplayMode",
     (starIconDisplayMode: IconDisplayMode, thunkApi) => {

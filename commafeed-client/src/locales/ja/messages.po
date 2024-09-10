@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: https://github.com/dai \n"
+"Last-Translator: https://github.com/dai\n"
 "Language-Team: \n"
 "Plural-Forms: \n"
 
@@ -28,7 +28,6 @@ msgstr "<0>アカウントをお持ちですか?</0><1>ログインしてくだ�
 #: src/pages/app/DonatePage.tsx
 msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
 msgstr "<0>こんにちは、</0><1>私はベルギーのジェレミーです。私はこれまで 10 年以上、CommaFeed のオープンソースプロジェクトを無料で開発してきました。あなたの関心に感謝します。</1>"
-
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
@@ -323,6 +322,10 @@ msgid "Enter your current password to change profile settings"
 msgstr "プロファイル設定を変更するには、現在のパスワードを入力してください"
 
 #: src/components/settings/DisplaySettings.tsx
+msgid "Entries to keep above the selected entry when scrolling"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
 msgstr "エントリーヘッダー"
 
@@ -609,6 +612,10 @@ msgstr "モバイル"
 msgid "On mobile, show action buttons at the bottom of the screen"
 msgstr "モバイルでは、画面の下部にアクションボタンを表示します"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Only applies to compact, cozy and detailed modes"
+msgstr ""
+
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
 msgstr "おっと！"
@@ -798,7 +805,6 @@ msgstr "Shift"
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show CommaFeed's own context menu on right click"
 msgstr "右クリックでCommaFeedのコンテキストメニューを表示する"
-
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show confirmation when marking all entries as read"

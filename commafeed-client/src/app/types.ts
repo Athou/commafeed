@@ -243,6 +243,7 @@ export interface Settings {
     customJs?: string
     scrollSpeed: number
     scrollMode: ScrollMode
+    entriesToKeepOnTopWhenScrolling: number
     starIconDisplayMode: IconDisplayMode
     externalLinkIconDisplayMode: IconDisplayMode
     markAllAsReadConfirmation: boolean

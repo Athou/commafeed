@@ -14,7 +14,7 @@ import { client } from "app/client"
 import { redirectToAbout, redirectToAdminUsers, redirectToDonate, redirectToMetrics, redirectToSettings } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import type { ViewMode } from "app/types"
-import { useViewMode } from "hooks/useViewMode"
+import { setViewMode } from "app/user/slice"
 import { type ReactNode, useState } from "react"
 import {
     TbChartLine,
@@ -92,9 +92,9 @@ const viewModeData: ViewModeControlItem[] = [
 
 export function ProfileMenu(props: ProfileMenuProps) {
     const [opened, setOpened] = useState(false)
-    const { viewMode, setViewMode } = useViewMode()
     const profile = useAppSelector(state => state.user.profile)
     const admin = useAppSelector(state => state.user.profile?.admin)
+    const viewMode = useAppSelector(state => state.user.localSettings.viewMode)
     const dispatch = useAppDispatch()
     const { colorScheme, setColorScheme } = useMantineColorScheme()
 
@@ -156,7 +156,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     orientation="vertical"
                     data={viewModeData}
                     value={viewMode}
-                    onChange={e => setViewMode(e as ViewMode)}
+                    onChange={e => dispatch(setViewMode(e as ViewMode))}
                     mb="xs"
                 />
 

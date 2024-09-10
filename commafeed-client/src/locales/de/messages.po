@@ -322,6 +322,10 @@ msgid "Enter your current password to change profile settings"
 msgstr "Geben Sie Ihr aktuelles Passwort ein, um die Profileinstellungen zu ändern"
 
 #: src/components/settings/DisplaySettings.tsx
+msgid "Entries to keep above the selected entry when scrolling"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
 msgstr ""
 
@@ -607,6 +611,10 @@ msgstr ""
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
 msgstr "Auf mobilen Geräten die Aktion-Buttons am unteren Ende des Bildschirms anzeigen"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Only applies to compact, cozy and detailed modes"
+msgstr ""
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"

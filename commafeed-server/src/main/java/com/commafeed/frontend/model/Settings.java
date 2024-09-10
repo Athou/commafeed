@@ -49,6 +49,9 @@ public class Settings implements Serializable {
 			requiredMode = RequiredMode.REQUIRED)
 	private String scrollMode;
 
+	@Schema(description = "number of entries to keep above the selected entry when scrolling", requiredMode = RequiredMode.REQUIRED)
+	private int entriesToKeepOnTopWhenScrolling;
+
 	@Schema(
 			description = "whether to show the star icon in the header of entries",
 			allowableValues = "always,never,on_desktop,on_mobile",

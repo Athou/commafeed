@@ -1,12 +1,13 @@
 import { Trans, msg } from "@lingui/macro"
 import { useLingui } from "@lingui/react"
-import { Divider, Group, Radio, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
+import { Divider, Group, NumberInput, Radio, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
 import type { ComboboxData } from "@mantine/core/lib/components/Combobox/Combobox.types"
 import { Constants } from "app/constants"
 import { useAppDispatch, useAppSelector } from "app/store"
 import type { IconDisplayMode, ScrollMode, SharingSettings } from "app/types"
 import {
     changeCustomContextMenu,
+    changeEntriesToKeepOnTopWhenScrolling,
     changeExternalLinkIconDisplayMode,
     changeLanguage,
     changeMarkAllAsReadConfirmation,
@@ -29,6 +30,7 @@ export function DisplaySettings() {
     const showRead = useAppSelector(state => state.user.settings?.showRead)
     const scrollMarks = useAppSelector(state => state.user.settings?.scrollMarks)
     const scrollMode = useAppSelector(state => state.user.settings?.scrollMode)
+    const entriesToKeepOnTop = useAppSelector(state => state.user.settings?.entriesToKeepOnTopWhenScrolling)
     const starIconDisplayMode = useAppSelector(state => state.user.settings?.starIconDisplayMode)
     const externalLinkIconDisplayMode = useAppSelector(state => state.user.settings?.externalLinkIconDisplayMode)
     const markAllAsReadConfirmation = useAppSelector(state => state.user.settings?.markAllAsReadConfirmation)
@@ -144,6 +146,14 @@ export function DisplaySettings() {
                     ))}
                 </Group>
             </Radio.Group>
+
+            <NumberInput
+                label={<Trans>Entries to keep above the selected entry when scrolling</Trans>}
+                description={<Trans>Only applies to compact, cozy and detailed modes</Trans>}
+                min={0}
+                value={entriesToKeepOnTop}
+                onChange={async value => await dispatch(changeEntriesToKeepOnTopWhenScrolling(+value))}
+            />
 
             <Switch
                 label={<Trans>Scroll smoothly when navigating between entries</Trans>}

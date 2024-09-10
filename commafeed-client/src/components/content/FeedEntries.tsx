@@ -20,7 +20,6 @@ import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"
 import { Loader } from "components/Loader"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useMousetrap } from "hooks/useMousetrap"
-import { useViewMode } from "hooks/useViewMode"
 import { useEffect } from "react"
 import { useContextMenu } from "react-contexify"
 import InfiniteScroll from "react-infinite-scroller"
@@ -38,7 +37,7 @@ export function FeedEntries() {
     const scrollingToEntry = useAppSelector(state => state.entries.scrollingToEntry)
     const sidebarVisible = useAppSelector(state => state.tree.sidebarVisible)
     const customContextMenu = useAppSelector(state => state.user.settings?.customContextMenu)
-    const { viewMode } = useViewMode()
+    const viewMode = useAppSelector(state => state.user.localSettings.viewMode)
     const dispatch = useAppDispatch()
     const { openLinkInBackgroundTab } = useBrowserExtension()
 

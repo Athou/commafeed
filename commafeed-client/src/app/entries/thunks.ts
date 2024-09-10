@@ -166,22 +166,34 @@ export const selectEntry = createAppAsyncThunk(
         })
 
         if (arg.scrollToEntry) {
+            const viewMode = state.user.localSettings.viewMode
+
+            const entryIndex = state.entries.entries.indexOf(entry)
+            const entriesToKeepOnTopWhenScrolling =
+                viewMode === "expanded" ? 0 : Math.min(state.user.settings?.entriesToKeepOnTopWhenScrolling ?? 0, entryIndex)
+            const entryToScrollTo = state.entries.entries[entryIndex - entriesToKeepOnTopWhenScrolling]
+
             const entryElement = document.getElementById(Constants.dom.entryId(entry))
-            if (entryElement) {
+            const entryElementToScrollTo = document.getElementById(Constants.dom.entryId(entryToScrollTo))
+            if (entryElement && entryElementToScrollTo) {
                 const scrollMode = state.user.settings?.scrollMode
-                const entryEntirelyVisible = Constants.layout.isTopVisible(entryElement) && Constants.layout.isBottomVisible(entryElement)
+                const entryEntirelyVisible =
+                    Constants.layout.isTopVisible(entryElementToScrollTo) && Constants.layout.isBottomVisible(entryElement)
                 if (scrollMode === "always" || (scrollMode === "if_needed" && !entryEntirelyVisible)) {
                     const scrollSpeed = state.user.settings?.scrollSpeed
+                    const margin = viewMode === "detailed" ? 8 : 3
                     thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(true))
-                    scrollToEntry(entryElement, scrollSpeed, () => thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(false)))
+                    scrollToEntry(entryElementToScrollTo, margin, scrollSpeed, () =>
+                        thunkApi.dispatch(entriesSlice.actions.setScrollingToEntry(false))
+                    )
                 }
             }
         }
     }
 )
-const scrollToEntry = (entryElement: HTMLElement, scrollSpeed: number | undefined, onScrollEnded: () => void) => {
+const scrollToEntry = (entryElement: HTMLElement, margin: number, scrollSpeed: number | undefined, onScrollEnded: () => void) => {
     const header = document.getElementById(Constants.dom.headerId)?.getBoundingClientRect()
-    const offset = (header?.bottom ?? 0) + 3
+    const offset = (header?.bottom ?? 0) + margin
     scrollToWithCallback({
         options: {
             top: entryElement.offsetTop - offset,

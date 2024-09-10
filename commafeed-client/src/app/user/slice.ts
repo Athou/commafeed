@@ -1,9 +1,10 @@
 import { t } from "@lingui/macro"
 import { showNotification } from "@mantine/notifications"
-import { createSlice, isAnyOf } from "@reduxjs/toolkit"
-import type { Settings, UserModel } from "app/types"
+import { type PayloadAction, createSlice, isAnyOf } from "@reduxjs/toolkit"
+import type { Settings, UserModel, ViewMode } from "app/types"
 import {
     changeCustomContextMenu,
+    changeEntriesToKeepOnTopWhenScrolling,
     changeExternalLinkIconDisplayMode,
     changeLanguage,
     changeMarkAllAsReadConfirmation,
@@ -25,16 +26,27 @@ import {
 
 interface UserState {
     settings?: Settings
+    localSettings: {
+        viewMode: ViewMode
+    }
     profile?: UserModel
     tags?: string[]
 }
 
-const initialState: UserState = {}
+const initialState: UserState = {
+    localSettings: {
+        viewMode: "detailed",
+    },
+}
 
 export const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+        setViewMode: (state, action: PayloadAction<ViewMode>) => {
+            state.localSettings.viewMode = action.payload
+        },
+    },
     extraReducers: builder => {
         builder.addCase(reloadSettings.fulfilled, (state, action) => {
             state.settings = action.payload
@@ -72,6 +84,10 @@ export const userSlice = createSlice({
         builder.addCase(changeScrollMode.pending, (state, action) => {
             if (!state.settings) return
             state.settings.scrollMode = action.meta.arg
+        })
+        builder.addCase(changeEntriesToKeepOnTopWhenScrolling.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.entriesToKeepOnTopWhenScrolling = action.meta.arg
         })
         builder.addCase(changeStarIconDisplayMode.pending, (state, action) => {
             if (!state.settings) return
@@ -112,6 +128,7 @@ export const userSlice = createSlice({
                 changeShowRead.fulfilled,
                 changeScrollMarks.fulfilled,
                 changeScrollMode.fulfilled,
+                changeEntriesToKeepOnTopWhenScrolling.fulfilled,
                 changeStarIconDisplayMode.fulfilled,
                 changeExternalLinkIconDisplayMode.fulfilled,
                 changeMarkAllAsReadConfirmation.fulfilled,
@@ -130,3 +147,5 @@ export const userSlice = createSlice({
         )
     },
 })
+
+export const { setViewMode } = userSlice.actions

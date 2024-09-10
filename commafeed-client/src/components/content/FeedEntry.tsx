@@ -5,7 +5,6 @@ import type { Entry, ViewMode } from "app/types"
 import { FeedEntryCompactHeader } from "components/content/header/FeedEntryCompactHeader"
 import { FeedEntryHeader } from "components/content/header/FeedEntryHeader"
 import { useMobile } from "hooks/useMobile"
-import { useViewMode } from "hooks/useViewMode"
 import type React from "react"
 import { useSwipeable } from "react-swipeable"
 import { tss } from "tss"
@@ -95,7 +94,7 @@ const useStyles = tss
     })
 
 export function FeedEntry(props: FeedEntryProps) {
-    const { viewMode } = useViewMode()
+    const viewMode = useAppSelector(state => state.user.localSettings.viewMode)
     const { classes, cx } = useStyles({
         read: props.entry.read,
         expanded: props.expanded,

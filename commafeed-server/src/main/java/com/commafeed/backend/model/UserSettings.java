@@ -78,6 +78,8 @@ public class UserSettings extends AbstractModel {
 	@Column(nullable = false)
 	private ScrollMode scrollMode;
 
+	private int entriesToKeepOnTopWhenScrolling;
+
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private IconDisplayMode starIconDisplayMode;

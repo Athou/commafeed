@@ -29,13 +29,15 @@ public class FeedDAO extends GenericDAO<Feed> {
 	}
 
 	public List<Feed> findNextUpdatable(int count, Instant lastLoginThreshold) {
-		JPAQuery<Feed> query = query().selectFrom(FEED).where(FEED.disabledUntil.isNull().or(FEED.disabledUntil.lt(Instant.now())));
+		JPAQuery<Feed> query = query().selectFrom(FEED)
+				.distinct()
+				// join on subscriptions to only refresh feeds that have subscribers
+				.join(SUBSCRIPTION)
+				.on(SUBSCRIPTION.feed.eq(FEED))
+				.where(FEED.disabledUntil.isNull().or(FEED.disabledUntil.lt(Instant.now())));
+
 		if (lastLoginThreshold != null) {
-			query.where(JPAExpressions.selectOne()
-					.from(SUBSCRIPTION)
-					.join(SUBSCRIPTION.user)
-					.where(SUBSCRIPTION.feed.id.eq(FEED.id), SUBSCRIPTION.user.lastLogin.gt(lastLoginThreshold))
-					.exists());
+			query.join(SUBSCRIPTION.user).where(SUBSCRIPTION.user.lastLogin.gt(lastLoginThreshold));
 		}
 
 		return query.orderBy(FEED.disabledUntil.asc()).limit(count).fetch();

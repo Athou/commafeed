@@ -139,6 +139,7 @@
 				<configuration>
 					<systemPropertyVariables>
 						<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+						<quarkus.datasource.db-kind>${build.database}</quarkus.datasource.db-kind>
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>
@@ -159,6 +160,7 @@
 						<native.image.path>${project.build.directory}/${project.build.finalName}-runner
 						</native.image.path>
 						<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+						<quarkus.datasource.db-kind>${build.database}</quarkus.datasource.db-kind>
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>

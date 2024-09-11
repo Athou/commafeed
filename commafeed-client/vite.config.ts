@@ -2,11 +2,11 @@ import { lingui } from "@lingui/vite-plugin"
 import react from "@vitejs/plugin-react"
 import { visualizer } from "rollup-plugin-visualizer"
 import { defineConfig } from "vite"
-import biomePlugin from "vite-plugin-biome"
+import checker from "vite-plugin-checker"
 import tsconfigPaths from "vite-tsconfig-paths"
 
 // https://vitejs.dev/config/
-export default defineConfig(env => ({
+export default defineConfig(() => ({
     plugins: [
         react({
             babel: {
@@ -17,9 +17,11 @@ export default defineConfig(env => ({
         lingui(),
         tsconfigPaths(),
         visualizer(),
-        biomePlugin({
-            mode: "check",
-            failOnError: env.mode !== "development",
+        checker({
+            typescript: true,
+            biome: {
+                command: "check",
+            },
         }),
     ],
     base: "./",

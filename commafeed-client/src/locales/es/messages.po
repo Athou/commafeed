@@ -15,12 +15,8 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/pages/app/AboutPage.tsx
-msgid ""
-"<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1"
-">."
-msgstr ""
-"<0>CommaFeed es un proyecto de código abierto. El código fuente está hospedado"
-" en </0><1>GitHub</1>."
+msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
+msgstr "<0>CommaFeed es un proyecto de código abierto. El código fuente está hospedado en </0><1>GitHub</1>."
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
@@ -31,14 +27,8 @@ msgid "<0>Have an account?</0><1>Log in!</1>"
 msgstr "<0>¿Tienes una cuenta?</0><1>¡Inicia sesión!</1>"
 
 #: src/pages/app/DonatePage.tsx
-msgid ""
-"<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in m"
-"y free time for over 10 years now. Thanks for taking an interest in helping me"
-" continue supporting CommaFeed.</1>"
-msgstr ""
-"<0>Hola,</0><1>Soy Jérémie de Bélgica y he estado trabajando en CommaFeed en m"
-"i tiempo libre desde hace 10 años. Gracias por interesarte en ayudarme a segui"
-"r apoyando a CommaFeed.</1>"
+msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
+msgstr "<0>Hola,</0><1>Soy Jérémie de Bélgica y he estado trabajando en CommaFeed en mi tiempo libre desde hace 10 años. Gracias por interesarte en ayudarme a seguir apoyando a CommaFeed.</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
@@ -84,20 +74,12 @@ msgid "Always"
 msgstr "Siempre"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
-msgid ""
-"An email has been sent if this address was registered. Check your inbox."
-msgstr ""
-"Se ha enviado un correo electrónico si esta dirección estaba registrada. Revis"
-"a tu bandeja de entrada."
+msgid "An email has been sent if this address was registered. Check your inbox."
+msgstr "Se ha enviado un correo electrónico si esta dirección estaba registrada. Revisa tu bandeja de entrada."
 
 #: src/components/content/add/ImportOpml.tsx
-msgid ""
-"An opml file is an XML file containing feed URLs and categories. You can get a"
-"n OPML file by exporting your data from other feed reading services."
-msgstr ""
-"Un archivo opml es un archivo XML que contiene categorías y las URL de los fee"
-"ds. Puedes obtener un archivo OPML exportando tus datos desde otros servicios "
-"de lectura de feeds."
+msgid "An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services."
+msgstr "Un archivo opml es un archivo XML que contiene categorías y las URL de los feeds. Puedes obtener un archivo OPML exportando tus datos desde otros servicios de lectura de feeds."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
@@ -113,8 +95,7 @@ msgstr "Clave API"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
-msgstr ""
-"¿Estás seguro de que deseas eliminar la categoría <0>{categoryName}</0>?"
+msgstr "¿Estás seguro de que deseas eliminar la categoría <0>{categoryName}</0>?"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Are you sure you want to delete user <0>{userName}</0> ?"
@@ -125,19 +106,12 @@ msgid "Are you sure you want to delete your account? There's no turning back!"
 msgstr "¿Estás seguro de que quieres eliminar tu cuenta? ¡No hay vuelta atrás!"
 
 #: src/components/header/MarkAllAsReadButton.tsx
-msgid ""
-"Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
-msgstr ""
-"¿Estás seguro de que deseas marcar todas las entradas de <0>{sourceLabel}</0> "
-"como leídas?"
+msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
+msgstr "¿Estás seguro de que deseas marcar todas las entradas de <0>{sourceLabel}</0> como leídas?"
 
 #: src/components/header/MarkAllAsReadButton.tsx
-msgid ""
-"Are you sure you want to mark entries older than {threshold} days of <0>{sourc"
-"eLabel}</0> as read?"
-msgstr ""
-"¿Estás seguro de que deseas marcar las entradas anteriores a {threshold} días "
-"de <0>{sourceLabel}</0> como leídas?"
+msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
+msgstr "¿Estás seguro de que deseas marcar las entradas anteriores a {threshold} días de <0>{sourceLabel}</0> como leídas?"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
@@ -148,13 +122,8 @@ msgid "Asc"
 msgstr "Asc"
 
 #: src/pages/app/FeedDetailsPage.tsx
-msgid ""
-"Available variables are 'title', 'content', 'url' 'author' and 'categories' an"
-"d their content is converted to lower case to ease string comparison."
-msgstr ""
-"Las variables disponibles son 'título', 'contenido', 'url', 'autor' y 'categor"
-"ías' y su contenido se convierte a minúsculas para facilitar la comparación de"
-" cadenas."
+msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
+msgstr "Las variables disponibles son 'título', 'contenido', 'url', 'autor' y 'categorías' y su contenido se convierte a minúsculas para facilitar la comparación de cadenas."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
@@ -218,17 +187,11 @@ msgstr "Cmd"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
-msgstr ""
-"Versión de la extensión del navegador CommaFeed {browserExtensionVersion}."
+msgstr "Versión de la extensión del navegador CommaFeed {browserExtensionVersion}."
 
 #: src/components/settings/ProfileSettings.tsx
-msgid ""
-"CommaFeed is compatible with the Fever API. Use the following URL in your Feve"
-"r-compatible mobile client. Login with your username and your <0>API key</0>."
-msgstr ""
-"CommaFeed es compatible con Fever API. Utilice la siguiente URL en su cliente "
-"móvil compatible con Fever. Inicie sesión con su nombre de usuario y su <0>cla"
-"ve API</0>."
+msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
+msgstr "CommaFeed es compatible con Fever API. Utilice la siguiente URL en su cliente móvil compatible con Fever. Inicie sesión con su nombre de usuario y su <0>clave API</0>."
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -361,8 +324,7 @@ msgstr "Ingresa tu contraseña actual para cambiar la configuración del perfil"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entries to keep above the selected entry when scrolling"
-msgstr ""
-"Entradas para mantener encima de la entrada seleccionada al desplazarse"
+msgstr "Entradas para mantener encima de la entrada seleccionada al desplazarse"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
@@ -381,12 +343,8 @@ msgid "Expanded"
 msgstr "Expandido"
 
 #: src/components/settings/ProfileSettings.tsx
-msgid ""
-"Export your subscriptions and categories as an OPML file that can be imported "
-"in other feed reading services"
-msgstr ""
-"Exporta tus suscripciones y categorías como un archivo OPML que se puede impor"
-"tar en otros servicios de lectura de feeds"
+msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
+msgstr "Exporta tus suscripciones y categorías como un archivo OPML que se puede importar en otros servicios de lectura de feeds"
 
 #: src/components/header/Header.tsx
 #: src/pages/WelcomePage.tsx
@@ -460,25 +418,16 @@ msgid "Id"
 msgstr "Identificación"
 
 #: src/pages/app/FeedDetailsPage.tsx
-msgid ""
-"If not empty, an expression evaluating to 'true' or 'false'. If false, new ent"
-"ries for this feed will be marked as read automatically."
-msgstr ""
-"Si no está vacía, una expresión que se evalúa como \"verdadera\" o \"falso\". "
-"Si es falso, las nuevas entradas de este feed se marcarán como leídas automáti"
-"camente."
+msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
+msgstr "Si no está vacía, una expresión que se evalúa como \"verdadera\" o \"falso\". Si es falso, las nuevas entradas de este feed se marcarán como leídas automáticamente."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
 msgstr "Si la entrada no cabe completamente en la pantalla"
 
 #: src/pages/app/AboutPage.tsx
-msgid ""
-"If you encounter an issue, please report it on the issues page of the GitHub p"
-"roject."
-msgstr ""
-"Si encuentras un problema, informa sobre ello en la página de problemas del pr"
-"oyecto en GitHub."
+msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
+msgstr "Si encuentras un problema, informa sobre ello en la página de problemas del proyecto en GitHub."
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "Import"
@@ -486,8 +435,7 @@ msgstr "Importar"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "In expanded view, scrolling through entries mark them as read"
-msgstr ""
-"En la vista ampliada, al desplazarse por las entradas marcarlas como leídas"
+msgstr "En la vista ampliada, al desplazarse por las entradas marcarlas como leídas"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -663,9 +611,7 @@ msgstr "En dispositivos móviles"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
-msgstr ""
-"En dispositivos móviles, mostrar los botones de acción en la parte inferior de"
-" la pantalla"
+msgstr "En dispositivos móviles, mostrar los botones de acción en la parte inferior de la pantalla"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Only applies to compact, cozy and detailed modes"
@@ -967,26 +913,16 @@ msgid "Tags"
 msgstr "Etiquetas"
 
 #: src/components/content/add/Subscribe.tsx
-msgid ""
-"The URL for the feed you want to subscribe to. You can also use the website's "
-"url directly and CommaFeed will try to find the feed in the page."
-msgstr ""
-"La URL del feed al que desea suscribirse. También puede utilizar la URL del si"
-"tio web directamente y CommaFeed intentará encontrar el feed en la página."
+msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
+msgstr "La URL del feed al que desea suscribirse. También puede utilizar la URL del sitio web directamente y CommaFeed intentará encontrar el feed en la página."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
 msgstr "Tema"
 
 #: src/components/settings/ProfileSettings.tsx
-msgid ""
-"This is your API key. It can be used for some read-only API operations and gra"
-"nts access to the Fever API. Use the form at the bottom of the page to generat"
-"e a new API key"
-msgstr ""
-"Esta es su clave API. Se puede utilizar para algunas operaciones API de solo l"
-"ectura y otorga acceso a Fever API. Utilice el formulario en la parte inferior"
-" de la página para generar una nueva clave API"
+msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
+msgstr "Esta es su clave API. Se puede utilizar para algunas operaciones API de solo lectura y otorga acceso a Fever API. Utilice el formulario en la parte inferior de la página para generar una nueva clave API"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
@@ -1041,14 +977,9 @@ msgid "Website"
 msgstr "Sitio web"
 
 #: src/pages/app/FeedEntriesPage.tsx
-msgid ""
-"You don't have any subscriptions yet. Why not try adding one by clicking on th"
-"e + sign at the top of the page?"
-msgstr ""
-"Aún no tienes ninguna suscripción. ¿Por qué no intentas agregar una haciendo c"
-"lic en el signo + en la parte superior de la página?"
+msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
+msgstr "Aún no tienes ninguna suscripción. ¿Por qué no intentas agregar una haciendo clic en el signo + en la parte superior de la página?"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
 msgstr "Tus feeds se han puesto en cola para actualizarse."
-

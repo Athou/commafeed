@@ -11,12 +11,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.commafeed.backend.Digests;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.feed.parser.FeedParser;
 import com.commafeed.backend.urlprovider.FeedURLProvider;
-import com.google.gwt.thirdparty.guava.common.hash.Hashing;
 
 @ExtendWith(MockitoExtension.class)
 class FeedFetcherTest {
@@ -43,7 +43,7 @@ class FeedFetcherTest {
 		String lastModified = "last-modified-1";
 		String etag = "etag-1";
 		byte[] content = "content".getBytes();
-		String lastContentHash = Hashing.sha1().hashBytes(content).toString();
+		String lastContentHash = Digests.sha1Hex(content);
 
 		Mockito.when(getter.getBinary(url, lastModified, etag))
 				.thenReturn(new HttpResult(content, "content-type", "last-modified-2", "etag-2", null));

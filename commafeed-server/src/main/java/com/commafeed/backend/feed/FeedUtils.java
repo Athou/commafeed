@@ -16,11 +16,10 @@ import org.netpreserve.urlcanon.Canonicalizer;
 import org.netpreserve.urlcanon.ParsedUrl;
 
 import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
+import com.commafeed.backend.feed.parser.TextDirectionDetector;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.model.Entry;
-import com.google.gwt.i18n.client.HasDirection.Direction;
-import com.google.gwt.i18n.shared.BidiUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -109,8 +108,8 @@ public class FeedUtils {
 			return false;
 		}
 
-		Direction direction = BidiUtils.get().estimateDirection(text);
-		return direction == Direction.RTL;
+		TextDirectionDetector.Direction direction = TextDirectionDetector.detect(text);
+		return direction == TextDirectionDetector.Direction.RIGHT_TO_LEFT;
 	}
 
 	public static String removeTrailingSlash(String url) {

@@ -448,11 +448,6 @@
 			<version>0.4.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.gwtproject</groupId>
-			<artifactId>gwt-servlet</artifactId>
-			<version>2.11.0</version>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.httpcomponents.client5</groupId>
 			<artifactId>httpclient5</artifactId>
 			<version>5.3.1</version>

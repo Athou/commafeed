@@ -24,7 +24,7 @@ msgstr ""
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
-msgstr "<0>CLa sintaxis completa está disponible </0><1>aquí</1>."
+msgstr "<0>La sintaxis completa está disponible </0><1>aquí</1>."
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"

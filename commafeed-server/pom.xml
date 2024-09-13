@@ -163,6 +163,29 @@
 						<quarkus.datasource.db-kind>${build.database}</quarkus.datasource.db-kind>
 					</systemPropertyVariables>
 				</configuration>
+				<!-- failsafe plugin does not seem to be able to pick up dependencies declared in profiles -->
+				<dependencies>
+					<dependency>
+						<groupId>io.quarkus</groupId>
+						<artifactId>quarkus-jdbc-h2</artifactId>
+						<version>${quarkus.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>io.quarkus</groupId>
+						<artifactId>quarkus-jdbc-mysql</artifactId>
+						<version>${quarkus.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>io.quarkus</groupId>
+						<artifactId>quarkus-jdbc-mariadb</artifactId>
+						<version>${quarkus.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>io.quarkus</groupId>
+						<artifactId>quarkus-jdbc-postgresql</artifactId>
+						<version>${quarkus.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>io.github.git-commit-id</groupId>
@@ -322,22 +345,6 @@
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-liquibase</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-jdbc-h2</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-jdbc-mysql</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-jdbc-mariadb</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-jdbc-postgresql</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
@@ -522,24 +529,48 @@
 			<properties>
 				<build.database>h2</build.database>
 			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>io.quarkus</groupId>
+					<artifactId>quarkus-jdbc-h2</artifactId>
+				</dependency>
+			</dependencies>
 		</profile>
 		<profile>
 			<id>mysql</id>
 			<properties>
 				<build.database>mysql</build.database>
 			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>io.quarkus</groupId>
+					<artifactId>quarkus-jdbc-mysql</artifactId>
+				</dependency>
+			</dependencies>
 		</profile>
 		<profile>
 			<id>mariadb</id>
 			<properties>
 				<build.database>mariadb</build.database>
 			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>io.quarkus</groupId>
+					<artifactId>quarkus-jdbc-mariadb</artifactId>
+				</dependency>
+			</dependencies>
 		</profile>
 		<profile>
 			<id>postgresql</id>
 			<properties>
 				<build.database>postgresql</build.database>
 			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>io.quarkus</groupId>
+					<artifactId>quarkus-jdbc-postgresql</artifactId>
+				</dependency>
+			</dependencies>
 		</profile>
 	</profiles>
 </project>

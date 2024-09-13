@@ -1,11 +1,12 @@
 package com.commafeed.backend.feed.parser;
 
 import java.nio.charset.Charset;
-import java.util.Optional;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.mozilla.universalchardet.UniversalDetector;
+
+import com.ibm.icu.text.CharsetDetector;
+import com.ibm.icu.text.CharsetMatch;
 
 import jakarta.inject.Singleton;
 
@@ -52,10 +53,14 @@ class EncodingDetector {
 	 * Detect encoding by analyzing characters in the array
 	 */
 	private Charset detectEncoding(byte[] bytes) {
-		UniversalDetector detector = new UniversalDetector();
-		detector.handleData(bytes);
-		detector.dataEnd();
-		String encoding = Optional.ofNullable(detector.getDetectedCharset()).orElse("UTF-8");
+		String encoding = "UTF-8";
+
+		CharsetDetector detector = new CharsetDetector();
+		detector.setText(bytes);
+		CharsetMatch match = detector.detect();
+		if (match != null) {
+			encoding = match.getName();
+		}
 		if (encoding.equalsIgnoreCase("ISO-8859-1")) {
 			encoding = "windows-1252";
 		}

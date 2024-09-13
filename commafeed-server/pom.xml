@@ -297,6 +297,7 @@
 			<version>5.1.1</version>
 		</dependency>
 
+		<!-- compile-time processors -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -309,7 +310,14 @@
 			<version>1.11</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-extension-processor</artifactId>
+			<version>${quarkus.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
+		<!-- quarkus dependencies -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-arc</artifactId>
@@ -346,24 +354,17 @@
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-liquibase</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-extension-processor</artifactId>
-			<version>${quarkus.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>io.dropwizard.metrics</groupId>
 			<artifactId>metrics-json</artifactId>
 			<version>4.2.27</version>
 		</dependency>
-
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations</artifactId>
 			<version>${swagger.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>io.github.openfeign.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
@@ -376,7 +377,6 @@
 			<artifactId>querydsl-jpa</artifactId>
 			<version>${querydsl.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
@@ -407,7 +407,6 @@
 			<artifactId>passay</artifactId>
 			<version>1.6.5</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.rometools</groupId>
 			<artifactId>rome</artifactId>
@@ -423,7 +422,6 @@
 			<artifactId>rome-opml</artifactId>
 			<version>${rome.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.ahocorasick</groupId>
 			<artifactId>ahocorasick</artifactId>
@@ -465,13 +463,13 @@
 			<artifactId>dec</artifactId>
 			<version>0.1.2</version>
 		</dependency>
-
 		<dependency>
 			<groupId>io.github.hakky54</groupId>
 			<artifactId>sslcontext-kickstart-for-apache5</artifactId>
 			<version>8.3.6</version>
 		</dependency>
 
+		<!-- test dependencies -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-junit5-mockito</artifactId>
@@ -505,7 +503,6 @@
 			<version>0.10.2</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<profiles>

@@ -6,8 +6,12 @@ import java.util.Set;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 
+import com.commafeed.backend.feed.FeedUtils;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -20,6 +24,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FeedEntryContent extends AbstractModel {
+
+	public enum Direction {
+		ltr, rtl, unknown
+	}
 
 	@Column(length = 2048)
 	private String title;
@@ -58,6 +66,10 @@ public class FeedEntryContent extends AbstractModel {
 	@Column(length = 4096)
 	private String categories;
 
+	@Column
+	@Enumerated(EnumType.STRING)
+	private Direction direction = Direction.unknown;
+
 	@OneToMany(mappedBy = "content")
 	private Set<FeedEntry> entries;
 
@@ -79,4 +91,14 @@ public class FeedEntryContent extends AbstractModel {
 				.build();
 	}
 
+	public boolean isRTL() {
+		if (direction == Direction.rtl) {
+			return true;
+		} else if (direction == Direction.ltr) {
+			return false;
+		} else {
+			// detect on the fly for content that was inserted before the direction field was added
+			return FeedUtils.isRTL(title, content);
+		}
+	}
 }

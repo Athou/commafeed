@@ -10,4 +10,10 @@
 			</column>
 		</addColumn>
 	</changeSet>
+
+	<changeSet id="content-direction" author="athou">
+		<addColumn tableName="FEEDENTRYCONTENTS">
+			<column name="direction" type="varchar(16)" />
+		</addColumn>
+	</changeSet>
 </databaseChangeLog>

@@ -128,7 +128,7 @@ public class Entry implements Serializable {
 		entry.setTags(status.getTags().stream().map(FeedEntryTag::getName).toList());
 
 		if (content != null) {
-			entry.setRtl(FeedUtils.isRTL(feedEntry));
+			entry.setRtl(content.isRTL());
 			entry.setTitle(content.getTitle());
 			entry.setContent(proxyImages ? FeedUtils.proxyImages(content.getContent()) : content.getContent());
 			entry.setAuthor(content.getAuthor());

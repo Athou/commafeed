@@ -17,7 +17,6 @@ import org.netpreserve.urlcanon.ParsedUrl;
 
 import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
 import com.commafeed.backend.feed.parser.TextDirectionDetector;
-import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.model.Entry;
 
@@ -92,24 +91,18 @@ public class FeedUtils {
 		return normalized;
 	}
 
-	public static boolean isRTL(FeedEntry entry) {
-		String text = entry.getContent().getContent();
-
-		if (StringUtils.isBlank(text)) {
-			text = entry.getContent().getTitle();
-		}
-
+	public static boolean isRTL(String title, String content) {
+		String text = StringUtils.isNotBlank(content) ? content : title;
 		if (StringUtils.isBlank(text)) {
 			return false;
 		}
 
-		text = Jsoup.parse(text).text();
-		if (StringUtils.isBlank(text)) {
+		String stripped = Jsoup.parse(text).text();
+		if (StringUtils.isBlank(stripped)) {
 			return false;
 		}
 
-		TextDirectionDetector.Direction direction = TextDirectionDetector.detect(text);
-		return direction == TextDirectionDetector.Direction.RIGHT_TO_LEFT;
+		return TextDirectionDetector.detect(stripped) == TextDirectionDetector.Direction.RIGHT_TO_LEFT;
 	}
 
 	public static String removeTrailingSlash(String url) {

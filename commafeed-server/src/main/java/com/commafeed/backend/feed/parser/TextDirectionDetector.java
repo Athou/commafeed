@@ -1,7 +1,6 @@
 package com.commafeed.backend.feed.parser;
 
 import java.text.Bidi;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.math.NumberUtils;
@@ -22,8 +21,8 @@ public class TextDirectionDetector {
 			return Direction.LEFT_TO_RIGHT;
 		}
 
-		AtomicLong rtl = new AtomicLong();
-		AtomicLong total = new AtomicLong();
+		long rtl = 0;
+		long total = 0;
 		for (String token : WORDS_PATTERN.split(input)) {
 			// skip urls
 			if (URL_PATTERN.matcher(token).matches()) {
@@ -39,18 +38,18 @@ public class TextDirectionDetector {
 			if (requiresBidi) {
 				Bidi bidi = new Bidi(token, Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT);
 				if (bidi.getBaseLevel() == 1) {
-					rtl.incrementAndGet();
+					rtl++;
 				}
 			}
 
-			total.incrementAndGet();
+			total++;
 		}
 
-		if (total.longValue() == 0) {
+		if (total == 0) {
 			return Direction.LEFT_TO_RIGHT;
 		}
 
-		double ratio = rtl.doubleValue() / total.doubleValue();
+		double ratio = (double) rtl / total;
 		return ratio > RTL_THRESHOLD ? Direction.RIGHT_TO_LEFT : Direction.LEFT_TO_RIGHT;
 	}
 

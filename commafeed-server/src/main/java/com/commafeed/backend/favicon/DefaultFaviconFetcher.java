@@ -69,7 +69,7 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 		try {
 			url = FeedUtils.removeTrailingSlash(url) + "/favicon.ico";
 			log.debug("getting root icon at {}", url);
-			HttpResult result = getter.getBinary(url);
+			HttpResult result = getter.get(url);
 			bytes = result.getContent();
 			contentType = result.getContentType();
 		} catch (Exception e) {
@@ -87,7 +87,7 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 
 		Document doc;
 		try {
-			HttpResult result = getter.getBinary(url);
+			HttpResult result = getter.get(url);
 			doc = Jsoup.parse(new String(result.getContent()), url);
 		} catch (Exception e) {
 			log.debug("Failed to retrieve page to find icon");
@@ -113,7 +113,7 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 		byte[] bytes;
 		String contentType;
 		try {
-			HttpResult result = getter.getBinary(href);
+			HttpResult result = getter.get(href);
 			bytes = result.getContent();
 			contentType = result.getContentType();
 		} catch (Exception e) {

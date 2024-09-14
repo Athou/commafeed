@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.client5.http.config.ConnectionConfig;
@@ -31,14 +32,19 @@ import org.apache.hc.core5.util.Timeout;
 
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.CommaFeedConfiguration.HttpClientCache;
 import com.commafeed.CommaFeedVersion;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteStreams;
 import com.google.common.net.HttpHeaders;
 
 import jakarta.inject.Singleton;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import nl.altindag.ssl.SSLFactory;
 import nl.altindag.ssl.apache5.util.Apache5SslUtils;
@@ -52,6 +58,7 @@ public class HttpGetter {
 
 	private final CommaFeedConfiguration config;
 	private final CloseableHttpClient client;
+	private final Cache<HttpRequest, HttpResponse> cache;
 
 	public HttpGetter(CommaFeedConfiguration config, CommaFeedVersion version, MetricRegistry metrics) {
 		this.config = config;
@@ -62,42 +69,66 @@ public class HttpGetter {
 				.orElseGet(() -> String.format("CommaFeed/%s (https://github.com/Athou/commafeed)", version.getVersion()));
 
 		this.client = newClient(connectionManager, userAgent, config.httpClient().idleConnectionsEvictionInterval());
+		this.cache = newCache(config);
 
 		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "max"), () -> connectionManager.getTotalStats().getMax());
 		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "size"),
 				() -> connectionManager.getTotalStats().getAvailable() + connectionManager.getTotalStats().getLeased());
 		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "leased"), () -> connectionManager.getTotalStats().getLeased());
 		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "pending"), () -> connectionManager.getTotalStats().getPending());
+		metrics.registerGauge(MetricRegistry.name(getClass(), "cache", "size"), () -> cache == null ? 0 : cache.size());
+		metrics.registerGauge(MetricRegistry.name(getClass(), "cache", "memoryUsage"),
+				() -> cache == null ? 0 : cache.asMap().values().stream().mapToInt(e -> e.content != null ? e.content.length : 0).sum());
 	}
 
-	public HttpResult getBinary(String url) throws IOException, NotModifiedException {
-		return getBinary(url, null, null);
+	public HttpResult get(String url) throws IOException, NotModifiedException {
+		return get(HttpRequest.builder(url).build());
 	}
 
-	/**
-	 * @param url
-	 *            the url to retrive
-	 * @param lastModified
-	 *            header we got last time we queried that url, or null
-	 * @param eTag
-	 *            header we got last time we queried that url, or null
-	 * @throws NotModifiedException
-	 *             if the url hasn't changed since we asked for it last time
-	 */
-	public HttpResult getBinary(String url, String lastModified, String eTag) throws IOException, NotModifiedException {
-		log.debug("fetching {}", url);
+	public HttpResult get(HttpRequest request) throws IOException, NotModifiedException {
+		final HttpResponse response;
+		if (cache == null) {
+			response = invoke(request);
+		} else {
+			try {
+				response = cache.get(request, () -> invoke(request));
+			} catch (ExecutionException e) {
+				if (e.getCause() instanceof IOException ioe) {
+					throw ioe;
+				} else {
+					throw new RuntimeException(e);
+				}
+			}
+		}
 
-		ClassicHttpRequest request = ClassicRequestBuilder.get(url).build();
-		if (lastModified != null) {
-			request.addHeader(HttpHeaders.IF_MODIFIED_SINCE, lastModified);
+		int code = response.getCode();
+		if (code == HttpStatus.SC_NOT_MODIFIED) {
+			throw new NotModifiedException("'304 - not modified' http code received");
+		} else if (code >= 300) {
+			throw new HttpResponseException(code, "Server returned HTTP error code " + code);
 		}
-		if (eTag != null) {
-			request.addHeader(HttpHeaders.IF_NONE_MATCH, eTag);
+
+		String lastModifiedHeader = response.getLastModifiedHeader();
+		if (lastModifiedHeader != null && lastModifiedHeader.equals(request.getLastModified())) {
+			throw new NotModifiedException("lastModifiedHeader is the same");
 		}
+
+		String eTagHeader = response.getETagHeader();
+		if (eTagHeader != null && eTagHeader.equals(request.getETag())) {
+			throw new NotModifiedException("eTagHeader is the same");
+		}
+
+		return new HttpResult(response.getContent(), response.getContentType(), lastModifiedHeader, eTagHeader,
+				response.getUrlAfterRedirect());
+	}
+
+	private HttpResponse invoke(HttpRequest request) throws IOException {
+		log.debug("fetching {}", request.getUrl());
 
 		HttpClientContext context = HttpClientContext.create();
 		context.setRequestConfig(RequestConfig.custom().setResponseTimeout(Timeout.of(config.httpClient().responseTimeout())).build());
-		HttpResponse response = client.execute(request, context, resp -> {
+
+		return client.execute(request.toClassicHttpRequest(), context, resp -> {
 			byte[] content = resp.getEntity() == null ? null
 					: toByteArray(resp.getEntity(), config.httpClient().maxResponseSize().asLongValue());
 			int code = resp.getCode();
@@ -115,30 +146,10 @@ public class HttpGetter {
 					.map(RedirectLocations::getAll)
 					.map(l -> Iterables.getLast(l, null))
 					.map(URI::toString)
-					.orElse(url);
+					.orElse(request.getUrl());
 
 			return new HttpResponse(code, lastModifiedHeader, eTagHeader, content, contentType, urlAfterRedirect);
 		});
-
-		int code = response.getCode();
-		if (code == HttpStatus.SC_NOT_MODIFIED) {
-			throw new NotModifiedException("'304 - not modified' http code received");
-		} else if (code >= 300) {
-			throw new HttpResponseException(code, "Server returned HTTP error code " + code);
-		}
-
-		String lastModifiedHeader = response.getLastModifiedHeader();
-		if (lastModifiedHeader != null && lastModifiedHeader.equals(lastModified)) {
-			throw new NotModifiedException("lastModifiedHeader is the same");
-		}
-
-		String eTagHeader = response.getETagHeader();
-		if (eTagHeader != null && eTagHeader.equals(eTag)) {
-			throw new NotModifiedException("eTagHeader is the same");
-		}
-
-		return new HttpResult(response.getContent(), response.getContentType(), lastModifiedHeader, eTagHeader,
-				response.getUrlAfterRedirect());
 	}
 
 	private static byte[] toByteArray(HttpEntity entity, long maxBytes) throws IOException {
@@ -197,6 +208,19 @@ public class HttpGetter {
 				.build();
 	}
 
+	private static Cache<HttpRequest, HttpResponse> newCache(CommaFeedConfiguration config) {
+		HttpClientCache cacheConfig = config.httpClient().cache();
+		if (!cacheConfig.enabled()) {
+			return null;
+		}
+
+		return CacheBuilder.newBuilder()
+				.weigher((HttpRequest key, HttpResponse value) -> value.getContent() != null ? value.getContent().length : 0)
+				.maximumWeight(cacheConfig.maximumMemorySize().asLongValue())
+				.expireAfterWrite(cacheConfig.expiration())
+				.build();
+	}
+
 	@Getter
 	public static class NotModifiedException extends Exception {
 		private static final long serialVersionUID = 1L;
@@ -232,28 +256,49 @@ public class HttpGetter {
 			super(message);
 			this.code = code;
 		}
-
 	}
 
+	@Builder(builderMethodName = "")
+	@EqualsAndHashCode
 	@Getter
-	@RequiredArgsConstructor
+	public static class HttpRequest {
+		private String url;
+		private String lastModified;
+		private String eTag;
+
+		public static HttpRequestBuilder builder(String url) {
+			return new HttpRequestBuilder().url(url);
+		}
+
+		public ClassicHttpRequest toClassicHttpRequest() {
+			ClassicHttpRequest req = ClassicRequestBuilder.get(url).build();
+			if (lastModified != null) {
+				req.addHeader(HttpHeaders.IF_MODIFIED_SINCE, lastModified);
+			}
+			if (eTag != null) {
+				req.addHeader(HttpHeaders.IF_NONE_MATCH, eTag);
+			}
+			return req;
+		}
+	}
+
+	@Value
 	private static class HttpResponse {
-		private final int code;
-		private final String lastModifiedHeader;
-		private final String eTagHeader;
-		private final byte[] content;
-		private final String contentType;
-		private final String urlAfterRedirect;
+		int code;
+		String lastModifiedHeader;
+		String eTagHeader;
+		byte[] content;
+		String contentType;
+		String urlAfterRedirect;
 	}
 
-	@Getter
-	@RequiredArgsConstructor
+	@Value
 	public static class HttpResult {
-		private final byte[] content;
-		private final String contentType;
-		private final String lastModifiedSince;
-		private final String eTag;
-		private final String urlAfterRedirect;
+		byte[] content;
+		String contentType;
+		String lastModifiedSince;
+		String eTag;
+		String urlAfterRedirect;
 	}
 
 }

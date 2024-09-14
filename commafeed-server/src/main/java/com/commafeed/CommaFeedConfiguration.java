@@ -137,6 +137,33 @@ public interface CommaFeedConfiguration {
 		 */
 		@WithDefault("5M")
 		MemorySize maxResponseSize();
+
+		/**
+		 * HTTP client cache configuration
+		 */
+		@ConfigDocSection
+		HttpClientCache cache();
+	}
+
+	interface HttpClientCache {
+		/**
+		 * Whether to enable the cache. This cache is used to avoid spamming feeds too often (e.g. when subscribing to a feed for the first
+		 * time or when clicking "fetch all my feeds now").
+		 */
+		@WithDefault("true")
+		boolean enabled();
+
+		/**
+		 * Maximum amount of memory the cache can use.
+		 */
+		@WithDefault("10M")
+		MemorySize maximumMemorySize();
+
+		/**
+		 * Duration after which an entry is removed from the cache.
+		 */
+		@WithDefault("1m")
+		Duration expiration();
 	}
 
 	interface FeedRefresh {

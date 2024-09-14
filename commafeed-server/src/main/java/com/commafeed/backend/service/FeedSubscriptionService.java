@@ -40,9 +40,14 @@ public class FeedSubscriptionService {
 		this.feedRefreshEngine = feedRefreshEngine;
 		this.config = config;
 
-		// automatically refresh feeds after they are subscribed to
-		// we need to use this hook because the feed needs to have been persisted because the queue processing is asynchronous
-		feedSubscriptionDAO.onPostCommitInsert(sub -> feedRefreshEngine.refreshImmediately(sub.getFeed()));
+		// automatically refresh new feeds after they are subscribed to
+		// we need to use this hook because the feed needs to have been persisted before being processed by the feed engine
+		feedSubscriptionDAO.onPostCommitInsert(sub -> {
+			Feed feed = sub.getFeed();
+			if (feed.getDisabledUntil() == null || feed.getDisabledUntil().isBefore(Instant.now())) {
+				feedRefreshEngine.refreshImmediately(feed);
+			}
+		});
 	}
 
 	public long subscribe(User user, String url, String title) {

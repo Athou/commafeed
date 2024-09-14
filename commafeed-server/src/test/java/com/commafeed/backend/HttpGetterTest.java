@@ -68,6 +68,9 @@ class HttpGetterTest {
 		Mockito.when(config.httpClient().responseTimeout()).thenReturn(Duration.ofSeconds(30));
 		Mockito.when(config.httpClient().connectionTimeToLive()).thenReturn(Duration.ofSeconds(30));
 		Mockito.when(config.httpClient().maxResponseSize()).thenReturn(new MemorySize(new BigInteger("10000")));
+		Mockito.when(config.httpClient().cache().enabled()).thenReturn(true);
+		Mockito.when(config.httpClient().cache().maximumMemorySize()).thenReturn(new MemorySize(new BigInteger("100000")));
+		Mockito.when(config.httpClient().cache().expiration()).thenReturn(Duration.ofMinutes(1));
 		Mockito.when(config.feedRefresh().httpThreads()).thenReturn(3);
 
 		this.getter = new HttpGetter(config, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
@@ -79,7 +82,7 @@ class HttpGetterTest {
 	void errorCodes(int code) {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(HttpResponse.response().withStatusCode(code));
 
-		HttpResponseException e = Assertions.assertThrows(HttpResponseException.class, () -> getter.getBinary(this.feedUrl));
+		HttpResponseException e = Assertions.assertThrows(HttpResponseException.class, () -> getter.get(this.feedUrl));
 		Assertions.assertEquals(code, e.getCode());
 	}
 
@@ -92,7 +95,7 @@ class HttpGetterTest {
 						.withHeader(HttpHeaders.LAST_MODIFIED, "123456")
 						.withHeader(HttpHeaders.ETAG, "78910"));
 
-		HttpResult result = getter.getBinary(this.feedUrl);
+		HttpResult result = getter.get(this.feedUrl);
 		Assertions.assertArrayEquals(feedContent, result.getContent());
 		Assertions.assertEquals(MediaType.APPLICATION_ATOM_XML.toString(), result.getContentType());
 		Assertions.assertEquals("123456", result.getLastModifiedSince());
@@ -121,7 +124,7 @@ class HttpGetterTest {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withPath("/redirected-2"))
 				.respond(HttpResponse.response().withBody(feedContent).withContentType(MediaType.APPLICATION_ATOM_XML));
 
-		HttpResult result = getter.getBinary(this.feedUrl);
+		HttpResult result = getter.get(this.feedUrl);
 		Assertions.assertEquals("http://localhost:" + this.mockServerClient.getPort() + "/redirected-2", result.getUrlAfterRedirect());
 	}
 
@@ -133,7 +136,7 @@ class HttpGetterTest {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
 				.respond(HttpResponse.response().withDelay(Delay.milliseconds(1000)));
 
-		Assertions.assertThrows(SocketTimeoutException.class, () -> getter.getBinary(this.feedUrl));
+		Assertions.assertThrows(SocketTimeoutException.class, () -> getter.get(this.feedUrl));
 	}
 
 	@Test
@@ -142,7 +145,7 @@ class HttpGetterTest {
 		this.getter = new HttpGetter(config, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
 		// try to connect to a non-routable address
 		// https://stackoverflow.com/a/904609
-		Assertions.assertThrows(ConnectTimeoutException.class, () -> getter.getBinary("http://10.255.255.1"));
+		Assertions.assertThrows(ConnectTimeoutException.class, () -> getter.get("http://10.255.255.1"));
 	}
 
 	@Test
@@ -150,7 +153,7 @@ class HttpGetterTest {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.USER_AGENT, "http-getter-test"))
 				.respond(HttpResponse.response().withBody("ok"));
 
-		HttpResult result = getter.getBinary(this.feedUrl);
+		HttpResult result = getter.get(this.feedUrl);
 		Assertions.assertEquals("ok", new String(result.getContent()));
 	}
 
@@ -159,7 +162,8 @@ class HttpGetterTest {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.IF_MODIFIED_SINCE, "123456"))
 				.respond(HttpResponse.response().withStatusCode(HttpStatus.SC_NOT_MODIFIED));
 
-		Assertions.assertThrows(NotModifiedException.class, () -> getter.getBinary(this.feedUrl, "123456", null));
+		Assertions.assertThrows(NotModifiedException.class,
+				() -> getter.get(HttpGetter.HttpRequest.builder(this.feedUrl).lastModified("123456").build()));
 	}
 
 	@Test
@@ -167,7 +171,8 @@ class HttpGetterTest {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.IF_NONE_MATCH, "78910"))
 				.respond(HttpResponse.response().withStatusCode(HttpStatus.SC_NOT_MODIFIED));
 
-		Assertions.assertThrows(NotModifiedException.class, () -> getter.getBinary(this.feedUrl, null, "78910"));
+		Assertions.assertThrows(NotModifiedException.class,
+				() -> getter.get(HttpGetter.HttpRequest.builder(this.feedUrl).eTag("78910").build()));
 	}
 
 	@Test
@@ -184,9 +189,23 @@ class HttpGetterTest {
 			return HttpResponse.response().withBody("ok").withHeader(HttpHeaders.SET_COOKIE, "foo=bar");
 		});
 
-		Assertions.assertDoesNotThrow(() -> getter.getBinary(this.feedUrl));
-		Assertions.assertDoesNotThrow(() -> getter.getBinary(this.feedUrl));
+		Assertions.assertDoesNotThrow(() -> getter.get(this.feedUrl));
+		Assertions.assertDoesNotThrow(() -> getter.get(this.feedUrl + "?foo=bar"));
 		Assertions.assertEquals(2, calls.get());
+	}
+
+	@Test
+	void cacheSubsequentCalls() throws IOException, NotModifiedException {
+		AtomicInteger calls = new AtomicInteger();
+
+		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {
+			calls.incrementAndGet();
+			return HttpResponse.response().withBody("ok");
+		});
+
+		HttpResult result = getter.get(this.feedUrl);
+		Assertions.assertEquals(result, getter.get(this.feedUrl));
+		Assertions.assertEquals(1, calls.get());
 	}
 
 	@Test
@@ -195,7 +214,7 @@ class HttpGetterTest {
 		Arrays.fill(bytes, (byte) 1);
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(HttpResponse.response().withBody(bytes));
 
-		IOException e = Assertions.assertThrows(IOException.class, () -> getter.getBinary(this.feedUrl));
+		IOException e = Assertions.assertThrows(IOException.class, () -> getter.get(this.feedUrl));
 		Assertions.assertEquals("Response size (100000 bytes) exceeds the maximum allowed size (10000 bytes)", e.getMessage());
 	}
 
@@ -208,7 +227,7 @@ class HttpGetterTest {
 						.withBody(bytes)
 						.withConnectionOptions(ConnectionOptions.connectionOptions().withSuppressContentLengthHeader(true)));
 
-		IOException e = Assertions.assertThrows(IOException.class, () -> getter.getBinary(this.feedUrl));
+		IOException e = Assertions.assertThrows(IOException.class, () -> getter.get(this.feedUrl));
 		Assertions.assertEquals("Response size exceeds the maximum allowed size (10000 bytes)", e.getMessage());
 	}
 
@@ -216,7 +235,7 @@ class HttpGetterTest {
 	void ignoreInvalidSsl() throws Exception {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(HttpResponse.response().withBody("ok"));
 
-		HttpResult result = getter.getBinary("https://localhost:" + this.mockServerClient.getPort());
+		HttpResult result = getter.get("https://localhost:" + this.mockServerClient.getPort());
 		Assertions.assertEquals("ok", new String(result.getContent()));
 	}
 
@@ -251,7 +270,7 @@ class HttpGetterTest {
 				return HttpResponse.response().withBody(output.toByteArray()).withHeader(HttpHeaders.CONTENT_ENCODING, encoding);
 			});
 
-			HttpResult result = getter.getBinary(HttpGetterTest.this.feedUrl);
+			HttpResult result = getter.get(HttpGetterTest.this.feedUrl);
 			Assertions.assertEquals(body, new String(result.getContent()));
 		}
 

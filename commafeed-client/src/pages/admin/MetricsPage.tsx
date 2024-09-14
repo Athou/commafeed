@@ -23,6 +23,8 @@ const shownGauges: Record<string, string> = {
     "com.commafeed.backend.HttpGetter.pool.size": "HttpGetter current pool size",
     "com.commafeed.backend.HttpGetter.pool.leased": "HttpGetter active connections",
     "com.commafeed.backend.HttpGetter.pool.pending": "HttpGetter waiting for a connection",
+    "com.commafeed.backend.HttpGetter.cache.size": "HttpGetter cached entries",
+    "com.commafeed.backend.HttpGetter.cache.memoryUsage": "HttpGetter cache memory usage",
     "com.commafeed.frontend.ws.WebSocketSessions.users": "WebSocket users",
     "com.commafeed.frontend.ws.WebSocketSessions.sessions": "WebSocket sessions",
 }

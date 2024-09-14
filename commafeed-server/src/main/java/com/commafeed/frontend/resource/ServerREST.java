@@ -77,7 +77,7 @@ public class ServerREST {
 
 		url = FeedUtils.imageProxyDecoder(url);
 		try {
-			HttpResult result = httpGetter.getBinary(url);
+			HttpResult result = httpGetter.get(url);
 			return Response.ok(result.getContent()).build();
 		} catch (Exception e) {
 			return Response.status(Status.SERVICE_UNAVAILABLE).entity(e.getMessage()).build();

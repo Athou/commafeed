@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.HttpGetter;
+import com.commafeed.backend.HttpGetter.HttpRequest;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.feed.parser.FeedParser;
@@ -41,7 +42,7 @@ public class FeedFetcher {
 			Instant lastPublishedDate, String lastContentHash) throws FeedException, IOException, NotModifiedException {
 		log.debug("Fetching feed {}", feedUrl);
 
-		HttpResult result = getter.getBinary(feedUrl, lastModified, eTag);
+		HttpResult result = getter.get(HttpRequest.builder(feedUrl).lastModified(lastModified).eTag(eTag).build());
 		byte[] content = result.getContent();
 
 		FeedParserResult parserResult;
@@ -53,7 +54,7 @@ public class FeedFetcher {
 				if (org.apache.commons.lang3.StringUtils.isNotBlank(extractedUrl)) {
 					feedUrl = extractedUrl;
 
-					result = getter.getBinary(extractedUrl, lastModified, eTag);
+					result = getter.get(HttpRequest.builder(extractedUrl).lastModified(lastModified).eTag(eTag).build());
 					content = result.getContent();
 					parserResult = parser.parse(result.getUrlAfterRedirect(), content);
 				} else {

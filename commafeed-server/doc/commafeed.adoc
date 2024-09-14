@@ -250,6 +250,62 @@ endif::add-copy-button-to-env-var[]
 |MemorySize link:#memory-size-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the MemorySize format]]
 |`5M`
 
+h|[[commafeed-server_section_commafeed-http-client-cache]] [.section-name.section-level1]##HTTP client cache configuration##
+h|Type
+h|Default
+
+a| [[commafeed-server_commafeed-http-client-cache-enabled]] [.property-path]##`commafeed.http-client.cache.enabled`##
+
+[.description]
+--
+Whether to enable the cache. This cache is used to avoid spamming feeds too often (e.g. when subscribing to a feed for the first time or when clicking "fetch all my feeds now").
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++COMMAFEED_HTTP_CLIENT_CACHE_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++COMMAFEED_HTTP_CLIENT_CACHE_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`true`
+
+a| [[commafeed-server_commafeed-http-client-cache-maximum-memory-size]] [.property-path]##`commafeed.http-client.cache.maximum-memory-size`##
+
+[.description]
+--
+Maximum amount of memory the cache can use.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++COMMAFEED_HTTP_CLIENT_CACHE_MAXIMUM_MEMORY_SIZE+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++COMMAFEED_HTTP_CLIENT_CACHE_MAXIMUM_MEMORY_SIZE+++`
+endif::add-copy-button-to-env-var[]
+--
+|MemorySize link:#memory-size-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the MemorySize format]]
+|`10M`
+
+a| [[commafeed-server_commafeed-http-client-cache-expiration]] [.property-path]##`commafeed.http-client.cache.expiration`##
+
+[.description]
+--
+Duration after which an entry is removed from the cache.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++COMMAFEED_HTTP_CLIENT_CACHE_EXPIRATION+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++COMMAFEED_HTTP_CLIENT_CACHE_EXPIRATION+++`
+endif::add-copy-button-to-env-var[]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|`1M`
+
+
 
 h|[[commafeed-server_section_commafeed-feed-refresh]] [.section-name.section-level0]##Feed refresh engine settings##
 h|Type

@@ -147,8 +147,8 @@ public interface CommaFeedConfiguration {
 
 	interface HttpClientCache {
 		/**
-		 * Whether to enable the cache. This cache is used to avoid spamming feeds too often (e.g. when subscribing to a feed for the first
-		 * time or when clicking "fetch all my feeds now").
+		 * Whether to enable the cache. This cache is used to avoid spamming feeds in short bursts (e.g. when subscribing to a feed for the
+		 * first time or when clicking "fetch all my feeds now").
 		 */
 		@WithDefault("true")
 		boolean enabled();

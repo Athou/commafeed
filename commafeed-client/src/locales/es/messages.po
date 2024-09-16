@@ -801,7 +801,7 @@ msgstr "Compartir sitios"
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
-msgstr "Cambio"
+msgstr "Shift"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show CommaFeed's own context menu on right click"

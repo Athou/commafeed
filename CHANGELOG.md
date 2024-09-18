@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.2.0]
+
+- Added an option to keep a number of entries above the selected entry when scrolling
+- Added a cache to the HTTP client to reduce the number of requests made to feeds when subscribing (#1431)
+- Feeds are no longer refreshed between the moment its last user unsubscribes and the moment the feed is cleaned up (every hour)
+- Fixed an issue that could cause entries to not correctly load when using keyboard navigation (#1557)
+
 ## [5.1.1]
 
 - Fixed database migration issue when upgrading from 5.0.0 to 5.1.0 on MariaDB (#1544)

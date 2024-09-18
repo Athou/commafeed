@@ -128,28 +128,36 @@ export function FeedEntries() {
     }, [dispatch, entries, viewMode, scrollMarks, scrollingToEntry])
 
     useMousetrap("r", async () => await dispatch(reloadEntries()))
-    useMousetrap(
-        "j",
-        async () =>
-            await dispatch(
-                selectNextEntry({
-                    expand: true,
-                    markAsRead: true,
-                    scrollToEntry: true,
-                })
-            )
-    )
-    useMousetrap(
-        "n",
-        async () =>
-            await dispatch(
-                selectNextEntry({
-                    expand: false,
-                    markAsRead: false,
-                    scrollToEntry: true,
-                })
-            )
-    )
+    useMousetrap("j", async () => {
+        // load more entries if needed
+        // this can happen if the last entry is too large to fit on the screen and the infinite loader doesn't trigger
+        if (hasMore && !loading && selectedEntry === entries[entries.length - 1]) {
+            await dispatch(loadMoreEntries())
+        }
+
+        await dispatch(
+            selectNextEntry({
+                expand: true,
+                markAsRead: true,
+                scrollToEntry: true,
+            })
+        )
+    })
+    useMousetrap("n", async () => {
+        // load more entries if needed
+        // this can happen if the last entry is too large to fit on the screen and the infinite loader doesn't trigger
+        if (hasMore && !loading && selectedEntry === entries[entries.length - 1]) {
+            await dispatch(loadMoreEntries())
+        }
+
+        await dispatch(
+            selectNextEntry({
+                expand: false,
+                markAsRead: false,
+                scrollToEntry: true,
+            })
+        )
+    })
     useMousetrap(
         "k",
         async () =>

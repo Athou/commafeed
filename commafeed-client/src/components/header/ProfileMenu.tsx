@@ -15,6 +15,9 @@ import { redirectToAbout, redirectToAdminUsers, redirectToDonate, redirectToMetr
 import { useAppDispatch, useAppSelector } from "app/store"
 import type { ViewMode } from "app/types"
 import { setViewMode } from "app/user/slice"
+import { reloadProfile } from "app/user/thunks"
+import dayjs from "dayjs"
+import { useNow } from "hooks/useNow"
 import { type ReactNode, useState } from "react"
 import {
     TbChartLine,
@@ -92,11 +95,18 @@ const viewModeData: ViewModeControlItem[] = [
 
 export function ProfileMenu(props: ProfileMenuProps) {
     const [opened, setOpened] = useState(false)
+    const now = useNow()
     const profile = useAppSelector(state => state.user.profile)
     const admin = useAppSelector(state => state.user.profile?.admin)
     const viewMode = useAppSelector(state => state.user.localSettings.viewMode)
+    const forceRefreshCooldownDuration = useAppSelector(state => state.server.serverInfos?.forceRefreshCooldownDuration)
     const dispatch = useAppDispatch()
     const { colorScheme, setColorScheme } = useMantineColorScheme()
+
+    const nextAvailableForceRefresh = profile?.lastForceRefresh
+        ? profile.lastForceRefresh + (forceRefreshCooldownDuration ?? 0)
+        : now.getTime()
+    const forceRefreshEnabled = nextAvailableForceRefresh <= now.getTime()
 
     const logout = () => {
         window.location.href = "logout"
@@ -118,18 +128,24 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 </Menu.Item>
                 <Menu.Item
                     leftSection={<TbWorldDownload size={iconSize} />}
-                    onClick={async () =>
-                        await client.feed.refreshAll().then(() => {
-                            showNotification({
-                                message: <Trans>Your feeds have been queued for refresh.</Trans>,
-                                color: "green",
-                                autoClose: 1000,
-                            })
-                            setOpened(false)
+                    disabled={!forceRefreshEnabled}
+                    onClick={async () => {
+                        setOpened(false)
+
+                        await client.feed.refreshAll()
+
+                        // reload profile to update last force refresh timestamp
+                        await dispatch(reloadProfile())
+
+                        showNotification({
+                            message: <Trans>Your feeds have been queued for refresh.</Trans>,
+                            color: "green",
+                            autoClose: 1000,
                         })
-                    }
+                    }}
                 >
                     <Trans>Fetch all my feeds now</Trans>
+                    {!forceRefreshEnabled && <span> ({dayjs.duration(nextAvailableForceRefresh - now.getTime()).format("HH:mm:ss")})</span>}
                 </Menu.Item>
 
                 <Divider />

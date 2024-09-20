@@ -220,6 +220,7 @@ export interface ServerInfo {
     websocketEnabled: boolean
     websocketPingInterval: number
     treeReloadInterval: number
+    forceRefreshCooldownDuration: number
 }
 
 export interface SharingSettings {
@@ -287,6 +288,7 @@ export interface UserModel {
     created: number
     lastLogin?: number
     admin: boolean
+    lastForceRefresh?: number
 }
 
 export interface AdminSaveUserRequest {

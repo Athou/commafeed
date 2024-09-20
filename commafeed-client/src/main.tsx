@@ -6,11 +6,13 @@ import "react-contexify/ReactContexify.css"
 import { App } from "App"
 import { store } from "app/store"
 import dayjs from "dayjs"
+import duration from "dayjs/plugin/duration"
 import relativeTime from "dayjs/plugin/relativeTime"
 import ReactDOM from "react-dom/client"
 import { Provider } from "react-redux"
 
 dayjs.extend(relativeTime)
+dayjs.extend(duration)
 
 const root = document.getElementById("root")
 root &&

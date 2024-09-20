@@ -98,12 +98,19 @@ public class FeedSubscriptionService {
 		}
 	}
 
-	public void refreshAll(User user) {
+	public void refreshAll(User user) throws ForceFeedRefreshTooSoonException {
+		Instant lastForceRefresh = user.getLastForceRefresh();
+		if (lastForceRefresh != null && lastForceRefresh.plus(config.feedRefresh().forceRefreshCooldownDuration()).isAfter(Instant.now())) {
+			throw new ForceFeedRefreshTooSoonException();
+		}
+
 		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 		for (FeedSubscription sub : subs) {
 			Feed feed = sub.getFeed();
 			feedRefreshEngine.refreshImmediately(feed);
 		}
+
+		user.setLastForceRefresh(Instant.now());
 	}
 
 	public void refreshAllUpForRefresh(User user) {
@@ -127,6 +134,13 @@ public class FeedSubscriptionService {
 	public static class FeedSubscriptionException extends RuntimeException {
 		private FeedSubscriptionException(String msg) {
 			super(msg);
+		}
+	}
+
+	@SuppressWarnings("serial")
+	public static class ForceFeedRefreshTooSoonException extends Exception {
+		private ForceFeedRefreshTooSoonException() {
+			super();
 		}
 	}
 

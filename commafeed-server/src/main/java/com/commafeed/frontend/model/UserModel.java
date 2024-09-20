@@ -41,4 +41,7 @@ public class UserModel implements Serializable {
 	@Schema(description = "user is admin", requiredMode = RequiredMode.REQUIRED)
 	private boolean admin;
 
+	@Schema(description = "user last force refresh", type = "number")
+	private Instant lastForceRefresh;
+
 }

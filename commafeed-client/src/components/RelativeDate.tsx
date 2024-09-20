@@ -2,14 +2,10 @@ import { Trans } from "@lingui/macro"
 import { Tooltip } from "@mantine/core"
 import { Constants } from "app/constants"
 import dayjs from "dayjs"
-import { useEffect, useState } from "react"
+import { useNow } from "hooks/useNow"
 
 export function RelativeDate(props: { date: Date | number | undefined }) {
-    const [now, setNow] = useState(new Date())
-    useEffect(() => {
-        const interval = setInterval(() => setNow(new Date()), 60 * 1000)
-        return () => clearInterval(interval)
-    }, [])
+    const now = useNow(60 * 1000)
 
     if (!props.date) return <Trans>N/A</Trans>
     const date = dayjs(props.date)

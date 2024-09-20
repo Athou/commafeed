@@ -18,7 +18,8 @@ public class JacksonCustomizer implements ObjectMapperCustomizer {
 		objectMapper.registerModule(new JavaTimeModule());
 
 		// read and write instants as milliseconds instead of nanoseconds
-		objectMapper.configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false)
+		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true)
+				.configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false)
 				.configure(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
 
 		// add support for serializing metrics

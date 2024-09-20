@@ -52,4 +52,7 @@ public class User extends AbstractModel {
 
 	@Column
 	private Instant recoverPasswordTokenDate;
+
+	@Column
+	private Instant lastForceRefresh;
 }

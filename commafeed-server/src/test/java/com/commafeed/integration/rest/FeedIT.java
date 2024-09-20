@@ -183,11 +183,13 @@ class FeedIT extends BaseIT {
 
 			// mariadb/mysql timestamp precision is 1 second
 			Instant threshold = Instant.now().minus(Duration.ofSeconds(1));
-			forceRefreshAllFeeds();
+			Assertions.assertEquals(HttpStatus.SC_OK, forceRefreshAllFeeds());
 
 			Awaitility.await()
 					.atMost(Duration.ofSeconds(15))
 					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().isAfter(threshold));
+
+			Assertions.assertEquals(HttpStatus.SC_TOO_MANY_REQUESTS, forceRefreshAllFeeds());
 		}
 	}
 

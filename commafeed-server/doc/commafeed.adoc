@@ -413,6 +413,23 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`500MS`
 
+a| [[commafeed-server_commafeed-feed-refresh-force-refresh-cooldown-duration]] [.property-path]##`commafeed.feed-refresh.force-refresh-cooldown-duration`##
+
+[.description]
+--
+Duration after which the "Fetch all my feeds now" action is available again after use to avoid spamming feeds. 0 to disable.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++COMMAFEED_FEED_REFRESH_FORCE_REFRESH_COOLDOWN_DURATION+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++COMMAFEED_FEED_REFRESH_FORCE_REFRESH_COOLDOWN_DURATION+++`
+endif::add-copy-button-to-env-var[]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
+|`1M`
+
 
 h|[[commafeed-server_section_commafeed-database]] [.section-name.section-level0]##Database settings##
 h|Type

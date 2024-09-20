@@ -10,6 +10,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.hc.core5.http.HttpStatus;
 import org.jboss.resteasy.reactive.Cache;
 import org.jboss.resteasy.reactive.RestForm;
 
@@ -40,6 +41,7 @@ import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterEx
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedService;
 import com.commafeed.backend.service.FeedSubscriptionService;
+import com.commafeed.backend.service.FeedSubscriptionService.ForceFeedRefreshTooSoonException;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.FeedInfo;
@@ -276,8 +278,13 @@ public class FeedREST {
 	@Operation(summary = "Queue all feeds of the user for refresh", description = "Manually add all feeds of the user to the refresh queue")
 	public Response queueAllForRefresh() {
 		User user = authenticationContext.getCurrentUser();
-		feedSubscriptionService.refreshAll(user);
-		return Response.ok().build();
+		try {
+			feedSubscriptionService.refreshAll(user);
+			return Response.ok().build();
+		} catch (ForceFeedRefreshTooSoonException e) {
+			return Response.status(HttpStatus.SC_TOO_MANY_REQUESTS).build();
+		}
+
 	}
 
 	@Path("/refresh")

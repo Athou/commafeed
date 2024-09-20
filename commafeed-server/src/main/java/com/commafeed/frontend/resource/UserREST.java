@@ -212,6 +212,7 @@ public class UserREST {
 		userModel.setEmail(user.getEmail());
 		userModel.setEnabled(!user.isDisabled());
 		userModel.setApiKey(user.getApiKey());
+		userModel.setLastForceRefresh(user.getLastForceRefresh());
 		for (UserRole role : userRoleDAO.findAll(user)) {
 			if (role.getRole() == Role.ADMIN) {
 				userModel.setAdmin(true);

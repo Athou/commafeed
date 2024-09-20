@@ -43,4 +43,7 @@ public class ServerInfo implements Serializable {
 	@Schema(requiredMode = RequiredMode.REQUIRED)
 	private long treeReloadInterval;
 
+	@Schema(requiredMode = RequiredMode.REQUIRED)
+	private long forceRefreshCooldownDuration;
+
 }

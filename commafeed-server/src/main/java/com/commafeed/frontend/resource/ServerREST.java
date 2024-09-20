@@ -61,6 +61,7 @@ public class ServerREST {
 		infos.setWebsocketEnabled(config.websocket().enabled());
 		infos.setWebsocketPingInterval(config.websocket().pingInterval().toMillis());
 		infos.setTreeReloadInterval(config.websocket().treeReloadInterval().toMillis());
+		infos.setForceRefreshCooldownDuration(config.feedRefresh().forceRefreshCooldownDuration().toMillis());
 		return Response.ok(infos).build();
 	}
 

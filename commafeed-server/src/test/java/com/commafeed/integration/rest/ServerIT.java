@@ -21,6 +21,7 @@ class ServerIT extends BaseIT {
 		Assertions.assertTrue(serverInfos.isWebsocketEnabled());
 		Assertions.assertEquals(900000, serverInfos.getWebsocketPingInterval());
 		Assertions.assertEquals(30000, serverInfos.getTreeReloadInterval());
+		Assertions.assertEquals(60000, serverInfos.getForceRefreshCooldownDuration());
 
 	}
 }

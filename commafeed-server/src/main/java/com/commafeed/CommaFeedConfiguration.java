@@ -209,6 +209,14 @@ public interface CommaFeedConfiguration {
 		 */
 		@WithDefault("500ms")
 		Duration filteringExpressionEvaluationTimeout();
+
+		/**
+		 * Duration after which the "Fetch all my feeds now" action is available again after use to avoid spamming feeds.
+		 *
+		 * 0 to disable.
+		 */
+		@WithDefault("1m")
+		Duration forceRefreshCooldownDuration();
 	}
 
 	interface Database {

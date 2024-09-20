@@ -125,7 +125,7 @@ public abstract class BaseIT {
 				.as(Entries.class);
 	}
 
-	protected void forceRefreshAllFeeds() {
-		RestAssured.given().get("rest/feed/refreshAll").then().statusCode(HttpStatus.SC_OK);
+	protected int forceRefreshAllFeeds() {
+		return RestAssured.given().get("rest/feed/refreshAll").then().extract().statusCode();
 	}
 }

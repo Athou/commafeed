@@ -212,10 +212,8 @@ public interface CommaFeedConfiguration {
 
 		/**
 		 * Duration after which the "Fetch all my feeds now" action is available again after use to avoid spamming feeds.
-		 *
-		 * 0 to disable.
 		 */
-		@WithDefault("1m")
+		@WithDefault("0")
 		Duration forceRefreshCooldownDuration();
 	}
 

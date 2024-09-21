@@ -376,6 +376,10 @@ msgstr ""
 msgid "Filtering expression"
 msgstr "Wyrażenie filtrujące"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "Force fetching feeds is not yet available."
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
 msgstr "Zapomniałeś hasła?"

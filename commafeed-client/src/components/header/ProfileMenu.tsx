@@ -132,16 +132,24 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     onClick={async () => {
                         setOpened(false)
 
-                        await client.feed.refreshAll()
+                        try {
+                            await client.feed.refreshAll()
 
-                        // reload profile to update last force refresh timestamp
-                        await dispatch(reloadProfile())
+                            // reload profile to update last force refresh timestamp
+                            await dispatch(reloadProfile())
 
-                        showNotification({
-                            message: <Trans>Your feeds have been queued for refresh.</Trans>,
-                            color: "green",
-                            autoClose: 1000,
-                        })
+                            showNotification({
+                                message: <Trans>Your feeds have been queued for refresh.</Trans>,
+                                color: "green",
+                                autoClose: 1000,
+                            })
+                        } catch (error) {
+                            showNotification({
+                                message: <Trans>Force fetching feeds is not yet available.</Trans>,
+                                color: "red",
+                                autoClose: 2000,
+                            })
+                        }
                     }}
                 >
                     <Trans>Fetch all my feeds now</Trans>

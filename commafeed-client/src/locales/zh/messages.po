@@ -376,6 +376,10 @@ msgstr "Fever API 网址"
 msgid "Filtering expression"
 msgstr "过滤表达式"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "Force fetching feeds is not yet available."
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
 msgstr "忘记密码？"

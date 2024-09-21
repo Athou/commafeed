@@ -376,6 +376,10 @@ msgstr "Fever API URL"
 msgid "Filtering expression"
 msgstr "Filtering expression"
 
+#: src/components/header/ProfileMenu.tsx
+msgid "Force fetching feeds is not yet available."
+msgstr "Force fetching feeds is not yet available."
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
 msgstr "Forgot password?"

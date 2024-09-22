@@ -176,7 +176,7 @@ public class HttpGetter {
 
 		int poolSize = config.feedRefresh().httpThreads();
 		return PoolingHttpClientConnectionManagerBuilder.create()
-				.setSSLSocketFactory(Apache5SslUtils.toSocketFactory(sslFactory))
+				.setTlsSocketStrategy(Apache5SslUtils.toTlsSocketStrategy(sslFactory))
 				.setDefaultConnectionConfig(ConnectionConfig.custom()
 						.setConnectTimeout(Timeout.of(config.httpClient().connectTimeout()))
 						.setSocketTimeout(Timeout.of(config.httpClient().socketTimeout()))

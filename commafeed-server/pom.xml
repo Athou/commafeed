@@ -450,7 +450,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents.client5</groupId>
 			<artifactId>httpclient5</artifactId>
-			<version>5.3.1</version>
+			<version>5.4</version>
 		</dependency>
 		<!-- add brotli support for httpclient5 -->
 		<dependency>
@@ -461,7 +461,7 @@
 		<dependency>
 			<groupId>io.github.hakky54</groupId>
 			<artifactId>sslcontext-kickstart-for-apache5</artifactId>
-			<version>8.3.6</version>
+			<version>8.3.7</version>
 		</dependency>
 
 		<!-- test dependencies -->

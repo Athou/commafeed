@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.3.0]
+
+- Added a setting to set a cooldown on the "fetch all my feeds" action, disabled by default (#1556)
+- Fixed an issue that could cause entries to not correctly load when using the "next" header button (#1557)
+
 ## [5.2.0]
 
 - Added an option to keep a number of entries above the selected entry when scrolling

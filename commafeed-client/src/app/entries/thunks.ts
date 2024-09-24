@@ -230,7 +230,7 @@ export const selectPreviousEntry = createAppAsyncThunk(
 )
 export const selectNextEntry = createAppAsyncThunk(
     "entries/entry/selectNext",
-    (
+    async (
         arg: {
             expand: boolean
             markAsRead: boolean
@@ -239,12 +239,20 @@ export const selectNextEntry = createAppAsyncThunk(
         thunkApi
     ) => {
         const state = thunkApi.getState()
-        const { entries } = state.entries
+        const { entries, hasMore, loading } = state.entries
         const nextIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) + 1
-        if (nextIndex < entries.length) {
+
+        // load more entries if needed
+        // this can happen if the last entry is too large to fit on the screen and the infinite loader doesn't trigger
+        if (nextIndex >= entries.length && hasMore && !loading) {
+            await thunkApi.dispatch(loadMoreEntries())
+        }
+
+        const entriesAfterLoading = thunkApi.getState().entries.entries
+        if (nextIndex < entriesAfterLoading.length) {
             thunkApi.dispatch(
                 selectEntry({
-                    entry: entries[nextIndex],
+                    entry: entriesAfterLoading[nextIndex],
                     expand: arg.expand,
                     markAsRead: arg.markAsRead,
                     scrollToEntry: arg.scrollToEntry,

@@ -8,7 +8,7 @@ h|[.header-title]##Configuration property##
 h|Type
 h|Default
 
-a| [[commafeed-server_commafeed-hide-from-web-crawlers]] [.property-path]##`commafeed.hide-from-web-crawlers`##
+a| [[commafeed-server_commafeed-hide-from-web-crawlers]] [.property-path]##link:#commafeed-server_commafeed-hide-from-web-crawlers[`commafeed.hide-from-web-crawlers`]##
 
 [.description]
 --
@@ -25,7 +25,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`true`
 
-a| [[commafeed-server_commafeed-image-proxy-enabled]] [.property-path]##`commafeed.image-proxy-enabled`##
+a| [[commafeed-server_commafeed-image-proxy-enabled]] [.property-path]##link:#commafeed-server_commafeed-image-proxy-enabled[`commafeed.image-proxy-enabled`]##
 
 [.description]
 --
@@ -42,7 +42,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`false`
 
-a| [[commafeed-server_commafeed-password-recovery-enabled]] [.property-path]##`commafeed.password-recovery-enabled`##
+a| [[commafeed-server_commafeed-password-recovery-enabled]] [.property-path]##link:#commafeed-server_commafeed-password-recovery-enabled[`commafeed.password-recovery-enabled`]##
 
 [.description]
 --
@@ -59,7 +59,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`false`
 
-a| [[commafeed-server_commafeed-announcement]] [.property-path]##`commafeed.announcement`##
+a| [[commafeed-server_commafeed-announcement]] [.property-path]##link:#commafeed-server_commafeed-announcement[`commafeed.announcement`]##
 
 [.description]
 --
@@ -76,7 +76,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |
 
-a| [[commafeed-server_commafeed-google-analytics-tracking-code]] [.property-path]##`commafeed.google-analytics-tracking-code`##
+a| [[commafeed-server_commafeed-google-analytics-tracking-code]] [.property-path]##link:#commafeed-server_commafeed-google-analytics-tracking-code[`commafeed.google-analytics-tracking-code`]##
 
 [.description]
 --
@@ -93,7 +93,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |
 
-a| [[commafeed-server_commafeed-google-auth-key]] [.property-path]##`commafeed.google-auth-key`##
+a| [[commafeed-server_commafeed-google-auth-key]] [.property-path]##link:#commafeed-server_commafeed-google-auth-key[`commafeed.google-auth-key`]##
 
 [.description]
 --
@@ -110,11 +110,11 @@ endif::add-copy-button-to-env-var[]
 |string
 |
 
-h|[[commafeed-server_section_commafeed-http-client]] [.section-name.section-level0]##HTTP client configuration##
+h|[[commafeed-server_section_commafeed-http-client]] [.section-name.section-level0]##link:#commafeed-server_section_commafeed-http-client[HTTP client configuration]##
 h|Type
 h|Default
 
-a| [[commafeed-server_commafeed-http-client-user-agent]] [.property-path]##`commafeed.http-client.user-agent`##
+a| [[commafeed-server_commafeed-http-client-user-agent]] [.property-path]##link:#commafeed-server_commafeed-http-client-user-agent[`commafeed.http-client.user-agent`]##
 
 [.description]
 --
@@ -131,7 +131,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |
 
-a| [[commafeed-server_commafeed-http-client-connect-timeout]] [.property-path]##`commafeed.http-client.connect-timeout`##
+a| [[commafeed-server_commafeed-http-client-connect-timeout]] [.property-path]##link:#commafeed-server_commafeed-http-client-connect-timeout[`commafeed.http-client.connect-timeout`]##
 
 [.description]
 --
@@ -148,7 +148,7 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`5S`
 
-a| [[commafeed-server_commafeed-http-client-ssl-handshake-timeout]] [.property-path]##`commafeed.http-client.ssl-handshake-timeout`##
+a| [[commafeed-server_commafeed-http-client-ssl-handshake-timeout]] [.property-path]##link:#commafeed-server_commafeed-http-client-ssl-handshake-timeout[`commafeed.http-client.ssl-handshake-timeout`]##
 
 [.description]
 --
@@ -165,7 +165,7 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`5S`
 
-a| [[commafeed-server_commafeed-http-client-socket-timeout]] [.property-path]##`commafeed.http-client.socket-timeout`##
+a| [[commafeed-server_commafeed-http-client-socket-timeout]] [.property-path]##link:#commafeed-server_commafeed-http-client-socket-timeout[`commafeed.http-client.socket-timeout`]##
 
 [.description]
 --
@@ -182,7 +182,7 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`10S`
 
-a| [[commafeed-server_commafeed-http-client-response-timeout]] [.property-path]##`commafeed.http-client.response-timeout`##
+a| [[commafeed-server_commafeed-http-client-response-timeout]] [.property-path]##link:#commafeed-server_commafeed-http-client-response-timeout[`commafeed.http-client.response-timeout`]##
 
 [.description]
 --
@@ -199,7 +199,7 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`10S`
 
-a| [[commafeed-server_commafeed-http-client-connection-time-to-live]] [.property-path]##`commafeed.http-client.connection-time-to-live`##
+a| [[commafeed-server_commafeed-http-client-connection-time-to-live]] [.property-path]##link:#commafeed-server_commafeed-http-client-connection-time-to-live[`commafeed.http-client.connection-time-to-live`]##
 
 [.description]
 --
@@ -216,7 +216,7 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`30S`
 
-a| [[commafeed-server_commafeed-http-client-idle-connections-eviction-interval]] [.property-path]##`commafeed.http-client.idle-connections-eviction-interval`##
+a| [[commafeed-server_commafeed-http-client-idle-connections-eviction-interval]] [.property-path]##link:#commafeed-server_commafeed-http-client-idle-connections-eviction-interval[`commafeed.http-client.idle-connections-eviction-interval`]##
 
 [.description]
 --
@@ -233,7 +233,7 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`1M`
 
-a| [[commafeed-server_commafeed-http-client-max-response-size]] [.property-path]##`commafeed.http-client.max-response-size`##
+a| [[commafeed-server_commafeed-http-client-max-response-size]] [.property-path]##link:#commafeed-server_commafeed-http-client-max-response-size[`commafeed.http-client.max-response-size`]##
 
 [.description]
 --
@@ -250,11 +250,11 @@ endif::add-copy-button-to-env-var[]
 |MemorySize link:#memory-size-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the MemorySize format]]
 |`5M`
 
-h|[[commafeed-server_section_commafeed-http-client-cache]] [.section-name.section-level1]##HTTP client cache configuration##
+h|[[commafeed-server_section_commafeed-http-client-cache]] [.section-name.section-level1]##link:#commafeed-server_section_commafeed-http-client-cache[HTTP client cache configuration]##
 h|Type
 h|Default
 
-a| [[commafeed-server_commafeed-http-client-cache-enabled]] [.property-path]##`commafeed.http-client.cache.enabled`##
+a| [[commafeed-server_commafeed-http-client-cache-enabled]] [.property-path]##link:#commafeed-server_commafeed-http-client-cache-enabled[`commafeed.http-client.cache.enabled`]##
 
 [.description]
 --
@@ -271,7 +271,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`true`
 
-a| [[commafeed-server_commafeed-http-client-cache-maximum-memory-size]] [.property-path]##`commafeed.http-client.cache.maximum-memory-size`##
+a| [[commafeed-server_commafeed-http-client-cache-maximum-memory-size]] [.property-path]##link:#commafeed-server_commafeed-http-client-cache-maximum-memory-size[`commafeed.http-client.cache.maximum-memory-size`]##
 
 [.description]
 --
@@ -288,7 +288,7 @@ endif::add-copy-button-to-env-var[]
 |MemorySize link:#memory-size-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the MemorySize format]]
 |`10M`
 
-a| [[commafeed-server_commafeed-http-client-cache-expiration]] [.property-path]##`commafeed.http-client.cache.expiration`##
+a| [[commafeed-server_commafeed-http-client-cache-expiration]] [.property-path]##link:#commafeed-server_commafeed-http-client-cache-expiration[`commafeed.http-client.cache.expiration`]##
 
 [.description]
 --
@@ -307,11 +307,11 @@ endif::add-copy-button-to-env-var[]
 
 
 
-h|[[commafeed-server_section_commafeed-feed-refresh]] [.section-name.section-level0]##Feed refresh engine settings##
+h|[[commafeed-server_section_commafeed-feed-refresh]] [.section-name.section-level0]##link:#commafeed-server_section_commafeed-feed-refresh[Feed refresh engine settings]##
 h|Type
 h|Default
 
-a| [[commafeed-server_commafeed-feed-refresh-interval]] [.property-path]##`commafeed.feed-refresh.interval`##
+a| [[commafeed-server_commafeed-feed-refresh-interval]] [.property-path]##link:#commafeed-server_commafeed-feed-refresh-interval[`commafeed.feed-refresh.interval`]##
 
 [.description]
 --
@@ -328,7 +328,7 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`5M`
 
-a| [[commafeed-server_commafeed-feed-refresh-interval-empirical]] [.property-path]##`commafeed.feed-refresh.interval-empirical`##
+a| [[commafeed-server_commafeed-feed-refresh-interval-empirical]] [.property-path]##link:#commafeed-server_commafeed-feed-refresh-interval-empirical[`commafeed.feed-refresh.interval-empirical`]##
 
 [.description]
 --
@@ -345,7 +345,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`false`
 
-a| [[commafeed-server_commafeed-feed-refresh-http-threads]] [.property-path]##`commafeed.feed-refresh.http-threads`##
+a| [[commafeed-server_commafeed-feed-refresh-http-threads]] [.property-path]##link:#commafeed-server_commafeed-feed-refresh-http-threads[`commafeed.feed-refresh.http-threads`]##
 
 [.description]
 --
@@ -362,7 +362,7 @@ endif::add-copy-button-to-env-var[]
 |int
 |`3`
 
-a| [[commafeed-server_commafeed-feed-refresh-database-threads]] [.property-path]##`commafeed.feed-refresh.database-threads`##
+a| [[commafeed-server_commafeed-feed-refresh-database-threads]] [.property-path]##link:#commafeed-server_commafeed-feed-refresh-database-threads[`commafeed.feed-refresh.database-threads`]##
 
 [.description]
 --
@@ -379,7 +379,7 @@ endif::add-copy-button-to-env-var[]
 |int
 |`1`
 
-a| [[commafeed-server_commafeed-feed-refresh-user-inactivity-period]] [.property-path]##`commafeed.feed-refresh.user-inactivity-period`##
+a| [[commafeed-server_commafeed-feed-refresh-user-inactivity-period]] [.property-path]##link:#commafeed-server_commafeed-feed-refresh-user-inactivity-period[`commafeed.feed-refresh.user-inactivity-period`]##
 
 [.description]
 --
@@ -396,7 +396,7 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`0S`
 
-a| [[commafeed-server_commafeed-feed-refresh-filtering-expression-evaluation-timeout]] [.property-path]##`commafeed.feed-refresh.filtering-expression-evaluation-timeout`##
+a| [[commafeed-server_commafeed-feed-refresh-filtering-expression-evaluation-timeout]] [.property-path]##link:#commafeed-server_commafeed-feed-refresh-filtering-expression-evaluation-timeout[`commafeed.feed-refresh.filtering-expression-evaluation-timeout`]##
 
 [.description]
 --
@@ -413,7 +413,7 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`500MS`
 
-a| [[commafeed-server_commafeed-feed-refresh-force-refresh-cooldown-duration]] [.property-path]##`commafeed.feed-refresh.force-refresh-cooldown-duration`##
+a| [[commafeed-server_commafeed-feed-refresh-force-refresh-cooldown-duration]] [.property-path]##link:#commafeed-server_commafeed-feed-refresh-force-refresh-cooldown-duration[`commafeed.feed-refresh.force-refresh-cooldown-duration`]##
 
 [.description]
 --
@@ -431,11 +431,11 @@ endif::add-copy-button-to-env-var[]
 |`0S`
 
 
-h|[[commafeed-server_section_commafeed-database]] [.section-name.section-level0]##Database settings##
+h|[[commafeed-server_section_commafeed-database]] [.section-name.section-level0]##link:#commafeed-server_section_commafeed-database[Database settings]##
 h|Type
 h|Default
 
-a| [[commafeed-server_commafeed-database-query-timeout]] [.property-path]##`commafeed.database.query-timeout`##
+a| [[commafeed-server_commafeed-database-query-timeout]] [.property-path]##link:#commafeed-server_commafeed-database-query-timeout[`commafeed.database.query-timeout`]##
 
 [.description]
 --
@@ -452,11 +452,11 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`0S`
 
-h|[[commafeed-server_section_commafeed-database-cleanup]] [.section-name.section-level1]##Database cleanup settings##
+h|[[commafeed-server_section_commafeed-database-cleanup]] [.section-name.section-level1]##link:#commafeed-server_section_commafeed-database-cleanup[Database cleanup settings]##
 h|Type
 h|Default
 
-a| [[commafeed-server_commafeed-database-cleanup-entries-max-age]] [.property-path]##`commafeed.database.cleanup.entries-max-age`##
+a| [[commafeed-server_commafeed-database-cleanup-entries-max-age]] [.property-path]##link:#commafeed-server_commafeed-database-cleanup-entries-max-age[`commafeed.database.cleanup.entries-max-age`]##
 
 [.description]
 --
@@ -473,7 +473,7 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`365D`
 
-a| [[commafeed-server_commafeed-database-cleanup-statuses-max-age]] [.property-path]##`commafeed.database.cleanup.statuses-max-age`##
+a| [[commafeed-server_commafeed-database-cleanup-statuses-max-age]] [.property-path]##link:#commafeed-server_commafeed-database-cleanup-statuses-max-age[`commafeed.database.cleanup.statuses-max-age`]##
 
 [.description]
 --
@@ -490,7 +490,7 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`0S`
 
-a| [[commafeed-server_commafeed-database-cleanup-max-feed-capacity]] [.property-path]##`commafeed.database.cleanup.max-feed-capacity`##
+a| [[commafeed-server_commafeed-database-cleanup-max-feed-capacity]] [.property-path]##link:#commafeed-server_commafeed-database-cleanup-max-feed-capacity[`commafeed.database.cleanup.max-feed-capacity`]##
 
 [.description]
 --
@@ -507,7 +507,7 @@ endif::add-copy-button-to-env-var[]
 |int
 |`500`
 
-a| [[commafeed-server_commafeed-database-cleanup-max-feeds-per-user]] [.property-path]##`commafeed.database.cleanup.max-feeds-per-user`##
+a| [[commafeed-server_commafeed-database-cleanup-max-feeds-per-user]] [.property-path]##link:#commafeed-server_commafeed-database-cleanup-max-feeds-per-user[`commafeed.database.cleanup.max-feeds-per-user`]##
 
 [.description]
 --
@@ -524,7 +524,7 @@ endif::add-copy-button-to-env-var[]
 |int
 |`0`
 
-a| [[commafeed-server_commafeed-database-cleanup-batch-size]] [.property-path]##`commafeed.database.cleanup.batch-size`##
+a| [[commafeed-server_commafeed-database-cleanup-batch-size]] [.property-path]##link:#commafeed-server_commafeed-database-cleanup-batch-size[`commafeed.database.cleanup.batch-size`]##
 
 [.description]
 --
@@ -543,11 +543,11 @@ endif::add-copy-button-to-env-var[]
 
 
 
-h|[[commafeed-server_section_commafeed-users]] [.section-name.section-level0]##Users settings##
+h|[[commafeed-server_section_commafeed-users]] [.section-name.section-level0]##link:#commafeed-server_section_commafeed-users[Users settings]##
 h|Type
 h|Default
 
-a| [[commafeed-server_commafeed-users-allow-registrations]] [.property-path]##`commafeed.users.allow-registrations`##
+a| [[commafeed-server_commafeed-users-allow-registrations]] [.property-path]##link:#commafeed-server_commafeed-users-allow-registrations[`commafeed.users.allow-registrations`]##
 
 [.description]
 --
@@ -564,7 +564,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`false`
 
-a| [[commafeed-server_commafeed-users-strict-password-policy]] [.property-path]##`commafeed.users.strict-password-policy`##
+a| [[commafeed-server_commafeed-users-strict-password-policy]] [.property-path]##link:#commafeed-server_commafeed-users-strict-password-policy[`commafeed.users.strict-password-policy`]##
 
 [.description]
 --
@@ -581,7 +581,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`true`
 
-a| [[commafeed-server_commafeed-users-create-demo-account]] [.property-path]##`commafeed.users.create-demo-account`##
+a| [[commafeed-server_commafeed-users-create-demo-account]] [.property-path]##link:#commafeed-server_commafeed-users-create-demo-account[`commafeed.users.create-demo-account`]##
 
 [.description]
 --
@@ -599,11 +599,11 @@ endif::add-copy-button-to-env-var[]
 |`false`
 
 
-h|[[commafeed-server_section_commafeed-websocket]] [.section-name.section-level0]##Websocket settings##
+h|[[commafeed-server_section_commafeed-websocket]] [.section-name.section-level0]##link:#commafeed-server_section_commafeed-websocket[Websocket settings]##
 h|Type
 h|Default
 
-a| [[commafeed-server_commafeed-websocket-enabled]] [.property-path]##`commafeed.websocket.enabled`##
+a| [[commafeed-server_commafeed-websocket-enabled]] [.property-path]##link:#commafeed-server_commafeed-websocket-enabled[`commafeed.websocket.enabled`]##
 
 [.description]
 --
@@ -620,7 +620,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`true`
 
-a| [[commafeed-server_commafeed-websocket-ping-interval]] [.property-path]##`commafeed.websocket.ping-interval`##
+a| [[commafeed-server_commafeed-websocket-ping-interval]] [.property-path]##link:#commafeed-server_commafeed-websocket-ping-interval[`commafeed.websocket.ping-interval`]##
 
 [.description]
 --
@@ -637,7 +637,7 @@ endif::add-copy-button-to-env-var[]
 |link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-{summaryTableId}[icon:question-circle[title=More information about the Duration format]]
 |`15M`
 
-a| [[commafeed-server_commafeed-websocket-tree-reload-interval]] [.property-path]##`commafeed.websocket.tree-reload-interval`##
+a| [[commafeed-server_commafeed-websocket-tree-reload-interval]] [.property-path]##link:#commafeed-server_commafeed-websocket-tree-reload-interval[`commafeed.websocket.tree-reload-interval`]##
 
 [.description]
 --

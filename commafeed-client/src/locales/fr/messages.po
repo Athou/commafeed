@@ -323,7 +323,7 @@ msgstr "Entrez votre mot de passe actuel pour changer les paramètres du profil"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entries to keep above the selected entry when scrolling"
-msgstr ""
+msgstr "Nombre d'entrées à conserver au-dessus de l'entrée sélectionnée lors d'un défilement"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
@@ -378,7 +378,7 @@ msgstr "Expression de filtrage"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Force fetching feeds is not yet available."
-msgstr ""
+msgstr "La récupération forcée des flux n'est pas encore disponible."
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
@@ -618,7 +618,7 @@ msgstr "Sur mobile, afficher les boutons d'action en bas de l'écran"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Only applies to compact, cozy and detailed modes"
-msgstr ""
+msgstr "Ne fonctionne que dans les modes Compact, Cozy, et Vue détaillée"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"

@@ -22,6 +22,7 @@ export default defineConfig(() => ({
             biome: {
                 command: "check",
             },
+            enableBuild: false,
         }),
     ],
     base: "./",

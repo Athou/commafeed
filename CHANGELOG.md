@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.3.1]
+
+- Fixed an issue that could cause some HTTP feeds to return a 400 error (#1572)
+
 ## [5.3.0]
 
 - Added a setting to set a cooldown on the "fetch all my feeds" action, disabled by default (#1556)

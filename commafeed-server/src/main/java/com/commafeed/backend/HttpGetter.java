@@ -126,7 +126,13 @@ public class HttpGetter {
 		log.debug("fetching {}", request.getUrl());
 
 		HttpClientContext context = HttpClientContext.create();
-		context.setRequestConfig(RequestConfig.custom().setResponseTimeout(Timeout.of(config.httpClient().responseTimeout())).build());
+		context.setRequestConfig(RequestConfig.custom()
+				.setResponseTimeout(Timeout.of(config.httpClient().responseTimeout()))
+				// causes issues with some feeds
+				// see https://github.com/Athou/commafeed/issues/1572
+				// and https://issues.apache.org/jira/browse/HTTPCLIENT-2344
+				.setProtocolUpgradeEnabled(false)
+				.build());
 
 		return client.execute(request.toClassicHttpRequest(), context, resp -> {
 			byte[] content = resp.getEntity() == null ? null

@@ -239,6 +239,24 @@ class HttpGetterTest {
 		Assertions.assertEquals("ok", new String(result.getContent()));
 	}
 
+	@Test
+	void doesNotUseUpgradeProtocolHeader() {
+		AtomicInteger calls = new AtomicInteger();
+
+		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {
+			calls.incrementAndGet();
+
+			if (req.containsHeader(HttpHeaders.UPGRADE)) {
+				throw new Exception("upgrade header should not be sent by the client");
+			}
+
+			return HttpResponse.response().withBody("ok");
+		});
+
+		Assertions.assertDoesNotThrow(() -> getter.get(this.feedUrl));
+		Assertions.assertEquals(1, calls.get());
+	}
+
 	@Nested
 	class Compression {
 

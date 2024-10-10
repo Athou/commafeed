@@ -114,18 +114,18 @@ The default user is `admin` and the default password is `admin`.
 
 When CommaFeed is up and running, you can subscribe to [this feed](https://github.com/Athou/commafeed/releases.atom) to be notified of new releases.
 
-### Memory management (`jvm` package only)
+### Memory management
 
 The Java Virtual Machine (JVM) is rather greedy by default and will not release unused memory to the
 operating system. This is because acquiring memory from the operating system is a relatively expensive operation.
 This can be problematic on systems with limited memory.
 
-#### Hard limit
+#### Hard limit (`native` and `jvm` packages)
 
 The JVM can be configured to use a maximum amount of memory with the `-Xmx` parameter.
 For example, to limit the JVM to 256MB of memory, use `-Xmx256m`.
 
-#### Dynamic sizing
+#### Dynamic sizing (`jvm` package)
 
 In addition to the previous setting, the JVM can be configured to release unused memory to the operating system with the
 following parameters:
@@ -137,7 +137,7 @@ and [here](https://docs.oracle.com/en/java/javase/17/gctuning/factors-affecting-
 more
 information.
 
-#### OpenJ9
+#### OpenJ9 (`jvm` package)
 
 The [OpenJ9](https://eclipse.dev/openj9/) JVM is a more memory-efficient alternative to the HotSpot JVM, at the cost of
 slightly slower throughput.

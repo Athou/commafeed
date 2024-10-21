@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.3.3]
+
+- Removed image bottom margins (#1587)
+
 ## [5.3.2]
 
 - Fixed an issue that could cause some images from not being rendered correctly (#1587)

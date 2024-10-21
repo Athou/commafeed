@@ -48,6 +48,7 @@
         "react-router-dom": "^6.27.0",
         "react-swipeable": "^7.0.1",
         "redoc": "^2.2.0",
+        "style-to-object": "^1.0.8",
         "throttle-debounce": "^5.0.2",
         "tinycon": "^0.6.8",
         "tss-react": "^4.9.13",

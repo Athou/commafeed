@@ -9,6 +9,7 @@ interface ImageWithPlaceholderWhileLoadingProps {
     title?: string
     width?: number
     height?: number | "auto"
+    style?: React.CSSProperties
     placeholderWidth?: number
     placeholderHeight?: number
     placeholderBackgroundColor?: string
@@ -42,6 +43,7 @@ export function ImageWithPlaceholderWhileLoading({
     src,
     title,
     width,
+    style,
 }: ImageWithPlaceholderWhileLoadingProps) {
     const { classes } = useStyles({
         placeholderWidth,
@@ -68,7 +70,7 @@ export function ImageWithPlaceholderWhileLoading({
                 width={width}
                 height={height}
                 onLoad={() => setLoading(false)}
-                style={{ display: loading ? "none" : "block" }}
+                style={{ ...style, display: loading ? "none" : (style?.display ?? "initial") }}
             />
         </>
     )

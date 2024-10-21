@@ -6,6 +6,7 @@ import { BasicHtmlStyles } from "components/content/BasicHtmlStyles"
 import escapeStringRegexp from "escape-string-regexp"
 import { type ChildrenNode, Interweave, type MatchResponse, Matcher, type Node, type TransformCallback } from "interweave"
 import React from "react"
+import styleToObject from "style-to-object"
 import { tss } from "tss"
 
 export interface ContentProps {
@@ -42,6 +43,7 @@ const transform: TransformCallback = node => {
         const nodeHeight = node.getAttribute("height")
         const width = nodeWidth ? Number.parseInt(nodeWidth, 10) : undefined
         const height = nodeHeight ? Number.parseInt(nodeHeight, 10) : undefined
+        const style = styleToObject(node.getAttribute("style") ?? "") ?? undefined
         const placeholderSize = calculatePlaceholderSize({
             width,
             height,
@@ -55,6 +57,7 @@ const transform: TransformCallback = node => {
                 title={title}
                 width={width}
                 height="auto"
+                style={style}
                 placeholderWidth={placeholderSize.width}
                 placeholderHeight={placeholderSize.height}
             />

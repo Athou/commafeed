@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.3.2]
+
+- Fixed an issue that could cause some images from not being rendered correctly (#1587)
+
 ## [5.3.1]
 
 - Fixed an issue that could cause some HTTP feeds to return a 400 error (#1572)

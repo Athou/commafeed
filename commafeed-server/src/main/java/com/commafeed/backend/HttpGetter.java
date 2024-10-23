@@ -2,7 +2,10 @@ package com.commafeed.backend;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.IDN;
+import java.net.InetAddress;
 import java.net.URI;
+import java.net.UnknownHostException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +13,8 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.hc.client5.http.DnsResolver;
+import org.apache.hc.client5.http.SystemDefaultDnsResolver;
 import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.config.TlsConfig;
@@ -191,6 +196,7 @@ public class HttpGetter {
 				.setDefaultTlsConfig(TlsConfig.custom().setHandshakeTimeout(Timeout.of(config.httpClient().sslHandshakeTimeout())).build())
 				.setMaxConnPerRoute(poolSize)
 				.setMaxConnTotal(poolSize)
+				.setDnsResolver(new InternationalizedDomainNameToAsciiDnsResolver(SystemDefaultDnsResolver.INSTANCE))
 				.build();
 
 	}
@@ -225,6 +231,18 @@ public class HttpGetter {
 				.maximumWeight(cacheConfig.maximumMemorySize().asLongValue())
 				.expireAfterWrite(cacheConfig.expiration())
 				.build();
+	}
+
+	private record InternationalizedDomainNameToAsciiDnsResolver(DnsResolver delegate) implements DnsResolver {
+		@Override
+		public InetAddress[] resolve(String host) throws UnknownHostException {
+			return delegate.resolve(IDN.toASCII(host));
+		}
+
+		@Override
+		public String resolveCanonicalHostname(String host) throws UnknownHostException {
+			return delegate.resolveCanonicalHostname(IDN.toASCII(host));
+		}
 	}
 
 	@Getter

@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.3.4]
+
+- Added support for Internationalized Domain Names (#1588)
+
 ## [5.3.3]
 
 - Removed image bottom margins (#1587)

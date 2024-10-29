@@ -13,7 +13,7 @@
 
 	<properties>
 		<!-- renovate: datasource=node-version depName=node -->
-		<node.version>v20.18.0</node.version>
+		<node.version>v22.11.0</node.version>
 		<!-- renovate: datasource=npm depName=npm -->
 		<npm.version>10.9.0</npm.version>
 	</properties>

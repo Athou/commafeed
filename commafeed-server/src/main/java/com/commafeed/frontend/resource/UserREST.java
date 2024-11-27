@@ -337,7 +337,7 @@ public class UserREST {
 			return Response.status(Status.UNAUTHORIZED).entity("token expired.").build();
 		}
 
-		String passwd = RandomStringUtils.randomAlphanumeric(10);
+		String passwd = RandomStringUtils.secure().nextAlphanumeric(10);
 		byte[] encryptedPassword = encryptionService.getEncryptedPassword(passwd, user.getSalt());
 		user.setPassword(encryptedPassword);
 		if (StringUtils.isNotBlank(user.getApiKey())) {

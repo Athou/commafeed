@@ -70,7 +70,11 @@ export function ImageWithPlaceholderWhileLoading({
                 width={width}
                 height={height}
                 onLoad={() => setLoading(false)}
-                style={{ ...style, display: loading ? "none" : (style?.display ?? "initial") }}
+                style={{
+                    ...style,
+                    display: loading ? "none" : (style?.display ?? "initial"),
+                    height: style?.width ? "auto" : style?.height,
+                }}
             />
         </>
     )

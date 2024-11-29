@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.codahale.metrics.Meter;
@@ -76,8 +77,9 @@ public class FeedRefreshWorker {
 
 			feed.setErrorCount(0);
 			feed.setMessage(null);
-			feed.setDisabledUntil(
-					refreshIntervalCalculator.onFetchSuccess(result.feed().lastPublishedDate(), result.feed().averageEntryInterval()));
+			feed.setDisabledUntil(ObjectUtils.max(
+					refreshIntervalCalculator.onFetchSuccess(result.feed().lastPublishedDate(), result.feed().averageEntryInterval()),
+					Instant.now().plus(result.validFor())));
 
 			return new FeedRefreshWorkerResult(feed, entries);
 		} catch (NotModifiedException e) {

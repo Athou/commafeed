@@ -34,6 +34,7 @@ import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.message.BasicHeader;
 import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
+import org.jboss.resteasy.reactive.common.headers.CacheControlDelegate;
 
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
@@ -46,6 +47,7 @@ import com.google.common.io.ByteStreams;
 import com.google.common.net.HttpHeaders;
 
 import jakarta.inject.Singleton;
+import jakarta.ws.rs.core.CacheControl;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -123,8 +125,13 @@ public class HttpGetter {
 			throw new NotModifiedException("eTagHeader is the same");
 		}
 
+		Duration validFor = Optional.ofNullable(response.getCacheControl())
+				.filter(cc -> cc.getMaxAge() >= 0)
+				.map(cc -> Duration.ofSeconds(cc.getMaxAge()))
+				.orElse(Duration.ZERO);
+
 		return new HttpResult(response.getContent(), response.getContentType(), lastModifiedHeader, eTagHeader,
-				response.getUrlAfterRedirect());
+				response.getUrlAfterRedirect(), validFor);
 	}
 
 	private HttpResponse invoke(HttpRequest request) throws IOException {
@@ -152,6 +159,12 @@ public class HttpGetter {
 					.map(StringUtils::trimToNull)
 					.orElse(null);
 
+			CacheControl cacheControl = Optional.ofNullable(resp.getFirstHeader(HttpHeaders.CACHE_CONTROL))
+					.map(NameValuePair::getValue)
+					.map(StringUtils::trimToNull)
+					.map(CacheControlDelegate.INSTANCE::fromString)
+					.orElse(null);
+
 			String contentType = Optional.ofNullable(resp.getEntity()).map(HttpEntity::getContentType).orElse(null);
 			String urlAfterRedirect = Optional.ofNullable(context.getRedirectLocations())
 					.map(RedirectLocations::getAll)
@@ -159,7 +172,7 @@ public class HttpGetter {
 					.map(URI::toString)
 					.orElse(request.getUrl());
 
-			return new HttpResponse(code, lastModifiedHeader, eTagHeader, content, contentType, urlAfterRedirect);
+			return new HttpResponse(code, lastModifiedHeader, eTagHeader, cacheControl, content, contentType, urlAfterRedirect);
 		});
 	}
 
@@ -311,6 +324,7 @@ public class HttpGetter {
 		int code;
 		String lastModifiedHeader;
 		String eTagHeader;
+		CacheControl cacheControl;
 		byte[] content;
 		String contentType;
 		String urlAfterRedirect;
@@ -323,6 +337,7 @@ public class HttpGetter {
 		String lastModifiedSince;
 		String eTag;
 		String urlAfterRedirect;
+		Duration validFor;
 	}
 
 }

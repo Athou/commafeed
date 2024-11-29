@@ -2,6 +2,7 @@ package com.commafeed.backend.feed;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
@@ -87,7 +88,8 @@ public class FeedFetcher {
 					etagHeaderValueChanged ? result.getETag() : null);
 		}
 
-		return new FeedFetcherResult(parserResult, result.getUrlAfterRedirect(), result.getLastModifiedSince(), result.getETag(), hash);
+		return new FeedFetcherResult(parserResult, result.getUrlAfterRedirect(), result.getLastModifiedSince(), result.getETag(), hash,
+				result.getValidFor());
 	}
 
 	private static String extractFeedUrl(List<FeedURLProvider> urlProviders, String url, String urlContent) {
@@ -102,7 +104,7 @@ public class FeedFetcher {
 	}
 
 	public record FeedFetcherResult(FeedParserResult feed, String urlAfterRedirect, String lastModifiedHeader, String lastETagHeader,
-			String contentHash) {
+			String contentHash, Duration validFor) {
 	}
 
 }

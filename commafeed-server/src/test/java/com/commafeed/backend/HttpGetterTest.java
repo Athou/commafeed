@@ -93,13 +93,15 @@ class HttpGetterTest {
 						.withBody(feedContent)
 						.withContentType(MediaType.APPLICATION_ATOM_XML)
 						.withHeader(HttpHeaders.LAST_MODIFIED, "123456")
-						.withHeader(HttpHeaders.ETAG, "78910"));
+						.withHeader(HttpHeaders.ETAG, "78910")
+						.withHeader(HttpHeaders.CACHE_CONTROL, "max-age=60"));
 
 		HttpResult result = getter.get(this.feedUrl);
 		Assertions.assertArrayEquals(feedContent, result.getContent());
 		Assertions.assertEquals(MediaType.APPLICATION_ATOM_XML.toString(), result.getContentType());
 		Assertions.assertEquals("123456", result.getLastModifiedSince());
 		Assertions.assertEquals("78910", result.getETag());
+		Assertions.assertEquals(Duration.ofSeconds(60), result.getValidFor());
 		Assertions.assertEquals(this.feedUrl, result.getUrlAfterRedirect());
 	}
 

@@ -1,5 +1,6 @@
 package com.commafeed.backend.feed;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
@@ -46,7 +47,7 @@ class FeedFetcherTest {
 		String lastContentHash = Digests.sha1Hex(content);
 
 		Mockito.when(getter.get(HttpGetter.HttpRequest.builder(url).lastModified(lastModified).eTag(etag).build()))
-				.thenReturn(new HttpResult(content, "content-type", "last-modified-2", "etag-2", null));
+				.thenReturn(new HttpResult(content, "content-type", "last-modified-2", "etag-2", null, Duration.ZERO));
 
 		NotModifiedException e = Assertions.assertThrows(NotModifiedException.class,
 				() -> fetcher.fetch(url, false, lastModified, etag, Instant.now(), lastContentHash));

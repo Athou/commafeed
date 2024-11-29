@@ -1,4 +1,5 @@
-import { Trans, msg } from "@lingui/macro"
+import { msg } from "@lingui/core/macro"
+import { Trans } from "@lingui/react/macro"
 
 import { Button, Code, Group, Modal, Slider, Stack, Text } from "@mantine/core"
 import { markAllEntries } from "app/entries/thunks"

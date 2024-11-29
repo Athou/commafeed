@@ -10,8 +10,7 @@ export default defineConfig(() => ({
     plugins: [
         react({
             babel: {
-                // babel-macro is needed for lingui
-                plugins: ["macros"],
+                plugins: ["@lingui/babel-plugin-lingui-macro"],
             },
         }),
         lingui(),

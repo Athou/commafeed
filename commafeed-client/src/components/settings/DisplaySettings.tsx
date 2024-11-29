@@ -1,5 +1,6 @@
-import { Trans, msg } from "@lingui/macro"
+import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
+import { Trans } from "@lingui/react/macro"
 import { Divider, Group, NumberInput, Radio, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
 import type { ComboboxData } from "@mantine/core/lib/components/Combobox/Combobox.types"
 import { Constants } from "app/constants"

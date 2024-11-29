@@ -1,5 +1,6 @@
-import { Trans, msg } from "@lingui/macro"
+import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
+import { Trans } from "@lingui/react/macro"
 import { TextInput } from "@mantine/core"
 import { Spotlight, type SpotlightActionData, spotlight } from "@mantine/spotlight"
 import { redirectToFeed } from "app/redirect/thunks"

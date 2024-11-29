@@ -1,5 +1,6 @@
-import { Trans, msg } from "@lingui/macro"
+import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
+import { Trans } from "@lingui/react/macro"
 import { Anchor, Box, Button, Checkbox, Divider, Group, Input, PasswordInput, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"

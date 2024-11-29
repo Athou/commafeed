@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro"
+import { Trans } from "@lingui/react/macro"
 import { ActionIcon, Anchor, Tooltip } from "@mantine/core"
 import { Constants } from "app/constants"
 import { markEntry } from "app/entries/thunks"

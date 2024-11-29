@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro"
+import { Trans } from "@lingui/react/macro"
 import { Box, Button, Checkbox, Group, PasswordInput, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"

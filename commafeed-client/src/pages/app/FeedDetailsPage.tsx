@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro"
+import { Trans } from "@lingui/react/macro"
 import { Anchor, Box, Button, Code, Container, Divider, Group, Input, NumberInput, Stack, Text, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"

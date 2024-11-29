@@ -1,4 +1,4 @@
-import { msg } from "@lingui/macro"
+import { msg } from "@lingui/core/macro"
 import { Anchor, Box, Center, Container, Divider, Group, Image, Space, Title, useMantineColorScheme } from "@mantine/core"
 import { client } from "app/client"
 import { redirectToApiDocumentation, redirectToLogin, redirectToRegistration, redirectToRootCategory } from "app/redirect/thunks"

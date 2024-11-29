@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro"
+import { Trans } from "@lingui/react/macro"
 import { Box } from "@mantine/core"
 import { openModal } from "@mantine/modals"
 import { Constants } from "app/constants"

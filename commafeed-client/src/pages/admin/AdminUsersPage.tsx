@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro"
+import { Trans } from "@lingui/react/macro"
 import { ActionIcon, Box, Code, Container, Group, Table, Text, Title, useMantineTheme } from "@mantine/core"
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals"
 import { client, errorToStrings } from "app/client"

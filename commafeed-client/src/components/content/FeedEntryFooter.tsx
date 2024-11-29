@@ -1,4 +1,4 @@
-import { msg } from "@lingui/macro"
+import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Group, Indicator, Popover, TagsInput } from "@mantine/core"
 import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "app/entries/thunks"

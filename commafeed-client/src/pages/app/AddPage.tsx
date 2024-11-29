@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro"
+import { Trans } from "@lingui/react/macro"
 import { Container, Tabs } from "@mantine/core"
 import { AddCategory } from "components/content/add/AddCategory"
 import { ImportOpml } from "components/content/add/ImportOpml"

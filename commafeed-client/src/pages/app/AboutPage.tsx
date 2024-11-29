@@ -1,5 +1,6 @@
-import { Trans, msg } from "@lingui/macro"
+import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
+import { Trans } from "@lingui/react/macro"
 import { Anchor, Box, Container, List, NativeSelect, SimpleGrid, Title } from "@mantine/core"
 import { Constants } from "app/constants"
 import { redirectToApiDocumentation } from "app/redirect/thunks"

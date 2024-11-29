@@ -1,5 +1,6 @@
-import { Trans, msg } from "@lingui/macro"
+import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
+import { Trans } from "@lingui/react/macro"
 import { Box, Button, FileInput, Group, Stack } from "@mantine/core"
 import { isNotEmpty, useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"

@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro"
+import { Trans } from "@lingui/react/macro"
 import { Container, Tabs } from "@mantine/core"
 import { CustomCodeSettings } from "components/settings/CustomCodeSettings"
 import { DisplaySettings } from "components/settings/DisplaySettings"

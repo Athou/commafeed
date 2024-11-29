@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro"
+import { Trans } from "@lingui/react/macro"
 import { Box, Alert as MantineAlert } from "@mantine/core"
 import { Fragment } from "react"
 import { TbAlertCircle, TbAlertTriangle, TbCircleCheck } from "react-icons/tb"

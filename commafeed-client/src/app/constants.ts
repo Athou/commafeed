@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro"
+import { t } from "@lingui/core/macro"
 import type { IconType } from "react-icons"
 import { FaAt } from "react-icons/fa"
 import { SiBuffer, SiFacebook, SiGmail, SiInstapaper, SiPocket, SiTumblr, SiX } from "react-icons/si"

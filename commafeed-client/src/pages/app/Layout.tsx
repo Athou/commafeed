@@ -1,4 +1,4 @@
-import { msg } from "@lingui/macro"
+import { msg } from "@lingui/core/macro"
 import { ActionIcon, AppShell, Box, Center, Group, ScrollArea, Title, useMantineTheme } from "@mantine/core"
 import { Constants } from "app/constants"
 import { redirectToAdd, redirectToRootCategory } from "app/redirect/thunks"

@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro"
+import { Trans } from "@lingui/react/macro"
 import { Box, Dialog, Text } from "@mantine/core"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { setAnnouncementHash } from "app/user/slice"

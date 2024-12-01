@@ -27,6 +27,9 @@
 					<!-- https://stackoverflow.com/a/33823355/ -->
 					<showWarnings>true</showWarnings>
 					<compilerArgs>
+						<!-- enable annotation processing -->
+						<arg>-proc:full</arg>
+
 						<!-- disable the "processing" linter because we have annotations that are processed at runtime -->
 						<!-- https://stackoverflow.com/a/76126981/ -->
 						<!-- disable the "classfile" linter because it generates "file missing" warnings about annotations with the "provided" scope -->

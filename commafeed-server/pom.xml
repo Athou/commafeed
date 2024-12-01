@@ -104,11 +104,14 @@
 				<extensions>true</extensions>
 				<executions>
 					<execution>
-						<id>default-generate-asciidoc</id>
+						<id>default-generate-config-doc</id>
 						<phase>process-test-resources</phase>
 						<goals>
-							<goal>generate-asciidoc</goal>
+							<goal>generate-config-doc</goal>
 						</goals>
+						<configuration>
+							<format>markdown</format>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

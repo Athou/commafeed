@@ -68,7 +68,7 @@ CommaFeed also supports:
 
 ## Configuration
 
-All [CommaFeed settings](https://github.com/Athou/commafeed/blob/master/commafeed-server/doc/commafeed.adoc) are
+All [CommaFeed settings](https://github.com/Athou/commafeed/blob/master/commafeed-server/doc/commafeed.md) are
 optional and have sensible default values.
 
 Settings are overrideable with environment variables. For instance, `commafeed.feed-refresh.interval-empirical` can be

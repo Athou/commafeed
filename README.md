@@ -100,7 +100,7 @@ There are multiple ways to configure CommaFeed:
 
 The properties file is recommended because CommaFeed will be able to warn about invalid properties and typos.
 
-All [CommaFeed settings](commafeed-server/doc/commafeed.adoc) are optional and have sensible default values.
+All [CommaFeed settings](commafeed-server/doc/commafeed.md) are optional and have sensible default values.
 
 When logging in, credentials are stored in an encrypted cookie. The encryption key is randomly generated at startup,
 meaning that you will have to log back in after each restart of the application. To prevent this, you can set the

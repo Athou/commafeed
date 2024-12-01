@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 class CommaFeedConfigurationTest {
 
 	@Test
-	void verifyAsciiDocIsUpToDate() throws IOException {
-		String versionedDocumentationFile = FileUtils.readFileToString(new File("doc/commafeed.adoc"), StandardCharsets.UTF_8);
-		String generatedDocumentationFile = FileUtils
-				.readFileToString(new File("target/quarkus-generated-doc/config/commafeed-server.adoc"), StandardCharsets.UTF_8);
+	void verifyMarkdownDocIsUpToDate() throws IOException {
+		String versionedDocumentationFile = FileUtils.readFileToString(new File("doc/commafeed.md"), StandardCharsets.UTF_8);
+		String generatedDocumentationFile = FileUtils.readFileToString(new File("target/quarkus-generated-doc/config/commafeed-server.md"),
+				StandardCharsets.UTF_8);
 
 		Assertions.assertLinesMatch(versionedDocumentationFile.lines(), generatedDocumentationFile.lines());
 	}

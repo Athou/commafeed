@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.3.6]
+
+- Ignore invalid Cache-Control header values (#1619)
+
 ## [5.3.5]
 
 - Fixed an issue with the aspect ratio of images of some feeds (#1595)

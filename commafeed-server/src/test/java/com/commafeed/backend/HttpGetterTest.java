@@ -94,7 +94,7 @@ class HttpGetterTest {
 						.withContentType(MediaType.APPLICATION_ATOM_XML)
 						.withHeader(HttpHeaders.LAST_MODIFIED, "123456")
 						.withHeader(HttpHeaders.ETAG, "78910")
-						.withHeader(HttpHeaders.CACHE_CONTROL, "max-age=60"));
+						.withHeader(HttpHeaders.CACHE_CONTROL, "max-age=60, must-revalidate"));
 
 		HttpResult result = getter.get(this.feedUrl);
 		Assertions.assertArrayEquals(feedContent, result.getContent());
@@ -103,6 +103,18 @@ class HttpGetterTest {
 		Assertions.assertEquals("78910", result.getETag());
 		Assertions.assertEquals(Duration.ofSeconds(60), result.getValidFor());
 		Assertions.assertEquals(this.feedUrl, result.getUrlAfterRedirect());
+	}
+
+	@Test
+	void ignoreInvalidCacheControlValue() throws Exception {
+		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
+				.respond(HttpResponse.response()
+						.withBody(feedContent)
+						.withContentType(MediaType.APPLICATION_ATOM_XML)
+						.withHeader(HttpHeaders.CACHE_CONTROL, "max-age=60; must-revalidate"));
+
+		HttpResult result = getter.get(this.feedUrl);
+		Assertions.assertEquals(Duration.ZERO, result.getValidFor());
 	}
 
 	@ParameterizedTest

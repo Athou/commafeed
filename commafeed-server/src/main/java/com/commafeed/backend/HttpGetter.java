@@ -162,7 +162,7 @@ public class HttpGetter {
 			CacheControl cacheControl = Optional.ofNullable(resp.getFirstHeader(HttpHeaders.CACHE_CONTROL))
 					.map(NameValuePair::getValue)
 					.map(StringUtils::trimToNull)
-					.map(CacheControlDelegate.INSTANCE::fromString)
+					.map(HttpGetter::toCacheControl)
 					.orElse(null);
 
 			String contentType = Optional.ofNullable(resp.getEntity()).map(HttpEntity::getContentType).orElse(null);
@@ -174,6 +174,15 @@ public class HttpGetter {
 
 			return new HttpResponse(code, lastModifiedHeader, eTagHeader, cacheControl, content, contentType, urlAfterRedirect);
 		});
+	}
+
+	private static CacheControl toCacheControl(String headerValue) {
+		try {
+			return CacheControlDelegate.INSTANCE.fromString(headerValue);
+		} catch (Exception e) {
+			log.debug("Invalid Cache-Control header: {}", headerValue);
+			return null;
+		}
 	}
 
 	private static byte[] toByteArray(HttpEntity entity, long maxBytes) throws IOException {

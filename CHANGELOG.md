@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.3.5]
+
+- Fixed an issue with the aspect ratio of images of some feeds (#1595)
+- CommaFeed now honors the Cache-Control response header and will not try to refresh a feed sooner than its max-age property (#1615)
+- Added support for compilation with JDK 23+. If you're building CommaFeed from sources with a JDK 17 or 21, you may need to update it to the most recent patch version to support `-proc:full` (#1618)
+
 ## [5.3.4]
 
 - Added support for Internationalized Domain Names (#1588)

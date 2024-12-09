@@ -15,7 +15,7 @@
         "i18n:extract": "lingui extract --clean"
     },
     "dependencies": {
-        "@emotion/react": "^11.13.5",
+        "@emotion/react": "^11.14.0",
         "@fontsource/open-sans": "^5.1.0",
         "@lingui/core": "^5.0.0",
         "@lingui/react": "^5.0.0",

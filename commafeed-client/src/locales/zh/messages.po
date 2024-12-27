@@ -142,7 +142,7 @@ msgstr "浏览器扩展"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
-msgstr ""
+msgstr "浏览器标签页"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -323,7 +323,7 @@ msgstr "输入您当前的密码以更改配置文件设置"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entries to keep above the selected entry when scrolling"
-msgstr ""
+msgstr "滚动时固定在顶部的条目"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
@@ -378,7 +378,7 @@ msgstr "过滤表达式"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Force fetching feeds is not yet available."
-msgstr ""
+msgstr "强制获取订阅源功能不可用。"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
@@ -844,11 +844,11 @@ msgstr "显示星标图标"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab favicon"
-msgstr ""
+msgstr "在标签页图标上显示未读数量"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab title"
-msgstr ""
+msgstr "在标签页标题中显示未读数量"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx

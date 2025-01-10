@@ -64,6 +64,7 @@ public class FeedParser {
 				throw new FeedException("Input string is null for url " + feedUrl);
 			}
 			xmlString = feedCleaner.replaceHtmlEntitiesWithNumericEntities(xmlString);
+			xmlString = feedCleaner.removeDoctypeDeclarations(xmlString);
 
 			InputSource source = new InputSource(new StringReader(xmlString));
 			SyndFeed feed = new SyndFeedInput().build(source);

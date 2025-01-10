@@ -1,6 +1,7 @@
 package com.commafeed.backend.feed.parser;
 
 import java.util.Collection;
+import java.util.regex.Pattern;
 
 import org.ahocorasick.trie.Emit;
 import org.ahocorasick.trie.Trie;
@@ -10,6 +11,8 @@ import jakarta.inject.Singleton;
 
 @Singleton
 class FeedCleaner {
+
+	private static final Pattern DOCTYPE_PATTERN = Pattern.compile("<!DOCTYPE[^>]*>", Pattern.CASE_INSENSITIVE);
 
 	public String trimInvalidXmlCharacters(String xml) {
 		if (StringUtils.isBlank(xml)) {
@@ -58,6 +61,10 @@ class FeedCleaner {
 		sb.append(source.substring(prevIndex));
 
 		return sb.toString();
+	}
+
+	public String removeDoctypeDeclarations(String xml) {
+		return DOCTYPE_PATTERN.matcher(xml).replaceAll("");
 	}
 
 }

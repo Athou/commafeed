@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.4.0]
+
+- An arm64 native executable is now available for download on the releases page
+- The native executable Docker image now supports arm64
+- Fixed an issue with feeds that declared an invalid DOCTYPE (#1260)
+
 ## [5.3.6]
 
 - Ignore invalid Cache-Control header values (#1619)

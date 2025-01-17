@@ -4,7 +4,7 @@ EXPOSE 8082
 RUN mkdir -p /commafeed/data
 VOLUME /commafeed/data
 
-COPY commafeed-server/target/quarkus-app/ /commafeed
+COPY artifacts/extracted-jvm-package/quarkus-app/ /commafeed
 WORKDIR /commafeed
 
 CMD ["java", \

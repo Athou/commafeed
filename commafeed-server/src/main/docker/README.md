@@ -92,5 +92,4 @@ Tags are of the form `<version>-<database>[-jvm]` where:
     - `latest` (always points to the latest version)
     - `master` (always points to the latest git commit)
 - `<database>` is the database to use (`h2`, `postgresql`, `mysql` or `mariadb`)
-- `-jvm` is optional and indicates that CommaFeed is running on a JVM, and not compiled natively. This image supports
-  the arm64 platform which is not yet supported by the native image.
+- `-jvm` is optional and indicates that CommaFeed is running on a JVM, and not compiled natively.

@@ -18,7 +18,7 @@ import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useMobile } from "hooks/useMobile"
 import { useWebSocket } from "hooks/useWebSocket"
 import { LoadingPage } from "pages/LoadingPage"
-import { type ReactNode, Suspense, useEffect, useRef } from "react"
+import { type ReactNode, type RefObject, Suspense, useEffect, useRef } from "react"
 import Draggable from "react-draggable"
 import { TbMenu2, TbPlus, TbX } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
@@ -185,7 +185,7 @@ export default function Layout(props: LayoutProps) {
                 </AppShell.Navbar>
                 <OnDesktop>
                     <Draggable
-                        nodeRef={draggableSeparator}
+                        nodeRef={draggableSeparator as RefObject<HTMLElement>}
                         axis="x"
                         defaultPosition={{
                             x: sidebarWidth,

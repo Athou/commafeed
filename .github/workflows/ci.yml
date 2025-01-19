@@ -59,8 +59,9 @@ jobs:
           path: commafeed-server/target/commafeed-*-runner*
 
   docker:
-    needs: build
     runs-on: ubuntu-latest
+    needs: build
+    if: ${{ github.ref_type == 'tag' || github.ref_name == 'master' }}
 
     strategy:
       matrix:
@@ -107,7 +108,6 @@ jobs:
       # Docker
       - name: Login to Container Registry
         uses: docker/login-action@v3
-        if: ${{ github.ref_type == 'tag' || github.ref_name == 'master' }}
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}

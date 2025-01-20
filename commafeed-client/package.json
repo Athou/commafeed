@@ -25,7 +25,7 @@
         "@mantine/spotlight": "^7.16.1",
         "@lingui/core": "^5.1.2",
         "@lingui/react": "^5.1.2",
-        "@monaco-editor/react": "^4.6.0",
+        "@monaco-editor/react": "^4.7.0-rc.0",
         "@reduxjs/toolkit": "^2.5.0",
         "axios": "^1.7.9",
         "dayjs": "^1.11.13",
@@ -33,11 +33,11 @@
         "interweave": "^13.1.0",
         "monaco-editor": "^0.52.2",
         "mousetrap": "^1.6.5",
-        "react": "^18.3.1",
+        "react": "^19.0.0",
         "react-async-hook": "^4.0.0",
         "react-contexify": "^6.0.0",
         "react-device-detect": "^2.2.3",
-        "react-dom": "^18.3.1",
+        "react-dom": "^19.0.0",
         "react-draggable": "^4.4.6",
         "react-ga4": "^2.1.0",
         "react-helmet": "^6.1.0",
@@ -59,8 +59,8 @@
         "@lingui/cli": "^5.1.2",
         "@lingui/vite-plugin": "^5.1.2",
         "@types/mousetrap": "^1.6.15",
-        "@types/react": "^18.3.18",
-        "@types/react-dom": "^18.3.5",
+        "@types/react": "^19.0.7",
+        "@types/react-dom": "^19.0.3",
         "@types/react-helmet": "^6.1.11",
         "@types/react-infinite-scroller": "^1.2.5",
         "@types/swagger-ui-react": "^4.18.3",
@@ -69,12 +69,27 @@
         "@vitejs/plugin-react": "^4.3.4",
         "babel-plugin-macros": "^3.1.0",
         "jsdom": "^26.0.0",
-        "rollup-plugin-visualizer": "^5.13.1",
+        "rollup-plugin-visualizer": "^5.14.0",
         "typescript": "^5.7.3",
         "vite": "^6.0.9",
         "vite-plugin-checker": "^0.8.0",
         "vite-tsconfig-paths": "^5.1.4",
         "vitest": "^3.0.2",
         "vitest-mock-extended": "^2.0.2"
+    },
+    "overrides": {
+        "interweave": {
+            "react": "^19.0.0"
+        },
+        "react-infinite-scroller": {
+            "react": "^19.0.0"
+        },
+        "react-helmet": {
+            "react": "^19.0.0"
+        },
+        "redoc": {
+            "react": "^19.0.0",
+            "react-dom": "^19.0.0"
+        }
     }
 }

@@ -71,7 +71,7 @@
         "jsdom": "^26.0.0",
         "rollup-plugin-visualizer": "^5.13.1",
         "typescript": "^5.7.3",
-        "vite": "^6.0.7",
+        "vite": "^6.0.9",
         "vite-plugin-checker": "^0.8.0",
         "vite-tsconfig-paths": "^5.1.4",
         "vitest": "^3.0.2",

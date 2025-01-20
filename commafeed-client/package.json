@@ -84,7 +84,7 @@
         "react-infinite-scroller": {
             "react": "^19.0.0"
         },
-        "react-side-effect": {
+        "react-helmet": {
             "react": "^19.0.0"
         },
         "redoc": {

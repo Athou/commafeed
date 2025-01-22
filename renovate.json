@@ -4,6 +4,7 @@
     "config:recommended",
     "customManagers:mavenPropertyVersions",
     "customManagers:biomeVersions",
+    "helpers:pinGitHubActionDigests",
     ":automergePatch",
     ":automergeBranch",
     ":automergeRequireAllStatusChecks",

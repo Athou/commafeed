@@ -1,7 +1,6 @@
 package com.commafeed.backend.urlprovider;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 import jakarta.inject.Singleton;
 
@@ -14,12 +13,16 @@ import jakarta.inject.Singleton;
 @Singleton
 public class YoutubeFeedURLProvider implements FeedURLProvider {
 
-	private static final Pattern REGEXP = Pattern.compile("(.*\\byoutube\\.com)\\/channel\\/([^\\/]+)", Pattern.CASE_INSENSITIVE);
+	private static final String PREFIX = "https://www.youtube.com/channel/";
+	private static final String REPLACEMENT_PREFIX = "https://www.youtube.com/feeds/videos.xml?channel_id=";
 
 	@Override
 	public String get(String url, String urlContent) {
-		Matcher matcher = REGEXP.matcher(url);
-		return matcher.find() ? matcher.group(1) + "/feeds/videos.xml?channel_id=" + matcher.group(2) : null;
+		if (!StringUtils.startsWithIgnoreCase(url, PREFIX)) {
+			return null;
+		}
+
+		return REPLACEMENT_PREFIX + url.substring(PREFIX.length());
 	}
 
 }

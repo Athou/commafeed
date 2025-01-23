@@ -47,10 +47,10 @@ jobs:
       # Upload artifacts
       - name: Upload cross-platform app
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
+        if: matrix.os == 'ubuntu-latest' # we only need to upload the cross-platform artifact once per database
         with:
           name: commafeed-${{ matrix.database }}-jvm
           path: commafeed-server/target/commafeed-*.zip
-          overwrite: true
 
       - name: Upload native executable
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4

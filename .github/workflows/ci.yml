@@ -5,8 +5,6 @@ permissions:
 on:
   push:
   pull_request:
-    branches-ignore:
-      - 'renovate/**'
 
 env:
   JAVA_VERSION: 21

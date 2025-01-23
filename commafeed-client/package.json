@@ -59,7 +59,7 @@
         "@lingui/cli": "^5.1.2",
         "@lingui/vite-plugin": "^5.1.2",
         "@types/mousetrap": "^1.6.15",
-        "@types/react": "^19.0.7",
+        "@types/react": "^19.0.8",
         "@types/react-dom": "^19.0.3",
         "@types/react-helmet": "^6.1.11",
         "@types/react-infinite-scroller": "^1.2.5",

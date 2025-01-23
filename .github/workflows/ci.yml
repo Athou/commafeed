@@ -1,4 +1,6 @@
 name: ci
+permissions:
+  contents: read
 
 on:
   push:
@@ -162,6 +164,8 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build
+    permissions:
+      contents: write
     if: github.ref_type == 'tag'
 
     steps:

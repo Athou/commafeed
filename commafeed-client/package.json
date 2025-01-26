@@ -63,7 +63,7 @@
         "@types/react-dom": "^19.0.3",
         "@types/react-helmet": "^6.1.11",
         "@types/react-infinite-scroller": "^1.2.5",
-        "@types/swagger-ui-react": "^4.18.3",
+        "@types/swagger-ui-react": "^4.19.0",
         "@types/throttle-debounce": "^5.0.2",
         "@types/tinycon": "^0.6.7",
         "@vitejs/plugin-react": "^4.3.4",

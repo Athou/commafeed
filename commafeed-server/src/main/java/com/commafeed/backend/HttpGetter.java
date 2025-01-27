@@ -7,9 +7,12 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.time.Duration;
+import java.time.Instant;
+import java.time.InstantSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +28,7 @@ import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuil
 import org.apache.hc.client5.http.io.HttpClientConnectionManager;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.client5.http.protocol.RedirectLocations;
+import org.apache.hc.client5.http.utils.DateUtils;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpEntity;
@@ -51,6 +55,7 @@ import jakarta.ws.rs.core.CacheControl;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import nl.altindag.ssl.SSLFactory;
@@ -64,11 +69,13 @@ import nl.altindag.ssl.apache5.util.Apache5SslUtils;
 public class HttpGetter {
 
 	private final CommaFeedConfiguration config;
+	private final InstantSource instantSource;
 	private final CloseableHttpClient client;
 	private final Cache<HttpRequest, HttpResponse> cache;
 
-	public HttpGetter(CommaFeedConfiguration config, CommaFeedVersion version, MetricRegistry metrics) {
+	public HttpGetter(CommaFeedConfiguration config, InstantSource instantSource, CommaFeedVersion version, MetricRegistry metrics) {
 		this.config = config;
+		this.instantSource = instantSource;
 
 		PoolingHttpClientConnectionManager connectionManager = newConnectionManager(config);
 		String userAgent = config.httpClient()
@@ -88,11 +95,11 @@ public class HttpGetter {
 				() -> cache == null ? 0 : cache.asMap().values().stream().mapToInt(e -> e.content != null ? e.content.length : 0).sum());
 	}
 
-	public HttpResult get(String url) throws IOException, NotModifiedException {
+	public HttpResult get(String url) throws IOException, NotModifiedException, TooManyRequestsException {
 		return get(HttpRequest.builder(url).build());
 	}
 
-	public HttpResult get(HttpRequest request) throws IOException, NotModifiedException {
+	public HttpResult get(HttpRequest request) throws IOException, NotModifiedException, TooManyRequestsException {
 		final HttpResponse response;
 		if (cache == null) {
 			response = invoke(request);
@@ -109,9 +116,15 @@ public class HttpGetter {
 		}
 
 		int code = response.getCode();
+		if (Set.of(HttpStatus.SC_TOO_MANY_REQUESTS, HttpStatus.SC_SERVICE_UNAVAILABLE).contains(code) && response.getRetryAfter() != null) {
+			throw new TooManyRequestsException(response.getRetryAfter());
+		}
+
 		if (code == HttpStatus.SC_NOT_MODIFIED) {
 			throw new NotModifiedException("'304 - not modified' http code received");
-		} else if (code >= 300) {
+		}
+
+		if (code >= 300) {
 			throw new HttpResponseException(code, "Server returned HTTP error code " + code);
 		}
 
@@ -165,6 +178,12 @@ public class HttpGetter {
 					.map(HttpGetter::toCacheControl)
 					.orElse(null);
 
+			Instant retryAfter = Optional.ofNullable(resp.getFirstHeader(HttpHeaders.RETRY_AFTER))
+					.map(NameValuePair::getValue)
+					.map(StringUtils::trimToNull)
+					.map(this::toInstant)
+					.orElse(null);
+
 			String contentType = Optional.ofNullable(resp.getEntity()).map(HttpEntity::getContentType).orElse(null);
 			String urlAfterRedirect = Optional.ofNullable(context.getRedirectLocations())
 					.map(RedirectLocations::getAll)
@@ -172,7 +191,7 @@ public class HttpGetter {
 					.map(URI::toString)
 					.orElse(request.getUrl());
 
-			return new HttpResponse(code, lastModifiedHeader, eTagHeader, cacheControl, content, contentType, urlAfterRedirect);
+			return new HttpResponse(code, lastModifiedHeader, eTagHeader, cacheControl, retryAfter, content, contentType, urlAfterRedirect);
 		});
 	}
 
@@ -183,6 +202,18 @@ public class HttpGetter {
 			log.debug("Invalid Cache-Control header: {}", headerValue);
 			return null;
 		}
+	}
+
+	private Instant toInstant(String headerValue) {
+		if (headerValue == null) {
+			return null;
+		}
+
+		if (StringUtils.isNumeric(headerValue)) {
+			return instantSource.instant().plusSeconds(Long.parseLong(headerValue));
+		}
+
+		return DateUtils.parseStandardDate(headerValue);
 	}
 
 	private static byte[] toByteArray(HttpEntity entity, long maxBytes) throws IOException {
@@ -292,6 +323,14 @@ public class HttpGetter {
 		}
 	}
 
+	@RequiredArgsConstructor
+	@Getter
+	public static class TooManyRequestsException extends Exception {
+		private static final long serialVersionUID = 1L;
+
+		private final Instant retryAfter;
+	}
+
 	@Getter
 	public static class HttpResponseException extends IOException {
 		private static final long serialVersionUID = 1L;
@@ -334,6 +373,7 @@ public class HttpGetter {
 		String lastModifiedHeader;
 		String eTagHeader;
 		CacheControl cacheControl;
+		Instant retryAfter;
 		byte[] content;
 		String contentType;
 		String urlAfterRedirect;

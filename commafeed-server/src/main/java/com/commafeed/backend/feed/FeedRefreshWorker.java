@@ -13,6 +13,7 @@ import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
+import com.commafeed.backend.HttpGetter.TooManyRequestsException;
 import com.commafeed.backend.feed.FeedFetcher.FeedFetcherResult;
 import com.commafeed.backend.feed.parser.FeedParserResult.Entry;
 import com.commafeed.backend.model.Feed;
@@ -96,6 +97,14 @@ public class FeedRefreshWorker {
 			if (e.getNewEtagHeader() != null) {
 				feed.setEtagHeader(e.getNewEtagHeader());
 			}
+
+			return new FeedRefreshWorkerResult(feed, Collections.emptyList());
+		} catch (TooManyRequestsException e) {
+			log.debug("Too many requests : {}", feed.getUrl());
+
+			feed.setErrorCount(feed.getErrorCount() + 1);
+			feed.setMessage("Server indicated that we are sending too many requests");
+			feed.setDisabledUntil(e.getRetryAfter());
 
 			return new FeedRefreshWorkerResult(feed, Collections.emptyList());
 		} catch (Exception e) {

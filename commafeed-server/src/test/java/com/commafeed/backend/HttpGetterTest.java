@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.SocketTimeoutException;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,6 +40,7 @@ import com.commafeed.CommaFeedVersion;
 import com.commafeed.backend.HttpGetter.HttpResponseException;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
+import com.commafeed.backend.HttpGetter.TooManyRequestsException;
 import com.google.common.net.HttpHeaders;
 
 import io.quarkus.runtime.configuration.MemorySize;
@@ -46,9 +48,12 @@ import io.quarkus.runtime.configuration.MemorySize;
 @ExtendWith(MockServerExtension.class)
 class HttpGetterTest {
 
+	private static final Instant NOW = Instant.now();
+
 	private MockServerClient mockServerClient;
 	private String feedUrl;
 	private byte[] feedContent;
+
 	private CommaFeedConfiguration config;
 
 	private HttpGetter getter;
@@ -73,7 +78,7 @@ class HttpGetterTest {
 		Mockito.when(config.httpClient().cache().expiration()).thenReturn(Duration.ofMinutes(1));
 		Mockito.when(config.feedRefresh().httpThreads()).thenReturn(3);
 
-		this.getter = new HttpGetter(config, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
+		this.getter = new HttpGetter(config, () -> NOW, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
 	}
 
 	@ParameterizedTest
@@ -94,7 +99,8 @@ class HttpGetterTest {
 						.withContentType(MediaType.APPLICATION_ATOM_XML)
 						.withHeader(HttpHeaders.LAST_MODIFIED, "123456")
 						.withHeader(HttpHeaders.ETAG, "78910")
-						.withHeader(HttpHeaders.CACHE_CONTROL, "max-age=60, must-revalidate"));
+						.withHeader(HttpHeaders.CACHE_CONTROL, "max-age=60, must-revalidate")
+						.withHeader(HttpHeaders.RETRY_AFTER, "120"));
 
 		HttpResult result = getter.get(this.feedUrl);
 		Assertions.assertArrayEquals(feedContent, result.getContent());
@@ -115,6 +121,27 @@ class HttpGetterTest {
 
 		HttpResult result = getter.get(this.feedUrl);
 		Assertions.assertEquals(Duration.ZERO, result.getValidFor());
+	}
+
+	@Test
+	void tooManyRequestsExceptionSeconds() {
+		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
+				.respond(
+						HttpResponse.response().withStatusCode(HttpStatus.SC_TOO_MANY_REQUESTS).withHeader(HttpHeaders.RETRY_AFTER, "120"));
+
+		TooManyRequestsException e = Assertions.assertThrows(TooManyRequestsException.class, () -> getter.get(this.feedUrl));
+		Assertions.assertEquals(NOW.plusSeconds(120), e.getRetryAfter());
+	}
+
+	@Test
+	void tooManyRequestsExceptionDate() {
+		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
+				.respond(HttpResponse.response()
+						.withStatusCode(HttpStatus.SC_TOO_MANY_REQUESTS)
+						.withHeader(HttpHeaders.RETRY_AFTER, "Wed, 21 Oct 2015 07:28:00 GMT"));
+
+		TooManyRequestsException e = Assertions.assertThrows(TooManyRequestsException.class, () -> getter.get(this.feedUrl));
+		Assertions.assertEquals(Instant.parse("2015-10-21T07:28:00Z"), e.getRetryAfter());
 	}
 
 	@ParameterizedTest
@@ -145,7 +172,7 @@ class HttpGetterTest {
 	@Test
 	void dataTimeout() {
 		Mockito.when(config.httpClient().responseTimeout()).thenReturn(Duration.ofMillis(500));
-		this.getter = new HttpGetter(config, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
+		this.getter = new HttpGetter(config, () -> NOW, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
 
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
 				.respond(HttpResponse.response().withDelay(Delay.milliseconds(1000)));
@@ -156,7 +183,7 @@ class HttpGetterTest {
 	@Test
 	void connectTimeout() {
 		Mockito.when(config.httpClient().connectTimeout()).thenReturn(Duration.ofMillis(500));
-		this.getter = new HttpGetter(config, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
+		this.getter = new HttpGetter(config, () -> NOW, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
 		// try to connect to a non-routable address
 		// https://stackoverflow.com/a/904609
 		Assertions.assertThrows(ConnectTimeoutException.class, () -> getter.get("http://10.255.255.1"));
@@ -209,7 +236,7 @@ class HttpGetterTest {
 	}
 
 	@Test
-	void cacheSubsequentCalls() throws IOException, NotModifiedException {
+	void cacheSubsequentCalls() throws IOException, NotModifiedException, TooManyRequestsException {
 		AtomicInteger calls = new AtomicInteger();
 
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {
@@ -275,17 +302,17 @@ class HttpGetterTest {
 	class Compression {
 
 		@Test
-		void deflate() throws IOException, NotModifiedException {
+		void deflate() throws IOException, NotModifiedException, TooManyRequestsException {
 			supportsCompression("deflate", DeflaterOutputStream::new);
 		}
 
 		@Test
-		void gzip() throws IOException, NotModifiedException {
+		void gzip() throws IOException, NotModifiedException, TooManyRequestsException {
 			supportsCompression("gzip", GZIPOutputStream::new);
 		}
 
 		void supportsCompression(String encoding, CompressionOutputStreamFunction compressionOutputStreamFunction)
-				throws IOException, NotModifiedException {
+				throws IOException, NotModifiedException, TooManyRequestsException {
 			String body = "my body";
 
 			HttpGetterTest.this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {

@@ -94,7 +94,7 @@ There are multiple ways to configure CommaFeed:
 
 - a `config/application.properties` [properties](https://en.wikipedia.org/wiki/.properties) file relative to the working
   directory (keys in kebab-case)
-- Command line arguments prefixed with `-D` (keys in kebab-case)
+- Command line arguments each prefixed with `-D` (keys in kebab-case)
 - Environment variables (keys in UPPER_CASE)
 - a `.env` file in the working directory (keys in UPPER_CASE)
 

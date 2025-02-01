@@ -12,6 +12,8 @@ env:
 
 jobs:
   build:
+    if: github.event_name != 'pull_request' || github.actor != 'renovate[bot]' # renovate already triggers the build on pushes
+
     strategy:
       matrix:
         os: [ "ubuntu-latest", "ubuntu-24.04-arm", "windows-latest" ]
@@ -162,6 +164,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build
+      - docker
     permissions:
       contents: write
     if: github.ref_type == 'tag'

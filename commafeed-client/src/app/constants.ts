@@ -1,13 +1,11 @@
-import { t } from "@lingui/core/macro"
 import type { IconType } from "react-icons"
 import { FaAt } from "react-icons/fa"
 import { SiBuffer, SiFacebook, SiGmail, SiInstapaper, SiPocket, SiTumblr, SiX } from "react-icons/si"
 import type { Category, Entry, SharingSettings } from "./types"
 
-const categories: Record<string, Category> = {
+const categories: Record<string, Omit<Category, "name">> = {
     all: {
         id: "all",
-        name: t`All`,
         expanded: false,
         children: [],
         feeds: [],
@@ -15,7 +13,6 @@ const categories: Record<string, Category> = {
     },
     starred: {
         id: "starred",
-        name: t`Starred`,
         expanded: false,
         children: [],
         feeds: [],

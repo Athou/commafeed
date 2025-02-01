@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro"
+import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
 import { Anchor, Box, Button, Code, Container, Divider, Group, Input, NumberInput, Stack, Text, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
@@ -19,6 +21,7 @@ import { useParams } from "react-router-dom"
 
 export function CategoryDetailsPage() {
     const { id = Constants.categories.all.id } = useParams()
+    const { _ } = useLingui()
 
     const apiKey = useAppSelector(state => state.user.profile?.apiKey)
     const dispatch = useAppDispatch()
@@ -26,7 +29,7 @@ export function CategoryDetailsPage() {
     const query = useAsync(async () => await client.category.getRoot(), [])
     const category =
         id === Constants.categories.starred.id
-            ? Constants.categories.starred
+            ? { ...Constants.categories.starred, name: _(msg`Starred`) }
             : query.result && flattenCategoryTree(query.result.data).find(c => c.id === id)
 
     const form = useForm<CategoryModificationRequest>()
@@ -63,14 +66,14 @@ export function CategoryDetailsPage() {
     }
 
     useEffect(() => {
-        if (!category) return
+        if (!category?.id) return
         setValues({
             id: +category.id,
             name: category.name,
             parentId: category.parentId,
             position: category.position,
         })
-    }, [setValues, category])
+    }, [setValues, category?.id, category?.name, category?.parentId, category?.position])
 
     const editable = id !== Constants.categories.all.id && id !== Constants.categories.starred.id
     if (!category) return <Loader />

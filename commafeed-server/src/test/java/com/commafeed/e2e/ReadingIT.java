@@ -3,9 +3,10 @@ package com.commafeed.e2e;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.hc.core5.http.HttpStatus;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
+import com.commafeed.frontend.model.Entries;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
@@ -22,6 +24,7 @@ import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.options.AriaRole;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.RestAssured;
 
 @QuarkusTest
 class ReadingIT {
@@ -40,11 +43,15 @@ class ReadingIT {
 				.respond(HttpResponse.response()
 						.withBody(IOUtils.toString(getClass().getResource("/feed/rss.xml"), StandardCharsets.UTF_8))
 						.withDelay(TimeUnit.MILLISECONDS, 100));
+
+		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
 	}
 
 	@AfterEach
 	void cleanup() {
 		playwright.close();
+
+		RestAssured.reset();
 	}
 
 	@Test
@@ -66,22 +73,32 @@ class ReadingIT {
 		main.getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Next")).click();
 		main.getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Subscribe").setExact(true)).click();
 
-		// click on subscription
-		sidebar.getByText(Pattern.compile("CommaFeed test feed\\d+")).click();
+		// click on subscription, "2" is actually the unread count
+		sidebar.getByText("CommaFeed test feed2").click();
 
 		// we have two unread entries
-		PlaywrightAssertions.assertThat(main.locator(".mantine-Paper-root")).hasCount(2);
+		PlaywrightAssertions.assertThat(main.getByRole(AriaRole.ARTICLE)).hasCount(2);
 
 		// click on first entry
 		main.getByText("Item 1").click();
 		PlaywrightAssertions.assertThat(main.getByText("Item 1 description")).hasCount(1);
 		PlaywrightAssertions.assertThat(main.getByText("Item 2 description")).hasCount(0);
 
-		// click on subscription
-		sidebar.getByText(Pattern.compile("CommaFeed test feed\\d+")).click();
+		// wait for the entry to be marked as read since the UI is updated immediately while the entry is marked as read in the background
+		Awaitility.await()
+				.atMost(15, TimeUnit.SECONDS)
+				.until(() -> RestAssured.given()
+						.get("rest/category/entries?id=all&readType=unread")
+						.then()
+						.statusCode(HttpStatus.SC_OK)
+						.extract()
+						.as(Entries.class), e -> e.getEntries().size() == 1);
+
+		// click on subscription, "1" is actually the unread count
+		sidebar.getByText("CommaFeed test feed1").click();
 
 		// only one unread entry now
-		PlaywrightAssertions.assertThat(main.locator(".mantine-Paper-root")).hasCount(1);
+		PlaywrightAssertions.assertThat(main.getByRole(AriaRole.ARTICLE)).hasCount(1);
 
 		// click on second entry
 		main.getByText("Item 2").click();

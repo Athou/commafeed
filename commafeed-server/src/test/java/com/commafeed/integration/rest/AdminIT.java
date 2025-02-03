@@ -3,6 +3,7 @@ package com.commafeed.integration.rest;
 import java.util.List;
 
 import org.apache.hc.core5.http.HttpStatus;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -23,6 +24,11 @@ class AdminIT extends BaseIT {
 	@BeforeEach
 	void setup() {
 		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
+	}
+
+	@AfterEach
+	void cleanup() {
+		RestAssured.reset();
 	}
 
 	@Nested

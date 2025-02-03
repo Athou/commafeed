@@ -1,6 +1,7 @@
 package com.commafeed.integration.servlet;
 
 import org.apache.hc.core5.http.HttpStatus;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +17,11 @@ class NextUnreadIT extends BaseIT {
 	@BeforeEach
 	void setup() {
 		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
+	}
+
+	@AfterEach
+	void cleanup() {
+		RestAssured.reset();
 	}
 
 	@Test

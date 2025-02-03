@@ -2,6 +2,7 @@ package com.commafeed.integration.servlet;
 
 import org.apache.hc.core5.http.HttpStatus;
 import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +19,11 @@ class CustomCodeIT extends BaseIT {
 	@BeforeEach
 	void setup() {
 		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
+	}
+
+	@AfterEach
+	void cleanup() {
+		RestAssured.reset();
 	}
 
 	@Test

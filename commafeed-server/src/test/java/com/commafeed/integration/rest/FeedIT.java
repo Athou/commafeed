@@ -11,6 +11,7 @@ import java.util.Objects;
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.core5.http.HttpStatus;
 import org.awaitility.Awaitility;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -36,6 +37,11 @@ class FeedIT extends BaseIT {
 	@BeforeEach
 	void setup() {
 		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
+	}
+
+	@AfterEach
+	void cleanup() {
+		RestAssured.reset();
 	}
 
 	@Nested

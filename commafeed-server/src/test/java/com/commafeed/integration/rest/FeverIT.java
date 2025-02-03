@@ -1,6 +1,7 @@
 package com.commafeed.integration.rest;
 
 import org.apache.hc.core5.http.HttpStatus;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,11 @@ class FeverIT extends BaseIT {
 		UserModel user = RestAssured.given().get("rest/user/profile").then().statusCode(HttpStatus.SC_OK).extract().as(UserModel.class);
 		this.apiKey = user.getApiKey();
 		this.userId = user.getId();
+	}
+
+	@AfterEach
+	void cleanup() {
+		RestAssured.reset();
 	}
 
 	@Test

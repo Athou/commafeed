@@ -2,6 +2,7 @@ package com.commafeed.integration.rest;
 
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,11 @@ class UserIT extends BaseIT {
 		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
 
 		mailbox.clear();
+	}
+
+	@AfterEach
+	void cleanup() {
+		RestAssured.reset();
 	}
 
 	@Test

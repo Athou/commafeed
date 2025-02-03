@@ -73,7 +73,7 @@
         "vite": "^6.0.11",
         "vite-plugin-checker": "^0.8.0",
         "vite-tsconfig-paths": "^5.1.4",
-        "vitest": "^3.0.4",
+        "vitest": "^3.0.5",
         "vitest-mock-extended": "^2.0.2"
     },
     "overrides": {

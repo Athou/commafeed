@@ -19,7 +19,7 @@ export function Enclosure(props: {
             )}
             {hasAudio && (
                 // biome-ignore lint/a11y/useMediaCaption: we don't have any captions for audio
-                <audio controls>
+                <audio controls style={{ width: "100%" }}>
                     <source src={props.enclosureUrl} type={props.enclosureType} />
                 </audio>
             )}

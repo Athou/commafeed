@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 import com.commafeed.CommaFeedConfiguration;
 
 import jakarta.inject.Singleton;
@@ -27,6 +29,16 @@ public class FeedRefreshIntervalCalculator {
 
 	public Instant onFeedNotModified(Instant publishedDate, Long averageEntryInterval) {
 		return onFetchSuccess(publishedDate, averageEntryInterval);
+	}
+
+	public Instant onTooManyRequests(Instant retryAfter) {
+		Instant defaultRefreshInterval = getDefaultRefreshInterval();
+
+		if (retryAfter == null) {
+			return defaultRefreshInterval;
+		}
+
+		return ObjectUtils.max(retryAfter, defaultRefreshInterval);
 	}
 
 	public Instant onFetchError(int errorCount) {

@@ -9,7 +9,6 @@ import java.time.InstantSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -111,7 +110,7 @@ public class HttpGetter {
 		}
 
 		int code = response.getCode();
-		if (Set.of(HttpStatus.SC_TOO_MANY_REQUESTS, HttpStatus.SC_SERVICE_UNAVAILABLE).contains(code) && response.getRetryAfter() != null) {
+		if (code == HttpStatus.SC_TOO_MANY_REQUESTS || code == HttpStatus.SC_SERVICE_UNAVAILABLE && response.getRetryAfter() != null) {
 			throw new TooManyRequestsException(response.getRetryAfter());
 		}
 

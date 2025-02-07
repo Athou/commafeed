@@ -32,7 +32,6 @@ import { RegistrationPage } from "pages/auth/RegistrationPage"
 import React, { useEffect } from "react"
 import { isSafari } from "react-device-detect"
 import ReactGA from "react-ga4"
-import { Helmet } from "react-helmet"
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import Tinycon from "tinycon"
 
@@ -143,7 +142,7 @@ function GoogleAnalyticsHandler() {
 }
 
 function UnreadCountTitleHandler({ unreadCount, enabled }: { unreadCount: number; enabled?: boolean }) {
-    return <Helmet title={enabled && unreadCount > 0 ? `(${unreadCount}) CommaFeed` : "CommaFeed"} />
+    return <title>{enabled && unreadCount > 0 ? `(${unreadCount}) CommaFeed` : "CommaFeed"}</title>
 }
 
 function UnreadCountFaviconHandler({ unreadCount, enabled }: { unreadCount: number; enabled?: boolean }) {
@@ -170,15 +169,6 @@ function BrowserExtensionBadgeUnreadCountHandler() {
     return null
 }
 
-function CustomCode() {
-    return (
-        <Helmet>
-            <link rel="stylesheet" type="text/css" href="custom_css.css" />
-            <script type="text/javascript" src="custom_js.js" />
-        </Helmet>
-    )
-}
-
 export function App() {
     useI18n()
     const root = useAppSelector(state => state.tree.rootCategory)
@@ -202,7 +192,6 @@ export function App() {
                     <GoogleAnalyticsHandler />
                     <RedirectHandler />
                     <AppRoutes />
-                    <CustomCode />
                     {/* disable pull-to-refresh as it messes with vertical scrolling
                         safari behaves weirdly when overscroll-behavior is set to none so we disable it only for other browsers
                         https://github.com/Athou/commafeed/issues/1168

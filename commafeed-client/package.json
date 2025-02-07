@@ -46,7 +46,7 @@
         "react-redux": "^9.2.0",
         "react-router-dom": "^7.1.5",
         "react-swipeable": "^7.0.2",
-        "redoc": "^2.3.0",
+        "redoc": "^2.4.0",
         "style-to-object": "^1.0.8",
         "throttle-debounce": "^5.0.2",
         "tinycon": "^0.6.8",
@@ -85,10 +85,6 @@
         },
         "react-helmet": {
             "react": "^19.0.0"
-        },
-        "redoc": {
-            "react": "^19.0.0",
-            "react-dom": "^19.0.0"
         }
     }
 }

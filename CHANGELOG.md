@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.5.0]
+
+- CommaFeed now honors the Retry-After response header and will not try to refresh a feed sooner than the value of this header
+- Audio enclosures (e.g. podcasts) now fill available entry width
+- Fix an issue with some labels not correctly internationalized
+
 ## [5.4.0]
 
 - An arm64 native executable is now available for download on the releases page

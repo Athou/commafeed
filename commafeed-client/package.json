@@ -30,7 +30,7 @@
         "axios": "^1.7.9",
         "dayjs": "^1.11.13",
         "escape-string-regexp": "^5.0.0",
-        "interweave": "^13.1.0",
+        "interweave": "^13.1.1",
         "monaco-editor": "^0.52.2",
         "mousetrap": "^1.6.5",
         "react": "^19.0.0",
@@ -75,9 +75,6 @@
         "vitest-mock-extended": "^2.0.2"
     },
     "overrides": {
-        "interweave": {
-            "react": "^19.0.0"
-        },
         "react-infinite-scroller": {
             "react": "^19.0.0"
         }

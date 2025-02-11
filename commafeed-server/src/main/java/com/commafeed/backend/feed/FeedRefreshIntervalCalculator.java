@@ -2,83 +2,83 @@ package com.commafeed.backend.feed;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.InstantSource;
 import java.time.temporal.ChronoUnit;
 
 import org.apache.commons.lang3.ObjectUtils;
 
 import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.CommaFeedConfiguration.FeedRefreshErrorHandling;
+import com.google.common.primitives.Longs;
 
 import jakarta.inject.Singleton;
 
 @Singleton
 public class FeedRefreshIntervalCalculator {
 
-	private final Duration refreshInterval;
-	private final boolean empiricalInterval;
+	private final Duration interval;
+	private final Duration maxInterval;
+	private final boolean empirical;
+	private final FeedRefreshErrorHandling errorHandling;
+	private final InstantSource instantSource;
 
-	public FeedRefreshIntervalCalculator(CommaFeedConfiguration config) {
-		this.refreshInterval = config.feedRefresh().interval();
-		this.empiricalInterval = config.feedRefresh().intervalEmpirical();
+	public FeedRefreshIntervalCalculator(CommaFeedConfiguration config, InstantSource instantSource) {
+		this.interval = config.feedRefresh().interval();
+		this.maxInterval = config.feedRefresh().maxInterval();
+		this.empirical = config.feedRefresh().intervalEmpirical();
+		this.errorHandling = config.feedRefresh().errors();
+		this.instantSource = instantSource;
 	}
 
-	public Instant onFetchSuccess(Instant publishedDate, Long averageEntryInterval) {
-		Instant defaultRefreshInterval = getDefaultRefreshInterval();
-		return empiricalInterval ? computeEmpiricalRefreshInterval(publishedDate, averageEntryInterval, defaultRefreshInterval)
-				: defaultRefreshInterval;
+	public Instant onFetchSuccess(Instant publishedDate, Long averageEntryInterval, Duration validFor) {
+		Instant instant = empirical ? computeEmpiricalRefreshInterval(publishedDate, averageEntryInterval)
+				: instantSource.instant().plus(interval);
+		return limitToMaxInterval(ObjectUtils.max(instant, instantSource.instant().plus(validFor)));
 	}
 
 	public Instant onFeedNotModified(Instant publishedDate, Long averageEntryInterval) {
-		return onFetchSuccess(publishedDate, averageEntryInterval);
+		return onFetchSuccess(publishedDate, averageEntryInterval, Duration.ZERO);
 	}
 
 	public Instant onTooManyRequests(Instant retryAfter, int errorCount) {
-		return ObjectUtils.max(retryAfter, onFetchError(errorCount));
+		return limitToMaxInterval(ObjectUtils.max(retryAfter, onFetchError(errorCount)));
 	}
 
 	public Instant onFetchError(int errorCount) {
-		int retriesBeforeDisable = 3;
-		if (errorCount < retriesBeforeDisable || !empiricalInterval) {
-			return getDefaultRefreshInterval();
+		if (errorCount < errorHandling.retriesBeforeBackoff()) {
+			return limitToMaxInterval(instantSource.instant().plus(interval));
 		}
 
-		int disabledHours = Math.min(24 * 7, errorCount - retriesBeforeDisable + 1);
-		return Instant.now().plus(Duration.ofHours(disabledHours));
+		Duration retryInterval = errorHandling.backoffInterval().multipliedBy(errorCount - errorHandling.retriesBeforeBackoff() + 1L);
+		return limitToMaxInterval(instantSource.instant().plus(retryInterval));
 	}
 
-	private Instant getDefaultRefreshInterval() {
-		return Instant.now().plus(refreshInterval);
-	}
-
-	private Instant computeEmpiricalRefreshInterval(Instant publishedDate, Long averageEntryInterval, Instant defaultRefreshInterval) {
-		Instant now = Instant.now();
+	private Instant computeEmpiricalRefreshInterval(Instant publishedDate, Long averageEntryInterval) {
+		Instant now = instantSource.instant();
 
 		if (publishedDate == null) {
-			// feed with no entries, recheck in 24 hours
-			return now.plus(Duration.ofHours(24));
-		} else if (ChronoUnit.DAYS.between(publishedDate, now) >= 30) {
-			// older than a month, recheck in 24 hours
-			return now.plus(Duration.ofHours(24));
-		} else if (ChronoUnit.DAYS.between(publishedDate, now) >= 14) {
-			// older than two weeks, recheck in 12 hours
-			return now.plus(Duration.ofHours(12));
-		} else if (ChronoUnit.DAYS.between(publishedDate, now) >= 7) {
-			// older than a week, recheck in 6 hours
-			return now.plus(Duration.ofHours(6));
+			return now.plus(maxInterval);
+		}
+
+		long daysSinceLastPublication = ChronoUnit.DAYS.between(publishedDate, now);
+		if (daysSinceLastPublication >= 30) {
+			return now.plus(maxInterval);
+		} else if (daysSinceLastPublication >= 14) {
+			return now.plus(maxInterval.dividedBy(2));
+		} else if (daysSinceLastPublication >= 7) {
+			return now.plus(maxInterval.dividedBy(4));
 		} else if (averageEntryInterval != null) {
 			// use average time between entries to decide when to refresh next, divided by factor
 			int factor = 2;
-
-			// not more than 6 hours
-			long date = Math.min(now.plus(Duration.ofHours(6)).toEpochMilli(), now.toEpochMilli() + averageEntryInterval / factor);
-
-			// not less than default refresh interval
-			date = Math.max(defaultRefreshInterval.toEpochMilli(), date);
-
-			return Instant.ofEpochMilli(date);
+			long millis = Longs.constrainToRange(averageEntryInterval / factor, interval.toMillis(), maxInterval.dividedBy(4).toMillis());
+			return now.plusMillis(millis);
 		} else {
-			// unknown case, recheck in 24 hours
-			return now.plus(Duration.ofHours(24));
+			// unknown case
+			return now.plus(maxInterval);
 		}
 	}
 
+	private Instant limitToMaxInterval(Instant instant) {
+		return ObjectUtils.min(instant, instantSource.instant().plus(maxInterval));
+	}
 }

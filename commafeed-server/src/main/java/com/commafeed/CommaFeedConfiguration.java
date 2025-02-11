@@ -168,19 +168,38 @@ public interface CommaFeedConfiguration {
 
 	interface FeedRefresh {
 		/**
-		 * Amount of time CommaFeed will wait before refreshing the same feed.
+		 * Default amount of time CommaFeed will wait before refreshing a feed.
 		 */
 		@WithDefault("5m")
 		Duration interval();
 
 		/**
-		 * If true, CommaFeed will calculate the next refresh time based on the feed's average time between entries and the time since the
-		 * last entry was published. The interval will be somewhere between the default refresh interval and 24h.
+		 * Maximum amount of time CommaFeed will wait before refreshing a feed. This is used as an upper bound when:
+		 *
+		 * <ul>
+		 * <li>an error occurs while refreshing a feed and we're backing off exponentially</li>
+		 * <li>we receive a Cache-Control header from the feed</li>
+		 * <li>we receive a Retry-After header from the feed</li>
+		 * </ul>
+		 */
+		@WithDefault("24h")
+		Duration maxInterval();
+
+		/**
+		 * If enabled, CommaFeed will calculate the next refresh time based on the feed's average time between entries and the time since
+		 * the last entry was published. The interval will be sometimes between the default refresh interval
+		 * (`commafeed.feed-refresh.interval`) and the maximum refresh interval (`commafeed.feed-refresh.max-interval`).
 		 * 
 		 * See {@link FeedRefreshIntervalCalculator} for details.
 		 */
 		@WithDefault("false")
 		boolean intervalEmpirical();
+
+		/**
+		 * Feed refresh engine error handling settings.
+		 */
+		@ConfigDocSection
+		FeedRefreshErrorHandling errors();
 
 		/**
 		 * Amount of http threads used to fetch feeds.
@@ -215,6 +234,21 @@ public interface CommaFeedConfiguration {
 		 */
 		@WithDefault("0")
 		Duration forceRefreshCooldownDuration();
+	}
+
+	interface FeedRefreshErrorHandling {
+		/**
+		 * Number of retries before backoff is applied.
+		 */
+		@Min(0)
+		@WithDefault("3")
+		int retriesBeforeBackoff();
+
+		/**
+		 * Duration to wait before retrying after an error. Will be multiplied by the number of errors since the last successful fetch.
+		 */
+		@WithDefault("1h")
+		Duration backoffInterval();
 	}
 
 	interface Database {

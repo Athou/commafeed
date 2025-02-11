@@ -366,7 +366,7 @@ Feed refresh engine settings
 
 `commafeed.feed-refresh.interval`
 
-Amount of time CommaFeed will wait before refreshing the same feed.
+Default amount of time CommaFeed will wait before refreshing a feed.
 
 
 
@@ -383,10 +383,36 @@ Environment variable: `COMMAFEED_FEED_REFRESH_INTERVAL`</td>
 <tr>
 <td>
 
+`commafeed.feed-refresh.max-interval`
+
+Maximum amount of time CommaFeed will wait before refreshing a feed. This is used as an upper bound when:
+
+<ul>
+<li>an error occurs while refreshing a feed and we're backing off exponentially</li>
+<li>we receive a Cache-Control header from the feed</li>
+<li>we receive a Retry-After header from the feed</li>
+</ul>
+
+
+
+Environment variable: `COMMAFEED_FEED_REFRESH_MAX_INTERVAL`</td>
+<td>
+
+[Duration](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html) [🛈](#duration-note-anchor)
+</td>
+<td>
+
+`24H`
+</td>
+</tr>
+<tr>
+<td>
+
 `commafeed.feed-refresh.interval-empirical`
 
-If true, CommaFeed will calculate the next refresh time based on the feed's average time between entries and the time since the
-last entry was published. The interval will be somewhere between the default refresh interval and 24h.
+If enabled, CommaFeed will calculate the next refresh time based on the feed's average time between entries and the time since
+the last entry was published. The interval will be sometimes between the default refresh interval
+(`commafeed.feed-refresh.interval`) and the maximum refresh interval (`commafeed.feed-refresh.max-interval`).
 
 See <code>FeedRefreshIntervalCalculator</code> for details.
 
@@ -497,6 +523,52 @@ Environment variable: `COMMAFEED_FEED_REFRESH_FORCE_REFRESH_COOLDOWN_DURATION`</
 <td>
 
 `0S`
+</td>
+</tr>
+<thead>
+<tr>
+<th align="left" colspan="3">
+&nbsp;&nbsp;&nbsp;&nbsp;Feed refresh engine error handling settings
+</th>
+</tr>
+</thead>
+
+<tr>
+<td>
+
+`commafeed.feed-refresh.errors.retries-before-backoff`
+
+Number of retries before backoff is applied.
+
+
+
+Environment variable: `COMMAFEED_FEED_REFRESH_ERRORS_RETRIES_BEFORE_BACKOFF`</td>
+<td>
+
+int
+</td>
+<td>
+
+`3`
+</td>
+</tr>
+<tr>
+<td>
+
+`commafeed.feed-refresh.errors.backoff-interval`
+
+Duration to wait before retrying after an error. Will be multiplied by the number of errors since the last successful fetch.
+
+
+
+Environment variable: `COMMAFEED_FEED_REFRESH_ERRORS_BACKOFF_INTERVAL`</td>
+<td>
+
+[Duration](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html) [🛈](#duration-note-anchor)
+</td>
+<td>
+
+`1H`
 </td>
 </tr>
 <thead>

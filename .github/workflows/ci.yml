@@ -32,7 +32,7 @@ jobs:
 
       # Setup
       - name: Set up GraalVM
-        uses: graalvm/setup-graalvm@aafbedb8d382ed0ca6167d3a051415f20c859274 # v1
+        uses: graalvm/setup-graalvm@dea0e3da952f9bd6e18653af61b6b4bd9d3dafa5 # v1
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: "graalvm"

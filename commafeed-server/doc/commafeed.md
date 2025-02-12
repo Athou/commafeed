@@ -402,7 +402,7 @@ Environment variable: `COMMAFEED_FEED_REFRESH_MAX_INTERVAL`</td>
 </td>
 <td>
 
-`24H`
+`4H`
 </td>
 </tr>
 <tr>

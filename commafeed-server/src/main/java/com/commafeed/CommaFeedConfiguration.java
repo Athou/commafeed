@@ -182,7 +182,7 @@ public interface CommaFeedConfiguration {
 		 * <li>we receive a Retry-After header from the feed</li>
 		 * </ul>
 		 */
-		@WithDefault("24h")
+		@WithDefault("4h")
 		Duration maxInterval();
 
 		/**

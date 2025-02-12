@@ -33,7 +33,7 @@ public class FeedRefreshIntervalCalculator {
 	public Instant onFetchSuccess(Instant publishedDate, Long averageEntryInterval, Duration validFor) {
 		Instant instant = empirical ? computeEmpiricalRefreshInterval(publishedDate, averageEntryInterval)
 				: instantSource.instant().plus(interval);
-		return limitToMaxInterval(ObjectUtils.max(instant, instantSource.instant().plus(validFor)));
+		return constrainToBounds(ObjectUtils.max(instant, instantSource.instant().plus(validFor)));
 	}
 
 	public Instant onFeedNotModified(Instant publishedDate, Long averageEntryInterval) {
@@ -41,16 +41,16 @@ public class FeedRefreshIntervalCalculator {
 	}
 
 	public Instant onTooManyRequests(Instant retryAfter, int errorCount) {
-		return limitToMaxInterval(ObjectUtils.max(retryAfter, onFetchError(errorCount)));
+		return constrainToBounds(ObjectUtils.max(retryAfter, onFetchError(errorCount)));
 	}
 
 	public Instant onFetchError(int errorCount) {
 		if (errorCount < errorHandling.retriesBeforeBackoff()) {
-			return limitToMaxInterval(instantSource.instant().plus(interval));
+			return constrainToBounds(instantSource.instant().plus(interval));
 		}
 
 		Duration retryInterval = errorHandling.backoffInterval().multipliedBy(errorCount - errorHandling.retriesBeforeBackoff() + 1L);
-		return limitToMaxInterval(instantSource.instant().plus(retryInterval));
+		return constrainToBounds(instantSource.instant().plus(retryInterval));
 	}
 
 	private Instant computeEmpiricalRefreshInterval(Instant publishedDate, Long averageEntryInterval) {
@@ -78,7 +78,7 @@ public class FeedRefreshIntervalCalculator {
 		}
 	}
 
-	private Instant limitToMaxInterval(Instant instant) {
-		return ObjectUtils.min(instant, instantSource.instant().plus(maxInterval));
+	private Instant constrainToBounds(Instant instant) {
+		return ObjectUtils.max(ObjectUtils.min(instant, instantSource.instant().plus(maxInterval)), instantSource.instant().plus(interval));
 	}
 }

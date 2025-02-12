@@ -192,7 +192,7 @@ public interface CommaFeedConfiguration {
 		 * 
 		 * See {@link FeedRefreshIntervalCalculator} for details.
 		 */
-		@WithDefault("false")
+		@WithDefault("true")
 		boolean intervalEmpirical();
 
 		/**

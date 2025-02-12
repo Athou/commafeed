@@ -31,14 +31,8 @@ public class FeedRefreshIntervalCalculator {
 		return onFetchSuccess(publishedDate, averageEntryInterval);
 	}
 
-	public Instant onTooManyRequests(Instant retryAfter) {
-		Instant defaultRefreshInterval = getDefaultRefreshInterval();
-
-		if (retryAfter == null) {
-			return defaultRefreshInterval;
-		}
-
-		return ObjectUtils.max(retryAfter, defaultRefreshInterval);
+	public Instant onTooManyRequests(Instant retryAfter, int errorCount) {
+		return ObjectUtils.max(retryAfter, onFetchError(errorCount));
 	}
 
 	public Instant onFetchError(int errorCount) {

@@ -104,7 +104,7 @@ public class FeedRefreshWorker {
 
 			feed.setErrorCount(feed.getErrorCount() + 1);
 			feed.setMessage("Server indicated that we are sending too many requests");
-			feed.setDisabledUntil(refreshIntervalCalculator.onTooManyRequests(e.getRetryAfter()));
+			feed.setDisabledUntil(refreshIntervalCalculator.onTooManyRequests(e.getRetryAfter(), feed.getErrorCount()));
 
 			return new FeedRefreshWorkerResult(feed, Collections.emptyList());
 		} catch (Exception e) {

@@ -73,8 +73,8 @@ class ReadingIT {
 		main.getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Next")).click();
 		main.getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Subscribe").setExact(true)).click();
 
-		// click on subscription, "2" is actually the unread count
-		sidebar.getByText("CommaFeed test feed2").click();
+		// click on subscription
+		sidebar.getByText(Pattern.compile("CommaFeed test feed\\d+")).click();
 
 		// we have two unread entries
 		PlaywrightAssertions.assertThat(main.getByRole(AriaRole.ARTICLE)).hasCount(2);
@@ -94,8 +94,8 @@ class ReadingIT {
 						.extract()
 						.as(Entries.class), e -> e.getEntries().size() == 1);
 
-		// click on subscription, "1" is actually the unread count
-		sidebar.getByText("CommaFeed test feed1").click();
+		// click on subscription
+		sidebar.getByText(Pattern.compile("CommaFeed test feed\\d*")).click();
 
 		// only one unread entry now
 		PlaywrightAssertions.assertThat(main.getByRole(AriaRole.ARTICLE)).hasCount(1);

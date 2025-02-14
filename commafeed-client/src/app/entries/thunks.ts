@@ -11,6 +11,7 @@ import { flushSync } from "react-dom"
 
 const getEndpoint = (sourceType: EntrySourceType) =>
     sourceType === "category" || sourceType === "tag" ? client.category.getEntries : client.feed.getEntries
+
 export const loadEntries = createAppAsyncThunk(
     "entries/load",
     async (
@@ -28,6 +29,7 @@ export const loadEntries = createAppAsyncThunk(
         return result.data
     }
 )
+
 export const loadMoreEntries = createAppAsyncThunk("entries/loadMore", async (_, thunkApi) => {
     const state = thunkApi.getState()
     const { source } = state.entries
@@ -37,6 +39,7 @@ export const loadMoreEntries = createAppAsyncThunk("entries/loadMore", async (_,
     const result = await endpoint(buildGetEntriesPaginatedRequest(state, source, offset))
     return result.data
 })
+
 const buildGetEntriesPaginatedRequest = (state: RootState, source: EntrySource, offset: number) => ({
     id: source.type === "tag" ? Constants.categories.all.id : source.id,
     order: state.user.settings?.readingOrder,
@@ -46,15 +49,18 @@ const buildGetEntriesPaginatedRequest = (state: RootState, source: EntrySource, 
     tag: source.type === "tag" ? source.id : undefined,
     keywords: state.entries.search,
 })
+
 export const reloadEntries = createAppAsyncThunk("entries/reload", (arg, thunkApi) => {
     const state = thunkApi.getState()
     thunkApi.dispatch(loadEntries({ source: state.entries.source, clearSearch: false }))
 })
+
 export const search = createAppAsyncThunk("entries/search", (arg: string, thunkApi) => {
     const state = thunkApi.getState()
     thunkApi.dispatch(setSearch(arg))
     thunkApi.dispatch(loadEntries({ source: state.entries.source, clearSearch: false }))
 })
+
 export const markEntry = createAppAsyncThunk(
     "entries/entry/mark",
     (arg: { entry: Entry; read: boolean }) => {
@@ -67,6 +73,7 @@ export const markEntry = createAppAsyncThunk(
         condition: arg => arg.entry.markable && arg.entry.read !== arg.read,
     }
 )
+
 export const markMultipleEntries = createAppAsyncThunk(
     "entries/entry/markMultiple",
     async (
@@ -84,6 +91,7 @@ export const markMultipleEntries = createAppAsyncThunk(
         thunkApi.dispatch(reloadTree())
     }
 )
+
 export const markEntriesUpToEntry = createAppAsyncThunk("entries/entry/upToEntry", (arg: Entry, thunkApi) => {
     const state = thunkApi.getState()
     const { entries } = state.entries
@@ -98,6 +106,7 @@ export const markEntriesUpToEntry = createAppAsyncThunk("entries/entry/upToEntry
         })
     )
 })
+
 export const markAllEntries = createAppAsyncThunk(
     "entries/entry/markAll",
     async (
@@ -113,6 +122,7 @@ export const markAllEntries = createAppAsyncThunk(
         thunkApi.dispatch(reloadTree())
     }
 )
+
 export const starEntry = createAppAsyncThunk(
     "entries/entry/star",
     (arg: { entry: Entry; starred: boolean }) => {
@@ -126,6 +136,7 @@ export const starEntry = createAppAsyncThunk(
         condition: arg => arg.entry.markable && arg.entry.starred !== arg.starred,
     }
 )
+
 export const selectEntry = createAppAsyncThunk(
     "entries/entry/select",
     (
@@ -191,6 +202,7 @@ export const selectEntry = createAppAsyncThunk(
         }
     }
 )
+
 const scrollToEntry = (entryElement: HTMLElement, margin: number, scrollSpeed: number | undefined, onScrollEnded: () => void) => {
     const header = document.getElementById(Constants.dom.headerId)?.getBoundingClientRect()
     const offset = (header?.bottom ?? 0) + margin
@@ -228,6 +240,7 @@ export const selectPreviousEntry = createAppAsyncThunk(
         }
     }
 )
+
 export const selectNextEntry = createAppAsyncThunk(
     "entries/entry/selectNext",
     async (
@@ -261,6 +274,7 @@ export const selectNextEntry = createAppAsyncThunk(
         }
     }
 )
+
 export const tagEntry = createAppAsyncThunk("entries/entry/tag", async (arg: TagRequest, thunkApi) => {
     await client.entry.tag(arg)
     thunkApi.dispatch(reloadTags())

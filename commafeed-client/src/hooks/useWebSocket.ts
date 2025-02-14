@@ -1,6 +1,6 @@
 import { setWebSocketConnected } from "app/server/slice"
 import { type AppDispatch, useAppDispatch, useAppSelector } from "app/store"
-import { incrementUnreadCount } from "app/tree/slice"
+import { newFeedEntriesDiscovered } from "app/tree/thunks"
 import { useEffect } from "react"
 import WebsocketHeartbeatJs from "websocket-heartbeat-js"
 
@@ -9,7 +9,7 @@ const handleMessage = (dispatch: AppDispatch, message: string) => {
     const type = parts[0]
     if (type === "new-feed-entries") {
         dispatch(
-            incrementUnreadCount({
+            newFeedEntriesDiscovered({
                 feedId: +parts[1],
                 amount: +parts[2],
             })

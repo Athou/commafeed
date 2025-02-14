@@ -10,9 +10,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.HttpGetter;
+import com.commafeed.backend.HttpGetter.HostNotAllowedException;
 import com.commafeed.backend.HttpGetter.HttpRequest;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
+import com.commafeed.backend.HttpGetter.SchemeNotAllowedException;
 import com.commafeed.backend.HttpGetter.TooManyRequestsException;
 import com.commafeed.backend.feed.parser.FeedParser;
 import com.commafeed.backend.feed.parser.FeedParserResult;
@@ -41,8 +43,8 @@ public class FeedFetcher {
 	}
 
 	public FeedFetcherResult fetch(String feedUrl, boolean extractFeedUrlFromHtml, String lastModified, String eTag,
-			Instant lastPublishedDate, String lastContentHash)
-			throws FeedException, IOException, NotModifiedException, TooManyRequestsException {
+			Instant lastPublishedDate, String lastContentHash) throws FeedException, IOException, NotModifiedException,
+			TooManyRequestsException, SchemeNotAllowedException, HostNotAllowedException {
 		log.debug("Fetching feed {}", feedUrl);
 
 		HttpResult result = getter.get(HttpRequest.builder(feedUrl).lastModified(lastModified).eTag(eTag).build());

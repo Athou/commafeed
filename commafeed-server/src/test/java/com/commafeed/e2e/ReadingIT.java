@@ -3,6 +3,7 @@ package com.commafeed.e2e;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.core5.http.HttpStatus;

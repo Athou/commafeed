@@ -11,8 +11,10 @@ import org.apache.hc.core5.net.URIBuilder;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.HttpGetter;
+import com.commafeed.backend.HttpGetter.HostNotAllowedException;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
+import com.commafeed.backend.HttpGetter.SchemeNotAllowedException;
 import com.commafeed.backend.HttpGetter.TooManyRequestsException;
 import com.commafeed.backend.model.Feed;
 import com.fasterxml.jackson.core.JsonPointer;
@@ -92,7 +94,8 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 		return new Favicon(bytes, contentType);
 	}
 
-	private byte[] fetchForUser(String googleAuthKey, String userId) throws IOException, NotModifiedException, TooManyRequestsException {
+	private byte[] fetchForUser(String googleAuthKey, String userId)
+			throws IOException, NotModifiedException, TooManyRequestsException, HostNotAllowedException, SchemeNotAllowedException {
 		URI uri = UriBuilder.fromUri("https://www.googleapis.com/youtube/v3/channels")
 				.queryParam("part", "snippet")
 				.queryParam("key", googleAuthKey)
@@ -102,7 +105,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 	}
 
 	private byte[] fetchForChannel(String googleAuthKey, String channelId)
-			throws IOException, NotModifiedException, TooManyRequestsException {
+			throws IOException, NotModifiedException, TooManyRequestsException, HostNotAllowedException, SchemeNotAllowedException {
 		URI uri = UriBuilder.fromUri("https://www.googleapis.com/youtube/v3/channels")
 				.queryParam("part", "snippet")
 				.queryParam("key", googleAuthKey)
@@ -112,7 +115,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 	}
 
 	private byte[] fetchForPlaylist(String googleAuthKey, String playlistId)
-			throws IOException, NotModifiedException, TooManyRequestsException {
+			throws IOException, NotModifiedException, TooManyRequestsException, HostNotAllowedException, SchemeNotAllowedException {
 		URI uri = UriBuilder.fromUri("https://www.googleapis.com/youtube/v3/playlists")
 				.queryParam("part", "snippet")
 				.queryParam("key", googleAuthKey)

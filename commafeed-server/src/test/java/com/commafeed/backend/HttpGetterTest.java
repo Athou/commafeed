@@ -236,7 +236,7 @@ class HttpGetterTest {
 	}
 
 	@Test
-	void cacheSubsequentCalls() throws IOException, NotModifiedException, TooManyRequestsException {
+	void cacheSubsequentCalls() throws Exception {
 		AtomicInteger calls = new AtomicInteger();
 
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {
@@ -302,17 +302,16 @@ class HttpGetterTest {
 	class Compression {
 
 		@Test
-		void deflate() throws IOException, NotModifiedException, TooManyRequestsException {
+		void deflate() throws Exception {
 			supportsCompression("deflate", DeflaterOutputStream::new);
 		}
 
 		@Test
-		void gzip() throws IOException, NotModifiedException, TooManyRequestsException {
+		void gzip() throws Exception {
 			supportsCompression("gzip", GZIPOutputStream::new);
 		}
 
-		void supportsCompression(String encoding, CompressionOutputStreamFunction compressionOutputStreamFunction)
-				throws IOException, NotModifiedException, TooManyRequestsException {
+		void supportsCompression(String encoding, CompressionOutputStreamFunction compressionOutputStreamFunction) throws Exception {
 			String body = "my body";
 
 			HttpGetterTest.this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {
@@ -338,6 +337,66 @@ class HttpGetterTest {
 			OutputStream apply(OutputStream input) throws IOException;
 		}
 
+	}
+
+	@Nested
+	class SchemeNotAllowed {
+		@Test
+		void file() {
+			Assertions.assertThrows(HttpGetter.SchemeNotAllowedException.class, () -> getter.get("file://localhost"));
+		}
+
+		@Test
+		void ftp() {
+			Assertions.assertThrows(HttpGetter.SchemeNotAllowedException.class, () -> getter.get("ftp://localhost"));
+		}
+	}
+
+	@Nested
+	class HostNotAllowed {
+
+		@BeforeEach
+		void init() {
+			Mockito.when(config.httpClient().blockLocalAddresses()).thenReturn(true);
+			getter = new HttpGetter(config, () -> NOW, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
+		}
+
+		@Test
+		void localhost() {
+			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://localhost"));
+			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://127.0.0.1"));
+			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://2130706433"));
+			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://0x7F.0x00.0x00.0X01"));
+		}
+
+		@Test
+		void zero() {
+			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://0.0.0.0"));
+		}
+
+		@Test
+		void linkLocal() {
+			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://169.254.12.34"));
+			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://169.254.169.254"));
+		}
+
+		@Test
+		void multicast() {
+			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://224.2.3.4"));
+			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://239.255.255.254"));
+		}
+
+		@Test
+		void privateIpv4Ranges() {
+			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://10.0.0.1"));
+			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://172.16.0.1"));
+			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://192.168.0.1"));
+		}
+
+		@Test
+		void privateIpv6Ranges() {
+			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://fd12:3456:789a:1::1"));
+		}
 	}
 
 }

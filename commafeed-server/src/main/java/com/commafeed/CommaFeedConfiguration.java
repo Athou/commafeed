@@ -139,6 +139,16 @@ public interface CommaFeedConfiguration {
 		MemorySize maxResponseSize();
 
 		/**
+		 * Prevent access to local addresses to mitigate server-side request forgery (SSRF) attacks, which could potentially expose internal
+		 * resources.
+		 *
+		 * You may want to disable this if you subscribe to feeds that are only available on your local network and you trust all users of
+		 * your CommaFeed instance.
+		 */
+		@WithDefault("true")
+		boolean blockLocalAddresses();
+
+		/**
 		 * HTTP client cache configuration
 		 */
 		@ConfigDocSection

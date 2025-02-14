@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ "ubuntu-latest", "ubuntu-24.04-arm", "windows-latest" ]
+        os: [ "ubuntu-latest", "ubuntu-22.04-arm", "windows-latest" ]
         database: [ "h2", "postgresql", "mysql", "mariadb" ]
 
     runs-on: ${{ matrix.os }}

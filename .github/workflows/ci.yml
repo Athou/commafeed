@@ -116,7 +116,24 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      ## tags
+      ## build but don't push for PRs and renovate
+      - name: Docker build - native
+        uses: docker/build-push-action@ca877d9245402d1537745e0e356eab47c3520991 # v6
+        with:
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.native
+          push: false
+          platforms: linux/amd64,linux/arm64/v8
+
+      - name: Docker build - jvm
+        uses: docker/build-push-action@ca877d9245402d1537745e0e356eab47c3520991 # v6
+        with:
+          context: .
+          file: commafeed-server/src/main/docker/Dockerfile.jvm
+          push: false
+          platforms: linux/amd64,linux/arm64/v8
+
+      ## build and push tag
       - name: Docker build and push tag - native
         uses: docker/build-push-action@ca877d9245402d1537745e0e356eab47c3520991 # v6
         if: ${{ github.ref_type == 'tag' }}
@@ -141,7 +158,7 @@ jobs:
             athou/commafeed:latest-${{ matrix.database }}-jvm
             athou/commafeed:${{ github.ref_name }}-${{ matrix.database }}-jvm
 
-      ## master
+      ## build and push master
       - name: Docker build and push master - native
         uses: docker/build-push-action@ca877d9245402d1537745e0e356eab47c3520991 # v6
         if: ${{ github.ref_name == 'master' }}

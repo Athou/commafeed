@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.6.0]
+
+- To better respect the bandwidth of feed owners, the default value of `commafeed.feed-refresh.interval-empirical` is now true. This means feeds no longer refresh exactly every 5 minutes (the default value of `commafeed.feed-refresh.interval`) but between 5 minutes and 4 hours (the default value of the new `commafeed.feed-refresh.max-interval` setting). The interval is calculated based on feed activity, so highly active feeds refresh more often (#1677)
+- Many previously hardcoded values used in feed refresh interval calculation are now exposed as settings (#1677)
+- Access to local addresses is now blocked to mitigate server-side request forgery (SSRF) attacks, which could potentially expose internal resources. You might want to disable the new `commafeed.http-client.block-local-addresses` setting if you subscribe to feeds only available on your local network and you trust all your users
+- If a feed responds with a "429 - Too many requests" response, a backoff mechanism is triggered when the response does not contain a "Retry-After" header
+
 ## [5.5.0]
 
 - CommaFeed now honors the Retry-After response header and will not try to refresh a feed sooner than the value of this header

@@ -1,4 +1,4 @@
-FROM ibm-semeru-runtimes:open-21.0.5_11-jre
+FROM ibm-semeru-runtimes:open-21.0.6_7-jre
 EXPOSE 8082
 
 RUN mkdir -p /commafeed/data

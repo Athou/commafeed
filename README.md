@@ -48,10 +48,10 @@ system and database of choice.
 
 There are two types of packages:
 
-- The `linux-x86_64` and `windows-x86_64` packages are compiled natively and contain an executable that can be run
+- The `linux-x86_64`, `linux-aarch_64` and `windows-x86_64` packages are compiled natively and contain an executable that can be run
   directly.
 - The `jvm` package is a zip file containing all `.jar` files required to run the application. This package works on all
-  platforms and is started with `java -jar quarkus-run.jar`.
+  platforms but requires a JRE and is started with `java -jar quarkus-run.jar`.
 
 If available for your operating system, the native package is recommended because it has a faster startup time and lower
 memory usage.

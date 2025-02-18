@@ -17,9 +17,9 @@ import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.HttpGetter.SchemeNotAllowedException;
 import com.commafeed.backend.HttpGetter.TooManyRequestsException;
 import com.commafeed.backend.feed.parser.FeedParser;
+import com.commafeed.backend.feed.parser.FeedParser.FeedParsingException;
 import com.commafeed.backend.feed.parser.FeedParserResult;
 import com.commafeed.backend.urlprovider.FeedURLProvider;
-import com.rometools.rome.io.FeedException;
 
 import io.quarkus.arc.All;
 import jakarta.inject.Singleton;
@@ -43,7 +43,7 @@ public class FeedFetcher {
 	}
 
 	public FeedFetcherResult fetch(String feedUrl, boolean extractFeedUrlFromHtml, String lastModified, String eTag,
-			Instant lastPublishedDate, String lastContentHash) throws FeedException, IOException, NotModifiedException,
+			Instant lastPublishedDate, String lastContentHash) throws FeedParsingException, IOException, NotModifiedException,
 			TooManyRequestsException, SchemeNotAllowedException, HostNotAllowedException, NoFeedFoundException {
 		log.debug("Fetching feed {}", feedUrl);
 
@@ -53,7 +53,7 @@ public class FeedFetcher {
 		FeedParserResult parserResult;
 		try {
 			parserResult = parser.parse(result.getUrlAfterRedirect(), content);
-		} catch (FeedException e) {
+		} catch (FeedParsingException e) {
 			if (extractFeedUrlFromHtml) {
 				String extractedUrl = extractFeedUrl(urlProviders, feedUrl, new String(result.getContent(), StandardCharsets.UTF_8));
 				if (StringUtils.isNotBlank(extractedUrl)) {
@@ -115,7 +115,7 @@ public class FeedFetcher {
 		private static final long serialVersionUID = 1L;
 
 		public NoFeedFoundException(Throwable cause) {
-			super("No feed found at this URL", cause);
+			super("This URL does not point to an RSS feed or a website with an RSS feed.", cause);
 		}
 	}
 

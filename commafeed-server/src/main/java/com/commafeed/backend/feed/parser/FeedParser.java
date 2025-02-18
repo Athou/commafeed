@@ -35,7 +35,6 @@ import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndLink;
 import com.rometools.rome.feed.synd.SyndLinkImpl;
-import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 
 import jakarta.inject.Singleton;
@@ -56,12 +55,12 @@ public class FeedParser {
 	private final EncodingDetector encodingDetector;
 	private final FeedCleaner feedCleaner;
 
-	public FeedParserResult parse(String feedUrl, byte[] xml) throws FeedException {
+	public FeedParserResult parse(String feedUrl, byte[] xml) throws FeedParsingException {
 		try {
 			Charset encoding = encodingDetector.getEncoding(xml);
 			String xmlString = feedCleaner.trimInvalidXmlCharacters(new String(xml, encoding));
 			if (xmlString == null) {
-				throw new FeedException("Input string is null for url " + feedUrl);
+				throw new FeedParsingException("Input string is null for url " + feedUrl);
 			}
 			xmlString = feedCleaner.replaceHtmlEntitiesWithNumericEntities(xmlString);
 			xmlString = feedCleaner.removeDoctypeDeclarations(xmlString);
@@ -81,8 +80,10 @@ public class FeedParser {
 			Long averageEntryInterval = averageTimeBetweenEntries(entries);
 
 			return new FeedParserResult(title, link, lastPublishedDate, averageEntryInterval, lastEntryDate, entries);
+		} catch (FeedParsingException e) {
+			throw e;
 		} catch (Exception e) {
-			throw new FeedException(String.format("Could not parse feed from %s : %s", feedUrl, e.getMessage()), e);
+			throw new FeedParsingException(String.format("Could not parse feed from %s : %s", feedUrl, e.getMessage()), e);
 		}
 	}
 
@@ -266,6 +267,18 @@ public class FeedParser {
 			stats.addValue(diff);
 		}
 		return (long) stats.getMean();
+	}
+
+	public static class FeedParsingException extends Exception {
+		private static final long serialVersionUID = 1L;
+
+		public FeedParsingException(String message) {
+			super(message);
+		}
+
+		public FeedParsingException(String message, Throwable cause) {
+			super(message, cause);
+		}
 	}
 
 }

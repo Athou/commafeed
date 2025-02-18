@@ -44,7 +44,7 @@ public class FeedFetcher {
 
 	public FeedFetcherResult fetch(String feedUrl, boolean extractFeedUrlFromHtml, String lastModified, String eTag,
 			Instant lastPublishedDate, String lastContentHash) throws FeedException, IOException, NotModifiedException,
-			TooManyRequestsException, SchemeNotAllowedException, HostNotAllowedException {
+			TooManyRequestsException, SchemeNotAllowedException, HostNotAllowedException, NoFeedFoundException {
 		log.debug("Fetching feed {}", feedUrl);
 
 		HttpResult result = getter.get(HttpRequest.builder(feedUrl).lastModified(lastModified).eTag(eTag).build());
@@ -56,14 +56,14 @@ public class FeedFetcher {
 		} catch (FeedException e) {
 			if (extractFeedUrlFromHtml) {
 				String extractedUrl = extractFeedUrl(urlProviders, feedUrl, new String(result.getContent(), StandardCharsets.UTF_8));
-				if (org.apache.commons.lang3.StringUtils.isNotBlank(extractedUrl)) {
+				if (StringUtils.isNotBlank(extractedUrl)) {
 					feedUrl = extractedUrl;
 
 					result = getter.get(HttpRequest.builder(extractedUrl).lastModified(lastModified).eTag(eTag).build());
 					content = result.getContent();
 					parserResult = parser.parse(result.getUrlAfterRedirect(), content);
 				} else {
-					throw e;
+					throw new NoFeedFoundException(e);
 				}
 			} else {
 				throw e;
@@ -109,6 +109,14 @@ public class FeedFetcher {
 
 	public record FeedFetcherResult(FeedParserResult feed, String urlAfterRedirect, String lastModifiedHeader, String lastETagHeader,
 			String contentHash, Duration validFor) {
+	}
+
+	public static class NoFeedFoundException extends Exception {
+		private static final long serialVersionUID = 1L;
+
+		public NoFeedFoundException(Throwable cause) {
+			super("No feed found at this URL", cause);
+		}
 	}
 
 }

@@ -4,7 +4,7 @@ import { calculatePlaceholderSize } from "app/utils"
 import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
 import { BasicHtmlStyles } from "components/content/BasicHtmlStyles"
 import escapeStringRegexp from "escape-string-regexp"
-import { type ChildrenNode, Interweave, type MatchResponse, Matcher, type Node, type TransformCallback } from "interweave"
+import { ALLOWED_TAG_LIST, type ChildrenNode, Interweave, type MatchResponse, Matcher, type Node, type TransformCallback } from "interweave"
 import React from "react"
 import styleToObject from "style-to-object"
 import { tss } from "tss"
@@ -88,6 +88,9 @@ class HighlightMatcher extends Matcher {
     }
 }
 
+// allow iframe tag
+const allowList = [...ALLOWED_TAG_LIST, "iframe"]
+
 // memoize component because Interweave is costly
 const Content = React.memo((props: ContentProps) => {
     const { classes } = useStyles()
@@ -96,7 +99,7 @@ const Content = React.memo((props: ContentProps) => {
     return (
         <BasicHtmlStyles>
             <Box className={classes.content}>
-                <Interweave content={props.content} transform={transform} matchers={matchers} />
+                <Interweave content={props.content} transform={transform} matchers={matchers} allowList={allowList} />
             </Box>
         </BasicHtmlStyles>
     )

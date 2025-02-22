@@ -116,6 +116,34 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.5.0</version>
+				<dependencies>
+					<dependency>
+						<groupId>io.quarkus</groupId>
+						<artifactId>quarkus-extension-processor</artifactId>
+						<version>${quarkus.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<includePluginDependencies>true</includePluginDependencies>
+					<mainClass>com.commafeed.tools.CommaFeedPropertiesGenerator</mainClass>
+					<arguments>
+						<argument>${project.build.directory}</argument>
+					</arguments>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>3.7.1</version>

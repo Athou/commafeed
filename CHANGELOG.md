@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.6.1]
+
+- Restore support for iframes in feed entries (#1688)
+- There is now a package available for Arch Linux thanks to @dcelasun (#1691)
+
 ## [5.6.0]
 
 - To better respect the bandwidth of feed owners, the default value of `commafeed.feed-refresh.interval-empirical` is now true. This means feeds no longer refresh exactly every 5 minutes (the default value of `commafeed.feed-refresh.interval`) but between 5 minutes and 4 hours (the default value of the new `commafeed.feed-refresh.max-interval` setting). The interval is calculated based on feed activity, so highly active feeds refresh more often (#1677)

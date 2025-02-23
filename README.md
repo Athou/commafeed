@@ -73,6 +73,10 @@ When the build is complete:
 - if you used the native profile, the executable is located at
   `commafeed-server/target/commafeed-<version>-<database>-<platform>-<arch>-runner[.exe]`
 
+### Distribution packages
+
+- Arch Linux users can use [the CommaFeed package on AUR](https://aur.archlinux.org/pkgbase/commafeed), which builds native binaries with GraalVM for all supported databases.
+
 ## Configuration
 
 CommaFeed doesn't require any configuration to run with its embedded database (H2). The database file will be stored in

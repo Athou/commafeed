@@ -51,7 +51,7 @@ jobs:
         run: mkdir documentation && cp ./commafeed-server/target/quarkus-generated-doc/config/commafeed-server.md ./documentation/README.md
 
       - name: Generate pages
-        uses: wranders/markdown-to-pages-action@v1
+        uses: wranders/markdown-to-pages-action@8d8a750832932ac785f5424c8c5543aa0b26bb9a # v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           out_path: target/pages
@@ -75,7 +75,7 @@ jobs:
 
       - name: Upload pages
         if: matrix.os == 'ubuntu-latest' && matrix.database == 'h2' # we only need to upload the pages once
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
           path: target/pages
 
@@ -268,5 +268,5 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
         id: deployment

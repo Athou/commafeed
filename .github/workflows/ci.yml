@@ -46,6 +46,19 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode --no-transfer-progress install -Pnative -P${{ matrix.database }} -DskipTests=${{ matrix.os == 'windows-latest' && matrix.database != 'h2' }}
 
+      # Build pages
+      - name: Copy generated markdown documentation to /documentation
+        run: mkdir documentation && cp ./commafeed-server/target/quarkus-generated-doc/config/commafeed-server.md ./documentation/README.md
+
+      - name: Generate pages
+        uses: wranders/markdown-to-pages-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          out_path: target/pages
+          files: |-
+            README.md
+            documentation/README.md
+      
       # Upload artifacts
       - name: Upload cross-platform app
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
@@ -59,6 +72,12 @@ jobs:
         with:
           name: commafeed-${{ matrix.database }}-${{ runner.os }}-${{ runner.arch }}
           path: commafeed-server/target/commafeed-*-runner*
+
+      - name: Upload pages
+        if: matrix.os == 'ubuntu-latest' && matrix.database == 'h2' # we only need to upload the pages once
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: target/pages
 
   docker:
     runs-on: ubuntu-latest
@@ -217,6 +236,17 @@ jobs:
           body: ${{ steps.changelog_reader.outputs.changes }}
           artifacts: ./artifacts/*
 
+
+  update-dockerhub-description:
+    runs-on: ubuntu-latest
+    needs: release
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          fetch-depth: 0
+
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@e98e4d1628a5f3be2be7c231e50981aee98723ae # v4
         with:
@@ -225,3 +255,18 @@ jobs:
           repository: athou/commafeed
           short-description: ${{ github.event.repository.description }}
           readme-filepath: commafeed-server/src/main/docker/README.md
+
+
+  deploy-pages:
+    runs-on: ubuntu-latest
+    needs: build # change to release after first deployment
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

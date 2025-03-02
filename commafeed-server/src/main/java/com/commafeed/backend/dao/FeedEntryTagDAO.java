@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
+
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.QFeedEntryTag;
 import com.commafeed.backend.model.User;
-
-import jakarta.inject.Singleton;
-import jakarta.persistence.EntityManager;
 
 @Singleton
 public class FeedEntryTagDAO extends GenericDAO<FeedEntryTag> {

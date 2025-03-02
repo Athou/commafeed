@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-import io.quarkus.arc.All;
 import jakarta.inject.Singleton;
+
+import io.quarkus.arc.All;
 
 @Singleton
 public class TaskScheduler {

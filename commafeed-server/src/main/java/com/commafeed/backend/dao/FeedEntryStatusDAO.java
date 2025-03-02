@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
+
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.commafeed.CommaFeedConfiguration;
@@ -26,9 +29,6 @@ import com.google.common.collect.Iterables;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQuery;
-
-import jakarta.inject.Singleton;
-import jakarta.persistence.EntityManager;
 
 @Singleton
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {

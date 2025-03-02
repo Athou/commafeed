@@ -3,6 +3,15 @@ package com.commafeed.frontend.servlet;
 import java.net.URI;
 import java.util.List;
 
+import jakarta.inject.Singleton;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.DefaultValue;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -18,14 +27,6 @@ import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.security.AuthenticationContext;
 import com.google.common.collect.Iterables;
 
-import jakarta.inject.Singleton;
-import jakarta.transaction.Transactional;
-import jakarta.ws.rs.DefaultValue;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriInfo;
 import lombok.RequiredArgsConstructor;
 
 @Path("/next")

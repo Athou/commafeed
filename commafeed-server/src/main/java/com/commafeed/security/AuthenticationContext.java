@@ -1,10 +1,11 @@
 package com.commafeed.security;
 
+import jakarta.inject.Singleton;
+
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
 
 import io.quarkus.security.identity.SecurityIdentity;
-import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

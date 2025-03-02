@@ -1,5 +1,8 @@
 package com.commafeed.backend.favicon;
 
+import jakarta.annotation.Priority;
+import jakarta.inject.Singleton;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,8 +13,6 @@ import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 
-import jakarta.annotation.Priority;
-import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

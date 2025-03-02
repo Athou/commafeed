@@ -14,6 +14,9 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
+import jakarta.inject.Singleton;
+import jakarta.ws.rs.core.CacheControl;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.client5.http.DnsResolver;
 import org.apache.hc.client5.http.SystemDefaultDnsResolver;
@@ -49,8 +52,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.io.ByteStreams;
 import com.google.common.net.HttpHeaders;
 
-import jakarta.inject.Singleton;
-import jakarta.ws.rs.core.CacheControl;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

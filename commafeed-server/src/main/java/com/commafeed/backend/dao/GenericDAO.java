@@ -3,6 +3,8 @@ package com.commafeed.backend.dao;
 import java.time.Duration;
 import java.util.Collection;
 
+import jakarta.persistence.EntityManager;
+
 import org.hibernate.Session;
 import org.hibernate.jpa.SpecHints;
 
@@ -13,7 +15,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
 
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

@@ -3,11 +3,6 @@ package com.commafeed.backend.model;
 import java.sql.Types;
 import java.util.Set;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.hibernate.annotations.JdbcTypeCode;
-
-import com.commafeed.backend.feed.FeedUtils;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,6 +10,12 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.hibernate.annotations.JdbcTypeCode;
+
+import com.commafeed.backend.feed.FeedUtils;
+
 import lombok.Getter;
 import lombok.Setter;
 

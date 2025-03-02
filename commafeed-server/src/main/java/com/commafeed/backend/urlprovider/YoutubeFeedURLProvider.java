@@ -1,8 +1,8 @@
 package com.commafeed.backend.urlprovider;
 
-import org.apache.commons.lang3.StringUtils;
-
 import jakarta.inject.Singleton;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Workaround for Youtube channels

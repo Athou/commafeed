@@ -1,5 +1,7 @@
 package com.commafeed.backend.service.db;
 
+import jakarta.inject.Singleton;
+
 import org.kohsuke.MetaInfServices;
 
 import com.commafeed.CommaFeedConfiguration;
@@ -7,7 +9,6 @@ import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.service.UserService;
 
-import jakarta.inject.Singleton;
 import liquibase.database.Database;
 import liquibase.database.core.PostgresDatabase;
 import liquibase.structure.DatabaseObject;

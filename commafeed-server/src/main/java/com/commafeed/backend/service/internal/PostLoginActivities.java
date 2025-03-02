@@ -3,11 +3,12 @@ package com.commafeed.backend.service.internal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+import jakarta.inject.Singleton;
+
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
 
-import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

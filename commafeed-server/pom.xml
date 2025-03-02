@@ -315,6 +315,9 @@
 						<eclipse>
 							<file>${project.basedir}/dev/EclipseCodeFormatter.xml</file>
 						</eclipse>
+						<importOrder>
+							<file>${project.basedir}/dev/eclipse.importorder</file>
+						</importOrder>
 					</java>
 				</configuration>
 			</plugin>

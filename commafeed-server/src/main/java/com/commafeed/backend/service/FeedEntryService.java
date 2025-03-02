@@ -3,6 +3,8 @@ package com.commafeed.backend.service;
 import java.time.Instant;
 import java.util.List;
 
+import jakarta.inject.Singleton;
+
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
@@ -17,7 +19,6 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
 
-import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

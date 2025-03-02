@@ -5,6 +5,9 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.inject.Singleton;
+import jakarta.ws.rs.core.UriBuilder;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.net.URIBuilder;
@@ -21,8 +24,6 @@ import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.inject.Singleton;
-import jakarta.ws.rs.core.UriBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,6 +1,7 @@
 package com.commafeed.backend.favicon;
 
 import jakarta.ws.rs.core.MediaType;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

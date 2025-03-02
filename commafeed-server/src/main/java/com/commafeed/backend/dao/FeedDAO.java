@@ -3,6 +3,9 @@ package com.commafeed.backend.dao;
 import java.time.Instant;
 import java.util.List;
 
+import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.model.Feed;
@@ -10,9 +13,6 @@ import com.commafeed.backend.model.QFeed;
 import com.commafeed.backend.model.QFeedSubscription;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
-
-import jakarta.inject.Singleton;
-import jakarta.persistence.EntityManager;
 
 @Singleton
 public class FeedDAO extends GenericDAO<Feed> {

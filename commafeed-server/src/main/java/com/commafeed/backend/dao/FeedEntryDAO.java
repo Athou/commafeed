@@ -3,14 +3,15 @@ package com.commafeed.backend.dao;
 import java.time.Instant;
 import java.util.List;
 
+import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
+
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.QFeedEntry;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.NumberExpression;
 
-import jakarta.inject.Singleton;
-import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

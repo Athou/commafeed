@@ -5,13 +5,13 @@ import java.time.Instant;
 import java.time.InstantSource;
 import java.time.temporal.ChronoUnit;
 
+import jakarta.inject.Singleton;
+
 import org.apache.commons.lang3.ObjectUtils;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConfiguration.FeedRefreshErrorHandling;
 import com.google.common.primitives.Longs;
-
-import jakarta.inject.Singleton;
 
 @Singleton
 public class FeedRefreshIntervalCalculator {

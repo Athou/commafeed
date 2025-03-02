@@ -2,9 +2,10 @@ package com.commafeed.frontend.model.request;
 
 import java.io.Serializable;
 
+import jakarta.validation.constraints.Size;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @SuppressWarnings("serial")

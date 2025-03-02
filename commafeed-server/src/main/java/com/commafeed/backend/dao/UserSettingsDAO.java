@@ -1,11 +1,11 @@
 package com.commafeed.backend.dao;
 
+import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
+
 import com.commafeed.backend.model.QUserSettings;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
-
-import jakarta.inject.Singleton;
-import jakarta.persistence.EntityManager;
 
 @Singleton
 public class UserSettingsDAO extends GenericDAO<UserSettings> {

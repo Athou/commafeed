@@ -11,6 +11,8 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import jakarta.inject.Singleton;
+
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
@@ -20,7 +22,6 @@ import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
 
-import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

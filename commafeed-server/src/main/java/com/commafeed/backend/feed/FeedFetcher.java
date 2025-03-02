@@ -6,6 +6,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
+import jakarta.inject.Singleton;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.Digests;
@@ -22,7 +24,6 @@ import com.commafeed.backend.feed.parser.FeedParserResult;
 import com.commafeed.backend.urlprovider.FeedURLProvider;
 
 import io.quarkus.arc.All;
-import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
 /**

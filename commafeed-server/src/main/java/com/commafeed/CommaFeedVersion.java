@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import jakarta.inject.Singleton;
+
 import lombok.Getter;
 
 @Singleton

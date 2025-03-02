@@ -4,12 +4,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import jakarta.inject.Singleton;
+import jakarta.websocket.Session;
+
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.model.User;
 
-import jakarta.inject.Singleton;
-import jakarta.websocket.Session;
 import lombok.extern.slf4j.Slf4j;
 
 @Singleton

@@ -8,6 +8,10 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.core5.http.HttpStatus;
 import org.awaitility.Awaitility;
@@ -24,9 +28,6 @@ import com.commafeed.frontend.model.request.SubscribeRequest;
 
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.core.HttpHeaders;
-import jakarta.ws.rs.core.MediaType;
 import lombok.Getter;
 
 @Getter

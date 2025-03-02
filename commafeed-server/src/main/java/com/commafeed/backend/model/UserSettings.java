@@ -2,8 +2,6 @@ package com.commafeed.backend.model;
 
 import java.sql.Types;
 
-import org.hibernate.annotations.JdbcTypeCode;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,6 +11,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
+import org.hibernate.annotations.JdbcTypeCode;
+
 import lombok.Getter;
 import lombok.Setter;
 

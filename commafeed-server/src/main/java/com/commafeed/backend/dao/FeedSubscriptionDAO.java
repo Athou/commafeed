@@ -5,6 +5,9 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
+
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.event.service.spi.EventListenerRegistry;
 import org.hibernate.event.spi.EventType;
@@ -21,9 +24,6 @@ import com.commafeed.backend.model.QFeedSubscription;
 import com.commafeed.backend.model.User;
 import com.google.common.collect.Iterables;
 import com.querydsl.jpa.JPQLQuery;
-
-import jakarta.inject.Singleton;
-import jakarta.persistence.EntityManager;
 
 @Singleton
 public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {

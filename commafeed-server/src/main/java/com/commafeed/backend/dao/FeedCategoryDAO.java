@@ -3,14 +3,14 @@ package com.commafeed.backend.dao;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
+
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.QFeedCategory;
 import com.commafeed.backend.model.QUser;
 import com.commafeed.backend.model.User;
 import com.querydsl.core.types.Predicate;
-
-import jakarta.inject.Singleton;
-import jakarta.persistence.EntityManager;
 
 @Singleton
 public class FeedCategoryDAO extends GenericDAO<FeedCategory> {

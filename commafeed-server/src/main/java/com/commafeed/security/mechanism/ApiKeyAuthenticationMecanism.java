@@ -3,6 +3,8 @@ package com.commafeed.security.mechanism;
 import java.util.Optional;
 import java.util.Set;
 
+import jakarta.inject.Singleton;
+
 import io.quarkus.security.credential.TokenCredential;
 import io.quarkus.security.identity.IdentityProviderManager;
 import io.quarkus.security.identity.SecurityIdentity;
@@ -12,7 +14,6 @@ import io.quarkus.vertx.http.runtime.security.ChallengeData;
 import io.quarkus.vertx.http.runtime.security.HttpAuthenticationMechanism;
 import io.smallrye.mutiny.Uni;
 import io.vertx.ext.web.RoutingContext;
-import jakarta.inject.Singleton;
 
 @Singleton
 public class ApiKeyAuthenticationMecanism implements HttpAuthenticationMechanism {

@@ -4,6 +4,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.inject.Singleton;
+
 import org.apache.commons.lang3.ObjectUtils;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -15,7 +17,6 @@ import com.rometools.opml.feed.opml.Attribute;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
 
-import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

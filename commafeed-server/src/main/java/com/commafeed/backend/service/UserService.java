@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.inject.Singleton;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.CommaFeedApplication;
@@ -24,7 +26,6 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.internal.PostLoginActivities;
 import com.google.common.base.Preconditions;
 
-import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

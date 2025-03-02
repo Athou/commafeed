@@ -2,12 +2,12 @@ package com.commafeed.backend.dao;
 
 import java.util.List;
 
+import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
+
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.QFeedEntry;
 import com.commafeed.backend.model.QFeedEntryContent;
-
-import jakarta.inject.Singleton;
-import jakarta.persistence.EntityManager;
 
 @Singleton
 public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {

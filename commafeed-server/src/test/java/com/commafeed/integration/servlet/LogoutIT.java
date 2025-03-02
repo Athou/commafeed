@@ -4,6 +4,8 @@ import java.net.HttpCookie;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import jakarta.ws.rs.core.HttpHeaders;
+
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,7 +15,6 @@ import com.commafeed.integration.BaseIT;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.Headers;
-import jakarta.ws.rs.core.HttpHeaders;
 
 @QuarkusTest
 class LogoutIT extends BaseIT {

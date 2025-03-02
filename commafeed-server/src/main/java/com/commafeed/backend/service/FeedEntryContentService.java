@@ -2,6 +2,8 @@ package com.commafeed.backend.service;
 
 import java.util.Optional;
 
+import jakarta.inject.Singleton;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.Digests;
@@ -12,7 +14,6 @@ import com.commafeed.backend.feed.parser.FeedParserResult.Enclosure;
 import com.commafeed.backend.feed.parser.FeedParserResult.Media;
 import com.commafeed.backend.model.FeedEntryContent;
 
-import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

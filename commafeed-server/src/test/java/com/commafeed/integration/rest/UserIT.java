@@ -2,6 +2,9 @@ package com.commafeed.integration.rest;
 
 import java.util.List;
 
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.MediaType;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,8 +17,6 @@ import io.quarkus.mailer.MockMailbox;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.vertx.ext.mail.MailMessage;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.core.MediaType;
 
 @QuarkusTest
 class UserIT extends BaseIT {

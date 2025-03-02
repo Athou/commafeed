@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.inject.Singleton;
+
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.favicon.AbstractFaviconFetcher;
@@ -15,7 +17,6 @@ import com.commafeed.backend.model.Models;
 import com.google.common.io.Resources;
 
 import io.quarkus.arc.All;
-import jakarta.inject.Singleton;
 
 @Singleton
 public class FeedService {

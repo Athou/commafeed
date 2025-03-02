@@ -2,10 +2,10 @@ package com.commafeed;
 
 import java.time.InstantSource;
 
-import com.codahale.metrics.MetricRegistry;
-
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Singleton;
+
+import com.codahale.metrics.MetricRegistry;
 
 @Singleton
 public class CommaFeedProducers {

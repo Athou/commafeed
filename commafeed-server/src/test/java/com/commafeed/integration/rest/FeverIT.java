@@ -1,5 +1,7 @@
 package com.commafeed.integration.rest;
 
+import jakarta.ws.rs.core.MediaType;
+
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -14,7 +16,6 @@ import com.commafeed.integration.BaseIT;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
-import jakarta.ws.rs.core.MediaType;
 
 @QuarkusTest
 class FeverIT extends BaseIT {

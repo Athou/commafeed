@@ -1,5 +1,7 @@
 package com.commafeed.integration.servlet;
 
+import jakarta.ws.rs.core.HttpHeaders;
+
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +11,6 @@ import com.commafeed.integration.BaseIT;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
-import jakarta.ws.rs.core.HttpHeaders;
 
 @QuarkusTest
 class NextUnreadIT extends BaseIT {

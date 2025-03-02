@@ -3,8 +3,6 @@ package com.commafeed.frontend.servlet;
 import java.time.Instant;
 import java.util.Date;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
 import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
@@ -12,6 +10,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Path("/logout")
 @PermitAll

@@ -67,16 +67,15 @@ const transform: TransformCallback = node => {
 }
 
 class HighlightMatcher extends Matcher {
-    private readonly search: string
+    private readonly regexp: RegExp
 
     constructor(search: string) {
         super("highlight")
-        this.search = escapeStringRegexp(search)
+        this.regexp = new RegExp(escapeStringRegexp(search).split(" ").join("|"), "i")
     }
 
     match(string: string): MatchResponse<unknown> | null {
-        const pattern = this.search.split(" ").join("|")
-        return this.doMatch(string, new RegExp(pattern, "i"), () => ({}))
+        return this.doMatch(string, this.regexp, () => ({}))
     }
 
     replaceWith(children: ChildrenNode): Node {

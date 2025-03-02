@@ -1,6 +1,12 @@
 import "@testing-library/jest-dom"
+import { Constants } from "app/constants"
 import { vi } from "vitest"
 
+// reduce delay for faster tests
+Constants.tooltip.delay = 10
+
+// jsdom doesn't mock matchMedia
+// https://stackoverflow.com/a/53449595/
 Object.defineProperty(window, "matchMedia", {
     writable: true,
     value: vi.fn().mockImplementation(query => ({

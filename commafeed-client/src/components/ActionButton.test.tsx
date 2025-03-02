@@ -12,9 +12,6 @@ vi.mock("@lingui/react", () => ({
 }))
 vi.mock("hooks/useActionButton")
 
-// reduce delay for faster tests
-vi.mock("app/constants", () => ({ Constants: { tooltip: { delay: 10 } } }))
-
 const label = "Test Label"
 const icon = "Test Icon"
 describe("ActionButton", () => {

@@ -7,8 +7,8 @@ import { useActionButton } from "hooks/useActionButton"
 import { type MouseEventHandler, type ReactNode, forwardRef } from "react"
 
 interface ActionButtonProps {
+    icon: ReactNode
     className?: string
-    icon?: ReactNode
     label?: string | MessageDescriptor
     onClick?: MouseEventHandler
     variant?: ActionIconVariant & ButtonVariant

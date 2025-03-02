@@ -4,7 +4,8 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "vite --host",
+        "dev": "vite",
+        "dev:host": "vite --host",
         "build": "tsc && vite build",
         "preview": "vite preview",
         "test": "vitest",

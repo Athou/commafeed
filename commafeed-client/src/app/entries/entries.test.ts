@@ -1,25 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit"
-import type { client } from "app/client"
+import { client } from "app/client"
 import { loadEntries, loadMoreEntries, markAllEntries, markEntry } from "app/entries/thunks"
 import { type RootState, reducers } from "app/store"
 import type { Entries, Entry } from "app/types"
 import type { AxiosResponse } from "axios"
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { any, mockReset } from "vitest-mock-extended"
 
-const mockClient = await vi.hoisted(async () => {
-    const mockModule = await import("vitest-mock-extended")
-    return mockModule.mockDeep<typeof client>()
-})
-vi.mock("app/client", () => ({ client: mockClient }))
+vi.mock("app/client")
 
 describe("entries", () => {
     beforeEach(() => {
-        mockReset(mockClient)
+        vi.resetAllMocks()
     })
 
     it("loads entries", async () => {
-        mockClient.feed.getEntries.calledWith(any()).mockResolvedValue({
+        vi.mocked(client.feed.getEntries).mockResolvedValue({
             data: {
                 entries: [{ id: "3" } as Entry],
                 hasMore: false,
@@ -53,7 +48,7 @@ describe("entries", () => {
     })
 
     it("loads more entries", async () => {
-        mockClient.category.getEntries.calledWith(any()).mockResolvedValue({
+        vi.mocked(client.category.getEntries).mockResolvedValue({
             data: {
                 entries: [{ id: "4" } as Entry],
                 hasMore: false,
@@ -113,7 +108,7 @@ describe("entries", () => {
             { id: "3", read: true },
             { id: "4", read: false },
         ])
-        expect(mockClient.entry.mark).toHaveBeenCalledWith({ id: "3", read: true })
+        expect(client.entry.mark).toHaveBeenCalledWith({ id: "3", read: true })
     })
 
     it("marks all entries as read", () => {
@@ -140,6 +135,6 @@ describe("entries", () => {
             { id: "3", read: true },
             { id: "4", read: true },
         ])
-        expect(mockClient.category.markEntries).toHaveBeenCalledWith({ id: "all", read: true })
+        expect(client.category.markEntries).toHaveBeenCalledWith({ id: "all", read: true })
     })
 })

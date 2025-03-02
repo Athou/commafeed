@@ -80,7 +80,7 @@ class HighlightMatcher extends Matcher {
     }
 
     replaceWith(children: ChildrenNode): Node {
-        return <Mark>{children}</Mark>
+        return <Mark key={0}>{children}</Mark>
     }
 
     asTag(): string {

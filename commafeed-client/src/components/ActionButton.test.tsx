@@ -5,12 +5,12 @@ import { useActionButton } from "hooks/useActionButton"
 import { describe, expect, it, vi } from "vitest"
 import { ActionButton } from "./ActionButton"
 
-vi.mock("@lingui/react", () => ({
+vi.mock(import("@lingui/react"), () => ({
     useLingui: vi.fn().mockReturnValue({
         _: msg => msg,
     } as I18nContext),
 }))
-vi.mock("hooks/useActionButton")
+vi.mock(import("hooks/useActionButton"))
 
 const label = "Test Label"
 const icon = "Test Icon"

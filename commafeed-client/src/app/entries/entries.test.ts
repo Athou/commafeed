@@ -6,7 +6,7 @@ import type { Entries, Entry } from "app/types"
 import type { AxiosResponse } from "axios"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
-vi.mock("app/client")
+vi.mock(import("app/client"))
 
 describe("entries", () => {
     beforeEach(() => {

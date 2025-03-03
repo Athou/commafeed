@@ -58,7 +58,7 @@ memory usage.
 
 ### Build from sources
 
-    ./mvnw clean package [-P<database>] [-Pnative] [-DskipTests]
+    ./mvnw clean package [-P<database> [-Pnative]] [-DskipTests]
 
 - `<database>` can be one of `h2`, `postgresql`, `mysql` or `mariadb`. The default is `h2`.
 - `-Pnative` compiles the application to native code. This requires GraalVM to be installed (`GRAALVM_HOME` environment

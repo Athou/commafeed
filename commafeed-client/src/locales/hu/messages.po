@@ -33,8 +33,8 @@ msgstr ""
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Fiókra van szüksége?</0><1>Regisztráljon!</1>"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "About"
 msgstr "Kb"
 
@@ -54,16 +54,15 @@ msgstr "Kategória hozzáadása"
 msgid "Add user"
 msgstr "Felhasználó hozzáadása"
 
-#: src/components/admin/UserEdit.tsx
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/header/ProfileMenu.tsx
+#: src/components/admin/UserEdit.tsx
 msgid "Admin"
 msgstr ""
 
-#: src/app/constants.ts
-#: src/components/content/add/CategorySelect.tsx
-#: src/components/header/Header.tsx
 #: src/components/sidebar/Tree.tsx
+#: src/components/header/Header.tsx
+#: src/components/content/add/CategorySelect.tsx
 msgid "All"
 msgstr "Mind"
 
@@ -144,27 +143,27 @@ msgstr ""
 msgid "Browser tab"
 msgstr ""
 
-#: src/components/admin/UserEdit.tsx
-#: src/components/content/add/AddCategory.tsx
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
-#: src/components/settings/CustomCodeSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/CustomCodeSettings.tsx
+#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/admin/UserEdit.tsx
 msgid "Cancel"
 msgstr "Mégse"
 
-#: src/components/content/add/AddCategory.tsx
-#: src/components/content/add/AddCategory.tsx
-#: src/components/content/add/Subscribe.tsx
-#: src/pages/app/AboutPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/AboutPage.tsx
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/content/add/AddCategory.tsx
 msgid "Category"
 msgstr "Kategória"
 
@@ -204,11 +203,11 @@ msgstr ""
 msgid "Compact"
 msgstr "Kompakt"
 
-#: src/components/header/MarkAllAsReadButton.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Confirm"
 msgstr "Erősítse meg"
 
@@ -273,13 +272,13 @@ msgstr ""
 msgid "Detailed"
 msgstr ""
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/app/SettingsPage.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Display"
 msgstr "Kijelző"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/app/DonatePage.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Donate"
 msgstr ""
 
@@ -291,11 +290,11 @@ msgstr "Letöltés"
 msgid "Drag link to bookmark bar"
 msgstr "Húzza a hivatkozást a könyvjelzősávra"
 
-#: src/components/admin/UserEdit.tsx
-#: src/components/settings/ProfileSettings.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/admin/AdminUsersPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/admin/UserEdit.tsx
 msgid "E-mail"
 msgstr ""
 
@@ -308,8 +307,8 @@ msgstr "E-mail cím"
 msgid "Edit user"
 msgstr "Felhasználó szerkesztése"
 
-#: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/admin/UserEdit.tsx
 msgid "Enabled"
 msgstr "Engedélyezve"
 
@@ -345,8 +344,8 @@ msgstr "Kiterjesztve"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "Exportálja előfizetéseit és kategóriáit OPML-fájlként, amely importálható más feedolvasó szolgáltatásokba"
 
-#: src/components/header/Header.tsx
 #: src/pages/WelcomePage.tsx
+#: src/components/header/Header.tsx
 msgid "Extension options"
 msgstr ""
 
@@ -354,9 +353,9 @@ msgstr ""
 msgid "Feed name"
 msgstr "Hírcsatorna neve"
 
-#: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
 msgid "Feed URL"
 msgstr ""
 
@@ -384,9 +383,9 @@ msgstr ""
 msgid "Forgot password?"
 msgstr "Elfelejtette a jelszavát?"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 msgid "Generate an API key in your profile first."
 msgstr "Először generáljon API-kulcsot a profiljában."
 
@@ -394,12 +393,13 @@ msgstr "Először generáljon API-kulcsot a profiljában."
 msgid "Generate new API key"
 msgstr "Új API-kulcs létrehozása"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 msgid "Generated feed url"
 msgstr "Hírcsatorna generált URL-je"
 
+#. placeholder {0}: truncate(props.entry.feedName, 30)
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Go to {0}"
 msgstr ""
@@ -440,13 +440,13 @@ msgstr "Importálás"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "Kibontott nézetben a bejegyzések görgetése olvasottként jelöli meg őket"
 
-#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/FeedEntryContextMenu.tsx
 msgid "Keep unread"
 msgstr "Olvasatlan marad"
 
-#: src/components/content/FeedEntries.tsx
 #: src/pages/app/AboutPage.tsx
+#: src/components/content/FeedEntries.tsx
 msgid "Keyboard shortcuts"
 msgstr "Billentyűparancsok"
 
@@ -470,9 +470,9 @@ msgstr "Utolsó frissítési üzenet"
 msgid "Light"
 msgstr ""
 
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 msgid "Link"
 msgstr ""
 
@@ -492,9 +492,9 @@ msgstr "Előfizetések betöltése..."
 msgid "Loading tags..."
 msgstr "Címkék betöltése..."
 
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
 msgid "Log in"
 msgstr "Jelentkezzen be"
 
@@ -506,8 +506,8 @@ msgstr "Kijelentkezés"
 msgid "Long press"
 msgstr ""
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Manage users"
 msgstr "Felhasználók kezelése"
 
@@ -515,18 +515,18 @@ msgstr "Felhasználók kezelése"
 msgid "Mark all as read"
 msgstr "Minden megjelölése olvasottként"
 
-#: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Mark all entries as read"
 msgstr "Minden bejegyzés megjelölése olvasottként"
 
-#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/FeedEntryContextMenu.tsx
 msgid "Mark as read"
 msgstr "Megjelölés olvasottként"
 
-#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/FeedEntryContextMenu.tsx
 msgid "Mark as read up to here"
 msgstr "Megjelölés idáig olvasottként"
 
@@ -546,15 +546,15 @@ msgstr "Mozgassa le az oldalt"
 msgid "Move the page up"
 msgstr "Mozgassa felfelé az oldalt"
 
-#: src/components/RelativeDate.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/components/RelativeDate.tsx
 msgid "N/A"
 msgstr ""
 
-#: src/components/admin/UserEdit.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/components/admin/UserEdit.tsx
 msgid "Name"
 msgstr "Név"
 
@@ -575,8 +575,8 @@ msgstr "Új jelszó"
 msgid "Newest first"
 msgstr "A legújabbak először"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/header/Header.tsx
+#: src/components/content/add/Subscribe.tsx
 msgid "Next"
 msgstr "Következő"
 
@@ -694,11 +694,11 @@ msgstr "Szülő"
 msgid "Parent Category"
 msgstr "Szülő kategória"
 
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
 #: src/components/admin/UserEdit.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Jelszó"
 
@@ -710,8 +710,8 @@ msgstr "Jelszó helyreállítás"
 msgid "Passwords do not match"
 msgstr "A jelszavak nem egyeznek"
 
-#: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 msgid "Position"
 msgstr "Pozíció"
 
@@ -727,8 +727,8 @@ msgstr "Profil"
 msgid "Recover password"
 msgstr "Jelszó helyreállítása"
 
-#: src/components/header/Header.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/header/Header.tsx
 msgid "Refresh"
 msgstr "Frissítés"
 
@@ -745,11 +745,11 @@ msgstr ""
 msgid "Right click"
 msgstr ""
 
-#: src/components/admin/UserEdit.tsx
-#: src/components/settings/CustomCodeSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/CustomCodeSettings.tsx
+#: src/components/admin/UserEdit.tsx
 msgid "Save"
 msgstr "Mentés"
 
@@ -765,16 +765,24 @@ msgstr "Sima görgetés, amikor a bejegyzések között navigál"
 msgid "Scrolling"
 msgstr ""
 
-#: src/components/header/Header.tsx
-#: src/components/header/Header.tsx
 #: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
+#: src/components/header/Header.tsx
+#: src/components/header/Header.tsx
 msgid "Search"
 msgstr "Keresés"
 
 #: src/components/header/Header.tsx
 msgid "Search requires at least 3 characters"
 msgstr "A kereséshez legalább 3 karakter szükséges"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Select next unread feed/category"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Select previous unread feed/category"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -850,9 +858,9 @@ msgstr ""
 msgid "Show unread count in tab title"
 msgstr ""
 
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 msgid "Sign up"
 msgstr "Regisztráljon"
 
@@ -865,20 +873,20 @@ msgstr "Valami rossz történt..."
 msgid "Space"
 msgstr ""
 
-#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/header/Star.tsx
 msgid "Star"
 msgstr "Csillag"
 
-#: src/app/constants.ts
+#: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
 msgid "Starred"
 msgstr "Csillaggal megjelölve"
 
-#: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
 msgid "Subscribe"
 msgstr "Feliratkozás"
 
@@ -951,8 +959,8 @@ msgstr ""
 msgid "Unread"
 msgstr "Olvasatlan"
 
-#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/header/Star.tsx
 msgid "Unstar"
 msgstr ""

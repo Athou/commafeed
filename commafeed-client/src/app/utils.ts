@@ -1,11 +1,22 @@
 import { throttle } from "throttle-debounce"
 import type { Category } from "./types"
 
-export function visitCategoryTree(category: Category, visitor: (category: Category) => void): void {
-    visitor(category)
-    for (const child of category.children) {
-        visitCategoryTree(child, visitor)
+export function visitCategoryTree(
+    category: Category,
+    visitor: (category: Category) => void,
+    options?: {
+        childrenFirst?: boolean
     }
+): void {
+    const childrenFirst = options?.childrenFirst
+
+    if (!childrenFirst) visitor(category)
+
+    for (const child of category.children) {
+        visitCategoryTree(child, visitor, options)
+    }
+
+    if (childrenFirst) visitor(category)
 }
 
 export function flattenCategoryTree(category: Category): Category[] {

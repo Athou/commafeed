@@ -35,6 +35,26 @@ export function KeyboardShortcutsHelp() {
                     </Table.Tr>
                     <Table.Tr>
                         <Table.Td>
+                            <Trans>Select next unread feed/category</Trans>
+                        </Table.Td>
+                        <Table.Td>
+                            <Kbd>Shift</Kbd>
+                            <span> + </span>
+                            <Kbd>J</Kbd>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
+                            <Trans>Select previous unread feed/category</Trans>
+                        </Table.Td>
+                        <Table.Td>
+                            <Kbd>Shift</Kbd>
+                            <span> + </span>
+                            <Kbd>K</Kbd>
+                        </Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>
                             <Trans>Set focus on next entry without opening it</Trans>
                         </Table.Td>
                         <Table.Td>

@@ -33,8 +33,8 @@ msgstr ""
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Tarvitsetko tilin?</0><1>Rekisteröidy!</1>"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/app/AboutPage.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "About"
 msgstr "Noin"
 
@@ -54,16 +54,15 @@ msgstr "Lisää luokka"
 msgid "Add user"
 msgstr "Lisää käyttäjä"
 
-#: src/components/admin/UserEdit.tsx
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/header/ProfileMenu.tsx
+#: src/components/admin/UserEdit.tsx
 msgid "Admin"
 msgstr "Järjestelmänvalvoja"
 
-#: src/app/constants.ts
-#: src/components/content/add/CategorySelect.tsx
-#: src/components/header/Header.tsx
 #: src/components/sidebar/Tree.tsx
+#: src/components/header/Header.tsx
+#: src/components/content/add/CategorySelect.tsx
 msgid "All"
 msgstr "Kaikki"
 
@@ -144,27 +143,27 @@ msgstr ""
 msgid "Browser tab"
 msgstr ""
 
-#: src/components/admin/UserEdit.tsx
-#: src/components/content/add/AddCategory.tsx
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
-#: src/components/settings/CustomCodeSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/CustomCodeSettings.tsx
+#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/admin/UserEdit.tsx
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: src/components/content/add/AddCategory.tsx
-#: src/components/content/add/AddCategory.tsx
-#: src/components/content/add/Subscribe.tsx
-#: src/pages/app/AboutPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/AboutPage.tsx
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/content/add/AddCategory.tsx
 msgid "Category"
 msgstr "Luokka"
 
@@ -204,11 +203,11 @@ msgstr ""
 msgid "Compact"
 msgstr "Kompakti"
 
-#: src/components/header/MarkAllAsReadButton.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Confirm"
 msgstr "Vahvista"
 
@@ -273,13 +272,13 @@ msgstr ""
 msgid "Detailed"
 msgstr ""
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/app/SettingsPage.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Display"
 msgstr "Näyttö"
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/app/DonatePage.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Donate"
 msgstr ""
 
@@ -291,11 +290,11 @@ msgstr "Lataa"
 msgid "Drag link to bookmark bar"
 msgstr "Vedä linkki kirjanmerkkipalkkiin"
 
-#: src/components/admin/UserEdit.tsx
-#: src/components/settings/ProfileSettings.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/admin/AdminUsersPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/admin/UserEdit.tsx
 msgid "E-mail"
 msgstr "Sähköposti"
 
@@ -308,8 +307,8 @@ msgstr "Sähköpostiosoite"
 msgid "Edit user"
 msgstr "Muokkaa käyttäjää"
 
-#: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/admin/UserEdit.tsx
 msgid "Enabled"
 msgstr "Käytössä"
 
@@ -345,8 +344,8 @@ msgstr "Laajennettu"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "Vie tilauksesi ja luokat OPML-tiedostona, joka voidaan tuoda muihin syötteiden lukupalveluihin"
 
-#: src/components/header/Header.tsx
 #: src/pages/WelcomePage.tsx
+#: src/components/header/Header.tsx
 msgid "Extension options"
 msgstr ""
 
@@ -354,9 +353,9 @@ msgstr ""
 msgid "Feed name"
 msgstr "Syötteen nimi"
 
-#: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
 msgid "Feed URL"
 msgstr "Syötteen URL-osoite"
 
@@ -384,9 +383,9 @@ msgstr ""
 msgid "Forgot password?"
 msgstr "Unohditko salasanan?"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 msgid "Generate an API key in your profile first."
 msgstr "Luo ensin API-avain profiiliisi."
 
@@ -394,12 +393,13 @@ msgstr "Luo ensin API-avain profiiliisi."
 msgid "Generate new API key"
 msgstr "Luo uusi API-avain"
 
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 msgid "Generated feed url"
 msgstr "Luotu syötteen URL-osoite"
 
+#. placeholder {0}: truncate(props.entry.feedName, 30)
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Go to {0}"
 msgstr ""
@@ -440,13 +440,13 @@ msgstr "Tuo"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "Merkitse ne luetuiksi laajennetussa näkymässä vierittämällä merkintöjä"
 
-#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/FeedEntryContextMenu.tsx
 msgid "Keep unread"
 msgstr "Pidä lukematta"
 
-#: src/components/content/FeedEntries.tsx
 #: src/pages/app/AboutPage.tsx
+#: src/components/content/FeedEntries.tsx
 msgid "Keyboard shortcuts"
 msgstr "Pikanäppäimet"
 
@@ -470,9 +470,9 @@ msgstr "Viimeinen päivitysviesti"
 msgid "Light"
 msgstr ""
 
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 msgid "Link"
 msgstr "Linkki"
 
@@ -492,9 +492,9 @@ msgstr "Ladataan tilauksia..."
 msgid "Loading tags..."
 msgstr "Ladataan tunnisteita..."
 
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
 msgid "Log in"
 msgstr "Kirjaudu sisään"
 
@@ -506,8 +506,8 @@ msgstr "Uloskirjautuminen"
 msgid "Long press"
 msgstr ""
 
-#: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/header/ProfileMenu.tsx
 msgid "Manage users"
 msgstr "Hallitse käyttäjiä"
 
@@ -515,18 +515,18 @@ msgstr "Hallitse käyttäjiä"
 msgid "Mark all as read"
 msgstr "Merkitse kaikki luetuiksi"
 
-#: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Mark all entries as read"
 msgstr "Merkitse kaikki merkinnät luetuiksi"
 
-#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/FeedEntryContextMenu.tsx
 msgid "Mark as read"
 msgstr "Merkitse luetuksi"
 
-#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/FeedEntryContextMenu.tsx
 msgid "Mark as read up to here"
 msgstr "Merkitse luetuksi tähän asti"
 
@@ -546,15 +546,15 @@ msgstr "Siirrä sivua alaspäin"
 msgid "Move the page up"
 msgstr "Siirrä sivua ylöspäin"
 
-#: src/components/RelativeDate.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/components/RelativeDate.tsx
 msgid "N/A"
 msgstr ""
 
-#: src/components/admin/UserEdit.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/components/admin/UserEdit.tsx
 msgid "Name"
 msgstr "Nimi"
 
@@ -575,8 +575,8 @@ msgstr "Uusi salasana"
 msgid "Newest first"
 msgstr "Uusin ensin"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/header/Header.tsx
+#: src/components/content/add/Subscribe.tsx
 msgid "Next"
 msgstr "Seuraava"
 
@@ -694,11 +694,11 @@ msgstr "Vanhempi"
 msgid "Parent Category"
 msgstr "Pääluokka"
 
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
 #: src/components/admin/UserEdit.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Salasana"
 
@@ -710,8 +710,8 @@ msgstr "Salasanan palautus"
 msgid "Passwords do not match"
 msgstr "Salasanat eivät täsmää"
 
-#: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 msgid "Position"
 msgstr "Sijainti"
 
@@ -727,8 +727,8 @@ msgstr "Profiili"
 msgid "Recover password"
 msgstr "Palauta salasana"
 
-#: src/components/header/Header.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/header/Header.tsx
 msgid "Refresh"
 msgstr "Päivitä"
 
@@ -745,11 +745,11 @@ msgstr ""
 msgid "Right click"
 msgstr ""
 
-#: src/components/admin/UserEdit.tsx
-#: src/components/settings/CustomCodeSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/CustomCodeSettings.tsx
+#: src/components/admin/UserEdit.tsx
 msgid "Save"
 msgstr "Tallenna"
 
@@ -765,16 +765,24 @@ msgstr "Selaa sujuvasti navigoidessasi merkintöjen välillä"
 msgid "Scrolling"
 msgstr ""
 
-#: src/components/header/Header.tsx
-#: src/components/header/Header.tsx
 #: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
+#: src/components/header/Header.tsx
+#: src/components/header/Header.tsx
 msgid "Search"
 msgstr "Etsi"
 
 #: src/components/header/Header.tsx
 msgid "Search requires at least 3 characters"
 msgstr "Haku vaatii vähintään 3 merkkiä"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Select next unread feed/category"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Select previous unread feed/category"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -850,9 +858,9 @@ msgstr ""
 msgid "Show unread count in tab title"
 msgstr ""
 
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 msgid "Sign up"
 msgstr "Rekisteröidy"
 
@@ -865,20 +873,20 @@ msgstr "Jotain pahaa tapahtui juuri..."
 msgid "Space"
 msgstr "Avaruus"
 
-#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/header/Star.tsx
 msgid "Star"
 msgstr "Tähti"
 
-#: src/app/constants.ts
+#: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
 msgid "Starred"
 msgstr "Tähdellä merkitty"
 
-#: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
 msgid "Subscribe"
 msgstr "Tilaa"
 
@@ -951,8 +959,8 @@ msgstr ""
 msgid "Unread"
 msgstr "Lukematon"
 
-#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
+#: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/header/Star.tsx
 msgid "Unstar"
 msgstr "Poista tähti"

@@ -16,7 +16,7 @@ import {
 import { redirectToRootCategory } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { toggleSidebar } from "app/tree/slice"
-import { selectNextUnreadTreeItem, selectPreviousUnreadTreeItem } from "app/tree/thunks"
+import { selectNextUnreadTreeItem } from "app/tree/thunks"
 import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"
 import { Loader } from "components/Loader"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
@@ -173,8 +173,8 @@ export function FeedEntries() {
                 })
             )
     )
-    useMousetrap("shift+j", async () => await dispatch(selectNextUnreadTreeItem()))
-    useMousetrap("shift+k", async () => await dispatch(selectPreviousUnreadTreeItem()))
+    useMousetrap("shift+j", async () => await dispatch(selectNextUnreadTreeItem({ direction: "forward" })))
+    useMousetrap("shift+k", async () => await dispatch(selectNextUnreadTreeItem({ direction: "backward" })))
     useMousetrap("space", () => {
         if (selectedEntry) {
             if (selectedEntry.expanded) {

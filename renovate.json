@@ -5,6 +5,7 @@
     "customManagers:mavenPropertyVersions",
     "customManagers:biomeVersions",
     ":automergePatch",
+	":automergeDigest",
     ":automergeBranch",
     ":automergeRequireAllStatusChecks",
     ":maintainLockFilesWeekly"

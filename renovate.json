@@ -13,8 +13,10 @@
     {
       "description": "ignore our client because it's not published on maven central",
       "matchManagers": "maven",
-      "matchPackagePatterns": "commafeed-client",
-      "enabled": false
+      "enabled": false,
+      "matchPackageNames": [
+        "/commafeed-client/"
+      ]
     },
     {
       "description": "io.quarkus.platform artifacts are released a week after io.quarkus artifacts",

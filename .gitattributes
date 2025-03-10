@@ -1,2 +1,3 @@
 *       text eol=lf
 *.cmd   text eol=crlf
+*.png   binary

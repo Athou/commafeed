@@ -310,7 +310,6 @@
 				</executions>
 				<configuration>
 					<encoding>UTF-8</encoding>
-					<lineEndings>WINDOWS</lineEndings>
 					<java>
 						<eclipse>
 							<file>${project.basedir}/dev/EclipseCodeFormatter.xml</file>

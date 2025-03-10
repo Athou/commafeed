@@ -22,9 +22,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       # Checkout
-      - name: Configure git to checkout as-is
-        run: git config --global core.autocrlf false
-
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:

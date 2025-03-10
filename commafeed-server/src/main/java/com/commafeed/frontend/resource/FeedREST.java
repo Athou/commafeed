@@ -77,6 +77,7 @@ import com.google.common.base.Throwables;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndFeedImpl;
+import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedOutput;
 import com.rometools.rome.io.WireFeedOutput;
 
@@ -508,16 +509,12 @@ public class FeedREST {
 	@Transactional
 	@Produces(MediaType.APPLICATION_XML)
 	@Operation(summary = "OPML export", description = "Export an OPML file of the user's subscriptions")
-	public Response exportOpml() {
+	public Response exportOpml() throws FeedException {
 		User user = authenticationContext.getCurrentUser();
 		Opml opml = opmlExporter.export(user);
+
 		WireFeedOutput output = new WireFeedOutput();
-		String opmlString;
-		try {
-			opmlString = output.outputString(opml);
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+		String opmlString = output.outputString(opml);
 		return Response.ok(opmlString).build();
 	}
 

@@ -1,13 +1,14 @@
 import { lingui } from "@lingui/vite-plugin"
 import react from "@vitejs/plugin-react"
 import { visualizer } from "rollup-plugin-visualizer"
-import { defineConfig } from "vite"
+import { type PluginOption, defineConfig } from "vite"
 import checker from "vite-plugin-checker"
 import tsconfigPaths from "vite-tsconfig-paths"
 
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
     plugins: [
+        customCodeInjector,
         react({
             babel: {
                 plugins: ["@lingui/babel-plugin-lingui-macro"],
@@ -56,3 +57,30 @@ export default defineConfig(() => ({
         setupFiles: "./src/setupTests.ts",
     },
 }))
+
+// inject custom js and css links in html
+const customCodeInjector: PluginOption = {
+    name: "customCodeInjector",
+    transformIndexHtml: html => {
+        return {
+            html,
+            tags: [
+                {
+                    tag: "script",
+                    attrs: {
+                        src: "custom_js.js",
+                    },
+                    injectTo: "body",
+                },
+                {
+                    tag: "link",
+                    attrs: {
+                        rel: "stylesheet",
+                        href: "custom_css.css",
+                    },
+                    injectTo: "head",
+                },
+            ],
+        }
+    },
+}

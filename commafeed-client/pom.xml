@@ -55,6 +55,7 @@
 						<phase>compile</phase>
 						<configuration>
 							<arguments>run test:ci</arguments>
+							<skip>${skipTests}</skip>
 						</configuration>
 					</execution>
 					<execution>

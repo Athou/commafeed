@@ -10,8 +10,8 @@
         "preview": "vite preview",
         "test": "vitest",
         "test:ci": "vitest run",
-        "lint": "biome check ./src",
-        "lint:fix": "biome check --write ./src",
+        "lint": "biome check",
+        "lint:fix": "biome check --write",
         "i18n:extract": "lingui extract --clean"
     },
     "dependencies": {

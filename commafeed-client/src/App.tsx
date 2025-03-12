@@ -188,15 +188,15 @@ export function App() {
                 <UnreadCountTitleHandler unreadCount={unreadCount} enabled={unreadCountTitle} />
                 <UnreadCountFaviconHandler unreadCount={unreadCount} enabled={unreadCountFavicon} />
                 <BrowserExtensionBadgeUnreadCountHandler />
+                {/* disable pull-to-refresh as it messes with vertical scrolling
+                        safari behaves weirdly when overscroll-behavior is set to none so we disable it only for other browsers
+                        https://github.com/Athou/commafeed/issues/1168
+                    */}
+                {!isSafari && <DisablePullToRefresh />}
                 <HashRouter>
                     <GoogleAnalyticsHandler />
                     <RedirectHandler />
                     <AppRoutes />
-                    {/* disable pull-to-refresh as it messes with vertical scrolling
-                        safari behaves weirdly when overscroll-behavior is set to none so we disable it only for other browsers
-                        https://github.com/Athou/commafeed/issues/1168
-                    */}
-                    {!isSafari && <DisablePullToRefresh />}
                 </HashRouter>
             </>
         </Providers>

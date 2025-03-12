@@ -12,6 +12,7 @@ import { DisablePullToRefresh } from "components/DisablePullToRefresh"
 import { ErrorBoundary } from "components/ErrorBoundary"
 import { Header } from "components/header/Header"
 import { Tree } from "components/sidebar/Tree"
+import { useAppLoading } from "hooks/useAppLoading"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useI18n } from "i18n"
 import { WelcomePage } from "pages/WelcomePage"
@@ -29,7 +30,7 @@ import { TagDetailsPage } from "pages/app/TagDetailsPage"
 import { LoginPage } from "pages/auth/LoginPage"
 import { PasswordRecoveryPage } from "pages/auth/PasswordRecoveryPage"
 import { RegistrationPage } from "pages/auth/RegistrationPage"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { isSafari } from "react-device-detect"
 import ReactGA from "react-ga4"
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom"
@@ -169,6 +170,38 @@ function BrowserExtensionBadgeUnreadCountHandler() {
     return null
 }
 
+function CustomJsHandler() {
+    const [scriptLoaded, setScriptLoaded] = useState(false)
+    const { loading } = useAppLoading()
+
+    useEffect(() => {
+        if (scriptLoaded || loading) {
+            return
+        }
+
+        const script = document.createElement("script")
+        script.src = "custom_js.js"
+        script.async = true
+        document.body.appendChild(script)
+
+        setScriptLoaded(true)
+    }, [scriptLoaded, loading])
+
+    return null
+}
+
+function CustomCssHandler() {
+    useEffect(() => {
+        const link = document.createElement("link")
+        link.rel = "stylesheet"
+        link.type = "text/css"
+        link.href = "custom_css.css"
+        document.head.appendChild(link)
+    }, [])
+
+    return null
+}
+
 export function App() {
     useI18n()
     const root = useAppSelector(state => state.tree.rootCategory)
@@ -188,14 +221,18 @@ export function App() {
                 <UnreadCountTitleHandler unreadCount={unreadCount} enabled={unreadCountTitle} />
                 <UnreadCountFaviconHandler unreadCount={unreadCount} enabled={unreadCountFavicon} />
                 <BrowserExtensionBadgeUnreadCountHandler />
+
+                <CustomCssHandler />
                 {/* disable pull-to-refresh as it messes with vertical scrolling
                         safari behaves weirdly when overscroll-behavior is set to none so we disable it only for other browsers
                         https://github.com/Athou/commafeed/issues/1168
                     */}
                 {!isSafari && <DisablePullToRefresh />}
+
                 <HashRouter>
                     <GoogleAnalyticsHandler />
                     <RedirectHandler />
+                    <CustomJsHandler />
                     <AppRoutes />
                 </HashRouter>
             </>

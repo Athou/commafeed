@@ -8,7 +8,6 @@ import tsconfigPaths from "vite-tsconfig-paths"
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
     plugins: [
-        customCodeInjector,
         react({
             babel: {
                 plugins: ["@lingui/babel-plugin-lingui-macro"],
@@ -57,30 +56,3 @@ export default defineConfig(() => ({
         setupFiles: "./src/setupTests.ts",
     },
 }))
-
-// inject custom js and css links in html
-const customCodeInjector: PluginOption = {
-    name: "customCodeInjector",
-    transformIndexHtml: html => {
-        return {
-            html,
-            tags: [
-                {
-                    tag: "script",
-                    attrs: {
-                        src: "custom_js.js",
-                    },
-                    injectTo: "body",
-                },
-                {
-                    tag: "link",
-                    attrs: {
-                        rel: "stylesheet",
-                        href: "custom_css.css",
-                    },
-                    injectTo: "head",
-                },
-            ],
-        }
-    },
-}

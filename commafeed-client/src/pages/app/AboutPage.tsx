@@ -41,7 +41,7 @@ function NextUnreadBookmarklet() {
     const { _ } = useLingui()
 
     const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf("#"))
-    const href = `javascript:window.location.href='${baseUrl}next?category=${categoryId}&order=${order}&t='+new Date().getTime();`
+    const href = `${baseUrl}next?category=${categoryId}&order=${order}`
 
     return (
         <Box>

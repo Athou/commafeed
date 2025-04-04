@@ -2,10 +2,10 @@
 
 ## [5.7.0]
 
-- Add Shift+J/Shift+K keyboard shortcuts to navigate to the next/previous feed or category with unread entries (#1746)
+- Add Shift+J/Shift+K keyboard shortcuts to navigate to the next/previous feed or category with unread entries (#1558)
 - Add the referrer "no-referrer" meta to index.html (#1724)
 - Load custom JS code when the app is done loading (#1724)
-- Correctly handle feeds that return an unmodified Last-Modified header but a different ETag header (#1730)
+- Correctly handle feeds that return an unmodified Last-Modified header but a different ETag header (#1746)
 - Restore gzip compression of responses that was accidentaly disabled since 5.0.0
 - Fix tooltips not showing up in mobile view
 - Fix the bookmarklet generator on the About page

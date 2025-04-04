@@ -139,14 +139,7 @@ public class HttpGetter {
 		}
 
 		String lastModifiedHeader = response.getLastModifiedHeader();
-		if (lastModifiedHeader != null && lastModifiedHeader.equals(request.getLastModified())) {
-			throw new NotModifiedException("lastModifiedHeader is the same");
-		}
-
 		String eTagHeader = response.getETagHeader();
-		if (eTagHeader != null && eTagHeader.equals(request.getETag())) {
-			throw new NotModifiedException("eTagHeader is the same");
-		}
 
 		Duration validFor = Optional.ofNullable(response.getCacheControl())
 				.filter(cc -> cc.getMaxAge() >= 0)

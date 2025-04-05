@@ -307,25 +307,18 @@ export function FeedEntries() {
             loader={<Box key={0}>{loading && <Loader />}</Box>}
         >
             {entries.map(entry => (
-                <article
+                <FeedEntry
                     key={entry.id}
-                    ref={el => {
-                        if (el) el.id = Constants.dom.entryId(entry)
-                    }}
-                    data-id={entry.id}
-                >
-                    <FeedEntry
-                        entry={entry}
-                        expanded={!!entry.expanded || viewMode === "expanded"}
-                        selected={entry.id === selectedEntryId}
-                        showSelectionIndicator={entry.id === selectedEntryId && (!entry.expanded || viewMode === "expanded")}
-                        maxWidth={sidebarVisible ? Constants.layout.entryMaxWidth : undefined}
-                        onHeaderClick={event => headerClicked(entry, event)}
-                        onHeaderRightClick={event => headerRightClicked(entry, event)}
-                        onBodyClick={() => bodyClicked(entry)}
-                        onSwipedLeft={async () => await swipedLeft(entry)}
-                    />
-                </article>
+                    entry={entry}
+                    expanded={!!entry.expanded || viewMode === "expanded"}
+                    selected={entry.id === selectedEntryId}
+                    showSelectionIndicator={entry.id === selectedEntryId && (!entry.expanded || viewMode === "expanded")}
+                    maxWidth={sidebarVisible ? Constants.layout.entryMaxWidth : undefined}
+                    onHeaderClick={event => headerClicked(entry, event)}
+                    onHeaderRightClick={event => headerRightClicked(entry, event)}
+                    onBodyClick={() => bodyClicked(entry)}
+                    onSwipedLeft={async () => await swipedLeft(entry)}
+                />
             ))}
         </InfiniteScroll>
     )

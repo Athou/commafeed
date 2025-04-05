@@ -137,6 +137,9 @@ export function FeedEntry(props: FeedEntryProps) {
     const compactHeader = !props.expanded && (viewMode === "title" || viewMode === "cozy")
     return (
         <Paper
+            component="article"
+            id={Constants.dom.entryId(props.entry)}
+            data-id={props.entry.id}
             withBorder
             radius={borderRadius}
             className={cx(classes.paper, {

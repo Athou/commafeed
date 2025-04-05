@@ -9,7 +9,7 @@ export const reloadTree = createAppAsyncThunk("tree/reload", async () => await c
 
 export const collapseTreeCategory = createAppAsyncThunk(
     "tree/category/collapse",
-    async (req: CollapseRequest) => await client.category.collapse(req)
+    async (req: CollapseRequest) => await client.category.collapse(req).then(r => r.data)
 )
 
 export const selectNextUnreadTreeItem = createAppAsyncThunk(

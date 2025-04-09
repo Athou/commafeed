@@ -13,6 +13,13 @@
             "arrowParentheses": "asNeeded"
         }
     },
+    "linter": {
+        "rules": {
+            "correctness": {
+                "noUnusedImports": "error"
+            }
+        }
+    },
     "files": {
         "ignore": ["dist", "node_modules", "target", "target-ide"]
     }

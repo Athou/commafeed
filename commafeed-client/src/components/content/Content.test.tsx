@@ -1,7 +1,6 @@
 import { MantineProvider } from "@mantine/core"
 import { render } from "@testing-library/react"
 import { Content } from "components/content/Content"
-import React from "react"
 import { describe, expect, it } from "vitest"
 
 describe("Content component", () => {

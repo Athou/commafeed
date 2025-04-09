@@ -36,6 +36,21 @@ export function MarkAllAsReadButton(props: { iconSize: number }) {
         }
     }
 
+    const onConfirm = () => {
+        setOpened(false)
+        dispatch(
+            markAllEntries({
+                sourceType: source.type,
+                req: {
+                    id: source.id,
+                    read: true,
+                    olderThan: Date.now() - threshold * 24 * 60 * 60 * 1000,
+                    insertedBefore: entriesTimestamp,
+                },
+            })
+        )
+    }
+
     return (
         <>
             <Modal opened={opened} onClose={() => setOpened(false)} title={<Trans>Mark all entries as read</Trans>}>
@@ -66,28 +81,13 @@ export function MarkAllAsReadButton(props: { iconSize: number }) {
                         value={threshold}
                         onChange={setThreshold}
                         data-autofocus
+                        onKeyDown={e => e.key === "Enter" && onConfirm()}
                     />
                     <Group justify="flex-end">
                         <Button variant="default" onClick={() => setOpened(false)}>
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button
-                            color="red"
-                            onClick={() => {
-                                setOpened(false)
-                                dispatch(
-                                    markAllEntries({
-                                        sourceType: source.type,
-                                        req: {
-                                            id: source.id,
-                                            read: true,
-                                            olderThan: Date.now() - threshold * 24 * 60 * 60 * 1000,
-                                            insertedBefore: entriesTimestamp,
-                                        },
-                                    })
-                                )
-                            }}
-                        >
+                        <Button color="red" onClick={onConfirm}>
                             <Trans>Confirm</Trans>
                         </Button>
                     </Group>

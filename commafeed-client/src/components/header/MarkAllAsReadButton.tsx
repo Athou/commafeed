@@ -65,6 +65,7 @@ export function MarkAllAsReadButton(props: { iconSize: number }) {
                         ]}
                         value={threshold}
                         onChange={setThreshold}
+                        data-autofocus
                     />
                     <Group justify="flex-end">
                         <Button variant="default" onClick={() => setOpened(false)}>

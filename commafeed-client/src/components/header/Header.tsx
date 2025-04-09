@@ -2,7 +2,7 @@ import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Box, Center, CloseButton, Divider, Group, Indicator, Popover, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { reloadEntries, search, selectNextEntry, selectPreviousEntry } from "app/entries/thunks"
+import { markAllAsReadWithConfirmationIfRequired, reloadEntries, search, selectNextEntry, selectPreviousEntry } from "app/entries/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { changeReadingMode, changeReadingOrder } from "app/user/thunks"
 import { ActionButton } from "components/ActionButton"
@@ -14,6 +14,7 @@ import { useEffect } from "react"
 import {
     TbArrowDown,
     TbArrowUp,
+    TbChecks,
     TbExternalLink,
     TbEye,
     TbEyeOff,
@@ -24,7 +25,6 @@ import {
     TbSortDescending,
     TbUser,
 } from "react-icons/tb"
-import { MarkAllAsReadButton } from "./MarkAllAsReadButton"
 import { ProfileMenu } from "./ProfileMenu"
 
 function HeaderDivider() {
@@ -111,7 +111,11 @@ export function Header() {
                     label={msg`Refresh`}
                     onClick={async () => await dispatch(reloadEntries())}
                 />
-                <MarkAllAsReadButton iconSize={iconSize} />
+                <ActionButton
+                    icon={<TbChecks size={iconSize} />}
+                    label={msg`Mark all as read`}
+                    onClick={() => dispatch(markAllAsReadWithConfirmationIfRequired())}
+                />
 
                 <HeaderDivider />
 

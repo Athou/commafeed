@@ -1,7 +1,7 @@
 import { createAppAsyncThunk } from "app/async-thunk"
 import { client } from "app/client"
 import { Constants } from "app/constants"
-import { type EntrySource, type EntrySourceType, entriesSlice, setSearch } from "app/entries/slice"
+import { type EntrySource, type EntrySourceType, entriesSlice, setMarkAllAsReadConfirmationDialogOpen, setSearch } from "app/entries/slice"
 import type { RootState } from "app/store"
 import { reloadTree } from "app/tree/thunks"
 import type { Entry, MarkRequest, TagRequest } from "app/types"
@@ -120,6 +120,32 @@ export const markAllEntries = createAppAsyncThunk(
         await endpoint(arg.req)
         thunkApi.dispatch(reloadEntries())
         thunkApi.dispatch(reloadTree())
+    }
+)
+
+export const markAllAsReadWithConfirmationIfRequired = createAppAsyncThunk(
+    "entries/entry/markAllAsReadWithConfirmationIfRequired",
+    async (_, thunkApi) => {
+        const state = thunkApi.getState()
+        const source = state.entries.source
+        const entriesTimestamp = state.entries.timestamp ?? Date.now()
+        const markAllAsReadConfirmation = state.user.settings?.markAllAsReadConfirmation
+
+        if (markAllAsReadConfirmation) {
+            thunkApi.dispatch(setMarkAllAsReadConfirmationDialogOpen(true))
+        } else {
+            thunkApi.dispatch(
+                markAllEntries({
+                    sourceType: source.type,
+                    req: {
+                        id: source.id,
+                        read: true,
+                        olderThan: Date.now(),
+                        insertedBefore: entriesTimestamp,
+                    },
+                })
+            )
+        }
     }
 )
 

@@ -5,7 +5,7 @@ import { Constants } from "app/constants"
 import type { ExpendableEntry } from "app/entries/slice"
 import {
     loadMoreEntries,
-    markAllEntries,
+    markAllAsReadWithConfirmationIfRequired,
     markEntry,
     reloadEntries,
     selectEntry,
@@ -275,17 +275,7 @@ export function FeedEntries() {
     })
     useMousetrap("shift+a", () => {
         // mark all entries as read
-        dispatch(
-            markAllEntries({
-                sourceType: source.type,
-                req: {
-                    id: source.id,
-                    read: true,
-                    olderThan: Date.now(),
-                    insertedBefore: entriesTimestamp,
-                },
-            })
-        )
+        dispatch(markAllAsReadWithConfirmationIfRequired())
     })
     useMousetrap("g a", async () => await dispatch(redirectToRootCategory()))
     useMousetrap("f", () => dispatch(toggleSidebar()))

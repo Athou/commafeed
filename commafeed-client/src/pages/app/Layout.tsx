@@ -11,6 +11,7 @@ import { ActionButton } from "components/ActionButton"
 import { AnnouncementDialog } from "components/AnnouncementDialog"
 import { Loader } from "components/Loader"
 import { Logo } from "components/Logo"
+import { MarkAllAsReadConfirmationDialog } from "components/MarkAllAsReadConfirmationDialog"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import { OnMobile } from "components/responsive/OnMobile"
 import { useAppLoading } from "hooks/useAppLoading"
@@ -216,6 +217,7 @@ export default function Layout(props: LayoutProps) {
                 <AppShell.Main id="content">
                     <Suspense fallback={<Loader />}>
                         <AnnouncementDialog />
+                        <MarkAllAsReadConfirmationDialog />
                         <Outlet />
                     </Suspense>
                 </AppShell.Main>

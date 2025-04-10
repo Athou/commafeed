@@ -19,7 +19,7 @@ export function CodeEditor(props: CodeEditorProps) {
             autosize
             minRows={4}
             maxRows={15}
-            description={props.description}
+            label={props.description}
             styles={{
                 input: {
                     fontFamily: "monospace",
@@ -29,7 +29,7 @@ export function CodeEditor(props: CodeEditorProps) {
             onChange={e => props.onChange(e.currentTarget.value)}
         />
     ) : (
-        <Input.Wrapper description={props.description}>
+        <Input.Wrapper label={props.description}>
             <RichCodeEditor height="30vh" language={props.language} value={props.value} onChange={props.onChange} />
         </Input.Wrapper>
     )

@@ -103,11 +103,11 @@ msgstr "Вы уверены, что хотите удалить пользова
 msgid "Are you sure you want to delete your account? There's no turning back!"
 msgstr "Вы уверены, что хотите удалить свой аккаунт? "
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
 msgstr "Вы уверены, что хотите пометить все записи <0>{sourceLabel}</0> как прочитанные?"
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
 msgstr "Вы уверены, что хотите пометить записи старше {threshold} дней <0>{sourceLabel}</0> как прочитанные?"
 
@@ -149,10 +149,10 @@ msgstr ""
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/CustomCodeSettings.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/admin/UserEdit.tsx
@@ -206,8 +206,8 @@ msgstr "Компактный"
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Confirm"
 msgstr "Подтвердить"
 
@@ -273,6 +273,7 @@ msgid "Detailed"
 msgstr "Подробно"
 
 #: src/pages/app/SettingsPage.tsx
+#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "Display"
 msgstr "Отображение"
@@ -511,12 +512,12 @@ msgstr "Долгое нажатие"
 msgid "Manage users"
 msgstr "Управление пользователями"
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/header/Header.tsx
 msgid "Mark all as read"
 msgstr "Отметить все как прочитанное"
 
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Mark all entries as read"
 msgstr "Отметить все записи как прочитанные"
 
@@ -718,6 +719,10 @@ msgstr "Позиция"
 #: src/components/header/Header.tsx
 msgid "Previous"
 msgstr "Предыдущий"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Primary color"
+msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

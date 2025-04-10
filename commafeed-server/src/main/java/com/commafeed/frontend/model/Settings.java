@@ -79,6 +79,9 @@ public class Settings implements Serializable {
 	@Schema(description = "show unread count in the favicon", requiredMode = RequiredMode.REQUIRED)
 	private boolean unreadCountFavicon;
 
+	@Schema(description = "primary theme color to use in the UI")
+	private String primaryColor;
+
 	@Schema(description = "sharing settings", requiredMode = RequiredMode.REQUIRED)
 	private SharingSettings sharingSettings = new SharingSettings();
 

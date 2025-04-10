@@ -103,11 +103,11 @@ msgstr "Sind Sie sicher, dass Sie Benutzer <0>{userName}</0> löschen möchten?"
 msgid "Are you sure you want to delete your account? There's no turning back!"
 msgstr "Sind Sie sicher, dass Sie Ihr Konto löschen möchten?"
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
 msgstr "Sind Sie sicher, dass Sie alle Einträge von <0>{sourceLabel}</0> als gelesen markieren möchten?"
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
 msgstr "Sind Sie sicher, dass Sie Einträge, die älter als {threshold} Tage von <0>{sourceLabel}</0> sind, als gelesen markieren möchten?"
 
@@ -149,10 +149,10 @@ msgstr ""
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/CustomCodeSettings.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/admin/UserEdit.tsx
@@ -206,8 +206,8 @@ msgstr "Kompakt"
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Confirm"
 msgstr "Bestätigen"
 
@@ -273,6 +273,7 @@ msgid "Detailed"
 msgstr "Detailliert"
 
 #: src/pages/app/SettingsPage.tsx
+#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "Display"
 msgstr "Anzeige"
@@ -511,12 +512,12 @@ msgstr "Langer Tastendruck"
 msgid "Manage users"
 msgstr "Benutzer verwalten"
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/header/Header.tsx
 msgid "Mark all as read"
 msgstr "Alle als gelesen markieren"
 
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Mark all entries as read"
 msgstr "Alle Einträge als gelesen markieren"
 
@@ -718,6 +719,10 @@ msgstr "Position"
 #: src/components/header/Header.tsx
 msgid "Previous"
 msgstr "Vorheriges"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Primary color"
+msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

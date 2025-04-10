@@ -252,6 +252,7 @@ export interface Settings {
     mobileFooter: boolean
     unreadCountTitle: boolean
     unreadCountFavicon: boolean
+    primaryColor?: string
     sharingSettings: SharingSettings
 }
 

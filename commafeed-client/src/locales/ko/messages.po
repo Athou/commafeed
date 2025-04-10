@@ -103,11 +103,11 @@ msgstr "<0>{userName}</0> 사용자를 삭제하시겠습니까?"
 msgid "Are you sure you want to delete your account? There's no turning back!"
 msgstr "정말 계정을 삭제하시겠습니까? "
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
 msgstr "<0>{sourceLabel}</0>의 모든 항목을 읽은 것으로 표시하시겠습니까?"
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
 msgstr "<0>{sourceLabel}</0>의 {threshold}일보다 오래된 항목을 읽은 것으로 표시하시겠습니까?"
 
@@ -149,10 +149,10 @@ msgstr ""
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/CustomCodeSettings.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/admin/UserEdit.tsx
@@ -206,8 +206,8 @@ msgstr "컴팩트"
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Confirm"
 msgstr "확인"
 
@@ -273,6 +273,7 @@ msgid "Detailed"
 msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
+#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "Display"
 msgstr "디스플레이"
@@ -511,12 +512,12 @@ msgstr ""
 msgid "Manage users"
 msgstr "사용자 관리"
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/header/Header.tsx
 msgid "Mark all as read"
 msgstr "모두 읽은 상태로 표시"
 
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Mark all entries as read"
 msgstr "모든 항목을 읽은 상태로 표시"
 
@@ -717,6 +718,10 @@ msgstr "위치"
 
 #: src/components/header/Header.tsx
 msgid "Previous"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Primary color"
 msgstr ""
 
 #: src/pages/app/SettingsPage.tsx

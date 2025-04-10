@@ -37,12 +37,13 @@ import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from "r
 import Tinycon from "tinycon"
 
 function Providers(props: { children: React.ReactNode }) {
+    const primaryColor = useAppSelector(state => state.user.settings?.primaryColor) || Constants.theme.defaultPrimaryColor
     return (
         <I18nProvider i18n={i18n}>
             <MantineProvider
                 defaultColorScheme="auto"
                 theme={{
-                    primaryColor: "orange",
+                    primaryColor: primaryColor,
                     fontFamily: "Open Sans",
                     colors: {
                         // keep using dark colors from mantine v6

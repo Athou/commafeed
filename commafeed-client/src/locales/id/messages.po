@@ -103,11 +103,11 @@ msgstr "Apakah Anda yakin ingin menghapus pengguna <0>{userName}</0> ?"
 msgid "Are you sure you want to delete your account? There's no turning back!"
 msgstr "Apakah Anda yakin ingin menghapus akun Anda? "
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
 msgstr "Apakah Anda yakin ingin menandai semua entri <0>{sourceLabel}</0> sebagai telah dibaca?"
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
 msgstr "Apakah Anda yakin ingin menandai entri yang lebih lama dari {threshold} hari <0>{sourceLabel}</0> sebagai telah dibaca?"
 
@@ -149,10 +149,10 @@ msgstr ""
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/CustomCodeSettings.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/admin/UserEdit.tsx
@@ -206,8 +206,8 @@ msgstr "Ringkas"
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Confirm"
 msgstr "Konfirmasi"
 
@@ -273,6 +273,7 @@ msgid "Detailed"
 msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
+#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "Display"
 msgstr "Tampilan"
@@ -511,12 +512,12 @@ msgstr ""
 msgid "Manage users"
 msgstr "Kelola pengguna"
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/header/Header.tsx
 msgid "Mark all as read"
 msgstr "Tandai semua sebagai telah dibaca"
 
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Mark all entries as read"
 msgstr "Tandai semua entri sebagai telah dibaca"
 
@@ -717,6 +718,10 @@ msgstr "Posisi"
 
 #: src/components/header/Header.tsx
 msgid "Previous"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Primary color"
 msgstr ""
 
 #: src/pages/app/SettingsPage.tsx

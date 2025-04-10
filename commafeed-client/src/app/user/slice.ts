@@ -9,6 +9,7 @@ import {
     changeLanguage,
     changeMarkAllAsReadConfirmation,
     changeMobileFooter,
+    changePrimaryColor,
     changeReadingMode,
     changeReadingOrder,
     changeScrollMarks,
@@ -125,6 +126,10 @@ export const userSlice = createSlice({
             if (!state.settings) return
             state.settings.unreadCountFavicon = action.meta.arg
         })
+        builder.addCase(changePrimaryColor.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.primaryColor = action.meta.arg
+        })
         builder.addCase(changeSharingSetting.pending, (state, action) => {
             if (!state.settings) return
             state.settings.sharingSettings[action.meta.arg.site] = action.meta.arg.value
@@ -144,6 +149,7 @@ export const userSlice = createSlice({
                 changeMobileFooter.fulfilled,
                 changeUnreadCountTitle.fulfilled,
                 changeUnreadCountFavicon.fulfilled,
+                changePrimaryColor.fulfilled,
                 changeSharingSetting.fulfilled
             ),
             () => {

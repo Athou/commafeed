@@ -89,6 +89,9 @@ public class UserSettings extends AbstractModel {
 	@Column(nullable = false)
 	private IconDisplayMode externalLinkIconDisplayMode;
 
+	@Column(name = "primary_color", length = 32)
+	private String primaryColor;
+
 	private boolean markAllAsReadConfirmation;
 	private boolean customContextMenu;
 	private boolean mobileFooter;

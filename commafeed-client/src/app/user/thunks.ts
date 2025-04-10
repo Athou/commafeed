@@ -113,6 +113,12 @@ export const changeUnreadCountFavicon = createAppAsyncThunk("settings/unreadCoun
     client.user.saveSettings({ ...settings, unreadCountFavicon })
 })
 
+export const changePrimaryColor = createAppAsyncThunk("settings/primaryColor", (primaryColor: string, thunkApi) => {
+    const { settings } = thunkApi.getState().user
+    if (!settings) return
+    client.user.saveSettings({ ...settings, primaryColor })
+})
+
 export const changeSharingSetting = createAppAsyncThunk(
     "settings/sharingSetting",
     (

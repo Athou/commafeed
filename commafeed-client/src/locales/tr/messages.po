@@ -103,11 +103,11 @@ msgstr "<0>{userName}</0> kullanıcısını silmek istediğinizden emin misiniz?
 msgid "Are you sure you want to delete your account? There's no turning back!"
 msgstr "Hesabınızı silmek istediğinizden emin misiniz? "
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
 msgstr "Tüm <0>{sourceLabel}</0> girişlerini okundu olarak işaretlemek istediğinizden emin misiniz?"
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
 msgstr "<0>{sourceLabel}</0> tarihine ait {threshold} günden eski girişleri okundu olarak işaretlemek istediğinizden emin misiniz?"
 
@@ -149,10 +149,10 @@ msgstr ""
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/CustomCodeSettings.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/admin/UserEdit.tsx
@@ -206,8 +206,8 @@ msgstr "Kompakt"
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Confirm"
 msgstr "Onayla"
 
@@ -273,6 +273,7 @@ msgid "Detailed"
 msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
+#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "Display"
 msgstr "Ekran"
@@ -511,12 +512,12 @@ msgstr "Uzun bas"
 msgid "Manage users"
 msgstr "Kullanıcıları yönet"
 
-#: src/components/header/MarkAllAsReadButton.tsx
+#: src/components/header/Header.tsx
 msgid "Mark all as read"
 msgstr "Tümünü okundu olarak işaretle"
 
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/header/MarkAllAsReadButton.tsx
 msgid "Mark all entries as read"
 msgstr "Tüm girişleri okundu olarak işaretle"
 
@@ -718,6 +719,10 @@ msgstr "Konum"
 #: src/components/header/Header.tsx
 msgid "Previous"
 msgstr "Önceki"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Primary color"
+msgstr ""
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"

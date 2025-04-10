@@ -101,6 +101,9 @@ export const Constants = {
         entryId: (entry: Entry) => `entry-id-${entry.id}`,
         entryContextMenuId: (entry: Entry) => entry.id,
     },
+    theme: {
+        defaultPrimaryColor: "orange",
+    },
     tooltip: {
         delay: 500,
     },

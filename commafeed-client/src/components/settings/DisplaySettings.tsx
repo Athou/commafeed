@@ -1,7 +1,7 @@
 import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
-import { Divider, Group, NumberInput, Radio, Select, SimpleGrid, Stack, Switch } from "@mantine/core"
+import { Box, DEFAULT_THEME, Divider, Group, NumberInput, Radio, Select, type SelectProps, SimpleGrid, Stack, Switch } from "@mantine/core"
 import type { ComboboxData } from "@mantine/core/lib/components/Combobox/Combobox.types"
 import { Constants } from "app/constants"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -13,6 +13,7 @@ import {
     changeLanguage,
     changeMarkAllAsReadConfirmation,
     changeMobileFooter,
+    changePrimaryColor,
     changeScrollMarks,
     changeScrollMode,
     changeScrollSpeed,
@@ -40,8 +41,9 @@ export function DisplaySettings() {
     const unreadCountTitle = useAppSelector(state => state.user.settings?.unreadCountTitle)
     const unreadCountFavicon = useAppSelector(state => state.user.settings?.unreadCountFavicon)
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
-    const dispatch = useAppDispatch()
+    const primaryColor = useAppSelector(state => state.user.settings?.primaryColor) || Constants.theme.defaultPrimaryColor
     const { _ } = useLingui()
+    const dispatch = useAppDispatch()
 
     const scrollModeOptions: Record<ScrollMode, ReactNode> = {
         always: <Trans>Always</Trans>,
@@ -68,16 +70,34 @@ export function DisplaySettings() {
         },
     ]
 
+    const colorData: ComboboxData = Object.keys(DEFAULT_THEME.colors).sort((a, b) => a.localeCompare(b))
+    const colorRenderer: SelectProps["renderOption"] = ({ option }) => (
+        <Group>
+            <Box h={18} w={18} bg={option.value} />
+            <Box>{option.value}</Box>
+        </Group>
+    )
+
     return (
         <Stack>
+            <Divider label={<Trans>Display</Trans>} labelPosition="center" />
+
             <Select
-                description={<Trans>Language</Trans>}
+                label={<Trans>Language</Trans>}
                 value={language}
                 data={locales.map(l => ({
                     value: l.key,
                     label: l.label,
                 }))}
                 onChange={async s => await (s && dispatch(changeLanguage(s)))}
+            />
+
+            <Select
+                label={<Trans>Primary color</Trans>}
+                data={colorData}
+                value={primaryColor}
+                onChange={async value => value && (await dispatch(changePrimaryColor(value)))}
+                renderOption={colorRenderer}
             />
 
             <Switch
@@ -115,14 +135,14 @@ export function DisplaySettings() {
             <Divider label={<Trans>Entry headers</Trans>} labelPosition="center" />
 
             <Select
-                description={<Trans>Show star icon</Trans>}
+                label={<Trans>Show star icon</Trans>}
                 value={starIconDisplayMode}
                 data={displayModeData}
                 onChange={async s => await dispatch(changeStarIconDisplayMode(s as IconDisplayMode))}
             />
 
             <Select
-                description={<Trans>Show external link icon</Trans>}
+                label={<Trans>Show external link icon</Trans>}
                 value={externalLinkIconDisplayMode}
                 data={displayModeData}
                 onChange={async s => await dispatch(changeExternalLinkIconDisplayMode(s as IconDisplayMode))}

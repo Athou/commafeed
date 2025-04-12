@@ -42,9 +42,11 @@ interface ProfileMenuProps {
 
 const ProfileMenuControlItem = ({ icon, label }: { icon: ReactNode; label: ReactNode }) => {
     return (
-        <Group>
+        <Group className={"cf-ProfileMenuControlItem-Group"}>
             {icon}
-            <Box ml={6}>{label}</Box>
+            <Box className={"cf-ProfileMenuControlItem-Box"} ml={6}>
+                {label}
+            </Box>
         </Group>
     )
 }
@@ -118,6 +120,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
             <Menu.Dropdown>
                 {profile && <Menu.Label>{profile.name}</Menu.Label>}
                 <Menu.Item
+                    className={"cf-ProfileMenu-Item cf-ProfileMenu-Item-Settings"}
                     leftSection={<TbSettings size={iconSize} />}
                     onClick={() => {
                         dispatch(redirectToSettings())
@@ -127,6 +130,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     <Trans>Settings</Trans>
                 </Menu.Item>
                 <Menu.Item
+                    className={"cf-ProfileMenu-Item cf-ProfileMenu-Item-Refresh"}
                     leftSection={<TbWorldDownload size={iconSize} />}
                     disabled={!forceRefreshEnabled}
                     onClick={async () => {
@@ -156,12 +160,13 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     {!forceRefreshEnabled && <span> ({dayjs.duration(nextAvailableForceRefresh - now.getTime()).format("HH:mm:ss")})</span>}
                 </Menu.Item>
 
-                <Divider />
+                <Divider className={"cf-ProfileMenu-Divider"} />
 
-                <Menu.Label>
+                <Menu.Label className={"cf-ProfileMenu-Label"}>
                     <Trans>Theme</Trans>
                 </Menu.Label>
                 <SegmentedControl
+                    className={"cf-ProfileMenu-SegmentedControl-Theme"}
                     fullWidth
                     orientation="vertical"
                     data={colorSchemeData}
@@ -170,12 +175,13 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     mb="xs"
                 />
 
-                <Divider />
+                <Divider className={"cf-ProfileMenu-Divider"} />
 
-                <Menu.Label>
+                <Menu.Label className={"cf-ProfileMenu-Label"}>
                     <Trans>Display</Trans>
                 </Menu.Label>
                 <SegmentedControl
+                    className={"cf-ProfileMenu-SegmentedControl-ViewMode"}
                     fullWidth
                     orientation="vertical"
                     data={viewModeData}
@@ -186,11 +192,12 @@ export function ProfileMenu(props: ProfileMenuProps) {
 
                 {admin && (
                     <>
-                        <Divider />
-                        <Menu.Label>
+                        <Divider className={"cf-ProfileMenu-Divider"} />
+                        <Menu.Label className={"cf-ProfileMenu-Label"}>
                             <Trans>Admin</Trans>
                         </Menu.Label>
                         <Menu.Item
+                            className={"cf-ProfileMenu-Item cf-ProfileMenu-Item-Admin"}
                             leftSection={<TbUsers size={iconSize} />}
                             onClick={() => {
                                 dispatch(redirectToAdminUsers())
@@ -200,6 +207,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                             <Trans>Manage users</Trans>
                         </Menu.Item>
                         <Menu.Item
+                            className={"cf-ProfileMenu-Item cf-ProfileMenu-Item-Metrics"}
                             leftSection={<TbChartLine size={iconSize} />}
                             onClick={() => {
                                 dispatch(redirectToMetrics())
@@ -211,9 +219,10 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     </>
                 )}
 
-                <Divider />
+                <Divider className={"cf-ProfileMenu-Divider"} />
 
                 <Menu.Item
+                    className={"cf-ProfileMenu-Item cf-ProfileMenu-Item-Donate"}
                     leftSection={<TbHeartFilled size={iconSize} color="red" />}
                     onClick={() => {
                         dispatch(redirectToDonate())
@@ -224,6 +233,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 </Menu.Item>
 
                 <Menu.Item
+                    className={"cf-ProfileMenu-Item cf-ProfileMenu-Item-About"}
                     leftSection={<TbHelp size={iconSize} />}
                     onClick={() => {
                         dispatch(redirectToAbout())
@@ -232,7 +242,11 @@ export function ProfileMenu(props: ProfileMenuProps) {
                 >
                     <Trans>About</Trans>
                 </Menu.Item>
-                <Menu.Item leftSection={<TbPower size={iconSize} />} onClick={logout}>
+                <Menu.Item
+                    className={"cf-ProfileMenu-Item cf-ProfileMenu-Item-Logout"}
+                    leftSection={<TbPower size={iconSize} />}
+                    onClick={logout}
+                >
                     <Trans>Logout</Trans>
                 </Menu.Item>
             </Menu.Dropdown>

@@ -37,16 +37,18 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
         )
 
     return (
-        <Group justify="space-between">
-            <Group gap={spacing}>
+        <Group className="cf-FeedEntryFooter" justify="space-between">
+            <Group className="cf-FeedEntryFooter-Group" gap={spacing}>
                 {props.entry.markable && (
                     <ActionButton
+                        className={"cf-FeedEntryFooter-Group-ActionButton cf-FeedEntryFooter-Group-ActionButton-Mail"}
                         icon={props.entry.read ? <TbMail size={18} /> : <TbMailOpened size={18} />}
                         label={props.entry.read ? msg`Keep unread` : msg`Mark as read`}
                         onClick={readStatusButtonClicked}
                     />
                 )}
                 <ActionButton
+                    className={"cf-FeedEntryFooter-Group-ActionButton cf-FeedEntryFooter-Group-ActionButton-Star"}
                     icon={props.entry.starred ? <TbStarOff size={18} /> : <TbStar size={18} />}
                     label={props.entry.starred ? msg`Unstar` : msg`Star`}
                     onClick={async () =>
@@ -89,12 +91,17 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                     </Popover>
                 )}
 
-                <a href={props.entry.url} target="_blank" rel="noreferrer">
-                    <ActionButton icon={<TbExternalLink size={18} />} label={msg`Open link`} />
+                <a className="cf-FeedEntryFooter-Group-OpenLink" href={props.entry.url} target="_blank" rel="noreferrer">
+                    <ActionButton
+                        className={"cf-FeedEntryFooter-Group-ActionButton cf-FeedEntryFooter-Group-ActionButton-OpenLink"}
+                        icon={<TbExternalLink size={18} />}
+                        label={msg`Open link`}
+                    />
                 </a>
             </Group>
 
             <ActionButton
+                className={"cf-FeedEntryFooter-Group-ActionButton cf-FeedEntryFooter-Group-ActionButton-MarkEntries"}
                 icon={<TbArrowBarToDown size={18} />}
                 label={msg`Mark as read up to here`}
                 onClick={async () => await dispatch(markEntriesUpToEntry(props.entry))}

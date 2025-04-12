@@ -55,8 +55,8 @@ export function ImageWithPlaceholderWhileLoading({
     return (
         <>
             {loading && (
-                <Box>
-                    <Center className={classes.placeholder}>
+                <Box className={"cf-ImagePlaceholder-Box"}>
+                    <Center className={`${classes.placeholder} cf-ImagePlaceholder-Box-Center`}>
                         <div>
                             <TbPhoto size={placeholderIconSize ?? 48} />
                         </div>
@@ -64,6 +64,7 @@ export function ImageWithPlaceholderWhileLoading({
                 </Box>
             )}
             <img
+                className={"cf-Image"}
                 src={src}
                 alt={alt}
                 title={title}

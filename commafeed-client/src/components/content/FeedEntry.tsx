@@ -142,7 +142,7 @@ export function FeedEntry(props: FeedEntryProps) {
             data-id={props.entry.id}
             withBorder
             radius={borderRadius}
-            className={cx(classes.paper, {
+            className={cx(classes.paper, "cf-FeedEntry-Paper", {
                 read: props.entry.read,
                 unread: !props.entry.read,
                 expanded: props.expanded,
@@ -151,7 +151,7 @@ export function FeedEntry(props: FeedEntryProps) {
             })}
         >
             <a
-                className={classes.headerLink}
+                className={cx(classes.headerLink, "cf-FeedEntry-Paper-A")}
                 href={props.entry.url}
                 target="_blank"
                 rel="noreferrer"
@@ -159,7 +159,7 @@ export function FeedEntry(props: FeedEntryProps) {
                 onAuxClick={props.onHeaderClick}
                 onContextMenu={props.onHeaderRightClick}
             >
-                <Box px={paddingX} py={paddingY} {...swipeHandlers}>
+                <Box className={"cf-FeedEntry-Paper-A-Box"} px={paddingX} py={paddingY} {...swipeHandlers}>
                     {compactHeader && (
                         <FeedEntryCompactHeader
                             entry={props.entry}
@@ -178,15 +178,14 @@ export function FeedEntry(props: FeedEntryProps) {
                 </Box>
             </a>
             {props.expanded && (
-                <Box px={paddingX} pb={paddingY} onClick={props.onBodyClick}>
-                    <Box className={classes.body}>
+                <Box className={"cf-FeedEntry-Paper-Box"} px={paddingX} pb={paddingY} onClick={props.onBodyClick}>
+                    <Box className={cx(classes.body, "cf-FeedEntry-Paper-Box-Box")}>
                         <FeedEntryBody entry={props.entry} />
                     </Box>
-                    <Divider variant="dashed" my={paddingY} />
+                    <Divider className={"cf-FeedEntry-Paper-Box-Divider"} variant="dashed" my={paddingY} />
                     <FeedEntryFooter entry={props.entry} />
                 </Box>
             )}
-
             <FeedEntryContextMenu entry={props.entry} />
         </Paper>
     )

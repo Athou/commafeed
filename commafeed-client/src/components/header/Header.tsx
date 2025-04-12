@@ -28,7 +28,7 @@ import {
 import { ProfileMenu } from "./ProfileMenu"
 
 function HeaderDivider() {
-    return <Divider orientation="vertical" />
+    return <Divider className="cf-Header-Divider" orientation="vertical" />
 }
 
 function HeaderToolbar(props: { children: React.ReactNode }) {
@@ -37,6 +37,7 @@ function HeaderToolbar(props: { children: React.ReactNode }) {
     return mobile ? (
         // on mobile use all available width
         <Box
+            className="cf-Header-Toolbar-Box"
             style={{
                 width: "100%",
                 display: "flex",
@@ -46,7 +47,9 @@ function HeaderToolbar(props: { children: React.ReactNode }) {
             {props.children}
         </Box>
     ) : (
-        <Group gap={spacing}>{props.children}</Group>
+        <Group className="cf-Header-Toolbar-Group" gap={spacing}>
+            {props.children}
+        </Group>
     )
 }
 
@@ -75,9 +78,10 @@ export function Header() {
 
     if (!settings) return <Loader />
     return (
-        <Center>
+        <Center className="cf-Header-Center">
             <HeaderToolbar>
                 <ActionButton
+                    className={"cf-Header-Toolbar-ActionButton cf-Header-Toolbar-ActionButton-ArrowUp"}
                     icon={<TbArrowUp size={iconSize} />}
                     label={msg`Previous`}
                     onClick={async () =>
@@ -91,6 +95,7 @@ export function Header() {
                     }
                 />
                 <ActionButton
+                    className={"cf-Header-Toolbar-ActionButton cf-Header-Toolbar-ActionButton-ArrowDown"}
                     icon={<TbArrowDown size={iconSize} />}
                     label={msg`Next`}
                     onClick={async () =>
@@ -107,11 +112,13 @@ export function Header() {
                 <HeaderDivider />
 
                 <ActionButton
+                    className={"cf-Header-Toolbar-ActionButton cf-Header-Toolbar-ActionButton-Refresh"}
                     icon={<TbRefresh size={iconSize} />}
                     label={msg`Refresh`}
                     onClick={async () => await dispatch(reloadEntries())}
                 />
                 <ActionButton
+                    className={"cf-Header-Toolbar-ActionButton cf-Header-Toolbar-ActionButton-MarkAllRead"}
                     icon={<TbChecks size={iconSize} />}
                     label={msg`Mark all as read`}
                     onClick={() => dispatch(markAllAsReadWithConfirmationIfRequired())}
@@ -120,11 +127,13 @@ export function Header() {
                 <HeaderDivider />
 
                 <ActionButton
+                    className={"cf-Header-Toolbar-ActionButton cf-Header-Toolbar-ActionButton-UnReadToggle"}
                     icon={settings.readingMode === "all" ? <TbEye size={iconSize} /> : <TbEyeOff size={iconSize} />}
                     label={settings.readingMode === "all" ? msg`All` : msg`Unread`}
                     onClick={async () => await dispatch(changeReadingMode(settings.readingMode === "all" ? "unread" : "all"))}
                 />
                 <ActionButton
+                    className={"cf-Header-Toolbar-ActionButton cf-Header-Toolbar-ActionButton-Order"}
                     icon={settings.readingOrder === "asc" ? <TbSortAscending size={iconSize} /> : <TbSortDescending size={iconSize} />}
                     label={settings.readingOrder === "asc" ? msg`Asc` : msg`Desc`}
                     onClick={async () => await dispatch(changeReadingOrder(settings.readingOrder === "asc" ? "desc" : "asc"))}
@@ -133,12 +142,20 @@ export function Header() {
                 <Popover>
                     <Popover.Target>
                         <Indicator disabled={!searchFromStore}>
-                            <ActionButton icon={<TbSearch size={iconSize} />} label={msg`Search`} />
+                            <ActionButton
+                                className={"cf-Header-Toolbar-ActionButton cf-Header-Toolbar-ActionButton-Search"}
+                                icon={<TbSearch size={iconSize} />}
+                                label={msg`Search`}
+                            />
                         </Indicator>
                     </Popover.Target>
                     <Popover.Dropdown>
-                        <form onSubmit={searchForm.onSubmit(async values => await dispatch(search(values.search)))}>
+                        <form
+                            className={"cf-Header-Toolbar-Popover-Form"}
+                            onSubmit={searchForm.onSubmit(async values => await dispatch(search(values.search)))}
+                        >
                             <TextInput
+                                className={"cf-Header-Toolbar-Popover-Form-TextInput"}
                                 placeholder={_(msg`Search`)}
                                 {...searchForm.getInputProps("search")}
                                 leftSection={<TbSearch size={iconSize} />}
@@ -151,18 +168,20 @@ export function Header() {
 
                 <HeaderDivider />
 
-                <ProfileMenu control={<ActionButton icon={<TbUser size={iconSize} />} label={profile?.name} />} />
+                <ProfileMenu control={<ActionButton className={"cf-Header-Toolbar-ActionButton cf-Header-Toolbar-ActionButton-Profile"} icon={<TbUser size={iconSize} />} label={profile?.name} />} />
 
                 {isBrowserExtensionPopup && (
                     <>
                         <HeaderDivider />
 
                         <ActionButton
+                            className={"cf-Header-Toolbar-ActionButton cf-Header-Toolbar-ActionButton-ExtensionOptions"}
                             icon={<TbSettings size={iconSize} />}
                             label={msg`Extension options`}
                             onClick={() => openSettingsPage()}
                         />
                         <ActionButton
+                            className={"cf-Header-Toolbar-ActionButton cf-Header-Toolbar-ActionButton-OpenCommaFeed"}
                             icon={<TbExternalLink size={iconSize} />}
                             label={msg`Open CommaFeed`}
                             onClick={() => openAppInNewTab()}

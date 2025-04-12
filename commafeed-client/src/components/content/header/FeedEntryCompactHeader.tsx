@@ -48,21 +48,21 @@ export function FeedEntryCompactHeader(props: FeedEntryHeaderProps) {
         read: props.entry.read,
     })
     return (
-        <Box className={classes.wrapper}>
+        <Box className={`${classes.wrapper} cf-FeedEntryCompactHeader`}>
             {props.showStarIcon && <Star entry={props.entry} />}
-            <Box>
+            <Box className="cf-FeedEntryCompactHeader-Box1">
                 <FeedFavicon url={props.entry.iconUrl} />
             </Box>
             <OnDesktop>
-                <Text c="dimmed" className={classes.feedName}>
+                <Text c="dimmed" className={`${classes.feedName} cf-FeedEntryCompactHeader-Text1`}>
                     {props.entry.feedName}
                 </Text>
             </OnDesktop>
-            <Box className={classes.title}>
+            <Box className={`${classes.title} cf-FeedEntryCompactHeader-Box2`}>
                 <FeedEntryTitle entry={props.entry} />
             </Box>
             <OnDesktop>
-                <Text c="dimmed" className={classes.date}>
+                <Text c="dimmed" className={`${classes.date} cf-FeedEntryCompactHeader-Text2`}>
                     <RelativeDate date={props.entry.date} />
                 </Text>
             </OnDesktop>

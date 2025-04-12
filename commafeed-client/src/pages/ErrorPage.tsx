@@ -36,20 +36,20 @@ export function ErrorPage(props: { error: Error }) {
     const { classes } = useStyles()
 
     return (
-        <div className={classes.root}>
-            <Container>
-                <PageTitle />
-                <Box className={classes.label}>
+        <div className={`${classes.root} cf-ErrorPage-div`}>
+            <Container className={"cf-ErrorPage-Container"}>
+                <PageTitle className={"cf-ErrorPage-Container-PageTitle"}/>
+                <Box className={`${classes.label} cf-ErrorPage-Container-Box`}>
                     <Trans>Oops!</Trans>
                 </Box>
-                <Title className={classes.title}>
+                <Title className={`${classes.title} cf-ErrorPage-Container-Title`}>
                     <Trans>Something bad just happened...</Trans>
                 </Title>
-                <Text size="lg" ta="center" className={classes.description}>
+                <Text size="lg" ta="center" className={`${classes.description} cf-ErrorPage-Container-Text`}>
                     {props.error.message}
                 </Text>
-                <Group justify="center">
-                    <Button size="md" onClick={() => window.location.reload()} leftSection={<TbRefresh size={18} />}>
+                <Group className={"cf-ErrorPage-Container-Group"} justify="center">
+                    <Button className={"cf-ErrorPage-Container-Button"} size="md" onClick={() => window.location.reload()} leftSection={<TbRefresh size={18} />}>
                         Refresh the page
                     </Button>
                 </Group>

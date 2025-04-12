@@ -168,7 +168,15 @@ export function Header() {
 
                 <HeaderDivider />
 
-                <ProfileMenu control={<ActionButton className={"cf-Header-Toolbar-ActionButton cf-Header-Toolbar-ActionButton-Profile"} icon={<TbUser size={iconSize} />} label={profile?.name} />} />
+                <ProfileMenu
+                    control={
+                        <ActionButton
+                            className={"cf-Header-Toolbar-ActionButton cf-Header-Toolbar-ActionButton-Profile"}
+                            icon={<TbUser size={iconSize} />}
+                            label={profile?.name}
+                        />
+                    }
+                />
 
                 {isBrowserExtensionPopup && (
                     <>

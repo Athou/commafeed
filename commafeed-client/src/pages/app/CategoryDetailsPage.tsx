@@ -78,20 +78,20 @@ export function CategoryDetailsPage() {
     const editable = id !== Constants.categories.all.id && id !== Constants.categories.starred.id
     if (!category) return <Loader />
     return (
-        <Container>
+        <Container className={"cf-CategoryDetails-Container"}>
             {modifyCategory.error && (
-                <Box mb="md">
-                    <Alert messages={errorToStrings(modifyCategory.error)} />
+                <Box className={"cf-CategoryDetails-Container-Box1"} mb="md">
+                    <Alert className={"cf-CategoryDetails-Container-Box1-Alert"} messages={errorToStrings(modifyCategory.error)} />
                 </Box>
             )}
 
             {deleteCategory.error && (
-                <Box mb="md">
-                    <Alert messages={errorToStrings(deleteCategory.error)} />
+                <Box className={"cf-CategoryDetails-Container-Box2"} mb="md">
+                    <Alert className={"cf-CategoryDetails-Container-Box2-Alert"} messages={errorToStrings(deleteCategory.error)} />
                 </Box>
             )}
 
-            <form onSubmit={form.onSubmit(modifyCategory.execute)}>
+            <form className={"cf-CategoryDetails-Container-Form"} onSubmit={form.onSubmit(modifyCategory.execute)}>
                 <Stack>
                     <Title order={3}>{category.name}</Title>
                     <Input.Wrapper label={<Trans>Generated feed url</Trans>}>

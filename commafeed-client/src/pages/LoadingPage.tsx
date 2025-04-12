@@ -7,21 +7,22 @@ export function LoadingPage() {
     const { loadingPercentage, loadingStepLabel } = useAppLoading()
 
     return (
-        <Container size="xs">
-            <PageTitle />
+        <Container className={"cf-LoadingPage-Container"} size="xs">
+            <PageTitle className={"cf-LoadingPage-Container-PageTitle"}/>
 
-            <Center>
+            <Center className={"cf-LoadingPage-Container-Center"}>
                 <RingProgress
+		    className={"cf-LoadingPage-Container-Center-RingProgress"}
                     sections={[{ value: loadingPercentage, color: theme.primaryColor }]}
                     label={
-                        <Text fw="bold" ta="center" size="xl">
+                        <Text className={"cf-LoadingPage-Container-Center-RingProgress-Text"} fw="bold" ta="center" size="xl">
                             {loadingPercentage}%
                         </Text>
                     }
                 />
             </Center>
 
-            {loadingStepLabel && <Center>{loadingStepLabel}</Center>}
+            {loadingStepLabel && <Center className={"cf-LoadingPage-Container-StepLabel"} >{loadingStepLabel}</Center>}
         </Container>
     )
 }

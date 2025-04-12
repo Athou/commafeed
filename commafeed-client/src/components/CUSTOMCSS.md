@@ -99,4 +99,84 @@ components/header/ProfileMenu
 	cf-ProfileMenu-Item-Donate	Profile menu donate item
 	cf-ProfileMenu-Item-About	Profile menu about item
 	cf-ProfileMenu-Item-Logout	Profile menu logout item
+
+components/sidebar/Tree
+	cf-Tree-Stack	Tree of all feeds in sidebar
+	cf-Tree-Stack-Box	Box within tree of all feeds
+
+components/sidebar/TreeNode
+	cf-TreeNode-Box	Tree node
+	cf-TreeNode-Box-Box1	Tree node properties box
+	cf-TreeNode-Box-Box1-Center	Tree node properties icon
+	cf-TreeNode-Box-Box2	Tree node name
+	cf-TreeNode-Box-Box3	Tree node unread count
+
+components/sidebar/TreeSearch
+	cf-TreeSearch-TextInput	Tree search text input field
+	cf-TreeSearch-Spotlight	Tree search spotlight
+
+comoponents/sidebar/UnreadCount
+	cf-UnreadCount	Tree unread count tooltip
+	cf-UnreadCount-Badge	Tree unread count badge
+
+pages/PageTitle
+	cf-PageTitle-Center	Page title container
+	cf-PageTitle-Center-Title	Title text
+
+
+pages/WelcomePage
+	cf-WelcomePage-Container	Welcome page container
+	cf-WelcomePage-Container-Header	Welcome page header
+	cf-WelcomePage-Container-Center	Welcome page title centering
+	cf-WelcomePage-Container-Center-Title	Welcome page title text
+	cf-WelcomePage-Container-Divider1	Welcome page first divider
+	cf-WelcomePage-Container-Image	Welcome page image
+	cf-WelcomePage-Container-Divider2	Welcome page second divider
+	cf-WelcomePage-Container-Footer	Welcome page footer
+	cf-WelcomePage-Container-Space	Welcome page space after footer
+
+pages/LoadingPage
+	cf-LoadingPage-Container	Loading page container
+	cf-LoadingPage-Container-PageTitle	Loading page title
+	cf-LoadingPage-Container-Center	Centering element for loading ring
+	cf-LoadingPage-Container-Center-RingProgress Progress ring
+	cf-LoadingPage-Container-Center-RingProgress-Text	Loading percentage text
+	cf-LoadingPage-Container-StepLabel	Step label
+
+pages/LoadingPage
+	cf-ErrorPage-div	Error page outer div
+	cf-ErrorPage-Container	Error page container
+	cf-ErrorPage-Container-PageTitle	Error page title
+	cf-ErrorPage-Container-Box	Error page box containing "Oops!"
+	cf-ErrorPage-Container-Title	Error title
+	cf-ErrorPage-Container-Text	Error text
+	cf-ErrorPage-Container-Group	Refresh page button group
+	cf-ErrorPage-Container-Button	Refresh page button
+
+pages/app/AboutPage
+	cf-AboutPage-Section-Box	Top level about page box section
+	cf-AboutPage-Section-Box-Box1	Title box in about page section
+	cf-AboutPage-Section-Box-Box1-Title	About page section title
+	cf-AboutPage-Section-Box-Box2	Remainder of section
+	cf-AboutPage-NextUnreadBookmarklet	Next unread bookmarklet
+	cf-AboutPage-Container	About page container
+	cf-AboutPage-Container-SimpleGrid	About page grid
+	cf-AboutPage-Container-SimpleGrid-Section-Box Box within section
+	cf-AboutPage-Container-SimpleGrid-Section-List List within section
+	cf-AboutPage-Container-SimpleGrid-Section-List-Item List item within section
+
+pages/app/AddPage
+	cf-AddPage-Container	Top level add page container
+	cf-AddPage-Container-Tabs	Tabs within add page container
+
+pages/app/ApiDocumentation
+	cf-ApiDocumentation-Box	Top level box on API Documentation page
+
+page/app/CategoryDetailsPage
+	cf-CategoryDetails-Container	Top level container on Category Details page
+	cf-CategoryDetails-Container-Box1 Modify category error box
+	cf-CategoryDetails-Container-Box1-Alert Modify category error alert
+	cf-CategoryDetails-Container-Box2 Delete category error box
+	cf-CategoryDetails-Container-Box2-Alert Delete category error alert
+	cf-CategoryDetails-Container-Form	Category details form
 	

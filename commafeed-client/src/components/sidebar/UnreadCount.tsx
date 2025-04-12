@@ -17,8 +17,13 @@ export function UnreadCount(props: { unreadCount: number }) {
 
     const count = props.unreadCount >= 10000 ? "10k+" : props.unreadCount
     return (
-        <Tooltip label={props.unreadCount} disabled={props.unreadCount === count} openDelay={Constants.tooltip.delay}>
-            <Badge className={classes.badge} variant="light" fullWidth>
+        <Tooltip
+            className={"cf-UnreadCount"}
+            label={props.unreadCount}
+            disabled={props.unreadCount === count}
+            openDelay={Constants.tooltip.delay}
+        >
+            <Badge className={`${classes.badge} cf-UnreadCount-Badge`} variant="light" fullWidth>
                 {count}
             </Badge>
         </Tooltip>

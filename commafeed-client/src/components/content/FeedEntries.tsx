@@ -28,9 +28,7 @@ import { throttle } from "throttle-debounce"
 import { FeedEntry } from "./FeedEntry"
 
 export function FeedEntries() {
-    const source = useAppSelector(state => state.entries.source)
     const entries = useAppSelector(state => state.entries.entries)
-    const entriesTimestamp = useAppSelector(state => state.entries.timestamp)
     const selectedEntryId = useAppSelector(state => state.entries.selectedEntryId)
     const hasMore = useAppSelector(state => state.entries.hasMore)
     const loading = useAppSelector(state => state.entries.loading)

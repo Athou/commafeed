@@ -1,7 +1,20 @@
-# CommaFeed CSS Guide
+Custom CSS Guide
 
-<<<<<<< HEAD
+On the Admin settings page, there is a tab for "Custom Code" where you can enter[CSS](https://en.wikipedia.org/wiki/CSS) to customize the look & feel of CommaFeed.  To facilitate this, many of the HTML elements of CommaFeed have been given specific class names.  For example, the header of a feed entry is enclosed in an HTML `<div>` element with the class name `cf-FeedEntryHeader`.  So if you wanted to modify the appearance of all feed entry headers, you could use that specific class name to select all feed entry headers and apply whatever changes you desired.  For example, if you want to make change the background color of the headers, you could add this to the custom CSS code:
 
+```
+.cf-FeedEntryHeader {background-color: lightblue;}
+```
+
+The tables below list all of the CommaFeed specific class names and the corresponding page elements.  The names are hierarchical, so a name like `cf-FeedEntryHeader-Flex1-Flex-Box` refers to a Box element within a Flex element within another Flex element within the cf-FeedEntryHeader element.
+
+The elements within these class names (e.g., Box, Flex, etc.) follow the naming scheme in the CommaFeed source code (and hence, the naming scheme in the [Mantine library](https://mantine.dev/).  The actual HTML elements in the rendered page are often different.  For example, a Mantine Box element becomes an HTML `<div>`.
+
+When you want to modify the CommaFeed interface, you may be able to browse the tables below and find the right element to change.  However, a more useful approach is to use your web browser's built-in tools to find the class name of the element you want to change.  Typically you can hit F12 to bring up the web developer tools and then use the Inspector to look at the HTML element you want to change.  On that element you should see the class name you can use to write your custom CSS.
+
+(If the element doesn't have a usable class name, the easiest approach is to find an enclosing element that does have a class name and write a CSS selector starting at that element.)
+
+## CommaFeed Class Names
 
 File:video
 |Class Name|Element Description|
@@ -480,141 +493,3 @@ page/app/DonatePage
 |cf-DonatePage-Container-Group-Title|Title within heart group|
 |cf-DonatePage-Container-Box|Box containing donation message|
 |cf-DonatePage-Container-Group-Box-List|List of donation methods|
-
-<<<<<<< HEAD
-File:page/app/FeedDetailsPage
-=======
-page/app/FeedDetailsPage
-
->>>>>>> ee7409685dbcb03b9b216ceb3cf60ad50ab7300a
-|Class Name|Element Description|
-|---|---|
-|cf-FeedDetails-Container|Top level container on Feed Details page|
-|cf-FeedDetails-Container-ModifyFeedError|Box enclosing modify feed error|
-|cf-FeedDetails-Container-UnsubscribeError|Box enclosing unsubscribe error|
-|cf-FeedDetails-Container-Form|Feed details form|
-|cf-FeedDetails-Container-Form-Stack|Stack within form|
-|cf-FeedDetails-Container-Form-Stack-Title|Feed name at top of form|
-|cf-FeedDetails-Container-Form-Stack-InputWrapper1|Input wrapper for feed url|
-|cf-FeedDetails-Container-Form-Stack-InputWrapper1-Box|Box around feed URL|
-|cf-FeedDetails-Container-Form-Stack-InputWrapper1-Box-Anchor|Link for feed URL|
-|cf-FeedDetails-Container-Form-Stack-InputWrapper2|Input wrapper for website link|
-|cf-FeedDetails-Container-Form-Stack-InputWrapper2-Box|Box around website URL|
-<<<<<<< HEAD
-|cf-FeedDetails-Container-Form-Stack-InputWrapper2-Box-Anchor|Link for website URL|
-=======
-|cf-FeedDetails-Container-Form-Stack-InputWrapper2-Box-Anchor Link for website URL|
->>>>>>> ee7409685dbcb03b9b216ceb3cf60ad50ab7300a
-|cf-FeedDetails-Container-Form-Stack-InputWrapper3|Input wrapper for feed last refresh|
-|cf-FeedDetails-Container-Form-Stack-InputWrapper3-Box|Box around feed last refresh|
-|cf-FeedDetails-Container-Form-Stack-InputWrapper4|Input wrapper for last refresh message|
-|cf-FeedDetails-Container-Form-Stack-InputWrapper4-Box|Box around last refresh message|
-|cf-FeedDetails-Container-Form-Stack-InputWrapper5|Input wrapper around next refresh date|
-|cf-FeedDetails-Container-Form-Stack-InputWrapper5-Box|Box around feed nexst refresh|
-|cf-FeedDetails-Container-Form-Stack-InputWrapper6|Input wrapper for generated feed url|
-|cf-FeedDetails-Container-Form-Stack-InputWrapper6-Box|Box around generated feed URL|
-<<<<<<< HEAD
-|cf-FeedDetails-Container-Form-Stack-InputWrapper6-Box-Anchor|Link for generate feed URL|
-=======
-|cf-FeedDetails-Container-Form-Stack-InputWrapper6-Box-Anchor Link for generate feed URL|
->>>>>>> ee7409685dbcb03b9b216ceb3cf60ad50ab7300a
-|cf-FeedDetails-Container-Form-Stack-Divider|Form divider|
-|cf-FeedDetails-Container-Form-Stack-TextInput1|Text input for feed name|
-|cf-FeedDetails-Container-Form-Stack-CategorySelect|Category selector|
-|cf-FeedDetails-Container-Form-Stack-NumberInput|Number input for position|
-|cf-FeedDetails-Container-Form-Stack-TextInput2|Text input for filtering expression|
-|f-FeedDetails-Container-Form-Stack-Group|Button group|
-|cf-FeedDetails-Container-Form-Stack-Group-Button1|Cancel button|
-|cf-FeedDetails-Container-Form-Stack-Group-Button2|Save button|
-|cf-FeedDetails-Container-Form-Stack-Group-Divider|Vertical divider|
-|cf-FeedDetails-Container-Form-Stack-Group-Button3|Unsubscribe button|
-<<<<<<< HEAD
-
-File:page/app/FeedEntriesPage
-=======
-|
-
-page/app/FeedEntriesPage
-
->>>>>>> ee7409685dbcb03b9b216ceb3cf60ad50ab7300a
-|Class Name|Element Description|
-|---|---|
-|cf-FeedEntries-Box|Top level box on Feed Entries page|
-|cf-FeedEntries-Box-Group|Group for source website info|
-|cf-FeedEntries-Box-Group-Link|Link to source website|
-|cf-FeedEntries-Box-Group-Title|Name of source website|
-|cf-FeedEntries-Box-Group-Link-ActionIcon|Action icon|
-|cf-FeedEntries-Box-Group-Divider|Divider before "No more entries"|
-<<<<<<< HEAD
-
-File:page/app/Layout
-|Class Name|Element Description|
-|---|---|
-|cf-Layout-Center|Centering around logo and title|
-|cf-Layout-Center-Title|Title (CommaFeed)|
-|cf-Layout-Box|Top-level box on Layout page|
-|cf-Layout-Box-AppShell|Application shell|
-|cf-Layout-Box-AppShell-Header|App shell header|
-|cf-Layout-Box-AppShell-Footer|App shell footer|
-|cf-Layout-Box-AppShell-Navbar|App shell navbar (sidebar)|
-|cf-Layout-Box-AppShell-Navbar-Section|Scrolling area for sidebar|
-|cf-Layout-Box-AppShell-Navbar-Section-Box|Box enclosing sidebar content|
-
-File:page/app/Settings
-|Class Name|Element Description|
-|---|---|
-|cf-Settings-Container|Top level container for settings page|
-|cf-Settings-Container-Tabs|Tabs in settings page|
-
-File:page/app/TagDetails
-|Class Name|Element Description|
-|---|---|
-|cf-TagDetails-Container|Top level container for tag details page|
-|cf-TagDetails-Container-Stack|Stack within container|
-|cf-TagDetails-Container-Stack-Title|ID|
-|cf-TagDetails-Container-Stack-InputWrapper|Input wrapper for generated feed url|
-|cf-TagDetails-Container-Stack-InputWrapper-Box|Box within input wrapper|
-|cf-TagDetails-Container-Stack-InputWrapper-Box-Anchor|Link for generated feed url|
-|cf-TagDetails-Container-Stack-Group|Button group|
-|cf-TagDetails-Container-Stack-Group-Button|Cancel button|
-
-
-=======
-
-page/app/Layout
-
-|Class Name|Element Description|
-|---|---|
-|cf-Layout-Center|Centering around logo and title|
-|cf-Layout-Center-Title|Title (CommaFeed)|
-|cf-Layout-Box|Top-level box on Layout page|
-|cf-Layout-Box-AppShell|Application shell|
-|cf-Layout-Box-AppShell-Header|App shell header|
-|cf-Layout-Box-AppShell-Footer|App shell footer|
-|cf-Layout-Box-AppShell-Navbar|App shell navbar (sidebar)|
-|cf-Layout-Box-AppShell-Navbar-Section|Scrolling area for sidebar|
-|cf-Layout-Box-AppShell-Navbar-Section-Box|Box enclosing sidebar content|
-|
-
-page/app/Settings
-
-|Class Name|Element Description|
-|---|---|
-|cf-Settings-Container|Top level container for settings page|
-|cf-Settings-Container-Tabs|Tabs in settings page|
-
-page/app/TagDetails
-
-|Class Name|Element Description|
-|---|---|
-|cf-TagDetails-Container|Top level container for tag details page|
-|cf-TagDetails-Container-Stack|Stack within container|
-|cf-TagDetails-Container-Stack-Title|ID|
-|cf-TagDetails-Container-Stack-InputWrapper|Input wrapper for generated feed url|
-|cf-TagDetails-Container-Stack-InputWrapper-Box|Box within input wrapper|
-|cf-TagDetails-Container-Stack-InputWrapper-Box-Anchor|Link for generated feed url|
-|cf-TagDetails-Container-Stack-Group|Button group|
-|cf-TagDetails-Container-Stack-Group-Button|Cancel button|
-
-
->>>>>>> ee7409685dbcb03b9b216ceb3cf60ad50ab7300a

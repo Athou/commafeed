@@ -35,9 +35,14 @@ interface LayoutProps {
 function LogoAndTitle() {
     const dispatch = useAppDispatch()
     return (
-        <Center inline onClick={async () => await dispatch(redirectToRootCategory())} style={{ cursor: "pointer" }}>
+        <Center
+            className="cf-Layout-Center"
+            inline
+            onClick={async () => await dispatch(redirectToRootCategory())}
+            style={{ cursor: "pointer" }}
+        >
             <Logo size={24} />
-            <Title order={3} pl="md">
+            <Title className="cf-Layout-Center-Title" order={3} pl="md">
                 CommaFeed
             </Title>
         </Center>
@@ -166,8 +171,9 @@ export default function Layout(props: LayoutProps) {
 
     if (loading) return <LoadingPage />
     return (
-        <Box {...swipeHandlers}>
+        <Box className="cf-Layout-Box" {...swipeHandlers}>
             <AppShell
+                className="cf-Layout-Box-AppShell"
                 header={{ height: Constants.layout.headerHeight, collapsed: headerInFooter }}
                 footer={{ height: Constants.layout.headerHeight, collapsed: !headerInFooter }}
                 navbar={{
@@ -177,11 +183,15 @@ export default function Layout(props: LayoutProps) {
                 }}
                 padding={{ base: 6, [Constants.layout.mobileBreakpointName]: "md" }}
             >
-                <AppShell.Header id={Constants.dom.headerId}>{!headerInFooter && header}</AppShell.Header>
-                <AppShell.Footer id={Constants.dom.footerId}>{headerInFooter && header}</AppShell.Footer>
-                <AppShell.Navbar id="sidebar" p={sidebarPadding}>
-                    <AppShell.Section grow component={ScrollArea} mx="-sm" px="sm">
-                        <Box className={classes.sidebarContent}>{props.sidebar}</Box>
+                <AppShell.Header className="cf-Layout-Box-AppShell-Header" id={Constants.dom.headerId}>
+                    {!headerInFooter && header}
+                </AppShell.Header>
+                <AppShell.Footer className="cf-Layout-Box-AppShell-Footer" id={Constants.dom.footerId}>
+                    {headerInFooter && header}
+                </AppShell.Footer>
+                <AppShell.Navbar className="cf-Layout-Box-AppShell-Navbar" id="sidebar" p={sidebarPadding}>
+                    <AppShell.Section className="cf-Layout-Box-AppShell-Navbar-Section" grow component={ScrollArea} mx="-sm" px="sm">
+                        <Box className={`${classes.sidebarContent} cf-Layout-Box-AppShell-Navbar-Section-Box`}>{props.sidebar}</Box>
                     </AppShell.Section>
                 </AppShell.Navbar>
                 <OnDesktop>

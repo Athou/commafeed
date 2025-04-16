@@ -97,53 +97,73 @@ export function FeedDetailsPage() {
 
     if (!feed) return <Loader />
     return (
-        <Container>
+        <Container className="cf-FeedDetails-Container">
             {modifyFeed.error && (
-                <Box mb="md">
+                <Box className="cf-FeedDetails-Container-ModifyFeedError" mb="md">
                     <Alert messages={errorToStrings(modifyFeed.error)} />
                 </Box>
             )}
 
             {unsubscribe.error && (
-                <Box mb="md">
+                <Box className="cf-FeedDetails-Container-UnsubscribeError" mb="md">
                     <Alert messages={errorToStrings(unsubscribe.error)} />
                 </Box>
             )}
 
-            <form onSubmit={form.onSubmit(modifyFeed.execute)}>
-                <Stack>
-                    <Title order={3}>{feed.name}</Title>
-                    <Input.Wrapper label={<Trans>Feed URL</Trans>}>
-                        <Box>
-                            <Anchor href={feed.feedUrl} target="_blank" rel="noreferrer">
+            <form className="cf-FeedDetails-Container-Form" onSubmit={form.onSubmit(modifyFeed.execute)}>
+                <Stack className="cf-FeedDetails-Container-Form-Stack">
+                    <Title className="cf-FeedDetails-Container-Form-Stack-Title" order={3}>
+                        {feed.name}
+                    </Title>
+                    <Input.Wrapper className="cf-FeedDetails-Container-Form-Stack-InputWrapper1" label={<Trans>Feed URL</Trans>}>
+                        <Box className="cf-FeedDetails-Container-Form-Stack-InputWrapper1-Box">
+                            <Anchor
+                                className="cf-FeedDetails-Container-Form-Stack-InputWrapper1-Box-Anchor"
+                                href={feed.feedUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
                                 {feed.feedUrl}
                             </Anchor>
                         </Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label={<Trans>Website</Trans>}>
-                        <Box>
-                            <Anchor href={feed.feedLink} target="_blank" rel="noreferrer">
+                    <Input.Wrapper className="cf-FeedDetails-Container-Form-Stack-InputWrapper2" label={<Trans>Website</Trans>}>
+                        <Box className="cf-FeedDetails-Container-Form-Stack-InputWrapper2-Box">
+                            <Anchor
+                                className="cf-FeedDetails-Container-Form-Stack-InputWrapper2-Box-Anchor"
+                                href={feed.feedLink}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
                                 {feed.feedLink}
                             </Anchor>
                         </Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label={<Trans>Last refresh</Trans>}>
-                        <Box>
+                    <Input.Wrapper className="cf-FeedDetails-Container-Form-Stack-InputWrapper3" label={<Trans>Last refresh</Trans>}>
+                        <Box className="cf-FeedDetails-Container-Form-Stack-InputWrapper3-Box">
                             <RelativeDate date={feed.lastRefresh} />
                         </Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label={<Trans>Last refresh message</Trans>}>
-                        <Box>{feed.message ?? <Trans>N/A</Trans>}</Box>
+                    <Input.Wrapper
+                        className="cf-FeedDetails-Container-Form-Stack-InputWrapper4"
+                        label={<Trans>Last refresh message</Trans>}
+                    >
+                        <Box className="cf-FeedDetails-Container-Form-Stack-InputWrapper4-Box">{feed.message ?? <Trans>N/A</Trans>}</Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label={<Trans>Next refresh</Trans>}>
-                        <Box>
+                    <Input.Wrapper className="cf-FeedDetails-Container-Form-Stack-InputWrapper5" label={<Trans>Next refresh</Trans>}>
+                        <Box className="cf-FeedDetails-Container-Form-Stack-InputWrapper5-Box">
                             <RelativeDate date={feed.nextRefresh} />
                         </Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label={<Trans>Generated feed url</Trans>}>
-                        <Box>
+                    <Input.Wrapper className="cf-FeedDetails-Container-Form-Stack-InputWrapper6" label={<Trans>Generated feed url</Trans>}>
+                        <Box className="cf-FeedDetails-Container-Form-Stack-InputWrapper6-Box">
                             {apiKey && (
-                                <Anchor href={`rest/feed/entriesAsFeed?id=${feed.id}&apiKey=${apiKey}`} target="_blank" rel="noreferrer">
+                                <Anchor
+                                    className="cf-FeedDetails-Container-Form-Stack-InputWrapper6-Box-Anchor"
+                                    href={`rest/feed/entriesAsFeed?id=${feed.id}&apiKey=${apiKey}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
                                     <Trans>Link</Trans>
                                 </Anchor>
                             )}
@@ -151,26 +171,53 @@ export function FeedDetailsPage() {
                         </Box>
                     </Input.Wrapper>
 
-                    <Divider />
+                    <Divider className="cf-FeedDetails-Container-Form-Stack-Divider" />
 
-                    <TextInput label={<Trans>Name</Trans>} {...form.getInputProps("name")} required />
-                    <CategorySelect label={<Trans>Category</Trans>} {...form.getInputProps("categoryId")} clearable />
-                    <NumberInput label={<Trans>Position</Trans>} {...form.getInputProps("position")} required min={0} />
                     <TextInput
+                        className="cf-FeedDetails-Container-Form-Stack-TextInput1"
+                        label={<Trans>Name</Trans>}
+                        {...form.getInputProps("name")}
+                        required
+                    />
+                    <CategorySelect
+                        className="cf-FeedDetails-Container-Form-Stack-CategorySelect"
+                        label={<Trans>Category</Trans>}
+                        {...form.getInputProps("categoryId")}
+                        clearable
+                    />
+                    <NumberInput
+                        className="cf-FeedDetails-Container-Form-Stack-NumberInput"
+                        label={<Trans>Position</Trans>}
+                        {...form.getInputProps("position")}
+                        required
+                        min={0}
+                    />
+                    <TextInput
+                        className="cf-FeedDetails-Container-Form-Stack-TextInput2"
                         label={<Trans>Filtering expression</Trans>}
                         description={<FilteringExpressionDescription />}
                         {...form.getInputProps("filter")}
                     />
 
-                    <Group>
-                        <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
+                    <Group className="cf-FeedDetails-Container-Form-Stack-Group">
+                        <Button
+                            className="cf-FeedDetails-Container-Form-Stack-Group-Button1"
+                            variant="default"
+                            onClick={async () => await dispatch(redirectToSelectedSource())}
+                        >
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button type="submit" leftSection={<TbDeviceFloppy size={16} />} loading={modifyFeed.loading}>
+                        <Button
+                            className="cf-FeedDetails-Container-Form-Stack-Group-Button2"
+                            type="submit"
+                            leftSection={<TbDeviceFloppy size={16} />}
+                            loading={modifyFeed.loading}
+                        >
                             <Trans>Save</Trans>
                         </Button>
-                        <Divider orientation="vertical" />
+                        <Divider className="cf-FeedDetails-Container-Form-Stack-Group-Divider" orientation="vertical" />
                         <Button
+                            className="cf-FeedDetails-Container-Form-Stack-Group-Button3"
                             color="red"
                             leftSection={<TbTrash size={16} />}
                             onClick={() => openUnsubscribeModal()}

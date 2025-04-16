@@ -126,18 +126,15 @@ pages/PageTitle
 
 pages/WelcomePage
 	cf-WelcomePage-Container	Welcome page container
-	cf-WelcomePage-Container-Header	Welcome page header
 	cf-WelcomePage-Container-Center	Welcome page title centering
 	cf-WelcomePage-Container-Center-Title	Welcome page title text
 	cf-WelcomePage-Container-Divider1	Welcome page first divider
 	cf-WelcomePage-Container-Image	Welcome page image
 	cf-WelcomePage-Container-Divider2	Welcome page second divider
-	cf-WelcomePage-Container-Footer	Welcome page footer
 	cf-WelcomePage-Container-Space	Welcome page space after footer
 
 pages/LoadingPage
 	cf-LoadingPage-Container	Loading page container
-	cf-LoadingPage-Container-PageTitle	Loading page title
 	cf-LoadingPage-Container-Center	Centering element for loading ring
 	cf-LoadingPage-Container-Center-RingProgress Progress ring
 	cf-LoadingPage-Container-Center-RingProgress-Text	Loading percentage text
@@ -146,7 +143,6 @@ pages/LoadingPage
 pages/LoadingPage
 	cf-ErrorPage-div	Error page outer div
 	cf-ErrorPage-Container	Error page container
-	cf-ErrorPage-Container-PageTitle	Error page title
 	cf-ErrorPage-Container-Box	Error page box containing "Oops!"
 	cf-ErrorPage-Container-Title	Error title
 	cf-ErrorPage-Container-Text	Error text
@@ -175,8 +171,79 @@ pages/app/ApiDocumentation
 page/app/CategoryDetailsPage
 	cf-CategoryDetails-Container	Top level container on Category Details page
 	cf-CategoryDetails-Container-Box1 Modify category error box
-	cf-CategoryDetails-Container-Box1-Alert Modify category error alert
 	cf-CategoryDetails-Container-Box2 Delete category error box
-	cf-CategoryDetails-Container-Box2-Alert Delete category error alert
 	cf-CategoryDetails-Container-Form	Category details form
 	
+page/app/DonatePage
+	cf-DonatePage-Container	Top level container on Donate page
+	cf-DonatePage-Container-Group	Group enclosing heart
+	cf-DonatePage-Container-Group-Heart	Heart
+	cf-DonatePage-Container-Group-Title	Title within heart group
+	cf-DonatePage-Container-Box	Box containing donation message
+	cf-DonatePage-Container-Group-Box-List	List of donation methods
+	
+page/app/FeedDetailsPage
+	cf-FeedDetails-Container	Top level container on Feed Details page
+	cf-FeedDetails-Container-ModifyFeedError	Box enclosing modify feed error
+	cf-FeedDetails-Container-UnsubscribeError	Box enclosing unsubscribe error
+	cf-FeedDetails-Container-Form	Feed details form
+	cf-FeedDetails-Container-Form-Stack	Stack within form
+	cf-FeedDetails-Container-Form-Stack-Title	Feed name at top of form
+	cf-FeedDetails-Container-Form-Stack-InputWrapper1	Input wrapper for feed url
+	cf-FeedDetails-Container-Form-Stack-InputWrapper1-Box	Box around feed URL
+	cf-FeedDetails-Container-Form-Stack-InputWrapper1-Box-Anchor	Link for feed URL
+	cf-FeedDetails-Container-Form-Stack-InputWrapper2	Input wrapper for website link
+	cf-FeedDetails-Container-Form-Stack-InputWrapper2-Box	Box around website URL
+	cf-FeedDetails-Container-Form-Stack-InputWrapper2-Box-Anchor Link for website URL
+	cf-FeedDetails-Container-Form-Stack-InputWrapper3	Input wrapper for feed last refresh
+	cf-FeedDetails-Container-Form-Stack-InputWrapper3-Box	Box around feed last refresh
+	cf-FeedDetails-Container-Form-Stack-InputWrapper4	Input wrapper for last refresh message
+	cf-FeedDetails-Container-Form-Stack-InputWrapper4-Box	Box around last refresh message
+	cf-FeedDetails-Container-Form-Stack-InputWrapper5	Input wrapper around next refresh date
+	cf-FeedDetails-Container-Form-Stack-InputWrapper5-Box	Box around feed nexst refresh
+	cf-FeedDetails-Container-Form-Stack-InputWrapper6	Input wrapper for generated feed url
+	cf-FeedDetails-Container-Form-Stack-InputWrapper6-Box	Box around generated feed URL
+	cf-FeedDetails-Container-Form-Stack-InputWrapper6-Box-Anchor Link for generate feed URL
+	cf-FeedDetails-Container-Form-Stack-Divider	Form divider
+	cf-FeedDetails-Container-Form-Stack-TextInput1	Text input for feed name
+	cf-FeedDetails-Container-Form-Stack-CategorySelect	Category selector
+	cf-FeedDetails-Container-Form-Stack-NumberInput	Number input for position
+	cf-FeedDetails-Container-Form-Stack-TextInput2	Text input for filtering expression
+	f-FeedDetails-Container-Form-Stack-Group	Button group
+	cf-FeedDetails-Container-Form-Stack-Group-Button1	Cancel button
+	cf-FeedDetails-Container-Form-Stack-Group-Button2	Save button
+	cf-FeedDetails-Container-Form-Stack-Group-Divider	Vertical divider
+	cf-FeedDetails-Container-Form-Stack-Group-Button3	Unsubscribe button
+	
+page/app/FeedEntriesPage
+	cf-FeedEntries-Box	Top level box on Feed Entries page
+	cf-FeedEntries-Box-Group	Group for source website info
+	cf-FeedEntries-Box-Group-Link	Link to source website
+	cf-FeedEntries-Box-Group-Title	Name of source website
+	cf-FeedEntries-Box-Group-Link-ActionIcon	Action icon
+	cf-FeedEntries-Box-Group-Divider	Divider before "No more entries"
+
+page/app/Layout
+	cf-Layout-Center	Centering around logo and title
+	cf-Layout-Center-Title	Title (CommaFeed)
+	cf-Layout-Box	Top-level box on Layout page
+	cf-Layout-Box-AppShell	Application shell
+	cf-Layout-Box-AppShell-Header	App shell header
+	cf-Layout-Box-AppShell-Footer	App shell footer
+	cf-Layout-Box-AppShell-Navbar	App shell navbar (sidebar)
+	cf-Layout-Box-AppShell-Navbar-Section	Scrolling area for sidebar
+	cf-Layout-Box-AppShell-Navbar-Section-Box	Box enclosing sidebar content
+	
+page/app/Settings
+	cf-Settings-Container	Top level container for settings page
+	cf-Settings-Container-Tabs	Tabs in settings page
+
+page/app/TagDetails
+	cf-TagDetails-Container	Top level container for tag details page
+	cf-TagDetails-Container-Stack	Stack within container
+	cf-TagDetails-Container-Stack-Title	ID
+	cf-TagDetails-Container-Stack-InputWrapper	Input wrapper for generated feed url
+	cf-TagDetails-Container-Stack-InputWrapper-Box	Box within input wrapper
+	cf-TagDetails-Container-Stack-InputWrapper-Box-Anchor	Link for generated feed url
+	cf-TagDetails-Container-Stack-Group	Button group
+	cf-TagDetails-Container-Stack-Group-Button	Cancel button

@@ -8,11 +8,11 @@ export function LoadingPage() {
 
     return (
         <Container className={"cf-LoadingPage-Container"} size="xs">
-            <PageTitle className={"cf-LoadingPage-Container-PageTitle"}/>
+            <PageTitle />
 
             <Center className={"cf-LoadingPage-Container-Center"}>
                 <RingProgress
-		    className={"cf-LoadingPage-Container-Center-RingProgress"}
+                    className={"cf-LoadingPage-Container-Center-RingProgress"}
                     sections={[{ value: loadingPercentage, color: theme.primaryColor }]}
                     label={
                         <Text className={"cf-LoadingPage-Container-Center-RingProgress-Text"} fw="bold" ta="center" size="xl">
@@ -22,7 +22,7 @@ export function LoadingPage() {
                 />
             </Center>
 
-            {loadingStepLabel && <Center className={"cf-LoadingPage-Container-StepLabel"} >{loadingStepLabel}</Center>}
+            {loadingStepLabel && <Center className={"cf-LoadingPage-Container-StepLabel"}>{loadingStepLabel}</Center>}
         </Container>
     )
 }

@@ -26,7 +26,7 @@ Google Reader inspired self-hosted RSS reader, based on Quarkus and React/TypeSc
     - MariaDB
 
 ### Customization
-CommaFeed is highly customizable.  Some customization options (e.g., Theme, Display) can be found on the Admin menu.  More options are listed on the Settings page under the Display tab (e.g., scrolling, sharing sites, etc.)  More specific and powerful customizations can be added with custom CSS and Javascript. (Details can be found [here](CUSTOMCSS.md).
+CommaFeed is highly customizable.  Some customization options (e.g., Theme, Display) can be found on the Admin menu.  More options are listed on the Settings page under the Display tab (e.g., scrolling, sharing sites, etc.)  More specific and powerful customizations can be added with custom CSS and Javascript. (Details can be found [here](CUSTOMCSS.md)).
 
 ## Deployment
 

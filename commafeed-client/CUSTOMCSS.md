@@ -15,6 +15,52 @@ When you want to modify the CommaFeed interface, you may be able to browse the t
 (If the element doesn't have a usable class name, the easiest approach is to find an enclosing element that does have a class name and write a CSS selector starting at that element.)
 
 ## Extended Example
+The extended example below modifies the CommaFeed interface to be simpler and more compact and illustrates a variety of uses of the CommaFeed class names and CSS.
+
+```
+/* General changes applied to everything */
+main {font-size: 14px; font-family: sans-serif; line-height: 1.35; padding-top:
+/* Don't force font-size on blockquotes and make them italic */
+blockquote {font-size: unset !important; font-style: italic;}
+/* Specific font and layout changes for the entire navbar */
+.cf-Layout-Box-AppShell-Navbar {font-size: 14px; font-weight: 700; font-family: sans-serif; line-height: 150%; top: 30px !important;}
+/* Make unread category names black */
+.cf-TreeNode-Box {color: black !important;}
+/* Remove the favicons for the feeds in the navbar */
+.cf-Layout-Box-AppShell-Navbar-Section-Box img {width: 0; height: 0;}
+/* Remove the divider and button bar at the bottom of feed entries */
+.cf-FeedEntry-Paper-Box-Divider {display: none;}
+.cf-FeedEntryFooter {display: none;}
+/* Remove unwanted header lines in feeds */
+.cf-FeedEntryHeader-Flex2 {display: none;}
+.cf-FeedEntryHeader-Box {display: none;}
+/* Make the unread counts lighter, gray and in parens */
+.cf-UnreadCount-Badge {display: flex; font-weight: 300; color: gray; background-color: unset; align-items: unset;}
+.cf-UnreadCount-Badge::before {content: "(";}
+.cf-UnreadCount-Badge::after {content: ")";}
+.cf-TreeNode-Box-Box1 {margin-right: 0}
+/* Make the header much more compact */
+.cf-Layout-Box-AppShell-Header > div > div {padding-bottom: 0 !important; padding-top: 0 !important;}
+.cf-Header-Center {justify-content: unset !important;}
+.cf-Layout-Box-AppShell-Header {height: unset !important;}
+.cf-Layout-Box-AppShell-Header img {width: calc(1rem) !important;}
+.cf-Layout-Center-Title {font-size: 16px !important;}
+/* Some examples where CommaFeed-specific class names are not available */ 
+/* Make headers a reasonable size */
+h3 {font-size: 16px !important;}
+h2 {font-size: 16px !important;}
+h1 {font-size: 16px !important;}
+/* Let buttons be small
+main > button {min-width: unset !important; min-height: unset !important;}
+/* Add an extra space before the submitted line on Reddit. */
+article span > div::after {content: "\A"; white-space: pre;}
+/* Make all the button icons black */
+header svg {stroke: black !important; }
+main > svg {stroke: black !important; }
+/* Make links in articles light blue with a hover underline */ 
+article a:not([class]) { color:#428bca; text-decoration:none; }
+article a:not([class]):hover { text-decoration:underline; }
+```
 
 ## CommaFeed Class Names
 

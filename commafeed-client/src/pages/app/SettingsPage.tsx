@@ -7,8 +7,8 @@ import { TbCode, TbPhoto, TbUser } from "react-icons/tb"
 
 export function SettingsPage() {
     return (
-        <Container size="sm" px={0}>
-            <Tabs defaultValue="display" keepMounted={false}>
+        <Container className="cf-Settings-Container" size="sm" px={0}>
+            <Tabs className="cf-Settings-Container-Tabs" defaultValue="display" keepMounted={false}>
                 <Tabs.List>
                     <Tabs.Tab value="display" leftSection={<TbPhoto size={16} />}>
                         <Trans>Display</Trans>

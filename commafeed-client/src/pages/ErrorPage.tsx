@@ -38,7 +38,7 @@ export function ErrorPage(props: { error: Error }) {
     return (
         <div className={`${classes.root} cf-ErrorPage-div`}>
             <Container className={"cf-ErrorPage-Container"}>
-                <PageTitle className={"cf-ErrorPage-Container-PageTitle"}/>
+                <PageTitle />
                 <Box className={`${classes.label} cf-ErrorPage-Container-Box`}>
                     <Trans>Oops!</Trans>
                 </Box>
@@ -49,7 +49,12 @@ export function ErrorPage(props: { error: Error }) {
                     {props.error.message}
                 </Text>
                 <Group className={"cf-ErrorPage-Container-Group"} justify="center">
-                    <Button className={"cf-ErrorPage-Container-Button"} size="md" onClick={() => window.location.reload()} leftSection={<TbRefresh size={18} />}>
+                    <Button
+                        className={"cf-ErrorPage-Container-Button"}
+                        size="md"
+                        onClick={() => window.location.reload()}
+                        leftSection={<TbRefresh size={18} />}
+                    >
                         Refresh the page
                     </Button>
                 </Group>

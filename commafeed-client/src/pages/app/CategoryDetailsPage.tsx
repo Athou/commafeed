@@ -81,13 +81,13 @@ export function CategoryDetailsPage() {
         <Container className={"cf-CategoryDetails-Container"}>
             {modifyCategory.error && (
                 <Box className={"cf-CategoryDetails-Container-Box1"} mb="md">
-                    <Alert className={"cf-CategoryDetails-Container-Box1-Alert"} messages={errorToStrings(modifyCategory.error)} />
+                    <Alert messages={errorToStrings(modifyCategory.error)} />
                 </Box>
             )}
 
             {deleteCategory.error && (
                 <Box className={"cf-CategoryDetails-Container-Box2"} mb="md">
-                    <Alert className={"cf-CategoryDetails-Container-Box2-Alert"} messages={errorToStrings(deleteCategory.error)} />
+                    <Alert messages={errorToStrings(deleteCategory.error)} />
                 </Box>
             )}
 

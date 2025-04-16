@@ -29,10 +29,12 @@ export function WelcomePage() {
 
     return (
         <Container className={"cf-WelcomePage-Container"}>
-            <Header className={"cf-WelcomePage-Container-Header"}/>
+            <Header />
 
             <Center className={"cf-WelcomePage-Container-Center"} my="lg">
-                <Title className={"cf-WelcomePage-Container-Center-Title"} order={3}>Bloat-free feed reader</Title>
+                <Title className={"cf-WelcomePage-Container-Center-Title"} order={3}>
+                    Bloat-free feed reader
+                </Title>
             </Center>
 
             {serverInfos?.demoAccountEnabled && (
@@ -53,7 +55,7 @@ export function WelcomePage() {
 
             <Divider className={"cf-WelcomePage-Container-Divider2"} my="lg" />
 
-            <Footer className={"cf-WelcomePage-Container-Footer"}/>
+            <Footer />
 
             <Space className={"cf-WelcomePage-Container-Space"} h="lg" />
         </Container>

@@ -28,8 +28,8 @@ function ShareButton({ icon, color, onClick }: { icon: IconType; color: Color; o
     })
 
     return (
-        <ActionIcon variant="transparent" radius="xl" size={32}>
-            <Box p={6} className={classes.icon} onClick={onClick}>
+        <ActionIcon className="cf-ShareButton-ActionIcon" variant="transparent" radius="xl" size={32}>
+            <Box p={6} className={`${classes.icon} cf-ShareButton-ActionIcon-Box`} onClick={onClick}>
                 {icon({ size: 18 })}
             </Box>
         </ActionIcon>
@@ -86,16 +86,16 @@ export function ShareButtons(props: { url: string; description: string }) {
     return (
         <>
             {showNativeSection && (
-                <SimpleGrid cols={4}>
+                <SimpleGrid className="cf-ShareButtons-SimpleGrid-Native" cols={4}>
                     {clipboardAvailable && <CopyUrlButton url={props.url} />}
                     {nativeSharingAvailable && <BrowserNativeShareButton url={props.url} description={props.description} />}
                 </SimpleGrid>
             )}
 
-            {showDivider && <Divider my="xs" />}
+            {showDivider && <Divider className="cf-Sharebuttons-Divider" my="xs" />}
 
             {showSharingSites && (
-                <SimpleGrid cols={4}>
+                <SimpleGrid className="cf-ShareButtons-SimpleGrid-Sharing" cols={4}>
                     {enabledSharingSites.map(site => (
                         <SiteShareButton
                             key={site}

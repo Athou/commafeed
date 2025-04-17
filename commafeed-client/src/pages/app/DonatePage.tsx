@@ -7,15 +7,15 @@ const iconSize = 24
 
 export function DonatePage() {
     return (
-        <Container size="xl" my="xl">
-            <Group>
-                <TbHeartFilled size={iconSize} color="red" />
-                <Title order={3}>
+        <Container className="cf-DonatePage-Container" size="xl" my="xl">
+            <Group className="cf-DonatePage-Container-Group">
+                <TbHeartFilled className="cf-DonatePage-Container-Group-Heart" size={iconSize} color="red" />
+                <Title className="cf-DonatePage-Container-Group-Title" order={3}>
                     <Trans>Donate</Trans>
                 </Title>
             </Group>
 
-            <Box my="xl">
+            <Box className="cf-DonatePage-Container-Box" my="xl">
                 <Trans>
                     <Box>Hey,</Box>
                     <Box mt="xs">
@@ -24,7 +24,7 @@ export function DonatePage() {
                     </Box>
                 </Trans>
 
-                <List mt="lg">
+                <List className="cf-DonatePage-Container-Group-Box-List" mt="lg">
                     <List.Item icon={<TbBrandPaypal size={iconSize} />}>
                         <Anchor
                             href="https://www.paypal.com/donate/?business=9CNQHMJG2ZJVY&no_recurring=0&item_name=CommaFeed&currency_code=EUR"

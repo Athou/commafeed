@@ -13,13 +13,13 @@ export function Enclosure(props: {
         <BasicHtmlStyles>
             {hasVideo && (
                 // biome-ignore lint/a11y/useMediaCaption: we don't have any captions for videos
-                <video controls width="100%">
+                <video controls width="100%" className="cf-video">
                     <source src={props.enclosureUrl} type={props.enclosureType} />
                 </video>
             )}
             {hasAudio && (
                 // biome-ignore lint/a11y/useMediaCaption: we don't have any captions for audio
-                <audio controls style={{ width: "100%" }}>
+                <audio controls style={{ width: "100%" }} className="cf-audio">
                     <source src={props.enclosureUrl} type={props.enclosureType} />
                 </audio>
             )}

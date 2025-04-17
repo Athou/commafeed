@@ -32,11 +32,11 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
         read: props.entry.read,
     })
     return (
-        <Box>
-            <Flex align="flex-start" justify="space-between">
-                <Flex align="flex-start" className={classes.main}>
+        <Box className="cf-FeedEntryHeader">
+            <Flex align="flex-start" justify="space-between" className="cf-FeedEntryHeader-Flex1">
+                <Flex align="flex-start" className={`${classes.main} cf-FeedEntryHeader-Flex1-Flex`}>
                     {props.showStarIcon && (
-                        <Box ml={-5}>
+                        <Box ml={-5} className="cf-FeedEntryHeader-Flex1-Flex-Box">
                             <Star entry={props.entry} />
                         </Box>
                     )}
@@ -44,18 +44,18 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
                 </Flex>
                 {props.showExternalLinkIcon && <OpenExternalLink entry={props.entry} />}
             </Flex>
-            <Flex align="center" className={classes.details}>
+            <Flex align="center" className={`${classes.details} cf-FeedEntryHeader-Flex2`}>
                 <FeedFavicon url={props.entry.iconUrl} />
                 <Space w={6} />
-                <Text c="dimmed">
+                <Text c="dimmed" className="cf-FeedEntryHeader-Flex2-Text">
                     {props.entry.feedName}
                     <span> · </span>
                     <RelativeDate date={props.entry.date} />
                 </Text>
             </Flex>
             {props.expanded && (
-                <Box className={classes.details}>
-                    <Text c="dimmed">
+                <Box className={`${classes.details} cf-FeedEntryHeader-Box`}>
+                    <Text c="dimmed" className="cf-FeedEntryHeader-Box-Text">
                         {props.entry.author && <span>by {props.entry.author}</span>}
                         {props.entry.author && props.entry.categories && <span>&nbsp;·&nbsp;</span>}
                         {props.entry.categories && <span>{props.entry.categories}</span>}

@@ -11,7 +11,7 @@ Object.defineProperty(HistoryService.prototype, "replace", {
 function ApiDocumentationPage() {
     return (
         // force white background because documentation does not support dark theme
-        <Box style={{ backgroundColor: "#fff" }}>
+        <Box className={"cf-ApiDocumentation-Box"} style={{ backgroundColor: "#fff" }}>
             <RedocStandalone specUrl="openapi.json" />
         </Box>
     )

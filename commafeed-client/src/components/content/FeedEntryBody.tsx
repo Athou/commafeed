@@ -12,18 +12,18 @@ export interface FeedEntryBodyProps {
 export function FeedEntryBody(props: FeedEntryBodyProps) {
     const search = useAppSelector(state => state.entries.search)
     return (
-        <Box>
-            <Box>
+        <Box className={"cf-FeedEntryBody-Box"}>
+            <Box className={"cf-FeedEntryBody-Box-Box"}>
                 <Content content={props.entry.content} highlight={search} />
             </Box>
             {props.entry.enclosureType && props.entry.enclosureUrl && (
-                <Box pt="md">
+                <Box className={"cf-FeedEntryBody-Box-EnclosureBox"} pt="md">
                     <Enclosure enclosureType={props.entry.enclosureType} enclosureUrl={props.entry.enclosureUrl} />
                 </Box>
             )}
             {/* show media only if we don't have content to avoid duplicate content */}
             {!props.entry.content && props.entry.mediaThumbnailUrl && (
-                <Box pt="md">
+                <Box className={"cf-FeedEntryBody-Box-MediaBox"} pt="md">
                     <Media
                         thumbnailUrl={props.entry.mediaThumbnailUrl}
                         thumbnailWidth={props.entry.mediaThumbnailWidth}

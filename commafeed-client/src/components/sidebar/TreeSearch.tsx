@@ -35,6 +35,7 @@ export function TreeSearch(props: TreeSearchProps) {
     return (
         <>
             <TextInput
+                className={"cf-TreeSearch-TextInput"}
                 placeholder={_(msg`Search`)}
                 leftSection={searchIcon}
                 rightSectionWidth={100}
@@ -49,6 +50,7 @@ export function TreeSearch(props: TreeSearchProps) {
                 readOnly
             />
             <Spotlight
+                className={"cf-TreeSearch-Spotlight"}
                 actions={actions}
                 limit={10}
                 shortcut="mod+k"

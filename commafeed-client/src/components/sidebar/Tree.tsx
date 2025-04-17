@@ -178,11 +178,11 @@ export function Tree() {
     if (!root) return <Loader />
     const feeds = flattenCategoryTree(root).flatMap(c => c.feeds)
     return (
-        <Stack>
+        <Stack className={"cf-Tree-Stack"}>
             <OnDesktop>
                 <TreeSearch feeds={feeds} />
             </OnDesktop>
-            <Box>
+            <Box className={"cf-Tree-Stack-Box"}>
                 {allCategoryNode()}
                 {starredCategoryNode()}
                 {root.children.map(c => recursiveCategoryNode(c))}

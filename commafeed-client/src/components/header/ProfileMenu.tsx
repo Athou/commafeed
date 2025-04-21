@@ -5,6 +5,7 @@ import {
     Group,
     type MantineColorScheme,
     Menu,
+    NumberInput,
     SegmentedControl,
     type SegmentedControlItem,
     useMantineColorScheme,
@@ -14,7 +15,7 @@ import { client } from "app/client"
 import { redirectToAbout, redirectToAdminUsers, redirectToDonate, redirectToMetrics, redirectToSettings } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import type { ViewMode } from "app/types"
-import { setViewMode } from "app/user/slice"
+import { setTextFontSize, setTitleFontSize, setViewMode } from "app/user/slice"
 import { reloadProfile } from "app/user/thunks"
 import dayjs from "dayjs"
 import { useNow } from "hooks/useNow"
@@ -95,6 +96,8 @@ const viewModeData: ViewModeControlItem[] = [
 
 export function ProfileMenu(props: ProfileMenuProps) {
     const [opened, setOpened] = useState(false)
+    const [titleFontSize, setTitleFontSizeState] = useState<number>(17)
+    const [textFontSize, setTextSizeState] = useState<number>(12)
     const now = useNow()
     const profile = useAppSelector(state => state.user.profile)
     const admin = useAppSelector(state => state.user.profile?.admin)
@@ -182,6 +185,37 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     value={viewMode}
                     onChange={e => dispatch(setViewMode(e as ViewMode))}
                     mb="xs"
+                />
+
+
+                <Menu.Label>
+                    <Trans>Title Size</Trans>
+                </Menu.Label>
+
+                <NumberInput
+                    min={14}
+                    max={40}
+                    value={titleFontSize}
+                    onChange={(value) => {
+                        if(typeof(value) === "number")
+                        setTitleFontSizeState(value)
+                        dispatch(setTitleFontSize(value as number))
+                    }}
+                />
+
+                <Menu.Label>
+                    <Trans>Text Size</Trans>
+                </Menu.Label>
+
+                <NumberInput
+                    min={12}
+                    max={30}
+                    value={textFontSize}
+                    onChange={(value) => {
+                        if(typeof(value) === "number")
+                        setTextSizeState(value as number)
+                        dispatch(setTextFontSize(value as number))
+                    }}
                 />
 
                 {admin && (

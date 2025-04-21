@@ -6,6 +6,7 @@ import { OpenExternalLink } from "components/content/header/OpenExternalLink"
 import { Star } from "components/content/header/Star"
 import { tss } from "tss"
 import { FeedEntryTitle } from "./FeedEntryTitle"
+import { useAppSelector } from "app/store"
 
 export interface FeedEntryHeaderProps {
     entry: Entry
@@ -31,6 +32,7 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
     const { classes } = useStyles({
         read: props.entry.read,
     })
+    const titleFontSize = useAppSelector(state => state.user.localSettings.textFontSize)
     return (
         <Box>
             <Flex align="flex-start" justify="space-between">
@@ -55,7 +57,10 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
             </Flex>
             {props.expanded && (
                 <Box className={classes.details}>
-                    <Text c="dimmed">
+                    <Text
+                     c="dimmed"
+                     style={{fontSize: titleFontSize}}
+                     >
                         {props.entry.author && <span>by {props.entry.author}</span>}
                         {props.entry.author && props.entry.categories && <span>&nbsp;·&nbsp;</span>}
                         {props.entry.categories && <span>{props.entry.categories}</span>}

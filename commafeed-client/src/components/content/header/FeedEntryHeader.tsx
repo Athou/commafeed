@@ -32,7 +32,7 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
     const { classes } = useStyles({
         read: props.entry.read,
     })
-    const titleFontSize = useAppSelector(state => state.user.localSettings.textFontSize)
+    const textFontSize = useAppSelector(state => state.user.localSettings.textFontSize)
     return (
         <Box>
             <Flex align="flex-start" justify="space-between">
@@ -59,7 +59,7 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
                 <Box className={classes.details}>
                     <Text
                      c="dimmed"
-                     style={{fontSize: titleFontSize}}
+                    //  style={{fontSize: textFontSize}}
                      >
                         {props.entry.author && <span>by {props.entry.author}</span>}
                         {props.entry.author && props.entry.categories && <span>&nbsp;·&nbsp;</span>}

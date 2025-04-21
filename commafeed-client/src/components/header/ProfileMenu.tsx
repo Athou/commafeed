@@ -97,7 +97,7 @@ const viewModeData: ViewModeControlItem[] = [
 export function ProfileMenu(props: ProfileMenuProps) {
     const [opened, setOpened] = useState(false)
     const [titleFontSize, setTitleFontSizeState] = useState<number>(17)
-    const [textFontSize, setTextSizeState] = useState<number>(12)
+    const [textFontSize, setTextSizeState] = useState<number>(17)
     const now = useNow()
     const profile = useAppSelector(state => state.user.profile)
     const admin = useAppSelector(state => state.user.profile?.admin)

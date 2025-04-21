@@ -37,7 +37,7 @@ export const initialLocalSettings: LocalSettings = {
     sidebarWidth: 360,
     announcementHash: "no-hash",
     titleFontSize: 17,
-    textFontSize: 12
+    textFontSize: 15
 }
 
 const initialState: UserState = {

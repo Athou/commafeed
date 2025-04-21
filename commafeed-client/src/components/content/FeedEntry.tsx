@@ -135,6 +135,7 @@ export function FeedEntry(props: FeedEntryProps) {
     }
 
     const compactHeader = !props.expanded && (viewMode === "title" || viewMode === "cozy")
+    const textFontSize = useAppSelector(state => state.user.localSettings.textFontSize)
     return (
         <Paper
             component="article"
@@ -178,7 +179,7 @@ export function FeedEntry(props: FeedEntryProps) {
                 </Box>
             </a>
             {props.expanded && (
-                <Box px={paddingX} pb={paddingY} onClick={props.onBodyClick}>
+                <Box px={paddingX} pb={paddingY} onClick={props.onBodyClick} style={{fontSize: textFontSize}}>
                     <Box className={classes.body}>
                         <FeedEntryBody entry={props.entry} />
                     </Box>

@@ -35,9 +35,16 @@ interface LayoutProps {
 function LogoAndTitle() {
     const dispatch = useAppDispatch()
     return (
-        <Center inline onClick={async () => await dispatch(redirectToRootCategory())} style={{ cursor: "pointer" }}>
-            <Logo size={24} />
-            <Title order={3} pl="md">
+        <Center
+            className="cf-logo-title"
+            inline
+            onClick={async () => await dispatch(redirectToRootCategory())}
+            style={{ cursor: "pointer" }}
+        >
+            <Box className="cf-logo">
+                <Logo size={24} />
+            </Box>
+            <Title order={3} pl="md" className="cf-title">
                 CommaFeed
             </Title>
         </Center>

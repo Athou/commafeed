@@ -187,7 +187,7 @@ export function FeedEntry(props: FeedEntryProps) {
                     <Box className={classes.body}>
                         <FeedEntryBody entry={props.entry} />
                     </Box>
-                    <Divider variant="dashed" my={paddingY} />
+                    <Divider variant="dashed" my={paddingY} className="cf-footer-divider" />
                     <FeedEntryFooter entry={props.entry} />
                 </Box>
             )}

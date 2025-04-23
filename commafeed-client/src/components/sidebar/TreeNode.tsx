@@ -68,18 +68,18 @@ export function TreeNode(props: TreeNodeProps) {
         <Box
             py={1}
             pl={props.level * 20}
-            className={classes.node}
+            className={`${classes.node} cf-treenode`}
             onClick={(e: React.MouseEvent) => props.onClick(e, props.id)}
             data-id={props.id}
             data-type={props.type}
             data-unread-count={props.unread}
         >
-            <Box mr={6} onClick={(e: React.MouseEvent) => props.onIconClick?.(e, props.id)}>
+            <Box mr={6} onClick={(e: React.MouseEvent) => props.onIconClick?.(e, props.id)} className="cf-treenode-icon">
                 <Center>{typeof props.icon === "string" ? <FeedFavicon url={props.icon} /> : props.icon}</Center>
             </Box>
             <Box className={classes.nodeText}>{props.name}</Box>
             {!props.expanded && (
-                <Box>
+                <Box className="cf-treenode-unread-count">
                     <UnreadCount unreadCount={props.unread} />
                 </Box>
             )}

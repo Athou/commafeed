@@ -29,8 +29,8 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
         read: props.entry.read,
     })
     return (
-        <Box>
-            <Flex align="flex-start" justify="space-between">
+        <Box className="cf-header">
+            <Flex align="flex-start" justify="space-between" className="cf-header-title">
                 <Flex align="flex-start" className={classes.main}>
                     {props.showStarIcon && (
                         <Box ml={-5}>
@@ -41,7 +41,7 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
                 </Flex>
                 {props.showExternalLinkIcon && <OpenExternalLink entry={props.entry} />}
             </Flex>
-            <Flex align="center">
+            <Flex align="center" className="cf-header-subtitle">
                 <FeedFavicon url={props.entry.iconUrl} />
                 <Space w={6} />
                 <Box c="dimmed">
@@ -51,7 +51,7 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
                 </Box>
             </Flex>
             {props.expanded && (
-                <Box c="dimmed">
+                <Box className="cf-header-details">
                     {props.entry.author && <span>by {props.entry.author}</span>}
                     {props.entry.author && props.entry.categories && <span>&nbsp;·&nbsp;</span>}
                     {props.entry.categories && <span>{props.entry.categories}</span>}

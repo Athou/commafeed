@@ -42,11 +42,14 @@ function HeaderToolbar(props: { children: React.ReactNode }) {
                 display: "flex",
                 justifyContent: "space-between",
             }}
+            className="cf-toolbar"
         >
             {props.children}
         </Box>
     ) : (
-        <Group gap={spacing}>{props.children}</Group>
+        <Group gap={spacing} className="cf-toolbar">
+            {props.children}
+        </Group>
     )
 }
 
@@ -75,7 +78,7 @@ export function Header() {
 
     if (!settings) return <Loader />
     return (
-        <Center>
+        <Center className="cf-toolbar-wrapper">
             <HeaderToolbar>
                 <ActionButton
                     icon={<TbArrowUp size={iconSize} />}

@@ -134,7 +134,7 @@ jobs:
 
       ## build but don't push for PRs and renovate
       - name: Docker build - native
-        uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6
+        uses: docker/build-push-action@14487ce63c7a62a4a324b0bfb37086795e31c6c1 # v6
         with:
           context: .
           file: commafeed-server/src/main/docker/Dockerfile.native
@@ -142,7 +142,7 @@ jobs:
           platforms: linux/amd64,linux/arm64/v8
 
       - name: Docker build - jvm
-        uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6
+        uses: docker/build-push-action@14487ce63c7a62a4a324b0bfb37086795e31c6c1 # v6
         with:
           context: .
           file: commafeed-server/src/main/docker/Dockerfile.jvm
@@ -151,7 +151,7 @@ jobs:
 
       ## build and push tag
       - name: Docker build and push tag - native
-        uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6
+        uses: docker/build-push-action@14487ce63c7a62a4a324b0bfb37086795e31c6c1 # v6
         if: ${{ github.ref_type == 'tag' }}
         with:
           context: .
@@ -163,7 +163,7 @@ jobs:
             athou/commafeed:${{ github.ref_name }}-${{ matrix.database }}
 
       - name: Docker build and push tag - jvm
-        uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6
+        uses: docker/build-push-action@14487ce63c7a62a4a324b0bfb37086795e31c6c1 # v6
         if: ${{ github.ref_type == 'tag' }}
         with:
           context: .
@@ -176,7 +176,7 @@ jobs:
 
       ## build and push master
       - name: Docker build and push master - native
-        uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6
+        uses: docker/build-push-action@14487ce63c7a62a4a324b0bfb37086795e31c6c1 # v6
         if: ${{ github.ref_name == 'master' }}
         with:
           context: .
@@ -186,7 +186,7 @@ jobs:
           tags: athou/commafeed:master-${{ matrix.database }}
 
       - name: Docker build and push master - jvm
-        uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6
+        uses: docker/build-push-action@14487ce63c7a62a4a324b0bfb37086795e31c6c1 # v6
         if: ${{ github.ref_name == 'master' }}
         with:
           context: .

@@ -60,6 +60,8 @@ msgstr "Afegeix usuari"
 msgid "Admin"
 msgstr "Administrador"
 
+#: src/pages/app/FeedEntriesPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
 #: src/components/header/Header.tsx
 #: src/components/content/add/CategorySelect.tsx
@@ -130,6 +132,10 @@ msgstr "Enrere"
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Back to log in"
 msgstr "Tornar a iniciar sessió"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Blue"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
@@ -239,6 +245,11 @@ msgstr "Regles CSS personalitzades que s'aplicaran"
 msgid "Custom JS code that will be executed on page load"
 msgstr "Codi JS personalitzat que s'executarà en carregar la pàgina"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Cyan"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "Dark"
 msgstr "Fosc"
@@ -417,6 +428,18 @@ msgstr "Vés a la documentació de l'API."
 msgid "Goodies"
 msgstr "Bones"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Grape"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Gray"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Green"
+msgstr ""
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "Id"
@@ -440,6 +463,10 @@ msgstr "Importació"
 #: src/components/settings/DisplaySettings.tsx
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "a la vista ampliada, desplaçant-se per les entrades les marqueu com a llegides"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Indigo"
+msgstr ""
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
@@ -470,6 +497,10 @@ msgstr "últim missatge d'actualització"
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
 msgstr "Clar"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Lime"
+msgstr ""
 
 #: src/pages/app/TagDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -683,6 +714,10 @@ msgstr "Fitxer OPML"
 msgid "OPML file is required"
 msgstr ""
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Orange"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "Ordre"
@@ -711,6 +746,10 @@ msgstr "Recuperació de contrasenya"
 msgid "Passwords do not match"
 msgstr "Les contrasenyes no coincideixen"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Pink"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Position"
@@ -731,6 +770,10 @@ msgstr "Perfil"
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Recuperar la contrasenya"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Red"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/header/Header.tsx
@@ -884,6 +927,7 @@ msgstr "Espai"
 msgid "Star"
 msgstr "Estrella"
 
+#: src/pages/app/FeedEntriesPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
 msgid "Starred"
@@ -927,6 +971,10 @@ msgstr "Sistema"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Etiquetes"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Teal"
+msgstr ""
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -984,6 +1032,10 @@ msgstr "Nom d'usuari"
 msgid "User Name or E-mail"
 msgstr "Nom d'usuari o correu electrònic"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Violet"
+msgstr ""
+
 #: src/components/Alert.tsx
 msgid "Warning"
 msgstr "Avís"
@@ -991,6 +1043,10 @@ msgstr "Avís"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Website"
 msgstr "Lloc web"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Yellow"
+msgstr ""
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"

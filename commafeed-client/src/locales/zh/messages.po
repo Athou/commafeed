@@ -60,6 +60,8 @@ msgstr "添加用户"
 msgid "Admin"
 msgstr "管理员"
 
+#: src/pages/app/FeedEntriesPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
 #: src/components/header/Header.tsx
 #: src/components/content/add/CategorySelect.tsx
@@ -130,6 +132,10 @@ msgstr "返回"
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Back to log in"
 msgstr "返回登录"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Blue"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
@@ -239,6 +245,11 @@ msgstr "将被应用的自定义CSS规则"
 msgid "Custom JS code that will be executed on page load"
 msgstr "将在页面加载时执行的自定义JS代码"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Cyan"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "Dark"
 msgstr "深色"
@@ -417,6 +428,18 @@ msgstr "API 文档"
 msgid "Goodies"
 msgstr "好东西"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Grape"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Gray"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Green"
+msgstr ""
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "序号"
@@ -440,6 +463,10 @@ msgstr "导入"
 #: src/components/settings/DisplaySettings.tsx
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "在展开视图中，滚动条目将它们标记为已读"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Indigo"
+msgstr ""
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
@@ -470,6 +497,10 @@ msgstr "上次刷新消息"
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
 msgstr "浅色"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Lime"
+msgstr ""
 
 #: src/pages/app/TagDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -683,6 +714,10 @@ msgstr "OPML 文件"
 msgid "OPML file is required"
 msgstr "OPML 文件是必需的"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Orange"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "顺序"
@@ -711,6 +746,10 @@ msgstr "密码恢复"
 msgid "Passwords do not match"
 msgstr "密码不匹配"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Pink"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Position"
@@ -731,6 +770,10 @@ msgstr "配置文件"
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "找回密码"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Red"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/header/Header.tsx
@@ -884,6 +927,7 @@ msgstr "空格"
 msgid "Star"
 msgstr "星标"
 
+#: src/pages/app/FeedEntriesPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
 msgid "Starred"
@@ -927,6 +971,10 @@ msgstr "跟随系统"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "标签"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Teal"
+msgstr ""
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -984,6 +1032,10 @@ msgstr "用户名"
 msgid "User Name or E-mail"
 msgstr "用户名或电子邮件"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Violet"
+msgstr ""
+
 #: src/components/Alert.tsx
 msgid "Warning"
 msgstr "警告"
@@ -991,6 +1043,10 @@ msgstr "警告"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Website"
 msgstr "网站"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Yellow"
+msgstr ""
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"

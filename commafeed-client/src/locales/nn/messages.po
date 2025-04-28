@@ -60,6 +60,8 @@ msgstr "Legg til bruker"
 msgid "Admin"
 msgstr ""
 
+#: src/pages/app/FeedEntriesPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
 #: src/components/header/Header.tsx
 #: src/components/content/add/CategorySelect.tsx
@@ -130,6 +132,10 @@ msgstr "Tilbake"
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Back to log in"
 msgstr "Tilbake for å logge inn"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Blue"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
@@ -239,6 +245,11 @@ msgstr ""
 msgid "Custom JS code that will be executed on page load"
 msgstr ""
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Cyan"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "Dark"
 msgstr ""
@@ -417,6 +428,18 @@ msgstr "Gå til API-dokumentasjonen."
 msgid "Goodies"
 msgstr "Godbiter"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Grape"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Gray"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Green"
+msgstr ""
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr ""
@@ -440,6 +463,10 @@ msgstr ""
 #: src/components/settings/DisplaySettings.tsx
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "I utvidet visning merker du dem som lest ved å rulle gjennom oppføringer"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Indigo"
+msgstr ""
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
@@ -469,6 +496,10 @@ msgstr "Siste oppdateringsmelding"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Lime"
 msgstr ""
 
 #: src/pages/app/TagDetailsPage.tsx
@@ -683,6 +714,10 @@ msgstr "OPML-fil"
 msgid "OPML file is required"
 msgstr ""
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Orange"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "Ord"
@@ -711,6 +746,10 @@ msgstr "Passordgjenoppretting"
 msgid "Passwords do not match"
 msgstr "Passordene samsvarer ikke"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Pink"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Position"
@@ -731,6 +770,10 @@ msgstr "Profil"
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Gjenopprett passord"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Red"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/header/Header.tsx
@@ -884,6 +927,7 @@ msgstr ""
 msgid "Star"
 msgstr "Stjerne"
 
+#: src/pages/app/FeedEntriesPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
 msgid "Starred"
@@ -926,6 +970,10 @@ msgstr ""
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Teal"
 msgstr ""
 
 #: src/components/content/add/Subscribe.tsx
@@ -984,6 +1032,10 @@ msgstr "Brukernavn"
 msgid "User Name or E-mail"
 msgstr "Brukernavn eller e-post"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Violet"
+msgstr ""
+
 #: src/components/Alert.tsx
 msgid "Warning"
 msgstr "Advarsel"
@@ -991,6 +1043,10 @@ msgstr "Advarsel"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Website"
 msgstr "Nettsted"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Yellow"
+msgstr ""
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"

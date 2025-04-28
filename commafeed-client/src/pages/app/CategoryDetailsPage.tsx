@@ -9,7 +9,7 @@ import { Constants } from "app/constants"
 import { redirectToRootCategory, redirectToSelectedSource } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { reloadTree } from "app/tree/thunks"
-import type { CategoryModificationRequest } from "app/types"
+import type { Category, CategoryModificationRequest } from "app/types"
 import { flattenCategoryTree } from "app/utils"
 import { Alert } from "components/Alert"
 import { Loader } from "components/Loader"
@@ -27,10 +27,15 @@ export function CategoryDetailsPage() {
     const dispatch = useAppDispatch()
 
     const query = useAsync(async () => await client.category.getRoot(), [])
-    const category =
-        id === Constants.categories.starred.id
-            ? { ...Constants.categories.starred, name: _(msg`Starred`) }
-            : query.result && flattenCategoryTree(query.result.data).find(c => c.id === id)
+
+    let category: Category | undefined
+    if (id === Constants.categories.all.id) {
+        category = { ...Constants.categories.starred, name: _(msg`All`) }
+    } else if (id === Constants.categories.starred.id) {
+        category = { ...Constants.categories.all, name: _(msg`Starred`) }
+    } else {
+        category = query.result && flattenCategoryTree(query.result.data).find(c => c.id === id)
+    }
 
     const form = useForm<CategoryModificationRequest>()
     const { setValues } = form

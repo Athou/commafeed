@@ -57,8 +57,12 @@ function activateLocale(locale: string) {
 }
 
 export const useI18n = () => {
-    const locale = useAppSelector(state => state.user.settings?.language)
+    const locale =
+        useAppSelector(state => state.user.settings?.language) ??
+        navigator.languages.map(l => l.split("-")[0]).find(l => locales.some(locale => locale.key === l)) ??
+        "en"
+
     useEffect(() => {
-        activateLocale(locale ?? "en")
+        activateLocale(locale)
     }, [locale])
 }

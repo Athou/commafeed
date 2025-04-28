@@ -181,7 +181,7 @@ msgstr "关闭菜单"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
@@ -619,7 +619,7 @@ msgstr "在移动端，显示屏幕底部的操作按钮"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Only applies to compact, cozy and detailed modes"
-msgstr ""
+msgstr "仅适用于紧凑、宽松和详细模式"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
@@ -722,7 +722,7 @@ msgstr "上一个"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Primary color"
-msgstr ""
+msgstr "主颜色"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -783,11 +783,11 @@ msgstr "搜索至少需要 3 个字符"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
-msgstr ""
+msgstr "选择下一个未读信息流/类别"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
-msgstr ""
+msgstr "选择上一个未读信息流/类别"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"

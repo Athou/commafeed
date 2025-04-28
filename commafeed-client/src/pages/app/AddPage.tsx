@@ -7,8 +7,8 @@ import { TbFileImport, TbFolderPlus, TbRss } from "react-icons/tb"
 
 export function AddPage() {
     return (
-        <Container size="sm" px={0}>
-            <Tabs defaultValue="subscribe">
+        <Container className={"cf-AddPage-Container"} size="sm" px={0}>
+            <Tabs className={"cf-AddPage-Container-Tabs"} defaultValue="subscribe">
                 <Tabs.List>
                     <Tabs.Tab value="subscribe" leftSection={<TbRss size={16} />}>
                         <Trans>Subscribe</Trans>

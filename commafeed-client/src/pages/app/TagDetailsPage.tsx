@@ -13,13 +13,16 @@ export function TagDetailsPage() {
     const dispatch = useAppDispatch()
 
     return (
-        <Container>
-            <Stack>
-                <Title order={3}>{id}</Title>
-                <Input.Wrapper label={<Trans>Generated feed url</Trans>}>
-                    <Box>
+        <Container className="cf-TagDetails-Container">
+            <Stack className="cf-TagDetails-Container-Stack">
+                <Title className="cf-TagDetails-Container-Stack-Title" order={3}>
+                    {id}
+                </Title>
+                <Input.Wrapper className="cf-TagDetails-Container-Stack-InputWrapper" label={<Trans>Generated feed url</Trans>}>
+                    <Box className="cf-TagDetails-Container-Stack-InputWrapper-Box">
                         {apiKey && (
                             <Anchor
+                                className="cf-TagDetails-Container-Stack-InputWrapper-Box-Anchor"
                                 href={`rest/category/entriesAsFeed?id=${Constants.categories.all.id}&apiKey=${apiKey}&tag=${id}`}
                                 target="_blank"
                                 rel="noreferrer"
@@ -31,8 +34,12 @@ export function TagDetailsPage() {
                     </Box>
                 </Input.Wrapper>
 
-                <Group>
-                    <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
+                <Group className="cf-TagDetails-Container-Stack-Group">
+                    <Button
+                        className="cf-TagDetails-Container-Stack-Group-Button"
+                        variant="default"
+                        onClick={async () => await dispatch(redirectToSelectedSource())}
+                    >
                         <Trans>Cancel</Trans>
                     </Button>
                 </Group>

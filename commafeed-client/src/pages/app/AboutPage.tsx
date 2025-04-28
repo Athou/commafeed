@@ -23,14 +23,14 @@ const useStyles = tss.create(() => ({
 function Section(props: { title: React.ReactNode; icon: React.ReactNode; children: React.ReactNode }) {
     const { classes } = useStyles()
     return (
-        <Box my="xl">
-            <Box className={classes.sectionTitle} mb="xs">
+        <Box className={"cf-AboutPage-Section-Box"} my="xl">
+            <Box className={`${classes.sectionTitle} cf-AboutPage-Section-Box-Box1`} mb="xs">
                 {props.icon}
-                <Title order={3} ml="xs">
+                <Title className={"cf-AboutPage-Section-Box-Box1-Title"} order={3} ml="xs">
                     {props.title}
                 </Title>
             </Box>
-            <Box>{props.children}</Box>
+            <Box className={"cf-AboutPage-Section-Box-Box2"}>{props.children}</Box>
         </Box>
     )
 }
@@ -44,7 +44,7 @@ function NextUnreadBookmarklet() {
     const href = `${baseUrl}next?category=${categoryId}&order=${order}`
 
     return (
-        <Box>
+        <Box className={"cf-AboutPage-NextUnreadBookmarklet"}>
             <CategorySelect value={categoryId} onChange={c => c && setCategoryId(c)} withAll description={<Trans>Category</Trans>} />
             <NativeSelect
                 data={[
@@ -71,20 +71,20 @@ export function AboutPage() {
     const dispatch = useAppDispatch()
 
     return (
-        <Container size="xl">
-            <SimpleGrid cols={{ base: 1, [Constants.layout.mobileBreakpointName]: 2 }}>
+        <Container className={"cf-AboutPage-Container"} size="xl">
+            <SimpleGrid className={"cf-AboutPage-Container-SimpleGrid"} cols={{ base: 1, [Constants.layout.mobileBreakpointName]: 2 }}>
                 <Section title={<Trans>About</Trans>} icon={<TbHelp size={24} />}>
-                    <Box>
+                    <Box className={"cf-AboutPage-Container-SimpleGrid-Section-Box"}>
                         <Trans>
                             CommaFeed version {version} ({revision}).
                         </Trans>
                     </Box>
                     {isBrowserExtensionInstallable && isBrowserExtensionInstalled && (
-                        <Box>
+                        <Box className={"cf-AboutPage-Container-SimpleGrid-Section-Box"}>
                             <Trans>CommaFeed browser extension version {browserExtensionVersion}.</Trans>
                         </Box>
                     )}
-                    <Box mt="md">
+                    <Box className={"cf-AboutPage-Container-SimpleGrid-Section-Box"} mt="md">
                         <Trans>
                             <span>CommaFeed is an open-source project. Sources are hosted on </span>
                             <Anchor href="https://github.com/Athou/commafeed" target="_blank" rel="noreferrer">
@@ -93,25 +93,25 @@ export function AboutPage() {
                             .
                         </Trans>
                     </Box>
-                    <Box>
+                    <Box className={"cf-AboutPage-Container-SimpleGrid-Section-Box"}>
                         <Trans>If you encounter an issue, please report it on the issues page of the GitHub project.</Trans>
                     </Box>
                 </Section>
                 <Section title={<Trans>Goodies</Trans>} icon={<TbPuzzle size={24} />}>
-                    <List>
-                        <List.Item>
+                    <List className={"cf-AboutPage-Container-SimpleGrid-Section-List"}>
+                        <List.Item className={"cf-AboutPage-Container-SimpleGrid-Section-List-Item"}>
                             <Anchor href={Constants.browserExtensionUrl} target="_blank" rel="noreferrer">
                                 <Trans>Browser extention</Trans>
                             </Anchor>
                         </List.Item>
-                        <List.Item>
+                        <List.Item className={"cf-AboutPage-Container-SimpleGrid-Section-List-Item"}>
                             <Trans>Subscribe URL</Trans>
                             <span> </span>
                             <Anchor href="rest/feed/subscribe?url=FEED_URL_HERE" target="_blank" rel="noreferrer">
                                 rest/feed/subscribe?url=FEED_URL_HERE
                             </Anchor>
                         </List.Item>
-                        <List.Item>
+                        <List.Item className={"cf-AboutPage-Container-SimpleGrid-Section-List-Item"}>
                             <Trans>Next unread item bookmarklet</Trans>
                             <span> </span>
                             <Box ml="xl">

@@ -20,5 +20,5 @@ const useStyles = tss.create(() => ({
 
 export const BasicHtmlStyles = (props: { children: ReactNode }) => {
     const { classes } = useStyles()
-    return <TypographyStylesProvider className={classes.content}>{props.children}</TypographyStylesProvider>
+    return <TypographyStylesProvider className={`${classes.content} cf-BasicHtmlStyles`}>{props.children}</TypographyStylesProvider>
 }

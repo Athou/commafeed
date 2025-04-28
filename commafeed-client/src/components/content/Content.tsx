@@ -97,7 +97,7 @@ const Content = React.memo((props: ContentProps) => {
 
     return (
         <BasicHtmlStyles>
-            <Box className={classes.content}>
+            <Box className={`${classes.content}  cf-Content`}>
                 <Interweave content={props.content} transform={transform} matchers={matchers} allowList={allowList} />
             </Box>
         </BasicHtmlStyles>

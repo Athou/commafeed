@@ -80,16 +80,30 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
     if (noSubscriptions) return <NoSubscriptionHelp />
     return (
         // add some room at the bottom of the page in order to be able to scroll the current entry at the top of the page when expanding
-        <Box mb={viewport.height * 0.7}>
-            <Group gap="xl">
+        <Box className="cf-FeedEntries-Box" mb={viewport.height * 0.7}>
+            <Group className="cf-FeedEntries-Box-Group" gap="xl">
                 {sourceWebsiteUrl && (
-                    <a href={sourceWebsiteUrl} target="_blank" rel="noreferrer" className={classes.sourceWebsiteLink}>
+                    <a
+                        href={sourceWebsiteUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={`${classes.sourceWebsiteLink} cf-FeedEntries-Box-Group-Link`}
+                    >
                         <Title order={3}>{sourceLabel}</Title>
                     </a>
                 )}
-                {!sourceWebsiteUrl && <Title order={3}>{sourceLabel}</Title>}
+                {!sourceWebsiteUrl && (
+                    <Title className="cf-FeedEntries-Box-Group-Title" order={3}>
+                        {sourceLabel}
+                    </Title>
+                )}
                 {sourceLabel && (
-                    <ActionIcon onClick={titleClicked} variant="subtle" color={theme.primaryColor}>
+                    <ActionIcon
+                        className="cf-FeedEntries-Box-Group-Link-ActionIcon"
+                        onClick={titleClicked}
+                        variant="subtle"
+                        color={theme.primaryColor}
+                    >
                         <TbEdit size={18} />
                     </ActionIcon>
                 )}
@@ -97,7 +111,14 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
 
             <FeedEntries />
 
-            {!hasMore && <Divider my="xl" label={<Trans>No more entries</Trans>} labelPosition="center" />}
+            {!hasMore && (
+                <Divider
+                    className="cf-FeedEntries-Box-Group-Divider"
+                    my="xl"
+                    label={<Trans>No more entries</Trans>}
+                    labelPosition="center"
+                />
+            )}
         </Box>
     )
 }

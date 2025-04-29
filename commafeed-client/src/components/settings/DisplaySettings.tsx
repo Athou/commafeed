@@ -1,7 +1,7 @@
 import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
-import { Box, DEFAULT_THEME, Divider, Group, NumberInput, Radio, Select, type SelectProps, SimpleGrid, Stack, Switch } from "@mantine/core"
+import { Box, Divider, Group, NumberInput, Radio, Select, type SelectProps, SimpleGrid, Stack, Switch } from "@mantine/core"
 import type { ComboboxData } from "@mantine/core/lib/components/Combobox/Combobox.types"
 import { Constants } from "app/constants"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -70,11 +70,26 @@ export function DisplaySettings() {
         },
     ]
 
-    const colorData: ComboboxData = Object.keys(DEFAULT_THEME.colors).sort((a, b) => a.localeCompare(b))
+    const colorData: ComboboxData = [
+        { value: "dark", label: _(msg`Dark`) },
+        { value: "gray", label: _(msg`Gray`) },
+        { value: "red", label: _(msg`Red`) },
+        { value: "pink", label: _(msg`Pink`) },
+        { value: "grape", label: _(msg`Grape`) },
+        { value: "violet", label: _(msg`Violet`) },
+        { value: "indigo", label: _(msg`Indigo`) },
+        { value: "blue", label: _(msg`Blue`) },
+        { value: "cyan", label: _(msg`Cyan`) },
+        { value: "green", label: _(msg`Green`) },
+        { value: "lime", label: _(msg`Lime`) },
+        { value: "yellow", label: _(msg`Yellow`) },
+        { value: "orange", label: _(msg`Orange`) },
+        { value: "teal", label: _(msg`Teal`) },
+    ].sort((a, b) => a.label.localeCompare(b.label))
     const colorRenderer: SelectProps["renderOption"] = ({ option }) => (
         <Group>
             <Box h={18} w={18} bg={option.value} />
-            <Box>{option.value}</Box>
+            <Box>{option.label}</Box>
         </Group>
     )
 

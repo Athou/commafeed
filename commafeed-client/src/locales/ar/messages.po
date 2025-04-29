@@ -60,6 +60,8 @@ msgstr "إضافة مستخدم"
 msgid "Admin"
 msgstr "إداري"
 
+#: src/pages/app/FeedEntriesPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
 #: src/components/header/Header.tsx
 #: src/components/content/add/CategorySelect.tsx
@@ -130,6 +132,10 @@ msgstr "العودة"
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Back to log in"
 msgstr "العودة لتسجيل الدخول"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Blue"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
@@ -239,6 +245,11 @@ msgstr ""
 msgid "Custom JS code that will be executed on page load"
 msgstr ""
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Cyan"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "Dark"
 msgstr ""
@@ -417,6 +428,18 @@ msgstr "انتقل إلى وثائق API."
 msgid "Goodies"
 msgstr "الأشياء الجيدة"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Grape"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Gray"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Green"
+msgstr ""
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "المرجع نفسه"
@@ -440,6 +463,10 @@ msgstr "استيراد"
 #: src/components/settings/DisplaySettings.tsx
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "في العرض الموسع ، التمرير عبر الإدخالات وضع علامة عليها كمقروءة"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Indigo"
+msgstr ""
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
@@ -469,6 +496,10 @@ msgstr "آخر رسالة تحديث"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Lime"
 msgstr ""
 
 #: src/pages/app/TagDetailsPage.tsx
@@ -683,6 +714,10 @@ msgstr "ملف OPML"
 msgid "OPML file is required"
 msgstr ""
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Orange"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "طلب"
@@ -711,6 +746,10 @@ msgstr "استعادة كلمة المرور"
 msgid "Passwords do not match"
 msgstr "كلمات المرور غير متطابقة"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Pink"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Position"
@@ -731,6 +770,10 @@ msgstr "الملف الشخصي"
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "استعادة كلمة السر"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Red"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/header/Header.tsx
@@ -884,6 +927,7 @@ msgstr "فضاء"
 msgid "Star"
 msgstr "النجم"
 
+#: src/pages/app/FeedEntriesPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
 msgid "Starred"
@@ -927,6 +971,10 @@ msgstr ""
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "الكلمات"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Teal"
+msgstr ""
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -984,6 +1032,10 @@ msgstr "اسم المستخدم"
 msgid "User Name or E-mail"
 msgstr "اسم المستخدم أو البريد الإلكتروني"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Violet"
+msgstr ""
+
 #: src/components/Alert.tsx
 msgid "Warning"
 msgstr "تحذير"
@@ -991,6 +1043,10 @@ msgstr "تحذير"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Website"
 msgstr "موقع الكتروني"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Yellow"
+msgstr ""
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"

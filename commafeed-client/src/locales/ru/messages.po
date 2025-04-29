@@ -60,6 +60,8 @@ msgstr "Добавить пользователя"
 msgid "Admin"
 msgstr "Админ"
 
+#: src/pages/app/FeedEntriesPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
 #: src/components/header/Header.tsx
 #: src/components/content/add/CategorySelect.tsx
@@ -130,6 +132,10 @@ msgstr "Назад"
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Back to log in"
 msgstr "Вернуться к входу"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Blue"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
@@ -239,6 +245,11 @@ msgstr "Пользовательские правила CSS, которые бу
 msgid "Custom JS code that will be executed on page load"
 msgstr "Пользовательский JS-код, который будет выполняться при загрузке страницы"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Cyan"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "Dark"
 msgstr "Темная"
@@ -417,6 +428,18 @@ msgstr "Перейдите к документации по API."
 msgid "Goodies"
 msgstr "Сладости"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Grape"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Gray"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Green"
+msgstr ""
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "Идентификатор"
@@ -440,6 +463,10 @@ msgstr "Импорт"
 #: src/components/settings/DisplaySettings.tsx
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "В развернутом виде прокрутка записей помечает их как прочитанные."
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Indigo"
+msgstr ""
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
@@ -470,6 +497,10 @@ msgstr "Последнее сообщение об обновлении"
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
 msgstr "Светлая"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Lime"
+msgstr ""
 
 #: src/pages/app/TagDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -683,6 +714,10 @@ msgstr "OPML файл"
 msgid "OPML file is required"
 msgstr "Необходим файл OPML"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Orange"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
 msgstr "Заказать"
@@ -711,6 +746,10 @@ msgstr "Восстановление пароля"
 msgid "Passwords do not match"
 msgstr "Пароли не совпадают"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Pink"
+msgstr ""
+
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Position"
@@ -731,6 +770,10 @@ msgstr "Профиль"
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Восстановить пароль"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Red"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/header/Header.tsx
@@ -884,6 +927,7 @@ msgstr "Пробел"
 msgid "Star"
 msgstr "В избранное"
 
+#: src/pages/app/FeedEntriesPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
 msgid "Starred"
@@ -927,6 +971,10 @@ msgstr "Системная"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Теги"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Teal"
+msgstr ""
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -984,6 +1032,10 @@ msgstr "Имя пользователя"
 msgid "User Name or E-mail"
 msgstr "Имя пользователя или адрес электронной почты"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Violet"
+msgstr ""
+
 #: src/components/Alert.tsx
 msgid "Warning"
 msgstr "Предупреждение"
@@ -991,6 +1043,10 @@ msgstr "Предупреждение"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Website"
 msgstr "Веб-сайт"
+
+#: src/components/settings/DisplaySettings.tsx
+msgid "Yellow"
+msgstr ""
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"

@@ -48,6 +48,13 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
     const hasMore = useAppSelector(state => state.entries.hasMore)
     const dispatch = useAppDispatch()
 
+    let title: React.ReactNode = sourceLabel
+    if (id === Constants.categories.all.id) {
+        title = <Trans>All</Trans>
+    } else if (id === Constants.categories.starred.id) {
+        title = <Trans>Starred</Trans>
+    }
+
     const titleClicked = () => {
         switch (props.sourceType) {
             case "category":
@@ -84,15 +91,13 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
             <Group gap="xl">
                 {sourceWebsiteUrl && (
                     <a href={sourceWebsiteUrl} target="_blank" rel="noreferrer" className={classes.sourceWebsiteLink}>
-                        <Title order={3}>{sourceLabel}</Title>
+                        <Title order={3}>{title}</Title>
                     </a>
                 )}
-                {!sourceWebsiteUrl && <Title order={3}>{sourceLabel}</Title>}
-                {sourceLabel && (
-                    <ActionIcon onClick={titleClicked} variant="subtle" color={theme.primaryColor}>
-                        <TbEdit size={18} />
-                    </ActionIcon>
-                )}
+                {!sourceWebsiteUrl && <Title order={3}>{title}</Title>}
+                <ActionIcon onClick={titleClicked} variant="subtle" color={theme.primaryColor}>
+                    <TbEdit size={18} />
+                </ActionIcon>
             </Group>
 
             <FeedEntries />

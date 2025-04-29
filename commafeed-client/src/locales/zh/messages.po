@@ -135,7 +135,7 @@ msgstr "返回登录"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Blue"
-msgstr ""
+msgstr "蓝"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
@@ -187,7 +187,7 @@ msgstr "关闭菜单"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
@@ -247,12 +247,12 @@ msgstr "将在页面加载时执行的自定义JS代码"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Cyan"
-msgstr ""
+msgstr "青"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "Dark"
-msgstr "深色"
+msgstr "暗黑"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -430,15 +430,15 @@ msgstr "好东西"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
-msgstr ""
+msgstr "深紫"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Gray"
-msgstr ""
+msgstr "灰"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Green"
-msgstr ""
+msgstr "绿"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
@@ -466,7 +466,7 @@ msgstr "在展开视图中，滚动条目将它们标记为已读"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
-msgstr ""
+msgstr "靛蓝"
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
@@ -500,7 +500,7 @@ msgstr "浅色"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Lime"
-msgstr ""
+msgstr "浅黄"
 
 #: src/pages/app/TagDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -650,7 +650,7 @@ msgstr "在移动端，显示屏幕底部的操作按钮"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Only applies to compact, cozy and detailed modes"
-msgstr ""
+msgstr "仅适用于紧凑、宽松和详细模式"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
@@ -716,7 +716,7 @@ msgstr "OPML 文件是必需的"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Orange"
-msgstr ""
+msgstr "橙"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -748,7 +748,7 @@ msgstr "密码不匹配"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Pink"
-msgstr ""
+msgstr "粉红"
 
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -761,7 +761,7 @@ msgstr "上一个"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Primary color"
-msgstr ""
+msgstr "主颜色"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -773,7 +773,7 @@ msgstr "找回密码"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Red"
-msgstr ""
+msgstr "红"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/header/Header.tsx
@@ -826,11 +826,11 @@ msgstr "搜索至少需要 3 个字符"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
-msgstr ""
+msgstr "选择下一个未读信息流/类别"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
-msgstr ""
+msgstr "选择上一个未读信息流/类别"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -957,7 +957,7 @@ msgstr "向左滑动标题"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
-msgstr "切换到深色主题"
+msgstr "切换到暗黑主题"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
@@ -974,7 +974,7 @@ msgstr "标签"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Teal"
-msgstr ""
+msgstr "青绿"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1034,7 +1034,7 @@ msgstr "用户名或电子邮件"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Violet"
-msgstr ""
+msgstr "蓝紫"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -1046,7 +1046,7 @@ msgstr "网站"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
-msgstr ""
+msgstr "黄"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"

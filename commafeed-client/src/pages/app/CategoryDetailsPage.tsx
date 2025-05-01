@@ -30,9 +30,9 @@ export function CategoryDetailsPage() {
 
     let category: Category | undefined
     if (id === Constants.categories.all.id) {
-        category = { ...Constants.categories.starred, name: _(msg`All`) }
+        category = { ...Constants.categories.all, name: _(msg`All`) }
     } else if (id === Constants.categories.starred.id) {
-        category = { ...Constants.categories.all, name: _(msg`Starred`) }
+        category = { ...Constants.categories.starred, name: _(msg`Starred`) }
     } else {
         category = query.result && flattenCategoryTree(query.result.data).find(c => c.id === id)
     }

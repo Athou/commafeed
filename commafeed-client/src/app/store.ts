@@ -17,19 +17,9 @@ export const reducers = {
 
 const loadLocalSettings = (): LocalSettings => {
     const json = localStorage.getItem("commafeed-local-settings")
-    if (json) {
-        return JSON.parse(json)
-    }
-
-    // load old settings
-    const viewMode = localStorage.getItem("view-mode")
-    const sidebarWidth = localStorage.getItem("sidebar-width")
-    const announcementHash = localStorage.getItem("announcement-hash")
     return {
         ...initialLocalSettings,
-        viewMode: viewMode ? JSON.parse(viewMode) : initialLocalSettings.viewMode,
-        sidebarWidth: sidebarWidth ? JSON.parse(sidebarWidth) : initialLocalSettings.sidebarWidth,
-        announcementHash: announcementHash ? JSON.parse(announcementHash) : initialLocalSettings.announcementHash,
+        ...(json ? JSON.parse(json) : {}),
     }
 }
 

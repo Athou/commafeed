@@ -32,8 +32,9 @@ const useStyles = tss
         rtl: boolean
         showSelectionIndicator: boolean
         maxWidth?: number
+        fontSizePercentage: number
     }>()
-    .create(({ theme, colorScheme, read, expanded, viewMode, rtl, showSelectionIndicator, maxWidth }) => {
+    .create(({ theme, colorScheme, read, expanded, viewMode, rtl, showSelectionIndicator, maxWidth, fontSizePercentage }) => {
         let backgroundColor: string
         if (colorScheme === "dark") {
             backgroundColor = read ? "inherit" : theme.colors.dark[5]
@@ -83,10 +84,12 @@ const useStyles = tss
                 },
             },
             headerLink: {
+                fontSize: `${fontSizePercentage}%`,
                 color: "inherit",
                 textDecoration: "none",
             },
             body: {
+                fontSize: `${fontSizePercentage}%`,
                 direction: rtl ? "rtl" : "ltr",
                 maxWidth: maxWidth ?? "100%",
             },
@@ -95,6 +98,7 @@ const useStyles = tss
 
 export function FeedEntry(props: FeedEntryProps) {
     const viewMode = useAppSelector(state => state.user.localSettings.viewMode)
+    const fontSizePercentage = useAppSelector(state => state.user.localSettings.fontSizePercentage)
     const { classes, cx } = useStyles({
         read: props.entry.read,
         expanded: props.expanded,
@@ -102,6 +106,7 @@ export function FeedEntry(props: FeedEntryProps) {
         rtl: props.entry.rtl,
         showSelectionIndicator: props.showSelectionIndicator,
         maxWidth: props.maxWidth,
+        fontSizePercentage,
     })
 
     const externalLinkDisplayMode = useAppSelector(state => state.user.settings?.externalLinkIconDisplayMode)

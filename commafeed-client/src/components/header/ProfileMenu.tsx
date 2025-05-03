@@ -7,6 +7,7 @@ import {
     Menu,
     SegmentedControl,
     type SegmentedControlItem,
+    Slider,
     useMantineColorScheme,
 } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
@@ -14,7 +15,7 @@ import { client } from "app/client"
 import { redirectToAbout, redirectToAdminUsers, redirectToDonate, redirectToMetrics, redirectToSettings } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import type { ViewMode } from "app/types"
-import { setViewMode } from "app/user/slice"
+import { setFontSizePercentage, setViewMode } from "app/user/slice"
 import { reloadProfile } from "app/user/thunks"
 import dayjs from "dayjs"
 import { useNow } from "hooks/useNow"
@@ -100,6 +101,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
     const admin = useAppSelector(state => state.user.profile?.admin)
     const viewMode = useAppSelector(state => state.user.localSettings.viewMode)
     const forceRefreshCooldownDuration = useAppSelector(state => state.server.serverInfos?.forceRefreshCooldownDuration)
+    const fontSizePercentage = useAppSelector(state => state.user.localSettings.fontSizePercentage)
     const dispatch = useAppDispatch()
     const { colorScheme, setColorScheme } = useMantineColorScheme()
 
@@ -182,6 +184,22 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     value={viewMode}
                     onChange={e => dispatch(setViewMode(e as ViewMode))}
                     mb="xs"
+                />
+
+                <Divider />
+
+                <Menu.Label>
+                    <Trans>Font size</Trans>
+                </Menu.Label>
+                <Slider
+                    min={50}
+                    max={150}
+                    step={5}
+                    marks={[{ value: 100, label: "100%" }]}
+                    label={v => `${v}%`}
+                    mb="xl"
+                    value={fontSizePercentage}
+                    onChange={value => dispatch(setFontSizePercentage(value))}
                 />
 
                 {admin && (

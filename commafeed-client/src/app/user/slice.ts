@@ -36,6 +36,7 @@ export const initialLocalSettings: LocalSettings = {
     viewMode: "detailed",
     sidebarWidth: 360,
     announcementHash: "no-hash",
+    fontSizePercentage: 100,
 }
 
 const initialState: UserState = {
@@ -48,6 +49,9 @@ export const userSlice = createSlice({
     reducers: {
         setViewMode: (state, action: PayloadAction<ViewMode>) => {
             state.localSettings.viewMode = action.payload
+        },
+        setFontSizePercentage: (state, action: PayloadAction<number>) => {
+            state.localSettings.fontSizePercentage = action.payload
         },
         setSidebarWidth: (state, action: PayloadAction<number>) => {
             state.localSettings.sidebarWidth = action.payload
@@ -162,4 +166,4 @@ export const userSlice = createSlice({
     },
 })
 
-export const { setViewMode, setSidebarWidth, setAnnouncementHash } = userSlice.actions
+export const { setViewMode, setSidebarWidth, setAnnouncementHash, setFontSizePercentage } = userSlice.actions

@@ -260,6 +260,7 @@ export interface LocalSettings {
     viewMode: ViewMode
     sidebarWidth: number
     announcementHash: string
+    fontSizePercentage: number
 }
 
 export interface StarRequest {

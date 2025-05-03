@@ -1,4 +1,4 @@
-import { Box, Flex, Space, Text } from "@mantine/core"
+import { Box, Flex, Space } from "@mantine/core"
 import type { Entry } from "app/types"
 import { RelativeDate } from "components/RelativeDate"
 import { FeedFavicon } from "components/content/FeedFavicon"
@@ -47,19 +47,19 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
             <Flex align="center" className={classes.details}>
                 <FeedFavicon url={props.entry.iconUrl} />
                 <Space w={6} />
-                <Text c="dimmed">
+                <Box c="dimmed">
                     {props.entry.feedName}
                     <span> · </span>
                     <RelativeDate date={props.entry.date} />
-                </Text>
+                </Box>
             </Flex>
             {props.expanded && (
                 <Box className={classes.details}>
-                    <Text c="dimmed">
+                    <Box c="dimmed">
                         {props.entry.author && <span>by {props.entry.author}</span>}
                         {props.entry.author && props.entry.categories && <span>&nbsp;·&nbsp;</span>}
                         {props.entry.categories && <span>{props.entry.categories}</span>}
-                    </Text>
+                    </Box>
                 </Box>
             )}
         </Box>

@@ -22,9 +22,6 @@ const useStyles = tss
         main: {
             fontWeight: colorScheme === "light" && !read ? "bold" : "inherit",
         },
-        details: {
-            fontSize: "90%",
-        },
     }))
 
 export function FeedEntryHeader(props: FeedEntryHeaderProps) {
@@ -44,7 +41,7 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
                 </Flex>
                 {props.showExternalLinkIcon && <OpenExternalLink entry={props.entry} />}
             </Flex>
-            <Flex align="center" className={classes.details}>
+            <Flex align="center">
                 <FeedFavicon url={props.entry.iconUrl} />
                 <Space w={6} />
                 <Box c="dimmed">
@@ -54,12 +51,10 @@ export function FeedEntryHeader(props: FeedEntryHeaderProps) {
                 </Box>
             </Flex>
             {props.expanded && (
-                <Box className={classes.details}>
-                    <Box c="dimmed">
-                        {props.entry.author && <span>by {props.entry.author}</span>}
-                        {props.entry.author && props.entry.categories && <span>&nbsp;·&nbsp;</span>}
-                        {props.entry.categories && <span>{props.entry.categories}</span>}
-                    </Box>
+                <Box c="dimmed">
+                    {props.entry.author && <span>by {props.entry.author}</span>}
+                    {props.entry.author && props.entry.categories && <span>&nbsp;·&nbsp;</span>}
+                    {props.entry.categories && <span>{props.entry.categories}</span>}
                 </Box>
             )}
         </Box>

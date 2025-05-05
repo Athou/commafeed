@@ -388,6 +388,10 @@ msgid "Filtering expression"
 msgstr "تصفية التعبير"
 
 #: src/components/header/ProfileMenu.tsx
+msgid "Font size"
+msgstr ""
+
+#: src/components/header/ProfileMenu.tsx
 msgid "Force fetching feeds is not yet available."
 msgstr ""
 

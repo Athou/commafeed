@@ -142,7 +142,7 @@ public class UserREST {
 			s.setLanguage("en");
 			s.setScrollSpeed(400);
 			s.setScrollMode(ScrollMode.if_needed.name());
-			s.setEntriesToKeepOnTopWhenScrolling(0);
+			s.setEntriesToKeepOnTopWhenScrolling(1);
 			s.setStarIconDisplayMode(IconDisplayMode.on_desktop.name());
 			s.setExternalLinkIconDisplayMode(IconDisplayMode.on_desktop.name());
 			s.setMarkAllAsReadConfirmation(true);

@@ -195,9 +195,9 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     min={50}
                     max={150}
                     step={5}
-                    marks={[{ value: 100, label: "100%" }]}
+                    marks={[{ value: 100 }]}
                     label={v => `${v}%`}
-                    mb="xl"
+                    mb="xs"
                     value={fontSizePercentage}
                     onChange={value => dispatch(setFontSizePercentage(value))}
                 />

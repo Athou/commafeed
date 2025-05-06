@@ -182,7 +182,7 @@ export function Tree() {
             <OnDesktop>
                 <TreeSearch feeds={feeds} />
             </OnDesktop>
-            <Box>
+            <Box className="cf-tree">
                 {allCategoryNode()}
                 {starredCategoryNode()}
                 {root.children.map(c => recursiveCategoryNode(c))}

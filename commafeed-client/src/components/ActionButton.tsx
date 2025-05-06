@@ -29,7 +29,7 @@ export const ActionButton = forwardRef<HTMLDivElement, ActionButtonProps>((props
     const iconOnly = (mobile && !props.showLabelOnMobile) || (!mobile && props.hideLabelOnDesktop)
 
     return (
-        <Box ref={ref}>
+        <Box ref={ref} className="cf-action-button">
             {iconOnly && (
                 <Tooltip label={label} openDelay={Constants.tooltip.delay}>
                     <ActionIcon

@@ -68,7 +68,7 @@ export function TreeNode(props: TreeNodeProps) {
         <Box
             py={1}
             pl={props.level * 20}
-            className={`${classes.node} cf-treenode`}
+            className={`${classes.node} cf-treenode cf-treenode-${props.type}`}
             onClick={(e: React.MouseEvent) => props.onClick(e, props.id)}
             data-id={props.id}
             data-type={props.type}

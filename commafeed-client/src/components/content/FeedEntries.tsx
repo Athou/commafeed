@@ -288,7 +288,7 @@ export function FeedEntries() {
     return (
         <InfiniteScroll
             id="entries"
-            className={`view-mode-${viewMode}`}
+            className={`cf-entries cf-view-mode-${viewMode}`}
             initialLoad={false}
             loadMore={async () => await (!loading && dispatch(loadMoreEntries()))}
             hasMore={hasMore}

@@ -25,6 +25,11 @@ export function DonatePage() {
                 </Trans>
 
                 <List mt="lg">
+                    <List.Item icon={<TbBrandGithub size={iconSize} />}>
+                        <Anchor href="https://github.com/sponsors/Athou" target="_blank" rel="noreferrer">
+                            GitHub Sponsors
+                        </Anchor>
+                    </List.Item>
                     <List.Item icon={<TbBrandPaypal size={iconSize} />}>
                         <Anchor
                             href="https://www.paypal.com/donate/?business=9CNQHMJG2ZJVY&no_recurring=0&item_name=CommaFeed&currency_code=EUR"
@@ -41,11 +46,6 @@ export function DonatePage() {
                             rel="noreferrer"
                         >
                             Paypal USD
-                        </Anchor>
-                    </List.Item>
-                    <List.Item icon={<TbBrandGithub size={iconSize} />}>
-                        <Anchor href="https://github.com/sponsors/Athou" target="_blank" rel="noreferrer">
-                            GitHub Sponsors
                         </Anchor>
                     </List.Item>
                     <List.Item icon={<TbCoinBitcoin size={iconSize} />}>

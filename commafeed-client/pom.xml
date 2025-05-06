@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.commafeed</groupId>
 		<artifactId>commafeed</artifactId>
-		<version>5.7.0</version>
+		<version>5.8.0</version>
 	</parent>
 	<artifactId>commafeed-client</artifactId>
 	<name>CommaFeed Client</name>

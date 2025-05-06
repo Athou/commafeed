@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.8.0]
+
+- A color picker is now available on the settings page to change the orange accent of the application (#1598)
+- A font size slider is now available to change the size of the text of feed entries (#1462)
+- The "mark all as read" confirmation setting now also applies to the "shift+a" keyboard shortcut (#1744)
+- CommaFeed wil try to match the language of the browser before defaulting to english (#1767)
+- The default value for the number of entries to keep above the selected entry when scrolling is now 1 instead of 0 to match what other feed readers do
+
 ## [5.7.0]
 
 - Add Shift+J/Shift+K keyboard shortcuts to navigate to the next/previous feed or category with unread entries (#1558)

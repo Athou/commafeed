@@ -1,7 +1,7 @@
 import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
-import { TextInput } from "@mantine/core"
+import { Box, TextInput } from "@mantine/core"
 import { Spotlight, type SpotlightActionData, spotlight } from "@mantine/spotlight"
 import { redirectToFeed } from "app/redirect/thunks"
 import { useAppDispatch } from "app/store"
@@ -33,7 +33,7 @@ export function TreeSearch(props: TreeSearchProps) {
     useMousetrap("g u", () => spotlight.open())
 
     return (
-        <>
+        <Box className="cf-treesearch">
             <TextInput
                 placeholder={_(msg`Search`)}
                 leftSection={searchIcon}
@@ -58,6 +58,6 @@ export function TreeSearch(props: TreeSearchProps) {
                 }}
                 nothingFound={<Trans>Nothing found</Trans>}
             />
-        </>
+        </Box>
     )
 }

@@ -184,10 +184,10 @@ export function FeedEntry(props: FeedEntryProps) {
             </a>
             {props.expanded && (
                 <Box px={paddingX} pb={paddingY} onClick={props.onBodyClick}>
-                    <Box className={classes.body}>
+                    <Box className={`${classes.body} cf-content`}>
                         <FeedEntryBody entry={props.entry} />
                     </Box>
-                    <Divider variant="dashed" my={paddingY} />
+                    <Divider variant="dashed" my={paddingY} className="cf-footer-divider" />
                     <FeedEntryFooter entry={props.entry} />
                 </Box>
             )}

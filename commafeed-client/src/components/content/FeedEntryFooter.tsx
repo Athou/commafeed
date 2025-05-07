@@ -37,7 +37,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
         )
 
     return (
-        <Group justify="space-between">
+        <Group justify="space-between" className="cf-footer">
             <Group gap={spacing}>
                 {props.entry.markable && (
                     <ActionButton

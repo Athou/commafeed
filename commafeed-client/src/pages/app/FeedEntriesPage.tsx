@@ -88,7 +88,7 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
     return (
         // add some room at the bottom of the page in order to be able to scroll the current entry at the top of the page when expanding
         <Box mb={viewport.height * 0.7}>
-            <Group gap="xl">
+            <Group gap="xl" className="cf-entries-title">
                 {sourceWebsiteUrl && (
                     <a href={sourceWebsiteUrl} target="_blank" rel="noreferrer" className={classes.sourceWebsiteLink}>
                         <Title order={3}>{title}</Title>

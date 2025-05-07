@@ -389,7 +389,7 @@ msgstr "过滤表达式"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Font size"
-msgstr ""
+msgstr "字号"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Force fetching feeds is not yet available."

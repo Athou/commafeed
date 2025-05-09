@@ -27,14 +27,14 @@ export default defineConfig(() => ({
     server: {
         port: 8082,
         proxy: {
-            "/rest": "http://localhost:8083",
-            "/next": "http://localhost:8083",
-            "/ws": "ws://localhost:8083",
-            "/openapi.json": "http://localhost:8083",
-            "/custom_css.css": "http://localhost:8083",
-            "/custom_js.js": "http://localhost:8083",
-            "/j_security_check": "http://localhost:8083",
-            "/logout": "http://localhost:8083",
+            "/rest": "http://127.0.0.1:8083",
+            "/next": "http://127.0.0.1:8083",
+            "/ws": "ws://127.0.0.1:8083",
+            "/openapi.json": "http://127.0.0.1:8083",
+            "/custom_css.css": "http://127.0.0.1:8083",
+            "/custom_js.js": "http://127.0.0.1:8083",
+            "/j_security_check": "http://127.0.0.1:8083",
+            "/logout": "http://127.0.0.1:8083",
         },
     },
     build: {
@@ -42,7 +42,6 @@ export default defineConfig(() => ({
         rollupOptions: {
             output: {
                 manualChunks: id => {
-                    // output mantine as its own chunk because it is quite large
                     if (id.includes("@mantine")) {
                         return "mantine"
                     }

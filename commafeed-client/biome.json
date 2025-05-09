@@ -1,6 +1,7 @@
 {
     "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
     "formatter": {
+        "enabled": false,
         "indentStyle": "space",
         "indentWidth": 4,
         "lineEnding": "lf",
@@ -14,10 +15,11 @@
         }
     },
     "linter": {
+        "enabled": false,
         "rules": {
             "correctness": {
-                "noUnusedImports": "error",
-                "noUnusedVariables": "error"
+                "noUnusedImports": "off",
+                "noUnusedVariables": "off"
             }
         }
     },

@@ -93,15 +93,19 @@ export function Tree() {
 
   useEffect(() => {
     const prevCount = JSON.parse(localStorage.getItem("FeedCount") || "0");
-    const currentCount = root?.feeds.length || 0;
+    console.log(prevCount);
+    const currentCount = categoryUnreadCount(root);
 
     if (currentCount > prevCount) {
       setHasNewMessages(true);
     }
     localStorage.setItem("FeedCount", JSON.stringify(currentCount));
+    console.log(hasNewMessages)
+
   }, [root?.feeds.length]);
 
   const allCategoryNode = () => (
+
     <TreeNode
       id={Constants.categories.all.id}
       type="category"
@@ -133,7 +137,6 @@ export function Tree() {
       level={0}
       hasError={false}
       onClick={categoryClicked}
-      newMessages={hasNewMessages}
     />
   );
 
@@ -159,7 +162,6 @@ export function Tree() {
         onClick={categoryClicked}
         onIconClick={(e) => categoryIconClicked(e, category)}
         key={category.id}
-        newMessages={hasNewMessages}
       />
     );
   };
@@ -179,7 +181,6 @@ export function Tree() {
         hasError={feed.errorCount > errorThreshold}
         onClick={feedClicked}
         key={feed.id}
-        newMessages={hasNewMessages}
       />
     );
   };
@@ -196,7 +197,6 @@ export function Tree() {
       hasError={false}
       onClick={tagClicked}
       key={tag}
-      newMessages={hasNewMessages}
     />
   );
 

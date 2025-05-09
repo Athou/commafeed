@@ -5,7 +5,7 @@ import { tss } from "tss";
 const useStyles = tss.create(() => ({
   badge: {
     width: "3.2rem",
-    cursor: "pointer", // override Mantine's default
+    cursor: "pointer",
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
@@ -14,7 +14,7 @@ const useStyles = tss.create(() => ({
 
 export function UnreadCount(props: {
   unreadCount: number;
-  newMessages: boolean;
+  newMessages?: boolean;
 }) {
   const { classes } = useStyles();
 
@@ -29,24 +29,30 @@ export function UnreadCount(props: {
       openDelay={Constants.tooltip.delay}
     >
       <Badge className={`${classes.badge} cf-badge`} variant="light">
-        <Flex
-          align="center"
-          justify="flex-start"
-          style={{ gap: 6, width: "100%" }}
-        >
-          {true && (
-            <div
-              style={{
-                width: 5,
-                height: 5,
-                borderRadius: "50%",
-                backgroundColor: "orange",
-                flexShrink: 0,
-              }}
-            />
-          )}
-          {/* Wrap count in a box to make layout stable */}
-          <Box style={{ minWidth: ".6rem"}}>{count}</Box>
+        <Flex align="center" justify="center" style={{ width: "100%" }}>
+          {/* Dot wrapper: always renders, but conditionally visible */}
+          <Box
+            style={{
+              width: 8,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginRight: 4,
+            }}
+          >
+            {props.newMessages && (
+              <div
+                style={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: "50%",
+                  backgroundColor: "orange",
+                }}
+              />
+            )}
+          </Box>
+
+          <Box style={{ minWidth: "1.3rem", textAlign: "center" }}>{count}</Box>
         </Flex>
       </Badge>
     </Tooltip>

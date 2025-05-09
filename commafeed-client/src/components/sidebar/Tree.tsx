@@ -93,15 +93,12 @@ export function Tree() {
 
   useEffect(() => {
     const prevCount = JSON.parse(localStorage.getItem("FeedCount") || "0");
-    console.log(prevCount);
     const currentCount = categoryUnreadCount(root);
 
     if (currentCount > prevCount) {
       setHasNewMessages(true);
     }
     localStorage.setItem("FeedCount", JSON.stringify(currentCount));
-    console.log(hasNewMessages)
-
   }, [root?.feeds.length]);
 
   const allCategoryNode = () => (

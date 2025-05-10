@@ -50,7 +50,7 @@ const buildGetEntriesPaginatedRequest = (state: RootState, source: EntrySource, 
     keywords: state.entries.search,
 })
 
-export const reloadEntries = createAppAsyncThunk("entries/reload", (arg, thunkApi) => {
+export const reloadEntries = createAppAsyncThunk("entries/reload", (_, thunkApi) => {
     const state = thunkApi.getState()
     thunkApi.dispatch(loadEntries({ source: state.entries.source, clearSearch: false }))
 })

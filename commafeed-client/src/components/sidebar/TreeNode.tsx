@@ -98,7 +98,7 @@ export function TreeNode(props: TreeNodeProps) {
         <Box className="cf-treenode-unread-count">
           <UnreadCount
             unreadCount={props.unread}
-            newMessages={props.id === "all" ? true: false}
+            newMessages={props.id === "all" ? props.newMessages: false}
           />
         </Box>
       )}

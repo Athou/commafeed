@@ -1,17 +1,17 @@
 # Custom CSS Guide
 
-On the Admin settings page, there is a tab for "Custom Code" where you can enter [CSS](https://en.wikipedia.org/wiki/CSS) to customize the look & feel of CommaFeed.  To facilitate this, many of the HTML elements of CommaFeed have been given specific class names.  For example, the header of a feed entry is enclosed in an HTML `<div>` element with the class name `cf-FeedEntryHeader`.  So if you wanted to modify the appearance of all feed entry headers, you could use that specific class name to select all feed entry headers and apply whatever changes you desired.  For example, if you want to make change the background color of the headers, you could add this to the custom CSS code:
+On the Admin settings page, there is a tab for "Custom Code" where you can enter [CSS](https://en.wikipedia.org/wiki/CSS) to customize the look & feel of CommaFeed.  To facilitate this, many of the HTML elements of CommaFeed have been given specific class names.  For example, the header of a feed entry is enclosed in an HTML `<div>` element with the class name `cf-header`.  So if you wanted to modify the appearance of all feed entry headers, you could use that specific class name to select all feed entry headers and apply whatever changes you desired.  For example, if you want to make change the background color of the headers, you could add this to the custom CSS code:
 
 ```
 .cf-header {background-color: lightblue;}
 ```
 
-The table below lists all of the CommaFeed specific class names and the corresponding page elements.  These elements are selected to provide a good "starting point" within each portion of the feed reading page.  To modify some elements of the page, you will have to start at one of the CommaFeed specific class names and then "drill down" to the HTML element you wish to change.  A useful approach is to use your web browser's Inspector to find the element you want to change.  (Typically you can hit F12 to bring up the web developer tools.)  Find the element you want to change.  If it has a "cf-" class name from the table below, then you can modify it directly using the formula illustrated above with "cf-header".  If it doesn't have a "cf-" classname, then search upwards through the enclosing elements until you find one that does.  Use that name as your starting point and extend your CSS selector down to the element you want to modify.
+The tables below list useful page elements as well as all of the CommaFeed specific class names, and describes their corresponding page elements.  These elements are selected to provide a good "starting point" within each portion of the feed reading page.  To modify some elements of the page, you will have to start at one of the CommaFeed specific class names and then "drill down" to the HTML element you wish to change.  A useful approach is to use your web browser's Inspector to find the element you want to change.  (Typically you can hit F12 to bring up the web developer tools.)  Find the element you want to change.  If it has a "cf-" class name from the table below, then you can modify it directly using the formula illustrated above with "cf-header".  If it doesn't have a "cf-" classname, then search upwards through the enclosing elements until you find one that does.  Use that name as your starting point and extend your CSS selector down to the element you want to modify.
 
-If you're having problems finding an element, the rule above that changes the background color can be helpful to see what element your selector is selecting -- or if it is not selecting anything!  
+If you're having trouble writing a CSS rule, changing the background color as in the rule above can be helpful to see what elements your selector is selecting -- or if it is not selecting anything!
 
 ## Extended Example
-The extended example below modifies the CommaFeed interface to be more like the original Google Reader interface and illustrates a variety of uses of the CommaFeed class names and CSS.  There are examples of styling CommaFeed classes directly as well as examples of more complicated selection rules.
+The extended example below modifies the CommaFeed interface to be more minimal and illustrates a variety of uses of the CommaFeed class names and CSS.  There are examples of styling CommaFeed classes directly as well as examples of more complicated selection rules.  
 
 ```
 /* GENERAL (changes applied to everything) */
@@ -71,7 +71,7 @@ article span > div::after {content: "\A"; white-space: pre;}
 ```
 
 ## CommaFeed Useful Elements
-The table below shows some elements of the CommaFeed main page that are useful for applying custom CSS.  Note that these are elements, not class names, so you must use these with the leading period used to reference a class name.  For example:
+The table below shows some elements of the CommaFeed main page that are useful for applying custom CSS.  Note that these are elements, not class names, so you must use these without the leading period used to reference a class name.  For example:
 
 ```
 article {background-color: lightblue;}
@@ -88,7 +88,7 @@ article {background-color: lightblue;}
 
 
 ## CommaFeed Class Names
-The table below shows the CommaFeed specific class names.  To reference a class name in a CSS rule, use a leading period.For example:
+The table below shows the CommaFeed specific class names.  To reference a class name in a CSS rule, use a leading period.  For example:
 
 ```
 .cf-header {background-color: lightblue;}

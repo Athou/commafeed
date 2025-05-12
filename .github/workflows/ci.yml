@@ -265,7 +265,7 @@ jobs:
 
   deploy-pages:
     runs-on: ubuntu-latest
-    needs: build
+    needs: release
     permissions:
       pages: write
       id-token: write

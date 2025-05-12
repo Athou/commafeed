@@ -4,6 +4,7 @@ import { useMobile } from "hooks/useMobile"
 import type { ReactNode } from "react"
 
 interface CodeEditorProps {
+    label?: ReactNode
     description?: ReactNode
     language: "css" | "javascript"
     value?: string
@@ -19,7 +20,8 @@ export function CodeEditor(props: CodeEditorProps) {
             autosize
             minRows={4}
             maxRows={15}
-            label={props.description}
+            label={props.label}
+            description={props.description}
             styles={{
                 input: {
                     fontFamily: "monospace",
@@ -29,7 +31,7 @@ export function CodeEditor(props: CodeEditorProps) {
             onChange={e => props.onChange(e.currentTarget.value)}
         />
     ) : (
-        <Input.Wrapper label={props.description}>
+        <Input.Wrapper label={props.label} description={props.description}>
             <RichCodeEditor height="30vh" language={props.language} value={props.value} onChange={props.onChange} />
         </Input.Wrapper>
     )

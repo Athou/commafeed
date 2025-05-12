@@ -1,7 +1,8 @@
 import { Trans } from "@lingui/react/macro"
-import { Box, Button, Group, Stack } from "@mantine/core"
+import { Anchor, Box, Button, Group, Stack } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
+import { Constants } from "app/constants"
 import { redirectToSelectedSource } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Alert } from "components/Alert"
@@ -57,13 +58,27 @@ export function CustomCodeSettings() {
             <form onSubmit={form.onSubmit(saveCustomCode.execute)}>
                 <Stack>
                     <CodeEditor
-                        description={<Trans>Custom CSS rules that will be applied</Trans>}
+                        label={<Trans>Custom CSS rules that will be applied</Trans>}
+                        description={
+                            <Trans>
+                                <span>See </span>
+                                <Anchor
+                                    href={Constants.customCssDocumentationUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    style={{ fontSize: "inherit" }}
+                                >
+                                    here
+                                </Anchor>
+                                <span> for more information.</span>
+                            </Trans>
+                        }
                         language="css"
                         {...form.getInputProps("customCss")}
                     />
 
                     <CodeEditor
-                        description={<Trans>Custom JS code that will be executed on page load</Trans>}
+                        label={<Trans>Custom JS code that will be executed on page load</Trans>}
                         language="javascript"
                         {...form.getInputProps("customJs")}
                     />

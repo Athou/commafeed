@@ -44,18 +44,27 @@ jobs:
         run: mvn --batch-mode --no-transfer-progress install -Pnative -P${{ matrix.database }} -DskipTests=${{ matrix.os == 'windows-latest' && matrix.database != 'h2' }}
 
       # Build pages
-      - name: Copy generated markdown documentation to /documentation
-        run: mkdir documentation && cp ./commafeed-server/target/quarkus-generated-doc/config/commafeed-server.md ./documentation/README.md
+      - name: Create pages directory structure
+        run: mkdir -p target/pages/documentation/custom-css
 
-      - name: Generate pages
-        uses: wranders/markdown-to-pages-action@8d8a750832932ac785f5424c8c5543aa0b26bb9a # v1
+      - name: Convert readme file to html
+        uses: jaywcjlove/markdown-to-html-cli@v5.0.3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          out_path: target/pages
-          files: |-
-            README.md
-            documentation/README.md
-      
+          source: README.md
+          output: target/pages/index.html
+
+      - name: Convert config documentation to html
+        uses: jaywcjlove/markdown-to-html-cli@v5.0.3
+        with:
+          source: commafeed-server/target/quarkus-generated-doc/config/commafeed-server.md
+          output: target/pages/documentation/index.html
+
+      - name: Convert custom css documentation to html
+        uses: jaywcjlove/markdown-to-html-cli@v5.0.3
+        with:
+          source: documentation/CUSTOMCSS.md
+          output: target/pages/documentation/custom-css/index.html
+
       # Upload artifacts
       - name: Upload cross-platform app
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

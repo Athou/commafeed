@@ -33,6 +33,10 @@ msgstr ""
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Perlukan akaun?</0><1>Daftar!</1>"
 
+#: src/components/settings/CustomCodeSettings.tsx
+msgid "<0>See </0><1>here</1><2> for more information.</2>"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "About"

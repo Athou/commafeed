@@ -108,5 +108,6 @@ export const Constants = {
         delay: 500,
     },
     browserExtensionUrl: "https://github.com/Athou/commafeed-browser-extension",
+    customCssDocumentationUrl: "https://athou.github.io/commafeed/documentation/custom-css",
     bitcoinWalletAddress: "1dymfUxqCWpyD7a6rQSqNy4rLVDBsAr5e",
 }

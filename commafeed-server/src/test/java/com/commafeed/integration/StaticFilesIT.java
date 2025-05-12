@@ -18,6 +18,6 @@ class StaticFilesIT {
 	@ParameterizedTest
 	@ValueSource(strings = { "/favicon.ico" })
 	void servedWithCache(String path) {
-		RestAssured.given().when().get(path).then().statusCode(200).header("Cache-Control", "public, immutable, max-age=2592000");
+		RestAssured.given().when().get(path).then().statusCode(200).header("Cache-Control", "public, immutable, max-age=31536000");
 	}
 }

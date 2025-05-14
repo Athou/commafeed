@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.9.0]
+
+- A lot of CSS classes have been added to the elements of the application to ease custom CSS rules (#1757)
+- Added a link in the README to the [documentation](https://athou.github.io/commafeed/documentation/custom-css/) of the new CSS classes
+- Static resources are now cached for much longer (#1782)
+
 ## [5.8.0]
 
 - A color picker is now available on the settings page to change the orange accent of the application (#1598)

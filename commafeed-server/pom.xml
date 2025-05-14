@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.commafeed</groupId>
 		<artifactId>commafeed</artifactId>
-		<version>5.8.0</version>
+		<version>5.9.0</version>
 	</parent>
 	<artifactId>commafeed-server</artifactId>
 	<name>CommaFeed Server</name>
@@ -327,7 +327,7 @@
 		<dependency>
 			<groupId>com.commafeed</groupId>
 			<artifactId>commafeed-client</artifactId>
-			<version>5.8.0</version>
+			<version>5.9.0</version>
 		</dependency>
 
 		<!-- compile-time processors -->

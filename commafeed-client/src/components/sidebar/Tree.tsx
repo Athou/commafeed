@@ -11,7 +11,7 @@ import {
 } from "app/redirect/thunks";
 import { useAppDispatch, useAppSelector } from "app/store";
 import { collapseTreeCategory } from "app/tree/thunks";
-import type { Category, Subscription } from "app/types";
+import type { Category, Subscription, TreeSubscription } from "app/types";
 import { categoryUnreadCount, flattenCategoryTree } from "app/utils";
 import { Loader } from "components/Loader";
 import { OnDesktop } from "components/responsive/OnDesktop";
@@ -35,7 +35,6 @@ const collapsedIcon = <TbChevronRight size={16} />;
 const errorThreshold = 9;
 
 export function Tree() {
-  const [hasNewMessages, setHasNewMessages] = useState(false);
   const root = useAppSelector((state) => state.tree.rootCategory);
   const source = useAppSelector((state) => state.entries.source);
   const tags = useAppSelector((state) => state.user.tags);
@@ -91,15 +90,7 @@ export function Tree() {
     }
   };
 
-  useEffect(() => {
-    const prevCount = JSON.parse(localStorage.getItem("FeedCount") || "0");
-    const currentCount = categoryUnreadCount(root);
-
-    if (currentCount > prevCount) {
-      setHasNewMessages(true);
-    }
-    localStorage.setItem("FeedCount", JSON.stringify(currentCount));
-  }, [root?.feeds.length]);
+  console.log(root?.feeds.map(f => f.hasNewEntries));
 
   const allCategoryNode = () => (
 
@@ -116,7 +107,6 @@ export function Tree() {
       level={0}
       hasError={false}
       onClick={categoryClicked}
-      newMessages={hasNewMessages}
     />
   );
   const starredCategoryNode = () => (
@@ -163,7 +153,7 @@ export function Tree() {
     );
   };
 
-  const feedNode = (feed: Subscription, level = 0) => {
+  const feedNode = (feed: TreeSubscription, level = 0) => {
     if (!isFeedDisplayed(feed)) return null;
 
     return (
@@ -178,6 +168,7 @@ export function Tree() {
         hasError={feed.errorCount > errorThreshold}
         onClick={feedClicked}
         key={feed.id}
+        newMessages={feed.hasNewEntries}
       />
     );
   };

@@ -43,6 +43,20 @@ export const treeSlice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(reloadTree.fulfilled, (state, action) => {
+            visitCategoryTree(action.payload, category => {
+            category.feeds = category.feeds.map(feed => {
+            const storageKey = `feed-${feed.id}-unread`
+            const prevUnread = parseInt(localStorage.getItem(storageKey) || "0", 10)
+            const hasNewEntries = feed.unread > prevUnread
+
+            localStorage.setItem(storageKey, feed.unread.toString())
+
+            return {
+                ...feed,
+                hasNewEntries
+            }
+            })
+        })
             state.rootCategory = action.payload
         })
         builder.addCase(collapseTreeCategory.pending, (state, action) => {

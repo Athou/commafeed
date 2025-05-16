@@ -16,6 +16,9 @@ export function UnreadCount(props: { unreadCount: number, newMessages: boolean |
 
     const count = props.unreadCount >= 10000 ? "10k+" : props.unreadCount
 
+    console.log(props.newMessages);
+    
+
     return (
         <Tooltip label={props.unreadCount} disabled={props.unreadCount === count} openDelay={Constants.tooltip.delay}>
             <Indicator disabled={!props.newMessages} size={4} offset={10} position="top-start" color="orange" withBorder={false} zIndex={5}>

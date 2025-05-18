@@ -9,15 +9,12 @@ const useStyles = tss.create(() => ({
     },
 }))
 
-export function UnreadCount(props: { unreadCount: number, newMessages: boolean | undefined }) {
+export function UnreadCount(props: { unreadCount: number; newMessages: boolean | undefined }) {
     const { classes } = useStyles()
 
     if (props.unreadCount <= 0) return null
 
     const count = props.unreadCount >= 10000 ? "10k+" : props.unreadCount
-
-    console.log(props.newMessages);
-    
 
     return (
         <Tooltip label={props.unreadCount} disabled={props.unreadCount === count} openDelay={Constants.tooltip.delay}>

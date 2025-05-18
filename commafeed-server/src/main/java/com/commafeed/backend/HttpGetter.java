@@ -151,7 +151,7 @@ public class HttpGetter {
 	}
 
 	private void ensureHttpScheme(String scheme) throws SchemeNotAllowedException {
-		if (!"http".equals(scheme) && !"https".equals(scheme)) {
+		if (!"http".equalsIgnoreCase(scheme) && !"https".equalsIgnoreCase(scheme)) {
 			throw new SchemeNotAllowedException(scheme);
 		}
 	}

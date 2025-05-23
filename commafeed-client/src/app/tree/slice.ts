@@ -40,6 +40,15 @@ export const treeSlice = createSlice({
                 }
             })
         },
+        setHasNewEntries: (state, action: PayloadAction<{ feedId: number; value: boolean }>) => {
+            if (!state.rootCategory) return
+
+            visitCategoryTree(state.rootCategory, category => {
+                category.feeds = category.feeds.map(feed =>
+                    feed.id === action.payload.feedId ? { ...feed, hasNewEntries: action.payload.value } : feed
+                )
+            })
+        },
     },
     extraReducers: builder => {
         builder.addCase(reloadTree.fulfilled, (state, action) => {
@@ -65,4 +74,4 @@ export const treeSlice = createSlice({
     },
 })
 
-export const { setMobileMenuOpen, toggleSidebar, incrementUnreadCount } = treeSlice.actions
+export const { setMobileMenuOpen, toggleSidebar, incrementUnreadCount, setHasNewEntries } = treeSlice.actions

@@ -3,6 +3,7 @@ import { client } from "app/client"
 import { Constants } from "app/constants"
 import { type EntrySource, type EntrySourceType, entriesSlice, setMarkAllAsReadConfirmationDialogOpen, setSearch } from "app/entries/slice"
 import type { RootState } from "app/store"
+import { setHasNewEntries } from "app/tree/slice"
 import { reloadTree } from "app/tree/thunks"
 import type { Entry, MarkRequest, TagRequest } from "app/types"
 import { reloadTags } from "app/user/thunks"
@@ -26,6 +27,9 @@ export const loadEntries = createAppAsyncThunk(
         const state = thunkApi.getState()
         const endpoint = getEndpoint(arg.source.type)
         const result = await endpoint(buildGetEntriesPaginatedRequest(state, arg.source, 0))
+        if (arg.source.type === "feed") {
+            thunkApi.dispatch(setHasNewEntries({ feedId: +arg.source.id, value: false }))
+        }
         return result.data
     }
 )

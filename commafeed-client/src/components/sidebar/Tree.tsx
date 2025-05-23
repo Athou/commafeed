@@ -11,7 +11,7 @@ import {
 } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { collapseTreeCategory } from "app/tree/thunks"
-import type { Category, Subscription } from "app/types"
+import type { Category, Subscription, TreeSubscription } from "app/types"
 import { categoryUnreadCount, flattenCategoryTree } from "app/utils"
 import { Loader } from "components/Loader"
 import { OnDesktop } from "components/responsive/OnDesktop"
@@ -133,7 +133,7 @@ export function Tree() {
         )
     }
 
-    const feedNode = (feed: Subscription, level = 0) => {
+    const feedNode = (feed: TreeSubscription, level = 0) => {
         if (!isFeedDisplayed(feed)) return null
 
         return (
@@ -148,6 +148,7 @@ export function Tree() {
                 hasError={feed.errorCount > errorThreshold}
                 onClick={feedClicked}
                 key={feed.id}
+                newMessages={feed.hasNewEntries}
             />
         )
     }

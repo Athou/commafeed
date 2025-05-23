@@ -27,8 +27,6 @@ export const loadEntries = createAppAsyncThunk(
         const state = thunkApi.getState()
         const endpoint = getEndpoint(arg.source.type)
         const result = await endpoint(buildGetEntriesPaginatedRequest(state, arg.source, 0))
-        console.log(arg.source.id)
-
         if (arg.source.type === "feed") {
             thunkApi.dispatch(setHasNewEntries({ feedId: +arg.source.id, value: false }))
         }

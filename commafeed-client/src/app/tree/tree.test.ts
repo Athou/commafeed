@@ -1,8 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit"
+import { client } from "app/client"
+import { loadEntries } from "app/entries/thunks"
 import { type RootState, reducers } from "app/store"
-import { selectNextUnreadTreeItem } from "app/tree/thunks"
-import type { Category, Subscription } from "app/types"
-import { describe, expect, it } from "vitest"
+import { newFeedEntriesDiscovered, selectNextUnreadTreeItem } from "app/tree/thunks"
+import type { Category, Entries, Entry, Subscription } from "app/types"
+import type { AxiosResponse } from "axios"
+import { beforeEach, describe, expect, it, vi } from "vitest"
+
+vi.mock(import("app/client"))
 
 const createCategory = (id: string): Category => ({
     id,
@@ -115,5 +120,53 @@ describe("selectNextUnreadTreeItem", () => {
 
         await store.dispatch(selectNextUnreadTreeItem({ direction: "backward" }))
         expect(store.getState().redirect.to).toBe("/app/feed/3")
+    })
+})
+
+describe("hasNewEntries", () => {
+    beforeEach(() => {
+        vi.resetAllMocks()
+    })
+
+    it("sets and clear flag for a feed", async () => {
+        vi.mocked(client.feed.getEntries).mockResolvedValue({
+            data: {
+                entries: [{ id: "3" } as Entry],
+                hasMore: false,
+                name: "my-feed",
+                errorCount: 3,
+                feedLink: "https://mysite.com/feed",
+                timestamp: 123,
+                ignoredReadStatus: false,
+            },
+        } as AxiosResponse<Entries>)
+
+        const store = configureStore({
+            reducer: reducers,
+            preloadedState: {
+                tree: {
+                    rootCategory: root,
+                },
+                entries: {
+                    source: {
+                        type: "feed",
+                        id: "1",
+                    },
+                },
+            } as RootState,
+        })
+
+        // initial state
+        expect(store.getState().tree.rootCategory?.children[0].feeds[0].unread).toBe(0)
+        expect(store.getState().tree.rootCategory?.children[0].feeds[0].hasNewEntries).toBeFalsy()
+
+        // increments unread count and sets hasNewEntries to true
+        await store.dispatch(newFeedEntriesDiscovered({ feedId: 1, amount: 3 }))
+        expect(store.getState().tree.rootCategory?.children[0].feeds[0].unread).toBe(3)
+        expect(store.getState().tree.rootCategory?.children[0].feeds[0].hasNewEntries).toBe(true)
+
+        // reload entries and sets hasNewEntries to false
+        await store.dispatch(loadEntries({ source: { type: "feed", id: "1" }, clearSearch: true }))
+        expect(store.getState().tree.rootCategory?.children[0].feeds[0].hasNewEntries).toBe(false)
     })
 })

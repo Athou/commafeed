@@ -10,9 +10,10 @@ import {
     redirectToTagDetails,
 } from "app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
+import type { TreeSubscription } from "app/tree/slice"
 import { collapseTreeCategory } from "app/tree/thunks"
-import type { Category, Subscription, TreeSubscription } from "app/types"
-import { categoryUnreadCount, flattenCategoryTree } from "app/utils"
+import type { Category, Subscription } from "app/types"
+import { categoryHasNewEntries, categoryUnreadCount, flattenCategoryTree } from "app/utils"
 import { Loader } from "components/Loader"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import React from "react"
@@ -89,6 +90,7 @@ export function Tree() {
             name={<Trans>All</Trans>}
             icon={allIcon}
             unread={categoryUnreadCount(root)}
+            hasNewEntries={categoryHasNewEntries(root)}
             selected={source.type === "category" && source.id === Constants.categories.all.id}
             expanded={false}
             level={0}
@@ -103,6 +105,7 @@ export function Tree() {
             name={<Trans>Starred</Trans>}
             icon={starredIcon}
             unread={0}
+            hasNewEntries={false}
             selected={source.type === "category" && source.id === Constants.categories.starred.id}
             expanded={false}
             level={0}
@@ -122,6 +125,7 @@ export function Tree() {
                 name={category.name}
                 icon={category.expanded ? expandedIcon : collapsedIcon}
                 unread={categoryUnreadCount(category)}
+                hasNewEntries={categoryHasNewEntries(category)}
                 selected={source.type === "category" && source.id === category.id}
                 expanded={category.expanded}
                 level={level}
@@ -143,12 +147,12 @@ export function Tree() {
                 name={feed.name}
                 icon={feed.iconUrl}
                 unread={feed.unread}
+                hasNewEntries={!!feed.hasNewEntries}
                 selected={source.type === "feed" && source.id === String(feed.id)}
                 level={level}
                 hasError={feed.errorCount > errorThreshold}
                 onClick={feedClicked}
                 key={feed.id}
-                newMessages={feed.hasNewEntries}
             />
         )
     }
@@ -160,6 +164,7 @@ export function Tree() {
             name={tag}
             icon={tagIcon}
             unread={0}
+            hasNewEntries={false}
             selected={source.type === "tag" && source.id === tag}
             level={0}
             hasError={false}

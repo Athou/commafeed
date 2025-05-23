@@ -1,9 +1,10 @@
+import type { TreeCategory } from "app/tree/slice"
 import { throttle } from "throttle-debounce"
 import type { Category } from "./types"
 
 export function visitCategoryTree(
-    category: Category,
-    visitor: (category: Category) => void,
+    category: TreeCategory,
+    visitor: (category: TreeCategory) => void,
     options?: {
         childrenFirst?: boolean
     }
@@ -19,19 +20,27 @@ export function visitCategoryTree(
     if (childrenFirst) visitor(category)
 }
 
-export function flattenCategoryTree(category: Category): Category[] {
+export function flattenCategoryTree(category: TreeCategory): TreeCategory[] {
     const categories: Category[] = []
     visitCategoryTree(category, c => categories.push(c))
     return categories
 }
 
-export function categoryUnreadCount(category?: Category): number {
+export function categoryUnreadCount(category?: TreeCategory): number {
     if (!category) return 0
 
     return flattenCategoryTree(category)
         .flatMap(c => c.feeds)
         .map(f => f.unread)
         .reduce((total, current) => total + current, 0)
+}
+
+export function categoryHasNewEntries(category?: TreeCategory): boolean {
+    if (!category) return false
+
+    return flattenCategoryTree(category)
+        .flatMap(c => c.feeds)
+        .some(f => f.hasNewEntries)
 }
 
 export const calculatePlaceholderSize = ({ width, height, maxWidth }: { width?: number; height?: number; maxWidth: number }) => {

@@ -30,17 +30,13 @@ export interface Subscription {
     filter?: string
 }
 
-export interface TreeSubscription extends Subscription {
-    hasNewEntries?: boolean
-}
-
 export interface Category {
     id: string
     parentId?: string
     parentName?: string
     name: string
     children: Category[]
-    feeds: TreeSubscription[]
+    feeds: Subscription[]
     expanded: boolean
     position: number
 }

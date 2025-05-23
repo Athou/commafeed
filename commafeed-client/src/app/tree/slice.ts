@@ -1,12 +1,22 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { markEntry } from "app/entries/thunks"
+import { loadEntries, markEntry } from "app/entries/thunks"
 import { redirectTo } from "app/redirect/slice"
 import { collapseTreeCategory, reloadTree } from "app/tree/thunks"
-import type { Category } from "app/types"
-import { visitCategoryTree } from "app/utils"
+import type { Category, Subscription } from "app/types"
+import { flattenCategoryTree, visitCategoryTree } from "app/utils"
+
+export interface TreeSubscription extends Subscription {
+    // client-side only flag
+    hasNewEntries?: boolean
+}
+
+export interface TreeCategory extends Category {
+    feeds: TreeSubscription[]
+    children: TreeCategory[]
+}
 
 interface TreeState {
-    rootCategory?: Category
+    rootCategory?: TreeCategory
     mobileMenuOpen: boolean
     sidebarVisible: boolean
 }
@@ -37,21 +47,27 @@ export const treeSlice = createSlice({
             visitCategoryTree(state.rootCategory, c => {
                 for (const f of c.feeds.filter(f => f.id === action.payload.feedId)) {
                     f.unread += action.payload.amount
+                    f.hasNewEntries = true
                 }
-            })
-        },
-        setHasNewEntries: (state, action: PayloadAction<{ feedId: number; value: boolean }>) => {
-            if (!state.rootCategory) return
-
-            visitCategoryTree(state.rootCategory, category => {
-                category.feeds = category.feeds.map(feed =>
-                    feed.id === action.payload.feedId ? { ...feed, hasNewEntries: action.payload.value } : feed
-                )
             })
         },
     },
     extraReducers: builder => {
         builder.addCase(reloadTree.fulfilled, (state, action) => {
+            // set hasNewEntries to true if new unread > previous unread
+            if (state.rootCategory) {
+                const oldFeeds = flattenCategoryTree(state.rootCategory).flatMap(c => c.feeds)
+                const oldFeedsById = new Map(oldFeeds.map(f => [f.id, f]))
+
+                const newFeeds = flattenCategoryTree(action.payload).flatMap(c => c.feeds)
+                for (const newFeed of newFeeds) {
+                    const oldFeed = oldFeedsById.get(newFeed.id)
+                    if (oldFeed && newFeed.unread > oldFeed.unread) {
+                        newFeed.hasNewEntries = true
+                    }
+                }
+            }
+
             state.rootCategory = action.payload
         })
         builder.addCase(collapseTreeCategory.pending, (state, action) => {
@@ -68,10 +84,29 @@ export const treeSlice = createSlice({
                 }
             })
         })
+        builder.addCase(loadEntries.pending, (state, action) => {
+            if (!state.rootCategory) return
+
+            const { source } = action.meta.arg
+            if (source.type === "category") {
+                visitCategoryTree(state.rootCategory, c => {
+                    if (c.id === source.id) {
+                        for (const f of flattenCategoryTree(c).flatMap(c => c.feeds)) {
+                            f.hasNewEntries = false
+                        }
+                    }
+                })
+            } else if (source.type === "feed") {
+                const feeds = flattenCategoryTree(state.rootCategory).flatMap(c => c.feeds)
+                for (const f of feeds.filter(f => f.id === +source.id)) {
+                    f.hasNewEntries = false
+                }
+            }
+        })
         builder.addCase(redirectTo, state => {
             state.mobileMenuOpen = false
         })
     },
 })
 
-export const { setMobileMenuOpen, toggleSidebar, incrementUnreadCount, setHasNewEntries } = treeSlice.actions
+export const { setMobileMenuOpen, toggleSidebar, incrementUnreadCount } = treeSlice.actions

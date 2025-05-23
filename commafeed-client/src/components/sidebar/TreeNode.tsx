@@ -15,7 +15,7 @@ interface TreeNodeProps {
     expanded?: boolean
     level: number
     hasError: boolean
-    newMessages?: boolean
+    hasNewEntries: boolean
     onClick: (e: React.MouseEvent, id: string) => void
     onIconClick?: (e: React.MouseEvent, id: string) => void
 }
@@ -65,12 +65,12 @@ export function TreeNode(props: TreeNodeProps) {
         hasError: props.hasError,
         hasUnread: props.unread > 0,
     })
-
     return (
         <Box
             py={1}
             pl={props.level * 20}
             className={`${classes.node} cf-treenode cf-treenode-${props.type}`}
+            onClick={(e: React.MouseEvent) => props.onClick(e, props.id)}
             data-id={props.id}
             data-type={props.type}
             data-unread-count={props.unread}
@@ -81,7 +81,7 @@ export function TreeNode(props: TreeNodeProps) {
             <Box className={classes.nodeText}>{props.name}</Box>
             {!props.expanded && (
                 <Box className="cf-treenode-unread-count">
-                    <UnreadCount unreadCount={props.unread} newMessages={props.id !== "all" ? props.newMessages : false} />
+                    <UnreadCount unreadCount={props.unread} showIndicator={props.hasNewEntries} />
                 </Box>
             )}
         </Box>

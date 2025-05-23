@@ -1,7 +1,7 @@
 import { createAppAsyncThunk } from "app/async-thunk"
 import { client } from "app/client"
 import { redirectToCategory, redirectToFeed } from "app/redirect/thunks"
-import { incrementUnreadCount, setHasNewEntries } from "app/tree/slice"
+import { incrementUnreadCount } from "app/tree/slice"
 import type { CollapseRequest, Subscription } from "app/types"
 import { flattenCategoryTree, visitCategoryTree } from "app/utils"
 
@@ -11,6 +11,7 @@ export const collapseTreeCategory = createAppAsyncThunk(
     "tree/category/collapse",
     async (req: CollapseRequest) => await client.category.collapse(req).then(r => r.data)
 )
+
 export const selectNextUnreadTreeItem = createAppAsyncThunk(
     "tree/selectNextUnreadItem",
     (
@@ -74,7 +75,6 @@ export const newFeedEntriesDiscovered = createAppAsyncThunk(
                     amount,
                 })
             )
-            thunkApi.dispatch(setHasNewEntries({ feedId, value: true }))
         }
     }
 )

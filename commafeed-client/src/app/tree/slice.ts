@@ -40,29 +40,18 @@ export const treeSlice = createSlice({
                 }
             })
         },
+        setHasNewEntries: (state, action: PayloadAction<{ feedId: number; value: boolean }>) => {
+            if (!state.rootCategory) return
+
+            visitCategoryTree(state.rootCategory, category => {
+                category.feeds = category.feeds.map(feed =>
+                    feed.id === action.payload.feedId ? { ...feed, hasNewEntries: action.payload.value } : feed
+                )
+            })
+        },
     },
     extraReducers: builder => {
         builder.addCase(reloadTree.fulfilled, (state, action) => {
-            visitCategoryTree(action.payload, category => {
-                category.feeds = category.feeds.map(feed => {
-                    const storageKey = `feed-${feed.id}-unread`
-                    const existing = localStorage.getItem(storageKey)
-                    const prevUnread = Number.parseInt(existing || "0", 10)
-                    const isNewFeed = existing === null
-
-                    const hasNewEntries = isNewFeed ? true : feed.unread > prevUnread
-
-                    if (!isNewFeed) {
-                        localStorage.setItem(storageKey, feed.unread.toString())
-                    }
-
-                    return {
-                        ...feed,
-                        hasNewEntries,
-                    }
-                })
-            })
-
             state.rootCategory = action.payload
         })
         builder.addCase(collapseTreeCategory.pending, (state, action) => {
@@ -85,4 +74,4 @@ export const treeSlice = createSlice({
     },
 })
 
-export const { setMobileMenuOpen, toggleSidebar, incrementUnreadCount } = treeSlice.actions
+export const { setMobileMenuOpen, toggleSidebar, incrementUnreadCount, setHasNewEntries } = treeSlice.actions

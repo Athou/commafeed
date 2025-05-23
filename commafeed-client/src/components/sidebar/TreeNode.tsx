@@ -71,10 +71,6 @@ export function TreeNode(props: TreeNodeProps) {
             py={1}
             pl={props.level * 20}
             className={`${classes.node} cf-treenode cf-treenode-${props.type}`}
-            onClick={e => {
-                props.onClick(e, props.id)
-                props.type === "feed" && localStorage.setItem(`feed-${props.id}-unread`, props.unread.toString())
-            }}
             data-id={props.id}
             data-type={props.type}
             data-unread-count={props.unread}

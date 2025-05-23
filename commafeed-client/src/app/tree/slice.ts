@@ -84,7 +84,7 @@ export const treeSlice = createSlice({
                 }
             })
         })
-        builder.addCase(loadEntries.pending, (state, action) => {
+        builder.addCase(loadEntries.fulfilled, (state, action) => {
             if (!state.rootCategory) return
 
             const { source } = action.meta.arg

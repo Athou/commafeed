@@ -68,6 +68,7 @@
         "@types/tinycon": "^0.6.7",
         "@vitejs/plugin-react": "^4.5.0",
         "babel-plugin-macros": "^3.1.0",
+        "babel-plugin-react-compiler": "^19.1.0-rc.2",
         "jsdom": "^26.1.0",
         "rollup-plugin-visualizer": "^6.0.0",
         "typescript": "^5.8.3",

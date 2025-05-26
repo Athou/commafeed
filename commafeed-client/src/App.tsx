@@ -143,11 +143,15 @@ function GoogleAnalyticsHandler() {
     return null
 }
 
-function UnreadCountTitleHandler({ unreadCount, enabled }: { unreadCount: number; enabled?: boolean }) {
+function UnreadCountTitleHandler({ enabled }: { enabled?: boolean }) {
+    const root = useAppSelector(state => state.tree.rootCategory)
+    const unreadCount = categoryUnreadCount(root)
     return <title>{enabled && unreadCount > 0 ? `(${unreadCount}) CommaFeed` : "CommaFeed"}</title>
 }
 
-function UnreadCountFaviconHandler({ unreadCount, enabled }: { unreadCount: number; enabled?: boolean }) {
+function UnreadCountFaviconHandler({ enabled }: { enabled?: boolean }) {
+    const root = useAppSelector(state => state.tree.rootCategory)
+    const unreadCount = categoryUnreadCount(root)
     useEffect(() => {
         if (enabled && unreadCount > 0) {
             Tinycon.setBubble(unreadCount)
@@ -205,12 +209,9 @@ function CustomCssHandler() {
 
 export function App() {
     useI18n()
-    const root = useAppSelector(state => state.tree.rootCategory)
     const unreadCountTitle = useAppSelector(state => state.user.settings?.unreadCountTitle)
     const unreadCountFavicon = useAppSelector(state => state.user.settings?.unreadCountFavicon)
     const dispatch = useAppDispatch()
-
-    const unreadCount = categoryUnreadCount(root)
 
     useEffect(() => {
         dispatch(reloadServerInfos())
@@ -219,8 +220,8 @@ export function App() {
     return (
         <Providers>
             <>
-                <UnreadCountTitleHandler unreadCount={unreadCount} enabled={unreadCountTitle} />
-                <UnreadCountFaviconHandler unreadCount={unreadCount} enabled={unreadCountFavicon} />
+                <UnreadCountTitleHandler enabled={unreadCountTitle} />
+                <UnreadCountFaviconHandler enabled={unreadCountFavicon} />
                 <BrowserExtensionBadgeUnreadCountHandler />
                 <CustomJsHandler />
                 <CustomCssHandler />

@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.10.0]
+
+- Add an indicator next to each feed's unread count in the tree to show when new entries are discovered while the app is open (#1762)
+- Feeds with uppercase HTTP:// or HTTPS:// URLs are now correctly handled again
+- The aarch64 native executable now also works on the Raspberry Pi 5 (#1795)
+- Improve general performance of the UI by reducing the number of re-renders, especially when a lot of entries are displayed (#1087)
+
 ## [5.9.0]
 
 - A lot of CSS classes have been added to the elements of the application to ease custom CSS rules (#1757)

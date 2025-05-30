@@ -286,24 +286,6 @@ public class FeedREST {
 
 	}
 
-	@Path("/refresh")
-	@POST
-	@Transactional
-	@Operation(summary = "Queue a feed for refresh", description = "Manually add a feed to the refresh queue")
-	public Response queueForRefresh(@Parameter(description = "Feed id", required = true) IDRequest req) {
-		Preconditions.checkNotNull(req);
-		Preconditions.checkNotNull(req.getId());
-
-		User user = authenticationContext.getCurrentUser();
-		FeedSubscription sub = feedSubscriptionDAO.findById(user, req.getId());
-		if (sub != null) {
-			Feed feed = sub.getFeed();
-			feedRefreshEngine.refreshImmediately(feed);
-			return Response.ok().build();
-		}
-		return Response.ok(Status.NOT_FOUND).build();
-	}
-
 	@Path("/mark")
 	@POST
 	@Transactional

@@ -163,26 +163,6 @@ class FeedIT extends BaseIT {
 
 	@Nested
 	class Refresh {
-		@Test
-		void refresh() {
-			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
-
-			// mariadb/mysql timestamp precision is 1 second
-			Instant threshold = Instant.now().minus(Duration.ofSeconds(1));
-
-			IDRequest request = new IDRequest();
-			request.setId(subscriptionId);
-			RestAssured.given()
-					.body(request)
-					.contentType(MediaType.APPLICATION_JSON)
-					.post("rest/feed/refresh")
-					.then()
-					.statusCode(HttpStatus.SC_OK);
-
-			Awaitility.await()
-					.atMost(Duration.ofSeconds(15))
-					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().isAfter(threshold));
-		}
 
 		@Test
 		void refreshAll() {

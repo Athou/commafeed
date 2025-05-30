@@ -114,17 +114,6 @@ public class FeedSubscriptionService {
 		user.setLastForceRefresh(Instant.now());
 	}
 
-	public void refreshAllUpForRefresh(User user) {
-		List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
-		for (FeedSubscription sub : subs) {
-			Instant disabledUntil = sub.getFeed().getDisabledUntil();
-			if (disabledUntil == null || disabledUntil.isBefore(Instant.now())) {
-				Feed feed = sub.getFeed();
-				feedRefreshEngine.refreshImmediately(feed);
-			}
-		}
-	}
-
 	public Map<Long, UnreadCount> getUnreadCount(User user) {
 		return feedSubscriptionDAO.findAll(user)
 				.stream()

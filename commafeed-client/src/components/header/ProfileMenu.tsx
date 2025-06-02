@@ -145,7 +145,7 @@ export function ProfileMenu(props: ProfileMenuProps) {
                                 color: "green",
                                 autoClose: 1000,
                             })
-                        } catch (_) {
+                        } catch {
                             showNotification({
                                 message: <Trans>Force fetching feeds is not yet available.</Trans>,
                                 color: "red",

@@ -89,6 +89,15 @@ export const changeMarkAllAsReadConfirmation = createAppAsyncThunk(
     }
 )
 
+export const changeMarkAllAsReadNavigateToUnread = createAppAsyncThunk(
+    "settings/markAllAsReadNavigateToUnread",
+    (markAllAsReadNavigateToNextUnread: boolean, thunkApi) => {
+        const { settings } = thunkApi.getState().user
+        if (!settings) return
+        client.user.saveSettings({ ...settings, markAllAsReadNavigateToNextUnread })
+    }
+)
+
 export const changeCustomContextMenu = createAppAsyncThunk("settings/customContextMenu", (customContextMenu: boolean, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return

@@ -248,6 +248,7 @@ export interface Settings {
     starIconDisplayMode: IconDisplayMode
     externalLinkIconDisplayMode: IconDisplayMode
     markAllAsReadConfirmation: boolean
+    markAllAsReadNavigateToNextUnread: boolean
     customContextMenu: boolean
     mobileFooter: boolean
     unreadCountTitle: boolean

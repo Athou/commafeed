@@ -603,6 +603,10 @@ msgid "Navigate to a subscription by entering its name"
 msgstr "Naviger til et abonnement ved at indtaste dets navn"
 
 #: src/components/settings/DisplaySettings.tsx
+msgid "Navigate to the next category/feed with unread entries when marking all entries as read"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr ""

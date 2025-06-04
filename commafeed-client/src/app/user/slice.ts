@@ -8,6 +8,7 @@ import {
     changeExternalLinkIconDisplayMode,
     changeLanguage,
     changeMarkAllAsReadConfirmation,
+    changeMarkAllAsReadNavigateToUnread,
     changeMobileFooter,
     changePrimaryColor,
     changeReadingMode,
@@ -114,6 +115,10 @@ export const userSlice = createSlice({
             if (!state.settings) return
             state.settings.markAllAsReadConfirmation = action.meta.arg
         })
+        builder.addCase(changeMarkAllAsReadNavigateToUnread.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.markAllAsReadNavigateToNextUnread = action.meta.arg
+        })
         builder.addCase(changeCustomContextMenu.pending, (state, action) => {
             if (!state.settings) return
             state.settings.customContextMenu = action.meta.arg
@@ -149,6 +154,7 @@ export const userSlice = createSlice({
                 changeStarIconDisplayMode.fulfilled,
                 changeExternalLinkIconDisplayMode.fulfilled,
                 changeMarkAllAsReadConfirmation.fulfilled,
+                changeMarkAllAsReadNavigateToUnread.fulfilled,
                 changeCustomContextMenu.fulfilled,
                 changeMobileFooter.fulfilled,
                 changeUnreadCountTitle.fulfilled,

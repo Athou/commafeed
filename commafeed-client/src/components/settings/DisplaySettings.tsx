@@ -12,6 +12,7 @@ import {
     changeExternalLinkIconDisplayMode,
     changeLanguage,
     changeMarkAllAsReadConfirmation,
+    changeMarkAllAsReadNavigateToUnread,
     changeMobileFooter,
     changePrimaryColor,
     changeScrollMarks,
@@ -36,6 +37,7 @@ export function DisplaySettings() {
     const starIconDisplayMode = useAppSelector(state => state.user.settings?.starIconDisplayMode)
     const externalLinkIconDisplayMode = useAppSelector(state => state.user.settings?.externalLinkIconDisplayMode)
     const markAllAsReadConfirmation = useAppSelector(state => state.user.settings?.markAllAsReadConfirmation)
+    const markAllAsReadNavigateToNextUnread = useAppSelector(state => state.user.settings?.markAllAsReadNavigateToNextUnread)
     const customContextMenu = useAppSelector(state => state.user.settings?.customContextMenu)
     const mobileFooter = useAppSelector(state => state.user.settings?.mobileFooter)
     const unreadCountTitle = useAppSelector(state => state.user.settings?.unreadCountTitle)
@@ -125,6 +127,12 @@ export function DisplaySettings() {
                 label={<Trans>Show confirmation when marking all entries as read</Trans>}
                 checked={markAllAsReadConfirmation}
                 onChange={async e => await dispatch(changeMarkAllAsReadConfirmation(e.currentTarget.checked))}
+            />
+
+            <Switch
+                label={<Trans>Navigate to the next category/feed with unread entries when marking all entries as read</Trans>}
+                checked={markAllAsReadNavigateToNextUnread}
+                onChange={async e => await dispatch(changeMarkAllAsReadNavigateToUnread(e.currentTarget.checked))}
             />
 
             <Switch

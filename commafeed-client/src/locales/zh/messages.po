@@ -603,6 +603,10 @@ msgid "Navigate to a subscription by entering its name"
 msgstr "通过输入订阅名称导航到订阅"
 
 #: src/components/settings/DisplaySettings.tsx
+msgid "Navigate to the next category/feed with unread entries when marking all entries as read"
+msgstr ""
+
+#: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "从不"

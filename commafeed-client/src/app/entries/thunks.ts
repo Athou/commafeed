@@ -3,7 +3,7 @@ import { client } from "app/client"
 import { Constants } from "app/constants"
 import { type EntrySource, type EntrySourceType, entriesSlice, setMarkAllAsReadConfirmationDialogOpen, setSearch } from "app/entries/slice"
 import type { RootState } from "app/store"
-import { reloadTree } from "app/tree/thunks"
+import { reloadTree, selectNextUnreadTreeItem } from "app/tree/thunks"
 import type { Entry, MarkRequest, TagRequest } from "app/types"
 import { reloadTags } from "app/user/thunks"
 import { scrollToWithCallback } from "app/utils"
@@ -130,11 +130,12 @@ export const markAllAsReadWithConfirmationIfRequired = createAppAsyncThunk(
         const source = state.entries.source
         const entriesTimestamp = state.entries.timestamp ?? Date.now()
         const markAllAsReadConfirmation = state.user.settings?.markAllAsReadConfirmation
+        const markAllAsReadNavigateToNextUnread = state.user.settings?.markAllAsReadNavigateToNextUnread
 
         if (markAllAsReadConfirmation) {
             thunkApi.dispatch(setMarkAllAsReadConfirmationDialogOpen(true))
         } else {
-            thunkApi.dispatch(
+            await thunkApi.dispatch(
                 markAllEntries({
                     sourceType: source.type,
                     req: {
@@ -145,6 +146,9 @@ export const markAllAsReadWithConfirmationIfRequired = createAppAsyncThunk(
                     },
                 })
             )
+            const isAllCategorySelected = source.type === "category" && source.id === Constants.categories.all.id
+            if (markAllAsReadNavigateToNextUnread && !isAllCategorySelected)
+                await thunkApi.dispatch(selectNextUnreadTreeItem({ direction: "forward" }))
         }
     }
 )

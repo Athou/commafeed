@@ -67,6 +67,11 @@ public class Settings implements Serializable {
 	@Schema(description = "ask for confirmation when marking all entries as read", requiredMode = RequiredMode.REQUIRED)
 	private boolean markAllAsReadConfirmation;
 
+	@Schema(
+			description = "navigate to the next unread category or feed after marking all entries as read",
+			requiredMode = RequiredMode.REQUIRED)
+	private boolean markAllAsReadNavigateToNextUnread;
+
 	@Schema(description = "show commafeed's own context menu on right click", requiredMode = RequiredMode.REQUIRED)
 	private boolean customContextMenu;
 

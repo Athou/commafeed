@@ -1,8 +1,10 @@
 import { Trans } from "@lingui/react/macro"
 import { Button, Code, Group, Modal, Slider, Stack, Text } from "@mantine/core"
+import { Constants } from "app/constants"
 import { setMarkAllAsReadConfirmationDialogOpen } from "app/entries/slice"
 import { markAllEntries } from "app/entries/thunks"
 import { useAppDispatch, useAppSelector } from "app/store"
+import { selectNextUnreadTreeItem } from "app/tree/thunks"
 import { useState } from "react"
 
 export function MarkAllAsReadConfirmationDialog() {
@@ -11,10 +13,12 @@ export function MarkAllAsReadConfirmationDialog() {
     const source = useAppSelector(state => state.entries.source)
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
     const entriesTimestamp = useAppSelector(state => state.entries.timestamp) ?? Date.now()
+    const markAllAsReadNavigateToNextUnread = useAppSelector(state => state.user.settings?.markAllAsReadNavigateToNextUnread)
     const dispatch = useAppDispatch()
 
-    const onConfirm = () => {
-        dispatch(
+    const onConfirm = async () => {
+        dispatch(setMarkAllAsReadConfirmationDialogOpen(false))
+        await dispatch(
             markAllEntries({
                 sourceType: source.type,
                 req: {
@@ -25,7 +29,9 @@ export function MarkAllAsReadConfirmationDialog() {
                 },
             })
         )
-        dispatch(setMarkAllAsReadConfirmationDialogOpen(false))
+
+        const isAllCategorySelected = source.type === "category" && source.id === Constants.categories.all.id
+        if (markAllAsReadNavigateToNextUnread && !isAllCategorySelected) await dispatch(selectNextUnreadTreeItem({ direction: "forward" }))
     }
 
     return (

@@ -1,12 +1,13 @@
 package com.commafeed;
 
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.persistence.EntityManager;
 
+import org.hibernate.Session;
 import org.kohsuke.MetaInfServices;
 
 import com.commafeed.backend.service.db.DatabaseStartupService;
 
-import io.quarkus.liquibase.runtime.LiquibaseSchemaProvider;
 import io.quarkus.test.junit.callback.QuarkusTestBeforeEachCallback;
 import io.quarkus.test.junit.callback.QuarkusTestMethodContext;
 
@@ -18,7 +19,14 @@ public class DatabaseReset implements QuarkusTestBeforeEachCallback {
 
 	@Override
 	public void beforeEach(QuarkusTestMethodContext context) {
-		new LiquibaseSchemaProvider().resetAllDatabases();
+		CDI.current()
+				.select(EntityManager.class)
+				.get()
+				.unwrap(Session.class)
+				.getSessionFactory()
+				.getSchemaManager()
+				.truncateMappedObjects();
+
 		CDI.current().select(DatabaseStartupService.class).get().populateInitialData();
 	}
 }

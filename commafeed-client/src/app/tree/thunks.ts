@@ -1,5 +1,6 @@
 import { createAppAsyncThunk } from "app/async-thunk"
 import { client } from "app/client"
+import { Constants } from "app/constants"
 import { redirectToCategory, redirectToFeed } from "app/redirect/thunks"
 import { incrementUnreadCount } from "app/tree/slice"
 import type { CollapseRequest, Subscription } from "app/types"
@@ -53,6 +54,9 @@ export const selectNextUnreadTreeItem = createAppAsyncThunk(
                 }
             }
         }
+
+        // redirect to 'all' if no unread categories or feeds found or if we reached the end of the list
+        thunkApi.dispatch(redirectToCategory(Constants.categories.all.id))
     }
 )
 

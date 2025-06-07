@@ -70,7 +70,7 @@
         "babel-plugin-macros": "^3.1.0",
         "babel-plugin-react-compiler": "^19.1.0-rc.2",
         "jsdom": "^26.1.0",
-        "rollup-plugin-visualizer": "^6.0.1",
+        "rollup-plugin-visualizer": "^6.0.3",
         "typescript": "^5.8.3",
         "vite": "^6.3.5",
         "vite-plugin-checker": "^0.9.3",

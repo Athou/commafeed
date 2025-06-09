@@ -60,18 +60,14 @@ export function CustomCodeSettings() {
                     <CodeEditor
                         label={<Trans>Custom CSS rules that will be applied</Trans>}
                         description={
-                            <Trans>
-                                <span>See </span>
-                                <Anchor
-                                    href={Constants.customCssDocumentationUrl}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    style={{ fontSize: "inherit" }}
-                                >
-                                    here
-                                </Anchor>
-                                <span> for more information.</span>
-                            </Trans>
+                            <Anchor
+                                href={Constants.customCssDocumentationUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                style={{ fontSize: "inherit" }}
+                            >
+                                <Trans>Link to the documentation</Trans>
+                            </Anchor>
                         }
                         language="css"
                         {...form.getInputProps("customCss")}

@@ -33,10 +33,6 @@ msgstr ""
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Een account nodig?</0><1>Meld je aan!</1>"
 
-#: src/components/settings/CustomCodeSettings.tsx
-msgid "<0>See </0><1>here</1><2> for more information.</2>"
-msgstr ""
-
 #: src/pages/app/AboutPage.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "About"
@@ -514,6 +510,10 @@ msgstr ""
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Link"
+msgstr ""
+
+#: src/components/settings/CustomCodeSettings.tsx
+msgid "Link to the documentation"
 msgstr ""
 
 #: src/hooks/useAppLoading.ts

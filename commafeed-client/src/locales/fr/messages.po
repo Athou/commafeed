@@ -514,7 +514,7 @@ msgstr "Lien"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Link to the documentation"
-msgstr ""
+msgstr "Lien vers la documentation"
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
@@ -604,7 +604,7 @@ msgstr "Naviguer vers un abonnement en entrant son nom"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Navigate to the next category/feed with unread entries when marking all entries as read"
-msgstr ""
+msgstr "Aller vers la catégorie/le flux comportant des entrées non lues suivant après avoir marqué toutes les entrées lues"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx

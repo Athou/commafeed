@@ -75,7 +75,7 @@
         "vite": "^6.3.5",
         "vite-plugin-checker": "^0.9.3",
         "vite-tsconfig-paths": "^5.1.4",
-        "vitest": "^3.2.2"
+        "vitest": "^3.2.3"
     },
     "overrides": {
         "react-infinite-scroller": {

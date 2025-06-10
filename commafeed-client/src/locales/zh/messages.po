@@ -514,7 +514,7 @@ msgstr "链接"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Link to the documentation"
-msgstr ""
+msgstr "文档链接"
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
@@ -604,7 +604,7 @@ msgstr "通过输入订阅名称导航到订阅"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Navigate to the next category/feed with unread entries when marking all entries as read"
-msgstr ""
+msgstr "将所有条目标记为已读时导航到下一个包含未读条目的类别/信息流"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx

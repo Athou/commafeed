@@ -460,10 +460,8 @@ public class FeedREST {
 			for (int i = 0; i < subs.size(); i++) {
 				subs.get(i).setPosition(i);
 			}
-			feedSubscriptionDAO.saveOrUpdate(subs);
-		} else {
-			feedSubscriptionDAO.saveOrUpdate(subscription);
 		}
+
 		return Response.ok().build();
 	}
 

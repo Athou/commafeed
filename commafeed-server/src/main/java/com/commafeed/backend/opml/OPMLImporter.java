@@ -57,7 +57,7 @@ public class OPMLImporter {
 				category.setParent(parent);
 				category.setUser(user);
 				category.setPosition(position);
-				feedCategoryDAO.saveOrUpdate(category);
+				feedCategoryDAO.persist(category);
 			}
 
 			for (int i = 0; i < children.size(); i++) {

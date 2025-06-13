@@ -97,11 +97,10 @@ public class AdminREST {
 			}
 			u.setEmail(req.getEmail());
 			u.setDisabled(!req.isEnabled());
-			userDAO.saveOrUpdate(u);
 
 			Set<Role> roles = userRoleDAO.findRoles(u);
 			if (req.isAdmin() && !roles.contains(Role.ADMIN)) {
-				userRoleDAO.saveOrUpdate(new UserRole(u, Role.ADMIN));
+				userRoleDAO.persist(new UserRole(u, Role.ADMIN));
 			} else if (!req.isAdmin() && roles.contains(Role.ADMIN)) {
 				if (CommaFeedApplication.USERNAME_ADMIN.equals(u.getName())) {
 					return Response.status(Status.FORBIDDEN).entity("You cannot remove the admin role from the admin user.").build();

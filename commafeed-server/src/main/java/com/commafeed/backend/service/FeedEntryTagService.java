@@ -36,7 +36,7 @@ public class FeedEntryTagService {
 				.toList();
 		List<FeedEntryTag> removeList = existingTags.stream().filter(tag -> !tagNames.contains(tag.getName())).toList();
 
-		feedEntryTagDAO.saveOrUpdate(addList);
+		addList.forEach(feedEntryTagDAO::persist);
 		feedEntryTagDAO.delete(removeList);
 	}
 

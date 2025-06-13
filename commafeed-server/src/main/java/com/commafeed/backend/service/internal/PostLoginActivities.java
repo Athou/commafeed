@@ -24,7 +24,7 @@ public class PostLoginActivities {
 		Instant lastLogin = user.getLastLogin();
 		if (lastLogin == null || ChronoUnit.MINUTES.between(lastLogin, now) >= 30) {
 			user.setLastLogin(now);
-			unitOfWork.run(() -> userDAO.saveOrUpdate(user));
+			unitOfWork.run(() -> userDAO.merge(user));
 		}
 	}
 }

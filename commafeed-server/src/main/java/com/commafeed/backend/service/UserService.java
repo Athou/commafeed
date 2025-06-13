@@ -132,9 +132,9 @@ public class UserService {
 		user.setCreated(Instant.now());
 		user.setSalt(salt);
 		user.setPassword(encryptionService.getEncryptedPassword(password, salt));
-		userDAO.saveOrUpdate(user);
+		userDAO.persist(user);
 		for (Role role : roles) {
-			userRoleDAO.saveOrUpdate(new UserRole(user, role));
+			userRoleDAO.persist(new UserRole(user, role));
 		}
 		return user;
 	}

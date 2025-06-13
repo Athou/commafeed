@@ -198,7 +198,7 @@ public class UserREST {
 		s.setInstapaper(settings.getSharingSettings().isInstapaper());
 		s.setBuffer(settings.getSharingSettings().isBuffer());
 
-		userSettingsDAO.saveOrUpdate(s);
+		userSettingsDAO.merge(s);
 		return Response.ok().build();
 
 	}
@@ -261,7 +261,7 @@ public class UserREST {
 			user.setApiKey(userService.generateApiKey(user));
 		}
 
-		userDAO.saveOrUpdate(user);
+		userDAO.merge(user);
 		return Response.ok().build();
 	}
 
@@ -297,7 +297,7 @@ public class UserREST {
 		try {
 			user.setRecoverPasswordToken(Digests.sha1Hex(UUID.randomUUID().toString()));
 			user.setRecoverPasswordTokenDate(Instant.now());
-			userDAO.saveOrUpdate(user);
+
 			mailService.sendMail(user, "Password recovery", buildEmailContent(user));
 			return Response.ok().build();
 		} catch (Exception e) {
@@ -351,7 +351,6 @@ public class UserREST {
 		}
 		user.setRecoverPasswordToken(null);
 		user.setRecoverPasswordTokenDate(null);
-		userDAO.saveOrUpdate(user);
 
 		String message = "Your new password is: " + passwd;
 		message += "<br />";

@@ -291,7 +291,7 @@ public class CategoryREST {
 			parent.setId(Long.valueOf(parentId));
 			cat.setParent(parent);
 		}
-		feedCategoryDAO.saveOrUpdate(cat);
+		feedCategoryDAO.persist(cat);
 		return Response.ok(cat.getId()).build();
 	}
 
@@ -311,14 +311,13 @@ public class CategoryREST {
 			for (FeedSubscription sub : subs) {
 				sub.setCategory(null);
 			}
-			feedSubscriptionDAO.saveOrUpdate(subs);
+
 			List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, cat);
 			for (FeedCategory child : categories) {
 				if (!child.getId().equals(cat.getId()) && child.getParent().getId().equals(cat.getId())) {
 					child.setParent(null);
 				}
 			}
-			feedCategoryDAO.saveOrUpdate(categories);
 
 			feedCategoryDAO.delete(cat);
 			return Response.ok().build();
@@ -330,7 +329,7 @@ public class CategoryREST {
 	@POST
 	@Path("/modify")
 	@Transactional
-	@Operation(summary = "Rename a category", description = "Rename an existing feed category")
+	@Operation(summary = "Modify a category", description = "Modify an existing feed category")
 	public Response modifyCategory(@Valid @Parameter(required = true) CategoryModificationRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getId());
@@ -367,12 +366,8 @@ public class CategoryREST {
 			for (int i = 0; i < categories.size(); i++) {
 				categories.get(i).setPosition(i);
 			}
-			feedCategoryDAO.saveOrUpdate(categories);
-		} else {
-			feedCategoryDAO.saveOrUpdate(category);
 		}
 
-		feedCategoryDAO.saveOrUpdate(category);
 		return Response.ok().build();
 	}
 
@@ -390,7 +385,7 @@ public class CategoryREST {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		category.setCollapsed(req.isCollapse());
-		feedCategoryDAO.saveOrUpdate(category);
+
 		return Response.ok().build();
 	}
 

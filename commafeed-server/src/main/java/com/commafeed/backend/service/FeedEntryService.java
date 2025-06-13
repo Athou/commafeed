@@ -48,7 +48,7 @@ public class FeedEntryService {
 		feedEntry.setFeed(feed);
 		feedEntry.setContent(feedEntryContentService.findOrCreate(entry.content(), feed.getLink()));
 
-		feedEntryDAO.saveOrUpdate(feedEntry);
+		feedEntryDAO.persist(feedEntry);
 		return feedEntry;
 	}
 
@@ -63,7 +63,7 @@ public class FeedEntryService {
 		if (!matches) {
 			FeedEntryStatus status = new FeedEntryStatus(sub.getUser(), sub, entry);
 			status.setRead(true);
-			feedEntryStatusDAO.saveOrUpdate(status);
+			feedEntryStatusDAO.persist(status);
 		}
 
 		return matches;
@@ -83,7 +83,7 @@ public class FeedEntryService {
 		FeedEntryStatus status = feedEntryStatusDAO.getStatus(user, sub, entry);
 		if (status.isMarkable()) {
 			status.setRead(read);
-			feedEntryStatusDAO.saveOrUpdate(status);
+			feedEntryStatusDAO.merge(status);
 		}
 	}
 
@@ -101,7 +101,7 @@ public class FeedEntryService {
 
 		FeedEntryStatus status = feedEntryStatusDAO.getStatus(user, sub, entry);
 		status.setStarred(starred);
-		feedEntryStatusDAO.saveOrUpdate(status);
+		feedEntryStatusDAO.merge(status);
 	}
 
 	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Instant olderThan, Instant insertedBefore,
@@ -125,7 +125,9 @@ public class FeedEntryService {
 			return insertedBefore == null || insertedDate == null || insertedDate.isBefore(insertedBefore);
 		}).toList();
 
-		statusesToMark.forEach(s -> s.setRead(true));
-		feedEntryStatusDAO.saveOrUpdate(statusesToMark);
+		statusesToMark.forEach(s -> {
+			s.setRead(true);
+			feedEntryStatusDAO.merge(s);
+		});
 	}
 }

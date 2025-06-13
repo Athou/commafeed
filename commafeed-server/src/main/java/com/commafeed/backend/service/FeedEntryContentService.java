@@ -35,7 +35,7 @@ public class FeedEntryContentService {
 		if (existing.isPresent()) {
 			return existing.get();
 		} else {
-			feedEntryContentDAO.saveOrUpdate(entryContent);
+			feedEntryContentDAO.persist(entryContent);
 			return entryContent;
 		}
 	}

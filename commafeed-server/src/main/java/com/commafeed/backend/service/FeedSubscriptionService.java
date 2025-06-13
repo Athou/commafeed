@@ -72,7 +72,6 @@ public class FeedSubscriptionService {
 		// upgrade feed to https if it was using http
 		if (FeedUtils.isHttp(feed.getUrl()) && FeedUtils.isHttps(url)) {
 			feed.setUrl(url);
-			feedDAO.saveOrUpdate(feed);
 		}
 
 		FeedSubscription sub = feedSubscriptionDAO.findByFeed(user, feed);
@@ -84,9 +83,7 @@ public class FeedSubscriptionService {
 		sub.setCategory(category);
 		sub.setPosition(position);
 		sub.setTitle(FeedUtils.truncate(title, 128));
-		feedSubscriptionDAO.saveOrUpdate(sub);
-
-		return sub.getId();
+		return feedSubscriptionDAO.merge(sub).getId();
 	}
 
 	public boolean unsubscribe(User user, Long subId) {

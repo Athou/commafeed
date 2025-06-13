@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import jakarta.persistence.EntityManager;
 
-import org.hibernate.Session;
 import org.hibernate.jpa.SpecHints;
 
 import com.commafeed.backend.model.AbstractModel;
@@ -33,15 +32,6 @@ public abstract class GenericDAO<T extends AbstractModel> {
 
 	protected JPADeleteClause deleteQuery(EntityPath<T> entityPath) {
 		return new JPADeleteClause(entityManager, entityPath);
-	}
-
-	@SuppressWarnings("deprecation")
-	public void saveOrUpdate(T model) {
-		entityManager.unwrap(Session.class).saveOrUpdate(model);
-	}
-
-	public void saveOrUpdate(Collection<T> models) {
-		models.forEach(this::saveOrUpdate);
 	}
 
 	public void persist(T model) {

@@ -15,7 +15,7 @@
 		<quarkus.version>3.23.3</quarkus.version>
 		<querydsl.version>7.0</querydsl.version>
 		<rome.version>2.1.0</rome.version>
-		<swagger.version>2.2.32</swagger.version>
+		<swagger.version>2.2.33</swagger.version>
 
 		<build.database>h2</build.database>
 	</properties>

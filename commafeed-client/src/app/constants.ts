@@ -87,17 +87,15 @@ export const Constants = {
         headerHeight: 60,
         entryMaxWidth: 650,
         isTopVisible: (div: HTMLElement) => {
-            const header = document.getElementById(Constants.dom.headerId)?.getBoundingClientRect()
+            const header = document.getElementsByTagName("header").item(0)?.getBoundingClientRect()
             return div.getBoundingClientRect().top >= (header?.bottom ?? 0)
         },
         isBottomVisible: (div: HTMLElement) => {
-            const footer = document.getElementById(Constants.dom.footerId)?.getBoundingClientRect()
+            const footer = document.getElementsByTagName("footer").item(0)?.getBoundingClientRect()
             return div.getBoundingClientRect().bottom <= (footer?.top ?? window.innerHeight)
         },
     },
     dom: {
-        headerId: "header",
-        footerId: "footer",
         entryId: (entry: Entry) => `entry-id-${entry.id}`,
         entryContextMenuId: (entry: Entry) => entry.id,
     },

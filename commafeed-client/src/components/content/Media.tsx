@@ -1,8 +1,8 @@
 import { Box } from "@mantine/core"
 import { Constants } from "app/constants"
 import { calculatePlaceholderSize } from "app/utils"
-import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
 import { BasicHtmlStyles } from "components/content/BasicHtmlStyles"
+import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
 import { Content } from "./Content"
 
 export interface MediaProps {

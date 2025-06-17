@@ -1,4 +1,4 @@
-import { type Messages, i18n } from "@lingui/core"
+import { i18n, type Messages } from "@lingui/core"
 import { useAppSelector } from "app/store"
 import dayjs from "dayjs"
 import { useEffect } from "react"

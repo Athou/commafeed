@@ -1,5 +1,5 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+    "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
     "formatter": {
         "indentStyle": "space",
         "indentWidth": 4,
@@ -22,6 +22,6 @@
         }
     },
     "files": {
-        "ignore": ["dist", "node_modules", "target", "target-ide"]
+        "includes": ["**", "!**/dist", "!**/node_modules", "!**/target", "!**/target-ide"]
     }
 }

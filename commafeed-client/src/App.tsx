@@ -15,7 +15,6 @@ import { Tree } from "components/sidebar/Tree"
 import { useAppLoading } from "hooks/useAppLoading"
 import { useBrowserExtension } from "hooks/useBrowserExtension"
 import { useI18n } from "i18n"
-import { WelcomePage } from "pages/WelcomePage"
 import { AdminUsersPage } from "pages/admin/AdminUsersPage"
 import { MetricsPage } from "pages/admin/MetricsPage"
 import { AboutPage } from "pages/app/AboutPage"
@@ -30,6 +29,7 @@ import { TagDetailsPage } from "pages/app/TagDetailsPage"
 import { LoginPage } from "pages/auth/LoginPage"
 import { PasswordRecoveryPage } from "pages/auth/PasswordRecoveryPage"
 import { RegistrationPage } from "pages/auth/RegistrationPage"
+import { WelcomePage } from "pages/WelcomePage"
 import React, { useEffect, useState } from "react"
 import { isSafari } from "react-device-detect"
 import ReactGA from "react-ga4"
@@ -219,25 +219,23 @@ export function App() {
 
     return (
         <Providers>
-            <>
-                <UnreadCountTitleHandler enabled={unreadCountTitle} />
-                <UnreadCountFaviconHandler enabled={unreadCountFavicon} />
-                <BrowserExtensionBadgeUnreadCountHandler />
-                <CustomJsHandler />
-                <CustomCssHandler />
+            <UnreadCountTitleHandler enabled={unreadCountTitle} />
+            <UnreadCountFaviconHandler enabled={unreadCountFavicon} />
+            <BrowserExtensionBadgeUnreadCountHandler />
+            <CustomJsHandler />
+            <CustomCssHandler />
 
-                {/* disable pull-to-refresh as it messes with vertical scrolling
+            {/* disable pull-to-refresh as it messes with vertical scrolling
                         safari behaves weirdly when overscroll-behavior is set to none so we disable it only for other browsers
                         https://github.com/Athou/commafeed/issues/1168
                     */}
-                {!isSafari && <DisablePullToRefresh />}
+            {!isSafari && <DisablePullToRefresh />}
 
-                <HashRouter>
-                    <GoogleAnalyticsHandler />
-                    <RedirectHandler />
-                    <AppRoutes />
-                </HashRouter>
-            </>
+            <HashRouter>
+                <GoogleAnalyticsHandler />
+                <RedirectHandler />
+                <AppRoutes />
+            </HashRouter>
         </Providers>
     )
 }

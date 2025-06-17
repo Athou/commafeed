@@ -184,9 +184,9 @@ export default function Layout(props: LayoutProps) {
                 }}
                 padding={{ base: 6, [Constants.layout.mobileBreakpointName]: "md" }}
             >
-                <AppShell.Header id={Constants.dom.headerId}>{!headerInFooter && header}</AppShell.Header>
-                <AppShell.Footer id={Constants.dom.footerId}>{headerInFooter && header}</AppShell.Footer>
-                <AppShell.Navbar id="sidebar" p={sidebarPadding}>
+                <AppShell.Header>{!headerInFooter && header}</AppShell.Header>
+                <AppShell.Footer>{headerInFooter && header}</AppShell.Footer>
+                <AppShell.Navbar p={sidebarPadding}>
                     <AppShell.Section grow component={ScrollArea} mx="-sm" px="sm">
                         <Box className={classes.sidebarContent}>{props.sidebar}</Box>
                     </AppShell.Section>
@@ -221,7 +221,7 @@ export default function Layout(props: LayoutProps) {
                     </Draggable>
                 </OnDesktop>
 
-                <AppShell.Main id="content">
+                <AppShell.Main>
                     <Suspense fallback={<Loader />}>
                         <AnnouncementDialog />
                         <MarkAllAsReadConfirmationDialog />

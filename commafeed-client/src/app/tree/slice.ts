@@ -1,4 +1,4 @@
-import { type PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import { loadEntries, markEntry } from "app/entries/thunks"
 import { redirectTo } from "app/redirect/slice"
 import { collapseTreeCategory, reloadTree } from "app/tree/thunks"

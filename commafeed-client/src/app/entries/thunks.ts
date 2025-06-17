@@ -234,7 +234,7 @@ export const selectEntry = createAppAsyncThunk(
 )
 
 const scrollToEntry = (entryElement: HTMLElement, margin: number, scrollSpeed: number | undefined, onScrollEnded: () => void) => {
-    const header = document.getElementById(Constants.dom.headerId)?.getBoundingClientRect()
+    const header = document.getElementsByTagName("header").item(0)?.getBoundingClientRect()
     const offset = (header?.bottom ?? 0) + margin
     scrollToWithCallback({
         options: {

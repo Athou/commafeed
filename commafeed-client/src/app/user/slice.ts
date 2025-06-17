@@ -1,6 +1,6 @@
 import { t } from "@lingui/core/macro"
 import { showNotification } from "@mantine/notifications"
-import { type PayloadAction, createSlice, isAnyOf } from "@reduxjs/toolkit"
+import { createSlice, isAnyOf, type PayloadAction } from "@reduxjs/toolkit"
 import type { LocalSettings, Settings, UserModel, ViewMode } from "app/types"
 import {
     changeCustomContextMenu,

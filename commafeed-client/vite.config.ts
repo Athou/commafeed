@@ -20,6 +20,7 @@ export default defineConfig(() => ({
             typescript: true,
             biome: {
                 command: "check",
+                flags: "--error-on-warnings",
             },
         }),
     ],

@@ -391,7 +391,7 @@
 		<dependency>
 			<groupId>io.dropwizard.metrics</groupId>
 			<artifactId>metrics-json</artifactId>
-			<version>4.2.32</version>
+			<version>4.2.33</version>
 		</dependency>
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>

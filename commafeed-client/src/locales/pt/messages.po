@@ -15,11 +15,11 @@ msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
-msgstr ""
+msgstr "<0>CommaFeed é um projeto de código abrto. O código está hospedado no </0><1>GitHub</1>."
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete syntax is available </0><1>here</1>."
-msgstr ""
+msgstr "<0>Sintaxe completa disponível </0><1>aqui</1>."
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
@@ -27,7 +27,7 @@ msgstr "<0>Tem uma conta?</0><1>Faça login!</1>"
 
 #: src/pages/app/DonatePage.tsx
 msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
-msgstr ""
+msgstr "<0>Olá,</0><1>eu sou Jérémie da Bélgica e venho trabalhando no CommaFeed no meu tempo livre já faz mais de 10 anos. Obrigado por se interessar em me ajudar a continuar apoiando o CommaFeed.</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
@@ -71,7 +71,7 @@ msgstr "Todos"
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
-msgstr ""
+msgstr "Sempre"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
@@ -87,7 +87,7 @@ msgstr "Analisar feed"
 
 #: src/components/AnnouncementDialog.tsx
 msgid "Announcement"
-msgstr ""
+msgstr "Aviso"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
@@ -119,7 +119,7 @@ msgstr "Tem certeza de que deseja cancelar a inscrição em <0>{feedName}</0>?"
 
 #: src/components/header/Header.tsx
 msgid "Asc"
-msgstr ""
+msgstr "Asc"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
@@ -135,19 +135,19 @@ msgstr "Voltar para logar"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Blue"
-msgstr ""
+msgstr "Azul"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
-msgstr ""
+msgstr "Extensão para o Chrome necessária"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extention"
-msgstr ""
+msgstr "Extensão do navegador"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
-msgstr ""
+msgstr "Aba do navegador"
 
 #: src/pages/app/TagDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -183,19 +183,19 @@ msgstr "Verifique se o feed está funcionando"
 
 #: src/pages/app/Layout.tsx
 msgid "Close menu"
-msgstr ""
+msgstr "Fechar menu"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
-msgstr ""
+msgstr "Extensão de navegador CommaFeed versão {browserExtensionVersion}."
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
-msgstr ""
+msgstr "CommaFeed é compatível com a API Fever. Use a URL a seguir no seu aplicativo móvel compatível com Fever. Entre com seu nome de usuário e sua <0>chave de API</0>."
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -203,7 +203,7 @@ msgstr "CommaFeed próximo item não lido"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed version {version} ({revision})."
-msgstr ""
+msgstr "CommaFeed versão {version} ({revision})."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"
@@ -227,7 +227,7 @@ msgstr "Aconchegante"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Current password"
@@ -235,24 +235,24 @@ msgstr "Senha atual"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Custom code"
-msgstr ""
+msgstr "Código personalizado"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
-msgstr ""
+msgstr "Regras CSS personalizadas que serão aplicadas"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
+msgstr "Código JS personalizado que será executado ao carregar a página"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Cyan"
-msgstr ""
+msgstr "Ciano"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "Dark"
-msgstr ""
+msgstr "Escuro"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -277,11 +277,11 @@ msgstr "Excluir usuário"
 
 #: src/components/header/Header.tsx
 msgid "Desc"
-msgstr "Descrição"
+msgstr "Desc"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Detailed"
-msgstr ""
+msgstr "Detalhado"
 
 #: src/pages/app/SettingsPage.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -292,7 +292,7 @@ msgstr "Exibir"
 #: src/pages/app/DonatePage.tsx
 #: src/components/header/ProfileMenu.tsx
 msgid "Donate"
-msgstr ""
+msgstr "Doar"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
@@ -308,7 +308,7 @@ msgstr "Arraste o link para a barra de favoritos"
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/admin/UserEdit.tsx
 msgid "E-mail"
-msgstr ""
+msgstr "E-mail"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -334,11 +334,11 @@ msgstr "Digite sua senha atual para alterar as configurações do perfil"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entries to keep above the selected entry when scrolling"
-msgstr ""
+msgstr "Entradas a manter acima da entreda selecionada ao rolar"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
-msgstr ""
+msgstr "Cabeçalho das entredas"
 
 #: src/components/Alert.tsx
 msgid "Error"
@@ -359,7 +359,7 @@ msgstr "Exporte suas inscrições e categorias como um arquivo OPML que pode ser
 #: src/pages/WelcomePage.tsx
 #: src/components/header/Header.tsx
 msgid "Extension options"
-msgstr ""
+msgstr "Opções da extensão"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
@@ -373,15 +373,15 @@ msgstr "URL do feed"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
-msgstr ""
+msgstr "Atualizar todos os meus feeds agora"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API"
-msgstr ""
+msgstr "API Fever"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
-msgstr ""
+msgstr "URL da API Fever"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -389,11 +389,11 @@ msgstr "Filtrando expressão"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Font size"
-msgstr ""
+msgstr "Tamanho da fonte"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Force fetching feeds is not yet available."
-msgstr ""
+msgstr "Forçar a atualização de feeds não está disponível."
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
@@ -418,7 +418,7 @@ msgstr "URL do feed gerado"
 #. placeholder {0}: truncate(props.entry.feedName, 30)
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Go to {0}"
-msgstr ""
+msgstr "Vá para {0}"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
@@ -434,15 +434,15 @@ msgstr "Brindes"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
-msgstr ""
+msgstr "Uva"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Gray"
-msgstr ""
+msgstr "Cinza"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Green"
-msgstr ""
+msgstr "Verde"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
@@ -454,7 +454,7 @@ msgstr "Se não estiver vazio, uma expressão avaliada como 'true' ou 'false'. "
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
-msgstr ""
+msgstr "Se a entrafa não couber por completo na tela"
 
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
@@ -470,7 +470,7 @@ msgstr "Na visualização expandida, rolar pelas entradas marca-as como lidas"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
-msgstr ""
+msgstr "Índigo"
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
@@ -500,21 +500,21 @@ msgstr "Última mensagem de atualização"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
-msgstr ""
+msgstr "Claro"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Lime"
-msgstr ""
+msgstr "Lima"
 
 #: src/pages/app/TagDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Link"
-msgstr ""
+msgstr "Link"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Link to the documentation"
-msgstr ""
+msgstr "Link para a documentação"
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
@@ -544,7 +544,7 @@ msgstr "Sair"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Long press"
-msgstr ""
+msgstr "Pressione e segure"
 
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/components/header/ProfileMenu.tsx
@@ -576,7 +576,7 @@ msgstr "Métricas"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Middle click"
-msgstr ""
+msgstr "Clique com o botão do meio"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
@@ -604,12 +604,12 @@ msgstr "Navegue até uma assinatura digitando seu nome"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Navigate to the next category/feed with unread entries when marking all entries as read"
-msgstr ""
+msgstr "Navegar para a próxima categoria/feed com entradas não lidas quando todas as entrafas forem lidas"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Never"
-msgstr ""
+msgstr "Nunca"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
@@ -638,7 +638,7 @@ msgstr "Não há mais entradas"
 
 #: src/components/content/ShareButtons.tsx
 msgid "No sharing options available."
-msgstr ""
+msgstr "Nenhuma opção de compartilhamento disponível"
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
@@ -650,19 +650,19 @@ msgstr "Mais antigo primeiro"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On desktop"
-msgstr ""
+msgstr "No computador"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile"
-msgstr ""
+msgstr "No celular"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
-msgstr ""
+msgstr "No celular, mostrar botões de ação na parte de baixo da tela"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Only applies to compact, cozy and detailed modes"
-msgstr ""
+msgstr "Se aplica apenas aos modos compacto, aconchegante e detalhado"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
@@ -670,7 +670,7 @@ msgstr "Opa!"
 
 #: src/components/header/Header.tsx
 msgid "Open CommaFeed"
-msgstr ""
+msgstr "Abrir CommaFeed"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
@@ -687,15 +687,15 @@ msgstr "Abrir link"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new background tab"
-msgstr ""
+msgstr "Abrir link em aba em segundo plano"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new tab"
-msgstr ""
+msgstr "Abrir link em nova aba"
 
 #: src/pages/app/Layout.tsx
 msgid "Open menu"
-msgstr ""
+msgstr "Abrir menu"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
@@ -711,7 +711,7 @@ msgstr "Abrir/fechar entrada atual"
 
 #: src/pages/app/AddPage.tsx
 msgid "OPML"
-msgstr ""
+msgstr "OPML"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "OPML export"
@@ -724,11 +724,11 @@ msgstr "Arquivo OPML"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file is required"
-msgstr ""
+msgstr "Arquivo OPML é necessário"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Orange"
-msgstr ""
+msgstr "Laranja"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -760,7 +760,7 @@ msgstr "Senhas não coincidem"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Pink"
-msgstr ""
+msgstr "Rosa"
 
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -769,11 +769,11 @@ msgstr "Posição"
 
 #: src/components/header/Header.tsx
 msgid "Previous"
-msgstr ""
+msgstr "Anterior"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Primary color"
-msgstr ""
+msgstr "Cor primária"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -785,7 +785,7 @@ msgstr "Recuperar senha"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Red"
-msgstr ""
+msgstr "Vermelho"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/header/Header.tsx
@@ -803,7 +803,7 @@ msgstr "API REST"
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
-msgstr ""
+msgstr "Clique com o botão direito"
 
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -815,7 +815,7 @@ msgstr "Salvar"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll selected entry to the top of the page"
-msgstr ""
+msgstr "Deslizar a entrada selecionada para o topo da página"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
@@ -823,7 +823,7 @@ msgstr "Rolar suavemente ao navegar entre as entradas"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scrolling"
-msgstr ""
+msgstr "Deslizar"
 
 #: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
@@ -838,11 +838,11 @@ msgstr "Pesquisa requer pelo menos 3 caracteres"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
-msgstr ""
+msgstr "Selecionar próximo feed/categoria não lido"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
-msgstr ""
+msgstr "Selecionar feed/categoria não lido anterior"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -872,27 +872,27 @@ msgstr "Compartilhando sites"
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
-msgstr "Mudar"
+msgstr "Shift"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show CommaFeed's own context menu on right click"
-msgstr ""
+msgstr "Mostrar menu de contexto do CommaFeed no clique com o botão direito"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show confirmation when marking all entries as read"
-msgstr ""
+msgstr "Mostrar confirmação ao marcar todas as entradas como lidas"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
-msgstr ""
+msgstr "Mostrar menu da entrada (computador)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (mobile)"
-msgstr ""
+msgstr "Mostrar menu da entrada (celular)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show external link icon"
-msgstr ""
+msgstr "mostrar ícone de link externo"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
@@ -904,19 +904,19 @@ msgstr "Mostrar ajuda de atalho de teclado"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
-msgstr ""
+msgstr "Mostrar o menu nativo (computador)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
-msgstr ""
+msgstr "Mostrar ícone estrela"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab favicon"
-msgstr ""
+msgstr "Mostrar contagem de não lidos no favion da aba"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab title"
-msgstr ""
+msgstr "Mostrar contagem de não lidos no título da aba"
 
 #: src/pages/WelcomePage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -965,7 +965,7 @@ msgstr "Sucesso"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Swipe header to the left"
-msgstr ""
+msgstr "Deslizar o cabeçalho para a esquerda"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
@@ -977,7 +977,7 @@ msgstr "Mudar para tema claro"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -986,7 +986,7 @@ msgstr "Etiquetas"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Teal"
-msgstr ""
+msgstr "Azul petróleo"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -998,7 +998,7 @@ msgstr "Tema"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr ""
+msgstr "Esta é sua chave de API. Ela pode ser usada para algumas operações somente leitura da API e concede acesso à API do Fever. Use o formulário abaixo para gerar uma nova chave de API"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
@@ -1006,11 +1006,11 @@ msgstr "Alternar o status de leitura da entrada atual"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Alternar barra lateral"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle starred status of current entry"
-msgstr ""
+msgstr "Alternar estrela da entrada atual"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -1018,7 +1018,7 @@ msgstr "Experimente o CommaFeed com a conta demo: demo/demo"
 
 #: src/pages/WelcomePage.tsx
 msgid "Try the demo!"
-msgstr ""
+msgstr "Teste o demo!"
 
 #: src/components/header/Header.tsx
 msgid "Unread"
@@ -1046,7 +1046,7 @@ msgstr "Nome de usuário ou e-mail"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Violet"
-msgstr ""
+msgstr "Violeta"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -1058,7 +1058,7 @@ msgstr "Site"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
-msgstr ""
+msgstr "Amarelo"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
@@ -1066,4 +1066,4 @@ msgstr "Você ainda não tem nenhuma assinatura. "
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
+msgstr "Seus feed foram enfileirados para atualização"

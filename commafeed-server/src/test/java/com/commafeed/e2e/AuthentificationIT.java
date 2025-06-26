@@ -1,38 +1,33 @@
 package com.commafeed.e2e;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.options.AriaRole;
 
+import io.quarkiverse.playwright.InjectPlaywright;
+import io.quarkiverse.playwright.WithPlaywright;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
+@WithPlaywright
 class AuthentificationIT {
 
-	private final Playwright playwright = Playwright.create();
-	private final Browser browser = playwright.chromium().launch();
-
-	private Page page;
-
-	@BeforeEach
-	void init() {
-		page = browser.newContext().newPage();
-	}
+	@InjectPlaywright
+	private BrowserContext context;
 
 	@AfterEach
 	void cleanup() {
-		playwright.close();
+		context.clearCookies();
 	}
 
 	@Test
 	void loginFail() {
+		Page page = context.newPage();
 		page.navigate(getLoginPageUrl());
 		page.getByPlaceholder("User Name or E-mail").fill("admin");
 		page.getByPlaceholder("Password").fill("wrong_password");
@@ -42,6 +37,7 @@ class AuthentificationIT {
 
 	@Test
 	void loginSuccess() {
+		Page page = context.newPage();
 		page.navigate(getLoginPageUrl());
 		PlaywrightTestUtils.login(page);
 		PlaywrightAssertions.assertThat(page).hasURL("http://localhost:8085/#/app/category/all");
@@ -49,6 +45,7 @@ class AuthentificationIT {
 
 	@Test
 	void registerFailPasswordTooSimple() {
+		Page page = context.newPage();
 		page.navigate(getLoginPageUrl());
 		page.getByText("Sign up!").click();
 		page.getByPlaceholder("User Name").fill("user");
@@ -65,6 +62,7 @@ class AuthentificationIT {
 
 	@Test
 	void registerSuccess() {
+		Page page = context.newPage();
 		page.navigate(getLoginPageUrl());
 		page.getByText("Sign up!").click();
 		page.getByPlaceholder("User Name").fill("user");

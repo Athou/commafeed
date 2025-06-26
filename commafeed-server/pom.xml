@@ -504,6 +504,12 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>io.quarkiverse.playwright</groupId>
+			<artifactId>quarkus-playwright</artifactId>
+			<version>2.1.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.mock-server</groupId>
 			<artifactId>mockserver-junit-jupiter</artifactId>
 			<version>5.15.0</version>
@@ -517,12 +523,6 @@
 		<dependency>
 			<groupId>org.awaitility</groupId>
 			<artifactId>awaitility</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.microsoft.playwright</groupId>
-			<artifactId>playwright</artifactId>
-			<version>1.52.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

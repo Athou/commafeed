@@ -17,28 +17,28 @@ import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
 import com.commafeed.frontend.model.Entries;
-import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.options.AriaRole;
 
+import io.quarkiverse.playwright.InjectPlaywright;
+import io.quarkiverse.playwright.WithPlaywright;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 
 @QuarkusTest
+@WithPlaywright
 class ReadingIT {
 
-	private final Playwright playwright = Playwright.create();
-	private final Browser browser = playwright.chromium().launch();
+	@InjectPlaywright
+	private BrowserContext context;
 
-	private Page page;
 	private MockServerClient mockServerClient;
 
 	@BeforeEach
 	void init() throws IOException {
-		this.page = browser.newContext().newPage();
 		this.mockServerClient = ClientAndServer.startClientAndServer(0);
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
 				.respond(HttpResponse.response()
@@ -50,13 +50,13 @@ class ReadingIT {
 
 	@AfterEach
 	void cleanup() {
-		playwright.close();
-
 		RestAssured.reset();
 	}
 
 	@Test
 	void scenario() {
+		Page page = context.newPage();
+
 		// login
 		page.navigate("http://localhost:8085");
 		page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Log in")).click();

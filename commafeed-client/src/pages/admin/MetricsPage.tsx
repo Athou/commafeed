@@ -1,11 +1,11 @@
 import { Accordion, Box } from "@mantine/core"
-import { client } from "app/client"
-import { Loader } from "components/Loader"
-import { Gauge } from "components/metrics/Gauge"
-import { Meter } from "components/metrics/Meter"
-import { MetricAccordionItem } from "components/metrics/MetricAccordionItem"
 import { useEffect } from "react"
 import { useAsync } from "react-async-hook"
+import { client } from "@/app/client"
+import { Loader } from "@/components/Loader"
+import { Gauge } from "@/components/metrics/Gauge"
+import { Meter } from "@/components/metrics/Meter"
+import { MetricAccordionItem } from "@/components/metrics/MetricAccordionItem"
 
 const shownMeters: Record<string, string> = {
     "com.commafeed.backend.feed.FeedRefreshEngine.refill": "Feed queue refill rate",

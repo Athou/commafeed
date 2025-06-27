@@ -1,11 +1,11 @@
 import { Trans } from "@lingui/react/macro"
 import { Button, Code, Group, Modal, Slider, Stack, Text } from "@mantine/core"
-import { Constants } from "app/constants"
-import { setMarkAllAsReadConfirmationDialogOpen } from "app/entries/slice"
-import { markAllEntries } from "app/entries/thunks"
-import { useAppDispatch, useAppSelector } from "app/store"
-import { selectNextUnreadTreeItem } from "app/tree/thunks"
 import { useState } from "react"
+import { Constants } from "@/app/constants"
+import { setMarkAllAsReadConfirmationDialogOpen } from "@/app/entries/slice"
+import { markAllEntries } from "@/app/entries/thunks"
+import { useAppDispatch, useAppSelector } from "@/app/store"
+import { selectNextUnreadTreeItem } from "@/app/tree/thunks"
 
 export function MarkAllAsReadConfirmationDialog() {
     const [threshold, setThreshold] = useState(0)

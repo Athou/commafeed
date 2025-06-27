@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { client } from "app/client"
-import { loadEntries } from "app/entries/thunks"
-import { type RootState, reducers } from "app/store"
-import { newFeedEntriesDiscovered, selectNextUnreadTreeItem } from "app/tree/thunks"
-import type { Category, Entries, Entry, Subscription } from "app/types"
 import type { AxiosResponse } from "axios"
 import { beforeEach, describe, expect, it, vi } from "vitest"
+import { client } from "@/app/client"
+import { loadEntries } from "@/app/entries/thunks"
+import { type RootState, reducers } from "@/app/store"
+import { newFeedEntriesDiscovered, selectNextUnreadTreeItem } from "@/app/tree/thunks"
+import type { Category, Entries, Entry, Subscription } from "@/app/types"
 
-vi.mock(import("app/client"))
+vi.mock(import("@/app/client"))
 
 const createCategory = (id: string): Category => ({
     id,

@@ -1,5 +1,5 @@
-import type { TreeCategory } from "app/tree/slice"
 import { throttle } from "throttle-debounce"
+import type { TreeCategory } from "@/app/tree/slice"
 import type { Category } from "./types"
 
 export function visitCategoryTree(

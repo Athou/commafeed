@@ -1,8 +1,8 @@
 import { Trans } from "@lingui/react/macro"
 import { Tooltip } from "@mantine/core"
-import { Constants } from "app/constants"
 import dayjs from "dayjs"
-import { useNow } from "hooks/useNow"
+import { Constants } from "@/app/constants"
+import { useNow } from "@/hooks/useNow"
 
 export function RelativeDate(props: { date: Date | number | undefined }) {
     const now = useNow(60 * 1000)

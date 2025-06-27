@@ -1,9 +1,9 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
-import { loadEntries, markEntry } from "app/entries/thunks"
-import { redirectTo } from "app/redirect/slice"
-import { collapseTreeCategory, reloadTree } from "app/tree/thunks"
-import type { Category, Subscription } from "app/types"
-import { flattenCategoryTree, visitCategoryTree } from "app/utils"
+import { loadEntries, markEntry } from "@/app/entries/thunks"
+import { redirectTo } from "@/app/redirect/slice"
+import { collapseTreeCategory, reloadTree } from "@/app/tree/thunks"
+import type { Category, Subscription } from "@/app/types"
+import { flattenCategoryTree, visitCategoryTree } from "@/app/utils"
 
 export interface TreeSubscription extends Subscription {
     // client-side only flag

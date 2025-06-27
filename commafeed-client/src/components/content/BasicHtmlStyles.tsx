@@ -1,6 +1,6 @@
 import { TypographyStylesProvider } from "@mantine/core"
 import type { ReactNode } from "react"
-import { tss } from "tss"
+import { tss } from "@/tss"
 
 /**
  * This component is used to provide basic styles to html typography elements.

@@ -1,13 +1,13 @@
 import { Trans } from "@lingui/react/macro"
 import { ActionIcon, Box, CopyButton, Divider, SimpleGrid } from "@mantine/core"
-import { Constants } from "app/constants"
-import { useAppSelector } from "app/store"
-import type { SharingSettings } from "app/types"
-import { useBrowserExtension } from "hooks/useBrowserExtension"
-import { useMobile } from "hooks/useMobile"
 import type { IconType } from "react-icons"
 import { TbCheck, TbCopy, TbDeviceDesktopShare, TbDeviceMobileShare } from "react-icons/tb"
-import { tss } from "tss"
+import { Constants } from "@/app/constants"
+import { useAppSelector } from "@/app/store"
+import type { SharingSettings } from "@/app/types"
+import { useBrowserExtension } from "@/hooks/useBrowserExtension"
+import { useMobile } from "@/hooks/useMobile"
+import { tss } from "@/tss"
 
 type Color = `#${string}`
 

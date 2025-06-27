@@ -3,12 +3,12 @@ import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
 import { Box, TextInput } from "@mantine/core"
 import { Spotlight, type SpotlightActionData, spotlight } from "@mantine/spotlight"
-import { redirectToFeed } from "app/redirect/thunks"
-import { useAppDispatch } from "app/store"
-import type { Subscription } from "app/types"
-import { FeedFavicon } from "components/content/FeedFavicon"
-import { useMousetrap } from "hooks/useMousetrap"
 import { TbSearch } from "react-icons/tb"
+import { redirectToFeed } from "@/app/redirect/thunks"
+import { useAppDispatch } from "@/app/store"
+import type { Subscription } from "@/app/types"
+import { FeedFavicon } from "@/components/content/FeedFavicon"
+import { useMousetrap } from "@/hooks/useMousetrap"
 
 export interface TreeSearchProps {
     feeds: Subscription[]

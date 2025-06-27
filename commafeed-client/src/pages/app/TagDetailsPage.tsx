@@ -1,10 +1,10 @@
 import { Trans } from "@lingui/react/macro"
 
 import { Anchor, Box, Button, Container, Group, Input, Stack, Title } from "@mantine/core"
-import { Constants } from "app/constants"
-import { redirectToSelectedSource } from "app/redirect/thunks"
-import { useAppDispatch, useAppSelector } from "app/store"
 import { useParams } from "react-router-dom"
+import { Constants } from "@/app/constants"
+import { redirectToSelectedSource } from "@/app/redirect/thunks"
+import { useAppDispatch, useAppSelector } from "@/app/store"
 
 export function TagDetailsPage() {
     const { id = Constants.categories.all.id } = useParams()

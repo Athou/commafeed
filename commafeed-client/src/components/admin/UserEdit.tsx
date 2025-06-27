@@ -1,11 +1,11 @@
 import { Trans } from "@lingui/react/macro"
 import { Box, Button, Checkbox, Group, PasswordInput, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { client, errorToStrings } from "app/client"
-import type { AdminSaveUserRequest, UserModel } from "app/types"
-import { Alert } from "components/Alert"
 import { useAsyncCallback } from "react-async-hook"
 import { TbDeviceFloppy } from "react-icons/tb"
+import { client, errorToStrings } from "@/app/client"
+import type { AdminSaveUserRequest, UserModel } from "@/app/types"
+import { Alert } from "@/components/Alert"
 
 interface UserEditProps {
     user?: UserModel

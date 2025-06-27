@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/react/macro"
 import { Box, Button, Container, Group, Text, Title } from "@mantine/core"
 import { TbRefresh } from "react-icons/tb"
-import { tss } from "tss"
+import { tss } from "@/tss"
 import { PageTitle } from "./PageTitle"
 
 const useStyles = tss.create(({ theme }) => ({

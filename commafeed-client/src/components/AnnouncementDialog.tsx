@@ -1,9 +1,9 @@
 import { Trans } from "@lingui/react/macro"
 import { Box, Dialog, Text } from "@mantine/core"
-import { useAppDispatch, useAppSelector } from "app/store"
-import { setAnnouncementHash } from "app/user/slice"
-import { Content } from "components/content/Content"
 import { useAsync } from "react-async-hook"
+import { useAppDispatch, useAppSelector } from "@/app/store"
+import { setAnnouncementHash } from "@/app/user/slice"
+import { Content } from "@/components/content/Content"
 
 const sha256Hex = async (input: string | undefined) => {
     const data = new TextEncoder().encode(input)

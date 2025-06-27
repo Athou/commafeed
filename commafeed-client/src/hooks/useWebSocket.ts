@@ -1,8 +1,8 @@
-import { setWebSocketConnected } from "app/server/slice"
-import { type AppDispatch, useAppDispatch, useAppSelector } from "app/store"
-import { newFeedEntriesDiscovered } from "app/tree/thunks"
 import { useEffect } from "react"
 import WebsocketHeartbeatJs from "websocket-heartbeat-js"
+import { setWebSocketConnected } from "@/app/server/slice"
+import { type AppDispatch, useAppDispatch, useAppSelector } from "@/app/store"
+import { newFeedEntriesDiscovered } from "@/app/tree/thunks"
 
 const handleMessage = (dispatch: AppDispatch, message: string) => {
     const parts = message.split(":")

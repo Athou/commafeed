@@ -1,9 +1,9 @@
 import { Trans } from "@lingui/react/macro"
 import { Container, Tabs } from "@mantine/core"
-import { CustomCodeSettings } from "components/settings/CustomCodeSettings"
-import { DisplaySettings } from "components/settings/DisplaySettings"
-import { ProfileSettings } from "components/settings/ProfileSettings"
 import { TbCode, TbPhoto, TbUser } from "react-icons/tb"
+import { CustomCodeSettings } from "@/components/settings/CustomCodeSettings"
+import { DisplaySettings } from "@/components/settings/DisplaySettings"
+import { ProfileSettings } from "@/components/settings/ProfileSettings"
 
 export function SettingsPage() {
     return (

@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
-import { Constants } from "app/constants"
-import { loadEntries, loadMoreEntries, markAllEntries, markEntry, markMultipleEntries, starEntry, tagEntry } from "app/entries/thunks"
-import type { Entry } from "app/types"
+import { Constants } from "@/app/constants"
+import { loadEntries, loadMoreEntries, markAllEntries, markEntry, markMultipleEntries, starEntry, tagEntry } from "@/app/entries/thunks"
+import type { Entry } from "@/app/types"
 
 export type EntrySourceType = "category" | "feed" | "tag"
 

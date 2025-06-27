@@ -1,8 +1,8 @@
 import { Box, Center } from "@mantine/core"
-import type { EntrySourceType } from "app/entries/slice"
-import { FeedFavicon } from "components/content/FeedFavicon"
 import type React from "react"
-import { tss } from "tss"
+import type { EntrySourceType } from "@/app/entries/slice"
+import { FeedFavicon } from "@/components/content/FeedFavicon"
+import { tss } from "@/tss"
 import { UnreadCount } from "./UnreadCount"
 
 interface TreeNodeProps {

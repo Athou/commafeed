@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/react/macro"
 import { Anchor, Box, Code, Container, Group, List, Title } from "@mantine/core"
-import { Constants } from "app/constants"
 import { TbBrandGithub, TbBrandPaypal, TbCoinBitcoin, TbHeartFilled } from "react-icons/tb"
+import { Constants } from "@/app/constants"
 
 const iconSize = 24
 

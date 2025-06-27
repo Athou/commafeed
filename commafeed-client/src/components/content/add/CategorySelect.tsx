@@ -2,10 +2,10 @@ import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Select, type SelectProps } from "@mantine/core"
 import type { ComboboxItem } from "@mantine/core/lib/components/Combobox/Combobox.types"
-import { Constants } from "app/constants"
-import { useAppSelector } from "app/store"
-import type { Category } from "app/types"
-import { flattenCategoryTree } from "app/utils"
+import { Constants } from "@/app/constants"
+import { useAppSelector } from "@/app/store"
+import type { Category } from "@/app/types"
+import { flattenCategoryTree } from "@/app/utils"
 
 type CategorySelectProps = Partial<SelectProps> & {
     withAll?: boolean

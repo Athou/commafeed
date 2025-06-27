@@ -1,6 +1,8 @@
 import { Trans } from "@lingui/react/macro"
 import { Box, Stack } from "@mantine/core"
-import { Constants } from "app/constants"
+import React from "react"
+import { TbChevronDown, TbChevronRight, TbInbox, TbStar, TbTag } from "react-icons/tb"
+import { Constants } from "@/app/constants"
 import {
     redirectToCategory,
     redirectToCategoryDetails,
@@ -8,16 +10,14 @@ import {
     redirectToFeedDetails,
     redirectToTag,
     redirectToTagDetails,
-} from "app/redirect/thunks"
-import { useAppDispatch, useAppSelector } from "app/store"
-import type { TreeSubscription } from "app/tree/slice"
-import { collapseTreeCategory } from "app/tree/thunks"
-import type { Category, Subscription } from "app/types"
-import { categoryHasNewEntries, categoryUnreadCount, flattenCategoryTree } from "app/utils"
-import { Loader } from "components/Loader"
-import { OnDesktop } from "components/responsive/OnDesktop"
-import React from "react"
-import { TbChevronDown, TbChevronRight, TbInbox, TbStar, TbTag } from "react-icons/tb"
+} from "@/app/redirect/thunks"
+import { useAppDispatch, useAppSelector } from "@/app/store"
+import type { TreeSubscription } from "@/app/tree/slice"
+import { collapseTreeCategory } from "@/app/tree/thunks"
+import type { Category, Subscription } from "@/app/types"
+import { categoryHasNewEntries, categoryUnreadCount, flattenCategoryTree } from "@/app/utils"
+import { Loader } from "@/components/Loader"
+import { OnDesktop } from "@/components/responsive/OnDesktop"
 import { TreeNode } from "./TreeNode"
 import { TreeSearch } from "./TreeSearch"
 

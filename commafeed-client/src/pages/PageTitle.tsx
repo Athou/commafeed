@@ -1,5 +1,5 @@
 import { Center, Title } from "@mantine/core"
-import { Logo } from "components/Logo"
+import { Logo } from "@/components/Logo"
 
 export function PageTitle() {
     return (

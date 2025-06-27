@@ -3,13 +3,13 @@ import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
 import { Anchor, Box, Button, Center, Container, Group, Paper, Stack, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { client, errorToStrings } from "app/client"
-import type { PasswordResetRequest } from "app/types"
-import { Alert } from "components/Alert"
-import { PageTitle } from "pages/PageTitle"
 import { useState } from "react"
 import { useAsyncCallback } from "react-async-hook"
 import { Link } from "react-router-dom"
+import { client, errorToStrings } from "@/app/client"
+import type { PasswordResetRequest } from "@/app/types"
+import { Alert } from "@/components/Alert"
+import { PageTitle } from "@/pages/PageTitle"
 
 export function PasswordRecoveryPage() {
     const [message, setMessage] = useState("")

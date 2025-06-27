@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
-import { reloadServerInfos } from "app/server/thunks"
-import type { ServerInfo } from "app/types"
+import { reloadServerInfos } from "@/app/server/thunks"
+import type { ServerInfo } from "@/app/types"
 
 interface ServerState {
     serverInfos?: ServerInfo

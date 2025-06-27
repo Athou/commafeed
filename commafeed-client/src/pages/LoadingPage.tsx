@@ -1,5 +1,5 @@
 import { Center, Container, RingProgress, Text, useMantineTheme } from "@mantine/core"
-import { useAppLoading } from "hooks/useAppLoading"
+import { useAppLoading } from "@/hooks/useAppLoading"
 import { PageTitle } from "./PageTitle"
 
 export function LoadingPage() {

@@ -11,14 +11,7 @@ import {
     useMantineColorScheme,
 } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
-import { client } from "app/client"
-import { redirectToAbout, redirectToAdminUsers, redirectToDonate, redirectToMetrics, redirectToSettings } from "app/redirect/thunks"
-import { useAppDispatch, useAppSelector } from "app/store"
-import type { ViewMode } from "app/types"
-import { setFontSizePercentage, setViewMode } from "app/user/slice"
-import { reloadProfile } from "app/user/thunks"
 import dayjs from "dayjs"
-import { useNow } from "hooks/useNow"
 import { type ReactNode, useState } from "react"
 import {
     TbChartLine,
@@ -36,6 +29,13 @@ import {
     TbUsers,
     TbWorldDownload,
 } from "react-icons/tb"
+import { client } from "@/app/client"
+import { redirectToAbout, redirectToAdminUsers, redirectToDonate, redirectToMetrics, redirectToSettings } from "@/app/redirect/thunks"
+import { useAppDispatch, useAppSelector } from "@/app/store"
+import type { ViewMode } from "@/app/types"
+import { setFontSizePercentage, setViewMode } from "@/app/user/slice"
+import { reloadProfile } from "@/app/user/thunks"
+import { useNow } from "@/hooks/useNow"
 
 interface ProfileMenuProps {
     control: React.ReactElement

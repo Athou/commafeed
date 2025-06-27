@@ -2,14 +2,6 @@ import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Box, Center, CloseButton, Divider, Group, Indicator, Popover, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { markAllAsReadWithConfirmationIfRequired, reloadEntries, search, selectNextEntry, selectPreviousEntry } from "app/entries/thunks"
-import { useAppDispatch, useAppSelector } from "app/store"
-import { changeReadingMode, changeReadingOrder } from "app/user/thunks"
-import { ActionButton } from "components/ActionButton"
-import { Loader } from "components/Loader"
-import { useActionButton } from "hooks/useActionButton"
-import { useBrowserExtension } from "hooks/useBrowserExtension"
-import { useMobile } from "hooks/useMobile"
 import { useEffect } from "react"
 import {
     TbArrowDown,
@@ -25,6 +17,14 @@ import {
     TbSortDescending,
     TbUser,
 } from "react-icons/tb"
+import { markAllAsReadWithConfirmationIfRequired, reloadEntries, search, selectNextEntry, selectPreviousEntry } from "@/app/entries/thunks"
+import { useAppDispatch, useAppSelector } from "@/app/store"
+import { changeReadingMode, changeReadingOrder } from "@/app/user/thunks"
+import { ActionButton } from "@/components/ActionButton"
+import { Loader } from "@/components/Loader"
+import { useActionButton } from "@/hooks/useActionButton"
+import { useBrowserExtension } from "@/hooks/useBrowserExtension"
+import { useMobile } from "@/hooks/useMobile"
 import { ProfileMenu } from "./ProfileMenu"
 
 function HeaderDivider() {

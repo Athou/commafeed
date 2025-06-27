@@ -1,10 +1,10 @@
 import { Trans } from "@lingui/react/macro"
 import { ActionIcon, Anchor, Tooltip } from "@mantine/core"
-import { Constants } from "app/constants"
-import { markEntry } from "app/entries/thunks"
-import { useAppDispatch } from "app/store"
-import type { Entry } from "app/types"
 import { TbExternalLink } from "react-icons/tb"
+import { Constants } from "@/app/constants"
+import { markEntry } from "@/app/entries/thunks"
+import { useAppDispatch } from "@/app/store"
+import type { Entry } from "@/app/types"
 
 export function OpenExternalLink(props: { entry: Entry }) {
     const dispatch = useAppDispatch()

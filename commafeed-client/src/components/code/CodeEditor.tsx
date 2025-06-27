@@ -1,7 +1,7 @@
 import { Input, Textarea } from "@mantine/core"
-import RichCodeEditor from "components/code/RichCodeEditor"
-import { useMobile } from "hooks/useMobile"
 import type { ReactNode } from "react"
+import RichCodeEditor from "@/components/code/RichCodeEditor"
+import { useMobile } from "@/hooks/useMobile"
 
 interface CodeEditorProps {
     label?: ReactNode

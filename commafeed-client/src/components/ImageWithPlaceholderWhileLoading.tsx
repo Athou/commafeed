@@ -1,7 +1,7 @@
 import { Box, Center } from "@mantine/core"
 import { useState } from "react"
 import { TbPhoto } from "react-icons/tb"
-import { tss } from "tss"
+import { tss } from "@/tss"
 
 interface ImageWithPlaceholderWhileLoadingProps {
     src: string

@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { client } from "app/client"
-import { loadEntries, loadMoreEntries, markAllEntries, markEntry } from "app/entries/thunks"
-import { type RootState, reducers } from "app/store"
-import type { Entries, Entry } from "app/types"
 import type { AxiosResponse } from "axios"
 import { beforeEach, describe, expect, it, vi } from "vitest"
+import { client } from "@/app/client"
+import { loadEntries, loadMoreEntries, markAllEntries, markEntry } from "@/app/entries/thunks"
+import { type RootState, reducers } from "@/app/store"
+import type { Entries, Entry } from "@/app/types"
 
-vi.mock(import("app/client"))
+vi.mock(import("@/app/client"))
 
 describe("entries", () => {
     beforeEach(() => {
@@ -27,7 +27,12 @@ describe("entries", () => {
         } as AxiosResponse<Entries>)
 
         const store = configureStore({ reducer: reducers })
-        const promise = store.dispatch(loadEntries({ source: { type: "feed", id: "feed-id" }, clearSearch: true }))
+        const promise = store.dispatch(
+            loadEntries({
+                source: { type: "feed", id: "feed-id" },
+                clearSearch: true,
+            })
+        )
 
         expect(store.getState().entries.source.type).toBe("feed")
         expect(store.getState().entries.source.id).toBe("feed-id")
@@ -130,11 +135,19 @@ describe("entries", () => {
             } as RootState,
         })
 
-        store.dispatch(markAllEntries({ sourceType: "category", req: { id: "all", read: true } }))
+        store.dispatch(
+            markAllEntries({
+                sourceType: "category",
+                req: { id: "all", read: true },
+            })
+        )
         expect(store.getState().entries.entries).toStrictEqual([
             { id: "3", read: true },
             { id: "4", read: true },
         ])
-        expect(client.category.markEntries).toHaveBeenCalledWith({ id: "all", read: true })
+        expect(client.category.markEntries).toHaveBeenCalledWith({
+            id: "all",
+            read: true,
+        })
     })
 })

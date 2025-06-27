@@ -1,13 +1,19 @@
-import { createAppAsyncThunk } from "app/async-thunk"
-import { client } from "app/client"
-import { Constants } from "app/constants"
-import { type EntrySource, type EntrySourceType, entriesSlice, setMarkAllAsReadConfirmationDialogOpen, setSearch } from "app/entries/slice"
-import type { RootState } from "app/store"
-import { reloadTree, selectNextUnreadTreeItem } from "app/tree/thunks"
-import type { Entry, MarkRequest, TagRequest } from "app/types"
-import { reloadTags } from "app/user/thunks"
-import { scrollToWithCallback } from "app/utils"
 import { flushSync } from "react-dom"
+import { createAppAsyncThunk } from "@/app/async-thunk"
+import { client } from "@/app/client"
+import { Constants } from "@/app/constants"
+import {
+    type EntrySource,
+    type EntrySourceType,
+    entriesSlice,
+    setMarkAllAsReadConfirmationDialogOpen,
+    setSearch,
+} from "@/app/entries/slice"
+import type { RootState } from "@/app/store"
+import { reloadTree, selectNextUnreadTreeItem } from "@/app/tree/thunks"
+import type { Entry, MarkRequest, TagRequest } from "@/app/types"
+import { reloadTags } from "@/app/user/thunks"
+import { scrollToWithCallback } from "@/app/utils"
 
 const getEndpoint = (sourceType: EntrySourceType) =>
     sourceType === "category" || sourceType === "tag" ? client.category.getEntries : client.feed.getEntries

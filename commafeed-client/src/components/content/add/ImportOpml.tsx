@@ -3,13 +3,13 @@ import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
 import { Box, Button, FileInput, Group, Stack } from "@mantine/core"
 import { isNotEmpty, useForm } from "@mantine/form"
-import { client, errorToStrings } from "app/client"
-import { redirectToSelectedSource } from "app/redirect/thunks"
-import { useAppDispatch } from "app/store"
-import { reloadTree } from "app/tree/thunks"
-import { Alert } from "components/Alert"
 import { useAsyncCallback } from "react-async-hook"
 import { TbFileImport } from "react-icons/tb"
+import { client, errorToStrings } from "@/app/client"
+import { redirectToSelectedSource } from "@/app/redirect/thunks"
+import { useAppDispatch } from "@/app/store"
+import { reloadTree } from "@/app/tree/thunks"
+import { Alert } from "@/components/Alert"
 
 export function ImportOpml() {
     const dispatch = useAppDispatch()

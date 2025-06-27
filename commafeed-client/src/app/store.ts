@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { entriesSlice } from "app/entries/slice"
-import { redirectSlice } from "app/redirect/slice"
-import { serverSlice } from "app/server/slice"
-import { treeSlice } from "app/tree/slice"
-import type { LocalSettings } from "app/types"
-import { initialLocalSettings, userSlice } from "app/user/slice"
 import { type TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
+import { entriesSlice } from "@/app/entries/slice"
+import { redirectSlice } from "@/app/redirect/slice"
+import { serverSlice } from "@/app/server/slice"
+import { treeSlice } from "@/app/tree/slice"
+import type { LocalSettings } from "@/app/types"
+import { initialLocalSettings, userSlice } from "@/app/user/slice"
 
 export const reducers = {
     entries: entriesSlice.reducer,

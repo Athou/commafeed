@@ -1,13 +1,13 @@
 import { Box, Mark } from "@mantine/core"
-import { Constants } from "app/constants"
-import { calculatePlaceholderSize } from "app/utils"
-import { BasicHtmlStyles } from "components/content/BasicHtmlStyles"
-import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
 import escapeStringRegexp from "escape-string-regexp"
 import { ALLOWED_TAG_LIST, type ChildrenNode, Interweave, Matcher, type MatchResponse, type Node, type TransformCallback } from "interweave"
 import React from "react"
 import styleToObject from "style-to-object"
-import { tss } from "tss"
+import { Constants } from "@/app/constants"
+import { calculatePlaceholderSize } from "@/app/utils"
+import { BasicHtmlStyles } from "@/components/content/BasicHtmlStyles"
+import { ImageWithPlaceholderWhileLoading } from "@/components/ImageWithPlaceholderWhileLoading"
+import { tss } from "@/tss"
 
 export interface ContentProps {
     content: string

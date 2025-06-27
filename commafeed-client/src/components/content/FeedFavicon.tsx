@@ -1,4 +1,4 @@
-import { ImageWithPlaceholderWhileLoading } from "components/ImageWithPlaceholderWhileLoading"
+import { ImageWithPlaceholderWhileLoading } from "@/components/ImageWithPlaceholderWhileLoading"
 
 export interface FeedFaviconProps {
     url: string

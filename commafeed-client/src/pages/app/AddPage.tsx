@@ -1,9 +1,9 @@
 import { Trans } from "@lingui/react/macro"
 import { Container, Tabs } from "@mantine/core"
-import { AddCategory } from "components/content/add/AddCategory"
-import { ImportOpml } from "components/content/add/ImportOpml"
-import { Subscribe } from "components/content/add/Subscribe"
 import { TbFileImport, TbFolderPlus, TbRss } from "react-icons/tb"
+import { AddCategory } from "@/components/content/add/AddCategory"
+import { ImportOpml } from "@/components/content/add/ImportOpml"
+import { Subscribe } from "@/components/content/add/Subscribe"
 
 export function AddPage() {
     return (

@@ -1,6 +1,6 @@
 import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
-import { useAppSelector } from "app/store"
+import { useAppSelector } from "@/app/store"
 
 interface Step {
     label: string

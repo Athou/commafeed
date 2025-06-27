@@ -1,8 +1,12 @@
 import { Trans } from "@lingui/react/macro"
 import { Box } from "@mantine/core"
 import { openModal } from "@mantine/modals"
-import { Constants } from "app/constants"
-import type { ExpendableEntry } from "app/entries/slice"
+import { useEffect } from "react"
+import { useContextMenu } from "react-contexify"
+import InfiniteScroll from "react-infinite-scroller"
+import { throttle } from "throttle-debounce"
+import { Constants } from "@/app/constants"
+import type { ExpendableEntry } from "@/app/entries/slice"
 import {
     loadMoreEntries,
     markAllAsReadWithConfirmationIfRequired,
@@ -12,19 +16,15 @@ import {
     selectNextEntry,
     selectPreviousEntry,
     starEntry,
-} from "app/entries/thunks"
-import { redirectToRootCategory } from "app/redirect/thunks"
-import { useAppDispatch, useAppSelector } from "app/store"
-import { toggleSidebar } from "app/tree/slice"
-import { selectNextUnreadTreeItem } from "app/tree/thunks"
-import { KeyboardShortcutsHelp } from "components/KeyboardShortcutsHelp"
-import { Loader } from "components/Loader"
-import { useBrowserExtension } from "hooks/useBrowserExtension"
-import { useMousetrap } from "hooks/useMousetrap"
-import { useEffect } from "react"
-import { useContextMenu } from "react-contexify"
-import InfiniteScroll from "react-infinite-scroller"
-import { throttle } from "throttle-debounce"
+} from "@/app/entries/thunks"
+import { redirectToRootCategory } from "@/app/redirect/thunks"
+import { useAppDispatch, useAppSelector } from "@/app/store"
+import { toggleSidebar } from "@/app/tree/slice"
+import { selectNextUnreadTreeItem } from "@/app/tree/thunks"
+import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp"
+import { Loader } from "@/components/Loader"
+import { useBrowserExtension } from "@/hooks/useBrowserExtension"
+import { useMousetrap } from "@/hooks/useMousetrap"
 import { FeedEntry } from "./FeedEntry"
 
 export function FeedEntries() {

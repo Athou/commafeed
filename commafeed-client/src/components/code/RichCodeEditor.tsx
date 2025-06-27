@@ -1,6 +1,6 @@
-import { Loader } from "components/Loader"
-import { useColorScheme } from "hooks/useColorScheme"
 import { useAsync } from "react-async-hook"
+import { Loader } from "@/components/Loader"
+import { useColorScheme } from "@/hooks/useColorScheme"
 
 const init = async () => {
     window.MonacoEnvironment = {

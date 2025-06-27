@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/react/macro"
 import { Anchor, Box, Kbd, Stack, Table } from "@mantine/core"
 import { useOs } from "@mantine/hooks"
-import { Constants } from "app/constants"
+import { Constants } from "@/app/constants"
 
 export function KeyboardShortcutsHelp() {
     const isMacOS = useOs() === "macos"

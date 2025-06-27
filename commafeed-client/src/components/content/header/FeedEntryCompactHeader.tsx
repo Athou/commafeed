@@ -1,11 +1,11 @@
 import { Box } from "@mantine/core"
-import type { Entry } from "app/types"
-import { FeedFavicon } from "components/content/FeedFavicon"
-import { OpenExternalLink } from "components/content/header/OpenExternalLink"
-import { Star } from "components/content/header/Star"
-import { RelativeDate } from "components/RelativeDate"
-import { OnDesktop } from "components/responsive/OnDesktop"
-import { tss } from "tss"
+import type { Entry } from "@/app/types"
+import { FeedFavicon } from "@/components/content/FeedFavicon"
+import { OpenExternalLink } from "@/components/content/header/OpenExternalLink"
+import { Star } from "@/components/content/header/Star"
+import { RelativeDate } from "@/components/RelativeDate"
+import { OnDesktop } from "@/components/responsive/OnDesktop"
+import { tss } from "@/tss"
 import { FeedEntryTitle } from "./FeedEntryTitle"
 
 export interface FeedEntryHeaderProps {

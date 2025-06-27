@@ -1,6 +1,6 @@
 import { Box } from "@mantine/core"
-import { useAppSelector } from "app/store"
-import type { Entry } from "app/types"
+import { useAppSelector } from "@/app/store"
+import type { Entry } from "@/app/types"
 import { Content } from "./Content"
 import { Enclosure } from "./Enclosure"
 import { Media } from "./Media"

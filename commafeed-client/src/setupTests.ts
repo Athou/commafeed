@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
-import { Constants } from "app/constants"
 import { vi } from "vitest"
+import { Constants } from "@/app/constants"
 
 // reduce delay for faster tests
 Constants.tooltip.delay = 10

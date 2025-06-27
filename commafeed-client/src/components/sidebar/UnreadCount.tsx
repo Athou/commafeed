@@ -1,6 +1,6 @@
 import { Badge, Indicator, Tooltip } from "@mantine/core"
-import { Constants } from "app/constants"
-import { tss } from "tss"
+import { Constants } from "@/app/constants"
+import { tss } from "@/tss"
 
 const useStyles = tss.create(() => ({
     badge: {

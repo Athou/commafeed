@@ -1,15 +1,15 @@
 import { Trans } from "@lingui/react/macro"
 import { Anchor, Box, Button, Group, Stack } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { client, errorToStrings } from "app/client"
-import { Constants } from "app/constants"
-import { redirectToSelectedSource } from "app/redirect/thunks"
-import { useAppDispatch, useAppSelector } from "app/store"
-import { Alert } from "components/Alert"
-import { CodeEditor } from "components/code/CodeEditor"
 import { useEffect } from "react"
 import { useAsyncCallback } from "react-async-hook"
 import { TbDeviceFloppy } from "react-icons/tb"
+import { client, errorToStrings } from "@/app/client"
+import { Constants } from "@/app/constants"
+import { redirectToSelectedSource } from "@/app/redirect/thunks"
+import { useAppDispatch, useAppSelector } from "@/app/store"
+import { Alert } from "@/components/Alert"
+import { CodeEditor } from "@/components/code/CodeEditor"
 
 interface FormData {
     customCss: string

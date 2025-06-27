@@ -1,5 +1,5 @@
 import { useMantineTheme } from "@mantine/core"
-import { useMobile } from "hooks/useMobile"
+import { useMobile } from "@/hooks/useMobile"
 
 export const useActionButton = () => {
     const theme = useMantineTheme()

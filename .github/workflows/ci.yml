@@ -236,7 +236,7 @@ jobs:
           version: ${{ github.ref_name }}
 
       - name: Create GitHub release
-        uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1
+        uses: ncipollo/release-action@9128f238eeeeed39b82af6636303729079d51730 # v1
         with:
           name: CommaFeed ${{ github.ref_name }}
           body: ${{ steps.changelog_reader.outputs.changes }}

@@ -10,9 +10,20 @@ import lombok.experimental.UtilityClass;
 public class PlaywrightTestUtils {
 
 	public static void login(Page page) {
-		page.getByPlaceholder("User Name or E-mail").fill("admin");
-		page.getByPlaceholder("Password").fill("admin");
+		login(page, "admin", "admin");
+	}
+
+	public static void login(Page page, String username, String password) {
+		page.getByPlaceholder("User Name or E-mail").fill(username);
+		page.getByPlaceholder("Password").fill(password);
 		page.getByRole(AriaRole.BUTTON, new GetByRoleOptions().setName("Log in")).click();
+	}
+
+	public static void register(Page page, String username, String email, String password) {
+		page.getByPlaceholder("E-mail address").fill(email);
+		page.getByPlaceholder("User Name").fill(username);
+		page.getByPlaceholder("Password").fill(password);
+		page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Sign up")).click();
 	}
 
 }

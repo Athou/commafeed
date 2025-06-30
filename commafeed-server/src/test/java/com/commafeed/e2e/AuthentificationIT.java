@@ -29,9 +29,7 @@ class AuthentificationIT {
 	void loginFail() {
 		Page page = context.newPage();
 		page.navigate(getLoginPageUrl());
-		page.getByPlaceholder("User Name or E-mail").fill("admin");
-		page.getByPlaceholder("Password").fill("wrong_password");
-		page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Log in")).click();
+		PlaywrightTestUtils.login(page, "admin", "wrong_password");
 		PlaywrightAssertions.assertThat(page.getByRole(AriaRole.ALERT)).containsText("wrong username or password");
 	}
 
@@ -48,10 +46,7 @@ class AuthentificationIT {
 		Page page = context.newPage();
 		page.navigate(getLoginPageUrl());
 		page.getByText("Sign up!").click();
-		page.getByPlaceholder("User Name").fill("user");
-		page.getByPlaceholder("E-mail address").fill("user@domain.com");
-		page.getByPlaceholder("Password").fill("pass");
-		page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Sign up")).click();
+		PlaywrightTestUtils.register(page, "user", "user@domain.com", "pass");
 
 		Locator alert = page.getByRole(AriaRole.ALERT);
 		PlaywrightAssertions.assertThat(alert).containsText("Password must be 8 or more characters in length.");
@@ -65,10 +60,7 @@ class AuthentificationIT {
 		Page page = context.newPage();
 		page.navigate(getLoginPageUrl());
 		page.getByText("Sign up!").click();
-		page.getByPlaceholder("User Name").fill("user");
-		page.getByPlaceholder("E-mail address").fill("user@domain.com");
-		page.getByPlaceholder("Password").fill("MyPassword1!");
-		page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Sign up")).click();
+		PlaywrightTestUtils.register(page, "user", "user@domain.com", "MyPassword1!");
 		PlaywrightAssertions.assertThat(page).hasURL("http://localhost:8085/#/app/category/all");
 	}
 

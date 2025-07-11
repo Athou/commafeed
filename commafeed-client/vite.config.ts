@@ -10,7 +10,13 @@ export default defineConfig(() => ({
     plugins: [
         react({
             babel: {
-                plugins: [["babel-plugin-react-compiler", { target: "19" }], "@lingui/babel-plugin-lingui-macro"],
+                plugins: [
+                    // support for lingui macros
+                    // needs to be before the react compiler plugin
+                    "@lingui/babel-plugin-lingui-macro",
+                    // react compiler
+                    ["babel-plugin-react-compiler", { target: "19" }],
+                ],
             },
         }),
         lingui(),

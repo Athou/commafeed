@@ -2,6 +2,7 @@ package com.commafeed.backend.feed.parser;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import lombok.experimental.UtilityClass;
@@ -9,8 +10,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 class HtmlEntities {
 	public static final Map<String, String> HTML_TO_NUMERIC_MAP;
-	public static final String[] HTML_ENTITIES;
-	public static final String[] NUMERIC_ENTITIES;
+	public static final List<String> HTML_ENTITIES;
 
 	static {
 		Map<String, String> map = new LinkedHashMap<>();
@@ -266,7 +266,6 @@ class HtmlEntities {
 		map.put("&zwnj;", "&#8204;");
 
 		HTML_TO_NUMERIC_MAP = Collections.unmodifiableMap(map);
-		HTML_ENTITIES = map.keySet().toArray(new String[0]);
-		NUMERIC_ENTITIES = map.values().toArray(new String[0]);
+		HTML_ENTITIES = List.copyOf(map.keySet());
 	}
 }

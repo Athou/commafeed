@@ -113,10 +113,8 @@ class OPMLExporterTest {
 
 	private boolean containsCategory(List<Outline> outlines, String category) {
 		for (Outline o : outlines) {
-			if (!"rss".equals(o.getType())) {
-				if (category.equals(o.getTitle())) {
-					return true;
-				}
+			if (!"rss".equals(o.getType()) && category.equals(o.getTitle())) {
+				return true;
 			}
 		}
 
@@ -125,10 +123,8 @@ class OPMLExporterTest {
 
 	private boolean containsFeed(List<Outline> outlines, String title, String url) {
 		for (Outline o : outlines) {
-			if ("rss".equals(o.getType())) {
-				if (title.equals(o.getTitle()) && o.getAttributeValue("xmlUrl").equals(url)) {
-					return true;
-				}
+			if ("rss".equals(o.getType()) && title.equals(o.getTitle()) && o.getAttributeValue("xmlUrl").equals(url)) {
+				return true;
 			}
 		}
 

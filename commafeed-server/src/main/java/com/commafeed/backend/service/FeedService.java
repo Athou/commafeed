@@ -23,19 +23,13 @@ public class FeedService {
 
 	private final FeedDAO feedDAO;
 	private final List<AbstractFaviconFetcher> faviconFetchers;
-
 	private final Favicon defaultFavicon;
 
-	public FeedService(FeedDAO feedDAO, @All List<AbstractFaviconFetcher> faviconFetchers) {
+	public FeedService(FeedDAO feedDAO, @All List<AbstractFaviconFetcher> faviconFetchers) throws IOException {
 		this.feedDAO = feedDAO;
 		this.faviconFetchers = faviconFetchers;
-
-		try {
-			defaultFavicon = new Favicon(
-					Resources.toByteArray(Objects.requireNonNull(getClass().getResource("/images/default_favicon.gif"))), "image/gif");
-		} catch (IOException e) {
-			throw new RuntimeException("could not load default favicon", e);
-		}
+		this.defaultFavicon = new Favicon(
+				Resources.toByteArray(Objects.requireNonNull(getClass().getResource("/images/default_favicon.gif"))), "image/gif");
 	}
 
 	public synchronized Feed findOrCreate(String url) {

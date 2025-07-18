@@ -20,7 +20,7 @@ class FeedEntryFilteringServiceTest {
 	private FeedEntry entry;
 
 	@BeforeEach
-	public void init() {
+	void init() {
 		config = Mockito.mock(CommaFeedConfiguration.class, Mockito.RETURNS_DEEP_STUBS);
 		Mockito.when(config.feedRefresh().filteringExpressionEvaluationTimeout()).thenReturn(Duration.ofSeconds(30));
 

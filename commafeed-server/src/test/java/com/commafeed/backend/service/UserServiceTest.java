@@ -48,7 +48,7 @@ class UserServiceTest {
 	private UserService userService;
 
 	@BeforeEach
-	public void init() {
+	void init() {
 		userService = new UserService(feedCategoryDAO, feedSubscriptionDAO, userDAO, userRoleDAO, userSettingsDAO,
 				passwordEncryptionService, commaFeedConfiguration, postLoginActivities);
 

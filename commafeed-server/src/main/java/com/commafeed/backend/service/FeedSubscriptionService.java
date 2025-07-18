@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import jakarta.inject.Singleton;
 
 import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.feed.FeedRefreshEngine;
@@ -25,16 +24,14 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 public class FeedSubscriptionService {
 
-	private final FeedDAO feedDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedService feedService;
 	private final FeedRefreshEngine feedRefreshEngine;
 	private final CommaFeedConfiguration config;
 
-	public FeedSubscriptionService(FeedDAO feedDAO, FeedEntryStatusDAO feedEntryStatusDAO, FeedSubscriptionDAO feedSubscriptionDAO,
-			FeedService feedService, FeedRefreshEngine feedRefreshEngine, CommaFeedConfiguration config) {
-		this.feedDAO = feedDAO;
+	public FeedSubscriptionService(FeedEntryStatusDAO feedEntryStatusDAO, FeedSubscriptionDAO feedSubscriptionDAO, FeedService feedService,
+			FeedRefreshEngine feedRefreshEngine, CommaFeedConfiguration config) {
 		this.feedEntryStatusDAO = feedEntryStatusDAO;
 		this.feedSubscriptionDAO = feedSubscriptionDAO;
 		this.feedService = feedService;

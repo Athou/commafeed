@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class TextDirectionDetectorTest {
 
 	@Test
-	public void testEstimateDirection() {
+	void testEstimateDirection() {
 		Assertions.assertEquals(TextDirectionDetector.Direction.LEFT_TO_RIGHT, TextDirectionDetector.detect(""));
 		Assertions.assertEquals(TextDirectionDetector.Direction.LEFT_TO_RIGHT, TextDirectionDetector.detect(" "));
 		Assertions.assertEquals(TextDirectionDetector.Direction.LEFT_TO_RIGHT, TextDirectionDetector.detect("! (...)"));

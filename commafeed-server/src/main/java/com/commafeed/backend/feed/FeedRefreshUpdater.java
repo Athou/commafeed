@@ -114,6 +114,7 @@ public class FeedRefreshUpdater {
 			}
 		} catch (InterruptedException e) {
 			log.error("interrupted while waiting for lock for {} : {}", feed.getUrl(), e.getMessage(), e);
+			Thread.currentThread().interrupt();
 		} finally {
 			if (locked1) {
 				lock1.unlock();

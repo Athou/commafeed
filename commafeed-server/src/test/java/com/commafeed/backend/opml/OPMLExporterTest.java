@@ -42,7 +42,7 @@ class OPMLExporterTest {
 	private final List<FeedSubscription> subscriptions = new ArrayList<>();
 
 	@BeforeEach
-	public void init() {
+	void init() {
 		user.setName("John Doe");
 
 		cat1.setId(1L);

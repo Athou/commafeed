@@ -29,7 +29,7 @@ public class WebSocketEndpoint {
 	private final WebSocketSessions sessions;
 
 	@OnOpen
-	public void onOpen(Session session) {
+	public void onOpen(Session session) throws IOException {
 		User user = authenticationContext.getCurrentUser();
 		if (user == null) {
 			reject(session);
@@ -53,12 +53,8 @@ public class WebSocketEndpoint {
 		sessions.remove(session);
 	}
 
-	private void reject(Session session) {
-		try {
-			session.close(new CloseReason(CloseCodes.VIOLATED_POLICY, "unauthorized"));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+	private void reject(Session session) throws IOException {
+		session.close(new CloseReason(CloseCodes.VIOLATED_POLICY, "unauthorized"));
 	}
 
 }

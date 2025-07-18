@@ -147,18 +147,17 @@ public class AdminREST {
 		Map<Long, UserModel> users = new HashMap<>();
 		for (UserRole role : userRoleDAO.findAll()) {
 			User u = role.getUser();
-			Long key = u.getId();
-			UserModel userModel = users.get(key);
-			if (userModel == null) {
-				userModel = new UserModel();
-				userModel.setId(u.getId());
-				userModel.setName(u.getName());
-				userModel.setEmail(u.getEmail());
-				userModel.setEnabled(!u.isDisabled());
-				userModel.setCreated(u.getCreated());
-				userModel.setLastLogin(u.getLastLogin());
-				users.put(key, userModel);
-			}
+			UserModel userModel = users.computeIfAbsent(u.getId(), k -> {
+				UserModel um = new UserModel();
+				um.setId(u.getId());
+				um.setName(u.getName());
+				um.setEmail(u.getEmail());
+				um.setEnabled(!u.isDisabled());
+				um.setCreated(u.getCreated());
+				um.setLastLogin(u.getLastLogin());
+				return um;
+			});
+
 			if (role.getRole() == Role.ADMIN) {
 				userModel.setAdmin(true);
 			}

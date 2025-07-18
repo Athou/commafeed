@@ -20,12 +20,14 @@ import com.commafeed.backend.feed.parser.TextDirectionDetector;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.frontend.model.Entry;
 
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Utility methods related to feed handling
  * 
  */
+@UtilityClass
 @Slf4j
 public class FeedUtils {
 

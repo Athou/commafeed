@@ -126,7 +126,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 
 		JsonNode channelId = objectMapper.readTree(playlistBytes).at(PLAYLIST_CHANNEL_ID);
 		if (channelId.isMissingNode()) {
-			return null;
+			return new byte[0];
 		}
 
 		return fetchForChannel(googleAuthKey, channelId.asText());

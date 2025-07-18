@@ -15,14 +15,12 @@ public class CommaFeedVersion {
 	private final String version;
 	private final String gitCommit;
 
-	public CommaFeedVersion() {
+	public CommaFeedVersion() throws IOException {
 		Properties properties = new Properties();
 		try (InputStream stream = getClass().getResourceAsStream("/git.properties")) {
 			if (stream != null) {
 				properties.load(stream);
 			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
 		}
 
 		this.version = properties.getProperty("git.build.version", "unknown");

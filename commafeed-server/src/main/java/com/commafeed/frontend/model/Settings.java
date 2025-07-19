@@ -21,16 +21,10 @@ public class Settings implements Serializable {
 	@Schema(description = "user's preferred language, english if none", requiredMode = RequiredMode.REQUIRED)
 	private String language;
 
-	@Schema(
-			description = "user reads all entries or unread entries only",
-			allowableValues = "all,unread",
-			requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "user reads all entries or unread entries only", requiredMode = RequiredMode.REQUIRED)
 	private ReadingMode readingMode;
 
-	@Schema(
-			description = "user reads entries in ascending or descending order",
-			allowableValues = "asc,desc",
-			requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "user reads entries in ascending or descending order", requiredMode = RequiredMode.REQUIRED)
 	private ReadingOrder readingOrder;
 
 	@Schema(description = "user wants category and feeds with no unread entries shown", requiredMode = RequiredMode.REQUIRED)
@@ -48,25 +42,16 @@ public class Settings implements Serializable {
 	@Schema(description = "user's preferred scroll speed when navigating between entries", requiredMode = RequiredMode.REQUIRED)
 	private int scrollSpeed;
 
-	@Schema(
-			description = "whether to scroll to the selected entry",
-			allowableValues = "always,never,if_needed",
-			requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "whether to scroll to the selected entry", requiredMode = RequiredMode.REQUIRED)
 	private ScrollMode scrollMode;
 
 	@Schema(description = "number of entries to keep above the selected entry when scrolling", requiredMode = RequiredMode.REQUIRED)
 	private int entriesToKeepOnTopWhenScrolling;
 
-	@Schema(
-			description = "whether to show the star icon in the header of entries",
-			allowableValues = "always,never,on_desktop,on_mobile",
-			requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "whether to show the star icon in the header of entries", requiredMode = RequiredMode.REQUIRED)
 	private IconDisplayMode starIconDisplayMode;
 
-	@Schema(
-			description = "whether to show the external link icon in the header of entries",
-			allowableValues = "always,never,on_desktop,on_mobile",
-			requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "whether to show the external link icon in the header of entries", requiredMode = RequiredMode.REQUIRED)
 	private IconDisplayMode externalLinkIconDisplayMode;
 
 	@Schema(description = "ask for confirmation when marking all entries as read", requiredMode = RequiredMode.REQUIRED)

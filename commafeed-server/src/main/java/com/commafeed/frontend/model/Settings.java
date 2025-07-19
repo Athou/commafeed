@@ -2,6 +2,11 @@ package com.commafeed.frontend.model;
 
 import java.io.Serializable;
 
+import com.commafeed.backend.model.UserSettings.IconDisplayMode;
+import com.commafeed.backend.model.UserSettings.ReadingMode;
+import com.commafeed.backend.model.UserSettings.ReadingOrder;
+import com.commafeed.backend.model.UserSettings.ScrollMode;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
@@ -20,13 +25,13 @@ public class Settings implements Serializable {
 			description = "user reads all entries or unread entries only",
 			allowableValues = "all,unread",
 			requiredMode = RequiredMode.REQUIRED)
-	private String readingMode;
+	private ReadingMode readingMode;
 
 	@Schema(
 			description = "user reads entries in ascending or descending order",
 			allowableValues = "asc,desc",
 			requiredMode = RequiredMode.REQUIRED)
-	private String readingOrder;
+	private ReadingOrder readingOrder;
 
 	@Schema(description = "user wants category and feeds with no unread entries shown", requiredMode = RequiredMode.REQUIRED)
 	private boolean showRead;
@@ -47,7 +52,7 @@ public class Settings implements Serializable {
 			description = "whether to scroll to the selected entry",
 			allowableValues = "always,never,if_needed",
 			requiredMode = RequiredMode.REQUIRED)
-	private String scrollMode;
+	private ScrollMode scrollMode;
 
 	@Schema(description = "number of entries to keep above the selected entry when scrolling", requiredMode = RequiredMode.REQUIRED)
 	private int entriesToKeepOnTopWhenScrolling;
@@ -56,13 +61,13 @@ public class Settings implements Serializable {
 			description = "whether to show the star icon in the header of entries",
 			allowableValues = "always,never,on_desktop,on_mobile",
 			requiredMode = RequiredMode.REQUIRED)
-	private String starIconDisplayMode;
+	private IconDisplayMode starIconDisplayMode;
 
 	@Schema(
 			description = "whether to show the external link icon in the header of entries",
 			allowableValues = "always,never,on_desktop,on_mobile",
 			requiredMode = RequiredMode.REQUIRED)
-	private String externalLinkIconDisplayMode;
+	private IconDisplayMode externalLinkIconDisplayMode;
 
 	@Schema(description = "ask for confirmation when marking all entries as read", requiredMode = RequiredMode.REQUIRED)
 	private boolean markAllAsReadConfirmation;

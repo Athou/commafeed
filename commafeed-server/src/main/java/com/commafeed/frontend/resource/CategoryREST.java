@@ -127,7 +127,7 @@ public class CategoryREST {
 		Entries entries = new Entries();
 		entries.setOffset(offset);
 		entries.setLimit(limit);
-		boolean unreadOnly = readType == ReadingMode.unread;
+		boolean unreadOnly = readType == ReadingMode.UNREAD;
 		if (StringUtils.isBlank(id)) {
 			id = ALL;
 		}

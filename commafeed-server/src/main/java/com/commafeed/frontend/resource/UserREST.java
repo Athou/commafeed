@@ -98,8 +98,8 @@ public class UserREST {
 		User user = authenticationContext.getCurrentUser();
 		UserSettings settings = userSettingsDAO.findByUser(user);
 		if (settings != null) {
-			s.setReadingMode(settings.getReadingMode().name());
-			s.setReadingOrder(settings.getReadingOrder().name());
+			s.setReadingMode(settings.getReadingMode());
+			s.setReadingOrder(settings.getReadingOrder());
 			s.setShowRead(settings.isShowRead());
 
 			s.getSharingSettings().setEmail(settings.isEmail());
@@ -116,10 +116,10 @@ public class UserREST {
 			s.setCustomJs(settings.getCustomJs());
 			s.setLanguage(settings.getLanguage());
 			s.setScrollSpeed(settings.getScrollSpeed());
-			s.setScrollMode(settings.getScrollMode().name());
+			s.setScrollMode(settings.getScrollMode());
 			s.setEntriesToKeepOnTopWhenScrolling(settings.getEntriesToKeepOnTopWhenScrolling());
-			s.setStarIconDisplayMode(settings.getStarIconDisplayMode().name());
-			s.setExternalLinkIconDisplayMode(settings.getExternalLinkIconDisplayMode().name());
+			s.setStarIconDisplayMode(settings.getStarIconDisplayMode());
+			s.setExternalLinkIconDisplayMode(settings.getExternalLinkIconDisplayMode());
 			s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());
 			s.setMarkAllAsReadNavigateToNextUnread(settings.isMarkAllAsReadNavigateToNextUnread());
 			s.setCustomContextMenu(settings.isCustomContextMenu());
@@ -128,8 +128,8 @@ public class UserREST {
 			s.setUnreadCountFavicon(settings.isUnreadCountFavicon());
 			s.setPrimaryColor(settings.getPrimaryColor());
 		} else {
-			s.setReadingMode(ReadingMode.unread.name());
-			s.setReadingOrder(ReadingOrder.desc.name());
+			s.setReadingMode(ReadingMode.UNREAD);
+			s.setReadingOrder(ReadingOrder.DESC);
 			s.setShowRead(true);
 
 			s.getSharingSettings().setEmail(true);
@@ -144,10 +144,10 @@ public class UserREST {
 			s.setScrollMarks(true);
 			s.setLanguage("en");
 			s.setScrollSpeed(400);
-			s.setScrollMode(ScrollMode.if_needed.name());
+			s.setScrollMode(ScrollMode.IF_NEEDED);
 			s.setEntriesToKeepOnTopWhenScrolling(1);
-			s.setStarIconDisplayMode(IconDisplayMode.on_desktop.name());
-			s.setExternalLinkIconDisplayMode(IconDisplayMode.on_desktop.name());
+			s.setStarIconDisplayMode(IconDisplayMode.ON_DESKTOP);
+			s.setExternalLinkIconDisplayMode(IconDisplayMode.ON_DESKTOP);
 			s.setMarkAllAsReadConfirmation(true);
 			s.setMarkAllAsReadNavigateToNextUnread(false);
 			s.setCustomContextMenu(true);
@@ -171,18 +171,18 @@ public class UserREST {
 			s = new UserSettings();
 			s.setUser(user);
 		}
-		s.setReadingMode(ReadingMode.valueOf(settings.getReadingMode()));
-		s.setReadingOrder(ReadingOrder.valueOf(settings.getReadingOrder()));
+		s.setReadingMode(settings.getReadingMode());
+		s.setReadingOrder(settings.getReadingOrder());
 		s.setShowRead(settings.isShowRead());
 		s.setScrollMarks(settings.isScrollMarks());
 		s.setCustomCss(settings.getCustomCss());
 		s.setCustomJs(CommaFeedConstants.USERNAME_DEMO.equals(user.getName()) ? "" : settings.getCustomJs());
 		s.setLanguage(settings.getLanguage());
 		s.setScrollSpeed(settings.getScrollSpeed());
-		s.setScrollMode(ScrollMode.valueOf(settings.getScrollMode()));
+		s.setScrollMode(settings.getScrollMode());
 		s.setEntriesToKeepOnTopWhenScrolling(settings.getEntriesToKeepOnTopWhenScrolling());
-		s.setStarIconDisplayMode(IconDisplayMode.valueOf(settings.getStarIconDisplayMode()));
-		s.setExternalLinkIconDisplayMode(IconDisplayMode.valueOf(settings.getExternalLinkIconDisplayMode()));
+		s.setStarIconDisplayMode(settings.getStarIconDisplayMode());
+		s.setExternalLinkIconDisplayMode(settings.getExternalLinkIconDisplayMode());
 		s.setMarkAllAsReadConfirmation(settings.isMarkAllAsReadConfirmation());
 		s.setMarkAllAsReadNavigateToNextUnread(settings.isMarkAllAsReadNavigateToNextUnread());
 		s.setCustomContextMenu(settings.isCustomContextMenu());

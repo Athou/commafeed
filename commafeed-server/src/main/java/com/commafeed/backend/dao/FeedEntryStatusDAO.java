@@ -89,7 +89,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 			query.where(STATUS.entryInserted.gt(newerThan));
 		}
 
-		if (order == ReadingOrder.asc) {
+		if (order == ReadingOrder.ASC) {
 			query.orderBy(STATUS.entryPublished.asc(), STATUS.id.asc());
 		} else {
 			query.orderBy(STATUS.entryPublished.desc(), STATUS.id.desc());
@@ -162,7 +162,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 
 		if (order != null) {
-			if (order == ReadingOrder.asc) {
+			if (order == ReadingOrder.ASC) {
 				query.orderBy(ENTRY.published.asc(), ENTRY.id.asc());
 			} else {
 				query.orderBy(ENTRY.published.desc(), ENTRY.id.desc());

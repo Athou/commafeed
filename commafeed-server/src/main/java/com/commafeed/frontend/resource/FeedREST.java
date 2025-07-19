@@ -160,7 +160,7 @@ public class FeedREST {
 		entries.setOffset(offset);
 		entries.setLimit(limit);
 
-		boolean unreadOnly = readType == ReadingMode.unread;
+		boolean unreadOnly = readType == ReadingMode.UNREAD;
 
 		Instant newerThanDate = newerThan == null ? null : Instant.ofEpochMilli(newerThan);
 

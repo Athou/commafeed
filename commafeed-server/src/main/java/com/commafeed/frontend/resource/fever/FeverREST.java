@@ -251,12 +251,12 @@ public class FeverREST {
 
 	private List<Long> buildUnreadItemIds(User user, List<FeedSubscription> subscriptions) {
 		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, null, null, 0,
-				UNREAD_ITEM_IDS_BATCH_SIZE, ReadingOrder.desc, false, null, null, null);
+				UNREAD_ITEM_IDS_BATCH_SIZE, ReadingOrder.DESC, false, null, null, null);
 		return statuses.stream().map(s -> s.getEntry().getId()).toList();
 	}
 
 	private List<Long> buildSavedItemIds(User user) {
-		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findStarred(user, null, 0, SAVED_ITEM_IDS_BATCH_SIZE, ReadingOrder.desc, false);
+		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findStarred(user, null, 0, SAVED_ITEM_IDS_BATCH_SIZE, ReadingOrder.DESC, false);
 		return statuses.stream().map(s -> s.getEntry().getId()).toList();
 	}
 
@@ -279,7 +279,7 @@ public class FeverREST {
 
 	private List<FeverItem> buildItems(User user, List<FeedSubscription> subscriptions, Long sinceId, Long maxId) {
 		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, false, null, null, 0, ITEMS_BATCH_SIZE,
-				ReadingOrder.desc, false, null, sinceId, maxId);
+				ReadingOrder.DESC, false, null, sinceId, maxId);
 		return statuses.stream().map(this::mapStatus).toList();
 	}
 

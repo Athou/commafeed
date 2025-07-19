@@ -49,7 +49,7 @@ public class FeedEntryContentService {
 		entryContent.setAuthor(FeedUtils.truncate(cleaningService.clean(content.author(), baseUrl, true), 128));
 		entryContent.setCategories(FeedUtils.truncate(content.categories(), 4096));
 		entryContent.setDirection(
-				FeedUtils.isRTL(content.title(), content.content()) ? FeedEntryContent.Direction.rtl : FeedEntryContent.Direction.ltr);
+				FeedUtils.isRTL(content.title(), content.content()) ? FeedEntryContent.Direction.RTL : FeedEntryContent.Direction.LTR);
 
 		Enclosure enclosure = content.enclosure();
 		if (enclosure != null) {

@@ -1,8 +1,6 @@
 package com.commafeed.backend.feed;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Iterator;
+import java.net.URI;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -130,12 +128,7 @@ public class FeedUtils {
 			return null;
 		}
 
-		try {
-			return new URL(new URL(baseUrl), relativeUrl).toString();
-		} catch (MalformedURLException e) {
-			log.debug("could not parse url : {}", e.getMessage(), e);
-			return null;
-		}
+		return URI.create(baseUrl).resolve(relativeUrl).toString();
 	}
 
 	public static String getFaviconUrl(FeedSubscription subscription) {
@@ -195,26 +188,24 @@ public class FeedUtils {
 	}
 
 	public static void removeUnwantedFromSearch(List<Entry> entries, List<FeedEntryKeyword> keywords) {
-		Iterator<Entry> it = entries.iterator();
-		while (it.hasNext()) {
-			Entry entry = it.next();
-			boolean keep = true;
+		if (keywords.isEmpty()) {
+			return;
+		}
+
+		entries.removeIf(e -> {
+			String title = e.getTitle() == null ? null : Jsoup.parse(e.getTitle()).text();
+			String content = e.getContent() == null ? null : Jsoup.parse(e.getContent()).text();
 			for (FeedEntryKeyword keyword : keywords) {
-				String title = entry.getTitle() == null ? null : Jsoup.parse(entry.getTitle()).text();
-				String content = entry.getContent() == null ? null : Jsoup.parse(entry.getContent()).text();
 				boolean condition = !StringUtils.containsIgnoreCase(content, keyword.getKeyword())
 						&& !StringUtils.containsIgnoreCase(title, keyword.getKeyword());
 				if (keyword.getMode() == Mode.EXCLUDE) {
 					condition = !condition;
 				}
 				if (condition) {
-					keep = false;
-					break;
+					return true;
 				}
 			}
-			if (!keep) {
-				it.remove();
-			}
-		}
+			return false;
+		});
 	}
 }

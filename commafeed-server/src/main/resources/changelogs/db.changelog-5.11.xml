@@ -10,4 +10,18 @@
 			</column>
 		</addColumn>
 	</changeSet>
+
+	<changeSet id="uppercase-enum-values" author="athou">
+		<update tableName="USERSETTINGS">
+			<column name="readingOrder" valueComputed="upper(readingOrder)" />
+			<column name="readingMode" valueComputed="upper(readingMode)" />
+			<column name="scrollMode" valueComputed="upper(scrollMode)" />
+			<column name="starIconDisplayMode" valueComputed="upper(starIconDisplayMode)" />
+			<column name="externalLinkIconDisplayMode" valueComputed="upper(externalLinkIconDisplayMode)" />
+		</update>
+		<update tableName="FEEDENTRYCONTENTS">
+			<column name="direction" valueComputed="upper(direction)" />
+		</update>
+	</changeSet>
+
 </databaseChangeLog>

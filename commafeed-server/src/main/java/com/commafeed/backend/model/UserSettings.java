@@ -14,6 +14,8 @@ import jakarta.persistence.Table;
 
 import org.hibernate.annotations.JdbcTypeCode;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,23 +27,54 @@ import lombok.Setter;
 public class UserSettings extends AbstractModel {
 
 	public enum ReadingMode {
-		all, unread
+		@JsonProperty("all")
+		ALL,
+
+		@JsonProperty("unread")
+		UNREAD;
+
+		// method called for query parameters
+		public static ReadingMode fromString(final String s) {
+			return ReadingMode.valueOf(s.toUpperCase());
+		}
 	}
 
 	public enum ReadingOrder {
-		asc, desc
-	}
+		@JsonProperty("asc")
+		ASC,
 
-	public enum ViewMode {
-		title, cozy, detailed, expanded
+		@JsonProperty("desc")
+		DESC;
+
+		// method called for query parameters
+		public static ReadingOrder fromString(final String s) {
+			return ReadingOrder.valueOf(s.toUpperCase());
+		}
 	}
 
 	public enum ScrollMode {
-		always, never, if_needed
+		@JsonProperty("always")
+		ALWAYS,
+
+		@JsonProperty("never")
+		NEVER,
+
+		@JsonProperty("if_needed")
+		IF_NEEDED
 	}
 
 	public enum IconDisplayMode {
-		always, never, on_desktop, on_mobile
+		@JsonProperty("always")
+		ALWAYS,
+
+		@JsonProperty("never")
+		NEVER,
+
+		@JsonProperty("on_desktop")
+		ON_DESKTOP,
+
+		@JsonProperty("on_mobile")
+		ON_MOBILE
 	}
 
 	@OneToOne(fetch = FetchType.LAZY)

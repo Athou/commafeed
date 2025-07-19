@@ -12,8 +12,8 @@ import jakarta.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.CommaFeedConstants;
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -140,11 +140,11 @@ public class UserService {
 	}
 
 	public void createAdminUser() {
-		register(CommaFeedApplication.USERNAME_ADMIN, "admin", "admin@commafeed.com", Arrays.asList(Role.ADMIN, Role.USER), true);
+		register(CommaFeedConstants.USERNAME_ADMIN, "admin", "admin@commafeed.com", Arrays.asList(Role.ADMIN, Role.USER), true);
 	}
 
 	public void createDemoUser() {
-		register(CommaFeedApplication.USERNAME_DEMO, "demo", "demo@commafeed.com", Collections.singletonList(Role.USER), true);
+		register(CommaFeedConstants.USERNAME_DEMO, "demo", "demo@commafeed.com", Collections.singletonList(Role.USER), true);
 	}
 
 	public void unregister(User user) {

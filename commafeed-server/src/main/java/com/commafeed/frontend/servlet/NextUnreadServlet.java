@@ -25,7 +25,6 @@ import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.security.AuthenticationContext;
-import com.google.common.collect.Iterables;
 
 import lombok.RequiredArgsConstructor;
 
@@ -54,7 +53,7 @@ public class NextUnreadServlet {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 			List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subs, true, null, null, 0, 1, order, true, null,
 					null, null);
-			s = Iterables.getFirst(statuses, null);
+			s = statuses.stream().findFirst().orElse(null);
 		} else {
 			FeedCategory category = feedCategoryDAO.findById(user, Long.valueOf(categoryId));
 			if (category != null) {
@@ -62,7 +61,7 @@ public class NextUnreadServlet {
 				List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user, children);
 				List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, null, null, 0, 1, order,
 						true, null, null, null);
-				s = Iterables.getFirst(statuses, null);
+				s = statuses.stream().findFirst().orElse(null);
 			}
 		}
 		if (s != null) {

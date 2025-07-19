@@ -24,7 +24,6 @@ import com.commafeed.backend.feed.parser.FeedParserResult.Content;
 import com.commafeed.backend.feed.parser.FeedParserResult.Enclosure;
 import com.commafeed.backend.feed.parser.FeedParserResult.Entry;
 import com.commafeed.backend.feed.parser.FeedParserResult.Media;
-import com.google.common.collect.Iterables;
 import com.rometools.modules.mediarss.MediaEntryModule;
 import com.rometools.modules.mediarss.MediaModule;
 import com.rometools.modules.mediarss.types.MediaGroup;
@@ -148,7 +147,7 @@ public class FeedParser {
 	}
 
 	private Enclosure buildEnclosure(SyndEntry item) {
-		SyndEnclosure enclosure = Iterables.getFirst(item.getEnclosures(), null);
+		SyndEnclosure enclosure = item.getEnclosures().stream().findFirst().orElse(null);
 		if (enclosure == null) {
 			return null;
 		}

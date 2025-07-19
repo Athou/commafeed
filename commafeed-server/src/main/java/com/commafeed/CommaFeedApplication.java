@@ -16,9 +16,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CommaFeedApplication {
 
-	public static final String USERNAME_ADMIN = "admin";
-	public static final String USERNAME_DEMO = "demo";
-
 	private final DatabaseStartupService databaseStartupService;
 	private final FeedRefreshEngine feedRefreshEngine;
 	private final TaskScheduler taskScheduler;

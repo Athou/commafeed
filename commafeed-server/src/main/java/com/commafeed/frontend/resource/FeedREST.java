@@ -32,8 +32,8 @@ import org.apache.hc.core5.http.HttpStatus;
 import org.jboss.resteasy.reactive.Cache;
 import org.jboss.resteasy.reactive.RestForm;
 
-import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.CommaFeedConstants;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
@@ -472,7 +472,7 @@ public class FeedREST {
 	@Operation(summary = "OPML import", description = "Import an OPML file, posted as a FORM with the 'file' name")
 	public Response importOpml(@Parameter(description = "ompl file", required = true) @RestForm("file") String opml) {
 		User user = authenticationContext.getCurrentUser();
-		if (CommaFeedApplication.USERNAME_DEMO.equals(user.getName())) {
+		if (CommaFeedConstants.USERNAME_DEMO.equals(user.getName())) {
 			return Response.status(Status.FORBIDDEN).entity("Import is disabled for the demo account").build();
 		}
 		try {

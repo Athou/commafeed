@@ -1,5 +1,7 @@
 package com.commafeed.frontend.resource;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
@@ -27,8 +29,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.core5.net.URIBuilder;
 
-import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.CommaFeedConstants;
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
@@ -174,7 +176,7 @@ public class UserREST {
 		s.setShowRead(settings.isShowRead());
 		s.setScrollMarks(settings.isScrollMarks());
 		s.setCustomCss(settings.getCustomCss());
-		s.setCustomJs(CommaFeedApplication.USERNAME_DEMO.equals(user.getName()) ? "" : settings.getCustomJs());
+		s.setCustomJs(CommaFeedConstants.USERNAME_DEMO.equals(user.getName()) ? "" : settings.getCustomJs());
 		s.setLanguage(settings.getLanguage());
 		s.setScrollSpeed(settings.getScrollSpeed());
 		s.setScrollMode(ScrollMode.valueOf(settings.getScrollMode()));
@@ -233,7 +235,7 @@ public class UserREST {
 	@Operation(summary = "Save user's profile")
 	public Response saveUserProfile(@Valid @Parameter(required = true) ProfileModificationRequest request) {
 		User user = authenticationContext.getCurrentUser();
-		if (CommaFeedApplication.USERNAME_DEMO.equals(user.getName())) {
+		if (CommaFeedConstants.USERNAME_DEMO.equals(user.getName())) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 
@@ -306,7 +308,7 @@ public class UserREST {
 		}
 	}
 
-	private String buildEmailContent(User user) throws Exception {
+	private String buildEmailContent(User user) throws URISyntaxException, MalformedURLException {
 		String publicUrl = FeedUtils.removeTrailingSlash(uri.getBaseUri().toString());
 		publicUrl += "/rest/user/passwordResetCallback";
 		return String.format(
@@ -314,7 +316,7 @@ public class UserREST {
 				user.getName(), callbackUrl(user, publicUrl));
 	}
 
-	private String callbackUrl(User user, String publicUrl) throws Exception {
+	private String callbackUrl(User user, String publicUrl) throws URISyntaxException, MalformedURLException {
 		return new URIBuilder(publicUrl).addParameter("email", user.getEmail())
 				.addParameter("token", user.getRecoverPasswordToken())
 				.build()
@@ -364,7 +366,7 @@ public class UserREST {
 	@Operation(summary = "Delete the user account")
 	public Response deleteUser() {
 		User user = authenticationContext.getCurrentUser();
-		if (CommaFeedApplication.USERNAME_ADMIN.equals(user.getName()) || CommaFeedApplication.USERNAME_DEMO.equals(user.getName())) {
+		if (CommaFeedConstants.USERNAME_ADMIN.equals(user.getName()) || CommaFeedConstants.USERNAME_DEMO.equals(user.getName())) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		userService.unregister(userDAO.findById(user.getId()));

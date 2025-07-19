@@ -22,7 +22,6 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.QFeedSubscription;
 import com.commafeed.backend.model.User;
-import com.google.common.collect.Iterables;
 import com.querydsl.jpa.JPQLQuery;
 
 @Singleton
@@ -71,7 +70,8 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 				.leftJoin(SUBSCRIPTION.category)
 				.fetchJoin()
 				.fetch();
-		return initRelations(Iterables.getFirst(subs, null));
+		FeedSubscription sub = subs.stream().findFirst().orElse(null);
+		return initRelations(sub);
 	}
 
 	public List<FeedSubscription> findByFeed(Feed feed) {
@@ -82,7 +82,8 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 		List<FeedSubscription> subs = query().selectFrom(SUBSCRIPTION)
 				.where(SUBSCRIPTION.user.eq(user), SUBSCRIPTION.feed.eq(feed))
 				.fetch();
-		return initRelations(Iterables.getFirst(subs, null));
+		FeedSubscription sub = subs.stream().findFirst().orElse(null);
+		return initRelations(sub);
 	}
 
 	public List<FeedSubscription> findAll(User user) {

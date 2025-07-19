@@ -4,8 +4,8 @@ import java.util.concurrent.TimeUnit;
 
 import jakarta.inject.Singleton;
 
-import com.commafeed.CommaFeedApplication;
 import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.CommaFeedConstants;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
@@ -32,7 +32,7 @@ public class DemoAccountCleanupTask extends ScheduledTask {
 
 		log.info("recreating demo user account");
 		unitOfWork.run(() -> {
-			User demoUser = userDAO.findByName(CommaFeedApplication.USERNAME_DEMO);
+			User demoUser = userDAO.findByName(CommaFeedConstants.USERNAME_DEMO);
 			if (demoUser == null) {
 				return;
 			}

@@ -25,7 +25,6 @@ import com.commafeed.backend.model.QFeedEntryTag;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.model.UnreadCount;
-import com.google.common.collect.Iterables;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -49,7 +48,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	public FeedEntryStatus getStatus(User user, FeedSubscription sub, FeedEntry entry) {
 		List<FeedEntryStatus> statuses = query().selectFrom(STATUS).where(STATUS.entry.eq(entry), STATUS.subscription.eq(sub)).fetch();
-		FeedEntryStatus status = Iterables.getFirst(statuses, null);
+		FeedEntryStatus status = statuses.stream().findFirst().orElse(null);
 		return handleStatus(user, status, sub, entry);
 	}
 

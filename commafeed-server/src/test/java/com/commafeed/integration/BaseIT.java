@@ -22,8 +22,10 @@ import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
+import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Subscription;
+import com.commafeed.frontend.model.request.AddCategoryRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 
 import io.restassured.RestAssured;
@@ -88,10 +90,31 @@ public abstract class BaseIT {
 		return setCookieHeaders.stream().flatMap(h -> HttpCookie.parse(h.getValue()).stream()).toList();
 	}
 
+	protected String createCategory(String name) {
+		AddCategoryRequest addCategoryRequest = new AddCategoryRequest();
+		addCategoryRequest.setName(name);
+		return RestAssured.given()
+				.body(addCategoryRequest)
+				.contentType(MediaType.APPLICATION_JSON)
+				.post("rest/category/add")
+				.then()
+				.extract()
+				.as(String.class);
+	}
+
+	protected Category getRootCategory() {
+		return RestAssured.given().get("rest/category/get").then().statusCode(HttpStatus.SC_OK).extract().as(Category.class);
+	}
+
 	protected Long subscribe(String feedUrl) {
+		return subscribe(feedUrl, null);
+	}
+
+	protected Long subscribe(String feedUrl, String categoryId) {
 		SubscribeRequest subscribeRequest = new SubscribeRequest();
 		subscribeRequest.setUrl(feedUrl);
 		subscribeRequest.setTitle("my title for this feed");
+		subscribeRequest.setCategoryId(categoryId);
 		return RestAssured.given()
 				.body(subscribeRequest)
 				.contentType(MediaType.APPLICATION_JSON)
@@ -103,7 +126,11 @@ public abstract class BaseIT {
 	}
 
 	protected Long subscribeAndWaitForEntries(String feedUrl) {
-		Long subscriptionId = subscribe(feedUrl);
+		return subscribeAndWaitForEntries(feedUrl, null);
+	}
+
+	protected Long subscribeAndWaitForEntries(String feedUrl, String categoryId) {
+		Long subscriptionId = subscribe(feedUrl, categoryId);
 		Awaitility.await().atMost(Duration.ofSeconds(15)).until(() -> getFeedEntries(subscriptionId), e -> e.getEntries().size() == 2);
 		return subscriptionId;
 	}
@@ -120,6 +147,15 @@ public abstract class BaseIT {
 	protected Entries getFeedEntries(long subscriptionId) {
 		return RestAssured.given()
 				.get("rest/feed/entries?id={id}&readType=all", subscriptionId)
+				.then()
+				.statusCode(HttpStatus.SC_OK)
+				.extract()
+				.as(Entries.class);
+	}
+
+	protected Entries getCategoryEntries(String categoryId) {
+		return RestAssured.given()
+				.get("rest/category/entries?id={id}&readType=all", categoryId)
 				.then()
 				.statusCode(HttpStatus.SC_OK)
 				.extract()

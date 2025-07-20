@@ -19,7 +19,7 @@ import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.xml.sax.InputSource;
 
-import com.commafeed.backend.feed.FeedUtils;
+import com.commafeed.backend.Urls;
 import com.commafeed.backend.feed.parser.FeedParserResult.Content;
 import com.commafeed.backend.feed.parser.FeedParserResult.Enclosure;
 import com.commafeed.backend.feed.parser.FeedParserResult.Entry;
@@ -119,7 +119,7 @@ public class FeedParser {
 			}
 
 			String url = buildEntryUrl(feed, feedUrl, item);
-			if (StringUtils.isBlank(url) && FeedUtils.isAbsoluteUrl(guid)) {
+			if (StringUtils.isBlank(url) && Urls.isAbsolute(guid)) {
 				// if link is empty but guid is used as url, use guid
 				url = guid;
 			}
@@ -165,14 +165,14 @@ public class FeedParser {
 
 	private String buildEntryUrl(SyndFeed feed, String feedUrl, SyndEntry item) {
 		String url = StringUtils.trimToNull(StringUtils.normalizeSpace(item.getLink()));
-		if (url == null || FeedUtils.isAbsoluteUrl(url)) {
+		if (url == null || Urls.isAbsolute(url)) {
 			// url is absolute, nothing to do
 			return url;
 		}
 
 		// url is relative, trying to resolve it
 		String feedLink = StringUtils.trimToNull(StringUtils.normalizeSpace(feed.getLink()));
-		return FeedUtils.toAbsoluteUrl(url, feedLink, feedUrl);
+		return Urls.toAbsolute(url, feedLink, feedUrl);
 	}
 
 	private Instant toValidInstant(Date date, boolean nullToNow) {

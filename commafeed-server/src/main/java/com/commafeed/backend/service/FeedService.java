@@ -8,6 +8,7 @@ import java.util.Objects;
 import jakarta.inject.Singleton;
 
 import com.commafeed.backend.Digests;
+import com.commafeed.backend.Urls;
 import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.favicon.AbstractFaviconFetcher;
 import com.commafeed.backend.favicon.Favicon;
@@ -33,7 +34,7 @@ public class FeedService {
 	}
 
 	public synchronized Feed findOrCreate(String url) {
-		String normalizedUrl = FeedUtils.normalizeURL(url);
+		String normalizedUrl = Urls.normalize(url);
 		String normalizedUrlHash = Digests.sha1Hex(normalizedUrl);
 		Feed feed = feedDAO.findByUrl(normalizedUrl, normalizedUrlHash);
 		if (feed == null) {
@@ -48,7 +49,7 @@ public class FeedService {
 	}
 
 	public void update(Feed feed) {
-		String normalized = FeedUtils.normalizeURL(feed.getUrl());
+		String normalized = Urls.normalize(feed.getUrl());
 		feed.setNormalizedUrl(normalized);
 		feed.setNormalizedUrlHash(Digests.sha1Hex(normalized));
 		feed.setLastUpdated(Instant.now());

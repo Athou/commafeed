@@ -32,10 +32,10 @@ import org.apache.hc.core5.net.URIBuilder;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConstants;
 import com.commafeed.backend.Digests;
+import com.commafeed.backend.Urls;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
-import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
@@ -309,7 +309,7 @@ public class UserREST {
 	}
 
 	private String buildEmailContent(User user) throws URISyntaxException, MalformedURLException {
-		String publicUrl = FeedUtils.removeTrailingSlash(uri.getBaseUri().toString());
+		String publicUrl = Urls.removeTrailingSlash(uri.getBaseUri().toString());
 		publicUrl += "/rest/user/passwordResetCallback";
 		return String.format(
 				"You asked for password recovery for account '%s', <a href='%s'>follow this link</a> to change your password. Ignore this if you didn't request a password recovery.",

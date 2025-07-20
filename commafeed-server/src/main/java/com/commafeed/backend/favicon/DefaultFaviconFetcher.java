@@ -10,7 +10,7 @@ import org.jsoup.select.Elements;
 
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
-import com.commafeed.backend.feed.FeedUtils;
+import com.commafeed.backend.Urls;
 import com.commafeed.backend.model.Feed;
 
 import lombok.RequiredArgsConstructor;
@@ -68,7 +68,7 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 		String contentType = null;
 
 		try {
-			url = FeedUtils.removeTrailingSlash(url) + "/favicon.ico";
+			url = Urls.removeTrailingSlash(url) + "/favicon.ico";
 			log.debug("getting root icon at {}", url);
 			HttpResult result = getter.get(url);
 			bytes = result.getContent();

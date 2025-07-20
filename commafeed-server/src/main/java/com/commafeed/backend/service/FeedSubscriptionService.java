@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import jakarta.inject.Singleton;
 
 import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.backend.Urls;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.feed.FeedRefreshEngine;
@@ -67,7 +68,7 @@ public class FeedSubscriptionService {
 		Feed feed = feedService.findOrCreate(url);
 
 		// upgrade feed to https if it was using http
-		if (FeedUtils.isHttp(feed.getUrl()) && FeedUtils.isHttps(url)) {
+		if (Urls.isHttp(feed.getUrl()) && Urls.isHttps(url)) {
 			feed.setUrl(url);
 		}
 

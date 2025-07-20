@@ -240,9 +240,8 @@
 					</execution>
 					<execution>
 						<id>integration-tests-agent</id>
-						<phase>pre-integration-test</phase>
 						<goals>
-							<goal>prepare-agent</goal>
+							<goal>prepare-agent-integration</goal>
 						</goals>
 						<configuration>
 							<destFile>${project.build.directory}/jacoco-output/jacoco-integration-tests.exec</destFile>
@@ -557,6 +556,11 @@
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-junit5-mockito</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-jacoco</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

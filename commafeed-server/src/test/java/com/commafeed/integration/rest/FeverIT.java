@@ -1,7 +1,5 @@
 package com.commafeed.integration.rest;
 
-import jakarta.ws.rs.core.MediaType;
-
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -16,6 +14,7 @@ import com.commafeed.integration.BaseIT;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 
 @QuarkusTest
 class FeverIT extends BaseIT {
@@ -31,7 +30,7 @@ class FeverIT extends BaseIT {
 		ProfileModificationRequest req = new ProfileModificationRequest();
 		req.setCurrentPassword("admin");
 		req.setNewApiKey(true);
-		RestAssured.given().body(req).contentType(MediaType.APPLICATION_JSON).post("rest/user/profile").then().statusCode(HttpStatus.SC_OK);
+		RestAssured.given().body(req).contentType(ContentType.JSON).post("rest/user/profile").then().statusCode(HttpStatus.SC_OK);
 
 		// retrieve api key
 		UserModel user = RestAssured.given().get("rest/user/profile").then().statusCode(HttpStatus.SC_OK).extract().as(UserModel.class);
@@ -68,6 +67,27 @@ class FeverIT extends BaseIT {
 		subscribeAndWaitForEntries(getFeedUrl());
 		FeverResponse feverResponse = fetch("unread_item_ids");
 		Assertions.assertEquals(2, feverResponse.getUnreadItemIds().size());
+	}
+
+	@Test
+	void entries() {
+		subscribeAndWaitForEntries(getFeedUrl());
+		FeverResponse feverResponse = fetch("items");
+		Assertions.assertEquals(2, feverResponse.getItems().size());
+	}
+
+	@Test
+	void groups() {
+		createCategory("category-1");
+		FeverResponse feverResponse = fetch("groups");
+		Assertions.assertEquals(1, feverResponse.getGroups().size());
+		Assertions.assertEquals("category-1", feverResponse.getGroups().get(0).getTitle());
+	}
+
+	@Test
+	void links() {
+		FeverResponse feverResponse = fetch("links");
+		Assertions.assertTrue(feverResponse.getLinks().isEmpty());
 	}
 
 	private FeverResponse fetch(String what) {

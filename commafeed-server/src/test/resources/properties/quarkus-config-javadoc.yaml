@@ -1,0 +1,186 @@
+---
+extension:
+  groupId: "com.commafeed"
+  artifactId: "commafeed-server"
+  name: "CommaFeed Server"
+  nameSource: "POM_XML"
+  detected: true
+elements:
+  com.commafeed.CommaFeedConfiguration.HttpClient.maxResponseSize:
+    description: "If a feed is larger than this, it will be discarded to prevent memory\
+      \ issues while parsing the feed."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.passwordRecoveryEnabled:
+    description: "Enable password recovery via email.\n\nQuarkus mailer will need\
+      \ to be configured."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.imageProxyEnabled:
+    description: "If enabled, images in feed entries will be proxied through the server\
+      \ instead of accessed directly by the browser.\n\nThis is useful if commafeed\
+      \ is accessed through a restricting proxy that blocks some feeds that are followed."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.FeedRefresh.forceRefreshCooldownDuration:
+    description: "Duration after which the \"Fetch all my feeds now\" action is available\
+      \ again after use to avoid spamming feeds."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.Database.queryTimeout:
+    description: "Timeout applied to all database queries.\n\n0 to disable."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.Database.Cleanup.statusesMaxAge:
+    description: "Maximum age of feed entry statuses (read/unread) in the database.\
+      \ Older statuses will be deleted.\n\n0 to disable."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.FeedRefresh.filteringExpressionEvaluationTimeout:
+    description: "Duration after which the evaluation of a filtering expresion to\
+      \ mark an entry as read is considered to have timed out."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.Database.Cleanup.maxFeedCapacity:
+    description: "Maximum number of entries per feed to keep in the database.\n\n\
+      0 to disable."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.FeedRefresh.maxInterval:
+    description: "Maximum amount of time CommaFeed will wait before refreshing a feed.\
+      \ This is used as an upper bound when:\n\n<ul>\n<li>an error occurs while refreshing\
+      \ a feed and we're backing off exponentially</li>\n<li>we receive a Cache-Control\
+      \ header from the feed</li>\n<li>we receive a Retry-After header from the feed</li>\n\
+      </ul>"
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.Database.cleanup:
+    description: "Database cleanup settings"
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.FeedRefresh.databaseThreads:
+    description: "Amount of threads used to insert new entries in the database."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.HttpClient.connectTimeout:
+    description: "Time to wait for a connection to be established."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.Database.Cleanup.batchSize:
+    description: "Rows to delete per query while cleaning up old entries."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.HttpClient.responseTimeout:
+    description: "Time to wait for the full response to be received."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.Users.strictPasswordPolicy:
+    description: "Whether to enable strict password validation (1 uppercase char,\
+      \ 1 lowercase char, 1 digit, 1 special char)."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.Database.Cleanup.maxFeedsPerUser:
+    description: "Limit the number of feeds a user can subscribe to.\n\n0 to disable."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.database:
+    description: "Database settings"
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.HttpClientCache.maximumMemorySize:
+    description: "Maximum amount of memory the cache can use."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.HttpClient.sslHandshakeTimeout:
+    description: "Time to wait for SSL handshake to complete."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.users:
+    description: "Users settings"
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.FeedRefresh.intervalEmpirical:
+    description: "If enabled, CommaFeed will calculate the next refresh time based\
+      \ on the feed's average time between entries and the time since\nthe last entry\
+      \ was published. The interval will be sometimes between the default refresh\
+      \ interval\n(`commafeed.feed-refresh.interval`) and the maximum refresh interval\
+      \ (`commafeed.feed-refresh.max-interval`).\n\nSee {@link FeedRefreshIntervalCalculator}\
+      \ for details."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.feedRefresh:
+    description: "Feed refresh engine settings"
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.googleAuthKey:
+    description: "Google Auth key for fetching Youtube channel favicons."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.HttpClient.socketTimeout:
+    description: "Time to wait between two packets before timeout."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.FeedRefresh.httpThreads:
+    description: "Amount of http threads used to fetch feeds."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.HttpClient.connectionTimeToLive:
+    description: "Time to live for a connection in the pool."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.HttpClient.cache:
+    description: "HTTP client cache configuration"
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.websocket:
+    description: "Websocket settings"
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.googleAnalyticsTrackingCode:
+    description: "Google Analytics tracking code."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.Users.allowRegistrations:
+    description: "Whether to let users create accounts for themselves."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.Websocket.treeReloadInterval:
+    description: "If the websocket connection is disabled or the connection is lost,\
+      \ the client will reload the feed tree at this interval."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.httpClient:
+    description: "HTTP client configuration"
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.FeedRefresh.errors:
+    description: "Feed refresh engine error handling settings"
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration:
+    description: "CommaFeed configuration"
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.HttpClient.blockLocalAddresses:
+    description: "Prevent access to local addresses to mitigate server-side request\
+      \ forgery (SSRF) attacks, which could potentially expose internal\nresources.\n\
+      \nYou may want to disable this if you subscribe to feeds that are only available\
+      \ on your local network and you trust all users of\nyour CommaFeed instance."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.announcement:
+    description: "Message displayed in a notification at the bottom of the page."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.HttpClientCache.expiration:
+    description: "Duration after which an entry is removed from the cache."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.FeedRefreshErrorHandling.backoffInterval:
+    description: "Duration to wait before retrying after an error. Will be multiplied\
+      \ by the number of errors since the last successful fetch."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.Websocket.pingInterval:
+    description: "Interval at which the client will send a ping message on the websocket\
+      \ to keep the connection alive."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.FeedRefresh.interval:
+    description: "Default amount of time CommaFeed will wait before refreshing a feed."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.FeedRefreshErrorHandling.retriesBeforeBackoff:
+    description: "Number of retries before backoff is applied."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.Database.Cleanup.entriesMaxAge:
+    description: "Maximum age of feed entries in the database. Older entries will\
+      \ be deleted.\n\n0 to disable."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.HttpClientCache.enabled:
+    description: "Whether to enable the cache. This cache is used to avoid spamming\
+      \ feeds in short bursts (e.g. when subscribing to a feed for the\nfirst time\
+      \ or when clicking \"fetch all my feeds now\")."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.HttpClient.idleConnectionsEvictionInterval:
+    description: "Time between eviction runs for idle connections."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.FeedRefresh.userInactivityPeriod:
+    description: "Duration after which a user is considered inactive. Feeds for inactive\
+      \ users are not refreshed until they log in again.\n\n0 to disable."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.Users.createDemoAccount:
+    description: "Whether to create a demo account the first time the app starts."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.hideFromWebCrawlers:
+    description: "Whether to expose a robots.txt file that disallows web crawlers\
+      \ and search engine indexers."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.Websocket.enabled:
+    description: "Enable websocket connection so the server can notify web clients\
+      \ that there are new entries for feeds."
+    format: "JAVADOC"
+  com.commafeed.CommaFeedConfiguration.HttpClient.userAgent:
+    description: "User-Agent string that will be used by the http client, leave empty\
+      \ for the default one."
+    format: "JAVADOC"

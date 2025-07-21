@@ -2,8 +2,6 @@ package com.commafeed.integration.rest;
 
 import java.util.List;
 
-import jakarta.ws.rs.core.MediaType;
-
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -18,6 +16,7 @@ import com.commafeed.integration.BaseIT;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 
 @QuarkusTest
 class AdminIT extends BaseIT {
@@ -38,42 +37,47 @@ class AdminIT extends BaseIT {
 		void saveModifyAndDeleteNewUser() {
 			List<UserModel> existingUsers = getAllUsers();
 
-			createUser();
+			long userId = createUser();
 			Assertions.assertEquals(existingUsers.size() + 1, getAllUsers().size());
 
-			modifyUser();
+			UserModel user = getUser(userId);
+			Assertions.assertEquals("test", user.getName());
+
+			modifyUser(user);
 			Assertions.assertEquals(existingUsers.size() + 1, getAllUsers().size());
 
 			deleteUser();
 			Assertions.assertEquals(existingUsers.size(), getAllUsers().size());
 		}
 
-		private void createUser() {
+		private long createUser() {
 			User user = new User();
 			user.setName("test");
 			user.setPassword("test".getBytes());
 			user.setEmail("test@test.com");
-			RestAssured.given()
+			String response = RestAssured.given()
 					.body(user)
-					.contentType(MediaType.APPLICATION_JSON)
+					.contentType(ContentType.JSON)
 					.post("rest/admin/user/save")
 					.then()
-					.statusCode(HttpStatus.SC_OK);
+					.statusCode(HttpStatus.SC_OK)
+					.extract()
+					.asString();
+			return Long.parseLong(response);
 		}
 
-		private void modifyUser() {
-			List<UserModel> existingUsers = getAllUsers();
-			UserModel user = existingUsers.stream()
-					.filter(u -> u.getName().equals("test"))
-					.findFirst()
-					.orElseThrow(() -> new NullPointerException("User not found"));
-			user.setEmail("new-email@provider.com");
-			RestAssured.given()
-					.body(user)
-					.contentType(MediaType.APPLICATION_JSON)
-					.post("rest/admin/user/save")
+		private UserModel getUser(long userId) {
+			return RestAssured.given()
+					.get("rest/admin/user/get/{id}", userId)
 					.then()
-					.statusCode(HttpStatus.SC_OK);
+					.statusCode(HttpStatus.SC_OK)
+					.extract()
+					.as(UserModel.class);
+		}
+
+		private void modifyUser(UserModel user) {
+			user.setEmail("new-email@provider.com");
+			RestAssured.given().body(user).contentType(ContentType.JSON).post("rest/admin/user/save").then().statusCode(HttpStatus.SC_OK);
 		}
 
 		private void deleteUser() {
@@ -85,12 +89,7 @@ class AdminIT extends BaseIT {
 
 			IDRequest req = new IDRequest();
 			req.setId(user.getId());
-			RestAssured.given()
-					.body(req)
-					.contentType(MediaType.APPLICATION_JSON)
-					.post("rest/admin/user/delete")
-					.then()
-					.statusCode(HttpStatus.SC_OK);
+			RestAssured.given().body(req).contentType(ContentType.JSON).post("rest/admin/user/delete").then().statusCode(HttpStatus.SC_OK);
 		}
 
 		private List<UserModel> getAllUsers() {

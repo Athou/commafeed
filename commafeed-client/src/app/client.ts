@@ -105,7 +105,7 @@ export const client = {
     },
     admin: {
         getAllUsers: async () => await axiosInstance.get<UserModel[]>("admin/user/getAll"),
-        saveUser: async (req: AdminSaveUserRequest) => await axiosInstance.post("admin/user/save", req),
+        saveUser: async (req: AdminSaveUserRequest) => await axiosInstance.post<number>("admin/user/save", req),
         deleteUser: async (req: IDRequest) => await axiosInstance.post("admin/user/delete", req),
         getMetrics: async () => await axiosInstance.get<Metrics>("admin/metrics"),
     },

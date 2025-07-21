@@ -19,7 +19,6 @@ import jakarta.websocket.Endpoint;
 import jakarta.websocket.EndpointConfig;
 import jakarta.websocket.Session;
 import jakarta.ws.rs.core.HttpHeaders;
-import jakarta.ws.rs.core.MediaType;
 
 import org.apache.hc.core5.http.HttpStatus;
 import org.awaitility.Awaitility;
@@ -32,6 +31,7 @@ import com.commafeed.frontend.model.request.FeedModificationRequest;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
 
 @QuarkusTest
@@ -102,7 +102,7 @@ class WebSocketIT extends BaseIT {
 		req.setId(subscriptionId);
 		req.setName("feed-name");
 		req.setFilter("!title.contains('item 4')");
-		RestAssured.given().body(req).contentType(MediaType.APPLICATION_JSON).post("rest/feed/modify").then().statusCode(HttpStatus.SC_OK);
+		RestAssured.given().body(req).contentType(ContentType.JSON).post("rest/feed/modify").then().statusCode(HttpStatus.SC_OK);
 
 		AtomicBoolean connected = new AtomicBoolean();
 		AtomicReference<String> messageRef = new AtomicReference<>();

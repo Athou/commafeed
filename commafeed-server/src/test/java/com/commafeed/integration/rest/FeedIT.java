@@ -2,6 +2,7 @@ package com.commafeed.integration.rest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.xml.sax.InputSource;
 
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.FeedInfo;
@@ -28,9 +30,13 @@ import com.commafeed.frontend.model.request.FeedModificationRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.integration.BaseIT;
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.io.FeedException;
+import com.rometools.rome.io.SyndFeedInput;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 
 @QuarkusTest
 class FeedIT extends BaseIT {
@@ -54,7 +60,7 @@ class FeedIT extends BaseIT {
 
 			FeedInfo feedInfo = RestAssured.given()
 					.body(req)
-					.contentType(MediaType.APPLICATION_JSON)
+					.contentType(ContentType.JSON)
 					.post("rest/feed/fetch")
 					.then()
 					.statusCode(HttpStatus.SC_OK)
@@ -101,7 +107,7 @@ class FeedIT extends BaseIT {
 
 			return RestAssured.given()
 					.body(request)
-					.contentType(MediaType.APPLICATION_JSON)
+					.contentType(ContentType.JSON)
 					.post("rest/feed/unsubscribe")
 					.then()
 					.extract()
@@ -152,12 +158,7 @@ class FeedIT extends BaseIT {
 			request.setOlderThan(olderThan == null ? null : olderThan.toEpochMilli());
 			request.setInsertedBefore(insertedBefore == null ? null : insertedBefore.toEpochMilli());
 
-			RestAssured.given()
-					.body(request)
-					.contentType(MediaType.APPLICATION_JSON)
-					.post("rest/feed/mark")
-					.then()
-					.statusCode(HttpStatus.SC_OK);
+			RestAssured.given().body(request).contentType(ContentType.JSON).post("rest/feed/mark").then().statusCode(HttpStatus.SC_OK);
 		}
 	}
 
@@ -181,6 +182,25 @@ class FeedIT extends BaseIT {
 	}
 
 	@Nested
+	class RSS {
+		@Test
+		void allAsFeed() throws FeedException {
+			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
+			String xml = RestAssured.given()
+					.get("rest/feed/entriesAsFeed?id={id}", subscriptionId)
+					.then()
+					.statusCode(HttpStatus.SC_OK)
+					.contentType(ContentType.XML)
+					.extract()
+					.asString();
+
+			InputSource source = new InputSource(new StringReader(xml));
+			SyndFeed feed = new SyndFeedInput().build(source);
+			Assertions.assertEquals(2, feed.getEntries().size());
+		}
+	}
+
+	@Nested
 	class Modify {
 		@Test
 		void modify() {
@@ -192,12 +212,8 @@ class FeedIT extends BaseIT {
 			req.setId(subscriptionId);
 			req.setName("new name");
 			req.setCategoryId(subscription.getCategoryId());
-			RestAssured.given()
-					.body(req)
-					.contentType(MediaType.APPLICATION_JSON)
-					.post("rest/feed/modify")
-					.then()
-					.statusCode(HttpStatus.SC_OK);
+			req.setPosition(1);
+			RestAssured.given().body(req).contentType(ContentType.JSON).post("rest/feed/modify").then().statusCode(HttpStatus.SC_OK);
 
 			subscription = getSubscription(subscriptionId);
 			Assertions.assertEquals("new name", subscription.getName());

@@ -26,10 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FeedUtils {
 
 	public static String truncate(String string, int length) {
-		if (string != null) {
-			string = string.substring(0, Math.min(length, string.length()));
-		}
-		return string;
+		return StringUtils.truncate(string, length);
 	}
 
 	public static boolean isRTL(String title, String content) {

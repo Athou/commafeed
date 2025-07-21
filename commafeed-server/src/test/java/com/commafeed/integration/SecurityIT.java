@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.ws.rs.core.HttpHeaders;
-import jakarta.ws.rs.core.MediaType;
 
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
@@ -20,6 +19,7 @@ import com.commafeed.frontend.model.request.SubscribeRequest;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 
 @QuarkusTest
 class SecurityIT extends BaseIT {
@@ -79,7 +79,7 @@ class SecurityIT extends BaseIT {
 				.preemptive()
 				.basic("admin", "admin")
 				.body(req)
-				.contentType(MediaType.APPLICATION_JSON)
+				.contentType(ContentType.JSON)
 				.post("rest/user/profile")
 				.then()
 				.statusCode(HttpStatus.SC_OK);
@@ -105,7 +105,7 @@ class SecurityIT extends BaseIT {
 				.preemptive()
 				.basic("admin", "admin")
 				.body(subscribeRequest)
-				.contentType(MediaType.APPLICATION_JSON)
+				.contentType(ContentType.JSON)
 				.post("rest/feed/subscribe")
 				.then()
 				.statusCode(HttpStatus.SC_OK)
@@ -130,7 +130,7 @@ class SecurityIT extends BaseIT {
 		markRequest.setRead(true);
 		RestAssured.given()
 				.body(markRequest)
-				.contentType(MediaType.APPLICATION_JSON)
+				.contentType(ContentType.JSON)
 				.queryParam("apiKey", apiKey)
 				.post("rest/entry/mark")
 				.then()

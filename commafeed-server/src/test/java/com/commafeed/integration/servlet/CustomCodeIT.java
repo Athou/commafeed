@@ -1,7 +1,5 @@
 package com.commafeed.integration.servlet;
 
-import jakarta.ws.rs.core.MediaType;
-
 import org.apache.hc.core5.http.HttpStatus;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.AfterEach;
@@ -13,6 +11,7 @@ import com.commafeed.integration.BaseIT;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 
 @QuarkusTest
 class CustomCodeIT extends BaseIT {
@@ -35,12 +34,7 @@ class CustomCodeIT extends BaseIT {
 		// update settings
 		settings.setCustomJs("custom-js");
 		settings.setCustomCss("custom-css");
-		RestAssured.given()
-				.body(settings)
-				.contentType(MediaType.APPLICATION_JSON)
-				.post("rest/user/settings")
-				.then()
-				.statusCode(HttpStatus.SC_OK);
+		RestAssured.given().body(settings).contentType(ContentType.JSON).post("rest/user/settings").then().statusCode(HttpStatus.SC_OK);
 
 		// check custom code servlets
 		RestAssured.given().get("custom_js.js").then().statusCode(HttpStatus.SC_OK).body(CoreMatchers.is("custom-js"));

@@ -10,7 +10,6 @@ import java.util.Objects;
 
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.core.HttpHeaders;
-import jakarta.ws.rs.core.MediaType;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.core5.http.HttpStatus;
@@ -29,6 +28,7 @@ import com.commafeed.frontend.model.request.AddCategoryRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import lombok.Getter;
 
@@ -95,7 +95,7 @@ public abstract class BaseIT {
 		addCategoryRequest.setName(name);
 		return RestAssured.given()
 				.body(addCategoryRequest)
-				.contentType(MediaType.APPLICATION_JSON)
+				.contentType(ContentType.JSON)
 				.post("rest/category/add")
 				.then()
 				.extract()
@@ -117,7 +117,7 @@ public abstract class BaseIT {
 		subscribeRequest.setCategoryId(categoryId);
 		return RestAssured.given()
 				.body(subscribeRequest)
-				.contentType(MediaType.APPLICATION_JSON)
+				.contentType(ContentType.JSON)
 				.post("rest/feed/subscribe")
 				.then()
 				.statusCode(HttpStatus.SC_OK)
@@ -156,6 +156,24 @@ public abstract class BaseIT {
 	protected Entries getCategoryEntries(String categoryId) {
 		return RestAssured.given()
 				.get("rest/category/entries?id={id}&readType=all", categoryId)
+				.then()
+				.statusCode(HttpStatus.SC_OK)
+				.extract()
+				.as(Entries.class);
+	}
+
+	protected Entries getCategoryEntries(String categoryId, String keywords) {
+		return RestAssured.given()
+				.get("rest/category/entries?id={id}&readType=all&keywords={keywords}", categoryId, keywords)
+				.then()
+				.statusCode(HttpStatus.SC_OK)
+				.extract()
+				.as(Entries.class);
+	}
+
+	protected Entries getTaggedEntries(String tag) {
+		return RestAssured.given()
+				.get("rest/category/entries?id=all&readType=all&tag={tag}", tag)
 				.then()
 				.statusCode(HttpStatus.SC_OK)
 				.extract()

@@ -80,7 +80,7 @@ public class AdminREST {
 				roles.add(Role.ADMIN);
 			}
 			try {
-				userService.register(req.getName(), req.getPassword(), req.getEmail(), roles, true);
+				id = userService.register(req.getName(), req.getPassword(), req.getEmail(), roles, true).getId();
 			} catch (Exception e) {
 				return Response.status(Status.CONFLICT).entity(e.getMessage()).build();
 			}
@@ -113,7 +113,7 @@ public class AdminREST {
 			}
 
 		}
-		return Response.ok().build();
+		return Response.ok(id).build();
 
 	}
 

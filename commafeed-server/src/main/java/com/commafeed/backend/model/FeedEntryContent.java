@@ -14,7 +14,6 @@ import jakarta.persistence.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 
-import com.commafeed.backend.feed.FeedUtils;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -98,16 +97,5 @@ public class FeedEntryContent extends AbstractModel {
 				.append(mediaThumbnailWidth, c.mediaThumbnailWidth)
 				.append(mediaThumbnailHeight, c.mediaThumbnailHeight)
 				.build();
-	}
-
-	public boolean isRTL() {
-		if (direction == Direction.RTL) {
-			return true;
-		} else if (direction == Direction.LTR) {
-			return false;
-		} else {
-			// detect on the fly for content that was inserted before the direction field was added
-			return FeedUtils.isRTL(title, content);
-		}
 	}
 }

@@ -1,5 +1,7 @@
 package com.commafeed.backend.urlprovider;
 
+import java.util.List;
+
 import jakarta.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
@@ -17,12 +19,12 @@ public class YoutubeFeedURLProvider implements FeedURLProvider {
 	private static final String REPLACEMENT_PREFIX = "https://www.youtube.com/feeds/videos.xml?channel_id=";
 
 	@Override
-	public String get(String url, String urlContent) {
+	public List<String> get(String url, String urlContent) {
 		if (!StringUtils.startsWithIgnoreCase(url, PREFIX)) {
-			return null;
+			return List.of();
 		}
 
-		return REPLACEMENT_PREFIX + url.substring(PREFIX.length());
+		return List.of(REPLACEMENT_PREFIX + url.substring(PREFIX.length()));
 	}
 
 }

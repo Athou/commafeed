@@ -1,5 +1,7 @@
 package com.commafeed.backend.urlprovider;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -8,41 +10,7 @@ class InPageReferenceFeedURLProviderTest {
 	private final InPageReferenceFeedURLProvider provider = new InPageReferenceFeedURLProvider();
 
 	@Test
-	void extractsAtomFeedURL() {
-		String url = "http://example.com";
-		String html = """
-				<html>
-					<head>
-						<link type="application/atom+xml" href="/feed.atom">
-					</head>
-					<body>
-					</body>
-				</html>""";
-
-		String result = provider.get(url, html);
-
-		Assertions.assertEquals("http://example.com/feed.atom", result);
-	}
-
-	@Test
-	void extractsRSSFeedURL() {
-		String url = "http://example.com";
-		String html = """
-				<html>
-					<head>
-						<link type="application/rss+xml" href="/feed.rss">
-					</head>
-					<body>
-					</body>
-				</html>""";
-
-		String result = provider.get(url, html);
-
-		Assertions.assertEquals("http://example.com/feed.rss", result);
-	}
-
-	@Test
-	void prefersAtomOverRSS() {
+	void extractUrls() {
 		String url = "http://example.com";
 		String html = """
 				<html>
@@ -54,26 +22,22 @@ class InPageReferenceFeedURLProviderTest {
 					</body>
 				</html>""";
 
-		String result = provider.get(url, html);
-
-		Assertions.assertEquals("http://example.com/feed.atom", result);
+		Assertions.assertIterableEquals(List.of("http://example.com/feed.atom", "http://example.com/feed.rss"), provider.get(url, html));
 	}
 
 	@Test
-	void returnsNullForNonHtmlContent() {
+	void returnsEmptyListForNonHtmlContent() {
 		String url = "http://example.com";
-		String content = """
+		String html = """
 				<?xml version="1.0"?>
 					<feed></feed>
 				</xml>""";
 
-		String result = provider.get(url, content);
-
-		Assertions.assertNull(result);
+		Assertions.assertTrue(provider.get(url, html).isEmpty());
 	}
 
 	@Test
-	void returnsNullForHtmlWithoutFeedLinks() {
+	void returnsEmptyListForHtmlWithoutFeedLinks() {
 		String url = "http://example.com";
 		String html = """
 				<html>
@@ -84,8 +48,6 @@ class InPageReferenceFeedURLProviderTest {
 					</body>
 				</html>""";
 
-		String result = provider.get(url, html);
-
-		Assertions.assertNull(result);
+		Assertions.assertTrue(provider.get(url, html).isEmpty());
 	}
 }

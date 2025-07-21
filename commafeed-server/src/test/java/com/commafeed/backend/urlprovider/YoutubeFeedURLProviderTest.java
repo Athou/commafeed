@@ -1,5 +1,7 @@
 package com.commafeed.backend.urlprovider;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -9,14 +11,14 @@ class YoutubeFeedURLProviderTest {
 
 	@Test
 	void matchesYoutubeChannelURL() {
-		Assertions.assertEquals("https://www.youtube.com/feeds/videos.xml?channel_id=abc",
+		Assertions.assertIterableEquals(List.of("https://www.youtube.com/feeds/videos.xml?channel_id=abc"),
 				provider.get("https://www.youtube.com/channel/abc", null));
 	}
 
 	@Test
 	void doesNotmatchYoutubeChannelURL() {
-		Assertions.assertNull(provider.get("https://www.anothersite.com/channel/abc", null));
-		Assertions.assertNull(provider.get("https://www.youtube.com/user/abc", null));
+		Assertions.assertTrue(provider.get("https://www.anothersite.com/channel/abc", null).isEmpty());
+		Assertions.assertTrue(provider.get("https://www.youtube.com/user/abc", null).isEmpty());
 	}
 
 }

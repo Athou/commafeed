@@ -98,14 +98,11 @@ public class FeedFetcher {
 	}
 
 	private static String extractFeedUrl(List<FeedURLProvider> urlProviders, String url, String urlContent) {
-		for (FeedURLProvider urlProvider : urlProviders) {
-			String feedUrl = urlProvider.get(url, urlContent);
-			if (feedUrl != null) {
-				return feedUrl;
-			}
-		}
-
-		return null;
+		return urlProviders.stream()
+				.flatMap(provider -> provider.get(url, urlContent).stream())
+				.filter(StringUtils::isNotBlank)
+				.findFirst()
+				.orElse(null);
 	}
 
 	public record FeedFetcherResult(FeedParserResult feed, String urlAfterRedirect, String lastModifiedHeader, String lastETagHeader,

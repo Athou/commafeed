@@ -34,7 +34,6 @@ import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.feed.FeedEntryKeyword;
-import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
@@ -184,7 +183,6 @@ public class CategoryREST {
 
 		entries.setTimestamp(System.currentTimeMillis());
 		entries.setIgnoredReadStatus(STARRED.equals(id) || keywords != null || tag != null);
-		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), entryKeywords);
 		return Response.ok(entries).build();
 	}
 

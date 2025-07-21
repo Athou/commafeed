@@ -42,7 +42,6 @@ import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedFetcher;
 import com.commafeed.backend.feed.FeedFetcher.FeedFetcherResult;
 import com.commafeed.backend.feed.FeedRefreshEngine;
-import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
@@ -190,7 +189,6 @@ public class FeedREST {
 
 		entries.setTimestamp(System.currentTimeMillis());
 		entries.setIgnoredReadStatus(keywords != null);
-		FeedUtils.removeUnwantedFromSearch(entries.getEntries(), entryKeywords);
 		return Response.ok(entries).build();
 	}
 

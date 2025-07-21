@@ -1,17 +1,13 @@
 package com.commafeed.backend.feed;
 
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
 import com.commafeed.backend.feed.parser.TextDirectionDetector;
 import com.commafeed.backend.model.FeedSubscription;
-import com.commafeed.frontend.model.Entry;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -72,25 +68,4 @@ public class FeedUtils {
 		return "rest/server/proxy?u=" + ImageProxyUrl.encode(url);
 	}
 
-	public static void removeUnwantedFromSearch(List<Entry> entries, List<FeedEntryKeyword> keywords) {
-		if (keywords.isEmpty()) {
-			return;
-		}
-
-		entries.removeIf(e -> {
-			String title = e.getTitle() == null ? null : Jsoup.parse(e.getTitle()).text();
-			String content = e.getContent() == null ? null : Jsoup.parse(e.getContent()).text();
-			for (FeedEntryKeyword keyword : keywords) {
-				boolean condition = !StringUtils.containsIgnoreCase(content, keyword.getKeyword())
-						&& !StringUtils.containsIgnoreCase(title, keyword.getKeyword());
-				if (keyword.getMode() == Mode.EXCLUDE) {
-					condition = !condition;
-				}
-				if (condition) {
-					return true;
-				}
-			}
-			return false;
-		});
-	}
 }

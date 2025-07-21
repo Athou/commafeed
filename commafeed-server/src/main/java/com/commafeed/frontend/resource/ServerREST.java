@@ -17,7 +17,7 @@ import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedVersion;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
-import com.commafeed.backend.feed.FeedUtils;
+import com.commafeed.backend.feed.ImageProxyUrl;
 import com.commafeed.frontend.model.ServerInfo;
 import com.commafeed.security.Roles;
 
@@ -77,7 +77,7 @@ public class ServerREST {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 
-		url = FeedUtils.imageProxyDecoder(url);
+		url = ImageProxyUrl.decode(url);
 		try {
 			HttpResult result = httpGetter.get(url);
 			return Response.ok(result.getContent()).build();

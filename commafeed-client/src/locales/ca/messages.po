@@ -135,7 +135,7 @@ msgstr "Tornar a iniciar sessió"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Blue"
-msgstr ""
+msgstr "Blau"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
@@ -147,7 +147,7 @@ msgstr "Extensió del navegador"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
-msgstr ""
+msgstr "Pestanya del navegador"
 
 #: src/pages/app/TagDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -187,7 +187,7 @@ msgstr "Tanca el menu"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
@@ -247,7 +247,7 @@ msgstr "Codi JS personalitzat que s'executarà en carregar la pàgina"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Cyan"
-msgstr ""
+msgstr "Cian"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
@@ -334,11 +334,11 @@ msgstr "introduïu la vostra contrasenya actual per canviar la configuració del
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entries to keep above the selected entry when scrolling"
-msgstr ""
+msgstr "Entrades que es mantindran a sobre de l'entrada seleccionada en desplaçar-se"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
-msgstr ""
+msgstr "Encapçalaments d'entrada"
 
 #: src/components/Alert.tsx
 msgid "Error"
@@ -377,11 +377,11 @@ msgstr "Carrega tots els meus feeds ara"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API"
-msgstr ""
+msgstr "Fever API"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
-msgstr ""
+msgstr "URL de Fever API"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -389,11 +389,11 @@ msgstr "Expressió de filtratge"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Font size"
-msgstr ""
+msgstr "Mida de la lletra"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Force fetching feeds is not yet available."
-msgstr ""
+msgstr "La recuperació forçada de feeds encara no està disponible."
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
@@ -434,15 +434,15 @@ msgstr "Bones"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
-msgstr ""
+msgstr "Raïm"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Gray"
-msgstr ""
+msgstr "Gris"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Green"
-msgstr ""
+msgstr "Verd"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
@@ -466,11 +466,11 @@ msgstr "Importació"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "In expanded view, scrolling through entries mark them as read"
-msgstr "a la vista ampliada, desplaçant-se per les entrades les marqueu com a llegides"
+msgstr "En la vista ampliada, en desplaçar-se per les entrades, es marquen com a llegides"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
-msgstr ""
+msgstr "Indi"
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
@@ -504,7 +504,7 @@ msgstr "Clar"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Lime"
-msgstr ""
+msgstr "Llima"
 
 #: src/pages/app/TagDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -514,7 +514,7 @@ msgstr "Enllaç"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Link to the documentation"
-msgstr ""
+msgstr "Enllaç a la documentació"
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
@@ -544,7 +544,7 @@ msgstr "Tanca sessió"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Long press"
-msgstr ""
+msgstr "Prem llargament la tecla"
 
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/components/header/ProfileMenu.tsx
@@ -589,7 +589,7 @@ msgstr "Mou la pàgina cap amunt"
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/components/RelativeDate.tsx
 msgid "N/A"
-msgstr ""
+msgstr "No es coneix"
 
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -604,7 +604,7 @@ msgstr "Navegueu a una subscripció introduint-ne el nom"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Navigate to the next category/feed with unread entries when marking all entries as read"
-msgstr ""
+msgstr "Navega a la següent categoria/canal amb entrades no llegides quan es marquen totes les entrades com a llegides"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -638,7 +638,7 @@ msgstr "No hi ha més entrades"
 
 #: src/components/content/ShareButtons.tsx
 msgid "No sharing options available."
-msgstr ""
+msgstr "No hi ha opcions de compartició disponibles."
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
@@ -650,11 +650,11 @@ msgstr "el més vell primer"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On desktop"
-msgstr ""
+msgstr "A l'scriptori"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile"
-msgstr ""
+msgstr "Al mòbil"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
@@ -662,7 +662,7 @@ msgstr "Al mòbil, mostra els botons d'acció a la part inferior de la pantalla"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Only applies to compact, cozy and detailed modes"
-msgstr ""
+msgstr "Només s'aplica als modes compacte, acollidor i detallat"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
@@ -724,11 +724,11 @@ msgstr "Fitxer OPML"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file is required"
-msgstr ""
+msgstr "Cal un fitxer OPML"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Orange"
-msgstr ""
+msgstr "Taronja"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -760,7 +760,7 @@ msgstr "Les contrasenyes no coincideixen"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Pink"
-msgstr ""
+msgstr "Rosa"
 
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -773,7 +773,7 @@ msgstr "Anterior"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Primary color"
-msgstr ""
+msgstr "Color primari"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -785,7 +785,7 @@ msgstr "Recuperar la contrasenya"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Red"
-msgstr ""
+msgstr "Vermell"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/header/Header.tsx
@@ -834,19 +834,19 @@ msgstr "Cerca"
 
 #: src/components/header/Header.tsx
 msgid "Search requires at least 3 characters"
-msgstr "la cerca requereix almenys 3 caràcters"
+msgstr "La cerca requereix almenys 3 caràcters"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
-msgstr ""
+msgstr "Selecciona el següent canal/categoria no llegit"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
-msgstr ""
+msgstr "Selecciona el canal/categoria anterior sense llegir"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
-msgstr "posa el focus a la següent entrada sense obrir-la"
+msgstr "Posa el focus a la següent entrada sense obrir-la"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on previous entry without opening it"
@@ -866,7 +866,7 @@ msgstr "Comparteix"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Sharing sites"
-msgstr "Compartir llocs"
+msgstr "Compartir a altres llocs web"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
@@ -892,7 +892,7 @@ msgstr "Mostra el menú d'entrada (mòbil)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show external link icon"
-msgstr ""
+msgstr "Mostra la icona d'enllaç extern"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
@@ -908,15 +908,15 @@ msgstr "Mostra el menú natiu (escriptori)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
-msgstr ""
+msgstr "Mostra la icona d'estrella"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab favicon"
-msgstr ""
+msgstr "Mostra el recompte de no llegits a la icona de favorits de la pestanya"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab title"
-msgstr ""
+msgstr "Mostra el recompte de no llegits al títol de la pestanya"
 
 #: src/pages/WelcomePage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -986,7 +986,7 @@ msgstr "Etiquetes"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Teal"
-msgstr ""
+msgstr "Blau verdós"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1046,7 +1046,7 @@ msgstr "Nom d'usuari o correu electrònic"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Violet"
-msgstr ""
+msgstr "Violeta"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -1058,7 +1058,7 @@ msgstr "Lloc web"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
-msgstr ""
+msgstr "Groc"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"

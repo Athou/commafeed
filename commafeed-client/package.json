@@ -33,11 +33,11 @@
         "interweave": "^13.1.1",
         "monaco-editor": "^0.52.2",
         "mousetrap": "^1.6.5",
-        "react": "^19.1.0",
+        "react": "^19.1.1",
         "react-async-hook": "^4.0.0",
         "react-contexify": "^6.0.0",
         "react-device-detect": "^2.2.3",
-        "react-dom": "^19.1.0",
+        "react-dom": "^19.1.1",
         "react-draggable": "^4.5.0",
         "react-ga4": "^2.1.0",
         "react-icons": "^5.5.0",
@@ -78,7 +78,7 @@
     },
     "overrides": {
         "react-infinite-scroller": {
-            "react": "^19.1.0"
+            "react": "^19.1.1"
         }
     }
 }

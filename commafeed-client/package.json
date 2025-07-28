@@ -56,7 +56,7 @@
         "@lingui/babel-plugin-lingui-macro": "^5.3.3",
         "@lingui/cli": "^5.3.3",
         "@lingui/vite-plugin": "^5.3.3",
-        "@testing-library/jest-dom": "^6.6.3",
+        "@testing-library/jest-dom": "^6.6.4",
         "@testing-library/react": "^16.3.0",
         "@testing-library/user-event": "^14.6.1",
         "@types/mousetrap": "^1.6.15",

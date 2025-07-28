@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -15,7 +15,7 @@ import lombok.Data;
 @Schema
 public class PasswordResetRequest implements Serializable {
 
-	@Schema(description = "email address for password recovery", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "email address for password recovery", required = true)
 	@Email
 	@NotEmpty
 	@Size(max = 255)

@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.apache.hc.core5.http.HttpStatus;
+import org.eclipse.microprofile.openapi.annotations.Operation;
 
 import com.commafeed.CommaFeedConfiguration;
 
@@ -24,6 +25,7 @@ public class RobotsTxtDisallowAllServlet {
 	private final CommaFeedConfiguration config;
 
 	@GET
+	@Operation(hidden = true)
 	public Response get() {
 		if (config.hideFromWebCrawlers()) {
 			return Response.ok("User-agent: *\nDisallow: /").build();

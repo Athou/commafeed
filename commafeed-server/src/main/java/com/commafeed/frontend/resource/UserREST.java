@@ -28,6 +28,9 @@ import jakarta.ws.rs.core.UriInfo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.core5.net.URIBuilder;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConstants;
@@ -56,12 +59,6 @@ import com.commafeed.security.AuthenticationContext;
 import com.commafeed.security.Roles;
 import com.google.common.base.Preconditions;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -88,11 +85,8 @@ public class UserREST {
 	@Path("/settings")
 	@GET
 	@Transactional
-	@Operation(
-			summary = "Retrieve user settings",
-			description = "Retrieve user settings",
-			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Settings.class))) })
-	public Response getUserSettings() {
+	@Operation(summary = "Retrieve user settings", description = "Retrieve user settings")
+	public Settings getUserSettings() {
 		Settings s = new Settings();
 
 		User user = authenticationContext.getCurrentUser();
@@ -155,7 +149,7 @@ public class UserREST {
 			s.setUnreadCountTitle(false);
 			s.setUnreadCountFavicon(true);
 		}
-		return Response.ok(s).build();
+		return s;
 	}
 
 	@Path("/settings")
@@ -208,10 +202,8 @@ public class UserREST {
 	@Path("/profile")
 	@GET
 	@Transactional
-	@Operation(
-			summary = "Retrieve user's profile",
-			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = UserModel.class))) })
-	public Response getUserProfile() {
+	@Operation(summary = "Retrieve user's profile")
+	public UserModel getUserProfile() {
 		User user = authenticationContext.getCurrentUser();
 
 		UserModel userModel = new UserModel();
@@ -226,7 +218,7 @@ public class UserREST {
 				userModel.setAdmin(true);
 			}
 		}
-		return Response.ok(userModel).build();
+		return userModel;
 	}
 
 	@Path("/profile")

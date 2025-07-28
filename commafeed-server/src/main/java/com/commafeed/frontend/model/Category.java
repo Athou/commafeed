@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -15,7 +15,7 @@ import lombok.Data;
 @RegisterForReflection
 public class Category implements Serializable {
 
-	@Schema(description = "category id", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "category id", required = true)
 	private String id;
 
 	@Schema(description = "parent category id")
@@ -24,18 +24,18 @@ public class Category implements Serializable {
 	@Schema(description = "parent category name")
 	private String parentName;
 
-	@Schema(description = "category id", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "category id", required = true)
 	private String name;
 
-	@Schema(description = "category children categories", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "category children categories", required = true)
 	private List<Category> children = new ArrayList<>();
 
-	@Schema(description = "category feeds", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "category feeds", required = true)
 	private List<Subscription> feeds = new ArrayList<>();
 
-	@Schema(description = "whether the category is expanded or collapsed", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "whether the category is expanded or collapsed", required = true)
 	private boolean expanded;
 
-	@Schema(description = "position of the category in the list", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "position of the category in the list", required = true)
 	private int position;
 }

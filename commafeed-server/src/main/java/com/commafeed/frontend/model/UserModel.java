@@ -3,9 +3,10 @@ package com.commafeed.frontend.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -14,10 +15,10 @@ import lombok.Data;
 @RegisterForReflection
 public class UserModel implements Serializable {
 
-	@Schema(description = "user id", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "user id", required = true)
 	private Long id;
 
-	@Schema(description = "user name", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "user name", required = true)
 	private String name;
 
 	@Schema(description = "user email, if any")
@@ -29,19 +30,19 @@ public class UserModel implements Serializable {
 	@Schema(description = "user password, never returned by the api")
 	private String password;
 
-	@Schema(description = "account status", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "account status", required = true)
 	private boolean enabled;
 
-	@Schema(description = "account creation date", type = "number")
+	@Schema(description = "account creation date", type = SchemaType.INTEGER)
 	private Instant created;
 
-	@Schema(description = "last login date", type = "number")
+	@Schema(description = "last login date", type = SchemaType.INTEGER)
 	private Instant lastLogin;
 
-	@Schema(description = "user is admin", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "user is admin", required = true)
 	private boolean admin;
 
-	@Schema(description = "user last force refresh", type = "number")
+	@Schema(description = "user last force refresh", type = SchemaType.INTEGER)
 	private Instant lastForceRefresh;
 
 }

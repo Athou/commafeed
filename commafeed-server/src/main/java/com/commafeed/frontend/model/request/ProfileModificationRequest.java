@@ -5,17 +5,17 @@ import java.io.Serializable;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import com.commafeed.security.password.ValidPassword;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
 @Schema(description = "Profile modification request")
 @Data
 public class ProfileModificationRequest implements Serializable {
-	@Schema(description = "current user password, required to change profile data", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "current user password, required to change profile data", required = true)
 	@NotEmpty
 	@Size(max = 128)
 	private String currentPassword;

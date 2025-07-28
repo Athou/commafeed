@@ -2,9 +2,9 @@ package com.commafeed.frontend.model;
 
 import java.io.Serializable;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -16,34 +16,34 @@ public class ServerInfo implements Serializable {
 	@Schema
 	private String announcement;
 
-	@Schema(requiredMode = RequiredMode.REQUIRED)
+	@Schema(required = true)
 	private String version;
 
-	@Schema(requiredMode = RequiredMode.REQUIRED)
+	@Schema(required = true)
 	private String gitCommit;
 
-	@Schema(requiredMode = RequiredMode.REQUIRED)
+	@Schema(required = true)
 	private boolean allowRegistrations;
 
 	@Schema
 	private String googleAnalyticsCode;
 
-	@Schema(requiredMode = RequiredMode.REQUIRED)
+	@Schema(required = true)
 	private boolean smtpEnabled;
 
-	@Schema(requiredMode = RequiredMode.REQUIRED)
+	@Schema(required = true)
 	private boolean demoAccountEnabled;
 
-	@Schema(requiredMode = RequiredMode.REQUIRED)
+	@Schema(required = true)
 	private boolean websocketEnabled;
 
-	@Schema(requiredMode = RequiredMode.REQUIRED)
+	@Schema(required = true)
 	private long websocketPingInterval;
 
-	@Schema(requiredMode = RequiredMode.REQUIRED)
+	@Schema(required = true)
 	private long treeReloadInterval;
 
-	@Schema(requiredMode = RequiredMode.REQUIRED)
+	@Schema(required = true)
 	private long forceRefreshCooldownDuration;
 
 }

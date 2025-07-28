@@ -28,6 +28,12 @@ import jakarta.ws.rs.core.UriInfo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedCategoryDAO;
@@ -60,13 +66,6 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndFeedImpl;
 import com.rometools.rome.io.SyndFeedOutput;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -95,10 +94,11 @@ public class CategoryREST {
 	@Path("/entries")
 	@GET
 	@Transactional
-	@Operation(
-			summary = "Get category entries",
-			description = "Get a list of category entries",
-			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Entries.class))) })
+	@Operation(summary = "Get category entries", description = "Get a list of category entries")
+	@APIResponse(
+			responseCode = "200",
+			content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Entries.class)) })
+	@APIResponse(responseCode = "404", description = "category not found")
 	public Response getCategoryEntries(
 			@Parameter(description = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id") String id,
 			@Parameter(
@@ -269,11 +269,8 @@ public class CategoryREST {
 	@Path("/add")
 	@POST
 	@Transactional
-	@Operation(
-			summary = "Add a category",
-			description = "Add a new feed category",
-			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Long.class))) })
-	public Response addCategory(@Valid @Parameter(required = true) AddCategoryRequest req) {
+	@Operation(summary = "Add a category", description = "Add a new feed category")
+	public Long addCategory(@Valid @Parameter(required = true) AddCategoryRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getName());
 
@@ -290,7 +287,7 @@ public class CategoryREST {
 			cat.setParent(parent);
 		}
 		feedCategoryDAO.persist(cat);
-		return Response.ok(cat.getId()).build();
+		return cat.getId();
 	}
 
 	@POST
@@ -390,23 +387,18 @@ public class CategoryREST {
 	@GET
 	@Path("/unreadCount")
 	@Transactional
-	@Operation(
-			summary = "Get unread count for feed subscriptions",
-			responses = { @ApiResponse(content = @Content(array = @ArraySchema(schema = @Schema(implementation = UnreadCount.class)))) })
-	public Response getUnreadCount() {
+	@Operation(summary = "Get unread count for feed subscriptions")
+	public List<UnreadCount> getUnreadCount() {
 		User user = authenticationContext.getCurrentUser();
 		Map<Long, UnreadCount> unreadCount = feedSubscriptionService.getUnreadCount(user);
-		return Response.ok(Lists.newArrayList(unreadCount.values())).build();
+		return Lists.newArrayList(unreadCount.values());
 	}
 
 	@GET
 	@Path("/get")
 	@Transactional
-	@Operation(
-			summary = "Get root category",
-			description = "Get all categories and subscriptions of the user",
-			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Category.class))) })
-	public Response getRootCategory() {
+	@Operation(summary = "Get root category", description = "Get all categories and subscriptions of the user")
+	public Category getRootCategory() {
 		User user = authenticationContext.getCurrentUser();
 
 		List<FeedCategory> categories = feedCategoryDAO.findAll(user);
@@ -417,7 +409,7 @@ public class CategoryREST {
 		root.setId("all");
 		root.setName("All");
 
-		return Response.ok(root).build();
+		return root;
 	}
 
 	private Category buildCategory(Long id, List<FeedCategory> categories, List<FeedSubscription> subscriptions,

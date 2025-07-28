@@ -5,8 +5,8 @@ import java.io.Serializable;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class AddCategoryRequest implements Serializable {
 
-	@Schema(description = "name", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "name", required = true)
 	@NotEmpty
 	@Size(max = 128)
 	private String name;

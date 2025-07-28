@@ -5,8 +5,8 @@ import java.io.Serializable;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -14,12 +14,12 @@ import lombok.Data;
 @Data
 public class SubscribeRequest implements Serializable {
 
-	@Schema(description = "url of the feed", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "url of the feed", required = true)
 	@NotEmpty
 	@Size(max = 4096)
 	private String url;
 
-	@Schema(description = "name of the feed for the user", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "name of the feed for the user", required = true)
 	@NotEmpty
 	@Size(max = 128)
 	private String title;

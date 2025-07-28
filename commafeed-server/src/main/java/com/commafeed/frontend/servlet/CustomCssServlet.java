@@ -6,6 +6,8 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 
+import org.eclipse.microprofile.openapi.annotations.Operation;
+
 import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings;
@@ -24,6 +26,7 @@ public class CustomCssServlet {
 
 	@GET
 	@Transactional
+	@Operation(hidden = true)
 	public String get() {
 		User user = authenticationContext.getCurrentUser();
 		if (user == null) {

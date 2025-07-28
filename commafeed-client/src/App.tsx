@@ -3,7 +3,8 @@ import { I18nProvider } from "@lingui/react"
 import { MantineProvider } from "@mantine/core"
 import { ModalsProvider } from "@mantine/modals"
 import { Notifications } from "@mantine/notifications"
-import React, { useEffect, useState } from "react"
+import type React from "react"
+import { useEffect, useState } from "react"
 import { isSafari } from "react-device-detect"
 import ReactGA from "react-ga4"
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom"
@@ -72,9 +73,6 @@ function Providers(props: { children: React.ReactNode }) {
     )
 }
 
-// api documentation page is very large, load only on-demand
-const ApiDocumentationPage = React.lazy(async () => await import("@/pages/app/ApiDocumentationPage"))
-
 function AppRoutes() {
     const sidebarVisible = useAppSelector(state => state.tree.sidebarVisible)
 
@@ -85,7 +83,6 @@ function AppRoutes() {
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegistrationPage />} />
             <Route path="passwordRecovery" element={<PasswordRecoveryPage />} />
-            <Route path="api" element={<ApiDocumentationPage />} />
             <Route path="app" element={<Layout header={<Header />} sidebar={<Tree />} sidebarVisible={sidebarVisible} />}>
                 <Route path="category">
                     <Route path=":id" element={<FeedEntriesPage sourceType="category" />} />

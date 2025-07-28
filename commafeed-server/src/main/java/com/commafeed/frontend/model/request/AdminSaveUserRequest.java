@@ -2,8 +2,8 @@ package com.commafeed.frontend.model.request;
 
 import java.io.Serializable;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -14,7 +14,7 @@ public class AdminSaveUserRequest implements Serializable {
 	@Schema(description = "user id")
 	private Long id;
 
-	@Schema(description = "user name", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "user name", required = true)
 	private String name;
 
 	@Schema(description = "user email, if any")
@@ -23,9 +23,9 @@ public class AdminSaveUserRequest implements Serializable {
 	@Schema(description = "user password")
 	private String password;
 
-	@Schema(description = "account status", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "account status", required = true)
 	private boolean enabled;
 
-	@Schema(description = "user is admin", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "user is admin", required = true)
 	private boolean admin;
 }

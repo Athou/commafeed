@@ -29,6 +29,12 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.hc.core5.http.HttpStatus;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.resteasy.reactive.Cache;
 import org.jboss.resteasy.reactive.RestForm;
 
@@ -80,12 +86,6 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedOutput;
 import com.rometools.rome.io.WireFeedOutput;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -131,10 +131,11 @@ public class FeedREST {
 	@Path("/entries")
 	@GET
 	@Transactional
-	@Operation(
-			summary = "Get feed entries",
-			description = "Get a list of feed entries",
-			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Entries.class))) })
+	@Operation(summary = "Get feed entries", description = "Get a list of feed entries")
+	@APIResponse(
+			responseCode = "200",
+			content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Entries.class)) })
+	@APIResponse(responseCode = "404", description = "feed not found")
 	public Response getFeedEntries(@Parameter(description = "id of the feed", required = true) @QueryParam("id") String id,
 			@Parameter(
 					description = "all entries or only unread ones",
@@ -251,10 +252,11 @@ public class FeedREST {
 	@POST
 	@Path("/fetch")
 	@Transactional
-	@Operation(
-			summary = "Fetch a feed",
-			description = "Fetch a feed by its url",
-			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = FeedInfo.class))) })
+	@Operation(summary = "Fetch a feed", description = "Fetch a feed by its url")
+	@APIResponse(
+			responseCode = "200",
+			content = { @Content(mediaType = "application/json", schema = @Schema(implementation = FeedInfo.class)) })
+	@APIResponse(responseCode = "404", description = "feed not found")
 	public Response fetchFeed(@Valid @Parameter(description = "feed url", required = true) FeedInfoRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getUrl());
@@ -309,9 +311,11 @@ public class FeedREST {
 	@GET
 	@Path("/get/{id}")
 	@Transactional
-	@Operation(
-			summary = "get feed",
-			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Subscription.class))) })
+	@Operation(summary = "get feed")
+	@APIResponse(
+			responseCode = "200",
+			content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Subscription.class)) })
+	@APIResponse(responseCode = "404", description = "feed not found")
 	public Response getFeed(@Parameter(description = "user id", required = true) @PathParam("id") Long id) {
 		Preconditions.checkNotNull(id);
 
@@ -345,10 +349,10 @@ public class FeedREST {
 	@POST
 	@Path("/subscribe")
 	@Transactional
-	@Operation(
-			summary = "Subscribe to a feed",
-			description = "Subscribe to a feed",
-			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = Long.class))) })
+	@Operation(summary = "Subscribe to a feed", description = "Subscribe to a feed")
+	@APIResponse(
+			responseCode = "200",
+			content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Long.class)) })
 	public Response subscribe(@Valid @Parameter(description = "subscription request", required = true) SubscribeRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getTitle());

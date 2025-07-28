@@ -10,6 +10,7 @@ import com.codahale.metrics.Timer;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection(
+		registerFullHierarchy = true,
 		targets = {
 				// metrics
 				MetricRegistry.class, Meter.class, Gauge.class, Counter.class, Timer.class, Histogram.class,

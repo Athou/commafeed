@@ -5,8 +5,8 @@ import java.io.Serializable;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class FeedInfoRequest implements Serializable {
 
-	@Schema(description = "feed url", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "feed url", required = true)
 	@NotEmpty
 	@Size(max = 4096)
 	private String url;

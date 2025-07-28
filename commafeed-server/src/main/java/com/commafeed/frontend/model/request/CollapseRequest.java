@@ -2,8 +2,8 @@ package com.commafeed.frontend.model.request;
 
 import java.io.Serializable;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -11,10 +11,10 @@ import lombok.Data;
 @Data
 public class CollapseRequest implements Serializable {
 
-	@Schema(description = "category id", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "category id", required = true)
 	private Long id;
 
-	@Schema(description = "collapse", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "collapse", required = true)
 	private boolean collapse;
 
 }

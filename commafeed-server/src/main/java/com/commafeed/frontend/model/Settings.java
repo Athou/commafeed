@@ -2,14 +2,14 @@ package com.commafeed.frontend.model;
 
 import java.io.Serializable;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import com.commafeed.backend.model.UserSettings.IconDisplayMode;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.model.UserSettings.ScrollMode;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -18,19 +18,19 @@ import lombok.Data;
 @RegisterForReflection
 public class Settings implements Serializable {
 
-	@Schema(description = "user's preferred language, english if none", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "user's preferred language, english if none", required = true)
 	private String language;
 
-	@Schema(description = "user reads all entries or unread entries only", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "user reads all entries or unread entries only", required = true)
 	private ReadingMode readingMode;
 
-	@Schema(description = "user reads entries in ascending or descending order", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "user reads entries in ascending or descending order", required = true)
 	private ReadingOrder readingOrder;
 
-	@Schema(description = "user wants category and feeds with no unread entries shown", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "user wants category and feeds with no unread entries shown", required = true)
 	private boolean showRead;
 
-	@Schema(description = "In expanded view, scroll through entries mark them as read", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "In expanded view, scroll through entries mark them as read", required = true)
 	private boolean scrollMarks;
 
 	@Schema(description = "user's custom css for the website")
@@ -39,72 +39,70 @@ public class Settings implements Serializable {
 	@Schema(description = "user's custom js for the website")
 	private String customJs;
 
-	@Schema(description = "user's preferred scroll speed when navigating between entries", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "user's preferred scroll speed when navigating between entries", required = true)
 	private int scrollSpeed;
 
-	@Schema(description = "whether to scroll to the selected entry", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "whether to scroll to the selected entry", required = true)
 	private ScrollMode scrollMode;
 
-	@Schema(description = "number of entries to keep above the selected entry when scrolling", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "number of entries to keep above the selected entry when scrolling", required = true)
 	private int entriesToKeepOnTopWhenScrolling;
 
-	@Schema(description = "whether to show the star icon in the header of entries", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "whether to show the star icon in the header of entries", required = true)
 	private IconDisplayMode starIconDisplayMode;
 
-	@Schema(description = "whether to show the external link icon in the header of entries", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "whether to show the external link icon in the header of entries", required = true)
 	private IconDisplayMode externalLinkIconDisplayMode;
 
-	@Schema(description = "ask for confirmation when marking all entries as read", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "ask for confirmation when marking all entries as read", required = true)
 	private boolean markAllAsReadConfirmation;
 
-	@Schema(
-			description = "navigate to the next unread category or feed after marking all entries as read",
-			requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "navigate to the next unread category or feed after marking all entries as read", required = true)
 	private boolean markAllAsReadNavigateToNextUnread;
 
-	@Schema(description = "show commafeed's own context menu on right click", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "show commafeed's own context menu on right click", required = true)
 	private boolean customContextMenu;
 
-	@Schema(description = "on mobile, show action buttons at the bottom of the screen", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "on mobile, show action buttons at the bottom of the screen", required = true)
 	private boolean mobileFooter;
 
-	@Schema(description = "show unread count in the title", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "show unread count in the title", required = true)
 	private boolean unreadCountTitle;
 
-	@Schema(description = "show unread count in the favicon", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "show unread count in the favicon", required = true)
 	private boolean unreadCountFavicon;
 
 	@Schema(description = "primary theme color to use in the UI")
 	private String primaryColor;
 
-	@Schema(description = "sharing settings", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "sharing settings", required = true)
 	private SharingSettings sharingSettings = new SharingSettings();
 
 	@Schema(description = "User sharing settings")
 	@Data
 	public static class SharingSettings implements Serializable {
-		@Schema(requiredMode = RequiredMode.REQUIRED)
+		@Schema(required = true)
 		private boolean email;
 
-		@Schema(requiredMode = RequiredMode.REQUIRED)
+		@Schema(required = true)
 		private boolean gmail;
 
-		@Schema(requiredMode = RequiredMode.REQUIRED)
+		@Schema(required = true)
 		private boolean facebook;
 
-		@Schema(requiredMode = RequiredMode.REQUIRED)
+		@Schema(required = true)
 		private boolean twitter;
 
-		@Schema(requiredMode = RequiredMode.REQUIRED)
+		@Schema(required = true)
 		private boolean tumblr;
 
-		@Schema(requiredMode = RequiredMode.REQUIRED)
+		@Schema(required = true)
 		private boolean pocket;
 
-		@Schema(requiredMode = RequiredMode.REQUIRED)
+		@Schema(required = true)
 		private boolean instapaper;
 
-		@Schema(requiredMode = RequiredMode.REQUIRED)
+		@Schema(required = true)
 		private boolean buffer;
 	}
 }

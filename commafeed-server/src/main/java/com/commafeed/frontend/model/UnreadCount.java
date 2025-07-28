@@ -3,8 +3,10 @@ package com.commafeed.frontend.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -19,7 +21,7 @@ public class UnreadCount implements Serializable {
 	@Schema
 	private long unreadCount;
 
-	@Schema(type = "number")
+	@Schema(type = SchemaType.INTEGER)
 	private Instant newestItemTime;
 
 	public UnreadCount() {

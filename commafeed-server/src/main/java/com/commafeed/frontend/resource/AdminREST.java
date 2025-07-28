@@ -1,6 +1,8 @@
 package com.commafeed.frontend.resource;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,6 +20,9 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConstants;
@@ -36,13 +41,6 @@ import com.commafeed.security.Roles;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @Path("/rest/admin")
@@ -120,11 +118,8 @@ public class AdminREST {
 	@Path("/user/get/{id}")
 	@GET
 	@Transactional
-	@Operation(
-			summary = "Get user information",
-			description = "Get user information",
-			responses = { @ApiResponse(content = @Content(schema = @Schema(implementation = UserModel.class))) })
-	public Response adminGetUser(@Parameter(description = "user id", required = true) @PathParam("id") Long id) {
+	@Operation(summary = "Get user information", description = "Get user information")
+	public UserModel adminGetUser(@Parameter(description = "user id", required = true) @PathParam("id") Long id) {
 		Preconditions.checkNotNull(id);
 		User u = userDAO.findById(id);
 		UserModel userModel = new UserModel();
@@ -133,17 +128,14 @@ public class AdminREST {
 		userModel.setEmail(u.getEmail());
 		userModel.setEnabled(!u.isDisabled());
 		userModel.setAdmin(userRoleDAO.findAll(u).stream().anyMatch(r -> r.getRole() == Role.ADMIN));
-		return Response.ok(userModel).build();
+		return userModel;
 	}
 
 	@Path("/user/getAll")
 	@GET
 	@Transactional
-	@Operation(
-			summary = "Get all users",
-			description = "Get all users",
-			responses = { @ApiResponse(content = @Content(array = @ArraySchema(schema = @Schema(implementation = UserModel.class)))) })
-	public Response adminGetUsers() {
+	@Operation(summary = "Get all users", description = "Get all users")
+	public List<UserModel> adminGetUsers() {
 		Map<Long, UserModel> users = new HashMap<>();
 		for (UserRole role : userRoleDAO.findAll()) {
 			User u = role.getUser();
@@ -162,7 +154,7 @@ public class AdminREST {
 				userModel.setAdmin(true);
 			}
 		}
-		return Response.ok(users.values()).build();
+		return new ArrayList<>(users.values());
 	}
 
 	@Path("/user/delete")

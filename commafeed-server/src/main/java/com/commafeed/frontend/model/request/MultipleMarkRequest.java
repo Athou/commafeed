@@ -5,8 +5,8 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class MultipleMarkRequest implements Serializable {
 
-	@Schema(description = "list of mark requests", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "list of mark requests", required = true)
 	private List<@Valid MarkRequest> requests;
 
 }

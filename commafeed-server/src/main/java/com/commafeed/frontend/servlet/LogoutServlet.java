@@ -12,6 +12,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.openapi.annotations.Operation;
 
 @Path("/logout")
 @PermitAll
@@ -27,6 +28,7 @@ public class LogoutServlet {
 	}
 
 	@GET
+	@Operation(hidden = true)
 	public Response get() {
 		NewCookie removeCookie = new NewCookie.Builder(cookieName).maxAge(0).expiry(Date.from(Instant.EPOCH)).path("/").build();
 		return Response.temporaryRedirect(uri.getBaseUri()).cookie(removeCookie).build();

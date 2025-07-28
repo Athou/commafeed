@@ -3,8 +3,8 @@ package com.commafeed.frontend.model.request;
 import java.io.Serializable;
 import java.util.List;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -12,10 +12,10 @@ import lombok.Data;
 @Data
 public class TagRequest implements Serializable {
 
-	@Schema(description = "entry id", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "entry id", required = true)
 	private Long entryId;
 
-	@Schema(description = "tags", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "tags", required = true)
 	private List<String> tags;
 
 }

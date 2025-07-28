@@ -6,7 +6,9 @@ export const redirectToLogin = createAppAsyncThunk("redirect/login", (_, thunkAp
 
 export const redirectToRegistration = createAppAsyncThunk("redirect/register", (_, thunkApi) => thunkApi.dispatch(redirectTo("/register")))
 
-export const redirectToApiDocumentation = createAppAsyncThunk("redirect/api", (_, thunkApi) => thunkApi.dispatch(redirectTo("/api")))
+export const redirectToApiDocumentation = createAppAsyncThunk("redirect/api", () => {
+    window.location.href = "api-documentation/"
+})
 
 export const redirectToSelectedSource = createAppAsyncThunk("redirect/selectedSource", (_, thunkApi) => {
     const { source } = thunkApi.getState().entries

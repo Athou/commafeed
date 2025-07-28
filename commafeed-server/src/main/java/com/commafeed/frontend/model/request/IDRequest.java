@@ -2,8 +2,8 @@ package com.commafeed.frontend.model.request;
 
 import java.io.Serializable;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class IDRequest implements Serializable {
 
-	@Schema(requiredMode = RequiredMode.REQUIRED)
+	@Schema(required = true)
 	private Long id;
 
 }

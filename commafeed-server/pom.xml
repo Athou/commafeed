@@ -15,7 +15,6 @@
 		<quarkus.version>3.24.5</quarkus.version>
 		<querydsl.version>7.0</querydsl.version>
 		<rome.version>2.1.0</rome.version>
-		<swagger.version>2.2.34</swagger.version>
 
 		<build.database>h2</build.database>
 	</properties>
@@ -293,30 +292,6 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>io.swagger.core.v3</groupId>
-				<artifactId>swagger-maven-plugin-jakarta</artifactId>
-				<version>${swagger.version}</version>
-				<?m2e ignore?>
-				<configuration>
-					<outputPath>${project.build.directory}/classes/META-INF/resources</outputPath>
-					<outputFormat>JSONANDYAML</outputFormat>
-					<resourcePackages>
-						<package>com.commafeed.frontend.resource</package>
-						<package>com.commafeed.frontend.model</package>
-						<package>com.commafeed.frontend.model.request</package>
-					</resourcePackages>
-					<prettyPrint>true</prettyPrint>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>resolve</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>3.6.0</version>
@@ -442,16 +417,15 @@
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-liquibase</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-smallrye-openapi</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>io.dropwizard.metrics</groupId>
 			<artifactId>metrics-json</artifactId>
 			<version>4.2.33</version>
-		</dependency>
-		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>${swagger.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.openfeign.querydsl</groupId>

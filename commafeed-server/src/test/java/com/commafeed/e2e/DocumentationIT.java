@@ -20,8 +20,8 @@ class DocumentationIT {
 	@Test
 	void documentationAvailable() {
 		Page page = context.newPage();
-		page.navigate("http://localhost:8085/#/api");
-		PlaywrightAssertions.assertThat(page.getByText("Download OpenAPI specification:")).isVisible();
+		page.navigate("http://localhost:8085/api-documentation");
+		PlaywrightAssertions.assertThat(page.getByText("CommaFeed API 1.0.0 OAS")).isVisible();
 	}
 
 }

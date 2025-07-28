@@ -13,6 +13,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.openapi.annotations.Operation;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
@@ -42,6 +43,7 @@ public class NextUnreadServlet {
 
 	@GET
 	@Transactional
+	@Operation(hidden = true)
 	public Response get(@QueryParam("category") String categoryId, @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
 		User user = authenticationContext.getCurrentUser();
 		if (user == null) {

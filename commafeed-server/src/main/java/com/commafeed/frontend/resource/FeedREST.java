@@ -48,6 +48,7 @@ import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedFetcher;
 import com.commafeed.backend.feed.FeedFetcher.FeedFetcherResult;
 import com.commafeed.backend.feed.FeedRefreshEngine;
+import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
@@ -219,7 +220,7 @@ public class FeedREST {
 		feed.setTitle("CommaFeed - " + entries.getName());
 		feed.setDescription("CommaFeed - " + entries.getName());
 		feed.setLink(uri.getBaseUri().toString());
-		feed.setEntries(entries.getEntries().stream().map(Entry::asRss).toList());
+		feed.setEntries(entries.getEntries().stream().map(FeedUtils::asRss).toList());
 
 		SyndFeedOutput output = new SyndFeedOutput();
 		StringWriter writer = new StringWriter();

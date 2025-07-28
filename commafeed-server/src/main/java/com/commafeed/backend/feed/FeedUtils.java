@@ -1,5 +1,8 @@
 package com.commafeed.backend.feed;
 
+import java.util.Collections;
+import java.util.Date;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -8,6 +11,11 @@ import org.jsoup.select.Elements;
 
 import com.commafeed.backend.feed.parser.TextDirectionDetector;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.frontend.model.Entry;
+import com.rometools.rome.feed.synd.SyndContentImpl;
+import com.rometools.rome.feed.synd.SyndEnclosureImpl;
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndEntryImpl;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -66,6 +74,29 @@ public class FeedUtils {
 		}
 
 		return "rest/server/proxy?u=" + ImageProxyUrl.encode(url);
+	}
+
+	public static SyndEntry asRss(Entry entry) {
+		SyndEntry e = new SyndEntryImpl();
+
+		e.setUri(entry.getGuid());
+		e.setTitle(entry.getTitle());
+		e.setAuthor(entry.getAuthor());
+
+		SyndContentImpl c = new SyndContentImpl();
+		c.setValue(entry.getContent());
+		e.setContents(Collections.singletonList(c));
+
+		if (entry.getEnclosureUrl() != null) {
+			SyndEnclosureImpl enclosure = new SyndEnclosureImpl();
+			enclosure.setType(entry.getEnclosureType());
+			enclosure.setUrl(entry.getEnclosureUrl());
+			e.setEnclosures(Collections.singletonList(enclosure));
+		}
+
+		e.setLink(entry.getUrl());
+		e.setPublishedDate(entry.getDate() == null ? null : Date.from(entry.getDate()));
+		return e;
 	}
 
 }

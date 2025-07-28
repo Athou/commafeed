@@ -1,4 +1,4 @@
-package com.commafeed.frontend.model;
+package com.commafeed.backend.feed;
 
 import java.time.Instant;
 import java.util.Date;
@@ -6,9 +6,10 @@ import java.util.Date;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.commafeed.frontend.model.Entry;
 import com.rometools.rome.feed.synd.SyndEntry;
 
-class EntryTest {
+class FeedUtilsTest {
 
 	@Test
 	void asRss() {
@@ -25,7 +26,7 @@ class EntryTest {
 		entry.setDate(Instant.ofEpochSecond(1));
 		entry.setUrl("http://example.com/test-entry");
 
-		SyndEntry syndEntry = entry.asRss();
+		SyndEntry syndEntry = FeedUtils.asRss(entry);
 		Assertions.assertEquals("guid-1", syndEntry.getUri());
 		Assertions.assertEquals("Test Entry", syndEntry.getTitle());
 		Assertions.assertEquals("Author Name", syndEntry.getAuthor());
@@ -37,5 +38,4 @@ class EntryTest {
 		Assertions.assertEquals("http://example.com/test-entry", syndEntry.getLink());
 		Assertions.assertEquals(Date.from(Instant.ofEpochSecond(1)), syndEntry.getPublishedDate());
 	}
-
 }

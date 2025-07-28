@@ -40,6 +40,7 @@ import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.feed.FeedEntryKeyword;
+import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
@@ -217,7 +218,7 @@ public class CategoryREST {
 		feed.setTitle("CommaFeed - " + entries.getName());
 		feed.setDescription("CommaFeed - " + entries.getName());
 		feed.setLink(uri.getBaseUri().toString());
-		feed.setEntries(entries.getEntries().stream().map(Entry::asRss).toList());
+		feed.setEntries(entries.getEntries().stream().map(FeedUtils::asRss).toList());
 
 		SyndFeedOutput output = new SyndFeedOutput();
 		StringWriter writer = new StringWriter();

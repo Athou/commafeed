@@ -2,8 +2,6 @@ package com.commafeed.frontend.model;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,10 +14,6 @@ import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.FeedSubscription;
-import com.rometools.rome.feed.synd.SyndContentImpl;
-import com.rometools.rome.feed.synd.SyndEnclosureImpl;
-import com.rometools.rome.feed.synd.SyndEntry;
-import com.rometools.rome.feed.synd.SyndEntryImpl;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
@@ -149,26 +143,4 @@ public class Entry implements Serializable {
 		return entry;
 	}
 
-	public SyndEntry asRss() {
-		SyndEntry entry = new SyndEntryImpl();
-
-		entry.setUri(getGuid());
-		entry.setTitle(getTitle());
-		entry.setAuthor(getAuthor());
-
-		SyndContentImpl content = new SyndContentImpl();
-		content.setValue(getContent());
-		entry.setContents(Collections.singletonList(content));
-
-		if (getEnclosureUrl() != null) {
-			SyndEnclosureImpl enclosure = new SyndEnclosureImpl();
-			enclosure.setType(getEnclosureType());
-			enclosure.setUrl(getEnclosureUrl());
-			entry.setEnclosures(Collections.singletonList(enclosure));
-		}
-
-		entry.setLink(getUrl());
-		entry.setPublishedDate(getDate() == null ? null : Date.from(getDate()));
-		return entry;
-	}
 }

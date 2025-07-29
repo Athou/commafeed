@@ -13,7 +13,7 @@ interface UserEditProps {
     onSave: () => void
 }
 
-export function UserEdit(props: UserEditProps) {
+export function UserEdit(props: Readonly<UserEditProps>) {
     const form = useForm<AdminSaveUserRequest>({
         initialValues: props.user ?? {
             name: "",

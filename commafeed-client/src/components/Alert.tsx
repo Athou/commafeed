@@ -10,7 +10,7 @@ export interface ErrorsAlertProps {
     messages: string[]
 }
 
-export function Alert(props: ErrorsAlertProps) {
+export function Alert(props: Readonly<ErrorsAlertProps>) {
     let title: React.ReactNode
     let color: string
     let icon: React.ReactNode

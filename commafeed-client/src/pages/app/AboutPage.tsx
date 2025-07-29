@@ -20,7 +20,13 @@ const useStyles = tss.create(() => ({
     },
 }))
 
-function Section(props: { title: React.ReactNode; icon: React.ReactNode; children: React.ReactNode }) {
+function Section(
+    props: Readonly<{
+        title: React.ReactNode
+        icon: React.ReactNode
+        children: React.ReactNode
+    }>
+) {
     const { classes } = useStyles()
     return (
         <Box my="xl">

@@ -32,7 +32,11 @@ const useStyles = tss.create(({ theme }) => ({
     },
 }))
 
-export function ErrorPage(props: { error: Error }) {
+export function ErrorPage(
+    props: Readonly<{
+        error: Error
+    }>
+) {
     const { classes } = useStyles()
 
     return (

@@ -41,7 +41,7 @@ function FilteringExpressionDescription() {
                     <a href="https://commons.apache.org/proper/commons-jexl/reference/syntax.html" target="_blank" rel="noreferrer">
                         here
                     </a>
-                    .
+                    <span>.</span>
                 </Trans>
             </div>
         </div>
@@ -86,7 +86,9 @@ export function FeedDetailsPage() {
             ),
             labels: { confirm: <Trans>Confirm</Trans>, cancel: <Trans>Cancel</Trans> },
             confirmProps: { color: "red" },
-            onConfirm: async () => await unsubscribe.execute({ id: +id }),
+            onConfirm: () => {
+                unsubscribe.execute({ id: +id })
+            },
         })
     }
 

@@ -4,7 +4,11 @@ import dayjs from "dayjs"
 import { Constants } from "@/app/constants"
 import { useNow } from "@/hooks/useNow"
 
-export function RelativeDate(props: { date: Date | number | undefined }) {
+export function RelativeDate(
+    props: Readonly<{
+        date: Date | number | undefined
+    }>
+) {
     const now = useNow(60 * 1000)
 
     if (!props.date) return <Trans>N/A</Trans>

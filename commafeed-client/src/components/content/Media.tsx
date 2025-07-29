@@ -12,7 +12,7 @@ export interface MediaProps {
     description?: string
 }
 
-export function Media(props: MediaProps) {
+export function Media(props: Readonly<MediaProps>) {
     const width = props.thumbnailWidth
     const height = props.thumbnailHeight
     const placeholderSize = calculatePlaceholderSize({

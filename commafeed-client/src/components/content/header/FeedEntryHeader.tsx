@@ -24,7 +24,7 @@ const useStyles = tss
         },
     }))
 
-export function FeedEntryHeader(props: FeedEntryHeaderProps) {
+export function FeedEntryHeader(props: Readonly<FeedEntryHeaderProps>) {
     const { classes } = useStyles({
         read: props.entry.read,
     })

@@ -66,7 +66,9 @@ export function CategoryDetailsPage() {
             ),
             labels: { confirm: <Trans>Confirm</Trans>, cancel: <Trans>Cancel</Trans> },
             confirmProps: { color: "red" },
-            onConfirm: async () => await deleteCategory.execute({ id: +id }),
+            onConfirm: () => {
+                deleteCategory.execute({ id: +id })
+            },
         })
     }
 

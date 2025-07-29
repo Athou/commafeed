@@ -36,7 +36,7 @@ const useStyles = tss.create(() => ({
     },
 }))
 
-export function FeedEntriesPage(props: FeedEntriesPageProps) {
+export function FeedEntriesPage(props: Readonly<FeedEntriesPageProps>) {
     const { classes } = useStyles()
     const location = useLocation()
     const { id = Constants.categories.all.id } = useParams()

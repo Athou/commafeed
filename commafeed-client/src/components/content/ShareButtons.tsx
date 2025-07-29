@@ -22,7 +22,15 @@ const useStyles = tss
         },
     }))
 
-function ShareButton({ icon, color, onClick }: { icon: IconType; color: Color; onClick: () => void }) {
+function ShareButton({
+    icon,
+    color,
+    onClick,
+}: Readonly<{
+    icon: IconType
+    color: Color
+    onClick: () => void
+}>) {
     const { classes } = useStyles({
         color,
     })
@@ -36,7 +44,15 @@ function ShareButton({ icon, color, onClick }: { icon: IconType; color: Color; o
     )
 }
 
-function SiteShareButton({ url, icon, color }: { icon: IconType; color: Color; url: string }) {
+function SiteShareButton({
+    url,
+    icon,
+    color,
+}: Readonly<{
+    icon: IconType
+    color: Color
+    url: string
+}>) {
     const onClick = () => {
         window.open(url, "", "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,width=800,height=600")
     }
@@ -44,7 +60,11 @@ function SiteShareButton({ url, icon, color }: { icon: IconType; color: Color; u
     return <ShareButton icon={icon} color={color} onClick={onClick} />
 }
 
-function CopyUrlButton({ url }: { url: string }) {
+function CopyUrlButton({
+    url,
+}: Readonly<{
+    url: string
+}>) {
     return (
         <CopyButton value={url}>
             {({ copied, copy }) => <ShareButton icon={copied ? TbCheck : TbCopy} color="#000" onClick={copy} />}
@@ -52,7 +72,13 @@ function CopyUrlButton({ url }: { url: string }) {
     )
 }
 
-function BrowserNativeShareButton({ url, description }: { url: string; description: string }) {
+function BrowserNativeShareButton({
+    url,
+    description,
+}: Readonly<{
+    url: string
+    description: string
+}>) {
     const mobile = useMobile()
     const { isBrowserExtensionPopup } = useBrowserExtension()
     const onClick = () => {
@@ -71,7 +97,12 @@ function BrowserNativeShareButton({ url, description }: { url: string; descripti
     )
 }
 
-export function ShareButtons(props: { url: string; description: string }) {
+export function ShareButtons(
+    props: Readonly<{
+        url: string
+        description: string
+    }>
+) {
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const enabledSharingSites = (Object.keys(Constants.sharing) as Array<keyof SharingSettings>).filter(site => sharingSettings?.[site])
     const url = encodeURIComponent(props.url)

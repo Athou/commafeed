@@ -14,7 +14,7 @@ export interface TreeSearchProps {
     feeds: Subscription[]
 }
 
-export function TreeSearch(props: TreeSearchProps) {
+export function TreeSearch(props: Readonly<TreeSearchProps>) {
     const dispatch = useAppDispatch()
     const { _ } = useLingui()
 

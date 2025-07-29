@@ -5,6 +5,6 @@ export interface LogoProps {
     size: number
 }
 
-export function Logo(props: LogoProps) {
+export function Logo(props: Readonly<LogoProps>) {
     return <Image src={logo} w={props.size} />
 }

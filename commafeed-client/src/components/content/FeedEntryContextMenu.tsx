@@ -27,7 +27,7 @@ const useStyles = tss.create(({ theme, colorScheme }) => ({
     },
 }))
 
-export function FeedEntryContextMenu(props: FeedEntryContextMenuProps) {
+export function FeedEntryContextMenu(props: Readonly<FeedEntryContextMenuProps>) {
     const colorScheme = useColorScheme()
     const { classes } = useStyles()
     const sourceType = useAppSelector(state => state.entries.source.type)

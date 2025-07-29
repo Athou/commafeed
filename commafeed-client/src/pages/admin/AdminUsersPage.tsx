@@ -12,7 +12,8 @@ import { Loader } from "@/components/Loader"
 import { RelativeDate } from "@/components/RelativeDate"
 
 function BooleanIcon({ value }: { value: boolean }) {
-    return value ? <TbCheck size={18} /> : <TbX size={18} />
+    const icon = value ? TbCheck : TbX
+    return icon({ size: 18 })
 }
 
 export function AdminUsersPage() {
@@ -56,7 +57,9 @@ export function AdminUsersPage() {
             ),
             labels: { confirm: <Trans>Confirm</Trans>, cancel: <Trans>Cancel</Trans> },
             confirmProps: { color: "red" },
-            onConfirm: async () => await deleteUser.execute({ id: user.id }),
+            onConfirm: () => {
+                deleteUser.execute({ id: user.id })
+            },
         })
     }
 

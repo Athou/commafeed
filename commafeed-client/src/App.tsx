@@ -36,7 +36,11 @@ import { PasswordRecoveryPage } from "@/pages/auth/PasswordRecoveryPage"
 import { RegistrationPage } from "@/pages/auth/RegistrationPage"
 import { WelcomePage } from "@/pages/WelcomePage"
 
-function Providers(props: { children: React.ReactNode }) {
+function Providers(
+    props: Readonly<{
+        children: React.ReactNode
+    }>
+) {
     const primaryColor = useAppSelector(state => state.user.settings?.primaryColor) || Constants.theme.defaultPrimaryColor
     return (
         <I18nProvider i18n={i18n}>
@@ -124,7 +128,11 @@ function RedirectHandler() {
     return null
 }
 
-function UnreadCountTitleHandler({ enabled }: { enabled?: boolean }) {
+function UnreadCountTitleHandler({
+    enabled,
+}: Readonly<{
+    enabled?: boolean
+}>) {
     const root = useAppSelector(state => state.tree.rootCategory)
     const unreadCount = categoryUnreadCount(root)
     return <title>{enabled && unreadCount > 0 ? `(${unreadCount}) CommaFeed` : "CommaFeed"}</title>

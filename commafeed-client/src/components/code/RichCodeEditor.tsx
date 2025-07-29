@@ -30,7 +30,7 @@ interface RichCodeEditorProps {
     onChange: (value: string | undefined) => void
 }
 
-function RichCodeEditor(props: RichCodeEditorProps) {
+function RichCodeEditor(props: Readonly<RichCodeEditorProps>) {
     const colorScheme = useColorScheme()
     const editorTheme = colorScheme === "dark" ? "vs-dark" : "light"
 

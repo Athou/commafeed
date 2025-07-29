@@ -14,7 +14,7 @@ interface FeedEntryFooterProps {
     entry: Entry
 }
 
-export function FeedEntryFooter(props: FeedEntryFooterProps) {
+export function FeedEntryFooter(props: Readonly<FeedEntryFooterProps>) {
     const tags = useAppSelector(state => state.user.tags)
     const mobile = useMobile()
     const { spacing } = useActionButton()

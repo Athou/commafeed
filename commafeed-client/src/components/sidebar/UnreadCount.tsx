@@ -10,7 +10,12 @@ const useStyles = tss.create(() => ({
     },
 }))
 
-export function UnreadCount(props: { unreadCount: number; showIndicator: boolean }) {
+export function UnreadCount(
+    props: Readonly<{
+        unreadCount: number
+        showIndicator: boolean
+    }>
+) {
     const { classes } = useStyles()
 
     if (props.unreadCount <= 0) return null

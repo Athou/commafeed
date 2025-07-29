@@ -59,7 +59,7 @@ const useStyles = tss
         }
     })
 
-export function TreeNode(props: TreeNodeProps) {
+export function TreeNode(props: Readonly<TreeNodeProps>) {
     const { classes } = useStyles({
         selected: props.selected,
         hasError: props.hasError,

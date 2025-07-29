@@ -18,7 +18,7 @@ msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitH
 msgstr ""
 
 #: src/pages/app/FeedDetailsPage.tsx
-msgid "<0>Complete syntax is available </0><1>here</1>."
+msgid "<0>Complete syntax is available </0><1>here</1><2>.</2>"
 msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx

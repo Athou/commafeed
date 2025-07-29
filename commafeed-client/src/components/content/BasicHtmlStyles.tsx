@@ -1,4 +1,4 @@
-import { TypographyStylesProvider } from "@mantine/core"
+import { Typography } from "@mantine/core"
 import type { ReactNode } from "react"
 import { tss } from "@/tss"
 
@@ -20,5 +20,5 @@ const useStyles = tss.create(() => ({
 
 export const BasicHtmlStyles = (props: { children: ReactNode }) => {
     const { classes } = useStyles()
-    return <TypographyStylesProvider className={classes.content}>{props.children}</TypographyStylesProvider>
+    return <Typography className={classes.content}>{props.children}</Typography>
 }

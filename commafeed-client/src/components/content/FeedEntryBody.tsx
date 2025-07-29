@@ -9,7 +9,7 @@ export interface FeedEntryBodyProps {
     entry: Entry
 }
 
-export function FeedEntryBody(props: FeedEntryBodyProps) {
+export function FeedEntryBody(props: Readonly<FeedEntryBodyProps>) {
     const search = useAppSelector(state => state.entries.search)
     return (
         <Box>

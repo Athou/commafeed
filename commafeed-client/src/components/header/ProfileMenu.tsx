@@ -94,7 +94,7 @@ const viewModeData: ViewModeControlItem[] = [
     },
 ]
 
-export function ProfileMenu(props: ProfileMenuProps) {
+export function ProfileMenu(props: Readonly<ProfileMenuProps>) {
     const [opened, setOpened] = useState(false)
     const now = useNow()
     const profile = useAppSelector(state => state.user.profile)

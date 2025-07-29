@@ -6,7 +6,11 @@ import { markEntry } from "@/app/entries/thunks"
 import { useAppDispatch } from "@/app/store"
 import type { Entry } from "@/app/types"
 
-export function OpenExternalLink(props: { entry: Entry }) {
+export function OpenExternalLink(
+    props: Readonly<{
+        entry: Entry
+    }>
+) {
     const dispatch = useAppDispatch()
     const onClick = (e: React.MouseEvent) => {
         e.stopPropagation()

@@ -6,7 +6,7 @@ export interface FeedEntryTitleProps {
     entry: Entry
 }
 
-export function FeedEntryTitle(props: FeedEntryTitleProps) {
+export function FeedEntryTitle(props: Readonly<FeedEntryTitleProps>) {
     const search = useAppSelector(state => state.entries.search)
     const keywords = search?.split(" ")
     return (

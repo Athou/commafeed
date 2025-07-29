@@ -5,7 +5,7 @@ interface MetricTimerProps {
     timer: MetricTimer
 }
 
-export function Timer(props: MetricTimerProps) {
+export function Timer(props: Readonly<MetricTimerProps>) {
     return (
         <Box>
             <Box>Mean: {props.timer.mean_rate.toFixed(2)}</Box>

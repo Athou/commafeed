@@ -44,7 +44,7 @@ export function ImageWithPlaceholderWhileLoading({
     title,
     width,
     style,
-}: ImageWithPlaceholderWhileLoadingProps) {
+}: Readonly<ImageWithPlaceholderWhileLoadingProps>) {
     const { classes } = useStyles({
         placeholderWidth,
         placeholderHeight,

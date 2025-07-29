@@ -5,7 +5,7 @@ interface MeterProps {
     meter: MetricMeter
 }
 
-export function Meter(props: MeterProps) {
+export function Meter(props: Readonly<MeterProps>) {
     return (
         <Box>
             <Box>Mean: {props.meter.mean_rate.toFixed(2)}</Box>

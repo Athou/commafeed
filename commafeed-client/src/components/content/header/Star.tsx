@@ -6,7 +6,11 @@ import { starEntry } from "@/app/entries/thunks"
 import { useAppDispatch } from "@/app/store"
 import type { Entry } from "@/app/types"
 
-export function Star(props: { entry: Entry }) {
+export function Star(
+    props: Readonly<{
+        entry: Entry
+    }>
+) {
     const dispatch = useAppDispatch()
     const onClick = (e: React.MouseEvent) => {
         e.stopPropagation()

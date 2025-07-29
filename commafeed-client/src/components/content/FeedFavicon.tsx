@@ -5,7 +5,7 @@ export interface FeedFaviconProps {
     size?: number
 }
 
-export function FeedFavicon({ url, size = 18 }: FeedFaviconProps) {
+export function FeedFavicon({ url, size = 18 }: Readonly<FeedFaviconProps>) {
     return (
         <ImageWithPlaceholderWhileLoading
             src={url}

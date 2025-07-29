@@ -96,7 +96,7 @@ const useStyles = tss
         }
     })
 
-export function FeedEntry(props: FeedEntryProps) {
+export function FeedEntry(props: Readonly<FeedEntryProps>) {
     const viewMode = useAppSelector(state => state.user.localSettings.viewMode)
     const fontSizePercentage = useAppSelector(state => state.user.localSettings.fontSizePercentage)
     const { classes, cx } = useStyles({

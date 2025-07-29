@@ -43,7 +43,7 @@ const useStyles = tss
         },
     }))
 
-export function FeedEntryCompactHeader(props: FeedEntryHeaderProps) {
+export function FeedEntryCompactHeader(props: Readonly<FeedEntryHeaderProps>) {
     const { classes } = useStyles({
         read: props.entry.read,
     })

@@ -68,7 +68,7 @@ const useStyles = tss
         }
     })
 
-export default function Layout(props: LayoutProps) {
+export default function Layout(props: Readonly<LayoutProps>) {
     const theme = useMantineTheme()
     const mobile = useMobile()
     const { isBrowserExtensionPopup } = useBrowserExtension()
@@ -206,7 +206,6 @@ export default function Layout(props: LayoutProps) {
                         grid={[30, 30]}
                         onDrag={(_e, data) => {
                             dispatch(setSidebarWidth(data.x))
-                            return
                         }}
                     >
                         <Box

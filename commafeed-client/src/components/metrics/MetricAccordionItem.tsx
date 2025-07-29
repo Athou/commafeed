@@ -7,7 +7,7 @@ interface MetricAccordionItemProps {
     children: React.ReactNode
 }
 
-export function MetricAccordionItem({ metricKey, name, headerValue, children }: MetricAccordionItemProps) {
+export function MetricAccordionItem({ metricKey, name, headerValue, children }: Readonly<MetricAccordionItemProps>) {
     return (
         <Accordion.Item value={metricKey} key={metricKey}>
             <Accordion.Control>

@@ -52,7 +52,9 @@ export function ProfileSettings() {
             ),
             labels: { confirm: <Trans>Confirm</Trans>, cancel: <Trans>Cancel</Trans> },
             confirmProps: { color: "red" },
-            onConfirm: async () => await deleteProfile.execute(),
+            onConfirm: () => {
+                deleteProfile.execute()
+            },
         })
 
     useEffect(() => {

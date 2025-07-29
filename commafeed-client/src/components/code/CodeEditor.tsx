@@ -11,7 +11,7 @@ interface CodeEditorProps {
     onChange: (value: string | undefined) => void
 }
 
-export function CodeEditor(props: CodeEditorProps) {
+export function CodeEditor(props: Readonly<CodeEditorProps>) {
     const mobile = useMobile()
 
     return mobile ? (

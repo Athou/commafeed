@@ -12,6 +12,9 @@
 	<name>CommaFeed Client</name>
 
 	<properties>
+		<sonar.sources>package.json,src</sonar.sources>
+		<sonar.coverage.exclusions>**/*</sonar.coverage.exclusions>
+
 		<!-- renovate: datasource=node-version depName=node -->
 		<node.version>v22.17.1</node.version>
 		<!-- renovate: datasource=npm depName=npm -->

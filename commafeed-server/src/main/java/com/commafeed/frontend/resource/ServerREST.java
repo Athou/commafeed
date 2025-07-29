@@ -51,7 +51,6 @@ public class ServerREST {
 		infos.setVersion(version.getVersion());
 		infos.setGitCommit(version.getGitCommit());
 		infos.setAllowRegistrations(config.users().allowRegistrations());
-		infos.setGoogleAnalyticsCode(config.googleAnalyticsTrackingCode().orElse(null));
 		infos.setSmtpEnabled(config.passwordRecoveryEnabled());
 		infos.setDemoAccountEnabled(config.users().createDemoAccount());
 		infos.setWebsocketEnabled(config.websocket().enabled());

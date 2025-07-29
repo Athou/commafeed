@@ -52,11 +52,6 @@ public interface CommaFeedConfiguration {
 	Optional<String> announcement();
 
 	/**
-	 * Google Analytics tracking code.
-	 */
-	Optional<String> googleAnalyticsTrackingCode();
-
-	/**
 	 * Google Auth key for fetching Youtube channel favicons.
 	 */
 	Optional<String> googleAuthKey();

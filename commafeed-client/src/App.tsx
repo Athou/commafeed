@@ -6,8 +6,7 @@ import { Notifications } from "@mantine/notifications"
 import type React from "react"
 import { useEffect, useState } from "react"
 import { isSafari } from "react-device-detect"
-import ReactGA from "react-ga4"
-import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom"
+import { HashRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import Tinycon from "tinycon"
 import { Constants } from "@/app/constants"
 import { redirectTo } from "@/app/redirect/slice"
@@ -125,21 +124,6 @@ function RedirectHandler() {
     return null
 }
 
-function GoogleAnalyticsHandler() {
-    const location = useLocation()
-    const googleAnalyticsCode = useAppSelector(state => state.server.serverInfos?.googleAnalyticsCode)
-
-    useEffect(() => {
-        if (googleAnalyticsCode) ReactGA.initialize(googleAnalyticsCode)
-    }, [googleAnalyticsCode])
-
-    useEffect(() => {
-        if (ReactGA.isInitialized) ReactGA.send({ hitType: "pageview", page: location.pathname })
-    }, [location])
-
-    return null
-}
-
 function UnreadCountTitleHandler({ enabled }: { enabled?: boolean }) {
     const root = useAppSelector(state => state.tree.rootCategory)
     const unreadCount = categoryUnreadCount(root)
@@ -229,7 +213,6 @@ export function App() {
             {!isSafari && <DisablePullToRefresh />}
 
             <HashRouter>
-                <GoogleAnalyticsHandler />
                 <RedirectHandler />
                 <AppRoutes />
             </HashRouter>

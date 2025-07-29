@@ -25,9 +25,6 @@ public class ServerInfo implements Serializable {
 	@Schema(required = true)
 	private boolean allowRegistrations;
 
-	@Schema
-	private String googleAnalyticsCode;
-
 	@Schema(required = true)
 	private boolean smtpEnabled;
 

@@ -214,7 +214,6 @@ export interface ServerInfo {
     version: string
     gitCommit: string
     allowRegistrations: boolean
-    googleAnalyticsCode?: string
     smtpEnabled: boolean
     demoAccountEnabled: boolean
     websocketEnabled: boolean

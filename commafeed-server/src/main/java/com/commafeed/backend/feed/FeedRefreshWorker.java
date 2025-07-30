@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import jakarta.inject.Singleton;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
@@ -63,7 +63,7 @@ public class FeedRefreshWorker {
 			}
 
 			String urlAfterRedirect = result.urlAfterRedirect();
-			if (StringUtils.equals(url, urlAfterRedirect)) {
+			if (Strings.CS.equals(url, urlAfterRedirect)) {
 				urlAfterRedirect = null;
 			}
 

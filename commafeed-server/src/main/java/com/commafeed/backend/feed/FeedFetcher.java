@@ -9,6 +9,7 @@ import java.util.List;
 import jakarta.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.HttpGetter;
@@ -75,8 +76,8 @@ public class FeedFetcher {
 			throw new IOException("Feed content is empty.");
 		}
 
-		boolean lastModifiedHeaderValueChanged = !StringUtils.equals(lastModified, result.getLastModifiedSince());
-		boolean etagHeaderValueChanged = !StringUtils.equals(eTag, result.getETag());
+		boolean lastModifiedHeaderValueChanged = !Strings.CS.equals(lastModified, result.getLastModifiedSince());
+		boolean etagHeaderValueChanged = !Strings.CS.equals(eTag, result.getETag());
 
 		String hash = Digests.sha1Hex(content);
 		if (lastContentHash != null && lastContentHash.equals(hash)) {

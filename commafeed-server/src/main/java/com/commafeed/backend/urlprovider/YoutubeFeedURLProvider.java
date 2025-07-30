@@ -4,7 +4,7 @@ import java.util.List;
 
 import jakarta.inject.Singleton;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /**
  * Workaround for Youtube channels
@@ -20,7 +20,7 @@ public class YoutubeFeedURLProvider implements FeedURLProvider {
 
 	@Override
 	public List<String> get(String url, String urlContent) {
-		if (!StringUtils.startsWithIgnoreCase(url, PREFIX)) {
+		if (!Strings.CI.startsWith(url, PREFIX)) {
 			return List.of();
 		}
 

@@ -3,7 +3,7 @@ package com.commafeed.backend;
 import java.net.URI;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.netpreserve.urlcanon.Canonicalizer;
 import org.netpreserve.urlcanon.ParsedUrl;
 
@@ -87,7 +87,7 @@ public class Urls {
 		if (normalized.split(ESCAPED_QUESTION_MARK)[0].contains("feedburner.com")) {
 			normalized = normalized.replace("feeds2.feedburner.com", "feeds.feedburner.com");
 			normalized = normalized.split(ESCAPED_QUESTION_MARK)[0];
-			normalized = StringUtils.removeEnd(normalized, "/");
+			normalized = Strings.CS.removeEnd(normalized, "/");
 		}
 
 		return normalized;

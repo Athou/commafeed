@@ -6,7 +6,7 @@ import java.util.List;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.QFeed;
@@ -52,7 +52,7 @@ public class FeedDAO extends GenericDAO<Feed> {
 				.where(FEED.normalizedUrlHash.eq(normalizedUrlHash))
 				.fetch()
 				.stream()
-				.filter(f -> StringUtils.equals(normalizedUrl, f.getNormalizedUrl()))
+				.filter(f -> Strings.CS.equals(normalizedUrl, f.getNormalizedUrl()))
 				.findFirst()
 				.orElse(null);
 	}

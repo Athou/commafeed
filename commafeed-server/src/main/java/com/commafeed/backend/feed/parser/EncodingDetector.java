@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 import jakarta.inject.Singleton;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
@@ -20,11 +20,11 @@ class EncodingDetector {
 	 */
 	public Charset getEncoding(byte[] bytes) {
 		String extracted = extractDeclaredEncoding(bytes);
-		if (StringUtils.startsWithIgnoreCase(extracted, "iso-8859-")) {
-			if (!StringUtils.endsWith(extracted, "1")) {
+		if (Strings.CI.startsWith(extracted, "iso-8859-")) {
+			if (!Strings.CS.endsWith(extracted, "1")) {
 				return Charset.forName(extracted);
 			}
-		} else if (StringUtils.startsWithIgnoreCase(extracted, "windows-")) {
+		} else if (Strings.CI.startsWith(extracted, "windows-")) {
 			return Charset.forName(extracted);
 		}
 		return detectEncoding(bytes);
@@ -40,7 +40,7 @@ class EncodingDetector {
 		}
 
 		String pi = new String(ArrayUtils.subarray(bytes, 0, index + 1)).replace('\'', '"');
-		index = StringUtils.indexOf(pi, "encoding=\"");
+		index = Strings.CS.indexOf(pi, "encoding=\"");
 		if (index == -1) {
 			return null;
 		}

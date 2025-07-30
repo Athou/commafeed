@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
@@ -128,7 +128,7 @@ public class Entry implements Serializable {
 			entry.setAuthor(content.getAuthor());
 
 			entry.setEnclosureType(content.getEnclosureType());
-			entry.setEnclosureUrl(proxyImages && StringUtils.contains(content.getEnclosureType(), "image")
+			entry.setEnclosureUrl(proxyImages && Strings.CS.contains(content.getEnclosureType(), "image")
 					? FeedUtils.proxyImage(content.getEnclosureUrl())
 					: content.getEnclosureUrl());
 

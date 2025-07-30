@@ -28,6 +28,7 @@ import jakarta.ws.rs.core.UriInfo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -339,7 +340,7 @@ public class CategoryREST {
 
 		FeedCategory parent = null;
 		if (req.getParentId() != null && !CategoryREST.ALL.equals(req.getParentId())
-				&& !StringUtils.equals(req.getParentId(), String.valueOf(req.getId()))) {
+				&& !Strings.CS.equals(req.getParentId(), String.valueOf(req.getId()))) {
 			parent = feedCategoryDAO.findById(user, Long.valueOf(req.getParentId()));
 		}
 		category.setParent(parent);

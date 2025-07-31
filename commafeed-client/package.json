@@ -69,7 +69,7 @@
         "babel-plugin-react-compiler": "^19.1.0-rc.2",
         "jsdom": "^26.1.0",
         "rollup-plugin-visualizer": "^6.0.3",
-        "typescript": "^5.8.3",
+        "typescript": "^5.9.2",
         "vite": "^7.0.6",
         "vite-plugin-checker": "^0.10.2",
         "vite-tsconfig-paths": "^5.1.4",

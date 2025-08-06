@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.11.0]
+
+- Add an option to navigate to the next unread category/feed when marking all entries as read (#1807)
+- Google Analytics support has been removed
+
 ## [5.10.0]
 
 - Add an indicator next to each feed's unread count in the tree to show when new entries are discovered while the app is open (#1762)

@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.net.NoRouteToHostException;
 import java.net.SocketTimeoutException;
 import java.time.Duration;
 import java.time.Instant;
@@ -186,7 +187,13 @@ class HttpGetterTest {
 		this.getter = new HttpGetter(config, () -> NOW, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
 		// try to connect to a non-routable address
 		// https://stackoverflow.com/a/904609
-		Assertions.assertThrows(ConnectTimeoutException.class, () -> getter.get("http://10.255.255.1"));
+		Exception e = Assertions.assertThrows(Exception.class, () -> getter.get("http://10.255.255.1"));
+		Assertions.assertTrue(e instanceof ConnectTimeoutException
+				// A NoRouteToHostException can also be thrown in some cases
+				// depending on the underlying network configuration
+				// https://github.com/Athou/commafeed/issues/1876
+				|| e instanceof NoRouteToHostException,
+				"Expected ConnectTimeoutException or NoRouteToHostException, but got: " + e.getClass().getName());
 	}
 
 	@Test

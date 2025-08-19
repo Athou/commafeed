@@ -64,7 +64,7 @@
         "@types/react-infinite-scroller": "^1.2.5",
         "@types/throttle-debounce": "^5.0.2",
         "@types/tinycon": "^0.6.7",
-        "@vitejs/plugin-react": "^5.0.0",
+        "@vitejs/plugin-react": "^5.0.1",
         "babel-plugin-react-compiler": "^19.1.0-rc.2",
         "jsdom": "^26.1.0",
         "rollup-plugin-visualizer": "^6.0.3",

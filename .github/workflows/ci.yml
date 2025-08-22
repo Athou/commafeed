@@ -80,7 +80,7 @@ jobs:
           path: commafeed-server/target/commafeed-*-runner*
 
       - name: Upload pages
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
         if: matrix.os == 'ubuntu-latest' && matrix.database == 'h2' # we only need to upload the pages once
         with:
           path: target/pages

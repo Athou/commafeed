@@ -425,7 +425,7 @@
 		<dependency>
 			<groupId>io.dropwizard.metrics</groupId>
 			<artifactId>metrics-json</artifactId>
-			<version>4.2.33</version>
+			<version>4.2.34</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.openfeign.querydsl</groupId>

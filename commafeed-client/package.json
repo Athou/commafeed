@@ -28,7 +28,7 @@
         "@monaco-editor/react": "^4.7.0",
         "@reduxjs/toolkit": "^2.8.2",
         "axios": "^1.11.0",
-        "dayjs": "^1.11.14",
+        "dayjs": "^1.11.15",
         "escape-string-regexp": "^5.0.0",
         "interweave": "^13.1.1",
         "monaco-editor": "^0.52.2",

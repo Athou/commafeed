@@ -111,16 +111,14 @@ public class CategoryREST {
 			@Parameter(description = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
 			@Parameter(description = "ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
 			@Parameter(
-					description = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
+					description = "search for keywords in either the title or the content of the entries, separated by spaces") @QueryParam("keywords") String keywords,
 			@Parameter(
 					description = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
 			@Parameter(description = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {
 
 		Preconditions.checkNotNull(readType);
 
-		keywords = StringUtils.trimToNull(keywords);
-		Preconditions.checkArgument(keywords == null || StringUtils.length(keywords) >= 3);
-		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
+		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(StringUtils.trimToNull(keywords));
 
 		limit = Math.min(limit, 1000);
 		limit = Math.max(0, limit);
@@ -203,7 +201,7 @@ public class CategoryREST {
 			@Parameter(description = "limit for paging, default 20, maximum 1000") @DefaultValue("20") @QueryParam("limit") int limit,
 			@Parameter(description = "date ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
 			@Parameter(
-					description = "search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum") @QueryParam("keywords") String keywords,
+					description = "search for keywords in either the title or the content of the entries, separated by spaces") @QueryParam("keywords") String keywords,
 			@Parameter(
 					description = "comma-separated list of excluded subscription ids") @QueryParam("excludedSubscriptionIds") String excludedSubscriptionIds,
 			@Parameter(description = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {

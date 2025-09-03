@@ -33,8 +33,8 @@ msgstr ""
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Potrebujete účet?</0><1>Zaregistrujte sa!</1>"
 
-#: src/pages/app/AboutPage.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/app/AboutPage.tsx
 msgid "About"
 msgstr "Asi"
 
@@ -54,17 +54,17 @@ msgstr "Pridať kategóriu"
 msgid "Add user"
 msgstr "Pridať užívateľa"
 
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/components/header/ProfileMenu.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 msgid "Admin"
 msgstr "Správca"
 
-#: src/pages/app/FeedEntriesPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/components/sidebar/Tree.tsx
-#: src/components/header/Header.tsx
 #: src/components/content/add/CategorySelect.tsx
+#: src/components/header/Header.tsx
+#: src/components/sidebar/Tree.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedEntriesPage.tsx
 msgid "All"
 msgstr "Všetky"
 
@@ -149,27 +149,27 @@ msgstr ""
 msgid "Browser tab"
 msgstr ""
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/components/MarkAllAsReadConfirmationDialog.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/CustomCodeSettings.tsx
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/AddCategory.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
+#: src/components/settings/CustomCodeSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "Zrušiť"
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/AboutPage.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/AddCategory.tsx
-#: src/components/content/add/AddCategory.tsx
+#: src/pages/app/AboutPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Category"
 msgstr "Kategória"
 
@@ -209,11 +209,11 @@ msgstr ""
 msgid "Compact"
 msgstr "Kompaktný"
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Confirm"
 msgstr "Potvrdiť"
 
@@ -249,8 +249,8 @@ msgstr ""
 msgid "Cyan"
 msgstr ""
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Dark"
 msgstr ""
 
@@ -283,14 +283,14 @@ msgstr ""
 msgid "Detailed"
 msgstr ""
 
-#: src/pages/app/SettingsPage.tsx
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/components/settings/DisplaySettings.tsx
+#: src/pages/app/SettingsPage.tsx
 msgid "Display"
 msgstr "Displej"
 
-#: src/pages/app/DonatePage.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/app/DonatePage.tsx
 msgid "Donate"
 msgstr ""
 
@@ -302,11 +302,11 @@ msgstr "Stiahnuť"
 msgid "Drag link to bookmark bar"
 msgstr "Presuňte odkaz na lištu so záložkami"
 
-#: src/pages/auth/PasswordRecoveryPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr ""
 
@@ -319,8 +319,8 @@ msgstr "E-mailová adresa"
 msgid "Edit user"
 msgstr "Upravte používateľa"
 
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 msgid "Enabled"
 msgstr "Povolené"
 
@@ -356,8 +356,8 @@ msgstr "Rozšírené"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "Exportujte svoje odbery a kategórie ako súbor OPML, ktorý je možné importovať do iných služieb na čítanie informačných kanálov"
 
-#: src/pages/WelcomePage.tsx
 #: src/components/header/Header.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Extension options"
 msgstr ""
 
@@ -365,9 +365,9 @@ msgstr ""
 msgid "Feed name"
 msgstr "Názov informačného kanála"
 
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/Subscribe.tsx
 msgid "Feed URL"
 msgstr "URL informačného kanála"
 
@@ -399,9 +399,9 @@ msgstr ""
 msgid "Forgot password?"
 msgstr "Zabudli ste heslo?"
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Generate an API key in your profile first."
 msgstr "Najprv si vo svojom profile vygenerujte kľúč API."
 
@@ -409,9 +409,9 @@ msgstr "Najprv si vo svojom profile vygenerujte kľúč API."
 msgid "Generate new API key"
 msgstr "Vygenerujte nový kľúč API"
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Generated feed url"
 msgstr "Generovaná adresa URL informačného kanála"
 
@@ -472,13 +472,13 @@ msgstr "V rozšírenom zobrazení ich rolovanie cez položky označí ako preč�
 msgid "Indigo"
 msgstr ""
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Ponechať neprečítané"
 
-#: src/pages/app/AboutPage.tsx
 #: src/components/content/FeedEntries.tsx
+#: src/pages/app/AboutPage.tsx
 msgid "Keyboard shortcuts"
 msgstr "Klávesové skratky"
 
@@ -506,9 +506,9 @@ msgstr ""
 msgid "Lime"
 msgstr ""
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Link"
 msgstr "Odkaz"
 
@@ -532,9 +532,9 @@ msgstr "Načítavam odbery..."
 msgid "Loading tags..."
 msgstr "Načítavam značky..."
 
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 msgid "Log in"
 msgstr "Prihláste sa"
 
@@ -546,8 +546,8 @@ msgstr "Odhlásenie"
 msgid "Long press"
 msgstr ""
 
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
 msgstr "Správa používateľov"
 
@@ -555,18 +555,18 @@ msgstr "Správa používateľov"
 msgid "Mark all as read"
 msgstr "Označiť všetko ako prečítané"
 
-#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Mark all entries as read"
 msgstr "Označte všetky položky ako prečítané"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "Označiť ako prečítané"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Označiť ako prečítané až sem"
 
@@ -586,15 +586,15 @@ msgstr "Posuňte stránku nadol"
 msgid "Move the page up"
 msgstr "Posuňte stránku nahor"
 
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/components/RelativeDate.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "N/A"
 msgstr ""
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Name"
 msgstr "Meno"
 
@@ -619,8 +619,8 @@ msgstr "Nové heslo"
 msgid "Newest first"
 msgstr "Najnovšie ako prvé"
 
-#: src/components/header/Header.tsx
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "Ďalej"
 
@@ -742,11 +742,11 @@ msgstr "Rodič"
 msgid "Parent Category"
 msgstr "Rodičovská kategória"
 
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Heslo"
 
@@ -762,8 +762,8 @@ msgstr "Heslá sa nezhodujú"
 msgid "Pink"
 msgstr ""
 
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "Pozícia"
 
@@ -787,8 +787,8 @@ msgstr "Obnoviť heslo"
 msgid "Red"
 msgstr ""
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/header/Header.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Refresh"
 msgstr "Obnoviť"
 
@@ -805,11 +805,11 @@ msgstr ""
 msgid "Right click"
 msgstr ""
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/CustomCodeSettings.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/settings/CustomCodeSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Save"
 msgstr "Uložiť"
 
@@ -825,16 +825,12 @@ msgstr "Pri navigácii medzi položkami plynulo rolujte"
 msgid "Scrolling"
 msgstr ""
 
-#: src/components/sidebar/TreeSearch.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
+#: src/components/sidebar/TreeSearch.tsx
+#: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Hľadaj"
-
-#: src/components/header/Header.tsx
-msgid "Search requires at least 3 characters"
-msgstr "Hľadanie vyžaduje aspoň 3 znaky"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
@@ -918,9 +914,9 @@ msgstr ""
 msgid "Show unread count in tab title"
 msgstr ""
 
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 msgid "Sign up"
 msgstr "Zaregistrujte sa"
 
@@ -933,21 +929,21 @@ msgstr "Práve sa stalo niečo zlé..."
 msgid "Space"
 msgstr "Vesmír"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/header/Star.tsx
 msgid "Star"
 msgstr "Hviezda"
 
-#: src/pages/app/FeedEntriesPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedEntriesPage.tsx
 msgid "Starred"
 msgstr "S hviezdičkou"
 
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
-#: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/Subscribe.tsx
 msgid "Subscribe"
 msgstr "Prihlásiť sa"
 
@@ -1024,8 +1020,8 @@ msgstr ""
 msgid "Unread"
 msgstr "Neprečítané"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/header/Star.tsx
 msgid "Unstar"
 msgstr "Odobrať hviezdičku"

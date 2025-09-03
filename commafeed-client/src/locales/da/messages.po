@@ -33,8 +33,8 @@ msgstr ""
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Har du brug for en konto?</0><1>Tilmeld dig!</1>"
 
-#: src/pages/app/AboutPage.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/app/AboutPage.tsx
 msgid "About"
 msgstr "Omkring"
 
@@ -54,17 +54,17 @@ msgstr "Tilføj kategori"
 msgid "Add user"
 msgstr "Tilføj bruger"
 
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/components/header/ProfileMenu.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 msgid "Admin"
 msgstr ""
 
-#: src/pages/app/FeedEntriesPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/components/sidebar/Tree.tsx
-#: src/components/header/Header.tsx
 #: src/components/content/add/CategorySelect.tsx
+#: src/components/header/Header.tsx
+#: src/components/sidebar/Tree.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedEntriesPage.tsx
 msgid "All"
 msgstr "Alle"
 
@@ -149,27 +149,27 @@ msgstr ""
 msgid "Browser tab"
 msgstr ""
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/components/MarkAllAsReadConfirmationDialog.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/CustomCodeSettings.tsx
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/AddCategory.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
+#: src/components/settings/CustomCodeSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "Annuller"
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/AboutPage.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/AddCategory.tsx
-#: src/components/content/add/AddCategory.tsx
+#: src/pages/app/AboutPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Category"
 msgstr "Kategori"
 
@@ -209,11 +209,11 @@ msgstr ""
 msgid "Compact"
 msgstr "Kompakt"
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Confirm"
 msgstr "Bekræft"
 
@@ -249,8 +249,8 @@ msgstr ""
 msgid "Cyan"
 msgstr ""
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Dark"
 msgstr ""
 
@@ -283,14 +283,14 @@ msgstr ""
 msgid "Detailed"
 msgstr ""
 
-#: src/pages/app/SettingsPage.tsx
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/components/settings/DisplaySettings.tsx
+#: src/pages/app/SettingsPage.tsx
 msgid "Display"
 msgstr "Skærm"
 
-#: src/pages/app/DonatePage.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/app/DonatePage.tsx
 msgid "Donate"
 msgstr ""
 
@@ -302,11 +302,11 @@ msgstr ""
 msgid "Drag link to bookmark bar"
 msgstr "Træk linket til bogmærkelinjen"
 
-#: src/pages/auth/PasswordRecoveryPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr ""
 
@@ -319,8 +319,8 @@ msgstr "E-mailadresse"
 msgid "Edit user"
 msgstr "Rediger bruger"
 
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 msgid "Enabled"
 msgstr "Aktiveret"
 
@@ -356,8 +356,8 @@ msgstr "Udvidet"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "Eksporter dine abonnementer og kategorier som en OPML-fil, der kan importeres i andre feed-læsningstjenester"
 
-#: src/pages/WelcomePage.tsx
 #: src/components/header/Header.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Extension options"
 msgstr ""
 
@@ -365,9 +365,9 @@ msgstr ""
 msgid "Feed name"
 msgstr "Feednavn"
 
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/Subscribe.tsx
 msgid "Feed URL"
 msgstr ""
 
@@ -399,9 +399,9 @@ msgstr ""
 msgid "Forgot password?"
 msgstr "Glemt adgangskode?"
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Generate an API key in your profile first."
 msgstr "Generer først en API-nøgle i din profil."
 
@@ -409,9 +409,9 @@ msgstr "Generer først en API-nøgle i din profil."
 msgid "Generate new API key"
 msgstr "Generer ny API-nøgle"
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Generated feed url"
 msgstr "Genereret feed-url"
 
@@ -472,13 +472,13 @@ msgstr "I udvidet visning markerer du dem som læst, når du ruller gennem poste
 msgid "Indigo"
 msgstr ""
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Forbehold ulæst"
 
-#: src/pages/app/AboutPage.tsx
 #: src/components/content/FeedEntries.tsx
+#: src/pages/app/AboutPage.tsx
 msgid "Keyboard shortcuts"
 msgstr "Tastaturgenveje"
 
@@ -506,9 +506,9 @@ msgstr ""
 msgid "Lime"
 msgstr ""
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Link"
 msgstr ""
 
@@ -532,9 +532,9 @@ msgstr "Indlæser abonnementer..."
 msgid "Loading tags..."
 msgstr "Indlæser tags..."
 
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 msgid "Log in"
 msgstr "Log ind"
 
@@ -546,8 +546,8 @@ msgstr "Log ud"
 msgid "Long press"
 msgstr ""
 
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
 msgstr "Administrer brugere"
 
@@ -555,18 +555,18 @@ msgstr "Administrer brugere"
 msgid "Mark all as read"
 msgstr "Marker alle som læst"
 
-#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Mark all entries as read"
 msgstr "Marker alle poster som læst"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "Markér som læst"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Markér som læst indtil her"
 
@@ -586,15 +586,15 @@ msgstr "Flyt siden ned"
 msgid "Move the page up"
 msgstr "Flyt siden op"
 
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/components/RelativeDate.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "N/A"
 msgstr ""
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Name"
 msgstr "Navn"
 
@@ -619,8 +619,8 @@ msgstr "Ny adgangskode"
 msgid "Newest first"
 msgstr "Nyeste først"
 
-#: src/components/header/Header.tsx
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "Næste"
 
@@ -742,11 +742,11 @@ msgstr "Forælder"
 msgid "Parent Category"
 msgstr "Forældrekategori"
 
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Adgangskode"
 
@@ -762,8 +762,8 @@ msgstr "Adgangskoder stemmer ikke overens"
 msgid "Pink"
 msgstr ""
 
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr ""
 
@@ -787,8 +787,8 @@ msgstr "Gendan adgangskode"
 msgid "Red"
 msgstr ""
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/header/Header.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Refresh"
 msgstr "Opdater"
 
@@ -805,11 +805,11 @@ msgstr ""
 msgid "Right click"
 msgstr ""
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/CustomCodeSettings.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/settings/CustomCodeSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Save"
 msgstr "Gem"
 
@@ -825,16 +825,12 @@ msgstr "Rul jævnt, når du navigerer mellem poster"
 msgid "Scrolling"
 msgstr ""
 
-#: src/components/sidebar/TreeSearch.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
+#: src/components/sidebar/TreeSearch.tsx
+#: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Søg"
-
-#: src/components/header/Header.tsx
-msgid "Search requires at least 3 characters"
-msgstr "Søgning kræver mindst 3 tegn"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
@@ -918,9 +914,9 @@ msgstr ""
 msgid "Show unread count in tab title"
 msgstr ""
 
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 msgid "Sign up"
 msgstr "Tilmeld dig"
 
@@ -933,21 +929,21 @@ msgstr "Der er lige sket noget slemt..."
 msgid "Space"
 msgstr "Rum"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/header/Star.tsx
 msgid "Star"
 msgstr "Stjerne"
 
-#: src/pages/app/FeedEntriesPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedEntriesPage.tsx
 msgid "Starred"
 msgstr "Medvirkende"
 
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
-#: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/Subscribe.tsx
 msgid "Subscribe"
 msgstr "Tilmeld"
 
@@ -1024,8 +1020,8 @@ msgstr ""
 msgid "Unread"
 msgstr "Ulæst"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/header/Star.tsx
 msgid "Unstar"
 msgstr ""

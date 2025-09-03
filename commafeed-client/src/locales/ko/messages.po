@@ -33,8 +33,8 @@ msgstr ""
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>계정이 필요하십니까?</0><1>가입하세요!</1>"
 
-#: src/pages/app/AboutPage.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/app/AboutPage.tsx
 msgid "About"
 msgstr "정보"
 
@@ -54,17 +54,17 @@ msgstr "카테고리 추가"
 msgid "Add user"
 msgstr "사용자 추가"
 
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/components/header/ProfileMenu.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 msgid "Admin"
 msgstr "관리자"
 
-#: src/pages/app/FeedEntriesPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/components/sidebar/Tree.tsx
-#: src/components/header/Header.tsx
 #: src/components/content/add/CategorySelect.tsx
+#: src/components/header/Header.tsx
+#: src/components/sidebar/Tree.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedEntriesPage.tsx
 msgid "All"
 msgstr "전체"
 
@@ -149,27 +149,27 @@ msgstr ""
 msgid "Browser tab"
 msgstr ""
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/components/MarkAllAsReadConfirmationDialog.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/CustomCodeSettings.tsx
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/AddCategory.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
+#: src/components/settings/CustomCodeSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "취소"
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/AboutPage.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/AddCategory.tsx
-#: src/components/content/add/AddCategory.tsx
+#: src/pages/app/AboutPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Category"
 msgstr "카테고리"
 
@@ -209,11 +209,11 @@ msgstr ""
 msgid "Compact"
 msgstr "컴팩트"
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Confirm"
 msgstr "확인"
 
@@ -249,8 +249,8 @@ msgstr ""
 msgid "Cyan"
 msgstr ""
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Dark"
 msgstr ""
 
@@ -283,14 +283,14 @@ msgstr "설명"
 msgid "Detailed"
 msgstr ""
 
-#: src/pages/app/SettingsPage.tsx
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/components/settings/DisplaySettings.tsx
+#: src/pages/app/SettingsPage.tsx
 msgid "Display"
 msgstr "디스플레이"
 
-#: src/pages/app/DonatePage.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/app/DonatePage.tsx
 msgid "Donate"
 msgstr ""
 
@@ -302,11 +302,11 @@ msgstr "다운로드"
 msgid "Drag link to bookmark bar"
 msgstr "링크를 북마크바로 드래그"
 
-#: src/pages/auth/PasswordRecoveryPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr "이메일"
 
@@ -319,8 +319,8 @@ msgstr "이메일 주소"
 msgid "Edit user"
 msgstr "사용자 편집"
 
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 msgid "Enabled"
 msgstr "활성화"
 
@@ -356,8 +356,8 @@ msgstr "확장"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "구독 및 카테고리를 다른 피드 읽기 서비스에서 가져올 수 있는 OPML 파일로 내보내기"
 
-#: src/pages/WelcomePage.tsx
 #: src/components/header/Header.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Extension options"
 msgstr ""
 
@@ -365,9 +365,9 @@ msgstr ""
 msgid "Feed name"
 msgstr "피드 이름"
 
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/Subscribe.tsx
 msgid "Feed URL"
 msgstr "피드 URL"
 
@@ -399,9 +399,9 @@ msgstr ""
 msgid "Forgot password?"
 msgstr "비밀번호를 잊으셨나요?"
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Generate an API key in your profile first."
 msgstr "먼저 프로필에서 API 키를 생성하십시오."
 
@@ -409,9 +409,9 @@ msgstr "먼저 프로필에서 API 키를 생성하십시오."
 msgid "Generate new API key"
 msgstr "새 API 키 생성"
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Generated feed url"
 msgstr "생성된 피드 URL"
 
@@ -472,13 +472,13 @@ msgstr "확장 보기에서 항목을 스크롤하면 읽은 것으로 표시됩
 msgid "Indigo"
 msgstr ""
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "읽지 않은 상태로 유지"
 
-#: src/pages/app/AboutPage.tsx
 #: src/components/content/FeedEntries.tsx
+#: src/pages/app/AboutPage.tsx
 msgid "Keyboard shortcuts"
 msgstr "키보드 단축키"
 
@@ -506,9 +506,9 @@ msgstr ""
 msgid "Lime"
 msgstr ""
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Link"
 msgstr "링크"
 
@@ -532,9 +532,9 @@ msgstr "구독 로드 중..."
 msgid "Loading tags..."
 msgstr "태그 로드 중..."
 
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 msgid "Log in"
 msgstr "로그인"
 
@@ -546,8 +546,8 @@ msgstr "로그아웃"
 msgid "Long press"
 msgstr ""
 
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
 msgstr "사용자 관리"
 
@@ -555,18 +555,18 @@ msgstr "사용자 관리"
 msgid "Mark all as read"
 msgstr "모두 읽은 상태로 표시"
 
-#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Mark all entries as read"
 msgstr "모든 항목을 읽은 상태로 표시"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "읽은 상태로 표시"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "여기까지 읽은 것으로 표시"
 
@@ -586,15 +586,15 @@ msgstr "페이지를 아래로 이동"
 msgid "Move the page up"
 msgstr "페이지를 위로 이동"
 
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/components/RelativeDate.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "N/A"
 msgstr "해당 없음"
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Name"
 msgstr "이름"
 
@@ -619,8 +619,8 @@ msgstr "새 비밀번호"
 msgid "Newest first"
 msgstr "최신순"
 
-#: src/components/header/Header.tsx
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "다음"
 
@@ -742,11 +742,11 @@ msgstr "부모"
 msgid "Parent Category"
 msgstr "부모 카테고리"
 
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "비밀번호"
 
@@ -762,8 +762,8 @@ msgstr "비밀번호가 일치하지 않습니다"
 msgid "Pink"
 msgstr ""
 
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "위치"
 
@@ -787,8 +787,8 @@ msgstr "비밀번호 복구"
 msgid "Red"
 msgstr ""
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/header/Header.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Refresh"
 msgstr "새로 고침"
 
@@ -805,11 +805,11 @@ msgstr ""
 msgid "Right click"
 msgstr ""
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/CustomCodeSettings.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/settings/CustomCodeSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Save"
 msgstr "저장"
 
@@ -825,16 +825,12 @@ msgstr "항목 간 탐색 시 부드럽게 스크롤"
 msgid "Scrolling"
 msgstr ""
 
-#: src/components/sidebar/TreeSearch.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
+#: src/components/sidebar/TreeSearch.tsx
+#: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "검색"
-
-#: src/components/header/Header.tsx
-msgid "Search requires at least 3 characters"
-msgstr "검색에 최소 3자가 필요합니다."
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
@@ -918,9 +914,9 @@ msgstr ""
 msgid "Show unread count in tab title"
 msgstr ""
 
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 msgid "Sign up"
 msgstr "가입"
 
@@ -933,21 +929,21 @@ msgstr "뭔가 안 좋은 일이 일어났어..."
 msgid "Space"
 msgstr "우주"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/header/Star.tsx
 msgid "Star"
 msgstr "스타"
 
-#: src/pages/app/FeedEntriesPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedEntriesPage.tsx
 msgid "Starred"
 msgstr "별표"
 
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
-#: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/Subscribe.tsx
 msgid "Subscribe"
 msgstr "구독"
 
@@ -1024,8 +1020,8 @@ msgstr ""
 msgid "Unread"
 msgstr "읽지 않음"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/header/Star.tsx
 msgid "Unstar"
 msgstr "별표 제거"

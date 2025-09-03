@@ -33,8 +33,8 @@ msgstr "<0>Merhaba,</0><1>Ben Belçika'dan Jérémie ve 10 yıldır boş zamanla
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Bir hesaba mı ihtiyacınız var?</0><1>Kaydolun!</1>"
 
-#: src/pages/app/AboutPage.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/app/AboutPage.tsx
 msgid "About"
 msgstr "Hakkında"
 
@@ -54,17 +54,17 @@ msgstr "Kategori ekle"
 msgid "Add user"
 msgstr "Kullanıcı ekle"
 
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/components/header/ProfileMenu.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 msgid "Admin"
 msgstr "Yönetici"
 
-#: src/pages/app/FeedEntriesPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/components/sidebar/Tree.tsx
-#: src/components/header/Header.tsx
 #: src/components/content/add/CategorySelect.tsx
+#: src/components/header/Header.tsx
+#: src/components/sidebar/Tree.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedEntriesPage.tsx
 msgid "All"
 msgstr "Tümü"
 
@@ -149,27 +149,27 @@ msgstr "Tarayıcı eklentisi"
 msgid "Browser tab"
 msgstr ""
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/components/MarkAllAsReadConfirmationDialog.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/CustomCodeSettings.tsx
-#: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/AddCategory.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/content/add/ImportOpml.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
+#: src/components/settings/CustomCodeSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "İptal"
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/AboutPage.tsx
+#: src/components/content/add/AddCategory.tsx
+#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/AddCategory.tsx
-#: src/components/content/add/AddCategory.tsx
+#: src/pages/app/AboutPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Category"
 msgstr "Kategori"
 
@@ -209,11 +209,11 @@ msgstr "CommaFeed sürüm {version} ({revision})."
 msgid "Compact"
 msgstr "Kompakt"
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Confirm"
 msgstr "Onayla"
 
@@ -249,8 +249,8 @@ msgstr "Sayfa yüklendiğinde çalıştırılacak özel JS kodu"
 msgid "Cyan"
 msgstr ""
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/components/settings/DisplaySettings.tsx
 msgid "Dark"
 msgstr ""
 
@@ -283,14 +283,14 @@ msgstr "Açılış"
 msgid "Detailed"
 msgstr ""
 
-#: src/pages/app/SettingsPage.tsx
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/components/settings/DisplaySettings.tsx
+#: src/pages/app/SettingsPage.tsx
 msgid "Display"
 msgstr "Ekran"
 
-#: src/pages/app/DonatePage.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/app/DonatePage.tsx
 msgid "Donate"
 msgstr ""
 
@@ -302,11 +302,11 @@ msgstr "İndir"
 msgid "Drag link to bookmark bar"
 msgstr "Bağlantıyı yer işareti çubuğuna sürükleyin"
 
-#: src/pages/auth/PasswordRecoveryPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr "E-posta"
 
@@ -319,8 +319,8 @@ msgstr "E-posta adresi"
 msgid "Edit user"
 msgstr "Kullanıcıyı düzenle"
 
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 msgid "Enabled"
 msgstr "Etkin"
 
@@ -356,8 +356,8 @@ msgstr "Genişletilmiş"
 msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 msgstr "Aboneliklerinizi ve kategorilerinizi diğer besleme okuma hizmetlerinde içe aktarılabilen bir OPML dosyası olarak dışa aktarın"
 
-#: src/pages/WelcomePage.tsx
 #: src/components/header/Header.tsx
+#: src/pages/WelcomePage.tsx
 msgid "Extension options"
 msgstr "Eklenti ayarları"
 
@@ -365,9 +365,9 @@ msgstr "Eklenti ayarları"
 msgid "Feed name"
 msgstr "Yayın adı"
 
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/Subscribe.tsx
 msgid "Feed URL"
 msgstr "Feed URL'si"
 
@@ -399,9 +399,9 @@ msgstr ""
 msgid "Forgot password?"
 msgstr "Parolanızı mı unuttunuz?"
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Generate an API key in your profile first."
 msgstr "Önce profilinizde bir API anahtarı oluşturun."
 
@@ -409,9 +409,9 @@ msgstr "Önce profilinizde bir API anahtarı oluşturun."
 msgid "Generate new API key"
 msgstr "Yeni API anahtarı oluştur"
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Generated feed url"
 msgstr "Oluşturulan besleme url'si"
 
@@ -472,13 +472,13 @@ msgstr "Genişletilmiş görünümde, girişler arasında gezinmek onları okund
 msgid "Indigo"
 msgstr ""
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
 msgstr "Okunmadan sakla"
 
-#: src/pages/app/AboutPage.tsx
 #: src/components/content/FeedEntries.tsx
+#: src/pages/app/AboutPage.tsx
 msgid "Keyboard shortcuts"
 msgstr "Klavye kısayolları"
 
@@ -506,9 +506,9 @@ msgstr ""
 msgid "Lime"
 msgstr ""
 
-#: src/pages/app/TagDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/TagDetailsPage.tsx
 msgid "Link"
 msgstr "Bağlantı"
 
@@ -532,9 +532,9 @@ msgstr "Abonelikler yükleniyor..."
 msgid "Loading tags..."
 msgstr "Etiketler yükleniyor..."
 
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 msgid "Log in"
 msgstr "Giriş"
 
@@ -546,8 +546,8 @@ msgstr "Çıkış"
 msgid "Long press"
 msgstr "Uzun bas"
 
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
 msgstr "Kullanıcıları yönet"
 
@@ -555,18 +555,18 @@ msgstr "Kullanıcıları yönet"
 msgid "Mark all as read"
 msgstr "Tümünü okundu olarak işaretle"
 
-#: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
+#: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Mark all entries as read"
 msgstr "Tüm girişleri okundu olarak işaretle"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read"
 msgstr "Okundu olarak işaretle"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Buraya kadar okundu olarak işaretle"
 
@@ -586,15 +586,15 @@ msgstr "Sayfayı aşağı taşı"
 msgid "Move the page up"
 msgstr "Sayfayı yukarı taşı"
 
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/components/RelativeDate.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "N/A"
 msgstr "Yok"
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/admin/AdminUsersPage.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Name"
 msgstr "İsim"
 
@@ -619,8 +619,8 @@ msgstr "Yeni şifre"
 msgid "Newest first"
 msgstr "Önce en yenisi"
 
-#: src/components/header/Header.tsx
 #: src/components/content/add/Subscribe.tsx
+#: src/components/header/Header.tsx
 msgid "Next"
 msgstr "Sonraki"
 
@@ -742,11 +742,11 @@ msgstr "Ebeveyn"
 msgid "Parent Category"
 msgstr "Üst Kategori"
 
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Şifre"
 
@@ -762,8 +762,8 @@ msgstr "Parolalar eşleşmiyor"
 msgid "Pink"
 msgstr ""
 
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "Konum"
 
@@ -787,8 +787,8 @@ msgstr "Şifreyi kurtar"
 msgid "Red"
 msgstr ""
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/header/Header.tsx
+#: src/components/KeyboardShortcutsHelp.tsx
 msgid "Refresh"
 msgstr "Yenile"
 
@@ -805,11 +805,11 @@ msgstr "REST API"
 msgid "Right click"
 msgstr "Sağ tık"
 
-#: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/CustomCodeSettings.tsx
 #: src/components/admin/UserEdit.tsx
+#: src/components/settings/CustomCodeSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Save"
 msgstr "Kaydet"
 
@@ -825,16 +825,12 @@ msgstr "Girişler arasında gezinirken sorunsuz ilerleyin"
 msgid "Scrolling"
 msgstr ""
 
-#: src/components/sidebar/TreeSearch.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
+#: src/components/sidebar/TreeSearch.tsx
+#: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Ara"
-
-#: src/components/header/Header.tsx
-msgid "Search requires at least 3 characters"
-msgstr "Arama için en az 3 karakter gerekiyor"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
@@ -918,9 +914,9 @@ msgstr ""
 msgid "Show unread count in tab title"
 msgstr ""
 
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
-#: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 msgid "Sign up"
 msgstr "Kaydolun"
 
@@ -933,21 +929,21 @@ msgstr "Az önce kötü bir şey oldu..."
 msgid "Space"
 msgstr "Uzay"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/header/Star.tsx
 msgid "Star"
 msgstr "Yıldız"
 
-#: src/pages/app/FeedEntriesPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
 #: src/components/sidebar/Tree.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedEntriesPage.tsx
 msgid "Starred"
 msgstr "Yıldızlı"
 
+#: src/components/content/add/Subscribe.tsx
+#: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
-#: src/components/content/add/Subscribe.tsx
-#: src/components/content/add/Subscribe.tsx
 msgid "Subscribe"
 msgstr "Abone ol"
 
@@ -1024,8 +1020,8 @@ msgstr "Demo'yu deneyin!"
 msgid "Unread"
 msgstr "Okunmamış"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryContextMenu.tsx
+#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/header/Star.tsx
 msgid "Unstar"
 msgstr "Yıldızı kaldır"

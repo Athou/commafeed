@@ -63,11 +63,7 @@ export function Header() {
     const dispatch = useAppDispatch()
     const { _ } = useLingui()
 
-    const searchForm = useForm<{ search: string }>({
-        validate: {
-            search: value => (value.length > 0 && value.length < 3 ? _(msg`Search requires at least 3 characters`) : null),
-        },
-    })
+    const searchForm = useForm<{ search: string }>()
     const { setValues } = searchForm
 
     useEffect(() => {

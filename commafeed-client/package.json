@@ -27,7 +27,7 @@
         "@mantine/spotlight": "^8.3.1",
         "@monaco-editor/react": "^4.7.0",
         "@reduxjs/toolkit": "^2.9.0",
-        "axios": "^1.12.1",
+        "axios": "^1.12.2",
         "dayjs": "^1.11.17",
         "escape-string-regexp": "^5.0.0",
         "interweave": "^13.1.1",

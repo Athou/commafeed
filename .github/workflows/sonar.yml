@@ -11,7 +11,7 @@ on:
     types: [ opened, synchronize, reopened ]
 
 env:
-  JAVA_VERSION: 21
+  JAVA_VERSION: 25
 
 jobs:
   build:
@@ -24,11 +24,11 @@ jobs:
           fetch-depth: 0
 
       # Setup
-      - name: Set up JDK
-        uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5
+      - name: Set up GraalVM
+        uses: graalvm/setup-graalvm@aba6a077d71fbfc02138d7470c4ad6e7f85bd2a9 # v1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-          distribution: "temurin"
+          distribution: "graalvm"
           cache: "maven"
 
       - name: Install Playwright dependencies

@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.11.1]
+
+- The search limit of 3 characters has been removed (#1887)
+- Fix an issue that caused feed filtering expressions to be incorrectly converted to lowercase when saving them (#1899)
+
 ## [5.11.0]
 
 - Add an option to navigate to the next unread category/feed when marking all entries as read (#1807)

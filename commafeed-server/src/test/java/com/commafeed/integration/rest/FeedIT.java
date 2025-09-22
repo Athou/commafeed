@@ -213,10 +213,12 @@ class FeedIT extends BaseIT {
 			req.setName("new name");
 			req.setCategoryId(subscription.getCategoryId());
 			req.setPosition(1);
+			req.setFilter("url.endsWith('commafeed')");
 			RestAssured.given().body(req).contentType(ContentType.JSON).post("rest/feed/modify").then().statusCode(HttpStatus.SC_OK);
 
 			subscription = getSubscription(subscriptionId);
 			Assertions.assertEquals("new name", subscription.getName());
+			Assertions.assertEquals("url.endsWith('commafeed')", subscription.getFilter());
 		}
 	}
 

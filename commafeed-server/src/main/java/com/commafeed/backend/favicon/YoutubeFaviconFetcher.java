@@ -85,8 +85,8 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 			}
 
 			HttpResult iconResult = getter.get(thumbnailUrl.asText());
-			bytes = iconResult.getContent();
-			contentType = iconResult.getContentType();
+			bytes = iconResult.content();
+			contentType = iconResult.contentType();
 		} catch (Exception e) {
 			log.debug("Failed to retrieve YouTube icon", e);
 		}
@@ -104,7 +104,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 				.queryParam("key", googleAuthKey)
 				.queryParam("forUsername", userId)
 				.build();
-		return getter.get(uri.toString()).getContent();
+		return getter.get(uri.toString()).content();
 	}
 
 	private byte[] fetchForChannel(String googleAuthKey, String channelId)
@@ -114,7 +114,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 				.queryParam("key", googleAuthKey)
 				.queryParam("id", channelId)
 				.build();
-		return getter.get(uri.toString()).getContent();
+		return getter.get(uri.toString()).content();
 	}
 
 	private byte[] fetchForPlaylist(String googleAuthKey, String playlistId)
@@ -124,7 +124,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 				.queryParam("key", googleAuthKey)
 				.queryParam("id", playlistId)
 				.build();
-		byte[] playlistBytes = getter.get(uri.toString()).getContent();
+		byte[] playlistBytes = getter.get(uri.toString()).content();
 
 		JsonNode channelId = objectMapper.readTree(playlistBytes).at(PLAYLIST_CHANNEL_ID);
 		if (channelId.isMissingNode()) {

@@ -58,7 +58,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Lombok;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import nl.altindag.ssl.SSLFactory;
 import nl.altindag.ssl.apache5.util.Apache5SslUtils;
@@ -127,9 +126,9 @@ public class HttpGetter {
 			}
 		}
 
-		int code = response.getCode();
-		if (code == HttpStatus.SC_TOO_MANY_REQUESTS || code == HttpStatus.SC_SERVICE_UNAVAILABLE && response.getRetryAfter() != null) {
-			throw new TooManyRequestsException(response.getRetryAfter());
+		int code = response.code();
+		if (code == HttpStatus.SC_TOO_MANY_REQUESTS || code == HttpStatus.SC_SERVICE_UNAVAILABLE && response.retryAfter() != null) {
+			throw new TooManyRequestsException(response.retryAfter());
 		}
 
 		if (code == HttpStatus.SC_NOT_MODIFIED) {
@@ -140,16 +139,16 @@ public class HttpGetter {
 			throw new HttpResponseException(code, "Server returned HTTP error code " + code);
 		}
 
-		String lastModifiedHeader = response.getLastModifiedHeader();
-		String eTagHeader = response.getETagHeader();
+		String lastModifiedHeader = response.lastModifiedHeader();
+		String eTagHeader = response.eTagHeader();
 
-		Duration validFor = Optional.ofNullable(response.getCacheControl())
+		Duration validFor = Optional.ofNullable(response.cacheControl())
 				.filter(cc -> cc.getMaxAge() >= 0)
 				.map(cc -> Duration.ofSeconds(cc.getMaxAge()))
 				.orElse(Duration.ZERO);
 
-		return new HttpResult(response.getContent(), response.getContentType(), lastModifiedHeader, eTagHeader,
-				response.getUrlAfterRedirect(), validFor);
+		return new HttpResult(response.content(), response.contentType(), lastModifiedHeader, eTagHeader, response.urlAfterRedirect(),
+				validFor);
 	}
 
 	private void ensureHttpScheme(String scheme) throws SchemeNotAllowedException {
@@ -242,28 +241,25 @@ public class HttpGetter {
 
 		return DateUtils.parseStandardDate(headerValue);
 	}
-// ByteStreams.limit(input, maxBytes) reads at most maxBytes bytes.
-// If the content length is exactly maxBytes, it throws an exception, even though the response is valid.
-// This is an off-by-one error.
-	private static byte[] toByteArray(HttpEntity entity, long maxBytes) throws IOException {
-	    if (entity.getContentLength() > maxBytes) {
-	        throw new IOException(
-	                "Response size (%s bytes) exceeds the maximum allowed size (%s bytes)".formatted(entity.getContentLength(), maxBytes));
-	    }
-	
-	    try (InputStream input = entity.getContent()) {
-	        if (input == null) {
-	            return null;
-	        }
-	
-	        byte[] bytes = ByteStreams.limit(input, maxBytes + 1).readAllBytes(); // read one extra to detect overflow
-	        if (bytes.length > maxBytes) {
-	            throw new IOException("Response size exceeds the maximum allowed size (%s bytes)".formatted(maxBytes));
-	        }
-	        return bytes;
-	    }
-	}
 
+	private static byte[] toByteArray(HttpEntity entity, long maxBytes) throws IOException {
+		if (entity.getContentLength() > maxBytes) {
+			throw new IOException(
+					"Response size (%s bytes) exceeds the maximum allowed size (%s bytes)".formatted(entity.getContentLength(), maxBytes));
+		}
+
+		try (InputStream input = entity.getContent()) {
+			if (input == null) {
+				return null;
+			}
+
+			byte[] bytes = ByteStreams.limit(input, maxBytes + 1).readAllBytes();
+			if (bytes.length > maxBytes) {
+				throw new IOException("Response size exceeds the maximum allowed size (%s bytes)".formatted(maxBytes));
+			}
+			return bytes;
+		}
+	}
 
 	private PoolingHttpClientConnectionManager newConnectionManager(CommaFeedConfiguration config) {
 		SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
@@ -310,7 +306,7 @@ public class HttpGetter {
 		}
 
 		return CacheBuilder.newBuilder()
-				.weigher((HttpRequest key, HttpResponse value) -> value.getContent() != null ? value.getContent().length : 0)
+				.weigher((HttpRequest key, HttpResponse value) -> value.content() != null ? value.content().length : 0)
 				.maximumWeight(cacheConfig.maximumMemorySize().asLongValue())
 				.expireAfterWrite(cacheConfig.expiration())
 				.build();
@@ -401,26 +397,12 @@ public class HttpGetter {
 		}
 	}
 
-	@Value
-	private static class HttpResponse {
-		int code;
-		String lastModifiedHeader;
-		String eTagHeader;
-		CacheControl cacheControl;
-		Instant retryAfter;
-		byte[] content;
-		String contentType;
-		String urlAfterRedirect;
+	private record HttpResponse(int code, String lastModifiedHeader, String eTagHeader, CacheControl cacheControl, Instant retryAfter,
+			byte[] content, String contentType, String urlAfterRedirect) {
 	}
 
-	@Value
-	public static class HttpResult {
-		byte[] content;
-		String contentType;
-		String lastModifiedSince;
-		String eTag;
-		String urlAfterRedirect;
-		Duration validFor;
+	public record HttpResult(byte[] content, String contentType, String lastModifiedSince, String eTag, String urlAfterRedirect,
+			Duration validFor) {
 	}
 
 }

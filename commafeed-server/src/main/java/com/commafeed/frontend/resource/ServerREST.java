@@ -74,7 +74,7 @@ public class ServerREST {
 		url = ImageProxyUrl.decode(url);
 		try {
 			HttpResult result = httpGetter.get(url);
-			return Response.ok(result.getContent()).build();
+			return Response.ok(result.content()).build();
 		} catch (Exception e) {
 			return Response.status(Status.SERVICE_UNAVAILABLE).entity(e.getMessage()).build();
 		}

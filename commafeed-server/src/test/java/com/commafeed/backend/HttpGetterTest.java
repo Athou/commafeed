@@ -104,12 +104,12 @@ class HttpGetterTest {
 						.withHeader(HttpHeaders.RETRY_AFTER, "120"));
 
 		HttpResult result = getter.get(this.feedUrl);
-		Assertions.assertArrayEquals(feedContent, result.getContent());
-		Assertions.assertEquals(MediaType.APPLICATION_ATOM_XML.toString(), result.getContentType());
-		Assertions.assertEquals("123456", result.getLastModifiedSince());
-		Assertions.assertEquals("78910", result.getETag());
-		Assertions.assertEquals(Duration.ofSeconds(60), result.getValidFor());
-		Assertions.assertEquals(this.feedUrl, result.getUrlAfterRedirect());
+		Assertions.assertArrayEquals(feedContent, result.content());
+		Assertions.assertEquals(MediaType.APPLICATION_ATOM_XML.toString(), result.contentType());
+		Assertions.assertEquals("123456", result.lastModifiedSince());
+		Assertions.assertEquals("78910", result.eTag());
+		Assertions.assertEquals(Duration.ofSeconds(60), result.validFor());
+		Assertions.assertEquals(this.feedUrl, result.urlAfterRedirect());
 	}
 
 	@Test
@@ -121,7 +121,7 @@ class HttpGetterTest {
 						.withHeader(HttpHeaders.CACHE_CONTROL, "max-age=60; must-revalidate"));
 
 		HttpResult result = getter.get(this.feedUrl);
-		Assertions.assertEquals(Duration.ZERO, result.getValidFor());
+		Assertions.assertEquals(Duration.ZERO, result.validFor());
 	}
 
 	@Test
@@ -167,7 +167,7 @@ class HttpGetterTest {
 				.respond(HttpResponse.response().withBody(feedContent).withContentType(MediaType.APPLICATION_ATOM_XML));
 
 		HttpResult result = getter.get(this.feedUrl);
-		Assertions.assertEquals("http://localhost:" + this.mockServerClient.getPort() + "/redirected-2", result.getUrlAfterRedirect());
+		Assertions.assertEquals("http://localhost:" + this.mockServerClient.getPort() + "/redirected-2", result.urlAfterRedirect());
 	}
 
 	@Test
@@ -202,7 +202,7 @@ class HttpGetterTest {
 				.respond(HttpResponse.response().withBody("ok"));
 
 		HttpResult result = getter.get(this.feedUrl);
-		Assertions.assertEquals("ok", new String(result.getContent()));
+		Assertions.assertEquals("ok", new String(result.content()));
 	}
 
 	@Test
@@ -284,7 +284,7 @@ class HttpGetterTest {
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(HttpResponse.response().withBody("ok"));
 
 		HttpResult result = getter.get("https://localhost:" + this.mockServerClient.getPort());
-		Assertions.assertEquals("ok", new String(result.getContent()));
+		Assertions.assertEquals("ok", new String(result.content()));
 	}
 
 	@Test
@@ -336,7 +336,7 @@ class HttpGetterTest {
 			});
 
 			HttpResult result = getter.get(HttpGetterTest.this.feedUrl);
-			Assertions.assertEquals(body, new String(result.getContent()));
+			Assertions.assertEquals(body, new String(result.content()));
 		}
 
 		@FunctionalInterface

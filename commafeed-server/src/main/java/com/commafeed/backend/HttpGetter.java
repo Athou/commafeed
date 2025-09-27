@@ -242,25 +242,28 @@ public class HttpGetter {
 
 		return DateUtils.parseStandardDate(headerValue);
 	}
-
+// ByteStreams.limit(input, maxBytes) reads at most maxBytes bytes.
+// If the content length is exactly maxBytes, it throws an exception, even though the response is valid.
+// This is an off-by-one error.
 	private static byte[] toByteArray(HttpEntity entity, long maxBytes) throws IOException {
-		if (entity.getContentLength() > maxBytes) {
-			throw new IOException(
-					"Response size (%s bytes) exceeds the maximum allowed size (%s bytes)".formatted(entity.getContentLength(), maxBytes));
-		}
-
-		try (InputStream input = entity.getContent()) {
-			if (input == null) {
-				return null;
-			}
-
-			byte[] bytes = ByteStreams.limit(input, maxBytes).readAllBytes();
-			if (bytes.length == maxBytes) {
-				throw new IOException("Response size exceeds the maximum allowed size (%s bytes)".formatted(maxBytes));
-			}
-			return bytes;
-		}
+	    if (entity.getContentLength() > maxBytes) {
+	        throw new IOException(
+	                "Response size (%s bytes) exceeds the maximum allowed size (%s bytes)".formatted(entity.getContentLength(), maxBytes));
+	    }
+	
+	    try (InputStream input = entity.getContent()) {
+	        if (input == null) {
+	            return null;
+	        }
+	
+	        byte[] bytes = ByteStreams.limit(input, maxBytes + 1).readAllBytes(); // read one extra to detect overflow
+	        if (bytes.length > maxBytes) {
+	            throw new IOException("Response size exceeds the maximum allowed size (%s bytes)".formatted(maxBytes));
+	        }
+	        return bytes;
+	    }
 	}
+
 
 	private PoolingHttpClientConnectionManager newConnectionManager(CommaFeedConfiguration config) {
 		SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();

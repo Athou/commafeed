@@ -50,7 +50,7 @@ function FilteringExpressionDescription() {
 
 export function FeedDetailsPage() {
     const { id } = useParams()
-    if (!id) throw Error("id required")
+    if (!id) throw new Error("id required")
 
     const apiKey = useAppSelector(state => state.user.profile?.apiKey)
     const dispatch = useAppDispatch()

@@ -29,7 +29,6 @@ import com.rometools.rome.io.SyndFeedInput;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
-import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 
 @QuarkusTest
@@ -109,17 +108,16 @@ class CategoryIT extends BaseIT {
 		Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl(), categoryId);
 		Assertions.assertEquals(2, getCategoryEntries(categoryId).getEntries().size());
 
-		List<UnreadCount> counts = RestAssured.given()
+		UnreadCount[] counts = RestAssured.given()
 				.get("rest/category/unreadCount")
 				.then()
 				.statusCode(200)
 				.extract()
-				.as(new TypeRef<List<UnreadCount>>() {
-				});
+				.as(UnreadCount[].class);
 
-		Assertions.assertEquals(1, counts.size());
-		Assertions.assertEquals(subscriptionId, counts.get(0).getFeedId());
-		Assertions.assertEquals(2, counts.get(0).getUnreadCount());
+		Assertions.assertEquals(1, counts.length);
+		Assertions.assertEquals(subscriptionId, counts[0].getFeedId());
+		Assertions.assertEquals(2, counts[0].getUnreadCount());
 	}
 
 	@Nested

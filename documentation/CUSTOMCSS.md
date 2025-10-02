@@ -77,15 +77,14 @@ The table below shows some elements of the CommaFeed main page that are useful f
 article {background-color: lightblue;}
 ```
 
-|Element Name|Element Description|
-|---|---|
-|main|The entire web page|
-|header|The header area (logo and toolbar)|
-|nav|The entire sidebar|
-|footer|The footer area at the bottom of the page|
-|article|Entire feed entry|
-|h3, h2, h1|HTML headers|
-
+| Element Name | Element Description                       |
+|--------------|-------------------------------------------|
+| main         | The entire web page                       |
+| header       | The header area (logo and toolbar)        |
+| nav          | The entire sidebar                        |
+| footer       | The footer area at the bottom of the page |
+| article      | Entire feed entry                         |
+| h3, h2, h1   | HTML headers                              |
 
 ## CommaFeed Class Names
 The table below shows the CommaFeed specific class names.  To reference a class name in a CSS rule, use a leading period.  For example:
@@ -94,28 +93,28 @@ The table below shows the CommaFeed specific class names.  To reference a class 
 .cf-header {background-color: lightblue;}
 ```
 
-|Class Name|Element Description|
-|---|---|
-|cf-logo-title|The CommaFeed logo and title in upper left of page|
-|cf-logo|The CommaFeed logo|
-|cf-title|The CommaFeed title|
-|cf-toolbar|The entire toolbar of action buttons at the top of the page|
-|cf-action-button|Each button within the toolbar. (Note: also used in feed entry footer.)|
-|cf-treesearch|The search box at the top of the sidebar|
-|cf-tree|The entire feed tree in the sidebar|
-|cf-treenode|All nodes in the feed tree|
-|cf-treenode-category|Category nodes in the feed tree|
-|cf-treenode-feed|Feed nodes in the feed tree|
-|cf-treenode-icon|Icon within feed nodes|
-|cf-treenode-unread-count|Unread count within feed nodes|
-|cf-badge|The badge for the unread count|
-|cf-entries-title|Title of feed currently displayed in the content area|
-|cf-entries|All of the feed entries being displayed in the content area|
-|cf-header|The header of a feed entry|
-|cf-header-title|The first line in the header of a feed entry (the entry title)|
-|cf-header-subtitle|The second line in the header of a feed entry (feed name and time of entry)|
-|cf-header-details|The third line in the header of a feed entry (typically author, subject, etc.)|
-|cf-content|The content (body) of a feed entry|
-|cf-footer-divider|The divider between the feed entry content and the feed entry footer|
-|cf-footer|The feed entry footer (buttons to share, star, etc.)|
-|cf-action-button|Each button within the feed entry footer. (note: also used in toolbar.)|
+| Class Name               | Element Description                                                            |
+|--------------------------|--------------------------------------------------------------------------------|
+| cf-logo-title            | The CommaFeed logo and title in upper left of page                             |
+| cf-logo                  | The CommaFeed logo                                                             |
+| cf-title                 | The CommaFeed title                                                            |
+| cf-toolbar               | The entire toolbar of action buttons at the top of the page                    |
+| cf-action-button         | Each button within the toolbar. (Note: also used in feed entry footer.)        |
+| cf-treesearch            | The search box at the top of the sidebar                                       |
+| cf-tree                  | The entire feed tree in the sidebar                                            |
+| cf-treenode              | All nodes in the feed tree                                                     |
+| cf-treenode-category     | Category nodes in the feed tree                                                |
+| cf-treenode-feed         | Feed nodes in the feed tree                                                    |
+| cf-treenode-icon         | Icon within feed nodes                                                         |
+| cf-treenode-unread-count | Unread count within feed nodes                                                 |
+| cf-badge                 | The badge for the unread count                                                 |
+| cf-entries-title         | Title of feed currently displayed in the content area                          |
+| cf-entries               | All of the feed entries being displayed in the content area                    |
+| cf-header                | The header of a feed entry                                                     |
+| cf-header-title          | The first line in the header of a feed entry (the entry title)                 |
+| cf-header-subtitle       | The second line in the header of a feed entry (feed name and time of entry)    |
+| cf-header-details        | The third line in the header of a feed entry (typically author, subject, etc.) |
+| cf-content               | The content (body) of a feed entry                                             |
+| cf-footer-divider        | The divider between the feed entry content and the feed entry footer           |
+| cf-footer                | The feed entry footer (buttons to share, star, etc.)                           |
+| cf-action-button         | Each button within the feed entry footer. (note: also used in toolbar.)        |

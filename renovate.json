@@ -5,7 +5,7 @@
     "customManagers:mavenPropertyVersions",
     "customManagers:biomeVersions",
     ":automergePatch",
-	":automergeDigest",
+    ":automergeDigest",
     ":automergeBranch",
     ":automergeRequireAllStatusChecks",
     ":maintainLockFilesWeekly"
@@ -33,8 +33,8 @@
       "description": "IBM Semeru Runtimes uses a custom versioning scheme",
       "matchDatasources": "docker",
       "matchPackageNames": "ibm-semeru-runtimes",
-      "versioning": "regex:^open-(?<major>\\d+)?(\\.(?<minor>\\d+))?(\\.(?<patch>\\d+))?([\\._+](?<build>(\\d\\.?)+))?(-(?<compatibility>.*))?$",
-      "allowedVersions": "/^open-(?:8|11|17|21|25)(?:\\.|-|$)/"
+      "versioning": "regex:^open-jdk-(?<major>\\d+)?(\\.(?<minor>\\d+))?(\\.(?<patch>\\d+))?([\\._+](?<build>(\\d\\.?)+))?(-(?<compatibility>.*))?$",
+      "allowedVersions": "/^open-jdk-(?:8|11|17|21|25)(?:\\.|-|$)/"
     }
   ]
 }

@@ -2,19 +2,12 @@ package com.commafeed.backend.favicon;
 
 import jakarta.ws.rs.core.MediaType;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@RequiredArgsConstructor
-@Getter
 @Slf4j
-public class Favicon {
+public record Favicon(byte[] icon, MediaType mediaType) {
 
 	private static final MediaType DEFAULT_MEDIA_TYPE = MediaType.valueOf("image/x-icon");
-
-	private final byte[] icon;
-	private final MediaType mediaType;
 
 	public Favicon(byte[] icon, String contentType) {
 		this(icon, parseMediaType(contentType));

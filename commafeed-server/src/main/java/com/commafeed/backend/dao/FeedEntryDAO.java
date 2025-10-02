@@ -12,9 +12,6 @@ import com.commafeed.backend.model.QFeedEntry;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.NumberExpression;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 @Singleton
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
@@ -64,10 +61,6 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		return delete(list);
 	}
 
-	@AllArgsConstructor
-	@Getter
-	public static class FeedCapacity {
-		private Long id;
-		private Long capacity;
+	public record FeedCapacity(Long id, Long capacity) {
 	}
 }

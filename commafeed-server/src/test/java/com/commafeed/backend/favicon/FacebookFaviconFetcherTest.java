@@ -43,8 +43,8 @@ class FacebookFaviconFetcherTest {
 		Favicon result = faviconFetcher.fetch(feed);
 
 		Assertions.assertNotNull(result);
-		Assertions.assertEquals(iconBytes, result.getIcon());
-		Assertions.assertTrue(result.getMediaType().isCompatible(MediaType.valueOf(contentType)));
+		Assertions.assertEquals(iconBytes, result.icon());
+		Assertions.assertTrue(result.mediaType().isCompatible(MediaType.valueOf(contentType)));
 	}
 
 	@Test

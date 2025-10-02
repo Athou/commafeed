@@ -342,7 +342,7 @@ public class FeedREST {
 
 		Feed feed = subscription.getFeed();
 		Favicon icon = feedService.fetchFavicon(feed);
-		return Response.ok(icon.getIcon(), icon.getMediaType()).build();
+		return Response.ok(icon.icon(), icon.mediaType()).build();
 	}
 
 	@POST

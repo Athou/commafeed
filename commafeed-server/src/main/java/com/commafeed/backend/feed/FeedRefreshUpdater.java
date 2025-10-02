@@ -31,7 +31,6 @@ import com.commafeed.frontend.ws.WebSocketMessageBuilder;
 import com.commafeed.frontend.ws.WebSocketSessions;
 import com.google.common.util.concurrent.Striped;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -171,11 +170,7 @@ public class FeedRefreshUpdater {
 				WebSocketMessageBuilder.newFeedEntries(sub, unreadCount)));
 	}
 
-	@AllArgsConstructor
-	private static class AddEntryResult {
-		private final boolean processed;
-		private final boolean inserted;
-		private final Set<FeedSubscription> subscriptionsForWhichEntryIsUnread;
+	private record AddEntryResult(boolean processed, boolean inserted, Set<FeedSubscription> subscriptionsForWhichEntryIsUnread) {
 	}
 
 }

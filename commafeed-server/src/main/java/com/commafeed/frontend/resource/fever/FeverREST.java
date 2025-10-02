@@ -306,7 +306,7 @@ public class FeverREST {
 
 			FeverFavicon f = new FeverFavicon();
 			f.setId(s.getFeed().getId());
-			f.setData(String.format("data:%s;base64,%s", favicon.getMediaType(), Base64.getEncoder().encodeToString(favicon.getIcon())));
+			f.setData(String.format("data:%s;base64,%s", favicon.mediaType(), Base64.getEncoder().encodeToString(favicon.icon())));
 			return f;
 		}).toList();
 	}

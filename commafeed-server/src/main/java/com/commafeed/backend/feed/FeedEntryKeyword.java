@@ -5,22 +5,14 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 /**
  * A keyword used in a search query
  */
-@Getter
-@RequiredArgsConstructor
-public class FeedEntryKeyword {
+public record FeedEntryKeyword(String keyword, Mode mode) {
 
 	public enum Mode {
 		INCLUDE, EXCLUDE
 	}
-
-	private final String keyword;
-	private final Mode mode;
 
 	public static List<FeedEntryKeyword> fromQueryString(String keywords) {
 		List<FeedEntryKeyword> list = new ArrayList<>();

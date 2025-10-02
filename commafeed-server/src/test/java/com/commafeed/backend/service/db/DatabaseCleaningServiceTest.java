@@ -108,12 +108,12 @@ class DatabaseCleaningServiceTest {
 	@Test
 	void cleanEntriesForFeedsExceedingCapacityDeletesOldEntries() {
 		FeedCapacity feed1 = Mockito.mock(FeedCapacity.class);
-		Mockito.when(feed1.getId()).thenReturn(1L);
-		Mockito.when(feed1.getCapacity()).thenReturn(180L);
+		Mockito.when(feed1.id()).thenReturn(1L);
+		Mockito.when(feed1.capacity()).thenReturn(180L);
 
 		FeedCapacity feed2 = Mockito.mock(FeedCapacity.class);
-		Mockito.when(feed2.getId()).thenReturn(2L);
-		Mockito.when(feed2.getCapacity()).thenReturn(120L);
+		Mockito.when(feed2.id()).thenReturn(2L);
+		Mockito.when(feed2.capacity()).thenReturn(120L);
 
 		Mockito.when(feedEntryDAO.findFeedsExceedingCapacity(50, BATCH_SIZE))
 				.thenReturn(Arrays.asList(feed1, feed2))

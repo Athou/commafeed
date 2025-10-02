@@ -92,10 +92,10 @@ public class DatabaseCleaningService {
 			}
 
 			for (final FeedCapacity feed : feeds) {
-				long remaining = feed.getCapacity() - maxFeedCapacity;
+				long remaining = feed.capacity() - maxFeedCapacity;
 				do {
 					final long rem = remaining;
-					int deleted = unitOfWork.call(() -> feedEntryDAO.deleteOldEntries(feed.getId(), Math.min(batchSize, rem)));
+					int deleted = unitOfWork.call(() -> feedEntryDAO.deleteOldEntries(feed.id(), Math.min(batchSize, rem)));
 					entriesDeletedMeter.mark(deleted);
 					total += deleted;
 					remaining -= deleted;

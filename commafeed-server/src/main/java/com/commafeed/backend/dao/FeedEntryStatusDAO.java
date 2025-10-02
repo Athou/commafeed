@@ -129,9 +129,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		if (CollectionUtils.isNotEmpty(keywords)) {
 			for (FeedEntryKeyword keyword : keywords) {
 				BooleanBuilder or = new BooleanBuilder();
-				or.or(CONTENT.content.containsIgnoreCase(keyword.getKeyword()));
-				or.or(CONTENT.title.containsIgnoreCase(keyword.getKeyword()));
-				if (keyword.getMode() == Mode.EXCLUDE) {
+				or.or(CONTENT.content.containsIgnoreCase(keyword.keyword()));
+				or.or(CONTENT.title.containsIgnoreCase(keyword.keyword()));
+				if (keyword.mode() == Mode.EXCLUDE) {
 					or.not();
 				}
 				query.where(or);

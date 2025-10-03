@@ -44,7 +44,7 @@
         "react-redux": "^9.2.0",
         "react-router-dom": "^7.9.3",
         "react-swipeable": "^7.0.2",
-        "style-to-object": "^1.0.9",
+        "style-to-object": "^1.0.11",
         "throttle-debounce": "^5.0.2",
         "tinycon": "^0.6.8",
         "tss-react": "^4.9.19",

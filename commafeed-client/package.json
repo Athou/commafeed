@@ -31,7 +31,7 @@
         "dayjs": "^1.11.17",
         "escape-string-regexp": "^5.0.0",
         "interweave": "^13.1.1",
-        "monaco-editor": "^0.52.2",
+        "monaco-editor": "^0.54.0",
         "mousetrap": "^1.6.5",
         "react": "^19.2.0",
         "react-async-hook": "^4.0.0",

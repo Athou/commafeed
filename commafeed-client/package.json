@@ -17,8 +17,8 @@
     "dependencies": {
         "@emotion/react": "^11.14.0",
         "@fontsource/open-sans": "^5.2.7",
-        "@lingui/core": "^5.5.0",
-        "@lingui/react": "^5.5.0",
+        "@lingui/core": "^5.5.1",
+        "@lingui/react": "^5.5.1",
         "@mantine/core": "^8.3.4",
         "@mantine/form": "^8.3.4",
         "@mantine/hooks": "^8.3.4",
@@ -52,9 +52,9 @@
     },
     "devDependencies": {
         "@biomejs/biome": "^2.2.5",
-        "@lingui/babel-plugin-lingui-macro": "^5.5.0",
-        "@lingui/cli": "^5.5.0",
-        "@lingui/vite-plugin": "^5.5.0",
+        "@lingui/babel-plugin-lingui-macro": "^5.5.1",
+        "@lingui/cli": "^5.5.1",
+        "@lingui/vite-plugin": "^5.5.1",
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.3.0",
         "@testing-library/user-event": "^14.6.1",

@@ -65,7 +65,7 @@
         "@types/throttle-debounce": "^5.0.2",
         "@types/tinycon": "^0.6.7",
         "@vitejs/plugin-react": "^5.0.4",
-        "babel-plugin-react-compiler": "^19.1.0-rc.3",
+        "babel-plugin-react-compiler": "1.0.0",
         "jsdom": "^27.0.0",
         "rollup-plugin-visualizer": "^6.0.4",
         "typescript": "^5.9.3",

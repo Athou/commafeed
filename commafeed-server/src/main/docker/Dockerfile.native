@@ -6,7 +6,7 @@ EXPOSE 8082
 RUN mkdir -p /commafeed/data
 VOLUME /commafeed/data
 
-COPY artifacts/commafeed-*-${TARGETARCH}-runner /commafeed/application
+COPY artifacts/commafeed-*-${TARGETARCH}-runner /commafeed/commafeed
 WORKDIR /commafeed
 
-CMD ["./application"]
+CMD ["./commafeed"]

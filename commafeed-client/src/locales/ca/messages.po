@@ -44,7 +44,7 @@ msgstr "Accions"
 
 #: src/components/content/add/AddCategory.tsx
 msgid "Add"
-msgstr "Afegir"
+msgstr "Afegeix"
 
 #: src/pages/app/AddPage.tsx
 msgid "Add category"
@@ -83,7 +83,7 @@ msgstr "Un fitxer opml és un fitxer XML que conté URL i categories de canals. 
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
-msgstr "Analitzar el feed"
+msgstr "Analitza el canal"
 
 #: src/components/AnnouncementDialog.tsx
 msgid "Announcement"
@@ -91,11 +91,11 @@ msgstr "Anunci"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
-msgstr "clau API"
+msgstr "Clau API"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
-msgstr "Estàs segur que vols suprimir la categoria <0>{categoryName}</0>?"
+msgstr "Esteu segur que voleu suprimir la categoria <0>{categoryName}</0>?"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Are you sure you want to delete user <0>{userName}</0> ?"
@@ -115,7 +115,7 @@ msgstr "Esteu segur que voleu marcar les entrades més antigues de {threshold} d
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
-msgstr "Estàs segur que vols cancel·lar la subscripció a <0>{feedName}</0>?"
+msgstr "Esteu segur que voleu cancel·lar la subscripció a <0>{feedName}</0>?"
 
 #: src/components/header/Header.tsx
 msgid "Asc"
@@ -131,7 +131,7 @@ msgstr "Enrere"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Back to log in"
-msgstr "Tornar a iniciar sessió"
+msgstr "Torna a iniciar sessió"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Blue"
@@ -322,7 +322,7 @@ msgstr "Edita l'usuari"
 #: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Enabled"
-msgstr "activat"
+msgstr "Activat"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Enter"
@@ -650,7 +650,7 @@ msgstr "el més vell primer"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On desktop"
-msgstr "A l'scriptori"
+msgstr "A l'escriptori"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile"

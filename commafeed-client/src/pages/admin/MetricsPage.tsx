@@ -35,10 +35,11 @@ export function MetricsPage() {
         setLoading: state => ({ ...state, loading: true }),
     })
 
+    const { execute } = query
     useEffect(() => {
-        const interval = setInterval(() => query.execute(), 2000)
+        const interval = setInterval(() => execute(), 2000)
         return () => clearInterval(interval)
-    }, [query.execute])
+    }, [execute])
 
     if (!query.result) return <Loader />
     const { meters, gauges } = query.result.data

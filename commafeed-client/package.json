@@ -60,7 +60,7 @@
         "@testing-library/user-event": "^14.6.1",
         "@types/mousetrap": "^1.6.15",
         "@types/react": "^19.2.2",
-        "@types/react-dom": "^19.2.1",
+        "@types/react-dom": "^19.2.2",
         "@types/react-infinite-scroller": "^1.2.5",
         "@types/throttle-debounce": "^5.0.2",
         "@types/tinycon": "^0.6.7",

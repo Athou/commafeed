@@ -61,19 +61,21 @@ export function FeedEntryContextMenu(props: Readonly<FeedEntryContextMenuProps>)
 
             <Separator />
 
-            <Item onClick={async () => await dispatch(starEntry({ entry: props.entry, starred: !props.entry.starred }))}>
-                <Group>
-                    {props.entry.starred ? <TbStarOff size={iconSize} /> : <TbStar size={iconSize} />}
-                    {props.entry.starred ? <Trans>Unstar</Trans> : <Trans>Star</Trans>}
-                </Group>
-            </Item>
             {props.entry.markable && (
-                <Item onClick={async () => await dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))}>
-                    <Group>
-                        {props.entry.read ? <TbMail size={iconSize} /> : <TbMailOpened size={iconSize} />}
-                        {props.entry.read ? <Trans>Keep unread</Trans> : <Trans>Mark as read</Trans>}
-                    </Group>
-                </Item>
+                <>
+                    <Item onClick={async () => await dispatch(starEntry({ entry: props.entry, starred: !props.entry.starred }))}>
+                        <Group>
+                            {props.entry.starred ? <TbStarOff size={iconSize} /> : <TbStar size={iconSize} />}
+                            {props.entry.starred ? <Trans>Unstar</Trans> : <Trans>Star</Trans>}
+                        </Group>
+                    </Item>
+                    <Item onClick={async () => await dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))}>
+                        <Group>
+                            {props.entry.read ? <TbMail size={iconSize} /> : <TbMailOpened size={iconSize} />}
+                            {props.entry.read ? <Trans>Keep unread</Trans> : <Trans>Mark as read</Trans>}
+                        </Group>
+                    </Item>
+                </>
             )}
             <Item onClick={async () => await dispatch(markEntriesUpToEntry(props.entry))}>
                 <Group>

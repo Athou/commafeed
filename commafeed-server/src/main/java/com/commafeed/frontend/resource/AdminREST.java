@@ -9,6 +9,7 @@ import java.util.Set;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -65,7 +66,7 @@ public class AdminREST {
 	@Operation(
 			summary = "Save or update a user",
 			description = "Save or update a user. If the id is not specified, a new user will be created")
-	public Response adminSaveUser(@Parameter(required = true) AdminSaveUserRequest req) {
+	public Response adminSaveUser(@Valid @Parameter(required = true) AdminSaveUserRequest req) {
 		Preconditions.checkNotNull(req);
 		Preconditions.checkNotNull(req.getName());
 

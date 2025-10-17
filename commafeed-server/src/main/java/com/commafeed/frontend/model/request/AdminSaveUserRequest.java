@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import com.commafeed.security.password.ValidPassword;
+
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -21,6 +23,7 @@ public class AdminSaveUserRequest implements Serializable {
 	private String email;
 
 	@Schema(description = "user password")
+	@ValidPassword
 	private String password;
 
 	@Schema(description = "account status", required = true)

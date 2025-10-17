@@ -9,8 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.UserModel;
+import com.commafeed.frontend.model.request.AdminSaveUserRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.integration.BaseIT;
 
@@ -51,10 +51,11 @@ class AdminIT extends BaseIT {
 		}
 
 		private long createUser() {
-			User user = new User();
+			AdminSaveUserRequest user = new AdminSaveUserRequest();
 			user.setName("test");
-			user.setPassword("test".getBytes());
+			user.setPassword("Test1234!");
 			user.setEmail("test@test.com");
+			user.setEnabled(true);
 			String response = RestAssured.given()
 					.body(user)
 					.contentType(ContentType.JSON)

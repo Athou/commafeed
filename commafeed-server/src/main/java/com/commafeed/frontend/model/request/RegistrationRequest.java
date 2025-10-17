@@ -22,7 +22,7 @@ public class RegistrationRequest implements Serializable {
 	@Size(min = 3, max = 32)
 	private String name;
 
-	@Schema(description = "password, minimum 6 characters", required = true)
+	@Schema(description = "password", required = true)
 	@NotEmpty
 	@ValidPassword
 	private String password;

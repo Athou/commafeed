@@ -62,6 +62,10 @@ class UrlsTest {
 		Assertions.assertEquals("http://ergoemacs.org/emacs/elisp_all_about_lines.html",
 				Urls.toAbsolute("elisp_all_about_lines.html", "blog.xml", "http://ergoemacs.org/emacs/blog.xml"));
 
+		// invalid relative urls
+		Assertions.assertEquals("title:10001280",
+				Urls.toAbsolute("title:10001280", "https://www.berliner-zeitung.de", "https://www.berliner-zeitung.de/feed.xml"));
+
 	}
 
 	@Test

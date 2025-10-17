@@ -8,8 +8,10 @@ import org.netpreserve.urlcanon.Canonicalizer;
 import org.netpreserve.urlcanon.ParsedUrl;
 
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 @UtilityClass
+@Slf4j
 public class Urls {
 
 	private static final String ESCAPED_QUESTION_MARK = Pattern.quote("?");
@@ -42,7 +44,12 @@ public class Urls {
 			return null;
 		}
 
-		return URI.create(baseUrl).resolve(relativeUrl).toString();
+		try {
+			return URI.create(baseUrl).resolve(relativeUrl).toString();
+		} catch (IllegalArgumentException e) {
+			log.debug("Unable to create absolute url from relative url: {} base: {}", relativeUrl, baseUrl, e);
+			return null;
+		}
 	}
 
 	public static String removeTrailingSlash(String url) {

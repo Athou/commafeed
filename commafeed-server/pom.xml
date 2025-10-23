@@ -523,7 +523,7 @@
 		<dependency>
 			<groupId>io.github.hakky54</groupId>
 			<artifactId>ayza-for-apache5</artifactId>
-			<version>10.0.0</version>
+			<version>10.0.1</version>
 		</dependency>
 
 		<!-- test dependencies -->

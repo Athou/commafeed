@@ -67,14 +67,14 @@ jobs:
 
       # Upload artifacts
       - name: Upload cross-platform app
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         if: matrix.os == 'ubuntu-latest' # we only need to upload the cross-platform artifact once per database
         with:
           name: commafeed-${{ matrix.database }}-jvm
           path: commafeed-server/target/commafeed-*.zip
 
       - name: Upload native executable
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: commafeed-${{ matrix.database }}-${{ runner.os }}-${{ runner.arch }}
           path: commafeed-server/target/commafeed-*-runner*
@@ -114,7 +114,7 @@ jobs:
 
       # Prepare artifacts
       - name: Download artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6
         with:
           pattern: commafeed-${{ matrix.database }}-*
           path: ./artifacts
@@ -220,7 +220,7 @@ jobs:
           fetch-depth: 0
 
       - name: Download artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6
         with:
           pattern: commafeed-*
           path: ./artifacts

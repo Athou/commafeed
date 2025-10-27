@@ -13,7 +13,7 @@
 
 	<properties>
 		<quarkus.version>3.28.5</quarkus.version>
-		<querydsl.version>7.0</querydsl.version>
+		<querydsl.version>7.1</querydsl.version>
 		<rome.version>2.1.0</rome.version>
 
 		<build.database>h2</build.database>

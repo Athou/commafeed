@@ -12,7 +12,7 @@
 	<name>CommaFeed Server</name>
 
 	<properties>
-		<quarkus.version>3.29.0</quarkus.version>
+		<quarkus.version>3.29.1</quarkus.version>
 		<querydsl.version>7.1</querydsl.version>
 		<rome.version>2.1.0</rome.version>
 

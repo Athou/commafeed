@@ -72,7 +72,7 @@
         "vite": "^7.2.2",
         "vite-plugin-checker": "^0.11.0",
         "vite-tsconfig-paths": "^5.1.4",
-        "vitest": "^4.0.7",
+        "vitest": "^4.0.8",
         "yaml": "^2.8.1"
     },
     "overrides": {

@@ -8,41 +8,47 @@ import jakarta.inject.Singleton;
 import org.ahocorasick.trie.Emit;
 import org.ahocorasick.trie.Trie;
 import org.apache.commons.lang3.StringUtils;
+import org.jdom2.Verifier;
 
 @Singleton
 class FeedCleaner {
 
 	private static final Pattern DOCTYPE_PATTERN = Pattern.compile("<!DOCTYPE[^>]*>", Pattern.CASE_INSENSITIVE);
 
-	public String trimInvalidXmlCharacters(String xml) {
+	public String clean(String xml) {
+		xml = removeCharactersBeforeFirstXmlTag(xml);
+		xml = removeInvalidXmlCharacters(xml);
+		xml = replaceHtmlEntitiesWithNumericEntities(xml);
+		xml = removeDoctypeDeclarations(xml);
+		return xml;
+	}
+
+	String removeCharactersBeforeFirstXmlTag(String xml) {
 		if (StringUtils.isBlank(xml)) {
 			return null;
 		}
-		StringBuilder sb = new StringBuilder();
 
-		boolean firstTagFound = false;
-		for (int i = 0; i < xml.length(); i++) {
-			char c = xml.charAt(i);
+		int pos = xml.indexOf('<');
+		return pos < 0 ? null : xml.substring(pos);
+	}
 
-			if (!firstTagFound) {
-				if (c == '<') {
-					firstTagFound = true;
-				} else {
-					continue;
-				}
-			}
-
-			if (c >= 32 || c == 9 || c == 10 || c == 13) {
-				if (!Character.isHighSurrogate(c) && !Character.isLowSurrogate(c)) {
-					sb.append(c);
-				}
-			}
+	String removeInvalidXmlCharacters(String xml) {
+		if (StringUtils.isBlank(xml)) {
+			return null;
 		}
-		return sb.toString();
+
+		return xml.codePoints()
+				.filter(Verifier::isXMLCharacter)
+				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+				.toString();
 	}
 
 	// https://stackoverflow.com/a/40836618
-	public String replaceHtmlEntitiesWithNumericEntities(String source) {
+	String replaceHtmlEntitiesWithNumericEntities(String source) {
+		if (StringUtils.isBlank(source)) {
+			return null;
+		}
+
 		// Create a buffer sufficiently large that re-allocations are minimized.
 		StringBuilder sb = new StringBuilder(source.length() << 1);
 
@@ -63,7 +69,11 @@ class FeedCleaner {
 		return sb.toString();
 	}
 
-	public String removeDoctypeDeclarations(String xml) {
+	String removeDoctypeDeclarations(String xml) {
+		if (StringUtils.isBlank(xml)) {
+			return null;
+		}
+
 		return DOCTYPE_PATTERN.matcher(xml).replaceAll("");
 	}
 

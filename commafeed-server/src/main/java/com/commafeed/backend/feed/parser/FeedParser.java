@@ -58,12 +58,11 @@ public class FeedParser {
 	public FeedParserResult parse(String feedUrl, byte[] xml) throws FeedParsingException {
 		try {
 			Charset encoding = encodingDetector.getEncoding(xml);
-			String xmlString = feedCleaner.trimInvalidXmlCharacters(new String(xml, encoding));
+
+			String xmlString = feedCleaner.clean(new String(xml, encoding));
 			if (xmlString == null) {
-				throw new FeedParsingException("Input string is null for url " + feedUrl);
+				throw new FeedParsingException("Input string is empty for url " + feedUrl);
 			}
-			xmlString = feedCleaner.replaceHtmlEntitiesWithNumericEntities(xmlString);
-			xmlString = feedCleaner.removeDoctypeDeclarations(xmlString);
 
 			InputSource source = new InputSource(new StringReader(xmlString));
 			SyndFeed feed = new SyndFeedInput().build(source);

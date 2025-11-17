@@ -284,6 +284,10 @@ msgstr "Desc"
 msgid "Detailed"
 msgstr "Detallado"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Disable \"Pull to refresh\" browser behavior"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
 #: src/pages/app/SettingsPage.tsx
@@ -326,7 +330,6 @@ msgid "Enabled"
 msgstr "Activado"
 
 #: src/components/KeyboardShortcutsHelp.tsx
-#, fuzzy
 msgid "Enter"
 msgstr "Entra"
 
@@ -431,7 +434,6 @@ msgid "Go to the API documentation."
 msgstr "Ir á documentación da API."
 
 #: src/pages/app/AboutPage.tsx
-#, fuzzy
 msgid "Goodies"
 msgstr "Agasallos"
 
@@ -632,7 +634,6 @@ msgid "Next refresh"
 msgstr "Próxima actualización"
 
 #: src/pages/app/AboutPage.tsx
-#, fuzzy
 msgid "Next unread item bookmarklet"
 msgstr "Seguinte marcador de elementos non lidos"
 

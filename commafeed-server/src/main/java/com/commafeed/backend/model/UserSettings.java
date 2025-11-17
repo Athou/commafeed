@@ -131,6 +131,7 @@ public class UserSettings extends AbstractModel {
 	private boolean mobileFooter;
 	private boolean unreadCountTitle;
 	private boolean unreadCountFavicon;
+	private boolean disablePullToRefresh;
 
 	private boolean email;
 	private boolean gmail;

@@ -5,7 +5,6 @@ import { ModalsProvider } from "@mantine/modals"
 import { Notifications } from "@mantine/notifications"
 import type React from "react"
 import { useEffect, useState } from "react"
-import { isSafari } from "react-device-detect"
 import { HashRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import Tinycon from "tinycon"
 import { Constants } from "@/app/constants"
@@ -200,6 +199,7 @@ export function App() {
     useI18n()
     const unreadCountTitle = useAppSelector(state => state.user.settings?.unreadCountTitle)
     const unreadCountFavicon = useAppSelector(state => state.user.settings?.unreadCountFavicon)
+    const disablePullToRefresh = useAppSelector(state => state.user.settings?.disablePullToRefresh)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -213,12 +213,7 @@ export function App() {
             <BrowserExtensionBadgeUnreadCountHandler />
             <CustomJsHandler />
             <CustomCssHandler />
-
-            {/* disable pull-to-refresh as it messes with vertical scrolling
-                        safari behaves weirdly when overscroll-behavior is set to none so we disable it only for other browsers
-                        https://github.com/Athou/commafeed/issues/1168
-                    */}
-            {!isSafari && <DisablePullToRefresh />}
+            <DisablePullToRefresh enabled={disablePullToRefresh} />
 
             <HashRouter>
                 <RedirectHandler />

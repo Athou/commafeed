@@ -283,6 +283,10 @@ msgstr "Opis"
 msgid "Detailed"
 msgstr ""
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Disable \"Pull to refresh\" browser behavior"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
 #: src/pages/app/SettingsPage.tsx

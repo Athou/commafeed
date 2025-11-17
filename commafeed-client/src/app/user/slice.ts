@@ -4,6 +4,7 @@ import { createSlice, isAnyOf, type PayloadAction } from "@reduxjs/toolkit"
 import type { LocalSettings, Settings, UserModel, ViewMode } from "@/app/types"
 import {
     changeCustomContextMenu,
+    changeDisablePullToRefresh,
     changeEntriesToKeepOnTopWhenScrolling,
     changeExternalLinkIconDisplayMode,
     changeLanguage,
@@ -135,6 +136,10 @@ export const userSlice = createSlice({
             if (!state.settings) return
             state.settings.unreadCountFavicon = action.meta.arg
         })
+        builder.addCase(changeDisablePullToRefresh.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.disablePullToRefresh = action.meta.arg
+        })
         builder.addCase(changePrimaryColor.pending, (state, action) => {
             if (!state.settings) return
             state.settings.primaryColor = action.meta.arg
@@ -143,6 +148,7 @@ export const userSlice = createSlice({
             if (!state.settings) return
             state.settings.sharingSettings[action.meta.arg.site] = action.meta.arg.value
         })
+
         builder.addMatcher(
             isAnyOf(
                 changeLanguage.fulfilled,
@@ -159,6 +165,7 @@ export const userSlice = createSlice({
                 changeMobileFooter.fulfilled,
                 changeUnreadCountTitle.fulfilled,
                 changeUnreadCountFavicon.fulfilled,
+                changeDisablePullToRefresh.fulfilled,
                 changePrimaryColor.fulfilled,
                 changeSharingSetting.fulfilled
             ),

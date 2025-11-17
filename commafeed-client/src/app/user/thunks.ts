@@ -122,6 +122,15 @@ export const changeUnreadCountFavicon = createAppAsyncThunk("settings/unreadCoun
     client.user.saveSettings({ ...settings, unreadCountFavicon })
 })
 
+export const changeDisablePullToRefresh = createAppAsyncThunk(
+    "settings/disablePullToRefresh",
+    (disablePullToRefresh: boolean, thunkApi) => {
+        const { settings } = thunkApi.getState().user
+        if (!settings) return
+        client.user.saveSettings({ ...settings, disablePullToRefresh })
+    }
+)
+
 export const changePrimaryColor = createAppAsyncThunk("settings/primaryColor", (primaryColor: string, thunkApi) => {
     const { settings } = thunkApi.getState().user
     if (!settings) return

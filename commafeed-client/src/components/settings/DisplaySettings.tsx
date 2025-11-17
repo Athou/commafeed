@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/app/store"
 import type { IconDisplayMode, ScrollMode, SharingSettings } from "@/app/types"
 import {
     changeCustomContextMenu,
+    changeDisablePullToRefresh,
     changeEntriesToKeepOnTopWhenScrolling,
     changeExternalLinkIconDisplayMode,
     changeLanguage,
@@ -42,6 +43,7 @@ export function DisplaySettings() {
     const mobileFooter = useAppSelector(state => state.user.settings?.mobileFooter)
     const unreadCountTitle = useAppSelector(state => state.user.settings?.unreadCountTitle)
     const unreadCountFavicon = useAppSelector(state => state.user.settings?.unreadCountFavicon)
+    const disablePullToRefresh = useAppSelector(state => state.user.settings?.disablePullToRefresh)
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const primaryColor = useAppSelector(state => state.user.settings?.primaryColor) || Constants.theme.defaultPrimaryColor
     const { _ } = useLingui()
@@ -209,6 +211,12 @@ export function DisplaySettings() {
                 label={<Trans>In expanded view, scrolling through entries mark them as read</Trans>}
                 checked={scrollMarks}
                 onChange={async e => await dispatch(changeScrollMarks(e.currentTarget.checked))}
+            />
+
+            <Switch
+                label={<Trans>Disable "Pull to refresh" browser behavior</Trans>}
+                checked={disablePullToRefresh}
+                onChange={async e => await dispatch(changeDisablePullToRefresh(e.currentTarget.checked))}
             />
 
             <Divider label={<Trans>Sharing sites</Trans>} labelPosition="center" />

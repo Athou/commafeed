@@ -72,6 +72,9 @@ public class Settings implements Serializable {
 	@Schema(description = "show unread count in the favicon", required = true)
 	private boolean unreadCountFavicon;
 
+	@Schema(description = "disable pull to refresh", required = true)
+	private boolean disablePullToRefresh;
+
 	@Schema(description = "primary theme color to use in the UI")
 	private String primaryColor;
 

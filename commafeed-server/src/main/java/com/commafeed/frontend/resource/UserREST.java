@@ -120,6 +120,7 @@ public class UserREST {
 			s.setMobileFooter(settings.isMobileFooter());
 			s.setUnreadCountTitle(settings.isUnreadCountTitle());
 			s.setUnreadCountFavicon(settings.isUnreadCountFavicon());
+			s.setDisablePullToRefresh(settings.isDisablePullToRefresh());
 			s.setPrimaryColor(settings.getPrimaryColor());
 		} else {
 			s.setReadingMode(ReadingMode.UNREAD);
@@ -148,6 +149,7 @@ public class UserREST {
 			s.setMobileFooter(false);
 			s.setUnreadCountTitle(false);
 			s.setUnreadCountFavicon(true);
+			s.setDisablePullToRefresh(true);
 		}
 		return s;
 	}
@@ -183,6 +185,7 @@ public class UserREST {
 		s.setMobileFooter(settings.isMobileFooter());
 		s.setUnreadCountTitle(settings.isUnreadCountTitle());
 		s.setUnreadCountFavicon(settings.isUnreadCountFavicon());
+		s.setDisablePullToRefresh(settings.isDisablePullToRefresh());
 		s.setPrimaryColor(settings.getPrimaryColor());
 
 		s.setEmail(settings.getSharingSettings().isEmail());

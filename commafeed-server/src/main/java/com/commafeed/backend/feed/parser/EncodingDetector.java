@@ -11,7 +11,7 @@ import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
 
 @Singleton
-class EncodingDetector {
+public class EncodingDetector {
 
 	/**
 	 * Detect feed encoding by using the declared encoding in the xml processing instruction and by detecting the characters used in the

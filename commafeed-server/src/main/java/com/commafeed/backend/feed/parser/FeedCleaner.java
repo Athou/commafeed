@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jdom2.Verifier;
 
 @Singleton
-class FeedCleaner {
+public class FeedCleaner {
 
 	private static final Pattern DOCTYPE_PATTERN = Pattern.compile("<!DOCTYPE[^>]*>", Pattern.CASE_INSENSITIVE);
 

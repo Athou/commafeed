@@ -14,6 +14,7 @@ import jakarta.inject.Singleton;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemProperties;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -38,12 +39,9 @@ import com.rometools.rome.feed.synd.SyndLink;
 import com.rometools.rome.feed.synd.SyndLinkImpl;
 import com.rometools.rome.io.SyndFeedInput;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * Parses raw xml into a FeedParserResult object
  */
-@RequiredArgsConstructor
 @Singleton
 public class FeedParser {
 
@@ -54,6 +52,17 @@ public class FeedParser {
 
 	private final EncodingDetector encodingDetector;
 	private final FeedCleaner feedCleaner;
+
+	public FeedParser(EncodingDetector encodingDetector, FeedCleaner feedCleaner) {
+		this.encodingDetector = encodingDetector;
+		this.feedCleaner = feedCleaner;
+
+		// disable entity expansion limits added in JDK24+ (#1961)
+		// we already strip doctype declarations in FeedCleaner to prevent xxe attacks
+		// we also already limit the size of feeds we download in HttpGetter
+		System.setProperty(SystemProperties.JDK_XML_MAX_GENERAL_ENTITY_SIZE_LIMIT, "0");
+		System.setProperty(SystemProperties.JDK_XML_TOTAL_ENTITY_SIZE_LIMIT, "0");
+	}
 
 	public FeedParserResult parse(String feedUrl, byte[] xml) throws FeedParsingException {
 		try {

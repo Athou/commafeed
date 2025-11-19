@@ -11,4 +11,10 @@
 		</addColumn>
 	</changeSet>
 
+	<changeSet id="enable-disablePullToRefresh-setting" author="athou">
+		<update tableName="USERSETTINGS">
+			<column name="disablePullToRefresh" valueBoolean="true" />
+		</update>
+	</changeSet>
+
 </databaseChangeLog>

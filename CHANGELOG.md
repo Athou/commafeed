@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.12.0]
+
+- Added a setting to disable the "disable pull to refresh" feature because it messes with some browsers (#1168)
+- Emojis in feeds are now correctly displayed (#1955)
+- Don't show "Star/Unstar" in the context menu if the entry is too old to be starred (#1935)
+- Invalid relative urls in feeds no longer prevent those feeds from being parsed (#1939)
+- Fix an issue that could prevent large feeds from being parsed when using Java 24+ (#1961)
+- Enforce user password validation when created in the admin view (#1937)
+- The process in the docker native image is now called "commafeed" instead of "application"
+
 ## [5.11.1]
 
 - The search limit of 3 characters has been removed (#1887)

@@ -192,6 +192,8 @@
 						<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
 						<quarkus.datasource.db-kind>${build.database}</quarkus.datasource.db-kind>
 					</systemPropertyVariables>
+					<!-- fix for java.lang.NoClassDefFoundError: Could not initialize class org.jboss.threads.JDKSpecific$ThreadAccess (#1938) -->
+					<argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
 				</configuration>
 				<!-- failsafe plugin does not seem to be able to pick up dependencies declared in profiles -->
 				<dependencies>

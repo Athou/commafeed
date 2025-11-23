@@ -7,7 +7,7 @@ on:
   pull_request:
 
 env:
-  JAVA_VERSION: 21
+  JAVA_VERSION: 25
   DOCKER_BUILD_SUMMARY: false
 
 jobs:

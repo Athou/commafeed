@@ -1,6 +1,5 @@
 import { lingui } from "@lingui/vite-plugin"
 import react from "@vitejs/plugin-react"
-import { visualizer } from "rollup-plugin-visualizer"
 import { defineConfig } from "vite"
 import checker from "vite-plugin-checker"
 import tsconfigPaths from "vite-tsconfig-paths"
@@ -21,7 +20,6 @@ export default defineConfig(() => ({
         }),
         lingui(),
         tsconfigPaths(),
-        visualizer(),
         checker({
             typescript: true,
             biome: {

@@ -145,6 +145,7 @@ export function FeedEntry(props: Readonly<FeedEntryProps>) {
             component="article"
             id={Constants.dom.entryId(props.entry)}
             data-id={props.entry.id}
+            data-feed-id={props.entry.feedId}
             withBorder
             radius={borderRadius}
             className={cx(classes.paper, {

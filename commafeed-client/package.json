@@ -46,7 +46,7 @@
         "style-to-object": "^1.0.14",
         "throttle-debounce": "^5.0.2",
         "tinycon": "^0.6.8",
-        "tss-react": "^4.9.19",
+        "tss-react": "^4.9.20",
         "websocket-heartbeat-js": "^1.1.3"
     },
     "devDependencies": {

@@ -285,7 +285,7 @@ msgstr "详细"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Disable \"Pull to refresh\" browser behavior"
-msgstr ""
+msgstr "禁用浏览器的“下拉刷新”功能"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx

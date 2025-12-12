@@ -26,11 +26,18 @@ Google Reader inspired self-hosted RSS reader, based on Quarkus and React/TypeSc
     - MySQL
     - MariaDB
 
-## Deployment
+## Usage
+
+### Public instance
+
+A free public instance is available at https://www.commafeed.com.
+
+It has no ads, no tracking, and your data is never exploited or sold to third parties. The service is funded entirely through donations.
+However, this public instance does have a few limitations compared to self-hosted setups, outlined [here](https://github.com/Athou/commafeed/discussions/1567).
 
 ### Docker
 
-Docker is the easiest way to get started with CommaFeed.
+Docker is the easiest way to get started with self-hosted CommaFeed.
 
 Docker images are built automatically and are available at https://hub.docker.com/r/athou/commafeed
 
@@ -103,7 +110,7 @@ There are multiple ways to configure CommaFeed:
 - Environment variables (keys in UPPER_CASE)
 - a `.env` file in the working directory (keys in UPPER_CASE)
 
-The properties file is recommended because CommaFeed will be able to warn about invalid properties and typos.
+When in doubt, the properties file is recommended because CommaFeed will be able to warn about invalid properties and typos.
 
 All [CommaFeed settings](https://athou.github.io/commafeed/documentation) are optional and have sensible default values.
 

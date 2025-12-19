@@ -215,6 +215,7 @@ export function DisplaySettings() {
 
             <Switch
                 label={<Trans>Disable "Pull to refresh" browser behavior</Trans>}
+                description={<Trans>This setting can cause scrolling issues on some browsers (e.g. Safari)</Trans>}
                 checked={disablePullToRefresh}
                 onChange={async e => await dispatch(changeDisablePullToRefresh(e.currentTarget.checked))}
             />

@@ -1000,6 +1000,10 @@ msgstr "Tema"
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
 msgstr "Aquesta és la vostra clau de l'API. Es pot utilitzar per a algunes operacions de l'API de només lectura i permet accedir a l'API Fever. Utilitzeu el formulari de la part inferior de la pàgina per generar una nova clau d'API."
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
 msgstr "Canvia l'estat de lectura de l'entrada actual"

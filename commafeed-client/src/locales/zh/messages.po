@@ -1002,7 +1002,7 @@ msgstr "这是您的API 密钥，它可以被用于Fever API的只读操作及�
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"
-msgstr ""
+msgstr "此设置在部分浏览器（例如 Safari）中可能导致滚动问题"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"

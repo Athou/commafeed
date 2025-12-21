@@ -285,7 +285,7 @@ msgstr "Vue détaillée"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Disable \"Pull to refresh\" browser behavior"
-msgstr ""
+msgstr "Désactiver la fonction \"tirer pour rafraîchir\" du navigateur"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -1002,7 +1002,7 @@ msgstr "Ceci est votre clef API. Elle peut être utilisée pour certaines opéra
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"
-msgstr ""
+msgstr "Cette fonctinnalité peut causer des problèmes de défilement sur certains navigateurs (Safari, par exemple)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"

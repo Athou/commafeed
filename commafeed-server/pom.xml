@@ -521,6 +521,11 @@
 			<artifactId>ayza-for-apache5</artifactId>
 			<version>10.0.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.brotli</groupId>
+			<artifactId>dec</artifactId>
+			<version>0.1.2</version>
+		</dependency>
 
 		<!-- test dependencies -->
 		<dependency>

@@ -307,7 +307,7 @@ class HttpGetterTest {
 	@Nested
 	class Compression {
 
-		private static final String ACCEPT_ENCODING = "gzip, deflate";
+		private static final String ACCEPT_ENCODING = "gzip, deflate, br";
 
 		@Test
 		void gzip() throws Exception {

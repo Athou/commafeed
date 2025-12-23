@@ -46,6 +46,7 @@ import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.message.BasicHeader;
 import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
+import org.brotli.dec.BrotliInputStream;
 import org.jboss.resteasy.reactive.common.headers.CacheControlDelegate;
 
 import com.codahale.metrics.MetricRegistry;
@@ -295,6 +296,7 @@ public class HttpGetter {
 		Map<String, InputStreamFactory> contentDecoderMap = new LinkedHashMap<>();
 		contentDecoderMap.put("gzip", GZIPInputStream::new);
 		contentDecoderMap.put("deflate", DeflateInputStream::new);
+		contentDecoderMap.put("br", BrotliInputStream::new);
 
 		return HttpClientBuilder.create()
 				.useSystemProperties()

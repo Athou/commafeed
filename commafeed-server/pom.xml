@@ -516,12 +516,6 @@
 			<artifactId>httpclient5</artifactId>
 			<version>5.6</version>
 		</dependency>
-		<!-- add brotli support for httpclient5 -->
-		<dependency>
-			<groupId>org.brotli</groupId>
-			<artifactId>dec</artifactId>
-			<version>0.1.2</version>
-		</dependency>
 		<dependency>
 			<groupId>io.github.hakky54</groupId>
 			<artifactId>ayza-for-apache5</artifactId>

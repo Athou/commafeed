@@ -27,6 +27,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.UriInfo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.jboss.resteasy.reactive.server.multipart.FormValue;
 import org.jboss.resteasy.reactive.server.multipart.MultipartFormDataInput;
@@ -177,8 +178,8 @@ public class FeverREST {
 				List<String> entryIds = Stream.of(withIds.split(",")).map(String::trim).toList();
 				resp.setItems(buildItems(user, subscriptions, entryIds));
 			} else {
-				Long sinceId = params.containsKey("since_id") ? Long.valueOf(params.get("since_id")) : null;
-				Long maxId = params.containsKey("max_id") ? Long.valueOf(params.get("max_id")) : null;
+				Long sinceId = Optional.ofNullable(params.get("since_id")).filter(StringUtils::isNotBlank).map(Long::valueOf).orElse(null);
+				Long maxId = Optional.ofNullable(params.get("max_id")).filter(StringUtils::isNotBlank).map(Long::valueOf).orElse(null);
 				resp.setItems(buildItems(user, subscriptions, sinceId, maxId));
 			}
 		}

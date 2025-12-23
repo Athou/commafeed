@@ -11,7 +11,6 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPOutputStream;
@@ -35,7 +34,6 @@ import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 import org.mockserver.model.MediaType;
 
-import com.aayushatharva.brotli4j.encoder.BrotliOutputStream;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedVersion;
@@ -309,10 +307,7 @@ class HttpGetterTest {
 	@Nested
 	class Compression {
 
-		@Test
-		void deflate() throws Exception {
-			supportsCompression("deflate", DeflaterOutputStream::new);
-		}
+		private static final String ACCEPT_ENCODING = "gzip, deflate";
 
 		@Test
 		void gzip() throws Exception {
@@ -320,8 +315,8 @@ class HttpGetterTest {
 		}
 
 		@Test
-		void br() throws Exception {
-			supportsCompression("br", BrotliOutputStream::new);
+		void deflate() throws Exception {
+			supportsCompression("deflate", DeflaterOutputStream::new);
 		}
 
 		void supportsCompression(String encoding, CompressionOutputStreamFunction compressionOutputStreamFunction) throws Exception {
@@ -329,8 +324,9 @@ class HttpGetterTest {
 
 			HttpGetterTest.this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {
 				String acceptEncodingHeader = req.getFirstHeader(HttpHeaders.ACCEPT_ENCODING);
-				if (!Set.of(acceptEncodingHeader.split(", ")).contains(encoding)) {
-					throw new Exception(encoding + " should be in the Accept-Encoding header");
+				if (!ACCEPT_ENCODING.equals(acceptEncodingHeader)) {
+					throw new Exception("Wrong value in the Accept-Encoding header, should be '%s' but was '%s'".formatted(ACCEPT_ENCODING,
+							acceptEncodingHeader));
 				}
 
 				ByteArrayOutputStream output = new ByteArrayOutputStream();

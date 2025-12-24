@@ -29,6 +29,7 @@ import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.config.TlsConfig;
 import org.apache.hc.client5.http.entity.DeflateInputStream;
 import org.apache.hc.client5.http.entity.InputStreamFactory;
+import org.apache.hc.client5.http.entity.compress.ContentCoding;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
@@ -294,9 +295,9 @@ public class HttpGetter {
 		headers.add(new BasicHeader(HttpHeaders.CACHE_CONTROL, "no-cache"));
 
 		Map<String, InputStreamFactory> contentDecoderMap = new LinkedHashMap<>();
-		contentDecoderMap.put("gzip", GZIPInputStream::new);
-		contentDecoderMap.put("deflate", DeflateInputStream::new);
-		contentDecoderMap.put("br", BrotliInputStream::new);
+		contentDecoderMap.put(ContentCoding.GZIP.token(), GZIPInputStream::new);
+		contentDecoderMap.put(ContentCoding.DEFLATE.token(), DeflateInputStream::new);
+		contentDecoderMap.put(ContentCoding.BROTLI.token(), BrotliInputStream::new);
 
 		return HttpClientBuilder.create()
 				.useSystemProperties()

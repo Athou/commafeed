@@ -9,7 +9,7 @@ msgstr ""
 "Language: gl\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-10-10 07:30+0200\n"
+"PO-Revision-Date: 2025-12-27 15:30+0200\n"
 "Last-Translator: José M. <correoxm@disroot.org>\n"
 "Language-Team: gl\n"
 "Plural-Forms: \n"
@@ -92,7 +92,7 @@ msgstr "Anuncio"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
-msgstr "Chave API"
+msgstr "Clave API"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -108,7 +108,7 @@ msgstr "Tes certeza de querer eliminar a túa conta? Non é posible desfacer a e
 
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
-msgstr "es certeza de querer marcar todos os artigos de <0>{sourceLabel}</0> como lidos?"
+msgstr "Tes certeza de querer marcar todos os artigos de <0>{sourceLabel}</0> como lidos?"
 
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
@@ -286,7 +286,7 @@ msgstr "Detallado"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Disable \"Pull to refresh\" browser behavior"
-msgstr ""
+msgstr "Desactivar comportamento \"Tira para actualizar\" no navegador"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -1003,7 +1003,7 @@ msgstr "Esta é a túa clave da API. Pode usarse para algunhas operacións da AP
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"
-msgstr ""
+msgstr "Este axuste pode causar problemas nalgúns navegadores (ex. Safari) ao desprazarse"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"

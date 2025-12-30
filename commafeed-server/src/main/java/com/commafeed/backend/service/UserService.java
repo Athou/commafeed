@@ -95,7 +95,7 @@ public class UserService {
 		}
 
 		String computedFeverApiKey = Digests.md5Hex(user.getName() + ":" + user.getApiKey());
-		if (!computedFeverApiKey.equals(feverApiKey)) {
+		if (!computedFeverApiKey.equalsIgnoreCase(feverApiKey)) {
 			return Optional.empty();
 		}
 

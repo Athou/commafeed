@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.12.1]
+
+- The favicon is now crispier (#1978)
+- The ReadKit iOS app now works via the Fever API (#1602)
+
 ## [5.12.0]
 
 - Added a setting to disable the "disable pull to refresh" feature because it messes with some browsers (#1168)

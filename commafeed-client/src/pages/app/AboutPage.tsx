@@ -107,7 +107,7 @@ export function AboutPage() {
                     <List>
                         <List.Item>
                             <Anchor href={Constants.browserExtensionUrl} target="_blank" rel="noreferrer">
-                                <Trans>Browser extention</Trans>
+                                <Trans>Browser extension</Trans>
                             </Anchor>
                         </List.Item>
                         <List.Item>

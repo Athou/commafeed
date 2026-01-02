@@ -142,7 +142,7 @@ msgid "Browser extension required for Chrome"
 msgstr "浏览器扩展"
 
 #: src/pages/app/AboutPage.tsx
-msgid "Browser extention"
+msgid "Browser extension"
 msgstr "浏览器扩展"
 
 #: src/components/settings/DisplaySettings.tsx

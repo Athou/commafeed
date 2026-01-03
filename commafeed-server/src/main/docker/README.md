@@ -8,7 +8,7 @@ Start CommaFeed with a H2 embedded database. Then login as `admin/admin` on http
 
 ### docker
 
-`docker run --name commafeed --detach --publish 8082:8082 --restart unless-stopped --volume /path/to/commafeed/db:/commafeed/data --memory 256M athou/commafeed:latest-h2`
+`docker run --name commafeed --detach --publish 8082:8082 --restart unless-stopped --volume /path/to/commafeed/data:/commafeed/data --memory 256M athou/commafeed:latest-h2`
 
 ### docker-compose
 
@@ -18,7 +18,7 @@ services:
     image: athou/commafeed:latest-h2
     restart: unless-stopped
     volumes:
-      - /path/to/commafeed/db:/commafeed/data
+      - ./data:/commafeed/data
     deploy:
       resources:
         limits:
@@ -56,7 +56,7 @@ services:
       POSTGRES_PASSWORD: commafeed
       POSTGRES_DB: commafeed
     volumes:
-      - /path/to/commafeed/db:/var/lib/postgresql/data
+      - ./data:/var/lib/postgresql
 ```
 
 CommaFeed also supports:

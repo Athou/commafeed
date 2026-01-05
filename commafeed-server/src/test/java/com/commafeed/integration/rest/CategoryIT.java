@@ -58,9 +58,9 @@ class CategoryIT extends BaseIT {
 
 		Category root = getRootCategory();
 		Assertions.assertEquals(2, root.getChildren().size());
-		Assertions.assertEquals("test-category-1", root.getChildren().get(0).getName());
-		Assertions.assertEquals(1, root.getChildren().get(0).getChildren().size());
-		Assertions.assertEquals("modified-category-2", root.getChildren().get(0).getChildren().get(0).getName());
+		Assertions.assertEquals("test-category-1", root.getChildren().getFirst().getName());
+		Assertions.assertEquals(1, root.getChildren().getFirst().getChildren().size());
+		Assertions.assertEquals("modified-category-2", root.getChildren().getFirst().getChildren().getFirst().getName());
 
 		request = new CategoryModificationRequest();
 		request.setId(Long.valueOf(category3Id));
@@ -79,7 +79,7 @@ class CategoryIT extends BaseIT {
 
 		Category root = getRootCategory();
 		Assertions.assertEquals(1, root.getChildren().size());
-		Assertions.assertTrue(root.getChildren().get(0).isExpanded());
+		Assertions.assertTrue(root.getChildren().getFirst().isExpanded());
 
 		CollapseRequest request = new CollapseRequest();
 		request.setId(Long.valueOf(categoryId));
@@ -88,7 +88,7 @@ class CategoryIT extends BaseIT {
 
 		root = getRootCategory();
 		Assertions.assertEquals(1, root.getChildren().size());
-		Assertions.assertFalse(root.getChildren().get(0).isExpanded());
+		Assertions.assertFalse(root.getChildren().getFirst().isExpanded());
 	}
 
 	@Test
@@ -178,7 +178,7 @@ class CategoryIT extends BaseIT {
 			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 			Assertions.assertEquals(0, getCategoryEntries(CategoryREST.STARRED).getEntries().size());
 
-			Entry entry = getFeedEntries(subscriptionId).getEntries().get(0);
+			Entry entry = getFeedEntries(subscriptionId).getEntries().getFirst();
 
 			StarRequest starRequest = new StarRequest();
 			starRequest.setId(entry.getId());
@@ -188,7 +188,7 @@ class CategoryIT extends BaseIT {
 
 			Entries starredEntries = getCategoryEntries(CategoryREST.STARRED);
 			Assertions.assertEquals(1, starredEntries.getEntries().size());
-			Assertions.assertEquals(entry.getId(), starredEntries.getEntries().get(0).getId());
+			Assertions.assertEquals(entry.getId(), starredEntries.getEntries().getFirst().getId());
 		}
 
 		@Test
@@ -196,7 +196,7 @@ class CategoryIT extends BaseIT {
 			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 			Assertions.assertEquals(0, getTaggedEntries("my-tag").getEntries().size());
 
-			Entry entry = getFeedEntries(subscriptionId).getEntries().get(0);
+			Entry entry = getFeedEntries(subscriptionId).getEntries().getFirst();
 
 			TagRequest tagRequest = new TagRequest();
 			tagRequest.setEntryId(Long.valueOf(entry.getId()));
@@ -205,7 +205,7 @@ class CategoryIT extends BaseIT {
 
 			Entries taggedEntries = getTaggedEntries("my-tag");
 			Assertions.assertEquals(1, taggedEntries.getEntries().size());
-			Assertions.assertEquals(entry.getId(), taggedEntries.getEntries().get(0).getId());
+			Assertions.assertEquals(entry.getId(), taggedEntries.getEntries().getFirst().getId());
 		}
 
 		@Test

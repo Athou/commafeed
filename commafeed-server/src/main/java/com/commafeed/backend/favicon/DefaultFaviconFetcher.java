@@ -101,7 +101,7 @@ public class DefaultFaviconFetcher extends AbstractFaviconFetcher {
 			return null;
 		}
 
-		String href = icons.get(0).attr("abs:href");
+		String href = icons.getFirst().attr("abs:href");
 		if (StringUtils.isBlank(href)) {
 			log.debug("No icon found in page");
 			return null;

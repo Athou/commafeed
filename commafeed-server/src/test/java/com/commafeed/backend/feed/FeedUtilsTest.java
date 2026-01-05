@@ -31,10 +31,10 @@ class FeedUtilsTest {
 		Assertions.assertEquals("Test Entry", syndEntry.getTitle());
 		Assertions.assertEquals("Author Name", syndEntry.getAuthor());
 		Assertions.assertEquals(1, syndEntry.getContents().size());
-		Assertions.assertEquals("This is a test entry content.", syndEntry.getContents().get(0).getValue());
+		Assertions.assertEquals("This is a test entry content.", syndEntry.getContents().getFirst().getValue());
 		Assertions.assertEquals(1, syndEntry.getEnclosures().size());
-		Assertions.assertEquals("http://example.com/enclosure.mp3", syndEntry.getEnclosures().get(0).getUrl());
-		Assertions.assertEquals("audio/mpeg", syndEntry.getEnclosures().get(0).getType());
+		Assertions.assertEquals("http://example.com/enclosure.mp3", syndEntry.getEnclosures().getFirst().getUrl());
+		Assertions.assertEquals("audio/mpeg", syndEntry.getEnclosures().getFirst().getType());
 		Assertions.assertEquals("http://example.com/test-entry", syndEntry.getLink());
 		Assertions.assertEquals(Date.from(Instant.ofEpochSecond(1)), syndEntry.getPublishedDate());
 	}

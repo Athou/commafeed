@@ -188,7 +188,7 @@ class UserServiceTest {
 	void apiLoginShouldReturnUserIfUserFoundFromApikeyLookupNotDisabled() {
 		Mockito.when(userDAO.findByApiKey("apikey")).thenReturn(normalUser);
 		Optional<User> returnedUser = userService.login("apikey");
-		Assertions.assertEquals(normalUser, returnedUser.get());
+		Assertions.assertEquals(Optional.of(normalUser), returnedUser);
 	}
 
 }

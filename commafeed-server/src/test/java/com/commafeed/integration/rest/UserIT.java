@@ -48,12 +48,12 @@ class UserIT extends BaseIT {
 		List<MailMessage> mails = mailbox.getMailMessagesSentTo("admin@commafeed.com");
 		Assertions.assertEquals(1, mails.size());
 
-		MailMessage message = mails.get(0);
+		MailMessage message = mails.getFirst();
 		Assertions.assertEquals("CommaFeed - Password recovery", message.getSubject());
 		Assertions.assertTrue(message.getHtml().startsWith("You asked for password recovery for account 'admin'"));
-		Assertions.assertEquals("admin@commafeed.com", message.getTo().get(0));
+		Assertions.assertEquals("admin@commafeed.com", message.getTo().getFirst());
 
-		Element a = Jsoup.parse(message.getHtml()).select("a").get(0);
+		Element a = Jsoup.parse(message.getHtml()).select("a").getFirst();
 		String link = a.attr("href");
 		String newPasswordResponse = RestAssured.given().urlEncodingEnabled(false).get(link).then().statusCode(200).extract().asString();
 		Assertions.assertTrue(newPasswordResponse.contains("Your new password is:"));

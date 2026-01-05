@@ -11,8 +11,8 @@ import java.time.InstantSource;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.SequencedMap;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
@@ -294,7 +294,7 @@ public class HttpGetter {
 		headers.add(new BasicHeader(HttpHeaders.PRAGMA, "No-cache"));
 		headers.add(new BasicHeader(HttpHeaders.CACHE_CONTROL, "no-cache"));
 
-		Map<String, InputStreamFactory> contentDecoderMap = new LinkedHashMap<>();
+		SequencedMap<String, InputStreamFactory> contentDecoderMap = new LinkedHashMap<>();
 		contentDecoderMap.put(ContentCoding.GZIP.token(), GZIPInputStream::new);
 		contentDecoderMap.put(ContentCoding.DEFLATE.token(), DeflateInputStream::new);
 		contentDecoderMap.put(ContentCoding.BROTLI.token(), BrotliInputStream::new);

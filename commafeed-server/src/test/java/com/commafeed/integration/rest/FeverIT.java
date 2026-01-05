@@ -80,7 +80,7 @@ class FeverIT extends BaseIT {
 		FeverResponse feverResponse = client.execute("items");
 		Assertions.assertEquals(2, feverResponse.getItems().size());
 
-		FeverItem item = feverResponse.getItems().get(0);
+		FeverItem item = feverResponse.getItems().getFirst();
 		Assertions.assertEquals(subscriptionId, item.getFeedId());
 		Assertions.assertEquals("Item 2", item.getTitle());
 		Assertions.assertEquals("Item 2 description", item.getHtml());
@@ -92,7 +92,7 @@ class FeverIT extends BaseIT {
 	@Test
 	void entriesByIds() {
 		Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
-		Entry entry = getFeedEntries(subscriptionId).getEntries().get(0);
+		Entry entry = getFeedEntries(subscriptionId).getEntries().getFirst();
 
 		FeverResponse feverResponse = client.execute("items", new Param("with_ids", entry.getId()));
 		Assertions.assertEquals(1, feverResponse.getItems().size());
@@ -101,7 +101,7 @@ class FeverIT extends BaseIT {
 	@Test
 	void savedEntries() {
 		Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
-		Entry entry = getFeedEntries(subscriptionId).getEntries().get(0);
+		Entry entry = getFeedEntries(subscriptionId).getEntries().getFirst();
 
 		StarRequest starRequest = new StarRequest();
 		starRequest.setId(entry.getId());
@@ -116,7 +116,7 @@ class FeverIT extends BaseIT {
 	@Test
 	void markEntry() {
 		Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
-		Entry entry = getFeedEntries(subscriptionId).getEntries().get(0);
+		Entry entry = getFeedEntries(subscriptionId).getEntries().getFirst();
 
 		client.execute("_", new Param("mark", "item"), new Param("id", entry.getId()), new Param("as", "read"));
 		Assertions.assertEquals(1, getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
@@ -147,7 +147,7 @@ class FeverIT extends BaseIT {
 	@Test
 	void tagEntry() {
 		Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
-		Entry entry = getFeedEntries(subscriptionId).getEntries().get(0);
+		Entry entry = getFeedEntries(subscriptionId).getEntries().getFirst();
 
 		client.execute("_", new Param("mark", "item"), new Param("id", entry.getId()), new Param("as", "saved"));
 		Assertions.assertEquals(1, getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isStarred).count());
@@ -161,7 +161,7 @@ class FeverIT extends BaseIT {
 		createCategory("category-1");
 		FeverResponse feverResponse = client.execute("groups");
 		Assertions.assertEquals(1, feverResponse.getGroups().size());
-		Assertions.assertEquals("category-1", feverResponse.getGroups().get(0).getTitle());
+		Assertions.assertEquals("category-1", feverResponse.getGroups().getFirst().getTitle());
 	}
 
 	@Test

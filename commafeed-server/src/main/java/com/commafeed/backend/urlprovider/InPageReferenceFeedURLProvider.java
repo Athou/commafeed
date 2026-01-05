@@ -14,7 +14,7 @@ public class InPageReferenceFeedURLProvider implements FeedURLProvider {
 	@Override
 	public List<String> get(String url, String urlContent) {
 		Document doc = Jsoup.parse(urlContent, url);
-		if (!"html".equals(doc.children().get(0).tagName())) {
+		if (!"html".equals(doc.children().getFirst().tagName())) {
 			return List.of();
 		}
 		return Stream.concat(doc.select("link[type=application/atom+xml]").stream(), doc.select("link[type=application/rss+xml]").stream())

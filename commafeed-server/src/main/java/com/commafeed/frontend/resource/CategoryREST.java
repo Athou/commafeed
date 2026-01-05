@@ -178,7 +178,7 @@ public class CategoryREST {
 		boolean hasMore = entries.getEntries().size() > limit;
 		if (hasMore) {
 			entries.setHasMore(true);
-			entries.getEntries().remove(entries.getEntries().size() - 1);
+			entries.getEntries().removeLast();
 		}
 
 		entries.setTimestamp(System.currentTimeMillis());

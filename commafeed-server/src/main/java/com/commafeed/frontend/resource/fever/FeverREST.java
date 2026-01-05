@@ -94,8 +94,8 @@ public class FeverREST {
 	@Operation(hidden = true)
 	public FeverResponse formUrlencoded(@Context UriInfo uri, @PathParam("userId") Long userId, MultivaluedMap<String, String> form) {
 		Map<String, String> params = new HashMap<>();
-		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
-		form.forEach((k, v) -> params.put(k, v.get(0)));
+		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.getFirst()));
+		form.forEach((k, v) -> params.put(k, v.getFirst()));
 		return handle(userId, params);
 	}
 
@@ -107,7 +107,7 @@ public class FeverREST {
 	@Operation(hidden = true)
 	public FeverResponse noForm(@Context UriInfo uri, @PathParam("userId") Long userId) {
 		Map<String, String> params = new HashMap<>();
-		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
+		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.getFirst()));
 		return handle(userId, params);
 	}
 
@@ -119,7 +119,7 @@ public class FeverREST {
 	@Operation(hidden = true)
 	public FeverResponse get(@Context UriInfo uri, @PathParam("userId") Long userId) {
 		Map<String, String> params = new HashMap<>();
-		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
+		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.getFirst()));
 		return handle(userId, params);
 	}
 
@@ -132,7 +132,7 @@ public class FeverREST {
 	@Operation(hidden = true)
 	public FeverResponse formData(@Context UriInfo uri, @PathParam("userId") Long userId, MultipartFormDataInput form) {
 		Map<String, String> params = new HashMap<>();
-		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.get(0)));
+		uri.getQueryParameters().forEach((k, v) -> params.put(k, v.getFirst()));
 		form.getValues().forEach((k, v) -> params.put(k, v.stream().map(FormValue::getValue).findFirst().orElse(null)));
 		return handle(userId, params);
 	}

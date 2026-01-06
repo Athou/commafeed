@@ -17,7 +17,7 @@ public record Favicon(byte[] icon, MediaType mediaType) {
 		try {
 			return MediaType.valueOf(contentType);
 		} catch (Exception e) {
-			log.debug("invalid content type '{}' received, returning default value", contentType);
+			log.debug("invalid content type '{}' received, returning default value", contentType, e);
 			return DEFAULT_MEDIA_TYPE;
 		}
 	}

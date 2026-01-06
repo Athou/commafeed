@@ -30,7 +30,11 @@ public class OPMLImporter {
 	private final FeedSubscriptionService feedSubscriptionService;
 
 	public void importOpml(User user, String xml) throws IllegalArgumentException, FeedException {
-		xml = xml.substring(xml.indexOf('<'));
+		int index = xml.indexOf('<');
+		if (index == -1) {
+			throw new IllegalArgumentException("Invalid OPML: no start tag found");
+		}
+		xml = xml.substring(index);
 		WireFeedInput input = new WireFeedInput();
 		Opml feed = (Opml) input.build(new StringReader(xml));
 		List<Outline> outlines = feed.getOutlines();

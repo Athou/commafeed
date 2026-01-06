@@ -164,9 +164,11 @@ public class FeedRefreshEngine {
 			Instant lastLoginThreshold = config.feedRefresh().userInactivityPeriod().isZero() ? null
 					: Instant.now().minus(config.feedRefresh().userInactivityPeriod());
 			List<Feed> feeds = feedDAO.findNextUpdatable(max, lastLoginThreshold);
-			// update disabledUntil to prevent feeds from being returned again by feedDAO.findNextUpdatable()
-			Instant nextUpdateDate = Instant.now().plus(config.feedRefresh().interval());
-			feedDAO.setDisabledUntil(feeds.stream().map(AbstractModel::getId).toList(), nextUpdateDate);
+			if (!feeds.isEmpty()) {
+				// update disabledUntil to prevent feeds from being returned again by feedDAO.findNextUpdatable()
+				Instant nextUpdateDate = Instant.now().plus(config.feedRefresh().interval());
+				feedDAO.setDisabledUntil(feeds.stream().map(AbstractModel::getId).toList(), nextUpdateDate);
+			}
 			return feeds;
 		});
 	}

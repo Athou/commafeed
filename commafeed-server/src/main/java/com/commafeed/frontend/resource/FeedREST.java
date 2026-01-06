@@ -181,7 +181,7 @@ public class FeedREST {
 			boolean hasMore = entries.getEntries().size() > limit;
 			if (hasMore) {
 				entries.setHasMore(true);
-				entries.getEntries().remove(entries.getEntries().size() - 1);
+				entries.getEntries().removeLast();
 			}
 		} else {
 			return Response.status(Status.NOT_FOUND).entity("<message>feed not found</message>").build();

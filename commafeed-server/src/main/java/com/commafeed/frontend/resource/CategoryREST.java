@@ -337,7 +337,7 @@ public class CategoryREST {
 		}
 
 		FeedCategory parent = null;
-		if (req.getParentId() != null && !CategoryREST.ALL.equals(req.getParentId())
+		if (req.getParentId() != null && !ALL.equals(req.getParentId())
 				&& !Strings.CS.equals(req.getParentId(), String.valueOf(req.getId()))) {
 			parent = feedCategoryDAO.findById(user, Long.valueOf(req.getParentId()));
 		}

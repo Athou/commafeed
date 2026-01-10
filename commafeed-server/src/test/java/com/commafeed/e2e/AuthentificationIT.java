@@ -53,13 +53,10 @@ class AuthentificationIT {
 		Page page = context.newPage();
 		page.navigate(getLoginPageUrl());
 		page.getByText("Sign up!").click();
-		PlaywrightTestUtils.register(page, "user", "user@domain.com", "pass");
+		PlaywrightTestUtils.register(page, "user", "user@domain.com", "p");
 
 		Locator alert = page.getByRole(AriaRole.ALERT);
-		PlaywrightAssertions.assertThat(alert).containsText("Password must be 8 or more characters in length.");
-		PlaywrightAssertions.assertThat(alert).containsText("Password must contain 1 or more uppercase characters.");
-		PlaywrightAssertions.assertThat(alert).containsText("Password must contain 1 or more digit characters.");
-		PlaywrightAssertions.assertThat(alert).containsText("Password must contain 1 or more special characters.");
+		PlaywrightAssertions.assertThat(alert).containsText("Password must be 4 or more characters in length.");
 	}
 
 	@Test

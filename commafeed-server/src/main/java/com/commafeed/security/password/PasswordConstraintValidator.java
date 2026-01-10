@@ -6,8 +6,6 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import org.apache.commons.lang3.StringUtils;
-import org.passay.CharacterRule;
-import org.passay.EnglishCharacterData;
 import org.passay.LengthRule;
 import org.passay.PasswordData;
 import org.passay.PasswordValidator;
@@ -19,7 +17,7 @@ import lombok.Setter;
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
 
 	@Setter
-	private static boolean strict = true;
+	private static int minimumPasswordLength;
 
 	@Override
 	public void initialize(ValidPassword constraintAnnotation) {
@@ -32,7 +30,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 			return true;
 		}
 
-		PasswordValidator validator = strict ? buildStrictPasswordValidator() : buildLoosePasswordValidator();
+		PasswordValidator validator = buildPasswordValidator();
 		RuleResult result = validator.validate(new PasswordData(value));
 
 		if (result.isValid()) {
@@ -45,28 +43,11 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 		return false;
 	}
 
-	private PasswordValidator buildStrictPasswordValidator() {
+	private PasswordValidator buildPasswordValidator() {
 		return new PasswordValidator(
 				// length
-				new LengthRule(8, 256),
-				// 1 uppercase char
-				new CharacterRule(EnglishCharacterData.UpperCase, 1),
-				// 1 lowercase char
-				new CharacterRule(EnglishCharacterData.LowerCase, 1),
-				// 1 digit
-				new CharacterRule(EnglishCharacterData.Digit, 1),
-				// 1 special char
-				new CharacterRule(EnglishCharacterData.Special, 1),
+				new LengthRule(minimumPasswordLength, 256),
 				// no whitespace
 				new WhitespaceRule());
 	}
-
-	private PasswordValidator buildLoosePasswordValidator() {
-		return new PasswordValidator(
-				// length
-				new LengthRule(6, 256),
-				// no whitespace
-				new WhitespaceRule());
-	}
-
 }

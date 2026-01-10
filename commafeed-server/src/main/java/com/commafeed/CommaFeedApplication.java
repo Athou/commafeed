@@ -20,7 +20,7 @@ public class CommaFeedApplication {
 	private final CommaFeedConfiguration config;
 
 	public void start(@Observes StartupEvent ev) {
-		PasswordConstraintValidator.setStrict(config.users().strictPasswordPolicy());
+		PasswordConstraintValidator.setMinimumPasswordLength(config.users().minimumPasswordLength());
 
 		feedRefreshEngine.start();
 		taskScheduler.start();

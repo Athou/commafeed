@@ -60,6 +60,11 @@ msgstr "Ychwanegu defnyddiwr"
 msgid "Admin"
 msgstr "Gweinyddol"
 
+#: src/pages/auth/InitialSetupPage.tsx
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "Admin user name"
+msgstr ""
+
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
 #: src/components/sidebar/Tree.tsx
@@ -137,12 +142,12 @@ msgstr "Yn ôl i fewngofnodi"
 msgid "Blue"
 msgstr ""
 
-#: src/components/KeyboardShortcutsHelp.tsx
-msgid "Browser extension required for Chrome"
-msgstr ""
-
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extension"
+msgstr ""
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Browser extension required for Chrome"
 msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
@@ -224,6 +229,10 @@ msgstr "Cadarnhau'r cyfrinair"
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
 msgstr "clyd"
+
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "Create Admin Account"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
@@ -309,6 +318,8 @@ msgstr "Llusgwch y ddolen i'r bar nod tudalen"
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/auth/InitialSetupPage.tsx
+#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
@@ -474,6 +485,10 @@ msgstr "Mewn gwedd estynedig, mae sgrolio trwy gofnodion yn nodi eu bod wedi'u d
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
+msgstr ""
+
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "Initial Setup"
 msgstr ""
 
 #: src/components/content/FeedEntryContextMenu.tsx
@@ -747,6 +762,8 @@ msgid "Parent Category"
 msgstr "Categori Rhiant"
 
 #: src/components/admin/UserEdit.tsx
+#: src/pages/auth/InitialSetupPage.tsx
+#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -1039,6 +1056,10 @@ msgstr "dad-seren"
 msgid "Unsubscribe"
 msgstr "Dad-danysgrifio"
 
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "User created."
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
 msgstr "Enw defnyddiwr"
@@ -1059,6 +1080,10 @@ msgstr "Rhybudd"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Website"
 msgstr "Gwefan"
+
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"

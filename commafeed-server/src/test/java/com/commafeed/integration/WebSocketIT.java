@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.commafeed.TestConstants;
 import com.commafeed.frontend.model.request.FeedModificationRequest;
 
 import io.quarkus.test.junit.QuarkusTest;
@@ -40,7 +41,8 @@ class WebSocketIT extends BaseIT {
 
 	@BeforeEach
 	void setup() {
-		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
+		initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+		RestAssured.authentication = RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
 	}
 
 	@AfterEach

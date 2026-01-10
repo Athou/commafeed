@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.commafeed.TestConstants;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.frontend.model.request.PasswordResetRequest;
 import com.commafeed.integration.BaseIT;
@@ -29,7 +30,8 @@ class UserIT extends BaseIT {
 
 	@BeforeEach
 	void setup() {
-		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
+		initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+		RestAssured.authentication = RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
 
 		mailbox.clear();
 	}

@@ -26,7 +26,6 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import com.codahale.metrics.MetricRegistry;
-import com.commafeed.CommaFeedConstants;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.model.User;
@@ -101,8 +100,8 @@ public class AdminREST {
 			if (req.isAdmin() && !roles.contains(Role.ADMIN)) {
 				userRoleDAO.persist(new UserRole(u, Role.ADMIN));
 			} else if (!req.isAdmin() && roles.contains(Role.ADMIN)) {
-				if (CommaFeedConstants.USERNAME_ADMIN.equals(u.getName())) {
-					return Response.status(Status.FORBIDDEN).entity("You cannot remove the admin role from the admin user.").build();
+				if (userRoleDAO.countAdmins() == 1) {
+					return Response.status(Status.FORBIDDEN).entity("You cannot remove the admin role from the last admin user.").build();
 				}
 				for (UserRole userRole : userRoleDAO.findAll(u)) {
 					if (userRole.getRole() == Role.ADMIN) {

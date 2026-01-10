@@ -61,6 +61,11 @@ msgstr "Engadir persoa usuaria"
 msgid "Admin"
 msgstr "Administración"
 
+#: src/pages/auth/InitialSetupPage.tsx
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "Admin user name"
+msgstr ""
+
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
 #: src/components/sidebar/Tree.tsx
@@ -138,13 +143,13 @@ msgstr "Volver para iniciar sesión"
 msgid "Blue"
 msgstr "Azul"
 
-#: src/components/KeyboardShortcutsHelp.tsx
-msgid "Browser extension required for Chrome"
-msgstr "Complemento para o navegador requerido para Chrome"
-
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extension"
 msgstr "Complemento do navegador"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Browser extension required for Chrome"
+msgstr "Complemento para o navegador requerido para Chrome"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
@@ -225,6 +230,10 @@ msgstr "Confirmar contrasinal"
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
 msgstr "Acolledor"
+
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "Create Admin Account"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
@@ -310,6 +319,8 @@ msgstr "Arrastra a ligazón á barra de marcadores"
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/auth/InitialSetupPage.tsx
+#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
@@ -476,6 +487,10 @@ msgstr "Na vista ampliada, ao desprazarse polas entradas márcaas como lidas"
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
 msgstr "Índigo"
+
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "Initial Setup"
+msgstr ""
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -748,6 +763,8 @@ msgid "Parent Category"
 msgstr "Categoría superior"
 
 #: src/components/admin/UserEdit.tsx
+#: src/pages/auth/InitialSetupPage.tsx
+#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -1040,6 +1057,10 @@ msgstr "Retirar estrela"
 msgid "Unsubscribe"
 msgstr "Cancelar a subscrición"
 
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "User created."
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
 msgstr "Identificador"
@@ -1060,6 +1081,10 @@ msgstr "Aviso"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Website"
 msgstr "Páxina web"
+
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"

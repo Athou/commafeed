@@ -60,6 +60,11 @@ msgstr "Afegeix usuari"
 msgid "Admin"
 msgstr "Administrador"
 
+#: src/pages/auth/InitialSetupPage.tsx
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "Admin user name"
+msgstr ""
+
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
 #: src/components/sidebar/Tree.tsx
@@ -137,13 +142,13 @@ msgstr "Torna a iniciar sessió"
 msgid "Blue"
 msgstr "Blau"
 
-#: src/components/KeyboardShortcutsHelp.tsx
-msgid "Browser extension required for Chrome"
-msgstr "Extensió del navegador necessària per a Chrome"
-
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extension"
 msgstr "Extensió del navegador"
+
+#: src/components/KeyboardShortcutsHelp.tsx
+msgid "Browser extension required for Chrome"
+msgstr "Extensió del navegador necessària per a Chrome"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
@@ -225,6 +230,10 @@ msgstr "Confirmeu la contrasenya"
 msgid "Cozy"
 msgstr "Acollidor"
 
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "Create Admin Account"
+msgstr ""
+
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
 msgstr "Ctrl"
@@ -285,7 +294,7 @@ msgstr "Detallat"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Disable \"Pull to refresh\" browser behavior"
-msgstr "Desactiva el comportament \"Arrossega per actualitzar"\ del navegador"
+msgstr "Desactiva el comportament \"Arrossega per actualitzar\"\\ del navegador"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -309,6 +318,8 @@ msgstr "Arrossegueu l'enllaç a la barra d'adreces d'interès"
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/auth/InitialSetupPage.tsx
+#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
@@ -475,6 +486,10 @@ msgstr "En la vista ampliada, en desplaçar-se per les entrades, es marquen com 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
 msgstr "Indi"
+
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "Initial Setup"
+msgstr ""
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -747,6 +762,8 @@ msgid "Parent Category"
 msgstr "Categoria pare"
 
 #: src/components/admin/UserEdit.tsx
+#: src/pages/auth/InitialSetupPage.tsx
+#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -1039,6 +1056,10 @@ msgstr "Desestrellar"
 msgid "Unsubscribe"
 msgstr "Donar-se de baixa"
 
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "User created."
+msgstr ""
+
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
 msgstr "Nom d'usuari"
@@ -1059,6 +1080,10 @@ msgstr "Avís"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Website"
 msgstr "Lloc web"
+
+#: src/pages/auth/InitialSetupPage.tsx
+msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"

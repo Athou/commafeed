@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.InputSource;
 
+import com.commafeed.TestConstants;
 import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
@@ -35,7 +36,8 @@ import io.restassured.http.ContentType;
 class CategoryIT extends BaseIT {
 	@BeforeEach
 	void setup() {
-		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
+		initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+		RestAssured.authentication = RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
 	}
 
 	@AfterEach

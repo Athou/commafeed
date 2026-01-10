@@ -6,6 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.commafeed.TestConstants;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.integration.BaseIT;
 
@@ -18,7 +19,8 @@ class CustomCodeIT extends BaseIT {
 
 	@BeforeEach
 	void setup() {
-		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
+		initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+		RestAssured.authentication = RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
 	}
 
 	@AfterEach

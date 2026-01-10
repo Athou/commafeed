@@ -8,9 +8,11 @@ import jakarta.ws.rs.core.HttpHeaders;
 
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.commafeed.ExceptionMappers.UnauthorizedResponse;
+import com.commafeed.TestConstants;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.MarkRequest;
@@ -23,6 +25,11 @@ import io.restassured.http.ContentType;
 
 @QuarkusTest
 class SecurityIT extends BaseIT {
+
+	@BeforeEach
+	void setup() {
+		initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+	}
 
 	@Test
 	void notLoggedIn() {
@@ -49,7 +56,13 @@ class SecurityIT extends BaseIT {
 
 	@Test
 	void basicAuthLogin() {
-		RestAssured.given().auth().preemptive().basic("admin", "admin").get("rest/user/profile").then().statusCode(HttpStatus.SC_OK);
+		RestAssured.given()
+				.auth()
+				.preemptive()
+				.basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD)
+				.get("rest/user/profile")
+				.then()
+				.statusCode(HttpStatus.SC_OK);
 	}
 
 	@Test
@@ -57,7 +70,7 @@ class SecurityIT extends BaseIT {
 		RestAssured.given()
 				.auth()
 				.preemptive()
-				.basic("admin", "wrong-password")
+				.basic(TestConstants.ADMIN_USERNAME, "wrong-password")
 				.get("rest/user/profile")
 				.then()
 				.statusCode(HttpStatus.SC_UNAUTHORIZED);
@@ -72,12 +85,12 @@ class SecurityIT extends BaseIT {
 	void apiKey() {
 		// create api key
 		ProfileModificationRequest req = new ProfileModificationRequest();
-		req.setCurrentPassword("admin");
+		req.setCurrentPassword(TestConstants.ADMIN_PASSWORD);
 		req.setNewApiKey(true);
 		RestAssured.given()
 				.auth()
 				.preemptive()
-				.basic("admin", "admin")
+				.basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD)
 				.body(req)
 				.contentType(ContentType.JSON)
 				.post("rest/user/profile")
@@ -88,7 +101,7 @@ class SecurityIT extends BaseIT {
 		String apiKey = RestAssured.given()
 				.auth()
 				.preemptive()
-				.basic("admin", "admin")
+				.basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD)
 				.get("rest/user/profile")
 				.then()
 				.statusCode(HttpStatus.SC_OK)
@@ -103,7 +116,7 @@ class SecurityIT extends BaseIT {
 		long subscriptionId = RestAssured.given()
 				.auth()
 				.preemptive()
-				.basic("admin", "admin")
+				.basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD)
 				.body(subscribeRequest)
 				.contentType(ContentType.JSON)
 				.post("rest/feed/subscribe")

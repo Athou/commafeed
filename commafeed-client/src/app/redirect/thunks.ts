@@ -6,6 +6,8 @@ export const redirectToLogin = createAppAsyncThunk("redirect/login", (_, thunkAp
 
 export const redirectToRegistration = createAppAsyncThunk("redirect/register", (_, thunkApi) => thunkApi.dispatch(redirectTo("/register")))
 
+export const redirectToInitialSetup = createAppAsyncThunk("redirect/initialSetup", (_, thunkApi) => thunkApi.dispatch(redirectTo("/setup")))
+
 export const redirectToApiDocumentation = createAppAsyncThunk("redirect/api", () => {
     window.location.href = "api-documentation/"
 })

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.commafeed.TestConstants;
 import com.commafeed.backend.Digests;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.UserModel;
@@ -28,11 +29,12 @@ class FeverIT extends BaseIT {
 
 	@BeforeEach
 	void setup() {
-		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
+		initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+		RestAssured.authentication = RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
 
 		// create api key
 		ProfileModificationRequest req = new ProfileModificationRequest();
-		req.setCurrentPassword("admin");
+		req.setCurrentPassword(TestConstants.ADMIN_PASSWORD);
 		req.setNewApiKey(true);
 		RestAssured.given().body(req).contentType(ContentType.JSON).post("rest/user/profile").then().statusCode(HttpStatus.SC_OK);
 

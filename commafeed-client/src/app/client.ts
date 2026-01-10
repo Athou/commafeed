@@ -12,6 +12,7 @@ import type {
     FeedModificationRequest,
     GetEntriesPaginatedRequest,
     IDRequest,
+    InitialSetupRequest,
     LoginRequest,
     MarkRequest,
     Metrics,
@@ -32,16 +33,17 @@ const axiosInstance = axios.create({ baseURL: "./rest", withCredentials: true })
 axiosInstance.interceptors.response.use(
     response => response,
     error => {
-        if (isAuthenticationError(error)) {
+        if (isAuthenticationError(error) && window.location.hash !== "#/login") {
             const data = error.response?.data
             window.location.hash = data?.allowRegistrations ? "/welcome" : "/login"
+            window.location.reload()
         }
         throw error
     }
 )
 
 function isAuthenticationError(error: unknown): error is AxiosError<AuthenticationError> {
-    return axios.isAxiosError(error) && !!error.response && [401, 403].includes(error.response.status)
+    return axios.isAxiosError(error) && error.response?.status === 401
 }
 
 export const client = {
@@ -93,6 +95,7 @@ export const client = {
             })
         },
         register: async (req: RegistrationRequest) => await axiosInstance.post("user/register", req),
+        initialSetup: async (req: InitialSetupRequest) => await axiosInstance.post("user/initialSetup", req),
         passwordReset: async (req: PasswordResetRequest) => await axiosInstance.post("user/passwordReset", req),
         getSettings: async () => await axiosInstance.get<Settings>("user/settings"),
         saveSettings: async (settings: Settings) => await axiosInstance.post("user/settings", settings),

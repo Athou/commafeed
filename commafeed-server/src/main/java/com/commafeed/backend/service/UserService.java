@@ -1,7 +1,6 @@
 package com.commafeed.backend.service;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -137,10 +136,6 @@ public class UserService {
 			userRoleDAO.persist(new UserRole(user, role));
 		}
 		return user;
-	}
-
-	public void createAdminUser() {
-		register(CommaFeedConstants.USERNAME_ADMIN, "admin", "admin@commafeed.com", Arrays.asList(Role.ADMIN, Role.USER), true);
 	}
 
 	public void createDemoUser() {

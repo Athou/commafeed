@@ -25,23 +25,8 @@ public class DatabaseStartupService {
 	private final UserService userService;
 	private final CommaFeedConfiguration config;
 
-	public void populateInitialData() {
-		long count = unitOfWork.call(userDAO::count);
-		if (count == 0) {
-			unitOfWork.run(this::initialData);
-		}
-	}
-
-	private void initialData() {
-		log.info("populating database with default values");
-		try {
-			userService.createAdminUser();
-			if (config.users().createDemoAccount()) {
-				userService.createDemoUser();
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
+	public boolean isInitialSetupRequired() {
+		return unitOfWork.call(userDAO::count) == 0;
 	}
 
 	/**

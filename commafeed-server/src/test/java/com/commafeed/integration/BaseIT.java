@@ -21,10 +21,12 @@ import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
+import com.commafeed.TestConstants;
 import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.request.AddCategoryRequest;
+import com.commafeed.frontend.model.request.InitialSetupRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 
 import io.restassured.RestAssured;
@@ -76,11 +78,20 @@ public abstract class BaseIT {
 		mockServerClient.when(FEED_REQUEST).respond(HttpResponse.response().withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
 	}
 
+	protected void initialSetup(String userName, String password) {
+		InitialSetupRequest req = new InitialSetupRequest();
+		req.setName(userName);
+		req.setPassword(password);
+		req.setEmail(userName + "@commafeed.com");
+
+		RestAssured.given().body(req).contentType(ContentType.JSON).post("rest/user/initialSetup").then().statusCode(200);
+	}
+
 	protected List<HttpCookie> login() {
 		List<Header> setCookieHeaders = RestAssured.given()
 				.auth()
 				.none()
-				.formParams("j_username", "admin", "j_password", "admin")
+				.formParams("j_username", TestConstants.ADMIN_USERNAME, "j_password", TestConstants.ADMIN_PASSWORD)
 				.post("j_security_check")
 				.then()
 				.statusCode(HttpStatus.SC_OK)

@@ -6,8 +6,6 @@ import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 import org.kohsuke.MetaInfServices;
 
-import com.commafeed.backend.service.db.DatabaseStartupService;
-
 import io.quarkus.test.junit.callback.QuarkusTestBeforeEachCallback;
 import io.quarkus.test.junit.callback.QuarkusTestMethodContext;
 
@@ -26,7 +24,5 @@ public class DatabaseReset implements QuarkusTestBeforeEachCallback {
 				.getSessionFactory()
 				.getSchemaManager()
 				.truncateMappedObjects();
-
-		CDI.current().select(DatabaseStartupService.class).get().populateInitialData();
 	}
 }

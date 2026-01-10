@@ -5,7 +5,9 @@ import java.net.URISyntaxException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.annotation.security.PermitAll;
@@ -36,6 +38,7 @@ import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConstants;
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.Urls;
+import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
@@ -50,8 +53,10 @@ import com.commafeed.backend.model.UserSettings.ScrollMode;
 import com.commafeed.backend.service.MailService;
 import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.UserService;
+import com.commafeed.backend.service.db.DatabaseStartupService;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.frontend.model.UserModel;
+import com.commafeed.frontend.model.request.InitialSetupRequest;
 import com.commafeed.frontend.model.request.PasswordResetRequest;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.model.request.RegistrationRequest;
@@ -78,9 +83,11 @@ public class UserREST {
 	private final UserSettingsDAO userSettingsDAO;
 	private final UserService userService;
 	private final PasswordEncryptionService encryptionService;
+	private final DatabaseStartupService databaseStartupService;
 	private final MailService mailService;
 	private final CommaFeedConfiguration config;
 	private final UriInfo uri;
+	private final UnitOfWork unitOfWork;
 
 	@Path("/settings")
 	@GET
@@ -231,7 +238,7 @@ public class UserREST {
 	public Response saveUserProfile(@Valid @Parameter(required = true) ProfileModificationRequest request) {
 		User user = authenticationContext.getCurrentUser();
 		if (CommaFeedConstants.USERNAME_DEMO.equals(user.getName())) {
-			return Response.status(Status.FORBIDDEN).build();
+			return Response.status(Status.FORBIDDEN).entity("the profile of the demo account cannot be modified").build();
 		}
 
 		Optional<User> login = userService.login(user.getName(), request.getCurrentPassword());
@@ -274,6 +281,31 @@ public class UserREST {
 		} catch (final IllegalArgumentException e) {
 			throw new BadRequestException(e.getMessage());
 		}
+	}
+
+	@Path("/initialSetup")
+	@PermitAll
+	@POST
+	@Transactional
+	@Operation(
+			summary = "Create the initial admin account",
+			description = "This endpoint is only available when no users exist in the database")
+	public Response initialSetup(@Valid @Parameter(required = true) InitialSetupRequest req) {
+		boolean initialSetupRequired = databaseStartupService.isInitialSetupRequired();
+		if (!initialSetupRequired) {
+			return Response.status(Status.BAD_REQUEST).entity("Initial setup has already been completed").build();
+		}
+
+		userService.register(req.getName(), req.getPassword(), req.getEmail(), List.of(Role.ADMIN, Role.USER), true);
+
+		if (config.users().createDemoAccount()) {
+			User demo = userDAO.findByName(CommaFeedConstants.USERNAME_DEMO);
+			if (demo == null) {
+				userService.createDemoUser();
+			}
+		}
+
+		return Response.ok().build();
 	}
 
 	@Path("/passwordReset")
@@ -361,9 +393,15 @@ public class UserREST {
 	@Operation(summary = "Delete the user account")
 	public Response deleteUser() {
 		User user = authenticationContext.getCurrentUser();
-		if (CommaFeedConstants.USERNAME_ADMIN.equals(user.getName()) || CommaFeedConstants.USERNAME_DEMO.equals(user.getName())) {
-			return Response.status(Status.FORBIDDEN).build();
+		if (CommaFeedConstants.USERNAME_DEMO.equals(user.getName())) {
+			return Response.status(Status.FORBIDDEN).entity("the demo account cannot be deleted").build();
 		}
+
+		Set<Role> roles = userRoleDAO.findRoles(user);
+		if (roles.contains(Role.ADMIN) && userRoleDAO.countAdmins() == 1) {
+			return Response.status(Status.FORBIDDEN).entity("The last admin account cannot be deleted").build();
+		}
+
 		userService.unregister(userDAO.findById(user.getId()));
 		return Response.ok().build();
 	}

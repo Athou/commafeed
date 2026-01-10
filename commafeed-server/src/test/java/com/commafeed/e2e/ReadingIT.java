@@ -16,6 +16,7 @@ import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
+import com.commafeed.TestConstants;
 import com.commafeed.frontend.model.Entries;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Locator;
@@ -45,7 +46,8 @@ class ReadingIT {
 						.withBody(IOUtils.toString(getClass().getResource("/feed/rss.xml"), StandardCharsets.UTF_8))
 						.withDelay(TimeUnit.MILLISECONDS, 100));
 
-		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
+		PlaywrightTestUtils.initialSetup();
+		RestAssured.authentication = RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
 	}
 
 	@AfterEach

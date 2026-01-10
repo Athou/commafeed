@@ -1,8 +1,10 @@
 package com.commafeed.e2e;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.commafeed.TestConstants;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
@@ -20,6 +22,11 @@ class AuthentificationIT {
 	@InjectPlaywright
 	private BrowserContext context;
 
+	@BeforeEach
+	void setup() {
+		PlaywrightTestUtils.initialSetup();
+	}
+
 	@AfterEach
 	void cleanup() {
 		context.clearCookies();
@@ -29,7 +36,7 @@ class AuthentificationIT {
 	void loginFail() {
 		Page page = context.newPage();
 		page.navigate(getLoginPageUrl());
-		PlaywrightTestUtils.login(page, "admin", "wrong_password");
+		PlaywrightTestUtils.login(page, TestConstants.ADMIN_USERNAME, "wrong_password");
 		PlaywrightAssertions.assertThat(page.getByRole(AriaRole.ALERT)).containsText("wrong username or password");
 	}
 

@@ -8,8 +8,10 @@ import jakarta.ws.rs.core.HttpHeaders;
 
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.commafeed.TestConstants;
 import com.commafeed.integration.BaseIT;
 
 import io.quarkus.test.junit.QuarkusTest;
@@ -18,6 +20,11 @@ import io.restassured.http.Headers;
 
 @QuarkusTest
 class LogoutIT extends BaseIT {
+
+	@BeforeEach
+	void setup() {
+		initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+	}
 
 	@Test
 	void test() {

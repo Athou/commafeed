@@ -9,6 +9,7 @@ import { HashRouter, Navigate, Route, Routes, useNavigate } from "react-router-d
 import Tinycon from "tinycon"
 import { Constants } from "@/app/constants"
 import { redirectTo } from "@/app/redirect/slice"
+import { redirectToInitialSetup } from "@/app/redirect/thunks"
 import { reloadServerInfos } from "@/app/server/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
 import { categoryUnreadCount } from "@/app/utils"
@@ -30,6 +31,7 @@ import { FeedEntriesPage } from "@/pages/app/FeedEntriesPage"
 import Layout from "@/pages/app/Layout"
 import { SettingsPage } from "@/pages/app/SettingsPage"
 import { TagDetailsPage } from "@/pages/app/TagDetailsPage"
+import { InitialSetupPage } from "@/pages/auth/InitialSetupPage"
 import { LoginPage } from "@/pages/auth/LoginPage"
 import { PasswordRecoveryPage } from "@/pages/auth/PasswordRecoveryPage"
 import { RegistrationPage } from "@/pages/auth/RegistrationPage"
@@ -82,6 +84,7 @@ function AppRoutes() {
         <Routes>
             <Route path="/" element={<Navigate to={`/app/category/${Constants.categories.all.id}`} replace />} />
             <Route path="welcome" element={<WelcomePage />} />
+            <Route path="setup" element={<InitialSetupPage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegistrationPage />} />
             <Route path="passwordRecovery" element={<PasswordRecoveryPage />} />
@@ -110,6 +113,18 @@ function AppRoutes() {
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     )
+}
+
+function InitialSetupHandler() {
+    const serverInfos = useAppSelector(state => state.server.serverInfos)
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        if (serverInfos?.initialSetupRequired) {
+            dispatch(redirectToInitialSetup())
+        }
+    }, [serverInfos, dispatch])
+
+    return null
 }
 
 function RedirectHandler() {
@@ -216,6 +231,7 @@ export function App() {
             <DisablePullToRefresh enabled={disablePullToRefresh} />
 
             <HashRouter>
+                <InitialSetupHandler />
                 <RedirectHandler />
                 <AppRoutes />
             </HashRouter>

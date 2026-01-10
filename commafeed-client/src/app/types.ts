@@ -209,6 +209,12 @@ export interface RegistrationRequest {
     email: string
 }
 
+export interface InitialSetupRequest {
+    name: string
+    password: string
+    email?: string
+}
+
 export interface ServerInfo {
     announcement?: string
     version: string
@@ -220,6 +226,7 @@ export interface ServerInfo {
     websocketPingInterval: number
     treeReloadInterval: number
     forceRefreshCooldownDuration: number
+    initialSetupRequired: boolean
 }
 
 export interface SharingSettings {

@@ -32,4 +32,8 @@ public class UserRoleDAO extends GenericDAO<UserRole> {
 	public Set<Role> findRoles(User user) {
 		return findAll(user).stream().map(UserRole::getRole).collect(Collectors.toSet());
 	}
+
+	public long countAdmins() {
+		return query().select(ROLE.count()).from(ROLE).where(ROLE.role.eq(Role.ADMIN)).fetchOne();
+	}
 }

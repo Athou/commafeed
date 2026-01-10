@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.InputSource;
 
+import com.commafeed.TestConstants;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.FeedInfo;
 import com.commafeed.frontend.model.Subscription;
@@ -43,7 +44,8 @@ class FeedIT extends BaseIT {
 
 	@BeforeEach
 	void setup() {
-		RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
+		initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+		RestAssured.authentication = RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
 	}
 
 	@AfterEach

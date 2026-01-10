@@ -4,7 +4,7 @@ Official docker images for https://github.com/Athou/commafeed/
 
 ## Quickstart
 
-Start CommaFeed with a H2 embedded database. Then login as `admin/admin` on http://localhost:8082/
+Start CommaFeed with a H2 embedded database. The app will be accessible on http://localhost:8082/
 
 ### docker
 

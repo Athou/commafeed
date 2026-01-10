@@ -22,6 +22,7 @@ import com.commafeed.CommaFeedVersion;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.feed.ImageProxyUrl;
+import com.commafeed.backend.service.db.DatabaseStartupService;
 import com.commafeed.frontend.model.ServerInfo;
 import com.commafeed.security.Roles;
 
@@ -39,6 +40,7 @@ public class ServerREST {
 	private final HttpGetter httpGetter;
 	private final CommaFeedConfiguration config;
 	private final CommaFeedVersion version;
+	private final DatabaseStartupService databaseStartupService;
 
 	@Path("/get")
 	@GET
@@ -57,6 +59,7 @@ public class ServerREST {
 		infos.setWebsocketPingInterval(config.websocket().pingInterval().toMillis());
 		infos.setTreeReloadInterval(config.websocket().treeReloadInterval().toMillis());
 		infos.setForceRefreshCooldownDuration(config.feedRefresh().forceRefreshCooldownDuration().toMillis());
+		infos.setInitialSetupRequired(databaseStartupService.isInitialSetupRequired());
 		return infos;
 	}
 

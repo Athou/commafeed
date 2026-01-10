@@ -43,4 +43,7 @@ public class ServerInfo implements Serializable {
 	@Schema(required = true)
 	private long forceRefreshCooldownDuration;
 
+	@Schema(required = true)
+	private boolean initialSetupRequired;
+
 }

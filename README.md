@@ -120,7 +120,6 @@ meaning that you will have to log back in after each restart of the application.
 All other Quarkus settings can be found [here](https://quarkus.io/guides/all-config).
 
 When started, the server will listen on http://localhost:8082.
-The default user is `admin` and the default password is `admin`.
 
 ### Updates
 

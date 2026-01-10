@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.0.0]
+
+- When booting CommaFeed for the first time, the default "admin" account is no longer created automatically. A setup wizard will guide you through the creation of an admin account
+- Default password complexity requirements have been lowered for local network deployments, where strict password rules are often unnecessary. The `commafeed.users.strict-password-policy` setting has been replaced by `commafeed.users.minimum-password-length` with a default value of `4` (#1916)
+- Email addresses are no longer required when creating users and when they update their profile. The `commafeed.users.email-address-required` setting has been added to restore the previous behavior (#1914)
+- Java 25+ is now required to build and run CommaFeed
+
 ## [5.12.1]
 
 - The favicon is now crispier (#1978)

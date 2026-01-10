@@ -20,6 +20,7 @@ interface FormData extends ProfileModificationRequest {
 
 export function ProfileSettings() {
     const profile = useAppSelector(state => state.user.profile)
+    const serverInfos = useAppSelector(state => state.server.serverInfos)
     const dispatch = useAppDispatch()
     const { _ } = useLingui()
 
@@ -134,7 +135,12 @@ export function ProfileSettings() {
                         required
                         {...form.getInputProps("currentPassword")}
                     />
-                    <TextInput type="email" label={<Trans>E-mail</Trans>} {...form.getInputProps("email")} required />
+                    <TextInput
+                        type="email"
+                        label={<Trans>E-mail</Trans>}
+                        {...form.getInputProps("email")}
+                        required={serverInfos?.emailAddressRequired}
+                    />
                     <PasswordInput
                         label={<Trans>New password</Trans>}
                         description={<Trans>Changing password will generate a new API key</Trans>}

@@ -220,6 +220,7 @@ export interface ServerInfo {
     version: string
     gitCommit: string
     allowRegistrations: boolean
+    emailAddressRequired: boolean
     smtpEnabled: boolean
     demoAccountEnabled: boolean
     websocketEnabled: boolean

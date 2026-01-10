@@ -26,6 +26,9 @@ public class ServerInfo implements Serializable {
 	private boolean allowRegistrations;
 
 	@Schema(required = true)
+	private boolean emailAddressRequired;
+
+	@Schema(required = true)
 	private boolean smtpEnabled;
 
 	@Schema(required = true)

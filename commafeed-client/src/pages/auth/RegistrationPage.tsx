@@ -72,7 +72,7 @@ export function RegistrationPage() {
                                     placeholder={_(msg`E-mail address`)}
                                     {...form.getInputProps("email")}
                                     size="md"
-                                    required
+                                    required={serverInfos.emailAddressRequired}
                                 />
                                 <PasswordInput
                                     label={<Trans>Password</Trans>}

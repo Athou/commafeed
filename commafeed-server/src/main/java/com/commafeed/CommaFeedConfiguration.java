@@ -332,6 +332,12 @@ public interface CommaFeedConfiguration {
 		int minimumPasswordLength();
 
 		/**
+		 * Whether an email address is required when creating a user account.
+		 */
+		@WithDefault("false")
+		boolean emailAddressRequired();
+
+		/**
 		 * Whether to create a demo account the first time the app starts.
 		 */
 		@WithDefault("false")

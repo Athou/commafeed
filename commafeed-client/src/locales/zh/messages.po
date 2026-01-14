@@ -63,7 +63,7 @@ msgstr "管理员"
 #: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
-msgstr ""
+msgstr "管理员用户名"
 
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
@@ -232,7 +232,7 @@ msgstr "宽松"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Create Admin Account"
-msgstr ""
+msgstr "创建管理员帐号"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
@@ -489,7 +489,7 @@ msgstr "靛蓝"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Initial Setup"
-msgstr ""
+msgstr "初始化设置"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -1058,7 +1058,7 @@ msgstr "取消订阅"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "User created."
-msgstr ""
+msgstr "用户已创建。"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
@@ -1083,7 +1083,7 @@ msgstr "网站"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
-msgstr ""
+msgstr "欢迎！当前页仅当您第一次使用CommaFeed时出现，请创建一个管理员帐号以开始使用。"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"

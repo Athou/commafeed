@@ -26,8 +26,13 @@ export function ProfileSettings() {
 
     const form = useForm<FormData>({
         validate: {
+            newPassword: value =>
+                value && serverInfos && value.length < serverInfos.minimumPasswordLength
+                    ? _(msg`Password must be at least ${serverInfos.minimumPasswordLength} characters`)
+                    : null,
             newPasswordConfirmation: (value, values) => (value !== values.newPassword ? _(msg`Passwords do not match`) : null),
         },
+        validateInputOnChange: true,
     })
     const { setValues } = form
 

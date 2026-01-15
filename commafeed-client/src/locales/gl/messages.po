@@ -772,6 +772,13 @@ msgstr "Categoría superior"
 msgid "Password"
 msgstr "Contrasinal"
 
+#. placeholder {0}: serverInfos.minimumPasswordLength
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/auth/InitialSetupPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+msgid "Password must be at least {0} characters"
+msgstr ""
+
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
 msgstr "Recuperación do contrasinal"
@@ -1056,10 +1063,6 @@ msgstr "Retirar estrela"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Cancelar a subscrición"
-
-#: src/pages/auth/InitialSetupPage.tsx
-msgid "User created."
-msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"

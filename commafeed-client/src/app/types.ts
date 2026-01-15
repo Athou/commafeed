@@ -228,6 +228,7 @@ export interface ServerInfo {
     treeReloadInterval: number
     forceRefreshCooldownDuration: number
     initialSetupRequired: boolean
+    minimumPasswordLength: number
 }
 
 export interface SharingSettings {

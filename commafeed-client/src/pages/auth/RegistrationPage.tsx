@@ -23,6 +23,13 @@ export function RegistrationPage() {
             password: "",
             email: "",
         },
+        validate: {
+            password: value =>
+                serverInfos && value.length < serverInfos.minimumPasswordLength
+                    ? _(msg`Password must be at least ${serverInfos.minimumPasswordLength} characters`)
+                    : null,
+        },
+        validateInputOnChange: true,
     })
 
     const login = useAsyncCallback(client.user.login, {

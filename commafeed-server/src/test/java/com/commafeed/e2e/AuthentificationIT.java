@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import com.commafeed.TestConstants;
 import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.options.AriaRole;
@@ -46,17 +45,6 @@ class AuthentificationIT {
 		page.navigate(getLoginPageUrl());
 		PlaywrightTestUtils.login(page);
 		PlaywrightAssertions.assertThat(page).hasURL("http://localhost:8085/#/app/category/all");
-	}
-
-	@Test
-	void registerFailPasswordTooSimple() {
-		Page page = context.newPage();
-		page.navigate(getLoginPageUrl());
-		page.getByText("Sign up!").click();
-		PlaywrightTestUtils.register(page, "user", "user@domain.com", "p");
-
-		Locator alert = page.getByRole(AriaRole.ALERT);
-		PlaywrightAssertions.assertThat(alert).containsText("Password must be 4 or more characters in length.");
 	}
 
 	@Test

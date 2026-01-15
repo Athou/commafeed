@@ -771,6 +771,13 @@ msgstr "부모 카테고리"
 msgid "Password"
 msgstr "비밀번호"
 
+#. placeholder {0}: serverInfos.minimumPasswordLength
+#: src/components/settings/ProfileSettings.tsx
+#: src/pages/auth/InitialSetupPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+msgid "Password must be at least {0} characters"
+msgstr ""
+
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
 msgstr "비밀번호 복구"
@@ -1055,10 +1062,6 @@ msgstr "별표 제거"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "구독 취소"
-
-#: src/pages/auth/InitialSetupPage.tsx
-msgid "User created."
-msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"

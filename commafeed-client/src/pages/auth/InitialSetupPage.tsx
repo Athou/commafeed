@@ -6,12 +6,13 @@ import { useForm } from "@mantine/form"
 import { useAsyncCallback } from "react-async-hook"
 import { client, errorToStrings } from "@/app/client"
 import { redirectToRootCategory } from "@/app/redirect/thunks"
-import { useAppDispatch } from "@/app/store"
+import { useAppDispatch, useAppSelector } from "@/app/store"
 import type { InitialSetupRequest } from "@/app/types"
 import { Alert } from "@/components/Alert"
 import { PageTitle } from "@/pages/PageTitle"
 
 export function InitialSetupPage() {
+    const serverInfos = useAppSelector(state => state.server.serverInfos)
     const dispatch = useAppDispatch()
     const { _ } = useLingui()
 
@@ -21,6 +22,13 @@ export function InitialSetupPage() {
             password: "",
             email: "",
         },
+        validate: {
+            password: value =>
+                serverInfos && value.length < serverInfos.minimumPasswordLength
+                    ? _(msg`Password must be at least ${serverInfos.minimumPasswordLength} characters`)
+                    : null,
+        },
+        validateInputOnChange: true,
     })
 
     const login = useAsyncCallback(client.user.login, {

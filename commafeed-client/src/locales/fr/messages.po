@@ -63,7 +63,7 @@ msgstr "Administrateur"
 #: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
-msgstr ""
+msgstr "Nom de l'administrateur"
 
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
@@ -232,7 +232,7 @@ msgstr "Cozy"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Create Admin Account"
-msgstr ""
+msgstr "Créer un compte adminstrateur"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
@@ -489,7 +489,7 @@ msgstr "Indigo"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Initial Setup"
-msgstr ""
+msgstr "Configuration initiale"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -1058,7 +1058,7 @@ msgstr "Se désabonner"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "User created."
-msgstr ""
+msgstr "Compte créé."
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
@@ -1083,7 +1083,7 @@ msgstr "Site web"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
-msgstr ""
+msgstr "Bienvenue ! Il semble que ce soit le premier démarrage de Commafeed. Avant tout, vous devez créer un compte administrateur."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"

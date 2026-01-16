@@ -12,7 +12,7 @@ import {
 } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import dayjs from "dayjs"
-import { type ReactNode, useState } from "react"
+import { type ReactNode, useEffect, useState } from "react"
 import {
     TbChartLine,
     TbHeartFilled,
@@ -29,6 +29,7 @@ import {
     TbUsers,
     TbWorldDownload,
 } from "react-icons/tb"
+import { throttle } from "throttle-debounce"
 import { client } from "@/app/client"
 import { redirectToAbout, redirectToAdminUsers, redirectToDonate, redirectToMetrics, redirectToSettings } from "@/app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
@@ -96,6 +97,14 @@ const viewModeData: ViewModeControlItem[] = [
 
 export function ProfileMenu(props: Readonly<ProfileMenuProps>) {
     const [opened, setOpened] = useState(false)
+
+    // close profile menu on scroll
+    useEffect(() => {
+        const listener = throttle(100, () => setOpened(false))
+        window.addEventListener("scroll", listener)
+        return () => window.removeEventListener("scroll", listener)
+    }, [])
+
     const now = useNow()
     const profile = useAppSelector(state => state.user.profile)
     const admin = useAppSelector(state => state.user.profile?.admin)

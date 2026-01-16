@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/app/store"
 import type { ProfileModificationRequest } from "@/app/types"
 import { reloadProfile } from "@/app/user/thunks"
 import { Alert } from "@/components/Alert"
+import { useValidationRules } from "@/hooks/useValidationRules"
 
 interface FormData extends ProfileModificationRequest {
     newPasswordConfirmation?: string
@@ -23,13 +24,11 @@ export function ProfileSettings() {
     const serverInfos = useAppSelector(state => state.server.serverInfos)
     const dispatch = useAppDispatch()
     const { _ } = useLingui()
+    const validationRules = useValidationRules()
 
     const form = useForm<FormData>({
         validate: {
-            newPassword: value =>
-                value && serverInfos && value.length < serverInfos.minimumPasswordLength
-                    ? _(msg`Password must be at least ${serverInfos.minimumPasswordLength} characters`)
-                    : null,
+            newPassword: validationRules.password,
             newPasswordConfirmation: (value, values) => (value !== values.newPassword ? _(msg`Passwords do not match`) : null),
         },
         validateInputOnChange: true,

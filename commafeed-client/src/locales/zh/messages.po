@@ -773,7 +773,7 @@ msgstr "密码"
 
 #: src/hooks/useValidationRules.ts
 msgid "Password must be at least {minimumPasswordLength} characters"
-msgstr ""
+msgstr "密码最少需要 {minimumPasswordLength} 个字符"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"

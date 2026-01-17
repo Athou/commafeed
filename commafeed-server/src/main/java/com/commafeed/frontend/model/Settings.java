@@ -18,7 +18,7 @@ import lombok.Data;
 @RegisterForReflection
 public class Settings implements Serializable {
 
-	@Schema(description = "user's preferred language, english if none", required = true)
+	@Schema(description = "user's preferred language, english if none")
 	private String language;
 
 	@Schema(description = "user reads all entries or unread entries only", required = true)

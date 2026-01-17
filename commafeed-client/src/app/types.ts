@@ -243,7 +243,7 @@ export interface SharingSettings {
 }
 
 export interface Settings {
-    language: string
+    language?: string
     readingMode: ReadingMode
     readingOrder: ReadingOrder
     showRead: boolean

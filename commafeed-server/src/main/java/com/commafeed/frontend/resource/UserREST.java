@@ -144,7 +144,6 @@ public class UserREST {
 			s.getSharingSettings().setBuffer(true);
 
 			s.setScrollMarks(true);
-			s.setLanguage("en");
 			s.setScrollSpeed(400);
 			s.setScrollMode(ScrollMode.IF_NEEDED);
 			s.setEntriesToKeepOnTopWhenScrolling(1);

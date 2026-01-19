@@ -1,5 +1,7 @@
 package com.commafeed.integration.rest;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import jakarta.inject.Inject;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import com.commafeed.TestConstants;
 import com.commafeed.frontend.model.Settings;
+import com.commafeed.frontend.model.request.PasswordResetConfirmationRequest;
 import com.commafeed.frontend.model.request.PasswordResetRequest;
 import com.commafeed.integration.BaseIT;
 
@@ -57,8 +60,32 @@ class UserIT extends BaseIT {
 
 		Element a = Jsoup.parse(message.getHtml()).select("a").getFirst();
 		String link = a.attr("href");
-		String newPasswordResponse = RestAssured.given().urlEncodingEnabled(false).get(link).then().statusCode(200).extract().asString();
-		Assertions.assertTrue(newPasswordResponse.contains("Your new password is:"));
+
+		String email = null;
+		String token = null;
+		String queryString = link.substring(link.indexOf('?') + 1);
+		for (String param : queryString.split("&")) {
+			String[] keyValue = param.split("=");
+			if ("email".equals(keyValue[0])) {
+				email = URLDecoder.decode(keyValue[1], StandardCharsets.UTF_8);
+			} else if ("token".equals(keyValue[0])) {
+				token = URLDecoder.decode(keyValue[1], StandardCharsets.UTF_8);
+			}
+		}
+
+		Assertions.assertNotNull(email);
+		Assertions.assertNotNull(token);
+		Assertions.assertTrue(link.contains("#/passwordReset?"));
+
+		String newPassword = "MyNewPassword123!";
+		PasswordResetConfirmationRequest confirmReq = new PasswordResetConfirmationRequest();
+		confirmReq.setEmail(email);
+		confirmReq.setToken(token);
+		confirmReq.setPassword(newPassword);
+		RestAssured.given().body(confirmReq).contentType(ContentType.JSON).post("rest/user/passwordResetCallback").then().statusCode(200);
+
+		RestAssured.authentication = RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, newPassword);
+		RestAssured.given().get("rest/user/settings").then().statusCode(200);
 	}
 
 	@Test

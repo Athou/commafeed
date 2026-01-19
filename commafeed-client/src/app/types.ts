@@ -196,6 +196,12 @@ export interface PasswordResetRequest {
     email: string
 }
 
+export interface PasswordResetConfirmationRequest {
+    email: string
+    token: string
+    password: string
+}
+
 export interface ProfileModificationRequest {
     currentPassword: string
     email: string

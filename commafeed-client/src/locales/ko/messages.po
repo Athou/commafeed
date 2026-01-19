@@ -135,6 +135,7 @@ msgid "Back"
 msgstr "뒤로"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
 msgid "Back to log in"
 msgstr "로그인으로 돌아가기"
 
@@ -225,6 +226,11 @@ msgstr "확인"
 #: src/components/settings/ProfileSettings.tsx
 msgid "Confirm password"
 msgstr "비밀번호 확인"
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Confirm Password"
+msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -491,6 +497,10 @@ msgstr ""
 msgid "Initial Setup"
 msgstr ""
 
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Invalid password reset link. Please request a new one."
+msgstr ""
+
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
@@ -633,6 +643,11 @@ msgstr ""
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
 msgstr "새 비밀번호"
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "New Password"
+msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -780,6 +795,7 @@ msgid "Password Recovery"
 msgstr "비밀번호 복구"
 
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/auth/PasswordResetPage.tsx
 msgid "Passwords do not match"
 msgstr "비밀번호가 일치하지 않습니다"
 
@@ -820,6 +836,11 @@ msgstr "새로 고침"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "이 CommaFeed 인스턴스에 대한 등록이 마감되었습니다."
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Reset Password"
+msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
@@ -1095,4 +1116,8 @@ msgstr "아직 구독이 없습니다. "
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
+msgstr ""
+
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Your password has been changed. You can now log in with your new password."
 msgstr ""

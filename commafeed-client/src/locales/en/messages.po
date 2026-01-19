@@ -135,6 +135,7 @@ msgid "Back"
 msgstr "Back"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
 msgid "Back to log in"
 msgstr "Back to log in"
 
@@ -225,6 +226,11 @@ msgstr "Confirm"
 #: src/components/settings/ProfileSettings.tsx
 msgid "Confirm password"
 msgstr "Confirm password"
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Confirm Password"
+msgstr "Confirm Password"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -491,6 +497,10 @@ msgstr "Indigo"
 msgid "Initial Setup"
 msgstr "Initial Setup"
 
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Invalid password reset link. Please request a new one."
+msgstr "Invalid password reset link. Please request a new one."
+
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
@@ -633,6 +643,11 @@ msgstr "Never"
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
 msgstr "New password"
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "New Password"
+msgstr "New Password"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -780,6 +795,7 @@ msgid "Password Recovery"
 msgstr "Password Recovery"
 
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/auth/PasswordResetPage.tsx
 msgid "Passwords do not match"
 msgstr "Passwords do not match"
 
@@ -820,6 +836,11 @@ msgstr "Refresh"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Registrations are closed on this CommaFeed instance"
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Reset Password"
+msgstr "Reset Password"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
@@ -1096,3 +1117,7 @@ msgstr "You don't have any subscriptions yet. Why not try adding one by clicking
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
 msgstr "Your feeds have been queued for refresh."
+
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Your password has been changed. You can now log in with your new password."
+msgstr "Your password has been changed. You can now log in with your new password."

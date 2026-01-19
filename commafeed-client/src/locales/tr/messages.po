@@ -135,6 +135,7 @@ msgid "Back"
 msgstr "Geri"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
 msgid "Back to log in"
 msgstr "Giriş yapmak için geri dön"
 
@@ -225,6 +226,11 @@ msgstr "Onayla"
 #: src/components/settings/ProfileSettings.tsx
 msgid "Confirm password"
 msgstr "Şifreyi onayla"
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Confirm Password"
+msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -491,6 +497,10 @@ msgstr ""
 msgid "Initial Setup"
 msgstr ""
 
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Invalid password reset link. Please request a new one."
+msgstr ""
+
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
@@ -633,6 +643,11 @@ msgstr ""
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
 msgstr "Yeni şifre"
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "New Password"
+msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -780,6 +795,7 @@ msgid "Password Recovery"
 msgstr "Parola Kurtarma"
 
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/auth/PasswordResetPage.tsx
 msgid "Passwords do not match"
 msgstr "Parolalar eşleşmiyor"
 
@@ -820,6 +836,11 @@ msgstr "Yenile"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Bu CommaFeed örneğinde kayıtlar kapalı"
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Reset Password"
+msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
@@ -1096,3 +1117,7 @@ msgstr "Henüz aboneliğiniz yok. Sayfanın üstündeki + işaretiyle feed ekley
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
 msgstr "Feed'leriniz yenileme için sıraya alındı."
+
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Your password has been changed. You can now log in with your new password."
+msgstr ""

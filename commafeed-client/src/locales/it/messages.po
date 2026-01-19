@@ -135,6 +135,7 @@ msgid "Back"
 msgstr "Indietro"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
 msgid "Back to log in"
 msgstr "Torna per accedere"
 
@@ -225,6 +226,11 @@ msgstr "Conferma"
 #: src/components/settings/ProfileSettings.tsx
 msgid "Confirm password"
 msgstr "Conferma password"
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Confirm Password"
+msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -491,6 +497,10 @@ msgstr ""
 msgid "Initial Setup"
 msgstr ""
 
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Invalid password reset link. Please request a new one."
+msgstr ""
+
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
@@ -633,6 +643,11 @@ msgstr ""
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
 msgstr "Nuova password"
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "New Password"
+msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -780,6 +795,7 @@ msgid "Password Recovery"
 msgstr "Recupero password"
 
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/auth/PasswordResetPage.tsx
 msgid "Passwords do not match"
 msgstr "Le password non corrispondono"
 
@@ -820,6 +836,11 @@ msgstr "Aggiorna"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Le registrazioni sono chiuse su questa istanza CommaFeed"
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Reset Password"
+msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
@@ -1095,4 +1116,8 @@ msgstr "Non hai ancora abbonamenti. "
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
+msgstr ""
+
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Your password has been changed. You can now log in with your new password."
 msgstr ""

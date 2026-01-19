@@ -135,6 +135,7 @@ msgid "Back"
 msgstr "Назад"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
 msgid "Back to log in"
 msgstr "Вернуться к входу"
 
@@ -225,6 +226,11 @@ msgstr "Подтвердить"
 #: src/components/settings/ProfileSettings.tsx
 msgid "Confirm password"
 msgstr "Подтвердить пароль"
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Confirm Password"
+msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -491,6 +497,10 @@ msgstr ""
 msgid "Initial Setup"
 msgstr ""
 
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Invalid password reset link. Please request a new one."
+msgstr ""
+
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
@@ -633,6 +643,11 @@ msgstr "Никогда"
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
 msgstr "Новый пароль"
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "New Password"
+msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -780,6 +795,7 @@ msgid "Password Recovery"
 msgstr "Восстановление пароля"
 
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/auth/PasswordResetPage.tsx
 msgid "Passwords do not match"
 msgstr "Пароли не совпадают"
 
@@ -820,6 +836,11 @@ msgstr "Обновить"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Регистрация закрыта для этого экземпляра CommaFeed."
+
+#: src/pages/auth/PasswordResetPage.tsx
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Reset Password"
+msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
@@ -1096,3 +1117,7 @@ msgstr "У вас еще нет подписок. Почему бы не поп�
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
 msgstr "Ваши каналы были поставлены в очередь на обновление."
+
+#: src/pages/auth/PasswordResetPage.tsx
+msgid "Your password has been changed. You can now log in with your new password."
+msgstr ""

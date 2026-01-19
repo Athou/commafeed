@@ -1,6 +1,5 @@
 package com.commafeed.frontend.resource;
 
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -21,13 +20,11 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.core.UriInfo;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.core5.net.URIBuilder;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -38,7 +35,6 @@ import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConstants;
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.Urls;
-import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
@@ -57,6 +53,7 @@ import com.commafeed.backend.service.db.DatabaseStartupService;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.InitialSetupRequest;
+import com.commafeed.frontend.model.request.PasswordResetConfirmationRequest;
 import com.commafeed.frontend.model.request.PasswordResetRequest;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.model.request.RegistrationRequest;
@@ -87,7 +84,6 @@ public class UserREST {
 	private final MailService mailService;
 	private final CommaFeedConfiguration config;
 	private final UriInfo uri;
-	private final UnitOfWork unitOfWork;
 
 	@Path("/settings")
 	@GET
@@ -334,45 +330,44 @@ public class UserREST {
 		}
 	}
 
-	private String buildEmailContent(User user) throws URISyntaxException, MalformedURLException {
+	private String buildEmailContent(User user) throws URISyntaxException {
 		String publicUrl = Urls.removeTrailingSlash(uri.getBaseUri().toString());
-		publicUrl += "/rest/user/passwordResetCallback";
 		return String.format(
 				"You asked for password recovery for account '%s', <a href='%s'>follow this link</a> to change your password. Ignore this if you didn't request a password recovery.",
 				user.getName(), callbackUrl(user, publicUrl));
 	}
 
-	private String callbackUrl(User user, String publicUrl) throws URISyntaxException, MalformedURLException {
-		return new URIBuilder(publicUrl).addParameter("email", user.getEmail())
-				.addParameter("token", user.getRecoverPasswordToken())
-				.build()
-				.toURL()
-				.toString();
+	private String callbackUrl(User user, String publicUrl) throws URISyntaxException {
+		URIBuilder queryBuilder = new URIBuilder();
+		queryBuilder.addParameter("email", user.getEmail());
+		queryBuilder.addParameter("token", user.getRecoverPasswordToken());
+		String queryString = queryBuilder.build().getRawQuery();
+		return publicUrl + "/#/passwordReset?" + queryString;
 	}
 
 	@Path("/passwordResetCallback")
 	@PermitAll
-	@GET
+	@POST
 	@Transactional
-	@Produces(MediaType.TEXT_HTML)
-	public Response passwordRecoveryCallback(@Parameter(required = true) @QueryParam("email") String email,
-			@Parameter(required = true) @QueryParam("token") String token) {
+	@Operation(summary = "confirm password reset with new password")
+	public Response passwordRecoveryCallback(@Valid @Parameter(required = true) PasswordResetConfirmationRequest req) {
+		String email = req.getEmail();
+		String token = req.getToken();
+		String password = req.getPassword();
+
 		Preconditions.checkNotNull(email);
 		Preconditions.checkNotNull(token);
+		Preconditions.checkNotNull(password);
 
 		User user = userDAO.findByEmail(email);
-		if (user == null) {
-			return Response.status(Status.UNAUTHORIZED).entity("Email not found.").build();
+		if (user == null || user.getRecoverPasswordToken() == null || !user.getRecoverPasswordToken().equals(token)) {
+			return Response.status(Status.UNAUTHORIZED).entity("Email not found or invalid token.").build();
 		}
-		if (user.getRecoverPasswordToken() == null || !user.getRecoverPasswordToken().equals(token)) {
-			return Response.status(Status.UNAUTHORIZED).entity("Invalid token.").build();
-		}
-		if (ChronoUnit.DAYS.between(user.getRecoverPasswordTokenDate(), Instant.now()) >= 2) {
-			return Response.status(Status.UNAUTHORIZED).entity("token expired.").build();
+		if (ChronoUnit.MINUTES.between(user.getRecoverPasswordTokenDate(), Instant.now()) >= 30) {
+			return Response.status(Status.UNAUTHORIZED).entity("Token expired.").build();
 		}
 
-		String passwd = RandomStringUtils.secure().nextAlphanumeric(10);
-		byte[] encryptedPassword = encryptionService.getEncryptedPassword(passwd, user.getSalt());
+		byte[] encryptedPassword = encryptionService.getEncryptedPassword(password, user.getSalt());
 		user.setPassword(encryptedPassword);
 		if (StringUtils.isNotBlank(user.getApiKey())) {
 			user.setApiKey(userService.generateApiKey(user));
@@ -380,10 +375,7 @@ public class UserREST {
 		user.setRecoverPasswordToken(null);
 		user.setRecoverPasswordTokenDate(null);
 
-		String message = "Your new password is: " + passwd;
-		message += "<br />";
-		message += String.format("<a href=\"%s\">Back to Homepage</a>", uri.getBaseUri());
-		return Response.ok(message).build();
+		return Response.ok().build();
 	}
 
 	@Path("/profile/deleteAccount")

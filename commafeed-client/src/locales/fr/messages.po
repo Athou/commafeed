@@ -230,7 +230,7 @@ msgstr "Confirmer le mot de passe"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
-msgstr ""
+msgstr "Confirmer le mot de passe"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -499,7 +499,7 @@ msgstr "Configuration initiale"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Invalid password reset link. Please request a new one."
-msgstr ""
+msgstr "Lien de réinitialisation de mot de passse invalide. Recommencez la procédure."
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -647,7 +647,7 @@ msgstr "Nouveau mot de passe"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
-msgstr ""
+msgstr "Nouveau mot de passe"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -788,7 +788,7 @@ msgstr "Mot de passe"
 
 #: src/hooks/useValidationRules.ts
 msgid "Password must be at least {minimumPasswordLength} characters"
-msgstr ""
+msgstr "Le mot de passe doit mesurer au moins {minimumPasswordLength} caractères"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
@@ -839,7 +839,7 @@ msgstr "Les inscriptions sont fermées sur cette instance de CommaFeed"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
-msgstr ""
+msgstr "Réinitialiser le mot de passe"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
@@ -1119,4 +1119,4 @@ msgstr "Vos flux sont en cours de rafraîchissement"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Your password has been changed. You can now log in with your new password."
-msgstr ""
+msgstr "Votre mot de passe a été modifié. Vous pouvez vous connecter avec votre nouveau mot de passe."

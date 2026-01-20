@@ -1,4 +1,3 @@
-import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
 import { Anchor, Box, Button, Checkbox, Divider, Group, Input, PasswordInput, Stack, Text, TextInput } from "@mantine/core"
@@ -29,7 +28,7 @@ export function ProfileSettings() {
     const form = useForm<FormData>({
         validate: {
             newPassword: validationRules.password,
-            newPasswordConfirmation: (value, values) => (value !== values.newPassword ? _(msg`Passwords do not match`) : null),
+            newPasswordConfirmation: (value, values) => validationRules.passwordConfirmation(value, values.newPassword),
         },
         validateInputOnChange: true,
     })

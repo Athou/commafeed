@@ -11,5 +11,7 @@ export function useValidationRules() {
             value && minimumPasswordLength && value.length < minimumPasswordLength
                 ? _(msg`Password must be at least ${minimumPasswordLength} characters`)
                 : null,
+        passwordConfirmation: (newPasswordConfirmation: string | undefined, newPassword: string | undefined) =>
+            newPasswordConfirmation && newPasswordConfirmation !== newPassword ? _(msg`Passwords do not match`) : null,
     }
 }

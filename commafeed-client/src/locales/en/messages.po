@@ -794,8 +794,7 @@ msgstr "Password must be at least {minimumPasswordLength} characters"
 msgid "Password Recovery"
 msgstr "Password Recovery"
 
-#: src/components/settings/ProfileSettings.tsx
-#: src/pages/auth/PasswordResetPage.tsx
+#: src/hooks/useValidationRules.ts
 msgid "Passwords do not match"
 msgstr "Passwords do not match"
 

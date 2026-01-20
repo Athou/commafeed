@@ -795,8 +795,7 @@ msgstr ""
 msgid "Password Recovery"
 msgstr "Recuperación de contraseña"
 
-#: src/components/settings/ProfileSettings.tsx
-#: src/pages/auth/PasswordResetPage.tsx
+#: src/hooks/useValidationRules.ts
 msgid "Passwords do not match"
 msgstr "Las contraseñas no coinciden"
 

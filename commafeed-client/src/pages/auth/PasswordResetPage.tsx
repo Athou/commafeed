@@ -32,7 +32,7 @@ export function PasswordResetPage() {
         },
         validate: {
             password: validationRules.password,
-            passwordConfirmation: (value, values) => (value === values.password ? null : _(msg`Passwords do not match`)),
+            passwordConfirmation: (value, values) => validationRules.passwordConfirmation(value, values.password),
         },
         validateInputOnChange: true,
     })

@@ -794,8 +794,7 @@ msgstr "密码最少需要 {minimumPasswordLength} 个字符"
 msgid "Password Recovery"
 msgstr "密码恢复"
 
-#: src/components/settings/ProfileSettings.tsx
-#: src/pages/auth/PasswordResetPage.tsx
+#: src/hooks/useValidationRules.ts
 msgid "Passwords do not match"
 msgstr "密码不匹配"
 

@@ -794,8 +794,7 @@ msgstr ""
 msgid "Password Recovery"
 msgstr "비밀번호 복구"
 
-#: src/components/settings/ProfileSettings.tsx
-#: src/pages/auth/PasswordResetPage.tsx
+#: src/hooks/useValidationRules.ts
 msgid "Passwords do not match"
 msgstr "비밀번호가 일치하지 않습니다"
 

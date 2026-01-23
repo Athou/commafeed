@@ -1,6 +1,5 @@
 package com.commafeed.backend.service;
 
-import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -18,11 +17,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 // taken from http://www.javacodegeeks.com/2012/05/secure-password-storage-donts-dos-and.html
-@SuppressWarnings("serial")
 @Slf4j
 @RequiredArgsConstructor
 @Singleton
-public class PasswordEncryptionService implements Serializable {
+public class PasswordEncryptionService {
 
 	public boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt) {
 		if (StringUtils.isBlank(attemptedPassword)) {

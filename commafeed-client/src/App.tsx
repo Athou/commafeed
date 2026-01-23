@@ -195,6 +195,8 @@ function CustomJsHandler() {
         document.body.appendChild(script)
 
         setScriptLoaded(true)
+
+        return () => script.remove()
     }, [scriptLoaded, loading])
 
     return null
@@ -207,6 +209,8 @@ function CustomCssHandler() {
         link.type = "text/css"
         link.href = "custom_css.css"
         document.head.appendChild(link)
+
+        return () => link.remove()
     }, [])
 
     return null

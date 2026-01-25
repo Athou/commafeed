@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.1.0]
+
+- When clicking on the password reset link, a random password is no longer generated automatically. The user is now redirected to a page where they can set their own password (#2023)
+- Use browser preferred language instead of English when using CommaFeed for the first time (#2018)
+- The profile menu is now closed when scrolling the page (#2019)
+- The "disable pull to refresh" feature is now disabled by default (#2030)
+
 ## [6.0.0]
 
 - When booting CommaFeed for the first time, the default "admin" account is no longer created automatically. A setup wizard will guide you through the creation of an admin account

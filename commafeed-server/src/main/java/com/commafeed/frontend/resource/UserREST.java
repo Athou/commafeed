@@ -151,7 +151,7 @@ public class UserREST {
 			s.setMobileFooter(false);
 			s.setUnreadCountTitle(false);
 			s.setUnreadCountFavicon(true);
-			s.setDisablePullToRefresh(true);
+			s.setDisablePullToRefresh(false);
 		}
 		return s;
 	}

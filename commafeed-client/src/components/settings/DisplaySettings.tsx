@@ -143,6 +143,47 @@ export function DisplaySettings() {
                 onChange={async e => await dispatch(changeMobileFooter(e.currentTarget.checked))}
             />
 
+            <Divider label={<Trans>Scrolling</Trans>} labelPosition="center" />
+
+            <Switch
+                label={<Trans>Disable "Pull to refresh" browser behavior</Trans>}
+                description={<Trans>This setting can cause scrolling issues on some browsers (e.g. Safari)</Trans>}
+                checked={disablePullToRefresh}
+                onChange={async e => await dispatch(changeDisablePullToRefresh(e.currentTarget.checked))}
+            />
+
+            <Radio.Group
+                label={<Trans>Scroll selected entry to the top of the page</Trans>}
+                value={scrollMode}
+                onChange={async value => await dispatch(changeScrollMode(value as ScrollMode))}
+            >
+                <Group mt="xs">
+                    {Object.entries(scrollModeOptions).map(e => (
+                        <Radio key={e[0]} value={e[0]} label={e[1]} />
+                    ))}
+                </Group>
+            </Radio.Group>
+
+            <NumberInput
+                label={<Trans>Entries to keep above the selected entry when scrolling</Trans>}
+                description={<Trans>Only applies to compact, cozy and detailed modes</Trans>}
+                min={0}
+                value={entriesToKeepOnTop}
+                onChange={async value => await dispatch(changeEntriesToKeepOnTopWhenScrolling(+value))}
+            />
+
+            <Switch
+                label={<Trans>Scroll smoothly when navigating between entries</Trans>}
+                checked={scrollSpeed ? scrollSpeed > 0 : false}
+                onChange={async e => await dispatch(changeScrollSpeed(e.currentTarget.checked))}
+            />
+
+            <Switch
+                label={<Trans>In expanded view, scrolling through entries mark them as read</Trans>}
+                checked={scrollMarks}
+                onChange={async e => await dispatch(changeScrollMarks(e.currentTarget.checked))}
+            />
+
             <Divider label={<Trans>Browser tab</Trans>} labelPosition="center" />
 
             <Switch
@@ -177,47 +218,6 @@ export function DisplaySettings() {
                 label={<Trans>Show CommaFeed's own context menu on right click</Trans>}
                 checked={customContextMenu}
                 onChange={async e => await dispatch(changeCustomContextMenu(e.currentTarget.checked))}
-            />
-
-            <Divider label={<Trans>Scrolling</Trans>} labelPosition="center" />
-
-            <Radio.Group
-                label={<Trans>Scroll selected entry to the top of the page</Trans>}
-                value={scrollMode}
-                onChange={async value => await dispatch(changeScrollMode(value as ScrollMode))}
-            >
-                <Group mt="xs">
-                    {Object.entries(scrollModeOptions).map(e => (
-                        <Radio key={e[0]} value={e[0]} label={e[1]} />
-                    ))}
-                </Group>
-            </Radio.Group>
-
-            <NumberInput
-                label={<Trans>Entries to keep above the selected entry when scrolling</Trans>}
-                description={<Trans>Only applies to compact, cozy and detailed modes</Trans>}
-                min={0}
-                value={entriesToKeepOnTop}
-                onChange={async value => await dispatch(changeEntriesToKeepOnTopWhenScrolling(+value))}
-            />
-
-            <Switch
-                label={<Trans>Scroll smoothly when navigating between entries</Trans>}
-                checked={scrollSpeed ? scrollSpeed > 0 : false}
-                onChange={async e => await dispatch(changeScrollSpeed(e.currentTarget.checked))}
-            />
-
-            <Switch
-                label={<Trans>In expanded view, scrolling through entries mark them as read</Trans>}
-                checked={scrollMarks}
-                onChange={async e => await dispatch(changeScrollMarks(e.currentTarget.checked))}
-            />
-
-            <Switch
-                label={<Trans>Disable "Pull to refresh" browser behavior</Trans>}
-                description={<Trans>This setting can cause scrolling issues on some browsers (e.g. Safari)</Trans>}
-                checked={disablePullToRefresh}
-                onChange={async e => await dispatch(changeDisablePullToRefresh(e.currentTarget.checked))}
             />
 
             <Divider label={<Trans>Sharing sites</Trans>} labelPosition="center" />

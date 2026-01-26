@@ -40,7 +40,9 @@ export const loadMoreEntries = createAppAsyncThunk("entries/loadMore", async (_,
     const state = thunkApi.getState()
     const { source } = state.entries
     const offset =
-        state.user.settings?.readingMode === "all" ? state.entries.entries.length : state.entries.entries.filter(e => !e.read).length
+        state.user.settings?.readingMode === "all" || (source.type === "category" && source.id === "starred")
+            ? state.entries.entries.length
+            : state.entries.entries.filter(e => !e.read).length
     const endpoint = getEndpoint(state.entries.source.type)
     const result = await endpoint(buildGetEntriesPaginatedRequest(state, source, offset))
     return result.data

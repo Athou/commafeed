@@ -220,61 +220,6 @@
 				</dependencies>
 			</plugin>
 			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.14</version>
-				<configuration>
-					<!-- excluding SACParserCSS21TokenManager because it causes a "Method too large" exception -->
-					<excludes>
-						<exclude>com/steadystate/css/parser/SACParserCSS21TokenManager</exclude>
-					</excludes>
-				</configuration>
-				<executions>
-					<execution>
-						<id>unit-tests-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-						<configuration>
-							<destFile>${project.build.directory}/jacoco-output/jacoco-unit-tests.exec</destFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>integration-tests-agent</id>
-						<goals>
-							<goal>prepare-agent-integration</goal>
-						</goals>
-						<configuration>
-							<destFile>${project.build.directory}/jacoco-output/jacoco-integration-tests.exec</destFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>merge</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>merge</goal>
-						</goals>
-						<configuration>
-							<fileSets>
-								<fileSet>
-									<directory>${project.build.directory}/jacoco-output</directory>
-									<includes>
-										<include>*.exec</include>
-									</includes>
-								</fileSet>
-							</fileSets>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-code-coverage-report</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>io.github.git-commit-id</groupId>
 				<artifactId>git-commit-id-maven-plugin</artifactId>
 				<version>9.0.2</version>
@@ -531,11 +476,6 @@
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-junit5-mockito</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-jacoco</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

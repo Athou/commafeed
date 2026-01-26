@@ -1,5 +1,9 @@
 # Changelog
 
+## [6.1.1]
+
+- Fix old starred entries not loading if they were marked as read (#2031)
+
 ## [6.1.0]
 
 - When clicking on the password reset link, a random password is no longer generated automatically. The user is now redirected to a page where they can set their own password (#2023)

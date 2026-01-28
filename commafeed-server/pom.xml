@@ -10,9 +10,10 @@
 	</parent>
 	<artifactId>commafeed-server</artifactId>
 	<name>CommaFeed Server</name>
+	<packaging>quarkus</packaging>
 
 	<properties>
-		<quarkus.version>3.30.8</quarkus.version>
+		<quarkus.version>3.31.1</quarkus.version>
 		<querydsl.version>7.1</querydsl.version>
 		<rome.version>2.1.0</rome.version>
 
@@ -77,24 +78,14 @@
 				<artifactId>quarkus-maven-plugin</artifactId>
 				<version>${quarkus.version}</version>
 				<extensions>true</extensions>
-				<executions>
-					<execution>
-						<goals>
-							<goal>build</goal>
-							<goal>generate-code</goal>
-							<goal>generate-code-tests</goal>
-							<goal>native-image-agent</goal>
-						</goals>
-						<configuration>
-							<properties>
-								<quarkus.package.output-name>commafeed-${project.version}</quarkus.package.output-name>
-								<quarkus.package.runner-suffix>
-									-${build.database}-${os.detected.name}-${os.detected.arch}-runner
-								</quarkus.package.runner-suffix>
-							</properties>
-						</configuration>
-					</execution>
-				</executions>
+				<configuration>
+					<properties>
+						<quarkus.package.output-name>commafeed-${project.version}</quarkus.package.output-name>
+						<quarkus.package.runner-suffix>
+							-${build.database}-${os.detected.name}-${os.detected.arch}-runner
+						</quarkus.package.runner-suffix>
+					</properties>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>io.quarkus</groupId>
@@ -167,6 +158,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.4</version>
 				<configuration>
+					<argLine>@{argLine}</argLine>
 					<systemPropertyVariables>
 						<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
 						<quarkus.datasource.db-kind>${build.database}</quarkus.datasource.db-kind>
@@ -186,14 +178,13 @@
 					</execution>
 				</executions>
 				<configuration>
+					<argLine>@{argLine}</argLine>
 					<systemPropertyVariables>
 						<native.image.path>${project.build.directory}/${project.build.finalName}-runner
 						</native.image.path>
 						<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
 						<quarkus.datasource.db-kind>${build.database}</quarkus.datasource.db-kind>
 					</systemPropertyVariables>
-					<!-- fix for java.lang.NoClassDefFoundError: Could not initialize class org.jboss.threads.JDKSpecific$ThreadAccess (#1938) -->
-					<argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
 				</configuration>
 				<!-- failsafe plugin does not seem to be able to pick up dependencies declared in profiles -->
 				<dependencies>
@@ -475,7 +466,7 @@
 		<!-- test dependencies -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-junit5-mockito</artifactId>
+			<artifactId>quarkus-junit-mockito</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

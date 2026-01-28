@@ -135,7 +135,7 @@ jobs:
 
       # Docker
       - name: Login to Container Registry
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
         if: ${{ env.DOCKERHUB_USERNAME != '' }}
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}

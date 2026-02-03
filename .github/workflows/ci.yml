@@ -48,19 +48,19 @@ jobs:
         run: mkdir -p target/pages/documentation/custom-css
 
       - name: Convert readme file to html
-        uses: jaywcjlove/markdown-to-html-cli@d2c8ffd676de1801e2586904bc540a938e4bc480 # v5.0.3
+        uses: jaywcjlove/markdown-to-html-cli@cff9330af4ca8048b197a76d9eb1db189c2a7cee # v5.0.4
         with:
           source: README.md
           output: target/pages/index.html
 
       - name: Convert config documentation to html
-        uses: jaywcjlove/markdown-to-html-cli@d2c8ffd676de1801e2586904bc540a938e4bc480 # v5.0.3
+        uses: jaywcjlove/markdown-to-html-cli@cff9330af4ca8048b197a76d9eb1db189c2a7cee # v5.0.4
         with:
           source: commafeed-server/target/quarkus-generated-doc/config/commafeed-server.md
           output: target/pages/documentation/index.html
 
       - name: Convert custom css documentation to html
-        uses: jaywcjlove/markdown-to-html-cli@d2c8ffd676de1801e2586904bc540a938e4bc480 # v5.0.3
+        uses: jaywcjlove/markdown-to-html-cli@cff9330af4ca8048b197a76d9eb1db189c2a7cee # v5.0.4
         with:
           source: documentation/CUSTOMCSS.md
           output: target/pages/documentation/custom-css/index.html

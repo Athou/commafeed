@@ -9,7 +9,7 @@ msgstr ""
 "Language: gl\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-12-27 15:30+0200\n"
+"PO-Revision-Date: 2026-02-04 05:30+0200\n"
 "Last-Translator: José M. <correoxm@disroot.org>\n"
 "Language-Team: gl\n"
 "Plural-Forms: \n"
@@ -64,7 +64,7 @@ msgstr "Administración"
 #: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
-msgstr ""
+msgstr "Identificador de admin"
 
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
@@ -231,7 +231,7 @@ msgstr "Confirmar contrasinal"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
-msgstr ""
+msgstr "Confirmar contrasinal"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -239,7 +239,7 @@ msgstr "Acolledor"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Create Admin Account"
-msgstr ""
+msgstr "Crear conta Admin"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
@@ -496,11 +496,11 @@ msgstr "Índigo"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Initial Setup"
-msgstr ""
+msgstr "Configuración inicial"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Invalid password reset link. Please request a new one."
-msgstr ""
+msgstr "A ligazón de restablecemento non é válida. Solicita unha nova."
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -648,7 +648,7 @@ msgstr "Novo contrasinal"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
-msgstr ""
+msgstr "Novo contrasinal"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -789,7 +789,7 @@ msgstr "Contrasinal"
 
 #: src/hooks/useValidationRules.ts
 msgid "Password must be at least {minimumPasswordLength} characters"
-msgstr ""
+msgstr "O contrasinal ten que ter {minimumPasswordLength} caracteres polo menos"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
@@ -840,7 +840,7 @@ msgstr "Non se admiten novas contas nesta instancia de CommaFeed"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
-msgstr ""
+msgstr "Restablecer contrasinal"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
@@ -1104,7 +1104,7 @@ msgstr "Páxina web"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
-msgstr ""
+msgstr "Benvida! Semella que é a primeira vez que executas CommaFeed. Para comezar, crea unha conta de administración."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
@@ -1120,4 +1120,4 @@ msgstr "As túas canles están na cola para ser actualizadas."
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Your password has been changed. You can now log in with your new password."
-msgstr ""
+msgstr "O teu contrasinal cambiou. Xa podes acceder coas novas credenciais."

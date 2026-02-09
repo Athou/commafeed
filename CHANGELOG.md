@@ -1,5 +1,9 @@
 # Changelog
 
+## [6.2.0]
+
+- Starred entries are no longer deleted after a certain amount of time, they are now kept indefinitely. The new `commafeed.database.cleanup.keep-starred-entries` setting can be disabled to restore the previous behavior if you want to keep deleting starred entries during normal entries cleanup (#1581)
+
 ## [6.1.1]
 
 - Fix old starred entries not loading if they were marked as read (#2031)

@@ -5,7 +5,7 @@
 
 	<groupId>com.commafeed</groupId>
 	<artifactId>commafeed</artifactId>
-	<version>6.1.1</version>
+	<version>6.2.0</version>
 	<name>CommaFeed</name>
 	<packaging>pom</packaging>
 

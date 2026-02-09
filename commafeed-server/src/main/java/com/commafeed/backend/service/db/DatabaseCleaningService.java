@@ -27,13 +27,13 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 public class DatabaseCleaningService {
 
-	private final int batchSize;
-
 	private final UnitOfWork unitOfWork;
 	private final FeedDAO feedDAO;
 	private final FeedEntryDAO feedEntryDAO;
 	private final FeedEntryContentDAO feedEntryContentDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
+	private final int batchSize;
+	private final boolean keepStarredEntries;
 	private final Meter entriesDeletedMeter;
 
 	public DatabaseCleaningService(CommaFeedConfiguration config, UnitOfWork unitOfWork, FeedDAO feedDAO, FeedEntryDAO feedEntryDAO,
@@ -44,6 +44,7 @@ public class DatabaseCleaningService {
 		this.feedEntryContentDAO = feedEntryContentDAO;
 		this.feedEntryStatusDAO = feedEntryStatusDAO;
 		this.batchSize = config.database().cleanup().batchSize();
+		this.keepStarredEntries = config.database().cleanup().keepStarredEntries();
 		this.entriesDeletedMeter = metrics.meter(MetricRegistry.name(getClass(), "entriesDeleted"));
 	}
 
@@ -86,21 +87,23 @@ public class DatabaseCleaningService {
 		log.info("cleaning entries exceeding feed capacity");
 		long total = 0;
 		while (true) {
-			List<FeedCapacity> feeds = unitOfWork.call(() -> feedEntryDAO.findFeedsExceedingCapacity(maxFeedCapacity, batchSize));
+			List<FeedCapacity> feeds = unitOfWork
+					.call(() -> feedEntryDAO.findFeedsExceedingCapacity(maxFeedCapacity, batchSize, keepStarredEntries));
 			if (feeds.isEmpty()) {
 				break;
 			}
 
 			for (final FeedCapacity feed : feeds) {
 				long remaining = feed.capacity() - maxFeedCapacity;
+				int deleted;
 				do {
 					final long rem = remaining;
-					int deleted = unitOfWork.call(() -> feedEntryDAO.deleteOldEntries(feed.id(), Math.min(batchSize, rem)));
+					deleted = unitOfWork.call(() -> feedEntryDAO.deleteOldEntries(feed.id(), Math.min(batchSize, rem), keepStarredEntries));
 					entriesDeletedMeter.mark(deleted);
 					total += deleted;
 					remaining -= deleted;
 					log.debug("removed {} entries for feeds exceeding capacity", total);
-				} while (remaining > 0);
+				} while (deleted > 0 && remaining > 0);
 			}
 		}
 		log.info("cleanup done: {} entries for feeds exceeding capacity deleted", total);
@@ -111,7 +114,7 @@ public class DatabaseCleaningService {
 		long total = 0;
 		long deleted;
 		do {
-			deleted = unitOfWork.call(() -> feedEntryDAO.deleteEntriesOlderThan(olderThan, batchSize));
+			deleted = unitOfWork.call(() -> feedEntryDAO.deleteEntriesOlderThan(olderThan, batchSize, keepStarredEntries));
 			entriesDeletedMeter.mark(deleted);
 			total += deleted;
 			log.debug("removed {} old entries", total);

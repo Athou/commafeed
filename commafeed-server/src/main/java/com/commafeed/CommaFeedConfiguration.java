@@ -312,6 +312,12 @@ public interface CommaFeedConfiguration {
 			@WithDefault("100")
 			int batchSize();
 
+			/**
+			 * Whether to keep starred entries when cleaning up old entries.
+			 */
+			@WithDefault("true")
+			boolean keepStarredEntries();
+
 			default Instant statusesInstantThreshold() {
 				return statusesMaxAge().toMillis() > 0 ? Instant.now().minus(statusesMaxAge()) : null;
 			}

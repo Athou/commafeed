@@ -115,13 +115,13 @@ class DatabaseCleaningServiceTest {
 		Mockito.when(feed2.id()).thenReturn(2L);
 		Mockito.when(feed2.capacity()).thenReturn(120L);
 
-		Mockito.when(feedEntryDAO.findFeedsExceedingCapacity(50, BATCH_SIZE))
+		Mockito.when(feedEntryDAO.findFeedsExceedingCapacity(50, BATCH_SIZE, false))
 				.thenReturn(Arrays.asList(feed1, feed2))
 				.thenReturn(Collections.emptyList());
 
-		Mockito.when(feedEntryDAO.deleteOldEntries(1L, 100)).thenReturn(80);
-		Mockito.when(feedEntryDAO.deleteOldEntries(1L, 50)).thenReturn(50);
-		Mockito.when(feedEntryDAO.deleteOldEntries(2L, 70)).thenReturn(70);
+		Mockito.when(feedEntryDAO.deleteOldEntries(1L, 100, false)).thenReturn(80);
+		Mockito.when(feedEntryDAO.deleteOldEntries(1L, 50, false)).thenReturn(50);
+		Mockito.when(feedEntryDAO.deleteOldEntries(2L, 70, false)).thenReturn(70);
 
 		service.cleanEntriesForFeedsExceedingCapacity(50);
 
@@ -132,11 +132,11 @@ class DatabaseCleaningServiceTest {
 	void cleanEntriesOlderThanDeletesOldEntries() {
 		Instant cutoff = LocalDate.now().minusDays(30).atStartOfDay().toInstant(ZoneOffset.UTC);
 
-		Mockito.when(feedEntryDAO.deleteEntriesOlderThan(cutoff, BATCH_SIZE)).thenReturn(100, 50, 0);
+		Mockito.when(feedEntryDAO.deleteEntriesOlderThan(cutoff, BATCH_SIZE, false)).thenReturn(100, 50, 0);
 
 		service.cleanEntriesOlderThan(cutoff);
 
-		Mockito.verify(feedEntryDAO, Mockito.times(3)).deleteEntriesOlderThan(cutoff, BATCH_SIZE);
+		Mockito.verify(feedEntryDAO, Mockito.times(3)).deleteEntriesOlderThan(cutoff, BATCH_SIZE, false);
 		Mockito.verify(entriesDeletedMeter, Mockito.times(3)).mark(Mockito.anyLong());
 	}
 

@@ -13,7 +13,7 @@
 	<packaging>quarkus</packaging>
 
 	<properties>
-		<quarkus.version>3.31.2</quarkus.version>
+		<quarkus.version>3.31.3</quarkus.version>
 		<querydsl.version>7.1</querydsl.version>
 		<rome.version>2.1.0</rome.version>
 

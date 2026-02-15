@@ -29,6 +29,7 @@ export interface Subscription {
     newestItemTime?: number
     filter?: string
     filterLegacy?: string
+    notifyOnNewEntries: boolean
 }
 
 export interface Category {
@@ -110,6 +111,7 @@ export interface FeedModificationRequest {
     categoryId?: string
     position?: number
     filter?: string
+    notifyOnNewEntries?: boolean
 }
 
 export interface GetEntriesRequest {
@@ -249,6 +251,17 @@ export interface SharingSettings {
     buffer: boolean
 }
 
+export type NotificationService = "disabled" | "ntfy" | "gotify" | "pushover"
+
+export interface NotificationSettings {
+    enabled: boolean
+    type?: Exclude<NotificationService, "disabled">
+    serverUrl?: string
+    token?: string
+    userKey?: string
+    topic?: string
+}
+
 export interface Settings {
     language?: string
     readingMode: ReadingMode
@@ -271,6 +284,7 @@ export interface Settings {
     disablePullToRefresh: boolean
     primaryColor?: string
     sharingSettings: SharingSettings
+    notificationSettings: NotificationSettings
 }
 
 export interface LocalSettings {
@@ -290,6 +304,7 @@ export interface SubscribeRequest {
     url: string
     title: string
     categoryId?: string
+    notifyOnNewEntries: boolean
 }
 
 export interface TagRequest {

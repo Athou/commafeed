@@ -77,6 +77,17 @@ public class UserSettings extends AbstractModel {
 		ON_MOBILE
 	}
 
+	public enum NotificationType {
+		@JsonProperty("ntfy")
+		NTFY,
+
+		@JsonProperty("gotify")
+		GOTIFY,
+
+		@JsonProperty("pushover")
+		PUSHOVER
+	}
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false, unique = true)
 	private User user;
@@ -132,6 +143,24 @@ public class UserSettings extends AbstractModel {
 	private boolean unreadCountTitle;
 	private boolean unreadCountFavicon;
 	private boolean disablePullToRefresh;
+
+	private boolean notificationEnabled;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "notification_type", length = 16)
+	private NotificationType notificationType;
+
+	@Column(name = "notification_server_url", length = 1024)
+	private String notificationServerUrl;
+
+	@Column(name = "notification_token", length = 512)
+	private String notificationToken;
+
+	@Column(name = "notification_user_key", length = 512)
+	private String notificationUserKey;
+
+	@Column(name = "notification_topic", length = 256)
+	private String notificationTopic;
 
 	private boolean email;
 	private boolean gmail;

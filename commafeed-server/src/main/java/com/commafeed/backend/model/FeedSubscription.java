@@ -46,4 +46,7 @@ public class FeedSubscription extends AbstractModel {
 	@Column(name = "filtering_expression_legacy", length = 4096)
 	private String filterLegacy;
 
+	@Column(name = "notify_on_new_entries", length = 4096)
+	private boolean notifyOnNewEntries = true;
+
 }

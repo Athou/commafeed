@@ -1,5 +1,6 @@
 package com.commafeed.backend.feed;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,14 +20,17 @@ import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UnitOfWork;
+import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.feed.parser.FeedParserResult.Content;
 import com.commafeed.backend.feed.parser.FeedParserResult.Entry;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
+import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedService;
+import com.commafeed.backend.service.NotificationService;
 import com.commafeed.frontend.ws.WebSocketMessageBuilder;
 import com.commafeed.frontend.ws.WebSocketSessions;
 import com.google.common.util.concurrent.Striped;
@@ -44,7 +48,9 @@ public class FeedRefreshUpdater {
 	private final FeedService feedService;
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
+	private final UserSettingsDAO userSettingsDAO;
 	private final WebSocketSessions webSocketSessions;
+	private final NotificationService notificationService;
 
 	private final Striped<Lock> locks;
 
@@ -52,12 +58,15 @@ public class FeedRefreshUpdater {
 	private final Meter entryInserted;
 
 	public FeedRefreshUpdater(UnitOfWork unitOfWork, FeedService feedService, FeedEntryService feedEntryService, MetricRegistry metrics,
-			FeedSubscriptionDAO feedSubscriptionDAO, WebSocketSessions webSocketSessions) {
+			FeedSubscriptionDAO feedSubscriptionDAO, UserSettingsDAO userSettingsDAO, WebSocketSessions webSocketSessions,
+			NotificationService notificationService) {
 		this.unitOfWork = unitOfWork;
 		this.feedService = feedService;
 		this.feedEntryService = feedEntryService;
 		this.feedSubscriptionDAO = feedSubscriptionDAO;
+		this.userSettingsDAO = userSettingsDAO;
 		this.webSocketSessions = webSocketSessions;
+		this.notificationService = notificationService;
 
 		locks = Striped.lazyWeakLock(100000);
 
@@ -67,7 +76,7 @@ public class FeedRefreshUpdater {
 
 	private AddEntryResult addEntry(final Feed feed, final Entry entry, final List<FeedSubscription> subscriptions) {
 		boolean processed = false;
-		boolean inserted = false;
+		FeedEntry insertedEntry = null;
 		Set<FeedSubscription> subscriptionsForWhichEntryIsUnread = new HashSet<>();
 
 		// lock on feed, make sure we are not updating the same feed twice at
@@ -90,14 +99,10 @@ public class FeedRefreshUpdater {
 			locked2 = lock2.tryLock(1, TimeUnit.MINUTES);
 			if (locked1 && locked2) {
 				processed = true;
-				inserted = unitOfWork.call(() -> {
-					boolean newEntry = false;
+				insertedEntry = unitOfWork.call(() -> {
 					FeedEntry feedEntry = feedEntryService.find(feed, entry);
 					if (feedEntry == null) {
 						feedEntry = feedEntryService.create(feed, entry);
-						newEntry = true;
-					}
-					if (newEntry) {
 						entryInserted.mark();
 						for (FeedSubscription sub : subscriptions) {
 							boolean unread = feedEntryService.applyFilter(sub, feedEntry);
@@ -105,8 +110,9 @@ public class FeedRefreshUpdater {
 								subscriptionsForWhichEntryIsUnread.add(sub);
 							}
 						}
+						return feedEntry;
 					}
-					return newEntry;
+					return null;
 				});
 			} else {
 				log.error("lock timeout for {} - {}", feed.getUrl(), key1);
@@ -122,13 +128,14 @@ public class FeedRefreshUpdater {
 				lock2.unlock();
 			}
 		}
-		return new AddEntryResult(processed, inserted, subscriptionsForWhichEntryIsUnread);
+		return new AddEntryResult(processed, insertedEntry, subscriptionsForWhichEntryIsUnread);
 	}
 
 	public boolean update(Feed feed, List<Entry> entries) {
 		boolean processed = true;
 		long inserted = 0;
 		Map<FeedSubscription, Long> unreadCountBySubscription = new HashMap<>();
+		Map<FeedSubscription, List<FeedEntry>> insertedEntriesBySubscription = new HashMap<>();
 
 		if (!entries.isEmpty()) {
 			List<FeedSubscription> subscriptions = null;
@@ -138,8 +145,13 @@ public class FeedRefreshUpdater {
 				}
 				AddEntryResult addEntryResult = addEntry(feed, entry, subscriptions);
 				processed &= addEntryResult.processed;
-				inserted += addEntryResult.inserted ? 1 : 0;
-				addEntryResult.subscriptionsForWhichEntryIsUnread.forEach(sub -> unreadCountBySubscription.merge(sub, 1L, Long::sum));
+				inserted += addEntryResult.insertedEntry != null ? 1 : 0;
+				addEntryResult.subscriptionsForWhichEntryIsUnread.forEach(sub -> {
+					unreadCountBySubscription.merge(sub, 1L, Long::sum);
+					if (addEntryResult.insertedEntry != null) {
+						insertedEntriesBySubscription.computeIfAbsent(sub, k -> new ArrayList<>()).add(addEntryResult.insertedEntry);
+					}
+				});
 			}
 
 			if (inserted == 0) {
@@ -161,6 +173,7 @@ public class FeedRefreshUpdater {
 		unitOfWork.run(() -> feedService.update(feed));
 
 		notifyOverWebsocket(unreadCountBySubscription);
+		sendNotifications(insertedEntriesBySubscription);
 
 		return processed;
 	}
@@ -170,7 +183,25 @@ public class FeedRefreshUpdater {
 				WebSocketMessageBuilder.newFeedEntries(sub, unreadCount)));
 	}
 
-	private record AddEntryResult(boolean processed, boolean inserted, Set<FeedSubscription> subscriptionsForWhichEntryIsUnread) {
+	private void sendNotifications(Map<FeedSubscription, List<FeedEntry>> insertedEntriesBySubscription) {
+		insertedEntriesBySubscription.forEach((sub, feedEntries) -> {
+			if (!sub.isNotifyOnNewEntries()) {
+				return;
+			}
+			try {
+				UserSettings settings = unitOfWork.call(() -> userSettingsDAO.findByUser(sub.getUser()));
+				if (settings != null && settings.isNotificationEnabled()) {
+					for (FeedEntry feedEntry : feedEntries) {
+						notificationService.notify(settings, sub, feedEntry);
+					}
+				}
+			} catch (Exception e) {
+				log.error("error sending push notification for subscription {}", sub.getId(), e);
+			}
+		});
+	}
+
+	private record AddEntryResult(boolean processed, FeedEntry insertedEntry, Set<FeedSubscription> subscriptionsForWhichEntryIsUnread) {
 	}
 
 }

@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/react/macro"
-import { Box, Button, Group, Stack, Stepper, TextInput } from "@mantine/core"
+import { Box, Button, Checkbox, Group, Stack, Stepper, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useState } from "react"
 import { useAsyncCallback } from "react-async-hook"
@@ -28,6 +28,7 @@ export function Subscribe() {
             url: "",
             title: "",
             categoryId: Constants.categories.all.id,
+            notifyOnNewEntries: true,
         },
     })
 
@@ -103,6 +104,10 @@ export function Subscribe() {
                             <TextInput label={<Trans>Feed URL</Trans>} {...step1Form.getInputProps("url")} disabled />
                             <TextInput label={<Trans>Feed name</Trans>} {...step1Form.getInputProps("title")} required autoFocus />
                             <CategorySelect label={<Trans>Category</Trans>} {...step1Form.getInputProps("categoryId")} clearable />
+                            <Checkbox
+                                label={<Trans>Receive notifications</Trans>}
+                                {...step1Form.getInputProps("notifyOnNewEntries", { type: "checkbox" })}
+                            />
                         </Stack>
                     </Stepper.Step>
                 </Stepper>

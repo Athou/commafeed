@@ -1,8 +1,9 @@
 import { Trans } from "@lingui/react/macro"
 import { Container, Tabs } from "@mantine/core"
-import { TbCode, TbPhoto, TbUser } from "react-icons/tb"
+import { TbBell, TbCode, TbPhoto, TbUser } from "react-icons/tb"
 import { CustomCodeSettings } from "@/components/settings/CustomCodeSettings"
 import { DisplaySettings } from "@/components/settings/DisplaySettings"
+import { NotificationSettings } from "@/components/settings/NotificationSettings"
 import { ProfileSettings } from "@/components/settings/ProfileSettings"
 
 export function SettingsPage() {
@@ -12,6 +13,9 @@ export function SettingsPage() {
                 <Tabs.List>
                     <Tabs.Tab value="display" leftSection={<TbPhoto size={16} />}>
                         <Trans>Display</Trans>
+                    </Tabs.Tab>
+                    <Tabs.Tab value="notifications" leftSection={<TbBell size={16} />}>
+                        <Trans>Notifications</Trans>
                     </Tabs.Tab>
                     <Tabs.Tab value="customCode" leftSection={<TbCode size={16} />}>
                         <Trans>Custom code</Trans>
@@ -23,6 +27,10 @@ export function SettingsPage() {
 
                 <Tabs.Panel value="display" pt="xl">
                     <DisplaySettings />
+                </Tabs.Panel>
+
+                <Tabs.Panel value="notifications" pt="xl">
+                    <NotificationSettings />
                 </Tabs.Panel>
 
                 <Tabs.Panel value="customCode" pt="xl">

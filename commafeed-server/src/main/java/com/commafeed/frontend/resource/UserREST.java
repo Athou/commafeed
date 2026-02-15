@@ -43,6 +43,7 @@ import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.IconDisplayMode;
+import com.commafeed.backend.model.UserSettings.NotificationType;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.model.UserSettings.ScrollMode;
@@ -125,6 +126,15 @@ public class UserREST {
 			s.setUnreadCountFavicon(settings.isUnreadCountFavicon());
 			s.setDisablePullToRefresh(settings.isDisablePullToRefresh());
 			s.setPrimaryColor(settings.getPrimaryColor());
+
+			s.getNotificationSettings().setEnabled(settings.isNotificationEnabled());
+			if (settings.getNotificationType() != null) {
+				s.getNotificationSettings().setType(settings.getNotificationType().name().toLowerCase());
+			}
+			s.getNotificationSettings().setServerUrl(settings.getNotificationServerUrl());
+			s.getNotificationSettings().setToken(settings.getNotificationToken());
+			s.getNotificationSettings().setUserKey(settings.getNotificationUserKey());
+			s.getNotificationSettings().setTopic(settings.getNotificationTopic());
 		} else {
 			s.setReadingMode(ReadingMode.UNREAD);
 			s.setReadingOrder(ReadingOrder.DESC);
@@ -189,6 +199,17 @@ public class UserREST {
 		s.setUnreadCountFavicon(settings.isUnreadCountFavicon());
 		s.setDisablePullToRefresh(settings.isDisablePullToRefresh());
 		s.setPrimaryColor(settings.getPrimaryColor());
+
+		s.setNotificationEnabled(settings.getNotificationSettings().isEnabled());
+		if (settings.getNotificationSettings().getType() != null) {
+			s.setNotificationType(NotificationType.valueOf(settings.getNotificationSettings().getType().toUpperCase()));
+		} else {
+			s.setNotificationType(null);
+		}
+		s.setNotificationServerUrl(settings.getNotificationSettings().getServerUrl());
+		s.setNotificationToken(settings.getNotificationSettings().getToken());
+		s.setNotificationUserKey(settings.getNotificationSettings().getUserKey());
+		s.setNotificationTopic(settings.getNotificationSettings().getTopic());
 
 		s.setEmail(settings.getSharingSettings().isEmail());
 		s.setGmail(settings.getSharingSettings().isGmail());

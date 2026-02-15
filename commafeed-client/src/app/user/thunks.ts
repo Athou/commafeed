@@ -1,7 +1,7 @@
 import { createAppAsyncThunk } from "@/app/async-thunk"
 import { client } from "@/app/client"
 import { reloadEntries } from "@/app/entries/thunks"
-import type { IconDisplayMode, ReadingMode, ReadingOrder, ScrollMode, SharingSettings } from "@/app/types"
+import type { IconDisplayMode, NotificationSettings, ReadingMode, ReadingOrder, ScrollMode, SharingSettings } from "@/app/types"
 
 export const reloadSettings = createAppAsyncThunk("settings/reload", async () => await client.user.getSettings().then(r => r.data))
 
@@ -153,6 +153,21 @@ export const changeSharingSetting = createAppAsyncThunk(
             sharingSettings: {
                 ...settings.sharingSettings,
                 [sharingSetting.site]: sharingSetting.value,
+            },
+        })
+    }
+)
+
+export const changeNotificationSettings = createAppAsyncThunk(
+    "settings/notificationSettings",
+    (notificationUpdate: Partial<NotificationSettings>, thunkApi) => {
+        const { settings } = thunkApi.getState().user
+        if (!settings) return
+        client.user.saveSettings({
+            ...settings,
+            notificationSettings: {
+                ...settings.notificationSettings,
+                ...notificationUpdate,
             },
         })
     }

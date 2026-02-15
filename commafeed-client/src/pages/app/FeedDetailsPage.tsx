@@ -3,6 +3,7 @@ import {
     Anchor,
     Box,
     Button,
+    Checkbox,
     Code,
     Container,
     Divider,
@@ -163,6 +164,15 @@ export function FeedDetailsPage() {
                             <FilteringExpressionEditor initialValue={feed.filter} onChange={value => form.setFieldValue("filter", value)} />
                         </Box>
                     </Input.Wrapper>
+                    <TextInput
+                        label={<Trans>Filtering expression</Trans>}
+                        description={<FilteringExpressionDescription />}
+                        {...form.getInputProps("filter")}
+                    />
+                    <Checkbox
+                        label={<Trans>Receive notifications</Trans>}
+                        {...form.getInputProps("notifyOnNewEntries", { type: "checkbox" })}
+                    />
 
                     <Group>
                         <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>

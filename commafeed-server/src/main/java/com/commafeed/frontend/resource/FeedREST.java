@@ -365,7 +365,8 @@ public class FeedREST {
 
 			FeedInfo info = fetchFeedInternal(prependHttp(req.getUrl()));
 			User user = authenticationContext.getCurrentUser();
-			long subscriptionId = feedSubscriptionService.subscribe(user, info.getUrl(), req.getTitle(), category);
+			long subscriptionId = feedSubscriptionService.subscribe(user, info.getUrl(), req.getTitle(), category, 0,
+					req.isNotifyOnNewEntries());
 			return Response.ok(subscriptionId).build();
 		} catch (Exception e) {
 			log.error("Failed to subscribe to URL {}: {}", req.getUrl(), e.getMessage(), e);
@@ -384,7 +385,7 @@ public class FeedREST {
 			Preconditions.checkNotNull(url);
 			FeedInfo info = fetchFeedInternal(prependHttp(url));
 			User user = authenticationContext.getCurrentUser();
-			feedSubscriptionService.subscribe(user, info.getUrl(), info.getTitle());
+			feedSubscriptionService.subscribe(user, info.getUrl(), info.getTitle(), null, 0, true);
 		} catch (Exception e) {
 			log.info("Could not subscribe to url {} : {}", url, e.getMessage());
 		}
@@ -436,6 +437,9 @@ public class FeedREST {
 		if (StringUtils.isNotBlank(subscription.getFilter())) {
 			// if the new filter is filled, remove the legacy filter
 			subscription.setFilterLegacy(null);
+		}
+		if (req.getNotifyOnNewEntries() != null) {
+			subscription.setNotifyOnNewEntries(req.getNotifyOnNewEntries());
 		}
 
 		if (StringUtils.isNotBlank(req.getName())) {

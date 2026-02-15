@@ -81,6 +81,31 @@ public class Settings implements Serializable {
 	@Schema(description = "sharing settings", required = true)
 	private SharingSettings sharingSettings = new SharingSettings();
 
+	@Schema(description = "notification settings", required = true)
+	private NotificationSettings notificationSettings = new NotificationSettings();
+
+	@Schema(description = "User notification settings")
+	@Data
+	public static class NotificationSettings implements Serializable {
+		@Schema(required = true)
+		private boolean enabled;
+
+		@Schema(description = "notification provider type: ntfy, gotify, or pushover")
+		private String type;
+
+		@Schema(description = "server URL for ntfy or gotify")
+		private String serverUrl;
+
+		@Schema(description = "API token for gotify or pushover")
+		private String token;
+
+		@Schema(description = "user key for pushover")
+		private String userKey;
+
+		@Schema(description = "topic for ntfy")
+		private String topic;
+	}
+
 	@Schema(description = "User sharing settings")
 	@Data
 	public static class SharingSettings implements Serializable {

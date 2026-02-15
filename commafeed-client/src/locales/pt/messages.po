@@ -17,10 +17,6 @@ msgstr ""
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
 msgstr "<0>CommaFeed é um projeto de código abrto. O código está hospedado no </0><1>GitHub</1>."
 
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "<0>Complete syntax is available </0><1>here</1><2>.</2>"
-msgstr "<0>Sintaxe completa disponível </0><1>aqui</1><2>.</2>"
-
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
 msgstr "<0>Tem uma conta?</0><1>Faça login!</1>"
@@ -126,10 +122,6 @@ msgstr "Tem certeza de que deseja cancelar a inscrição em <0>{feedName}</0>?"
 msgid "Asc"
 msgstr "Asc"
 
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
-msgstr "As variáveis ​​disponíveis são 'título', 'conteúdo', 'url' 'autor' e 'categorias' e seu conteúdo é convertido em letras minúsculas para facilitar a comparação de strings."
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Voltar"
@@ -154,6 +146,10 @@ msgstr "Extensão para o Chrome necessária"
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
 msgstr "Aba do navegador"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
+msgstr ""
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -365,10 +361,6 @@ msgstr "Cabeçalho das entredas"
 msgid "Error"
 msgstr "Erro"
 
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "Example: {example}."
-msgstr "Exemplo: {exemplo}."
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Expanded"
 msgstr "Expandido"
@@ -468,10 +460,6 @@ msgstr "Verde"
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "ID"
-
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
-msgstr "Se não estiver vazio, uma expressão avaliada como 'true' ou 'false'. "
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
@@ -1036,6 +1024,11 @@ msgstr "A URL do feed que você deseja assinar. "
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
 msgstr "Tema"
+
+#. placeholder {0}: feed.filterLegacy
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
+msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"

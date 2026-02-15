@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+	<changeSet id="cel-filtering-expressions" author="athou">
+		<addColumn tableName="FEEDSUBSCRIPTIONS">
+			<column name="filtering_expression_legacy" type="VARCHAR(4096)">
+				<constraints nullable="true" />
+			</column>
+		</addColumn>
+		<update tableName="FEEDSUBSCRIPTIONS">
+			<column name="filtering_expression_legacy" valueComputed="filtering_expression" />
+		</update>
+		<update tableName="FEEDSUBSCRIPTIONS">
+			<column name="filtering_expression" valueComputed="NULL" />
+		</update>
+	</changeSet>
+
+</databaseChangeLog>
+

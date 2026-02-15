@@ -15,6 +15,7 @@ interface TreeNodeProps {
     expanded?: boolean
     level: number
     hasError: boolean
+    hasWarning: boolean
     hasNewEntries: boolean
     onClick: (e: React.MouseEvent, id: string) => void
     onIconClick?: (e: React.MouseEvent, id: string) => void
@@ -24,15 +25,18 @@ const useStyles = tss
     .withParams<{
         selected: boolean
         hasError: boolean
+        hasWarning: boolean
         hasUnread: boolean
     }>()
-    .create(({ theme, colorScheme, selected, hasError, hasUnread }) => {
+    .create(({ theme, colorScheme, selected, hasError, hasWarning, hasUnread }) => {
         let backgroundColor = "inherit"
         if (selected) backgroundColor = colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[1]
 
         let color: string
         if (hasError) {
             color = theme.colors.red[6]
+        } else if (hasWarning) {
+            color = theme.colors.yellow[6]
         } else if (colorScheme === "dark") {
             color = hasUnread ? theme.colors.dark[0] : theme.colors.dark[3]
         } else {
@@ -63,6 +67,7 @@ export function TreeNode(props: Readonly<TreeNodeProps>) {
     const { classes } = useStyles({
         selected: props.selected,
         hasError: props.hasError,
+        hasWarning: props.hasWarning,
         hasUnread: props.unread > 0,
     })
     return (

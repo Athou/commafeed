@@ -1,7 +1,7 @@
 package com.commafeed.backend.service;
 
-import java.time.Year;
-import java.util.concurrent.Callable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,92 +11,71 @@ import java.util.concurrent.TimeoutException;
 
 import jakarta.inject.Singleton;
 
-import org.apache.commons.jexl2.JexlContext;
-import org.apache.commons.jexl2.JexlEngine;
-import org.apache.commons.jexl2.JexlException;
-import org.apache.commons.jexl2.JexlInfo;
-import org.apache.commons.jexl2.MapContext;
-import org.apache.commons.jexl2.Script;
-import org.apache.commons.jexl2.introspection.JexlMethod;
-import org.apache.commons.jexl2.introspection.JexlPropertyGet;
-import org.apache.commons.jexl2.introspection.Uberspect;
-import org.apache.commons.jexl2.introspection.UberspectImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.LogFactory;
 import org.jsoup.Jsoup;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.FeedEntry;
 
+import dev.cel.common.CelAbstractSyntaxTree;
+import dev.cel.common.CelValidationException;
+import dev.cel.common.types.SimpleType;
+import dev.cel.compiler.CelCompiler;
+import dev.cel.compiler.CelCompilerFactory;
+import dev.cel.runtime.CelEvaluationException;
+import dev.cel.runtime.CelRuntime;
+import dev.cel.runtime.CelRuntimeFactory;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Singleton
 public class FeedEntryFilteringService {
 
-	private static final JexlEngine ENGINE = initEngine();
+	private static final CelCompiler CEL_COMPILER = CelCompilerFactory.standardCelCompilerBuilder()
+			.addVar("title", SimpleType.STRING)
+			.addVar("titleLower", SimpleType.STRING)
+			.addVar("author", SimpleType.STRING)
+			.addVar("authorLower", SimpleType.STRING)
+			.addVar("content", SimpleType.STRING)
+			.addVar("contentLower", SimpleType.STRING)
+			.addVar("url", SimpleType.STRING)
+			.addVar("urlLower", SimpleType.STRING)
+			.addVar("categories", SimpleType.STRING)
+			.addVar("categoriesLower", SimpleType.STRING)
+			.build();
+	private static final CelRuntime CEL_RUNTIME = CelRuntimeFactory.standardCelRuntimeBuilder().build();
 
 	private final ExecutorService executor = Executors.newCachedThreadPool();
 	private final CommaFeedConfiguration config;
-
-	private static JexlEngine initEngine() {
-		// classloader that prevents object creation
-		ClassLoader cl = new ClassLoader() {
-			@Override
-			protected Class<?> loadClass(String name, boolean resolve) {
-				return null;
-			}
-		};
-
-		// uberspect that prevents access to .class and .getClass()
-		Uberspect uberspect = new UberspectImpl(LogFactory.getLog(JexlEngine.class)) {
-			@Override
-			public JexlPropertyGet getPropertyGet(Object obj, Object identifier, JexlInfo info) {
-				if ("class".equals(identifier)) {
-					return null;
-				}
-				return super.getPropertyGet(obj, identifier, info);
-			}
-
-			@Override
-			public JexlMethod getMethod(Object obj, String method, Object[] args, JexlInfo info) {
-				if ("getClass".equals(method)) {
-					return null;
-				}
-				return super.getMethod(obj, method, args, info);
-			}
-		};
-
-		JexlEngine engine = new JexlEngine(uberspect, null, null, null);
-		engine.setStrict(true);
-		engine.setClassLoader(cl);
-		return engine;
-	}
 
 	public boolean filterMatchesEntry(String filter, FeedEntry entry) throws FeedEntryFilterException {
 		if (StringUtils.isBlank(filter)) {
 			return true;
 		}
 
-		Script script;
-		try {
-			script = ENGINE.createScript(filter);
-		} catch (JexlException e) {
-			throw new FeedEntryFilterException("Exception while parsing expression " + filter, e);
-		}
+		String title = entry.getContent().getTitle() == null ? "" : Jsoup.parse(entry.getContent().getTitle()).text();
+		String author = entry.getContent().getAuthor() == null ? "" : entry.getContent().getAuthor();
+		String content = entry.getContent().getContent() == null ? "" : Jsoup.parse(entry.getContent().getContent()).text();
+		String url = entry.getUrl() == null ? "" : entry.getUrl();
+		String categories = entry.getContent().getCategories() == null ? "" : entry.getContent().getCategories();
 
-		JexlContext context = new MapContext();
-		context.set("title", entry.getContent().getTitle() == null ? "" : Jsoup.parse(entry.getContent().getTitle()).text().toLowerCase());
-		context.set("author", entry.getContent().getAuthor() == null ? "" : entry.getContent().getAuthor().toLowerCase());
-		context.set("content",
-				entry.getContent().getContent() == null ? "" : Jsoup.parse(entry.getContent().getContent()).text().toLowerCase());
-		context.set("url", entry.getUrl() == null ? "" : entry.getUrl().toLowerCase());
-		context.set("categories", entry.getContent().getCategories() == null ? "" : entry.getContent().getCategories().toLowerCase());
+		Map<String, Object> data = new HashMap<>();
+		data.put("title", title);
+		data.put("titleLower", title.toLowerCase());
 
-		context.set("year", Year.now().getValue());
+		data.put("author", author);
+		data.put("authorLower", author.toLowerCase());
 
-		Callable<Object> callable = script.callable(context);
-		Future<Object> future = executor.submit(callable);
+		data.put("content", content);
+		data.put("contentLower", content.toLowerCase());
+
+		data.put("url", url);
+		data.put("urlLower", url.toLowerCase());
+
+		data.put("categories", categories);
+		data.put("categoriesLower", categories.toLowerCase());
+
+		Future<Object> future = executor.submit(() -> evaluateCelExpression(filter, data));
 		Object result;
 		try {
 			result = future.get(config.feedRefresh().filteringExpressionEvaluationTimeout().toMillis(), TimeUnit.MILLISECONDS);
@@ -108,11 +87,15 @@ public class FeedEntryFilteringService {
 		} catch (TimeoutException e) {
 			throw new FeedEntryFilterException("Took too long evaluating expression " + filter, e);
 		}
-		try {
-			return (boolean) result;
-		} catch (ClassCastException e) {
-			throw new FeedEntryFilterException(e.getMessage(), e);
-		}
+
+		return Boolean.TRUE.equals(result);
+	}
+
+	private Object evaluateCelExpression(String expression, Map<String, Object> data)
+			throws CelValidationException, CelEvaluationException {
+		CelAbstractSyntaxTree ast = CEL_COMPILER.compile(expression).getAst();
+		CelRuntime.Program program = CEL_RUNTIME.createProgram(ast);
+		return program.eval(data);
 	}
 
 	@SuppressWarnings("serial")

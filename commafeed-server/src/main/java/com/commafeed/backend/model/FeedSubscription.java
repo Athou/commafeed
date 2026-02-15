@@ -43,4 +43,7 @@ public class FeedSubscription extends AbstractModel {
 	@Column(name = "filtering_expression", length = 4096)
 	private String filter;
 
+	@Column(name = "filtering_expression_legacy", length = 4096)
+	private String filterLegacy;
+
 }

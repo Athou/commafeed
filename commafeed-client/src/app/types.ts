@@ -28,6 +28,7 @@ export interface Subscription {
     position: number
     newestItemTime?: number
     filter?: string
+    filterLegacy?: string
 }
 
 export interface Category {

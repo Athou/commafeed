@@ -37,5 +37,6 @@
 	<include file="changelogs/db.changelog-5.8.xml" />
 	<include file="changelogs/db.changelog-5.11.xml" />
 	<include file="changelogs/db.changelog-5.12.xml" />
+	<include file="changelogs/db.changelog-7.0.xml" />
 
 </databaseChangeLog> 

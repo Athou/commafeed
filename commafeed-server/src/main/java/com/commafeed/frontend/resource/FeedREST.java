@@ -431,7 +431,12 @@ public class FeedREST {
 
 		User user = authenticationContext.getCurrentUser();
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, req.getId());
+
 		subscription.setFilter(req.getFilter());
+		if (StringUtils.isNotBlank(subscription.getFilter())) {
+			// if the new filter is filled, remove the legacy filter
+			subscription.setFilterLegacy(null);
+		}
 
 		if (StringUtils.isNotBlank(req.getName())) {
 			subscription.setTitle(req.getName());

@@ -17,10 +17,6 @@ msgstr ""
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
 msgstr "<0>CommaFeed はオープンソースのプロジェクトです。 ソースは以下でホストされています </0><1>GitHub</1>。"
 
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "<0>Complete syntax is available </0><1>here</1><2>.</2>"
-msgstr "<0>完全な syntax </0><1>こちら</1>で利用可能です<2>。</2>"
-
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
 msgstr "<0>アカウントをお持ちですか?</0><1>ログインしてください!</1>"
@@ -126,10 +122,6 @@ msgstr "<0>{feedName}</0> の登録を解除してもよろしいですか？"
 msgid "Asc"
 msgstr "昇順"
 
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
-msgstr "使用可能な変数は「title」、「content」、「url」、「author」、および「categories」であり、それらのコンテンツは文字列の比較を容易にするために小文字に変換されます。"
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "戻る"
@@ -154,6 +146,10 @@ msgstr "Chromeのブラウザー拡張が必要です"
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
 msgstr "ブラウザータブ"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
+msgstr ""
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -365,10 +361,6 @@ msgstr "エントリーヘッダー"
 msgid "Error"
 msgstr "エラー"
 
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "Example: {example}."
-msgstr "例: {example}."
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Expanded"
 msgstr "拡張"
@@ -468,10 +460,6 @@ msgstr ""
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "ID"
-
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
-msgstr "空でない場合は、'true' または 'false' に評価される式。 'false' の場合、このフィードの新しいエントリーは自動的に既読としてマークされます。"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
@@ -1036,6 +1024,11 @@ msgstr "購読したいフィードのURL。ウェブサイトのURLを直接使
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
 msgstr "テーマ"
+
+#. placeholder {0}: feed.filterLegacy
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
+msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"

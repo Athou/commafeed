@@ -17,10 +17,6 @@ msgstr ""
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
 msgstr ""
 
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "<0>Complete syntax is available </0><1>here</1><2>.</2>"
-msgstr ""
-
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
 msgstr "<0>A oes gennych gyfrif?</0><1>Mewngofnodi!</1>"
@@ -126,10 +122,6 @@ msgstr "Ydych chi'n siŵr eich bod am ddad-danysgrifio o <0>{feedName}</0>?"
 msgid "Asc"
 msgstr ""
 
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
-msgstr "Y newidynnau sydd ar gael yw 'teitl', 'cynnwys', 'url' 'awdur' a 'chategorïau' ac mae eu cynnwys yn cael ei drosi i lythrennau bach er mwyn hwyluso cymhariaeth llinynnol."
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Yn ôl"
@@ -153,6 +145,10 @@ msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
+msgstr ""
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
 msgstr ""
 
 #: src/components/admin/UserEdit.tsx
@@ -365,10 +361,6 @@ msgstr ""
 msgid "Error"
 msgstr "Gwall"
 
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "Example: {example}."
-msgstr "enghraifft: {example}."
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Expanded"
 msgstr "Ehangu"
@@ -468,10 +460,6 @@ msgstr ""
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr ""
-
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
-msgstr "Os nad yw'n wag, mynegiad sy'n gwerthuso i 'gwir' neu 'anghywir'. "
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
@@ -1036,6 +1024,11 @@ msgstr "Y URL ar gyfer y porthwr rydych chi am danysgrifio iddo. "
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
 msgstr "Thema"
+
+#. placeholder {0}: feed.filterLegacy
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
+msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"

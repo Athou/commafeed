@@ -59,8 +59,11 @@ public class Subscription implements Serializable {
 	@Schema(description = "date of the newest item", type = SchemaType.INTEGER)
 	private Instant newestItemTime;
 
-	@Schema(description = "JEXL string evaluated on new entries to mark them as read if they do not match")
+	@Schema(description = "CEL string evaluated on new entries to mark them as read if they do not match")
 	private String filter;
+
+	@Schema(description = "JEXL legacy filter")
+	private String filterLegacy;
 
 	public static Subscription build(FeedSubscription subscription, UnreadCount unreadCount) {
 		FeedCategory category = subscription.getCategory();
@@ -81,6 +84,7 @@ public class Subscription implements Serializable {
 		sub.setNewestItemTime(unreadCount.getNewestItemTime());
 		sub.setCategoryId(category == null ? null : String.valueOf(category.getId()));
 		sub.setFilter(subscription.getFilter());
+		sub.setFilterLegacy(subscription.getFilterLegacy());
 		return sub;
 	}
 

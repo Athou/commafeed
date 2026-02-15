@@ -17,10 +17,6 @@ msgstr ""
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
 msgstr ""
 
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "<0>Complete syntax is available </0><1>here</1><2>.</2>"
-msgstr ""
-
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
 msgstr "<0>Ada akaun?</0><1>Log masuk!</1>"
@@ -126,10 +122,6 @@ msgstr "Adakah anda pasti mahu berhenti melanggan <0>{feedName}</0>?"
 msgid "Asc"
 msgstr ""
 
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
-msgstr "Pembolehubah yang tersedia ialah 'tajuk', 'kandungan', 'url' 'pengarang' dan 'kategori' dan kandungannya ditukar kepada huruf kecil untuk memudahkan perbandingan rentetan."
-
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Kembali"
@@ -153,6 +145,10 @@ msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
+msgstr ""
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
 msgstr ""
 
 #: src/components/admin/UserEdit.tsx
@@ -365,10 +361,6 @@ msgstr ""
 msgid "Error"
 msgstr "Ralat"
 
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "Example: {example}."
-msgstr "Contoh: {example}."
-
 #: src/components/header/ProfileMenu.tsx
 msgid "Expanded"
 msgstr "Dikembangkan"
@@ -468,10 +460,6 @@ msgstr ""
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr ""
-
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
-msgstr "Jika tidak kosong, ungkapan yang menilai kepada 'benar' atau 'palsu'. "
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
@@ -1036,6 +1024,11 @@ msgstr "URL untuk suapan yang anda ingin langgan. "
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
 msgstr "Tema"
+
+#. placeholder {0}: feed.filterLegacy
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
+msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"

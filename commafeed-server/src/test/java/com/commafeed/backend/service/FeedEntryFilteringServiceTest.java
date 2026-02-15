@@ -4,6 +4,7 @@ import java.time.Duration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -48,49 +49,219 @@ class FeedEntryFilteringServiceTest {
 	}
 
 	@Test
-	void simpleExpression() throws FeedEntryFilterException {
-		Assertions.assertTrue(service.filterMatchesEntry("author.toString() eq 'athou'", entry));
+	void simpleEqualsExpression() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("author == \"Athou\"", entry));
 	}
 
 	@Test
-	void newIsDisabled() {
-		Assertions.assertThrows(FeedEntryFilterException.class,
-				() -> service.filterMatchesEntry("null eq new ('java.lang.String', 'athou')", entry));
+	void simpleNotEqualsExpression() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("author != \"other\"", entry));
 	}
 
 	@Test
-	void getClassMethodIsDisabled() {
-		Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("null eq ''.getClass()", entry));
+	void containsExpression() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("author.contains(\"Athou\")", entry));
 	}
 
 	@Test
-	void dotClassIsDisabled() throws FeedEntryFilterException {
-		Assertions.assertTrue(service.filterMatchesEntry("null eq ''.class", entry));
+	void titleContainsExpression() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("title.contains(\"Merge\")", entry));
 	}
 
 	@Test
-	void cannotLoopForever() {
-		Mockito.when(config.feedRefresh().filteringExpressionEvaluationTimeout()).thenReturn(Duration.ofMillis(200));
-		service = new FeedEntryFilteringService(config);
-
-		Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("while(true) {}", entry));
+	void urlContainsExpression() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("url.contains(\"github\")", entry));
 	}
 
 	@Test
-	void handlesNullCorrectly() {
-		entry.setUrl(null);
-		entry.setContent(new FeedEntryContent());
-		Assertions.assertDoesNotThrow(() -> service.filterMatchesEntry("author eq 'athou'", entry));
+	void andExpression() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("author == \"Athou\" && url.contains(\"github\")", entry));
 	}
 
 	@Test
-	void incorrectScriptThrowsException() {
-		Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("aa eqz bb", entry));
+	void orExpression() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("author == \"other\" || url.contains(\"github\")", entry));
 	}
 
 	@Test
-	void incorrectReturnTypeThrowsException() {
-		Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("1", entry));
+	void notExpression() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("!(author == \"other\")", entry));
+	}
+
+	@Test
+	void incorrectExpressionThrowsException() {
+		Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("not valid cel", entry));
+	}
+
+	@Test
+	void falseValueReturnsFalse() throws FeedEntryFilterException {
+		Assertions.assertFalse(service.filterMatchesEntry("false", entry));
+	}
+
+	@Test
+	void trueValueReturnsTrue() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("true", entry));
+	}
+
+	@Test
+	void startsWithExpression() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("title.startsWith(\"Merge\")", entry));
+	}
+
+	@Test
+	void endsWithExpression() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("url.endsWith(\"commafeed\")", entry));
+	}
+
+	@Test
+	void categoriesContainsExpression() throws FeedEntryFilterException {
+		FeedEntryContent content = entry.getContent();
+		content.setCategories("tech, programming, java");
+		entry.setContent(content);
+		Assertions.assertTrue(service.filterMatchesEntry("categories.contains(\"programming\")", entry));
+	}
+
+	@Test
+	void caseInsensitiveAuthorMatchUsingLowerVariable() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("authorLower == \"athou\"", entry));
+	}
+
+	@Test
+	void caseInsensitiveTitleMatchUsingLowerVariable() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("titleLower.contains(\"merge\")", entry));
+	}
+
+	@Test
+	void caseInsensitiveUrlMatchUsingLowerVariable() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("urlLower.contains(\"github\")", entry));
+	}
+
+	@Test
+	void caseInsensitiveContentMatchUsingLowerVariable() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("contentLower.contains(\"merge\")", entry));
+	}
+
+	@Test
+	void caseInsensitiveCategoriesMatchUsingLowerVariable() throws FeedEntryFilterException {
+		FeedEntryContent content = entry.getContent();
+		content.setCategories("Tech, Programming, Java");
+		entry.setContent(content);
+		Assertions.assertTrue(service.filterMatchesEntry("categoriesLower.contains(\"tech\")", entry));
+	}
+
+	@Nested
+	class Sandbox {
+
+		@Test
+		void sandboxBlocksSystemPropertyAccess() {
+			Assertions.assertThrows(FeedEntryFilterException.class,
+					() -> service.filterMatchesEntry("java.lang.System.getProperty(\"user.home\")", entry));
+		}
+
+		@Test
+		void sandboxBlocksRuntimeExec() {
+			Assertions.assertThrows(FeedEntryFilterException.class,
+					() -> service.filterMatchesEntry("java.lang.Runtime.getRuntime().exec(\"calc\")", entry));
+		}
+
+		@Test
+		void sandboxBlocksProcessBuilder() {
+			Assertions.assertThrows(FeedEntryFilterException.class,
+					() -> service.filterMatchesEntry("new java.lang.ProcessBuilder(\"cmd\").start()", entry));
+		}
+
+		@Test
+		void sandboxBlocksClassLoading() {
+			Assertions.assertThrows(FeedEntryFilterException.class,
+					() -> service.filterMatchesEntry("java.lang.Class.forName(\"java.lang.Runtime\")", entry));
+		}
+
+		@Test
+		void sandboxBlocksReflection() {
+			Assertions.assertThrows(FeedEntryFilterException.class,
+					() -> service.filterMatchesEntry("title.getClass().getMethods()", entry));
+		}
+
+		@Test
+		void sandboxBlocksFileAccess() {
+			Assertions.assertThrows(FeedEntryFilterException.class,
+					() -> service.filterMatchesEntry("new java.io.File(\"/etc/passwd\").exists()", entry));
+		}
+
+		@Test
+		void sandboxBlocksFileRead() {
+			Assertions.assertThrows(FeedEntryFilterException.class,
+					() -> service.filterMatchesEntry("java.nio.file.Files.readString(java.nio.file.Paths.get(\"/etc/passwd\"))", entry));
+		}
+
+		@Test
+		void sandboxBlocksNetworkAccess() {
+			Assertions.assertThrows(FeedEntryFilterException.class,
+					() -> service.filterMatchesEntry("new java.net.URL(\"http://evil.com\").openConnection()", entry));
+		}
+
+		@Test
+		void sandboxBlocksScriptEngine() {
+			Assertions.assertThrows(FeedEntryFilterException.class, () -> service
+					.filterMatchesEntry("new javax.script.ScriptEngineManager().getEngineByName(\"js\").eval(\"1+1\")", entry));
+		}
+
+		@Test
+		void sandboxBlocksThreadCreation() {
+			Assertions.assertThrows(FeedEntryFilterException.class,
+					() -> service.filterMatchesEntry("new java.lang.Thread().start()", entry));
+		}
+
+		@Test
+		void sandboxBlocksEnvironmentVariableAccess() {
+			Assertions.assertThrows(FeedEntryFilterException.class,
+					() -> service.filterMatchesEntry("java.lang.System.getenv(\"PATH\")", entry));
+		}
+
+		@Test
+		void sandboxBlocksExitCall() {
+			Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("java.lang.System.exit(0)", entry));
+		}
+
+		@Test
+		void sandboxBlocksUndeclaredVariables() {
+			Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("unknownVariable == \"test\"", entry));
+		}
+
+		@Test
+		void sandboxBlocksMethodInvocationOnStrings() {
+			Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("title.toCharArray()", entry));
+		}
+
+		@Test
+		void sandboxBlocksArbitraryJavaMethodCalls() {
+			Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("title.getBytes()", entry));
+		}
+
+		@Test
+		void sandboxOnlyAllowsDeclaredVariables() {
+			Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("System", entry));
+		}
+
+		@Test
+		void sandboxBlocksConstructorCalls() {
+			Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("new String(\"test\")", entry));
+		}
+
+		@Test
+		void sandboxBlocksStaticMethodCalls() {
+			Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("String.valueOf(123)", entry));
+		}
+
+		@Test
+		void sandboxBlocksLambdaExpressions() {
+			Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("() -> true", entry));
+		}
+
+		@Test
+		void sandboxBlocksObjectInstantiation() {
+			Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("java.util.HashMap{}", entry));
+		}
 	}
 
 }

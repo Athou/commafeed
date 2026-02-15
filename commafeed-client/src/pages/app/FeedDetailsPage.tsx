@@ -1,10 +1,25 @@
 import { Trans } from "@lingui/react/macro"
-import { Anchor, Box, Button, Code, Container, Divider, Group, Input, NumberInput, Stack, Text, TextInput, Title } from "@mantine/core"
+import {
+    Anchor,
+    Box,
+    Button,
+    Code,
+    Container,
+    Divider,
+    Group,
+    Input,
+    Alert as MantineAlert,
+    NumberInput,
+    Stack,
+    Text,
+    TextInput,
+    Title,
+} from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
 import { useEffect } from "react"
 import { useAsync, useAsyncCallback } from "react-async-hook"
-import { TbDeviceFloppy, TbTrash } from "react-icons/tb"
+import { TbAlertTriangle, TbDeviceFloppy, TbTrash } from "react-icons/tb"
 import { useParams } from "react-router-dom"
 import { client, errorToStrings } from "@/app/client"
 import { redirectToRootCategory, redirectToSelectedSource } from "@/app/redirect/thunks"
@@ -13,40 +28,9 @@ import { reloadTree } from "@/app/tree/thunks"
 import type { FeedModificationRequest } from "@/app/types"
 import { Alert } from "@/components/Alert"
 import { CategorySelect } from "@/components/content/add/CategorySelect"
+import { FilteringExpressionEditor } from "@/components/content/edit/FilteringExpressionEditor"
 import { Loader } from "@/components/Loader"
 import { RelativeDate } from "@/components/RelativeDate"
-
-function FilteringExpressionDescription() {
-    const example = <Code>url.contains('youtube') or (author eq 'athou' and title.contains('github'))</Code>
-    return (
-        <div>
-            <div>
-                <Trans>
-                    If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read
-                    automatically.
-                </Trans>
-            </div>
-            <div>
-                <Trans>
-                    Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case
-                    to ease string comparison.
-                </Trans>
-            </div>
-            <div>
-                <Trans>Example: {example}.</Trans>
-            </div>
-            <div>
-                <Trans>
-                    <span>Complete syntax is available </span>
-                    <a href="https://commons.apache.org/proper/commons-jexl/reference/syntax.html" target="_blank" rel="noreferrer">
-                        here
-                    </a>
-                    <span>.</span>
-                </Trans>
-            </div>
-        </div>
-    )
-}
 
 export function FeedDetailsPage() {
     const { id } = useParams()
@@ -158,11 +142,27 @@ export function FeedDetailsPage() {
                     <TextInput label={<Trans>Name</Trans>} {...form.getInputProps("name")} required />
                     <CategorySelect label={<Trans>Category</Trans>} {...form.getInputProps("categoryId")} clearable />
                     <NumberInput label={<Trans>Position</Trans>} {...form.getInputProps("position")} required min={0} />
-                    <TextInput
+                    <Input.Wrapper
                         label={<Trans>Filtering expression</Trans>}
-                        description={<FilteringExpressionDescription />}
-                        {...form.getInputProps("filter")}
-                    />
+                        description={
+                            <Trans>
+                                Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read
+                                automatically.
+                            </Trans>
+                        }
+                    >
+                        {feed.filterLegacy && (
+                            <MantineAlert color="yellow" icon={<TbAlertTriangle />}>
+                                <Trans>
+                                    This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using
+                                    the new expression editor. The legacy filter expression was: <Code>{feed.filterLegacy}</Code>
+                                </Trans>
+                            </MantineAlert>
+                        )}
+                        <Box mt="xs">
+                            <FilteringExpressionEditor initialValue={feed.filter} onChange={value => form.setFieldValue("filter", value)} />
+                        </Box>
+                    </Input.Wrapper>
 
                     <Group>
                         <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>

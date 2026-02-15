@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.xml.sax.InputSource;
 
 import com.commafeed.TestConstants;
+import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.FeedInfo;
 import com.commafeed.frontend.model.Subscription;
@@ -260,6 +261,49 @@ class FeedIT extends BaseIT {
 					.post("rest/feed/import")
 					.then()
 					.statusCode(HttpStatus.SC_OK);
+		}
+	}
+
+	@Nested
+	class Filter {
+		@Test
+		void filterEntriesOnNewFeedItems() throws IOException {
+			// subscribe and wait for initial 2 entries
+			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
+			Entries initialEntries = getFeedEntries(subscriptionId);
+			Assertions.assertEquals(2, initialEntries.getEntries().size());
+
+			// set up a filter that excludes entries with "item 4" in the title
+			Subscription subscription = getSubscription(subscriptionId);
+			FeedModificationRequest req = new FeedModificationRequest();
+			req.setId(subscriptionId);
+			req.setName(subscription.getName());
+			req.setCategoryId(subscription.getCategoryId());
+			req.setPosition(subscription.getPosition());
+			req.setFilter("!titleLower.contains('item 4')");
+			RestAssured.given().body(req).contentType(ContentType.JSON).post("rest/feed/modify").then().statusCode(HttpStatus.SC_OK);
+
+			// verify filter is set
+			subscription = getSubscription(subscriptionId);
+			Assertions.assertEquals("!titleLower.contains('item 4')", subscription.getFilter());
+
+			// feed now returns 2 more entries (Item 3 and Item 4)
+			feedNowReturnsMoreEntries();
+			forceRefreshAllFeeds();
+
+			// wait for new entries to be fetched
+			Awaitility.await().atMost(Duration.ofSeconds(15)).until(() -> getCategoryEntries("all"), e -> e.getEntries().size() == 4);
+
+			// verify that Item 4 was marked as read because it matches the filter
+			Entries unreadEntries = RestAssured.given()
+					.get("rest/feed/entries?id={id}&readType=unread", subscriptionId)
+					.then()
+					.statusCode(HttpStatus.SC_OK)
+					.extract()
+					.as(Entries.class);
+			Assertions.assertEquals(3, unreadEntries.getEntries().size());
+			Assertions.assertTrue(unreadEntries.getEntries().stream().noneMatch(e -> e.getTitle().toLowerCase().contains("item 4")),
+					"Item 4 should be filtered out (marked as read)");
 		}
 	}
 

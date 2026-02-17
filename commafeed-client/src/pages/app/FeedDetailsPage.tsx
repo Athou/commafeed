@@ -33,38 +33,6 @@ import { FilteringExpressionEditor } from "@/components/content/edit/FilteringEx
 import { Loader } from "@/components/Loader"
 import { RelativeDate } from "@/components/RelativeDate"
 
-function FilteringExpressionDescription() {
-    const example = <Code>url.contains('youtube') or (author eq 'athou' and title.contains('github'))</Code>
-    return (
-        <div>
-            <div>
-                <Trans>
-                    If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read
-                    automatically.
-                </Trans>
-            </div>
-            <div>
-                <Trans>
-                    Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case
-                    to ease string comparison.
-                </Trans>
-            </div>
-            <div>
-                <Trans>Example: {example}.</Trans>
-            </div>
-            <div>
-                <Trans>
-                    <span>Complete syntax is available </span>
-                    <a href="https://commons.apache.org/proper/commons-jexl/reference/syntax.html" target="_blank" rel="noreferrer">
-                        here
-                    </a>
-                    <span>.</span>
-                </Trans>
-            </div>
-        </div>
-    )
-}
-
 export function FeedDetailsPage() {
     const { id } = useParams()
     if (!id) throw new Error("id required")
@@ -196,11 +164,6 @@ export function FeedDetailsPage() {
                             <FilteringExpressionEditor initialValue={feed.filter} onChange={value => form.setFieldValue("filter", value)} />
                         </Box>
                     </Input.Wrapper>
-                    <TextInput
-                        label={<Trans>Filtering expression</Trans>}
-                        description={<FilteringExpressionDescription />}
-                        {...form.getInputProps("filter")}
-                    />
                     <Checkbox
                         label={<Trans>Receive notifications</Trans>}
                         {...form.getInputProps("notifyOnNewEntries", { type: "checkbox" })}

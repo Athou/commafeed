@@ -34,6 +34,10 @@ msgstr "<0>需要一个帐户？</0><1>注册！</1>"
 msgid "About"
 msgstr "关于"
 
+#: src/components/settings/NotificationSettings.tsx
+msgid "Access token (optional)"
+msgstr ""
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
 msgstr "操作"
@@ -93,6 +97,14 @@ msgstr "公告"
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "API 密钥"
+
+#: src/components/settings/NotificationSettings.tsx
+msgid "API token"
+msgstr ""
+
+#: src/components/settings/NotificationSettings.tsx
+msgid "App token"
+msgstr ""
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -666,6 +678,14 @@ msgstr "没有可用的分享选项"
 msgid "Nothing found"
 msgstr "没有找到"
 
+#: src/components/settings/NotificationSettings.tsx
+msgid "Notification service"
+msgstr ""
+
+#: src/pages/app/SettingsPage.tsx
+msgid "Notifications"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "最早的优先"
@@ -807,6 +827,11 @@ msgstr "主颜色"
 msgid "Profile"
 msgstr "配置文件"
 
+#: src/components/content/add/Subscribe.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Receive notifications"
+msgstr ""
+
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "找回密码"
@@ -872,6 +897,11 @@ msgstr "选择下一个未读信息流/类别"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
 msgstr "选择上一个未读信息流/类别"
+
+#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/NotificationSettings.tsx
+msgid "Server URL"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -1050,6 +1080,10 @@ msgstr "切换侧边栏"
 msgid "Toggle starred status of current entry"
 msgstr "切换当前条目的星标状态"
 
+#: src/components/settings/NotificationSettings.tsx
+msgid "Topic"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "使用演示帐户试用 CommaFeed：demo/demo"
@@ -1072,6 +1106,10 @@ msgstr "取消星标"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "取消订阅"
+
+#: src/components/settings/NotificationSettings.tsx
+msgid "User key"
+msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"

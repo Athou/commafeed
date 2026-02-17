@@ -34,6 +34,10 @@ msgstr "<0>계정이 필요하십니까?</0><1>가입하세요!</1>"
 msgid "About"
 msgstr "정보"
 
+#: src/components/settings/NotificationSettings.tsx
+msgid "Access token (optional)"
+msgstr ""
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
 msgstr "액션"
@@ -93,6 +97,14 @@ msgstr ""
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "API 키"
+
+#: src/components/settings/NotificationSettings.tsx
+msgid "API token"
+msgstr ""
+
+#: src/components/settings/NotificationSettings.tsx
+msgid "App token"
+msgstr ""
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -666,6 +678,14 @@ msgstr ""
 msgid "Nothing found"
 msgstr "아무것도 찾을 수 없습니다"
 
+#: src/components/settings/NotificationSettings.tsx
+msgid "Notification service"
+msgstr ""
+
+#: src/pages/app/SettingsPage.tsx
+msgid "Notifications"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "가장 오래된 것부터"
@@ -807,6 +827,11 @@ msgstr ""
 msgid "Profile"
 msgstr "프로필"
 
+#: src/components/content/add/Subscribe.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Receive notifications"
+msgstr ""
+
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "비밀번호 복구"
@@ -871,6 +896,11 @@ msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
+msgstr ""
+
+#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/NotificationSettings.tsx
+msgid "Server URL"
 msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
@@ -1050,6 +1080,10 @@ msgstr ""
 msgid "Toggle starred status of current entry"
 msgstr ""
 
+#: src/components/settings/NotificationSettings.tsx
+msgid "Topic"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "데모 계정으로 CommaFeed를 사용해 보세요: demo/demo"
@@ -1072,6 +1106,10 @@ msgstr "별표 제거"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "구독 취소"
+
+#: src/components/settings/NotificationSettings.tsx
+msgid "User key"
+msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"

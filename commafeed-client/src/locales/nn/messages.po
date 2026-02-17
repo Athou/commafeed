@@ -34,6 +34,10 @@ msgstr "<0>Trenger du en konto?</0><1>Registrer deg!</1>"
 msgid "About"
 msgstr "Omtrent"
 
+#: src/components/settings/NotificationSettings.tsx
+msgid "Access token (optional)"
+msgstr ""
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
 msgstr "Handlinger"
@@ -93,6 +97,14 @@ msgstr ""
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "API-nøkkel"
+
+#: src/components/settings/NotificationSettings.tsx
+msgid "API token"
+msgstr ""
+
+#: src/components/settings/NotificationSettings.tsx
+msgid "App token"
+msgstr ""
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -666,6 +678,14 @@ msgstr ""
 msgid "Nothing found"
 msgstr "Ingenting funnet"
 
+#: src/components/settings/NotificationSettings.tsx
+msgid "Notification service"
+msgstr ""
+
+#: src/pages/app/SettingsPage.tsx
+msgid "Notifications"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Eldste først"
@@ -807,6 +827,11 @@ msgstr ""
 msgid "Profile"
 msgstr "Profil"
 
+#: src/components/content/add/Subscribe.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Receive notifications"
+msgstr ""
+
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Gjenopprett passord"
@@ -871,6 +896,11 @@ msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
+msgstr ""
+
+#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/NotificationSettings.tsx
+msgid "Server URL"
 msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
@@ -1050,6 +1080,10 @@ msgstr ""
 msgid "Toggle starred status of current entry"
 msgstr ""
 
+#: src/components/settings/NotificationSettings.tsx
+msgid "Topic"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "Prøv CommaFeed med demokontoen: demo/demo"
@@ -1072,6 +1106,10 @@ msgstr "Fjern stjerne"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Avslutt abonnementet"
+
+#: src/components/settings/NotificationSettings.tsx
+msgid "User key"
+msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"

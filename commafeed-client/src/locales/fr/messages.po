@@ -34,6 +34,10 @@ msgstr "<0>Besoin d'un compte ?</0><1>Enregistrez-vous !</1>"
 msgid "About"
 msgstr "À propos"
 
+#: src/components/settings/NotificationSettings.tsx
+msgid "Access token (optional)"
+msgstr ""
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
 msgstr "Actions"
@@ -93,6 +97,14 @@ msgstr "Annonces"
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "Clé API"
+
+#: src/components/settings/NotificationSettings.tsx
+msgid "API token"
+msgstr ""
+
+#: src/components/settings/NotificationSettings.tsx
+msgid "App token"
+msgstr ""
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -666,6 +678,14 @@ msgstr "Aucune option de partage disponible"
 msgid "Nothing found"
 msgstr "Aucun résultat"
 
+#: src/components/settings/NotificationSettings.tsx
+msgid "Notification service"
+msgstr ""
+
+#: src/pages/app/SettingsPage.tsx
+msgid "Notifications"
+msgstr ""
+
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Du plus ancien au plus récent"
@@ -807,6 +827,11 @@ msgstr "Couleur d'ambiance"
 msgid "Profile"
 msgstr "Profil"
 
+#: src/components/content/add/Subscribe.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Receive notifications"
+msgstr ""
+
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Récupérer le mot de passe"
@@ -872,6 +897,11 @@ msgstr "Sélectionner l'article non lu suivant/la catégorie non lue suivante"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
 msgstr "Sélectionner l'article non lu précédent/la catégorie non lue précédente"
+
+#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/NotificationSettings.tsx
+msgid "Server URL"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -1050,6 +1080,10 @@ msgstr "Montrer/cacher la barre latérale"
 msgid "Toggle starred status of current entry"
 msgstr "Montrer/cacher le statut favori de l'entrée"
 
+#: src/components/settings/NotificationSettings.tsx
+msgid "Topic"
+msgstr ""
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "Essayez CommaFeed avec le compte de démonstration : demo/demo"
@@ -1072,6 +1106,10 @@ msgstr "Retirer des favoris"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Se désabonner"
+
+#: src/components/settings/NotificationSettings.tsx
+msgid "User key"
+msgstr ""
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"

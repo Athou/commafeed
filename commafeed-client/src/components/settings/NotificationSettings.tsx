@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/react/macro"
-import { Divider, Select, Stack, TextInput } from "@mantine/core"
+import { Select, Stack, TextInput } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "@/app/store"
 import type { NotificationService as NotificationServiceType, NotificationSettings as NotificationSettingsType } from "@/app/types"
@@ -49,14 +49,6 @@ export function NotificationSettings() {
 
     return (
         <Stack>
-            <Divider
-                label={
-                    <Trans>
-                        <b>Notifications</b>
-                    </Trans>
-                }
-            />
-
             <Select
                 label={<Trans>Notification service</Trans>}
                 data={[

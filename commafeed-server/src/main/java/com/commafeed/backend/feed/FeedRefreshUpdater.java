@@ -1,5 +1,6 @@
 package com.commafeed.backend.feed;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,8 +28,6 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedService;
-import com.commafeed.frontend.ws.WebSocketMessageBuilder;
-import com.commafeed.frontend.ws.WebSocketSessions;
 import com.google.common.util.concurrent.Striped;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +43,6 @@ public class FeedRefreshUpdater {
 	private final FeedService feedService;
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
-	private final WebSocketSessions webSocketSessions;
 
 	private final Striped<Lock> locks;
 
@@ -52,12 +50,11 @@ public class FeedRefreshUpdater {
 	private final Meter entryInserted;
 
 	public FeedRefreshUpdater(UnitOfWork unitOfWork, FeedService feedService, FeedEntryService feedEntryService, MetricRegistry metrics,
-			FeedSubscriptionDAO feedSubscriptionDAO, WebSocketSessions webSocketSessions) {
+			FeedSubscriptionDAO feedSubscriptionDAO) {
 		this.unitOfWork = unitOfWork;
 		this.feedService = feedService;
 		this.feedEntryService = feedEntryService;
 		this.feedSubscriptionDAO = feedSubscriptionDAO;
-		this.webSocketSessions = webSocketSessions;
 
 		locks = Striped.lazyWeakLock(100000);
 
@@ -67,7 +64,7 @@ public class FeedRefreshUpdater {
 
 	private AddEntryResult addEntry(final Feed feed, final Entry entry, final List<FeedSubscription> subscriptions) {
 		boolean processed = false;
-		boolean inserted = false;
+		FeedEntry insertedEntry = null;
 		Set<FeedSubscription> subscriptionsForWhichEntryIsUnread = new HashSet<>();
 
 		// lock on feed, make sure we are not updating the same feed twice at
@@ -90,23 +87,21 @@ public class FeedRefreshUpdater {
 			locked2 = lock2.tryLock(1, TimeUnit.MINUTES);
 			if (locked1 && locked2) {
 				processed = true;
-				inserted = unitOfWork.call(() -> {
-					boolean newEntry = false;
-					FeedEntry feedEntry = feedEntryService.find(feed, entry);
-					if (feedEntry == null) {
-						feedEntry = feedEntryService.create(feed, entry);
-						newEntry = true;
+				insertedEntry = unitOfWork.call(() -> {
+					if (feedEntryService.find(feed, entry) != null) {
+						// entry already exists, nothing to do
+						return null;
 					}
-					if (newEntry) {
-						entryInserted.mark();
-						for (FeedSubscription sub : subscriptions) {
-							boolean unread = feedEntryService.applyFilter(sub, feedEntry);
-							if (unread) {
-								subscriptionsForWhichEntryIsUnread.add(sub);
-							}
+
+					FeedEntry feedEntry = feedEntryService.create(feed, entry);
+					entryInserted.mark();
+					for (FeedSubscription sub : subscriptions) {
+						boolean unread = feedEntryService.applyFilter(sub, feedEntry);
+						if (unread) {
+							subscriptionsForWhichEntryIsUnread.add(sub);
 						}
 					}
-					return newEntry;
+					return feedEntry;
 				});
 			} else {
 				log.error("lock timeout for {} - {}", feed.getUrl(), key1);
@@ -122,13 +117,13 @@ public class FeedRefreshUpdater {
 				lock2.unlock();
 			}
 		}
-		return new AddEntryResult(processed, inserted, subscriptionsForWhichEntryIsUnread);
+		return new AddEntryResult(processed, insertedEntry, subscriptionsForWhichEntryIsUnread);
 	}
 
-	public boolean update(Feed feed, List<Entry> entries) {
+	public FeedRefreshUpdaterResult update(Feed feed, List<Entry> entries) {
 		boolean processed = true;
 		long inserted = 0;
-		Map<FeedSubscription, Long> unreadCountBySubscription = new HashMap<>();
+		Map<FeedSubscription, List<FeedEntry>> insertedUnreadEntriesBySubscription = new HashMap<>();
 
 		if (!entries.isEmpty()) {
 			List<FeedSubscription> subscriptions = null;
@@ -138,8 +133,12 @@ public class FeedRefreshUpdater {
 				}
 				AddEntryResult addEntryResult = addEntry(feed, entry, subscriptions);
 				processed &= addEntryResult.processed;
-				inserted += addEntryResult.inserted ? 1 : 0;
-				addEntryResult.subscriptionsForWhichEntryIsUnread.forEach(sub -> unreadCountBySubscription.merge(sub, 1L, Long::sum));
+				inserted += addEntryResult.insertedEntry != null ? 1 : 0;
+				addEntryResult.subscriptionsForWhichEntryIsUnread.forEach(sub -> {
+					if (addEntryResult.insertedEntry != null) {
+						insertedUnreadEntriesBySubscription.computeIfAbsent(sub, k -> new ArrayList<>()).add(addEntryResult.insertedEntry);
+					}
+				});
 			}
 
 			if (inserted == 0) {
@@ -160,17 +159,13 @@ public class FeedRefreshUpdater {
 
 		unitOfWork.run(() -> feedService.update(feed));
 
-		notifyOverWebsocket(unreadCountBySubscription);
-
-		return processed;
+		return new FeedRefreshUpdaterResult(insertedUnreadEntriesBySubscription);
 	}
 
-	private void notifyOverWebsocket(Map<FeedSubscription, Long> unreadCountBySubscription) {
-		unreadCountBySubscription.forEach((sub, unreadCount) -> webSocketSessions.sendMessage(sub.getUser(),
-				WebSocketMessageBuilder.newFeedEntries(sub, unreadCount)));
+	private record AddEntryResult(boolean processed, FeedEntry insertedEntry, Set<FeedSubscription> subscriptionsForWhichEntryIsUnread) {
 	}
 
-	private record AddEntryResult(boolean processed, boolean inserted, Set<FeedSubscription> subscriptionsForWhichEntryIsUnread) {
+	public record FeedRefreshUpdaterResult(Map<FeedSubscription, List<FeedEntry>> insertedUnreadEntriesBySubscription) {
 	}
 
 }

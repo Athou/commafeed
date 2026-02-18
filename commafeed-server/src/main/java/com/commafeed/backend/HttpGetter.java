@@ -2,20 +2,12 @@ package com.commafeed.backend;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
 import java.net.URI;
-import java.net.UnknownHostException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.InstantSource;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Optional;
-import java.util.SequencedMap;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Stream;
-import java.util.zip.GZIPInputStream;
 
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.CacheControl;
@@ -24,36 +16,22 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.client5.http.DnsResolver;
 import org.apache.hc.client5.http.SystemDefaultDnsResolver;
-import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
-import org.apache.hc.client5.http.config.TlsConfig;
-import org.apache.hc.client5.http.entity.DeflateInputStream;
-import org.apache.hc.client5.http.entity.InputStreamFactory;
-import org.apache.hc.client5.http.entity.compress.ContentCoding;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
-import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
-import org.apache.hc.client5.http.io.HttpClientConnectionManager;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.client5.http.protocol.RedirectLocations;
 import org.apache.hc.client5.http.utils.DateUtils;
 import org.apache.hc.core5.http.ClassicHttpRequest;
-import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpStatus;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
-import org.apache.hc.core5.http.message.BasicHeader;
-import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
-import org.brotli.dec.BrotliInputStream;
 import org.jboss.resteasy.reactive.common.headers.CacheControlDelegate;
 
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConfiguration.HttpClientCache;
-import com.commafeed.CommaFeedVersion;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Iterables;
@@ -66,8 +44,6 @@ import lombok.Getter;
 import lombok.Lombok;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nl.altindag.ssl.SSLFactory;
-import nl.altindag.ssl.apache5.util.Apache5SslUtils;
 
 /**
  * Smart HTTP getter: handles gzip, ssl, last modified and etag headers
@@ -82,41 +58,26 @@ public class HttpGetter {
 	private final CloseableHttpClient client;
 	private final Cache<HttpRequest, HttpResponse> cache;
 
-	public HttpGetter(CommaFeedConfiguration config, InstantSource instantSource, CommaFeedVersion version, MetricRegistry metrics) {
+	public HttpGetter(CommaFeedConfiguration config, InstantSource instantSource, HttpClientFactory httpClientFactory,
+			MetricRegistry metrics) {
 		this.config = config;
 		this.instantSource = instantSource;
-
-		PoolingHttpClientConnectionManager connectionManager = newConnectionManager(config);
-		String userAgent = config.httpClient()
-				.userAgent()
-				.orElseGet(() -> String.format("CommaFeed/%s (https://github.com/Athou/commafeed)", version.getVersion()));
-
-		this.client = newClient(connectionManager, userAgent, config.httpClient().idleConnectionsEvictionInterval());
+		this.client = httpClientFactory.newClient(config.feedRefresh().httpThreads());
 		this.cache = newCache(config);
 
-		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "max"), () -> connectionManager.getTotalStats().getMax());
-		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "size"),
-				() -> connectionManager.getTotalStats().getAvailable() + connectionManager.getTotalStats().getLeased());
-		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "leased"), () -> connectionManager.getTotalStats().getLeased());
-		metrics.registerGauge(MetricRegistry.name(getClass(), "pool", "pending"), () -> connectionManager.getTotalStats().getPending());
 		metrics.registerGauge(MetricRegistry.name(getClass(), "cache", "size"), () -> cache == null ? 0 : cache.size());
 		metrics.registerGauge(MetricRegistry.name(getClass(), "cache", "memoryUsage"),
 				() -> cache == null ? 0 : cache.asMap().values().stream().mapToInt(e -> ArrayUtils.getLength(e.content)).sum());
 	}
 
-	public HttpResult get(String url)
-			throws IOException, NotModifiedException, TooManyRequestsException, SchemeNotAllowedException, HostNotAllowedException {
+	public HttpResult get(String url) throws IOException, NotModifiedException, TooManyRequestsException, SchemeNotAllowedException {
 		return get(HttpRequest.builder(url).build());
 	}
 
 	public HttpResult get(HttpRequest request)
-			throws IOException, NotModifiedException, TooManyRequestsException, SchemeNotAllowedException, HostNotAllowedException {
+			throws IOException, NotModifiedException, TooManyRequestsException, SchemeNotAllowedException {
 		URI uri = URI.create(request.getUrl());
 		ensureHttpScheme(uri.getScheme());
-
-		if (config.httpClient().blockLocalAddresses()) {
-			ensurePublicAddress(uri.getHost());
-		}
 
 		final HttpResponse response;
 		if (cache == null) {
@@ -162,22 +123,6 @@ public class HttpGetter {
 		if (!"http".equalsIgnoreCase(scheme) && !"https".equalsIgnoreCase(scheme)) {
 			throw new SchemeNotAllowedException(scheme);
 		}
-	}
-
-	private void ensurePublicAddress(String host) throws HostNotAllowedException, UnknownHostException {
-		if (host == null) {
-			throw new HostNotAllowedException(null);
-		}
-
-		InetAddress[] addresses = DNS_RESOLVER.resolve(host);
-		if (Stream.of(addresses).anyMatch(this::isPrivateAddress)) {
-			throw new HostNotAllowedException(host);
-		}
-	}
-
-	private boolean isPrivateAddress(InetAddress address) {
-		return address.isSiteLocalAddress() || address.isAnyLocalAddress() || address.isLinkLocalAddress() || address.isLoopbackAddress()
-				|| address.isMulticastAddress();
 	}
 
 	private HttpResponse invoke(HttpRequest request) throws IOException {
@@ -268,50 +213,6 @@ public class HttpGetter {
 		}
 	}
 
-	private PoolingHttpClientConnectionManager newConnectionManager(CommaFeedConfiguration config) {
-		SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
-
-		int poolSize = config.feedRefresh().httpThreads();
-		return PoolingHttpClientConnectionManagerBuilder.create()
-				.setTlsSocketStrategy(Apache5SslUtils.toTlsSocketStrategy(sslFactory))
-				.setDefaultConnectionConfig(ConnectionConfig.custom()
-						.setConnectTimeout(Timeout.of(config.httpClient().connectTimeout()))
-						.setSocketTimeout(Timeout.of(config.httpClient().socketTimeout()))
-						.setTimeToLive(Timeout.of(config.httpClient().connectionTimeToLive()))
-						.build())
-				.setDefaultTlsConfig(TlsConfig.custom().setHandshakeTimeout(Timeout.of(config.httpClient().sslHandshakeTimeout())).build())
-				.setMaxConnPerRoute(poolSize)
-				.setMaxConnTotal(poolSize)
-				.setDnsResolver(DNS_RESOLVER)
-				.build();
-
-	}
-
-	private static CloseableHttpClient newClient(HttpClientConnectionManager connectionManager, String userAgent,
-			Duration idleConnectionsEvictionInterval) {
-		List<Header> headers = new ArrayList<>();
-		headers.add(new BasicHeader(HttpHeaders.ACCEPT_LANGUAGE, "en"));
-		headers.add(new BasicHeader(HttpHeaders.PRAGMA, "No-cache"));
-		headers.add(new BasicHeader(HttpHeaders.CACHE_CONTROL, "no-cache"));
-
-		SequencedMap<String, InputStreamFactory> contentDecoderMap = new LinkedHashMap<>();
-		contentDecoderMap.put(ContentCoding.GZIP.token(), GZIPInputStream::new);
-		contentDecoderMap.put(ContentCoding.DEFLATE.token(), DeflateInputStream::new);
-		contentDecoderMap.put(ContentCoding.BROTLI.token(), BrotliInputStream::new);
-
-		return HttpClientBuilder.create()
-				.useSystemProperties()
-				.disableAutomaticRetries()
-				.disableCookieManagement()
-				.setUserAgent(userAgent)
-				.setDefaultHeaders(headers)
-				.setConnectionManager(connectionManager)
-				.evictExpiredConnections()
-				.evictIdleConnections(TimeValue.of(idleConnectionsEvictionInterval))
-				.setContentDecoderRegistry(new LinkedHashMap<>(contentDecoderMap))
-				.build();
-	}
-
 	private static Cache<HttpRequest, HttpResponse> newCache(CommaFeedConfiguration config) {
 		HttpClientCache cacheConfig = config.httpClient().cache();
 		if (!cacheConfig.enabled()) {
@@ -330,14 +231,6 @@ public class HttpGetter {
 
 		public SchemeNotAllowedException(String scheme) {
 			super("Scheme not allowed: " + scheme);
-		}
-	}
-
-	public static class HostNotAllowedException extends Exception {
-		private static final long serialVersionUID = 1L;
-
-		public HostNotAllowedException(String host) {
-			super("Host not allowed: " + host);
 		}
 	}
 

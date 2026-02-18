@@ -69,6 +69,12 @@ public interface CommaFeedConfiguration {
 	FeedRefresh feedRefresh();
 
 	/**
+	 * Push notification settings.
+	 */
+	@ConfigDocSection
+	PushNotifications pushNotifications();
+
+	/**
 	 * Database settings.
 	 */
 	@ConfigDocSection
@@ -138,10 +144,9 @@ public interface CommaFeedConfiguration {
 		 * Prevent access to local addresses to mitigate server-side request forgery (SSRF) attacks, which could potentially expose internal
 		 * resources.
 		 *
-		 * You may want to disable this if you subscribe to feeds that are only available on your local network and you trust all users of
-		 * your CommaFeed instance.
+		 * You may want to enable this if you host a public instance of CommaFeed with regisration open.
 		 */
-		@WithDefault("true")
+		@WithDefault("false")
 		boolean blockLocalAddresses();
 
 		/**
@@ -240,6 +245,28 @@ public interface CommaFeedConfiguration {
 		 */
 		@WithDefault("0")
 		Duration forceRefreshCooldownDuration();
+	}
+
+	interface PushNotifications {
+		/**
+		 * Whether to enable push notifications to notify users of new entries in their feeds.
+		 */
+		@WithDefault("true")
+		boolean enabled();
+
+		/**
+		 * Amount of threads used to send external notifications about new entries.
+		 */
+		@Min(1)
+		@WithDefault("5")
+		int threads();
+
+		/**
+		 * Maximum amount of notifications that can be queued before new notifications are discarded.
+		 */
+		@Min(1)
+		@WithDefault("100")
+		int queueCapacity();
 	}
 
 	interface FeedRefreshErrorHandling {

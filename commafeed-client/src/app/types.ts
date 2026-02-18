@@ -29,6 +29,7 @@ export interface Subscription {
     newestItemTime?: number
     filter?: string
     filterLegacy?: string
+    pushNotificationsEnabled: boolean
 }
 
 export interface Category {
@@ -110,6 +111,7 @@ export interface FeedModificationRequest {
     categoryId?: string
     position?: number
     filter?: string
+    pushNotificationsEnabled: boolean
 }
 
 export interface GetEntriesRequest {
@@ -236,6 +238,7 @@ export interface ServerInfo {
     forceRefreshCooldownDuration: number
     initialSetupRequired: boolean
     minimumPasswordLength: number
+    pushNotificationsEnabled: boolean
 }
 
 export interface SharingSettings {
@@ -247,6 +250,16 @@ export interface SharingSettings {
     pocket: boolean
     instapaper: boolean
     buffer: boolean
+}
+
+export type PushNotificationType = "ntfy" | "gotify" | "pushover"
+
+export interface PushNotificationSettings {
+    type?: PushNotificationType
+    serverUrl?: string
+    userId?: string
+    userSecret?: string
+    topic?: string
 }
 
 export interface Settings {
@@ -271,6 +284,7 @@ export interface Settings {
     disablePullToRefresh: boolean
     primaryColor?: string
     sharingSettings: SharingSettings
+    pushNotificationSettings: PushNotificationSettings
 }
 
 export interface LocalSettings {
@@ -290,6 +304,7 @@ export interface SubscribeRequest {
     url: string
     title: string
     categoryId?: string
+    pushNotificationsEnabled: boolean
 }
 
 export interface TagRequest {

@@ -65,6 +65,9 @@ public class Subscription implements Serializable {
 	@Schema(description = "JEXL legacy filter")
 	private String filterLegacy;
 
+	@Schema(description = "whether to send push notifications for new entries of this feed", required = true)
+	private boolean pushNotificationsEnabled;
+
 	public static Subscription build(FeedSubscription subscription, UnreadCount unreadCount) {
 		FeedCategory category = subscription.getCategory();
 		Feed feed = subscription.getFeed();
@@ -85,6 +88,7 @@ public class Subscription implements Serializable {
 		sub.setCategoryId(category == null ? null : String.valueOf(category.getId()));
 		sub.setFilter(subscription.getFilter());
 		sub.setFilterLegacy(subscription.getFilterLegacy());
+		sub.setPushNotificationsEnabled(subscription.isPushNotificationsEnabled());
 		return sub;
 	}
 

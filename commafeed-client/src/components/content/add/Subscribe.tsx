@@ -11,6 +11,7 @@ import { useAppDispatch } from "@/app/store"
 import { reloadTree } from "@/app/tree/thunks"
 import type { FeedInfoRequest, SubscribeRequest } from "@/app/types"
 import { Alert } from "@/components/Alert"
+import { ReceivePushNotificationsChechbox } from "@/components/ReceivePushNotificationsChechbox"
 import { CategorySelect } from "./CategorySelect"
 
 export function Subscribe() {
@@ -28,6 +29,7 @@ export function Subscribe() {
             url: "",
             title: "",
             categoryId: Constants.categories.all.id,
+            pushNotificationsEnabled: false,
         },
     })
 
@@ -103,6 +105,9 @@ export function Subscribe() {
                             <TextInput label={<Trans>Feed URL</Trans>} {...step1Form.getInputProps("url")} disabled />
                             <TextInput label={<Trans>Feed name</Trans>} {...step1Form.getInputProps("title")} required autoFocus />
                             <CategorySelect label={<Trans>Category</Trans>} {...step1Form.getInputProps("categoryId")} clearable />
+                            <ReceivePushNotificationsChechbox
+                                {...step1Form.getInputProps("pushNotificationsEnabled", { type: "checkbox" })}
+                            />
                         </Stack>
                     </Stepper.Step>
                 </Stepper>

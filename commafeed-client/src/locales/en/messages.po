@@ -34,6 +34,10 @@ msgstr "<0>Need an account?</0><1>Sign up!</1>"
 msgid "About"
 msgstr "About"
 
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Access token"
+msgstr "Access token"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
 msgstr "Actions"
@@ -93,6 +97,14 @@ msgstr "Announcement"
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
 msgstr "API key"
+
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "API token"
+msgstr "API token"
+
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "App token"
+msgstr "App token"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -158,6 +170,7 @@ msgstr "Build a filter expression to indicate what you want to read. Entries tha
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -807,6 +820,27 @@ msgstr "Primary color"
 msgid "Profile"
 msgstr "Profile"
 
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Push notification service"
+msgstr "Push notification service"
+
+#: src/pages/app/SettingsPage.tsx
+msgid "Push notifications"
+msgstr "Push notifications"
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+msgid "Push notifications are not configured in your user settings."
+msgstr "Push notifications are not configured in your user settings."
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Push notifications are not enabled on this CommaFeed instance."
+msgstr "Push notifications are not enabled on this CommaFeed instance."
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+msgid "Receive push notifications"
+msgstr "Receive push notifications"
+
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Recover password"
@@ -841,6 +875,7 @@ msgstr "Right click"
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Save"
@@ -872,6 +907,11 @@ msgstr "Select next unread feed/category"
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
 msgstr "Select previous unread feed/category"
+
+#: src/components/settings/PushNotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Server URL"
+msgstr "Server URL"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -1050,6 +1090,10 @@ msgstr "Toggle sidebar"
 msgid "Toggle starred status of current entry"
 msgstr "Toggle starred status of current entry"
 
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Topic"
+msgstr "Topic"
+
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
 msgstr "Try out CommaFeed with the demo account: demo/demo"
@@ -1072,6 +1116,10 @@ msgstr "Unstar"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Unsubscribe"
+
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "User key"
+msgstr "User key"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"

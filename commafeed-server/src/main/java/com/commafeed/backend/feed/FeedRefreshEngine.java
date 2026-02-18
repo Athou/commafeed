@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +22,8 @@ import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedSubscription;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +35,7 @@ public class FeedRefreshEngine {
 	private final FeedDAO feedDAO;
 	private final FeedRefreshWorker worker;
 	private final FeedRefreshUpdater updater;
+	private final FeedUpdateNotifier notifier;
 	private final CommaFeedConfiguration config;
 	private final Meter refill;
 
@@ -42,13 +46,15 @@ public class FeedRefreshEngine {
 	private final ExecutorService refillExecutor;
 	private final ThreadPoolExecutor workerExecutor;
 	private final ThreadPoolExecutor databaseUpdaterExecutor;
+	private final ThreadPoolExecutor notifierExecutor;
 
 	public FeedRefreshEngine(UnitOfWork unitOfWork, FeedDAO feedDAO, FeedRefreshWorker worker, FeedRefreshUpdater updater,
-			CommaFeedConfiguration config, MetricRegistry metrics) {
+			FeedUpdateNotifier notifier, CommaFeedConfiguration config, MetricRegistry metrics) {
 		this.unitOfWork = unitOfWork;
 		this.feedDAO = feedDAO;
 		this.worker = worker;
 		this.updater = updater;
+		this.notifier = notifier;
 		this.config = config;
 		this.refill = metrics.meter(MetricRegistry.name(getClass(), "refill"));
 
@@ -59,10 +65,14 @@ public class FeedRefreshEngine {
 		this.refillExecutor = newDiscardingSingleThreadExecutorService();
 		this.workerExecutor = newBlockingExecutorService(config.feedRefresh().httpThreads());
 		this.databaseUpdaterExecutor = newBlockingExecutorService(config.feedRefresh().databaseThreads());
+		this.notifierExecutor = newDiscardingExecutorService(config.pushNotifications().threads(),
+				config.pushNotifications().queueCapacity());
 
 		metrics.register(MetricRegistry.name(getClass(), "queue", "size"), (Gauge<Integer>) queue::size);
 		metrics.register(MetricRegistry.name(getClass(), "worker", "active"), (Gauge<Integer>) workerExecutor::getActiveCount);
 		metrics.register(MetricRegistry.name(getClass(), "updater", "active"), (Gauge<Integer>) databaseUpdaterExecutor::getActiveCount);
+		metrics.register(MetricRegistry.name(getClass(), "notifier", "active"), (Gauge<Integer>) notifierExecutor::getActiveCount);
+		metrics.register(MetricRegistry.name(getClass(), "notifier", "queue"), (Gauge<Integer>) () -> notifierExecutor.getQueue().size());
 	}
 
 	public void start() {
@@ -152,10 +162,19 @@ public class FeedRefreshEngine {
 	private void processFeedAsync(Feed feed) {
 		CompletableFuture.supplyAsync(() -> worker.update(feed), workerExecutor)
 				.thenApplyAsync(r -> updater.update(r.feed(), r.entries()), databaseUpdaterExecutor)
-				.whenComplete((data, ex) -> {
-					if (ex != null) {
-						log.error("error while processing feed {}", feed.getUrl(), ex);
-					}
+				.thenCompose(r -> {
+					List<CompletableFuture<Void>> futures = r.insertedUnreadEntriesBySubscription().entrySet().stream().map(e -> {
+						FeedSubscription sub = e.getKey();
+						List<FeedEntry> entries = e.getValue();
+
+						notifier.notifyOverWebsocket(sub, entries);
+						return CompletableFuture.runAsync(() -> notifier.sendPushNotifications(sub, entries), notifierExecutor);
+					}).toList();
+					return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
+				})
+				.exceptionally(ex -> {
+					log.error("error while processing feed {}", feed.getUrl(), ex);
+					return null;
 				});
 	}
 
@@ -183,6 +202,7 @@ public class FeedRefreshEngine {
 		this.refillExecutor.shutdownNow();
 		this.workerExecutor.shutdownNow();
 		this.databaseUpdaterExecutor.shutdownNow();
+		this.notifierExecutor.shutdownNow();
 	}
 
 	/**
@@ -190,6 +210,16 @@ public class FeedRefreshEngine {
 	 */
 	private ThreadPoolExecutor newDiscardingSingleThreadExecutorService() {
 		ThreadPoolExecutor pool = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new SynchronousQueue<>());
+		pool.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());
+		return pool;
+	}
+
+	/**
+	 * returns an ExecutorService that discards tasks if the queue is full
+	 */
+	private ThreadPoolExecutor newDiscardingExecutorService(int threads, int queueCapacity) {
+		ThreadPoolExecutor pool = new ThreadPoolExecutor(threads, threads, 0L, TimeUnit.MILLISECONDS,
+				new LinkedBlockingQueue<>(queueCapacity));
 		pool.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());
 		return pool;
 	}

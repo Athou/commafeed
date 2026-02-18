@@ -11,6 +11,7 @@ import {
     changeMarkAllAsReadConfirmation,
     changeMarkAllAsReadNavigateToUnread,
     changeMobileFooter,
+    changeNotificationSettings,
     changePrimaryColor,
     changeReadingMode,
     changeReadingOrder,
@@ -148,6 +149,10 @@ export const userSlice = createSlice({
             if (!state.settings) return
             state.settings.sharingSettings[action.meta.arg.site] = action.meta.arg.value
         })
+        builder.addCase(changeNotificationSettings.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.pushNotificationSettings = action.meta.arg
+        })
 
         builder.addMatcher(
             isAnyOf(
@@ -167,7 +172,8 @@ export const userSlice = createSlice({
                 changeUnreadCountFavicon.fulfilled,
                 changeDisablePullToRefresh.fulfilled,
                 changePrimaryColor.fulfilled,
-                changeSharingSetting.fulfilled
+                changeSharingSetting.fulfilled,
+                changeNotificationSettings.fulfilled
             ),
             () => {
                 showNotification({

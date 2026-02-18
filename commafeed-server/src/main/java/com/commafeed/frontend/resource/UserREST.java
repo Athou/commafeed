@@ -125,6 +125,12 @@ public class UserREST {
 			s.setUnreadCountFavicon(settings.isUnreadCountFavicon());
 			s.setDisablePullToRefresh(settings.isDisablePullToRefresh());
 			s.setPrimaryColor(settings.getPrimaryColor());
+
+			s.getPushNotificationSettings().setType(settings.getPushNotificationType());
+			s.getPushNotificationSettings().setServerUrl(settings.getPushNotificationServerUrl());
+			s.getPushNotificationSettings().setUserId(settings.getPushNotificationUserId());
+			s.getPushNotificationSettings().setUserSecret(settings.getPushNotificationUserSecret());
+			s.getPushNotificationSettings().setTopic(settings.getPushNotificationTopic());
 		} else {
 			s.setReadingMode(ReadingMode.UNREAD);
 			s.setReadingOrder(ReadingOrder.DESC);
@@ -189,6 +195,12 @@ public class UserREST {
 		s.setUnreadCountFavicon(settings.isUnreadCountFavicon());
 		s.setDisablePullToRefresh(settings.isDisablePullToRefresh());
 		s.setPrimaryColor(settings.getPrimaryColor());
+
+		s.setPushNotificationType(settings.getPushNotificationSettings().getType());
+		s.setPushNotificationServerUrl(settings.getPushNotificationSettings().getServerUrl());
+		s.setPushNotificationUserId(settings.getPushNotificationSettings().getUserId());
+		s.setPushNotificationUserSecret(settings.getPushNotificationSettings().getUserSecret());
+		s.setPushNotificationTopic(settings.getPushNotificationSettings().getTopic());
 
 		s.setEmail(settings.getSharingSettings().isEmail());
 		s.setGmail(settings.getSharingSettings().isGmail());

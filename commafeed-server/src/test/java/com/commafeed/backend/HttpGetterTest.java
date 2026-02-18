@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.NoRouteToHostException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
@@ -56,6 +57,7 @@ class HttpGetterTest {
 
 	private CommaFeedConfiguration config;
 
+	private HttpClientFactory provider;
 	private HttpGetter getter;
 
 	@BeforeEach
@@ -78,7 +80,8 @@ class HttpGetterTest {
 		Mockito.when(config.httpClient().cache().expiration()).thenReturn(Duration.ofMinutes(1));
 		Mockito.when(config.feedRefresh().httpThreads()).thenReturn(3);
 
-		this.getter = new HttpGetter(config, () -> NOW, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
+		this.provider = new HttpClientFactory(config, Mockito.mock(CommaFeedVersion.class));
+		this.getter = new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
 	}
 
 	@ParameterizedTest
@@ -172,7 +175,7 @@ class HttpGetterTest {
 	@Test
 	void dataTimeout() {
 		Mockito.when(config.httpClient().responseTimeout()).thenReturn(Duration.ofMillis(500));
-		this.getter = new HttpGetter(config, () -> NOW, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
+		this.getter = new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
 
 		this.mockServerClient.when(HttpRequest.request().withMethod("GET"))
 				.respond(HttpResponse.response().withDelay(Delay.milliseconds(1000)));
@@ -183,7 +186,7 @@ class HttpGetterTest {
 	@Test
 	void connectTimeout() {
 		Mockito.when(config.httpClient().connectTimeout()).thenReturn(Duration.ofMillis(500));
-		this.getter = new HttpGetter(config, () -> NOW, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
+		this.getter = new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
 		// try to connect to a non-routable address
 		// https://stackoverflow.com/a/904609
 		Exception e = Assertions.assertThrows(Exception.class, () -> getter.get("http://10.255.255.1"));
@@ -367,44 +370,44 @@ class HttpGetterTest {
 		@BeforeEach
 		void init() {
 			Mockito.when(config.httpClient().blockLocalAddresses()).thenReturn(true);
-			getter = new HttpGetter(config, () -> NOW, Mockito.mock(CommaFeedVersion.class), Mockito.mock(MetricRegistry.class));
+			getter = new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
 		}
 
 		@Test
 		void localhost() {
-			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://localhost"));
-			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://127.0.0.1"));
-			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://2130706433"));
-			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://0x7F.0x00.0x00.0X01"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://localhost"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://127.0.0.1"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://2130706433"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://0x7F.0x00.0x00.0X01"));
 		}
 
 		@Test
 		void zero() {
-			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://0.0.0.0"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://0.0.0.0"));
 		}
 
 		@Test
 		void linkLocal() {
-			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://169.254.12.34"));
-			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://169.254.169.254"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://169.254.12.34"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://169.254.169.254"));
 		}
 
 		@Test
 		void multicast() {
-			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://224.2.3.4"));
-			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://239.255.255.254"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://224.2.3.4"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://239.255.255.254"));
 		}
 
 		@Test
 		void privateIpv4Ranges() {
-			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://10.0.0.1"));
-			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://172.16.0.1"));
-			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://192.168.0.1"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://10.0.0.1"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://172.16.0.1"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://192.168.0.1"));
 		}
 
 		@Test
 		void privateIpv6Ranges() {
-			Assertions.assertThrows(HttpGetter.HostNotAllowedException.class, () -> getter.get("http://fd12:3456:789a:1::1"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://[fe80::215:5dff:fe15:102]"));
 		}
 	}
 

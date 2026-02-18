@@ -20,19 +20,14 @@ import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.Digests;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UnitOfWork;
-import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.feed.parser.FeedParserResult.Content;
 import com.commafeed.backend.feed.parser.FeedParserResult.Entry;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.Models;
-import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedService;
-import com.commafeed.backend.service.NotificationService;
-import com.commafeed.frontend.ws.WebSocketMessageBuilder;
-import com.commafeed.frontend.ws.WebSocketSessions;
 import com.google.common.util.concurrent.Striped;
 
 import lombok.extern.slf4j.Slf4j;
@@ -48,9 +43,6 @@ public class FeedRefreshUpdater {
 	private final FeedService feedService;
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
-	private final UserSettingsDAO userSettingsDAO;
-	private final WebSocketSessions webSocketSessions;
-	private final NotificationService notificationService;
 
 	private final Striped<Lock> locks;
 
@@ -58,15 +50,11 @@ public class FeedRefreshUpdater {
 	private final Meter entryInserted;
 
 	public FeedRefreshUpdater(UnitOfWork unitOfWork, FeedService feedService, FeedEntryService feedEntryService, MetricRegistry metrics,
-			FeedSubscriptionDAO feedSubscriptionDAO, UserSettingsDAO userSettingsDAO, WebSocketSessions webSocketSessions,
-			NotificationService notificationService) {
+			FeedSubscriptionDAO feedSubscriptionDAO) {
 		this.unitOfWork = unitOfWork;
 		this.feedService = feedService;
 		this.feedEntryService = feedEntryService;
 		this.feedSubscriptionDAO = feedSubscriptionDAO;
-		this.userSettingsDAO = userSettingsDAO;
-		this.webSocketSessions = webSocketSessions;
-		this.notificationService = notificationService;
 
 		locks = Striped.lazyWeakLock(100000);
 
@@ -100,19 +88,20 @@ public class FeedRefreshUpdater {
 			if (locked1 && locked2) {
 				processed = true;
 				insertedEntry = unitOfWork.call(() -> {
-					FeedEntry feedEntry = feedEntryService.find(feed, entry);
-					if (feedEntry == null) {
-						feedEntry = feedEntryService.create(feed, entry);
-						entryInserted.mark();
-						for (FeedSubscription sub : subscriptions) {
-							boolean unread = feedEntryService.applyFilter(sub, feedEntry);
-							if (unread) {
-								subscriptionsForWhichEntryIsUnread.add(sub);
-							}
-						}
-						return feedEntry;
+					if (feedEntryService.find(feed, entry) != null) {
+						// entry already exists, nothing to do
+						return null;
 					}
-					return null;
+
+					FeedEntry feedEntry = feedEntryService.create(feed, entry);
+					entryInserted.mark();
+					for (FeedSubscription sub : subscriptions) {
+						boolean unread = feedEntryService.applyFilter(sub, feedEntry);
+						if (unread) {
+							subscriptionsForWhichEntryIsUnread.add(sub);
+						}
+					}
+					return feedEntry;
 				});
 			} else {
 				log.error("lock timeout for {} - {}", feed.getUrl(), key1);
@@ -131,11 +120,10 @@ public class FeedRefreshUpdater {
 		return new AddEntryResult(processed, insertedEntry, subscriptionsForWhichEntryIsUnread);
 	}
 
-	public boolean update(Feed feed, List<Entry> entries) {
+	public FeedRefreshUpdaterResult update(Feed feed, List<Entry> entries) {
 		boolean processed = true;
 		long inserted = 0;
-		Map<FeedSubscription, Long> unreadCountBySubscription = new HashMap<>();
-		Map<FeedSubscription, List<FeedEntry>> insertedEntriesBySubscription = new HashMap<>();
+		Map<FeedSubscription, List<FeedEntry>> insertedUnreadEntriesBySubscription = new HashMap<>();
 
 		if (!entries.isEmpty()) {
 			List<FeedSubscription> subscriptions = null;
@@ -147,9 +135,8 @@ public class FeedRefreshUpdater {
 				processed &= addEntryResult.processed;
 				inserted += addEntryResult.insertedEntry != null ? 1 : 0;
 				addEntryResult.subscriptionsForWhichEntryIsUnread.forEach(sub -> {
-					unreadCountBySubscription.merge(sub, 1L, Long::sum);
 					if (addEntryResult.insertedEntry != null) {
-						insertedEntriesBySubscription.computeIfAbsent(sub, k -> new ArrayList<>()).add(addEntryResult.insertedEntry);
+						insertedUnreadEntriesBySubscription.computeIfAbsent(sub, k -> new ArrayList<>()).add(addEntryResult.insertedEntry);
 					}
 				});
 			}
@@ -172,36 +159,13 @@ public class FeedRefreshUpdater {
 
 		unitOfWork.run(() -> feedService.update(feed));
 
-		notifyOverWebsocket(unreadCountBySubscription);
-		sendNotifications(insertedEntriesBySubscription);
-
-		return processed;
-	}
-
-	private void notifyOverWebsocket(Map<FeedSubscription, Long> unreadCountBySubscription) {
-		unreadCountBySubscription.forEach((sub, unreadCount) -> webSocketSessions.sendMessage(sub.getUser(),
-				WebSocketMessageBuilder.newFeedEntries(sub, unreadCount)));
-	}
-
-	private void sendNotifications(Map<FeedSubscription, List<FeedEntry>> insertedEntriesBySubscription) {
-		insertedEntriesBySubscription.forEach((sub, feedEntries) -> {
-			if (!sub.isNotifyOnNewEntries()) {
-				return;
-			}
-			try {
-				UserSettings settings = unitOfWork.call(() -> userSettingsDAO.findByUser(sub.getUser()));
-				if (settings != null && settings.isNotificationEnabled()) {
-					for (FeedEntry feedEntry : feedEntries) {
-						notificationService.notify(settings, sub, feedEntry);
-					}
-				}
-			} catch (Exception e) {
-				log.error("error sending push notification for subscription {}", sub.getId(), e);
-			}
-		});
+		return new FeedRefreshUpdaterResult(insertedUnreadEntriesBySubscription);
 	}
 
 	private record AddEntryResult(boolean processed, FeedEntry insertedEntry, Set<FeedSubscription> subscriptionsForWhichEntryIsUnread) {
+	}
+
+	public record FeedRefreshUpdaterResult(Map<FeedSubscription, List<FeedEntry>> insertedUnreadEntriesBySubscription) {
 	}
 
 }

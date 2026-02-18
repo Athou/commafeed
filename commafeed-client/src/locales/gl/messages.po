@@ -35,8 +35,8 @@ msgstr "<0>Necesitas unha conta?</0><1>Crea unha!</1>"
 msgid "About"
 msgstr "Sobre"
 
-#: src/components/settings/NotificationSettings.tsx
-msgid "Access token (optional)"
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Access token"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -99,11 +99,11 @@ msgstr "Anuncio"
 msgid "API key"
 msgstr "Clave API"
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
 msgstr ""
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
 msgstr ""
 
@@ -171,6 +171,7 @@ msgstr ""
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -679,14 +680,6 @@ msgstr "Non hai opcións para poder compartir."
 msgid "Nothing found"
 msgstr "Non se atopou nada"
 
-#: src/components/settings/NotificationSettings.tsx
-msgid "Notification service"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Notifications"
-msgstr ""
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Primeiro o máis antigo"
@@ -828,9 +821,25 @@ msgstr "Cor destacada"
 msgid "Profile"
 msgstr "Perfil"
 
-#: src/components/content/add/Subscribe.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "Receive notifications"
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Push notification service"
+msgstr ""
+
+#: src/pages/app/SettingsPage.tsx
+msgid "Push notifications"
+msgstr ""
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+msgid "Push notifications are not configured in your user settings."
+msgstr ""
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Push notifications are not enabled on this CommaFeed instance."
+msgstr ""
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+msgid "Receive push notifications"
 msgstr ""
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
@@ -867,6 +876,7 @@ msgstr "Botón dereito"
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Save"
@@ -899,8 +909,8 @@ msgstr "Seleccionar a seguinte canle/categoría sen ler"
 msgid "Select previous unread feed/category"
 msgstr "Seleccionar a canle/categoría anterior sen ler"
 
-#: src/components/settings/NotificationSettings.tsx
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr ""
 
@@ -1081,7 +1091,7 @@ msgstr "Activación do panel lateral"
 msgid "Toggle starred status of current entry"
 msgstr "Activación do marcado con estrela do artigo actual"
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
 msgstr ""
 
@@ -1108,7 +1118,7 @@ msgstr "Retirar estrela"
 msgid "Unsubscribe"
 msgstr "Cancelar a subscrición"
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
 msgstr ""
 

@@ -34,8 +34,8 @@ msgstr "<0>アカウントが必要ですか?</0><1>サインアップ!</1>"
 msgid "About"
 msgstr "About"
 
-#: src/components/settings/NotificationSettings.tsx
-msgid "Access token (optional)"
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Access token"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -98,11 +98,11 @@ msgstr "お知らせ"
 msgid "API key"
 msgstr "APIキー"
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
 msgstr ""
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
 msgstr ""
 
@@ -170,6 +170,7 @@ msgstr ""
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -678,14 +679,6 @@ msgstr "共有オプションは利用できません。"
 msgid "Nothing found"
 msgstr "何も見つかりませんでした"
 
-#: src/components/settings/NotificationSettings.tsx
-msgid "Notification service"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Notifications"
-msgstr ""
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "古い順"
@@ -827,9 +820,25 @@ msgstr ""
 msgid "Profile"
 msgstr "プロフィール"
 
-#: src/components/content/add/Subscribe.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "Receive notifications"
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Push notification service"
+msgstr ""
+
+#: src/pages/app/SettingsPage.tsx
+msgid "Push notifications"
+msgstr ""
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+msgid "Push notifications are not configured in your user settings."
+msgstr ""
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Push notifications are not enabled on this CommaFeed instance."
+msgstr ""
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+msgid "Receive push notifications"
 msgstr ""
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
@@ -866,6 +875,7 @@ msgstr "右クリック"
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Save"
@@ -898,8 +908,8 @@ msgstr ""
 msgid "Select previous unread feed/category"
 msgstr ""
 
-#: src/components/settings/NotificationSettings.tsx
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr ""
 
@@ -1080,7 +1090,7 @@ msgstr "サイドバーを切り替える"
 msgid "Toggle starred status of current entry"
 msgstr "現在のエントリーのスターステータスを切り替える"
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
 msgstr ""
 
@@ -1107,7 +1117,7 @@ msgstr "スターを外す"
 msgid "Unsubscribe"
 msgstr "退会"
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
 msgstr ""
 

@@ -17,5 +17,20 @@
 		</update>
 	</changeSet>
 
+	<changeSet id="add-push-notification-settings" author="athou">
+		<addColumn tableName="USERSETTINGS">
+			<column name="push_notification_type" type="VARCHAR(16)" />
+			<column name="push_notification_server_url" type="VARCHAR(1024)" />
+			<column name="push_notification_user_id" type="VARCHAR(512)" />
+			<column name="push_notification_user_secret" type="VARCHAR(512)" />
+			<column name="push_notification_topic" type="VARCHAR(256)" />
+		</addColumn>
+		<addColumn tableName="FEEDSUBSCRIPTIONS">
+			<column name="push_notifications_enabled" type="BOOLEAN" valueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+
 </databaseChangeLog>
 

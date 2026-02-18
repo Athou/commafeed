@@ -14,7 +14,6 @@ import org.apache.hc.core5.net.URIBuilder;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.HttpGetter;
-import com.commafeed.backend.HttpGetter.HostNotAllowedException;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.HttpGetter.SchemeNotAllowedException;
@@ -98,7 +97,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 	}
 
 	private byte[] fetchForUser(String googleAuthKey, String userId)
-			throws IOException, NotModifiedException, TooManyRequestsException, HostNotAllowedException, SchemeNotAllowedException {
+			throws IOException, NotModifiedException, TooManyRequestsException, SchemeNotAllowedException {
 		URI uri = UriBuilder.fromUri("https://www.googleapis.com/youtube/v3/channels")
 				.queryParam("part", PART_SNIPPET)
 				.queryParam("key", googleAuthKey)
@@ -108,7 +107,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 	}
 
 	private byte[] fetchForChannel(String googleAuthKey, String channelId)
-			throws IOException, NotModifiedException, TooManyRequestsException, HostNotAllowedException, SchemeNotAllowedException {
+			throws IOException, NotModifiedException, TooManyRequestsException, SchemeNotAllowedException {
 		URI uri = UriBuilder.fromUri("https://www.googleapis.com/youtube/v3/channels")
 				.queryParam("part", PART_SNIPPET)
 				.queryParam("key", googleAuthKey)
@@ -118,7 +117,7 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 	}
 
 	private byte[] fetchForPlaylist(String googleAuthKey, String playlistId)
-			throws IOException, NotModifiedException, TooManyRequestsException, HostNotAllowedException, SchemeNotAllowedException {
+			throws IOException, NotModifiedException, TooManyRequestsException, SchemeNotAllowedException {
 		URI uri = UriBuilder.fromUri("https://www.googleapis.com/youtube/v3/playlists")
 				.queryParam("part", PART_SNIPPET)
 				.queryParam("key", googleAuthKey)

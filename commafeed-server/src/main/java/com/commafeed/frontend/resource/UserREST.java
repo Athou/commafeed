@@ -43,7 +43,6 @@ import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.IconDisplayMode;
-import com.commafeed.backend.model.UserSettings.NotificationType;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.model.UserSettings.ScrollMode;
@@ -127,14 +126,11 @@ public class UserREST {
 			s.setDisablePullToRefresh(settings.isDisablePullToRefresh());
 			s.setPrimaryColor(settings.getPrimaryColor());
 
-			s.getNotificationSettings().setEnabled(settings.isNotificationEnabled());
-			if (settings.getNotificationType() != null) {
-				s.getNotificationSettings().setType(settings.getNotificationType().name().toLowerCase());
-			}
-			s.getNotificationSettings().setServerUrl(settings.getNotificationServerUrl());
-			s.getNotificationSettings().setToken(settings.getNotificationToken());
-			s.getNotificationSettings().setUserKey(settings.getNotificationUserKey());
-			s.getNotificationSettings().setTopic(settings.getNotificationTopic());
+			s.getPushNotificationSettings().setType(settings.getPushNotificationType());
+			s.getPushNotificationSettings().setServerUrl(settings.getPushNotificationServerUrl());
+			s.getPushNotificationSettings().setUserId(settings.getPushNotificationUserId());
+			s.getPushNotificationSettings().setUserSecret(settings.getPushNotificationUserSecret());
+			s.getPushNotificationSettings().setTopic(settings.getPushNotificationTopic());
 		} else {
 			s.setReadingMode(ReadingMode.UNREAD);
 			s.setReadingOrder(ReadingOrder.DESC);
@@ -200,16 +196,11 @@ public class UserREST {
 		s.setDisablePullToRefresh(settings.isDisablePullToRefresh());
 		s.setPrimaryColor(settings.getPrimaryColor());
 
-		s.setNotificationEnabled(settings.getNotificationSettings().isEnabled());
-		if (settings.getNotificationSettings().getType() != null) {
-			s.setNotificationType(NotificationType.valueOf(settings.getNotificationSettings().getType().toUpperCase()));
-		} else {
-			s.setNotificationType(null);
-		}
-		s.setNotificationServerUrl(settings.getNotificationSettings().getServerUrl());
-		s.setNotificationToken(settings.getNotificationSettings().getToken());
-		s.setNotificationUserKey(settings.getNotificationSettings().getUserKey());
-		s.setNotificationTopic(settings.getNotificationSettings().getTopic());
+		s.setPushNotificationType(settings.getPushNotificationSettings().getType());
+		s.setPushNotificationServerUrl(settings.getPushNotificationSettings().getServerUrl());
+		s.setPushNotificationUserId(settings.getPushNotificationSettings().getUserId());
+		s.setPushNotificationUserSecret(settings.getPushNotificationSettings().getUserSecret());
+		s.setPushNotificationTopic(settings.getPushNotificationSettings().getTopic());
 
 		s.setEmail(settings.getSharingSettings().isEmail());
 		s.setGmail(settings.getSharingSettings().isGmail());

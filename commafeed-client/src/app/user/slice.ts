@@ -151,10 +151,7 @@ export const userSlice = createSlice({
         })
         builder.addCase(changeNotificationSettings.pending, (state, action) => {
             if (!state.settings) return
-            state.settings.notificationSettings = {
-                ...state.settings.notificationSettings,
-                ...action.meta.arg,
-            }
+            state.settings.pushNotificationSettings = action.meta.arg
         })
 
         builder.addMatcher(

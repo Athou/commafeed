@@ -27,7 +27,7 @@ const createFeed = (id: number, unread: number): Subscription => ({
     feedUrl: "",
     feedLink: "",
     iconUrl: "",
-    notifyOnNewEntries: true,
+    pushNotificationsEnabled: true,
 })
 
 const root = createCategory("root")

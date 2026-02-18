@@ -3,7 +3,6 @@ import {
     Anchor,
     Box,
     Button,
-    Checkbox,
     Code,
     Container,
     Divider,
@@ -31,6 +30,7 @@ import { Alert } from "@/components/Alert"
 import { CategorySelect } from "@/components/content/add/CategorySelect"
 import { FilteringExpressionEditor } from "@/components/content/edit/FilteringExpressionEditor"
 import { Loader } from "@/components/Loader"
+import { ReceivePushNotificationsChechbox } from "@/components/ReceivePushNotificationsChechbox"
 import { RelativeDate } from "@/components/RelativeDate"
 
 export function FeedDetailsPage() {
@@ -143,6 +143,7 @@ export function FeedDetailsPage() {
                     <TextInput label={<Trans>Name</Trans>} {...form.getInputProps("name")} required />
                     <CategorySelect label={<Trans>Category</Trans>} {...form.getInputProps("categoryId")} clearable />
                     <NumberInput label={<Trans>Position</Trans>} {...form.getInputProps("position")} required min={0} />
+                    <ReceivePushNotificationsChechbox {...form.getInputProps("pushNotificationsEnabled", { type: "checkbox" })} />
                     <Input.Wrapper
                         label={<Trans>Filtering expression</Trans>}
                         description={
@@ -164,10 +165,6 @@ export function FeedDetailsPage() {
                             <FilteringExpressionEditor initialValue={feed.filter} onChange={value => form.setFieldValue("filter", value)} />
                         </Box>
                     </Input.Wrapper>
-                    <Checkbox
-                        label={<Trans>Receive notifications</Trans>}
-                        {...form.getInputProps("notifyOnNewEntries", { type: "checkbox" })}
-                    />
 
                     <Group>
                         <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>

@@ -52,4 +52,7 @@ public class ServerInfo implements Serializable {
 	@Schema(required = true)
 	private int minimumPasswordLength;
 
+	@Schema(required = true)
+	private boolean pushNotificationsEnabled;
+
 }

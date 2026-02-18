@@ -34,8 +34,8 @@ msgstr "<0>Benötigen Sie ein Konto?</0><1>Hier geht's zur Registrierung!</1>"
 msgid "About"
 msgstr "Über"
 
-#: src/components/settings/NotificationSettings.tsx
-msgid "Access token (optional)"
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Access token"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -98,11 +98,11 @@ msgstr "Ankündigung"
 msgid "API key"
 msgstr "API-Schlüssel"
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
 msgstr ""
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
 msgstr ""
 
@@ -170,6 +170,7 @@ msgstr ""
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -678,14 +679,6 @@ msgstr ""
 msgid "Nothing found"
 msgstr "Nichts gefunden"
 
-#: src/components/settings/NotificationSettings.tsx
-msgid "Notification service"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Notifications"
-msgstr ""
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "Älteste zuerst"
@@ -827,9 +820,25 @@ msgstr ""
 msgid "Profile"
 msgstr "Profil"
 
-#: src/components/content/add/Subscribe.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "Receive notifications"
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Push notification service"
+msgstr ""
+
+#: src/pages/app/SettingsPage.tsx
+msgid "Push notifications"
+msgstr ""
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+msgid "Push notifications are not configured in your user settings."
+msgstr ""
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Push notifications are not enabled on this CommaFeed instance."
+msgstr ""
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+msgid "Receive push notifications"
 msgstr ""
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
@@ -866,6 +875,7 @@ msgstr "Rechtsklick"
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Save"
@@ -898,8 +908,8 @@ msgstr ""
 msgid "Select previous unread feed/category"
 msgstr ""
 
-#: src/components/settings/NotificationSettings.tsx
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr ""
 
@@ -1080,7 +1090,7 @@ msgstr "Sidebar an- und ausschalten"
 msgid "Toggle starred status of current entry"
 msgstr "Markierungsstatus des aktuellen Eintrags ändern"
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
 msgstr ""
 
@@ -1107,7 +1117,7 @@ msgstr "Stern entfernen"
 msgid "Unsubscribe"
 msgstr "Abbestellen"
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
 msgstr ""
 

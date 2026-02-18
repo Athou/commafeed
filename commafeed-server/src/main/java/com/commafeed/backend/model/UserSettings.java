@@ -77,7 +77,7 @@ public class UserSettings extends AbstractModel {
 		ON_MOBILE
 	}
 
-	public enum NotificationType {
+	public enum PushNotificationType {
 		@JsonProperty("ntfy")
 		NTFY,
 
@@ -144,23 +144,21 @@ public class UserSettings extends AbstractModel {
 	private boolean unreadCountFavicon;
 	private boolean disablePullToRefresh;
 
-	private boolean notificationEnabled;
-
 	@Enumerated(EnumType.STRING)
-	@Column(name = "notification_type", length = 16)
-	private NotificationType notificationType;
+	@Column(name = "push_notification_type", length = 16)
+	private PushNotificationType pushNotificationType;
 
-	@Column(name = "notification_server_url", length = 1024)
-	private String notificationServerUrl;
+	@Column(name = "push_notification_server_url", length = 1024)
+	private String pushNotificationServerUrl;
 
-	@Column(name = "notification_token", length = 512)
-	private String notificationToken;
+	@Column(name = "push_notification_user_id", length = 512)
+	private String pushNotificationUserId;
 
-	@Column(name = "notification_user_key", length = 512)
-	private String notificationUserKey;
+	@Column(name = "push_notification_user_secret", length = 512)
+	private String pushNotificationUserSecret;
 
-	@Column(name = "notification_topic", length = 256)
-	private String notificationTopic;
+	@Column(name = "push_notification_topic", length = 256)
+	private String pushNotificationTopic;
 
 	private boolean email;
 	private boolean gmail;

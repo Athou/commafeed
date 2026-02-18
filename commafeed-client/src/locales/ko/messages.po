@@ -34,8 +34,8 @@ msgstr "<0>계정이 필요하십니까?</0><1>가입하세요!</1>"
 msgid "About"
 msgstr "정보"
 
-#: src/components/settings/NotificationSettings.tsx
-msgid "Access token (optional)"
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Access token"
 msgstr ""
 
 #: src/pages/admin/AdminUsersPage.tsx
@@ -98,11 +98,11 @@ msgstr ""
 msgid "API key"
 msgstr "API 키"
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
 msgstr ""
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
 msgstr ""
 
@@ -170,6 +170,7 @@ msgstr ""
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -678,14 +679,6 @@ msgstr ""
 msgid "Nothing found"
 msgstr "아무것도 찾을 수 없습니다"
 
-#: src/components/settings/NotificationSettings.tsx
-msgid "Notification service"
-msgstr ""
-
-#: src/pages/app/SettingsPage.tsx
-msgid "Notifications"
-msgstr ""
-
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
 msgstr "가장 오래된 것부터"
@@ -827,9 +820,25 @@ msgstr ""
 msgid "Profile"
 msgstr "프로필"
 
-#: src/components/content/add/Subscribe.tsx
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "Receive notifications"
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Push notification service"
+msgstr ""
+
+#: src/pages/app/SettingsPage.tsx
+msgid "Push notifications"
+msgstr ""
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+msgid "Push notifications are not configured in your user settings."
+msgstr ""
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Push notifications are not enabled on this CommaFeed instance."
+msgstr ""
+
+#: src/components/ReceivePushNotificationsChechbox.tsx
+msgid "Receive push notifications"
 msgstr ""
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
@@ -866,6 +875,7 @@ msgstr ""
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Save"
@@ -898,8 +908,8 @@ msgstr ""
 msgid "Select previous unread feed/category"
 msgstr ""
 
-#: src/components/settings/NotificationSettings.tsx
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr ""
 
@@ -1080,7 +1090,7 @@ msgstr ""
 msgid "Toggle starred status of current entry"
 msgstr ""
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
 msgstr ""
 
@@ -1107,7 +1117,7 @@ msgstr "별표 제거"
 msgid "Unsubscribe"
 msgstr "구독 취소"
 
-#: src/components/settings/NotificationSettings.tsx
+#: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
 msgstr ""
 

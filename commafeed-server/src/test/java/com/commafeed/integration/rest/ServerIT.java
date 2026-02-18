@@ -23,6 +23,7 @@ class ServerIT extends BaseIT {
 		Assertions.assertEquals(30000, serverInfos.getTreeReloadInterval());
 		Assertions.assertEquals(60000, serverInfos.getForceRefreshCooldownDuration());
 		Assertions.assertEquals(4, serverInfos.getMinimumPasswordLength());
+		Assertions.assertTrue(serverInfos.isPushNotificationsEnabled());
 
 	}
 }

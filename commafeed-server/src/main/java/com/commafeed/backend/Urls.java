@@ -53,6 +53,10 @@ public class Urls {
 	}
 
 	public static String removeTrailingSlash(String url) {
+		if (url == null) {
+			return null;
+		}
+
 		if (url.endsWith("/")) {
 			url = url.substring(0, url.length() - 1);
 		}

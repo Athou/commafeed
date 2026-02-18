@@ -69,6 +69,12 @@ public interface CommaFeedConfiguration {
 	FeedRefresh feedRefresh();
 
 	/**
+	 * Push notification settings.
+	 */
+	@ConfigDocSection
+	PushNotifications pushNotifications();
+
+	/**
 	 * Database settings.
 	 */
 	@ConfigDocSection
@@ -240,6 +246,28 @@ public interface CommaFeedConfiguration {
 		 */
 		@WithDefault("0")
 		Duration forceRefreshCooldownDuration();
+	}
+
+	interface PushNotifications {
+		/**
+		 * Whether to enable push notifications to notify users of new entries in their feeds.
+		 */
+		@WithDefault("true")
+		boolean enabled();
+
+		/**
+		 * Amount of threads used to send external notifications about new entries.
+		 */
+		@Min(1)
+		@WithDefault("5")
+		int threads();
+
+		/**
+		 * Maximum amount of notifications that can be queued before new notifications are discarded.
+		 */
+		@Min(1)
+		@WithDefault("100")
+		int queueCapacity();
 	}
 
 	interface FeedRefreshErrorHandling {

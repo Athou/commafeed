@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/react/macro"
-import { Box, Button, Checkbox, Group, Stack, Stepper, TextInput } from "@mantine/core"
+import { Box, Button, Group, Stack, Stepper, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useState } from "react"
 import { useAsyncCallback } from "react-async-hook"
@@ -11,6 +11,7 @@ import { useAppDispatch } from "@/app/store"
 import { reloadTree } from "@/app/tree/thunks"
 import type { FeedInfoRequest, SubscribeRequest } from "@/app/types"
 import { Alert } from "@/components/Alert"
+import { ReceivePushNotificationsChechbox } from "@/components/ReceivePushNotificationsChechbox"
 import { CategorySelect } from "./CategorySelect"
 
 export function Subscribe() {
@@ -28,7 +29,7 @@ export function Subscribe() {
             url: "",
             title: "",
             categoryId: Constants.categories.all.id,
-            notifyOnNewEntries: true,
+            pushNotificationsEnabled: false,
         },
     })
 
@@ -104,9 +105,8 @@ export function Subscribe() {
                             <TextInput label={<Trans>Feed URL</Trans>} {...step1Form.getInputProps("url")} disabled />
                             <TextInput label={<Trans>Feed name</Trans>} {...step1Form.getInputProps("title")} required autoFocus />
                             <CategorySelect label={<Trans>Category</Trans>} {...step1Form.getInputProps("categoryId")} clearable />
-                            <Checkbox
-                                label={<Trans>Receive notifications</Trans>}
-                                {...step1Form.getInputProps("notifyOnNewEntries", { type: "checkbox" })}
+                            <ReceivePushNotificationsChechbox
+                                {...step1Form.getInputProps("pushNotificationsEnabled", { type: "checkbox" })}
                             />
                         </Stack>
                     </Stepper.Step>

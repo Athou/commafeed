@@ -62,6 +62,7 @@ public class ServerREST {
 		infos.setForceRefreshCooldownDuration(config.feedRefresh().forceRefreshCooldownDuration().toMillis());
 		infos.setInitialSetupRequired(databaseStartupService.isInitialSetupRequired());
 		infos.setMinimumPasswordLength(config.users().minimumPasswordLength());
+		infos.setPushNotificationsEnabled(config.pushNotifications().enabled());
 		return infos;
 	}
 

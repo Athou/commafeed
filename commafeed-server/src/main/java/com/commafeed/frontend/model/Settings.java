@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import com.commafeed.backend.model.UserSettings.IconDisplayMode;
+import com.commafeed.backend.model.UserSettings.PushNotificationType;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.model.UserSettings.ScrollMode;
@@ -81,28 +82,25 @@ public class Settings implements Serializable {
 	@Schema(description = "sharing settings", required = true)
 	private SharingSettings sharingSettings = new SharingSettings();
 
-	@Schema(description = "notification settings", required = true)
-	private NotificationSettings notificationSettings = new NotificationSettings();
+	@Schema(description = "push notification settings", required = true)
+	private PushNotificationSettings pushNotificationSettings = new PushNotificationSettings();
 
 	@Schema(description = "User notification settings")
 	@Data
-	public static class NotificationSettings implements Serializable {
-		@Schema(required = true)
-		private boolean enabled;
-
-		@Schema(description = "notification provider type: ntfy, gotify, or pushover")
-		private String type;
+	public static class PushNotificationSettings implements Serializable {
+		@Schema(description = "notification provider type")
+		private PushNotificationType type;
 
 		@Schema(description = "server URL for ntfy or gotify")
 		private String serverUrl;
 
-		@Schema(description = "API token for gotify or pushover")
-		private String token;
+		@Schema(description = "user Id")
+		private String userId;
 
-		@Schema(description = "user key for pushover")
-		private String userKey;
+		@Schema(description = "user secret for authentication with the service")
+		private String userSecret;
 
-		@Schema(description = "topic for ntfy")
+		@Schema(description = "topic")
 		private String topic;
 	}
 

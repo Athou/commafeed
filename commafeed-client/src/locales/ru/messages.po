@@ -122,6 +122,10 @@ msgstr "Вы уверены, что хотите отказаться от по�
 msgid "Asc"
 msgstr "По возрастанию"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "Автоматически отмечать как прочитанное"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Назад"
@@ -457,6 +461,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "Помощь"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "Идентификатор"
@@ -586,6 +594,10 @@ msgstr "Отметить как прочитанное"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Отметить как прочитанное до этого места"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "Отмечать записи в этом фиде как прочитанные по истечении этого количества дней."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

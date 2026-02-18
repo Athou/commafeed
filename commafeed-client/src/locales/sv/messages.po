@@ -122,6 +122,10 @@ msgstr "Är du säker på att du vill avsluta prenumerationen på <0>{feedName}<
 msgid "Asc"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "Markera automatiskt som läst"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Tillbaka"
@@ -457,6 +461,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "Hjälp"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr ""
@@ -586,6 +594,10 @@ msgstr "Markera som läst"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Markera som läst hit"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "Markera inlägg i det här flödet som lästa efter detta antal dagar."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

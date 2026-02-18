@@ -60,9 +60,15 @@ public class FeedEntryService {
 			log.error("could not evaluate filter {}", sub.getFilter(), e);
 		}
 
-		if (!matches) {
+		/*
+		 * Support for the auto-mark-read feature: if the entry matches the filter
+		 * (remains unread), but has an auto-mark-as-read limit set,
+		 * we must persist a status record even if it is not filtered out. This is
+		 * necessary so that the cleanup task can find it later.
+		 */
+		if (!matches || sub.getAutoMarkAsReadAfterDays() != null) {
 			FeedEntryStatus status = new FeedEntryStatus(sub.getUser(), sub, entry);
-			status.setRead(true);
+			status.setRead(!matches);
 			feedEntryStatusDAO.persist(status);
 		}
 
@@ -129,5 +135,44 @@ public class FeedEntryService {
 			s.setRead(true);
 			feedEntryStatusDAO.merge(s);
 		});
+	}
+
+	public void updateAutoMarkAsReadAfterDays(FeedSubscription sub, Integer days) {
+		/*
+		 * Support for the auto-mark-read feature: update the subscription's setting and
+		 * recalculate or reset the expiration date
+		 * for all existing unread entries.
+		 */
+		if (days != null && days <= 0) {
+			days = null;
+		}
+
+		sub.setAutoMarkAsReadAfterDays(days);
+		feedSubscriptionDAO.merge(sub);
+
+		if (days == null) {
+			feedEntryStatusDAO.resetAutoMarkAsReadStatuses(sub);
+		} else {
+			List<FeedEntryStatus> unreadStatuses = feedEntryStatusDAO.findBySubscriptions(sub.getUser(), List.of(sub), true, null, null, -1,
+					-1, null, false, null, null, null);
+			Instant now = Instant.now();
+			for (FeedEntryStatus status : unreadStatuses) {
+				Instant autoMarkAsReadAfter = null;
+				if (status.getEntryPublished() != null) {
+					autoMarkAsReadAfter = status.getEntryPublished().plusSeconds(days * 24L * 3600L);
+				}
+				status.setAutoMarkAsReadAfter(autoMarkAsReadAfter);
+
+				/*
+				 * Support for the auto-mark-read feature: if the newly calculated date is
+				 * already in the past, mark the entry as read
+				 * immediately.
+				 */
+				if (autoMarkAsReadAfter != null && autoMarkAsReadAfter.isBefore(now)) {
+					status.setRead(true);
+				}
+				feedEntryStatusDAO.merge(status);
+			}
+		}
 	}
 }

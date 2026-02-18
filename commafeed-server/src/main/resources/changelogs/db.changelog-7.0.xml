@@ -17,5 +17,22 @@
 		</update>
 	</changeSet>
 
+	<changeSet id="auto-mark-as-read" author="srt">
+		<addColumn tableName="FEEDSUBSCRIPTIONS">
+			<column name="auto_mark_as_read_after_days" type="INT">
+				<constraints nullable="true" />
+			</column>
+		</addColumn>
+		<addColumn tableName="FEEDENTRYSTATUSES">
+			<column name="auto_mark_as_read_after" type="${timestamp_type}">
+				<constraints nullable="true" />
+			</column>
+		</addColumn>
+		<createIndex indexName="idx_status_auto_read" tableName="FEEDENTRYSTATUSES">
+			<column name="auto_mark_as_read_after" />
+			<column name="read_status" />
+		</createIndex>
+	</changeSet>
+
 </databaseChangeLog>
 

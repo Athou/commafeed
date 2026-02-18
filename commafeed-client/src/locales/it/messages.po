@@ -122,6 +122,10 @@ msgstr "Sei sicuro di voler annullare l'iscrizione a <0>{feedName}</0>?"
 msgid "Asc"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "Segna automaticamente come letto"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Indietro"
@@ -457,6 +461,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "Aiuto"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr ""
@@ -586,6 +594,10 @@ msgstr "Contrassegna come letto"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Contrassegna come letto fino a qui"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "Segna le voci in questo feed come lette dopo questo numero di giorni."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

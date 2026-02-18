@@ -31,4 +31,10 @@ public class FeedModificationRequest implements Serializable {
 	@Size(max = 4096)
 	private String filter;
 
+	/**
+	 * Part of the auto-mark-read feature.
+	 */
+	@Schema(description = "auto-mark-as-read entries older than this number of days, null if not set")
+	private Integer autoMarkAsReadAfterDays;
+
 }

@@ -65,6 +65,12 @@ public class Subscription implements Serializable {
 	@Schema(description = "JEXL legacy filter")
 	private String filterLegacy;
 
+	/**
+	 * Part of the auto-mark-read feature.
+	 */
+	@Schema(description = "auto-mark-as-read entries older than this number of days, null if not set")
+	private Integer autoMarkAsReadAfterDays;
+
 	public static Subscription build(FeedSubscription subscription, UnreadCount unreadCount) {
 		FeedCategory category = subscription.getCategory();
 		Feed feed = subscription.getFeed();
@@ -85,6 +91,7 @@ public class Subscription implements Serializable {
 		sub.setCategoryId(category == null ? null : String.valueOf(category.getId()));
 		sub.setFilter(subscription.getFilter());
 		sub.setFilterLegacy(subscription.getFilterLegacy());
+		sub.setAutoMarkAsReadAfterDays(subscription.getAutoMarkAsReadAfterDays());
 		return sub;
 	}
 

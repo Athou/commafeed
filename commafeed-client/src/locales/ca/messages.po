@@ -122,6 +122,10 @@ msgstr "Esteu segur que voleu cancel·lar la subscripció a <0>{feedName}</0>?"
 msgid "Asc"
 msgstr "Asc"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "Marcar com a llegit automàticament"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Enrere"
@@ -457,6 +461,10 @@ msgstr "Gris"
 msgid "Green"
 msgstr "Verd"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "Ajuda"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "Id"
@@ -586,6 +594,10 @@ msgstr "Marca com a llegit"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Marca com a llegit fins aquí"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "Marca les entrades d'aquest canal com a llegides després d'aquest nombre de dies."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

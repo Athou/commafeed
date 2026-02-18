@@ -122,6 +122,10 @@ msgstr "<0>{feedName}</0> 구독을 취소하시겠습니까?"
 msgid "Asc"
 msgstr "오름차순"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "자동으로 읽음 표시"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "뒤로"
@@ -457,6 +461,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "도움말"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "아이디"
@@ -586,6 +594,10 @@ msgstr "읽은 상태로 표시"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "여기까지 읽은 것으로 표시"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "이 피드의 항목을 지정된 일수가 지난 후 읽음으로 표시합니다."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

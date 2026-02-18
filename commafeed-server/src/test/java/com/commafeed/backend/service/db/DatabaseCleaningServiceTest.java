@@ -150,4 +150,15 @@ class DatabaseCleaningServiceTest {
 
 		Mockito.verify(feedEntryStatusDAO, Mockito.times(3)).deleteOldStatuses(cutoff, BATCH_SIZE);
 	}
+
+	@Test
+	void cleanExpiredAutoMarkAsReadStatusesMarksStatusesAsRead() {
+		Mockito.when(feedEntryStatusDAO.markExpiredAutoMarkAsReadStatuses(Mockito.any(Instant.class), Mockito.eq(BATCH_SIZE)))
+				.thenReturn(50L, 20L, 0L);
+
+		service.cleanExpiredAutoMarkAsReadStatuses();
+
+		Mockito.verify(feedEntryStatusDAO, Mockito.times(3))
+				.markExpiredAutoMarkAsReadStatuses(Mockito.any(Instant.class), Mockito.eq(BATCH_SIZE));
+	}
 }

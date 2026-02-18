@@ -122,6 +122,10 @@ msgstr "<0>{feedName}</0> の登録を解除してもよろしいですか？"
 msgid "Asc"
 msgstr "昇順"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "自動的に既読にする"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "戻る"
@@ -457,6 +461,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "ヘルプ"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "ID"
@@ -586,6 +594,10 @@ msgstr "既読にする"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "ここまで既読にする"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "このフィードのエントリを、指定した日数が経過した後に既読としてマークします。"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

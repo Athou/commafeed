@@ -122,6 +122,10 @@ msgstr "Weet je zeker dat je je wilt afmelden voor <0>{feedName}</0>?"
 msgid "Asc"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "Automatisch als gelezen markeren"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Terug"
@@ -457,6 +461,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "Help"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr ""
@@ -586,6 +594,10 @@ msgstr "Markeren als gelezen"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Markeer als gelezen tot hier"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "Markeer berichten in deze feed als gelezen na dit aantal dagen."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

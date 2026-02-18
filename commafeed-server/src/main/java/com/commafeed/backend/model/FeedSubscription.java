@@ -46,4 +46,10 @@ public class FeedSubscription extends AbstractModel {
 	@Column(name = "filtering_expression_legacy", length = 4096)
 	private String filterLegacy;
 
+	/**
+	 * Number of days after which entries in this subscription should be automatically marked as read. Part of the auto-mark-read feature.
+	 */
+	@Column(name = "auto_mark_as_read_after_days")
+	private Integer autoMarkAsReadAfterDays;
+
 }

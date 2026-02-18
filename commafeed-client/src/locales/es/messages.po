@@ -123,6 +123,10 @@ msgstr "¿Estás seguro de que deseas darte de baja de <0>{feedName}</0>?"
 msgid "Asc"
 msgstr "Asc"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "Marcar automáticamente como leído"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Atrás"
@@ -458,6 +462,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "Ayuda"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "Identificación"
@@ -587,6 +595,10 @@ msgstr "Marcar como leído"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Marcar como leído hasta aquí"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "Marcar las entradas de este canal como leídas después de este número de días."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

@@ -122,6 +122,10 @@ msgstr "Ydych chi'n siŵr eich bod am ddad-danysgrifio o <0>{feedName}</0>?"
 msgid "Asc"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "Marcauto fel wedi'i ddarllen ar ôl"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Yn ôl"
@@ -457,6 +461,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "Help"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr ""
@@ -586,6 +594,10 @@ msgstr "Marciwch ei fod wedi'i ddarllen"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Marciwch fel y darllenwyd hyd yma"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "Marcio cofnodion yn y porthiant hwn fel wedi'u darllen ar ôl y nifer hwn o ddyddiau."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

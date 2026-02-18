@@ -122,6 +122,10 @@ msgstr "آیا مطمئن هستید که می خواهید اشتراک <0>{fee
 msgid "Asc"
 msgstr "صعودی"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "علامت گذاری خودکار به عنوان خوانده شده"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "برگشت"
@@ -457,6 +461,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "کمک"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "شناسه"
@@ -586,6 +594,10 @@ msgstr "علامت گذاری به عنوان خوانده شده"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "تا اینجا به عنوان خوانده شده علامت بزنید"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "ورودی های این فید را بعد از این تعداد روز به عنوان خوانده شده علامت گذاری کنید."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

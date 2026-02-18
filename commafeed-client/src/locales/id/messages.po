@@ -122,6 +122,10 @@ msgstr "Yakin ingin berhenti berlangganan <0>{feedName}</0>?"
 msgid "Asc"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "Tandai otomatis sebagai dibaca"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Kembali"
@@ -457,6 +461,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "Bantuan"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr ""
@@ -586,6 +594,10 @@ msgstr "Tandai sebagai telah dibaca"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Tandai sebagai telah dibaca sampai di sini"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "Tandai entri dalam feed ini sebagai telah dibaca setelah jumlah hari ini."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

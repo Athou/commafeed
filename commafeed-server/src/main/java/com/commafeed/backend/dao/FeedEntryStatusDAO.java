@@ -232,4 +232,56 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		return deleteQuery(STATUS).where(STATUS.id.in(ids)).execute();
 	}
 
+	public void updateAutoMarkAsReadDate(FeedSubscription sub, Instant autoMarkAsReadAfter) {
+		/*
+		 * Support for the auto-mark-read feature: update the auto_mark_as_read_after
+		 * column for all unread entries belonging to the given
+		 * subscription.
+		 */
+		updateQuery(STATUS).set(STATUS.autoMarkAsReadAfter, autoMarkAsReadAfter)
+				.where(STATUS.subscription.eq(sub), STATUS.read.isFalse())
+				.execute();
+	}
+
+	public long markExpiredAutoMarkAsReadStatuses(Instant now, int limit) {
+		/*
+		 * Support for the auto-mark-read feature: find unread entries whose expiration
+		 * date has passed and mark them as read. Uses batching
+		 * for performance.
+		 */
+		List<Long> ids = query().select(STATUS.id)
+				.from(STATUS)
+				.where(STATUS.read.isFalse(), STATUS.autoMarkAsReadAfter.lt(now))
+				.limit(limit)
+				.fetch();
+		if (ids.isEmpty()) {
+			return 0;
+		}
+		return updateQuery(STATUS).set(STATUS.read, true).where(STATUS.id.in(ids)).execute();
+	}
+
+	/**
+	 * Support for the auto-mark-read feature: resets expiration dates effectively disabling the feature for a subscription.
+	 * 
+	 * @param sub
+	 *            the subscription to reset
+	 */
+	public void resetAutoMarkAsReadStatuses(FeedSubscription sub) {
+		/*
+		 * Support for the auto-mark-read feature: clear auto_mark_as_read_after and
+		 * delete unneeded status records.
+		 */
+
+		// 1. Clear the expiration timestamp for all entries in this subscription
+		updateQuery(STATUS).set(STATUS.autoMarkAsReadAfter, (Instant) null).where(STATUS.subscription.eq(sub)).execute();
+
+		// 2. Delete rows that are only here because of the auto-mark-read feature
+		// (unread and non-starred) to revert to the original "no-status" state for
+		// unread entries.
+		//
+		// Removed per Jerome comment
+		// deleteQuery(STATUS).where(STATUS.subscription.eq(sub), STATUS.read.isFalse(),
+		// STATUS.starred.isFalse()).execute();
+	}
+
 }

@@ -122,6 +122,10 @@ msgstr "Sind Sie sicher, dass Sie <0>{feedName}</0> abbestellen möchten?"
 msgid "Asc"
 msgstr "Aufsteigend"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "Automatisch als gelesen markieren"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Zurück"
@@ -457,6 +461,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "Hilfe"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr ""
@@ -586,6 +594,10 @@ msgstr "Als gelesen markieren"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Bis hierhin als gelesen markieren"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "Einträge in diesem Feed nach dieser Anzahl von Tagen als gelesen markieren."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

@@ -122,6 +122,10 @@ msgstr "Opravdu se chcete odhlásit z odběru <0>{feedName}</0>?"
 msgid "Asc"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "Automaticky označit jako přečtené"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Zpět"
@@ -457,6 +461,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "Nápověda"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr ""
@@ -586,6 +594,10 @@ msgstr "Označit jako přečtené"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Označit jako přečtené až sem"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "Označit příspěvky v tomto kanálu jako přečtené po tomto počtu dní."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

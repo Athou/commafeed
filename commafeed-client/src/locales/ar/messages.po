@@ -122,6 +122,10 @@ msgstr "هل أنت متأكد أنك تريد إلغاء الاشتراك من 
 msgid "Asc"
 msgstr "تصاعدي"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "وضع علامة مقروء تلقائيًا"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "العودة"
@@ -457,6 +461,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "مساعدة"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "المرجع نفسه"
@@ -586,6 +594,10 @@ msgstr "وضع علامة كمقروء"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "وضع علامة كمقروءة حتى هنا"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "ضع علامة مقروء على مدخلات هذه الموجز بعد هذا العدد من الأيام."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

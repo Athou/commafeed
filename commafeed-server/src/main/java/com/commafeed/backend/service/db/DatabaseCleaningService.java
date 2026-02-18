@@ -133,4 +133,20 @@ public class DatabaseCleaningService {
 		} while (deleted != 0);
 		log.info("cleanup done: {} old read statuses deleted", total);
 	}
+
+	public void cleanExpiredAutoMarkAsReadStatuses() {
+		/*
+		 * Support for the auto-mark-read feature: periodically find and mark as read
+		 * entries that have expired.
+		 */
+		log.info("marking expired auto-mark-as-read statuses");
+		long total = 0;
+		long updated;
+		do {
+			updated = unitOfWork.call(() -> feedEntryStatusDAO.markExpiredAutoMarkAsReadStatuses(Instant.now(), batchSize));
+			total += updated;
+			log.debug("marked {} expired auto-mark-as-read statuses", total);
+		} while (updated != 0);
+		log.info("cleanup done: {} expired auto-mark-as-read statuses marked as read", total);
+	}
 }

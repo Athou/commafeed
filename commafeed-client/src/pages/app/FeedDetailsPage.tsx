@@ -164,6 +164,28 @@ export function FeedDetailsPage() {
                         </Box>
                     </Input.Wrapper>
 
+                    {/* Support for the auto-mark-read feature: allow user to set the number of days after which entries are marked read. */}
+                    <NumberInput
+                        label={<Trans>Auto-mark as read</Trans>}
+                        description={
+                            <>
+                                <Trans>Mark entries in this feed as read after this number of days.</Trans> (
+                                <Anchor
+                                    href="https://athou.github.io/commafeed/documentation/automark"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    style={{ fontSize: "inherit" }}
+                                    lh="inherit"
+                                >
+                                    <Trans>Help</Trans>
+                                </Anchor>
+                                )
+                            </>
+                        }
+                        {...form.getInputProps("autoMarkAsReadAfterDays")}
+                        min={0}
+                    />
+
                     <Group>
                         <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>

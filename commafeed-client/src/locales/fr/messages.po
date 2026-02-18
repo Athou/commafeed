@@ -122,6 +122,10 @@ msgstr "Êtes-vous sûr de vouloir vous désabonner de <0>{feedName}</0> ?"
 msgid "Asc"
 msgstr "Ascendant"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "Marquer automatiquement comme lu"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Retour"
@@ -457,6 +461,10 @@ msgstr "Gris"
 msgid "Green"
 msgstr "Vert"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "Aide"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "Identifiant"
@@ -586,6 +594,10 @@ msgstr "Marquer comme lu"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Marquer comme lu jusqu'ici"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "Marquer les entrées de ce flux comme lues après ce nombre de jours."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

@@ -54,6 +54,13 @@ public class FeedEntryStatus extends AbstractModel {
 	@Column(name = "entryUpdated")
 	private Instant entryPublished;
 
+	/**
+	 * The timestamp after which this entry status should be automatically marked as read. Calculated based on the subscription's
+	 * autoMarkAsReadAfterDays. Part of the auto-mark-read feature.
+	 */
+	@Column(name = "auto_mark_as_read_after")
+	private Instant autoMarkAsReadAfter;
+
 	public FeedEntryStatus() {
 
 	}
@@ -64,6 +71,14 @@ public class FeedEntryStatus extends AbstractModel {
 		this.entry = entry;
 		this.entryInserted = entry.getInserted();
 		this.entryPublished = entry.getPublished();
+
+		/*
+		 * Support for the auto-mark-read feature: calculate the expiration timestamp if
+		 * a limit is set.
+		 */
+		if (subscription.getAutoMarkAsReadAfterDays() != null && entry.getPublished() != null) {
+			this.autoMarkAsReadAfter = entry.getPublished().plusSeconds(subscription.getAutoMarkAsReadAfterDays() * 24L * 3600L);
+		}
 	}
 
 }

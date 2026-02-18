@@ -122,6 +122,10 @@ msgstr "Er du sikker på at du vil avslutte abonnementet på <0>{feedName}</0>?"
 msgid "Asc"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "Marker automatisk som lest"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Tilbake"
@@ -457,6 +461,10 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Help"
+msgstr "Hjelp"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr ""
@@ -586,6 +594,10 @@ msgstr "Merk som lest"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Merk som lest frem til her"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days."
+msgstr "Marker oppføringer i denne strømmen som lest etter dette antallet dager."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

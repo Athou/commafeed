@@ -468,6 +468,14 @@ public class FeedREST {
 			}
 		}
 
+		/*
+		 * Support for the auto-mark-read feature: if the limit has changed, trigger a
+		 * recalculation for unread entries.
+		 */
+		if (!Objects.equals(subscription.getAutoMarkAsReadAfterDays(), req.getAutoMarkAsReadAfterDays())) {
+			feedEntryService.updateAutoMarkAsReadAfterDays(subscription, req.getAutoMarkAsReadAfterDays());
+		}
+
 		return Response.ok().build();
 	}
 

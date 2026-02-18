@@ -29,6 +29,8 @@ export interface Subscription {
     newestItemTime?: number
     filter?: string
     filterLegacy?: string
+    /** Part of the auto-mark-read feature. */
+    autoMarkAsReadAfterDays?: number
 }
 
 export interface Category {
@@ -110,6 +112,8 @@ export interface FeedModificationRequest {
     categoryId?: string
     position?: number
     filter?: string
+    /** Part of the auto-mark-read feature. */
+    autoMarkAsReadAfterDays?: number
 }
 
 export interface GetEntriesRequest {

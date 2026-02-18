@@ -110,9 +110,11 @@ public class FeedEntryService {
 		feedEntryStatusDAO.merge(status);
 	}
 
-	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Instant olderThan, Instant insertedBefore,
+	public void markSubscriptionEntries(User user, List<FeedSubscription> subscriptions, Instant olderThan,
+			Instant insertedBefore,
 			List<FeedEntryKeyword> keywords) {
-		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, keywords, null, -1, -1, null,
+		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findBySubscriptions(user, subscriptions, true, keywords,
+				null, -1, -1, null,
 				false, null, null, null);
 		markList(statuses, olderThan, insertedBefore);
 	}
@@ -141,7 +143,7 @@ public class FeedEntryService {
 		/*
 		 * Support for the auto-mark-read feature: update the subscription's setting and
 		 * recalculate or reset the expiration date
-		 * for all existing unread entries.
+		 * for all existing unread entries. (srt)
 		 */
 		if (days != null && days <= 0) {
 			days = null;
@@ -153,7 +155,8 @@ public class FeedEntryService {
 		if (days == null) {
 			feedEntryStatusDAO.resetAutoMarkAsReadStatuses(sub);
 		} else {
-			List<FeedEntryStatus> unreadStatuses = feedEntryStatusDAO.findBySubscriptions(sub.getUser(), List.of(sub), true, null, null, -1,
+			List<FeedEntryStatus> unreadStatuses = feedEntryStatusDAO.findBySubscriptions(sub.getUser(), List.of(sub),
+					true, null, null, -1,
 					-1, null, false, null, null, null);
 			Instant now = Instant.now();
 			for (FeedEntryStatus status : unreadStatuses) {

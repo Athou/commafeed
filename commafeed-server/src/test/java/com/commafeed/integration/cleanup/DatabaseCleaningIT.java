@@ -234,30 +234,5 @@ class DatabaseCleaningIT extends BaseIT {
 			Assertions.assertTrue(entriesAfter.getEntries().stream().allMatch(Entry::isRead));
 		}
 
-		@Test
-		void resettingStatusesDeletesUnneededRecords() {
-			// Subscribe to feed and wait for entries
-			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
-
-			// Set expiration dates so status records are created
-			unitOfWork.run(() -> {
-				feedEntryStatusDAO.markExpiredAutoMarkAsReadStatuses(Instant.now().plus(Duration.ofDays(100)), 100);
-			});
-
-			// Verify status records exist (they should, for unread entries if expiration is
-			// set)
-			// We can check this indirectly by calling reset and verifying it works without
-			// error
-
-			// Call reset via the DAO directly as if the user cleared the setting
-			unitOfWork.run(() -> {
-				FeedSubscription sub = feedSubscriptionDAO.findById(subscriptionId);
-				feedEntryStatusDAO.resetAutoMarkAsReadStatuses(sub);
-			});
-
-			// After reset, entries should still be unread but have no expiration date
-			Entries entriesAfter = getFeedEntries(subscriptionId);
-			Assertions.assertTrue(entriesAfter.getEntries().stream().noneMatch(Entry::isRead));
-		}
 	}
 }

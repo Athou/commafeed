@@ -17,6 +17,7 @@ import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.db.DatabaseCleaningService;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
@@ -42,6 +43,9 @@ class DatabaseCleaningIT extends BaseIT {
 
 	@Inject
 	UnitOfWork unitOfWork;
+
+	@Inject
+	FeedEntryService feedEntryService;
 
 	@Inject
 	EntityManager entityManager;
@@ -218,7 +222,7 @@ class DatabaseCleaningIT extends BaseIT {
 			unitOfWork.run(() -> {
 				FeedSubscription sub = feedSubscriptionDAO.findById(subscriptionId);
 				// Ensure status records exist for the feed
-				feedEntryStatusDAO.markExpiredAutoMarkAsReadStatuses(Instant.now().plus(Duration.ofDays(100)), 100);
+				feedEntryService.updateAutoMarkAsReadAfterDays(sub, 30);
 				// Now force the date into the past for all of them
 				entityManager.createQuery("UPDATE FeedEntryStatus s SET s.autoMarkAsReadAfter = :date WHERE s.subscription = :sub")
 						.setParameter("date", Instant.now().minus(Duration.ofDays(1)))

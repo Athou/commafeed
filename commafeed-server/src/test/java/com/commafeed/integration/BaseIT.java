@@ -48,7 +48,7 @@ public abstract class BaseIT {
 	private String webSocketUrl;
 
 	@BeforeEach
-	void init() throws IOException {
+	void beforeEach() throws IOException {
 		this.mockServerClient = ClientAndServer.startClientAndServer(0);
 
 		this.feedUrl = "http://localhost:" + mockServerClient.getPort() + "/";
@@ -62,7 +62,7 @@ public abstract class BaseIT {
 	}
 
 	@AfterEach
-	void cleanup() {
+	void afterEach() {
 		if (this.mockServerClient != null) {
 			this.mockServerClient.close();
 		}

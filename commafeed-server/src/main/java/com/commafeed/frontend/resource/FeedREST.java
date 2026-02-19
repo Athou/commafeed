@@ -47,7 +47,6 @@ import com.commafeed.backend.favicon.Favicon;
 import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedFetcher;
 import com.commafeed.backend.feed.FeedFetcher.FeedFetcherResult;
-import com.commafeed.backend.feed.FeedRefreshEngine;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
@@ -111,7 +110,6 @@ public class FeedREST {
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionService feedSubscriptionService;
 	private final FeedEntryFilteringService feedEntryFilteringService;
-	private final FeedRefreshEngine feedRefreshEngine;
 	private final OPMLImporter opmlImporter;
 	private final OPMLExporter opmlExporter;
 	private final CommaFeedConfiguration config;

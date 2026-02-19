@@ -314,7 +314,6 @@
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-extension-processor</artifactId>
-			<version>${quarkus.version}</version>
 			<scope>provided</scope>
 		</dependency>
 

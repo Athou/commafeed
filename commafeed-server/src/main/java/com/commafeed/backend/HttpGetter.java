@@ -14,8 +14,6 @@ import jakarta.ws.rs.core.CacheControl;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.hc.client5.http.DnsResolver;
-import org.apache.hc.client5.http.SystemDefaultDnsResolver;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
@@ -51,8 +49,6 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 @Slf4j
 public class HttpGetter {
-	private static final DnsResolver DNS_RESOLVER = SystemDefaultDnsResolver.INSTANCE;
-
 	private final CommaFeedConfiguration config;
 	private final InstantSource instantSource;
 	private final CloseableHttpClient client;

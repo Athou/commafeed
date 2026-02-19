@@ -4,10 +4,8 @@ import jakarta.inject.Singleton;
 
 import org.kohsuke.MetaInfServices;
 
-import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserDAO;
-import com.commafeed.backend.service.UserService;
 
 import liquibase.database.Database;
 import liquibase.database.core.PostgresDatabase;
@@ -22,8 +20,6 @@ public class DatabaseStartupService {
 
 	private final UnitOfWork unitOfWork;
 	private final UserDAO userDAO;
-	private final UserService userService;
-	private final CommaFeedConfiguration config;
 
 	public boolean isInitialSetupRequired() {
 		return unitOfWork.call(userDAO::count) == 0;

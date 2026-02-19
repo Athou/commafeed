@@ -1061,6 +1061,14 @@ msgstr "Tagiau"
 msgid "Teal"
 msgstr ""
 
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Test"
+msgstr ""
+
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Test notification sent successfully."
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
 msgstr "Y URL ar gyfer y porthwr rydych chi am danysgrifio iddo. "

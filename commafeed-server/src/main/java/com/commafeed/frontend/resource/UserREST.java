@@ -38,19 +38,26 @@ import com.commafeed.backend.Urls;
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.dao.UserSettingsDAO;
+import com.commafeed.backend.model.Feed;
+import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
+import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.IconDisplayMode;
+import com.commafeed.backend.model.UserSettings.PushNotificationUserSettings;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.model.UserSettings.ScrollMode;
 import com.commafeed.backend.service.MailService;
 import com.commafeed.backend.service.PasswordEncryptionService;
+import com.commafeed.backend.service.PushNotificationService;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.backend.service.db.DatabaseStartupService;
 import com.commafeed.frontend.model.Settings;
+import com.commafeed.frontend.model.Settings.PushNotificationSettings;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.InitialSetupRequest;
 import com.commafeed.frontend.model.request.PasswordResetConfirmationRequest;
@@ -84,6 +91,7 @@ public class UserREST {
 	private final MailService mailService;
 	private final CommaFeedConfiguration config;
 	private final UriInfo uri;
+	private final PushNotificationService pushNotificationService;
 
 	@Path("/settings")
 	@GET
@@ -126,11 +134,13 @@ public class UserREST {
 			s.setDisablePullToRefresh(settings.isDisablePullToRefresh());
 			s.setPrimaryColor(settings.getPrimaryColor());
 
-			s.getPushNotificationSettings().setType(settings.getPushNotificationType());
-			s.getPushNotificationSettings().setServerUrl(settings.getPushNotificationServerUrl());
-			s.getPushNotificationSettings().setUserId(settings.getPushNotificationUserId());
-			s.getPushNotificationSettings().setUserSecret(settings.getPushNotificationUserSecret());
-			s.getPushNotificationSettings().setTopic(settings.getPushNotificationTopic());
+			if (settings.getPushNotifications() != null) {
+				s.getPushNotificationSettings().setType(settings.getPushNotifications().getType());
+				s.getPushNotificationSettings().setServerUrl(settings.getPushNotifications().getServerUrl());
+				s.getPushNotificationSettings().setUserId(settings.getPushNotifications().getUserId());
+				s.getPushNotificationSettings().setUserSecret(settings.getPushNotifications().getUserSecret());
+				s.getPushNotificationSettings().setTopic(settings.getPushNotifications().getTopic());
+			}
 		} else {
 			s.setReadingMode(ReadingMode.UNREAD);
 			s.setReadingOrder(ReadingOrder.DESC);
@@ -196,11 +206,13 @@ public class UserREST {
 		s.setDisablePullToRefresh(settings.isDisablePullToRefresh());
 		s.setPrimaryColor(settings.getPrimaryColor());
 
-		s.setPushNotificationType(settings.getPushNotificationSettings().getType());
-		s.setPushNotificationServerUrl(settings.getPushNotificationSettings().getServerUrl());
-		s.setPushNotificationUserId(settings.getPushNotificationSettings().getUserId());
-		s.setPushNotificationUserSecret(settings.getPushNotificationSettings().getUserSecret());
-		s.setPushNotificationTopic(settings.getPushNotificationSettings().getTopic());
+		PushNotificationUserSettings ps = new PushNotificationUserSettings();
+		ps.setType(settings.getPushNotificationSettings().getType());
+		ps.setServerUrl(settings.getPushNotificationSettings().getServerUrl());
+		ps.setUserId(settings.getPushNotificationSettings().getUserId());
+		ps.setUserSecret(settings.getPushNotificationSettings().getUserSecret());
+		ps.setTopic(settings.getPushNotificationSettings().getTopic());
+		s.setPushNotifications(ps);
 
 		s.setEmail(settings.getSharingSettings().isEmail());
 		s.setGmail(settings.getSharingSettings().isGmail());
@@ -214,6 +226,37 @@ public class UserREST {
 		userSettingsDAO.merge(s);
 		return Response.ok().build();
 
+	}
+
+	@Path("/pushNotificationTest")
+	@POST
+	@Transactional
+	@Operation(summary = "Send a test push notification")
+	public Response sendTestPushNotification(@Parameter(required = true) PushNotificationSettings settings) {
+		FeedSubscription sub = new FeedSubscription();
+		sub.setTitle("CommaFeed Test Feed");
+		sub.setFeed(new Feed());
+
+		FeedEntryContent content = new FeedEntryContent();
+		content.setTitle("Test Entry");
+
+		FeedEntry entry = new FeedEntry();
+		entry.setContent(content);
+
+		PushNotificationUserSettings pushSettings = new PushNotificationUserSettings();
+		pushSettings.setType(settings.getType());
+		pushSettings.setServerUrl(settings.getServerUrl());
+		pushSettings.setUserId(settings.getUserId());
+		pushSettings.setUserSecret(settings.getUserSecret());
+		pushSettings.setTopic(settings.getTopic());
+
+		try {
+			pushNotificationService.notify(pushSettings, sub, entry);
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getCause().getMessage()).type(MediaType.TEXT_PLAIN).build();
+		}
+
+		return Response.ok().build();
 	}
 
 	@Path("/profile")

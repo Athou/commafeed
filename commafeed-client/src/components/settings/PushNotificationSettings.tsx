@@ -1,13 +1,17 @@
+import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
-import { Button, Group, Select, Stack, TextInput } from "@mantine/core"
+import { Button, Divider, Group, Select, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useEffect } from "react"
-import { TbDeviceFloppy } from "react-icons/tb"
+import { useAsyncCallback } from "react-async-hook"
+import { TbDeviceFloppy, TbSend } from "react-icons/tb"
+import { client, errorToStrings } from "@/app/client"
 import { redirectToSelectedSource } from "@/app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
 import type { PushNotificationSettings as PushNotificationSettingsModel } from "@/app/types"
 import { changeNotificationSettings } from "@/app/user/thunks"
+import { Alert } from "@/components/Alert"
 
 export function PushNotificationSettings() {
     const notificationSettings = useAppSelector(state => state.user.settings?.pushNotificationSettings)
@@ -24,6 +28,8 @@ export function PushNotificationSettings() {
         dispatch(changeNotificationSettings(values))
     }
 
+    const sendTestPushNotification = useAsyncCallback(client.user.sendTestPushNotification)
+
     const typeInputProps = form.getInputProps("type")
 
     if (!pushNotificationsEnabled) {
@@ -32,6 +38,14 @@ export function PushNotificationSettings() {
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack>
+                {sendTestPushNotification.status === "success" && (
+                    <Alert level="success" messages={[_(msg`Test notification sent successfully.`)]} />
+                )}
+
+                {sendTestPushNotification.status === "error" && (
+                    <Alert level="error" messages={errorToStrings(sendTestPushNotification.error)} />
+                )}
+
                 <Select
                     label={<Trans>Push notification service</Trans>}
                     description={
@@ -91,6 +105,17 @@ export function PushNotificationSettings() {
                     </Button>
                     <Button type="submit" leftSection={<TbDeviceFloppy size={16} />}>
                         <Trans>Save</Trans>
+                    </Button>
+
+                    <Divider orientation="vertical" />
+
+                    <Button
+                        variant="outline"
+                        leftSection={<TbSend size={16} />}
+                        onClick={() => sendTestPushNotification.execute(form.values)}
+                        loading={sendTestPushNotification.loading}
+                    >
+                        <Trans>Test</Trans>
                     </Button>
                 </Group>
             </Stack>

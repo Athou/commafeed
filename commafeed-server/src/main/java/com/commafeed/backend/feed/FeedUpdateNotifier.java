@@ -40,9 +40,9 @@ public class FeedUpdateNotifier {
 		}
 
 		UserSettings settings = unitOfWork.call(() -> userSettingsDAO.findByUser(sub.getUser()));
-		if (settings != null && settings.getPushNotificationType() != null) {
+		if (settings != null && settings.getPushNotifications() != null && settings.getPushNotifications().getType() != null) {
 			for (FeedEntry entry : entries) {
-				pushNotificationService.notify(settings, sub, entry);
+				pushNotificationService.notify(settings.getPushNotifications(), sub, entry);
 			}
 		}
 	}

@@ -1062,6 +1062,14 @@ msgstr "Etiquetas"
 msgid "Teal"
 msgstr "Verdoso"
 
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Test"
+msgstr ""
+
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Test notification sent successfully."
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
 msgstr "URL da canle á que queres subscribirte. Podes usar a url do sitio web directamente e CommaFeed intentará atopar a canle na páxina."

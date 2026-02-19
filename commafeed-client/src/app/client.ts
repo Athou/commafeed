@@ -20,6 +20,7 @@ import type {
     PasswordResetConfirmationRequest,
     PasswordResetRequest,
     ProfileModificationRequest,
+    PushNotificationSettings,
     RegistrationRequest,
     ServerInfo,
     Settings,
@@ -101,6 +102,8 @@ export const client = {
         passwordResetCallback: async (req: PasswordResetConfirmationRequest) => await axiosInstance.post("user/passwordResetCallback", req),
         getSettings: async () => await axiosInstance.get<Settings>("user/settings"),
         saveSettings: async (settings: Settings) => await axiosInstance.post("user/settings", settings),
+        sendTestPushNotification: async (settings: PushNotificationSettings) =>
+            await axiosInstance.post("user/pushNotificationTest", settings),
         getProfile: async () => await axiosInstance.get<UserModel>("user/profile"),
         saveProfile: async (req: ProfileModificationRequest) => await axiosInstance.post("user/profile", req),
         deleteProfile: async () => await axiosInstance.post("user/profile/deleteAccount"),

@@ -1061,6 +1061,14 @@ msgstr "Tags"
 msgid "Teal"
 msgstr "Teal"
 
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Test"
+msgstr "Test"
+
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Test notification sent successfully."
+msgstr "Test notification sent successfully."
+
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
 msgstr "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."

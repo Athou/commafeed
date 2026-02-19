@@ -25,7 +25,7 @@ import com.commafeed.backend.HttpClientFactory;
 import com.commafeed.backend.Urls;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
-import com.commafeed.backend.model.UserSettings;
+import com.commafeed.backend.model.UserSettings.PushNotificationUserSettings;
 
 import io.vertx.core.json.JsonObject;
 import lombok.extern.slf4j.Slf4j;
@@ -44,12 +44,12 @@ public class PushNotificationService {
 		this.config = config;
 	}
 
-	public void notify(UserSettings settings, FeedSubscription subscription, FeedEntry entry) {
-		if (!config.pushNotifications().enabled() || settings.getPushNotificationType() == null) {
+	public void notify(PushNotificationUserSettings settings, FeedSubscription subscription, FeedEntry entry) {
+		if (!config.pushNotifications().enabled() || settings.getType() == null) {
 			return;
 		}
 
-		log.debug("sending {} push notification for entry {} in feed {}", settings.getPushNotificationType(), entry.getId(),
+		log.debug("sending {} push notification for entry {} in feed {}", settings.getType(), entry.getId(),
 				subscription.getFeed().getId());
 		String entryTitle = entry.getContent() != null ? entry.getContent().getTitle() : null;
 		String entryUrl = entry.getUrl();
@@ -60,11 +60,11 @@ public class PushNotificationService {
 		}
 
 		try {
-			switch (settings.getPushNotificationType()) {
+			switch (settings.getType()) {
 			case NTFY -> sendNtfy(settings, feedTitle, entryTitle, entryUrl);
 			case GOTIFY -> sendGotify(settings, feedTitle, entryTitle, entryUrl);
 			case PUSHOVER -> sendPushover(settings, feedTitle, entryTitle, entryUrl);
-			default -> throw new IllegalStateException("unsupported notification type: " + settings.getPushNotificationType());
+			default -> throw new IllegalStateException("unsupported notification type: " + settings.getType());
 			}
 		} catch (IOException e) {
 			throw new PushNotificationException("Failed to send external notification", e);
@@ -73,9 +73,9 @@ public class PushNotificationService {
 		meter.mark();
 	}
 
-	private void sendNtfy(UserSettings settings, String feedTitle, String entryTitle, String entryUrl) throws IOException {
-		String serverUrl = Urls.removeTrailingSlash(settings.getPushNotificationServerUrl());
-		String topic = settings.getPushNotificationTopic();
+	private void sendNtfy(PushNotificationUserSettings settings, String feedTitle, String entryTitle, String entryUrl) throws IOException {
+		String serverUrl = Urls.removeTrailingSlash(settings.getServerUrl());
+		String topic = settings.getTopic();
 
 		if (StringUtils.isBlank(serverUrl) || StringUtils.isBlank(topic)) {
 			log.warn("ntfy notification skipped: missing server URL or topic");
@@ -91,8 +91,8 @@ public class PushNotificationService {
 			request.addHeader("Click", entryUrl);
 		}
 
-		if (StringUtils.isNotBlank(settings.getPushNotificationUserSecret())) {
-			request.addHeader("Authorization", "Bearer " + settings.getPushNotificationUserSecret());
+		if (StringUtils.isNotBlank(settings.getUserSecret())) {
+			request.addHeader("Authorization", "Bearer " + settings.getUserSecret());
 		}
 
 		httpClient.execute(request, response -> {
@@ -103,9 +103,10 @@ public class PushNotificationService {
 		});
 	}
 
-	private void sendGotify(UserSettings settings, String feedTitle, String entryTitle, String entryUrl) throws IOException {
-		String serverUrl = Urls.removeTrailingSlash(settings.getPushNotificationServerUrl());
-		String token = settings.getPushNotificationUserSecret();
+	private void sendGotify(PushNotificationUserSettings settings, String feedTitle, String entryTitle, String entryUrl)
+			throws IOException {
+		String serverUrl = Urls.removeTrailingSlash(settings.getServerUrl());
+		String token = settings.getUserSecret();
 
 		if (StringUtils.isBlank(serverUrl) || StringUtils.isBlank(token)) {
 			log.warn("gotify notification skipped: missing server URL or token");
@@ -134,9 +135,10 @@ public class PushNotificationService {
 		});
 	}
 
-	private void sendPushover(UserSettings settings, String feedTitle, String entryTitle, String entryUrl) throws IOException {
-		String token = settings.getPushNotificationUserSecret();
-		String userKey = settings.getPushNotificationUserId();
+	private void sendPushover(PushNotificationUserSettings settings, String feedTitle, String entryTitle, String entryUrl)
+			throws IOException {
+		String token = settings.getUserSecret();
+		String userKey = settings.getUserId();
 
 		if (StringUtils.isBlank(token) || StringUtils.isBlank(userKey)) {
 			log.warn("pushover notification skipped: missing token or user key");

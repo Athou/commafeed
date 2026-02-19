@@ -3,6 +3,8 @@ package com.commafeed.backend.model;
 import java.sql.Types;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -144,22 +146,6 @@ public class UserSettings extends AbstractModel {
 	private boolean unreadCountFavicon;
 	private boolean disablePullToRefresh;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "push_notification_type", length = 16)
-	private PushNotificationType pushNotificationType;
-
-	@Column(name = "push_notification_server_url", length = 1024)
-	private String pushNotificationServerUrl;
-
-	@Column(name = "push_notification_user_id", length = 512)
-	private String pushNotificationUserId;
-
-	@Column(name = "push_notification_user_secret", length = 512)
-	private String pushNotificationUserSecret;
-
-	@Column(name = "push_notification_topic", length = 256)
-	private String pushNotificationTopic;
-
 	private boolean email;
 	private boolean gmail;
 	private boolean facebook;
@@ -168,5 +154,29 @@ public class UserSettings extends AbstractModel {
 	private boolean pocket;
 	private boolean instapaper;
 	private boolean buffer;
+
+	@Embedded
+	private PushNotificationUserSettings pushNotifications = new PushNotificationUserSettings();
+
+	@Embeddable
+	@Getter
+	@Setter
+	public static class PushNotificationUserSettings {
+		@Enumerated(EnumType.STRING)
+		@Column(name = "push_notification_type", length = 16)
+		private PushNotificationType type;
+
+		@Column(name = "push_notification_server_url", length = 1024)
+		private String serverUrl;
+
+		@Column(name = "push_notification_user_id", length = 512)
+		private String userId;
+
+		@Column(name = "push_notification_user_secret", length = 512)
+		private String userSecret;
+
+		@Column(name = "push_notification_topic", length = 256)
+		private String topic;
+	}
 
 }

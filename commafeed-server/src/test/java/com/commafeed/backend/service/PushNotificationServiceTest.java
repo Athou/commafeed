@@ -22,8 +22,8 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedSubscription;
-import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.PushNotificationType;
+import com.commafeed.backend.model.UserSettings.PushNotificationUserSettings;
 
 @ExtendWith(MockServerExtension.class)
 class PushNotificationServiceTest {
@@ -31,7 +31,7 @@ class PushNotificationServiceTest {
 	private MockServerClient mockServerClient;
 	private PushNotificationService pushNotificationService;
 	private CommaFeedConfiguration config;
-	private UserSettings userSettings;
+	private PushNotificationUserSettings userSettings;
 	private FeedSubscription subscription;
 	private FeedEntry entry;
 
@@ -51,7 +51,7 @@ class PushNotificationServiceTest {
 
 		this.pushNotificationService = new PushNotificationService(httpClientFactory, metricRegistry, config);
 
-		this.userSettings = new UserSettings();
+		this.userSettings = new PushNotificationUserSettings();
 
 		this.subscription = createSubscription("Test Feed");
 		this.entry = createEntry("Test Entry", "http://example.com/entry");
@@ -59,10 +59,10 @@ class PushNotificationServiceTest {
 
 	@Test
 	void testNtfyNotification() {
-		userSettings.setPushNotificationType(PushNotificationType.NTFY);
-		userSettings.setPushNotificationServerUrl("http://localhost:" + mockServerClient.getPort());
-		userSettings.setPushNotificationTopic("test-topic");
-		userSettings.setPushNotificationUserSecret("test-secret");
+		userSettings.setType(PushNotificationType.NTFY);
+		userSettings.setServerUrl("http://localhost:" + mockServerClient.getPort());
+		userSettings.setTopic("test-topic");
+		userSettings.setUserSecret("test-secret");
 
 		mockServerClient.when(HttpRequest.request()
 				.withMethod("POST")
@@ -77,9 +77,9 @@ class PushNotificationServiceTest {
 
 	@Test
 	void testGotifyNotification() {
-		userSettings.setPushNotificationType(PushNotificationType.GOTIFY);
-		userSettings.setPushNotificationServerUrl("http://localhost:" + mockServerClient.getPort());
-		userSettings.setPushNotificationUserSecret("gotify-token");
+		userSettings.setType(PushNotificationType.GOTIFY);
+		userSettings.setServerUrl("http://localhost:" + mockServerClient.getPort());
+		userSettings.setUserSecret("gotify-token");
 
 		mockServerClient.when(HttpRequest.request()
 				.withMethod("POST")
@@ -107,9 +107,9 @@ class PushNotificationServiceTest {
 	@Test
 	void testPushNotificationDisabled() {
 		Mockito.when(config.pushNotifications().enabled()).thenReturn(false);
-		userSettings.setPushNotificationType(PushNotificationType.NTFY);
-		userSettings.setPushNotificationServerUrl("http://localhost:" + mockServerClient.getPort());
-		userSettings.setPushNotificationTopic("test-topic");
+		userSettings.setType(PushNotificationType.NTFY);
+		userSettings.setServerUrl("http://localhost:" + mockServerClient.getPort());
+		userSettings.setTopic("test-topic");
 
 		Assertions.assertDoesNotThrow(() -> pushNotificationService.notify(userSettings, subscription, entry));
 		mockServerClient.verifyZeroInteractions();

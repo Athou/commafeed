@@ -841,6 +841,10 @@ msgstr ""
 msgid "Receive push notifications"
 msgstr ""
 
+#: src/components/settings/PushNotificationSettings.tsx
+msgid "Receive push notifications when new feed entries are discovered. Enable \"Receive push notifications\" in the settings of each feed for which you want to receive notifications."
+msgstr ""
+
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr "Gendan adgangskode"

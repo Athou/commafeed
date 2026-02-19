@@ -34,6 +34,12 @@ export function PushNotificationSettings() {
             <Stack>
                 <Select
                     label={<Trans>Push notification service</Trans>}
+                    description={
+                        <Trans>
+                            Receive push notifications when new feed entries are discovered. Enable "Receive push notifications" in the
+                            settings of each feed for which you want to receive notifications.
+                        </Trans>
+                    }
                     data={[
                         { value: "ntfy", label: "ntfy" },
                         { value: "gotify", label: "Gotify" },

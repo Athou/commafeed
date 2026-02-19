@@ -123,15 +123,10 @@ public abstract class BaseIT {
 	}
 
 	protected Long subscribe(String feedUrl, String categoryId) {
-		return subscribe(feedUrl, categoryId, false);
-	}
-
-	protected Long subscribe(String feedUrl, String categoryId, boolean pushNotificationsEnabled) {
 		SubscribeRequest subscribeRequest = new SubscribeRequest();
 		subscribeRequest.setUrl(feedUrl);
 		subscribeRequest.setTitle("my title for this feed");
 		subscribeRequest.setCategoryId(categoryId);
-		subscribeRequest.setPushNotificationsEnabled(pushNotificationsEnabled);
 		return RestAssured.given()
 				.body(subscribeRequest)
 				.contentType(ContentType.JSON)

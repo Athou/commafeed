@@ -365,8 +365,7 @@ public class FeedREST {
 
 			FeedInfo info = fetchFeedInternal(prependHttp(req.getUrl()));
 			User user = authenticationContext.getCurrentUser();
-			long subscriptionId = feedSubscriptionService.subscribe(user, info.getUrl(), req.getTitle(), category, 0,
-					req.isPushNotificationsEnabled());
+			long subscriptionId = feedSubscriptionService.subscribe(user, info.getUrl(), req.getTitle(), category, 0);
 			return Response.ok(subscriptionId).build();
 		} catch (Exception e) {
 			log.error("Failed to subscribe to URL {}: {}", req.getUrl(), e.getMessage(), e);
@@ -385,7 +384,7 @@ public class FeedREST {
 			Preconditions.checkNotNull(url);
 			FeedInfo info = fetchFeedInternal(prependHttp(url));
 			User user = authenticationContext.getCurrentUser();
-			feedSubscriptionService.subscribe(user, info.getUrl(), info.getTitle(), null, 0, false);
+			feedSubscriptionService.subscribe(user, info.getUrl(), info.getTitle(), null, 0);
 		} catch (Exception e) {
 			log.info("Could not subscribe to url {} : {}", url, e.getMessage());
 		}

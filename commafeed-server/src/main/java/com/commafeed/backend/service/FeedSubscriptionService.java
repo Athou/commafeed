@@ -49,7 +49,7 @@ public class FeedSubscriptionService {
 		});
 	}
 
-	public long subscribe(User user, String url, String title, FeedCategory category, int position, boolean pushNotificationsEnabled) {
+	public long subscribe(User user, String url, String title, FeedCategory category, int position) {
 		Integer maxFeedsPerUser = config.database().cleanup().maxFeedsPerUser();
 		if (maxFeedsPerUser > 0 && feedSubscriptionDAO.count(user) >= maxFeedsPerUser) {
 			String message = String.format("You cannot subscribe to more feeds on this CommaFeed instance (max %s feeds per user)",
@@ -73,7 +73,6 @@ public class FeedSubscriptionService {
 		sub.setCategory(category);
 		sub.setPosition(position);
 		sub.setTitle(FeedUtils.truncate(title, 128));
-		sub.setPushNotificationsEnabled(pushNotificationsEnabled);
 		return feedSubscriptionDAO.merge(sub).getId();
 	}
 

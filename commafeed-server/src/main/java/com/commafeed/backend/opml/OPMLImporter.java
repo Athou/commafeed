@@ -77,7 +77,7 @@ public class OPMLImporter {
 			}
 			// make sure we continue with the import process even if a feed failed
 			try {
-				feedSubscriptionService.subscribe(user, outline.getXmlUrl(), name, parent, position, false);
+				feedSubscriptionService.subscribe(user, outline.getXmlUrl(), name, parent, position);
 			} catch (Exception e) {
 				log.error("error while importing {}: {}", outline.getXmlUrl(), e.getMessage());
 			}

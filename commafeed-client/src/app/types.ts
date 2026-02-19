@@ -304,7 +304,6 @@ export interface SubscribeRequest {
     url: string
     title: string
     categoryId?: string
-    pushNotificationsEnabled: boolean
 }
 
 export interface TagRequest {

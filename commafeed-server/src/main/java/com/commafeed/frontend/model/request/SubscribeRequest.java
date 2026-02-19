@@ -27,8 +27,4 @@ public class SubscribeRequest implements Serializable {
 	@Schema(description = "id of the user category to place the feed in")
 	@Size(max = 128)
 	private String categoryId;
-
-	@Schema(description = "whether to send push notifications for new entries of this feed")
-	private boolean pushNotificationsEnabled;
-
 }

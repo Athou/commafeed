@@ -36,7 +36,7 @@ msgstr "À propos"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Access token"
-msgstr ""
+msgstr "Jeton d'accès"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -100,11 +100,11 @@ msgstr "Clé API"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
-msgstr ""
+msgstr "Jeton API"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
-msgstr ""
+msgstr "Jeton Appli"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -822,28 +822,28 @@ msgstr "Profil"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notification service"
-msgstr ""
+msgstr "Service de notifications Push"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Push notifications"
-msgstr ""
+msgstr "Notifications Push"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Push notifications are not configured in your user settings."
-msgstr ""
+msgstr "Les notifications Push ne sont pas configurées dans vos préférences."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notifications are not enabled on this CommaFeed instance."
-msgstr ""
+msgstr "Les notifications Push ne sont pas disponibles dans cette instance CommaFeed."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Receive push notifications"
-msgstr ""
+msgstr "Envoyer des notifications Push"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Receive push notifications when new feed entries are discovered. Enable \"Receive push notifications\" in the settings of each feed for which you want to receive notifications."
-msgstr ""
+msgstr "Permet de recevoir des notifications Push quand des nouvelles entrées sont découvertes pour un flux. Activez \"Envoyer des notifications Push\" dans les paramètres des flux pour lesquels vous souhaitez être notifié."
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
@@ -915,7 +915,7 @@ msgstr "Sélectionner l'article non lu précédent/la catégorie non lue précé
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
-msgstr ""
+msgstr "URL du serveur"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -1063,11 +1063,11 @@ msgstr "Bleu-vert"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
-msgstr ""
+msgstr "Notification de test envoyée avec succès."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1104,7 +1104,7 @@ msgstr "Montrer/cacher le statut favori de l'entrée"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
-msgstr ""
+msgstr "Sujet"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -1131,7 +1131,7 @@ msgstr "Se désabonner"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
-msgstr ""
+msgstr "Clé utilisateur"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"

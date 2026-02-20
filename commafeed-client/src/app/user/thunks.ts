@@ -158,8 +158,8 @@ export const changeSharingSetting = createAppAsyncThunk(
     }
 )
 
-export const changeNotificationSettings = createAppAsyncThunk(
-    "settings/notificationSettings",
+export const changePushNotificationSettings = createAppAsyncThunk(
+    "settings/pushNotificationSettings",
     (pushNotificationSettings: PushNotificationSettings, thunkApi) => {
         const { settings } = thunkApi.getState().user
         if (!settings) return

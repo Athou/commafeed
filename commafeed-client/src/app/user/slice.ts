@@ -11,8 +11,8 @@ import {
     changeMarkAllAsReadConfirmation,
     changeMarkAllAsReadNavigateToUnread,
     changeMobileFooter,
-    changeNotificationSettings,
     changePrimaryColor,
+    changePushNotificationSettings,
     changeReadingMode,
     changeReadingOrder,
     changeScrollMarks,
@@ -149,7 +149,7 @@ export const userSlice = createSlice({
             if (!state.settings) return
             state.settings.sharingSettings[action.meta.arg.site] = action.meta.arg.value
         })
-        builder.addCase(changeNotificationSettings.pending, (state, action) => {
+        builder.addCase(changePushNotificationSettings.pending, (state, action) => {
             if (!state.settings) return
             state.settings.pushNotificationSettings = action.meta.arg
         })
@@ -173,7 +173,7 @@ export const userSlice = createSlice({
                 changeDisablePullToRefresh.fulfilled,
                 changePrimaryColor.fulfilled,
                 changeSharingSetting.fulfilled,
-                changeNotificationSettings.fulfilled
+                changePushNotificationSettings.fulfilled
             ),
             () => {
                 showNotification({

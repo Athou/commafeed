@@ -134,6 +134,10 @@ msgstr "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
 msgid "Asc"
 msgstr "Asc"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr "Auto-mark as read"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Back"
@@ -281,6 +285,10 @@ msgstr "Dark"
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
 msgstr "Date created"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "days"
+msgstr "days"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -599,6 +607,10 @@ msgstr "Mark as read"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Mark as read up to here"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
+msgstr "Mark entries in this feed as read after this number of days. Leave empty to disable."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

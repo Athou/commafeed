@@ -30,6 +30,7 @@ export interface Subscription {
     filter?: string
     filterLegacy?: string
     pushNotificationsEnabled: boolean
+    autoMarkAsReadAfterDays?: number
 }
 
 export interface Category {
@@ -112,6 +113,7 @@ export interface FeedModificationRequest {
     position?: number
     filter?: string
     pushNotificationsEnabled: boolean
+    autoMarkAsReadAfterDays?: number
 }
 
 export interface GetEntriesRequest {

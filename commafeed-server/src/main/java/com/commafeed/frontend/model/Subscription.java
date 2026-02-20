@@ -68,6 +68,9 @@ public class Subscription implements Serializable {
 	@Schema(description = "whether to send push notifications for new entries of this feed", required = true)
 	private boolean pushNotificationsEnabled;
 
+	@Schema(description = "automatically mark entries as read after this many days (null to disable)")
+	private Integer autoMarkAsReadAfterDays;
+
 	public static Subscription build(FeedSubscription subscription, UnreadCount unreadCount) {
 		FeedCategory category = subscription.getCategory();
 		Feed feed = subscription.getFeed();
@@ -89,6 +92,7 @@ public class Subscription implements Serializable {
 		sub.setFilter(subscription.getFilter());
 		sub.setFilterLegacy(subscription.getFilterLegacy());
 		sub.setPushNotificationsEnabled(subscription.isPushNotificationsEnabled());
+		sub.setAutoMarkAsReadAfterDays(subscription.getAutoMarkAsReadAfterDays());
 		return sub;
 	}
 

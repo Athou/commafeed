@@ -18,15 +18,19 @@ import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.QFeed;
 import com.commafeed.backend.model.QFeedEntry;
 import com.commafeed.backend.model.QFeedEntryContent;
 import com.commafeed.backend.model.QFeedEntryStatus;
 import com.commafeed.backend.model.QFeedEntryTag;
+import com.commafeed.backend.model.QFeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.frontend.model.UnreadCount;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 
 @Singleton
@@ -34,8 +38,10 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
 	private static final QFeedEntryStatus STATUS = QFeedEntryStatus.feedEntryStatus;
 	private static final QFeedEntry ENTRY = QFeedEntry.feedEntry;
+	private static final QFeed FEED = QFeed.feed;
 	private static final QFeedEntryContent CONTENT = QFeedEntryContent.feedEntryContent;
 	private static final QFeedEntryTag TAG = QFeedEntryTag.feedEntryTag;
+	private static final QFeedSubscription SUBSCRIPTION = QFeedSubscription.feedSubscription;
 
 	private final FeedEntryTagDAO feedEntryTagDAO;
 	private final CommaFeedConfiguration config;
@@ -230,6 +236,60 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 				.limit(limit)
 				.fetch();
 		return deleteQuery(STATUS).where(STATUS.id.in(ids)).execute();
+	}
+
+	public long autoMarkAsRead(int limit) {
+		Instant now = Instant.now();
+
+		BooleanBuilder where = new BooleanBuilder();
+		where.and(SUBSCRIPTION.autoMarkAsReadAfterDays.isNotNull());
+		where.and(SUBSCRIPTION.autoMarkAsReadAfterDays.gt(0));
+
+		NumberExpression<Integer> daysDiff = Expressions.numberTemplate(Integer.class, "TIMESTAMPDIFF(DAY, {0}, {1})", ENTRY.published,
+				now);
+		where.and(daysDiff.goe(SUBSCRIPTION.autoMarkAsReadAfterDays));
+
+		where.and(buildUnreadPredicate());
+
+		List<Tuple> tuples = query().select(ENTRY, STATUS, SUBSCRIPTION)
+				.from(ENTRY)
+				.join(ENTRY.feed, FEED)
+				.join(SUBSCRIPTION)
+				.on(SUBSCRIPTION.feed.eq(FEED))
+				.leftJoin(ENTRY.statuses, STATUS)
+				.on(STATUS.subscription.eq(SUBSCRIPTION))
+				.where(where)
+				.limit(limit)
+				.fetch();
+
+		long updated = 0;
+
+		// Update existing statuses
+		List<Long> statusIdsToUpdate = tuples.stream()
+				.map(t -> t.get(STATUS))
+				.filter(s -> s != null && s.getId() != null)
+				.map(FeedEntryStatus::getId)
+				.distinct()
+				.toList();
+
+		if (!statusIdsToUpdate.isEmpty()) {
+			updated += updateQuery(STATUS).where(STATUS.id.in(statusIdsToUpdate)).set(STATUS.read, true).execute();
+		}
+
+		// Insert new statuses for entries without existing status
+		for (Tuple tuple : tuples) {
+			FeedEntryStatus status = tuple.get(STATUS);
+			if (status == null || status.getId() == null) {
+				FeedEntry entry = tuple.get(ENTRY);
+				FeedSubscription sub = tuple.get(SUBSCRIPTION);
+				FeedEntryStatus newStatus = new FeedEntryStatus(sub.getUser(), sub, entry);
+				newStatus.setRead(true);
+				persist(newStatus);
+				updated++;
+			}
+		}
+
+		return updated;
 	}
 
 }

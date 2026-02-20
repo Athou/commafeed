@@ -133,4 +133,16 @@ public class DatabaseCleaningService {
 		} while (deleted != 0);
 		log.info("cleanup done: {} old read statuses deleted", total);
 	}
+
+	public void autoMarkAsRead() {
+		log.info("marking entries as read based on autoMarkAsReadAfterDays");
+		long total = 0;
+		long marked;
+		do {
+			marked = unitOfWork.call(() -> feedEntryStatusDAO.autoMarkAsRead(batchSize));
+			total += marked;
+			log.debug("marked {} entries as read", total);
+		} while (marked != 0);
+		log.info("cleanup done: marked {} entries as read", total);
+	}
 }

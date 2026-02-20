@@ -134,6 +134,10 @@ msgstr "您确定要退订 <0>{feedName}</0> 吗？"
 msgid "Asc"
 msgstr "升序"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "返回"
@@ -281,6 +285,10 @@ msgstr "暗黑"
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
 msgstr "创建日期"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "days"
+msgstr ""
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -599,6 +607,10 @@ msgstr "标记为已读"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "标记为已读到这里"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
+msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

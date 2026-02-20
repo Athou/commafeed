@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro"
+import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
 import {
     Anchor,
@@ -38,6 +40,7 @@ export function FeedDetailsPage() {
     if (!id) throw new Error("id required")
 
     const apiKey = useAppSelector(state => state.user.profile?.apiKey)
+    const { _ } = useLingui()
     const dispatch = useAppDispatch()
     const query = useAsync(async () => await client.feed.get(id), [id])
     const feed = query.result?.data
@@ -144,6 +147,14 @@ export function FeedDetailsPage() {
                     <CategorySelect label={<Trans>Category</Trans>} {...form.getInputProps("categoryId")} clearable />
                     <NumberInput label={<Trans>Position</Trans>} {...form.getInputProps("position")} required min={0} />
                     <ReceivePushNotificationsChechbox {...form.getInputProps("pushNotificationsEnabled", { type: "checkbox" })} />
+                    <NumberInput
+                        label={<Trans>Auto-mark as read</Trans>}
+                        description={<Trans>Mark entries in this feed as read after this number of days. Leave empty to disable.</Trans>}
+                        suffix={` ${_(msg`days`)}`}
+                        {...form.getInputProps("autoMarkAsReadAfterDays")}
+                        min={1}
+                        max={3650}
+                    />
                     <Input.Wrapper
                         label={<Trans>Filtering expression</Trans>}
                         description={

@@ -437,6 +437,7 @@ public class FeedREST {
 		}
 
 		subscription.setPushNotificationsEnabled(req.isPushNotificationsEnabled());
+		subscription.setAutoMarkAsReadAfterDays(req.getAutoMarkAsReadAfterDays());
 
 		if (StringUtils.isNotBlank(req.getName())) {
 			subscription.setTitle(req.getName());

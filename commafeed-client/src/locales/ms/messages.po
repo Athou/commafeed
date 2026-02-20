@@ -134,6 +134,10 @@ msgstr "Adakah anda pasti mahu berhenti melanggan <0>{feedName}</0>?"
 msgid "Asc"
 msgstr ""
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Auto-mark as read"
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Kembali"
@@ -281,6 +285,10 @@ msgstr ""
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
 msgstr "Tarikh dibuat"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "days"
+msgstr ""
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -599,6 +607,10 @@ msgstr "Tandakan sebagai dibaca"
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Mark as read up to here"
 msgstr "Tandai sebagai dibaca sehingga di sini"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
+msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

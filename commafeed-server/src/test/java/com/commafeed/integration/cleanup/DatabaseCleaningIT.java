@@ -15,6 +15,7 @@ import com.commafeed.TestConstants;
 import com.commafeed.backend.service.db.DatabaseCleaningService;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
+import com.commafeed.frontend.model.request.FeedModificationRequest;
 import com.commafeed.frontend.model.request.StarRequest;
 import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.integration.BaseIT;
@@ -180,6 +181,32 @@ class DatabaseCleaningIT extends BaseIT {
 			// Verify both entries were deleted (neither is starred)
 			Entries entriesAfter = getFeedEntries(subscriptionId);
 			Assertions.assertEquals(0, entriesAfter.getEntries().size());
+		}
+	}
+
+	@Nested
+	class AutoMarkAsRead {
+		@Test
+		void entriesAreMarkedAsReadAfterSpecifiedDays() {
+			// Subscribe to feed
+			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
+
+			// verify we have 2 unread entries
+			Entries entries = getFeedEntries(subscriptionId);
+			Assertions.assertEquals(2, entries.getEntries().stream().filter(e -> !e.isRead()).count());
+
+			// set auto-mark as read
+			FeedModificationRequest req = new FeedModificationRequest();
+			req.setId(subscriptionId);
+			req.setAutoMarkAsReadAfterDays(1);
+			RestAssured.given().body(req).contentType(ContentType.JSON).post("rest/feed/modify").then().statusCode(200);
+
+			// run auto-mark as read
+			databaseCleaningService.autoMarkAsRead();
+
+			// verify all entries are now read
+			entries = getFeedEntries(subscriptionId);
+			Assertions.assertEquals(0, entries.getEntries().stream().filter(e -> !e.isRead()).count());
 		}
 	}
 }

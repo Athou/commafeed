@@ -49,4 +49,7 @@ public class FeedSubscription extends AbstractModel {
 	@Column(name = "push_notifications_enabled")
 	private boolean pushNotificationsEnabled;
 
+	@Column(name = "auto_mark_as_read_after_days")
+	private Integer autoMarkAsReadAfterDays;
+
 }

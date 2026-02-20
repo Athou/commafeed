@@ -34,4 +34,7 @@ public class FeedModificationRequest implements Serializable {
 	@Schema(description = "whether to send push notifications for new entries of this feed")
 	private boolean pushNotificationsEnabled;
 
+	@Schema(description = "automatically mark entries as read after this many days (null to disable)")
+	private Integer autoMarkAsReadAfterDays;
+
 }

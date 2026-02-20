@@ -32,5 +32,15 @@
 		</addColumn>
 	</changeSet>
 
-</databaseChangeLog>
+	<changeSet id="add-auto-mark-as-read-after-days" author="athou">
+		<addColumn tableName="FEEDSUBSCRIPTIONS">
+			<column name="auto_mark_as_read_after_days" type="INT">
+				<constraints nullable="true" />
+			</column>
+		</addColumn>
+		<createIndex indexName="feedsubscriptions_automark_index" tableName="FEEDSUBSCRIPTIONS">
+			<column name="auto_mark_as_read_after_days" />
+		</createIndex>
+	</changeSet>
 
+</databaseChangeLog>

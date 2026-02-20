@@ -36,7 +36,7 @@ msgstr "О CommaFeed"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Access token"
-msgstr ""
+msgstr "Токен доступа"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -63,7 +63,7 @@ msgstr "Админ"
 #: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
-msgstr ""
+msgstr "Имя администратора"
 
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
@@ -100,11 +100,11 @@ msgstr "Ключ API"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
-msgstr ""
+msgstr "API токен"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
-msgstr ""
+msgstr "Токен приложения"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -136,7 +136,7 @@ msgstr "По возрастанию"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Auto-mark as read"
-msgstr ""
+msgstr "Автоматически помечать как прочитанное"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
@@ -149,7 +149,7 @@ msgstr "Вернуться к входу"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Blue"
-msgstr ""
+msgstr "Синий"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extension"
@@ -161,11 +161,11 @@ msgstr "Для браузера Chrome требуется расширение"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
-msgstr ""
+msgstr "Вкладка браузера"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
-msgstr ""
+msgstr "Создайте выражение фильтра, чтобы указать, что вы хотите читать. Записи, которые не соответствуют выражению, будут автоматически помечены как прочитанные."
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -206,7 +206,7 @@ msgstr "Закрыть меню"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
@@ -243,7 +243,7 @@ msgstr "Подтвердить пароль"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
-msgstr ""
+msgstr "Подтвердите пароль"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -251,7 +251,7 @@ msgstr "Уютно"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Create Admin Account"
-msgstr ""
+msgstr "Создать учетную запись администратора"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
@@ -275,7 +275,7 @@ msgstr "Пользовательский JS-код, который будет в
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Cyan"
-msgstr ""
+msgstr "Голубой"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -288,7 +288,7 @@ msgstr "Дата создания"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
-msgstr ""
+msgstr "дней"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -317,7 +317,7 @@ msgstr "Подробно"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Disable \"Pull to refresh\" browser behavior"
-msgstr ""
+msgstr "Отключить поведение браузера «Потяните для обновления»"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -372,11 +372,11 @@ msgstr "Введите текущий пароль, чтобы изменить 
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entries to keep above the selected entry when scrolling"
-msgstr ""
+msgstr "Количество записей, которые должны оставаться над выбранной записью при прокрутке"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
-msgstr ""
+msgstr "Заголовки записей"
 
 #: src/components/Alert.tsx
 msgid "Error"
@@ -423,11 +423,11 @@ msgstr "Выражение фильтрации"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Font size"
-msgstr ""
+msgstr "Размер шрифта"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Force fetching feeds is not yet available."
-msgstr ""
+msgstr "Принудительное получение фидов пока недоступно."
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
@@ -468,15 +468,15 @@ msgstr "Сладости"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
-msgstr ""
+msgstr "Виноградный"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Gray"
-msgstr ""
+msgstr "Серый"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Green"
-msgstr ""
+msgstr "Зеленый"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
@@ -500,15 +500,15 @@ msgstr "В развернутом виде прокрутка записей п�
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
-msgstr ""
+msgstr "Индиго"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Initial Setup"
-msgstr ""
+msgstr "Начальная настройка"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Invalid password reset link. Please request a new one."
-msgstr ""
+msgstr "Неверная ссылка для сброса пароля. Пожалуйста, запросите новую."
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -542,7 +542,7 @@ msgstr "Светлая"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Lime"
-msgstr ""
+msgstr "Лаймовый"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -552,7 +552,7 @@ msgstr "Ссылка"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Link to the documentation"
-msgstr ""
+msgstr "Ссылка на документацию"
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
@@ -610,7 +610,7 @@ msgstr "Отметить как прочитанное до этого мест�
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
-msgstr ""
+msgstr "Помечать записи в этом фиде как прочитанные через указанное количество дней. Оставьте пустым, чтобы отключить."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
@@ -646,7 +646,7 @@ msgstr "Перейдите к подписке, введя ее имя."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Navigate to the next category/feed with unread entries when marking all entries as read"
-msgstr ""
+msgstr "Переходить к следующей категории/фиду с непрочитанными записями при пометке всех записей как прочитанных"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -660,7 +660,7 @@ msgstr "Новый пароль"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
-msgstr ""
+msgstr "Новый пароль"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -685,7 +685,7 @@ msgstr "Записей больше нет"
 
 #: src/components/content/ShareButtons.tsx
 msgid "No sharing options available."
-msgstr ""
+msgstr "Нет доступных вариантов для обмена."
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
@@ -697,11 +697,11 @@ msgstr "Сначала самые старые"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On desktop"
-msgstr ""
+msgstr "На ПК"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile"
-msgstr ""
+msgstr "На телефоне"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
@@ -709,7 +709,7 @@ msgstr "На мобильных устройствах отображать кн
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Only applies to compact, cozy and detailed modes"
-msgstr ""
+msgstr "Применяется только к компактному, уютному и подробному режимам"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
@@ -775,7 +775,7 @@ msgstr "Необходим файл OPML"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Orange"
-msgstr ""
+msgstr "Оранжевый"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -801,7 +801,7 @@ msgstr "Пароль"
 
 #: src/hooks/useValidationRules.ts
 msgid "Password must be at least {minimumPasswordLength} characters"
-msgstr ""
+msgstr "Пароль должен содержать не менее {minimumPasswordLength} символов"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
@@ -813,7 +813,7 @@ msgstr "Пароли не совпадают"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Pink"
-msgstr ""
+msgstr "Розовый"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -826,7 +826,7 @@ msgstr "Предыдущий"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Primary color"
-msgstr ""
+msgstr "Основной цвет"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -834,28 +834,28 @@ msgstr "Профиль"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notification service"
-msgstr ""
+msgstr "Служба пуш-уведомлений"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Push notifications"
-msgstr ""
+msgstr "Пуш-уведомления"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Push notifications are not configured in your user settings."
-msgstr ""
+msgstr "Пуш-уведомления не настроены в ваших пользовательских настройках."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notifications are not enabled on this CommaFeed instance."
-msgstr ""
+msgstr "Пуш-уведомления не включены в этом экземпляре CommaFeed."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Receive push notifications"
-msgstr ""
+msgstr "Получать пуш-уведомления"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Receive push notifications when new feed entries are discovered. Enable \"Receive push notifications\" in the settings of each feed for which you want to receive notifications."
-msgstr ""
+msgstr "Получайте пуш-уведомления при обнаружении новых записей в фиде. Включите «Получать пуш-уведомления» в настройках каждого фида, для которого вы хотите получать уведомления."
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
@@ -863,7 +863,7 @@ msgstr "Восстановить пароль"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Red"
-msgstr ""
+msgstr "Красный"
 
 #: src/components/header/Header.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
@@ -877,7 +877,7 @@ msgstr "Регистрация закрыта для этого экземпля
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
-msgstr ""
+msgstr "Сброс пароля"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
@@ -918,16 +918,16 @@ msgstr "Поиск"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
-msgstr ""
+msgstr "Выбрать следующий непрочитанный фид/категорию"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
-msgstr ""
+msgstr "Выбрать предыдущий непрочитанный фид/категорию"
 
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
-msgstr ""
+msgstr "URL сервера"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -977,7 +977,7 @@ msgstr "Показать меню входа (телефон)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show external link icon"
-msgstr ""
+msgstr "Показывать значок внешней ссылки"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
@@ -993,15 +993,15 @@ msgstr "Показать родное меню (ПК)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
-msgstr ""
+msgstr "Показывать значок звезды"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab favicon"
-msgstr ""
+msgstr "Показывать количество непрочитанных во вкладке favicon"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab title"
-msgstr ""
+msgstr "Показывать количество непрочитанных в заголовке вкладки"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -1071,15 +1071,15 @@ msgstr "Теги"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Teal"
-msgstr ""
+msgstr "Бирюзовый"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test"
-msgstr ""
+msgstr "Тест"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
-msgstr ""
+msgstr "Тестовое уведомление успешно отправлено."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1092,7 +1092,7 @@ msgstr "Тема"
 #. placeholder {0}: feed.filterLegacy
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr ""
+msgstr "Этот фид имеет устаревший фильтр, который нельзя редактировать и который не применяется. Пожалуйста, создайте фильтр заново, используя новый редактор выражений. Устаревшее выражение фильтра было: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
@@ -1100,7 +1100,7 @@ msgstr "Это ваш ключ API. Он может использоваться
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"
-msgstr ""
+msgstr "Этот параметр может вызвать проблемы с прокруткой в некоторых браузерах (например, Safari)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
@@ -1116,7 +1116,7 @@ msgstr "Переключение статуса избранное для тек
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
-msgstr ""
+msgstr "Тема"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -1143,7 +1143,7 @@ msgstr "Отписаться"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
-msgstr ""
+msgstr "Ключ пользователя"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
@@ -1156,7 +1156,7 @@ msgstr "Имя пользователя или адрес электронной
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Violet"
-msgstr ""
+msgstr "Фиолетовый"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -1168,11 +1168,11 @@ msgstr "Веб-сайт"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
-msgstr ""
+msgstr "Добро пожаловать! Похоже, вы запускаете CommaFeed в первый раз. Пожалуйста, создайте учетную запись администратора, чтобы начать работу."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
-msgstr ""
+msgstr "Желтый"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
@@ -1184,4 +1184,4 @@ msgstr "Ваши каналы были поставлены в очередь н
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Your password has been changed. You can now log in with your new password."
-msgstr ""
+msgstr "Ваш пароль был изменен. Теперь вы можете войти с новым паролем."

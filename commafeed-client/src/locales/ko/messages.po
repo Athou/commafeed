@@ -15,7 +15,7 @@ msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
-msgstr ""
+msgstr "<0>CommaFeed는 오픈 소스 프로젝트입니다. 소스는 </0><1>GitHub</1>에 호스팅됩니다."
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
@@ -23,7 +23,7 @@ msgstr "<0>계정이 있습니까?</0><1>로그인하세요!</1>"
 
 #: src/pages/app/DonatePage.tsx
 msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
-msgstr ""
+msgstr "<0>안녕하세요,</0><1>저는 벨기에의 Jérémie이며 10년 넘게 여가 시간에 CommaFeed를 개발해 왔습니다. CommaFeed를 계속 지원할 수 있도록 관심을 가져주셔서 감사합니다.</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
@@ -36,7 +36,7 @@ msgstr "정보"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Access token"
-msgstr ""
+msgstr "액세스 토큰"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -63,7 +63,7 @@ msgstr "관리자"
 #: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
-msgstr ""
+msgstr "관리자 사용자 이름"
 
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
@@ -76,7 +76,7 @@ msgstr "전체"
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
-msgstr ""
+msgstr "항상"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
@@ -92,7 +92,7 @@ msgstr "피드 분석"
 
 #: src/components/AnnouncementDialog.tsx
 msgid "Announcement"
-msgstr ""
+msgstr "공지사항"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
@@ -100,11 +100,11 @@ msgstr "API 키"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
-msgstr ""
+msgstr "API 토큰"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
-msgstr ""
+msgstr "앱 토큰"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -136,7 +136,7 @@ msgstr "오름차순"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Auto-mark as read"
-msgstr ""
+msgstr "자동으로 읽음 표시"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
@@ -149,23 +149,23 @@ msgstr "로그인으로 돌아가기"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Blue"
-msgstr ""
+msgstr "블루"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extension"
-msgstr ""
+msgstr "브라우저 확장 프로그램"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
-msgstr ""
+msgstr "Chrome에는 브라우저 확장 프로그램이 필요합니다"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
-msgstr ""
+msgstr "브라우저 탭"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
-msgstr ""
+msgstr "읽고 싶은 항목을 지정하기 위한 필터 표현식을 작성합니다. 일치하지 않는 항목은 자동으로 읽음으로 표시됩니다."
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -202,19 +202,19 @@ msgstr "피드가 작동하는지 확인"
 
 #: src/pages/app/Layout.tsx
 msgid "Close menu"
-msgstr ""
+msgstr "메뉴 닫기"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
-msgstr ""
+msgstr "CommaFeed 브라우저 확장 프로그램 버전 {browserExtensionVersion}."
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
-msgstr ""
+msgstr "CommaFeed는 Fever API와 호환됩니다. Fever 호환 모바일 클라이언트에서 다음 URL을 사용하십시오. 사용자 이름과 <0>API 키</0>로 로그인하십시오."
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -222,7 +222,7 @@ msgstr "다음 읽지 않은 항목을 쉼표로 피드"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed version {version} ({revision})."
-msgstr ""
+msgstr "CommaFeed 버전 {version} ({revision})."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"
@@ -243,7 +243,7 @@ msgstr "비밀번호 확인"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
-msgstr ""
+msgstr "비밀번호 확인"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -251,7 +251,7 @@ msgstr "코지"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Create Admin Account"
-msgstr ""
+msgstr "관리자 계정 생성"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
@@ -263,24 +263,24 @@ msgstr "현재 비밀번호"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Custom code"
-msgstr ""
+msgstr "사용자 정의 코드"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
-msgstr ""
+msgstr "적용될 사용자 정의 CSS 규칙"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
+msgstr "페이지 로드 시 실행될 사용자 정의 JS 코드"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Cyan"
-msgstr ""
+msgstr "시안"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Dark"
-msgstr ""
+msgstr "다크"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -288,7 +288,7 @@ msgstr "생성 날짜"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
-msgstr ""
+msgstr "일"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -313,11 +313,11 @@ msgstr "설명"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Detailed"
-msgstr ""
+msgstr "상세히"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Disable \"Pull to refresh\" browser behavior"
-msgstr ""
+msgstr "브라우저의 \"당겨서 새로고침\" 동작 비활성화"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -328,7 +328,7 @@ msgstr "디스플레이"
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/DonatePage.tsx
 msgid "Donate"
-msgstr ""
+msgstr "기부"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
@@ -372,11 +372,11 @@ msgstr "프로필 설정을 변경하려면 현재 비밀번호를 입력하세�
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entries to keep above the selected entry when scrolling"
-msgstr ""
+msgstr "스크롤 시 선택한 항목 위에 유지할 항목 수"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
-msgstr ""
+msgstr "항목 헤더"
 
 #: src/components/Alert.tsx
 msgid "Error"
@@ -393,7 +393,7 @@ msgstr "구독 및 카테고리를 다른 피드 읽기 서비스에서 가져�
 #: src/components/header/Header.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Extension options"
-msgstr ""
+msgstr "확장 프로그램 옵션"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
@@ -407,15 +407,15 @@ msgstr "피드 URL"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
-msgstr ""
+msgstr "지금 모든 피드 가져오기"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API"
-msgstr ""
+msgstr "Fever API"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
-msgstr ""
+msgstr "Fever API URL"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -423,11 +423,11 @@ msgstr "필터링 표현식"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Font size"
-msgstr ""
+msgstr "글꼴 크기"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Force fetching feeds is not yet available."
-msgstr ""
+msgstr "피드 강제 가져오기는 아직 사용할 수 없습니다."
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
@@ -452,7 +452,7 @@ msgstr "생성된 피드 URL"
 #. placeholder {0}: truncate(props.entry.feedName, 30)
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Go to {0}"
-msgstr ""
+msgstr "{0} (으)로 이동"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
@@ -468,23 +468,23 @@ msgstr "굿즈"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
-msgstr ""
+msgstr "그레이프"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Gray"
-msgstr ""
+msgstr "그레이"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Green"
-msgstr ""
+msgstr "그린"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
-msgstr "아이디"
+msgstr "ID"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
-msgstr ""
+msgstr "항목이 화면에 완전히 들어맞지 않는 경우"
 
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
@@ -500,15 +500,15 @@ msgstr "확장 보기에서 항목을 스크롤하면 읽은 것으로 표시됩
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
-msgstr ""
+msgstr "인디고"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Initial Setup"
-msgstr ""
+msgstr "초기 설정"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Invalid password reset link. Please request a new one."
-msgstr ""
+msgstr "유효하지 않은 비밀번호 재설정 링크입니다. 새 링크를 요청하십시오."
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -538,11 +538,11 @@ msgstr "마지막 새로고침 메시지"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
-msgstr ""
+msgstr "라이트"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Lime"
-msgstr ""
+msgstr "라임"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -552,7 +552,7 @@ msgstr "링크"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Link to the documentation"
-msgstr ""
+msgstr "문서 링크"
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
@@ -582,7 +582,7 @@ msgstr "로그아웃"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Long press"
-msgstr ""
+msgstr "길게 누르기"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -610,7 +610,7 @@ msgstr "여기까지 읽은 것으로 표시"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
-msgstr ""
+msgstr "이 피드의 항목을 이 일수 후에 읽음으로 표시합니다. 비활성화하려면 비워 두십시오."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
@@ -618,7 +618,7 @@ msgstr "메트릭스"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Middle click"
-msgstr ""
+msgstr "중간 클릭"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
@@ -646,12 +646,12 @@ msgstr "이름을 입력하여 구독으로 이동"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Navigate to the next category/feed with unread entries when marking all entries as read"
-msgstr ""
+msgstr "모든 항목을 읽음으로 표시할 때 읽지 않은 항목이 있는 다음 카테고리/피드로 이동"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Never"
-msgstr ""
+msgstr "안 함"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
@@ -660,7 +660,7 @@ msgstr "새 비밀번호"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
-msgstr ""
+msgstr "새 비밀번호"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -685,7 +685,7 @@ msgstr "더 이상 항목이 없습니다"
 
 #: src/components/content/ShareButtons.tsx
 msgid "No sharing options available."
-msgstr ""
+msgstr "사용 가능한 공유 옵션이 없습니다."
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
@@ -697,19 +697,19 @@ msgstr "가장 오래된 것부터"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On desktop"
-msgstr ""
+msgstr "데스크톱에서"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile"
-msgstr ""
+msgstr "모바일에서"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
-msgstr ""
+msgstr "모바일에서는 화면 하단에 작업 버튼 표시"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Only applies to compact, cozy and detailed modes"
-msgstr ""
+msgstr "컴팩트, 코지, 상세 모드에만 적용됩니다."
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
@@ -717,7 +717,7 @@ msgstr "앗!"
 
 #: src/components/header/Header.tsx
 msgid "Open CommaFeed"
-msgstr ""
+msgstr "CommaFeed 열기"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
@@ -734,15 +734,15 @@ msgstr "링크 열기"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new background tab"
-msgstr ""
+msgstr "새 백그라운드 탭에서 링크 열기"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new tab"
-msgstr ""
+msgstr "새 탭에서 링크 열기"
 
 #: src/pages/app/Layout.tsx
 msgid "Open menu"
-msgstr ""
+msgstr "메뉴 열기"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
@@ -758,7 +758,7 @@ msgstr "현재 항목 열기/닫기"
 
 #: src/pages/app/AddPage.tsx
 msgid "OPML"
-msgstr ""
+msgstr "OPML"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "OPML export"
@@ -771,15 +771,15 @@ msgstr "OPML 파일"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file is required"
-msgstr ""
+msgstr "OPML 파일이 필요합니다"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Orange"
-msgstr ""
+msgstr "오렌지"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
-msgstr "주문"
+msgstr "순서"
 
 #: src/components/content/add/AddCategory.tsx
 msgid "Parent"
@@ -801,7 +801,7 @@ msgstr "비밀번호"
 
 #: src/hooks/useValidationRules.ts
 msgid "Password must be at least {minimumPasswordLength} characters"
-msgstr ""
+msgstr "비밀번호는 {minimumPasswordLength}자 이상이어야 합니다."
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
@@ -813,7 +813,7 @@ msgstr "비밀번호가 일치하지 않습니다"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Pink"
-msgstr ""
+msgstr "핑크"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -822,11 +822,11 @@ msgstr "위치"
 
 #: src/components/header/Header.tsx
 msgid "Previous"
-msgstr ""
+msgstr "이전"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Primary color"
-msgstr ""
+msgstr "기본 색상"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -834,28 +834,28 @@ msgstr "프로필"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notification service"
-msgstr ""
+msgstr "푸시 알림 서비스"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Push notifications"
-msgstr ""
+msgstr "푸시 알림"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Push notifications are not configured in your user settings."
-msgstr ""
+msgstr "사용자 설정에서 푸시 알림이 구성되지 않았습니다."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notifications are not enabled on this CommaFeed instance."
-msgstr ""
+msgstr "이 CommaFeed 인스턴스에서는 푸시 알림이 활성화되지 않았습니다."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Receive push notifications"
-msgstr ""
+msgstr "푸시 알림 받기"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Receive push notifications when new feed entries are discovered. Enable \"Receive push notifications\" in the settings of each feed for which you want to receive notifications."
-msgstr ""
+msgstr "새 피드 항목이 발견되면 푸시 알림을 받습니다. 알림을 받으려는 각 피드의 설정에서 \"푸시 알림 받기\"를 활성화하십시오."
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
@@ -863,7 +863,7 @@ msgstr "비밀번호 복구"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Red"
-msgstr ""
+msgstr "레드"
 
 #: src/components/header/Header.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
@@ -877,16 +877,16 @@ msgstr "이 CommaFeed 인스턴스에 대한 등록이 마감되었습니다."
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
-msgstr ""
+msgstr "비밀번호 재설정"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
-msgstr ""
+msgstr "REST API"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
-msgstr ""
+msgstr "오른쪽 클릭"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
@@ -899,7 +899,7 @@ msgstr "저장"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll selected entry to the top of the page"
-msgstr ""
+msgstr "선택한 항목을 페이지 상단으로 스크롤"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
@@ -907,7 +907,7 @@ msgstr "항목 간 탐색 시 부드럽게 스크롤"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scrolling"
-msgstr ""
+msgstr "스크롤"
 
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
@@ -918,16 +918,16 @@ msgstr "검색"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
-msgstr ""
+msgstr "다음 읽지 않은 피드/카테고리 선택"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
-msgstr ""
+msgstr "이전 읽지 않은 피드/카테고리 선택"
 
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
-msgstr ""
+msgstr "서버 URL"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -961,23 +961,23 @@ msgstr "시프트"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show CommaFeed's own context menu on right click"
-msgstr ""
+msgstr "오른쪽 클릭 시 CommaFeed의 자체 컨텍스트 메뉴 표시"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show confirmation when marking all entries as read"
-msgstr ""
+msgstr "모든 항목을 읽음으로 표시할 때 확인 메시지 표시"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
-msgstr ""
+msgstr "항목 메뉴 표시 (데스크톱)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (mobile)"
-msgstr ""
+msgstr "항목 메뉴 표시 (모바일)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show external link icon"
-msgstr ""
+msgstr "외부 링크 아이콘 표시"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
@@ -989,19 +989,19 @@ msgstr "키보드 단축키 도움말 표시"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
-msgstr ""
+msgstr "기본 메뉴 표시 (데스크톱)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
-msgstr ""
+msgstr "별표 아이콘 표시"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab favicon"
-msgstr ""
+msgstr "탭 파비콘에 읽지 않은 개수 표시"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab title"
-msgstr ""
+msgstr "탭 제목에 읽지 않은 개수 표시"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -1050,7 +1050,7 @@ msgstr "성공"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Swipe header to the left"
-msgstr ""
+msgstr "헤더를 왼쪽으로 스와이프"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
@@ -1062,7 +1062,7 @@ msgstr "밝은 테마로 전환"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "System"
-msgstr ""
+msgstr "시스템"
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -1071,15 +1071,15 @@ msgstr "태그"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Teal"
-msgstr ""
+msgstr "청록색"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test"
-msgstr ""
+msgstr "테스트"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
-msgstr ""
+msgstr "테스트 알림이 성공적으로 전송되었습니다."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1092,15 +1092,15 @@ msgstr "테마"
 #. placeholder {0}: feed.filterLegacy
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr ""
+msgstr "이 피드에는 편집할 수 없고 적용되지 않는 기존 필터가 있습니다. 새 표현식 편집기를 사용하여 필터를 다시 만드십시오. 기존 필터 표현식은 <0>{0}</0>이었습니다."
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr ""
+msgstr "이것은 귀하의 API 키입니다. 일부 읽기 전용 API 작업에 사용할 수 있으며 Fever API에 대한 액세스 권한을 부여합니다. 새 API 키를 생성하려면 페이지 하단의 양식을 사용하십시오."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"
-msgstr ""
+msgstr "이 설정은 일부 브라우저(예: Safari)에서 스크롤 문제를 일으킬 수 있습니다."
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
@@ -1108,15 +1108,15 @@ msgstr "현재 항목의 읽기 상태 전환"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "사이드바 전환"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle starred status of current entry"
-msgstr ""
+msgstr "현재 항목의 별표 표시 상태 전환"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
-msgstr ""
+msgstr "주제"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -1124,7 +1124,7 @@ msgstr "데모 계정으로 CommaFeed를 사용해 보세요: demo/demo"
 
 #: src/pages/WelcomePage.tsx
 msgid "Try the demo!"
-msgstr ""
+msgstr "데모를 시도해 보세요!"
 
 #: src/components/header/Header.tsx
 msgid "Unread"
@@ -1143,7 +1143,7 @@ msgstr "구독 취소"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
-msgstr ""
+msgstr "사용자 키"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
@@ -1156,7 +1156,7 @@ msgstr "사용자 이름 또는 이메일"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Violet"
-msgstr ""
+msgstr "바이올렛"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -1168,20 +1168,20 @@ msgstr "웹사이트"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
-msgstr ""
+msgstr "환영합니다! CommaFeed를 처음 실행하는 것 같습니다. 시작하려면 관리자 계정을 만드십시오."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
-msgstr ""
+msgstr "옐로우"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
-msgstr "아직 구독이 없습니다. "
+msgstr "아직 구독이 없습니다. 페이지 상단의 + 기호를 클릭하여 추가해 보시겠습니까?"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
+msgstr "피드가 새로 고침을 위해 대기열에 추가되었습니다."
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Your password has been changed. You can now log in with your new password."
-msgstr ""
+msgstr "비밀번호가 변경되었습니다. 이제 새 비밀번호로 로그인할 수 있습니다."

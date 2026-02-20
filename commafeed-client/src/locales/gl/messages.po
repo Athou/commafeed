@@ -37,7 +37,7 @@ msgstr "Sobre"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Access token"
-msgstr ""
+msgstr "Token de acceso"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -101,11 +101,11 @@ msgstr "Clave API"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
-msgstr ""
+msgstr "Token de API"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
-msgstr ""
+msgstr "Token de aplicación"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -137,7 +137,7 @@ msgstr "Asc"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Auto-mark as read"
-msgstr ""
+msgstr "Marcar automaticamente como lido"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
@@ -166,7 +166,7 @@ msgstr "Pestana do navegador"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
-msgstr ""
+msgstr "Crea unha expresión de filtrado para indicar o que queres ler. Os artigos que non coincidan marcaranse como lidos automaticamente."
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -289,7 +289,7 @@ msgstr "Data de creación"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
-msgstr ""
+msgstr "días"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -611,7 +611,7 @@ msgstr "Marcar como lido ata aquí"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
-msgstr ""
+msgstr "Marcar os artigos desta canle como lidos despois deste número de días. Deixar baleiro para desactivar."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
@@ -835,28 +835,28 @@ msgstr "Perfil"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notification service"
-msgstr ""
+msgstr "Servizo de notificacións push"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Push notifications"
-msgstr ""
+msgstr "Notificacións push"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Push notifications are not configured in your user settings."
-msgstr ""
+msgstr "As notificacións push non están configuradas nos teus axustes de usuario."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notifications are not enabled on this CommaFeed instance."
-msgstr ""
+msgstr "As notificacións push non están activadas nesta instancia de CommaFeed."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Receive push notifications"
-msgstr ""
+msgstr "Recibir notificacións push"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Receive push notifications when new feed entries are discovered. Enable \"Receive push notifications\" in the settings of each feed for which you want to receive notifications."
-msgstr ""
+msgstr "Recibir notificacións push cando se descubran novos artigos. Activa \"Recibir notificacións push\" nos axustes de cada canle para a que queiras recibir notificacións."
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
@@ -928,7 +928,7 @@ msgstr "Seleccionar a canle/categoría anterior sen ler"
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
-msgstr ""
+msgstr "URL do servidor"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -1076,11 +1076,11 @@ msgstr "Verdoso"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test"
-msgstr ""
+msgstr "Proba"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
-msgstr ""
+msgstr "Notificación de proba enviada correctamente."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1093,7 +1093,7 @@ msgstr "Decorado"
 #. placeholder {0}: feed.filterLegacy
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr ""
+msgstr "Esta canle ten un filtro antigo que non se pode editar e que non se aplica. Volve crear o filtro usando o novo editor de expresións. A expresión do filtro antigo era: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
@@ -1117,7 +1117,7 @@ msgstr "Activación do marcado con estrela do artigo actual"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
-msgstr ""
+msgstr "Tema"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -1144,7 +1144,7 @@ msgstr "Cancelar a subscrición"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
-msgstr ""
+msgstr "Clave de usuario"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"

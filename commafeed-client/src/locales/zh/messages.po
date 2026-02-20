@@ -36,7 +36,7 @@ msgstr "关于"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Access token"
-msgstr ""
+msgstr "访问令牌"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -100,11 +100,11 @@ msgstr "API 密钥"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
-msgstr ""
+msgstr "API 令牌"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
-msgstr ""
+msgstr "应用令牌"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -136,7 +136,7 @@ msgstr "升序"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Auto-mark as read"
-msgstr ""
+msgstr "自动标记为已读"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
@@ -165,7 +165,7 @@ msgstr "浏览器标签页"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
-msgstr ""
+msgstr "构建过滤表达式以指示您想阅读的内容。不匹配的条目将被自动标记为已读。"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -288,7 +288,7 @@ msgstr "创建日期"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
-msgstr ""
+msgstr "天"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -610,7 +610,7 @@ msgstr "标记为已读到这里"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
-msgstr ""
+msgstr "在此天数后将此信息流中的条目标记为已读。留空以禁用。"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
@@ -834,28 +834,28 @@ msgstr "配置文件"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notification service"
-msgstr ""
+msgstr "推送通知服务"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Push notifications"
-msgstr ""
+msgstr "推送通知"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Push notifications are not configured in your user settings."
-msgstr ""
+msgstr "您的用户设置中未配置推送通知。"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notifications are not enabled on this CommaFeed instance."
-msgstr ""
+msgstr "此 CommaFeed 实例未启用推送通知。"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Receive push notifications"
-msgstr ""
+msgstr "接收推送通知"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Receive push notifications when new feed entries are discovered. Enable \"Receive push notifications\" in the settings of each feed for which you want to receive notifications."
-msgstr ""
+msgstr "当发现新的信息流条目时接收推送通知。在您希望接收通知的每个信息流设置中启用“接收推送通知”。"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
@@ -927,7 +927,7 @@ msgstr "选择上一个未读信息流/类别"
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
-msgstr ""
+msgstr "服务器网址"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -1075,11 +1075,11 @@ msgstr "青绿"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test"
-msgstr ""
+msgstr "测试"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
-msgstr ""
+msgstr "测试通知发送成功。"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1092,7 +1092,7 @@ msgstr "主题"
 #. placeholder {0}: feed.filterLegacy
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr ""
+msgstr "此信息流具有无法编辑且未应用的旧版过滤器。请使用新的表达式编辑器重新创建过滤器。旧版过滤器表达式为：<0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
@@ -1116,7 +1116,7 @@ msgstr "切换当前条目的星标状态"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
-msgstr ""
+msgstr "主题"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -1143,7 +1143,7 @@ msgstr "取消订阅"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
-msgstr ""
+msgstr "用户密钥"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"

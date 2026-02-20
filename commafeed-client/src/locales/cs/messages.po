@@ -15,7 +15,7 @@ msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
-msgstr ""
+msgstr "<0>CommaFeed je open-source projekt. Zdrojové kódy jsou hostovány na </0><1>GitHubu</1>."
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
@@ -23,7 +23,7 @@ msgstr "<0>Máte účet?</0><1>Přihlaste se!</1>"
 
 #: src/pages/app/DonatePage.tsx
 msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
-msgstr ""
+msgstr "<0>Ahoj,</0><1>jsem Jérémie z Belgie a na CommaFeed pracuji ve svém volném čase již více než 10 let. Děkuji za váš zájem mi pomoci i nadále podporovat CommaFeed.</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
@@ -36,7 +36,7 @@ msgstr "Asi"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Access token"
-msgstr ""
+msgstr "Přístupový token"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -63,7 +63,7 @@ msgstr "Správce"
 #: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
-msgstr ""
+msgstr "Uživatelské jméno správce"
 
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
@@ -76,7 +76,7 @@ msgstr "Všechny"
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
-msgstr ""
+msgstr "Vždy"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
@@ -92,7 +92,7 @@ msgstr "Analyzujte krmivo"
 
 #: src/components/AnnouncementDialog.tsx
 msgid "Announcement"
-msgstr ""
+msgstr "Oznámení"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
@@ -100,11 +100,11 @@ msgstr "Klíč API"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
-msgstr ""
+msgstr "Token API"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
-msgstr ""
+msgstr "Token aplikace"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -132,11 +132,11 @@ msgstr "Opravdu se chcete odhlásit z odběru <0>{feedName}</0>?"
 
 #: src/components/header/Header.tsx
 msgid "Asc"
-msgstr ""
+msgstr "Vzestupně"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Auto-mark as read"
-msgstr ""
+msgstr "Automaticky označit jako přečtené"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
@@ -149,23 +149,23 @@ msgstr "Zpět k přihlášení"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Blue"
-msgstr ""
+msgstr "Modrá"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extension"
-msgstr ""
+msgstr "Rozšíření prohlížeče"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
-msgstr ""
+msgstr "Pro Chrome je vyžadováno rozšíření prohlížeče"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
-msgstr ""
+msgstr "Karta prohlížeče"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
-msgstr ""
+msgstr "Vytvořte výraz filtru pro určení toho, co chcete číst. Položky, které neodpovídají, budou automaticky označeny jako přečtené."
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -202,19 +202,19 @@ msgstr "Zkontrolujte, zda zdroj funguje"
 
 #: src/pages/app/Layout.tsx
 msgid "Close menu"
-msgstr ""
+msgstr "Zavřít menu"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
-msgstr ""
+msgstr "Verze rozšíření prohlížeče CommaFeed {browserExtensionVersion}."
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
-msgstr ""
+msgstr "CommaFeed je kompatibilní s Fever API. Použijte následující URL ve svém mobilním klientovi kompatibilním s Fever. Přihlaste se pomocí svého uživatelského jména a svého <0>klíče API</0>."
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -222,7 +222,7 @@ msgstr "CommaFeed další nepřečtená položka"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed version {version} ({revision})."
-msgstr ""
+msgstr "CommaFeed verze {version} ({revision})."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"
@@ -243,7 +243,7 @@ msgstr "Potvrďte heslo"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
-msgstr ""
+msgstr "Potvrdit heslo"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -251,11 +251,11 @@ msgstr "Útulný"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Create Admin Account"
-msgstr ""
+msgstr "Vytvořit účet správce"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Current password"
@@ -263,24 +263,24 @@ msgstr "Aktuální heslo"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Custom code"
-msgstr ""
+msgstr "Vlastní kód"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
-msgstr ""
+msgstr "Vlastní pravidla CSS, která budou použita"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
+msgstr "Vlastní kód JS, který bude spuštěn při načtení stránky"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Cyan"
-msgstr ""
+msgstr "Azurová"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Dark"
-msgstr ""
+msgstr "Tmavá"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -288,7 +288,7 @@ msgstr "Datum vytvoření"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
-msgstr ""
+msgstr "dní"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -309,15 +309,15 @@ msgstr "Smazat uživatele"
 
 #: src/components/header/Header.tsx
 msgid "Desc"
-msgstr ""
+msgstr "Sestupně"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Detailed"
-msgstr ""
+msgstr "Detailní"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Disable \"Pull to refresh\" browser behavior"
-msgstr ""
+msgstr "Zakázat chování prohlížeče \"Potažením obnovit\""
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -328,7 +328,7 @@ msgstr "Displej"
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/DonatePage.tsx
 msgid "Donate"
-msgstr ""
+msgstr "Darovat"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
@@ -346,7 +346,7 @@ msgstr "Přetáhněte odkaz na lištu záložek"
 #: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
-msgstr ""
+msgstr "E-mail"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -372,11 +372,11 @@ msgstr "Zadejte své aktuální heslo pro změnu nastavení profilu"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entries to keep above the selected entry when scrolling"
-msgstr ""
+msgstr "Počet položek, které mají zůstat nad vybranou položkou při posouvání"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
-msgstr ""
+msgstr "Hlavičky položek"
 
 #: src/components/Alert.tsx
 msgid "Error"
@@ -393,7 +393,7 @@ msgstr "Exportujte svá předplatná a kategorie jako soubor OPML, který lze im
 #: src/components/header/Header.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Extension options"
-msgstr ""
+msgstr "Možnosti rozšíření"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
@@ -407,15 +407,15 @@ msgstr "URL zdroje"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
-msgstr ""
+msgstr "Aktualizovat všechny mé zdroje"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API"
-msgstr ""
+msgstr "Fever API"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
-msgstr ""
+msgstr "URL Fever API"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -423,11 +423,11 @@ msgstr "Filtrování výrazu"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Font size"
-msgstr ""
+msgstr "Velikost písma"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Force fetching feeds is not yet available."
-msgstr ""
+msgstr "Vynucené stahování zdrojů zatím není k dispozici."
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
@@ -452,7 +452,7 @@ msgstr "Generovaná adresa URL zdroje"
 #. placeholder {0}: truncate(props.entry.feedName, 30)
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Go to {0}"
-msgstr ""
+msgstr "Přejít na {0}"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
@@ -468,23 +468,23 @@ msgstr "Dobroty"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
-msgstr ""
+msgstr "Hroznová"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Gray"
-msgstr ""
+msgstr "Šedá"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Green"
-msgstr ""
+msgstr "Zelená"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
-msgstr ""
+msgstr "ID"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
-msgstr ""
+msgstr "Pokud se položka nevejde celá na obrazovku"
 
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
@@ -492,7 +492,7 @@ msgstr "Pokud narazíte na problém, nahlaste jej prosím na stránce problémů
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "Import"
-msgstr ""
+msgstr "Importovat"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "In expanded view, scrolling through entries mark them as read"
@@ -500,15 +500,15 @@ msgstr "V rozšířeném zobrazení je procházením označíte jako přečtené
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
-msgstr ""
+msgstr "Indigová"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Initial Setup"
-msgstr ""
+msgstr "Počáteční nastavení"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Invalid password reset link. Please request a new one."
-msgstr ""
+msgstr "Neplatný odkaz pro resetování hesla. Požádejte prosím o nový."
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -538,11 +538,11 @@ msgstr "Poslední obnovovací zpráva"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
-msgstr ""
+msgstr "Světlá"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Lime"
-msgstr ""
+msgstr "Limetková"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -552,7 +552,7 @@ msgstr "Odkaz"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Link to the documentation"
-msgstr ""
+msgstr "Odkaz na dokumentaci"
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
@@ -582,12 +582,12 @@ msgstr "Odhlášení"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Long press"
-msgstr ""
+msgstr "Dlouhé stisknutí"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
-msgstr "Spravujte uživatele"
+msgstr "Spravovat uživatele"
 
 #: src/components/header/Header.tsx
 msgid "Mark all as read"
@@ -610,7 +610,7 @@ msgstr "Označit jako přečtené až sem"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
-msgstr ""
+msgstr "Označit položky v tomto zdroji jako přečtené po tomto počtu dní. Pro zakázání ponechte prázdné."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
@@ -618,7 +618,7 @@ msgstr "Metriky"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Middle click"
-msgstr ""
+msgstr "Kliknutí prostředním tlačítkem"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
@@ -631,7 +631,7 @@ msgstr "Přesuňte stránku nahoru"
 #: src/components/RelativeDate.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "N/A"
-msgstr ""
+msgstr "N/A"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -646,12 +646,12 @@ msgstr "Přejděte na předplatné zadáním jeho názvu"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Navigate to the next category/feed with unread entries when marking all entries as read"
-msgstr ""
+msgstr "Po označení všech položek jako přečtených přejít na další kategorii/zdroj s nepřečtenými položkami"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Never"
-msgstr ""
+msgstr "Nikdy"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
@@ -660,7 +660,7 @@ msgstr "Nové heslo"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
-msgstr ""
+msgstr "Nové heslo"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -685,11 +685,11 @@ msgstr "Žádné další záznamy"
 
 #: src/components/content/ShareButtons.tsx
 msgid "No sharing options available."
-msgstr ""
+msgstr "Nejsou k dispozici žádné možnosti sdílení."
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
-msgstr "Nic nebylo nalezeno"
+msgstr "Nebylo nic nalezeno"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Oldest first"
@@ -697,19 +697,19 @@ msgstr "Nejdříve nejstarší"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On desktop"
-msgstr ""
+msgstr "Na desktopu"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile"
-msgstr ""
+msgstr "Na mobilu"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
-msgstr ""
+msgstr "Na mobilu zobrazovat akční tlačítka v dolní části obrazovky"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Only applies to compact, cozy and detailed modes"
-msgstr ""
+msgstr "Platí pouze pro režimy kompaktní, útulný a detailní"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
@@ -717,7 +717,7 @@ msgstr "Jejda!"
 
 #: src/components/header/Header.tsx
 msgid "Open CommaFeed"
-msgstr ""
+msgstr "Otevřít CommaFeed"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
@@ -734,15 +734,15 @@ msgstr "Otevřít odkaz"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new background tab"
-msgstr ""
+msgstr "Otevřít odkaz na nové kartě na pozadí"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new tab"
-msgstr ""
+msgstr "Otevřít odkaz na nové kartě"
 
 #: src/pages/app/Layout.tsx
 msgid "Open menu"
-msgstr ""
+msgstr "Otevřít menu"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
@@ -758,7 +758,7 @@ msgstr "Otevřít/zavřít aktuální položku"
 
 #: src/pages/app/AddPage.tsx
 msgid "OPML"
-msgstr ""
+msgstr "OPML"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "OPML export"
@@ -771,15 +771,15 @@ msgstr "soubor OPML"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file is required"
-msgstr ""
+msgstr "Soubor OPML je vyžadován"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Orange"
-msgstr ""
+msgstr "Oranžová"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
-msgstr "Objednávka"
+msgstr "Pořadí"
 
 #: src/components/content/add/AddCategory.tsx
 msgid "Parent"
@@ -801,7 +801,7 @@ msgstr "Heslo"
 
 #: src/hooks/useValidationRules.ts
 msgid "Password must be at least {minimumPasswordLength} characters"
-msgstr ""
+msgstr "Heslo musí mít alespoň {minimumPasswordLength} znaků"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
@@ -813,7 +813,7 @@ msgstr "Hesla se neshodují"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Pink"
-msgstr ""
+msgstr "Růžová"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -822,11 +822,11 @@ msgstr "Pozice"
 
 #: src/components/header/Header.tsx
 msgid "Previous"
-msgstr ""
+msgstr "Předchozí"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Primary color"
-msgstr ""
+msgstr "Primární barva"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -834,36 +834,36 @@ msgstr "Profil"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notification service"
-msgstr ""
+msgstr "Služba push oznámení"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Push notifications"
-msgstr ""
+msgstr "Push oznámení"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Push notifications are not configured in your user settings."
-msgstr ""
+msgstr "Push oznámení nejsou ve vašem uživatelském nastavení nakonfigurována."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notifications are not enabled on this CommaFeed instance."
-msgstr ""
+msgstr "Push oznámení nejsou na této instanci CommaFeed povolena."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Receive push notifications"
-msgstr ""
+msgstr "Přijímat push oznámení"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Receive push notifications when new feed entries are discovered. Enable \"Receive push notifications\" in the settings of each feed for which you want to receive notifications."
-msgstr ""
+msgstr "Přijímat push oznámení, když jsou objeveny nové položky zdroje. Povolte \"Přijímat push oznámení\" v nastavení každého zdroje, pro který chcete dostávat oznámení."
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
-msgstr "Obnovte heslo"
+msgstr "Obnovit heslo"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Red"
-msgstr ""
+msgstr "Červená"
 
 #: src/components/header/Header.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
@@ -877,16 +877,16 @@ msgstr "V této instanci CommaFeed jsou registrace uzavřeny"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
-msgstr ""
+msgstr "Obnovit heslo"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
-msgstr ""
+msgstr "REST API"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
-msgstr ""
+msgstr "Kliknutí pravým tlačítkem"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
@@ -899,7 +899,7 @@ msgstr "Uložit"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll selected entry to the top of the page"
-msgstr ""
+msgstr "Posunout vybranou položku na začátek stránky"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
@@ -907,7 +907,7 @@ msgstr "Posouvejte plynule při navigaci mezi položkami"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scrolling"
-msgstr ""
+msgstr "Posouvání"
 
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
@@ -918,20 +918,20 @@ msgstr "Hledej"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
-msgstr ""
+msgstr "Vybrat další nepřečtený zdroj/kategorii"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
-msgstr ""
+msgstr "Vybrat předchozí nepřečtený zdroj/kategorii"
 
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
-msgstr ""
+msgstr "URL serveru"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
-msgstr "Zaměřte se na další položku, aniž byste ji otevřeli"
+msgstr "Zaměřit se na další položku, aniž byste ji otevřeli"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on previous entry without opening it"
@@ -961,27 +961,27 @@ msgstr "Směna"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show CommaFeed's own context menu on right click"
-msgstr ""
+msgstr "Zobrazovat vlastní kontextové menu CommaFeed při kliknutí pravým tlačítkem"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show confirmation when marking all entries as read"
-msgstr ""
+msgstr "Zobrazovat potvrzení při označování všech položek jako přečtených"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
-msgstr ""
+msgstr "Zobrazit menu položky (desktop)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (mobile)"
-msgstr ""
+msgstr "Zobrazit menu položky (mobil)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show external link icon"
-msgstr ""
+msgstr "Zobrazovat ikonu externího odkazu"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
-msgstr "Zobrazit kanály a kategorie bez nepřečtených položek"
+msgstr "Zobrazit zdroje a kategorie bez nepřečtených položek"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show keyboard shortcut help"
@@ -989,25 +989,25 @@ msgstr "Zobrazit nápovědu ke klávesovým zkratkám"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
-msgstr ""
+msgstr "Zobrazit nativní menu (desktop)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
-msgstr ""
+msgstr "Zobrazovat ikonu hvězdičky"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab favicon"
-msgstr ""
+msgstr "Zobrazovat počet nepřečtených v ikoně karty"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab title"
-msgstr ""
+msgstr "Zobrazovat počet nepřečtených v názvu karty"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Sign up"
-msgstr "Zaregistrujte se"
+msgstr "Zaregistrovat se"
 
 #: src/pages/ErrorPage.tsx
 msgid "Something bad just happened..."
@@ -1050,36 +1050,36 @@ msgstr "Úspěch"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Swipe header to the left"
-msgstr ""
+msgstr "Přejetím po hlavičce doleva"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
-msgstr "Přepněte na tmavý motiv"
+msgstr "Přepnout na tmavý motiv"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
-msgstr "Přepněte na světlé téma"
+msgstr "Přepnout na světlý motiv"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "System"
-msgstr ""
+msgstr "Systémový"
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
-msgstr "Značky"
+msgstr "Štítky"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Teal"
-msgstr ""
+msgstr "Šedozelená"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test"
-msgstr ""
+msgstr "Testovat"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
-msgstr ""
+msgstr "Testovací oznámení bylo úspěšně odesláno."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1092,31 +1092,31 @@ msgstr "Téma"
 #. placeholder {0}: feed.filterLegacy
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr ""
+msgstr "Tento zdroj má zastaralý filtr, který nelze upravovat a není aplikován. Znovu vytvořte filtr pomocí nového editoru výrazů. Původní výraz filtru byl: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr ""
+msgstr "Toto je váš klíč API. Lze jej použít pro některé operace API pouze pro čtení a poskytuje přístup k Fever API. Pro vygenerování nového klíče API použijte formulář v dolní části stránky."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"
-msgstr ""
+msgstr "Toto nastavení může u některých prohlížečů (např. Safari) způsobovat problémy s posouváním"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
-msgstr "Přepne stav čtení aktuálního záznamu"
+msgstr "Přepnout stav přečtení aktuální položky"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Přepnout boční panel"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle starred status of current entry"
-msgstr ""
+msgstr "Přepnout označení hvězdičkou u aktuální položky"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
-msgstr ""
+msgstr "Téma"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -1124,7 +1124,7 @@ msgstr "Vyzkoušejte CommaFeed s demo účtem: demo/demo"
 
 #: src/pages/WelcomePage.tsx
 msgid "Try the demo!"
-msgstr ""
+msgstr "Vyzkoušejte demo!"
 
 #: src/components/header/Header.tsx
 msgid "Unread"
@@ -1143,7 +1143,7 @@ msgstr "Odhlásit odběr"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
-msgstr ""
+msgstr "Uživatelský klíč"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
@@ -1156,7 +1156,7 @@ msgstr "Uživatelské jméno nebo e-mail"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Violet"
-msgstr ""
+msgstr "Fialová"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -1164,24 +1164,24 @@ msgstr "Varování"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Website"
-msgstr "Webové stránky"
+msgstr "Webová stránka"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
-msgstr ""
+msgstr "Vítejte! Zdá se, že je to poprvé, co spouštíte CommaFeed. Chcete-li začít, vytvořte si účet správce."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
-msgstr ""
+msgstr "Žlutá"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
-msgstr "Zatím nemáte žádné předplatné. "
+msgstr "Zatím nemáte žádné odběry. Proč nezkusit nějaký přidat kliknutím na znaménko + v horní části stránky?"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
+msgstr "Vaše zdroje byly zařazeny do fronty k aktualizaci."
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Your password has been changed. You can now log in with your new password."
-msgstr ""
+msgstr "Vaše heslo bylo změněno. Nyní se můžete přihlásit pomocí nového hesla."

@@ -15,7 +15,7 @@ msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
-msgstr ""
+msgstr "<0>CommaFeed er et åpen kildekode-prosjekt. Kildekoden er hostet på </0><1>GitHub</1>."
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
@@ -23,7 +23,7 @@ msgstr "<0>Har du en konto?</0><1>Logg på!</1>"
 
 #: src/pages/app/DonatePage.tsx
 msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
-msgstr ""
+msgstr "<0>Hei,</0><1>Jeg er Jérémie fra Belgia, og jeg har jobbet med CommaFeed på fritiden i over 10 år nå. Takk for interessen i å hjelpe meg med å fortsette å støtte CommaFeed.</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
@@ -36,7 +36,7 @@ msgstr "Omtrent"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Access token"
-msgstr ""
+msgstr "Tilgangstoken"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -58,12 +58,12 @@ msgstr "Legg til bruker"
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Admin"
-msgstr ""
+msgstr "Administrator"
 
 #: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
-msgstr ""
+msgstr "Administrator brukernavn"
 
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
@@ -76,7 +76,7 @@ msgstr "Alle"
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
-msgstr ""
+msgstr "Alltid"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
@@ -92,7 +92,7 @@ msgstr "Analyser feed"
 
 #: src/components/AnnouncementDialog.tsx
 msgid "Announcement"
-msgstr ""
+msgstr "Kunngjøring"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
@@ -100,11 +100,11 @@ msgstr "API-nøkkel"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
-msgstr ""
+msgstr "API-token"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
-msgstr ""
+msgstr "App-token"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -132,11 +132,11 @@ msgstr "Er du sikker på at du vil avslutte abonnementet på <0>{feedName}</0>?"
 
 #: src/components/header/Header.tsx
 msgid "Asc"
-msgstr ""
+msgstr "Stigende"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Auto-mark as read"
-msgstr ""
+msgstr "Marker automatisk som lest"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
@@ -149,23 +149,23 @@ msgstr "Tilbake for å logge inn"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Blue"
-msgstr ""
+msgstr "Blå"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extension"
-msgstr ""
+msgstr "Nettleserutvidelse"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
-msgstr ""
+msgstr "Nettleserutvidelse kreves for Chrome"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
-msgstr ""
+msgstr "Nettleserfane"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
-msgstr ""
+msgstr "Bygg et filteruttrykk for å angi hva du vil lese. Oppføringer som ikke samsvarer, vil bli markert som lest automatisk."
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -202,19 +202,19 @@ msgstr "Sjekk at feeden fungerer"
 
 #: src/pages/app/Layout.tsx
 msgid "Close menu"
-msgstr ""
+msgstr "Lukk meny"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
-msgstr ""
+msgstr "CommaFeed nettleserutvidelse versjon {browserExtensionVersion}."
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
-msgstr ""
+msgstr "CommaFeed er kompatibel med Fever API. Bruk følgende URL i din Fever-kompatible mobilklient. Logg inn med brukernavn og din <0>API-nøkkel</0>."
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -222,7 +222,7 @@ msgstr "CommaFeed neste uleste element"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed version {version} ({revision})."
-msgstr ""
+msgstr "CommaFeed versjon {version} ({revision})."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"
@@ -243,7 +243,7 @@ msgstr "Bekreft passord"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
-msgstr ""
+msgstr "Bekreft passord"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -251,11 +251,11 @@ msgstr "Koselig"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Create Admin Account"
-msgstr ""
+msgstr "Opprett administratorkonto"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Current password"
@@ -263,24 +263,24 @@ msgstr "Gjeldende passord"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Custom code"
-msgstr ""
+msgstr "Egendefinert kode"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
-msgstr ""
+msgstr "Egendefinerte CSS-regler som vil bli brukt"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
+msgstr "Egendefinert JS-kode som vil bli kjørt ved sideinnlasting"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Cyan"
-msgstr ""
+msgstr "Syan"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Dark"
-msgstr ""
+msgstr "Mørk"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -288,7 +288,7 @@ msgstr "Dato opprettet"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
-msgstr ""
+msgstr "dager"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -309,15 +309,15 @@ msgstr "Slett bruker"
 
 #: src/components/header/Header.tsx
 msgid "Desc"
-msgstr ""
+msgstr "Synkende"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Detailed"
-msgstr ""
+msgstr "Detaljert"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Disable \"Pull to refresh\" browser behavior"
-msgstr ""
+msgstr "Deaktiver \"Dra for å oppdatere\"-adferd i nettleseren"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -328,7 +328,7 @@ msgstr "Visning"
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/DonatePage.tsx
 msgid "Donate"
-msgstr ""
+msgstr "Doner"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
@@ -364,7 +364,7 @@ msgstr "Aktivert"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Enter"
-msgstr ""
+msgstr "Enter"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Enter your current password to change profile settings"
@@ -372,11 +372,11 @@ msgstr "Skriv inn ditt nåværende passord for å endre profilinnstillinger"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entries to keep above the selected entry when scrolling"
-msgstr ""
+msgstr "Oppføringer som skal beholdes over valgt oppføring ved rulling"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
-msgstr ""
+msgstr "Oppføringsoverskrifter"
 
 #: src/components/Alert.tsx
 msgid "Error"
@@ -393,7 +393,7 @@ msgstr "Eksporter abonnementene og kategoriene dine som en OPML-fil som kan impo
 #: src/components/header/Header.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Extension options"
-msgstr ""
+msgstr "Utvidelsesvalg"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
@@ -407,27 +407,27 @@ msgstr "Feed-URL"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
-msgstr ""
+msgstr "Hent alle mine feeder nå"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API"
-msgstr ""
+msgstr "Fever API"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
-msgstr ""
+msgstr "Fever API-URL"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
-msgstr "Filtrerende uttrykk"
+msgstr "Filtreringsuttrykk"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Font size"
-msgstr ""
+msgstr "Skriftstørrelse"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Force fetching feeds is not yet available."
-msgstr ""
+msgstr "Tvunget henting av feeder er ikke tilgjengelig ennå."
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
@@ -452,7 +452,7 @@ msgstr "Generert feed-url"
 #. placeholder {0}: truncate(props.entry.feedName, 30)
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Go to {0}"
-msgstr ""
+msgstr "Gå til {0}"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
@@ -468,47 +468,47 @@ msgstr "Godbiter"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
-msgstr ""
+msgstr "Drue"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Gray"
-msgstr ""
+msgstr "Grå"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Green"
-msgstr ""
+msgstr "Grønn"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
-msgstr ""
+msgstr "Hvis oppføringen ikke får plass på skjermen"
 
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
-msgstr "Hvis du støter på et problem, vennligst rapporter det på problemsiden til GitHub-prosjektet."
+msgstr "Hvis du støter på et problem, vennligst rapporter det på GitHub-prosjektets side for feilmeldinger."
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "Import"
-msgstr ""
+msgstr "Importer"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "In expanded view, scrolling through entries mark them as read"
-msgstr "I utvidet visning merker du dem som lest ved å rulle gjennom oppføringer"
+msgstr "I utvidet visning vil rulling gjennom oppføringer merke dem som lest"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
-msgstr ""
+msgstr "Indigo"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Initial Setup"
-msgstr ""
+msgstr "Innledende oppsett"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Invalid password reset link. Please request a new one."
-msgstr ""
+msgstr "Ugyldig lenke for tilbakestilling av passord. Vennligst be om en ny."
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -538,21 +538,21 @@ msgstr "Siste oppdateringsmelding"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
-msgstr ""
+msgstr "Lys"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Lime"
-msgstr ""
+msgstr "Lime"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Link"
-msgstr ""
+msgstr "Lenke"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Link to the documentation"
-msgstr ""
+msgstr "Lenke til dokumentasjonen"
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
@@ -582,7 +582,7 @@ msgstr "Logg ut"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Long press"
-msgstr ""
+msgstr "Langt trykk"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -610,7 +610,7 @@ msgstr "Merk som lest frem til her"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
-msgstr ""
+msgstr "Marker oppføringer i denne feeden som lest etter dette antall dager. La den stå tom for å deaktivere."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
@@ -618,7 +618,7 @@ msgstr "Beregninger"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Middle click"
-msgstr ""
+msgstr "Midtklikk"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
@@ -631,7 +631,7 @@ msgstr "Flytt siden opp"
 #: src/components/RelativeDate.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "N/A"
-msgstr ""
+msgstr "N/A"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -646,12 +646,12 @@ msgstr "Naviger til et abonnement ved å skrive inn navnet"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Navigate to the next category/feed with unread entries when marking all entries as read"
-msgstr ""
+msgstr "Naviger til neste kategori/feed med uleste oppføringer når du markerer alle oppføringer som lest"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Never"
-msgstr ""
+msgstr "Aldri"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
@@ -660,7 +660,7 @@ msgstr "Nytt passord"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
-msgstr ""
+msgstr "Nytt passord"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -685,7 +685,7 @@ msgstr "Ingen flere oppføringer"
 
 #: src/components/content/ShareButtons.tsx
 msgid "No sharing options available."
-msgstr ""
+msgstr "Ingen delingsalternativer tilgjengelig."
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
@@ -697,27 +697,27 @@ msgstr "Eldste først"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On desktop"
-msgstr ""
+msgstr "På skrivebord"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile"
-msgstr ""
+msgstr "På mobil"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
-msgstr ""
+msgstr "På mobil, vis handlingsknapper nederst på skjermen"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Only applies to compact, cozy and detailed modes"
-msgstr ""
+msgstr "Gjelder kun for kompakt, koselig og detaljert modus"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
-msgstr "Beklager!"
+msgstr "Oi!"
 
 #: src/components/header/Header.tsx
 msgid "Open CommaFeed"
-msgstr ""
+msgstr "Åpne CommaFeed"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
@@ -734,15 +734,15 @@ msgstr "Åpen lenke"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new background tab"
-msgstr ""
+msgstr "Åpne lenke i ny bakgrunnsfane"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new tab"
-msgstr ""
+msgstr "Åpne lenke i ny fane"
 
 #: src/pages/app/Layout.tsx
 msgid "Open menu"
-msgstr ""
+msgstr "Åpne meny"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
@@ -758,11 +758,11 @@ msgstr "Åpne/lukk gjeldende oppføring"
 
 #: src/pages/app/AddPage.tsx
 msgid "OPML"
-msgstr ""
+msgstr "OPML"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "OPML export"
-msgstr "OPML eksport"
+msgstr "OPML-eksport"
 
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/content/add/ImportOpml.tsx
@@ -771,15 +771,15 @@ msgstr "OPML-fil"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file is required"
-msgstr ""
+msgstr "OPML-fil kreves"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Orange"
-msgstr ""
+msgstr "Oransje"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
-msgstr "Ord"
+msgstr "Rekkefølge"
 
 #: src/components/content/add/AddCategory.tsx
 msgid "Parent"
@@ -801,11 +801,11 @@ msgstr "Passord"
 
 #: src/hooks/useValidationRules.ts
 msgid "Password must be at least {minimumPasswordLength} characters"
-msgstr ""
+msgstr "Passordet må være minst {minimumPasswordLength} tegn"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
-msgstr "Passordgjenoppretting"
+msgstr "Gjenoppretting av passord"
 
 #: src/hooks/useValidationRules.ts
 msgid "Passwords do not match"
@@ -813,7 +813,7 @@ msgstr "Passordene samsvarer ikke"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Pink"
-msgstr ""
+msgstr "Rosa"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -822,11 +822,11 @@ msgstr "Posisjon"
 
 #: src/components/header/Header.tsx
 msgid "Previous"
-msgstr ""
+msgstr "Forrige"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Primary color"
-msgstr ""
+msgstr "Primærfarge"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -834,28 +834,28 @@ msgstr "Profil"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notification service"
-msgstr ""
+msgstr "Skyvevarslingstjeneste"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Push notifications"
-msgstr ""
+msgstr "Skyvevarsler"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Push notifications are not configured in your user settings."
-msgstr ""
+msgstr "Skyvevarsler er ikke konfigurert i brukerinnstillingene dine."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notifications are not enabled on this CommaFeed instance."
-msgstr ""
+msgstr "Skyvevarsler er ikke aktivert på denne CommaFeed-forekomsten."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Receive push notifications"
-msgstr ""
+msgstr "Motta skyvevarsler"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Receive push notifications when new feed entries are discovered. Enable \"Receive push notifications\" in the settings of each feed for which you want to receive notifications."
-msgstr ""
+msgstr "Motta skyvevarsler når nye feedoppføringer blir oppdaget. Aktiver \"Motta skyvevarsler\" i innstillingene for hver feed du ønsker å motta varsler for."
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
@@ -863,7 +863,7 @@ msgstr "Gjenopprett passord"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Red"
-msgstr ""
+msgstr "Rød"
 
 #: src/components/header/Header.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
@@ -877,16 +877,16 @@ msgstr "Registreringer er stengt på denne CommaFeed-forekomsten"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
-msgstr ""
+msgstr "Tilbakestill passord"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
-msgstr ""
+msgstr "REST API"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
-msgstr ""
+msgstr "Høyreklikk"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
@@ -899,7 +899,7 @@ msgstr "Lagre"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll selected entry to the top of the page"
-msgstr ""
+msgstr "Rull valgt oppføring til toppen av siden"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
@@ -907,7 +907,7 @@ msgstr "Rull jevnt når du navigerer mellom oppføringer"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scrolling"
-msgstr ""
+msgstr "Rulling"
 
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
@@ -918,16 +918,16 @@ msgstr "Søk"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
-msgstr ""
+msgstr "Velg neste uleste feed/kategori"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
-msgstr ""
+msgstr "Velg forrige uleste feed/kategori"
 
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
-msgstr ""
+msgstr "Server-URL"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -961,23 +961,23 @@ msgstr "Skift"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show CommaFeed's own context menu on right click"
-msgstr ""
+msgstr "Vis CommaFeeds egen kontekstmeny ved høyreklikk"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show confirmation when marking all entries as read"
-msgstr ""
+msgstr "Vis bekreftelse når alle oppføringer markeres som lest"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
-msgstr ""
+msgstr "Vis oppføringsmeny (skrivebord)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (mobile)"
-msgstr ""
+msgstr "Vis oppføringsmeny (mobil)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show external link icon"
-msgstr ""
+msgstr "Vis ekstern lenke-ikon"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
@@ -989,19 +989,19 @@ msgstr "Vis hurtigtasthjelp"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
-msgstr ""
+msgstr "Vis innebygd meny (skrivebord)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
-msgstr ""
+msgstr "Vis stjerneikon"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab favicon"
-msgstr ""
+msgstr "Vis antall uleste i fanens favicon"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab title"
-msgstr ""
+msgstr "Vis antall uleste i fanetittelen"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -1016,7 +1016,7 @@ msgstr "Noe ille skjedde akkurat..."
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
-msgstr ""
+msgstr "Mellomrom"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -1050,7 +1050,7 @@ msgstr "Suksess"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Swipe header to the left"
-msgstr ""
+msgstr "Sveip overskriften til venstre"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
@@ -1062,24 +1062,24 @@ msgstr "Bytt til lystema"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "System"
-msgstr ""
+msgstr "System"
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
-msgstr ""
+msgstr "Tagger"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Teal"
-msgstr ""
+msgstr "Teal"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
-msgstr ""
+msgstr "Testvarsel sendt uten feil."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1092,15 +1092,15 @@ msgstr "Tema"
 #. placeholder {0}: feed.filterLegacy
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr ""
+msgstr "Denne feeden har et utdatert filter som ikke kan redigeres og ikke blir brukt. Vennligst opprett filteret på nytt med den nye uttrykkseditoren. Det utdaterte filteruttrykket var: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr ""
+msgstr "Dette er API-nøkkelen din. Den kan brukes til enkelte skrivebeskyttede API-operasjoner og gir tilgang til Fever API. Bruk skjemaet nederst på siden for å generere en ny API-nøkkel"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"
-msgstr ""
+msgstr "Denne innstillingen kan forårsake rulleproblemer i enkelte nettlesere (f.eks. Safari)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
@@ -1108,15 +1108,15 @@ msgstr "Veksle lesestatus for gjeldende oppføring"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Veksle sidelinje"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle starred status of current entry"
-msgstr ""
+msgstr "Veksle stjernestatus for gjeldende oppføring"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
-msgstr ""
+msgstr "Emne"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -1124,7 +1124,7 @@ msgstr "Prøv CommaFeed med demokontoen: demo/demo"
 
 #: src/pages/WelcomePage.tsx
 msgid "Try the demo!"
-msgstr ""
+msgstr "Prøv demoen!"
 
 #: src/components/header/Header.tsx
 msgid "Unread"
@@ -1139,11 +1139,11 @@ msgstr "Fjern stjerne"
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
-msgstr "Avslutt abonnementet"
+msgstr "Avslutt abonnement"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
-msgstr ""
+msgstr "Brukernøkkel"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
@@ -1156,7 +1156,7 @@ msgstr "Brukernavn eller e-post"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Violet"
-msgstr ""
+msgstr "Fiolett"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -1168,20 +1168,20 @@ msgstr "Nettsted"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
-msgstr ""
+msgstr "Velkommen! Det ser ut til å være første gang du kjører CommaFeed. Vennligst opprett en administratorkonto for å komme i gang."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
-msgstr ""
+msgstr "Gul"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
-msgstr "Du har ingen abonnementer ennå. "
+msgstr "Du har ingen abonnementer ennå. Hvorfor ikke prøve å legge til ett ved å klikke på +-tegnet øverst på siden?"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
+msgstr "Feeder er lagt i kø for oppdatering."
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Your password has been changed. You can now log in with your new password."
-msgstr ""
+msgstr "Passordet ditt er endret. Du kan nå logge inn med ditt nye passord."

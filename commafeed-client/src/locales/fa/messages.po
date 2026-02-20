@@ -15,7 +15,7 @@ msgstr ""
 
 #: src/pages/app/AboutPage.tsx
 msgid "<0>CommaFeed is an open-source project. Sources are hosted on </0><1>GitHub</1>."
-msgstr ""
+msgstr "<0>CommaFeed یک پروژه متن باز است. سورس‌ها در </0><1>GitHub</1> میزبانی می‌شوند."
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
@@ -23,7 +23,7 @@ msgstr "<0>حساب دارید؟</0><1>وارد سیستم شوید!</1>"
 
 #: src/pages/app/DonatePage.tsx
 msgid "<0>Hey,</0><1>I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking an interest in helping me continue supporting CommaFeed.</1>"
-msgstr ""
+msgstr "<0>سلام،</0><1>من جرمی از بلژیک هستم و بیش از 10 سال است که در اوقات فراغت خود روی CommaFeed کار می کنم. از علاقه شما به کمک به من برای ادامه حمایت از CommaFeed متشکرم.</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
@@ -36,7 +36,7 @@ msgstr "در مورد"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Access token"
-msgstr ""
+msgstr "رمز دسترسی"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -63,7 +63,7 @@ msgstr "مدیر"
 #: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
-msgstr ""
+msgstr "نام کاربری مدیر"
 
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
@@ -76,7 +76,7 @@ msgstr "همه"
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
-msgstr ""
+msgstr "همیشه"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
@@ -92,7 +92,7 @@ msgstr "خوراک را تجزیه و تحلیل کنید"
 
 #: src/components/AnnouncementDialog.tsx
 msgid "Announcement"
-msgstr ""
+msgstr "اطلاعیه"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "API key"
@@ -100,11 +100,11 @@ msgstr "کلید API"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
-msgstr ""
+msgstr "توکن API"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
-msgstr ""
+msgstr "توکن اپلیکیشن"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -136,7 +136,7 @@ msgstr "صعودی"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Auto-mark as read"
-msgstr ""
+msgstr "علامت‌گذاری خودکار به عنوان خوانده شده"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
@@ -149,23 +149,23 @@ msgstr "بازگشت برای ورود به سیستم"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Blue"
-msgstr ""
+msgstr "آبی"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extension"
-msgstr ""
+msgstr "افزونه مرورگر"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
-msgstr ""
+msgstr "برای کروم افزونه مرورگر لازم است"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
-msgstr ""
+msgstr "زبانه مرورگر"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
-msgstr ""
+msgstr "یک عبارت فیلتر بسازید تا نشان دهید چه چیزی را می خواهید بخوانید. ورودی هایی که مطابقت ندارند به طور خودکار به عنوان خوانده شده علامت گذاری می شوند."
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -202,19 +202,19 @@ msgstr "بررسی کنید که خوراک کار می کند"
 
 #: src/pages/app/Layout.tsx
 msgid "Close menu"
-msgstr ""
+msgstr "بستن منو"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
-msgstr ""
+msgstr "نسخه افزونه مرورگر CommaFeed {browserExtensionVersion}."
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
-msgstr ""
+msgstr "CommaFeed با Fever API سازگار است. از آدرس زیر در کلاینت موبایل سازگار با Fever استفاده کنید. با نام کاربری و <0>کلید API</0> خود وارد شوید."
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -222,7 +222,7 @@ msgstr "مورد خوانده نشده بعدی CommaFeed"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed version {version} ({revision})."
-msgstr ""
+msgstr "نسخه CommaFeed {version} ({revision})."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Compact"
@@ -243,7 +243,7 @@ msgstr "رمز عبور را تأیید کنید"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
-msgstr ""
+msgstr "تأیید رمز عبور"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -251,11 +251,11 @@ msgstr "دنج"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Create Admin Account"
-msgstr ""
+msgstr "ایجاد حساب مدیر"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Current password"
@@ -263,24 +263,24 @@ msgstr "رمز عبور فعلی"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Custom code"
-msgstr ""
+msgstr "کد سفارشی"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom CSS rules that will be applied"
-msgstr ""
+msgstr "قوانین CSS سفارشی که اعمال خواهد شد"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Custom JS code that will be executed on page load"
-msgstr ""
+msgstr "کد JS سفارشی که در بارگذاری صفحه اجرا می شود"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Cyan"
-msgstr ""
+msgstr "فیروزه‌ای"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Dark"
-msgstr ""
+msgstr "تیره"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -288,7 +288,7 @@ msgstr "تاریخ ایجاد"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
-msgstr ""
+msgstr "روز"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -313,11 +313,11 @@ msgstr "توصیف"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Detailed"
-msgstr ""
+msgstr "مفصل"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Disable \"Pull to refresh\" browser behavior"
-msgstr ""
+msgstr "غیرفعال کردن رفتار مرورگر «کشیدن برای نوسازی»"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -328,7 +328,7 @@ msgstr "نمایش"
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/DonatePage.tsx
 msgid "Donate"
-msgstr ""
+msgstr "حمایت مالی"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
@@ -372,11 +372,11 @@ msgstr "رمز عبور فعلی خود را برای تغییر تنظیمات 
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entries to keep above the selected entry when scrolling"
-msgstr ""
+msgstr "تعداد ورودی‌هایی که هنگام پیمایش باید بالای ورودی انتخاب‌شده باقی بمانند"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
-msgstr ""
+msgstr "سرصفحه های ورودی"
 
 #: src/components/Alert.tsx
 msgid "Error"
@@ -393,7 +393,7 @@ msgstr "اشتراک ها و دسته های خود را به عنوان یک ف
 #: src/components/header/Header.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Extension options"
-msgstr ""
+msgstr "گزینه های افزونه"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
@@ -407,15 +407,15 @@ msgstr "URL فید"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Fetch all my feeds now"
-msgstr ""
+msgstr "اکنون همه فیدهای من را واکشی کن"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API"
-msgstr ""
+msgstr "Fever API"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
-msgstr ""
+msgstr "URL مربوط به Fever API"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -423,11 +423,11 @@ msgstr "بیان فیلتر"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Font size"
-msgstr ""
+msgstr "اندازه قلم"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Force fetching feeds is not yet available."
-msgstr ""
+msgstr "واکشی اجباری فیدها هنوز در دسترس نیست."
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
@@ -452,7 +452,7 @@ msgstr "آدرس اینترنتی فید تولید شده"
 #. placeholder {0}: truncate(props.entry.feedName, 30)
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Go to {0}"
-msgstr ""
+msgstr "برو به {0}"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Go to the All view"
@@ -468,15 +468,15 @@ msgstr "خوبی ها"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
-msgstr ""
+msgstr "عنبی"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Gray"
-msgstr ""
+msgstr "خاکستری"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Green"
-msgstr ""
+msgstr "سبز"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
@@ -484,7 +484,7 @@ msgstr "شناسه"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
-msgstr ""
+msgstr "اگر ورودی کاملاً در صفحه نمایش جا نمی شود"
 
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
@@ -500,15 +500,15 @@ msgstr "در نمای بازشده، پیمایش در ورودی‌ها، آن�
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
-msgstr ""
+msgstr "نیلی"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Initial Setup"
-msgstr ""
+msgstr "تنظیمات اولیه"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Invalid password reset link. Please request a new one."
-msgstr ""
+msgstr "لینک بازنشانی رمز عبور نامعتبر است. لطفا درخواست جدید بدهید."
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -538,11 +538,11 @@ msgstr "آخرین پیام تازه کردن"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
-msgstr ""
+msgstr "روشن"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Lime"
-msgstr ""
+msgstr "لیمویی"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -552,7 +552,7 @@ msgstr "پیوند"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Link to the documentation"
-msgstr ""
+msgstr "پیوند به مستندات"
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
@@ -582,12 +582,12 @@ msgstr "خروج"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Long press"
-msgstr ""
+msgstr "فشار طولانی"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Manage users"
-msgstr "کاربران را مدیریت کنید"
+msgstr "مدیریت کاربران"
 
 #: src/components/header/Header.tsx
 msgid "Mark all as read"
@@ -610,15 +610,15 @@ msgstr "تا اینجا به عنوان خوانده شده علامت بزنی�
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
-msgstr ""
+msgstr "ورودی های این فید را بعد از این تعداد روز به عنوان خوانده شده علامت گذاری کنید. برای غیرفعال کردن خالی بگذارید."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
-msgstr "متریک"
+msgstr "شاخص‌ها"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Middle click"
-msgstr ""
+msgstr "کلیک وسط"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Move the page down"
@@ -631,7 +631,7 @@ msgstr "صفحه را به بالا ببرید"
 #: src/components/RelativeDate.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "N/A"
-msgstr ""
+msgstr "ناموجود"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
@@ -646,12 +646,12 @@ msgstr "با وارد کردن نام اشتراک، به آن بروید"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Navigate to the next category/feed with unread entries when marking all entries as read"
-msgstr ""
+msgstr "هنگام علامت‌گذاری همه ورودی‌ها به‌عنوان خوانده‌شده، به دسته‌بندی/فید بعدی با ورودی‌های خوانده‌نشده بروید"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Never"
-msgstr ""
+msgstr "هرگز"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
@@ -660,7 +660,7 @@ msgstr "رمز عبور جدید"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
-msgstr ""
+msgstr "رمز عبور جدید"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -685,7 +685,7 @@ msgstr "ورودی دیگری وجود ندارد"
 
 #: src/components/content/ShareButtons.tsx
 msgid "No sharing options available."
-msgstr ""
+msgstr "هیچ گزینه اشتراک گذاری در دسترس نیست."
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
@@ -697,27 +697,27 @@ msgstr "قدیمی ترین اول"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On desktop"
-msgstr ""
+msgstr "در دسکتاپ"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile"
-msgstr ""
+msgstr "در موبایل"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
-msgstr ""
+msgstr "در موبایل، دکمه‌های عمل را در پایین صفحه نشان بده"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Only applies to compact, cozy and detailed modes"
-msgstr ""
+msgstr "فقط برای حالت های فشرده، دنج و مفصل اعمال می شود"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
-msgstr "اوه!"
+msgstr "اوپس!"
 
 #: src/components/header/Header.tsx
 msgid "Open CommaFeed"
-msgstr ""
+msgstr "باز کردن CommaFeed"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open current entry in a new tab"
@@ -734,15 +734,15 @@ msgstr "پیوند را باز کنید"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new background tab"
-msgstr ""
+msgstr "باز کردن پیوند در زبانه پس‌زمینه جدید"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 msgid "Open link in new tab"
-msgstr ""
+msgstr "باز کردن پیوند در زبانه جدید"
 
 #: src/pages/app/Layout.tsx
 msgid "Open menu"
-msgstr ""
+msgstr "باز کردن منو"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
@@ -758,11 +758,11 @@ msgstr "باز کردن/بستن ورودی فعلی"
 
 #: src/pages/app/AddPage.tsx
 msgid "OPML"
-msgstr ""
+msgstr "OPML"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "OPML export"
-msgstr "صادرات OPML"
+msgstr "خروجی OPML"
 
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/content/add/ImportOpml.tsx
@@ -771,15 +771,15 @@ msgstr "فایل OPML"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file is required"
-msgstr ""
+msgstr "فایل OPML الزامی است"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Orange"
-msgstr ""
+msgstr "نارنجی"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
-msgstr "سفارش"
+msgstr "ترتیب"
 
 #: src/components/content/add/AddCategory.tsx
 msgid "Parent"
@@ -801,7 +801,7 @@ msgstr "رمز عبور"
 
 #: src/hooks/useValidationRules.ts
 msgid "Password must be at least {minimumPasswordLength} characters"
-msgstr ""
+msgstr "رمز عبور باید حداقل {minimumPasswordLength} کاراکتر باشد"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
@@ -813,7 +813,7 @@ msgstr "گذرواژه ها مطابقت ندارند"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Pink"
-msgstr ""
+msgstr "صورتی"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -822,11 +822,11 @@ msgstr "موقعیت"
 
 #: src/components/header/Header.tsx
 msgid "Previous"
-msgstr ""
+msgstr "قبلی"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Primary color"
-msgstr ""
+msgstr "رنگ اصلی"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -834,28 +834,28 @@ msgstr "نمایه"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notification service"
-msgstr ""
+msgstr "سرویس اعلان فشاری"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Push notifications"
-msgstr ""
+msgstr "اعلان های فشاری"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Push notifications are not configured in your user settings."
-msgstr ""
+msgstr "اعلان‌های فشاری در تنظیمات کاربر شما پیکربندی نشده‌اند."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notifications are not enabled on this CommaFeed instance."
-msgstr ""
+msgstr "اعلان‌های فشاری در این نمونه CommaFeed فعال نیستند."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Receive push notifications"
-msgstr ""
+msgstr "دریافت اعلان های فشاری"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Receive push notifications when new feed entries are discovered. Enable \"Receive push notifications\" in the settings of each feed for which you want to receive notifications."
-msgstr ""
+msgstr "هنگام کشف ورودی های فید جدید، اعلان های فشاری دریافت کنید. «دریافت اعلان‌های فشاری» را در تنظیمات هر فیدی که می‌خواهید برای آن اعلان‌ها دریافت کنید، فعال کنید."
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
@@ -863,7 +863,7 @@ msgstr "بازیابی رمز عبور"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Red"
-msgstr ""
+msgstr "قرمز"
 
 #: src/components/header/Header.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
@@ -877,16 +877,16 @@ msgstr "ثبت نام در این نمونه CommaFeed بسته شده است"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
-msgstr ""
+msgstr "بازنشانی رمز عبور"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
-msgstr ""
+msgstr "REST API"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
-msgstr ""
+msgstr "راست کلیک"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
@@ -899,7 +899,7 @@ msgstr "ذخیره کنید"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll selected entry to the top of the page"
-msgstr ""
+msgstr "پیمایش ورودی انتخاب شده به بالای صفحه"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
@@ -907,7 +907,7 @@ msgstr "هنگام پیمایش بین ورودی‌ها به آرامی حرک�
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scrolling"
-msgstr ""
+msgstr "پیمایش"
 
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
@@ -918,16 +918,16 @@ msgstr "جستجو"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
-msgstr ""
+msgstr "انتخاب فید/دسته بعدی خوانده نشده"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
-msgstr ""
+msgstr "انتخاب فید/دسته قبلی خوانده نشده"
 
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
-msgstr ""
+msgstr "آدرس سرور"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -961,27 +961,27 @@ msgstr "شیفت"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show CommaFeed's own context menu on right click"
-msgstr ""
+msgstr "نمایش منوی زمینه خود CommaFeed در راست کلیک"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show confirmation when marking all entries as read"
-msgstr ""
+msgstr "نمایش تاییدیه هنگام علامت‌گذاری همه ورودی‌ها به عنوان خوانده شده"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (desktop)"
-msgstr ""
+msgstr "نمایش منوی ورودی (دسکتاپ)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show entry menu (mobile)"
-msgstr ""
+msgstr "نمایش منوی ورودی (موبایل)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show external link icon"
-msgstr ""
+msgstr "نمایش آیکون لینک خارجی"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
-msgstr "فیدها و دسته ها را بدون ورودی خوانده نشده نشان دهید"
+msgstr "نمایش فیدها و دسته هایی که هیچ ورودی خوانده نشده ای ندارند"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show keyboard shortcut help"
@@ -989,19 +989,19 @@ msgstr "نمایش راهنمایی میانبر صفحه کلید"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Show native menu (desktop)"
-msgstr ""
+msgstr "نمایش منوی بومی (دسکتاپ)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
-msgstr ""
+msgstr "نمایش آیکون ستاره"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab favicon"
-msgstr ""
+msgstr "نمایش تعداد خوانده نشده در فاویکون زبانه"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab title"
-msgstr ""
+msgstr "نمایش تعداد خوانده نشده در عنوان زبانه"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -1050,7 +1050,7 @@ msgstr "موفقیت"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Swipe header to the left"
-msgstr ""
+msgstr "کشیدن هدر به سمت چپ"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
@@ -1058,28 +1058,28 @@ msgstr "تغییر به تم تیره"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to light theme"
-msgstr "روی زمینه روشن"
+msgstr "تغییر به تم روشن"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "System"
-msgstr ""
+msgstr "سیستم"
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
-msgstr "برچسب ها"
+msgstr "برچسب‌ها"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Teal"
-msgstr ""
+msgstr "آبی مایل به سبز"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test"
-msgstr ""
+msgstr "تست"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
-msgstr ""
+msgstr "اعلان تستی با موفقیت ارسال شد."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1092,15 +1092,15 @@ msgstr "تم"
 #. placeholder {0}: feed.filterLegacy
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr ""
+msgstr "این فید دارای یک فیلتر قدیمی است که قابل ویرایش نیست و اعمال نمی‌شود. لطفاً فیلتر را با استفاده از ویرایشگر جدید بازسازی کنید. عبارت فیلتر قدیمی: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr ""
+msgstr "این کلید API شماست. می‌توان از آن برای برخی عملیات API فقط خواندنی استفاده کرد و دسترسی به Fever API را فراهم می‌کند. از فرم پایین صفحه برای تولید کلید جدید استفاده کنید"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"
-msgstr ""
+msgstr "این تنظیم ممکن است در برخی مرورگرها (مانند سافاری) باعث مشکلات پیمایش شود"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
@@ -1108,15 +1108,15 @@ msgstr "وضعیت خواندن ورودی فعلی را تغییر دهید"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "تغییر وضعیت نوار کناری"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle starred status of current entry"
-msgstr ""
+msgstr "تغییر وضعیت ستاره‌دار بودن ورودی فعلی"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
-msgstr ""
+msgstr "موضوع"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -1124,7 +1124,7 @@ msgstr "CommaFeed را با حساب آزمایشی امتحان کنید: دم�
 
 #: src/pages/WelcomePage.tsx
 msgid "Try the demo!"
-msgstr ""
+msgstr "دمو را امتحان کنید!"
 
 #: src/components/header/Header.tsx
 msgid "Unread"
@@ -1134,7 +1134,7 @@ msgstr "خوانده نشده"
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/header/Star.tsx
 msgid "Unstar"
-msgstr ""
+msgstr "برداشتن ستاره"
 
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -1143,7 +1143,7 @@ msgstr "لغو اشتراک"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
-msgstr ""
+msgstr "کلید کاربر"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
@@ -1156,7 +1156,7 @@ msgstr "نام کاربری یا ایمیل"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Violet"
-msgstr ""
+msgstr "بنفش"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -1168,20 +1168,20 @@ msgstr "وب سایت"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
-msgstr ""
+msgstr "خوش آمدید! به نظر می‌رسد این اولین بار است که CommaFeed را اجرا می‌کنید. لطفاً برای شروع یک حساب مدیر ایجاد کنید."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
-msgstr ""
+msgstr "زرد"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
-msgstr "شما هنوز هیچ اشتراکی ندارید. "
+msgstr "شما هنوز هیچ اشتراکی ندارید. چرا با کلیک روی علامت + در بالای صفحه، یکی را اضافه نمی‌کنید؟"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."
-msgstr ""
+msgstr "فیدهای شما برای نوسازی در صف قرار گرفتند."
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Your password has been changed. You can now log in with your new password."
-msgstr ""
+msgstr "رمز عبور شما تغییر کرد. اکنون می توانید با رمز عبور جدید خود وارد شوید."

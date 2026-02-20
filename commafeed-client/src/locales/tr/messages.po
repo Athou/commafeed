@@ -36,7 +36,7 @@ msgstr "Hakkında"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Access token"
-msgstr ""
+msgstr "Erişim jetonu"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -63,7 +63,7 @@ msgstr "Yönetici"
 #: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
-msgstr ""
+msgstr "Yönetici kullanıcı adı"
 
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
@@ -76,7 +76,7 @@ msgstr "Tümü"
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
-msgstr ""
+msgstr "Her zaman"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
@@ -100,11 +100,11 @@ msgstr "API anahtarı"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
-msgstr ""
+msgstr "API jetonu"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
-msgstr ""
+msgstr "Uygulama jetonu"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -136,7 +136,7 @@ msgstr "Artan"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Auto-mark as read"
-msgstr ""
+msgstr "Otomatik olarak okundu olarak işaretle"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
@@ -149,7 +149,7 @@ msgstr "Giriş yapmak için geri dön"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Blue"
-msgstr ""
+msgstr "Mavi"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extension"
@@ -157,15 +157,15 @@ msgstr "Tarayıcı eklentisi"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Browser extension required for Chrome"
-msgstr ""
+msgstr "Chrome için tarayıcı eklentisi gereklidir"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Browser tab"
-msgstr ""
+msgstr "Tarayıcı sekmesi"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
-msgstr ""
+msgstr "Ne okumak istediğinizi belirtmek için bir filtre ifadesi oluşturun. Eşleşmeyen girişler otomatik olarak okundu olarak işaretlenecektir."
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -202,11 +202,11 @@ msgstr "Feed'in çalışıp çalışmadığını kontrol edin"
 
 #: src/pages/app/Layout.tsx
 msgid "Close menu"
-msgstr ""
+msgstr "Menüyü kapat"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed browser extension version {browserExtensionVersion}."
@@ -214,7 +214,7 @@ msgstr "CommaFeed tarayıcı eklentisi sürüm {browserExtensionVersion}."
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
-msgstr ""
+msgstr "CommaFeed, Fever API ile uyumludur. Fever uyumlu mobil istemcinizde aşağıdaki URL'yi kullanın. Kullanıcı adınız ve <0>API anahtarınız</0> ile giriş yapın."
 
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
@@ -243,7 +243,7 @@ msgstr "Şifreyi onayla"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
-msgstr ""
+msgstr "Şifreyi Onayla"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -251,7 +251,7 @@ msgstr "Rahat"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Create Admin Account"
-msgstr ""
+msgstr "Yönetici Hesabı Oluştur"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
@@ -275,12 +275,12 @@ msgstr "Sayfa yüklendiğinde çalıştırılacak özel JS kodu"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Cyan"
-msgstr ""
+msgstr "Macenta"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Dark"
-msgstr ""
+msgstr "Koyu"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Date created"
@@ -288,7 +288,7 @@ msgstr "Oluşturulma tarihi"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
-msgstr ""
+msgstr "gün"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -313,11 +313,11 @@ msgstr "Açılış"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Detailed"
-msgstr ""
+msgstr "Detaylı"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Disable \"Pull to refresh\" browser behavior"
-msgstr ""
+msgstr "Tarayıcının \"Yenilemek için çek\" davranışını devre dışı bırak"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -328,7 +328,7 @@ msgstr "Ekran"
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/app/DonatePage.tsx
 msgid "Donate"
-msgstr ""
+msgstr "Bağış Yap"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Download"
@@ -372,11 +372,11 @@ msgstr "Profil ayarlarını değiştirmek için mevcut şifrenizi girin"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entries to keep above the selected entry when scrolling"
-msgstr ""
+msgstr "Kaydırma sırasında seçilen girişin üzerinde tutulacak giriş sayısı"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Entry headers"
-msgstr ""
+msgstr "Giriş başlıkları"
 
 #: src/components/Alert.tsx
 msgid "Error"
@@ -411,11 +411,11 @@ msgstr "Tüm feed'lerimi şimdi çek"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API"
-msgstr ""
+msgstr "Fever API"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Fever API URL"
-msgstr ""
+msgstr "Fever API URL'si"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
@@ -423,11 +423,11 @@ msgstr "Filtreleme ifadesi"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Font size"
-msgstr ""
+msgstr "Yazı boyutu"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Force fetching feeds is not yet available."
-msgstr ""
+msgstr "Beslemeleri zorla çekme özelliği henüz mevcut değil."
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
@@ -468,15 +468,15 @@ msgstr "İyilikler"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
-msgstr ""
+msgstr "Üzüm"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Gray"
-msgstr ""
+msgstr "Gri"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Green"
-msgstr ""
+msgstr "Yeşil"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
@@ -484,7 +484,7 @@ msgstr "Kimlik"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "If the entry doesn't entirely fit on the screen"
-msgstr ""
+msgstr "Eğer giriş ekrana tamamen sığmıyorsa"
 
 #: src/pages/app/AboutPage.tsx
 msgid "If you encounter an issue, please report it on the issues page of the GitHub project."
@@ -500,15 +500,15 @@ msgstr "Genişletilmiş görünümde, girişler arasında gezinmek onları okund
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
-msgstr ""
+msgstr "İndigo"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Initial Setup"
-msgstr ""
+msgstr "Başlangıç Kurulumu"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Invalid password reset link. Please request a new one."
-msgstr ""
+msgstr "Geçersiz şifre sıfırlama bağlantısı. Lütfen yeni bir tane isteyin."
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -538,11 +538,11 @@ msgstr "Son yenileme mesajı"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
-msgstr ""
+msgstr "Açık"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Lime"
-msgstr ""
+msgstr "Limon"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -552,7 +552,7 @@ msgstr "Bağlantı"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Link to the documentation"
-msgstr ""
+msgstr "Belgelere bağlantı"
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
@@ -610,7 +610,7 @@ msgstr "Buraya kadar okundu olarak işaretle"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
-msgstr ""
+msgstr "Bu beslemedeki girişleri şu kadar gün sonra okundu olarak işaretle. Devre dışı bırakmak için boş bırakın."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
@@ -646,12 +646,12 @@ msgstr "Adını girerek bir aboneliğe gidin"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Navigate to the next category/feed with unread entries when marking all entries as read"
-msgstr ""
+msgstr "Tüm girişleri okundu olarak işaretlerken okunmamış girişleri olan bir sonraki kategoriye/beslemeye git"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Never"
-msgstr ""
+msgstr "Asla"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "New password"
@@ -660,7 +660,7 @@ msgstr "Yeni şifre"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
-msgstr ""
+msgstr "Yeni Şifre"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -685,7 +685,7 @@ msgstr "Başka giriş yok"
 
 #: src/components/content/ShareButtons.tsx
 msgid "No sharing options available."
-msgstr ""
+msgstr "Paylaşım seçeneği mevcut değil."
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
@@ -697,19 +697,19 @@ msgstr "Önce en eski"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On desktop"
-msgstr ""
+msgstr "Masaüstünde"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile"
-msgstr ""
+msgstr "Mobilde"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "On mobile, show action buttons at the bottom of the screen"
-msgstr ""
+msgstr "Mobilde, eylem düğmelerini ekranın altında göster"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Only applies to compact, cozy and detailed modes"
-msgstr ""
+msgstr "Yalnızca kompakt, rahat ve detaylı modlar için geçerlidir"
 
 #: src/pages/ErrorPage.tsx
 msgid "Oops!"
@@ -742,7 +742,7 @@ msgstr "Bağlantıyı yeni sekmede aç"
 
 #: src/pages/app/Layout.tsx
 msgid "Open menu"
-msgstr ""
+msgstr "Menüyü aç"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Open next entry"
@@ -771,11 +771,11 @@ msgstr "OPML dosyası"
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file is required"
-msgstr ""
+msgstr "OPML dosyası gereklidir"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Orange"
-msgstr ""
+msgstr "Turuncu"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -801,7 +801,7 @@ msgstr "Şifre"
 
 #: src/hooks/useValidationRules.ts
 msgid "Password must be at least {minimumPasswordLength} characters"
-msgstr ""
+msgstr "Şifre en az {minimumPasswordLength} karakter olmalıdır"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
@@ -813,7 +813,7 @@ msgstr "Parolalar eşleşmiyor"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Pink"
-msgstr ""
+msgstr "Pembe"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -826,7 +826,7 @@ msgstr "Önceki"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Primary color"
-msgstr ""
+msgstr "Birincil renk"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -834,28 +834,28 @@ msgstr "Profil"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notification service"
-msgstr ""
+msgstr "Push bildirim servisi"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Push notifications"
-msgstr ""
+msgstr "Push bildirimleri"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Push notifications are not configured in your user settings."
-msgstr ""
+msgstr "Push bildirimleri kullanıcı ayarlarınızda yapılandırılmamış."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notifications are not enabled on this CommaFeed instance."
-msgstr ""
+msgstr "Bu CommaFeed örneğinde push bildirimleri etkin değil."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Receive push notifications"
-msgstr ""
+msgstr "Push bildirimlerini al"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Receive push notifications when new feed entries are discovered. Enable \"Receive push notifications\" in the settings of each feed for which you want to receive notifications."
-msgstr ""
+msgstr "Yeni besleme girişleri keşfedildiğinde push bildirimleri alın. Bildirim almak istediğiniz her beslemenin ayarlarında \"Push bildirimlerini al\" seçeneğini etkinleştirin."
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
@@ -863,7 +863,7 @@ msgstr "Şifreyi kurtar"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Red"
-msgstr ""
+msgstr "Kırmızı"
 
 #: src/components/header/Header.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
@@ -877,7 +877,7 @@ msgstr "Bu CommaFeed örneğinde kayıtlar kapalı"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
-msgstr ""
+msgstr "Şifreyi Sıfırla"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
@@ -899,7 +899,7 @@ msgstr "Kaydet"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll selected entry to the top of the page"
-msgstr ""
+msgstr "Seçilen girişi sayfanın üstüne kaydır"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
@@ -907,7 +907,7 @@ msgstr "Girişler arasında gezinirken sorunsuz ilerleyin"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scrolling"
-msgstr ""
+msgstr "Kaydırma"
 
 #: src/components/header/Header.tsx
 #: src/components/header/Header.tsx
@@ -918,16 +918,16 @@ msgstr "Ara"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
-msgstr ""
+msgstr "Sonraki okunmamış beslemeyi/kategoriyi seç"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
-msgstr ""
+msgstr "Önceki okunmamış beslemeyi/kategoriyi seç"
 
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
-msgstr ""
+msgstr "Sunucu URL'si"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -977,7 +977,7 @@ msgstr "Giriş menüsünü göster (mobil)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show external link icon"
-msgstr ""
+msgstr "Harici bağlantı simgesini göster"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show feeds and categories with no unread entries"
@@ -993,15 +993,15 @@ msgstr "Orijinal tarayıcı menüsünü göster (masaüstü)"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show star icon"
-msgstr ""
+msgstr "Yıldız simgesini göster"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab favicon"
-msgstr ""
+msgstr "Sekme simgesinde okunmamış sayısını göster"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Show unread count in tab title"
-msgstr ""
+msgstr "Sekme başlığında okunmamış sayısını göster"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -1050,7 +1050,7 @@ msgstr "Başarı"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Swipe header to the left"
-msgstr ""
+msgstr "Başlığı sola kaydır"
 
 #: src/pages/WelcomePage.tsx
 msgid "Switch to dark theme"
@@ -1062,7 +1062,7 @@ msgstr "Aydınlık temaya geç"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "System"
-msgstr ""
+msgstr "Sistem"
 
 #: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -1071,15 +1071,15 @@ msgstr "Etiketler"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Teal"
-msgstr ""
+msgstr "Camgöbeği"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
-msgstr ""
+msgstr "Test bildirimi başarıyla gönderildi."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1092,15 +1092,15 @@ msgstr "Tema"
 #. placeholder {0}: feed.filterLegacy
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr ""
+msgstr "Bu beslemenin düzenlenemeyen ve uygulanmayan eski bir filtresi var. Lütfen yeni ifade düzenleyiciyi kullanarak filtreyi yeniden oluşturun. Eski filtre ifadesi şuydu: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr ""
+msgstr "Bu sizin API anahtarınızdır. Bazı salt okunur API işlemleri için kullanılabilir ve Fever API'sine erişim sağlar. Yeni bir API anahtarı oluşturmak için sayfanın altındaki formu kullanın"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"
-msgstr ""
+msgstr "Bu ayar bazı tarayıcılarda (örneğin Safari) kaydırma sorunlarına neden olabilir"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
@@ -1112,11 +1112,11 @@ msgstr "Kenar çubuğunu göster/gizle"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle starred status of current entry"
-msgstr ""
+msgstr "Geçerli girişin yıldızlı durumunu değiştir"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
-msgstr ""
+msgstr "Konu"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -1143,7 +1143,7 @@ msgstr "Aboneliği iptal et"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
-msgstr ""
+msgstr "Kullanıcı anahtarı"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
@@ -1156,7 +1156,7 @@ msgstr "Kullanıcı Adı veya E-posta"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Violet"
-msgstr ""
+msgstr "Menekşe"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -1168,11 +1168,11 @@ msgstr "Web sitesi"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
-msgstr ""
+msgstr "Hoş geldiniz! Görünüşe göre CommaFeed'i ilk kez çalıştırıyorsunuz. Başlamak için lütfen bir yönetici hesabı oluşturun."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
-msgstr ""
+msgstr "Sarı"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
@@ -1184,4 +1184,4 @@ msgstr "Feed'leriniz yenileme için sıraya alındı."
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Your password has been changed. You can now log in with your new password."
-msgstr ""
+msgstr "Şifreniz değiştirildi. Artık yeni şifrenizle giriş yapabilirsiniz."

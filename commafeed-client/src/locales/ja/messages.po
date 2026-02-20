@@ -36,7 +36,7 @@ msgstr "About"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Access token"
-msgstr ""
+msgstr "アクセストークン"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -63,7 +63,7 @@ msgstr "管理者"
 #: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
-msgstr ""
+msgstr "管理者ユーザー名"
 
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
@@ -100,11 +100,11 @@ msgstr "APIキー"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
-msgstr ""
+msgstr "APIトークン"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
-msgstr ""
+msgstr "アプリトークン"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -136,7 +136,7 @@ msgstr "昇順"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Auto-mark as read"
-msgstr ""
+msgstr "自動的に既読にする"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
@@ -149,7 +149,7 @@ msgstr "ログインに戻る"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Blue"
-msgstr ""
+msgstr "ブルー"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Browser extension"
@@ -165,7 +165,7 @@ msgstr "ブラウザータブ"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
-msgstr ""
+msgstr "読みたい内容を指定するためのフィルタ式を作成します。一致しないエントリは自動的に既読としてマークされます。"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -243,7 +243,7 @@ msgstr "パスワード確認"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
-msgstr ""
+msgstr "パスワードの確認"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -251,7 +251,7 @@ msgstr "Cozy"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Create Admin Account"
-msgstr ""
+msgstr "管理者アカウントの作成"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
@@ -275,7 +275,7 @@ msgstr "ページ読み込み時に実行されるカスタムJSコード"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Cyan"
-msgstr ""
+msgstr "シアン"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -288,7 +288,7 @@ msgstr "作成日"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
-msgstr ""
+msgstr "日"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -317,7 +317,7 @@ msgstr "詳細"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Disable \"Pull to refresh\" browser behavior"
-msgstr ""
+msgstr "ブラウザの「プルして更新」動作を無効にする"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -423,7 +423,7 @@ msgstr "フィルタリング式"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Font size"
-msgstr ""
+msgstr "フォントサイズ"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Force fetching feeds is not yet available."
@@ -468,15 +468,15 @@ msgstr "グッズ"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
-msgstr ""
+msgstr "グレープ"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Gray"
-msgstr ""
+msgstr "グレー"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Green"
-msgstr ""
+msgstr "グリーン"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
@@ -500,15 +500,15 @@ msgstr "展開ビューでエントリーをスクロールすると、それら
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
-msgstr ""
+msgstr "インディゴ"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Initial Setup"
-msgstr ""
+msgstr "初期設定"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Invalid password reset link. Please request a new one."
-msgstr ""
+msgstr "無効なパスワードリセットリンクです。新しいリンクをリクエストしてください。"
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -542,7 +542,7 @@ msgstr "ライト"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Lime"
-msgstr ""
+msgstr "ライム"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -552,7 +552,7 @@ msgstr "リンク"
 
 #: src/components/settings/CustomCodeSettings.tsx
 msgid "Link to the documentation"
-msgstr ""
+msgstr "ドキュメントへのリンク"
 
 #: src/hooks/useAppLoading.ts
 msgid "Loading profile..."
@@ -610,7 +610,7 @@ msgstr "ここまで既読にする"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
-msgstr ""
+msgstr "この日数経過後に、このフィードのエントリを既読としてマークします。無効にするには空のままにしてください。"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
@@ -646,7 +646,7 @@ msgstr "名前を入力してサブスクリプションに移動します"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Navigate to the next category/feed with unread entries when marking all entries as read"
-msgstr ""
+msgstr "すべてのエントリーを既読にするとき、未読エントリーのある次のカテゴリ/フィードに移動する"
 
 #: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -660,7 +660,7 @@ msgstr "新しいパスワード"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
-msgstr ""
+msgstr "新しいパスワード"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -775,7 +775,7 @@ msgstr "OPMLファイルは必要です"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Orange"
-msgstr ""
+msgstr "オレンジ"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Order"
@@ -801,7 +801,7 @@ msgstr "パスワード"
 
 #: src/hooks/useValidationRules.ts
 msgid "Password must be at least {minimumPasswordLength} characters"
-msgstr ""
+msgstr "パスワードは {minimumPasswordLength} 文字以上である必要があります"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
@@ -813,7 +813,7 @@ msgstr "パスワードが一致しません"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Pink"
-msgstr ""
+msgstr "ピンク"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
@@ -826,7 +826,7 @@ msgstr "前へ"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Primary color"
-msgstr ""
+msgstr "プライマリカラー"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Profile"
@@ -834,28 +834,28 @@ msgstr "プロフィール"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notification service"
-msgstr ""
+msgstr "プッシュ通知サービス"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Push notifications"
-msgstr ""
+msgstr "プッシュ通知"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Push notifications are not configured in your user settings."
-msgstr ""
+msgstr "ユーザー設定でプッシュ通知が設定されていません。"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notifications are not enabled on this CommaFeed instance."
-msgstr ""
+msgstr "この CommaFeed インスタンスではプッシュ通知が有効になっていません。"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Receive push notifications"
-msgstr ""
+msgstr "プッシュ通知を受け取る"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Receive push notifications when new feed entries are discovered. Enable \"Receive push notifications\" in the settings of each feed for which you want to receive notifications."
-msgstr ""
+msgstr "新しいフィードエントリが発見されたときにプッシュ通知を受け取ります。通知を受け取りたい各フィードの設定で「プッシュ通知を受け取る」を有効にしてください。"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
@@ -863,7 +863,7 @@ msgstr "パスワードの回復"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Red"
-msgstr ""
+msgstr "レッド"
 
 #: src/components/header/Header.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
@@ -877,7 +877,7 @@ msgstr "このCommaFeedインスタンスの登録は終了しています"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
-msgstr ""
+msgstr "パスワードをリセット"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
@@ -918,16 +918,16 @@ msgstr "検索"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
-msgstr ""
+msgstr "次の未読フィード/カテゴリを選択"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select previous unread feed/category"
-msgstr ""
+msgstr "前の未読フィード/カテゴリを選択"
 
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
-msgstr ""
+msgstr "サーバーURL"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -1071,15 +1071,15 @@ msgstr "タグ"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Teal"
-msgstr ""
+msgstr "ティール"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test"
-msgstr ""
+msgstr "テスト"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
-msgstr ""
+msgstr "テスト通知が正常に送信されました。"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1092,7 +1092,7 @@ msgstr "テーマ"
 #. placeholder {0}: feed.filterLegacy
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr ""
+msgstr "このフィードには、編集できず適用もされない古い形式のフィルタがあります。新しい式エディタを使用してフィルタを再作成してください。古いフィルタ式は次のとおりでした: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
@@ -1100,7 +1100,7 @@ msgstr "これはあなたのAPIキーです。いくつかの読み取り専用
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"
-msgstr ""
+msgstr "この設定により、一部のブラウザ（Safari など）でスクロールの問題が発生する可能性があります。"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
@@ -1116,7 +1116,7 @@ msgstr "現在のエントリーのスターステータスを切り替える"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
-msgstr ""
+msgstr "トピック"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -1143,7 +1143,7 @@ msgstr "退会"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
-msgstr ""
+msgstr "ユーザーキー"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
@@ -1156,7 +1156,7 @@ msgstr "ユーザー名またはメールアドレス"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Violet"
-msgstr ""
+msgstr "バイオレット"
 
 #: src/components/Alert.tsx
 msgid "Warning"
@@ -1168,11 +1168,11 @@ msgstr "ウェブサイト"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
-msgstr ""
+msgstr "ようこそ！CommaFeedを初めて実行するようです。開始するには管理者アカウントを作成してください。"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
-msgstr ""
+msgstr "イエロー"
 
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
@@ -1184,4 +1184,4 @@ msgstr "フィードの更新がキューに登録されました。"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Your password has been changed. You can now log in with your new password."
-msgstr ""
+msgstr "パスワードが変更されました。新しいパスワードでログインできます。"

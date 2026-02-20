@@ -136,7 +136,7 @@ msgstr "Ascendant"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Auto-mark as read"
-msgstr ""
+msgstr "Marquer automatiquement comme lu"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
@@ -288,7 +288,7 @@ msgstr "Date de création"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
-msgstr ""
+msgstr "jours"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -610,7 +610,7 @@ msgstr "Marquer comme lu jusqu'ici"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
-msgstr ""
+msgstr "Marquer les entrées de ce flux comme lues après ce nombre de jours. Laissez vide pour désactiver."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"

@@ -36,7 +36,7 @@ msgstr "Sobre"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Access token"
-msgstr ""
+msgstr "Token de acesso"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -63,7 +63,7 @@ msgstr "Administrador"
 #: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
-msgstr ""
+msgstr "Nome de usuário do administrador"
 
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
@@ -100,11 +100,11 @@ msgstr "chave de API"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
-msgstr ""
+msgstr "Token de API"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
-msgstr ""
+msgstr "Token do aplicativo"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -136,7 +136,7 @@ msgstr "Asc"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Auto-mark as read"
-msgstr ""
+msgstr "Marcar automaticamente como lido"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
@@ -165,7 +165,7 @@ msgstr "Aba do navegador"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
-msgstr ""
+msgstr "Crie uma expressão de filtro para indicar o que você deseja ler. As entradas que não corresponderem serão marcadas como lidas automaticamente."
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -243,7 +243,7 @@ msgstr "Confirmar senha"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
-msgstr ""
+msgstr "Confirmar senha"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -251,7 +251,7 @@ msgstr "Aconchegante"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Create Admin Account"
-msgstr ""
+msgstr "Criar conta de administrador"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
@@ -288,7 +288,7 @@ msgstr "Data de criação"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
-msgstr ""
+msgstr "dias"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -317,7 +317,7 @@ msgstr "Detalhado"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Disable \"Pull to refresh\" browser behavior"
-msgstr ""
+msgstr "Desativar o comportamento do navegador \"Puxar para atualizar\""
 
 #: src/components/header/ProfileMenu.tsx
 #: src/components/settings/DisplaySettings.tsx
@@ -504,11 +504,11 @@ msgstr "Índigo"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Initial Setup"
-msgstr ""
+msgstr "Configuração inicial"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Invalid password reset link. Please request a new one."
-msgstr ""
+msgstr "Link de redefinição de senha inválido. Solicite um novo."
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -610,7 +610,7 @@ msgstr "Marcar como lido até aqui"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
-msgstr ""
+msgstr "Marcar as entradas neste feed como lidas após este número de dias. Deixe vazio para desativar."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
@@ -660,7 +660,7 @@ msgstr "Nova senha"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
-msgstr ""
+msgstr "Nova senha"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -801,7 +801,7 @@ msgstr "Senha"
 
 #: src/hooks/useValidationRules.ts
 msgid "Password must be at least {minimumPasswordLength} characters"
-msgstr ""
+msgstr "A senha deve ter pelo menos {minimumPasswordLength} caracteres"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
@@ -834,28 +834,28 @@ msgstr "Perfil"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notification service"
-msgstr ""
+msgstr "Serviço de notificação push"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Push notifications"
-msgstr ""
+msgstr "Notificações push"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Push notifications are not configured in your user settings."
-msgstr ""
+msgstr "As notificações push não estão configuradas nas suas configurações de usuário."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notifications are not enabled on this CommaFeed instance."
-msgstr ""
+msgstr "As notificações push não estão ativadas nesta instância do CommaFeed."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Receive push notifications"
-msgstr ""
+msgstr "Receber notificações push"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Receive push notifications when new feed entries are discovered. Enable \"Receive push notifications\" in the settings of each feed for which you want to receive notifications."
-msgstr ""
+msgstr "Receba notificações push quando novas entradas de feed forem descobertas. Ative \"Receber notificações push\" nas configurações de cada feed para o qual deseja receber notificações."
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
@@ -877,7 +877,7 @@ msgstr "Os registros estão fechados nesta instância do CommaFeed"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
-msgstr ""
+msgstr "Redefinir senha"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
@@ -927,7 +927,7 @@ msgstr "Selecionar feed/categoria não lido anterior"
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
-msgstr ""
+msgstr "URL do servidor"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -1075,11 +1075,11 @@ msgstr "Azul petróleo"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test"
-msgstr ""
+msgstr "Teste"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
-msgstr ""
+msgstr "Notificação de teste enviada com sucesso."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1092,7 +1092,7 @@ msgstr "Tema"
 #. placeholder {0}: feed.filterLegacy
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr ""
+msgstr "Este feed tem um filtro legado que não pode ser editado e não é aplicado. Recrie o filtro usando o novo editor de expressões. A expressão do filtro legado era: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
@@ -1100,7 +1100,7 @@ msgstr "Esta é sua chave de API. Ela pode ser usada para algumas operações so
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"
-msgstr ""
+msgstr "Esta configuração pode causar problemas de rolagem em alguns navegadores (ex: Safari)"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Toggle read status of current entry"
@@ -1116,7 +1116,7 @@ msgstr "Alternar estrela da entrada atual"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
-msgstr ""
+msgstr "Tópico"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -1143,7 +1143,7 @@ msgstr "Cancelar inscrição"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
-msgstr ""
+msgstr "Chave do usuário"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
@@ -1168,7 +1168,7 @@ msgstr "Site"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
-msgstr ""
+msgstr "Bem-vindo! Esta parece ser a primeira vez que você está executando o CommaFeed. Crie uma conta de administrador para começar."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
@@ -1184,4 +1184,4 @@ msgstr "Seus feed foram enfileirados para atualização"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Your password has been changed. You can now log in with your new password."
-msgstr ""
+msgstr "Sua senha foi alterada. Agora você pode fazer login com sua nova senha."

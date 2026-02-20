@@ -36,7 +36,7 @@ msgstr "Sobre"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Access token"
-msgstr ""
+msgstr "Token d'accés"
 
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Actions"
@@ -63,7 +63,7 @@ msgstr "Administrador"
 #: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
-msgstr ""
+msgstr "Nom d'usuari de l'administrador"
 
 #: src/components/content/add/CategorySelect.tsx
 #: src/components/header/Header.tsx
@@ -100,11 +100,11 @@ msgstr "Clau API"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "API token"
-msgstr ""
+msgstr "Token d'API"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "App token"
-msgstr ""
+msgstr "Token d'aplicació"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
@@ -136,7 +136,7 @@ msgstr "Asc"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Auto-mark as read"
-msgstr ""
+msgstr "Marcar com a llegit automàticament"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
@@ -165,7 +165,7 @@ msgstr "Pestanya del navegador"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read automatically."
-msgstr ""
+msgstr "Creeu una expressió de filtratge per indicar què voleu llegir. Les entrades que no coincideixin es marcaran com a llegides automàticament."
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
@@ -243,7 +243,7 @@ msgstr "Confirmeu la contrasenya"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
-msgstr ""
+msgstr "Confirma la contrasenya"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Cozy"
@@ -251,7 +251,7 @@ msgstr "Acollidor"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Create Admin Account"
-msgstr ""
+msgstr "Crea un compte d'administrador"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Ctrl"
@@ -288,7 +288,7 @@ msgstr "Data de creació"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
-msgstr ""
+msgstr "dies"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -504,11 +504,11 @@ msgstr "Indi"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Initial Setup"
-msgstr ""
+msgstr "Configuració inicial"
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Invalid password reset link. Please request a new one."
-msgstr ""
+msgstr "L'enllaç de restabliment de la contrasenya no és vàlid. Sol·liciteu-ne un de nou."
 
 #: src/components/content/FeedEntryContextMenu.tsx
 #: src/components/content/FeedEntryFooter.tsx
@@ -610,7 +610,7 @@ msgstr "Marca com a llegit fins aquí"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Mark entries in this feed as read after this number of days. Leave empty to disable."
-msgstr ""
+msgstr "Marca les entrades d'aquest feed com a llegides després d'aquest nombre de dies. Deixeu-ho buit per desactivar-lo."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Metrics"
@@ -660,7 +660,7 @@ msgstr "Contrasenya nova"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
-msgstr ""
+msgstr "Contrasenya nova"
 
 #: src/pages/app/AboutPage.tsx
 msgid "Newest first"
@@ -801,7 +801,7 @@ msgstr "Contrasenya"
 
 #: src/hooks/useValidationRules.ts
 msgid "Password must be at least {minimumPasswordLength} characters"
-msgstr ""
+msgstr "La contrasenya ha de tenir almenys {minimumPasswordLength} caràcters"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
@@ -834,28 +834,28 @@ msgstr "Perfil"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notification service"
-msgstr ""
+msgstr "Servei de notificacions push"
 
 #: src/pages/app/SettingsPage.tsx
 msgid "Push notifications"
-msgstr ""
+msgstr "Notificacions push"
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Push notifications are not configured in your user settings."
-msgstr ""
+msgstr "Les notificacions push no estan configurades a la vostra configuració d'usuari."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Push notifications are not enabled on this CommaFeed instance."
-msgstr ""
+msgstr "Les notificacions push no estan activades en aquesta instància de CommaFeed."
 
 #: src/components/ReceivePushNotificationsChechbox.tsx
 msgid "Receive push notifications"
-msgstr ""
+msgstr "Rep notificacions push"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Receive push notifications when new feed entries are discovered. Enable \"Receive push notifications\" in the settings of each feed for which you want to receive notifications."
-msgstr ""
+msgstr "Rebre notificacions push quan es descobreixin noves entrades de feed. Activeu \"Rep notificacions push\" a la configuració de cada feed per al qual vulgueu rebre notificacions."
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
@@ -877,7 +877,7 @@ msgstr "Els registres estan tancats en aquesta instància de CommaFeed"
 #: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
-msgstr ""
+msgstr "Restableix la contrasenya"
 
 #: src/pages/app/AboutPage.tsx
 msgid "REST API"
@@ -927,7 +927,7 @@ msgstr "Selecciona el canal/categoria anterior sense llegir"
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
-msgstr ""
+msgstr "URL del servidor"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Set focus on next entry without opening it"
@@ -1075,11 +1075,11 @@ msgstr "Blau verdós"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test"
-msgstr ""
+msgstr "Prova"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
-msgstr ""
+msgstr "La notificació de prova s'ha enviat correctament."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
@@ -1092,7 +1092,7 @@ msgstr "Tema"
 #. placeholder {0}: feed.filterLegacy
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr ""
+msgstr "Aquest feed té un filtre heretat que no es pot editar i no s'aplica. Torneu a crear el filtre amb el nou editor d'expressions. L'expressió del filtre heretat era: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
@@ -1116,7 +1116,7 @@ msgstr "Commuta l'estat destacat de l'entrada actual"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Topic"
-msgstr ""
+msgstr "Tema"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Try out CommaFeed with the demo account: demo/demo"
@@ -1143,7 +1143,7 @@ msgstr "Donar-se de baixa"
 
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "User key"
-msgstr ""
+msgstr "Clau d'usuari"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "User name"
@@ -1168,7 +1168,7 @@ msgstr "Lloc web"
 
 #: src/pages/auth/InitialSetupPage.tsx
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
-msgstr ""
+msgstr "Benvingut! Sembla que aquesta és la primera vegada que executeu CommaFeed. Creeu un compte d'administrador per començar."
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
@@ -1184,4 +1184,4 @@ msgstr "Els vostres feeds s'han posat a la cua per actualitzar-los."
 
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "Your password has been changed. You can now log in with your new password."
-msgstr ""
+msgstr "La vostra contrasenya s'ha canviat. Ara podeu iniciar la sessió amb la vostra nova contrasenya."

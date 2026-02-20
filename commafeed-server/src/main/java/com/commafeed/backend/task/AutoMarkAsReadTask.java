@@ -21,7 +21,7 @@ public class AutoMarkAsReadTask extends ScheduledTask {
 
 	@Override
 	public long getInitialDelay() {
-		return 25;
+		return 30;
 	}
 
 	@Override

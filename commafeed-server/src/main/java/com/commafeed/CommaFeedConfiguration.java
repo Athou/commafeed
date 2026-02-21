@@ -144,7 +144,7 @@ public interface CommaFeedConfiguration {
 		 * Prevent access to local addresses to mitigate server-side request forgery (SSRF) attacks, which could potentially expose internal
 		 * resources.
 		 *
-		 * You may want to enable this if you host a public instance of CommaFeed with regisration open.
+		 * You may want to enable this if you host a public instance of CommaFeed with registrations open.
 		 */
 		@WithDefault("false")
 		boolean blockLocalAddresses();

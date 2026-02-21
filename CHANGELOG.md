@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.0.0]
+
+- Replaced the JEXL filter expression for marking feed entries as read automatically with a user-friendly visual query builder. Expressions are now evaluated with Common Expression Language, which is safer than JEXL and sanboxed by default.
+- Added a per-feed setting for sending push notifications to ntfy, Gotify or Pushover when new feed entries are discovered (#1610)
+- Added a per-feed setting for marking entries as read after a number of days (#2041)
+- The default value of `commafeed.http-client.block-local-addresses` is now false, allowing users to subscribe to feeds only available on their local network. This may be a security risk (SSRF) if your instance is accessible by untrusted users, so you may want to set it to true if you host a public instance of CommaFeed with user registeration enabled.
+- When `commafeed.http-client.block-local-addresses` is enabled, SSRF is now also mitigated by blocking public websites redirecting to local ones.
+
 ## [6.2.0]
 
 - Starred entries are no longer deleted after a certain amount of time, they are now kept indefinitely. The new `commafeed.database.cleanup.keep-starred-entries` setting can be disabled to restore the previous behavior if you want to keep deleting starred entries during normal entries cleanup (#1581)

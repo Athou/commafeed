@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "@/app/store"
 import { categoryHasNewEntries, categoryUnreadCount, flattenCategoryTree } from "@/app/utils"
 import { FeedEntries } from "@/components/content/FeedEntries"
 import { UnreadCount } from "@/components/sidebar/UnreadCount"
+import { useMobile } from "@/hooks/useMobile"
 import { tss } from "@/tss"
 
 function NoSubscriptionHelp() {
@@ -49,6 +50,8 @@ export function FeedEntriesPage(props: Readonly<FeedEntriesPageProps>) {
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
     const sourceWebsiteUrl = useAppSelector(state => state.entries.sourceWebsiteUrl)
     const hasMore = useAppSelector(state => state.entries.hasMore)
+    const mobile = useMobile()
+    const sidebarVisible = useAppSelector(state => state.tree.sidebarVisible)
     const unreadCount = useAppSelector(state => {
         const root = state.tree.rootCategory
         if (!root) return 0
@@ -83,6 +86,7 @@ export function FeedEntriesPage(props: Readonly<FeedEntriesPageProps>) {
         }
         return false
     })
+    const showUnreadCount = mobile || !sidebarVisible
     const dispatch = useAppDispatch()
 
     let title: React.ReactNode = sourceLabel
@@ -124,19 +128,17 @@ export function FeedEntriesPage(props: Readonly<FeedEntriesPageProps>) {
     return (
         // add some room at the bottom of the page in order to be able to scroll the current entry at the top of the page when expanding
         <Box mb={viewport.height * 0.7}>
-            <Group gap="xl" className="cf-entries-title">
-                <Group gap="xs">
-                    {sourceWebsiteUrl && (
-                        <a href={sourceWebsiteUrl} target="_blank" rel="noreferrer" className={classes.sourceWebsiteLink}>
-                            <Title order={3}>{title}</Title>
-                        </a>
-                    )}
-                    {!sourceWebsiteUrl && <Title order={3}>{title}</Title>}
-                    <UnreadCount unreadCount={unreadCount} showIndicator={hasNewEntries} />
-                </Group>
+            <Group className="cf-entries-title">
+                {sourceWebsiteUrl && (
+                    <a href={sourceWebsiteUrl} target="_blank" rel="noreferrer" className={classes.sourceWebsiteLink}>
+                        <Title order={3}>{title}</Title>
+                    </a>
+                )}
+                {!sourceWebsiteUrl && <Title order={3}>{title}</Title>}
                 <ActionIcon onClick={titleClicked} variant="subtle" color={theme.primaryColor}>
                     <TbEdit size={18} />
                 </ActionIcon>
+                {showUnreadCount && <UnreadCount unreadCount={unreadCount} showIndicator={hasNewEntries} />}
             </Group>
 
             <FeedEntries />

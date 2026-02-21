@@ -35,6 +35,12 @@ const useStyles = tss.create(() => ({
     sourceWebsiteLink: {
         color: "inherit",
         textDecoration: "none",
+        overflow: "hidden",
+    },
+    titleText: {
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
     },
 }))
 
@@ -49,6 +55,7 @@ export function FeedEntriesPage(props: Readonly<FeedEntriesPageProps>) {
     )
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
     const sourceWebsiteUrl = useAppSelector(state => state.entries.sourceWebsiteUrl)
+    const loading = useAppSelector(state => state.entries.loading)
     const hasMore = useAppSelector(state => state.entries.hasMore)
     const mobile = useMobile()
     const sidebarVisible = useAppSelector(state => state.tree.sidebarVisible)
@@ -118,18 +125,26 @@ export function FeedEntriesPage(props: Readonly<FeedEntriesPageProps>) {
     return (
         // add some room at the bottom of the page in order to be able to scroll the current entry at the top of the page when expanding
         <Box mb={viewport.height * 0.7}>
-            <Group className="cf-entries-title">
-                {sourceWebsiteUrl && (
-                    <a href={sourceWebsiteUrl} target="_blank" rel="noreferrer" className={classes.sourceWebsiteLink}>
-                        <Title order={3}>{title}</Title>
-                    </a>
-                )}
-                {!sourceWebsiteUrl && <Title order={3}>{title}</Title>}
-                <ActionIcon onClick={titleClicked} variant="subtle" color={theme.primaryColor}>
-                    <TbEdit size={18} />
-                </ActionIcon>
-                {showUnreadCount && <UnreadCount unreadCount={unreadCount} showIndicator={hasNewEntries} />}
-            </Group>
+            {!loading && (
+                <Group className="cf-entries-title" wrap="nowrap">
+                    {sourceWebsiteUrl && (
+                        <a href={sourceWebsiteUrl} target="_blank" rel="noreferrer" className={classes.sourceWebsiteLink}>
+                            <Title order={3} className={classes.titleText}>
+                                {title}
+                            </Title>
+                        </a>
+                    )}
+                    {!sourceWebsiteUrl && (
+                        <Title order={3} className={classes.titleText}>
+                            {title}
+                        </Title>
+                    )}
+                    <ActionIcon onClick={titleClicked} variant="subtle" color={theme.primaryColor}>
+                        <TbEdit size={18} />
+                    </ActionIcon>
+                    {showUnreadCount && <UnreadCount unreadCount={unreadCount} showIndicator={hasNewEntries} />}
+                </Group>
+            )}
 
             <FeedEntries />
 

@@ -8,7 +8,7 @@ import { Constants } from "@/app/constants"
 import type { EntrySourceType } from "@/app/entries/slice"
 import { loadEntries } from "@/app/entries/thunks"
 import { redirectToCategoryDetails, redirectToFeedDetails, redirectToTagDetails } from "@/app/redirect/thunks"
-import { useAppDispatch, useAppSelector } from "@/app/store"
+import { useAppDispatch, useAppSelector, useShallowEqualAppSelector } from "@/app/store"
 import { categoryHasNewEntries, categoryUnreadCount, flattenCategoryTree } from "@/app/utils"
 import { FeedEntries } from "@/components/content/FeedEntries"
 import { UnreadCount } from "@/components/sidebar/UnreadCount"
@@ -52,39 +52,29 @@ export function FeedEntriesPage(props: Readonly<FeedEntriesPageProps>) {
     const hasMore = useAppSelector(state => state.entries.hasMore)
     const mobile = useMobile()
     const sidebarVisible = useAppSelector(state => state.tree.sidebarVisible)
-    const unreadCount = useAppSelector(state => {
+    const { unreadCount, hasNewEntries } = useShallowEqualAppSelector(state => {
         const root = state.tree.rootCategory
-        if (!root) return 0
+        if (!root) return { unreadCount: 0, hasNewEntries: false }
+
         if (props.sourceType === "category") {
-            if (id === Constants.categories.starred.id) return 0
-            if (id === Constants.categories.all.id) return categoryUnreadCount(root)
-            const category = flattenCategoryTree(root).find(c => c.id === id)
-            return categoryUnreadCount(category)
+            const category = id === Constants.categories.all.id ? root : flattenCategoryTree(root).find(c => c.id === id)
+            return {
+                unreadCount: categoryUnreadCount(category),
+                hasNewEntries: categoryHasNewEntries(category),
+            }
         }
+
         if (props.sourceType === "feed") {
-            return (
-                flattenCategoryTree(root)
-                    .flatMap(c => c.feeds)
-                    .find(f => String(f.id) === id)?.unread ?? 0
-            )
-        }
-        return 0
-    })
-    const hasNewEntries = useAppSelector(state => {
-        const root = state.tree.rootCategory
-        if (!root) return false
-        if (props.sourceType === "category") {
-            if (id === Constants.categories.starred.id) return false
-            if (id === Constants.categories.all.id) return categoryHasNewEntries(root)
-            const category = flattenCategoryTree(root).find(c => c.id === id)
-            return categoryHasNewEntries(category)
-        }
-        if (props.sourceType === "feed") {
-            return !!flattenCategoryTree(root)
+            const feed = flattenCategoryTree(root)
                 .flatMap(c => c.feeds)
-                .find(f => String(f.id) === id)?.hasNewEntries
+                .find(f => f.id === +id)
+            return {
+                unreadCount: feed?.unread ?? 0,
+                hasNewEntries: !!feed?.hasNewEntries,
+            }
         }
-        return false
+
+        return { unreadCount: 0, hasNewEntries: false }
     })
     const showUnreadCount = mobile || !sidebarVisible
     const dispatch = useAppDispatch()

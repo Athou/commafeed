@@ -23,8 +23,8 @@ public abstract class ScheduledTask {
 				log.error(e.getMessage(), e);
 			}
 		};
-		log.info("registering task {} for execution every {} {}, starting in {} {}", getClass().getSimpleName(), getPeriod(), getTimeUnit(),
-				getInitialDelay(), getTimeUnit());
+		log.debug("registering task {} for execution every {} {}, starting in {} {}", getClass().getSimpleName(), getPeriod(),
+				getTimeUnit(), getInitialDelay(), getTimeUnit());
 		executor.scheduleWithFixedDelay(runnable, getInitialDelay(), getPeriod(), getTimeUnit());
 	}
 }

@@ -42,12 +42,12 @@ public class FeedRefreshEngine {
 
 	private final BlockingDeque<Feed> queue;
 
-	private final ExecutorService feedProcessingLoopExecutor;
-	private final ExecutorService refillLoopExecutor;
-	private final ExecutorService refillExecutor;
-	private final ThreadPoolExecutor workerExecutor;
-	private final ThreadPoolExecutor databaseUpdaterExecutor;
-	private final ThreadPoolExecutor notifierExecutor;
+	private ExecutorService feedProcessingLoopExecutor;
+	private ExecutorService refillLoopExecutor;
+	private ThreadPoolExecutor refillExecutor;
+	private ThreadPoolExecutor workerExecutor;
+	private ThreadPoolExecutor databaseUpdaterExecutor;
+	private ThreadPoolExecutor notifierExecutor;
 
 	public FeedRefreshEngine(UnitOfWork unitOfWork, FeedDAO feedDAO, FeedRefreshWorker worker, FeedRefreshUpdater updater,
 			FeedUpdateNotifier notifier, CommaFeedConfiguration config, MetricRegistry metrics) {
@@ -61,6 +61,15 @@ public class FeedRefreshEngine {
 
 		this.queue = new LinkedBlockingDeque<>();
 
+		metrics.register(MetricRegistry.name(getClass(), "queue", "size"), (Gauge<Integer>) queue::size);
+		metrics.register(MetricRegistry.name(getClass(), "worker", "active"), (Gauge<Integer>) () -> workerExecutor.getActiveCount());
+		metrics.register(MetricRegistry.name(getClass(), "updater", "active"),
+				(Gauge<Integer>) () -> databaseUpdaterExecutor.getActiveCount());
+		metrics.register(MetricRegistry.name(getClass(), "notifier", "active"), (Gauge<Integer>) () -> notifierExecutor.getActiveCount());
+		metrics.register(MetricRegistry.name(getClass(), "notifier", "queue"), (Gauge<Integer>) () -> notifierExecutor.getQueue().size());
+	}
+
+	private void createExecutors() {
 		this.feedProcessingLoopExecutor = Executors.newSingleThreadExecutor();
 		this.refillLoopExecutor = Executors.newSingleThreadExecutor();
 		this.refillExecutor = newDiscardingSingleThreadExecutorService();
@@ -68,15 +77,10 @@ public class FeedRefreshEngine {
 		this.databaseUpdaterExecutor = newBlockingExecutorService(config.feedRefresh().databaseThreads());
 		this.notifierExecutor = newDiscardingExecutorService(config.pushNotifications().threads(),
 				config.pushNotifications().queueCapacity());
-
-		metrics.register(MetricRegistry.name(getClass(), "queue", "size"), (Gauge<Integer>) queue::size);
-		metrics.register(MetricRegistry.name(getClass(), "worker", "active"), (Gauge<Integer>) workerExecutor::getActiveCount);
-		metrics.register(MetricRegistry.name(getClass(), "updater", "active"), (Gauge<Integer>) databaseUpdaterExecutor::getActiveCount);
-		metrics.register(MetricRegistry.name(getClass(), "notifier", "active"), (Gauge<Integer>) notifierExecutor::getActiveCount);
-		metrics.register(MetricRegistry.name(getClass(), "notifier", "queue"), (Gauge<Integer>) () -> notifierExecutor.getQueue().size());
 	}
 
 	public void start() {
+		createExecutors();
 		startFeedProcessingLoop();
 		startRefillLoop();
 	}
@@ -204,6 +208,8 @@ public class FeedRefreshEngine {
 		MoreExecutors.shutdownAndAwaitTermination(this.workerExecutor, config.shutdownTimeout());
 		MoreExecutors.shutdownAndAwaitTermination(this.databaseUpdaterExecutor, config.shutdownTimeout());
 		MoreExecutors.shutdownAndAwaitTermination(this.notifierExecutor, config.shutdownTimeout());
+
+		queue.clear();
 	}
 
 	/**

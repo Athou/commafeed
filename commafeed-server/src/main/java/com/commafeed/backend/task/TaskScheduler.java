@@ -18,16 +18,17 @@ public class TaskScheduler {
 
 	private final List<ScheduledTask> tasks;
 	private final CommaFeedConfiguration config;
-	private final ScheduledExecutorService executor;
+
+	private ScheduledExecutorService executor;
 
 	public TaskScheduler(@All List<ScheduledTask> tasks, CommaFeedConfiguration config) {
 		this.tasks = tasks;
 		this.config = config;
-		this.executor = Executors.newScheduledThreadPool(tasks.size());
 	}
 
 	public void start() {
-		tasks.forEach(task -> task.register(executor));
+		this.executor = Executors.newScheduledThreadPool(tasks.size());
+		this.tasks.forEach(task -> task.register(executor));
 	}
 
 	public void stop() {

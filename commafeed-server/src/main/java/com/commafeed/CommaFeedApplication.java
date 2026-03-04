@@ -22,6 +22,8 @@ public class CommaFeedApplication {
 	private final CommaFeedConfiguration config;
 
 	public void start(@Observes StartupEvent ev) {
+		log.info("starting up...");
+
 		PasswordConstraintValidator.setMinimumPasswordLength(config.users().minimumPasswordLength());
 
 		feedRefreshEngine.start();

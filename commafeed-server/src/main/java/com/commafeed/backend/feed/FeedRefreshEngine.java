@@ -24,6 +24,7 @@ import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
+import com.google.common.util.concurrent.MoreExecutors;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -197,12 +198,12 @@ public class FeedRefreshEngine {
 	}
 
 	public void stop() {
-		this.feedProcessingLoopExecutor.shutdownNow();
-		this.refillLoopExecutor.shutdownNow();
-		this.refillExecutor.shutdownNow();
-		this.workerExecutor.shutdownNow();
-		this.databaseUpdaterExecutor.shutdownNow();
-		this.notifierExecutor.shutdownNow();
+		MoreExecutors.shutdownAndAwaitTermination(this.feedProcessingLoopExecutor, config.shutdownTimeout());
+		MoreExecutors.shutdownAndAwaitTermination(this.refillLoopExecutor, config.shutdownTimeout());
+		MoreExecutors.shutdownAndAwaitTermination(this.refillExecutor, config.shutdownTimeout());
+		MoreExecutors.shutdownAndAwaitTermination(this.workerExecutor, config.shutdownTimeout());
+		MoreExecutors.shutdownAndAwaitTermination(this.databaseUpdaterExecutor, config.shutdownTimeout());
+		MoreExecutors.shutdownAndAwaitTermination(this.notifierExecutor, config.shutdownTimeout());
 	}
 
 	/**

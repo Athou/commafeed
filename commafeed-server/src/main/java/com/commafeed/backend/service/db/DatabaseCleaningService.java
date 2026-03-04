@@ -54,10 +54,20 @@ public class DatabaseCleaningService {
 		int deleted;
 		long entriesTotal = 0;
 		do {
+			if (Thread.currentThread().isInterrupted()) {
+				log.info("interrupted, stopping cleanup of feeds without subscriptions");
+				return;
+			}
+
 			List<Feed> feeds = unitOfWork.call(() -> feedDAO.findWithoutSubscriptions(1));
 			for (Feed feed : feeds) {
 				long entriesDeleted;
 				do {
+					if (Thread.currentThread().isInterrupted()) {
+						log.info("interrupted, stopping cleanup of feeds without subscriptions");
+						return;
+					}
+
 					entriesDeleted = unitOfWork.call(() -> feedEntryDAO.delete(feed.getId(), batchSize));
 					entriesDeletedMeter.mark(entriesDeleted);
 					entriesTotal += entriesDeleted;
@@ -76,6 +86,11 @@ public class DatabaseCleaningService {
 		long total = 0;
 		long deleted;
 		do {
+			if (Thread.currentThread().isInterrupted()) {
+				log.info("interrupted, stopping cleanup of contents without entries");
+				return;
+			}
+
 			deleted = unitOfWork.call(() -> feedEntryContentDAO.deleteWithoutEntries(batchSize));
 			total += deleted;
 			log.debug("removed {} contents without entries", total);
@@ -87,6 +102,11 @@ public class DatabaseCleaningService {
 		log.info("cleaning entries exceeding feed capacity");
 		long total = 0;
 		while (true) {
+			if (Thread.currentThread().isInterrupted()) {
+				log.info("interrupted, stopping cleanup of entries exceeding feed capacity");
+				return;
+			}
+
 			List<FeedCapacity> feeds = unitOfWork
 					.call(() -> feedEntryDAO.findFeedsExceedingCapacity(maxFeedCapacity, batchSize, keepStarredEntries));
 			if (feeds.isEmpty()) {
@@ -97,6 +117,11 @@ public class DatabaseCleaningService {
 				long remaining = feed.capacity() - maxFeedCapacity;
 				int deleted;
 				do {
+					if (Thread.currentThread().isInterrupted()) {
+						log.info("interrupted, stopping cleanup of entries exceeding feed capacity");
+						return;
+					}
+
 					final long rem = remaining;
 					deleted = unitOfWork.call(() -> feedEntryDAO.deleteOldEntries(feed.id(), Math.min(batchSize, rem), keepStarredEntries));
 					entriesDeletedMeter.mark(deleted);
@@ -114,6 +139,11 @@ public class DatabaseCleaningService {
 		long total = 0;
 		long deleted;
 		do {
+			if (Thread.currentThread().isInterrupted()) {
+				log.info("interrupted, stopping cleanup of old entries");
+				return;
+			}
+
 			deleted = unitOfWork.call(() -> feedEntryDAO.deleteEntriesOlderThan(olderThan, batchSize, keepStarredEntries));
 			entriesDeletedMeter.mark(deleted);
 			total += deleted;
@@ -127,6 +157,11 @@ public class DatabaseCleaningService {
 		long total = 0;
 		long deleted;
 		do {
+			if (Thread.currentThread().isInterrupted()) {
+				log.info("interrupted, stopping cleanup of old read statuses");
+				return;
+			}
+
 			deleted = unitOfWork.call(() -> feedEntryStatusDAO.deleteOldStatuses(olderThan, batchSize));
 			total += deleted;
 			log.debug("removed {} old read statuses", total);
@@ -139,6 +174,11 @@ public class DatabaseCleaningService {
 		long total = 0;
 		long marked;
 		do {
+			if (Thread.currentThread().isInterrupted()) {
+				log.info("interrupted, stopping marking entries as read");
+				return;
+			}
+
 			marked = unitOfWork.call(() -> feedEntryStatusDAO.autoMarkAsRead(batchSize));
 			total += marked;
 			log.debug("marked {} entries as read", total);

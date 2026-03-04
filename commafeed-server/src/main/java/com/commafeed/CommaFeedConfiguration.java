@@ -92,6 +92,12 @@ public interface CommaFeedConfiguration {
 	@ConfigDocSection
 	Websocket websocket();
 
+	/**
+	 * Duration to wait for the feed refresh engine and the task scheduler to stop when the application is shutting down.
+	 */
+	@WithDefault("2s")
+	Duration shutdownTimeout();
+
 	interface HttpClient {
 		/**
 		 * User-Agent string that will be used by the http client, leave empty for the default one.

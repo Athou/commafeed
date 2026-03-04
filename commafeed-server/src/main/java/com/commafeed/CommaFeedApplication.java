@@ -10,7 +10,9 @@ import com.commafeed.security.password.PasswordConstraintValidator;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Singleton
 @RequiredArgsConstructor
 public class CommaFeedApplication {
@@ -27,6 +29,8 @@ public class CommaFeedApplication {
 	}
 
 	public void stop(@Observes ShutdownEvent ev) {
+		log.info("shutting down...");
+
 		feedRefreshEngine.stop();
 		taskScheduler.stop();
 	}

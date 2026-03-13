@@ -1,25 +1,17 @@
 import { lingui } from "@lingui/vite-plugin"
-import react from "@vitejs/plugin-react"
+import babel from "@rolldown/plugin-babel"
+import react, { reactCompilerPreset } from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 import checker from "vite-plugin-checker"
-import tsconfigPaths from "vite-tsconfig-paths"
 
-// https://vitejs.dev/config/
 export default defineConfig(() => ({
     plugins: [
-        react({
-            babel: {
-                plugins: [
-                    // support for lingui macros
-                    // needs to be before the react compiler plugin
-                    "@lingui/babel-plugin-lingui-macro",
-                    // react compiler
-                    ["babel-plugin-react-compiler", { target: "19" }],
-                ],
-            },
+        react(),
+        babel({
+            presets: [reactCompilerPreset()],
+            plugins: ["@lingui/babel-plugin-lingui-macro"],
         }),
         lingui(),
-        tsconfigPaths(),
         checker({
             typescript: true,
             biome: {
@@ -43,18 +35,12 @@ export default defineConfig(() => ({
             "/logout": "http://localhost:8083",
         },
     },
-    build: {
-        chunkSizeWarningLimit: 3500,
-        rollupOptions: {
-            output: {
-                manualChunks: id => {
-                    // output mantine as its own chunk because it is quite large
-                    if (id.includes("@mantine")) {
-                        return "mantine"
-                    }
-                },
-            },
-        },
+    resolve: {
+        tsconfigPaths: true,
+    },
+    legacy: {
+        // required for websocket-heartbeat-js
+        inconsistentCjsInterop: true,
     },
     test: {
         environment: "jsdom",

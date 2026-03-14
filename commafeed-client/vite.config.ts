@@ -47,4 +47,20 @@ export default defineConfig(() => ({
         globals: true,
         setupFiles: "./src/setupTests.ts",
     },
+    build: {
+        chunkSizeWarningLimit: 4000,
+        rolldownOptions: {
+            output: {
+                codeSplitting: {
+                    groups: [
+                        // output mantine as its own chunk because it is quite large
+                        {
+                            name: "mantine",
+                            test: "@mantine",
+                        },
+                    ],
+                },
+            },
+        },
+    },
 }))

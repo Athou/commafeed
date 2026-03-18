@@ -158,6 +158,15 @@ export const changeSharingSetting = createAppAsyncThunk(
     }
 )
 
+export const changeInfrequentThresholdDays = createAppAsyncThunk(
+    "settings/infrequentThresholdDays",
+    (infrequentThresholdDays: number, thunkApi) => {
+        const { settings } = thunkApi.getState().user
+        if (!settings) return
+        client.user.saveSettings({ ...settings, infrequentThresholdDays })
+    }
+)
+
 export const changePushNotificationSettings = createAppAsyncThunk(
     "settings/pushNotificationSettings",
     (pushNotificationSettings: PushNotificationSettings, thunkApi) => {

@@ -31,6 +31,7 @@ export interface Subscription {
     filterLegacy?: string
     pushNotificationsEnabled: boolean
     autoMarkAsReadAfterDays?: number
+    averageEntryIntervalMs?: number
 }
 
 export interface Category {
@@ -284,6 +285,7 @@ export interface Settings {
     unreadCountTitle: boolean
     unreadCountFavicon: boolean
     disablePullToRefresh: boolean
+    infrequentThresholdDays: number
     primaryColor?: string
     sharingSettings: SharingSettings
     pushNotificationSettings: PushNotificationSettings

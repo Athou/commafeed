@@ -12,6 +12,7 @@ import {
     changeDisablePullToRefresh,
     changeEntriesToKeepOnTopWhenScrolling,
     changeExternalLinkIconDisplayMode,
+    changeInfrequentThresholdDays,
     changeLanguage,
     changeMarkAllAsReadConfirmation,
     changeMarkAllAsReadNavigateToUnread,
@@ -44,6 +45,7 @@ export function DisplaySettings() {
     const unreadCountTitle = useAppSelector(state => state.user.settings?.unreadCountTitle)
     const unreadCountFavicon = useAppSelector(state => state.user.settings?.unreadCountFavicon)
     const disablePullToRefresh = useAppSelector(state => state.user.settings?.disablePullToRefresh)
+    const infrequentThresholdDays = useAppSelector(state => state.user.settings?.infrequentThresholdDays)
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
     const primaryColor = useAppSelector(state => state.user.settings?.primaryColor) || Constants.theme.defaultPrimaryColor
     const { _ } = useLingui()
@@ -141,6 +143,14 @@ export function DisplaySettings() {
                 label={<Trans>On mobile, show action buttons at the bottom of the screen</Trans>}
                 checked={mobileFooter}
                 onChange={async e => await dispatch(changeMobileFooter(e.currentTarget.checked))}
+            />
+
+            <NumberInput
+                label={<Trans>Infrequent posts threshold (days)</Trans>}
+                description={<Trans>Feeds posting less often than this (on average) will appear in the Infrequent view</Trans>}
+                min={1}
+                value={infrequentThresholdDays}
+                onChange={async value => await dispatch(changeInfrequentThresholdDays(+value))}
             />
 
             <Divider label={<Trans>Scrolling</Trans>} labelPosition="center" />

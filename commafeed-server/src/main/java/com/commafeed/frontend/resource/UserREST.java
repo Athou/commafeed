@@ -133,6 +133,7 @@ public class UserREST {
 			s.setUnreadCountFavicon(settings.isUnreadCountFavicon());
 			s.setDisablePullToRefresh(settings.isDisablePullToRefresh());
 			s.setPrimaryColor(settings.getPrimaryColor());
+			s.setInfrequentThresholdDays(settings.getInfrequentThresholdDays());
 
 			if (settings.getPushNotifications() != null) {
 				s.getPushNotificationSettings().setType(settings.getPushNotifications().getType());
@@ -168,6 +169,7 @@ public class UserREST {
 			s.setUnreadCountTitle(false);
 			s.setUnreadCountFavicon(true);
 			s.setDisablePullToRefresh(false);
+			s.setInfrequentThresholdDays(7);
 		}
 		return s;
 	}
@@ -205,6 +207,7 @@ public class UserREST {
 		s.setUnreadCountFavicon(settings.isUnreadCountFavicon());
 		s.setDisablePullToRefresh(settings.isDisablePullToRefresh());
 		s.setPrimaryColor(settings.getPrimaryColor());
+		s.setInfrequentThresholdDays(settings.getInfrequentThresholdDays());
 
 		PushNotificationUserSettings ps = new PushNotificationUserSettings();
 		ps.setType(settings.getPushNotificationSettings().getType());

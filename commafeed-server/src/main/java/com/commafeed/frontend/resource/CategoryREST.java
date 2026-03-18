@@ -40,12 +40,14 @@ import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
+import com.commafeed.backend.dao.UserSettingsDAO;
 import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.service.FeedEntryService;
@@ -83,6 +85,7 @@ public class CategoryREST {
 
 	public static final String ALL = "all";
 	public static final String STARRED = "starred";
+	public static final String INFREQUENT = "infrequent";
 
 	private final AuthenticationContext authenticationContext;
 	private final FeedCategoryDAO feedCategoryDAO;
@@ -90,6 +93,7 @@ public class CategoryREST {
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionService feedSubscriptionService;
+	private final UserSettingsDAO userSettingsDAO;
 	private final CommaFeedConfiguration config;
 	private final UriInfo uri;
 
@@ -139,11 +143,15 @@ public class CategoryREST {
 		}
 
 		User user = authenticationContext.getCurrentUser();
-		if (ALL.equals(id)) {
+		if (ALL.equals(id) || INFREQUENT.equals(id)) {
 			entries.setName(Optional.ofNullable(tag).orElse("All"));
 
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 			removeExcludedSubscriptions(subs, excludedIds);
+			if (INFREQUENT.equals(id)) {
+				entries.setName("Infrequent");
+				removeFrequentSubscriptions(subs, user);
+			}
 			List<FeedEntryStatus> list = feedEntryStatusDAO.findBySubscriptions(user, subs, unreadOnly, entryKeywords, newerThanDate,
 					offset, limit + 1, order, true, tag, null, null);
 
@@ -244,9 +252,12 @@ public class CategoryREST {
 		List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
 		User user = authenticationContext.getCurrentUser();
-		if (ALL.equals(req.getId())) {
+		if (ALL.equals(req.getId()) || INFREQUENT.equals(req.getId())) {
 			List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
 			removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
+			if (INFREQUENT.equals(req.getId())) {
+				removeFrequentSubscriptions(subs, user);
+			}
 			feedEntryService.markSubscriptionEntries(user, subs, olderThan, insertedBefore, entryKeywords);
 		} else if (STARRED.equals(req.getId())) {
 			feedEntryService.markStarredEntries(user, olderThan, insertedBefore);
@@ -258,6 +269,17 @@ public class CategoryREST {
 			feedEntryService.markSubscriptionEntries(user, subs, olderThan, insertedBefore, entryKeywords);
 		}
 		return Response.ok().build();
+	}
+
+	private void removeFrequentSubscriptions(List<FeedSubscription> subs, User user) {
+		UserSettings userSettings = userSettingsDAO.findByUser(user);
+		int infrequentDays = userSettings != null && userSettings.getInfrequentThresholdDays() > 0
+				? userSettings.getInfrequentThresholdDays()
+				: 7;
+		long infrequentThresholdMs = (long) infrequentDays * 24 * 3600 * 1000;
+
+		subs.removeIf(
+				sub -> sub.getFeed().getAverageEntryInterval() == null || sub.getFeed().getAverageEntryInterval() < infrequentThresholdMs);
 	}
 
 	private void removeExcludedSubscriptions(List<FeedSubscription> subs, List<Long> excludedIds) {

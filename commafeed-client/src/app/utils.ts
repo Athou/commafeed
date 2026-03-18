@@ -26,20 +26,22 @@ export function flattenCategoryTree(category: TreeCategory): TreeCategory[] {
     return categories
 }
 
-export function categoryUnreadCount(category?: TreeCategory): number {
+export function categoryUnreadCount(category?: TreeCategory, maxFrequencyThresholdMs?: number): number {
     if (!category) return 0
 
     return flattenCategoryTree(category)
         .flatMap(c => c.feeds)
+        .filter(f => !maxFrequencyThresholdMs || (f.averageEntryIntervalMs && f.averageEntryIntervalMs >= maxFrequencyThresholdMs))
         .map(f => f.unread)
         .reduce((total, current) => total + current, 0)
 }
 
-export function categoryHasNewEntries(category?: TreeCategory): boolean {
+export function categoryHasNewEntries(category?: TreeCategory, maxFrequencyThresholdMs?: number): boolean {
     if (!category) return false
 
     return flattenCategoryTree(category)
         .flatMap(c => c.feeds)
+        .filter(f => !maxFrequencyThresholdMs || (f.averageEntryIntervalMs && f.averageEntryIntervalMs >= maxFrequencyThresholdMs))
         .some(f => f.hasNewEntries)
 }
 

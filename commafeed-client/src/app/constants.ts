@@ -18,6 +18,13 @@ const categories: Record<string, Omit<Category, "name">> = {
         feeds: [],
         position: 1,
     },
+    infrequent: {
+        id: "infrequent",
+        expanded: false,
+        children: [],
+        feeds: [],
+        position: 2,
+    },
 }
 
 const sharing: {
@@ -105,6 +112,7 @@ export const Constants = {
     tooltip: {
         delay: 500,
     },
+    infrequentThresholdDaysDefault: 7,
     browserExtensionUrl: "https://github.com/Athou/commafeed-browser-extension",
     customCssDocumentationUrl: "https://athou.github.io/commafeed/documentation/custom-css",
     bitcoinWalletAddress: "1dymfUxqCWpyD7a6rQSqNy4rLVDBsAr5e",

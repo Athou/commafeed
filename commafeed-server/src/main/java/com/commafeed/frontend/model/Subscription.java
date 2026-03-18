@@ -71,6 +71,9 @@ public class Subscription implements Serializable {
 	@Schema(description = "automatically mark entries as read after this many days (null to disable)")
 	private Integer autoMarkAsReadAfterDays;
 
+	@Schema(description = "average time in milliseconds between entries in this feed, null if unknown")
+	private Long averageEntryIntervalMs;
+
 	public static Subscription build(FeedSubscription subscription, UnreadCount unreadCount) {
 		FeedCategory category = subscription.getCategory();
 		Feed feed = subscription.getFeed();
@@ -93,6 +96,7 @@ public class Subscription implements Serializable {
 		sub.setFilterLegacy(subscription.getFilterLegacy());
 		sub.setPushNotificationsEnabled(subscription.isPushNotificationsEnabled());
 		sub.setAutoMarkAsReadAfterDays(subscription.getAutoMarkAsReadAfterDays());
+		sub.setAverageEntryIntervalMs(feed.getAverageEntryInterval());
 		return sub;
 	}
 

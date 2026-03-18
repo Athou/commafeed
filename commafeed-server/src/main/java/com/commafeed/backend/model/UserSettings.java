@@ -146,6 +146,8 @@ public class UserSettings extends AbstractModel {
 	private boolean unreadCountFavicon;
 	private boolean disablePullToRefresh;
 
+	private int infrequentThresholdDays;
+
 	private boolean email;
 	private boolean gmail;
 	private boolean facebook;

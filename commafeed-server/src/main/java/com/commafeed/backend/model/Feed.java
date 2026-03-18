@@ -98,7 +98,7 @@ public class Feed extends AbstractModel {
 	private String etagHeader;
 
 	/**
-	 * average time between entries in the feed
+	 * average time between entries in the feed in milliseconds
 	 */
 	private Long averageEntryInterval;
 

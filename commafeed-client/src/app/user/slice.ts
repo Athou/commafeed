@@ -7,6 +7,7 @@ import {
     changeDisablePullToRefresh,
     changeEntriesToKeepOnTopWhenScrolling,
     changeExternalLinkIconDisplayMode,
+    changeInfrequentThresholdDays,
     changeLanguage,
     changeMarkAllAsReadConfirmation,
     changeMarkAllAsReadNavigateToUnread,
@@ -141,6 +142,10 @@ export const userSlice = createSlice({
             if (!state.settings) return
             state.settings.disablePullToRefresh = action.meta.arg
         })
+        builder.addCase(changeInfrequentThresholdDays.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.infrequentThresholdDays = action.meta.arg
+        })
         builder.addCase(changePrimaryColor.pending, (state, action) => {
             if (!state.settings) return
             state.settings.primaryColor = action.meta.arg
@@ -171,6 +176,7 @@ export const userSlice = createSlice({
                 changeUnreadCountTitle.fulfilled,
                 changeUnreadCountFavicon.fulfilled,
                 changeDisablePullToRefresh.fulfilled,
+                changeInfrequentThresholdDays.fulfilled,
                 changePrimaryColor.fulfilled,
                 changeSharingSetting.fulfilled,
                 changePushNotificationSettings.fulfilled

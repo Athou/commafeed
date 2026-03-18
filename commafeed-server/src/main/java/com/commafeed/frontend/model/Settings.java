@@ -76,6 +76,9 @@ public class Settings implements Serializable {
 	@Schema(description = "disable pull to refresh", required = true)
 	private boolean disablePullToRefresh;
 
+	@Schema(description = "threshold in days for the infrequent view", required = true)
+	private int infrequentThresholdDays;
+
 	@Schema(description = "primary theme color to use in the UI")
 	private String primaryColor;
 

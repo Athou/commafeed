@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/react/macro"
 import { Box, Stack } from "@mantine/core"
 import React from "react"
-import { TbChevronDown, TbChevronRight, TbInbox, TbStar, TbTag } from "react-icons/tb"
+import { TbChevronDown, TbChevronRight, TbClock, TbInbox, TbStar, TbTag } from "react-icons/tb"
 import { Constants } from "@/app/constants"
 import {
     redirectToCategory,
@@ -23,6 +23,7 @@ import { TreeSearch } from "./TreeSearch"
 
 const allIcon = <TbInbox size={16} />
 const starredIcon = <TbStar size={16} />
+const infrequentIcon = <TbClock size={16} />
 const tagIcon = <TbTag size={16} />
 const expandedIcon = <TbChevronDown size={16} />
 const collapsedIcon = <TbChevronRight size={16} />
@@ -34,6 +35,10 @@ export function Tree() {
     const source = useAppSelector(state => state.entries.source)
     const tags = useAppSelector(state => state.user.tags)
     const showRead = useAppSelector(state => state.user.settings?.showRead)
+    const infrequentThresholdDays = useAppSelector(
+        state => state.user.settings?.infrequentThresholdDays ?? Constants.infrequentThresholdDaysDefault
+    )
+    const infrequentThresholdMs = infrequentThresholdDays * 24 * 3600 * 1000
     const dispatch = useAppDispatch()
 
     const isFeedDisplayed = (feed: Subscription) => {
@@ -108,6 +113,22 @@ export function Tree() {
             unread={0}
             hasNewEntries={false}
             selected={source.type === "category" && source.id === Constants.categories.starred.id}
+            expanded={false}
+            level={0}
+            hasError={false}
+            hasWarning={false}
+            onClick={categoryClicked}
+        />
+    )
+    const infrequentCategoryNode = () => (
+        <TreeNode
+            id={Constants.categories.infrequent.id}
+            type="category"
+            name={<Trans>Infrequent</Trans>}
+            icon={infrequentIcon}
+            unread={categoryUnreadCount(root, infrequentThresholdMs)}
+            hasNewEntries={categoryHasNewEntries(root, infrequentThresholdMs)}
+            selected={source.type === "category" && source.id === Constants.categories.infrequent.id}
             expanded={false}
             level={0}
             hasError={false}
@@ -197,6 +218,7 @@ export function Tree() {
             <Box className="cf-tree">
                 {allCategoryNode()}
                 {starredCategoryNode()}
+                {infrequentCategoryNode()}
                 {root.children.map(c => recursiveCategoryNode(c))}
                 {root.feeds.map(f => feedNode(f))}
                 {tags?.map(tag => tagNode(tag))}

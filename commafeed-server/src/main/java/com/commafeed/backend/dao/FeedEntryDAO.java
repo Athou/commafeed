@@ -1,7 +1,9 @@
 package com.commafeed.backend.dao;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
@@ -24,6 +26,10 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
 	public FeedEntry findExisting(String guidHash, Feed feed) {
 		return query().select(ENTRY).from(ENTRY).where(ENTRY.guidHash.eq(guidHash), ENTRY.feed.eq(feed)).limit(1).fetchOne();
+	}
+
+	public Set<String> findExistingGuids(Feed feed) {
+		return new HashSet<>(query().select(ENTRY.guidHash).from(ENTRY).where(ENTRY.feed.eq(feed)).fetch());
 	}
 
 	public List<FeedCapacity> findFeedsExceedingCapacity(long maxCapacity, long max, boolean keepStarredEntries) {

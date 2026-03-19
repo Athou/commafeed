@@ -13,7 +13,7 @@
 	<packaging>quarkus</packaging>
 
 	<properties>
-		<quarkus.version>3.32.3</quarkus.version>
+		<quarkus.version>3.32.4</quarkus.version>
 		<querydsl.version>7.1</querydsl.version>
 		<rome.version>2.1.0</rome.version>
 
@@ -272,7 +272,7 @@
 			<plugin>
 				<groupId>com.diffplug.spotless</groupId>
 				<artifactId>spotless-maven-plugin</artifactId>
-				<version>3.3.0</version>
+				<version>3.4.0</version>
 				<?m2e ignore?>
 				<executions>
 					<execution>
@@ -434,7 +434,7 @@
 		<dependency>
 			<groupId>com.ibm.icu</groupId>
 			<artifactId>icu4j</artifactId>
-			<version>78.2</version>
+			<version>78.3</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.cssparser</groupId>
@@ -454,7 +454,7 @@
 		<dependency>
 			<groupId>io.github.hakky54</groupId>
 			<artifactId>ayza-for-apache5</artifactId>
-			<version>10.0.3</version>
+			<version>10.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.brotli</groupId>

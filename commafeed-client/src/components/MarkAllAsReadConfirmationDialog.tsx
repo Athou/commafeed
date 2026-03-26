@@ -67,7 +67,7 @@ export function MarkAllAsReadConfirmationDialog() {
                     value={threshold}
                     onChange={setThreshold}
                     data-autofocus
-                    onKeyDown={e => e.key === "Enter" && onConfirm()}
+                    onKeyDown={e => e.key === "Enter" && await onConfirm()}
                 />
                 <Group justify="flex-end">
                     <Button variant="default" onClick={() => dispatch(setMarkAllAsReadConfirmationDialogOpen(false))}>

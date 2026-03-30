@@ -9,7 +9,7 @@ import { PushNotificationSettings } from "@/components/settings/PushNotification
 export function SettingsPage() {
     return (
         <Container size="sm" px={0}>
-            <Tabs defaultValue="display" keepMounted={false}>
+            <Tabs defaultValue="display" keepMounted>
                 <Tabs.List>
                     <Tabs.Tab value="display" leftSection={<TbPhoto size={16} />}>
                         <Trans>Display</Trans>

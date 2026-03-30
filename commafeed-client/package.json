@@ -30,7 +30,7 @@
         "@react-querybuilder/mantine": "^8.14.3",
         "@reduxjs/toolkit": "^2.11.2",
         "@rolldown/plugin-babel": "^0.2.2",
-        "axios": "^1.13.6",
+        "axios": "^1.14.0",
         "dayjs": "^1.11.20",
         "escape-string-regexp": "^5.0.0",
         "interweave": "^13.1.1",

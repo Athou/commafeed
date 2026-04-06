@@ -45,7 +45,7 @@
         "react-infinite-scroller": "^1.2.6",
         "react-querybuilder": "^8.14.3",
         "react-redux": "^9.2.0",
-        "react-router-dom": "^7.13.2",
+        "react-router-dom": "^7.14.0",
         "react-swipeable": "^7.0.2",
         "style-to-object": "^1.0.14",
         "throttle-debounce": "^5.0.2",

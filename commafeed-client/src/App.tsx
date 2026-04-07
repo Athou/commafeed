@@ -1,6 +1,6 @@
 import { i18n } from "@lingui/core"
 import { I18nProvider } from "@lingui/react"
-import { MantineProvider } from "@mantine/core"
+import { MantineProvider, v8CssVariablesResolver } from "@mantine/core"
 import { ModalsProvider } from "@mantine/modals"
 import { Notifications } from "@mantine/notifications"
 import type React from "react"
@@ -48,6 +48,8 @@ function Providers(
         <I18nProvider i18n={i18n}>
             <MantineProvider
                 defaultColorScheme="auto"
+                // keep using css variables from mantine v8
+                cssVariablesResolver={v8CssVariablesResolver}
                 theme={{
                     primaryColor: primaryColor,
                     fontFamily: "Open Sans",

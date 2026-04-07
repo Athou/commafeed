@@ -1,8 +1,19 @@
 import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
-import { Box, Divider, Group, NumberInput, Radio, Select, type SelectProps, SimpleGrid, Stack, Switch } from "@mantine/core"
-import type { ComboboxData } from "@mantine/core/lib/components/Combobox/Combobox.types"
+import {
+    Box,
+    type ComboboxData,
+    Divider,
+    Group,
+    NumberInput,
+    Radio,
+    Select,
+    type SelectProps,
+    SimpleGrid,
+    Stack,
+    Switch,
+} from "@mantine/core"
 import type { ReactNode } from "react"
 import { Constants } from "@/app/constants"
 import { useAppDispatch, useAppSelector } from "@/app/store"

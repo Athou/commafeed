@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.Digests;
+import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.feed.parser.FeedParserResult.Content;
@@ -42,6 +43,7 @@ public class FeedRefreshUpdater {
 	private final UnitOfWork unitOfWork;
 	private final FeedService feedService;
 	private final FeedEntryService feedEntryService;
+	private final FeedEntryDAO feedEntryDAO;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 
 	private final Striped<Lock> locks;
@@ -49,11 +51,12 @@ public class FeedRefreshUpdater {
 	private final Meter feedUpdated;
 	private final Meter entryInserted;
 
-	public FeedRefreshUpdater(UnitOfWork unitOfWork, FeedService feedService, FeedEntryService feedEntryService, MetricRegistry metrics,
-			FeedSubscriptionDAO feedSubscriptionDAO) {
+	public FeedRefreshUpdater(UnitOfWork unitOfWork, FeedService feedService, FeedEntryService feedEntryService, FeedEntryDAO feedEntryDAO,
+			MetricRegistry metrics, FeedSubscriptionDAO feedSubscriptionDAO) {
 		this.unitOfWork = unitOfWork;
 		this.feedService = feedService;
 		this.feedEntryService = feedEntryService;
+		this.feedEntryDAO = feedEntryDAO;
 		this.feedSubscriptionDAO = feedSubscriptionDAO;
 
 		locks = Striped.lazyWeakLock(100000);
@@ -126,8 +129,19 @@ public class FeedRefreshUpdater {
 		Map<FeedSubscription, List<FeedEntry>> insertedUnreadEntriesBySubscription = new HashMap<>();
 
 		if (!entries.isEmpty()) {
-			List<FeedSubscription> subscriptions = null;
+			Map<String, Entry> entriesByGuidHash = new HashMap<>();
 			for (Entry entry : entries) {
+				entriesByGuidHash.put(Digests.sha1Hex(entry.guid()), entry);
+			}
+			Set<String> existingGuids = unitOfWork.call(() -> feedEntryDAO.findExistingGuids(feed, entriesByGuidHash.keySet()));
+			List<Entry> newEntries = entriesByGuidHash.entrySet()
+					.stream()
+					.filter(e -> !existingGuids.contains(e.getKey()))
+					.map(Map.Entry::getValue)
+					.toList();
+
+			List<FeedSubscription> subscriptions = null;
+			for (Entry entry : newEntries) {
 				if (subscriptions == null) {
 					subscriptions = unitOfWork.call(() -> feedSubscriptionDAO.findByFeed(feed));
 				}

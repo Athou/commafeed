@@ -1,7 +1,10 @@
 package com.commafeed.backend.dao;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
@@ -9,6 +12,7 @@ import jakarta.persistence.EntityManager;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.QFeedEntry;
+import com.google.common.collect.Lists;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -17,6 +21,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
 	private static final QFeedEntry ENTRY = QFeedEntry.feedEntry;
+	private static final int IN_CLAUSE_BATCH_SIZE = 1000;
 
 	public FeedEntryDAO(EntityManager entityManager) {
 		super(entityManager, FeedEntry.class);
@@ -24,6 +29,18 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
 	public FeedEntry findExisting(String guidHash, Feed feed) {
 		return query().select(ENTRY).from(ENTRY).where(ENTRY.guidHash.eq(guidHash), ENTRY.feed.eq(feed)).limit(1).fetchOne();
+	}
+
+	public Set<String> findExistingGuids(Feed feed, Set<String> guidHashes) {
+		if (guidHashes.isEmpty()) {
+			return Set.of();
+		}
+
+		Set<String> result = new HashSet<>();
+		for (List<String> batch : Lists.partition(new ArrayList<>(guidHashes), IN_CLAUSE_BATCH_SIZE)) {
+			result.addAll(query().select(ENTRY.guidHash).from(ENTRY).where(ENTRY.feed.eq(feed), ENTRY.guidHash.in(batch)).fetch());
+		}
+		return result;
 	}
 
 	public List<FeedCapacity> findFeedsExceedingCapacity(long maxCapacity, long max, boolean keepStarredEntries) {

@@ -31,7 +31,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		return query().select(ENTRY).from(ENTRY).where(ENTRY.guidHash.eq(guidHash), ENTRY.feed.eq(feed)).limit(1).fetchOne();
 	}
 
-	public Set<String> findExistingGuids(Feed feed, Set<String> guidHashes) {
+	public Set<String> findExistingGuidHashes(Set<String> guidHashes, Feed feed) {
 		if (guidHashes.isEmpty()) {
 			return Set.of();
 		}

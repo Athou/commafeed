@@ -2,6 +2,8 @@ package com.commafeed.backend.service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import jakarta.inject.Singleton;
 
@@ -50,6 +52,12 @@ public class FeedEntryService {
 
 		feedEntryDAO.persist(feedEntry);
 		return feedEntry;
+	}
+
+	public List<Entry> removeExistingEntries(Feed feed, List<Entry> entries) {
+		Set<String> guidHashes = entries.stream().map(e -> Digests.sha1Hex(e.guid())).collect(Collectors.toSet());
+		Set<String> existingGuidHashes = feedEntryDAO.findExistingGuidHashes(guidHashes, feed);
+		return entries.stream().filter(e -> !existingGuidHashes.contains(Digests.sha1Hex(e.guid()))).toList();
 	}
 
 	public boolean applyFilter(FeedSubscription sub, FeedEntry entry) {

@@ -31,6 +31,7 @@ import com.commafeed.frontend.model.request.FeedInfoRequest;
 import com.commafeed.frontend.model.request.FeedModificationRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
+import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.integration.BaseIT;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
@@ -171,6 +172,7 @@ class FeedIT extends BaseIT {
 		@Test
 		void refreshAll() {
 			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
+			Assertions.assertEquals(2, getCategoryEntries(CategoryREST.ALL).getEntries().size());
 
 			// mariadb/mysql timestamp precision is 1 second
 			Instant threshold = Instant.now().minus(Duration.ofSeconds(1));
@@ -179,6 +181,7 @@ class FeedIT extends BaseIT {
 			Awaitility.await()
 					.atMost(Duration.ofSeconds(15))
 					.until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().isAfter(threshold));
+			Assertions.assertEquals(2, getCategoryEntries(CategoryREST.ALL).getEntries().size());
 
 			Assertions.assertEquals(HttpStatus.SC_TOO_MANY_REQUESTS, forceRefreshAllFeeds());
 		}

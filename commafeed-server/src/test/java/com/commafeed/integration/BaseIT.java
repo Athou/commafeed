@@ -174,6 +174,15 @@ public abstract class BaseIT {
 				.as(Entries.class);
 	}
 
+	protected Entries getCategoryEntries(String categoryId, int offset, int limit) {
+		return RestAssured.given()
+				.get("rest/category/entries?id={id}&readType=all&offset={offset}&limit={limit}", categoryId, offset, limit)
+				.then()
+				.statusCode(HttpStatus.SC_OK)
+				.extract()
+				.as(Entries.class);
+	}
+
 	protected Entries getCategoryEntries(String categoryId, String keywords) {
 		return RestAssured.given()
 				.get("rest/category/entries?id={id}&readType=all&keywords={keywords}", categoryId, keywords)

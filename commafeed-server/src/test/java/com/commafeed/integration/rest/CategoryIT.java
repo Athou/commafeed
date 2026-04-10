@@ -160,6 +160,19 @@ class CategoryIT extends BaseIT {
 		}
 
 		@Test
+		void pagination() {
+			subscribeAndWaitForEntries(getFeedUrl());
+
+			Entries firstPage = getCategoryEntries(CategoryREST.ALL, 0, 1);
+			Assertions.assertEquals(1, firstPage.getEntries().size());
+			Assertions.assertTrue(firstPage.isHasMore());
+
+			Entries lastPage = getCategoryEntries(CategoryREST.ALL, 1, 10);
+			Assertions.assertEquals(1, lastPage.getEntries().size());
+			Assertions.assertFalse(lastPage.isHasMore());
+		}
+
+		@Test
 		void allAsFeed() throws FeedException {
 			subscribeAndWaitForEntries(getFeedUrl());
 			String xml = RestAssured.given()

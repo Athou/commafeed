@@ -30,6 +30,8 @@ class LargeDatasetIT extends BaseIT {
 	private static final int ENTRIES_PER_FEED = 20;
 	private static final int TOTAL_ENTRIES = FEED_COUNT * ENTRIES_PER_FEED;
 
+	private Long firstSubscriptionId;
+
 	@BeforeEach
 	void setup() {
 		initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
@@ -39,7 +41,10 @@ class LargeDatasetIT extends BaseIT {
 			String path = "/feed/" + i;
 			getMockServerClient().when(HttpRequest.request().withMethod("GET").withPath(path))
 					.respond(HttpResponse.response().withBody(generateFeed(i)).withContentType(MediaType.APPLICATION_XML));
-			subscribe("http://localhost:" + getMockServerClient().getPort() + path);
+			Long subscriptionId = subscribe("http://localhost:" + getMockServerClient().getPort() + path);
+			if (i == 0) {
+				firstSubscriptionId = subscriptionId;
+			}
 		}
 
 		Awaitility.await().atMost(Duration.ofSeconds(60)).until(() -> getAllEntries().getEntries().size(), count -> count >= TOTAL_ENTRIES);
@@ -64,6 +69,18 @@ class LargeDatasetIT extends BaseIT {
 		Entries after = getAllEntries();
 		Assertions.assertEquals(TOTAL_ENTRIES, after.getEntries().size());
 		Assertions.assertTrue(after.getEntries().stream().allMatch(Entry::isRead));
+	}
+
+	@Test
+	void refreshDoesNotCreateDuplicateEntries() {
+		Assertions.assertEquals(TOTAL_ENTRIES, getAllEntries().getEntries().size());
+		Instant threshold = Instant.now().minus(Duration.ofSeconds(1));
+		forceRefreshAllFeeds();
+
+		Awaitility.await()
+				.atMost(Duration.ofSeconds(15))
+				.until(() -> getSubscription(firstSubscriptionId), f -> f.getLastRefresh().isAfter(threshold));
+		Assertions.assertEquals(TOTAL_ENTRIES, getAllEntries().getEntries().size());
 	}
 
 	@Test

@@ -129,8 +129,16 @@ public class FeedRefreshUpdater {
 		Map<FeedSubscription, List<FeedEntry>> insertedUnreadEntriesBySubscription = new HashMap<>();
 
 		if (!entries.isEmpty()) {
-			Set<String> existingGuids = unitOfWork.call(() -> feedEntryDAO.findExistingGuids(feed));
-			List<Entry> newEntries = entries.stream().filter(e -> !existingGuids.contains(Digests.sha1Hex(e.guid()))).toList();
+			Map<String, Entry> entriesByGuidHash = new HashMap<>();
+			for (Entry entry : entries) {
+				entriesByGuidHash.put(Digests.sha1Hex(entry.guid()), entry);
+			}
+			Set<String> existingGuids = unitOfWork.call(() -> feedEntryDAO.findExistingGuids(feed, entriesByGuidHash.keySet()));
+			List<Entry> newEntries = entriesByGuidHash.entrySet()
+					.stream()
+					.filter(e -> !existingGuids.contains(e.getKey()))
+					.map(Map.Entry::getValue)
+					.toList();
 
 			List<FeedSubscription> subscriptions = null;
 			for (Entry entry : newEntries) {

@@ -1,5 +1,11 @@
 # Changelog
 
+## [7.1.0]
+
+- Display the unread count in the header on mobile, since the tree is hidden by default and the unread count is not visible otherwise (#2055)
+- The feed refresh engine is now a little bit more performant (#2089)
+- On shutdown, give the feed refresh engine some time to finish refreshing feeds before killing it. This is controlled by the new `commafeed.shutdown-timeout` setting, which defaults to 2 seconds
+
 ## [7.0.0]
 
 - Replaced the JEXL filter expression for marking feed entries as read automatically with a user-friendly visual query builder. Expressions are now evaluated with Common Expression Language, which is safer than JEXL and sanboxed by default.

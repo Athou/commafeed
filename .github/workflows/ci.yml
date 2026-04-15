@@ -35,6 +35,12 @@ jobs:
           distribution: "graalvm"
           cache: "maven"
 
+      - name: Set up NodeJS cache
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          cache: "npm"
+          cache-dependency-path: 'commafeed-client/package-lock.json'
+
       - name: Install Playwright dependencies
         run: sudo apt-get install -y libgbm1
         if: matrix.os != 'windows-latest'

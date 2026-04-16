@@ -8,6 +8,7 @@
     ":automergeDigest",
     ":automergeBranch",
     ":automergeRequireAllStatusChecks",
+    ":pinVersions",
     ":maintainLockFilesWeekly"
   ],
   "packageRules": [

@@ -23,20 +23,20 @@ jobs:
     steps:
       # Checkout
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
 
       # Setup
       - name: Set up GraalVM
-        uses: graalvm/setup-graalvm@60c26726de13f8b90771df4bc1641a52a3159994 # v1
+        uses: graalvm/setup-graalvm@60c26726de13f8b90771df4bc1641a52a3159994 # v1.5.2
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: "graalvm"
           cache: "maven"
 
       - name: Set up NodeJS cache
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           cache: "npm"
           cache-dependency-path: 'commafeed-client/package-lock.json'
@@ -73,20 +73,20 @@ jobs:
 
       # Upload artifacts
       - name: Upload cross-platform app
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: matrix.os == 'ubuntu-latest' # we only need to upload the cross-platform artifact once per database
         with:
           name: commafeed-${{ matrix.database }}-jvm
           path: commafeed-server/target/commafeed-*.zip
 
       - name: Upload native executable
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: commafeed-${{ matrix.database }}-${{ runner.os }}-${{ runner.arch }}
           path: commafeed-server/target/commafeed-*-runner*
 
       - name: Upload pages
-        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         if: matrix.os == 'ubuntu-latest' && matrix.database == 'h2' # we only need to upload the pages once
         with:
           path: target/pages
@@ -104,23 +104,23 @@ jobs:
     steps:
       # Checkout
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
 
       # Setup
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4
+        uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
 
       - name: Install required packages
         run: sudo apt-get install -y rename unzip
 
       # Prepare artifacts
       - name: Download artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           pattern: commafeed-${{ matrix.database }}-*
           path: ./artifacts
@@ -141,7 +141,7 @@ jobs:
 
       # Docker
       - name: Login to Container Registry
-        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
         if: ${{ env.DOCKERHUB_USERNAME != '' }}
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -149,7 +149,7 @@ jobs:
 
       ## build but don't push for PRs and renovate
       - name: Docker build - native
-        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
         with:
           context: .
           file: commafeed-server/src/main/docker/Dockerfile.native
@@ -157,7 +157,7 @@ jobs:
           platforms: linux/amd64,linux/arm64/v8
 
       - name: Docker build - jvm
-        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
         with:
           context: .
           file: commafeed-server/src/main/docker/Dockerfile.jvm
@@ -166,7 +166,7 @@ jobs:
 
       ## build and push tag
       - name: Docker build and push tag - native
-        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
         if: ${{ github.ref_type == 'tag' }}
         with:
           context: .
@@ -178,7 +178,7 @@ jobs:
             athou/commafeed:${{ github.ref_name }}-${{ matrix.database }}
 
       - name: Docker build and push tag - jvm
-        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
         if: ${{ github.ref_type == 'tag' }}
         with:
           context: .
@@ -191,7 +191,7 @@ jobs:
 
       ## build and push master
       - name: Docker build and push master - native
-        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
         if: ${{ github.ref_name == 'master' }}
         with:
           context: .
@@ -201,7 +201,7 @@ jobs:
           tags: athou/commafeed:master-${{ matrix.database }}
 
       - name: Docker build and push master - jvm
-        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
         if: ${{ github.ref_name == 'master' }}
         with:
           context: .
@@ -221,12 +221,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
 
       - name: Download artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           pattern: commafeed-*
           path: ./artifacts
@@ -236,13 +236,13 @@ jobs:
         run: chmod +x artifacts/*-runner
 
       - name: Extract Changelog Entry
-        uses: mindsers/changelog-reader-action@32aa5b4c155d76c94e4ec883a223c947b2f02656 # v2
+        uses: mindsers/changelog-reader-action@32aa5b4c155d76c94e4ec883a223c947b2f02656 # v2.2.3
         id: changelog_reader
         with:
           version: ${{ github.ref_name }}
 
       - name: Create GitHub release
-        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1
+        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
         with:
           name: CommaFeed ${{ github.ref_name }}
           body: ${{ steps.changelog_reader.outputs.changes }}
@@ -255,12 +255,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
 
       - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@1b9a80c056b620d92cedb9d9b5a223409c68ddfa # v5
+        uses: peter-evans/dockerhub-description@1b9a80c056b620d92cedb9d9b5a223409c68ddfa # v5.0.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -280,5 +280,5 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
+      - uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
         id: deployment

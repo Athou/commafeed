@@ -16,15 +16,19 @@
       "description": "ignore our client because it's not published on maven central",
       "matchManagers": "maven",
       "enabled": false,
-      "matchPackageNames": [
-        "/commafeed-client/"
-      ]
+      "matchPackageNames": ["/commafeed-client/"]
     },
     {
       "description": "io.quarkus.platform artifacts are released a week after io.quarkus artifacts",
       "matchManagers": "maven",
       "matchPackageNames": "io.quarkus:**",
       "enabled": false
+    },
+    {
+      "description": "group react-querybuilder and @react-querybuilder/mantine together",
+      "matchManagers": "npm",
+      "matchPackageNames": ["/react-querybuilder/"],
+      "groupName": "react-querybuilder"
     },
     {
       "matchManagers": "npm",

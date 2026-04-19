@@ -28,7 +28,7 @@
         "@mantine/notifications": "9.0.2",
         "@mantine/spotlight": "9.0.2",
         "@monaco-editor/react": "4.7.0",
-        "@react-querybuilder/mantine": "8.14.4",
+        "@react-querybuilder/mantine": "8.15.0",
         "@reduxjs/toolkit": "2.11.2",
         "@rolldown/plugin-babel": "0.2.3",
         "axios": "1.15.0",

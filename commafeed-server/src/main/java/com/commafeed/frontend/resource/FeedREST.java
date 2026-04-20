@@ -424,7 +424,7 @@ public class FeedREST {
 		try {
 			feedEntryFilteringService.filterMatchesEntry(req.getFilter(), TEST_ENTRY);
 		} catch (FeedEntryFilterException e) {
-			return Response.status(Status.BAD_REQUEST).entity(e.getCause().getMessage()).type(MediaType.TEXT_PLAIN).build();
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
 		}
 
 		User user = authenticationContext.getCurrentUser();

@@ -76,7 +76,7 @@
         "typescript": "6.0.3",
         "vite": "8.0.9",
         "vite-plugin-checker": "0.13.0",
-        "vitest": "4.1.4",
+        "vitest": "4.1.5",
         "yaml": "2.8.3"
     },
     "overrides": {

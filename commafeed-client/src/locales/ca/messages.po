@@ -61,7 +61,6 @@ msgid "Admin"
 msgstr "Administrador"
 
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
 msgstr "Nom d'usuari de l'administrador"
 
@@ -73,7 +72,6 @@ msgstr "Nom d'usuari de l'administrador"
 msgid "All"
 msgstr "Tot"
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr "Sempre"
@@ -173,18 +171,14 @@ msgstr "Creeu una expressió de filtratge per indicar què voleu llegir. Les ent
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
@@ -241,7 +235,6 @@ msgid "Confirm password"
 msgstr "Confirmeu la contrasenya"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
 msgstr "Confirma la contrasenya"
 
@@ -295,7 +288,6 @@ msgid "Delete"
 msgstr "Eliminar"
 
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Suprimeix el compte"
 
@@ -342,13 +334,10 @@ msgstr "Arrossegueu l'enllaç a la barra d'adreces d'interès"
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr "Correu electrònic"
 
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "Adreça de correu electrònic"
@@ -399,7 +388,6 @@ msgstr "Opcions de l'extensió"
 msgid "Feed name"
 msgstr "Nom del canal"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
@@ -571,7 +559,6 @@ msgid "Loading tags..."
 msgstr "Carregant les etiquetes..."
 
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "Inicia sessió"
@@ -649,7 +636,6 @@ msgid "Navigate to the next category/feed with unread entries when marking all e
 msgstr "Navega a la següent categoria/canal amb entrades no llegides quan es marquen totes les entrades com a llegides"
 
 #: src/components/settings/DisplaySettings.tsx
-#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "Mai"
 
@@ -657,7 +643,6 @@ msgstr "Mai"
 msgid "New password"
 msgstr "Contrasenya nova"
 
-#: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
 msgstr "Contrasenya nova"
@@ -765,7 +750,6 @@ msgid "OPML export"
 msgstr "Exportació OPML"
 
 #: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "Fitxer OPML"
 
@@ -791,10 +775,7 @@ msgstr "Categoria pare"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Contrasenya"
@@ -875,7 +856,6 @@ msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Els registres estan tancats en aquesta instància de CommaFeed"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
 msgstr "Restableix la contrasenya"
 
@@ -883,7 +863,6 @@ msgstr "Restableix la contrasenya"
 msgid "REST API"
 msgstr "API REST"
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr "Clic dret"
@@ -910,8 +889,6 @@ msgid "Scrolling"
 msgstr "Desplaçament"
 
 #: src/components/header/Header.tsx
-#: src/components/header/Header.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Cerca"
@@ -924,7 +901,6 @@ msgstr "Selecciona el següent canal/categoria no llegit"
 msgid "Select previous unread feed/category"
 msgstr "Selecciona el canal/categoria anterior sense llegir"
 
-#: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr "URL del servidor"
@@ -953,8 +929,6 @@ msgstr "Comparteix"
 msgid "Sharing sites"
 msgstr "Compartir a altres llocs web"
 
-#: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "canvi"
@@ -1004,7 +978,6 @@ msgid "Show unread count in tab title"
 msgstr "Mostra el recompte de no llegits al títol de la pestanya"
 
 #: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "Registra't"
@@ -1013,7 +986,6 @@ msgstr "Registra't"
 msgid "Something bad just happened..."
 msgstr "Acaba de passar una cosa dolenta..."
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
 msgstr "Espai"
@@ -1030,7 +1002,6 @@ msgstr "Estrella"
 msgid "Starred"
 msgstr "Estrellat"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
 msgid "Subscribe"
@@ -1064,7 +1035,6 @@ msgstr "Canvia al tema clar"
 msgid "System"
 msgstr "Sistema"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Etiquetes"
@@ -1137,7 +1107,6 @@ msgid "Unstar"
 msgstr "Desestrellar"
 
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Donar-se de baixa"
 
@@ -1149,7 +1118,6 @@ msgstr "Clau d'usuari"
 msgid "User name"
 msgstr "Nom d'usuari"
 
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Nom d'usuari o correu electrònic"

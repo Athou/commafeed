@@ -61,7 +61,6 @@ msgid "Admin"
 msgstr "Admin"
 
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
 msgstr "Admin user name"
 
@@ -73,7 +72,6 @@ msgstr "Admin user name"
 msgid "All"
 msgstr "All"
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr "Always"
@@ -173,18 +171,14 @@ msgstr "Build a filter expression to indicate what you want to read. Entries tha
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
@@ -241,7 +235,6 @@ msgid "Confirm password"
 msgstr "Confirm password"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
 msgstr "Confirm Password"
 
@@ -295,7 +288,6 @@ msgid "Delete"
 msgstr "Delete"
 
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Delete account"
 
@@ -342,13 +334,10 @@ msgstr "Drag link to bookmark bar"
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr "E-mail"
 
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "E-mail address"
@@ -399,7 +388,6 @@ msgstr "Extension options"
 msgid "Feed name"
 msgstr "Feed name"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
@@ -571,7 +559,6 @@ msgid "Loading tags..."
 msgstr "Loading tags..."
 
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "Log in"
@@ -649,7 +636,6 @@ msgid "Navigate to the next category/feed with unread entries when marking all e
 msgstr "Navigate to the next category/feed with unread entries when marking all entries as read"
 
 #: src/components/settings/DisplaySettings.tsx
-#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "Never"
 
@@ -657,7 +643,6 @@ msgstr "Never"
 msgid "New password"
 msgstr "New password"
 
-#: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
 msgstr "New Password"
@@ -765,7 +750,6 @@ msgid "OPML export"
 msgstr "OPML export"
 
 #: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "OPML file"
 
@@ -791,10 +775,7 @@ msgstr "Parent Category"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Password"
@@ -875,7 +856,6 @@ msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Registrations are closed on this CommaFeed instance"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
 msgstr "Reset Password"
 
@@ -883,7 +863,6 @@ msgstr "Reset Password"
 msgid "REST API"
 msgstr "REST API"
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr "Right click"
@@ -910,8 +889,6 @@ msgid "Scrolling"
 msgstr "Scrolling"
 
 #: src/components/header/Header.tsx
-#: src/components/header/Header.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Search"
@@ -924,7 +901,6 @@ msgstr "Select next unread feed/category"
 msgid "Select previous unread feed/category"
 msgstr "Select previous unread feed/category"
 
-#: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr "Server URL"
@@ -953,8 +929,6 @@ msgstr "Share"
 msgid "Sharing sites"
 msgstr "Sharing sites"
 
-#: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "Shift"
@@ -1004,7 +978,6 @@ msgid "Show unread count in tab title"
 msgstr "Show unread count in tab title"
 
 #: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "Sign up"
@@ -1013,7 +986,6 @@ msgstr "Sign up"
 msgid "Something bad just happened..."
 msgstr "Something bad just happened..."
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
 msgstr "Space"
@@ -1030,7 +1002,6 @@ msgstr "Star"
 msgid "Starred"
 msgstr "Starred"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
 msgid "Subscribe"
@@ -1064,7 +1035,6 @@ msgstr "Switch to light theme"
 msgid "System"
 msgstr "System"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Tags"
@@ -1137,7 +1107,6 @@ msgid "Unstar"
 msgstr "Unstar"
 
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Unsubscribe"
 
@@ -1149,7 +1118,6 @@ msgstr "User key"
 msgid "User name"
 msgstr "User name"
 
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "User Name or E-mail"

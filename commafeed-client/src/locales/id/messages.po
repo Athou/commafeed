@@ -61,7 +61,6 @@ msgid "Admin"
 msgstr "Admin"
 
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
 msgstr "Nama pengguna admin"
 
@@ -73,7 +72,6 @@ msgstr "Nama pengguna admin"
 msgid "All"
 msgstr "Semua"
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr "Selalu"
@@ -173,18 +171,14 @@ msgstr "Bangun ekspresi filter untuk menunjukkan apa yang ingin Anda baca. Entri
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "Batal"
 
-#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
@@ -241,7 +235,6 @@ msgid "Confirm password"
 msgstr "Konfirmasi kata sandi"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
 msgstr "Konfirmasi Kata Sandi"
 
@@ -295,7 +288,6 @@ msgid "Delete"
 msgstr "Hapus"
 
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Hapus akun"
 
@@ -342,13 +334,10 @@ msgstr "Seret tautan ke bilah bookmark"
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr "Email"
 
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "Alamat email"
@@ -399,7 +388,6 @@ msgstr "Opsi ekstensi"
 msgid "Feed name"
 msgstr "Nama umpan"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
@@ -571,7 +559,6 @@ msgid "Loading tags..."
 msgstr "Memuat tag..."
 
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "Masuk"
@@ -649,7 +636,6 @@ msgid "Navigate to the next category/feed with unread entries when marking all e
 msgstr "Navigasikan ke kategori/umpan berikutnya dengan entri yang belum dibaca saat menandai semua entri sebagai telah dibaca"
 
 #: src/components/settings/DisplaySettings.tsx
-#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "Tidak pernah"
 
@@ -657,7 +643,6 @@ msgstr "Tidak pernah"
 msgid "New password"
 msgstr "Kata sandi baru"
 
-#: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
 msgstr "Kata Sandi Baru"
@@ -765,7 +750,6 @@ msgid "OPML export"
 msgstr "ekspor OPML"
 
 #: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "file OPML"
 
@@ -791,10 +775,7 @@ msgstr "Kategori Induk"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Kata Sandi"
@@ -875,7 +856,6 @@ msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Pendaftaran ditutup pada instans CommaFeed ini"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
 msgstr "Atur Ulang Kata Sandi"
 
@@ -883,7 +863,6 @@ msgstr "Atur Ulang Kata Sandi"
 msgid "REST API"
 msgstr "REST API"
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr "Klik kanan"
@@ -910,8 +889,6 @@ msgid "Scrolling"
 msgstr "Menggulir"
 
 #: src/components/header/Header.tsx
-#: src/components/header/Header.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Pencarian"
@@ -924,7 +901,6 @@ msgstr "Pilih umpan/kategori belum dibaca berikutnya"
 msgid "Select previous unread feed/category"
 msgstr "Pilih umpan/kategori belum dibaca sebelumnya"
 
-#: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr "URL Server"
@@ -953,8 +929,6 @@ msgstr "Bagikan"
 msgid "Sharing sites"
 msgstr "Berbagi situs"
 
-#: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "Pergeseran"
@@ -1004,7 +978,6 @@ msgid "Show unread count in tab title"
 msgstr "Tampilkan jumlah yang belum dibaca di judul tab"
 
 #: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "Daftar"
@@ -1013,7 +986,6 @@ msgstr "Daftar"
 msgid "Something bad just happened..."
 msgstr "Sesuatu yang buruk baru saja terjadi..."
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
 msgstr "Spasi"
@@ -1030,7 +1002,6 @@ msgstr "Bintang"
 msgid "Starred"
 msgstr "Berbintang"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
 msgid "Subscribe"
@@ -1064,7 +1035,6 @@ msgstr "Beralih ke tema terang"
 msgid "System"
 msgstr "Sistem"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Tag"
@@ -1137,7 +1107,6 @@ msgid "Unstar"
 msgstr "Hapus bintang"
 
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Berhenti berlangganan"
 
@@ -1149,7 +1118,6 @@ msgstr "Kunci pengguna"
 msgid "User name"
 msgstr "Nama pengguna"
 
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Nama Pengguna atau Email"

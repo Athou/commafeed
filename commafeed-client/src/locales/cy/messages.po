@@ -61,7 +61,6 @@ msgid "Admin"
 msgstr "Gweinyddol"
 
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
 msgstr "Enw defnyddiwr gweinyddwr"
 
@@ -73,7 +72,6 @@ msgstr "Enw defnyddiwr gweinyddwr"
 msgid "All"
 msgstr "Pawb"
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr "Bob amser"
@@ -173,18 +171,14 @@ msgstr "Adeiladwch fynegiant hidlo i nodi'r hyn rydych chi am ei ddarllen. Bydd 
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "Diddymu"
 
-#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
@@ -241,7 +235,6 @@ msgid "Confirm password"
 msgstr "Cadarnhau'r cyfrinair"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
 msgstr "Cadarnhau Cyfrinair"
 
@@ -295,7 +288,6 @@ msgid "Delete"
 msgstr "Dileu"
 
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Dileu cyfrif"
 
@@ -342,13 +334,10 @@ msgstr "Llusgwch y ddolen i'r bar nod tudalen"
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr "E-bost"
 
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "cyfeiriad e-bost"
@@ -399,7 +388,6 @@ msgstr "Opsiynau estyniad"
 msgid "Feed name"
 msgstr "Enw porthiant"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
@@ -571,7 +559,6 @@ msgid "Loading tags..."
 msgstr "Wrthi'n llwytho tagiau..."
 
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "Mewngofnodi"
@@ -649,7 +636,6 @@ msgid "Navigate to the next category/feed with unread entries when marking all e
 msgstr "Llywiwch i'r categori/porthiant nesaf gyda chofnodion heb eu darllen wrth farcio pob cofnod fel un wedi'i ddarllen"
 
 #: src/components/settings/DisplaySettings.tsx
-#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "Byth"
 
@@ -657,7 +643,6 @@ msgstr "Byth"
 msgid "New password"
 msgstr "Cyfrinair newydd"
 
-#: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
 msgstr "Cyfrinair Newydd"
@@ -765,7 +750,6 @@ msgid "OPML export"
 msgstr "Allforio OPML"
 
 #: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "Ffeil OPML"
 
@@ -791,10 +775,7 @@ msgstr "Categori Rhiant"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "cyfrinair"
@@ -875,7 +856,6 @@ msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Mae cofrestriadau ar gau ar yr achos CommaFeed hwn"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
 msgstr "Ailosod Cyfrinair"
 
@@ -883,7 +863,6 @@ msgstr "Ailosod Cyfrinair"
 msgid "REST API"
 msgstr "REST API"
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr "Clic dde"
@@ -910,8 +889,6 @@ msgid "Scrolling"
 msgstr "Sgrolio"
 
 #: src/components/header/Header.tsx
-#: src/components/header/Header.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Chwilio"
@@ -924,7 +901,6 @@ msgstr "Dewiswch y porthiant/categori nesaf heb ei ddarllen"
 msgid "Select previous unread feed/category"
 msgstr "Dewiswch y porthiant/categori blaenorol heb ei ddarllen"
 
-#: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr "URL y gweinydd"
@@ -953,8 +929,6 @@ msgstr "Rhannu"
 msgid "Sharing sites"
 msgstr "Rhannu gwefannau"
 
-#: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "shifft"
@@ -1004,7 +978,6 @@ msgid "Show unread count in tab title"
 msgstr "Dangos nifer heb ei ddarllen yn nheitl y tab"
 
 #: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "Cofrestrwch"
@@ -1013,7 +986,6 @@ msgstr "Cofrestrwch"
 msgid "Something bad just happened..."
 msgstr "Mae rhywbeth drwg newydd ddigwydd ..."
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
 msgstr "Gofod"
@@ -1030,7 +1002,6 @@ msgstr "seren"
 msgid "Starred"
 msgstr "serennog"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
 msgid "Subscribe"
@@ -1064,7 +1035,6 @@ msgstr "Newid i thema golau"
 msgid "System"
 msgstr "System"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Tagiau"
@@ -1137,7 +1107,6 @@ msgid "Unstar"
 msgstr "dad-seren"
 
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Dad-danysgrifio"
 
@@ -1149,7 +1118,6 @@ msgstr "Allwedd defnyddiwr"
 msgid "User name"
 msgstr "Enw defnyddiwr"
 
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Enw Defnyddiwr neu E-bost"

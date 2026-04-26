@@ -61,7 +61,6 @@ msgid "Admin"
 msgstr "Administracja"
 
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
 msgstr "Nazwa użytkownika administratora"
 
@@ -73,7 +72,6 @@ msgstr "Nazwa użytkownika administratora"
 msgid "All"
 msgstr "Wszystkie"
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr "Zawsze"
@@ -173,18 +171,14 @@ msgstr "Zbuduj wyrażenie filtrujące, aby wskazać, co chcesz czytać. Wpisy, k
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
@@ -241,7 +235,6 @@ msgid "Confirm password"
 msgstr "Potwierdź hasło"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
 msgstr "Potwierdź hasło"
 
@@ -295,7 +288,6 @@ msgid "Delete"
 msgstr "Usuń"
 
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Usuń konto"
 
@@ -342,13 +334,10 @@ msgstr "Przeciągnij link do paska zakładek"
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr "E-mail"
 
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "Adres e-mail"
@@ -399,7 +388,6 @@ msgstr "Opcje rozszerzenia"
 msgid "Feed name"
 msgstr "nazwa kanału"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
@@ -571,7 +559,6 @@ msgid "Loading tags..."
 msgstr "Ładowanie tagów..."
 
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "Zaloguj się"
@@ -649,7 +636,6 @@ msgid "Navigate to the next category/feed with unread entries when marking all e
 msgstr "Przejdź do następnej kategorii/kanału z nieprzeczytanymi wpisami po oznaczeniu wszystkich wpisów jako przeczytane"
 
 #: src/components/settings/DisplaySettings.tsx
-#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "Nigdy"
 
@@ -657,7 +643,6 @@ msgstr "Nigdy"
 msgid "New password"
 msgstr "Nowe hasło"
 
-#: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
 msgstr "Nowe hasło"
@@ -765,7 +750,6 @@ msgid "OPML export"
 msgstr "Eksport OPML"
 
 #: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "Plik OPML"
 
@@ -791,10 +775,7 @@ msgstr "Kategoria nadrzędna"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Hasło"
@@ -875,7 +856,6 @@ msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Rejestracje są zamknięte w tej instancji CommaFeed"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
 msgstr "Zresetuj hasło"
 
@@ -883,7 +863,6 @@ msgstr "Zresetuj hasło"
 msgid "REST API"
 msgstr "REST API"
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr "Prawe kliknięcie"
@@ -910,8 +889,6 @@ msgid "Scrolling"
 msgstr "Przewijanie"
 
 #: src/components/header/Header.tsx
-#: src/components/header/Header.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Szukaj"
@@ -924,7 +901,6 @@ msgstr "Wybierz następny nieprzeczytany kanał/kategorię"
 msgid "Select previous unread feed/category"
 msgstr "Wybierz poprzedni nieprzeczytany kanał/kategorię"
 
-#: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr "URL serwera"
@@ -953,8 +929,6 @@ msgstr "Udostępnij"
 msgid "Sharing sites"
 msgstr "Udostępnianie witryn"
 
-#: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "zmiana"
@@ -1004,7 +978,6 @@ msgid "Show unread count in tab title"
 msgstr "Pokazuj liczbę nieprzeczytanych w tytule karty"
 
 #: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "Zarejestruj się"
@@ -1013,7 +986,6 @@ msgstr "Zarejestruj się"
 msgid "Something bad just happened..."
 msgstr "Coś złego właśnie się stało..."
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
 msgstr "Przestrzeń"
@@ -1030,7 +1002,6 @@ msgstr "Gwiazda"
 msgid "Starred"
 msgstr "Oznaczone gwiazdką"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
 msgid "Subscribe"
@@ -1064,7 +1035,6 @@ msgstr "Przełącz na jasny motyw"
 msgid "System"
 msgstr "Systemowy"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Tagi"
@@ -1137,7 +1107,6 @@ msgid "Unstar"
 msgstr "Usuń gwiazdkę"
 
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Anuluj subskrypcję"
 
@@ -1149,7 +1118,6 @@ msgstr "Klucz użytkownika"
 msgid "User name"
 msgstr "Nazwa użytkownika"
 
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Nazwa użytkownika lub e-mail"

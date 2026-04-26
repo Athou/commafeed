@@ -61,7 +61,6 @@ msgid "Admin"
 msgstr "Yönetici"
 
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
 msgstr "Yönetici kullanıcı adı"
 
@@ -73,7 +72,6 @@ msgstr "Yönetici kullanıcı adı"
 msgid "All"
 msgstr "Tümü"
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr "Her zaman"
@@ -173,18 +171,14 @@ msgstr "Ne okumak istediğinizi belirtmek için bir filtre ifadesi oluşturun. E
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "İptal"
 
-#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
@@ -241,7 +235,6 @@ msgid "Confirm password"
 msgstr "Şifreyi onayla"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
 msgstr "Şifreyi Onayla"
 
@@ -295,7 +288,6 @@ msgid "Delete"
 msgstr "Sil"
 
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Hesabı sil"
 
@@ -342,13 +334,10 @@ msgstr "Bağlantıyı yer işareti çubuğuna sürükleyin"
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr "E-posta"
 
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "E-posta adresi"
@@ -399,7 +388,6 @@ msgstr "Eklenti ayarları"
 msgid "Feed name"
 msgstr "Yayın adı"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
@@ -571,7 +559,6 @@ msgid "Loading tags..."
 msgstr "Etiketler yükleniyor..."
 
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "Giriş"
@@ -649,7 +636,6 @@ msgid "Navigate to the next category/feed with unread entries when marking all e
 msgstr "Tüm girişleri okundu olarak işaretlerken okunmamış girişleri olan bir sonraki kategoriye/beslemeye git"
 
 #: src/components/settings/DisplaySettings.tsx
-#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "Asla"
 
@@ -657,7 +643,6 @@ msgstr "Asla"
 msgid "New password"
 msgstr "Yeni şifre"
 
-#: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
 msgstr "Yeni Şifre"
@@ -765,7 +750,6 @@ msgid "OPML export"
 msgstr "OPML dışa aktarma"
 
 #: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "OPML dosyası"
 
@@ -791,10 +775,7 @@ msgstr "Üst Kategori"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Şifre"
@@ -875,7 +856,6 @@ msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Bu CommaFeed örneğinde kayıtlar kapalı"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
 msgstr "Şifreyi Sıfırla"
 
@@ -883,7 +863,6 @@ msgstr "Şifreyi Sıfırla"
 msgid "REST API"
 msgstr "REST API"
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr "Sağ tık"
@@ -910,8 +889,6 @@ msgid "Scrolling"
 msgstr "Kaydırma"
 
 #: src/components/header/Header.tsx
-#: src/components/header/Header.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Ara"
@@ -924,7 +901,6 @@ msgstr "Sonraki okunmamış beslemeyi/kategoriyi seç"
 msgid "Select previous unread feed/category"
 msgstr "Önceki okunmamış beslemeyi/kategoriyi seç"
 
-#: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr "Sunucu URL'si"
@@ -953,8 +929,6 @@ msgstr "Paylaş"
 msgid "Sharing sites"
 msgstr "Siteleri paylaşma"
 
-#: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "Vardiya"
@@ -1004,7 +978,6 @@ msgid "Show unread count in tab title"
 msgstr "Sekme başlığında okunmamış sayısını göster"
 
 #: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "Kaydolun"
@@ -1013,7 +986,6 @@ msgstr "Kaydolun"
 msgid "Something bad just happened..."
 msgstr "Az önce kötü bir şey oldu..."
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
 msgstr "Uzay"
@@ -1030,7 +1002,6 @@ msgstr "Yıldız"
 msgid "Starred"
 msgstr "Yıldızlı"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
 msgid "Subscribe"
@@ -1064,7 +1035,6 @@ msgstr "Aydınlık temaya geç"
 msgid "System"
 msgstr "Sistem"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Etiketler"
@@ -1137,7 +1107,6 @@ msgid "Unstar"
 msgstr "Yıldızı kaldır"
 
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Aboneliği iptal et"
 
@@ -1149,7 +1118,6 @@ msgstr "Kullanıcı anahtarı"
 msgid "User name"
 msgstr "Kullanıcı adı"
 
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Kullanıcı Adı veya E-posta"

@@ -61,7 +61,6 @@ msgid "Admin"
 msgstr "مدیر"
 
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
 msgstr "نام کاربری مدیر"
 
@@ -73,7 +72,6 @@ msgstr "نام کاربری مدیر"
 msgid "All"
 msgstr "همه"
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr "همیشه"
@@ -173,18 +171,14 @@ msgstr "یک عبارت فیلتر بسازید تا نشان دهید چه چی
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "لغو"
 
-#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
@@ -241,7 +235,6 @@ msgid "Confirm password"
 msgstr "رمز عبور را تأیید کنید"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
 msgstr "تأیید رمز عبور"
 
@@ -295,7 +288,6 @@ msgid "Delete"
 msgstr "حذف کنید"
 
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "حذف حساب"
 
@@ -342,13 +334,10 @@ msgstr "پیوند را به نوار نشانک بکشید"
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr "ایمیل"
 
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "آدرس ایمیل"
@@ -399,7 +388,6 @@ msgstr "گزینه های افزونه"
 msgid "Feed name"
 msgstr "نام فید"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
@@ -571,7 +559,6 @@ msgid "Loading tags..."
 msgstr "بارگیری برچسب ها..."
 
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "وارد شوید"
@@ -649,7 +636,6 @@ msgid "Navigate to the next category/feed with unread entries when marking all e
 msgstr "هنگام علامت‌گذاری همه ورودی‌ها به‌عنوان خوانده‌شده، به دسته‌بندی/فید بعدی با ورودی‌های خوانده‌نشده بروید"
 
 #: src/components/settings/DisplaySettings.tsx
-#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "هرگز"
 
@@ -657,7 +643,6 @@ msgstr "هرگز"
 msgid "New password"
 msgstr "رمز عبور جدید"
 
-#: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
 msgstr "رمز عبور جدید"
@@ -765,7 +750,6 @@ msgid "OPML export"
 msgstr "خروجی OPML"
 
 #: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "فایل OPML"
 
@@ -791,10 +775,7 @@ msgstr "دسته والد"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "رمز عبور"
@@ -875,7 +856,6 @@ msgid "Registrations are closed on this CommaFeed instance"
 msgstr "ثبت نام در این نمونه CommaFeed بسته شده است"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
 msgstr "بازنشانی رمز عبور"
 
@@ -883,7 +863,6 @@ msgstr "بازنشانی رمز عبور"
 msgid "REST API"
 msgstr "REST API"
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr "راست کلیک"
@@ -910,8 +889,6 @@ msgid "Scrolling"
 msgstr "پیمایش"
 
 #: src/components/header/Header.tsx
-#: src/components/header/Header.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "جستجو"
@@ -924,7 +901,6 @@ msgstr "انتخاب فید/دسته بعدی خوانده نشده"
 msgid "Select previous unread feed/category"
 msgstr "انتخاب فید/دسته قبلی خوانده نشده"
 
-#: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr "آدرس سرور"
@@ -953,8 +929,6 @@ msgstr "به اشتراک بگذارید"
 msgid "Sharing sites"
 msgstr "اشتراک گذاری سایت ها"
 
-#: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "شیفت"
@@ -1004,7 +978,6 @@ msgid "Show unread count in tab title"
 msgstr "نمایش تعداد خوانده نشده در عنوان زبانه"
 
 #: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "ثبت نام کنید"
@@ -1013,7 +986,6 @@ msgstr "ثبت نام کنید"
 msgid "Something bad just happened..."
 msgstr "اتفاق بدی افتاد..."
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
 msgstr "فضا"
@@ -1030,7 +1002,6 @@ msgstr "ستاره"
 msgid "Starred"
 msgstr "ستاره دار"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
 msgid "Subscribe"
@@ -1064,7 +1035,6 @@ msgstr "تغییر به تم روشن"
 msgid "System"
 msgstr "سیستم"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "برچسب‌ها"
@@ -1137,7 +1107,6 @@ msgid "Unstar"
 msgstr "برداشتن ستاره"
 
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "لغو اشتراک"
 
@@ -1149,7 +1118,6 @@ msgstr "کلید کاربر"
 msgid "User name"
 msgstr "نام کاربری"
 
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "نام کاربری یا ایمیل"

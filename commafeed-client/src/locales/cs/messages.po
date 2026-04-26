@@ -61,7 +61,6 @@ msgid "Admin"
 msgstr "Správce"
 
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
 msgstr "Uživatelské jméno správce"
 
@@ -73,7 +72,6 @@ msgstr "Uživatelské jméno správce"
 msgid "All"
 msgstr "Všechny"
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr "Vždy"
@@ -173,18 +171,14 @@ msgstr "Vytvořte výraz filtru pro určení toho, co chcete číst. Položky, k
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
@@ -241,7 +235,6 @@ msgid "Confirm password"
 msgstr "Potvrďte heslo"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
 msgstr "Potvrdit heslo"
 
@@ -295,7 +288,6 @@ msgid "Delete"
 msgstr "Smazat"
 
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Smazat účet"
 
@@ -342,13 +334,10 @@ msgstr "Přetáhněte odkaz na lištu záložek"
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr "E-mail"
 
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "E-mailová adresa"
@@ -399,7 +388,6 @@ msgstr "Možnosti rozšíření"
 msgid "Feed name"
 msgstr "Název zdroje"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
@@ -571,7 +559,6 @@ msgid "Loading tags..."
 msgstr "Načítání značek..."
 
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "Přihlaste se"
@@ -649,7 +636,6 @@ msgid "Navigate to the next category/feed with unread entries when marking all e
 msgstr "Po označení všech položek jako přečtených přejít na další kategorii/zdroj s nepřečtenými položkami"
 
 #: src/components/settings/DisplaySettings.tsx
-#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "Nikdy"
 
@@ -657,7 +643,6 @@ msgstr "Nikdy"
 msgid "New password"
 msgstr "Nové heslo"
 
-#: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
 msgstr "Nové heslo"
@@ -765,7 +750,6 @@ msgid "OPML export"
 msgstr "Export OPML"
 
 #: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "soubor OPML"
 
@@ -791,10 +775,7 @@ msgstr "Rodičovská kategorie"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Heslo"
@@ -875,7 +856,6 @@ msgid "Registrations are closed on this CommaFeed instance"
 msgstr "V této instanci CommaFeed jsou registrace uzavřeny"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
 msgstr "Obnovit heslo"
 
@@ -883,7 +863,6 @@ msgstr "Obnovit heslo"
 msgid "REST API"
 msgstr "REST API"
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr "Kliknutí pravým tlačítkem"
@@ -910,8 +889,6 @@ msgid "Scrolling"
 msgstr "Posouvání"
 
 #: src/components/header/Header.tsx
-#: src/components/header/Header.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Hledej"
@@ -924,7 +901,6 @@ msgstr "Vybrat další nepřečtený zdroj/kategorii"
 msgid "Select previous unread feed/category"
 msgstr "Vybrat předchozí nepřečtený zdroj/kategorii"
 
-#: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr "URL serveru"
@@ -953,8 +929,6 @@ msgstr "Sdílejte"
 msgid "Sharing sites"
 msgstr "Stránky pro sdílení"
 
-#: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "Směna"
@@ -1004,7 +978,6 @@ msgid "Show unread count in tab title"
 msgstr "Zobrazovat počet nepřečtených v názvu karty"
 
 #: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "Zaregistrovat se"
@@ -1013,7 +986,6 @@ msgstr "Zaregistrovat se"
 msgid "Something bad just happened..."
 msgstr "Právě se stalo něco špatného..."
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
 msgstr "Vesmír"
@@ -1030,7 +1002,6 @@ msgstr "Hvězda"
 msgid "Starred"
 msgstr "S hvězdičkou"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
 msgid "Subscribe"
@@ -1064,7 +1035,6 @@ msgstr "Přepnout na světlý motiv"
 msgid "System"
 msgstr "Systémový"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Štítky"
@@ -1137,7 +1107,6 @@ msgid "Unstar"
 msgstr "Odstranit hvězdu"
 
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Odhlásit odběr"
 
@@ -1149,7 +1118,6 @@ msgstr "Uživatelský klíč"
 msgid "User name"
 msgstr "Uživatelské jméno"
 
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Uživatelské jméno nebo e-mail"

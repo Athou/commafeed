@@ -61,7 +61,6 @@ msgid "Admin"
 msgstr "Adminisztráció"
 
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
 msgstr "Adminisztrátor felhasználóneve"
 
@@ -73,7 +72,6 @@ msgstr "Adminisztrátor felhasználóneve"
 msgid "All"
 msgstr "Mind"
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr "Mindig"
@@ -173,18 +171,14 @@ msgstr "Hozzon létre egy szűrőkifejezést annak megjelölésére, hogy mit sz
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "Mégse"
 
-#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
@@ -241,7 +235,6 @@ msgid "Confirm password"
 msgstr "Erősítse meg a jelszót"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
 msgstr "Jelszó megerősítése"
 
@@ -295,7 +288,6 @@ msgid "Delete"
 msgstr "Törlés"
 
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Fiók törlése"
 
@@ -342,13 +334,10 @@ msgstr "Húzza a hivatkozást a könyvjelzősávra"
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr "E-mail"
 
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "E-mail cím"
@@ -399,7 +388,6 @@ msgstr "Bővítmény beállításai"
 msgid "Feed name"
 msgstr "Hírcsatorna neve"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
@@ -571,7 +559,6 @@ msgid "Loading tags..."
 msgstr "Címkék betöltése..."
 
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "Jelentkezzen be"
@@ -649,7 +636,6 @@ msgid "Navigate to the next category/feed with unread entries when marking all e
 msgstr "Navigálás a következő olvasatlan bejegyzéseket tartalmazó kategóriára/hírcsatornára, ha minden bejegyzést olvasottnak jelöl"
 
 #: src/components/settings/DisplaySettings.tsx
-#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "Soha"
 
@@ -657,7 +643,6 @@ msgstr "Soha"
 msgid "New password"
 msgstr "Új jelszó"
 
-#: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
 msgstr "Új jelszó"
@@ -765,7 +750,6 @@ msgid "OPML export"
 msgstr "OPML exportálás"
 
 #: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "OPML fájl"
 
@@ -791,10 +775,7 @@ msgstr "Szülő kategória"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Jelszó"
@@ -875,7 +856,6 @@ msgid "Registrations are closed on this CommaFeed instance"
 msgstr "A regisztrációk le vannak zárva ezen a CommaFeed példányon"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
 msgstr "Jelszó visszaállítása"
 
@@ -883,7 +863,6 @@ msgstr "Jelszó visszaállítása"
 msgid "REST API"
 msgstr "REST API"
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr "Jobb klikk"
@@ -910,8 +889,6 @@ msgid "Scrolling"
 msgstr "Görgetés"
 
 #: src/components/header/Header.tsx
-#: src/components/header/Header.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Keresés"
@@ -924,7 +901,6 @@ msgstr "Következő olvasatlan feed/kategória kiválasztása"
 msgid "Select previous unread feed/category"
 msgstr "Előző olvasatlan feed/kategória kiválasztása"
 
-#: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr "Szerver URL"
@@ -953,8 +929,6 @@ msgstr "Oszd meg"
 msgid "Sharing sites"
 msgstr "Webhelyek megosztása"
 
-#: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "Shift"
@@ -1004,7 +978,6 @@ msgid "Show unread count in tab title"
 msgstr "Olvasatlan darabszám megjelenítése a tab címében"
 
 #: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "Regisztráció"
@@ -1013,7 +986,6 @@ msgstr "Regisztráció"
 msgid "Something bad just happened..."
 msgstr "Valami rossz történt..."
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
 msgstr "Szóköz"
@@ -1030,7 +1002,6 @@ msgstr "Csillag"
 msgid "Starred"
 msgstr "Csillaggal megjelölve"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
 msgid "Subscribe"
@@ -1064,7 +1035,6 @@ msgstr "Váltás világos témára"
 msgid "System"
 msgstr "Rendszer"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Címkék"
@@ -1137,7 +1107,6 @@ msgid "Unstar"
 msgstr "Csillag eltávolítása"
 
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Leiratkozás"
 
@@ -1149,7 +1118,6 @@ msgstr "Felhasználói kulcs"
 msgid "User name"
 msgstr "Felhasználónév"
 
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Felhasználói név vagy e-mail cím"

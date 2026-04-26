@@ -61,7 +61,6 @@ msgid "Admin"
 msgstr "Järjestelmänvalvoja"
 
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
 msgstr "Järjestelmänvalvojan käyttäjänimi"
 
@@ -73,7 +72,6 @@ msgstr "Järjestelmänvalvojan käyttäjänimi"
 msgid "All"
 msgstr "Kaikki"
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr "Aina"
@@ -173,18 +171,14 @@ msgstr "Rakenna suodatinlauseke määrittääksesi, mitä haluat lukea. Merkinn�
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
@@ -241,7 +235,6 @@ msgid "Confirm password"
 msgstr "Vahvista salasana"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
 msgstr "Vahvista salasana"
 
@@ -295,7 +288,6 @@ msgid "Delete"
 msgstr "Poista"
 
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Poista tili"
 
@@ -342,13 +334,10 @@ msgstr "Vedä linkki kirjanmerkkipalkkiin"
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr "Sähköposti"
 
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "Sähköpostiosoite"
@@ -399,7 +388,6 @@ msgstr "Laajennuksen asetukset"
 msgid "Feed name"
 msgstr "Syötteen nimi"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
@@ -571,7 +559,6 @@ msgid "Loading tags..."
 msgstr "Ladataan tunnisteita..."
 
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "Kirjaudu sisään"
@@ -649,7 +636,6 @@ msgid "Navigate to the next category/feed with unread entries when marking all e
 msgstr "Siirry seuraavaan luokkaan/syötteeseen, jossa on lukemattomia merkintöjä, kun kaikki merkinnät merkitään luetuiksi"
 
 #: src/components/settings/DisplaySettings.tsx
-#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "Ei koskaan"
 
@@ -657,7 +643,6 @@ msgstr "Ei koskaan"
 msgid "New password"
 msgstr "Uusi salasana"
 
-#: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
 msgstr "Uusi salasana"
@@ -765,7 +750,6 @@ msgid "OPML export"
 msgstr "OPML-vienti"
 
 #: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "OPML-tiedosto"
 
@@ -791,10 +775,7 @@ msgstr "Pääluokka"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Salasana"
@@ -875,7 +856,6 @@ msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Tämän CommaFeed-esiintymän rekisteröinnit on suljettu"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
 msgstr "Nollaa salasana"
 
@@ -883,7 +863,6 @@ msgstr "Nollaa salasana"
 msgid "REST API"
 msgstr "REST-API"
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr "Oikea napsautus"
@@ -910,8 +889,6 @@ msgid "Scrolling"
 msgstr "Vieritys"
 
 #: src/components/header/Header.tsx
-#: src/components/header/Header.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Etsi"
@@ -924,7 +901,6 @@ msgstr "Valitse seuraava lukematon syöte/luokka"
 msgid "Select previous unread feed/category"
 msgstr "Valitse edellinen lukematon syöte/luokka"
 
-#: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr "Palvelimen URL-osoite"
@@ -953,8 +929,6 @@ msgstr "Jaa"
 msgid "Sharing sites"
 msgstr "Sivustojen jakaminen"
 
-#: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "Vaihto"
@@ -1004,7 +978,6 @@ msgid "Show unread count in tab title"
 msgstr "Näytä lukemattomien määrä välilehden otsikossa"
 
 #: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "Rekisteröidy"
@@ -1013,7 +986,6 @@ msgstr "Rekisteröidy"
 msgid "Something bad just happened..."
 msgstr "Jotain pahaa tapahtui juuri..."
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
 msgstr "Avaruus"
@@ -1030,7 +1002,6 @@ msgstr "Tähti"
 msgid "Starred"
 msgstr "Tähdellä merkitty"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
 msgid "Subscribe"
@@ -1064,7 +1035,6 @@ msgstr "Vaihda vaaleaan teemaan"
 msgid "System"
 msgstr "Järjestelmä"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Tunnisteet"
@@ -1137,7 +1107,6 @@ msgid "Unstar"
 msgstr "Poista tähti"
 
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Peruuta tilaus"
 
@@ -1149,7 +1118,6 @@ msgstr "Käyttäjäavain"
 msgid "User name"
 msgstr "Käyttäjänimi"
 
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Käyttäjänimi tai sähköpostiosoite"

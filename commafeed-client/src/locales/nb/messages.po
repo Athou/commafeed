@@ -61,7 +61,6 @@ msgid "Admin"
 msgstr "Administrator"
 
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 msgid "Admin user name"
 msgstr "Administrator brukernavn"
 
@@ -73,7 +72,6 @@ msgstr "Administrator brukernavn"
 msgid "All"
 msgstr "Alle"
 
-#: src/components/settings/DisplaySettings.tsx
 #: src/components/settings/DisplaySettings.tsx
 msgid "Always"
 msgstr "Alltid"
@@ -173,18 +171,14 @@ msgstr "Bygg et filteruttrykk for å angi hva du vil lese. Oppføringer som ikke
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/CustomCodeSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/CategoryDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
@@ -241,7 +235,6 @@ msgid "Confirm password"
 msgstr "Bekreft passord"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Confirm Password"
 msgstr "Bekreft passord"
 
@@ -295,7 +288,6 @@ msgid "Delete"
 msgstr "Slett"
 
 #: src/components/settings/ProfileSettings.tsx
-#: src/components/settings/ProfileSettings.tsx
 msgid "Delete account"
 msgstr "Slett konto"
 
@@ -342,13 +334,10 @@ msgstr "Dra lenken til bokmerkelinjen"
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr "E-post"
 
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "E-postadresse"
@@ -399,7 +388,6 @@ msgstr "Utvidelsesvalg"
 msgid "Feed name"
 msgstr "Feednavn"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
@@ -571,7 +559,6 @@ msgid "Loading tags..."
 msgstr "Laster tagger..."
 
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Log in"
 msgstr "Logg inn"
@@ -649,7 +636,6 @@ msgid "Navigate to the next category/feed with unread entries when marking all e
 msgstr "Naviger til neste kategori/feed med uleste oppføringer når du markerer alle oppføringer som lest"
 
 #: src/components/settings/DisplaySettings.tsx
-#: src/components/settings/DisplaySettings.tsx
 msgid "Never"
 msgstr "Aldri"
 
@@ -657,7 +643,6 @@ msgstr "Aldri"
 msgid "New password"
 msgstr "Nytt passord"
 
-#: src/pages/auth/PasswordResetPage.tsx
 #: src/pages/auth/PasswordResetPage.tsx
 msgid "New Password"
 msgstr "Nytt passord"
@@ -765,7 +750,6 @@ msgid "OPML export"
 msgstr "OPML-eksport"
 
 #: src/components/content/add/ImportOpml.tsx
-#: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
 msgstr "OPML-fil"
 
@@ -791,10 +775,7 @@ msgstr "Overordnet kategori"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/auth/InitialSetupPage.tsx
-#: src/pages/auth/InitialSetupPage.tsx
 #: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr "Passord"
@@ -875,7 +856,6 @@ msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Registreringer er stengt på denne CommaFeed-forekomsten"
 
 #: src/pages/auth/PasswordResetPage.tsx
-#: src/pages/auth/PasswordResetPage.tsx
 msgid "Reset Password"
 msgstr "Tilbakestill passord"
 
@@ -883,7 +863,6 @@ msgstr "Tilbakestill passord"
 msgid "REST API"
 msgstr "REST API"
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Right click"
 msgstr "Høyreklikk"
@@ -910,8 +889,6 @@ msgid "Scrolling"
 msgstr "Rulling"
 
 #: src/components/header/Header.tsx
-#: src/components/header/Header.tsx
-#: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Søk"
@@ -924,7 +901,6 @@ msgstr "Velg neste uleste feed/kategori"
 msgid "Select previous unread feed/category"
 msgstr "Velg forrige uleste feed/kategori"
 
-#: src/components/settings/PushNotificationSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Server URL"
 msgstr "Server-URL"
@@ -953,8 +929,6 @@ msgstr "Del"
 msgid "Sharing sites"
 msgstr "Delingssider"
 
-#: src/components/KeyboardShortcutsHelp.tsx
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Shift"
 msgstr "Skift"
@@ -1004,7 +978,6 @@ msgid "Show unread count in tab title"
 msgstr "Vis antall uleste i fanetittelen"
 
 #: src/pages/auth/RegistrationPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
 #: src/pages/WelcomePage.tsx
 msgid "Sign up"
 msgstr "Meld deg på"
@@ -1013,7 +986,6 @@ msgstr "Meld deg på"
 msgid "Something bad just happened..."
 msgstr "Noe ille skjedde akkurat..."
 
-#: src/components/KeyboardShortcutsHelp.tsx
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Space"
 msgstr "Mellomrom"
@@ -1030,7 +1002,6 @@ msgstr "Stjerne"
 msgid "Starred"
 msgstr "Stjerne"
 
-#: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AddPage.tsx
 msgid "Subscribe"
@@ -1064,7 +1035,6 @@ msgstr "Bytt til lystema"
 msgid "System"
 msgstr "System"
 
-#: src/components/content/FeedEntryFooter.tsx
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Tags"
 msgstr "Tagger"
@@ -1137,7 +1107,6 @@ msgid "Unstar"
 msgstr "Fjern stjerne"
 
 #: src/pages/app/FeedDetailsPage.tsx
-#: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Avslutt abonnement"
 
@@ -1149,7 +1118,6 @@ msgstr "Brukernøkkel"
 msgid "User name"
 msgstr "Brukernavn"
 
-#: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "Brukernavn eller e-post"

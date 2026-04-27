@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Urls {
 
-	private static final String ESCAPED_QUESTION_MARK = Pattern.quote("?");
+	private static final Pattern QUESTION_MARK = Pattern.compile(Pattern.quote("?"));
 
 	public static boolean isHttp(String url) {
 		return url.startsWith("http://");
@@ -95,9 +95,9 @@ public class Urls {
 		normalized = normalized.replace("feedproxy.google.com", "feeds.feedburner.com");
 
 		// feedburner feeds have a special treatment
-		if (normalized.split(ESCAPED_QUESTION_MARK)[0].contains("feedburner.com")) {
+		if (QUESTION_MARK.split(normalized)[0].contains("feedburner.com")) {
 			normalized = normalized.replace("feeds2.feedburner.com", "feeds.feedburner.com");
-			normalized = normalized.split(ESCAPED_QUESTION_MARK)[0];
+			normalized = QUESTION_MARK.split(normalized)[0];
 			normalized = Strings.CS.removeEnd(normalized, "/");
 		}
 

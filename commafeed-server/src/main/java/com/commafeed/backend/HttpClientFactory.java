@@ -76,6 +76,7 @@ public class HttpClientFactory {
 				: new DefaultRedirectStrategy();
 
 		return HttpClientBuilder.create()
+				.disableConnectionState()
 				.useSystemProperties()
 				.disableAutomaticRetries()
 				.disableCookieManagement()

@@ -50,6 +50,8 @@ public class FeedParser {
 	private static final Instant START = Instant.ofEpochMilli(86400000);
 	private static final Instant END = Instant.ofEpochMilli(1000L * Integer.MAX_VALUE - 86400000);
 
+	private static final Comparator<Entry> ENTRY_COMPARATOR = Comparator.comparing(Entry::published).reversed();
+
 	private final EncodingDetector encodingDetector;
 	private final FeedCleaner feedCleaner;
 
@@ -138,7 +140,7 @@ public class FeedParser {
 			entries.add(new Entry(guid, url, publishedDate, content));
 		}
 
-		entries.sort(Comparator.comparing(Entry::published).reversed());
+		entries.sort(ENTRY_COMPARATOR);
 		return entries;
 	}
 

@@ -84,6 +84,11 @@ public class CategoryREST {
 	public static final String ALL = "all";
 	public static final String STARRED = "starred";
 
+	private static final Comparator<Category> CATEGORY_COMPARATOR = Comparator.comparing(Category::getPosition)
+			.thenComparing(Category::getName);
+	private static final Comparator<Subscription> SUBSCRIPTION_COMPARATOR = Comparator.comparing(Subscription::getPosition)
+			.thenComparing(Subscription::getName);
+
 	private final AuthenticationContext authenticationContext;
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
@@ -432,7 +437,7 @@ public class CategoryREST {
 				category.getChildren().add(child);
 			}
 		}
-		category.getChildren().sort(Comparator.comparing(Category::getPosition).thenComparing(Category::getName));
+		category.getChildren().sort(CATEGORY_COMPARATOR);
 
 		for (FeedSubscription subscription : subscriptions) {
 			if (id == null && subscription.getCategory() == null
@@ -442,7 +447,7 @@ public class CategoryREST {
 				category.getFeeds().add(sub);
 			}
 		}
-		category.getFeeds().sort(Comparator.comparing(Subscription::getPosition).thenComparing(Subscription::getName));
+		category.getFeeds().sort(SUBSCRIPTION_COMPARATOR);
 
 		return category;
 	}

@@ -23,6 +23,11 @@ import lombok.RequiredArgsConstructor;
 @Singleton
 public class OPMLExporter {
 
+	private static final Comparator<FeedCategory> CATEGORY_COMPARATOR = Comparator
+			.comparingInt(e -> ObjectUtils.firstNonNull(e.getPosition(), 0));
+	private static final Comparator<FeedSubscription> SUBSCRIPTION_COMPARATOR = Comparator
+			.comparingInt(e -> ObjectUtils.firstNonNull(e.getPosition(), 0));
+
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 
@@ -33,10 +38,10 @@ public class OPMLExporter {
 		opml.setCreated(new Date());
 
 		List<FeedCategory> categories = feedCategoryDAO.findAll(user);
-		categories.sort(Comparator.comparingInt(e -> ObjectUtils.firstNonNull(e.getPosition(), 0)));
+		categories.sort(CATEGORY_COMPARATOR);
 
 		List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
-		subscriptions.sort(Comparator.comparingInt(e -> ObjectUtils.firstNonNull(e.getPosition(), 0)));
+		subscriptions.sort(SUBSCRIPTION_COMPARATOR);
 
 		// export root categories
 		for (FeedCategory cat : categories.stream().filter(c -> c.getParent() == null).toList()) {

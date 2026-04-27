@@ -1,5 +1,6 @@
 package com.commafeed.backend.model;
 
+import java.io.Serializable;
 import java.sql.Types;
 
 import jakarta.persistence.Column;
@@ -159,9 +160,10 @@ public class UserSettings extends AbstractModel {
 	private PushNotificationUserSettings pushNotifications = new PushNotificationUserSettings();
 
 	@Embeddable
+	@SuppressWarnings("serial")
 	@Getter
 	@Setter
-	public static class PushNotificationUserSettings {
+	public static class PushNotificationUserSettings implements Serializable {
 		@Enumerated(EnumType.STRING)
 		@Column(name = "push_notification_type", length = 16)
 		private PushNotificationType type;

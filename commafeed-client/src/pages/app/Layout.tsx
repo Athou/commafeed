@@ -1,10 +1,11 @@
 import { msg } from "@lingui/core/macro"
 import { ActionIcon, AppShell, Box, Center, Group, ScrollArea, Title, useMantineTheme } from "@mantine/core"
-import { type ReactNode, type RefObject, Suspense, useEffect, useRef } from "react"
+import { type ReactNode, type RefObject, Suspense, useEffect, useRef, useState } from "react"
 import Draggable from "react-draggable"
 import { TbMenu2, TbPlus, TbX } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
 import { useSwipeable } from "react-swipeable"
+import Tinycon from "tinycon"
 import { Constants } from "@/app/constants"
 import { redirectToAdd, redirectToRootCategory } from "@/app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
@@ -12,8 +13,10 @@ import { setMobileMenuOpen } from "@/app/tree/slice"
 import { reloadTree } from "@/app/tree/thunks"
 import { setSidebarWidth } from "@/app/user/slice"
 import { reloadProfile, reloadSettings, reloadTags } from "@/app/user/thunks"
+import { categoryUnreadCount } from "@/app/utils"
 import { ActionButton } from "@/components/ActionButton"
 import { AnnouncementDialog } from "@/components/AnnouncementDialog"
+import { DisablePullToRefresh } from "@/components/DisablePullToRefresh"
 import { Loader } from "@/components/Loader"
 import { Logo } from "@/components/Logo"
 import { MarkAllAsReadConfirmationDialog } from "@/components/MarkAllAsReadConfirmationDialog"
@@ -51,6 +54,78 @@ function LogoAndTitle() {
     )
 }
 
+function UnreadCountTitleHandler({
+    enabled,
+}: Readonly<{
+    enabled?: boolean
+}>) {
+    const root = useAppSelector(state => state.tree.rootCategory)
+    const unreadCount = categoryUnreadCount(root)
+    return <title>{enabled && unreadCount > 0 ? `(${unreadCount}) CommaFeed` : "CommaFeed"}</title>
+}
+
+function UnreadCountFaviconHandler({ enabled }: { enabled?: boolean }) {
+    const root = useAppSelector(state => state.tree.rootCategory)
+    const unreadCount = categoryUnreadCount(root)
+    useEffect(() => {
+        if (enabled && unreadCount > 0) {
+            Tinycon.setBubble(unreadCount)
+        } else {
+            Tinycon.reset()
+        }
+    }, [unreadCount, enabled])
+
+    return null
+}
+
+function BrowserExtensionBadgeUnreadCountHandler() {
+    const root = useAppSelector(state => state.tree.rootCategory)
+    const { setBadgeUnreadCount } = useBrowserExtension()
+    useEffect(() => {
+        if (!root) return
+        const unreadCount = categoryUnreadCount(root)
+        setBadgeUnreadCount(unreadCount)
+    }, [root, setBadgeUnreadCount])
+
+    return null
+}
+
+function CustomJsHandler() {
+    const [scriptLoaded, setScriptLoaded] = useState(false)
+    const { loading } = useAppLoading()
+
+    useEffect(() => {
+        if (scriptLoaded || loading) {
+            return
+        }
+
+        const script = document.createElement("script")
+        script.src = "custom_js.js"
+        script.async = true
+        document.body.appendChild(script)
+
+        setScriptLoaded(true)
+
+        return () => script.remove()
+    }, [scriptLoaded, loading])
+
+    return null
+}
+
+function CustomCssHandler() {
+    useEffect(() => {
+        const link = document.createElement("link")
+        link.rel = "stylesheet"
+        link.type = "text/css"
+        link.href = "custom_css.css"
+        document.head.appendChild(link)
+
+        return () => link.remove()
+    }, [])
+
+    return null
+}
+
 const useStyles = tss
     .withParams<{
         sidebarWidth: number
@@ -75,6 +150,9 @@ export default function Layout(props: Readonly<LayoutProps>) {
     const draggableSeparator = useRef<HTMLDivElement>(null)
 
     const { loading } = useAppLoading()
+    const unreadCountTitle = useAppSelector(state => state.user.settings?.unreadCountTitle)
+    const unreadCountFavicon = useAppSelector(state => state.user.settings?.unreadCountFavicon)
+    const disablePullToRefresh = useAppSelector(state => state.user.settings?.disablePullToRefresh)
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
     const webSocketConnected = useAppSelector(state => state.server.webSocketConnected)
     const treeReloadInterval = useAppSelector(state => state.server.serverInfos?.treeReloadInterval)
@@ -173,61 +251,69 @@ export default function Layout(props: Readonly<LayoutProps>) {
 
     if (loading) return <LoadingPage />
     return (
-        <Box {...swipeHandlers}>
-            <AppShell
-                header={{ height: Constants.layout.headerHeight, collapsed: headerInFooter }}
-                footer={{ height: Constants.layout.headerHeight, collapsed: !headerInFooter }}
-                navbar={{
-                    width: sidebarWidth,
-                    breakpoint: Constants.layout.mobileBreakpoint,
-                    collapsed: { mobile: !mobileMenuOpen, desktop: !props.sidebarVisible },
-                }}
-                padding={{ base: 6, [Constants.layout.mobileBreakpointName]: "md" }}
-            >
-                <AppShell.Header>{!headerInFooter && header}</AppShell.Header>
-                <AppShell.Footer>{headerInFooter && header}</AppShell.Footer>
-                <AppShell.Navbar p={sidebarPadding}>
-                    <AppShell.Section grow component={ScrollArea} mx="-sm" px="sm">
-                        <Box className={classes.sidebarContent}>{props.sidebar}</Box>
-                    </AppShell.Section>
-                </AppShell.Navbar>
-                <OnDesktop>
-                    <Draggable
-                        nodeRef={draggableSeparator as RefObject<HTMLElement>}
-                        axis="x"
-                        defaultPosition={{
-                            x: sidebarWidth,
-                            y: 0,
-                        }}
-                        bounds={{
-                            left: 120,
-                            right: 1000,
-                        }}
-                        grid={[30, 30]}
-                        onDrag={(_e, data) => {
-                            dispatch(setSidebarWidth(data.x))
-                        }}
-                    >
-                        <Box
-                            ref={draggableSeparator}
-                            style={{
-                                position: "fixed",
-                                height: "100%",
-                                width: "10px",
-                                cursor: "ew-resize",
+        <>
+            <UnreadCountTitleHandler enabled={unreadCountTitle} />
+            <UnreadCountFaviconHandler enabled={unreadCountFavicon} />
+            <BrowserExtensionBadgeUnreadCountHandler />
+            <CustomJsHandler />
+            <CustomCssHandler />
+            <DisablePullToRefresh enabled={disablePullToRefresh} />
+            <Box {...swipeHandlers}>
+                <AppShell
+                    header={{ height: Constants.layout.headerHeight, collapsed: headerInFooter }}
+                    footer={{ height: Constants.layout.headerHeight, collapsed: !headerInFooter }}
+                    navbar={{
+                        width: sidebarWidth,
+                        breakpoint: Constants.layout.mobileBreakpoint,
+                        collapsed: { mobile: !mobileMenuOpen, desktop: !props.sidebarVisible },
+                    }}
+                    padding={{ base: 6, [Constants.layout.mobileBreakpointName]: "md" }}
+                >
+                    <AppShell.Header>{!headerInFooter && header}</AppShell.Header>
+                    <AppShell.Footer>{headerInFooter && header}</AppShell.Footer>
+                    <AppShell.Navbar p={sidebarPadding}>
+                        <AppShell.Section grow component={ScrollArea} mx="-sm" px="sm">
+                            <Box className={classes.sidebarContent}>{props.sidebar}</Box>
+                        </AppShell.Section>
+                    </AppShell.Navbar>
+                    <OnDesktop>
+                        <Draggable
+                            nodeRef={draggableSeparator as RefObject<HTMLElement>}
+                            axis="x"
+                            defaultPosition={{
+                                x: sidebarWidth,
+                                y: 0,
                             }}
-                        />
-                    </Draggable>
-                </OnDesktop>
+                            bounds={{
+                                left: 120,
+                                right: 1000,
+                            }}
+                            grid={[30, 30]}
+                            onDrag={(_e, data) => {
+                                dispatch(setSidebarWidth(data.x))
+                            }}
+                        >
+                            <Box
+                                ref={draggableSeparator}
+                                style={{
+                                    position: "fixed",
+                                    height: "100%",
+                                    width: "10px",
+                                    cursor: "ew-resize",
+                                }}
+                            />
+                        </Draggable>
+                    </OnDesktop>
 
-                <AppShell.Main>
-                    <Suspense fallback={<Loader />}>
-                        <AnnouncementDialog />
-                        <MarkAllAsReadConfirmationDialog />
-                        <Outlet />
-                    </Suspense>
-                </AppShell.Main>
-            </AppShell>
-        </Box>
+                    <AppShell.Main>
+                        <Suspense fallback={<Loader />}>
+                            <AnnouncementDialog />
+                            <MarkAllAsReadConfirmationDialog />
+                            <Outlet />
+                        </Suspense>
+                    </AppShell.Main>
+                </AppShell>
+            </Box>
+        </>
     )
 }

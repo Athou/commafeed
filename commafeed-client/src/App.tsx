@@ -4,21 +4,16 @@ import { MantineProvider, v8CssVariablesResolver } from "@mantine/core"
 import { ModalsProvider } from "@mantine/modals"
 import { Notifications } from "@mantine/notifications"
 import type React from "react"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { HashRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom"
-import Tinycon from "tinycon"
 import { Constants } from "@/app/constants"
 import { redirectTo } from "@/app/redirect/slice"
 import { redirectToInitialSetup } from "@/app/redirect/thunks"
 import { reloadServerInfos } from "@/app/server/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
-import { categoryUnreadCount } from "@/app/utils"
-import { DisablePullToRefresh } from "@/components/DisablePullToRefresh"
 import { ErrorBoundary } from "@/components/ErrorBoundary"
 import { Header } from "@/components/header/Header"
 import { Tree } from "@/components/sidebar/Tree"
-import { useAppLoading } from "@/hooks/useAppLoading"
-import { useBrowserExtension } from "@/hooks/useBrowserExtension"
 import { useI18n } from "@/i18n"
 import { AdminUsersPage } from "@/pages/admin/AdminUsersPage"
 import { MetricsPage } from "@/pages/admin/MetricsPage"
@@ -146,83 +141,8 @@ function RedirectHandler() {
     return null
 }
 
-function UnreadCountTitleHandler({
-    enabled,
-}: Readonly<{
-    enabled?: boolean
-}>) {
-    const root = useAppSelector(state => state.tree.rootCategory)
-    const unreadCount = categoryUnreadCount(root)
-    return <title>{enabled && unreadCount > 0 ? `(${unreadCount}) CommaFeed` : "CommaFeed"}</title>
-}
-
-function UnreadCountFaviconHandler({ enabled }: { enabled?: boolean }) {
-    const root = useAppSelector(state => state.tree.rootCategory)
-    const unreadCount = categoryUnreadCount(root)
-    useEffect(() => {
-        if (enabled && unreadCount > 0) {
-            Tinycon.setBubble(unreadCount)
-        } else {
-            Tinycon.reset()
-        }
-    }, [unreadCount, enabled])
-
-    return null
-}
-
-function BrowserExtensionBadgeUnreadCountHandler() {
-    const root = useAppSelector(state => state.tree.rootCategory)
-    const { setBadgeUnreadCount } = useBrowserExtension()
-    useEffect(() => {
-        if (!root) return
-        const unreadCount = categoryUnreadCount(root)
-        setBadgeUnreadCount(unreadCount)
-    }, [root, setBadgeUnreadCount])
-
-    return null
-}
-
-function CustomJsHandler() {
-    const [scriptLoaded, setScriptLoaded] = useState(false)
-    const { loading } = useAppLoading()
-
-    useEffect(() => {
-        if (scriptLoaded || loading) {
-            return
-        }
-
-        const script = document.createElement("script")
-        script.src = "custom_js.js"
-        script.async = true
-        document.body.appendChild(script)
-
-        setScriptLoaded(true)
-
-        return () => script.remove()
-    }, [scriptLoaded, loading])
-
-    return null
-}
-
-function CustomCssHandler() {
-    useEffect(() => {
-        const link = document.createElement("link")
-        link.rel = "stylesheet"
-        link.type = "text/css"
-        link.href = "custom_css.css"
-        document.head.appendChild(link)
-
-        return () => link.remove()
-    }, [])
-
-    return null
-}
-
 export function App() {
     useI18n()
-    const unreadCountTitle = useAppSelector(state => state.user.settings?.unreadCountTitle)
-    const unreadCountFavicon = useAppSelector(state => state.user.settings?.unreadCountFavicon)
-    const disablePullToRefresh = useAppSelector(state => state.user.settings?.disablePullToRefresh)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -231,13 +151,6 @@ export function App() {
 
     return (
         <Providers>
-            <UnreadCountTitleHandler enabled={unreadCountTitle} />
-            <UnreadCountFaviconHandler enabled={unreadCountFavicon} />
-            <BrowserExtensionBadgeUnreadCountHandler />
-            <CustomJsHandler />
-            <CustomCssHandler />
-            <DisablePullToRefresh enabled={disablePullToRefresh} />
-
             <HashRouter>
                 <InitialSetupHandler />
                 <RedirectHandler />

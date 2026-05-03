@@ -10,7 +10,7 @@ import { client, errorToStrings } from "@/app/client"
 import { redirectToSelectedSource } from "@/app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
 import type { PushNotificationSettings as PushNotificationSettingsModel } from "@/app/types"
-import { changePushNotificationSettings } from "@/app/user/thunks"
+import { changeSettings } from "@/app/user/thunks"
 import { Alert } from "@/components/Alert"
 
 export function PushNotificationSettings() {
@@ -25,7 +25,7 @@ export function PushNotificationSettings() {
     }, [form.initialize, notificationSettings])
 
     const handleSubmit = (values: PushNotificationSettingsModel) => {
-        dispatch(changePushNotificationSettings(values))
+        dispatch(changeSettings({ pushNotificationSettings: values }))
     }
 
     const sendTestPushNotification = useAsyncCallback(client.user.sendTestPushNotification)

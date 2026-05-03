@@ -6,6 +6,7 @@ import {
     type ComboboxData,
     Divider,
     Group,
+    Loader,
     NumberInput,
     Radio,
     Select,
@@ -18,45 +19,11 @@ import type { ReactNode } from "react"
 import { Constants } from "@/app/constants"
 import { useAppDispatch, useAppSelector } from "@/app/store"
 import type { IconDisplayMode, ScrollMode, SharingSettings } from "@/app/types"
-import {
-    changeCustomContextMenu,
-    changeDisablePullToRefresh,
-    changeEntriesToKeepOnTopWhenScrolling,
-    changeExternalLinkIconDisplayMode,
-    changeLanguage,
-    changeMarkAllAsReadConfirmation,
-    changeMarkAllAsReadNavigateToUnread,
-    changeMobileFooter,
-    changePrimaryColor,
-    changeScrollMarks,
-    changeScrollMode,
-    changeScrollSpeed,
-    changeSharingSetting,
-    changeShowRead,
-    changeStarIconDisplayMode,
-    changeUnreadCountFavicon,
-    changeUnreadCountTitle,
-} from "@/app/user/thunks"
+import { changeSettings } from "@/app/user/thunks"
 import { locales } from "@/i18n"
 
 export function DisplaySettings() {
-    const language = useAppSelector(state => state.user.settings?.language)
-    const scrollSpeed = useAppSelector(state => state.user.settings?.scrollSpeed)
-    const showRead = useAppSelector(state => state.user.settings?.showRead)
-    const scrollMarks = useAppSelector(state => state.user.settings?.scrollMarks)
-    const scrollMode = useAppSelector(state => state.user.settings?.scrollMode)
-    const entriesToKeepOnTop = useAppSelector(state => state.user.settings?.entriesToKeepOnTopWhenScrolling)
-    const starIconDisplayMode = useAppSelector(state => state.user.settings?.starIconDisplayMode)
-    const externalLinkIconDisplayMode = useAppSelector(state => state.user.settings?.externalLinkIconDisplayMode)
-    const markAllAsReadConfirmation = useAppSelector(state => state.user.settings?.markAllAsReadConfirmation)
-    const markAllAsReadNavigateToNextUnread = useAppSelector(state => state.user.settings?.markAllAsReadNavigateToNextUnread)
-    const customContextMenu = useAppSelector(state => state.user.settings?.customContextMenu)
-    const mobileFooter = useAppSelector(state => state.user.settings?.mobileFooter)
-    const unreadCountTitle = useAppSelector(state => state.user.settings?.unreadCountTitle)
-    const unreadCountFavicon = useAppSelector(state => state.user.settings?.unreadCountFavicon)
-    const disablePullToRefresh = useAppSelector(state => state.user.settings?.disablePullToRefresh)
-    const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
-    const primaryColor = useAppSelector(state => state.user.settings?.primaryColor) || Constants.theme.defaultPrimaryColor
+    const settings = useAppSelector(state => state.user.settings)
     const { _ } = useLingui()
     const dispatch = useAppDispatch()
 
@@ -108,50 +75,51 @@ export function DisplaySettings() {
         </Group>
     )
 
+    if (!settings) return <Loader />
     return (
         <Stack>
             <Divider label={<Trans>Display</Trans>} labelPosition="center" />
 
             <Select
                 label={<Trans>Language</Trans>}
-                value={language}
+                value={settings.language}
                 data={locales.map(l => ({
                     value: l.key,
                     label: l.label,
                 }))}
-                onChange={async s => await (s && dispatch(changeLanguage(s)))}
+                onChange={language => language && dispatch(changeSettings({ language }))}
             />
 
             <Select
                 label={<Trans>Primary color</Trans>}
                 data={colorData}
-                value={primaryColor}
-                onChange={async value => value && (await dispatch(changePrimaryColor(value)))}
+                value={settings.primaryColor}
+                onChange={primaryColor => primaryColor && dispatch(changeSettings({ primaryColor }))}
                 renderOption={colorRenderer}
             />
 
             <Switch
                 label={<Trans>Show feeds and categories with no unread entries</Trans>}
-                checked={showRead}
-                onChange={async e => await dispatch(changeShowRead(e.currentTarget.checked))}
+                checked={settings.showRead}
+                onChange={e => dispatch(changeSettings({ showRead: e.currentTarget.checked }))}
             />
 
             <Switch
                 label={<Trans>Show confirmation when marking all entries as read</Trans>}
-                checked={markAllAsReadConfirmation}
-                onChange={async e => await dispatch(changeMarkAllAsReadConfirmation(e.currentTarget.checked))}
+                checked={settings.markAllAsReadConfirmation}
+                onChange={e => dispatch(changeSettings({ markAllAsReadConfirmation: e.currentTarget.checked }))}
             />
 
             <Switch
                 label={<Trans>Navigate to the next category/feed with unread entries when marking all entries as read</Trans>}
-                checked={markAllAsReadNavigateToNextUnread}
-                onChange={async e => await dispatch(changeMarkAllAsReadNavigateToUnread(e.currentTarget.checked))}
+                checked={settings.markAllAsReadNavigateToNextUnread}
+                onChange={e => dispatch(changeSettings({ markAllAsReadNavigateToNextUnread: e.currentTarget.checked }))}
             />
 
             <Switch
                 label={<Trans>On mobile, show action buttons at the bottom of the screen</Trans>}
-                checked={mobileFooter}
-                onChange={async e => await dispatch(changeMobileFooter(e.currentTarget.checked))}
+                checked={settings.mobileFooter}
+                onChange={e => dispatch(changeSettings({ mobileFooter: e.currentTarget.checked }))}
             />
 
             <Divider label={<Trans>Scrolling</Trans>} labelPosition="center" />
@@ -159,14 +127,14 @@ export function DisplaySettings() {
             <Switch
                 label={<Trans>Disable "Pull to refresh" browser behavior</Trans>}
                 description={<Trans>This setting can cause scrolling issues on some browsers (e.g. Safari)</Trans>}
-                checked={disablePullToRefresh}
-                onChange={async e => await dispatch(changeDisablePullToRefresh(e.currentTarget.checked))}
+                checked={settings.disablePullToRefresh}
+                onChange={e => dispatch(changeSettings({ disablePullToRefresh: e.currentTarget.checked }))}
             />
 
             <Radio.Group
                 label={<Trans>Scroll selected entry to the top of the page</Trans>}
-                value={scrollMode}
-                onChange={async value => await dispatch(changeScrollMode(value as ScrollMode))}
+                value={settings.scrollMode}
+                onChange={value => dispatch(changeSettings({ scrollMode: value }))}
             >
                 <Group mt="xs">
                     {Object.entries(scrollModeOptions).map(e => (
@@ -179,56 +147,56 @@ export function DisplaySettings() {
                 label={<Trans>Entries to keep above the selected entry when scrolling</Trans>}
                 description={<Trans>Only applies to compact, cozy and detailed modes</Trans>}
                 min={0}
-                value={entriesToKeepOnTop}
-                onChange={async value => await dispatch(changeEntriesToKeepOnTopWhenScrolling(+value))}
+                value={settings.entriesToKeepOnTopWhenScrolling}
+                onChange={value => dispatch(changeSettings({ entriesToKeepOnTopWhenScrolling: +value }))}
             />
 
             <Switch
                 label={<Trans>Scroll smoothly when navigating between entries</Trans>}
-                checked={scrollSpeed ? scrollSpeed > 0 : false}
-                onChange={async e => await dispatch(changeScrollSpeed(e.currentTarget.checked))}
+                checked={settings.scrollSpeed ? settings.scrollSpeed > 0 : false}
+                onChange={e => dispatch(changeSettings({ scrollSpeed: e.currentTarget.checked ? 400 : 0 }))}
             />
 
             <Switch
                 label={<Trans>In expanded view, scrolling through entries mark them as read</Trans>}
-                checked={scrollMarks}
-                onChange={async e => await dispatch(changeScrollMarks(e.currentTarget.checked))}
+                checked={settings.scrollMarks}
+                onChange={e => dispatch(changeSettings({ scrollMarks: e.currentTarget.checked }))}
             />
 
             <Divider label={<Trans>Browser tab</Trans>} labelPosition="center" />
 
             <Switch
                 label={<Trans>Show unread count in tab title</Trans>}
-                checked={unreadCountTitle}
-                onChange={async e => await dispatch(changeUnreadCountTitle(e.currentTarget.checked))}
+                checked={settings.unreadCountTitle}
+                onChange={e => dispatch(changeSettings({ unreadCountTitle: e.currentTarget.checked }))}
             />
 
             <Switch
                 label={<Trans>Show unread count in tab favicon</Trans>}
-                checked={unreadCountFavicon}
-                onChange={async e => await dispatch(changeUnreadCountFavicon(e.currentTarget.checked))}
+                checked={settings.unreadCountFavicon}
+                onChange={e => dispatch(changeSettings({ unreadCountFavicon: e.currentTarget.checked }))}
             />
 
             <Divider label={<Trans>Entry headers</Trans>} labelPosition="center" />
 
             <Select
                 label={<Trans>Show star icon</Trans>}
-                value={starIconDisplayMode}
+                value={settings.starIconDisplayMode}
                 data={displayModeData}
-                onChange={async s => await dispatch(changeStarIconDisplayMode(s as IconDisplayMode))}
+                onChange={value => dispatch(changeSettings({ starIconDisplayMode: value as IconDisplayMode }))}
             />
 
             <Select
                 label={<Trans>Show external link icon</Trans>}
-                value={externalLinkIconDisplayMode}
+                value={settings.externalLinkIconDisplayMode}
                 data={displayModeData}
-                onChange={async s => await dispatch(changeExternalLinkIconDisplayMode(s as IconDisplayMode))}
+                onChange={value => dispatch(changeSettings({ externalLinkIconDisplayMode: value as IconDisplayMode }))}
             />
 
             <Switch
                 label={<Trans>Show CommaFeed's own context menu on right click</Trans>}
-                checked={customContextMenu}
-                onChange={async e => await dispatch(changeCustomContextMenu(e.currentTarget.checked))}
+                checked={settings.customContextMenu}
+                onChange={e => dispatch(changeSettings({ customContextMenu: e.currentTarget.checked }))}
             />
 
             <Divider label={<Trans>Sharing sites</Trans>} labelPosition="center" />
@@ -238,12 +206,14 @@ export function DisplaySettings() {
                     <Switch
                         key={site}
                         label={Constants.sharing[site].label}
-                        checked={sharingSettings?.[site]}
-                        onChange={async e =>
-                            await dispatch(
-                                changeSharingSetting({
-                                    site,
-                                    value: e.currentTarget.checked,
+                        checked={settings.sharingSettings[site]}
+                        onChange={e =>
+                            dispatch(
+                                changeSettings({
+                                    sharingSettings: {
+                                        ...settings.sharingSettings,
+                                        [site]: e.currentTarget.checked,
+                                    },
                                 })
                             )
                         }

@@ -71,7 +71,7 @@
         "@vitejs/plugin-react": "6.0.1",
         "babel-plugin-react-compiler": "1.0.0",
         "husky": "9.1.7",
-        "jsdom": "29.1.0",
+        "jsdom": "29.1.1",
         "lint-staged": "16.4.0",
         "typescript": "6.0.3",
         "vite": "8.0.10",

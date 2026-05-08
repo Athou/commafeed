@@ -300,11 +300,9 @@ public class HttpGetter {
 	}
 
 	private record HttpResponse(int code, String lastModifiedHeader, String eTagHeader, CacheControl cacheControl, Instant retryAfter,
-			byte[] content, String contentType, String urlAfterRedirect) {
-	}
+			byte[] content, String contentType, String urlAfterRedirect) {}
 
 	public record HttpResult(byte[] content, String contentType, String lastModifiedSince, String eTag, String urlAfterRedirect,
-			Duration validFor) {
-	}
+			Duration validFor) {}
 
 }

@@ -94,6 +94,5 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 		return delete(query.fetch());
 	}
 
-	public record FeedCapacity(Long id, Long capacity) {
-	}
+	public record FeedCapacity(Long id, Long capacity) {}
 }

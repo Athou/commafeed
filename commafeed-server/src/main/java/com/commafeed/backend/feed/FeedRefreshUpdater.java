@@ -163,10 +163,8 @@ public class FeedRefreshUpdater {
 		return new FeedRefreshUpdaterResult(insertedUnreadEntriesBySubscription);
 	}
 
-	private record AddEntryResult(boolean processed, FeedEntry insertedEntry, Set<FeedSubscription> subscriptionsForWhichEntryIsUnread) {
-	}
+	private record AddEntryResult(boolean processed, FeedEntry insertedEntry, Set<FeedSubscription> subscriptionsForWhichEntryIsUnread) {}
 
-	public record FeedRefreshUpdaterResult(Map<FeedSubscription, List<FeedEntry>> insertedUnreadEntriesBySubscription) {
-	}
+	public record FeedRefreshUpdaterResult(Map<FeedSubscription, List<FeedEntry>> insertedUnreadEntriesBySubscription) {}
 
 }

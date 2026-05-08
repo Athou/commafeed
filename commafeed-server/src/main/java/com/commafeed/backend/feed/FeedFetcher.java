@@ -104,8 +104,7 @@ public class FeedFetcher {
 	}
 
 	public record FeedFetcherResult(FeedParserResult feed, String urlAfterRedirect, String lastModifiedHeader, String lastETagHeader,
-			String contentHash, Duration validFor) {
-	}
+			String contentHash, Duration validFor) {}
 
 	public static class NoFeedFoundException extends Exception {
 		private static final long serialVersionUID = 1L;

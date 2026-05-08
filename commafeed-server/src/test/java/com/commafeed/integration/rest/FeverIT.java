@@ -199,6 +199,5 @@ class FeverIT extends BaseIT {
 		}
 	}
 
-	private record Param(String name, String value) {
-	}
+	private record Param(String name, String value) {}
 }

@@ -118,7 +118,9 @@
 			<property name="message" value="Line has leading space characters; indentation should be performed with tabs only." />
 			<property name="ignoreComments" value="true" />
 		</module>
-		<module name="WhitespaceAround" />
+		<module name="WhitespaceAround">
+			<property name="allowEmptyTypes" value="true" />
+		</module>
 
 	</module>
 </module>

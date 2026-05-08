@@ -42,14 +42,11 @@ public class ExceptionMappers {
 	}
 
 	@RegisterForReflection
-	public record UnauthorizedResponse(String message, boolean allowRegistrations) {
-	}
+	public record UnauthorizedResponse(String message, boolean allowRegistrations) {}
 
 	@RegisterForReflection
-	public record AuthenticationFailed(String message) {
-	}
+	public record AuthenticationFailed(String message) {}
 
 	@RegisterForReflection
-	public record ValidationFailed(String message) {
-	}
+	public record ValidationFailed(String message) {}
 }

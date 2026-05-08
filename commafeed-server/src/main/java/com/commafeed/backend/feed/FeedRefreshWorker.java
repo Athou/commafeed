@@ -119,7 +119,6 @@ public class FeedRefreshWorker {
 		}
 	}
 
-	public record FeedRefreshWorkerResult(Feed feed, List<Entry> entries) {
-	}
+	public record FeedRefreshWorkerResult(Feed feed, List<Entry> entries) {}
 
 }

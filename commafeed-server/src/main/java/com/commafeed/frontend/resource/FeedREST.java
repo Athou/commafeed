@@ -62,7 +62,7 @@ import com.commafeed.backend.opml.OPMLImporter;
 import com.commafeed.backend.service.FeedEntryFilteringService;
 import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
 import com.commafeed.backend.service.FeedEntryService;
-import com.commafeed.backend.service.FeedService;
+import com.commafeed.backend.service.FeedFaviconService;
 import com.commafeed.backend.service.FeedSubscriptionService;
 import com.commafeed.backend.service.FeedSubscriptionService.ForceFeedRefreshTooSoonException;
 import com.commafeed.frontend.model.Entries;
@@ -106,7 +106,7 @@ public class FeedREST {
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedFetcher feedFetcher;
-	private final FeedService feedService;
+	private final FeedFaviconService feedFaviconService;
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionService feedSubscriptionService;
 	private final FeedEntryFilteringService feedEntryFilteringService;
@@ -339,7 +339,19 @@ public class FeedREST {
 		}
 
 		Feed feed = subscription.getFeed();
-		Favicon icon = feedService.fetchFavicon(feed);
+		if (feed.getLastUpdated() == null) {
+			// the feed has never been fetched yet so the iconUrl field hasn't been updated yet, and the icon can't be fetched
+			// this can happen for newly subscribed feeds:
+			// the feed has been added in the tree in the web client and the favicon is being fetched,
+			// but the feed has not been fetched yet
+			// the client is configured to retry in that case
+			return Response.status(Status.SERVICE_UNAVAILABLE)
+					.entity("Feed has not been fetched yet, please retry in a bit")
+					.type(MediaType.TEXT_PLAIN)
+					.build();
+		}
+
+		Favicon icon = feedFaviconService.fetchFavicon(feed);
 		return Response.ok(icon.icon(), icon.mediaType()).build();
 	}
 

@@ -69,6 +69,7 @@ public class FeedRefreshWorker {
 
 			feed.setUrlAfterRedirect(urlAfterRedirect);
 			feed.setLink(result.feed().link());
+			feed.setIconUrl(result.feed().iconUrl());
 			feed.setLastModifiedHeader(result.lastModifiedHeader());
 			feed.setEtagHeader(result.lastETagHeader());
 			feed.setLastContentHash(result.contentHash());

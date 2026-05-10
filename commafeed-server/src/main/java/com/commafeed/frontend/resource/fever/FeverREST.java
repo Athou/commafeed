@@ -45,7 +45,7 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.service.FeedEntryService;
-import com.commafeed.backend.service.FeedService;
+import com.commafeed.backend.service.FeedFaviconService;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.resource.fever.FeverResponse.FeverFavicon;
 import com.commafeed.frontend.resource.fever.FeverResponse.FeverFeed;
@@ -80,7 +80,7 @@ public class FeverREST {
 
 	private final UserService userService;
 	private final FeedEntryService feedEntryService;
-	private final FeedService feedService;
+	private final FeedFaviconService feedFaviconService;
 	private final FeedEntryDAO feedEntryDAO;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 	private final FeedCategoryDAO feedCategoryDAO;
@@ -303,7 +303,7 @@ public class FeverREST {
 
 	private List<FeverFavicon> buildFavicons(List<FeedSubscription> subscriptions) {
 		return subscriptions.stream().map(s -> {
-			Favicon favicon = feedService.fetchFavicon(s.getFeed());
+			Favicon favicon = feedFaviconService.fetchFavicon(s.getFeed());
 
 			FeverFavicon f = new FeverFavicon();
 			f.setId(s.getFeed().getId());

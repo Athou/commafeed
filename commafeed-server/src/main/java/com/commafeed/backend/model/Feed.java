@@ -48,6 +48,11 @@ public class Feed extends AbstractModel {
 	@JdbcTypeCode(Types.LONGVARCHAR)
 	private String link;
 
+	@Lob
+	@Column(name = "icon_url", length = Integer.MAX_VALUE)
+	@JdbcTypeCode(Types.LONGVARCHAR)
+	private String iconUrl;
+
 	/**
 	 * Last time we tried to fetch the feed
 	 */

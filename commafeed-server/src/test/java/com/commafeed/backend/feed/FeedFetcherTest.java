@@ -53,7 +53,7 @@ class FeedFetcherTest {
 		byte[] feed = "feed".getBytes();
 		Mockito.when(getter.get(HttpGetter.HttpRequest.builder(feedUrl).build()))
 				.thenReturn(new HttpResult(feed, "application/atom+xml", null, null, feedUrl, Duration.ZERO));
-		Mockito.when(parser.parse(feedUrl, feed)).thenReturn(new FeedParserResult("title", "link", null, null, null, null));
+		Mockito.when(parser.parse(feedUrl, feed)).thenReturn(new FeedParserResult("title", "link", "iconUrl", null, null, null, null));
 
 		Mockito.when(urlProvider.get(htmlUrl, new String(html))).thenReturn(List.of(feedUrl));
 

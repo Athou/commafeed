@@ -81,6 +81,7 @@ public class FeedParser {
 
 			String title = feed.getTitle();
 			String link = feed.getLink();
+			String iconUrl = feed.getIcon() != null ? feed.getIcon().getUrl() : null;
 			List<Entry> entries = buildEntries(feed, feedUrl);
 			Instant lastEntryDate = entries.stream().findFirst().map(Entry::published).orElse(null);
 			Instant lastPublishedDate = toValidInstant(feed.getPublishedDate(), false);
@@ -89,7 +90,7 @@ public class FeedParser {
 			}
 			Long averageEntryInterval = averageTimeBetweenEntries(entries);
 
-			return new FeedParserResult(title, link, lastPublishedDate, averageEntryInterval, lastEntryDate, entries);
+			return new FeedParserResult(title, link, iconUrl, lastPublishedDate, averageEntryInterval, lastEntryDate, entries);
 		} catch (FeedParsingException e) {
 			throw e;
 		} catch (Exception e) {

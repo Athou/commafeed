@@ -169,31 +169,6 @@ class YoutubeFaviconFetcherTest {
 	}
 
 	@Test
-	void testFetchWithInvalidIconResponse() throws Exception {
-		Feed feed = new Feed();
-		feed.setUrl("https://youtube.com/feeds/videos.xml?user=testUser");
-
-		Mockito.when(config.googleAuthKey()).thenReturn(Optional.of("test-api-key"));
-
-		byte[] apiResponse = """
-				{"items":[{"snippet":{"thumbnails":{"default":{"url":"https://example.com/icon.png"}}}}]}""".getBytes();
-		HttpResult apiHttpResult = new HttpResult(apiResponse, "application/json", null, null, null, Duration.ZERO);
-		Mockito.when(httpGetter.get("https://www.googleapis.com/youtube/v3/channels?part=snippet&key=test-api-key&forUsername=testUser"))
-				.thenReturn(apiHttpResult);
-
-		JsonNode jsonNode = new ObjectMapper().readTree(apiResponse);
-		Mockito.when(objectMapper.readTree(apiResponse)).thenReturn(jsonNode);
-
-		// Create a byte array that's too small
-		byte[] iconBytes = new byte[50];
-		String contentType = "image/png";
-		HttpResult iconHttpResult = new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
-		Mockito.when(httpGetter.get("https://example.com/icon.png")).thenReturn(iconHttpResult);
-
-		Assertions.assertNull(faviconFetcher.fetch(feed));
-	}
-
-	@Test
 	void testFetchWithEmptyApiResponse() throws Exception {
 		Feed feed = new Feed();
 		feed.setUrl("https://youtube.com/feeds/videos.xml?user=testUser");

@@ -17,28 +17,37 @@ import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.model.Feed;
 
 @ExtendWith(MockitoExtension.class)
-class FacebookFaviconFetcherTest {
+class FeedFaviconFetcherTest {
 
 	@Mock
 	private HttpGetter httpGetter;
 
-	private FacebookFaviconFetcher faviconFetcher;
+	private FeedFaviconFetcher faviconFetcher;
 
 	@BeforeEach
 	void init() {
-		faviconFetcher = new FacebookFaviconFetcher(httpGetter);
+		faviconFetcher = new FeedFaviconFetcher(httpGetter);
 	}
 
 	@Test
-	void testFetchWithValidFacebookUrl() throws Exception {
+	void testFetchWithNullIconUrl() {
 		Feed feed = new Feed();
-		feed.setUrl("https://www.facebook.com/something?id=validUserId");
+		feed.setUrl("https://example.com/feed");
+
+		Assertions.assertNull(faviconFetcher.fetch(feed));
+		Mockito.verifyNoInteractions(httpGetter);
+	}
+
+	@Test
+	void testFetchWithValidIconUrl() throws Exception {
+		Feed feed = new Feed();
+		feed.setUrl("https://example.com/feed");
+		feed.setIconUrl("https://example.com/icon.png");
 
 		byte[] iconBytes = new byte[1000];
 		String contentType = "image/png";
-
 		HttpResult httpResult = new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
-		Mockito.when(httpGetter.get("https://graph.facebook.com/validUserId/picture?type=square&height=16")).thenReturn(httpResult);
+		Mockito.when(httpGetter.get("https://example.com/icon.png")).thenReturn(httpResult);
 
 		Favicon result = faviconFetcher.fetch(feed);
 
@@ -48,30 +57,12 @@ class FacebookFaviconFetcherTest {
 	}
 
 	@Test
-	void testFetchWithNonFacebookUrl() {
-		Feed feed = new Feed();
-		feed.setUrl("https://example.com");
-
-		Assertions.assertNull(faviconFetcher.fetch(feed));
-		Mockito.verifyNoInteractions(httpGetter);
-	}
-
-	@Test
-	void testFetchWithFacebookUrlButNoUserId() {
-		Feed feed = new Feed();
-		feed.setUrl("https://www.facebook.com/something");
-
-		Assertions.assertNull(faviconFetcher.fetch(feed));
-		Mockito.verifyNoInteractions(httpGetter);
-	}
-
-	@Test
 	void testFetchWithHttpGetterException() throws Exception {
 		Feed feed = new Feed();
-		feed.setUrl("https://www.facebook.com/something?id=validUserId");
+		feed.setUrl("https://example.com/feed");
+		feed.setIconUrl("https://example.com/icon.png");
 
-		Mockito.when(httpGetter.get("https://graph.facebook.com/validUserId/picture?type=square&height=16"))
-				.thenThrow(new RuntimeException("Network error"));
+		Mockito.when(httpGetter.get("https://example.com/icon.png")).thenThrow(new RuntimeException("Network error"));
 
 		Assertions.assertNull(faviconFetcher.fetch(feed));
 	}

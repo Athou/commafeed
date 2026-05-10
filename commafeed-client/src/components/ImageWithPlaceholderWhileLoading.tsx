@@ -14,6 +14,7 @@ interface ImageWithPlaceholderWhileLoadingProps {
     placeholderHeight?: number
     placeholderBackgroundColor?: string
     placeholderIconSize?: number
+    onError?: (e: React.SyntheticEvent<HTMLImageElement, Event>) => void
 }
 
 const useStyles = tss
@@ -44,6 +45,7 @@ export function ImageWithPlaceholderWhileLoading({
     title,
     width,
     style,
+    onError,
 }: Readonly<ImageWithPlaceholderWhileLoadingProps>) {
     const { classes } = useStyles({
         placeholderWidth,
@@ -70,6 +72,7 @@ export function ImageWithPlaceholderWhileLoading({
                 width={width}
                 height={height}
                 onLoad={() => setLoading(false)}
+                onError={onError}
                 style={{
                     ...style,
                     display: loading ? "none" : (style?.display ?? "initial"),

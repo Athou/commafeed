@@ -5,6 +5,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.annotation.Priority;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.UriBuilder;
 
@@ -29,7 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Singleton
-public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
+@Priority(3)
+public class YoutubeFaviconFetcher implements FaviconFetcher {
 
 	private static final String PART_SNIPPET = "snippet";
 
@@ -53,8 +55,6 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 			return null;
 		}
 
-		byte[] bytes = null;
-		String contentType = null;
 		try {
 			List<NameValuePair> params = new URIBuilder(url).getQueryParams();
 			Optional<NameValuePair> userId = params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("user")).findFirst();
@@ -84,16 +84,11 @@ public class YoutubeFaviconFetcher extends AbstractFaviconFetcher {
 			}
 
 			HttpResult iconResult = getter.get(thumbnailUrl.asText());
-			bytes = iconResult.content();
-			contentType = iconResult.contentType();
+			return new Favicon(iconResult.content(), iconResult.contentType());
 		} catch (Exception e) {
 			log.debug("Failed to retrieve YouTube icon", e);
-		}
-
-		if (!isValidIconResponse(bytes, contentType)) {
 			return null;
 		}
-		return new Favicon(bytes, contentType);
 	}
 
 	private byte[] fetchForUser(String googleAuthKey, String userId)

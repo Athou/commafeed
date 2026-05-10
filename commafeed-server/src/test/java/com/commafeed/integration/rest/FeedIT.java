@@ -232,7 +232,7 @@ class FeedIT extends BaseIT {
 	class Favicon {
 		@Test
 		void favicon() throws IOException {
-			Long subscriptionId = subscribe(getFeedUrl());
+			Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
 
 			byte[] icon = RestAssured.given()
 					.get("rest/feed/favicon/{id}", subscriptionId)

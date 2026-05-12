@@ -72,7 +72,7 @@
         "babel-plugin-react-compiler": "1.0.0",
         "husky": "9.1.7",
         "jsdom": "29.1.1",
-        "lint-staged": "17.0.3",
+        "lint-staged": "17.0.4",
         "typescript": "6.0.3",
         "vite": "8.0.11",
         "vite-plugin-checker": "0.13.0",

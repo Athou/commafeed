@@ -236,7 +236,7 @@ jobs:
         run: chmod +x artifacts/*-runner
 
       - name: Extract Changelog Entry
-        uses: mindsers/changelog-reader-action@32aa5b4c155d76c94e4ec883a223c947b2f02656 # v2.2.3
+        uses: mindsers/changelog-reader-action@39cdf882d8c143062ea6ac0b2a01b37e6a688179 # v2.3.0
         id: changelog_reader
         with:
           version: ${{ github.ref_name }}

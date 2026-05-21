@@ -1,8 +1,6 @@
 package com.commafeed.backend;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.NoRouteToHostException;
 import java.net.SocketTimeoutException;
@@ -13,22 +11,20 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.zip.DeflaterOutputStream;
-import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.client5.http.ConnectTimeoutException;
 import org.apache.hc.core5.http.HttpStatus;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 import org.mockserver.client.MockServerClient;
-import org.mockserver.junit.jupiter.MockServerExtension;
+import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.ConnectionOptions;
 import org.mockserver.model.Delay;
 import org.mockserver.model.HttpRequest;
@@ -46,7 +42,6 @@ import com.google.common.net.HttpHeaders;
 
 import io.quarkus.runtime.configuration.MemorySize;
 
-@ExtendWith(MockServerExtension.class)
 class HttpGetterTest {
 
 	private static final Instant NOW = Instant.now();
@@ -61,9 +56,8 @@ class HttpGetterTest {
 	private HttpGetter getter;
 
 	@BeforeEach
-	void init(MockServerClient mockServerClient) throws IOException {
-		this.mockServerClient = mockServerClient;
-		this.mockServerClient.reset();
+	void init() throws IOException {
+		this.mockServerClient = ClientAndServer.startClientAndServer(0);
 		this.feedUrl = "http://localhost:" + this.mockServerClient.getPort() + "/";
 		this.feedContent = IOUtils.toByteArray(Objects.requireNonNull(getClass().getResource("/feed/rss.xml")));
 
@@ -82,6 +76,13 @@ class HttpGetterTest {
 
 		this.provider = new HttpClientFactory(config, Mockito.mock(CommaFeedVersion.class));
 		this.getter = new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
+	}
+
+	@AfterEach
+	void tearDown() {
+		if (this.mockServerClient != null) {
+			this.mockServerClient.stop();
+		}
 	}
 
 	@ParameterizedTest
@@ -314,15 +315,15 @@ class HttpGetterTest {
 
 		@Test
 		void gzip() throws Exception {
-			supportsCompression("gzip", GZIPOutputStream::new);
+			supportsCompression("gzip");
 		}
 
 		@Test
 		void deflate() throws Exception {
-			supportsCompression("deflate", DeflaterOutputStream::new);
+			supportsCompression("deflate");
 		}
 
-		void supportsCompression(String encoding, CompressionOutputStreamFunction compressionOutputStreamFunction) throws Exception {
+		void supportsCompression(String encoding) throws Exception {
 			String body = "my body";
 
 			HttpGetterTest.this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {
@@ -332,21 +333,12 @@ class HttpGetterTest {
 							acceptEncodingHeader));
 				}
 
-				ByteArrayOutputStream output = new ByteArrayOutputStream();
-				try (OutputStream compressionOutputStream = compressionOutputStreamFunction.apply(output)) {
-					compressionOutputStream.write(body.getBytes());
-				}
-
-				return HttpResponse.response().withBody(output.toByteArray()).withHeader(HttpHeaders.CONTENT_ENCODING, encoding);
+				// MockServer 6.x automatically compresses the body based on the Content-Encoding header
+				return HttpResponse.response().withBody(body.getBytes()).withHeader(HttpHeaders.CONTENT_ENCODING, encoding);
 			});
 
 			HttpResult result = getter.get(HttpGetterTest.this.feedUrl);
 			Assertions.assertEquals(body, new String(result.content()));
-		}
-
-		@FunctionalInterface
-		public interface CompressionOutputStreamFunction {
-			OutputStream apply(OutputStream input) throws IOException;
 		}
 
 	}

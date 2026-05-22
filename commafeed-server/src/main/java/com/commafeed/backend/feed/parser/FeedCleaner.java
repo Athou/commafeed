@@ -15,6 +15,8 @@ public class FeedCleaner {
 
 	private static final Pattern DOCTYPE_PATTERN = Pattern.compile("<!DOCTYPE[^>]*>", Pattern.CASE_INSENSITIVE);
 
+	private final Trie trie = Trie.builder().ignoreOverlaps().addKeywords(HtmlEntities.HTML_ENTITIES).build();
+
 	public String clean(String xml) {
 		xml = removeCharactersBeforeFirstXmlTag(xml);
 		xml = removeInvalidXmlCharacters(xml);
@@ -52,7 +54,7 @@ public class FeedCleaner {
 		// Create a buffer sufficiently large that re-allocations are minimized.
 		StringBuilder sb = new StringBuilder(source.length() << 1);
 
-		Collection<Emit> emits = Trie.builder().ignoreOverlaps().addKeywords(HtmlEntities.HTML_ENTITIES).build().parseText(source);
+		Collection<Emit> emits = trie.parseText(source);
 
 		int prevIndex = 0;
 		for (Emit emit : emits) {

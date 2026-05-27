@@ -1,13 +1,10 @@
 package com.commafeed.backend.model;
 
-import java.util.Set;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import lombok.Getter;
@@ -29,12 +26,6 @@ public class FeedCategory extends AbstractModel {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private FeedCategory parent;
-
-	@OneToMany(mappedBy = "parent")
-	private Set<FeedCategory> children;
-
-	@OneToMany(mappedBy = "category")
-	private Set<FeedSubscription> subscriptions;
 
 	private boolean collapsed;
 

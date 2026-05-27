@@ -1,7 +1,6 @@
 package com.commafeed.backend.opml;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -48,23 +47,14 @@ class OPMLExporterTest {
 		cat1.setId(1L);
 		cat1.setName("cat1");
 		cat1.setParent(null);
-		cat1.setChildren(new HashSet<>());
-		cat1.setSubscriptions(new HashSet<>());
 
 		cat2.setId(2L);
 		cat2.setName("cat2");
 		cat2.setParent(cat1);
-		cat2.setChildren(new HashSet<>());
-		cat2.setSubscriptions(new HashSet<>());
-
-		cat1.getChildren().add(cat2);
 
 		rootFeed.setCategory(null);
 		cat1Feed.setCategory(cat1);
 		cat2Feed.setCategory(cat2);
-
-		cat1.getSubscriptions().add(cat1Feed);
-		cat2.getSubscriptions().add(cat2Feed);
 
 		categories.add(cat1);
 		categories.add(cat2);

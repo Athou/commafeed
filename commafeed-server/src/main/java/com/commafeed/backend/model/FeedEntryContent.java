@@ -1,14 +1,12 @@
 package com.commafeed.backend.model;
 
 import java.sql.Types;
-import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Lob;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -77,9 +75,6 @@ public class FeedEntryContent extends AbstractModel {
 	@Column
 	@Enumerated(EnumType.STRING)
 	private Direction direction = Direction.UNKNOWN;
-
-	@OneToMany(mappedBy = "content")
-	private Set<FeedEntry> entries;
 
 	public boolean equivalentTo(FeedEntryContent c) {
 		if (c == null) {

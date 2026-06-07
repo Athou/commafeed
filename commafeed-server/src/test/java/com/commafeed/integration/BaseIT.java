@@ -30,8 +30,10 @@ import com.commafeed.frontend.model.request.InitialSetupRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 
 import io.restassured.RestAssured;
+import io.restassured.config.ObjectMapperConfig;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
+import io.restassured.mapper.ObjectMapperType;
 import lombok.Getter;
 
 @Getter
@@ -59,6 +61,9 @@ public abstract class BaseIT {
 		URL resource = Objects.requireNonNull(getClass().getResource("/feed/rss.xml"));
 		this.mockServerClient.when(FEED_REQUEST)
 				.respond(HttpResponse.response().withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
+
+		// remove when Quarkus supports Jackson 3
+		RestAssured.config = RestAssured.config().objectMapperConfig(new ObjectMapperConfig(ObjectMapperType.JACKSON_2));
 	}
 
 	@AfterEach

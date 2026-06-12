@@ -12,8 +12,7 @@
         "test:ci": "vitest run",
         "lint": "biome check",
         "lint:fix": "biome check --write",
-        "i18n:extract": "lingui extract --clean",
-        "prepare": "cd .. && husky ./commafeed-client/.husky"
+        "i18n:extract": "lingui extract --clean"
     },
     "dependencies": {
         "@emotion/react": "11.14.0",
@@ -70,9 +69,7 @@
         "@types/tinycon": "0.6.7",
         "@vitejs/plugin-react": "6.0.2",
         "babel-plugin-react-compiler": "1.0.0",
-        "husky": "9.1.7",
         "jsdom": "29.1.1",
-        "lint-staged": "17.0.7",
         "typescript": "6.0.3",
         "vite": "8.0.16",
         "vite-plugin-checker": "0.14.1",

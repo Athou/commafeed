@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
+import com.commafeed.backend.feed.parser.XMLCleaner;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedSubscriptionService;
@@ -36,13 +37,15 @@ class OPMLImporterTest {
 	}
 
 	private void testOpmlVersion(String fileName) throws IOException, IllegalArgumentException, FeedException {
+		XMLCleaner xmlCleaner = Mockito.mock(XMLCleaner.class);
 		FeedCategoryDAO feedCategoryDAO = Mockito.mock(FeedCategoryDAO.class);
 		FeedSubscriptionService feedSubscriptionService = Mockito.mock(FeedSubscriptionService.class);
 		User user = Mockito.mock(User.class);
 
+		Mockito.when(xmlCleaner.clean(Mockito.anyString())).thenAnswer(invocation -> invocation.getArgument(0));
 		String xml = IOUtils.toString(getClass().getResourceAsStream(fileName), StandardCharsets.UTF_8);
 
-		OPMLImporter importer = new OPMLImporter(feedCategoryDAO, feedSubscriptionService);
+		OPMLImporter importer = new OPMLImporter(xmlCleaner, feedCategoryDAO, feedSubscriptionService);
 		importer.importOpml(user, xml);
 
 		Mockito.verify(feedSubscriptionService)

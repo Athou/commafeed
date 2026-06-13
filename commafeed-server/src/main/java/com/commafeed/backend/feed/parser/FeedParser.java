@@ -53,14 +53,14 @@ public class FeedParser {
 	private static final Comparator<Entry> ENTRY_COMPARATOR = Comparator.comparing(Entry::published).reversed();
 
 	private final EncodingDetector encodingDetector;
-	private final FeedCleaner feedCleaner;
+	private final XMLCleaner xmlCleaner;
 
-	public FeedParser(EncodingDetector encodingDetector, FeedCleaner feedCleaner) {
+	public FeedParser(EncodingDetector encodingDetector, XMLCleaner xmlCleaner) {
 		this.encodingDetector = encodingDetector;
-		this.feedCleaner = feedCleaner;
+		this.xmlCleaner = xmlCleaner;
 
 		// disable entity expansion limits added in JDK24+ (#1961)
-		// we already strip doctype declarations in FeedCleaner to prevent xxe attacks
+		// we already strip doctype declarations in XMLCleaner to prevent xxe attacks
 		// we also already limit the size of feeds we download in HttpGetter
 		System.setProperty(SystemProperties.JDK_XML_MAX_GENERAL_ENTITY_SIZE_LIMIT, "0");
 		System.setProperty(SystemProperties.JDK_XML_TOTAL_ENTITY_SIZE_LIMIT, "0");
@@ -70,7 +70,7 @@ public class FeedParser {
 		try {
 			Charset encoding = encodingDetector.getEncoding(xml);
 
-			String xmlString = feedCleaner.clean(new String(xml, encoding));
+			String xmlString = xmlCleaner.clean(new String(xml, encoding));
 			if (xmlString == null) {
 				throw new FeedParsingException("Input string is empty for url " + feedUrl);
 			}

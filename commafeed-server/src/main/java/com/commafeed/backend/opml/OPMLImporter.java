@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.feed.FeedUtils;
+import com.commafeed.backend.feed.parser.XMLCleaner;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedSubscriptionService;
@@ -26,15 +27,16 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 public class OPMLImporter {
 
+	private final XMLCleaner xmlCleaner;
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedSubscriptionService feedSubscriptionService;
 
 	public void importOpml(User user, String xml) throws IllegalArgumentException, FeedException {
-		int index = xml.indexOf('<');
-		if (index == -1) {
-			throw new IllegalArgumentException("Invalid OPML: no start tag found");
+		xml = xmlCleaner.clean(xml);
+		if (xml == null) {
+			throw new IllegalArgumentException("Invalid OPML");
 		}
-		xml = xml.substring(index);
+
 		WireFeedInput input = new WireFeedInput();
 		Opml feed = (Opml) input.build(new StringReader(xml));
 		List<Outline> outlines = feed.getOutlines();

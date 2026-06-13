@@ -4,6 +4,7 @@ import jakarta.enterprise.event.Observes;
 import jakarta.inject.Singleton;
 
 import com.commafeed.backend.feed.FeedRefreshEngine;
+import com.commafeed.backend.feed.ImageProxyUrl;
 import com.commafeed.backend.task.TaskScheduler;
 import com.commafeed.security.password.PasswordConstraintValidator;
 
@@ -25,6 +26,10 @@ public class CommaFeedApplication {
 		log.info("starting up...");
 
 		PasswordConstraintValidator.setMinimumPasswordLength(config.users().minimumPasswordLength());
+
+		if (config.imageProxyEnabled()) {
+			ImageProxyUrl.generateKey();
+		}
 
 		feedRefreshEngine.start();
 		taskScheduler.start();

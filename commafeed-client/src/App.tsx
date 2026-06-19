@@ -19,6 +19,7 @@ import { AdminUsersPage } from "@/pages/admin/AdminUsersPage"
 import { MetricsPage } from "@/pages/admin/MetricsPage"
 import { AboutPage } from "@/pages/app/AboutPage"
 import { AddPage } from "@/pages/app/AddPage"
+import { ArchivedPage } from "@/pages/app/ArchivedPage"
 import { CategoryDetailsPage } from "@/pages/app/CategoryDetailsPage"
 import { DonatePage } from "@/pages/app/DonatePage"
 import { FeedDetailsPage } from "@/pages/app/FeedDetailsPage"
@@ -101,6 +102,7 @@ function AppRoutes() {
                     <Route path=":id/details" element={<TagDetailsPage />} />
                 </Route>
                 <Route path="add" element={<AddPage />} />
+                <Route path="archived" element={<ArchivedPage />} />
                 <Route path="settings" element={<SettingsPage />} />
                 <Route path="admin">
                     <Route path="users" element={<AdminUsersPage />} />

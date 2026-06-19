@@ -31,7 +31,7 @@ public class OPMLExporter {
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
 
-	public Opml export(User user) {
+	public Opml export(User user, boolean includeArchived) {
 		Opml opml = new Opml();
 		opml.setFeedType("opml_1.0");
 		opml.setTitle(String.format("%s subscriptions in CommaFeed", user.getName()));
@@ -40,7 +40,7 @@ public class OPMLExporter {
 		List<FeedCategory> categories = feedCategoryDAO.findAll(user);
 		categories.sort(CATEGORY_COMPARATOR);
 
-		List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user);
+		List<FeedSubscription> subscriptions = feedSubscriptionDAO.findAll(user, includeArchived);
 		subscriptions.sort(SUBSCRIPTION_COMPARATOR);
 
 		// export root categories

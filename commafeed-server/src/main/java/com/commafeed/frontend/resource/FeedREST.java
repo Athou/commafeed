@@ -30,6 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.hc.core5.http.HttpStatus;
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
@@ -65,6 +66,7 @@ import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedFaviconService;
 import com.commafeed.backend.service.FeedSubscriptionService;
 import com.commafeed.backend.service.FeedSubscriptionService.ForceFeedRefreshTooSoonException;
+import com.commafeed.frontend.model.ArchivedSubscription;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.FeedInfo;
@@ -425,6 +427,47 @@ public class FeedREST {
 		}
 	}
 
+	@GET
+	@Path("/archived")
+	@Transactional
+	@Operation(summary = "Get archived feeds", description = "Get the list of archived feeds, newest archival first")
+	@APIResponse(
+			responseCode = "200",
+			content = { @Content(
+					mediaType = "application/json",
+					schema = @Schema(type = SchemaType.ARRAY, implementation = ArchivedSubscription.class)) })
+	public Response getArchivedFeeds() {
+		User user = authenticationContext.getCurrentUser();
+		List<ArchivedSubscription> archived = feedSubscriptionDAO.findArchived(user).stream().map(ArchivedSubscription::build).toList();
+		return Response.ok(archived).build();
+	}
+
+	@POST
+	@Path("/archive")
+	@Transactional
+	@Operation(summary = "Archive a feed", description = "Archive a feed subscription")
+	public Response archive(@Parameter(required = true) IDRequest req) {
+		Preconditions.checkNotNull(req);
+		Preconditions.checkNotNull(req.getId());
+
+		User user = authenticationContext.getCurrentUser();
+		boolean updated = feedSubscriptionService.setArchived(user, req.getId(), true);
+		return updated ? Response.ok().build() : Response.status(Status.NOT_FOUND).build();
+	}
+
+	@POST
+	@Path("/unarchive")
+	@Transactional
+	@Operation(summary = "Unarchive a feed", description = "Unarchive a feed subscription")
+	public Response unarchive(@Parameter(required = true) IDRequest req) {
+		Preconditions.checkNotNull(req);
+		Preconditions.checkNotNull(req.getId());
+
+		User user = authenticationContext.getCurrentUser();
+		boolean updated = feedSubscriptionService.setArchived(user, req.getId(), false);
+		return updated ? Response.ok().build() : Response.status(Status.NOT_FOUND).build();
+	}
+
 	@POST
 	@Path("/modify")
 	@Transactional
@@ -508,9 +551,12 @@ public class FeedREST {
 	@Transactional
 	@Produces(MediaType.APPLICATION_XML)
 	@Operation(summary = "OPML export", description = "Export an OPML file of the user's subscriptions")
-	public Response exportOpml() throws FeedException {
+	public Response exportOpml(
+			@Parameter(
+					description = "include archived feeds") @DefaultValue("false") @QueryParam("includeArchived") boolean includeArchived)
+			throws FeedException {
 		User user = authenticationContext.getCurrentUser();
-		Opml opml = opmlExporter.export(user);
+		Opml opml = opmlExporter.export(user, includeArchived);
 
 		WireFeedOutput output = new WireFeedOutput();
 		String opmlString = output.outputString(opml);

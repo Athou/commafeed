@@ -31,9 +31,9 @@ public class FeedDAO extends GenericDAO<Feed> {
 	public List<Feed> findNextUpdatable(int count, Instant lastLoginThreshold) {
 		JPAQuery<Feed> query = query().selectFrom(FEED)
 				.distinct()
-				// join on subscriptions to only refresh feeds that have subscribers
+				// join on subscriptions to only refresh feeds that have non-archived subscribers
 				.join(SUBSCRIPTION)
-				.on(SUBSCRIPTION.feed.eq(FEED))
+				.on(SUBSCRIPTION.feed.eq(FEED), SUBSCRIPTION.archived.isFalse())
 				.where(FEED.disabledUntil.isNull().or(FEED.disabledUntil.lt(Instant.now())));
 
 		if (lastLoginThreshold != null) {

@@ -21,7 +21,7 @@ import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
 import { useEffect } from "react"
 import { useAsync, useAsyncCallback } from "react-async-hook"
-import { TbAlertTriangle, TbDeviceFloppy, TbTrash } from "react-icons/tb"
+import { TbAlertTriangle, TbArchive, TbDeviceFloppy, TbTrash } from "react-icons/tb"
 import { useParams } from "react-router-dom"
 import { client, errorToStrings } from "@/app/client"
 import { redirectToRootCategory, redirectToSelectedSource } from "@/app/redirect/thunks"
@@ -60,6 +60,30 @@ export function FeedDetailsPage() {
             dispatch(redirectToRootCategory())
         },
     })
+    const archive = useAsyncCallback(client.feed.archive, {
+        onSuccess: () => {
+            dispatch(reloadTree())
+            dispatch(redirectToRootCategory())
+        },
+    })
+
+    const openArchiveModal = () => {
+        const feedName = feed?.name
+        openConfirmModal({
+            title: <Trans>Archive</Trans>,
+            children: (
+                <Text size="sm">
+                    <Trans>
+                        Are you sure you want to archive <Code>{feedName}</Code>? It will no longer be updated.
+                    </Trans>
+                </Text>
+            ),
+            labels: { confirm: <Trans>Confirm</Trans>, cancel: <Trans>Cancel</Trans> },
+            onConfirm: () => {
+                archive.execute({ id: +id })
+            },
+        })
+    }
 
     const openUnsubscribeModal = () => {
         const feedName = feed?.name
@@ -97,6 +121,12 @@ export function FeedDetailsPage() {
             {unsubscribe.error && (
                 <Box mb="md">
                     <Alert messages={errorToStrings(unsubscribe.error)} />
+                </Box>
+            )}
+
+            {archive.error && (
+                <Box mb="md">
+                    <Alert messages={errorToStrings(archive.error)} />
                 </Box>
             )}
 
@@ -185,6 +215,14 @@ export function FeedDetailsPage() {
                             <Trans>Save</Trans>
                         </Button>
                         <Divider orientation="vertical" />
+                        <Button
+                            variant="default"
+                            leftSection={<TbArchive size={16} />}
+                            onClick={() => openArchiveModal()}
+                            loading={archive.loading}
+                        >
+                            <Trans>Archive</Trans>
+                        </Button>
                         <Button
                             color="red"
                             leftSection={<TbTrash size={16} />}

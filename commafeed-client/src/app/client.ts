@@ -2,6 +2,7 @@ import axios, { type AxiosError } from "axios"
 import type {
     AddCategoryRequest,
     AdminSaveUserRequest,
+    ArchivedSubscription,
     AuthenticationError,
     Category,
     CategoryModificationRequest,
@@ -74,6 +75,9 @@ export const client = {
         refreshAll: async () => await axiosInstance.get("feed/refreshAll"),
         subscribe: async (req: SubscribeRequest) => await axiosInstance.post<number>("feed/subscribe", req),
         unsubscribe: async (req: IDRequest) => await axiosInstance.post("feed/unsubscribe", req),
+        getArchived: async () => await axiosInstance.get<ArchivedSubscription[]>("feed/archived"),
+        archive: async (req: IDRequest) => await axiosInstance.post("feed/archive", req),
+        unarchive: async (req: IDRequest) => await axiosInstance.post("feed/unarchive", req),
         importOpml: async (req: File) => {
             const formData = new FormData()
             formData.append("file", req)

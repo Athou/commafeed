@@ -1,5 +1,6 @@
 package com.commafeed.backend.model;
 
+import java.time.Instant;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -51,5 +52,11 @@ public class FeedSubscription extends AbstractModel {
 
 	@Column(name = "auto_mark_as_read_after_days")
 	private Integer autoMarkAsReadAfterDays;
+
+	@Column(nullable = false)
+	private boolean archived;
+
+	@Column(name = "archived_date")
+	private Instant archivedDate;
 
 }

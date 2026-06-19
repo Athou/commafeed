@@ -3,7 +3,7 @@ import { Trans } from "@lingui/react/macro"
 import { Anchor, Box, Button, Checkbox, Divider, Group, Input, PasswordInput, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useAsyncCallback } from "react-async-hook"
 import { TbDeviceFloppy, TbTrash } from "react-icons/tb"
 import { client, errorToStrings } from "@/app/client"
@@ -24,6 +24,7 @@ export function ProfileSettings() {
     const dispatch = useAppDispatch()
     const { _ } = useLingui()
     const validationRules = useValidationRules()
+    const [includeArchivedInExport, setIncludeArchivedInExport] = useState(false)
 
     const form = useForm<FormData>({
         validate: {
@@ -107,11 +108,21 @@ export function ProfileSettings() {
                             </Trans>
                         }
                     >
-                        <Box>
-                            <Anchor href="rest/feed/export" download="commafeed.opml">
-                                <Trans>Download</Trans>
-                            </Anchor>
-                        </Box>
+                        <Stack gap="xs">
+                            <Checkbox
+                                label={<Trans>Include archived feeds</Trans>}
+                                checked={includeArchivedInExport}
+                                onChange={e => setIncludeArchivedInExport(e.currentTarget.checked)}
+                            />
+                            <Box>
+                                <Anchor
+                                    href={`rest/feed/export${includeArchivedInExport ? "?includeArchived=true" : ""}`}
+                                    download="commafeed.opml"
+                                >
+                                    <Trans>Download</Trans>
+                                </Anchor>
+                            </Box>
+                        </Stack>
                     </Input.Wrapper>
 
                     <Input.Wrapper

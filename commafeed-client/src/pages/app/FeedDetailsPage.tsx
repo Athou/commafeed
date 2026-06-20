@@ -82,7 +82,11 @@ export function FeedDetailsPage() {
 
     useEffect(() => {
         if (!feed) return
-        setValues(feed)
+        setValues({
+            ...feed,
+            filter: feed.filter ?? "",
+            highlightExpression: feed.highlightExpression ?? "",
+        })
     }, [setValues, feed])
 
     if (!feed) return <Loader />
@@ -174,6 +178,21 @@ export function FeedDetailsPage() {
                         )}
                         <Box mt="xs">
                             <FilteringExpressionEditor initialValue={feed.filter} onChange={value => form.setFieldValue("filter", value)} />
+                        </Box>
+                    </Input.Wrapper>
+                    <Input.Wrapper
+                        label={<Trans>Highlighting expression</Trans>}
+                        description={
+                            <Trans>
+                                Build an expression to highlight matching entry titles. Matching titles are styled but never marked as read.
+                            </Trans>
+                        }
+                    >
+                        <Box mt="xs">
+                            <FilteringExpressionEditor
+                                initialValue={feed.highlightExpression}
+                                onChange={value => form.setFieldValue("highlightExpression", value)}
+                            />
                         </Box>
                     </Input.Wrapper>
 

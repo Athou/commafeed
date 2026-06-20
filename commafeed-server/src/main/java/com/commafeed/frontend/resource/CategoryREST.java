@@ -48,6 +48,8 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
+import com.commafeed.backend.service.FeedEntryFilteringService;
+import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedSubscriptionService;
 import com.commafeed.frontend.model.Category;
@@ -93,6 +95,7 @@ public class CategoryREST {
 	private final FeedCategoryDAO feedCategoryDAO;
 	private final FeedEntryStatusDAO feedEntryStatusDAO;
 	private final FeedSubscriptionDAO feedSubscriptionDAO;
+	private final FeedEntryFilteringService feedEntryFilteringService;
 	private final FeedEntryService feedEntryService;
 	private final FeedSubscriptionService feedSubscriptionService;
 	private final CommaFeedConfiguration config;
@@ -153,14 +156,14 @@ public class CategoryREST {
 					offset, limit + 1, order, true, tag, null, null);
 
 			for (FeedEntryStatus status : list) {
-				entries.getEntries().add(Entry.build(status, config.imageProxyEnabled()));
+				entries.getEntries().add(buildEntry(status));
 			}
 
 		} else if (STARRED.equals(id)) {
 			entries.setName("Starred");
 			List<FeedEntryStatus> starred = feedEntryStatusDAO.findStarred(user, newerThanDate, offset, limit + 1, order, true);
 			for (FeedEntryStatus status : starred) {
-				entries.getEntries().add(Entry.build(status, config.imageProxyEnabled()));
+				entries.getEntries().add(buildEntry(status));
 			}
 		} else {
 			FeedCategory parent = feedCategoryDAO.findById(user, Long.valueOf(id));
@@ -172,7 +175,7 @@ public class CategoryREST {
 						offset, limit + 1, order, true, tag, null, null);
 
 				for (FeedEntryStatus status : list) {
-					entries.getEntries().add(Entry.build(status, config.imageProxyEnabled()));
+					entries.getEntries().add(buildEntry(status));
 				}
 				entries.setName(parent.getName());
 			} else {
@@ -189,6 +192,19 @@ public class CategoryREST {
 		entries.setTimestamp(System.currentTimeMillis());
 		entries.setIgnoredReadStatus(STARRED.equals(id) || keywords != null || tag != null);
 		return Response.ok(entries).build();
+	}
+
+	private Entry buildEntry(FeedEntryStatus status) {
+		Entry entry = Entry.build(status, config.imageProxyEnabled());
+		String highlightExpression = status.getSubscription().getHighlightExpression();
+		if (StringUtils.isNotBlank(highlightExpression)) {
+			try {
+				entry.setHighlighted(feedEntryFilteringService.filterMatchesEntry(highlightExpression, status.getEntry()));
+			} catch (FeedEntryFilterException e) {
+				log.warn("Could not evaluate highlight expression for subscription {}", status.getSubscription().getId(), e);
+			}
+		}
+		return entry;
 	}
 
 	@Path("/entriesAsFeed")

@@ -28,6 +28,7 @@ export interface Subscription {
     position: number
     newestItemTime?: number
     filter?: string
+    highlightExpression?: string
     filterLegacy?: string
     pushNotificationsEnabled: boolean
     autoMarkAsReadAfterDays?: number
@@ -81,6 +82,7 @@ export interface Entry {
     read: boolean
     starred: boolean
     markable: boolean
+    highlighted?: boolean
     tags: string[]
 }
 
@@ -112,6 +114,7 @@ export interface FeedModificationRequest {
     categoryId?: string
     position?: number
     filter?: string
+    highlightExpression?: string
     pushNotificationsEnabled: boolean
     autoMarkAsReadAfterDays?: number
 }

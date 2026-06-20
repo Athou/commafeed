@@ -96,6 +96,9 @@ public class Entry implements Serializable {
 	@Schema(description = "whether the entry is still markable (old entry statuses are discarded)", required = true)
 	private boolean markable;
 
+	@Schema(description = "whether the entry title should be highlighted", required = true)
+	private boolean highlighted;
+
 	@Schema(description = "tags", required = true)
 	private List<String> tags;
 

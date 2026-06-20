@@ -69,6 +69,12 @@ class FeedEntryFilteringServiceTest {
 	}
 
 	@Test
+	void highlightTitleExpressionMatchesTitle() throws FeedEntryFilterException {
+		Assertions.assertTrue(service.filterMatchesEntry("title.contains(\"pull request\")", entry));
+		Assertions.assertFalse(service.filterMatchesEntry("title.contains(\"release notes\")", entry));
+	}
+
+	@Test
 	void urlContainsExpression() throws FeedEntryFilterException {
 		Assertions.assertTrue(service.filterMatchesEntry("url.contains(\"github\")", entry));
 	}

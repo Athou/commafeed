@@ -31,6 +31,10 @@ public class FeedModificationRequest implements Serializable {
 	@Size(max = 4096)
 	private String filter;
 
+	@Schema(description = "CEL string evaluated on new entries to highlight matching titles (cosmetic, never marks read)")
+	@Size(max = 4096)
+	private String highlightExpression;
+
 	@Schema(description = "whether to send push notifications for new entries of this feed")
 	private boolean pushNotificationsEnabled;
 

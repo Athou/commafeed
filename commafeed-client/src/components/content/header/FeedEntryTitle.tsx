@@ -11,20 +11,27 @@ const useStyles = tss.create(() => ({
     content: {
         textWrap: "inherit",
     },
+    highlighted: {
+        backgroundColor: "var(--mantine-color-yellow-light)",
+        borderRadius: "var(--mantine-radius-xs)",
+        boxDecorationBreak: "clone",
+        fontWeight: 600,
+        paddingInline: 4,
+    },
 }))
 
 export function FeedEntryTitle(props: Readonly<FeedEntryTitleProps>) {
     const search = useAppSelector(state => state.entries.search)
     const keywords = search?.split(" ")
 
-    const { classes } = useStyles()
+    const { classes, cx } = useStyles()
     return (
         <Highlight
             inherit
             highlight={keywords ?? ""}
             // make sure ellipsis is shown when title is too long
             span
-            className={classes.content}
+            className={cx(classes.content, { [classes.highlighted]: props.entry.highlighted })}
         >
             {props.entry.title}
         </Highlight>

@@ -62,6 +62,9 @@ public class Subscription implements Serializable {
 	@Schema(description = "CEL string evaluated on new entries to mark them as read if they do not match")
 	private String filter;
 
+	@Schema(description = "CEL string evaluated on new entries to highlight matching titles (cosmetic, never marks read)")
+	private String highlightExpression;
+
 	@Schema(description = "JEXL legacy filter")
 	private String filterLegacy;
 
@@ -90,6 +93,7 @@ public class Subscription implements Serializable {
 		sub.setNewestItemTime(unreadCount.getNewestItemTime());
 		sub.setCategoryId(category == null ? null : String.valueOf(category.getId()));
 		sub.setFilter(subscription.getFilter());
+		sub.setHighlightExpression(subscription.getHighlightExpression());
 		sub.setFilterLegacy(subscription.getFilterLegacy());
 		sub.setPushNotificationsEnabled(subscription.isPushNotificationsEnabled());
 		sub.setAutoMarkAsReadAfterDays(subscription.getAutoMarkAsReadAfterDays());

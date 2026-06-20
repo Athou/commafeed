@@ -173,7 +173,7 @@ public class FeedREST {
 					entryKeywords, newerThanDate, offset, limit + 1, order, true, null, null, null);
 
 			for (FeedEntryStatus status : list) {
-				entries.getEntries().add(Entry.build(status, config.imageProxyEnabled()));
+				entries.getEntries().add(buildEntry(status));
 			}
 
 			boolean hasMore = entries.getEntries().size() > limit;
@@ -408,6 +408,19 @@ public class FeedREST {
 		return url;
 	}
 
+	private Entry buildEntry(FeedEntryStatus status) {
+		Entry entry = Entry.build(status, config.imageProxyEnabled());
+		String highlightExpression = status.getSubscription().getHighlightExpression();
+		if (StringUtils.isNotBlank(highlightExpression)) {
+			try {
+				entry.setHighlighted(feedEntryFilteringService.filterMatchesEntry(highlightExpression, status.getEntry()));
+			} catch (FeedEntryFilterException e) {
+				log.warn("Could not evaluate highlight expression for subscription {}", status.getSubscription().getId(), e);
+			}
+		}
+		return entry;
+	}
+
 	@POST
 	@Path("/unsubscribe")
 	@Transactional
@@ -435,6 +448,7 @@ public class FeedREST {
 
 		try {
 			feedEntryFilteringService.filterMatchesEntry(req.getFilter(), TEST_ENTRY);
+			feedEntryFilteringService.filterMatchesEntry(req.getHighlightExpression(), TEST_ENTRY);
 		} catch (FeedEntryFilterException e) {
 			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
 		}
@@ -443,6 +457,7 @@ public class FeedREST {
 		FeedSubscription subscription = feedSubscriptionDAO.findById(user, req.getId());
 
 		subscription.setFilter(req.getFilter());
+		subscription.setHighlightExpression(req.getHighlightExpression());
 		if (StringUtils.isNotBlank(subscription.getFilter())) {
 			// if the new filter is filled, remove the legacy filter
 			subscription.setFilterLegacy(null);

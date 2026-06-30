@@ -122,6 +122,34 @@ All other Quarkus settings can be found [here](https://quarkus.io/guides/all-con
 
 When started, the server will listen on http://localhost:8082.
 
+
+### Troubleshooting feed redirects
+
+When adding a feed, CommaFeed follows HTTP redirects returned by the site until it reaches the final RSS or Atom document.
+If the target site sends CommaFeed through the same URL more than once, the add-feed request can fail with a circular redirect error.
+This usually means the publisher's feed endpoint, CDN, or anti-bot layer is redirecting server-side clients differently than a browser.
+It can happen with journal platforms such as OJS when the advertised feed URL redirects to a journal home page that redirects back to the feed.
+
+To diagnose the problem, first find the final feed URL that the server is trying to reach instead of relying only on the browser address bar.
+From the machine running CommaFeed, run `curl -IL <feed-url>` and read the `Location` headers in order.
+If the same URL appears repeatedly, or if the chain alternates between `http` and `https`, the feed publisher needs to fix the redirect rules.
+Try subscribing to the last URL in the chain that returns `200 OK` with an RSS or Atom content type such as `application/rss+xml`, `application/atom+xml`, or `application/xml`.
+
+Common causes are mixed HTTP/HTTPS canonical URLs, a feed URL missing a required trailing slash, and publisher rules that redirect mobile or non-browser clients.
+Some sites also require cookies, consent pages, or a particular `User-Agent` before serving the feed.
+CommaFeed cannot safely complete a subscription when a feed is only reachable after a browser-only cookie or JavaScript challenge.
+If a browser works but CommaFeed fails, compare it with `curl -IL -A 'CommaFeed' <feed-url>` and then with a normal browser-like user agent.
+
+For OJS feeds, check whether the journal exposes alternate endpoints for issue, announcement, or article feeds and subscribe to the direct XML endpoint when available.
+Also verify that the feed URL is public, does not require login, and does not redirect from one locale, journal path, or hostname back to another.
+If you run the site, make the feed URL return the feed directly over HTTPS and avoid redirecting feed requests through the HTML journal landing page.
+Prefer one canonical hostname for feeds, for example either `example.org` or `www.example.org`, so CommaFeed does not bounce between hosts.
+After changing redirects, retest from outside the publisher network because internal DNS or proxy rules can hide the public redirect loop.
+
+When reporting a circular redirect feed-add failure, include the original URL, the redirect chain from `curl -IL`, the CommaFeed version, and whether the same command was run from the CommaFeed host.
+Mention any reverse proxy, VPN, corporate proxy, or container network that might change how the publisher sees the request.
+If possible, include the final working RSS or Atom URL so maintainers can tell whether the problem is site configuration, network policy, or CommaFeed handling.
+
 ### Updates
 
 When CommaFeed is up and running, you can subscribe to [this feed](https://github.com/Athou/commafeed/releases.atom) to be notified of new releases.

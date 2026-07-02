@@ -80,9 +80,9 @@ class OPMLExporterTest {
 	@Test
 	void generatesOpmlCorrectly() {
 		Mockito.when(feedCategoryDAO.findAll(user)).thenReturn(categories);
-		Mockito.when(feedSubscriptionDAO.findAll(user)).thenReturn(subscriptions);
+		Mockito.when(feedSubscriptionDAO.findAll(user, false)).thenReturn(subscriptions);
 
-		Opml opml = new OPMLExporter(feedCategoryDAO, feedSubscriptionDAO).export(user);
+		Opml opml = new OPMLExporter(feedCategoryDAO, feedSubscriptionDAO).export(user, false);
 
 		List<Outline> rootOutlines = opml.getOutlines();
 		Assertions.assertEquals(2, rootOutlines.size());

@@ -104,6 +104,23 @@ msgstr "API jetonu"
 msgid "App token"
 msgstr "Uygulama jetonu"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Archive"
+msgstr "Arşivle"
+
+#: src/components/sidebar/Tree.tsx
+#: src/pages/app/ArchivedPage.tsx
+msgid "Archived"
+msgstr "Arşivlenmiş"
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Archived feeds"
+msgstr "Arşivlenmiş Feed'ler"
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Are you sure you want to archive <0>{feedName}</0>? It will no longer be updated."
+msgstr "<0>{feedName}</0>'i arşivlemek istediğinzden emin misiniz? Bundan sonra güncellenmeyecek."
+
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
 msgstr "<0>{categoryName}</0> kategorisini silmek istediğinizden emin misiniz?"
@@ -123,6 +140,14 @@ msgstr "Tüm <0>{sourceLabel}</0> girişlerini okundu olarak işaretlemek istedi
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
 msgstr "<0>{sourceLabel}</0> tarihine ait {threshold} günden eski girişleri okundu olarak işaretlemek istediğinizden emin misiniz?"
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Are you sure you want to permanently unsubscribe from the selected feeds?"
+msgstr "Seçili Feed'lere olan aboneliniğizi kalıcı olarak iptal etmek istediğinize emin misiniz?"
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Are you sure you want to unarchive the selected feeds?"
+msgstr "Seçili Feed'leri arşivden çıkarmak istediğinize emin misiniz?"
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
@@ -173,6 +198,7 @@ msgstr "Ne okumak istediğinizi belirtmek için bir filtre ifadesi oluşturun. E
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
@@ -182,6 +208,7 @@ msgstr "İptal"
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Category"
 msgstr "Kategori"
@@ -225,6 +252,7 @@ msgstr "Kompakt"
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Confirm"
@@ -486,6 +514,10 @@ msgstr "İçe Aktar"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "Genişletilmiş görünümde, girişler arasında gezinmek onları okundu olarak işaretler"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "Include archived feeds"
+msgstr "Arşivli Feed'leri dahil et"
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
 msgstr "İndigo"
@@ -523,6 +555,10 @@ msgstr "Son yenileme"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Last refresh message"
 msgstr "Son yenileme mesajı"
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Last update"
+msgstr "Son güncelleme"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
@@ -622,6 +658,7 @@ msgstr "Yok"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Name"
@@ -1096,6 +1133,14 @@ msgstr "CommaFeed'i demo hesabıyla deneyin: demo/demo"
 msgid "Try the demo!"
 msgstr "Demo'yu deneyin!"
 
+#: src/pages/app/ArchivedPage.tsx
+msgid "Unarchive"
+msgstr "Arşivden çıkar"
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Uncategorized"
+msgstr "Kategorilenmemiş"
+
 #: src/components/header/Header.tsx
 msgid "Unread"
 msgstr "Okunmamış"
@@ -1106,6 +1151,7 @@ msgstr "Okunmamış"
 msgid "Unstar"
 msgstr "Yıldızı kaldır"
 
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Aboneliği iptal et"
@@ -1145,6 +1191,10 @@ msgstr "Sarı"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Henüz aboneliğiniz yok. Sayfanın üstündeki + işaretiyle feed ekleyebilirsiniz."
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "You have no archived feeds."
+msgstr "Arşivlenmemiş Feed'iniz yok"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."

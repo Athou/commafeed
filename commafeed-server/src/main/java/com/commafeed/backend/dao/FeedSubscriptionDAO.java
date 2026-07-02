@@ -87,12 +87,30 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 	}
 
 	public List<FeedSubscription> findAll(User user) {
-		List<FeedSubscription> subs = query().selectFrom(SUBSCRIPTION)
+		return findAll(user, false);
+	}
+
+	public List<FeedSubscription> findAll(User user, boolean includeArchived) {
+		JPQLQuery<FeedSubscription> query = query().selectFrom(SUBSCRIPTION)
 				.where(SUBSCRIPTION.user.eq(user))
 				.leftJoin(SUBSCRIPTION.feed)
 				.fetchJoin()
 				.leftJoin(SUBSCRIPTION.category)
+				.fetchJoin();
+		if (!includeArchived) {
+			query.where(SUBSCRIPTION.archived.isFalse());
+		}
+		return initRelations(query.fetch());
+	}
+
+	public List<FeedSubscription> findArchived(User user) {
+		List<FeedSubscription> subs = query().selectFrom(SUBSCRIPTION)
+				.where(SUBSCRIPTION.user.eq(user), SUBSCRIPTION.archived.isTrue())
+				.leftJoin(SUBSCRIPTION.feed)
 				.fetchJoin()
+				.leftJoin(SUBSCRIPTION.category)
+				.fetchJoin()
+				.orderBy(SUBSCRIPTION.archivedDate.desc())
 				.fetch();
 		return initRelations(subs);
 	}

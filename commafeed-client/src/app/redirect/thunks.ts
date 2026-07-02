@@ -46,6 +46,8 @@ export const redirectToTagDetails = createAppAsyncThunk("redirect/tag/details", 
 
 export const redirectToAdd = createAppAsyncThunk("redirect/add", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/add")))
 
+export const redirectToArchived = createAppAsyncThunk("redirect/archived", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/archived")))
+
 export const redirectToSettings = createAppAsyncThunk("redirect/settings", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/settings")))
 
 export const redirectToAdminUsers = createAppAsyncThunk("redirect/admin/users", (_, thunkApi) =>

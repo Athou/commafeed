@@ -104,6 +104,23 @@ msgstr "Token API"
 msgid "App token"
 msgstr "Token aplikasi"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Archive"
+msgstr ""
+
+#: src/components/sidebar/Tree.tsx
+#: src/pages/app/ArchivedPage.tsx
+msgid "Archived"
+msgstr ""
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Archived feeds"
+msgstr ""
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Are you sure you want to archive <0>{feedName}</0>? It will no longer be updated."
+msgstr ""
+
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
 msgstr "Anda yakin ingin menghapus kategori <0>{categoryName}</0>?"
@@ -123,6 +140,14 @@ msgstr "Apakah Anda yakin ingin menandai semua entri <0>{sourceLabel}</0> sebaga
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
 msgstr "Apakah Anda yakin ingin menandai entri yang lebih lama dari {threshold} hari <0>{sourceLabel}</0> sebagai telah dibaca?"
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Are you sure you want to permanently unsubscribe from the selected feeds?"
+msgstr ""
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Are you sure you want to unarchive the selected feeds?"
+msgstr ""
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
@@ -173,6 +198,7 @@ msgstr "Bangun ekspresi filter untuk menunjukkan apa yang ingin Anda baca. Entri
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
@@ -182,6 +208,7 @@ msgstr "Batal"
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Category"
 msgstr "Kategori"
@@ -225,6 +252,7 @@ msgstr "Ringkas"
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Confirm"
@@ -486,6 +514,10 @@ msgstr "Impor"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "Dalam tampilan yang diperluas, menggulir entri menandainya sebagai telah dibaca"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "Include archived feeds"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
 msgstr "Nila"
@@ -523,6 +555,10 @@ msgstr "Penyegaran terakhir"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Last refresh message"
 msgstr "Pesan penyegaran terakhir"
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Last update"
+msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
@@ -622,6 +658,7 @@ msgstr "T/A"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Name"
@@ -1096,6 +1133,14 @@ msgstr "Cobalah CommaFeed dengan akun demo: demo/demo"
 msgid "Try the demo!"
 msgstr "Coba demonya!"
 
+#: src/pages/app/ArchivedPage.tsx
+msgid "Unarchive"
+msgstr ""
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Uncategorized"
+msgstr ""
+
 #: src/components/header/Header.tsx
 msgid "Unread"
 msgstr "Belum Dibaca"
@@ -1106,6 +1151,7 @@ msgstr "Belum Dibaca"
 msgid "Unstar"
 msgstr "Hapus bintang"
 
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Berhenti berlangganan"
@@ -1145,6 +1191,10 @@ msgstr "Kuning"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Anda belum memiliki langganan. Mengapa tidak mencoba menambahkannya dengan mengklik tanda + di bagian atas halaman?"
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "You have no archived feeds."
+msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."

@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.xml.sax.InputSource;
 
 import com.commafeed.TestConstants;
+import com.commafeed.frontend.model.ArchivedSubscription;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.FeedInfo;
@@ -307,6 +308,80 @@ class FeedIT extends BaseIT {
 			Assertions.assertEquals(3, unreadEntries.getEntries().size());
 			Assertions.assertTrue(unreadEntries.getEntries().stream().noneMatch(e -> e.getTitle().toLowerCase().contains("item 4")),
 					"Item 4 should be filtered out (marked as read)");
+		}
+	}
+
+	@Nested
+	class Archive {
+
+		@Test
+		void archiveHidesFeedAndUnarchiveRestoresIt() {
+			String categoryId = createCategory("my category");
+			long subscriptionId = subscribeAndWaitForEntries(getFeedUrl(), categoryId);
+			Assertions.assertEquals(2, getCategoryEntries(CategoryREST.ALL).getEntries().size());
+
+			Assertions.assertEquals(HttpStatus.SC_OK, archive(subscriptionId));
+
+			// the feed is gone from the tree and from the "all" entries
+			Assertions.assertTrue(getRootCategory().getChildren().stream().allMatch(c -> c.getFeeds().isEmpty()));
+			Assertions.assertEquals(0, getCategoryEntries(CategoryREST.ALL).getEntries().size());
+
+			// it shows up in the archived list with its retained properties
+			ArchivedSubscription[] archived = getArchivedFeeds();
+			Assertions.assertEquals(1, archived.length);
+			Assertions.assertEquals(subscriptionId, archived[0].getId());
+			Assertions.assertEquals(categoryId, archived[0].getCategoryId());
+			Assertions.assertEquals("my category", archived[0].getCategoryName());
+			Assertions.assertNotNull(archived[0].getArchivedDate());
+
+			Assertions.assertEquals(HttpStatus.SC_OK, unarchive(subscriptionId));
+			Assertions.assertEquals(0, getArchivedFeeds().length);
+			Assertions.assertEquals(2, getCategoryEntries(CategoryREST.ALL).getEntries().size());
+		}
+
+		@Test
+		void unsubscribeFromArchivedFeed() {
+			long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
+			archive(subscriptionId);
+
+			IDRequest request = new IDRequest();
+			request.setId(subscriptionId);
+			RestAssured.given()
+					.body(request)
+					.contentType(ContentType.JSON)
+					.post("rest/feed/unsubscribe")
+					.then()
+					.statusCode(HttpStatus.SC_OK);
+
+			Assertions.assertEquals(0, getArchivedFeeds().length);
+		}
+
+		@Test
+		void archiveUnknownFeed() {
+			Assertions.assertEquals(HttpStatus.SC_NOT_FOUND, archive(1L));
+		}
+
+		private int archive(long subscriptionId) {
+			return setArchived("rest/feed/archive", subscriptionId);
+		}
+
+		private int unarchive(long subscriptionId) {
+			return setArchived("rest/feed/unarchive", subscriptionId);
+		}
+
+		private int setArchived(String path, long subscriptionId) {
+			IDRequest request = new IDRequest();
+			request.setId(subscriptionId);
+			return RestAssured.given().body(request).contentType(ContentType.JSON).post(path).then().extract().statusCode();
+		}
+
+		private ArchivedSubscription[] getArchivedFeeds() {
+			return RestAssured.given()
+					.get("rest/feed/archived")
+					.then()
+					.statusCode(HttpStatus.SC_OK)
+					.extract()
+					.as(ArchivedSubscription[].class);
 		}
 	}
 

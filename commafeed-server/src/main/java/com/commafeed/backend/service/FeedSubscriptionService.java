@@ -76,6 +76,16 @@ public class FeedSubscriptionService {
 		return feedSubscriptionDAO.merge(sub).getId();
 	}
 
+	public boolean setArchived(User user, Long subId, boolean archived) {
+		FeedSubscription sub = feedSubscriptionDAO.findById(user, subId);
+		if (sub == null) {
+			return false;
+		}
+		sub.setArchived(archived);
+		sub.setArchivedDate(archived ? Instant.now() : null);
+		return true;
+	}
+
 	public boolean unsubscribe(User user, Long subId) {
 		FeedSubscription sub = feedSubscriptionDAO.findById(user, subId);
 		if (sub != null) {

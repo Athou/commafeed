@@ -33,6 +33,16 @@ export interface Subscription {
     autoMarkAsReadAfterDays?: number
 }
 
+export interface ArchivedSubscription {
+    id: number
+    name: string
+    feedUrl: string
+    archivedDate: number
+    lastRefresh?: number
+    categoryId?: string
+    categoryName?: string
+}
+
 export interface Category {
     id: string
     parentId?: string

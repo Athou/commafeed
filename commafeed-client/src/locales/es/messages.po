@@ -105,6 +105,23 @@ msgstr "Token de API"
 msgid "App token"
 msgstr "Token de aplicación"
 
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Archive"
+msgstr ""
+
+#: src/components/sidebar/Tree.tsx
+#: src/pages/app/ArchivedPage.tsx
+msgid "Archived"
+msgstr ""
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Archived feeds"
+msgstr ""
+
+#: src/pages/app/FeedDetailsPage.tsx
+msgid "Are you sure you want to archive <0>{feedName}</0>? It will no longer be updated."
+msgstr ""
+
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
 msgstr "¿Estás seguro de que deseas eliminar la categoría <0>{categoryName}</0>?"
@@ -124,6 +141,14 @@ msgstr "¿Estás seguro de que deseas marcar todas las entradas de <0>{sourceLab
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 msgid "Are you sure you want to mark entries older than {threshold} days of <0>{sourceLabel}</0> as read?"
 msgstr "¿Estás seguro de que deseas marcar las entradas anteriores a {threshold} días de <0>{sourceLabel}</0> como leídas?"
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Are you sure you want to permanently unsubscribe from the selected feeds?"
+msgstr ""
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Are you sure you want to unarchive the selected feeds?"
+msgstr ""
 
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
@@ -174,6 +199,7 @@ msgstr "Crea una expresión de filtrado para indicar lo que quieres leer. Las en
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 #: src/pages/app/TagDetailsPage.tsx
@@ -183,6 +209,7 @@ msgstr "Cancelar"
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/app/AboutPage.tsx
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Category"
 msgstr "Categoría"
@@ -226,6 +253,7 @@ msgstr "Compacto"
 #: src/components/MarkAllAsReadConfirmationDialog.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Confirm"
@@ -487,6 +515,10 @@ msgstr "Importar"
 msgid "In expanded view, scrolling through entries mark them as read"
 msgstr "En la vista ampliada, al desplazarse por las entradas marcarlas como leídas"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "Include archived feeds"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Indigo"
 msgstr "Índigo"
@@ -524,6 +556,10 @@ msgstr "Última actualización"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Last refresh message"
 msgstr "Último mensaje de actualización"
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Last update"
+msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Light"
@@ -623,6 +659,7 @@ msgstr "N/D"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Name"
@@ -1097,6 +1134,14 @@ msgstr "Prueba CommaFeed con la cuenta de demostración: demo/demo"
 msgid "Try the demo!"
 msgstr "¡Prueba la demostración!"
 
+#: src/pages/app/ArchivedPage.tsx
+msgid "Unarchive"
+msgstr ""
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "Uncategorized"
+msgstr ""
+
 #: src/components/header/Header.tsx
 msgid "Unread"
 msgstr "No leído"
@@ -1107,6 +1152,7 @@ msgstr "No leído"
 msgid "Unstar"
 msgstr "Desmarcar"
 
+#: src/pages/app/ArchivedPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Cancelar suscripción"
@@ -1146,6 +1192,10 @@ msgstr "Amarillo"
 #: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "Aún no tienes ninguna suscripción. ¿Por qué no intentas agregar una haciendo clic en el signo + en la parte superior de la página?"
+
+#: src/pages/app/ArchivedPage.tsx
+msgid "You have no archived feeds."
+msgstr ""
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Your feeds have been queued for refresh."

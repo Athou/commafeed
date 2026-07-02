@@ -1,9 +1,11 @@
 import { Trans } from "@lingui/react/macro"
 import { Box, Stack } from "@mantine/core"
 import React from "react"
-import { TbChevronDown, TbChevronRight, TbInbox, TbStar, TbTag } from "react-icons/tb"
+import { TbArchive, TbChevronDown, TbChevronRight, TbInbox, TbStar, TbTag } from "react-icons/tb"
+import { useLocation } from "react-router-dom"
 import { Constants } from "@/app/constants"
 import {
+    redirectToArchived,
     redirectToCategory,
     redirectToCategoryDetails,
     redirectToFeed,
@@ -22,6 +24,7 @@ import { TreeNode } from "./TreeNode"
 import { TreeSearch } from "./TreeSearch"
 
 const allIcon = <TbInbox size={16} />
+const archivedIcon = <TbArchive size={16} />
 const starredIcon = <TbStar size={16} />
 const tagIcon = <TbTag size={16} />
 const expandedIcon = <TbChevronDown size={16} />
@@ -35,6 +38,8 @@ export function Tree() {
     const tags = useAppSelector(state => state.user.tags)
     const showRead = useAppSelector(state => state.user.settings?.showRead)
     const dispatch = useAppDispatch()
+    const location = useLocation()
+    const onArchivedPage = location.pathname === "/app/archived"
 
     const isFeedDisplayed = (feed: Subscription) => {
         const isCurrentFeed = source.type === "feed" && source.id === String(feed.id)
@@ -91,12 +96,28 @@ export function Tree() {
             icon={allIcon}
             unread={categoryUnreadCount(root)}
             hasNewEntries={categoryHasNewEntries(root)}
-            selected={source.type === "category" && source.id === Constants.categories.all.id}
+            selected={!onArchivedPage && source.type === "category" && source.id === Constants.categories.all.id}
             expanded={false}
             level={0}
             hasError={false}
             hasWarning={false}
             onClick={categoryClicked}
+        />
+    )
+    const archivedNode = () => (
+        <TreeNode
+            id="archived"
+            type="category"
+            name={<Trans>Archived</Trans>}
+            icon={archivedIcon}
+            unread={0}
+            hasNewEntries={false}
+            selected={location.pathname === "/app/archived"}
+            expanded={false}
+            level={0}
+            hasError={false}
+            hasWarning={false}
+            onClick={() => dispatch(redirectToArchived())}
         />
     )
     const starredCategoryNode = () => (
@@ -107,7 +128,7 @@ export function Tree() {
             icon={starredIcon}
             unread={0}
             hasNewEntries={false}
-            selected={source.type === "category" && source.id === Constants.categories.starred.id}
+            selected={!onArchivedPage && source.type === "category" && source.id === Constants.categories.starred.id}
             expanded={false}
             level={0}
             hasError={false}
@@ -129,7 +150,7 @@ export function Tree() {
                 icon={category.expanded ? expandedIcon : collapsedIcon}
                 unread={categoryUnreadCount(category)}
                 hasNewEntries={categoryHasNewEntries(category)}
-                selected={source.type === "category" && source.id === category.id}
+                selected={!onArchivedPage && source.type === "category" && source.id === category.id}
                 expanded={category.expanded}
                 level={level}
                 hasError={hasError}
@@ -152,7 +173,7 @@ export function Tree() {
                 icon={feed.iconUrl}
                 unread={feed.unread}
                 hasNewEntries={!!feed.hasNewEntries}
-                selected={source.type === "feed" && source.id === String(feed.id)}
+                selected={!onArchivedPage && source.type === "feed" && source.id === String(feed.id)}
                 level={level}
                 hasError={feed.errorCount > errorThreshold}
                 hasWarning={!!feed.filterLegacy}
@@ -170,7 +191,7 @@ export function Tree() {
             icon={tagIcon}
             unread={0}
             hasNewEntries={false}
-            selected={source.type === "tag" && source.id === tag}
+            selected={!onArchivedPage && source.type === "tag" && source.id === tag}
             level={0}
             hasError={false}
             hasWarning={false}
@@ -196,6 +217,7 @@ export function Tree() {
             </OnDesktop>
             <Box className="cf-tree">
                 {allCategoryNode()}
+                {archivedNode()}
                 {starredCategoryNode()}
                 {root.children.map(c => recursiveCategoryNode(c))}
                 {root.feeds.map(f => feedNode(f))}

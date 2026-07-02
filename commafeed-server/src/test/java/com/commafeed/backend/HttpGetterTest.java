@@ -1,6 +1,8 @@
 package com.commafeed.backend;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.NoRouteToHostException;
 import java.net.SocketTimeoutException;
@@ -11,6 +13,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.client5.http.ConnectTimeoutException;
@@ -315,15 +319,15 @@ class HttpGetterTest {
 
 		@Test
 		void gzip() throws Exception {
-			supportsCompression("gzip");
+			supportsCompression("gzip", GZIPOutputStream::new);
 		}
 
 		@Test
 		void deflate() throws Exception {
-			supportsCompression("deflate");
+			supportsCompression("deflate", DeflaterOutputStream::new);
 		}
 
-		void supportsCompression(String encoding) throws Exception {
+		void supportsCompression(String encoding, CompressionFunction compressionFunction) throws Exception {
 			String body = "my body";
 
 			HttpGetterTest.this.mockServerClient.when(HttpRequest.request().withMethod("GET")).respond(req -> {
@@ -333,12 +337,21 @@ class HttpGetterTest {
 							acceptEncodingHeader));
 				}
 
-				// MockServer 6.x automatically compresses the body based on the Content-Encoding header
-				return HttpResponse.response().withBody(body.getBytes()).withHeader(HttpHeaders.CONTENT_ENCODING, encoding);
+				ByteArrayOutputStream output = new ByteArrayOutputStream();
+				try (OutputStream compressionOutputStream = compressionFunction.apply(output)) {
+					compressionOutputStream.write(body.getBytes());
+				}
+
+				return HttpResponse.response().withBody(output.toByteArray()).withHeader(HttpHeaders.CONTENT_ENCODING, encoding);
 			});
 
 			HttpResult result = getter.get(HttpGetterTest.this.feedUrl);
 			Assertions.assertEquals(body, new String(result.content()));
+		}
+
+		@FunctionalInterface
+		public interface CompressionFunction {
+			OutputStream apply(OutputStream input) throws IOException;
 		}
 
 	}

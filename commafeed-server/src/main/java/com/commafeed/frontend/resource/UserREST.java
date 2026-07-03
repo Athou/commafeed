@@ -112,7 +112,6 @@ public class UserREST {
 			s.getSharingSettings().setFacebook(settings.isFacebook());
 			s.getSharingSettings().setTwitter(settings.isTwitter());
 			s.getSharingSettings().setTumblr(settings.isTumblr());
-			s.getSharingSettings().setPocket(settings.isPocket());
 			s.getSharingSettings().setInstapaper(settings.isInstapaper());
 			s.getSharingSettings().setBuffer(settings.isBuffer());
 
@@ -151,7 +150,6 @@ public class UserREST {
 			s.getSharingSettings().setFacebook(true);
 			s.getSharingSettings().setTwitter(true);
 			s.getSharingSettings().setTumblr(true);
-			s.getSharingSettings().setPocket(true);
 			s.getSharingSettings().setInstapaper(true);
 			s.getSharingSettings().setBuffer(true);
 
@@ -219,7 +217,6 @@ public class UserREST {
 		s.setFacebook(settings.getSharingSettings().isFacebook());
 		s.setTwitter(settings.getSharingSettings().isTwitter());
 		s.setTumblr(settings.getSharingSettings().isTumblr());
-		s.setPocket(settings.getSharingSettings().isPocket());
 		s.setInstapaper(settings.getSharingSettings().isInstapaper());
 		s.setBuffer(settings.getSharingSettings().isBuffer());
 

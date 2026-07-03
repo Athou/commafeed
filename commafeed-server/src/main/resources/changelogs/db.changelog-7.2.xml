@@ -11,4 +11,8 @@
 		</addColumn>
 	</changeSet>
 
+	<changeSet id="remove-pocket-sharing" author="athou">
+		<dropColumn tableName="USERSETTINGS" columnName="pocket" />
+	</changeSet>
+
 </databaseChangeLog>

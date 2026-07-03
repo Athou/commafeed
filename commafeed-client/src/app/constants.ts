@@ -1,6 +1,6 @@
 import type { IconType } from "react-icons"
 import { FaAt } from "react-icons/fa"
-import { SiBuffer, SiFacebook, SiGmail, SiInstapaper, SiPocket, SiTumblr, SiX } from "react-icons/si"
+import { SiBuffer, SiFacebook, SiGmail, SiInstapaper, SiTumblr, SiX } from "react-icons/si"
 import type { Category, Entry, SharingSettings } from "./types"
 
 const categories: Record<string, Omit<Category, "name">> = {
@@ -57,12 +57,6 @@ const sharing: {
         icon: SiTumblr,
         color: "#375672",
         url: (url, desc) => `https://www.tumblr.com/share/link?url=${url}&name=${desc}`,
-    },
-    pocket: {
-        label: "Pocket",
-        icon: SiPocket,
-        color: "#EF4154",
-        url: (url, desc) => `https://getpocket.com/save?url=${url}&title=${desc}`,
     },
     instapaper: {
         label: "Instapaper",

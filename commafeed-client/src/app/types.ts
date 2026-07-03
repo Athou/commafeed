@@ -249,7 +249,6 @@ export interface SharingSettings {
     facebook: boolean
     twitter: boolean
     tumblr: boolean
-    pocket: boolean
     instapaper: boolean
     buffer: boolean
 }

@@ -123,9 +123,6 @@ public class Settings implements Serializable {
 		private boolean tumblr;
 
 		@Schema(required = true)
-		private boolean pocket;
-
-		@Schema(required = true)
 		private boolean instapaper;
 
 		@Schema(required = true)

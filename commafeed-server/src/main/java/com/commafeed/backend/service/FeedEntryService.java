@@ -120,7 +120,7 @@ public class FeedEntryService {
 	}
 
 	public void markStarredEntries(User user, Instant olderThan, Instant insertedBefore) {
-		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findStarred(user, null, -1, -1, null, false);
+		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findStarred(user, null, null, -1, -1, null, false);
 		markList(statuses, olderThan, insertedBefore);
 	}
 

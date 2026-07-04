@@ -260,7 +260,8 @@ public class FeverREST {
 	}
 
 	private List<Long> buildSavedItemIds(User user) {
-		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findStarred(user, null, 0, SAVED_ITEM_IDS_BATCH_SIZE, ReadingOrder.DESC, false);
+		List<FeedEntryStatus> statuses = feedEntryStatusDAO.findStarred(user, null, null, 0, SAVED_ITEM_IDS_BATCH_SIZE, ReadingOrder.DESC,
+				false);
 		return statuses.stream().map(s -> s.getEntry().getId()).toList();
 	}
 

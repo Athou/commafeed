@@ -83,12 +83,16 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 	}
 
-	public List<FeedEntryStatus> findStarred(User user, Instant newerThan, int offset, int limit, ReadingOrder order,
-			boolean includeContent) {
+	public List<FeedEntryStatus> findStarred(User user, List<FeedEntryKeyword> keywords, Instant newerThan, int offset, int limit,
+			ReadingOrder order, boolean includeContent) {
 		JPAQuery<FeedEntryStatus> query = query().selectFrom(STATUS).where(STATUS.user.eq(user), STATUS.starred.isTrue());
-		if (includeContent) {
+		if (includeContent || CollectionUtils.isNotEmpty(keywords)) {
 			query.join(STATUS.entry).fetchJoin();
-			query.join(STATUS.entry.content).fetchJoin();
+			query.join(STATUS.entry.content, CONTENT).fetchJoin();
+		}
+
+		if (CollectionUtils.isNotEmpty(keywords)) {
+			applyKeywordsFilter(query, keywords);
 		}
 
 		if (newerThan != null) {
@@ -132,16 +136,9 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		if (includeContent || CollectionUtils.isNotEmpty(keywords)) {
 			query.join(ENTRY.content, CONTENT).fetchJoin();
 		}
+
 		if (CollectionUtils.isNotEmpty(keywords)) {
-			for (FeedEntryKeyword keyword : keywords) {
-				BooleanBuilder or = new BooleanBuilder();
-				or.or(CONTENT.content.containsIgnoreCase(keyword.keyword()));
-				or.or(CONTENT.title.containsIgnoreCase(keyword.keyword()));
-				if (keyword.mode() == Mode.EXCLUDE) {
-					or.not();
-				}
-				query.where(or);
-			}
+			applyKeywordsFilter(query, keywords);
 		}
 
 		if (unreadOnly && tag == null) {
@@ -200,6 +197,18 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 		}
 
 		return statuses;
+	}
+
+	private void applyKeywordsFilter(JPAQuery<?> query, List<FeedEntryKeyword> keywords) {
+		for (FeedEntryKeyword keyword : keywords) {
+			BooleanBuilder or = new BooleanBuilder();
+			or.or(CONTENT.content.containsIgnoreCase(keyword.keyword()));
+			or.or(CONTENT.title.containsIgnoreCase(keyword.keyword()));
+			if (keyword.mode() == Mode.EXCLUDE) {
+				or.not();
+			}
+			query.where(or);
+		}
 	}
 
 	public UnreadCount getUnreadCount(FeedSubscription sub) {

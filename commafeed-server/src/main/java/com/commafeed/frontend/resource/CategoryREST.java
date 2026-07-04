@@ -158,7 +158,8 @@ public class CategoryREST {
 
 		} else if (STARRED.equals(id)) {
 			entries.setName("Starred");
-			List<FeedEntryStatus> starred = feedEntryStatusDAO.findStarred(user, newerThanDate, offset, limit + 1, order, true);
+			List<FeedEntryStatus> starred = feedEntryStatusDAO.findStarred(user, entryKeywords, newerThanDate, offset, limit + 1, order,
+					true);
 			for (FeedEntryStatus status : starred) {
 				entries.getEntries().add(Entry.build(status, config.imageProxyEnabled()));
 			}

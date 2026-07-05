@@ -4,5 +4,5 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class CommaFeedConstants {
-	public static final String USERNAME_DEMO = "demo";
+    public static final String USERNAME_DEMO = "demo";
 }

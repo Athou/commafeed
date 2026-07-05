@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!DOCTYPE module PUBLIC
-          "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
-          "https://checkstyle.org/dtds/configuration_1_3.dtd">
-          
+		"-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+		"https://checkstyle.org/dtds/configuration_1_3.dtd">
+
 <module name="Checker">
 	<property name="charset" value="UTF-8" />
 	<property name="fileExtensions" value="java" />
@@ -40,11 +40,6 @@
 		<module name="AvoidStarImport" />
 		<module name="AvoidStaticImport" />
 		<module name="IllegalImport" />
-		<module name="ImportOrder">
-			<property name="groups" value="/^java\./,javax,jakarta,org,com" />
-			<property name="ordered" value="true" />
-			<property name="separated" value="true" />
-		</module>
 		<module name="RedundantImport" />
 		<module name="UnusedImports" />
 
@@ -60,7 +55,7 @@
 		<module name="EmptyCatchBlock">
 			<property name="exceptionVariableName" value="ignore|ignored" />
 			<message key="catch.block.empty"
-				value="Empty catch block. You can use the name 'ignore' or 'ignored' for the exception variable if you really want an empty catch block, but you should strongly consider at the very least logging something." />
+			         value="Empty catch block. You can use the name 'ignore' or 'ignored' for the exception variable if you really want an empty catch block, but you should strongly consider at the very least logging something." />
 		</module>
 		<module name="LeftCurly" />
 		<module name="NeedBraces" />
@@ -76,7 +71,7 @@
 		<module name="FallThrough" />
 		<module name="IllegalInstantiation">
 			<property name="classes"
-				value="java.lang.Boolean, java.lang.Byte, java.lang.Character, java.lang.Double, java.lang.Float, java.lang.Integer, java.lang.Long, java.lang.Short" />
+			          value="java.lang.Boolean, java.lang.Byte, java.lang.Character, java.lang.Double, java.lang.Float, java.lang.Integer, java.lang.Long, java.lang.Short" />
 		</module>
 		<module name="IllegalType" />
 		<module name="ModifiedControlVariable">
@@ -113,14 +108,6 @@
 		<module name="NoLineWrap" />
 		<module name="NoWhitespaceBefore" />
 		<module name="ParenPad" />
-		<module name="RegexpSinglelineJava">
-			<property name="format" value="^\t* +\t*\S" />
-			<property name="message" value="Line has leading space characters; indentation should be performed with tabs only." />
-			<property name="ignoreComments" value="true" />
-		</module>
-		<module name="WhitespaceAround">
-			<property name="allowEmptyTypes" value="true" />
-		</module>
 
 	</module>
 </module>

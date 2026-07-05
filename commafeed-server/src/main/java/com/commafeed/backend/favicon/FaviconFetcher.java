@@ -4,6 +4,5 @@ import com.commafeed.backend.model.Feed;
 
 public interface FaviconFetcher {
 
-	Favicon fetch(Feed feed);
-
+    Favicon fetch(Feed feed);
 }

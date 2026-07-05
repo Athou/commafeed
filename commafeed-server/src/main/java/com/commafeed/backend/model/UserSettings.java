@@ -1,8 +1,6 @@
 package com.commafeed.backend.model;
 
-import java.io.Serializable;
-import java.sql.Types;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
@@ -14,13 +12,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-
-import org.hibernate.annotations.JdbcTypeCode;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import java.io.Serializable;
+import java.sql.Types;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
 
 @Entity
 @Table(name = "USERSETTINGS")
@@ -29,155 +25,154 @@ import lombok.Setter;
 @Setter
 public class UserSettings extends AbstractModel {
 
-	public enum ReadingMode {
-		@JsonProperty("all")
-		ALL,
+    public enum ReadingMode {
+        @JsonProperty("all")
+        ALL,
 
-		@JsonProperty("unread")
-		UNREAD;
+        @JsonProperty("unread")
+        UNREAD;
 
-		// method called for query parameters
-		public static ReadingMode fromString(final String s) {
-			return ReadingMode.valueOf(s.toUpperCase());
-		}
-	}
+        // method called for query parameters
+        public static ReadingMode fromString(final String s) {
+            return ReadingMode.valueOf(s.toUpperCase());
+        }
+    }
 
-	public enum ReadingOrder {
-		@JsonProperty("asc")
-		ASC,
+    public enum ReadingOrder {
+        @JsonProperty("asc")
+        ASC,
 
-		@JsonProperty("desc")
-		DESC;
+        @JsonProperty("desc")
+        DESC;
 
-		// method called for query parameters
-		public static ReadingOrder fromString(final String s) {
-			return ReadingOrder.valueOf(s.toUpperCase());
-		}
-	}
+        // method called for query parameters
+        public static ReadingOrder fromString(final String s) {
+            return ReadingOrder.valueOf(s.toUpperCase());
+        }
+    }
 
-	public enum ScrollMode {
-		@JsonProperty("always")
-		ALWAYS,
+    public enum ScrollMode {
+        @JsonProperty("always")
+        ALWAYS,
 
-		@JsonProperty("never")
-		NEVER,
+        @JsonProperty("never")
+        NEVER,
 
-		@JsonProperty("if_needed")
-		IF_NEEDED
-	}
+        @JsonProperty("if_needed")
+        IF_NEEDED
+    }
 
-	public enum IconDisplayMode {
-		@JsonProperty("always")
-		ALWAYS,
+    public enum IconDisplayMode {
+        @JsonProperty("always")
+        ALWAYS,
 
-		@JsonProperty("never")
-		NEVER,
+        @JsonProperty("never")
+        NEVER,
 
-		@JsonProperty("on_desktop")
-		ON_DESKTOP,
+        @JsonProperty("on_desktop")
+        ON_DESKTOP,
 
-		@JsonProperty("on_mobile")
-		ON_MOBILE
-	}
+        @JsonProperty("on_mobile")
+        ON_MOBILE
+    }
 
-	public enum PushNotificationType {
-		@JsonProperty("ntfy")
-		NTFY,
+    public enum PushNotificationType {
+        @JsonProperty("ntfy")
+        NTFY,
 
-		@JsonProperty("gotify")
-		GOTIFY,
+        @JsonProperty("gotify")
+        GOTIFY,
 
-		@JsonProperty("pushover")
-		PUSHOVER
-	}
+        @JsonProperty("pushover")
+        PUSHOVER
+    }
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false, unique = true)
-	private User user;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    private User user;
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	private ReadingMode readingMode;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ReadingMode readingMode;
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	private ReadingOrder readingOrder;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ReadingOrder readingOrder;
 
-	@Column(name = "user_lang", length = 4)
-	private String language;
+    @Column(name = "user_lang", length = 4)
+    private String language;
 
-	private boolean showRead;
-	private boolean scrollMarks;
+    private boolean showRead;
+    private boolean scrollMarks;
 
-	@Lob
-	@Column(length = Integer.MAX_VALUE)
-	@JdbcTypeCode(Types.LONGVARCHAR)
-	private String customCss;
+    @Lob
+    @Column(length = Integer.MAX_VALUE)
+    @JdbcTypeCode(Types.LONGVARCHAR)
+    private String customCss;
 
-	@Lob
-	@Column(length = Integer.MAX_VALUE)
-	@JdbcTypeCode(Types.LONGVARCHAR)
-	private String customJs;
+    @Lob
+    @Column(length = Integer.MAX_VALUE)
+    @JdbcTypeCode(Types.LONGVARCHAR)
+    private String customJs;
 
-	@Column(name = "scroll_speed")
-	private int scrollSpeed;
+    @Column(name = "scroll_speed")
+    private int scrollSpeed;
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	private ScrollMode scrollMode;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ScrollMode scrollMode;
 
-	private int entriesToKeepOnTopWhenScrolling;
+    private int entriesToKeepOnTopWhenScrolling;
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	private IconDisplayMode starIconDisplayMode;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private IconDisplayMode starIconDisplayMode;
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	private IconDisplayMode externalLinkIconDisplayMode;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private IconDisplayMode externalLinkIconDisplayMode;
 
-	@Column(name = "primary_color", length = 32)
-	private String primaryColor;
+    @Column(name = "primary_color", length = 32)
+    private String primaryColor;
 
-	private boolean markAllAsReadConfirmation;
-	private boolean markAllAsReadNavigateToNextUnread;
-	private boolean customContextMenu;
-	private boolean mobileFooter;
-	private boolean unreadCountTitle;
-	private boolean unreadCountFavicon;
-	private boolean disablePullToRefresh;
+    private boolean markAllAsReadConfirmation;
+    private boolean markAllAsReadNavigateToNextUnread;
+    private boolean customContextMenu;
+    private boolean mobileFooter;
+    private boolean unreadCountTitle;
+    private boolean unreadCountFavicon;
+    private boolean disablePullToRefresh;
 
-	private boolean email;
-	private boolean gmail;
-	private boolean facebook;
-	private boolean twitter;
-	private boolean tumblr;
-	private boolean instapaper;
-	private boolean buffer;
+    private boolean email;
+    private boolean gmail;
+    private boolean facebook;
+    private boolean twitter;
+    private boolean tumblr;
+    private boolean instapaper;
+    private boolean buffer;
 
-	@Embedded
-	private PushNotificationUserSettings pushNotifications = new PushNotificationUserSettings();
+    @Embedded
+    private PushNotificationUserSettings pushNotifications = new PushNotificationUserSettings();
 
-	@Embeddable
-	@SuppressWarnings("serial")
-	@Getter
-	@Setter
-	public static class PushNotificationUserSettings implements Serializable {
-		@Enumerated(EnumType.STRING)
-		@Column(name = "push_notification_type", length = 16)
-		private PushNotificationType type;
+    @Embeddable
+    @SuppressWarnings("serial")
+    @Getter
+    @Setter
+    public static class PushNotificationUserSettings implements Serializable {
+        @Enumerated(EnumType.STRING)
+        @Column(name = "push_notification_type", length = 16)
+        private PushNotificationType type;
 
-		@Column(name = "push_notification_server_url", length = 1024)
-		private String serverUrl;
+        @Column(name = "push_notification_server_url", length = 1024)
+        private String serverUrl;
 
-		@Column(name = "push_notification_user_id", length = 512)
-		private String userId;
+        @Column(name = "push_notification_user_id", length = 512)
+        private String userId;
 
-		@Column(name = "push_notification_user_secret", length = 512)
-		private String userSecret;
+        @Column(name = "push_notification_user_secret", length = 512)
+        private String userSecret;
 
-		@Column(name = "push_notification_topic", length = 256)
-		private String topic;
-	}
-
+        @Column(name = "push_notification_topic", length = 256)
+        private String topic;
+    }
 }

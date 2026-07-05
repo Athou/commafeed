@@ -1,5 +1,12 @@
 package com.commafeed.backend;
 
+import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.CommaFeedVersion;
+import com.google.common.net.HttpHeaders;
+import inet.ipaddr.IPAddress;
+import inet.ipaddr.IPAddressNetwork;
+import inet.ipaddr.IPAddressString;
+import jakarta.inject.Singleton;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
@@ -8,9 +15,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.SequencedMap;
 import java.util.zip.GZIPInputStream;
-
-import jakarta.inject.Singleton;
-
+import lombok.RequiredArgsConstructor;
+import nl.altindag.ssl.SSLFactory;
+import nl.altindag.ssl.apache5.util.Apache5SslUtils;
 import org.apache.hc.client5.http.DnsResolver;
 import org.apache.hc.client5.http.SystemDefaultDnsResolver;
 import org.apache.hc.client5.http.config.ConnectionConfig;
@@ -35,137 +42,148 @@ import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
 import org.brotli.dec.BrotliInputStream;
 
-import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.CommaFeedVersion;
-import com.google.common.net.HttpHeaders;
-
-import inet.ipaddr.IPAddress;
-import inet.ipaddr.IPAddressNetwork;
-import inet.ipaddr.IPAddressString;
-import lombok.RequiredArgsConstructor;
-import nl.altindag.ssl.SSLFactory;
-import nl.altindag.ssl.apache5.util.Apache5SslUtils;
-
 @Singleton
 @RequiredArgsConstructor
 public class HttpClientFactory {
 
-	private static final DnsResolver DNS_RESOLVER = SystemDefaultDnsResolver.INSTANCE;
-	private static final IPAddress CGNAT_RANGE = new IPAddressString("100.64.0.0/10").getAddress();
+    private static final DnsResolver DNS_RESOLVER = SystemDefaultDnsResolver.INSTANCE;
+    private static final IPAddress CGNAT_RANGE = new IPAddressString("100.64.0.0/10").getAddress();
 
-	private final CommaFeedConfiguration config;
-	private final CommaFeedVersion version;
+    private final CommaFeedConfiguration config;
+    private final CommaFeedVersion version;
 
-	public CloseableHttpClient newClient(int poolSize) {
-		PoolingHttpClientConnectionManager connectionManager = newConnectionManager(config, poolSize);
-		String userAgent = config.httpClient()
-				.userAgent()
-				.orElseGet(() -> String.format("CommaFeed/%s (https://github.com/Athou/commafeed)", version.getVersion()));
-		return newClient(config, connectionManager, userAgent);
-	}
+    public CloseableHttpClient newClient(int poolSize) {
+        PoolingHttpClientConnectionManager connectionManager =
+                newConnectionManager(config, poolSize);
+        String userAgent =
+                config.httpClient()
+                        .userAgent()
+                        .orElseGet(
+                                () ->
+                                        String.format(
+                                                "CommaFeed/%s (https://github.com/Athou/commafeed)",
+                                                version.getVersion()));
+        return newClient(config, connectionManager, userAgent);
+    }
 
-	private CloseableHttpClient newClient(CommaFeedConfiguration config, HttpClientConnectionManager connectionManager, String userAgent) {
-		List<Header> headers = new ArrayList<>();
-		headers.add(new BasicHeader(HttpHeaders.ACCEPT_LANGUAGE, "en"));
-		headers.add(new BasicHeader(HttpHeaders.PRAGMA, "No-cache"));
-		headers.add(new BasicHeader(HttpHeaders.CACHE_CONTROL, "no-cache"));
+    private CloseableHttpClient newClient(
+            CommaFeedConfiguration config,
+            HttpClientConnectionManager connectionManager,
+            String userAgent) {
+        List<Header> headers = new ArrayList<>();
+        headers.add(new BasicHeader(HttpHeaders.ACCEPT_LANGUAGE, "en"));
+        headers.add(new BasicHeader(HttpHeaders.PRAGMA, "No-cache"));
+        headers.add(new BasicHeader(HttpHeaders.CACHE_CONTROL, "no-cache"));
 
-		SequencedMap<String, InputStreamFactory> contentDecoderMap = new LinkedHashMap<>();
-		contentDecoderMap.put(ContentCoding.GZIP.token(), GZIPInputStream::new);
-		contentDecoderMap.put(ContentCoding.DEFLATE.token(), DeflateInputStream::new);
-		contentDecoderMap.put(ContentCoding.BROTLI.token(), BrotliInputStream::new);
+        SequencedMap<String, InputStreamFactory> contentDecoderMap = new LinkedHashMap<>();
+        contentDecoderMap.put(ContentCoding.GZIP.token(), GZIPInputStream::new);
+        contentDecoderMap.put(ContentCoding.DEFLATE.token(), DeflateInputStream::new);
+        contentDecoderMap.put(ContentCoding.BROTLI.token(), BrotliInputStream::new);
 
-		RedirectStrategy redirectStrategy = config.httpClient().blockLocalAddresses()
-				? new BlockLocalAddressesRedirectStrategy(DNS_RESOLVER)
-				: new DefaultRedirectStrategy();
+        RedirectStrategy redirectStrategy =
+                config.httpClient().blockLocalAddresses()
+                        ? new BlockLocalAddressesRedirectStrategy(DNS_RESOLVER)
+                        : new DefaultRedirectStrategy();
 
-		return HttpClientBuilder.create()
-				.disableConnectionState()
-				.useSystemProperties()
-				.disableAutomaticRetries()
-				.disableCookieManagement()
-				.setUserAgent(userAgent)
-				.setDefaultHeaders(headers)
-				.setConnectionManager(connectionManager)
-				.evictExpiredConnections()
-				.evictIdleConnections(TimeValue.of(config.httpClient().idleConnectionsEvictionInterval()))
-				.setContentDecoderRegistry(new LinkedHashMap<>(contentDecoderMap))
-				.setRedirectStrategy(redirectStrategy)
-				.build();
-	}
+        return HttpClientBuilder.create()
+                .disableConnectionState()
+                .useSystemProperties()
+                .disableAutomaticRetries()
+                .disableCookieManagement()
+                .setUserAgent(userAgent)
+                .setDefaultHeaders(headers)
+                .setConnectionManager(connectionManager)
+                .evictExpiredConnections()
+                .evictIdleConnections(
+                        TimeValue.of(config.httpClient().idleConnectionsEvictionInterval()))
+                .setContentDecoderRegistry(new LinkedHashMap<>(contentDecoderMap))
+                .setRedirectStrategy(redirectStrategy)
+                .build();
+    }
 
-	private PoolingHttpClientConnectionManager newConnectionManager(CommaFeedConfiguration config, int poolSize) {
-		SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
-		DnsResolver dnsResolver = config.httpClient().blockLocalAddresses() ? new BlockLocalAddressesDnsResolver(DNS_RESOLVER)
-				: DNS_RESOLVER;
+    private PoolingHttpClientConnectionManager newConnectionManager(
+            CommaFeedConfiguration config, int poolSize) {
+        SSLFactory sslFactory =
+                SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
+        DnsResolver dnsResolver =
+                config.httpClient().blockLocalAddresses()
+                        ? new BlockLocalAddressesDnsResolver(DNS_RESOLVER)
+                        : DNS_RESOLVER;
 
-		return PoolingHttpClientConnectionManagerBuilder.create()
-				.setTlsSocketStrategy(Apache5SslUtils.toTlsSocketStrategy(sslFactory))
-				.setDefaultConnectionConfig(ConnectionConfig.custom()
-						.setConnectTimeout(Timeout.of(config.httpClient().connectTimeout()))
-						.setSocketTimeout(Timeout.of(config.httpClient().socketTimeout()))
-						.setTimeToLive(Timeout.of(config.httpClient().connectionTimeToLive()))
-						.build())
-				.setDefaultTlsConfig(TlsConfig.custom().setHandshakeTimeout(Timeout.of(config.httpClient().sslHandshakeTimeout())).build())
-				.setMaxConnPerRoute(poolSize)
-				.setMaxConnTotal(poolSize)
-				.setDnsResolver(dnsResolver)
-				.build();
+        return PoolingHttpClientConnectionManagerBuilder.create()
+                .setTlsSocketStrategy(Apache5SslUtils.toTlsSocketStrategy(sslFactory))
+                .setDefaultConnectionConfig(
+                        ConnectionConfig.custom()
+                                .setConnectTimeout(Timeout.of(config.httpClient().connectTimeout()))
+                                .setSocketTimeout(Timeout.of(config.httpClient().socketTimeout()))
+                                .setTimeToLive(
+                                        Timeout.of(config.httpClient().connectionTimeToLive()))
+                                .build())
+                .setDefaultTlsConfig(
+                        TlsConfig.custom()
+                                .setHandshakeTimeout(
+                                        Timeout.of(config.httpClient().sslHandshakeTimeout()))
+                                .build())
+                .setMaxConnPerRoute(poolSize)
+                .setMaxConnTotal(poolSize)
+                .setDnsResolver(dnsResolver)
+                .build();
+    }
 
-	}
+    private static boolean isLocalAddress(InetAddress address) {
+        IPAddress ip = new IPAddressNetwork.IPAddressGenerator().from(address);
+        return ip.isLocal() || ip.isLoopback() || ip.isMulticast() || CGNAT_RANGE.contains(ip);
+    }
 
-	private static boolean isLocalAddress(InetAddress address) {
-		IPAddress ip = new IPAddressNetwork.IPAddressGenerator().from(address);
-		return ip.isLocal() || ip.isLoopback() || ip.isMulticast() || CGNAT_RANGE.contains(ip);
-	}
+    private record BlockLocalAddressesDnsResolver(DnsResolver delegate) implements DnsResolver {
+        @Override
+        public InetAddress[] resolve(String host) throws UnknownHostException {
+            InetAddress[] addresses = delegate.resolve(host);
+            for (InetAddress addr : addresses) {
+                if (isLocalAddress(addr)) {
+                    throw new UnknownHostException(
+                            "Access to local address blocked: " + addr.getHostAddress());
+                }
+            }
+            return addresses;
+        }
 
-	private record BlockLocalAddressesDnsResolver(DnsResolver delegate) implements DnsResolver {
-		@Override
-		public InetAddress[] resolve(String host) throws UnknownHostException {
-			InetAddress[] addresses = delegate.resolve(host);
-			for (InetAddress addr : addresses) {
-				if (isLocalAddress(addr)) {
-					throw new UnknownHostException("Access to local address blocked: " + addr.getHostAddress());
-				}
-			}
-			return addresses;
-		}
+        @Override
+        public String resolveCanonicalHostname(String host) throws UnknownHostException {
+            return delegate.resolveCanonicalHostname(host);
+        }
+    }
 
-		@Override
-		public String resolveCanonicalHostname(String host) throws UnknownHostException {
-			return delegate.resolveCanonicalHostname(host);
-		}
-	}
+    @RequiredArgsConstructor
+    private static class BlockLocalAddressesRedirectStrategy extends DefaultRedirectStrategy {
 
-	@RequiredArgsConstructor
-	private static class BlockLocalAddressesRedirectStrategy extends DefaultRedirectStrategy {
+        private final DnsResolver delegate;
 
-		private final DnsResolver delegate;
+        @Override
+        public URI getLocationURI(HttpRequest request, HttpResponse response, HttpContext context)
+                throws HttpException {
+            URI redirectUri = super.getLocationURI(request, response, context);
 
-		@Override
-		public URI getLocationURI(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException {
-			URI redirectUri = super.getLocationURI(request, response, context);
+            String host = redirectUri.getHost();
+            if (host == null) {
+                throw new HttpException("Redirect URI does not have a host: " + redirectUri);
+            }
 
-			String host = redirectUri.getHost();
-			if (host == null) {
-				throw new HttpException("Redirect URI does not have a host: " + redirectUri);
-			}
+            InetAddress[] addresses;
+            try {
+                addresses = delegate.resolve(host);
+            } catch (UnknownHostException e) {
+                throw new HttpException("Unknown host: " + host);
+            }
 
-			InetAddress[] addresses;
-			try {
-				addresses = delegate.resolve(host);
-			} catch (UnknownHostException e) {
-				throw new HttpException("Unknown host: " + host);
-			}
+            for (InetAddress addr : addresses) {
+                if (isLocalAddress(addr)) {
+                    throw new HttpException(
+                            "Access to local address blocked: " + addr.getHostAddress());
+                }
+            }
 
-			for (InetAddress addr : addresses) {
-				if (isLocalAddress(addr)) {
-					throw new HttpException("Access to local address blocked: " + addr.getHostAddress());
-				}
-			}
-
-			return redirectUri;
-		}
-	}
-
+            return redirectUri;
+        }
+    }
 }

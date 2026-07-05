@@ -1,15 +1,13 @@
 package com.commafeed;
 
-import jakarta.enterprise.event.Observes;
-import jakarta.inject.Singleton;
-
 import com.commafeed.backend.feed.FeedRefreshEngine;
 import com.commafeed.backend.feed.ImageProxyUrl;
 import com.commafeed.backend.task.TaskScheduler;
 import com.commafeed.security.password.PasswordConstraintValidator;
-
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,28 +16,28 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CommaFeedApplication {
 
-	private final FeedRefreshEngine feedRefreshEngine;
-	private final TaskScheduler taskScheduler;
-	private final CommaFeedConfiguration config;
+    private final FeedRefreshEngine feedRefreshEngine;
+    private final TaskScheduler taskScheduler;
+    private final CommaFeedConfiguration config;
 
-	public void start(@Observes StartupEvent ev) {
-		log.info("starting up...");
+    public void start(@Observes StartupEvent ev) {
+        log.info("starting up...");
 
-		PasswordConstraintValidator.setMinimumPasswordLength(config.users().minimumPasswordLength());
+        PasswordConstraintValidator.setMinimumPasswordLength(
+                config.users().minimumPasswordLength());
 
-		if (config.imageProxyEnabled()) {
-			ImageProxyUrl.generateKey();
-		}
+        if (config.imageProxyEnabled()) {
+            ImageProxyUrl.generateKey();
+        }
 
-		feedRefreshEngine.start();
-		taskScheduler.start();
-	}
+        feedRefreshEngine.start();
+        taskScheduler.start();
+    }
 
-	public void stop(@Observes ShutdownEvent ev) {
-		log.info("shutting down...");
+    public void stop(@Observes ShutdownEvent ev) {
+        log.info("shutting down...");
 
-		feedRefreshEngine.stop();
-		taskScheduler.stop();
-	}
-
+        feedRefreshEngine.stop();
+        taskScheduler.stop();
+    }
 }

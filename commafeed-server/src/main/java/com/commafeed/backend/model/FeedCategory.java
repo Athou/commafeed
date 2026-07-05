@@ -6,7 +6,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,18 +16,17 @@ import lombok.Setter;
 @Setter
 public class FeedCategory extends AbstractModel {
 
-	@Column(length = 128, nullable = false)
-	private String name;
+    @Column(length = 128, nullable = false)
+    private String name;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false)
-	private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private User user;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private FeedCategory parent;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private FeedCategory parent;
 
-	private boolean collapsed;
+    private boolean collapsed;
 
-	private int position;
-
+    private int position;
 }

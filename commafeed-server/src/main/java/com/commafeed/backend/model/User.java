@@ -1,17 +1,14 @@
 package com.commafeed.backend.model;
 
-import java.sql.Types;
-import java.time.Instant;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-
-import org.hibernate.annotations.JdbcTypeCode;
-
+import java.sql.Types;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
 
 @Entity
 @Table(name = "USERS")
@@ -20,40 +17,36 @@ import lombok.Setter;
 @Setter
 public class User extends AbstractModel {
 
-	@Column(length = 32, nullable = false, unique = true)
-	private String name;
+    @Column(length = 32, nullable = false, unique = true)
+    private String name;
 
-	@Column(length = 255, unique = true)
-	private String email;
+    @Column(length = 255, unique = true)
+    private String email;
 
-	@Lob
-	@Column(length = Integer.MAX_VALUE, nullable = false)
-	@JdbcTypeCode(Types.LONGVARBINARY)
-	private byte[] password;
+    @Lob
+    @Column(length = Integer.MAX_VALUE, nullable = false)
+    @JdbcTypeCode(Types.LONGVARBINARY)
+    private byte[] password;
 
-	@Column(length = 40, unique = true)
-	private String apiKey;
+    @Column(length = 40, unique = true)
+    private String apiKey;
 
-	@Lob
-	@Column(length = Integer.MAX_VALUE, nullable = false)
-	@JdbcTypeCode(Types.LONGVARBINARY)
-	private byte[] salt;
+    @Lob
+    @Column(length = Integer.MAX_VALUE, nullable = false)
+    @JdbcTypeCode(Types.LONGVARBINARY)
+    private byte[] salt;
 
-	@Column(nullable = false)
-	private boolean disabled;
+    @Column(nullable = false)
+    private boolean disabled;
 
-	@Column
-	private Instant lastLogin;
+    @Column private Instant lastLogin;
 
-	@Column
-	private Instant created;
+    @Column private Instant created;
 
-	@Column(length = 40)
-	private String recoverPasswordToken;
+    @Column(length = 40)
+    private String recoverPasswordToken;
 
-	@Column
-	private Instant recoverPasswordTokenDate;
+    @Column private Instant recoverPasswordTokenDate;
 
-	@Column
-	private Instant lastForceRefresh;
+    @Column private Instant lastForceRefresh;
 }

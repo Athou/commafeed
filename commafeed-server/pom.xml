@@ -285,12 +285,9 @@
 				<configuration>
 					<encoding>UTF-8</encoding>
 					<java>
-						<eclipse>
-							<file>${project.basedir}/dev/EclipseCodeFormatter.xml</file>
-						</eclipse>
-						<importOrder>
-							<file>${project.basedir}/dev/eclipse.importorder</file>
-						</importOrder>
+						<googleJavaFormat>
+							<style>AOSP</style>
+						</googleJavaFormat>
 					</java>
 				</configuration>
 			</plugin>

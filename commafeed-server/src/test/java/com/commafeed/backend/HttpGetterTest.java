@@ -408,11 +408,13 @@ class HttpGetterTest {
 			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://10.0.0.1"));
 			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://172.16.0.1"));
 			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://192.168.0.1"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://100.64.0.1"));
 		}
 
 		@Test
 		void privateIpv6Ranges() {
 			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://[fe80::215:5dff:fe15:102]"));
+			Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://[fd00:dead:beef::50]"));
 		}
 	}
 

@@ -39,6 +39,9 @@ import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedVersion;
 import com.google.common.net.HttpHeaders;
 
+import inet.ipaddr.IPAddress;
+import inet.ipaddr.IPAddressNetwork;
+import inet.ipaddr.IPAddressString;
 import lombok.RequiredArgsConstructor;
 import nl.altindag.ssl.SSLFactory;
 import nl.altindag.ssl.apache5.util.Apache5SslUtils;
@@ -48,6 +51,7 @@ import nl.altindag.ssl.apache5.util.Apache5SslUtils;
 public class HttpClientFactory {
 
 	private static final DnsResolver DNS_RESOLVER = SystemDefaultDnsResolver.INSTANCE;
+	private static final IPAddress CGNAT_RANGE = new IPAddressString("100.64.0.0/10").getAddress();
 
 	private final CommaFeedConfiguration config;
 	private final CommaFeedVersion version;
@@ -111,8 +115,8 @@ public class HttpClientFactory {
 	}
 
 	private static boolean isLocalAddress(InetAddress address) {
-		return address.isSiteLocalAddress() || address.isAnyLocalAddress() || address.isLinkLocalAddress() || address.isLoopbackAddress()
-				|| address.isMulticastAddress();
+		IPAddress ip = new IPAddressNetwork.IPAddressGenerator().from(address);
+		return ip.isLocal() || ip.isLoopback() || ip.isMulticast() || CGNAT_RANGE.contains(ip);
 	}
 
 	private record BlockLocalAddressesDnsResolver(DnsResolver delegate) implements DnsResolver {

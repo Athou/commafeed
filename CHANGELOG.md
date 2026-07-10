@@ -1,5 +1,16 @@
 # Changelog
 
+## [7.2.0]
+
+- Add support for icons declared in feeds. This is useful for feeds exposed by RSS bridges (#2048)
+- Search now also works for starred entries (#2217)
+- The error message when subscribing to a feed is now properly displayed again
+- Small performance improvements to the feed refresh engine
+- Removed the Pocket sharing feature because the Pocket service has been discontinued
+- Prevent the image proxy feature to access any URL to avoid SSRF attacks
+- Strengthened the SSRF protection by also blocking ULA and CGNAT ranges
+- Prevent DDOS attacks by filtering OPML files during imports
+
 ## [7.1.0]
 
 - Display the unread count in the header on mobile, since the tree is hidden by default and the unread count is not visible otherwise (#2055)

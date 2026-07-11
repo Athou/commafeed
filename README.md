@@ -70,8 +70,8 @@ memory usage.
     ./mvnw clean package [-P<database> [-Pnative]] [-DskipTests]
 
 - `<database>` can be one of `h2`, `postgresql`, `mysql` or `mariadb`. The default is `h2`.
-- `-Pnative` compiles the application to native code. This requires GraalVM to be installed (`GRAALVM_HOME` environment
-  variable pointing to a GraalVM installation).
+- `-Pnative` compiles the application to native code. This requires either GraalVM to be installed (`GRAALVM_HOME` environment
+  variable pointing to a GraalVM installation) or a container environment to be available (docker/podman/...).
 - `-DskipTests` to speed up the build process by skipping tests.
 
 When the build is complete:

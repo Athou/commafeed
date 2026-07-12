@@ -13,7 +13,8 @@ export default defineConfig(() => ({
         }),
         lingui(),
         checker({
-            typescript: true,
+            // temporary disabled until TypeScript 7 exposes a stable api
+            // typescript: true,
             biome: {
                 command: "check",
                 flags: "--error-on-warnings",

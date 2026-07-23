@@ -7,11 +7,11 @@ const init = async () => {
         async getWorker(_, label) {
             let worker: typeof import("*?worker")
             if (label === "css") {
-                worker = await import("monaco-editor/esm/vs/language/css/css.worker?worker")
+                worker = await import("monaco-editor/language/css/css.worker?worker")
             } else if (label === "javascript") {
-                worker = await import("monaco-editor/esm/vs/language/typescript/ts.worker?worker")
+                worker = await import("monaco-editor/language/typescript/ts.worker?worker")
             } else {
-                worker = await import("monaco-editor/esm/vs/editor/editor.worker?worker")
+                worker = await import("monaco-editor/editor/editor.worker?worker")
             }
             return new worker.default()
         },

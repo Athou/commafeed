@@ -191,3 +191,12 @@ two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_6
 
 The frontend server is now running at http://localhost:8082 and is proxying REST requests to the backend running on
 port 8083
+
+
+
+## My AI Workflow
+For this task, I adopted a **Plan-First & Incremental Verification** strategy rather than "prompt-and-pray":
+1. **Context Management:** Kept prompt context concise by referencing only isolated slices (`DAO`, `Resource`, `Service`) rather than loading the full CommaFeed codebase into the prompt buffer.
+2. **Architecture First:** Forced the AI to draft explicit interfaces and DTO records before generating concrete business logic.
+3. **Automated Quality Gate:** Used `mvn spotless:apply` after every AI code generation to ensure code style compliance before manual runtime testing with `curl`.
+4. **Independent Verification:** Tested each REST layer against Quarkus dev mode using direct HTTP curl requests before committing changes.

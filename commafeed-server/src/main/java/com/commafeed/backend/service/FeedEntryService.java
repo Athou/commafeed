@@ -31,6 +31,7 @@ public class FeedEntryService {
     private final FeedEntryStatusDAO feedEntryStatusDAO;
     private final FeedEntryContentService feedEntryContentService;
     private final FeedEntryFilteringService feedEntryFilteringService;
+    private final KeywordNotificationService keywordNotificationService;
 
     public FeedEntry find(Feed feed, Entry entry) {
         String guidHash = Digests.sha1Hex(entry.guid());
@@ -48,6 +49,7 @@ public class FeedEntryService {
         feedEntry.setContent(feedEntryContentService.findOrCreate(entry.content(), feed.getLink()));
 
         feedEntryDAO.persist(feedEntry);
+        keywordNotificationService.processEntryAsync(feedEntry);
         return feedEntry;
     }
 

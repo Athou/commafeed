@@ -12,7 +12,6 @@ import io.quarkus.runtime.configuration.MemorySize;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.math.BigInteger;
 import java.net.NoRouteToHostException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -71,11 +70,10 @@ class HttpGetterTest {
         Mockito.when(config.httpClient().socketTimeout()).thenReturn(Duration.ofSeconds(30));
         Mockito.when(config.httpClient().responseTimeout()).thenReturn(Duration.ofSeconds(30));
         Mockito.when(config.httpClient().connectionTimeToLive()).thenReturn(Duration.ofSeconds(30));
-        Mockito.when(config.httpClient().maxResponseSize())
-                .thenReturn(new MemorySize(new BigInteger("10000")));
+        Mockito.when(config.httpClient().maxResponseSize()).thenReturn(MemorySize.of("10000"));
         Mockito.when(config.httpClient().cache().enabled()).thenReturn(true);
         Mockito.when(config.httpClient().cache().maximumMemorySize())
-                .thenReturn(new MemorySize(new BigInteger("100000")));
+                .thenReturn(MemorySize.of("100000"));
         Mockito.when(config.httpClient().cache().expiration()).thenReturn(Duration.ofMinutes(1));
         Mockito.when(config.feedRefresh().httpThreads()).thenReturn(3);
 

@@ -479,7 +479,7 @@
         <dependency>
             <groupId>org.mock-server</groupId>
             <artifactId>mockserver-junit-jupiter</artifactId>
-            <version>7.4.0</version>
+            <version>7.5.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>

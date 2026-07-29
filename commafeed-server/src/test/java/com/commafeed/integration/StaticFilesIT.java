@@ -2,6 +2,7 @@ package com.commafeed.integration;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 

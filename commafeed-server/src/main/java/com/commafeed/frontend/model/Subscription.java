@@ -4,12 +4,16 @@ import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.io.Serializable;
-import java.time.Instant;
+
 import lombok.Data;
+
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.io.Serializable;
+import java.time.Instant;
 
 @SuppressWarnings("serial")
 @Schema(description = "User information")

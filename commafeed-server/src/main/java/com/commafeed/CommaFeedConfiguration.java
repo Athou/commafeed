@@ -1,14 +1,17 @@
 package com.commafeed;
 
 import com.commafeed.backend.feed.FeedRefreshIntervalCalculator;
+
 import io.quarkus.runtime.annotations.ConfigDocSection;
 import io.quarkus.runtime.annotations.ConfigPhase;
 import io.quarkus.runtime.annotations.ConfigRoot;
 import io.quarkus.runtime.configuration.MemorySize;
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Optional;

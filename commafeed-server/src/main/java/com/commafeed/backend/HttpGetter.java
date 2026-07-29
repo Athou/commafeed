@@ -8,22 +8,17 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteStreams;
 import com.google.common.net.HttpHeaders;
+
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.CacheControl;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.InstantSource;
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
+
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Lombok;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.client5.http.config.RequestConfig;
@@ -38,6 +33,15 @@ import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.util.Timeout;
 import org.jboss.resteasy.reactive.common.headers.CacheControlDelegate;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.InstantSource;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 /** Smart HTTP getter: handles gzip, ssl, last modified and etag headers */
 @Singleton

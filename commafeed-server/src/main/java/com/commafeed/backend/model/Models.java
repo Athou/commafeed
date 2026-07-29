@@ -1,12 +1,14 @@
 package com.commafeed.backend.model;
 
-import java.time.Duration;
-import java.time.Instant;
 import lombok.experimental.UtilityClass;
+
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
+
+import java.time.Duration;
+import java.time.Instant;
 
 @UtilityClass
 public class Models {

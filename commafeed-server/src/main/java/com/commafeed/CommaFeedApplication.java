@@ -4,10 +4,13 @@ import com.commafeed.backend.feed.FeedRefreshEngine;
 import com.commafeed.backend.feed.ImageProxyUrl;
 import com.commafeed.backend.task.TaskScheduler;
 import com.commafeed.security.password.PasswordConstraintValidator;
+
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
+
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Singleton;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

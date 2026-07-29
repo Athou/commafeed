@@ -1,10 +1,12 @@
 package com.commafeed.backend.urlprovider;
 
 import jakarta.inject.Singleton;
-import java.util.List;
-import java.util.stream.Stream;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 @Singleton
 public class InPageReferenceFeedURLProvider implements FeedURLProvider {

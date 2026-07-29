@@ -5,16 +5,19 @@ import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.AdminSaveUserRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.integration.BaseIT;
+
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import java.util.List;
+
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 @QuarkusTest
 class AdminIT extends BaseIT {

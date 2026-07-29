@@ -1,6 +1,7 @@
 package com.commafeed.frontend.ws;
 
 import com.commafeed.backend.model.FeedSubscription;
+
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

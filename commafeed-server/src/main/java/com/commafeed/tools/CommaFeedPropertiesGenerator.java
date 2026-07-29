@@ -1,6 +1,7 @@
 package com.commafeed.tools;
 
 import com.commafeed.CommaFeedConfiguration;
+
 import io.quarkus.annotation.processor.Outputs;
 import io.quarkus.annotation.processor.documentation.config.model.AbstractConfigItem;
 import io.quarkus.annotation.processor.documentation.config.model.ConfigProperty;
@@ -9,6 +10,9 @@ import io.quarkus.annotation.processor.documentation.config.model.ConfigSection;
 import io.quarkus.annotation.processor.documentation.config.model.JavadocElements;
 import io.quarkus.annotation.processor.documentation.config.model.ResolvedModel;
 import io.quarkus.annotation.processor.documentation.config.util.JacksonMappers;
+
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -19,7 +23,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.apache.commons.io.IOUtils;
 
 /**
  * This class generates an application.properties file with all the properties from {@link

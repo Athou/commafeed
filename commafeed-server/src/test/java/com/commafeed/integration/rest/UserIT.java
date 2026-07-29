@@ -5,21 +5,25 @@ import com.commafeed.frontend.model.Settings;
 import com.commafeed.frontend.model.request.PasswordResetConfirmationRequest;
 import com.commafeed.frontend.model.request.PasswordResetRequest;
 import com.commafeed.integration.BaseIT;
+
 import io.quarkus.mailer.MockMailbox;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.vertx.ext.mail.MailMessage;
+
 import jakarta.inject.Inject;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @QuarkusTest
 class UserIT extends BaseIT {

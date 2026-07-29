@@ -8,18 +8,21 @@ import com.commafeed.backend.model.Models;
 import com.commafeed.backend.model.QFeedSubscription;
 import com.commafeed.backend.model.User;
 import com.querydsl.jpa.JPQLQuery;
+
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
+
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.event.service.spi.EventListenerRegistry;
 import org.hibernate.event.spi.EventType;
 import org.hibernate.event.spi.PostCommitInsertEventListener;
 import org.hibernate.event.spi.PostInsertEvent;
 import org.hibernate.persister.entity.EntityPersister;
+
+import java.util.List;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Singleton
 public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {

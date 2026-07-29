@@ -2,17 +2,21 @@ package com.commafeed.integration.servlet;
 
 import com.commafeed.TestConstants;
 import com.commafeed.integration.BaseIT;
+
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.Headers;
+
 import jakarta.ws.rs.core.HttpHeaders;
-import java.net.HttpCookie;
-import java.util.List;
-import java.util.stream.Collectors;
+
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.net.HttpCookie;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @QuarkusTest
 class LogoutIT extends BaseIT {

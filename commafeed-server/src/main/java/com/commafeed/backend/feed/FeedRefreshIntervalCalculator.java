@@ -3,12 +3,15 @@ package com.commafeed.backend.feed;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConfiguration.FeedRefreshErrorHandling;
 import com.google.common.primitives.Longs;
+
 import jakarta.inject.Singleton;
+
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.time.InstantSource;
 import java.time.temporal.ChronoUnit;
-import org.apache.commons.lang3.ObjectUtils;
 
 @Singleton
 public class FeedRefreshIntervalCalculator {

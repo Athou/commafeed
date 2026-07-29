@@ -11,12 +11,15 @@ import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.frontend.model.UnreadCount;
+
 import jakarta.inject.Singleton;
+
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Singleton

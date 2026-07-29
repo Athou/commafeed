@@ -6,14 +6,18 @@ import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.FeedSubscription;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.io.Serializable;
-import java.time.Instant;
-import java.util.List;
+
 import lombok.Data;
+
 import org.apache.commons.lang3.Strings;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.List;
 
 @SuppressWarnings("serial")
 @Schema(description = "Entry details")

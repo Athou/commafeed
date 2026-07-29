@@ -11,7 +11,11 @@ import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedSubscription;
 import com.google.common.util.concurrent.MoreExecutors;
+
 import jakarta.inject.Singleton;
+
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.BlockingDeque;
@@ -23,7 +27,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Singleton

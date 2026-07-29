@@ -5,11 +5,11 @@ import com.commafeed.backend.model.UserSettings.PushNotificationType;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.request.FeedModificationRequest;
+
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import java.io.IOException;
-import java.time.Duration;
+
 import org.apache.hc.core5.http.HttpStatus;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.AfterEach;
@@ -18,6 +18,9 @@ import org.junit.jupiter.api.Test;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 import org.mockserver.verify.VerificationTimes;
+
+import java.io.IOException;
+import java.time.Duration;
 
 @QuarkusTest
 class PushNotificationIT extends BaseIT {

@@ -2,10 +2,13 @@ package com.commafeed.backend.task;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.service.db.DatabaseCleaningService;
+
 import jakarta.inject.Singleton;
+
+import lombok.RequiredArgsConstructor;
+
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Singleton

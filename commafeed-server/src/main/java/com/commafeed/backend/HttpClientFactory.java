@@ -3,21 +3,18 @@ package com.commafeed.backend;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedVersion;
 import com.google.common.net.HttpHeaders;
+
 import inet.ipaddr.IPAddress;
 import inet.ipaddr.IPAddressNetwork;
 import inet.ipaddr.IPAddressString;
+
 import jakarta.inject.Singleton;
-import java.net.InetAddress;
-import java.net.URI;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.SequencedMap;
-import java.util.zip.GZIPInputStream;
+
 import lombok.RequiredArgsConstructor;
+
 import nl.altindag.ssl.SSLFactory;
 import nl.altindag.ssl.apache5.util.Apache5SslUtils;
+
 import org.apache.hc.client5.http.DnsResolver;
 import org.apache.hc.client5.http.SystemDefaultDnsResolver;
 import org.apache.hc.client5.http.config.ConnectionConfig;
@@ -41,6 +38,15 @@ import org.apache.hc.core5.http.protocol.HttpContext;
 import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
 import org.brotli.dec.BrotliInputStream;
+
+import java.net.InetAddress;
+import java.net.URI;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.SequencedMap;
+import java.util.zip.GZIPInputStream;
 
 @Singleton
 @RequiredArgsConstructor

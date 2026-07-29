@@ -1,6 +1,7 @@
 package com.commafeed.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
@@ -12,11 +13,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.io.Serializable;
-import java.sql.Types;
+
 import lombok.Getter;
 import lombok.Setter;
+
 import org.hibernate.annotations.JdbcTypeCode;
+
+import java.io.Serializable;
+import java.sql.Types;
 
 @Entity
 @Table(name = "USERSETTINGS")

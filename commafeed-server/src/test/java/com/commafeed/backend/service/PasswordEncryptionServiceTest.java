@@ -1,8 +1,9 @@
 package com.commafeed.backend.service;
 
-import java.util.HexFormat;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.HexFormat;
 
 class PasswordEncryptionServiceTest {
 

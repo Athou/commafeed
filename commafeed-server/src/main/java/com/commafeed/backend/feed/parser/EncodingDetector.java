@@ -2,10 +2,13 @@ package com.commafeed.backend.feed.parser;
 
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
+
 import jakarta.inject.Singleton;
-import java.nio.charset.Charset;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Strings;
+
+import java.nio.charset.Charset;
 
 @Singleton
 public class EncodingDetector {

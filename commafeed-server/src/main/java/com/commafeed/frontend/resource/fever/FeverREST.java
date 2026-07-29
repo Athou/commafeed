@@ -20,6 +20,7 @@ import com.commafeed.frontend.resource.fever.FeverResponse.FeverFeed;
 import com.commafeed.frontend.resource.fever.FeverResponse.FeverFeedGroup;
 import com.commafeed.frontend.resource.fever.FeverResponse.FeverGroup;
 import com.commafeed.frontend.resource.fever.FeverResponse.FeverItem;
+
 import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
@@ -33,6 +34,14 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.UriInfo;
+
+import lombok.RequiredArgsConstructor;
+
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.jboss.resteasy.reactive.server.multipart.FormValue;
+import org.jboss.resteasy.reactive.server.multipart.MultipartFormDataInput;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -45,11 +54,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.jboss.resteasy.reactive.server.multipart.FormValue;
-import org.jboss.resteasy.reactive.server.multipart.MultipartFormDataInput;
 
 /**
  * Fever-compatible API

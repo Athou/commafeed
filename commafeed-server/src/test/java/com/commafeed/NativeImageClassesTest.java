@@ -4,17 +4,20 @@ import com.rometools.rome.feed.CopyFrom;
 import com.rometools.rome.feed.module.Module;
 import com.rometools.rome.io.WireFeedGenerator;
 import com.rometools.rome.io.WireFeedParser;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.reflections.Reflections;
+import org.reflections.scanners.Scanners;
+
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.reflections.Reflections;
-import org.reflections.scanners.Scanners;
 
 class NativeImageClassesTest {
 

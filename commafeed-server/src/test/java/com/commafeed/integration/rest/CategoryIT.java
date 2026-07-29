@@ -16,11 +16,11 @@ import com.commafeed.integration.BaseIT;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
+
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import java.io.StringReader;
-import java.util.List;
+
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -28,6 +28,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.InputSource;
+
+import java.io.StringReader;
+import java.util.List;
 
 @QuarkusTest
 class CategoryIT extends BaseIT {

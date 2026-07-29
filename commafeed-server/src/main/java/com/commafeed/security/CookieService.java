@@ -1,8 +1,10 @@
 package com.commafeed.security;
 
 import io.quarkus.vertx.http.runtime.VertxHttpConfig;
+
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.NewCookie;
+
 import java.time.Instant;
 import java.util.Date;
 

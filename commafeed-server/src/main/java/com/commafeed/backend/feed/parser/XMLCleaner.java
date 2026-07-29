@@ -1,12 +1,14 @@
 package com.commafeed.backend.feed.parser;
 
 import jakarta.inject.Singleton;
-import java.util.Collection;
-import java.util.regex.Pattern;
+
 import org.ahocorasick.trie.Emit;
 import org.ahocorasick.trie.Trie;
 import org.apache.commons.lang3.StringUtils;
 import org.jdom2.Verifier;
+
+import java.util.Collection;
+import java.util.regex.Pattern;
 
 @Singleton
 public class XMLCleaner {

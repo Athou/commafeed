@@ -13,15 +13,19 @@ import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.internal.PostLoginActivities;
 import com.google.common.base.Preconditions;
+
 import jakarta.inject.Singleton;
+
+import lombok.RequiredArgsConstructor;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 
 @RequiredArgsConstructor
 @Singleton

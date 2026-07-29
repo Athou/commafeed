@@ -3,9 +3,11 @@ package com.commafeed.integration.servlet;
 import com.commafeed.TestConstants;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.integration.BaseIT;
+
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+
 import org.apache.hc.core5.http.HttpStatus;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.AfterEach;

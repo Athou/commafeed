@@ -7,8 +7,10 @@ import com.google.common.collect.Lists;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQuery;
+
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;

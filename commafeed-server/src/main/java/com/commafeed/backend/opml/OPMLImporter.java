@@ -10,13 +10,17 @@ import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.WireFeedInput;
+
 import jakarta.inject.Singleton;
-import java.io.StringReader;
-import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.StringReader;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor

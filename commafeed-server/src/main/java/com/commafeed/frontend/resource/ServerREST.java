@@ -8,6 +8,7 @@ import com.commafeed.backend.feed.ImageProxyUrl;
 import com.commafeed.backend.service.db.DatabaseStartupService;
 import com.commafeed.frontend.model.ServerInfo;
 import com.commafeed.security.Roles;
+
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Singleton;
@@ -20,7 +21,9 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
+
 import lombok.RequiredArgsConstructor;
+
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;

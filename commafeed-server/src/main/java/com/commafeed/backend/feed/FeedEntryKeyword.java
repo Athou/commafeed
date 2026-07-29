@@ -1,8 +1,9 @@
 package com.commafeed.backend.feed;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 
 /** A keyword used in a search query */
 public record FeedEntryKeyword(String keyword, Mode mode) {

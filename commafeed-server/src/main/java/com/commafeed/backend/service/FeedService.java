@@ -6,9 +6,12 @@ import com.commafeed.backend.dao.FeedDAO;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.Models;
+
 import jakarta.inject.Singleton;
-import java.time.Instant;
+
 import lombok.RequiredArgsConstructor;
+
+import java.time.Instant;
 
 @Singleton
 @RequiredArgsConstructor

@@ -2,6 +2,7 @@ package com.commafeed.backend.dao;
 
 import com.commafeed.backend.model.QUser;
 import com.commafeed.backend.model.User;
+
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 

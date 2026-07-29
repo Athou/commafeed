@@ -2,6 +2,7 @@ package com.commafeed.backend.service;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.FeedEntry;
+
 import dev.cel.common.CelAbstractSyntaxTree;
 import dev.cel.common.CelValidationException;
 import dev.cel.common.types.SimpleType;
@@ -10,7 +11,14 @@ import dev.cel.compiler.CelCompilerFactory;
 import dev.cel.runtime.CelEvaluationException;
 import dev.cel.runtime.CelRuntime;
 import dev.cel.runtime.CelRuntimeFactory;
+
 import jakarta.inject.Singleton;
+
+import lombok.RequiredArgsConstructor;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -19,9 +27,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-import org.jsoup.Jsoup;
 
 @RequiredArgsConstructor
 @Singleton

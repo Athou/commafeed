@@ -8,17 +8,21 @@ import com.commafeed.frontend.model.request.FeedModificationRequest;
 import com.commafeed.frontend.model.request.StarRequest;
 import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.integration.BaseIT;
+
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+
 import jakarta.inject.Inject;
-import java.time.Duration;
-import java.time.Instant;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
+import java.time.Instant;
 
 @QuarkusTest
 class DatabaseCleaningIT extends BaseIT {

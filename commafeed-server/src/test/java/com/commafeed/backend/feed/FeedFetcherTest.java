@@ -9,9 +9,7 @@ import com.commafeed.backend.feed.parser.FeedParser;
 import com.commafeed.backend.feed.parser.FeedParser.FeedParsingException;
 import com.commafeed.backend.feed.parser.FeedParserResult;
 import com.commafeed.backend.urlprovider.FeedURLProvider;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +17,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class FeedFetcherTest {

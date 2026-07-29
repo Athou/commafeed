@@ -9,10 +9,13 @@ import com.commafeed.backend.model.UserSettings;
 import com.commafeed.backend.service.PushNotificationService;
 import com.commafeed.frontend.ws.WebSocketMessageBuilder;
 import com.commafeed.frontend.ws.WebSocketSessions;
+
 import jakarta.inject.Singleton;
-import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 @Slf4j
 @Singleton

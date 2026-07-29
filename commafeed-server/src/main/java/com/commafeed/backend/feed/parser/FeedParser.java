@@ -18,7 +18,17 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndLink;
 import com.rometools.rome.feed.synd.SyndLinkImpl;
 import com.rometools.rome.io.SyndFeedInput;
+
 import jakarta.inject.Singleton;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemProperties;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
+import org.xml.sax.InputSource;
+
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
@@ -28,13 +38,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemProperties;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.jdom2.Element;
-import org.jdom2.Namespace;
-import org.xml.sax.InputSource;
 
 /** Parses raw xml into a FeedParserResult object */
 @Singleton

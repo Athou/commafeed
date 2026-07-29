@@ -4,6 +4,7 @@ import com.commafeed.backend.model.QFeedEntry;
 import com.commafeed.backend.model.QFeedEntryStatus;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
+
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

@@ -1,8 +1,10 @@
 package com.commafeed.frontend.model.request;
 
-import java.io.Serializable;
 import lombok.Data;
+
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.io.Serializable;
 
 @SuppressWarnings("serial")
 @Schema

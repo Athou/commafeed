@@ -3,8 +3,9 @@ package com.commafeed.backend.favicon;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.model.Feed;
+
 import jakarta.ws.rs.core.MediaType;
-import java.time.Duration;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.Duration;
 
 @ExtendWith(MockitoExtension.class)
 class FacebookFaviconFetcherTest {

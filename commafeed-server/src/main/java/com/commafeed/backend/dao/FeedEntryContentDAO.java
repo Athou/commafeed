@@ -3,8 +3,10 @@ package com.commafeed.backend.dao;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.QFeedEntry;
 import com.commafeed.backend.model.QFeedEntryContent;
+
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
+
 import java.util.List;
 
 @Singleton

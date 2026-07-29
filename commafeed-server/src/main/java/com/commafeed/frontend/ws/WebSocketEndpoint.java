@@ -3,6 +3,7 @@ package com.commafeed.frontend.ws;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.User;
 import com.commafeed.security.AuthenticationContext;
+
 import jakarta.inject.Singleton;
 import jakarta.websocket.CloseReason;
 import jakarta.websocket.CloseReason.CloseCodes;
@@ -11,9 +12,11 @@ import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
-import java.io.IOException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
 
 @Slf4j
 @Singleton

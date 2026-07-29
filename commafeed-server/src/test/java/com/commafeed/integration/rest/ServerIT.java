@@ -2,8 +2,10 @@ package com.commafeed.integration.rest;
 
 import com.commafeed.frontend.model.ServerInfo;
 import com.commafeed.integration.BaseIT;
+
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

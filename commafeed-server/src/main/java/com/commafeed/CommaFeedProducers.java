@@ -1,8 +1,10 @@
 package com.commafeed;
 
 import com.codahale.metrics.MetricRegistry;
+
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Singleton;
+
 import java.time.InstantSource;
 
 @Singleton

@@ -1,12 +1,14 @@
 package com.commafeed.backend;
 
-import java.net.URI;
-import java.util.regex.Pattern;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang3.Strings;
 import org.netpreserve.urlcanon.Canonicalizer;
 import org.netpreserve.urlcanon.ParsedUrl;
+
+import java.net.URI;
+import java.util.regex.Pattern;
 
 @UtilityClass
 @Slf4j

@@ -4,12 +4,14 @@ import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
-import java.time.Duration;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.time.Duration;
 
 class FeedEntryFilteringServiceTest {
     private CommaFeedConfiguration config;

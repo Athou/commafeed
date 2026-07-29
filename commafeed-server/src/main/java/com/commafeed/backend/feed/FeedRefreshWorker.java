@@ -8,14 +8,18 @@ import com.commafeed.backend.HttpGetter.TooManyRequestsException;
 import com.commafeed.backend.feed.FeedFetcher.FeedFetcherResult;
 import com.commafeed.backend.feed.parser.FeedParserResult.Entry;
 import com.commafeed.backend.model.Feed;
+
 import jakarta.inject.Singleton;
+
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.lang3.Strings;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.Strings;
 
 /**
  * Calls {@link FeedFetcher} and updates the Feed object, but does not update the database, ({@link

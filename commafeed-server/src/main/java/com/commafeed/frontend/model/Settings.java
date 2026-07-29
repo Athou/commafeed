@@ -5,10 +5,14 @@ import com.commafeed.backend.model.UserSettings.PushNotificationType;
 import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.model.UserSettings.ScrollMode;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.io.Serializable;
+
 import lombok.Data;
+
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.io.Serializable;
 
 @SuppressWarnings("serial")
 @Schema(description = "User settings")

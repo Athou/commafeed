@@ -9,11 +9,14 @@ import com.commafeed.frontend.model.request.StarRequest;
 import com.commafeed.frontend.resource.fever.FeverResponse;
 import com.commafeed.frontend.resource.fever.FeverResponse.FeverItem;
 import com.commafeed.integration.BaseIT;
+
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
+
 import lombok.Setter;
+
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

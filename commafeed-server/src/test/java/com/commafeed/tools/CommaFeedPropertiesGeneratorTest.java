@@ -1,12 +1,14 @@
 package com.commafeed.tools;
 
 import com.google.common.io.Resources;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 class CommaFeedPropertiesGeneratorTest {
 

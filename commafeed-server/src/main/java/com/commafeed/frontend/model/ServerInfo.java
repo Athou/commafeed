@@ -1,9 +1,12 @@
 package com.commafeed.frontend.model;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.io.Serializable;
+
 import lombok.Data;
+
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.io.Serializable;
 
 @SuppressWarnings("serial")
 @Schema(description = "Server infos")

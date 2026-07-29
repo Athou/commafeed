@@ -1,8 +1,9 @@
 package com.commafeed.backend.feed.parser;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.text.Bidi;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.math.NumberUtils;
 
 public class TextDirectionDetector {
 

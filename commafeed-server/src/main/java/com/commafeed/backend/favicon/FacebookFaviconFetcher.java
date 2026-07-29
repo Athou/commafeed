@@ -3,15 +3,19 @@ package com.commafeed.backend.favicon;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.model.Feed;
+
 import jakarta.annotation.Priority;
 import jakarta.inject.Singleton;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.net.URIBuilder;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.hc.core5.http.NameValuePair;
-import org.apache.hc.core5.net.URIBuilder;
 
 @Slf4j
 @RequiredArgsConstructor

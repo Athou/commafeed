@@ -1,7 +1,9 @@
 package com.commafeed.backend.dao;
 
 import io.quarkus.narayana.jta.QuarkusTransaction;
+
 import jakarta.inject.Singleton;
+
 import java.util.concurrent.Callable;
 
 @Singleton

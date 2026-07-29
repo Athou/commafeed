@@ -1,11 +1,14 @@
 package com.commafeed.frontend.model;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
+
+import lombok.Data;
+
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Data;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @SuppressWarnings("serial")
 @Schema(description = "List of entries with some metadata")

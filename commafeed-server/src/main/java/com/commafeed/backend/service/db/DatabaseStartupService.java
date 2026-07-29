@@ -2,12 +2,16 @@ package com.commafeed.backend.service.db;
 
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.dao.UserDAO;
+
 import jakarta.inject.Singleton;
+
 import liquibase.database.Database;
 import liquibase.database.core.PostgresDatabase;
 import liquibase.structure.DatabaseObject;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.kohsuke.MetaInfServices;
 
 @Slf4j

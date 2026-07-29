@@ -3,9 +3,12 @@ package com.commafeed.frontend.model.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import java.io.Serializable;
+
 import lombok.Data;
+
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.io.Serializable;
 
 @SuppressWarnings("serial")
 @Data

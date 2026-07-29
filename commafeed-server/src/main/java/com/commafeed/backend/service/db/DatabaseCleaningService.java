@@ -11,10 +11,13 @@ import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
+
 import jakarta.inject.Singleton;
+
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.Instant;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 
 /** Contains utility methods for cleaning the database */
 @Slf4j

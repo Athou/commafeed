@@ -11,16 +11,21 @@ import com.commafeed.backend.feed.parser.FeedParser;
 import com.commafeed.backend.feed.parser.FeedParser.FeedParsingException;
 import com.commafeed.backend.feed.parser.FeedParserResult;
 import com.commafeed.backend.urlprovider.FeedURLProvider;
+
 import io.quarkus.arc.All;
+
 import jakarta.inject.Singleton;
+
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
 
 /** Fetches a feed then parses it */
 @Slf4j

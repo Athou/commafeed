@@ -4,11 +4,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-import java.sql.Types;
-import java.time.Instant;
+
 import lombok.Getter;
 import lombok.Setter;
+
 import org.hibernate.annotations.JdbcTypeCode;
+
+import java.sql.Types;
+import java.time.Instant;
 
 @Entity
 @Table(name = "FEEDS")

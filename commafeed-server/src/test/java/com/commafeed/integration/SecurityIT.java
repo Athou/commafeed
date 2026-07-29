@@ -7,17 +7,21 @@ import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
+
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+
 import jakarta.ws.rs.core.HttpHeaders;
-import java.net.HttpCookie;
-import java.util.List;
-import java.util.stream.Collectors;
+
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.net.HttpCookie;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @QuarkusTest
 class SecurityIT extends BaseIT {

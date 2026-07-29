@@ -7,10 +7,14 @@ import com.commafeed.backend.feed.parser.FeedParserResult.Content;
 import com.commafeed.backend.feed.parser.FeedParserResult.Enclosure;
 import com.commafeed.backend.feed.parser.FeedParserResult.Media;
 import com.commafeed.backend.model.FeedEntryContent;
+
 import jakarta.inject.Singleton;
-import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
+
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Singleton

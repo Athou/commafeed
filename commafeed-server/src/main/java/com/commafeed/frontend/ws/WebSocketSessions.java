@@ -3,12 +3,15 @@ package com.commafeed.frontend.ws;
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.model.User;
+
 import jakarta.inject.Singleton;
 import jakarta.websocket.Session;
+
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import lombok.extern.slf4j.Slf4j;
 
 @Singleton
 @Slf4j

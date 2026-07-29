@@ -1,15 +1,19 @@
 package com.commafeed.backend.feed;
 
 import com.google.common.primitives.Bytes;
+
+import lombok.experimental.UtilityClass;
+
+import org.apache.commons.lang3.RandomUtils;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import lombok.experimental.UtilityClass;
-import org.apache.commons.lang3.RandomUtils;
 
 @UtilityClass
 public class ImageProxyUrl {

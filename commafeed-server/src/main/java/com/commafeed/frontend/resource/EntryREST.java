@@ -11,6 +11,7 @@ import com.commafeed.frontend.model.request.TagRequest;
 import com.commafeed.security.AuthenticationContext;
 import com.commafeed.security.Roles;
 import com.google.common.base.Preconditions;
+
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
@@ -22,11 +23,14 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
+
 import lombok.RequiredArgsConstructor;
+
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+
+import java.util.List;
 
 @Path("/rest/entry")
 @RolesAllowed(Roles.USER)

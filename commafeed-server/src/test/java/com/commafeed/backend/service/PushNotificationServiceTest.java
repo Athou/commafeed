@@ -10,7 +10,7 @@ import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.UserSettings.PushNotificationType;
 import com.commafeed.backend.model.UserSettings.PushNotificationUserSettings;
-import java.time.Duration;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +22,8 @@ import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 import org.mockserver.model.JsonBody;
 import org.mockserver.model.MediaType;
+
+import java.time.Duration;
 
 @ExtendWith(MockServerExtension.class)
 class PushNotificationServiceTest {

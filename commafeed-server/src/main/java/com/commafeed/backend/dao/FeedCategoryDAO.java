@@ -5,8 +5,10 @@ import com.commafeed.backend.model.QFeedCategory;
 import com.commafeed.backend.model.QUser;
 import com.commafeed.backend.model.User;
 import com.querydsl.core.types.Predicate;
+
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
+
 import java.util.List;
 import java.util.Objects;
 

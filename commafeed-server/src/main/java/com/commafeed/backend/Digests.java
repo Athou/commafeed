@@ -2,8 +2,10 @@ package com.commafeed.backend;
 
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
-import java.nio.charset.StandardCharsets;
+
 import lombok.experimental.UtilityClass;
+
+import java.nio.charset.StandardCharsets;
 
 @UtilityClass
 @SuppressWarnings("deprecation")

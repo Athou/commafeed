@@ -3,11 +3,14 @@ package com.commafeed.backend.favicon;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.model.Feed;
+
 import jakarta.annotation.Priority;
 import jakarta.inject.Singleton;
-import java.net.URI;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.net.URI;
 
 /** Fetches favicon from root of the domain (e.g. https://example.com/favicon.ico) */
 @Slf4j

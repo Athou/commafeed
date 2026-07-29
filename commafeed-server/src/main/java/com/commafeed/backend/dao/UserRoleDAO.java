@@ -4,8 +4,10 @@ import com.commafeed.backend.model.QUserRole;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
+
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

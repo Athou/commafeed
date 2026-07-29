@@ -2,9 +2,7 @@ package com.commafeed.backend.feed;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedConfiguration.FeedRefreshErrorHandling;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.InstantSource;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -15,6 +13,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.time.InstantSource;
 
 @ExtendWith(MockitoExtension.class)
 class FeedRefreshIntervalCalculatorTest {

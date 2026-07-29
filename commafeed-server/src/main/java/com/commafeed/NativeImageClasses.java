@@ -6,6 +6,7 @@ import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection(

@@ -7,21 +7,18 @@ import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.request.AddCategoryRequest;
 import com.commafeed.frontend.model.request.InitialSetupRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
+
 import io.restassured.RestAssured;
 import io.restassured.config.ObjectMapperConfig;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.mapper.ObjectMapperType;
+
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.core.HttpHeaders;
-import java.io.IOException;
-import java.net.HttpCookie;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.time.Duration;
-import java.util.List;
-import java.util.Objects;
+
 import lombok.Getter;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.core5.http.HttpStatus;
 import org.awaitility.Awaitility;
@@ -31,6 +28,14 @@ import org.mockserver.client.MockServerClient;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
+
+import java.io.IOException;
+import java.net.HttpCookie;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.util.List;
+import java.util.Objects;
 
 @Getter
 public abstract class BaseIT {

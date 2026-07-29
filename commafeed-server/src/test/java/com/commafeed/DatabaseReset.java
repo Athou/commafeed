@@ -4,8 +4,10 @@ import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 import io.quarkus.test.junit.callback.QuarkusTestBeforeEachCallback;
 import io.quarkus.test.junit.callback.QuarkusTestMethodContext;
+
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.persistence.EntityManager;
+
 import org.hibernate.Session;
 import org.kohsuke.MetaInfServices;
 

@@ -3,9 +3,9 @@ package com.commafeed.backend.service;
 import com.commafeed.backend.favicon.Favicon;
 import com.commafeed.backend.favicon.FaviconFetcher;
 import com.commafeed.backend.model.Feed;
+
 import jakarta.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.io.IOException;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class FeedFaviconServiceTest {

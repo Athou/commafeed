@@ -6,11 +6,15 @@ import com.querydsl.jpa.impl.JPADeleteClause;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
+
 import jakarta.persistence.EntityManager;
+
+import lombok.RequiredArgsConstructor;
+
+import org.hibernate.jpa.SpecHints;
+
 import java.time.Duration;
 import java.util.Collection;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.jpa.SpecHints;
 
 @RequiredArgsConstructor
 public abstract class GenericDAO<T extends AbstractModel> {

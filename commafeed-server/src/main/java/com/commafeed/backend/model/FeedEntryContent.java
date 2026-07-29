@@ -1,17 +1,21 @@
 package com.commafeed.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-import java.sql.Types;
+
 import lombok.Getter;
 import lombok.Setter;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
+
+import java.sql.Types;
 
 @Entity
 @Table(name = "FEEDENTRYCONTENTS")

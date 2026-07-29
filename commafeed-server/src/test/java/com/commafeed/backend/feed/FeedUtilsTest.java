@@ -2,10 +2,12 @@ package com.commafeed.backend.feed;
 
 import com.commafeed.frontend.model.Entry;
 import com.rometools.rome.feed.synd.SyndEntry;
-import java.time.Instant;
-import java.util.Date;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.time.Instant;
+import java.util.Date;
 
 class FeedUtilsTest {
 

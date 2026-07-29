@@ -4,15 +4,20 @@ import com.commafeed.backend.favicon.Favicon;
 import com.commafeed.backend.favicon.FaviconFetcher;
 import com.commafeed.backend.model.Feed;
 import com.google.common.io.Resources;
+
 import io.quarkus.arc.All;
+
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.MediaType;
+
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ArrayUtils;
 
 @Singleton
 @Slf4j

@@ -9,7 +9,9 @@ import io.quarkus.vertx.http.runtime.security.ChallengeData;
 import io.quarkus.vertx.http.runtime.security.HttpAuthenticationMechanism;
 import io.smallrye.mutiny.Uni;
 import io.vertx.ext.web.RoutingContext;
+
 import jakarta.inject.Singleton;
+
 import java.util.Optional;
 import java.util.Set;
 

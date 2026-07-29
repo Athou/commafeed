@@ -1,10 +1,11 @@
 package com.commafeed.backend.feed.parser;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.experimental.UtilityClass;
 
 @UtilityClass
 class HtmlEntities {

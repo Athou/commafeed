@@ -2,7 +2,9 @@ package com.commafeed.frontend.ws;
 
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.backend.model.User;
+
 import jakarta.websocket.Session;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

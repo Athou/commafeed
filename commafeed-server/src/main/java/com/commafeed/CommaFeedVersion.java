@@ -1,10 +1,12 @@
 package com.commafeed;
 
 import jakarta.inject.Singleton;
+
+import lombok.Getter;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import lombok.Getter;
 
 @Singleton
 @Getter

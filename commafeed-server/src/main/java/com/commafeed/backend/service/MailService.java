@@ -1,9 +1,12 @@
 package com.commafeed.backend.service;
 
 import com.commafeed.backend.model.User;
+
 import io.quarkus.mailer.Mail;
 import io.quarkus.mailer.Mailer;
+
 import jakarta.inject.Singleton;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

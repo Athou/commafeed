@@ -11,6 +11,7 @@ import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.security.AuthenticationContext;
+
 import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.DefaultValue;
@@ -19,11 +20,14 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-import java.net.URI;
-import java.util.List;
+
 import lombok.RequiredArgsConstructor;
+
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.openapi.annotations.Operation;
+
+import java.net.URI;
+import java.util.List;
 
 @Path("/next")
 @RequiredArgsConstructor

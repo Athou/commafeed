@@ -1,9 +1,12 @@
 package com.commafeed.frontend.model.request;
 
 import com.commafeed.security.password.ValidPassword;
-import java.io.Serializable;
+
 import lombok.Data;
+
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.io.Serializable;
 
 @SuppressWarnings("serial")
 @Schema(description = "Save User information")

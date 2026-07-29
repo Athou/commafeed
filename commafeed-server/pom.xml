@@ -451,7 +451,7 @@
         <dependency>
             <groupId>io.github.hakky54</groupId>
             <artifactId>ayza-for-apache5</artifactId>
-            <version>10.0.5</version>
+            <version>10.0.6</version>
         </dependency>
         <dependency>
             <groupId>org.brotli</groupId>

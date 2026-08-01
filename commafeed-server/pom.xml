@@ -16,6 +16,8 @@
         <quarkus.version>3.38.0</quarkus.version>
         <querydsl.version>7.5</querydsl.version>
         <rome.version>2.1.0</rome.version>
+        <!-- renovate: depName=com.google.googlejavaformat:google-java-format -->
+        <google-java-format.version>1.36.1</google-java-format.version>
 
         <build.database>h2</build.database>
     </properties>
@@ -286,6 +288,7 @@
                     <encoding>UTF-8</encoding>
                     <java>
                         <googleJavaFormat>
+                            <version>${google-java-format.version}</version>
                             <style>AOSP</style>
                             <reorderImports>true</reorderImports>
                         </googleJavaFormat>

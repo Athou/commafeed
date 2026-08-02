@@ -48,6 +48,26 @@ class RootFaviconFetcherTest {
     }
 
     @Test
+    void testFetchUsesLinkWhenAvailableWithNonDefaultPort() throws Exception {
+        Feed feed = new Feed();
+        feed.setUrl("https://feeds.example.com:8000/feed");
+        feed.setLink("https://www.example.com:8000/blog");
+
+        byte[] iconBytes = new byte[1000];
+        String contentType = "image/x-icon";
+        HttpResult httpResult =
+                new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
+        Mockito.when(httpGetter.get("https://www.example.com:8000/favicon.ico"))
+                .thenReturn(httpResult);
+
+        Favicon result = faviconFetcher.fetch(feed);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(iconBytes, result.icon());
+        Assertions.assertTrue(result.mediaType().isCompatible(MediaType.valueOf(contentType)));
+    }
+
+    @Test
     void testFetchFallsBackToUrlWhenLinkIsNull() throws Exception {
         Feed feed = new Feed();
         feed.setUrl("https://example.com/feed.xml");

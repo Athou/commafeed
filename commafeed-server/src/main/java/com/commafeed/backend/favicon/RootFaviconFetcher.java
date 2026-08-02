@@ -30,7 +30,12 @@ public class RootFaviconFetcher implements FaviconFetcher {
 
         try {
             URI uri = URI.create(url.trim());
-            String faviconUrl = "%s://%s/favicon.ico".formatted(uri.getScheme(), uri.getHost());
+            String faviconUrl =
+                    "%s://%s%s/favicon.ico"
+                            .formatted(
+                                    uri.getScheme(),
+                                    uri.getHost(),
+                                    uri.getPort() > 0 ? ":" + uri.getPort() : "");
 
             log.debug("getting root icon at {}", faviconUrl);
             HttpResult result = getter.get(faviconUrl);

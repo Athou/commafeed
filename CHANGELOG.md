@@ -1,5 +1,10 @@
 # Changelog
 
+## [7.2.1]
+
+- correctly handle favicons hosted at the root of the domain for feeds with non-default ports
+- prevent XXS injections in third party apps. The CommaFeed React client was already stripping malicious "javascript:" URLs, they are now filtered during feed parsing and no longer stored in the database/served through the REST API.
+
 ## [7.2.0]
 
 - Add support for icons declared in feeds. This is useful for feeds exposed by RSS bridges (#2048)

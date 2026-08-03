@@ -94,6 +94,35 @@ class UrlsTest {
     }
 
     @Test
+    void testSanitize() {
+        // valid http/https urls are kept as is
+        Assertions.assertEquals("http://example.com/foo", Urls.sanitize("http://example.com/foo"));
+        Assertions.assertEquals(
+                "https://example.com/foo", Urls.sanitize("https://example.com/foo"));
+
+        // scheme matching is case-insensitive
+        Assertions.assertEquals("HTTP://example.com/foo", Urls.sanitize("HTTP://example.com/foo"));
+        Assertions.assertEquals(
+                "HTTPS://example.com/foo", Urls.sanitize("HTTPS://example.com/foo"));
+
+        // malicious or disallowed schemes are stripped
+        Assertions.assertNull(Urls.sanitize("javascript:alert(1)"));
+        Assertions.assertNull(Urls.sanitize("JavaScript:alert(1)"));
+        Assertions.assertNull(Urls.sanitize("data:text/html,<script>alert(1)</script>"));
+        Assertions.assertNull(Urls.sanitize("mailto:foo@example.com"));
+        Assertions.assertNull(Urls.sanitize("ftp://example.com/foo"));
+
+        // relative and protocol-relative urls are not considered valid
+        Assertions.assertNull(Urls.sanitize("/blog/entry/1"));
+        Assertions.assertNull(Urls.sanitize("//example.com/foo"));
+
+        // null and blank input
+        Assertions.assertNull(Urls.sanitize(null));
+        Assertions.assertNull(Urls.sanitize(""));
+        Assertions.assertNull(Urls.sanitize("   "));
+    }
+
+    @Test
     void testRemoveTrailingSlash() {
         final String url = "http://localhost/";
         final String result = Urls.removeTrailingSlash(url);

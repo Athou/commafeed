@@ -80,8 +80,8 @@ public class FeedParser {
             handleForeignMarkup(feed);
 
             String title = feed.getTitle();
-            String link = feed.getLink();
-            String iconUrl = feed.getIcon() != null ? feed.getIcon().getUrl() : null;
+            String link = Urls.sanitize(feed.getLink());
+            String iconUrl = Urls.sanitize(feed.getIcon() != null ? feed.getIcon().getUrl() : null);
             List<Entry> entries = buildEntries(feed, feedUrl);
             Instant lastEntryDate = entries.stream().findFirst().map(Entry::published).orElse(null);
             Instant lastPublishedDate = toValidInstant(feed.getPublishedDate(), false);
@@ -145,7 +145,7 @@ public class FeedParser {
             Instant publishedDate = buildEntryPublishedDate(item);
             Content content = buildContent(item);
 
-            entries.add(new Entry(guid, url, publishedDate, content));
+            entries.add(new Entry(guid, Urls.sanitize(url), publishedDate, content));
         }
 
         entries.sort(ENTRY_COMPARATOR);
@@ -173,7 +173,7 @@ public class FeedParser {
             return null;
         }
 
-        return new Enclosure(enclosure.getUrl(), enclosure.getType());
+        return new Enclosure(Urls.sanitize(enclosure.getUrl()), enclosure.getType());
     }
 
     private Instant buildEntryPublishedDate(SyndEntry item) {
@@ -277,7 +277,7 @@ public class FeedParser {
             return null;
         }
 
-        return new Media(description, thumbnailUrl, thumbnailWidth, thumbnailHeight);
+        return new Media(description, Urls.sanitize(thumbnailUrl), thumbnailWidth, thumbnailHeight);
     }
 
     private Long averageTimeBetweenEntries(List<Entry> entries) {

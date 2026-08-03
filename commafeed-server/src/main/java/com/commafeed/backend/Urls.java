@@ -8,6 +8,7 @@ import org.netpreserve.urlcanon.Canonicalizer;
 import org.netpreserve.urlcanon.ParsedUrl;
 
 import java.net.URI;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 @UtilityClass
@@ -17,15 +18,36 @@ public class Urls {
     private static final Pattern QUESTION_MARK = Pattern.compile(Pattern.quote("?"));
 
     public static boolean isHttp(String url) {
-        return url.startsWith("http://");
+        if (url == null) {
+            return false;
+        }
+
+        return url.toLowerCase(Locale.ROOT).startsWith("http://");
     }
 
     public static boolean isHttps(String url) {
-        return url.startsWith("https://");
+        if (url == null) {
+            return false;
+        }
+
+        return url.toLowerCase(Locale.ROOT).startsWith("https://");
     }
 
     public static boolean isAbsolute(String url) {
         return isHttp(url) || isHttps(url);
+    }
+
+    /** remove malicious 'javascript: 'URLs * */
+    public static String sanitize(String url) {
+        if (url == null) {
+            return null;
+        }
+
+        if (!isHttp(url) && !isHttps(url)) {
+            return null;
+        }
+
+        return url;
     }
 
     /**

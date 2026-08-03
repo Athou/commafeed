@@ -14,6 +14,8 @@ import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.lang3.SystemProperties;
+
 @Slf4j
 @Singleton
 @RequiredArgsConstructor
@@ -25,6 +27,12 @@ public class CommaFeedApplication {
 
     public void start(@Observes StartupEvent ev) {
         log.info("starting up...");
+
+        // disable entity expansion limits added in JDK24+ (#1961)
+        // we already strip doctype declarations in XMLCleaner to prevent xxe attacks
+        // we also already limit the size of feeds we download in HttpGetter
+        System.setProperty(SystemProperties.JDK_XML_MAX_GENERAL_ENTITY_SIZE_LIMIT, "0");
+        System.setProperty(SystemProperties.JDK_XML_TOTAL_ENTITY_SIZE_LIMIT, "0");
 
         PasswordConstraintValidator.setMinimumPasswordLength(
                 config.users().minimumPasswordLength());

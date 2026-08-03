@@ -23,7 +23,6 @@ import jakarta.inject.Singleton;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemProperties;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -58,12 +57,6 @@ public class FeedParser {
     public FeedParser(EncodingDetector encodingDetector, XMLCleaner xmlCleaner) {
         this.encodingDetector = encodingDetector;
         this.xmlCleaner = xmlCleaner;
-
-        // disable entity expansion limits added in JDK24+ (#1961)
-        // we already strip doctype declarations in XMLCleaner to prevent xxe attacks
-        // we also already limit the size of feeds we download in HttpGetter
-        System.setProperty(SystemProperties.JDK_XML_MAX_GENERAL_ENTITY_SIZE_LIMIT, "0");
-        System.setProperty(SystemProperties.JDK_XML_TOTAL_ENTITY_SIZE_LIMIT, "0");
     }
 
     public FeedParserResult parse(String feedUrl, byte[] xml) throws FeedParsingException {

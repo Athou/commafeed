@@ -1,4 +1,4 @@
-FROM ibm-semeru-runtimes:open-jdk-25.0.4.0-jre@sha256:043f6729aa35914e2ebf76624e305da7aa5971fc5e8a091c02c45334daa502d8
+FROM ibm-semeru-runtimes:open-jdk-25.0.4.0-jre@sha256:02888a2306c2cb8af22a05b2c41be90fdc9df5f4611861ddf6ea90c874de65e6
 EXPOSE 8082
 
 RUN mkdir -p /commafeed/data

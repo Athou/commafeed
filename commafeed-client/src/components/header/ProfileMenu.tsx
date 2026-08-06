@@ -124,7 +124,7 @@ export function ProfileMenu(props: Readonly<ProfileMenuProps>) {
     }
 
     return (
-        <Menu position="bottom-end" closeOnItemClick={false} opened={opened} onChange={setOpened}>
+        <Menu position="bottom-end" closeOnItemClick={false} opened={opened} onChange={setOpened} preventPositionChangeWhenVisible={false}>
             <Menu.Target>{props.control}</Menu.Target>
             <Menu.Dropdown>
                 {profile && <Menu.Label>{profile.name}</Menu.Label>}

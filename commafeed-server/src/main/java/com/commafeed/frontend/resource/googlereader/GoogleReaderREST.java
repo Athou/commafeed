@@ -694,7 +694,7 @@ public class GoogleReaderREST {
         s.setTitle(sub.getTitle());
         s.setUrl(sub.getFeed().getUrl());
         s.setHtmlUrl(sub.getFeed().getLink());
-        s.setIconUrl(sub.getFeed().getIconUrl());
+        s.setIconUrl(FeedUtils.getFaviconUrl(sub));
         if (sub.getCategory() != null) {
             s.getCategories()
                     .add(

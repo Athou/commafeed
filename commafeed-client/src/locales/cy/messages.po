@@ -210,6 +210,10 @@ msgstr "Fersiwn estyniad porwr CommaFeed {browserExtensionVersion}."
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
 msgstr "Mae CommaFeed yn gydnaws â'r Fever API. Defnyddiwch y URL canlynol yn eich cleient symudol sy'n gydnaws â Fever. Mewngofnodwch gyda'ch enw defnyddiwr a'ch <0>allwedd API</0>."
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "CommaFeed is compatible with the Google Reader API. Use the following URL in your Google Reader-compatible mobile client. Login with your username and your <0>API key</0>."
+msgstr "Mae CommaFeed yn gydnaws â Google Reader API. Defnyddiwch y URL canlynol yn eich cleient symudol sy'n gydnaws â Google Reader. Mewngofnodwch gyda'ch enw defnyddiwr a'ch <0>allwedd API</0>."
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "CommaFeed eitem nesaf heb ei darllen"
@@ -453,6 +457,14 @@ msgstr "Ewch i'r ddogfennaeth API."
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
 msgstr "nwyddau"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API URL"
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
@@ -1065,8 +1077,8 @@ msgid "This feed has a legacy filter that cannot be edited and is not applied. P
 msgstr "Mae gan y porthiant hwn hen hidlydd na ellir ei olygu ac nid yw'n cael ei gymhwyso. Crëwch yr hidlydd eto gan ddefnyddio'r golygydd mynegiant newydd. Yr hen fynegiant hidlo oedd: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
-msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr "Dyma'ch allwedd API. Gellir ei ddefnyddio ar gyfer rhai gweithrediadau API darllen-yn-unig ac mae'n caniatáu mynediad i'r Fever API. Defnyddiwch y ffurflen ar waelod y dudalen i gynhyrchu allwedd API newydd"
+msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
+msgstr "Dyma eich allwedd API. Gellir ei defnyddio ar gyfer rhai gweithrediadau API darllen-yn-unig ac mae'n rhoi mynediad i'r Fever API a'r Google Reader API. Defnyddiwch y ffurflen ar waelod y dudalen i gynhyrchu allwedd API newydd"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"

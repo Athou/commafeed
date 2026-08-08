@@ -210,6 +210,10 @@ msgstr "CommaFeed ブラウザー拡張機能のバージョンは {browserExten
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
 msgstr "CommaFeedはFever APIと互換性があります。Fever互換のモバイルクライアントで次のURLを使用してください。ユーザー名と <0>API キー</0> でログインしてください。"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "CommaFeed is compatible with the Google Reader API. Use the following URL in your Google Reader-compatible mobile client. Login with your username and your <0>API key</0>."
+msgstr "CommaFeedはGoogle Reader APIと互換性があります。Google Reader互換のモバイルクライアントで次のURLを使用してください。ユーザー名と <0>API キー</0> でログインしてください。"
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "CommaFeed 次の未読アイテム"
@@ -453,6 +457,14 @@ msgstr "APIドキュメントに移動します。"
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
 msgstr "グッズ"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API URL"
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
@@ -1065,8 +1077,8 @@ msgid "This feed has a legacy filter that cannot be edited and is not applied. P
 msgstr "このフィードには、編集できず適用もされない古い形式のフィルタがあります。新しい式エディタを使用してフィルタを再作成してください。古いフィルタ式は次のとおりでした: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
-msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr "これはあなたのAPIキーです。いくつかの読み取り専用API操作に使用できます。これにより、Fever APIへのアクセスが可能になります。ページの下部のフォームを使用して新しいAPIキーを生成します。"
+msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
+msgstr "これはあなたのAPIキーです。一部の読み取り専用API操作に使用でき、Fever APIおよびGoogle Reader APIへのアクセスを許可します。新しいAPIキーを生成するには、ページ下部のフォームを使用してください"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"

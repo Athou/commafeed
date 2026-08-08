@@ -91,8 +91,8 @@ export function ProfileSettings() {
                         label={<Trans>API key</Trans>}
                         description={
                             <Trans>
-                                This is your API key. It can be used for some read-only API operations and grants access to the Fever API.
-                                Use the form at the bottom of the page to generate a new API key
+                                This is your API key. It can be used for some read-only API operations and grants access to the Fever API
+                                and the Google Reader API. Use the form at the bottom of the page to generate a new API key
                             </Trans>
                         }
                         readOnly
@@ -126,6 +126,22 @@ export function ProfileSettings() {
                         <Box>
                             <Anchor href={`rest/fever/user/${profile?.id}`} target="_blank">
                                 <Trans>Fever API URL</Trans>
+                            </Anchor>
+                        </Box>
+                    </Input.Wrapper>
+
+                    <Input.Wrapper
+                        label={<Trans>Google Reader API</Trans>}
+                        description={
+                            <Trans>
+                                CommaFeed is compatible with the Google Reader API. Use the following URL in your Google Reader-compatible
+                                mobile client. Login with your username and your <u>API key</u>.
+                            </Trans>
+                        }
+                    >
+                        <Box>
+                            <Anchor href="rest/googlereader" target="_blank">
+                                <Trans>Google Reader API URL</Trans>
                             </Anchor>
                         </Box>
                     </Input.Wrapper>

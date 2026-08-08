@@ -15,7 +15,7 @@ Google Reader inspired self-hosted RSS reader, based on Quarkus and React/TypeSc
 - Supports thousands of users and millions of feeds
 - OPML import/export
 - REST API
-- Fever-compatible API for native mobile apps
+- Fever and Google Reader API for native mobile apps
 - Can automatically mark articles as read based on user-defined rules
 - Push notifications when new articles are published
 - Highly customizable with [custom CSS](https://athou.github.io/commafeed/documentation/custom-css) and JavaScript

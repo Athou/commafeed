@@ -210,6 +210,10 @@ msgstr "CommaFeed 브라우저 확장 프로그램 버전 {browserExtensionVersi
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
 msgstr "CommaFeed는 Fever API와 호환됩니다. Fever 호환 모바일 클라이언트에서 다음 URL을 사용하십시오. 사용자 이름과 <0>API 키</0>로 로그인하십시오."
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "CommaFeed is compatible with the Google Reader API. Use the following URL in your Google Reader-compatible mobile client. Login with your username and your <0>API key</0>."
+msgstr "CommaFeed는 Google Reader API와 호환됩니다. Google Reader 호환 모바일 클라이언트에서 다음 URL을 사용하십시오. 사용자 이름과 <0>API 키</0>로 로그인하십시오."
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "다음 읽지 않은 항목을 쉼표로 피드"
@@ -453,6 +457,14 @@ msgstr "API 문서로 이동합니다."
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
 msgstr "굿즈"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API URL"
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
@@ -1065,8 +1077,8 @@ msgid "This feed has a legacy filter that cannot be edited and is not applied. P
 msgstr "이 피드에는 편집할 수 없고 적용되지 않는 기존 필터가 있습니다. 새 표현식 편집기를 사용하여 필터를 다시 만드십시오. 기존 필터 표현식은 <0>{0}</0>이었습니다."
 
 #: src/components/settings/ProfileSettings.tsx
-msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr "이것은 귀하의 API 키입니다. 일부 읽기 전용 API 작업에 사용할 수 있으며 Fever API에 대한 액세스 권한을 부여합니다. 새 API 키를 생성하려면 페이지 하단의 양식을 사용하십시오."
+msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
+msgstr "이것은 회원님의 API 키입니다. 일부 읽기 전용 API 작업에 사용할 수 있으며 Fever API 및 Google Reader API에 대한 액세스 권한을 부여합니다. 새 API 키를 생성하려면 페이지 하단의 양식을 사용하십시오"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"

@@ -210,6 +210,10 @@ msgstr "Extensão de navegador CommaFeed versão {browserExtensionVersion}."
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
 msgstr "CommaFeed é compatível com a API Fever. Use a URL a seguir no seu aplicativo móvel compatível com Fever. Entre com seu nome de usuário e sua <0>chave de API</0>."
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "CommaFeed is compatible with the Google Reader API. Use the following URL in your Google Reader-compatible mobile client. Login with your username and your <0>API key</0>."
+msgstr "CommaFeed é compatível com a API Google Reader. Use a URL a seguir no seu aplicativo móvel compatível com Google Reader. Entre com seu nome de usuário e sua <0>chave de API</0>."
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "CommaFeed próximo item não lido"
@@ -453,6 +457,14 @@ msgstr "Vá para a documentação da API."
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
 msgstr "Brindes"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API URL"
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
@@ -1065,8 +1077,8 @@ msgid "This feed has a legacy filter that cannot be edited and is not applied. P
 msgstr "Este feed tem um filtro legado que não pode ser editado e não é aplicado. Recrie o filtro usando o novo editor de expressões. A expressão do filtro legado era: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
-msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr "Esta é sua chave de API. Ela pode ser usada para algumas operações somente leitura da API e concede acesso à API do Fever. Use o formulário abaixo para gerar uma nova chave de API"
+msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
+msgstr "Esta é sua chave de API. Ela pode ser usada para algumas operações de API somente leitura e concede acesso à API Fever e à API Google Reader. Use o formulário na parte inferior da página para gerar uma nova chave de API"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"

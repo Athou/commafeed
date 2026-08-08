@@ -210,6 +210,10 @@ msgstr "Wersja rozszerzenia przeglądarki CommaFeed {browserExtensionVersion}."
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
 msgstr "CommaFeed jest kompatybilny z API Fever. Użyj następującego adresu URL w swoim kliencie mobilnym zgodnym z Fever. Zaloguj się przy użyciu swojej nazwy użytkownika i <0>klucza API</0>."
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "CommaFeed is compatible with the Google Reader API. Use the following URL in your Google Reader-compatible mobile client. Login with your username and your <0>API key</0>."
+msgstr "CommaFeed jest kompatybilny z API Google Reader. Użyj następującego adresu URL w swoim kliencie mobilnym zgodnym z Google Reader. Zaloguj się przy użyciu swojej nazwy użytkownika i <0>klucza API</0>."
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "Przecinek następny nieprzeczytany element"
@@ -453,6 +457,14 @@ msgstr "Przejdź do dokumentacji API."
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
 msgstr "Gadżety"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API URL"
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
@@ -1065,8 +1077,8 @@ msgid "This feed has a legacy filter that cannot be edited and is not applied. P
 msgstr "Ten kanał ma stary filtr, którego nie można edytować i który nie jest stosowany. Proszę utworzyć filtr ponownie, korzystając z nowego edytora wyrażeń. Stare wyrażenie filtra to: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
-msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr "To jest Twój klucz API. Może być używany do niektórych operacji API tylko do odczytu i zapewnia dostęp do API Fever. Użyj formularza na dole strony, aby wygenerować nowy klucz API"
+msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
+msgstr "To jest Twój klucz API. Może być używany do niektórych operacji API tylko do odczytu i zapewnia dostęp do API Fever i API Google Reader. Użyj formularza na dole strony, aby wygenerować nowy klucz API"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"

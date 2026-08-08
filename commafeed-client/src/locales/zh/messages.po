@@ -210,6 +210,10 @@ msgstr "CommaFeed的浏览器扩展版本：{browserExtensionVersion}。"
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
 msgstr "CommaFeed 和 Fever API 兼容，可以在您Fever兼容的移动客户端中使用以下网址，通过用户名和<0>API密钥</0>登录。"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "CommaFeed is compatible with the Google Reader API. Use the following URL in your Google Reader-compatible mobile client. Login with your username and your <0>API key</0>."
+msgstr "CommaFeed 和 Google Reader API 兼容，可以在您Google Reader兼容的移动客户端中使用以下网址，通过用户名和<0>API密钥</0>登录。"
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "CommaFeed 下一个未读项目"
@@ -453,6 +457,14 @@ msgstr "API 文档"
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
 msgstr "好东西"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API URL"
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
@@ -1065,8 +1077,8 @@ msgid "This feed has a legacy filter that cannot be edited and is not applied. P
 msgstr "此信息流具有无法编辑且未应用的旧版过滤器。请使用新的表达式编辑器重新创建过滤器。旧版过滤器表达式为：<0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
-msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr "这是您的API 密钥，它可以被用于Fever API的只读操作及访问授权。使用页面底部的表单生成一个新的API密钥。"
+msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
+msgstr "这是您的 API 密钥。它可用于某些只读 API 操作，并授予对 Fever API 和 Google Reader API 的访问权限。使用页面底部的表单生成新的 API 密钥"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"

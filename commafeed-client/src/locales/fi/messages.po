@@ -210,6 +210,10 @@ msgstr "CommaFeed-selainlaajennuksen versio {browserExtensionVersion}."
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
 msgstr "CommaFeed on yhteensopiva Fever-API:n kanssa. Käytä seuraavaa URL-osoitetta Fever-yhteensopivassa mobiiliohjelmassasi. Kirjaudu sisään käyttäjätunnuksellasi ja <0>API-avaimellasi</0>."
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "CommaFeed is compatible with the Google Reader API. Use the following URL in your Google Reader-compatible mobile client. Login with your username and your <0>API key</0>."
+msgstr "CommaFeed on yhteensopiva Google Reader -API:n kanssa. Käytä seuraavaa URL-osoitetta Google Reader -yhteensopivassa mobiiliohjelmassasi. Kirjaudu sisään käyttäjätunnuksellasi ja <0>API-avaimellasi</0>."
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "CommaFeed seuraava lukematon kohde"
@@ -453,6 +457,14 @@ msgstr "Siirry API-dokumentaatioon."
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
 msgstr "Hyvää"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API URL"
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
@@ -1065,8 +1077,8 @@ msgid "This feed has a legacy filter that cannot be edited and is not applied. P
 msgstr "Tässä syötteessä on vanha suodatin, jota ei voi muokata ja jota ei sovelleta. Luo suodatin uudelleen käyttämällä uutta lauseke-editoria. Vanha suodatinlauseke oli: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
-msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr "Tämä on API-avaimesi. Sitä voidaan käyttää joihinkin vain luku -API-toimintoihin ja se antaa pääsyn Fever-API:iin. Käytä sivun alareunassa olevaa lomaketta uuden API-avaimen luomiseen"
+msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
+msgstr "Tämä on API-avaimesi. Sitä voidaan käyttää joihinkin vain luku -API-toimintoihin, ja se myöntää pääsyn Fever-API:hin ja Google Reader -API:hin. Käytä sivun alareunassa olevaa lomaketta luodaksesi uuden API-avaimen"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"

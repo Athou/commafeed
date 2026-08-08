@@ -210,6 +210,10 @@ msgstr "Ekstensi penyemak imbas CommaFeed versi {browserExtensionVersion}."
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
 msgstr "CommaFeed serasi dengan Fever API. Gunakan URL berikut dalam klien mudah alih serasi Fever anda. Log masuk dengan nama pengguna anda dan <0>kunci API</0> anda."
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "CommaFeed is compatible with the Google Reader API. Use the following URL in your Google Reader-compatible mobile client. Login with your username and your <0>API key</0>."
+msgstr "CommaFeed serasi dengan Google Reader API. Gunakan URL berikut dalam klien mudah alih serasi Google Reader anda. Log masuk dengan nama pengguna anda dan <0>kunci API</0> anda."
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "CommaFeed item belum dibaca seterusnya"
@@ -453,6 +457,14 @@ msgstr "Pergi ke dokumentasi API."
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
 msgstr "Barangan"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API URL"
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
@@ -1065,8 +1077,8 @@ msgid "This feed has a legacy filter that cannot be edited and is not applied. P
 msgstr "Suapan ini mempunyai penapis warisan yang tidak boleh diedit dan tidak digunakan. Sila buat semula penapis menggunakan editor ungkapan baharu. Ungkapan penapis warisan ialah: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
-msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr "Ini ialah kunci API anda. Ia boleh digunakan untuk beberapa operasi API baca sahaja dan memberikan akses kepada Fever API. Gunakan borang di bahagian bawah halaman untuk menjana kunci API baharu"
+msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
+msgstr "Ini ialah kunci API anda. Ia boleh digunakan untuk sesetengah operasi API baca sahaja dan memberikan akses kepada Fever API dan Google Reader API. Gunakan borang di bahagian bawah halaman untuk menjana kunci API baharu"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"

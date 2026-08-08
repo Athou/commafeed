@@ -210,6 +210,10 @@ msgstr "CommaFeed browser extensie versie {browserExtensionVersion}."
 msgid "CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client. Login with your username and your <0>API key</0>."
 msgstr "CommaFeed is compatibel met de Fever API. Gebruik de volgende URL in uw Fever-compatibele mobiele client. Log in met uw gebruikersnaam en uw <0>API-sleutel</0>."
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "CommaFeed is compatible with the Google Reader API. Use the following URL in your Google Reader-compatible mobile client. Login with your username and your <0>API key</0>."
+msgstr "CommaFeed is compatibel met de Google Reader API. Gebruik de volgende URL in uw Google Reader-compatibele mobiele client. Log in met uw gebruikersnaam en uw <0>API-sleutel</0>."
+
 #: src/pages/app/AboutPage.tsx
 msgid "CommaFeed next unread item"
 msgstr "CommaFeed volgende ongelezen item"
@@ -453,6 +457,14 @@ msgstr "Ga naar de API-documentatie."
 #: src/pages/app/AboutPage.tsx
 msgid "Goodies"
 msgstr "Goederen"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API"
+msgstr ""
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Google Reader API URL"
+msgstr ""
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
@@ -1065,8 +1077,8 @@ msgid "This feed has a legacy filter that cannot be edited and is not applied. P
 msgstr "Deze feed heeft een legacy-filter dat niet kan worden bewerkt en niet wordt toegepast. Maak het filter opnieuw met de nieuwe expressie-editor. De legacy-filterexpressie was: <0>{0}</0>"
 
 #: src/components/settings/ProfileSettings.tsx
-msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API. Use the form at the bottom of the page to generate a new API key"
-msgstr "Dit is je API-sleutel. Het kan worden gebruikt voor sommige alleen-lezen API-bewerkingen en geeft toegang tot de Fever API. Gebruik het formulier onderaan de pagina om een nieuwe API-sleutel te genereren"
+msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
+msgstr "Dit is uw API-sleutel. Deze kan worden gebruikt voor sommige alleen-lezen API-bewerkingen en geeft toegang tot de Fever API en de Google Reader API. Gebruik het formulier onderaan de pagina om een nieuwe API-sleutel te genereren"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "This setting can cause scrolling issues on some browsers (e.g. Safari)"

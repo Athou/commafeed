@@ -15,9 +15,10 @@ dayjs.extend(relativeTime)
 dayjs.extend(duration)
 
 const root = document.getElementById("root")
-root &&
-    ReactDOM.createRoot(root).render(
-        <Provider store={store}>
-            <App />
-        </Provider>
-    )
+if (!root) throw new Error("root element not found")
+
+ReactDOM.createRoot(root).render(
+    <Provider store={store}>
+        <App />
+    </Provider>
+)

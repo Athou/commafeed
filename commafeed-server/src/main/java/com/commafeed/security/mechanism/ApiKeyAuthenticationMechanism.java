@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Singleton
-public class ApiKeyAuthenticationMecanism implements HttpAuthenticationMechanism {
+public class ApiKeyAuthenticationMechanism implements HttpAuthenticationMechanism {
 
     @Override
     public Uni<SecurityIdentity> authenticate(

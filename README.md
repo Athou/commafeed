@@ -159,6 +159,14 @@ named [Semeru](https://developer.ibm.com/languages/java/semeru-runtimes/download
 This is the JVM used in
 the [Docker image](https://github.com/Athou/commafeed/blob/master/commafeed-server/src/main/docker/Dockerfile.jvm).
 
+## FAQ
+
+### Getting "Access to local address blocked" when adding a feed
+
+CommaFeed blocks access to local resources by default to prevent [SSRF](https://en.wikipedia.org/wiki/Server-side_request_forgery) attacks.
+If you want to subscribe to feeds that are only available on your local network, you can disable this security measure by setting the `commafeed.http-client.block-local-addresses` variable to `false`.
+Do this only if you trust all users of your CommaFeed instance not to access private resources.
+
 ## Translation
 
 Files for internationalization are

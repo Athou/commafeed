@@ -93,3 +93,12 @@ Tags are of the form `<version>-<database>[-jvm]` where:
     - `master` (always points to the latest git commit)
 - `<database>` is the database to use (`h2`, `postgresql`, `mysql` or `mariadb`)
 - `-jvm` is optional and indicates that CommaFeed is running on a JVM, and not compiled natively.
+
+## FAQ
+
+### Getting "Access to local address blocked" when adding a feed
+
+CommaFeed blocks access to local resources by default to prevent [SSRF](https://en.wikipedia.org/wiki/Server-side_request_forgery) attacks.
+If you want to subscribe to feeds that are only available on your local network, you can disable this security measure by setting the `COMMAFEED_HTTP_CLIENT_BLOCK_LOCAL_ADDRESSES` variable to `false`.
+Do this only if you trust all users of your CommaFeed instance not to access private resources.
+

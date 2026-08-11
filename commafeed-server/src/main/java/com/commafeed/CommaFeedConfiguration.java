@@ -130,7 +130,7 @@ public interface CommaFeedConfiguration {
          * <p>You may want to enable this if you host a public instance of CommaFeed with
          * registrations open.
          */
-        @WithDefault("false")
+        @WithDefault("true")
         boolean blockLocalAddresses();
 
         /** HTTP client cache configuration */

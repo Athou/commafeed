@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.3.0]
+
+- Add support for the Google Reader API for native mobile apps that don't support the Fever API
+- The profile menu now works again on mobile when action buttons are at the bottom of the screen
+- More SSRF protection regarding IPv6
+- Changed the default value of `blockLocalAddresses` to make CommaFeed more secure out-of-the-box. See the "Access to
+  local address blocked" section of the README if you subscribe to feeds that are only available on your local network.
+
 ## [7.2.1]
 
 - correctly handle favicons hosted at the root of the domain for feeds with non-default ports

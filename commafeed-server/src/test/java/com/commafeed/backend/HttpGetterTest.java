@@ -547,5 +547,47 @@ class HttpGetterTest {
             Assertions.assertThrows(
                     UnknownHostException.class, () -> getter.get("http://[fd00:dead:beef::50]"));
         }
+
+        @Test
+        void nat64() {
+            // 64:ff9b::/96 embeds the IPv4 address in the lower 32 bits (RFC 6052)
+            Assertions.assertThrows(
+                    UnknownHostException.class,
+                    () -> getter.get("http://[64:ff9b::a9fe:a9fe]")); // 169.254.169.254
+            Assertions.assertThrows(
+                    UnknownHostException.class,
+                    () -> getter.get("http://[64:ff9b::a00:1]")); // 10.0.0.1
+        }
+
+        @Test
+        void sixToFour() {
+            // 2002::/16 embeds the IPv4 address in bits 16-47 (RFC 3056)
+            Assertions.assertThrows(
+                    UnknownHostException.class,
+                    () -> getter.get("http://[2002:a9fe:a9fe::]")); // 169.254.169.254
+            Assertions.assertThrows(
+                    UnknownHostException.class,
+                    () -> getter.get("http://[2002:a00:1::]")); // 10.0.0.1
+        }
+
+        @Test
+        void teredo() {
+            // 2001:0000::/32 embeds the obfuscated (bitwise NOT) IPv4 address in the lower 32
+            // bits (RFC 4380)
+            Assertions.assertThrows(
+                    UnknownHostException.class,
+                    () -> getter.get("http://[2001:0:4136:e378:8000:63bf:f5ff:fffe]")); // 10.0.0.1
+        }
+
+        @Test
+        void ipv4Compatible() {
+            // deprecated ::/96 IPv4-compatible addresses embed the IPv4 address in the lower 32
+            // bits
+            Assertions.assertThrows(
+                    UnknownHostException.class,
+                    () -> getter.get("http://[::a9fe:a9fe]")); // 169.254.169.254
+            Assertions.assertThrows(
+                    UnknownHostException.class, () -> getter.get("http://[::a00:1]")); // 10.0.0.1
+        }
     }
 }

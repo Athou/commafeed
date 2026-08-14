@@ -55,7 +55,7 @@
     },
     "devDependencies": {
         "@babel/types": "^8.0.4",
-        "@biomejs/biome": "2.5.7",
+        "@biomejs/biome": "2.5.8",
         "@lingui/babel-plugin-lingui-macro": "6.6.0",
         "@lingui/cli": "6.6.0",
         "@lingui/vite-plugin": "6.6.0",

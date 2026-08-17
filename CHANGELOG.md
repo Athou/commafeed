@@ -1,5 +1,11 @@
 # Changelog
 
+## [7.3.1]
+
+- Prevent Host header injection attacks on the password recovery endpoint. A new setting
+  `commafeed.password-recovery-public-base-url` has been added to specify the base URL to use in password recovery
+  emails. This setting is only required when the password recovery feature is enabled, which is not the default.
+
 ## [7.3.0]
 
 - Add support for the Google Reader API for native mobile apps that don't support the Fever API

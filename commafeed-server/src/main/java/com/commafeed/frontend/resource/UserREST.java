@@ -413,7 +413,8 @@ public class UserREST {
     }
 
     private String buildEmailContent(User user) throws URISyntaxException {
-        String publicUrl = Urls.removeTrailingSlash(uri.getBaseUri().toString());
+        String publicUrl =
+                Urls.removeTrailingSlash(config.passwordRecoveryPublicBaseUrl().orElseThrow());
         return String.format(
                 "You asked for password recovery for account '%s', <a href='%s'>follow this link</a> to change your password. Ignore this if you didn't request a password recovery.",
                 user.getName(), callbackUrl(user, publicUrl));

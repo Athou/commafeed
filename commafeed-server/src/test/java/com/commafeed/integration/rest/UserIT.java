@@ -52,6 +52,7 @@ class UserIT extends BaseIT {
         RestAssured.given()
                 .body(req)
                 .contentType(ContentType.JSON)
+                .header("Host", "malicious.url.com")
                 .post("rest/user/passwordReset")
                 .then()
                 .statusCode(200);
@@ -64,6 +65,7 @@ class UserIT extends BaseIT {
         Assertions.assertTrue(
                 message.getHtml()
                         .startsWith("You asked for password recovery for account 'admin'"));
+        Assertions.assertTrue(message.getHtml().contains("https://commafeed.example.com"));
         Assertions.assertEquals("admin@commafeed.com", message.getTo().getFirst());
 
         Element a = Jsoup.parse(message.getHtml()).select("a").getFirst();

@@ -49,6 +49,13 @@ public interface CommaFeedConfiguration {
     @WithDefault("false")
     boolean passwordRecoveryEnabled();
 
+    /**
+     * The base URL of the application to use in the password recovery link in the email. We can't
+     * use the URL sent by the browser of the user because of malicious Host header injection
+     * attacks.
+     */
+    Optional<String> passwordRecoveryPublicBaseUrl();
+
     /** Message displayed in a notification at the bottom of the page. */
     Optional<String> announcement();
 

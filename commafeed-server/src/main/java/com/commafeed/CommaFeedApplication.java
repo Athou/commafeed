@@ -41,6 +41,11 @@ public class CommaFeedApplication {
             ImageProxyUrl.generateKey();
         }
 
+        if (config.passwordRecoveryEnabled() && config.passwordRecoveryPublicBaseUrl().isEmpty()) {
+            throw new IllegalStateException(
+                    "password recovery is enabled but no public base url is set");
+        }
+
         feedRefreshEngine.start();
         taskScheduler.start();
     }

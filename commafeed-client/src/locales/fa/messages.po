@@ -1150,6 +1150,11 @@ msgstr "وب سایت"
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
 msgstr "خوش آمدید! به نظر می‌رسد این اولین بار است که CommaFeed را اجرا می‌کنید. لطفاً برای شروع یک حساب مدیر ایجاد کنید."
 
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+msgid "Wrong username or password"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
 msgstr "زرد"

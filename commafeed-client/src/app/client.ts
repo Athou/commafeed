@@ -136,6 +136,15 @@ export const errorToStrings = (err: unknown) => {
     return strings
 }
 
+/**
+ * Transform a login error into messages that can be displayed to the user.
+ * Authentication failures use a client-provided message so it can be translated.
+ */
+export const loginErrorToStrings = (err: unknown, authenticationErrorMessage: string) => {
+    if (isAuthenticationError(err)) return [authenticationErrorMessage]
+    return errorToStrings(err)
+}
+
 function isMessageError(err: AxiosError): err is AxiosError<{ message: string }> {
     return !!err.response && !!err.response.data && typeof err.response.data === "object" && "message" in err.response.data
 }

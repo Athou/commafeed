@@ -5,7 +5,7 @@ import { Anchor, Box, Button, Center, Container, Group, Paper, PasswordInput, St
 import { useForm } from "@mantine/form"
 import { useAsyncCallback } from "react-async-hook"
 import { Link } from "react-router-dom"
-import { client, errorToStrings } from "@/app/client"
+import { client, errorToStrings, loginErrorToStrings } from "@/app/client"
 import { redirectToRootCategory } from "@/app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
 import type { RegistrationRequest } from "@/app/types"
@@ -65,7 +65,7 @@ export function RegistrationPage() {
 
                         {login.error && (
                             <Box mb="md">
-                                <Alert messages={errorToStrings(login.error)} />
+                                <Alert messages={loginErrorToStrings(login.error, _(msg`Wrong username or password`))} />
                             </Box>
                         )}
 

@@ -1150,6 +1150,11 @@ msgstr "Webhely"
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
 msgstr "Üdvözöljük! Úgy tűnik, ez az első alkalom, hogy a CommaFeedet futtatja. Kérjük, hozzon létre egy rendszergazdai fiókot a kezdéshez."
 
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+msgid "Wrong username or password"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
 msgstr "Sárga"

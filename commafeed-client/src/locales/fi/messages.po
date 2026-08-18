@@ -1150,6 +1150,11 @@ msgstr "Verkkosivusto"
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
 msgstr "Tervetuloa! Näyttää siltä, että suoritat CommaFeediä ensimmäistä kertaa. Luo ylläpitäjän tili aloittaaksesi."
 
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+msgid "Wrong username or password"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
 msgstr "Keltainen"

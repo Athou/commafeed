@@ -1150,6 +1150,11 @@ msgstr "Webová stránka"
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
 msgstr "Vítejte! Zdá se, že je to poprvé, co spouštíte CommaFeed. Chcete-li začít, vytvořte si účet správce."
 
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+msgid "Wrong username or password"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
 msgstr "Žlutá"

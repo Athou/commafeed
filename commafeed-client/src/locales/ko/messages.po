@@ -1150,6 +1150,11 @@ msgstr "웹사이트"
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
 msgstr "환영합니다! CommaFeed를 처음 실행하는 것 같습니다. 시작하려면 관리자 계정을 만드십시오."
 
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+msgid "Wrong username or password"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
 msgstr "옐로우"

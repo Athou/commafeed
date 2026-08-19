@@ -1,5 +1,7 @@
 package com.commafeed;
 
+import com.commafeed.frontend.exception.CommaFeedApplicationException;
+import com.commafeed.frontend.exception.CommaFeedExceptionType;
 import com.commafeed.security.CookieService;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;

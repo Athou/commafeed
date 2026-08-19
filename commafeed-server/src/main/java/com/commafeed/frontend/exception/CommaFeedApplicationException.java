@@ -1,4 +1,4 @@
-package com.commafeed;
+package com.commafeed.frontend.exception;
 
 import java.io.Serial;
 import java.util.Objects;

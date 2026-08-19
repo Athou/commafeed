@@ -1,4 +1,4 @@
-package com.commafeed;
+package com.commafeed.frontend.exception;
 
 import org.jboss.resteasy.reactive.RestResponse.Status;
 

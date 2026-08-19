@@ -1,11 +1,11 @@
 package com.commafeed.security.identity;
 
-import com.commafeed.CommaFeedApplicationException;
-import com.commafeed.CommaFeedExceptionType;
 import com.commafeed.backend.dao.UnitOfWork;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.UserService;
+import com.commafeed.frontend.exception.CommaFeedApplicationException;
+import com.commafeed.frontend.exception.CommaFeedExceptionType;
 
 import io.quarkus.security.identity.AuthenticationRequestContext;
 import io.quarkus.security.identity.IdentityProvider;

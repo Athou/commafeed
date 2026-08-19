@@ -1,9 +1,9 @@
 package com.commafeed.integration;
 
-import com.commafeed.CommaFeedExceptionType;
 import com.commafeed.ExceptionMappers.CommaFeedApplicationError;
 import com.commafeed.ExceptionMappers.UnauthorizedResponse;
 import com.commafeed.TestConstants;
+import com.commafeed.frontend.exception.CommaFeedExceptionType;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.MarkRequest;

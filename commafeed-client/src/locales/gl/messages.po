@@ -1151,8 +1151,7 @@ msgstr "Páxina web"
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
 msgstr "Benvida! Semella que é a primeira vez que executas CommaFeed. Para comezar, crea unha conta de administración."
 
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
+#: src/app/client.ts
 msgid "Wrong username or password"
 msgstr ""
 

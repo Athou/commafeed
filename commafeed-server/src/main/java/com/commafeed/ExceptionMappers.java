@@ -26,6 +26,18 @@ public class ExceptionMappers {
     private final CookieService cookieService;
     private final CommaFeedConfiguration config;
 
+    @ServerExceptionMapper(CommaFeedApplicationException.class)
+    public RestResponse<CommaFeedApplicationError> applicationError(
+            CommaFeedApplicationException e) {
+        ResponseBuilder<CommaFeedApplicationError> response =
+                ResponseBuilder.create(
+                        e.type().status(), new CommaFeedApplicationError(e.type(), e.getMessage()));
+        if (e.type().status() == Status.UNAUTHORIZED) {
+            response.cookie(cookieService.buildLogoutCookie());
+        }
+        return response.build();
+    }
+
     @ServerExceptionMapper(UnauthorizedException.class)
     public RestResponse<UnauthorizedResponse> unauthorized(UnauthorizedException e) {
         return RestResponse.status(
@@ -55,4 +67,7 @@ public class ExceptionMappers {
 
     @RegisterForReflection
     public record ValidationFailed(String message) {}
+
+    @RegisterForReflection
+    public record CommaFeedApplicationError(CommaFeedExceptionType type, String message) {}
 }

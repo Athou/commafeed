@@ -1150,8 +1150,7 @@ msgstr "Nettstad"
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
 msgstr "Velkomen! Det ser ut til å vera fyrste gongen du køyrer CommaFeed. Ver venleg og opprett ein administratorkonto for å koma i gang."
 
-#: src/pages/auth/LoginPage.tsx
-#: src/pages/auth/RegistrationPage.tsx
+#: src/app/client.ts
 msgid "Wrong username or password"
 msgstr ""
 

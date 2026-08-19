@@ -338,3 +338,10 @@ export interface AuthenticationError {
     message: string
     allowRegistrations: boolean
 }
+
+export type CommaFeedExceptionType = "WRONG_USERNAME_OR_PASSWORD"
+
+export interface CommaFeedApplicationError {
+    type: CommaFeedExceptionType
+    message: string
+}

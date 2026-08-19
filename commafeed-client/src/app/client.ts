@@ -1,3 +1,5 @@
+import { i18n, type MessageDescriptor } from "@lingui/core"
+import { msg } from "@lingui/core/macro"
 import axios, { type AxiosError } from "axios"
 import type {
     AddCategoryRequest,
@@ -6,6 +8,8 @@ import type {
     Category,
     CategoryModificationRequest,
     CollapseRequest,
+    CommaFeedApplicationError,
+    CommaFeedExceptionType,
     Entries,
     FeedInfo,
     FeedInfoRequest,
@@ -30,6 +34,10 @@ import type {
     TagRequest,
     UserModel,
 } from "./types"
+
+const applicationErrorMessages = {
+    WRONG_USERNAME_OR_PASSWORD: msg`Wrong username or password`,
+} satisfies Record<CommaFeedExceptionType, MessageDescriptor>
 
 const axiosInstance = axios.create({ baseURL: "./rest", withCredentials: true })
 axiosInstance.interceptors.response.use(
@@ -128,12 +136,23 @@ export const errorToStrings = (err: unknown) => {
     let strings: string[] = []
 
     if (axios.isAxiosError(err) && err.response) {
-        if (typeof err.response.data === "string") strings.push(err.response.data)
-        if (isMessageError(err)) strings.push(err.response.data.message)
-        if (isMessageArrayError(err)) strings = [...strings, ...err.response.data.errors]
+        if (isCommaFeedApplicationError(err)) {
+            strings.push(i18n._(applicationErrorMessages[err.response.data.type]))
+        } else {
+            if (typeof err.response.data === "string") strings.push(err.response.data)
+            if (isMessageError(err)) strings.push(err.response.data.message)
+            if (isMessageArrayError(err)) strings = [...strings, ...err.response.data.errors]
+        }
     }
 
     return strings
+}
+
+function isCommaFeedApplicationError(err: AxiosError): err is AxiosError<CommaFeedApplicationError> {
+    const data = err.response?.data
+    if (!data || typeof data !== "object" || !("type" in data)) return false
+    const type = data.type
+    return typeof type === "string" && Object.hasOwn(applicationErrorMessages, type)
 }
 
 function isMessageError(err: AxiosError): err is AxiosError<{ message: string }> {

@@ -1,5 +1,7 @@
 package com.commafeed.integration;
 
+import com.commafeed.CommaFeedExceptionType;
+import com.commafeed.ExceptionMappers.CommaFeedApplicationError;
 import com.commafeed.ExceptionMappers.UnauthorizedResponse;
 import com.commafeed.TestConstants;
 import com.commafeed.frontend.model.Entries;
@@ -55,6 +57,27 @@ class SecurityIT extends BaseIT {
                 .get("rest/user/profile")
                 .then()
                 .statusCode(HttpStatus.SC_OK);
+    }
+
+    @Test
+    void formLoginWrongPassword() {
+        CommaFeedApplicationError error =
+                RestAssured.given()
+                        .auth()
+                        .none()
+                        .formParams(
+                                "j_username",
+                                TestConstants.ADMIN_USERNAME,
+                                "j_password",
+                                "wrong-password")
+                        .post("j_security_check")
+                        .then()
+                        .statusCode(HttpStatus.SC_UNAUTHORIZED)
+                        .extract()
+                        .as(CommaFeedApplicationError.class);
+
+        Assertions.assertEquals(CommaFeedExceptionType.WRONG_USERNAME_OR_PASSWORD, error.type());
+        Assertions.assertEquals("wrong username or password", error.message());
     }
 
     @Test

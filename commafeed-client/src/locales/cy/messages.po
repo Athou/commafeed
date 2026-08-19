@@ -1150,6 +1150,10 @@ msgstr "Gwefan"
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
 msgstr "Croeso! Ymddengys mai dyma'r tro cyntaf i chi redeg CommaFeed. Creuwch gyfrif gweinyddwr i ddechrau."
 
+#: src/app/client.ts
+msgid "Wrong username or password"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
 msgstr "Melyn"

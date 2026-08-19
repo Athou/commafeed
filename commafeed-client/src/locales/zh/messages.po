@@ -1150,6 +1150,10 @@ msgstr "网站"
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
 msgstr "欢迎！当前页仅当您第一次使用CommaFeed时出现，请创建一个管理员帐号以开始使用。"
 
+#: src/app/client.ts
+msgid "Wrong username or password"
+msgstr "用户名或密码错误"
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
 msgstr "黄"

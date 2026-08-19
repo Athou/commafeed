@@ -1150,6 +1150,10 @@ msgstr "Strona internetowa"
 msgid "Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get started."
 msgstr "Witaj! Wygląda na to, że uruchamiasz CommaFeed po raz pierwszy. Aby rozpocząć, utwórz konto administratora."
 
+#: src/app/client.ts
+msgid "Wrong username or password"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"
 msgstr "Żółty"

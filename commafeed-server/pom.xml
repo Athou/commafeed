@@ -14,7 +14,7 @@
 
     <properties>
         <quarkus.version>3.38.3</quarkus.version>
-        <querydsl.version>7.5</querydsl.version>
+        <querydsl.version>7.6</querydsl.version>
         <rome.version>2.1.0</rome.version>
         <!-- renovate: depName=com.google.googlejavaformat:google-java-format -->
         <google-java-format.version>1.36.1</google-java-format.version>

@@ -460,11 +460,11 @@ msgstr "Extensions"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Google Reader API"
-msgstr ""
+msgstr "API Google Reader"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Google Reader API URL"
-msgstr ""
+msgstr "URL de l'API Google Reader"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Grape"
@@ -1152,7 +1152,7 @@ msgstr "Bienvenue ! Il semble que ce soit le premier démarrage de Commafeed. Av
 
 #: src/app/client.ts
 msgid "Wrong username or password"
-msgstr ""
+msgstr "Utilisateur ou mot de passe incorrect"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Yellow"

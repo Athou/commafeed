@@ -32,8 +32,7 @@ const { appState, useMobile } = vi.hoisted(() => ({
 
 vi.mock(import("@/app/store"), () => ({
     useAppDispatch: () => vi.fn(),
-    useAppSelector: <Selected,>(selector: (state: RootState) => Selected) =>
-        selector(appState as unknown as RootState),
+    useAppSelector: <Selected,>(selector: (state: RootState) => Selected) => selector(appState as unknown as RootState),
 }))
 vi.mock(import("@/components/ActionButton"), () => ({
     ActionButton: ({ label }: { label: unknown }) => <button type="button">{String(label)}</button>,
@@ -69,6 +68,15 @@ vi.mock(import("react-swipeable"), () => ({ useSwipeable: () => ({}) }))
 vi.mock(import("tinycon"), () => ({
     default: { reset: vi.fn(), setBubble: vi.fn(), setOptions: vi.fn() },
 }))
+
+vi.stubGlobal(
+    "ResizeObserver",
+    vi.fn(() => ({
+        disconnect: vi.fn(),
+        observe: vi.fn(),
+        unobserve: vi.fn(),
+    }))
+)
 
 const renderLayout = () =>
     render(<Layout sidebar={<div>Sidebar</div>} sidebarVisible header={<div>Toolbar</div>} />, {

@@ -228,11 +228,7 @@ export default function Layout(props: Readonly<LayoutProps>) {
             </OnMobile>
             <OnDesktop>
                 <Group p="md" wrap="nowrap">
-                    <Group
-                        justify="space-between"
-                        style={{ flexShrink: 0, width: sidebarWidth - 16 }}
-                        wrap="nowrap"
-                    >
+                    <Group justify="space-between" style={{ flexShrink: 0, width: sidebarWidth - 16 }} wrap="nowrap">
                         <Box>
                             <LogoAndTitle />
                         </Box>

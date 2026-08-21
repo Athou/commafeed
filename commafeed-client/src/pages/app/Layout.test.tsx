@@ -34,13 +34,13 @@ vi.mock(import("@/app/store"), () => ({
     useAppDispatch: () => vi.fn(),
     useAppSelector: <Selected,>(selector: (state: RootState) => Selected) => selector(appState as unknown as RootState),
 }))
-vi.mock(import("@/components/ActionButton"), () => ({
+vi.mock("@/components/ActionButton", () => ({
     ActionButton: ({ label }: { label: unknown }) => <button type="button">{String(label)}</button>,
 }))
 vi.mock(import("@/components/AnnouncementDialog"), () => ({ AnnouncementDialog: () => null }))
 vi.mock(import("@/components/DisablePullToRefresh"), () => ({ DisablePullToRefresh: () => null }))
 vi.mock(import("@/components/Logo"), () => ({ Logo: () => <span>Logo</span> }))
-vi.mock(import("@/components/MarkAllAsReadConfirmationDialog"), () => ({
+vi.mock("@/components/MarkAllAsReadConfirmationDialog", () => ({
     MarkAllAsReadConfirmationDialog: () => null,
 }))
 vi.mock(import("@/hooks/useAppLoading"), () => ({
@@ -60,12 +60,12 @@ vi.mock(import("@/hooks/useBrowserExtension"), () => ({
 }))
 vi.mock(import("@/hooks/useMobile"), () => ({ useMobile }))
 vi.mock(import("@/hooks/useWebSocket"), () => ({ useWebSocket: vi.fn() }))
-vi.mock(import("react-draggable"), () => ({
+vi.mock("react-draggable", () => ({
     default: ({ children }: { children: ReactNode }) => children,
 }))
-vi.mock(import("react-router-dom"), () => ({ Outlet: () => null }))
-vi.mock(import("react-swipeable"), () => ({ useSwipeable: () => ({}) }))
-vi.mock(import("tinycon"), () => ({
+vi.mock("react-router-dom", () => ({ Outlet: () => null }))
+vi.mock("react-swipeable", () => ({ useSwipeable: () => ({}) }))
+vi.mock("tinycon", () => ({
     default: { reset: vi.fn(), setBubble: vi.fn(), setOptions: vi.fn() },
 }))
 

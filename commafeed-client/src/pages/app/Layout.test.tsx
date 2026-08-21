@@ -71,11 +71,11 @@ vi.mock(import("tinycon"), () => ({
 
 vi.stubGlobal(
     "ResizeObserver",
-    vi.fn(() => ({
-        disconnect: vi.fn(),
-        observe: vi.fn(),
-        unobserve: vi.fn(),
-    }))
+    class {
+        disconnect() {}
+        observe() {}
+        unobserve() {}
+    }
 )
 
 const renderLayout = () =>

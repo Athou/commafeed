@@ -1,23 +1,30 @@
 # Changelog
 
+## [7.3.2]
+
+- Prevent users from starring/tagging entries that are not theirs and subsequently reading them (GHSA-prfv-88mm-5gpg)
+
 ## [7.3.1]
 
 - Prevent Host header injection attacks on the password recovery endpoint. A new setting
   `commafeed.password-recovery-public-base-url` has been added to specify the base URL to use in password recovery
+  (GHSA-hp8h-jqfm-v7x5)
   emails. This setting is only required when the password recovery feature is enabled, which is not the default.
 
 ## [7.3.0]
 
 - Add support for the Google Reader API for native mobile apps that don't support the Fever API
 - The profile menu now works again on mobile when action buttons are at the bottom of the screen
-- More SSRF protection regarding IPv6
+- More SSRF protection regarding IPv6 (GHSA-q5qw-345w-55xg)
 - Changed the default value of `blockLocalAddresses` to make CommaFeed more secure out-of-the-box. See the "Access to
   local address blocked" section of the README if you subscribe to feeds that are only available on your local network.
 
 ## [7.2.1]
 
 - correctly handle favicons hosted at the root of the domain for feeds with non-default ports
-- prevent XXS injections in third party apps. The CommaFeed React client was already stripping malicious "javascript:" URLs, they are now filtered during feed parsing and no longer stored in the database/served through the REST API.
+- prevent XXS injections in third party apps. The CommaFeed React client was already stripping malicious "javascript:"
+  URLs, they are now filtered during feed parsing and no longer stored in the database/served through the REST API
+  (GHSA-44pq-9929-f8mq)
 
 ## [7.2.0]
 
@@ -27,26 +34,36 @@
 - Small performance improvements to the feed refresh engine
 - Removed the Pocket sharing feature because the Pocket service has been discontinued
 - Prevent the image proxy feature to access any URL to avoid SSRF attacks
-- Strengthened the SSRF protection by also blocking ULA and CGNAT ranges
-- Prevent DDOS attacks by filtering OPML files during imports
+- Strengthened the SSRF protection by also blocking ULA and CGNAT ranges (GHSA-hgrr-mjfp-gmr6)
+- Prevent DDOS attacks by filtering OPML files during imports (GHSA-83jp-rww3-57rr)
 
 ## [7.1.0]
 
-- Display the unread count in the header on mobile, since the tree is hidden by default and the unread count is not visible otherwise (#2055)
+- Display the unread count in the header on mobile, since the tree is hidden by default and the unread count is not
+  visible otherwise (#2055)
 - The feed refresh engine is now a little bit more performant (#2089)
-- On shutdown, give the feed refresh engine some time to finish refreshing feeds before killing it. This is controlled by the new `commafeed.shutdown-timeout` setting, which defaults to 2 seconds
+- On shutdown, give the feed refresh engine some time to finish refreshing feeds before killing it. This is controlled
+  by the new `commafeed.shutdown-timeout` setting, which defaults to 2 seconds
 
 ## [7.0.0]
 
-- Replaced the JEXL filter expression for marking feed entries as read automatically with a user-friendly visual query builder. Expressions are now evaluated with Common Expression Language, which is safer than JEXL and sanboxed by default.
-- Added a per-feed setting for sending push notifications to ntfy, Gotify or Pushover when new feed entries are discovered (#1610)
+- Replaced the JEXL filter expression for marking feed entries as read automatically with a user-friendly visual query
+  builder. Expressions are now evaluated with Common Expression Language, which is safer than JEXL and sanboxed by
+  default.
+- Added a per-feed setting for sending push notifications to ntfy, Gotify or Pushover when new feed entries are
+  discovered (#1610)
 - Added a per-feed setting for marking entries as read after a number of days (#2041)
-- The default value of `commafeed.http-client.block-local-addresses` is now false, allowing users to subscribe to feeds only available on their local network. This may be a security risk (SSRF) if your instance is accessible by untrusted users, so you may want to set it to true if you host a public instance of CommaFeed with user registeration enabled.
-- When `commafeed.http-client.block-local-addresses` is enabled, SSRF is now also mitigated by blocking public websites redirecting to local ones.
+- The default value of `commafeed.http-client.block-local-addresses` is now false, allowing users to subscribe to feeds
+  only available on their local network. This may be a security risk (SSRF) if your instance is accessible by untrusted
+  users, so you may want to set it to true if you host a public instance of CommaFeed with user registeration enabled.
+- When `commafeed.http-client.block-local-addresses` is enabled, SSRF is now also mitigated by blocking public websites
+  redirecting to local ones.
 
 ## [6.2.0]
 
-- Starred entries are no longer deleted after a certain amount of time, they are now kept indefinitely. The new `commafeed.database.cleanup.keep-starred-entries` setting can be disabled to restore the previous behavior if you want to keep deleting starred entries during normal entries cleanup (#1581)
+- Starred entries are no longer deleted after a certain amount of time, they are now kept indefinitely. The new
+  `commafeed.database.cleanup.keep-starred-entries` setting can be disabled to restore the previous behavior if you want
+  to keep deleting starred entries during normal entries cleanup (#1581)
 
 ## [6.1.1]
 
@@ -54,16 +71,21 @@
 
 ## [6.1.0]
 
-- When clicking on the password reset link, a random password is no longer generated automatically. The user is now redirected to a page where they can set their own password (#2023)
+- When clicking on the password reset link, a random password is no longer generated automatically. The user is now
+  redirected to a page where they can set their own password (#2023)
 - Use browser preferred language instead of English when using CommaFeed for the first time (#2018)
 - The profile menu is now closed when scrolling the page (#2019)
 - The "disable pull to refresh" feature is now disabled by default (#2030)
 
 ## [6.0.0]
 
-- When booting CommaFeed for the first time, the default "admin" account is no longer created automatically. A setup wizard will guide you through the creation of an admin account
-- Default password complexity requirements have been lowered for local network deployments, where strict password rules are often unnecessary. The `commafeed.users.strict-password-policy` setting has been replaced by `commafeed.users.minimum-password-length` with a default value of `4` (#1916)
-- Email addresses are no longer required when creating users and when they update their profile. The `commafeed.users.email-address-required` setting has been added to restore the previous behavior (#1914)
+- When booting CommaFeed for the first time, the default "admin" account is no longer created automatically. A setup
+  wizard will guide you through the creation of an admin account
+- Default password complexity requirements have been lowered for local network deployments, where strict password rules
+  are often unnecessary. The `commafeed.users.strict-password-policy` setting has been replaced by
+  `commafeed.users.minimum-password-length` with a default value of `4` (#1916)
+- Email addresses are no longer required when creating users and when they update their profile. The
+  `commafeed.users.email-address-required` setting has been added to restore the previous behavior (#1914)
 - Java 25+ is now required to build and run CommaFeed
 
 ## [5.12.1]
@@ -93,15 +115,18 @@
 
 ## [5.10.0]
 
-- Add an indicator next to each feed's unread count in the tree to show when new entries are discovered while the app is open (#1762)
+- Add an indicator next to each feed's unread count in the tree to show when new entries are discovered while the app is
+  open (#1762)
 - Feeds with uppercase HTTP:// or HTTPS:// URLs are now correctly handled again
 - The aarch64 native executable now also works on the Raspberry Pi 5 (#1795)
-- Improve general performance of the UI by reducing the number of re-renders, especially when a lot of entries are displayed (#1087)
+- Improve general performance of the UI by reducing the number of re-renders, especially when a lot of entries are
+  displayed (#1087)
 
 ## [5.9.0]
 
 - A lot of CSS classes have been added to the elements of the application to ease custom CSS rules (#1757)
-- Added a link in the README to the [documentation](https://athou.github.io/commafeed/documentation/custom-css/) of the new CSS classes
+- Added a link in the README to the [documentation](https://athou.github.io/commafeed/documentation/custom-css/) of the
+  new CSS classes
 - Static resources are now cached for much longer (#1782)
 
 ## [5.8.0]
@@ -110,7 +135,8 @@
 - A font size slider is now available to change the size of the text of feed entries (#1462)
 - The "mark all as read" confirmation setting now also applies to the "shift+a" keyboard shortcut (#1744)
 - CommaFeed wil try to match the language of the browser before defaulting to english (#1767)
-- The default value for the number of entries to keep above the selected entry when scrolling is now 1 instead of 0 to match what other feed readers do
+- The default value for the number of entries to keep above the selected entry when scrolling is now 1 instead of 0 to
+  match what other feed readers do
 
 ## [5.7.0]
 
@@ -129,14 +155,22 @@
 
 ## [5.6.0]
 
-- To better respect the bandwidth of feed owners, the default value of `commafeed.feed-refresh.interval-empirical` is now true. This means feeds no longer refresh exactly every 5 minutes (the default value of `commafeed.feed-refresh.interval`) but between 5 minutes and 4 hours (the default value of the new `commafeed.feed-refresh.max-interval` setting). The interval is calculated based on feed activity, so highly active feeds refresh more often (#1677)
+- To better respect the bandwidth of feed owners, the default value of `commafeed.feed-refresh.interval-empirical` is
+  now true. This means feeds no longer refresh exactly every 5 minutes (the default value of
+  `commafeed.feed-refresh.interval`) but between 5 minutes and 4 hours (the default value of the new
+  `commafeed.feed-refresh.max-interval` setting). The interval is calculated based on feed activity, so highly active
+  feeds refresh more often (#1677)
 - Many previously hardcoded values used in feed refresh interval calculation are now exposed as settings (#1677)
-- Access to local addresses is now blocked to mitigate server-side request forgery (SSRF) attacks, which could potentially expose internal resources. You might want to disable the new `commafeed.http-client.block-local-addresses` setting if you subscribe to feeds only available on your local network and you trust all your users
-- If a feed responds with a "429 - Too many requests" response, a backoff mechanism is triggered when the response does not contain a "Retry-After" header
+- Access to local addresses is now blocked to mitigate server-side request forgery (SSRF) attacks, which could
+  potentially expose internal resources. You might want to disable the new `commafeed.http-client.block-local-addresses`
+  setting if you subscribe to feeds only available on your local network and you trust all your users
+- If a feed responds with a "429 - Too many requests" response, a backoff mechanism is triggered when the response does
+  not contain a "Retry-After" header
 
 ## [5.5.0]
 
-- CommaFeed now honors the Retry-After response header and will not try to refresh a feed sooner than the value of this header
+- CommaFeed now honors the Retry-After response header and will not try to refresh a feed sooner than the value of this
+  header
 - Audio enclosures (e.g. podcasts) now fill available entry width
 - Fix an issue with some labels not correctly internationalized
 
@@ -153,8 +187,10 @@
 ## [5.3.5]
 
 - Fixed an issue with the aspect ratio of images of some feeds (#1595)
-- CommaFeed now honors the Cache-Control response header and will not try to refresh a feed sooner than its max-age property (#1615)
-- Added support for compilation with JDK 23+. If you're building CommaFeed from sources with a JDK 17 or 21, you may need to update it to the most recent patch version to support `-proc:full` (#1618)
+- CommaFeed now honors the Cache-Control response header and will not try to refresh a feed sooner than its max-age
+  property (#1615)
+- Added support for compilation with JDK 23+. If you're building CommaFeed from sources with a JDK 17 or 21, you may
+  need to update it to the most recent patch version to support `-proc:full` (#1618)
 
 ## [5.3.4]
 
@@ -181,19 +217,22 @@
 
 - Added an option to keep a number of entries above the selected entry when scrolling
 - Added a cache to the HTTP client to reduce the number of requests made to feeds when subscribing (#1431)
-- Feeds are no longer refreshed between the moment its last user unsubscribes and the moment the feed is cleaned up (every hour)
+- Feeds are no longer refreshed between the moment its last user unsubscribes and the moment the feed is cleaned up
+  (every hour)
 - Fixed an issue that could cause entries to not correctly load when using keyboard navigation (#1557)
 
 ## [5.1.1]
 
 - Fixed database migration issue when upgrading from 5.0.0 to 5.1.0 on MariaDB (#1544)
-- When feeds without unread entries are hidden from the tree, the feed is displayed in the tree until another one is selected (#1543)
+- When feeds without unread entries are hidden from the tree, the feed is displayed in the tree until another one is
+  selected (#1543)
 
 ## [5.1.0]
 
 - Added a setting for showing/hiding unread count in the browser's tab title/favicon (#1518)
 - Fixed an issue that could prevent the app from starting on some systems (#1532)
-- Added a cache busting filter for the webapp index.html and openapi documentation to make sure they are always up to date
+- Added a cache busting filter for the webapp index.html and openapi documentation to make sure they are always up to
+  date
 - Reduced database cleanup log verbosity
 
 ## [5.0.2]
@@ -208,9 +247,9 @@
 ## [5.0.0]
 
 CommaFeed is now powered by Quarkus instead of Dropwizard. Read the rationale behind this change in
-the [announcement](https://github.com/Athou/commafeed/discussions/1517).
-The gist of it is that CommaFeed can now be compiled to a native binary, resulting in blazing fast startup times (around
-0.3s) and very low memory footprint (< 50M).
+the [announcement](https://github.com/Athou/commafeed/discussions/1517). The gist of it is that CommaFeed can now be
+compiled to a native binary, resulting in blazing fast startup times (around 0.3s) and very low memory footprint (<
+50M).
 
 - CommaFeed now has a different package for each supported database.
     - If you are deploying CommaFeed with a precompiled package, please
@@ -266,8 +305,8 @@ The gist of it is that CommaFeed can now be compiled to a native binary, resulti
 - add a button in the entry headers to open links in a new tab (#1333)
 - add two options in the settings to toggle those buttons
 - accept .opml file extension when importing and export with the .opml extension
-- the "mark as read" option is no longer shown in the context menu for entries that are too old to be marked as read (
-  older than `keepStatusDays`) (#1303)
+- the "mark as read" option is no longer shown in the context menu for entries that are too old to be marked as read
+  (older than `keepStatusDays`) (#1303)
 
 ## [4.3.3]
 
@@ -311,9 +350,8 @@ The gist of it is that CommaFeed can now be compiled to a native binary, resulti
 - it is now possible to open the sidebar on mobile by swiping to the right (#1098)
 - swiping to mark entries as read/unread changed from swiping right to left because swiping right now opens the sidebar
 - the full hierarchy of categories are now displayed in the category dropdown (#1045)
-- added a setting `maxEntriesAgeDays` to delete old entries based on their age during database cleanup.
-  The setting is disabled by default for existing installations, except for the docker image where it is enabled and set
-  to 365 days
+- added a setting `maxEntriesAgeDays` to delete old entries based on their age during database cleanup. The setting is
+  disabled by default for existing installations, except for the docker image where it is enabled and set to 365 days
 - if user registrations are disabled on your instance which is the default behavior, users are redirected on the login
   page instead of the welcome page when not logged in (#1185)
 - the sidebar resizer is no longer shown in the middle of the screen on mobile
@@ -339,8 +377,8 @@ The gist of it is that CommaFeed can now be compiled to a native binary, resulti
   request, reducing CPU usage
 - updated UI library Mantine to 7.0, improving performance
 - the h2 embedded database is now compacted on shutdown to reclaim unused space
-- the admin connector on port 8084 is now disabled in config.yml.example. Disabling it in your config.yml is
-  recommended (see https://github.com/Athou/commafeed/commit/929df60f09cce56020b0962ab111cd8349b271b0)
+- the admin connector on port 8084 is now disabled in config.yml.example. Disabling it in your config.yml is recommended
+  (see https://github.com/Athou/commafeed/commit/929df60f09cce56020b0962ab111cd8349b271b0)
 - migrated documentation from swagger 2 to openapi 3
 - added a GET method to the fever api to indicate that the endpoint is working correctly when accessed from a browser
 - the websocket connection can now be disabled, the websocket ping interval and the tree reload interval can now be
@@ -582,7 +620,6 @@ The gist of it is that CommaFeed can now be compiled to a native binary, resulti
 ## [2.0.0]
 
 - The backend has been completely rewritten using Dropwizard instead of TomEE, resulting in a lot less memory
-  consumption and better overall performances.
-  See the README on how to build CommaFeed from now on.
+  consumption and better overall performances. See the README on how to build CommaFeed from now on.
 - CommaFeed should no longer fetch the same feed multiple times in a row
 - Users can use their username or email to log in

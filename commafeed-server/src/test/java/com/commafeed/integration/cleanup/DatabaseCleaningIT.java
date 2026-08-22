@@ -45,7 +45,6 @@ class DatabaseCleaningIT extends BaseIT {
     private void starEntry(String entryId, Long subscriptionId) {
         StarRequest starRequest = new StarRequest();
         starRequest.setId(entryId);
-        starRequest.setFeedId(subscriptionId);
         starRequest.setStarred(true);
         RestAssured.given()
                 .body(starRequest)
@@ -58,7 +57,6 @@ class DatabaseCleaningIT extends BaseIT {
     private void unstarEntry(String entryId, Long subscriptionId) {
         StarRequest starRequest = new StarRequest();
         starRequest.setId(entryId);
-        starRequest.setFeedId(subscriptionId);
         starRequest.setStarred(false);
         RestAssured.given()
                 .body(starRequest)

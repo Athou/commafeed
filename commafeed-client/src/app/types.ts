@@ -297,7 +297,6 @@ export interface LocalSettings {
 
 export interface StarRequest {
     id: string
-    feedId: number
     starred: boolean
 }
 

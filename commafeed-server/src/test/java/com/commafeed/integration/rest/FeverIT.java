@@ -121,7 +121,6 @@ class FeverIT extends BaseIT {
 
         StarRequest starRequest = new StarRequest();
         starRequest.setId(entry.getId());
-        starRequest.setFeedId(subscriptionId);
         starRequest.setStarred(true);
         RestAssured.given().body(starRequest).contentType(ContentType.JSON).post("rest/entry/star");
 

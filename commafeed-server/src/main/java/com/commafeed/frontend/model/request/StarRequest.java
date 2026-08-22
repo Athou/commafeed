@@ -19,9 +19,6 @@ public class StarRequest implements Serializable {
     @Size(max = 128)
     private String id;
 
-    @Schema(description = "feed id", required = true)
-    private Long feedId;
-
     @Schema(description = "starred or not", required = true)
     private boolean starred;
 }

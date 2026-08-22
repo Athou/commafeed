@@ -2,8 +2,10 @@ package com.commafeed.backend.service;
 
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryTagDAO;
+import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryTag;
+import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 
 import jakarta.inject.Singleton;
@@ -20,10 +22,16 @@ public class FeedEntryTagService {
 
     private final FeedEntryDAO feedEntryDAO;
     private final FeedEntryTagDAO feedEntryTagDAO;
+    private final FeedSubscriptionDAO feedSubscriptionDAO;
 
     public void updateTags(User user, Long entryId, List<String> tagNames) {
         FeedEntry entry = feedEntryDAO.findById(entryId);
         if (entry == null) {
+            return;
+        }
+
+        FeedSubscription sub = feedSubscriptionDAO.findByFeed(user, entry.getFeed());
+        if (sub == null) {
             return;
         }
 

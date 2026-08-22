@@ -402,16 +402,11 @@ public class GoogleReaderREST {
             if (markUnread) {
                 feedEntryService.markEntry(user, entryId, false);
             }
-            if (star || unstar) {
-                FeedSubscription sub = feedSubscriptionDAO.findByFeed(user, entry.getFeed());
-                if (sub != null) {
-                    if (star) {
-                        feedEntryService.starEntry(user, entryId, sub.getId(), true);
-                    }
-                    if (unstar) {
-                        feedEntryService.starEntry(user, entryId, sub.getId(), false);
-                    }
-                }
+            if (star) {
+                feedEntryService.starEntry(user, entryId, true);
+            }
+            if (unstar) {
+                feedEntryService.starEntry(user, entryId, false);
             }
         }
 

@@ -166,7 +166,6 @@ export const starEntry = createAppAsyncThunk(
     (arg: { entry: Entry; starred: boolean }) => {
         client.entry.star({
             id: arg.entry.id,
-            feedId: +arg.entry.feedId,
             starred: arg.starred,
         })
     },

@@ -89,11 +89,9 @@ public class EntryREST {
             @Valid @Parameter(description = "Star Request", required = true) StarRequest req) {
         Preconditions.checkNotNull(req);
         Preconditions.checkNotNull(req.getId());
-        Preconditions.checkNotNull(req.getFeedId());
 
         User user = authenticationContext.getCurrentUser();
-        feedEntryService.starEntry(
-                user, Long.valueOf(req.getId()), req.getFeedId(), req.isStarred());
+        feedEntryService.starEntry(user, Long.valueOf(req.getId()), req.isStarred());
 
         return Response.ok().build();
     }

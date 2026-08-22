@@ -240,7 +240,6 @@ class CategoryIT extends BaseIT {
 
             StarRequest starRequest = new StarRequest();
             starRequest.setId(entry.getId());
-            starRequest.setFeedId(subscriptionId);
             starRequest.setStarred(true);
             RestAssured.given()
                     .body(starRequest)

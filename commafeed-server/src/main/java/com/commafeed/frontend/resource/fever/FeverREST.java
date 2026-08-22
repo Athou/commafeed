@@ -388,9 +388,7 @@ public class FeverREST {
             if ("read".equals(action) || "unread".equals(action)) {
                 feedEntryService.markEntry(user, id, "read".equals(action));
             } else if ("saved".equals(action) || "unsaved".equals(action)) {
-                FeedEntry entry = feedEntryDAO.findById(id);
-                FeedSubscription sub = feedSubscriptionDAO.findByFeed(user, entry.getFeed());
-                feedEntryService.starEntry(user, id, sub.getId(), "saved".equals(action));
+                feedEntryService.starEntry(user, id, "saved".equals(action));
             }
         } else if ("feed".equals(source)) {
             FeedSubscription subscription = feedSubscriptionDAO.findById(user, id);

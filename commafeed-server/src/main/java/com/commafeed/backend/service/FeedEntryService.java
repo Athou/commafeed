@@ -98,15 +98,14 @@ public class FeedEntryService {
         }
     }
 
-    public void starEntry(User user, Long entryId, Long subscriptionId, boolean starred) {
-
-        FeedSubscription sub = feedSubscriptionDAO.findById(user, subscriptionId);
-        if (sub == null) {
+    public void starEntry(User user, Long entryId, boolean starred) {
+        FeedEntry entry = feedEntryDAO.findById(entryId);
+        if (entry == null) {
             return;
         }
 
-        FeedEntry entry = feedEntryDAO.findById(entryId);
-        if (entry == null) {
+        FeedSubscription sub = feedSubscriptionDAO.findByFeed(user, entry.getFeed());
+        if (sub == null) {
             return;
         }
 

@@ -72,7 +72,7 @@
         "babel-plugin-react-compiler": "1.0.0",
         "jsdom": "30.0.1",
         "typescript": "7.0.2",
-        "vite": "8.2.1",
+        "vite": "8.2.2",
         "vite-plugin-checker": "0.14.5",
         "vitest": "4.1.11",
         "yaml": "2.9.0"

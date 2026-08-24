@@ -2,8 +2,7 @@ import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Box, Center, CloseButton, Divider, Group, Indicator, Popover, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { useElementSize, useViewportSize } from "@mantine/hooks"
-import { type ReactNode, type RefCallback, useEffect } from "react"
+import { type ReactNode, useEffect } from "react"
 import {
     TbArrowDown,
     TbArrowUp,
@@ -21,7 +20,7 @@ import {
 import { markAllAsReadWithConfirmationIfRequired, reloadEntries, search, selectNextEntry, selectPreviousEntry } from "@/app/entries/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
 import { changeSettings } from "@/app/user/thunks"
-import { ActionButton, type Mode } from "@/components/ActionButton"
+import { ActionButton } from "@/components/ActionButton"
 import { Loader } from "@/components/Loader"
 import { useActionButton } from "@/hooks/useActionButton"
 import { useBrowserExtension } from "@/hooks/useBrowserExtension"
@@ -32,7 +31,7 @@ function HeaderDivider() {
     return <Divider orientation="vertical" />
 }
 
-function HeaderToolbar(props: { children: ReactNode; ref?: RefCallback<typeof HeaderToolbar> }) {
+function HeaderToolbar(props: { children: ReactNode }) {
     const { spacing } = useActionButton()
     const mobile = useMobile("480px")
     return mobile ? (
@@ -62,13 +61,6 @@ export function Header() {
     const searchFromStore = useAppSelector(state => state.entries.search)
     const { isBrowserExtensionPopup, openSettingsPage, openAppInNewTab } = useBrowserExtension()
     const dispatch = useAppDispatch()
-
-    const viewport = useViewportSize()
-    const { ref: headerRef, width: headerWidth } = useElementSize()
-    const sidebarWidth = useAppSelector(state => state.user.localSettings.sidebarWidth)
-    const headerTooLarge = headerWidth > viewport.width - sidebarWidth
-    const mode: Mode = headerTooLarge ? "mobile" : "auto"
-
     const { _ } = useLingui()
 
     const searchForm = useForm<{ search: string }>()
@@ -102,11 +94,10 @@ export function Header() {
 
     return (
         <Center className="cf-toolbar-wrapper">
-            <HeaderToolbar ref={headerRef}>
+            <HeaderToolbar>
                 <ActionButton
                     icon={<TbArrowUp size={iconSize} />}
                     label={msg`Previous`}
-                    mode={mode}
                     onClick={async () =>
                         await dispatch(
                             selectPreviousEntry({
@@ -120,7 +111,6 @@ export function Header() {
                 <ActionButton
                     icon={<TbArrowDown size={iconSize} />}
                     label={msg`Next`}
-                    mode={mode}
                     onClick={async () =>
                         await dispatch(
                             selectNextEntry({
@@ -137,13 +127,11 @@ export function Header() {
                 <ActionButton
                     icon={<TbRefresh size={iconSize} />}
                     label={msg`Refresh`}
-                    mode={mode}
                     onClick={async () => await dispatch(reloadEntries())}
                 />
                 <ActionButton
                     icon={<TbChecks size={iconSize} />}
                     label={msg`Mark all as read`}
-                    mode={mode}
                     onClick={() => dispatch(markAllAsReadWithConfirmationIfRequired())}
                 />
 
@@ -152,20 +140,18 @@ export function Header() {
                 <ActionButton
                     icon={settings.readingMode === "all" ? <TbEye size={iconSize} /> : <TbEyeOff size={iconSize} />}
                     label={settings.readingMode === "all" ? msg`All` : msg`Unread`}
-                    mode={mode}
                     onClick={toggleReadingMode}
                 />
                 <ActionButton
                     icon={settings.readingOrder === "asc" ? <TbSortAscending size={iconSize} /> : <TbSortDescending size={iconSize} />}
                     label={settings.readingOrder === "asc" ? msg`Asc` : msg`Desc`}
-                    mode={mode}
                     onClick={toggleReadingOrder}
                 />
 
                 <Popover>
                     <Popover.Target>
                         <Indicator disabled={!searchFromStore}>
-                            <ActionButton icon={<TbSearch size={iconSize} />} label={msg`Search`} mode={mode} />
+                            <ActionButton icon={<TbSearch size={iconSize} />} label={msg`Search`} />
                         </Indicator>
                     </Popover.Target>
                     <Popover.Dropdown>
@@ -183,7 +169,7 @@ export function Header() {
 
                 <HeaderDivider />
 
-                <ProfileMenu control={<ActionButton icon={<TbUser size={iconSize} />} label={profile?.name} mode={mode} />} />
+                <ProfileMenu control={<ActionButton icon={<TbUser size={iconSize} />} label={profile?.name} />} />
 
                 {isBrowserExtensionPopup && (
                     <>
@@ -192,13 +178,11 @@ export function Header() {
                         <ActionButton
                             icon={<TbSettings size={iconSize} />}
                             label={msg`Extension options`}
-                            mode={mode}
                             onClick={() => openSettingsPage()}
                         />
                         <ActionButton
                             icon={<TbExternalLink size={iconSize} />}
                             label={msg`Open CommaFeed`}
-                            mode={mode}
                             onClick={() => openAppInNewTab()}
                         />
                     </>

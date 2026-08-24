@@ -5,14 +5,15 @@ import { forwardRef, type MouseEventHandler, type ReactNode } from "react"
 import { Constants } from "@/app/constants"
 import { useActionButton } from "@/hooks/useActionButton"
 
+export type Mode = "auto" | "mobile" | "desktop"
+
 interface ActionButtonProps {
     icon: ReactNode
     className?: string
     label?: string | MessageDescriptor
     onClick?: MouseEventHandler
     variant?: ActionIconVariant & ButtonVariant
-    hideLabelOnDesktop?: boolean
-    showLabelOnMobile?: boolean
+    mode?: Mode
 }
 
 /**
@@ -25,7 +26,9 @@ export const ActionButton = forwardRef<HTMLDivElement, ActionButtonProps>((props
 
     const label = typeof props.label === "string" ? props.label : props.label && _(props.label)
     const variant = props.variant ?? "subtle"
-    const iconOnly = (mobile && !props.showLabelOnMobile) || (!mobile && props.hideLabelOnDesktop)
+
+    const mode: Mode = props.mode ?? "auto"
+    const iconOnly = mode === "mobile" || (mode === "auto" && mobile)
 
     return (
         <Box ref={ref} className="cf-action-button">

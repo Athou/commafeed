@@ -227,7 +227,7 @@ export default function Layout(props: Readonly<LayoutProps>) {
                 )}
             </OnMobile>
             <OnDesktop>
-                <Group p="md">
+                <Group p="md" wrap="nowrap">
                     <Group justify="space-between" style={{ width: sidebarWidth - 16 }}>
                         <Box>
                             <LogoAndTitle />

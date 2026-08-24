@@ -51,6 +51,9 @@ export default defineConfig(() => ({
     build: {
         chunkSizeWarningLimit: 4000,
         rolldownOptions: {
+            checks: {
+                pluginTimings: false,
+            },
             output: {
                 codeSplitting: {
                     groups: [

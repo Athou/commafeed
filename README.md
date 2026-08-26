@@ -50,6 +50,8 @@ PikaPods shares 20% of the revenue back to CommaFeed.
 
 [![PikaPods](https://www.pikapods.com/static/run-button.svg)](https://www.pikapods.com/pods?run=commafeed)
 
+[![Deploy on RepoCloud](https://d16t0pc4846x52.cloudfront.net/deploylobe.svg)](https://repocloud.io/details/CommaFeed/)
+
 ### Download a precompiled package
 
 Go to the [release page](https://github.com/Athou/commafeed/releases) and download the latest version for your operating

@@ -60,7 +60,7 @@
         "@lingui/cli": "6.6.0",
         "@lingui/vite-plugin": "6.6.0",
         "@testing-library/jest-dom": "7.0.1",
-        "@testing-library/react": "16.3.2",
+        "@testing-library/react": "16.3.3",
         "@testing-library/user-event": "14.6.6",
         "@types/mousetrap": "1.6.15",
         "@types/react": "19.2.18",

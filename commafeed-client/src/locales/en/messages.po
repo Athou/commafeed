@@ -50,6 +50,10 @@ msgstr "Add"
 msgid "Add category"
 msgstr "Add category"
 
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Add destination"
+msgstr "Add destination"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Add user"
 msgstr "Add user"
@@ -270,6 +274,10 @@ msgstr "Custom CSS rules that will be applied"
 msgid "Custom JS code that will be executed on page load"
 msgstr "Custom JS code that will be executed on page load"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom sharing"
+msgstr "Custom sharing"
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Cyan"
 msgstr "Cyan"
@@ -286,6 +294,10 @@ msgstr "Date created"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
 msgstr "days"
+
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Define your own share destinations. Sharing an entry opens the URL pattern in a new window, with these placeholders replaced by the entry's values:"
+msgstr "Define your own share destinations. Sharing an entry opens the URL pattern in a new window, with these placeholders replaced by the entry's values:"
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -478,6 +490,10 @@ msgstr "Gray"
 msgid "Green"
 msgstr "Green"
 
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Icon is required"
+msgstr "Icon is required"
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "Id"
@@ -627,17 +643,26 @@ msgstr "Move the page down"
 msgid "Move the page up"
 msgstr "Move the page up"
 
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Must start with http:// or https://"
+msgstr "Must start with http:// or https://"
+
 #: src/components/RelativeDate.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "N/A"
 msgstr "N/A"
 
 #: src/components/admin/UserEdit.tsx
+#: src/components/settings/CustomSharingSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Name"
 msgstr "Name"
+
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Name is required"
+msgstr "Name is required"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Navigate to a subscription by entering its name"
@@ -881,6 +906,7 @@ msgstr "Right click"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
+#: src/components/settings/CustomSharingSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -904,6 +930,10 @@ msgstr "Scrolling"
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Search"
+
+#: src/components/settings/IconPicker.tsx
+msgid "Search icons"
+msgstr "Search icons"
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
@@ -1062,6 +1092,10 @@ msgstr "Test"
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
 msgstr "Test notification sent successfully."
+
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "The rest of the pattern depends on the service you are using - check its documentation for the address that adds a link. For example, Readeck:"
+msgstr "The rest of the pattern depends on the service you are using - check its documentation for the address that adds a link. For example, Readeck:"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."

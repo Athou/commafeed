@@ -50,6 +50,10 @@ msgstr "Tambahkan"
 msgid "Add category"
 msgstr "Tambahkan kategori"
 
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Add destination"
+msgstr ""
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Add user"
 msgstr "Tambahkan pengguna"
@@ -270,6 +274,10 @@ msgstr "Aturan CSS khusus yang akan diterapkan"
 msgid "Custom JS code that will be executed on page load"
 msgstr "Kode JS khusus yang akan dieksekusi saat pemuatan halaman"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom sharing"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Cyan"
 msgstr "Sian"
@@ -286,6 +294,10 @@ msgstr "Tanggal dibuat"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
 msgstr "hari"
+
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Define your own share destinations. Sharing an entry opens the URL pattern in a new window, with these placeholders replaced by the entry's values:"
+msgstr ""
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -478,6 +490,10 @@ msgstr "Abu-abu"
 msgid "Green"
 msgstr "Hijau"
 
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Icon is required"
+msgstr ""
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "Id"
@@ -627,17 +643,26 @@ msgstr "Pindahkan halaman ke bawah"
 msgid "Move the page up"
 msgstr "Pindahkan halaman ke atas"
 
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Must start with http:// or https://"
+msgstr ""
+
 #: src/components/RelativeDate.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "N/A"
 msgstr "T/A"
 
 #: src/components/admin/UserEdit.tsx
+#: src/components/settings/CustomSharingSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Name"
 msgstr "Nama"
+
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Name is required"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Navigate to a subscription by entering its name"
@@ -881,6 +906,7 @@ msgstr "Klik kanan"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
+#: src/components/settings/CustomSharingSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -904,6 +930,10 @@ msgstr "Menggulir"
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "Pencarian"
+
+#: src/components/settings/IconPicker.tsx
+msgid "Search icons"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
@@ -1062,6 +1092,10 @@ msgstr "Tes"
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
 msgstr "Notifikasi tes berhasil dikirim."
+
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "The rest of the pattern depends on the service you are using - check its documentation for the address that adds a link. For example, Readeck:"
+msgstr ""
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."

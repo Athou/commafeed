@@ -13,6 +13,8 @@ import lombok.Data;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 @Schema(description = "User settings")
@@ -101,6 +103,9 @@ public class Settings implements Serializable {
     @Schema(description = "push notification settings", required = true)
     private PushNotificationSettings pushNotificationSettings = new PushNotificationSettings();
 
+    @Schema(description = "custom sharing destinations", required = true)
+    private List<CustomSharingDestination> customSharingDestinations = new ArrayList<>();
+
     @Schema(description = "User notification settings")
     @Data
     public static class PushNotificationSettings implements Serializable {
@@ -143,5 +148,20 @@ public class Settings implements Serializable {
 
         @Schema(required = true)
         private boolean buffer;
+    }
+
+    @Schema(description = "A user-defined sharing destination")
+    @Data
+    public static class CustomSharingDestination implements Serializable {
+        @Schema(required = true)
+        private String name;
+
+        @Schema(description = "URL pattern with ${url} and ${title} placeholders", required = true)
+        private String urlPattern;
+
+        @Schema(
+                description = "react-icons/si icon component name, e.g. SiWallabag",
+                required = true)
+        private String icon;
     }
 }

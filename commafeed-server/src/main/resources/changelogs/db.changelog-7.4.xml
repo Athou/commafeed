@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+	<changeSet id="create-custom-sharing-table" author="athou">
+		<createTable tableName="USERSETTINGS_CUSTOM_SHARING">
+			<column name="usersettings_id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="position" type="INT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(128)">
+				<constraints nullable="false" />
+			</column>
+			<column name="url_pattern" type="VARCHAR(1024)">
+				<constraints nullable="false" />
+			</column>
+			<column name="icon" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="fk_usersettings_custom_sharing_usersettings_id"
+								  baseTableName="USERSETTINGS_CUSTOM_SHARING" baseColumnNames="usersettings_id"
+								  referencedTableName="USERSETTINGS" referencedColumnNames="id"
+								  onDelete="CASCADE" />
+	</changeSet>
+
+</databaseChangeLog>

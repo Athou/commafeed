@@ -2,7 +2,9 @@ package com.commafeed.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -12,8 +14,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +25,8 @@ import org.hibernate.annotations.JdbcTypeCode;
 
 import java.io.Serializable;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "USERSETTINGS")
@@ -158,6 +164,13 @@ public class UserSettings extends AbstractModel {
     @Embedded
     private PushNotificationUserSettings pushNotifications = new PushNotificationUserSettings();
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+            name = "USERSETTINGS_CUSTOM_SHARING",
+            joinColumns = @JoinColumn(name = "usersettings_id"))
+    @OrderColumn(name = "position")
+    private List<CustomSharingDestination> customSharingDestinations = new ArrayList<>();
+
     @Embeddable
     @SuppressWarnings("serial")
     @Getter
@@ -178,5 +191,23 @@ public class UserSettings extends AbstractModel {
 
         @Column(name = "push_notification_topic", length = 256)
         private String topic;
+    }
+
+    @Embeddable
+    @SuppressWarnings("serial")
+    @Getter
+    @Setter
+    // value semantics let UserREST skip rewriting the collection (a full delete + re-insert of
+    // the child table) when an unrelated settings tab is saved and the destinations are unchanged
+    @EqualsAndHashCode
+    public static class CustomSharingDestination implements Serializable {
+        @Column(name = "name", length = 128, nullable = false)
+        private String name;
+
+        @Column(name = "url_pattern", length = 1024, nullable = false)
+        private String urlPattern;
+
+        @Column(name = "icon", length = 64, nullable = false)
+        private String icon;
     }
 }

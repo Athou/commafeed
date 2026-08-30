@@ -65,11 +65,16 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Path("/rest/user")
 @RolesAllowed(Roles.USER)
@@ -80,6 +85,10 @@ import java.util.UUID;
 @Singleton
 @Tag(name = "Users")
 public class UserREST {
+
+    private static final int CUSTOM_SHARING_NAME_MAX_LENGTH = 128;
+    private static final int CUSTOM_SHARING_URL_PATTERN_MAX_LENGTH = 1024;
+    private static final int CUSTOM_SHARING_ICON_MAX_LENGTH = 64;
 
     private final AuthenticationContext authenticationContext;
     private final UserDAO userDAO;
@@ -144,6 +153,19 @@ public class UserREST {
                 s.getPushNotificationSettings()
                         .setTopic(settings.getPushNotifications().getTopic());
             }
+
+            s.setCustomSharingDestinations(
+                    settings.getCustomSharingDestinations().stream()
+                            .map(
+                                    d -> {
+                                        Settings.CustomSharingDestination dto =
+                                                new Settings.CustomSharingDestination();
+                                        dto.setName(d.getName());
+                                        dto.setUrlPattern(d.getUrlPattern());
+                                        dto.setIcon(d.getIcon());
+                                        return dto;
+                                    })
+                            .toList());
         } else {
             s.setReadingMode(ReadingMode.UNREAD);
             s.setReadingOrder(ReadingOrder.DESC);
@@ -180,6 +202,7 @@ public class UserREST {
     @Operation(summary = "Save user settings", description = "Save user settings")
     public Response saveUserSettings(@Parameter(required = true) Settings settings) {
         Preconditions.checkNotNull(settings);
+        validateCustomSharingDestinations(settings.getCustomSharingDestinations());
 
         User user = authenticationContext.getCurrentUser();
         UserSettings s = userSettingsDAO.findByUser(user);
@@ -227,8 +250,81 @@ public class UserREST {
         s.setInstapaper(settings.getSharingSettings().isInstapaper());
         s.setBuffer(settings.getSharingSettings().isBuffer());
 
+        List<UserSettings.CustomSharingDestination> destinations =
+                Objects.requireNonNullElse(
+                                settings.getCustomSharingDestinations(),
+                                List.<Settings.CustomSharingDestination>of())
+                        .stream()
+                        .map(
+                                d -> {
+                                    UserSettings.CustomSharingDestination e =
+                                            new UserSettings.CustomSharingDestination();
+                                    e.setName(d.getName());
+                                    e.setUrlPattern(d.getUrlPattern());
+                                    e.setIcon(d.getIcon());
+                                    return e;
+                                })
+                        .collect(Collectors.toCollection(ArrayList::new));
+        // every settings tab posts the whole Settings object back, and replacing the collection
+        // makes hibernate delete and re-insert every row of the child table, so only touch it
+        // when the destinations actually changed
+        if (!destinations.equals(s.getCustomSharingDestinations())) {
+            s.setCustomSharingDestinations(destinations);
+        }
+
         userSettingsDAO.merge(s);
         return Response.ok().build();
+    }
+
+    private void validateCustomSharingDestinations(
+            List<Settings.CustomSharingDestination> destinations) {
+        if (destinations == null) {
+            return;
+        }
+
+        Set<String> names = new HashSet<>();
+        for (Settings.CustomSharingDestination d : destinations) {
+            String name = d.getName();
+            if (StringUtils.isBlank(name)) {
+                throw new BadRequestException("custom sharing destination name must not be blank");
+            }
+            // lengths mirror the column definitions in db.changelog-7.4.xml, so an oversized
+            // value is rejected here instead of failing at flush time with a raw SQL error
+            if (name.length() > CUSTOM_SHARING_NAME_MAX_LENGTH) {
+                throw new BadRequestException(
+                        "custom sharing destination name must be at most "
+                                + CUSTOM_SHARING_NAME_MAX_LENGTH
+                                + " characters");
+            }
+            // the name is the button's identity in the UI, so duplicates would be indistinguishable
+            if (!names.add(name.toLowerCase(Locale.ROOT))) {
+                throw new BadRequestException(
+                        "custom sharing destination names must be unique: " + name);
+            }
+
+            String pattern = d.getUrlPattern();
+            if (StringUtils.isBlank(pattern) || !Urls.isAbsolute(pattern)) {
+                throw new BadRequestException(
+                        "custom sharing destination URL pattern must start with http:// or https://");
+            }
+            if (pattern.length() > CUSTOM_SHARING_URL_PATTERN_MAX_LENGTH) {
+                throw new BadRequestException(
+                        "custom sharing destination URL pattern must be at most "
+                                + CUSTOM_SHARING_URL_PATTERN_MAX_LENGTH
+                                + " characters");
+            }
+
+            String icon = d.getIcon();
+            if (StringUtils.isBlank(icon)) {
+                throw new BadRequestException("custom sharing destination icon must not be blank");
+            }
+            if (icon.length() > CUSTOM_SHARING_ICON_MAX_LENGTH) {
+                throw new BadRequestException(
+                        "custom sharing destination icon must be at most "
+                                + CUSTOM_SHARING_ICON_MAX_LENGTH
+                                + " characters");
+            }
+        }
     }
 
     @Path("/pushNotificationTest")

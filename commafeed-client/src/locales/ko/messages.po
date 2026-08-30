@@ -50,6 +50,10 @@ msgstr "추가"
 msgid "Add category"
 msgstr "카테고리 추가"
 
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Add destination"
+msgstr ""
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Add user"
 msgstr "사용자 추가"
@@ -270,6 +274,10 @@ msgstr "적용될 사용자 정의 CSS 규칙"
 msgid "Custom JS code that will be executed on page load"
 msgstr "페이지 로드 시 실행될 사용자 정의 JS 코드"
 
+#: src/pages/app/SettingsPage.tsx
+msgid "Custom sharing"
+msgstr ""
+
 #: src/components/settings/DisplaySettings.tsx
 msgid "Cyan"
 msgstr "시안"
@@ -286,6 +294,10 @@ msgstr "생성 날짜"
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "days"
 msgstr "일"
+
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Define your own share destinations. Sharing an entry opens the URL pattern in a new window, with these placeholders replaced by the entry's values:"
+msgstr ""
 
 #: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -478,6 +490,10 @@ msgstr "그레이"
 msgid "Green"
 msgstr "그린"
 
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Icon is required"
+msgstr ""
+
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Id"
 msgstr "ID"
@@ -627,17 +643,26 @@ msgstr "페이지를 아래로 이동"
 msgid "Move the page up"
 msgstr "페이지를 위로 이동"
 
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Must start with http:// or https://"
+msgstr ""
+
 #: src/components/RelativeDate.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "N/A"
 msgstr "해당 없음"
 
 #: src/components/admin/UserEdit.tsx
+#: src/components/settings/CustomSharingSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
 #: src/pages/app/FeedDetailsPage.tsx
 msgid "Name"
 msgstr "이름"
+
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "Name is required"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Navigate to a subscription by entering its name"
@@ -881,6 +906,7 @@ msgstr "오른쪽 클릭"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/CustomCodeSettings.tsx
+#: src/components/settings/CustomSharingSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/PushNotificationSettings.tsx
 #: src/pages/app/CategoryDetailsPage.tsx
@@ -904,6 +930,10 @@ msgstr "스크롤"
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
 msgstr "검색"
+
+#: src/components/settings/IconPicker.tsx
+msgid "Search icons"
+msgstr ""
 
 #: src/components/KeyboardShortcutsHelp.tsx
 msgid "Select next unread feed/category"
@@ -1062,6 +1092,10 @@ msgstr "테스트"
 #: src/components/settings/PushNotificationSettings.tsx
 msgid "Test notification sent successfully."
 msgstr "테스트 알림이 성공적으로 전송되었습니다."
+
+#: src/components/settings/CustomSharingSettings.tsx
+msgid "The rest of the pattern depends on the service you are using - check its documentation for the address that adds a link. For example, Readeck:"
+msgstr ""
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."

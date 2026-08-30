@@ -263,6 +263,12 @@ export interface PushNotificationSettings {
     topic?: string
 }
 
+export interface CustomSharingDestination {
+    name: string
+    urlPattern: string
+    icon: string
+}
+
 export interface Settings {
     language?: string
     readingMode: ReadingMode
@@ -286,6 +292,7 @@ export interface Settings {
     primaryColor?: string
     sharingSettings: SharingSettings
     pushNotificationSettings: PushNotificationSettings
+    customSharingDestinations: CustomSharingDestination[]
 }
 
 export interface LocalSettings {

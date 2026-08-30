@@ -1,8 +1,7 @@
 import { msg } from "@lingui/core/macro"
 import { Anchor, Box, Center, Container, Divider, Group, Image, Space, Title, useMantineColorScheme } from "@mantine/core"
 import { useAsyncCallback } from "react-async-hook"
-import { SiGithub, SiX } from "react-icons/si"
-import { TbClock, TbKey, TbMoon, TbSettings, TbSun, TbUserPlus } from "react-icons/tb"
+import { TbBrandGithub, TbBrandX, TbClock, TbKey, TbMoon, TbSettings, TbSun, TbUserPlus } from "react-icons/tb"
 import { client } from "@/app/client"
 import { redirectToApiDocumentation, redirectToLogin, redirectToRegistration, redirectToRootCategory } from "@/app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
@@ -138,10 +137,10 @@ function Footer() {
             <Group>
                 <span>© CommaFeed</span>
                 <Anchor variant="text" href="https://github.com/Athou/commafeed/" target="_blank" rel="noreferrer">
-                    <SiGithub />
+                    <TbBrandGithub />
                 </Anchor>
                 <Anchor variant="text" href="https://x.com/CommaFeed" target="_blank" rel="noreferrer">
-                    <SiX />
+                    <TbBrandX />
                 </Anchor>
             </Group>
             <Box>

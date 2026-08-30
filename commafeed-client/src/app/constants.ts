@@ -1,6 +1,5 @@
 import type { IconType } from "react-icons"
 import { FaAt } from "react-icons/fa"
-import { SiBuffer, SiFacebook, SiGmail, SiInstapaper, SiTumblr, SiX } from "react-icons/si"
 import type { Category, Entry, SharingSettings } from "./types"
 
 const categories: Record<string, Omit<Category, "name">> = {
@@ -23,7 +22,13 @@ const categories: Record<string, Omit<Category, "name">> = {
 const sharing: {
     [key in keyof SharingSettings]: {
         label: string
-        icon: IconType
+        // a direct IconType component (rendered as-is), or a react-icons/si export name string
+        // (resolved dynamically via siIcons.ts). Never statically import from "react-icons/si"
+        // here - custom sharing's icon picker already does a dynamic `import("react-icons/si")`
+        // with runtime property access, and any static import of that same module anywhere in
+        // the app defeats code-splitting for it (the whole ~3300-icon module then lands in the
+        // main bundle instead of its own lazily-loaded chunk).
+        icon: IconType | string
         color: `#${string}`
         url: (url: string, description: string) => string
     }
@@ -36,37 +41,37 @@ const sharing: {
     },
     gmail: {
         label: "Gmail",
-        icon: SiGmail,
+        icon: "SiGmail",
         color: "#EA4335",
         url: (url, desc) => `https://mail.google.com/mail/?view=cm&fs=1&tf=1&source=mailto&su=${desc}&body=${url}`,
     },
     facebook: {
         label: "Facebook",
-        icon: SiFacebook,
+        icon: "SiFacebook",
         color: "#1B74E4",
         url: url => `https://www.facebook.com/sharer/sharer.php?u=${url}`,
     },
     twitter: {
         label: "X",
-        icon: SiX,
+        icon: "SiX",
         color: "#000000",
         url: (url, desc) => `https://x.com/share?text=${desc}&url=${url}`,
     },
     tumblr: {
         label: "Tumblr",
-        icon: SiTumblr,
+        icon: "SiTumblr",
         color: "#375672",
         url: (url, desc) => `https://www.tumblr.com/share/link?url=${url}&name=${desc}`,
     },
     instapaper: {
         label: "Instapaper",
-        icon: SiInstapaper,
+        icon: "SiInstapaper",
         color: "#010101",
         url: (url, desc) => `https://www.instapaper.com/hello2?url=${url}&title=${desc}`,
     },
     buffer: {
         label: "Buffer",
-        icon: SiBuffer,
+        icon: "SiBuffer",
         color: "#000000",
         url: (url, desc) => `https://bufferapp.com/add?url=${url}&text=${desc}`,
     },

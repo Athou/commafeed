@@ -1,7 +1,8 @@
 import { Trans } from "@lingui/react/macro"
 import { Container, Tabs } from "@mantine/core"
-import { TbBell, TbCode, TbPhoto, TbUser } from "react-icons/tb"
+import { TbBell, TbCode, TbPhoto, TbShare2, TbUser } from "react-icons/tb"
 import { CustomCodeSettings } from "@/components/settings/CustomCodeSettings"
+import { CustomSharingSettings } from "@/components/settings/CustomSharingSettings"
 import { DisplaySettings } from "@/components/settings/DisplaySettings"
 import { ProfileSettings } from "@/components/settings/ProfileSettings"
 import { PushNotificationSettings } from "@/components/settings/PushNotificationSettings"
@@ -17,6 +18,9 @@ export function SettingsPage() {
                     <Tabs.Tab value="push-notifications" leftSection={<TbBell size={16} />}>
                         <Trans>Push notifications</Trans>
                     </Tabs.Tab>
+                    <Tabs.Tab value="customSharing" leftSection={<TbShare2 size={16} />}>
+                        <Trans>Custom sharing</Trans>
+                    </Tabs.Tab>
                     <Tabs.Tab value="customCode" leftSection={<TbCode size={16} />}>
                         <Trans>Custom code</Trans>
                     </Tabs.Tab>
@@ -31,6 +35,10 @@ export function SettingsPage() {
 
                 <Tabs.Panel value="push-notifications" pt="xl">
                     <PushNotificationSettings />
+                </Tabs.Panel>
+
+                <Tabs.Panel value="customSharing" pt="xl">
+                    <CustomSharingSettings />
                 </Tabs.Panel>
 
                 <Tabs.Panel value="customCode" pt="xl">

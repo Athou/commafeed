@@ -41,6 +41,7 @@ export default defineConfig(() => ({
         inconsistentCjsInterop: true,
     },
     test: {
+        isolate: false,
         environment: "jsdom",
         globals: true,
         setupFiles: "./src/setupTests.ts",

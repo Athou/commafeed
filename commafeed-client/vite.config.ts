@@ -1,13 +1,13 @@
 import { lingui, linguiTransformerBabelPreset } from "@lingui/vite-plugin"
 import babel from "@rolldown/plugin-babel"
-import react from "@vitejs/plugin-react"
+import react, { reactCompilerPreset } from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 import checker from "vite-plugin-checker"
 
 export default defineConfig(() => ({
     plugins: [
-        babel({ presets: [linguiTransformerBabelPreset()] }),
-        react({ compiler: true }),
+        babel({ presets: [linguiTransformerBabelPreset(), reactCompilerPreset()] }),
+        react(),
         lingui(),
         checker({
             // temporary disabled until TypeScript 7 exposes a stable api

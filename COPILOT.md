@@ -31,3 +31,11 @@ For frontend development, run `npm run dev` from `commafeed-client`.
 - Notes belong to the authenticated user and a subscribed feed entry; preserve this ownership boundary.
 - The note rating is optional but, when provided, must be an integer from 1 through 5.
 - Keep note request/response DTOs in the existing `commafeed-server` frontend model packages and follow existing REST security annotations.
+
+## Level 3: Keycloak User Directory
+
+- Keep Keycloak integration server-side: `KeycloakUserREST -> KeycloakAdminService -> Keycloak Admin REST API`.
+- Protect directory endpoints with `@RolesAllowed(Roles.ADMIN)`; never expose Keycloak service-account credentials or bearer tokens to the frontend.
+- Read Keycloak connection settings from environment variables and return generic `503 Service Unavailable` responses for missing configuration, upstream failures, or malformed responses.
+- Frontend directory pages must use the existing `client.admin`, React Router, `useAsync`, and Mantine component patterns.
+- Return only the fields required by the directory DTO; do not proxy arbitrary Keycloak payloads.

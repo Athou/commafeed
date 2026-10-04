@@ -27,11 +27,19 @@ import {
     TbSun,
     TbSunMoon,
     TbUsers,
+    TbUserSearch,
     TbWorldDownload,
 } from "react-icons/tb"
 import { throttle } from "throttle-debounce"
 import { client } from "@/app/client"
-import { redirectToAbout, redirectToAdminUsers, redirectToDonate, redirectToMetrics, redirectToSettings } from "@/app/redirect/thunks"
+import {
+    redirectToAbout,
+    redirectToAdminUsers,
+    redirectToDonate,
+    redirectToKeycloakUsers,
+    redirectToMetrics,
+    redirectToSettings,
+} from "@/app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
 import type { ViewMode } from "@/app/types"
 import { setFontSizePercentage, setViewMode } from "@/app/user/slice"
@@ -234,6 +242,15 @@ export function ProfileMenu(props: Readonly<ProfileMenuProps>) {
                             }}
                         >
                             <Trans>Metrics</Trans>
+                        </Menu.Item>
+                        <Menu.Item
+                            leftSection={<TbUserSearch size={iconSize} />}
+                            onClick={() => {
+                                dispatch(redirectToKeycloakUsers())
+                                setOpened(false)
+                            }}
+                        >
+                            <Trans>Keycloak user directory</Trans>
                         </Menu.Item>
                     </>
                 )}

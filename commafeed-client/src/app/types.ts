@@ -333,6 +333,16 @@ export interface AdminSaveUserRequest {
     admin: boolean
 }
 
+export interface KeycloakUser {
+    id: string
+    username: string
+    email?: string
+    firstName?: string
+    lastName?: string
+    enabled: boolean
+    createdTimestamp?: number
+}
+
 export interface AuthenticationError {
     message: string
     allowRegistrations: boolean

@@ -17,6 +17,7 @@ import type {
     GetEntriesPaginatedRequest,
     IDRequest,
     InitialSetupRequest,
+    KeycloakUser,
     LoginRequest,
     MarkRequest,
     Metrics,
@@ -124,6 +125,8 @@ export const client = {
         saveUser: async (req: AdminSaveUserRequest) => await axiosInstance.post<number>("admin/user/save", req),
         deleteUser: async (req: IDRequest) => await axiosInstance.post("admin/user/delete", req),
         getMetrics: async () => await axiosInstance.get<Metrics>("admin/metrics"),
+        getKeycloakUsers: async () => await axiosInstance.get<KeycloakUser[]>("admin/keycloak/users"),
+        getKeycloakUser: async (id: string) => await axiosInstance.get<KeycloakUser>(`admin/keycloak/users/${encodeURIComponent(id)}`),
     },
 }
 

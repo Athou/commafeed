@@ -56,6 +56,10 @@ export const redirectToMetrics = createAppAsyncThunk("redirect/admin/metrics", (
     thunkApi.dispatch(redirectTo("/app/admin/metrics"))
 )
 
+export const redirectToKeycloakUsers = createAppAsyncThunk("redirect/admin/keycloak/users", (_, thunkApi) =>
+    thunkApi.dispatch(redirectTo("/app/admin/keycloak/users"))
+)
+
 export const redirectToDonate = createAppAsyncThunk("redirect/donate", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/donate")))
 
 export const redirectToAbout = createAppAsyncThunk("redirect/about", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/about")))

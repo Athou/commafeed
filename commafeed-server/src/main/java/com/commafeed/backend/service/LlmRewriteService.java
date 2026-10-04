@@ -1,7 +1,6 @@
 package com.commafeed.backend.service;
 
 import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.backend.HttpClientFactory;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.model.FeedEntry;
@@ -15,15 +14,13 @@ import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.hc.client5.http.classic.methods.HttpPost;
-import org.apache.hc.client5.http.config.RequestConfig;
-import org.apache.hc.client5.http.entity.StringEntity;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.core5.http.ContentType;
-import org.apache.hc.core5.util.Timeout;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
@@ -37,17 +34,19 @@ public class LlmRewriteService {
                     + MODEL
                     + ":generateContent?key=";
 
-    private final CloseableHttpClient httpClient;
+    private final HttpClient httpClient;
     private final FeedEntryDAO feedEntryDAO;
     private final FeedSubscriptionDAO feedSubscriptionDAO;
     private final CommaFeedConfiguration config;
 
     public LlmRewriteService(
-            HttpClientFactory httpClientFactory,
             FeedEntryDAO feedEntryDAO,
             FeedSubscriptionDAO feedSubscriptionDAO,
             CommaFeedConfiguration config) {
-        this.httpClient = httpClientFactory.newClient(1);
+        this.httpClient =
+                HttpClient.newBuilder()
+                        .connectTimeout(config.httpClient().connectTimeout())
+                        .build();
         this.feedEntryDAO = feedEntryDAO;
         this.feedSubscriptionDAO = feedSubscriptionDAO;
         this.config = config;
@@ -80,47 +79,37 @@ public class LlmRewriteService {
                         + originalEntry
                         + "\n\nInstructions:\n"
                         + prompt;
-        JsonObject requestBody =
-                new JsonObject()
-                        .put(
-                                "contents",
-                                new JsonArray()
-                                        .add(
-                                                new JsonObject()
-                                                        .put(
-                                                                "parts",
-                                                                new JsonArray()
-                                                                        .add(
-                                                                                new JsonObject()
-                                                                                        .put(
-                                                                                                "text",
-                                                                                                instruction))))));
+        JsonObject part = new JsonObject().put("text", instruction);
+        JsonObject content = new JsonObject().put("parts", new JsonArray().add(part));
+        JsonObject requestBody = new JsonObject().put("contents", new JsonArray().add(content));
 
-        HttpPost request =
-                new HttpPost(API_URL + URLEncoder.encode(apiKey, StandardCharsets.UTF_8));
-        request.setConfig(
-                RequestConfig.custom()
-                        .setResponseTimeout(Timeout.of(config.httpClient().responseTimeout()))
-                        .build());
-        request.setEntity(new StringEntity(requestBody.encode(), ContentType.APPLICATION_JSON));
+        HttpRequest request =
+                HttpRequest.newBuilder()
+                        .uri(
+                                URI.create(
+                                        API_URL
+                                                + URLEncoder.encode(
+                                                        apiKey, StandardCharsets.UTF_8)))
+                        .timeout(config.httpClient().responseTimeout())
+                        .header("Content-Type", "application/json")
+                        .POST(HttpRequest.BodyPublishers.ofString(requestBody.encode()))
+                        .build();
 
         try {
-            return httpClient.execute(
-                    request,
-                    response -> {
-                        if (response.getCode() < 200 || response.getCode() >= 300) {
-                            throw new LlmUnavailableException();
-                        }
-                        if (response.getEntity() == null) {
-                            throw new LlmUnavailableException();
-                        }
-                        String responseBody =
-                                new String(
-                                        response.getEntity().getContent().readAllBytes(),
-                                        StandardCharsets.UTF_8);
-                        return parseGeneratedText(responseBody);
-                    });
-        } catch (IOException | RuntimeException e) {
+            HttpResponse<String> response =
+                    httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() < 200 || response.statusCode() >= 300) {
+                throw new LlmUnavailableException();
+            }
+            return parseGeneratedText(response.body());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.warn("Gemini rewrite request interrupted");
+            throw new LlmUnavailableException();
+        } catch (IOException e) {
+            log.warn("Gemini rewrite request failed");
+            throw new LlmUnavailableException();
+        } catch (RuntimeException e) {
             log.warn("Gemini rewrite request failed");
             throw new LlmUnavailableException();
         }

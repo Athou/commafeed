@@ -5,12 +5,12 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.service.FeedEntryService;
 import com.commafeed.backend.service.FeedEntryTagService;
 import com.commafeed.backend.service.LlmRewriteService;
-import com.commafeed.frontend.rest.resources.model.GenerateAlternativeRequest;
-import com.commafeed.frontend.rest.resources.model.GenerateAlternativeResponse;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.MultipleMarkRequest;
 import com.commafeed.frontend.model.request.StarRequest;
 import com.commafeed.frontend.model.request.TagRequest;
+import com.commafeed.frontend.rest.resources.model.GenerateAlternativeRequest;
+import com.commafeed.frontend.rest.resources.model.GenerateAlternativeResponse;
 import com.commafeed.security.AuthenticationContext;
 import com.commafeed.security.Roles;
 import com.google.common.base.Preconditions;
@@ -59,12 +59,11 @@ public class EntryREST {
     @Operation(summary = "Generate an alternative for an entry title or content")
     public Response generateAlternative(
             @Parameter(description = "Feed entry id", required = true) @PathParam("id") Long id,
-            @Valid
-                    @Parameter(description = "Generate alternative request", required = true)
+            @Valid @Parameter(description = "Generate alternative request", required = true)
                     GenerateAlternativeRequest request) {
         if (request == null
                 || request.getTarget() == null
-                || (!"title".equals(request.getTarget()) && !"content".equals(request.getTarget()))
+                || !isValidTarget(request.getTarget())
                 || request.getPrompt() == null
                 || request.getPrompt().isBlank()) {
             throw new BadRequestException("target and prompt are required");
@@ -73,8 +72,7 @@ public class EntryREST {
         User user = authenticationContext.getCurrentUser();
         try {
             LlmRewriteService.RewriteResult result =
-                    llmRewriteService.rewrite(
-                            user, id, request.getTarget(), request.getPrompt());
+                    llmRewriteService.rewrite(user, id, request.getTarget(), request.getPrompt());
             return Response.ok(
                             new GenerateAlternativeResponse(
                                     result.originalEntry(),
@@ -87,6 +85,10 @@ public class EntryREST {
         } catch (LlmRewriteService.LlmUnavailableException e) {
             return Response.status(Status.SERVICE_UNAVAILABLE).build();
         }
+    }
+
+    private boolean isValidTarget(String target) {
+        return "title".equals(target) || "content".equals(target);
     }
 
     @Path("/mark")

@@ -29,7 +29,7 @@ jobs:
 
       # Setup
       - name: Set up GraalVM
-        uses: graalvm/setup-graalvm@5298d94fb55a4f185c602eeac5de1b553882abe2 # v1.6.4
+        uses: graalvm/setup-graalvm@0426e2e191540e8514dff98dc52a5f5146a2a276 # v1.6.6
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: "graalvm"
@@ -47,7 +47,7 @@ jobs:
 
       # Build & Test
       - name: Build with Maven
-        run: mvn --batch-mode --no-transfer-progress install -Pnative -P${{ matrix.database }} -DskipTests=${{ matrix.os == 'windows-latest' && matrix.database != 'h2' }}
+        run: mvn --batch-mode --no-transfer-progress install -Pnative -P${{ matrix.database }} -DskipITs=${{ matrix.os == 'windows-latest' && matrix.database != 'h2' }}
 
       # Build pages
       - name: Create pages directory structure
@@ -110,10 +110,10 @@ jobs:
 
       # Setup
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
+        uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
       - name: Install required packages
         run: sudo apt-get install -y rename unzip
@@ -149,7 +149,7 @@ jobs:
 
       ## build but don't push for PRs and renovate
       - name: Docker build - native
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           file: commafeed-server/src/main/docker/Dockerfile.native
@@ -157,7 +157,7 @@ jobs:
           platforms: linux/amd64,linux/arm64/v8
 
       - name: Docker build - jvm
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           file: commafeed-server/src/main/docker/Dockerfile.jvm
@@ -166,7 +166,7 @@ jobs:
 
       ## build and push tag
       - name: Docker build and push tag - native
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         if: ${{ github.ref_type == 'tag' }}
         with:
           context: .
@@ -178,7 +178,7 @@ jobs:
             athou/commafeed:${{ github.ref_name }}-${{ matrix.database }}
 
       - name: Docker build and push tag - jvm
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         if: ${{ github.ref_type == 'tag' }}
         with:
           context: .
@@ -191,7 +191,7 @@ jobs:
 
       ## build and push master
       - name: Docker build and push master - native
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         if: ${{ github.ref_name == 'master' }}
         with:
           context: .
@@ -201,7 +201,7 @@ jobs:
           tags: athou/commafeed:master-${{ matrix.database }}
 
       - name: Docker build and push master - jvm
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         if: ${{ github.ref_name == 'master' }}
         with:
           context: .
@@ -280,5 +280,5 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
+      - uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
         id: deployment

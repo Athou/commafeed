@@ -13,8 +13,8 @@
     <packaging>quarkus</packaging>
 
     <properties>
-        <quarkus.version>3.38.3</quarkus.version>
-        <querydsl.version>7.6</querydsl.version>
+        <quarkus.version>3.39.4</quarkus.version>
+        <querydsl.version>7.7</querydsl.version>
         <rome.version>2.1.0</rome.version>
         <!-- renovate: depName=com.google.googlejavaformat:google-java-format -->
         <google-java-format.version>1.36.1</google-java-format.version>
@@ -35,7 +35,7 @@
             <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java</artifactId>
-                <version>4.36.0</version>
+                <version>4.36.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -64,7 +64,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>properties-maven-plugin</artifactId>
-                <version>1.3.0</version>
+                <version>1.3.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -116,7 +116,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.6.3</version>
+                <version>3.6.4</version>
                 <dependencies>
                     <dependency>
                         <groupId>io.quarkus</groupId>
@@ -164,7 +164,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.6</version>
+                <version>3.6.0</version>
                 <configuration>
                     <argLine>@{argLine}</argLine>
                     <systemPropertyVariables>
@@ -176,7 +176,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.5.6</version>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <goals>
@@ -221,7 +221,7 @@
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>
                 <artifactId>git-commit-id-maven-plugin</artifactId>
-                <version>10.0.0</version>
+                <version>10.0.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -245,7 +245,7 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>14.0.0</version>
+                        <version>14.1.0</version>
                     </dependency>
                 </dependencies>
                 <executions>
@@ -274,7 +274,7 @@
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
-                <version>3.10.0</version>
+                <version>3.10.2</version>
                 <?m2e ignore?>
                 <executions>
                     <execution>
@@ -309,7 +309,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.46</version>
+            <version>1.18.48</version>
         </dependency>
         <dependency>
             <groupId>org.kohsuke.metainf-services</groupId>
@@ -368,7 +368,7 @@
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-json</artifactId>
-            <version>4.2.39</version>
+            <version>4.2.40</version>
         </dependency>
         <dependency>
             <groupId>io.github.openfeign.querydsl</groupId>
@@ -429,7 +429,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.23.1</version>
+            <version>1.23.2</version>
         </dependency>
         <dependency>
             <groupId>com.ibm.icu</groupId>
@@ -454,7 +454,7 @@
         <dependency>
             <groupId>io.github.hakky54</groupId>
             <artifactId>ayza-for-apache5</artifactId>
-            <version>10.0.6</version>
+            <version>10.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.brotli</groupId>
@@ -482,7 +482,7 @@
         <dependency>
             <groupId>org.mock-server</groupId>
             <artifactId>mockserver-junit-jupiter</artifactId>
-            <version>7.6.0</version>
+            <version>8.0.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>

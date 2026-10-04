@@ -42,7 +42,7 @@ export function WelcomePage() {
                         icon={<TbClock size={iconSize} />}
                         variant="outline"
                         onClick={async () => await login.execute({ name: "demo", password: "demo" })}
-                        showLabelOnMobile
+                        mode="desktop"
                     />
                 </Center>
             )}
@@ -100,7 +100,7 @@ function Buttons() {
                 icon={<TbKey size={iconSize} />}
                 variant="outline"
                 onClick={async () => await dispatch(redirectToLogin())}
-                showLabelOnMobile
+                mode="desktop"
             />
             {serverInfos?.allowRegistrations && (
                 <ActionButton
@@ -108,7 +108,7 @@ function Buttons() {
                     icon={<TbUserPlus size={iconSize} />}
                     variant="filled"
                     onClick={async () => await dispatch(redirectToRegistration())}
-                    showLabelOnMobile
+                    mode="desktop"
                 />
             )}
 
@@ -116,7 +116,7 @@ function Buttons() {
                 label={dark ? msg`Switch to light theme` : msg`Switch to dark theme`}
                 icon={colorScheme === "dark" ? <TbSun size={18} /> : <TbMoon size={iconSize} />}
                 onClick={() => toggleColorScheme()}
-                hideLabelOnDesktop
+                mode="mobile"
             />
 
             {isBrowserExtensionPopup && (
@@ -124,7 +124,7 @@ function Buttons() {
                     label={msg`Extension options`}
                     icon={<TbSettings size={iconSize} />}
                     onClick={() => openSettingsPage()}
-                    hideLabelOnDesktop
+                    mode="mobile"
                 />
             )}
         </Group>

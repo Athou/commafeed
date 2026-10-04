@@ -167,6 +167,20 @@ CommaFeed blocks access to local resources by default to prevent [SSRF](https://
 If you want to subscribe to feeds that are only available on your local network, you can disable this security measure by setting the `commafeed.http-client.block-local-addresses` variable to `false`.
 Do this only if you trust all users of your CommaFeed instance not to access private resources.
 
+### Listen on a single network interface
+
+By default, CommaFeed listens on all interfaces. You can restrict it by setting `quarkus.http.host`.
+
+Note that if you set it to a local name like `127.0.0.1` host validation is enabled automatically. This prevents
+access if you're using a reverse proxy like Nginx. To fix, add your actual hostname to `allowed-hosts`:
+
+```
+quarkus.http.host=127.0.0.1
+quarkus.http.proxy.proxy-address-forwarding=true
+quarkus.http.proxy.allow-forwarded=true
+quarkus.http.host-validation.allowed-hosts=commafeed.example.com
+```
+
 ## Translation
 
 Files for internationalization are

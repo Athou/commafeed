@@ -1,4 +1,4 @@
-import { lingui } from "@lingui/vite-plugin"
+import { lingui, linguiTransformerBabelPreset } from "@lingui/vite-plugin"
 import babel from "@rolldown/plugin-babel"
 import react, { reactCompilerPreset } from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
@@ -6,11 +6,8 @@ import checker from "vite-plugin-checker"
 
 export default defineConfig(() => ({
     plugins: [
+        babel({ presets: [linguiTransformerBabelPreset(), reactCompilerPreset()] }),
         react(),
-        babel({
-            presets: [reactCompilerPreset()],
-            plugins: ["@lingui/babel-plugin-lingui-macro"],
-        }),
         lingui(),
         checker({
             // temporary disabled until TypeScript 7 exposes a stable api
@@ -44,6 +41,7 @@ export default defineConfig(() => ({
         inconsistentCjsInterop: true,
     },
     test: {
+        isolate: false,
         environment: "jsdom",
         globals: true,
         setupFiles: "./src/setupTests.ts",
@@ -51,6 +49,9 @@ export default defineConfig(() => ({
     build: {
         chunkSizeWarningLimit: 4000,
         rolldownOptions: {
+            checks: {
+                pluginTimings: false,
+            },
             output: {
                 codeSplitting: {
                     groups: [

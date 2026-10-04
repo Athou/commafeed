@@ -2,7 +2,7 @@ import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Box, Center, CloseButton, Divider, Group, Indicator, Popover, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { useEffect } from "react"
+import { type ReactNode, useEffect } from "react"
 import {
     TbArrowDown,
     TbArrowUp,
@@ -31,7 +31,7 @@ function HeaderDivider() {
     return <Divider orientation="vertical" />
 }
 
-function HeaderToolbar(props: { children: React.ReactNode }) {
+function HeaderToolbar(props: { children: ReactNode }) {
     const { spacing } = useActionButton()
     const mobile = useMobile("480px")
     return mobile ? (
@@ -47,7 +47,7 @@ function HeaderToolbar(props: { children: React.ReactNode }) {
             {props.children}
         </Box>
     ) : (
-        <Group gap={spacing} className="cf-toolbar">
+        <Group gap={spacing} wrap="nowrap" className="cf-toolbar">
             {props.children}
         </Group>
     )

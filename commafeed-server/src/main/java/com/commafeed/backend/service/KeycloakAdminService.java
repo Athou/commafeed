@@ -63,11 +63,7 @@ public class KeycloakAdminService {
         KeycloakConfiguration configuration = getConfiguration();
         String token = requestToken(configuration);
         String baseUrl = removeTrailingSlash(configuration.baseUrl());
-        String endpoint =
-                baseUrl
-                        + "/admin/realms/"
-                        + encodePath(configuration.realm())
-                        + path;
+        String endpoint = baseUrl + "/admin/realms/" + encodePath(configuration.realm()) + path;
 
         HttpRequest request =
                 HttpRequest.newBuilder()

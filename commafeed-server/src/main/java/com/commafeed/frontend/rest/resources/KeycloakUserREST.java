@@ -48,8 +48,7 @@ public class KeycloakUserREST {
     @GET
     @Operation(summary = "Get a Keycloak user")
     public Response getUser(
-            @Parameter(description = "Keycloak user id", required = true)
-                    @PathParam("id")
+            @Parameter(description = "Keycloak user id", required = true) @PathParam("id")
                     String id) {
         try {
             return Response.ok(keycloakAdminService.findUser(id)).build();

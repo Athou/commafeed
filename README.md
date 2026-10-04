@@ -199,3 +199,10 @@ two-letters [ISO-639-1 language code](http://en.wikipedia.org/wiki/List_of_ISO_6
 
 The frontend server is now running at http://localhost:8082 and is proxying REST requests to the backend running on
 port 8083
+
+## My AI workflow
+
+- **Tools used:** GitHub Copilot, Java 21, Quarkus, Vite, and Mantine.
+- **Context management:** Custom `COPILOT.md` instructions, selective file feeding, and iterative prompt refinement.
+- **Verification strategy:** Maven builds with `-Werror`, Spotless, Checkstyle, Biome formatting, and static code review.
+- **Key engineering interventions:** Resolving Checkstyle violations, adopting the native Java 21 `HttpClient`, and enforcing the repository's 4-space Biome formatting rules.

@@ -1,3 +1,5 @@
+# Rule: Always automatically stage and commit git changes after completing any feature, fix, or documentation task using standard conventional commit messages (e.g., feat:, fix:, docs:).
+
 # Copilot Development Guide
 
 ## Stack and Architecture

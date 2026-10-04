@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/react/macro"
-import { Alert as MantineAlert, Anchor, Container, Table, Text, Title } from "@mantine/core"
+import { Anchor, Container, Alert as MantineAlert, Table, Text, Title } from "@mantine/core"
 import { useAsync } from "react-async-hook"
 import { Link as RouterLink } from "react-router-dom"
 import { client, errorToStrings } from "@/app/client"

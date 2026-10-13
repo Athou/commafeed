@@ -19,11 +19,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.client5.http.async.methods.SimpleHttpRequest;
 import org.apache.hc.client5.http.async.methods.SimpleHttpResponse;
 import org.apache.hc.client5.http.async.methods.SimpleRequestBuilder;
+import org.apache.hc.client5.http.async.methods.SimpleRequestProducer;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient;
 import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
+import org.apache.hc.core5.http.nio.entity.DiscardingEntityConsumer;
+import org.apache.hc.core5.http.nio.support.BasicResponseConsumer;
 import org.apache.hc.core5.net.WWWFormCodec;
 import org.apache.hc.core5.util.Timeout;
 
@@ -195,7 +199,14 @@ public class PushNotificationService {
 
     private void send(String name, SimpleHttpRequest request) throws IOException {
         try {
-            SimpleHttpResponse response = httpClient.execute(request, null).get();
+            HttpResponse response =
+                    httpClient
+                            .execute(
+                                    SimpleRequestProducer.create(request),
+                                    new BasicResponseConsumer<>(new DiscardingEntityConsumer<>()),
+                                    null)
+                            .get()
+                            .getHead();
             if (response.getCode() >= 400) {
                 throw new PushNotificationException(
                         name + " notification failed with status " + response.getCode());

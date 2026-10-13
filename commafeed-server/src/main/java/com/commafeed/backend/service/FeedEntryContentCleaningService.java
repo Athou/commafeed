@@ -148,6 +148,7 @@ public class FeedEntryContentCleaningService {
 
         whitelist.addProtocols("a", "href", "ftp", "http", "https", "magnet", "mailto");
         whitelist.addProtocols("blockquote", "cite", "http", "https");
+        whitelist.addProtocols("iframe", "src", "http", "https");
         whitelist.addProtocols("img", "src", "http", "https");
         whitelist.addProtocols("q", "cite", "http", "https");
 

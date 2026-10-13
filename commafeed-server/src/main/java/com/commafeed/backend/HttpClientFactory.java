@@ -82,6 +82,8 @@ public class HttpClientFactory {
         headers.add(new BasicHeader(HttpHeaders.ACCEPT_LANGUAGE, "en"));
         headers.add(new BasicHeader(HttpHeaders.PRAGMA, "No-cache"));
         headers.add(new BasicHeader(HttpHeaders.CACHE_CONTROL, "no-cache"));
+        headers.add(new BasicHeader(HttpHeaders.ACCEPT, "*/*"));
+        headers.add(new BasicHeader(HttpHeaders.SEC_FETCH_MODE, "navigate"));
 
         SequencedMap<String, UnaryOperator<AsyncDataConsumer>> contentDecoderMap =
                 new LinkedHashMap<>();

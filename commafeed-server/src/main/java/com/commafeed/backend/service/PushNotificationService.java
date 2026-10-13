@@ -17,13 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.client5.http.async.methods.SimpleHttpRequest;
-import org.apache.hc.client5.http.async.methods.SimpleHttpResponse;
 import org.apache.hc.client5.http.async.methods.SimpleRequestBuilder;
 import org.apache.hc.client5.http.async.methods.SimpleRequestProducer;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.Message;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.hc.core5.http.nio.entity.DiscardingEntityConsumer;
@@ -36,6 +36,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 @Singleton
 @Slf4j
@@ -198,20 +199,19 @@ public class PushNotificationService {
     }
 
     private void send(String name, SimpleHttpRequest request) throws IOException {
+        Future<Message<HttpResponse, Object>> future =
+                httpClient.execute(
+                        SimpleRequestProducer.create(request),
+                        new BasicResponseConsumer<>(new DiscardingEntityConsumer<>()),
+                        null);
         try {
-            HttpResponse response =
-                    httpClient
-                            .execute(
-                                    SimpleRequestProducer.create(request),
-                                    new BasicResponseConsumer<>(new DiscardingEntityConsumer<>()),
-                                    null)
-                            .get()
-                            .getHead();
+            HttpResponse response = future.get().getHead();
             if (response.getCode() >= 400) {
                 throw new PushNotificationException(
                         name + " notification failed with status " + response.getCode());
             }
         } catch (InterruptedException e) {
+            future.cancel(true);
             Thread.currentThread().interrupt();
             throw new IOException("interrupted while sending " + name + " notification", e);
         } catch (ExecutionException e) {

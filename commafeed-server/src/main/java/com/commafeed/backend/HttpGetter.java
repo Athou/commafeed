@@ -237,6 +237,7 @@ public class HttpGetter {
                     contentType,
                     urlAfterRedirect);
         } catch (InterruptedException e) {
+            future.cancel(true);
             Thread.currentThread().interrupt();
             throw new RuntimeException("interrupted while fetching " + request.getUrl(), e);
         } catch (ExecutionException e) {

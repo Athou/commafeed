@@ -360,7 +360,8 @@ class HttpGetterTest {
 
         IOException e = Assertions.assertThrows(IOException.class, () -> getter.get(this.feedUrl));
         Assertions.assertEquals(
-                "Response size exceeds the maximum allowed size (10000 bytes)", e.getMessage());
+                "Response size (100000 bytes) exceeds the maximum allowed size (10000 bytes)",
+                e.getMessage());
     }
 
     @Test

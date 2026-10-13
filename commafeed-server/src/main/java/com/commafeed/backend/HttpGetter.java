@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Lombok;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -30,9 +31,12 @@ import org.apache.hc.client5.http.protocol.RedirectLocations;
 import org.apache.hc.client5.http.utils.DateUtils;
 import org.apache.hc.core5.concurrent.FutureCallback;
 import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.EntityDetails;
+import org.apache.hc.core5.http.HttpException;
 import org.apache.hc.core5.http.HttpStatus;
 import org.apache.hc.core5.http.Message;
 import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.nio.AsyncEntityConsumer;
 import org.apache.hc.core5.http.nio.AsyncRequestProducer;
 import org.apache.hc.core5.http.nio.AsyncResponseConsumer;
 import org.apache.hc.core5.http.nio.entity.AbstractBinAsyncEntityConsumer;
@@ -165,11 +169,12 @@ public class HttpGetter {
                         .setProtocolUpgradeEnabled(false)
                         .build());
 
+        long maxResponseSize = config.httpClient().maxResponseSize().asLongValue();
         AsyncRequestProducer req = SimpleRequestProducer.create(request.toSimpleHttpRequest());
         AsyncResponseConsumer<Message<org.apache.hc.core5.http.HttpResponse, byte[]>> resp =
                 new BasicResponseConsumer<>(
-                        new LimitedBytesEntityConsumer(
-                                config.httpClient().maxResponseSize().asLongValue()));
+                        new LimitedContentLengthEntityConsumer(
+                                new LimitedBytesEntityConsumer(maxResponseSize), maxResponseSize));
         FutureCallback<Message<org.apache.hc.core5.http.HttpResponse, byte[]>> callback =
                 new FutureCallback<>() {
                     @Override
@@ -279,6 +284,23 @@ public class HttpGetter {
                 .maximumWeight(cacheConfig.maximumMemorySize().asLongValue())
                 .expireAfterWrite(cacheConfig.expiration())
                 .build();
+    }
+
+    private record LimitedContentLengthEntityConsumer(
+            @Delegate AsyncEntityConsumer<byte[]> delegate, long maxBytes)
+            implements AsyncEntityConsumer<byte[]> {
+
+        @Override
+        public void streamStart(EntityDetails entityDetails, FutureCallback<byte[]> resultCallback)
+                throws HttpException, IOException {
+            long contentLength = entityDetails.getContentLength();
+            if (contentLength > maxBytes) {
+                throw new IOException(
+                        "Response size (%s bytes) exceeds the maximum allowed size (%s bytes)"
+                                .formatted(contentLength, maxBytes));
+            }
+            delegate.streamStart(entityDetails, resultCallback);
+        }
     }
 
     @RequiredArgsConstructor

@@ -6,7 +6,6 @@ import com.commafeed.CommaFeedConfiguration.HttpClientCache;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Iterables;
-import com.google.common.io.ByteStreams;
 import com.google.common.net.HttpHeaders;
 
 import jakarta.inject.Singleton;
@@ -21,35 +20,44 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.hc.client5.http.async.methods.SimpleHttpRequest;
+import org.apache.hc.client5.http.async.methods.SimpleRequestBuilder;
+import org.apache.hc.client5.http.async.methods.SimpleRequestProducer;
 import org.apache.hc.client5.http.config.RequestConfig;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.client5.http.protocol.RedirectLocations;
 import org.apache.hc.client5.http.utils.DateUtils;
-import org.apache.hc.core5.http.ClassicHttpRequest;
-import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.concurrent.FutureCallback;
+import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.Message;
 import org.apache.hc.core5.http.NameValuePair;
-import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
+import org.apache.hc.core5.http.nio.AsyncRequestProducer;
+import org.apache.hc.core5.http.nio.AsyncResponseConsumer;
+import org.apache.hc.core5.http.nio.entity.AbstractBinAsyncEntityConsumer;
+import org.apache.hc.core5.http.nio.support.BasicResponseConsumer;
 import org.apache.hc.core5.util.Timeout;
 import org.jboss.resteasy.reactive.common.headers.CacheControlDelegate;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
+import java.nio.ByteBuffer;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.InstantSource;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
-/** Smart HTTP getter: handles gzip, ssl, last modified and etag headers */
+/** Smart HTTP getter: handles gzip, ssl, last modified, and etag headers */
 @Singleton
 @Slf4j
 public class HttpGetter {
     private final CommaFeedConfiguration config;
     private final InstantSource instantSource;
-    private final CloseableHttpClient client;
+    private final CloseableHttpAsyncClient client;
     private final Cache<HttpRequest, HttpResponse> cache;
 
     public HttpGetter(
@@ -157,63 +165,83 @@ public class HttpGetter {
                         .setProtocolUpgradeEnabled(false)
                         .build());
 
-        return client.execute(
-                request.toClassicHttpRequest(),
-                context,
-                resp -> {
-                    byte[] content =
-                            resp.getEntity() == null
-                                    ? null
-                                    : toByteArray(
-                                            resp.getEntity(),
-                                            config.httpClient().maxResponseSize().asLongValue());
-                    int code = resp.getCode();
-                    String lastModifiedHeader =
-                            Optional.ofNullable(resp.getFirstHeader(HttpHeaders.LAST_MODIFIED))
-                                    .map(NameValuePair::getValue)
-                                    .map(StringUtils::trimToNull)
-                                    .orElse(null);
-                    String eTagHeader =
-                            Optional.ofNullable(resp.getFirstHeader(HttpHeaders.ETAG))
-                                    .map(NameValuePair::getValue)
-                                    .map(StringUtils::trimToNull)
-                                    .orElse(null);
+        AsyncRequestProducer req = SimpleRequestProducer.create(request.toSimpleHttpRequest());
+        AsyncResponseConsumer<Message<org.apache.hc.core5.http.HttpResponse, byte[]>> resp =
+                new BasicResponseConsumer<>(
+                        new LimitedBytesEntityConsumer(
+                                config.httpClient().maxResponseSize().asLongValue()));
+        FutureCallback<Message<org.apache.hc.core5.http.HttpResponse, byte[]>> callback =
+                new FutureCallback<>() {
+                    @Override
+                    public void completed(
+                            Message<org.apache.hc.core5.http.HttpResponse, byte[]> result) {}
 
-                    CacheControl cacheControl =
-                            Optional.ofNullable(resp.getFirstHeader(HttpHeaders.CACHE_CONTROL))
-                                    .map(NameValuePair::getValue)
-                                    .map(StringUtils::trimToNull)
-                                    .map(HttpGetter::toCacheControl)
-                                    .orElse(null);
+                    @Override
+                    public void failed(Exception ex) {}
 
-                    Instant retryAfter =
-                            Optional.ofNullable(resp.getFirstHeader(HttpHeaders.RETRY_AFTER))
-                                    .map(NameValuePair::getValue)
-                                    .map(StringUtils::trimToNull)
-                                    .map(this::toInstant)
-                                    .orElse(null);
+                    @Override
+                    public void cancelled() {}
+                };
+        Future<Message<org.apache.hc.core5.http.HttpResponse, byte[]>> future =
+                client.execute(req, resp, context, callback);
 
-                    String contentType =
-                            Optional.ofNullable(resp.getEntity())
-                                    .map(HttpEntity::getContentType)
-                                    .orElse(null);
-                    String urlAfterRedirect =
-                            Optional.ofNullable(context.getRedirectLocations())
-                                    .map(RedirectLocations::getAll)
-                                    .map(l -> Iterables.getLast(l, null))
-                                    .map(URI::toString)
-                                    .orElse(request.getUrl());
+        try {
+            Message<org.apache.hc.core5.http.HttpResponse, byte[]> message = future.get();
 
-                    return new HttpResponse(
-                            code,
-                            lastModifiedHeader,
-                            eTagHeader,
-                            cacheControl,
-                            retryAfter,
-                            content,
-                            contentType,
-                            urlAfterRedirect);
-                });
+            byte[] content = message.getBody();
+            int code = message.getHead().getCode();
+            String lastModifiedHeader =
+                    Optional.ofNullable(message.getHead().getFirstHeader(HttpHeaders.LAST_MODIFIED))
+                            .map(NameValuePair::getValue)
+                            .map(StringUtils::trimToNull)
+                            .orElse(null);
+            String eTagHeader =
+                    Optional.ofNullable(message.getHead().getFirstHeader(HttpHeaders.ETAG))
+                            .map(NameValuePair::getValue)
+                            .map(StringUtils::trimToNull)
+                            .orElse(null);
+
+            CacheControl cacheControl =
+                    Optional.ofNullable(message.getHead().getFirstHeader(HttpHeaders.CACHE_CONTROL))
+                            .map(NameValuePair::getValue)
+                            .map(StringUtils::trimToNull)
+                            .map(HttpGetter::toCacheControl)
+                            .orElse(null);
+
+            Instant retryAfter =
+                    Optional.ofNullable(message.getHead().getFirstHeader(HttpHeaders.RETRY_AFTER))
+                            .map(NameValuePair::getValue)
+                            .map(StringUtils::trimToNull)
+                            .map(this::toInstant)
+                            .orElse(null);
+
+            String contentType =
+                    Optional.ofNullable(message.getHead().getFirstHeader(HttpHeaders.CONTENT_TYPE))
+                            .map(NameValuePair::getValue)
+                            .map(StringUtils::trimToNull)
+                            .orElse(null);
+            String urlAfterRedirect =
+                    Optional.ofNullable(context.getRedirectLocations())
+                            .map(RedirectLocations::getAll)
+                            .map(l -> Iterables.getLast(l, null))
+                            .map(URI::toString)
+                            .orElse(request.getUrl());
+
+            return new HttpResponse(
+                    code,
+                    lastModifiedHeader,
+                    eTagHeader,
+                    cacheControl,
+                    retryAfter,
+                    content,
+                    contentType,
+                    urlAfterRedirect);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("interrupted while fetching " + request.getUrl(), e);
+        } catch (ExecutionException e) {
+            throw Lombok.sneakyThrow(e.getCause());
+        }
     }
 
     private static CacheControl toCacheControl(String headerValue) {
@@ -237,28 +265,6 @@ public class HttpGetter {
         return DateUtils.parseStandardDate(headerValue);
     }
 
-    private static byte[] toByteArray(HttpEntity entity, long maxBytes) throws IOException {
-        if (entity.getContentLength() > maxBytes) {
-            throw new IOException(
-                    "Response size (%s bytes) exceeds the maximum allowed size (%s bytes)"
-                            .formatted(entity.getContentLength(), maxBytes));
-        }
-
-        try (InputStream input = entity.getContent()) {
-            if (input == null) {
-                return null;
-            }
-
-            byte[] bytes = ByteStreams.limit(input, maxBytes + 1).readAllBytes();
-            if (bytes.length > maxBytes) {
-                throw new IOException(
-                        "Response size exceeds the maximum allowed size (%s bytes)"
-                                .formatted(maxBytes));
-            }
-            return bytes;
-        }
-    }
-
     private static Cache<HttpRequest, HttpResponse> newCache(CommaFeedConfiguration config) {
         HttpClientCache cacheConfig = config.httpClient().cache();
         if (!cacheConfig.enabled()) {
@@ -272,6 +278,43 @@ public class HttpGetter {
                 .maximumWeight(cacheConfig.maximumMemorySize().asLongValue())
                 .expireAfterWrite(cacheConfig.expiration())
                 .build();
+    }
+
+    @RequiredArgsConstructor
+    private static class LimitedBytesEntityConsumer extends AbstractBinAsyncEntityConsumer<byte[]> {
+
+        private final long maxBytes;
+        private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        @Override
+        protected void streamStart(ContentType contentType) {}
+
+        @Override
+        protected int capacityIncrement() {
+            return Integer.MAX_VALUE;
+        }
+
+        @Override
+        protected void data(ByteBuffer src, boolean endOfStream) throws IOException {
+            if (out.size() + src.remaining() > maxBytes) {
+                throw new IOException(
+                        "Response size exceeds the maximum allowed size (%s bytes)"
+                                .formatted(maxBytes));
+            }
+            byte[] chunk = new byte[src.remaining()];
+            src.get(chunk);
+            out.write(chunk, 0, chunk.length);
+        }
+
+        @Override
+        protected byte[] generateContent() {
+            return out.toByteArray();
+        }
+
+        @Override
+        public void releaseResources() {
+            out.reset();
+        }
     }
 
     public static class SchemeNotAllowedException extends Exception {
@@ -336,15 +379,15 @@ public class HttpGetter {
             return new HttpRequestBuilder().url(url);
         }
 
-        public ClassicHttpRequest toClassicHttpRequest() {
-            ClassicHttpRequest req = ClassicRequestBuilder.get(url).build();
+        public SimpleHttpRequest toSimpleHttpRequest() {
+            SimpleRequestBuilder builder = SimpleRequestBuilder.get(url);
             if (lastModified != null) {
-                req.addHeader(HttpHeaders.IF_MODIFIED_SINCE, lastModified);
+                builder.addHeader(HttpHeaders.IF_MODIFIED_SINCE, lastModified);
             }
             if (eTag != null) {
-                req.addHeader(HttpHeaders.IF_NONE_MATCH, eTag);
+                builder.addHeader(HttpHeaders.IF_NONE_MATCH, eTag);
             }
-            return req;
+            return builder.build();
         }
     }
 

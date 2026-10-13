@@ -29,6 +29,7 @@ import org.mockserver.model.Delay;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 import org.mockserver.model.MediaType;
+import org.mockserver.model.Protocol;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -359,8 +360,7 @@ class HttpGetterTest {
 
         IOException e = Assertions.assertThrows(IOException.class, () -> getter.get(this.feedUrl));
         Assertions.assertEquals(
-                "Response size (100000 bytes) exceeds the maximum allowed size (10000 bytes)",
-                e.getMessage());
+                "Response size exceeds the maximum allowed size (10000 bytes)", e.getMessage());
     }
 
     @Test
@@ -416,7 +416,7 @@ class HttpGetterTest {
     @Nested
     class Compression {
 
-        private static final String ACCEPT_ENCODING = "gzip, deflate, br";
+        private static final String ACCEPT_ENCODING = "deflate, gzip";
 
         @Test
         void gzip() throws Exception {
@@ -588,6 +588,32 @@ class HttpGetterTest {
                     () -> getter.get("http://[::a9fe:a9fe]")); // 169.254.169.254
             Assertions.assertThrows(
                     UnknownHostException.class, () -> getter.get("http://[::a00:1]")); // 10.0.0.1
+        }
+    }
+
+    @Nested
+    class Protocols {
+        @Test
+        void usesHttp2OverTls() throws Exception {
+            mockServerClient
+                    .when(HttpRequest.request().withMethod("GET").withProtocol(Protocol.HTTP_2))
+                    .respond(HttpResponse.response().withBody("h2"));
+            mockServerClient
+                    .when(HttpRequest.request().withMethod("GET").withProtocol(Protocol.HTTP_1_1))
+                    .respond(HttpResponse.response().withBody("h1"));
+
+            HttpResult result = getter.get("https://localhost:" + mockServerClient.getPort());
+            Assertions.assertEquals("h2", new String(result.content()));
+        }
+
+        @Test
+        void fallsBackToHttp1OverCleartext() throws Exception {
+            mockServerClient
+                    .when(HttpRequest.request().withMethod("GET").withProtocol(Protocol.HTTP_1_1))
+                    .respond(HttpResponse.response().withBody("h1"));
+
+            HttpResult result = getter.get("http://localhost:" + mockServerClient.getPort());
+            Assertions.assertEquals("h1", new String(result.content()));
         }
     }
 }

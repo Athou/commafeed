@@ -16,26 +16,28 @@ import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.async.methods.SimpleHttpRequest;
+import org.apache.hc.client5.http.async.methods.SimpleHttpResponse;
+import org.apache.hc.client5.http.async.methods.SimpleRequestBuilder;
 import org.apache.hc.client5.http.config.RequestConfig;
-import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.NameValuePair;
-import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
+import org.apache.hc.core5.net.WWWFormCodec;
 import org.apache.hc.core5.util.Timeout;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Singleton
 @Slf4j
 public class PushNotificationService {
 
-    private final CloseableHttpClient httpClient;
+    private final CloseableHttpAsyncClient httpClient;
     private final Meter meter;
     private final CommaFeedConfiguration config;
 
@@ -97,13 +99,13 @@ public class PushNotificationService {
             return;
         }
 
-        HttpPost request = new HttpPost(serverUrl + "/" + topic);
-        request.setConfig(
+        SimpleRequestBuilder request = SimpleRequestBuilder.post(serverUrl + "/" + topic);
+        request.setRequestConfig(
                 RequestConfig.custom()
                         .setResponseTimeout(Timeout.of(config.httpClient().responseTimeout()))
                         .build());
         request.addHeader("Title", feedTitle);
-        request.setEntity(new StringEntity(entryTitle, StandardCharsets.UTF_8));
+        request.setBody(entryTitle, ContentType.TEXT_PLAIN.withCharset(StandardCharsets.UTF_8));
 
         if (StringUtils.isNotBlank(entryUrl)) {
             request.addHeader("Click", entryUrl);
@@ -113,15 +115,7 @@ public class PushNotificationService {
             request.addHeader("Authorization", "Bearer " + settings.getUserSecret());
         }
 
-        httpClient.execute(
-                request,
-                response -> {
-                    if (response.getCode() >= 400) {
-                        throw new PushNotificationException(
-                                "ntfy notification failed with status " + response.getCode());
-                    }
-                    return null;
-                });
+        send("ntfy", request.build());
     }
 
     private void sendGotify(
@@ -152,23 +146,15 @@ public class PushNotificationService {
                                             .put("click", new JsonObject().put("url", entryUrl))));
         }
 
-        HttpPost request = new HttpPost(serverUrl + "/message");
-        request.setConfig(
+        SimpleRequestBuilder request = SimpleRequestBuilder.post(serverUrl + "/message");
+        request.setRequestConfig(
                 RequestConfig.custom()
                         .setResponseTimeout(Timeout.of(config.httpClient().responseTimeout()))
                         .build());
         request.addHeader("X-Gotify-Key", token);
-        request.setEntity(new StringEntity(json.toString(), ContentType.APPLICATION_JSON));
+        request.setBody(json.toString(), ContentType.APPLICATION_JSON);
 
-        httpClient.execute(
-                request,
-                response -> {
-                    if (response.getCode() >= 400) {
-                        throw new PushNotificationException(
-                                "gotify notification failed with status " + response.getCode());
-                    }
-                    return null;
-                });
+        send("gotify", request.build());
     }
 
     private void sendPushover(
@@ -194,22 +180,32 @@ public class PushNotificationService {
             params.add(new BasicNameValuePair("url", entryUrl));
         }
 
-        HttpPost request = new HttpPost("https://api.pushover.net/1/messages.json");
-        request.setConfig(
+        SimpleRequestBuilder request =
+                SimpleRequestBuilder.post("https://api.pushover.net/1/messages.json");
+        request.setRequestConfig(
                 RequestConfig.custom()
                         .setResponseTimeout(Timeout.of(config.httpClient().responseTimeout()))
                         .build());
-        request.setEntity(new UrlEncodedFormEntity(params, StandardCharsets.UTF_8));
+        request.setBody(
+                WWWFormCodec.format(params, StandardCharsets.UTF_8),
+                ContentType.APPLICATION_FORM_URLENCODED.withCharset(StandardCharsets.UTF_8));
 
-        httpClient.execute(
-                request,
-                response -> {
-                    if (response.getCode() >= 400) {
-                        throw new PushNotificationException(
-                                "pushover notification failed with status " + response.getCode());
-                    }
-                    return null;
-                });
+        send("pushover", request.build());
+    }
+
+    private void send(String name, SimpleHttpRequest request) throws IOException {
+        try {
+            SimpleHttpResponse response = httpClient.execute(request, null).get();
+            if (response.getCode() >= 400) {
+                throw new PushNotificationException(
+                        name + " notification failed with status " + response.getCode());
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("interrupted while sending " + name + " notification", e);
+        } catch (ExecutionException e) {
+            throw new IOException(e.getCause());
+        }
     }
 
     public static class PushNotificationException extends RuntimeException {

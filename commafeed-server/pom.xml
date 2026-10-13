@@ -457,11 +457,6 @@
             <version>10.1.0</version>
         </dependency>
         <dependency>
-            <groupId>org.brotli</groupId>
-            <artifactId>dec</artifactId>
-            <version>0.1.2</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.seancfoley</groupId>
             <artifactId>ipaddress</artifactId>
             <version>5.6.2</version>

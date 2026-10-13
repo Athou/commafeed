@@ -19,27 +19,27 @@ import nl.altindag.ssl.apache5.util.Apache5SslUtils;
 
 import org.apache.hc.client5.http.DnsResolver;
 import org.apache.hc.client5.http.SystemDefaultDnsResolver;
+import org.apache.hc.client5.http.async.methods.InflatingAsyncDataConsumer;
+import org.apache.hc.client5.http.async.methods.InflatingGzipDataConsumer;
 import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.TlsConfig;
-import org.apache.hc.client5.http.entity.DeflateInputStream;
-import org.apache.hc.client5.http.entity.InputStreamFactory;
 import org.apache.hc.client5.http.entity.compress.ContentCoding;
 import org.apache.hc.client5.http.impl.DefaultRedirectStrategy;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
-import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
-import org.apache.hc.client5.http.io.HttpClientConnectionManager;
+import org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient;
+import org.apache.hc.client5.http.impl.async.HttpAsyncClients;
+import org.apache.hc.client5.http.impl.nio.PoolingAsyncClientConnectionManager;
+import org.apache.hc.client5.http.impl.nio.PoolingAsyncClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.protocol.RedirectStrategy;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpException;
 import org.apache.hc.core5.http.HttpRequest;
 import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.message.BasicHeader;
+import org.apache.hc.core5.http.nio.AsyncDataConsumer;
 import org.apache.hc.core5.http.protocol.HttpContext;
+import org.apache.hc.core5.http2.HttpVersionPolicy;
 import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
-import org.brotli.dec.BrotliInputStream;
 
 import java.net.InetAddress;
 import java.net.URI;
@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.SequencedMap;
-import java.util.zip.GZIPInputStream;
+import java.util.function.UnaryOperator;
 
 @Singleton
 @RequiredArgsConstructor
@@ -60,8 +60,8 @@ public class HttpClientFactory {
     private final CommaFeedConfiguration config;
     private final CommaFeedVersion version;
 
-    public CloseableHttpClient newClient(int poolSize) {
-        PoolingHttpClientConnectionManager connectionManager =
+    public CloseableHttpAsyncClient newClient(int poolSize) {
+        PoolingAsyncClientConnectionManager connectionManager =
                 newConnectionManager(config, poolSize);
         String userAgent =
                 config.httpClient()
@@ -74,42 +74,46 @@ public class HttpClientFactory {
         return newClient(config, connectionManager, userAgent);
     }
 
-    private CloseableHttpClient newClient(
+    private CloseableHttpAsyncClient newClient(
             CommaFeedConfiguration config,
-            HttpClientConnectionManager connectionManager,
+            PoolingAsyncClientConnectionManager connectionManager,
             String userAgent) {
         List<Header> headers = new ArrayList<>();
         headers.add(new BasicHeader(HttpHeaders.ACCEPT_LANGUAGE, "en"));
         headers.add(new BasicHeader(HttpHeaders.PRAGMA, "No-cache"));
         headers.add(new BasicHeader(HttpHeaders.CACHE_CONTROL, "no-cache"));
 
-        SequencedMap<String, InputStreamFactory> contentDecoderMap = new LinkedHashMap<>();
-        contentDecoderMap.put(ContentCoding.GZIP.token(), GZIPInputStream::new);
-        contentDecoderMap.put(ContentCoding.DEFLATE.token(), DeflateInputStream::new);
-        contentDecoderMap.put(ContentCoding.BROTLI.token(), BrotliInputStream::new);
+        SequencedMap<String, UnaryOperator<AsyncDataConsumer>> contentDecoderMap =
+                new LinkedHashMap<>();
+        contentDecoderMap.put(
+                ContentCoding.DEFLATE.token(), d -> new InflatingAsyncDataConsumer(d, null));
+        contentDecoderMap.put(ContentCoding.GZIP.token(), InflatingGzipDataConsumer::new);
 
         RedirectStrategy redirectStrategy =
                 config.httpClient().blockLocalAddresses()
                         ? new BlockLocalAddressesRedirectStrategy(DNS_RESOLVER)
                         : new DefaultRedirectStrategy();
 
-        return HttpClientBuilder.create()
-                .disableConnectionState()
-                .useSystemProperties()
-                .disableAutomaticRetries()
-                .disableCookieManagement()
-                .setUserAgent(userAgent)
-                .setDefaultHeaders(headers)
-                .setConnectionManager(connectionManager)
-                .evictExpiredConnections()
-                .evictIdleConnections(
-                        TimeValue.of(config.httpClient().idleConnectionsEvictionInterval()))
-                .setContentDecoderRegistry(new LinkedHashMap<>(contentDecoderMap))
-                .setRedirectStrategy(redirectStrategy)
-                .build();
+        CloseableHttpAsyncClient client =
+                HttpAsyncClients.custom()
+                        .disableConnectionState()
+                        .useSystemProperties()
+                        .disableAutomaticRetries()
+                        .disableCookieManagement()
+                        .setUserAgent(userAgent)
+                        .setDefaultHeaders(headers)
+                        .setConnectionManager(connectionManager)
+                        .evictExpiredConnections()
+                        .evictIdleConnections(
+                                TimeValue.of(config.httpClient().idleConnectionsEvictionInterval()))
+                        .setContentDecoderMap(new LinkedHashMap<>(contentDecoderMap))
+                        .setRedirectStrategy(redirectStrategy)
+                        .build();
+        client.start();
+        return client;
     }
 
-    private PoolingHttpClientConnectionManager newConnectionManager(
+    private PoolingAsyncClientConnectionManager newConnectionManager(
             CommaFeedConfiguration config, int poolSize) {
         SSLFactory sslFactory =
                 SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
@@ -118,8 +122,8 @@ public class HttpClientFactory {
                         ? new BlockLocalAddressesDnsResolver(DNS_RESOLVER)
                         : DNS_RESOLVER;
 
-        return PoolingHttpClientConnectionManagerBuilder.create()
-                .setTlsSocketStrategy(Apache5SslUtils.toTlsSocketStrategy(sslFactory))
+        return PoolingAsyncClientConnectionManagerBuilder.create()
+                .setTlsStrategy(Apache5SslUtils.toTlsStrategy(sslFactory))
                 .setDefaultConnectionConfig(
                         ConnectionConfig.custom()
                                 .setConnectTimeout(Timeout.of(config.httpClient().connectTimeout()))
@@ -129,6 +133,7 @@ public class HttpClientFactory {
                                 .build())
                 .setDefaultTlsConfig(
                         TlsConfig.custom()
+                                .setVersionPolicy(HttpVersionPolicy.NEGOTIATE)
                                 .setHandshakeTimeout(
                                         Timeout.of(config.httpClient().sslHandshakeTimeout()))
                                 .build())

@@ -1,5 +1,6 @@
 package com.commafeed.backend;
 
+import com.aayushatharva.brotli4j.encoder.BrotliOutputStream;
 import com.codahale.metrics.MetricRegistry;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.CommaFeedVersion;
@@ -418,7 +419,7 @@ class HttpGetterTest {
     @Nested
     class Compression {
 
-        private static final String ACCEPT_ENCODING = "deflate, gzip, zstd";
+        private static final String ACCEPT_ENCODING = "deflate, gzip, zstd, br";
 
         @Test
         void gzip() throws Exception {
@@ -433,6 +434,11 @@ class HttpGetterTest {
         @Test
         void zstd() throws Exception {
             supportsCompression("zstd", ZstdOutputStream::new);
+        }
+
+        @Test
+        void br() throws Exception {
+            supportsCompression("br", BrotliOutputStream::new);
         }
 
         void supportsCompression(String encoding, CompressionFunction compressionFunction)

@@ -20,6 +20,7 @@ import nl.altindag.ssl.apache5.util.Apache5SslUtils;
 import org.apache.hc.client5.http.DnsResolver;
 import org.apache.hc.client5.http.SystemDefaultDnsResolver;
 import org.apache.hc.client5.http.async.methods.InflatingAsyncDataConsumer;
+import org.apache.hc.client5.http.async.methods.InflatingBrotliDataConsumer;
 import org.apache.hc.client5.http.async.methods.InflatingGzipDataConsumer;
 import org.apache.hc.client5.http.async.methods.InflatingZstdDataConsumer;
 import org.apache.hc.client5.http.config.ConnectionConfig;
@@ -92,6 +93,7 @@ public class HttpClientFactory {
                 ContentCoding.DEFLATE.token(), d -> new InflatingAsyncDataConsumer(d, null));
         contentDecoderMap.put(ContentCoding.GZIP.token(), InflatingGzipDataConsumer::new);
         contentDecoderMap.put(ContentCoding.ZSTD.token(), InflatingZstdDataConsumer::new);
+        contentDecoderMap.put(ContentCoding.BROTLI.token(), InflatingBrotliDataConsumer::new);
 
         RedirectStrategy redirectStrategy =
                 config.httpClient().blockLocalAddresses()

@@ -6,8 +6,6 @@ import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
-import com.oracle.svm.core.annotate.Substitute;
-import com.oracle.svm.core.annotate.TargetClass;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
@@ -348,14 +346,4 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
             com.rometools.opml.feed.synd.impl.ConverterForOPML10.class,
             com.rometools.opml.feed.synd.impl.ConverterForOPML20.class,
         })
-public class NativeImageClasses {
-
-    // disable brotli runtime detection because it causes native image failure
-    @TargetClass(className = "org.apache.hc.client5.http.impl.Brotli4jRuntime")
-    static final class Brotli4jRuntime {
-        @Substitute
-        public static boolean available() {
-            return false;
-        }
-    }
-}
+public class NativeImageClasses {}

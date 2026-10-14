@@ -7,6 +7,7 @@ import com.commafeed.backend.HttpGetter.HttpResponseException;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.HttpGetter.TooManyRequestsException;
+import com.github.luben.zstd.ZstdOutputStream;
 import com.google.common.net.HttpHeaders;
 
 import io.quarkus.runtime.configuration.MemorySize;
@@ -417,7 +418,7 @@ class HttpGetterTest {
     @Nested
     class Compression {
 
-        private static final String ACCEPT_ENCODING = "deflate, gzip";
+        private static final String ACCEPT_ENCODING = "deflate, gzip, zstd";
 
         @Test
         void gzip() throws Exception {
@@ -427,6 +428,11 @@ class HttpGetterTest {
         @Test
         void deflate() throws Exception {
             supportsCompression("deflate", DeflaterOutputStream::new);
+        }
+
+        @Test
+        void zstd() throws Exception {
+            supportsCompression("zstd", ZstdOutputStream::new);
         }
 
         void supportsCompression(String encoding, CompressionFunction compressionFunction)

@@ -21,6 +21,7 @@ import org.apache.hc.client5.http.DnsResolver;
 import org.apache.hc.client5.http.SystemDefaultDnsResolver;
 import org.apache.hc.client5.http.async.methods.InflatingAsyncDataConsumer;
 import org.apache.hc.client5.http.async.methods.InflatingGzipDataConsumer;
+import org.apache.hc.client5.http.async.methods.InflatingZstdDataConsumer;
 import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.TlsConfig;
 import org.apache.hc.client5.http.entity.compress.ContentCoding;
@@ -90,6 +91,7 @@ public class HttpClientFactory {
         contentDecoderMap.put(
                 ContentCoding.DEFLATE.token(), d -> new InflatingAsyncDataConsumer(d, null));
         contentDecoderMap.put(ContentCoding.GZIP.token(), InflatingGzipDataConsumer::new);
+        contentDecoderMap.put(ContentCoding.ZSTD.token(), InflatingZstdDataConsumer::new);
 
         RedirectStrategy redirectStrategy =
                 config.httpClient().blockLocalAddresses()

@@ -350,15 +350,7 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
         })
 public class NativeImageClasses {
 
-    // disable zstd and brotli runtime detection because it causes native image failure
-    @TargetClass(className = "org.apache.hc.client5.http.impl.ZstdRuntime")
-    static final class ZstdRuntime {
-        @Substitute
-        public static boolean available() {
-            return false;
-        }
-    }
-
+    // disable brotli runtime detection because it causes native image failure
     @TargetClass(className = "org.apache.hc.client5.http.impl.Brotli4jRuntime")
     static final class Brotli4jRuntime {
         @Substitute

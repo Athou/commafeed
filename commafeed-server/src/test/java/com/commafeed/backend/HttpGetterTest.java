@@ -13,6 +13,8 @@ import com.google.common.net.HttpHeaders;
 
 import io.quarkus.runtime.configuration.MemorySize;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.client5.http.ConnectTimeoutException;
 import org.apache.hc.core5.http.HttpStatus;
@@ -48,6 +50,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPOutputStream;
 
+@Slf4j
 class HttpGetterTest {
 
     private static final Instant NOW = Instant.now();
@@ -450,24 +453,30 @@ class HttpGetterTest {
                     .when(HttpRequest.request().withMethod("GET"))
                     .respond(
                             req -> {
-                                String acceptEncodingHeader =
-                                        req.getFirstHeader(HttpHeaders.ACCEPT_ENCODING);
-                                if (!ACCEPT_ENCODING.equals(acceptEncodingHeader)) {
-                                    throw new Exception(
-                                            "Wrong value in the Accept-Encoding header, should be '%s' but was '%s'"
-                                                    .formatted(
-                                                            ACCEPT_ENCODING, acceptEncodingHeader));
-                                }
+                                try {
+                                    String acceptEncodingHeader =
+                                            req.getFirstHeader(HttpHeaders.ACCEPT_ENCODING);
+                                    if (!ACCEPT_ENCODING.equals(acceptEncodingHeader)) {
+                                        throw new Exception(
+                                                "Wrong value in the Accept-Encoding header, should be '%s' but was '%s'"
+                                                        .formatted(
+                                                                ACCEPT_ENCODING,
+                                                                acceptEncodingHeader));
+                                    }
 
-                                ByteArrayOutputStream output = new ByteArrayOutputStream();
-                                try (OutputStream compressionOutputStream =
-                                        compressionFunction.apply(output)) {
-                                    compressionOutputStream.write(body.getBytes());
-                                }
+                                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                                    try (OutputStream compressionOutputStream =
+                                            compressionFunction.apply(output)) {
+                                        compressionOutputStream.write(body.getBytes());
+                                    }
 
-                                return HttpResponse.response()
-                                        .withBody(output.toByteArray())
-                                        .withHeader(HttpHeaders.CONTENT_ENCODING, encoding);
+                                    return HttpResponse.response()
+                                            .withBody(output.toByteArray())
+                                            .withHeader(HttpHeaders.CONTENT_ENCODING, encoding);
+                                } catch (Exception e) {
+                                    log.error("Error in compression callback", e);
+                                    throw e;
+                                }
                             });
 
             HttpResult result = getter.get(HttpGetterTest.this.feedUrl);

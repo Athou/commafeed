@@ -17,7 +17,7 @@
         <querydsl.version>7.7</querydsl.version>
         <rome.version>2.1.0</rome.version>
         <!-- renovate: depName=com.google.googlejavaformat:google-java-format -->
-        <google-java-format.version>1.36.1</google-java-format.version>
+        <google-java-format.version>1.37.0</google-java-format.version>
 
         <build.database>h2</build.database>
     </properties>

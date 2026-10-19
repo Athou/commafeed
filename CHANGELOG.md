@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.4.0]
+
+- Add support for HTTP/2 when fetching feeds (#2317)
+- Send more default headers when fetching feeds, to avoid being rejected by some servers (#2315)
+- Harden the content cleaning of feed entries by only allowing `http`/`https` protocols in `iframe` `src` attributes
+- Fix the header in mobile mode being wrapped/cut off when too wide, even above the mobile breakpoint (#2080)
+- Document how to configure Quarkus host validation when running CommaFeed behind a reverse proxy
+
 ## [7.3.2]
 
 - Prevent users from starring/tagging entries that are not theirs and subsequently reading them (GHSA-prfv-88mm-5gpg)

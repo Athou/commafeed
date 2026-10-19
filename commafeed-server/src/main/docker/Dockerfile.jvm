@@ -1,4 +1,6 @@
 FROM ibm-semeru-runtimes:open-jdk-25.0.4.15-jre@sha256:630c738228597b4cd31d9823e479384729b03684bac23478b33fdbda13ae31b8
+LABEL org.opencontainers.image.source="https://github.com/Athou/commafeed"
+
 EXPOSE 8082
 
 RUN mkdir -p /commafeed/data

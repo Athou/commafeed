@@ -54,6 +54,8 @@ import java.time.InstantSource;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /** Smart HTTP getter: handles gzip, ssl, last modified, and etag headers */
 @Singleton
@@ -191,7 +193,13 @@ public class HttpGetter {
                 client.execute(req, resp, context, callback);
 
         try {
-            Message<org.apache.hc.core5.http.HttpResponse, byte[]> message = future.get();
+            Duration totalTimeout =
+                    config.httpClient()
+                            .connectTimeout()
+                            .plus(config.httpClient().sslHandshakeTimeout())
+                            .plus(config.httpClient().responseTimeout());
+            Message<org.apache.hc.core5.http.HttpResponse, byte[]> message =
+                    future.get(totalTimeout.toSeconds(), TimeUnit.SECONDS);
 
             byte[] content = message.getBody();
             int code = message.getHead().getCode();
@@ -245,7 +253,11 @@ public class HttpGetter {
             future.cancel(true);
             Thread.currentThread().interrupt();
             throw new RuntimeException("interrupted while fetching " + request.getUrl(), e);
+        } catch (TimeoutException e) {
+            future.cancel(true);
+            throw new IOException("timed out while fetching " + request.getUrl(), e);
         } catch (ExecutionException e) {
+            future.cancel(true);
             throw Lombok.sneakyThrow(e.getCause());
         }
     }

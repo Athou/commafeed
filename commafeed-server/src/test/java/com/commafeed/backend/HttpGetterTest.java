@@ -37,7 +37,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.NoRouteToHostException;
-import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.time.Duration;
 import java.time.Instant;
@@ -241,7 +240,7 @@ class HttpGetterTest {
                 .when(HttpRequest.request().withMethod("GET"))
                 .respond(HttpResponse.response().withDelay(Delay.milliseconds(1000)));
 
-        Assertions.assertThrows(SocketTimeoutException.class, () -> getter.get(this.feedUrl));
+        Assertions.assertThrows(IOException.class, () -> getter.get(this.feedUrl));
     }
 
     @Test

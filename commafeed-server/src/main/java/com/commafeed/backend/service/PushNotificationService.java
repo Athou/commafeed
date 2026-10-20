@@ -19,7 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.client5.http.async.methods.SimpleHttpRequest;
 import org.apache.hc.client5.http.async.methods.SimpleRequestBuilder;
 import org.apache.hc.client5.http.async.methods.SimpleRequestProducer;
-import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpResponse;
@@ -29,7 +28,6 @@ import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.hc.core5.http.nio.entity.DiscardingEntityConsumer;
 import org.apache.hc.core5.http.nio.support.BasicResponseConsumer;
 import org.apache.hc.core5.net.WWWFormCodec;
-import org.apache.hc.core5.util.Timeout;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -37,6 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Singleton
 @Slf4j
@@ -105,10 +105,6 @@ public class PushNotificationService {
         }
 
         SimpleRequestBuilder request = SimpleRequestBuilder.post(serverUrl + "/" + topic);
-        request.setRequestConfig(
-                RequestConfig.custom()
-                        .setResponseTimeout(Timeout.of(config.httpClient().responseTimeout()))
-                        .build());
         request.addHeader("Title", feedTitle);
         request.setBody(entryTitle, ContentType.TEXT_PLAIN.withCharset(StandardCharsets.UTF_8));
 
@@ -152,10 +148,6 @@ public class PushNotificationService {
         }
 
         SimpleRequestBuilder request = SimpleRequestBuilder.post(serverUrl + "/message");
-        request.setRequestConfig(
-                RequestConfig.custom()
-                        .setResponseTimeout(Timeout.of(config.httpClient().responseTimeout()))
-                        .build());
         request.addHeader("X-Gotify-Key", token);
         request.setBody(json.toString(), ContentType.APPLICATION_JSON);
 
@@ -187,10 +179,6 @@ public class PushNotificationService {
 
         SimpleRequestBuilder request =
                 SimpleRequestBuilder.post("https://api.pushover.net/1/messages.json");
-        request.setRequestConfig(
-                RequestConfig.custom()
-                        .setResponseTimeout(Timeout.of(config.httpClient().responseTimeout()))
-                        .build());
         request.setBody(
                 WWWFormCodec.format(params, StandardCharsets.UTF_8),
                 ContentType.APPLICATION_FORM_URLENCODED.withCharset(StandardCharsets.UTF_8));
@@ -205,7 +193,9 @@ public class PushNotificationService {
                         new BasicResponseConsumer<>(new DiscardingEntityConsumer<>()),
                         null);
         try {
-            HttpResponse response = future.get().getHead();
+            HttpResponse response =
+                    future.get(config.httpClient().responseTimeout().toSeconds(), TimeUnit.SECONDS)
+                            .getHead();
             if (response.getCode() >= 400) {
                 throw new PushNotificationException(
                         name + " notification failed with status " + response.getCode());
@@ -214,7 +204,11 @@ public class PushNotificationService {
             future.cancel(true);
             Thread.currentThread().interrupt();
             throw new IOException("interrupted while sending " + name + " notification", e);
+        } catch (TimeoutException e) {
+            future.cancel(true);
+            throw new IOException("timed out while sending " + name + " notification", e);
         } catch (ExecutionException e) {
+            future.cancel(true);
             throw new IOException(e.getCause());
         }
     }

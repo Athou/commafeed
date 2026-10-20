@@ -41,7 +41,6 @@ import org.apache.hc.core5.http.nio.AsyncRequestProducer;
 import org.apache.hc.core5.http.nio.AsyncResponseConsumer;
 import org.apache.hc.core5.http.nio.entity.AbstractBinAsyncEntityConsumer;
 import org.apache.hc.core5.http.nio.support.BasicResponseConsumer;
-import org.apache.hc.core5.util.Timeout;
 import org.jboss.resteasy.reactive.common.headers.CacheControlDelegate;
 
 import java.io.ByteArrayOutputStream;
@@ -164,7 +163,6 @@ public class HttpGetter {
         HttpClientContext context = HttpClientContext.create();
         context.setRequestConfig(
                 RequestConfig.custom()
-                        .setResponseTimeout(Timeout.of(config.httpClient().responseTimeout()))
                         // causes issues with some feeds
                         // see https://github.com/Athou/commafeed/issues/1572
                         // and https://issues.apache.org/jira/browse/HTTPCLIENT-2344
@@ -193,13 +191,8 @@ public class HttpGetter {
                 client.execute(req, resp, context, callback);
 
         try {
-            Duration totalTimeout =
-                    config.httpClient()
-                            .connectTimeout()
-                            .plus(config.httpClient().sslHandshakeTimeout())
-                            .plus(config.httpClient().responseTimeout());
             Message<org.apache.hc.core5.http.HttpResponse, byte[]> message =
-                    future.get(totalTimeout.toSeconds(), TimeUnit.SECONDS);
+                    future.get(config.httpClient().responseTimeout().toSeconds(), TimeUnit.SECONDS);
 
             byte[] content = message.getBody();
             int code = message.getHead().getCode();

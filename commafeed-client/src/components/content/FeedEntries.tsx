@@ -111,7 +111,7 @@ export function FeedEntries() {
                     const el = document.getElementById(Constants.dom.entryId(e))
                     return el && !Constants.layout.isTopVisible(el)
                 })
-            if (currentEntry) {
+            if (currentEntry && currentEntry.id !== selectedEntryId) {
                 dispatch(
                     selectEntry({
                         entry: currentEntry,
@@ -124,7 +124,7 @@ export function FeedEntries() {
         })
         window.addEventListener("scroll", listener)
         return () => window.removeEventListener("scroll", listener)
-    }, [dispatch, entries, viewMode, scrollMarks, scrollingToEntry])
+    }, [dispatch, entries, viewMode, scrollMarks, scrollingToEntry, selectedEntryId])
 
     useMousetrap("r", async () => await dispatch(reloadEntries()))
     useMousetrap(

@@ -481,8 +481,8 @@
         </dependency>
         <dependency>
             <groupId>org.mock-server</groupId>
-            <artifactId>mockserver-junit-jupiter</artifactId>
-            <version>7.6.0</version>
+            <artifactId>mockserver-junit-jupiter-no-dependencies</artifactId>
+            <version>9.0.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>

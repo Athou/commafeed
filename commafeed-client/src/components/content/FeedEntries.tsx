@@ -116,7 +116,8 @@ export function FeedEntries() {
                     selectEntry({
                         entry: currentEntry,
                         expand: false,
-                        markAsRead: !!scrollMarks,
+                        // don't mark as read entries that the user explicitly marked as unread
+                        markAsRead: !!scrollMarks && !currentEntry.keepUnread,
                         scrollToEntry: false,
                     })
                 )

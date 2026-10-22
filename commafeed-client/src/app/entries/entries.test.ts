@@ -116,6 +116,30 @@ describe("entries", () => {
         expect(client.entry.mark).toHaveBeenCalledWith({ id: "3", read: true })
     })
 
+    it("flags an entry marked as unread by the user until entries are reloaded", async () => {
+        vi.mocked(client.feed.getEntries).mockResolvedValue({
+            data: {
+                entries: [{ id: "3", read: true, markable: true } as Entry],
+                hasMore: false,
+                name: "my-feed",
+                errorCount: 0,
+                feedLink: "https://mysite.com/feed",
+                timestamp: 123,
+                ignoredReadStatus: false,
+            },
+        } as AxiosResponse<Entries>)
+
+        const store = configureStore({ reducer: reducers })
+        await store.dispatch(loadEntries({ source: { type: "feed", id: "feed-id" }, clearSearch: true }))
+
+        store.dispatch(markEntry({ entry: store.getState().entries.entries[0], read: false }))
+        expect(store.getState().entries.entries[0].keepUnread).toBe(true)
+
+        // reloading the entry list resets the flag
+        await store.dispatch(loadEntries({ source: { type: "feed", id: "feed-id" }, clearSearch: false }))
+        expect(store.getState().entries.entries[0].keepUnread).toBeUndefined()
+    })
+
     it("marks all entries as read", () => {
         const store = configureStore({
             reducer: reducers,

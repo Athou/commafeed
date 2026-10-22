@@ -10,7 +10,11 @@ export interface EntrySource {
     id: string
 }
 
-export type ExpendableEntry = Entry & { expanded?: boolean }
+export type ExpendableEntry = Entry & {
+    expanded?: boolean
+    /** set when the user explicitly marks the entry as unread, prevents it from being marked as read again by scrolling in expanded mode until the entry list is reloaded */
+    keepUnread?: boolean
+}
 
 interface EntriesState {
     /** selected source */
@@ -71,11 +75,13 @@ export const entriesSlice = createSlice({
         builder.addCase(markEntry.pending, (state, action) => {
             for (const e of state.entries.filter(e => e.id === action.meta.arg.entry.id)) {
                 e.read = action.meta.arg.read
+                if (!action.meta.arg.read) e.keepUnread = true
             }
         })
         builder.addCase(markMultipleEntries.pending, (state, action) => {
             for (const e of state.entries.filter(e => action.meta.arg.entries.some(e2 => e2.id === e.id))) {
                 e.read = action.meta.arg.read
+                if (!action.meta.arg.read) e.keepUnread = true
             }
         })
         builder.addCase(markAllEntries.pending, (state, action) => {

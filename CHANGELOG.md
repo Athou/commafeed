@@ -1,5 +1,11 @@
 # Changelog
 
+## [7.4.1]
+
+- Fix entries being marked as read when scrolling back to an entry that was explicitly marked as unread (#2337)
+- Add a global failsafe timeout to the new HTTP/2 client to prevent it from hanging indefinitely
+- Add OCI source label to container images (#2335)
+
 ## [7.4.0]
 
 - Add support for HTTP/2 when fetching feeds (#2317)

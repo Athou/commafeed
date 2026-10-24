@@ -55,7 +55,7 @@
     },
     "devDependencies": {
         "@babel/types": "^8.0.6",
-        "@biomejs/biome": "2.5.15",
+        "@biomejs/biome": "2.6.0",
         "@lingui/cli": "6.10.0",
         "@lingui/vite-plugin": "6.10.0",
         "@testing-library/jest-dom": "7.0.1",

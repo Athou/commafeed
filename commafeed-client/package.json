@@ -54,7 +54,7 @@
         "websocket-heartbeat-js": "1.1.3"
     },
     "devDependencies": {
-        "@babel/types": "^8.0.6",
+        "@babel/types": "^8.0.8",
         "@biomejs/biome": "2.6.2",
         "@lingui/cli": "6.10.1",
         "@lingui/vite-plugin": "6.10.1",

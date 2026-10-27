@@ -45,8 +45,7 @@ public class FeedEntryFilteringService {
                     .addVar("categories", SimpleType.STRING)
                     .addVar("categoriesLower", SimpleType.STRING)
                     .build();
-    private static final CelRuntime CEL_RUNTIME =
-            CelRuntimeFactory.standardCelRuntimeBuilder().build();
+    private static final CelRuntime CEL_RUNTIME = CelRuntimeFactory.plannerRuntimeBuilder().build();
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
     private final CommaFeedConfiguration config;

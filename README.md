@@ -122,6 +122,59 @@ All other Quarkus settings can be found [here](https://quarkus.io/guides/all-con
 
 When started, the server will listen on http://localhost:8082.
 
+### Single sign-on with a reverse proxy (forward authentication)
+
+CommaFeed can delegate authentication to a reverse proxy (Traefik, Caddy, nginx, ...) that checks the user against a
+single sign-on provider (Authelia, Authentik, oauth2-proxy, ...) and forwards the user name in a request header.
+Users are created automatically the first time they log in.
+
+```
+commafeed.forward-auth.enabled=true
+# IP addresses or CIDR ranges of the reverse proxy, the header is ignored when sent from any other address
+commafeed.forward-auth.trusted-proxies=172.16.0.0/12
+# optional, these are the default header names used by Authelia
+commafeed.forward-auth.username-header=Remote-User
+commafeed.forward-auth.email-header=Remote-Email
+commafeed.forward-auth.groups-header=Remote-Groups
+# optional, members of this group are granted the admin role, other users have it revoked
+commafeed.forward-auth.admin-group=commafeed-admins
+# optional, log out of the single sign-on provider as well when logging out of CommaFeed
+commafeed.forward-auth.logout-url=https://auth.example.com/logout
+```
+
+Make sure that:
+
+- CommaFeed can only be reached through the reverse proxy, and that `trusted-proxies` only contains the address of the
+  proxy. Anyone able to send requests with the user name header from a trusted address can log in as any user.
+- The proxy removes the user name header from incoming requests. Authelia and Authentik overwrite it; check the
+  documentation of your proxy if you use another provider.
+- The Fever API (`/rest/fever`), the Google Reader API (`/rest/googlereader`) and requests with an `apiKey` query
+  parameter are excluded from forward authentication in your proxy, because mobile clients can't log in through the
+  single sign-on page. These endpoints authenticate with the API key shown in the profile settings. The proxy **must
+  remove the user name header** on these routes, since no single sign-on provider overwrites it there.
+
+Users authenticated by the proxy don't need their CommaFeed password to change their profile settings. Logging in with
+a user name and password keeps working, e.g. for an `admin` account created during the initial setup. A user with the
+same name as the one sent by the proxy is reused, which lets you link existing accounts.
+
+Example with Traefik v3 and Authelia (docker compose labels):
+
+```yaml
+labels:
+  - traefik.http.routers.commafeed.rule=Host(`commafeed.example.com`)
+  - traefik.http.routers.commafeed.middlewares=authelia@docker
+  # API endpoints used by mobile clients, without single sign-on but with the user name header removed
+  - traefik.http.routers.commafeed-api.rule=Host(`commafeed.example.com`) && (PathPrefix(`/rest/fever`) || PathPrefix(`/rest/googlereader`) || QueryRegexp(`apiKey`, `.+`))
+  - traefik.http.routers.commafeed-api.priority=100
+  - traefik.http.routers.commafeed-api.middlewares=commafeed-strip-sso-headers
+  - traefik.http.middlewares.commafeed-strip-sso-headers.headers.customrequestheaders.Remote-User=
+  - traefik.http.middlewares.commafeed-strip-sso-headers.headers.customrequestheaders.Remote-Groups=
+  - traefik.http.middlewares.commafeed-strip-sso-headers.headers.customrequestheaders.Remote-Email=
+```
+
+with the Authelia middleware configured with
+`authResponseHeaders=Remote-User,Remote-Groups,Remote-Email,Remote-Name`.
+
 ### Updates
 
 When CommaFeed is up and running, you can subscribe to [this feed](https://github.com/Athou/commafeed/releases.atom) to be notified of new releases.

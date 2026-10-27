@@ -2,6 +2,7 @@ package com.commafeed.security;
 
 import com.commafeed.backend.dao.UserDAO;
 import com.commafeed.backend.model.User;
+import com.commafeed.security.identity.ForwardAuthAuthenticationRequest;
 
 import io.quarkus.security.identity.SecurityIdentity;
 
@@ -27,5 +28,11 @@ public class AuthenticationContext {
         }
 
         return userDAO.findById(Long.valueOf(userId));
+    }
+
+    /** whether the current user has been authenticated by a trusted reverse proxy */
+    public boolean isForwardAuthenticated() {
+        return Boolean.TRUE.equals(
+                securityIdentity.getAttribute(ForwardAuthAuthenticationRequest.IDENTITY_ATTRIBUTE));
     }
 }

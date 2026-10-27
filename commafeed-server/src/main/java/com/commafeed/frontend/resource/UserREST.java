@@ -280,6 +280,7 @@ public class UserREST {
         userModel.setEnabled(!user.isDisabled());
         userModel.setApiKey(user.getApiKey());
         userModel.setLastForceRefresh(user.getLastForceRefresh());
+        userModel.setForwardAuthenticated(authenticationContext.isForwardAuthenticated());
         for (UserRole role : userRoleDAO.findAll(user)) {
             if (role.getRole() == Role.ADMIN) {
                 userModel.setAdmin(true);
@@ -301,9 +302,16 @@ public class UserREST {
                     .build();
         }
 
-        Optional<User> login = userService.login(user.getName(), request.getCurrentPassword());
-        if (login.isEmpty()) {
-            throw new BadRequestException("invalid password");
+        // users authenticated by the reverse proxy don't know their CommaFeed password
+        if (!authenticationContext.isForwardAuthenticated()) {
+            if (StringUtils.isBlank(request.getCurrentPassword())) {
+                throw new BadRequestException("current password is required");
+            }
+
+            Optional<User> login = userService.login(user.getName(), request.getCurrentPassword());
+            if (login.isEmpty()) {
+                throw new BadRequestException("invalid password");
+            }
         }
 
         String email = StringUtils.trimToNull(request.getEmail());

@@ -148,12 +148,14 @@ export function ProfileSettings() {
 
                     <Divider />
 
-                    <PasswordInput
-                        label={<Trans>Current password</Trans>}
-                        description={<Trans>Enter your current password to change profile settings</Trans>}
-                        required
-                        {...form.getInputProps("currentPassword")}
-                    />
+                    {!profile?.forwardAuthenticated && (
+                        <PasswordInput
+                            label={<Trans>Current password</Trans>}
+                            description={<Trans>Enter your current password to change profile settings</Trans>}
+                            required
+                            {...form.getInputProps("currentPassword")}
+                        />
+                    )}
                     <TextInput
                         type="email"
                         label={<Trans>E-mail</Trans>}

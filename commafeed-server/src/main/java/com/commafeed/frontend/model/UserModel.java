@@ -45,4 +45,10 @@ public class UserModel implements Serializable {
 
     @Schema(description = "user last force refresh", type = SchemaType.INTEGER)
     private Instant lastForceRefresh;
+
+    @Schema(
+            description =
+                    "the current user is authenticated by a reverse proxy, only returned by the profile endpoint",
+            type = SchemaType.BOOLEAN)
+    private boolean forwardAuthenticated;
 }

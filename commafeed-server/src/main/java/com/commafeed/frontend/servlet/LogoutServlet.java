@@ -1,5 +1,7 @@
 package com.commafeed.frontend.servlet;
 
+import com.commafeed.CommaFeedConfiguration;
+import com.commafeed.security.AuthenticationContext;
 import com.commafeed.security.CookieService;
 
 import jakarta.annotation.security.PermitAll;
@@ -14,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
+import java.net.URI;
+
 @RequiredArgsConstructor
 @Path("/logout")
 @PermitAll
@@ -22,11 +26,21 @@ public class LogoutServlet {
 
     private final UriInfo uri;
     private final CookieService cookieService;
+    private final CommaFeedConfiguration config;
+    private final AuthenticationContext authenticationContext;
 
     @GET
     @Operation(hidden = true)
     public Response get() {
         NewCookie removeCookie = cookieService.buildLogoutCookie();
-        return Response.temporaryRedirect(uri.getBaseUri()).cookie(removeCookie).build();
+
+        // users authenticated by the reverse proxy also need to be logged out of the single sign-on
+        // provider, otherwise they would be logged in again right away. Users who logged in with a
+        // password stay on CommaFeed.
+        URI redirect =
+                authenticationContext.isForwardAuthenticated()
+                        ? config.forwardAuth().logoutUrl().map(URI::create).orElse(uri.getBaseUri())
+                        : uri.getBaseUri();
+        return Response.temporaryRedirect(redirect).cookie(removeCookie).build();
     }
 }

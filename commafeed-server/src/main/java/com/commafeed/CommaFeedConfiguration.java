@@ -14,6 +14,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -85,6 +86,13 @@ public interface CommaFeedConfiguration {
     /** Websocket settings. */
     @ConfigDocSection
     Websocket websocket();
+
+    /**
+     * Forward authentication settings, to delegate authentication to a reverse proxy and a single
+     * sign-on provider (Authelia, Authentik, oauth2-proxy, ...).
+     */
+    @ConfigDocSection
+    ForwardAuth forwardAuth();
 
     /**
      * Duration to wait for the feed refresh engine and the task scheduler to stop when the
@@ -366,5 +374,57 @@ public interface CommaFeedConfiguration {
          */
         @WithDefault("30s")
         Duration treeReloadInterval();
+    }
+
+    interface ForwardAuth {
+        /**
+         * Whether to trust the user name sent by a reverse proxy in a request header. Requests
+         * containing this header are authenticated as the corresponding user, without password.
+         *
+         * <p>Only enable this if CommaFeed is only reachable through the reverse proxy, and
+         * configure {@code trusted-proxies} accordingly.
+         */
+        @WithDefault("false")
+        boolean enabled();
+
+        /** Name of the request header containing the user name. */
+        @WithDefault("Remote-User")
+        String usernameHeader();
+
+        /**
+         * Name of the request header containing the email address of the user. Used when the user
+         * is created.
+         */
+        @WithDefault("Remote-Email")
+        String emailHeader();
+
+        /** Name of the request header containing a comma-separated list of groups of the user. */
+        @WithDefault("Remote-Groups")
+        String groupsHeader();
+
+        /**
+         * Members of this group are granted the admin role, other users have it revoked. Leave
+         * empty to manage admin roles in CommaFeed instead.
+         */
+        Optional<String> adminGroup();
+
+        /**
+         * Whether to create a user account automatically the first time a user is authenticated by
+         * the reverse proxy.
+         */
+        @WithDefault("true")
+        boolean autoCreateUsers();
+
+        /**
+         * IP addresses or CIDR ranges (e.g. 172.16.0.0/12) of the reverse proxies allowed to send
+         * the user name header. Headers coming from any other address are ignored.
+         */
+        Optional<List<String>> trustedProxies();
+
+        /**
+         * URL the user is redirected to when logging out, usually the logout page of the single
+         * sign-on provider. Without it, users are logged in again immediately.
+         */
+        Optional<String> logoutUrl();
     }
 }

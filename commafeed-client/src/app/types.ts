@@ -208,7 +208,7 @@ export interface PasswordResetConfirmationRequest {
 }
 
 export interface ProfileModificationRequest {
-    currentPassword: string
+    currentPassword?: string
     email: string
     newPassword?: string
     newApiKey?: boolean
@@ -322,6 +322,7 @@ export interface UserModel {
     lastLogin?: number
     admin: boolean
     lastForceRefresh?: number
+    forwardAuthenticated?: boolean
 }
 
 export interface AdminSaveUserRequest {

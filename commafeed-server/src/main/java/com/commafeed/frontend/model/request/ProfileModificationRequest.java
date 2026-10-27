@@ -2,7 +2,6 @@ package com.commafeed.frontend.model.request;
 
 import com.commafeed.security.password.ValidPassword;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 import lombok.Data;
@@ -15,8 +14,9 @@ import java.io.Serializable;
 @Schema(description = "Profile modification request")
 @Data
 public class ProfileModificationRequest implements Serializable {
-    @Schema(description = "current user password, required to change profile data", required = true)
-    @NotEmpty
+    @Schema(
+            description =
+                    "current user password, required to change profile data unless the user is authenticated by a reverse proxy")
     @Size(max = 128)
     private String currentPassword;
 

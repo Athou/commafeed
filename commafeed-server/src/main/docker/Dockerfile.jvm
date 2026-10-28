@@ -1,4 +1,4 @@
-FROM ibm-semeru-runtimes:open-jdk-25.0.4.15-jre@sha256:1e5bef97206b3eaae12479c3a93a9c2bb0a28d58949d558157bfe8170db8706a
+FROM ibm-semeru-runtimes:open-jdk-25.0.4.15-jre@sha256:c4f8cd5ee9d607addbf957a5066144c46c853c6a81235819f6952e60237904ca
 LABEL org.opencontainers.image.source="https://github.com/Athou/commafeed"
 
 EXPOSE 8082

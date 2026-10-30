@@ -29,6 +29,7 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -238,19 +239,43 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
         }
     }
 
-    public UnreadCount getUnreadCount(FeedSubscription sub) {
+    public Map<Long, UnreadCount> getUnreadCounts(List<FeedSubscription> subs) {
+        if (subs.isEmpty()) {
+            return Map.of();
+        }
+
+        Map<Long, List<FeedSubscription>> subsByFeedId =
+                subs.stream().collect(Collectors.groupingBy(s -> s.getFeed().getId()));
+
         JPAQuery<Tuple> query =
-                query().select(ENTRY.count(), ENTRY.published.max())
+                query().select(ENTRY.feed.id, ENTRY.count(), ENTRY.published.max())
                         .from(ENTRY)
                         .leftJoin(ENTRY.statuses, STATUS)
-                        .on(STATUS.subscription.eq(sub))
-                        .where(ENTRY.feed.eq(sub.getFeed()))
-                        .where(buildUnreadPredicate());
+                        .on(STATUS.subscription.in(subs))
+                        .where(ENTRY.feed.id.in(subsByFeedId.keySet()))
+                        .where(buildUnreadPredicate())
+                        .groupBy(ENTRY.feed.id);
 
-        Tuple tuple = query.fetchOne();
-        Long count = tuple.get(ENTRY.count());
-        Instant published = tuple.get(ENTRY.published.max());
-        return new UnreadCount(sub.getId(), count == null ? 0 : count, published);
+        setTimeout(query, config.database().queryTimeout());
+
+        Map<Long, UnreadCount> result = new HashMap<>();
+        for (Tuple tuple : query.fetch()) {
+            Long feedId = tuple.get(ENTRY.feed.id);
+            Long count = tuple.get(ENTRY.count());
+            Instant published = tuple.get(ENTRY.published.max());
+            for (FeedSubscription sub : subsByFeedId.get(feedId)) {
+                result.put(
+                        sub.getId(),
+                        new UnreadCount(sub.getId(), count == null ? 0 : count, published));
+            }
+        }
+
+        // feeds with no unread entries are absent from the query result, default them to zero
+        for (FeedSubscription sub : subs) {
+            result.putIfAbsent(sub.getId(), new UnreadCount(sub.getId(), 0, null));
+        }
+
+        return result;
     }
 
     private BooleanBuilder buildUnreadPredicate() {

@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Singleton
@@ -115,10 +114,7 @@ public class FeedSubscriptionService {
     }
 
     public Map<Long, UnreadCount> getUnreadCount(User user) {
-        return feedSubscriptionDAO.findAll(user).stream()
-                .collect(
-                        Collectors.toMap(
-                                FeedSubscription::getId, feedEntryStatusDAO::getUnreadCount));
+        return feedEntryStatusDAO.getUnreadCounts(feedSubscriptionDAO.findAll(user));
     }
 
     @SuppressWarnings("serial")

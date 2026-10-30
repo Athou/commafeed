@@ -68,7 +68,8 @@ class YoutubeFaviconFetcherTest {
 
         byte[] apiResponse =
                 """
-				{"items":[{"snippet":{"thumbnails":{"default":{"url":"https://example.com/icon.png"}}}}]}"""
+                {"items":[{"snippet":{"thumbnails":{"default":{"url":"https://example.com/icon.png"}}}}]}\
+                """
                         .getBytes();
         HttpResult apiHttpResult =
                 new HttpResult(apiResponse, "application/json", null, null, null, Duration.ZERO);
@@ -102,7 +103,8 @@ class YoutubeFaviconFetcherTest {
 
         byte[] apiResponse =
                 """
-				{"items":[{"snippet":{"thumbnails":{"default":{"url":"https://example.com/icon.png"}}}}]}"""
+                {"items":[{"snippet":{"thumbnails":{"default":{"url":"https://example.com/icon.png"}}}}]}\
+                """
                         .getBytes();
         HttpResult apiHttpResult =
                 new HttpResult(apiResponse, "application/json", null, null, null, Duration.ZERO);
@@ -136,7 +138,8 @@ class YoutubeFaviconFetcherTest {
 
         byte[] playlistResponse =
                 """
-				{"items":[{"snippet":{"channelId":"testChannelId"}}]}"""
+                {"items":[{"snippet":{"channelId":"testChannelId"}}]}\
+                """
                         .getBytes();
         HttpResult playlistHttpResult =
                 new HttpResult(
@@ -151,7 +154,8 @@ class YoutubeFaviconFetcherTest {
 
         byte[] channelResponse =
                 """
-				{"items":[{"snippet":{"thumbnails":{"default":{"url":"https://example.com/icon.png"}}}}]}"""
+                {"items":[{"snippet":{"thumbnails":{"default":{"url":"https://example.com/icon.png"}}}}]}\
+                """
                         .getBytes();
         HttpResult channelHttpResult =
                 new HttpResult(

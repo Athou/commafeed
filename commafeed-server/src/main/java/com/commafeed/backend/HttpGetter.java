@@ -283,9 +283,8 @@ public class HttpGetter {
         }
 
         return CacheBuilder.newBuilder()
-                .weigher(
-                        (HttpRequest key, HttpResponse value) ->
-                                value.content() != null ? value.content().length : 0)
+                .weigher((HttpRequest key, HttpResponse value) ->
+                        value.content() != null ? value.content().length : 0)
                 .maximumWeight(cacheConfig.maximumMemorySize().asLongValue())
                 .expireAfterWrite(cacheConfig.expiration())
                 .build();

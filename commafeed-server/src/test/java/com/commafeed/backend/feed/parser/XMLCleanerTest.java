@@ -226,14 +226,16 @@ class XMLCleanerTest {
         void testRemoveMultilineDoctype() {
             String source =
                     """
-					<!DOCTYPE
-						html
-					>
-					<html><head></head><body></body></html>""";
+                    <!DOCTYPE
+                    	html
+                    >
+                    <html><head></head><body></body></html>\
+                    """;
             Assertions.assertEquals(
                     """
 
-					<html><head></head><body></body></html>""",
+                    <html><head></head><body></body></html>\
+                    """,
                     xmlCleaner.removeDoctypeDeclarations(source));
         }
 

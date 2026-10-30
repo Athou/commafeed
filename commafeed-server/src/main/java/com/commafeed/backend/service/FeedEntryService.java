@@ -148,26 +148,23 @@ public class FeedEntryService {
         List<FeedEntryStatus> statusesToMark =
                 statuses.stream()
                         .filter(FeedEntryStatus::isMarkable)
-                        .filter(
-                                s -> {
-                                    Instant entryDate = s.getEntry().getPublished();
-                                    return olderThan == null
-                                            || entryDate == null
-                                            || entryDate.isBefore(olderThan);
-                                })
-                        .filter(
-                                s -> {
-                                    Instant insertedDate = s.getEntry().getInserted();
-                                    return insertedBefore == null
-                                            || insertedDate == null
-                                            || insertedDate.isBefore(insertedBefore);
-                                })
+                        .filter(s -> {
+                            Instant entryDate = s.getEntry().getPublished();
+                            return olderThan == null
+                                    || entryDate == null
+                                    || entryDate.isBefore(olderThan);
+                        })
+                        .filter(s -> {
+                            Instant insertedDate = s.getEntry().getInserted();
+                            return insertedBefore == null
+                                    || insertedDate == null
+                                    || insertedDate.isBefore(insertedBefore);
+                        })
                         .toList();
 
-        statusesToMark.forEach(
-                s -> {
-                    s.setRead(true);
-                    feedEntryStatusDAO.merge(s);
-                });
+        statusesToMark.forEach(s -> {
+            s.setRead(true);
+            feedEntryStatusDAO.merge(s);
+        });
     }
 }

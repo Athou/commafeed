@@ -40,24 +40,23 @@ public class TrustedIdentityProvider implements IdentityProvider<TrustedAuthenti
     @Override
     public Uni<SecurityIdentity> authenticate(
             TrustedAuthenticationRequest request, AuthenticationRequestContext context) {
-        return context.runBlocking(
-                () -> {
-                    Long userId = Long.valueOf(request.getPrincipal());
-                    User user = unitOfWork.call(() -> userDAO.findById(userId));
-                    if (user == null) {
-                        throw new AuthenticationFailedException("user not found");
-                    }
+        return context.runBlocking(() -> {
+            Long userId = Long.valueOf(request.getPrincipal());
+            User user = unitOfWork.call(() -> userDAO.findById(userId));
+            if (user == null) {
+                throw new AuthenticationFailedException("user not found");
+            }
 
-                    // execute post login activities manually because we didn't call login() since
-                    // we received
-                    // a trusted authentication request
-                    unitOfWork.run(() -> postLoginActivities.executeFor(user));
+            // execute post login activities manually because we didn't call login() since
+            // we received
+            // a trusted authentication request
+            unitOfWork.run(() -> postLoginActivities.executeFor(user));
 
-                    Set<Role> roles = unitOfWork.call(() -> userService.getRoles(user));
-                    return QuarkusSecurityIdentity.builder()
-                            .setPrincipal(new QuarkusPrincipal(String.valueOf(userId)))
-                            .addRoles(roles.stream().map(Enum::name).collect(Collectors.toSet()))
-                            .build();
-                });
+            Set<Role> roles = unitOfWork.call(() -> userService.getRoles(user));
+            return QuarkusSecurityIdentity.builder()
+                    .setPrincipal(new QuarkusPrincipal(String.valueOf(userId)))
+                    .addRoles(roles.stream().map(Enum::name).collect(Collectors.toSet()))
+                    .build();
+        });
     }
 }

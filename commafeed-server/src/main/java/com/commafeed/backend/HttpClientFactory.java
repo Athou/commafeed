@@ -66,11 +66,10 @@ public class HttpClientFactory {
         String userAgent =
                 config.httpClient()
                         .userAgent()
-                        .orElseGet(
-                                () ->
-                                        String.format(
-                                                "CommaFeed/%s (https://github.com/Athou/commafeed)",
-                                                version.getVersion()));
+                        .orElseGet(() ->
+                                String.format(
+                                        "CommaFeed/%s (https://github.com/Athou/commafeed)",
+                                        version.getVersion()));
         return newClient(config, connectionManager, userAgent);
     }
 

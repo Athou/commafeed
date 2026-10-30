@@ -140,14 +140,9 @@ public class FeverREST {
         Map<String, String> params = new HashMap<>();
         uri.getQueryParameters().forEach((k, v) -> params.put(k, v.getFirst()));
         form.getValues()
-                .forEach(
-                        (k, v) ->
-                                params.put(
-                                        k,
-                                        v.stream()
-                                                .map(FormValue::getValue)
-                                                .findFirst()
-                                                .orElse(null)));
+                .forEach((k, v) ->
+                        params.put(
+                                k, v.stream().map(FormValue::getValue).findFirst().orElse(null)));
         return handle(userId, params);
     }
 
@@ -246,46 +241,42 @@ public class FeverREST {
                                 s -> s.getCategory() == null ? 0 : s.getCategory().getId()))
                 .entrySet()
                 .stream()
-                .map(
-                        e -> {
-                            FeverFeedGroup fg = new FeverFeedGroup();
-                            fg.setGroupId(e.getKey());
-                            fg.setFeedIds(
-                                    e.getValue().stream().map(FeedSubscription::getId).toList());
-                            return fg;
-                        })
+                .map(e -> {
+                    FeverFeedGroup fg = new FeverFeedGroup();
+                    fg.setGroupId(e.getKey());
+                    fg.setFeedIds(e.getValue().stream().map(FeedSubscription::getId).toList());
+                    return fg;
+                })
                 .toList();
     }
 
     private List<FeverGroup> buildGroups(List<FeedCategory> categories) {
         return categories.stream()
-                .map(
-                        c -> {
-                            FeverGroup g = new FeverGroup();
-                            g.setId(c.getId());
-                            g.setTitle(c.getName());
-                            return g;
-                        })
+                .map(c -> {
+                    FeverGroup g = new FeverGroup();
+                    g.setId(c.getId());
+                    g.setTitle(c.getName());
+                    return g;
+                })
                 .toList();
     }
 
     private List<FeverFeed> buildFeeds(List<FeedSubscription> subscriptions) {
         return subscriptions.stream()
-                .map(
-                        s -> {
-                            FeverFeed f = new FeverFeed();
-                            f.setId(s.getId());
-                            f.setFaviconId(s.getId());
-                            f.setTitle(s.getTitle());
-                            f.setUrl(s.getFeed().getUrl());
-                            f.setSiteUrl(s.getFeed().getLink());
-                            f.setSpark(false);
-                            f.setLastUpdatedOnTime(
-                                    s.getFeed().getLastUpdated() == null
-                                            ? 0
-                                            : s.getFeed().getLastUpdated().getEpochSecond());
-                            return f;
-                        })
+                .map(s -> {
+                    FeverFeed f = new FeverFeed();
+                    f.setId(s.getId());
+                    f.setFaviconId(s.getId());
+                    f.setTitle(s.getTitle());
+                    f.setUrl(s.getFeed().getUrl());
+                    f.setSiteUrl(s.getFeed().getLink());
+                    f.setSpark(false);
+                    f.setLastUpdatedOnTime(
+                            s.getFeed().getLastUpdated() == null
+                                    ? 0
+                                    : s.getFeed().getLastUpdated().getEpochSecond());
+                    return f;
+                })
                 .toList();
     }
 
@@ -367,19 +358,18 @@ public class FeverREST {
 
     private List<FeverFavicon> buildFavicons(List<FeedSubscription> subscriptions) {
         return subscriptions.stream()
-                .map(
-                        s -> {
-                            Favicon favicon = feedFaviconService.fetchFavicon(s.getFeed());
+                .map(s -> {
+                    Favicon favicon = feedFaviconService.fetchFavicon(s.getFeed());
 
-                            FeverFavicon f = new FeverFavicon();
-                            f.setId(s.getFeed().getId());
-                            f.setData(
-                                    String.format(
-                                            "data:%s;base64,%s",
-                                            favicon.mediaType(),
-                                            Base64.getEncoder().encodeToString(favicon.icon())));
-                            return f;
-                        })
+                    FeverFavicon f = new FeverFavicon();
+                    f.setId(s.getFeed().getId());
+                    f.setData(
+                            String.format(
+                                    "data:%s;base64,%s",
+                                    favicon.mediaType(),
+                                    Base64.getEncoder().encodeToString(favicon.icon())));
+                    return f;
+                })
                 .toList();
     }
 

@@ -47,14 +47,13 @@ public class FeedSubscriptionService {
         // we need to use this hook because the feed needs to have been persisted before being
         // processed
         // by the feed engine
-        feedSubscriptionDAO.onPostCommitInsert(
-                sub -> {
-                    Feed feed = sub.getFeed();
-                    if (feed.getDisabledUntil() == null
-                            || feed.getDisabledUntil().isBefore(Instant.now())) {
-                        feedRefreshEngine.refreshImmediately(feed);
-                    }
-                });
+        feedSubscriptionDAO.onPostCommitInsert(sub -> {
+            Feed feed = sub.getFeed();
+            if (feed.getDisabledUntil() == null
+                    || feed.getDisabledUntil().isBefore(Instant.now())) {
+                feedRefreshEngine.refreshImmediately(feed);
+            }
+        });
     }
 
     public long subscribe(

@@ -91,24 +91,22 @@ public class FeedRefreshUpdater {
             if (locked1 && locked2) {
                 processed = true;
                 insertedEntry =
-                        unitOfWork.call(
-                                () -> {
-                                    if (feedEntryService.find(feed, entry) != null) {
-                                        // entry already exists, nothing to do
-                                        return null;
-                                    }
+                        unitOfWork.call(() -> {
+                            if (feedEntryService.find(feed, entry) != null) {
+                                // entry already exists, nothing to do
+                                return null;
+                            }
 
-                                    FeedEntry feedEntry = feedEntryService.create(feed, entry);
-                                    entryInserted.mark();
-                                    for (FeedSubscription sub : subscriptions) {
-                                        boolean unread =
-                                                feedEntryService.applyFilter(sub, feedEntry);
-                                        if (unread) {
-                                            subscriptionsForWhichEntryIsUnread.add(sub);
-                                        }
-                                    }
-                                    return feedEntry;
-                                });
+                            FeedEntry feedEntry = feedEntryService.create(feed, entry);
+                            entryInserted.mark();
+                            for (FeedSubscription sub : subscriptions) {
+                                boolean unread = feedEntryService.applyFilter(sub, feedEntry);
+                                if (unread) {
+                                    subscriptionsForWhichEntryIsUnread.add(sub);
+                                }
+                            }
+                            return feedEntry;
+                        });
             } else {
                 log.error("lock timeout for {} - {}", feed.getUrl(), key1);
             }
@@ -147,14 +145,13 @@ public class FeedRefreshUpdater {
                 AddEntryResult addEntryResult = addEntry(feed, entry, subscriptions);
                 processed &= addEntryResult.processed;
                 inserted += addEntryResult.insertedEntry != null ? 1 : 0;
-                addEntryResult.subscriptionsForWhichEntryIsUnread.forEach(
-                        sub -> {
-                            if (addEntryResult.insertedEntry != null) {
-                                insertedUnreadEntriesBySubscription
-                                        .computeIfAbsent(sub, k -> new ArrayList<>())
-                                        .add(addEntryResult.insertedEntry);
-                            }
-                        });
+                addEntryResult.subscriptionsForWhichEntryIsUnread.forEach(sub -> {
+                    if (addEntryResult.insertedEntry != null) {
+                        insertedUnreadEntriesBySubscription
+                                .computeIfAbsent(sub, k -> new ArrayList<>())
+                                .add(addEntryResult.insertedEntry);
+                    }
+                });
             }
 
             if (inserted == 0) {

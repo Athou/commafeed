@@ -170,10 +170,9 @@ class GoogleReaderIT extends BaseIT {
                 client.get(BASE + "/reader/api/0/unread-count").as(UnreadCounts.class);
         Assertions.assertTrue(
                 counts.getUnreadCounts().stream()
-                        .anyMatch(
-                                c ->
-                                        c.getId().equals("user/-/state/com.google/reading-list")
-                                                && c.getCount() == 2));
+                        .anyMatch(c ->
+                                c.getId().equals("user/-/state/com.google/reading-list")
+                                        && c.getCount() == 2));
     }
 
     @Test

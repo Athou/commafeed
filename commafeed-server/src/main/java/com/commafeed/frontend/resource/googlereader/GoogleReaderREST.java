@@ -216,11 +216,10 @@ public class GoogleReaderREST {
         List<GoogleReaderModel.Tag> tags = new ArrayList<>();
         feedCategoryDAO
                 .findAll(user)
-                .forEach(
-                        c ->
-                                tags.add(
-                                        new GoogleReaderModel.Tag(
-                                                GoogleReaderStreamId.label(c.getName()))));
+                .forEach(c ->
+                        tags.add(
+                                new GoogleReaderModel.Tag(
+                                        GoogleReaderStreamId.label(c.getName()))));
         tags.add(new GoogleReaderModel.Tag(GoogleReaderStreamId.STARRED));
 
         GoogleReaderModel.TagList resp = new GoogleReaderModel.TagList();
@@ -259,21 +258,19 @@ public class GoogleReaderREST {
         Map<Long, FeedCategory> categoriesById =
                 feedCategoryDAO.findAll(user).stream()
                         .collect(Collectors.toMap(FeedCategory::getId, c -> c));
-        unreadByCategory.forEach(
-                (categoryId, count) -> {
-                    if (categoryId == 0) {
-                        return;
-                    }
-                    FeedCategory category = categoriesById.get(categoryId);
-                    if (category == null) {
-                        return;
-                    }
-                    GoogleReaderModel.UnreadCountEntry entry =
-                            new GoogleReaderModel.UnreadCountEntry();
-                    entry.setId(GoogleReaderStreamId.label(category.getName()));
-                    entry.setCount(count);
-                    entries.add(entry);
-                });
+        unreadByCategory.forEach((categoryId, count) -> {
+            if (categoryId == 0) {
+                return;
+            }
+            FeedCategory category = categoriesById.get(categoryId);
+            if (category == null) {
+                return;
+            }
+            GoogleReaderModel.UnreadCountEntry entry = new GoogleReaderModel.UnreadCountEntry();
+            entry.setId(GoogleReaderStreamId.label(category.getName()));
+            entry.setCount(count);
+            entries.add(entry);
+        });
 
         GoogleReaderModel.UnreadCountEntry readingList = new GoogleReaderModel.UnreadCountEntry();
         readingList.setId(GoogleReaderStreamId.READING_LIST);
@@ -334,10 +331,8 @@ public class GoogleReaderREST {
         GoogleReaderModel.ItemRefs resp = new GoogleReaderModel.ItemRefs();
         resp.setItemRefs(
                 paged.statuses().stream()
-                        .map(
-                                s ->
-                                        new GoogleReaderModel.ItemRef(
-                                                String.valueOf(s.getEntry().getId())))
+                        .map(s ->
+                                new GoogleReaderModel.ItemRef(String.valueOf(s.getEntry().getId())))
                         .toList());
         resp.setContinuation(paged.continuation());
         return resp;

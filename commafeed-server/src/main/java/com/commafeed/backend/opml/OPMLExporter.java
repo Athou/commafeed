@@ -65,20 +65,17 @@ public class OPMLExporter {
 
         for (FeedCategory child :
                 categories.stream()
-                        .filter(
-                                c ->
-                                        c.getParent() != null
-                                                && c.getParent().getId().equals(cat.getId()))
+                        .filter(c ->
+                                c.getParent() != null && c.getParent().getId().equals(cat.getId()))
                         .toList()) {
             outline.getChildren().add(buildCategoryOutline(child, categories, subscriptions));
         }
 
         for (FeedSubscription sub :
                 subscriptions.stream()
-                        .filter(
-                                s ->
-                                        s.getCategory() != null
-                                                && s.getCategory().getId().equals(cat.getId()))
+                        .filter(s ->
+                                s.getCategory() != null
+                                        && s.getCategory().getId().equals(cat.getId()))
                         .toList()) {
             outline.getChildren().add(buildSubscriptionOutline(sub));
         }

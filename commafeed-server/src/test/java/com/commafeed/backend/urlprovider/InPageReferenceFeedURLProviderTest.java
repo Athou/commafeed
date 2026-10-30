@@ -14,14 +14,15 @@ class InPageReferenceFeedURLProviderTest {
         String url = "http://example.com";
         String html =
                 """
-				<html>
-					<head>
-						<link type="application/atom+xml" href="/feed.atom">
-						<link type="application/rss+xml" href="/feed.rss">
-					</head>
-					<body>
-					</body>
-				</html>""";
+                <html>
+                	<head>
+                		<link type="application/atom+xml" href="/feed.atom">
+                		<link type="application/rss+xml" href="/feed.rss">
+                	</head>
+                	<body>
+                	</body>
+                </html>\
+                """;
 
         Assertions.assertIterableEquals(
                 List.of("http://example.com/feed.atom", "http://example.com/feed.rss"),
@@ -33,9 +34,10 @@ class InPageReferenceFeedURLProviderTest {
         String url = "http://example.com";
         String html =
                 """
-				<?xml version="1.0"?>
-					<feed></feed>
-				</xml>""";
+                <?xml version="1.0"?>
+                	<feed></feed>
+                </xml>\
+                """;
 
         Assertions.assertTrue(provider.get(url, html).isEmpty());
     }
@@ -45,13 +47,14 @@ class InPageReferenceFeedURLProviderTest {
         String url = "http://example.com";
         String html =
                 """
-				<html>
-					<head>
-						<link type="text/css" href="/style.css">
-					</head>
-					<body>
-					</body>
-				</html>""";
+                <html>
+                	<head>
+                		<link type="text/css" href="/style.css">
+                	</head>
+                	<body>
+                	</body>
+                </html>\
+                """;
 
         Assertions.assertTrue(provider.get(url, html).isEmpty());
     }

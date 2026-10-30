@@ -104,56 +104,52 @@ public class FeedRefreshEngine {
 
     private void startFeedProcessingLoop() {
         // take a feed from the queue, process it, rince, repeat
-        feedProcessingLoopExecutor.submit(
-                () -> {
-                    while (!feedProcessingLoopExecutor.isShutdown()) {
-                        try {
-                            // take() is blocking until a feed is available from the queue
-                            Feed feed = queue.take();
+        feedProcessingLoopExecutor.submit(() -> {
+            while (!feedProcessingLoopExecutor.isShutdown()) {
+                try {
+                    // take() is blocking until a feed is available from the queue
+                    Feed feed = queue.take();
 
-                            // send the feed to be processed
-                            log.debug(
-                                    "got feed {} from the queue, send it for processing",
-                                    feed.getId());
-                            processFeedAsync(feed);
+                    // send the feed to be processed
+                    log.debug("got feed {} from the queue, send it for processing", feed.getId());
+                    processFeedAsync(feed);
 
-                            // we removed a feed from the queue, try to refill it as it may now be
-                            // empty
-                            if (queue.isEmpty()) {
-                                log.debug("took the last feed from the queue, try to refill");
-                                refillQueueAsync();
-                            }
-                        } catch (InterruptedException e) {
-                            log.debug("interrupted while waiting for a feed in the queue");
-                            Thread.currentThread().interrupt();
-                        } catch (Exception e) {
-                            log.error(e.getMessage(), e);
-                        }
+                    // we removed a feed from the queue, try to refill it as it may now be
+                    // empty
+                    if (queue.isEmpty()) {
+                        log.debug("took the last feed from the queue, try to refill");
+                        refillQueueAsync();
                     }
-                });
+                } catch (InterruptedException e) {
+                    log.debug("interrupted while waiting for a feed in the queue");
+                    Thread.currentThread().interrupt();
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        });
     }
 
     private void startRefillLoop() {
         // refill the queue at regular intervals if it's empty
-        refillLoopExecutor.submit(
-                () -> {
-                    while (!refillLoopExecutor.isShutdown()) {
-                        try {
-                            if (queue.isEmpty()) {
-                                log.debug("refilling queue");
-                                refillQueueAsync();
-                            }
-
-                            log.debug("sleeping for 15s");
-                            TimeUnit.SECONDS.sleep(15);
-                        } catch (InterruptedException e) {
-                            log.debug("interrupted while sleeping");
-                            Thread.currentThread().interrupt();
-                        } catch (Exception e) {
-                            log.error(e.getMessage(), e);
-                        }
+        refillLoopExecutor.submit(() -> {
+            while (!refillLoopExecutor.isShutdown()) {
+                try {
+                    if (queue.isEmpty()) {
+                        log.debug("refilling queue");
+                        refillQueueAsync();
                     }
-                });
+
+                    log.debug("sleeping for 15s");
+                    TimeUnit.SECONDS.sleep(15);
+                } catch (InterruptedException e) {
+                    log.debug("interrupted while sleeping");
+                    Thread.currentThread().interrupt();
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        });
     }
 
     public void refreshImmediately(Feed feed) {
@@ -184,65 +180,53 @@ public class FeedRefreshEngine {
                             }
                         },
                         refillExecutor)
-                .whenComplete(
-                        (data, ex) -> {
-                            if (ex != null) {
-                                log.error("error while refilling the queue", ex);
-                            }
-                        });
+                .whenComplete((data, ex) -> {
+                    if (ex != null) {
+                        log.error("error while refilling the queue", ex);
+                    }
+                });
     }
 
     private void processFeedAsync(Feed feed) {
         CompletableFuture.supplyAsync(() -> worker.update(feed), workerExecutor)
                 .thenApplyAsync(r -> updater.update(r.feed(), r.entries()), databaseUpdaterExecutor)
-                .thenCompose(
-                        r -> {
-                            List<CompletableFuture<Void>> futures =
-                                    r.insertedUnreadEntriesBySubscription().entrySet().stream()
-                                            .map(
-                                                    e -> {
-                                                        FeedSubscription sub = e.getKey();
-                                                        List<FeedEntry> entries = e.getValue();
+                .thenCompose(r -> {
+                    List<CompletableFuture<Void>> futures =
+                            r.insertedUnreadEntriesBySubscription().entrySet().stream()
+                                    .map(e -> {
+                                        FeedSubscription sub = e.getKey();
+                                        List<FeedEntry> entries = e.getValue();
 
-                                                        notifier.notifyOverWebsocket(sub, entries);
-                                                        return CompletableFuture.runAsync(
-                                                                () ->
-                                                                        notifier
-                                                                                .sendPushNotifications(
-                                                                                        sub,
-                                                                                        entries),
-                                                                notifierExecutor);
-                                                    })
-                                            .toList();
-                            return CompletableFuture.allOf(
-                                    futures.toArray(CompletableFuture[]::new));
-                        })
-                .exceptionally(
-                        ex -> {
-                            log.error("error while processing feed {}", feed.getUrl(), ex);
-                            return null;
-                        });
+                                        notifier.notifyOverWebsocket(sub, entries);
+                                        return CompletableFuture.runAsync(
+                                                () -> notifier.sendPushNotifications(sub, entries),
+                                                notifierExecutor);
+                                    })
+                                    .toList();
+                    return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
+                })
+                .exceptionally(ex -> {
+                    log.error("error while processing feed {}", feed.getUrl(), ex);
+                    return null;
+                });
     }
 
     private List<Feed> getNextUpdatableFeeds(int max) {
-        return unitOfWork.call(
-                () -> {
-                    Instant lastLoginThreshold =
-                            config.feedRefresh().userInactivityPeriod().isZero()
-                                    ? null
-                                    : Instant.now()
-                                            .minus(config.feedRefresh().userInactivityPeriod());
-                    List<Feed> feeds = feedDAO.findNextUpdatable(max, lastLoginThreshold);
-                    if (!feeds.isEmpty()) {
-                        // update disabledUntil to prevent feeds from being returned again by
-                        // feedDAO.findNextUpdatable()
-                        Instant nextUpdateDate =
-                                Instant.now().plus(config.feedRefresh().interval());
-                        feedDAO.setDisabledUntil(
-                                feeds.stream().map(AbstractModel::getId).toList(), nextUpdateDate);
-                    }
-                    return feeds;
-                });
+        return unitOfWork.call(() -> {
+            Instant lastLoginThreshold =
+                    config.feedRefresh().userInactivityPeriod().isZero()
+                            ? null
+                            : Instant.now().minus(config.feedRefresh().userInactivityPeriod());
+            List<Feed> feeds = feedDAO.findNextUpdatable(max, lastLoginThreshold);
+            if (!feeds.isEmpty()) {
+                // update disabledUntil to prevent feeds from being returned again by
+                // feedDAO.findNextUpdatable()
+                Instant nextUpdateDate = Instant.now().plus(config.feedRefresh().interval());
+                feedDAO.setDisabledUntil(
+                        feeds.stream().map(AbstractModel::getId).toList(), nextUpdateDate);
+            }
+            return feeds;
+        });
     }
 
     private int getBatchSize() {
@@ -292,19 +276,18 @@ public class FeedRefreshEngine {
         ThreadPoolExecutor pool =
                 new ThreadPoolExecutor(
                         threads, threads, 0L, TimeUnit.MILLISECONDS, new SynchronousQueue<>());
-        pool.setRejectedExecutionHandler(
-                (r, e) -> {
-                    if (e.isShutdown()) {
-                        return;
-                    }
+        pool.setRejectedExecutionHandler((r, e) -> {
+            if (e.isShutdown()) {
+                return;
+            }
 
-                    try {
-                        e.getQueue().put(r);
-                    } catch (InterruptedException ex) {
-                        log.debug("interrupted while waiting for a slot in the queue.", ex);
-                        Thread.currentThread().interrupt();
-                    }
-                });
+            try {
+                e.getQueue().put(r);
+            } catch (InterruptedException ex) {
+                log.debug("interrupted while waiting for a slot in the queue.", ex);
+                Thread.currentThread().interrupt();
+            }
+        });
         return pool;
     }
 }

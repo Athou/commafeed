@@ -79,13 +79,10 @@ public class DatabaseCleaningService {
                 } while (entriesDeleted > 0);
             }
             deleted =
-                    unitOfWork.call(
-                            () ->
-                                    feedDAO.delete(
-                                            feedDAO.findByIds(
-                                                    feeds.stream()
-                                                            .map(AbstractModel::getId)
-                                                            .toList())));
+                    unitOfWork.call(() ->
+                            feedDAO.delete(
+                                    feedDAO.findByIds(
+                                            feeds.stream().map(AbstractModel::getId).toList())));
             total += deleted;
             log.debug("removed {} feeds without subscriptions", total);
         } while (deleted != 0);
@@ -119,10 +116,9 @@ public class DatabaseCleaningService {
             }
 
             List<FeedCapacity> feeds =
-                    unitOfWork.call(
-                            () ->
-                                    feedEntryDAO.findFeedsExceedingCapacity(
-                                            maxFeedCapacity, batchSize, keepStarredEntries));
+                    unitOfWork.call(() ->
+                            feedEntryDAO.findFeedsExceedingCapacity(
+                                    maxFeedCapacity, batchSize, keepStarredEntries));
             if (feeds.isEmpty()) {
                 break;
             }
@@ -139,12 +135,11 @@ public class DatabaseCleaningService {
 
                     final long rem = remaining;
                     deleted =
-                            unitOfWork.call(
-                                    () ->
-                                            feedEntryDAO.deleteOldEntries(
-                                                    feed.id(),
-                                                    Math.min(batchSize, rem),
-                                                    keepStarredEntries));
+                            unitOfWork.call(() ->
+                                    feedEntryDAO.deleteOldEntries(
+                                            feed.id(),
+                                            Math.min(batchSize, rem),
+                                            keepStarredEntries));
                     entriesDeletedMeter.mark(deleted);
                     total += deleted;
                     remaining -= deleted;
@@ -166,10 +161,9 @@ public class DatabaseCleaningService {
             }
 
             deleted =
-                    unitOfWork.call(
-                            () ->
-                                    feedEntryDAO.deleteEntriesOlderThan(
-                                            olderThan, batchSize, keepStarredEntries));
+                    unitOfWork.call(() ->
+                            feedEntryDAO.deleteEntriesOlderThan(
+                                    olderThan, batchSize, keepStarredEntries));
             entriesDeletedMeter.mark(deleted);
             total += deleted;
             log.debug("removed {} old entries", total);

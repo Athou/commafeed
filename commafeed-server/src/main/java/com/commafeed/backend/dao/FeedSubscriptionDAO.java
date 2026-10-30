@@ -124,10 +124,8 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
         Set<Long> categoryIds =
                 categories.stream().map(AbstractModel::getId).collect(Collectors.toSet());
         return findAll(user).stream()
-                .filter(
-                        s ->
-                                s.getCategory() != null
-                                        && categoryIds.contains(s.getCategory().getId()))
+                .filter(s ->
+                        s.getCategory() != null && categoryIds.contains(s.getCategory().getId()))
                 .toList();
     }
 

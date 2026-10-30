@@ -31,16 +31,15 @@ public class DemoAccountCleanupTask extends ScheduledTask {
         }
 
         log.info("recreating demo user account");
-        unitOfWork.run(
-                () -> {
-                    User demoUser = userDAO.findByName(CommaFeedConstants.USERNAME_DEMO);
-                    if (demoUser == null) {
-                        return;
-                    }
+        unitOfWork.run(() -> {
+            User demoUser = userDAO.findByName(CommaFeedConstants.USERNAME_DEMO);
+            if (demoUser == null) {
+                return;
+            }
 
-                    userService.unregister(demoUser);
-                    userService.createDemoUser();
-                });
+            userService.unregister(demoUser);
+            userService.createDemoUser();
+        });
     }
 
     @Override

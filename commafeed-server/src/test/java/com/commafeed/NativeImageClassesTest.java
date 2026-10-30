@@ -41,11 +41,10 @@ class NativeImageClassesTest {
                         WireFeedGenerator.class)) {
             Set<Class<?>> moduleClasses =
                     new HashSet<>(reflections.get(Scanners.SubTypes.of(clazz).asClass()));
-            moduleClasses.removeIf(
-                    c ->
-                            c.isInterface()
-                                    || Modifier.isAbstract(c.getModifiers())
-                                    || !Modifier.isPublic(c.getModifiers()));
+            moduleClasses.removeIf(c ->
+                    c.isInterface()
+                            || Modifier.isAbstract(c.getModifiers())
+                            || !Modifier.isPublic(c.getModifiers()));
             moduleClasses.removeAll(classesInAnnotation);
             missingClasses.addAll(moduleClasses);
         }

@@ -39,25 +39,22 @@ public class DatabaseUsernamePasswordIdentityProvider
     @Override
     public Uni<SecurityIdentity> authenticate(
             UsernamePasswordAuthenticationRequest request, AuthenticationRequestContext context) {
-        return context.runBlocking(
-                () -> {
-                    Optional<User> user =
-                            unitOfWork.call(
-                                    () ->
-                                            userService.login(
-                                                    request.getUsername(),
-                                                    new String(
-                                                            request.getPassword().getPassword())));
-                    if (user.isEmpty()) {
-                        throw new CommaFeedApplicationException(
-                                CommaFeedExceptionType.WRONG_USERNAME_OR_PASSWORD);
-                    }
+        return context.runBlocking(() -> {
+            Optional<User> user =
+                    unitOfWork.call(() ->
+                            userService.login(
+                                    request.getUsername(),
+                                    new String(request.getPassword().getPassword())));
+            if (user.isEmpty()) {
+                throw new CommaFeedApplicationException(
+                        CommaFeedExceptionType.WRONG_USERNAME_OR_PASSWORD);
+            }
 
-                    Set<Role> roles = unitOfWork.call(() -> userService.getRoles(user.get()));
-                    return QuarkusSecurityIdentity.builder()
-                            .setPrincipal(new QuarkusPrincipal(String.valueOf(user.get().getId())))
-                            .addRoles(roles.stream().map(Enum::name).collect(Collectors.toSet()))
-                            .build();
-                });
+            Set<Role> roles = unitOfWork.call(() -> userService.getRoles(user.get()));
+            return QuarkusSecurityIdentity.builder()
+                    .setPrincipal(new QuarkusPrincipal(String.valueOf(user.get().getId())))
+                    .addRoles(roles.stream().map(Enum::name).collect(Collectors.toSet()))
+                    .build();
+        });
     }
 }

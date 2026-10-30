@@ -38,20 +38,18 @@ public class DatabaseApiKeyIdentityProvider
     @Override
     public Uni<SecurityIdentity> authenticate(
             TokenAuthenticationRequest request, AuthenticationRequestContext context) {
-        return context.runBlocking(
-                () -> {
-                    Optional<User> user =
-                            unitOfWork.call(() -> userService.login(request.getToken().getToken()));
-                    if (user.isEmpty()) {
-                        throw new AuthenticationFailedException(
-                                "could not find a user with this api key");
-                    }
+        return context.runBlocking(() -> {
+            Optional<User> user =
+                    unitOfWork.call(() -> userService.login(request.getToken().getToken()));
+            if (user.isEmpty()) {
+                throw new AuthenticationFailedException("could not find a user with this api key");
+            }
 
-                    Set<Role> roles = unitOfWork.call(() -> userService.getRoles(user.get()));
-                    return QuarkusSecurityIdentity.builder()
-                            .setPrincipal(new QuarkusPrincipal(String.valueOf(user.get().getId())))
-                            .addRoles(roles.stream().map(Enum::name).collect(Collectors.toSet()))
-                            .build();
-                });
+            Set<Role> roles = unitOfWork.call(() -> userService.getRoles(user.get()));
+            return QuarkusSecurityIdentity.builder()
+                    .setPrincipal(new QuarkusPrincipal(String.valueOf(user.get().getId())))
+                    .addRoles(roles.stream().map(Enum::name).collect(Collectors.toSet()))
+                    .build();
+        });
     }
 }

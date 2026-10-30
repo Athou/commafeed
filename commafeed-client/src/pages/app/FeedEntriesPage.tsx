@@ -2,7 +2,7 @@ import { Trans } from "@lingui/react/macro"
 import { ActionIcon, Box, Center, Divider, Group, Title, useMantineTheme } from "@mantine/core"
 import { useViewportSize } from "@mantine/hooks"
 import { useEffect } from "react"
-import { TbEdit } from "react-icons/tb"
+import { TbSettings } from "react-icons/tb"
 import { useLocation, useParams } from "react-router-dom"
 import { Constants } from "@/app/constants"
 import type { EntrySourceType } from "@/app/entries/slice"
@@ -138,7 +138,7 @@ export function FeedEntriesPage(props: Readonly<FeedEntriesPageProps>) {
                     </Title>
                 )}
                 <ActionIcon onClick={titleClicked} variant="subtle" color={theme.primaryColor}>
-                    <TbEdit size={18} />
+                    <TbSettings size={18} />
                 </ActionIcon>
                 {showUnreadCount && <UnreadCount unreadCount={unreadCount} showIndicator={hasNewEntries} />}
             </Group>

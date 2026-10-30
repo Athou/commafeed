@@ -40,9 +40,7 @@ export const loadMoreEntries = createAppAsyncThunk("entries/loadMore", async (_,
     const state = thunkApi.getState()
     const { source } = state.entries
     const offset =
-        state.user.settings?.readingMode === "all" ||
-        state.entries.search ||
-        (source.type === "category" && source.id === "starred")
+        state.user.settings?.readingMode === "all" || state.entries.search || (source.type === "category" && source.id === "starred")
             ? state.entries.entries.length
             : state.entries.entries.filter(e => !e.read).length
     const endpoint = getEndpoint(state.entries.source.type)
@@ -139,6 +137,7 @@ export const markAllAsReadWithConfirmationIfRequired = createAppAsyncThunk(
         const state = thunkApi.getState()
         const source = state.entries.source
         const entriesTimestamp = state.entries.timestamp ?? Date.now()
+        const search = state.entries.search
         const markAllAsReadConfirmation = state.user.settings?.markAllAsReadConfirmation
         const markAllAsReadNavigateToNextUnread = state.user.settings?.markAllAsReadNavigateToNextUnread
 
@@ -153,6 +152,7 @@ export const markAllAsReadWithConfirmationIfRequired = createAppAsyncThunk(
                         read: true,
                         olderThan: Date.now(),
                         insertedBefore: entriesTimestamp,
+                        keywords: search,
                     },
                 })
             )

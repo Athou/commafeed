@@ -13,6 +13,7 @@ export function MarkAllAsReadConfirmationDialog() {
     const source = useAppSelector(state => state.entries.source)
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
     const entriesTimestamp = useAppSelector(state => state.entries.timestamp) ?? Date.now()
+    const search = useAppSelector(state => state.entries.search)
     const markAllAsReadNavigateToNextUnread = useAppSelector(state => state.user.settings?.markAllAsReadNavigateToNextUnread)
     const dispatch = useAppDispatch()
 
@@ -26,6 +27,7 @@ export function MarkAllAsReadConfirmationDialog() {
                     read: true,
                     olderThan: Date.now() - threshold * 24 * 60 * 60 * 1000,
                     insertedBefore: entriesTimestamp,
+                    keywords: search,
                 },
             })
         )

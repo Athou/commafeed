@@ -37,6 +37,9 @@ export function CategoryDetailsPage() {
         category = query.result && flattenCategoryTree(query.result.data).find(c => c.id === id)
     }
 
+    // a category cannot be moved under itself or one of its own descendants
+    const excludedCategoryIds = category ? flattenCategoryTree(category).map(c => c.id) : [id]
+
     const form = useForm<CategoryModificationRequest>()
     const { setValues } = form
 
@@ -125,7 +128,7 @@ export function CategoryDetailsPage() {
                                 label={<Trans>Parent Category</Trans>}
                                 {...form.getInputProps("parentId")}
                                 clearable
-                                withoutCategoryIds={[id]}
+                                withoutCategoryIds={excludedCategoryIds}
                             />
                             <NumberInput label={<Trans>Position</Trans>} {...form.getInputProps("position")} required min={0} />
                         </>

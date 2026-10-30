@@ -435,6 +435,19 @@ public class CategoryREST {
                 && !Strings.CS.equals(req.getParentId(), String.valueOf(req.getId()))) {
             parent = feedCategoryDAO.findById(user, Long.valueOf(req.getParentId()));
         }
+        if (parent != null) {
+            Long parentId = parent.getId();
+            List<FeedCategory> descendants =
+                    feedCategoryDAO.findAllChildrenCategories(user, category);
+            boolean parentIsDescendant =
+                    descendants.stream().anyMatch(c -> c.getId().equals(parentId));
+            if (parentIsDescendant) {
+                return Response.status(Status.BAD_REQUEST)
+                        .entity(
+                                "<message>cannot set a category's own descendant as its parent</message>")
+                        .build();
+            }
+        }
         category.setParent(parent);
 
         if (req.getPosition() != null) {

@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.QFeedCategory;
 import com.commafeed.backend.model.QUser;
@@ -17,8 +18,8 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
 
     private static final QFeedCategory CATEGORY = QFeedCategory.feedCategory;
 
-    public FeedCategoryDAO(EntityManager entityManager) {
-        super(entityManager, FeedCategory.class);
+    public FeedCategoryDAO(EntityManager entityManager, CommaFeedConfiguration config) {
+        super(entityManager, FeedCategory.class, config);
     }
 
     public List<FeedCategory> findAll(User user) {

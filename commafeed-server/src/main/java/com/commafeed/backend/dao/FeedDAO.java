@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.QFeed;
 import com.commafeed.backend.model.QFeedSubscription;
@@ -20,8 +21,8 @@ public class FeedDAO extends GenericDAO<Feed> {
     private static final QFeed FEED = QFeed.feed;
     private static final QFeedSubscription SUBSCRIPTION = QFeedSubscription.feedSubscription;
 
-    public FeedDAO(EntityManager entityManager) {
-        super(entityManager, Feed.class);
+    public FeedDAO(EntityManager entityManager, CommaFeedConfiguration config) {
+        super(entityManager, Feed.class, config);
     }
 
     public List<Feed> findByIds(List<Long> id) {

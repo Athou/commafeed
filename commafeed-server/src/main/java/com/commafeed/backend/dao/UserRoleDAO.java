@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.QUserRole;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
@@ -17,8 +18,8 @@ public class UserRoleDAO extends GenericDAO<UserRole> {
 
     private static final QUserRole ROLE = QUserRole.userRole;
 
-    public UserRoleDAO(EntityManager entityManager) {
-        super(entityManager, UserRole.class);
+    public UserRoleDAO(EntityManager entityManager, CommaFeedConfiguration config) {
+        super(entityManager, UserRole.class, config);
     }
 
     public List<UserRole> findAll() {

@@ -51,7 +51,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
             EntityManager entityManager,
             FeedEntryTagDAO feedEntryTagDAO,
             CommaFeedConfiguration config) {
-        super(entityManager, FeedEntryStatus.class);
+        super(entityManager, FeedEntryStatus.class, config);
         this.feedEntryTagDAO = feedEntryTagDAO;
         this.config = config;
     }
@@ -130,8 +130,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
             query.limit(limit);
         }
 
-        setTimeout(query, config.database().queryTimeout());
-
         List<FeedEntryStatus> statuses = query.fetch();
         statuses.forEach(s -> s.setMarkable(true));
         if (includeContent) {
@@ -208,8 +206,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
             query.limit(limit);
         }
 
-        setTimeout(query, config.database().queryTimeout());
-
         List<FeedEntryStatus> statuses = new ArrayList<>();
         List<Tuple> tuples = query.fetch();
         for (Tuple tuple : tuples) {
@@ -255,8 +251,6 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
                         .where(ENTRY.feed.id.in(subsByFeedId.keySet()))
                         .where(buildUnreadPredicate())
                         .groupBy(ENTRY.feed.id);
-
-        setTimeout(query, config.database().queryTimeout());
 
         Map<Long, UnreadCount> result = new HashMap<>();
         for (Tuple tuple : query.fetch()) {

@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
@@ -31,8 +32,8 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 
     private final EntityManager entityManager;
 
-    public FeedSubscriptionDAO(EntityManager entityManager) {
-        super(entityManager, FeedSubscription.class);
+    public FeedSubscriptionDAO(EntityManager entityManager, CommaFeedConfiguration config) {
+        super(entityManager, FeedSubscription.class, config);
         this.entityManager = entityManager;
     }
 

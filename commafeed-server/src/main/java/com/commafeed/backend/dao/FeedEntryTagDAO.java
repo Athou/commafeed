@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.FeedEntry;
 import com.commafeed.backend.model.FeedEntryTag;
 import com.commafeed.backend.model.QFeedEntryTag;
@@ -17,8 +18,8 @@ public class FeedEntryTagDAO extends GenericDAO<FeedEntryTag> {
 
     private static final QFeedEntryTag TAG = QFeedEntryTag.feedEntryTag;
 
-    public FeedEntryTagDAO(EntityManager entityManager) {
-        super(entityManager, FeedEntryTag.class);
+    public FeedEntryTagDAO(EntityManager entityManager, CommaFeedConfiguration config) {
+        super(entityManager, FeedEntryTag.class, config);
     }
 
     public List<String> findByUser(User user) {

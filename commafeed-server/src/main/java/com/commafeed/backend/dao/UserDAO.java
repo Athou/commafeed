@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.QUser;
 import com.commafeed.backend.model.User;
 
@@ -11,8 +12,8 @@ public class UserDAO extends GenericDAO<User> {
 
     private static final QUser USER = QUser.user;
 
-    public UserDAO(EntityManager entityManager) {
-        super(entityManager, User.class);
+    public UserDAO(EntityManager entityManager, CommaFeedConfiguration config) {
+        super(entityManager, User.class, config);
     }
 
     public User findByName(String name) {

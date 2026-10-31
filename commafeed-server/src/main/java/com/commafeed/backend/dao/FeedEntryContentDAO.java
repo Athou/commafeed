@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.QFeedEntry;
 import com.commafeed.backend.model.QFeedEntryContent;
@@ -15,8 +16,8 @@ public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
     private static final QFeedEntryContent CONTENT = QFeedEntryContent.feedEntryContent;
     private static final QFeedEntry ENTRY = QFeedEntry.feedEntry;
 
-    public FeedEntryContentDAO(EntityManager entityManager) {
-        super(entityManager, FeedEntryContent.class);
+    public FeedEntryContentDAO(EntityManager entityManager, CommaFeedConfiguration config) {
+        super(entityManager, FeedEntryContent.class, config);
     }
 
     public List<FeedEntryContent> findExisting(String contentHash, String titleHash) {

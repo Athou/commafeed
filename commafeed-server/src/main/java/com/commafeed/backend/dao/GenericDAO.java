@@ -1,5 +1,6 @@
 package com.commafeed.backend.dao;
 
+import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.AbstractModel;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.jpa.impl.JPADeleteClause;
@@ -21,9 +22,15 @@ public abstract class GenericDAO<T extends AbstractModel> {
 
     private final EntityManager entityManager;
     private final Class<T> entityClass;
+    private final CommaFeedConfiguration config;
 
     protected JPAQueryFactory query() {
-        return new JPAQueryFactory(entityManager);
+        return new JPAQueryFactory(entityManager) {
+            @Override
+            public JPAQuery<?> query() {
+                return withTimeout(super.query(), config.database().queryTimeout());
+            }
+        };
     }
 
     protected JPAUpdateClause updateQuery(EntityPath<T> entityPath) {
@@ -57,9 +64,10 @@ public abstract class GenericDAO<T extends AbstractModel> {
         return objects.size();
     }
 
-    protected void setTimeout(JPAQuery<?> query, Duration timeout) {
+    private JPAQuery<?> withTimeout(JPAQuery<?> query, Duration timeout) {
         if (!timeout.isZero()) {
             query.setHint(SpecHints.HINT_SPEC_QUERY_TIMEOUT, Math.toIntExact(timeout.toMillis()));
         }
+        return query;
     }
 }

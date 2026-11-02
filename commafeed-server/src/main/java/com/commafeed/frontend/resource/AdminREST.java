@@ -6,7 +6,6 @@ import com.commafeed.backend.dao.UserRoleDAO;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole;
 import com.commafeed.backend.model.UserRole.Role;
-import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.model.UserModel;
 import com.commafeed.frontend.model.request.AdminSaveUserRequest;
@@ -56,7 +55,6 @@ public class AdminREST {
     private final UserDAO userDAO;
     private final UserRoleDAO userRoleDAO;
     private final UserService userService;
-    private final PasswordEncryptionService encryptionService;
     private final MetricRegistry metrics;
 
     @Path("/user/save")
@@ -102,10 +100,15 @@ public class AdminREST {
             User u = userDAO.findById(id);
             u.setName(req.getName());
             if (StringUtils.isNotBlank(req.getPassword())) {
-                u.setPassword(
-                        encryptionService.getEncryptedPassword(req.getPassword(), u.getSalt()));
+                userService.changePassword(u, req.getPassword());
+                if (StringUtils.isNotBlank(u.getApiKey())) {
+                    u.setApiKey(userService.generateApiKey(u));
+                }
             }
             u.setEmail(req.getEmail());
+            if (!u.isDisabled() && !req.isEnabled()) {
+                userService.invalidateSessions(u);
+            }
             u.setDisabled(!req.isEnabled());
 
             Set<Role> roles = userRoleDAO.findRoles(u);

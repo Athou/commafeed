@@ -13,6 +13,7 @@ import io.restassured.http.ContentType;
 import io.vertx.ext.mail.MailMessage;
 
 import jakarta.inject.Inject;
+import jakarta.ws.rs.core.HttpHeaders;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -21,9 +22,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.net.HttpCookie;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @QuarkusTest
 class UserIT extends BaseIT {
@@ -47,6 +50,9 @@ class UserIT extends BaseIT {
 
     @Test
     void resetPassword() {
+        String session =
+                login().stream().map(HttpCookie::toString).collect(Collectors.joining(";"));
+
         PasswordResetRequest req = new PasswordResetRequest();
         req.setEmail("admin@commafeed.com");
         RestAssured.given()
@@ -98,6 +104,15 @@ class UserIT extends BaseIT {
                 .post("rest/user/passwordResetCallback")
                 .then()
                 .statusCode(200);
+
+        // sessions opened before the reset are no longer valid
+        RestAssured.given()
+                .auth()
+                .none()
+                .header(HttpHeaders.COOKIE, session)
+                .get("rest/user/settings")
+                .then()
+                .statusCode(401);
 
         RestAssured.authentication =
                 RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, newPassword);

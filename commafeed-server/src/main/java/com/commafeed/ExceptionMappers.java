@@ -10,7 +10,10 @@ import io.quarkus.security.UnauthorizedException;
 
 import jakarta.annotation.Priority;
 import jakarta.validation.ValidationException;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.UriInfo;
 import jakarta.ws.rs.ext.Provider;
 
 import lombok.RequiredArgsConstructor;
@@ -49,8 +52,19 @@ public class ExceptionMappers {
 
     @ServerExceptionMapper(AuthenticationFailedException.class)
     public RestResponse<AuthenticationFailed> authenticationFailed(
-            AuthenticationFailedException e) {
+            AuthenticationFailedException e, HttpHeaders headers, UriInfo uriInfo) {
         NewCookie logoutCookie = cookieService.buildLogoutCookie();
+
+        // a browser navigating with an invalidated session would otherwise display the error
+        // instead of the page, retry the request now that the cookie is removed
+        if (headers.getAcceptableMediaTypes().stream()
+                .anyMatch(m -> MediaType.TEXT_HTML_TYPE.isCompatible(m) && !m.isWildcardType())) {
+            return ResponseBuilder.<AuthenticationFailed>create(Status.TEMPORARY_REDIRECT)
+                    .location(uriInfo.getRequestUri())
+                    .cookie(logoutCookie)
+                    .build();
+        }
+
         return ResponseBuilder.create(Status.UNAUTHORIZED, new AuthenticationFailed(e.getMessage()))
                 .cookie(logoutCookie)
                 .build();

@@ -155,6 +155,17 @@ public class UserService {
         userDAO.delete(user);
     }
 
+    public void changePassword(User user, String password) {
+        user.setPassword(encryptionService.getEncryptedPassword(password, user.getSalt()));
+        userDAO.merge(user);
+
+        invalidateSessions(user);
+    }
+
+    public void invalidateSessions(User user) {
+        user.setSessionVersion(user.getSessionVersion() + 1);
+    }
+
     public String generateApiKey(User user) {
         byte[] key =
                 encryptionService.getEncryptedPassword(

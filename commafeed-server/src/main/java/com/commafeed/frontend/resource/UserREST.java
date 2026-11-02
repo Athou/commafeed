@@ -21,7 +21,6 @@ import com.commafeed.backend.model.UserSettings.ReadingMode;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.model.UserSettings.ScrollMode;
 import com.commafeed.backend.service.MailService;
-import com.commafeed.backend.service.PasswordEncryptionService;
 import com.commafeed.backend.service.PushNotificationService;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.backend.service.db.DatabaseStartupService;
@@ -86,7 +85,6 @@ public class UserREST {
     private final UserRoleDAO userRoleDAO;
     private final UserSettingsDAO userSettingsDAO;
     private final UserService userService;
-    private final PasswordEncryptionService encryptionService;
     private final DatabaseStartupService databaseStartupService;
     private final MailService mailService;
     private final CommaFeedConfiguration config;
@@ -316,10 +314,7 @@ public class UserREST {
         }
 
         if (StringUtils.isNotBlank(request.getNewPassword())) {
-            byte[] password =
-                    encryptionService.getEncryptedPassword(
-                            request.getNewPassword(), user.getSalt());
-            user.setPassword(password);
+            userService.changePassword(user, request.getNewPassword());
             user.setApiKey(userService.generateApiKey(user));
         }
 
@@ -455,8 +450,7 @@ public class UserREST {
             return Response.status(Status.UNAUTHORIZED).entity("Token expired.").build();
         }
 
-        byte[] encryptedPassword = encryptionService.getEncryptedPassword(password, user.getSalt());
-        user.setPassword(encryptedPassword);
+        userService.changePassword(user, password);
         if (StringUtils.isNotBlank(user.getApiKey())) {
             user.setApiKey(userService.generateApiKey(user));
         }

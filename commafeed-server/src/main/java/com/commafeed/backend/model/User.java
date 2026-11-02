@@ -42,6 +42,9 @@ public class User extends AbstractModel {
     @Column(nullable = false)
     private boolean disabled;
 
+    @Column(nullable = false)
+    private int sessionVersion;
+
     @Column private Instant lastLogin;
 
     @Column private Instant created;

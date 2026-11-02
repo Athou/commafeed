@@ -6,6 +6,7 @@ import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.backend.service.internal.PostLoginActivities;
+import com.commafeed.security.SessionPrincipal;
 
 import io.quarkus.security.AuthenticationFailedException;
 import io.quarkus.security.identity.AuthenticationRequestContext;
@@ -41,10 +42,16 @@ public class TrustedIdentityProvider implements IdentityProvider<TrustedAuthenti
     public Uni<SecurityIdentity> authenticate(
             TrustedAuthenticationRequest request, AuthenticationRequestContext context) {
         return context.runBlocking(() -> {
-            Long userId = Long.valueOf(request.getPrincipal());
-            User user = unitOfWork.call(() -> userDAO.findById(userId));
+            SessionPrincipal principal = SessionPrincipal.parse(request.getPrincipal());
+            User user = unitOfWork.call(() -> userDAO.findById(principal.userId()));
             if (user == null) {
                 throw new AuthenticationFailedException("user not found");
+            }
+            if (user.isDisabled()) {
+                throw new AuthenticationFailedException("user disabled");
+            }
+            if (user.getSessionVersion() != principal.sessionVersion()) {
+                throw new AuthenticationFailedException("session invalidated");
             }
 
             // execute post login activities manually because we didn't call login() since
@@ -54,7 +61,7 @@ public class TrustedIdentityProvider implements IdentityProvider<TrustedAuthenti
 
             Set<Role> roles = unitOfWork.call(() -> userService.getRoles(user));
             return QuarkusSecurityIdentity.builder()
-                    .setPrincipal(new QuarkusPrincipal(String.valueOf(userId)))
+                    .setPrincipal(new QuarkusPrincipal(principal.toName()))
                     .addRoles(roles.stream().map(Enum::name).collect(Collectors.toSet()))
                     .build();
         });

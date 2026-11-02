@@ -109,15 +109,15 @@ public abstract class BaseIT {
     }
 
     protected List<HttpCookie> login() {
+        return login(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+    }
+
+    protected List<HttpCookie> login(String userName, String password) {
         List<Header> setCookieHeaders =
                 RestAssured.given()
                         .auth()
                         .none()
-                        .formParams(
-                                "j_username",
-                                TestConstants.ADMIN_USERNAME,
-                                "j_password",
-                                TestConstants.ADMIN_PASSWORD)
+                        .formParams("j_username", userName, "j_password", password)
                         .post("j_security_check")
                         .then()
                         .statusCode(HttpStatus.SC_OK)

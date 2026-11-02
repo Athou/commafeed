@@ -6,6 +6,7 @@ import com.commafeed.TestConstants;
 import com.commafeed.frontend.exception.CommaFeedExceptionType;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.UserModel;
+import com.commafeed.frontend.model.request.AdminSaveUserRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
 import com.commafeed.frontend.model.request.ProfileModificationRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
@@ -17,6 +18,7 @@ import io.restassured.http.ContentType;
 import jakarta.ws.rs.core.HttpHeaders;
 
 import org.apache.hc.core5.http.HttpStatus;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +29,10 @@ import java.util.stream.Collectors;
 
 @QuarkusTest
 class SecurityIT extends BaseIT {
+
+    private static final String USER_NAME = "session-user";
+    private static final String USER_PASSWORD = "MyPassword123!";
+    private static final String NEW_USER_PASSWORD = "MyNewPassword123!";
 
     @BeforeEach
     void setup() {
@@ -183,5 +189,233 @@ class SecurityIT extends BaseIT {
                 .post("rest/entry/mark")
                 .then()
                 .statusCode(HttpStatus.SC_UNAUTHORIZED);
+    }
+
+    @Test
+    void selfPasswordChangeInvalidatesSessions() {
+        createUser(false);
+        String sessionA = session(USER_NAME, USER_PASSWORD);
+        String sessionB = session(USER_NAME, USER_PASSWORD);
+        String adminSession = session(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+
+        ProfileModificationRequest req = new ProfileModificationRequest();
+        req.setCurrentPassword(USER_PASSWORD);
+        req.setNewPassword(NEW_USER_PASSWORD);
+        RestAssured.given()
+                .header(HttpHeaders.COOKIE, sessionA)
+                .body(req)
+                .contentType(ContentType.JSON)
+                .post("rest/user/profile")
+                .then()
+                .statusCode(HttpStatus.SC_OK);
+
+        assertSessionStatus(sessionA, HttpStatus.SC_UNAUTHORIZED);
+        assertSessionStatus(sessionB, HttpStatus.SC_UNAUTHORIZED);
+        assertSessionStatus(adminSession, HttpStatus.SC_OK);
+        assertSessionStatus(session(USER_NAME, NEW_USER_PASSWORD), HttpStatus.SC_OK);
+    }
+
+    @Test
+    void profileChangeWithoutNewPasswordKeepsSessions() {
+        createUser(false);
+        String session = session(USER_NAME, USER_PASSWORD);
+
+        ProfileModificationRequest req = new ProfileModificationRequest();
+        req.setCurrentPassword(USER_PASSWORD);
+        req.setEmail("session-user@commafeed.com");
+        RestAssured.given()
+                .header(HttpHeaders.COOKIE, session)
+                .body(req)
+                .contentType(ContentType.JSON)
+                .post("rest/user/profile")
+                .then()
+                .statusCode(HttpStatus.SC_OK);
+
+        assertSessionStatus(session, HttpStatus.SC_OK);
+    }
+
+    @Test
+    void adminPasswordChangeInvalidatesSessionsAndRotatesApiKey() {
+        Long id = createUser(false);
+        String session = session(USER_NAME, USER_PASSWORD);
+
+        ProfileModificationRequest apiKeyReq = new ProfileModificationRequest();
+        apiKeyReq.setCurrentPassword(USER_PASSWORD);
+        apiKeyReq.setNewApiKey(true);
+        RestAssured.given()
+                .header(HttpHeaders.COOKIE, session)
+                .body(apiKeyReq)
+                .contentType(ContentType.JSON)
+                .post("rest/user/profile")
+                .then()
+                .statusCode(HttpStatus.SC_OK);
+        String apiKey = profile(session).getApiKey();
+        Assertions.assertNotNull(apiKey);
+
+        AdminSaveUserRequest req = saveUserRequest(false);
+        req.setId(id);
+        req.setPassword(NEW_USER_PASSWORD);
+        saveUser(req);
+
+        assertSessionStatus(session, HttpStatus.SC_UNAUTHORIZED);
+        String newSession = session(USER_NAME, NEW_USER_PASSWORD);
+        assertSessionStatus(newSession, HttpStatus.SC_OK);
+        Assertions.assertNotEquals(apiKey, profile(newSession).getApiKey());
+    }
+
+    @Test
+    void adminPasswordChangeDoesNotCreateApiKey() {
+        Long id = createUser(false);
+
+        AdminSaveUserRequest req = saveUserRequest(false);
+        req.setId(id);
+        req.setPassword(NEW_USER_PASSWORD);
+        saveUser(req);
+
+        Assertions.assertNull(profile(session(USER_NAME, NEW_USER_PASSWORD)).getApiKey());
+    }
+
+    @Test
+    void disablingUserInvalidatesSessions() {
+        Long id = createUser(false);
+        String session = session(USER_NAME, USER_PASSWORD);
+        assertSessionStatus(session, HttpStatus.SC_OK);
+
+        AdminSaveUserRequest req = saveUserRequest(false);
+        req.setId(id);
+        req.setEnabled(false);
+        saveUser(req);
+
+        assertSessionStatus(session, HttpStatus.SC_UNAUTHORIZED);
+
+        // sessions opened before the user was disabled stay invalid after enabling it again
+        req.setEnabled(true);
+        saveUser(req);
+
+        assertSessionStatus(session, HttpStatus.SC_UNAUTHORIZED);
+        assertSessionStatus(session(USER_NAME, USER_PASSWORD), HttpStatus.SC_OK);
+    }
+
+    @Test
+    void savingUserWithoutChangesKeepsSessions() {
+        Long id = createUser(false);
+        String session = session(USER_NAME, USER_PASSWORD);
+
+        AdminSaveUserRequest req = saveUserRequest(false);
+        req.setId(id);
+        saveUser(req);
+
+        assertSessionStatus(session, HttpStatus.SC_OK);
+    }
+
+    @Test
+    void disablingAdminRevokesAdminAccess() {
+        Long id = createUser(true);
+        String session = session(USER_NAME, USER_PASSWORD);
+        RestAssured.given()
+                .header(HttpHeaders.COOKIE, session)
+                .get("rest/admin/metrics")
+                .then()
+                .statusCode(HttpStatus.SC_OK);
+
+        AdminSaveUserRequest req = saveUserRequest(true);
+        req.setId(id);
+        req.setEnabled(false);
+        saveUser(req);
+
+        RestAssured.given()
+                .header(HttpHeaders.COOKIE, session)
+                .get("rest/admin/metrics")
+                .then()
+                .statusCode(HttpStatus.SC_UNAUTHORIZED);
+    }
+
+    @Test
+    void invalidatedSessionRemovesCookie() {
+        Long id = createUser(false);
+        String session = session(USER_NAME, USER_PASSWORD);
+
+        AdminSaveUserRequest req = saveUserRequest(false);
+        req.setId(id);
+        req.setEnabled(false);
+        saveUser(req);
+
+        // api calls receive an error
+        String apiSetCookie =
+                RestAssured.given()
+                        .header(HttpHeaders.COOKIE, session)
+                        .get("rest/user/profile")
+                        .then()
+                        .statusCode(HttpStatus.SC_UNAUTHORIZED)
+                        .extract()
+                        .header(HttpHeaders.SET_COOKIE);
+        Assertions.assertTrue(apiSetCookie.contains("Max-Age=0"));
+
+        // browsers are redirected to the page they asked for, this time without the cookie
+        String browserSetCookie =
+                RestAssured.given()
+                        .redirects()
+                        .follow(false)
+                        .header(HttpHeaders.COOKIE, session)
+                        .header(HttpHeaders.ACCEPT, "text/html,application/xhtml+xml,*/*;q=0.8")
+                        .get("next?category=all")
+                        .then()
+                        .statusCode(HttpStatus.SC_TEMPORARY_REDIRECT)
+                        .header(HttpHeaders.LOCATION, Matchers.endsWith("/next?category=all"))
+                        .extract()
+                        .header(HttpHeaders.SET_COOKIE);
+        Assertions.assertTrue(browserSetCookie.contains("Max-Age=0"));
+    }
+
+    private Long createUser(boolean admin) {
+        AdminSaveUserRequest req = saveUserRequest(admin);
+        req.setPassword(USER_PASSWORD);
+        return saveUser(req);
+    }
+
+    private AdminSaveUserRequest saveUserRequest(boolean admin) {
+        AdminSaveUserRequest req = new AdminSaveUserRequest();
+        req.setName(USER_NAME);
+        req.setEnabled(true);
+        req.setAdmin(admin);
+        return req;
+    }
+
+    private Long saveUser(AdminSaveUserRequest req) {
+        return RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD)
+                .body(req)
+                .contentType(ContentType.JSON)
+                .post("rest/admin/user/save")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .as(Long.class);
+    }
+
+    private String session(String userName, String password) {
+        return login(userName, password).stream()
+                .map(HttpCookie::toString)
+                .collect(Collectors.joining(";"));
+    }
+
+    private UserModel profile(String session) {
+        return RestAssured.given()
+                .header(HttpHeaders.COOKIE, session)
+                .get("rest/user/profile")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .as(UserModel.class);
+    }
+
+    private void assertSessionStatus(String session, int status) {
+        RestAssured.given()
+                .header(HttpHeaders.COOKIE, session)
+                .get("rest/user/profile")
+                .then()
+                .statusCode(status);
     }
 }

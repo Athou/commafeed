@@ -6,6 +6,7 @@ import com.commafeed.backend.model.UserRole.Role;
 import com.commafeed.backend.service.UserService;
 import com.commafeed.frontend.exception.CommaFeedApplicationException;
 import com.commafeed.frontend.exception.CommaFeedExceptionType;
+import com.commafeed.security.SessionPrincipal;
 
 import io.quarkus.security.identity.AuthenticationRequestContext;
 import io.quarkus.security.identity.IdentityProvider;
@@ -52,7 +53,7 @@ public class DatabaseUsernamePasswordIdentityProvider
 
             Set<Role> roles = unitOfWork.call(() -> userService.getRoles(user.get()));
             return QuarkusSecurityIdentity.builder()
-                    .setPrincipal(new QuarkusPrincipal(String.valueOf(user.get().getId())))
+                    .setPrincipal(new QuarkusPrincipal(SessionPrincipal.of(user.get()).toName()))
                     .addRoles(roles.stream().map(Enum::name).collect(Collectors.toSet()))
                     .build();
         });

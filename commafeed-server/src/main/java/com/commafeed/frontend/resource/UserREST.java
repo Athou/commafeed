@@ -35,6 +35,7 @@ import com.commafeed.frontend.model.request.RegistrationRequest;
 import com.commafeed.security.AuthenticationContext;
 import com.commafeed.security.Roles;
 import com.google.common.base.Preconditions;
+import com.google.common.html.HtmlEscapers;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
@@ -412,7 +413,7 @@ public class UserREST {
                 Urls.removeTrailingSlash(config.passwordRecoveryPublicBaseUrl().orElseThrow());
         return String.format(
                 "You asked for password recovery for account '%s', <a href='%s'>follow this link</a> to change your password. Ignore this if you didn't request a password recovery.",
-                user.getName(), callbackUrl(user, publicUrl));
+                HtmlEscapers.htmlEscaper().escape(user.getName()), callbackUrl(user, publicUrl));
     }
 
     private String callbackUrl(User user, String publicUrl) throws URISyntaxException {

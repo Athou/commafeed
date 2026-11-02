@@ -4,6 +4,7 @@ import com.commafeed.TestConstants;
 import com.commafeed.frontend.model.Settings;
 import com.commafeed.frontend.model.request.PasswordResetConfirmationRequest;
 import com.commafeed.frontend.model.request.PasswordResetRequest;
+import com.commafeed.frontend.model.request.RegistrationRequest;
 import com.commafeed.integration.BaseIT;
 
 import io.quarkus.mailer.MockMailbox;
@@ -17,6 +18,7 @@ import jakarta.ws.rs.core.HttpHeaders;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -117,6 +119,45 @@ class UserIT extends BaseIT {
         RestAssured.authentication =
                 RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, newPassword);
         RestAssured.given().get("rest/user/settings").then().statusCode(200);
+    }
+
+    @Test
+    void resetPasswordEscapesUsernameInEmail() {
+        String name = "<a href=//evil.example>CLICK</a>";
+        String email = "victim@commafeed.com";
+
+        RegistrationRequest registrationReq = new RegistrationRequest();
+        registrationReq.setName(name);
+        registrationReq.setPassword("MyPassword123!");
+        registrationReq.setEmail(email);
+        RestAssured.given()
+                .body(registrationReq)
+                .contentType(ContentType.JSON)
+                .post("rest/user/register")
+                .then()
+                .statusCode(200);
+
+        PasswordResetRequest req = new PasswordResetRequest();
+        req.setEmail(email);
+        RestAssured.given()
+                .body(req)
+                .contentType(ContentType.JSON)
+                .post("rest/user/passwordReset")
+                .then()
+                .statusCode(200);
+
+        List<MailMessage> mails = mailbox.getMailMessagesSentTo(email);
+        Assertions.assertEquals(1, mails.size());
+
+        String html = mails.getFirst().getHtml();
+        Assertions.assertTrue(
+                html.startsWith(
+                        "You asked for password recovery for account '&lt;a href=//evil.example&gt;CLICK&lt;/a&gt;'"));
+
+        Elements links = Jsoup.parse(html).select("a");
+        Assertions.assertEquals(1, links.size());
+        Assertions.assertTrue(
+                links.getFirst().attr("href").startsWith("https://commafeed.example.com"));
     }
 
     @Test

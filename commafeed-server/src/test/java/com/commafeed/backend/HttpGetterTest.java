@@ -562,6 +562,17 @@ class HttpGetterTest {
         }
 
         @Test
+        void nat64LocalUse() {
+            // 64:ff9b:1::/48 is reserved for local use (RFC 8215), the whole range is blocked
+            Assertions.assertThrows(
+                    UnknownHostException.class,
+                    () -> getter.get("http://[64:ff9b:1::a9fe:a9fe]")); // 169.254.169.254
+            Assertions.assertThrows(
+                    UnknownHostException.class,
+                    () -> getter.get("http://[64:ff9b:1:ffff::a00:1]")); // 10.0.0.1
+        }
+
+        @Test
         void sixToFour() {
             // 2002::/16 embeds the IPv4 address in bits 16-47 (RFC 3056)
             Assertions.assertThrows(

@@ -56,6 +56,8 @@ public class HttpClientFactory {
 
     private static final DnsResolver DNS_RESOLVER = SystemDefaultDnsResolver.INSTANCE;
     private static final IPAddress CGNAT_RANGE = new IPAddressString("100.64.0.0/10").getAddress();
+    private static final IPAddress NAT64_LOCAL_USE_RANGE =
+            new IPAddressString("64:ff9b:1::/48").getAddress();
 
     private final CommaFeedConfiguration config;
     private final CommaFeedVersion version;
@@ -149,7 +151,11 @@ public class HttpClientFactory {
     }
 
     private static boolean isLocalAddress(IPAddress ip) {
-        if (ip.isLocal() || ip.isLoopback() || ip.isMulticast() || CGNAT_RANGE.contains(ip)) {
+        if (ip.isLocal()
+                || ip.isLoopback()
+                || ip.isMulticast()
+                || CGNAT_RANGE.contains(ip)
+                || NAT64_LOCAL_USE_RANGE.contains(ip)) {
             return true;
         }
 

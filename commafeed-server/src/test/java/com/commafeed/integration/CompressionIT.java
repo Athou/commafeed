@@ -14,11 +14,6 @@ class CompressionIT {
     @ParameterizedTest
     @ValueSource(strings = {"/rest/server/get", "/"})
     void servedWithCompression(String path) {
-        RestAssured.given()
-                .when()
-                .get(path)
-                .then()
-                .statusCode(200)
-                .header(HttpHeaders.CONTENT_ENCODING, "gzip");
+        RestAssured.given().when().get(path).then().statusCode(200).header(HttpHeaders.CONTENT_ENCODING, "gzip");
     }
 }

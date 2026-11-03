@@ -37,9 +37,7 @@ public class FacebookFaviconFetcher implements FaviconFetcher {
             return null;
         }
 
-        String iconUrl =
-                String.format(
-                        "https://graph.facebook.com/%s/picture?type=square&height=16", userName);
+        String iconUrl = String.format("https://graph.facebook.com/%s/picture?type=square&height=16", userName);
 
         try {
             log.debug("Getting Facebook user's icon, {}", url);

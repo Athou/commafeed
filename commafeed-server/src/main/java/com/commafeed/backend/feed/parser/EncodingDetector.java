@@ -14,8 +14,8 @@ import java.nio.charset.Charset;
 public class EncodingDetector {
 
     /**
-     * Detect feed encoding by using the declared encoding in the xml processing instruction and by
-     * detecting the characters used in the feed
+     * Detect feed encoding by using the declared encoding in the xml processing instruction and by detecting the
+     * characters used in the feed
      */
     public Charset getEncoding(byte[] bytes) {
         String extracted = extractDeclaredEncoding(bytes);

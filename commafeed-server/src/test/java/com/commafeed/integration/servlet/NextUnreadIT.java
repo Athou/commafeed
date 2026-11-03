@@ -20,8 +20,7 @@ class NextUnreadIT extends BaseIT {
     void setup() {
         initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
         RestAssured.authentication =
-                RestAssured.preemptive()
-                        .basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+                RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
     }
 
     @AfterEach

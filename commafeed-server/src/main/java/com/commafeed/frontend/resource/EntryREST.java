@@ -50,8 +50,7 @@ public class EntryREST {
     @POST
     @Transactional
     @Operation(summary = "Mark a feed entry", description = "Mark a feed entry as read/unread")
-    public Response markEntry(
-            @Valid @Parameter(description = "Mark Request", required = true) MarkRequest req) {
+    public Response markEntry(@Valid @Parameter(description = "Mark Request", required = true) MarkRequest req) {
         Preconditions.checkNotNull(req);
         Preconditions.checkNotNull(req.getId());
 
@@ -63,12 +62,9 @@ public class EntryREST {
     @Path("/markMultiple")
     @POST
     @Transactional
-    @Operation(
-            summary = "Mark multiple feed entries",
-            description = "Mark feed entries as read/unread")
+    @Operation(summary = "Mark multiple feed entries", description = "Mark feed entries as read/unread")
     public Response markEntries(
-            @Valid @Parameter(description = "Multiple Mark Request", required = true)
-                    MultipleMarkRequest req) {
+            @Valid @Parameter(description = "Multiple Mark Request", required = true) MultipleMarkRequest req) {
         Preconditions.checkNotNull(req);
         Preconditions.checkNotNull(req.getRequests());
 
@@ -85,8 +81,7 @@ public class EntryREST {
     @POST
     @Transactional
     @Operation(summary = "Star a feed entry", description = "Mark a feed entry as read/unread")
-    public Response starEntry(
-            @Valid @Parameter(description = "Star Request", required = true) StarRequest req) {
+    public Response starEntry(@Valid @Parameter(description = "Star Request", required = true) StarRequest req) {
         Preconditions.checkNotNull(req);
         Preconditions.checkNotNull(req.getId());
 
@@ -99,9 +94,7 @@ public class EntryREST {
     @Path("/tags")
     @GET
     @Transactional
-    @Operation(
-            summary = "Get list of tags for the user",
-            description = "Get list of tags for the user")
+    @Operation(summary = "Get list of tags for the user", description = "Get list of tags for the user")
     public Response getTags() {
         User user = authenticationContext.getCurrentUser();
         List<String> tags = feedEntryTagDAO.findByUser(user);
@@ -112,8 +105,7 @@ public class EntryREST {
     @POST
     @Transactional
     @Operation(summary = "Set feed entry tags")
-    public Response tagEntry(
-            @Valid @Parameter(description = "Tag Request", required = true) TagRequest req) {
+    public Response tagEntry(@Valid @Parameter(description = "Tag Request", required = true) TagRequest req) {
         Preconditions.checkNotNull(req);
         Preconditions.checkNotNull(req.getEntryId());
 

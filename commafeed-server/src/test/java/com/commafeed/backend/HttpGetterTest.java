@@ -65,9 +65,7 @@ class HttpGetterTest {
     void init() throws IOException {
         this.mockServerClient = ClientAndServer.startClientAndServer(0);
         this.feedUrl = "http://localhost:" + this.mockServerClient.getPort() + "/";
-        this.feedContent =
-                IOUtils.toByteArray(
-                        Objects.requireNonNull(getClass().getResource("/feed/rss.xml")));
+        this.feedContent = IOUtils.toByteArray(Objects.requireNonNull(getClass().getResource("/feed/rss.xml")));
 
         this.config = Mockito.mock(CommaFeedConfiguration.class, Mockito.RETURNS_DEEP_STUBS);
         Mockito.when(config.httpClient().userAgent()).thenReturn(Optional.of("http-getter-test"));
@@ -78,14 +76,12 @@ class HttpGetterTest {
         Mockito.when(config.httpClient().connectionTimeToLive()).thenReturn(Duration.ofSeconds(30));
         Mockito.when(config.httpClient().maxResponseSize()).thenReturn(MemorySize.of("10000"));
         Mockito.when(config.httpClient().cache().enabled()).thenReturn(true);
-        Mockito.when(config.httpClient().cache().maximumMemorySize())
-                .thenReturn(MemorySize.of("100000"));
+        Mockito.when(config.httpClient().cache().maximumMemorySize()).thenReturn(MemorySize.of("100000"));
         Mockito.when(config.httpClient().cache().expiration()).thenReturn(Duration.ofMinutes(1));
         Mockito.when(config.feedRefresh().httpThreads()).thenReturn(3);
 
         this.provider = new HttpClientFactory(config, Mockito.mock(CommaFeedVersion.class));
-        this.getter =
-                new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
+        this.getter = new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
     }
 
     @AfterEach
@@ -108,9 +104,7 @@ class HttpGetterTest {
                 .when(HttpRequest.request().withMethod("GET"))
                 .respond(HttpResponse.response().withStatusCode(code));
 
-        HttpResponseException e =
-                Assertions.assertThrows(
-                        HttpResponseException.class, () -> getter.get(this.feedUrl));
+        HttpResponseException e = Assertions.assertThrows(HttpResponseException.class, () -> getter.get(this.feedUrl));
         Assertions.assertEquals(code, e.getCode());
     }
 
@@ -124,8 +118,7 @@ class HttpGetterTest {
                                 .withContentType(MediaType.APPLICATION_ATOM_XML)
                                 .withHeader(HttpHeaders.LAST_MODIFIED, "123456")
                                 .withHeader(HttpHeaders.ETAG, "78910")
-                                .withHeader(
-                                        HttpHeaders.CACHE_CONTROL, "max-age=60, must-revalidate")
+                                .withHeader(HttpHeaders.CACHE_CONTROL, "max-age=60, must-revalidate")
                                 .withHeader(HttpHeaders.RETRY_AFTER, "120"));
 
         HttpResult result = getter.get(this.feedUrl);
@@ -145,8 +138,7 @@ class HttpGetterTest {
                         HttpResponse.response()
                                 .withBody(feedContent)
                                 .withContentType(MediaType.APPLICATION_ATOM_XML)
-                                .withHeader(
-                                        HttpHeaders.CACHE_CONTROL, "max-age=60; must-revalidate"));
+                                .withHeader(HttpHeaders.CACHE_CONTROL, "max-age=60; must-revalidate"));
 
         HttpResult result = getter.get(this.feedUrl);
         Assertions.assertEquals(Duration.ZERO, result.validFor());
@@ -162,8 +154,7 @@ class HttpGetterTest {
                                 .withHeader(HttpHeaders.RETRY_AFTER, "120"));
 
         TooManyRequestsException e =
-                Assertions.assertThrows(
-                        TooManyRequestsException.class, () -> getter.get(this.feedUrl));
+                Assertions.assertThrows(TooManyRequestsException.class, () -> getter.get(this.feedUrl));
         Assertions.assertEquals(NOW.plusSeconds(120), e.getRetryAfter());
     }
 
@@ -174,12 +165,10 @@ class HttpGetterTest {
                 .respond(
                         HttpResponse.response()
                                 .withStatusCode(HttpStatus.SC_TOO_MANY_REQUESTS)
-                                .withHeader(
-                                        HttpHeaders.RETRY_AFTER, "Wed, 21 Oct 2015 07:28:00 GMT"));
+                                .withHeader(HttpHeaders.RETRY_AFTER, "Wed, 21 Oct 2015 07:28:00 GMT"));
 
         TooManyRequestsException e =
-                Assertions.assertThrows(
-                        TooManyRequestsException.class, () -> getter.get(this.feedUrl));
+                Assertions.assertThrows(TooManyRequestsException.class, () -> getter.get(this.feedUrl));
         Assertions.assertEquals(Instant.parse("2015-10-21T07:28:00Z"), e.getRetryAfter());
     }
 
@@ -200,9 +189,7 @@ class HttpGetterTest {
                                 .withStatusCode(code)
                                 .withHeader(
                                         HttpHeaders.LOCATION,
-                                        "http://localhost:"
-                                                + this.mockServerClient.getPort()
-                                                + "/redirected"));
+                                        "http://localhost:" + this.mockServerClient.getPort() + "/redirected"));
 
         // second redirect
         this.mockServerClient
@@ -212,29 +199,22 @@ class HttpGetterTest {
                                 .withStatusCode(code)
                                 .withHeader(
                                         HttpHeaders.LOCATION,
-                                        "http://localhost:"
-                                                + this.mockServerClient.getPort()
-                                                + "/redirected-2"));
+                                        "http://localhost:" + this.mockServerClient.getPort() + "/redirected-2"));
 
         // final destination
         this.mockServerClient
                 .when(HttpRequest.request().withMethod("GET").withPath("/redirected-2"))
-                .respond(
-                        HttpResponse.response()
-                                .withBody(feedContent)
-                                .withContentType(MediaType.APPLICATION_ATOM_XML));
+                .respond(HttpResponse.response().withBody(feedContent).withContentType(MediaType.APPLICATION_ATOM_XML));
 
         HttpResult result = getter.get(this.feedUrl);
         Assertions.assertEquals(
-                "http://localhost:" + this.mockServerClient.getPort() + "/redirected-2",
-                result.urlAfterRedirect());
+                "http://localhost:" + this.mockServerClient.getPort() + "/redirected-2", result.urlAfterRedirect());
     }
 
     @Test
     void dataTimeout() {
         Mockito.when(config.httpClient().responseTimeout()).thenReturn(Duration.ofMillis(500));
-        this.getter =
-                new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
+        this.getter = new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
 
         this.mockServerClient
                 .when(HttpRequest.request().withMethod("GET"))
@@ -246,29 +226,23 @@ class HttpGetterTest {
     @Test
     void connectTimeout() {
         Mockito.when(config.httpClient().connectTimeout()).thenReturn(Duration.ofMillis(500));
-        this.getter =
-                new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
+        this.getter = new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
         // try to connect to a non-routable address
         // https://stackoverflow.com/a/904609
-        Exception e =
-                Assertions.assertThrows(Exception.class, () -> getter.get("http://10.255.255.1"));
+        Exception e = Assertions.assertThrows(Exception.class, () -> getter.get("http://10.255.255.1"));
         Assertions.assertTrue(
                 e instanceof ConnectTimeoutException
                         // A NoRouteToHostException can also be thrown in some cases
                         // depending on the underlying network configuration
                         // https://github.com/Athou/commafeed/issues/1876
                         || e instanceof NoRouteToHostException,
-                "Expected ConnectTimeoutException or NoRouteToHostException, but got: "
-                        + e.getClass().getName());
+                "Expected ConnectTimeoutException or NoRouteToHostException, but got: " + e.getClass().getName());
     }
 
     @Test
     void userAgent() throws Exception {
         this.mockServerClient
-                .when(
-                        HttpRequest.request()
-                                .withMethod("GET")
-                                .withHeader(HttpHeaders.USER_AGENT, "http-getter-test"))
+                .when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.USER_AGENT, "http-getter-test"))
                 .respond(HttpResponse.response().withBody("ok"));
 
         HttpResult result = getter.get(this.feedUrl);
@@ -278,37 +252,23 @@ class HttpGetterTest {
     @Test
     void lastModifiedReturns304() {
         this.mockServerClient
-                .when(
-                        HttpRequest.request()
-                                .withMethod("GET")
-                                .withHeader(HttpHeaders.IF_MODIFIED_SINCE, "123456"))
+                .when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.IF_MODIFIED_SINCE, "123456"))
                 .respond(HttpResponse.response().withStatusCode(HttpStatus.SC_NOT_MODIFIED));
 
         Assertions.assertThrows(
                 NotModifiedException.class,
-                () ->
-                        getter.get(
-                                HttpGetter.HttpRequest.builder(this.feedUrl)
-                                        .lastModified("123456")
-                                        .build()));
+                () -> getter.get(HttpGetter.HttpRequest.builder(this.feedUrl).lastModified("123456").build()));
     }
 
     @Test
     void eTagReturns304() {
         this.mockServerClient
-                .when(
-                        HttpRequest.request()
-                                .withMethod("GET")
-                                .withHeader(HttpHeaders.IF_NONE_MATCH, "78910"))
+                .when(HttpRequest.request().withMethod("GET").withHeader(HttpHeaders.IF_NONE_MATCH, "78910"))
                 .respond(HttpResponse.response().withStatusCode(HttpStatus.SC_NOT_MODIFIED));
 
         Assertions.assertThrows(
                 NotModifiedException.class,
-                () ->
-                        getter.get(
-                                HttpGetter.HttpRequest.builder(this.feedUrl)
-                                        .eTag("78910")
-                                        .build()));
+                () -> getter.get(HttpGetter.HttpRequest.builder(this.feedUrl).eTag("78910").build()));
     }
 
     @Test
@@ -324,9 +284,7 @@ class HttpGetterTest {
                         throw new Exception("cookie should not be sent by the client");
                     }
 
-                    return HttpResponse.response()
-                            .withBody("ok")
-                            .withHeader(HttpHeaders.SET_COOKIE, "foo=bar");
+                    return HttpResponse.response().withBody("ok").withHeader(HttpHeaders.SET_COOKIE, "foo=bar");
                 });
 
         Assertions.assertDoesNotThrow(() -> getter.get(this.feedUrl));
@@ -360,8 +318,7 @@ class HttpGetterTest {
 
         IOException e = Assertions.assertThrows(IOException.class, () -> getter.get(this.feedUrl));
         Assertions.assertEquals(
-                "Response size (100000 bytes) exceeds the maximum allowed size (10000 bytes)",
-                e.getMessage());
+                "Response size (100000 bytes) exceeds the maximum allowed size (10000 bytes)", e.getMessage());
     }
 
     @Test
@@ -374,12 +331,10 @@ class HttpGetterTest {
                         HttpResponse.response()
                                 .withBody(bytes)
                                 .withConnectionOptions(
-                                        ConnectionOptions.connectionOptions()
-                                                .withSuppressContentLengthHeader(true)));
+                                        ConnectionOptions.connectionOptions().withSuppressContentLengthHeader(true)));
 
         IOException e = Assertions.assertThrows(IOException.class, () -> getter.get(this.feedUrl));
-        Assertions.assertEquals(
-                "Response size exceeds the maximum allowed size (10000 bytes)", e.getMessage());
+        Assertions.assertEquals("Response size exceeds the maximum allowed size (10000 bytes)", e.getMessage());
     }
 
     @Test
@@ -427,8 +382,7 @@ class HttpGetterTest {
             supportsCompression("deflate", DeflaterOutputStream::new);
         }
 
-        void supportsCompression(String encoding, CompressionFunction compressionFunction)
-                throws Exception {
+        void supportsCompression(String encoding, CompressionFunction compressionFunction) throws Exception {
             String body = "my body";
 
             HttpGetterTest.this
@@ -436,8 +390,7 @@ class HttpGetterTest {
                     .when(HttpRequest.request().withMethod("GET"))
                     .respond(req -> {
                         try {
-                            String acceptEncodingHeader =
-                                    req.getFirstHeader(HttpHeaders.ACCEPT_ENCODING);
+                            String acceptEncodingHeader = req.getFirstHeader(HttpHeaders.ACCEPT_ENCODING);
                             if (!ACCEPT_ENCODING.equals(acceptEncodingHeader)) {
                                 throw new Exception(
                                         "Wrong value in the Accept-Encoding header, should be '%s' but was '%s'"
@@ -445,8 +398,7 @@ class HttpGetterTest {
                             }
 
                             ByteArrayOutputStream output = new ByteArrayOutputStream();
-                            try (OutputStream compressionOutputStream =
-                                    compressionFunction.apply(output)) {
+                            try (OutputStream compressionOutputStream = compressionFunction.apply(output)) {
                                 compressionOutputStream.write(body.getBytes());
                             }
 
@@ -473,16 +425,12 @@ class HttpGetterTest {
     class SchemeNotAllowed {
         @Test
         void file() {
-            Assertions.assertThrows(
-                    HttpGetter.SchemeNotAllowedException.class,
-                    () -> getter.get("file://localhost"));
+            Assertions.assertThrows(HttpGetter.SchemeNotAllowedException.class, () -> getter.get("file://localhost"));
         }
 
         @Test
         void ftp() {
-            Assertions.assertThrows(
-                    HttpGetter.SchemeNotAllowedException.class,
-                    () -> getter.get("ftp://localhost"));
+            Assertions.assertThrows(HttpGetter.SchemeNotAllowedException.class, () -> getter.get("ftp://localhost"));
         }
     }
 
@@ -492,20 +440,15 @@ class HttpGetterTest {
         @BeforeEach
         void init() {
             Mockito.when(config.httpClient().blockLocalAddresses()).thenReturn(true);
-            getter =
-                    new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
+            getter = new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
         }
 
         @Test
         void localhost() {
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://localhost"));
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://127.0.0.1"));
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://2130706433"));
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://0x7F.0x00.0x00.0X01"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://localhost"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://127.0.0.1"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://2130706433"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://0x7F.0x00.0x00.0X01"));
         }
 
         @Test
@@ -515,72 +458,54 @@ class HttpGetterTest {
 
         @Test
         void linkLocal() {
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://169.254.12.34"));
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://169.254.169.254"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://169.254.12.34"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://169.254.169.254"));
         }
 
         @Test
         void multicast() {
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://224.2.3.4"));
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://239.255.255.254"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://224.2.3.4"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://239.255.255.254"));
         }
 
         @Test
         void privateIpv4Ranges() {
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://10.0.0.1"));
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://172.16.0.1"));
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://192.168.0.1"));
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://100.64.0.1"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://10.0.0.1"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://172.16.0.1"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://192.168.0.1"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://100.64.0.1"));
         }
 
         @Test
         void privateIpv6Ranges() {
-            Assertions.assertThrows(
-                    UnknownHostException.class,
-                    () -> getter.get("http://[fe80::215:5dff:fe15:102]"));
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://[fd00:dead:beef::50]"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://[fe80::215:5dff:fe15:102]"));
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://[fd00:dead:beef::50]"));
         }
 
         @Test
         void nat64() {
             // 64:ff9b::/96 embeds the IPv4 address in the lower 32 bits (RFC 6052)
             Assertions.assertThrows(
-                    UnknownHostException.class,
-                    () -> getter.get("http://[64:ff9b::a9fe:a9fe]")); // 169.254.169.254
+                    UnknownHostException.class, () -> getter.get("http://[64:ff9b::a9fe:a9fe]")); // 169.254.169.254
             Assertions.assertThrows(
-                    UnknownHostException.class,
-                    () -> getter.get("http://[64:ff9b::a00:1]")); // 10.0.0.1
+                    UnknownHostException.class, () -> getter.get("http://[64:ff9b::a00:1]")); // 10.0.0.1
         }
 
         @Test
         void nat64LocalUse() {
             // 64:ff9b:1::/48 is reserved for local use (RFC 8215), the whole range is blocked
             Assertions.assertThrows(
-                    UnknownHostException.class,
-                    () -> getter.get("http://[64:ff9b:1::a9fe:a9fe]")); // 169.254.169.254
+                    UnknownHostException.class, () -> getter.get("http://[64:ff9b:1::a9fe:a9fe]")); // 169.254.169.254
             Assertions.assertThrows(
-                    UnknownHostException.class,
-                    () -> getter.get("http://[64:ff9b:1:ffff::a00:1]")); // 10.0.0.1
+                    UnknownHostException.class, () -> getter.get("http://[64:ff9b:1:ffff::a00:1]")); // 10.0.0.1
         }
 
         @Test
         void sixToFour() {
             // 2002::/16 embeds the IPv4 address in bits 16-47 (RFC 3056)
             Assertions.assertThrows(
-                    UnknownHostException.class,
-                    () -> getter.get("http://[2002:a9fe:a9fe::]")); // 169.254.169.254
-            Assertions.assertThrows(
-                    UnknownHostException.class,
-                    () -> getter.get("http://[2002:a00:1::]")); // 10.0.0.1
+                    UnknownHostException.class, () -> getter.get("http://[2002:a9fe:a9fe::]")); // 169.254.169.254
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://[2002:a00:1::]")); // 10.0.0.1
         }
 
         @Test
@@ -597,10 +522,8 @@ class HttpGetterTest {
             // deprecated ::/96 IPv4-compatible addresses embed the IPv4 address in the lower 32
             // bits
             Assertions.assertThrows(
-                    UnknownHostException.class,
-                    () -> getter.get("http://[::a9fe:a9fe]")); // 169.254.169.254
-            Assertions.assertThrows(
-                    UnknownHostException.class, () -> getter.get("http://[::a00:1]")); // 10.0.0.1
+                    UnknownHostException.class, () -> getter.get("http://[::a9fe:a9fe]")); // 169.254.169.254
+            Assertions.assertThrows(UnknownHostException.class, () -> getter.get("http://[::a00:1]")); // 10.0.0.1
         }
     }
 

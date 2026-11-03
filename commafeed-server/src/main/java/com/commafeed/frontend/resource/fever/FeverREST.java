@@ -94,9 +94,7 @@ public class FeverREST {
     @Transactional
     @Operation(hidden = true)
     public FeverResponse formUrlencoded(
-            @Context UriInfo uri,
-            @PathParam("userId") Long userId,
-            MultivaluedMap<String, String> form) {
+            @Context UriInfo uri, @PathParam("userId") Long userId, MultivaluedMap<String, String> form) {
         Map<String, String> params = new HashMap<>();
         uri.getQueryParameters().forEach((k, v) -> params.put(k, v.getFirst()));
         form.forEach((k, v) -> params.put(k, v.getFirst()));
@@ -135,14 +133,10 @@ public class FeverREST {
     @POST
     @Transactional
     @Operation(hidden = true)
-    public FeverResponse formData(
-            @Context UriInfo uri, @PathParam("userId") Long userId, MultipartFormDataInput form) {
+    public FeverResponse formData(@Context UriInfo uri, @PathParam("userId") Long userId, MultipartFormDataInput form) {
         Map<String, String> params = new HashMap<>();
         uri.getQueryParameters().forEach((k, v) -> params.put(k, v.getFirst()));
-        form.getValues()
-                .forEach((k, v) ->
-                        params.put(
-                                k, v.stream().map(FormValue::getValue).findFirst().orElse(null)));
+        form.getValues().forEach((k, v) -> params.put(k, v.stream().map(FormValue::getValue).findFirst().orElse(null)));
         return handle(userId, params);
     }
 
@@ -212,8 +206,7 @@ public class FeverREST {
         if (params.containsKey("mark") && params.containsKey("id") && params.containsKey("as")) {
             long id = Long.parseLong(params.get("id"));
             String before = params.get("before");
-            Instant insertedBefore =
-                    before == null ? null : Instant.ofEpochSecond(Long.parseLong(before));
+            Instant insertedBefore = before == null ? null : Instant.ofEpochSecond(Long.parseLong(before));
             mark(user, params.get("mark"), id, params.get("as"), insertedBefore);
         }
 
@@ -236,9 +229,7 @@ public class FeverREST {
 
     private List<FeverFeedGroup> buildFeedsGroups(List<FeedSubscription> subscriptions) {
         return subscriptions.stream()
-                .collect(
-                        Collectors.groupingBy(
-                                s -> s.getCategory() == null ? 0 : s.getCategory().getId()))
+                .collect(Collectors.groupingBy(s -> s.getCategory() == null ? 0 : s.getCategory().getId()))
                 .entrySet()
                 .stream()
                 .map(e -> {
@@ -272,9 +263,7 @@ public class FeverREST {
                     f.setSiteUrl(s.getFeed().getLink());
                     f.setSpark(false);
                     f.setLastUpdatedOnTime(
-                            s.getFeed().getLastUpdated() == null
-                                    ? 0
-                                    : s.getFeed().getLastUpdated().getEpochSecond());
+                            s.getFeed().getLastUpdated() == null ? 0 : s.getFeed().getLastUpdated().getEpochSecond());
                     return f;
                 })
                 .toList();
@@ -305,8 +294,7 @@ public class FeverREST {
         return statuses.stream().map(s -> s.getEntry().getId()).toList();
     }
 
-    private List<FeverItem> buildItems(
-            User user, List<FeedSubscription> subscriptions, List<String> entryIds) {
+    private List<FeverItem> buildItems(User user, List<FeedSubscription> subscriptions, List<String> entryIds) {
         List<FeverItem> items = new ArrayList<>();
 
         Map<Long, FeedSubscription> subscriptionsByFeedId =
@@ -323,8 +311,7 @@ public class FeverREST {
         return items;
     }
 
-    private List<FeverItem> buildItems(
-            User user, List<FeedSubscription> subscriptions, Long sinceId, Long maxId) {
+    private List<FeverItem> buildItems(User user, List<FeedSubscription> subscriptions, Long sinceId, Long maxId) {
         List<FeedEntryStatus> statuses =
                 feedEntryStatusDAO.findBySubscriptions(
                         user,
@@ -366,8 +353,7 @@ public class FeverREST {
                     f.setData(
                             String.format(
                                     "data:%s;base64,%s",
-                                    favicon.mediaType(),
-                                    Base64.getEncoder().encodeToString(favicon.icon())));
+                                    favicon.mediaType(), Base64.getEncoder().encodeToString(favicon.icon())));
                     return f;
                 })
                 .toList();
@@ -387,10 +373,8 @@ public class FeverREST {
         } else if ("group".equals(source)) {
             FeedCategory parent = feedCategoryDAO.findById(user, id);
             List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, parent);
-            List<FeedSubscription> subscriptions =
-                    feedSubscriptionDAO.findByCategories(user, categories);
-            feedEntryService.markSubscriptionEntries(
-                    user, subscriptions, null, insertedBefore, null);
+            List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user, categories);
+            feedEntryService.markSubscriptionEntries(user, subscriptions, null, insertedBefore, null);
         }
     }
 }

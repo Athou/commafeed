@@ -36,11 +36,8 @@ class FacebookFaviconFetcherTest {
         byte[] iconBytes = new byte[1000];
         String contentType = "image/png";
 
-        HttpResult httpResult =
-                new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
-        Mockito.when(
-                        httpGetter.get(
-                                "https://graph.facebook.com/validUserId/picture?type=square&height=16"))
+        HttpResult httpResult = new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
+        Mockito.when(httpGetter.get("https://graph.facebook.com/validUserId/picture?type=square&height=16"))
                 .thenReturn(httpResult);
 
         Favicon result = faviconFetcher.fetch(feed);
@@ -73,9 +70,7 @@ class FacebookFaviconFetcherTest {
         Feed feed = new Feed();
         feed.setUrl("https://www.facebook.com/something?id=validUserId");
 
-        Mockito.when(
-                        httpGetter.get(
-                                "https://graph.facebook.com/validUserId/picture?type=square&height=16"))
+        Mockito.when(httpGetter.get("https://graph.facebook.com/validUserId/picture?type=square&height=16"))
                 .thenThrow(new RuntimeException("Network error"));
 
         Assertions.assertNull(faviconFetcher.fetch(feed));

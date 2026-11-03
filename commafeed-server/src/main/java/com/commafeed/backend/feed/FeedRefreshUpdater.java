@@ -64,8 +64,7 @@ public class FeedRefreshUpdater {
         entryInserted = metrics.meter(MetricRegistry.name(getClass(), "entryInserted"));
     }
 
-    private AddEntryResult addEntry(
-            final Feed feed, final Entry entry, final List<FeedSubscription> subscriptions) {
+    private AddEntryResult addEntry(final Feed feed, final Entry entry, final List<FeedSubscription> subscriptions) {
         boolean processed = false;
         FeedEntry insertedEntry = null;
         Set<FeedSubscription> subscriptionsForWhichEntryIsUnread = new HashSet<>();
@@ -111,11 +110,7 @@ public class FeedRefreshUpdater {
                 log.error("lock timeout for {} - {}", feed.getUrl(), key1);
             }
         } catch (InterruptedException e) {
-            log.error(
-                    "interrupted while waiting for lock for {} : {}",
-                    feed.getUrl(),
-                    e.getMessage(),
-                    e);
+            log.error("interrupted while waiting for lock for {} : {}", feed.getUrl(), e.getMessage(), e);
             Thread.currentThread().interrupt();
         } finally {
             if (locked1) {
@@ -131,13 +126,11 @@ public class FeedRefreshUpdater {
     public FeedRefreshUpdaterResult update(Feed feed, List<Entry> entries) {
         boolean processed = true;
         long inserted = 0;
-        Map<FeedSubscription, List<FeedEntry>> insertedUnreadEntriesBySubscription =
-                new HashMap<>();
+        Map<FeedSubscription, List<FeedEntry>> insertedUnreadEntriesBySubscription = new HashMap<>();
 
         if (!entries.isEmpty()) {
             List<FeedSubscription> subscriptions = null;
-            List<Entry> newEntries =
-                    unitOfWork.call(() -> feedEntryService.removeExistingEntries(feed, entries));
+            List<Entry> newEntries = unitOfWork.call(() -> feedEntryService.removeExistingEntries(feed, entries));
             for (Entry entry : newEntries) {
                 if (subscriptions == null) {
                     subscriptions = unitOfWork.call(() -> feedSubscriptionDAO.findByFeed(feed));
@@ -176,9 +169,7 @@ public class FeedRefreshUpdater {
     }
 
     private record AddEntryResult(
-            boolean processed,
-            FeedEntry insertedEntry,
-            Set<FeedSubscription> subscriptionsForWhichEntryIsUnread) {}
+            boolean processed, FeedEntry insertedEntry, Set<FeedSubscription> subscriptionsForWhichEntryIsUnread) {}
 
     public record FeedRefreshUpdaterResult(
             Map<FeedSubscription, List<FeedEntry>> insertedUnreadEntriesBySubscription) {}

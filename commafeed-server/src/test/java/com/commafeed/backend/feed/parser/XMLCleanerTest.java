@@ -13,22 +13,19 @@ class XMLCleanerTest {
         @Test
         void removesWhitespaceBeforeXmlTag() {
             String xml = "   \n\t<feed>content</feed>";
-            Assertions.assertEquals(
-                    "<feed>content</feed>", xmlCleaner.removeCharactersBeforeFirstXmlTag(xml));
+            Assertions.assertEquals("<feed>content</feed>", xmlCleaner.removeCharactersBeforeFirstXmlTag(xml));
         }
 
         @Test
         void removesTextBeforeXmlTag() {
             String xml = "some text here<feed>content</feed>";
-            Assertions.assertEquals(
-                    "<feed>content</feed>", xmlCleaner.removeCharactersBeforeFirstXmlTag(xml));
+            Assertions.assertEquals("<feed>content</feed>", xmlCleaner.removeCharactersBeforeFirstXmlTag(xml));
         }
 
         @Test
         void returnsUnchangedWhenStartsWithXmlTag() {
             String xml = "<feed>content</feed>";
-            Assertions.assertEquals(
-                    "<feed>content</feed>", xmlCleaner.removeCharactersBeforeFirstXmlTag(xml));
+            Assertions.assertEquals("<feed>content</feed>", xmlCleaner.removeCharactersBeforeFirstXmlTag(xml));
         }
 
         @Test
@@ -56,8 +53,7 @@ class XMLCleanerTest {
         void preservesMultipleXmlTags() {
             String xml = "garbage<feed><item>content</item></feed>";
             Assertions.assertEquals(
-                    "<feed><item>content</item></feed>",
-                    xmlCleaner.removeCharactersBeforeFirstXmlTag(xml));
+                    "<feed><item>content</item></feed>", xmlCleaner.removeCharactersBeforeFirstXmlTag(xml));
         }
     }
 
@@ -66,38 +62,32 @@ class XMLCleanerTest {
         @Test
         void removesNullCharacter() {
             String xml = "<feed>content\u0000here</feed>";
-            Assertions.assertEquals(
-                    "<feed>contenthere</feed>", xmlCleaner.removeInvalidXmlCharacters(xml));
+            Assertions.assertEquals("<feed>contenthere</feed>", xmlCleaner.removeInvalidXmlCharacters(xml));
         }
 
         @Test
         void removesInvalidControlCharacters() {
             String xml = "<feed>content\u0001\u0002\u0003here</feed>";
-            Assertions.assertEquals(
-                    "<feed>contenthere</feed>", xmlCleaner.removeInvalidXmlCharacters(xml));
+            Assertions.assertEquals("<feed>contenthere</feed>", xmlCleaner.removeInvalidXmlCharacters(xml));
         }
 
         @Test
         void preservesValidXmlCharacters() {
             String xml = "<feed>content with\ttab\nand newline</feed>";
             Assertions.assertEquals(
-                    "<feed>content with\ttab\nand newline</feed>",
-                    xmlCleaner.removeInvalidXmlCharacters(xml));
+                    "<feed>content with\ttab\nand newline</feed>", xmlCleaner.removeInvalidXmlCharacters(xml));
         }
 
         @Test
         void preservesUnicodeCharacters() {
             String xml = "<feed>café résumé 中文 العربية</feed>";
-            Assertions.assertEquals(
-                    "<feed>café résumé 中文 العربية</feed>",
-                    xmlCleaner.removeInvalidXmlCharacters(xml));
+            Assertions.assertEquals("<feed>café résumé 中文 العربية</feed>", xmlCleaner.removeInvalidXmlCharacters(xml));
         }
 
         @Test
         void preservesEmojiCharacters() {
             String xml = "<feed>🎮💪✅</feed>";
-            Assertions.assertEquals(
-                    "<feed>🎮💪✅</feed>", xmlCleaner.removeInvalidXmlCharacters(xml));
+            Assertions.assertEquals("<feed>🎮💪✅</feed>", xmlCleaner.removeInvalidXmlCharacters(xml));
         }
 
         @Test
@@ -141,31 +131,26 @@ class XMLCleanerTest {
         @Test
         void replacesMultipleOccurrencesOfSameEntity() {
             String source = "&nbsp;&nbsp;&nbsp;";
-            Assertions.assertEquals(
-                    "&#160;&#160;&#160;",
-                    xmlCleaner.replaceHtmlEntitiesWithNumericEntities(source));
+            Assertions.assertEquals("&#160;&#160;&#160;", xmlCleaner.replaceHtmlEntitiesWithNumericEntities(source));
         }
 
         @Test
         void preservesTextWithoutEntities() {
             String source = "<feed>regular content</feed>";
             Assertions.assertEquals(
-                    "<feed>regular content</feed>",
-                    xmlCleaner.replaceHtmlEntitiesWithNumericEntities(source));
+                    "<feed>regular content</feed>", xmlCleaner.replaceHtmlEntitiesWithNumericEntities(source));
         }
 
         @Test
         void preservesNumericEntities() {
             String source = "&#180;&#8242;";
-            Assertions.assertEquals(
-                    "&#180;&#8242;", xmlCleaner.replaceHtmlEntitiesWithNumericEntities(source));
+            Assertions.assertEquals("&#180;&#8242;", xmlCleaner.replaceHtmlEntitiesWithNumericEntities(source));
         }
 
         @Test
         void replacesCommonHtmlEntities() {
             String source = "&amp;&quot;";
-            Assertions.assertEquals(
-                    "&#38;&#34;", xmlCleaner.replaceHtmlEntitiesWithNumericEntities(source));
+            Assertions.assertEquals("&#38;&#34;", xmlCleaner.replaceHtmlEntitiesWithNumericEntities(source));
         }
 
         @Test
@@ -193,15 +178,13 @@ class XMLCleanerTest {
         @Test
         void handlesEntityAtStartOfString() {
             String source = "&amp;test";
-            Assertions.assertEquals(
-                    "&#38;test", xmlCleaner.replaceHtmlEntitiesWithNumericEntities(source));
+            Assertions.assertEquals("&#38;test", xmlCleaner.replaceHtmlEntitiesWithNumericEntities(source));
         }
 
         @Test
         void handlesEntityAtEndOfString() {
             String source = "test&amp;";
-            Assertions.assertEquals(
-                    "test&#38;", xmlCleaner.replaceHtmlEntitiesWithNumericEntities(source));
+            Assertions.assertEquals("test&#38;", xmlCleaner.replaceHtmlEntitiesWithNumericEntities(source));
         }
 
         @Test
@@ -218,8 +201,7 @@ class XMLCleanerTest {
         void testRemoveDoctype() {
             String source = "<!DOCTYPE html><html><head></head><body></body></html>";
             Assertions.assertEquals(
-                    "<html><head></head><body></body></html>",
-                    xmlCleaner.removeDoctypeDeclarations(source));
+                    "<html><head></head><body></body></html>", xmlCleaner.removeDoctypeDeclarations(source));
         }
 
         @Test
@@ -241,10 +223,8 @@ class XMLCleanerTest {
 
         @Test
         void removesComplexDoctypeWithSystemId() {
-            String source =
-                    "<!DOCTYPE html SYSTEM \"about:legacy-compat\"><html><body></body></html>";
-            Assertions.assertEquals(
-                    "<html><body></body></html>", xmlCleaner.removeDoctypeDeclarations(source));
+            String source = "<!DOCTYPE html SYSTEM \"about:legacy-compat\"><html><body></body></html>";
+            Assertions.assertEquals("<html><body></body></html>", xmlCleaner.removeDoctypeDeclarations(source));
         }
 
         @Test
@@ -276,8 +256,7 @@ class XMLCleanerTest {
         void preservesContentWithoutDoctype() {
             String source = "<html><body>No doctype here</body></html>";
             Assertions.assertEquals(
-                    "<html><body>No doctype here</body></html>",
-                    xmlCleaner.removeDoctypeDeclarations(source));
+                    "<html><body>No doctype here</body></html>", xmlCleaner.removeDoctypeDeclarations(source));
         }
 
         @Test

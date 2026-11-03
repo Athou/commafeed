@@ -19,8 +19,7 @@ import java.util.Set;
 public class ApiKeyAuthenticationMechanism implements HttpAuthenticationMechanism {
 
     @Override
-    public Uni<SecurityIdentity> authenticate(
-            RoutingContext context, IdentityProviderManager identityProviderManager) {
+    public Uni<SecurityIdentity> authenticate(RoutingContext context, IdentityProviderManager identityProviderManager) {
         // only authorize api key for GET requests
         if (!context.request().method().name().equals("GET")) {
             return Uni.createFrom().optional(Optional.empty());

@@ -43,16 +43,13 @@ class HtmlFaviconFetcherTest {
         feed.setUrl("https://example.com/feed");
         feed.setLink("https://example.com");
 
-        String html =
-                "<html><head><link rel=\"icon\" href=\"/favicon.png\" /></head><body></body></html>";
-        HttpResult pageResult =
-                new HttpResult(html.getBytes(), "text/html", null, null, null, Duration.ZERO);
+        String html = "<html><head><link rel=\"icon\" href=\"/favicon.png\" /></head><body></body></html>";
+        HttpResult pageResult = new HttpResult(html.getBytes(), "text/html", null, null, null, Duration.ZERO);
         Mockito.when(httpGetter.get("https://example.com")).thenReturn(pageResult);
 
         byte[] iconBytes = new byte[1000];
         String contentType = "image/png";
-        HttpResult iconResult =
-                new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
+        HttpResult iconResult = new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
         Mockito.when(httpGetter.get("https://example.com/favicon.png")).thenReturn(iconResult);
 
         Favicon result = faviconFetcher.fetch(feed);
@@ -70,16 +67,13 @@ class HtmlFaviconFetcherTest {
 
         String html =
                 "<html><head><link rel=\"shortcut icon\" href=\"https://example.com/shortcut-favicon.ico\" /></head><body></body></html>";
-        HttpResult pageResult =
-                new HttpResult(html.getBytes(), "text/html", null, null, null, Duration.ZERO);
+        HttpResult pageResult = new HttpResult(html.getBytes(), "text/html", null, null, null, Duration.ZERO);
         Mockito.when(httpGetter.get("https://example.com")).thenReturn(pageResult);
 
         byte[] iconBytes = new byte[1000];
         String contentType = "image/x-icon";
-        HttpResult iconResult =
-                new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
-        Mockito.when(httpGetter.get("https://example.com/shortcut-favicon.ico"))
-                .thenReturn(iconResult);
+        HttpResult iconResult = new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
+        Mockito.when(httpGetter.get("https://example.com/shortcut-favicon.ico")).thenReturn(iconResult);
 
         Favicon result = faviconFetcher.fetch(feed);
 
@@ -95,8 +89,7 @@ class HtmlFaviconFetcherTest {
         feed.setLink("https://example.com");
 
         String html = "<html><head></head><body></body></html>";
-        HttpResult pageResult =
-                new HttpResult(html.getBytes(), "text/html", null, null, null, Duration.ZERO);
+        HttpResult pageResult = new HttpResult(html.getBytes(), "text/html", null, null, null, Duration.ZERO);
         Mockito.when(httpGetter.get("https://example.com")).thenReturn(pageResult);
 
         Assertions.assertNull(faviconFetcher.fetch(feed));
@@ -108,8 +101,7 @@ class HtmlFaviconFetcherTest {
         feed.setUrl("https://example.com/feed");
         feed.setLink("https://example.com");
 
-        Mockito.when(httpGetter.get("https://example.com"))
-                .thenThrow(new RuntimeException("Network error"));
+        Mockito.when(httpGetter.get("https://example.com")).thenThrow(new RuntimeException("Network error"));
 
         Assertions.assertNull(faviconFetcher.fetch(feed));
     }
@@ -122,8 +114,7 @@ class HtmlFaviconFetcherTest {
 
         String html =
                 "<html><head><link rel=\"icon\" href=\"https://example.com/favicon.png\" /></head><body></body></html>";
-        HttpResult pageResult =
-                new HttpResult(html.getBytes(), "text/html", null, null, null, Duration.ZERO);
+        HttpResult pageResult = new HttpResult(html.getBytes(), "text/html", null, null, null, Duration.ZERO);
         Mockito.when(httpGetter.get("https://example.com")).thenReturn(pageResult);
         Mockito.when(httpGetter.get("https://example.com/favicon.png"))
                 .thenThrow(new RuntimeException("Network error"));

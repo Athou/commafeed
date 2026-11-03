@@ -53,8 +53,7 @@ public class UserService {
             user = userDAO.findByEmail(nameOrEmail);
         }
         if (user != null && !user.isDisabled()) {
-            boolean authenticated =
-                    encryptionService.authenticate(password, user.getPassword(), user.getSalt());
+            boolean authenticated = encryptionService.authenticate(password, user.getPassword(), user.getSalt());
             if (authenticated) {
                 performPostLoginActivities(user);
                 return Optional.of(user);
@@ -107,16 +106,11 @@ public class UserService {
     }
 
     public User register(
-            String name,
-            String password,
-            String email,
-            Collection<Role> roles,
-            boolean forceRegistration) {
+            String name, String password, String email, Collection<Role> roles, boolean forceRegistration) {
 
         if (!forceRegistration) {
             Preconditions.checkState(
-                    config.users().allowRegistrations(),
-                    "Registrations are closed on this CommaFeed instance");
+                    config.users().allowRegistrations(), "Registrations are closed on this CommaFeed instance");
         }
 
         Preconditions.checkArgument(userDAO.findByName(name) == null, "Name already taken");
@@ -167,9 +161,7 @@ public class UserService {
     }
 
     public String generateApiKey(User user) {
-        byte[] key =
-                encryptionService.getEncryptedPassword(
-                        UUID.randomUUID().toString(), user.getSalt());
+        byte[] key = encryptionService.getEncryptedPassword(UUID.randomUUID().toString(), user.getSalt());
         return Digests.sha1Hex(key);
     }
 

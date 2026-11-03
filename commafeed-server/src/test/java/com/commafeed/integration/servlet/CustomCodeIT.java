@@ -21,8 +21,7 @@ class CustomCodeIT extends BaseIT {
     void setup() {
         initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
         RestAssured.authentication =
-                RestAssured.preemptive()
-                        .basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+                RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
     }
 
     @AfterEach
@@ -34,12 +33,7 @@ class CustomCodeIT extends BaseIT {
     void test() {
         // get settings
         Settings settings =
-                RestAssured.given()
-                        .get("rest/user/settings")
-                        .then()
-                        .statusCode(200)
-                        .extract()
-                        .as(Settings.class);
+                RestAssured.given().get("rest/user/settings").then().statusCode(200).extract().as(Settings.class);
 
         // update settings
         settings.setCustomJs("custom-js");
@@ -52,11 +46,7 @@ class CustomCodeIT extends BaseIT {
                 .statusCode(HttpStatus.SC_OK);
 
         // check custom code servlets
-        RestAssured.given()
-                .get("custom_js.js")
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-                .body(CoreMatchers.is("custom-js"));
+        RestAssured.given().get("custom_js.js").then().statusCode(HttpStatus.SC_OK).body(CoreMatchers.is("custom-js"));
         RestAssured.given()
                 .get("custom_css.css")
                 .then()

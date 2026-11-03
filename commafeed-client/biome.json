@@ -4,7 +4,7 @@
         "indentStyle": "space",
         "indentWidth": 4,
         "lineEnding": "lf",
-        "lineWidth": 140
+        "lineWidth": 120
     },
     "javascript": {
         "formatter": {

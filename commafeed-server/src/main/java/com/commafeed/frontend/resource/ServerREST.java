@@ -58,8 +58,7 @@ public class ServerREST {
         infos.setWebsocketEnabled(config.websocket().enabled());
         infos.setWebsocketPingInterval(config.websocket().pingInterval().toMillis());
         infos.setTreeReloadInterval(config.websocket().treeReloadInterval().toMillis());
-        infos.setForceRefreshCooldownDuration(
-                config.feedRefresh().forceRefreshCooldownDuration().toMillis());
+        infos.setForceRefreshCooldownDuration(config.feedRefresh().forceRefreshCooldownDuration().toMillis());
         infos.setInitialSetupRequired(databaseStartupService.isInitialSetupRequired());
         infos.setMinimumPasswordLength(config.users().minimumPasswordLength());
         infos.setPushNotificationsEnabled(config.pushNotifications().enabled());

@@ -111,9 +111,7 @@ class OPMLExporterTest {
 
     private boolean containsFeed(List<Outline> outlines, String title, String url) {
         for (Outline o : outlines) {
-            if ("rss".equals(o.getType())
-                    && title.equals(o.getTitle())
-                    && o.getAttributeValue("xmlUrl").equals(url)) {
+            if ("rss".equals(o.getType()) && title.equals(o.getTitle()) && o.getAttributeValue("xmlUrl").equals(url)) {
                 return true;
             }
         }

@@ -83,7 +83,11 @@ export function CustomCodeSettings() {
                         <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>
                             <Trans>Cancel</Trans>
                         </Button>
-                        <Button type="submit" leftSection={<TbDeviceFloppy size={16} />} loading={saveCustomCode.loading}>
+                        <Button
+                            type="submit"
+                            leftSection={<TbDeviceFloppy size={16} />}
+                            loading={saveCustomCode.loading}
+                        >
                             <Trans>Save</Trans>
                         </Button>
                     </Group>

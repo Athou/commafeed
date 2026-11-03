@@ -85,8 +85,8 @@ export function Subscribe() {
                             placeholder="https://www.mysite.com/rss"
                             description={
                                 <Trans>
-                                    The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed
-                                    will try to find the feed in the page.
+                                    The URL for the feed you want to subscribe to. You can also use the website's url
+                                    directly and CommaFeed will try to find the feed in the page.
                                 </Trans>
                             }
                             required
@@ -101,8 +101,17 @@ export function Subscribe() {
                     >
                         <Stack>
                             <TextInput label={<Trans>Feed URL</Trans>} {...step1Form.getInputProps("url")} disabled />
-                            <TextInput label={<Trans>Feed name</Trans>} {...step1Form.getInputProps("title")} required autoFocus />
-                            <CategorySelect label={<Trans>Category</Trans>} {...step1Form.getInputProps("categoryId")} clearable />
+                            <TextInput
+                                label={<Trans>Feed name</Trans>}
+                                {...step1Form.getInputProps("title")}
+                                required
+                                autoFocus
+                            />
+                            <CategorySelect
+                                label={<Trans>Category</Trans>}
+                                {...step1Form.getInputProps("categoryId")}
+                                clearable
+                            />
                         </Stack>
                     </Stepper.Step>
                 </Stepper>
@@ -117,7 +126,11 @@ export function Subscribe() {
                         </Button>
                     )}
                     {activeStep === 1 && (
-                        <Button type="submit" leftSection={<TbRss size={16} />} loading={fetchFeed.loading || subscribe.loading}>
+                        <Button
+                            type="submit"
+                            leftSection={<TbRss size={16} />}
+                            loading={fetchFeed.loading || subscribe.loading}
+                        >
                             <Trans>Subscribe</Trans>
                         </Button>
                     )}

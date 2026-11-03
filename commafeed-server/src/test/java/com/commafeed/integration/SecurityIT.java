@@ -57,9 +57,7 @@ class SecurityIT extends BaseIT {
         cookies.forEach(c -> Assertions.assertTrue(c.getMaxAge() > 0));
 
         RestAssured.given()
-                .header(
-                        HttpHeaders.COOKIE,
-                        cookies.stream().map(HttpCookie::toString).collect(Collectors.joining(";")))
+                .header(HttpHeaders.COOKIE, cookies.stream().map(HttpCookie::toString).collect(Collectors.joining(";")))
                 .get("rest/user/profile")
                 .then()
                 .statusCode(HttpStatus.SC_OK);
@@ -71,11 +69,7 @@ class SecurityIT extends BaseIT {
                 RestAssured.given()
                         .auth()
                         .none()
-                        .formParams(
-                                "j_username",
-                                TestConstants.ADMIN_USERNAME,
-                                "j_password",
-                                "wrong-password")
+                        .formParams("j_username", TestConstants.ADMIN_USERNAME, "j_password", "wrong-password")
                         .post("j_security_check")
                         .then()
                         .statusCode(HttpStatus.SC_UNAUTHORIZED)
@@ -396,9 +390,7 @@ class SecurityIT extends BaseIT {
     }
 
     private String session(String userName, String password) {
-        return login(userName, password).stream()
-                .map(HttpCookie::toString)
-                .collect(Collectors.joining(";"));
+        return login(userName, password).stream().map(HttpCookie::toString).collect(Collectors.joining(";"));
     }
 
     private UserModel profile(String session) {
@@ -412,10 +404,6 @@ class SecurityIT extends BaseIT {
     }
 
     private void assertSessionStatus(String session, int status) {
-        RestAssured.given()
-                .header(HttpHeaders.COOKIE, session)
-                .get("rest/user/profile")
-                .then()
-                .statusCode(status);
+        RestAssured.given().header(HttpHeaders.COOKIE, session).get("rest/user/profile").then().statusCode(status);
     }
 }

@@ -71,8 +71,7 @@ class YoutubeFaviconFetcherTest {
                 {"items":[{"snippet":{"thumbnails":{"default":{"url":"https://example.com/icon.png"}}}}]}\
                 """
                         .getBytes();
-        HttpResult apiHttpResult =
-                new HttpResult(apiResponse, "application/json", null, null, null, Duration.ZERO);
+        HttpResult apiHttpResult = new HttpResult(apiResponse, "application/json", null, null, null, Duration.ZERO);
         Mockito.when(
                         httpGetter.get(
                                 "https://www.googleapis.com/youtube/v3/channels?part=snippet&key=test-api-key&forUsername=testUser"))
@@ -83,8 +82,7 @@ class YoutubeFaviconFetcherTest {
 
         byte[] iconBytes = new byte[1000];
         String contentType = "image/png";
-        HttpResult iconHttpResult =
-                new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
+        HttpResult iconHttpResult = new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
         Mockito.when(httpGetter.get("https://example.com/icon.png")).thenReturn(iconHttpResult);
 
         Favicon result = faviconFetcher.fetch(feed);
@@ -106,8 +104,7 @@ class YoutubeFaviconFetcherTest {
                 {"items":[{"snippet":{"thumbnails":{"default":{"url":"https://example.com/icon.png"}}}}]}\
                 """
                         .getBytes();
-        HttpResult apiHttpResult =
-                new HttpResult(apiResponse, "application/json", null, null, null, Duration.ZERO);
+        HttpResult apiHttpResult = new HttpResult(apiResponse, "application/json", null, null, null, Duration.ZERO);
         Mockito.when(
                         httpGetter.get(
                                 "https://www.googleapis.com/youtube/v3/channels?part=snippet&key=test-api-key&id=testChannelId"))
@@ -118,8 +115,7 @@ class YoutubeFaviconFetcherTest {
 
         byte[] iconBytes = new byte[1000];
         String contentType = "image/png";
-        HttpResult iconHttpResult =
-                new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
+        HttpResult iconHttpResult = new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
         Mockito.when(httpGetter.get("https://example.com/icon.png")).thenReturn(iconHttpResult);
 
         Favicon result = faviconFetcher.fetch(feed);
@@ -142,8 +138,7 @@ class YoutubeFaviconFetcherTest {
                 """
                         .getBytes();
         HttpResult playlistHttpResult =
-                new HttpResult(
-                        playlistResponse, "application/json", null, null, null, Duration.ZERO);
+                new HttpResult(playlistResponse, "application/json", null, null, null, Duration.ZERO);
         Mockito.when(
                         httpGetter.get(
                                 "https://www.googleapis.com/youtube/v3/playlists?part=snippet&key=test-api-key&id=testPlaylistId"))
@@ -158,8 +153,7 @@ class YoutubeFaviconFetcherTest {
                 """
                         .getBytes();
         HttpResult channelHttpResult =
-                new HttpResult(
-                        channelResponse, "application/json", null, null, null, Duration.ZERO);
+                new HttpResult(channelResponse, "application/json", null, null, null, Duration.ZERO);
         Mockito.when(
                         httpGetter.get(
                                 "https://www.googleapis.com/youtube/v3/channels?part=snippet&key=test-api-key&id=testChannelId"))
@@ -170,8 +164,7 @@ class YoutubeFaviconFetcherTest {
 
         byte[] iconBytes = new byte[1000];
         String contentType = "image/png";
-        HttpResult iconHttpResult =
-                new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
+        HttpResult iconHttpResult = new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
         Mockito.when(httpGetter.get("https://example.com/icon.png")).thenReturn(iconHttpResult);
 
         Favicon result = faviconFetcher.fetch(feed);
@@ -204,8 +197,7 @@ class YoutubeFaviconFetcherTest {
         Mockito.when(config.googleAuthKey()).thenReturn(Optional.of("test-api-key"));
 
         byte[] apiResponse = "{}".getBytes();
-        HttpResult apiHttpResult =
-                new HttpResult(apiResponse, "application/json", null, null, null, Duration.ZERO);
+        HttpResult apiHttpResult = new HttpResult(apiResponse, "application/json", null, null, null, Duration.ZERO);
         Mockito.when(
                         httpGetter.get(
                                 "https://www.googleapis.com/youtube/v3/channels?part=snippet&key=test-api-key&forUsername=testUser"))

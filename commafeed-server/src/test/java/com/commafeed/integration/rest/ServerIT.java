@@ -15,12 +15,7 @@ class ServerIT extends BaseIT {
     @Test
     void getServerInfos() {
         ServerInfo serverInfos =
-                RestAssured.given()
-                        .get("/rest/server/get")
-                        .then()
-                        .statusCode(200)
-                        .extract()
-                        .as(ServerInfo.class);
+                RestAssured.given().get("/rest/server/get").then().statusCode(200).extract().as(ServerInfo.class);
         Assertions.assertTrue(serverInfos.isAllowRegistrations());
         Assertions.assertTrue(serverInfos.isSmtpEnabled());
         Assertions.assertTrue(serverInfos.isDemoAccountEnabled());

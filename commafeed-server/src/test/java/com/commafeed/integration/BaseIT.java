@@ -40,8 +40,7 @@ import java.util.Objects;
 @Getter
 public abstract class BaseIT {
 
-    private static final HttpRequest FEED_REQUEST =
-            HttpRequest.request().withMethod("GET").withPath("/");
+    private static final HttpRequest FEED_REQUEST = HttpRequest.request().withMethod("GET").withPath("/");
 
     @Getter private MockServerClient mockServerClient;
     private Client client;
@@ -62,14 +61,11 @@ public abstract class BaseIT {
         URL resource = Objects.requireNonNull(getClass().getResource("/feed/rss.xml"));
         this.mockServerClient
                 .when(FEED_REQUEST)
-                .respond(
-                        HttpResponse.response()
-                                .withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
+                .respond(HttpResponse.response().withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
 
         // remove when Quarkus supports Jackson 3
         RestAssured.config =
-                RestAssured.config()
-                        .objectMapperConfig(new ObjectMapperConfig(ObjectMapperType.JACKSON_2));
+                RestAssured.config().objectMapperConfig(new ObjectMapperConfig(ObjectMapperType.JACKSON_2));
     }
 
     @AfterEach
@@ -89,9 +85,7 @@ public abstract class BaseIT {
         URL resource = Objects.requireNonNull(getClass().getResource("/feed/rss_2.xml"));
         mockServerClient
                 .when(FEED_REQUEST)
-                .respond(
-                        HttpResponse.response()
-                                .withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
+                .respond(HttpResponse.response().withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
     }
 
     protected void initialSetup(String userName, String password) {
@@ -124,9 +118,7 @@ public abstract class BaseIT {
                         .extract()
                         .headers()
                         .getList(HttpHeaders.SET_COOKIE);
-        return setCookieHeaders.stream()
-                .flatMap(h -> HttpCookie.parse(h.getValue()).stream())
-                .toList();
+        return setCookieHeaders.stream().flatMap(h -> HttpCookie.parse(h.getValue()).stream()).toList();
     }
 
     protected String createCategory(String name) {
@@ -223,10 +215,7 @@ public abstract class BaseIT {
 
     protected Entries getCategoryEntries(String categoryId, String keywords) {
         return RestAssured.given()
-                .get(
-                        "rest/category/entries?id={id}&readType=all&keywords={keywords}",
-                        categoryId,
-                        keywords)
+                .get("rest/category/entries?id={id}&readType=all&keywords={keywords}", categoryId, keywords)
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()

@@ -51,7 +51,12 @@ function NextUnreadBookmarklet() {
 
     return (
         <Box>
-            <CategorySelect value={categoryId} onChange={c => c && setCategoryId(c)} withAll description={<Trans>Category</Trans>} />
+            <CategorySelect
+                value={categoryId}
+                onChange={c => c && setCategoryId(c)}
+                withAll
+                description={<Trans>Category</Trans>}
+            />
             <NativeSelect
                 data={[
                     { value: "desc", label: _(msg`Newest first`) },
@@ -73,7 +78,8 @@ function NextUnreadBookmarklet() {
 export function AboutPage() {
     const version = useAppSelector(state => state.server.serverInfos?.version)
     const revision = useAppSelector(state => state.server.serverInfos?.gitCommit)
-    const { isBrowserExtensionInstalled, browserExtensionVersion, isBrowserExtensionInstallable } = useBrowserExtension()
+    const { isBrowserExtensionInstalled, browserExtensionVersion, isBrowserExtensionInstallable } =
+        useBrowserExtension()
     const dispatch = useAppDispatch()
 
     return (
@@ -100,7 +106,9 @@ export function AboutPage() {
                         </Trans>
                     </Box>
                     <Box>
-                        <Trans>If you encounter an issue, please report it on the issues page of the GitHub project.</Trans>
+                        <Trans>
+                            If you encounter an issue, please report it on the issues page of the GitHub project.
+                        </Trans>
                     </Box>
                 </Section>
                 <Section title={<Trans>Goodies</Trans>} icon={<TbPuzzle size={24} />}>

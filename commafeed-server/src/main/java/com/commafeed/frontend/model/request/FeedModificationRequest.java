@@ -27,17 +27,13 @@ public class FeedModificationRequest implements Serializable {
     @Schema(description = "new display position, null if not changed")
     private Integer position;
 
-    @Schema(
-            description =
-                    "CEL string evaluated on new entries to mark them as read if they do not match")
+    @Schema(description = "CEL string evaluated on new entries to mark them as read if they do not match")
     @Size(max = 4096)
     private String filter;
 
     @Schema(description = "whether to send push notifications for new entries of this feed")
     private boolean pushNotificationsEnabled;
 
-    @Schema(
-            description =
-                    "automatically mark entries as read after this many days (null to disable)")
+    @Schema(description = "automatically mark entries as read after this many days (null to disable)")
     private Integer autoMarkAsReadAfterDays;
 }

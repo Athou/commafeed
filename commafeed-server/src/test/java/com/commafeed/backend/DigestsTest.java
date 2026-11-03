@@ -7,8 +7,7 @@ class DigestsTest {
 
     @Test
     void sha1Hex() {
-        Assertions.assertEquals(
-                "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d", Digests.sha1Hex("hello"));
+        Assertions.assertEquals("aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d", Digests.sha1Hex("hello"));
     }
 
     @Test

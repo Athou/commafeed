@@ -1,6 +1,18 @@
 import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
-import { Anchor, Box, Button, Checkbox, Divider, Group, Input, PasswordInput, Stack, Text, TextInput } from "@mantine/core"
+import {
+    Anchor,
+    Box,
+    Button,
+    Checkbox,
+    Divider,
+    Group,
+    Input,
+    PasswordInput,
+    Stack,
+    Text,
+    TextInput,
+} from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
 import { useEffect } from "react"
@@ -91,8 +103,9 @@ export function ProfileSettings() {
                         label={<Trans>API key</Trans>}
                         description={
                             <Trans>
-                                This is your API key. It can be used for some read-only API operations and grants access to the Fever API
-                                and the Google Reader API. Use the form at the bottom of the page to generate a new API key
+                                This is your API key. It can be used for some read-only API operations and grants access
+                                to the Fever API and the Google Reader API. Use the form at the bottom of the page to
+                                generate a new API key
                             </Trans>
                         }
                         readOnly
@@ -103,7 +116,8 @@ export function ProfileSettings() {
                         label={<Trans>OPML export</Trans>}
                         description={
                             <Trans>
-                                Export your subscriptions and categories as an OPML file that can be imported in other feed reading services
+                                Export your subscriptions and categories as an OPML file that can be imported in other
+                                feed reading services
                             </Trans>
                         }
                     >
@@ -118,8 +132,8 @@ export function ProfileSettings() {
                         label={<Trans>Fever API</Trans>}
                         description={
                             <Trans>
-                                CommaFeed is compatible with the Fever API. Use the following URL in your Fever-compatible mobile client.
-                                Login with your username and your <u>API key</u>.
+                                CommaFeed is compatible with the Fever API. Use the following URL in your
+                                Fever-compatible mobile client. Login with your username and your <u>API key</u>.
                             </Trans>
                         }
                     >
@@ -134,8 +148,8 @@ export function ProfileSettings() {
                         label={<Trans>Google Reader API</Trans>}
                         description={
                             <Trans>
-                                CommaFeed is compatible with the Google Reader API. Use the following URL in your Google Reader-compatible
-                                mobile client. Login with your username and your <u>API key</u>.
+                                CommaFeed is compatible with the Google Reader API. Use the following URL in your Google
+                                Reader-compatible mobile client. Login with your username and your <u>API key</u>.
                             </Trans>
                         }
                     >
@@ -165,8 +179,14 @@ export function ProfileSettings() {
                         description={<Trans>Changing password will generate a new API key</Trans>}
                         {...form.getInputProps("newPassword")}
                     />
-                    <PasswordInput label={<Trans>Confirm password</Trans>} {...form.getInputProps("newPasswordConfirmation")} />
-                    <Checkbox label={<Trans>Generate new API key</Trans>} {...form.getInputProps("newApiKey", { type: "checkbox" })} />
+                    <PasswordInput
+                        label={<Trans>Confirm password</Trans>}
+                        {...form.getInputProps("newPasswordConfirmation")}
+                    />
+                    <Checkbox
+                        label={<Trans>Generate new API key</Trans>}
+                        {...form.getInputProps("newApiKey", { type: "checkbox" })}
+                    />
 
                     <Group>
                         <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>

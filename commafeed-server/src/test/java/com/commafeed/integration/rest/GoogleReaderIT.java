@@ -42,8 +42,7 @@ class GoogleReaderIT extends BaseIT {
     void setup() {
         initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
         RestAssured.authentication =
-                RestAssured.preemptive()
-                        .basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+                RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
 
         // create api key
         ProfileModificationRequest req = new ProfileModificationRequest();
@@ -144,59 +143,45 @@ class GoogleReaderIT extends BaseIT {
     @Test
     void subscriptionList() {
         subscribe(getFeedUrl());
-        SubscriptionList list =
-                client.get(BASE + "/reader/api/0/subscription/list").as(SubscriptionList.class);
+        SubscriptionList list = client.get(BASE + "/reader/api/0/subscription/list").as(SubscriptionList.class);
         Assertions.assertEquals(1, list.getSubscriptions().size());
-        Assertions.assertEquals(
-                "my title for this feed", list.getSubscriptions().getFirst().getTitle());
+        Assertions.assertEquals("my title for this feed", list.getSubscriptions().getFirst().getTitle());
     }
 
     @Test
     void tagList() {
         createCategory("test-category");
         TagList tagList = client.get(BASE + "/reader/api/0/tag/list").as(TagList.class);
+        Assertions.assertTrue(tagList.getTags().stream().anyMatch(t -> t.getId().equals("user/-/label/test-category")));
         Assertions.assertTrue(
-                tagList.getTags().stream()
-                        .anyMatch(t -> t.getId().equals("user/-/label/test-category")));
-        Assertions.assertTrue(
-                tagList.getTags().stream()
-                        .anyMatch(t -> t.getId().equals("user/-/state/com.google/starred")));
+                tagList.getTags().stream().anyMatch(t -> t.getId().equals("user/-/state/com.google/starred")));
     }
 
     @Test
     void unreadCount() {
         subscribeAndWaitForEntries(getFeedUrl());
-        UnreadCounts counts =
-                client.get(BASE + "/reader/api/0/unread-count").as(UnreadCounts.class);
+        UnreadCounts counts = client.get(BASE + "/reader/api/0/unread-count").as(UnreadCounts.class);
         Assertions.assertTrue(
                 counts.getUnreadCounts().stream()
-                        .anyMatch(c ->
-                                c.getId().equals("user/-/state/com.google/reading-list")
-                                        && c.getCount() == 2));
+                        .anyMatch(c -> c.getId().equals("user/-/state/com.google/reading-list") && c.getCount() == 2));
     }
 
     @Test
     void streamContents() {
         subscribeAndWaitForEntries(getFeedUrl());
         StreamContents contents =
-                client.get(BASE + "/reader/api/0/stream/contents/reading-list")
-                        .as(StreamContents.class);
+                client.get(BASE + "/reader/api/0/stream/contents/reading-list").as(StreamContents.class);
         Assertions.assertEquals(2, contents.getItems().size());
         Assertions.assertEquals("Item 2", contents.getItems().getFirst().getTitle());
         Assertions.assertTrue(
-                contents.getItems()
-                        .getFirst()
-                        .getId()
-                        .matches("tag:google\\.com,2005:reader/item/[0-9a-f]{16}"));
+                contents.getItems().getFirst().getId().matches("tag:google\\.com,2005:reader/item/[0-9a-f]{16}"));
     }
 
     @Test
     void streamItemIds() {
         subscribeAndWaitForEntries(getFeedUrl());
         ItemRefs refs =
-                client.get(
-                                BASE
-                                        + "/reader/api/0/stream/items/ids?s=user/-/state/com.google/reading-list")
+                client.get(BASE + "/reader/api/0/stream/items/ids?s=user/-/state/com.google/reading-list")
                         .as(ItemRefs.class);
         Assertions.assertEquals(2, refs.getItemRefs().size());
     }
@@ -211,17 +196,13 @@ class GoogleReaderIT extends BaseIT {
                 BASE + "/reader/api/0/edit-tag",
                 Map.of("i", entry.getId(), "a", "user/-/state/com.google/read", "T", token));
 
-        Assertions.assertEquals(
-                1,
-                getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
+        Assertions.assertEquals(1, getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
 
         client.postForm(
                 BASE + "/reader/api/0/edit-tag",
                 Map.of("i", entry.getId(), "r", "user/-/state/com.google/read", "T", token));
 
-        Assertions.assertEquals(
-                0,
-                getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
+        Assertions.assertEquals(0, getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
     }
 
     @Test
@@ -232,12 +213,9 @@ class GoogleReaderIT extends BaseIT {
         Entry entry = getFeedEntries(subscriptionId).getEntries().getFirst();
 
         client.postForm(
-                BASE + "/reader/api/0/edit-tag",
-                Map.of("i", entry.getId(), "a", "user/-/state/com.google/read"));
+                BASE + "/reader/api/0/edit-tag", Map.of("i", entry.getId(), "a", "user/-/state/com.google/read"));
 
-        Assertions.assertEquals(
-                1,
-                getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
+        Assertions.assertEquals(1, getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
     }
 
     @Test
@@ -251,10 +229,7 @@ class GoogleReaderIT extends BaseIT {
                 Map.of("i", entry.getId(), "a", "user/-/state/com.google/starred", "T", token));
 
         Assertions.assertEquals(
-                1,
-                getFeedEntries(subscriptionId).getEntries().stream()
-                        .filter(Entry::isStarred)
-                        .count());
+                1, getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isStarred).count());
     }
 
     @Test
@@ -266,8 +241,7 @@ class GoogleReaderIT extends BaseIT {
                 BASE + "/reader/api/0/mark-all-as-read",
                 Map.of("s", "user/-/state/com.google/reading-list", "T", token));
 
-        Assertions.assertTrue(
-                getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
+        Assertions.assertTrue(getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
     }
 
     @Test
@@ -276,24 +250,14 @@ class GoogleReaderIT extends BaseIT {
 
         client.postForm(
                 BASE + "/reader/api/0/subscription/edit",
-                Map.of(
-                        "ac",
-                        "subscribe",
-                        "s",
-                        "feed/" + getFeedUrl(),
-                        "t",
-                        "new subscription",
-                        "T",
-                        token));
+                Map.of("ac", "subscribe", "s", "feed/" + getFeedUrl(), "t", "new subscription", "T", token));
 
-        SubscriptionList list =
-                client.get(BASE + "/reader/api/0/subscription/list").as(SubscriptionList.class);
+        SubscriptionList list = client.get(BASE + "/reader/api/0/subscription/list").as(SubscriptionList.class);
         Assertions.assertEquals(1, list.getSubscriptions().size());
         String feedStreamId = list.getSubscriptions().getFirst().getId();
 
         client.postForm(
-                BASE + "/reader/api/0/subscription/edit",
-                Map.of("ac", "unsubscribe", "s", feedStreamId, "T", token));
+                BASE + "/reader/api/0/subscription/edit", Map.of("ac", "unsubscribe", "s", feedStreamId, "T", token));
 
         list = client.get(BASE + "/reader/api/0/subscription/list").as(SubscriptionList.class);
         Assertions.assertTrue(list.getSubscriptions().isEmpty());
@@ -302,10 +266,7 @@ class GoogleReaderIT extends BaseIT {
     private record GoogleReaderClient(String token) {
 
         private RequestSpecification given() {
-            return RestAssured.given()
-                    .auth()
-                    .none()
-                    .header("Authorization", "GoogleLogin auth=" + token);
+            return RestAssured.given().auth().none().header("Authorization", "GoogleLogin auth=" + token);
         }
 
         Response get(String path) {

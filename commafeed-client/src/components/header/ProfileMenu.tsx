@@ -31,7 +31,13 @@ import {
 } from "react-icons/tb"
 import { throttle } from "throttle-debounce"
 import { client } from "@/app/client"
-import { redirectToAbout, redirectToAdminUsers, redirectToDonate, redirectToMetrics, redirectToSettings } from "@/app/redirect/thunks"
+import {
+    redirectToAbout,
+    redirectToAdminUsers,
+    redirectToDonate,
+    redirectToMetrics,
+    redirectToSettings,
+} from "@/app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
 import type { ViewMode } from "@/app/types"
 import { setFontSizePercentage, setViewMode } from "@/app/user/slice"
@@ -124,7 +130,13 @@ export function ProfileMenu(props: Readonly<ProfileMenuProps>) {
     }
 
     return (
-        <Menu position="bottom-end" closeOnItemClick={false} opened={opened} onChange={setOpened} preventPositionChangeWhenVisible={false}>
+        <Menu
+            position="bottom-end"
+            closeOnItemClick={false}
+            opened={opened}
+            onChange={setOpened}
+            preventPositionChangeWhenVisible={false}
+        >
             <Menu.Target>{props.control}</Menu.Target>
             <Menu.Dropdown>
                 {profile && <Menu.Label>{profile.name}</Menu.Label>}
@@ -164,7 +176,9 @@ export function ProfileMenu(props: Readonly<ProfileMenuProps>) {
                     }}
                 >
                     <Trans>Fetch all my feeds now</Trans>
-                    {!forceRefreshEnabled && <span> ({dayjs.duration(nextAvailableForceRefresh - now.getTime()).format("HH:mm:ss")})</span>}
+                    {!forceRefreshEnabled && (
+                        <span> ({dayjs.duration(nextAvailableForceRefresh - now.getTime()).format("HH:mm:ss")})</span>
+                    )}
                 </Menu.Item>
 
                 <Divider />

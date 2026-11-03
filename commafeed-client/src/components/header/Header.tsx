@@ -17,7 +17,13 @@ import {
     TbSortDescending,
     TbUser,
 } from "react-icons/tb"
-import { markAllAsReadWithConfirmationIfRequired, reloadEntries, search, selectNextEntry, selectPreviousEntry } from "@/app/entries/thunks"
+import {
+    markAllAsReadWithConfirmationIfRequired,
+    reloadEntries,
+    search,
+    selectNextEntry,
+    selectPreviousEntry,
+} from "@/app/entries/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
 import { changeSettings } from "@/app/user/thunks"
 import { ActionButton } from "@/components/ActionButton"
@@ -143,7 +149,13 @@ export function Header() {
                     onClick={toggleReadingMode}
                 />
                 <ActionButton
-                    icon={settings.readingOrder === "asc" ? <TbSortAscending size={iconSize} /> : <TbSortDescending size={iconSize} />}
+                    icon={
+                        settings.readingOrder === "asc" ? (
+                            <TbSortAscending size={iconSize} />
+                        ) : (
+                            <TbSortDescending size={iconSize} />
+                        )
+                    }
                     label={settings.readingOrder === "asc" ? msg`Asc` : msg`Desc`}
                     onClick={toggleReadingOrder}
                 />
@@ -160,7 +172,11 @@ export function Header() {
                                 placeholder={_(msg`Search`)}
                                 {...searchForm.getInputProps("search")}
                                 leftSection={<TbSearch size={iconSize} />}
-                                rightSection={<CloseButton onClick={async () => await (searchFromStore && dispatch(search("")))} />}
+                                rightSection={
+                                    <CloseButton
+                                        onClick={async () => await (searchFromStore && dispatch(search("")))}
+                                    />
+                                }
                                 autoFocus
                             />
                         </form>

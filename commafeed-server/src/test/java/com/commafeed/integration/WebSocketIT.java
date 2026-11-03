@@ -44,8 +44,7 @@ class WebSocketIT extends BaseIT {
     void setup() {
         initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
         RestAssured.authentication =
-                RestAssured.preemptive()
-                        .basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+                RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
     }
 
     @AfterEach
@@ -76,9 +75,7 @@ class WebSocketIT extends BaseIT {
             Awaitility.await().atMost(15, TimeUnit.SECONDS).untilTrue(connected);
             log.info("connected to {}", session.getRequestURI());
 
-            Awaitility.await()
-                    .atMost(15, TimeUnit.SECONDS)
-                    .until(() -> closeReasonRef.get() != null);
+            Awaitility.await().atMost(15, TimeUnit.SECONDS).until(() -> closeReasonRef.get() != null);
         }
     }
 

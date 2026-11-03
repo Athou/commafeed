@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Calls {@link FeedFetcher} and updates the Feed object, but does not update the database, ({@link
- * FeedRefreshUpdater} does that)
+ * Calls {@link FeedFetcher} and updates the Feed object, but does not update the database, ({@link FeedRefreshUpdater}
+ * does that)
  */
 @Slf4j
 @Singleton
@@ -68,10 +68,7 @@ public class FeedRefreshWorker {
             Duration entriesMaxAge = config.database().cleanup().entriesMaxAge();
             if (!entriesMaxAge.isZero()) {
                 Instant threshold = Instant.now().minus(entriesMaxAge);
-                entries =
-                        entries.stream()
-                                .filter(entry -> entry.published().isAfter(threshold))
-                                .toList();
+                entries = entries.stream().filter(entry -> entry.published().isAfter(threshold)).toList();
             }
 
             String urlAfterRedirect = result.urlAfterRedirect();
@@ -121,9 +118,7 @@ public class FeedRefreshWorker {
 
             feed.setErrorCount(feed.getErrorCount() + 1);
             feed.setMessage("Server indicated that we are sending too many requests");
-            feed.setDisabledUntil(
-                    refreshIntervalCalculator.onTooManyRequests(
-                            e.getRetryAfter(), feed.getErrorCount()));
+            feed.setDisabledUntil(refreshIntervalCalculator.onTooManyRequests(e.getRetryAfter(), feed.getErrorCount()));
 
             return new FeedRefreshWorkerResult(feed, Collections.emptyList());
         } catch (Exception e) {

@@ -32,11 +32,9 @@ public class ExceptionMappers {
     private final CommaFeedConfiguration config;
 
     @ServerExceptionMapper(CommaFeedApplicationException.class)
-    public RestResponse<CommaFeedApplicationError> applicationError(
-            CommaFeedApplicationException e) {
+    public RestResponse<CommaFeedApplicationError> applicationError(CommaFeedApplicationException e) {
         ResponseBuilder<CommaFeedApplicationError> response =
-                ResponseBuilder.create(
-                        e.type().status(), new CommaFeedApplicationError(e.type(), e.getMessage()));
+                ResponseBuilder.create(e.type().status(), new CommaFeedApplicationError(e.type(), e.getMessage()));
         if (e.type().status() == Status.UNAUTHORIZED) {
             response.cookie(cookieService.buildLogoutCookie());
         }
@@ -46,8 +44,7 @@ public class ExceptionMappers {
     @ServerExceptionMapper(UnauthorizedException.class)
     public RestResponse<UnauthorizedResponse> unauthorized(UnauthorizedException e) {
         return RestResponse.status(
-                Status.UNAUTHORIZED,
-                new UnauthorizedResponse(e.getMessage(), config.users().allowRegistrations()));
+                Status.UNAUTHORIZED, new UnauthorizedResponse(e.getMessage(), config.users().allowRegistrations()));
     }
 
     @ServerExceptionMapper(AuthenticationFailedException.class)

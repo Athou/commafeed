@@ -48,8 +48,7 @@ class FeedIT extends BaseIT {
     void setup() {
         initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
         RestAssured.authentication =
-                RestAssured.preemptive()
-                        .basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+                RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
     }
 
     @AfterEach
@@ -130,22 +129,15 @@ class FeedIT extends BaseIT {
         void markWithoutDates() {
             long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
             markFeedEntries(subscriptionId, null, null);
-            Assertions.assertTrue(
-                    getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
+            Assertions.assertTrue(getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
         }
 
         @Test
         void markOlderThan() {
             long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
-            markFeedEntries(
-                    subscriptionId,
-                    LocalDate.of(2023, 12, 28).atStartOfDay().toInstant(ZoneOffset.UTC),
-                    null);
+            markFeedEntries(subscriptionId, LocalDate.of(2023, 12, 28).atStartOfDay().toInstant(ZoneOffset.UTC), null);
             Assertions.assertEquals(
-                    1,
-                    getFeedEntries(subscriptionId).getEntries().stream()
-                            .filter(Entry::isRead)
-                            .count());
+                    1, getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
         }
 
         @Test
@@ -155,8 +147,7 @@ class FeedIT extends BaseIT {
 
             long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
             markFeedEntries(subscriptionId, null, threshold);
-            Assertions.assertTrue(
-                    getFeedEntries(subscriptionId).getEntries().stream().noneMatch(Entry::isRead));
+            Assertions.assertTrue(getFeedEntries(subscriptionId).getEntries().stream().noneMatch(Entry::isRead));
         }
 
         @Test
@@ -167,17 +158,14 @@ class FeedIT extends BaseIT {
             Instant threshold = Instant.now().plus(Duration.ofSeconds(1));
 
             markFeedEntries(subscriptionId, null, threshold);
-            Assertions.assertTrue(
-                    getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
+            Assertions.assertTrue(getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
         }
 
-        private void markFeedEntries(
-                long subscriptionId, Instant olderThan, Instant insertedBefore) {
+        private void markFeedEntries(long subscriptionId, Instant olderThan, Instant insertedBefore) {
             MarkRequest request = new MarkRequest();
             request.setId(String.valueOf(subscriptionId));
             request.setOlderThan(olderThan == null ? null : olderThan.toEpochMilli());
-            request.setInsertedBefore(
-                    insertedBefore == null ? null : insertedBefore.toEpochMilli());
+            request.setInsertedBefore(insertedBefore == null ? null : insertedBefore.toEpochMilli());
 
             RestAssured.given()
                     .body(request)
@@ -202,9 +190,7 @@ class FeedIT extends BaseIT {
 
             Awaitility.await()
                     .atMost(Duration.ofSeconds(15))
-                    .until(
-                            () -> getSubscription(subscriptionId),
-                            f -> f.getLastRefresh().isAfter(threshold));
+                    .until(() -> getSubscription(subscriptionId), f -> f.getLastRefresh().isAfter(threshold));
             Assertions.assertEquals(2, getCategoryEntries(CategoryREST.ALL).getEntries().size());
 
             Assertions.assertEquals(HttpStatus.SC_TOO_MANY_REQUESTS, forceRefreshAllFeeds());
@@ -274,9 +260,7 @@ class FeedIT extends BaseIT {
                             .response()
                             .asByteArray();
             byte[] defaultFavicon =
-                    IOUtils.toByteArray(
-                            Objects.requireNonNull(
-                                    getClass().getResource("/images/default_favicon.gif")));
+                    IOUtils.toByteArray(Objects.requireNonNull(getClass().getResource("/images/default_favicon.gif")));
             Assertions.assertArrayEquals(defaultFavicon, icon);
         }
     }
@@ -297,8 +281,7 @@ class FeedIT extends BaseIT {
         }
 
         void importOpml() {
-            InputStream stream =
-                    Objects.requireNonNull(getClass().getResourceAsStream("/opml/opml_v2.0.xml"));
+            InputStream stream = Objects.requireNonNull(getClass().getResourceAsStream("/opml/opml_v2.0.xml"));
 
             RestAssured.given()
                     .multiPart("file", "opml_v2.0.xml", stream, MediaType.MULTIPART_FORM_DATA)
@@ -355,8 +338,7 @@ class FeedIT extends BaseIT {
                             .as(Entries.class);
             Assertions.assertEquals(3, unreadEntries.getEntries().size());
             Assertions.assertTrue(
-                    unreadEntries.getEntries().stream()
-                            .noneMatch(e -> e.getTitle().toLowerCase().contains("item 4")),
+                    unreadEntries.getEntries().stream().noneMatch(e -> e.getTitle().toLowerCase().contains("item 4")),
                     "Item 4 should be filtered out (marked as read)");
         }
     }

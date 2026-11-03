@@ -36,8 +36,7 @@ public class FeedFetcher {
     private final HttpGetter getter;
     private final List<FeedURLProvider> urlProviders;
 
-    public FeedFetcher(
-            FeedParser parser, HttpGetter getter, @All List<FeedURLProvider> urlProviders) {
+    public FeedFetcher(FeedParser parser, HttpGetter getter, @All List<FeedURLProvider> urlProviders) {
         this.parser = parser;
         this.getter = getter;
         this.urlProviders = urlProviders;
@@ -58,9 +57,7 @@ public class FeedFetcher {
                     NoFeedFoundException {
         log.debug("Fetching feed {}", feedUrl);
 
-        HttpResult result =
-                getter.get(
-                        HttpRequest.builder(feedUrl).lastModified(lastModified).eTag(eTag).build());
+        HttpResult result = getter.get(HttpRequest.builder(feedUrl).lastModified(lastModified).eTag(eTag).build());
         byte[] content = result.content();
 
         FeedParserResult parserResult;
@@ -69,19 +66,12 @@ public class FeedFetcher {
         } catch (FeedParsingException e) {
             if (extractFeedUrlFromHtml) {
                 String extractedUrl =
-                        extractFeedUrl(
-                                urlProviders,
-                                feedUrl,
-                                new String(result.content(), StandardCharsets.UTF_8));
+                        extractFeedUrl(urlProviders, feedUrl, new String(result.content(), StandardCharsets.UTF_8));
                 if (StringUtils.isNotBlank(extractedUrl)) {
                     feedUrl = extractedUrl;
 
                     result =
-                            getter.get(
-                                    HttpRequest.builder(extractedUrl)
-                                            .lastModified(lastModified)
-                                            .eTag(eTag)
-                                            .build());
+                            getter.get(HttpRequest.builder(extractedUrl).lastModified(lastModified).eTag(eTag).build());
                     content = result.content();
                     parserResult = parser.parse(result.urlAfterRedirect(), content);
                 } else {
@@ -96,8 +86,7 @@ public class FeedFetcher {
             throw new IOException("Feed content is empty.");
         }
 
-        boolean lastModifiedHeaderValueChanged =
-                !Strings.CS.equals(lastModified, result.lastModifiedSince());
+        boolean lastModifiedHeaderValueChanged = !Strings.CS.equals(lastModified, result.lastModifiedSince());
         boolean etagHeaderValueChanged = !Strings.CS.equals(eTag, result.eTag());
 
         String hash = Digests.sha1Hex(content);
@@ -109,8 +98,7 @@ public class FeedFetcher {
                     etagHeaderValueChanged ? result.eTag() : null);
         }
 
-        if (lastPublishedDate != null
-                && lastPublishedDate.equals(parserResult.lastPublishedDate())) {
+        if (lastPublishedDate != null && lastPublishedDate.equals(parserResult.lastPublishedDate())) {
             log.debug("publishedDate not modified: {}", feedUrl);
             throw new NotModifiedException(
                     "publishedDate not modified",
@@ -127,8 +115,7 @@ public class FeedFetcher {
                 result.validFor());
     }
 
-    private static String extractFeedUrl(
-            List<FeedURLProvider> urlProviders, String url, String urlContent) {
+    private static String extractFeedUrl(List<FeedURLProvider> urlProviders, String url, String urlContent) {
         return urlProviders.stream()
                 .flatMap(provider -> provider.get(url, urlContent).stream())
                 .filter(StringUtils::isNotBlank)

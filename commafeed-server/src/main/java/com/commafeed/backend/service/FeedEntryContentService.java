@@ -27,9 +27,7 @@ public class FeedEntryContentService {
     public FeedEntryContent findOrCreate(Content content, String baseUrl) {
         FeedEntryContent entryContent = buildContent(content, baseUrl);
         Optional<FeedEntryContent> existing =
-                feedEntryContentDAO
-                        .findExisting(entryContent.getContentHash(), entryContent.getTitleHash())
-                        .stream()
+                feedEntryContentDAO.findExisting(entryContent.getContentHash(), entryContent.getTitleHash()).stream()
                         .filter(entryContent::equivalentTo)
                         .findFirst();
         if (existing.isPresent()) {
@@ -44,11 +42,9 @@ public class FeedEntryContentService {
         FeedEntryContent entryContent = new FeedEntryContent();
         entryContent.setTitleHash(Digests.sha1Hex(StringUtils.trimToEmpty(content.title())));
         entryContent.setContentHash(Digests.sha1Hex(StringUtils.trimToEmpty(content.content())));
-        entryContent.setTitle(
-                FeedUtils.truncate(cleaningService.clean(content.title(), baseUrl, true), 2048));
+        entryContent.setTitle(FeedUtils.truncate(cleaningService.clean(content.title(), baseUrl, true), 2048));
         entryContent.setContent(cleaningService.clean(content.content(), baseUrl, false));
-        entryContent.setAuthor(
-                FeedUtils.truncate(cleaningService.clean(content.author(), baseUrl, true), 128));
+        entryContent.setAuthor(FeedUtils.truncate(cleaningService.clean(content.author(), baseUrl, true), 128));
         entryContent.setCategories(FeedUtils.truncate(content.categories(), 4096));
         entryContent.setDirection(
                 FeedUtils.isRTL(content.title(), content.content())
@@ -63,8 +59,7 @@ public class FeedEntryContentService {
 
         Media media = content.media();
         if (media != null) {
-            entryContent.setMediaDescription(
-                    cleaningService.clean(media.description(), baseUrl, false));
+            entryContent.setMediaDescription(cleaningService.clean(media.description(), baseUrl, false));
             entryContent.setMediaThumbnailUrl(FeedUtils.truncate(media.thumbnailUrl(), 2048));
             entryContent.setMediaThumbnailWidth(media.thumbnailWidth());
             entryContent.setMediaThumbnailHeight(media.thumbnailHeight());

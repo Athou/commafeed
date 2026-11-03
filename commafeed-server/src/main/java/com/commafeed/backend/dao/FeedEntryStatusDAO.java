@@ -48,9 +48,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
     private final CommaFeedConfiguration config;
 
     public FeedEntryStatusDAO(
-            EntityManager entityManager,
-            FeedEntryTagDAO feedEntryTagDAO,
-            CommaFeedConfiguration config) {
+            EntityManager entityManager, FeedEntryTagDAO feedEntryTagDAO, CommaFeedConfiguration config) {
         super(entityManager, FeedEntryStatus.class, config);
         this.feedEntryTagDAO = feedEntryTagDAO;
         this.config = config;
@@ -58,22 +56,16 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
     public FeedEntryStatus getStatus(User user, FeedSubscription sub, FeedEntry entry) {
         List<FeedEntryStatus> statuses =
-                query().selectFrom(STATUS)
-                        .where(STATUS.entry.eq(entry), STATUS.subscription.eq(sub))
-                        .fetch();
+                query().selectFrom(STATUS).where(STATUS.entry.eq(entry), STATUS.subscription.eq(sub)).fetch();
         FeedEntryStatus status = statuses.stream().findFirst().orElse(null);
         return handleStatus(user, status, sub, entry);
     }
 
     /** creates an artificial "unread" status if status is null */
-    private FeedEntryStatus handleStatus(
-            User user, FeedEntryStatus status, FeedSubscription sub, FeedEntry entry) {
+    private FeedEntryStatus handleStatus(User user, FeedEntryStatus status, FeedSubscription sub, FeedEntry entry) {
         if (status == null) {
-            Instant statusesInstantThreshold =
-                    config.database().cleanup().statusesInstantThreshold();
-            boolean read =
-                    statusesInstantThreshold != null
-                            && entry.getPublished().isBefore(statusesInstantThreshold);
+            Instant statusesInstantThreshold = config.database().cleanup().statusesInstantThreshold();
+            boolean read = statusesInstantThreshold != null && entry.getPublished().isBefore(statusesInstantThreshold);
             status = new FeedEntryStatus(user, sub, entry);
             status.setRead(read);
             status.setMarkable(!read);
@@ -85,8 +77,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
     private void fetchTags(User user, List<FeedEntryStatus> statuses) {
         Map<Long, List<FeedEntryTag>> tagsByEntryIds =
-                feedEntryTagDAO.findByEntries(
-                        user, statuses.stream().map(FeedEntryStatus::getEntry).toList());
+                feedEntryTagDAO.findByEntries(user, statuses.stream().map(FeedEntryStatus::getEntry).toList());
         for (FeedEntryStatus status : statuses) {
             List<FeedEntryTag> tags = tagsByEntryIds.get(status.getEntry().getId());
             status.setTags(tags == null ? List.of() : tags);
@@ -258,9 +249,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
             Long count = tuple.get(ENTRY.count());
             Instant published = tuple.get(ENTRY.published.max());
             for (FeedSubscription sub : subsByFeedId.get(feedId)) {
-                result.put(
-                        sub.getId(),
-                        new UnreadCount(sub.getId(), count == null ? 0 : count, published));
+                result.put(sub.getId(), new UnreadCount(sub.getId(), count == null ? 0 : count, published));
             }
         }
 
@@ -303,8 +292,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
         where.and(SUBSCRIPTION.autoMarkAsReadAfterDays.gt(0));
 
         NumberExpression<Integer> daysDiff =
-                Expressions.numberTemplate(
-                        Integer.class, "TIMESTAMPDIFF(DAY, {0}, {1})", ENTRY.published, now);
+                Expressions.numberTemplate(Integer.class, "TIMESTAMPDIFF(DAY, {0}, {1})", ENTRY.published, now);
         where.and(daysDiff.goe(SUBSCRIPTION.autoMarkAsReadAfterDays));
 
         where.and(buildUnreadPredicate());
@@ -333,11 +321,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
                         .toList();
 
         if (!statusIdsToUpdate.isEmpty()) {
-            updated +=
-                    updateQuery(STATUS)
-                            .where(STATUS.id.in(statusIdsToUpdate))
-                            .set(STATUS.read, true)
-                            .execute();
+            updated += updateQuery(STATUS).where(STATUS.id.in(statusIdsToUpdate)).set(STATUS.read, true).execute();
         }
 
         // Insert new statuses for entries without existing status

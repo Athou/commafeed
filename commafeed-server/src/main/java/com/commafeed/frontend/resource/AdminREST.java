@@ -62,8 +62,7 @@ public class AdminREST {
     @Transactional
     @Operation(
             summary = "Save or update a user",
-            description =
-                    "Save or update a user. If the id is not specified, a new user will be created")
+            description = "Save or update a user. If the id is not specified, a new user will be created")
     public Response adminSaveUser(@Valid @Parameter(required = true) AdminSaveUserRequest req) {
         Preconditions.checkNotNull(req);
         Preconditions.checkNotNull(req.getName());
@@ -77,24 +76,14 @@ public class AdminREST {
                 roles.add(Role.ADMIN);
             }
             try {
-                id =
-                        userService
-                                .register(
-                                        req.getName(),
-                                        req.getPassword(),
-                                        req.getEmail(),
-                                        roles,
-                                        true)
-                                .getId();
+                id = userService.register(req.getName(), req.getPassword(), req.getEmail(), roles, true).getId();
             } catch (Exception e) {
                 return Response.status(Status.CONFLICT).entity(e.getMessage()).build();
             }
         } else {
             User user = authenticationContext.getCurrentUser();
             if (req.getId().equals(user.getId()) && !req.isEnabled()) {
-                return Response.status(Status.FORBIDDEN)
-                        .entity("You cannot disable your own account.")
-                        .build();
+                return Response.status(Status.FORBIDDEN).entity("You cannot disable your own account.").build();
             }
 
             User u = userDAO.findById(id);
@@ -134,8 +123,7 @@ public class AdminREST {
     @GET
     @Transactional
     @Operation(summary = "Get user information", description = "Get user information")
-    public UserModel adminGetUser(
-            @Parameter(description = "user id", required = true) @PathParam("id") Long id) {
+    public UserModel adminGetUser(@Parameter(description = "user id", required = true) @PathParam("id") Long id) {
         Preconditions.checkNotNull(id);
         User u = userDAO.findById(id);
         UserModel userModel = new UserModel();
@@ -143,8 +131,7 @@ public class AdminREST {
         userModel.setName(u.getName());
         userModel.setEmail(u.getEmail());
         userModel.setEnabled(!u.isDisabled());
-        userModel.setAdmin(
-                userRoleDAO.findAll(u).stream().anyMatch(r -> r.getRole() == Role.ADMIN));
+        userModel.setAdmin(userRoleDAO.findAll(u).stream().anyMatch(r -> r.getRole() == Role.ADMIN));
         return userModel;
     }
 
@@ -192,9 +179,7 @@ public class AdminREST {
 
         User user = authenticationContext.getCurrentUser();
         if (user.getId().equals(u.getId())) {
-            return Response.status(Status.FORBIDDEN)
-                    .entity("You cannot delete your own user.")
-                    .build();
+            return Response.status(Status.FORBIDDEN).entity("You cannot delete your own user.").build();
         }
         userService.unregister(u);
         return Response.ok().build();

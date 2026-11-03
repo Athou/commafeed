@@ -34,7 +34,11 @@ export function UserEdit(props: Readonly<UserEditProps>) {
             <form onSubmit={form.onSubmit(saveUser.execute)}>
                 <Stack>
                     <TextInput label={<Trans>Name</Trans>} {...form.getInputProps("name")} required />
-                    <PasswordInput label={<Trans>Password</Trans>} {...form.getInputProps("password")} required={!props.user} />
+                    <PasswordInput
+                        label={<Trans>Password</Trans>}
+                        {...form.getInputProps("password")}
+                        required={!props.user}
+                    />
                     <TextInput type="email" label={<Trans>E-mail</Trans>} {...form.getInputProps("email")} />
                     <Checkbox label={<Trans>Admin</Trans>} {...form.getInputProps("admin", { type: "checkbox" })} />
                     <Checkbox label={<Trans>Enabled</Trans>} {...form.getInputProps("enabled", { type: "checkbox" })} />

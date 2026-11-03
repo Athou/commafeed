@@ -80,7 +80,11 @@ export function TreeNode(props: Readonly<TreeNodeProps>) {
             data-type={props.type}
             data-unread-count={props.unread}
         >
-            <Box mr={6} onClick={(e: React.MouseEvent) => props.onIconClick?.(e, props.id)} className="cf-treenode-icon">
+            <Box
+                mr={6}
+                onClick={(e: React.MouseEvent) => props.onIconClick?.(e, props.id)}
+                className="cf-treenode-icon"
+            >
                 <Center>{typeof props.icon === "string" ? <FeedFavicon url={props.icon} /> : props.icon}</Center>
             </Box>
             <Box className={classes.nodeText}>{props.name}</Box>

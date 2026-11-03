@@ -31,11 +31,7 @@ public class FeedEntryTagDAO extends GenericDAO<FeedEntryTag> {
     }
 
     public Map<Long, List<FeedEntryTag>> findByEntries(User user, List<FeedEntry> entries) {
-        return query()
-                .selectFrom(TAG)
-                .where(TAG.user.eq(user), TAG.entry.in(entries))
-                .fetch()
-                .stream()
+        return query().selectFrom(TAG).where(TAG.user.eq(user), TAG.entry.in(entries)).fetch().stream()
                 .collect(Collectors.groupingBy(t -> t.getEntry().getId()));
     }
 }

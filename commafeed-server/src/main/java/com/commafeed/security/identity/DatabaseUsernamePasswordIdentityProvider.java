@@ -43,12 +43,9 @@ public class DatabaseUsernamePasswordIdentityProvider
         return context.runBlocking(() -> {
             Optional<User> user =
                     unitOfWork.call(() ->
-                            userService.login(
-                                    request.getUsername(),
-                                    new String(request.getPassword().getPassword())));
+                            userService.login(request.getUsername(), new String(request.getPassword().getPassword())));
             if (user.isEmpty()) {
-                throw new CommaFeedApplicationException(
-                        CommaFeedExceptionType.WRONG_USERNAME_OR_PASSWORD);
+                throw new CommaFeedApplicationException(CommaFeedExceptionType.WRONG_USERNAME_OR_PASSWORD);
             }
 
             Set<Role> roles = unitOfWork.call(() -> userService.getRoles(user.get()));

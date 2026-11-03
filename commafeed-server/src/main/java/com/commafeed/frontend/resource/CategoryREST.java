@@ -104,30 +104,22 @@ public class CategoryREST {
     @Operation(summary = "Get category entries", description = "Get a list of category entries")
     @APIResponse(
             responseCode = "200",
-            content = {
-                @Content(
-                        mediaType = "application/json",
-                        schema = @Schema(implementation = Entries.class))
-            })
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Entries.class))})
     @APIResponse(responseCode = "404", description = "category not found")
     public Response getCategoryEntries(
-            @Parameter(description = "id of the category, 'all' or 'starred'", required = true)
-                    @QueryParam("id")
+            @Parameter(description = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id")
                     String id,
             @Parameter(description = "all entries or only unread ones", required = true)
                     @DefaultValue("unread")
                     @QueryParam("readType")
                     ReadingMode readType,
-            @Parameter(description = "only entries newer than this") @QueryParam("newerThan")
-                    Long newerThan,
-            @Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset")
-                    int offset,
+            @Parameter(description = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
+            @Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
             @Parameter(description = "limit for paging, default 20, maximum 1000")
                     @DefaultValue("20")
                     @QueryParam("limit")
                     int limit,
-            @Parameter(description = "ordering") @QueryParam("order") @DefaultValue("desc")
-                    ReadingOrder order,
+            @Parameter(description = "ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
             @Parameter(
                             description =
                                     "search for keywords in either the title or the content of the entries, separated by spaces")
@@ -136,13 +128,11 @@ public class CategoryREST {
             @Parameter(description = "comma-separated list of excluded subscription ids")
                     @QueryParam("excludedSubscriptionIds")
                     String excludedSubscriptionIds,
-            @Parameter(description = "keep only entries tagged with this tag") @QueryParam("tag")
-                    String tag) {
+            @Parameter(description = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {
 
         Preconditions.checkNotNull(readType);
 
-        List<FeedEntryKeyword> entryKeywords =
-                FeedEntryKeyword.fromQueryString(StringUtils.trimToNull(keywords));
+        List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(StringUtils.trimToNull(keywords));
 
         limit = Math.min(limit, 1000);
         limit = Math.max(0, limit);
@@ -159,8 +149,7 @@ public class CategoryREST {
 
         List<Long> excludedIds = null;
         if (StringUtils.isNotEmpty(excludedSubscriptionIds)) {
-            excludedIds =
-                    Arrays.stream(excludedSubscriptionIds.split(",")).map(Long::valueOf).toList();
+            excludedIds = Arrays.stream(excludedSubscriptionIds.split(",")).map(Long::valueOf).toList();
         }
 
         User user = authenticationContext.getCurrentUser();
@@ -191,18 +180,15 @@ public class CategoryREST {
         } else if (STARRED.equals(id)) {
             entries.setName("Starred");
             List<FeedEntryStatus> starred =
-                    feedEntryStatusDAO.findStarred(
-                            user, entryKeywords, newerThanDate, offset, limit + 1, order, true);
+                    feedEntryStatusDAO.findStarred(user, entryKeywords, newerThanDate, offset, limit + 1, order, true);
             for (FeedEntryStatus status : starred) {
                 entries.getEntries().add(Entry.build(status, config.imageProxyEnabled()));
             }
         } else {
             FeedCategory parent = feedCategoryDAO.findById(user, Long.valueOf(id));
             if (parent != null) {
-                List<FeedCategory> categories =
-                        feedCategoryDAO.findAllChildrenCategories(user, parent);
-                List<FeedSubscription> subs =
-                        feedSubscriptionDAO.findByCategories(user, categories);
+                List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, parent);
+                List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(user, categories);
                 removeExcludedSubscriptions(subs, excludedIds);
                 List<FeedEntryStatus> list =
                         feedEntryStatusDAO.findBySubscriptions(
@@ -224,9 +210,7 @@ public class CategoryREST {
                 }
                 entries.setName(parent.getName());
             } else {
-                return Response.status(Status.NOT_FOUND)
-                        .entity("<message>category not found</message>")
-                        .build();
+                return Response.status(Status.NOT_FOUND).entity("<message>category not found</message>").build();
             }
         }
 
@@ -244,28 +228,22 @@ public class CategoryREST {
     @Path("/entriesAsFeed")
     @GET
     @Transactional
-    @Operation(
-            summary = "Get category entries as feed",
-            description = "Get a feed of category entries")
+    @Operation(summary = "Get category entries as feed", description = "Get a feed of category entries")
     @Produces(MediaType.APPLICATION_XML)
     public Response getCategoryEntriesAsFeed(
-            @Parameter(description = "id of the category, 'all' or 'starred'", required = true)
-                    @QueryParam("id")
+            @Parameter(description = "id of the category, 'all' or 'starred'", required = true) @QueryParam("id")
                     String id,
             @Parameter(description = "all entries or only unread ones", required = true)
                     @DefaultValue("all")
                     @QueryParam("readType")
                     ReadingMode readType,
-            @Parameter(description = "only entries newer than this") @QueryParam("newerThan")
-                    Long newerThan,
-            @Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset")
-                    int offset,
+            @Parameter(description = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
+            @Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
             @Parameter(description = "limit for paging, default 20, maximum 1000")
                     @DefaultValue("20")
                     @QueryParam("limit")
                     int limit,
-            @Parameter(description = "date ordering") @QueryParam("order") @DefaultValue("desc")
-                    ReadingOrder order,
+            @Parameter(description = "date ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
             @Parameter(
                             description =
                                     "search for keywords in either the title or the content of the entries, separated by spaces")
@@ -274,20 +252,11 @@ public class CategoryREST {
             @Parameter(description = "comma-separated list of excluded subscription ids")
                     @QueryParam("excludedSubscriptionIds")
                     String excludedSubscriptionIds,
-            @Parameter(description = "keep only entries tagged with this tag") @QueryParam("tag")
-                    String tag) {
+            @Parameter(description = "keep only entries tagged with this tag") @QueryParam("tag") String tag) {
 
         Response response =
                 getCategoryEntries(
-                        id,
-                        readType,
-                        newerThan,
-                        offset,
-                        limit,
-                        order,
-                        keywords,
-                        excludedSubscriptionIds,
-                        tag);
+                        id, readType, newerThan, offset, limit, order, keywords, excludedSubscriptionIds, tag);
         if (response.getStatus() != Status.OK.getStatusCode()) {
             return response;
         }
@@ -314,21 +283,14 @@ public class CategoryREST {
     @Path("/mark")
     @POST
     @Transactional
-    @Operation(
-            summary = "Mark category entries",
-            description = "Mark feed entries of this category as read")
+    @Operation(summary = "Mark category entries", description = "Mark feed entries of this category as read")
     public Response markCategoryEntries(
-            @Valid @Parameter(description = "category id, or 'all'", required = true)
-                    MarkRequest req) {
+            @Valid @Parameter(description = "category id, or 'all'", required = true) MarkRequest req) {
         Preconditions.checkNotNull(req);
         Preconditions.checkNotNull(req.getId());
 
-        Instant olderThan =
-                req.getOlderThan() == null ? null : Instant.ofEpochMilli(req.getOlderThan());
-        Instant insertedBefore =
-                req.getInsertedBefore() == null
-                        ? null
-                        : Instant.ofEpochMilli(req.getInsertedBefore());
+        Instant olderThan = req.getOlderThan() == null ? null : Instant.ofEpochMilli(req.getOlderThan());
+        Instant insertedBefore = req.getInsertedBefore() == null ? null : Instant.ofEpochMilli(req.getInsertedBefore());
         String keywords = req.getKeywords();
         List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
@@ -336,8 +298,7 @@ public class CategoryREST {
         if (ALL.equals(req.getId())) {
             List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
             removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
-            feedEntryService.markSubscriptionEntries(
-                    user, subs, olderThan, insertedBefore, entryKeywords);
+            feedEntryService.markSubscriptionEntries(user, subs, olderThan, insertedBefore, entryKeywords);
         } else if (STARRED.equals(req.getId())) {
             feedEntryService.markStarredEntries(user, olderThan, insertedBefore);
         } else {
@@ -345,8 +306,7 @@ public class CategoryREST {
             List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, parent);
             List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(user, categories);
             removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
-            feedEntryService.markSubscriptionEntries(
-                    user, subs, olderThan, insertedBefore, entryKeywords);
+            feedEntryService.markSubscriptionEntries(user, subs, olderThan, insertedBefore, entryKeywords);
         }
         return Response.ok().build();
     }
@@ -400,8 +360,7 @@ public class CategoryREST {
 
             List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, cat);
             for (FeedCategory child : categories) {
-                if (!child.getId().equals(cat.getId())
-                        && child.getParent().getId().equals(cat.getId())) {
+                if (!child.getId().equals(cat.getId()) && child.getParent().getId().equals(cat.getId())) {
                     child.setParent(null);
                 }
             }
@@ -417,8 +376,7 @@ public class CategoryREST {
     @Path("/modify")
     @Transactional
     @Operation(summary = "Modify a category", description = "Modify an existing feed category")
-    public Response modifyCategory(
-            @Valid @Parameter(required = true) CategoryModificationRequest req) {
+    public Response modifyCategory(@Valid @Parameter(required = true) CategoryModificationRequest req) {
         Preconditions.checkNotNull(req);
         Preconditions.checkNotNull(req.getId());
 
@@ -437,14 +395,11 @@ public class CategoryREST {
         }
         if (parent != null) {
             Long parentId = parent.getId();
-            List<FeedCategory> descendants =
-                    feedCategoryDAO.findAllChildrenCategories(user, category);
-            boolean parentIsDescendant =
-                    descendants.stream().anyMatch(c -> c.getId().equals(parentId));
+            List<FeedCategory> descendants = feedCategoryDAO.findAllChildrenCategories(user, category);
+            boolean parentIsDescendant = descendants.stream().anyMatch(c -> c.getId().equals(parentId));
             if (parentIsDescendant) {
                 return Response.status(Status.BAD_REQUEST)
-                        .entity(
-                                "<message>cannot set a category's own descendant as its parent</message>")
+                        .entity("<message>cannot set a category's own descendant as its parent</message>")
                         .build();
             }
         }
@@ -476,9 +431,7 @@ public class CategoryREST {
     @POST
     @Path("/collapse")
     @Transactional
-    @Operation(
-            summary = "Collapse a category",
-            description = "Save collapsed or expanded status for a category")
+    @Operation(summary = "Collapse a category", description = "Save collapsed or expanded status for a category")
     public Response collapseCategory(@Parameter(required = true) CollapseRequest req) {
         Preconditions.checkNotNull(req);
         Preconditions.checkNotNull(req.getId());
@@ -506,9 +459,7 @@ public class CategoryREST {
     @GET
     @Path("/get")
     @Transactional
-    @Operation(
-            summary = "Get root category",
-            description = "Get all categories and subscriptions of the user")
+    @Operation(summary = "Get root category", description = "Get all categories and subscriptions of the user")
     public Category getRootCategory() {
         User user = authenticationContext.getCurrentUser();
 
@@ -551,8 +502,7 @@ public class CategoryREST {
 
         for (FeedSubscription subscription : subscriptions) {
             if (id == null && subscription.getCategory() == null
-                    || subscription.getCategory() != null
-                            && Objects.equals(subscription.getCategory().getId(), id)) {
+                    || subscription.getCategory() != null && Objects.equals(subscription.getCategory().getId(), id)) {
                 UnreadCount uc = unreadCount.get(subscription.getId());
                 Subscription sub = Subscription.build(subscription, uc);
                 category.getFeeds().add(sub);

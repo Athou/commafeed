@@ -34,16 +34,14 @@ public class CommaFeedApplication {
         System.setProperty(SystemProperties.JDK_XML_MAX_GENERAL_ENTITY_SIZE_LIMIT, "0");
         System.setProperty(SystemProperties.JDK_XML_TOTAL_ENTITY_SIZE_LIMIT, "0");
 
-        PasswordConstraintValidator.setMinimumPasswordLength(
-                config.users().minimumPasswordLength());
+        PasswordConstraintValidator.setMinimumPasswordLength(config.users().minimumPasswordLength());
 
         if (config.imageProxyEnabled()) {
             ImageProxyUrl.generateKey();
         }
 
         if (config.passwordRecoveryEnabled() && config.passwordRecoveryPublicBaseUrl().isEmpty()) {
-            throw new IllegalStateException(
-                    "password recovery is enabled but no public base url is set");
+            throw new IllegalStateException("password recovery is enabled but no public base url is set");
         }
 
         feedRefreshEngine.start();

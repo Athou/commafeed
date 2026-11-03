@@ -40,8 +40,7 @@ public class FeedUtils {
             return false;
         }
 
-        return TextDirectionDetector.detect(stripped)
-                == TextDirectionDetector.Direction.RIGHT_TO_LEFT;
+        return TextDirectionDetector.detect(stripped) == TextDirectionDetector.Direction.RIGHT_TO_LEFT;
     }
 
     public static String getFaviconUrl(FeedSubscription subscription) {

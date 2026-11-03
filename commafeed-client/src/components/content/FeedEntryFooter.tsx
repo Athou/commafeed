@@ -1,7 +1,16 @@
 import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Group, Indicator, Popover, TagsInput } from "@mantine/core"
-import { TbArrowBarToDown, TbExternalLink, TbMail, TbMailOpened, TbShare, TbStar, TbStarOff, TbTag } from "react-icons/tb"
+import {
+    TbArrowBarToDown,
+    TbExternalLink,
+    TbMail,
+    TbMailOpened,
+    TbShare,
+    TbStar,
+    TbStarOff,
+    TbTag,
+} from "react-icons/tb"
 import { markEntriesUpToEntry, markEntry, starEntry, tagEntry } from "@/app/entries/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
 import type { Entry } from "@/app/types"
@@ -71,7 +80,12 @@ export function FeedEntryFooter(props: Readonly<FeedEntryFooterProps>) {
                 {tags && (
                     <Popover withArrow shadow="md" closeOnClickOutside={!mobile}>
                         <Popover.Target>
-                            <Indicator label={props.entry.tags.length} disabled={props.entry.tags.length === 0} inline size={16}>
+                            <Indicator
+                                label={props.entry.tags.length}
+                                disabled={props.entry.tags.length === 0}
+                                inline
+                                size={16}
+                            >
                                 <ActionButton icon={<TbTag size={18} />} label={msg`Tags`} />
                             </Indicator>
                         </Popover.Target>

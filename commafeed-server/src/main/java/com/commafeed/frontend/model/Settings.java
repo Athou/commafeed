@@ -29,14 +29,10 @@ public class Settings implements Serializable {
     @Schema(description = "user reads entries in ascending or descending order", required = true)
     private ReadingOrder readingOrder;
 
-    @Schema(
-            description = "user wants category and feeds with no unread entries shown",
-            required = true)
+    @Schema(description = "user wants category and feeds with no unread entries shown", required = true)
     private boolean showRead;
 
-    @Schema(
-            description = "In expanded view, scroll through entries mark them as read",
-            required = true)
+    @Schema(description = "In expanded view, scroll through entries mark them as read", required = true)
     private boolean scrollMarks;
 
     @Schema(description = "user's custom css for the website")
@@ -45,42 +41,33 @@ public class Settings implements Serializable {
     @Schema(description = "user's custom js for the website")
     private String customJs;
 
-    @Schema(
-            description = "user's preferred scroll speed when navigating between entries",
-            required = true)
+    @Schema(description = "user's preferred scroll speed when navigating between entries", required = true)
     private int scrollSpeed;
 
     @Schema(description = "whether to scroll to the selected entry", required = true)
     private ScrollMode scrollMode;
 
-    @Schema(
-            description = "number of entries to keep above the selected entry when scrolling",
-            required = true)
+    @Schema(description = "number of entries to keep above the selected entry when scrolling", required = true)
     private int entriesToKeepOnTopWhenScrolling;
 
     @Schema(description = "whether to show the star icon in the header of entries", required = true)
     private IconDisplayMode starIconDisplayMode;
 
-    @Schema(
-            description = "whether to show the external link icon in the header of entries",
-            required = true)
+    @Schema(description = "whether to show the external link icon in the header of entries", required = true)
     private IconDisplayMode externalLinkIconDisplayMode;
 
     @Schema(description = "ask for confirmation when marking all entries as read", required = true)
     private boolean markAllAsReadConfirmation;
 
     @Schema(
-            description =
-                    "navigate to the next unread category or feed after marking all entries as read",
+            description = "navigate to the next unread category or feed after marking all entries as read",
             required = true)
     private boolean markAllAsReadNavigateToNextUnread;
 
     @Schema(description = "show commafeed's own context menu on right click", required = true)
     private boolean customContextMenu;
 
-    @Schema(
-            description = "on mobile, show action buttons at the bottom of the screen",
-            required = true)
+    @Schema(description = "on mobile, show action buttons at the bottom of the screen", required = true)
     private boolean mobileFooter;
 
     @Schema(description = "show unread count in the title", required = true)

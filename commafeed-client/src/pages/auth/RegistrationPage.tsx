@@ -1,7 +1,19 @@
 import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
-import { Anchor, Box, Button, Center, Container, Group, Paper, PasswordInput, Stack, TextInput, Title } from "@mantine/core"
+import {
+    Anchor,
+    Box,
+    Button,
+    Center,
+    Container,
+    Group,
+    Paper,
+    PasswordInput,
+    Stack,
+    TextInput,
+    Title,
+} from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useAsyncCallback } from "react-async-hook"
 import { Link } from "react-router-dom"
@@ -71,7 +83,13 @@ export function RegistrationPage() {
 
                         <form onSubmit={form.onSubmit(register.execute)}>
                             <Stack>
-                                <TextInput label="User Name" placeholder="User Name" {...form.getInputProps("name")} size="md" required />
+                                <TextInput
+                                    label="User Name"
+                                    placeholder="User Name"
+                                    {...form.getInputProps("name")}
+                                    size="md"
+                                    required
+                                />
                                 <TextInput
                                     type="email"
                                     label={<Trans>E-mail address</Trans>}

@@ -290,6 +290,7 @@
                         <googleJavaFormat>
                             <version>${google-java-format.version}</version>
                             <style>AOSP</style>
+                            <maxLineLength>120</maxLineLength>
                             <reorderImports>true</reorderImports>
                         </googleJavaFormat>
                     </java>

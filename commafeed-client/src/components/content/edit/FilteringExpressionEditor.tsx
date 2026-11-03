@@ -26,7 +26,16 @@ const fields: Field[] = [
     { name: "categoriesLower", label: "Categories (lower case)" },
 ]
 
-const textOperators = new Set(["=", "!=", "contains", "beginsWith", "endsWith", "doesNotContain", "doesNotBeginWith", "doesNotEndWith"])
+const textOperators = new Set([
+    "=",
+    "!=",
+    "contains",
+    "beginsWith",
+    "endsWith",
+    "doesNotContain",
+    "doesNotBeginWith",
+    "doesNotEndWith",
+])
 
 function toCelString(query: RuleGroupType): string {
     if (query.rules.length === 0) {

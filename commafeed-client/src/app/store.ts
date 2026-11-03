@@ -41,4 +41,5 @@ export type AppDispatch = typeof store.dispatch
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
-export const useShallowEqualAppSelector: TypedUseSelectorHook<RootState> = selector => useSelector(selector, shallowEqual)
+export const useShallowEqualAppSelector: TypedUseSelectorHook<RootState> = selector =>
+    useSelector(selector, shallowEqual)

@@ -1,6 +1,14 @@
 import { Box, Mark } from "@mantine/core"
 import escapeStringRegexp from "escape-string-regexp"
-import { ALLOWED_TAG_LIST, type ChildrenNode, Interweave, Matcher, type MatchResponse, type Node, type TransformCallback } from "interweave"
+import {
+    ALLOWED_TAG_LIST,
+    type ChildrenNode,
+    Interweave,
+    Matcher,
+    type MatchResponse,
+    type Node,
+    type TransformCallback,
+} from "interweave"
 import React from "react"
 import styleToObject from "style-to-object"
 import { Constants } from "@/app/constants"

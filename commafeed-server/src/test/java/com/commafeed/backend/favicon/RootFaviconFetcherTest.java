@@ -36,8 +36,7 @@ class RootFaviconFetcherTest {
 
         byte[] iconBytes = new byte[1000];
         String contentType = "image/x-icon";
-        HttpResult httpResult =
-                new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
+        HttpResult httpResult = new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
         Mockito.when(httpGetter.get("https://www.example.com/favicon.ico")).thenReturn(httpResult);
 
         Favicon result = faviconFetcher.fetch(feed);
@@ -55,10 +54,8 @@ class RootFaviconFetcherTest {
 
         byte[] iconBytes = new byte[1000];
         String contentType = "image/x-icon";
-        HttpResult httpResult =
-                new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
-        Mockito.when(httpGetter.get("https://www.example.com:8000/favicon.ico"))
-                .thenReturn(httpResult);
+        HttpResult httpResult = new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
+        Mockito.when(httpGetter.get("https://www.example.com:8000/favicon.ico")).thenReturn(httpResult);
 
         Favicon result = faviconFetcher.fetch(feed);
 
@@ -74,8 +71,7 @@ class RootFaviconFetcherTest {
 
         byte[] iconBytes = new byte[1000];
         String contentType = "image/x-icon";
-        HttpResult httpResult =
-                new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
+        HttpResult httpResult = new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
         Mockito.when(httpGetter.get("https://example.com/favicon.ico")).thenReturn(httpResult);
 
         Favicon result = faviconFetcher.fetch(feed);

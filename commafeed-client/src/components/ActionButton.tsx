@@ -1,6 +1,14 @@
 import type { MessageDescriptor } from "@lingui/core"
 import { useLingui } from "@lingui/react"
-import { ActionIcon, type ActionIconVariant, Box, Button, type ButtonVariant, Tooltip, useMantineTheme } from "@mantine/core"
+import {
+    ActionIcon,
+    type ActionIconVariant,
+    Box,
+    Button,
+    type ButtonVariant,
+    Tooltip,
+    useMantineTheme,
+} from "@mantine/core"
 import { forwardRef, type MouseEventHandler, type ReactNode } from "react"
 import { Constants } from "@/app/constants"
 import { useActionButton } from "@/hooks/useActionButton"

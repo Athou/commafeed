@@ -1,7 +1,19 @@
 import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
-import { Anchor, Box, Button, Center, Container, Group, Paper, PasswordInput, Stack, TextInput, Title } from "@mantine/core"
+import {
+    Anchor,
+    Box,
+    Button,
+    Center,
+    Container,
+    Group,
+    Paper,
+    PasswordInput,
+    Stack,
+    TextInput,
+    Title,
+} from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useAsyncCallback } from "react-async-hook"
 import { Link } from "react-router-dom"
@@ -49,7 +61,11 @@ export function LoginPage() {
                             placeholder={_(msg`User Name or E-mail`)}
                             {...form.getInputProps("name")}
                             description={
-                                serverInfos?.demoAccountEnabled ? <Trans>Try out CommaFeed with the demo account: demo/demo</Trans> : ""
+                                serverInfos?.demoAccountEnabled ? (
+                                    <Trans>Try out CommaFeed with the demo account: demo/demo</Trans>
+                                ) : (
+                                    ""
+                                )
                             }
                             size="md"
                             required

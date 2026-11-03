@@ -50,25 +50,17 @@ class UrlsTest {
 
         // usual cases
         Assertions.assertEquals(
-                expected,
-                Urls.toAbsolute(
-                        "http://a.com/blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
+                expected, Urls.toAbsolute("http://a.com/blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
         Assertions.assertEquals(
-                expected,
-                Urls.toAbsolute(
-                        "http://a.com/blog/entry/1", "http://a.com/feed", "http://a.com/feed"));
+                expected, Urls.toAbsolute("http://a.com/blog/entry/1", "http://a.com/feed", "http://a.com/feed"));
 
         // relative links
         Assertions.assertEquals(
-                expected,
-                Urls.toAbsolute("../blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
-        Assertions.assertEquals(
-                expected,
-                Urls.toAbsolute("../blog/entry/1", "feed.xml", "http://a.com/feed/feed.xml"));
+                expected, Urls.toAbsolute("../blog/entry/1", "http://a.com/feed/", "http://a.com/feed/"));
+        Assertions.assertEquals(expected, Urls.toAbsolute("../blog/entry/1", "feed.xml", "http://a.com/feed/feed.xml"));
 
         // root-relative links
-        Assertions.assertEquals(
-                expected, Urls.toAbsolute("/blog/entry/1", "/feed", "http://a.com/feed"));
+        Assertions.assertEquals(expected, Urls.toAbsolute("/blog/entry/1", "/feed", "http://a.com/feed"));
 
         // real cases
         Assertions.assertEquals(
@@ -79,10 +71,7 @@ class UrlsTest {
                         "https://github.com/erusev/parsedown/tags.atom"));
         Assertions.assertEquals(
                 "http://ergoemacs.org/emacs/elisp_all_about_lines.html",
-                Urls.toAbsolute(
-                        "elisp_all_about_lines.html",
-                        "blog.xml",
-                        "http://ergoemacs.org/emacs/blog.xml"));
+                Urls.toAbsolute("elisp_all_about_lines.html", "blog.xml", "http://ergoemacs.org/emacs/blog.xml"));
 
         // invalid relative urls
         Assertions.assertEquals(
@@ -97,13 +86,11 @@ class UrlsTest {
     void testSanitize() {
         // valid http/https urls are kept as is
         Assertions.assertEquals("http://example.com/foo", Urls.sanitize("http://example.com/foo"));
-        Assertions.assertEquals(
-                "https://example.com/foo", Urls.sanitize("https://example.com/foo"));
+        Assertions.assertEquals("https://example.com/foo", Urls.sanitize("https://example.com/foo"));
 
         // scheme matching is case-insensitive
         Assertions.assertEquals("HTTP://example.com/foo", Urls.sanitize("HTTP://example.com/foo"));
-        Assertions.assertEquals(
-                "HTTPS://example.com/foo", Urls.sanitize("HTTPS://example.com/foo"));
+        Assertions.assertEquals("HTTPS://example.com/foo", Urls.sanitize("HTTPS://example.com/foo"));
 
         // malicious or disallowed schemes are stripped
         Assertions.assertNull(Urls.sanitize("javascript:alert(1)"));

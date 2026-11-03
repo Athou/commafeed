@@ -38,7 +38,8 @@ function Providers(
         children: React.ReactNode
     }>
 ) {
-    const primaryColor = useAppSelector(state => state.user.settings?.primaryColor) || Constants.theme.defaultPrimaryColor
+    const primaryColor =
+        useAppSelector(state => state.user.settings?.primaryColor) || Constants.theme.defaultPrimaryColor
     return (
         <I18nProvider i18n={i18n}>
             <MantineProvider
@@ -87,7 +88,10 @@ function AppRoutes() {
             <Route path="register" element={<RegistrationPage />} />
             <Route path="passwordRecovery" element={<PasswordRecoveryPage />} />
             <Route path="passwordReset" element={<PasswordResetPage />} />
-            <Route path="app" element={<Layout header={<Header />} sidebar={<Tree />} sidebarVisible={sidebarVisible} />}>
+            <Route
+                path="app"
+                element={<Layout header={<Header />} sidebar={<Tree />} sidebarVisible={sidebarVisible} />}
+            >
                 <Route path="category">
                     <Route path=":id" element={<FeedEntriesPage sourceType="category" />} />
                     <Route path=":id/details" element={<CategoryDetailsPage />} />

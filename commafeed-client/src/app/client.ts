@@ -61,7 +61,8 @@ export const client = {
         getRoot: async () => await axiosInstance.get<Category>("category/get"),
         modify: async (req: CategoryModificationRequest) => await axiosInstance.post("category/modify", req),
         collapse: async (req: CollapseRequest) => await axiosInstance.post("category/collapse", req),
-        getEntries: async (req: GetEntriesPaginatedRequest) => await axiosInstance.get<Entries>("category/entries", { params: req }),
+        getEntries: async (req: GetEntriesPaginatedRequest) =>
+            await axiosInstance.get<Entries>("category/entries", { params: req }),
         markEntries: async (req: MarkRequest) => await axiosInstance.post("category/mark", req),
         add: async (req: AddCategoryRequest) => await axiosInstance.post("category/add", req),
         delete: async (req: IDRequest) => await axiosInstance.post("category/delete", req),
@@ -76,7 +77,8 @@ export const client = {
     feed: {
         get: async (id: string) => await axiosInstance.get<Subscription>(`feed/get/${id}`),
         modify: async (req: FeedModificationRequest) => await axiosInstance.post("feed/modify", req),
-        getEntries: async (req: GetEntriesPaginatedRequest) => await axiosInstance.get<Entries>("feed/entries", { params: req }),
+        getEntries: async (req: GetEntriesPaginatedRequest) =>
+            await axiosInstance.get<Entries>("feed/entries", { params: req }),
         markEntries: async (req: MarkRequest) => await axiosInstance.post("feed/mark", req),
         fetchFeed: async (req: FeedInfoRequest) => await axiosInstance.post<FeedInfo>("feed/fetch", req),
         refreshAll: async () => await axiosInstance.get("feed/refreshAll"),
@@ -107,7 +109,8 @@ export const client = {
         register: async (req: RegistrationRequest) => await axiosInstance.post("user/register", req),
         initialSetup: async (req: InitialSetupRequest) => await axiosInstance.post("user/initialSetup", req),
         passwordReset: async (req: PasswordResetRequest) => await axiosInstance.post("user/passwordReset", req),
-        passwordResetCallback: async (req: PasswordResetConfirmationRequest) => await axiosInstance.post("user/passwordResetCallback", req),
+        passwordResetCallback: async (req: PasswordResetConfirmationRequest) =>
+            await axiosInstance.post("user/passwordResetCallback", req),
         getSettings: async () => await axiosInstance.get<Settings>("user/settings"),
         saveSettings: async (settings: Settings) => await axiosInstance.post("user/settings", settings),
         sendTestPushNotification: async (settings: PushNotificationSettings) =>
@@ -156,9 +159,13 @@ function isCommaFeedApplicationError(err: AxiosError): err is AxiosError<CommaFe
 }
 
 function isMessageError(err: AxiosError): err is AxiosError<{ message: string }> {
-    return !!err.response && !!err.response.data && typeof err.response.data === "object" && "message" in err.response.data
+    return (
+        !!err.response && !!err.response.data && typeof err.response.data === "object" && "message" in err.response.data
+    )
 }
 
 function isMessageArrayError(err: AxiosError): err is AxiosError<{ errors: string[] }> {
-    return !!err.response && !!err.response.data && typeof err.response.data === "object" && "errors" in err.response.data
+    return (
+        !!err.response && !!err.response.data && typeof err.response.data === "object" && "errors" in err.response.data
+    )
 }

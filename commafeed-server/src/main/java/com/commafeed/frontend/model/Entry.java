@@ -67,10 +67,7 @@ public class Entry implements Serializable {
     @Schema(description = "entry publication date", type = SchemaType.INTEGER, required = true)
     private Instant date;
 
-    @Schema(
-            description = "entry insertion date in the database",
-            type = SchemaType.INTEGER,
-            required = true)
+    @Schema(description = "entry insertion date in the database", type = SchemaType.INTEGER, required = true)
     private Instant insertedDate;
 
     @Schema(description = "feed id", required = true)
@@ -97,9 +94,7 @@ public class Entry implements Serializable {
     @Schema(description = "starred status", required = true)
     private boolean starred;
 
-    @Schema(
-            description = "whether the entry is still markable (old entry statuses are discarded)",
-            required = true)
+    @Schema(description = "whether the entry is still markable (old entry statuses are discarded)", required = true)
     private boolean markable;
 
     @Schema(description = "tags", required = true)
@@ -130,10 +125,7 @@ public class Entry implements Serializable {
         if (content != null) {
             entry.setRtl(content.getDirection() == FeedEntryContent.Direction.RTL);
             entry.setTitle(content.getTitle());
-            entry.setContent(
-                    proxyImages
-                            ? FeedUtils.proxyImages(content.getContent())
-                            : content.getContent());
+            entry.setContent(proxyImages ? FeedUtils.proxyImages(content.getContent()) : content.getContent());
             entry.setAuthor(content.getAuthor());
 
             entry.setEnclosureType(content.getEnclosureType());

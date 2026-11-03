@@ -36,8 +36,7 @@ public class FeedFaviconService {
         this.defaultFavicon =
                 new Favicon(
                         Resources.toByteArray(
-                                Objects.requireNonNull(
-                                        getClass().getResource("/images/default_favicon.gif"))),
+                                Objects.requireNonNull(getClass().getResource("/images/default_favicon.gif"))),
                         "image/gif");
     }
 

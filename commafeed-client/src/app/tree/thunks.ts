@@ -6,7 +6,10 @@ import { incrementUnreadCount } from "@/app/tree/slice"
 import type { CollapseRequest, Subscription } from "@/app/types"
 import { flattenCategoryTree, visitCategoryTree } from "@/app/utils"
 
-export const reloadTree = createAppAsyncThunk("tree/reload", async () => await client.category.getRoot().then(r => r.data))
+export const reloadTree = createAppAsyncThunk(
+    "tree/reload",
+    async () => await client.category.getRoot().then(r => r.data)
+)
 
 export const collapseTreeCategory = createAppAsyncThunk(
     "tree/category/collapse",

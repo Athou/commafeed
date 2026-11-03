@@ -134,14 +134,10 @@ public class UserREST {
 
             if (settings.getPushNotifications() != null) {
                 s.getPushNotificationSettings().setType(settings.getPushNotifications().getType());
-                s.getPushNotificationSettings()
-                        .setServerUrl(settings.getPushNotifications().getServerUrl());
-                s.getPushNotificationSettings()
-                        .setUserId(settings.getPushNotifications().getUserId());
-                s.getPushNotificationSettings()
-                        .setUserSecret(settings.getPushNotifications().getUserSecret());
-                s.getPushNotificationSettings()
-                        .setTopic(settings.getPushNotifications().getTopic());
+                s.getPushNotificationSettings().setServerUrl(settings.getPushNotifications().getServerUrl());
+                s.getPushNotificationSettings().setUserId(settings.getPushNotifications().getUserId());
+                s.getPushNotificationSettings().setUserSecret(settings.getPushNotifications().getUserSecret());
+                s.getPushNotificationSettings().setTopic(settings.getPushNotifications().getTopic());
             }
         } else {
             s.setReadingMode(ReadingMode.UNREAD);
@@ -191,10 +187,7 @@ public class UserREST {
         s.setShowRead(settings.isShowRead());
         s.setScrollMarks(settings.isScrollMarks());
         s.setCustomCss(settings.getCustomCss());
-        s.setCustomJs(
-                CommaFeedConstants.USERNAME_DEMO.equals(user.getName())
-                        ? ""
-                        : settings.getCustomJs());
+        s.setCustomJs(CommaFeedConstants.USERNAME_DEMO.equals(user.getName()) ? "" : settings.getCustomJs());
         s.setLanguage(settings.getLanguage());
         s.setScrollSpeed(settings.getScrollSpeed());
         s.setScrollMode(settings.getScrollMode());
@@ -234,8 +227,7 @@ public class UserREST {
     @POST
     @Transactional
     @Operation(summary = "Send a test push notification")
-    public Response sendTestPushNotification(
-            @Parameter(required = true) PushNotificationSettings settings) {
+    public Response sendTestPushNotification(@Parameter(required = true) PushNotificationSettings settings) {
         FeedSubscription sub = new FeedSubscription();
         sub.setTitle("CommaFeed Test Feed");
         sub.setFeed(new Feed());
@@ -291,8 +283,7 @@ public class UserREST {
     @POST
     @Transactional
     @Operation(summary = "Save user's profile")
-    public Response saveUserProfile(
-            @Valid @Parameter(required = true) ProfileModificationRequest request) {
+    public Response saveUserProfile(@Valid @Parameter(required = true) ProfileModificationRequest request) {
         User user = authenticationContext.getCurrentUser();
         if (CommaFeedConstants.USERNAME_DEMO.equals(user.getName())) {
             return Response.status(Status.FORBIDDEN)
@@ -335,10 +326,7 @@ public class UserREST {
     public Response registerUser(@Valid @Parameter(required = true) RegistrationRequest req) {
         try {
             userService.register(
-                    req.getName(),
-                    req.getPassword(),
-                    req.getEmail(),
-                    Collections.singletonList(Role.USER));
+                    req.getName(), req.getPassword(), req.getEmail(), Collections.singletonList(Role.USER));
             return Response.ok().build();
         } catch (final IllegalArgumentException e) {
             throw new BadRequestException(e.getMessage());
@@ -355,17 +343,10 @@ public class UserREST {
     public Response initialSetup(@Valid @Parameter(required = true) InitialSetupRequest req) {
         boolean initialSetupRequired = databaseStartupService.isInitialSetupRequired();
         if (!initialSetupRequired) {
-            return Response.status(Status.BAD_REQUEST)
-                    .entity("Initial setup has already been completed")
-                    .build();
+            return Response.status(Status.BAD_REQUEST).entity("Initial setup has already been completed").build();
         }
 
-        userService.register(
-                req.getName(),
-                req.getPassword(),
-                req.getEmail(),
-                List.of(Role.ADMIN, Role.USER),
-                true);
+        userService.register(req.getName(), req.getPassword(), req.getEmail(), List.of(Role.ADMIN, Role.USER), true);
 
         if (config.users().createDemoAccount()) {
             User demo = userDAO.findByName(CommaFeedConstants.USERNAME_DEMO);
@@ -384,8 +365,7 @@ public class UserREST {
     @Operation(summary = "send a password reset email")
     public Response sendPasswordReset(@Valid @Parameter(required = true) PasswordResetRequest req) {
         if (!config.passwordRecoveryEnabled()) {
-            throw new IllegalArgumentException(
-                    "Password recovery is not enabled on this CommaFeed instance");
+            throw new IllegalArgumentException("Password recovery is not enabled on this CommaFeed instance");
         }
 
         User user = userDAO.findByEmail(req.getEmail());
@@ -409,8 +389,7 @@ public class UserREST {
     }
 
     private String buildEmailContent(User user) throws URISyntaxException {
-        String publicUrl =
-                Urls.removeTrailingSlash(config.passwordRecoveryPublicBaseUrl().orElseThrow());
+        String publicUrl = Urls.removeTrailingSlash(config.passwordRecoveryPublicBaseUrl().orElseThrow());
         return String.format(
                 "You asked for password recovery for account '%s', <a href='%s'>follow this link</a> to change your password. Ignore this if you didn't request a password recovery.",
                 HtmlEscapers.htmlEscaper().escape(user.getName()), callbackUrl(user, publicUrl));
@@ -429,8 +408,7 @@ public class UserREST {
     @POST
     @Transactional
     @Operation(summary = "confirm password reset with new password")
-    public Response passwordRecoveryCallback(
-            @Valid @Parameter(required = true) PasswordResetConfirmationRequest req) {
+    public Response passwordRecoveryCallback(@Valid @Parameter(required = true) PasswordResetConfirmationRequest req) {
         String email = req.getEmail();
         String token = req.getToken();
         String password = req.getPassword();
@@ -440,12 +418,8 @@ public class UserREST {
         Preconditions.checkNotNull(password);
 
         User user = userDAO.findByEmail(email);
-        if (user == null
-                || user.getRecoverPasswordToken() == null
-                || !user.getRecoverPasswordToken().equals(token)) {
-            return Response.status(Status.UNAUTHORIZED)
-                    .entity("Email not found or invalid token.")
-                    .build();
+        if (user == null || user.getRecoverPasswordToken() == null || !user.getRecoverPasswordToken().equals(token)) {
+            return Response.status(Status.UNAUTHORIZED).entity("Email not found or invalid token.").build();
         }
         if (ChronoUnit.MINUTES.between(user.getRecoverPasswordTokenDate(), Instant.now()) >= 30) {
             return Response.status(Status.UNAUTHORIZED).entity("Token expired.").build();
@@ -468,16 +442,12 @@ public class UserREST {
     public Response deleteUser() {
         User user = authenticationContext.getCurrentUser();
         if (CommaFeedConstants.USERNAME_DEMO.equals(user.getName())) {
-            return Response.status(Status.FORBIDDEN)
-                    .entity("the demo account cannot be deleted")
-                    .build();
+            return Response.status(Status.FORBIDDEN).entity("the demo account cannot be deleted").build();
         }
 
         Set<Role> roles = userRoleDAO.findRoles(user);
         if (roles.contains(Role.ADMIN) && userRoleDAO.countAdmins() == 1) {
-            return Response.status(Status.FORBIDDEN)
-                    .entity("The last admin account cannot be deleted")
-                    .build();
+            return Response.status(Status.FORBIDDEN).entity("The last admin account cannot be deleted").build();
         }
 
         userService.unregister(userDAO.findById(user.getId()));

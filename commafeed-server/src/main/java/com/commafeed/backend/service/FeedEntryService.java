@@ -55,12 +55,9 @@ public class FeedEntryService {
     }
 
     public List<Entry> removeExistingEntries(Feed feed, List<Entry> entries) {
-        Set<String> guidHashes =
-                entries.stream().map(e -> Digests.sha1Hex(e.guid())).collect(Collectors.toSet());
+        Set<String> guidHashes = entries.stream().map(e -> Digests.sha1Hex(e.guid())).collect(Collectors.toSet());
         Set<String> existingGuidHashes = feedEntryDAO.findExistingGuidHashes(guidHashes, feed);
-        return entries.stream()
-                .filter(e -> !existingGuidHashes.contains(Digests.sha1Hex(e.guid())))
-                .toList();
+        return entries.stream().filter(e -> !existingGuidHashes.contains(Digests.sha1Hex(e.guid()))).toList();
     }
 
     public boolean applyFilter(FeedSubscription sub, FeedEntry entry) {
@@ -122,37 +119,22 @@ public class FeedEntryService {
             List<FeedEntryKeyword> keywords) {
         List<FeedEntryStatus> statuses =
                 feedEntryStatusDAO.findBySubscriptions(
-                        user,
-                        subscriptions,
-                        true,
-                        keywords,
-                        null,
-                        -1,
-                        -1,
-                        null,
-                        false,
-                        null,
-                        null,
-                        null);
+                        user, subscriptions, true, keywords, null, -1, -1, null, false, null, null, null);
         markList(statuses, olderThan, insertedBefore);
     }
 
     public void markStarredEntries(User user, Instant olderThan, Instant insertedBefore) {
-        List<FeedEntryStatus> statuses =
-                feedEntryStatusDAO.findStarred(user, null, null, -1, -1, null, false);
+        List<FeedEntryStatus> statuses = feedEntryStatusDAO.findStarred(user, null, null, -1, -1, null, false);
         markList(statuses, olderThan, insertedBefore);
     }
 
-    private void markList(
-            List<FeedEntryStatus> statuses, Instant olderThan, Instant insertedBefore) {
+    private void markList(List<FeedEntryStatus> statuses, Instant olderThan, Instant insertedBefore) {
         List<FeedEntryStatus> statusesToMark =
                 statuses.stream()
                         .filter(FeedEntryStatus::isMarkable)
                         .filter(s -> {
                             Instant entryDate = s.getEntry().getPublished();
-                            return olderThan == null
-                                    || entryDate == null
-                                    || entryDate.isBefore(olderThan);
+                            return olderThan == null || entryDate == null || entryDate.isBefore(olderThan);
                         })
                         .filter(s -> {
                             Instant insertedDate = s.getEntry().getInserted();

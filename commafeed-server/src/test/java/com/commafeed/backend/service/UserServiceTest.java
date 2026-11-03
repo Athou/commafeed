@@ -108,15 +108,12 @@ class UserServiceTest {
         Mockito.when(userDAO.findByName("test")).thenReturn(normalUser);
         Mockito.when(
                         passwordEncryptionService.authenticate(
-                                Mockito.anyString(),
-                                Mockito.any(byte[].class),
-                                Mockito.any(byte[].class)))
+                                Mockito.anyString(), Mockito.any(byte[].class), Mockito.any(byte[].class)))
                 .thenReturn(false);
 
         userService.login("test", "password");
 
-        Mockito.verify(passwordEncryptionService)
-                .authenticate("password", ENCRYPTED_PASSWORD, SALT);
+        Mockito.verify(passwordEncryptionService).authenticate("password", ENCRYPTED_PASSWORD, SALT);
     }
 
     @Test
@@ -124,9 +121,7 @@ class UserServiceTest {
         Mockito.when(userDAO.findByName("test")).thenReturn(normalUser);
         Mockito.when(
                         passwordEncryptionService.authenticate(
-                                Mockito.anyString(),
-                                Mockito.any(byte[].class),
-                                Mockito.any(byte[].class)))
+                                Mockito.anyString(), Mockito.any(byte[].class), Mockito.any(byte[].class)))
                 .thenReturn(false);
 
         Optional<User> authenticatedUser = userService.login("test", "password");
@@ -139,9 +134,7 @@ class UserServiceTest {
         Mockito.when(userDAO.findByName("test")).thenReturn(normalUser);
         Mockito.when(
                         passwordEncryptionService.authenticate(
-                                Mockito.anyString(),
-                                Mockito.any(byte[].class),
-                                Mockito.any(byte[].class)))
+                                Mockito.anyString(), Mockito.any(byte[].class), Mockito.any(byte[].class)))
                 .thenReturn(true);
         Mockito.doNothing().when(postLoginActivities).executeFor(Mockito.any(User.class));
 
@@ -155,9 +148,7 @@ class UserServiceTest {
         Mockito.when(userDAO.findByName("test")).thenReturn(normalUser);
         Mockito.when(
                         passwordEncryptionService.authenticate(
-                                Mockito.anyString(),
-                                Mockito.any(byte[].class),
-                                Mockito.any(byte[].class)))
+                                Mockito.anyString(), Mockito.any(byte[].class), Mockito.any(byte[].class)))
                 .thenReturn(true);
         Mockito.doNothing().when(postLoginActivities).executeFor(Mockito.any(User.class));
 

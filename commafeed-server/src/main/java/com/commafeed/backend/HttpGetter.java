@@ -75,32 +75,22 @@ public class HttpGetter {
         this.client = httpClientFactory.newClient(config.feedRefresh().httpThreads());
         this.cache = newCache(config);
 
-        metrics.registerGauge(
-                MetricRegistry.name(getClass(), "cache", "size"),
-                () -> cache == null ? 0 : cache.size());
+        metrics.registerGauge(MetricRegistry.name(getClass(), "cache", "size"), () -> cache == null ? 0 : cache.size());
         metrics.registerGauge(
                 MetricRegistry.name(getClass(), "cache", "memoryUsage"),
                 () ->
                         cache == null
                                 ? 0
-                                : cache.asMap().values().stream()
-                                        .mapToInt(e -> ArrayUtils.getLength(e.content))
-                                        .sum());
+                                : cache.asMap().values().stream().mapToInt(e -> ArrayUtils.getLength(e.content)).sum());
     }
 
     public HttpResult get(String url)
-            throws IOException,
-                    NotModifiedException,
-                    TooManyRequestsException,
-                    SchemeNotAllowedException {
+            throws IOException, NotModifiedException, TooManyRequestsException, SchemeNotAllowedException {
         return get(HttpRequest.builder(url).build());
     }
 
     public HttpResult get(HttpRequest request)
-            throws IOException,
-                    NotModifiedException,
-                    TooManyRequestsException,
-                    SchemeNotAllowedException {
+            throws IOException, NotModifiedException, TooManyRequestsException, SchemeNotAllowedException {
         URI uri = URI.create(request.getUrl());
         ensureHttpScheme(uri.getScheme());
 
@@ -178,8 +168,7 @@ public class HttpGetter {
         FutureCallback<Message<org.apache.hc.core5.http.HttpResponse, byte[]>> callback =
                 new FutureCallback<>() {
                     @Override
-                    public void completed(
-                            Message<org.apache.hc.core5.http.HttpResponse, byte[]> result) {}
+                    public void completed(Message<org.apache.hc.core5.http.HttpResponse, byte[]> result) {}
 
                     @Override
                     public void failed(Exception ex) {}
@@ -283,15 +272,13 @@ public class HttpGetter {
         }
 
         return CacheBuilder.newBuilder()
-                .weigher((HttpRequest key, HttpResponse value) ->
-                        value.content() != null ? value.content().length : 0)
+                .weigher((HttpRequest key, HttpResponse value) -> value.content() != null ? value.content().length : 0)
                 .maximumWeight(cacheConfig.maximumMemorySize().asLongValue())
                 .expireAfterWrite(cacheConfig.expiration())
                 .build();
     }
 
-    private record LimitedContentLengthEntityConsumer(
-            @Delegate AsyncEntityConsumer<byte[]> delegate, long maxBytes)
+    private record LimitedContentLengthEntityConsumer(@Delegate AsyncEntityConsumer<byte[]> delegate, long maxBytes)
             implements AsyncEntityConsumer<byte[]> {
 
         @Override
@@ -324,9 +311,7 @@ public class HttpGetter {
         @Override
         protected void data(ByteBuffer src, boolean endOfStream) throws IOException {
             if (out.size() + src.remaining() > maxBytes) {
-                throw new IOException(
-                        "Response size exceeds the maximum allowed size (%s bytes)"
-                                .formatted(maxBytes));
+                throw new IOException("Response size exceeds the maximum allowed size (%s bytes)".formatted(maxBytes));
             }
             byte[] chunk = new byte[src.remaining()];
             src.get(chunk);
@@ -366,8 +351,7 @@ public class HttpGetter {
             this(message, null, null);
         }
 
-        public NotModifiedException(
-                String message, String newLastModifiedHeader, String newEtagHeader) {
+        public NotModifiedException(String message, String newLastModifiedHeader, String newEtagHeader) {
             super(message);
             this.newLastModifiedHeader = newLastModifiedHeader;
             this.newEtagHeader = newEtagHeader;

@@ -111,7 +111,11 @@ export function DisplaySettings() {
             />
 
             <Switch
-                label={<Trans>Navigate to the next category/feed with unread entries when marking all entries as read</Trans>}
+                label={
+                    <Trans>
+                        Navigate to the next category/feed with unread entries when marking all entries as read
+                    </Trans>
+                }
                 checked={settings.markAllAsReadNavigateToNextUnread}
                 onChange={e => dispatch(changeSettings({ markAllAsReadNavigateToNextUnread: e.currentTarget.checked }))}
             />

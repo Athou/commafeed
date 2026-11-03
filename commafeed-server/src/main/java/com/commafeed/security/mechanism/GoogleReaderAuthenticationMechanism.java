@@ -18,12 +18,11 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Authenticates requests to the Google Reader compatible API, using the "Authorization: GoogleLogin
- * auth=&lt;token&gt;" header set by Google Reader API clients.
+ * Authenticates requests to the Google Reader compatible API, using the "Authorization: GoogleLogin auth=&lt;token&gt;"
+ * header set by Google Reader API clients.
  *
- * <p>This mechanism only applies to requests under {@link #PATH_PREFIX}, so that a stray
- * "Authorization: GoogleLogin ..." header sent to any other endpoint is not mistakenly accepted as
- * an api key authentication.
+ * <p>This mechanism only applies to requests under {@link #PATH_PREFIX}, so that a stray "Authorization: GoogleLogin
+ * ..." header sent to any other endpoint is not mistakenly accepted as an api key authentication.
  */
 @Singleton
 public class GoogleReaderAuthenticationMechanism implements HttpAuthenticationMechanism {
@@ -34,8 +33,7 @@ public class GoogleReaderAuthenticationMechanism implements HttpAuthenticationMe
     private static final String AUTH_PREFIX = "GoogleLogin auth=";
 
     @Override
-    public Uni<SecurityIdentity> authenticate(
-            RoutingContext context, IdentityProviderManager identityProviderManager) {
+    public Uni<SecurityIdentity> authenticate(RoutingContext context, IdentityProviderManager identityProviderManager) {
         if (!context.normalizedPath().startsWith(PATH_PREFIX)) {
             return Uni.createFrom().optional(Optional.empty());
         }

@@ -145,8 +145,7 @@ public class GoogleReaderREST {
     public GoogleReaderModel.SubscriptionList subscriptionList() {
         User user = currentUser();
         GoogleReaderModel.SubscriptionList resp = new GoogleReaderModel.SubscriptionList();
-        resp.setSubscriptions(
-                feedSubscriptionDAO.findAll(user).stream().map(this::mapSubscription).toList());
+        resp.setSubscriptions(feedSubscriptionDAO.findAll(user).stream().map(this::mapSubscription).toList());
         return resp;
     }
 
@@ -216,10 +215,7 @@ public class GoogleReaderREST {
         List<GoogleReaderModel.Tag> tags = new ArrayList<>();
         feedCategoryDAO
                 .findAll(user)
-                .forEach(c ->
-                        tags.add(
-                                new GoogleReaderModel.Tag(
-                                        GoogleReaderStreamId.label(c.getName()))));
+                .forEach(c -> tags.add(new GoogleReaderModel.Tag(GoogleReaderStreamId.label(c.getName()))));
         tags.add(new GoogleReaderModel.Tag(GoogleReaderStreamId.STARRED));
 
         GoogleReaderModel.TagList resp = new GoogleReaderModel.TagList();
@@ -256,8 +252,7 @@ public class GoogleReaderREST {
         }
 
         Map<Long, FeedCategory> categoriesById =
-                feedCategoryDAO.findAll(user).stream()
-                        .collect(Collectors.toMap(FeedCategory::getId, c -> c));
+                feedCategoryDAO.findAll(user).stream().collect(Collectors.toMap(FeedCategory::getId, c -> c));
         unreadByCategory.forEach((categoryId, count) -> {
             if (categoryId == 0) {
                 return;
@@ -325,14 +320,12 @@ public class GoogleReaderREST {
         ReadingOrder readingOrder = "o".equals(order) ? ReadingOrder.ASC : ReadingOrder.DESC;
         boolean unreadOnly = isUnreadOnly(excludeTargets);
 
-        PagedStatuses paged =
-                fetchStatuses(user, parsed, limit, continuation, readingOrder, unreadOnly);
+        PagedStatuses paged = fetchStatuses(user, parsed, limit, continuation, readingOrder, unreadOnly);
 
         GoogleReaderModel.ItemRefs resp = new GoogleReaderModel.ItemRefs();
         resp.setItemRefs(
                 paged.statuses().stream()
-                        .map(s ->
-                                new GoogleReaderModel.ItemRef(String.valueOf(s.getEntry().getId())))
+                        .map(s -> new GoogleReaderModel.ItemRef(String.valueOf(s.getEntry().getId())))
                         .toList());
         resp.setContinuation(paged.continuation());
         return resp;
@@ -343,8 +336,7 @@ public class GoogleReaderREST {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Transactional
     @Operation(hidden = true)
-    public GoogleReaderModel.StreamContents streamItemsContentsPost(
-            @FormParam("i") List<String> ids) {
+    public GoogleReaderModel.StreamContents streamItemsContentsPost(@FormParam("i") List<String> ids) {
         return buildStreamItemsContents(ids);
     }
 
@@ -352,8 +344,7 @@ public class GoogleReaderREST {
     @Path("/reader/api/0/stream/items/contents")
     @Transactional
     @Operation(hidden = true)
-    public GoogleReaderModel.StreamContents streamItemsContentsGet(
-            @QueryParam("i") List<String> ids) {
+    public GoogleReaderModel.StreamContents streamItemsContentsGet(@QueryParam("i") List<String> ids) {
         return buildStreamItemsContents(ids);
     }
 
@@ -415,9 +406,7 @@ public class GoogleReaderREST {
     @Transactional
     @Operation(hidden = true)
     public Response markAllAsRead(
-            @FormParam("s") String streamId,
-            @FormParam("ts") Long ts,
-            @FormParam("T") String token) {
+            @FormParam("s") String streamId, @FormParam("ts") Long ts, @FormParam("T") String token) {
         User user = currentUser();
         if (!validToken(user, token)) {
             return Response.status(Status.UNAUTHORIZED).build();
@@ -430,20 +419,16 @@ public class GoogleReaderREST {
             case STARRED -> feedEntryService.markStarredEntries(user, olderThan, null);
             case FEED -> {
                 Long subId = parsed.feedSubscriptionId();
-                FeedSubscription sub =
-                        subId == null ? null : feedSubscriptionDAO.findById(user, subId);
+                FeedSubscription sub = subId == null ? null : feedSubscriptionDAO.findById(user, subId);
                 if (sub != null) {
-                    feedEntryService.markSubscriptionEntries(
-                            user, List.of(sub), olderThan, null, null);
+                    feedEntryService.markSubscriptionEntries(user, List.of(sub), olderThan, null, null);
                 }
             }
             case LABEL -> {
                 FeedCategory category = findCategoryByName(user, parsed.value());
                 if (category != null) {
-                    List<FeedCategory> categories =
-                            feedCategoryDAO.findAllChildrenCategories(user, category);
-                    List<FeedSubscription> subs =
-                            feedSubscriptionDAO.findByCategories(user, categories);
+                    List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, category);
+                    List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(user, categories);
                     feedEntryService.markSubscriptionEntries(user, subs, olderThan, null, null);
                 }
             }
@@ -456,19 +441,14 @@ public class GoogleReaderREST {
     }
 
     private GoogleReaderModel.StreamContents buildStreamContents(
-            String rawStreamId,
-            Integer n,
-            String continuation,
-            String order,
-            List<String> excludeTargets) {
+            String rawStreamId, Integer n, String continuation, String order, List<String> excludeTargets) {
         User user = currentUser();
         GoogleReaderStreamId parsed = GoogleReaderStreamId.parse(rawStreamId);
         int limit = clampLimit(n);
         ReadingOrder readingOrder = "o".equals(order) ? ReadingOrder.ASC : ReadingOrder.DESC;
         boolean unreadOnly = isUnreadOnly(excludeTargets);
 
-        PagedStatuses paged =
-                fetchStatuses(user, parsed, limit, continuation, readingOrder, unreadOnly);
+        PagedStatuses paged = fetchStatuses(user, parsed, limit, continuation, readingOrder, unreadOnly);
 
         GoogleReaderModel.StreamContents resp = new GoogleReaderModel.StreamContents();
         resp.setId(streamIdString(parsed));
@@ -483,8 +463,7 @@ public class GoogleReaderREST {
         User user = currentUser();
         List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
         Map<Long, FeedSubscription> subsByFeedId =
-                subs.stream()
-                        .collect(Collectors.toMap(s -> s.getFeed().getId(), s -> s, (a, b) -> a));
+                subs.stream().collect(Collectors.toMap(s -> s.getFeed().getId(), s -> s, (a, b) -> a));
 
         List<GoogleReaderModel.StreamItem> items = new ArrayList<>();
         if (ids != null) {
@@ -544,16 +523,13 @@ public class GoogleReaderREST {
         switch (streamId.type()) {
             case STARRED -> {
                 List<FeedEntryStatus> starred =
-                        feedEntryStatusDAO.findStarred(
-                                user, null, null, offset, limit, order, true);
+                        feedEntryStatusDAO.findStarred(user, null, null, offset, limit, order, true);
                 fetchedCount = starred.size();
-                statuses =
-                        unreadOnly ? starred.stream().filter(s -> !s.isRead()).toList() : starred;
+                statuses = unreadOnly ? starred.stream().filter(s -> !s.isRead()).toList() : starred;
             }
             case FEED -> {
                 Long subId = streamId.feedSubscriptionId();
-                FeedSubscription sub =
-                        subId == null ? null : feedSubscriptionDAO.findById(user, subId);
+                FeedSubscription sub = subId == null ? null : feedSubscriptionDAO.findById(user, subId);
                 List<FeedSubscription> subs = sub == null ? List.of() : List.of(sub);
                 statuses =
                         feedEntryStatusDAO.findBySubscriptions(
@@ -577,8 +553,7 @@ public class GoogleReaderREST {
                         category == null
                                 ? List.of()
                                 : feedSubscriptionDAO.findByCategories(
-                                        user,
-                                        feedCategoryDAO.findAllChildrenCategories(user, category));
+                                        user, feedCategoryDAO.findAllChildrenCategories(user, category));
                 statuses =
                         feedEntryStatusDAO.findBySubscriptions(
                                 user,
@@ -644,15 +619,12 @@ public class GoogleReaderREST {
 
         if (StringUtils.isNotBlank(entry.getUrl())) {
             item.setCanonical(List.of(new GoogleReaderModel.HrefEntry(entry.getUrl(), null)));
-            item.setAlternate(
-                    List.of(new GoogleReaderModel.HrefEntry(entry.getUrl(), "text/html")));
+            item.setAlternate(List.of(new GoogleReaderModel.HrefEntry(entry.getUrl(), "text/html")));
         }
         item.setSummary(
                 new GoogleReaderModel.Content(
                         Optional.ofNullable(entry.getContent().getContent()).orElse(""),
-                        entry.getContent().getDirection() == FeedEntryContent.Direction.RTL
-                                ? "rtl"
-                                : "ltr"));
+                        entry.getContent().getDirection() == FeedEntryContent.Direction.RTL ? "rtl" : "ltr"));
 
         List<String> categories = new ArrayList<>();
         categories.add(GoogleReaderStreamId.READING_LIST);
@@ -695,8 +667,7 @@ public class GoogleReaderREST {
         return s;
     }
 
-    private FeedCategory resolveLabelCategory(
-            User user, String labelParam, boolean createIfMissing) {
+    private FeedCategory resolveLabelCategory(User user, String labelParam, boolean createIfMissing) {
         if (StringUtils.isBlank(labelParam)) {
             return null;
         }
@@ -717,10 +688,7 @@ public class GoogleReaderREST {
     }
 
     private FeedCategory findCategoryByName(User user, String name) {
-        return feedCategoryDAO.findAll(user).stream()
-                .filter(c -> c.getName().equals(name))
-                .findFirst()
-                .orElse(null);
+        return feedCategoryDAO.findAll(user).stream().filter(c -> c.getName().equals(name)).findFirst().orElse(null);
     }
 
     private String streamIdString(GoogleReaderStreamId parsed) {
@@ -736,8 +704,7 @@ public class GoogleReaderREST {
         return switch (parsed.type()) {
             case FEED -> {
                 Long subId = parsed.feedSubscriptionId();
-                FeedSubscription sub =
-                        subId == null ? null : feedSubscriptionDAO.findById(user, subId);
+                FeedSubscription sub = subId == null ? null : feedSubscriptionDAO.findById(user, subId);
                 yield sub == null ? null : sub.getTitle();
             }
             case LABEL -> parsed.value();
@@ -747,8 +714,7 @@ public class GoogleReaderREST {
     }
 
     private boolean isUnreadOnly(List<String> excludeTargets) {
-        return excludeTargets != null
-                && excludeTargets.stream().anyMatch(t -> t.endsWith("/state/com.google/read"));
+        return excludeTargets != null && excludeTargets.stream().anyMatch(t -> t.endsWith("/state/com.google/read"));
     }
 
     private boolean containsTag(List<String> tags, String suffix) {

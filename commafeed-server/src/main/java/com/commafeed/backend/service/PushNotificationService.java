@@ -47,16 +47,13 @@ public class PushNotificationService {
     private final CommaFeedConfiguration config;
 
     public PushNotificationService(
-            HttpClientFactory httpClientFactory,
-            MetricRegistry metrics,
-            CommaFeedConfiguration config) {
+            HttpClientFactory httpClientFactory, MetricRegistry metrics, CommaFeedConfiguration config) {
         this.httpClient = httpClientFactory.newClient(config.pushNotifications().threads());
         this.meter = metrics.meter(MetricRegistry.name(getClass(), "notify"));
         this.config = config;
     }
 
-    public void notify(
-            PushNotificationUserSettings settings, FeedSubscription subscription, FeedEntry entry) {
+    public void notify(PushNotificationUserSettings settings, FeedSubscription subscription, FeedEntry entry) {
         if (!config.pushNotifications().enabled() || settings.getType() == null) {
             return;
         }
@@ -79,9 +76,7 @@ public class PushNotificationService {
                 case NTFY -> sendNtfy(settings, feedTitle, entryTitle, entryUrl);
                 case GOTIFY -> sendGotify(settings, feedTitle, entryTitle, entryUrl);
                 case PUSHOVER -> sendPushover(settings, feedTitle, entryTitle, entryUrl);
-                default ->
-                        throw new IllegalStateException(
-                                "unsupported notification type: " + settings.getType());
+                default -> throw new IllegalStateException("unsupported notification type: " + settings.getType());
             }
         } catch (IOException e) {
             throw new PushNotificationException("Failed to send external notification", e);
@@ -90,11 +85,7 @@ public class PushNotificationService {
         meter.mark();
     }
 
-    private void sendNtfy(
-            PushNotificationUserSettings settings,
-            String feedTitle,
-            String entryTitle,
-            String entryUrl)
+    private void sendNtfy(PushNotificationUserSettings settings, String feedTitle, String entryTitle, String entryUrl)
             throws IOException {
         String serverUrl = Urls.removeTrailingSlash(settings.getServerUrl());
         String topic = settings.getTopic();
@@ -119,11 +110,7 @@ public class PushNotificationService {
         send("ntfy", request.build());
     }
 
-    private void sendGotify(
-            PushNotificationUserSettings settings,
-            String feedTitle,
-            String entryTitle,
-            String entryUrl)
+    private void sendGotify(PushNotificationUserSettings settings, String feedTitle, String entryTitle, String entryUrl)
             throws IOException {
         String serverUrl = Urls.removeTrailingSlash(settings.getServerUrl());
         String token = settings.getUserSecret();
@@ -143,8 +130,7 @@ public class PushNotificationService {
                     new JsonObject()
                             .put(
                                     "client::notification",
-                                    new JsonObject()
-                                            .put("click", new JsonObject().put("url", entryUrl))));
+                                    new JsonObject().put("click", new JsonObject().put("url", entryUrl))));
         }
 
         SimpleRequestBuilder request = SimpleRequestBuilder.post(serverUrl + "/message");
@@ -155,10 +141,7 @@ public class PushNotificationService {
     }
 
     private void sendPushover(
-            PushNotificationUserSettings settings,
-            String feedTitle,
-            String entryTitle,
-            String entryUrl)
+            PushNotificationUserSettings settings, String feedTitle, String entryTitle, String entryUrl)
             throws IOException {
         String token = settings.getUserSecret();
         String userKey = settings.getUserId();
@@ -177,8 +160,7 @@ public class PushNotificationService {
             params.add(new BasicNameValuePair("url", entryUrl));
         }
 
-        SimpleRequestBuilder request =
-                SimpleRequestBuilder.post("https://api.pushover.net/1/messages.json");
+        SimpleRequestBuilder request = SimpleRequestBuilder.post("https://api.pushover.net/1/messages.json");
         request.setBody(
                 WWWFormCodec.format(params, StandardCharsets.UTF_8),
                 ContentType.APPLICATION_FORM_URLENCODED.withCharset(StandardCharsets.UTF_8));
@@ -194,11 +176,9 @@ public class PushNotificationService {
                         null);
         try {
             HttpResponse response =
-                    future.get(config.httpClient().responseTimeout().toSeconds(), TimeUnit.SECONDS)
-                            .getHead();
+                    future.get(config.httpClient().responseTimeout().toSeconds(), TimeUnit.SECONDS).getHead();
             if (response.getCode() >= 400) {
-                throw new PushNotificationException(
-                        name + " notification failed with status " + response.getCode());
+                throw new PushNotificationException(name + " notification failed with status " + response.getCode());
             }
         } catch (InterruptedException e) {
             future.cancel(true);

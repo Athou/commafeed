@@ -157,24 +157,18 @@ public class FeverResponse {
     @Data
     public static class FeverLink {}
 
-    public static class LongListToCommaSeparatedStringSerializer
-            extends JsonSerializer<List<Long>> {
+    public static class LongListToCommaSeparatedStringSerializer extends JsonSerializer<List<Long>> {
         @Override
-        public void serialize(
-                List<Long> input,
-                JsonGenerator jsonGenerator,
-                SerializerProvider serializerProvider)
+        public void serialize(List<Long> input, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
                 throws IOException {
             String output = input.stream().map(String::valueOf).collect(Collectors.joining(","));
             jsonGenerator.writeObject(output);
         }
     }
 
-    public static class CommaSeparatedStringToLongListDeserializer
-            extends JsonDeserializer<List<Long>> {
+    public static class CommaSeparatedStringToLongListDeserializer extends JsonDeserializer<List<Long>> {
         @Override
-        public List<Long> deserialize(JsonParser p, DeserializationContext ctxt)
-                throws IOException {
+        public List<Long> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
             String value = ctxt.readValue(p, String.class);
             return Stream.of(value.split(",")).map(Long::valueOf).toList();
         }

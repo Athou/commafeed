@@ -15,5 +15,12 @@ export const ReceivePushNotificationsChechbox = (props: CheckboxProps) => {
         description = <Trans>Push notifications are not configured in your user settings.</Trans>
     }
 
-    return <Checkbox label={<Trans>Receive push notifications</Trans>} disabled={disabled} description={description} {...props} />
+    return (
+        <Checkbox
+            label={<Trans>Receive push notifications</Trans>}
+            disabled={disabled}
+            description={description}
+            {...props}
+        />
+    )
 }

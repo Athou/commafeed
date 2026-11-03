@@ -155,8 +155,7 @@ public class UserSettings extends AbstractModel {
     private boolean instapaper;
     private boolean buffer;
 
-    @Embedded
-    private PushNotificationUserSettings pushNotifications = new PushNotificationUserSettings();
+    @Embedded private PushNotificationUserSettings pushNotifications = new PushNotificationUserSettings();
 
     @Embeddable
     @SuppressWarnings("serial")

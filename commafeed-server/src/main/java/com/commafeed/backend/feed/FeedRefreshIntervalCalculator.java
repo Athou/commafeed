@@ -22,8 +22,7 @@ public class FeedRefreshIntervalCalculator {
     private final FeedRefreshErrorHandling errorHandling;
     private final InstantSource instantSource;
 
-    public FeedRefreshIntervalCalculator(
-            CommaFeedConfiguration config, InstantSource instantSource) {
+    public FeedRefreshIntervalCalculator(CommaFeedConfiguration config, InstantSource instantSource) {
         this.interval = config.feedRefresh().interval();
         this.maxInterval = config.feedRefresh().maxInterval();
         this.empirical = config.feedRefresh().intervalEmpirical();
@@ -31,8 +30,7 @@ public class FeedRefreshIntervalCalculator {
         this.instantSource = instantSource;
     }
 
-    public Instant onFetchSuccess(
-            Instant publishedDate, Long averageEntryInterval, Duration validFor) {
+    public Instant onFetchSuccess(Instant publishedDate, Long averageEntryInterval, Duration validFor) {
         Instant instant =
                 empirical
                         ? computeEmpiricalRefreshInterval(publishedDate, averageEntryInterval)
@@ -54,14 +52,11 @@ public class FeedRefreshIntervalCalculator {
         }
 
         Duration retryInterval =
-                errorHandling
-                        .backoffInterval()
-                        .multipliedBy(errorCount - errorHandling.retriesBeforeBackoff() + 1L);
+                errorHandling.backoffInterval().multipliedBy(errorCount - errorHandling.retriesBeforeBackoff() + 1L);
         return constrainToBounds(instantSource.instant().plus(retryInterval));
     }
 
-    private Instant computeEmpiricalRefreshInterval(
-            Instant publishedDate, Long averageEntryInterval) {
+    private Instant computeEmpiricalRefreshInterval(Instant publishedDate, Long averageEntryInterval) {
         Instant now = instantSource.instant();
 
         if (publishedDate == null) {
@@ -80,9 +75,7 @@ public class FeedRefreshIntervalCalculator {
             int factor = 2;
             long millis =
                     Longs.constrainToRange(
-                            averageEntryInterval / factor,
-                            interval.toMillis(),
-                            maxInterval.dividedBy(4).toMillis());
+                            averageEntryInterval / factor, interval.toMillis(), maxInterval.dividedBy(4).toMillis());
             return now.plusMillis(millis);
         } else {
             // unknown case

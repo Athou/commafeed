@@ -1,6 +1,14 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import { Constants } from "@/app/constants"
-import { loadEntries, loadMoreEntries, markAllEntries, markEntry, markMultipleEntries, starEntry, tagEntry } from "@/app/entries/thunks"
+import {
+    loadEntries,
+    loadMoreEntries,
+    markAllEntries,
+    markEntry,
+    markMultipleEntries,
+    starEntry,
+    tagEntry,
+} from "@/app/entries/thunks"
 import type { Entry } from "@/app/types"
 
 export type EntrySourceType = "category" | "feed" | "tag"
@@ -85,12 +93,16 @@ export const entriesSlice = createSlice({
             }
         })
         builder.addCase(markAllEntries.pending, (state, action) => {
-            for (const e of state.entries.filter(e => (action.meta.arg.req.olderThan ? e.date < action.meta.arg.req.olderThan : true))) {
+            for (const e of state.entries.filter(e =>
+                action.meta.arg.req.olderThan ? e.date < action.meta.arg.req.olderThan : true
+            )) {
                 e.read = true
             }
         })
         builder.addCase(starEntry.pending, (state, action) => {
-            for (const e of state.entries.filter(e => action.meta.arg.entry.id === e.id && action.meta.arg.entry.feedId === e.feedId)) {
+            for (const e of state.entries.filter(
+                e => action.meta.arg.entry.id === e.id && action.meta.arg.entry.feedId === e.feedId
+            )) {
                 e.starred = action.meta.arg.starred
             }
         })

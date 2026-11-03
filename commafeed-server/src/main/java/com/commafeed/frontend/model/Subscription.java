@@ -37,8 +37,7 @@ public class Subscription implements Serializable {
     private Instant lastRefresh;
 
     @Schema(
-            description =
-                    "next time the feed refresh is planned, null if refresh is already queued",
+            description = "next time the feed refresh is planned, null if refresh is already queued",
             type = SchemaType.INTEGER)
     private Instant nextRefresh;
 
@@ -63,22 +62,16 @@ public class Subscription implements Serializable {
     @Schema(description = "date of the newest item", type = SchemaType.INTEGER)
     private Instant newestItemTime;
 
-    @Schema(
-            description =
-                    "CEL string evaluated on new entries to mark them as read if they do not match")
+    @Schema(description = "CEL string evaluated on new entries to mark them as read if they do not match")
     private String filter;
 
     @Schema(description = "JEXL legacy filter")
     private String filterLegacy;
 
-    @Schema(
-            description = "whether to send push notifications for new entries of this feed",
-            required = true)
+    @Schema(description = "whether to send push notifications for new entries of this feed", required = true)
     private boolean pushNotificationsEnabled;
 
-    @Schema(
-            description =
-                    "automatically mark entries as read after this many days (null to disable)")
+    @Schema(description = "automatically mark entries as read after this many days (null to disable)")
     private Integer autoMarkAsReadAfterDays;
 
     public static Subscription build(FeedSubscription subscription, UnreadCount unreadCount) {

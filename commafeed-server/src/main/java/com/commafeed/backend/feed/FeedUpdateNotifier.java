@@ -30,15 +30,12 @@ public class FeedUpdateNotifier {
 
     public void notifyOverWebsocket(FeedSubscription sub, List<FeedEntry> entries) {
         if (!entries.isEmpty()) {
-            webSocketSessions.sendMessage(
-                    sub.getUser(), WebSocketMessageBuilder.newFeedEntries(sub, entries.size()));
+            webSocketSessions.sendMessage(sub.getUser(), WebSocketMessageBuilder.newFeedEntries(sub, entries.size()));
         }
     }
 
     public void sendPushNotifications(FeedSubscription sub, List<FeedEntry> entries) {
-        if (!config.pushNotifications().enabled()
-                || !sub.isPushNotificationsEnabled()
-                || entries.isEmpty()) {
+        if (!config.pushNotifications().enabled() || !sub.isPushNotificationsEnabled() || entries.isEmpty()) {
             return;
         }
 

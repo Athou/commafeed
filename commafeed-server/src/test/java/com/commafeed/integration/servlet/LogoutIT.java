@@ -33,9 +33,7 @@ class LogoutIT extends BaseIT {
                 RestAssured.given()
                         .header(
                                 HttpHeaders.COOKIE,
-                                cookies.stream()
-                                        .map(HttpCookie::toString)
-                                        .collect(Collectors.joining(";")))
+                                cookies.stream().map(HttpCookie::toString).collect(Collectors.joining(";")))
                         .redirects()
                         .follow(false)
                         .get("logout")
@@ -46,8 +44,6 @@ class LogoutIT extends BaseIT {
 
         List<String> setCookieHeaders = responseHeaders.getValues(HttpHeaders.SET_COOKIE);
         Assertions.assertTrue(
-                setCookieHeaders.stream()
-                        .flatMap(c -> HttpCookie.parse(c).stream())
-                        .allMatch(c -> c.getMaxAge() == 0));
+                setCookieHeaders.stream().flatMap(c -> HttpCookie.parse(c).stream()).allMatch(c -> c.getMaxAge() == 0));
     }
 }

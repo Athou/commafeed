@@ -19,8 +19,10 @@ const shownGauges: Record<string, string> = {
     "com.commafeed.backend.feed.FeedRefreshEngine.queue.size": "Feed Refresh Engine queue size",
     "com.commafeed.backend.feed.FeedRefreshEngine.worker.active": "Feed Refresh Engine active HTTP workers",
     "com.commafeed.backend.feed.FeedRefreshEngine.updater.active": "Feed Refresh Engine active database update workers",
-    "com.commafeed.backend.feed.FeedRefreshEngine.notifier.active": "Feed Refresh Engine active push notifications workers",
-    "com.commafeed.backend.feed.FeedRefreshEngine.notifier.queue": "Feed Refresh Engine queued push notifications workers",
+    "com.commafeed.backend.feed.FeedRefreshEngine.notifier.active":
+        "Feed Refresh Engine active push notifications workers",
+    "com.commafeed.backend.feed.FeedRefreshEngine.notifier.queue":
+        "Feed Refresh Engine queued push notifications workers",
     "com.commafeed.backend.HttpGetter.cache.size": "HttpGetter cached entries",
     "com.commafeed.backend.HttpGetter.cache.memoryUsage": "HttpGetter cache memory usage",
     "com.commafeed.frontend.ws.WebSocketSessions.users": "WebSocket users",

@@ -133,7 +133,11 @@ export function FeedDetailsPage() {
                     <Input.Wrapper label={<Trans>Generated feed url</Trans>}>
                         <Box>
                             {apiKey && (
-                                <Anchor href={`rest/feed/entriesAsFeed?id=${feed.id}&apiKey=${apiKey}`} target="_blank" rel="noreferrer">
+                                <Anchor
+                                    href={`rest/feed/entriesAsFeed?id=${feed.id}&apiKey=${apiKey}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
                                     <Trans>Link</Trans>
                                 </Anchor>
                             )}
@@ -146,10 +150,16 @@ export function FeedDetailsPage() {
                     <TextInput label={<Trans>Name</Trans>} {...form.getInputProps("name")} required />
                     <CategorySelect label={<Trans>Category</Trans>} {...form.getInputProps("categoryId")} clearable />
                     <NumberInput label={<Trans>Position</Trans>} {...form.getInputProps("position")} required min={0} />
-                    <ReceivePushNotificationsChechbox {...form.getInputProps("pushNotificationsEnabled", { type: "checkbox" })} />
+                    <ReceivePushNotificationsChechbox
+                        {...form.getInputProps("pushNotificationsEnabled", { type: "checkbox" })}
+                    />
                     <NumberInput
                         label={<Trans>Auto-mark as read</Trans>}
-                        description={<Trans>Mark entries in this feed as read after this number of days. Leave empty to disable.</Trans>}
+                        description={
+                            <Trans>
+                                Mark entries in this feed as read after this number of days. Leave empty to disable.
+                            </Trans>
+                        }
                         suffix={` ${_(msg`days`)}`}
                         {...form.getInputProps("autoMarkAsReadAfterDays")}
                         min={1}
@@ -159,21 +169,25 @@ export function FeedDetailsPage() {
                         label={<Trans>Filtering expression</Trans>}
                         description={
                             <Trans>
-                                Build a filter expression to indicate what you want to read. Entries that don't match will be marked as read
-                                automatically.
+                                Build a filter expression to indicate what you want to read. Entries that don't match
+                                will be marked as read automatically.
                             </Trans>
                         }
                     >
                         {feed.filterLegacy && (
                             <MantineAlert color="yellow" icon={<TbAlertTriangle />}>
                                 <Trans>
-                                    This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using
-                                    the new expression editor. The legacy filter expression was: <Code>{feed.filterLegacy}</Code>
+                                    This feed has a legacy filter that cannot be edited and is not applied. Please
+                                    recreate the filter using the new expression editor. The legacy filter expression
+                                    was: <Code>{feed.filterLegacy}</Code>
                                 </Trans>
                             </MantineAlert>
                         )}
                         <Box mt="xs">
-                            <FilteringExpressionEditor initialValue={feed.filter} onChange={value => form.setFieldValue("filter", value)} />
+                            <FilteringExpressionEditor
+                                initialValue={feed.filter}
+                                onChange={value => form.setFieldValue("filter", value)}
+                            />
                         </Box>
                     </Input.Wrapper>
 

@@ -43,13 +43,27 @@ export function categoryHasNewEntries(category?: TreeCategory): boolean {
         .some(f => f.hasNewEntries)
 }
 
-export const calculatePlaceholderSize = ({ width, height, maxWidth }: { width?: number; height?: number; maxWidth: number }) => {
+export const calculatePlaceholderSize = ({
+    width,
+    height,
+    maxWidth,
+}: {
+    width?: number
+    height?: number
+    maxWidth: number
+}) => {
     const placeholderWidth = width && Math.min(width, maxWidth)
     const placeholderHeight = height && width && width > maxWidth ? height * (maxWidth / width) : height
     return { width: placeholderWidth, height: placeholderHeight }
 }
 
-export const scrollToWithCallback = ({ options, onScrollEnded }: { options: ScrollToOptions; onScrollEnded: () => void }) => {
+export const scrollToWithCallback = ({
+    options,
+    onScrollEnded,
+}: {
+    options: ScrollToOptions
+    onScrollEnded: () => void
+}) => {
     const offset = (options.top ?? 0).toFixed()
 
     const onScroll = throttle(100, () => {

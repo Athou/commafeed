@@ -25,8 +25,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Singleton
-public class DatabaseApiKeyIdentityProvider
-        implements IdentityProvider<TokenAuthenticationRequest> {
+public class DatabaseApiKeyIdentityProvider implements IdentityProvider<TokenAuthenticationRequest> {
 
     private final UnitOfWork unitOfWork;
     private final UserService userService;
@@ -40,8 +39,7 @@ public class DatabaseApiKeyIdentityProvider
     public Uni<SecurityIdentity> authenticate(
             TokenAuthenticationRequest request, AuthenticationRequestContext context) {
         return context.runBlocking(() -> {
-            Optional<User> user =
-                    unitOfWork.call(() -> userService.login(request.getToken().getToken()));
+            Optional<User> user = unitOfWork.call(() -> userService.login(request.getToken().getToken()));
             if (user.isEmpty()) {
                 throw new AuthenticationFailedException("could not find a user with this api key");
             }

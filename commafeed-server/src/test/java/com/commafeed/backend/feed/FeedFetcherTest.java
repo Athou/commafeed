@@ -44,18 +44,14 @@ class FeedFetcherTest {
         byte[] html = "html".getBytes();
         Mockito.when(getter.get(HttpGetter.HttpRequest.builder(htmlUrl).build()))
                 .thenReturn(new HttpResult(html, "text/html", null, null, htmlUrl, Duration.ZERO));
-        Mockito.when(parser.parse(htmlUrl, html))
-                .thenThrow(new FeedParsingException("invalid feed"));
+        Mockito.when(parser.parse(htmlUrl, html)).thenThrow(new FeedParsingException("invalid feed"));
 
         String feedUrl = "https://bbb.com/feed";
         byte[] feed = "feed".getBytes();
         Mockito.when(getter.get(HttpGetter.HttpRequest.builder(feedUrl).build()))
-                .thenReturn(
-                        new HttpResult(
-                                feed, "application/atom+xml", null, null, feedUrl, Duration.ZERO));
+                .thenReturn(new HttpResult(feed, "application/atom+xml", null, null, feedUrl, Duration.ZERO));
         Mockito.when(parser.parse(feedUrl, feed))
-                .thenReturn(
-                        new FeedParserResult("title", "link", "iconUrl", null, null, null, null));
+                .thenReturn(new FeedParserResult("title", "link", "iconUrl", null, null, null, null));
 
         Mockito.when(urlProvider.get(htmlUrl, new String(html))).thenReturn(List.of(feedUrl));
 
@@ -71,32 +67,13 @@ class FeedFetcherTest {
         byte[] content = "content".getBytes();
         String lastContentHash = Digests.sha1Hex(content);
 
-        Mockito.when(
-                        getter.get(
-                                HttpGetter.HttpRequest.builder(url)
-                                        .lastModified(lastModified)
-                                        .eTag(etag)
-                                        .build()))
-                .thenReturn(
-                        new HttpResult(
-                                content,
-                                "content-type",
-                                "last-modified-2",
-                                "etag-2",
-                                null,
-                                Duration.ZERO));
+        Mockito.when(getter.get(HttpGetter.HttpRequest.builder(url).lastModified(lastModified).eTag(etag).build()))
+                .thenReturn(new HttpResult(content, "content-type", "last-modified-2", "etag-2", null, Duration.ZERO));
 
         NotModifiedException e =
                 Assertions.assertThrows(
                         NotModifiedException.class,
-                        () ->
-                                fetcher.fetch(
-                                        url,
-                                        false,
-                                        lastModified,
-                                        etag,
-                                        Instant.now(),
-                                        lastContentHash));
+                        () -> fetcher.fetch(url, false, lastModified, etag, Instant.now(), lastContentHash));
 
         Assertions.assertEquals("last-modified-2", e.getNewLastModifiedHeader());
         Assertions.assertEquals("etag-2", e.getNewEtagHeader());

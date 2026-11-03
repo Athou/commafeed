@@ -56,29 +56,24 @@ public class HttpClientFactory {
 
     private static final DnsResolver DNS_RESOLVER = SystemDefaultDnsResolver.INSTANCE;
     private static final IPAddress CGNAT_RANGE = new IPAddressString("100.64.0.0/10").getAddress();
-    private static final IPAddress NAT64_LOCAL_USE_RANGE =
-            new IPAddressString("64:ff9b:1::/48").getAddress();
+    private static final IPAddress NAT64_LOCAL_USE_RANGE = new IPAddressString("64:ff9b:1::/48").getAddress();
 
     private final CommaFeedConfiguration config;
     private final CommaFeedVersion version;
 
     public CloseableHttpAsyncClient newClient(int poolSize) {
-        PoolingAsyncClientConnectionManager connectionManager =
-                newConnectionManager(config, poolSize);
+        PoolingAsyncClientConnectionManager connectionManager = newConnectionManager(config, poolSize);
         String userAgent =
                 config.httpClient()
                         .userAgent()
                         .orElseGet(() ->
                                 String.format(
-                                        "CommaFeed/%s (https://github.com/Athou/commafeed)",
-                                        version.getVersion()));
+                                        "CommaFeed/%s (https://github.com/Athou/commafeed)", version.getVersion()));
         return newClient(config, connectionManager, userAgent);
     }
 
     private CloseableHttpAsyncClient newClient(
-            CommaFeedConfiguration config,
-            PoolingAsyncClientConnectionManager connectionManager,
-            String userAgent) {
+            CommaFeedConfiguration config, PoolingAsyncClientConnectionManager connectionManager, String userAgent) {
         List<Header> headers = new ArrayList<>();
         headers.add(new BasicHeader(HttpHeaders.ACCEPT_LANGUAGE, "en"));
         headers.add(new BasicHeader(HttpHeaders.PRAGMA, "No-cache"));
@@ -86,10 +81,8 @@ public class HttpClientFactory {
         headers.add(new BasicHeader(HttpHeaders.ACCEPT, "*/*"));
         headers.add(new BasicHeader(HttpHeaders.SEC_FETCH_MODE, "navigate"));
 
-        SequencedMap<String, UnaryOperator<AsyncDataConsumer>> contentDecoderMap =
-                new LinkedHashMap<>();
-        contentDecoderMap.put(
-                ContentCoding.DEFLATE.token(), d -> new InflatingAsyncDataConsumer(d, null));
+        SequencedMap<String, UnaryOperator<AsyncDataConsumer>> contentDecoderMap = new LinkedHashMap<>();
+        contentDecoderMap.put(ContentCoding.DEFLATE.token(), d -> new InflatingAsyncDataConsumer(d, null));
         contentDecoderMap.put(ContentCoding.GZIP.token(), InflatingGzipDataConsumer::new);
 
         RedirectStrategy redirectStrategy =
@@ -107,8 +100,7 @@ public class HttpClientFactory {
                         .setDefaultHeaders(headers)
                         .setConnectionManager(connectionManager)
                         .evictExpiredConnections()
-                        .evictIdleConnections(
-                                TimeValue.of(config.httpClient().idleConnectionsEvictionInterval()))
+                        .evictIdleConnections(TimeValue.of(config.httpClient().idleConnectionsEvictionInterval()))
                         .setContentDecoderMap(new LinkedHashMap<>(contentDecoderMap))
                         .setRedirectStrategy(redirectStrategy)
                         .build();
@@ -116,10 +108,8 @@ public class HttpClientFactory {
         return client;
     }
 
-    private PoolingAsyncClientConnectionManager newConnectionManager(
-            CommaFeedConfiguration config, int poolSize) {
-        SSLFactory sslFactory =
-                SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
+    private PoolingAsyncClientConnectionManager newConnectionManager(CommaFeedConfiguration config, int poolSize) {
+        SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
         DnsResolver dnsResolver =
                 config.httpClient().blockLocalAddresses()
                         ? new BlockLocalAddressesDnsResolver(DNS_RESOLVER)
@@ -131,14 +121,12 @@ public class HttpClientFactory {
                         ConnectionConfig.custom()
                                 .setConnectTimeout(Timeout.of(config.httpClient().connectTimeout()))
                                 .setSocketTimeout(Timeout.of(config.httpClient().socketTimeout()))
-                                .setTimeToLive(
-                                        Timeout.of(config.httpClient().connectionTimeToLive()))
+                                .setTimeToLive(Timeout.of(config.httpClient().connectionTimeToLive()))
                                 .build())
                 .setDefaultTlsConfig(
                         TlsConfig.custom()
                                 .setVersionPolicy(HttpVersionPolicy.NEGOTIATE)
-                                .setHandshakeTimeout(
-                                        Timeout.of(config.httpClient().sslHandshakeTimeout()))
+                                .setHandshakeTimeout(Timeout.of(config.httpClient().sslHandshakeTimeout()))
                                 .build())
                 .setMaxConnPerRoute(poolSize)
                 .setMaxConnTotal(poolSize)
@@ -191,8 +179,7 @@ public class HttpClientFactory {
             InetAddress[] addresses = delegate.resolve(host);
             for (InetAddress addr : addresses) {
                 if (isLocalAddress(addr)) {
-                    throw new UnknownHostException(
-                            "Access to local address blocked: " + addr.getHostAddress());
+                    throw new UnknownHostException("Access to local address blocked: " + addr.getHostAddress());
                 }
             }
             return addresses;
@@ -228,8 +215,7 @@ public class HttpClientFactory {
 
             for (InetAddress addr : addresses) {
                 if (isLocalAddress(addr)) {
-                    throw new HttpException(
-                            "Access to local address blocked: " + addr.getHostAddress());
+                    throw new HttpException("Access to local address blocked: " + addr.getHostAddress());
                 }
             }
 

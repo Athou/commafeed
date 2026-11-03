@@ -29,8 +29,7 @@ class PushNotificationIT extends BaseIT {
     void setup() {
         initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
         RestAssured.authentication =
-                RestAssured.preemptive()
-                        .basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+                RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
     }
 
     @AfterEach
@@ -41,13 +40,11 @@ class PushNotificationIT extends BaseIT {
     @Test
     void receivedPushNotifications() throws IOException {
         // mock ntfy server
-        HttpRequest ntfyPost =
-                HttpRequest.request().withMethod("POST").withPath("/ntfy/integration-test");
+        HttpRequest ntfyPost = HttpRequest.request().withMethod("POST").withPath("/ntfy/integration-test");
         getMockServerClient().when(ntfyPost).respond(HttpResponse.response().withStatusCode(200));
 
         // enable push notifications
-        Settings settings =
-                RestAssured.given().get("rest/user/settings").then().extract().as(Settings.class);
+        Settings settings = RestAssured.given().get("rest/user/settings").then().extract().as(Settings.class);
         settings.getPushNotificationSettings().setType(PushNotificationType.NTFY);
         settings.getPushNotificationSettings()
                 .setServerUrl("http://localhost:" + getMockServerClient().getPort() + "/ntfy");
@@ -84,7 +81,6 @@ class PushNotificationIT extends BaseIT {
         // await push notification for the two entries in the feed
         Awaitility.await()
                 .atMost(Duration.ofSeconds(20))
-                .untilAsserted(
-                        () -> getMockServerClient().verify(ntfyPost, VerificationTimes.exactly(2)));
+                .untilAsserted(() -> getMockServerClient().verify(ntfyPost, VerificationTimes.exactly(2)));
     }
 }

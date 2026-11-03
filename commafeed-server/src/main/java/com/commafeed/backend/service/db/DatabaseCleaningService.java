@@ -71,18 +71,15 @@ public class DatabaseCleaningService {
                         return;
                     }
 
-                    entriesDeleted =
-                            unitOfWork.call(() -> feedEntryDAO.delete(feed.getId(), batchSize));
+                    entriesDeleted = unitOfWork.call(() -> feedEntryDAO.delete(feed.getId(), batchSize));
                     entriesDeletedMeter.mark(entriesDeleted);
                     entriesTotal += entriesDeleted;
                     log.debug("removed {} entries for feeds without subscriptions", entriesTotal);
                 } while (entriesDeleted > 0);
             }
             deleted =
-                    unitOfWork.call(() ->
-                            feedDAO.delete(
-                                    feedDAO.findByIds(
-                                            feeds.stream().map(AbstractModel::getId).toList())));
+                    unitOfWork.call(
+                            () -> feedDAO.delete(feedDAO.findByIds(feeds.stream().map(AbstractModel::getId).toList())));
             total += deleted;
             log.debug("removed {} feeds without subscriptions", total);
         } while (deleted != 0);
@@ -117,8 +114,7 @@ public class DatabaseCleaningService {
 
             List<FeedCapacity> feeds =
                     unitOfWork.call(() ->
-                            feedEntryDAO.findFeedsExceedingCapacity(
-                                    maxFeedCapacity, batchSize, keepStarredEntries));
+                            feedEntryDAO.findFeedsExceedingCapacity(maxFeedCapacity, batchSize, keepStarredEntries));
             if (feeds.isEmpty()) {
                 break;
             }
@@ -128,8 +124,7 @@ public class DatabaseCleaningService {
                 int deleted;
                 do {
                     if (Thread.currentThread().isInterrupted()) {
-                        log.info(
-                                "interrupted, stopping cleanup of entries exceeding feed capacity");
+                        log.info("interrupted, stopping cleanup of entries exceeding feed capacity");
                         return;
                     }
 
@@ -137,9 +132,7 @@ public class DatabaseCleaningService {
                     deleted =
                             unitOfWork.call(() ->
                                     feedEntryDAO.deleteOldEntries(
-                                            feed.id(),
-                                            Math.min(batchSize, rem),
-                                            keepStarredEntries));
+                                            feed.id(), Math.min(batchSize, rem), keepStarredEntries));
                     entriesDeletedMeter.mark(deleted);
                     total += deleted;
                     remaining -= deleted;
@@ -161,9 +154,8 @@ public class DatabaseCleaningService {
             }
 
             deleted =
-                    unitOfWork.call(() ->
-                            feedEntryDAO.deleteEntriesOlderThan(
-                                    olderThan, batchSize, keepStarredEntries));
+                    unitOfWork.call(
+                            () -> feedEntryDAO.deleteEntriesOlderThan(olderThan, batchSize, keepStarredEntries));
             entriesDeletedMeter.mark(deleted);
             total += deleted;
             log.debug("removed {} old entries", total);
@@ -181,9 +173,7 @@ public class DatabaseCleaningService {
                 return;
             }
 
-            deleted =
-                    unitOfWork.call(
-                            () -> feedEntryStatusDAO.deleteOldStatuses(olderThan, batchSize));
+            deleted = unitOfWork.call(() -> feedEntryStatusDAO.deleteOldStatuses(olderThan, batchSize));
             total += deleted;
             log.debug("removed {} old read statuses", total);
         } while (deleted != 0);

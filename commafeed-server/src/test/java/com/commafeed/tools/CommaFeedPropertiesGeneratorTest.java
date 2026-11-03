@@ -15,8 +15,7 @@ class CommaFeedPropertiesGeneratorTest {
     @Test
     void testGenerate() throws Exception {
         InputStream model = getClass().getResourceAsStream("/properties/quarkus-config-model.yaml");
-        InputStream javadoc =
-                getClass().getResourceAsStream("/properties/quarkus-config-javadoc.yaml");
+        InputStream javadoc = getClass().getResourceAsStream("/properties/quarkus-config-javadoc.yaml");
         URL output = getClass().getResource("/properties/output.properties");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         new CommaFeedPropertiesGenerator().generate(model, javadoc, baos);

@@ -46,14 +46,12 @@ class ReadingIT {
                         HttpResponse.response()
                                 .withBody(
                                         IOUtils.toString(
-                                                getClass().getResource("/feed/rss.xml"),
-                                                StandardCharsets.UTF_8))
+                                                getClass().getResource("/feed/rss.xml"), StandardCharsets.UTF_8))
                                 .withDelay(TimeUnit.MILLISECONDS, 100));
 
         PlaywrightTestUtils.initialSetup();
         RestAssured.authentication =
-                RestAssured.preemptive()
-                        .basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+                RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
     }
 
     @AfterEach
@@ -74,18 +72,13 @@ class ReadingIT {
         Locator sidebar = page.getByRole(AriaRole.NAVIGATION);
         Locator main = page.getByRole(AriaRole.MAIN);
 
-        PlaywrightAssertions.assertThat(main.getByText("You don't have any subscriptions yet."))
-                .hasCount(1);
+        PlaywrightAssertions.assertThat(main.getByText("You don't have any subscriptions yet.")).hasCount(1);
 
         // subscribe
-        header.getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Subscribe"))
-                .click();
+        header.getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Subscribe")).click();
         main.getByText("Feed URL *").fill("http://localhost:" + this.mockServerClient.getPort());
         main.getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Next")).click();
-        main.getByRole(
-                        AriaRole.BUTTON,
-                        new Locator.GetByRoleOptions().setName("Subscribe").setExact(true))
-                .click();
+        main.getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Subscribe").setExact(true)).click();
 
         // click on subscription
         sidebar.getByText(Pattern.compile("CommaFeed test feed\\d+")).click();

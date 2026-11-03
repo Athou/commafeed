@@ -27,14 +27,12 @@ public class DatabaseStartupService {
     }
 
     /**
-     * Register a postgresql database in liquibase that doesn't escape columns, so that we can use
-     * lower case columns
+     * Register a postgresql database in liquibase that doesn't escape columns, so that we can use lower case columns
      */
     @MetaInfServices(Database.class)
     public static class LowerCaseColumnsPostgresDatabase extends PostgresDatabase {
         @Override
-        public String escapeObjectName(
-                String objectName, Class<? extends DatabaseObject> objectType) {
+        public String escapeObjectName(String objectName, Class<? extends DatabaseObject> objectType) {
             return objectName;
         }
 

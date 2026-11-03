@@ -133,11 +133,7 @@ public class FeedREST {
     @Operation(summary = "Get feed entries", description = "Get a list of feed entries")
     @APIResponse(
             responseCode = "200",
-            content = {
-                @Content(
-                        mediaType = "application/json",
-                        schema = @Schema(implementation = Entries.class))
-            })
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Entries.class))})
     @APIResponse(responseCode = "404", description = "feed not found")
     public Response getFeedEntries(
             @Parameter(description = "id of the feed", required = true) @QueryParam("id") String id,
@@ -145,16 +141,13 @@ public class FeedREST {
                     @DefaultValue("unread")
                     @QueryParam("readType")
                     ReadingMode readType,
-            @Parameter(description = "only entries newer than this") @QueryParam("newerThan")
-                    Long newerThan,
-            @Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset")
-                    int offset,
+            @Parameter(description = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
+            @Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
             @Parameter(description = "limit for paging, default 20, maximum 1000")
                     @DefaultValue("20")
                     @QueryParam("limit")
                     int limit,
-            @Parameter(description = "ordering") @QueryParam("order") @DefaultValue("desc")
-                    ReadingOrder order,
+            @Parameter(description = "ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
             @Parameter(
                             description =
                                     "search for keywords in either the title or the content of the entries, separated by spaces")
@@ -164,8 +157,7 @@ public class FeedREST {
         Preconditions.checkNotNull(id);
         Preconditions.checkNotNull(readType);
 
-        List<FeedEntryKeyword> entryKeywords =
-                FeedEntryKeyword.fromQueryString(StringUtils.trimToNull(keywords));
+        List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(StringUtils.trimToNull(keywords));
 
         limit = Math.min(limit, 1000);
         limit = Math.max(0, limit);
@@ -211,9 +203,7 @@ public class FeedREST {
                 entries.getEntries().removeLast();
             }
         } else {
-            return Response.status(Status.NOT_FOUND)
-                    .entity("<message>feed not found</message>")
-                    .build();
+            return Response.status(Status.NOT_FOUND).entity("<message>feed not found</message>").build();
         }
 
         entries.setTimestamp(System.currentTimeMillis());
@@ -232,16 +222,13 @@ public class FeedREST {
                     @DefaultValue("all")
                     @QueryParam("readType")
                     ReadingMode readType,
-            @Parameter(description = "only entries newer than this") @QueryParam("newerThan")
-                    Long newerThan,
-            @Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset")
-                    int offset,
+            @Parameter(description = "only entries newer than this") @QueryParam("newerThan") Long newerThan,
+            @Parameter(description = "offset for paging") @DefaultValue("0") @QueryParam("offset") int offset,
             @Parameter(description = "limit for paging, default 20, maximum 1000")
                     @DefaultValue("20")
                     @QueryParam("limit")
                     int limit,
-            @Parameter(description = "date ordering") @QueryParam("order") @DefaultValue("desc")
-                    ReadingOrder order,
+            @Parameter(description = "date ordering") @QueryParam("order") @DefaultValue("desc") ReadingOrder order,
             @Parameter(
                             description =
                                     "search for keywords in either the title or the content of the entries, separated by spaces")
@@ -277,8 +264,7 @@ public class FeedREST {
         url = StringUtils.trimToEmpty(url);
         url = prependHttp(url);
         try {
-            FeedFetcherResult feedFetcherResult =
-                    feedFetcher.fetch(url, true, null, null, null, null);
+            FeedFetcherResult feedFetcherResult = feedFetcher.fetch(url, true, null, null, null, null);
             info = new FeedInfo();
             info.setUrl(feedFetcherResult.urlAfterRedirect());
             info.setTitle(feedFetcherResult.feed().title());
@@ -296,14 +282,9 @@ public class FeedREST {
     @Operation(summary = "Fetch a feed", description = "Fetch a feed by its url")
     @APIResponse(
             responseCode = "200",
-            content = {
-                @Content(
-                        mediaType = "application/json",
-                        schema = @Schema(implementation = FeedInfo.class))
-            })
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FeedInfo.class))})
     @APIResponse(responseCode = "404", description = "feed not found")
-    public Response fetchFeed(
-            @Valid @Parameter(description = "feed url", required = true) FeedInfoRequest req) {
+    public Response fetchFeed(@Valid @Parameter(description = "feed url", required = true) FeedInfoRequest req) {
         Preconditions.checkNotNull(req);
         Preconditions.checkNotNull(req.getUrl());
 
@@ -339,33 +320,21 @@ public class FeedREST {
     @Path("/mark")
     @POST
     @Transactional
-    @Operation(
-            summary = "Mark feed entries",
-            description = "Mark feed entries as read (unread is not supported)")
-    public Response markFeedEntries(
-            @Valid @Parameter(description = "Mark request", required = true) MarkRequest req) {
+    @Operation(summary = "Mark feed entries", description = "Mark feed entries as read (unread is not supported)")
+    public Response markFeedEntries(@Valid @Parameter(description = "Mark request", required = true) MarkRequest req) {
         Preconditions.checkNotNull(req);
         Preconditions.checkNotNull(req.getId());
 
-        Instant olderThan =
-                req.getOlderThan() == null ? null : Instant.ofEpochMilli(req.getOlderThan());
-        Instant insertedBefore =
-                req.getInsertedBefore() == null
-                        ? null
-                        : Instant.ofEpochMilli(req.getInsertedBefore());
+        Instant olderThan = req.getOlderThan() == null ? null : Instant.ofEpochMilli(req.getOlderThan());
+        Instant insertedBefore = req.getInsertedBefore() == null ? null : Instant.ofEpochMilli(req.getInsertedBefore());
         String keywords = req.getKeywords();
         List<FeedEntryKeyword> entryKeywords = FeedEntryKeyword.fromQueryString(keywords);
 
         User user = authenticationContext.getCurrentUser();
-        FeedSubscription subscription =
-                feedSubscriptionDAO.findById(user, Long.valueOf(req.getId()));
+        FeedSubscription subscription = feedSubscriptionDAO.findById(user, Long.valueOf(req.getId()));
         if (subscription != null) {
             feedEntryService.markSubscriptionEntries(
-                    user,
-                    Collections.singletonList(subscription),
-                    olderThan,
-                    insertedBefore,
-                    entryKeywords);
+                    user, Collections.singletonList(subscription), olderThan, insertedBefore, entryKeywords);
         }
         return Response.ok().build();
     }
@@ -376,14 +345,9 @@ public class FeedREST {
     @Operation(summary = "get feed")
     @APIResponse(
             responseCode = "200",
-            content = {
-                @Content(
-                        mediaType = "application/json",
-                        schema = @Schema(implementation = Subscription.class))
-            })
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Subscription.class))})
     @APIResponse(responseCode = "404", description = "feed not found")
-    public Response getFeed(
-            @Parameter(description = "user id", required = true) @PathParam("id") Long id) {
+    public Response getFeed(@Parameter(description = "user id", required = true) @PathParam("id") Long id) {
         Preconditions.checkNotNull(id);
 
         User user = authenticationContext.getCurrentUser();
@@ -435,14 +399,9 @@ public class FeedREST {
     @Operation(summary = "Subscribe to a feed", description = "Subscribe to a feed")
     @APIResponse(
             responseCode = "200",
-            content = {
-                @Content(
-                        mediaType = "application/json",
-                        schema = @Schema(implementation = Long.class))
-            })
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Long.class))})
     public Response subscribe(
-            @Valid @Parameter(description = "subscription request", required = true)
-                    SubscribeRequest req) {
+            @Valid @Parameter(description = "subscription request", required = true) SubscribeRequest req) {
         Preconditions.checkNotNull(req);
         Preconditions.checkNotNull(req.getTitle());
         Preconditions.checkNotNull(req.getUrl());
@@ -455,9 +414,7 @@ public class FeedREST {
 
             FeedInfo info = fetchFeedInternal(prependHttp(req.getUrl()));
             User user = authenticationContext.getCurrentUser();
-            long subscriptionId =
-                    feedSubscriptionService.subscribe(
-                            user, info.getUrl(), req.getTitle(), category, 0);
+            long subscriptionId = feedSubscriptionService.subscribe(user, info.getUrl(), req.getTitle(), category, 0);
             return Response.ok(subscriptionId).build();
         } catch (Exception e) {
             log.error("Failed to subscribe to URL {}: {}", req.getUrl(), e.getMessage(), e);
@@ -513,18 +470,14 @@ public class FeedREST {
     @Transactional
     @Operation(summary = "Modify a subscription", description = "Modify a feed subscription")
     public Response modifyFeed(
-            @Valid @Parameter(description = "subscription id", required = true)
-                    FeedModificationRequest req) {
+            @Valid @Parameter(description = "subscription id", required = true) FeedModificationRequest req) {
         Preconditions.checkNotNull(req);
         Preconditions.checkNotNull(req.getId());
 
         try {
             feedEntryFilteringService.filterMatchesEntry(req.getFilter(), TEST_ENTRY);
         } catch (FeedEntryFilterException e) {
-            return Response.status(Status.BAD_REQUEST)
-                    .entity(e.getMessage())
-                    .type(MediaType.TEXT_PLAIN)
-                    .build();
+            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
         }
 
         User user = authenticationContext.getCurrentUser();
@@ -576,22 +529,15 @@ public class FeedREST {
     @Path("/import")
     @Transactional
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Operation(
-            summary = "OPML import",
-            description = "Import an OPML file, posted as a FORM with the 'file' name")
-    public Response importOpml(
-            @Parameter(description = "ompl file", required = true) @RestForm("file") String opml) {
+    @Operation(summary = "OPML import", description = "Import an OPML file, posted as a FORM with the 'file' name")
+    public Response importOpml(@Parameter(description = "ompl file", required = true) @RestForm("file") String opml) {
         User user = authenticationContext.getCurrentUser();
         if (CommaFeedConstants.USERNAME_DEMO.equals(user.getName())) {
-            return Response.status(Status.FORBIDDEN)
-                    .entity("Import is disabled for the demo account")
-                    .build();
+            return Response.status(Status.FORBIDDEN).entity("Import is disabled for the demo account").build();
         }
         try {
             // opml will be encoded in the default JVM encoding, bu we want UTF-8
-            opmlImporter.importOpml(
-                    user,
-                    new String(opml.getBytes(SystemUtils.FILE_ENCODING), StandardCharsets.UTF_8));
+            opmlImporter.importOpml(user, new String(opml.getBytes(SystemUtils.FILE_ENCODING), StandardCharsets.UTF_8));
         } catch (Exception e) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
@@ -602,9 +548,7 @@ public class FeedREST {
     @Path("/export")
     @Transactional
     @Produces(MediaType.APPLICATION_XML)
-    @Operation(
-            summary = "OPML export",
-            description = "Export an OPML file of the user's subscriptions")
+    @Operation(summary = "OPML export", description = "Export an OPML file of the user's subscriptions")
     public Response exportOpml() throws FeedException {
         User user = authenticationContext.getCurrentUser();
         Opml opml = opmlExporter.export(user);

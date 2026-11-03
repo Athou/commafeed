@@ -40,7 +40,9 @@ export const loadMoreEntries = createAppAsyncThunk("entries/loadMore", async (_,
     const state = thunkApi.getState()
     const { source } = state.entries
     const offset =
-        state.user.settings?.readingMode === "all" || state.entries.search || (source.type === "category" && source.id === "starred")
+        state.user.settings?.readingMode === "all" ||
+        state.entries.search ||
+        (source.type === "category" && source.id === "starred")
             ? state.entries.entries.length
             : state.entries.entries.filter(e => !e.read).length
     const endpoint = getEndpoint(state.entries.source.type)
@@ -220,7 +222,9 @@ export const selectEntry = createAppAsyncThunk(
 
             const entryIndex = state.entries.entries.indexOf(entry)
             const entriesToKeepOnTopWhenScrolling =
-                viewMode === "expanded" ? 0 : Math.min(state.user.settings?.entriesToKeepOnTopWhenScrolling ?? 0, entryIndex)
+                viewMode === "expanded"
+                    ? 0
+                    : Math.min(state.user.settings?.entriesToKeepOnTopWhenScrolling ?? 0, entryIndex)
             const entryToScrollTo = state.entries.entries[entryIndex - entriesToKeepOnTopWhenScrolling]
 
             const entryElement = document.getElementById(Constants.dom.entryId(entry))
@@ -228,7 +232,8 @@ export const selectEntry = createAppAsyncThunk(
             if (entryElement && entryElementToScrollTo) {
                 const scrollMode = state.user.settings?.scrollMode
                 const entryEntirelyVisible =
-                    Constants.layout.isTopVisible(entryElementToScrollTo) && Constants.layout.isBottomVisible(entryElement)
+                    Constants.layout.isTopVisible(entryElementToScrollTo) &&
+                    Constants.layout.isBottomVisible(entryElement)
                 if (scrollMode === "always" || (scrollMode === "if_needed" && !entryEntirelyVisible)) {
                     const scrollSpeed = state.user.settings?.scrollSpeed
                     const margin = viewMode === "detailed" ? 8 : 3
@@ -242,7 +247,12 @@ export const selectEntry = createAppAsyncThunk(
     }
 )
 
-const scrollToEntry = (entryElement: HTMLElement, margin: number, scrollSpeed: number | undefined, onScrollEnded: () => void) => {
+const scrollToEntry = (
+    entryElement: HTMLElement,
+    margin: number,
+    scrollSpeed: number | undefined,
+    onScrollEnded: () => void
+) => {
     const header = document.getElementsByTagName("header").item(0)?.getBoundingClientRect()
     const offset = (header?.bottom ?? 0) + margin
     scrollToWithCallback({

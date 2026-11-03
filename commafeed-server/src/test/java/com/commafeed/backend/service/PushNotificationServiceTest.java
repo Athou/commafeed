@@ -48,11 +48,9 @@ class PushNotificationServiceTest {
         HttpClientFactory httpClientFactory =
                 new HttpClientFactory(config, Mockito.mock(com.commafeed.CommaFeedVersion.class));
         MetricRegistry metricRegistry = Mockito.mock(MetricRegistry.class);
-        Mockito.when(metricRegistry.meter(Mockito.anyString()))
-                .thenReturn(Mockito.mock(Meter.class));
+        Mockito.when(metricRegistry.meter(Mockito.anyString())).thenReturn(Mockito.mock(Meter.class));
 
-        this.pushNotificationService =
-                new PushNotificationService(httpClientFactory, metricRegistry, config);
+        this.pushNotificationService = new PushNotificationService(httpClientFactory, metricRegistry, config);
 
         this.userSettings = new PushNotificationUserSettings();
 
@@ -78,8 +76,7 @@ class PushNotificationServiceTest {
                                 .withBody("Test Entry"))
                 .respond(HttpResponse.response().withStatusCode(200));
 
-        Assertions.assertDoesNotThrow(
-                () -> pushNotificationService.notify(userSettings, subscription, entry));
+        Assertions.assertDoesNotThrow(() -> pushNotificationService.notify(userSettings, subscription, entry));
     }
 
     @Test
@@ -113,8 +110,7 @@ class PushNotificationServiceTest {
                                                 """)))
                 .respond(HttpResponse.response().withStatusCode(200));
 
-        Assertions.assertDoesNotThrow(
-                () -> pushNotificationService.notify(userSettings, subscription, entry));
+        Assertions.assertDoesNotThrow(() -> pushNotificationService.notify(userSettings, subscription, entry));
     }
 
     @Test
@@ -124,8 +120,7 @@ class PushNotificationServiceTest {
         userSettings.setServerUrl("http://localhost:" + mockServerClient.getPort());
         userSettings.setTopic("test-topic");
 
-        Assertions.assertDoesNotThrow(
-                () -> pushNotificationService.notify(userSettings, subscription, entry));
+        Assertions.assertDoesNotThrow(() -> pushNotificationService.notify(userSettings, subscription, entry));
         mockServerClient.verifyZeroInteractions();
     }
 

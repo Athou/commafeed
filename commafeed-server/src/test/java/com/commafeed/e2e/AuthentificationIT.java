@@ -35,8 +35,7 @@ class AuthentificationIT {
         Page page = context.newPage();
         page.navigate(getLoginPageUrl());
         PlaywrightTestUtils.login(page, TestConstants.ADMIN_USERNAME, "wrong_password");
-        PlaywrightAssertions.assertThat(page.getByRole(AriaRole.ALERT))
-                .containsText("Wrong username or password");
+        PlaywrightAssertions.assertThat(page.getByRole(AriaRole.ALERT)).containsText("Wrong username or password");
     }
 
     @Test

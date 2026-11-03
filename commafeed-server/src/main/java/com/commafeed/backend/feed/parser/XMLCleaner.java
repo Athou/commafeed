@@ -13,11 +13,9 @@ import java.util.regex.Pattern;
 @Singleton
 public class XMLCleaner {
 
-    private static final Pattern DOCTYPE_PATTERN =
-            Pattern.compile("<!DOCTYPE[^>]*>", Pattern.CASE_INSENSITIVE);
+    private static final Pattern DOCTYPE_PATTERN = Pattern.compile("<!DOCTYPE[^>]*>", Pattern.CASE_INSENSITIVE);
 
-    private final Trie trie =
-            Trie.builder().ignoreOverlaps().addKeywords(HtmlEntities.HTML_ENTITIES).build();
+    private final Trie trie = Trie.builder().ignoreOverlaps().addKeywords(HtmlEntities.HTML_ENTITIES).build();
 
     public String clean(String xml) {
         xml = removeCharactersBeforeFirstXmlTag(xml);

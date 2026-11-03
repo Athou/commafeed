@@ -18,8 +18,7 @@ public record GoogleReaderStreamId(Type type, String value) {
     public static final String FEED_PREFIX = "feed/";
 
     public static final GoogleReaderStreamId ALL_STREAM = new GoogleReaderStreamId(Type.ALL, null);
-    public static final GoogleReaderStreamId STARRED_STREAM =
-            new GoogleReaderStreamId(Type.STARRED, null);
+    public static final GoogleReaderStreamId STARRED_STREAM = new GoogleReaderStreamId(Type.STARRED, null);
 
     public static GoogleReaderStreamId parse(String raw) {
         if (StringUtils.isBlank(raw) || "reading-list".equals(raw) || READING_LIST.equals(raw)) {

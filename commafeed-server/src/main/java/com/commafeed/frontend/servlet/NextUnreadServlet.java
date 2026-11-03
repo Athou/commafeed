@@ -45,8 +45,7 @@ public class NextUnreadServlet {
     @Transactional
     @Operation(hidden = true)
     public Response get(
-            @QueryParam("category") String categoryId,
-            @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
+            @QueryParam("category") String categoryId, @QueryParam("order") @DefaultValue("desc") ReadingOrder order) {
         User user = authenticationContext.getCurrentUser();
         if (user == null) {
             return Response.temporaryRedirect(uri.getBaseUri()).build();
@@ -62,24 +61,11 @@ public class NextUnreadServlet {
         } else {
             FeedCategory category = feedCategoryDAO.findById(user, Long.valueOf(categoryId));
             if (category != null) {
-                List<FeedCategory> children =
-                        feedCategoryDAO.findAllChildrenCategories(user, category);
-                List<FeedSubscription> subscriptions =
-                        feedSubscriptionDAO.findByCategories(user, children);
+                List<FeedCategory> children = feedCategoryDAO.findAllChildrenCategories(user, category);
+                List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user, children);
                 List<FeedEntryStatus> statuses =
                         feedEntryStatusDAO.findBySubscriptions(
-                                user,
-                                subscriptions,
-                                true,
-                                null,
-                                null,
-                                0,
-                                1,
-                                order,
-                                true,
-                                null,
-                                null,
-                                null);
+                                user, subscriptions, true, null, null, 0, 1, order, true, null, null, null);
                 s = statuses.stream().findFirst().orElse(null);
             }
         }

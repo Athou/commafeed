@@ -48,15 +48,13 @@ public class FeedSubscriptionService {
         // by the feed engine
         feedSubscriptionDAO.onPostCommitInsert(sub -> {
             Feed feed = sub.getFeed();
-            if (feed.getDisabledUntil() == null
-                    || feed.getDisabledUntil().isBefore(Instant.now())) {
+            if (feed.getDisabledUntil() == null || feed.getDisabledUntil().isBefore(Instant.now())) {
                 feedRefreshEngine.refreshImmediately(feed);
             }
         });
     }
 
-    public long subscribe(
-            User user, String url, String title, FeedCategory category, int position) {
+    public long subscribe(User user, String url, String title, FeedCategory category, int position) {
         Integer maxFeedsPerUser = config.database().cleanup().maxFeedsPerUser();
         if (maxFeedsPerUser > 0 && feedSubscriptionDAO.count(user) >= maxFeedsPerUser) {
             String message =
@@ -98,9 +96,7 @@ public class FeedSubscriptionService {
     public void refreshAll(User user) throws ForceFeedRefreshTooSoonException {
         Instant lastForceRefresh = user.getLastForceRefresh();
         if (lastForceRefresh != null
-                && lastForceRefresh
-                        .plus(config.feedRefresh().forceRefreshCooldownDuration())
-                        .isAfter(Instant.now())) {
+                && lastForceRefresh.plus(config.feedRefresh().forceRefreshCooldownDuration()).isAfter(Instant.now())) {
             throw new ForceFeedRefreshTooSoonException();
         }
 

@@ -64,13 +64,7 @@ class DatabaseCleaningServiceTest {
 
         service =
                 new DatabaseCleaningService(
-                        config,
-                        unitOfWork,
-                        feedDAO,
-                        feedEntryDAO,
-                        feedEntryContentDAO,
-                        feedEntryStatusDAO,
-                        metrics);
+                        config, unitOfWork, feedDAO, feedEntryDAO, feedEntryContentDAO, feedEntryStatusDAO, metrics);
     }
 
     @Test
@@ -97,13 +91,11 @@ class DatabaseCleaningServiceTest {
 
     @Test
     void cleanContentsWithoutEntriesDeletesContents() {
-        Mockito.when(feedEntryContentDAO.deleteWithoutEntries(Mockito.anyInt()))
-                .thenReturn(50L, 30L, 0L);
+        Mockito.when(feedEntryContentDAO.deleteWithoutEntries(Mockito.anyInt())).thenReturn(50L, 30L, 0L);
 
         service.cleanContentsWithoutEntries();
 
-        Mockito.verify(feedEntryContentDAO, Mockito.times(3))
-                .deleteWithoutEntries(Mockito.anyInt());
+        Mockito.verify(feedEntryContentDAO, Mockito.times(3)).deleteWithoutEntries(Mockito.anyInt());
     }
 
     @Test
@@ -133,13 +125,11 @@ class DatabaseCleaningServiceTest {
     void cleanEntriesOlderThanDeletesOldEntries() {
         Instant cutoff = LocalDate.now().minusDays(30).atStartOfDay().toInstant(ZoneOffset.UTC);
 
-        Mockito.when(feedEntryDAO.deleteEntriesOlderThan(cutoff, BATCH_SIZE, false))
-                .thenReturn(100, 50, 0);
+        Mockito.when(feedEntryDAO.deleteEntriesOlderThan(cutoff, BATCH_SIZE, false)).thenReturn(100, 50, 0);
 
         service.cleanEntriesOlderThan(cutoff);
 
-        Mockito.verify(feedEntryDAO, Mockito.times(3))
-                .deleteEntriesOlderThan(cutoff, BATCH_SIZE, false);
+        Mockito.verify(feedEntryDAO, Mockito.times(3)).deleteEntriesOlderThan(cutoff, BATCH_SIZE, false);
         Mockito.verify(entriesDeletedMeter, Mockito.times(3)).mark(Mockito.anyLong());
     }
 
@@ -147,8 +137,7 @@ class DatabaseCleaningServiceTest {
     void cleanStatusesOlderThanDeletesOldStatuses() {
         Instant cutoff = LocalDate.now().minusDays(60).atStartOfDay().toInstant(ZoneOffset.UTC);
 
-        Mockito.when(feedEntryStatusDAO.deleteOldStatuses(cutoff, BATCH_SIZE))
-                .thenReturn(200L, 100L, 0L);
+        Mockito.when(feedEntryStatusDAO.deleteOldStatuses(cutoff, BATCH_SIZE)).thenReturn(200L, 100L, 0L);
 
         service.cleanStatusesOlderThan(cutoff);
 

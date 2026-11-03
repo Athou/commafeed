@@ -42,14 +42,12 @@ import java.util.stream.Collectors;
 @Singleton
 public class FeedParser {
 
-    private static final Namespace ATOM_10_NS =
-            Namespace.getNamespace("http://www.w3.org/2005/Atom");
+    private static final Namespace ATOM_10_NS = Namespace.getNamespace("http://www.w3.org/2005/Atom");
 
     private static final Instant START = Instant.ofEpochMilli(86400000);
     private static final Instant END = Instant.ofEpochMilli(1000L * Integer.MAX_VALUE - 86400000);
 
-    private static final Comparator<Entry> ENTRY_COMPARATOR =
-            Comparator.comparing(Entry::published).reversed();
+    private static final Comparator<Entry> ENTRY_COMPARATOR = Comparator.comparing(Entry::published).reversed();
 
     private final EncodingDetector encodingDetector;
     private final XMLCleaner xmlCleaner;
@@ -78,20 +76,13 @@ public class FeedParser {
             List<Entry> entries = buildEntries(feed, feedUrl);
             Instant lastEntryDate = entries.stream().findFirst().map(Entry::published).orElse(null);
             Instant lastPublishedDate = toValidInstant(feed.getPublishedDate(), false);
-            if (lastPublishedDate == null
-                    || lastEntryDate != null && lastPublishedDate.isBefore(lastEntryDate)) {
+            if (lastPublishedDate == null || lastEntryDate != null && lastPublishedDate.isBefore(lastEntryDate)) {
                 lastPublishedDate = lastEntryDate;
             }
             Long averageEntryInterval = averageTimeBetweenEntries(entries);
 
             return new FeedParserResult(
-                    title,
-                    link,
-                    iconUrl,
-                    lastPublishedDate,
-                    averageEntryInterval,
-                    lastEntryDate,
-                    entries);
+                    title, link, iconUrl, lastPublishedDate, averageEntryInterval, lastEntryDate, entries);
         } catch (FeedParsingException e) {
             throw e;
         } catch (Exception e) {
@@ -151,9 +142,7 @@ public class FeedParser {
         String author = StringUtils.trimToNull(item.getAuthor());
         String categories =
                 StringUtils.trimToNull(
-                        item.getCategories().stream()
-                                .map(SyndCategory::getName)
-                                .collect(Collectors.joining(", ")));
+                        item.getCategories().stream().map(SyndCategory::getName).collect(Collectors.joining(", ")));
 
         Enclosure enclosure = buildEnclosure(item);
         Media media = buildMedia(item);
@@ -281,9 +270,7 @@ public class FeedParser {
         SummaryStatistics stats = new SummaryStatistics();
         for (int i = 0; i < entries.size() - 1; i++) {
             long diff =
-                    Math.abs(
-                            entries.get(i).published().toEpochMilli()
-                                    - entries.get(i + 1).published().toEpochMilli());
+                    Math.abs(entries.get(i).published().toEpochMilli() - entries.get(i + 1).published().toEpochMilli());
             stats.addValue(diff);
         }
         return (long) stats.getMean();

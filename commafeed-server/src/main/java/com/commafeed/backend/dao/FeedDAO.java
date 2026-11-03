@@ -36,10 +36,7 @@ public class FeedDAO extends GenericDAO<Feed> {
                         // join on subscriptions to only refresh feeds that have subscribers
                         .join(SUBSCRIPTION)
                         .on(SUBSCRIPTION.feed.eq(FEED))
-                        .where(
-                                FEED.disabledUntil
-                                        .isNull()
-                                        .or(FEED.disabledUntil.lt(Instant.now())));
+                        .where(FEED.disabledUntil.isNull().or(FEED.disabledUntil.lt(Instant.now())));
 
         if (lastLoginThreshold != null) {
             query.join(SUBSCRIPTION.user).where(SUBSCRIPTION.user.lastLogin.gt(lastLoginThreshold));
@@ -53,11 +50,7 @@ public class FeedDAO extends GenericDAO<Feed> {
     }
 
     public Feed findByUrl(String normalizedUrl, String normalizedUrlHash) {
-        return query()
-                .selectFrom(FEED)
-                .where(FEED.normalizedUrlHash.eq(normalizedUrlHash))
-                .fetch()
-                .stream()
+        return query().selectFrom(FEED).where(FEED.normalizedUrlHash.eq(normalizedUrlHash)).fetch().stream()
                 .filter(f -> Strings.CS.equals(normalizedUrl, f.getNormalizedUrl()))
                 .findFirst()
                 .orElse(null);

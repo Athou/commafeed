@@ -50,27 +50,17 @@ public class FeedEntryFilteringService {
     private final ExecutorService executor = Executors.newCachedThreadPool();
     private final CommaFeedConfiguration config;
 
-    public boolean filterMatchesEntry(String filter, FeedEntry entry)
-            throws FeedEntryFilterException {
+    public boolean filterMatchesEntry(String filter, FeedEntry entry) throws FeedEntryFilterException {
         if (StringUtils.isBlank(filter)) {
             return true;
         }
 
-        String title =
-                entry.getContent().getTitle() == null
-                        ? ""
-                        : Jsoup.parse(entry.getContent().getTitle()).text();
-        String author =
-                entry.getContent().getAuthor() == null ? "" : entry.getContent().getAuthor();
+        String title = entry.getContent().getTitle() == null ? "" : Jsoup.parse(entry.getContent().getTitle()).text();
+        String author = entry.getContent().getAuthor() == null ? "" : entry.getContent().getAuthor();
         String content =
-                entry.getContent().getContent() == null
-                        ? ""
-                        : Jsoup.parse(entry.getContent().getContent()).text();
+                entry.getContent().getContent() == null ? "" : Jsoup.parse(entry.getContent().getContent()).text();
         String url = entry.getUrl() == null ? "" : entry.getUrl();
-        String categories =
-                entry.getContent().getCategories() == null
-                        ? ""
-                        : entry.getContent().getCategories();
+        String categories = entry.getContent().getCategories() == null ? "" : entry.getContent().getCategories();
 
         Map<String, Object> data = new HashMap<>();
         data.put("title", title);
@@ -97,11 +87,9 @@ public class FeedEntryFilteringService {
                             TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new FeedEntryFilterException(
-                    "interrupted while evaluating expression " + filter, e);
+            throw new FeedEntryFilterException("interrupted while evaluating expression " + filter, e);
         } catch (ExecutionException e) {
-            throw new FeedEntryFilterException(
-                    "Exception while evaluating expression " + filter, e);
+            throw new FeedEntryFilterException("Exception while evaluating expression " + filter, e);
         } catch (TimeoutException e) {
             throw new FeedEntryFilterException("Took too long evaluating expression " + filter, e);
         }

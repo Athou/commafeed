@@ -34,67 +34,80 @@ const useStyles = tss
         maxWidth?: number
         fontSizePercentage: number
     }>()
-    .create(({ theme, colorScheme, read, expanded, viewMode, rtl, showSelectionIndicator, maxWidth, fontSizePercentage }) => {
-        let backgroundColor: string
-        if (colorScheme === "dark") {
-            backgroundColor = read ? "inherit" : theme.colors.dark[5]
-        } else {
-            backgroundColor = read && !expanded ? theme.colors.gray[0] : "inherit"
-        }
+    .create(
+        ({
+            theme,
+            colorScheme,
+            read,
+            expanded,
+            viewMode,
+            rtl,
+            showSelectionIndicator,
+            maxWidth,
+            fontSizePercentage,
+        }) => {
+            let backgroundColor: string
+            if (colorScheme === "dark") {
+                backgroundColor = read ? "inherit" : theme.colors.dark[5]
+            } else {
+                backgroundColor = read && !expanded ? theme.colors.gray[0] : "inherit"
+            }
 
-        let marginY = 10
-        if (viewMode === "title") {
-            marginY = 2
-        } else if (viewMode === "cozy") {
-            marginY = 6
-        }
+            let marginY = 10
+            if (viewMode === "title") {
+                marginY = 2
+            } else if (viewMode === "cozy") {
+                marginY = 6
+            }
 
-        let mobileMarginY = 6
-        if (viewMode === "title") {
-            mobileMarginY = 2
-        } else if (viewMode === "cozy") {
-            mobileMarginY = 4
-        }
+            let mobileMarginY = 6
+            if (viewMode === "title") {
+                mobileMarginY = 2
+            } else if (viewMode === "cozy") {
+                mobileMarginY = 4
+            }
 
-        let backgroundHoverColor = backgroundColor
-        if (!expanded && !read) {
-            backgroundHoverColor = colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1]
-        }
+            let backgroundHoverColor = backgroundColor
+            if (!expanded && !read) {
+                backgroundHoverColor = colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1]
+            }
 
-        let paperBorderLeftColor = ""
-        if (showSelectionIndicator) {
-            const borderLeftColor = colorScheme === "dark" ? theme.colors[theme.primaryColor][4] : theme.colors[theme.primaryColor][6]
-            paperBorderLeftColor = `${borderLeftColor} !important`
-        }
+            let paperBorderLeftColor = ""
+            if (showSelectionIndicator) {
+                const borderLeftColor =
+                    colorScheme === "dark" ? theme.colors[theme.primaryColor][4] : theme.colors[theme.primaryColor][6]
+                paperBorderLeftColor = `${borderLeftColor} !important`
+            }
 
-        return {
-            paper: {
-                backgroundColor,
-                borderLeftColor: paperBorderLeftColor,
-                marginTop: marginY,
-                marginBottom: marginY,
-                [`@media (max-width: ${Constants.layout.mobileBreakpoint}px)`]: {
-                    marginTop: mobileMarginY,
-                    marginBottom: mobileMarginY,
-                },
-                "@media (hover: hover)": {
-                    "&:hover": {
-                        backgroundColor: backgroundHoverColor,
+            return {
+                paper: {
+                    backgroundColor,
+                    borderLeftColor: paperBorderLeftColor,
+                    marginTop: marginY,
+                    marginBottom: marginY,
+                    [`@media (max-width: ${Constants.layout.mobileBreakpoint}px)`]: {
+                        marginTop: mobileMarginY,
+                        marginBottom: mobileMarginY,
+                    },
+                    "@media (hover: hover)": {
+                        "&:hover": {
+                            backgroundColor: backgroundHoverColor,
+                        },
                     },
                 },
-            },
-            headerLink: {
-                fontSize: `${fontSizePercentage}%`,
-                color: "inherit",
-                textDecoration: "none",
-            },
-            body: {
-                fontSize: `${fontSizePercentage}%`,
-                direction: rtl ? "rtl" : "ltr",
-                maxWidth: maxWidth ?? "100%",
-            },
+                headerLink: {
+                    fontSize: `${fontSizePercentage}%`,
+                    color: "inherit",
+                    textDecoration: "none",
+                },
+                body: {
+                    fontSize: `${fontSizePercentage}%`,
+                    direction: rtl ? "rtl" : "ltr",
+                    maxWidth: maxWidth ?? "100%",
+                },
+            }
         }
-    })
+    )
 
 export function FeedEntry(props: Readonly<FeedEntryProps>) {
     const viewMode = useAppSelector(state => state.user.localSettings.viewMode)
@@ -116,7 +129,9 @@ export function FeedEntry(props: Readonly<FeedEntryProps>) {
     const showExternalLinkIcon =
         externalLinkDisplayMode && ["always", mobile ? "on_mobile" : "on_desktop"].includes(externalLinkDisplayMode)
     const showStarIcon =
-        props.entry.markable && starIconDisplayMode && ["always", mobile ? "on_mobile" : "on_desktop"].includes(starIconDisplayMode)
+        props.entry.markable &&
+        starIconDisplayMode &&
+        ["always", mobile ? "on_mobile" : "on_desktop"].includes(starIconDisplayMode)
 
     const swipeHandlers = useSwipeable({
         onSwipedLeft: props.onSwipedLeft,

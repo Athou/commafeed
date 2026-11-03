@@ -42,8 +42,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
         }
 
         Set<String> result = new HashSet<>();
-        for (List<String> batch :
-                Lists.partition(new ArrayList<>(guidHashes), IN_CLAUSE_BATCH_SIZE)) {
+        for (List<String> batch : Lists.partition(new ArrayList<>(guidHashes), IN_CLAUSE_BATCH_SIZE)) {
             result.addAll(
                     query().select(ENTRY.guidHash)
                             .from(ENTRY)
@@ -53,8 +52,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
         return result;
     }
 
-    public List<FeedCapacity> findFeedsExceedingCapacity(
-            long maxCapacity, long max, boolean keepStarredEntries) {
+    public List<FeedCapacity> findFeedsExceedingCapacity(long maxCapacity, long max, boolean keepStarredEntries) {
         NumberExpression<Long> count = ENTRY.id.count();
         JPAQuery<Tuple> query = query().select(ENTRY.feed.id, count).from(ENTRY);
 
@@ -68,8 +66,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
     }
 
     public int delete(Long feedId, long max) {
-        List<FeedEntry> list =
-                query().selectFrom(ENTRY).where(ENTRY.feed.id.eq(feedId)).limit(max).fetch();
+        List<FeedEntry> list = query().selectFrom(ENTRY).where(ENTRY.feed.id.eq(feedId)).limit(max).fetch();
         return delete(list);
     }
 
@@ -91,10 +88,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
     /** Delete the oldest entries of a feed */
     public int deleteOldEntries(Long feedId, long max, boolean keepStarredEntries) {
         JPAQuery<FeedEntry> query =
-                query().selectFrom(ENTRY)
-                        .where(ENTRY.feed.id.eq(feedId))
-                        .orderBy(ENTRY.published.asc())
-                        .limit(max);
+                query().selectFrom(ENTRY).where(ENTRY.feed.id.eq(feedId)).orderBy(ENTRY.published.asc()).limit(max);
 
         if (keepStarredEntries) {
             query.where(Predicates.isNotStarred(ENTRY));

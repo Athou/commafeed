@@ -7,38 +7,25 @@ class TextDirectionDetectorTest {
 
     @Test
     void testEstimateDirection() {
+        Assertions.assertEquals(TextDirectionDetector.Direction.LEFT_TO_RIGHT, TextDirectionDetector.detect(""));
+        Assertions.assertEquals(TextDirectionDetector.Direction.LEFT_TO_RIGHT, TextDirectionDetector.detect(" "));
+        Assertions.assertEquals(TextDirectionDetector.Direction.LEFT_TO_RIGHT, TextDirectionDetector.detect("! (...)"));
         Assertions.assertEquals(
-                TextDirectionDetector.Direction.LEFT_TO_RIGHT, TextDirectionDetector.detect(""));
+                TextDirectionDetector.Direction.LEFT_TO_RIGHT, TextDirectionDetector.detect("Pure Ascii content"));
+        Assertions.assertEquals(TextDirectionDetector.Direction.LEFT_TO_RIGHT, TextDirectionDetector.detect("-17.0%"));
         Assertions.assertEquals(
-                TextDirectionDetector.Direction.LEFT_TO_RIGHT, TextDirectionDetector.detect(" "));
-        Assertions.assertEquals(
-                TextDirectionDetector.Direction.LEFT_TO_RIGHT,
-                TextDirectionDetector.detect("! (...)"));
-        Assertions.assertEquals(
-                TextDirectionDetector.Direction.LEFT_TO_RIGHT,
-                TextDirectionDetector.detect("Pure Ascii content"));
-        Assertions.assertEquals(
-                TextDirectionDetector.Direction.LEFT_TO_RIGHT,
-                TextDirectionDetector.detect("-17.0%"));
-        Assertions.assertEquals(
-                TextDirectionDetector.Direction.LEFT_TO_RIGHT,
-                TextDirectionDetector.detect("http://foo/bar/"));
+                TextDirectionDetector.Direction.LEFT_TO_RIGHT, TextDirectionDetector.detect("http://foo/bar/"));
         Assertions.assertEquals(
                 TextDirectionDetector.Direction.LEFT_TO_RIGHT,
                 TextDirectionDetector.detect(
                         "http://foo/bar/?s=\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0"
                                 + "\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0"
                                 + "\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0"));
+        Assertions.assertEquals(TextDirectionDetector.Direction.RIGHT_TO_LEFT, TextDirectionDetector.detect("\u05d0"));
+        Assertions.assertEquals(TextDirectionDetector.Direction.RIGHT_TO_LEFT, TextDirectionDetector.detect("\u05d0"));
         Assertions.assertEquals(
                 TextDirectionDetector.Direction.RIGHT_TO_LEFT,
-                TextDirectionDetector.detect("\u05d0"));
-        Assertions.assertEquals(
-                TextDirectionDetector.Direction.RIGHT_TO_LEFT,
-                TextDirectionDetector.detect("\u05d0"));
-        Assertions.assertEquals(
-                TextDirectionDetector.Direction.RIGHT_TO_LEFT,
-                TextDirectionDetector.detect(
-                        "http://foo/bar/ \u05d0 http://foo2/bar2/ http://foo3/bar3/"));
+                TextDirectionDetector.detect("http://foo/bar/ \u05d0 http://foo2/bar2/ http://foo3/bar3/"));
         Assertions.assertEquals(
                 TextDirectionDetector.Direction.RIGHT_TO_LEFT,
                 TextDirectionDetector.detect(
@@ -69,8 +56,7 @@ class TextDirectionDetectorTest {
                                 + "\u05d9 \u05d1\u05d0\u05ea\u05e8"));
         Assertions.assertEquals(
                 TextDirectionDetector.Direction.RIGHT_TO_LEFT,
-                TextDirectionDetector.detect(
-                        "CAPTCHA \u05de\u05e9\u05d5\u05db\u05dc\u05dc " + "\u05de\u05d3\u05d9?"));
+                TextDirectionDetector.detect("CAPTCHA \u05de\u05e9\u05d5\u05db\u05dc\u05dc " + "\u05de\u05d3\u05d9?"));
         Assertions.assertEquals(
                 TextDirectionDetector.Direction.RIGHT_TO_LEFT,
                 TextDirectionDetector.detect(
@@ -86,12 +72,10 @@ class TextDirectionDetectorTest {
         Assertions.assertEquals(
                 TextDirectionDetector.Direction.RIGHT_TO_LEFT,
                 TextDirectionDetector.detect(
-                        "5710 5720 5730. \u05d4\u05d3\u05dc\u05ea. "
-                                + "\u05d4\u05e0\u05e9\u05d9\u05e7\u05d4"));
+                        "5710 5720 5730. \u05d4\u05d3\u05dc\u05ea. " + "\u05d4\u05e0\u05e9\u05d9\u05e7\u05d4"));
         Assertions.assertEquals(
                 TextDirectionDetector.Direction.RIGHT_TO_LEFT,
                 TextDirectionDetector.detect(
-                        "\u05d4\u05d3\u05dc\u05ea http://www.google.com "
-                                + "http://www.gmail.com"));
+                        "\u05d4\u05d3\u05dc\u05ea http://www.google.com " + "http://www.gmail.com"));
     }
 }

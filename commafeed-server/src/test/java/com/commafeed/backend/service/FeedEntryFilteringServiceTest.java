@@ -23,8 +23,7 @@ class FeedEntryFilteringServiceTest {
     @BeforeEach
     void init() {
         config = Mockito.mock(CommaFeedConfiguration.class, Mockito.RETURNS_DEEP_STUBS);
-        Mockito.when(config.feedRefresh().filteringExpressionEvaluationTimeout())
-                .thenReturn(Duration.ofSeconds(30));
+        Mockito.when(config.feedRefresh().filteringExpressionEvaluationTimeout()).thenReturn(Duration.ofSeconds(30));
 
         service = new FeedEntryFilteringService(config);
 
@@ -75,16 +74,12 @@ class FeedEntryFilteringServiceTest {
 
     @Test
     void andExpression() throws FeedEntryFilterException {
-        Assertions.assertTrue(
-                service.filterMatchesEntry(
-                        "author == \"Athou\" && url.contains(\"github\")", entry));
+        Assertions.assertTrue(service.filterMatchesEntry("author == \"Athou\" && url.contains(\"github\")", entry));
     }
 
     @Test
     void orExpression() throws FeedEntryFilterException {
-        Assertions.assertTrue(
-                service.filterMatchesEntry(
-                        "author == \"other\" || url.contains(\"github\")", entry));
+        Assertions.assertTrue(service.filterMatchesEntry("author == \"other\" || url.contains(\"github\")", entry));
     }
 
     @Test
@@ -95,8 +90,7 @@ class FeedEntryFilteringServiceTest {
     @Test
     void incorrectExpressionThrowsException() {
         Assertions.assertThrows(
-                FeedEntryFilterException.class,
-                () -> service.filterMatchesEntry("not valid cel", entry));
+                FeedEntryFilterException.class, () -> service.filterMatchesEntry("not valid cel", entry));
     }
 
     @Test
@@ -124,8 +118,7 @@ class FeedEntryFilteringServiceTest {
         FeedEntryContent content = entry.getContent();
         content.setCategories("tech, programming, java");
         entry.setContent(content);
-        Assertions.assertTrue(
-                service.filterMatchesEntry("categories.contains(\"programming\")", entry));
+        Assertions.assertTrue(service.filterMatchesEntry("categories.contains(\"programming\")", entry));
     }
 
     @Test
@@ -145,8 +138,7 @@ class FeedEntryFilteringServiceTest {
 
     @Test
     void caseInsensitiveContentMatchUsingLowerVariable() throws FeedEntryFilterException {
-        Assertions.assertTrue(
-                service.filterMatchesEntry("contentLower.contains(\"merge\")", entry));
+        Assertions.assertTrue(service.filterMatchesEntry("contentLower.contains(\"merge\")", entry));
     }
 
     @Test
@@ -154,8 +146,7 @@ class FeedEntryFilteringServiceTest {
         FeedEntryContent content = entry.getContent();
         content.setCategories("Tech, Programming, Java");
         entry.setContent(content);
-        Assertions.assertTrue(
-                service.filterMatchesEntry("categoriesLower.contains(\"tech\")", entry));
+        Assertions.assertTrue(service.filterMatchesEntry("categoriesLower.contains(\"tech\")", entry));
     }
 
     @Nested
@@ -165,36 +156,28 @@ class FeedEntryFilteringServiceTest {
         void sandboxBlocksSystemPropertyAccess() {
             Assertions.assertThrows(
                     FeedEntryFilterException.class,
-                    () ->
-                            service.filterMatchesEntry(
-                                    "java.lang.System.getProperty(\"user.home\")", entry));
+                    () -> service.filterMatchesEntry("java.lang.System.getProperty(\"user.home\")", entry));
         }
 
         @Test
         void sandboxBlocksRuntimeExec() {
             Assertions.assertThrows(
                     FeedEntryFilterException.class,
-                    () ->
-                            service.filterMatchesEntry(
-                                    "java.lang.Runtime.getRuntime().exec(\"calc\")", entry));
+                    () -> service.filterMatchesEntry("java.lang.Runtime.getRuntime().exec(\"calc\")", entry));
         }
 
         @Test
         void sandboxBlocksProcessBuilder() {
             Assertions.assertThrows(
                     FeedEntryFilterException.class,
-                    () ->
-                            service.filterMatchesEntry(
-                                    "new java.lang.ProcessBuilder(\"cmd\").start()", entry));
+                    () -> service.filterMatchesEntry("new java.lang.ProcessBuilder(\"cmd\").start()", entry));
         }
 
         @Test
         void sandboxBlocksClassLoading() {
             Assertions.assertThrows(
                     FeedEntryFilterException.class,
-                    () ->
-                            service.filterMatchesEntry(
-                                    "java.lang.Class.forName(\"java.lang.Runtime\")", entry));
+                    () -> service.filterMatchesEntry("java.lang.Class.forName(\"java.lang.Runtime\")", entry));
         }
 
         @Test
@@ -208,9 +191,7 @@ class FeedEntryFilteringServiceTest {
         void sandboxBlocksFileAccess() {
             Assertions.assertThrows(
                     FeedEntryFilterException.class,
-                    () ->
-                            service.filterMatchesEntry(
-                                    "new java.io.File(\"/etc/passwd\").exists()", entry));
+                    () -> service.filterMatchesEntry("new java.io.File(\"/etc/passwd\").exists()", entry));
         }
 
         @Test
@@ -219,18 +200,14 @@ class FeedEntryFilteringServiceTest {
                     FeedEntryFilterException.class,
                     () ->
                             service.filterMatchesEntry(
-                                    "java.nio.file.Files.readString(java.nio.file.Paths.get(\"/etc/passwd\"))",
-                                    entry));
+                                    "java.nio.file.Files.readString(java.nio.file.Paths.get(\"/etc/passwd\"))", entry));
         }
 
         @Test
         void sandboxBlocksNetworkAccess() {
             Assertions.assertThrows(
                     FeedEntryFilterException.class,
-                    () ->
-                            service.filterMatchesEntry(
-                                    "new java.net.URL(\"http://evil.com\").openConnection()",
-                                    entry));
+                    () -> service.filterMatchesEntry("new java.net.URL(\"http://evil.com\").openConnection()", entry));
         }
 
         @Test
@@ -274,50 +251,42 @@ class FeedEntryFilteringServiceTest {
         @Test
         void sandboxBlocksMethodInvocationOnStrings() {
             Assertions.assertThrows(
-                    FeedEntryFilterException.class,
-                    () -> service.filterMatchesEntry("title.toCharArray()", entry));
+                    FeedEntryFilterException.class, () -> service.filterMatchesEntry("title.toCharArray()", entry));
         }
 
         @Test
         void sandboxBlocksArbitraryJavaMethodCalls() {
             Assertions.assertThrows(
-                    FeedEntryFilterException.class,
-                    () -> service.filterMatchesEntry("title.getBytes()", entry));
+                    FeedEntryFilterException.class, () -> service.filterMatchesEntry("title.getBytes()", entry));
         }
 
         @Test
         void sandboxOnlyAllowsDeclaredVariables() {
-            Assertions.assertThrows(
-                    FeedEntryFilterException.class,
-                    () -> service.filterMatchesEntry("System", entry));
+            Assertions.assertThrows(FeedEntryFilterException.class, () -> service.filterMatchesEntry("System", entry));
         }
 
         @Test
         void sandboxBlocksConstructorCalls() {
             Assertions.assertThrows(
-                    FeedEntryFilterException.class,
-                    () -> service.filterMatchesEntry("new String(\"test\")", entry));
+                    FeedEntryFilterException.class, () -> service.filterMatchesEntry("new String(\"test\")", entry));
         }
 
         @Test
         void sandboxBlocksStaticMethodCalls() {
             Assertions.assertThrows(
-                    FeedEntryFilterException.class,
-                    () -> service.filterMatchesEntry("String.valueOf(123)", entry));
+                    FeedEntryFilterException.class, () -> service.filterMatchesEntry("String.valueOf(123)", entry));
         }
 
         @Test
         void sandboxBlocksLambdaExpressions() {
             Assertions.assertThrows(
-                    FeedEntryFilterException.class,
-                    () -> service.filterMatchesEntry("() -> true", entry));
+                    FeedEntryFilterException.class, () -> service.filterMatchesEntry("() -> true", entry));
         }
 
         @Test
         void sandboxBlocksObjectInstantiation() {
             Assertions.assertThrows(
-                    FeedEntryFilterException.class,
-                    () -> service.filterMatchesEntry("java.util.HashMap{}", entry));
+                    FeedEntryFilterException.class, () -> service.filterMatchesEntry("java.util.HashMap{}", entry));
         }
     }
 }

@@ -50,8 +50,8 @@ export function InitialSetupPage() {
                 </Title>
                 <Box mb="md">
                     <Trans>
-                        Welcome! This appears to be the first time you're running CommaFeed. Please create an administrator account to get
-                        started.
+                        Welcome! This appears to be the first time you're running CommaFeed. Please create an
+                        administrator account to get started.
                     </Trans>
                 </Box>
                 {setup.error && (

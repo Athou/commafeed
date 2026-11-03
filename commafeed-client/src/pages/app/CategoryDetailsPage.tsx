@@ -1,7 +1,21 @@
 import { msg } from "@lingui/core/macro"
 import { useLingui } from "@lingui/react"
 import { Trans } from "@lingui/react/macro"
-import { Anchor, Box, Button, Code, Container, Divider, Group, Input, NumberInput, Stack, Text, TextInput, Title } from "@mantine/core"
+import {
+    Anchor,
+    Box,
+    Button,
+    Code,
+    Container,
+    Divider,
+    Group,
+    Input,
+    NumberInput,
+    Stack,
+    Text,
+    TextInput,
+    Title,
+} from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
 import { useEffect } from "react"
@@ -130,7 +144,12 @@ export function CategoryDetailsPage() {
                                 clearable
                                 withoutCategoryIds={excludedCategoryIds}
                             />
-                            <NumberInput label={<Trans>Position</Trans>} {...form.getInputProps("position")} required min={0} />
+                            <NumberInput
+                                label={<Trans>Position</Trans>}
+                                {...form.getInputProps("position")}
+                                required
+                                min={0}
+                            />
                         </>
                     )}
 
@@ -140,7 +159,11 @@ export function CategoryDetailsPage() {
                         </Button>
                         {editable && (
                             <>
-                                <Button type="submit" leftSection={<TbDeviceFloppy size={16} />} loading={modifyCategory.loading}>
+                                <Button
+                                    type="submit"
+                                    leftSection={<TbDeviceFloppy size={16} />}
+                                    loading={modifyCategory.loading}
+                                >
                                     <Trans>Save</Trans>
                                 </Button>
                                 <Divider orientation="vertical" />

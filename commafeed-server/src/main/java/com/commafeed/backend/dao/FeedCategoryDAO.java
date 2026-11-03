@@ -31,9 +31,7 @@ public class FeedCategoryDAO extends GenericDAO<FeedCategory> {
     }
 
     public FeedCategory findById(User user, Long id) {
-        return query().selectFrom(CATEGORY)
-                .where(CATEGORY.user.eq(user), CATEGORY.id.eq(id))
-                .fetchOne();
+        return query().selectFrom(CATEGORY).where(CATEGORY.user.eq(user), CATEGORY.id.eq(id)).fetchOne();
     }
 
     public FeedCategory findByName(User user, String name, FeedCategory parent) {

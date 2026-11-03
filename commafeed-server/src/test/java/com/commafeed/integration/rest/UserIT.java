@@ -39,8 +39,7 @@ class UserIT extends BaseIT {
     void setup() {
         initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
         RestAssured.authentication =
-                RestAssured.preemptive()
-                        .basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+                RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
 
         mailbox.clear();
     }
@@ -52,8 +51,7 @@ class UserIT extends BaseIT {
 
     @Test
     void resetPassword() {
-        String session =
-                login().stream().map(HttpCookie::toString).collect(Collectors.joining(";"));
+        String session = login().stream().map(HttpCookie::toString).collect(Collectors.joining(";"));
 
         PasswordResetRequest req = new PasswordResetRequest();
         req.setEmail("admin@commafeed.com");
@@ -70,9 +68,7 @@ class UserIT extends BaseIT {
 
         MailMessage message = mails.getFirst();
         Assertions.assertEquals("CommaFeed - Password recovery", message.getSubject());
-        Assertions.assertTrue(
-                message.getHtml()
-                        .startsWith("You asked for password recovery for account 'admin'"));
+        Assertions.assertTrue(message.getHtml().startsWith("You asked for password recovery for account 'admin'"));
         Assertions.assertTrue(message.getHtml().contains("https://commafeed.example.com"));
         Assertions.assertEquals("admin@commafeed.com", message.getTo().getFirst());
 
@@ -116,8 +112,7 @@ class UserIT extends BaseIT {
                 .then()
                 .statusCode(401);
 
-        RestAssured.authentication =
-                RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, newPassword);
+        RestAssured.authentication = RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, newPassword);
         RestAssured.given().get("rest/user/settings").then().statusCode(200);
     }
 
@@ -156,14 +151,12 @@ class UserIT extends BaseIT {
 
         Elements links = Jsoup.parse(html).select("a");
         Assertions.assertEquals(1, links.size());
-        Assertions.assertTrue(
-                links.getFirst().attr("href").startsWith("https://commafeed.example.com"));
+        Assertions.assertTrue(links.getFirst().attr("href").startsWith("https://commafeed.example.com"));
     }
 
     @Test
     void saveSettings() {
-        Settings settings =
-                RestAssured.given().get("rest/user/settings").then().extract().as(Settings.class);
+        Settings settings = RestAssured.given().get("rest/user/settings").then().extract().as(Settings.class);
         settings.setLanguage("test");
         RestAssured.given()
                 .body(settings)
@@ -172,8 +165,7 @@ class UserIT extends BaseIT {
                 .then()
                 .statusCode(200);
 
-        Settings updatedSettings =
-                RestAssured.given().get("rest/user/settings").then().extract().as(Settings.class);
+        Settings updatedSettings = RestAssured.given().get("rest/user/settings").then().extract().as(Settings.class);
         Assertions.assertEquals("test", updatedSettings.getLanguage());
     }
 }

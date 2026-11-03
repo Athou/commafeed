@@ -14,7 +14,9 @@ export function MarkAllAsReadConfirmationDialog() {
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
     const entriesTimestamp = useAppSelector(state => state.entries.timestamp) ?? Date.now()
     const search = useAppSelector(state => state.entries.search)
-    const markAllAsReadNavigateToNextUnread = useAppSelector(state => state.user.settings?.markAllAsReadNavigateToNextUnread)
+    const markAllAsReadNavigateToNextUnread = useAppSelector(
+        state => state.user.settings?.markAllAsReadNavigateToNextUnread
+    )
     const dispatch = useAppDispatch()
 
     const onConfirm = async () => {
@@ -33,7 +35,8 @@ export function MarkAllAsReadConfirmationDialog() {
         )
 
         const isAllCategorySelected = source.type === "category" && source.id === Constants.categories.all.id
-        if (markAllAsReadNavigateToNextUnread && !isAllCategorySelected) await dispatch(selectNextUnreadTreeItem({ direction: "forward" }))
+        if (markAllAsReadNavigateToNextUnread && !isAllCategorySelected)
+            await dispatch(selectNextUnreadTreeItem({ direction: "forward" }))
     }
 
     return (
@@ -51,7 +54,8 @@ export function MarkAllAsReadConfirmationDialog() {
                     )}
                     {threshold > 0 && (
                         <Trans>
-                            Are you sure you want to mark entries older than {threshold} days of <Code>{sourceLabel}</Code> as read?
+                            Are you sure you want to mark entries older than {threshold} days of{" "}
+                            <Code>{sourceLabel}</Code> as read?
                         </Trans>
                     )}
                 </Text>

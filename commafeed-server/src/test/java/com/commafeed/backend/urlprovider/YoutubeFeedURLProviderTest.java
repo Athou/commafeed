@@ -18,8 +18,7 @@ class YoutubeFeedURLProviderTest {
 
     @Test
     void doesNotmatchYoutubeChannelURL() {
-        Assertions.assertTrue(
-                provider.get("https://www.anothersite.com/channel/abc", null).isEmpty());
+        Assertions.assertTrue(provider.get("https://www.anothersite.com/channel/abc", null).isEmpty());
         Assertions.assertTrue(provider.get("https://www.youtube.com/user/abc", null).isEmpty());
     }
 }

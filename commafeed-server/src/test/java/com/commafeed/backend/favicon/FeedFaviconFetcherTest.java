@@ -45,8 +45,7 @@ class FeedFaviconFetcherTest {
 
         byte[] iconBytes = new byte[1000];
         String contentType = "image/png";
-        HttpResult httpResult =
-                new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
+        HttpResult httpResult = new HttpResult(iconBytes, contentType, null, null, null, Duration.ZERO);
         Mockito.when(httpGetter.get("https://example.com/icon.png")).thenReturn(httpResult);
 
         Favicon result = faviconFetcher.fetch(feed);
@@ -62,8 +61,7 @@ class FeedFaviconFetcherTest {
         feed.setUrl("https://example.com/feed");
         feed.setIconUrl("https://example.com/icon.png");
 
-        Mockito.when(httpGetter.get("https://example.com/icon.png"))
-                .thenThrow(new RuntimeException("Network error"));
+        Mockito.when(httpGetter.get("https://example.com/icon.png")).thenThrow(new RuntimeException("Network error"));
 
         Assertions.assertNull(faviconFetcher.fetch(feed));
     }

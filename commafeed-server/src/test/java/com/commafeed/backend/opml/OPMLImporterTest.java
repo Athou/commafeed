@@ -36,21 +36,16 @@ class OPMLImporterTest {
         testOpmlVersion("/opml/opml_noversion.xml");
     }
 
-    private void testOpmlVersion(String fileName)
-            throws IOException, IllegalArgumentException, FeedException {
+    private void testOpmlVersion(String fileName) throws IOException, IllegalArgumentException, FeedException {
         XMLCleaner xmlCleaner = Mockito.mock(XMLCleaner.class);
         FeedCategoryDAO feedCategoryDAO = Mockito.mock(FeedCategoryDAO.class);
-        FeedSubscriptionService feedSubscriptionService =
-                Mockito.mock(FeedSubscriptionService.class);
+        FeedSubscriptionService feedSubscriptionService = Mockito.mock(FeedSubscriptionService.class);
         User user = Mockito.mock(User.class);
 
-        Mockito.when(xmlCleaner.clean(Mockito.anyString()))
-                .thenAnswer(invocation -> invocation.getArgument(0));
-        String xml =
-                IOUtils.toString(getClass().getResourceAsStream(fileName), StandardCharsets.UTF_8);
+        Mockito.when(xmlCleaner.clean(Mockito.anyString())).thenAnswer(invocation -> invocation.getArgument(0));
+        String xml = IOUtils.toString(getClass().getResourceAsStream(fileName), StandardCharsets.UTF_8);
 
-        OPMLImporter importer =
-                new OPMLImporter(xmlCleaner, feedCategoryDAO, feedSubscriptionService);
+        OPMLImporter importer = new OPMLImporter(xmlCleaner, feedCategoryDAO, feedSubscriptionService);
         importer.importOpml(user, xml);
 
         Mockito.verify(feedSubscriptionService)

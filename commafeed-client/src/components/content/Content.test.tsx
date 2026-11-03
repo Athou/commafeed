@@ -15,7 +15,9 @@ describe("Content component", () => {
     })
 
     it("renders iframe tag when included in content", () => {
-        const { container } = render(<Content content='<iframe src="https://example.com"></iframe>' />, { wrapper: MantineProvider })
+        const { container } = render(<Content content='<iframe src="https://example.com"></iframe>' />, {
+            wrapper: MantineProvider,
+        })
         expect(container.querySelector("iframe")).toHaveAttribute("src", "https://example.com")
     })
 

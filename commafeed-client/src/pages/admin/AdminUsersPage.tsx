@@ -69,7 +69,11 @@ export function AdminUsersPage() {
             <Title order={3} mb="md">
                 <Group>
                     <Trans>Manage users</Trans>
-                    <ActionIcon color={theme.primaryColor} variant="subtle" onClick={() => openUserEditModal(<Trans>Add user</Trans>)}>
+                    <ActionIcon
+                        color={theme.primaryColor}
+                        variant="subtle"
+                        onClick={() => openUserEditModal(<Trans>Add user</Trans>)}
+                    >
                         <TbPlus size={20} />
                     </ActionIcon>
                 </Group>

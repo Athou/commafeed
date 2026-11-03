@@ -33,8 +33,7 @@ class DatabaseCleaningIT extends BaseIT {
     void setup() {
         initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
         RestAssured.authentication =
-                RestAssured.preemptive()
-                        .basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+                RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
     }
 
     @AfterEach
@@ -85,8 +84,7 @@ class DatabaseCleaningIT extends BaseIT {
             // Verify the entry is starred
             Entries starredEntries = getCategoryEntries(CategoryREST.STARRED);
             Assertions.assertEquals(1, starredEntries.getEntries().size());
-            Assertions.assertEquals(
-                    entryToStar.getId(), starredEntries.getEntries().getFirst().getId());
+            Assertions.assertEquals(entryToStar.getId(), starredEntries.getEntries().getFirst().getId());
 
             // Run cleanup with capacity of 0 (should delete all non-starred entries)
             // With keepStarredEntries=true (default), only non-starred entries are counted for
@@ -99,14 +97,12 @@ class DatabaseCleaningIT extends BaseIT {
             // Verify starred entry is still present
             Entries starredEntriesAfter = getCategoryEntries(CategoryREST.STARRED);
             Assertions.assertEquals(1, starredEntriesAfter.getEntries().size());
-            Assertions.assertEquals(
-                    entryToStar.getId(), starredEntriesAfter.getEntries().getFirst().getId());
+            Assertions.assertEquals(entryToStar.getId(), starredEntriesAfter.getEntries().getFirst().getId());
 
             // Verify the non-starred entry was deleted (only starred entry should remain)
             Entries entriesAfter = getFeedEntries(subscriptionId);
             Assertions.assertEquals(1, entriesAfter.getEntries().size());
-            Assertions.assertEquals(
-                    entryToStar.getId(), entriesAfter.getEntries().getFirst().getId());
+            Assertions.assertEquals(entryToStar.getId(), entriesAfter.getEntries().getFirst().getId());
         }
 
         @Test
@@ -134,14 +130,12 @@ class DatabaseCleaningIT extends BaseIT {
             // Verify starred entry is still present
             Entries starredEntriesAfter = getCategoryEntries(CategoryREST.STARRED);
             Assertions.assertEquals(1, starredEntriesAfter.getEntries().size());
-            Assertions.assertEquals(
-                    entryToStar.getId(), starredEntriesAfter.getEntries().getFirst().getId());
+            Assertions.assertEquals(entryToStar.getId(), starredEntriesAfter.getEntries().getFirst().getId());
 
             // Verify the non-starred entry was deleted
             Entries entriesAfter = getFeedEntries(subscriptionId);
             Assertions.assertEquals(1, entriesAfter.getEntries().size());
-            Assertions.assertEquals(
-                    entryToStar.getId(), entriesAfter.getEntries().getFirst().getId());
+            Assertions.assertEquals(entryToStar.getId(), entriesAfter.getEntries().getFirst().getId());
         }
 
         @Test
@@ -183,15 +177,13 @@ class DatabaseCleaningIT extends BaseIT {
             starEntry(entry.getId(), subscriptionId);
 
             // Verify entry is starred
-            Assertions.assertEquals(
-                    1, getCategoryEntries(CategoryREST.STARRED).getEntries().size());
+            Assertions.assertEquals(1, getCategoryEntries(CategoryREST.STARRED).getEntries().size());
 
             // Unstar the entry
             unstarEntry(entry.getId(), subscriptionId);
 
             // Verify entry is no longer starred
-            Assertions.assertEquals(
-                    0, getCategoryEntries(CategoryREST.STARRED).getEntries().size());
+            Assertions.assertEquals(0, getCategoryEntries(CategoryREST.STARRED).getEntries().size());
 
             // Run cleanup for entries older than now
             Instant olderThan = Instant.now().plus(Duration.ofDays(1));
@@ -212,27 +204,20 @@ class DatabaseCleaningIT extends BaseIT {
 
             // verify we have 2 unread entries
             Entries entries = getFeedEntries(subscriptionId);
-            Assertions.assertEquals(
-                    2, entries.getEntries().stream().filter(e -> !e.isRead()).count());
+            Assertions.assertEquals(2, entries.getEntries().stream().filter(e -> !e.isRead()).count());
 
             // set auto-mark as read
             FeedModificationRequest req = new FeedModificationRequest();
             req.setId(subscriptionId);
             req.setAutoMarkAsReadAfterDays(1);
-            RestAssured.given()
-                    .body(req)
-                    .contentType(ContentType.JSON)
-                    .post("rest/feed/modify")
-                    .then()
-                    .statusCode(200);
+            RestAssured.given().body(req).contentType(ContentType.JSON).post("rest/feed/modify").then().statusCode(200);
 
             // run auto-mark as read
             databaseCleaningService.autoMarkAsRead();
 
             // verify all entries are now read
             entries = getFeedEntries(subscriptionId);
-            Assertions.assertEquals(
-                    0, entries.getEntries().stream().filter(e -> !e.isRead()).count());
+            Assertions.assertEquals(0, entries.getEntries().stream().filter(e -> !e.isRead()).count());
         }
     }
 }

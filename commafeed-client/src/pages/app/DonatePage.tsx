@@ -19,8 +19,8 @@ export function DonatePage() {
                 <Trans>
                     <Box>Hey,</Box>
                     <Box mt="xs">
-                        I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years now. Thanks for taking
-                        an interest in helping me continue supporting CommaFeed.
+                        I'm Jérémie from Belgium and I've been working on CommaFeed in my free time for over 10 years
+                        now. Thanks for taking an interest in helping me continue supporting CommaFeed.
                     </Box>
                 </Trans>
 

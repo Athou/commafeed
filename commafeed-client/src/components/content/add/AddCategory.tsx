@@ -36,7 +36,12 @@ export function AddCategory() {
 
             <form onSubmit={form.onSubmit(addCategory.execute)}>
                 <Stack>
-                    <TextInput label={<Trans>Category</Trans>} placeholder={_(msg`Category`)} {...form.getInputProps("name")} required />
+                    <TextInput
+                        label={<Trans>Category</Trans>}
+                        placeholder={_(msg`Category`)}
+                        {...form.getInputProps("name")}
+                        required
+                    />
                     <CategorySelect label={<Trans>Parent</Trans>} {...form.getInputProps("parentId")} clearable />
                     <Group justify="center">
                         <Button variant="default" onClick={async () => await dispatch(redirectToSelectedSource())}>

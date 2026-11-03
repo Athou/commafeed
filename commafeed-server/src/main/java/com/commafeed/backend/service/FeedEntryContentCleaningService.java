@@ -33,10 +33,8 @@ import java.util.List;
 public class FeedEntryContentCleaningService {
 
     private static final Safelist HTML_WHITELIST = buildWhiteList();
-    private static final List<String> ALLOWED_IFRAME_CSS_RULES =
-            Arrays.asList("height", "width", "border");
-    private static final List<String> ALLOWED_IMG_CSS_RULES =
-            Arrays.asList("display", "width", "height");
+    private static final List<String> ALLOWED_IFRAME_CSS_RULES = Arrays.asList("height", "width", "border");
+    private static final List<String> ALLOWED_IMG_CSS_RULES = Arrays.asList("display", "width", "height");
     private static final char[] FORBIDDEN_CSS_RULE_CHARACTERS = new char[] {'(', ')'};
 
     public String clean(String content, String baseUri, boolean keepTextOnly) {
@@ -59,8 +57,7 @@ public class FeedEntryContentCleaningService {
                 e.attr("style", escaped);
             }
 
-            clean.outputSettings(
-                    new OutputSettings().escapeMode(EscapeMode.base).prettyPrint(false));
+            clean.outputSettings(new OutputSettings().escapeMode(EscapeMode.base).prettyPrint(false));
             Element body = clean.body();
             if (keepTextOnly) {
                 content = body.text();
@@ -126,24 +123,13 @@ public class FeedEntryContentCleaningService {
         whitelist.addAttributes("blockquote", "cite");
         whitelist.addAttributes("col", "span", "width");
         whitelist.addAttributes("colgroup", "span", "width");
-        whitelist.addAttributes(
-                "iframe", "src", "height", "width", "allowfullscreen", "frameborder", "style");
+        whitelist.addAttributes("iframe", "src", "height", "width", "allowfullscreen", "frameborder", "style");
         whitelist.addAttributes("img", "align", "alt", "height", "src", "title", "width", "style");
         whitelist.addAttributes("ol", "start", "type");
         whitelist.addAttributes("q", "cite");
         whitelist.addAttributes("table", "border", "bordercolor", "summary", "width");
-        whitelist.addAttributes(
-                "td", "border", "bordercolor", "abbr", "axis", "colspan", "rowspan", "width");
-        whitelist.addAttributes(
-                "th",
-                "border",
-                "bordercolor",
-                "abbr",
-                "axis",
-                "colspan",
-                "rowspan",
-                "scope",
-                "width");
+        whitelist.addAttributes("td", "border", "bordercolor", "abbr", "axis", "colspan", "rowspan", "width");
+        whitelist.addAttributes("th", "border", "bordercolor", "abbr", "axis", "colspan", "rowspan", "scope", "width");
         whitelist.addAttributes("ul", "type");
 
         whitelist.addProtocols("a", "href", "ftp", "http", "https", "magnet", "mailto");
@@ -161,8 +147,7 @@ public class FeedEntryContentCleaningService {
         String rule = "";
         try {
             List<String> rules = new ArrayList<>();
-            CSSStyleDeclaration decl =
-                    buildCssParser().parseStyleDeclaration(new InputSource(new StringReader(orig)));
+            CSSStyleDeclaration decl = buildCssParser().parseStyleDeclaration(new InputSource(new StringReader(orig)));
 
             for (int i = 0; i < decl.getLength(); i++) {
                 String property = decl.item(i);
@@ -187,8 +172,7 @@ public class FeedEntryContentCleaningService {
         String rule = "";
         try {
             List<String> rules = new ArrayList<>();
-            CSSStyleDeclaration decl =
-                    buildCssParser().parseStyleDeclaration(new InputSource(new StringReader(orig)));
+            CSSStyleDeclaration decl = buildCssParser().parseStyleDeclaration(new InputSource(new StringReader(orig)));
 
             for (int i = 0; i < decl.getLength(); i++) {
                 String property = decl.item(i);
@@ -216,8 +200,7 @@ public class FeedEntryContentCleaningService {
                 new ErrorHandler() {
                     @Override
                     public void warning(CSSParseException exception) throws CSSException {
-                        log.debug(
-                                "warning while parsing css: {}", exception.getMessage(), exception);
+                        log.debug("warning while parsing css: {}", exception.getMessage(), exception);
                     }
 
                     @Override
@@ -227,10 +210,7 @@ public class FeedEntryContentCleaningService {
 
                     @Override
                     public void fatalError(CSSParseException exception) throws CSSException {
-                        log.debug(
-                                "fatal error while parsing css: {}",
-                                exception.getMessage(),
-                                exception);
+                        log.debug("fatal error while parsing css: {}", exception.getMessage(), exception);
                     }
                 });
 

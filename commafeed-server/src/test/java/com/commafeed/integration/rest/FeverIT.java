@@ -32,8 +32,7 @@ class FeverIT extends BaseIT {
     void setup() {
         initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
         RestAssured.authentication =
-                RestAssured.preemptive()
-                        .basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+                RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
 
         // create api key
         ProfileModificationRequest req = new ProfileModificationRequest();
@@ -133,23 +132,11 @@ class FeverIT extends BaseIT {
         Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
         Entry entry = getFeedEntries(subscriptionId).getEntries().getFirst();
 
-        client.execute(
-                "_",
-                new Param("mark", "item"),
-                new Param("id", entry.getId()),
-                new Param("as", "read"));
-        Assertions.assertEquals(
-                1,
-                getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
+        client.execute("_", new Param("mark", "item"), new Param("id", entry.getId()), new Param("as", "read"));
+        Assertions.assertEquals(1, getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
 
-        client.execute(
-                "_",
-                new Param("mark", "item"),
-                new Param("id", entry.getId()),
-                new Param("as", "unread"));
-        Assertions.assertEquals(
-                0,
-                getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
+        client.execute("_", new Param("mark", "item"), new Param("id", entry.getId()), new Param("as", "unread"));
+        Assertions.assertEquals(0, getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isRead).count());
     }
 
     @Test
@@ -162,8 +149,7 @@ class FeverIT extends BaseIT {
                 new Param("id", String.valueOf(subscriptionId)),
                 new Param("as", "read"));
 
-        Assertions.assertTrue(
-                getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
+        Assertions.assertTrue(getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
     }
 
     @Test
@@ -172,13 +158,9 @@ class FeverIT extends BaseIT {
         Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl(), categoryId);
 
         client.execute(
-                "_",
-                new Param("mark", "group"),
-                new Param("id", String.valueOf(categoryId)),
-                new Param("as", "read"));
+                "_", new Param("mark", "group"), new Param("id", String.valueOf(categoryId)), new Param("as", "read"));
 
-        Assertions.assertTrue(
-                getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
+        Assertions.assertTrue(getFeedEntries(subscriptionId).getEntries().stream().allMatch(Entry::isRead));
     }
 
     @Test
@@ -186,27 +168,13 @@ class FeverIT extends BaseIT {
         Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
         Entry entry = getFeedEntries(subscriptionId).getEntries().getFirst();
 
-        client.execute(
-                "_",
-                new Param("mark", "item"),
-                new Param("id", entry.getId()),
-                new Param("as", "saved"));
+        client.execute("_", new Param("mark", "item"), new Param("id", entry.getId()), new Param("as", "saved"));
         Assertions.assertEquals(
-                1,
-                getFeedEntries(subscriptionId).getEntries().stream()
-                        .filter(Entry::isStarred)
-                        .count());
+                1, getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isStarred).count());
 
-        client.execute(
-                "_",
-                new Param("mark", "item"),
-                new Param("id", entry.getId()),
-                new Param("as", "unsaved"));
+        client.execute("_", new Param("mark", "item"), new Param("id", entry.getId()), new Param("as", "unsaved"));
         Assertions.assertEquals(
-                0,
-                getFeedEntries(subscriptionId).getEntries().stream()
-                        .filter(Entry::isStarred)
-                        .count());
+                0, getFeedEntries(subscriptionId).getEntries().stream().filter(Entry::isStarred).count());
     }
 
     @Test

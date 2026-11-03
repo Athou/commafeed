@@ -84,9 +84,7 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 
     public FeedSubscription findByFeed(User user, Feed feed) {
         List<FeedSubscription> subs =
-                query().selectFrom(SUBSCRIPTION)
-                        .where(SUBSCRIPTION.user.eq(user), SUBSCRIPTION.feed.eq(feed))
-                        .fetch();
+                query().selectFrom(SUBSCRIPTION).where(SUBSCRIPTION.user.eq(user), SUBSCRIPTION.feed.eq(feed)).fetch();
         FeedSubscription sub = subs.stream().findFirst().orElse(null);
         return initRelations(sub);
     }
@@ -104,15 +102,11 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
     }
 
     public Long count(User user) {
-        return query().select(SUBSCRIPTION.count())
-                .from(SUBSCRIPTION)
-                .where(SUBSCRIPTION.user.eq(user))
-                .fetchOne();
+        return query().select(SUBSCRIPTION.count()).from(SUBSCRIPTION).where(SUBSCRIPTION.user.eq(user)).fetchOne();
     }
 
     public List<FeedSubscription> findByCategory(User user, FeedCategory category) {
-        JPQLQuery<FeedSubscription> query =
-                query().selectFrom(SUBSCRIPTION).where(SUBSCRIPTION.user.eq(user));
+        JPQLQuery<FeedSubscription> query = query().selectFrom(SUBSCRIPTION).where(SUBSCRIPTION.user.eq(user));
         if (category == null) {
             query.where(SUBSCRIPTION.category.isNull());
         } else {
@@ -122,11 +116,9 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
     }
 
     public List<FeedSubscription> findByCategories(User user, List<FeedCategory> categories) {
-        Set<Long> categoryIds =
-                categories.stream().map(AbstractModel::getId).collect(Collectors.toSet());
+        Set<Long> categoryIds = categories.stream().map(AbstractModel::getId).collect(Collectors.toSet());
         return findAll(user).stream()
-                .filter(s ->
-                        s.getCategory() != null && categoryIds.contains(s.getCategory().getId()))
+                .filter(s -> s.getCategory() != null && categoryIds.contains(s.getCategory().getId()))
                 .toList();
     }
 

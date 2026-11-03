@@ -119,8 +119,11 @@ export function Tree() {
     const categoryNode = (category: Category, level = 0) => {
         if (!isCategoryDisplayed(category)) return null
 
-        const hasError = !category.expanded && flattenCategoryTree(category).some(c => c.feeds.some(f => f.errorCount > errorThreshold))
-        const hasWarning = !category.expanded && flattenCategoryTree(category).some(c => c.feeds.some(f => !!f.filterLegacy))
+        const hasError =
+            !category.expanded &&
+            flattenCategoryTree(category).some(c => c.feeds.some(f => f.errorCount > errorThreshold))
+        const hasWarning =
+            !category.expanded && flattenCategoryTree(category).some(c => c.feeds.some(f => !!f.filterLegacy))
         return (
             <TreeNode
                 id={category.id}

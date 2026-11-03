@@ -25,26 +25,14 @@ class NativeImageClassesTest {
     void annotationContainsAllRequiredRomeClasses() {
         Reflections reflections = new Reflections("com.rometools");
         Set<Class<?>> classesInAnnotation =
-                Set.copyOf(
-                        List.of(
-                                NativeImageClasses.class
-                                        .getAnnotation(RegisterForReflection.class)
-                                        .targets()));
+                Set.copyOf(List.of(NativeImageClasses.class.getAnnotation(RegisterForReflection.class).targets()));
 
         List<Class<?>> missingClasses = new ArrayList<>();
         for (Class<?> clazz :
-                List.of(
-                        Module.class,
-                        Cloneable.class,
-                        CopyFrom.class,
-                        WireFeedParser.class,
-                        WireFeedGenerator.class)) {
-            Set<Class<?>> moduleClasses =
-                    new HashSet<>(reflections.get(Scanners.SubTypes.of(clazz).asClass()));
+                List.of(Module.class, Cloneable.class, CopyFrom.class, WireFeedParser.class, WireFeedGenerator.class)) {
+            Set<Class<?>> moduleClasses = new HashSet<>(reflections.get(Scanners.SubTypes.of(clazz).asClass()));
             moduleClasses.removeIf(c ->
-                    c.isInterface()
-                            || Modifier.isAbstract(c.getModifiers())
-                            || !Modifier.isPublic(c.getModifiers()));
+                    c.isInterface() || Modifier.isAbstract(c.getModifiers()) || !Modifier.isPublic(c.getModifiers()));
             moduleClasses.removeAll(classesInAnnotation);
             missingClasses.addAll(moduleClasses);
         }

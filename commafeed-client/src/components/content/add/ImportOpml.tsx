@@ -44,8 +44,8 @@ export function ImportOpml() {
                         placeholder={_(msg`OPML file`)}
                         description={
                             <Trans>
-                                An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your
-                                data from other feed reading services.
+                                An opml file is an XML file containing feed URLs and categories. You can get an OPML
+                                file by exporting your data from other feed reading services.
                             </Trans>
                         }
                         {...form.getInputProps("file")}

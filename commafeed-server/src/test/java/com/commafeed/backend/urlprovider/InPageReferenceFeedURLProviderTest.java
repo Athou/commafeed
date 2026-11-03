@@ -25,8 +25,7 @@ class InPageReferenceFeedURLProviderTest {
                 """;
 
         Assertions.assertIterableEquals(
-                List.of("http://example.com/feed.atom", "http://example.com/feed.rss"),
-                provider.get(url, html));
+                List.of("http://example.com/feed.atom", "http://example.com/feed.rss"), provider.get(url, html));
     }
 
     @Test

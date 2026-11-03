@@ -67,8 +67,7 @@ public class FeedRefreshEngine {
 
         this.queue = new LinkedBlockingDeque<>();
 
-        metrics.register(
-                MetricRegistry.name(getClass(), "queue", "size"), (Gauge<Integer>) queue::size);
+        metrics.register(MetricRegistry.name(getClass(), "queue", "size"), (Gauge<Integer>) queue::size);
         metrics.register(
                 MetricRegistry.name(getClass(), "worker", "active"),
                 (Gauge<Integer>) () -> workerExecutor.getActiveCount());
@@ -88,12 +87,10 @@ public class FeedRefreshEngine {
         this.refillLoopExecutor = Executors.newSingleThreadExecutor();
         this.refillExecutor = newDiscardingSingleThreadExecutorService();
         this.workerExecutor = newBlockingExecutorService(config.feedRefresh().httpThreads());
-        this.databaseUpdaterExecutor =
-                newBlockingExecutorService(config.feedRefresh().databaseThreads());
+        this.databaseUpdaterExecutor = newBlockingExecutorService(config.feedRefresh().databaseThreads());
         this.notifierExecutor =
                 newDiscardingExecutorService(
-                        config.pushNotifications().threads(),
-                        config.pushNotifications().queueCapacity());
+                        config.pushNotifications().threads(), config.pushNotifications().queueCapacity());
     }
 
     public void start() {
@@ -169,9 +166,7 @@ public class FeedRefreshEngine {
                             refill.mark();
 
                             List<Feed> nextUpdatableFeeds = getNextUpdatableFeeds(getBatchSize());
-                            log.debug(
-                                    "found {} feeds that are up for refresh",
-                                    nextUpdatableFeeds.size());
+                            log.debug("found {} feeds that are up for refresh", nextUpdatableFeeds.size());
                             for (Feed feed : nextUpdatableFeeds) {
                                 // add the feed only if it was not already queued
                                 if (queue.stream().noneMatch(f -> f.getId().equals(feed.getId()))) {
@@ -199,8 +194,7 @@ public class FeedRefreshEngine {
 
                                         notifier.notifyOverWebsocket(sub, entries);
                                         return CompletableFuture.runAsync(
-                                                () -> notifier.sendPushNotifications(sub, entries),
-                                                notifierExecutor);
+                                                () -> notifier.sendPushNotifications(sub, entries), notifierExecutor);
                                     })
                                     .toList();
                     return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
@@ -222,8 +216,7 @@ public class FeedRefreshEngine {
                 // update disabledUntil to prevent feeds from being returned again by
                 // feedDAO.findNextUpdatable()
                 Instant nextUpdateDate = Instant.now().plus(config.feedRefresh().interval());
-                feedDAO.setDisabledUntil(
-                        feeds.stream().map(AbstractModel::getId).toList(), nextUpdateDate);
+                feedDAO.setDisabledUntil(feeds.stream().map(AbstractModel::getId).toList(), nextUpdateDate);
             }
             return feeds;
         });
@@ -234,26 +227,19 @@ public class FeedRefreshEngine {
     }
 
     public void stop() {
-        MoreExecutors.shutdownAndAwaitTermination(
-                this.feedProcessingLoopExecutor, config.shutdownTimeout());
-        MoreExecutors.shutdownAndAwaitTermination(
-                this.refillLoopExecutor, config.shutdownTimeout());
+        MoreExecutors.shutdownAndAwaitTermination(this.feedProcessingLoopExecutor, config.shutdownTimeout());
+        MoreExecutors.shutdownAndAwaitTermination(this.refillLoopExecutor, config.shutdownTimeout());
         MoreExecutors.shutdownAndAwaitTermination(this.refillExecutor, config.shutdownTimeout());
         MoreExecutors.shutdownAndAwaitTermination(this.workerExecutor, config.shutdownTimeout());
-        MoreExecutors.shutdownAndAwaitTermination(
-                this.databaseUpdaterExecutor, config.shutdownTimeout());
+        MoreExecutors.shutdownAndAwaitTermination(this.databaseUpdaterExecutor, config.shutdownTimeout());
         MoreExecutors.shutdownAndAwaitTermination(this.notifierExecutor, config.shutdownTimeout());
 
         queue.clear();
     }
 
-    /**
-     * returns an ExecutorService with a single thread that discards tasks if a task is already
-     * running
-     */
+    /** returns an ExecutorService with a single thread that discards tasks if a task is already running */
     private ThreadPoolExecutor newDiscardingSingleThreadExecutorService() {
-        ThreadPoolExecutor pool =
-                new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new SynchronousQueue<>());
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new SynchronousQueue<>());
         pool.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());
         return pool;
     }
@@ -262,11 +248,7 @@ public class FeedRefreshEngine {
     private ThreadPoolExecutor newDiscardingExecutorService(int threads, int queueCapacity) {
         ThreadPoolExecutor pool =
                 new ThreadPoolExecutor(
-                        threads,
-                        threads,
-                        0L,
-                        TimeUnit.MILLISECONDS,
-                        new LinkedBlockingQueue<>(queueCapacity));
+                        threads, threads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(queueCapacity));
         pool.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());
         return pool;
     }
@@ -274,8 +256,7 @@ public class FeedRefreshEngine {
     /** returns an ExecutorService that blocks submissions until a thread is available */
     private ThreadPoolExecutor newBlockingExecutorService(int threads) {
         ThreadPoolExecutor pool =
-                new ThreadPoolExecutor(
-                        threads, threads, 0L, TimeUnit.MILLISECONDS, new SynchronousQueue<>());
+                new ThreadPoolExecutor(threads, threads, 0L, TimeUnit.MILLISECONDS, new SynchronousQueue<>());
         pool.setRejectedExecutionHandler((r, e) -> {
             if (e.isShutdown()) {
                 return;

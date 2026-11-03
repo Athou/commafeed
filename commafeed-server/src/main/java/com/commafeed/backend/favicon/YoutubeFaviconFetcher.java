@@ -37,8 +37,7 @@ public class YoutubeFaviconFetcher implements FaviconFetcher {
 
     private static final JsonPointer CHANNEL_THUMBNAIL_URL =
             JsonPointer.compile("/items/0/snippet/thumbnails/default/url");
-    private static final JsonPointer PLAYLIST_CHANNEL_ID =
-            JsonPointer.compile("/items/0/snippet/channelId");
+    private static final JsonPointer PLAYLIST_CHANNEL_ID = JsonPointer.compile("/items/0/snippet/channelId");
 
     private final HttpGetter getter;
     private final CommaFeedConfiguration config;
@@ -60,17 +59,11 @@ public class YoutubeFaviconFetcher implements FaviconFetcher {
         try {
             List<NameValuePair> params = new URIBuilder(url).getQueryParams();
             Optional<NameValuePair> userId =
-                    params.stream()
-                            .filter(nvp -> nvp.getName().equalsIgnoreCase("user"))
-                            .findFirst();
+                    params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("user")).findFirst();
             Optional<NameValuePair> channelId =
-                    params.stream()
-                            .filter(nvp -> nvp.getName().equalsIgnoreCase("channel_id"))
-                            .findFirst();
+                    params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("channel_id")).findFirst();
             Optional<NameValuePair> playlistId =
-                    params.stream()
-                            .filter(nvp -> nvp.getName().equalsIgnoreCase("playlist_id"))
-                            .findFirst();
+                    params.stream().filter(nvp -> nvp.getName().equalsIgnoreCase("playlist_id")).findFirst();
 
             byte[] response = null;
             if (userId.isPresent()) {
@@ -103,10 +96,7 @@ public class YoutubeFaviconFetcher implements FaviconFetcher {
     }
 
     private byte[] fetchForUser(String googleAuthKey, String userId)
-            throws IOException,
-                    NotModifiedException,
-                    TooManyRequestsException,
-                    SchemeNotAllowedException {
+            throws IOException, NotModifiedException, TooManyRequestsException, SchemeNotAllowedException {
         URI uri =
                 UriBuilder.fromUri("https://www.googleapis.com/youtube/v3/channels")
                         .queryParam("part", PART_SNIPPET)
@@ -117,10 +107,7 @@ public class YoutubeFaviconFetcher implements FaviconFetcher {
     }
 
     private byte[] fetchForChannel(String googleAuthKey, String channelId)
-            throws IOException,
-                    NotModifiedException,
-                    TooManyRequestsException,
-                    SchemeNotAllowedException {
+            throws IOException, NotModifiedException, TooManyRequestsException, SchemeNotAllowedException {
         URI uri =
                 UriBuilder.fromUri("https://www.googleapis.com/youtube/v3/channels")
                         .queryParam("part", PART_SNIPPET)
@@ -131,10 +118,7 @@ public class YoutubeFaviconFetcher implements FaviconFetcher {
     }
 
     private byte[] fetchForPlaylist(String googleAuthKey, String playlistId)
-            throws IOException,
-                    NotModifiedException,
-                    TooManyRequestsException,
-                    SchemeNotAllowedException {
+            throws IOException, NotModifiedException, TooManyRequestsException, SchemeNotAllowedException {
         URI uri =
                 UriBuilder.fromUri("https://www.googleapis.com/youtube/v3/playlists")
                         .queryParam("part", PART_SNIPPET)

@@ -65,11 +65,7 @@ public class Urls {
         try {
             return URI.create(baseUrl).resolve(relativeUrl).toString();
         } catch (IllegalArgumentException e) {
-            log.debug(
-                    "Unable to create absolute url from relative url: {} base: {}",
-                    relativeUrl,
-                    baseUrl,
-                    e);
+            log.debug("Unable to create absolute url from relative url: {} base: {}", relativeUrl, baseUrl, e);
             return null;
         }
     }
@@ -86,8 +82,8 @@ public class Urls {
     }
 
     /**
-     * Normalize the url. The resulting url is not meant to be fetched but rather used as a mean to
-     * identify a feed and avoid duplicates
+     * Normalize the url. The resulting url is not meant to be fetched but rather used as a mean to identify a feed and
+     * avoid duplicates
      */
     public static String normalize(String url) {
         if (url == null) {

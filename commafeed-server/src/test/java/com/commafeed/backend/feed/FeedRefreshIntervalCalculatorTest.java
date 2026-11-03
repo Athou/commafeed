@@ -36,8 +36,7 @@ class FeedRefreshIntervalCalculatorTest {
     @BeforeEach
     void setUp() {
         Mockito.when(instantSource.instant()).thenReturn(NOW);
-        Mockito.when(config.feedRefresh())
-                .thenReturn(Mockito.mock(CommaFeedConfiguration.FeedRefresh.class));
+        Mockito.when(config.feedRefresh()).thenReturn(Mockito.mock(CommaFeedConfiguration.FeedRefresh.class));
         Mockito.when(config.feedRefresh().interval()).thenReturn(DEFAULT_INTERVAL);
         Mockito.when(config.feedRefresh().maxInterval()).thenReturn(MAX_INTERVAL);
         Mockito.when(config.feedRefresh().errors()).thenReturn(errorHandling);
@@ -55,24 +54,20 @@ class FeedRefreshIntervalCalculatorTest {
             void withoutValidFor(long averageEntryInterval) {
                 // averageEntryInterval is ignored when empirical is disabled
                 Instant result =
-                        calculator.onFetchSuccess(
-                                NOW.minus(Duration.ofDays(5)), averageEntryInterval, Duration.ZERO);
+                        calculator.onFetchSuccess(NOW.minus(Duration.ofDays(5)), averageEntryInterval, Duration.ZERO);
                 Assertions.assertEquals(NOW.plus(DEFAULT_INTERVAL), result);
             }
 
             @Test
             void withValidForGreaterThanMaxInterval() {
-                Instant result =
-                        calculator.onFetchSuccess(
-                                NOW.minus(Duration.ofDays(5)), 1L, MAX_INTERVAL.plusDays(1));
+                Instant result = calculator.onFetchSuccess(NOW.minus(Duration.ofDays(5)), 1L, MAX_INTERVAL.plusDays(1));
                 Assertions.assertEquals(NOW.plus(MAX_INTERVAL), result);
             }
 
             @Test
             void withValidForLowerThanMaxInterval() {
                 Instant result =
-                        calculator.onFetchSuccess(
-                                NOW.minus(Duration.ofDays(5)), 1L, MAX_INTERVAL.minusSeconds(1));
+                        calculator.onFetchSuccess(NOW.minus(Duration.ofDays(5)), 1L, MAX_INTERVAL.minusSeconds(1));
                 Assertions.assertEquals(NOW.plus(MAX_INTERVAL).minusSeconds(1), result);
             }
         }
@@ -93,24 +88,19 @@ class FeedRefreshIntervalCalculatorTest {
 
             @Test
             void with31DaysOldPublishedDate() {
-                Instant result =
-                        calculator.onFetchSuccess(
-                                NOW.minus(Duration.ofDays(31)), 1L, Duration.ZERO);
+                Instant result = calculator.onFetchSuccess(NOW.minus(Duration.ofDays(31)), 1L, Duration.ZERO);
                 Assertions.assertEquals(NOW.plus(MAX_INTERVAL), result);
             }
 
             @Test
             void with15DaysOldPublishedDate() {
-                Instant result =
-                        calculator.onFetchSuccess(
-                                NOW.minus(Duration.ofDays(15)), 1L, Duration.ZERO);
+                Instant result = calculator.onFetchSuccess(NOW.minus(Duration.ofDays(15)), 1L, Duration.ZERO);
                 Assertions.assertEquals(NOW.plus(MAX_INTERVAL.dividedBy(2)), result);
             }
 
             @Test
             void with8DaysOldPublishedDate() {
-                Instant result =
-                        calculator.onFetchSuccess(NOW.minus(Duration.ofDays(8)), 1L, Duration.ZERO);
+                Instant result = calculator.onFetchSuccess(NOW.minus(Duration.ofDays(8)), 1L, Duration.ZERO);
                 Assertions.assertEquals(NOW.plus(MAX_INTERVAL.dividedBy(4)), result);
             }
 
@@ -120,33 +110,26 @@ class FeedRefreshIntervalCalculatorTest {
                 void averageBetweenBounds() {
                     Instant result =
                             calculator.onFetchSuccess(
-                                    NOW.minus(Duration.ofDays(5)),
-                                    Duration.ofHours(4).toMillis(),
-                                    Duration.ZERO);
+                                    NOW.minus(Duration.ofDays(5)), Duration.ofHours(4).toMillis(), Duration.ZERO);
                     Assertions.assertEquals(NOW.plus(Duration.ofHours(2)), result);
                 }
 
                 @Test
                 void averageBelowMinimum() {
-                    Instant result =
-                            calculator.onFetchSuccess(
-                                    NOW.minus(Duration.ofDays(5)), 10L, Duration.ZERO);
+                    Instant result = calculator.onFetchSuccess(NOW.minus(Duration.ofDays(5)), 10L, Duration.ZERO);
                     Assertions.assertEquals(NOW.plus(DEFAULT_INTERVAL), result);
                 }
 
                 @Test
                 void averageAboveMaximum() {
                     Instant result =
-                            calculator.onFetchSuccess(
-                                    NOW.minus(Duration.ofDays(5)), Long.MAX_VALUE, Duration.ZERO);
+                            calculator.onFetchSuccess(NOW.minus(Duration.ofDays(5)), Long.MAX_VALUE, Duration.ZERO);
                     Assertions.assertEquals(NOW.plus(MAX_INTERVAL.dividedBy(4)), result);
                 }
 
                 @Test
                 void noAverage() {
-                    Instant result =
-                            calculator.onFetchSuccess(
-                                    NOW.minus(Duration.ofDays(5)), null, Duration.ZERO);
+                    Instant result = calculator.onFetchSuccess(NOW.minus(Duration.ofDays(5)), null, Duration.ZERO);
                     Assertions.assertEquals(NOW.plus(MAX_INTERVAL), result);
                 }
             }
@@ -162,9 +145,7 @@ class FeedRefreshIntervalCalculatorTest {
             @ValueSource(longs = {0, 1, 300, 86400000L})
             void withoutValidFor(long averageEntryInterval) {
                 // averageEntryInterval is ignored when empirical is disabled
-                Instant result =
-                        calculator.onFeedNotModified(
-                                NOW.minus(Duration.ofDays(5)), averageEntryInterval);
+                Instant result = calculator.onFeedNotModified(NOW.minus(Duration.ofDays(5)), averageEntryInterval);
                 Assertions.assertEquals(NOW.plus(DEFAULT_INTERVAL), result);
             }
         }
@@ -206,30 +187,25 @@ class FeedRefreshIntervalCalculatorTest {
                 @Test
                 void averageBetweenBounds() {
                     Instant result =
-                            calculator.onFeedNotModified(
-                                    NOW.minus(Duration.ofDays(5)), Duration.ofHours(4).toMillis());
+                            calculator.onFeedNotModified(NOW.minus(Duration.ofDays(5)), Duration.ofHours(4).toMillis());
                     Assertions.assertEquals(NOW.plus(Duration.ofHours(2)), result);
                 }
 
                 @Test
                 void averageBelowMinimum() {
-                    Instant result =
-                            calculator.onFeedNotModified(NOW.minus(Duration.ofDays(5)), 10L);
+                    Instant result = calculator.onFeedNotModified(NOW.minus(Duration.ofDays(5)), 10L);
                     Assertions.assertEquals(NOW.plus(DEFAULT_INTERVAL), result);
                 }
 
                 @Test
                 void averageAboveMaximum() {
-                    Instant result =
-                            calculator.onFeedNotModified(
-                                    NOW.minus(Duration.ofDays(5)), Long.MAX_VALUE);
+                    Instant result = calculator.onFeedNotModified(NOW.minus(Duration.ofDays(5)), Long.MAX_VALUE);
                     Assertions.assertEquals(NOW.plus(MAX_INTERVAL.dividedBy(4)), result);
                 }
 
                 @Test
                 void noAverage() {
-                    Instant result =
-                            calculator.onFeedNotModified(NOW.minus(Duration.ofDays(5)), null);
+                    Instant result = calculator.onFeedNotModified(NOW.minus(Duration.ofDays(5)), null);
                     Assertions.assertEquals(NOW.plus(MAX_INTERVAL), result);
                 }
             }
@@ -251,8 +227,7 @@ class FeedRefreshIntervalCalculatorTest {
 
         @Test
         void highErrorCount() {
-            Mockito.when(config.feedRefresh().errors().backoffInterval())
-                    .thenReturn(Duration.ofHours(1));
+            Mockito.when(config.feedRefresh().errors().backoffInterval()).thenReturn(Duration.ofHours(1));
 
             Instant result = calculator.onFetchError(5);
             Assertions.assertEquals(NOW.plus(Duration.ofHours(3)), result);
@@ -260,8 +235,7 @@ class FeedRefreshIntervalCalculatorTest {
 
         @Test
         void veryHighErrorCount() {
-            Mockito.when(config.feedRefresh().errors().backoffInterval())
-                    .thenReturn(Duration.ofHours(1));
+            Mockito.when(config.feedRefresh().errors().backoffInterval()).thenReturn(Duration.ofHours(1));
 
             Instant result = calculator.onFetchError(100000);
             Assertions.assertEquals(NOW.plus(MAX_INTERVAL), result);

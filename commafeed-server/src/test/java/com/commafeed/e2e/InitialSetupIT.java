@@ -25,8 +25,7 @@ class InitialSetupIT {
 
         page.getByPlaceholder("Admin User Name").fill(TestConstants.ADMIN_USERNAME);
         page.getByPlaceholder("Password").fill(TestConstants.ADMIN_PASSWORD);
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Admin Account"))
-                .click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Admin Account")).click();
 
         PlaywrightAssertions.assertThat(page).hasURL("http://localhost:8085/#/app/category/all");
     }

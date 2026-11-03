@@ -38,8 +38,7 @@ class CategoryIT extends BaseIT {
     void setup() {
         initialSetup(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
         RestAssured.authentication =
-                RestAssured.preemptive()
-                        .basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
+                RestAssured.preemptive().basic(TestConstants.ADMIN_USERNAME, TestConstants.ADMIN_PASSWORD);
     }
 
     @AfterEach
@@ -70,8 +69,7 @@ class CategoryIT extends BaseIT {
         Assertions.assertEquals("test-category-1", root.getChildren().getFirst().getName());
         Assertions.assertEquals(1, root.getChildren().getFirst().getChildren().size());
         Assertions.assertEquals(
-                "modified-category-2",
-                root.getChildren().getFirst().getChildren().getFirst().getName());
+                "modified-category-2", root.getChildren().getFirst().getChildren().getFirst().getName());
 
         request = new CategoryModificationRequest();
         request.setId(Long.valueOf(category3Id));
@@ -152,9 +150,7 @@ class CategoryIT extends BaseIT {
         @Test
         void all() {
             subscribeAndWaitForEntries(getFeedUrl());
-            Assertions.assertTrue(
-                    getCategoryEntries(CategoryREST.ALL).getEntries().stream()
-                            .noneMatch(Entry::isRead));
+            Assertions.assertTrue(getCategoryEntries(CategoryREST.ALL).getEntries().stream().noneMatch(Entry::isRead));
 
             MarkRequest request = new MarkRequest();
             request.setId(CategoryREST.ALL);
@@ -165,17 +161,14 @@ class CategoryIT extends BaseIT {
                     .post("rest/category/mark")
                     .then()
                     .statusCode(200);
-            Assertions.assertTrue(
-                    getCategoryEntries(CategoryREST.ALL).getEntries().stream()
-                            .allMatch(Entry::isRead));
+            Assertions.assertTrue(getCategoryEntries(CategoryREST.ALL).getEntries().stream().allMatch(Entry::isRead));
         }
 
         @Test
         void specificCategory() {
             String categoryId = createCategory("test-category");
             subscribeAndWaitForEntries(getFeedUrl(), categoryId);
-            Assertions.assertTrue(
-                    getCategoryEntries(categoryId).getEntries().stream().noneMatch(Entry::isRead));
+            Assertions.assertTrue(getCategoryEntries(categoryId).getEntries().stream().noneMatch(Entry::isRead));
 
             MarkRequest request = new MarkRequest();
             request.setId(categoryId);
@@ -186,8 +179,7 @@ class CategoryIT extends BaseIT {
                     .post("rest/category/mark")
                     .then()
                     .statusCode(200);
-            Assertions.assertTrue(
-                    getCategoryEntries(categoryId).getEntries().stream().allMatch(Entry::isRead));
+            Assertions.assertTrue(getCategoryEntries(categoryId).getEntries().stream().allMatch(Entry::isRead));
         }
     }
 
@@ -233,18 +225,14 @@ class CategoryIT extends BaseIT {
         @Test
         void starred() {
             Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
-            Assertions.assertEquals(
-                    0, getCategoryEntries(CategoryREST.STARRED).getEntries().size());
+            Assertions.assertEquals(0, getCategoryEntries(CategoryREST.STARRED).getEntries().size());
 
             Entry entry = getFeedEntries(subscriptionId).getEntries().getFirst();
 
             StarRequest starRequest = new StarRequest();
             starRequest.setId(entry.getId());
             starRequest.setStarred(true);
-            RestAssured.given()
-                    .body(starRequest)
-                    .contentType(ContentType.JSON)
-                    .post("rest/entry/star");
+            RestAssured.given().body(starRequest).contentType(ContentType.JSON).post("rest/entry/star");
 
             Entries starredEntries = getCategoryEntries(CategoryREST.STARRED);
             Assertions.assertEquals(1, starredEntries.getEntries().size());
@@ -261,10 +249,7 @@ class CategoryIT extends BaseIT {
             TagRequest tagRequest = new TagRequest();
             tagRequest.setEntryId(Long.valueOf(entry.getId()));
             tagRequest.setTags(List.of("my-tag"));
-            RestAssured.given()
-                    .body(tagRequest)
-                    .contentType(ContentType.JSON)
-                    .post("rest/entry/tag");
+            RestAssured.given().body(tagRequest).contentType(ContentType.JSON).post("rest/entry/tag");
 
             Entries taggedEntries = getTaggedEntries("my-tag");
             Assertions.assertEquals(1, taggedEntries.getEntries().size());
@@ -274,9 +259,7 @@ class CategoryIT extends BaseIT {
         @Test
         void keywords() {
             subscribeAndWaitForEntries(getFeedUrl());
-            Assertions.assertEquals(
-                    1,
-                    getCategoryEntries(CategoryREST.ALL, "Item 2 description").getEntries().size());
+            Assertions.assertEquals(1, getCategoryEntries(CategoryREST.ALL, "Item 2 description").getEntries().size());
         }
 
         @Test

@@ -300,7 +300,9 @@ export function FeedEntries() {
                     entry={entry}
                     expanded={!!entry.expanded || viewMode === "expanded"}
                     selected={entry.id === selectedEntryId}
-                    showSelectionIndicator={entry.id === selectedEntryId && (!entry.expanded || viewMode === "expanded")}
+                    showSelectionIndicator={
+                        entry.id === selectedEntryId && (!entry.expanded || viewMode === "expanded")
+                    }
                     maxWidth={sidebarVisible ? Constants.layout.entryMaxWidth : undefined}
                     onHeaderClick={event => headerClicked(entry, event)}
                     onHeaderRightClick={event => headerRightClicked(entry, event)}

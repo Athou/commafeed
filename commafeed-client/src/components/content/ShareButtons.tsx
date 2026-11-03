@@ -104,7 +104,9 @@ export function ShareButtons(
     }>
 ) {
     const sharingSettings = useAppSelector(state => state.user.settings?.sharingSettings)
-    const enabledSharingSites = (Object.keys(Constants.sharing) as Array<keyof SharingSettings>).filter(site => sharingSettings?.[site])
+    const enabledSharingSites = (Object.keys(Constants.sharing) as Array<keyof SharingSettings>).filter(
+        site => sharingSettings?.[site]
+    )
     const url = encodeURIComponent(props.url)
     const desc = encodeURIComponent(props.description)
     const clipboardAvailable = typeof navigator.clipboard !== "undefined"
@@ -119,7 +121,9 @@ export function ShareButtons(
             {showNativeSection && (
                 <SimpleGrid cols={4}>
                     {clipboardAvailable && <CopyUrlButton url={props.url} />}
-                    {nativeSharingAvailable && <BrowserNativeShareButton url={props.url} description={props.description} />}
+                    {nativeSharingAvailable && (
+                        <BrowserNativeShareButton url={props.url} description={props.description} />
+                    )}
                 </SimpleGrid>
             )}
 

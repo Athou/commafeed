@@ -20,7 +20,8 @@ function NoSubscriptionHelp() {
         <Box>
             <Center>
                 <Trans>
-                    You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?
+                    You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of
+                    the page?
                 </Trans>
             </Center>
         </Box>
@@ -51,7 +52,8 @@ export function FeedEntriesPage(props: Readonly<FeedEntriesPageProps>) {
     const viewport = useViewportSize()
     const theme = useMantineTheme()
     const noSubscriptions = useAppSelector(
-        state => state.tree.rootCategory && flattenCategoryTree(state.tree.rootCategory).every(c => c.feeds.length === 0)
+        state =>
+            state.tree.rootCategory && flattenCategoryTree(state.tree.rootCategory).every(c => c.feeds.length === 0)
     )
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
     const sourceWebsiteUrl = useAppSelector(state => state.entries.sourceWebsiteUrl)
@@ -63,7 +65,8 @@ export function FeedEntriesPage(props: Readonly<FeedEntriesPageProps>) {
         if (!root) return { unreadCount: 0, hasNewEntries: false }
 
         if (props.sourceType === "category") {
-            const category = id === Constants.categories.all.id ? root : flattenCategoryTree(root).find(c => c.id === id)
+            const category =
+                id === Constants.categories.all.id ? root : flattenCategoryTree(root).find(c => c.id === id)
             return {
                 unreadCount: categoryUnreadCount(category),
                 hasNewEntries: categoryHasNewEntries(category),

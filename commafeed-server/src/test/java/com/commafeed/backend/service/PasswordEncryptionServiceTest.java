@@ -17,9 +17,7 @@ class PasswordEncryptionServiceTest {
 
         // make sure the encrypted password is always the same for a fixed salt
         Assertions.assertEquals(
-                "8b4660158141d9f4f7865718b9a2b940a3e3cea9",
-                HexFormat.of().formatHex(encryptedPassword));
-        Assertions.assertTrue(
-                passwordEncryptionService.authenticate(password, encryptedPassword, salt));
+                "8b4660158141d9f4f7865718b9a2b940a3e3cea9", HexFormat.of().formatHex(encryptedPassword));
+        Assertions.assertTrue(passwordEncryptionService.authenticate(password, encryptedPassword, salt));
     }
 }

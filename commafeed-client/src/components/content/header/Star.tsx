@@ -24,7 +24,10 @@ export function Star(
     }
 
     return (
-        <Tooltip label={props.entry.starred ? <Trans>Unstar</Trans> : <Trans>Star</Trans>} openDelay={Constants.tooltip.delay}>
+        <Tooltip
+            label={props.entry.starred ? <Trans>Unstar</Trans> : <Trans>Star</Trans>}
+            openDelay={Constants.tooltip.delay}
+        >
             <ActionIcon variant="transparent" onClick={onClick}>
                 {props.entry.starred ? <TbStarFilled size={18} /> : <TbStar size={18} />}
             </ActionIcon>

@@ -19,24 +19,20 @@ import java.util.Optional;
 /**
  * CommaFeed configuration
  *
- * <p>Default values are for production, they can be overridden in application.properties for other
- * profiles
+ * <p>Default values are for production, they can be overridden in application.properties for other profiles
  */
 @ConfigMapping(prefix = "commafeed")
 @ConfigRoot(phase = ConfigPhase.RUN_TIME)
 public interface CommaFeedConfiguration {
-    /**
-     * Whether to expose a robots.txt file that disallows web crawlers and search engine indexers.
-     */
+    /** Whether to expose a robots.txt file that disallows web crawlers and search engine indexers. */
     @WithDefault("true")
     boolean hideFromWebCrawlers();
 
     /**
-     * If enabled, images in feed entries will be proxied through the server instead of accessed
-     * directly by the browser.
+     * If enabled, images in feed entries will be proxied through the server instead of accessed directly by the
+     * browser.
      *
-     * <p>This is useful if commafeed is accessed through a restricting proxy that blocks some feeds
-     * that are followed.
+     * <p>This is useful if commafeed is accessed through a restricting proxy that blocks some feeds that are followed.
      */
     @WithDefault("false")
     boolean imageProxyEnabled();
@@ -50,9 +46,8 @@ public interface CommaFeedConfiguration {
     boolean passwordRecoveryEnabled();
 
     /**
-     * The base URL of the application to use in the password recovery link in the email. We can't
-     * use the URL sent by the browser of the user because of malicious Host header injection
-     * attacks.
+     * The base URL of the application to use in the password recovery link in the email. We can't use the URL sent by
+     * the browser of the user because of malicious Host header injection attacks.
      */
     Optional<String> passwordRecoveryPublicBaseUrl();
 
@@ -87,16 +82,14 @@ public interface CommaFeedConfiguration {
     Websocket websocket();
 
     /**
-     * Duration to wait for the feed refresh engine and the task scheduler to stop when the
-     * application is shutting down.
+     * Duration to wait for the feed refresh engine and the task scheduler to stop when the application is shutting
+     * down.
      */
     @WithDefault("2s")
     Duration shutdownTimeout();
 
     interface HttpClient {
-        /**
-         * User-Agent string that will be used by the http client, leave empty for the default one.
-         */
+        /** User-Agent string that will be used by the http client, leave empty for the default one. */
         Optional<String> userAgent();
 
         /** Time to wait for a connection to be established. */
@@ -123,19 +116,15 @@ public interface CommaFeedConfiguration {
         @WithDefault("1m")
         Duration idleConnectionsEvictionInterval();
 
-        /**
-         * If a feed is larger than this, it will be discarded to prevent memory issues while
-         * parsing the feed.
-         */
+        /** If a feed is larger than this, it will be discarded to prevent memory issues while parsing the feed. */
         @WithDefault("5M")
         MemorySize maxResponseSize();
 
         /**
-         * Prevent access to local addresses to mitigate server-side request forgery (SSRF) attacks,
-         * which could potentially expose internal resources.
+         * Prevent access to local addresses to mitigate server-side request forgery (SSRF) attacks, which could
+         * potentially expose internal resources.
          *
-         * <p>You may want to enable this if you host a public instance of CommaFeed with
-         * registrations open.
+         * <p>You may want to enable this if you host a public instance of CommaFeed with registrations open.
          */
         @WithDefault("true")
         boolean blockLocalAddresses();
@@ -147,9 +136,8 @@ public interface CommaFeedConfiguration {
 
     interface HttpClientCache {
         /**
-         * Whether to enable the cache. This cache is used to avoid spamming feeds in short bursts
-         * (e.g. when subscribing to a feed for the first time or when clicking "fetch all my feeds
-         * now").
+         * Whether to enable the cache. This cache is used to avoid spamming feeds in short bursts (e.g. when
+         * subscribing to a feed for the first time or when clicking "fetch all my feeds now").
          */
         @WithDefault("true")
         boolean enabled();
@@ -169,8 +157,7 @@ public interface CommaFeedConfiguration {
         Duration interval();
 
         /**
-         * Maximum amount of time CommaFeed will wait before refreshing a feed. This is used as an
-         * upper bound when:
+         * Maximum amount of time CommaFeed will wait before refreshing a feed. This is used as an upper bound when:
          *
          * <ul>
          *   <li>an error occurs while refreshing a feed and we're backing off exponentially
@@ -182,10 +169,10 @@ public interface CommaFeedConfiguration {
         Duration maxInterval();
 
         /**
-         * If enabled, CommaFeed will calculate the next refresh time based on the feed's average
-         * time between entries and the time since the last entry was published. The interval will
-         * be sometimes between the default refresh interval (`commafeed.feed-refresh.interval`) and
-         * the maximum refresh interval (`commafeed.feed-refresh.max-interval`).
+         * If enabled, CommaFeed will calculate the next refresh time based on the feed's average time between entries
+         * and the time since the last entry was published. The interval will be sometimes between the default refresh
+         * interval (`commafeed.feed-refresh.interval`) and the maximum refresh interval
+         * (`commafeed.feed-refresh.max-interval`).
          *
          * <p>See {@link FeedRefreshIntervalCalculator} for details.
          */
@@ -207,8 +194,8 @@ public interface CommaFeedConfiguration {
         int databaseThreads();
 
         /**
-         * Duration after which a user is considered inactive. Feeds for inactive users are not
-         * refreshed until they log in again.
+         * Duration after which a user is considered inactive. Feeds for inactive users are not refreshed until they log
+         * in again.
          *
          * <p>0 to disable.
          */
@@ -216,15 +203,15 @@ public interface CommaFeedConfiguration {
         Duration userInactivityPeriod();
 
         /**
-         * Duration after which the evaluation of a filtering expresion to mark an entry as read is
-         * considered to have timed out.
+         * Duration after which the evaluation of a filtering expresion to mark an entry as read is considered to have
+         * timed out.
          */
         @WithDefault("500ms")
         Duration filteringExpressionEvaluationTimeout();
 
         /**
-         * Duration after which the "Fetch all my feeds now" action is available again after use to
-         * avoid spamming feeds.
+         * Duration after which the "Fetch all my feeds now" action is available again after use to avoid spamming
+         * feeds.
          */
         @WithDefault("0")
         Duration forceRefreshCooldownDuration();
@@ -240,10 +227,7 @@ public interface CommaFeedConfiguration {
         @WithDefault("5")
         int threads();
 
-        /**
-         * Maximum amount of notifications that can be queued before new notifications are
-         * discarded.
-         */
+        /** Maximum amount of notifications that can be queued before new notifications are discarded. */
         @Min(1)
         @WithDefault("100")
         int queueCapacity();
@@ -256,8 +240,8 @@ public interface CommaFeedConfiguration {
         int retriesBeforeBackoff();
 
         /**
-         * Duration to wait before retrying after an error. Will be multiplied by the number of
-         * errors since the last successful fetch.
+         * Duration to wait before retrying after an error. Will be multiplied by the number of errors since the last
+         * successful fetch.
          */
         @WithDefault("1h")
         Duration backoffInterval();
@@ -286,8 +270,7 @@ public interface CommaFeedConfiguration {
             Duration entriesMaxAge();
 
             /**
-             * Maximum age of feed entry statuses (read/unread) in the database. Older statuses will
-             * be deleted.
+             * Maximum age of feed entry statuses (read/unread) in the database. Older statuses will be deleted.
              *
              * <p>0 to disable.
              */
@@ -320,9 +303,7 @@ public interface CommaFeedConfiguration {
             boolean keepStarredEntries();
 
             default Instant statusesInstantThreshold() {
-                return statusesMaxAge().toMillis() > 0
-                        ? Instant.now().minus(statusesMaxAge())
-                        : null;
+                return statusesMaxAge().toMillis() > 0 ? Instant.now().minus(statusesMaxAge()) : null;
             }
         }
     }
@@ -346,23 +327,17 @@ public interface CommaFeedConfiguration {
     }
 
     interface Websocket {
-        /**
-         * Enable websocket connection so the server can notify web clients that there are new
-         * entries for feeds.
-         */
+        /** Enable websocket connection so the server can notify web clients that there are new entries for feeds. */
         @WithDefault("true")
         boolean enabled();
 
-        /**
-         * Interval at which the client will send a ping message on the websocket to keep the
-         * connection alive.
-         */
+        /** Interval at which the client will send a ping message on the websocket to keep the connection alive. */
         @WithDefault("15m")
         Duration pingInterval();
 
         /**
-         * If the websocket connection is disabled or the connection is lost, the client will reload
-         * the feed tree at this interval.
+         * If the websocket connection is disabled or the connection is lost, the client will reload the feed tree at
+         * this interval.
          */
         @WithDefault("30s")
         Duration treeReloadInterval();

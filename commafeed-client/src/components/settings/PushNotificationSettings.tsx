@@ -50,8 +50,8 @@ export function PushNotificationSettings() {
                     label={<Trans>Push notification service</Trans>}
                     description={
                         <Trans>
-                            Receive push notifications when new feed entries are discovered. Enable "Receive push notifications" in the
-                            settings of each feed for which you want to receive notifications.
+                            Receive push notifications when new feed entries are discovered. Enable "Receive push
+                            notifications" in the settings of each feed for which you want to receive notifications.
                         </Trans>
                     }
                     data={[
@@ -77,7 +77,12 @@ export function PushNotificationSettings() {
                             required
                             {...form.getInputProps("serverUrl")}
                         />
-                        <TextInput label={<Trans>Topic</Trans>} placeholder="commafeed" required {...form.getInputProps("topic")} />
+                        <TextInput
+                            label={<Trans>Topic</Trans>}
+                            placeholder="commafeed"
+                            required
+                            {...form.getInputProps("topic")}
+                        />
                         <TextInput label={<Trans>Access token</Trans>} {...form.getInputProps("userSecret")} />
                     </>
                 )}

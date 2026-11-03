@@ -2,11 +2,17 @@ import { createAppAsyncThunk } from "@/app/async-thunk"
 import { Constants } from "@/app/constants"
 import { redirectTo } from "@/app/redirect/slice"
 
-export const redirectToLogin = createAppAsyncThunk("redirect/login", (_, thunkApi) => thunkApi.dispatch(redirectTo("/login")))
+export const redirectToLogin = createAppAsyncThunk("redirect/login", (_, thunkApi) =>
+    thunkApi.dispatch(redirectTo("/login"))
+)
 
-export const redirectToRegistration = createAppAsyncThunk("redirect/register", (_, thunkApi) => thunkApi.dispatch(redirectTo("/register")))
+export const redirectToRegistration = createAppAsyncThunk("redirect/register", (_, thunkApi) =>
+    thunkApi.dispatch(redirectTo("/register"))
+)
 
-export const redirectToInitialSetup = createAppAsyncThunk("redirect/initialSetup", (_, thunkApi) => thunkApi.dispatch(redirectTo("/setup")))
+export const redirectToInitialSetup = createAppAsyncThunk("redirect/initialSetup", (_, thunkApi) =>
+    thunkApi.dispatch(redirectTo("/setup"))
+)
 
 export const redirectToApiDocumentation = createAppAsyncThunk("redirect/api", () => {
     window.location.href = "api-documentation/"
@@ -38,15 +44,21 @@ export const redirectToFeedDetails = createAppAsyncThunk("redirect/feed/details"
     thunkApi.dispatch(redirectTo(`/app/feed/${id}/details`))
 )
 
-export const redirectToTag = createAppAsyncThunk("redirect/tag", (id: string, thunkApi) => thunkApi.dispatch(redirectTo(`/app/tag/${id}`)))
+export const redirectToTag = createAppAsyncThunk("redirect/tag", (id: string, thunkApi) =>
+    thunkApi.dispatch(redirectTo(`/app/tag/${id}`))
+)
 
 export const redirectToTagDetails = createAppAsyncThunk("redirect/tag/details", (id: string, thunkApi) =>
     thunkApi.dispatch(redirectTo(`/app/tag/${id}/details`))
 )
 
-export const redirectToAdd = createAppAsyncThunk("redirect/add", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/add")))
+export const redirectToAdd = createAppAsyncThunk("redirect/add", (_, thunkApi) =>
+    thunkApi.dispatch(redirectTo("/app/add"))
+)
 
-export const redirectToSettings = createAppAsyncThunk("redirect/settings", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/settings")))
+export const redirectToSettings = createAppAsyncThunk("redirect/settings", (_, thunkApi) =>
+    thunkApi.dispatch(redirectTo("/app/settings"))
+)
 
 export const redirectToAdminUsers = createAppAsyncThunk("redirect/admin/users", (_, thunkApi) =>
     thunkApi.dispatch(redirectTo("/app/admin/users"))
@@ -56,6 +68,10 @@ export const redirectToMetrics = createAppAsyncThunk("redirect/admin/metrics", (
     thunkApi.dispatch(redirectTo("/app/admin/metrics"))
 )
 
-export const redirectToDonate = createAppAsyncThunk("redirect/donate", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/donate")))
+export const redirectToDonate = createAppAsyncThunk("redirect/donate", (_, thunkApi) =>
+    thunkApi.dispatch(redirectTo("/app/donate"))
+)
 
-export const redirectToAbout = createAppAsyncThunk("redirect/about", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/about")))
+export const redirectToAbout = createAppAsyncThunk("redirect/about", (_, thunkApi) =>
+    thunkApi.dispatch(redirectTo("/app/about"))
+)

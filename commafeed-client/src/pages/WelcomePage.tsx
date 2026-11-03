@@ -1,10 +1,26 @@
 import { msg } from "@lingui/core/macro"
-import { Anchor, Box, Center, Container, Divider, Group, Image, Space, Title, useMantineColorScheme } from "@mantine/core"
+import {
+    Anchor,
+    Box,
+    Center,
+    Container,
+    Divider,
+    Group,
+    Image,
+    Space,
+    Title,
+    useMantineColorScheme,
+} from "@mantine/core"
 import { useAsyncCallback } from "react-async-hook"
 import { SiGithub, SiX } from "react-icons/si"
 import { TbClock, TbKey, TbMoon, TbSettings, TbSun, TbUserPlus } from "react-icons/tb"
 import { client } from "@/app/client"
-import { redirectToApiDocumentation, redirectToLogin, redirectToRegistration, redirectToRootCategory } from "@/app/redirect/thunks"
+import {
+    redirectToApiDocumentation,
+    redirectToLogin,
+    redirectToRegistration,
+    redirectToRootCategory,
+} from "@/app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
 import welcomePageDark from "@/assets/welcome_page_dark.png"
 import welcomePageLight from "@/assets/welcome_page_light.png"

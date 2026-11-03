@@ -16,8 +16,7 @@ import java.util.List;
 public class YoutubeFeedURLProvider implements FeedURLProvider {
 
     private static final String PREFIX = "https://www.youtube.com/channel/";
-    private static final String REPLACEMENT_PREFIX =
-            "https://www.youtube.com/feeds/videos.xml?channel_id=";
+    private static final String REPLACEMENT_PREFIX = "https://www.youtube.com/feeds/videos.xml?channel_id=";
 
     @Override
     public List<String> get(String url, String urlContent) {

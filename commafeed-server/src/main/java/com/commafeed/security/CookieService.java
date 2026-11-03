@@ -18,10 +18,6 @@ public class CookieService {
     }
 
     public NewCookie buildLogoutCookie() {
-        return new NewCookie.Builder(cookieName)
-                .maxAge(0)
-                .expiry(Date.from(Instant.EPOCH))
-                .path("/")
-                .build();
+        return new NewCookie.Builder(cookieName).maxAge(0).expiry(Date.from(Instant.EPOCH)).path("/").build();
     }
 }

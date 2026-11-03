@@ -14,18 +14,9 @@ public record FeedParserResult(
     public record Entry(String guid, String url, Instant published, Content content) {}
 
     public record Content(
-            String title,
-            String content,
-            String author,
-            String categories,
-            Enclosure enclosure,
-            Media media) {}
+            String title, String content, String author, String categories, Enclosure enclosure, Media media) {}
 
     public record Enclosure(String url, String type) {}
 
-    public record Media(
-            String description,
-            String thumbnailUrl,
-            Integer thumbnailWidth,
-            Integer thumbnailHeight) {}
+    public record Media(String description, String thumbnailUrl, Integer thumbnailWidth, Integer thumbnailHeight) {}
 }

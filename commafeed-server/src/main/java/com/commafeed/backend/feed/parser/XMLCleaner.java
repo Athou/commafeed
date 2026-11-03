@@ -8,12 +8,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.jdom2.Verifier;
 
 import java.util.Collection;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Singleton
 public class XMLCleaner {
 
-    private static final Pattern DOCTYPE_PATTERN = Pattern.compile("<!DOCTYPE[^>]*>", Pattern.CASE_INSENSITIVE);
+    private static final Pattern DOCTYPE_START_PATTERN = Pattern.compile("<!DOCTYPE", Pattern.CASE_INSENSITIVE);
 
     private final Trie trie = Trie.builder().ignoreOverlaps().addKeywords(HtmlEntities.HTML_ENTITIES).build();
 
@@ -76,6 +77,22 @@ public class XMLCleaner {
             return null;
         }
 
-        return DOCTYPE_PATTERN.matcher(xml).replaceAll("");
+        // Equivalent to removing all matches of "<!DOCTYPE[^>]*>", without the quadratic cost of that regex when the
+        // input contains many "<!DOCTYPE" and no closing bracket after them.
+        Matcher matcher = DOCTYPE_START_PATTERN.matcher(xml);
+        StringBuilder sb = new StringBuilder(xml.length());
+
+        int pos = 0;
+        while (matcher.find(pos)) {
+            int end = xml.indexOf('>', matcher.end());
+            if (end < 0) {
+                break;
+            }
+
+            sb.append(xml, pos, matcher.start());
+            pos = end + 1;
+        }
+
+        return sb.append(xml, pos, xml.length()).toString();
     }
 }

@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+
 class XMLCleanerTest {
 
     XMLCleaner xmlCleaner = new XMLCleaner();
@@ -278,6 +280,40 @@ class XMLCleanerTest {
         void handlesDoctypeWithExtraWhitespace() {
             String source = "<!DOCTYPE   html   ><html></html>";
             Assertions.assertEquals("<html></html>", xmlCleaner.removeDoctypeDeclarations(source));
+        }
+
+        @Test
+        void preservesUnterminatedDoctype() {
+            String source = "<html></html><!DOCTYPE html";
+            Assertions.assertEquals(source, xmlCleaner.removeDoctypeDeclarations(source));
+        }
+
+        @Test
+        void removesTerminatedDoctypeAndPreservesUnterminatedDoctype() {
+            String source = "<!DOCTYPE html><html></html><!DOCTYPE html";
+            Assertions.assertEquals("<html></html><!DOCTYPE html", xmlCleaner.removeDoctypeDeclarations(source));
+        }
+
+        @Test
+        void removesNestedDoctypeUpToFirstClosingBracket() {
+            String source = "<!DOCTYPE<!DOCTYPE html><html></html>";
+            Assertions.assertEquals("<html></html>", xmlCleaner.removeDoctypeDeclarations(source));
+        }
+
+        @Test
+        void handlesManyUnterminatedDoctypesInLinearTime() {
+            String source = "<!DOCTYPE".repeat(64000);
+            Assertions.assertTimeout(
+                    Duration.ofSeconds(2),
+                    () -> Assertions.assertEquals(source, xmlCleaner.removeDoctypeDeclarations(source)));
+        }
+
+        @Test
+        void handlesManyUnterminatedDoctypesAfterClosingBracketInLinearTime() {
+            String source = "<a>" + "<!DOCTYPE".repeat(64000);
+            Assertions.assertTimeout(
+                    Duration.ofSeconds(2),
+                    () -> Assertions.assertEquals(source, xmlCleaner.removeDoctypeDeclarations(source)));
         }
     }
 }

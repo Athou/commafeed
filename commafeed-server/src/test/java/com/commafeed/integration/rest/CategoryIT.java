@@ -5,6 +5,7 @@ import com.commafeed.frontend.model.Category;
 import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Entry;
 import com.commafeed.frontend.model.UnreadCount;
+import com.commafeed.frontend.model.request.AddCategoryRequest;
 import com.commafeed.frontend.model.request.CategoryModificationRequest;
 import com.commafeed.frontend.model.request.CollapseRequest;
 import com.commafeed.frontend.model.request.IDRequest;
@@ -88,6 +89,38 @@ class CategoryIT extends BaseIT {
     }
 
     @Test
+    void addCategoryWithParent() {
+        String parentId = createCategory("parent");
+
+        AddCategoryRequest request = new AddCategoryRequest();
+        request.setName("child");
+        request.setParentId(parentId);
+        RestAssured.given()
+                .body(request)
+                .contentType(ContentType.JSON)
+                .post("rest/category/add")
+                .then()
+                .statusCode(HttpStatus.SC_OK);
+
+        Category parent = getRootCategory().getChildren().getFirst();
+        Assertions.assertEquals("parent", parent.getName());
+        Assertions.assertEquals("child", parent.getChildren().getFirst().getName());
+    }
+
+    @Test
+    void addCategoryWithUnknownParent() {
+        AddCategoryRequest request = new AddCategoryRequest();
+        request.setName("child");
+        request.setParentId("999999");
+        RestAssured.given()
+                .body(request)
+                .contentType(ContentType.JSON)
+                .post("rest/category/add")
+                .then()
+                .statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
     void collapseCategory() {
         String categoryId = createCategory("test-category");
 
@@ -143,6 +176,60 @@ class CategoryIT extends BaseIT {
         Assertions.assertEquals(1, counts.length);
         Assertions.assertEquals(subscriptionId, counts[0].getFeedId());
         Assertions.assertEquals(2, counts[0].getUnreadCount());
+    }
+
+    @Nested
+    class ParentOwnedByAnotherUser {
+        private static final String VICTIM = "victim";
+        private static final String ATTACKER = "attacker";
+        private static final String PASSWORD = "MyPassword123!";
+
+        private String victimCategoryId;
+
+        @BeforeEach
+        void attemptToAddChildToVictimCategory() {
+            registerUser(VICTIM, PASSWORD);
+            registerUser(ATTACKER, PASSWORD);
+
+            authenticateAs(VICTIM, PASSWORD);
+            victimCategoryId = createCategory("victim-category");
+
+            authenticateAs(ATTACKER, PASSWORD);
+            AddCategoryRequest request = new AddCategoryRequest();
+            request.setName("attacker-category");
+            request.setParentId(victimCategoryId);
+            RestAssured.given()
+                    .body(request)
+                    .contentType(ContentType.JSON)
+                    .post("rest/category/add")
+                    .then()
+                    .statusCode(HttpStatus.SC_NOT_FOUND);
+        }
+
+        @Test
+        void victimCanDeleteCategory() {
+            authenticateAs(VICTIM, PASSWORD);
+
+            IDRequest request = new IDRequest();
+            request.setId(Long.valueOf(victimCategoryId));
+            RestAssured.given()
+                    .body(request)
+                    .contentType(ContentType.JSON)
+                    .post("rest/category/delete")
+                    .then()
+                    .statusCode(HttpStatus.SC_OK);
+            Assertions.assertEquals(0, getRootCategory().getChildren().size());
+        }
+
+        @Test
+        void victimCanDeleteAccount() {
+            authenticateAs(VICTIM, PASSWORD);
+            RestAssured.given()
+                    .contentType(ContentType.JSON)
+                    .post("rest/user/profile/deleteAccount")
+                    .then()
+                    .statusCode(HttpStatus.SC_OK);
+        }
     }
 
     @Nested

@@ -9,6 +9,7 @@ import com.commafeed.frontend.model.request.FeedInfoRequest;
 import com.commafeed.frontend.model.request.FeedModificationRequest;
 import com.commafeed.frontend.model.request.IDRequest;
 import com.commafeed.frontend.model.request.MarkRequest;
+import com.commafeed.frontend.model.request.SubscribeRequest;
 import com.commafeed.frontend.resource.CategoryREST;
 import com.commafeed.integration.BaseIT;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -54,6 +55,65 @@ class FeedIT extends BaseIT {
     @AfterEach
     void cleanup() {
         RestAssured.reset();
+    }
+
+    @Nested
+    class CategoryOwnedByAnotherUser {
+        private static final String VICTIM = "victim";
+        private static final String ATTACKER = "attacker";
+        private static final String PASSWORD = "MyPassword123!";
+
+        private String victimCategoryId;
+
+        @BeforeEach
+        void attemptToSubscribeInVictimCategory() {
+            registerUser(VICTIM, PASSWORD);
+            registerUser(ATTACKER, PASSWORD);
+
+            authenticateAs(VICTIM, PASSWORD);
+            victimCategoryId = createCategory("victim-category");
+
+            authenticateAs(ATTACKER, PASSWORD);
+            SubscribeRequest request = new SubscribeRequest();
+            request.setUrl(getFeedUrl());
+            request.setTitle("my title for this feed");
+            request.setCategoryId(victimCategoryId);
+            RestAssured.given()
+                    .body(request)
+                    .contentType(ContentType.JSON)
+                    .post("rest/feed/subscribe")
+                    .then()
+                    .statusCode(HttpStatus.SC_NOT_FOUND);
+        }
+
+        @Test
+        void victimCanDeleteCategory() {
+            authenticateAs(VICTIM, PASSWORD);
+
+            IDRequest request = new IDRequest();
+            request.setId(Long.valueOf(victimCategoryId));
+            RestAssured.given()
+                    .body(request)
+                    .contentType(ContentType.JSON)
+                    .post("rest/category/delete")
+                    .then()
+                    .statusCode(HttpStatus.SC_OK);
+        }
+
+        @Test
+        void victimCanDeleteAccount() {
+            authenticateAs(VICTIM, PASSWORD);
+            RestAssured.given()
+                    .contentType(ContentType.JSON)
+                    .post("rest/user/profile/deleteAccount")
+                    .then()
+                    .statusCode(HttpStatus.SC_OK);
+        }
+
+        @Test
+        void subscriptionIsNotCreated() {
+            Assertions.assertEquals(0, getCategoryEntries(CategoryREST.ALL).getEntries().size());
+        }
     }
 
     @Nested

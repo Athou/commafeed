@@ -6,6 +6,7 @@ import com.commafeed.frontend.model.Entries;
 import com.commafeed.frontend.model.Subscription;
 import com.commafeed.frontend.model.request.AddCategoryRequest;
 import com.commafeed.frontend.model.request.InitialSetupRequest;
+import com.commafeed.frontend.model.request.RegistrationRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 
 import io.restassured.RestAssured;
@@ -100,6 +101,26 @@ public abstract class BaseIT {
                 .post("rest/user/initialSetup")
                 .then()
                 .statusCode(200);
+    }
+
+    protected void registerUser(String userName, String password) {
+        RegistrationRequest req = new RegistrationRequest();
+        req.setName(userName);
+        req.setPassword(password);
+        req.setEmail(userName + "@commafeed.com");
+
+        RestAssured.given()
+                .auth()
+                .none()
+                .body(req)
+                .contentType(ContentType.JSON)
+                .post("rest/user/register")
+                .then()
+                .statusCode(HttpStatus.SC_OK);
+    }
+
+    protected void authenticateAs(String userName, String password) {
+        RestAssured.authentication = RestAssured.preemptive().basic(userName, password);
     }
 
     protected List<HttpCookie> login() {

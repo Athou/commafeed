@@ -407,13 +407,17 @@ public class FeedREST {
         Preconditions.checkNotNull(req.getUrl());
 
         try {
+            User user = authenticationContext.getCurrentUser();
+
             FeedCategory category = null;
             if (req.getCategoryId() != null && !CategoryREST.ALL.equals(req.getCategoryId())) {
-                category = feedCategoryDAO.findById(Long.valueOf(req.getCategoryId()));
+                category = feedCategoryDAO.findById(user, Long.valueOf(req.getCategoryId()));
+                if (category == null) {
+                    return Response.status(Status.NOT_FOUND).build();
+                }
             }
 
             FeedInfo info = fetchFeedInternal(prependHttp(req.getUrl()));
-            User user = authenticationContext.getCurrentUser();
             long subscriptionId = feedSubscriptionService.subscribe(user, info.getUrl(), req.getTitle(), category, 0);
             return Response.ok(subscriptionId).build();
         } catch (Exception e) {

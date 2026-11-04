@@ -39,6 +39,7 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -333,8 +334,10 @@ public class CategoryREST {
         cat.setPosition(0);
         String parentId = req.getParentId();
         if (parentId != null && !ALL.equals(parentId)) {
-            FeedCategory parent = new FeedCategory();
-            parent.setId(Long.valueOf(parentId));
+            FeedCategory parent = feedCategoryDAO.findById(user, Long.valueOf(parentId));
+            if (parent == null) {
+                throw new NotFoundException("parent category not found");
+            }
             cat.setParent(parent);
         }
         feedCategoryDAO.persist(cat);

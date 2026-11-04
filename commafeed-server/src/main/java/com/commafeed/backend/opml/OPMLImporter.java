@@ -47,7 +47,11 @@ public class OPMLImporter {
 
     private void handleOutline(User user, Outline outline, FeedCategory parent, int position) {
         List<Outline> children = outline.getChildren();
-        if (CollectionUtils.isNotEmpty(children)) {
+        // an outline without children is an empty category, unless it describes a feed or another type of content
+        boolean isCategory =
+                CollectionUtils.isNotEmpty(children)
+                        || StringUtils.isBlank(outline.getXmlUrl()) && StringUtils.isBlank(outline.getType());
+        if (isCategory) {
             String name = FeedUtils.truncate(outline.getText(), 128);
             if (name == null) {
                 name = FeedUtils.truncate(outline.getTitle(), 128);

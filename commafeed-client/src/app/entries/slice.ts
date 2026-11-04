@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, isAnyOf, type PayloadAction } from "@reduxjs/toolkit"
 import { Constants } from "@/app/constants"
 import {
     loadEntries,
@@ -38,6 +38,8 @@ interface EntriesState {
     selectedEntryId?: string
     hasMore: boolean
     loading: boolean
+    /** identifies the request that owns the loading state */
+    currentRequestId?: string
     search?: string
     scrollingToEntry: boolean
     markAllAsReadConfirmationDialogOpen: boolean
@@ -115,9 +117,11 @@ export const entriesSlice = createSlice({
             state.hasMore = true
             state.selectedEntryId = undefined
             state.loading = true
+            state.currentRequestId = action.meta.requestId
         })
-        builder.addCase(loadMoreEntries.pending, state => {
+        builder.addCase(loadMoreEntries.pending, (state, action) => {
             state.loading = true
+            state.currentRequestId = action.meta.requestId
         })
         builder.addCase(loadEntries.fulfilled, (state, action) => {
             state.entries = action.payload.entries
@@ -125,18 +129,22 @@ export const entriesSlice = createSlice({
             state.sourceLabel = action.payload.name
             state.sourceWebsiteUrl = action.payload.feedLink
             state.hasMore = action.payload.hasMore
-            state.loading = false
         })
         builder.addCase(loadMoreEntries.fulfilled, (state, action) => {
             // remove already existing entries
             const entriesToAdd = action.payload.entries.filter(e => !state.entries.some(e2 => e.id === e2.id))
             state.entries = [...state.entries, ...entriesToAdd]
             state.hasMore = action.payload.hasMore
-            state.loading = false
         })
         builder.addCase(tagEntry.pending, (state, action) => {
             for (const e of state.entries.filter(e => +e.id === action.meta.arg.entryId)) {
                 e.tags = action.meta.arg.tags
+            }
+        })
+        builder.addMatcher(isAnyOf(loadEntries.settled, loadMoreEntries.settled), (state, action) => {
+            if (state.currentRequestId === action.meta.requestId) {
+                state.loading = false
+                state.currentRequestId = undefined
             }
         })
     },

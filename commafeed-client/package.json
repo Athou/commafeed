@@ -72,7 +72,7 @@
         "typescript": "7.0.2",
         "vite": "8.3.5",
         "vite-plugin-checker": "0.14.5",
-        "vitest": "5.0.5",
+        "vitest": "5.1.0",
         "yaml": "2.9.1"
     },
     "overrides": {

@@ -28,7 +28,7 @@
         "@mantine/spotlight": "9.7.4",
         "@monaco-editor/react": "4.7.0",
         "@react-querybuilder/mantine": "8.26.0",
-        "@reduxjs/toolkit": "2.13.0",
+        "@reduxjs/toolkit": "2.14.0",
         "@rolldown/plugin-babel": "0.3.0",
         "axios": "1.21.0",
         "dayjs": "1.11.23",

@@ -171,3 +171,23 @@ describe("hasNewEntries", () => {
         expect(store.getState().tree.rootCategory?.children[0].feeds[0].hasNewEntries).toBe(false)
     })
 })
+
+describe("markEntry unread counts", () => {
+    it("does not drive unread below zero when marking read", async () => {
+        const { markEntry } = await import("@/app/entries/thunks")
+        vi.mocked(client.entry.mark).mockResolvedValue({} as AxiosResponse)
+
+        const store = configureStore({
+            reducer: reducers,
+            preloadedState: {
+                tree: {
+                    rootCategory: structuredClone(root),
+                },
+            } as RootState,
+        })
+
+        expect(store.getState().tree.rootCategory?.children[0].feeds[0].unread).toBe(0)
+        store.dispatch(markEntry({ entry: { id: "x", feedId: "1" } as Entry, read: true }))
+        expect(store.getState().tree.rootCategory?.children[0].feeds[0].unread).toBe(0)
+    })
+})

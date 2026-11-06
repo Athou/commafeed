@@ -80,7 +80,9 @@ export const treeSlice = createSlice({
             if (!state.rootCategory) return
             visitCategoryTree(state.rootCategory, c => {
                 for (const f of c.feeds.filter(f => f.id === +action.meta.arg.entry.feedId)) {
-                    f.unread = action.meta.arg.read ? f.unread - 1 : f.unread + 1
+                    // Never let optimistic updates drive the badge below zero
+                    // (e.g. marking read when the tree already shows 0 unread).
+                    f.unread = action.meta.arg.read ? Math.max(0, f.unread - 1) : f.unread + 1
                 }
             })
         })

@@ -155,6 +155,8 @@ jobs:
           file: commafeed-server/src/main/docker/Dockerfile.native
           push: false
           platforms: linux/amd64,linux/arm64/v8
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
 
       - name: Docker build - jvm
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
@@ -163,6 +165,8 @@ jobs:
           file: commafeed-server/src/main/docker/Dockerfile.jvm
           push: false
           platforms: linux/amd64,linux/arm64/v8
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
 
       ## build and push tag
       - name: Docker build and push tag - native
@@ -173,6 +177,9 @@ jobs:
           file: commafeed-server/src/main/docker/Dockerfile.native
           push: ${{ env.DOCKERHUB_USERNAME != '' }}
           platforms: linux/amd64,linux/arm64/v8
+          labels: |
+            org.opencontainers.image.version=${{ github.ref_name }}
+            org.opencontainers.image.revision=${{ github.sha }}
           tags: |
             athou/commafeed:latest-${{ matrix.database }}
             athou/commafeed:${{ github.ref_name }}-${{ matrix.database }}
@@ -185,6 +192,9 @@ jobs:
           file: commafeed-server/src/main/docker/Dockerfile.jvm
           push: ${{ env.DOCKERHUB_USERNAME != '' }}
           platforms: linux/amd64,linux/arm64/v8
+          labels: |
+            org.opencontainers.image.version=${{ github.ref_name }}
+            org.opencontainers.image.revision=${{ github.sha }}
           tags: |
             athou/commafeed:latest-${{ matrix.database }}-jvm
             athou/commafeed:${{ github.ref_name }}-${{ matrix.database }}-jvm

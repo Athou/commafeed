@@ -1,5 +1,7 @@
 FROM ibm-semeru-runtimes:open-jdk-25.0.5.0-jre@sha256:b8fec7a8d2b3a8d50a4f070f169cf852f83208317036c38b86474d80eaf7becf
 LABEL org.opencontainers.image.source="https://github.com/Athou/commafeed"
+LABEL org.opencontainers.image.url="https://commafeed.com"
+LABEL org.opencontainers.image.licenses="Apache-2.0"
 
 EXPOSE 8082
 

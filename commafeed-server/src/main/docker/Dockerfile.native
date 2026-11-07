@@ -1,5 +1,7 @@
 FROM debian:13.7@sha256:9c6e381421d0f48d1b8133e573f33c185ee16cbf505eda9c4a8a4791b25ea8a6
 LABEL org.opencontainers.image.source="https://github.com/Athou/commafeed"
+LABEL org.opencontainers.image.url="https://commafeed.com"
+LABEL org.opencontainers.image.licenses="Apache-2.0"
 
 ARG TARGETARCH
 

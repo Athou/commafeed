@@ -15,7 +15,7 @@
 		<!-- renovate: datasource=node-version depName=node -->
 		<node.version>v26.13.0</node.version>
 		<!-- renovate: datasource=npm depName=npm -->
-		<npm.version>12.2.1</npm.version>
+		<npm.version>12.2.2</npm.version>
 	</properties>
 
 	<build>

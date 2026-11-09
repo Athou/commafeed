@@ -334,7 +334,7 @@ public class FeedREST {
         FeedSubscription subscription = feedSubscriptionDAO.findById(user, Long.valueOf(req.getId()));
         if (subscription != null) {
             feedEntryService.markSubscriptionEntries(
-                    user, Collections.singletonList(subscription), olderThan, insertedBefore, entryKeywords);
+                    user, Collections.singletonList(subscription), olderThan, insertedBefore, entryKeywords, null);
         }
         return Response.ok().build();
     }

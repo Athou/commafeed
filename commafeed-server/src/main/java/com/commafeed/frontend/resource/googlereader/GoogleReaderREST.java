@@ -421,7 +421,7 @@ public class GoogleReaderREST {
                 Long subId = parsed.feedSubscriptionId();
                 FeedSubscription sub = subId == null ? null : feedSubscriptionDAO.findById(user, subId);
                 if (sub != null) {
-                    feedEntryService.markSubscriptionEntries(user, List.of(sub), olderThan, null, null);
+                    feedEntryService.markSubscriptionEntries(user, List.of(sub), olderThan, null, null, null);
                 }
             }
             case LABEL -> {
@@ -429,12 +429,12 @@ public class GoogleReaderREST {
                 if (category != null) {
                     List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, category);
                     List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(user, categories);
-                    feedEntryService.markSubscriptionEntries(user, subs, olderThan, null, null);
+                    feedEntryService.markSubscriptionEntries(user, subs, olderThan, null, null, null);
                 }
             }
             default ->
                     feedEntryService.markSubscriptionEntries(
-                            user, feedSubscriptionDAO.findAll(user), olderThan, null, null);
+                            user, feedSubscriptionDAO.findAll(user), olderThan, null, null, null);
         }
 
         return Response.ok("OK").build();

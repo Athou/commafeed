@@ -147,6 +147,7 @@ export interface MarkRequest {
     insertedBefore?: number
     keywords?: string
     excludedSubscriptions?: number[]
+    tag?: string
 }
 
 export interface MetricCounter {

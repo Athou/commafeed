@@ -299,7 +299,8 @@ public class CategoryREST {
         if (ALL.equals(req.getId())) {
             List<FeedSubscription> subs = feedSubscriptionDAO.findAll(user);
             removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
-            feedEntryService.markSubscriptionEntries(user, subs, olderThan, insertedBefore, entryKeywords);
+            feedEntryService.markSubscriptionEntries(
+                    user, subs, olderThan, insertedBefore, entryKeywords, req.getTag());
         } else if (STARRED.equals(req.getId())) {
             feedEntryService.markStarredEntries(user, olderThan, insertedBefore);
         } else {
@@ -307,7 +308,8 @@ public class CategoryREST {
             List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, parent);
             List<FeedSubscription> subs = feedSubscriptionDAO.findByCategories(user, categories);
             removeExcludedSubscriptions(subs, req.getExcludedSubscriptions());
-            feedEntryService.markSubscriptionEntries(user, subs, olderThan, insertedBefore, entryKeywords);
+            feedEntryService.markSubscriptionEntries(
+                    user, subs, olderThan, insertedBefore, entryKeywords, req.getTag());
         }
         return Response.ok().build();
     }

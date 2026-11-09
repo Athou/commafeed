@@ -126,8 +126,13 @@ export const markAllEntries = createAppAsyncThunk(
         },
         thunkApi
     ) => {
-        const endpoint = arg.sourceType === "category" ? client.category.markEntries : client.feed.markEntries
-        await endpoint(arg.req)
+        if (arg.sourceType === "tag") {
+            await client.category.markEntries({ ...arg.req, id: Constants.categories.all.id, tag: arg.req.id })
+        } else if (arg.sourceType === "category") {
+            await client.category.markEntries(arg.req)
+        } else {
+            await client.feed.markEntries(arg.req)
+        }
         thunkApi.dispatch(reloadEntries())
         thunkApi.dispatch(reloadTree())
     }

@@ -116,10 +116,11 @@ public class FeedEntryService {
             List<FeedSubscription> subscriptions,
             Instant olderThan,
             Instant insertedBefore,
-            List<FeedEntryKeyword> keywords) {
+            List<FeedEntryKeyword> keywords,
+            String tag) {
         List<FeedEntryStatus> statuses =
                 feedEntryStatusDAO.findBySubscriptions(
-                        user, subscriptions, true, keywords, null, -1, -1, null, false, null, null, null);
+                        user, subscriptions, true, keywords, null, -1, -1, null, false, tag, null, null);
         markList(statuses, olderThan, insertedBefore);
     }
 

@@ -28,10 +28,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.xml.sax.InputSource;
 
 import java.io.StringReader;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @QuarkusTest
 class CategoryIT extends BaseIT {
@@ -267,6 +271,37 @@ class CategoryIT extends BaseIT {
                     .then()
                     .statusCode(200);
             Assertions.assertTrue(getCategoryEntries(categoryId).getEntries().stream().allMatch(Entry::isRead));
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {"my-tag", "1"})
+        void tagged(String tag) {
+            Long subscriptionId = subscribeAndWaitForEntries(getFeedUrl());
+            List<Entry> entries = getFeedEntries(subscriptionId).getEntries();
+            Entry taggedEntry = entries.getFirst();
+            Entry untaggedEntry = entries.getLast();
+
+            TagRequest tagRequest = new TagRequest();
+            tagRequest.setEntryId(Long.valueOf(taggedEntry.getId()));
+            tagRequest.setTags(List.of(tag));
+            RestAssured.given().body(tagRequest).contentType(ContentType.JSON).post("rest/entry/tag");
+
+            MarkRequest request = new MarkRequest();
+            request.setId(CategoryREST.ALL);
+            request.setTag(tag);
+            request.setRead(true);
+            RestAssured.given()
+                    .body(request)
+                    .contentType(ContentType.JSON)
+                    .post("rest/category/mark")
+                    .then()
+                    .statusCode(200);
+
+            Map<String, Boolean> readById =
+                    getCategoryEntries(CategoryREST.ALL).getEntries().stream()
+                            .collect(Collectors.toMap(Entry::getId, Entry::isRead));
+            Assertions.assertTrue(readById.get(taggedEntry.getId()));
+            Assertions.assertFalse(readById.get(untaggedEntry.getId()));
         }
     }
 

@@ -369,12 +369,12 @@ public class FeverREST {
         } else if ("feed".equals(source)) {
             FeedSubscription subscription = feedSubscriptionDAO.findById(user, id);
             feedEntryService.markSubscriptionEntries(
-                    user, Collections.singletonList(subscription), null, insertedBefore, null);
+                    user, Collections.singletonList(subscription), null, insertedBefore, null, null);
         } else if ("group".equals(source)) {
             FeedCategory parent = feedCategoryDAO.findById(user, id);
             List<FeedCategory> categories = feedCategoryDAO.findAllChildrenCategories(user, parent);
             List<FeedSubscription> subscriptions = feedSubscriptionDAO.findByCategories(user, categories);
-            feedEntryService.markSubscriptionEntries(user, subscriptions, null, insertedBefore, null);
+            feedEntryService.markSubscriptionEntries(user, subscriptions, null, insertedBefore, null, null);
         }
     }
 }

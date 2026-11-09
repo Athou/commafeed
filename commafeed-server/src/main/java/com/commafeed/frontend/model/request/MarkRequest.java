@@ -37,4 +37,8 @@ public class MarkRequest implements Serializable {
 
     @Schema(description = "if marking a category or 'all', exclude those subscriptions from the marking")
     private List<Long> excludedSubscriptions;
+
+    @Schema(description = "if marking a category or 'all', only mark entries tagged with this tag")
+    @Size(max = 40)
+    private String tag;
 }

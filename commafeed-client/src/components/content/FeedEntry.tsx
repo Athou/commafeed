@@ -19,7 +19,6 @@ interface FeedEntryProps {
     showSelectionIndicator: boolean
     maxWidth?: number
     onHeaderClick: (e: React.MouseEvent) => void
-    onHeaderRightClick: (e: React.MouseEvent) => void
     onBodyClick: (e: React.MouseEvent) => void
     onSwipedLeft: () => void
 }
@@ -171,33 +170,38 @@ export function FeedEntry(props: Readonly<FeedEntryProps>) {
                 "show-selection-indicator": props.showSelectionIndicator,
             })}
         >
-            <a
-                className={classes.headerLink}
-                href={props.entry.url}
-                target="_blank"
-                rel="noreferrer"
-                onClick={props.onHeaderClick}
-                onAuxClick={props.onHeaderClick}
-                onContextMenu={props.onHeaderRightClick}
-            >
-                <Box px={paddingX} py={paddingY} {...swipeHandlers}>
-                    {compactHeader && (
-                        <FeedEntryCompactHeader
-                            entry={props.entry}
-                            showStarIcon={showStarIcon}
-                            showExternalLinkIcon={showExternalLinkIcon}
-                        />
-                    )}
-                    {!compactHeader && (
-                        <FeedEntryHeader
-                            entry={props.entry}
-                            expanded={props.expanded}
-                            showStarIcon={showStarIcon}
-                            showExternalLinkIcon={showExternalLinkIcon}
-                        />
-                    )}
-                </Box>
-            </a>
+            <FeedEntryContextMenu entry={props.entry}>
+                <a
+                    className={classes.headerLink}
+                    href={props.entry.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={props.onHeaderClick}
+                    onAuxClick={props.onHeaderClick}
+                    onContextMenuCapture={e => {
+                        // keep the browser context menu when shift is pressed
+                        if (e.shiftKey) e.stopPropagation()
+                    }}
+                >
+                    <Box px={paddingX} py={paddingY} {...swipeHandlers}>
+                        {compactHeader && (
+                            <FeedEntryCompactHeader
+                                entry={props.entry}
+                                showStarIcon={showStarIcon}
+                                showExternalLinkIcon={showExternalLinkIcon}
+                            />
+                        )}
+                        {!compactHeader && (
+                            <FeedEntryHeader
+                                entry={props.entry}
+                                expanded={props.expanded}
+                                showStarIcon={showStarIcon}
+                                showExternalLinkIcon={showExternalLinkIcon}
+                            />
+                        )}
+                    </Box>
+                </a>
+            </FeedEntryContextMenu>
             {props.expanded && (
                 <Box px={paddingX} pb={paddingY} onClick={props.onBodyClick}>
                     <Box className={`${classes.body} cf-content`}>
@@ -207,8 +211,6 @@ export function FeedEntry(props: Readonly<FeedEntryProps>) {
                     <FeedEntryFooter entry={props.entry} />
                 </Box>
             )}
-
-            <FeedEntryContextMenu entry={props.entry} />
         </Paper>
     )
 }

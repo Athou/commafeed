@@ -91,7 +91,6 @@ export const Constants = {
     },
     dom: {
         entryId: (entry: Entry) => `entry-id-${entry.id}`,
-        entryContextMenuId: (entry: Entry) => entry.id,
     },
     theme: {
         defaultPrimaryColor: "orange",

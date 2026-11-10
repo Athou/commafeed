@@ -2,7 +2,6 @@ import { Trans } from "@lingui/react/macro"
 import { Box } from "@mantine/core"
 import { openModal } from "@mantine/modals"
 import { useEffect } from "react"
-import { useContextMenu } from "react-contexify"
 import InfiniteScroll from "react-infinite-scroller"
 import { throttle } from "throttle-debounce"
 import { Constants } from "@/app/constants"
@@ -35,7 +34,6 @@ export function FeedEntries() {
     const scrollMarks = useAppSelector(state => state.user.settings?.scrollMarks)
     const scrollingToEntry = useAppSelector(state => state.entries.scrollingToEntry)
     const sidebarVisible = useAppSelector(state => state.tree.sidebarVisible)
-    const customContextMenu = useAppSelector(state => state.user.settings?.customContextMenu)
     const viewMode = useAppSelector(state => state.user.localSettings.viewMode)
     const dispatch = useAppDispatch()
     const { openLinkInBackgroundTab } = useBrowserExtension()
@@ -62,17 +60,6 @@ export function FeedEntries() {
         }
     }
 
-    const contextMenu = useContextMenu()
-    const headerRightClicked = (entry: ExpendableEntry, event: React.MouseEvent) => {
-        if (event.shiftKey || !customContextMenu) return
-
-        event.preventDefault()
-        contextMenu.show({
-            id: Constants.dom.entryContextMenuId(entry),
-            event,
-        })
-    }
-
     const bodyClicked = (entry: ExpendableEntry) => {
         if (viewMode !== "expanded") return
 
@@ -90,13 +77,6 @@ export function FeedEntries() {
     }
 
     const swipedLeft = async (entry: ExpendableEntry) => await dispatch(markEntry({ entry, read: !entry.read }))
-
-    // close context menu on scroll
-    useEffect(() => {
-        const listener = throttle(100, () => contextMenu.hideAll())
-        window.addEventListener("scroll", listener)
-        return () => window.removeEventListener("scroll", listener)
-    }, [contextMenu])
 
     useEffect(() => {
         const listener = throttle(100, () => {
@@ -305,7 +285,6 @@ export function FeedEntries() {
                     }
                     maxWidth={sidebarVisible ? Constants.layout.entryMaxWidth : undefined}
                     onHeaderClick={event => headerClicked(entry, event)}
-                    onHeaderRightClick={event => headerRightClicked(entry, event)}
                     onBodyClick={() => bodyClicked(entry)}
                     onSwipedLeft={async () => await swipedLeft(entry)}
                 />

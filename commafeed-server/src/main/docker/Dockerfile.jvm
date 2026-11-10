@@ -1,4 +1,4 @@
-FROM ibm-semeru-runtimes:open-jdk-25.0.5.0-jre@sha256:b8fec7a8d2b3a8d50a4f070f169cf852f83208317036c38b86474d80eaf7becf
+FROM ibm-semeru-runtimes:open-jdk-25.0.5.0-jre@sha256:bdcbe9886f839d9249d31f8cfc78ff9ff519b0ed54bfb5ec0420be7229be5664
 
 EXPOSE 8082
 
